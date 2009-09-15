@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="forum_tracking" tablename="module_forum_tracking" primary="yes" />
+			<table name="forum_topics" tablename="module_forum_topics" primary="no" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TRACKING -->
+		<property name="topic" fieldname="topic" type="integer" table="forum_tracking" pk="yes" fkfieldname="id" fktable="forum_topics"/>
+		<property name="utilisateur" fieldname="utilisateur" type="integer" table="forum_tracking" pk="yes"/>
+		<property name="last_visite" fieldname="last_visite" type="date" table="forum_tracking" pk="no"/>
+		<!-- TABLE TOPICS -->
+		<property name="topic_id" fieldname="id" type="integer" table="forum_topics" pk="yes"/>
+		<property name="topic_titre" fieldname="titre" type="string" table="forum_topics" pk="no"/>
+		<property name="topic_status" fieldname="status" type="integer" table="forum_topics" pk="no"/>
+		<property name="topic_last_msg_id" fieldname="last_msg_id" type="integer" table="forum_topics" pk="no"/>
+		<property name="topic_last_msg_auteur" fieldname="last_msg_auteur" type="string" table="forum_topics" pk="no"/>
+		<property name="topic_last_msg_date" fieldname="last_msg_date" type="date" table="forum_topics" pk="no"/>
+	</properties>
+
+	<methods>
+
+
+		
+
+	</methods>
+</daodefinition>

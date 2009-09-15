@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="teleprocedures" descriptioni18n="teleprocedures.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+
+    <parameters>
+	    <parameter name="statutNouveau" captioni18n="teleprocedures.parameter.statutNouveau" default="1" />
+			<parameter name="default_format" captioni18n="teleprocedures.parameter.default_format" default="fckeditor" />
+			<parameter name="formats_types" captioni18n="teleprocedures.parameter.formats_types" default="wiki,dokuwiki,html,fckeditor" />
+    </parameters>
+</moduledefinition>

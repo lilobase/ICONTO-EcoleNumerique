@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="annuaire" descriptioni18n="annuaire.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <parameters>
+ 	    <parameter name="annu_combo_all" captioni18n="" default="ALL" />
+  	</parameters>
+</moduledefinition>

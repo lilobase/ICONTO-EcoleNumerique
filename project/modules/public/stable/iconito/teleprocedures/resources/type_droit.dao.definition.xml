@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+
+	<datasource>
+	  <tables>
+			<table name="type" tablename="module_teleprocedure_type_droit" primary="yes" />
+	  </tables>
+	</datasource>
+
+<properties>
+	<property name="idtype"
+		pk="true"
+		required="yes"
+		type="integer"
+		/>
+	
+	<property name="user_type"
+		pk="true"
+		type="string"
+		maxlength="15"
+		required="yes"
+		/>
+	
+	<property name="user_id"
+		pk="true"
+		type="integer"
+		required="yes"
+		/>
+	
+	<property name="droit"
+		type="integer"
+		required="yes"
+		/>
+</properties>
+<methods>
+	<method name="findForIdType" type="select">
+		<parameters>
+			<parameter name="idtype" />
+		</parameters>
+		<conditions>
+ 			<condition property="idtype" operator="=" value="$idtype" />
+		</conditions>
+		<order>
+		</order>
+	</method>
+</methods>
+
+</daodefinition>

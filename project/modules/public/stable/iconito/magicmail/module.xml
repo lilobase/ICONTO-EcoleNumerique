@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="magicmail" descriptioni18n="magicmail.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+
+    <parameters>
+			<parameter name="magicmail_url"  captioni18n="magicmail.magicmail_url"  default="http://magicmail.iconito.fr/" />
+    </parameters>
+</moduledefinition>

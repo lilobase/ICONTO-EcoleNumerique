@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="fiches_ecoles" tablename="module_fiches_ecoles" primary="yes"/>
+			<table name="kernel_bu_ecole" tablename="kernel_bu_ecole" primary="no" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id"
+			fieldname="id"
+			type="integer"
+			table="fiches_ecoles"
+			pk="yes"
+			fktable="kernel_bu_ecole"
+			fkfieldname="numero"
+			/>
+		<property name="horaires"
+			fieldname="horaires"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone_ville_titre"
+			fieldname="zone_ville_titre"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone_ville_texte"
+			fieldname="zone_ville_texte"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone1_titre"
+			fieldname="zone1_titre"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone1_texte"
+			fieldname="zone1_texte"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone2_titre"
+			fieldname="zone2_titre"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone2_texte"
+			fieldname="zone2_texte"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone3_titre"
+			fieldname="zone3_titre"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone3_texte"
+			fieldname="zone3_texte"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone4_titre"
+			fieldname="zone4_titre"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="zone4_texte"
+			fieldname="zone4_texte"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+		<property name="photo"
+			fieldname="photo"
+			type="string"
+			table="fiches_ecoles"
+			pk="no"/>
+
+		<property name="ecole_numero"		fieldname="numero"		type="integer"	table="kernel_bu_ecole" pk="yes" />
+		<property name="ecole_id_ville"	fieldname="id_ville"	type="integer"	table="kernel_bu_ecole" />
+	</properties>
+</daodefinition>
+

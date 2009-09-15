@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="magicmail" tablename="module_magicmail" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="magicmail_id"     fieldname="id"     type="autoincrement" table="magicmail" pk="yes"/>
+		<property name="magicmail_login"  fieldname="login"  type="string"        table="magicmail" pk="no" />
+		<property name="magicmail_domain" fieldname="domain" type="string"        table="magicmail" pk="no" />
+ 	</properties>
+	<methods>
+		<method name="getByLogin" type="select">
+			<parameters>
+				<parameter name="login" />
+			</parameters>
+			<conditions>
+				<condition property="magicmail_login" operator="=" value="$login" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

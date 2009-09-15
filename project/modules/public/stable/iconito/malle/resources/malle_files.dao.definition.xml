@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="malle_files" tablename="module_malle_files" primary="yes" />
+      <table name="malle_malles" tablename="module_malle_malles" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE MALLES_FILES -->
+		<property name="id" fieldname="id" type="autoincrement" table="malle_files" pk="yes"/>
+		<property name="malle" fieldname="malle" type="integer" table="malle_files" pk="no" fkTable="malle_malles" fkFieldName="id"/>
+		<property name="malle_cle" fieldname="cle" type="integer" table="malle_malles" pk="no"/>
+		<property name="folder" fieldname="folder" type="integer" table="malle_files" pk="no"/>
+		<property name="nom" fieldname="nom" type="string" table="malle_files" pk="no"/>
+		<property name="fichier" fieldname="fichier" type="string" table="malle_files" pk="no"/>
+		<property name="taille" fieldname="taille" type="integer" table="malle_files" pk="no"/>
+		<property name="type" fieldname="type" type="string" table="malle_files" pk="no"/>
+		<property name="cle" fieldname="cle" type="string" table="malle_files" pk="no"/>
+		<property name="date_upload" fieldname="date_upload" type="date" table="malle_files" pk="no"/>
+	</properties>
+
+	<methods>
+
+		<method name="getFilesInFolder" type="select">
+			<parameters>
+				<parameter name="malle" />
+				<parameter name="folder" />
+			</parameters>
+			<conditions>
+				<condition property="malle" operator="=" value="$malle" />
+				<condition property="folder" operator="=" value="$folder" />
+			</conditions>
+			<order>
+				<orderitem property="nom" way="asc" />
+			</order>
+		</method>
+
+		<!-- Renvoie un fichier d'un certain nom présent dans un dossier -->
+		<method name="isFichierInFolder" type="select">
+			<parameters>
+				<parameter name="fichier" />
+				<parameter name="folder" />
+			</parameters>
+			<conditions>
+				<condition property="folder" operator="=" value="$folder" />
+				<condition property="fichier" operator="=" value="$fichier" />
+			</conditions>
+		</method>
+
+	</methods>
+
+</daodefinition>
+

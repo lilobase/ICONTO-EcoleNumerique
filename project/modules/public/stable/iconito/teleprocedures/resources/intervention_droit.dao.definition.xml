@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+
+	<datasource>
+	  <tables>
+			<table name="type" tablename="module_teleprocedure_intervention_droit" primary="yes" />
+	  </tables>
+	</datasource>
+
+<properties>
+	<property name="idinter"
+		pk="true"
+		required="yes"
+		type="integer"
+		/>
+	
+	<property name="user_type"
+		pk="true"
+		type="string"
+		maxlength="15"
+		required="yes"
+		/>
+	
+	<property name="user_id"
+		pk="true"
+		type="integer"
+		required="yes"
+		/>
+	
+	<property name="droit"
+		type="integer"
+		required="yes"
+		/>
+</properties>
+<methods>
+	<method name="findForIdinterAndUser" type="select">
+		<parameters>
+			<parameter name="idinter" />
+			<parameter name="user_type" />
+			<parameter name="user_id" />
+		</parameters>
+		<conditions>
+ 			<condition property="idinter" operator="=" value="$idinter" />
+ 			<condition property="user_type" operator="=" value="$user_type" />
+ 			<condition property="user_id" operator="=" value="$user_id" />
+		</conditions>
+		<order>
+		</order>
+	</method>
+</methods>
+
+</daodefinition>

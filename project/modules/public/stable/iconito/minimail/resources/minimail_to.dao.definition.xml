@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="minimail_to" tablename="module_minimail_to" primary="yes"/>
+			<table name="minimail_from" tablename="module_minimail_from" primary="no"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE MINIMAIL_TO -->
+		<property name="id2" fieldname="id" type="autoincrement" table="minimail_to" pk="yes"/>
+		<property name="id_message" fieldname="id_message" type="integer" table="minimail_to" pk="no" fkfieldname="id" fktable="minimail_from"/>
+		<property name="to_id" fieldname="to_id" type="integer" table="minimail_to" pk="no"/>
+		<property name="date_read" fieldname="date_read" type="date" table="minimail_to" pk="no"/>
+		<property name="is_read" fieldname="is_read" type="integer" table="minimail_to" pk="no"/>
+		<property name="is_replied" fieldname="is_replied" type="integer" table="minimail_to" pk="no"/>
+		<property name="is_deleted" fieldname="is_deleted" type="integer" table="minimail_to" pk="no"/>
+		<!-- TABLE MINIMAIL_FROM -->
+		<property name="id" fieldname="id" type="integer" table="minimail_from" pk="yes"/>
+		<property name="from_id" fieldname="from_id" type="integer" table="minimail_from" pk="no"/>
+		<property name="title" fieldname="title" type="string" table="minimail_from" pk="no"/>
+		<property name="message" fieldname="message" type="string" table="minimail_from" pk="no"/>
+		<property name="date_send" fieldname="date_send" type="date" table="minimail_from" pk="no"/>
+		<property name="attachment1" fieldname="attachment1" type="string" table="minimail_from" pk="no"/>
+		<property name="attachment2" fieldname="attachment2" type="string" table="minimail_from" pk="no"/>
+		<property name="attachment3" fieldname="attachment3" type="string" table="minimail_from" pk="no"/>
+
+	</properties>
+
+<methods>
+		<method name="getListRecv" type="select">
+			<parameters>
+				<parameter name="to_id" />
+				<parameter name="offset" />
+				<parameter name="count" />
+			</parameters>
+			<conditions>
+				<condition property="to_id" operator="=" value="$to_id" />
+				<condition property="is_deleted" operator="=" value="0" />
+			</conditions>
+			<order>
+				<orderitem property="id_message" way="desc" />
+			</order>
+			<limit offset="$offset" count="$count" />
+		</method>
+		<method name="getListRecvUnread" type="select">
+			<parameters>
+				<parameter name="to_id" />
+			</parameters>
+			<conditions>
+				<condition property="to_id" operator="=" value="$to_id" />
+				<condition property="is_deleted" operator="=" value="0" />
+				<condition property="is_read" operator="=" value="0" />
+			</conditions>
+		</method>
+		<method name="getListRecvAll" type="select">
+			<parameters>
+				<parameter name="to_id" />
+			</parameters>
+			<conditions>
+				<condition property="to_id" operator="=" value="$to_id" />
+				<condition property="is_deleted" operator="=" value="0" />
+			</conditions>
+		</method>
+		<method name="getListDest" type="select">
+			<parameters>
+				<parameter name="id" />
+			</parameters>
+			<conditions>
+				<condition property="id" operator="=" value="$id" />
+			</conditions>
+			<order>
+				<orderitem property="id_message" way="desc" />
+			</order>
+			<limit offset="0" count="20" />
+		</method>
+		<method name="selectDestFromId" type="select">
+			<parameters>
+				<parameter name="id_message" />
+			</parameters>
+			<conditions>
+				<condition property="id_message" operator="=" value="$id_message" />
+			</conditions>
+			<order>
+				<orderitem property="id_message" way="desc" />
+			</order>
+			<limit offset="0" count="20" />
+		</method>
+		<method name="selectDestFromIdAndToUser" type="select">
+			<parameters>
+				<parameter name="id_message" />
+				<parameter name="to_id" />
+			</parameters>
+			<conditions>
+				<condition property="id_message" operator="=" value="$id_message" />
+				<condition property="to_id" operator="=" value="$to_id" />
+			</conditions>
+			<order>
+				<orderitem property="id_message" way="desc" />
+			</order>
+			<limit offset="0" count="20" />
+		</method>
+		<method name="getToPrevMessage" type="select">
+			<parameters>
+				<parameter name="date_send" />
+				<parameter name="to_id" />
+			</parameters>
+			<conditions>
+				<condition property="date_send" operator="&lt;" value="$date_send" />
+				<condition property="to_id" operator="=" value="$to_id" />
+			</conditions>
+			<order>
+				<orderitem property="date_send" way="desc" />
+			</order>
+			<limit offset="0" count="1" />
+		</method>
+		<method name="getToNextMessage" type="select">
+			<parameters>
+				<parameter name="date_send" />
+				<parameter name="to_id" />
+			</parameters>
+			<conditions>
+				<condition property="date_send" operator="&gt;" value="$date_send" />
+				<condition property="to_id" operator="=" value="$to_id" />
+			</conditions>
+			<order>
+				<orderitem property="date_send" way="asc" />
+			</order>
+			<limit offset="0" count="1" />
+		</method>
+	</methods>
+	</daodefinition>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="malle_folders" tablename="module_malle_folders" primary="yes" />
+      <table name="malle_malles" tablename="module_malle_malles" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE MALLES_FOLDERS -->
+		<property name="id" fieldname="id" type="autoincrement" table="malle_folders" pk="yes"/>
+		<property name="malle" fieldname="malle" type="integer" table="malle_folders" pk="no" fkTable="malle_malles" fkFieldName="id"/>
+		<property name="malle_cle" fieldname="cle" type="integer" table="malle_malles" pk="no"/>
+		<property name="parent" fieldname="parent" type="integer" table="malle_folders" pk="no"/>
+		<property name="nom" fieldname="nom" type="string" table="malle_folders" pk="no"/>
+		<property name="nb_folders" fieldname="nb_folders" type="integer" table="malle_folders" pk="no"/>
+		<property name="nb_files" fieldname="nb_files" type="integer" table="malle_folders" pk="no"/>
+		<property name="taille" fieldname="taille" type="integer" table="malle_folders" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="date" table="malle_folders" pk="no"/>
+	</properties>
+
+	<methods>
+
+		<method name="getFoldersInFolder" type="select">
+			<parameters>
+				<parameter name="malle" />
+				<parameter name="folder" />
+			</parameters>
+			<conditions>
+				<condition property="malle" operator="=" value="$malle" />
+				<condition property="parent" operator="=" value="$folder" />
+			</conditions>
+			<order>
+				<orderitem property="nom" way="asc" />
+			</order>
+		</method>
+
+		<!-- Renvoie un fichier d'un certain nom présent dans un dossier -->
+		<method name="isFolderInFolder" type="select">
+			<parameters>
+				<parameter name="nom" />
+				<parameter name="parent" />
+			</parameters>
+			<conditions>
+				<condition property="nom" operator="=" value="$nom" />
+				<condition property="parent" operator="=" value="$parent" />
+			</conditions>
+		</method>
+
+
+	</methods>
+
+</daodefinition>
+

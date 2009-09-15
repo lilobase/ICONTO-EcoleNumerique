@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="forum_messages" tablename="module_forum_messages" primary="yes" />
+			<table name="forum_topics" tablename="module_forum_topics" primary="no" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE MESSAGES -->
+		<property name="id" fieldname="id" type="autoincrement" table="forum_messages" pk="yes"/>
+		<property name="topic" fieldname="topic" type="integer" table="forum_messages" pk="no" fkfieldname="id" fktable="forum_topics"/>
+		<property name="forum" fieldname="forum" type="integer" table="forum_messages" pk="no"/>
+		<property name="auteur" fieldname="auteur" type="integer" table="forum_messages" pk="no"/>
+		<property name="date" fieldname="date" type="date" table="forum_messages" pk="no"/>
+		<property name="status" fieldname="status" type="integer" table="forum_messages" pk="no"/>
+		<property name="message" fieldname="message" type="string" table="forum_messages" pk="no"/>
+		<property name="format" fieldname="format" type="string" table="forum_messages" pk="no"/>
+		<property name="nb_alertes" fieldname="nb_alertes" type="integer" table="forum_messages" pk="no"/>
+		<!-- TABLE TOPICS -->
+		<property name="topic_id" fieldname="id" type="integer" table="forum_topics" pk="yes"/>
+		<property name="topic_titre" fieldname="titre" type="string" table="forum_topics" pk="no"/>
+		<property name="topic_forum" fieldname="forum" type="integer" table="forum_topics" pk="no" fkfieldname="id" fktable="forum_forums"/>
+		<property name="topic_date_creation" fieldname="date_creation" type="date" table="forum_topics" pk="no"/>
+		<property name="topic_nb_messages" fieldname="nb_messages" type="integer" table="forum_topics" pk="no"/>
+		<property name="topic_status" fieldname="status" type="integer" table="forum_topics" pk="no"/>
+		<property name="topic_last_msg_id" fieldname="last_msg_id" type="integer" table="forum_topics" pk="no"/>
+		<property name="topic_last_msg_auteur" fieldname="last_msg_auteur" type="integer" table="forum_topics" pk="no"/>
+		<property name="topic_last_msg_date" fieldname="last_msg_date" type="date" table="forum_topics" pk="no"/>
+	</properties>
+
+	<methods>
+
+		<method name="getListMessagesInTopicAll" type="select">
+			<parameters>
+				<parameter name="topic" />
+			</parameters>
+			<conditions>
+				<condition property="topic" operator="=" value="$topic" />
+				<condition property="status" operator="=" value="1" />
+			</conditions>
+		</method>
+
+		<method name="getListMessagesInTopic" type="select">
+			<parameters>
+				<parameter name="topic" />
+				<parameter name="offset" />
+				<parameter name="count" />
+			</parameters>
+			<conditions>
+				<condition property="topic" operator="=" value="$topic" />
+				<condition property="status" operator="=" value="1" />
+			</conditions>
+			<order>
+				<orderitem property="date" way="asc" />
+				<orderitem property="id" way="asc" />
+			</order>
+			<limit offset="$offset" count="$count" />
+		</method>
+		
+		<!-- La liste des messages précédents un autre message dans un topic
+		Sert à déterminer la page du message -->
+		<method name="getListMessagesInTopicBefore" type="select">
+			<parameters>
+				<parameter name="topic" />
+				<parameter name="id" />
+				<parameter name="date" />
+			</parameters>
+			<conditions>
+				<condition property="topic" operator="=" value="$topic" />
+				<condition property="id" operator="!=" value="$id" />
+				<condition property="date" operator="&lt;=" value="$date" />
+				<condition property="status" operator="=" value="1" />
+			</conditions>
+			<order>
+				<orderitem property="date" way="asc" />
+				<orderitem property="id" way="asc" />
+			</order>
+		</method>
+
+	</methods>
+</daodefinition>

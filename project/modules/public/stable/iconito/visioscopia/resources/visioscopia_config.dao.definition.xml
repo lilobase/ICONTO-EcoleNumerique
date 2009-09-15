@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="visioscopia_config" tablename="module_visioscopia_config" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id"          fieldname="id"          type="autoincrement" table="visioscopia_config"  pk="yes"/>
+		<property name="conf_id"     fieldname="conf_id"     type="string"        table="visioscopia_config"  pk="no" />
+		<property name="conf_active" fieldname="conf_active" type="integer"        table="visioscopia_config" pk="no" />
+		<property name="conf_msg"    fieldname="conf_msg"    type="string"        table="visioscopia_config"  pk="no" />
+ 	</properties>
+</daodefinition>

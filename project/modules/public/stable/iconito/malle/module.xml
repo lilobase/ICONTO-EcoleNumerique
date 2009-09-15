@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+  	  <default name="malle" descriptioni18n="malle.moduleDescription"/>
+    </general>
+    <parameters>
+	    <parameter name="uploadMaxSize" captioni18n="malle.parameter.uploadMaxSize" default="3145728" />
+  	</parameters>
+</moduledefinition>

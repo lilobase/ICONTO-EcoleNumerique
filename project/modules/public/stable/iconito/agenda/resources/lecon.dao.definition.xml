@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="module_agenda_lecon" primary="yes" />
+		</tables>
+	</datasource>
+	
+	<properties>
+		<property name="id_lecon"
+			captioni18n="dao.lecon.fields.id_lecon"
+			pk="true"
+			required="yes"
+			type="autoincrement"
+		/>
+		
+		<property name="id_agenda"
+			captioni18n="dao.lecon.fields.id_agenda"
+			required="no"
+			type="int"
+		/>		
+		
+		<property name="desc_lecon"
+			captioni18n="dao.lecon.fields.desc_lecon"
+			type="string"
+			required="no"
+		/>
+		
+		<property name="date_lecon"
+			captioni18n="dao.lecon.fields.date_lecon"
+			type="string"
+			maxlength="8"
+			required="no"
+		/>
+	
+	</properties>
+</daodefinition>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="carnet" descriptioni18n="carnet.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <parameters>
+			<parameter name="default_format" captioni18n="carnet.parameter.default_format" default="dokuwiki" />
+  	</parameters>
+</moduledefinition>

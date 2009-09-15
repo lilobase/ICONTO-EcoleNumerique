@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="teleprocedure" tablename="module_teleprocedure" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" type="autoincrement" table="teleprocedure" pk="yes"/>
+		<property name="titre" fieldname="titre" type="string" table="teleprocedure" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="date" table="teleprocedure" pk="no"/>
+	</properties>
+	<methods>
+	</methods>
+</daodefinition>

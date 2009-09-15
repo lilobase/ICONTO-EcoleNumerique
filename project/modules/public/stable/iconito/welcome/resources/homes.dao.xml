@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_welcome_homes" tablename="module_welcome_homes" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="id"   fieldname="id"   type="autoincrement" table="module_welcome_homes" pk="yes"/>
+		<property name="date" fieldname="date" type="date"          table="module_welcome_homes" pk="no" />
+	</properties>
+</daodefinition>

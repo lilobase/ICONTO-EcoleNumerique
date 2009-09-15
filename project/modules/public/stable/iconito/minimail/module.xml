@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="minimail" descriptioni18n="minimail.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <parameters>
+ 	    <parameter name="list_nblines" captioni18n="minimail.parameter.list_nblines" default="10" />
+			<parameter name="attachment_size" captioni18n="minimail.parameter.attachment_size" default="2097152" />
+			<parameter name="default_format" captioni18n="minimail.parameter.default_format" default="dokuwiki" />
+  	</parameters>
+</moduledefinition>

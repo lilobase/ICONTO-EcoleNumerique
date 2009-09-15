@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="tracking" tablename="module_teleprocedure_tracking" primary="yes" />
+			<table name="intervention" tablename="module_teleprocedure_intervention" primary="no" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE tracking -->
+		<property name="intervention" fieldname="intervention" type="integer" table="tracking" pk="yes" fkfieldname="idinter" fktable="intervention"/>
+		<property name="utilisateur" fieldname="utilisateur" type="integer" table="tracking" pk="yes"/>
+		<property name="last_visite" fieldname="last_visite" type="date" table="tracking" pk="no"/>
+		<!-- TABLE intervention -->
+		<property name="intervention_idinter" fieldname="idinter" type="integer" table="intervention" pk="yes"/>
+		<property name="intervention_objet" fieldname="objet" type="string" table="intervention" />
+		<property name="intervention_datederniere" fieldname="datederniere" type="date" table="intervention"/>
+	</properties>
+
+	<methods>
+	</methods>
+
+</daodefinition>

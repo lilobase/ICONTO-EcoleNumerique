@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+
+ <datasource>
+   <tables>
+      <table name="intervention" tablename="module_teleprocedure_intervention" primary="yes" />
+			<table name="type" tablename="module_teleprocedure_type" join="inner" />
+			<table name="ecole" tablename="kernel_bu_ecole" join="inner" />
+   </tables>
+ </datasource>
+
+ <properties>
+  <property name="idinter"
+         pk="true"
+         required="yes"
+         type="autoincrement"
+         />
+  <property name="iduser"
+         captioni18n="teleprocedures.intervention.field.directeur"
+         type="int"
+         required="yes"
+         />
+ <property name="dateinter"
+         captioni18n="teleprocedures.intervention.field.date"
+         type="date"
+         required="yes"
+         /> 
+
+	<property name="idetabliss"
+         captioni18n="teleprocedures.intervention.field.ecole"
+         type="integer"
+         required="yes"
+				 fkTable="ecole"
+         fkFieldName="numero"
+         />
+
+ <property name="objet"
+         captioni18n="teleprocedures.intervention.field.objet"
+         type="string"
+         maxlength="255"
+         required="yes"
+         />
+		 
+	<property name="idtype"
+         captioni18n="teleprocedures.intervention.field.type"
+         type="integer"
+         required="yes"
+				 fkTable="type"
+         fkFieldName="idtype"
+         />
+		 
+  <property name="idstatu"
+         captioni18n="teleprocedures.intervention.field.statut"
+         type="integer"
+         required="yes"
+         /> 
+
+	<property name="datederniere"
+         captioni18n="teleprocedures.intervention.field.dern.action"
+         type="date"
+         required="yes"
+         /> 
+		 
+	<property name="detail"
+         captioni18n="teleprocedures.intervention.field.detail"
+         type="string"
+         required="yes"
+         />
+   	 
+	<property name="responsables"
+		type="string"
+		required="yes"		
+		captioni18n="teleprocedures.type.field.responsables"
+		/>
+	
+	<property name="lecteurs"
+		type="string"
+		captioni18n="teleprocedures.type.field.lecteurs"
+		/>
+
+	<property name="mail_from"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_from"
+		/>
+	<property name="mail_to"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_to"
+		/>
+	<property name="mail_cc"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_cc"
+		/>
+	<property name="mail_message"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_message"
+		/>
+
+	<property name="type_teleprocedure"
+        fieldName="teleprocedure"
+        captioni18n="teleprocedures.type.fields.teleprocedure"
+        type="integer"
+        table="type" 
+        />
+	<property name="type_nom"
+        fieldName="nom"
+        captioni18n="teleprocedures.type.fields.nom"
+        type="string"
+        table="type" 
+        />
+
+	<property name="type_format"
+        fieldName="format"
+        captioni18n="teleprocedures.type.fields.format"
+        type="string"
+        table="type" 
+        />
+
+	<property name="ecole_type"
+        fieldName="type"
+        type="string"
+        table="ecole" 
+        />
+	<property name="ecole_nom"
+        fieldName="nom"
+        type="string"
+        table="ecole" 
+        />
+	<property name="ecole_id_ville"
+        fieldName="id_ville"
+        type="integer"
+        table="ecole" 
+        />
+
+ </properties>
+ </daodefinition>

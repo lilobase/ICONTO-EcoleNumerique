@@ -1,0 +1,1578 @@
+<?php
+
+require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'dateservices.class.php');
+
+
+/**
+ * Actiongroup du module Groupe
+ * 
+ * @package Iconito
+ * @subpackage	Groupe
+ */
+class ActionGroupGroupe extends CopixActionGroup {
+
+   /**
+   * Affiche la liste des groupes où l'usager courant est inscrit
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/15
+	 * @param integer $page (option, 1 par défaut) Numéro de page dans la liste des groupes
+   */
+   function getListMy () {
+		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		// Existance de groupes personnels ?
+		$dao_kernel_link_user2node = CopixDAOFactory::create("kernel|kernel_link_user2node");
+		$mes_groupes = $dao_kernel_link_user2node->getByUserAndNodeType( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"], "CLUB" );
+		// Kernel::MyDebug( $mes_groupes );
+		foreach( $mes_groupes AS $mes_groupes_key=>$mes_groupes_val ) {
+			if( $mes_groupes_val->droit <= 10 ) {
+				unset($mes_groupes[$mes_groupes_key]);
+			}
+		}
+		
+		/*
+		if( 0==count($mes_groupes) ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListPublic'));
+		}
+		*/
+
+		$tpl = & new CopixTpl ();
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('groupe|groupe.my'));
+		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
+
+		$tplListe = & new CopixTpl ();
+		$tplListe->assign ('list', CopixZone::process ('groupe|mygroupes', array('where'=>'groupes')));
+		$tplListe->assign ('canCreate', ($groupeService->canMakeInGroupe('ADD_GROUP',NULL) ? 1 : 0));
+		$result = $tplListe->fetch("getlistmy.tpl");
+
+		$tpl->assign ("MAIN", $result);
+
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+	}
+	
+
+   /**
+   * Affiche la liste des groupes publics
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/15
+	 * @param integer $page (option, 1 par défaut) Numéro de page dans la liste des groupes
+   */
+   function getListPublic () {
+	 
+		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$page = $this->getRequest ('page', 1);
+
+		$offset = ($page-1)*CopixConfig::get ('groupe|list_nbgroupes');
+		$groupesAll = $dao->getListPublicAll();
+		$nbPages = ceil(count($groupesAll) / CopixConfig::get ('groupe|list_nbgroupes'));
+		
+		$groupes = $dao->getListPublic($offset,CopixConfig::get ('groupe|list_nbgroupes'));
+
+		while (list($k,) = each($groupes)) {
+			$userInfo = $kernel_service->getUserInfo("ID", $groupes[$k]->createur);
+			$groupes[$k]->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
+			$groupes[$k]->createur_infos = $userInfo;
+			$mondroit = $kernel_service->getLevel( "CLUB", $groupes[$k]->id);
+			$groupes[$k]->mondroit = $mondroit;
+			$members = $groupeService->getNbMembersInGroupe($groupes[$k]->id);
+			$groupes[$k]->inscrits = $members['inscrits'];
+			$groupes[$k]->canViewHome = ($groupeService->canMakeInGroupe('VIEW_HOME', $mondroit));
+			$parent = $kernel_service->getNodeParents ("CLUB", $groupes[$k]->id );
+			if ($parent) {
+				$parentInfo = $kernel_service->getNodeInfo ($parent[0]["type"], $parent[0]["id"], false);
+				if (isset($parentInfo["nom"]))		$groupes[$k]->rattachement = $parentInfo["nom"];
+				if (isset($parentInfo["desc"]))	$groupes[$k]->rattachement .= " (".$parentInfo["desc"].")";
+			}
+			$blog = $groupeService->getGroupeBlog($groupes[$k]->id);
+			if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
+				$groupes[$k]->blog = $blog;
+			$groupes[$k]->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
+		}
+
+		$tpl = & new CopixTpl ();
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('groupe|groupe.annuaire'));
+		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
+
+		$tplListe = & new CopixTpl ();
+		$tplListe->assign ('list', $groupes);
+		$tplListe->assign ('canCreate', ($groupeService->canMakeInGroupe('ADD_GROUP',NULL) ? 1 : 0));
+		$tplListe->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('groupe||getListPublic'))));
+		$result = $tplListe->fetch("getlist.tpl");
+
+		$tpl->assign ("MAIN", $result);
+
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+	}
+	
+
+   /**
+   * Effectue une recherche dans les groupes
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/15
+	 * @param string $kw (option, NULL par défaut) Mot clé en cas de recherche dans les groupes
+   */
+   function getSearch () {
+	 
+		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
+
+		$errors = array();
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$kw = $this->getRequest ('kw', null);
+		
+		if (!$kw) {
+			$errors[] = CopixI18N::get ('groupe|groupe.error.typeKw');
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||getListPublic')));
+		}
+		
+		// Découpage du pattern
+  	$testpattern=str_replace(array(" ","%20"), "%20", $kw);
+  	$temp = split ("%20", $testpattern);
+		
+		/* Ne marche plus avec PHP5
+		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres->startGroup("OR");
+  	foreach ($temp as $word) {
+   		if ($word != "") {
+    		$criteres->addCondition('titre', ' like ', '%'.$word.'%');
+    		$criteres->addCondition('description', ' like ', '%'.$word.'%');
+	   }
+  	}
+  	$criteres->endGroup();
+		$criteres->addCondition("is_open", "=", 1);
+		*/
+		$dbw = & CopixDbFactory::getDbWidget ();
+		$query = 'SELECT GR.id, GR.titre, GR.description, GR.is_open FROM module_groupe_groupe GR WHERE (';
+		$iWord = 0;
+		foreach ($temp as $word) {
+   		if ($word != "") {
+				if ($iWord>0)
+					$query .= " OR ";
+    		$query .= "GR.titre LIKE '%".addslashes($word)."%' OR GR.description LIKE '%".addslashes($word)."%'";
+				$iWord++;
+	   }
+  	}
+ 		$query .= ")";
+		//Kernel::deb ($query);
+		$groupes = $dbw->fetchAll ($query);
+		
+		while (list($k,) = each($groupes)) {
+			$userInfo = $kernel_service->getUserInfo("ID", $groupes[$k]->createur);
+			$groupes[$k]->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
+			$groupes[$k]->createur_infos = $userInfo;
+			$mondroit = $kernel_service->getLevel( "CLUB", $groupes[$k]->id);
+			$groupes[$k]->mondroit = $mondroit;
+			$members = $groupeService->getNbMembersInGroupe($groupes[$k]->id);
+			$groupes[$k]->inscrits = $members['inscrits'];
+			$groupes[$k]->canViewHome = ($groupeService->canMakeInGroupe('VIEW_HOME', $mondroit));
+			$parent = $kernel_service->getNodeParents ("CLUB", $groupes[$k]->id );
+			if ($parent) {
+				$parentInfo = $kernel_service->getNodeInfo ($parent[0]["type"], $parent[0]["id"], false);
+				if ($parentInfo["nom"])		$groupes[$k]->rattachement = $parentInfo["nom"];
+				if ($parentInfo["desc"])	$groupes[$k]->rattachement .= " (".$parentInfo["desc"].")";
+			}
+			$blog = $groupeService->getGroupeBlog($groupes[$k]->id);
+			if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
+				$groupes[$k]->blog = $blog;
+			$groupes[$k]->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
+		}
+
+		$tpl = & new CopixTpl ();
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('groupe|groupe.searchKw', array($kw)));
+		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
+		$tplListe = & new CopixTpl ();
+		$tplListe->assign ("list", $groupes);
+		$tplListe->assign ("kw", $kw);
+		$result = $tplListe->fetch("getlist.tpl");
+		
+		$tpl->assign ("MAIN", $result);
+		
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		
+	}
+	
+
+   /**
+   * Formulaire de création / modification d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/15
+	 * @param integer $id Id du groupe qu'on modifie, ou NULL si création d'un nouveau groupe
+	 * @param string $titre (si formulaire soumis) Titre du groupe
+	 * @param string $description (si formulaire soumis) Sa description
+	 * @param integer $is_open (si formulaire soumis) 1 si le groupe est public, 0 s'il est privé
+	 * @param string $membres (si formulaire soumis) La liste des logins des membres à ajouter (séparés par des virgules éventuellement) 
+	 * @param array $his_modules (si formulaire soumis) Les modules à rattacher au groupe
+	 * @param array $errors (option) Erreurs rencontrées
+   */
+   function getEdit () {
+	 
+		//$messages = $dao->getList();
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+		$dao = CopixDAOFactory::create("groupe");
+		
+		$tpl = & new CopixTpl ();
+		
+		$id = $this->getRequest ('id', null);
+		
+		$titre = $description = $membres = NULL;
+		$is_open = 1;
+		$errors = array();
+		
+		if ($id) {	// Modification
+			$tplTitle = CopixI18N::get ('groupe|groupe.modify');
+			$groupe = $dao->getGroupe($id);
+
+			if ($groupe) {
+				$mondroit = $kernel_service->getLevel( "CLUB", $id );
+				if (!$groupeService->canMakeInGroupe('ADMIN',$mondroit))
+					$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+				else {
+					$titre = $groupe[0]->titre;
+					$description = $groupe[0]->description;
+					$is_open = $groupe[0]->is_open;
+					$parentClass = $parentRef = null;
+				}
+			} else
+				$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		} else {
+			$tplTitle = CopixI18N::get ('groupe|groupe.new');
+		
+			if (!$groupeService->canMakeInGroupe('ADD_GROUP',NULL))
+				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+
+			if ( isset($_SESSION["user"]->home) && isset($_SESSION["user"]->home["type"]) && isset($_SESSION["user"]->home["id"]) ) {
+				$parentClass = $_SESSION["user"]->home["type"];
+				$parentRef   = $_SESSION["user"]->home["id"];
+			} else {
+				// Pas de parent pour la creation d'un groupe -> attache a ROOT/0  (FM 14/11/2008)
+				// $errors[] = CopixI18N::get ('groupe|groupe.error.noParentClass');
+				$parentClass = "ROOT";
+				$parentRef   = 0;
+			}
+		}
+
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {			
+
+			$titre = $this->getRequest ('titre', $titre);
+			$description = $this->getRequest ('description', $description);
+			$is_open = $this->getRequest ('is_open', $is_open);
+			$membres = $this->getRequest ('membres', $membres);
+			$his_modules = $this->getRequest ('his_modules', array());
+
+			if ($id) {	// Modif d'un groupe, on cherche ses modules
+				$his_modules = array();
+				$modEnabled = $kernel_service->getModEnabled ("club", $id);
+				//print_r($modEnabled);
+				while (list(,$tmp) = each($modEnabled)) {
+					$his_modules[$tmp->module_type] = 1;
+				}
+			}
+		
+			$errors = $this->getRequest ('errors', array());
+			$kernel_service = CopixClassesFactory::create("kernel|Kernel");
+			$modules = $kernel_service->getModAvailable ("club");
+			while (list($k,$tmp) = each($modules)) {
+				$modules[$k]->module_name = Kernel::Code2Name ($tmp->module_type);
+				$modules[$k]->module_desc = Kernel::Code2Desc ($tmp->module_type);
+			}
+		
+			$tpl->assign ('TITLE_PAGE', $tplTitle);
+			if ($id)
+				$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdmin').'</a>');
+
+			$tplForm = & new CopixTpl ();
+			$tplForm->assign ("id", $id);
+			$tplForm->assign ("titre", $titre);
+			$tplForm->assign ("description", $description);
+			$tplForm->assign ("is_open", $is_open);
+			$tplForm->assign ("membres", $membres);
+			$tplForm->assign ("modules", $modules);
+			$tplForm->assign ("parentClass", $parentClass);
+			$tplForm->assign ("parentRef", $parentRef);
+			$tplForm->assign ("his_modules", $his_modules);
+			$tplForm->assign ('linkpopup', CopixZone::process ('annuaire|linkpopup', array('field'=>'membres')));
+			$tplForm->assign ("errors", $errors);
+			$result = $tplForm->fetch("formedit.tpl");
+
+			$tpl->assign ("MAIN", $result);
+		
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}	
+	}
+	
+
+   /**
+   * Soumission du formulaire de création / modification d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/15
+	 * @param integer $id Id du groupe en cas de modification, NULL si création d'un nouveau groupe
+	 * @param string $titre (si formulaire soumis) Titre du groupe
+	 * @param string $parentClass (si nouveau groupe) ParentClass où sera rattaché le groupe
+	 * @param integer $parentRef (si nouveau groupe) ParentRef où sera rattaché le groupe
+	 * @param string $titre Titre du groupe
+	 * @param string $description Sa description
+	 * @param integer $is_open 1 si le groupe est public, 0 s'il est privé
+	 * @param string $membres Liste des logins des membres à ajouter (séparés par des virgules éventuellement) 
+	 * @param array $his_modules Les (nouveaux) modules à rattacher au groupe
+	 * @param array $errors (option) Erreurs rencontrées
+   */
+	function doEdit () {
+	
+		$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = CopixClassesFactory::create("kernel|Kernel");
+		$groupeService = CopixClassesFactory::create("groupe|groupeService");
+
+		$errors = array();
+
+		$id = $this->getRequest ('id', null);
+		$parentClass = $this->getRequest ('parentClass', null);
+		$parentRef = $this->getRequest ('parentRef', null);
+		
+		if ($id) {	// Modification
+			$groupe = $dao->getGroupe($id);
+			if ($groupe) {
+				$mondroit = $kernel_service->getLevel( "CLUB", $id );
+				if (!$groupeService->canMakeInGroupe('ADMIN',$mondroit))
+					$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+			} else
+				$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		} else {	// Nouveau groupe
+			if (!$groupeService->canMakeInGroupe('ADD_GROUP',NULL))
+				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+			if (!$parentClass)	$errors[] = CopixI18N::get ('groupe|groupe.error.noParentClass');
+		}
+		
+		if ($errors)
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		
+		$titre = $this->getRequest ('titre', null);
+		$description = $this->getRequest ('description', null);
+		$is_open = $this->getRequest ('is_open', 1);
+		$membres = $this->getRequest ('membres', null);
+		$his_modules = $this->getRequest ('his_modules', array());
+
+		
+		if (!$titre)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.typeTitle');
+		if (!$description)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.typeDesc');
+		
+		$createurId = $_SESSION["user"]->bu["user_id"];
+		
+		$modules = $kernel_service->getModAvailable ("club");
+
+		$dao = CopixDAOFactory::create("groupe");
+		if ($id) {	// Modification d'un groupe
+			$groupe[0]->titre = $titre;
+			$groupe[0]->description = $description;
+			$groupe[0]->is_open = $is_open;
+			$dao->update ($groupe[0]);
+		} else {	// Création
+			
+			$tab_membres = $membres;
+			$tab_membres = str_replace(array(" "), "", $tab_membres);
+			$tab_membres = str_replace(array(",",";"), ",", $tab_membres);
+			$tab_membres = explode (",", $tab_membres);
+			
+			$tabInscrits = array();
+
+			// On vérifie que les membres existent
+			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+			while (list(,$login) = each ($tab_membres)) {
+				if (!$login) continue;
+				$userInfo = $kernel_service->getUserInfo("LOGIN", $login);
+				//print_r("login=$login");
+				//print_r($userInfo);
+				if (!$userInfo)
+					$errors[] = CopixI18N::get ('groupe|groupe.error.memberNoUser', array($login));
+				elseif ($userInfo["user_id"] == $createurId)
+					$errors[] = CopixI18N::get ('groupe|groupe.error.memberNotHimself');
+				else
+					$tabInscrits[$userInfo["user_id"]] = $userInfo["user_id"];
+			}
+				
+			if (!$errors) {
+				$serv = CopixClassesFactory::create("GroupeService");
+				$create = $serv->createGroupe ($titre, $description, $is_open, $createurId, $tabInscrits, $his_modules, $parentClass, $parentRef);
+				if ($create) {
+				} else
+					$errors[] = CopixI18N::get ('groupe|groupe.error.create');
+			}
+		}
+
+		if ($errors)
+			return CopixActionGroup::process ('groupe|groupe::getEdit', array ('id'=>$id, 'titre'=>$titre, 'description'=>$description, 'is_open'=>$is_open, 'membres'=>$membres, 'his_modules'=>$his_modules, 'errors'=>$errors));
+
+		if ($id)
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)));
+		else
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListMy'));
+	}
+
+   
+	
+   /**
+   * Suppression d'un groupe. Renvoie sur la page demandant confirmation avant de supprimer.
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @see doDelete()
+	 * @param integer $id Id du groupe
+   */
+	function getDelete () {
+		
+		$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$errors = array();	
+		$id = $this->getRequest ('id', null);
+		
+		$groupe = $dao->getGroupe($id);
+		
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			
+			return CopixActionGroup::process ('genericTools|Messages::getConfirm',
+				array (
+					'title'=>$groupe[0]->titre,
+					'message'=>CopixI18N::get ('groupe|groupe.conf.groupAsk'),
+					'confirm'=>CopixUrl::get('groupe||doDelete', array('id'=>$id)),
+					'cancel'=>CopixUrl::get('groupe||getHomeAdmin', array('id'=>$id)),
+          'MENU'=>'<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdmin').'</a>',
+				)
+				);
+		}
+		
+	}
+
+
+   /**
+   * Suppression effective d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @see getDelete()
+	 * @param integer $id Id du groupe
+   */
+	function doDelete () {
+		
+		$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$errors = array();	
+		$id = $this->getRequest ('id', null);
+		
+		$groupe = $dao->getGroupe($id);
+		
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			// On supprime ses modules
+			$his_modules = Kernel::getModEnabled ("CLUB", $id);
+			while (list($k,$node) = each($his_modules)) {
+				list(,$module) = explode("_",$node->module_type);
+				$module = strtolower($module);
+				$classeModule = & CopixClassesFactory::create($module.'|Kernel'.$module);
+				if( method_exists( $classeModule, "delete" ) ) {
+					$classeModule->delete($node->module_id);
+				}
+			}
+			
+			// On supprime tous les noeuds
+			$daoKernelModEnabled = CopixDAOFactory::create("kernel|kernel_mod_enabled");
+			$daoKernelModEnabled->delByNode("CLUB", $id);
+			
+			// On supprime le rattachement du groupe			
+			$daoLinkGroupe2Node = CopixDAOFactory::create("kernel|kernel_link_groupe2node");
+			$daoLinkGroupe2Node->delete ($id);
+
+			// On supprime les membres/droits
+			$childs = Kernel::getNodeChilds("CLUB", $id);
+			foreach ($childs AS $user) {
+				Kernel::setLevel("CLUB", $id, $user["type"], $user["id"], 0);
+			}
+			
+			// On supprime le groupe lui-même			
+			$dao->delete ($id);
+			
+		}
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListMy'));
+	}
+
+
+	
+   /**
+   * Page d'accueil d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/15
+	 * @param integer $id Id du groupe
+   */
+	function getHome () {
+	 	
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$errors = array();		
+		
+		
+	 	$dao = CopixDAOFactory::create("groupe");
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		//print_r("mondroit=$mondroit");
+		if (!$groupeService->canMakeInGroupe('VIEW_HOME', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+		
+			// On récupère les modules du groupe
+			$his_modules = $kernel_service->getModEnabled ("club", $id);
+			while (list($k,$node) = each($his_modules)) {
+				//print_r(explode("_",$node->module_type));
+				list($tmp,$module) = explode("_",$node->module_type);
+				$module = strtolower($module);
+				$classeModule = CopixClassesFactory::create("$module|Kernel$module");
+				$infos = $classeModule->getStats($node->module_id);
+				//print_r($infos);
+				$his_modules[$k]->infos = $infos;
+				$his_modules[$k]->module_nom = Kernel::Code2Name ($node->module_type);
+			}
+			
+			// Infos du groupe
+			$classeModule = CopixClassesFactory::create("groupe|Kernelgroupe");
+			$infos = $classeModule->getStats($id);
+			$groupe[0]->infos = $infos;
+			$groupe[0]->nbMembers = $infos['nbMembers']['name'];
+			$userInfo = $kernel_service->getUserInfo("ID", $groupe[0]->createur);
+			$groupe[0]->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
+			$groupe[0]->createur_infos = $userInfo;
+			
+			//print_r($groupe[0]);
+			$tpl = & new CopixTpl ();
+			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre);
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.backMy').'</a>');
+			
+			$tplHome = & new CopixTpl ();
+			$tplHome->assign ('groupe', $groupe[0]);
+			$tplHome->assign ('canViewAdmin', ($groupeService->canMakeInGroupe('ADMIN', $mondroit)) ? 1 : 0);
+			$tplHome->assign ('canUnsubscribeHimself', ($groupeService->canMakeInGroupe('UNSUBSCRIBE_HIMSELF', $mondroit)) ? 1 : 0);
+
+			$tplHome->assign ('his_modules', $his_modules);
+			$result = $tplHome->fetch('gethome.tpl');
+			$tpl->assign ('MAIN', $result);
+			
+			$plugStats = & CopixCoordination::getPlugin ('stats');
+			$plugStats->setParams(array('module_id'=>$groupe[0]->id));
+
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}
+		
+	}
+	
+	
+   /**
+   * Page d'accueil de l'administration d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @param integer $id Id du groupe
+   */
+	function getHomeAdmin () {
+	 	
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+			
+		$id = $this->getRequest ('id', null);
+		$errors = array();		
+		
+	 	$dao = CopixDAOFactory::create("groupe");
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+  		CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_groupe_admin.css');
+
+			$tpl = & new CopixTpl ();
+			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre);
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a>');
+			
+			$tplHome = & new CopixTpl ();
+			$tplHome->assign ('groupe', $groupe[0]);
+
+			$result = $tplHome->fetch('gethomeadmin.tpl');
+			$tpl->assign ('MAIN', $result);
+			
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}
+		
+	}
+	
+
+   /**
+   * Administration des membres d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @param integer $id Id du groupe
+	 * @param string $membres (option) Liste des logins des nouveaux membres à inscrire séparés par des virgules éventuellement) 
+	 * @param array $errors (option) Erreurs rencontrées
+   */
+	function getHomeAdminMembers () {
+	 	
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$errors = $this->getRequest ('errors', array());
+		$membres = $this->getRequest ('membres', null);
+		$debut = $this->getRequest ('debut', null);
+		$fin = $this->getRequest ('fin', null);
+		$debutW = $this->getRequest ('debutW', null);
+		$finW = $this->getRequest ('finW', null);
+		$membresW = $this->getRequest ('membresW', null);
+		$critical_errors = array();
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$critical_errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if ($critical_errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$critical_errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+
+  		CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_groupe_admin.css');
+
+			$tpl = & new CopixTpl ();
+			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.CopixI18N::get ('groupe|groupe.adminMembers'));
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdmin').'</a>');
+			
+			$childs = $kernel_service->getNodeChilds( "CLUB", $id );
+			$waiting = array();
+			foreach ($childs AS $k=>$v) {
+				//print_r($v);
+				$userInfo = $kernel_service->getUserInfo($v["type"], $v["id"]);
+				$childs[$k]["login"] = $userInfo["login"];
+				$childs[$k]["nom"] = $userInfo["nom"];
+				$childs[$k]["prenom"] = $userInfo["prenom"];
+				$childs[$k]["droitnom"] = $groupeService->getRightName($v['droit']);
+				
+				if ($v['droit']==PROFILE_CCV_SHOW) {	// Membre en attente
+          //$childs[$k]['value'] = 
+					$waiting[] = $childs[$k];
+					unset($childs[$k]);
+				}
+			}
+			//print_r($childs);
+//      print_r($waiting);
+
+
+			$tplHome = & new CopixTpl ();
+			$tplHome->assign ('groupe', $groupe[0]);
+			$tplHome->assign ('his', $_SESSION['user']->bu['type'].'|'.$_SESSION['user']->bu['id']);
+			$tplHome->assign ('list', $childs);
+			$tplHome->assign ('today', date('Ymd'));
+			$tplHome->assign ('listWaiting', $waiting);
+			$tplHome->assign ('errors', $errors);
+			$tplHome->assign ('membres', $membres);
+			$tplHome->assign ('debut', $debut);
+			$tplHome->assign ('fin', $fin);
+			$tplHome->assign ('debutW', $debutW);
+			$tplHome->assign ('finW', $finW);
+			$tplHome->assign ('membresW', $membresW);
+			$tplHome->assign ('linkpopup', CopixZone::process ('annuaire|linkpopup', array('field'=>'membres')));
+
+			$result = $tplHome->fetch('gethomeadminmembers.tpl');
+			$tpl->assign ('MAIN', $result);
+			
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}
+		
+	}
+	
+
+   /**
+   * Administration des modules d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @see doFormAdminModules()
+	 * @param integer $id Id du groupe
+	 * @param integer $done Si 1, on vient d'une page ayant bien effectué les modifications demandées
+	 * @param array $errors (option) Erreurs rencontrées
+   */
+	function getHomeAdminModules () {
+	 	
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$done = ($id) ? $this->getRequest ('done', null) : null;
+		$errors = $this->getRequest ('errors', array());
+		$critical_errors = array();
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$critical_errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if ($critical_errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$critical_errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			
+			// Tous les modules possibles
+			$modules = $kernel_service->getModAvailable ("club");
+			while (list($k,$tmp) = each($modules)) {
+				$modules[$k]->module_name = Kernel::Code2Name ($tmp->module_type);
+				$modules[$k]->module_desc = Kernel::Code2Desc ($tmp->module_type);
+			}
+			//print_r($modules);
+			
+			// Ses modules
+			$his_modules = array();
+			$modEnabled = $kernel_service->getModEnabled ("club", $id);
+			//print_r($modEnabled);
+			while (list(,$tmp) = each($modEnabled)) {
+				$his_modules[$tmp->module_type] = 1;
+			}
+			//print_r($his_modules);
+
+			$tpl = & new CopixTpl ();
+			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.CopixI18N::get ('groupe|groupe.adminModules'));
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdmin').'</a>');
+			
+			$tplForm = & new CopixTpl ();
+			$tplForm->assign ('id', $id);
+			$tplForm->assign ('done', $done);
+			$tplForm->assign ('groupe', $groupe[0]);
+			$tplForm->assign ("modules", $modules);
+			$tplForm->assign ("his_modules", $his_modules);
+			$tplForm->assign ('errors', $errors);
+
+			$result = $tplForm->fetch('gethomeadminmodules.tpl');
+			$tpl->assign ('MAIN', $result);
+			
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}
+
+	}
+	
+
+	
+   /**
+   * Désinscription effective de membres
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @param integer $id Id du groupe
+	 * @param array $membres Les membres à désinscrire (les valeurs sont de type USER_TYPE|USER_ID)
+   */
+	function doUnsubscribe () {
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$membres = $this->getRequest ('membres', array());
+		$errors = array();		
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if (in_array($_SESSION["user"]->bu["type"]."|".$_SESSION["user"]->bu["id"], $membres))
+			$errors[] = CopixI18N::get ('groupe|groupe.error.memberNotHimselfUnsub');
+		
+		
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			
+			foreach($membres as $membre) {
+				list ($user_type,$user_id) = explode ("|", $membre);
+				if ($user_type && $user_id) {
+					//print ("user_type=$user_type / user_id=$user_id");
+					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, 0);
+					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getnodeparents');
+					$cache->remove ();
+					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getmynodes');
+					$cache->remove ();
+				}
+			}
+
+			$back = CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id));
+			return new CopixActionReturn (COPIX_AR_REDIRECT, $back);
+		}
+	}
+
+
+   /**
+   * Inscription directe et effective de membres, à partir de leurs logins
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @param integer $id Id du groupe
+	 * @param array $membres Les logins des membres à inscrire (séparés par des , ou ; si plusieurs)
+   */
+	function doSubscribe () {
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$membres = $this->getRequest ('membres', null);
+		$errors = array();		
+		
+		$req_debut = $this->getRequest ('debut', null);
+		$req_fin = $this->getRequest ('fin', null);
+		
+    //$debut   = dateService::dateFrToDateBdd($req_debut);
+    //$fin     = dateService::dateFrToDateBdd($req_fin);
+		$debut     = CopixDateTime::dateToTimestamp($req_debut);
+    $fin     = CopixDateTime::dateToTimestamp($req_fin);
+
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			
+			//print_r($groupe);
+			
+			//print_r($membres);
+			$tab_membres = $membres;
+			$tab_membres = str_replace(array(" "), "", $tab_membres);
+			$tab_membres = str_replace(array(",",";"), ",", $tab_membres);
+			$tab_membres = explode (",", $tab_membres);
+			
+			$tabInscrits = array();
+			// On vérifie que les membres existent
+			while (list(,$login) = each ($tab_membres)) {
+				if (!$login) continue;
+				$userInfo = $kernel_service->getUserInfo("LOGIN", $login);
+				//print_r("login=$login");
+				//print_r($userInfo);
+				if (!$userInfo)
+					$errors[] = CopixI18N::get ('groupe|groupe.error.memberNoUser', array($login));
+				elseif ($userInfo["user_id"] == $groupe[0]->createur)
+					$errors[] = CopixI18N::get ('groupe|groupe.error.memberNotHimself');
+				else {	// On regarde s'il est déjà membre
+					$droit = $kernel_service->getLevel( "CLUB", $id, $userInfo["type"], $userInfo["id"]);
+					if ($droit)
+						$errors[] = CopixI18N::get ('groupe|groupe.error.memberAlready', array($login));
+					else	// OK
+						$tabInscrits[] = $userInfo;
+				}
+			}
+
+      // Tests sur les dates
+			if ($req_debut) {
+		  	if (CopixDateTime::timestampToDate ($debut) === false)
+	  				$errors[] = CopixI18N::get('groupe|groupe.error.formdatedeb');
+	  	}
+		  if ($req_fin) {
+		  	if (CopixDateTime::timestampToDate ($fin) === false)
+	  			$errors[] = CopixI18N::get('groupe|groupe.error.formdatefin');
+  		}
+	  	if ($req_debut && $req_fin && $debut && $fin && $debut>$fin){
+		  	$errors[] = CopixI18N::get('groupe|groupe.error.inversiondate');
+  		}
+
+			if ($errors) {
+				return CopixActionGroup::process ('groupe|groupe::getHomeAdminMembers', array ('id'=>$id, 'membres'=>$membres, 'debut'=>$req_debut, 'fin'=>$req_fin, 'errors'=>$errors));
+
+			} else {
+				// On insère les éventuels membres
+				
+				while (list(,$user) = each ($tabInscrits)) {
+					$kernel_service->setLevel("CLUB", $id, $user["type"], $user["id"], PROFILE_CCV_MEMBER, $debut, $fin);
+					$cache = & new CopixCache ($user["type"].'-'.$user["id"], 'getnodeparents');
+					$cache->remove ();
+					$cache = & new CopixCache ($user["type"].'-'.$user["id"], 'getmynodes');
+					$cache->remove ();
+				}
+
+				$back = CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id));
+				return new CopixActionReturn (COPIX_AR_REDIRECT, $back);
+
+			}
+
+		}
+	}
+
+
+   /**
+   * Traitement des inscriptions en attente
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @param integer $id Id du groupe
+	 * @param array $membres Les logins des membres à inscrire (séparés par des , ou ; si plusieurs)
+   */
+	function doSubscribeWaiting () {
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
+		
+		$req_debut	= $this->getRequest ('debutW', null);
+		$req_fin 		= $this->getRequest ('finW', null);
+		
+    //$debutW     = dateService::dateFrToDateBdd($req_debut);
+    //$finW     	= dateService::dateFrToDateBdd($req_fin);
+		$debutW     = CopixDateTime::dateToTimestamp($req_debut);
+    $finW     	= CopixDateTime::dateToTimestamp($req_fin);
+    
+		$id = $this->getRequest ('id', null);
+		$membres = $this->getRequest ('membres', null);
+		$errors = array();		
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			
+      // Tests sur les dates
+	  	if ($req_debut) {
+		  	if (CopixDateTime::timestampToDate ($debutW) === false)
+	  				$errors[] = CopixI18N::get('groupe|groupe.error.formdatedeb');
+	  	}
+		  if ($req_fin) {
+		  	if (CopixDateTime::timestampToDate ($finW) === false)
+	  			$errors[] = CopixI18N::get('groupe|groupe.error.formdatefin');
+  		}
+	  	if ($req_debut && $req_fin && $debutW && $finW && $debutW>$finW){
+		  	$errors[] = CopixI18N::get('groupe|groupe.error.inversiondate');
+  		}
+       
+      if ($errors) {
+				return CopixActionGroup::process ('groupe|groupe::getHomeAdminMembers', array ('id'=>$id, 'membresW'=>$membres, 'debutW'=>$req_debut, 'finW'=>$req_fin, 'errors'=>$errors));
+			}
+      
+			foreach($membres as $membre=>$action) {
+				list ($user_type,$user_id) = explode ("|", $membre);
+				//$hisDroit = Kernel::getLevel( "CLUB", $id, $user_type, $user_id);
+        //print_r("user_type=$user_type / user_id=$user_id");
+        //continue;
+
+				if ($action == 'WAIT') {
+					continue;
+				} elseif ($action == '0') {	// On ne l'accepte pas
+					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, 0);
+					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getnodeparents');
+					$cache->remove ();
+					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getmynodes');
+					$cache->remove ();
+          // On l'informe par minimail
+  				$userInfo = Kernel::getUserInfo($user_type, $user_id);
+					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"];
+					$msg_from_id = $_SESSION["user"]->bu["user_id"];
+					$msg_from_login = $_SESSION["user"]->bu["login"];
+					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.nok.title', array($groupe[0]->titre));
+					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.nok.body', array($groupe[0]->titre, $his_nom));
+					$msg_body = str_replace("\\n", "\n", $msg_body);
+					$msg_destin = array($userInfo["user_id"]=>1);
+					$minimailService->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, 'wiki');
+				} elseif ($action == '1') {	// On l'accepte !
+					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, 0);
+					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, PROFILE_CCV_MEMBER, $debutW, $finW);
+					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getnodeparents');
+					$cache->remove ();
+					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getmynodes');
+					$cache->remove ();
+          // On l'informe par minimail
+  				$userInfo = Kernel::getUserInfo($user_type, $user_id);
+					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"];
+					$msg_from_id = $_SESSION["user"]->bu["user_id"];
+					$msg_from_login = $_SESSION["user"]->bu["login"];
+					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.ok.title', array($groupe[0]->titre));
+					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.ok.body', array($groupe[0]->titre, $his_nom));
+          if ($debutW && $finW)
+            $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebutFin', array(CopixDateTime::timestampToDate($debutW), CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHome', array("id"=>$id))));
+          elseif ($debutW)
+            $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebut', array(CopixDateTime::timestampToDate($debutW), CopixUrl::get('groupe||getHome', array("id"=>$id))));
+          elseif ($finW)
+            $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyFin', array(CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHome', array("id"=>$id))));
+          else
+            $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyIllimite', array(CopixUrl::get('groupe||getHome', array("id"=>$id))));
+					$msg_body = str_replace("\\n", "\n", $msg_body);
+					$msg_destin = array($userInfo["user_id"]=>1);
+					$minimailService->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, 'wiki');
+				}
+			}
+			
+			$back = CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id));
+			return new CopixActionReturn (COPIX_AR_REDIRECT, $back);
+
+		}
+	}
+
+
+   /**
+   * Effectue une demande d'inscription à un groupe pour l'utilisateur courant
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @param integer $id Id du groupe
+   */
+	function doJoin () {
+	 	
+		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$minimail_service = & CopixClassesFactory::Create ('minimail|minimailservice');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$errors = $oks = array();		
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		elseif (!$groupe[0]->is_open)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.private');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if ($mondroit)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.alreadyMember');
+
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||getListPublic')));
+		} else {
+			
+			$kernel_service->setLevel("CLUB", $id, $_SESSION['user']->bu['type'], $_SESSION['user']->bu['id'], PROFILE_CCV_SHOW);
+			$cache = & new CopixCache ($_SESSION['user']->bu['type'].'-'.$_SESSION['user']->bu['id'], 'getnodeparents');
+			$cache->remove ();
+			$cache = & new CopixCache ($_SESSION['user']->bu['type'].'-'.$_SESSION['user']->bu['id'], 'getmynodes');
+			$cache->remove ();
+			
+			// On récupère le propriétaire, afin de lui envoyer un message
+			$childs = $kernel_service->getNodeChilds( "CLUB", $id );
+			$trouve = false;
+			
+			foreach ($childs as $child) {
+				if ($trouve)
+					continue;
+				if ($groupeService->canMakeInGroupe('ADMIN',$child["droit"])) // Propriétaire trouvé !
+					$trouve = $child;
+			}
+			//var_dump($trouve);
+			/*			
+			while (!$trouve && list(,$child)=each($childs)) {
+				if ($groupeService->canMakeInGroupe('ADMIN',$child["droit"])) // Propriétaire trouvé !
+					$trouve = $child;
+			}
+			*/
+			
+			if ($trouve) {
+				$userInfo = $kernel_service->getUserInfo($trouve["type"], $trouve["id"]);
+				//print_r2($userInfo);
+				if ($userInfo && $userInfo["user_id"]) {
+					
+					//print_r($_SESSION);
+					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"]." (".$_SESSION["user"]->bu["type"].")";
+					
+					$msg_from_login = $_SESSION["user"]->bu["login"];
+					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.title', array($groupe[0]->titre));
+					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.body', array(CopixUrl::get('groupe||getHomeAdminMembers', array("id"=>$id)),$his_nom));
+					$msg_body = str_replace("\\n", "\n", $msg_body);
+
+					//print_r($msg_body);
+					//die();
+					$msg_from_id = $_SESSION["user"]->bu["user_id"];
+					$msg_destin = array($userInfo["user_id"]=>1);
+
+					$send = $minimail_service->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, 'wiki');
+					if ($send)
+						$oks[] = CopixI18N::get ('groupe|groupe.msgJoin.Ok');
+					else
+						$errors[] = CopixI18N::get ('groupe|groupe.error.sendJoin');
+					
+					
+				} else
+					$errors[] = CopixI18N::get ('groupe|groupe.error.owner');
+			} else { // Pas de proprio, c'est pas normal
+				$errors[] = CopixI18N::get ('groupe|groupe.error.noOwner');
+			}
+		
+			$tpl = & new CopixTpl ();
+			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre);
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
+			
+			$tplHome = & new CopixTpl ();
+			$tplHome->assign ('groupe', $groupe[0]);
+			$tplHome->assign ('errors', $errors);
+			$tplHome->assign ('oks', $oks);
+
+			$result = $tplHome->fetch('dojoin.tpl');
+			$tpl->assign ('MAIN', $result);
+			
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}
+		
+	}
+	
+
+   /**
+   * Soumission du formulaire d'administration des modules
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/11/16
+	 * @see getHomeAdminModules()
+	 * @param integer $id Id du groupe
+	 * @param array $his_modules Les modules à ajouter. Le tableau contient dont les clefs correspondent aux codes des modules
+   */
+	function doFormAdminModules () {
+
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$his_modules = $this->getRequest ('his_modules', array());
+		$errors = array();		
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			
+			// Tous les modules dispos
+			$modules = $kernel_service->getModAvailable ("club");
+			//print_r($modules);
+
+			// On cherche ses modules
+			$mod_enabled = $kernel_service->getModEnabled ("club", $id);
+			
+			// On ajoute les modules
+			//print_r($his_modules);
+
+			// On parcourt l'ensemble des modules ayant pu être cochés/décochés
+			while (list(,$tmp) = each ($modules)) {
+				
+				$moduleType = $tmp->module_type;			
+				list (,$module) = explode ("_", strtolower($moduleType));
+
+				// On vérifie quand même qu'un module de ce type n'existe pas déjà
+				reset ($mod_enabled);
+				$deja = false;
+				while (!$deja && list(,$mod) = each ($mod_enabled))
+					$deja = (($mod->module_type == $moduleType) ? $mod->module_id : false);
+				
+				//print_r("<br/>moduleType=$moduleType / deja=$deja / ");				
+				
+				
+				if ($deja && !$his_modules[$moduleType]) { // Cocher -> décocher, on supprime le module
+					//print_r("Del");
+					$classeDel = CopixClassesFactory::create("$module|Kernel$module");
+					$del = $classeDel->delete($deja);
+					if ($del) {	// Suppression effectuée, on détache le module du groupe
+						$unregister = $kernel_service->unregisterModule( $moduleType, $deja, "CLUB", $id );
+					}
+				} elseif (!$deja && isset($his_modules[$moduleType])) { // Décocher -> cocher, on instancie le module
+					//print_r("Add");
+					$classeNew = CopixClassesFactory::create("$module|Kernel$module");
+					$new = $classeNew->create(array('title'=>$groupe[0]->titre, 'node_type'=>'CLUB', 'node_id'=>$id));
+					//print_r("new=$new");
+					if ($new) {	// Module bien crée, on le rattache
+						$register = $kernel_service->registerModule( $moduleType, $new, "CLUB", $id );
+						//print_r("new=$new / register=$register");
+					}
+				} else {	// Pas de changement
+					//print_r("Rien");
+				}	
+			}
+
+			$back = CopixUrl::get ('groupe||getHomeAdminModules', array("id"=>$id, "done"=>1));
+			return new CopixActionReturn (COPIX_AR_REDIRECT, $back);
+		}
+	}
+
+   /**
+   * Affichage des membres d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2006/02/21
+	 * @param integer $id Id du groupe
+   */
+	function getHomeMembers () {
+	 	
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$critical_errors = array();
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$critical_errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('VIEW_HOME', $mondroit))
+			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		
+		if ($critical_errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$critical_errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+
+			$tpl = & new CopixTpl ();
+			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.CopixI18N::get ('groupe|groupe.group.members'));
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a>');
+			
+			$childs = $kernel_service->getNodeChilds( "CLUB", $id );
+			foreach ($childs AS $k=>$v) {
+
+        $ok = true;
+        if ($v['debut'] && $v['debut']>date("Ymd")) $ok = false;
+        if ($v['fin']   && $v['fin']  <date("Ymd")) $ok = false;
+
+				if (!$ok || !$groupeService->canMakeInGroupe('VIEW_HOME', $v['droit'])) {	// Membre en attente ou dont l'inscription n'est pas valide
+					unset($childs[$k]);
+          continue;
+				}
+
+				//print_r($v);
+				$userInfo = $kernel_service->getUserInfo($v["type"], $v["id"]);
+				$childs[$k]["login"] = $userInfo["login"];
+				$childs[$k]["nom"] = $userInfo["nom"];
+				$childs[$k]["prenom"] = $userInfo["prenom"];
+				$childs[$k]["droitnom"] = $groupeService->getRightName($v['droit']);
+				//$childs[$k]['info'] = $userInfo;
+			}
+			//print_r($childs);
+
+			$tplHome = & new CopixTpl ();
+			$tplHome->assign ('groupe', $groupe[0]);
+			$tplHome->assign ('list', $childs);
+
+			$result = $tplHome->fetch('gethomemembers.tpl');
+			$tpl->assign ('MAIN', $result);
+			
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}
+		
+	}
+
+
+   /**
+   * Modification d'un membre d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2007/01/09
+	 * @param integer $id Id du groupe
+	 * @param string $user_type Type du membre
+	 * @param integer $user_id Id du membre
+	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $droit (option) Valeur du droit si formulaire déjà soumis
+	 * @param string $droit (option) Valeur du début de validité si formulaire déjà soumis
+	 * @param string $fin (option) Valeur de fin de validité si formulaire déjà soumis
+   */
+	function getHomeAdminMember () {
+	 	
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$errors = $this->getRequest ('errors', array());
+		$user_type = $this->getRequest('user_type', null);
+		$user_id = $this->getRequest('user_id', null);
+
+		$droit = $this->getRequest('droit', null);
+		$debut = $this->getRequest('debut', null);
+		$fin =   $this->getRequest('fin', null);
+
+		$critical_errors = array();
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$critical_errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		else {
+  		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+  		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+  			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+  		else {
+        // On vérifie que le membre demandé fait bien partie du groupe et qu'il n'est pas le propriétaire
+        $dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
+        $his = $dao->get($user_type, $user_id, "CLUB", $id);
+        //print_r($his);
+        //$level = Kernel::getLevel ('CLUB', $id, $user_type, $user_id);
+        if ($his->droit <= PROFILE_CCV_SHOW || $his->droit >= PROFILE_CCV_ADMIN)
+          $critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+      }
+    }
+    
+		if ($critical_errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$critical_errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+
+  		CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_groupe_admin.css');
+      
+      if ($errors) {
+        $his->droit = $droit;
+        $his->debut = $debut;
+        $his->fin = $fin;
+      } else {
+				//$his->debut = ($his->debut) ? CopixI18N::timestampToDate($his->debut) : null;
+				//$his->fin = ($his->fin) ? CopixI18N::timestampToDate($his->fin) : null;
+			}
+      
+			$userInfo = $kernel_service->getUserInfo($user_type, $user_id);
+      //print_r($userInfo);
+
+			$tpl = & new CopixTpl ();
+			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.$userInfo['prenom'].' '.$userInfo['nom']);
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdminMembers').'</a>');
+			
+
+			$tplHome = & new CopixTpl ();
+			$tplHome->assign ('groupe', $groupe[0]);
+			$tplHome->assign ('errors', $errors);
+			$tplHome->assign ('user', $userInfo);
+			$tplHome->assign ('his', $his);
+			$tplHome->assign ('values', array(
+        PROFILE_CCV_READ=>$groupeService->getRightName(PROFILE_CCV_READ),
+        PROFILE_CCV_MEMBER=>$groupeService->getRightName(PROFILE_CCV_MEMBER),
+        PROFILE_CCV_MODERATE=>$groupeService->getRightName(PROFILE_CCV_MODERATE),
+        ));
+      
+
+			$result = $tplHome->fetch('gethomeadminmember.tpl');
+			$tpl->assign ('MAIN', $result);
+			
+			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		}
+		
+	}
+	
+   /**
+   * Enregistrement de la modification d'un membre d'un groupe
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2007/01/09
+	 * @param integer $id Id du groupe
+	 * @param string $user_type Type du membre
+	 * @param integer $user_id Id du membre
+	 * @param integer $droit Son nouveau droit
+	 * @param string $debut Sa nouvelle date de début de validité
+	 * @param string $fin Sa nouvelle date de fin de validité
+   */
+	function doModifyMember () {
+	 	
+	 	$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$id = $this->getRequest ('id', null);
+		$user_type = $this->getRequest('user_type', null);
+		$user_id = $this->getRequest('user_id', null);
+		$droit = $this->getRequest('droit', null);
+		
+		$req_debut = $this->getRequest ('debut', null);
+		$req_fin = $this->getRequest ('fin', null);
+		
+    //$debut     = dateService::dateFrToDateBdd($req_debut);
+    //$fin     = dateService::dateFrToDateBdd($req_fin);
+    $debut     = CopixDateTime::dateToTimestamp($req_debut);
+    $fin     = CopixDateTime::dateToTimestamp($req_fin);
+
+		$critical_errors = $errors = array();
+		
+		$groupe = $dao->getGroupe($id);
+		if (!$groupe)
+			$critical_errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+		else {
+  		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+  		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
+  			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+  		else {
+        // On vérifie que le membre demandé fait bien partie du groupe et qu'il n'est pas le propriétaire
+        $level = Kernel::getLevel ('CLUB', $id, $user_type, $user_id);
+        if ($level <= PROFILE_CCV_SHOW || $level >= PROFILE_CCV_ADMIN)
+          $critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+      }
+    }
+    
+		if ($critical_errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$critical_errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+
+
+		// Tests sur les dates
+	  	if ($req_debut) {
+		  	if (CopixDateTime::timestampToDate ($debut) === false)
+  				$errors[] = CopixI18N::get('groupe|groupe.error.formdatedeb');
+	  	}
+		  if ($req_fin) {
+		  	if (CopixDateTime::timestampToDate ($fin) === false)
+	  			$errors[] = CopixI18N::get('groupe|groupe.error.formdatefin');
+  		}
+	  	if ($req_debut && $req_fin && $debut && $fin && $debut>$fin){
+		  	$errors[] = CopixI18N::get('groupe|groupe.error.inversiondate');
+  		}
+
+      if ($droit && !$errors) {
+        $dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
+        $his = $dao->get($user_type, $user_id, "CLUB", $id);
+        $his->droit = $droit;
+        $his->debut = ($debut) ? $debut : NULL;
+        $his->fin = ($fin) ? $fin : NULL;
+        $dao->update ($his);
+      }
+      
+      if ($errors)
+			  return CopixActionGroup::process ('groupe|groupe::getHomeAdminMember', array ('id'=>$id, 'user_type'=>$user_type, 'user_id'=>$user_id, 'droit'=>$droit, 'debut'=>$req_debut, 'fin'=>$req_fin, 'errors'=>$errors));
+
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id)));
+      
+		}
+		
+	}
+
+
+   /**
+   * Désinscription de l'utilisateur courant d'un groupe. Renvoie sur la page demandant confirmation avant de supprimer, ou procède à la desinscription (si la confirmation a déjà eu lieu).
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2007/05/30
+	 * @param integer $id Id du groupe
+	 * @param integer $confirm 1 si on revient après confirmation, nul si on pose la question
+   */
+	function doUnsubscribeHimself () {
+		
+		$dao = CopixDAOFactory::create("groupe");
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+
+		$errors = array();	
+		$id = $this->getRequest('id', null);
+		$confirm = $this->getRequest('confirm', 0);
+		
+		$groupe = $dao->getGroupe($id);
+		
+		if (!$groupe)
+			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
+			
+		$mondroit = $kernel_service->getLevel( "CLUB", $id );
+		if (!$groupeService->canMakeInGroupe('UNSUBSCRIBE_HIMSELF', $mondroit))
+			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+
+		if ($errors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
+		} else {
+			if ($confirm) {
+				Kernel::setLevel("CLUB", $id, $_SESSION['user']->bu['type'], $_SESSION['user']->bu['id'], 0);
+				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListMy'));
+			} else {
+				return CopixActionGroup::process ('genericTools|Messages::getConfirm',
+					array (
+						'title'=>$groupe[0]->titre,
+						'message'=>CopixI18N::get ('groupe|groupe.conf.UnsubscribeHimself'),
+						'confirm'=>CopixUrl::get('groupe||doUnsubscribeHimself', array('id'=>$id, 'confirm'=>1)),
+						'cancel'=>CopixUrl::get('groupe||getHome', array('id'=>$id)),
+	          'MENU'=>'<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a>',
+					)
+					);
+			}
+		}
+		
+	}
+
+
+
+
+
+}
+
+?>

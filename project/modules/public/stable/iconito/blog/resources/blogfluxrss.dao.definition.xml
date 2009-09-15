@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<daodefinition version="1">
+   <datasource>
+      <tables>
+         <table name="blogfluxrss" tablename="module_blog_fluxrss" primary="yes" />
+      </tables>
+   </datasource>
+
+ <properties>
+  <property name="id_bfrs"
+         captioni18n="blogfluxrss.fields.id_bfrs"
+         pk="true"
+         required="yes"
+         type="autoincrement"
+         />
+         
+   <property name="id_blog"
+         captioni18n="blogfluxrss.fields.id_blog"
+         type="int"
+         required="yes"
+         />
+
+  <property name="order_bfrs"
+         captioni18n="blogfluxrss.fields.order_bfrs"
+         type="int"
+         required="yes"
+         />
+		 
+   <property name="name_bfrs"
+         captioni18n="blogfluxrss.fields.name_bfrs"
+         type="string"
+         required="yes"
+         />  
+		          
+  <property name="url_bfrs"
+         captioni18n="blogfluxrss.fields.url_bfrs"
+         type="string"
+         required="yes"
+         />  
+
+ </properties> 	
+</daodefinition>

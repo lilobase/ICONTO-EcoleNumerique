@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_album_photos"   tablename="module_album_photos"   primary="yes"/>
+			<table name="module_album_dossiers" tablename="module_album_dossiers" join="LEFT"/>
+			<table name="module_album_albums"   tablename="module_album_albums"   join="INNER"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="photo_id" fieldname="id" type="autoincrement" table="module_album_photos" pk="yes"/>
+		<property name="photo_album" fieldname="id_album" type="integer" table="module_album_photos" pk="no" fktable="module_album_albums" fkfieldname="id"/>
+		<property name="photo_dossier" fieldname="id_dossier" type="integer" table="module_album_photos" pk="no" fktable="module_album_dossiers" fkfieldname="id"/>
+		<property name="photo_nom" fieldname="nom" type="string" table="module_album_photos" pk="no"/>
+		<property name="photo_comment" fieldname="commentaire" type="string" table="module_album_photos" pk="no"/>
+		<property name="photo_date" fieldname="date" type="string" table="module_album_photos" pk="no"/>
+		<property name="photo_ext" fieldname="ext" type="string" table="module_album_photos" pk="no"/>
+		<property name="photo_cle" fieldname="cle" type="string" table="module_album_photos" pk="no"/>
+		<property name="photo_public" fieldname="public" type="integer" table="module_album_photos" pk="no"/>
+		
+		<property name="dossier_id" fieldname="id" type="integer" table="module_album_dossiers" pk="yes"/>
+		<property name="dossier_album" fieldname="id_album" type="string" table="module_album_dossiers" pk="no"/>
+		<property name="dossier_parent" fieldname="id_parent" type="string" table="module_album_dossiers" pk="no"/>
+		<property name="dossier_nom" fieldname="nom" type="string" table="module_album_dossiers" pk="no"/>
+		<property name="dossier_comment" fieldname="commentaire" type="string" table="module_album_dossiers" pk="no"/>
+		<property name="dossier_date" fieldname="date" type="string" table="module_album_dossiers" pk="no"/>
+		<property name="dossier_cle" fieldname="cle" type="string" table="module_album_dossiers" pk="no"/>
+		<property name="dossier_public" fieldname="public" type="integer" table="module_album_dossiers" pk="no"/>
+
+		<property name="album_id" fieldname="id" type="integer" table="module_album_albums" pk="yes"/>
+		<property name="album_nom" fieldname="nom" type="string" table="module_album_albums" pk="no"/>
+		<property name="album_prefs" fieldname="prefs" type="string" table="module_album_albums" pk="no"/>
+		<property name="album_date" fieldname="date" type="string" table="module_album_albums" pk="no"/>
+		<property name="album_cle" fieldname="cle" type="string" table="module_album_albums" pk="no"/>
+		<property name="album_public" fieldname="public" type="integer" table="module_album_albums" pk="no"/>
+	</properties>
+	<methods>
+		<method name="findAllByAlbum" type="select">
+			<parameters>
+				<parameter name="album" />
+			</parameters>
+			<conditions>
+				<condition property="photo_album" operator="=" value="$album" />
+			</conditions>
+			<order>
+				<orderitem property="photo_id" way="asc" />
+			</order>
+		</method>
+		<method name="findAllByAlbumAndFolder" type="select">
+			<parameters>
+				<parameter name="album" />
+				<parameter name="dossier" />
+			</parameters>
+			<conditions>
+				<condition property="photo_album" operator="=" value="$album" />
+				<condition property="photo_dossier" operator="=" value="$dossier" />
+			</conditions>
+			<order>
+				<orderitem property="photo_id" way="asc" />
+			</order>
+		</method>
+		<method name="getPrevPhoto" type="select">
+			<parameters>
+				<parameter name="album" />
+				<parameter name="dossier" />
+				<parameter name="photo" />
+			</parameters>
+			<conditions>
+				<condition property="photo_album" operator="=" value="$album" />
+				<condition property="photo_dossier" operator="=" value="$dossier" />
+				<condition property="photo_id" operator="&lt;" value="$photo" />
+			</conditions>
+			<order>
+				<orderitem property="photo_id" way="desc" />
+			</order>
+			<limit offset="0" count="1" />
+		</method>
+		<method name="getNextPhoto" type="select">
+			<parameters>
+				<parameter name="album" />
+				<parameter name="dossier" />
+				<parameter name="photo" />
+			</parameters>
+			<conditions>
+				<condition property="photo_album" operator="=" value="$album" />
+				<condition property="photo_dossier" operator="=" value="$dossier" />
+				<condition property="photo_id" operator="&gt;" value="$photo" />
+			</conditions>
+			<order>
+				<orderitem property="photo_id" way="asc" />
+			</order>
+			<limit offset="0" count="1" />
+		</method>
+		<method name="getLast" type="select">
+			<parameters>
+				<parameter name="album" />
+				<parameter name="dossier" />
+			</parameters>
+			<conditions>
+				<condition property="photo_album" operator="=" value="$album" />
+				<condition property="photo_dossier" operator="=" value="$dossier" />
+			</conditions>
+			<order>
+				<orderitem property="photo_id" way="desc" />
+			</order>
+			<limit offset="0" count="1" />
+		</method>
+	</methods>
+</daodefinition>

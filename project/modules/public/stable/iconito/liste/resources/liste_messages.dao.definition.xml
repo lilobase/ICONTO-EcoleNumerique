@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="liste_messages" tablename="module_liste_messages" primary="yes" />
+			<table name="liste_listes" tablename="module_liste_listes" primary="no" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE MESSAGES -->
+		<property name="id" fieldname="id" type="autoincrement" table="liste_messages" pk="yes"/>
+		<property name="liste" fieldname="liste" type="integer" table="liste_messages" pk="no" fkfieldname="id" fktable="liste_listes"/>
+		<property name="auteur" fieldname="auteur" type="integer" table="liste_messages" pk="no"/>
+		<property name="date" fieldname="date" type="date" table="liste_messages" pk="no"/>
+		<property name="titre" fieldname="titre" type="string" table="liste_messages" pk="no"/>
+		<property name="message" fieldname="message" type="string" table="liste_messages" pk="no"/>
+		<!-- TABLE LISTES -->
+		<property name="liste_id" fieldname="id" type="integer" table="liste_listes" pk="yes"/>
+		<property name="liste_titre" fieldname="titre" type="string" table="liste_listes" pk="no"/>
+		<property name="liste_date" fieldname="date" type="integer" table="liste_listes" pk="no"/>
+	</properties>
+
+	<methods>
+
+	
+	</methods>
+</daodefinition>

@@ -1,0 +1,31 @@
+<?php
+
+$getListPublic    		= & new CopixAction ('Groupe', 'getListPublic');
+$getListMy    				= & new CopixAction ('Groupe', 'getListMy');
+$getEdit    					= & new CopixAction ('Groupe', 'getEdit');
+$doEdit   						= & new CopixAction ('Groupe', 'doEdit');
+$getHome    					= & new CopixAction ('Groupe', 'getHome');
+$getHomeMembers				= & new CopixAction ('Groupe', 'getHomeMembers');
+$getHomeAdmin					= & new CopixAction ('Groupe', 'getHomeAdmin');
+$getHomeAdminMembers	= & new CopixAction ('Groupe', 'getHomeAdminMembers');
+$getHomeAdminMember 	= & new CopixAction ('Groupe', 'getHomeAdminMember');
+$getHomeAdminModules	= & new CopixAction ('Groupe', 'getHomeAdminModules');
+$getDelete   					= & new CopixAction ('Groupe', 'getDelete');
+$doDelete   					= & new CopixAction ('Groupe', 'doDelete');
+$getSearch   					= & new CopixAction ('Groupe', 'getSearch');
+$doUnsubscribe   			= & new CopixAction ('Groupe', 'doUnsubscribe');
+$doSubscribe   				= & new CopixAction ('Groupe', 'doSubscribe');
+$doSubscribeWaiting		= & new CopixAction ('Groupe', 'doSubscribeWaiting');
+$doJoin   						= & new CopixAction ('Groupe', 'doJoin');
+$doModifyMember  	    = & new CopixAction ('Groupe', 'doModifyMember');
+$go 									= & new CopixAction ('Groupe', 'getHome');
+$doFormAdminModules 	= & new CopixAction ('Groupe', 'doFormAdminModules');
+$doUnsubscribeHimself = & new CopixAction ('Groupe', 'doUnsubscribeHimself');
+
+$default 							= & $getListMy;
+
+/*
+$example    = & new CopixAction ('Exemple', 'getExemple');
+$default    = & $example;
+*/
+?>

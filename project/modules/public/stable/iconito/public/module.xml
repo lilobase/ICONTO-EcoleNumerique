@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moduledefinition>
+    <general>
+        <default name="public" descriptioni18n="public.description" longdescriptioni18n="public.longdescription" />
+    </general>
+    <parameters>
+ 	    <parameter name="rss.nbArticles" captioni18n="public.parameter.rss.nbArticles" default="15" />
+ 	    <parameter name="blogs.types" captioni18n="public.parameter.blogs.types" default="CLUB" />
+    </parameters>
+</moduledefinition>

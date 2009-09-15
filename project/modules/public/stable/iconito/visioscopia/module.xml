@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+  	  <default name="visioscopia" descriptioni18n="visioscopia.moduleDescription"/>
+    </general>
+    <parameters>
+	    <parameter name="url" captioni18n="visioscopia.parameter.url" default="http://webconf.ac-montpellier.fr/scopia/entry/index.jsp?ID=%ROOM%&amp;page=join&amp;autoconnect" />
+  	</parameters>
+</moduledefinition>

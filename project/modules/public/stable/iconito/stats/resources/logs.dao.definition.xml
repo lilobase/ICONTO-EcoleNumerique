@@ -1,0 +1,68 @@
+<?xml version="1.0"   encoding="ISO-8859-1" ?>
+<daodefinition version="1">
+    <datasource>
+       <connection name="Select" />
+       <tables>
+          <table name="logs" tablename="module_stats_logs" primary="yes" />
+       </tables>
+    </datasource>
+    
+ 		<properties>
+	    <property name="id"
+	            fieldName="id"
+	            captioni18n="dao.logs.fields.id"
+	            pk="true"
+	            type="autoincrement"
+	            required="yes"
+	            />
+	     <property name="profil"
+	            fieldName="profil"
+	            captioni18n="dao.logs.fields.profil"
+	            type="string"
+	            maxlength="10"
+	            />
+    	<property name="date"
+	            fieldName="date"
+	            captioni18n="dao.logs.fields.date"
+	            type="date"
+	            />
+	     <property name="module_type"
+	            fieldName="module_type"
+	            captioni18n="dao.logs.fields.module_type"
+	            type="string"
+	            maxlength="15"
+	            />
+	     <property name="module_id"
+	            fieldName="module_id"
+	            captioni18n="dao.logs.fields.module_id"
+	            type="integer"
+	            />
+	     <property name="objet_a"
+	            fieldName="objet_a"
+	            captioni18n="dao.logs.fields.objet_a"
+	            type="integer"
+	            />
+	     <property name="objet_b"
+	            fieldName="objet_b"
+	            captioni18n="dao.logs.fields.objet_b"
+	            type="integer"
+	            />
+	     <property name="parent_type"
+	            fieldName="parent_type"
+	            captioni18n="dao.logs.fields.parent_type"
+	            type="string"
+	            maxlength="15"
+	            />
+	     <property name="parent_id"
+	            fieldName="parent_id"
+	            captioni18n="dao.logs.fields.parent_id"
+	            type="integer"
+	            />
+	     <property name="action"
+	            fieldName="action"
+	            captioni18n="dao.logs.fields.action"
+	            type="string"
+	            maxlength="20"
+	            />
+  	</properties>
+</daodefinition>

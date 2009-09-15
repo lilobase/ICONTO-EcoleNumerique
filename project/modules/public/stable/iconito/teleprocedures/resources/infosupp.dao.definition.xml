@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+
+ <datasource>
+   <tables>
+      <table name="infosupp" tablename="module_teleprocedure_infosupp" primary="yes" />
+   </tables>
+ </datasource>
+
+ <properties>
+  <property name="idinfo"
+         pk="true"
+         required="yes"
+         type="autoincrement"
+         />
+
+  <property name="idinter"
+         type="int"
+         required="yes"
+         />
+
+<!-- <property name="reference"
+         captioni18n="copix:exemple.dao.intervention.fields.reference"
+         type="int"
+         required="yes"
+         />
+-->		 
+  <property name="iduser"
+         captioni18n="copix:exemple.dao.intervention.fields.iduser"
+         type="int"
+         required="yes"
+         />
+ <property name="dateinfo"
+         captioni18n="copix:exemple.dao.intervention.fields.dateinter"
+         type="date"
+         required="yes"
+         /> 
+	 
+<property name="info_message"
+         captioni18n="copix:exemple.dao.intervention.fields.detail"
+         type="string"
+         required="no"
+         />
+<property name="info_commentaire"
+         captioni18n="copix:exemple.dao.intervention.fields.detail"
+         type="string"
+         required="no"
+         />
+
+ </properties>
+ </daodefinition>

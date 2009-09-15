@@ -1,0 +1,102 @@
+<?xml version="1.0"   encoding="ISO-8859-1" ?>
+<daodefinition version="1">
+    <datasource>
+       <connection name="Select" />
+       <tables>
+          <table name="blogpage" tablename="module_blog_page" primary="yes" />
+          <table name="blog" tablename="module_blog" join="left" />
+       </tables>
+    </datasource>
+ 		<properties>
+	    <property name="id_bpge"
+	            fieldName="id_bpge"
+	            captioni18n="dao.blogpage.fields.id_bpge"
+	            pk="true"
+	            type="autoincrement"
+	            required="yes"
+	            />
+     <property name="id_blog"
+	            fieldName="id_blog"
+	            captioni18n="dao.blog.fields.id_blog"
+	            type="int"
+	            maxlength="20"
+	            required="yes"
+	            fkTable="blog"
+               fkFieldName="id_blog"
+	            />
+       <property name="name_blog"
+	            fieldName="name_blog"
+	            captioni18n="dao.blog.fields.name_blog"
+	            type="string"
+	            table="blog"
+               />
+       <property name="url_blog"
+	            fieldName="url_blog"
+	            captioni18n="dao.blog.fields.url_blog"
+	            type="string"
+	            table="blog"
+	            />
+
+      <property name="name_bpge"
+	            fieldName="name_bpge"
+	            captioni18n="dao.blogpage.fields.name_bpge"
+	            type="string"
+	            maxlength="100"
+	            required="yes"
+	            />
+	     <property name="content_bpge"
+	            fieldName="content_bpge"
+	            captioni18n="dao.blogpage.fields.content_bpge"
+	            type="string"
+	            required="yes"
+	            />
+	     <property name="content_html_bpge"
+	            fieldName="content_html_bpge"
+	            captioni18n="dao.blogpage.fields.content_html_bpge"
+	            type="string"
+	            required="no"
+	            />
+	     <property name="format_bpge"
+	            fieldName="format_bpge"
+	            captioni18n="dao.blogpage.fields.format_bpge"
+	            type="string"
+	            required="yes"
+	            />
+	     <property name="author_bpge"
+	            fieldName="author_bpge"
+	            captioni18n="dao.blogpage.fields.author_bpge"
+	            type="string"
+	            maxlength="50"
+	            required="yes"
+	            />
+	     <property name="date_bpge"
+	            fieldName="date_bpge"
+	            captioni18n="dao.blogpage.fields.date_bpge"
+	            type="string"
+	            maxlength="8"
+	            required="yes"
+	            />	            
+	     <property name="url_bpge"
+	            fieldName="url_bpge"
+	            captioni18n="dao.blogpage.fields.url_bpge"
+	            type="string"
+	            maxlength="100"
+	            required="yes"
+	            />
+    	<property name="order_bpge"
+	            fieldName="order_bpge"
+	            captioni18n="dao.blogpage.fields.order_bpge"
+	            type="int"
+	            maxlength="10"
+	            required="yes"
+	            />
+	     <property name="is_online"
+	            fieldName="is_online"
+	            captioni18n="dao.blogpage.fields.is_online"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+							default="0"
+	            />
+  	</properties>
+</daodefinition>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="prefs" descriptioni18n="prefs.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+
+    <parameters>
+      <parameter name="mail_alert" captioni18n="prefs.parameter.mail_alert" default="0" />
+      <parameter name="avatar_path" captioni18n="prefs.parameter.avatar_path" default="static/prefs/avatar/" />
+    </parameters>
+</moduledefinition>

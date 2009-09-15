@@ -1,0 +1,447 @@
+/**
+ * Body
+ */
+body { 
+   padding: 0px; 
+   spacing: 0px;
+   margin: 0px;
+   background-image: url('../img/cork/fond.jpg');
+   background-position:center top;
+   background-color: #CCCF9A;
+   background-repeat: repeat-y;
+   font-family: arial, verdana;
+   color: #ffffff;
+   font-size: 12px;
+}
+
+#all_content {
+   /* centered content */
+   padding: 0px; 
+   spacing: 0px;
+   margin: 0px auto;
+   background-color: #635F4A;
+   filter: alpha(opacity=90);
+   -moz-opacity: 0.9;
+   opacity: 0.9;
+   width:  900px;
+   font-family: arial, verdana;
+   font-size: 12px;
+   margin-top:100px;
+}
+
+#content {
+   /* the border and background */
+   border:1px solid #000;
+   margin: 0px;
+}
+
+a {
+   color:#CCCF9A;
+   text-decoration: none;
+   font-weight: normal;
+}
+
+a:visited {
+   color:#CCCF9A;
+   text-decoration: none;
+}
+
+a:hover {
+   text-decoration: underline;
+}
+
+#main_layout {
+  padding: 0;      margin: 0px;
+  spacing: 0px;
+  background-repeat: no-repeat;
+  background-position: top right;
+}
+
+
+#COPIX_TITLE_PAGE {
+   padding: 0;
+   background-color: transparent;
+}
+p {
+   margin-top: 0px;
+   margin-bottom: 10px;
+}
+
+/**
+ * Headings
+ */
+h1 { 
+   margin-top: 5px;
+   font-weight: normal;
+   font-size: 18pt;
+   color: maroon;
+   background-repeat: no-repeat;
+   font-family: Impact;
+   background-color: #635f4a;
+   text-align: right;
+   }
+
+h2 { 
+   font-size: 14pt;
+	color: maroon;
+	font-family: Impact;
+	font-weight: normal;
+   }
+
+h3 { 
+   font-size: 14pt;
+   color: #126297;
+   text-align: left; 
+   padding-left: 15px;
+   height : 38px; 
+   font-weight: bold;
+   margin-bottom: 0px;
+   padding-bottom: 0px;
+   }
+
+/**
+ * Images
+ */
+img { 
+   border: 0px; 
+   margin: 0px; 
+   padding:0px;
+   }
+
+#Sponsors {
+   margin-top: 40px;
+}
+
+#centered_content {
+   width: 370px;
+}
+
+#COPIX_MAIN {
+   margin-right: 10px;
+   margin-top: 10px;
+   margin-left: 10px;
+}
+
+.block_content {
+   background-color: #ffffff;
+   border: 1px solid #000000;
+}
+
+#contextual_informations {
+   float: right;
+   width: 130px;
+   margin-right: 5px;
+}
+
+#contextual_informations .block_content {
+   border: 1px dashed #cc3133;
+   background: transparent;
+}
+
+th {
+   text-align: left;
+   vertical-align: top;
+}
+
+ul {
+   margin-left: 2px;
+   padding-left: 15px;
+}
+ul li {
+   list-type: none;
+   padding-left: 0px;
+}
+
+#footer {
+}
+
+/**
+ * Liste et menus
+ */
+ul.copixCMSNav li {
+   display: inline;
+   list-style-type: none;
+   line-height: 12px;
+   padding-top: 2px;
+   padding-bottom: 0px;
+   margin-left: 2px;
+   margin-bottom: 0px;
+   background-color: #4b3614;
+   color: #ffffff;
+   font-weight: normal;
+   text-align: center;
+}
+
+ul.copixCMSNav li.copixCMSNavSelected {
+   display: inline;
+   list-style-type: none;
+   line-height: 12px;
+   padding-top: 2px;
+   padding-bottom: 0px;
+   margin-left: 2px;
+   margin-bottom: 0px;
+   background-color: maroon;
+   color: #ffffff;
+   font-weight: normal;
+   text-align: center;
+}
+
+ul.copixCMSNav a:link, ul.copixCMSNav a:visited {
+   color: white;
+   text-decoration: none;
+   padding-left: 1em;
+   padding-right: 1em;
+}
+
+ul.copixCMSNav a:hover {
+   color: white;
+   text-decoration: none;
+   padding-left: 1em;
+   padding-right: 1em;
+}
+
+
+ul.copixArianeLink li:first-child {
+    margin-left: 0px;
+}
+
+ul.copixArianeLink li {
+   display: inline;
+   margin-left: 20px;
+}
+
+.copixCMSNavSelected {
+   background-color: #cc2122;
+}
+
+/**
+* Formulaires
+*/
+.copixForm {
+   margin-left:8px;
+   margin-right:8px;
+}
+
+/**
+* Table
+*/
+/* styles pour les mep des tableaux des communes, versements, etc... */
+.CopixTable {
+   width:100%;
+   border:3px solid #4b3614;
+   border-collapse:collapse;
+}
+
+.CopixTable thead {
+    background-color:#4b3614;
+}
+
+.CopixTable th.status {
+   width:15%;
+}
+
+
+.CopixTable th {
+   background-color:#4b3614;
+   height:25px;
+   font-weight: normal;
+}
+
+.CopixTable th.actions {
+   width:15%;
+}
+
+.CopixTable td {
+   height:25px;
+}
+
+.CopixTable td.detail {
+   padding-left:20px;
+}
+.CopixTable td.headingTitle {
+   background-color: #cccccc;
+   text-align: center;
+}
+
+.alternate {
+   background-color: #6C5A4A;
+}
+
+.news {
+   width:100%;
+   border:2px solid #4b3614;
+   margin-bottom:10px;
+}
+
+.news thead {
+   background-color:  #6C5A4A;
+}
+
+.news th.title {
+   background-color:  #4b3614;
+   width:85%;
+}
+
+.comment {
+   width:100%;
+   border:2px solid #4b3614;
+   margin-bottom:10px;
+}
+
+.comment th {
+   background-color:  #4b3614;
+}
+
+.comment th.title {
+   background-color:  #6C5A4A;
+}
+
+.comment td.content {
+  width:85%;
+}
+
+.comment td.actions {
+  background-color:  #6C5A4A;
+  width:20%;
+}
+
+/**
+* Vignette photothèque
+*/
+.PictureBrowser {
+   border: 1px solid #cc2122;
+}
+
+.PictureBrowser td {
+   text-align:center;
+}
+
+.PictureBrowser td.TitlePict {
+   height:35px;
+   background-color:#ffCA6B;
+   color:#818181;
+   font-family: Verdana;
+   font-size: 1em;
+}
+
+/**
+* Plan du site
+*/
+
+.SitePlan {
+   margin-top:15px;
+   margin-left:8px;
+   margin-right:8px;
+   border:3px solid #ffCA6B;
+}
+
+.SitePlan th a{
+   color:#cc2122;
+}
+
+.SitePlan th {
+   text-align:center;
+}
+
+.SitePlan td{
+   vertical-align:top;
+}
+
+/** QUICKADMIN **/
+
+.quickAdminModule {
+   margin-top:-14px;
+   padding:10px;
+   border:1px solid #003399;
+}
+#quickAdmin .copixCMSNavLink {
+   width:140px;
+   height:auto;
+   background-color: #ffCA6B;
+   display: inline;
+}
+
+#quickAdmin ul.copixCMSNav li {
+   display: inline;
+   list-style-type: none;
+   font-size: 10px;
+   line-height: 20px;
+   height: 30px;
+   font-family: Verdana, sans-serif;
+   background-color: #ffCA6B;
+	}
+
+#quickAdmin ul.copixCMSNav li.selected {
+   background-color: #cc2122;
+	}
+
+#quickAdmin ul.copixCMSNav{
+   padding:0px;
+	}
+
+#quickAdmin ul.copixCMSNav a {
+   width:140px;
+   height:auto;
+}
+
+#quickAdmin ul.copixCMSNav a:link, ul.copixCMSNav a:visited {
+   color: white;
+   text-decoration: none;
+   padding-left: 1em;
+   padding-right: 1em;
+	}
+
+#quickAdmin ul.copixCMSNav a:hover {
+   color: #003399;
+   }
+
+#quickAdmin ul.copixCMSNav li.selected a:hover {
+   color: #ffffff;
+   }
+
+#quickAdmin table.copixTable {
+   margin: 0px;
+   padding:0px;
+   border: 1px solid #cccccc;
+   width:100%;
+   border-collapse: collapse;
+	}
+
+#quickAdmin table.copixTable th {
+   color: #18207b;
+   text-align: left;
+   margin: 0px;
+   padding:0px;
+	}
+
+#quickAdmin table.copixTable td {
+   margin: 0px;
+   padding:0px;
+   border-bottom: 1px solid #cccccc;
+	}
+
+#quickAdmin table.copixTable tr {
+   border: 0px;
+	margin: 0px;
+	padding:0px;
+	}
+
+#quickAdmin table.copixTable td.headingTitle {
+   background-color: #cccccc;
+   text-align: center;
+   border: 0px;
+}
+
+#quickAdmin table.copixTable th.actions {
+   width: 100px;
+}
+
+/**
+* popupInformation
+*/
+.popupInformation {
+   background-color: #6C5A4A;
+   border:1px solid maroon;
+   padding:3px;
+   position:absolute;
+}

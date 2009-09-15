@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_album_albums" tablename="module_album_albums" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="album_id" fieldname="id" type="autoincrement" table="module_album_albums" pk="yes"/>
+		<property name="album_nom" fieldname="nom" type="string" table="module_album_albums" pk="no"/>
+		<property name="album_prefs" fieldname="prefs" type="string" table="module_album_albums" pk="no"/>
+		<property name="album_date" fieldname="date" type="date" table="module_album_albums" pk="no"/>
+		<property name="album_cle" fieldname="cle" type="string" table="module_album_albums" pk="no"/>
+		<property name="album_public" fieldname="public" type="integer" table="module_album_albums" pk="no"/>
+	</properties>
+	<methods>
+		<method name="listAlbums" type="select">
+			<order>
+				<orderitem property="album_date" way="desc" />
+			</order>
+		</method>
+	</methods>
+</daodefinition>

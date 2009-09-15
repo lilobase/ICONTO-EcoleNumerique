@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="blog" descriptioni18n="blog.description" longdescriptioni18n="blog.longdescription" />
+    </general>
+    <parameters>
+        <parameter name="logoPath" captioni18n="blog.parameter.logoPath" default="data/blog/logos/" />
+        <parameter name="nbMaxArticles" captioni18n="blog.nbMaxArticles.draw" default="20" />
+        <parameter name="cssPath" captioni18n="blog.parameter.cssPath" default="data/blog/css/" />
+        <parameter name="blogDefaultArticleOwner" captioni18n="blog.default.article.owner" default="1" />
+        <parameter name="nbRssArticles" captioni18n="blog.nbRssArticles" default="15" />
+        <parameter name="nbJsArticles" captioni18n="blog.nbJsArticles" default="5" />
+        <parameter name="blog.default.type_moderation_comments" captioni18n="blog.default.type_moderation_comments" default="POST" />
+        <parameter name="blog.default.default_format_articles" captioni18n="blog.default.default_format_articles" default="dokuwiki" />
+        <parameter name="blog.formats_articles" captioni18n="blog.formats_articles" default="wiki,dokuwiki,html,fckeditor" />
+        <parameter name="blog.default.default_is_online_article" captioni18n="blog.default.default_is_online_article" default="1" />
+        <parameter name="blog.default.default_is_online_page" captioni18n="blog.default.default_is_online_page" default="1" />
+        <parameter name="blog.default.logo_max_width" captioni18n="blog.default.logo_max_width" default="200" />
+	   </parameters>
+</moduledefinition>

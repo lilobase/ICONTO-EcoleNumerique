@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="logs" descriptioni18n="logs.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+
+    <parameters>
+    </parameters>
+</moduledefinition>

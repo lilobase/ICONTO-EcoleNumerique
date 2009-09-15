@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="fichesecoles" descriptioni18n="fichesecoles.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+
+    <parameters>
+        <parameter name="googleMapsKey" captioni18n="fichesecoles.parameter.googleMapsKey" default="" />
+        <parameter name="photoPath" captioni18n="fichesecoles.parameter.photoPath" default="data/fichesecoles/photos/" />
+        <parameter name="photoMaxWidth" captioni18n="fichesecoles.parameter.photoMaxWidth" default="230" />
+    </parameters>
+</moduledefinition>

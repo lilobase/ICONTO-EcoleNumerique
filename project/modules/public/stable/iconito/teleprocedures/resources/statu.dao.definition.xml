@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+
+ <datasource>
+   <tables>
+      <table name="statu" tablename="module_teleprocedure_statu" primary="yes" />
+   </tables>
+ </datasource>
+
+ <properties>
+  <property name="idstat"
+         pk="true"
+         required="yes"
+        type="autoincrement"
+         />
+
+  <property name="nom"
+         type="string"
+         maxlength="50"
+         required="yes"
+         />
+
+  
+
+ </properties>
+ </daodefinition>

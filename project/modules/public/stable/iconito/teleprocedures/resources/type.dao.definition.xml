@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+
+	<datasource>
+	  <tables>
+			<table name="type" tablename="module_teleprocedure_type" primary="yes" />
+	  </tables>
+	</datasource>
+
+<properties>
+	<property name="idtype"
+		pk="true"
+		required="yes"
+		type="autoincrement"
+		captioni18n="teleprocedures.type.field.idtype"
+		/>
+	
+	<property name="nom"
+		type="string"
+		maxlength="50"
+		required="yes"
+		captioni18n="teleprocedures.type.field.nom"
+		/>
+	
+	<property name="is_online"
+		type="integer"
+		required="yes"
+		captioni18n="teleprocedures.type.field.is_online"
+		/>
+	
+	<property name="teleprocedure"
+		type="integer"
+		required="yes"
+		captioni18n="teleprocedures.type.field.teleprocedure"
+		/>
+	
+	<property name="format"
+		type="string"
+		required="yes"
+		captioni18n="teleprocedures.type.field.format"
+		/>
+	
+	<property name="texte_defaut"
+		type="string"
+		captioni18n="teleprocedures.type.field.texte_defaut"
+		/>
+	
+	<property name="responsables"
+		type="string"
+		required="yes"
+		captioni18n="teleprocedures.type.field.responsables"
+		/>
+	
+	<property name="lecteurs"
+		type="string"
+		captioni18n="teleprocedures.type.field.lecteurs"
+		/>
+	
+	<property name="mail_from"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_from"
+		/>
+	<property name="mail_to"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_to"
+		/>
+	<property name="mail_cc"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_cc"
+		/>
+	<property name="mail_message"
+		type="string"
+		captioni18n="teleprocedures.type.field.mail_message"
+		/>
+	
+</properties>
+<methods>
+
+	<method name="findForTeleprocedure" type="select">
+		<parameters>
+			<parameter name="teleprocedure" />
+		</parameters>
+		<conditions>
+ 			<condition property="teleprocedure" operator="=" value="$teleprocedure" />
+ 			<condition property="is_online" operator="=" value="1" />
+		</conditions>
+		<order>
+			<orderitem property="nom" way="asc" />
+			<orderitem property="idtype" way="asc" />
+		</order>
+	</method>
+
+	<method name="findForTeleprocedureAdmin" type="select">
+		<parameters>
+			<parameter name="teleprocedure" />
+		</parameters>
+		<conditions>
+ 			<condition property="teleprocedure" operator="=" value="$teleprocedure" />
+		</conditions>
+		<order>
+			<orderitem property="nom" way="asc" />
+			<orderitem property="idtype" way="asc" />
+		</order>
+	</method>
+	
+</methods>
+
+</daodefinition>

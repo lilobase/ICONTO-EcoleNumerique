@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="carnet_messages" tablename="module_carnet_messages" primary="yes" />
+			<table name="carnet_topics" tablename="module_carnet_topics" primary="no" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE carnet_messages -->
+		<property name="id" fieldname="id" type="autoincrement" table="carnet_messages" pk="yes"/>
+		<property name="topic" fieldname="topic" type="integer" table="carnet_messages" pk="no" fkfieldname="id" fktable="carnet_topics"/>
+		<property name="eleve" fieldname="eleve" type="integer" table="carnet_messages" pk="no"/>
+		<property name="date" fieldname="date" type="date" table="carnet_messages" pk="no"/>
+		<property name="message" fieldname="message" type="string" table="carnet_messages" pk="no"/>
+		<property name="format" fieldname="format" type="string" table="carnet_messages" pk="no"/>
+		<property name="auteur" fieldname="auteur" type="integer" table="carnet_messages" pk="no"/>
+		<!-- TABLE carnet_topics -->
+		<property name="topic_id" fieldname="id" type="integer" table="carnet_topics" pk="yes"/>
+		<property name="topic_titre" fieldname="titre" type="string" table="carnet_topics" pk="no"/>
+		<property name="topic_message" fieldname="message" type="string" table="carnet_topics" pk="no"/>
+		<property name="topic_date_creation" fieldname="date_creation" type="date" table="carnet_topics" pk="no"/>
+
+	</properties>
+
+	<methods>
+	</methods>
+
+</daodefinition>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="comment" descriptioni18n="comment.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <dependencies>
+    <dependency name="parameters" kind="module"/>
+    </dependencies>
+    <parameters>
+      <parameter name="perPage" captioni18n="comment.parameter.perPage" default="10" />
+      <parameter name="textFormatList" captioni18n="comment.parameter.textFormatList" default="text;wiki" />
+      <parameter name="quickAdminPerPage" captioni18n="comment.parameter.quickAdminPerPage" default="10" />
+   </parameters>
+ <events>
+<listeners>
+ <launch>
+       <event name="addComment">
+        <params>
+           <param name="id" /><!-- the comment identifier -->
+           <param name="type" /><!-- the comment type -->
+        </params>
+       </event>
+
+ </launch>
+ <listener name="QuickAdminComment">
+  <event name="QuickAdminBrowsing" />
+ </listener>
+</listeners>
+
+</events>
+</moduledefinition>

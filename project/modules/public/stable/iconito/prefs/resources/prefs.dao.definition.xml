@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_prefs_preferences" tablename="module_prefs_preferences" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="prefs_user"   fieldname="user"   type="integer" table="module_prefs_preferences" pk="yes"/>
+		<property name="prefs_module" fieldname="module" type="string"  table="module_prefs_preferences" pk="yes"/>
+		<property name="prefs_code"   fieldname="code"   type="string"  table="module_prefs_preferences" pk="yes"/>
+		<property name="prefs_value"  fieldname="value"  type="string"  table="module_prefs_preferences" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getByUser" type="select">
+			<parameters>
+				<parameter name="user" />
+			</parameters>
+			<conditions>
+				<condition property="prefs_user" operator="=" value="$user" />
+			</conditions>
+			<order>
+				<orderitem property="prefs_module" way="asc" />
+				<orderitem property="prefs_code"   way="asc" />
+			</order>
+		</method>
+		<method name="getByUserAndModule" type="select">
+			<parameters>
+				<parameter name="user" />
+				<parameter name="module" />
+			</parameters>
+			<conditions>
+				<condition property="prefs_user"   operator="=" value="$user" />
+				<condition property="prefs_module" operator="=" value="$module" />
+			</conditions>
+			<order>
+				<orderitem property="prefs_code" way="asc" />
+			</order>
+		</method>
+	</methods>
+</daodefinition>

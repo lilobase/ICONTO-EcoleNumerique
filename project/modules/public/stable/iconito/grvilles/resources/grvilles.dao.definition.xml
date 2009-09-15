@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="grvilles" tablename="module_grvilles" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id"         fieldname="id"         type="autoincrement" table="grvilles" pk="yes"/>
+		<property name="nom"        fieldname="nom"        type="string"        table="grvilles" pk="no"/>
+		<property name="updated_at" fieldname="updated_at" type="date"          table="grvilles" pk="no"/>
+		<property name="updated_by" fieldname="updated_by" type="string"        table="grvilles" pk="no"/>
+ 	</properties>
+	<methods>
+		<!--
+		<method name="getAll" type="select">
+			<order>
+				<orderitem property="date" way="desc" />
+			</order>
+		</method>
+		-->
+	</methods>
+</daodefinition>

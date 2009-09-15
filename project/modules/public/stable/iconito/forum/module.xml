@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="forum" descriptioni18n="forum.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <parameters>
+ 	    <parameter name="list_nbtopics" captioni18n="forum.parameter.list_nbtopics" default="20" />
+ 	    <parameter name="list_nbmessages" captioni18n="forum.parameter.list_nbmessages" default="20" />
+			<parameter name="default_format" captioni18n="forum.parameter.default_format" default="dokuwiki" />
+  	</parameters>
+</moduledefinition>

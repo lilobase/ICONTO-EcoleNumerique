@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<!--
+			<table name="admin" tablename="module_admin" primary="yes"/>
+			-->
+		</tables>
+	</datasource>
+	<properties>
+		<!--
+		<property name="admin_id"    fieldname="id"    type="autoincrement" table="admin" pk="yes"/>
+		<property name="admin_date"  fieldname="date"  type="date"          table="admin" pk="no"/>
+		-->
+ 	</properties>
+	<methods>
+		<!--
+		<method name="getAll" type="select">
+			<order>
+				<orderitem property="admin_date" way="desc" />
+			</order>
+		</method>
+		-->
+	</methods>
+</daodefinition>

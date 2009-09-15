@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="forum_topics" tablename="module_forum_topics" primary="yes" />
+			<table name="forum_forums" tablename="module_forum_forums" primary="no" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TOPICS -->
+		<property name="id" fieldname="id" type="autoincrement" table="forum_topics" pk="yes"/>
+		<property name="titre" fieldname="titre" type="string" table="forum_topics" pk="no"/>
+		<property name="forum" fieldname="forum" type="integer" table="forum_topics" pk="no" fkfieldname="id" fktable="forum_forums"/>
+		<property name="date_creation" fieldname="date_creation" type="date" table="forum_topics" pk="no"/>
+		<property name="createur" fieldname="createur" type="integer" table="forum_topics" pk="no"/>
+		<property name="nb_messages" fieldname="nb_messages" type="integer" table="forum_topics" pk="no"/>
+		<property name="nb_lectures" fieldname="nb_lectures" type="integer" table="forum_topics" pk="no"/>
+		<property name="status" fieldname="status" type="integer" table="forum_topics" pk="no"/>
+		<property name="last_msg_id" fieldname="last_msg_id" type="integer" table="forum_topics" pk="no"/>
+		<property name="last_msg_auteur" fieldname="last_msg_auteur" type="integer" table="forum_topics" pk="no"/>
+		<property name="last_msg_date" fieldname="last_msg_date" type="date" table="forum_topics" pk="no"/>
+		<!-- TABLE FORUMS -->
+		<property name="forum_id" fieldname="id" type="integer" table="forum_forums" pk="yes"/>
+		<property name="forum_titre" fieldname="titre" type="string" table="forum_forums" pk="no"/>
+		<property name="forum_date_creation" fieldname="date_creation" type="date" table="forum_forums" pk="no"/>
+	</properties>
+
+	<methods>
+
+
+		<method name="getListTopicsInForumAll" type="select">
+			<parameters>
+				<parameter name="forum" />
+			</parameters>
+			<conditions>
+				<condition property="forum" operator="=" value="$forum" />
+				<condition property="status" operator="=" value="1" />
+			</conditions>
+		</method>
+
+		<method name="getListTopicsInForumOLD" type="select">
+			<parameters>
+				<parameter name="forum" />
+				<parameter name="offset" />
+				<parameter name="count" />
+			</parameters>
+			<conditions>
+				<condition property="forum" operator="=" value="$forum" />
+				<condition property="status" operator="=" value="1" />
+			</conditions>
+			<order>
+				<orderitem property="last_msg_date" way="desc" />
+			</order>
+			<limit offset="$offset" count="$count" />
+		</method>
+
+	</methods>
+</daodefinition>

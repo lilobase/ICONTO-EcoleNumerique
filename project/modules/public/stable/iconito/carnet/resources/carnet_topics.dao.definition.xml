@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="carnet_topics" tablename="module_carnet_topics" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE carnet_topics -->
+		<property name="id" fieldname="id" type="autoincrement" table="carnet_topics" pk="yes"/>
+		<property name="titre" fieldname="titre" type="string" table="carnet_topics" pk="no"/>
+		<property name="message" fieldname="message" type="string" table="carnet_topics" pk="no"/>
+		<property name="format" fieldname="format" type="string" table="carnet_topics" pk="no"/>
+		<property name="classe" fieldname="classe" type="integer" table="carnet_topics" pk="no"/>
+		<property name="createur" fieldname="createur" type="integer" table="carnet_topics" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="date" table="carnet_topics" pk="no"/>
+	</properties>
+
+	<methods>
+	</methods>
+
+</daodefinition>

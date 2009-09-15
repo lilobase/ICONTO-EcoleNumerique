@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="groupe_groupe" tablename="module_groupe_groupe" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE GROUPE -->
+		<property name="id" fieldname="id" type="autoincrement" table="groupe_groupe" pk="yes"/>
+		<property name="titre" fieldname="titre" type="string" table="groupe_groupe" pk="no"/>
+		<property name="description" fieldname="description" type="string" table="groupe_groupe" pk="no"/>
+		<property name="is_open" fieldname="is_open" type="integer" table="groupe_groupe" pk="no"/>
+		<property name="createur" fieldname="createur" type="integer" table="groupe_groupe" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="date" table="groupe_groupe" pk="no"/>
+	</properties>
+
+	<methods>
+		<method name="getListPublic" type="select">
+			<parameters>
+				<parameter name="offset" />
+				<parameter name="count" />
+			</parameters>
+			<conditions>
+				<condition property="is_open" operator="=" value="1" />
+			</conditions>
+			<order>
+				<orderitem property="date_creation" way="desc" />
+			</order>
+			<limit offset="$offset" count="$count" />
+		</method>
+
+		<method name="getListPublicAll" type="select">
+			<parameters>
+			</parameters>
+			<conditions>
+				<condition property="is_open" operator="=" value="1" />
+			</conditions>
+			<order>
+				<orderitem property="date_creation" way="desc" />
+			</order>
+		</method>
+
+		<method name="getListAll" type="select">
+			<parameters>
+			</parameters>
+			<conditions>
+			</conditions>
+			<order>
+				<orderitem property="date_creation" way="desc" />
+			</order>
+		</method>
+
+		<method name="getGroupe" type="select">
+			<parameters>
+				<parameter name="id" />
+			</parameters>
+			<conditions>
+				<condition property="id" operator="=" value="$id" />
+			</conditions>
+		</method>
+	</methods>
+
+</daodefinition>
