@@ -1,6 +1,6 @@
 
 body {
-	font-size:13px;
+	font-size:14px;
 	margin:0;
 	padding:0;
 	border:0;
@@ -8,7 +8,7 @@ body {
 	color:#111;
 }
 body, textarea {
-	font-family:Arial;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
 }
 a img {
 	border:0;
@@ -37,6 +37,36 @@ form input:focus, form select:focus, form textarea:focus {
 form input.checkbox, form input.radiobutton {
 	border:0;
 }
+
+
+
+.button_like, a.button_like:hover, a.button_like:visited {
+	border: solid 1px #508957;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 4px;
+	background: #508957;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.button_like_error, a.button_like_error:hover, a.button_like_error:visited {
+	border: solid 1px #A6330D;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 4px;
+	background: #A6330D;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+
+
 
 
 div.page {
@@ -120,6 +150,41 @@ table.head td.ecole-login-bar input.submit {
 	color: #FFF;
 	font-weight: bold;
 }
+
+/* CONTENU */
+div.content {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+div.content div.title {
+	background-image: url(../img/body-top.gif);
+	background-repeat: no-repeat;
+	font-size: 150%;
+	padding-left: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-transform: uppercase;
+}
+div.content div.options {
+	background-color: #F0F0EA;
+  background-image: url(../img/body-middle-bg.gif);
+	background-repeat: repeat-y;
+	padding: 3px;
+	padding-right: 10px;
+	font-size: 80%;
+	text-align: right;
+}
+div.content div.options A {
+	color: inherit;
+}
+div.content div.main {
+	/* height: 100%; */
+	background-color: #d9e575;
+	/*background-image: url(../img/body-main-bg.gif);*/
+	background-repeat: repeat-y;
+	padding: 15px;
+}
+
 
 
 /* PIED */

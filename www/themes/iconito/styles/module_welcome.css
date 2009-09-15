@@ -1,0 +1,123 @@
+
+table.welcome {
+	font-size:0.8em;
+}
+table.welcome td {
+	vertical-align:top;
+}
+table.welcome td.ecoles {
+
+}
+
+#welcome_ecoles {
+	width:220px;
+}
+#welcome_ecoles div.titre {
+	font-weight:bold;
+	font-size:1.3em;
+}
+
+#welcome_photos {
+	margin-bottom:10px;
+}
+#welcome_photos div.titre {
+	font-weight:bold;
+	font-size:1.3em;
+}
+#welcome_photos div.object {
+	background:#fff;
+	padding:2px;
+}
+
+#welcome_actualites {
+}
+#welcome_actualites div.titre {
+	font-weight:bold;
+	font-size:1.3em;
+}
+#welcome_actualites div.item {
+}
+#welcome_actualites div.item div.date {
+	font-size:0.9em;
+	color:#777;
+}
+#welcome_actualites div.item div.titre {
+	font-size:1.2em;
+}
+#welcome_actualites div.item div.titre a {
+}
+#welcome_actualites div.item div.chapo {
+	font-size:1.2em;
+}
+#welcome_actualites div.item div.chapo p {
+	margin:0;
+}
+#welcome_actualites div.item div.hreflib {
+}
+#welcome_actualites div.item div.hreflib a {
+}
+
+
+.cartouche {
+	background: #EDF5A9;
+	padding: 0.6em;
+	padding-top: 0;
+	padding-bottom: 1.5em;
+	margin-top: 1em;
+	margin-right: 0;
+	margin-bottom: 0.5em;
+	border: 1px solid #508957; 
+	margin: auto;
+	width:450px;
+	-moz-border-radius: 7px;
+}
+.cartouche h4 {
+	padding: 0;
+	margin: 0;
+	padding-top: 0.5em;
+}
+.cartouche p {
+	padding: 0;
+	padding-top: 0.5em;
+	padding-bottom: 0.5em;
+	margin: 0;
+}
+.cartouche button_like {
+	padding-top: 1em;
+}
+.cartouche IMG.logo {
+	float: right;
+	margin-top: 0.4em;
+}
+.cartouche span.rss {
+	font-size:1.3em;
+	font-weight:bold;
+}
+.cartouche span.rss a {
+	color: #508957; 
+}
+
+.astuce {
+	font-size: 0.9em;
+	padding: 0.5em;
+	padding-top: 0.2em;
+	padding-bottom: 0.2em;
+	margin-top: 1em;
+	margin-right: 0;
+	margin-bottom: 0.5em;
+	border: 2px solid #EDF5A9; 
+	margin: auto;
+	width:450px;
+	-moz-border-radius: 4px;
+	color:#333;
+}
+HR {
+	height: 1px;
+	background: #508957;
+	color: #508957;
+	border: 0;
+}
+.butab {
+	padding-bottom: 1em;
+	vertical-align: center;
+}
