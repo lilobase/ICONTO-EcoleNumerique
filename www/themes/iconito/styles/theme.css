@@ -1,0 +1,176 @@
+
+body {
+	font-size:13px;
+	margin:0;
+	padding:0;
+	border:0;
+	background:#fff;
+	color:#111;
+}
+body, textarea {
+	font-family:Arial;
+}
+a img {
+	border:0;
+}
+a {
+	color:#2D2A78;
+}
+a:hover {
+	color:#04570F;
+}
+
+
+
+form {
+	margin:0;
+	padding:0;
+	display:inline;
+}
+form input, form select, form textarea {
+	border: solid 1px #999;
+}
+form input:focus, form select:focus, form textarea:focus {
+	border-color:#E293CD;
+}
+
+form input.checkbox, form input.radiobutton {
+	border:0;
+}
+
+
+div.page {
+	width: 960px;
+	border: 1px solid #666;
+	margin: 3px 20px 20px 20px;
+	margin-left: auto;
+	margin-right: auto;
+	background: url(../img/page-background.gif);
+	/* padding-bottom: 400px; */
+}
+
+
+
+
+/* ENTETE */
+table.head {
+
+}
+table.head td.ecole-logo {
+	width: 175px;
+	height: 75px;
+	background: url(../img/head-iconito.gif) no-repeat center top;
+}
+table.head td.ecole-left {
+        background-image: url(../img/head-ecole-left.gif);
+        background-repeat: no-repeat;
+        width: 17px;
+				height: 40px;
+}
+table.head td.ecole-center {
+	background-image: url(../img/head-ecole-bg.gif);
+	background-repeat: repeat-x;
+	vertical-align: middle;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 12px;
+	color: #FF940A;
+	font-weight : bold;
+	padding:0;
+	margin:0;
+	height: 40px;
+	width: 72%;
+}
+
+table.head td.ecole-center a, table.head td.ecole-center a:visited {
+	text-decoration: none;
+	color: #FF940A;
+}
+table.head td.ecole-center a:hover {
+	color: #04570F;
+}
+table.head td.ecole-right {
+	background-image: url(../img/head-ecole-right.gif);
+	background-repeat: no-repeat;
+	width: 17px;
+	height: 40px;
+}
+table.head div.annu_blog {
+	width: 110px;
+	float: right;
+	font-size: 80%;
+}
+table.head td.ecole-login-bar {
+	height: 45px;
+  background-image: url(../img/head-small-bg.gif);
+  background-repeat: repeat-x;
+	vertical-align: top;
+	text-align: right;
+	padding-right: 10px;
+	font-size: 80%;
+	padding-top: 6px;
+}
+table.head td.ecole-login-bar input {
+	font-size: 90%;
+	border: solid 1px #B8C648;
+	background: #FFF;
+}
+table.head td.ecole-login-bar input.submit {
+	background: #B8C648;
+	color: #FFF;
+	font-weight: bold;
+}
+
+
+/* PIED */
+div#footer {
+  text-align: center;
+  color: #508957;
+  margin-top: -17px;
+  font-size: 70%;
+}
+div#footer a {
+  color: #508957;
+}
+
+
+/* ICONES PERSOS/COMMUN */
+
+div.icons {
+	height: 70px;
+	vertical-align: top;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+div.icons div.icobloc {
+	width:70px;
+	float: right;
+	font-size:85%;
+}
+div.icons div.icobloc a {
+	color: #222;
+}
+div.icons div.icobloc a:hover {
+	color: #508957;
+}
+div.icons div.icobloc .icoa {
+	text-decoration: none;
+	border: 0;
+}
+div.icons img.icoimg {
+	border:0;
+	text-decoration: none;
+}
+div.icons_no {
+	height: 8px;
+}
+
+
+
+
+
+
+
+
