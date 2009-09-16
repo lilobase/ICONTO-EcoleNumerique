@@ -31,9 +31,9 @@ class GroupeService {
 
 		if (1) {
 			
-			$daoGroupe = CopixDAOFactory::create("groupe");
+			$daoGroupe = _dao("groupe");
 			
-			$newGroupe = CopixDAOFactory::createRecord("groupe");
+			$newGroupe = _daoRecord("groupe");
 			$newGroupe->titre = $titre;
 			$newGroupe->description = $description;
 			$newGroupe->is_open = $is_open;
@@ -192,7 +192,7 @@ class GroupeService {
 		while (list(,$node) = each($hisModules)) {
 			//print_r($node);
 			if ($node->module_type == 'MOD_BLOG') {
-				$dao = CopixDAOFactory::create("blog|blog");
+				$dao = _dao("blog|blog");
 				$blog = $dao->get($node->module_id);
 			}
 		}

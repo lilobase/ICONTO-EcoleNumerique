@@ -19,7 +19,7 @@ class ZoneMyGroupes extends CopixZone {
 		
 		$where = $this->getParam('where',null);
 		
-		$dao = CopixDAOFactory::create("groupe");
+		$dao = _dao("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
 
@@ -67,7 +67,7 @@ class ZoneMyGroupes extends CopixZone {
 				$sql = 'SELECT id,login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='.$_SESSION["user"]->bu["id"].' AND service=\'concerto\'';
 				$concerto = $dbw->fetchAll ($sql);
 				if( $concerto ) {
-					$new_module = CopixDAOFactory::createRecord("kernel|kernel_mod_enabled");
+					$new_module = _daoRecord("kernel|kernel_mod_enabled");
 					$new_module->node_type = $_SESSION["user"]->bu["type"];
 					$new_module->node_id = $_SESSION["user"]->bu["id"];
 					$new_module->module_type = "MOD_CONCERTO";
