@@ -1,11 +1,11 @@
-<link rel="stylesheet" type="text/css" href="styles/module_aide.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_aide.css"}" />
 
 <div class="aidePage">
 {if $text}
 
 	{if $links}
 		<div class="helpLinksBloc">
-		<div class="helpLinks"><img class="lucien" src="img/iconito/lucien_coude.gif" />
+		<div class="helpLinks"><img class="lucien" src="{copixresource path="img/lucien_coude.gif"}" />
 		
 		
 		<b>{i18n key="aide.voirAussi"}</b> : 

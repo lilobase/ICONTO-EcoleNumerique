@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_malle.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
 
 {i18n key="malle.zip.intro"}
 

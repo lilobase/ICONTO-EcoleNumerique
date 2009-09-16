@@ -1,4 +1,4 @@
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_malle.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
 
 {$petitpoucet}
 

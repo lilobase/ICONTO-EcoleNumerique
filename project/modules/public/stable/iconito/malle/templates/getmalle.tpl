@@ -1,4 +1,4 @@
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_malle.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
 {literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/malle/malle.js"></SCRIPT>{/literal}
 
 
@@ -115,7 +115,7 @@
 {if $files neq null}
 	{foreach from=$files item=item}
 	<DIV CLASS="malle_file_line">{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}<DIV CLASS="malle_file_line_checked"><INPUT TYPE="checkbox" NAME="files[]" VALUE="{$item->id}"></DIV>{/if}<DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{$item->type_text}</DIV>
-	<img class="malle_file_line_img" src="img/malle/{$item->type_icon}" alt="{$item->type_text|htmlentities}" title="{$item->type_text|htmlentities}" />{if $can.file_download}<A HREF="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|htmlentities}</A>{else}{$item->nom|htmlentities}{/if}
+	<img class="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|htmlentities}" title="{$item->type_text|htmlentities}" />{if $can.file_download}<A HREF="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|htmlentities}</A>{else}{$item->nom|htmlentities}{/if}
 	</DIV>
 	{math equation="x+y" x=$tailleFiles y=$item->taille assign="tailleFiles"}
 	{/foreach}

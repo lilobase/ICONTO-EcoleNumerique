@@ -16,10 +16,10 @@
 <img src="{copixurl dest="blog|admin|logo" id_blog=$blog->id_blog}" border=0></div></A>
 {elseif $blog->parent.type}
 <A HREF="{copixurl dest="blog||" blog=$blog->url_blog}" title="{i18n key="blog.nav.accueil"}"><div class="bloglogo">
-<img src="img/blog/default-logo-{$blog->parent.type}.gif" border=0></div></A>
+<img src="{copixresource path="img/blog/default-logo-`$blog->parent.type`.gif"}" border=0></div></A>
 {/if}
 
-<H2><div style="float:right; margin-top:3px;"><a href="{copixurl dest="blog||rss" blog=$blog->url_blog}"><img src="img/blog/feed-icon-16x16.png" width="16" height="16" border="0" alt="RSS" title="RSS" /></a></div><A HREF="{copixurl dest="blog||" blog=$blog->url_blog}" title="{i18n key="blog.nav.accueil"}">{i18n key="blog.nav.accueil"}</A></H2>
+<H2><div style="float:right; margin-top:3px;"><a href="{copixurl dest="blog||rss" blog=$blog->url_blog}"><img src="{copixresource path="img/blog/feed-icon-16x16.png"}" width="16" height="16" border="0" alt="RSS" title="RSS" /></a></div><A HREF="{copixurl dest="blog||" blog=$blog->url_blog}" title="{i18n key="blog.nav.accueil"}">{i18n key="blog.nav.accueil"}</A></H2>
 {$ListPage}
 {$ListCategory}
 {$ListLink}

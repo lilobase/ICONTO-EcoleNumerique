@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" type="text/css" href="styles/module_fichesecoles.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_fichesecoles.css"}" />
 
 <div id="fichesecoles">
 
@@ -7,12 +7,12 @@
 <tr>
 <td class="pratique">
 
-<div class="photo">{if $rFiche->photo}<img src="{copixurl dest="fichesecoles||photo" photo=$rFiche->photo|urlencode}" alt="{$rFiche->photo|urlencode}" border="0" />{else}<img width="230" height="180" src="img/fichesecoles/no_photo.gif" alt="{i18n key="fichesecoles.fields.nophoto"}" title="{i18n key="fichesecoles.fields.nophoto"}" />{/if}</div>
+<div class="photo">{if $rFiche->photo}<img src="{copixurl dest="fichesecoles||photo" photo=$rFiche->photo|urlencode}" alt="{$rFiche->photo|urlencode}" border="0" />{else}<img width="230" height="180" src="{copixresource path="img/fichesecoles/no_photo.gif"}" alt="{i18n key="fichesecoles.fields.nophoto"}" title="{i18n key="fichesecoles.fields.nophoto"}" />{/if}</div>
 
 <p></p>
 <div class="fiche">{i18n key="fichesecoles.fields.adresse"}</div>
 <div>{$rEcole->num_rue} {$rEcole->num_seq} {$rEcole->adresse1} {if $rEcole->adresse2}<br/>{$rEcole->adresse2}{/if}<br/>{$rEcole->code_postal} {$rEcole->commune}
-{if $rEcole->tel}<br/><img width="11" height="9" src="img/annuaire/icon_tel.gif" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel}{/if}
+{if $rEcole->tel}<br/><img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel}{/if}
 </div>
 
 {assign var=mapWidth value="230px"}
@@ -40,7 +40,7 @@
 
 {if $rFiche->horaires}
 	<div class="horaires">
-	<img class="icon" alt="{i18n key="dao.fiches_ecoles.fields.horaires"}" title="{i18n key="dao.fiches_ecoles.fields.horaires"}" border="0" width="32" height="32" src="img/fichesecoles/icon_horaires.gif" />
+	<img class="icon" alt="{i18n key="dao.fiches_ecoles.fields.horaires"}" title="{i18n key="dao.fiches_ecoles.fields.horaires"}" border="0" width="32" height="32" src="{copixresource path="img/fichesecoles/icon_horaires.gif"}" />
 	<div class="fiche">{i18n key="dao.fiches_ecoles.fields.horaires"}</div>
 	<div>{$rFiche->horaires|nl2br}</div>
 	</div>
@@ -48,7 +48,7 @@
 
 
 <div class="classes">
-<img class="icon" alt="{i18n key="fichesecoles.fields.classes"}" title="{i18n key="fichesecoles.fields.classes"}" border="0" width="32" height="32" src="img/fichesecoles/icon_classes.gif" />
+<img class="icon" alt="{i18n key="fichesecoles.fields.classes"}" title="{i18n key="fichesecoles.fields.classes"}" border="0" width="32" height="32" src="{copixresource path="img/fichesecoles/icon_classes.gif"}" />
 <div class="fiche">{i18n key="fichesecoles.fields.classes"}</div>
 <div>
 
@@ -103,7 +103,7 @@
 	
 	<div id="ficheblogs" style="display:none;"></div>
 	
-	<img class="icon" alt="{i18n key="fichesecoles.fields.viewblogs"}" title="{i18n key="fichesecoles.fields.viewblogs"}" border="0" width="56" height="62" src="img/fichesecoles/icon_blog.gif" />
+	<img class="icon" alt="{i18n key="fichesecoles.fields.viewblogs"}" title="{i18n key="fichesecoles.fields.viewblogs"}" border="0" width="56" height="62" src="{copixresource path="img/fichesecoles/icon_blog.gif"}" />
 	<div><a href="javascript:ficheViewBlogs({$rEcole->numero});" title="{i18n key="fichesecoles.fields.viewblogs"}">{i18n key="fichesecoles.fields.viewblogs"}</a></div>
 	
 	</div>

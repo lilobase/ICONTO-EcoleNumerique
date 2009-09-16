@@ -120,7 +120,7 @@ class DBUserHandler implements ICopixUserHandler {
 			return new CopixUserLogResponse (false, null, null, null);
 		}
 
-		if (count ($results = CopixDB::getConnection ()->doQuery ('select id_dbuser, login_dbuser, password_dbuser, enabled_dbuser, type_dbuser, personnel_dbuser from dbuser where login_dbuser=:login', 
+		if (count ($results = CopixDB::getConnection ()->doQuery ('select id_dbuser, login_dbuser, password_dbuser, enabled_dbuser from dbuser where login_dbuser=:login', 
 				array ('login'=>$pParams['login'])))){
 			if ($results[0]->enabled_dbuser == 0){
 				return new CopixUserLogResponse (false, null, null, null);

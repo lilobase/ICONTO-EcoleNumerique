@@ -1,8 +1,8 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="styles/module_album.css" />
-<link rel="stylesheet" type="text/css" href="styles/iconito.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_album.css"}" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/theme.css"}" media="screen" />
 <style>
 <!--
 BODY {ldelim}
@@ -99,41 +99,41 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 <b>{i18n key="album.popup.align"}</b>
 
 <input id="align-none" type="radio" name="align" value="" checked />
-<label for="align-none"><img src="img/album/album_popup_align_none.gif" alt="{i18n key="album.popup.align_none"}" /></label>
+<label for="align-none"><img src="{copixresource path="img/album/album_popup_align_none.gif"}" alt="{i18n key="album.popup.align_none"}" /></label>
 
 <input id="align-left" type="radio" name="align" value="left" />
-<label for="align-left"><img src="img/album/album_popup_align_left.gif" alt="{i18n key="album.popup.align_left"}" /></label>
+<label for="align-left"><img src="{copixresource path="img/album/album_popup_align_left.gif"}" alt="{i18n key="album.popup.align_left"}" /></label>
 
 <input id="align-center" type="radio" name="align" value="center" />
-<label for="align-center"><img src="img/album/album_popup_align_center.gif" alt="{i18n key="album.popup.align_center"}" /></label>
+<label for="align-center"><img src="{copixresource path="img/album/album_popup_align_center.gif"}" alt="{i18n key="album.popup.align_center"}" /></label>
 
 <input id="align-right" type="radio" name="align" value="right" />
-<label for="align-right"><img src="img/album/album_popup_align_right.gif" alt="{i18n key="album.popup.align_right"}" /></label>
+<label for="align-right"><img src="{copixresource path="img/album/album_popup_align_right.gif"}" alt="{i18n key="album.popup.align_right"}" /></label>
 &nbsp;&nbsp;|&nbsp;&nbsp;
 </span>
 
 <span style="white-space: nowrap;">
 <b>{i18n key="album.popup.size"}</b>
 <input id="size-small" type="radio" name="size" value="small" checked />
-<label for="size-small"><img src="img/album/album_popup_size_s.gif" alt="{i18n key="album.popup.size_small"}" /></label>
+<label for="size-small"><img src="{copixresource path="img/album/album_popup_size_s.gif"}" alt="{i18n key="album.popup.size_small"}" /></label>
 <input id="size-medium" type="radio" name="size" value="medium" />
-<label for="size-medium"><img src="img/album/album_popup_size_m.gif" alt="{i18n key="album.popup.size_middle"}" /></label>
+<label for="size-medium"><img src="{copixresource path="img/album/album_popup_size_m.gif"}" alt="{i18n key="album.popup.size_middle"}" /></label>
 <input id="size-large" type="radio" name="size" value="large" />
-<label for="size-large"><img src="img/album/album_popup_size_l.gif" alt="{i18n key="album.popup.size_large"}" /></label>
+<label for="size-large"><img src="{copixresource path="img/album/album_popup_size_l.gif"}" alt="{i18n key="album.popup.size_large"}" /></label>
 &nbsp;&nbsp;|&nbsp;&nbsp;
 </span>
 
 <span style="white-space: nowrap;">
 <b>{i18n key="album.popup.zoom"}</b>
 <input id="zoom-yes" type="checkbox" name="zoom" value="yes" />
-<label for="zoom-yes"><img src="img/album/album_popup_zoom.gif" alt="{i18n key="album.popup.zoom_yes"}" /></label>
+<label for="zoom-yes"><img src="{copixresource path="img/album/album_popup_zoom.gif"}" alt="{i18n key="album.popup.zoom_yes"}" /></label>
 &nbsp;&nbsp;|&nbsp;&nbsp;
 </span>
 
 <span style="white-space: nowrap;">
 <b>{i18n key="album.popup.multi"}</b>
 <input id="multi-yes" type="checkbox" name="multi" value="yes" />
-<label for="multi-yes"><img src="img/album/album_popup_multi.gif" alt="{i18n key="album.popup.multi_yes"}" /></label>
+<label for="multi-yes"><img src="{copixresource path="img/album/album_popup_multi.gif"}" alt="{i18n key="album.popup.multi_yes"}" /></label>
 </span>
 
 </form>

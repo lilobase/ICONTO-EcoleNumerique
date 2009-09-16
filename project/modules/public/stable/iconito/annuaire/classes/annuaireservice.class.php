@@ -275,9 +275,8 @@ class AnnuaireService {
     */
     
     // 2e version
-   	$dbw = & CopixDbFactory::getDbWidget ();
     $sql = "SELECT PER.numero, PER.nom, PER.prenom1 FROM kernel_bu_personnel PER, kernel_bu_personnel_entite ENT WHERE PER.numero=ENT.id_per AND ENT.reference=".$ecole." AND type_ref='ECOLE' AND role=2 ORDER BY PER.nom, PER.prenom1";
-   	$list = $dbw->fetchAll ($sql);
+   	$list = _doQuery ($sql);
     foreach ($list as $r) {
       $res = array('type'=>'USER_ENS', 'id'=>$r->numero, 'login'=>NULL, 'nom'=>$r->nom, 'prenom'=>$r->prenom1);
       // A-t-il un compte ?

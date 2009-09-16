@@ -1,4 +1,4 @@
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_forum.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_forum.css"}" />
 
 			
 {if $canAddMessage eq 1}

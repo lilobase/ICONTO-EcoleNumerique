@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_aide.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_aide.css"}" />
 
 <div class="aidePage">
 

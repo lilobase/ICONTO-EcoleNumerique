@@ -1404,12 +1404,12 @@ class Kernel {
 	
 	function getMyNodes() {
 		
-		$type = $_SESSION["user"]->bu["type"];
-		$id = $_SESSION["user"]->bu["id"];
+		$bu_type = $_SESSION["user"]->bu["type"];
+		$bu_id = $_SESSION["user"]->bu["id"];
 		
-		$cache = new CopixCache ($type.'-'.$id, 'getmynodes');
+		$cache_id = 'getmynodes-'.$bu_type.'-'.$bu_id;
 		
-		if (!$toReturn = $cache->read ()) { //La donnee n’est pas en cache, on traite la demande.
+		if (!CopixCache::exists($cache_id)) { //La donnee n’est pas en cache, on traite la demande.
 		
 			//var_dump("getMyNodes / type=$type / id=$id");
 			$data = array();
@@ -1443,10 +1443,9 @@ class Kernel {
 					$i++;
 				}
 			}
-			$cache->write (serialize($data));
-			
+			CopixCache::write ($cache_id, serialize($data));
 		} else { // En cache
-			$data = unserialize($toReturn);
+			$data = unserialize(CopixCache::read($cache_id));
 		}
 		
 		return $data;

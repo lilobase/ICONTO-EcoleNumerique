@@ -1,5 +1,5 @@
 {literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/forum/forum.js"></SCRIPT>{/literal}
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_forum.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_forum.css"}" />
 
 {$petitpoucet}
 

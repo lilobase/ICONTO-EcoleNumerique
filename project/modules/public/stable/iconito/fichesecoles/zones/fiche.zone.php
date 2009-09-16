@@ -7,9 +7,8 @@
  * @subpackage Fichesecoles
  */
 
-require_once (COPIX_MODULE_PATH.'annuaire/'.COPIX_CLASSES_DIR.'annuaireservice.class.php');
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogutils.class.php');
-
+ _classInclude ('annuaire|annuaireservice');
+_classInclude ('blog|blogutils');
 
 class ZoneFiche extends CopixZone {
 
@@ -27,9 +26,9 @@ class ZoneFiche extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$rEcole = $this->params['rEcole'];
-		$rFiche = $this->params['rFiche'];
-		$isAjax = $this->params['isAjax'];
+		$rEcole = $this->getParam('rEcole');
+		$rFiche = $this->getParam('rFiche');
+		$isAjax = $this->getParam('isAjax');
 
 		$arClasses = AnnuaireService::getClassesInEcole ($rEcole->numero, array('forceCanViewEns'=>true, 'withNiveaux'=>true));
 		usort($arClasses, array("ZoneFiche", "_usortClasses"));

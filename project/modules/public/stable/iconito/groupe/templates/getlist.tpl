@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_groupe.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_groupe.css"}" />
 
 <div class="" align="right">
 

@@ -1,9 +1,9 @@
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_annuaire.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_annuaire.css"}" />
 {literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/annuaire/annuaire.js"></SCRIPT>{/literal}
 
 <div id="ecole_infos_bloc">
 
-<div><img class="coude" src="img/groupe/lucien_coude.gif" /></div>
+<div><img class="coude" src="{copixresource path="img/groupe/lucien_coude.gif"}" /></div>
 
 <div id="ecole_infos">
 
@@ -18,7 +18,7 @@
 
 </div>
 
-{if $ville.blog}<div style="text-align:right;"><a title="{$ville.blog}" href="{$ville.blog}">{i18n key="annuaire.blogVille"}</a><a href="{$ville.blog}" target="_blank"><img alt="{i18n key="public|public.openNewWindow"}" title="{i18n key="public|public.openNewWindow"}" border="0" width="12" height="12" src="img/public/open_window.png" hspace="4" /></a></div>{/if}
+{if $ville.blog}<div style="text-align:right;"><a title="{$ville.blog}" href="{$ville.blog}">{i18n key="annuaire.blogVille"}</a><a href="{$ville.blog}" target="_blank"><img alt="{i18n key="public|public.openNewWindow"}" title="{i18n key="public|public.openNewWindow"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_window.png"}" hspace="4" /></a></div>{/if}
 
 { if $agents }
 <h2>{i18n key="annuaire.agents"}</h2>
@@ -56,9 +56,9 @@
 {assign var=current_type value=$ecole.type}
 {/if}
 
-<div class="ecole_web">{if $ecole.blog}<a title="{$ecole.blog}" href="{$ecole.blog}">{i18n key="annuaire.blog"}</a><a href="{$ecole.blog}" target="_blank"><img alt="{i18n key="public|public.openNewWindow"}" title="{i18n key="public|public.openNewWindow"}" border="0" width="12" height="12" src="img/public/open_window.png" hspace="4" /></a>{/if}
+<div class="ecole_web">{if $ecole.blog}<a title="{$ecole.blog}" href="{$ecole.blog}">{i18n key="annuaire.blog"}</a><a href="{$ecole.blog}" target="_blank"><img alt="{i18n key="public|public.openNewWindow"}" title="{i18n key="public|public.openNewWindow"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_window.png"}" hspace="4" /></a>{/if}
 
-<a title="{i18n key="annuaire.fiche"}" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{i18n key="annuaire.fiche"}</a><a href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}" onClick="return ajaxFicheEcole({$ecole.id});"><img alt="{i18n key="public|public.openPopup"}" title="{i18n key="public|public.openPopup"}" border="0" width="12" height="12" src="img/public/open_popup.png" hspace="1" /></a>
+<a title="{i18n key="annuaire.fiche"}" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{i18n key="annuaire.fiche"}</a><a href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}" onClick="return ajaxFicheEcole({$ecole.id});"><img alt="{i18n key="public|public.openPopup"}" title="{i18n key="public|public.openPopup"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_popup.png"}" hspace="1" /></a>
 
 {if $ecole.web}<a target="_blank" title="{$ecole.web}" href="{$ecole.web}">{i18n key="annuaire.siteWeb"}</a>{/if}
 

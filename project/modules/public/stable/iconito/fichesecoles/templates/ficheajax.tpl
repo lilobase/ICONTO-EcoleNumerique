@@ -1,5 +1,5 @@
 <div class="HIDDEN">&nbsp;</div>
-<link rel="stylesheet" type="text/css" href="styles/module_fichesecoles.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_fichesecoles.css"}" />
 
 <div id="fichesecoles">
 
@@ -10,7 +10,7 @@
 
 <div class="fiche">{i18n key="fichesecoles.fields.adresse"}</div>
 <div>{$rEcole->num_rue} {$rEcole->num_seq} {$rEcole->adresse1} {if $rEcole->adresse2}<br/>{$rEcole->adresse2}{/if}<br/>{$rEcole->code_postal} {$rEcole->commune}
-{if $rEcole->tel}<br/><img width="11" height="9" src="img/annuaire/icon_tel.gif" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel}{/if}
+{if $rEcole->tel}<br/><img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel}{/if}
 </div>
 
 

@@ -22,7 +22,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	*/
 	function getVueSemaine (){
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/module_agenda.js');
+		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_agenda.js');
 		
 		$plugAuth  = & CopixCoordination::getPlugin ('auth|auth');
     $user      = & $plugAuth->getUser();

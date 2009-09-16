@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_groupe.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_groupe.css"}" />
 
 <DIV STYLE="float:right; padding: 2px; width: 190px;">
 
@@ -6,14 +6,14 @@
 <div class="access_concerto">
 	<div class="liens">
 	{foreach from=$concerto_data item=concerto_item}
-		<a class="lien box_M_border" target="_blank" title="{i18n key="concerto|concerto.home.go" login=$concerto_item->login}" href="{copixurl dest="concerto||go" id=$concerto_item->id}"><img border="0" width="171" height="94" src="img/concerto/go.gif" alt="{i18n key="concerto|concerto.home.go" login=$concerto_item->login}" title="{i18n key="concerto|concerto.home.go" login=$concerto_item->login}" /><br/>{i18n key="concerto|concerto.home.go" login=$concerto_item->login}</a>
+		<a class="lien box_M_border" target="_blank" title="{i18n key="concerto|concerto.home.go" login=$concerto_item->login}" href="{copixurl dest="concerto||go" id=$concerto_item->id}"><img border="0" width="171" height="94" src="{copixresource path="img/concerto/go.gif"}" alt="{i18n key="concerto|concerto.home.go" login=$concerto_item->login}" title="{i18n key="concerto|concerto.home.go" login=$concerto_item->login}" /><br/>{i18n key="concerto|concerto.home.go" login=$concerto_item->login}</a>
 	{/foreach}
 	</div>
 </div>
 {/if}
 
 
-<div style="text-align: right;"><a href="{copixurl dest="|getListMy"}" title="{i18n key="groupe.my"}"><img border="0" src="img/groupe/my_home.gif" width="180" height="37" alt="{i18n key="groupe.my"}" /></a></div>
+<div style="text-align: right;"><a href="{copixurl dest="|getListMy"}" title="{i18n key="groupe.my"}"><img border="0" src="{copixresource path="img/groupe/my_home.gif"}" width="180" height="37" alt="{i18n key="groupe.my"}" /></a></div>
 
 
 	{if $list neq null}

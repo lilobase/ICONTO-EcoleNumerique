@@ -25,7 +25,7 @@ class ActionGroupDefault extends CopixActionGroup {
    function processGetListBlogs () {
 
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/annuaire/annuaire.js');
+		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('public|public.blog.annuaire'));

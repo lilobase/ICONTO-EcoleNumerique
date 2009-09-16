@@ -1,5 +1,5 @@
 {literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/liste/liste.js"></SCRIPT>{/literal}
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_minimail.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_minimail.css"}" />
 
 <form action="{copixurl dest="liste||doMessageForm"}" method="post">
 

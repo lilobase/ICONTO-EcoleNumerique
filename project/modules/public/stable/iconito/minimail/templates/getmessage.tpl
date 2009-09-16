@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_minimail.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_minimail.css"}" />
 
 <DIV CLASS="minimail_message">
 <TABLE WIDTH="100%" BORDER=0 CELLSPACING=1 CELLPADDING=1 CLASS="minimail_message">

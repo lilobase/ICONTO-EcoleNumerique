@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<plugin name="stats" xmlns="http://copix.org/ns/plugin/1.0">
+   <version major="" minor="" status="" copixversion=""  date="" />
+   <authors>
+      <author name="Christophe Beyer" email="cbeyer@cap-tic.fr" website="http://www.cap-tic.fr" role="creator" />
+   </authors>
+   <descriptions>
+      <description lang="fr">
+         Enregistre une action effectuée à des fins statistiques
+      </description>
+   </descriptions>
+   <infos />
+</plugin>

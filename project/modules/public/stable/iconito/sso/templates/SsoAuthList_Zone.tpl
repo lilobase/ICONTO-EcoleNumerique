@@ -1,4 +1,4 @@
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_forum.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_forum.css"}" />
 
 <div style="float:right;"><a href="{copixurl dest="|getServiceNewForm" id=$id}" class="button_like">{i18n key="sso.button.addService"}</a></div>
 

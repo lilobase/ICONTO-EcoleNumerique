@@ -352,7 +352,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			}
 			
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
-			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/carnet/carnet.js');
+			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/iconito/module_carnet.js');
 
 			$tplForm = & new CopixTpl ();
 			
@@ -500,7 +500,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			//$titre = ($id) ? 'Modification du message' : 'Nouveau message';
 
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
-			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/carnet/carnet.js');
+			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/iconito/module_carnet.js');
 
 			$tpl->assign ('TITLE_PAGE', $rTopic->topic_titre);
 

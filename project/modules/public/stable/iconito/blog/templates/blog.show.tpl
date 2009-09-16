@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_blog_admin.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />
 <SCRIPT LANGUAGE="Javascript1.2" SRC="js/blog/blog.js"></SCRIPT>
 
 {if $kind=="4"} 

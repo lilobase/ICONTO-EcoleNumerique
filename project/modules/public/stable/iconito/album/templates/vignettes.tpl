@@ -1,7 +1,7 @@
 <html>
 
 <head>
-<link rel="stylesheet" type="text/css" href="styles/module_album.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_album.css"}" />
 <link rel="stylesheet" type="text/css" href="styles/iconito.css" media="screen" />
 
 {if $finish}

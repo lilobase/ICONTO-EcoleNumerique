@@ -19,7 +19,7 @@ class ZoneEditPage extends CopixZone {
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog_admin.css"));
 		
-	CopixHtmlHeader::addJSLink(CopixUrl::get().'js/blog/blog.js');
+	CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_blog.js');
 
 		$tpl = & new CopixTpl ();
 		

@@ -5,8 +5,8 @@
 
 <head>
 <title>{/literal}{i18n key="kernel|kernel.codes.mod_annuaire"}{literal}</title>
-<link href="styles/iconito.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="styles/module_annuaire.css" rel="stylesheet" type="text/css" media="screen" />
+<link href="{copixresource path="styles/iconito.css"}" rel="stylesheet" type="text/css" media="screen" />
+<link href="{copixresource path="styles/module_annuaire.css"}" rel="stylesheet" type="text/css" media="screen" />
 <link rel="SHORTCUT ICON" href="favicon.ico">
 <script type="text/javascript" language="Javascript1.2" src="js/iconito.js"></script>
 <script type="text/javascript" language="Javascript1.2" src="js/lang_{/literal}{$LANGUE}{literal}.js"></script>
@@ -34,7 +34,7 @@
 <!-- DEBUT PAGE -->
 
 
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_annuaire.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_annuaire.css" />
 {literal}<script language="Javascript1.2" SRC="js/annuaire/annuaire.js"></script>{/literal}
 
 <div id="annu_popup_filtrage">

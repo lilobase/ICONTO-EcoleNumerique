@@ -4,7 +4,7 @@
 {if $titre}<div class="titre">{$titre}</div>{/if}
 
 {*
-<img alt="{i18n key="public|public.openPopup"}" title="{i18n key="annuaire|annuaire.fiche"}" border="0" width="12" height="12" src="img/public/open_popup.png" hspace="1" />
+<img alt="{i18n key="public|public.openPopup"}" title="{i18n key="annuaire|annuaire.fiche"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_popup.png"}" hspace="1" />
 *}
 
 {assign var=i value=0}

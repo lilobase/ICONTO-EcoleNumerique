@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_malle.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
 <SCRIPT LANGUAGE="Javascript1.2" SRC="js/malle/malle.js"></SCRIPT>
 
 

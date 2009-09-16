@@ -29,7 +29,7 @@ class ActionGroupConcerto extends CopixActionGroup {
 		
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 		
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/concerto/concerto.js');
+		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_concerto.js');
 		
 		/*
 		$dbw = & CopixDbFactory::getDbWidget ();

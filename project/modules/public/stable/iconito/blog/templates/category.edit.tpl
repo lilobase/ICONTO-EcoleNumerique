@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="styles/module_blog_admin.css" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />
 
 {if $showErrors}
 <div class="errorMessage">
