@@ -9,7 +9,6 @@
  * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
  */
 
-_classInclude ('kernel|kernel');
 _classInclude ('welcome|welcome');
   
 /* 

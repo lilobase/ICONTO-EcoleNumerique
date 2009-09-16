@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="infos_valeurs" tablename="pe_infos_valeurs" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="benef_type" fieldname="benef_type" pk="yes" type="string" required="yes" captioni18n="dao.infos_valeurs.fields.benef_type" />
+		<property name="benef_id" fieldname="benef_id" pk="yes" type="integer" required="yes" captioni18n="dao.infos_valeurs.fields.benef_id" />
+		<property name="champ" fieldname="champ" pk="yes" type="integer" required="yes" captioni18n="dao.infos_valeurs.fields.champ" />
+		<property name="valeur" fieldname="valeur" pk="no" type="string" required="yes" captioni18n="dao.infos_valeurs.fields.valeur" />
+	</properties>
+</daodefinition>

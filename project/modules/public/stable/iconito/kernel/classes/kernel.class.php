@@ -993,8 +993,10 @@ class Kernel {
 			default:
 				$user_dao = CopixDAOFactory::create("kernel|kernel_bu2user");
 				$users = $user_dao->getByBUID($type,$id);
-				$users[0]->bu_type = $type;
-				$users[0]->bu_id   = $id;
+				if (count($users)) {
+					$users[0]->bu_type = $type;
+					$users[0]->bu_id   = $id;
+				}
 				break;
 		}
 		
@@ -1264,7 +1266,7 @@ class Kernel {
 			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_GRVILLES');
 			$modules[] = $mod_grvilles;
 		}
-		
+
 		reset($modules);
 		return $modules;
 	}
@@ -1283,10 +1285,9 @@ class Kernel {
 		//echo "getModParentInfo ($type,$id)";
 		$dao = CopixDAOFactory::create("kernel|kernel_mod_enabled");
 		$result = $dao->getByModule($type,$id);
-		//print_r($result);
 		//die();
 		if( count( $result ) ) {
-			$node = current( $result );
+			$node = $result[0];
 			$info = Kernel::getNodeInfo( $node->node_type, $node->node_id, false );
 			if ($info) {
 				if ($info["type"]=="CLUB")

@@ -1,0 +1,76 @@
+/* =============
+POINTAGES
+============= */
+table.resultats div.jour {
+	background: #eee;
+	border: solid 1px #eee;
+	float:left; margin:1px; width:25px; 
+	text-align:center;
+}
+table.resultats div.jour:hover {
+	background: #D58CB4;
+	font-size:1.0em;
+	font-weight: bolder;
+	color:#fff;
+}
+table.resultats div.jour a {
+	text-decoration: none;
+}	
+table.resultats div.jour_S, table.resultats div.jour_D, table.resultats div.jour_ferie {
+	background: #ddd;
+	border: solid 1px #ddd;
+	color: gray;
+}
+table.resultats div.jour_open {
+	border: solid 1px #CD7DA9;
+}
+table.resultats div.jour_qqch {
+	background:#D2BBE1;
+}
+table.resultats div.jour input {
+	border:0;
+	margin:0;
+	padding:0;
+}
+table.resultats div.dehors {
+	background: none;
+	border: solid 1px transparent;
+}
+table.resultats tr.pointTotal {
+	color:#333;
+}
+table.resultats tr.pointTotal td {
+	border-top: solid 1px #888;
+}
+table.resultats tr.bordertop td {
+	border-top: solid 1px #888;
+}
+table.resultats tr.gras td {
+	font-weight: bold;
+}
+table.resultats tr.pointTotal td div.jour {
+	background-color:#fff;
+}
+table.resultats tr.pointTotal td div.jour:hover {
+	color:#333;
+}
+
+
+table.resultats div.reservation_matin {
+	/* background: #f00; */
+	background: url(../img/reservation_centre2/reservation_matin.gif) no-repeat left top;
+}
+table.resultats div.reservation_soir {
+	/* background: #00f; */
+	background: url(../img/reservation_centre2/reservation_soir.gif) no-repeat left top;
+}
+table.resultats div.reservation_journee {
+	/* background: #f0f; */
+	background: url(../img/reservation_centre2/reservation_journee.gif) no-repeat left top;
+}
+
+
+table.resultats div.jour div.horaire {
+	font-size: 0.7em;
+	border-top: 1px solid #CCC;
+}

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="structure_type" tablename="pe_structure_type" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.structure_type.fields.id" />
+		<property name="nom" fieldname="nom" pk="no" type="string" required="yes" captioni18n="dao.structure_type.fields.nom" />
+	</properties>
+</daodefinition>

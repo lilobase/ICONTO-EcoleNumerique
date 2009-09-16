@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+
+<daodefinition version="1">
+
+	<datasource>
+
+		<tables>
+
+			<table name="sso_auth" tablename="module_sso_auth" primary="yes"/>
+			<table name="sso"      tablename="module_sso"      join="LEFT"/>
+
+		</tables>
+
+	</datasource>
+
+	<properties>
+
+		<property name="sso_auth_id"            fieldname="id"            type="autoincrement" table="sso_auth" pk="yes"/>
+
+		<property name="sso_auth_id_sso"        fieldname="id_sso"        type="integer" table="sso_auth" pk="no" fktable="sso" fkfieldname="id" />
+		<property name="sso_auth_type"          fieldname="type"          type="string" table="sso_auth" pk="no" />
+		<property name="sso_auth_url"           fieldname="url"           type="string"  table="sso_auth" pk="no" />
+
+		<property name="sso_auth_login_local"   fieldname="login_local"   type="string"  table="sso_auth" pk="no" />
+		<property name="sso_auth_login_distant" fieldname="login_distant" type="string"  table="sso_auth" pk="no" />
+		<property name="sso_auth_secret_key"    fieldname="secret_key"    type="string"  table="sso_auth" pk="no" />
+		<property name="sso_auth_date_crea"     fieldname="date_crea"     type="date"    table="sso_auth" pk="no" />
+		<property name="sso_auth_date_valid"    fieldname="date_valid"    type="date"    table="sso_auth" pk="no" />
+ 	</properties>
+
+	<methods>
+
+		<method name="findBySso" type="select">
+			<parameters>
+				<parameter name="sso_auth_id_sso" />
+			</parameters>
+			<conditions>
+				<condition property="sso_auth_id_sso" operator="=" value="$sso_auth_id_sso" />
+				<condition property="sso_auth_date_valid" operator="!=" value="NULL" />
+			</conditions>
+			<order>
+
+				<orderitem property="sso_auth_id" way="asc" />
+
+			</order>
+
+		</method>
+
+	</methods>
+
+</daodefinition>
+

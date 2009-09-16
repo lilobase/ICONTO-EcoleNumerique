@@ -24,8 +24,8 @@
 class ZoneModule extends CopixZone {
 	function _createContent (&$toReturn) {
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_stats.css');
-		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_stats.css"));
+
 		$tpl = & new CopixTpl ();
 
 		$module_type = $this->getParam('module_type');

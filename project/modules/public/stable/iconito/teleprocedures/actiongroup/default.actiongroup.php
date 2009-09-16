@@ -102,7 +102,8 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		$main = $tplListe->fetch('list.tpl');
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_teleprocedure.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
+
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
@@ -227,7 +228,8 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		$main = $tplForm->fetch('insert.tpl');
 	
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_teleprocedure.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
+
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('teleprocedures.title.newTelep'));
 		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|go', array('id'=>$rType->teleprocedure)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
@@ -284,7 +286,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		else
 			$main = $fiche.$comms.$actions;
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_teleprocedure.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
+
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
@@ -350,7 +353,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		$actions = CopixZone::process('ficheActionsDroits',array('rFiche'=>$rFiche, 'errors'=>$errors));
 		$main = $fiche.$actions;
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_teleprocedure.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
+
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<moduledefinition>
+
+    <general>
+
+        <default name="sso" descriptioni18n="sso.moduleDescription"/>
+
+        <package name="copixdivers" version="2.2" />
+
+    </general>
+
+
+
+    <parameters>
+    	<parameter name="sso_gael_url" captioni18n="sso.parameter.gael_url" default="" />
+    	<parameter name="in_encrypt_size" captioni18n="sso.parameter.in_encrypt_size" default="32" />
+    	<parameter name="in_challenge_delay" captioni18n="sso.parameter.in_challenge_delay" default="10" />
+
+    </parameters>
+
+</moduledefinition>

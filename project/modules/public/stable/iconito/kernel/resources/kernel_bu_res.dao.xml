@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_responsable" tablename="kernel_bu_responsable" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="res_numero"      fieldname="numero"      type="integer" table="kernel_bu_responsable" pk="yes"/>
+		<property name="res_nom"         fieldname="nom"         type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_nom_jf"      fieldname="nom_jf"      type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_prenom1"     fieldname="prenom1"     type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_civilite"    fieldname="civilite"    type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_id_sexe"     fieldname="id_sexe"     type="integer" table="kernel_bu_responsable" pk="no"/>
+		<property name="res_id_pcs"      fieldname="id_pcs"      type="integer" table="kernel_bu_responsable" pk="no"/>
+		<property name="res_profession"  fieldname="profession"  type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_id_fam"      fieldname="id_fam"      type="integer" table="kernel_bu_responsable" pk="no"/>
+		<property name="res_tel_dom"     fieldname="tel_dom"     type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_tel_gsm"     fieldname="tel_gsm"     type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_tel_pro"     fieldname="tel_pro"     type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_mel"         fieldname="mel"         type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_num_rue"     fieldname="num_rue"     type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_num_seq"     fieldname="num_seq"     type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_adresse1"    fieldname="adresse1"    type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_adresse2"    fieldname="adresse2"    type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_code_postal" fieldname="code_postal" type="string"  table="kernel_bu_responsable" pk="no"/>
+		<property name="res_commune"     fieldname="commune"     type="string"  table="kernel_bu_responsable" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getNom" type="select">
+			<parameters>
+				<parameter name="nom" />
+			</parameters>
+			<conditions>
+				<condition property="res_nom" operator="=" value="$nom" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>
+

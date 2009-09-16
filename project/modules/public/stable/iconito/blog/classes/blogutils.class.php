@@ -12,8 +12,9 @@
  * Class de gestion des droits utilisateur
  */
 
-require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blog.dao.class.php');
+//require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
+_classInclude ('blog|blog.dao');
+//require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blog.dao.class.php');
 
 function killBadUrlChars ($url) {
 	$result = strtolower($url); 
@@ -95,8 +96,10 @@ function BDToDateTime($date, $time, $format) {
 	function getNodeBlog ($parent_type, $parent_id) {
 		$blog = NULL;
 		$hisModules = Kernel::getModEnabled ($parent_type, $parent_id);
-		while (!$blog && list(,$node) = each($hisModules)) {
+		foreach ($hisModules as $node) {
 			//print_r($node);
+			if ($blog)
+				break;
 			if ($node->module_type == 'MOD_BLOG') {
 				$dao = CopixDAOFactory::create("blog|blog");
 				$blog = $dao->get($node->module_id);

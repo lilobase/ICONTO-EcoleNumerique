@@ -12,7 +12,7 @@
  * Class de gestion des droits utilisateur
  */
 
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogoptions.class.php');
+_classInclude ('blog|blogoptions');
 
 class user {
 	var $name;

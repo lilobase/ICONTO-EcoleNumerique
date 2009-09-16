@@ -61,8 +61,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
-
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
+		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+							
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
@@ -136,7 +137,8 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
@@ -212,7 +214,8 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
@@ -286,8 +289,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
-
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
+	
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
@@ -371,7 +375,8 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$comment->is_online = ($blog->type_moderation_comments != 'POST') ? 0 : 1;
 		$comment->authorip_bacc = $_SERVER["REMOTE_ADDR"];
 
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+
 		$tpl->assign ('blog', $blog);
 		
 		$errors = $comment->check();
@@ -529,7 +534,6 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des articles. Par defaut : 0
    */
   function getBlogJs () {
-    //CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
 		$blog = $this->getRequest('blog', null);
 		$nb = $this->getRequest('nb', null);
 		$colonnes = $this->getRequest('colonnes', null);
@@ -560,8 +564,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des pages. Par defaut : 0
    */
   function getBlogJsPages () {
-    //CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
-		$blog = $this->getRequest('blog', null);
+    $blog = $this->getRequest('blog', null);
 		$nb = $this->getRequest('nb', null);
 		$colonnes = $this->getRequest('colonnes', null);
 		$content = $this->getRequest('content', null);

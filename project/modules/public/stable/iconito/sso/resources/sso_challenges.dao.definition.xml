@@ -1,0 +1,40 @@
+<?xml version="1.0"   encoding="ISO-8859-1" ?>
+<daodefinition version="1">
+    <datasource>
+       <connection name="Select" />
+       <tables>
+          <table name="sso_challenges" tablename="kernel_sso_challenges" primary="yes" />
+       </tables>
+    </datasource>
+    
+ 		<properties>
+	    <property name="id_sso"
+	            fieldName="id_sso"
+	            captioni18n="dao.blog.fields.id_sso"
+	            pk="true"
+	            type="autoincrement"
+	            required="yes"
+	            />
+	     <property name="challenge"
+	            fieldName="challenge"
+	            captioni18n="dao.blog.fields.challenge"
+	            type="string"
+	            maxlength="50"
+	            required="yes"
+	            />
+  	</properties>
+
+
+		<methods>
+		   <method name="deleteByIdSso" type="delete">
+		      <parameters>
+		         <parameter name="id_sso" />
+		      </parameters>
+		      <conditions>
+		         <condition property="id_sso" operator="=" value="$id_sso" />
+		      </conditions>
+		   </method>
+		</methods>
+
+
+</daodefinition>

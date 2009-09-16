@@ -26,7 +26,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	*/
 	function getPrepareImport(){	
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_agenda.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		
 		$serviceAuth   = new AgendaAuth;
 		$serviceAgenda = new AgendaService;
@@ -166,7 +166,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	*/
 	function getAfterImport(){
 	
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_agenda.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 	
 		//récupération de la liste des agendas en bdd (pour l'affichage du menu)
 		$serviceAgenda = new AgendaService;
@@ -198,7 +198,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* appelle les zones agendamenu et agendaexport
 	*/
 	function getPrepareExport(){	
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_agenda.css');
+
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		
 		$serviceAuth   = new AgendaAuth;		
 		$serviceAgenda = new AgendaService;

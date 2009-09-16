@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="commission2demande" tablename="pe_commission2demande" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="commission" fieldname="commission" pk="yes" type="integer" required="yes" captioni18n="dao.commission2demande.fields.commission" />
+		<property name="demande" fieldname="demande" pk="yes" type="integer" required="yes" captioni18n="dao.commission2demande.fields.demande" />
+		<property name="decision" fieldname="decision" pk="no" type="integer" required="yes" captioni18n="dao.commission2demande.fields.decision" />
+		<property name="motif" fieldname="motif" pk="no" type="string" required="no" captioni18n="dao.commission2demande.fields.motif" />
+		<property name="auteur" fieldname="auteur" pk="no" type="string" required="no" captioni18n="dao.commission2demande.fields.auteur" />
+		<property name="date" fieldname="date" pk="no" type="string" required="no" captioni18n="dao.commission2demande.fields.date" />
+	</properties>
+</daodefinition>

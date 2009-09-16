@@ -1,0 +1,64 @@
+
+
+A.forum_topic {
+	color: #134F14;
+	font-size: 14px;
+	font-weight: bold;
+}
+A.forum_topic:hover {
+	color: #FFFFFF;
+	background-color: #134F14;
+}
+
+
+/* Détail d'un message */
+DIV.forum_message {
+	margin-top: 15px;
+	width: 97%;
+	background-color: #FFFFFF;
+	font-size: 12px;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	khtml-border-radius: 6px;
+}
+DIV.forum_message_message {
+	margin: 2px;
+}
+
+.forum_message_message BLOCKQUOTE {
+	font-style: italic;
+	border-left: solid 2px #508957;
+	padding-left: 6px;
+}
+
+
+DIV.forum_message_infos {
+	background-color: #DDDDDD;
+	text-align: left;
+	font-size: 13px;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	khtml-border-radius: 6px;
+	padding: 3px;
+	font-weight: bold;
+	border-bottom: solid 1px #CCCCCC;
+}
+DIV.forum_message_actions {
+	background-color: #EEEEEE;
+	text-align: right;
+	font-size: 11px;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	khtml-border-radius: 6px;
+	color: #DDDDDD;
+	padding: 1px;
+  clear: both;
+}
+
+
+
+DIV.forum_petit_poucet {
+	font-size: 11px;
+	margin: 3px 5px 10px 5px;
+}
+

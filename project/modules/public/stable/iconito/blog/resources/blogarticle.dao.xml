@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+    <datasource>
+       <tables>
+          <table name="blogarticle" tablename="module_blog_article" primary="yes" />
+          <table name="blog" tablename="module_blog" join="left" />
+       </tables>
+    </datasource>
+ 		<properties>
+	    <property name="id_bact"
+	            fieldName="id_bact"
+	            captioni18n="dao.blogarticle.fields.id_bact"
+	            pk="true"
+	            type="autoincrement"
+	            required="yes"
+	            />
+    	<property name="id_blog"
+	            fieldName="id_blog"
+	            captioni18n="dao.blog.fields.id_blog"
+	            type="int"
+	            maxlength="20"
+	            required="yes"
+	            fkTable="blog"
+               fkFieldName="id_blog"
+	            />
+       <property name="name_blog"
+	            fieldName="name_blog"
+	            captioni18n="dao.blog.fields.name_blog"
+	            type="string"
+	            table="blog"
+	            />
+       <property name="url_blog"
+	            fieldName="url_blog"
+	            captioni18n="dao.blog.fields.url_blog"
+	            type="string"
+	            table="blog"
+	            />
+       <property name="name_bact"
+	            fieldName="name_bact"
+	            captioni18n="dao.blogarticle.fields.name_bact"
+	            type="string"
+	            maxlength="100"
+	            required="yes"
+	            />
+	     <property name="sumary_bact"
+	            fieldName="sumary_bact"
+	            captioni18n="dao.blogarticle.fields.sumary_bact"
+	            type="string"
+	            required="no"
+	            />
+	     <property name="sumary_html_bact"
+	            fieldName="sumary_html_bact"
+	            captioni18n="dao.blogarticle.fields.sumary_html_bact"
+	            type="string"
+	            required="no"
+	            />
+	     <property name="content_bact"
+	            fieldName="content_bact"
+	            captioni18n="dao.blogarticle.fields.content_bact"
+	            type="string"
+	            required="no"
+	            />
+	     <property name="content_html_bact"
+	            fieldName="content_html_bact"
+	            captioni18n="dao.blogarticle.fields.content_html_bact"
+	            type="string"
+	            required="no"
+	            />
+	     <property name="format_bact"
+	            fieldName="format_bact"
+	            captioni18n="dao.blogarticle.fields.format_bact"
+	            type="string"
+	            required="yes"
+	            />
+	     <property name="author_bact"
+	            fieldName="author_bact"
+	            captioni18n="dao.blogarticle.fields.author_bact"
+	            type="string"
+	            maxlength="50"
+	            required="yes"
+	            />
+	     <property name="date_bact"
+	            fieldName="date_bact"
+	            captioni18n="dao.blogarticle.fields.date_bact"
+	            type="string"
+	            maxlength="8"
+	            required="yes"
+	            />	            
+	     <property name="time_bact"
+	            fieldName="time_bact"
+	            captioni18n="dao.blogarticle.fields.time_bact"
+	            type="string"
+	            maxlength="5"
+	            required="yes"
+	            />	            
+	     <property name="url_bact"
+	            fieldName="url_bact"
+	            captioni18n="dao.blogarticle.fields.url_bacg"
+	            type="string"
+	            maxlength="100"
+	            required="no"
+	            />
+	     <property name="sticky_bact"
+	            fieldName="sticky_bact"
+	            captioni18n="dao.blogarticle.fields.sticky_bact"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+	     <property name="is_online"
+	            fieldName="is_online"
+	            captioni18n="dao.blogarticle.fields.is_online"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+							default="0"
+	            />
+  	</properties>
+<methods>
+	<method name="findByCritere" type="select">
+		<parameters>
+			<parameter name="id_blog" />
+			<parameter name="word" />
+		</parameters>
+		<conditions>
+			<condition property="id_blog" operator="=" value="$id_blog" />
+			<condition property="is_online" operator="=" value="1" />
+			<conditions logic="OR">
+				<condition property="name_bact" operator=" like " value="$word" />
+				<condition property="sumary_bact" operator=" like " value="$word" />
+				<condition property="content_bact" operator=" like " value="$word" />
+			</conditions>
+		</conditions>
+		<order>
+			<orderitem property="date_bact" way="desc" />
+			<orderitem property="time_bact" way="desc" />
+			<orderitem property="id_bact" way="desc" />
+		</order>
+	</method>
+</methods>
+
+</daodefinition>

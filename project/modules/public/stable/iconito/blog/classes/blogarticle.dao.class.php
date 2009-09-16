@@ -118,7 +118,7 @@ class DAOBlogArticle {
     * Get all article from a blog
     */
 	function getAllArticlesFromBlog ($id_blog, $date=null) {
-		$sp = & CopixDAOFactory::createSearchConditions ();
+		$sp = _daoSp ();
 		$sp->addCondition ('id_blog', '=', $id_blog);
 		$sp->addCondition ('is_online', '=', 1);
 	        if($date!=null) {

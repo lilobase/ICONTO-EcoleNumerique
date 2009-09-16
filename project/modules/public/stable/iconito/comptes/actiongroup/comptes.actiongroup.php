@@ -41,7 +41,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	 */
 	function getNode () {
 		
-    CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_comptes.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
+
 		$tpl = & new CopixTpl ();
 		$tplGetNode = & new CopixTpl ();
 		
@@ -701,7 +702,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_comptes.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
 		$tpl = & new CopixTpl ();
 		$tplGetUserExt = & new CopixTpl ();
@@ -742,7 +743,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_comptes.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
 		$errors=array();
 		$tpl = & new CopixTpl ();

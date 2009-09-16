@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_personnel_entite" tablename="kernel_bu_personnel_entite" primary="yes"/>
+			<table name="kernel_bu_personnel" tablename="kernel_bu_personnel" join="INNER"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE kernel_bu_personnel_entite -->
+		<property name="pers_entite_id_per"    fieldname="id_per"    type="integer" table="kernel_bu_personnel_entite" pk="yes" fktable="kernel_bu_personnel" fkfieldname="numero"/>
+		<property name="pers_entite_reference" fieldname="reference" type="integer" table="kernel_bu_personnel_entite" pk="no"/>
+		<property name="pers_entite_type_ref"  fieldname="type_ref"  type="string"  table="kernel_bu_personnel_entite" pk="no"/>
+		<property name="pers_entite_role"      fieldname="role"      type="integer" table="kernel_bu_personnel_entite" pk="no"/>
+		<!-- TABLE kernel_bu_personnel -->
+		<property name="pers_numero" fieldname="numero" type="integer" table="kernel_bu_personnel" pk="yes"/>
+		<property name="pers_nom" fieldname="nom" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_nom_jf" fieldname="nom_jf" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_prenom1" fieldname="prenom1" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_civilite" fieldname="civilite" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_id_sexe" fieldname="id_sexe" type="integer" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_cle_privee" fieldname="cle_privee" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_profession" fieldname="profession" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_tel_dom" fieldname="tel_dom" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_tel_gsm" fieldname="tel_gsm" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_tel_pro" fieldname="tel_pro" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_mel" fieldname="mel" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_num_rue" fieldname="num_rue" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_num_seq" fieldname="num_seq" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_adresse1" fieldname="adresse1" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_adresse2" fieldname="adresse2" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_code_postal" fieldname="code_postal" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_commune" fieldname="commune" type="string" table="kernel_bu_personnel" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getByRef" type="select">
+			<parameters>
+				<parameter name="ref_type" />
+				<parameter name="ref_id" />
+			</parameters>
+			<conditions>
+				<condition property="pers_entite_reference" operator="=" value="$ref_id"   />
+				<condition property="pers_entite_type_ref"  operator="=" value="$ref_type" />
+			</conditions>
+		</method>
+		<method name="getById" type="select">
+			<parameters>
+				<parameter name="id" />
+			</parameters>
+			<conditions>
+				<condition property="pers_entite_id_per" operator="=" value="$id"   />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

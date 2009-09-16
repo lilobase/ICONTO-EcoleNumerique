@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="eleve" tablename="eleve" primary="yes" />
+			<table name="sexe" tablename="sexe" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="idEleve" pk="yes" type="autoincrement" required="yes" captioni18n="dao.eleve.fields.idEleve" />
+		<property name="nom" fieldname="nom" pk="no" type="string" required="yes" captioni18n="dao.eleve.fields.nom" />
+		<property name="nom_jf" fieldname="nom_jf" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.nom_jf" />
+		<property name="prenom" fieldname="prenom1" pk="no" type="string" required="yes" captioni18n="dao.eleve.fields.prenom1" />
+		<property name="prenom2" fieldname="prenom2" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.prenom2" />
+		<property name="prenom3" fieldname="prenom3" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.prenom3" />
+		<property name="civilite" fieldname="civilite" pk="no" type="string" required="yes" captioni18n="dao.eleve.fields.civilite" />
+		<property name="id_sexe" fieldname="id_sexe" pk="no" type="integer" required="yes" captioni18n="dao.eleve.fields.id_sexe" fktable="sexe" fkfieldname="id_s" />
+		<property name="pays_nais" fieldname="pays_nais" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.pays_nais" />
+		<property name="dep_nais" fieldname="dep_nais" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.dep_nais" />
+		<property name="com_nais" fieldname="com_nais" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.com_nais" />
+		<property name="date_nais" fieldname="date_nais" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.date_nais" />
+		<property name="num_rue" fieldname="num_rue" pk="no" type="string" required="yes" captioni18n="dao.eleve.fields.num_rue" />
+		<property name="num_seq" fieldname="num_seq" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.num_seq" />
+		<property name="adresse1" fieldname="adresse1" pk="no" type="string" required="yes" captioni18n="dao.eleve.fields.adresse1" />
+		<property name="adresse2" fieldname="adresse2" pk="no" type="string" required="no" captioni18n="dao.eleve.fields.adresse2" />
+		<property name="code_postal" fieldname="code_postal" pk="no" type="string" required="yes" captioni18n="dao.eleve.fields.code_postal" />
+		<property name="commune" fieldname="commune" pk="no" type="string" required="yes" captioni18n="dao.eleve.fields.commune" />
+		<property name="pays" fieldname="pays" pk="no" type="integer" required="yes" captioni18n="dao.eleve.fields.pays" />
+		
+		<property name="sexe_id" fieldname="id_s" type="autoincrement" table="sexe" pk="true" />
+		<property name="sexe_nom" fieldname="sexe" type="string" table="sexe" />
+		<property name="sexe_abrev" fieldname="s_abrev" type="string" table="sexe" />
+
+	</properties>
+</daodefinition>

@@ -1,0 +1,45 @@
+<?xml version="1.0"   encoding="ISO-8859-1" ?>
+<daodefinition version="1">
+    <datasource>
+       <tables>
+          <table name="blogarticlecategory" tablename="module_blog_articlecategory" primary="yes" />
+       </tables>
+    </datasource>
+ 		<properties>
+	    <property name="id_bacg"
+	            fieldName="id_bacg"
+	            captioni18n="dao.blogarticlecategory.fields.id_bacg"
+	            pk="true"
+	            type="autoincrement"
+	            required="yes"
+	            />
+    	<property name="id_blog"
+	            fieldName="id_blog"
+	            captioni18n="dao.blog.fields.id_blog"
+	            type="int"
+	            maxlength="20"
+	            required="yes"
+	            />
+    	<property name="order_bacg"
+	            fieldName="order_bacg"
+	            captioni18n="dao.blogarticlecategory.fields.order_bacg"
+	            type="int"
+	            maxlength="10"
+	            required="yes"
+	            />
+	     <property name="name_bacg"
+	            fieldName="name_bacg"
+	            captioni18n="dao.blogarticlecategory.fields.name_bacg"
+	            type="string"
+	            maxlength="100"
+	            required="yes"
+	            />
+	     <property name="url_bacg"
+	            fieldName="url_bacg"
+	            captioni18n="dao.blogarticlecategory.fields.url_bacg"
+	            type="string"
+	            maxlength="100"
+	            required="yes"
+	            />
+  	</properties>
+</daodefinition>

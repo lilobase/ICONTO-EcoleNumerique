@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moduledefinition>
+	<general>
+		<default name="facturation" description="Facturation" longdescription="Facturation" />
+ 	</general>
+	<parameters>
+	</parameters>
+</moduledefinition>

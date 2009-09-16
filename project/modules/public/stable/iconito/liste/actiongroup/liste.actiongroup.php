@@ -46,8 +46,8 @@ class ActionGroupListe extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('liste||')));
 		} else {
       
-      CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_liste.css');
-      
+     	CopixHTMLHeader::addCSSLink (_resource("styles/module_liste.css")); 
+
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $liste->parent["nom"]);
 			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('liste|liste.homeLinkMsgSend').'</a> :: <a href="'.CopixUrl::get (''.$liste->parent["module"].'||go', array("id"=>$liste->parent["id"])).'">'.CopixI18N::get ('liste|liste.backParent').'</a>');

@@ -44,7 +44,8 @@ class ActionGroupMagicmail extends CopixActionGroup {
 		if( isset( $this->vars["return"] ) )
 		$tplForm->assign ('return', $this->vars["return"]);
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_prefs.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
+
 		$tplForm->assign ('msg', array(
 			'type'  => 'ok',
 			'image_url' => 'img/iconito/prefs/smiley_black.png',

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_conf_uservisibility" tablename="kernel_conf_uservisibility" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="src"        fieldname="src"        type="string" table="kernel_conf_uservisibility" pk="yes"/>
+		<property name="dst"        fieldname="dst"        type="string" table="kernel_conf_uservisibility" pk="yes"/>
+		<property name="visibility" fieldname="visibility" type="string" table="kernel_conf_uservisibility" pk="no"/>
+ 	</properties>
+ 	<methods>
+		<method name="getBySrc" type="select">
+			<parameters>
+				<parameter name="src" />
+			</parameters>
+			<conditions>
+				<condition property="src" operator="=" value="$src" />
+			</conditions>
+		</method>
+		<method name="getByDst" type="select">
+			<parameters>
+				<parameter name="dst" />
+			</parameters>
+			<conditions>
+				<condition property="dst" operator="=" value="$dst" />
+			</conditions>
+		</method>
+		<method name="getBySrcAndDst" type="select">
+			<parameters>
+				<parameter name="src" />
+				<parameter name="dst" />
+			</parameters>
+			<conditions>
+				<condition property="src" operator="=" value="$src" />
+				<condition property="dst" operator="=" value="$dst" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

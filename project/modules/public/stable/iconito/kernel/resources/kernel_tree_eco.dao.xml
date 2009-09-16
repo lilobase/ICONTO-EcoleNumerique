@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_ecole" tablename="kernel_bu_ecole" primary="yes"/>
+			<table name="kernel_bu_ville" tablename="kernel_bu_ville" join="LEFT"/>
+		</tables>
+	</datasource>
+
+	<properties>
+		<!-- Ecoles -->
+		<property name="eco_numero"   fieldname="numero"   type="integer" table="kernel_bu_ecole" pk="yes"/>
+		<property name="eco_type"     fieldname="type"     type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_nom"      fieldname="nom"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_num_rue"  fieldname="num_rue"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_num_seq"  fieldname="num_seq"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_adresse1"  fieldname="adresse1"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_adresse2"  fieldname="adresse2"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_code_postal"  fieldname="code_postal"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_commune"  fieldname="commune"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_tel"  fieldname="tel"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_web"  fieldname="web"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_mail"  fieldname="mail"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_id_ville" fieldname="id_ville" type="integer" table="kernel_bu_ecole" pk="no" fktable="kernel_bu_ville" fkfieldname="id_vi"/>
+
+		<!-- Villes -->
+		<property name="vil_id_vi"         fieldname="id_vi"         type="integer" table="kernel_bu_ville" pk="yes"/>
+		<property name="vil_nom"           fieldname="nom"           type="string"  table="kernel_bu_ville" pk="no"/>
+		<property name="vil_canon"         fieldname="canon"         type="string"  table="kernel_bu_ville" pk="no"/>
+		<property name="vil_id_grville"    fieldname="id_grville"    type="integer" table="kernel_bu_ville" pk="no"/>
+		<property name="vil_date_creation" fieldname="date_creation" type="date"    table="kernel_bu_ville" pk="no"/>
+	</properties>
+
+	<methods>
+		<method name="getByVille" type="select">
+			<parameters>
+				<parameter name="vil" />
+			</parameters>
+			<conditions>
+				<condition property="eco_id_ville" operator="=" value="$vil" />
+			</conditions>
+		</method>
+	</methods>
+
+</daodefinition>

@@ -17,7 +17,7 @@ class ZoneEditArticle extends CopixZone {
 		//Getting the user.
 		//Create Services, and DAO
 
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog_admin.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog_admin.css"));	
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/blog/blog.js');
 
 		$tpl = & new CopixTpl ();

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_nodes" tablename="kernel_nodes" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="nodes_node_class"   fieldname="node_class"   type="string"  table="kernel_nodes" pk="yes"/>
+		<property name="nodes_node_ref"     fieldname="node_ref"     type="integer" table="kernel_nodes" pk="yes"/>
+		<property name="nodes_parent_class" fieldname="parent_class" type="string"  table="kernel_nodes" pk="yes"/>
+		<property name="nodes_parent_ref"   fieldname="parent_ref"   type="integer" table="kernel_nodes" pk="yes"/>
+ 	</properties>
+	<methods>
+		<method name="getParent" type="select">
+			<parameters>
+				<parameter name="node_class" />
+				<parameter name="node_ref"   />
+			</parameters>
+			<conditions>
+				<condition property="nodes_node_class" operator="=" value="$node_class" />
+				<condition property="nodes_node_ref"   operator="=" value="$node_ref"   />
+			</conditions>
+		</method>
+		<method name="getChilds" type="select">
+			<parameters>
+				<parameter name="node_class" />
+				<parameter name="node_ref"   />
+			</parameters>
+			<conditions>
+				<condition property="nodes_parent_class" operator="=" value="$node_class" />
+				<condition property="nodes_parent_ref"   operator="=" value="$node_ref"   />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

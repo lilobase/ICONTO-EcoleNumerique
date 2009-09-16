@@ -96,7 +96,8 @@ class ActionGroupLecon extends CopixActionGroup {
 	*/
 	function getEdit (){
 	  
-    CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_agenda.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
+
     require_once (COPIX_UTILS_PATH.'CopixDateTime.class.php');
 
 		$serviceAuth   = new AgendaAuth;

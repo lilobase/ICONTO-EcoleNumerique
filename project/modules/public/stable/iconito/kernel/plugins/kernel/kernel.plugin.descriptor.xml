@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<plugin name="kernel">
+   <version major="" minor="" status="" copixversion=""  date="" />
+   <authors>
+      <author name="Frederic Mossmann" email="fmossmann@cap-tic.fr" website="http://www.cap-tic.fr" role="creator" />
+   </authors>
+   <description></description>
+   <infos />
+</plugin>

@@ -21,7 +21,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	* Fonction qui prépare l'affichage de la vue semaine
 	*/
 	function getVueSemaine (){
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_agenda.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/module_agenda.js');
 		
 		$plugAuth  = & CopixCoordination::getPlugin ('auth|auth');
@@ -150,7 +150,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	function getZoneToday (){
 		
 		//require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'zonetodayparams.class.php');	
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_agenda.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		
 		$agendaService  = new AgendaService;
 		

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_link_user2node" tablename="kernel_link_user2node" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="user_type" fieldname="user_type" type="string"  table="kernel_link_user2node" pk="yes" />
+		<property name="user_id"   fieldname="user_id"   type="integer" table="kernel_link_user2node" pk="yes"/>
+		<property name="node_type" fieldname="node_type" type="string"  table="kernel_link_user2node" pk="yes" />
+		<property name="node_id"   fieldname="node_id"   type="integer" table="kernel_link_user2node" pk="yes" />
+		<property name="droit"     fieldname="droit"     type="integer" table="kernel_link_user2node" pk="no" />
+		<property name="debut"     fieldname="debut"     type="string" table="kernel_link_user2node" pk="no" />
+		<property name="fin"     fieldname="fin"         type="string" table="kernel_link_user2node" pk="no" />
+	</properties>
+	<methods>
+		<method name="getByUser" type="select">
+			<parameters>
+				<parameter name="user_type" />
+				<parameter name="user_id"   />
+			</parameters>
+			<conditions>
+				<condition property="user_type" operator="=" value="$user_type" />
+				<condition property="user_id"   operator="=" value="$user_id"   />
+			</conditions>
+		</method>
+		<method name="getByNode" type="select">
+			<parameters>
+				<parameter name="node_type" />
+				<parameter name="node_id"   />
+			</parameters>
+			<conditions>
+				<condition property="node_type" operator="=" value="$node_type" />
+				<condition property="node_id"   operator="=" value="$node_id"   />
+			</conditions>
+		</method>
+		<method name="getByUserAndNodeType" type="select">
+			<parameters>
+				<parameter name="user_type" />
+				<parameter name="user_id"   />
+				<parameter name="node_type" />
+			</parameters>
+			<conditions>
+				<condition property="user_type" operator="=" value="$user_type" />
+				<condition property="user_id"   operator="=" value="$user_id"   />
+				<condition property="node_type" operator="=" value="$node_type" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

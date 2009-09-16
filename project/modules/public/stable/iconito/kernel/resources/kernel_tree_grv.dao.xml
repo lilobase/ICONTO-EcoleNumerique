@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_groupe_villes" tablename="kernel_bu_groupe_villes" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- Groupes de villes -->
+		<property name="grv_id_grv"        fieldname="id_grv"        type="integer" table="kernel_bu_groupe_villes" pk="yes"/>
+		<property name="grv_nom_groupe"    fieldname="nom_groupe"    type="string"  table="kernel_bu_groupe_villes" pk="no"/>
+		<property name="grv_date_creation" fieldname="date_creation" type="date"    table="kernel_bu_groupe_villes" pk="no"/>
+	</properties>
+</daodefinition>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_ecole_classe" tablename="kernel_bu_ecole_classe" primary="yes"/>
+			<table name="kernel_bu_ecole" tablename="kernel_bu_ecole"/>
+			<table name="kernel_bu_ecole_classe_niveau" tablename="kernel_bu_ecole_classe_niveau"/>
+			<table name="kernel_bu_annee_scolaire" tablename="kernel_bu_annee_scolaire"/>
+		</tables>
+	</datasource>
+
+	<properties>
+		<!-- Classes -->
+		<property name="cla_id"    fieldname="id"    type="integer" table="kernel_bu_ecole_classe" pk="yes" fktable="kernel_bu_ecole_classe_niveau" fkfieldname="classe"/>
+		<property name="cla_ecole" fieldname="ecole" type="integer" table="kernel_bu_ecole_classe" pk="no" fktable="kernel_bu_ecole" fkfieldname="numero"/>
+		<property name="cla_nom"   fieldname="nom"   type="string"  table="kernel_bu_ecole_classe" pk="no"/>
+		<property name="cla_annee_scol"   fieldname="annee_scol"   type="integer"  table="kernel_bu_ecole_classe" pk="no" fktable="kernel_bu_annee_scolaire" fkfieldname="id_as"/>
+		<property name="cla_is_validee"   fieldname="is_validee"   type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
+		<property name="cla_is_supprimee" fieldname="is_supprimee" type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
+
+		<!-- Ecoles -->
+		<property name="eco_numero"   fieldname="numero"   type="integer" table="kernel_bu_ecole" pk="yes"/>
+		<property name="eco_type"     fieldname="type"     type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_nom"      fieldname="nom"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="eco_id_ville" fieldname="id_ville" type="integer" table="kernel_bu_ecole" pk="no"/>
+		
+		<!-- Annees scolaires -->
+		<property name="annee_id_as"   fieldname="id_as"   type="integer" table="kernel_bu_annee_scolaire" pk="yes"/>
+		<property name="annee_current"     fieldname="current"     type="integer"  table="kernel_bu_annee_scolaire" pk="no"/>
+
+		<!-- Niveaux de classe -->
+		<property name="niv_classe" fieldname="classe" type="integer" table="kernel_bu_ecole_classe_niveau" pk="yes"/>
+		<property name="niv_niveau" fieldname="niveau" type="integer" table="kernel_bu_ecole_classe_niveau" pk="no"/>
+		<property name="niv_type"   fieldname="type"   type="integer" table="kernel_bu_ecole_classe_niveau" pk="no"/>
+	</properties>
+
+	<methods>
+		<method name="getByEcole" type="select">
+			<parameters>
+				<parameter name="eco" />
+			</parameters>
+			<conditions>
+				<condition property="cla_ecole" operator="=" value="$eco" />
+				<condition property="cla_is_validee" operator="=" value="1" />
+				<condition property="cla_is_supprimee" operator="=" value="0" />
+			</conditions>
+		</method>
+	</methods>
+
+</daodefinition>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="demande_historique_etat" tablename="pe_demande_historique_etat" primary="yes" />
+			<table name="demande_etat" tablename="pe_demande_etat" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.demande_historique_etat.fields.id" />
+		<property name="demande" fieldname="demande" pk="no" type="integer" required="yes" captioni18n="dao.demande_historique_etat.fields.demande" />
+		<property name="etat" fieldname="etat" pk="no" type="integer" required="yes" captioni18n="dao.demande_historique_etat.fields.etat" fktable="demande_etat" fkfieldname="id" />
+		<property name="date" fieldname="date" pk="no" type="string" required="yes" captioni18n="dao.demande_historique_etat.fields.date" />
+		<property name="auteur" fieldname="auteur" pk="no" type="string" required="yes" captioni18n="dao.demande_historique_etat.fields.auteur" />
+		
+		<property name="demande_etat_nom" fieldname="nom" pk="no" type="string" required="yes" table="demande_etat" captioni18n="dao.demande_etat.fields.nom" />
+		
+	</properties>
+	
+	<methods>
+		<method name="findByDemande" type="select">
+			<parameters>
+				<parameter name="demande" />
+			</parameters>
+			<conditions>
+				<condition property="demande" operator="=" value="$demande" />
+			</conditions>
+			<order>
+				<orderitem property="date" way="desc" />
+			</order>
+		</method>
+	</methods>
+	
+	
+</daodefinition>

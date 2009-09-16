@@ -1,7 +1,7 @@
 <?php
 
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogutils.class.php');
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogauth.class.php');
+_classInclude ('blog|blogutils');
+_classInclude ('blog|blogauth');
 require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.blog_format_article.php');
 require_once (COPIX_UTILS_PATH.'../../smarty/plugins/shared.make_timestamp.php');
 
@@ -95,6 +95,7 @@ class KernelBlog {
 	*/
 	function getStats ($id_blog) {
 		$dao = CopixDAOFactory::create('blog|blogarticle');
+		//var_dump($dao);
 		$res = array();	
 		$arData = $dao->getAllArticlesFromBlog($id_blog, NULL);
 		$nbArticles = count($arData);

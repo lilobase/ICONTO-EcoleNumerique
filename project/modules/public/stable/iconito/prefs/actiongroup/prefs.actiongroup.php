@@ -23,8 +23,8 @@ class ActionGroupPrefs extends CopixActionGroup {
 	      'back'=>CopixUrl::get ('auth|default|login')));
 		}
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_prefs.css');
-    
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
+
 		$tpl = & new CopixTpl ();
 		
 		$main='';
@@ -65,7 +65,8 @@ class ActionGroupPrefs extends CopixActionGroup {
 	      'back'=>CopixUrl::get ('auth|default|login')));
 		}
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_prefs.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
+
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>' );
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="Expires" CONTENT="-1"/>' );
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"/>' );

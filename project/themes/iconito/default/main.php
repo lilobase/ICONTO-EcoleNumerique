@@ -6,7 +6,7 @@
   <title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/theme.css"); ?>" type="text/css"/>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
-  <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/petiteenfance/petiteenfance.js"></script>
+  <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/iconito.js"></script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/prototype-1.6.0.3.js"></script>
   <link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
   <?php echo $HTML_HEAD; ?>
@@ -48,7 +48,7 @@
 
 
 <td class="ecole-right"><img src="<?php echo CopixUrl::getResource ("img/spacer.gif"); ?>" border="0" width="17" height="17" alt="" /></td>
-<td width="100%" align="right"><div class="annu_blog"><img src="<?php echo CopixUrl::getResource ("img/welcome/annu_blog.gif"); ?>" height="34" hspace="4" alt="<?php echo _i18n('public|public.blog.annuaire') ?>" border="0" align="right"/><a title="<?php echo _i18n('public|public.blog.annuaire') ?>" href="<?php echo CopixUrl::get ('public|') ?>"><?php echo _i18n('public|public.blog.annuaire') ?></a></div></td>
+<td width="100%" align="right"><div class="annu_blog"><img src="<?php echo CopixUrl::getResource ("img/welcome/annu_blog.gif"); ?>" height="34" hspace="4" alt="<?php echo _i18n('public|public.blog.annuaire') ?>" border="0" align="right"/><a title="<?php echo _i18n('public|public.blog.annuaire') ?>" href="<?php echo CopixUrl::get ('public||') ?>"><?php echo _i18n('public|public.blog.annuaire') ?></a></div></td>
 </tr>
 <tr>
 <td colspan="4" class="ecole-login-bar"><?php if (isset($LOGIN_BAR) && $LOGIN_BAR) echo $LOGIN_BAR; ?></td>
@@ -58,7 +58,7 @@
 
 
 
-<?php if (isset($IS_LOGGED) && $IS_LOGGED && $HEADER_MODE != "compact") { ?>
+<?php if (1 || isset($IS_LOGGED) && $IS_LOGGED && $HEADER_MODE != "compact") { ?>
 
 <div class="icons">
 <p style="text-align: right; border:0; padding:0; margin:0; padding-right: 20px;">
@@ -99,7 +99,7 @@
 <?php } ?>
 
 
-<div class="main{$CONTENT_CLASS}">
+<div class="main<?php if (isset($CONTENT_CLASS) && $CONTENT_CLASS) echo $CONTENT_CLASS; ?>">
 	<?php echo $MAIN; ?>
 	<br clear="all" /><br clear="all" />
 </div> <!-- fin main -->

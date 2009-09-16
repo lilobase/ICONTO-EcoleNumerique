@@ -87,7 +87,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$main = $tplListe->fetch('list.tpl');
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_teleprocedure.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
+
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
@@ -332,7 +333,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$main = $tplForm->fetch('form-type.tpl');
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_teleprocedure.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));	
+
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		

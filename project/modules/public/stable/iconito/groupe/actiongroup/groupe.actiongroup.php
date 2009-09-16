@@ -642,7 +642,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		if ($errors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
 		} else {
-  		CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_groupe_admin.css');
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe_admin.css"));
 
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre);
@@ -697,7 +697,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$critical_errors), 'back'=>CopixUrl::get('groupe||')));
 		} else {
 
-  		CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_groupe_admin.css');
+  		CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe_admin.css"));
 
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.CopixI18N::get ('groupe|groupe.adminMembers'));
@@ -1397,7 +1397,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$critical_errors), 'back'=>CopixUrl::get('groupe||')));
 		} else {
 
-  		CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_groupe_admin.css');
+  		CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe_admin.css"));
       
       if ($errors) {
         $his->droit = $droit;

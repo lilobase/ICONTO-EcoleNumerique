@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_link_bu2user" tablename="kernel_link_bu2user" primary="yes"/>
+			<table name="auth_copixuser" tablename="dbuser"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="user_id" fieldname="user_id" type="integer" table="kernel_link_bu2user" pk="yes" fktable="auth_copixuser" fkfieldname="id_dbuser"/>
+		<property name="bu_type" fieldname="bu_type" type="string"  table="kernel_link_bu2user" pk="yes"/>
+		<property name="bu_id"   fieldname="bu_id"   type="integer" table="kernel_link_bu2user" pk="yes"/>
+
+		<property name="user_login" fieldname="login_dbuser" type="string"  table="auth_copixuser" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getByUserID" type="select">
+			<parameters>
+				<parameter name="id" />
+			</parameters>
+			<conditions>
+				<condition property="user_id" operator="=" value="$id" />
+			</conditions>
+			<order>
+				<orderitem property="bu_type" way="asc" />
+				<orderitem property="bu_id" way="asc" />
+			</order>
+		</method>
+		<method name="getByLogin" type="select">
+			<parameters>
+				<parameter name="login" />
+			</parameters>
+			<conditions>
+				<condition property="user_login" operator="=" value="$login" />
+			</conditions>
+			<order>
+				<orderitem property="bu_type" way="asc" />
+				<orderitem property="bu_id" way="asc" />
+			</order>
+		</method>
+		<method name="getByBUID" type="select">
+			<parameters>
+				<parameter name="bu_type" />
+				<parameter name="bu_id"   />
+			</parameters>
+			<conditions>
+				<condition property="bu_type" operator="=" value="$bu_type" />
+				<condition property="bu_id" operator="=" value="$bu_id" />
+			</conditions>
+		</method>
+		<method name="getByBUType" type="select">
+			<parameters>
+				<parameter name="bu_type" />
+			</parameters>
+			<conditions>
+				<condition property="bu_type" operator="=" value="$bu_type" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

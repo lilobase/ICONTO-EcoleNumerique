@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="responsable" tablename="responsable" primary="yes" />
+			<table name="sexe" tablename="sexe" join="inner" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="numero" pk="yes" type="autoincrement" required="yes" captioni18n="dao.responsable.fields.numero" />
+		<property name="nom" fieldname="nom" pk="no" type="string" required="yes" captioni18n="dao.responsable.fields.nom" />
+		<property name="nom_jf" fieldname="nom_jf" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.nom_jf" />
+		<property name="prenom" fieldname="prenom1" pk="no" type="string" required="yes" captioni18n="dao.responsable.fields.prenom1" />
+		<property name="civilite" fieldname="civilite" pk="no" type="string" required="yes" captioni18n="dao.responsable.fields.civilite" />
+		<property name="id_sexe" fieldname="id_sexe" pk="no" type="integer" required="yes" captioni18n="dao.responsable.fields.id_sexe" fktable="sexe" fkfieldname="id_s" />
+		<property name="date_nais" fieldname="date_nais" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.date_nais" />
+		<property name="id_pcs" fieldname="id_pcs" pk="no" type="integer" required="no" captioni18n="dao.responsable.fields.id_pcs" />
+		<property name="profession" fieldname="profession" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.profession" />
+		<property name="id_fam" fieldname="id_fam" pk="no" type="integer" required="no" captioni18n="dao.responsable.fields.id_fam" />
+		<property name="tel_dom" fieldname="tel_dom" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.tel_dom" />
+		<property name="tel_gsm" fieldname="tel_gsm" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.tel_gsm" />
+		<property name="tel_pro" fieldname="tel_pro" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.tel_pro" />
+		<property name="mel" fieldname="mel" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.mel" />
+		<property name="num_rue" fieldname="num_rue" pk="no" type="string" required="yes" captioni18n="dao.responsable.fields.num_rue" />
+		<property name="num_seq" fieldname="num_seq" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.num_seq" />
+		<property name="adresse1" fieldname="adresse1" pk="no" type="string" required="yes" captioni18n="dao.responsable.fields.adresse1" />
+		<property name="adresse2" fieldname="adresse2" pk="no" type="string" required="no" captioni18n="dao.responsable.fields.adresse2" />
+		<property name="code_postal" fieldname="code_postal" pk="no" type="string" required="yes" captioni18n="dao.responsable.fields.code_postal" />
+		<property name="commune" fieldname="commune" pk="no" type="string" required="yes" captioni18n="dao.responsable.fields.commune" />
+		<property name="id_ville" fieldname="id_ville" pk="no" type="integer" required="yes" captioni18n="dao.responsable.fields.id_ville" />
+		<property name="pays" fieldname="pays" pk="no" type="integer" required="yes" captioni18n="dao.responsable.fields.pays" />
+
+		<property name="sexe_id" fieldname="id_s" type="autoincrement" table="sexe" pk="true" />
+		<property name="sexe_nom" fieldname="sexe" type="string" table="sexe" />
+		<property name="sexe_abrev" fieldname="s_abrev" type="string" table="sexe" />
+		
+	</properties>
+</daodefinition>

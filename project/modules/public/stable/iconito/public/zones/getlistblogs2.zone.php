@@ -1,9 +1,9 @@
 <?php
 
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'kernelblog.class.php');
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogutils.class.php');
-require_once (COPIX_MODULE_PATH.'public/'.COPIX_CLASSES_DIR.'publicutils.class.php');
-require_once (COPIX_MODULE_PATH.'annuaire/'.COPIX_CLASSES_DIR.'annuaireservice.class.php');
+_classInclude ('blog|kernelblog');
+_classInclude ('blog|blogutils');
+_classInclude ('public|publicutils');
+_classInclude ('annuaire|annuaireservice');
 
 /**
  * Zone qui affiche la liste des blogs
@@ -47,17 +47,12 @@ class ZoneGetListBlogs2 extends CopixZone {
 		//print_r($ecoles);
 		$tpl->assign('ecoles', $ecoles);
 
-	 	$dao = CopixDAOFactory::create("blog|blog");
-
-		$dbw = & CopixDbFactory::getDbWidget ();
-		
-		
 		if ($kw)
 			$critere = " SELECT * FROM module_blog WHERE is_public=1 AND name_blog LIKE '%".addslashes($kw)."%' ORDER BY name_blog";
 		else
 			$critere = " SELECT * FROM module_blog WHERE is_public=1 AND 1 ORDER BY name_blog";
 		
-		$sql = $dbw->fetchAll($critere);
+		$sql = _doQuery($critere);
 		$list = array();
 		
 		$arTypes = array();

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_responsables" tablename="kernel_bu_responsables" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- Table des liens : responsables-élèves -->
+		<property name="res2ele_id_rel"            fieldname="id_rel"            type="integer" table="kernel_bu_responsables" pk="yes"/>
+		<property name="res2ele_id_beneficiaire"   fieldname="id_beneficiaire"   type="integer" table="kernel_bu_responsables" pk="no" />
+		<property name="res2ele_type_beneficiaire" fieldname="type_beneficiaire" type="integer" table="kernel_bu_responsables" pk="no" />
+		<property name="res2ele_id_responsable"    fieldname="id_responsable"    type="integer" table="kernel_bu_responsables" pk="no" />
+		<property name="res2ele_type_responsable"  fieldname="type"              type="integer" table="kernel_bu_responsables" pk="no" />
+		<property name="res2ele_auth_parentale"    fieldname="auth_parentale"    type="integer" table="kernel_bu_responsables" pk="no" />
+		<property name="res2ele_id_par"            fieldname="id_par"            type="integer" table="kernel_bu_responsables" pk="no" />
+	</properties>
+	<methods>
+		<method name="getByBeneficiaire" type="select">
+			<parameters>
+				<parameter name="type" />
+				<parameter name="id"   />
+			</parameters>
+			<conditions>
+				<condition property="res2ele_type_beneficiaire" operator="=" value="$type" />
+				<condition property="res2ele_id_beneficiaire"   operator="=" value="$id"   />
+			</conditions>
+		</method>
+		<method name="getByResponsable" type="select">
+			<parameters>
+				<parameter name="type" />
+				<parameter name="id"   />
+			</parameters>
+			<conditions>
+				<condition property="res2ele_type_responsable" operator="=" value="$type" />
+				<condition property="res2ele_id_responsable"   operator="=" value="$id"   />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>
+

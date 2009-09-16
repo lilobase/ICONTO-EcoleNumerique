@@ -1,0 +1,547 @@
+
+body {
+	font-size:13px;
+	margin:0;
+	padding:0;
+	border:0;
+	background:#D3D3D3;
+	color:#111;
+}
+body, textarea {
+	font-family:Arial;
+}
+a img {
+	border:0;
+}
+a {
+	color:#FC8500;
+}
+a:hover {
+	color:#B35B9C;
+}
+
+
+
+form {
+	margin:0;
+	padding:0;
+	display:inline;
+}
+form input, form select, form textarea {
+	border: solid 1px #999;
+}
+form input:focus, form select:focus, form textarea:focus {
+	border-color:#E293CD;
+}
+
+form input.checkbox, form input.radiobutton {
+	border:0;
+}
+
+
+div.popupClose {
+	float:right;
+	margin:6px;
+}
+
+
+
+#header {
+	background:#E293CD;
+	height:70px;
+}
+#header div.underline {
+	padding-top:0px;
+	padding-left:4px;
+	border-bottom: solid 1px #DA89C4;
+	height:56px;
+}
+#header div.logged {
+	background:#E293CD;
+	position:absolute;
+	top:29px;
+	right:0;
+	height:28px;
+}
+#header div.logged div.arrondi {
+	height:28px;
+	width:11px;
+}
+#header div.logged div.inner {
+	position:relative;
+	top:-21px;
+	display:inline;
+	border-top:solid 1px #DA89C4;
+	white-space: nowrap;
+	padding-top:6px;
+	padding-right:6px;
+	margin-left:11px;
+	color:#B35B9C;
+	font-weight:bolder;
+}
+#header div.user {
+	position:absolute;
+	top:6px;
+	right:6px;
+	color:#fff;
+}
+#header div.user p {
+	margin:0;
+}
+#header div.user a {
+	color:#fff;
+}
+
+
+
+.breadCrumbs {
+	position:absolute;
+	font-size:0.9em;
+	list-style-type:none;
+	right:6px;
+	margin:0;
+	top:110px;
+	color:#FFBF78;
+}
+.breadCrumbs a {
+	color:#fff;
+	font-weight:normal;
+}
+.breadCrumbs li.rootCrumb {
+}
+.breadCrumbs li {
+	display:inline;
+}
+
+
+
+/* MENU */
+#menu {
+	height:30px;
+	font-size:1.4em;
+	/*line-height: 1.4em;*/
+	text-transform: lowercase; 
+	font-weight: normal;
+	background:#E293CD;
+	padding-left:10px;
+	letter-spacing:1px;
+	text-align:center;
+}
+#menu ul {
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+#menu li {
+	float:left;
+	background:url(../img/tab_menu_left.gif) no-repeat left top;
+	margin:0 0px 0 0;
+	padding:0 0 0 5px;
+	height:30px;
+}
+#menu a {
+	display:block;
+	background:url(../img/tab_menu_right.gif) no-repeat right top;
+	padding: 0px 23px 7px 18px;
+	color: #B35B9C;
+	text-decoration: none;
+}
+#menu a:hover {
+	text-decoration: underline;
+}
+#menu #current {
+	background-image:url(../img/tab_menu_left_on.gif);
+	font-size:1.1em;
+}
+#menu #current a {
+	background-image:url(../img/tab_menu_right_on.gif);
+	/*padding-bottom:3px;*/
+	color:#fff;
+	text-decoration: none;
+}
+#menu li.left {
+	background:url(../img/tab_menu_right.gif) no-repeat right top;
+}
+#menu li.right {
+	background:url(../img/tab_menu_left.gif) no-repeat left top;
+}
+
+#ss_menu {
+	background: #FC8500;
+	font-size:1.3em;
+	height:27px;
+	color:#5D3DAA;
+	font-weight:bold;
+	padding-top:7px;
+	text-transform: lowercase; 
+}
+#ss_menu a {
+	color: #FFBF78;
+	padding-left:7px;
+	padding-right:17px;
+	text-decoration:none;
+}
+#ss_menu a.current {
+	color: #fff;
+	font-weight: bolder;
+	text-decoration: none;
+}
+#ss_menu a.current:hover {
+	color: #fff;
+}
+#ss_menu a:hover {
+	color: #FFBF78;
+	text-decoration: underline;
+}
+
+
+
+
+div#content {
+	padding:10px;
+}
+div#content h1 {
+	text-align:center;
+	font-size:1.8em;
+	color:#B35B9C;
+	text-transform:uppercase;
+	margin:2px 0 8px 0;
+	line-height:1em;
+	padding:0;
+}
+
+
+/* =================== */
+
+
+
+
+/* GROS CARRES */
+div#carres {
+	text-align:center;
+	margin-left:auto;
+	margin-right:auto;
+	width:745px;
+}
+div#carres a:hover {
+	background-color:#E293CD;
+	color:#fff;
+}
+div#carres a {
+	background-color:#fff;
+	color:#E293CD;
+	display:block;
+	float:left;
+	font-size:30px;
+	margin:10px;
+	padding-top:30px;
+	padding-bottom:0px;
+	text-decoration:none;
+	width:340px;
+	height:70px;
+	-moz-border-radius:10px;
+}
+div#carres a.carre2lines {
+	padding-top:18px;
+	padding-bottom:12px;
+	height:70px;
+}
+div#carres a.carre2lines div.small {
+	font-size:0.7em;
+	text-align:center;
+}
+
+
+/* LISTES */
+table.list {
+	border-spacing: 0px;
+	border:solid 1px #fff;
+}
+table.list td {
+	padding:2px;
+}
+
+table.list th {
+	background:#E293CD;
+	color:#844B8F;
+	border-left:solid 1px #fff;
+	border-right:solid 1px #fff;
+	padding:2px;
+}
+table.list tr.line0 {
+}
+table.list tr.line1 {
+	background:#eee;
+}
+table.list tr:hover {
+	background:#aaa;
+}
+table.list tr.discret {
+	color:#ddd;
+}
+
+table.search {
+}
+
+table.search td.lib {
+	font-weight:bolder;
+	font-size:0.9em;
+	text-align:right;
+	padding-left:10px;
+}
+
+
+/*
+* Formulaires
+**********************************************************************/
+.default-form fieldset {
+	border: 1px solid #E293CD;
+	background: #fff;
+	margin-top:15px;
+	margin-bottom:3px;
+	top :                   1em;
+  padding :               0 0.5em 1em 0.5em;
+}
+html>body .default-form fieldset { /* Non IE */
+	padding-top :           1em;
+  top :                   0;
+}
+
+/*
+.default-form legend {
+	position:relative;
+	background: white;
+	color: #404040;
+	font-size:1.2em;
+	font-style: italic;
+	font-weight: bold;
+	border: 1px solid #e5e5e5;
+	padding:3px;
+	top:-1em;
+	letter-spacing:1px;
+}
+*/
+.default-form legend {
+	background:#fff;
+	color: #404040;
+	font-size:1.2em;
+	font-style: italic;
+	font-weight: bold;
+	border: 1px solid #E293CD;
+	padding:3px;
+	letter-spacing:1px;
+}
+html>body .default-form legend { /* Non IE */
+	
+}
+
+
+
+.default-form p.required {
+	color: red;
+	font-style: italic;
+	text-align: right;
+}
+
+.default-form .form-error {
+	margin: 0 0 5px 158px;
+}
+
+.default-form textarea {	
+	font-size: 1em;
+}	
+
+.default-form button {
+  background-color: #ff623a;
+  color: #fff;
+  border: solid 1px #d35130;
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.default-form .asterisk {
+  color: red;
+  font-weight: bold;
+}
+.default-form p.asterisk_txt {
+	clear:left;
+	font-style: italic;
+	padding-top:5px;
+	font-size:0.9em;
+	color:#8C56A5;
+}
+
+.default-form label.default {
+  float: left;
+  margin-right: 10px;
+  width: 130px;
+	clear:left;
+	height:2.1em;
+}
+.default-form div.bigger {
+  margin-left:140px;
+}
+
+span.format {
+	font-size:0.9em;
+	color:#ddd;
+}
+
+
+div.form-errors {
+	background: #ffc; 
+	padding: 0;
+}
+
+div.form-errors p {
+	color: white;
+	background: red;
+	padding: 5px;	
+}
+
+div.form-errors dt {
+	float: left;
+	text-align: right;
+	padding: 5px;
+}
+
+div.form-errors dd {
+	color: red;
+	padding: 5px;
+}
+
+p.form_error {
+	color: red;
+	font-weight: bold;
+}
+
+
+input.formSubmit {
+	background:#E293CD;
+	border:solid 0px #FC8500;
+	font-weight:bold;
+	color:#fff;
+}
+input.formCancel {
+	background:#f4f4f4;
+	border:solid 1px #ddd;
+	color:#888;
+	font-weight:normal;
+}
+
+
+p.legende {
+	margin:10px;
+	font-size:0.9em;
+	color:#333;
+	opacity:0.7;
+	/*filter: alpha(opacity=70);*/
+	-moz-border-radius:5px;
+	border:solid 1px #eee;
+	padding:2px;
+	width:100px;
+}
+p.legende img {
+}
+
+
+/* TOOLTIP */
+a.tooltip em {
+    display:none;
+}
+a.tooltip:hover {
+    border: 0;
+    position: relative;
+    z-index: 500;
+    text-decoration:none;
+}
+a.tooltip:hover em {
+    font-style: normal;
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: -2px;
+    padding: 5px;
+    color: #000;
+    border: 1px solid #bbb;
+    background: #ffc;
+    width:200px;
+		text-align:left;
+}
+a.tooltip:hover em span {
+    position: absolute;
+    top: -7px;
+    left: 5px;
+    height: 7px;
+    width: 11px;
+    background: transparent url(../img/tooltip-arrow.gif);
+		background-repeat:no-repeat;
+    margin:0;
+    padding: 0;
+    border: 0;
+}
+a.tooltip70px:hover em {	width:70px; }
+a.tooltip80px:hover em {	width:80px; }
+a.tooltip90px:hover em {	width:90px; }
+a.tooltip100px:hover em {	width:100px; }
+
+tr.barre td {
+	text-decoration: line-through;
+}
+
+td.separator {
+	width:10px;
+	border-left:dotted 1px #ccc;
+}
+
+
+
+
+/* Une seule barre de progression */
+/* http://cssglobe.developpez.com/tutoriels/css/barre-progression-animee/ */
+
+.progressBar{
+	width:216px;
+	height:41px;
+	background:url(../img/bg_bar.gif) no-repeat 0 0;
+	position:relative;
+}
+.progressBar span{
+	position:absolute;
+	display:block;
+	width:200px;
+	height:25px;
+	background:url(../img/bar.gif) no-repeat 0 0;
+	top:8px;
+	left:8px;
+	overflow:hidden;
+	/*text-indent:-8000px;*/
+}
+.progressBar em{
+	position:absolute;
+	display:block;
+	width:200px;
+	height:25px;
+	background:url(../img/bg_cover.gif) repeat-x 0 0;
+	top:0;
+	text-align:right;
+}
+
+div#queryCount {
+	position:absolute;
+	top:0px;
+	right:0px;
+	background:#444444;
+	padding:1px;
+	color:#FFF;
+	font-size:0.8em;
+}
+
+
+
+
+
+
+
+

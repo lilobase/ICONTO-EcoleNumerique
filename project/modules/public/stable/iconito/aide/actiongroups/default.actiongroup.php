@@ -9,7 +9,8 @@
 class ActionGroupDefault extends CopixActionGroup {
 		
 	function processDefault () {
-		return _arRedirect (_url ('|viewHelp'));
+		//return _arRedirect (_url ('|viewHelp'));
+		return CopixActionGroup::process ('aide|default::viewHelp');
 	}
 
    /**
@@ -104,7 +105,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		}
 		
 		$tpl->assign ('MAIN', $MAIN);
-
+		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
 	}

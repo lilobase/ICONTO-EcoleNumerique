@@ -122,7 +122,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	*/
 	function getEdit (){
 	
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_agenda.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 	
 		$serviceAuth   = new AgendaAuth;
 		$serviceAgenda = new AgendaService();

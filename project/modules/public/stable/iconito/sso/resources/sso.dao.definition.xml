@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="sso" tablename="module_sso" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="sso_id"        fieldname="id"        type="autoincrement" table="sso" pk="yes"/>
+		<property name="sso_date_crea" fieldname="date_crea" type="date"          table="sso" pk="no"/>
+ 	</properties>
+	<methods>
+		<!--
+		<method name="getAll" type="select">
+			<order>
+				<orderitem property="sso_date" way="desc" />
+			</order>
+		</method>
+		-->
+	</methods>
+</daodefinition>

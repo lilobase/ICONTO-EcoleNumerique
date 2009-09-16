@@ -121,7 +121,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 		}
 		//print_r($list);
 
-		CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_carnet.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('carnet|carnet.carnet').' - '.$title);
@@ -257,9 +257,9 @@ class ActionGroupCarnet extends CopixActionGroup {
 			// On enregistre sa lecture (tracking)
 			$carnet_service->userReadTopic ($id, $session['user_id'], $idEleves);
 			
-			CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_carnet.css');
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 			if ($print)
-				CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_carnet_print.css', array('media'=>'print'));
+				CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet_print.css"), array('media'=>'print'));
 			
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $topic->titre);
@@ -351,7 +351,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 					$nothing = 1;
 			}
 			
-			CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_carnet.css');
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/carnet/carnet.js');
 
 			$tplForm = & new CopixTpl ();
@@ -499,7 +499,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			$tpl = & new CopixTpl ();
 			//$titre = ($id) ? 'Modification du message' : 'Nouveau message';
 
-			CopixHtmlHeader::addCSSLink (CopixUrl::get().'styles/module_carnet.css');
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/carnet/carnet.js');
 
 			$tpl->assign ('TITLE_PAGE', $rTopic->topic_titre);

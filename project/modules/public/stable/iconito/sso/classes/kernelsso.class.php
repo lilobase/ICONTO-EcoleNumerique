@@ -1,0 +1,46 @@
+<?php
+/**
+* @package  Iconito
+* @subpackage Sso
+* @version   $Id: kernelsso.class.php,v 1.1 2006-11-13 15:44:35 fmossmann Exp $
+* @author   Frédéric Mossmann
+* @copyright 2006 CAP-TIC
+* @link      http://www.cap-tic.fr
+* @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
+*/
+
+
+class KernelSso {
+
+	function create () {
+		$return = NULL;
+		$dao = CopixDAOFactory::create("sso|sso");
+		$new = CopixDAOFactory::createRecord("sso|sso");
+		$new->sso_date_crea = date("Y-m-d H:i:s");
+		$dao->insert ($new);
+		if ($new->sso_id!==NULL) {
+			$return = $new->sso_id;
+		}
+		return $return;
+	}
+
+	function getStats ($id_sso) {
+		$dao = CopixDAOFactory::create("sso|sso");
+		$res = array();
+		/*
+		$infos = $dao->getSso($id_sso);
+		$res['nbPhotos'] = array ('name'=>CopixI18N::get ('album|album.stats.nbPhotos'), 'value'=>$infos[0]->nb);
+		*/
+		return $res;
+	}
+
+	function delete ($id_sso) {
+		/*
+		$ssoService = & CopixClassesFactory::Create ('sso|sso');
+		$ssoService->delSso( $id_sso );
+		*/
+		return true;
+	}
+
+}
+

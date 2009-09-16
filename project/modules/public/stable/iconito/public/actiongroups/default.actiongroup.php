@@ -10,7 +10,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		
 	function processDefault () {
-		return _arRedirect (_url ('|getListBlogs'));
+		//return _arRedirect (_url ('|getListBlogs'));
+		return CopixActionGroup::process ('public|default::getListBlogs');
 	}
 	
 			
@@ -39,7 +40,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		//styles/module_public.css
 		
-		CopixHTMLHeader::addCSSLink (	CopixUrl::get()."styles/module_public.css" );
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_public.css"));
 		$result = $tplListe->fetch("getlistblogs.tpl");
 		
 		$tpl->assign ("MAIN", $result);
@@ -60,7 +61,8 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		$tpl->assign ("TITLE_PAGE", CopixI18N::get ('public|public.apropos'));
 
-		CopixHTMLHeader::addCSSLink ( CopixUrl::get()."styles/module_public.css" );
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_public.css"));
+
 		$txt = CopixCoordination::includeStatic ('apropos_'.CopixI18N::getLang().'.html');
 		$tpl->assign ("MAIN", $txt);
     

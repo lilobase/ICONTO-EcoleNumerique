@@ -1,0 +1,5 @@
+#php_value error_reporting 7
+#php_value memory_limit 512M
+php_value error_reporting 6143
+
+

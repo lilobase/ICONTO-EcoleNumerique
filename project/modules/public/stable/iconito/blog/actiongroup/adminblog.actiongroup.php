@@ -43,7 +43,9 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 
 		if($kind=='0') {
 			// Articles
-			CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_blog.css');
+			
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+
 			$selectCategory = $this->getRequest('selectCategory', '');
 			$selectMonth = $this->getRequest('selectMonth', '');
 			$id_bact = $this->getRequest('id_bact', '');

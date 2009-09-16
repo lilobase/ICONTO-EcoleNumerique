@@ -1,0 +1,67 @@
+<?xml version="1.0"   encoding="ISO-8859-1" ?>
+<daodefinition version="1">
+    <datasource>
+       <tables>
+          <table name="blogfunctions" tablename="module_blog_functions" primary="yes" />
+       </tables>
+    </datasource>
+ 		<properties>
+    	<property name="id_blog"
+	            fieldName="id_blog"
+	            captioni18n="dao.blog.fields.id_blog"
+	            pk="true"
+	            type="int"
+	            maxlength="20"
+	            required="yes"
+	            />
+    	<property name="article_bfct"
+	            fieldName="article_bfct"
+	            captioni18n="dao.blogfunctions.fields.article_bfct"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+    	<property name="archive_bfct"
+	            fieldName="archive_bfct"
+	            captioni18n="dao.blogfunctions.fields.archive_bfct"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+    	<property name="find_bfct"
+	            fieldName="find_bfct"
+	            captioni18n="dao.blogfunctions.fields.find_bfct"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+    	<property name="link_bfct"
+	            fieldName="link_bfct"
+	            captioni18n="dao.blogfunctions.fields.link_bfct"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+    	<property name="rss_bfct"
+	            fieldName="rss_bfct"
+	            captioni18n="dao.blogfunctions.fields.rss_bfct"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+    	<property name="photo_bfct"
+	            fieldName="photo_bfct"
+	            captioni18n="dao.blogfunctions.fields.photo_bfct"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+    	<property name="option_bfct"
+	            fieldName="option_bfct"
+	            captioni18n="dao.blogfunctions.fields.option_bfct"
+	            type="int"
+	            maxlength="1"
+	            required="yes"
+	            />
+  	</properties>
+</daodefinition>

@@ -39,8 +39,8 @@ class ActionGroupGrvilles extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplGrVilles = & new CopixTpl ();
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_grvilles.css');
-		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_grvilles.css"));
+
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('grvilles|grvilles.module.titre'));
 		
 		$dao_grvilles_gr2ville = CopixDAOFactory::create("grvilles|grvilles_gr2ville");

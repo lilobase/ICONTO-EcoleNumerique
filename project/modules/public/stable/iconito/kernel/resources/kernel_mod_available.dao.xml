@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_mod_available" tablename="kernel_mod_available" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="node_type"   fieldname="node"   type="string" table="kernel_mod_available" pk="yes"/>
+		<property name="module_type" fieldname="module" type="string" table="kernel_mod_available" pk="yes"/>
+ 	</properties>
+	<methods>
+		<method name="getByNode" type="select">
+			<parameters>
+				<parameter name="node" />
+			</parameters>
+			<conditions>
+				<condition property="node_type" operator="=" value="$node" />
+			</conditions>
+		</method>
+		<method name="getByModule" type="select">
+			<parameters>
+				<parameter name="module" />
+			</parameters>
+			<conditions>
+				<condition property="module_type" operator="=" value="$module" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

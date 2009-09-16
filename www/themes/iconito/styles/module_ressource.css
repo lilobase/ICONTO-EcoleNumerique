@@ -1,0 +1,14 @@
+
+
+DIV.ressource_description {
+	font-size: 11px;
+}
+
+A.ressource_link_fiche {
+	color: #333;
+	text-decoration: none;
+}
+A.ressource_link_fiche:hover {
+	color: #000;
+	text-decoration: underline;
+}

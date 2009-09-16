@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_ecole" tablename="kernel_bu_ecole" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="numero"      fieldname="numero"      type="integer" table="kernel_bu_ecole" pk="yes"/>
+		<property name="type"       fieldname="type"       type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="nom"          fieldname="nom"          type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="num_rue"          fieldname="num_rue"          type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="num_seq"       fieldname="num_seq"       type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="adresse1"      fieldname="adresse1"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="adresse2"      fieldname="adresse2"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="code_postal"      fieldname="code_postal"      type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="commune"     fieldname="commune"     type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="tel"     fieldname="tel"     type="string"  table="kernel_bu_ecole" pk="no"/>
+		<property name="id_ville"     fieldname="id_ville"     type="integer"  table="kernel_bu_ecole" pk="no"/>
+	</properties>
+	<methods>
+	</methods>
+</daodefinition>
+

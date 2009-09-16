@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_link_groupe2node" tablename="kernel_link_groupe2node" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="groupe_id" fieldname="groupe_id" type="integer" table="kernel_link_groupe2node" pk="yes"/>
+		<property name="node_type" fieldname="node_type" type="string" table="kernel_link_groupe2node" pk="no" />
+		<property name="node_id"   fieldname="node_id"   type="integer" table="kernel_link_groupe2node" pk="no" />
+	</properties>
+	<methods>
+		<method name="getByNode" type="select">
+			<parameters>
+				<parameter name="node_type" />
+				<parameter name="node_id"   />
+			</parameters>
+			<conditions>
+				<condition property="node_type" operator="=" value="$node_type" />
+				<condition property="node_id"   operator="=" value="$node_id"   />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

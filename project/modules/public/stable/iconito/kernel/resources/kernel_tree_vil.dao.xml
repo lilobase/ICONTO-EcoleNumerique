@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_ville" tablename="kernel_bu_ville" primary="yes"/>
+			<table name="kernel_bu_groupe_villes" tablename="kernel_bu_groupe_villes" join="LEFT"/>
+		</tables>
+	</datasource>
+
+	<properties>
+		<!-- Villes -->
+		<property name="vil_id_vi"         fieldname="id_vi"         type="integer" table="kernel_bu_ville" pk="yes"/>
+		<property name="vil_nom"           fieldname="nom"           type="string"  table="kernel_bu_ville" pk="no"/>
+		<property name="vil_canon"         fieldname="canon"         type="string"  table="kernel_bu_ville" pk="no"/>
+		<property name="vil_id_grville"    fieldname="id_grville"    type="integer" table="kernel_bu_ville" pk="no" fktable="kernel_bu_groupe_villes" fkfieldname="id_grv"/>
+		<property name="vil_date_creation" fieldname="date_creation" type="date"    table="kernel_bu_ville" pk="no"/>
+
+		<!-- Groupes de villes -->
+		<property name="grv_id_grv"        fieldname="id_grv"        type="integer" table="kernel_bu_groupe_villes" pk="yes"/>
+		<property name="grv_nom_groupe"    fieldname="nom_groupe"    type="string"  table="kernel_bu_groupe_villes" pk="no"/>
+		<property name="grv_date_creation" fieldname="date_creation" type="date"    table="kernel_bu_groupe_villes" pk="no"/>
+	</properties>
+
+	<methods>
+		<method name="getByGroupeVille" type="select">
+			<parameters>
+				<parameter name="grv" />
+			</parameters>
+			<conditions>
+				<condition property="vil_id_grville" operator="=" value="$grv" />
+			</conditions>
+		</method>
+	</methods>
+
+</daodefinition>

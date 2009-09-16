@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_eleve" tablename="kernel_bu_eleve" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="ele_idEleve"      fieldname="idEleve"      type="integer" table="kernel_bu_eleve" pk="yes"/>
+		<property name="ele_numero"       fieldname="numero"       type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_INE"          fieldname="INE"          type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_nom"          fieldname="nom"          type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_nom_jf"       fieldname="nom_jf"       type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_prenom1"      fieldname="prenom1"      type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_prenom2"      fieldname="prenom2"      type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_prenom3"      fieldname="prenom3"      type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_civilite"     fieldname="civilite"     type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_id_sexe"      fieldname="id_sexe"      type="integer" table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_pays_nais"    fieldname="pays_nais"    type="string"  table="kernel_bu_eleve" pk="no"/>
+		<!-- property name="ele_nationalite"  fieldname="nationalite"  type="integer" table="kernel_bu_eleve" pk="no" -->
+		<property name="ele_dep_nais"     fieldname="dep_nais"     type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_com_nais"     fieldname="com_nais"     type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_date_nais"    fieldname="date_nais"    type="date"    table="kernel_bu_eleve" pk="no"/>
+		<!-- property name="ele_annee_france" fieldname="annee_france" type="integer" table="kernel_bu_eleve" pk="no" -->
+		<property name="ele_num_rue"      fieldname="num_rue"      type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_num_seq"      fieldname="num_seq"      type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_adresse1"     fieldname="adresse1"     type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_adresse2"     fieldname="adresse2"     type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_code_postal"  fieldname="code_postal"  type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_commune"      fieldname="commune"      type="string"  table="kernel_bu_eleve" pk="no"/>
+		<property name="ele_id_directeur" fieldname="id_directeur" type="string"  table="kernel_bu_eleve" pk="no"/>
+		<!-- property name="ele_observations" fieldname="observations" type="string"  table="kernel_bu_eleve" pk="no" -->
+		<!-- property name="ele_flag"         fieldname="flag"         type="integer" table="kernel_bu_eleve" pk="no" -->
+		<!-- property name="ele_adresse_tmp"  fieldname="adresse_tmp"  type="string"  table="kernel_bu_eleve" pk="no" -->
+		<!-- property name="ele_date_tmp"     fieldname="date_tmp"     type="date"    table="kernel_bu_eleve" pk="no" -->
+	</properties>
+	<methods>
+		<method name="getNom" type="select">
+			<parameters>
+				<parameter name="nom" />
+			</parameters>
+			<conditions>
+				<condition property="ele_nom" operator="=" value="$nom" />
+			</conditions>
+		</method>
+		<method name="getINE" type="select">
+			<parameters>
+				<parameter name="ine" />
+			</parameters>
+			<conditions>
+				<condition property="ele_INE" operator="=" value="$ine" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>
+

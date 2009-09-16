@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="organisme" tablename="pe_organisme" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.organisme.fields.id" />
+		<property name="nom" fieldname="nom" pk="no" type="string" required="yes" captioni18n="dao.organisme.fields.nom" />
+	</properties>
+</daodefinition>

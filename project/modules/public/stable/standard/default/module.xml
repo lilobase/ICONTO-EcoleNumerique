@@ -5,7 +5,7 @@
 	</general>
 	<parameters>
 		<group captioni18n="parameter.group.title">
-			<parameter name="homePage" captioni18n="parameter.homePage" default="index.php?module=instruction" />
+			<parameter name="homePage" captioni18n="parameter.homePage" default="index.php/kernel" />
 			<parameter name="titlePage" captioni18n="parameter.titlePage" default="Iconito" />
 			<parameter name="titleBar" captioni18n="parameter.titleBar" default="{$TITLE_PAGE} - Iconito"  />
 		</group>
@@ -30,5 +30,14 @@
 		<group captioni18n="parameter.group.webservices">
 			<parameter name="webservicesInterface" captioni18n="parameter.webservicesInterface" default=""  />
 		</group>
-   </parameters>
+		<group captioni18n="parameter.group.iconito">
+			<parameter name="isDemo"  captioni18n="parameter.isDemo"  default="1"  />
+			<parameter name="urlGael" captioni18n="parameter.urlGael"  default=""  />
+			<parameter name="conf_DirClasse" captioni18n="parameter.conf_DirClasse"  default="0"  />
+			<parameter name="conf_ModTeleprocedures" captioni18n="parameter.conf_ModTeleprocedures"  default="1"  />
+			<parameter name="conf_ModSso" captioni18n="parameter.conf_ModSso"  default="0" />
+			<parameter name="statsEnabled"  captioni18n="parameter.statsEnabled"  default="1" />
+			<parameter name="conf_ModConcerto" captioni18n="parameter.conf_ModConcerto"  default="1" />
+		</group>
+	</parameters>
 </moduledefinition>
