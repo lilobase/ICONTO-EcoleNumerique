@@ -29,7 +29,7 @@ class ZoneShowBlogPage extends CopixZone {
 		$tpl->assign ('kind', $this->getParam('kind', ''));
 
 		// Recherche de tous les pages de la base
-		$blogPageDAO = CopixDAOFactory::create('blog|blogpage');
+		$blogPageDAO = _dao('blog|blogpage');
 		$tabPages = $blogPageDAO->findAllOrder($id_blog);
 		$tpl->assign ('tabPages', $tabPages);
 

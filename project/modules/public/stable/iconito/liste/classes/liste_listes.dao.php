@@ -17,9 +17,8 @@ class DAOListe_Listes {
 	 * @return mixed Objet DAO
 	 */
 	function getNbMessagesInListe ($id_liste) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT COUNT(MSG.id) AS nb FROM module_liste_messages MSG WHERE MSG.liste='.$id_liste.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 

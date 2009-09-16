@@ -15,13 +15,6 @@ class ZoneAgendaAfterExport extends CopixZone {
 		
 		$tpl = & new CopixTpl ();
 		
-		/*$tpl->assign('listAgendas', $this->params['listAgendas']);
-		
-		$agenda = AgendaService::getAgendaAffiches();
-
-		$tpl->assign('agendasSelectionnes', $agenda);
-		
-		$toReturn = $tpl->fetch ('menu.agenda.tpl');*/
 		return true;
 	}
 }

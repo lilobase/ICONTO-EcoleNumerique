@@ -15,8 +15,6 @@ class DAOBlogarticlecomment {
     * @return
     */
     function findCommentOrderBy($id_bact, $is_online, $orderby='cmt.date_bacc ASC, cmt.time_bacc ASC') {
-      $dbw  = & CopixDbFactory::getDbWidget ();
-
       $critere = ' SELECT cmt.id_bacc as id_bacc, '.
       									 'cmt.id_bact as id_bact, '. 	
       									 'cmt.authorname_bacc as authorname_bacc, '. 	
@@ -35,7 +33,7 @@ class DAOBlogarticlecomment {
 			if($orderby!=NULL) {
 		  	$critere .= ' ORDER BY '.$orderby;
 		  }
-      return $dbw->fetchAll($critere);
+      return _doQuery($critere);
     }
 
 

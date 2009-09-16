@@ -22,8 +22,8 @@ class ListeService {
 	 */
 	function addListeMessage ($liste, $auteur, $titre, $message) {
 
-		$daoListes = CopixDAOFactory::create("liste|liste_listes");
-		$daoMessages = CopixDAOFactory::create("liste|liste_messages");
+		$daoListes = _dao("liste|liste_listes");
+		$daoMessages = _dao("liste|liste_messages");
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
 		
@@ -37,7 +37,7 @@ class ListeService {
 			$rListe->parent = $parent;
 			//die();
 			
-			$newMessage = CopixDAOFactory::createRecord("liste|liste_messages");
+			$newMessage = _daoRecord("liste|liste_messages");
 			$newMessage->liste = $liste;
 			$newMessage->auteur = $auteur;
 			$newMessage->titre = $titre;

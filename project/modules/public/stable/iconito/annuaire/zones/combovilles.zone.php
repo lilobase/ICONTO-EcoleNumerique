@@ -23,11 +23,11 @@ class ZoneComboVilles extends CopixZone {
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
-		$grville = isset($this->params['grville']) ? $this->params['grville'] : NULL;
-		$value = isset($this->params['value']) ? $this->params['value'] : 0;
-		$fieldName = isset($this->params['fieldName']) ? $this->params['fieldName'] : NULL;
-		$attribs = isset($this->params['attribs']) ? $this->params['attribs'] : NULL;
-		$linesSup = isset($this->params["linesSup"]) ? $this->params["linesSup"] : NULL;
+		$grville = isset($this->getParam('grville')) ? $this->getParam('grville') : NULL;
+		$value = isset($this->getParam('value')) ? $this->getParam('value') : 0;
+		$fieldName = isset($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
+		$attribs = isset($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
+		$linesSup = isset($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
 		
 		$villes = $annuaireService->getVillesInGrville ($grville);
 

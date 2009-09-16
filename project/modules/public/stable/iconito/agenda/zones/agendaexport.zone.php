@@ -17,18 +17,15 @@ class ZoneAgendaExport extends CopixZone {
 		$tpl = & new CopixTpl ();
 		
 		//gestion des erreurs
-		if ($this->params['e'] == 1){
-			$tpl->assign('showError', $this->params['e']);
+		if ($this->getParam('e') == 1){
+			$tpl->assign('showError', $this->getParam('e'));
 		}
 		
-		$tpl->assign('arError'     , $this->params['errors']);
-		$tpl->assign('exportParams', $this->params['exportParams']);
+		$tpl->assign('arError'     , $this->getParam('errors'));
+		$tpl->assign('exportParams', $this->getParam('exportParams'));
     
-//    print_r($this->params['exportParams']);
-    
-//		die(print_r($this->params['exportParams']));
 		//vérification des droits d'écriture sur les agendas
-		$listeFiltre = $this->params['arTitleAgendasAffiches'];
+		$listeFiltre = $this->getParam('arTitleAgendasAffiches');
 		//on vérifie les droits de lecture des utilisateurs
 		foreach((array)$listeFiltre as $key=>$title_agenda){
 			//on vérifie si l'utilisateur a les droits de lecture sur la liste des agendas

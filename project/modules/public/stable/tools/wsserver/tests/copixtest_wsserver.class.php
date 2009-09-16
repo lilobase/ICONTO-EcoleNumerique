@@ -21,11 +21,11 @@ class CopixTest_WSServer extends CopixTest {
 		
 		$this->_client = new soapClient(CopixUrl::getRequestedProtocol().CopixUrl::getRequestedBasePath()."index.php/wsserver/default/wsdl");
 		
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->addCondition ('login_dbuser', '=', 'WSUser');		
 		_dao ('auth|dbuser')->deleteBy ($sp);
 		
-		$record = CopixDAOFactory::createRecord ('auth|dbuser');
+		$record = _daoRecord ('auth|dbuser');
 		$record->login_dbuser = 'WSUser';
 		$record->password_dbuser = md5 ('WSUserPassword');
 		$record->email_dbuser = "mail@localhost";

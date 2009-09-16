@@ -19,15 +19,15 @@ class ZoneCommentList extends CopixZone {
 	function _createContent (&$toReturn) {
       $tpl = & new CopixTpl ();
 
-      $dao = & CopixDAOFactory::create('Comment');
-      $sp  = & CopixDAOFactory::createSearchConditions();
-      $sp->addCondition ('id_cmt','=',$this->params['id']);
-      $sp->addCondition ('type_cmt','=',$this->params['type']);
+      $dao = & _dao('Comment');
+      $sp  = & _daoSearchConditions();
+      $sp->addCondition ('id_cmt','=',$this->getParam('id'));
+      $sp->addCondition ('type_cmt','=',$this->getParam('type'));
       $sp->addItemOrder ('position_cmt', 'desc');
       
       $arData = $dao->findBy($sp);
       if (count($arData)>0) {
-         $perPage = isset($this->params['perPage']) ? intval($this->params['perPage']) : intval(CopixConfig::get('comment|perPage'));
+         $perPage = isset($this->getParam('perPage')) ? intval($this->getParam('perPage')) : intval(CopixConfig::get('comment|perPage'));
           $params = Array(
             'perPage'    => $perPage,
             'delta'      => 5,
@@ -38,9 +38,9 @@ class ZoneCommentList extends CopixZone {
          $tpl->assign ('pager'    , $Pager->GetMultipage());
          $tpl->assign ('comments' , $Pager->data);
       }
-      $tpl->assign ('back'  ,$this->params['back']);
-      $tpl->assign ('id'    ,$this->params['id']);
-      $tpl->assign ('type'  ,$this->params['type']);
+      $tpl->assign ('back'  ,$this->getParam('back'));
+      $tpl->assign ('id'    ,$this->getParam('id'));
+      $tpl->assign ('type'  ,$this->getParam('type'));
 
       $adminEnabled = CopixUserProfile::valueOf ('site', 'siteAdmin') >= PROFILE_CCV_MODERATE;
       $tpl->assign ('adminEnabled'  ,$adminEnabled);

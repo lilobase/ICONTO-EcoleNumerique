@@ -13,7 +13,7 @@ class ZoneFailedToLogin extends CopixZone {
     function _createContent (& $toReturn){
         $tpl = & new CopixTpl ();
 
-        $tpl->assign ('login', $this->params['login']);
+        $tpl->assign ('login', $this->getParam('login'));
         $tpl->assign ('enabledSendLogin', CopixConfig::get ('auth|enableSendLostPassword'));
 
         $toReturn = $tpl->fetch ('login.failed.tpl');

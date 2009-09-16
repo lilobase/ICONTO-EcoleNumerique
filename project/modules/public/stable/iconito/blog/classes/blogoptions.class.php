@@ -20,7 +20,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function articleIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->article_bfct=='0') ) {
 			$result = false;
@@ -34,7 +34,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function pageIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->article_bfct=='0') ) {
 			$result = false;
@@ -48,7 +48,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function archiveIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->archive_bfct=='0') ) {
 			$result = false;
@@ -62,7 +62,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function findIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->find_bfct=='0') ) {
 			$result = false;
@@ -76,7 +76,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function linkIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->link_bfct=='0') ) {
 			$result = false;
@@ -90,7 +90,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function rssIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->rss_bfct=='0') ) {
 			$result = false;
@@ -105,7 +105,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function photoIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->photo_bfct=='0') ) {
 			$result = false;
@@ -120,7 +120,7 @@ class BlogOptions {
 	* return : vrai si authorisé à afficher
 	*/
 	function optionIsActive($id_blog) {
-		$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
+		$blogFunctionsDAO = _dao('blog|blogfunctions');
 		$result = true;
 		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->option_bfct=='0') ) {
 			$result = false;

@@ -84,7 +84,7 @@ class ActionGroupUsersRegister extends CopixActionGroup {
         $errors = array();
         
         //on vérifie si le login n'est pas déja pris
-        $sp = CopixDAOFactory::createSearchParams ();
+        $sp = _daoSearchParams ();
         $sp->addCondition ('login_dbuser', '=', $user->login_dbuser);
         
         if ($user->login_dbuser === '') {

@@ -13,22 +13,22 @@ class ZoneDossiersTree extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 
-		$dossiers_tree = $this->params['tree'];
+		$dossiers_tree = $this->getParam('tree');
 		$dossiers_commands = Album::tree2commands( $dossiers_tree );
 
-		$dossiers_tree_move = Album::tree2move( $dossiers_tree, $this->params['dossier_id'] );
+		$dossiers_tree_move = Album::tree2move( $dossiers_tree, $this->getParam('dossier_id') );
 		$dossiers_commands_move = Album::tree2commands( $dossiers_tree_move );
 		
 		// Kernel::MyDebug( $dossiers_commands_move );
 		
-		$tpl->assign('album_id', $this->params['album_id'] );
-		$tpl->assign('dossier_id', $this->params['dossier_id'] );
-		$tpl->assign('dossier', $this->params['dossier'] );
+		$tpl->assign('album_id', $this->getParam('album_id') );
+		$tpl->assign('dossier_id', $this->getParam('dossier_id') );
+		$tpl->assign('dossier', $this->getParam('dossier') );
 		$tpl->assign('commands', $dossiers_commands );
 		$tpl->assign('commands_move', $dossiers_commands_move );
-		$tpl->assign('dossiermenu', $this->params['dossiermenu'] );
+		$tpl->assign('dossiermenu', $this->getParam('dossiermenu') );
 
-		switch( $this->params['mode'] ) {
+		switch( $this->getParam('mode') ) {
 			case 'htmllist':
 				$toReturn = $tpl->fetch ('dossierstree_htmllist.tpl');
 				break;

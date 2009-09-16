@@ -19,15 +19,15 @@ class ZoneAgendaToday extends CopixZone {
 		$serviceDate   = new DateService;
 		
 		//on détermine le jour d'affichage
-		if ($this->params['day'] == null){					
+		if ($this->getParam('day') == null){					
 			$day = date('Ymd');
 			
 		}else{
-			$day = $this->params['day'];
+			$day = $this->getParam('day');
 		}
 		
 		//on récupère les évènements de la journée
-		foreach($this->params['arAgendasAffiches'] as $idAgenda){
+		foreach($this->getParam('arAgendasAffiches') as $idAgenda){
 			$arEventsSemaine[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, $day, $day);
 		}
 		
@@ -40,12 +40,12 @@ class ZoneAgendaToday extends CopixZone {
 		//on récupère la couleur d'affichage de chaque évènement
 		//$arColorByEvent = $agendaService->getColorByIdEvent($arDayEvent);
 
-		$arAgendas = $agendaService->getTilteAgendaByIdAgenda($this->params['arAgendasAffiches']);
+		$arAgendas = $agendaService->getTilteAgendaByIdAgenda($this->getParam('arAgendasAffiches'));
 		//on récupère la couleur d'affichage pour chaque agenda
 		$boolCroise = array();
 		$daoAgenda = & CopixDAOFactory::getInstanceOf ('agenda|agenda');
 		
-		foreach($this->params['arAgendasAffiches'] as $id){
+		foreach($this->getParam('arAgendasAffiches') as $id){
 			$agenda = $daoAgenda->get($id);
 			$boolCroise[$agenda->type_agenda] = $boolCroise[$agenda->type_agenda] == false;
 			$colors = $agendaService->getColorAgendaByIdAgenda($id);

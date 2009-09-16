@@ -35,14 +35,13 @@ class DAOCarnet_Topics {
 	 * @return mixed Objet DAO
 	 */
 	function getListCarnetsTopicsForElevesInClasse ($eleves, $classe, $user) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$idEleves = array(); foreach ($eleves as $item) $idEleves[] = $item["id"];
 		if (count($idEleves)>0) {
 			//print_r($idEleves);
 			//$critere = 'SELECT DISTINCT(TOP.id), TOP.*, MAX(MSG.id) AS last_msg_id, MAX(MSG.date) AS last_msg_date FROM module_carnet_topics TOP, module_carnet_topics_to DEST LEFT JOIN module_carnet_messages MSG ON (MSG.topic=DEST.topic AND MSG.eleve=DEST.eleve) WHERE DEST.topic=TOP.id AND DEST.eleve IN ('.implode(", ",$idEleves).') AND TOP.classe='.$classe.' GROUP BY TOP.id ORDER BY last_msg_date DESC, TOP.date_creation DESC';
 			//$critere = 'SELECT DISTINCT(TOP.id), TOP.*, MAX(MSG.id) AS last_msg_id, MAX(MSG.date) AS last_msg_date, TRA.last_visite FROM module_carnet_topics TOP, module_carnet_topics_to DEST LEFT JOIN module_carnet_messages MSG ON (MSG.topic=DEST.topic AND MSG.eleve=DEST.eleve) LEFT JOIN module_carnet_tracking TRA ON (TRA.topic=TOP.id AND TRA.utilisateur='.$user.') WHERE DEST.topic=TOP.id AND DEST.eleve IN ('.implode(", ",$idEleves).') AND TOP.classe='.$classe.' GROUP BY TOP.id ORDER BY last_msg_date DESC, TOP.date_creation DESC';
 			$critere = 'SELECT DISTINCT(TOP.id), TOP.*, MAX(MSG.id) AS last_msg_id, MAX(MSG.date) AS last_msg_date, TRA.last_visite FROM (module_carnet_topics TOP, module_carnet_topics_to DEST) LEFT JOIN module_carnet_messages MSG ON (MSG.topic=DEST.topic AND MSG.eleve=DEST.eleve) LEFT JOIN module_carnet_tracking TRA ON (TRA.topic=TOP.id AND TRA.utilisateur='.$user.') WHERE DEST.topic=TOP.id AND DEST.eleve IN ('.implode(", ",$idEleves).') AND TOP.classe='.$classe.' GROUP BY TOP.id ORDER BY last_msg_date DESC, TOP.date_creation DESC';
-			$arTopics = $dbw->fetchAll ($critere);
+			$arTopics = _doQuery($critere);
 			//print_r($arTopics);
 			usort ($arTopics, array('DAOCarnet_Topics', 'usortListTopics'));
 			return $arTopics;
@@ -77,10 +76,9 @@ class DAOCarnet_Topics {
 	 */
 	function getListCarnetsMessagesForTopicAndEleves ($id_topic, $eleves) {
 		$idEleves = array(); foreach ($eleves as $item) $idEleves[] = $item["id"];
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT MSG.* FROM module_carnet_messages MSG WHERE MSG.topic='.$id_topic.' AND MSG.eleve IN ('.implode(", ",$idEleves).') ORDER BY MSG.date ASC, MSG.id ASC';
 		//print_r2($critere);
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 	/**
@@ -93,9 +91,8 @@ class DAOCarnet_Topics {
 	 * @return mixed Objet DAO
 	 */
 	function getListCarnetsMessagesForTopicAndEleve ($id_topic, $eleve) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT MSG.* FROM module_carnet_messages MSG WHERE MSG.topic='.$id_topic.' AND MSG.eleve = '.$eleve.' ORDER BY MSG.date ASC, MSG.id ASC';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 	/**
@@ -107,9 +104,8 @@ class DAOCarnet_Topics {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesForTopic ($id_topic) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT (DEST.eleve) FROM module_carnet_topics_to DEST WHERE DEST.topic='.$id_topic.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 

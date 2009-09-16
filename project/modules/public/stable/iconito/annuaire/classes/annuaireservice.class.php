@@ -425,7 +425,7 @@ class AnnuaireService {
 	 * @return array Tableau contenant tous les élèves, triés alphabétiquement
 	 */
 	function getEleves ($type, $id) {
-		$dao = CopixDAOFactory::create("kernel|kernel_bu_ele");
+		$dao = _dao("kernel|kernel_bu_ele");
 		
 		if ($type == 'BU_CLASSE')
 			$res = $dao->getElevesInClasse($id);
@@ -450,7 +450,7 @@ class AnnuaireService {
 	 */
 	function getPersonnel ($type, $id) {
 	
-		$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel");
+		$dao = _dao("kernel|kernel_bu_personnel");
 		
 		if ($type == 'BU_CLASSE')
 			$res = $dao->getPersonnelInClasse($id);
@@ -474,7 +474,7 @@ class AnnuaireService {
 	 * @return array Tableau contenant tout les parents, triés alphabétiquement
 	 */
 	function getParents ($type, $id) {
-		$dao = CopixDAOFactory::create("kernel|kernel_bu_res");
+		$dao = _dao("kernel|kernel_bu_res");
 		if ($type == 'BU_CLASSE')
 			$res = $dao->getParentsInClasse($id);
 		elseif ($type == 'BU_ECOLE')
@@ -499,7 +499,7 @@ class AnnuaireService {
 	 */
 	function getPersonnelExt ($type, $id) {
 	
-		$dao = CopixDAOFactory::create("kernel|kernel_ext_user");
+		$dao = _dao("kernel|kernel_ext_user");
 		
 		if ($type == 'BU_CLASSE')
 			$res = $dao->getPersonnelExtInClasse($id);
@@ -524,7 +524,7 @@ class AnnuaireService {
 	 * @return array Tableau contenant les personnes, triées alphabétiquement
 	 */
 	function getPersonnelAdm ($type, $id) {
-		$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel");
+		$dao = _dao("kernel|kernel_bu_personnel");
 		if ($type == 'BU_ECOLE')
 			$res = $dao->getPersonnelAdmInEcole($id);
 		elseif ($type == 'BU_VILLE')
@@ -545,7 +545,7 @@ class AnnuaireService {
 	 * @return array Tableau contenant les personnes, triées alphabétiquement
 	 */
 	function getPersonnelVil ($type, $id) {
-		$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel");
+		$dao = _dao("kernel|kernel_bu_personnel");
 		if ($type == 'BU_VILLE')
 			$res = $dao->getPersonnelVilInVille($id);
 		elseif ($type == 'BU_GRVILLE')
@@ -666,9 +666,8 @@ class AnnuaireService {
       }
     }
     if ( !$home || Kernel::isAdmin() ) {  // Si rattaché à rien, on l'envoie dans la 1e ville
-    	$dbw = & CopixDbFactory::getDbWidget ();
       $sql = "SELECT MIN(id_vi) AS ville FROM kernel_bu_ville LIMIT 1";
-    	$v = $dbw->fetchAll ($sql);
+    	$v = _doQuery($sql);
       $home = array('type'=>'BU_VILLE', 'id'=>$v[0]->ville);
     }
     //print_r($home);

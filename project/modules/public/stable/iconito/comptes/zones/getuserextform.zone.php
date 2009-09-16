@@ -10,9 +10,9 @@ class ZoneGetUserExtForm extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 
-		$tpl->assign('user',   $this->params['user'] );
-		$tpl->assign('mode',   $this->params['mode'] );
-		$tpl->assign('errors', $this->params['errors'] );
+		$tpl->assign('user',   $this->getParam('user') );
+		$tpl->assign('mode',   $this->getParam('mode') );
+		$tpl->assign('errors', $this->getParam('errors') );
 		
 		$toReturn = $tpl->fetch ('zonegetuserextform.tpl');
 		

@@ -61,10 +61,10 @@ class CopixTest_DAOTest extends CopixTest {
 	 */
 	function _testCreationEnregistrementsFK (){
 		//création de l'enregistrement
-		$recordFK = CopixDAOFactory::createRecord ('copixtest|copixtestforeignkeytype');
+		$recordFK = _daoRecord ('copixtest|copixtestforeignkeytype');
 
 		//Création de la dao
-		$daoFK = CopixDAOFactory::create ('copixtest|copixtestforeignkeytype');
+		$daoFK = _dao ('copixtest|copixtestforeignkeytype');
 
 		$recordFK->caption_typetest = "catégorie 1";
 		$daoFK->insert ($recordFK);
@@ -104,7 +104,7 @@ class CopixTest_DAOTest extends CopixTest {
 	 */
 	function _testGetEnregistrementsFK (){
 		//Création de la dao
-		$daoFK = CopixDAOFactory::create ('copixtest|copixtestforeignkeytype');
+		$daoFK = _dao ('copixtest|copixtestforeignkeytype');
 
 		//on test la récupération de nos éléments de façon individuelle
 		foreach ($daoFK->findAll () as $record){
@@ -118,9 +118,9 @@ class CopixTest_DAOTest extends CopixTest {
 	 */
 	function _testCreationEnregistrement (){
 		//création des enregistrements de l'autre table
-		$record = CopixDAOFactory::createRecord ('copixtest|copixtestmain');
+		$record = _daoRecord ('copixtest|copixtestmain');
 		//Création de la dao de l'autre table
-		$dao = CopixDAOFactory::create ('copixtest|copixtestmain');
+		$dao = _dao ('copixtest|copixtestmain');
 		 
 		//insertion d'enregistrements exemples
 		$record->type_test  = $this->_firstIDFK;//catégorie 
@@ -182,7 +182,7 @@ class CopixTest_DAOTest extends CopixTest {
 		}
 		 
 		//on vérifie qu'un findBy vide n'est pas impactant
-		$this->assertEquals (4, count ($dao->findBy (CopixDAOFactory::createSearchParams ())));
+		$this->assertEquals (4, count ($dao->findBy (_daoSearchParams ())));
 		 
 		//on test le findby avec des conditions sur les champs principaux
 		//1 seul élément de catégorie 1
@@ -309,10 +309,10 @@ class CopixTest_DAOTest extends CopixTest {
 		$ct = CopixDB::getConnection ();
 		$ct->doQuery ('delete from copixtestautodao');
 		 
-		$dao = CopixDAOFactory::create ('copixtestautodao');
-		$sp  = CopixDAOFactory::createSearchParams ();
+		$dao = _dao ('copixtestautodao');
+		$sp  = _daoSearchParams ();
 
-		$record = CopixDAOFactory::createRecord ('copixtestautodao');
+		$record = _daoRecord ('copixtestautodao');
 
 		$record->type_test  = '1';
 		$record->titre_test = 'Titre 3';
@@ -332,14 +332,14 @@ class CopixTest_DAOTest extends CopixTest {
 		$this->assertTrue (count($dao->findBy($sp))>1);
 		 
 		//On vide les titres Titre 3 et vérifie le delete by
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->addCondition ('titre_test','=','Titre 3');
 		$dao->deleteBy ($sp);
 		 
 		$this->assertTrue (count ($dao->findBy ($sp)) == 0);
 
 		//On vide tout et on vérifie le findAll == 0 
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$dao->deleteBy ($sp);
 		$this->assertTrue (count ($dao->findAll ()) == 0);
 
@@ -352,10 +352,10 @@ class CopixTest_DAOTest extends CopixTest {
 		$ct = CopixDB::getConnection ();
 		$ct->doQuery ('delete from copixtestautodao');
 		 
-		$dao = CopixDAOFactory::create ('copixtestautodao');
-		$sp  = CopixDAOFactory::createSearchParams ();
+		$dao = _dao ('copixtestautodao');
+		$sp  = _daoSearchParams ();
 
-		$record = CopixDAOFactory::createRecord ('copixtestautodao');
+		$record = _daoRecord ('copixtestautodao');
 
 		$record->type_test  = '1';
 		$record->titre_test = 'Titre 3';
@@ -379,7 +379,7 @@ class CopixTest_DAOTest extends CopixTest {
 	 * test de conditions vides avec juste une order by
 	 */
 	function testDAOConditionEmptyWithOrderBy (){
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->orderBy ('type_test');
 		_ioDAO ('copixtestautodao')->findBy ($sp);
 	}
@@ -390,12 +390,12 @@ class CopixTest_DAOTest extends CopixTest {
 	function testDAOEmptyGroups (){
 		$this->_testInsertTestData ();
 
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->startGroup ();
 		$sp->endGroup ();
 		$this->assertEquals (count (_ioDAO ('copixtestautodao')->findBy ($sp)), 4);
 
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->startGroup ();
 		$sp->startGroup ();
 		$sp->endGroup ();
@@ -421,18 +421,18 @@ class CopixTest_DAOTest extends CopixTest {
 		$this->_testInsertTestData ();
 
 		//Dans un même groupe
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->addCondition ('titre_test', '=', 'Titre 3', 'or');
 		$sp->addCondition ('titre_test', '=', 'Titre 4', 'or');
 		$this->assertEquals (count (_ioDAO ('copixtestautodao')->findBy ($sp)), 2);
 
 		//Avec un tableau
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->addCondition ('titre_test', '=', array ('Titre 3', 'Titre 4'));
 		$this->assertEquals (count (_ioDAO ('copixtestautodao')->findBy ($sp)), 2);
 
 		//Dans des groupes différents
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->addCondition ('titre_test', '=', 'Titre 2', 'or');
 
 		$sp->startGroup ('OR');
@@ -449,7 +449,7 @@ class CopixTest_DAOTest extends CopixTest {
 	function testGroupAndWithFieldOr (){
 		$this->_testInsertTestData ();
 		//Dans des groupes différents
-		$sp = CopixDAOFactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		$sp->addCondition ('titre_test', '=', 'Titre 3');
 		$sp->startGroup ();
 		$sp->addCondition ('titre_test', '=', 'Titre 3', 'or');
@@ -490,9 +490,9 @@ class CopixTest_DAOTest extends CopixTest {
 	}
 
 	private function _testInsertTestData (){
-		$dao = CopixDAOFactory::create ('copixtestautodao');
-		$sp  = CopixDAOFactory::createSearchParams ();
-		$record = CopixDAOFactory::createRecord ('copixtestautodao');
+		$dao = _dao ('copixtestautodao');
+		$sp  = _daoSearchParams ();
+		$record = _daoRecord ('copixtestautodao');
 
 		$record->type_test  = '1';
 		$record->titre_test = 'Titre 1';

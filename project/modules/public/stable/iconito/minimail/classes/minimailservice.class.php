@@ -28,11 +28,11 @@ class MinimailService {
 		
 		if (1) {
 			
-			$DAOminimail_from = CopixDAOFactory::create("minimail|minimail_from");
-			$DAOminimail_to = CopixDAOFactory::create("minimail|minimail_to");
+			$DAOminimail_from = _dao("minimail|minimail_from");
+			$DAOminimail_to = _dao("minimail|minimail_to");
 			
 			
-			$newMp = CopixDAOFactory::createRecord("minimail|minimail_from");
+			$newMp = _daoRecord("minimail|minimail_from");
 			$newMp->title = $title;
 			$newMp->message = $message;
 			$newMp->format = $format;
@@ -46,7 +46,7 @@ class MinimailService {
 				// On parcourt chaque destinataire
 				while (list($to_id,) = each ($destin)) {
 					//print_r("to_id=$to_id / to_login=$to_login");
-					$newDest = CopixDAOFactory::createRecord("minimail|minimail_to");
+					$newDest = _daoRecord("minimail|minimail_to");
 					$newDest->id_message = $newMp->id;
 					$newDest->to_id = $to_id;
 					$newDest->date_read = 0;
@@ -96,7 +96,7 @@ class MinimailService {
 	function markMinimailAsRead ($dest, $id_user) {
 		while (list(,$d) = each ($dest)) {
 			if ($d->to_id==$id_user && $d->is_read==0) {	// L'usager figure bien dans les destinataires
-				$DAOminimail_from = CopixDAOFactory::create("minimail|minimail_to");
+				$DAOminimail_from = _dao("minimail|minimail_to");
 				$mp = $DAOminimail_from->get($d->id2);
 				$mp->is_read = 1;
 				$mp->date_read = date("Y-m-d H:i:s");

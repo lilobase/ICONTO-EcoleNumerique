@@ -10,8 +10,7 @@
  * @link        http://www.cap-tic.fr
  */
 
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'demo_tools.class.php');
-
+_classInclude('kernel|demo_tools');
 
 class CacheServices {
 

@@ -12,7 +12,7 @@ class DAOBlogarticlecategory {
     * @return
     */
     function getCategoryByName ($url_bacg){
-      $sp = & CopixDAOFactory::createSearchParams ();
+      $sp = _daoSp ();
       $sp->addCondition ('url_bacg', '=', $url_bacg);
 
       if (count($arCat = $this->_compiled->findBy ($sp)) > 0)  {
@@ -28,8 +28,6 @@ class DAOBlogarticlecategory {
     * @return
     */
     function findAllOrder ($id_blog){
-      $dbw  = & CopixDbFactory::getDbWidget ();
-
       $critere = ' SELECT cat.id_bacg as id_bacg, '.
       									 'art.id_bacg as link_art, '. 	
       									 'cat.id_blog as id_blog, '. 	
@@ -41,7 +39,7 @@ class DAOBlogarticlecategory {
                  ' WHERE cat.id_blog = '.$id_blog.
 		  					 ' GROUP BY cat.id_bacg'.
 		  					 ' ORDER BY cat.order_bacg ASC';
-      return $dbw->fetchAll($critere);
+      return _doQuery($critere);
     }
 
     /**
@@ -50,8 +48,6 @@ class DAOBlogarticlecategory {
     * @return
     */
     function findAllOrderBy ($id_blog, $orderby){
-      $dbw  = & CopixDbFactory::getDbWidget ();
-
       $critere = ' SELECT id_bacg as id_bacg, '.
       									 'id_blog as id_blog, '. 	
       									 'order_bacg as order_bacg, '. 	
@@ -60,7 +56,7 @@ class DAOBlogarticlecategory {
                  ' FROM module_blog_articlecategory'.
                  ' WHERE id_blog = '.$id_blog.
 		  					 ' ORDER BY '.$orderby;
-      return $dbw->fetchAll($critere);
+      return _doQuery($critere);
     }
     
    /**
@@ -139,7 +135,7 @@ class DAOBlogarticlecategory {
     * Get all categories from a blog
     */
     function getAllCategoriesFromBlog ($id_blog) {
-      $sp = & CopixDAOFactory::createSearchConditions ();
+      $sp = & _daoSearchConditions ();
       $sp->addCondition ('id_blog', '=', $id_blog);
       $sp->addItemOrder ('order_bacg', 'ASC');
 
@@ -169,9 +165,8 @@ class DAORecordblogarticlecategory {
 														' AND url_bacg=\'' . $this->_compiled->url_bacg.'\'';
 				}
 				// Vérification de l'unicité de l'url
-      	$dbw  = & CopixDbFactory::getDbWidget ();
-
-				if(($DBresult = $dbw->fetchAll($sqlRequest)) && (count($DBresult)>0) ) {
+      	$DBresult = _doQuery($sqlRequest);
+				if(count($DBresult)>0) {
 					require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
 					$errorObject = new CopixErrorObject ();
 					$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog.dao.url.exist'));

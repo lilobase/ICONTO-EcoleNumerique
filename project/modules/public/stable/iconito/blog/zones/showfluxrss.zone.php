@@ -20,7 +20,7 @@ class ZoneShowFluxrss extends CopixZone {
       $blog = $this->getParam('blog', '');
 	  $id_flux = $this->getParam('id_flux', '');
       
-	  $daoFlux = CopixDAOFactory::create('blog|blogfluxrss');
+	  $daoFlux = _dao('blog|blogfluxrss');
       $flux = $daoFlux->getFluxById($id_flux);
 	  $urlFlux = $flux->url_bfrs;
 

@@ -14,8 +14,8 @@ class KernelSso {
 
 	function create () {
 		$return = NULL;
-		$dao = CopixDAOFactory::create("sso|sso");
-		$new = CopixDAOFactory::createRecord("sso|sso");
+		$dao = _dao("sso|sso");
+		$new = _daoRecord("sso|sso");
 		$new->sso_date_crea = date("Y-m-d H:i:s");
 		$dao->insert ($new);
 		if ($new->sso_id!==NULL) {
@@ -25,7 +25,7 @@ class KernelSso {
 	}
 
 	function getStats ($id_sso) {
-		$dao = CopixDAOFactory::create("sso|sso");
+		$dao = _dao("sso|sso");
 		$res = array();
 		/*
 		$infos = $dao->getSso($id_sso);

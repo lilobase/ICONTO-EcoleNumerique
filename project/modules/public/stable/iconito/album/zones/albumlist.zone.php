@@ -15,7 +15,7 @@ class ZoneAlbumList extends CopixZone {
 		/*
 		$service = & CopixClassesFactory::Create ('Album');
 
-	 	$album_dao = CopixDAOFactory::create("album");
+	 	$album_dao = _dao("album");
 		$albumlist = $album_dao->listAlbums();
 		
 		foreach( $albumlist as $key => $albumitem ) {

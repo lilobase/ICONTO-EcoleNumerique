@@ -29,7 +29,7 @@ class ZoneAgendaMenu extends CopixZone {
 //    print_r($agendaAffiches);
     
 		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
-		foreach((array)$this->params['listAgendasAffiches'] as $id_agenda){
+		foreach((array)$this->getParam('listAgendasAffiches') as $id_agenda){
 			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
       //print_r($serviceAuth->getWriteAgenda());
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteAgenda()){
@@ -39,7 +39,7 @@ class ZoneAgendaMenu extends CopixZone {
 		}
 		
 		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
-		foreach((array)$this->params['listAgendasAffiches'] as $id_agenda){
+		foreach((array)$this->getParam('listAgendasAffiches') as $id_agenda){
 			//on vérifie si l'utilisateur a les droits d'import
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getModerate()){
 				$ableToModerate = true;
@@ -47,7 +47,7 @@ class ZoneAgendaMenu extends CopixZone {
 			}
 		}		
 
-		$listeFiltre = $this->params['listAgendas'];
+		$listeFiltre = $this->getParam('listAgendas');
 		//on vérifie les droits de lecture des utilisateurs
 		foreach((array)$listeFiltre as $key=>$agenda){
 			//on vérifie si l'utilisateur a les droits de lecture sur la liste des agendas

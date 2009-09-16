@@ -15,9 +15,8 @@ class DAOAlbum {
 	
 	// Le nb de photos d'un album photos
 	function getNbPhotosInAlbum ($id_album) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT COUNT(PHO.id) AS nb FROM module_album_photos PHO WHERE PHO.id_album='.$id_album.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 

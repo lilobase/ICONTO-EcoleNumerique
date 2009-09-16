@@ -27,7 +27,9 @@ class ZoneMyGroupes extends CopixZone {
 		
 		// Parcours de chaque groupe
 		$groupes = array();
-		while (list($k,) = each($groupesAll)) {
+		
+		foreach ($groupesAll as $k=>$gr) {
+
 			$mondroit = $kernel_service->getLevel( "CLUB", $groupesAll[$k]->id);
 			//print_r($mondroit."-".PROFILE_CCV_READ);
 			// Affichage sur la page d'accueil limité aux groupes dont on est admin.
@@ -54,6 +56,8 @@ class ZoneMyGroupes extends CopixZone {
 		//$groupes = array_reverse ($groupes, true);
 		//print_r($groupes);
     
+		//print_r($where);
+		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('list', $groupes);
 		

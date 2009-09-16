@@ -20,25 +20,24 @@ class KernelAnnuaire {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(numero) AS nb FROM kernel_bu_ecole';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbEcoles'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbEcoles', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbEcoles'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbEcoles', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id) AS nb FROM kernel_bu_ecole_classe';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbClasses'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbClasses', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbClasses'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbClasses', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(numero) AS nb FROM kernel_bu_eleve';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbEleves'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbEleves', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbEleves'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbEleves', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(numero) AS nb FROM kernel_bu_personnel';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbPersonnel'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbPersonnel', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbPersonnel'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbPersonnel', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(numero) AS nb FROM kernel_bu_responsable';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbParents'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbParents', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbParents'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbParents', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id_cusr) AS nb FROM copixuser';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbUsers'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbUsers', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbUsers'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbUsers', array($a[0]->nb)));
 		return $res;
 	}
 

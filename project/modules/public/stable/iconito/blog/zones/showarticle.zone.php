@@ -19,7 +19,7 @@ class ZoneShowArticle extends CopixZone {
       $comment = $this->getParam('comment', NULL);
 
       //on récupère l'ensemble des articles du blog
-      $dao = CopixDAOFactory::create('blog|blogarticle');
+      $dao = _dao('blog|blogarticle');
 
       //$article = $dao->getArticleByUrl($blog->id_blog, $this->getParam('article', ''));
 			list($id_bact, ) = explode("-", $this->getParam('article', ''));
@@ -40,7 +40,7 @@ class ZoneShowArticle extends CopixZone {
 
       $tpl->assign ('article', $article);
 	    // Recherche de tous les commentaires associés à cet article
-	    $commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
+	    $commentDAO = _dao('blog|blogarticlecomment');
 	    $res = $commentDAO->findCommentOrderBy($article->id_bact, 1);
 	    $listComment = array();
 	    foreach($res as $r) {
@@ -52,7 +52,7 @@ class ZoneShowArticle extends CopixZone {
 		    $toEdit = $comment;
 		} else {	// On récupère l'utilisateur connecté
 			$user = BlogAuth::getUserInfos();
-			$toEdit = CopixDAOFactory::createRecord('blogarticlecomment');
+			$toEdit = _daoRecord('blogarticlecomment');
 		    $toEdit->authorid_bacc = $user->userId;
 	    	$toEdit->authorname_bacc = $user->name;
 		    $toEdit->authoremail_bacc = $user->email;

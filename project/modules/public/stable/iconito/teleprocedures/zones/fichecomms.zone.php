@@ -23,12 +23,12 @@ class ZoneFicheComms extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$rFiche = $this->params['rFiche'];
-		$mondroit = $this->params['mondroit'];
+		$rFiche = $this->getParam('rFiche');
+		$mondroit = $this->getParam('mondroit');
 
 	  $dbWidget = & CopixDBFactory::getDbWidget ();
 		
-		$daoinfo = & CopixDAOFactory::create ('infosupp');
+		$daoinfo = & _dao ('infosupp');
     $sql ='SELECT * FROM module_teleprocedure_infosupp WHERE idinter='.$rFiche->idinter.'';
 
 		$canCheckVisible = TeleproceduresService::canMakeInTelep('CHECK_VISIBLE', $mondroit);

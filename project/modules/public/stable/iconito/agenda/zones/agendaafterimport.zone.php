@@ -15,7 +15,7 @@ class ZoneAgendaAfterImport extends CopixZone {
 		
 		$tpl = & new CopixTpl ();		
 		
-		$tpl->assign('nbInsertions', $this->params['nbInsertions']);
+		$tpl->assign('nbInsertions', $this->getParam('nbInsertions'));
 		
 		$toReturn = $tpl->fetch ('afterimport.agenda.tpl');
 		return true;

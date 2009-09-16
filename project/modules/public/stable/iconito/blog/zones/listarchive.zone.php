@@ -17,7 +17,7 @@ class ZoneListArchive extends CopixZone {
 
       $blog = $this->getParam('blog', '');
       
-      $dao = CopixDAOFactory::create('blog|blogarticle');
+      $dao = _dao('blog|blogarticle');
       $tpl->assign ('listArchive' , $dao->getAllArchivesFromBlog($blog->id_blog));
       $tpl->assign ('blog' , $blog);
 

@@ -15,7 +15,7 @@ class DAOBlogfunctions {
     * @return
     */
    function createBlogFunctions ($id_blog, $tabBlogFunctions) { 
-			 $blogFunctions = CopixDAOFactory::createRecord('blog|blogfunctions');
+			 $blogFunctions = _daoRecord('blog|blogfunctions');
        foreach($tabBlogFunctions as $fct) {
        		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }
@@ -30,7 +30,7 @@ class DAOBlogfunctions {
     * @return
     */
    function updateBlogFunctions ($id_blog, $tabBlogFunctions) {
-			 $blogFunctions = CopixDAOFactory::createRecord('blogfunctions');
+			 $blogFunctions = _daoRecord('blogfunctions');
        foreach($tabBlogFunctions as $fct) {
        		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }

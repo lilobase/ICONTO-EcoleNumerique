@@ -159,7 +159,7 @@ class MalleService {
 	 */
 	function update_infos_for_folder ($malle, $folder) {
 		
-		$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+		$daoFolders = _dao("malle|malle_folders");
 		
 		$rFolder = $daoFolders->get ($folder);
 		if ($rFolder) {
@@ -185,8 +185,8 @@ class MalleService {
 	 */
 	function update_infos_for_folder_desc ($malle, $folder) {
 		
-		$daoFiles = CopixDAOFactory::create("malle|malle_files");
-		$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+		$daoFiles = _dao("malle|malle_files");
+		$daoFolders = _dao("malle|malle_folders");
 		//$malleService = & CopixClassesFactory::Create ('malle|malleService');
 		
 		$infos = $daoFiles->getNbFilesInFolder ($malle, $folder);
@@ -236,7 +236,7 @@ class MalleService {
 	 * @param object rFile recordset du fichier (récupéré par DAO)
 	 */
 	function deleteFile ($rFile) {
-		$daoFiles = CopixDAOFactory::create("malle|malle_files");
+		$daoFiles = _dao("malle|malle_files");
 		
 		// On supprime le fichier
 		$fichier = $rFile->id.'_'.$rFile->fichier;
@@ -254,8 +254,8 @@ class MalleService {
 	 */
 	function deleteFolder ($rFolder) {
 		
-		$daoFolders = CopixDAOFactory::create("malle|malle_folders");
-		$daoFiles = CopixDAOFactory::create("malle|malle_files");
+		$daoFolders = _dao("malle|malle_folders");
+		$daoFiles = _dao("malle|malle_files");
 		
 		// On prend tous les sous-dossiers
 		$folders = $daoFolders->getFoldersInFolder($rFolder->malle, $rFolder->id);
@@ -284,7 +284,7 @@ class MalleService {
 	 */
 	function buildComboFolders ($malle, $folder=0, $niveau=1) {
 		//print_r("buildComboFolders ($malle, $folder, $res)");
-		$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+		$daoFolders = _dao("malle|malle_folders");
 		$res = array();
 		// On lit les dossiers de cette malle
 		$folders = $daoFolders->getFoldersInFolder($malle, $folder);
@@ -310,7 +310,7 @@ class MalleService {
 	 */
 	function isFolderUnderFolder ($folder1, $folder2) {
 		//print_r("isFolderUnderFolder ($folder1, $folder2)");
-		$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+		$daoFolders = _dao("malle|malle_folders");
 
 		$fini = $res = false;
 
@@ -349,10 +349,10 @@ class MalleService {
 	function copyFile ($rFile, $folderDest) {
 		//print_r($rFile);
 		$res = false;
-		$daoFiles = CopixDAOFactory::create("malle|malle_files");
+		$daoFiles = _dao("malle|malle_files");
 		
 		// On insère d'abord dans la base
-		$new = CopixDAOFactory::createRecord("malle|malle_files");
+		$new = _daoRecord("malle|malle_files");
 		$new->malle = $rFile->malle;
 		$new->folder = $folderDest;
 		$new->nom = $rFile->nom;
@@ -390,11 +390,11 @@ class MalleService {
 	function copyFolder ($rFolder, $folderDest) {
 		//print_r($rFolder);
 		$res = NULL;
-		$daoFolders = CopixDAOFactory::create("malle|malle_folders");
-		$daoFiles = CopixDAOFactory::create("malle|malle_files");
+		$daoFolders = _dao("malle|malle_folders");
+		$daoFiles = _dao("malle|malle_files");
 		
 		// On insère d'abord dans la base
-		$new = CopixDAOFactory::createRecord("malle|malle_folders");
+		$new = _daoRecord("malle|malle_folders");
 		$new->malle = $rFolder->malle;
 		$new->parent = $folderDest;
 		$new->nom = $rFolder->nom;
@@ -536,8 +536,8 @@ class MalleService {
 	 */
 	function getFilesInFolder ($malle, $folder, &$files, $path='') {
 		
-		$daoFiles = CopixDAOFactory::create("malle|malle_files");
-		$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+		$daoFiles = _dao("malle|malle_files");
+		$daoFolders = _dao("malle|malle_folders");
 		
 		$obj = $daoFolders->get ($folder);
 		

@@ -19,7 +19,7 @@ class ZoneInfosEcole extends CopixZone {
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
-		$rEcole = isset($this->params['rEcole']) ? $this->params['rEcole'] : NULL;
+		$rEcole = isset($this->getParam('rEcole')) ? $this->getParam('rEcole') : NULL;
 
 		if ($rEcole) {
 			//print_r($rEcole);
@@ -27,8 +27,8 @@ class ZoneInfosEcole extends CopixZone {
 			$ecole = $rEcole['id'];
 
 			// BOOST 2.5s
-			if( $this->params['classes'] )
-				$classes = $this->params['classes'];
+			if( $this->getParam('classes') )
+				$classes = $this->getParam('classes');
 			else
 				$classes = $annuaireService->getClassesInEcole($ecole);
 			

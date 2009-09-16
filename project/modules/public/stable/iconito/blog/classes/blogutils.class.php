@@ -101,7 +101,7 @@ function BDToDateTime($date, $time, $format) {
 			if ($blog)
 				break;
 			if ($node->module_type == 'MOD_BLOG') {
-				$dao = CopixDAOFactory::create("blog|blog");
+				$dao = _dao("blog|blog");
 				$blog = $dao->get($node->module_id);
 			}
 		}

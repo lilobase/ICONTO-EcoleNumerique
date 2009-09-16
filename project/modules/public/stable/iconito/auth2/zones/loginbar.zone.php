@@ -29,12 +29,12 @@ class ZoneLoginBar extends CopixZone {
 			
         }else{
             $tpl->assign ('user', null);
-            $tpl->assign ('login', @$this->params['login']);
+            $tpl->assign ('login', @$this->getParam('login'));
         }
 				
 				$tpl->assign ('url', htmlentities(CopixUrl::get().'index.php?'.$_SERVER["QUERY_STRING"]));
 
-        $tpl->assign ('failed', @$this->params['failed']);
+        $tpl->assign ('failed', @$this->getParam('failed'));
         $tpl->assign ('showLostPassword', CopixConfig::get ('auth|enableSendLostPassword'));
         // $tpl->assign ('showRememberMe', (CopixCoordination::getPlugin ('auth|reconnect') !== null));
         $tpl->assign ('showRememberMe', false);

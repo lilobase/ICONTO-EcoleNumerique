@@ -10,12 +10,12 @@ class ZoneLoginResult extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$tpl->assign('format', $this->params['format'] );
-		$tpl->assign('type',   $this->params['type']   );
-		$tpl->assign('id',     $this->params['id']     );
+		$tpl->assign('format', $this->getParam('format') );
+		$tpl->assign('type',   $this->getParam('type')   );
+		$tpl->assign('id',     $this->getParam('id')     );
 		$tpl->assign('logins', $_SESSION['modules']['comptes']['doLoginCreate']['success'] );
 		
-		switch( $this->params['format'] ) {
+		switch( $this->getParam('format') ) {
 			case 'html':
 				$toReturn = $tpl->fetch ('LoginResult-html.tpl');
 				break;

@@ -16,12 +16,15 @@ class ZoneReglettePages extends CopixZone {
 		$tpl = & new CopixTpl ();
 
 		//$service = & CopixClassesFactory::Create ('Album');
-		$nbPages = intval($this->params['nbPages']);
-		$page = intval($this->params['page']);
-		$url = $this->params['url'];
-		$autour = (isset($this->params['autour'])) ? intval($this->params['autour']) : 3;	// Nb de pages à afficher de chaque côté de la page courante
-		$extremite = (isset($this->params['extremite'])) ? intval($this->params['extremite']) : 1;	// Nb de pages à chaque bout de la règle
+		$nbPages = intval($this->getParam('nbPages'));
+		$page = intval($this->getParam('page'));
+		$url = $this->getParam('url');
 		
+		// Nb de pages à afficher de chaque côté de la page courante
+		$autour = $this->getParam('autour',3);
+		// Nb de pages à chaque bout de la règle
+		$extremite = $this->getParam('extremite',1);
+
 		if ($nbPages<2) return true;
 		
 		$autourFrom = ($page-$autour<1) ? 1 : $page-$autour;

@@ -21,14 +21,14 @@ class ZoneTypes extends CopixZone {
 	function _createContent (&$toReturn){
 	  $tpl = & new CopixTpl ();
 
-		$rTelep = $this->params['rTelep'];
-		$admin = $this->params['admin'];
-		$canInsert = $this->params['canInsert'];
+		$rTelep = $this->getParam('rTelep');
+		$admin = $this->getParam('admin');
+		$canInsert = $this->getParam('canInsert');
 
 		if (!$admin && !$canInsert)
 			return true;
 			
-		$DAOtype = & CopixDAOFactory::create ('type');
+		$DAOtype = & _dao ('type');
 		
 		if ($admin)
 			$list = $DAOtype->findForTeleprocedureAdmin ($rTelep->id);

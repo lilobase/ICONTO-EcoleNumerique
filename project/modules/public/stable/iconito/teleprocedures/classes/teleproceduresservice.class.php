@@ -121,9 +121,9 @@ class TeleproceduresService {
 		}
 		
 		$ct->doQuery($sqlDelete);
-		$daoTypeDroit = CopixDAOFactory::create($daoDroit);
+		$daoTypeDroit = _dao($daoDroit);
 		foreach ($pArUsers as $user) {
-			$newDroit = CopixDAOFactory::createRecord($daoDroit);
+			$newDroit = _daoRecord($daoDroit);
 			$newDroit->$droitField = $pId;
 			$newDroit->user_type = $user['type'];
 			$newDroit->user_id = $user['id'];
@@ -144,12 +144,12 @@ class TeleproceduresService {
 	 */
 	function copyDroitFromTypeToInter ($pInter) {
 		// Les droits sur le type, a duppliquer
-		$DAOtypeDroit = & CopixDAOFactory::create ('teleprocedures|type_droit');
-		$DAOinterventionDroit = & CopixDAOFactory::create ('teleprocedures|intervention_droit');
+		$DAOtypeDroit = & _dao ('teleprocedures|type_droit');
+		$DAOinterventionDroit = & _dao ('teleprocedures|intervention_droit');
 		$return = array();
 		$list = $DAOtypeDroit->findForIdType ($pInter->idtype);
 		foreach ($list as $droit) {
-			$itvDroit = CopixDAOFactory::createRecord('teleprocedures|intervention_droit');
+			$itvDroit = _daoRecord('teleprocedures|intervention_droit');
 			$itvDroit->idinter = $pInter->idinter;
 			$itvDroit->user_type = $droit->user_type;
 			$itvDroit->user_id = $droit->user_id;
@@ -180,7 +180,7 @@ class TeleproceduresService {
 		$cacheRead = $cache->read ();
 		if ($cacheRead == '' || $cacheRead == null) {
 			$getDroit = 0;
-			$DAOinterventionDroit = & CopixDAOFactory::create ('teleprocedures|intervention_droit');
+			$DAOinterventionDroit = & _dao ('teleprocedures|intervention_droit');
 			if ($droit = $DAOinterventionDroit->findForIdinterAndUser ($idinter, $user_type, $user_id))
 				$getDroit = $droit[0]->droit;
 			
@@ -330,7 +330,7 @@ class TeleproceduresService {
 		} else
 			$modid = $exists;
 		if ($modid) {
-			$daoBlog = & CopixDAOFactory::create ('blog|blog');
+			$daoBlog = & _dao ('blog|blog');
 			$return = $daoBlog->get($modid);
 		}
 		return $return;
@@ -347,14 +347,14 @@ class TeleproceduresService {
 	 * @param integer $user Id de l'utilisateur
 	 */
 	function userReadIntervention ($id_intervention, $user) {
-		$daoTracking = CopixDAOFactory::create("teleprocedures|tracking");
+		$daoTracking = _dao("teleprocedures|tracking");
 		$visite = $daoTracking->get($id_intervention, $user);
 		//print_r($visite);
 		if ($visite) {	// Il a déjà visité ce topic
 			$visite->last_visite = date("Y-m-d H:i:s");
 			$daoTracking->update($visite);
 		} else {	// 1e visite !
-			$newVisite = CopixDAOFactory::createRecord("teleprocedures|tracking");
+			$newVisite = _daoRecord("teleprocedures|tracking");
 			$newVisite->intervention = $id_intervention;
 			$newVisite->utilisateur = $user;
 			$newVisite->last_visite = date("Y-m-d H:i:s");

@@ -136,7 +136,7 @@ class AgendaService {
 		$daoAgenda = &CopixDAOFactory::getInstanceOf ('agenda|agenda');
 		if(count($pArIdAgenda)>0){
 			foreach($pArIdAgenda as $id){
-				$daoSearchParams = & CopixDAOFactory::createSearchParams ();
+				$daoSearchParams = & _daoSearchParams ();
 				$daoSearchParams->addCondition ('id_agenda', '=', $id);
 				$arAgenda = $daoAgenda->findBy ($daoSearchParams);
 				if(count($arAgenda)>0){
@@ -228,15 +228,14 @@ class AgendaService {
 		
 		while($dateCourante <= $pDateFin){
 			/*
-			$record   = & CopixDAOFactory::createRecord ('lecon');
-			$criteres = CopixDAOFactory::createSearchConditions();
+			$record   = & _daoRecord ('lecon');
+			$criteres = _daoSearchConditions();
 			$criteres->addCondition('date_lecon', '=', $dateCourante);	
 			$resultat = $daoLecon->findBy($criteres);			
 			*/
 			
-			$dbw = & CopixDbFactory::getDbWidget ();
 			$sql = "SELECT LEC.* FROM module_agenda_lecon LEC WHERE LEC.date_lecon='".$dateCourante."' AND LEC.id_agenda IN (".implode(',',$pArAgendas).")";
-			$resultat = $dbw->fetchAll ($sql);
+			$resultat = _doQuery($sql);
 			
 			if (count($resultat) > 0){//modification
 				$arLeconsByDays[$dateCourante] = $resultat[0];
@@ -507,7 +506,7 @@ class AgendaService {
 	*/	
 	function getTypeAgendaByIdAgenda($pIdAgenda){
 		
-		$daoSearchParams = & CopixDAOFactory::createSearchParams ();
+		$daoSearchParams = & _daoSearchParams ();
 		$daoSearchParams->addCondition ('id_agenda', '=', $pIdAgenda);
 
 		$daoAgenda = & CopixDAOFactory::getInstanceOf ('agenda|agenda');
@@ -564,7 +563,7 @@ class AgendaService {
 	function getTilteAgendaByIdAgenda ($pArIdAgenda){
 				
 		foreach($pArIdAgenda as $key=>$idAgenda){
-			$daoSearchParams = & CopixDAOFactory::createSearchParams ();
+			$daoSearchParams = & _daoSearchParams ();
 			$daoSearchParams->addCondition ('id_agenda', '=', $idAgenda);	
 			$daoAgenda = & CopixDAOFactory::getInstanceOf ('agenda|agenda');
 			$arAgenda  = $daoAgenda->findBy ($daoSearchParams);

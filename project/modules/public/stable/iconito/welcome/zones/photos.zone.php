@@ -34,12 +34,12 @@ class ZonePhotos extends CopixZone {
 		$legendes = $this->getParam('legendes');
 		
 		$arPhotos = array();
-		$album_dao = CopixDAOFactory::create("album|album");
+		$album_dao = _dao("album|album");
 		$nbPhotos = 0;
 		if ($rAlbum = $album_dao->get($album)) {
 			//var_dump($rAlbum);
 			
-			$photo_dao = CopixDAOFactory::create("album|photo");
+			$photo_dao = _dao("album|photo");
 			$photolist = $photo_dao->findAllByAlbumAndFolder($album,$dossier);
 			//var_dump($photolist);
 			$nbPhotos = count($photolist);

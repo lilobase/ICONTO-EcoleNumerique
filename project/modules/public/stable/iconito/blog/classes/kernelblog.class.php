@@ -14,13 +14,13 @@ class KernelBlog {
 	$author = Auteur du premier article (id user). Si non positionné, prend la session. Sinon, valeur par défaut (voir conf du module)
 	*/
 	function create ($infos=array()) {
-		$blogDAO = CopixDAOFactory::create('blog|blog');
+		$blogDAO = _dao('blog|blog');
 		
 		$res = null;
 		
 		$tabBlogFunctions = returnAllBlogFunctions();
 	
-		$blog = CopixDAOFactory::createRecord('blog|blog');
+		$blog = _daoRecord('blog|blog');
 		if ($infos['title'])
 			$blog->name_blog = $infos['title'].( (isset($infos['subtitle']) && strlen($infos['subtitle'])>0) ? ' ('.$infos['subtitle'].')' : '');
 		else
@@ -42,8 +42,8 @@ class KernelBlog {
       $blogDAO->update ($blog);
       
 			// On ajoute une catégorie
-			$categoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
-			$category = CopixDAOFactory::createRecord('blog|blogarticlecategory');
+			$categoryDAO = _dao('blog|blogarticlecategory');
+			$category = _daoRecord('blog|blogarticlecategory');
 			$category->id_blog	 = $blog->id_blog;
 			$category->name_bacg = CopixI18N::get ('blog|blog.default.categorie');
 			$category->url_bacg	 = killBadUrlChars($category->name_bacg) . date('YmdHis');
@@ -51,8 +51,8 @@ class KernelBlog {
 			$categoryDAO->insert($category);
 			
 			if ($category->id_bacg!==NULL) {	// On ajoute un article
-				$articleDAO = CopixDAOFactory::create('blog|blogarticle');
-				$article = CopixDAOFactory::createRecord('blog|blogarticle');
+				$articleDAO = _dao('blog|blogarticle');
+				$article = _daoRecord('blog|blogarticle');
 				$article->id_blog	 = $blog->id_blog;
 				$article->name_bact	 = CopixI18N::get ('blog|blog.default.article.titre');
 				$article->format_bact	 = 'wiki';
@@ -80,7 +80,7 @@ class KernelBlog {
   				$article->url_bact = killBadUrlChars($article->id_bact.'-'.$article->name_bact);
   				$articleDAO->update($article);
 
-					$artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
+					$artctgDAO = _dao('blog|blogarticle_blogarticlecategory');
 					$artctgDAO->deleteAndInsert($article->id_bact, array($category->id_bacg));
 				}
 			}
@@ -94,7 +94,7 @@ class KernelBlog {
 	Renvoie différentes infos chiffrées d'un blog, dans un tableau
 	*/
 	function getStats ($id_blog) {
-		$dao = CopixDAOFactory::create('blog|blogarticle');
+		$dao = _dao('blog|blogarticle');
 		//var_dump($dao);
 		$res = array();	
 		$arData = $dao->getAllArticlesFromBlog($id_blog, NULL);
@@ -125,16 +125,15 @@ class KernelBlog {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(id_blog) AS nb FROM module_blog';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbBlogs'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbBlogs', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbBlogs'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbBlogs', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id_bact) AS nb FROM module_blog_article';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbArticles'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbArticles', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbArticles'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbArticles', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id_bacc) AS nb FROM module_blog_articlecomment';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbComments'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbComments', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbComments'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbComments', array($a[0]->nb)));
 		return $res;
 	}
 
@@ -143,26 +142,26 @@ class KernelBlog {
 	function delete ($id_blog) {
 		
 		//suppression du blog
-		$blogDAO = & CopixDAOFactory::create ('blog|blog');
+		$blogDAO = & _dao ('blog|blog');
 		$blogDAO->delete($id_blog);
 		
 		//suppression des pages liées au blog
 		$daoPage = & CopixDAOFactory::getInstanceOf ('blog|blogpage');
-		$record  = & CopixDAOFactory::createRecord ('blog|blogpage');
+		$record  = & _daoRecord ('blog|blogpage');
 	
-		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres = _daoSearchConditions();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoPage->findBy($criteres);
-		$daoPage = & CopixDAOFactory::create ('blog|blogpage');
+		$daoPage = & _dao ('blog|blogpage');
 		foreach($resultat as $page){
 			$daoPage->delete($page);
 		}	
 		
 		//suppression des liens liés au blog
 		$daoLien = & CopixDAOFactory::getInstanceOf ('blog|bloglink');
-		$record  = & CopixDAOFactory::createRecord ('blog|bloglink');
+		$record  = & _daoRecord ('blog|bloglink');
 	
-		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres = _daoSearchConditions();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoLien->findBy($criteres);
 		
@@ -172,9 +171,9 @@ class KernelBlog {
 
 		//suppression des catégories du blog
 		$daoCategorie = & CopixDAOFactory::getInstanceOf ('blog|blogarticlecategory');
-		$record  = & CopixDAOFactory::createRecord ('blog|blogarticlecategory');
+		$record  = & _daoRecord ('blog|blogarticlecategory');
 	
-		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres = _daoSearchConditions();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoCategorie->findBy($criteres);
 		
@@ -185,9 +184,9 @@ class KernelBlog {
 		//suppression des articles, des commentaires et des liens catégories / articles
 		$arIdBact = array();	
 		$daoArticle = & CopixDAOFactory::getInstanceOf ('blog|blogarticle');
-		$record     = & CopixDAOFactory::createRecord ('blog|blogarticle');
+		$record     = & _daoRecord ('blog|blogarticle');
 	
-		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres = _daoSearchConditions();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoArticle->findBy($criteres);
 		
@@ -205,8 +204,8 @@ class KernelBlog {
 	*/
 	function publish ($id, $data) {
 	
-		$articleDAO = CopixDAOFactory::create('blog|blogarticle');
-		$article = CopixDAOFactory::createRecord('blog|blogarticle');
+		$articleDAO = _dao('blog|blogarticle');
+		$article = _daoRecord('blog|blogarticle');
 		$article->id_blog	 = $id;
 		$article->name_bact	 = $data['title'];
 		$article->format_bact = 'wiki';
@@ -227,7 +226,7 @@ class KernelBlog {
 
 		/*
 		if ($article->id_bact!==NULL) {	// On relie l'article à la catégorie
-			$artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
+			$artctgDAO = _dao('blog|blogarticle_blogarticlecategory');
 			$artctgDAO->deleteAndInsert($article->id_bact, array($category->id_bacg));
 		}
 		*/
@@ -242,7 +241,7 @@ class KernelBlog {
 			return false;
 		}
 		
-		$album_dao = CopixDAOFactory::create("album|album");
+		$album_dao = _dao("album|album");
 		$album = $album_dao->get($id);
 		if( $album==null ) {
 			return false;
@@ -269,8 +268,8 @@ class KernelBlog {
 		if( $ext != '' ) {
 			$album_service = & CopixClassesFactory::Create ('album|album');
 
-			$photo_dao = & CopixDAOFactory::create("album|photo");
-			$nouvelle_photo = CopixDAOFactory::createRecord("album|photo");
+			$photo_dao = & _dao("album|photo");
+			$nouvelle_photo = _daoRecord("album|photo");
 			$nouvelle_photo->photo_album = $album->album_id;
 			if( trim($image['title']) != '' )
 				$nouvelle_photo->photo_nom = $image['title'];
@@ -329,7 +328,6 @@ class KernelBlog {
 	 * @return string url_blog à stocker dans la BDD. Chaine vide si problème
    */
   function calcule_url_blog ($id, $titre) {
-    $dbw  = & CopixDbFactory::getDbWidget ();
     if (strlen($titre)>97) $titre = substr($titre, 0, 97);
     //print_r("titre=$titre<br>");
     $titre = killBadUrlChars ($titre);
@@ -340,7 +338,7 @@ class KernelBlog {
 			$sql = "SELECT id_blog FROM module_blog WHERE url_blog='".addslashes($id_nom)."'";
   		if ($id) $sql .= " AND id_blog!=$id";
 		  //print_r ("sql=$sql<br>");
-		  $p = $dbw->fetchAll($sql);
+		  $p = _doQuery($sql);
   		$exists = ($p) ? true : false;
 		  $fusible++;
   	}

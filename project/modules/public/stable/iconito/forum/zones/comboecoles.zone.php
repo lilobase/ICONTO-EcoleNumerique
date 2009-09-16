@@ -21,10 +21,10 @@ class ZoneComboEcoles extends CopixZone {
 	function _createContent (&$toReturn) {
 		
 		$tpl = & new CopixTpl ();
-		$ville = isset($this->params['ville']) ? $this->params['ville'] : NULL;
-		$value = isset($this->params['value']) ? $this->params['value'] : 0;
-		$fieldName = isset($this->params['fieldName']) ? $this->params['fieldName'] : NULL;
-		$attribs = isset($this->params['attribs']) ? $this->params['attribs'] : NULL;
+		$ville = isset($this->getParam('ville')) ? $this->getParam('ville') : NULL;
+		$value = isset($this->getParam('value')) ? $this->getParam('value') : 0;
+		$fieldName = isset($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
+		$attribs = isset($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
 		
 		$ecoles = array();
 		$childs = Kernel::getNodeChilds ('BU_VILLE', $ville);

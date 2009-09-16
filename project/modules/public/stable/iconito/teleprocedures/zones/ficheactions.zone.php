@@ -23,8 +23,8 @@ class ZoneFicheActions extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$rFiche = $this->params['rFiche'];
-		$mondroit = $this->params['mondroit'];
+		$rFiche = $this->getParam('rFiche');
+		$mondroit = $this->getParam('mondroit');
 
 	  $dbWidget = & CopixDBFactory::getDbWidget ();
 		
@@ -33,7 +33,7 @@ class ZoneFicheActions extends CopixZone {
 		$canSendMails = TeleproceduresService::canMakeInTelep('SEND_MAILS', $mondroit, array('idinter'=>$rFiche->idinter));
 		
 		
-		$daoStat = & CopixDAOFactory::create ('statu');
+		$daoStat = & _dao ('statu');
     $tpl->assign ('arStat', $daoStat->findAll ());
 		
 	  $tpl->assign ('rFiche', $rFiche);

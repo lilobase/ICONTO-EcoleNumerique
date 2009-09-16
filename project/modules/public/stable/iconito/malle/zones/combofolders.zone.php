@@ -21,16 +21,16 @@ class ZoneComboFolders extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 
-		//$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+		//$daoFolders = _dao("malle|malle_folders");
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
 		
 		$tpl = & new CopixTpl ();
 		$res = array();
-		$malle = isset($this->params["malle"]) ? $this->params["malle"] : NULL;
-		$folder = isset($this->params["folder"]) ? $this->params["folder"] : 0;
-		$fieldName = isset($this->params["fieldName"]) ? $this->params["fieldName"] : NULL;
-		$attribs = isset($this->params["attribs"]) ? $this->params["attribs"] : NULL;
-		$linesSup = isset($this->params["linesSup"]) ? $this->params["linesSup"] : NULL;
+		$malle = isset($this->getParam('malle')) ? $this->getParam('malle') : NULL;
+		$folder = isset($this->getParam('folder')) ? $this->getParam('folder') : 0;
+		$fieldName = isset($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
+		$attribs = isset($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
+		$linesSup = isset($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
 		
 		$res = $malleService->buildComboFolders ($malle);
 		//print_r($res);

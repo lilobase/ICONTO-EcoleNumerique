@@ -164,7 +164,7 @@ class DBUserHandler implements ICopixUserHandler {
 	 * @return array of DBUser
 	 */
 	public function find ($pParams = array ()){
-		$sp = CopixDAOfactory::createSearchParams ();
+		$sp = _daoSearchParams ();
 		if (isset ($pParams['login'])){
 			if (!is_array ($pParams['login']) && strpos ($pParams['login'], '%')){
 				$sp->addCondition ('login_dbuser', 'like', $pParams['login']);

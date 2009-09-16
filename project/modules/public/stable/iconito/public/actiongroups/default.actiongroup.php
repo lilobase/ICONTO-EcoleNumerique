@@ -23,7 +23,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @todo Positionner $grville
    */
    function processGetListBlogs () {
-
+		
+		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
 

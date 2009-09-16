@@ -247,6 +247,7 @@ class CopixI18N {
 			}
 			return self :: get($key, $args, CopixConfig :: instance()->default_language . '_' . CopixConfig :: instance()->default_country);
 		} else {
+			//var_dump($args);
 			//here, we know the message
 			if ($args !== null) {
 				$string = call_user_func_array('sprintf', array_merge(array (

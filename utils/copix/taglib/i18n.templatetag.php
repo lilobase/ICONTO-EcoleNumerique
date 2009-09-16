@@ -38,7 +38,16 @@ class TemplateTagI18N extends CopixTemplateTag {
 
    	$key = $pParams['key'];
    	unset ($pParams['key']);
-   	
+		
+		if (isset($pParams['pNb'])) {
+			
+	 		switch ($pParams['pNb']) {
+				case 0 : $key .= '_0'; break;
+				case 1 : $key .= '_1'; break;
+				default : $key .= '_N'; break;
+			}
+	 	}
+		
    	if (isset ($pParams['noEscape'])){
    		$noEscape = $pParams['noEscape'];
    		unset ($pParams['noEscape']);

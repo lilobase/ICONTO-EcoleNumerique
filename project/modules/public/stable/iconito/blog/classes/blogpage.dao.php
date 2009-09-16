@@ -15,7 +15,7 @@ class DAOBlogPage {
     * @return
     */
     function getPageByUrl ($id_blog, $url_bpge){
-      $sp = & CopixDAOFactory::createSearchParams ();
+      $sp = _daoSp ();
       $sp->addCondition ('url_bpge', '=', $url_bpge);
       $sp->addCondition ('id_blog' , '=', $id_blog);
       $sp->addCondition ('is_online', '=', 1);
@@ -31,7 +31,7 @@ class DAOBlogPage {
     * Get all article from a blog
     */
     function getAllPagesFromBlog ($id_blog) {
-      $sp = & CopixDAOFactory::createSearchConditions ();
+      $sp = & _daoSearchConditions ();
       $sp->addCondition ('id_blog', '=', $id_blog);
       $sp->addCondition ('is_online', '=', 1);
       $sp->addItemOrder ('order_bpge', 'ASC');
@@ -45,8 +45,6 @@ class DAOBlogPage {
     * @return
     */
     function findAllOrder ($id_blog){
-      $dbw  = & CopixDbFactory::getDbWidget ();
-
       $critere = ' SELECT pge.id_bpge as id_bpge, '.
       									 'pge.id_blog as id_blog, '. 	
       									 'pge.name_bpge as name_bpge, '. 	
@@ -58,7 +56,7 @@ class DAOBlogPage {
                  ' FROM module_blog_page as pge '.
                  ' WHERE pge.id_blog = '.$id_blog.
 		  					 ' ORDER BY pge.order_bpge ASC';
-      return $dbw->fetchAll($critere);
+      return _doQuery($critere);
     }
     
    /**
@@ -157,9 +155,8 @@ class DAORecordblogpage {
 														' AND url_bpge=\'' . $this->_compiled->url_bpge.'\'';
 				}
 				// Vérification de l'unicité de l'url
-      	$dbw  = & CopixDbFactory::getDbWidget ();
-
-				if(($DBresult = $dbw->fetchAll($sqlRequest)) && (count($DBresult)>0) ) {
+      	$DBresult = _doQuery($sqlRequest);
+				if(count($DBresult)>0) {
 					require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
 					$errorObject = new CopixErrorObject ();
 					$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog.dao.url.exist'));

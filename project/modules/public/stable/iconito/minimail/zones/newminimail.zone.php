@@ -14,26 +14,26 @@ class ZoneNewMinimail extends CopixZone {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/17
-	 * @param integer idUser Id de l'utilisateur
 	 */
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$idUser = $this->params['idUser'];
+		$idUser = 0;	// Todo mettre son ID
 		
 		if ($idUser) {
 		
-		$dao = CopixDAOFactory::create("minimail|minimail_to");
+			$dao = _dao("minimail|minimail_to");
+	
+			$messages = $dao->getListRecvUnread($idUser);
+			$nbMessages = count($messages);
+	
+			$tpl->assign('nbMessages', $nbMessages);
+			
+			// retour de la fonction :
+	    $toReturn = $tpl->fetch ('newminimail.tpl');
+			
+			if( !$nbMessages ) $toReturn="";
 
-		$messages = $dao->getListRecvUnread($idUser);	// Todo mettre son ID
-		$nbMessages = count($messages);
-
-		$tpl->assign('nbMessages', $nbMessages);
-		
-		// retour de la fonction :
-    $toReturn = $tpl->fetch ('newminimail.tpl');
-		
-		if( !$nbMessages ) $toReturn="";
 		}
 		
     return true;

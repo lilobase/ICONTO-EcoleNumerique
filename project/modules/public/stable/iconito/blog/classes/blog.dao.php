@@ -14,7 +14,7 @@ class DAOBlog {
     * @return
     */
 	function getBlogByName ($url_blog){
-		$sp = & CopixDAOFactory::createSearchParams ();
+		$sp = _daoSp ();
 		$sp->addCondition ('url_blog', '=', $url_blog);
 
 		if (count($arBlog = $this->_compiled->findBy ($sp)) > 0)  {
@@ -31,7 +31,7 @@ class DAOBlog {
     * @return
     */
 	function getBlogById ($id_blog){
-		$sp = & CopixDAOFactory::createSearchParams ();
+		$sp = _daoSp ();
 		$sp->addCondition ('id_blog', '=', $id_blog);
 		
 		if (count($arBlog = $this->_compiled->findBy ($sp)) > 0)  {
@@ -77,8 +77,8 @@ class DAORecordBlog {
 				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE id_blog!=' . $this->_compiled->id_blog.' AND url_blog=\'' . $this->_compiled->url_blog.'\'';
 			}
 			// Vérification de l'unicité de l'url
-			$dbw  = & CopixDbFactory::getDbWidget ();
-			if(($DBresult = $dbw->fetchAll($sqlRequest)) && (count($DBresult)>0) ) {
+			$DBresult = _doQuery($sqlRequest);
+			if(count($DBresult)>0) {
 				require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
 				$errorObject = new CopixErrorObject ();
 				$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog|blog.dao.url.exist'));

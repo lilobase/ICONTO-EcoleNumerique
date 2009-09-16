@@ -29,7 +29,7 @@ class ZoneShowBlogFluxRss extends CopixZone {
 		$tpl->assign ('kind', $this->getParam('kind', ''));
 
 		// Recherche de tous les liens RSS de la base
-		$blogRssDAO = CopixDAOFactory::create('blog|blogfluxrss');
+		$blogRssDAO = _dao('blog|blogfluxrss');
 		$tabRss = $blogRssDAO->findAllOrder($id_blog);
 
 		$tpl->assign ('tabRss', $tabRss);

@@ -18,14 +18,14 @@ class ZoneList extends CopixZone {
 	function _createContent (&$toReturn){
 	  $tpl = & new CopixTpl ();
 
-		$motcle= $this->params['motcle'];
-		$clos = $this->params['clos'];
-		$type = $this->params['type'];
-		$ecole = $this->params['ecole'];
-		$rTelep = $this->params['rTelep'];
-		$mondroit = $this->params['mondroit'];
+		$motcle= $this->getParam('motcle');
+		$clos = $this->getParam('clos');
+		$type = $this->getParam('type');
+		$ecole = $this->getParam('ecole');
+		$rTelep = $this->getParam('rTelep');
+		$mondroit = $this->getParam('mondroit');
 
-    $daointerv = & CopixDAOFactory::create ('intervention');
+    $daointerv = & _dao ('intervention');
 		
 		$sqlSelectPlus = $sqlFromPlus = $sqlWherePlus = '';
 		$ville = false;

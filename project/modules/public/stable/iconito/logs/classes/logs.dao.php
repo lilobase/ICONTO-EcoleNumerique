@@ -19,9 +19,9 @@ class DAOLogs {
 	
 	function lastLogin ($login) {
 	
-		$dao = CopixDAOFactory::create("logs|logs");
+		$dao = _dao("logs|logs");
 
-		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres = _daoSearchConditions();
 		$criteres->addCondition('logs_type', '=', 'LOG');
 		$criteres->addCondition('logs_mod_name', '=', 'auth');
 		$criteres->addCondition('logs_mod_action', '=', 'in');
@@ -29,7 +29,7 @@ class DAOLogs {
 		$criteres->addItemOrder( 'logs_date', 'DESC' );
 		$lastlog = $dao->findBy($criteres);
 		
-		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres = _daoSearchConditions();
 		$criteres->addCondition('logs_type', '=', 'LOG');
 		$criteres->addCondition('logs_mod_name', '=', 'auth');
 		$criteres->addCondition('logs_mod_action', '=', 'in');

@@ -17,7 +17,7 @@ class ZoneListFluxRss extends CopixZone {
 
       $blog = $this->getParam('blog', '');
       
-      $dao = CopixDAOFactory::create('blog|blogfluxrss');
+      $dao = _dao('blog|blogfluxrss');
       $tpl->assign ('listFluxRss' , $dao->getAllFluxRssFromBlog($blog->id_blog));
 
       $toReturn = $tpl->fetch('listfluxrss.tpl');

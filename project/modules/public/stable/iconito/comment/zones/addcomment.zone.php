@@ -20,15 +20,15 @@ class ZoneAddComment extends CopixZone {
       $plugAuth = & $GLOBALS['COPIX']['COORD']->getPlugin ('auth|auth');
       $user     = & $plugAuth->getUser ();
       if ($user->isConnected()) {
-         $tpl->assign ('showErrors',$this->params['e']);
+         $tpl->assign ('showErrors',$this->getParam('e'));
          //dao error or something else
-         if (isset($this->params['toEdit']->errors)) {
-            $tpl->assign ('errors' ,$this->params['toEdit']->errors);
+         if (isset($this->getParam('toEdit')->errors)) {
+            $tpl->assign ('errors' ,$this->getParam('toEdit')->errors);
          }else{
-            $tpl->assign ('errors' ,$this->params['toEdit']->check ());
+            $tpl->assign ('errors' ,$this->getParam('toEdit')->check ());
          }
 
-         $tpl->assign ('toEdit'    ,$this->params['toEdit']);
+         $tpl->assign ('toEdit'    ,$this->getParam('toEdit'));
 
          $services = & CopixClassesFactory::create ('comment|commentservices');
          $tpl->assign ('formatList',$services->getFormatList ());

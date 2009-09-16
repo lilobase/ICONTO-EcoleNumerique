@@ -29,7 +29,7 @@ class ZoneShowBlogCategory extends CopixZone {
       $tpl->assign ('kind', $this->getParam('kind', ''));
 
       // Recherche de toutes les catégories de la base
-      $blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
+      $blogArticleCategoryDAO = _dao('blog|blogarticlecategory');
 			$tabArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
 
       $tpl->assign ('tabArticleCategory', $tabArticleCategory);

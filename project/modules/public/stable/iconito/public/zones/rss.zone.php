@@ -25,10 +25,10 @@ class ZoneRss extends CopixZone {
 		$tpl  = & new CopixTpl ();
 		
 	  //on récupère l'ensemble des articles du blog
-    //$dao = CopixDAOFactory::create('blog|blogarticle');
+    //$dao = _dao('blog|blogarticle');
 		
-		$dao     = CopixDAOFactory::create('blog|blogarticlecategory');
-		$daoLink = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
+		$dao     = _dao('blog|blogarticlecategory');
+		$daoLink = _dao('blog|blogarticle_blogarticlecategory');
       
     //$arData = $dao->getAllArticlesFromBlog($blog->id_blog, NULL);
     //print_r($arData); 
@@ -39,7 +39,7 @@ class ZoneRss extends CopixZone {
 		$critere = 'SELECT ART.id_bact, ART.name_bact, ART.url_bact, ART.date_bact, ART.time_bact, ART.sumary_bact, ART.sumary_html_bact, BLOG.url_blog FROM module_blog BLOG, module_blog_article ART WHERE ART.id_blog=BLOG.id_blog AND BLOG.is_public=1 ORDER BY ART.date_bact DESC, ART.time_bact DESC, ART.id_bact ASC LIMIT '.intval(CopixConfig::get('public|rss.nbArticles'));
 		$arArticle = $dbw->fetchAll ($critere);
 		foreach ($arArticle as $key=>$article) {
-			$sp = & CopixDAOFactory::createSearchParams ();
+			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);
 			$arArticle[$key]->categories = array();
 			foreach ($daoLink->findBy($sp) as $object) {

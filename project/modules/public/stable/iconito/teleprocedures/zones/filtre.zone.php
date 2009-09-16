@@ -11,16 +11,16 @@ class ZoneFiltre extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$motcle= $this->params['motcle'];
-		$clos = $this->params['clos'];
-		$type = $this->params['type'];
-		$ecole= $this->params['ecole'];
+		$motcle= $this->getParam('motcle');
+		$clos = $this->getParam('clos');
+		$type = $this->getParam('type');
+		$ecole= $this->getParam('ecole');
 
-		$rTelep = $this->params['rTelep'];
-		$admin = $this->params['admin'];
-		$mondroit = $this->params['mondroit'];
+		$rTelep = $this->getParam('rTelep');
+		$admin = $this->getParam('admin');
+		$mondroit = $this->getParam('mondroit');
 		
-		$daoType = & CopixDAOFactory::create ('teleprocedures|type');
+		$daoType = & _dao ('teleprocedures|type');
     $tpl->assign ('arTypes', $daoType->findForTeleprocedure ($rTelep->id));
 	
 		//print_r($rTelep);

@@ -15,7 +15,7 @@ class DAOAgenda {
     */
 	function findAgendasInIds ($ids) {
     /* Ne marche plus en PHP5
-		$sp = & CopixDAOFactory::createSearchConditions ();
+		$sp = & _daoSearchConditions ();
 		$sp->startGroup ('OR');
 		foreach ($ids as $id) {
 			$sp->addCondition ('id_agenda', '=', $id);
@@ -23,9 +23,8 @@ class DAOAgenda {
 		$sp->endGroup ();
 		return $this->_compiled->findBy ($sp);
     */
- 		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT AG.* FROM module_agenda_agenda AG WHERE AG.id_agenda IN ('.implode(', ',$ids).')';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 	/**
@@ -37,9 +36,8 @@ class DAOAgenda {
 	 * @return mixed Objet DAO.
 	 */
 	function getNbsEvenementsInAgenda ($agenda) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT COUNT(id_event) AS nbEvenements FROM module_agenda_event EV WHERE EV.id_agenda='.$agenda.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}  
   
 }

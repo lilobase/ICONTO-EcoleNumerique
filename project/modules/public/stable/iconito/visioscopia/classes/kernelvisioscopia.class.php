@@ -20,8 +20,8 @@ class KernelVisioScopia {
 	function create ($infos=array()) {
 		/*
 		$return = NULL;
-		$dao = CopixDAOFactory::create("malle|malle_malles");
-		$new = CopixDAOFactory::createRecord("malle|malle_malles");
+		$dao = _dao("malle|malle_malles");
+		$new = _daoRecord("malle|malle_malles");
 		$new->titre = ($infos['title']) ? $infos['title'] : CopixI18N::get ('malle|malle.moduleDescription');
 		$new->date_creation = date("Y-m-d H:i:s");
 		$new->cle = MalleService::createKey();
@@ -48,7 +48,7 @@ class KernelVisioScopia {
 	 */
 	function delete ($id) {
 		/*
-		$daoMalles = CopixDAOFactory::create('malle|malle_malles');
+		$daoMalles = _dao('malle|malle_malles');
 		$dbw = & CopixDbFactory::getDbWidget ();
 		$rMalle = $daoMalles->get($id);
 		$res = false;
@@ -85,7 +85,7 @@ class KernelVisioScopia {
 	 */
 	function getStats ($malle) {
 		/*
-		$daoMalles = CopixDAOFactory::create("malle|malle_malles");
+		$daoMalles = _dao("malle|malle_malles");
 		$res = array();	
 		$infosFiles = $daoMalles->getNbsFilesInMalle($malle);
 		$infosFolders = $daoMalles->getNbsFoldersInMalle($malle);

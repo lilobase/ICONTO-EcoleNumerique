@@ -9,15 +9,15 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-require_once (COPIX_MODULE_PATH.'prefs/'.COPIX_CLASSES_DIR.'prefs.class.php');
+_classInclude('prefs|prefs');
 
 class ZonePrefs extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$tpl->assign ("prefs", $this->params['prefs']);
+		$tpl->assign ("prefs", $this->getParam('prefs'));
 		
-		$get = $this->params['get'];
+		$get = $this->getParam('get');
 		if( isset($get['msg']) && $get['msg']=='save' ) {
 			$tpl->assign ('msg', array(
 				'type'  => 'ok',

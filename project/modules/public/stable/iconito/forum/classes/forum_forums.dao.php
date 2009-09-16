@@ -17,9 +17,8 @@ class DAOForum_Forums {
 	 * @return mixed Objet DAO
 	 */
 	function getNbTopicsInForum ($forum) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT COUNT(TOP.id) AS nb FROM module_forum_topics TOP WHERE TOP.status=1 AND TOP.forum='.$forum.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 	/**
@@ -31,9 +30,8 @@ class DAOForum_Forums {
 	 * @return mixed Objet DAO
 	 */
 	function getNbMessagesInForum ($forum) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT COUNT(MSG.id) AS nb FROM module_forum_messages MSG, module_forum_topics TOP WHERE MSG.topic=TOP.id AND TOP.status=1 AND MSG.status=1 AND TOP.forum='.$forum.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 
 }

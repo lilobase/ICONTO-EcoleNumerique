@@ -20,7 +20,7 @@ class ZoneLinkPopup extends CopixZone {
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
-		$field = isset($this->params['field']) ? $this->params['field'] : NULL;
+		$field = isset($this->getParam('field')) ? $this->getParam('field') : NULL;
 		$profil = $this->getParam('profil');
 
 		$tpl = & new CopixTpl ();

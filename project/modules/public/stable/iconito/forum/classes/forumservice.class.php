@@ -28,9 +28,9 @@ class ForumService {
 		
 		if (1) {
 			
-			$daoMessages = CopixDAOFactory::create("forum_messages_topics");
+			$daoMessages = _dao("forum_messages_topics");
 			
-			$newMessage = CopixDAOFactory::createRecord("forum_messages_topics");
+			$newMessage = _daoRecord("forum_messages_topics");
 			$newMessage->topic = $topic;
 			$newMessage->forum = $forum;
 			$newMessage->auteur = $auteur;
@@ -67,9 +67,9 @@ class ForumService {
 		
 		if (1) {
 			
-			$daoTopics = CopixDAOFactory::create("forum_topics");
+			$daoTopics = _dao("forum_topics");
 			
-			$newTopic = CopixDAOFactory::createRecord("forum_topics");
+			$newTopic = _daoRecord("forum_topics");
 			$newTopic->titre = $titre;
 			$newTopic->forum = $forum;
 			$newTopic->createur = $auteur;
@@ -102,11 +102,11 @@ class ForumService {
 	 */
 	function updateInfosTopics ($id_topic) {
 		
-		$dao_topics = CopixDAOFactory::create("forum_topics");
+		$dao_topics = _dao("forum_topics");
 		$topic = $dao_topics->get($id_topic);
 		if ($topic) {
 			// 1. Le nb de messages
-			$dao_messages = CopixDAOFactory::create("forum_messages_topics");
+			$dao_messages = _dao("forum_messages_topics");
 			$messages = $dao_messages->getListMessagesInTopicAll($id_topic);
 			$nb_messages = count($messages);
 			
@@ -141,14 +141,14 @@ class ForumService {
 	 * @param integer $user Id de l'utilisateur
 	 */
 	function userReadTopic ($id_topic, $user) {
-		$daoTracking = CopixDAOFactory::create("forum_tracking");
+		$daoTracking = _dao("forum_tracking");
 		$visite = $daoTracking->get($id_topic, $user);
 		//print_r($visite);
 		if ($visite) {	// Il a déjà visité ce topic
 			$visite->last_visite = date("Y-m-d H:i:s");
 			$daoTracking->update($visite);
 		} else {	// 1e visite !
-			$newVisite = CopixDAOFactory::createRecord("forum_tracking");
+			$newVisite = _daoRecord("forum_tracking");
 			$newVisite->topic = $id_topic;
 			$newVisite->utilisateur = $user;
 			$newVisite->last_visite = date("Y-m-d H:i:s");
@@ -166,8 +166,8 @@ class ForumService {
 	 */
 	function deleteForumTopic ($id_topic) {
 	
-		$daoMessages = CopixDAOFactory::create("forum_messages_topics");
-		$daoTopics = CopixDAOFactory::create("forum_topics");
+		$daoMessages = _dao("forum_messages_topics");
+		$daoTopics = _dao("forum_topics");
 		
 		$res = false;
 		$rTopic = $daoTopics->get($id_topic);

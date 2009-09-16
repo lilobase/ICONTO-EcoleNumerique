@@ -17,11 +17,9 @@ class DAOBlogArticle {
     * @return
     */
 	function findListMonthForArticle($id_blog){
-		$dbw = & CopixDbFactory::getDbWidget ();
-		$critere = ' SELECT art.date_bact as date_bact
+		$critere = 'SELECT art.date_bact as date_bact
     FROM module_blog_article as art WHERE art.id_blog = '.$id_blog.' ORDER BY art.date_bact DESC, art.id_bact DESC';
-		
-		return $dbw->fetchAll($critere);
+		return _doQuery($critere);
 	}
     /**
     * getAllArchivesFromBlog
@@ -29,7 +27,7 @@ class DAOBlogArticle {
     * @return
     */
     function getAllArchivesFromBlog ($id_blog) {
-      $sp = & CopixDAOFactory::createSearchConditions ();
+      $sp = & _daoSearchConditions ();
       $sp->addCondition ('id_blog', '=', $id_blog);
       $sp->addCondition ('is_online', '=', 1);
       $sp->addItemOrder ('date_bact', 'desc');
@@ -56,7 +54,7 @@ class DAOBlogArticle {
     * @return
     */
 	function getArticleByUrl ($id_blog, $url_bact){
-		$sp = & CopixDAOFactory::createSearchParams ();
+		$sp = _daoSp ();
 		$sp->addCondition ('url_bact', '=', urlencode($url_bact));
 		$sp->addCondition ('id_blog' , '=', $id_blog);
 		$sp->addCondition ('is_online', '=', 1);
@@ -64,11 +62,11 @@ class DAOBlogArticle {
 		if ( $arArticle = $this->_compiled->findBy ($sp) )  {
 
 			//on récupère les catégories liées
-			$dao     = CopixDAOFactory::create('blog|blogarticlecategory');
-			$daoLink = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
+			$dao     = _dao('blog|blogarticlecategory');
+			$daoLink = _dao('blog|blogarticle_blogarticlecategory');
 			$article = $arArticle[0];
 
-			$sp = & CopixDAOFactory::createSearchParams ();
+			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);
 
 			$article->categories = array();
@@ -88,7 +86,7 @@ class DAOBlogArticle {
     * @return
     */
 	function getArticleById ($id_blog, $id_bact){
-		$sp = & CopixDAOFactory::createSearchParams ();
+		$sp = _daoSp ();
 		$sp->addCondition ('id_bact', '=', $id_bact);
 		$sp->addCondition ('id_blog' , '=', $id_blog);
 		$sp->addCondition ('is_online', '=', 1);
@@ -96,11 +94,11 @@ class DAOBlogArticle {
 		if ( $arArticle = $this->_compiled->findBy ($sp) )  {
 
 			//on récupère les catégories liées
-			$dao     = CopixDAOFactory::create('blog|blogarticlecategory');
-			$daoLink = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
+			$dao     = _dao('blog|blogarticlecategory');
+			$daoLink = _dao('blog|blogarticle_blogarticlecategory');
 			$article = $arArticle[0];
 
-			$sp = & CopixDAOFactory::createSearchParams ();
+			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);
 
 			$article->categories = array();
@@ -131,10 +129,10 @@ class DAOBlogArticle {
 		$arArticle = $this->findBy ($sp);
 
 		//on récupère les catégories liées
-		$dao     = CopixDAOFactory::create('blog|blogarticlecategory');
-		$daoLink = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
+		$dao     = _dao('blog|blogarticlecategory');
+		$daoLink = _dao('blog|blogarticle_blogarticlecategory');
 		foreach ($arArticle as $key=>$article){
-			$sp = & CopixDAOFactory::createSearchParams ();
+			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);
 
 			$arArticle[$key]->categories = array();
@@ -160,8 +158,8 @@ class DAOBlogArticle {
 	function getAllArticlesFromBlogByCat ($id_blog, $id_bacg) {
 	
 		//on récupère les identifiants d'article correspondant à la catégorie
-		$daoLink = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
-		$sp      = & CopixDAOFactory::createSearchParams ();
+		$daoLink = _dao('blog|blogarticle_blogarticlecategory');
+		$sp      = & _daoSearchParams ();
 		$sp->addCondition ('id_bacg', '=', $id_bacg);
 		$arID    = array();
 		foreach ($daoLink->findBy($sp) as $object) {
@@ -171,7 +169,7 @@ class DAOBlogArticle {
 			return array();
 		}
 
-		$sp = & CopixDAOFactory::createSearchConditions ();
+		$sp = & _daoSearchConditions ();
 		$sp->addCondition ('id_blog', '=', $id_blog);
 		$sp->addCondition ('id_bact', '=', $arID);
 		$sp->addCondition ('is_online', '=', 1);
@@ -182,9 +180,9 @@ class DAOBlogArticle {
 		$arArticle = $this->_compiled->findBy ($sp);
 
 		//on récupère les catégories liées
-		$dao     = CopixDAOFactory::create('blog|blogarticlecategory');
+		$dao     = _dao('blog|blogarticlecategory');
 		foreach ($arArticle as $key=>$article){
-			$sp = & CopixDAOFactory::createSearchParams ();
+			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);
 			$arArticle[$key]->categories = array();
 			foreach ($daoLink->findBy($sp) as $object) {
@@ -203,8 +201,8 @@ class DAOBlogArticle {
 	function getAllArticlesFromBlogByCritere($id_blog, $critere){
 		$arResultat = array();	
 		$arCritere = explode(" ", $critere);
-		$daoLink = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
-		$dao     = CopixDAOFactory::create('blog|blogarticlecategory');
+		$daoLink = _dao('blog|blogarticle_blogarticlecategory');
+		$dao     = _dao('blog|blogarticlecategory');
 		
 		
 		$arIds = array();
@@ -231,7 +229,7 @@ class DAOBlogArticle {
 				//var_dump($article->id_bact);
 				//var_dump($article);
 				if (!in_array($article->id_bact, $arIds)) {
-					$sp = & CopixDAOFactory::createSearchParams ();
+					$sp = _daoSp ();
 					$sp->addCondition ('id_bact', '=', $article->id_bact);
 					$arArticle[$key]->categories = array();
 					foreach ($daoLink->findBy($sp) as $object) {
@@ -255,7 +253,7 @@ class DAOBlogArticle {
 		
 		// on renseigne les catégories
 		foreach ($arResultSansDoublon as $key=>$article){
-			$sp = & CopixDAOFactory::createSearchParams ();
+			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);
 
 			$arResultSansDoublon[$key]->categories = array();
@@ -274,8 +272,6 @@ class DAOBlogArticle {
     * @return
     */
 	function findArticles ($id_blog, $id_bacg, $query, $orderby = ' art.date_bact DESC, art.time_bact DESC, art.id_bact DESC'){
-		$dbw  = & CopixDbFactory::getDbWidget ();
-
 		$critere = ' SELECT DISTINCT art.id_bact as id_bact, '.
 		'art.id_blog as id_blog, '.
 		'art.name_bact as name_bact, '.
@@ -300,20 +296,17 @@ class DAOBlogArticle {
 		if($orderby !=NULL) {
 			$critere = $critere.' order by '.$orderby;
 		}
-		return $dbw->fetchAll($critere);
+		return _doQuery($critere);
 	}
 
 
 	function findCategoriesForArticle ($id_bact){
-		$dbw  = & CopixDbFactory::getDbWidget ();
-
 		$critere = ' SELECT ctg.id_bacg as id_bacg, '.
 		'ctg.name_bacg as name_bacg, '.
 		'ctg.url_bacg as url_bacg '.
 		' FROM module_blog_articlecategory as ctg LEFT JOIN module_blog_article_blogarticlecategory as artctg ON ctg.id_bacg = artctg.id_bacg '.
 		' WHERE artctg.id_bact = '.$id_bact;
-
-		return $dbw->fetchAll($critere);
+		return _doQuery($critere);
 	}
 
 	/**
@@ -322,14 +315,12 @@ class DAOBlogArticle {
     * @return
     */
 	function findOldArticle ($id_blog){
-		$dbw  = & CopixDbFactory::getDbWidget ();
-
 		$critere = ' SELECT MIN(art.date_bact) as min '.
 		' FROM module_blog_article as art '.
 		' WHERE art.id_blog = '.$id_blog.'
 			AND is_online=1';
-
-		if (($result = $dbw->fetchAll($critere)) && $result[0]->min > 0) {
+		$result = _doQuery($critere);
+		if ($result && $result[0]->min > 0) {
 			return $result[0]->min;
 		}else{
 			return 0;
@@ -380,9 +371,8 @@ class DAORecordblogarticle {
 				' AND url_bact=\'' . $this->_compiled->url_bact.'\'';
 			}
 			// Vérification de l'unicité de l'url
-			$dbw  = & CopixDbFactory::getDbWidget ();
-
-			if(($DBresult = $dbw->fetchAll($sqlRequest)) && (count($DBresult)>0) ) {
+			$DBresult = _doQuery($sqlRequest);
+			if(count($DBresult)>0)) {
 				require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
 				$errorObject = new CopixErrorObject ();
 				$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog.dao.url.exist'));

@@ -73,7 +73,7 @@ class FichesEcolesService {
 	 * @return none
 	 */
 	function propageZoneVille ($rEcole, $rForm) {
-		$daoSearchParams = & CopixDAOFactory::createSearchParams ();
+		$daoSearchParams = & _daoSearchParams ();
 		$daoSearchParams->addCondition ('id_ville', '=', $rEcole->id_ville);
 		$dao = & CopixDAOFactory::getInstanceOf ('fichesecoles|fiches_ecoles');
 		$arFiches  = $dao->findBy ($daoSearchParams);
@@ -94,7 +94,7 @@ class FichesEcolesService {
 	 */	
 	function getZoneVille ($rEcole) {
 		$res = array('zone_ville_titre'=>null, 'zone_ville_texte'=>null);
-		$daoSearchParams = & CopixDAOFactory::createSearchParams ();
+		$daoSearchParams = & _daoSearchParams ();
 		$daoSearchParams->addCondition ('id_ville', '=', $rEcole->id_ville);
 		$dao = & CopixDAOFactory::getInstanceOf ('fichesecoles|fiches_ecoles');
 		if ($arFiches = $dao->findBy ($daoSearchParams)) {

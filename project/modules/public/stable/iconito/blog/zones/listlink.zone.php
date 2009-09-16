@@ -17,7 +17,7 @@ class ZoneListLink extends CopixZone {
 
       $blog = $this->getParam('blog', '');
       
-      $dao = CopixDAOFactory::create('blog|bloglink');
+      $dao = _dao('blog|bloglink');
       $tpl->assign ('listLink' , $dao->getAllLinksFromBlog($blog->id_blog));
 
       $toReturn = $tpl->fetch('listlink.tpl');

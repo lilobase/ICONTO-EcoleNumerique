@@ -13,8 +13,8 @@
 class Logs {
 
 	function set( $data=null ) {
-		$dao = CopixDAOFactory::create("logs|logs");
-		$nouveau = CopixDAOFactory::createRecord("logs|logs");
+		$dao = _dao("logs|logs");
+		$nouveau = _daoRecord("logs|logs");
 		
 		$types = array( 'ERROR', 'DEBUG', 'INFO', 'ALERT', 'LOG', 'AUTO' );
 		

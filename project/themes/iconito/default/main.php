@@ -34,14 +34,13 @@
 
 <?php $user = _currentUser (); ?>
 
-<?php /* if ($user->isConnected()) { */ ?>
-<?php if (isset($IS_LOGGED) && $IS_LOGGED) { ?>
+<?php if ($user->isConnected()) { ?>
 
 <td class="ecole-right"><img src="<?php echo CopixUrl::getResource ("img/spacer.gif"); ?>" border="0" width="17" height="17" alt="" /></td>
-<td width="100%" align="right"><?php echo $MINIMAIL_UNREAD; ?></td>
+<td width="100%" align="right"><?php echo CopixZone::process ('minimail|NewMinimail'); ?></td>
 </tr>
 <tr>
-<td colspan="4" class="ecole-login-bar"><?php echo $LOGIN_BAR; ?><?php if ($HEADER_MODE == "compact") { ?> | <a href="<?php echo CopixUrl::get ('kernel||getHome') ?>"><?php echo _i18n('kernel|kernel.message.moniconito') ?></a><?php } ?></td>
+<td colspan="4" class="ecole-login-bar"><?php echo CopixZone::process ('auth|userlogged') ?><?php if ($HEADER_MODE == "compact") { ?> | <a href="<?php echo CopixUrl::get ('kernel||getHome') ?>"><?php echo _i18n('kernel|kernel.message.moniconito') ?></a><?php } ?></td>
 </tr>
 
 <?php } else { ?>
@@ -51,14 +50,14 @@
 <td width="100%" align="right"><div class="annu_blog"><img src="<?php echo CopixUrl::getResource ("img/welcome/annu_blog.gif"); ?>" height="34" hspace="4" alt="<?php echo _i18n('public|public.blog.annuaire') ?>" border="0" align="right"/><a title="<?php echo _i18n('public|public.blog.annuaire') ?>" href="<?php echo CopixUrl::get ('public||') ?>"><?php echo _i18n('public|public.blog.annuaire') ?></a></div></td>
 </tr>
 <tr>
-<td colspan="4" class="ecole-login-bar"><?php if (isset($LOGIN_BAR) && $LOGIN_BAR) echo $LOGIN_BAR; ?></td>
+<td colspan="4" class="ecole-login-bar"><?php echo CopixZone::process ('auth|userlogged') ?></td>
 </tr>
 <?php } ?>
 </table>
 
 
 
-<?php if (1 || isset($IS_LOGGED) && $IS_LOGGED && $HEADER_MODE != "compact") { ?>
+<?php if ($user->isConnected() && $HEADER_MODE != "compact") { ?>
 
 <div class="icons">
 <p style="text-align: right; border:0; padding:0; margin:0; padding-right: 20px;">
@@ -87,7 +86,7 @@
 </p>
 </div>
 <?php } else { ?>
-<div class="icons_no"><img src="img/spacer.gif" height="1" width="1" alt="" /></div>
+<div class="icons_no"><img src="<?php echo CopixUrl::getResource ("img/spacer.gif"); ?>" height="1" width="1" alt="" /></div>
 <?php } ?>
 
 
@@ -118,12 +117,8 @@
 <div id="footer">
 <?php echo _i18n('public|public.nav.copyright') ?> | <a href="<?php echo CopixUrl::get ('aide||') ?>" title="<?php echo _i18n('public|public.aide') ?>"><b><?php echo _i18n('public|public.aide') ?></b></a> | <a href="<?php echo CopixUrl::get ('public||aPropos') ?>" title="<?php echo _i18n('public|public.apropos') ?>"><?php echo _i18n('public|public.apropos') ?></a>
 
-<?php if (isset($FOOTER) && $FOOTER) echo $FOOTER; ?>
+<?php echo CopixZone::process ('kernel|footer') ?>
 </div>
-
-
-
-<?php echo CopixZone::process ('auth|userLogged') ?>
 
 </body>
 

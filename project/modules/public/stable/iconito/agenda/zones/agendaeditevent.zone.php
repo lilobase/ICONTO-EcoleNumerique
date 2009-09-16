@@ -17,38 +17,36 @@ class ZoneAgendaEditEvent extends CopixZone {
 		$serviceAuth   = new AgendaAuth;
 		$tpl = & new CopixTpl ();		
 
-		//var_dump($this->params['toEdit']);
-		
 		////cas où on est passé par le prepareEdit
 		//si un évènement est répété, la case doit être cochée
-		if($this->params['toEdit']->everyday_event == 1 || $this->params['toEdit']->everyweek_event == 1 || $this->params['toEdit']->everymonth_event == 1 || $this->params['toEdit']->everyyear_event == 1){
-			$this->params['toEdit']->repeat = 1;
+		if($this->getParam('toEdit')->everyday_event == 1 || $this->getParam('toEdit')->everyweek_event == 1 || $this->getParam('toEdit')->everymonth_event == 1 || $this->getParam('toEdit')->everyyear_event == 1){
+			$this->getParam('toEdit')->repeat = 1;
 		}
 		
 		//on met à jour la balise select
-		if($this->params['toEdit']->everyday_event == 1){
-			$this->params['toEdit']->repeat_event = "everyday_event";
+		if($this->getParam('toEdit')->everyday_event == 1){
+			$this->getParam('toEdit')->repeat_event = "everyday_event";
 		}
-		if($this->params['toEdit']->everyweek_event == 1){
-			$this->params['toEdit']->repeat_event = "everyweek_event";
+		if($this->getParam('toEdit')->everyweek_event == 1){
+			$this->getParam('toEdit')->repeat_event = "everyweek_event";
 		}
-		if($this->params['toEdit']->everymonth_event == 1){
-			$this->params['toEdit']->repeat_event = "everymonth_event";
+		if($this->getParam('toEdit')->everymonth_event == 1){
+			$this->getParam('toEdit')->repeat_event = "everymonth_event";
 		}
-		if($this->params['toEdit']->everyyear_event == 1){
-			$this->params['toEdit']->repeat_event = "everyyear_event";
+		if($this->getParam('toEdit')->everyyear_event == 1){
+			$this->getParam('toEdit')->repeat_event = "everyyear_event";
 		}
-		if($this->params['toEdit']->endrepeat_event){
-			$this->params['toEdit']->endrepeat_event = $this->params['toEdit']->endrepeat_event;
+		if($this->getParam('toEdit')->endrepeat_event){
+			$this->getParam('toEdit')->endrepeat_event = $this->getParam('toEdit')->endrepeat_event;
 		}
 
 		//gestion des erreurs
-		if ($this->params['e'] == 1){
-			$tpl->assign('showError', $this->params['e']);
+		if ($this->getParam('e') == 1){
+			$tpl->assign('showError', $this->getParam('e'));
 		}		
 		
 		//vérification des droits d'écriture sur les agendas
-		$listeFiltre = $this->params['arTitleAgendasAffiches'];
+		$listeFiltre = $this->getParam('arTitleAgendasAffiches');
 		//on vérifie les droits de lecture des utilisateurs
 		foreach((array)$listeFiltre as $key=>$title_agenda){
 			//on vérifie si l'utilisateur a les droits de lecture sur la liste des agendas
@@ -60,15 +58,15 @@ class ZoneAgendaEditEvent extends CopixZone {
     //print_r($listeFiltre);
 		$id_agenda = null;
     foreach ($listeFiltre as $idAgenda=>$title) {
-      if ($this->params['toEdit']->id_agenda == $idAgenda)
+      if ($this->getParam('toEdit')->id_agenda == $idAgenda)
         $id_agenda = $idAgenda;
     }
     
     //print_r($_SESSION);
     
 		$tpl->assign('arTitleAgendasAffiches', $listeFiltre);
-		$tpl->assign('arError'    , $this->params['errors']);
-		$tpl->assign('toEdit'     , $this->params['toEdit']);
+		$tpl->assign('arError'    , $this->getParam('errors'));
+		$tpl->assign('toEdit'     , $this->getParam('toEdit'));
 		$tpl->assign ('wikibuttons_desc' , CopixZone::process ('kernel|wikibuttons', array('field'=>'desc_event', 'object'=>array('type'=>'MOD_AGENDA', 'id'=>$id_agenda))));
 		
 		$toReturn = $tpl->fetch ('editevent.agenda.tpl');

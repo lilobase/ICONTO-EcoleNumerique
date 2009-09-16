@@ -27,11 +27,15 @@ class Kernel {
 	 * 
 	 */
 	function is_connected () {
+		/*
 		if( $_SESSION["user"]->_isConnected  == 1 &&
 		    $_SESSION["user"]->_isIdentified == 1 )
 			return true;
 		else
 			return false;
+		*/
+		$user = _currentUser ();
+		return ($user && $user->isConnected());
 	}
 
 	/**
@@ -66,7 +70,7 @@ class Kernel {
 		if( $id<=0 ) { $id = 1; $moimeme = true; } else { $moimeme = false; }
 		
 		/* Appel à la base de donnée coupée, pour démo.
-		$user_dao = CopixDAOFactory::create("kernel|kernel");
+		$user_dao = _dao("kernel|kernel");
 		$user = $user_dao->get($id);
 		*/
 		
@@ -124,13 +128,13 @@ class Kernel {
 	}
 	
 	function setLevel( $node_type, $node_id, $user_type, $user_id, $droit, $debut=NULL, $fin=NULL ) {
-		$dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
+		$dao = _dao("kernel|kernel_link_user2node");
 		
 		if( $droit==0 ) {
 			$dao->delete( $user_type, $user_id, $node_type, $node_id );
 //			die("$node_type, $node_id, $user_type, $user_id");
 		} else {
-			$nouveau_droit = CopixDAOFactory::createRecord("kernel|kernel_link_user2node");
+			$nouveau_droit = _daoRecord("kernel|kernel_link_user2node");
 			$nouveau_droit->user_type = $user_type;
 			$nouveau_droit->user_id = $user_id;
 			$nouveau_droit->node_type = $node_type;
@@ -214,8 +218,8 @@ class Kernel {
 	}
 
 	function registerModule( $module_type, $module_id, $node_type, $node_id ) {
-		$dao = CopixDAOFactory::create("kernel|kernel_mod_enabled");
-		$nouveau_module = CopixDAOFactory::createRecord("kernel|kernel_mod_enabled");
+		$dao = _dao("kernel|kernel_mod_enabled");
+		$nouveau_module = _daoRecord("kernel|kernel_mod_enabled");
 		$nouveau_module->node_type = $node_type;
 		$nouveau_module->node_id = $node_id;
 		$nouveau_module->module_type = $module_type;
@@ -228,7 +232,7 @@ class Kernel {
 	}
 	
 	function unregisterModule( $module_type, $module_id, $node_type="ALL", $node_id=0 ) {
-		$dao = CopixDAOFactory::create("kernel|kernel_mod_enabled");
+		$dao = _dao("kernel|kernel_mod_enabled");
 		if( $node_type=="ALL" && $node_id==0 ) {
 			$dao->delByModule( $module_type, $module_id );
 		} else {
@@ -243,7 +247,7 @@ class Kernel {
 	function getTree( $racine_type="ROOT", $racine_node=0 ) {
 		switch( $racine_type ) {
 			case "ROOT" : // Recherche des groupes dans l'ENT...
-				$grv_dao = CopixDAOFactory::create("kernel|kernel_tree_grv");
+				$grv_dao = _dao("kernel|kernel_tree_grv");
 				$grv_list = $grv_dao->findAll();
 				$tree->groupes = array();
 				foreach ($grv_list AS $key=>$value) {
@@ -256,7 +260,7 @@ class Kernel {
 				}
 				break;
 			case "BU_GRVILLE" : // Recherche des villes dans un groupe...
-				$vil_dao = CopixDAOFactory::create("kernel|kernel_tree_vil");
+				$vil_dao = _dao("kernel|kernel_tree_vil");
 				$vil_list = $vil_dao->getByGroupeVille($racine_node);
 				$tree->villes = array();
 				foreach ($vil_list AS $key=>$value) {
@@ -269,7 +273,7 @@ class Kernel {
 				}
 				break;
 			case "BU_VILLE" : // Recherche des écoles dans une ville...
-				$eco_dao = CopixDAOFactory::create("kernel|kernel_tree_eco");
+				$eco_dao = _dao("kernel|kernel_tree_eco");
 				$eco_list = $eco_dao->getByVille($racine_node);
 				$tree->ecoles = array();
 				foreach ($eco_list AS $key=>$value) {
@@ -282,7 +286,7 @@ class Kernel {
 				}
 				break;
 			case "BU_ECOLE" : // Recherche des écoles dans une ville...
-				$cla_dao = CopixDAOFactory::create("kernel|kernel_tree_claniv");
+				$cla_dao = _dao("kernel|kernel_tree_claniv");
 				$cla_list = $cla_dao->getByEcole($racine_node);
 				$tree->classes = array();
 				foreach ($cla_list AS $key=>$value) {
@@ -322,28 +326,28 @@ class Kernel {
 			
 			case "BU_VILLE":
 				// Ville --(1)--> Groupe de ville
-				$vil_dao = CopixDAOFactory::create("kernel|kernel_tree_vil");
+				$vil_dao = _dao("kernel|kernel_tree_vil");
 				if( $ville = $vil_dao->get($id) )
 					$return[]=array("type"=>"BU_GRVILLE", "id"=>$ville->vil_id_grville);
 				break;
 			
 			case "BU_ECOLE":
 				// Ecole --(1)--> Ville
-				$eco_dao = CopixDAOFactory::create("kernel|kernel_tree_eco");
+				$eco_dao = _dao("kernel|kernel_tree_eco");
 				if( $ecole = $eco_dao->get($id) )
 					$return[]=array("type"=>"BU_VILLE", "id"=>$ecole->eco_id_ville);
 				break;
 			
 			case "BU_CLASSE":
 				// Classe --(1)--> Ecole
-				$cla_dao = CopixDAOFactory::create("kernel|kernel_tree_cla");
+				$cla_dao = _dao("kernel|kernel_tree_cla");
 				if( $classe = $cla_dao->get($id) )
 					$return[]=array("type"=>"BU_ECOLE", "id"=>$classe->cla_ecole);
 				break;
 			
 			case "CLUB": // Voir la table des nodes
 				// Groupe de travail --(1)--> Noeud (classe, ecole, etc.)
-				$dao = CopixDAOFactory::create("kernel|kernel_link_groupe2node");
+				$dao = _dao("kernel|kernel_link_groupe2node");
 				if( $res = $dao->get($id) ) {
 					$return[]=array("type"=>$res->node_type, "id"=>$res->node_id);
 				}
@@ -352,7 +356,7 @@ class Kernel {
 			case "USER_ENS": // Enseignant --(n)--> Classes/Ecoles
 			case "USER_VIL": // Agent de ville --(1?)--> Ville
 			case "USER_ADM": // Administratif école --(n)--> Ecoles
-				$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel_entite");
+				$dao = _dao("kernel|kernel_bu_personnel_entite");
 				$res = $dao->getById($id);
 				
 				foreach( $res AS $key=>$val ) {
@@ -394,7 +398,7 @@ class Kernel {
 							
 			case "USER_ELE":
 				// Eleve --(n)--> Classes
-				$dao = CopixDAOFactory::create("kernel|kernel_bu_ele_affect");
+				$dao = _dao("kernel|kernel_bu_ele_affect");
 				$res = $dao->getByEleve($id);
 				foreach( $res AS $key=>$val ) {
 					$return[]=array("type"=>"BU_CLASSE", "id"=>$val->affect_classe,"droit"=>PROFILE_CCV_WRITE);
@@ -405,7 +409,7 @@ class Kernel {
 			
 			// Utilisateurs locaux (hors BU) --(n)--> Noeuds (ecoles, classes, clubs, etc.)
 			case "USER_EXT":
-				$dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
+				$dao = _dao("kernel|kernel_link_user2node");
 				$res = $dao->getByUser($type,$id);
 				foreach( $res AS $key=>$val ) {
 					if( ereg( "^BU_(.+)$", $val->node_type, $regs ) )
@@ -427,7 +431,7 @@ class Kernel {
 
 		// Responsable --(n)--> Bénéficiaire (limité à parent --> enfants)
 		if( $type=="USER_RES" /* || $type="ORGANISME" */ ) {
-			$dao = CopixDAOFactory::create("kernel|kernel_bu_res2ele");
+			$dao = _dao("kernel|kernel_bu_res2ele");
 			$res = $dao->getByResponsable($type, $id);
 			foreach( $res AS $key=>$val ) {
 				if( $val->res2ele_type_beneficiaire != "eleve" ) continue;
@@ -436,7 +440,7 @@ class Kernel {
 		}
 				
 		if( ereg( "^USER_(.+)$", $type, $regs ) ) {
-			$dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
+			$dao = _dao("kernel|kernel_link_user2node");
 			$res = $dao->getByUser($type,$id);
 			foreach( $res AS $key=>$val ) {
 
@@ -491,12 +495,14 @@ class Kernel {
 	 * @return array Liste des noeuds, chacun sous forme (type,id). 
 	 */
 	function getNodeChilds( $type, $id, $addchildinfo=true ) {
-
+		
+		
+		
 		$return=array();
 		switch( $type ) {
 			case "ROOT":
 				// Racine --(n)--> Groupes de villes
-				$dao = CopixDAOFactory::create("kernel|kernel_tree_grv");
+				$dao = _dao("kernel|kernel_tree_grv");
 				$res = $dao->findAll();
 				foreach ($res AS $key=>$value) {
 					$return[]=array("type"=>"BU_GRVILLE", "id"=>$value->grv_id_grv);
@@ -507,13 +513,14 @@ class Kernel {
 					$return = $this->cache_getNodeChilds_grville[$id];
 				} else {
 					// Groupe de ville --(n)--> Villes
-					$dao = CopixDAOFactory::create("kernel|kernel_tree_vil");
+					$dao = _dao("kernel|kernel_tree_vil");
+					
 					$res = $dao->getByGroupeVille($id);
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"BU_VILLE", "id"=>$val->vil_id_vi);
 					}
 					// Groupe de Ville --(n)--> Agents de ville
-					$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel_entite");
+					$dao = _dao("kernel|kernel_bu_personnel_entite");
 					$res = $dao->getByRef("GVILLE",$id);
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"USER_VIL", "id"=>$val->pers_entite_id_per);
@@ -527,13 +534,13 @@ class Kernel {
 					$return = $this->cache_getNodeChilds_ville[$id];
 				} else {
 					// Ville --(n)--> Ecoles
-					$dao = CopixDAOFactory::create("kernel|kernel_tree_eco");
+					$dao = _dao("kernel|kernel_tree_eco");
 					$res = $dao->getByVille($id);
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"BU_ECOLE", "id"=>$val->eco_numero);
 					}
 					// Ville --(n)--> Agents de ville
-					$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel_entite");
+					$dao = _dao("kernel|kernel_bu_personnel_entite");
 					$res = $dao->getByRef("VILLE",$id);
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"USER_VIL", "id"=>$val->pers_entite_id_per);
@@ -547,13 +554,13 @@ class Kernel {
 					$return = $this->cache_getNodeChilds_ecole[$id];
 				} else {
 					// Ecole --(n)--> Classes
-					$dao = CopixDAOFactory::create("kernel|kernel_tree_cla");
+					$dao = _dao("kernel|kernel_tree_cla");
 					$res = $dao->getByEcole($id);
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"BU_CLASSE", "id"=>$val->cla_id);
 					}
 					// Ecole --(n)--> Enseignants
-					$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel_entite");
+					$dao = _dao("kernel|kernel_bu_personnel_entite");
 					$res = $dao->getByRef("ECOLE",$id);
 					foreach( $res AS $key=>$val ) {
 						switch( $val->pers_entite_role ) {
@@ -576,13 +583,13 @@ class Kernel {
 				} else {
 
 					// Classe --(n)--> Elèves
-					$dao = CopixDAOFactory::create("kernel|kernel_bu_ele_affect");
+					$dao = _dao("kernel|kernel_bu_ele_affect");
 					$res = $dao->getByClasse($id);
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"USER_ELE", "id"=>$val->affect_eleve);
 					}
 					// Classe --(n)--> Enseignants
-					$dao = CopixDAOFactory::create("kernel|kernel_bu_personnel_entite");
+					$dao = _dao("kernel|kernel_bu_personnel_entite");
 					$res = $dao->getByRef("CLASSE",$id);
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"USER_ENS", "id"=>$val->pers_entite_id_per);
@@ -595,7 +602,7 @@ class Kernel {
 			/*
 			case "USER_ELE": // A FINIR !!!
 				// Bénéficiaire --(n)--> Responsable
-				$dao = CopixDAOFactory::create("kernel|kernel_bu_res2ele");
+				$dao = _dao("kernel|kernel_bu_res2ele");
 				$res = $dao->getByBeneficiaire("USER_ELE", $id);
 				foreach( $res AS $key=>$val ) {
 					$return[]=array("type"=>"USER_RES", "id"=>$val->res2ele_id_responsable, "res2ele_type"=>$val->res2ele_type, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
@@ -606,7 +613,7 @@ class Kernel {
 
 		// Bénéficiaire --(n)--> Responsable (limité à enfant --> parents)
 		if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
-			$dao = CopixDAOFactory::create("kernel|kernel_bu_res2ele");
+			$dao = _dao("kernel|kernel_bu_res2ele");
 			$res = $dao->getByBeneficiaire("USER_ELE", $id);
 			foreach( $res AS $key=>$val ) {
 				if( $val->res2ele_type_responsable != "responsable" ) continue;
@@ -616,7 +623,7 @@ class Kernel {
 		
 		// Noeud (classe, ecole, etc.) + clubs --(n)--> Utilisateurs ext.
 		if( !ereg( "^USER_(.+)$", $type, $regs ) ) {
-			$dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
+			$dao = _dao("kernel|kernel_link_user2node");
 			$res = $dao->getByNode($type,$id);
 			foreach( $res AS $key=>$val ) {
 				$return[]=array("type"=>$val->user_type, "id"=>$val->user_id,"droit"=>$val->droit, "debut"=>$val->debut, "fin"=>$val->fin);
@@ -624,7 +631,7 @@ class Kernel {
 		}
 		if( ereg( "^BU_(.+)$", $type, $regs ) ) {
 			// Noeud (classe, ecole, etc.) --(n)--> Groupes de travail
-			$dao = CopixDAOFactory::create("kernel|kernel_link_groupe2node");
+			$dao = _dao("kernel|kernel_link_groupe2node");
 			$res = $dao->getByNode($type,$id);
 			foreach( $res AS $key=>$val ) {
 				$return[]=array("type"=>"CLUB", "id"=>$val->groupe_id);
@@ -642,7 +649,7 @@ class Kernel {
 				if( $user['type']=='USER_EXT' ) $userext_old[$user['id']] = true;
 			}
 			
-			$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
+			$userext_dao = & _dao("kernel|kernel_ext_user");
 			$userext_list = $userext_dao->findAll();
 			foreach( $userext_list AS $userext_key=>$userext_val ) {
 				if( $userext_old[$userext_val->ext_id] ) continue;
@@ -832,8 +839,8 @@ class Kernel {
 	 * @param integer $node_id Identifiant du noeud.
 	 */
 	function setClubParent( $club_id, $node_type, $node_id ) {
-		$dao = CopixDAOFactory::create("kernel|kernel_link_groupe2node");
-		$nouveau = CopixDAOFactory::createRecord("kernel|kernel_link_groupe2node");
+		$dao = _dao("kernel|kernel_link_groupe2node");
+		$nouveau = _daoRecord("kernel|kernel_link_groupe2node");
 		$nouveau->groupe_id = $club_id;
 		$nouveau->node_type = $node_type;
 		$nouveau->node_id = $node_id;
@@ -854,7 +861,7 @@ class Kernel {
 		$return = array();
 		switch( $type ) {
 			case "BU_GRVILLE":
-				$dao = CopixDAOFactory::create("kernel|kernel_tree_grv");
+				$dao = _dao("kernel|kernel_tree_grv");
 				if( $result = $dao->get($id) ) {
 					$return["type"] = $type;
 					$return["id"] = $id;
@@ -867,7 +874,7 @@ class Kernel {
 				if( isset($this->cache_getNodeInfo_ville[$id]) ) {
 					$return = $this->cache_getNodeInfo_ville[$id];
 				} else {
-					$dao = CopixDAOFactory::create("kernel|kernel_tree_vil");
+					$dao = _dao("kernel|kernel_tree_vil");
 					if( $result = $dao->get($id) ) {
 						$return["type"] = $type;
 						$return["id"] = $id;
@@ -892,7 +899,7 @@ class Kernel {
 				if( isset($this->cache_getNodeInfo_ecole[$id]) ) {
 					$return = $this->cache_getNodeInfo_ecole[$id];
 				} else {
-					$dao = CopixDAOFactory::create("kernel|kernel_tree_eco");
+					$dao = _dao("kernel|kernel_tree_eco");
 					if( $result = $dao->get($id) ) {
 						$return["type"] = $type;
 						$return["id"] = $id;
@@ -918,7 +925,7 @@ class Kernel {
 				if( isset($this->cache_getNodeInfo_classe[$id]) ) {
 					$return = $this->cache_getNodeInfo_classe[$id];
 				} else {
-					$dao = CopixDAOFactory::create("kernel|kernel_tree_cla");
+					$dao = _dao("kernel|kernel_tree_cla");
 					if( $result = $dao->get($id) ) {
 						$return["type"] = $type;
 						$return["id"] = $id;
@@ -939,7 +946,7 @@ class Kernel {
 				}
 				break;
 			case "CLUB":
-				$dao = CopixDAOFactory::create("groupe|groupe");
+				$dao = _dao("groupe|groupe");
 				if( $result = $dao->get($id) ) {
 					$return["type"] = $type;
 					$return["id"] = $id;
@@ -980,18 +987,18 @@ class Kernel {
 		$user = array();
 		switch( $type ) {
 			case "ID":
-				$user_dao = CopixDAOFactory::create("kernel|kernel_bu2user");
+				$user_dao = _dao("kernel|kernel_bu2user");
 				$users = $user_dao->getByUserID($id);
 				break;
 			case "LOGIN":
-				$user_dao = CopixDAOFactory::create("kernel|kernel_bu2user");
+				$user_dao = _dao("kernel|kernel_bu2user");
 				$users = $user_dao->getByLogin($id);
 				break;
 			case "ME":
 				if( Kernel::is_connected() )
 					return( Kernel::getUserInfo( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] ) );
 			default:
-				$user_dao = CopixDAOFactory::create("kernel|kernel_bu2user");
+				$user_dao = _dao("kernel|kernel_bu2user");
 				$users = $user_dao->getByBUID($type,$id);
 				if (count($users)) {
 					$users[0]->bu_type = $type;
@@ -1012,7 +1019,7 @@ class Kernel {
 					case "USER_VIL" :
 					case "USER_ENS" :
 					case "USER_ADM" :
-						$pers_dao = CopixDAOFactory::create("kernel|kernel_bu_personnel");
+						$pers_dao = _dao("kernel|kernel_bu_personnel");
 						$personne = $pers_dao->get($userval->bu_id);
 						$user["nom"]      = $personne->pers_nom;
 						$user["prenom"]   = $personne->pers_prenom1;
@@ -1021,7 +1028,7 @@ class Kernel {
 						$user["cle_privee"]     = $personne->pers_cle_privee;
 						$user["ALL"]      = $personne;
 						
-						$pers_entite_dao = CopixDAOFactory::create("kernel|kernel_bu_personnel_entite");
+						$pers_entite_dao = _dao("kernel|kernel_bu_personnel_entite");
 						$pers_entites = $pers_entite_dao->getById($userval->bu_id);
 						foreach ($pers_entites AS $key=>$value) {
 							switch( $value->pers_entite_type_ref ) {
@@ -1039,7 +1046,7 @@ class Kernel {
 						break;
 
 					case "USER_ELE" :
-						$ele_dao = CopixDAOFactory::create("kernel|kernel_bu_ele");
+						$ele_dao = _dao("kernel|kernel_bu_ele");
 						$eleve = $ele_dao->get($userval->bu_id);
 						// $user["type"]     = "USER_ELE";
 						// $user["id"]       = $eleve->ele_idEleve;
@@ -1063,7 +1070,7 @@ class Kernel {
 						break;
 
 					case "USER_RES" :
-						$res_dao = CopixDAOFactory::create("kernel|kernel_bu_res");
+						$res_dao = _dao("kernel|kernel_bu_res");
 						$reponsable = $res_dao->get($userval->bu_id);
 						// $user["type"]     = "USER_RES";
 						// $user["id"]       = $reponsable->res_numero;
@@ -1075,7 +1082,7 @@ class Kernel {
 						break;
 
 					case "USER_EXT" :
-						$ext_dao = CopixDAOFactory::create("kernel|kernel_ext_user");
+						$ext_dao = _dao("kernel|kernel_ext_user");
 						$extuser = $ext_dao->get($userval->bu_id);
 						// attention id user = celui de la basu
 						// $user["type"]     = "USER_EXT";
@@ -1133,7 +1140,7 @@ class Kernel {
 	 * OUTPUT : 
 	 */
 	function getModAvailable( $type ) {
-		$dao = CopixDAOFactory::create("kernel|kernel_mod_available");
+		$dao = _dao("kernel|kernel_mod_available");
 		$result = $dao->getByNode($type);
 		
 		if( ereg( "(.*)_(.*)", $type, $regs ) ) {
@@ -1156,7 +1163,7 @@ class Kernel {
 	 * @param integer $user_id   Identifiant du noeud (facultatif).
 	 */
 	function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0 ) {
-		$dao = CopixDAOFactory::create("kernel|kernel_mod_enabled");
+		$dao = _dao("kernel|kernel_mod_enabled");
 		$modules = $dao->getByNode($node_type,$node_id);
 		
 		foreach ($modules as $k=>$v) {
@@ -1273,7 +1280,7 @@ class Kernel {
 
 	function getModParent( $type, $id ) {
 		//echo "getModParent ($type,$id)";
-		$dao = CopixDAOFactory::create("kernel|kernel_mod_enabled");
+		$dao = _dao("kernel|kernel_mod_enabled");
 		$result = $dao->getByModule($type,$id);
 		//print_r($result);
 		if (substr($result[0]->node_type,0,4) == 'MOD_')
@@ -1283,7 +1290,7 @@ class Kernel {
 	
 	function getModParentInfo( $type, $id ) {
 		//echo "getModParentInfo ($type,$id)";
-		$dao = CopixDAOFactory::create("kernel|kernel_mod_enabled");
+		$dao = _dao("kernel|kernel_mod_enabled");
 		$result = $dao->getByModule($type,$id);
 		//die();
 		if( count( $result ) ) {
@@ -1379,7 +1386,7 @@ class Kernel {
 			}
 		}
 		
-		$dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
+		$dao = _dao("kernel|kernel_link_user2node");
 		$res = $dao->getByUser($user_type, $user_id);
 		foreach( $res AS $key=>$val ) {
 			// Utilisateurs --(n)--> Modules
@@ -1840,7 +1847,7 @@ class Kernel {
 			else return( 'NONE' );
 		}
 
-		$visibility_dao = CopixDAOFactory::create("kernel|kernel_conf_uservisibility");
+		$visibility_dao = _dao("kernel|kernel_conf_uservisibility");
 		$visibility = $visibility_dao->getBySrcAndDst($src,$dst);
 
 		if( count($visibility)>0 ) {

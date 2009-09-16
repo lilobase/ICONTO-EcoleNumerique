@@ -18,8 +18,8 @@ class ZoneCommentQuickAdmin extends CopixZone {
     function _createContent (& $toReturn) {
         $tpl = & new CopixTpl ();
 
-        $dao = & CopixDAOFactory::create ('comment|comment');
-        $sp  = & CopixDAOFactory::createSearchConditions ();
+        $dao = & _dao ('comment|comment');
+        $sp  = & _daoSearchConditions ();
         $sp->addItemOrder ('date_cmt', 'desc');
         $sp->addItemOrder ('position_cmt', 'desc');
         $arComments = array();

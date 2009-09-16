@@ -29,6 +29,7 @@ class ZoneGetListBlogs2 extends CopixZone {
 
 		$villes = AnnuaireService::getVillesInGrville ($grville);
 		//print_r($villes);
+		
 		$tpl->assign('villes', $villes);
 		
 		$ecoles = array();

@@ -17,7 +17,7 @@ class ZoneListCategory extends CopixZone {
 
       $blog = $this->getParam('blog', '');
       
-      $dao = CopixDAOFactory::create('blog|blogarticlecategory');
+      $dao = _dao('blog|blogarticlecategory');
       $listCategory = $dao->getAllCategoriesFromBlog($blog->id_blog);
 			
 			//encodage des URL à cause des caractères spéciaux

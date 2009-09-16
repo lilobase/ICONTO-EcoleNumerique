@@ -23,13 +23,13 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$serviceAuth   = new AgendaAuth;
 		
 		//on determine la date du jour en timestamp
-		$dimanche = $service->numweekToDate($this->params['elementsSemaineAffichee']->numSemaine, $this->params['elementsSemaineAffichee']->annee, 0);
-		$lundi    = $service->numweekToDate($this->params['elementsSemaineAffichee']->numSemaine, $this->params['elementsSemaineAffichee']->annee, 1);
-		$mardi    = $service->numweekToDate($this->params['elementsSemaineAffichee']->numSemaine, $this->params['elementsSemaineAffichee']->annee, 2);
-		$mercredi = $service->numweekToDate($this->params['elementsSemaineAffichee']->numSemaine, $this->params['elementsSemaineAffichee']->annee, 3);
-		$jeudi    = $service->numweekToDate($this->params['elementsSemaineAffichee']->numSemaine, $this->params['elementsSemaineAffichee']->annee, 4);
-		$vendredi = $service->numweekToDate($this->params['elementsSemaineAffichee']->numSemaine, $this->params['elementsSemaineAffichee']->annee, 5);
-		$samedi   = $service->numweekToDate($this->params['elementsSemaineAffichee']->numSemaine, $this->params['elementsSemaineAffichee']->annee, 6);
+		$dimanche = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 0);
+		$lundi    = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 1);
+		$mardi    = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 2);
+		$mercredi = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 3);
+		$jeudi    = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 4);
+		$vendredi = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 5);
+		$samedi   = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 6);
 		
 		
 		$tpl = & new CopixTpl ();
@@ -48,8 +48,8 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$tpl->assign('moisDebutSemaine', $service->moisNumericToMoisLitteral(date('m', $lundi)));
 		$tpl->assign('moisFinSemaine'  , $service->moisNumericToMoisLitteral(date('m', $dimanche)));
 		
-		$tpl->assign('semaine'         , $this->params['elementsSemaineAffichee']->numSemaine);
-		$tpl->assign('annee'           , $this->params['elementsSemaineAffichee']->annee);
+		$tpl->assign('semaine'         , $this->getParam('elementsSemaineAffichee')->numSemaine);
+		$tpl->assign('annee'           , $this->getParam('elementsSemaineAffichee')->annee);
 		
 		//on vérifie si un agenda de classe est affiché
 		//$lecon = false;
@@ -57,7 +57,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$writeLecon = false;
 		$idAgendaScolaire = null;
 		$agendasAffiches = $this->getParam('agendasAffiches',null);
-		foreach($this->params['elementsSemaineAffichee']->agendas as $id_agenda){
+		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
 			if($serviceAgenda->getTypeAgendaByIdAgenda($id_agenda) == $serviceType->getClassRoom()){
 				//on vérifie si l'utilisateur peut écrire des leçons
 				if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteLecon()){
@@ -79,7 +79,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affichés
 		$writeAgenda = false;
 		$agendasAffiches = $this->getParam('agendasAffiches',null);
-		foreach($this->params['elementsSemaineAffichee']->agendas as $id_agenda){
+		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteAgenda()){
 				$writeAgenda = true;
 				break;
@@ -88,7 +88,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		
 		//on construit un tableau de droits pour chaque agenda affiché
 		$arDroits = array();
-		foreach($this->params['elementsSemaineAffichee']->agendas as $id_agenda){
+		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
 			
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getRead()){
 				$arDroits[$id_agenda]->canRead = true;
@@ -113,7 +113,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		
 		//on construit le tableau de couleurs associées au type d'agenda
 		$arColorByIdAgenda = array();
-		foreach($this->params['elementsSemaineAffichee']->agendas as $id_agenda){
+		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
 			$arColor = $serviceType->getColors($serviceAgenda->getTypeAgendaByIdAgenda($id_agenda));
 			$i = 0;
 			foreach($arColorByIdAgenda as $idAgenda=>$couleurAgenda){	
@@ -132,15 +132,15 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$tpl->assign('arColorByIdAgenda', $arColorByIdAgenda);		
 		
 		//on détermine l'heure de début et de fin pour l'affichage du calendrier
-		$tpl->assign('heure_deb'       , $this->params['heureDeb']);
-		$tpl->assign('heure_fin'       , $this->params['heureFin']);
+		$tpl->assign('heure_deb'       , $this->getParam('heureDeb'));
+		$tpl->assign('heure_fin'       , $this->getParam('heureFin'));
 
-		$tpl->assign('arEventByDay'   , $this->params['arEventByDay']);
+		$tpl->assign('arEventByDay'   , $this->getParam('arEventByDay'));
 				
 		$tpl->assign('readLecon'     , $readLecon);
 		$tpl->assign('writeLecon'    , $writeLecon);
 		$tpl->assign('agendaScolaire', $idAgendaScolaire);
-		$tpl->assign('arLecons'      , $this->params['arLecons']);
+		$tpl->assign('arLecons'      , $this->getParam('arLecons'));
 		
 		$tpl->assign('writeAgenda' , $writeAgenda);
 		$tpl->assign('arDroits'    , $arDroits);

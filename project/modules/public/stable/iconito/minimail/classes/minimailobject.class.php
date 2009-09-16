@@ -59,7 +59,7 @@ class MinimailObject {
 	 */
 	function createMinimailFromId ($id) {
 		
-		$dao = CopixDAOFactory::create("minimail_from");
+		$dao = _dao("minimail_from");
 		$obj = $dao->get($id);
 		//print_r($this);
 		$this->fillMinimail ($obj->from_id, $obj->from_login, $obj->title, $obj->message, "", $obj->is_deleted, $obj->date_send);
@@ -76,7 +76,7 @@ class MinimailObject {
 	 */
 	function fillDestinataires () {
 		$this->dest = array();
-		$dao = CopixDAOFactory::create("minimail_to");
+		$dao = _dao("minimail_to");
 		$dests = $dao->getListDest($this->id);
 		//print_r($dests);
 		if ($dests !== NULL) {

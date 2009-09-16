@@ -8,7 +8,6 @@ class StatsBlog {
 	function getObjet ($action, $id_objet) {
 		if (!$id_objet)
 			return;
-		$dbw = & CopixDbFactory::getDbWidget ();
 		switch ($action) {
 			case "showArticle" :
 				$sql = 'SELECT id_bact AS id, name_bact AS name FROM module_blog_article WHERE id_bact='.$id_objet;
@@ -17,8 +16,10 @@ class StatsBlog {
 				$sql = 'SELECT id_bpge AS id, name_bpge AS name FROM module_blog_page WHERE id_bpge='.$id_objet;
 				break;
 		}
-		if ($sql)
-			return $dbw->fetchFirst ($sql);
+		if ($sql) {
+			$first = _doQuery($sql);
+			return $first[0];
+		}
 	}
 	
 	

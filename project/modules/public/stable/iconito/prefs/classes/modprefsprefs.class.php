@@ -121,7 +121,7 @@ class ModPrefsPrefs {
 		// Traiter passwd1 et passwd2
 		if( ($data['passwd1']==$data['passwd2']) && strlen($data['passwd1'])>0 ) {
 			$bu = Kernel::getSessionBU();
-			$dao = CopixDAOFactory::create('kernel|kernel_copixuser');
+			$dao = _dao('kernel|kernel_copixuser');
 			$user = $dao->get( $bu['user_id'] );
 			$user->password_cusr = md5($data['passwd1']);
 			$dao->update( $user );
@@ -148,8 +148,6 @@ class ModPrefsPrefs {
 		// Traiter l'ajout d'un avatar
 		if( ereg( "^image/(.+)$", $_FILES['prefs_avatar_upload']['type'], $regs ) ) {
 			if( in_array($regs[1], array('jpeg','gif','png')) ) {
-				
-				// require_once (COPIX_MODULE_PATH.'prefs/'.COPIX_CLASSES_DIR.'prefs.class.php');
 				
 				$path2data  = realpath("static");
 				$path2prefs = $path2data."/prefs";

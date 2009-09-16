@@ -29,7 +29,7 @@ class ZoneShowBlogLink extends CopixZone {
 		$tpl->assign ('kind', $this->getParam('kind', ''));
 
 		// Recherche de tous les liens de la base
-		$blogLinkDAO = CopixDAOFactory::create('blog|bloglink');
+		$blogLinkDAO = _dao('blog|bloglink');
 		$tabLinks = $blogLinkDAO->findAllOrder($id_blog);
 
 		$tpl->assign ('tabLinks', $tabLinks);

@@ -23,9 +23,8 @@ class ZoneFicheActionsDroits extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$rFiche = $this->params['rFiche'];
-		$errors = $this->params['errors'];
-		//$mondroit = $this->params['mondroit'];
+		$rFiche = $this->getParam('rFiche');
+		$errors = $this->getParam('errors');
 
 	  $dbWidget = & CopixDBFactory::getDbWidget ();
 		

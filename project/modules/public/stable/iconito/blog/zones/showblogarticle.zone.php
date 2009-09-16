@@ -42,11 +42,11 @@ class ZoneShowBlogArticle extends CopixZone {
 			$query = $query.$clause.' art.date_bact LIKE \''.$selectMonth.'%\'';
 		}
 		$id_bacg = null;
-		$blogArticleDAO = CopixDAOFactory::create('blog|blogarticle');
+		$blogArticleDAO = _dao('blog|blogarticle');
 		$res = $blogArticleDAO->findArticles($id_blog, $id_bacg, $query);
 		//print_r($res);
 		// Manipulation du tableau résultat.
-		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
+		$commentDAO = _dao('blog|blogarticlecomment');
 		$tabArticles = Array();
 		foreach($res as $r) {
 			$r->categories = array();
@@ -57,7 +57,7 @@ class ZoneShowBlogArticle extends CopixZone {
 			array_push($tabArticles, $r);
 		}
 		// Préparation du filtre CATEGORIES
-		$blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
+		$blogArticleCategoryDAO = _dao('blog|blogarticlecategory');
 		$tabArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
 		// Préparation du filtre MOIS
 		$resArticleMonth = $blogArticleDAO->findListMonthForArticle($id_blog);

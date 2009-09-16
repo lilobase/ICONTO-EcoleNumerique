@@ -19,8 +19,8 @@ class KernelAlbum {
 	function create ($infos=array()) {
 		$return = NULL;
 		$cle = substr( md5(microtime()), 0, 10 );
-		$dao = CopixDAOFactory::create("album|album");
-		$new = CopixDAOFactory::createRecord("album|album");
+		$dao = _dao("album|album");
+		$new = _daoRecord("album|album");
 		$new->album_nom = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$new->album_prefs = "aa";
 		$new->album_date = date("Y-m-d H:i:s");
@@ -46,7 +46,7 @@ class KernelAlbum {
 		Renvoie différentes infos chiffrées d'un album photos
 	*/
 	function getStats ($id_album) {
-		$dao = CopixDAOFactory::create("album|album");
+		$dao = _dao("album|album");
 		$res = array();	
 		$infos = $dao->getNbPhotosInAlbum($id_album);
 		$res['nbPhotos'] = array ('name'=>CopixI18N::get ('album|album.stats.nbPhotos', array($infos[0]->nb)));
@@ -74,7 +74,7 @@ class KernelAlbum {
 			return false;
 		}
 		
-		$album_dao = CopixDAOFactory::create("album|album");
+		$album_dao = _dao("album|album");
 		$album = $album_dao->get($id);
 		if( $album==null ) {
 			return false;
@@ -101,8 +101,8 @@ class KernelAlbum {
 		if( $ext != '' ) {
 			$album_service = & CopixClassesFactory::Create ('album|album');
 
-			$photo_dao = & CopixDAOFactory::create("album|photo");
-			$nouvelle_photo = CopixDAOFactory::createRecord("album|photo");
+			$photo_dao = & _dao("album|photo");
+			$nouvelle_photo = _daoRecord("album|photo");
 			$nouvelle_photo->photo_album = $album->album_id;
 			$nouvelle_photo->photo_dossier = 0;
 			if( trim($image['title']) != '' )

@@ -10,7 +10,7 @@
  * @link        http://www.cap-tic.fr
  */
 
-require_once (COPIX_MODULE_PATH.'admin/'.COPIX_CLASSES_DIR.'cacheservices.class.php');
+_classInclude('admin|cacheservices');
 
 class ZoneCacheStatus extends CopixZone {
   function _createContent (& $toReturn){
@@ -19,8 +19,6 @@ class ZoneCacheStatus extends CopixZone {
     
     $size = CacheServices::getCacheSize ();
     // Cherche		
-		
-		//$tpl->assign('nbInsertions', $this->params['nbInsertions']);
 		
 		$tpl->assign ('size', $size);
 		$toReturn = $tpl->fetch ('cache.status.tpl');

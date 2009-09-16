@@ -14,8 +14,6 @@ class DAOBlogLink {
     * @return
     */
     function findAllOrder ($id_blog){
-      $dbw  = & CopixDbFactory::getDbWidget ();
-
       $critere = ' SELECT link.id_blnk as id_blnk, '.
       									 'link.id_blog as id_blog, '. 	
       									 'link.order_blnk as order_blnk, '. 	
@@ -24,7 +22,7 @@ class DAOBlogLink {
                  ' FROM module_blog_link as link '.
                  ' WHERE link.id_blog = '.$id_blog.
 		  					 ' ORDER BY link.order_blnk ASC';
-      return $dbw->fetchAll($critere);
+      return _doQuery($critere);
     }
     
    /**
@@ -102,7 +100,7 @@ class DAOBlogLink {
     * Get all links from a blog
     */
     function getAllLinksFromBlog ($id_blog) {
-      $sp = & CopixDAOFactory::createSearchConditions ();
+      $sp = & _daoSearchConditions ();
       $sp->addCondition ('id_blog', '=', $id_blog);
       $sp->addItemOrder ('order_blnk', 'ASC');
       return $this->_compiled->findBy ($sp);

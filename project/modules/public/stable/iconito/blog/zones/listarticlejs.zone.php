@@ -42,7 +42,7 @@ class ZoneListArticleJs extends CopixZone {
 		$tpl  = & new CopixTpl ();
 		
 	  //on récupère l'ensemble des articles du blog
-    $dao = CopixDAOFactory::create('blog|blogarticle');
+    $dao = _dao('blog|blogarticle');
       
     $arData = $dao->getAllArticlesFromBlog($blog->id_blog, NULL);
     

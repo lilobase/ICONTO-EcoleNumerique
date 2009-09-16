@@ -21,7 +21,7 @@ class ZoneListArticle extends CopixZone {
 		$critere = $this->getParam('critere' , null);
 		
 	  //on récupère l'ensemble des articles du blog
-      $dao = CopixDAOFactory::create('blog|blogarticle');
+      $dao = _dao('blog|blogarticle');
       
       if ($cat == null) {   
          $date  = $this->getParam('date' , null); 
@@ -40,9 +40,9 @@ class ZoneListArticle extends CopixZone {
 	  //on construit un tableau associatif entre l'identifiant de l'article et le nombre de commentaires	  
 	  foreach((array)$arData as $article){
 		$daoArticleComment = & CopixDAOFactory::getInstanceOf ('blog|blogarticlecomment');
-		$record   = & CopixDAOFactory::createRecord ('blog|blogarticlecomment');
+		$record   = & _daoRecord ('blog|blogarticlecomment');
 	
-		$criteres = CopixDAOFactory::createSearchConditions();
+		$criteres = _daoSearchConditions();
 		$criteres->addCondition('id_bact', '=', $article->id_bact);	
 		$criteres->addCondition('is_online', '=', 1);	
 		$resultat = $daoArticleComment->findBy($criteres);

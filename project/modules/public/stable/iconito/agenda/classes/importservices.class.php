@@ -31,9 +31,9 @@ class ImportService {
 					foreach($arEvents as $event){								
 						if($event['event_text'] != null && $event['start_unixtime'] != null && $event['end_unixtime'] != null && $event['event_start'] != null && $event['event_end'] != null){
 							$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
-							$record   = & CopixDAOFactory::createRecord ('event');
+							$record   = & _daoRecord ('event');
 							//on regarde si l'évènement à insérer existe déjà dans l'agenda
-							$criteres = CopixDAOFactory::createSearchConditions();
+							$criteres = _daoSearchConditions();
 							$criteres->addCondition('id_agenda'     , '=', $pIdAgenda);
 							$criteres->addCondition('title_event'   , '=', $event['event_text']);
 							$criteres->addCondition('datedeb_event' , '=', date('Ymd', $event['start_unixtime']));
@@ -69,9 +69,9 @@ class ImportService {
 							
 							if($event['event_text'] != null){
 								$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
-								$record   = & CopixDAOFactory::createRecord ('event');
+								$record   = & _daoRecord ('event');
 								//on regarde si l'évènement à insérer existe déjà dans l'agenda
-								$criteres = CopixDAOFactory::createSearchConditions();
+								$criteres = _daoSearchConditions();
 								$criteres->addCondition('id_agenda'     , '=', $pIdAgenda);
 								$criteres->addCondition('title_event'   , '=', $event['event_text']);
 								$criteres->addCondition('datedeb_event' , '=', $day);
@@ -166,9 +166,9 @@ class ImportService {
 			//un évènement avant la période d'insertion, un évènement après le période d'insertion
 			else{
 				$eventDuplicate = $event;//duplication de l'évènement pour garder les infos de base			
-				$record = & CopixDAOFactory::createRecord ('event');
+				$record = & _daoRecord ('event');
 
-				$criteres = CopixDAOFactory::createSearchConditions();
+				$criteres = _daoSearchConditions();
 				$criteres->addCondition('id_event', '=', $event->id_event);	
 				$resultat = $daoEvent->findBy($criteres);
 				
@@ -187,7 +187,7 @@ class ImportService {
 				//on crée un autre évènement qui commence après la période concernée
 				//si il se poursuivait après cette période
 				if($eventDuplicate->endrepeatdate_event > $dateFin || ($eventDuplicate->endrepeatdate_event == $dateFin && $eventDuplicate->heuredeb_event >= $heureFin)){				
-					$record = & CopixDAOFactory::createRecord ('event');
+					$record = & _daoRecord ('event');
 					if($eventDuplicate->everyday_event == 1){
 						if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
 							//les heures se chevauchent, on va au jour suivant

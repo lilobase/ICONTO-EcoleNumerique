@@ -17,8 +17,8 @@ class KernelForum {
 	 * @return integer l'Id du forum créé ou NULL si erreur
 	 */
 	function create ($infos=array()) {
-		$daoForum = CopixDAOFactory::create("forum|forum_forums");
-		$newForum = CopixDAOFactory::createRecord("forum|forum_forums");
+		$daoForum = _dao("forum|forum_forums");
+		$newForum = _daoRecord("forum|forum_forums");
 		$newForum->titre = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$newForum->date_creation = date("Y-m-d H:i:s");
 		$daoForum->insert ($newForum);
@@ -36,13 +36,13 @@ class KernelForum {
 	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($idForum) {
-		$daoForums = CopixDAOFactory::create("forum|forum_forums");
-	 	$daoTopics = CopixDAOFactory::create("forum|forum_topics");
+		$daoForums = _dao("forum|forum_forums");
+	 	$daoTopics = _dao("forum|forum_topics");
 		$dbw = & CopixDbFactory::getDbWidget ();
 		$rForum = $daoForums->get($idForum);
 		$res = false;
 		if ($rForum) {
-			$criteres = CopixDAOFactory::createSearchConditions();
+			$criteres = _daoSearchConditions();
 			$criteres->addCondition('forum', '=', $idForum);
 			$topics = $daoTopics->findBy($criteres);
 			while (list(,$topic) = each($topics)) {
@@ -67,7 +67,7 @@ class KernelForum {
 	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["Discussions"] ["Messages"]
 	 */
 	function getStats ($id_forum) {
-		$daoForum = CopixDAOFactory::create("forum|forum_forums");
+		$daoForum = _dao("forum|forum_forums");
 		$res = array();	
 		$infos = $daoForum->getNbTopicsInForum($id_forum);
 		$res['nbTopics'] = array ('name'=>CopixI18N::get ('forum|forum.stats.nbTopics', array($infos[0]->nb)));

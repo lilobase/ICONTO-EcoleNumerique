@@ -17,7 +17,7 @@ class ZoneListPage extends CopixZone {
 
       $blog = $this->getParam('blog', '');
      
-      $dao = CopixDAOFactory::create('blog|blogpage');
+      $dao = _dao('blog|blogpage');
       $arPage = $dao->getAllPagesFromBlog($blog->id_blog);
       foreach($arPage as $key=>$page) {
 	   		$arPage[$key]->url_bpge = urlencode($page->url_bpge);

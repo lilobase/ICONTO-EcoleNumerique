@@ -15,8 +15,8 @@
 class KernelMagicmail {
 
 	function create () {
-		$dao = CopixDAOFactory::create("magicmail|magicmail");
-		$new = CopixDAOFactory::createRecord("magicmail|magicmail");
+		$dao = _dao("magicmail|magicmail");
+		$new = _daoRecord("magicmail|magicmail");
 		$new->magicmail_login = '';
 		$new->magicmail_domain = '';
 		$dao->insert ($new);
@@ -28,7 +28,7 @@ class KernelMagicmail {
 	}
 
 	function getStats ($id_magicmail) {
-		$dao = CopixDAOFactory::create("magicmail|magicmail");
+		$dao = _dao("magicmail|magicmail");
 		$magic_result = $dao->get($id_magicmail);
 
 		$res = array();	

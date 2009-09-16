@@ -48,7 +48,7 @@ class ActionGroupGroups extends CopixActionGroup {
 	 */
 	public function processDelete (){
 		if (CopixRequest::getInt ('confirm') == 1){
-			$sp = CopixDAOFactory::createSearchParams ();
+			$sp = _daoSearchParams ();
 			$sp->addCondition ('id_dbgroup', '=', CopixRequest::getInt ('id'));
 			_ioDAO ('dbgroup_users')->deleteBy ($sp);
 			_ioDAO ('dbgroup')->delete (CopixRequest::getInt ('id'));
@@ -75,7 +75,7 @@ class ActionGroupGroups extends CopixActionGroup {
 			}
 			$usersToSet = array ();
 
-			$sp = CopixDAOFactory::createSearchParams ();
+			$sp = _daoSearchParams ();
 			$sp->addCondition ('id_dbgroup', '=', $group->id_dbgroup);
 //			$sp->addCondition ('userhandler_dbgroup', "=", 'auth|dbuserhandler');
 			$arUsers = array ();

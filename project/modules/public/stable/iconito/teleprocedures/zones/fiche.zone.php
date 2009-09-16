@@ -24,19 +24,19 @@ class ZoneFiche extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$rFiche = $this->params['rFiche'];
-		$errors = $this->params['errors'];
-		$ok = $this->params['ok'];
-		$print = $this->params['print'];
+		$rFiche = $this->getParam('rFiche');
+		$errors = $this->getParam('errors');
+		$ok = $this->getParam('ok');
+		$print = $this->getParam('print');
 
 		//var_dump($rFiche);
 		
 		//$dbWidget = & CopixDBFactory::getDbWidget ();
-		//$daoType = & CopixDAOFactory::create ('type');
+		//$daoType = & _dao ('type');
     //$tpl->assign ('arTypes', $daoType->findAll ());
 		$arResponsables = explode(",",$rFiche->responsables);
 		$rFiche->tabResponsables = $arResponsables;
-		$mondroit = $this->params['mondroit'];
+		$mondroit = $this->getParam('mondroit');
 		
 		
 		$rEcole = Kernel::getNodeInfo ('BU_ECOLE', $rFiche->idetabliss, false);
@@ -47,10 +47,10 @@ class ZoneFiche extends CopixZone {
 		
 		$rFiche->ecole_dir = AnnuaireService::getDirecteurInEcole ($rFiche->idetabliss);
 		
-		$daoType = & CopixDAOFactory::create ('teleprocedures|type');
+		$daoType = & _dao ('teleprocedures|type');
     if ($tmp = $daoType->get ($rFiche->idtype))
 			$rFiche->idtype_nom = $tmp->nom;
-		$daoStatu = & CopixDAOFactory::create ('teleprocedures|statu');
+		$daoStatu = & _dao ('teleprocedures|statu');
     if ($tmp = $daoStatu->get ($rFiche->idstatu))
 			$rFiche->idstatu_nom = $tmp->nom;
 		

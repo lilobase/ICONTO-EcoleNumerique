@@ -14,8 +14,6 @@ class DAOBlogFluxRss {
 	* @return
 	*/
 	function findAllOrder ($id_blog){
-		$dbw  = & CopixDbFactory::getDbWidget ();
-		
 		$critere = ' SELECT fluxrss.id_bfrs as id_bfrs, '.
 							'fluxrss.id_blog as id_blog, '. 	
 							'fluxrss.order_bfrs as order_bfrs, '. 	
@@ -24,7 +22,7 @@ class DAOBlogFluxRss {
 					' FROM module_blog_fluxrss as fluxrss '.
 					' WHERE fluxrss.id_blog = '.$id_blog.
 					' ORDER BY fluxrss.order_bfrs ASC';
-		return $dbw->fetchAll($critere);
+		return _doQuery($critere);
 	}
 	
 	 
@@ -104,7 +102,7 @@ class DAOBlogFluxRss {
     * Get all links from a blog
     */
     function getAllFluxRssFromBlog ($id_blog) {
-      $sp = & CopixDAOFactory::createSearchConditions ();
+      $sp = & _daoSearchConditions ();
       $sp->addCondition ('id_blog', '=', $id_blog);
       $sp->addItemOrder ('order_bfrs', 'ASC');
 
@@ -116,7 +114,7 @@ class DAOBlogFluxRss {
     * Get all links from a blog
     */
     function getFluxById ($id_bfrs) {
-		$sp = & CopixDAOFactory::createSearchParams ();
+		$sp = _daoSp ();
 		$sp->addCondition ('id_bfrs', '=', $id_bfrs);
 		
 		if (count($arFlux = $this->_compiled->findBy ($sp)) > 0)  {

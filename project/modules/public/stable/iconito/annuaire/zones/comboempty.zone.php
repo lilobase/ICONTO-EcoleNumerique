@@ -19,9 +19,9 @@ class ZoneComboEmpty extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
-		$value = isset($this->params['value']) ? $this->params['value'] : 0;
-		$fieldName = isset($this->params['fieldName']) ? $this->params['fieldName'] : NULL;
-		$attribs = isset($this->params['attribs']) ? $this->params['attribs'] : NULL;
+		$value = isset($this->getParam('value')) ? $this->getParam('value') : 0;
+		$fieldName = isset($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
+		$attribs = isset($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign('value', $value);

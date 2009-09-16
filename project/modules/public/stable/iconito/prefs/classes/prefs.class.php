@@ -57,7 +57,7 @@ class Prefs {
 			if( isset( $bu['user_id'] ) ) $user=$bu['user_id'];
 		}
 		
-		$dao = CopixDAOFactory::create("prefs|prefs");
+		$dao = _dao("prefs|prefs");
 		$data = $dao->getByUser( $user );
 		
 		if(sizeof($data)) {
@@ -70,14 +70,14 @@ class Prefs {
 	}
 
 	function setPrefs( $module, $data ) {
-		$dao = CopixDAOFactory::create('prefs|prefs');
+		$dao = _dao('prefs|prefs');
 		$bu = Kernel::getSessionBU();
 		
 		foreach( $data AS $data_key => $data_value ) {
 			if( $pref = $dao->get( $bu['user_id'], $module, $data_key ) ) {
 				$dao->delete( $bu['user_id'], $module, $data_key );
 			}
-			$pref = & CopixDAOFactory::createRecord ('prefs|prefs');
+			$pref = & _daoRecord ('prefs|prefs');
 			$pref->prefs_user = $bu['user_id'];
 			$pref->prefs_module = $module;
 			$pref->prefs_code = $data_key;
@@ -87,7 +87,7 @@ class Prefs {
 	}
 
 	function get( $module, $code, $user=-1 ) {
-		$dao = CopixDAOFactory::create('prefs|prefs');
+		$dao = _dao('prefs|prefs');
 		
 		if( $user == -1 ) {
 			$bu = Kernel::getSessionBU();
@@ -102,7 +102,7 @@ class Prefs {
 	}
 
 	function set( $module, $code, $value, $user=-1 ) {
-		$dao = CopixDAOFactory::create('prefs|prefs');
+		$dao = _dao('prefs|prefs');
 		
 		if( $user == -1 ) {
 			$bu = Kernel::getSessionBU();
@@ -112,7 +112,7 @@ class Prefs {
 		if( $pref = $dao->get( $user, $module, $code ) ) {
 			$dao->delete( $user, $module, $code );
 		}
-		$pref = & CopixDAOFactory::createRecord ('prefs|prefs');
+		$pref = & _daoRecord ('prefs|prefs');
 		$pref->prefs_user = $user;
 		$pref->prefs_module = $module;
 		$pref->prefs_code = $code;
@@ -121,7 +121,7 @@ class Prefs {
 	}
 
 	function del( $module, $code, $user=-1 ) {
-		$dao = CopixDAOFactory::create('prefs|prefs');
+		$dao = _dao('prefs|prefs');
 		
 		if( $user == -1 ) {
 			$bu = Kernel::getSessionBU();

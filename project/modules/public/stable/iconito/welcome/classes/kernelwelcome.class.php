@@ -13,8 +13,8 @@
 class KernelWelcome {
 
 	function create () {
-		$dao = CopixDAOFactory::create("welcome|homes");
-		$new = CopixDAOFactory::createRecord("welcome|homes");
+		$dao = _dao("welcome|homes");
+		$new = _daoRecord("welcome|homes");
 		$new->date = date("Y-m-d H:i:s");
 		$dao->insert ($new);
 

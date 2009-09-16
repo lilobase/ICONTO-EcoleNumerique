@@ -17,8 +17,8 @@ class KernelTeleprocedures {
 	 * @return integer Id cree ou NULL si erreur
 	 */
 	function create ($infos=array()) {
-		$dao = CopixDAOFactory::create("teleprocedures|teleprocedure");
-		$new = CopixDAOFactory::createRecord("teleprocedures|teleprocedure");
+		$dao = _dao("teleprocedures|teleprocedure");
+		$new = _daoRecord("teleprocedures|teleprocedure");
 		$new->titre = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$new->date_creation = date("Y-m-d H:i:s");
 		$dao->insert ($new);
@@ -34,7 +34,7 @@ class KernelTeleprocedures {
 	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($id) {
-		$dao = CopixDAOFactory::create("teleprocedures|teleprocedure");
+		$dao = _dao("teleprocedures|teleprocedure");
 		$dbw = & CopixDbFactory::getDbWidget ();
 		$r = $dao->get($id);
 		$res = false;

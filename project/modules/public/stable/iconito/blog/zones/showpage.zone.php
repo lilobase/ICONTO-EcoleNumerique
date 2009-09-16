@@ -18,7 +18,7 @@ class ZoneShowPage extends CopixZone {
       $blog = $this->getParam('blog', '');
       
       //on récupère l'ensemble des articles du blog
-      $dao = CopixDAOFactory::create('blog|blogpage');
+      $dao = _dao('blog|blogpage');
 			$page = $dao->getPageByUrl($blog->id_blog, $this->getParam('page', ''));	
 
 			if (!$page) {

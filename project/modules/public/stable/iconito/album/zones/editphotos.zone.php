@@ -13,40 +13,36 @@ class ZoneEditPhotos extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		// $album_dao = CopixDAOFactory::create("album");
-		$dossier_dao = CopixDAOFactory::create("dossier");
-		$photo_dao = CopixDAOFactory::create("photo");
+		// $album_dao = _dao("album");
+		$dossier_dao = _dao("dossier");
+		$photo_dao = _dao("photo");
 		
 		
-		if( $this->params['dossier_id'] > 0 ) {
-			$dossier = $dossier_dao->get($this->params['dossier_id']);
+		if( $this->getParam('dossier_id') > 0 ) {
+			$dossier = $dossier_dao->get($this->getParam('dossier_id'));
 		} else {
 			$dossier->dossier_id = 0;
-			$dossier->dossier_album = $this->params['album_id'];
+			$dossier->dossier_album = $this->getParam('album_id');
 			$dossier->dossier_parent = -1;
 			$dossier->dossier_nom = CopixI18N::get ('album|album.message.topfolder');
 			$dossier->dossier_comment = "";
 			$dossier->album_id = $album_id;
 		}
-		if( $dossier->dossier_album != $this->params['album_id'] ) return false;
+		if( $dossier->dossier_album != $this->getParam('album_id') ) return false;
 		
-		// $folders = Album::getFoldersTree( $this->params['album_id'], $this->params['dossier_id'] );
-		$pictures = $photo_dao->findAllByAlbumAndFolder($this->params['album_id'],$this->params['dossier_id']);
+		$pictures = $photo_dao->findAllByAlbumAndFolder($this->getParam('album_id'),$this->getParam('dossier_id'));
 		
-		$tpl->assign('album_id',   $this->params['album_id'] );
-		$tpl->assign('dossier_id', $this->params['dossier_id'] );
+		$tpl->assign('album_id',   $this->getParam('album_id') );
+		$tpl->assign('dossier_id', $this->getParam('dossier_id') );
 		
 		$tpl->assign('dossier',    $dossier );
 		$tpl->assign('pictures',   $pictures );
 		
 		$tpl->assign('picture_thumbsize', '_s64' );
 		
-		$dossiers_tree = Album::getFoldersTree( $this->params['album_id'] );
-		// $dossiers_tree_move = Album::tree2move( $dossiers_tree, $this->params['dossier_id'] );
+		$dossiers_tree = Album::getFoldersTree( $this->getParam('album_id') );
 		$dossiers_commands = Album::tree2commands( $dossiers_tree );
 		$tpl->assign('commands_move', $dossiers_commands );
-		
-		
 		
 		$toReturn = $tpl->fetch ('editphotos.tpl');
 		return true;

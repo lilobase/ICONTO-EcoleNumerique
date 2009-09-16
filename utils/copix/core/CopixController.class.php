@@ -236,6 +236,7 @@ class CopixController {
 			$toProcess->data->assign ('HTML_HEAD', '<$HTML_HEAD />'); 
 			//Par ex, bandeaux de pub, menus dynamiques, ... (propres aux projets.)
 			CopixContext::clear ();
+			
 			$content = $toProcess->data->fetch ($config->mainTemplate);
 			$this->_beforeDisplay($content);
 			echo $content;
@@ -351,6 +352,10 @@ class CopixController {
 				$tplMain->assign ('ppo', $toProcess->data);
 				$this->_processStandard ($tplMain);				
 				$tplMain->assign ('HTML_HEAD', '<$HTML_HEAD />');
+				
+				
+				
+				
 				$content = $tplMain->fetch ($mainTemplate);
 			}else{
 				$tplContent->assign ('TITLE_PAGE', isset ($toProcess->data->TITLE_PAGE) ? $toProcess->data->TITLE_PAGE : null);
@@ -358,9 +363,13 @@ class CopixController {
 
 				$tplContent->assign ('BODY_ON_LOAD', isset ($toProcess->data->BODY_ON_LOAD) ? $toProcess->data->BODY_ON_LOAD : null);
 				$tplContent->assign ('BODY_ON_UNLOAD', isset ($toProcess->data->BODY_ON_UNLOAD) ? $toProcess->data->BODY_ON_UNLOAD : null);
-
+				
+				
 				$this->_processStandard ($tplContent);				
 				$tplContent->assign ('HTML_HEAD', '<$HTML_HEAD />');
+				
+				
+				
 				$content = $tplContent->fetch  ($template);
 			}
 			CopixContext::clear ();

@@ -77,7 +77,7 @@ class Bayes {
 			$this->categories[$cat]->counter++;
 			$this->numcat++;
 		} else {
-			$rec = CopixDAOFactory::createRecord($this->dataset,$this->connectionName);
+			$rec = _daoRecord($this->dataset,$this->connectionName);
 			$rec->category_bayes = $cat;
 			$rec->datas_bayes = ';'.implode(';',$texts).';'; //let ";" for a better "like" check
 			$rec->numdatas_bayes = count($texts);

@@ -48,7 +48,7 @@ class Welcome {
 		$best_levenshtein_node = null;
 		
 		// Recherche de toutes les URLs.
-		$url_dao = CopixDAOFactory::create("welcome|url");
+		$url_dao = _dao("welcome|url");
 		$url_list = $url_dao->findAll();
 		
 		// Pour chaque URL...

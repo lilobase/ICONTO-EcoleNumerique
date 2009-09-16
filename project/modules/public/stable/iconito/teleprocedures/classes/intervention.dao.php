@@ -26,10 +26,10 @@ class DAORecordIntervention {
 	
 		//$this->_compiled
 		
-		$daoInfoSupp = CopixDAOFactory::create("teleprocedures|infosupp");
-		$daoIntervention = CopixDAOFactory::create("teleprocedures|intervention");
+		$daoInfoSupp = _dao("teleprocedures|infosupp");
+		$daoIntervention = _dao("teleprocedures|intervention");
 		
-		$rForm = CopixDAOFactory::createRecord('teleprocedures|infosupp');
+		$rForm = _daoRecord('teleprocedures|infosupp');
 		
 		//var_dump($this);
 		
@@ -59,7 +59,7 @@ class DAOIntervention {
 	
 	function get ($id) {
 		$get = false;
-		$sp = & CopixDAOFactory::createSearchParams ();
+		$sp = _daoSp ();
     $sp->addCondition ('idinter', '=', $id);
     if (count($r = $this->_compiled->findBy ($sp)) > 0)  {
 			$get = $r[0];

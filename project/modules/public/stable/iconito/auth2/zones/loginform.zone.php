@@ -19,10 +19,10 @@ class ZoneLoginForm extends CopixZone {
             $tpl->assign ('user', $user);
         }else{
             $tpl->assign ('user', null);
-            $tpl->assign ('login', isset ($this->params['login']) ? htmlentities($this->params['login']) : null);
+            $tpl->assign ('login', isset ($this->getParam('login')) ? htmlentities($this->getParam('login')) : null);
         }
 
-	    $tpl->assign ('failed', isset ($this->params['failed']) ? $this->params['failed'] : 0);
+	    $tpl->assign ('failed', isset ($this->getParam('failed')) ? $this->getParam('failed') : 0);
         $tpl->assign ('showLostPassword', CopixConfig::get ('auth|enableSendLostPassword'));
         // $tpl->assign ('showRememberMe', ($GLOBALS['COPIX']['COORD']->isRegistered ('auth|reconnect')));
 

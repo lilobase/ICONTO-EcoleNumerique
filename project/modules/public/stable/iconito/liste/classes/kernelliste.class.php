@@ -13,8 +13,8 @@ class KernelListe {
 		 * @param array $infos (option) Infos sur le module. [title], [subtitle], [node_type], [node_id]
 	*/
 	function create ($infos=array()) {
-		$dao = CopixDAOFactory::create("liste|liste_listes");
-		$new = CopixDAOFactory::createRecord("liste|liste_listes");
+		$dao = _dao("liste|liste_listes");
+		$new = _daoRecord("liste|liste_listes");
 		$new->titre = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$new->date_creation = date("Y-m-d H:i:s");
 		$dao->insert ($new);
@@ -30,7 +30,7 @@ class KernelListe {
 	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($id) {
-		$daoListes = CopixDAOFactory::create("liste|liste_listes");
+		$daoListes = _dao("liste|liste_listes");
 		$dbw = & CopixDbFactory::getDbWidget ();
 		$rListe = $daoListes->get($id);
 		$res = false;
@@ -47,7 +47,7 @@ class KernelListe {
 	*/
 	function getStats ($id_liste) {
 		$res = array();	
-		$daoListe = CopixDAOFactory::create("liste|liste_listes");
+		$daoListe = _dao("liste|liste_listes");
 		$infos = $daoListe->getNbMessagesInListe($id_liste);
 		$res['nbMessages'] = array ('name'=>CopixI18N::get ('liste|liste.stats.nbMessages', array($infos[0]->nb)));
 		return $res;

@@ -5,6 +5,6 @@
         <package name="copixdivers" version="2.2" />
     </general>
     <parameters>
- 	    <parameter name="list_nbgroupes" captioni18n="groupe.list_nbgroupes" default="10" />
+ 	    <parameter name="list_nbgroupes" captioni18n="groupe.parameter.list_nbgroupes" default="10" />
   	</parameters>
 </moduledefinition>

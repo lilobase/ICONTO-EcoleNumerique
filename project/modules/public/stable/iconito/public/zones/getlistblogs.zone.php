@@ -24,7 +24,7 @@ class ZoneGetListBlogs extends CopixZone {
 		
 		$tpl = & new CopixTpl ();
 
-	 	$dao = CopixDAOFactory::create("blog|blog");
+	 	$dao = _dao("blog|blog");
 
 		$dbw = & CopixDbFactory::getDbWidget ();
 		

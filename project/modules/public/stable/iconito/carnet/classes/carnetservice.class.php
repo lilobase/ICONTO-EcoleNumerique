@@ -175,10 +175,10 @@ class CarnetService {
 	
 		$res = NULL;
 		
-		$daoTopics = CopixDAOFactory::create("carnet|carnet_topics");
+		$daoTopics = _dao("carnet|carnet_topics");
 		$kernelClasse = CopixClassesFactory::create("kernel|Kernel");
 		
-		$newTopic = CopixDAOFactory::createRecord("carnet|carnet_topics");
+		$newTopic = _daoRecord("carnet|carnet_topics");
 		$newTopic->titre = $titre;
 		$newTopic->message = $message;
 		$newTopic->format = $format;
@@ -189,22 +189,22 @@ class CarnetService {
 			
 		if ($newTopic->id!==NULL) {
 
-			$daoTopicsTo = CopixDAOFactory::create("carnet|carnet_topics_to");
+			$daoTopicsTo = _dao("carnet|carnet_topics_to");
 			
 			/*
 			if (!$eleve) {		// Tous les élèves de la classe !
 				$eleves = $kernelClasse->getNodeChilds ("BU_CLASSE", $classe);
 				while (list(,$v) = each($eleves)) {
 					if ($v["type"]=="USER_ELE") { 	// Todo prévoir fonction qui ne renvoie que les élèves pour zapper ce test
-						$newTopicTo = CopixDAOFactory::createRecord("carnet|carnet_topics_to");
+						$newTopicTo = _daoRecord("carnet|carnet_topics_to");
 						$newTopicTo->topic = $newTopic->id;
 						$newTopicTo->eleve = $v["id"];
 						$daoTopicsTo->insert ($newTopicTo);
 					}
 				}
 			} else {	// Chez un élève précis
-				$daoTopicsTo = CopixDAOFactory::create("carnet|carnet_topics_to");
-				$newTopicTo = CopixDAOFactory::createRecord("carnet|carnet_topics_to");
+				$daoTopicsTo = _dao("carnet|carnet_topics_to");
+				$newTopicTo = _daoRecord("carnet|carnet_topics_to");
 				$newTopicTo->topic = $newTopic->id;
 				$newTopicTo->eleve = $eleve;
 				$daoTopicsTo->insert ($newTopicTo);
@@ -212,8 +212,8 @@ class CarnetService {
 			*/
 			
 			foreach ($eleves as $eleve) {
-				$daoTopicsTo = CopixDAOFactory::create("carnet|carnet_topics_to");
-				$newTopicTo = CopixDAOFactory::createRecord("carnet|carnet_topics_to");
+				$daoTopicsTo = _dao("carnet|carnet_topics_to");
+				$newTopicTo = _daoRecord("carnet|carnet_topics_to");
 				$newTopicTo->topic = $newTopic->id;
 				$newTopicTo->eleve = $eleve;
 				$daoTopicsTo->insert($newTopicTo);
@@ -242,9 +242,9 @@ class CarnetService {
 	
 		$res = NULL;
 		
-		$daoMessages = CopixDAOFactory::create("carnet_messages");
+		$daoMessages = _dao("carnet_messages");
 			
-		$newMessage = CopixDAOFactory::createRecord("carnet_messages");
+		$newMessage = _daoRecord("carnet_messages");
 		$newMessage->topic = $topic;
 		$newMessage->eleve = $eleve;
 		$newMessage->auteur = $auteur;
@@ -272,7 +272,7 @@ class CarnetService {
 	 * @param array $eleves Tableau avec les ids des élèves (en valeurs)
 	 */
 	function userReadTopic ($id_topic, $user, $eleves) {
-		$daoTracking = CopixDAOFactory::create("carnet|carnet_tracking");
+		$daoTracking = _dao("carnet|carnet_tracking");
 		
 		foreach ($eleves as $eleve) {
 			$visite = $daoTracking->get($id_topic, $user, $eleve);
@@ -281,7 +281,7 @@ class CarnetService {
 				$visite->last_visite = date("Y-m-d H:i:s");
 				$daoTracking->update($visite);
 			} else {	// 1e visite !
-				$newVisite = CopixDAOFactory::createRecord("carnet|carnet_tracking");
+				$newVisite = _daoRecord("carnet|carnet_tracking");
 				$newVisite->topic = $id_topic;
 				$newVisite->utilisateur = $user;
 				$newVisite->eleve = $eleve;

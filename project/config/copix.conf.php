@@ -16,7 +16,7 @@ $config = CopixConfig::instance ();
 $config->setMode (CopixConfig::DEVEL);//valeurs possibles DEVEL, PRODUCTION, FORCE_INITIALISATION
 
 // Gestionnaire d'erreurs désativé par défaut.
-$config->copixerrorhandler_enabled = false;
+$config->copixerrorhandler_enabled = true;
 
 //Divers
 $config->significant_url_mode = 'prepend'; // "default" (index.php?module=x&desc=y&action=z...) ou "prepend" (index.php/module/desc/action/)

@@ -224,7 +224,7 @@ class CopixDaoDatasource {
 	 * @return object
 	 */
 	public function save ($pRecord) {
-		$daoRecord = CopixDAOFactory::createRecord ($this->_daoname);
+		$daoRecord = _daoRecord ($this->_daoname);
 		foreach ($pRecord as $key => $record) {
 			$daoRecord->$key = $record;
 		}
@@ -239,7 +239,7 @@ class CopixDaoDatasource {
 	 * @return boolean
 	 */
 	public function check ($pRecord) {
-		$daoRecord = CopixDAOFactory::createRecord ($this->_daoname);
+		$daoRecord = _daoRecord ($this->_daoname);
 		foreach ($pRecord as $key => $record) {
 			$daoRecord->$key = $record;
 		}
@@ -253,7 +253,7 @@ class CopixDaoDatasource {
 	 * @return ICopixDAORecord
 	 */
 	public function update ($pRecord) {
-		$daoRecord = CopixDAOFactory::createRecord ($this->_daoname);
+		$daoRecord = _daoRecord ($this->_daoname);
 		foreach ($pRecord as $key => $record) {
 			$daoRecord->$key = $record;
 		}

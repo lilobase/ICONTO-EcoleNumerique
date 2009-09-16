@@ -21,7 +21,7 @@ class Album {
 	 * @return object Informations sur la photo
 	 */
 	function getPhoto( $photo_id ) {
-		$photo_dao = CopixDAOFactory::create("photo");
+		$photo_dao = _dao("photo");
 		$photo = $photo_dao->get($photo_id);
 		if( $photo === false ) {
 			return false;
@@ -40,7 +40,7 @@ class Album {
 	 * @return integer Nombre de photos
 	 */
 	function getNbPhotos( $album_id, $dossier_id ) {
-		$photo_dao = CopixDAOFactory::create("photo");
+		$photo_dao = _dao("photo");
 		$photo = $photo_dao->findAllByAlbumAndFolder($album_id, $dossier_id);
 		return( count($photo) );
 	}
@@ -57,7 +57,7 @@ class Album {
 	 */
 	function getPrevPhoto($album_id, $dossier_id, $photo_id) {
 		
-		$dao = CopixDAOFactory::create("photo");
+		$dao = _dao("photo");
 		$photo = $dao->getPrevPhoto($album_id, $dossier_id, $photo_id);
 		if (count($photo) > 0) {
 			return( $photo[0]->photo_id );
@@ -77,7 +77,7 @@ class Album {
 	 * @return integer Identifiant de la photo suivante
 	 */
 	function getNextPhoto($album_id, $dossier_id, $photo_id) {
-		$dao = CopixDAOFactory::create("photo");
+		$dao = _dao("photo");
 		$photo = $dao->getNextPhoto($album_id, $dossier_id, $photo_id);
 		if (count($photo) > 0) {
 			return( $photo[0]->photo_id );
@@ -275,7 +275,7 @@ class Album {
 		
 		$_SESSION['modules']['album']['vignettes']['nb-'.$key] = 0;
 		
-		$album_dao = CopixDAOFactory::create("photo");
+		$album_dao = _dao("photo");
 		$photolist = $album_dao->findAllByAlbum($album);
 		
 		foreach( $photolist AS $photothumb ) {
@@ -333,7 +333,7 @@ class Album {
  	 * @param integer $photo_id Id de la photo
 	 */
 	function delPhoto( $photo_id ) {
-		$photo_dao = CopixDAOFactory::create("album|photo");
+		$photo_dao = _dao("album|photo");
 		
 		$photo = $photo_dao->get($photo_id);
 		if( !$photo ) return false;
@@ -364,13 +364,13 @@ class Album {
  	 * @param integer $album_id Id de l'album
 	 */
 	function delAlbum( $album_id ) {
-		$photo_dao = CopixDAOFactory::create("album|photo");
+		$photo_dao = _dao("album|photo");
 		$photos = $photo_dao->findAllByAlbum($album_id);
 		foreach( $photos AS $photo ) {
 			Album::delPhoto( $photo->photo_id );
 		}
 		
-		$album_dao = CopixDAOFactory::create("album|album");
+		$album_dao = _dao("album|album");
 		$album = $album_dao->get($album_id);
 		if( $album ) {
 			$path2data = realpath("static");
@@ -400,7 +400,7 @@ class Album {
 	function getFoldersTree( $album_id, $dossier_id=-1 ) {
 		
 		// Liste des dossiers d'un album en vrac
-		$dossiers_dao = CopixDAOFactory::create("dossier");
+		$dossiers_dao = _dao("dossier");
 		$dossiers_list = $dossiers_dao->findAllByAlbum($album_id);
 
 		$dossiers_first[0]->dossier_id = 0;
@@ -413,7 +413,7 @@ class Album {
 		$dossiers_list = array_merge( $dossiers_first, $dossiers_list );
 		
 		// Liste des photos d'un album en vrac
-		$photos_dao = CopixDAOFactory::create("photo");
+		$photos_dao = _dao("photo");
 		$photos_list = $photos_dao->findAllByAlbum($album_id);
 
 		// Tri des photos par dossiers
@@ -472,9 +472,9 @@ class Album {
  	 * @param string $mode Mode d'effacement (conservation des photos ou non)
 	 * 	 */
 	function delFolder( $album_id, $dossier_id, $mode="moveparent" ) {
-		$album_dao = CopixDAOFactory::create("album");
-		$dossier_dao = CopixDAOFactory::create("dossier");
-		$photo_dao = CopixDAOFactory::create("photo");
+		$album_dao = _dao("album");
+		$dossier_dao = _dao("dossier");
+		$photo_dao = _dao("photo");
 		
 		if( $dossier_id <= 0 ) return false;
 		$dossier = $dossier_dao->get($dossier_id);

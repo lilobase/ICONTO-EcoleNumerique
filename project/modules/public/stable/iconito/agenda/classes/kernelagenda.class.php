@@ -25,7 +25,7 @@ class KernelAgenda {
 		
 		$res = null;
 		
-		$agenda = & CopixDAOFactory::createRecord ('agenda|agenda');	
+		$agenda = & _daoRecord ('agenda|agenda');	
 		if ($infos['title'])
 			$agenda->title_agenda = $infos['title'];
 		else
@@ -65,7 +65,7 @@ class KernelAgenda {
 	 */
 	function getStats ($id_agenda) {
 		$res = array();	
-		$dao = CopixDAOFactory::create("agenda|agenda");
+		$dao = _dao("agenda|agenda");
 		$infos = $dao->getNbsEvenementsInAgenda($id_agenda);
 		$res['nbEvenements'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbEvenements', array($infos[0]->nbEvenements)));
 		return $res;
@@ -83,16 +83,15 @@ class KernelAgenda {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(A.id_agenda) AS nb FROM module_agenda_agenda A';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbAgendas'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbAgendas', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbAgendas'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbAgendas', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(E.id_event) AS nb FROM module_agenda_event E';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbEvenements'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbEvenements', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbEvenements'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbEvenements', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(L.id_lecon) AS nb FROM module_agenda_lecon L';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbLecons'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbLecons', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbLecons'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbLecons', array($a[0]->nb)));
 		return $res;
 	}
 

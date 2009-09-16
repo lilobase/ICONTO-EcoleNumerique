@@ -10,9 +10,9 @@ class ZoneLoginForm extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$tpl->assign('users', $this->params['users'] );
-		$tpl->assign('type',   $this->params['type']   );
-		$tpl->assign('id',     $this->params['id']     );
+		$tpl->assign('users', $this->getParam('users') );
+		$tpl->assign('type',   $this->getParam('type')   );
+		$tpl->assign('id',     $this->getParam('id')     );
 		
 		$toReturn = $tpl->fetch ('getLoginForm.tpl');
 		

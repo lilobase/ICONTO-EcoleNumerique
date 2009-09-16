@@ -29,7 +29,7 @@ class ZoneModuleActions extends CopixZone {
 		$date_debut = $this->getParam('date_debut', null);
 		$date_fin = $this->getParam('date_fin', null);
 		
-		$dao = CopixDAOFactory::create('stats|logs');
+		$dao = _dao('stats|logs');
 		
 		$stats = $dao->getStatsModule (array('module_type'=>$module_type, 'module_id'=>$module_id, 'date_debut'=>$date_debut, 'date_fin'=>$date_fin));
 		
