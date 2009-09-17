@@ -40,7 +40,7 @@
 <td width="100%" align="right"><?php echo CopixZone::process ('minimail|NewMinimail'); ?></td>
 </tr>
 <tr>
-<td colspan="4" class="ecole-login-bar"><?php echo CopixZone::process ('auth|userlogged') ?><?php if ($HEADER_MODE == "compact") { ?> | <a href="<?php echo CopixUrl::get ('kernel||getHome') ?>"><?php echo _i18n('kernel|kernel.message.moniconito') ?></a><?php } ?></td>
+<td colspan="4" class="ecole-login-bar"><?php echo CopixZone::process ('auth|userlogged') ?><?php if (isset($HEADER_MODE) && $HEADER_MODE == "compact") { ?> | <a href="<?php echo CopixUrl::get ('kernel||getHome') ?>"><?php echo _i18n('kernel|kernel.message.moniconito') ?></a><?php } ?></td>
 </tr>
 
 <?php } else { ?>
@@ -57,7 +57,7 @@
 
 
 
-<?php if ($user->isConnected() && $HEADER_MODE != "compact") { ?>
+<?php if ($user->isConnected() && (!isset($HEADER_MODE) || $HEADER_MODE != "compact")) { ?>
 
 <div class="icons">
 <p style="text-align: right; border:0; padding:0; margin:0; padding-right: 20px;">

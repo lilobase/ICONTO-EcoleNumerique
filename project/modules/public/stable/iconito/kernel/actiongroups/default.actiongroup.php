@@ -32,7 +32,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$tplModule = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.menu.accueil'));
 		
-		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset(_currentUser()->getExtra('id')) ) {
+		if( !isset($_SESSION["user"]->bu) || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
 	      return CopixActionGroup::process ('genericTools|Messages::getError',
 	      array ('message'=>CopixI18N::get ('kernel.error.nologin'),
 	      'back'=>CopixUrl::get ('auth|default|login')));
@@ -165,7 +165,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDoSelectHome() {
-		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset(_currentUser()->getExtra('id')) ) {
+		if( !isset($_SESSION["user"]->bu) || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel.error.nologin'),
 			'back'=>CopixUrl::get ('auth|default|login')));
@@ -360,7 +360,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		if( _request("type")) {
 			$type=_request("type");      $id=_request("id");
 		} else {
-			if( isset(_currentUser()->getExtra('type')) && isset(_currentUser()->getExtra('id')) ) {
+			if( (_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id')) ) {
 				$type=_currentUser()->getExtra('type');      $id=_currentUser()->getExtra('id');
 			} else {
 				$type="USER_ELE"; $id=3777; 

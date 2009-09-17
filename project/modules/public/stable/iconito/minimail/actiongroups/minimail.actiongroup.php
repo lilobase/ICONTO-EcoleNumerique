@@ -27,7 +27,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$page = _request("page") ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
 		$messagesAll = $dao->getListRecvAll($userId);
-		//$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
+		$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
 		
 		//die("a");
 		$messages = $dao->getListRecv($userId,$offset,CopixConfig::get ('minimail|list_nblines'));	

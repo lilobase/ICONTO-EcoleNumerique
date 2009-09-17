@@ -20,7 +20,7 @@ class Demo_Auth {
 	 */
 	function canInstall () {
     //print_r($_SESSION);
-		return ($_SESSION['user']->login == 'admin');
+		return (_currentUser()->user->getLogin() == 'admin');
 	}
 
 }

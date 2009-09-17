@@ -106,7 +106,7 @@ class Kernel {
 		$level = 0;
 		if( $user_type=="-1" && $user_id=="-1" )
 		{
-			if( isset(_currentUser()->getExtra('type')) && isset(_currentUser()->getExtra('id')) )
+			if( (_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id')) )
 			{
 				$user_type=_currentUser()->getExtra('type');
 				$user_id=_currentUser()->getExtra('id');
@@ -200,7 +200,7 @@ class Kernel {
 	function getNodes( $user_type="-1", $user_id="-1" ) {
 		if( $user_type=="-1" && $user_id=="-1" )
 		{
-			if( isset(_currentUser()->getExtra('type')) && isset(_currentUser()->getExtra('id')) )
+			if( (_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id')) )
 			{
 				$user_type=_currentUser()->getExtra('type');
 				$user_id=_currentUser()->getExtra('id');
@@ -1106,7 +1106,7 @@ class Kernel {
 		
 		if( $racine_type=="USER" && $racine_node==0 )
 		{
-			if( isset(_currentUser()->getExtra('type')) && isset(_currentUser()->getExtra('id')) )
+			if( (_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id')) )
 			{
 				$racine_type=_currentUser()->getExtra('type');
 				$racine_node=_currentUser()->getExtra('id');
@@ -1133,14 +1133,17 @@ class Kernel {
 	 * OUTPUT : 
 	 */
 	function getModAvailable( $type ) {
+		$result = array();
 		$dao = _dao("kernel|kernel_mod_available");
-		$result = $dao->getByNode($type);
+		$list = $dao->getByNode($type);
+		foreach ($list as $r)
+			$result[] = $r;
 		
 		if( ereg( "(.*)_(.*)", $type, $regs ) ) {
-			$result2 = $dao->getByNode( $regs[1]."_%" );
-			$result = array_merge( $result, $result2 );
+			$list = $dao->getByNode( $regs[1]."_%" );
+			foreach ($list as $r)
+				$result[] = $r;
 		}
-		
 		return $result;
 	}
 
@@ -1310,7 +1313,7 @@ class Kernel {
 		}
 
 		if( $user_type=="-1" && $user_id=="-1" ) {
-			if( isset(_currentUser()->getExtra('type')) && isset(_currentUser()->getExtra('id')) ) {
+			if( (_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id')) ) {
 				$user_type=_currentUser()->getExtra('type'); $user_id=_currentUser()->getExtra('id');
 			} else {
 				return 0;
@@ -1835,7 +1838,7 @@ class Kernel {
 	 */
 	function getUserTypeVisibility( $dst, $src="ME" ) {
 		if( $src=='ME' ) {
-			if( isset(_currentUser()->getExtra('type')) ) {
+			if( (_currentUser()->getExtra('type')) ) {
 				$src=_currentUser()->getExtra('type');
 			}
 			else return( 'NONE' );
@@ -1866,7 +1869,7 @@ class Kernel {
 	 */
 	function getUserVisibility( $dst_type, $dst_id, $src_type="ME", $src_id=0 ) {
 		if( $src_type=='ME' ) {
-			if( isset(_currentUser()->getExtra('type')) ) {
+			if( (_currentUser()->getExtra('type')) ) {
 				$src_type=_currentUser()->getExtra('type');
 				$src_id=$_SESSION['user']->bu['id'];
 			}
