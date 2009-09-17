@@ -26,7 +26,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 		// Existance de groupes personnels ?
 		$dao_kernel_link_user2node = CopixDAOFactory::create("kernel|kernel_link_user2node");
-		$mes_groupes = $dao_kernel_link_user2node->getByUserAndNodeType( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"], "CLUB" );
+		$mes_groupes = $dao_kernel_link_user2node->getByUserAndNodeType( _currentUser()->getExtra('type'), _currentUser()->getExtra('id'), "CLUB" );
 		// Kernel::MyDebug( $mes_groupes );
 		foreach( $mes_groupes AS $mes_groupes_key=>$mes_groupes_val ) {
 			if( $mes_groupes_val->droit <= 10 ) {

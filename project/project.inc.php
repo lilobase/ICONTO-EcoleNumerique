@@ -62,6 +62,18 @@ define ('COPIX_AR_BINARY_CONTENT', 11);//to generate images, pdf, ...
 define ('COPIX_AR_XMLRPC',20);
 define ('COPIX_AR_XMLRPC_FAULT',21);
 define ('COPIX_AR_USER',50);
+
+define ('PROFILE_CCV_NONE',     0);
+define ('PROFILE_CCV_SHOW',     10);
+define ('PROFILE_CCV_READ',     20);
+define ('PROFILE_CCV_WRITE',    30);
+define ('PROFILE_CCV_MEMBER',   35); // Iconito : Membre d'un groupe
+define ('PROFILE_CCV_VALID',    40);
+define ('PROFILE_CCV_PUBLISH',  50);
+define ('PROFILE_CCV_MODERATE', 60);
+define ('PROFILE_CCV_ADMIN',    70);
+
+
 // Fin compatibilite
 
 ?>

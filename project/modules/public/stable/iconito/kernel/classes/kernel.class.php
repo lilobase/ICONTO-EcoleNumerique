@@ -312,11 +312,8 @@ class Kernel {
     //print_r ("getNodeParents( $type, $id )<br>");
 		//var_dump($_SESSION);
 		//die();
-		
 
-		$cache = new CopixCache ($type.'-'.$id, 'getnodeparents');
-		
-		if (1 || !$toReturn = $cache->read ()) { //La donnee n’est pas en cache, on traite la demande.
+		if (1) { //La donnee n’est pas en cache, on traite la demande.
 		
 		$return = array();
 		switch( $type ) {
@@ -475,10 +472,6 @@ class Kernel {
 						$return[$key][$info_key] = $info_val;
 		}
 		
-
-			$cache->write (serialize($return));
-		} else { // En cache
-			$return = unserialize($toReturn);
 		}
 
 		reset($return);
@@ -1703,7 +1696,7 @@ class Kernel {
 	 * @return bool True si c'est un enseignant ou directeur, false sinon
 	 */
 	function isEnseignant () {
-		return ($_SESSION["user"]->bu["type"] == 'USER_ENS');
+		return (_currentUser()->getExtra('type') == 'USER_ENS');
 	}
 
 	/**
@@ -1714,7 +1707,7 @@ class Kernel {
 	 * @return bool True si c'est un agent de ville, false sinon
 	 */
 	function isAgentVille () {
-		return ($_SESSION["user"]->bu["type"] == 'USER_VIL');
+		return (_currentUser()->getExtra('type') == 'USER_VIL');
 	}
 
 	/**
@@ -1736,7 +1729,7 @@ class Kernel {
 	 * @return bool True si c'est un personnel administratif, false sinon
    */
 	function isPersonnelAdministratif () {
-		return ($_SESSION["user"]->bu["type"] == 'USER_ADM');
+		return (_currentUser()->getExtra('type') == 'USER_ADM');
 	}
 
   // $options : 
