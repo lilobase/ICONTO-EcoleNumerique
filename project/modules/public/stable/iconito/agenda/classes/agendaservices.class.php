@@ -136,7 +136,7 @@ class AgendaService {
 		$daoAgenda = &CopixDAOFactory::getInstanceOf ('agenda|agenda');
 		if(count($pArIdAgenda)>0){
 			foreach($pArIdAgenda as $id){
-				$daoSearchParams = & _daoSearchParams ();
+				$daoSearchParams = _daoSp ();
 				$daoSearchParams->addCondition ('id_agenda', '=', $id);
 				$arAgenda = $daoAgenda->findBy ($daoSearchParams);
 				if(count($arAgenda)>0){
@@ -500,7 +500,7 @@ class AgendaService {
 	*/	
 	function getTypeAgendaByIdAgenda($pIdAgenda){
 		
-		$daoSearchParams = & _daoSearchParams ();
+		$daoSearchParams = _daoSp ();
 		$daoSearchParams->addCondition ('id_agenda', '=', $pIdAgenda);
 
 		$daoAgenda = & CopixDAOFactory::getInstanceOf ('agenda|agenda');
@@ -557,7 +557,7 @@ class AgendaService {
 	function getTilteAgendaByIdAgenda ($pArIdAgenda){
 				
 		foreach($pArIdAgenda as $key=>$idAgenda){
-			$daoSearchParams = & _daoSearchParams ();
+			$daoSearchParams = _daoSp ();
 			$daoSearchParams->addCondition ('id_agenda', '=', $idAgenda);	
 			$daoAgenda = & CopixDAOFactory::getInstanceOf ('agenda|agenda');
 			$arAgenda  = $daoAgenda->findBy ($daoSearchParams);

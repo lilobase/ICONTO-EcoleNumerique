@@ -158,7 +158,7 @@ class DAOBlogArticle {
 	
 		//on récupère les identifiants d'article correspondant à la catégorie
 		$daoLink = _dao('blog|blogarticle_blogarticlecategory');
-		$sp      = & _daoSearchParams ();
+		$sp      = _daoSp ();
 		$sp->addCondition ('id_bacg', '=', $id_bacg);
 		$arID    = array();
 		foreach ($daoLink->findBy($sp) as $object) {

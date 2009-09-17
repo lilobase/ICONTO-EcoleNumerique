@@ -1,17 +1,22 @@
 
 {if $ppo->user->isConnected ()}
 
-		
-			Utilisateur : <strong>{$ppo->user->getLogin ()}
-			
-			</strong> <?php if ($ppo->user->getIdPersonnel()) echo '('.trim($ppo->user->getExtra('prenom').' '.$ppo->user->getExtra('nom')).')'; ?> - <a href="<?php echo CopixUrl::get ('auth|log|out') ?>">Se d&eacute;connecter</a>
-		</p>
+
+{assign var=login value=$ppo->user->getLogin}
+
+		{i18n key=auth|auth.connected.bonjour login=$login}
+(<a href="{copixurl dest="auth|log|out"}" title="{i18n key=auth|auth.buttons.logout}">{i18n key=auth|auth.buttons.logout}</a>)
+ |
+<a href="{copixurl dest="prefs||"}" title="{i18n key=auth|auth.nav.prefs}">{i18n key=auth|auth.nav.prefs}</a> 
+ |
+<a href="{copixurl dest="aide||"}" title="{i18n key=auth|auth.nav.aide}">{i18n key=auth|auth.nav.aide}</a> 
+
 		
 {else}
 
 
 		<div style="font-size:90%">
-<form action="{copixurl dest="auth||in"}" method="post" id="loginBar">
+<form action="{copixurl dest="auth|log|in"}" method="post" id="loginBar">
 
 <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}" />
 

@@ -2,7 +2,7 @@
 
 <div class="" align="right">
 
-<form action="index.php" method="get">
+<form action="{copixurl}" method="get">
 <input type="hidden" name="module" value="public" />
 <input type="hidden" name="action" value="getListBlogs" />
 {i18n key="public.blog.form.search.lib"} :

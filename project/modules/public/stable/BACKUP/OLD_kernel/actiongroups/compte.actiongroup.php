@@ -143,7 +143,7 @@ class ActionGroupCompte extends CopixActionGroup {
 				// Enregistrement des droits
 				if (!count($check) && $record->id_dbuser) {
 				
-					$sp = _daoSearchParams ();
+					$sp = _daoSp ();
 					$sp->addCondition ('user_dbgroup', '=', $record->id_dbuser);
 					_ioDAO ('dbgroup_users')->deleteBy ($sp);
 					
@@ -235,7 +235,7 @@ class ActionGroupCompte extends CopixActionGroup {
 			);
 		
 		// On supprime
-		$sp = _daoSearchParams ();
+		$sp = _daoSp ();
 		$sp->addCondition ('user_dbgroup', '=', $rUser->id_dbuser);
 		_ioDAO ('dbgroup_users')->deleteBy ($sp);
 	
