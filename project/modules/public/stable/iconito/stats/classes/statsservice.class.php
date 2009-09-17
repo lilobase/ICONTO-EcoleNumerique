@@ -25,11 +25,10 @@ class StatsService {
 	function updateCron () {
 		
 		// On prend les modules orphelins
-		$dbw = & CopixDbFactory::getDbWidget ();
-		
+
 		$sql = "SELECT DISTINCT(module_type) AS module_type, module_id FROM module_stats_logs WHERE (parent_type IS NULL OR parent_id IS NULL) AND module_type IN ('MOD_GROUPE')";
 		//Kernel::deb ($sql);
-		$list = $dbw->fetchAll ($sql);
+		$list = _doQuery($sql);
 		$i=0;
 		foreach ($list as $e) {
 						

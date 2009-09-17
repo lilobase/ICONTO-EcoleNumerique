@@ -20,13 +20,12 @@ class KernelCarnet {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(id) AS nb FROM module_carnet_topics';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbTopics'] = array ('name'=>CopixI18N::get ('carnet|carnet.stats.nbTopics', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbTopics'] = array ('name'=>CopixI18N::get ('carnet|carnet.stats.nbTopics', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id) AS nb FROM module_carnet_messages';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbMessages'] = array ('name'=>CopixI18N::get ('carnet|carnet.stats.nbMessages', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbMessages'] = array ('name'=>CopixI18N::get ('carnet|carnet.stats.nbMessages', array($a[0]->nb)));
 		return $res;
 	}
 

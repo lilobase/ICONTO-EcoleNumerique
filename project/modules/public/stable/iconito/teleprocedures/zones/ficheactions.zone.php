@@ -26,8 +26,6 @@ class ZoneFicheActions extends CopixZone {
 		$rFiche = $this->getParam('rFiche');
 		$mondroit = $this->getParam('mondroit');
 
-	  $dbWidget = & CopixDBFactory::getDbWidget ();
-		
 		$canChangeStatut = TeleproceduresService::canMakeInTelep('CHANGE_STATUT', $mondroit, array('idinter'=>$rFiche->idinter));
 		$canDelegue = TeleproceduresService::canMakeInTelep('DELEGUE', $mondroit, array('idinter'=>$rFiche->idinter));
 		$canSendMails = TeleproceduresService::canMakeInTelep('SEND_MAILS', $mondroit, array('idinter'=>$rFiche->idinter));

@@ -155,7 +155,6 @@ class ActionGroupGroupe extends CopixActionGroup {
   	$criteres->endGroup();
 		$criteres->addCondition("is_open", "=", 1);
 		*/
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$query = 'SELECT GR.id, GR.titre, GR.description, GR.is_open FROM module_groupe_groupe GR WHERE (';
 		$iWord = 0;
 		foreach ($temp as $word) {
@@ -168,7 +167,7 @@ class ActionGroupGroupe extends CopixActionGroup {
   	}
  		$query .= ")";
 		//Kernel::deb ($query);
-		$groupes = $dbw->fetchAll ($query);
+		$groupes = _doQuery($query);
 		
 		while (list($k,) = each($groupes)) {
 			$userInfo = $kernel_service->getUserInfo("ID", $groupes[$k]->createur);

@@ -48,7 +48,6 @@ class KernelMalle {
 	 */
 	function delete ($id) {
 		$daoMalles = _dao('malle|malle_malles');
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$rMalle = $daoMalles->get($id);
 		$res = false;
 		if ($rMalle) {
@@ -103,16 +102,15 @@ class KernelMalle {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(id) AS nb FROM module_malle_malles';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbMalles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbMalles', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbMalles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbMalles', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id) AS nb FROM module_malle_folders';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbFolders'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFolders', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbFolders'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFolders', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id) AS nb FROM module_malle_files';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbFiles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFiles', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbFiles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFiles', array($a[0]->nb)));
 		$sql = 'SELECT SUM(taille) AS nb FROM module_malle_files';
 		$a = $dbw->fetchFirst ($sql);
 		$res['size'] = array ('name'=>CopixI18N::get ('malle|malle.stats.size', array(KernelMalle::human_file_size($a->nb))));

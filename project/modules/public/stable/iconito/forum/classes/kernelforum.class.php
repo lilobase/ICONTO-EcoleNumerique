@@ -38,7 +38,6 @@ class KernelForum {
 	function delete ($idForum) {
 		$daoForums = _dao("forum|forum_forums");
 	 	$daoTopics = _dao("forum|forum_topics");
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$rForum = $daoForums->get($idForum);
 		$res = false;
 		if ($rForum) {
@@ -88,16 +87,15 @@ class KernelForum {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(F.id) AS nb FROM module_forum_forums F';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbForums'] = array ('name'=>CopixI18N::get ('forum|forum.stats.nbForums', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbForums'] = array ('name'=>CopixI18N::get ('forum|forum.stats.nbForums', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(T.id) AS nb FROM module_forum_topics T';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbTopics'] = array ('name'=>CopixI18N::get ('forum|forum.stats.nbTopics', array($a->nb)));
+		$a = _doQuery ($sql);
+		$res['nbTopics'] = array ('name'=>CopixI18N::get ('forum|forum.stats.nbTopics', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(M.id) AS nb FROM module_forum_messages M';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbMessages'] = array ('name'=>CopixI18N::get ('forum|forum.stats.nbMessages', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbMessages'] = array ('name'=>CopixI18N::get ('forum|forum.stats.nbMessages', array($a[0]->nb)));
 		return $res;
 	}
 

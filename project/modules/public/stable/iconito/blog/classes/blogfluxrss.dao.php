@@ -73,9 +73,9 @@ class DAOBlogFluxRss {
     */
    function getNewPos($id_blog) {
       $sql = 'SELECT max(order_bfrs)+1 as max FROM module_blog_fluxrss WHERE id_blog='.$id_blog;
-      $dbWidget = & CopixDBFactory::getDbWidget ();
-      if (($result = $dbWidget->fetchFirst ($sql)) && $result->max > 0) {
-         return $result->max;
+      $result = _doQuery ($sql);
+      if ($result && $result[0]->max > 0) {
+         return $result[0]->max;
       }else{
          return 1;
       }

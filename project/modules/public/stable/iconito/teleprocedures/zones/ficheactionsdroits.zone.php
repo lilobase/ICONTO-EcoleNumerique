@@ -24,8 +24,6 @@ class ZoneFicheActionsDroits extends CopixZone {
 		$rFiche = $this->getParam('rFiche');
 		$errors = $this->getParam('errors');
 
-	  $dbWidget = & CopixDBFactory::getDbWidget ();
-		
 	  $tpl->assign ('rFiche', $rFiche);
 		$tpl->assign ('errors', $errors);
 

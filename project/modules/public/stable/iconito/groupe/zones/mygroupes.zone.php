@@ -67,9 +67,8 @@ class ZoneMyGroupes extends CopixZone {
 		
 			if( CopixConfig::exists('|conf_ModConcerto') && CopixConfig::get('|conf_ModConcerto') && $_SESSION["user"]->bu["type"]=='USER_RES') {
 				$new_module = null;
-				$dbw = & CopixDbFactory::getDbWidget ();
 				$sql = 'SELECT id,login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='.$_SESSION["user"]->bu["id"].' AND service=\'concerto\'';
-				$concerto = $dbw->fetchAll ($sql);
+				$concerto = _doQuery($sql);
 				if( $concerto ) {
 					$new_module = _daoRecord("kernel|kernel_mod_enabled");
 					$new_module->node_type = $_SESSION["user"]->bu["type"];

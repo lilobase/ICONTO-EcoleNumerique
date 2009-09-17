@@ -385,12 +385,7 @@ if($debug) echo "comboecolesingrville ".date("H:i:s")." ".(microtime(true)-$star
 if($debug) echo "comboecolesinville ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
 		}
 
-		
-//$dbw = & CopixDbFactory::getDbWidget ();
-//$sql = "SELECT 1 AS DEBUT";
-//$dbw->fetchAll ($sql);
-   	
-$start = microtime(true);
+		$start = microtime(true);
 		if ($ville == $ALL && $ecole == $ALL && $comboClasses) {
 			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboclassesingrville', array('grville'=>$grville, 'value'=>$classe, 'fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllClasses'))))));
 if($debug) echo "comboclassesingrville ".date("H:i:s")." ".(microtime(true)-$start)."<br />";

@@ -31,7 +31,6 @@ class ZoneFiche extends CopixZone {
 
 		//var_dump($rFiche);
 		
-		//$dbWidget = & CopixDBFactory::getDbWidget ();
 		//$daoType = & _dao ('type');
     //$tpl->assign ('arTypes', $daoType->findAll ());
 		$arResponsables = explode(",",$rFiche->responsables);

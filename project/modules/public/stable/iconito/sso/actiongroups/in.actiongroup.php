@@ -32,10 +32,8 @@ class ActionGroupIn extends CopixActionGroup {
 				
 	    	$token = false;
 	      
-	      $dbw = & CopixDbFactory::getDbWidget ();
-	
 	      $sql = "SELECT login FROM kernel_sso_users WHERE id_sso = $id_sso";
-	  		$sso = $dbw->fetchFirst ($sql);
+	  		$sso = _doQuery($sql);
 	      //print_r($sso);
 	      
 	      if ($sso) {
@@ -83,13 +81,9 @@ class ActionGroupIn extends CopixActionGroup {
 		$node_id = $this->getRequest('node_id', null);
 		$module_type = $this->getRequest('module_type', null);
       
-		$dbw = & CopixDbFactory::getDbWidget ();
-      
-		//$sql = "SELECT PER.numero, PER.cle_privee, PER.challenge, PER.dateChallenge, USER.login_cusr AS login FROM kernel_bu_personnel PER, kernel_link_bu2user LINK, copixuser USER WHERE PER.numero=LINK.bu_id AND LINK.bu_type IN ('USER_ENS', 'USER_VIL') AND LINK.user_id=USER.id_cusr AND PER.numero = $identifiant";
-
 		$sql = "SELECT CHA.date, CHA.challenge, SSO.cle_privee, SSO.login FROM kernel_sso_challenges CHA, kernel_sso_users SSO, copixuser USER WHERE CHA.id_sso=SSO.id_sso AND SSO.login=USER.login_cusr AND SSO.id_sso=$id_sso";
 		//Kernel::deb($sql);	
-		$sso = $dbw->fetchFirst ($sql);
+		$sso = _doQuery($sql);
 		//print_r($sso);
 
 		if ($sso) {

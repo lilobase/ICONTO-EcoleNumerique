@@ -21,13 +21,12 @@ class KernelMinimail {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT MAX(id) AS nb FROM module_minimail_from';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbMessages'] = array ('name'=>CopixI18N::get ('minimail|minimail.stats.nbMessages', array(1=>$a->nb)));
+		$a = _doQuery($sql);
+		$res['nbMessages'] = array ('name'=>CopixI18N::get ('minimail|minimail.stats.nbMessages', array(1=>$a[0]->nb)));
 		$sql = 'SELECT COUNT(id) AS nb FROM module_minimail_from WHERE UNIX_TIMESTAMP(NOW())-UNIX_TIMESTAMP(date_send)<=60*60*24';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbMessages24h'] = array ('name'=>CopixI18N::get ('minimail|minimail.stats.nbMessages24h', array(1=>$a->nb)));
+		$a = _doQuery($sql);
+		$res['nbMessages24h'] = array ('name'=>CopixI18N::get ('minimail|minimail.stats.nbMessages24h', array(1=>$a[0]->nb)));
 		return $res;
 	}
 

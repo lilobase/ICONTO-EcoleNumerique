@@ -35,7 +35,6 @@ class KernelTeleprocedures {
 	 */
 	function delete ($id) {
 		$dao = _dao("teleprocedures|teleprocedure");
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$r = $dao->get($id);
 		$res = false;
 		if ($r) {

@@ -31,7 +31,6 @@ class KernelListe {
 	 */
 	function delete ($id) {
 		$daoListes = _dao("liste|liste_listes");
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$rListe = $daoListes->get($id);
 		$res = false;
 		if ($rListe) {
@@ -66,13 +65,12 @@ class KernelListe {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(id) AS nb FROM module_liste_listes';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbListes'] = array ('name'=>CopixI18N::get ('liste|liste.stats.nbListes', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbListes'] = array ('name'=>CopixI18N::get ('liste|liste.stats.nbListes', array($a[0]->nb)));
 		$sql = 'SELECT COUNT(id) AS nb FROM module_liste_messages';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbMessages'] = array ('name'=>CopixI18N::get ('liste|liste.stats.nbMessages', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbMessages'] = array ('name'=>CopixI18N::get ('liste|liste.stats.nbMessages', array($a[0]->nb)));
 		return $res;
 	}
 

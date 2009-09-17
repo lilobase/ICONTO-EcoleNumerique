@@ -29,43 +29,14 @@ class ActionGroupConcerto extends CopixActionGroup {
 		
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_concerto.js');
 		
-		/*
-		$dbw = & CopixDbFactory::getDbWidget ();
-		$sql = 'SELECT login,password FROM kernel_bu_auth WHERE node_type=\''.$_SESSION["user"]->bu["type"].'\' AND node_id='.$_SESSION["user"]->bu["id"].' AND service=\'concerto\'';
-		$concerto = $dbw->fetchFirst ($sql);
-		
-		
 
-		if( $concerto ) {
-			// echo $_SESSION["user"]->bu["type"].":".$_SESSION["user"]->bu["id"]."</br>";
-			// die("--".print_r($a,true)."--");
-			
-			$tpl = & new CopixTpl ();
-			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('concerto|concerto.title'));
-			// $tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
-	
-			$tplListe = & new CopixTpl ();
-			$tplListe->assign ('login', $concerto->login);
-			$tplListe->assign ('password', $concerto->password );
-			$result = $tplListe->fetch("concerto-form.tpl");
-	
-			$tpl->assign ("MAIN", $result);
-			$tpl->assign ('BODY_ON_LOAD', 'concerto_redirect();');
-	
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		} else {
-			// Redirection...
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||'));
-		}
-		*/
 		
 		if( !isset($this->vars["id"]) || !ereg('^[0-9]+$', $this->vars["id"]) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));
 		}
 		
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='.$_SESSION["user"]->bu["id"].' AND id=\''.addslashes($this->vars["id"]).'\' AND service=\'concerto\'';
-		$concerto = $dbw->fetchFirst ($sql);
+		$concerto = _doQuery($sql);
 		if(!$concerto) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));
 		}
@@ -75,8 +46,8 @@ class ActionGroupConcerto extends CopixActionGroup {
 		// $tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
 	
 		$tplListe = & new CopixTpl ();
-		$tplListe->assign ('login', $concerto->login);
-		$tplListe->assign ('password', $concerto->password );
+		$tplListe->assign ('login', $concerto[0]->login);
+		$tplListe->assign ('password', $concerto[0]->password );
 		$result = $tplListe->fetch("concerto-form.tpl");
 	
 		$tpl->assign ("MAIN", $result);
@@ -105,11 +76,10 @@ class ActionGroupConcerto extends CopixActionGroup {
 		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
 		$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 		
-		$dbw = & CopixDbFactory::getDbWidget ();
 		// $sql = 'SELECT KB_RES.numero, KB_RES.nom, KB_RES.prenom1, K_LB2U.user_id, K_LB2U.bu_type, K_LB2U.bu_id FROM kernel_bu_responsable KB_RES LEFT JOIN kernel_link_bu2user K_LB2U ON KB_RES.numero=K_LB2U.bu_id AND K_LB2U.bu_type="USER_RES" WHERE K_LB2U.bu_type IS NULL';
 		$sql = 'SELECT KB_RES.numero, KB_RES.nom, KB_RES.prenom1, K_LB2U.user_id, K_LB2U.bu_type, K_LB2U.bu_id, KB_SER.id_ext FROM kernel_bu_services KB_SER, kernel_bu_responsable KB_RES LEFT JOIN kernel_link_bu2user K_LB2U ON KB_RES.numero=K_LB2U.bu_id AND K_LB2U.bu_type="USER_RES" WHERE KB_SER.id_local=KB_RES.numero AND KB_SER.service="concerto" AND KB_SER.objet="responsable" AND K_LB2U.bu_type IS NULL';
 		
-		$a = $dbw->fetchAll ($sql);
+		$a = _doQuery($sql);
 		
 		if( count($a)>0 ) {
 			

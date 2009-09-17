@@ -17,9 +17,8 @@ class DAOMalle_Malles {
 	 * @return mixed Objet DAO.
 	 */
 	function getNbsFilesInMalle ($malle) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT COUNT(id) AS nbFiles, SUM(taille) AS taille FROM module_malle_files FIL WHERE FIL.malle='.$malle.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 	
 	
@@ -32,9 +31,8 @@ class DAOMalle_Malles {
 	 * @return mixed Objet DAO.
 	 */
 	function getNbsFoldersInMalle ($malle) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT COUNT(id) AS nbFolders FROM module_malle_folders FOL WHERE FOL.malle='.$malle.'';
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 	
 	

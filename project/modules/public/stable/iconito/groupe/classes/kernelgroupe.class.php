@@ -45,13 +45,12 @@ class KernelGroupe {
 	 */
 	function getStatsRoot () {
 		$res = array();	
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$sql = 'SELECT COUNT(id) AS nb FROM module_groupe_groupe';
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbGroupes'] = array ('name'=>CopixI18N::get ('groupe|groupe.stats.nbGroupes', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbGroupes'] = array ('name'=>CopixI18N::get ('groupe|groupe.stats.nbGroupes', array($a[0]->nb)));
 		$sql = "SELECT COUNT(user_id) AS nb FROM kernel_link_user2node WHERE node_type='CLUB' AND droit>=".PROFILE_CCV_READ;
-		$a = $dbw->fetchFirst ($sql);
-		$res['nbMembers'] = array ('name'=>CopixI18N::get ('groupe|groupe.stats.nbMembers', array($a->nb)));
+		$a = _doQuery($sql);
+		$res['nbMembers'] = array ('name'=>CopixI18N::get ('groupe|groupe.stats.nbMembers', array($a[0]->nb)));
 		return $res;
 	}
 

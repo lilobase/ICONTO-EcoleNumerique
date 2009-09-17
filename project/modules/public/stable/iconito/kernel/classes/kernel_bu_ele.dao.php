@@ -17,10 +17,8 @@ class DAOKernel_bu_ele {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInClasse ($classe) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_cusr AS login, LI.bu_type, LI.bu_id FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_link_bu2user LI, copixuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND E.id_sexe=S.id_s AND LI.user_id=U.id_cusr AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EC.id=".$classe." ORDER BY nom, prenom1";
-		//print_r($query);
-		return $dbw->fetchAll ($query);
+		return _doQuery($query);
 	}
 	
 	/**
@@ -32,10 +30,9 @@ class DAOKernel_bu_ele {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInEcole ($ecole) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_cusr AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_link_bu2user LI, copixuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND LI.user_id=U.id_cusr AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EC.ecole=".$ecole." ORDER BY nom, prenom1";
 		//print_r($query);
-		return $dbw->fetchAll ($query);
+		return _doQuery($query);
 	}
 	
 	/**
@@ -47,10 +44,9 @@ class DAOKernel_bu_ele {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInVille ($ville) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_cusr AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_link_bu2user LI, copixuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND EC.ecole=ECO.numero AND LI.user_id=U.id_cusr AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND ECO.id_ville=".$ville." ORDER BY nom, prenom1";
 		//print_r($query);
-		return $dbw->fetchAll ($query);
+		return _doQuery($query);
 	}
 	
 
@@ -63,10 +59,9 @@ class DAOKernel_bu_ele {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInGrville ($grville) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_cusr AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_bu_ville VIL, kernel_link_bu2user LI, copixuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND EC.ecole=ECO.numero AND ECO.id_ville=VIL.id_vi AND LI.user_id=U.id_cusr AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND VIL.id_grville=".$grville." ORDER BY nom, prenom1";
 		//print_r($query);
-		return $dbw->fetchAll ($query);
+		return _doQuery($query);
 	}	
 
 }

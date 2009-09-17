@@ -26,14 +26,12 @@ class ZoneGetListBlogs extends CopixZone {
 
 	 	$dao = _dao("blog|blog");
 
-		$dbw = & CopixDbFactory::getDbWidget ();
-		
 		if ($kw)
 			$critere = " SELECT * FROM module_blog WHERE is_public=1 AND name_blog LIKE '%".addslashes($kw)."%' ORDER BY name_blog";
 		else
 			$critere = " SELECT * FROM module_blog WHERE is_public=1 AND 1 ORDER BY name_blog";
 		
-		$sql = $dbw->fetchAll($critere);
+		$sql = _doQuery($critere);
 		$list = array();
 
 		//print_r($sql);

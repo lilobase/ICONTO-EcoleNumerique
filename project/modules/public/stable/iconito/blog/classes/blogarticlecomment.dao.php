@@ -44,9 +44,9 @@ class DAOBlogarticlecomment {
     */
    function countNbCommentForArticle($id_bact, $is_online=1) {
       $sql = 'SELECT count(id_bacc) as nbComment FROM module_blog_articlecomment WHERE id_bact='.$id_bact.' AND is_online='.$is_online.' group by id_bact ';
-      $dbWidget = & CopixDBFactory::getDbWidget ();
-      if (($result = $dbWidget->fetchFirst ($sql)) && $result->nbComment > 0) {
-         return $result->nbComment;
+      $result = _doQuery($sql);
+      if ($result && $result[0]->nbComment > 0) {
+         return $result[0]->nbComment;
       }else{
          return 0;
       }

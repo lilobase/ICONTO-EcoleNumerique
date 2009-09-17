@@ -21,9 +21,8 @@ class DAOForum_Topics {
 	 * @return mixed Objet DAO
 	 */
 	function getListTopicsInForum ($forum, $offset, $count, $orderby, $user) {
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT TOP.*, TRA.last_visite FROM module_forum_topics TOP LEFT JOIN module_forum_tracking TRA ON (TRA.topic=TOP.id AND TRA.utilisateur='.$user.') WHERE TOP.status=1 AND TOP.forum='.$forum.' ORDER BY '.$orderby.' DESC LIMIT '.$offset.', '.$count;
-		return $dbw->fetchAll ($critere);
+		return _doQuery($critere);
 	}
 			
 

@@ -32,9 +32,8 @@ class ZoneRss extends CopixZone {
     //$arData = $dao->getAllArticlesFromBlogByCritere($blog->id_blog, NULL);
     
 		
-		$dbw = & CopixDbFactory::getDbWidget ();
 		$critere = 'SELECT ART.id_bact, ART.name_bact, ART.url_bact, ART.date_bact, ART.time_bact, ART.sumary_bact, ART.sumary_html_bact, BLOG.url_blog FROM module_blog BLOG, module_blog_article ART WHERE ART.id_blog=BLOG.id_blog AND BLOG.is_public=1 ORDER BY ART.date_bact DESC, ART.time_bact DESC, ART.id_bact ASC LIMIT '.intval(CopixConfig::get('public|rss.nbArticles'));
-		$arArticle = $dbw->fetchAll ($critere);
+		$arArticle = _doQuery($critere);
 		foreach ($arArticle as $key=>$article) {
 			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);

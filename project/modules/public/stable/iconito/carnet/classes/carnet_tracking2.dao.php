@@ -20,10 +20,9 @@ class DAOCarnet_Tracking2 {
 	 */
 	function getFirstUnreadMessage ($topic, $user, $eleves) {
 		//print_r($eleves);
-		$dbw = & CopixDbFactory::getDbWidget ();
     $sql = "SELECT MIN(FM.id) AS id FROM (module_carnet_messages FM, module_carnet_topics FT) LEFT JOIN module_carnet_tracking TRA ON (TRA.topic=$topic AND TRA.utilisateur=$user AND TRA.eleve IN (".implode(", ",$eleves).")) WHERE FM.topic=FT.id AND FM.date>TRA.last_visite ORDER BY 1";
 		//print_r($sql);
-		return $dbw->fetchAll ($sql);
+		return _doQuery($sql);
 	}
 
 }
