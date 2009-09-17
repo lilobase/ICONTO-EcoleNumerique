@@ -128,7 +128,7 @@
 {if $files neq null}
 	{foreach from=$files item=item}
 	
-	{assign var=file value="static/malle/"|cat:$item->malle|cat:"_"|cat:$item->malle_cle|cat:"/"|cat:$item->id|cat:"_"|cat:$item->fichier}
+	{assign var=file value="{copixurl}static/malle/"|cat:$item->malle|cat:"_"|cat:$item->malle_cle|cat:"/"|cat:$item->id|cat:"_"|cat:$item->fichier}
 	
 	{if $format eq "fckeditor" OR $format eq "html"}
 		{*{assign var=htmlDownload value="[["|cat:$abspath|cat:$file|cat:"|download]]"}*}

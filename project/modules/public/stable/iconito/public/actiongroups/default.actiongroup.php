@@ -58,16 +58,14 @@ class ActionGroupDefault extends CopixActionGroup {
 	 */
   function processAPropos () {
     
-		$tpl = & new CopixTpl ();
-
-		$tpl->assign ("TITLE_PAGE", CopixI18N::get ('public|public.apropos'));
+		$ppo = new CopixPPO ();
+		$ppo->TITLE_PAGE = CopixI18N::get ('public|public.apropos');
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_public.css"));
 
-		$txt = CopixCoordination::includeStatic ('apropos_'.CopixI18N::getLang().'.html');
-		$tpl->assign ("MAIN", $txt);
-    
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		$nametpl = 'apropos_'.CopixI18N::getLang().'.html';
+		
+		return _arPPO ($ppo, $nametpl);
     
   }
 

@@ -424,6 +424,12 @@ class CopixUser implements ICopixUser {
 	   	//l'information n'a pas pu être ajoutée, pas de réponse valide.
 		return false;
 	}
+	
+	// CB - 17/09/2009
+	public function setExtraHome ($pInformationId, $pInformationValue){
+		$userHandlerResponse = $this->_getFirstLogged ();
+ 		return $userHandlerResponse->addExtraHome ($pInformationId, $pInformationValue);
+	}
 }
 
 /**
@@ -552,5 +558,12 @@ class CopixUserLogResponse {
 	   $this->_data['extra'][$pInformationName] = $pInformationValue;
 	   return true;
 	}
+	
+	// CB - 17/09/2009
+	public function addExtraHome ($pInformationName, $pInformationValue){
+	   $this->_data['extra']['home'][$pInformationName] = $pInformationValue;
+	   return true;
+	}
+	
 }
 ?>

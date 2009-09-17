@@ -140,6 +140,8 @@ class Album {
 		$pathfolder = $path2data.'/album/'.$album;
 		$pathfile = $pathfolder.'/'.$file.'.'.$ext;
 		
+		
+		
 		if( $toext!='' ) { // Changement de format
 			$savedfile = $pathfolder.'/'.$file.'_'.$taille.'.'.$toext;
 			if( file_exists($savedfile) && !$force ) return true;
@@ -147,6 +149,8 @@ class Album {
 			$savedfile = $pathfolder.'/'.$file.'_'.$taille.'.'.$ext;
 			if( file_exists($savedfile) && !$force ) return true;
 		}
+		
+		
 		
 		// Décodage de la taille ('s' pour carrée et nombre de pixels)
 		if( ereg("^s([0-9]+)$", $taille, $regs) ) {
@@ -279,6 +283,7 @@ class Album {
 		$photolist = $album_dao->findAllByAlbum($album);
 		
 		foreach( $photolist AS $photothumb ) {
+			
 			$failed += Album::checkThumbnail(
 				$photothumb->album_id.'_'.$photothumb->album_cle,
 				$photothumb->photo_id.'_'.$photothumb->photo_cle,
@@ -305,9 +310,12 @@ class Album {
 		$path2data = realpath("static");
 		$pathfolder = $path2data.'/album/'.$album;
 		
+		
+		
 		$tailles = explode(",",CopixConfig::get ('album|thumb_sizes'));
 		foreach( $tailles AS $taille ) {
 			$savedfile = $pathfolder.'/'.$file.'_'.$taille.'.'.$ext;
+			//print_r($savedfile);
 			if( !file_exists($savedfile) ) {
 				$failed++;
 				
@@ -401,16 +409,22 @@ class Album {
 		
 		// Liste des dossiers d'un album en vrac
 		$dossiers_dao = _dao("dossier");
+
+		$list2 = array();
 		$dossiers_list = $dossiers_dao->findAllByAlbum($album_id);
-
-		$dossiers_first[0]->dossier_id = 0;
-		$dossiers_first[0]->dossier_album = $album_id;
-		$dossiers_first[0]->dossier_parent = -1;
-		$dossiers_first[0]->dossier_nom = CopixI18N::get ('album|album.message.topfolder');
-		$dossiers_first[0]->dossier_comment = "";
-		$dossiers_first[0]->album_id = $album_id;
-
-		$dossiers_list = array_merge( $dossiers_first, $dossiers_list );
+		foreach ($dossiers_list as $r)
+			$list2[] = $r;
+		
+		$r = new CopixPPO();
+		$r->dossier_id = 0;
+		$r->dossier_album = $album_id;
+		$r->dossier_parent = -1;
+		$r->dossier_nom = CopixI18N::get ('album|album.message.topfolder');
+		$r->dossier_comment = "";
+		$r->album_id = $album_id;
+		$list1 = array($r);
+		
+		$dossiers_list = array_merge( $list1, $list2 );
 		
 		// Liste des photos d'un album en vrac
 		$photos_dao = _dao("photo");

@@ -1471,7 +1471,7 @@ class Kernel {
 	
 	// Si on passe le tebleau $extra, on ne touche pas a la session (utilise a la connexion, quand on n'a pas encore la session PHP) - CB
 	function setMyNode( $type, $id, &$extra=array() ) {
-		if (isset($extra)) {
+		if (isset($extra) && count($extra)) {
 			$extra['home'] = array();
 			$extra['home']["type"] = $type;
 			$extra['home']["id"] = $id;
@@ -1485,18 +1485,17 @@ class Kernel {
 				$extra['home']["titre2"] = $parentinfo["nom"];
 			}
 		} else {
-			$_SESSION["user"]->home["type"] = $type;
-			$_SESSION["user"]->home["id"] = $id;
-			$nodeinfo = Kernel::getNodeInfo( $type, $id, false );
-			$_SESSION["user"]->home["titre1"] = $nodeinfo["nom"];
+			_currentUser()->setExtraHome('type', $type);
+			_currentUser()->setExtraHome('id', $id);
+			$nodeinfo = Kernel::getNodeInfo( $type, $id, false);
+			_currentUser()->setExtraHome('titre1', $nodeinfo["nom"]);
 			$parent = Kernel::getNodeParents( $type, $id );
 			if( count($parent) ) {
 				$parent_item = current($parent);
 				$parentinfo = Kernel::getNodeInfo( $parent_item["type"], $parent_item["id"], false );
-				$_SESSION["user"]->home["titre2"] = $parentinfo["nom"];
+				_currentUser()->setExtraHome('titre2', $parentinfo["nom"]);
 			}
 		}
-		//die();
 	}
 	
 	

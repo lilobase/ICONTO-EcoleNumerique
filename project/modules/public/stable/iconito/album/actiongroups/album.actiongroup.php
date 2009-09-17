@@ -99,6 +99,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		unset($_SESSION['modules']['album']['vignettes']['nb-'.$album->album_id.'_'.$album->album_cle]);
 		$errors = Album::checkThumbnails( $album_id, $album->album_id.'_'.$album->album_cle );
 		if( $errors > 0 ) {
+			//die (".".$errors);
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|vignettes', array('album'=>$album_id,'dossier'=>$dossier_id,'key'=>$album->album_id.'_'.$album->album_cle) ) );
 		}
 		

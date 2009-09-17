@@ -71,7 +71,7 @@ function smarty_function_user ($params, &$smarty)
 		if ($params['dispMail']==1 && $params['login']) {
 			
 			$url = CopixUrl::get ('minimail||getNewForm', array('login'=>$params['login']));
-			$res .= '&nbsp;<A HREF="'.$url.'"><IMG WIDTH="12" HEIGHT="9" SRC="img/minimail/new_minimail.gif" ALT="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" TITLE="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" BORDER="0" /></A>';
+			$res .= '&nbsp;<A HREF="'.$url.'"><IMG WIDTH="12" HEIGHT="9" SRC="'.CopixUrl::getResource ("img/minimail/new_minimail.gif").'" ALT="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" TITLE="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" BORDER="0" /></A>';
 		}
 			
 		if (isset ($params['assign'])) {

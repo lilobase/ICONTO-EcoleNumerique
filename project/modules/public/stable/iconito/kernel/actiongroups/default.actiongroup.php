@@ -188,7 +188,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  	Logs::set( array('type'=>'INFO', 'message'=>'SelectHome: '.$pType."-".$pId) );
   		Kernel::setMyNode( $pType, $pId );
     }
-		
+		//print_r($_SESSION);
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getHome' ));
 	}
 

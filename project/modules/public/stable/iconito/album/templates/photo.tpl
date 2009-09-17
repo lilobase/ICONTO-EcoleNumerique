@@ -15,7 +15,7 @@
 {else}
 <a href="{copixurl dest="album||album" album_id=$photo->album_id dossier_id=$photo->photo_dossier}">
 {/if}
-<img src="static/album/{$photo->album_id}_{$photo->album_cle}/{$photo->photo_id}_{$photo->photo_cle}{$photo_size}.{$photo->photo_ext}" border="0" />
+<img src="{copixurl}static/album/{$photo->album_id}_{$photo->album_cle}/{$photo->photo_id}_{$photo->photo_cle}{$photo_size}.{$photo->photo_ext}" border="0" />
 </a>
 </div>
 

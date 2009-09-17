@@ -12,7 +12,7 @@
 
 {if $photolist neq null}	
 	{foreach from=$photolist item=valeur}
-		<div class="photo"><a href="#" onClick="return sendPhoto('{$valeur->album_id}_{$valeur->album_cle}','{$valeur->photo_id}_{$valeur->photo_cle}', '{$valeur->photo_ext}', '{$valeur->photo_nom|escape:"url"}');"><img src="static/album/{$valeur->album_id}_{$valeur->album_cle}/{$valeur->photo_id}_{$valeur->photo_cle}{$album_thumbsize}.{$valeur->photo_ext}" border="0" alt="{$valeur->photo_nom|htmlentities}" title="{$valeur->photo_nom|htmlentities}"></a></div>
+		<div class="photo"><a href="#" onClick="return sendPhoto('{$valeur->album_id}_{$valeur->album_cle}','{$valeur->photo_id}_{$valeur->photo_cle}', '{$valeur->photo_ext}', '{$valeur->photo_nom|escape:"url"}');"><img src="{copixurl}static/album/{$valeur->album_id}_{$valeur->album_cle}/{$valeur->photo_id}_{$valeur->photo_cle}{$album_thumbsize}.{$valeur->photo_ext}" border="0" alt="{$valeur->photo_nom|htmlentities}" title="{$valeur->photo_nom|htmlentities}"></a></div>
 	{/foreach}
 {/if}
 </div>

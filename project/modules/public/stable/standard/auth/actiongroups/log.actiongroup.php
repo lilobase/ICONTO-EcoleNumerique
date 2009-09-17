@@ -83,6 +83,7 @@ class ActionGroupLog extends CopixActionGroup {
 		$ppo->TITLE_PAGE = _i18n ('auth.connect');
 		if (CopixAuth::getCurrentUser ()->isConnected ()){
 			$ppo->user = CopixAuth::getCurrentUser ();
+			return _arRedirect (_url ('kernel||getHome'));
 		}
 		
 		$config = CopixConfig::instance();
