@@ -52,17 +52,17 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( $this->vars["album_id"] )   ||
-		    trim($this->vars["album_id"])==""   ||
-		    ! ereg ("^[0-9]+$", $this->vars["album_id"]) ) {
+		if( !isset( _request("album_id") )   ||
+		    trim(_request("album_id"))==""   ||
+		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
 		}
 		
-		$album_id = $this->vars["album_id"];
+		$album_id = _request("album_id");
 		
-		if( isset($this->vars["dossier_id"]) && ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) $dossier_id = $this->vars["dossier_id"];
+		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_READ ) {
@@ -225,14 +225,14 @@ class ActionGroupAlbum extends CopixActionGroup {
 	function getDelAlbum () {
 		$tpl = & new CopixTpl ();
 		
-		if( Kernel::getLevel( "MOD_ALBUM", $this->vars["album_id"] ) < PROFILE_CCV_ADMIN ) {
+		if( Kernel::getLevel( "MOD_ALBUM", _request("album_id") ) < PROFILE_CCV_ADMIN ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
 			'back'=>CopixUrl::get ('||')));
 		}
 
 		$service = & CopixClassesFactory::Create ('Album');
-		$photo = $service->delAlbum( $this->vars["album_id"] );
+		$photo = $service->delAlbum( _request("album_id") );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -246,7 +246,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 */
 	function doDelAlbum () {
 		
-		if( Kernel::getLevel( "MOD_ALBUM", $this->vars["album_id"] ) < PROFILE_CCV_ADMIN ) {
+		if( Kernel::getLevel( "MOD_ALBUM", _request("album_id") ) < PROFILE_CCV_ADMIN ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
 			'back'=>CopixUrl::get ('||')));
@@ -267,11 +267,11 @@ class ActionGroupAlbum extends CopixActionGroup {
 	function getPhoto () {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset( $this->vars["photo_id"] ) ) {
+		if( !isset( _request("photo_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
-		$photo_id = $this->vars["photo_id"];
+		$photo_id = _request("photo_id");
 		
 		$tplAlbum = & new CopixTpl ();
 		
@@ -335,13 +335,13 @@ class ActionGroupAlbum extends CopixActionGroup {
 	function getAddPhoto () {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset( $this->vars["album_id"] ) ) {
+		if( !isset( _request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
-		$album_id = $this->vars["album_id"];
+		$album_id = _request("album_id");
 		
-		if( isset($this->vars["dossier_id"]) && ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) $dossier_id = $this->vars["dossier_id"];
+		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_PUBLISH ) {
@@ -403,11 +403,11 @@ class ActionGroupAlbum extends CopixActionGroup {
 		@ini_set( 'memory_limit', '64M' ); // Pb d'allocation mémoire
 		@ini_set( 'max_execution_time', '120' ); // Pd de temps de traitement
 		
-		if( !isset( $this->vars["album_id"] ) ) {
+		if( !isset( _request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
-		if( Kernel::getLevel( "MOD_ALBUM", $this->vars["album_id"] ) < PROFILE_CCV_PUBLISH ) {
+		if( Kernel::getLevel( "MOD_ALBUM", _request("album_id") ) < PROFILE_CCV_PUBLISH ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
 			'back'=>CopixUrl::get ('||')));
@@ -439,7 +439,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 				array (
 					'message'=>$message,
 					'back'=> CopixUrl::get( 'album|default|album',
-					                        array('album_id'=>$this->vars["album_id"])
+					                        array('album_id'=>_request("album_id"))
 					)
 				)
 			);
@@ -460,27 +460,27 @@ class ActionGroupAlbum extends CopixActionGroup {
 				break;
 			case 'application/zip':
 			case 'application/x-zip-compressed':
-				return CopixActionGroup::process ('album|album::getUploadFileZip', array ('album'=>$this->vars["album_id"], 'file'=>$_FILES));
+				return CopixActionGroup::process ('album|album::getUploadFileZip', array ('album'=>_request("album_id"), 'file'=>$_FILES));
 				break;
 			default:
 				$photofile = null;
 				return CopixActionGroup::process ('genericTools|Messages::getError',
 					array ('message'=>CopixI18N::get ('album|album.error.filetype', $_FILES['fichier']['type']),
-					'back'=> CopixUrl::get ('album|default|album', array('album_id'=>$this->vars["album_id"]))));
+					'back'=> CopixUrl::get ('album|default|album', array('album_id'=>_request("album_id")))));
 		}
 
 		$album_dao = & CopixDAOFactory::create("album");
-		$album = $album_dao->get( $this->vars["album_id"] );
+		$album = $album_dao->get( _request("album_id") );
 		
 		$photo_dao = & CopixDAOFactory::create("photo");
 		$nouvelle_photo = CopixDAOFactory::createRecord("photo");
-		$nouvelle_photo->photo_album = $this->vars["album_id"];
-		$nouvelle_photo->photo_dossier = $this->vars["dossier_id"];
-		if( trim($this->vars["titre"]) != '' )
-			$nouvelle_photo->photo_nom = $this->vars["titre"];
+		$nouvelle_photo->photo_album = _request("album_id");
+		$nouvelle_photo->photo_dossier = _request("dossier_id");
+		if( trim(_request("titre")) != '' )
+			$nouvelle_photo->photo_nom = _request("titre");
 		else
 			$nouvelle_photo->photo_nom = $_FILES['fichier']['name'];
-		$nouvelle_photo->photo_comment = $this->vars["commentaire"];
+		$nouvelle_photo->photo_comment = _request("commentaire");
 		$nouvelle_photo->photo_date = date("Y-m-d H:i:s");
 		$nouvelle_photo->photo_ext = $ext;
 		$nouvelle_photo->photo_cle = Album::createKey();
@@ -488,13 +488,13 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$photo_dao->insert( $nouvelle_photo );
 		
 		$path2data = realpath("static");
-		$path2album = $path2data."/album/".$this->vars["album_id"]."_".$album->album_cle;
+		$path2album = $path2data."/album/"._request("album_id")."_".$album->album_cle;
 		$photofile = $path2album."/".$nouvelle_photo->photo_id."_".$nouvelle_photo->photo_cle;
 			
 		if( $ext ) $photofile.='.'.$ext;
 		if( $photofile != null ) move_uploaded_file ( $_FILES['fichier']['tmp_name'], $photofile );
 
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>$this->vars["album_id"],'dossier_id'=>$this->vars["dossier_id"]) ));
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("album_id"),'dossier_id'=>_request("dossier_id")) ));
 	}
 
 	/**
@@ -509,8 +509,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 			array (
 				'title'=>CopixI18N::get ('album.confirm.delphoto'),
 				'message'=>CopixI18N::get ('album.confirm.delphotomsg'),
-				'confirm'=>CopixUrl::get('album||dodelphoto', array('photo_id'=>$this->vars["photo_id"])),
-				'cancel'=>CopixUrl::get('album||photo', array('photo_id'=>$this->vars["photo_id"])),
+				'confirm'=>CopixUrl::get('album||dodelphoto', array('photo_id'=>_request("photo_id"))),
+				'cancel'=>CopixUrl::get('album||photo', array('photo_id'=>_request("photo_id"))),
 			)
 		);			
 	}
@@ -526,7 +526,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$service = & CopixClassesFactory::Create ('Album');
 		
-		$photo = $service->getPhoto( $this->vars["photo_id"] );
+		$photo = $service->getPhoto( _request("photo_id") );
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $photo->album_id ) < PROFILE_CCV_PUBLISH ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -534,7 +534,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 		
-		$service->delPhoto( $this->vars["photo_id"] );
+		$service->delPhoto( _request("photo_id") );
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>$photo->album_id, 'dossier_id'=>$photo->dossier_id) ));
 	}
@@ -550,25 +550,25 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @deprecated 2005
 	 */
 	function getFile () {
-		if( !isset( $this->vars["album_id"] ) ) die();
-		$album_id = $this->vars["album_id"];
-		if( !isset( $this->vars["photo_id"] ) ) die();
-		$photo_id = $this->vars["photo_id"];
-		if( isset( $this->vars["size"] ) ) {
-			if( ereg("^s([0-9]+)$", $this->vars["size"], $regs) ) {
+		if( !isset( _request("album_id") ) ) die();
+		$album_id = _request("album_id");
+		if( !isset( _request("photo_id") ) ) die();
+		$photo_id = _request("photo_id");
+		if( isset( _request("size") ) ) {
+			if( ereg("^s([0-9]+)$", _request("size"), $regs) ) {
 				$size = $regs[1];
 				$mode = "square";
 			} else {
-				$size = $this->vars["size"];
+				$size = _request("size");
 				$mode = "normal";
 			}
 		}
 		else $size = 0;
 
 		$album_dao = & CopixDAOFactory::create("album");
-		$album = $album_dao->get( $this->vars["album_id"] );
+		$album = $album_dao->get( _request("album_id") );
 		$photo_dao = & CopixDAOFactory::create("photo");
-		$photo = $photo_dao->get( $this->vars["photo_id"] );
+		$photo = $photo_dao->get( _request("photo_id") );
 
 		$path2data = realpath("static");
 		$path2album = $path2data."/album/".$album_id."_".$album->album_cle;
@@ -694,8 +694,8 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function go () {
-		if( isset( $this->vars["id"] ) ) {
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>$this->vars["id"]) ));
+		if( isset( _request("id") ) ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("id")) ));
 		}
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 	}
@@ -710,8 +710,8 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function popup () {
-		if( isset( $this->vars["id"] ) ) {
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|getpopup', array('album_id'=>$this->vars["id"], 'dossier_id'=>0) ));
+		if( isset( _request("id") ) ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|getpopup', array('album_id'=>_request("id"), 'dossier_id'=>0) ));
 		}
 		return new CopixActionReturn (COPIX_AR_NONE, 0);
 	}
@@ -730,27 +730,27 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$tpl = & new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( $this->vars["album_id"] )   ||
-		    trim($this->vars["album_id"])==""   ||
-		    ! ereg ("^[0-9]+$", $this->vars["album_id"]) ) {
+		if( !isset( _request("album_id") )   ||
+		    trim(_request("album_id"))==""   ||
+		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
 		}
 		
-		$album_id = $this->vars["album_id"];
+		$album_id = _request("album_id");
 		
-		if( !isset($this->vars["dossier_id"]) || !ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) {
+		if( !isset(_request("dossier_id")) || !ereg ("^[0-9]+$", _request("dossier_id")) ) {
 			if( isset($_SESSION['modules']['album']['lastfolder'][$album_id]) ) {
 				$dossier_id = $_SESSION['modules']['album']['lastfolder'][$album_id];
 			} else {
 				$dossier_id = 0;
 			}
 		} else {
-			$dossier_id = $this->vars["dossier_id"];
+			$dossier_id = _request("dossier_id");
 			$_SESSION['modules']['album']['lastfolder'][$album_id] = $dossier_id;
 		}
-		$format = $this->vars["format"];
+		$format = _request("format");
 		
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_READ ) {
@@ -803,7 +803,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		$dossiers_childs = Album::getFoldersTree( $album_id, $dossier_id );
 		$tplAlbum->assign ("dossierlist", $dossiers_childs);
-		$tplAlbum->assign ('field', $this->vars["field"] );
+		$tplAlbum->assign ('field', _request("field") );
 		$tplAlbum->assign ('format', $format );
 		
 		$tplAlbum->assign ('album_thumbsize', "_s128" );
@@ -812,7 +812,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$tpl->assign ('PHOTOS', $result);
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.album', array($album->parent["nom"]) ));
-		$tpl->assign ('field', $this->vars["field"] );
+		$tpl->assign ('field', _request("field") );
 		$tpl->assign ('format', $format );
 		
 		// On déduit le chemin absolu
@@ -841,30 +841,30 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function vignettes () {
-		if( !isset( $this->vars["album"] ) ) {
+		if( !isset( _request("album") ) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array (	'message'=>CopixI18N::get ('album.error.noalbum'),
 			        'back'=>CopixUrl::get('||')));
 		}
 		
-		if( !isset($_SESSION['modules']['album']['vignettes'][$this->vars["key"]]) ) {
+		if( !isset($_SESSION['modules']['album']['vignettes'][_request("key")]) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array (	'message'=>CopixI18N::get ('album.error.nothumbscreate'),
-			        'back'=>CopixUrl::get('album||album',array('album_id'=>$this->vars["album"]))));
+			        'back'=>CopixUrl::get('album||album',array('album_id'=>_request("album")))));
 		}
 		
 		
 		$tpl = & new CopixTpl ();
 		
-		$image = array_shift( $_SESSION['modules']['album']['vignettes'][$this->vars["key"]] );
+		$image = array_shift( $_SESSION['modules']['album']['vignettes'][_request("key")] );
 		if( $image == NULL ) {
-			$tpl->assign ('url_album', $this->vars["album"]);
-			$tpl->assign ('url_dossier', $this->vars["dossier"]);
-			$tpl->assign ('url_key', $this->vars["key"]);
+			$tpl->assign ('url_album', _request("album"));
+			$tpl->assign ('url_dossier', _request("dossier"));
+			$tpl->assign ('url_key', _request("key"));
 			$tpl->assign ('finish', true );
 			$tpl->assign ('message', CopixI18N::get ('album.message.thumbs_end') );
 			
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>$this->vars["album"],'dossier_id'=>$this->vars["dossier"]) ));
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("album"),'dossier_id'=>_request("dossier")) ));
 			// return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, "album|vignettes.tpl" );
 		}
 		
@@ -877,24 +877,24 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			}
 		}
 		
-		$tpl->assign ('url_album', $this->vars["album"]);
-		$tpl->assign ('url_dossier', $this->vars["dossier"]);
-		$tpl->assign ('url_key', $this->vars["key"]);
+		$tpl->assign ('url_album', _request("album"));
+		$tpl->assign ('url_dossier', _request("dossier"));
+		$tpl->assign ('url_key', _request("key"));
 		
 		$tpl->assign (
 			'message', CopixI18N::get (
 				'album.message.thumbs_create',
 				array(
-					($_SESSION['modules']['album']['vignettes']['nb-'.$this->vars["key"]] -
-					sizeof($_SESSION['modules']['album']['vignettes'][$this->vars["key"]])),
+					($_SESSION['modules']['album']['vignettes']['nb-'._request("key")] -
+					sizeof($_SESSION['modules']['album']['vignettes'][_request("key")])),
 
-					$_SESSION['modules']['album']['vignettes']['nb-'.$this->vars["key"]]
+					$_SESSION['modules']['album']['vignettes']['nb-'._request("key")]
 				)
 			)
 		);
 
-		$tpl->assign ('bar_max', $_SESSION['modules']['album']['vignettes']['nb-'.$this->vars["key"]] );
-		$tpl->assign ('bar_value', $_SESSION['modules']['album']['vignettes']['nb-'.$this->vars["key"]] - sizeof($_SESSION['modules']['album']['vignettes'][$this->vars["key"]]) );
+		$tpl->assign ('bar_max', $_SESSION['modules']['album']['vignettes']['nb-'._request("key")] );
+		$tpl->assign ('bar_value', $_SESSION['modules']['album']['vignettes']['nb-'._request("key")] - sizeof($_SESSION['modules']['album']['vignettes'][_request("key")]) );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, "album|vignettes.tpl" );
 	}
@@ -910,15 +910,15 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( $this->vars["album_id"] )   ||
-		    trim($this->vars["album_id"])==""   ||
-		    ! ereg ("^[0-9]+$", $this->vars["album_id"]) ) {
+		if( !isset( _request("album_id") )   ||
+		    trim(_request("album_id"))==""   ||
+		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
 		}
 		
-		$album_id = $this->vars["album_id"];
+		$album_id = _request("album_id");
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_PUBLISH ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -929,7 +929,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 		
-		if( isset($this->vars["dossier_id"]) && ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) $dossier_id = $this->vars["dossier_id"];
+		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 
 		$dossier_dao = CopixDAOFactory::create("dossier");
@@ -1017,15 +1017,15 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( $this->vars["album_id"] )   ||
-		    trim($this->vars["album_id"])==""   ||
-		    ! ereg ("^[0-9]+$", $this->vars["album_id"]) ) {
+		if( !isset( _request("album_id") )   ||
+		    trim(_request("album_id"))==""   ||
+		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
 		}
 		
-		$album_id = $this->vars["album_id"];
+		$album_id = _request("album_id");
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_PUBLISH ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -1036,7 +1036,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 		
-		if( isset($this->vars["dossier_id"]) && ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) $dossier_id = $this->vars["dossier_id"];
+		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 
 		$dossier_dao = CopixDAOFactory::create("dossier");
@@ -1075,11 +1075,11 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	function getAddZip() {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset( $this->vars["album_id"] ) ) {
+		if( !isset( _request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
-		$album_id = $this->vars["album_id"];
+		$album_id = _request("album_id");
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_PUBLISH ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -1087,7 +1087,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			'back'=>CopixUrl::get ('||')));
 		}
 		
-		if( isset($this->vars["dossier_id"]) && ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) $dossier_id = $this->vars["dossier_id"];
+		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		$tplAddPhoto = & new CopixTpl ();
@@ -1157,7 +1157,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 				array ( 
 					'message'=>$message,
 					'back'=> CopixUrl::get( 'album|default|album',
-					                        array('album_id'=>$this->vars["album_id"], 'dossier_id'=>$this->vars["dossier_id"])
+					                        array('album_id'=>_request("album_id"), 'dossier_id'=>_request("dossier_id"))
 					)
 				)
 			);
@@ -1214,7 +1214,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 				$photo_dao = & CopixDAOFactory::create("photo");
 				$nouvelle_photo = CopixDAOFactory::createRecord("photo");
 				$nouvelle_photo->photo_album = $album->album_id;
-				$nouvelle_photo->photo_dossier = $this->vars["dossier_id"];
+				$nouvelle_photo->photo_dossier = _request("dossier_id");
 				$nouvelle_photo->photo_nom = substr( strrchr( $extract[$ok_val]['filename'], "/" ), 1 );
 				$nouvelle_photo->photo_comment = '';
 				$nouvelle_photo->photo_date = date("Y-m-d H:i:s");
@@ -1239,22 +1239,22 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$malleService->deleteDir($tmpFolder);
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT,
-			CopixUrl::get ('album|default|album', array('album_id'=>$album->album_id, 'dossier_id'=>$this->vars["dossier_id"]) ));
+			CopixUrl::get ('album|default|album', array('album_id'=>$album->album_id, 'dossier_id'=>_request("dossier_id")) ));
 	}
 	
 	function doFolder() {
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( $this->vars["album_id"] )   ||
-		    trim($this->vars["album_id"])==""   ||
-		    ! ereg ("^[0-9]+$", $this->vars["album_id"]) ) {
+		if( !isset( _request("album_id") )   ||
+		    trim(_request("album_id"))==""   ||
+		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
 		}
 		
-		$album_id = $this->vars["album_id"];
+		$album_id = _request("album_id");
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_PUBLISH ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -1266,15 +1266,15 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album = $album_dao->get($album_id);
 		
 		
-		if( !isset( $this->vars["dossier_id"] )   ||
-		    trim($this->vars["dossier_id"])==""   ||
-		    ! ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) {
+		if( !isset( _request("dossier_id") )   ||
+		    trim(_request("dossier_id"))==""   ||
+		    ! ereg ("^[0-9]+$", _request("dossier_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.nofoldernumber'),
 						'back'=>CopixUrl::get('album||album', array('album_id'=>$album_id) )));
 		}
 		
-		if( isset($this->vars["dossier_id"]) && ereg ("^[0-9]+$", $this->vars["dossier_id"]) ) $dossier_id = $this->vars["dossier_id"];
+		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		$dossier_dao = CopixDAOFactory::create("dossier");
@@ -1295,19 +1295,19 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			$dossier->album_id = $album_id;
 		}
 		
-		if( !isset( $this->vars["subaction"] ) ) {
+		if( !isset( _request("subaction") ) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.badsubaction'),
 						'back'=>CopixUrl::get('album||album', array('album_id'=>$album_id,'dossier_id'=>$dossier_id) )));
 		}
 		
-		switch( $this->vars["subaction"] ) {
+		switch( _request("subaction") ) {
 
 			case 'new':
 				$dossier_new = CopixDAOFactory::createRecord("dossier");
 				$dossier_new->dossier_album = $album_id;
 				$dossier_new->dossier_parent = $dossier_id;
-				$dossier_new->dossier_nom = $this->vars["folder_new"];
+				$dossier_new->dossier_nom = _request("folder_new");
 				$dossier_new->dossier_comment = '';
 				$dossier_new->dossier_date = date("Y-m-d H:i:s");
 				$dossier_new->dossier_cle = substr( md5(microtime()), 0, 10 );
@@ -1321,7 +1321,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 				break;
 			
 			case 'rename':
-				$dossier->dossier_nom = $this->vars["folder_rename"];
+				$dossier->dossier_nom = _request("folder_rename");
 				$dossier_dao->update( $dossier );
 
 				return new CopixActionReturn (COPIX_AR_REDIRECT,
@@ -1330,7 +1330,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 				break;
 			
 			case 'move':
-				$dossier->dossier_parent = $this->vars["folder_move"];
+				$dossier->dossier_parent = _request("folder_move");
 				$dossier_dao->update( $dossier );
 
 				return new CopixActionReturn (COPIX_AR_REDIRECT,
@@ -1341,7 +1341,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			case 'delete':
 				// action=dofolder subaction=delete album_id=1& dossier_id=4 dossier_todo=moveparent
 				
-				Album::delFolder( $this->vars["album_id"], $this->vars["dossier_id"], $this->vars["dossier_todo"] );
+				Album::delFolder( _request("album_id"), _request("dossier_id"), _request("dossier_todo") );
 				
 				return new CopixActionReturn (COPIX_AR_REDIRECT,
 					CopixUrl::get ('album|default|album', array('album_id'=>$album_id,'dossier_id'=>max(0,$dossier->dossier_parent)) ));
@@ -1362,14 +1362,14 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$menu = array();
 		$menu[] = array(
 			'txt' => CopixI18N::get ('album.menu.gotoalbum'),
-			'url' => CopixUrl::get ('album||album', array("album_id"=>$this->vars["album_id"], "dossier_id"=>$this->vars["dossier_id"]))
+			'url' => CopixUrl::get ('album||album', array("album_id"=>_request("album_id"), "dossier_id"=>_request("dossier_id")))
 		);
 		$tpl->assign ('MENU', $menu );
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.editphotos'));
 		$tpl->assign ('MAIN', CopixZone::process ('album|editphotos', array(
-			'album_id'=>$this->vars["album_id"],
-			'dossier_id'=>$this->vars["dossier_id"],
+			'album_id'=>_request("album_id"),
+			'dossier_id'=>_request("dossier_id"),
 		) ));
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

@@ -73,11 +73,11 @@ class ActionGroupSsogael extends CopixActionGroup {
 	}
 
    function getError () {
-   		if( !CopixI18N::exists('ssogael|ssogael.error.'.$this->vars["err"]) )
-			$this->vars["err"] = 'default';
+   		if( !CopixI18N::exists('ssogael|ssogael.error.'._request("err")) )
+			_request("err") = 'default';
 			
 		return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('ssogael|ssogael.error.'.$this->vars["err"]),
+			array ('message'=>CopixI18N::get ('ssogael|ssogael.error.'._request("err")),
 			'back'=>CopixUrl::get ('||')));
 			
    }	

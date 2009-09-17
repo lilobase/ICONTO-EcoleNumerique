@@ -20,7 +20,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 	 * @since 2006/08/09
    */
 	function getMagicMail () {
-		$id = $this->vars["id"];
+		$id = _request("id");
 		
 		if( Kernel::getLevel( "MOD_MAGICMAIL", $id ) < PROFILE_CCV_ADMIN ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -39,8 +39,8 @@ class ActionGroupMagicmail extends CopixActionGroup {
 		$tplForm->assign ('infos', $magic_result);
 		// $tplForm->assign ('magicmail_mail', CopixConfig::get ('magicmail|magicmail_mail'));
 		
-		if( isset( $this->vars["return"] ) )
-		$tplForm->assign ('return', $this->vars["return"]);
+		if( isset( _request("return") ) )
+		$tplForm->assign ('return', _request("return"));
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
 
@@ -72,10 +72,10 @@ class ActionGroupMagicmail extends CopixActionGroup {
    */
 	function doMailPublish () {
 		
-				if( isset($this->vars["key"]) ) {
-					if( ereg( "^([0-9]{8}-[0-9]{6})-([a-zA-Z0-9]+)-([a-fA-F0-9]{32})$", $this->vars["key"], $regs ) ) {
+				if( isset(_request("key")) ) {
+					if( ereg( "^([0-9]{8}-[0-9]{6})-([a-zA-Z0-9]+)-([a-fA-F0-9]{32})$", _request("key"), $regs ) ) {
 
-						$key   = $this->vars["key"];
+						$key   = _request("key");
 						$login = $regs[2];
 						
 						$dao = CopixDAOFactory::create("magicmail|magicmail");
@@ -244,14 +244,14 @@ class ActionGroupMagicmail extends CopixActionGroup {
 						else echo "-ERR Bad key\n";
 					} // if( ereg( "^([0-9]{8}-[0-9]{4})-([a-zA-Z0-9]+)-([a-fA-F0-9]{32})$") )
 					else echo "-ERR Bad key (ereg not match)\n";
-				} // if( isset($this->vars["key"]) )
+				} // if( isset(_request("key")) )
 				else echo "-ERR Bad key (not set)\n";
 	
 		return new CopixActionReturn (COPIX_AR_NONE, 0);
 	}
 
 	function doCreateMail() {
-		$id = $this->vars["id"];
+		$id = _request("id");
 
 		$dao = CopixDAOFactory::create("magicmail|magicmail");
 		$mymagicmail = $dao->get($id);
@@ -297,11 +297,11 @@ class ActionGroupMagicmail extends CopixActionGroup {
 			
 		}
 
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('magicmail|default|go', array('id'=>$this->vars["id"],'return'=>$return) ) );
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('magicmail|default|go', array('id'=>_request("id"),'return'=>$return) ) );
 	}
 
 	function doDeleteMail() {
-		$id = $this->vars["id"];
+		$id = _request("id");
 		
 		$dao = CopixDAOFactory::create("magicmail|magicmail");
 		$mymagicmail = $dao->get($id);

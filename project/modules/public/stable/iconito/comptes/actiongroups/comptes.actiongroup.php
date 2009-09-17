@@ -23,7 +23,7 @@ class ActionGroupComptes extends CopixActionGroup {
 	 * 
 	 */
 	function go () {
-		if( isset($this->vars["id"]) && ereg('(.+)-(.+)', $this->vars["id"], $regs) ) {
+		if( isset(_request("id")) && ereg('(.+)-(.+)', _request("id"), $regs) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getNode', array('type'=>$regs[1], 'id'=>$regs[2]) ));
 		}
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getNode', array('type'=>'ROOT') ));
@@ -44,35 +44,35 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplGetNode = & new CopixTpl ();
 		
-		if( !isset($this->vars["type"]) || trim($this->vars["type"])=='' ) {
+		if( !isset(_request("type")) || trim(_request("type"))=='' ) {
 			/*
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('comptes.error.badnodetype'),
 			'back'=>CopixUrl::get ('||')));
 			*/
 			
-			$this->vars["type"] = $_SESSION['user']->home['type'];
-			$this->vars["id"] = $_SESSION['user']->home['id'];
+			_request("type") = $_SESSION['user']->home['type'];
+			_request("id") = $_SESSION['user']->home['id'];
 		}
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getnode'));
 		$petitpoucet=array();
-		$droit = 0+Kernel::getLevel( $this->vars["type"], $this->vars["id"] );
+		$droit = 0+Kernel::getLevel( _request("type"), _request("id") );
 
-		switch( $this->vars["type"] ) {
+		switch( _request("type") ) {
 			case 'ROOT':
-				$this->vars["id"] = 0;
+				_request("id") = 0;
 				
 				// ROOT
 				$petitpoucet[] = array( 'txt' => 'Root' );
 				
-				$childs = Kernel::getNodeChilds( $this->vars["type"], $this->vars["id"] );
+				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				break;
 			
 			case 'BU_GRVILLE':
-				$infos = Kernel::getNodeInfo( $this->vars["type"], $this->vars["id"], false );
+				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
 				
 				// ROOT
 				$petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
@@ -80,7 +80,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( $this->vars["type"], $this->vars["id"] );
+				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				$droit = max($droit, Kernel::getLevel( 'ROOT', 0 ) );
@@ -88,10 +88,10 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			
 			case 'BU_VILLE':
-				$infos = Kernel::getNodeInfo( $this->vars["type"], $this->vars["id"], false );
+				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
 				
 				// Recherche des parents
-				$parents = Kernel::getNodeParents( $this->vars["type"], $this->vars["id"] );
+				$parents = Kernel::getNodeParents( _request("type"), _request("id") );
 				$parent_grville = Kernel::filterNodeList( $parents, 'BU_GRVILLE' );
 				
 				// ROOT
@@ -102,7 +102,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( $this->vars["type"], $this->vars["id"] );
+				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				$droit = max($droit, Kernel::getLevel( 'BU_GRVILLE', $parent_grville[0]["id"] ) );
@@ -111,10 +111,10 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			
 			case 'BU_ECOLE':
-				$infos = Kernel::getNodeInfo( $this->vars["type"], $this->vars["id"], false );
+				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
 				
 				// Recherche des parents
-				$parents = Kernel::getNodeParents( $this->vars["type"], $this->vars["id"] );
+				$parents = Kernel::getNodeParents( _request("type"), _request("id") );
 				$parent_ville = Kernel::filterNodeList( $parents, 'BU_VILLE' );
 				$parents = Kernel::getNodeParents( $parent_ville[0]["type"], $parent_ville[0]["id"] );
 				$parent_grville = Kernel::filterNodeList( $parents, 'BU_GRVILLE' );
@@ -129,7 +129,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( $this->vars["type"], $this->vars["id"] );
+				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				$droit = max($droit, Kernel::getLevel( 'BU_VILLE', $parent_ville[0]["id"] ) );
@@ -139,10 +139,10 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			
 			case 'BU_CLASSE':
-				$infos = Kernel::getNodeInfo( $this->vars["type"], $this->vars["id"], false );
+				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
 				
 				// Recherche des parents
-				$parents = Kernel::getNodeParents( $this->vars["type"], $this->vars["id"] );
+				$parents = Kernel::getNodeParents( _request("type"), _request("id") );
 				$parent_ecole = Kernel::filterNodeList( $parents, 'BU_ECOLE' );
 				$parents = Kernel::getNodeParents( $parent_ecole[0]["type"], $parent_ecole[0]["id"] );
 				$parent_ville = Kernel::filterNodeList( $parents, 'BU_VILLE' );
@@ -161,7 +161,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( $this->vars["type"], $this->vars["id"] );
+				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
 				
 				$eleves = Kernel::filterNodeList( $childs, 'USER_ELE' );
 				foreach( $eleves AS $eleve ) {
@@ -531,8 +531,8 @@ class ActionGroupComptes extends CopixActionGroup {
 
 		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
 		$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
-		$user_new->login_cusr = $this->vars["login_cusr"];
-		$user_new->password_cusr = md5($this->vars["password_cusr"]);
+		$user_new->login_cusr = _request("login_cusr");
+		$user_new->password_cusr = md5(_request("password_cusr"));
 
 		$user_dao->insert ($user_new);
 
@@ -546,8 +546,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	 	
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
-		//$classe = isset($this->vars["classe"]) ? $this->vars["classe"] : 1;
-		$classe = $this->vars["classe"];
+		//$classe = isset(_request("classe")) ? _request("classe") : 1;
+		$classe = _request("classe");
 		
 		$id = 1;
 		$type = "BU_ECOLE";

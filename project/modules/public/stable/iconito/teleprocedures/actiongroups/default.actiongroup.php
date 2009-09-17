@@ -38,10 +38,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	function listTeleprocedures () {
 		
 		$id = $this->getRequest ('id', null);
-		$motcle = isset($this->vars["motcle"]) ? $this->vars["motcle"] : NULL;
-		$type = isset($this->vars["type"]) ? $this->vars["type"] : NULL;
-		$clos = isset($this->vars["clos"]) ? $this->vars["clos"] : NULL;
-		$ecole = isset($this->vars["ecole"]) ? $this->vars["ecole"] : NULL;
+		$motcle = isset(_request("motcle")) ? _request("motcle") : NULL;
+		$type = isset(_request("type")) ? _request("type") : NULL;
+		$clos = isset(_request("clos")) ? _request("clos") : NULL;
+		$ecole = isset(_request("ecole")) ? _request("ecole") : NULL;
 		
 		$dao = CopixDAOFactory::create("teleprocedures|teleprocedure");
 		$rTelep = $dao->get($id);
@@ -128,12 +128,12 @@ class ActionGroupDefault extends CopixActionGroup {
    */
 	function insert () {
 		
-		$save = isset($this->vars["save"]) ? $this->vars["save"] : NULL;
+		$save = isset(_request("save")) ? _request("save") : NULL;
 		
-		$idtype = isset($this->vars["idtype"]) ? $this->vars["idtype"] : NULL;
-		$idstatu = isset($this->vars["idstatu"]) ? $this->vars["idstatu"] : NULL;
-		$objet = isset($this->vars["objet"]) ? $this->vars["objet"] : NULL;
-		$detail = isset($this->vars["detail"]) ? $this->vars["detail"] : NULL;
+		$idtype = isset(_request("idtype")) ? _request("idtype") : NULL;
+		$idstatu = isset(_request("idstatu")) ? _request("idstatu") : NULL;
+		$objet = isset(_request("objet")) ? _request("objet") : NULL;
+		$detail = isset(_request("detail")) ? _request("detail") : NULL;
 
 		$criticErrors = $errors = array();
 

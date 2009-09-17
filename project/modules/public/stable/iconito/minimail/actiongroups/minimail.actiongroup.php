@@ -22,7 +22,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		
 		$userId = $_SESSION["user"]->bu["user_id"];
 		
-		$page = isset($this->vars["page"]) ? $this->vars["page"] : 1;
+		$page = isset(_request("page")) ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
 		$messagesAll = $dao->getListRecvAll($userId);
 		$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
@@ -73,7 +73,7 @@ class ActionGroupMinimail extends CopixActionGroup {
     $daoTo = CopixDAOFactory::create("minimail_to");
 		$userId = $_SESSION["user"]->bu["user_id"];
 		
-		$page = isset($this->vars["page"]) ? $this->vars["page"] : 1;
+		$page = isset(_request("page")) ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
 		$messagesAll = $daoFrom->getListSendAll($userId);
 		$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
@@ -131,7 +131,7 @@ class ActionGroupMinimail extends CopixActionGroup {
     // 2 DAO -> 2 assign
 		
 		$idUser = $_SESSION["user"]->bu["user_id"];
-		$idMessage = $this->vars["id"];
+		$idMessage = _request("id");
 		$errors = array();
 		
 		$daoFrom = CopixDAOFactory::create("minimail_from");
@@ -249,15 +249,15 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 
 		$idUser = $_SESSION["user"]->bu["user_id"];
-		$idMessage = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
+		$idMessage = isset(_request("id")) ? _request("id") : NULL;
 		
-		$title = isset($this->vars["title"]) ? $this->vars["title"] : NULL;
-		$login = isset($this->vars["login"]) ? $this->vars["login"] : NULL;
-		$dest = isset($this->vars["dest"]) ? $this->vars["dest"] : $login;
-		$message = isset($this->vars["message"]) ? $this->vars["message"] : NULL;
+		$title = isset(_request("title")) ? _request("title") : NULL;
+		$login = isset(_request("login")) ? _request("login") : NULL;
+		$dest = isset(_request("dest")) ? _request("dest") : $login;
+		$message = isset(_request("message")) ? _request("message") : NULL;
 		$format = CopixConfig::get ('minimail|default_format');
 		
-		$preview = isset($this->vars["preview"]) ? $this->vars["preview"] : 0;
+		$preview = isset(_request("preview")) ? _request("preview") : 0;
 		
 		if ($idMessage) {	// Tentative de réponse à un message
 			$daoFrom = CopixDAOFactory::create("minimail_from");
@@ -282,7 +282,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$tplForm->assign ("message", $message);
 		$tplForm->assign ("format", $format);
 		$tplForm->assign ("preview", $preview);
-		$tplForm->assign ("errors", (isset($this->vars["errors"]) ? $this->vars["errors"] : ""));
+		$tplForm->assign ("errors", (isset(_request("errors")) ? _request("errors") : ""));
 		$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'height'=>200)));
 		
 		$tplForm->assign ('linkpopup', CopixZone::process ('annuaire|linkpopup', array('field'=>'dest')));
@@ -312,12 +312,12 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$dest = isset($this->vars["dest"]) ? $this->vars["dest"] : "";
-		$title = isset($this->vars["title"]) ? $this->vars["title"] : "";
-		$message = isset($this->vars["message"]) ? $this->vars["message"] : "";
-		$format = isset($this->vars["format"]) ? $this->vars["format"] : "";
-		//$attachment1 = isset($this->vars["attachment1"]) ? $this->vars["attachment1"] : "";
-		$go = isset($this->vars["go"]) ? $this->vars["go"] : 'preview';
+		$dest = isset(_request("dest")) ? _request("dest") : "";
+		$title = isset(_request("title")) ? _request("title") : "";
+		$message = isset(_request("message")) ? _request("message") : "";
+		$format = isset(_request("format")) ? _request("format") : "";
+		//$attachment1 = isset(_request("attachment1")) ? _request("attachment1") : "";
+		$go = isset(_request("go")) ? _request("go") : 'preview';
 
 		$destTxt = $dest;
 		$destTxt = str_replace(array(" "), "", $destTxt);
@@ -449,8 +449,8 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$messages = isset($this->vars["messages"]) ? $this->vars["messages"] : NULL;
-		$mode = isset($this->vars["mode"]) ? $this->vars["mode"] : NULL;
+		$messages = isset(_request("messages")) ? _request("messages") : NULL;
+		$mode = isset(_request("mode")) ? _request("mode") : NULL;
 		//print_r2($messages);
 		$daoMinimailFrom 	= CopixDAOFactory::create("minimail_from");
    	$daoMinimailTo 		= CopixDAOFactory::create("minimail_to");
@@ -486,7 +486,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$file = isset($this->vars["file"]) ? $this->vars["file"] : NULL;
+		$file = isset(_request("file")) ? _request("file") : NULL;
 		$fullFile = realpath("../data")."/minimail/".($file);
 		$errors = array();
 		if (!$file || !file_exists($fullFile))
@@ -512,7 +512,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$file = isset($this->vars["file"]) ? $this->vars["file"] : "";
+		$file = isset(_request("file")) ? _request("file") : "";
 		$fullFile = realpath("../data")."/minimail/".($file);
 		$errors = array();
 		

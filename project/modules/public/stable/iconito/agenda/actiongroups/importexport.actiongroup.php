@@ -433,7 +433,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 					$toUpdate->$elem = $this->vars[$elem];
 			}
 		}
-		$toUpdate->agenda = isset($this->vars["agenda"]) ? $this->vars["agenda"] : array();
+		$toUpdate->agenda = isset(_request("agenda")) ? _request("agenda") : array();
 
 	}
 	

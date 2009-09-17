@@ -46,7 +46,7 @@ class ActionGroupSso extends CopixActionGroup {
 		// $all = $dao->findAll();
 		$all = $dao->findBySso($id);
 		
-		$tpl->assign ('MAIN', CopixZone::process ('sso|SsoAuthList', array('list'=>$all, 'id'=>$this->vars["id"])) );
+		$tpl->assign ('MAIN', CopixZone::process ('sso|SsoAuthList', array('list'=>$all, 'id'=>_request("id"))) );
 		
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -58,7 +58,7 @@ class ActionGroupSso extends CopixActionGroup {
     $criticErrors = array();
     
 		$dao = CopixDAOFactory::create("sso|sso_auth");
-		$sso = $dao->get( $this->vars["id"] );
+		$sso = $dao->get( _request("id") );
 		
     if (!$sso)
       $criticErrors[] = CopixI18N::get ('sso.error.nosso');

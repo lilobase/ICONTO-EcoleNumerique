@@ -24,12 +24,12 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     
 		$classe = $ecole = $ville = null;
 		
-		if( isset( $this->vars["id"] ) ) {
-			if( ereg( 'CLASSE_([0-9]+)', $this->vars["id"], $regs ) )
+		if( isset( _request("id") ) ) {
+			if( ereg( 'CLASSE_([0-9]+)', _request("id"), $regs ) )
 				$classe = $regs[1];
-			elseif( ereg( 'ECOLE_([0-9]+)', $this->vars["id"], $regs ) )
+			elseif( ereg( 'ECOLE_([0-9]+)', _request("id"), $regs ) )
 				$ecole = $regs[1];
-			elseif( ereg( 'VILLE_([0-9]+)', $this->vars["id"], $regs ) )
+			elseif( ereg( 'VILLE_([0-9]+)', _request("id"), $regs ) )
 				$ville = $regs[1];
 		}
 		
@@ -76,7 +76,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$ville = isset($this->vars["ville"]) ? $this->vars["ville"] : NULL;
+		$ville = isset(_request("ville")) ? _request("ville") : NULL;
 	  $grville = 1;
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		$criticErrors = array();
@@ -139,7 +139,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$ecole = isset($this->vars["ecole"]) ? $this->vars["ecole"] : NULL;
+		$ecole = isset(_request("ecole")) ? _request("ecole") : NULL;
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		$fichesEcolesService = & CopixClassesFactory::Create ('fichesecoles|FichesEcolesService');
@@ -219,7 +219,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$classe = isset($this->vars["classe"]) ? $this->vars["classe"] : NULL;
+		$classe = isset(_request("classe")) ? _request("classe") : NULL;
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		$criticErrors = array();

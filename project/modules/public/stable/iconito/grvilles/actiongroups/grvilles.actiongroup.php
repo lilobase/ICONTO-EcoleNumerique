@@ -48,26 +48,26 @@ class ActionGroupGrvilles extends CopixActionGroup {
 		$villes = $dao_villes->findAll();
 		$tplGrVilles->assign ('villes', $villes );
 		
-		if( isset($this->vars["delete"]) ) {
-			$dao_grvilles->delete($this->vars["delete"]);
-			$dao_grvilles_gr2ville->deleteByGroupe($this->vars["delete"]);
+		if( isset(_request("delete")) ) {
+			$dao_grvilles->delete(_request("delete"));
+			$dao_grvilles_gr2ville->deleteByGroupe(_request("delete"));
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('grvilles||'));
 		}
 		
-		if( isset($this->vars["save"]) && $this->vars["save"]==1 ) {
+		if( isset(_request("save")) && _request("save")==1 ) {
 			$date = date("Y-m-d H:i:s");
 			$user = Kernel::getUserInfo();
 			
-			if($this->vars["form_id"]>0) {
-				$grvilles_infos  = $dao_grvilles->get($this->vars["form_id"]);
-				$grvilles_infos->nom = $this->vars["form_nom"];
+			if(_request("form_id")>0) {
+				$grvilles_infos  = $dao_grvilles->get(_request("form_id"));
+				$grvilles_infos->nom = _request("form_nom");
 				$grvilles_infos->updated_at = $date;
 				$grvilles_infos->updated_by = $user['login'];
 				$dao_grvilles->update($grvilles_infos);
-				$dao_grvilles_gr2ville->deleteByGroupe($this->vars["form_id"]);
+				$dao_grvilles_gr2ville->deleteByGroupe(_request("form_id"));
 			} else {
 				$grvilles_infos  = CopixDAOFactory::createRecord("grvilles|grvilles");
-				$grvilles_infos->nom = $this->vars["form_nom"];
+				$grvilles_infos->nom = _request("form_nom");
 				if($grvilles_infos->nom=='') $grvilles_infos->nom='Sans nom';
 				$grvilles_infos->updated_at = date("Y-m-d H:i:s");
 				$grvilles_infos->updated_by = $user['login'];
@@ -86,19 +86,19 @@ class ActionGroupGrvilles extends CopixActionGroup {
 				
 			}
 			
-			if($this->vars["form_id"]==0) {
+			if(_request("form_id")==0) {
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('grvilles||', array('groupe'=>$grvilles_infos->id ) ));
 			}
 		}
 		
 		
-		if( isset($this->vars["groupe"]) ) {
-			$tplGrVilles->assign ('grvilles_id', $this->vars["groupe"] );
+		if( isset(_request("groupe")) ) {
+			$tplGrVilles->assign ('grvilles_id', _request("groupe") );
 			$tplGrVilles->assign ('grvilles_form', true );
-			if($this->vars["groupe"]>0) {
+			if(_request("groupe")>0) {
 				// Edition d'un groupe
-				$grvilles_infos  = $dao_grvilles->get($this->vars["groupe"]);
-				$grvilles_villes_raw = $dao_grvilles_gr2ville->findByGroupe($this->vars["groupe"]);
+				$grvilles_infos  = $dao_grvilles->get(_request("groupe"));
+				$grvilles_villes_raw = $dao_grvilles_gr2ville->findByGroupe(_request("groupe"));
 				
 				
 				// Tableau indexé par id de ville

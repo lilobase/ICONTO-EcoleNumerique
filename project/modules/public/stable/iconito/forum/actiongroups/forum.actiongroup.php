@@ -51,8 +51,8 @@ class ActionGroupForum extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
 		
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
-		$orderby = isset($this->vars["orderby"]) ? $this->vars["orderby"] : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
+		$orderby = isset(_request("orderby")) ? _request("orderby") : NULL;
 		if ($orderby != "last_msg_date" && $orderby != "date_creation") $orderby = "last_msg_date";
 		$errors = array();	
 		
@@ -78,7 +78,7 @@ class ActionGroupForum extends CopixActionGroup {
 		} else {
 		
 			// Les topics de ce forum
-			$page = isset($this->vars["page"]) ? $this->vars["page"] : 1;
+			$page = isset(_request("page")) ? _request("page") : 1;
 			$offset = ($page-1)*CopixConfig::get ('forum|list_nbtopics');
 			$all = $dao_topics->getListTopicsInForumAll($id);
 			$nbPages = ceil(count($all) / CopixConfig::get ('forum|list_nbtopics'));
@@ -136,10 +136,10 @@ class ActionGroupForum extends CopixActionGroup {
    */
    function getTopic () {
 	 	
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
-		$go = isset($this->vars["go"]) ? $this->vars["go"] : NULL;
-		$message = isset($this->vars["message"]) ? $this->vars["message"] : NULL;
-		$page = isset($this->vars["page"]) ? $this->vars["page"] : 1;
+		$id = isset(_request("id")) ? _request("id") : NULL;
+		$go = isset(_request("go")) ? _request("go") : NULL;
+		$message = isset(_request("message")) ? _request("message") : NULL;
+		$page = isset(_request("page")) ? _request("page") : 1;
 		$errors = array();	
 		
 		$countClick = true;	// Todo voir si en session pour pas compter la lecture de chaque page ?
@@ -259,13 +259,13 @@ class ActionGroupForum extends CopixActionGroup {
 	function getMessageForm () {
 	
 		$criticErrors = array();	
-		$topic = isset($this->vars["topic"]) ? $this->vars["topic"] : NULL;
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
-		$quote = isset($this->vars["quote"]) ? $this->vars["quote"] : NULL;
-		$errors = isset($this->vars["errors"]) ? $this->vars["errors"] : array();
-		$message = isset($this->vars["message"]) ? $this->vars["message"] : NULL;
-		$preview = isset($this->vars["preview"]) ? $this->vars["preview"] : 0;
-		$format = isset($this->vars["format"]) ? $this->vars["format"] : CopixConfig::get ('forum|default_format');
+		$topic = isset(_request("topic")) ? _request("topic") : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
+		$quote = isset(_request("quote")) ? _request("quote") : NULL;
+		$errors = isset(_request("errors")) ? _request("errors") : array();
+		$message = isset(_request("message")) ? _request("message") : NULL;
+		$preview = isset(_request("preview")) ? _request("preview") : 0;
+		$format = isset(_request("format")) ? _request("format") : CopixConfig::get ('forum|default_format');
 	
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
@@ -375,10 +375,10 @@ class ActionGroupForum extends CopixActionGroup {
 	function doMessageForm () {
 	
 		$errors = $criticErrors = array();	
-		$topic = isset($this->vars["topic"]) ? $this->vars["topic"] : NULL;
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
-		$go = isset($this->vars["go"]) ? $this->vars["go"] : 'preview';
-		$message = isset($this->vars["message"]) ? $this->vars["message"] : NULL;
+		$topic = isset(_request("topic")) ? _request("topic") : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
+		$go = isset(_request("go")) ? _request("go") : 'preview';
+		$message = isset(_request("message")) ? _request("message") : NULL;
 		$format = $this->getRequest ('format', null);
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
@@ -456,13 +456,13 @@ class ActionGroupForum extends CopixActionGroup {
 	function getTopicForm () {
 	
 		$criticErrors = array();	
-		$forum = isset($this->vars["forum"]) ? $this->vars["forum"] : NULL;
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
-		$titre = isset($this->vars["titre"]) ? $this->vars["titre"] : NULL;
-		$message = isset($this->vars["message"]) ? $this->vars["message"] : NULL;
-		$errors = isset($this->vars["errors"]) ? $this->vars["errors"] : array();
-		$preview = isset($this->vars["preview"]) ? $this->vars["preview"] : 0;
-		$format = isset($this->vars["format"]) ? $this->vars["format"] : CopixConfig::get ('forum|default_format');
+		$forum = isset(_request("forum")) ? _request("forum") : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
+		$titre = isset(_request("titre")) ? _request("titre") : NULL;
+		$message = isset(_request("message")) ? _request("message") : NULL;
+		$errors = isset(_request("errors")) ? _request("errors") : array();
+		$preview = isset(_request("preview")) ? _request("preview") : 0;
+		$format = isset(_request("format")) ? _request("format") : CopixConfig::get ('forum|default_format');
 
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
@@ -544,12 +544,12 @@ class ActionGroupForum extends CopixActionGroup {
 	function doTopicForm () {
 	
 		$errors = $criticErrors = array();	
-		$forum = isset($this->vars["forum"]) ? $this->vars["forum"] : NULL;
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
-		$titre = isset($this->vars["titre"]) ? $this->vars["titre"] : NULL;
-		$message = isset($this->vars["message"]) ? $this->vars["message"] : NULL;
+		$forum = isset(_request("forum")) ? _request("forum") : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
+		$titre = isset(_request("titre")) ? _request("titre") : NULL;
+		$message = isset(_request("message")) ? _request("message") : NULL;
 		$format = $this->getRequest ('format', null);
-		$go = isset($this->vars["go"]) ? $this->vars["go"] : 'preview';
+		$go = isset(_request("go")) ? _request("go") : 'preview';
 		//print_r("go=$go");
 		
 		$forumService = CopixClassesFactory::create("forum|forumService");
@@ -624,7 +624,7 @@ class ActionGroupForum extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
 		$errors = $criticErrors = array();	
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
 		
 	 	$dao_messages = CopixDAOFactory::create("forum_messages_forums");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
@@ -671,7 +671,7 @@ class ActionGroupForum extends CopixActionGroup {
 	function doDeleteMessage () {
 	 	
 		$criticErrors = array();	
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
 		
 	 	$dao_messages = CopixDAOFactory::create("forum_messages_forums");
 		$forumService = CopixClassesFactory::create("forum|forumService");
@@ -715,7 +715,7 @@ class ActionGroupForum extends CopixActionGroup {
 	function doAlertMessage () {
 	 	
 		$errors = $criticErrors = array();	
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
 		
 	 	$dao_messages = CopixDAOFactory::create("forum_messages_forums");
 		$rMessage = $dao_messages->get($id);
@@ -796,7 +796,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 	
 		$errors = array();
 		
-		$id = isset($this->vars["id"]) ? $this->vars["id"] : NULL;
+		$id = isset(_request("id")) ? _request("id") : NULL;
 		
 	 	$dao_topics = CopixDAOFactory::create("forum_topics");
 		$forumService = CopixClassesFactory::create("forum|forumService");

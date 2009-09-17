@@ -31,11 +31,11 @@ class ActionGroupConcerto extends CopixActionGroup {
 		
 
 		
-		if( !isset($this->vars["id"]) || !ereg('^[0-9]+$', $this->vars["id"]) ) {
+		if( !isset(_request("id")) || !ereg('^[0-9]+$', _request("id")) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));
 		}
 		
-		$sql = 'SELECT login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='.$_SESSION["user"]->bu["id"].' AND id=\''.addslashes($this->vars["id"]).'\' AND service=\'concerto\'';
+		$sql = 'SELECT login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='.$_SESSION["user"]->bu["id"].' AND id=\''.addslashes(_request("id")).'\' AND service=\'concerto\'';
 		$concerto = _doQuery($sql);
 		if(!$concerto) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));
