@@ -26,12 +26,12 @@ class CarnetService {
 		//print_r2($params);
 		
 		if ($params["eleve"] && $params["eleve"]!='CLASSE') {
-			switch ($_SESSION["user"]->bu["type"]) {
+			switch (_currentUser()->getExtra('type')) {
 				
 				case "USER_ENS" :
 
 					// On vérifie que l'enseignant a des droits sur la classe de l'élève
-					$parentEns = $kernel_service->getNodeParents( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] );
+					$parentEns = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
 					//print_r($parentEns);
 					$parentEle = $kernel_service->getNodeParents( "USER_ELE", $params["eleve"] );
 					//print_r($parentEns);
@@ -62,7 +62,7 @@ class CarnetService {
 					}
 					break;
 				case "USER_RES" :		// Parents
-					$parent = $kernel_service->getNodeParents( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] );
+					$parent = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
 					//while (!$res && list(,$v) = each($parent)) {
 					foreach ($parent as $v) {
 						if ($res)
@@ -75,7 +75,7 @@ class CarnetService {
 			}
 		}
 		elseif ($params["classe"] || (!$params["classe"] && $params["eleve"]=='CLASSE')) {
-			switch ($_SESSION["user"]->bu["type"]) {
+			switch (_currentUser()->getExtra('type')) {
 				case "USER_ENS" :
 					$mondroit = $kernel_service->getLevel ("BU_CLASSE", $params["classe"]);
 					if ($mondroit) $res = PROFILE_CCV_ADMIN;
@@ -102,7 +102,7 @@ class CarnetService {
 		switch ($action) {
 			case "WRITE_CLASSE" : // Ecrire à toute la classe courante (en plus de sa/ses élève(s))
 			case "PRINT_TOPIC" : // Imprimer une correspondance
-				$can = ($_SESSION["user"]->bu["type"] == "USER_ENS");
+				$can = (_currentUser()->getExtra('type') == "USER_ENS");
 				break;
 		}
 		return $can;
@@ -121,7 +121,7 @@ class CarnetService {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$res = array();
 		
-		switch ($_SESSION["user"]->bu["type"]) {
+		switch (_currentUser()->getExtra('type')) {
 			case "USER_ENS" :	// Enseignant
 				$childs = $kernel_service->getNodeChilds ("BU_CLASSE", $classe);
 				while (list($k,$child) = each($childs)) {
@@ -134,7 +134,7 @@ class CarnetService {
 				break;	
 		
 			case "USER_RES" : // Parent, OK seulement son enfant de cette classe
-				$parent = $kernel_service->getNodeParents( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] );
+				$parent = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
 				while (!$res && list($k,$v) = each($parent)) {
 					if ($v["type"] != "USER_ELE") continue;
 					// Pour chaque enfant, on regarde s'il est dans cette classe

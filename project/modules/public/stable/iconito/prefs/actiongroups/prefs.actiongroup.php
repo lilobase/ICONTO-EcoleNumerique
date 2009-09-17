@@ -15,7 +15,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 
 	function getPrefs () {
 		
-		if( !isset($_SESSION["user"]->bu) || !isset($_SESSION["user"]->bu["type"]) || !isset($_SESSION["user"]->bu["id"]) ) {
+		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset($_SESSION["user"]->bu["id"]) ) {
 	      return CopixActionGroup::process ('genericTools|Messages::getError',
 	      array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'),
 	      'back'=>CopixUrl::get ('auth|default|login')));
@@ -57,7 +57,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 	function setPrefs () {
 		if( Kernel::isDemo() ) return Kernel::noDemo();
 		
-		if( !isset($_SESSION["user"]->bu) || !isset($_SESSION["user"]->bu["type"]) || !isset($_SESSION["user"]->bu["id"]) ) {
+		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset($_SESSION["user"]->bu["id"]) ) {
 	      return CopixActionGroup::process ('genericTools|Messages::getError',
 	      array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'),
 	      'back'=>CopixUrl::get ('auth|default|login')));

@@ -106,9 +106,9 @@ class Kernel {
 		$level = 0;
 		if( $user_type=="-1" && $user_id=="-1" )
 		{
-			if( isset($_SESSION["user"]->bu["type"]) && isset($_SESSION["user"]->bu["id"]) )
+			if( isset(_currentUser()->getExtra('type')) && isset($_SESSION["user"]->bu["id"]) )
 			{
-				$user_type=$_SESSION["user"]->bu["type"];
+				$user_type=_currentUser()->getExtra('type');
 				$user_id=$_SESSION["user"]->bu["id"];
 			}
 		}
@@ -200,9 +200,9 @@ class Kernel {
 	function getNodes( $user_type="-1", $user_id="-1" ) {
 		if( $user_type=="-1" && $user_id=="-1" )
 		{
-			if( isset($_SESSION["user"]->bu["type"]) && isset($_SESSION["user"]->bu["id"]) )
+			if( isset(_currentUser()->getExtra('type')) && isset($_SESSION["user"]->bu["id"]) )
 			{
-				$user_type=$_SESSION["user"]->bu["type"];
+				$user_type=_currentUser()->getExtra('type');
 				$user_id=$_SESSION["user"]->bu["id"];
 			}
 		}
@@ -989,7 +989,7 @@ class Kernel {
 				break;
 			case "ME":
 				if( Kernel::is_connected() )
-					return( Kernel::getUserInfo( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] ) );
+					return( Kernel::getUserInfo( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] ) );
 			default:
 				$user_dao = _dao("kernel|kernel_bu2user");
 				$users = $user_dao->getByBUID($type,$id);
@@ -1106,9 +1106,9 @@ class Kernel {
 		
 		if( $racine_type=="USER" && $racine_node==0 )
 		{
-			if( isset($_SESSION["user"]->bu["type"]) && isset($_SESSION["user"]->bu["id"]) )
+			if( isset(_currentUser()->getExtra('type')) && isset($_SESSION["user"]->bu["id"]) )
 			{
-				$racine_type=$_SESSION["user"]->bu["type"];
+				$racine_type=_currentUser()->getExtra('type');
 				$racine_node=$_SESSION["user"]->bu["id"];
 			} else {
 				return( $tree );
@@ -1310,8 +1310,8 @@ class Kernel {
 		}
 
 		if( $user_type=="-1" && $user_id=="-1" ) {
-			if( isset($_SESSION["user"]->bu["type"]) && isset($_SESSION["user"]->bu["id"]) ) {
-				$user_type=$_SESSION["user"]->bu["type"]; $user_id=$_SESSION["user"]->bu["id"];
+			if( isset(_currentUser()->getExtra('type')) && isset($_SESSION["user"]->bu["id"]) ) {
+				$user_type=_currentUser()->getExtra('type'); $user_id=$_SESSION["user"]->bu["id"];
 			} else {
 				return 0;
 			}
@@ -1404,7 +1404,7 @@ class Kernel {
 	
 	function getMyNodes($bu_type=null, $bu_id=null) {
 		
-		$bu_type = (!$bu_type) ? $_SESSION["user"]->bu["type"] : $bu_type;
+		$bu_type = (!$bu_type) ? _currentUser()->getExtra('type') : $bu_type;
 		$bu_id = (!$bu_id) ? $_SESSION["user"]->bu["id"] : $bu_id;
 		
 		$cache_type = 'getmynodes';
@@ -1419,8 +1419,8 @@ class Kernel {
 			$data[0]->type = $type;
 			$data[0]->id = $id;
 			$data[0]->droit = 70;
-			$data[0]->enabled = Kernel::getModEnabled( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] );
-			$data[0]->available_type = Kernel::getModAvailable( $_SESSION["user"]->bu["type"] );
+			$data[0]->enabled = Kernel::getModEnabled( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
+			$data[0]->available_type = Kernel::getModAvailable( _currentUser()->getExtra('type') );
 			
 			/* $data[0]->enabled = array_merge( $data[0]->enabled, $data[0]->available_type ); */
 	
@@ -1436,7 +1436,7 @@ class Kernel {
 					$data[$i]->type = $node_type;
 					$data[$i]->id = $node_id;
 					$data[$i]->droit = $droit;
-					$data[$i]->enabled = Kernel::getModEnabled( $node_type, $node_id, $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] );
+					$data[$i]->enabled = Kernel::getModEnabled( $node_type, $node_id, _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
 					$data[$i]->available_type = Kernel::getModAvailable( $node_type );
 					
 					/* $data[$i]->enabled = array_merge( $data[$i]->enabled, $data[$i]->available_type ); */
@@ -1507,7 +1507,7 @@ class Kernel {
 
 	function createMissingModules( $node_type, $node_id ) {
 		$modavailable = Kernel::getModAvailable( $node_type );
-		$modenabled = Kernel::getModEnabled($node_type, $node_id, $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"]);
+		$modenabled = Kernel::getModEnabled($node_type, $node_id, _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"]);
 		
 		$modinstalled = array();
 		foreach( $modenabled AS $module ) {
@@ -1673,7 +1673,7 @@ class Kernel {
 	 * @return bool True si c'est un élève, false sinon
 	 */
 	function isEleve () {
-		return ($_SESSION["user"]->bu["type"] == 'USER_ELE');
+		return (_currentUser()->getExtra('type') == 'USER_ELE');
 	}
 
 	/**
@@ -1684,7 +1684,7 @@ class Kernel {
 	 * @return bool True si c'est un parent, false sinon
 	 */
 	function isParent () {
-		return ($_SESSION["user"]->bu["type"] == 'USER_RES');
+		return (_currentUser()->getExtra('type') == 'USER_RES');
 	}
 
 
@@ -1835,8 +1835,8 @@ class Kernel {
 	 */
 	function getUserTypeVisibility( $dst, $src="ME" ) {
 		if( $src=='ME' ) {
-			if( isset($_SESSION['user']->bu['type']) ) {
-				$src=$_SESSION['user']->bu['type'];
+			if( isset(_currentUser()->getExtra('type')) ) {
+				$src=_currentUser()->getExtra('type');
 			}
 			else return( 'NONE' );
 		}
@@ -1866,8 +1866,8 @@ class Kernel {
 	 */
 	function getUserVisibility( $dst_type, $dst_id, $src_type="ME", $src_id=0 ) {
 		if( $src_type=='ME' ) {
-			if( isset($_SESSION['user']->bu['type']) ) {
-				$src_type=$_SESSION['user']->bu['type'];
+			if( isset(_currentUser()->getExtra('type')) ) {
+				$src_type=_currentUser()->getExtra('type');
 				$src_id=$_SESSION['user']->bu['id'];
 			}
 			else return( false );

@@ -615,16 +615,16 @@ class AnnuaireService {
 			case "POPUP_CHECK_ALL_ELEVES" : // Cocher tous les élèves affichés (version popup)
 			case "POPUP_CHECK_ALL_PARENTS" : // Cocher tous les parents (version popup)
 			case "POPUP_CHECK_ALL_PERSONNEL" : // Cocher tous le personnel (version popup)
-				$can = ($_SESSION["user"]->bu["type"] == "USER_ENS");
+				$can = (_currentUser()->getExtra('type') == "USER_ENS");
 				break;
 			case "POPUP_CHECK_ALL_PERSONNEL_VIL" : // Cocher tous les agents de ville (version popup)
-				$can = ($_SESSION["user"]->bu["type"] == "USER_ENS" || $_SESSION["user"]->bu["type"] == "USER_VIL");
+				$can = (_currentUser()->getExtra('type') == "USER_ENS" || _currentUser()->getExtra('type') == "USER_VIL");
 				break;
 			case "POPUP_CHECK_ALL_PERSONNEL_ADM" : // Cocher tous le personnel administratif (version popup)
-				$can = ($_SESSION["user"]->bu["type"] == "USER_ENS" || $_SESSION["user"]->bu["type"] == "USER_ADM");
+				$can = (_currentUser()->getExtra('type') == "USER_ENS" || _currentUser()->getExtra('type') == "USER_ADM");
 				break;
 			case "POPUP_CHECK_ALL_PERSONNEL_EXT" : // Cocher tous le personnel administratif (version popup)
-				$can = ($_SESSION["user"]->bu["type"] == "USER_ENS" || $_SESSION["user"]->bu["type"] == "USER_EXT");
+				$can = (_currentUser()->getExtra('type') == "USER_ENS" || _currentUser()->getExtra('type') == "USER_EXT");
 				break;
 		}
 		return $can;
@@ -651,7 +651,7 @@ class AnnuaireService {
   function getAnnuaireHome () {
     $home = Kernel::getSessionHome();
     if (!$home && Kernel::isParent()) {  // Cas du parent d'élève
-      $enfants = Kernel::getNodeParents( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] );
+      $enfants = Kernel::getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
       while (list($k,$v) = each($enfants)) {
         if ($v["type"] != "USER_ELE") continue;
         // Pour chaque enfant...

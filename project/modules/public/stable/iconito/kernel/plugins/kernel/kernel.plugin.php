@@ -35,15 +35,15 @@ class PluginKernel extends CopixPlugin {
 				$_SESSION["user"]->bu = Kernel::getUserInfo( "LOGIN", $_SESSION["user"]->login );
 				$_SESSION["user"]->_isIdentified = true; // true;
 				if (isset($GLOBALS['COPIX']['DEBUG'])) {
-					$GLOBALS['COPIX']['DEBUG']->addInfo("Login (".$_SESSION["user"]->bu["type"]."/".$_SESSION["user"]->bu["id"]." : ".$_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"].")", 'Kernel Plugin :');
+					$GLOBALS['COPIX']['DEBUG']->addInfo("Login ("._currentUser()->getExtra('type')."/".$_SESSION["user"]->bu["id"]." : ".$_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"].")", 'Kernel Plugin :');
 				}
 				
 				// Cas du parent d'élève
-				if ( $_SESSION["user"]->bu["type"] == "USER_RES") {
+				if ( _currentUser()->getExtra('type') == "USER_RES") {
 					/*
 					print_r($_SESSION);
 					print_r($mynodes);
-					$enfants = Kernel::getNodeParents( $_SESSION["user"]->bu["type"], $_SESSION["user"]->bu["id"] );
+					$enfants = Kernel::getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
 					print_r($enfants);
 					while (list($k,$v) = each($enfants)) {
 						if ($v["type"] != "USER_ELE") continue;
@@ -109,7 +109,7 @@ class PluginKernel extends CopixPlugin {
 		{
 			
 			if (isset($GLOBALS['COPIX']['DEBUG'])&&isset( $_SESSION["user"]->bu )){
-				$GLOBALS['COPIX']['DEBUG']->addInfo("Logout (".$_SESSION["user"]->bu["type"]."/".$_SESSION["user"]->bu["id"]." : ".$_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"].")", 'Kernel Plugin :');
+				$GLOBALS['COPIX']['DEBUG']->addInfo("Logout ("._currentUser()->getExtra('type')."/".$_SESSION["user"]->bu["id"]." : ".$_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"].")", 'Kernel Plugin :');
 			}
 			
 			if( isset( $_SESSION["user"]->bu ) )

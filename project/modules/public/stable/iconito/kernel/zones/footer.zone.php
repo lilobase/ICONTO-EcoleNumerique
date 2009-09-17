@@ -44,8 +44,8 @@ class ZoneFooter extends CopixZone {
 		}
 		
 		// Récupération des valeurs de sessions (personne).
-		if( isset($_SESSION['user']) && isset($_SESSION['user']->bu) && isset($_SESSION['user']->bu['type']) ) {
-			$tpl->assign('user_type', $_SESSION['user']->bu['type'] );
+		if( isset($_SESSION['user']) && isset($_SESSION['user']->bu) && isset(_currentUser()->getExtra('type')) ) {
+			$tpl->assign('user_type', _currentUser()->getExtra('type') );
 			$tpl->assign('user_id', $_SESSION['user']->bu['id'] );
 		}
 		
