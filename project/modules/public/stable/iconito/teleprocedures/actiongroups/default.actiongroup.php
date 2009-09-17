@@ -296,7 +296,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		if (!$print) {
 			// Enregistrement dans le trackin
-			$user = $_SESSION["user"]->bu["user_id"];
+			$user = _currentUser ()->getId();
 			TeleproceduresService::userReadIntervention ($id, $user);
 		}
 		

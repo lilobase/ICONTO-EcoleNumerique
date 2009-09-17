@@ -83,7 +83,7 @@ class ActionGroupForum extends CopixActionGroup {
 			$all = $dao_topics->getListTopicsInForumAll($id);
 			$nbPages = ceil(count($all) / CopixConfig::get ('forum|list_nbtopics'));
 			
-			$user = $_SESSION["user"]->bu["user_id"];
+			$user = _currentUser ()->getId();
 			$list = $dao_topics->getListTopicsInForum($id,$offset,CopixConfig::get ('forum|list_nbtopics'),$orderby, $user);
 		
 			// Pour chaque message on cherche les infos de son créateur et du dernier message
@@ -151,7 +151,7 @@ class ActionGroupForum extends CopixActionGroup {
 		if ($go == "new") {
 		
 			$daoTracking = CopixDAOFactory::create("forum|forum_tracking2");
-			$unread = $daoTracking->getFirstUnreadMessage($id, $_SESSION["user"]->bu["user_id"]);
+			$unread = $daoTracking->getFirstUnreadMessage($id, _currentUser ()->getId());
 			//print_r($unread);
 			if ($unread[0]->id) {	// Il est déjà passé dans le topic
 				$urlReturn = CopixUrl::get ('forum||getTopic', array("message"=>$unread[0]->id))."#".$unread[0]->id;
@@ -194,7 +194,7 @@ class ActionGroupForum extends CopixActionGroup {
 			}
 			
 			// On enregistre sa lecture (tracking)
-			$user = $_SESSION["user"]->bu["user_id"];
+			$user = _currentUser ()->getId();
 			$forumService->userReadTopic ($id, $user);
 			
 			// Les messages de ce forum
@@ -419,7 +419,7 @@ class ActionGroupForum extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('forum||')));
 		} else {
 
-			$auteur = $_SESSION["user"]->bu["user_id"];
+			$auteur = _currentUser ()->getId();
 
 			if ($id && !$errors && $go=='save') {	// Modification
 				$rMessage->message = $message;
@@ -588,7 +588,7 @@ class ActionGroupForum extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('forum||')));
 		} else {
 
-			$auteur = $_SESSION["user"]->bu["user_id"];
+			$auteur = _currentUser ()->getId();
 			
 			if ($id && !$errors && $go=='save') { // Mise à jour			
 				$rTopic->titre = $titre;

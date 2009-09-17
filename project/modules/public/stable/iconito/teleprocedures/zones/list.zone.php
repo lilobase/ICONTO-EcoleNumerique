@@ -41,7 +41,7 @@ class ZoneList extends CopixZone {
 			$tpl->assign ('ville', $ville);
 		}
 		
-		$user = $_SESSION["user"]->bu["user_id"];
+		$user = _currentUser ()->getId();
 		$sql = 'SELECT ITV.idinter, ITV.objet, ITV.dateinter, ITV.datederniere, ITV.idstatu, STA.nom AS nomstat, TYP.nom AS nomtype, ECO.nom AS ecole_nom, ECO.type AS ecole_type, TRA.last_visite, TO_DAYS(NOW())-TO_DAYS(ITV.datederniere) AS depuis'.$sqlSelectPlus.' FROM module_teleprocedure_statu STA, module_teleprocedure_type TYP'.$sqlFromPlus.', kernel_bu_ecole ECO, module_teleprocedure_intervention ITV';
 
 		$sql .= ' LEFT JOIN module_teleprocedure_tracking TRA ON (TRA.intervention=ITV.idinter AND TRA.utilisateur='.$user.')';

@@ -375,7 +375,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		if (!$description)
 			$errors[] = CopixI18N::get ('groupe|groupe.error.typeDesc');
 		
-		$createurId = $_SESSION["user"]->bu["user_id"];
+		$createurId = _currentUser ()->getId();
 		
 		$modules = $kernel_service->getModAvailable ("club");
 
@@ -1045,7 +1045,7 @@ class ActionGroupGroupe extends CopixActionGroup {
           // On l'informe par minimail
   				$userInfo = Kernel::getUserInfo($user_type, $user_id);
 					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"];
-					$msg_from_id = $_SESSION["user"]->bu["user_id"];
+					$msg_from_id = _currentUser ()->getId();
 					$msg_from_login = $_SESSION["user"]->bu["login"];
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.nok.title', array($groupe[0]->titre));
 					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.nok.body', array($groupe[0]->titre, $his_nom));
@@ -1062,7 +1062,7 @@ class ActionGroupGroupe extends CopixActionGroup {
           // On l'informe par minimail
   				$userInfo = Kernel::getUserInfo($user_type, $user_id);
 					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"];
-					$msg_from_id = $_SESSION["user"]->bu["user_id"];
+					$msg_from_id = _currentUser ()->getId();
 					$msg_from_login = $_SESSION["user"]->bu["login"];
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.ok.title', array($groupe[0]->titre));
 					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.ok.body', array($groupe[0]->titre, $his_nom));
@@ -1159,7 +1159,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 					//print_r($msg_body);
 					//die();
-					$msg_from_id = $_SESSION["user"]->bu["user_id"];
+					$msg_from_id = _currentUser ()->getId();
 					$msg_destin = array($userInfo["user_id"]=>1);
 
 					$send = $minimail_service->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, 'wiki');

@@ -177,7 +177,7 @@ class ActionGroupListe extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('liste||')));
 		} else {
 
-			$auteur = $_SESSION["user"]->bu["user_id"];
+			$auteur = _currentUser ()->getId();
 			
 			if (!$errors && $go=='save') {	// Insertion
 				$service = CopixClassesFactory::create("ListeService");

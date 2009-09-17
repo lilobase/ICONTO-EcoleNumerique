@@ -426,7 +426,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			if (!$id && !$message)	$errors[] = CopixI18N::get ('carnet|carnet.error.typeMessage');
 			if (!$format)	$errors[] = CopixI18N::get ('carnet|carnet.error.typeFormat');
 
-			$createur = $_SESSION["user"]->bu["user_id"];
+			$createur = _currentUser ()->getId();
 			
 			if ($id && !$errors && $go=='save') { // Mise à jour
 				// Y a pas
@@ -569,7 +569,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 			if (!$message)	$errors[] = CopixI18N::get ('carnet|carnet.error.typeMessage');
 			if (!$format)	$errors[] = CopixI18N::get ('carnet|carnet.error.typeFormat');
-			$auteur = $_SESSION["user"]->bu["user_id"];
+			$auteur = _currentUser ()->getId();
 
 			if ($id && !$errors && $go=='save') {	// Modification, y a pas
 			} elseif (!$errors && $go=='save') {	// Insertion

@@ -20,7 +20,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 	 	$dao = _dao("minimail_to");
 		
-		//$userId = $_SESSION["user"]->bu["user_id"];
+		//$userId = _currentUser ()->getId();
 		$userId = _currentUser ()->getId();
 		//var_dump($_SESSION);
 		
@@ -74,7 +74,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 	 	$daoFrom = CopixDAOFactory::create("minimail_from");
     $daoTo = CopixDAOFactory::create("minimail_to");
-		$userId = $_SESSION["user"]->bu["user_id"];
+		$userId = _currentUser ()->getId();
 		
 		$page = _request("page") ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
@@ -133,7 +133,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 
     // 2 DAO -> 2 assign
 		
-		$idUser = $_SESSION["user"]->bu["user_id"];
+		$idUser = _currentUser ()->getId();
 		$idMessage = _request("id");
 		$errors = array();
 		
@@ -251,7 +251,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$tpl->assign ('MENU', $menu );
 
 
-		$idUser = $_SESSION["user"]->bu["user_id"];
+		$idUser = _currentUser ()->getId();
 		$idMessage = _request("id") ? _request("id") : NULL;
 		
 		$title = _request("title") ? _request("title") : NULL;
@@ -327,7 +327,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$destTxt = str_replace(array(",",";"), ",", $destTxt);
 		$destin = array_unique(explode (",", $destTxt));
 		
-		$fromId = $_SESSION["user"]->bu["user_id"];
+		$fromId = _currentUser ()->getId();
 		$errors = array();
 		
 		if (!$dest)

@@ -22,7 +22,7 @@ class ZoneLoginBar extends CopixZone {
 			if( isset($_SESSION["user"]->_isIdentified) && $_SESSION["user"]->_isIdentified==true && isset($_SESSION["user"]->bu) ) {
 				$linkedstr="";
 	
-				$linkedstr="\n<!-- [".$_SESSION["user"]->bu["login"]." - #".$_SESSION["user"]->bu["user_id"]." - ".$_SESSION["user"]->bu["type"]."/".$_SESSION["user"]->bu["id"]."] -->\n";
+				$linkedstr="\n<!-- [".$_SESSION["user"]->bu["login"]." - #"._currentUser ()->getId()." - ".$_SESSION["user"]->bu["type"]."/".$_SESSION["user"]->bu["id"]."] -->\n";
 				
 				$tpl->assign ('login', ucfirst(strtolower($_SESSION["user"]->bu["prenom"]))." ".ucfirst(strtolower($_SESSION["user"]->bu["nom"]).$linkedstr) );
 			} else $tpl->assign ('login', $user->login);
