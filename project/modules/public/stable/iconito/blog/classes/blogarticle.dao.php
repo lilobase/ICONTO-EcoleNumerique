@@ -372,7 +372,7 @@ class DAORecordblogarticle {
 			}
 			// Vérification de l'unicité de l'url
 			$DBresult = _doQuery($sqlRequest);
-			if(count($DBresult)>0)) {
+			if(count($DBresult)>0) {
 				require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
 				$errorObject = new CopixErrorObject ();
 				$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog.dao.url.exist'));
