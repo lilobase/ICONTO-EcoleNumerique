@@ -13,7 +13,7 @@ class ZoneLoginBar extends CopixZone {
     function _createContent (& $toReturn){
         $tpl = & new CopixTpl ();
 
-        $plugAuth  = & CopixCoordination::getPlugin ('auth|auth');
+        $plugAuth = CopixPluginRegistry::get ("auth|auth");
         $user      = & $plugAuth->getUser();
 
 		if ($user->isConnected ()){
@@ -36,7 +36,7 @@ class ZoneLoginBar extends CopixZone {
 
         $tpl->assign ('failed', @$this->getParam('failed'));
         $tpl->assign ('showLostPassword', CopixConfig::get ('auth|enableSendLostPassword'));
-        // $tpl->assign ('showRememberMe', (CopixCoordination::getPlugin ('auth|reconnect') !== null));
+
         $tpl->assign ('showRememberMe', false);
 
         $toReturn = $tpl->fetch ('login.bar.tpl');

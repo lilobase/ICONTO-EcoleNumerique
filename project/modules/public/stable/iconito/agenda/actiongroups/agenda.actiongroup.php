@@ -24,7 +24,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_agenda.js');
 		
-		$plugAuth  = & CopixCoordination::getPlugin ('auth|auth');
+		$plugAuth = CopixPluginRegistry::get ("auth|auth");
     $user      = & $plugAuth->getUser();
 		if (!$user->isConnected ())
 			return CopixActionGroup::process ('genericTools|Messages::getError',

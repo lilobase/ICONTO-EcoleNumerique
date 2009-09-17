@@ -28,7 +28,7 @@ class ZoneShowPage extends CopixZone {
 		
       $tpl->assign ('page', $page);
 			
-			$plugStats = & CopixCoordination::getPlugin ('stats');
+			$plugStats = CopixPluginRegistry::get ("stats|stats");
 			$plugStats->setParams(array('objet_a'=>$page->id_bpge));
 
 

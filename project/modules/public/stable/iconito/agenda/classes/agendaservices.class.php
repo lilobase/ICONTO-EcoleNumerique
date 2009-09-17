@@ -227,12 +227,6 @@ class AgendaService {
 		$daoLecon     = & CopixDAOFactory::getInstanceOf ('lecon');
 		
 		while($dateCourante <= $pDateFin){
-			/*
-			$record   = & _daoRecord ('lecon');
-			$criteres = _daoSearchConditions();
-			$criteres->addCondition('date_lecon', '=', $dateCourante);	
-			$resultat = $daoLecon->findBy($criteres);			
-			*/
 			
 			$sql = "SELECT LEC.* FROM module_agenda_lecon LEC WHERE LEC.date_lecon='".$dateCourante."' AND LEC.id_agenda IN (".implode(',',$pArAgendas).")";
 			$resultat = _doQuery($sql);

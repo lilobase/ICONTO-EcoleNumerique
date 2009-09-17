@@ -17,7 +17,7 @@ class DAOBlog {
 		$sp = _daoSp ();
 		$sp->addCondition ('url_blog', '=', $url_blog);
 
-		if (count($arBlog = $this->_compiled->findBy ($sp)) > 0)  {
+		if (count($arBlog = $this->findBy ($sp)) > 0)  {
 			return $arBlog[0];
 		}else{
 			return false;
@@ -33,8 +33,7 @@ class DAOBlog {
 	function getBlogById ($id_blog){
 		$sp = _daoSp ();
 		$sp->addCondition ('id_blog', '=', $id_blog);
-		
-		if (count($arBlog = $this->_compiled->findBy ($sp)) > 0)  {
+		if (count($arBlog = $this->findBy ($sp)) > 0)  {
 			return $arBlog[0];
 		}else{
 			return false;
@@ -62,19 +61,19 @@ class DAOBlog {
 
 
 class DAORecordBlog {
-	function check (){
-		$result = $this->_compiled->_compiled_check ();
+	function check ($record){
+		$result = $this->_compiled_check ($record);
 
 		if ($result === true){
 			$result = array ();
 		}
-		if(!empty($this->_compiled->url_blog)) {
-			if(empty($this->_compiled->id_blog)) {
+		if(!empty($record->url_blog)) {
+			if(empty($record->id_blog)) {
 				// Création
-				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE url_blog=\'' . $this->_compiled->url_blog.'\'';
+				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE url_blog=\'' . $record->url_blog.'\'';
 			} else {
 				// Edition
-				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE id_blog!=' . $this->_compiled->id_blog.' AND url_blog=\'' . $this->_compiled->url_blog.'\'';
+				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE id_blog!=' . $record->id_blog.' AND url_blog=\'' . $record->url_blog.'\'';
 			}
 			// Vérification de l'unicité de l'url
 			$DBresult = _doQuery($sqlRequest);

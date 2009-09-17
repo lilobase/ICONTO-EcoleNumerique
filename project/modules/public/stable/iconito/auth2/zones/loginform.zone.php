@@ -12,7 +12,7 @@
 class ZoneLoginForm extends CopixZone {
     function _createContent (& $toReturn){
         $tpl = & new CopixTpl ();
-        $plugAuth  = & CopixCoordination::getPlugin ('auth|auth');
+        $plugAuth = CopixPluginRegistry::get ("auth|auth");
         $user      = & $plugAuth->getUser();
 
         if ($user->isConnected ()){

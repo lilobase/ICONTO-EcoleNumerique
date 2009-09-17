@@ -42,7 +42,7 @@ class KernelForum {
 		$rForum = $daoForums->get($idForum);
 		$res = false;
 		if ($rForum) {
-			$criteres = _daoSearchConditions();
+			$criteres = _daoSp();
 			$criteres->addCondition('forum', '=', $idForum);
 			$topics = $daoTopics->findBy($criteres);
 			while (list(,$topic) = each($topics)) {

@@ -20,7 +20,7 @@ class DAOBlogPage {
       $sp->addCondition ('id_blog' , '=', $id_blog);
       $sp->addCondition ('is_online', '=', 1);
       
-      if (count($arPage = $this->_compiled->findBy ($sp)) > 0)  {
+      if (count($arPage = $this->findBy ($sp)) > 0)  {
          return $arPage[0];
       }else{
          return false;
@@ -31,12 +31,12 @@ class DAOBlogPage {
     * Get all article from a blog
     */
     function getAllPagesFromBlog ($id_blog) {
-      $sp = & _daoSearchConditions ();
+      $sp = _daoSp ();
       $sp->addCondition ('id_blog', '=', $id_blog);
       $sp->addCondition ('is_online', '=', 1);
-      $sp->addItemOrder ('order_bpge', 'ASC');
+      $sp->orderBy ('order_bpge');
 
-      return $this->_compiled->findBy ($sp);
+      return $this->findBy ($sp);
     }
 
     /**
@@ -134,25 +134,25 @@ class DAOBlogPage {
 }
 
 class DAORecordblogpage {
-		function check (){
-			$result = $this->_compiled->_compiled_check ();
+		function check ($record){
+			$result = $this->_compiled_check ($record);
 
 			if ($result === true){
 				$result = array ();
 			}
 
-			if( (!empty($this->_compiled->url_bpge)) && (!empty($this->_compiled->id_blog))) {
-				if(empty($this->_compiled->id_bpge)) {
+			if( (!empty($record->url_bpge)) && (!empty($record->id_blog))) {
+				if(empty($record->id_bpge)) {
 					// Création 
 					$sqlRequest = 'SELECT id_bpge FROM module_blog_page WHERE '.
-														' id_blog=' . $this->_compiled->id_blog.
-														' AND url_bpge=\'' . $this->_compiled->url_bpge.'\'';
+														' id_blog=' . $record->id_blog.
+														' AND url_bpge=\'' . $record->url_bpge.'\'';
 				} else {
 					// Edition
 					$sqlRequest = 'SELECT id_bpge FROM module_blog_page WHERE '.
-														' id_blog=' . $this->_compiled->id_blog.
-														' AND id_bpge!=' . $this->_compiled->id_bpge.
-														' AND url_bpge=\'' . $this->_compiled->url_bpge.'\'';
+														' id_blog=' . $record->id_blog.
+														' AND id_bpge!=' . $record->id_bpge.
+														' AND url_bpge=\'' . $record->url_bpge.'\'';
 				}
 				// Vérification de l'unicité de l'url
       	$DBresult = _doQuery($sqlRequest);

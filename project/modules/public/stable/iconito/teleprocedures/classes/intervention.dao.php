@@ -24,8 +24,6 @@ class DAORecordIntervention {
    */
 	function insertInfoSupp ($info_message, $info_commentaire) {
 	
-		//$this->_compiled
-		
 		$daoInfoSupp = _dao("teleprocedures|infosupp");
 		$daoIntervention = _dao("teleprocedures|intervention");
 		
@@ -35,7 +33,7 @@ class DAORecordIntervention {
 		
 		$session = Kernel::getSessionBU();
 		
-		$rForm->idinter = $this->_compiled->idinter;
+		$rForm->idinter = $this->idinter;
 		$rForm->iduser = $session['user_id'];
 		$rForm->dateinfo = date('Y-m-d H:i:s');
 		if ($info_message)
@@ -45,8 +43,8 @@ class DAORecordIntervention {
 		$daoInfoSupp->insert ($rForm);
 		
 		if ($rForm->idinfo > 0 && $rForm->info_message) { // MAJ uniquement si echange
-			$this->_compiled->datederniere = $rForm->dateinfo;
-			$daoIntervention->update ($this->_compiled);
+			$this->datederniere = $rForm->dateinfo;
+			$daoIntervention->update ($this);
 		}
 		return $rForm->idinfo;
 	}
@@ -61,7 +59,7 @@ class DAOIntervention {
 		$get = false;
 		$sp = _daoSp ();
     $sp->addCondition ('idinter', '=', $id);
-    if (count($r = $this->_compiled->findBy ($sp)) > 0)  {
+    if (count($r = $this->findBy ($sp)) > 0)  {
 			$get = $r[0];
 			$now = date('d/m/Y');
 			$datederniere = dateMySQLToFr($get->datederniere);

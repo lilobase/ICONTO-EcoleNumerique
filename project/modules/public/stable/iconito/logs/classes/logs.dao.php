@@ -21,20 +21,20 @@ class DAOLogs {
 	
 		$dao = _dao("logs|logs");
 
-		$criteres = _daoSearchConditions();
+		$criteres = _daoSp();
 		$criteres->addCondition('logs_type', '=', 'LOG');
 		$criteres->addCondition('logs_mod_name', '=', 'auth');
 		$criteres->addCondition('logs_mod_action', '=', 'in');
 		$criteres->addCondition('logs_message', '=', 'Login ok: '.$login);
-		$criteres->addItemOrder( 'logs_date', 'DESC' );
+		$criteres->orderBy(array('logs_date', 'DESC'));
 		$lastlog = $dao->findBy($criteres);
 		
-		$criteres = _daoSearchConditions();
+		$criteres = _daoSp();
 		$criteres->addCondition('logs_type', '=', 'LOG');
 		$criteres->addCondition('logs_mod_name', '=', 'auth');
 		$criteres->addCondition('logs_mod_action', '=', 'in');
 		$criteres->addCondition('logs_message', ' LIKE ', 'Login failed: '.$login.'/%');
-		$criteres->addItemOrder( 'logs_date', 'DESC' );
+		$criteres->orderBy(array('logs_date', 'DESC'));
 		$lastfailed = $dao->findBy($criteres);
 
 		$return=false;

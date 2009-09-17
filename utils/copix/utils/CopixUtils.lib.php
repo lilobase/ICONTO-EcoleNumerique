@@ -67,11 +67,13 @@ function getTxtBool ($param) {
 * @return array
 */
 function getUrlTab () {
-    $UrlNew = array ();
-    foreach ($_GET as $param=>$valeur){
-        $UrlNew[$param] = $valeur;
-    }
-    return $UrlNew;
+	$UrlNew = array ();
+	//$params = $_GET;
+	$params = CopixRequest::asArray ();
+	foreach ($params as $param=>$valeur){
+	  $UrlNew[$param] = $valeur;
+	}
+	return $UrlNew;
 }
 /**
 * Retour de la partie get de l'url..... il y a surement moyen de faire plus simple.

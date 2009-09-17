@@ -209,7 +209,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 			$result = $tplListe->fetch('getmessage.tpl');
 			$tpl->assign ('MAIN', $result);
 			
-			$plugStats = & CopixCoordination::getPlugin ('stats');
+			$plugStats = CopixPluginRegistry::get ("stats|stats");
 			$plugStats->setParams(array('objet_a'=>$idMessage));
 
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

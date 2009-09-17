@@ -77,7 +77,7 @@ class MinimailService {
 				}
 				$res = $newMp->id;
 				if ($res) {
-					$plugStats = & CopixCoordination::getPlugin ('stats');
+					$plugStats = CopixPluginRegistry::get ("stats|stats");
 					$plugStats->setParams(array('module'=>'minimail', 'action'=>'sendMinimail', 'objet_a'=>$res));
 				}
 			}

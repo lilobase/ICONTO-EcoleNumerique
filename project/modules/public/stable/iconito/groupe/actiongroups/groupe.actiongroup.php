@@ -604,7 +604,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$result = $tplHome->fetch('gethome.tpl');
 			$tpl->assign ('MAIN', $result);
 			
-			$plugStats = & CopixCoordination::getPlugin ('stats');
+			$plugStats = CopixPluginRegistry::get ("stats|stats");
 			$plugStats->setParams(array('module_id'=>$groupe[0]->id));
 
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

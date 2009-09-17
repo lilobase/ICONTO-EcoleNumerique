@@ -40,9 +40,8 @@ class PluginStats extends CopixPlugin {
    function afterProcess($actionreturn){
 		
 		//print_r($copixaction);
-		
 		// === Si les stats ne sont pas du tout activés, on zappe ===
-		$statsEnabled = CopixConfig::get ('|statsEnabled');
+		$statsEnabled = CopixConfig::get ('default|statsEnabled');
 		if (!$statsEnabled)
 			return;
 		// ======
@@ -53,12 +52,12 @@ class PluginStats extends CopixPlugin {
 		
 		$par = getUrlTab ($_GET);
 		
-		//print_r($par);
+		//print_r($this);
 		//print_r($_SESSION);
 		
 		$module = ($this->module) ? $this->module : ( isset($par['module']) ? $par['module'] : '');
 		$action = ($this->action) ? $this->action : ( isset($par['action']) ? $par['action'] : '');
-				
+		
 		$modules = array ();
 		$modules['blog'] = 'MOD_BLOG';
 		$modules['groupe'] = 'MOD_GROUPE';
@@ -79,10 +78,16 @@ class PluginStats extends CopixPlugin {
 			'getMessage' => 'readMinimail',
 		);
 		
+		
+		//var_dump($this);
+		
+		//print_r($module);
+		//print_r($action);
 		if (isset($modules[$module]) && isset($actions[$module][$action])) {
 			
 			
-			$par['profil'] = $_SESSION['user']->bu['type'];
+			//$par['profil'] = $_SESSION['user']->bu['type'];
+			$par['profil'] = 1;
 			$par['module_id'] = $this->module_id;
 			$par['parent_type'] = $this->parent_type;
 			$par['parent_id'] = $this->parent_id;
@@ -133,33 +138,29 @@ class PluginStats extends CopixPlugin {
 * Objet métier pour ajouter des urls en base.
 */
 class DAOPluginStats {
+ 
   function add ($params){
 		
-		$dbw = & CopixDbFactory::getDbWidget ();
-		//print_r($params);
+		$record = _record('stats|logs');
 		
-		//$parent_id = ($params['parent_id']) ? "'".$params['parent_id']."'" : "NULL";
-		
-		$values = array (
-			'date' => "'".date('Y-m-d H:i:s')."'",
-			'profil' => "'".$params['profil']."'",
-			'module_type' => "'".$params['module_type']."'",
-			'module_id' => $params['module_id'],
-			'action' => "'".$params['action']."'",
-		);
-		
+		$record->date = date('Y-m-d H:i:s');
+		//$record->date = CopixDateTime::timeStampToyyyymmddhhiiss(mktime());
+		$record->profil = $params['profil'];
+		$record->module_type = $params['module_type'];
+		$record->module_id = $params['module_id'];
+		$record->action = $params['action'];
+
 		if ($params['parent_type'])
-			$values['parent_type'] = "'".$params['parent_type']."'";
+			$record->parent_type = $params['parent_type'];
 		if ($params['parent_id'])
-			$values['parent_id'] = $params['parent_id'];
+			$record->parent_id = $params['parent_id'];
 		if ($params['objet_a'])
-			$values['objet_a'] = $params['objet_a'];
+			$record->objet_a = $params['objet_a'];
 		if ($params['objet_b'])
-			$values['objet_b'] = $params['objet_b'];
-		//print_r($values);
+			$record->objet_b = $params['objet_b'];
 		
-    $dbw->doInsert ('module_stats_logs', $values);
-		//Kernel::deb ('doInsert');
+		_ioDao('stats|logs')->insert($record);
+
   }
 }
 

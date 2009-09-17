@@ -77,7 +77,7 @@ class Prefs {
 			if( $pref = $dao->get( $bu['user_id'], $module, $data_key ) ) {
 				$dao->delete( $bu['user_id'], $module, $data_key );
 			}
-			$pref = & _daoRecord ('prefs|prefs');
+			$pref = _record ('prefs|prefs');
 			$pref->prefs_user = $bu['user_id'];
 			$pref->prefs_module = $module;
 			$pref->prefs_code = $data_key;
@@ -112,7 +112,7 @@ class Prefs {
 		if( $pref = $dao->get( $user, $module, $code ) ) {
 			$dao->delete( $user, $module, $code );
 		}
-		$pref = & _daoRecord ('prefs|prefs');
+		$pref = _record ('prefs|prefs');
 		$pref->prefs_user = $user;
 		$pref->prefs_module = $module;
 		$pref->prefs_code = $code;

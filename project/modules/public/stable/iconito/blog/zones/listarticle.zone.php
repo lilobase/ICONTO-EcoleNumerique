@@ -40,9 +40,9 @@ class ZoneListArticle extends CopixZone {
 	  //on construit un tableau associatif entre l'identifiant de l'article et le nombre de commentaires	  
 	  foreach((array)$arData as $article){
 		$daoArticleComment = & CopixDAOFactory::getInstanceOf ('blog|blogarticlecomment');
-		$record   = & _daoRecord ('blog|blogarticlecomment');
+		$record   = _record ('blog|blogarticlecomment');
 	
-		$criteres = _daoSearchConditions();
+		$criteres = _daoSp();
 		$criteres->addCondition('id_bact', '=', $article->id_bact);	
 		$criteres->addCondition('is_online', '=', 1);	
 		$resultat = $daoArticleComment->findBy($criteres);

@@ -19,7 +19,7 @@ class ActionGroupProfil extends CopixActionGroup {
    function getProfil() {
       $tpl = & new CopixTpl();
 
-      $plugAuth = & CopixCoordination::getPlugin ('auth|auth');
+      $plugAuth = CopixPluginRegistry::get ("auth|auth");
 
       $tpl->assignTpl ('MAIN', 'profil.tpl', array('user'=> $plugAuth->getUser()));
       $tpl->assign ('TITLE_PAGE', CopixI18N::get ('auth|auth.strings.profilutilisateur'));
@@ -37,7 +37,7 @@ class ActionGroupProfil extends CopixActionGroup {
    function getModifUserForm($err_msg = '') {
       $tpl = & new CopixTpl();
 
-      $plugAuth = & CopixCoordination::getPlugin ('auth|auth');
+      $plugAuth = CopixPluginRegistry::get ("auth|auth");
 
       $param = array();
       if (! empty($err_msg)){
@@ -60,7 +60,7 @@ class ActionGroupProfil extends CopixActionGroup {
 
    function doModifUser()
    {
-      $plugAuth = & CopixCoordination::getPlugin ('auth|auth');
+      $plugAuth = CopixPluginRegistry::get ("auth|auth");
       $user = & $plugAuth->getUser();
 
       // Vérification que les informations sont valides
@@ -98,7 +98,7 @@ class ActionGroupProfil extends CopixActionGroup {
    */
    function _mailActiveKey()
    {
-      $plugAuth = & CopixCoordination::getPlugin ('auth|auth');
+      $plugAuth = CopixPluginRegistry::get ("auth|auth");
       // test si cette action est activé dans le fichier de configuration
       if ($plugAuth->config->allowCreateNew === false) {
          return true;
@@ -121,7 +121,7 @@ class ActionGroupProfil extends CopixActionGroup {
    function _getEndModifUser()
    {
       $tpl = & new CopixTpl();
-      $plugAuth = & CopixCoordination::getPlugin ('auth|auth');
+      $plugAuth = CopixPluginRegistry::get ("auth|auth");
 
       $tpl->assignTpl ('MAIN', 'endModifUser.tpl',array('user'=> $plugAuth->getUser()));
       $tpl->assign ('TITLE_PAGE', 'Indentification');

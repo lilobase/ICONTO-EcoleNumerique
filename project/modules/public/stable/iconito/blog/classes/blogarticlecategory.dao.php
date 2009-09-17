@@ -15,7 +15,7 @@ class DAOBlogarticlecategory {
       $sp = _daoSp ();
       $sp->addCondition ('url_bacg', '=', $url_bacg);
 
-      if (count($arCat = $this->_compiled->findBy ($sp)) > 0)  {
+      if (count($arCat = $this->findBy ($sp)) > 0)  {
          return $arCat[0];
       }else{
          return false;
@@ -135,34 +135,34 @@ class DAOBlogarticlecategory {
     * Get all categories from a blog
     */
     function getAllCategoriesFromBlog ($id_blog) {
-      $sp = & _daoSearchConditions ();
+      $sp = _daoSp ();
       $sp->addCondition ('id_blog', '=', $id_blog);
-      $sp->addItemOrder ('order_bacg', 'ASC');
+      $sp->orderBy ('order_bacg');
 
-      return $this->_compiled->findBy ($sp);
+      return $this->findBy ($sp);
     }
 }
 
 class DAORecordblogarticlecategory {
-		function check (){
-			$result = $this->_compiled->_compiled_check ();
+		function check ($record){
+			$result = $this->_compiled_check ($record);
 
 			if ($result === true){
 				$result = array ();
 			}
 
-			if( (!empty($this->_compiled->url_bacg)) && (!empty($this->_compiled->id_blog))) {
-				if(empty($this->_compiled->id_bacg)) {
+			if( (!empty($record->url_bacg)) && (!empty($record->id_blog))) {
+				if(empty($record->id_bacg)) {
 					// Création 
 					$sqlRequest = 'SELECT id_bacg FROM module_blog_articlecategory WHERE '.
-														' id_blog=' . $this->_compiled->id_blog.
-														' AND url_bacg=\'' . $this->_compiled->url_bacg.'\'';
+														' id_blog=' . $record->id_blog.
+														' AND url_bacg=\'' . $record->url_bacg.'\'';
 				} else {
 					// Edition
 					$sqlRequest = 'SELECT id_bacg FROM module_blog_articlecategory WHERE '.
-														' id_blog=' . $this->_compiled->id_blog.
-														' AND id_bacg!=' . $this->_compiled->id_bacg.
-														' AND url_bacg=\'' . $this->_compiled->url_bacg.'\'';
+														' id_blog=' . $record->id_blog.
+														' AND id_bacg!=' . $record->id_bacg.
+														' AND url_bacg=\'' . $record->url_bacg.'\'';
 				}
 				// Vérification de l'unicité de l'url
       	$DBresult = _doQuery($sqlRequest);

@@ -147,9 +147,9 @@ class KernelBlog {
 		
 		//suppression des pages liées au blog
 		$daoPage = & CopixDAOFactory::getInstanceOf ('blog|blogpage');
-		$record  = & _daoRecord ('blog|blogpage');
+		$record  = _record ('blog|blogpage');
 	
-		$criteres = _daoSearchConditions();
+		$criteres = _daoSp();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoPage->findBy($criteres);
 		$daoPage = & _dao ('blog|blogpage');
@@ -159,9 +159,9 @@ class KernelBlog {
 		
 		//suppression des liens liés au blog
 		$daoLien = & CopixDAOFactory::getInstanceOf ('blog|bloglink');
-		$record  = & _daoRecord ('blog|bloglink');
+		$record  = _record ('blog|bloglink');
 	
-		$criteres = _daoSearchConditions();
+		$criteres = _daoSp();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoLien->findBy($criteres);
 		
@@ -171,9 +171,9 @@ class KernelBlog {
 
 		//suppression des catégories du blog
 		$daoCategorie = & CopixDAOFactory::getInstanceOf ('blog|blogarticlecategory');
-		$record  = & _daoRecord ('blog|blogarticlecategory');
+		$record  = _record ('blog|blogarticlecategory');
 	
-		$criteres = _daoSearchConditions();
+		$criteres = _daoSp();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoCategorie->findBy($criteres);
 		
@@ -184,9 +184,9 @@ class KernelBlog {
 		//suppression des articles, des commentaires et des liens catégories / articles
 		$arIdBact = array();	
 		$daoArticle = & CopixDAOFactory::getInstanceOf ('blog|blogarticle');
-		$record     = & _daoRecord ('blog|blogarticle');
+		$record     = _record ('blog|blogarticle');
 	
-		$criteres = _daoSearchConditions();
+		$criteres = _daoSp();
 		$criteres->addCondition('id_blog', '=', $id_blog);	
 		$resultat = $daoArticle->findBy($criteres);
 		

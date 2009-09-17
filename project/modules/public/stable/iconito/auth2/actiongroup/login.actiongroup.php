@@ -25,7 +25,7 @@ class ActionGroupLogin extends CopixActionGroup {
     * @return Object CopixActionReturn
     */
     function doLogin (){
-        $plugAuth = & CopixCoordination::getPlugin ('auth|auth');
+        $plugAuth = CopixPluginRegistry::get ("auth|auth");
         
         $_SESSION['user']->_isIdentified = 0;
         
@@ -90,7 +90,7 @@ class ActionGroupLogin extends CopixActionGroup {
     * @return Object CopixActionReturn
     */
     function doLogout (){
-        $plugAuth = & CopixCoordination::getPlugin ('auth|auth');
+        $plugAuth = CopixPluginRegistry::get ("auth|auth");
         $user     = & $plugAuth->getUser();
         $user->logout ();
 				

@@ -27,13 +27,13 @@ class DAOBlogArticle {
     * @return
     */
     function getAllArchivesFromBlog ($id_blog) {
-      $sp = & _daoSearchConditions ();
+      $sp = _daoSp();
       $sp->addCondition ('id_blog', '=', $id_blog);
       $sp->addCondition ('is_online', '=', 1);
-      $sp->addItemOrder ('date_bact', 'desc');
-      $sp->addItemOrder ('id_bact', 'desc');
+      $sp->orderBy (array('date_bact', 'desc'));
+      $sp->orderBy (array('id_bact', 'desc'));
 
-      $result = $this->_compiled->findBy ($sp);
+      $result = $this->findBy ($sp);
 
       $arArchive = array();
       $lastMonth = null;
@@ -58,8 +58,8 @@ class DAOBlogArticle {
 		$sp->addCondition ('url_bact', '=', urlencode($url_bact));
 		$sp->addCondition ('id_blog' , '=', $id_blog);
 		$sp->addCondition ('is_online', '=', 1);
-		//if (count($arArticle = $this->_compiled->findBy ($sp)) > 0)  {
-		if ( $arArticle = $this->_compiled->findBy ($sp) )  {
+
+		if ( $arArticle = $this->findBy ($sp) )  {
 
 			//on récupère les catégories liées
 			$dao     = _dao('blog|blogarticlecategory');
@@ -90,8 +90,7 @@ class DAOBlogArticle {
 		$sp->addCondition ('id_bact', '=', $id_bact);
 		$sp->addCondition ('id_blog' , '=', $id_blog);
 		$sp->addCondition ('is_online', '=', 1);
-		//if (count($arArticle = $this->_compiled->findBy ($sp)) > 0)  {
-		if ( $arArticle = $this->_compiled->findBy ($sp) )  {
+		if ( $arArticle = $this->findBy ($sp) )  {
 
 			//on récupère les catégories liées
 			$dao     = _dao('blog|blogarticlecategory');
@@ -169,15 +168,15 @@ class DAOBlogArticle {
 			return array();
 		}
 
-		$sp = & _daoSearchConditions ();
+		$sp = _daoSp ();
 		$sp->addCondition ('id_blog', '=', $id_blog);
 		$sp->addCondition ('id_bact', '=', $arID);
 		$sp->addCondition ('is_online', '=', 1);
-		$sp->addItemOrder ('date_bact', 'desc');
-		$sp->addItemOrder ('time_bact', 'desc');
-		$sp->addItemOrder ('id_bact', 'desc');
+		$sp->orderBy (array('date_bact', 'desc'));
+		$sp->orderBy (array('time_bact', 'desc'));
+		$sp->orderBy (array('id_bact', 'desc'));
 
-		$arArticle = $this->_compiled->findBy ($sp);
+		$arArticle = $this->findBy ($sp);
 
 		//on récupère les catégories liées
 		$dao     = _dao('blog|blogarticlecategory');
@@ -223,7 +222,7 @@ class DAOBlogArticle {
 	        }
 				*/
 
-			$arArticle = $this->_compiled->findByCritere ($id_blog, '%'.$word.'%');
+			$arArticle = $this->findByCritere ($id_blog, '%'.$word.'%');
 			
 			foreach ($arArticle as $key=>$article){
 				//var_dump($article->id_bact);
@@ -350,25 +349,25 @@ class DAOBlogArticle {
 }
 
 class DAORecordblogarticle {
-	function check (){
-		$result = $this->_compiled->_compiled_check ();
+	function check ($record){
+		$result = $this->_compiled_check ($record);
 
 		if ($result === true){
 			$result = array ();
 		}
 
-		if( (!empty($this->_compiled->url_bact)) && (!empty($this->_compiled->id_blog))) {
-			if(empty($this->_compiled->id_bact)) {
+		if( (!empty($record->url_bact)) && (!empty($record->id_blog))) {
+			if(empty($record->id_bact)) {
 				// Création
 				$sqlRequest = 'SELECT id_bact FROM module_blog_article WHERE '.
-				' id_blog=' . $this->_compiled->id_blog.
-				' AND url_bact=\'' . $this->_compiled->url_bact.'\'';
+				' id_blog=' . $record->id_blog.
+				' AND url_bact=\'' . $record->url_bact.'\'';
 			} else {
 				// Edition
 				$sqlRequest = 'SELECT id_bact FROM module_blog_article WHERE '.
-				' id_blog=' . $this->_compiled->id_blog.
-				' AND id_bact!=' . $this->_compiled->id_bact.
-				' AND url_bact=\'' . $this->_compiled->url_bact.'\'';
+				' id_blog=' . $record->id_blog.
+				' AND id_bact!=' . $record->id_bact.
+				' AND url_bact=\'' . $record->url_bact.'\'';
 			}
 			// Vérification de l'unicité de l'url
 			$DBresult = _doQuery($sqlRequest);

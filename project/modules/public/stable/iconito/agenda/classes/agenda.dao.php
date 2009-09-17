@@ -14,15 +14,6 @@ class DAOAgenda {
 	* @since 2006/08/24
     */
 	function findAgendasInIds ($ids) {
-    /* Ne marche plus en PHP5
-		$sp = & _daoSearchConditions ();
-		$sp->startGroup ('OR');
-		foreach ($ids as $id) {
-			$sp->addCondition ('id_agenda', '=', $id);
-		}
-		$sp->endGroup ();
-		return $this->_compiled->findBy ($sp);
-    */
 		$critere = 'SELECT AG.* FROM module_agenda_agenda AG WHERE AG.id_agenda IN ('.implode(', ',$ids).')';
 		return _doQuery($critere);
 	}

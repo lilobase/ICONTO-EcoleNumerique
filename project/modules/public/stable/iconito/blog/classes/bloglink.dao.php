@@ -100,10 +100,10 @@ class DAOBlogLink {
     * Get all links from a blog
     */
     function getAllLinksFromBlog ($id_blog) {
-      $sp = & _daoSearchConditions ();
+      $sp = _daoSp ();
       $sp->addCondition ('id_blog', '=', $id_blog);
-      $sp->addItemOrder ('order_blnk', 'ASC');
-      return $this->_compiled->findBy ($sp);
+      $sp->orderBy ('order_blnk');
+      return $this->findBy ($sp);
     }
 }
 

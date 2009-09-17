@@ -102,11 +102,11 @@ class DAOBlogFluxRss {
     * Get all links from a blog
     */
     function getAllFluxRssFromBlog ($id_blog) {
-      $sp = & _daoSearchConditions ();
+      $sp = _daoSp ();
       $sp->addCondition ('id_blog', '=', $id_blog);
-      $sp->addItemOrder ('order_bfrs', 'ASC');
+      $sp->orderBy ('order_bfrs');
 
-      return $this->_compiled->findBy ($sp);
+      return $this->findBy ($sp);
     }
 	
 	
@@ -117,7 +117,7 @@ class DAOBlogFluxRss {
 		$sp = _daoSp ();
 		$sp->addCondition ('id_bfrs', '=', $id_bfrs);
 		
-		if (count($arFlux = $this->_compiled->findBy ($sp)) > 0)  {
+		if (count($arFlux = $this->findBy ($sp)) > 0)  {
 			return $arFlux[0];
 		}else{
 			return false;

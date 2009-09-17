@@ -66,7 +66,7 @@ class ZoneShowArticle extends CopixZone {
 			$tpl->assign ('showErrors', $this->getParam('showErrors',false));
  			$tpl->assign ('canComment', BlogAuth::canComment($blog->id_blog));
 
-			$plugStats = & CopixCoordination::getPlugin ('stats');
+			$plugStats = CopixPluginRegistry::get ("stats|stats");
 			$plugStats->setParams(array('objet_a'=>$article->id_bact));
 
       // retour de la fonction :

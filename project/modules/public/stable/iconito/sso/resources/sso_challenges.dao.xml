@@ -1,7 +1,6 @@
 <?xml version="1.0"   encoding="ISO-8859-1" ?>
 <daodefinition version="1">
     <datasource>
-       <connection name="Select" />
        <tables>
           <table name="sso_challenges" tablename="kernel_sso_challenges" primary="yes" />
        </tables>

@@ -25,7 +25,7 @@ class KernelAgenda {
 		
 		$res = null;
 		
-		$agenda = & _daoRecord ('agenda|agenda');	
+		$agenda = _record ('agenda|agenda');	
 		if ($infos['title'])
 			$agenda->title_agenda = $infos['title'];
 		else

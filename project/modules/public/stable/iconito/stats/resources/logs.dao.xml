@@ -1,7 +1,6 @@
 <?xml version="1.0"   encoding="ISO-8859-1" ?>
 <daodefinition version="1">
     <datasource>
-       <connection name="Select" />
        <tables>
           <table name="logs" tablename="module_stats_logs" primary="yes" />
        </tables>
@@ -24,7 +23,7 @@
     	<property name="date"
 	            fieldName="date"
 	            captioni18n="dao.logs.fields.date"
-	            type="date"
+	            type="string"
 	            />
 	     <property name="module_type"
 	            fieldName="module_type"
