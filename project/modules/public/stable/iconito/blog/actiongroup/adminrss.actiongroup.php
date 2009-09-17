@@ -173,7 +173,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 
 	/**
     * Moves a category up
-    * @param $this->vars['id'] the article to moves up
+    * @param _request('id') the article to moves up
     */
 	function doRssUp (){
 		$id_bfrs = $this->getRequest('id_bfrs', null);
@@ -199,7 +199,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 
 	/**
     * Moves a category down
-    * @param $this->vars['id'] the article to moves down
+    * @param _request('id') the article to moves down
     */
 	function doRssDown (){
 		$id_bfrs = $this->getRequest('id_bfrs', null);

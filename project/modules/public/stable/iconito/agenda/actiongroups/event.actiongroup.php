@@ -28,7 +28,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	
 		//récupération de l'objet event en base de donnée
 		$daoSearchParams = & CopixDAOFactory::createSearchParams ();
-		$daoSearchParams->addCondition ('id_event', '=', $this->vars['id_event']);
+		$daoSearchParams->addCondition ('id_event', '=', _request('id_event'));
 		
 		$daoEvent = & CopixDAOFactory::getInstanceOf ('Event');
 		$arEvent  = $daoEvent->findBy ($daoSearchParams);
@@ -191,8 +191,8 @@ class ActionGroupEvent extends CopixActionGroup {
 		$serviceAuth   = new AgendaAuth;
 		
 		//initialisation des cases à cocher
-		if (!isset($this->vars['repeat']))$this->vars['repeat'] = 0;
-		if (!isset($this->vars['alldaylong_event']))$this->vars['alldaylong_event'] = 0;
+		if (!isset(_request('repeat')))_request('repeat') = 0;
+		if (!isset(_request('alldaylong_event')))_request('alldaylong_event') = 0;
 
 		if (!$toValid = $this->_getSessionEvent()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -305,14 +305,14 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 		$serviceAuth   = new AgendaAuth;
 			
-		if (!isset ($this->vars['id_event'])){
+		if (!isset (_request('id_event'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
 						'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}
 		
 		$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
-		if (!$toDelete = $daoEvent->get ($this->vars['id_event'])){
+		if (!$toDelete = $daoEvent->get (_request('id_event'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.unableToFind'),
 						'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
@@ -328,7 +328,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 
 		//Confirmation screen ?
-		if (!isset ($this->vars['confirm'])){
+		if (!isset (_request('confirm'))){
 			return CopixActionGroup::process ('genericTools|Messages::getConfirm',
 				array ('title'=>CopixI18N::get ('agenda.title.confirmdelevent'),
 						'message'=>CopixI18N::get ('agenda.message.confirmdelevent'),
@@ -520,26 +520,26 @@ class ActionGroupEvent extends CopixActionGroup {
 		}
 		
 		//cas particulier de l'heure
-		if (isset ($this->vars['heuredeb_event'])){
+		if (isset (_request('heuredeb_event'))){
 			//cas de l'heure saisie sur 4 caractère (9:00 au lieu de 09:00)
-			if (strlen($this->vars['heuredeb_event']) == 4) {
-				$toUpdate->heuredeb_event = '0'.$this->vars['heuredeb_event'];
+			if (strlen(_request('heuredeb_event')) == 4) {
+				$toUpdate->heuredeb_event = '0'._request('heuredeb_event');
 			}else{
-				$toUpdate->heuredeb_event = $this->vars['heuredeb_event'];
+				$toUpdate->heuredeb_event = _request('heuredeb_event');
 			}
 		}
-		if (isset ($this->vars['heurefin_event'])){
+		if (isset (_request('heurefin_event'))){
 			//cas de l'heure saisie sur 4 caractère (9:00 au lieu de 09:00)
-			if (strlen($this->vars['heurefin_event']) == 4) {
-				$toUpdate->heurefin_event = '0'.$this->vars['heurefin_event'];
+			if (strlen(_request('heurefin_event')) == 4) {
+				$toUpdate->heurefin_event = '0'._request('heurefin_event');
 			}else{
-				$toUpdate->heurefin_event = $this->vars['heurefin_event'];
+				$toUpdate->heurefin_event = _request('heurefin_event');
 			}
 		}
 		
 		/*
-		if (isset ($this->vars['datedeb_event'])){
-			$req = $this->vars['datedeb_event'];
+		if (isset (_request('datedeb_event'))){
+			$req = _request('datedeb_event');
 			$req2 = CopixDateTime::dateToTimestamp ($req);
 			//Kernel::deb("req=$req / req2=$req2");
 			$toUpdate->heurefin_event = $req2;

@@ -1172,11 +1172,11 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		}
 
 		umask( 0 );
-		$tmpFolder = tempnam ('XXXXX','PclZip_'.$this->vars['album_id'].'_');
+		$tmpFolder = tempnam ('XXXXX','PclZip_'._request('album_id').'_');
 		unlink( $tmpFolder ); mkdir( $tmpFolder );
 		
 		$album_dao = CopixDAOFactory::create("album");
-		$album = $album_dao->get($this->vars['album_id']);
+		$album = $album_dao->get(_request('album_id'));
 		$path2data = realpath("static");
 		$path2album = $path2data."/album/".$album->album_id."_".$album->album_cle;
 
@@ -1377,19 +1377,19 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 
 	function doEditPhotos() {
 		$photo_dao = CopixDAOFactory::create("photo");
-		$pictures = $photo_dao->findAllByAlbumAndFolder($this->vars['album'],$this->vars['dossier']);
+		$pictures = $photo_dao->findAllByAlbumAndFolder(_request('album'),_request('dossier'));
 		
 		if( count($pictures) ) {
 			foreach( $pictures as $picture ) {
 				if( $this->vars['photo_'.$picture->photo_id] ) {
 					$picture_modif = $photo_dao->get($picture->photo_id);
-					$picture_modif->photo_dossier = $this->vars['folder_move'];
+					$picture_modif->photo_dossier = _request('folder_move');
 					$photo_dao->update( $picture_modif );
 				}
 			}
 		}
 		return new CopixActionReturn (COPIX_AR_REDIRECT,
-			CopixUrl::get ('album|default|album', array('album_id'=>$this->vars['album'],'dossier_id'=>$this->vars['dossier']) ));
+			CopixUrl::get ('album|default|album', array('album_id'=>_request('album'),'dossier_id'=>_request('dossier')) ));
 	}
 	
 }

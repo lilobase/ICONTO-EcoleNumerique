@@ -180,7 +180,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 
 	/**
     * Moves a category up
-    * @param $this->vars['id'] the article to moves up
+    * @param _request('id') the article to moves up
     */
 	function doCategoryUp (){
 		$id_bacg = $this->getRequest('id_bacg', null);
@@ -206,7 +206,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 
 	/**
     * Moves a category down
-    * @param $this->vars['id'] the article to moves down
+    * @param _request('id') the article to moves down
     */
 	function doCategoryDown (){
 		$id_bacg = $this->getRequest('id_bacg', null);

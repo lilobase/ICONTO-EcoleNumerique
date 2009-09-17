@@ -278,8 +278,8 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$type = isset($this->vars['type']) ? $this->vars['type'] : NULL;
-		$id = isset($this->vars['id']) ? $this->vars['id'] : NULL;
+		$type = isset(_request('type')) ? _request('type') : NULL;
+		$id = isset(_request('id')) ? _request('id') : NULL;
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('zone', CopixZone::process ('annuaire|getUserProfil', array('type'=>$type, 'id'=>$id)));
@@ -305,13 +305,13 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$grville = isset($this->vars['grville']) ? $this->vars['grville'] : NULL;
-		$ville = isset($this->vars['ville']) ? $this->vars['ville'] : NULL;
-		$ecole = isset($this->vars['ecole']) ? $this->vars['ecole'] : NULL;
-		$classe = isset($this->vars['classe']) ? $this->vars['classe'] : NULL;
-		$field = isset($this->vars['field']) ? $this->vars['field'] : '';
-		//$profils = isset($this->vars['profils']) ? $this->vars['profils'] : array('ELE'=>1);
-		$profils = isset($this->vars['profils']) ? $this->vars['profils'] : array();
+		$grville = isset(_request('grville')) ? _request('grville') : NULL;
+		$ville = isset(_request('ville')) ? _request('ville') : NULL;
+		$ecole = isset(_request('ecole')) ? _request('ecole') : NULL;
+		$classe = isset(_request('classe')) ? _request('classe') : NULL;
+		$field = isset(_request('field')) ? _request('field') : '';
+		//$profils = isset(_request('profils')) ? _request('profils') : array('ELE'=>1);
+		$profils = isset(_request('profils')) ? _request('profils') : array();
 		$profil = $this->getRequest ('profil'); // Si on force sur un profil unique a afficher
 		
 		

@@ -200,7 +200,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( isset($petitpoucet) ) $tplGetNode->assign ('PETITPOUCET', Kernel::PetitPoucet($petitpoucet," &raquo; ") );
 		$tplGetNode->assign ('NAVIGATION', CopixZone::process ('comptes|navigation'));
 		
-		if( $droit>=70 ) $tplGetNode->assign ('MAIN', CopixZone::process ('comptes|userlist', array('childs'=>$childs,'type'=>$this->vars['type'],'id'=>$this->vars['id'])) );
+		if( $droit>=70 ) $tplGetNode->assign ('MAIN', CopixZone::process ('comptes|userlist', array('childs'=>$childs,'type'=>_request('type'),'id'=>_request('id'))) );
 		else             $tplGetNode->assign ('MAIN', CopixI18N::get ('comptes.error.badrights') );
 		
 		$result = $tplGetNode->fetch("getNode.tpl");
@@ -237,17 +237,17 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getloginform'));
 		
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_listes'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>$this->vars['type'],'id'=>$this->vars['id'])) );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_listes'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
 		$tpl->assign ('MENU', $menu );
 		
-		if( !isset($this->vars['users']) ) {
-			$urlReturn = CopixUrl::get ('comptes||getNode', array('type'=>$this->vars['type'], 'id'=>$this->vars['id'] ) );
+		if( !isset(_request('users')) ) {
+			$urlReturn = CopixUrl::get ('comptes||getNode', array('type'=>_request('type'), 'id'=>_request('id') ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		
 		$users = array();
 		
-		foreach( $this->vars['users'] AS $user ) {
+		foreach( _request('users') AS $user ) {
 			if( ereg( '(.+)-(.+)', $user, $user_infos ) ) {
 				$user_type = $user_infos[1];
 				$user_id   = $user_infos[2];
@@ -271,7 +271,7 @@ class ActionGroupComptes extends CopixActionGroup {
 			$users[$user_key]['type_nom'] = Kernel::Code2Name($user_val['type']);
 		}
 		
-		$tpl->assign ('MAIN', CopixZone::process ('comptes|loginform', array('users'=>$users,'type'=>$this->vars['type'],'id'=>$this->vars['id'])) );
+		$tpl->assign ('MAIN', CopixZone::process ('comptes|loginform', array('users'=>$users,'type'=>_request('type'),'id'=>_request('id'))) );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -291,15 +291,15 @@ class ActionGroupComptes extends CopixActionGroup {
 		$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 		
 		// Parcours de tous les utilisateurs de la liste précédente...
-		foreach( $this->vars['typeid'] AS $typeid ) {
+		foreach( _request('typeid') AS $typeid ) {
 			// Si l'utilisateur est sélectionné, on crée le compte. Sinon, on ne fait rien.
-			if( $this->vars['confirm'][$typeid] == 1 ) {
+			if( _request('confirm')[$typeid] == 1 ) {
 				// Vérification du format de type "USER_ENS-23", et extraction des valeurs.
 				if( ereg( '(.+)-(.+)', $typeid, $bu_infos ) ) {
 					$user_type = $bu_infos[1];
 					$user_id   = $bu_infos[2];
 					
-					$olduser=$user_service->get($this->vars['login'][$typeid]);
+					$olduser=$user_service->get(_request('login')[$typeid]);
 					
 					// Test de préexistance du login dans la base. Si existe déjà : erreur.
 					if( ! $olduser ) {
@@ -309,8 +309,8 @@ class ActionGroupComptes extends CopixActionGroup {
 						
 						// Création d'un login dans CopixUser
 						$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
-						$user_new->login_cusr = $this->vars['login'][$typeid];
-						$user_new->password_cusr = md5($this->vars['passwd'][$typeid]);
+						$user_new->login_cusr = _request('login')[$typeid];
+						$user_new->password_cusr = md5(_request('passwd')[$typeid]);
 						$user_new->email_cusr = '';
 						
 						// Enregistrement et vérification de l'insertion.
@@ -325,29 +325,29 @@ class ActionGroupComptes extends CopixActionGroup {
 							// Enregistrement et vérification de l'insertion.
 							if( $bu_dao->insert( $bu_new ) ) {
 								
-								$node_infos = Kernel::getNodeInfo( $this->vars['type'], $this->vars['id'], false );
+								$node_infos = Kernel::getNodeInfo( _request('type'), _request('id'), false );
 								
 								// Garder en mémoire les comptes créés pour impression des passwords
 								$_SESSION["modules"]["comptes"]["doLoginCreate"]["success"][$typeid] = array(
 									'id'      => $user_new->id_cusr,
-									'login'   => $this->vars['login'][$typeid],
-									'passwd'  => $this->vars['passwd'][$typeid],
+									'login'   => _request('login')[$typeid],
+									'passwd'  => _request('passwd')[$typeid],
 									'nom'     => $user_infos['nom'],
 									'prenom'  => $user_infos['prenom'],
 									'bu_type' => $user_type,
 									'bu_id'   => $user_id,
-									'node_type' => $this->vars['type'],
-									'node_id'   => $this->vars['id'],
+									'node_type' => _request('type'),
+									'node_id'   => _request('id'),
 									'type_nom'  => Kernel::Code2Name($user_type),
-									'node_nom' => Kernel::Code2Name($this->vars['type'])." ".$node_infos['nom'],
+									'node_nom' => Kernel::Code2Name(_request('type'))." ".$node_infos['nom'],
 								);
 								
 							} else { // Si le lien entre la BU et le login ne fonctionne pas...
 								
 								// Garder en mémoire les echecs pour proposer une nouvelle insertion
 								$_SESSION["modules"]["comptes"]["doLoginCreate"]["error"][$typeid] = array(
-									'login'   => $this->vars['login'][$typeid],
-									'passwd'  => $this->vars['passwd'][$typeid],
+									'login'   => _request('login')[$typeid],
+									'passwd'  => _request('passwd')[$typeid],
 									'nom'     => $user_infos['nom'],
 									'prenom'  => $user_infos['prenom'],
 									'bu_type' => $user_type,
@@ -362,8 +362,8 @@ class ActionGroupComptes extends CopixActionGroup {
 							
 							// Garder en mémoire les echecs pour proposer une nouvelle insertion
 							$_SESSION["modules"]["comptes"]["doLoginCreate"]["error"][$typeid] = array(
-								'login'   => $this->vars['login'][$typeid],
-								'passwd'  => $this->vars['passwd'][$typeid],
+								'login'   => _request('login')[$typeid],
+								'passwd'  => _request('passwd')[$typeid],
 								'nom'     => $user_infos['nom'],
 								'prenom'  => $user_infos['prenom'],
 								'bu_type' => $user_type,
@@ -377,12 +377,12 @@ class ActionGroupComptes extends CopixActionGroup {
 						// Si c'est le cas, ce n'est pas une erreur, mais un doublon.
 						
 						$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
-						$bu_user = $bu_dao->getByLogin($this->vars['login'][$typeid]);
+						$bu_user = $bu_dao->getByLogin(_request('login')[$typeid]);
 						if( $bu_user[0]->bu_type!=$user_type || $bu_user[0]->bu_id!=$user_id ) {
 							// Garder en mémoire les echecs pour proposer une nouvelle insertion
 							$_SESSION["modules"]["comptes"]["doLoginCreate"]["error"][$typeid] = array(
-								'login'   => $this->vars['login'][$typeid],
-								'passwd'  => $this->vars['passwd'][$typeid],
+								'login'   => _request('login')[$typeid],
+								'passwd'  => _request('passwd')[$typeid],
 								'nom'     => $user_infos['nom'],
 								'prenom'  => $user_infos['prenom'],
 								'bu_type' => $user_type,
@@ -395,7 +395,7 @@ class ActionGroupComptes extends CopixActionGroup {
 			}
 		}
 		
-		$urlReturn = CopixUrl::get ('comptes||getLoginResult', array('type'=>$this->vars['type'],'id'=>$this->vars['id']) );
+		$urlReturn = CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id')) );
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 	}
 
@@ -417,21 +417,21 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getloginresult'));
 		$menu=array();
 		
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_html'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>$this->vars['type'],'id'=>$this->vars['id'],'format'=>'html')) );
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_txt'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>$this->vars['type'],'id'=>$this->vars['id'],'format'=>'text')) );
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_cvs'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>$this->vars['type'],'id'=>$this->vars['id'],'format'=>'csv')) );
-		 $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_xml'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>$this->vars['type'],'id'=>$this->vars['id'],'format'=>'xml')) );
-		// $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_pdf'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>$this->vars['type'],'id'=>$this->vars['id'],'format'=>'pdf')) );
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_purge'), 'url' => CopixUrl::get ('comptes||getPurgeResult', array('type'=>$this->vars['type'],'id'=>$this->vars['id'])), 'color'=>'red' );
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_return'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>$this->vars['type'],'id'=>$this->vars['id'])) );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_html'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'html')) );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_txt'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'text')) );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_cvs'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'csv')) );
+		 $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_xml'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'xml')) );
+		// $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_pdf'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'pdf')) );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_purge'), 'url' => CopixUrl::get ('comptes||getPurgeResult', array('type'=>_request('type'),'id'=>_request('id'))), 'color'=>'red' );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_return'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
 		$tpl->assign ('MENU', $menu );
 		
 		$logins = $_SESSION['modules']['comptes']['doLoginCreate']['success'];
 		
-		if( !isset($this->vars['format']) || trim($this->vars['format'])=='' ) {
+		if( !isset(_request('format')) || trim(_request('format'))=='' ) {
 			$format = "default";
 		} else {
-			$format = $this->vars['format'];
+			$format = _request('format');
 		}
 		
 		$tplLoginResult->assign ('logins', $logins );
@@ -489,7 +489,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getpurgeresult'));
 		
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_listes'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>$this->vars['type'],'id'=>$this->vars['id'])) );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_listes'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
 		$tpl->assign ('MENU', $menu );
 		
 		$tplPurgeResult = & new CopixTpl ();
@@ -507,7 +507,7 @@ class ActionGroupComptes extends CopixActionGroup {
 	 * @author	Frédéric Mossmann
 	 */
 	function doPurgeResult() {
-		foreach( $this->vars['users'] AS $typeid ) {
+		foreach( _request('users') AS $typeid ) {
 			if( array_key_exists( $typeid, $_SESSION['modules']['comptes']['doLoginCreate']['success'] ) )
 				unset( $_SESSION['modules']['comptes']['doLoginCreate']['success'][$typeid] );
 		}
@@ -633,19 +633,19 @@ class ActionGroupComptes extends CopixActionGroup {
 
 	function getUser() {
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
-		$userinfo = $comptes_service->checkLoginAccess( $this->vars['login'] );
+		$userinfo = $comptes_service->checkLoginAccess( _request('login') );
 		
 		$tpl = & new CopixTpl ();
 		$tplGetUser = & new CopixTpl ();
 
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.strings.modpasswd_user', array($this->vars['login'])) );
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.strings.modpasswd_user', array(_request('login'))) );
 
 
-		$nodeinfo['type'] = $this->vars['node_type'];
+		$nodeinfo['type'] = _request('node_type');
 		$nodeinfo['id'  ] = $this->vars['node_id'  ];
 		$tplGetUser->assign ('node', $nodeinfo );
 		$tplGetUser->assign ('user', $userinfo );
-		$tplGetUser->assign ('error', $this->vars['error'] );
+		$tplGetUser->assign ('error', _request('error') );
 
 		
 		$result = $tplGetUser->fetch("getUser.tpl");
@@ -658,33 +658,33 @@ class ActionGroupComptes extends CopixActionGroup {
 	function setUserPasswd() {
 		if( Kernel::isDemo() ) return Kernel::noDemo();
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
-		$userinfo = $comptes_service->checkLoginAccess( $this->vars['login'] );
+		$userinfo = $comptes_service->checkLoginAccess( _request('login') );
 		
-		$passwd1 = trim($this->vars['passwd1']);
-		$passwd2 = trim($this->vars['passwd2']);
+		$passwd1 = trim(_request('passwd1'));
+		$passwd2 = trim(_request('passwd2'));
 		
 
 		if( $passwd1=='' || strlen($passwd1)<6 ) {
 			$urlReturn = CopixUrl::get ('comptes||getUser',
-				array('node_type'=>$this->vars['node_type'], 'node_id'=>$this->vars['node_id'], 'login'=>$this->vars['login'], 'error'=>'tooshortpassword' ) );
+				array('node_type'=>_request('node_type'), 'node_id'=>_request('node_id'), 'login'=>_request('login'), 'error'=>'tooshortpassword' ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		
 		if( $passwd2=='' || $passwd1!=$passwd2 ) {
 			$urlReturn = CopixUrl::get ('comptes||getUser',
-				array('node_type'=>$this->vars['node_type'], 'node_id'=>$this->vars['node_id'], 'login'=>$this->vars['login'], 'error'=>'notsamepassword' ) );
+				array('node_type'=>_request('node_type'), 'node_id'=>_request('node_id'), 'login'=>_request('login'), 'error'=>'notsamepassword' ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 
 		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
-		$user_new = $user_dao->getByLogin( $this->vars['login'] );
-		$user_new[0]->password_cusr = md5($this->vars['passwd1']);
+		$user_new = $user_dao->getByLogin( _request('login') );
+		$user_new[0]->password_cusr = md5(_request('passwd1'));
 		$user_dao->update( $user_new[0] );
 		
 
 		
 		$urlReturn = CopixUrl::get ('comptes||getNode',
-			array('type'=>$this->vars['node_type'], 'id'=>$this->vars['node_id']) );
+			array('type'=>_request('node_type'), 'id'=>_request('node_id')) );
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 	}
 	
@@ -748,24 +748,24 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
 
-		if( isset($this->vars['mode']) ) {
+		if( isset(_request('mode')) ) {
 			
-			$this->vars['nom']    = trim( $this->vars['nom'] );
-			$this->vars['prenom'] = trim( $this->vars['prenom'] );
-			$mode = $this->vars['mode'];
+			_request('nom')    = trim( _request('nom') );
+			_request('prenom') = trim( _request('prenom') );
+			$mode = _request('mode');
 			
-			switch( $this->vars['mode'] ) {
+			switch( _request('mode') ) {
 				
 				case 'MOD':
 					$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextmod'));
 					
-					$userext_item = $userext_dao->get( $this->vars['id'] );
-					// $userext_item->ext_id     = $this->vars['id'];
-					if( $this->vars['nom']=='' && $this->vars['prenom']=='' ) {
+					$userext_item = $userext_dao->get( _request('id') );
+					// $userext_item->ext_id     = _request('id');
+					if( _request('nom')=='' && _request('prenom')=='' ) {
 						$errors['ext_nom'] = CopixI18N::get ('comptes.alert.nameempty');
 					} else {
-						$userext_item->ext_nom    = $this->vars['nom'];
-						$userext_item->ext_prenom = $this->vars['prenom'];
+						$userext_item->ext_nom    = _request('nom');
+						$userext_item->ext_prenom = _request('prenom');
 						$userext_dao->update( $userext_item );
 						return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 					}
@@ -776,12 +776,12 @@ class ActionGroupComptes extends CopixActionGroup {
 					$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextadd'));
 					
 					$userext_item = CopixDAOFactory::createRecord("kernel|kernel_ext_user");
-					if( $this->vars['nom']=='' && $this->vars['prenom']=='' ) {
+					if( _request('nom')=='' && _request('prenom')=='' ) {
 						$errors['ext_nom'] = CopixI18N::get ('comptes.alert.nameempty');
 						$userext_item->ext_id = 0;
 					} else {
-						$userext_item->ext_nom         = $this->vars['nom'];
-						$userext_item->ext_prenom      = $this->vars['prenom'];
+						$userext_item->ext_nom         = _request('nom');
+						$userext_item->ext_prenom      = _request('prenom');
 						$userext_item->ext_description = '';
 						$userext_dao->insert( $userext_item );
 						return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
@@ -791,9 +791,9 @@ class ActionGroupComptes extends CopixActionGroup {
 
 				case 'DEL':
 					// die("Do Del");
-					$userext_item = $userext_dao->get( abs($this->vars['id']) );
+					$userext_item = $userext_dao->get( abs(_request('id')) );
 					if( $userext_item ) {
-						$userext_dao->delete( abs($this->vars['id']) );
+						$userext_dao->delete( abs(_request('id')) );
 					}
 					return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 					
@@ -801,16 +801,16 @@ class ActionGroupComptes extends CopixActionGroup {
 			}
 
 		} else {
-			if( $this->vars['id'] > 0 ) {
+			if( _request('id') > 0 ) {
 				$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextmod'));
 				
-				$userext_item = $userext_dao->get( $this->vars['id'] );
+				$userext_item = $userext_dao->get( _request('id') );
 				if( !$userext_item ) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 				$mode = 'MOD';
-			} elseif( $this->vars['id'] < 0 ) {
+			} elseif( _request('id') < 0 ) {
 				$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextdel'));
 				
-				$userext_item = $userext_dao->get( abs($this->vars['id']) );
+				$userext_item = $userext_dao->get( abs(_request('id')) );
 				if( !$userext_item ) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 				$mode = 'DEL';
 			} else {
@@ -829,7 +829,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				array (
 					'title'=>CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextdel'),
 					'message'=>CopixI18N::get ('comptes.alert.getuserextdel', trim($userext_item->ext_prenom.' '.$userext_item->ext_nom) ),
-					'confirm'=>CopixUrl::get ('comptes|default|getUserExtMod', array ('id'=>$this->vars['id'], 'mode'=>'DEL')),
+					'confirm'=>CopixUrl::get ('comptes|default|getUserExtMod', array ('id'=>_request('id'), 'mode'=>'DEL')),
 					'cancel'=>CopixUrl::get ('comptes|default|getUserExt')
 				)
 			);

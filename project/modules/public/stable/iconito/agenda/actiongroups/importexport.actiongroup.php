@@ -114,9 +114,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 					$file[] = CopixConfig::get ('agenda|tempfiles') . 'import.ics';					
 			}
 			else{
-				if($this->vars['import_internet'] != null){
+				if(_request('import_internet') != null){
 					
-					$filename = $this->vars['import_internet'];
+					$filename = _request('import_internet');
 					$handle = fopen($filename, "rb");
 					$contents = '';
 					while (!feof($handle)) {
@@ -177,7 +177,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		
 		//template pour agenda
 		$tplAgenda = & new CopixTpl();
-		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaafterimport', array('nbInsertions'=>$this->vars['nbInsertions'])));
+		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaafterimport', array('nbInsertions'=>_request('nbInsertions'))));
 		
 		//template principal
 		$tpl = & new CopixTpl();
@@ -292,7 +292,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 			//die();
 		
 			//on récupère tous les évènements des agendas cochés dans la période demandée
-			foreach((array)$this->vars['agenda'] as $idAgenda){
+			foreach((array)_request('agenda') as $idAgenda){
 				$arEventsPeriode[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, CopixI18N::dateToBD($exportParams->datedeb_export), CopixI18N::dateToBD($exportParams->datefin_export));
 			}
 			
@@ -321,11 +321,11 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$toReturn = array();
 				
 		//vérification si les champs sont bien remplis
-		if (!is_uploaded_file ($_FILES['import_ordi']['tmp_name']) && ($this->vars['import_internet'] == null || $this->vars['import_internet'] == 'http://')){
+		if (!is_uploaded_file ($_FILES['import_ordi']['tmp_name']) && (_request('import_internet') == null || _request('import_internet') == 'http://')){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.nofile');
 		}
 		
-		if ($this->vars['option'] == null){
+		if (_request('option') == null){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.nooption');
 		}
 		

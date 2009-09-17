@@ -50,7 +50,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		}
 		
 		//pour savoir si on a cliqué sur un agenda à afficher
-		if (isset($this->vars['updateAgendaAffiches'])){
+		if (isset(_request('updateAgendaAffiches'))){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
 				if(isset($this->vars['agendas_'.$agenda->id_agenda])){
@@ -154,7 +154,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$agendaService  = new AgendaService;
 		
 		//pour savoir si on a cliqué sur un agenda à afficher
-		if (isset($this->vars['updateAgendaAffiches'])){
+		if (isset(_request('updateAgendaAffiches'))){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
 				if(isset($this->vars['agendas_'.$agenda->id_agenda])){
@@ -168,7 +168,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$arAgendasAffiches = $agendaService->getAgendaAffiches();
 
 		$tplZoneAujourdhui = & new CopixTpl();
-		$tplZoneAujourdhui->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendatoday', array('day'=>$this->vars['day'],
+		$tplZoneAujourdhui->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendatoday', array('day'=>_request('day'),
 																								  'arAgendasAffiches'=>$arAgendasAffiches)));
 																								  
 		//template principal

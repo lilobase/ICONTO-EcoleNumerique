@@ -28,14 +28,14 @@ class ActionGroupLecon extends CopixActionGroup {
 		$serviceType   = new AgendaType;
 		$serviceAgenda = new AgendaService;
 		
-		if (!isset ($this->vars['id_lecon'])){
+		if (!isset (_request('id_lecon'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
 		
 		$daoLecon = & CopixDAOFactory::getInstanceOf ('lecon');
-		if (!$toEdit = $daoLecon->get ($this->vars['id_lecon'])){
+		if (!$toEdit = $daoLecon->get (_request('id_lecon'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.unableToFind'),
 						'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
@@ -66,7 +66,7 @@ class ActionGroupLecon extends CopixActionGroup {
 		$serviceType   = new AgendaType;
 		$serviceAgenda = new AgendaService;
 		
-		if (!$this->vars['id_agenda'] || !$this->vars['date']){
+		if (!_request('id_agenda') || !_request('date')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
 			'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
@@ -74,15 +74,15 @@ class ActionGroupLecon extends CopixActionGroup {
 		
 		//on vérifie si l'utilisateur a les droits d'écriture de leçon sur l'agenda
 		//et que l'agenda est un agenda de classe
-		if($serviceAuth->getCapability($this->vars['id_agenda']) < $serviceAuth->getWriteLecon()  || $serviceAgenda->getTypeAgendaByIdAgenda($this->vars['id_agenda']) != $serviceType->getClassRoom()){
+		if($serviceAuth->getCapability(_request('id_agenda')) < $serviceAuth->getWriteLecon()  || $serviceAgenda->getTypeAgendaByIdAgenda(_request('id_agenda')) != $serviceType->getClassRoom()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
 		
 		$lecon = & CopixDAOFactory::createRecord ('lecon');		
-		$lecon->id_agenda  = $this->vars['id_agenda'];
-		$lecon->date_lecon = $this->vars['date'];		
+		$lecon->id_agenda  = _request('id_agenda');
+		$lecon->date_lecon = _request('date');		
 		$this->_setSessionLecon($lecon);
 
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|lecon|edit'));
@@ -122,7 +122,7 @@ class ActionGroupLecon extends CopixActionGroup {
     
 		//template pour agenda
 		$tplAgenda = & new CopixTpl();
-		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaeditlecon', array('e'=>$this->vars['e'], 'errors'=>$this->vars['errors'], 'toEdit'=>$toEdit)));
+		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaeditlecon', array('e'=>_request('e'), 'errors'=>_request('errors'), 'toEdit'=>$toEdit)));
 		
 		//template principal
 		$tpl = & new CopixTpl();
@@ -203,7 +203,7 @@ class ActionGroupLecon extends CopixActionGroup {
 	//vérification des entrées du formulaire
 	function _check (){		
 		$toReturn = array();		
-		if($this->vars['desc_lecon'] == null || $this->vars['desc_lecon'] == ''){
+		if(_request('desc_lecon') == null || _request('desc_lecon') == ''){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.nodesclecon');		
 		}		
 		return $toReturn;

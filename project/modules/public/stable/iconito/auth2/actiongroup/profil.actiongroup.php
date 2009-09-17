@@ -64,28 +64,28 @@ class ActionGroupProfil extends CopixActionGroup {
       $user = & $plugAuth->getUser();
 
       // Vérification que les informations sont valides
-      if ($this->vars['auth_password'] != $this->vars['auth_password2']) {
+      if (_request('auth_password') != _request('auth_password2')) {
          return $this->getModifUserForm('Erreur dans la saisie du mot de passe.');
       }  // if
-      if (! $user->checkLoginIsUnique($this->vars['auth_login'])) {
+      if (! $user->checkLoginIsUnique(_request('auth_login'))) {
          return $this->getModifUserForm('Ce login éxiste déjà.');
       }  // if
-      if (! $user->checkEMailIsUnique($this->vars['auth_email'])) {
+      if (! $user->checkEMailIsUnique(_request('auth_email'))) {
          return $this->getModifUserForm('Cette adresse E-Mail éxiste déjà.');
       }  // if
 
       // Sauvegarde de l'utilisateur
-      if (($plugAuth->config->verifEMailAddress === true) && ($this->vars['auth_email'] != $user->email)) {
+      if (($plugAuth->config->verifEMailAddress === true) && (_request('auth_email') != $user->email)) {
          // ==> Avec vérification de l'adresse mail et adresse mail modifiée
-         $user->doUpdate($this->vars['auth_login'], $this->vars['auth_password'], $this->vars['auth_name'],
-                       $this->vars['auth_surname'], $this->vars['auth_email'], 0);
+         $user->doUpdate(_request('auth_login'), _request('auth_password'), _request('auth_name'),
+                       _request('auth_surname'), _request('auth_email'), 0);
          $this->_mailActiveKey();
          $user->logout();
          return $this->_getEndModifUser();
       } else {
          // ==> Sans vérification de l'adresse mail
-         $user->doUpdate($this->vars['auth_login'], $this->vars['auth_password'], $this->vars['auth_name'],
-                    $this->vars['auth_surname'], $this->vars['auth_email'], 1);
+         $user->doUpdate(_request('auth_login'), _request('auth_password'), _request('auth_name'),
+                    _request('auth_surname'), _request('auth_email'), 1);
          return $this->getProfil();
       }  // if
    }  // function doModifUser

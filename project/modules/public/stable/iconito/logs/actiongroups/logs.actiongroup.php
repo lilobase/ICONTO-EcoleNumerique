@@ -39,7 +39,7 @@ class ActionGroupLogs extends CopixActionGroup {
 		
 		$dao = CopixDAOFactory::create("logs|logs");
 		
-		$data = $dao->get( $this->vars['id'] );
+		$data = $dao->get( _request('id') );
 		$tplData = & new CopixTpl ();
 		$tplData->assign ('data', $data);
 		$result = $tplData->fetch('action_display_details.tpl');
