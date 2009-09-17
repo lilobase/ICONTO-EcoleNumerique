@@ -72,13 +72,13 @@ class ActionGroupAdminPage extends CopixActionGroup {
     if(strlen($toUpdate->url_bpge)==0 && strlen($toUpdate->name_bpge)>0) {
     	$toUpdate->url_bpge = killBadUrlChars($toUpdate->name_bpge);
     }		
-		if(isset ($this->vars['is_online'])) $toUpdate->is_online = $this->vars['is_online']; else $toUpdate->is_online = 0;
+		if(isset (_request('is_online'))) $toUpdate->is_online = _request('is_online'); else $toUpdate->is_online = 0;
 	}
 
 	function doValidEditPage() {
 		$this->_validFromPostProperties($page);
 		//$this->_setSessionPage($page);
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('blog|admin|prepareEditPage', array('kind'=>$this->vars['kind'], 'id_blog'=>$this->vars['id_blog'], 'id_bpge'=>$this->vars['id_bpge'])));
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('blog|admin|prepareEditPage', array('kind'=>_request('kind'), 'id_blog'=>_request('id_blog'), 'id_bpge'=>_request('id_bpge'))));
 	}
 
 	/**
@@ -204,7 +204,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 
 	/**
     * Moves a page up
-    * @param $this->vars['id'] the article to moves up
+    * @param _request('id') the article to moves up
     */
 	function doPageUp (){
 		$id_bpge = $this->getRequest('id_bpge', null);
@@ -230,7 +230,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 
 	/**
     * Moves a page down
-    * @param $this->vars['id'] the article to moves down
+    * @param _request('id') the article to moves down
     */
 	function doPageDown (){
 		$id_bpge = $this->getRequest('id_bpge', null);

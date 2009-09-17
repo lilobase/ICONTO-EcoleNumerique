@@ -173,7 +173,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 
 	/**
     * Moves a category up
-    * @param $this->vars['id'] the article to moves up
+    * @param _request('id') the article to moves up
     */
 	function doLinkUp (){
 		$id_blnk = $this->getRequest('id_blnk', null);
@@ -199,7 +199,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 
 	/**
     * Moves a category down
-    * @param $this->vars['id'] the article to moves down
+    * @param _request('id') the article to moves down
     */
 	function doLinkDown (){
 		$id_blnk = $this->getRequest('id_blnk', null);

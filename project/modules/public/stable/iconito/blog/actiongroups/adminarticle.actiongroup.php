@@ -106,14 +106,14 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
 		// Catégories cochées...
 	    $tabSelectCat = array();
-	    if(isset($this->vars['tabSelectCat'])) {
-	      $tabSelectCat = (array) $this->vars['tabSelectCat'];
+	    if(isset(_request('tabSelectCat'))) {
+	      $tabSelectCat = (array) _request('tabSelectCat');
 	    }
 		
 		$article->tabSelectCat = $tabSelectCat;
 		//$this->_setSessionArticle($article);
 	    
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('blog|admin|prepareEditArticle', array('kind'=>$this->vars['kind'], 'id_blog'=>$this->vars['id_blog'])));
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('blog|admin|prepareEditArticle', array('kind'=>_request('kind'), 'id_blog'=>_request('id_blog'))));
   }
 
   /**
@@ -144,8 +144,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     $articleDAO = CopixDAOFactory::create('blog|blogarticle');
     // Catégories cochées...
     $tabSelectCat = array();
-    if(isset($this->vars['tabSelectCat'])) {
-      $tabSelectCat = (array) $this->vars['tabSelectCat'];
+    if(isset(_request('tabSelectCat'))) {
+      $tabSelectCat = (array) _request('tabSelectCat');
     }
     $id_bact = $this->getRequest('id_bact', null);
 	  if(strlen($id_bact)==0) $id_bact=null;
@@ -276,8 +276,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
     // Catégories cochées...
     $tabSelectCat = array();
-    if(isset($this->vars['tabSelectCat'])) {
-      $tabSelectCat = (array) $this->vars['tabSelectCat'];
+    if(isset(_request('tabSelectCat'))) {
+      $tabSelectCat = (array) _request('tabSelectCat');
     }
     // Préparation du filtre CATEGORIES
     $blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
@@ -314,8 +314,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     if(strlen($toUpdate->url_bact)==0 && strlen($toUpdate->name_bact)>0) {
     	$toUpdate->url_bact = killBadUrlChars($toUpdate->name_bact);
     }
-    if(isset ($this->vars['sticky_bact'])) $toUpdate->sticky_bact = $this->vars['sticky_bact']; else $toUpdate->sticky_bact = 0;
-    if(isset ($this->vars['is_online'])) $toUpdate->is_online = $this->vars['is_online']; else $toUpdate->is_online = 0;
+    if(isset (_request('sticky_bact'))) $toUpdate->sticky_bact = _request('sticky_bact'); else $toUpdate->sticky_bact = 0;
+    if(isset (_request('is_online'))) $toUpdate->is_online = _request('is_online'); else $toUpdate->is_online = 0;
   }
 
   /**

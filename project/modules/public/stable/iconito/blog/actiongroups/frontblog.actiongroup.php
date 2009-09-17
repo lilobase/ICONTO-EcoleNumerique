@@ -118,7 +118,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 		
-		if (!isset($this->vars['article'])){
+		if (!isset(_request('article'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
@@ -142,7 +142,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
-		$zoneArticle = CopixZone::process ('ShowArticle', array('blog'=>$blog, 'article'=>$this->vars['article']));
+		$zoneArticle = CopixZone::process ('ShowArticle', array('blog'=>$blog, 'article'=>_request('article')));
 		list ($title,$article) = explode ("{/}",$zoneArticle);
 		$tpl->assign ('TITLE_PAGE', $title.' - '.$blog->name_blog);
 		$tpl->assign ('Article', $article);
@@ -195,7 +195,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 		
-		if (!isset($this->vars['page'])){
+		if (!isset(_request('page'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
@@ -220,7 +220,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
-		$tpl->assign ('Page'        , CopixZone::process ('ShowPage'    , array('blog'=>$blog, 'page'=>$this->vars['page'])));
+		$tpl->assign ('Page'        , CopixZone::process ('ShowPage'    , array('blog'=>$blog, 'page'=>_request('page'))));
 		$tpl->assign ('ListLink'    , CopixZone::process ('ListLink'    , array('blog'=>$blog)));
 		$tpl->assign ('ListCategory', CopixZone::process ('ListCategory', array('blog'=>$blog)));
 		$tpl->assign ('ListArchive' , CopixZone::process ('ListArchive' , array('blog'=>$blog)));
@@ -271,7 +271,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 		
-		if (!isset($this->vars['id_bfrs'])){
+		if (!isset(_request('id_bfrs'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
@@ -296,7 +296,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
-		$tpl->assign ('Flux'        , CopixZone::process ('ShowFluxRss' , array('blog'=>$blog, 'id_flux'=>$this->vars['id_bfrs'])));
+		$tpl->assign ('Flux'        , CopixZone::process ('ShowFluxRss' , array('blog'=>$blog, 'id_flux'=>_request('id_bfrs'))));
 		$tpl->assign ('ListLink'    , CopixZone::process ('ListLink'    , array('blog'=>$blog)));
 		$tpl->assign ('ListCategory', CopixZone::process ('ListCategory', array('blog'=>$blog)));
 		$tpl->assign ('ListArchive' , CopixZone::process ('ListArchive' , array('blog'=>$blog)));
@@ -335,7 +335,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
     */
 	function doValidComment() {
 		
-		$url_bact = $this->vars['url_bact'];
+		$url_bact = _request('url_bact');
 		
 		//On verifit que le blog existe (on récupère le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
@@ -403,7 +403,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		
 		if (!$showErrors) {
 			if ($comment->is_online == 1)
-				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog||showArticle', array('blog'=>urlencode($blog->url_blog), 'article'=>$this->vars['article'])).'#comments');
+				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog||showArticle', array('blog'=>urlencode($blog->url_blog), 'article'=>_request('article'))).'#comments');
 			else {
 	//		print_r($blog);
 				return CopixActionGroup::process ('genericTools|Messages::getInfo',
