@@ -1,0 +1,241 @@
+<?php
+/**
+* Actiongroup du module Agenda
+* @package  Iconito
+* @subpackage Agenda
+* @author   Audrey Vassal
+* @copyright 2001-2005 CopixTeam
+* @link      http://copix.org
+* @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
+*/
+
+require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendaservices.class.php');
+require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendaauth.class.php');
+require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendatype.class.php');
+require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'dateservices.class.php');
+
+class ActionGroupLecon extends CopixActionGroup {
+	
+	/**
+	* Fonction qui est appelée lorsque l'on veut modifier une leçon
+	* Récupère l'objet en base de données et le stocke en session
+	* @author Audrey Vassal <avassal@sqli.com> 
+	* @return redirige vers l'action "edit" de l'actiongroup
+	*/
+	function doPrepareEdit (){
+
+		$serviceAuth   = new AgendaAuth;
+		$serviceType   = new AgendaType;
+		$serviceAgenda = new AgendaService;
+		
+		if (!isset ($this->vars['id_lecon'])){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+				array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
+						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
+		}
+		
+		$daoLecon = & CopixDAOFactory::getInstanceOf ('lecon');
+		if (!$toEdit = $daoLecon->get ($this->vars['id_lecon'])){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+				array ('message'=>CopixI18N::get ('agenda.unableToFind'),
+						'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
+		}
+		
+		//on vérifie si l'utilisateur a les droits d'écriture de leçons sur l'agenda et que c'est un agenda de classe
+		if($serviceAuth->getCapability($toEdit->id_agenda) < $serviceAuth->getWriteLecon() || $serviceAgenda->getTypeAgendaByIdAgenda($toEdit->id_agenda) != $serviceType->getClassRoom()){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
+						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
+		}
+
+		$this->_setSessionLecon($toEdit);
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|lecon|edit'));
+	}
+
+	
+	/**
+	* Fonction qui est appelée lorsque l'on veut insérer une nouvelle leçon
+	* Créé un objet vide  et initialise la propriété id_agenda
+	* Stock l'objet en session
+	* @author Audrey Vassal <avassal@sqli.com> 
+	* @return redirige vers l'action "edit" de l'actiongroup
+	*/
+	function doCreate (){
+		
+		$serviceAuth   = new AgendaAuth;
+		$serviceType   = new AgendaType;
+		$serviceAgenda = new AgendaService;
+		
+		if (!$this->vars['id_agenda'] || !$this->vars['date']){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+			array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
+			'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
+		}		
+		
+		//on vérifie si l'utilisateur a les droits d'écriture de leçon sur l'agenda
+		//et que l'agenda est un agenda de classe
+		if($serviceAuth->getCapability($this->vars['id_agenda']) < $serviceAuth->getWriteLecon()  || $serviceAgenda->getTypeAgendaByIdAgenda($this->vars['id_agenda']) != $serviceType->getClassRoom()){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
+						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
+		}
+		
+		$lecon = & CopixDAOFactory::createRecord ('lecon');		
+		$lecon->id_agenda  = $this->vars['id_agenda'];
+		$lecon->date_lecon = $this->vars['date'];		
+		$this->_setSessionLecon($lecon);
+
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|lecon|edit'));
+	}
+	
+	
+	/**
+	* Récupère l'objet en session
+	* Appelle les zones agendamenu et agendaeditlecon
+	* @author Audrey Vassal <avassal@sqli.com> 
+	*/
+	function getEdit (){
+	  
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
+
+    require_once (COPIX_UTILS_PATH.'CopixDateTime.class.php');
+
+		$serviceAuth   = new AgendaAuth;
+		$serviceType   = new AgendaType;
+		$serviceAgenda = new AgendaService;
+	  $serviceDate   = new DateService();
+    
+		if (!$toEdit = $this->_getSessionLecon ()){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+			array ('message'=>CopixI18N::get ('agenda.unableToGetEdited'),
+			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
+		}
+		
+		if($serviceAuth->getCapability($toEdit->id_agenda) < $serviceAuth->getWriteLecon() || $serviceAgenda->getTypeAgendaByIdAgenda($toEdit->id_agenda) != $serviceType->getClassRoom()){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
+						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
+		}
+
+		$listAgendas   = $serviceAgenda->getAvailableAgenda();
+		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
+    
+		//template pour agenda
+		$tplAgenda = & new CopixTpl();
+		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaeditlecon', array('e'=>$this->vars['e'], 'errors'=>$this->vars['errors'], 'toEdit'=>$toEdit)));
+		
+		//template principal
+		$tpl = & new CopixTpl();
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.title.lecon', array('jour'=>CopixDateTime::timestampToText($toEdit->date_lecon))));
+    $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
+		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
+		
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+	}
+	
+	
+	/**
+	* Fonction qui est appelée lorsque l'on valide la saisie d'un évènement
+	* Met à jour l'objet avec les données du formulaire
+	* Vérifie les informations saisies dans le formulaire
+	* @author Audrey Vassal <avassal@sqli.com>
+	* @return redirige vers l'action "getVueSemaine" de l'actiongroup agenda
+	*/
+	function doValid (){
+		
+		$serviceAuth   = new AgendaAuth;
+		$serviceAgenda = new AgendaService;
+		$serviceType   = new AgendaType;
+		
+		if (!$toValid = $this->_getSessionLecon()){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+			array ('message'=>CopixI18N::get ('agenda.error.cannotFindSession'),
+			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
+		}
+		
+		if($serviceAuth->getCapability($toValid->id_agenda) < $serviceAuth->getWriteLecon() || $serviceAgenda->getTypeAgendaByIdAgenda($toValid->id_agenda) != $serviceType->getClassRoom()){
+			return CopixActionGroup::process ('genericTools|Messages::getError',
+				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
+						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
+		}
+		
+		//demande de mettre l'objet à jour en fonction des valeurs saisies dans le formulaire
+		$this->_validFromForm ($toValid);
+		
+		$errors = $this->_check();
+		
+		if (count($errors)>0){			
+			$this->_setSessionLecon($toValid);
+			return CopixActionGroup::process('agenda|Lecon::getEdit', array('e'=>1, 'errors'=>$errors));
+		}
+		
+		else{
+			$daoLecon = & CopixDAOFactory::getInstanceOf ('lecon');
+			$record = & CopixDAOFactory::createRecord ('lecon');
+			
+			$criteres = CopixDAOFactory::createSearchConditions();
+			$criteres->addCondition('id_lecon', '=', $toValid->id_lecon);	
+			$resultat = $daoLecon->findBy($criteres);
+			
+			if (count($resultat) > 0){//modification
+				$record = $resultat[0];
+				$modif = true;
+			}
+
+			$record->id_agenda        = $toValid->id_agenda;
+			$record->desc_lecon       = $toValid->desc_lecon;
+			$record->date_lecon       = $toValid->date_lecon;
+			
+			if ($modif){
+				$daoLecon->update ($record);
+			}
+			else{	
+				$daoLecon->insert ($record);
+			}
+			
+			//on vide la session
+			$this->_setSessionLecon(null);
+			
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|agenda|vueSemaine'));			
+		}	
+	}
+	
+	//vérification des entrées du formulaire
+	function _check (){		
+		$toReturn = array();		
+		if($this->vars['desc_lecon'] == null || $this->vars['desc_lecon'] == ''){
+			$toReturn[] = CopixI18N::get('agenda|agenda.error.nodesclecon');		
+		}		
+		return $toReturn;
+	}
+	
+	/**
+	* Mise en session des paramètres de la leçon en édition
+	* @access: private.
+	*/
+	function _setSessionLecon ($toSet){
+		$_SESSION['modules']['agenda']['edited_lecon'] = $toSet !== null ? serialize($toSet) : null;
+	}
+	
+	/**
+	* Récupération en session des paramètres de la leçon en édition
+	* @access: private.
+	*/
+	function _getSessionLecon () {
+		CopixDAOFactory::fileInclude ('lecon');
+		return isset ($_SESSION['modules']['agenda']['edited_lecon']) ? unserialize ($_SESSION['modules']['agenda']['edited_lecon']) : null;
+	}
+	
+	/**
+	* @access: private.
+	*/
+	function _validFromForm (& $toUpdate){
+		$toCheck = array ('desc_lecon');
+		foreach ($toCheck as $elem){
+			if (isset ($this->vars[$elem])){
+				$toUpdate->$elem = $this->vars[$elem];
+			}
+		}
+	}
+}
+?>
