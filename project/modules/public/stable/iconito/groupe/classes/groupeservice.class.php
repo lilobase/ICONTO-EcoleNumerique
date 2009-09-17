@@ -33,7 +33,7 @@ class GroupeService {
 			
 			$daoGroupe = _dao("groupe");
 			
-			$newGroupe = _daoRecord("groupe");
+			$newGroupe = _record("groupe");
 			$newGroupe->titre = $titre;
 			$newGroupe->description = $description;
 			$newGroupe->is_open = $is_open;

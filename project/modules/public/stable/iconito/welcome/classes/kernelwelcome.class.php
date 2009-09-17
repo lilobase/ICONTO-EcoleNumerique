@@ -14,7 +14,7 @@ class KernelWelcome {
 
 	function create () {
 		$dao = _dao("welcome|homes");
-		$new = _daoRecord("welcome|homes");
+		$new = _record("welcome|homes");
 		$new->date = date("Y-m-d H:i:s");
 		$dao->insert ($new);
 

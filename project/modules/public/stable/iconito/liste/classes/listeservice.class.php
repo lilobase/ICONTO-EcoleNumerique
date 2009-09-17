@@ -37,7 +37,7 @@ class ListeService {
 			$rListe->parent = $parent;
 			//die();
 			
-			$newMessage = _daoRecord("liste|liste_messages");
+			$newMessage = _record("liste|liste_messages");
 			$newMessage->liste = $liste;
 			$newMessage->auteur = $auteur;
 			$newMessage->titre = $titre;

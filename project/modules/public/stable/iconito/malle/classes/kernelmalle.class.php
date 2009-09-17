@@ -22,7 +22,7 @@ class KernelMalle {
 	function create ($infos=array()) {
 		$return = NULL;
 		$dao = _dao("malle|malle_malles");
-		$new = _daoRecord("malle|malle_malles");
+		$new = _record("malle|malle_malles");
 		$new->titre = ($infos['title']) ? $infos['title'] : CopixI18N::get ('malle|malle.moduleDescription');
 		$new->date_creation = date("Y-m-d H:i:s");
 		$new->cle = MalleService::createKey();

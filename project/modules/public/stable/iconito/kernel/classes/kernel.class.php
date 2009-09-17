@@ -134,7 +134,7 @@ class Kernel {
 			$dao->delete( $user_type, $user_id, $node_type, $node_id );
 //			die("$node_type, $node_id, $user_type, $user_id");
 		} else {
-			$nouveau_droit = _daoRecord("kernel|kernel_link_user2node");
+			$nouveau_droit = _record("kernel|kernel_link_user2node");
 			$nouveau_droit->user_type = $user_type;
 			$nouveau_droit->user_id = $user_id;
 			$nouveau_droit->node_type = $node_type;
@@ -219,7 +219,7 @@ class Kernel {
 
 	function registerModule( $module_type, $module_id, $node_type, $node_id ) {
 		$dao = _dao("kernel|kernel_mod_enabled");
-		$nouveau_module = _daoRecord("kernel|kernel_mod_enabled");
+		$nouveau_module = _record("kernel|kernel_mod_enabled");
 		$nouveau_module->node_type = $node_type;
 		$nouveau_module->node_id = $node_id;
 		$nouveau_module->module_type = $module_type;
@@ -840,7 +840,7 @@ class Kernel {
 	 */
 	function setClubParent( $club_id, $node_type, $node_id ) {
 		$dao = _dao("kernel|kernel_link_groupe2node");
-		$nouveau = _daoRecord("kernel|kernel_link_groupe2node");
+		$nouveau = _record("kernel|kernel_link_groupe2node");
 		$nouveau->groupe_id = $club_id;
 		$nouveau->node_type = $node_type;
 		$nouveau->node_id = $node_id;

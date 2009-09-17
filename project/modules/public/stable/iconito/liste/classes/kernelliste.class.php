@@ -14,7 +14,7 @@ class KernelListe {
 	*/
 	function create ($infos=array()) {
 		$dao = _dao("liste|liste_listes");
-		$new = _daoRecord("liste|liste_listes");
+		$new = _record("liste|liste_listes");
 		$new->titre = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$new->date_creation = date("Y-m-d H:i:s");
 		$dao->insert ($new);

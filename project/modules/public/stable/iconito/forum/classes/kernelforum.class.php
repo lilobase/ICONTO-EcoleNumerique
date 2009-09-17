@@ -18,7 +18,7 @@ class KernelForum {
 	 */
 	function create ($infos=array()) {
 		$daoForum = _dao("forum|forum_forums");
-		$newForum = _daoRecord("forum|forum_forums");
+		$newForum = _record("forum|forum_forums");
 		$newForum->titre = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$newForum->date_creation = date("Y-m-d H:i:s");
 		$daoForum->insert ($newForum);

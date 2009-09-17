@@ -18,7 +18,7 @@ class KernelTeleprocedures {
 	 */
 	function create ($infos=array()) {
 		$dao = _dao("teleprocedures|teleprocedure");
-		$new = _daoRecord("teleprocedures|teleprocedure");
+		$new = _record("teleprocedures|teleprocedure");
 		$new->titre = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$new->date_creation = date("Y-m-d H:i:s");
 		$dao->insert ($new);

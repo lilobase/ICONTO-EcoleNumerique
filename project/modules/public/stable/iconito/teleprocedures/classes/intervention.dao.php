@@ -27,7 +27,7 @@ class DAORecordIntervention {
 		$daoInfoSupp = _dao("teleprocedures|infosupp");
 		$daoIntervention = _dao("teleprocedures|intervention");
 		
-		$rForm = _daoRecord('teleprocedures|infosupp');
+		$rForm = _record('teleprocedures|infosupp');
 		
 		//var_dump($this);
 		

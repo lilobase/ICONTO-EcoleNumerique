@@ -16,7 +16,7 @@ class KernelMagicmail {
 
 	function create () {
 		$dao = _dao("magicmail|magicmail");
-		$new = _daoRecord("magicmail|magicmail");
+		$new = _record("magicmail|magicmail");
 		$new->magicmail_login = '';
 		$new->magicmail_domain = '';
 		$dao->insert ($new);

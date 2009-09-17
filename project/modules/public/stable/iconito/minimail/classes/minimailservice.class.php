@@ -32,7 +32,7 @@ class MinimailService {
 			$DAOminimail_to = _dao("minimail|minimail_to");
 			
 			
-			$newMp = _daoRecord("minimail|minimail_from");
+			$newMp = _record("minimail|minimail_from");
 			$newMp->title = $title;
 			$newMp->message = $message;
 			$newMp->format = $format;
@@ -46,7 +46,7 @@ class MinimailService {
 				// On parcourt chaque destinataire
 				while (list($to_id,) = each ($destin)) {
 					//print_r("to_id=$to_id / to_login=$to_login");
-					$newDest = _daoRecord("minimail|minimail_to");
+					$newDest = _record("minimail|minimail_to");
 					$newDest->id_message = $newMp->id;
 					$newDest->to_id = $to_id;
 					$newDest->date_read = 0;

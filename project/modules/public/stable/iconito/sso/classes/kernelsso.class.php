@@ -15,7 +15,7 @@ class KernelSso {
 	function create () {
 		$return = NULL;
 		$dao = _dao("sso|sso");
-		$new = _daoRecord("sso|sso");
+		$new = _record("sso|sso");
 		$new->sso_date_crea = date("Y-m-d H:i:s");
 		$dao->insert ($new);
 		if ($new->sso_id!==NULL) {

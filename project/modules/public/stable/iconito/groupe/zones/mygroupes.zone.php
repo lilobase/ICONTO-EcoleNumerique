@@ -70,7 +70,7 @@ class ZoneMyGroupes extends CopixZone {
 				$sql = 'SELECT id,login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='.$_SESSION["user"]->bu["id"].' AND service=\'concerto\'';
 				$concerto = _doQuery($sql);
 				if( $concerto ) {
-					$new_module = _daoRecord("kernel|kernel_mod_enabled");
+					$new_module = _record("kernel|kernel_mod_enabled");
 					$new_module->node_type = $_SESSION["user"]->bu["type"];
 					$new_module->node_id = $_SESSION["user"]->bu["id"];
 					$new_module->module_type = "MOD_CONCERTO";

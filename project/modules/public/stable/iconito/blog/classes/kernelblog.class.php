@@ -20,7 +20,7 @@ class KernelBlog {
 		
 		$tabBlogFunctions = returnAllBlogFunctions();
 	
-		$blog = _daoRecord('blog|blog');
+		$blog = _record('blog|blog');
 		if ($infos['title'])
 			$blog->name_blog = $infos['title'].( (isset($infos['subtitle']) && strlen($infos['subtitle'])>0) ? ' ('.$infos['subtitle'].')' : '');
 		else
@@ -43,7 +43,7 @@ class KernelBlog {
       
 			// On ajoute une catégorie
 			$categoryDAO = _dao('blog|blogarticlecategory');
-			$category = _daoRecord('blog|blogarticlecategory');
+			$category = _record('blog|blogarticlecategory');
 			$category->id_blog	 = $blog->id_blog;
 			$category->name_bacg = CopixI18N::get ('blog|blog.default.categorie');
 			$category->url_bacg	 = killBadUrlChars($category->name_bacg) . date('YmdHis');
@@ -52,7 +52,7 @@ class KernelBlog {
 			
 			if ($category->id_bacg!==NULL) {	// On ajoute un article
 				$articleDAO = _dao('blog|blogarticle');
-				$article = _daoRecord('blog|blogarticle');
+				$article = _record('blog|blogarticle');
 				$article->id_blog	 = $blog->id_blog;
 				$article->name_bact	 = CopixI18N::get ('blog|blog.default.article.titre');
 				$article->format_bact	 = 'wiki';
@@ -205,7 +205,7 @@ class KernelBlog {
 	function publish ($id, $data) {
 	
 		$articleDAO = _dao('blog|blogarticle');
-		$article = _daoRecord('blog|blogarticle');
+		$article = _record('blog|blogarticle');
 		$article->id_blog	 = $id;
 		$article->name_bact	 = $data['title'];
 		$article->format_bact = 'wiki';
@@ -269,7 +269,7 @@ class KernelBlog {
 			$album_service = & CopixClassesFactory::Create ('album|album');
 
 			$photo_dao = & _dao("album|photo");
-			$nouvelle_photo = _daoRecord("album|photo");
+			$nouvelle_photo = _record("album|photo");
 			$nouvelle_photo->photo_album = $album->album_id;
 			if( trim($image['title']) != '' )
 				$nouvelle_photo->photo_nom = $image['title'];

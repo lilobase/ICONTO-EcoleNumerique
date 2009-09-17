@@ -14,7 +14,7 @@ class Logs {
 
 	function set( $data=null ) {
 		$dao = _dao("logs|logs");
-		$nouveau = _daoRecord("logs|logs");
+		$nouveau = _record("logs|logs");
 		
 		$types = array( 'ERROR', 'DEBUG', 'INFO', 'ALERT', 'LOG', 'AUTO' );
 		

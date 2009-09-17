@@ -178,7 +178,7 @@ class CarnetService {
 		$daoTopics = _dao("carnet|carnet_topics");
 		$kernelClasse = CopixClassesFactory::create("kernel|Kernel");
 		
-		$newTopic = _daoRecord("carnet|carnet_topics");
+		$newTopic = _record("carnet|carnet_topics");
 		$newTopic->titre = $titre;
 		$newTopic->message = $message;
 		$newTopic->format = $format;
@@ -196,7 +196,7 @@ class CarnetService {
 				$eleves = $kernelClasse->getNodeChilds ("BU_CLASSE", $classe);
 				while (list(,$v) = each($eleves)) {
 					if ($v["type"]=="USER_ELE") { 	// Todo prévoir fonction qui ne renvoie que les élèves pour zapper ce test
-						$newTopicTo = _daoRecord("carnet|carnet_topics_to");
+						$newTopicTo = _record("carnet|carnet_topics_to");
 						$newTopicTo->topic = $newTopic->id;
 						$newTopicTo->eleve = $v["id"];
 						$daoTopicsTo->insert ($newTopicTo);
@@ -204,7 +204,7 @@ class CarnetService {
 				}
 			} else {	// Chez un élève précis
 				$daoTopicsTo = _dao("carnet|carnet_topics_to");
-				$newTopicTo = _daoRecord("carnet|carnet_topics_to");
+				$newTopicTo = _record("carnet|carnet_topics_to");
 				$newTopicTo->topic = $newTopic->id;
 				$newTopicTo->eleve = $eleve;
 				$daoTopicsTo->insert ($newTopicTo);
@@ -213,7 +213,7 @@ class CarnetService {
 			
 			foreach ($eleves as $eleve) {
 				$daoTopicsTo = _dao("carnet|carnet_topics_to");
-				$newTopicTo = _daoRecord("carnet|carnet_topics_to");
+				$newTopicTo = _record("carnet|carnet_topics_to");
 				$newTopicTo->topic = $newTopic->id;
 				$newTopicTo->eleve = $eleve;
 				$daoTopicsTo->insert($newTopicTo);
@@ -244,7 +244,7 @@ class CarnetService {
 		
 		$daoMessages = _dao("carnet_messages");
 			
-		$newMessage = _daoRecord("carnet_messages");
+		$newMessage = _record("carnet_messages");
 		$newMessage->topic = $topic;
 		$newMessage->eleve = $eleve;
 		$newMessage->auteur = $auteur;
@@ -281,7 +281,7 @@ class CarnetService {
 				$visite->last_visite = date("Y-m-d H:i:s");
 				$daoTracking->update($visite);
 			} else {	// 1e visite !
-				$newVisite = _daoRecord("carnet|carnet_tracking");
+				$newVisite = _record("carnet|carnet_tracking");
 				$newVisite->topic = $id_topic;
 				$newVisite->utilisateur = $user;
 				$newVisite->eleve = $eleve;

@@ -352,7 +352,7 @@ class MalleService {
 		$daoFiles = _dao("malle|malle_files");
 		
 		// On insère d'abord dans la base
-		$new = _daoRecord("malle|malle_files");
+		$new = _record("malle|malle_files");
 		$new->malle = $rFile->malle;
 		$new->folder = $folderDest;
 		$new->nom = $rFile->nom;
@@ -394,7 +394,7 @@ class MalleService {
 		$daoFiles = _dao("malle|malle_files");
 		
 		// On insère d'abord dans la base
-		$new = _daoRecord("malle|malle_folders");
+		$new = _record("malle|malle_folders");
 		$new->malle = $rFolder->malle;
 		$new->parent = $folderDest;
 		$new->nom = $rFolder->nom;

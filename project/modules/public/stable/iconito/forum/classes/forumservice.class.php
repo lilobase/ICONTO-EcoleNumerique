@@ -30,7 +30,7 @@ class ForumService {
 			
 			$daoMessages = _dao("forum_messages_topics");
 			
-			$newMessage = _daoRecord("forum_messages_topics");
+			$newMessage = _record("forum_messages_topics");
 			$newMessage->topic = $topic;
 			$newMessage->forum = $forum;
 			$newMessage->auteur = $auteur;
@@ -69,7 +69,7 @@ class ForumService {
 			
 			$daoTopics = _dao("forum_topics");
 			
-			$newTopic = _daoRecord("forum_topics");
+			$newTopic = _record("forum_topics");
 			$newTopic->titre = $titre;
 			$newTopic->forum = $forum;
 			$newTopic->createur = $auteur;
@@ -148,7 +148,7 @@ class ForumService {
 			$visite->last_visite = date("Y-m-d H:i:s");
 			$daoTracking->update($visite);
 		} else {	// 1e visite !
-			$newVisite = _daoRecord("forum_tracking");
+			$newVisite = _record("forum_tracking");
 			$newVisite->topic = $id_topic;
 			$newVisite->utilisateur = $user;
 			$newVisite->last_visite = date("Y-m-d H:i:s");

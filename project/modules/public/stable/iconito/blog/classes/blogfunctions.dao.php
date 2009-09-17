@@ -15,7 +15,7 @@ class DAOBlogfunctions {
     * @return
     */
    function createBlogFunctions ($id_blog, $tabBlogFunctions) { 
-			 $blogFunctions = _daoRecord('blog|blogfunctions');
+			 $blogFunctions = _record('blog|blogfunctions');
        foreach($tabBlogFunctions as $fct) {
        		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }
@@ -30,7 +30,7 @@ class DAOBlogfunctions {
     * @return
     */
    function updateBlogFunctions ($id_blog, $tabBlogFunctions) {
-			 $blogFunctions = _daoRecord('blogfunctions');
+			 $blogFunctions = _record('blogfunctions');
        foreach($tabBlogFunctions as $fct) {
        		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }

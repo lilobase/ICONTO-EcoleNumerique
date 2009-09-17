@@ -123,7 +123,7 @@ class TeleproceduresService {
 		$ct->doQuery($sqlDelete);
 		$daoTypeDroit = _dao($daoDroit);
 		foreach ($pArUsers as $user) {
-			$newDroit = _daoRecord($daoDroit);
+			$newDroit = _record($daoDroit);
 			$newDroit->$droitField = $pId;
 			$newDroit->user_type = $user['type'];
 			$newDroit->user_id = $user['id'];
@@ -149,7 +149,7 @@ class TeleproceduresService {
 		$return = array();
 		$list = $DAOtypeDroit->findForIdType ($pInter->idtype);
 		foreach ($list as $droit) {
-			$itvDroit = _daoRecord('teleprocedures|intervention_droit');
+			$itvDroit = _record('teleprocedures|intervention_droit');
 			$itvDroit->idinter = $pInter->idinter;
 			$itvDroit->user_type = $droit->user_type;
 			$itvDroit->user_id = $droit->user_id;
@@ -354,7 +354,7 @@ class TeleproceduresService {
 			$visite->last_visite = date("Y-m-d H:i:s");
 			$daoTracking->update($visite);
 		} else {	// 1e visite !
-			$newVisite = _daoRecord("teleprocedures|tracking");
+			$newVisite = _record("teleprocedures|tracking");
 			$newVisite->intervention = $id_intervention;
 			$newVisite->utilisateur = $user;
 			$newVisite->last_visite = date("Y-m-d H:i:s");

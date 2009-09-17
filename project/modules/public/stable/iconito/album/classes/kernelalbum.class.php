@@ -20,7 +20,7 @@ class KernelAlbum {
 		$return = NULL;
 		$cle = substr( md5(microtime()), 0, 10 );
 		$dao = _dao("album|album");
-		$new = _daoRecord("album|album");
+		$new = _record("album|album");
 		$new->album_nom = (isset($infos['title']) && $infos['title']) ? $infos['title'] : '';
 		$new->album_prefs = "aa";
 		$new->album_date = date("Y-m-d H:i:s");
@@ -102,7 +102,7 @@ class KernelAlbum {
 			$album_service = & CopixClassesFactory::Create ('album|album');
 
 			$photo_dao = & _dao("album|photo");
-			$nouvelle_photo = _daoRecord("album|photo");
+			$nouvelle_photo = _record("album|photo");
 			$nouvelle_photo->photo_album = $album->album_id;
 			$nouvelle_photo->photo_dossier = 0;
 			if( trim($image['title']) != '' )
