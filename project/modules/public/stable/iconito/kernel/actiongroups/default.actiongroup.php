@@ -350,7 +350,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$return_center ="";
 		$return_right  ="";
 		
-		if( isset(_request("type")) && isset(_request("id")) ) {
+		if( _request("type")) {
 			$type=_request("type");      $id=_request("id");
 		} else {
 			if( isset($_SESSION["user"]->bu["type"]) && isset($_SESSION["user"]->bu["id"]) ) {

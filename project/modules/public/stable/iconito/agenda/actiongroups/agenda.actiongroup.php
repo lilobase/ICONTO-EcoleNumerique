@@ -50,7 +50,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		}
 		
 		//pour savoir si on a cliqué sur un agenda à afficher
-		if (isset(_request('updateAgendaAffiches'))){
+		if (_request('updateAgendaAffiches')){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
 				if(isset($this->vars['agendas_'.$agenda->id_agenda])){
@@ -154,7 +154,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$agendaService  = new AgendaService;
 		
 		//pour savoir si on a cliqué sur un agenda à afficher
-		if (isset(_request('updateAgendaAffiches'))){
+		if (_request('updateAgendaAffiches')){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
 				if(isset($this->vars['agendas_'.$agenda->id_agenda])){

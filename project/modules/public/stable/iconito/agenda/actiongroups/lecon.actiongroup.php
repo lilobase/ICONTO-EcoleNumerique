@@ -28,7 +28,7 @@ class ActionGroupLecon extends CopixActionGroup {
 		$serviceType   = new AgendaType;
 		$serviceAgenda = new AgendaService;
 		
-		if (!isset (_request('id_lecon'))){
+		if (!_request('id_lecon')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));

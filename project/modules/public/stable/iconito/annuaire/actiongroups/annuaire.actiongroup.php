@@ -76,7 +76,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$ville = isset(_request("ville")) ? _request("ville") : NULL;
+		$ville = _request("ville") ? _request("ville") : NULL;
 	  $grville = 1;
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		$criticErrors = array();
@@ -139,7 +139,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$ecole = isset(_request("ecole")) ? _request("ecole") : NULL;
+		$ecole = _request("ecole") ? _request("ecole") : NULL;
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		$fichesEcolesService = & CopixClassesFactory::Create ('fichesecoles|FichesEcolesService');
@@ -219,7 +219,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$classe = isset(_request("classe")) ? _request("classe") : NULL;
+		$classe = _request("classe") ? _request("classe") : NULL;
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		$criticErrors = array();
@@ -278,8 +278,8 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$type = isset(_request('type')) ? _request('type') : NULL;
-		$id = isset(_request('id')) ? _request('id') : NULL;
+		$type = _request('type') ? _request('type') : NULL;
+		$id = _request('id') ? _request('id') : NULL;
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('zone', CopixZone::process ('annuaire|getUserProfil', array('type'=>$type, 'id'=>$id)));
@@ -305,13 +305,12 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
-		$grville = isset(_request('grville')) ? _request('grville') : NULL;
-		$ville = isset(_request('ville')) ? _request('ville') : NULL;
-		$ecole = isset(_request('ecole')) ? _request('ecole') : NULL;
-		$classe = isset(_request('classe')) ? _request('classe') : NULL;
-		$field = isset(_request('field')) ? _request('field') : '';
-		//$profils = isset(_request('profils')) ? _request('profils') : array('ELE'=>1);
-		$profils = isset(_request('profils')) ? _request('profils') : array();
+		$grville = _request('grville') ? _request('grville') : NULL;
+		$ville = _request('ville') ? _request('ville') : NULL;
+		$ecole = _request('ecole') ? _request('ecole') : NULL;
+		$classe = _request('classe') ? _request('classe') : NULL;
+		$field = _request('field') ? _request('field') : '';
+		$profils = _request('profils') ? _request('profils') : array();
 		$profil = $this->getRequest ('profil'); // Si on force sur un profil unique a afficher
 		
 		

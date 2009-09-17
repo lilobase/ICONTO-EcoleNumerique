@@ -62,7 +62,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$album_id = _request("album_id");
 		
-		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_READ ) {
@@ -341,7 +341,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$album_id = _request("album_id");
 		
-		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_PUBLISH ) {
@@ -740,7 +740,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		$album_id = _request("album_id");
 		
-		if( !isset(_request("dossier_id")) || !ereg ("^[0-9]+$", _request("dossier_id")) ) {
+		if( !_request("dossier_id") || !ereg ("^[0-9]+$", _request("dossier_id")) ) {
 			if( isset($_SESSION['modules']['album']['lastfolder'][$album_id]) ) {
 				$dossier_id = $_SESSION['modules']['album']['lastfolder'][$album_id];
 			} else {
@@ -929,7 +929,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 		
-		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 
 		$dossier_dao = CopixDAOFactory::create("dossier");
@@ -1036,7 +1036,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 		
-		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 
 		$dossier_dao = CopixDAOFactory::create("dossier");
@@ -1087,7 +1087,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			'back'=>CopixUrl::get ('||')));
 		}
 		
-		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		$tplAddPhoto = & new CopixTpl ();
@@ -1274,7 +1274,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 						'back'=>CopixUrl::get('album||album', array('album_id'=>$album_id) )));
 		}
 		
-		if( isset(_request("dossier_id")) && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		$dossier_dao = CopixDAOFactory::create("dossier");

@@ -72,7 +72,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
    */
 	function doMailPublish () {
 		
-				if( isset(_request("key")) ) {
+				if( _request("key") ) {
 					if( ereg( "^([0-9]{8}-[0-9]{6})-([a-zA-Z0-9]+)-([a-fA-F0-9]{32})$", _request("key"), $regs ) ) {
 
 						$key   = _request("key");
@@ -244,7 +244,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 						else echo "-ERR Bad key\n";
 					} // if( ereg( "^([0-9]{8}-[0-9]{4})-([a-zA-Z0-9]+)-([a-fA-F0-9]{32})$") )
 					else echo "-ERR Bad key (ereg not match)\n";
-				} // if( isset(_request("key")) )
+				} // if( _request("key") )
 				else echo "-ERR Bad key (not set)\n";
 	
 		return new CopixActionReturn (COPIX_AR_NONE, 0);

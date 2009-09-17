@@ -16,6 +16,6 @@ class ZoneUserLogged extends CopixZone {
 		
 		$ppo->user = _currentUser ();
 		
-		$toReturn = $this->_usePPO ($ppo, 'userlogged.php');
+		$toReturn = $this->_usePPO ($ppo, 'userlogged.tpl');
 	}
 }

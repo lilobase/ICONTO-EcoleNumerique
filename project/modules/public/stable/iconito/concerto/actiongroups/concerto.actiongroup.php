@@ -31,7 +31,7 @@ class ActionGroupConcerto extends CopixActionGroup {
 		
 
 		
-		if( !isset(_request("id")) || !ereg('^[0-9]+$', _request("id")) ) {
+		if( !_request("id") || !ereg('^[0-9]+$', _request("id")) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));
 		}
 		

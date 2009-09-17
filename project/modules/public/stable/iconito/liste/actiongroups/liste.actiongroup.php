@@ -21,7 +21,7 @@ class ActionGroupListe extends CopixActionGroup {
 	 	
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		$id = isset(_request("id")) ? _request("id") : NULL;
+		$id = _request("id") ? _request("id") : NULL;
 		$errors = array();	
 		
 	 	$dao = CopixDAOFactory::create("liste|liste_listes");
@@ -80,11 +80,11 @@ class ActionGroupListe extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
 		$criticErrors = array();
-		$liste = isset(_request("liste")) ? _request("liste") : NULL;
-		$titre = isset(_request("titre")) ? _request("titre") : NULL;
-		$message = isset(_request("message")) ? _request("message") : NULL;
-		$preview = isset(_request("preview")) ? _request("preview") : 0;
-		$errors = isset(_request("errors")) ? _request("errors") : array();
+		$liste = _request("liste") ? _request("liste") : NULL;
+		$titre = _request("titre") ? _request("titre") : NULL;
+		$message = _request("message") ? _request("message") : NULL;
+		$preview = _request("preview") ? _request("preview") : 0;
+		$errors = _request("errors") ? _request("errors") : array();
 
 		if ($liste) {		// Nouveau message dans une liste
 			$dao_listes = CopixDAOFactory::create("liste|liste_listes");
@@ -108,7 +108,7 @@ class ActionGroupListe extends CopixActionGroup {
 		
 			// $contexte = $dao->get($id);
 			// rustine PNL pour afficher le nom du groupe
-			$id = isset(_request("liste")) ? _request("liste") : NULL;
+			$id = _request("liste") ? _request("liste") : NULL;
 			$parent = $kernel_service->getModParentInfo( "MOD_LISTE", $id);
 		
 			$tpl = & new CopixTpl ();
@@ -150,10 +150,10 @@ class ActionGroupListe extends CopixActionGroup {
 	function doMessageForm () {
 	
 		$errors = $criticErrors = array();	
-		$liste = isset(_request("liste")) ? _request("liste") : NULL;
-		$titre = isset(_request("titre")) ? _request("titre") : NULL;
-		$message = isset(_request("message")) ? _request("message") : NULL;
-		$go = isset(_request("go")) ? _request("go") : 'preview';
+		$liste = _request("liste") ? _request("liste") : NULL;
+		$titre = _request("titre") ? _request("titre") : NULL;
+		$message = _request("message") ? _request("message") : NULL;
+		$go = _request("go") ? _request("go") : 'preview';
 		
 		if ($liste) {		// Nouveau message
 			$dao_listes = CopixDAOFactory::create("liste|liste_listes");

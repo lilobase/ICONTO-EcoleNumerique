@@ -23,7 +23,7 @@ class ActionGroupComptes extends CopixActionGroup {
 	 * 
 	 */
 	function go () {
-		if( isset(_request("id")) && ereg('(.+)-(.+)', _request("id"), $regs) ) {
+		if( _request("id") && ereg('(.+)-(.+)', _request("id"), $regs) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getNode', array('type'=>$regs[1], 'id'=>$regs[2]) ));
 		}
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getNode', array('type'=>'ROOT') ));
@@ -44,7 +44,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplGetNode = & new CopixTpl ();
 		
-		if( !isset(_request("type")) || trim(_request("type"))=='' ) {
+		if( !_request("type") || trim(_request("type"))=='' ) {
 			/*
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('comptes.error.badnodetype'),
@@ -240,7 +240,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_listes'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
 		$tpl->assign ('MENU', $menu );
 		
-		if( !isset(_request('users')) ) {
+		if( !_request('users') ) {
 			$urlReturn = CopixUrl::get ('comptes||getNode', array('type'=>_request('type'), 'id'=>_request('id') ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
@@ -428,7 +428,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$logins = $_SESSION['modules']['comptes']['doLoginCreate']['success'];
 		
-		if( !isset(_request('format')) || trim(_request('format'))=='' ) {
+		if( !_request('format') || trim(_request('format'))=='' ) {
 			$format = "default";
 		} else {
 			$format = _request('format');
@@ -546,7 +546,6 @@ class ActionGroupComptes extends CopixActionGroup {
 	 	
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
-		//$classe = isset(_request("classe")) ? _request("classe") : 1;
 		$classe = _request("classe");
 		
 		$id = 1;
@@ -748,7 +747,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
 
-		if( isset(_request('mode')) ) {
+		if( _request('mode') ) {
 			
 			_request('nom')    = trim( _request('nom') );
 			_request('prenom') = trim( _request('prenom') );

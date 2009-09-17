@@ -23,10 +23,10 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$id = $this->getRequest ('id', null);
 		
-		$motcle = isset(_request("motcle")) ? _request("motcle") : NULL;
-		$type = isset(_request("type")) ? _request("type") : NULL;
-		$clos = isset(_request("clos")) ? _request("clos") : NULL;
-		$ecole = isset(_request("ecole")) ? _request("ecole") : NULL;
+		$motcle = _request("motcle") ? _request("motcle") : NULL;
+		$type = _request("type") ? _request("type") : NULL;
+		$clos = _request("clos") ? _request("clos") : NULL;
+		$ecole = _request("ecole") ? _request("ecole") : NULL;
 		
 		$dao = CopixDAOFactory::create("teleprocedures|teleprocedure");
 		$rTelep = $dao->get($id);

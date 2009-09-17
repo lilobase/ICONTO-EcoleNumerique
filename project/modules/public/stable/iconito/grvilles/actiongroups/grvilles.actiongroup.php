@@ -48,13 +48,13 @@ class ActionGroupGrvilles extends CopixActionGroup {
 		$villes = $dao_villes->findAll();
 		$tplGrVilles->assign ('villes', $villes );
 		
-		if( isset(_request("delete")) ) {
+		if( _request("delete") ) {
 			$dao_grvilles->delete(_request("delete"));
 			$dao_grvilles_gr2ville->deleteByGroupe(_request("delete"));
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('grvilles||'));
 		}
 		
-		if( isset(_request("save")) && _request("save")==1 ) {
+		if( _request("save") && _request("save")==1 ) {
 			$date = date("Y-m-d H:i:s");
 			$user = Kernel::getUserInfo();
 			
@@ -92,7 +92,7 @@ class ActionGroupGrvilles extends CopixActionGroup {
 		}
 		
 		
-		if( isset(_request("groupe")) ) {
+		if( _request("groupe") ) {
 			$tplGrVilles->assign ('grvilles_id', _request("groupe") );
 			$tplGrVilles->assign ('grvilles_form', true );
 			if(_request("groupe")>0) {

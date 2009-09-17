@@ -191,8 +191,8 @@ class ActionGroupEvent extends CopixActionGroup {
 		$serviceAuth   = new AgendaAuth;
 		
 		//initialisation des cases à cocher
-		if (!isset(_request('repeat')))_request('repeat') = 0;
-		if (!isset(_request('alldaylong_event')))_request('alldaylong_event') = 0;
+		if (!_request('repeat'))_request('repeat') = 0;
+		if (!_request('alldaylong_event'))_request('alldaylong_event') = 0;
 
 		if (!$toValid = $this->_getSessionEvent()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -305,7 +305,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 		$serviceAuth   = new AgendaAuth;
 			
-		if (!isset (_request('id_event'))){
+		if (!_request('id_event')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
 						'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
@@ -328,7 +328,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 
 		//Confirmation screen ?
-		if (!isset (_request('confirm'))){
+		if (!_request('confirm')){
 			return CopixActionGroup::process ('genericTools|Messages::getConfirm',
 				array ('title'=>CopixI18N::get ('agenda.title.confirmdelevent'),
 						'message'=>CopixI18N::get ('agenda.message.confirmdelevent'),
@@ -520,7 +520,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		}
 		
 		//cas particulier de l'heure
-		if (isset (_request('heuredeb_event'))){
+		if (_request('heuredeb_event')){
 			//cas de l'heure saisie sur 4 caractère (9:00 au lieu de 09:00)
 			if (strlen(_request('heuredeb_event')) == 4) {
 				$toUpdate->heuredeb_event = '0'._request('heuredeb_event');
@@ -528,7 +528,7 @@ class ActionGroupEvent extends CopixActionGroup {
 				$toUpdate->heuredeb_event = _request('heuredeb_event');
 			}
 		}
-		if (isset (_request('heurefin_event'))){
+		if (_request('heurefin_event')){
 			//cas de l'heure saisie sur 4 caractère (9:00 au lieu de 09:00)
 			if (strlen(_request('heurefin_event')) == 4) {
 				$toUpdate->heurefin_event = '0'._request('heurefin_event');
@@ -536,15 +536,6 @@ class ActionGroupEvent extends CopixActionGroup {
 				$toUpdate->heurefin_event = _request('heurefin_event');
 			}
 		}
-		
-		/*
-		if (isset (_request('datedeb_event'))){
-			$req = _request('datedeb_event');
-			$req2 = CopixDateTime::dateToTimestamp ($req);
-			//Kernel::deb("req=$req / req2=$req2");
-			$toUpdate->heurefin_event = $req2;
-		}
-		*/
 		
 	}
 }

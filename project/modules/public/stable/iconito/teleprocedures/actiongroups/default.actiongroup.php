@@ -38,10 +38,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	function listTeleprocedures () {
 		
 		$id = $this->getRequest ('id', null);
-		$motcle = isset(_request("motcle")) ? _request("motcle") : NULL;
-		$type = isset(_request("type")) ? _request("type") : NULL;
-		$clos = isset(_request("clos")) ? _request("clos") : NULL;
-		$ecole = isset(_request("ecole")) ? _request("ecole") : NULL;
+		$motcle = _request("motcle") ? _request("motcle") : NULL;
+		$type = _request("type") ? _request("type") : NULL;
+		$clos = _request("clos") ? _request("clos") : NULL;
+		$ecole = _request("ecole") ? _request("ecole") : NULL;
 		
 		$dao = CopixDAOFactory::create("teleprocedures|teleprocedure");
 		$rTelep = $dao->get($id);
@@ -128,12 +128,12 @@ class ActionGroupDefault extends CopixActionGroup {
    */
 	function insert () {
 		
-		$save = isset(_request("save")) ? _request("save") : NULL;
+		$save = _request("save") ? _request("save") : NULL;
 		
-		$idtype = isset(_request("idtype")) ? _request("idtype") : NULL;
-		$idstatu = isset(_request("idstatu")) ? _request("idstatu") : NULL;
-		$objet = isset(_request("objet")) ? _request("objet") : NULL;
-		$detail = isset(_request("detail")) ? _request("detail") : NULL;
+		$idtype = _request("idtype") ? _request("idtype") : NULL;
+		$idstatu = _request("idstatu") ? _request("idstatu") : NULL;
+		$objet = _request("objet") ? _request("objet") : NULL;
+		$detail = _request("detail") ? _request("detail") : NULL;
 
 		$criticErrors = $errors = array();
 

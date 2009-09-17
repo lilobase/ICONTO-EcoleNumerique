@@ -22,7 +22,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		
 		$userId = $_SESSION["user"]->bu["user_id"];
 		
-		$page = isset(_request("page")) ? _request("page") : 1;
+		$page = _request("page") ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
 		$messagesAll = $dao->getListRecvAll($userId);
 		$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
@@ -73,7 +73,7 @@ class ActionGroupMinimail extends CopixActionGroup {
     $daoTo = CopixDAOFactory::create("minimail_to");
 		$userId = $_SESSION["user"]->bu["user_id"];
 		
-		$page = isset(_request("page")) ? _request("page") : 1;
+		$page = _request("page") ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
 		$messagesAll = $daoFrom->getListSendAll($userId);
 		$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
@@ -249,15 +249,15 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 
 		$idUser = $_SESSION["user"]->bu["user_id"];
-		$idMessage = isset(_request("id")) ? _request("id") : NULL;
+		$idMessage = _request("id") ? _request("id") : NULL;
 		
-		$title = isset(_request("title")) ? _request("title") : NULL;
-		$login = isset(_request("login")) ? _request("login") : NULL;
-		$dest = isset(_request("dest")) ? _request("dest") : $login;
-		$message = isset(_request("message")) ? _request("message") : NULL;
+		$title = _request("title") ? _request("title") : NULL;
+		$login = _request("login") ? _request("login") : NULL;
+		$dest = _request("dest") ? _request("dest") : $login;
+		$message = _request("message") ? _request("message") : NULL;
 		$format = CopixConfig::get ('minimail|default_format');
 		
-		$preview = isset(_request("preview")) ? _request("preview") : 0;
+		$preview = _request("preview") ? _request("preview") : 0;
 		
 		if ($idMessage) {	// Tentative de réponse à un message
 			$daoFrom = CopixDAOFactory::create("minimail_from");
@@ -282,7 +282,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$tplForm->assign ("message", $message);
 		$tplForm->assign ("format", $format);
 		$tplForm->assign ("preview", $preview);
-		$tplForm->assign ("errors", (isset(_request("errors")) ? _request("errors") : ""));
+		$tplForm->assign ("errors", (_request("errors") ? _request("errors") : ""));
 		$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'height'=>200)));
 		
 		$tplForm->assign ('linkpopup', CopixZone::process ('annuaire|linkpopup', array('field'=>'dest')));
@@ -312,12 +312,12 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$dest = isset(_request("dest")) ? _request("dest") : "";
-		$title = isset(_request("title")) ? _request("title") : "";
-		$message = isset(_request("message")) ? _request("message") : "";
-		$format = isset(_request("format")) ? _request("format") : "";
-		//$attachment1 = isset(_request("attachment1")) ? _request("attachment1") : "";
-		$go = isset(_request("go")) ? _request("go") : 'preview';
+		$dest = _request("dest") ? _request("dest") : "";
+		$title = _request("title") ? _request("title") : "";
+		$message = _request("message") ? _request("message") : "";
+		$format = _request("format") ? _request("format") : "";
+
+		$go = _request("go") ? _request("go") : 'preview';
 
 		$destTxt = $dest;
 		$destTxt = str_replace(array(" "), "", $destTxt);
@@ -449,8 +449,8 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$messages = isset(_request("messages")) ? _request("messages") : NULL;
-		$mode = isset(_request("mode")) ? _request("mode") : NULL;
+		$messages = _request("messages") ? _request("messages") : NULL;
+		$mode = _request("mode") ? _request("mode") : NULL;
 		//print_r2($messages);
 		$daoMinimailFrom 	= CopixDAOFactory::create("minimail_from");
    	$daoMinimailTo 		= CopixDAOFactory::create("minimail_to");
@@ -486,7 +486,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$file = isset(_request("file")) ? _request("file") : NULL;
+		$file = _request("file") ? _request("file") : NULL;
 		$fullFile = realpath("../data")."/minimail/".($file);
 		$errors = array();
 		if (!$file || !file_exists($fullFile))
@@ -512,7 +512,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-		$file = isset(_request("file")) ? _request("file") : "";
+		$file = _request("file") ? _request("file") : "";
 		$fullFile = realpath("../data")."/minimail/".($file);
 		$errors = array();
 		
