@@ -106,7 +106,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
 		// Catégories cochées...
 	    $tabSelectCat = array();
-	    if(isset(_request('tabSelectCat'))) {
+	    if(_request('tabSelectCat')) {
 	      $tabSelectCat = (array) _request('tabSelectCat');
 	    }
 		
@@ -144,7 +144,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     $articleDAO = CopixDAOFactory::create('blog|blogarticle');
     // Catégories cochées...
     $tabSelectCat = array();
-    if(isset(_request('tabSelectCat'))) {
+    if(_request('tabSelectCat')) {
       $tabSelectCat = (array) _request('tabSelectCat');
     }
     $id_bact = $this->getRequest('id_bact', null);
@@ -276,7 +276,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
     // Catégories cochées...
     $tabSelectCat = array();
-    if(isset(_request('tabSelectCat'))) {
+    if(_request('tabSelectCat')) {
       $tabSelectCat = (array) _request('tabSelectCat');
     }
     // Préparation du filtre CATEGORIES
@@ -314,8 +314,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     if(strlen($toUpdate->url_bact)==0 && strlen($toUpdate->name_bact)>0) {
     	$toUpdate->url_bact = killBadUrlChars($toUpdate->name_bact);
     }
-    if(isset (_request('sticky_bact'))) $toUpdate->sticky_bact = _request('sticky_bact'); else $toUpdate->sticky_bact = 0;
-    if(isset (_request('is_online'))) $toUpdate->is_online = _request('is_online'); else $toUpdate->is_online = 0;
+    if(_request('sticky_bact')) $toUpdate->sticky_bact = _request('sticky_bact'); else $toUpdate->sticky_bact = 0;
+    if(_request('is_online')) $toUpdate->is_online = _request('is_online'); else $toUpdate->is_online = 0;
   }
 
   /**

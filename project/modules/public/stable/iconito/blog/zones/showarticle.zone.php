@@ -52,7 +52,7 @@ class ZoneShowArticle extends CopixZone {
 		    $toEdit = $comment;
 		} else {	// On récupère l'utilisateur connecté
 			$user = BlogAuth::getUserInfos();
-			$toEdit = _daoRecord('blogarticlecomment');
+			$toEdit = _record('blogarticlecomment');
 		    $toEdit->authorid_bacc = $user->userId;
 	    	$toEdit->authorname_bacc = $user->name;
 		    $toEdit->authoremail_bacc = $user->email;

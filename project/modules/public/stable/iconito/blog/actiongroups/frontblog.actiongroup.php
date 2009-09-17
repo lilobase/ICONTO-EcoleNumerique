@@ -118,7 +118,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 		
-		if (!isset(_request('article'))){
+		if (!_request('article')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
@@ -195,7 +195,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 		
-		if (!isset(_request('page'))){
+		if (!_request('page')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
@@ -271,7 +271,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 		
-		if (!isset(_request('id_bfrs'))){
+		if (!_request('id_bfrs')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));

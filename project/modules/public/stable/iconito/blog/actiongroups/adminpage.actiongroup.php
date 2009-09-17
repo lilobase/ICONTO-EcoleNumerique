@@ -72,7 +72,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
     if(strlen($toUpdate->url_bpge)==0 && strlen($toUpdate->name_bpge)>0) {
     	$toUpdate->url_bpge = killBadUrlChars($toUpdate->name_bpge);
     }		
-		if(isset (_request('is_online'))) $toUpdate->is_online = _request('is_online'); else $toUpdate->is_online = 0;
+		if(_request('is_online')) $toUpdate->is_online = _request('is_online'); else $toUpdate->is_online = 0;
 	}
 
 	function doValidEditPage() {
