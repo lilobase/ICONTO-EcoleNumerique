@@ -1,7 +1,7 @@
 <?php
 
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'kernelblog.class.php');
-require_once (COPIX_MODULE_PATH.'public/'.COPIX_CLASSES_DIR.'publicutils.class.php');
+_classInclude('blog|kernelblog');
+_classInclude('public|publicutils');
 
 /**
  * Zone qui affiche la liste des blogs

@@ -10,7 +10,7 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-require (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'fluxrssservices.class.php');
+_classInclude('blog|fluxrssservices');
 
 class ZoneShowFluxrss extends CopixZone {
    function _createContent (&$toReturn) {

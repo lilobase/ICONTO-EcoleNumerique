@@ -1,7 +1,6 @@
 <?php
 
-require_once (COPIX_MODULE_PATH.'liste/'.COPIX_CLASSES_DIR.'listeservice.class.php');
-
+_classInclude('liste|listeservice');
 
 /**
  * Actiongroup du module Liste

@@ -9,10 +9,10 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendaservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'dateservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendatype.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'semaineparams.class.php');
+_classInclude('agenda|agendaservices');
+_classInclude('agenda|dateservices');
+_classInclude('agenda|agendatype');
+_classInclude('agenda|semaineparams');
 require_once (COPIX_TEMP_PATH.'../utils/copix/smarty_plugins/modifier.wiki.php');
 
 class ActionGroupAgenda extends CopixActionGroup {
@@ -149,7 +149,6 @@ class ActionGroupAgenda extends CopixActionGroup {
 	*/
 	function getZoneToday (){
 		
-		//require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'zonetodayparams.class.php');	
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		
 		$agendaService  = new AgendaService;

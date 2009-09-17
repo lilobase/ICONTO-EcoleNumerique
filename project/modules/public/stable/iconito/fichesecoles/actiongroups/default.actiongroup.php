@@ -6,10 +6,9 @@
  * @subpackage fichesecole
  */
 
-require_once (COPIX_MODULE_PATH.'fichesecoles/'.COPIX_CLASSES_DIR.'fichesecolesservice.class.php');
-require_once (COPIX_MODULE_PATH.'annuaire/'.COPIX_CLASSES_DIR.'annuaireservice.class.php');
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogutils.class.php');
-
+_classInclude('fichesecoles|fichesecolesservice');
+_classInclude('annuaire|annuaireservice');
+_classInclude('blog|blogutils');
 
 class ActionGroupDefault extends CopixActionGroup {
 

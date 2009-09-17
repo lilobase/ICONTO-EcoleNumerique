@@ -1,8 +1,5 @@
 <?php
 
-//require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'kernelblog.class.php');
-//require_once (COPIX_MODULE_PATH.'public/'.COPIX_CLASSES_DIR.'publicutils.class.php');
-
 /**
  * Zone qui affiche le RSS de tous les blogs du site
  * 

@@ -10,7 +10,7 @@
  * @link        http://www.cap-tic.fr
  */
 
-require_once (COPIX_MODULE_PATH.'admin/'.COPIX_CLASSES_DIR.'admin.class.php');
+_classInclude('admin|admin');
 
 class ActionGroupAdmin extends CopixActionGroup {
 

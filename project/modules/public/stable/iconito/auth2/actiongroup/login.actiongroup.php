@@ -10,7 +10,7 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-require_once (COPIX_MODULE_PATH.'logs/'.COPIX_CLASSES_DIR.'logs.class.php');
+_classInclude('logs|logs');
 
 class ActionGroupLogin extends CopixActionGroup {
     /**

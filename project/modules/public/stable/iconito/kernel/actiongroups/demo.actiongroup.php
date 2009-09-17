@@ -9,12 +9,10 @@
  * @author	Christophe Beyer <fmossmann@cap-tic.fr>
  */
 
-_classInclude ('kernel|demo_db');
-  
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'demo_db.class.php');
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'demo_auth.class.php');
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'demo_tools.class.php');
-require_once (COPIX_MODULE_PATH.'admin/'.COPIX_CLASSES_DIR.'admin.class.php');
+_classInclude('kernel|demo_db');
+_classInclude('kerenl|demo_auth');
+_classInclude('kernel|demo_tools');
+_classInclude('admin|admin');
 
 class ActionGroupDemo extends CopixActionGroup {
 

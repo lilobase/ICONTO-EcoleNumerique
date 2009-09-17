@@ -9,11 +9,11 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendaservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'importservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'exportservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'dateservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendaauth.class.php');
+_classInclude('agenda|agendaservices');
+_classInclude('agenda|dateservices');
+_classInclude('agenda|importservices');
+_classInclude('agenda|exportservices');
+_classInclude('agenda|agendaauth');
 
 class ActionGroupImportExport extends CopixActionGroup {
 

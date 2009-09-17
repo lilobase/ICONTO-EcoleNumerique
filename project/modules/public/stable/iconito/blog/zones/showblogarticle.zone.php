@@ -16,7 +16,7 @@
 * @param id_head // the current copixheading indice can be null if racine
 */
 
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogauth.class.php');
+_classInclude('blog|blogauth');
 
 class ZoneShowBlogArticle extends CopixZone {
 	function _createContent (&$toReturn) {

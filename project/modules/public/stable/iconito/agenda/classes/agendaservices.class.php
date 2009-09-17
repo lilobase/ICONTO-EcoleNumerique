@@ -9,10 +9,10 @@
  * @licence http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
  */
 
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendatype.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'dateservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendaauth.class.php');
- 
+_classInclude('agenda|agendaauth');
+_classInclude('agenda|dateservices');
+_classInclude('agenda|agendatype');
+
 class AgendaService {
 	
 	/**

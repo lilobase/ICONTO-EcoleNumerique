@@ -9,9 +9,7 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-
-require_once (COPIX_MODULE_PATH.'prefs/'.COPIX_CLASSES_DIR.'prefs.class.php');
-
+_classInclude('prefs|prefs');
 
 class ActionGroupPrefs extends CopixActionGroup {
 

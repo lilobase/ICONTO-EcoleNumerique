@@ -6,7 +6,7 @@
  * @subpackage fichesecole
  */
 
-require_once (COPIX_MODULE_PATH.'fichesecoles/'.COPIX_CLASSES_DIR.'fichesecolesservice.class.php');
+_classInclude('fichesecoles|fichesecolesservice');
 
 class ActionGroupAdmin extends CopixActionGroup {
 

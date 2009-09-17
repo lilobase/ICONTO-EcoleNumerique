@@ -7,8 +7,8 @@
  * @subpackage Teleprocedures
  */
 
-require_once (COPIX_MODULE_PATH.'annuaire/'.COPIX_CLASSES_DIR.'annuaireservice.class.php');
-require_once (COPIX_MODULE_PATH.'teleprocedures/'.COPIX_CLASSES_DIR.'teleproceduresservice.class.php');
+_classInclude('annuaire|annuaireservice');
+_classInclude('teleprocedures|teleproceduresservice');
 
 class ZoneFiche extends CopixZone {
 

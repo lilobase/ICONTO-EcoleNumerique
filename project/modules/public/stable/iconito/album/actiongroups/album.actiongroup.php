@@ -9,8 +9,7 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-
-require_once (COPIX_MODULE_PATH.'album/'.COPIX_CLASSES_DIR.'album.class.php');
+_classInclude('album|album');
 require_once (COPIX_UTILS_PATH.'pclzip.lib.php');
 
 /**

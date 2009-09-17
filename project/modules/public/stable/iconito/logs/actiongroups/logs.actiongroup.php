@@ -9,8 +9,7 @@
  * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
  */
 
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'kernel.class.php');
-require_once (COPIX_MODULE_PATH.'logs/'.COPIX_CLASSES_DIR.'logs.class.php');
+_classInclude('logs|logsolesservice');
 require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
 
 class ActionGroupLogs extends CopixActionGroup {

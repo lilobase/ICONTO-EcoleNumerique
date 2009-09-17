@@ -6,7 +6,7 @@
  * @subpackage	Malle
  */
 
-require_once (COPIX_MODULE_PATH.'malle/'.COPIX_CLASSES_DIR.'malleservice.class.php');
+_classInclude('malle|malleservice');
 
 class KernelMalle {
 

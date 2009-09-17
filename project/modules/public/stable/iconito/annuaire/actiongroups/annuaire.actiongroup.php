@@ -1,6 +1,6 @@
 <?php
 
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogutils.class.php');
+_classInclude('blog|blogutils');
 
 /**
  * Actiongroup du module Annuaire

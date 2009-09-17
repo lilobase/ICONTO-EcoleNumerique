@@ -10,8 +10,8 @@
  * @link        http://www.cap-tic.fr
  */
 
-require_once (COPIX_MODULE_PATH.'admin/'.COPIX_CLASSES_DIR.'cacheservices.class.php');
-require_once (COPIX_MODULE_PATH.'admin/'.COPIX_CLASSES_DIR.'admin.class.php');
+_classInclude('admin|cacheservices');
+_classInclude('admin|admin');
 
 class ActionGroupCache extends CopixActionGroup {
 

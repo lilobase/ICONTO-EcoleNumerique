@@ -28,7 +28,6 @@
  *	PRIMARY KEY ( id_groupe , id_ville )
  * ) ENGINE = MYISAM;
  */
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'kernel.class.php');
 
 class ActionGroupGrvilles extends CopixActionGroup {
 

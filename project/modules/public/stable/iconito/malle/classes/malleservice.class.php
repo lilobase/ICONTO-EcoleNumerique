@@ -6,8 +6,8 @@
  * @subpackage	Malle
  */
  
-require_once (COPIX_MODULE_PATH.'logs/'.COPIX_CLASSES_DIR.'logs.class.php');
- 
+_classInclude('logs|logs');
+
 class MalleService {
 
 	/**

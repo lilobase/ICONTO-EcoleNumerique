@@ -8,7 +8,7 @@
  * @version   $Id: showblogdroits.zone.php,v 1.2 2007-06-04 10:22:54 cbeyer Exp $
  */
 
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogauth.class.php');
+_classInclude('blog|blogauth');
 
 class ZoneShowBlogDroits extends CopixZone {
 

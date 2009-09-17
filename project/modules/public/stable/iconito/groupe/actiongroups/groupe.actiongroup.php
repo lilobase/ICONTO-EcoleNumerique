@@ -1,7 +1,6 @@
 <?php
 
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'dateservices.class.php');
-
+_classInclude('agenda|dateservices');
 
 /**
  * Actiongroup du module Groupe

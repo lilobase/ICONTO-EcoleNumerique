@@ -11,14 +11,6 @@
 
 _classInclude ('welcome|welcome');
   
-/* 
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'kernel.class.php');
-require_once (COPIX_MODULE_PATH.'prefs/'.COPIX_CLASSES_DIR.'prefs.class.php');
-require_once (COPIX_MODULE_PATH.'logs/'.COPIX_CLASSES_DIR.'logs.class.php');
-require_once (COPIX_MODULE_PATH.'welcome/'.COPIX_CLASSES_DIR.'welcome.class.php');
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blogutils.class.php');
-require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'kernelblog.class.php');
-*/
 
 class ActionGroupDefault extends CopixActionGroup {
 	

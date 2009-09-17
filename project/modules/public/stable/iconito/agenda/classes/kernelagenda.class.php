@@ -7,7 +7,7 @@
  * @subpackage Agenda
  */
 
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendatype.class.php');
+_classInclude('agenda|agendatype');
 
 class KernelAgenda {
 

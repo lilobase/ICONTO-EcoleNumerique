@@ -10,8 +10,6 @@
  * @link        http://www.cap-tic.fr
  */
 
-require_once (COPIX_MODULE_PATH.'kernel/'.COPIX_CLASSES_DIR.'kernel.class.php');
-
 class ActionGroupSso extends CopixActionGroup {
 
    function getSso () {
