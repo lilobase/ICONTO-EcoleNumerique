@@ -11,8 +11,8 @@ _classInclude('ressource|ressource');
 class ActionGroupRessource extends CopixActionGroup {
 
 	function go() {
-		if( isset($this->vars["id"]) ) {
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>$this->vars["id"]) ));
+		if( isset(_request("id")) ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>_request("id")) ));
 		} else {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
@@ -23,12 +23,12 @@ class ActionGroupRessource extends CopixActionGroup {
 	function getList () {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset($this->vars["id"]) ) 
+		if( !isset(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));
 		
-		$id = $this->vars["id"];
+		$id = _request("id");
 		
 		
 		if( 0 && ! Ressource::checkRight( "ANNU", $id, PROFILE_CCV_READ ) )
@@ -53,7 +53,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		$ressource_list = $ressource_dao->getByAnnu($id);
 		$tplList->assign ('ressource_list', $ressource_list);
 		
-		if( isset($this->vars["refreshtags"]) && $this->vars["refreshtags"]="yes" ) {
+		if( isset(_request("refreshtags")) && _request("refreshtags")="yes" ) {
 			set_time_limit( 0 );
 			foreach( $ressource_list AS $key=>$val ) {
 				Ressource::savetags( $val->ressources_id );
@@ -74,16 +74,16 @@ class ActionGroupRessource extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplMain = & new CopixTpl ();
 		
-		if( !isset($this->vars["mode"]) || $this->vars["mode"]=="" ) $this->vars["mode"]="view";
-		$mode = $this->vars["mode"];
+		if( !isset(_request("mode")) || _request("mode")=="" ) _request("mode")="view";
+		$mode = _request("mode");
 		
 		
-		if( 0 && !isset($this->vars["id"]) ) 
+		if( 0 && !isset(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));
 		
-		$id = $this->vars["id"];
+		$id = _request("id");
 		
 		$ressource_dao = CopixDAOFactory::create("ressource_ressources");
 		
@@ -226,7 +226,7 @@ class ActionGroupRessource extends CopixActionGroup {
 			$ressource = $ressource_dao->get($id);
 			
 			// DELETE
-			if( $this->vars["confirm"] == md5(_currentUser()->user->getLogin().$ressource->ressources_id) ) {
+			if( _request("confirm") == md5(_currentUser()->user->getLogin().$ressource->ressources_id) ) {
 				die( "DELETE" );
 			}
 			
@@ -266,66 +266,66 @@ class ActionGroupRessource extends CopixActionGroup {
 	function doRessourceSave () {
 	
 		// Modification
-		if( !isset($this->vars["res_id"]) || $this->vars["res_id"]<=0 ) $this->vars["res_id"]=0;
+		if( !isset(_request("res_id")) || _request("res_id")<=0 ) _request("res_id")=0;
 		
-		if( trim($this->vars["nom"])=="" ) return false;
-		if( !isset($this->vars["res_id"]) ) return false;
+		if( trim(_request("nom"))=="" ) return false;
+		if( !isset(_request("res_id")) ) return false;
 		
 		$ressource_dao = CopixDAOFactory::create("ressource_ressources");
-		if( $this->vars["res_id"]>0 )
-			$ressource = $ressource_dao->get($this->vars["res_id"]);
+		if( _request("res_id")>0 )
+			$ressource = $ressource_dao->get(_request("res_id"));
 		else {
 			$ressource = CopixDAOFactory::createRecord("ressource_ressources");
-			$ressource->ressources_id_annu = $this->vars["annu_id"];
-			$ressource->ressources_submit_user = $this->vars["submit_user"];
+			$ressource->ressources_id_annu = _request("annu_id");
+			$ressource->ressources_submit_user = _request("submit_user");
 			$ressource->ressources_submit_date = date("Y-m-d H:i:s");
 			$ressource->ressources_valid_user  = "";
 			$ressource->ressources_valid_date  = date("Y-m-d H:i:s");
 					}
-		$ressource->ressources_nom = $this->vars["nom"];
-		$ressource->ressources_url = $this->vars["url"];
-		$ressource->ressources_description = $this->vars["description"];
-		$ressource->ressources_mots = $this->vars["mots"];
-		$ressource->ressources_auteur = $this->vars["auteur"];
-		$ressource->ressources_submit_user = $this->vars["submit_user"];
-		if( $this->vars["res_id"]>0 )
+		$ressource->ressources_nom = _request("nom");
+		$ressource->ressources_url = _request("url");
+		$ressource->ressources_description = _request("description");
+		$ressource->ressources_mots = _request("mots");
+		$ressource->ressources_auteur = _request("auteur");
+		$ressource->ressources_submit_user = _request("submit_user");
+		if( _request("res_id")>0 )
 			$ressource_dao->update( $ressource );
 		else {
 			$ressource_dao->insert( $ressource );
-			$this->vars["res_id"] = $ressource->ressources_id;
+			_request("res_id") = $ressource->ressources_id;
 		}
 		
 		$fonction_dao = CopixDAOFactory::create("ressource_res2fonction");
-		$fonction_enr = $fonction_dao->delByRessource($this->vars["res_id"]);
+		$fonction_enr = $fonction_dao->delByRessource(_request("res_id"));
 		$fonction_new = CopixDAOFactory::createRecord("ressource_res2fonction");
-		foreach( $this->vars['fonction'] AS $fonction_item ) {
-			$fonction_new->res2fonction_id_ressource = $this->vars["res_id"];
+		foreach( _request("fonction") AS $fonction_item ) {
+			$fonction_new->res2fonction_id_ressource = _request("res_id");
 			$fonction_new->res2fonction_id_fonction = $fonction_item;
 			$fonction_dao->insert( $fonction_new );
 		}
 		
 		$contenu_dao = CopixDAOFactory::create("ressource_res2contenu");
-		$contenu_enr = $contenu_dao->delByRessource($this->vars["res_id"]);
+		$contenu_enr = $contenu_dao->delByRessource(_request("res_id"));
 		$contenu_new = CopixDAOFactory::createRecord("ressource_res2contenu");
-		foreach( $this->vars['contenu'] AS $contenu_item ) {
-			$contenu_new->res2contenu_id_ressource = $this->vars["res_id"];
+		foreach( _request("contenu") AS $contenu_item ) {
+			$contenu_new->res2contenu_id_ressource = _request("res_id");
 			$contenu_new->res2contenu_id_contenu = $contenu_item;
 			$contenu_dao->insert( $contenu_new );
 		}
 		
 		$domaine_dao = CopixDAOFactory::create("ressource_res2domaine");
-		$domaine_enr = $domaine_dao->delByRessource($this->vars["res_id"]);
+		$domaine_enr = $domaine_dao->delByRessource(_request("res_id"));
 		$domaine_new = CopixDAOFactory::createRecord("ressource_res2domaine");
-		foreach( $this->vars['domaine'] AS $domaine_item ) {
-			$domaine_new->res2domaine_id_ressource = $this->vars["res_id"];
+		foreach( _request("domaine") AS $domaine_item ) {
+			$domaine_new->res2domaine_id_ressource = _request("res_id");
 			$domaine_new->res2domaine_id_domaine = $domaine_item;
 			$domaine_dao->insert( $domaine_new );
 		}
 		
-		Ressource::savetags( $this->vars["res_id"] );
+		Ressource::savetags( _request("res_id") );
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT,
-			CopixUrl::get ('ressource||getRessource', array('id'=>$this->vars["res_id"]) ));
+			CopixUrl::get ('ressource||getRessource', array('id'=>_request("res_id")) ));
 	}
 	
 	
@@ -334,20 +334,20 @@ class ActionGroupRessource extends CopixActionGroup {
 		$tplMain = & new CopixTpl ();
 		
 		/*
-		if( !isset($this->vars["id"]) || !isset($this->vars["text"]) || trim($this->vars["text"])=="" )
+		if( !isset(_request("id")) || !isset(_request("text")) || trim(_request("text"))=="" )
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>'Texte de recherche ou numéro de bibliothèque non défini.',
 				'back'=>CopixUrl::get ('||')));
 		
-		if( ! Ressource::checkRight( "ANNU", $this->vars["id"], PROFILE_CCV_READ ) )
+		if( ! Ressource::checkRight( "ANNU", _request("id"), PROFILE_CCV_READ ) )
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.accesInterdit'),
-			'back'=>CopixUrl::get ('ressource||getList', array('id'=>$this->vars["id"]) )));
+			'back'=>CopixUrl::get ('ressource||getList', array('id'=>_request("id")) )));
 		*/
 
 		
-		$params = array( 'text'=>$this->vars["text"] );
-		$ressources = Ressource::searchRessources( $params, $this->vars["id"] );
+		$params = array( 'text'=>_request("text") );
+		$ressources = Ressource::searchRessources( $params, _request("id") );
 		
 		$tplMain->assign ('ressource_list', $ressources);
 		
@@ -363,12 +363,12 @@ class ActionGroupRessource extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplMain = & new CopixTpl ();
 		
-		if( 0 && !isset($this->vars["id"]) ) 
+		if( 0 && !isset(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));
 		
-		$id = $this->vars["id"];
+		$id = _request("id");
 		$fonctions = $this->getRequest('fonctions');
 		$contenus = $this->getRequest('contenus');
 		$domaines = $this->getRequest('domaines');
@@ -496,33 +496,33 @@ class ActionGroupRessource extends CopixActionGroup {
 
 	function getTag () {
 		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('ressource.title.module').' &raquo; '.CopixI18N::get ('ressource.title.tag').' : "'.$this->vars["tag"].'"');
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('ressource.title.module').' &raquo; '.CopixI18N::get ('ressource.title.tag').' : "'._request("tag").'"');
 
 		// Kernel::MyDebug( Ressource::alltags() );
 		
-		$ressource_list = Ressource::tag2ressources( $this->vars["tag"], $this->vars["id"] );
+		$ressource_list = Ressource::tag2ressources( _request("tag"), _request("id") );
 		
 		$tplList = & new CopixTpl ();
 		
 		$tplList->assign ('ressource_list', $ressource_list);
 		
-		$alltags = Ressource::similarTags( $this->vars["tag"], $this->vars["id"] );
+		$alltags = Ressource::similarTags( _request("tag"), _request("id") );
 		$tplList->assign ('tags_list', $alltags );
 		
-		$tplList->assign ('annu_id', $this->vars["id"]);
+		$tplList->assign ('annu_id', _request("id"));
 		
 		$menu = array();
 		$menu[] = array(
-			'url' => CopixUrl::get('|getSearchAdvanced', array('id'=>$this->vars["id"])),
+			'url' => CopixUrl::get('|getSearchAdvanced', array('id'=>_request("id"))),
 			'txt' => CopixI18N::get ('ressource.menu.parCriteres')
 		);
 		$menu[] = array(
-			'url' => CopixUrl::get('ressource||getList', array('id'=>$this->vars["id"]) ),
+			'url' => CopixUrl::get('ressource||getList', array('id'=>_request("id")) ),
 			'txt' => CopixI18N::get ('ressource.menu.retourListe')
 		);
-		if( Ressource::checkRight( "ANNU", $this->vars["id"], PROFILE_CCV_WRITE ) ) {
+		if( Ressource::checkRight( "ANNU", _request("id"), PROFILE_CCV_WRITE ) ) {
 			$menu[] = array(
-				'url' => CopixUrl::get('ressource||getRessource', array('id'=>$this->vars["id"],'mode'=>'new') ),
+				'url' => CopixUrl::get('ressource||getRessource', array('id'=>_request("id"),'mode'=>'new') ),
 				'txt' => CopixI18N::get ('ressource.menu.ajouterRessource')
 			);
 		}
