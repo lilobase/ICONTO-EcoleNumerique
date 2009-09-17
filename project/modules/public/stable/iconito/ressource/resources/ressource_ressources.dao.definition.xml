@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_ressources" tablename="module_ressource_ressources" primary="yes"/>
+			<table name="module_ressource_annuaires" tablename="module_ressource_annuaires" join="LEFT"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="ressources_id" fieldname="id" type="autoincrement" table="module_ressource_ressources" pk="yes"/>
+		<property name="ressources_id_annu" fieldname="id_annu" type="integer" table="module_ressource_ressources" pk="no" fktable="module_ressource_annuaires" fkfieldname="id"/>
+		<property name="ressources_nom" fieldname="nom" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_url" fieldname="url" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_description" fieldname="description" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_mots" fieldname="mots" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_auteur" fieldname="auteur" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_submit_user" fieldname="submit_user" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_submit_date" fieldname="submit_date" type="date" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_valid_user" fieldname="valid_user" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_valid_date" fieldname="valid_date" type="date" table="module_ressource_ressources" pk="no"/>
+		
+		<property name="annuaires_id" fieldname="id" type="integer" table="module_ressource_annuaires" pk="yes"/>
+	</properties>
+	<methods>
+		<method name="getByAnnu" type="select">
+			<parameters>
+				<parameter name="annu" />
+			</parameters>
+			<conditions>
+				<condition property="ressources_id_annu" operator="=" value="$annu" />
+			</conditions>
+			<order>
+				<orderitem property="ressources_submit_date" way="desc" />
+			</order>
+		</method>
+	</methods>
+</daodefinition>

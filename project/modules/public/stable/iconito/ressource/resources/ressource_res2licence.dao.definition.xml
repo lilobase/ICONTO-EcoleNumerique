@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_res2licence" tablename="module_ressource_res2licence" primary="yes"/>
+			<table name="module_ressource_ressources"  tablename="module_ressource_ressources"  join="LEFT"/>
+			<table name="module_ressource_licences"    tablename="module_ressource_licences"    join="LEFT"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="res2licence_id_ressource" fieldname="id_ressource" type="integer" table="module_ressource_res2licence" pk="yes" fktable="module_ressource_ressources" fkfieldname="id"/>
+		<property name="res2licence_id_licence"   fieldname="id_licence"   type="integer" table="module_ressource_res2licence" pk="yes" fktable="module_ressource_licences"   fkfieldname="id"/>
+		<property name="ressources_id"          fieldname="id"          type="integer" table="module_ressource_ressources" pk="yes"/>
+		<property name="ressources_id_annu"     fieldname="id"          type="integer" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_nom"         fieldname="nom"         type="string"  table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_url"         fieldname="url"         type="string"  table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_description" fieldname="description" type="string"  table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_mots"        fieldname="mots"        type="string"  table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_auteur"      fieldname="auteur"      type="string"  table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_submit_user" fieldname="submit_user" type="date"    table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_submit_date" fieldname="submit_date" type="date"    table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_valid_user"  fieldname="valid_user"  type="date"    table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_valid_date"  fieldname="valid_date"  type="date"    table="module_ressource_ressources" pk="no"/>
+		<property name="licences_id" fieldname="id" type="integer" table="module_ressource_licences" pk="yes"/>
+		<property name="licences_nom" fieldname="nom" type="string" table="module_ressource_licences" pk="no"/>
+		<property name="licences_ordre" fieldname="ordre" type="integer" table="module_ressource_licences" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getByRessource" type="select">
+			<parameters>
+				<parameter name="ressource" />
+			</parameters>
+			<conditions>
+				<condition property="res2licence_id_ressource" operator="=" value="$ressource" />
+			</conditions>
+		</method>
+		<method name="delByRessource" type="delete">
+			<parameters>
+				<parameter name="ressource" />
+			</parameters>
+			<conditions>
+				<condition property="res2licence_id_ressource" operator="=" value="$ressource" />
+			</conditions>
+		</method>
+		<method name="getByLicence" type="select">
+			<parameters>
+				<parameter name="licence" />
+			</parameters>
+			<conditions>
+				<condition property="res2licence_id_licence" operator="=" value="$licence" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

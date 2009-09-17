@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_tags" tablename="module_ressource_tags" primary="yes"/>
+			<table name="module_ressource_ressources" tablename="module_ressource_ressources" join="LEFT"/>
+			<table name="module_ressource_annuaires"  tablename="module_ressource_annuaires"  join="LEFT"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="annu" fieldname="annu" type="integer" table="module_ressource_tags" pk="no"  fktable="module_ressource_annuaires"  fkfieldname="id"/>
+		<property name="res"  fieldname="res"  type="integer" table="module_ressource_tags" pk="yes" fktable="module_ressource_ressources" fkfieldname="id"/>
+		<property name="tag"  fieldname="tag"  type="string"  table="module_ressource_tags" pk="yes"/>
+		<property name="annuaires_id" fieldname="id" type="integer" table="module_ressource_annuaires" pk="yes"/>
+		<property name="ressources_id" fieldname="id" type="integer" table="module_ressource_ressources" pk="yes"/>
+		<property name="ressources_id_annu" fieldname="id" type="integer" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_nom" fieldname="nom" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_url" fieldname="url" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_description" fieldname="description" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_mots" fieldname="mots" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_auteur" fieldname="auteur" type="string" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_submit_user" fieldname="submit_user" type="date" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_submit_date" fieldname="submit_date" type="date" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_valid_user" fieldname="valid_user" type="date" table="module_ressource_ressources" pk="no"/>
+		<property name="ressources_valid_date" fieldname="valid_date" type="date" table="module_ressource_ressources" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getTag" type="select">
+			<parameters>
+				<parameter name="tag" />
+			</parameters>
+			<conditions>
+				<condition property="tag" operator="=" value="$tag" />
+			</conditions>
+			<order>
+				<orderitem property="res" way="asc" />
+			</order>
+		</method>
+		<method name="getTagAnnu" type="select">
+			<parameters>
+				<parameter name="tag" />
+				<parameter name="annu" />
+			</parameters>
+			<conditions>
+				<condition property="tag"  operator="=" value="$tag"  />
+				<condition property="annu" operator="=" value="$annu" />
+			</conditions>
+			<order>
+				<orderitem property="res" way="asc" />
+			</order>
+		</method>
+		<method name="getRessource" type="select">
+			<parameters>
+				<parameter name="res" />
+			</parameters>
+			<conditions>
+				<condition property="res" operator="=" value="$res" />
+			</conditions>
+			<order>
+				<orderitem property="tag" way="asc" />
+			</order>
+		</method>
+		<method name="delRessource" type="delete">
+			<parameters>
+				<parameter name="res" />
+			</parameters>
+			<conditions>
+				<condition property="res" operator="=" value="$res" />
+			</conditions>
+		</method>
+	</methods>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </daodefinition>

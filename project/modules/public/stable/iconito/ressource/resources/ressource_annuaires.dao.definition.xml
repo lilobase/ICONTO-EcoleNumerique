@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_annuaires" tablename="module_ressource_annuaires" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="annuaires_id" fieldname="id" type="integer" table="module_ressource_annuaires" pk="yes"/>
+	</properties>
+</daodefinition>
