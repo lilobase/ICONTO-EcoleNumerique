@@ -15,7 +15,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 
 	function getPrefs () {
 		
-		if( !isset($_SESSION["user"]->bu) || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
+		if( !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
 	      return CopixActionGroup::process ('genericTools|Messages::getError',
 	      array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'),
 	      'back'=>CopixUrl::get ('auth|default|login')));

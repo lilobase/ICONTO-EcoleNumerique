@@ -124,7 +124,9 @@ class CarnetService {
 		switch (_currentUser()->getExtra('type')) {
 			case "USER_ENS" :	// Enseignant
 				$childs = $kernel_service->getNodeChilds ("BU_CLASSE", $classe);
-				while (list($k,$child) = each($childs)) {
+				var_dump($childs);
+				foreach ($childs as $k=>$child) {
+				//while (list($k,$child) = each($childs)) {
 					if ($child["type"] != "USER_ELE") continue;
 					$userInfo = $kernel_service->getUserInfo ($child["type"], $child["id"]);
 					$childs[$k]["prenom"] = $userInfo["prenom"];

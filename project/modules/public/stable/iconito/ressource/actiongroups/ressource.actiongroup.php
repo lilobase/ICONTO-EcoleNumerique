@@ -11,7 +11,7 @@ _classInclude('ressource|ressource');
 class ActionGroupRessource extends CopixActionGroup {
 
 	function go() {
-		if( isset(_request("id")) ) {
+		if( (_request("id")) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>_request("id")) ));
 		} else {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -23,7 +23,7 @@ class ActionGroupRessource extends CopixActionGroup {
 	function getList () {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset(_request("id")) ) 
+		if( !(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));
@@ -53,7 +53,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		$ressource_list = $ressource_dao->getByAnnu($id);
 		$tplList->assign ('ressource_list', $ressource_list);
 		
-		if( isset(_request("refreshtags")) && _request("refreshtags")="yes" ) {
+		if( (_request("refreshtags")) && _request("refreshtags")=="yes" ) {
 			set_time_limit( 0 );
 			foreach( $ressource_list AS $key=>$val ) {
 				Ressource::savetags( $val->ressources_id );
@@ -74,11 +74,9 @@ class ActionGroupRessource extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplMain = & new CopixTpl ();
 		
-		if( !isset(_request("mode")) || _request("mode")=="" ) _request("mode")="view";
-		$mode = _request("mode");
+		$mode = _request("mode", "view");
 		
-		
-		if( 0 && !isset(_request("id")) ) 
+		if( 0 && !(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));
@@ -266,14 +264,15 @@ class ActionGroupRessource extends CopixActionGroup {
 	function doRessourceSave () {
 	
 		// Modification
-		if( !isset(_request("res_id")) || _request("res_id")<=0 ) _request("res_id")=0;
+		
+		$res_id = _request("res_id", 0);
 		
 		if( trim(_request("nom"))=="" ) return false;
-		if( !isset(_request("res_id")) ) return false;
+		if( !$res_id ) return false;
 		
 		$ressource_dao = CopixDAOFactory::create("ressource_ressources");
-		if( _request("res_id")>0 )
-			$ressource = $ressource_dao->get(_request("res_id"));
+		if( $res_id>0 )
+			$ressource = $ressource_dao->get($res_id);
 		else {
 			$ressource = CopixDAOFactory::createRecord("ressource_ressources");
 			$ressource->ressources_id_annu = _request("annu_id");
@@ -288,11 +287,11 @@ class ActionGroupRessource extends CopixActionGroup {
 		$ressource->ressources_mots = _request("mots");
 		$ressource->ressources_auteur = _request("auteur");
 		$ressource->ressources_submit_user = _request("submit_user");
-		if( _request("res_id")>0 )
+		if( $res_id>0 )
 			$ressource_dao->update( $ressource );
 		else {
 			$ressource_dao->insert( $ressource );
-			_request("res_id") = $ressource->ressources_id;
+			$res_id = $ressource->ressources_id;
 		}
 		
 		$fonction_dao = CopixDAOFactory::create("ressource_res2fonction");
@@ -333,17 +332,6 @@ class ActionGroupRessource extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplMain = & new CopixTpl ();
 		
-		/*
-		if( !isset(_request("id")) || !isset(_request("text")) || trim(_request("text"))=="" )
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-				array ('message'=>'Texte de recherche ou numéro de bibliothèque non défini.',
-				'back'=>CopixUrl::get ('||')));
-		
-		if( ! Ressource::checkRight( "ANNU", _request("id"), PROFILE_CCV_READ ) )
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('ressource.error.accesInterdit'),
-			'back'=>CopixUrl::get ('ressource||getList', array('id'=>_request("id")) )));
-		*/
 
 		
 		$params = array( 'text'=>_request("text") );
@@ -363,7 +351,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplMain = & new CopixTpl ();
 		
-		if( 0 && !isset(_request("id")) ) 
+		if( 0 && !(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));

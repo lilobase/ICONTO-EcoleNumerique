@@ -1,0 +1,75 @@
+
+
+DIV.kernel div.boxes {
+	width:680px;
+}
+
+
+DIV.kernel A.box_M {
+	border: 5px solid #D3E15F;
+	padding: 0px;
+	margin: 7px;
+	width: 130px;
+	min-width: 130px;
+	height: 136px;
+	min-height: 136px;
+	float: left;
+	display: block;
+	text-decoration: none;
+	text-align: center;
+}
+
+DIV.kernel A.box_M:hover {
+	border: 5px solid #B3C13F;
+}
+.box_M_border {
+	border: 5px solid #D3E15F;
+}
+.box_M_border:hover {
+	border-color:#B3C13F;
+}
+
+DIV.kernel A.box {
+	border: 5px solid #D3E15F;
+	padding: 0px;
+	margin: 7px;
+	width: 150px;
+	height: 150px;
+	float: left;
+	display: block;
+	text-decoration: none;
+}
+
+DIV.kernel A.box:hover {
+	border: 5px solid #04570F;
+}
+
+DIV.kernel A.box P {
+	margin: 0px;
+	padding: 5px;
+	font-size: 80%;
+}
+
+DIV.kernel A.box H3 {
+	margin: 0px;
+	padding: 5px;
+	font-size: 200%;
+	line-height: 1em;
+}
+
+DIV.kernel A.selected {
+	border: 5px solid #F66;
+}
+
+DIV.kernel div.enfant {
+  clear:left;
+  font-size: 1.4em;
+  font-weight: bolder;
+  border-bottom: solid 5px #D3E15F;
+  margin-bottom: 4px;
+  margin-top:5px;
+} 
+DIV.kernel div.enfant div.classe {
+  float:right;
+  color: #587314;
+}

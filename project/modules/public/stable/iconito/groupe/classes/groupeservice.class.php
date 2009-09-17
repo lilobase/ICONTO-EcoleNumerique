@@ -189,7 +189,7 @@ class GroupeService {
 	function getGroupeBlog ($groupe) {
 		$blog = NULL;
 		$hisModules = Kernel::getModEnabled ("club", $groupe);
-		while (list(,$node) = each($hisModules)) {
+		foreach ($hisModules as $node) {
 			//print_r($node);
 			if ($node->module_type == 'MOD_BLOG') {
 				$dao = _dao("blog|blog");

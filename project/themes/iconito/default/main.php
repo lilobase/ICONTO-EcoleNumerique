@@ -129,8 +129,7 @@ function login( nom, pass ) {
 <?php if (isset($MENU) && $MENU) { ?><?php echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU)) ?>
 <?php } ?>
 
-
-<div class="main<?php if (isset($CONTENT_CLASS) && $CONTENT_CLASS) echo $CONTENT_CLASS; ?>">
+<div class="main <?php $module = CopixRequest::get ('module'); if ($module) echo $module; ?>">
 	<?php echo $MAIN; ?>
 	<br clear="all" /><br clear="all" />
 </div> <!-- fin main -->

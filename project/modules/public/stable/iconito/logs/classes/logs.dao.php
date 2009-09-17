@@ -48,23 +48,6 @@ class DAOLogs {
 		return( $return );
 	}
 
-/*
-	<method name="lastLogin" type="select">
-		<parameters>
-			<parameter name="login" />
-		</parameters>
-		<conditions>
-			<condition property="logs_type"  operator="=" value="LOG" />
-			<condition property="logs_mod_name"  operator="=" value="auth" />
-			<condition property="logs_mod_action"  operator="=" value="in" />
-			<condition property="logs_message"  operator="=" value="Login ok: $login" />
-		</conditions>
-		<order>
-			<orderitem property="logs_date" way="desc" />
-		</order>
-	</method>
-*/
-
 }
 
 

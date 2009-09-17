@@ -18,12 +18,12 @@ class ZoneMyNodes extends CopixZone {
 		
 		$tpl->assign('nodes', $data_new);
 		
-		if( isset($_SESSION["user"]->home) && isset($_SESSION["user"]->home["type"]) && isset($_SESSION["user"]->home["id"]) ) {
-			$tpl->assign('home', $_SESSION["user"]->home["type"]."/".$_SESSION["user"]->home["id"]);
+		if( _currentUser()->getExtraHome('type') && _currentUser()->getExtraHome('id') ) {
+			$tpl->assign('home', _currentUser()->getExtraHome('type')."/"._currentUser()->getExtraHome('id'));
 		}
 		
-		if (isset($_SESSION["user"]->home["type"])) {
-			$modules = Kernel::getModEnabled( $_SESSION["user"]->home["type"], $_SESSION["user"]->home["id"] );
+		if (_currentUser()->getExtraHome('type')) {
+			$modules = Kernel::getModEnabled( _currentUser()->getExtraHome('type'), _currentUser()->getExtraHome('id') );
 			$tpl->assign('modules', $modules);
 		}
 		

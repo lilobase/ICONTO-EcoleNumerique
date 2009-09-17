@@ -1164,13 +1164,20 @@ class Kernel {
 	 * @param integer $user_id   Identifiant du noeud (facultatif).
 	 */
 	function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0 ) {
-		$dao = _dao("kernel|kernel_mod_enabled");
-		$modules = $dao->getByNode($node_type,$node_id);
+		//echo "getModEnabled( $node_type, $node_id, $user_type, $user_id)";
 		
-		foreach ($modules as $k=>$v) {
-			$modules[$k]->module_nom	 = Kernel::Code2Name ($v->module_type);
+		$dao = _dao("kernel|kernel_mod_enabled");
+		$modules = array();
+		
+		$list = $dao->getByNode($node_type,$node_id);
+		//print_r($modules);
+		
+		foreach ($list as $v) {
+			$v->module_nom	 = Kernel::Code2Name ($v->module_type);
+			$modules[] = $v;
 		}
 		
+		//print_r($modules);
 		
 		if( $user_type == "USER_ENS" &&
 		    $node_type == "BU_CLASSE" &&
@@ -1183,6 +1190,8 @@ class Kernel {
 			$modules[] = $carnetcorresp;
 		}
 		
+				
+
 		if( CopixConfig::exists('|conf_ModTeleprocedures') && CopixConfig::get('|conf_ModTeleprocedures')==0 )
 		{
 			// Pas de module de téléprocédures...
@@ -1531,23 +1540,29 @@ class Kernel {
 
 	function createMissingModules( $node_type, $node_id ) {
 		$modavailable = Kernel::getModAvailable( $node_type );
+
 		$modenabled = Kernel::getModEnabled($node_type, $node_id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+		
+		
 		
 		$modinstalled = array();
 		foreach( $modenabled AS $module ) {
 			$modinstalled[] = strtolower( $module->module_type );
 		}
-		$nodeInfo = Kernel::getNodeInfo ($node_type, $node_id);
+		
+		//var_dump($modinstalled);
 
+		$nodeInfo = Kernel::getNodeInfo ($node_type, $node_id);
 		foreach( $modavailable AS $module ) {
-			
+			//var_dump($module);
+				
 			if( ereg( "^MOD_(.+)$", $module->module_type, $modinfo ) ) {
 				$modname = strtolower( $modinfo[1] );
 				
 				if( array_search("mod_".$modname, $modinstalled)===false ) {
 					$file     = & CopixSelectorFactory::create($modname."|".$modname);
 					$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
-
+var_dump($filePath);
 					if (is_readable($filePath)){
 						$modservice = & CopixClassesFactory::Create ($modname.'|kernel'.$modname);
 						if( method_exists( $modservice, "create" ) ) {
@@ -1599,12 +1614,8 @@ class Kernel {
 	 * @since	15.12.2005
 	 */
 	function getSessionHome () {
-		if( isset($_SESSION["user"]) && isset($_SESSION["user"]->home) ) {
-			return $_SESSION["user"]->home;
-		} else {
-			$vide = array();
-			return( $vide );
-		}
+		$getExtraHome = _currentUser()->getExtraHome('');
+		return ($getExtraHome) ? $getExtraHome : array();
 	}
 
 	

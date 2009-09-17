@@ -28,6 +28,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processGetNodes () {
+		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
+		
 		$tpl = & new CopixTpl ();
 		$tplModule = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.menu.accueil'));
@@ -99,7 +102,7 @@ class ActionGroupDefault extends CopixActionGroup {
 				if( !is_int($key_ville) ) continue;
 				$nodes_perso[$key_grville][$key_ville]["info"] = Kernel::getNodeInfo( "BU_VILLE", $key_ville, false );
 				$nodes_perso[$key_grville][$key_ville]["info"]["type_nom"] = CopixI18N::get ('kernel.codes.bu_ville');
-				$nodes_perso[$key_grville][$key_ville]["info"]["selected"] = ($_SESSION["user"]->home["type"]=="BU_VILLE" && $_SESSION["user"]->home["id"]==$key_ville)?true:false;
+				$nodes_perso[$key_grville][$key_ville]["info"]["selected"] = (_currentUser()->getExtraHome('type')=="BU_VILLE" && _currentUser()->getExtraHome('id')==$key_ville)?true:false;
 				
 				// Pour toutes les écoles...
 				foreach( $val_ville as $key_ecole => $val_ecole ) { // ECOLE
@@ -109,14 +112,14 @@ class ActionGroupDefault extends CopixActionGroup {
 					$nodes_perso[$key_grville][$key_ville][$key_ecole]["info"] = $info;
 					$nodes_perso[$key_grville][$key_ville][$key_ecole]["info"]["type_nom"] = CopixI18N::get ('kernel.codes.bu_ecole');
 					$nodes_perso[$key_grville][$key_ville][$key_ecole]["info"]["type_nom_plus"] = $info['ALL']->eco_type;
-					$nodes_perso[$key_grville][$key_ville][$key_ecole]["info"]["selected"] = ($_SESSION["user"]->home["type"]=="BU_ECOLE" && $_SESSION["user"]->home["id"]==$key_ecole)?true:false;
+					$nodes_perso[$key_grville][$key_ville][$key_ecole]["info"]["selected"] = (_currentUser()->getExtraHome('type')=="BU_ECOLE" && _currentUser()->getExtraHome('id')==$key_ecole)?true:false;
 					
 					// Pour toutes les classes...
 					foreach( $val_ecole as $key_classe => $val_classe ) { // CLASSE
 						if( !is_int($key_classe) ) continue;
 						$nodes_perso[$key_grville][$key_ville][$key_ecole][$key_classe]["info"] = Kernel::getNodeInfo( "BU_CLASSE", $key_classe, false );
 						$nodes_perso[$key_grville][$key_ville][$key_ecole][$key_classe]["info"]["type_nom"] = CopixI18N::get ('kernel.codes.bu_classe');
-						$nodes_perso[$key_grville][$key_ville][$key_ecole][$key_classe]["info"]["selected"] = ($_SESSION["user"]->home["type"]=="BU_CLASSE" && $_SESSION["user"]->home["id"]==$key_classe)?true:false;
+						$nodes_perso[$key_grville][$key_ville][$key_ecole][$key_classe]["info"]["selected"] = (_currentUser()->getExtraHome('type')=="BU_CLASSE" && _currentUser()->getExtraHome('id')==$key_classe)?true:false;
 					}
 				}
 			}
@@ -165,22 +168,25 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDoSelectHome() {
-		if( !isset($_SESSION["user"]->bu) || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
+		if( !_currentUser()->getExtras() || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel.error.nologin'),
 			'back'=>CopixUrl::get ('auth|default|login')));
 		}
 		
-		if( !isset($_GET["type"]) || !isset($_GET["id"]) ) {
+		$pType = _request('type');
+		$pId = _request('id');
+		
+		if( !$pType || !$pId ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes' ));
 		}
 		
 		// Cas du parent d'élève qui ne peut revenir qu'à son accueil personnalisé avec ses enfants. CB 06/12/2006
     //print_r($_SESSION);
     if (_currentUser()->getExtra('type') != 'USER_RES') {
-  		Prefs::set( 'kernel', 'home', $_GET["type"]."-".$_GET["id"] );
-	  	Logs::set( array('type'=>'INFO', 'message'=>'SelectHome: '.$_GET["type"]."-".$_GET["id"]) );
-  		Kernel::setMyNode( $_GET["type"], $_GET["id"] );
+  		Prefs::set( 'kernel', 'home', $pType."-".$pId );
+	  	Logs::set( array('type'=>'INFO', 'message'=>'SelectHome: '.$pType."-".$pId) );
+  		Kernel::setMyNode( $pType, $pId );
     }
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getHome' ));
@@ -196,14 +202,17 @@ class ActionGroupDefault extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplModule = & new CopixTpl ();
 		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
+		
 		$user = _currentUser ();
 		
-		$acc = (isset($_SESSION["user"]->home["titre1"])) ? $_SESSION["user"]->home["titre1"] : '';
+		$acc = (_currentUser()->getExtraHome('titre1')) ? _currentUser()->getExtraHome('titre1') : '';
 		if( $acc != '' )
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.title.accueil', array($acc)));
 		else
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.title.accueilsimple'));
-		
+					
+
 		$menu = '';
 		if( count(Kernel::getMyHomes()) > 1 )
 		$menu .= '<a href="'.CopixUrl::get ('kernel||getNodes' ).'">'.CopixI18N::get ('kernel|kernel.message.changezone').'</a>';
@@ -225,6 +234,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$return_str = "";
 					
 
+
 		if( !$user->isConnected() || !$user->getExtra('type') || !$user->getExtra('id') ) {
 			$dispBlog = false;
 			$node = Welcome::findNodeByUrl(CopixUrl::get());
@@ -245,40 +255,42 @@ class ActionGroupDefault extends CopixActionGroup {
 				CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
 				$tpl->assign ('TITLE_PAGE', ''.CopixI18N::get ('public|public.welcome.title'));
 				//print_r($tpl);
-				//return new CopixActionReturn ('COPIX_AR_DISPLAY', $tpl);
+				//return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 				return _arPPO ($tpl, 'get-home.tpl');
 			}		
 		}
 		
 		//print_r($_SESSION);
-		//die();
 		
-		if( !isset($_SESSION["user"]) ||
-		    !isset($_SESSION["user"]->home) ||
-		    !isset($_SESSION["user"]->home["type"]) ||
-		    !isset($_SESSION["user"]->home["id"]) ) {
+		if( !_currentUser()->getExtras() ||
+		    !_currentUser()->getExtraHome('type') ||
+		    !_currentUser()->getExtraHome('id') ) {
 			
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes' ));
 		}
-		
+							
 		// Cas particulier (invité) : non attaché à la base unique, mais à un club
-		if( $_SESSION["user"]->home["type"] == 'CLUB' ) {
+		if( _currentUser()->getExtraHome('type') == 'CLUB' ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHome', array('id'=>_currentUser()->getExtraHome('id') ) ));
 		}
 		
-		Kernel::createMissingModules( $_SESSION["user"]->home["type"], $_SESSION["user"]->home["id"] );
+		Kernel::createMissingModules( _currentUser()->getExtraHome('type'), _currentUser()->getExtraHome('id') );
 		
 		$modules = Kernel::getModEnabled(
-			$_SESSION["user"]->home["type"], $_SESSION["user"]->home["id"],
+			_currentUser()->getExtraHome('type'), _currentUser()->getExtraHome('id'),
 			_currentUser()->getExtra('type'),   _currentUser()->getExtra('id')    );
+		
+		
 		
 		$tplModule->assign ("modules", $modules);
 		$tplModule->assign ("groupes", CopixZone::process ('groupe|mygroupes', array('where'=>'home')));
 		// $tplModule->assign ("aujourdhui", CopixZone::process ('agenda|agendatoday', array('where'=>'home')));
 		$return_str = $tplModule->fetch("getmodules.tpl");
 		
+		
+		
 		$tpl->assign ('MAIN', $return_str );
-		return new CopixActionReturn ('COPIX_AR_DISPLAY', $tpl);
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
 

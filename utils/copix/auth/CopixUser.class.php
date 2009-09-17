@@ -381,12 +381,16 @@ class CopixUser implements ICopixUser {
 			}
 	}
 	
+	// Les infos sur le home
+	// Si $pInformationId est vide, on renvoie tout le tableau home
+	// CB 16/09/2009
 	public function getExtraHome ($pInformationId) {
 		foreach ($this->_logged as $userHandler=>$userResponse){
 				$extra = $userResponse->getExtra ();
-				if (isset ($extra['home'][$pInformationId])){
+				if ($pInformationId && isset ($extra['home'][$pInformationId])){
 					return $extra['home'][$pInformationId];
-				}
+				} elseif (!$pInformationId && isset ($extra['home']))
+					return $extra['home'];
 			}
 	}
 	

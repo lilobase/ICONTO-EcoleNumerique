@@ -8,7 +8,7 @@
 	</datasource>
 	<properties>
 		<property name="logs_id"         fieldname="id"         type="autoincrement" table="logs" pk="yes"/>
-		<property name="logs_date"       fieldname="date"       type="date"          table="logs" pk="no"/>
+		<property name="logs_date"       fieldname="date"       type="string"          table="logs" pk="no"/>
 		<property name="logs_type"       fieldname="type"       type="string"        table="logs" pk="no"/>
 		<property name="logs_message"    fieldname="message"    type="string"        table="logs" pk="no"/>
 		<property name="logs_mod_name"   fieldname="mod_name"   type="string"        table="logs" pk="no"/>
