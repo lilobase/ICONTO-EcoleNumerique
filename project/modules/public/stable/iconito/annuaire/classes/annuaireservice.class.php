@@ -651,7 +651,7 @@ class AnnuaireService {
   function getAnnuaireHome () {
     $home = Kernel::getSessionHome();
     if (!$home && Kernel::isParent()) {  // Cas du parent d'élève
-      $enfants = Kernel::getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
+      $enfants = Kernel::getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
       while (list($k,$v) = each($enfants)) {
         if ($v["type"] != "USER_ELE") continue;
         // Pour chaque enfant...

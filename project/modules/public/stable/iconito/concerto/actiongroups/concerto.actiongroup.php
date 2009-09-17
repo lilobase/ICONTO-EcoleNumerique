@@ -35,7 +35,7 @@ class ActionGroupConcerto extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));
 		}
 		
-		$sql = 'SELECT login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='.$_SESSION["user"]->bu["id"].' AND id=\''.addslashes(_request("id")).'\' AND service=\'concerto\'';
+		$sql = 'SELECT login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='._currentUser()->getExtra('id').' AND id=\''.addslashes(_request("id")).'\' AND service=\'concerto\'';
 		$concerto = _doQuery($sql);
 		if(!$concerto) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));

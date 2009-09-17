@@ -36,7 +36,7 @@ class ZoneList extends CopixZone {
 
 			$sqlSelectPlus = ', DR.droit';
 			$sqlFromPlus = ', module_teleprocedure_intervention_droit DR';
-			$sqlWherePlus = " AND DR.idinter=ITV.idinter AND DR.user_type='"._currentUser()->getExtra('type')."' AND DR.user_id=".$_SESSION["user"]->bu["id"];
+			$sqlWherePlus = " AND DR.idinter=ITV.idinter AND DR.user_type='"._currentUser()->getExtra('type')."' AND DR.user_id="._currentUser()->getExtra('id');
 			$ville = true;
 			$tpl->assign ('ville', $ville);
 		}

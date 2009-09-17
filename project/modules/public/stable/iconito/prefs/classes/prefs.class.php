@@ -22,7 +22,7 @@ class Prefs {
 			foreach( $nodes AS $node_key=>$node ) {
 				
 				$modules = Kernel::getModEnabled( $node->type, $node->id,
-					_currentUser()->getExtra('type'),   $_SESSION["user"]->bu["id"] );
+					_currentUser()->getExtra('type'),   _currentUser()->getExtra('id') );
 				
 				if(sizeof($modules)) {
 					foreach( $modules AS $modules_key=>$module ) {

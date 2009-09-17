@@ -844,7 +844,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
 			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		
-		if (in_array(_currentUser()->getExtra('type')."|".$_SESSION["user"]->bu["id"], $membres))
+		if (in_array(_currentUser()->getExtra('type')."|"._currentUser()->getExtra('id'), $membres))
 			$errors[] = CopixI18N::get ('groupe|groupe.error.memberNotHimselfUnsub');
 		
 		

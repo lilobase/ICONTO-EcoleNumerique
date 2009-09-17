@@ -175,7 +175,7 @@ class TeleproceduresService {
 	 */
 	function getDroit ($idinter) {
 		$user_type = _currentUser()->getExtra('type');
-		$user_id = $_SESSION["user"]->bu["id"];
+		$user_id = _currentUser()->getExtra('id');
 		$cache = new CopixCache ($user_type.'-'.$user_id.'-'.$idinter, 'telepdroit');
 		$cacheRead = $cache->read ();
 		if ($cacheRead == '' || $cacheRead == null) {

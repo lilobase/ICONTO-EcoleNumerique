@@ -31,7 +31,7 @@ class CarnetService {
 				case "USER_ENS" :
 
 					// On vérifie que l'enseignant a des droits sur la classe de l'élève
-					$parentEns = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
+					$parentEns = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 					//print_r($parentEns);
 					$parentEle = $kernel_service->getNodeParents( "USER_ELE", $params["eleve"] );
 					//print_r($parentEns);
@@ -62,7 +62,7 @@ class CarnetService {
 					}
 					break;
 				case "USER_RES" :		// Parents
-					$parent = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
+					$parent = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 					//while (!$res && list(,$v) = each($parent)) {
 					foreach ($parent as $v) {
 						if ($res)
@@ -134,7 +134,7 @@ class CarnetService {
 				break;	
 		
 			case "USER_RES" : // Parent, OK seulement son enfant de cette classe
-				$parent = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
+				$parent = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 				while (!$res && list($k,$v) = each($parent)) {
 					if ($v["type"] != "USER_ELE") continue;
 					// Pour chaque enfant, on regarde s'il est dans cette classe

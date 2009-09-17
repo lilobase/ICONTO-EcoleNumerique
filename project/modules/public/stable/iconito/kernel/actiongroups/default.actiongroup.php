@@ -32,7 +32,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$tplModule = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.menu.accueil'));
 		
-		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset($_SESSION["user"]->bu["id"]) ) {
+		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset(_currentUser()->getExtra('id')) ) {
 	      return CopixActionGroup::process ('genericTools|Messages::getError',
 	      array ('message'=>CopixI18N::get ('kernel.error.nologin'),
 	      'back'=>CopixUrl::get ('auth|default|login')));
@@ -44,7 +44,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$result = "";
 		$nodes_perso = $nodes_children = array();
-		$nodes_all = Kernel::getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
+		$nodes_all = Kernel::getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 		
 		foreach( $nodes_all as $key => $val ) {
 			switch( $val["type"] ) {
@@ -124,7 +124,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		// Cas du parent d'élève
 		if (_currentUser()->getExtra('type') == "USER_RES") {
-			$childs = Kernel::getNodeParents( _currentUser()->getExtra('type'), $_SESSION["user"]->bu["id"] );
+			$childs = Kernel::getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 			while (list(,$child) = each($childs)) {
 				if ($child["type"] != "USER_ELE") continue;
 				// Les modules de l'enfant
@@ -165,7 +165,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDoSelectHome() {
-		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset($_SESSION["user"]->bu["id"]) ) {
+		if( !isset($_SESSION["user"]->bu) || !isset(_currentUser()->getExtra('type')) || !isset(_currentUser()->getExtra('id')) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel.error.nologin'),
 			'back'=>CopixUrl::get ('auth|default|login')));
@@ -270,7 +270,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$modules = Kernel::getModEnabled(
 			$_SESSION["user"]->home["type"], $_SESSION["user"]->home["id"],
-			_currentUser()->getExtra('type'),   $_SESSION["user"]->bu["id"]    );
+			_currentUser()->getExtra('type'),   _currentUser()->getExtra('id')    );
 		
 		$tplModule->assign ("modules", $modules);
 		$tplModule->assign ("groupes", CopixZone::process ('groupe|mygroupes', array('where'=>'home')));
@@ -360,8 +360,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		if( _request("type")) {
 			$type=_request("type");      $id=_request("id");
 		} else {
-			if( isset(_currentUser()->getExtra('type')) && isset($_SESSION["user"]->bu["id"]) ) {
-				$type=_currentUser()->getExtra('type');      $id=$_SESSION["user"]->bu["id"];
+			if( isset(_currentUser()->getExtra('type')) && isset(_currentUser()->getExtra('id')) ) {
+				$type=_currentUser()->getExtra('type');      $id=_currentUser()->getExtra('id');
 			} else {
 				$type="USER_ELE"; $id=3777; 
 			}
