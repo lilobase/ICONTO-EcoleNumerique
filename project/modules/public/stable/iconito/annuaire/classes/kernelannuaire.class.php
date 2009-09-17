@@ -35,7 +35,7 @@ class KernelAnnuaire {
 		$sql = 'SELECT COUNT(numero) AS nb FROM kernel_bu_responsable';
 		$a = _doQuery($sql);
 		$res['nbParents'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbParents', array($a[0]->nb)));
-		$sql = 'SELECT COUNT(id_cusr) AS nb FROM copixuser';
+		$sql = 'SELECT COUNT(id_dbuser) AS nb FROM dbuser';
 		$a = _doQuery($sql);
 		$res['nbUsers'] = array ('name'=>CopixI18N::get ('annuaire|annuaire.stats.nbUsers', array($a[0]->nb)));
 		return $res;

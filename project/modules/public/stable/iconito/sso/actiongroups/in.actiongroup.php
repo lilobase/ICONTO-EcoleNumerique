@@ -81,7 +81,7 @@ class ActionGroupIn extends CopixActionGroup {
 		$node_id = $this->getRequest('node_id', null);
 		$module_type = $this->getRequest('module_type', null);
       
-		$sql = "SELECT CHA.date, CHA.challenge, SSO.cle_privee, SSO.login FROM kernel_sso_challenges CHA, kernel_sso_users SSO, copixuser USER WHERE CHA.id_sso=SSO.id_sso AND SSO.login=USER.login_cusr AND SSO.id_sso=$id_sso";
+		$sql = "SELECT CHA.date, CHA.challenge, SSO.cle_privee, SSO.login FROM kernel_sso_challenges CHA, kernel_sso_users SSO, dbuser USER WHERE CHA.id_sso=SSO.id_sso AND SSO.login=USER.login_dbuser AND SSO.id_sso=$id_sso";
 		//Kernel::deb($sql);	
 		$sso = _doQuery($sql);
 		//print_r($sso);

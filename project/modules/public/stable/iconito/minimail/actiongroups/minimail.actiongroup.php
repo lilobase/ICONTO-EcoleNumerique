@@ -34,7 +34,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 		// Infos des utilisateurs
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-		while (list($k,$topic) = each($messages)) {
+		foreach ($messages as $k=>$topic) {
 			$userInfo = $kernel_service->getUserInfo("ID", $messages[$k]->from_id);
 			//print_r($userInfo);
 			$messages[$k]->from = $userInfo;
@@ -86,7 +86,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 		// Infos des utilisateurs
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-		while (list($k,) = each($messages)) {
+		foreach ($messages as $k=>$null) {
       $dest = $daoTo->selectDestFromId ($messages[$k]->id);
 			while (list($j,) = each($dest)) {
 				//print_r($dest[$j]->to_id);

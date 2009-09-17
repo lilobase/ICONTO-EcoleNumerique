@@ -280,9 +280,9 @@ class AnnuaireService {
     foreach ($list as $r) {
       $res = array('type'=>'USER_ENS', 'id'=>$r->numero, 'login'=>NULL, 'nom'=>$r->nom, 'prenom'=>$r->prenom1);
       // A-t-il un compte ?
-      $sql = "SELECT USR.login_cusr AS login FROM copixuser USR, kernel_link_bu2user LIN WHERE LIN.user_id=USR.id_cusr AND LIN.bu_id=".$r->numero." AND LIN.bu_type='USER_ENS' LIMIT 1";
-     	if ($usr = $dbw->fetchFirst ($sql)) {
-        $res['login'] = $usr->login;
+      $sql = "SELECT USR.login_cusr AS login FROM dbuser USR, kernel_link_bu2user LIN WHERE LIN.user_id=USR.id_dbuser AND LIN.bu_id=".$r->numero." AND LIN.bu_type='USER_ENS' LIMIT 1";
+     	if ($usr = _doQuery ($sql)) {
+        $res['login'] = $usr[0]->login;
       }
       $directeur[] = $res;
     }
