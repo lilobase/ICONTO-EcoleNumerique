@@ -250,11 +250,12 @@ class CopixI18N {
 			//var_dump($args);
 			//here, we know the message
 			if ($args !== null) {
-				$string = call_user_func_array('sprintf', array_merge(array (
+				if (!$string = call_user_func_array('sprintf', array_merge(array (
 					$string
 				), is_array($args) ? $args : array (
 					$args
-				)));
+				))))
+					{ echo "string=$string / args="; print_r($args); }
 			}
 			return $string;
 		}

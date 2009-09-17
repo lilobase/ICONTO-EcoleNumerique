@@ -724,13 +724,14 @@ class CopixMethodForDAO {
                     if (in_array (substr ($offset,1),$this->_parameters)){
                         $offset=' intval('.$offset.')';
                     }else{
-                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.parameter.unknow', array($this->name, $offset)));
+                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.parameter.unknow', array('CopixMethodForDAO', $this->name, $offset)));
                     }
                 }else{
-                    if (is_numeric ($offset)){
-                        $offset = intval ($offset);
+                    if (1 || is_numeric ($offset)){
+											$offset = $offset*1;
+                      $offset = intval ($offset);
                     }else{
-                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.badvalue', array($this->name, $offset)));
+                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.badvalue', array('CopixMethodForDAO',$this->name, $offset)));
                     }
                 }
 
@@ -738,13 +739,13 @@ class CopixMethodForDAO {
                     if(in_array (substr ($count,1),$this->_parameters)){
                         $count=' intval('.$count.')';
                     }else{
-                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.parameter.unknow', array($this->name, $count)));
+                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.parameter.unknow', array('CopixMethodForDAO', $this->name, $count)));
                     }
                 }else{
-                    if(is_numeric($count)){
+                    if(1 || is_numeric($count)){
                         $count=intval($count);
                     }else{
-                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.badvalue', array($this->name, $count)));
+                        throw new Exception (_i18n ('copix:dao.error.definitionfile.method.limit.badvalue', array('CopixMethodForDAO', $this->name, $count)));
                     }
                 }
                 $this->_limit= compact('offset', 'count');

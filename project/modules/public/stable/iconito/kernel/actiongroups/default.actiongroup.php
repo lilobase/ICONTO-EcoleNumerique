@@ -195,6 +195,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	function processGetHome() {
 		$tpl = & new CopixTpl ();
 		$tplModule = & new CopixTpl ();
+		
+		$user = _currentUser ();
+		
 		$acc = (isset($_SESSION["user"]->home["titre1"])) ? $_SESSION["user"]->home["titre1"] : '';
 		if( $acc != '' )
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.title.accueil', array($acc)));
@@ -220,8 +223,9 @@ class ActionGroupDefault extends CopixActionGroup {
       
 		$tpl->assign ('MENU', $menu );
 		$return_str = "";
-		
-		if( !isset($_SESSION["user"]->bu) || !isset($_SESSION["user"]->bu["type"]) || !isset($_SESSION["user"]->bu["id"]) ) {
+					
+
+		if( !$user->isConnected() || !$user->getExtra('type') || !$user->getExtra('id') ) {
 			$dispBlog = false;
 			$node = Welcome::findNodeByUrl(CopixUrl::get());
 			//print_r($node);
@@ -245,6 +249,9 @@ class ActionGroupDefault extends CopixActionGroup {
 				return _arPPO ($tpl, 'get-home.tpl');
 			}		
 		}
+		
+		//print_r($_SESSION);
+		//die();
 		
 		if( !isset($_SESSION["user"]) ||
 		    !isset($_SESSION["user"]->home) ||

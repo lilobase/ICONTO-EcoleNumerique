@@ -18,15 +18,18 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
-	 	$dao = CopixDAOFactory::create("minimail_to");
+	 	$dao = _dao("minimail_to");
 		
-		$userId = $_SESSION["user"]->bu["user_id"];
+		//$userId = $_SESSION["user"]->bu["user_id"];
+		$userId = _currentUser ()->getId();
+		//var_dump($_SESSION);
 		
 		$page = _request("page") ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
 		$messagesAll = $dao->getListRecvAll($userId);
-		$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
-
+		//$nbPages = ceil(count($messagesAll) / CopixConfig::get ('minimail|list_nblines'));
+		
+		//die("a");
 		$messages = $dao->getListRecv($userId,$offset,CopixConfig::get ('minimail|list_nblines'));	
 
 		// Infos des utilisateurs

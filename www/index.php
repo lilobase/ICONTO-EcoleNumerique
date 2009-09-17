@@ -8,6 +8,9 @@
  * @license		http://www.gnu.org/licenses/lgpl.html Lesser GNU General Public Licence, see LICENCE file
  */
 
+//var_dump(error_reporting(E_ALL));
+//phpinfo();
+ 
 //includes copix files.
 //will define constants, paths, relative to copix.
 $path = dirname (__FILE__);

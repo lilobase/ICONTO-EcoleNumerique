@@ -24,6 +24,7 @@ class CopixDAOGenerator {
 	* @param string $DAOid identifiant de la DAO à générer
 	*/
 	public function __construct($pDefinition) {
+	
 		$this->_definition = $pDefinition;
 	}
 
@@ -1042,8 +1043,9 @@ JOIN;
 					$glueCondition = ($sqlWhereClause != '' ? ' AND ' : ' WHERE ');
 					if ($method->getLimit () !== null) {
 						$arrLimit = $method->getLimit();
-    					$limit = ', array (), ' . $arrLimit['offset'] . ', ' . $arrLimit['count']; 					
+    					$limit = ', array (), ' . $arrLimit['offset'] . ', ' . $arrLimit['count'];
 					}
+					//print_r($arrLimit);
 					break;
 			}
 

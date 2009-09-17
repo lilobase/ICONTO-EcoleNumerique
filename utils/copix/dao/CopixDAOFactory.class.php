@@ -469,8 +469,8 @@ class CopixDAOFactory {
         $fileClassName = $selector->getPath (COPIX_CLASSES_DIR).strtolower ($selector->fileName.'.dao.php');
         if (is_readable ($fileName)  || (count (explode ('|', $pFullyQualifiedDAO)) > 1) || (count (explode (':', $pFullyQualifiedDAO)) > 1)){
     		//On lit si il existe un element parameterdans la definition du xml
-        	if (! ($parsedFile = @simplexml_load_file ($fileName))){
-				throw new Exception ('Impossible d\'analyser le fichier XML pour le DAO '.$fileName);    			
+        	if (! ($parsedFile = simplexml_load_file ($fileName))){
+				throw new Exception ('Impossible d\'analyser (1) le fichier XML pour le DAO '.$fileName);    			
     		}
 	    	if (isset ($parsedFile->parameter) && ($parsedFile->parameter['value'] == 'auto') ){
 	    		return new CopixDAODefinitionXmlAutoBuilder ($pFullyQualifiedDAO, array ('xmlFilePath'=>$fileName, 'phpClassFilePath'=>$fileClassName, 'connection'=>$pConnectionName));

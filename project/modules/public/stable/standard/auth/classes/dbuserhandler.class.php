@@ -129,6 +129,43 @@ class DBUserHandler implements ICopixUserHandler {
 			$password_test = (isset($pParams['ssoIn']) && $pParams['ssoIn']) ? $pParams['password'] : ($this->_cryptPassword (isset ($pParams['password']) ? $pParams['password'] : ''));
 			if ($results[0]->password_dbuser == $password_test){
 				$extra = array();
+				
+				
+				
+				$getUserInfo = Kernel::getUserInfo( "LOGIN", $results[0]->login_dbuser );
+				//var_dump($getUserInfo);
+				$extra = $getUserInfo;
+				
+				// Extrait de l'ancien plugin kernel|kernel
+				
+				if ( $getUserInfo["type"] == "USER_RES") { // Cas du parent d'élève
+				} else {
+				
+					$mynodes = Kernel::getMyNodes($getUserInfo['type'],$getUserInfo['id']);
+					
+
+					foreach( $mynodes AS $key=>$val ) {
+						if( !ereg( "^BU_", $val->type) && !ereg( "^ROOT$", $val->type) ) unset( $mynodes[$key] );
+					}
+					reset($mynodes);
+					//var_dump($mynodes);
+					if( count($mynodes) == 0 ) {
+					} elseif( count($mynodes) == 1 ) {
+						
+						$home = current($mynodes);
+						Kernel::setMyNode( $home->type, $home->id, $extra );
+					} else {
+						if( ($home_prefs=Prefs::get('kernel','home')) && (ereg('^([^-]+)-(.+)$', $home_prefs, $regs)) ) {
+							$home->type = $regs[1];
+							$home->id   = $regs[2];
+						} else {
+							$home = current($mynodes);
+						}
+						//Kernel::setMyNode( $home->type, $home->id );
+					}
+				}
+				
+				
 				if (0 && $results[0]->personnel_dbuser) {
 			    $staffDAO = _ioDAO ('kernel|personnel', 'viescolaire');
   			  if ($staff = $staffDAO->get ($results[0]->personnel_dbuser)) {
@@ -138,8 +175,8 @@ class DBUserHandler implements ICopixUserHandler {
   			  }
   			  $extra['id_personnel'] = $results[0]->personnel_dbuser;
 			  }
- 			  $extra['type_dbuser'] = $results[0]->type_dbuser;
- 			  $extra['sso_in'] = ($pParams['ssoIn']) ? true : false;
+ 			  //$extra['type_dbuser'] = $results[0]->type_dbuser;
+ 			  //$extra['sso_in'] = ($pParams['ssoIn']) ? true : false;
 				
 				return new CopixUserLogResponse (true, 'auth|dbuserhandler', $results[0]->id_dbuser, $results[0]->login_dbuser, $extra);
 			}

@@ -16,7 +16,7 @@ $config = CopixConfig::instance ();
 $config->setMode (CopixConfig::DEVEL);//valeurs possibles DEVEL, PRODUCTION, FORCE_INITIALISATION
 
 // Gestionnaire d'erreurs désativé par défaut.
-$config->copixerrorhandler_enabled = true;
+$config->copixerrorhandler_enabled = false;
 
 //Divers
 $config->significant_url_mode = 'prepend'; // "default" (index.php?module=x&desc=y&action=z...) ou "prepend" (index.php/module/desc/action/)
@@ -39,8 +39,6 @@ $config->arModulesPath = array (
 	COPIX_PROJECT_PATH.'modules/public/stable/tutorials/',
 	COPIX_VAR_PATH.'modules/'
 );
-
-//$config->plugin_register ('kernel|kernel'); // Kernel (lien entre les logins et les infos personnelles)
 
 //---------------------------------------------
 //Configuration des gestionnaires de droit

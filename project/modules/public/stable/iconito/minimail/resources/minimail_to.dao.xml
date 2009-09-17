@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE daodefinition SYSTEM "dao.dtd">
-<daodefinition version="1">
+<daodefinition>
 	<datasource>
 		<tables>
 			<table name="minimail_to" tablename="module_minimail_to" primary="yes"/>
@@ -130,4 +129,4 @@
 			<limit offset="0" count="1" />
 		</method>
 	</methods>
-	</daodefinition>
+</daodefinition>

@@ -1409,16 +1409,17 @@ class Kernel {
 	
 	
 	
-	function getMyNodes() {
+	function getMyNodes($bu_type=null, $bu_id=null) {
 		
-		$bu_type = $_SESSION["user"]->bu["type"];
-		$bu_id = $_SESSION["user"]->bu["id"];
+		$bu_type = (!$bu_type) ? $_SESSION["user"]->bu["type"] : $bu_type;
+		$bu_id = (!$bu_id) ? $_SESSION["user"]->bu["id"] : $bu_id;
 		
-		$cache_id = 'getmynodes-'.$bu_type.'-'.$bu_id;
+		$cache_type = 'getmynodes';
+		$cache_id = $bu_type.'-'.$bu_id;
 		
-		if (!CopixCache::exists($cache_id)) { //La donnee n’est pas en cache, on traite la demande.
+		if (!CopixCache::exists($cache_id, $cache_type)) { //La donnee n’est pas en cache, on traite la demande.
 		
-			//var_dump("getMyNodes / type=$type / id=$id");
+			var_dump("getMyNodes / type=$type / id=$id");
 			$data = array();
 			
 			$data[0]->title = "Modules perso...";
@@ -1450,9 +1451,9 @@ class Kernel {
 					$i++;
 				}
 			}
-			CopixCache::write ($cache_id, serialize($data));
+			CopixCache::write ($cache_id, serialize($data), $cache_type);
 		} else { // En cache
-			$data = unserialize(CopixCache::read($cache_id));
+			$data = unserialize(CopixCache::read($cache_id, $cache_type));
 		}
 		
 		return $data;
