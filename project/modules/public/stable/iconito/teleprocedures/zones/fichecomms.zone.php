@@ -26,8 +26,6 @@ class ZoneFicheComms extends CopixZone {
 		$rFiche = $this->getParam('rFiche');
 		$mondroit = $this->getParam('mondroit');
 
-	  $dbWidget = & CopixDBFactory::getDbWidget ();
-		
 		$daoinfo = & _dao ('infosupp');
     $sql ='SELECT * FROM module_teleprocedure_infosupp WHERE idinter='.$rFiche->idinter.'';
 
@@ -39,16 +37,17 @@ class ZoneFicheComms extends CopixZone {
 
 		$sql .= " ORDER BY dateinfo ASC, idinfo ASC";
 
-    $list = $dbWidget->fetchall ($sql);
+    $results = _doQuery ($sql);
 
 		// Pour chaque message on cherche les infos de son auteur
-		while (list($k,) = each($list)) {
-			$userInfo = Kernel::getUserInfo("ID", $list[$k]->iduser);
+		$list = array();
+		foreach ($results as $r) {
+			$userInfo = Kernel::getUserInfo("ID", $r->iduser);
 			//var_dump($userInfo);
-			$avatar = Prefs::get('prefs', 'avatar', $list[$k]->iduser);
+			$avatar = Prefs::get('prefs', 'avatar', $r->iduser);
 	  	$userInfo['avatar'] = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
-			
-			$list[$k]->user = $userInfo;
+			$r->user = $userInfo;
+			$list[] = $r;
 		}
 		//print_r($rFiche);
 		$tpl->assign ('info_message_edition', CopixZone::process ('kernel|edition', array('field'=>'info_message', 'format'=>$rFiche->type_format, 'content'=>'', 'width'=>350, 'height'=>135, 'options'=>array('ToolbarSet'=>'Basic', 'EnterMode'=>'br', 'ToolbarStartExpanded'=>false))));

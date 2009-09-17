@@ -64,8 +64,7 @@ class ZoneList extends CopixZone {
 		
 		$sql .= ' ORDER BY dateinter DESC, idinter DESC';
     //echo $sql;
-    $dbWidget = & CopixDBFactory::getDbWidget ();
-    $liste = $dbWidget->fetchall ($sql);
+    $liste = _doQuery ($sql);
     
 		if ($ville) {
 			foreach ($liste as &$l) {

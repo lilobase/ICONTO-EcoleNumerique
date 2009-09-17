@@ -81,8 +81,7 @@ class ActionGroupDefault extends CopixActionGroup {
   function processRss () {
     
 		$rss = CopixZone::process ('Rss');
-		return new CopixActionReturn (COPIX_AR_BINARY_CONTENT, trim($rss), 'text/xml');///xml
-    
+		return _arContent ($rss, array ('content-type'=>CopixMIMETypes::getFromExtension ('xml')));
   }	
 }
 
