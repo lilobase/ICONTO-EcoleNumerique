@@ -29,6 +29,7 @@ class FichesEcolesService {
 
 		//var_dump($myNodes);
 		//var_dump($session);
+		
 		switch ($session['type']) {
 			case 'USER_ENS':
 				foreach ($myNodes as $node) {

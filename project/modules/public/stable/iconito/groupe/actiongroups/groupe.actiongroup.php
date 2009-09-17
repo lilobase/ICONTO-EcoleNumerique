@@ -255,9 +255,9 @@ class ActionGroupGroupe extends CopixActionGroup {
 			if (!$groupeService->canMakeInGroupe('ADD_GROUP',NULL))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 
-			if ( isset($_SESSION["user"]->home) && isset($_SESSION["user"]->home["type"]) && isset($_SESSION["user"]->home["id"]) ) {
-				$parentClass = $_SESSION["user"]->home["type"];
-				$parentRef   = $_SESSION["user"]->home["id"];
+			if ( _currentUser()->getExtraHome('type') && _currentUser()->getExtraHome('id') ) {
+				$parentClass = _currentUser()->getExtraHome('type');
+				$parentRef   = _currentUser()->getExtraHome('id');
 			} else {
 				// Pas de parent pour la creation d'un groupe -> attache a ROOT/0  (FM 14/11/2008)
 				// $errors[] = CopixI18N::get ('groupe|groupe.error.noParentClass');
@@ -723,7 +723,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 			$tplHome = & new CopixTpl ();
 			$tplHome->assign ('groupe', $groupe[0]);
-			$tplHome->assign ('his', _currentUser()->getExtra('type').'|'.$_SESSION['user']->bu['id']);
+			$tplHome->assign ('his', _currentUser()->getExtra('type').'|'._currentUser()->getExtra('id'));
 			$tplHome->assign ('list', $childs);
 			$tplHome->assign ('today', date('Ymd'));
 			$tplHome->assign ('listWaiting', $waiting);
@@ -1120,10 +1120,10 @@ class ActionGroupGroupe extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||getListPublic')));
 		} else {
 			
-			$kernel_service->setLevel("CLUB", $id, _currentUser()->getExtra('type'), $_SESSION['user']->bu['id'], PROFILE_CCV_SHOW);
-			$cache = & new CopixCache (_currentUser()->getExtra('type').'-'.$_SESSION['user']->bu['id'], 'getnodeparents');
+			$kernel_service->setLevel("CLUB", $id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'), PROFILE_CCV_SHOW);
+			$cache = & new CopixCache (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getnodeparents');
 			$cache->remove ();
-			$cache = & new CopixCache (_currentUser()->getExtra('type').'-'.$_SESSION['user']->bu['id'], 'getmynodes');
+			$cache = & new CopixCache (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getmynodes');
 			$cache->remove ();
 			
 			// On récupère le propriétaire, afin de lui envoyer un message
@@ -1550,7 +1550,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
 		} else {
 			if ($confirm) {
-				Kernel::setLevel("CLUB", $id, _currentUser()->getExtra('type'), $_SESSION['user']->bu['id'], 0);
+				Kernel::setLevel("CLUB", $id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'), 0);
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListMy'));
 			} else {
 				return CopixActionGroup::process ('genericTools|Messages::getConfirm',

@@ -1098,7 +1098,7 @@ class Kernel {
 
 
 
-	function getMyParents( $racine_type="USER", $racine_node=0 ) {
+	function getMyParents( $racine_type="USER", $racine_node=0, $options=array() ) {
 		$tree = array(
 			"direct"=>array(),
 			"linked"=>array(),
@@ -1106,11 +1106,16 @@ class Kernel {
 		
 		if( $racine_type=="USER" && $racine_node==0 )
 		{
-			if( (_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id')) )
+			if (isset($options['bu_type']) && isset($options['bu_id'])) {
+				$racine_type=$options['bu_type'];
+				$racine_node=$options['bu_id'];
+			} elseif( (_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id')) )
 			{
+				
 				$racine_type=_currentUser()->getExtra('type');
 				$racine_node=_currentUser()->getExtra('id');
 			} else {
+
 				return( $tree );
 			}
 		}
@@ -1406,21 +1411,21 @@ class Kernel {
 	
 	
 	function getMyNodes($bu_type=null, $bu_id=null) {
-		
+
 		$bu_type = (!$bu_type) ? _currentUser()->getExtra('type') : $bu_type;
 		$bu_id = (!$bu_id) ? _currentUser()->getExtra('id') : $bu_id;
 		
 		$cache_type = 'getmynodes';
 		$cache_id = $bu_type.'-'.$bu_id;
 		
-		if (!CopixCache::exists($cache_id, $cache_type)) { //La donnee n’est pas en cache, on traite la demande.
+		if (1 || !CopixCache::exists($cache_id, $cache_type)) { //La donnee n’est pas en cache, on traite la demande. // TODO : remettre avec cache
 		
-			var_dump("getMyNodes / type=$type / id=$id");
+			//var_dump("getMyNodes / type=$type / id=$id");
 			$data = array();
 			
 			$data[0]->title = "Modules perso...";
-			$data[0]->type = $type;
-			$data[0]->id = $id;
+			$data[0]->type = $bu_type;
+			$data[0]->id = $bu_id;
 			$data[0]->droit = 70;
 			$data[0]->enabled = Kernel::getModEnabled( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 			$data[0]->available_type = Kernel::getModAvailable( _currentUser()->getExtra('type') );
@@ -1430,7 +1435,7 @@ class Kernel {
 	// die( "<pre>".print_r( $data[0]->enabled, true )."</pre>" );
 	
 			$i=1;
-			$myTree = Kernel::getMyParents();
+			$myTree = Kernel::getMyParents("USER", 0, array('bu_type'=>$bu_type, 'bu_id'=>$bu_id));
 			//print_r($myTree);
 			//die();
 			foreach( $myTree["direct"] AS $node_type=>$node_val ) {
@@ -1439,7 +1444,7 @@ class Kernel {
 					$data[$i]->type = $node_type;
 					$data[$i]->id = $node_id;
 					$data[$i]->droit = $droit;
-					$data[$i]->enabled = Kernel::getModEnabled( $node_type, $node_id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
+					$data[$i]->enabled = Kernel::getModEnabled( $node_type, $node_id, $bu_type, $bu_id );
 					$data[$i]->available_type = Kernel::getModAvailable( $node_type );
 					
 					/* $data[$i]->enabled = array_merge( $data[$i]->enabled, $data[$i]->available_type ); */
@@ -1455,18 +1460,34 @@ class Kernel {
 		return $data;
 	}
 	
-	
-	function setMyNode( $type, $id ) {
-		$_SESSION["user"]->home["type"] = $type;
-		$_SESSION["user"]->home["id"] = $id;
-		$nodeinfo = Kernel::getNodeInfo( $type, $id, false );
-		$_SESSION["user"]->home["titre1"] = $nodeinfo["nom"];
-		$parent = Kernel::getNodeParents( $type, $id );
-		if( count($parent) ) {
-			$parent_item = current($parent);
-			$parentinfo = Kernel::getNodeInfo( $parent_item["type"], $parent_item["id"], false );
-			$_SESSION["user"]->home["titre2"] = $parentinfo["nom"];
+	// Si on passe le tebleau $extra, on ne touche pas a la session (utilise a la connexion, quand on n'a pas encore la session PHP) - CB
+	function setMyNode( $type, $id, &$extra=array() ) {
+		if (isset($extra)) {
+			$extra['home'] = array();
+			$extra['home']["type"] = $type;
+			$extra['home']["id"] = $id;
+			$nodeinfo = Kernel::getNodeInfo( $type, $id, false );
+			$extra['home']["titre1"] = $nodeinfo["nom"];
+			$parent = Kernel::getNodeParents( $type, $id );
+			if( count($parent) ) {
+				//print_r($parent);
+				$parent_item = current($parent);
+				$parentinfo = Kernel::getNodeInfo( $parent_item["type"], $parent_item["id"], false );
+				$extra['home']["titre2"] = $parentinfo["nom"];
+			}
+		} else {
+			$_SESSION["user"]->home["type"] = $type;
+			$_SESSION["user"]->home["id"] = $id;
+			$nodeinfo = Kernel::getNodeInfo( $type, $id, false );
+			$_SESSION["user"]->home["titre1"] = $nodeinfo["nom"];
+			$parent = Kernel::getNodeParents( $type, $id );
+			if( count($parent) ) {
+				$parent_item = current($parent);
+				$parentinfo = Kernel::getNodeInfo( $parent_item["type"], $parent_item["id"], false );
+				$_SESSION["user"]->home["titre2"] = $parentinfo["nom"];
+			}
 		}
+		//die();
 	}
 	
 	
@@ -1558,12 +1579,15 @@ class Kernel {
 	 * @author	Frédéric Mossmann
 	 */
 	function getSessionBU() {
+		return _currentUser()->getExtras();
+		/*
 		if( isset($_SESSION["user"]) && isset($_SESSION["user"]->bu) ) {
 			return( $_SESSION["user"]->bu );
 		} else {
 			$vide = array();
 			return( $vide );
 		}
+		*/
 	}
 
 	/**
@@ -1871,7 +1895,7 @@ class Kernel {
 		if( $src_type=='ME' ) {
 			if( (_currentUser()->getExtra('type')) ) {
 				$src_type=_currentUser()->getExtra('type');
-				$src_id=$_SESSION['user']->bu['id'];
+				$src_id=_currentUser()->getExtra('id');
 			}
 			else return( false );
 		}

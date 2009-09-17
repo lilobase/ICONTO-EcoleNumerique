@@ -35,19 +35,20 @@ class ZoneListArticle extends CopixZone {
 	  if($critere != null){
 	  	$arData = $dao->getAllArticlesFromBlogByCritere($blog->id_blog, $critere);
 		}
-	  
+	  //var_dump($arData);
 	  
 	  //on construit un tableau associatif entre l'identifiant de l'article et le nombre de commentaires	  
-	  foreach((array)$arData as $article){
-		$daoArticleComment = & CopixDAOFactory::getInstanceOf ('blog|blogarticlecomment');
-		$record   = _record ('blog|blogarticlecomment');
-	
-		$criteres = _daoSp();
-		$criteres->addCondition('id_bact', '=', $article->id_bact);	
-		$criteres->addCondition('is_online', '=', 1);	
-		$resultat = $daoArticleComment->findBy($criteres);
+	  foreach($arData as $article) {
+			//var_dump($article);
+			$daoArticleComment = & CopixDAOFactory::getInstanceOf ('blog|blogarticlecomment');
+			$record   = _record ('blog|blogarticlecomment');
 		
-		$arNbCommentByArticle[$article->id_bact] = count($resultat);		
+			$criteres = _daoSp();
+			$criteres->addCondition('id_bact', '=', $article->id_bact);	
+			$criteres->addCondition('is_online', '=', 1);	
+			$resultat = $daoArticleComment->findBy($criteres);
+			
+			$arNbCommentByArticle[$article->id_bact] = count($resultat);		
 	  }
 
       if (count($arData)>0) {

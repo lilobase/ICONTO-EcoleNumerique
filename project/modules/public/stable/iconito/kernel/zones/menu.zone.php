@@ -16,11 +16,32 @@ class ZoneMenu extends CopixZone {
 	function _createContent (& $toReturn) {
 			
 		$ppo = new CopixPPO ();		
+		$pMenu = $this->getParam ('MENU');
 		
-		$ppo->level_0 = $this->getParam ('level_0');
-		$ppo->level_1 = $this->getParam ('level_1');
+		// Si le menu est défini à partir d'un tableau, création du HTML pour affichage.
+		if( is_array($pMenu) ) {
+			$out = '';
+			$sep = '';
+			foreach( $pMenu AS $key=>$val ) {
+				$out .= $sep; $sep=' :: ';
+				
+				$color = '';
+				if( isset($val['color'])) $color=' style="color: '.$val['color'].'"';
+
+				$target = '';
+				if( isset($val['target'])) $color=' target="'.$val['target'].'"';
+				
+				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '<a'.$color.' href="'.$val['url'].'">';
+				$out .= $val['txt'];
+				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '</a>';
+			}
+			$ppo->menu = $out;
+		} else {
+			$ppo->menu = $pMenu;
+		}
+
 		
-		$ppo->user = _currentUser ();
+		
 		
 		$toReturn = $this->_usePPO ($ppo, 'menu.tpl');
 		

@@ -1,6 +1,6 @@
 {literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/minimail/minimail.js"></SCRIPT>{/literal}
 
-<form action="{copixurl dest="minimail||dosend"}" method="post" ENCTYPE="multipart/form-data">
+<form action="{copixurl dest="minimail||doSend"}" method="post" ENCTYPE="multipart/form-data">
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attachment_size}">
 <input type="hidden" name="go" value="preview" />
 <input type="hidden" name="format" value="{$format}" />

@@ -311,7 +311,6 @@ class ActionGroupMinimail extends CopixActionGroup {
 	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
    */
 	function doSend () {
-	
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
@@ -360,7 +359,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		CopixConfig::get ('minimail|attachment_size');
 		//print_r($_FILES);
 		for ($i=1 ; $i<=3 ; $i++) {
-			if( ! is_uploaded_file( $_FILES['attachment'.$i]['tmp_name'] ) ) {
+			if( isset($_FILES['attachment'.$i]) && ! is_uploaded_file( $_FILES['attachment'.$i]['tmp_name'] ) ) {
 				switch( $_FILES['attachment'.$i]['error'] ) {
 					case 0: //no error; possible file attack!
 						$errors[] = CopixI18N::get ('minimail|minimail.error.upload_default', $i);
@@ -426,7 +425,8 @@ class ActionGroupMinimail extends CopixActionGroup {
 			}
 			
 		}
-		
+			die ('e');
+
 		//$errors[] = "CB";
 		
 		return CopixActionGroup::process ('minimail|minimail::getNewForm', array ('dest'=>$dest, 'title'=>$title, 'message'=>$message, 'format'=>$format, 'errors'=>$errors, 'preview'=>(($go=='save')?0:1)));

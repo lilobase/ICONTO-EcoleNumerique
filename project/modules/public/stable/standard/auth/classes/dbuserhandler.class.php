@@ -100,6 +100,8 @@ class DBUser implements ICopixUser {
 		return 'auth|dbuserhandler';
 	}
 
+	
+	
 }
 
 /**
@@ -143,12 +145,11 @@ class DBUserHandler implements ICopixUserHandler {
 				
 					$mynodes = Kernel::getMyNodes($getUserInfo['type'],$getUserInfo['id']);
 					
-
 					foreach( $mynodes AS $key=>$val ) {
 						if( !ereg( "^BU_", $val->type) && !ereg( "^ROOT$", $val->type) ) unset( $mynodes[$key] );
 					}
 					reset($mynodes);
-					//var_dump($mynodes);
+					
 					if( count($mynodes) == 0 ) {
 					} elseif( count($mynodes) == 1 ) {
 						
@@ -161,22 +162,9 @@ class DBUserHandler implements ICopixUserHandler {
 						} else {
 							$home = current($mynodes);
 						}
-						//Kernel::setMyNode( $home->type, $home->id );
+						Kernel::setMyNode( $home->type, $home->id, $extra );
 					}
 				}
-				
-				
-				if (0 && $results[0]->personnel_dbuser) {
-			    $staffDAO = _ioDAO ('kernel|personnel', 'viescolaire');
-  			  if ($staff = $staffDAO->get ($results[0]->personnel_dbuser)) {
-  			    $extra['cle_privee'] = $staff->cle_privee;
-						$extra['nom'] = $staff->nom;
-						$extra['prenom'] = $staff->prenom;
-  			  }
-  			  $extra['id_personnel'] = $results[0]->personnel_dbuser;
-			  }
- 			  //$extra['type_dbuser'] = $results[0]->type_dbuser;
- 			  //$extra['sso_in'] = ($pParams['ssoIn']) ? true : false;
 				
 				return new CopixUserLogResponse (true, 'auth|dbuserhandler', $results[0]->id_dbuser, $results[0]->login_dbuser, $extra);
 			}

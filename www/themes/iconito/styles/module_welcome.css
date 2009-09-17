@@ -1,4 +1,25 @@
 
+
+/* DEMO */
+DIV.welcome_demo {
+	-moz-border-radius: 4px;
+	margin: 4px 20px 0px 20px;
+	background: #EEE;
+	font-size: 75%;
+	padding: 2px;
+	text-align:center;
+}
+DIV.welcome_demo TD.account {
+	/*font-style: italic;*/
+	text-align: center;
+}
+DIV.welcome_demo TD.account A {
+	font-style: normal;
+	
+}
+
+
+
 table.welcome {
 	font-size:0.8em;
 }

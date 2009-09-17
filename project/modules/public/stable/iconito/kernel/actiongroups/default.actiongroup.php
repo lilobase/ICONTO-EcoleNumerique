@@ -32,14 +32,14 @@ class ActionGroupDefault extends CopixActionGroup {
 		$tplModule = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.menu.accueil'));
 		
-		if( !isset($_SESSION["user"]->bu) || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
+		if( !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
 	      return CopixActionGroup::process ('genericTools|Messages::getError',
 	      array ('message'=>CopixI18N::get ('kernel.error.nologin'),
 	      'back'=>CopixUrl::get ('auth|default|login')));
 		}
 		
-		if( isset($_SESSION["user"]->home["type"]) && $_SESSION["user"]->home["type"] == 'CLUB' ) {
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHome', array('id'=>$_SESSION["user"]->home['id'] ) ));
+		if( _currentUser()->getExtraHome('type') && _currentUser()->getExtraHome('type') == 'CLUB' ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHome', array('id'=>_currentUser()->getExtraHome('id') ) ));
 		}
 		
 		$result = "";
@@ -84,7 +84,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			$nodes_perso['ROOT']["info"]["type_nom"] = "Root";
 			$nodes_perso['ROOT']["info"]["type"] = "ROOT";
 			$nodes_perso['ROOT']["info"]["id"] = 0;
-			$nodes_perso['ROOT']["info"]["selected"] = ($_SESSION["user"]->home["type"]=="ROOT" )?true:false;
+			$nodes_perso['ROOT']["info"]["selected"] = (_currentUser()->getExtraHome('type')=="ROOT" )?true:false;
 		}
 		
 		// Pour tous les groupes de ville...
@@ -92,7 +92,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			if( !is_int($key_grville) ) continue;
 			$nodes_perso[$key_grville]["info"] = Kernel::getNodeInfo( "BU_GRVILLE", $key_grville, false );
 			$nodes_perso[$key_grville]["info"]["type_nom"] = CopixI18N::get ('kernel.codes.bu_grville');
-			$nodes_perso[$key_grville]["info"]["selected"] = ($_SESSION["user"]->home["type"]=="BU_GRVILLE" && $_SESSION["user"]->home["id"]==$key_grville)?true:false;
+			$nodes_perso[$key_grville]["info"]["selected"] = (_currentUser()->getExtraHome("type")=="BU_GRVILLE" && _currentUser()->getExtraHome('id')==$key_grville)?true:false;
 			
 			// Pour toutes les villes...
 			foreach( $val_grville as $key_ville => $val_ville ) { // VILLE
@@ -263,7 +263,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		// Cas particulier (invité) : non attaché à la base unique, mais à un club
 		if( $_SESSION["user"]->home["type"] == 'CLUB' ) {
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHome', array('id'=>$_SESSION["user"]->home['id'] ) ));
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHome', array('id'=>_currentUser()->getExtraHome('id') ) ));
 		}
 		
 		Kernel::createMissingModules( $_SESSION["user"]->home["type"], $_SESSION["user"]->home["id"] );

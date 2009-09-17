@@ -28,7 +28,7 @@ class TeleproceduresService {
 	 * @return integer Id de l'ecole, ou NULL si aucune (anormal)
 	 */
 	function getTelepEcole () {
-		return ($_SESSION["user"]->home['type']=='BU_ECOLE') ? $_SESSION["user"]->home['id'] : null;
+		return (_currentUser()->getExtraHome('type')=='BU_ECOLE') ? _currentUser()->getExtraHome('id') : null;
 	}
 	
 	

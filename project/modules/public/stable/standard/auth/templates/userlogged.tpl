@@ -3,8 +3,10 @@
 
 
 {assign var=login value=$ppo->user->getLogin()}
+{assign var=nom value=$ppo->user->getExtra('nom')}
+{assign var=prenom value=$ppo->user->getExtra('prenom')}
 
-		{i18n key=auth|auth.connected.bonjour login=$login}
+		{i18n key=auth|auth.connected.bonjour login=$preom|cat:' '|cat:$nom}
 (<a href="{copixurl dest="auth|log|out"}" title="{i18n key=auth|auth.buttons.logout}">{i18n key=auth|auth.buttons.logout}</a>)
  |
 <a href="{copixurl dest="prefs||"}" title="{i18n key=auth|auth.nav.prefs}">{i18n key=auth|auth.nav.prefs}</a> 

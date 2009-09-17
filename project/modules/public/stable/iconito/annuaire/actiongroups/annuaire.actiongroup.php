@@ -169,9 +169,10 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 // BOOST 3s
 //$start = microtime(true);
 		$classes = $annuaireService->getClassesInEcole ($ecole);
+		//print_r($classes);
 //echo "getClassesInEcole : ".(microtime(true)-$start)."<br />";
 //echo "<pre>"; print_r($classes); die();
-		if ($classes[0]['id']) {
+		if ($classes && $classes[0]['id']) {
 			$rClasse = Kernel::getNodeInfo ('BU_CLASSE', $classes[0]['id'], false);
 			$tplListe->assign ('infosclasse', CopixZone::process ('annuaire|infosclasse', array('rClasse'=>$rClasse)));
 		}

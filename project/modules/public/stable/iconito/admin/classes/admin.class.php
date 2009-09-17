@@ -22,7 +22,7 @@ class Admin {
 	 */
   function canAdmin () {
     //print_r($_SESSION);
-    return (_currentUser()->getExtra('type') == 'USER_EXT' && $_SESSION['user']->bu['id']==1);
+    return (_currentUser()->getExtra('type') == 'USER_EXT' && _currentUser()->getExtra('id')==1);
   }
 
 	

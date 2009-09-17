@@ -280,7 +280,7 @@ class AnnuaireService {
     foreach ($list as $r) {
       $res = array('type'=>'USER_ENS', 'id'=>$r->numero, 'login'=>NULL, 'nom'=>$r->nom, 'prenom'=>$r->prenom1);
       // A-t-il un compte ?
-      $sql = "SELECT USR.login_cusr AS login FROM dbuser USR, kernel_link_bu2user LIN WHERE LIN.user_id=USR.id_dbuser AND LIN.bu_id=".$r->numero." AND LIN.bu_type='USER_ENS' LIMIT 1";
+      $sql = "SELECT USR.login_dbuser AS login FROM dbuser USR, kernel_link_bu2user LIN WHERE LIN.user_id=USR.id_dbuser AND LIN.bu_id=".$r->numero." AND LIN.bu_type='USER_ENS' LIMIT 1";
      	if ($usr = _doQuery ($sql)) {
         $res['login'] = $usr[0]->login;
       }
@@ -385,11 +385,11 @@ class AnnuaireService {
 		foreach ($result AS $key=>$value) {
 			//print_r($value);
 			if ($value['type']=='USER_VIL') {
-				$nodeInfo = Kernel::getUserInfo ($value["type"], $value["id"]);
-				//print_r($nodeInfo);
-				
-				$age = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$nodeInfo['login'], 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
-				$agents[] = $age;
+				if ($nodeInfo = Kernel::getUserInfo ($value["type"], $value["id"])) {
+					//var_dump($nodeInfo);
+					$age = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$nodeInfo['login'], 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
+					$agents[] = $age;
+				}
 			} 
 		}
 		usort ($agents, array('AnnuaireService', 'usort_nom'));
@@ -407,9 +407,8 @@ class AnnuaireService {
 	 * @return integer Valeur de comparaison : inférieur, égal ou supérieur à zéro suivant que le premier élément est considéré comme plus petit, égal ou plus grand que le second élément
 	 */
 	function usort_nom ($a, $b) {
-		//print_r($a);
   	$comp = strcmp($a["nom"], $b["nom"]);
-		if ($comp == 0)
+		if ($comp == 0 && isset($a["prenom"]) && isset($b["prenom"]))
 			$comp = strcmp($a["prenom"], $b["prenom"]);
 		return $comp;
 	}

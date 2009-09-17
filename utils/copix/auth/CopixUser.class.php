@@ -371,7 +371,27 @@ class CopixUser implements ICopixUser {
 		}
 		return null;
 	}
-
+	
+	// Tous les extras du user
+	// CB 16/09/2009
+	public function getExtras () {
+		foreach ($this->_logged as $userHandler=>$userResponse){
+				$extra = $userResponse->getExtra ();
+				return $extra;
+			}
+	}
+	
+	public function getExtraHome ($pInformationId) {
+		foreach ($this->_logged as $userHandler=>$userResponse){
+				$extra = $userResponse->getExtra ();
+				if (isset ($extra['home'][$pInformationId])){
+					return $extra['home'][$pInformationId];
+				}
+			}
+	}
+	
+	
+	
 	/**
 	* Définition d'information supplémentaire pour les gestionnaires d'authentification
 	* 

@@ -31,7 +31,7 @@ class ZoneList extends CopixZone {
 		$ville = false;
 		
 		if (TeleproceduresService::getTelepProfil()=='DIRECTEUR') {
-			$sqlWherePlus = " AND ITV.idetabliss=".$_SESSION["user"]->home['id'];	
+			$sqlWherePlus = " AND ITV.idetabliss="._currentUser()->getExtraHome('id');	
 		} else { // Compte ville : on ne prend que les teleprocedures qui le concerne
 
 			$sqlSelectPlus = ', DR.droit';
