@@ -20,8 +20,8 @@ class ZoneGetUserProfil extends CopixZone {
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
-		$type = isset($this->getParam('type')) ? $this->getParam('type') : NULL;
-		$id = isset($this->getParam('id')) ? $this->getParam('id') : NULL;
+		$type = ($this->getParam('type')) ? $this->getParam('type') : NULL;
+		$id = ($this->getParam('id')) ? $this->getParam('id') : NULL;
 
 
 		if ($type && $id) {	

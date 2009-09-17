@@ -24,7 +24,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     
 		$classe = $ecole = $ville = null;
 		
-		if( isset( _request("id") ) ) {
+		if( (_request("id") ) ) {
 			if( ereg( 'CLASSE_([0-9]+)', _request("id"), $regs ) )
 				$classe = $regs[1];
 			elseif( ereg( 'ECOLE_([0-9]+)', _request("id"), $regs ) )

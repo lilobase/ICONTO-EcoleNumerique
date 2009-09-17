@@ -569,7 +569,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		
 			// On récupère les modules du groupe
 			$his_modules = $kernel_service->getModEnabled ("club", $id);
-			while (list($k,$node) = each($his_modules)) {
+			foreach ($his_modules as $k=>$node) {
 				//print_r(explode("_",$node->module_type));
 				list($tmp,$module) = explode("_",$node->module_type);
 				$module = strtolower($module);

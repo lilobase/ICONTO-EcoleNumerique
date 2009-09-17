@@ -39,7 +39,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 		$tplForm->assign ('infos', $magic_result);
 		// $tplForm->assign ('magicmail_mail', CopixConfig::get ('magicmail|magicmail_mail'));
 		
-		if( isset( _request("return") ) )
+		if( (_request("return") ) )
 		$tplForm->assign ('return', _request("return"));
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));

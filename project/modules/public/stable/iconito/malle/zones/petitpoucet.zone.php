@@ -23,11 +23,11 @@ class ZonePetitPoucet extends CopixZone {
 		$tpl = & new CopixTpl ();
 		$daoFolders = _dao("malle|malle_folders");
 		$res = array();
-		$malle = isset($this->getParam('malle')) ? $this->getParam('malle') : NULL;
-		$folder = isset($this->getParam('folder')) ? $this->getParam('folder') : NULL;
-		$action = isset($this->getParam('action')) ? $this->getParam('action') : 'getMalle';
-		$field = isset($this->getParam('field')) ? $this->getParam('field') : NULL;
-		$format = isset($this->getParam('format')) ? $this->getParam('format') : NULL;
+		$malle = ($this->getParam('malle')) ? $this->getParam('malle') : NULL;
+		$folder = ($this->getParam('folder')) ? $this->getParam('folder') : NULL;
+		$action = ($this->getParam('action')) ? $this->getParam('action') : 'getMalle';
+		$field = ($this->getParam('field')) ? $this->getParam('field') : NULL;
+		$format = ($this->getParam('format')) ? $this->getParam('format') : NULL;
 		//Kernel::deb("format=$format");
 		//print_r ("malle=$malle / folder=$folder");
 		if ($folder) {

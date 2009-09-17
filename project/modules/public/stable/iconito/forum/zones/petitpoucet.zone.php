@@ -24,11 +24,11 @@ class ZonePetitPoucet extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$forum = isset($this->getParam('forum')) ? $this->getParam('forum') : NULL;
-		$topic = isset($this->getParam('topic')) ? $this->getParam('topic') : NULL;
-		$message = isset($this->getParam('message')) ? $this->getParam('message') : NULL;
+		$forum = ($this->getParam('forum')) ? $this->getParam('forum') : NULL;
+		$topic = ($this->getParam('topic')) ? $this->getParam('topic') : NULL;
+		$message = ($this->getParam('message')) ? $this->getParam('message') : NULL;
 
-		$modifyTopic = isset($this->getParam('modifyTopic')) ? $this->getParam('modifyTopic') : NULL;
+		$modifyTopic = ($this->getParam('modifyTopic')) ? $this->getParam('modifyTopic') : NULL;
 
 		
 		$res = array();

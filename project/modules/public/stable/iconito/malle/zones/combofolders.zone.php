@@ -26,11 +26,11 @@ class ZoneComboFolders extends CopixZone {
 		
 		$tpl = & new CopixTpl ();
 		$res = array();
-		$malle = isset($this->getParam('malle')) ? $this->getParam('malle') : NULL;
-		$folder = isset($this->getParam('folder')) ? $this->getParam('folder') : 0;
-		$fieldName = isset($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
-		$attribs = isset($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
-		$linesSup = isset($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
+		$malle = ($this->getParam('malle')) ? $this->getParam('malle') : NULL;
+		$folder = ($this->getParam('folder')) ? $this->getParam('folder') : 0;
+		$fieldName = ($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
+		$attribs = ($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
+		$linesSup = ($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
 		
 		$res = $malleService->buildComboFolders ($malle);
 		//print_r($res);

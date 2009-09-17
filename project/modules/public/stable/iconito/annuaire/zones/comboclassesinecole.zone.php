@@ -23,11 +23,11 @@ class ZoneComboClassesInEcole extends CopixZone {
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
-		$ecole = isset($this->getParam('ecole')) ? $this->getParam('ecole') : NULL;
-		$value = isset($this->getParam('value')) ? $this->getParam('value') : 0;
-		$fieldName = isset($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
-		$attribs = isset($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
-		$linesSup = isset($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
+		$ecole = ($this->getParam('ecole')) ? $this->getParam('ecole') : NULL;
+		$value = ($this->getParam('value')) ? $this->getParam('value') : 0;
+		$fieldName = ($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
+		$attribs = ($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
+		$linesSup = ($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
 		
 		$classes = $annuaireService->getClassesInEcole ($ecole, array('getNodeInfo_light'=>1) );
 

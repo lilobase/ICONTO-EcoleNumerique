@@ -2,7 +2,7 @@
 {if $ppo->user->isConnected ()}
 
 
-{assign var=login value=$ppo->user->getLogin}
+{assign var=login value=$ppo->user->getLogin()}
 
 		{i18n key=auth|auth.connected.bonjour login=$login}
 (<a href="{copixurl dest="auth|log|out"}" title="{i18n key=auth|auth.buttons.logout}">{i18n key=auth|auth.buttons.logout}</a>)

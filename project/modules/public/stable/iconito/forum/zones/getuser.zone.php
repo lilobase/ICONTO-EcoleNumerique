@@ -18,8 +18,8 @@ class ZoneGetUser extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
-		$type = isset($this->getParam('type')) ? $this->getParam('type') : NULL;
-		$id = isset($this->getParam('id')) ? $this->getParam('id') : NULL;
+		$type = ($this->getParam('type')) ? $this->getParam('type') : NULL;
+		$id = ($this->getParam('id')) ? $this->getParam('id') : NULL;
 
 
 		if ($type && $id) {	

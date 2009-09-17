@@ -29,7 +29,7 @@
 			{if $val_modules->module_type neq "MOD_MAGICMAIL" or $canViewAdmin eq 1}
 
 <div class="groupe_bloc">
-<div class="groupe_thumb_autour"><div class="groupe_thumb"><a href="{copixurl dest="$module_type_array[1]||go" id=$val_modules->module_id}" title=""><img WIDTH="64" HEIGHT="64" src="{copixresource path="img/iconito/kernel/module_`$val_modules->module_type`_S.png"}" alt="" BORDER=0 /></a></div>
+<div class="groupe_thumb_autour"><div class="groupe_thumb"><a href="{copixurl dest="$module_type_array[1]||go" id=$val_modules->module_id}" title=""><img WIDTH="64" HEIGHT="64" src="{copixresource path="img/kernel/module_`$val_modules->module_type`_S.png"}" alt="" BORDER=0 /></a></div>
 </div>
 <DIV class="groupe_title"><a href="{copixurl dest="$module_type_array[1]||go" id=$val_modules->module_id}" title="">{$val_modules->module_nom}</a></DIV>
 <div class="groupe_infos">

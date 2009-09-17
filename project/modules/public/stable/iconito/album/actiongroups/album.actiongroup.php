@@ -52,7 +52,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( _request("album_id") )   ||
+		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
 		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -267,7 +267,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	function getPhoto () {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset( _request("photo_id") ) ) {
+		if( !(_request("photo_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
@@ -335,7 +335,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	function getAddPhoto () {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset( _request("album_id") ) ) {
+		if( !(_request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
@@ -403,7 +403,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		@ini_set( 'memory_limit', '64M' ); // Pb d'allocation mémoire
 		@ini_set( 'max_execution_time', '120' ); // Pd de temps de traitement
 		
-		if( !isset( _request("album_id") ) ) {
+		if( !(_request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
@@ -550,11 +550,11 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @deprecated 2005
 	 */
 	function getFile () {
-		if( !isset( _request("album_id") ) ) die();
+		if( !(_request("album_id") ) ) die();
 		$album_id = _request("album_id");
-		if( !isset( _request("photo_id") ) ) die();
+		if( !(_request("photo_id") ) ) die();
 		$photo_id = _request("photo_id");
-		if( isset( _request("size") ) ) {
+		if( (_request("size") ) ) {
 			if( ereg("^s([0-9]+)$", _request("size"), $regs) ) {
 				$size = $regs[1];
 				$mode = "square";
@@ -694,7 +694,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function go () {
-		if( isset( _request("id") ) ) {
+		if( (_request("id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("id")) ));
 		}
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
@@ -710,7 +710,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function popup () {
-		if( isset( _request("id") ) ) {
+		if( (_request("id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|getpopup', array('album_id'=>_request("id"), 'dossier_id'=>0) ));
 		}
 		return new CopixActionReturn (COPIX_AR_NONE, 0);
@@ -730,7 +730,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$tpl = & new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( _request("album_id") )   ||
+		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
 		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -841,7 +841,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function vignettes () {
-		if( !isset( _request("album") ) ) {
+		if( !(_request("album") ) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array (	'message'=>CopixI18N::get ('album.error.noalbum'),
 			        'back'=>CopixUrl::get('||')));
@@ -910,7 +910,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( _request("album_id") )   ||
+		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
 		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -1017,7 +1017,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( _request("album_id") )   ||
+		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
 		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -1075,7 +1075,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	function getAddZip() {
 		$tpl = & new CopixTpl ();
 		
-		if( !isset( _request("album_id") ) ) {
+		if( !(_request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
@@ -1246,7 +1246,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
-		if( !isset( _request("album_id") )   ||
+		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
 		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -1266,7 +1266,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album = $album_dao->get($album_id);
 		
 		
-		if( !isset( _request("dossier_id") )   ||
+		if( !(_request("dossier_id") )   ||
 		    trim(_request("dossier_id"))==""   ||
 		    ! ereg ("^[0-9]+$", _request("dossier_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -1295,7 +1295,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			$dossier->album_id = $album_id;
 		}
 		
-		if( !isset( _request("subaction") ) ) {
+		if( !(_request("subaction") ) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.badsubaction'),
 						'back'=>CopixUrl::get('album||album', array('album_id'=>$album_id,'dossier_id'=>$dossier_id) )));
