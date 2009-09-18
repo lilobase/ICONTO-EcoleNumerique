@@ -550,7 +550,7 @@ class CopixDateTime {
 			$mk = mktime($regs[4], $regs[5], $regs[6], $regs[2], $regs[1], $regs[3]);
 			return date ($pFormat, $mk);
 		} else
-			return $this->yyyymmddhhiissToFormat($pYYYYMMDDHHIISS, $pFormat);
+			return self::yyyymmddhhiissToFormat($pYYYYMMDDHHIISS, $pFormat);
 	}
 	
 	

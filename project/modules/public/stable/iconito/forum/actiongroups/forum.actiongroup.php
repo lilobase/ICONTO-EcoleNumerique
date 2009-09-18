@@ -48,7 +48,6 @@ class ActionGroupForum extends CopixActionGroup {
    */
    function getForum () {
 	 	
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
 		
 		$id = _request("id") ? _request("id") : NULL;
@@ -64,11 +63,11 @@ class ActionGroupForum extends CopixActionGroup {
 		if (!$forum)
 			$errors[] = CopixI18N::get ('forum|forum.error.noForum');
 		else {
-			$mondroit = $kernel_service->getLevel( "MOD_FORUM", $id );
+			$mondroit = Kernel::getLevel( "MOD_FORUM", $id );
 			if (!$forumService->canMakeInForum("READ",$mondroit))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			else {
-				$parent = $kernel_service->getModParentInfo( "MOD_FORUM", $id);
+				$parent = Kernel::getModParentInfo( "MOD_FORUM", $id);
 				$forum[0]->parent = $parent;
 			}
 		}
@@ -88,12 +87,11 @@ class ActionGroupForum extends CopixActionGroup {
 		
 			// Pour chaque message on cherche les infos de son créateur et du dernier message
 			//print_r($list);
-			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 			while (list($k,$topic) = each($list)) {
-				$userInfo = $kernel_service->getUserInfo("ID", $list[$k]->createur);
+				$userInfo = Kernel::getUserInfo("ID", $list[$k]->createur);
 				$list[$k]->createur_infos = $userInfo["prenom"]." ".$userInfo["nom"];
 				if ($list[$k]->last_msg_auteur) {
-					$userInfo = $kernel_service->getUserInfo("ID", $list[$k]->last_msg_auteur);
+					$userInfo = Kernel::getUserInfo("ID", $list[$k]->last_msg_auteur);
 					$list[$k]->last_msg_auteur_infos = $userInfo["prenom"]." ".$userInfo["nom"];
 				}
 				//print_r($infos);
@@ -178,8 +176,7 @@ class ActionGroupForum extends CopixActionGroup {
 		if (!$rTopic)
 			$errors[] = CopixI18N::get ('forum|forum.error.noTopic');
 		else {
-			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-			$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rTopic->forum_id );
+			$mondroit = Kernel::getLevel( "MOD_FORUM", $rTopic->forum_id );
 			if (!$forumService->canMakeInForum("READ",$mondroit))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		}
@@ -205,9 +202,9 @@ class ActionGroupForum extends CopixActionGroup {
 			$list = $dao_messages->getListMessagesInTopic($id,$offset,CopixConfig::get ('forum|list_nbmessages'));
 
 			// Pour chaque message on cherche les infos de son auteur
-			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-			while (list($k,) = each($list)) {
-				$userInfo = $kernel_service->getUserInfo("ID", $list[$k]->auteur);
+
+			foreach ($list as $k=>$null) {
+				$userInfo = Kernel::getUserInfo("ID", $list[$k]->auteur);
 				$list[$k]->auteur_infos = $userInfo["prenom"]." ".$userInfo["nom"];
 
         // Avatar de l'expéditeur
@@ -267,7 +264,6 @@ class ActionGroupForum extends CopixActionGroup {
 		$preview = _request("preview") ? _request("preview") : 0;
 		$format = _request("format") ? _request("format") : CopixConfig::get ('forum|default_format');
 	
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
 		$dao_messages = CopixDAOFactory::create("forum_messages_topics");
 		$dao_topics = CopixDAOFactory::create("forum_topics");
@@ -278,7 +274,7 @@ class ActionGroupForum extends CopixActionGroup {
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noMessage');
 			else {
 				//print_r($rMessage);
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rMessage->forum );
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $rMessage->forum );
 				if (!$forumService->canMakeInForum('MODIFY_MESSAGE',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 				else {
@@ -292,7 +288,7 @@ class ActionGroupForum extends CopixActionGroup {
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noTopic');
 			else {
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rTopic->forum_id );
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $rTopic->forum_id );
 				if (!$forumService->canMakeInForum('ADD_MESSAGE',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 
@@ -302,7 +298,7 @@ class ActionGroupForum extends CopixActionGroup {
 					if ($rMessage && $rMessage->status==1 && $rMessage->topic_id==$topic) {
 						
 						// Nom en clair de l'auteur qu'on cite
-						$userInfo = $kernel_service->getUserInfo("ID", $rMessage->auteur);
+						$userInfo = Kernel::getUserInfo("ID", $rMessage->auteur);
 						
 						
 						switch ($rMessage->format) {
@@ -381,7 +377,6 @@ class ActionGroupForum extends CopixActionGroup {
 		$message = _request("message") ? _request("message") : NULL;
 		$format = $this->getRequest ('format', null);
 		
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = CopixClassesFactory::create("forum|forumService");
 
 		if ($id) {	// Edition d'un message
@@ -390,7 +385,7 @@ class ActionGroupForum extends CopixActionGroup {
 			if (!$rMessage)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noMessage');
 			else {
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rMessage->forum_id );
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $rMessage->forum_id );
 				if (!$forumService->canMakeInForum('MODIFY_MESSAGE',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 				else
@@ -403,7 +398,7 @@ class ActionGroupForum extends CopixActionGroup {
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noTopic');
 			else {
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rTopic->forum_id );
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $rTopic->forum_id );
 				if (!$forumService->canMakeInForum('ADD_MESSAGE',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 				else
@@ -464,7 +459,6 @@ class ActionGroupForum extends CopixActionGroup {
 		$preview = _request("preview") ? _request("preview") : 0;
 		$format = _request("format") ? _request("format") : CopixConfig::get ('forum|default_format');
 
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
 		
 		if ($id) {	// Edition d'une discussion
@@ -473,7 +467,7 @@ class ActionGroupForum extends CopixActionGroup {
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noTopic');
 			else {
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rTopic->forum_id );
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $rTopic->forum_id );
 				if (!$forumService->canMakeInForum('MODIFY_TOPIC',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 				elseif ($preview) {
@@ -489,7 +483,7 @@ class ActionGroupForum extends CopixActionGroup {
 			if (!$rForum)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noForum');
 			else {
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $forum);
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $forum);
 				if (!$forumService->canMakeInForum('ADD_TOPIC',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			}
@@ -560,8 +554,7 @@ class ActionGroupForum extends CopixActionGroup {
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noTopic');
 			else {
-				$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rTopic->forum_id );
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $rTopic->forum_id );
 				if (!$forumService->canMakeInForum('MODIFY_TOPIC',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			}
@@ -571,8 +564,7 @@ class ActionGroupForum extends CopixActionGroup {
 			if (!$rForum)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noForum');
 			else {
-				$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-				$mondroit = $kernel_service->getLevel( "MOD_FORUM", $forum);
+				$mondroit = Kernel::getLevel( "MOD_FORUM", $forum);
 				if (!$forumService->canMakeInForum('ADD_TOPIC',$mondroit))
 					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			}
@@ -621,20 +613,17 @@ class ActionGroupForum extends CopixActionGroup {
    */
 	function getDeleteMessage () {
 	 	
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-		
 		$errors = $criticErrors = array();	
 		$id = _request("id") ? _request("id") : NULL;
 		
 	 	$dao_messages = CopixDAOFactory::create("forum_messages_forums");
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
 		
 		$rMessage = $dao_messages->get($id);
 
 		if ($rMessage && $rMessage->status==1) {
 			//print_r($rMessage);
-			$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rMessage->forum_id );
+			$mondroit = Kernel::getLevel( "MOD_FORUM", $rMessage->forum_id );
 			if (!$forumService->canMakeInForum('DELETE_MESSAGE',$mondroit))
 				$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		} else {
@@ -645,7 +634,7 @@ class ActionGroupForum extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('forum||')));
 		} else {
 			
-			$userInfo = $kernel_service->getUserInfo("ID", $rMessage->auteur);
+			$userInfo = Kernel::getUserInfo("ID", $rMessage->auteur);
 			
 			return CopixActionGroup::process ('genericTools|Messages::getConfirm',
 				array (
@@ -679,8 +668,7 @@ class ActionGroupForum extends CopixActionGroup {
 
 		if ($rMessage && $rMessage->status==1) {
 			//print_r($rMessage);
-			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-			$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rMessage->forum_id );
+			$mondroit = Kernel::getLevel( "MOD_FORUM", $rMessage->forum_id );
 			if (!$forumService->canMakeInForum('DELETE_MESSAGE',$mondroit))
 				$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		} else {
@@ -722,8 +710,7 @@ class ActionGroupForum extends CopixActionGroup {
 
 		if ($rMessage && $rMessage->status==1) {
 			//print_r($rMessage);
-			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-			$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rMessage->forum_id );
+			$mondroit = Kernel::getLevel( "MOD_FORUM", $rMessage->forum_id );
 			if (!$forumService->canMakeInForum("READ",$mondroit))
 				$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		} else {
@@ -758,14 +745,13 @@ class ActionGroupForum extends CopixActionGroup {
 		$id = $this->getRequest ('id', null);
 		
 	 	$dao_topics = CopixDAOFactory::create("forum_topics");
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$forumService = & CopixClassesFactory::Create ('forum|forumService');
 		
 		$rTopic = $dao_topics->get($id);
 		if (!$rTopic)
 			$errors[] = CopixI18N::get ('forum|forum.error.noTopic');
 		else {
-			$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rTopic->forum_id );
+			$mondroit = Kernel::getLevel( "MOD_FORUM", $rTopic->forum_id );
 			if (!$forumService->canMakeInForum('DELETE_TOPIC',$mondroit))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		}
@@ -805,8 +791,7 @@ class ActionGroupForum extends CopixActionGroup {
 		if (!$rTopic)
 			$errors[] = CopixI18N::get ('forum|forum.error.noTopic');
 		else {
-			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-			$mondroit = $kernel_service->getLevel( "MOD_FORUM", $rTopic->forum_id );
+			$mondroit = Kernel::getLevel( "MOD_FORUM", $rTopic->forum_id );
 			if (!$forumService->canMakeInForum('DELETE_TOPIC',$mondroit))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		}

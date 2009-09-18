@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE daodefinition SYSTEM "dao.dtd">
-<daodefinition version="1">
+<daodefinition>
 	<datasource>
 		<tables>
 			<table name="carnet_topics_to" tablename="module_carnet_topics_to" primary="yes" />
-			<table name="carnet_topics" tablename="module_carnet_topics" primary="no" />
+			<table name="carnet_topics" tablename="module_carnet_topics" join="inner" />
 		</tables>
 	</datasource>
 	<properties>
 		<!-- TABLE carnet_topics_to -->
-		<property name="topic" fieldname="topic" type="integer" table="carnet_topics_to" pk="yes"  fkfieldname="id" fktable="carnet_topics"/>
-		<property name="eleve" fieldname="eleve" type="integer" table="carnet_topics_to" pk="yes"/>
+		<property name="topic" fieldname="topic" type="integer" table="carnet_topics_to" pk="yes"  fkfieldname="id" fktable="carnet_topics" required="yes" />
+		<property name="eleve" fieldname="eleve" type="integer" table="carnet_topics_to" pk="yes" required="yes" />
 		<!-- TABLE carnet_topics -->
-		<property name="topic_id" fieldname="id" type="integer" table="carnet_topics" pk="yes"/>
+		<property name="topic_id" fieldname="id" type="autoincrement" table="carnet_topics" pk="no" />
 		<property name="topic_titre" fieldname="titre" type="string" table="carnet_topics" pk="no"/>
 		<property name="topic_message" fieldname="message" type="string" table="carnet_topics" pk="no"/>
 		<property name="topic_date_creation" fieldname="date_creation" type="datetime" table="carnet_topics" pk="no"/>

@@ -39,7 +39,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$rFiche = $ficheDAO->get($id);
 
 		$tpl = & new CopixTpl ();
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/annuaire/annuaire.js');
+		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
 
 		$coords = null;
 		if ($googleAdresse = AnnuaireService::googleMapsFormatAdresse ('ecole', $rEcole)) {
@@ -120,7 +120,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			if ($coords = AnnuaireService::googleMapsAdresseCoords ($googleAdresse)) {
 				//var_dump($coords);
 				CopixHtmlHeader::addJSLink('http://maps.google.com/maps?file=api&amp;v=2.x&amp;key='.CopixConfig::get ('fichesecoles|googleMapsKey'));
-				CopixHtmlHeader::addJSLink(CopixUrl::get().'js/annuaire/annuaire.js');
+				CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
 				$tpl->assign ('BODY_ON_LOAD', "loadGoogleMapsEcole(".$coords['latitude'].",".$coords['longitude'].");");
 				$tpl->assign ('BODY_ON_UNLOAD', 'GUnload();');
 			}

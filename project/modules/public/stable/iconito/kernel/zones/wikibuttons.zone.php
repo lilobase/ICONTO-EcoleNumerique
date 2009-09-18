@@ -25,7 +25,7 @@ class ZoneWikiButtons extends CopixZone {
 		$format = $this->getParam('format', NULL);
 		$object = $this->getParam('object', NULL);
 
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/wiki/wikibuttons.js');
+		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/wikibuttons.js');
 
 		if ($field && $format) {
 			
@@ -34,7 +34,7 @@ class ZoneWikiButtons extends CopixZone {
 
 			switch ($format) {
 				case "wiki" :
-					CopixHtmlHeader::addJSLink(CopixUrl::get().'js/wiki/format_'.$format.'.js');
+					CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/format_'.$format.'.js');
 					$buttons[] = array('titre'=>CopixI18N::get ('wikibuttons.bold'), 'accesskey'=>'g', 'tabindex'=>10, 'link'=>"javascript:bbstyle('','$field',0);");	// Gras
 					$buttons[] = array('titre'=>CopixI18N::get ('wikibuttons.italic'), 'accesskey'=>'i', 'tabindex'=>11, 'link'=>"javascript:bbstyle('','$field',2);");	// Italique
 					$buttons[] = array('titre'=>CopixI18N::get ('wikibuttons.image'), 'accesskey'=>'m', 'tabindex'=>12, 'link'=>"javascript:bblink('','$field',12);");	// Image
@@ -46,7 +46,7 @@ class ZoneWikiButtons extends CopixZone {
 					break;
 
 				case "dokuwiki" :
-					CopixHtmlHeader::addJSLink(CopixUrl::get().'js/wiki/format_'.$format.'.js');
+					CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/format_'.$format.'.js');
 					$buttons[] = array('titre'=>CopixI18N::get ('wikibuttons.bold'), 'accesskey'=>'g', 'tabindex'=>10, 'link'=>"javascript:bbstyle('','$field',0);", 'icon'=>'bold.png');	// Gras
 					$buttons[] = array('titre'=>CopixI18N::get ('wikibuttons.italic'), 'accesskey'=>'i', 'tabindex'=>11, 'link'=>"javascript:bbstyle('','$field',2);", 'icon'=>'italic.png');	// Italique
 					$buttons[] = array('titre'=>CopixI18N::get ('wikibuttons.underline'), 'accesskey'=>'s', 'tabindex'=>12, 'link'=>"javascript:bbstyle('','$field',4);", 'icon'=>'underline.png');	// Souligne
