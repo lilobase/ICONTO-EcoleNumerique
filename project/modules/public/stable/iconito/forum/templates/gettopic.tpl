@@ -15,7 +15,7 @@
 		<DIV CLASS="forum_message">
 		<DIV CLASS="forum_message_infos">
     
-    {if $message->avatar}<img src="{$message->avatar}" alt="{$message->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
+    {if $message->avatar}<img src="{copixurl}{$message->avatar}" alt="{$message->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
     
     {i18n key="forum.msg.author" author=$message->auteur_infos date=$message->date|datei18n:"date_short_time"}</DIV>
 		<DIV CLASS="forum_message_message">{$message->message|render:$message->format}</DIV>

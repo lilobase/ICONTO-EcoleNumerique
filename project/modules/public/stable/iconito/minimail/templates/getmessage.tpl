@@ -28,7 +28,7 @@
 </TR>
 </TABLE>
 
-{if $message->avatar}<img src="{$message->avatar}" alt="{$message->avatar}" title="{$message->from.login}" align="right" hspace="2" vspace="2" />{/if}
+{if $message->avatar}<img src="{copixurl}{$message->avatar}" alt="{$message->avatar}" title="{$message->from.login}" align="right" hspace="2" vspace="2" />{/if}
 
 <b>{i18n key="minimail.msg.from"}</b> 
 

@@ -3,7 +3,7 @@
 <DIV ALIGN="RIGHT" STYLE="font-size:80%;"><A HREF="#" ONCLICK="return hideUser();">{i18n key="annuaire.btn.close"}</A></DIV>
 <!--<DIV ALIGN="RIGHT">{$usr.civilite}</DIV>-->
 
-<DIV STYLE="font-weight:bold; font-size:140%; margin-top: 3px; margin-bottom: 3px;">{if $usr.avatar}<IMG SRC="{$usr.avatar}" ALIGN="RIGHT" />{/if}{if $usr.sexe}<IMG src="{copixresource path="img/annuaire/sexe{$usr.sexe}b.png"}" width="15" height="17" /> {/if}{$usr.prenom|escape} {$usr.nom|escape}</DIV>
+<DIV STYLE="font-weight:bold; font-size:140%; margin-top: 3px; margin-bottom: 3px;">{if $usr.avatar}<IMG SRC="{copixurl}{$usr.avatar}" ALIGN="RIGHT" />{/if}{if $usr.sexe}<IMG src="{copixresource path="img/annuaire/sexe{$usr.sexe}b.png"}" width="15" height="17" /> {/if}{$usr.prenom|escape} {$usr.nom|escape}</DIV>
 
 <!-- 
 <DIV ALIGN="RIGHT">

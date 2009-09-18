@@ -2,7 +2,7 @@
 	<DIV CLASS="carnet_message">
 	<DIV CLASS="carnet_message_infos{if $session.user_id==$topic->createur}_me{/if}">
   
-  {if $topic->avatar}<img src="{$topic->avatar}" alt="{$topic->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
+  {if $topic->avatar}<img src="{copixurl}{$topic->avatar}" alt="{$topic->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
   
   {user label=$topic->createur_nom userType=$topic->createur_infos.type userId=$topic->createur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$topic->createur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$topic->date_creation|datei18n:"date_short_time"} :</DIV>
 	<DIV CLASS="carnet_message_message">{$topic->message|render:$topic->format}</DIV>
@@ -43,7 +43,7 @@
 		<DIV CLASS="carnet_message" ID="m{$item->id}">
 		<DIV CLASS="carnet_message_infos{if $session.user_id==$item->auteur}_me{/if}">
     
-    {if $item->avatar}<img src="{$item->avatar}" alt="{$item->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
+    {if $item->avatar}<img src="{copixurl}{$item->avatar}" alt="{$item->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
 
     {user label=$item->auteur_nom userType=$item->auteur_infos.type userId=$item->auteur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->auteur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$item->date|datei18n:"date_short_time"} :
 		</DIV>

@@ -18,7 +18,7 @@
 	<tr>
 		<td class="echange {if !$canCheckVisible}echangeDir{/if}">
 		{if $infosupp->info_message}
-		{if $infosupp->user.avatar}<img src="{$infosupp->user.avatar}" alt="{$infosupp->user.avatar}" title="" align="right" hspace="2" vspace="2" height="30" />{/if}
+		{if $infosupp->user.avatar}<img src="{copixurl}{$infosupp->user.avatar}" alt="{$infosupp->user.avatar}" title="" align="right" hspace="2" vspace="2" height="30" />{/if}
 		{user label=$infosupp->user.prenom|cat:' '|cat:$infosupp->user.nom userType=$infosupp->user.type userId=$infosupp->user.id linkAttribs='' login=$infosupp->user.login dispMail=0 assign='who'}
 		De {i18n key="teleprocedures|teleprocedures.msg.author" who=$who date=$infosupp->dateinfo|datei18n:"date_short"}<br/>
 		{$infosupp->info_message|render:$rFiche->type_format}
@@ -28,7 +28,7 @@
 		<td class="milieu"></td>
 		<td class="note">
 		{if $infosupp->info_commentaire}
-		{if $infosupp->user.avatar}<img src="{$infosupp->user.avatar}" alt="{$infosupp->user.avatar}" title="" align="right" hspace="2" vspace="2" height="30" />{/if}
+		{if $infosupp->user.avatar}<img src="{copixurl}{$infosupp->user.avatar}" alt="{$infosupp->user.avatar}" title="" align="right" hspace="2" vspace="2" height="30" />{/if}
 		{user label=$infosupp->user.prenom|cat:' '|cat:$infosupp->user.nom userType=$infosupp->user.type userId=$infosupp->user.id linkAttribs='' login=$infosupp->user.login dispMail=0 assign='who'}
 		De {i18n key="teleprocedures|teleprocedures.msg.author" who=$who date=$infosupp->dateinfo|datei18n:"date_short"}<br/>
 		{$infosupp->info_commentaire|render:$rFiche->type_format}
