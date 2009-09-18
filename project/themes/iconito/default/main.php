@@ -62,12 +62,12 @@
 <div class="welcome_demo">
 
 <table border="0" width="" cellspacing="1" cellpadding="1" align="center">
-<tr><td rowspan="2" align="center"><img src="<?php echo CopixUrl::getResource ("img/welcome/icon_demo.gif"); ?>" align="left" alt="Logo Iconito" /></td><td colspan="5" align="center"><b>Bienvenue sur la démo d'Iconito, le portail numérique scolaire libre. Pour vous connecter, cliquez ci-dessous sur un profil.</b></td></tr>
+<tr><td rowspan="2" align="center"><img src="<?php echo CopixUrl::getResource ("img/welcome/icon_demo.gif"); ?>" align="left" alt="Logo Iconito" /></td><td colspan="5" align="center"><b>Bienvenue sur la d&eacute;mo d'Iconito, le portail num&eacute;rique scolaire libre. Pour vous connecter, cliquez ci-dessous sur un profil.</b></td></tr>
 <tr>
 
 <td class="account">Directeur/enseignant<br/><a href="javascript:login('pfranc','123456');">Pierre Franc</a></td>
 <td class="account">Enseignante<br/><a href="javascript:login('mmeyer','123456');">Martine Meyer</a></td>
-<td class="account">Elève<br/><a href="javascript:login('jean','123456');">Jean Lenaick</a></td>
+<td class="account">El&egrave;ve<br/><a href="javascript:login('jean','123456');">Jean Lenaick</a></td>
 <td class="account">Parents de Jean<br/><a href="javascript:login('alenaick','123456');">M. Lenaick</a> et <a href="javascript: login('mlenaick','123456');">Mme Lenaick</a></td>
 <td class="account">Agent de ville<br/><a href="javascript:login('mbraton','123456');">Marc Braton</a></td>
 

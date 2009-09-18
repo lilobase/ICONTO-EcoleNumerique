@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_annuaire.css"}" />
-{literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/annuaire/annuaire.js"></SCRIPT>{/literal}
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_annuaire.js"></SCRIPT>
 
 <div id="ecole_infos_bloc">
 

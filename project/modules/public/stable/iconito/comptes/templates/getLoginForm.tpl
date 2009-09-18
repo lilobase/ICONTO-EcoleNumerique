@@ -1,4 +1,4 @@
-{literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/malle/malle.js"></SCRIPT>{/literal}
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_malle.js"></SCRIPT>
 
 <form action="{copixurl dest="comptes||doLoginCreate"}" enctype="multipart/form-data" name="form_comptes" id="form_comptes" method="POST">
 

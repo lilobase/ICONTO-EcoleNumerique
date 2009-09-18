@@ -1,4 +1,4 @@
-{literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/forum/forum.js"></SCRIPT>{/literal}
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_forum.js"></SCRIPT>
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_forum.css"}" />
 
 {$petitpoucet}

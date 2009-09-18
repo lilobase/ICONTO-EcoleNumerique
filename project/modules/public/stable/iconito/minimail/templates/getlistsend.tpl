@@ -1,4 +1,4 @@
-<SCRIPT LANGUAGE="Javascript1.2" SRC="js/minimail/minimail.js"></SCRIPT>
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_minimail.js"></SCRIPT>
 
 <FORM NAME="form" ID="form" ACTION="{copixurl dest="|doDelete"}" METHOD="POST">
 <INPUT TYPE="hidden" NAME="mode" VALUE="send" ></INPUT>

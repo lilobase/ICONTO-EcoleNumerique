@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
-<SCRIPT LANGUAGE="Javascript1.2" SRC="js/malle/malle.js"></SCRIPT>
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_malle.js"></SCRIPT>
 
 
 {if $folders neq null or $files neq null}

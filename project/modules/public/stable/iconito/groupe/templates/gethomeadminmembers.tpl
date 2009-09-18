@@ -1,4 +1,4 @@
-<script language="Javascript1.2" SRC="js/groupe/groupe_admin.js"></script>
+<script language="Javascript1.2" SRC="{copixurl}js/iconito/module_groupe_admin.js"></script>
 
 {if not $errors eq null}
 	<DIV CLASS="message_erreur">

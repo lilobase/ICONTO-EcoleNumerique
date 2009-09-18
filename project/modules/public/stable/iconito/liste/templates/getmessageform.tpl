@@ -1,4 +1,4 @@
-{literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/liste/liste.js"></SCRIPT>{/literal}
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_liste.js"></SCRIPT>
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_minimail.css"}" />
 
 <form action="{copixurl dest="liste||doMessageForm"}" method="post">

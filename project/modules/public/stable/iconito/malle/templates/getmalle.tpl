@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
-{literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/malle/malle.js"></SCRIPT>{/literal}
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_malle.js"></SCRIPT>
 
 
 

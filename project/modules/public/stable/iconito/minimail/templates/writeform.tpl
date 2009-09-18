@@ -1,4 +1,4 @@
-{literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/minimail/minimail.js"></SCRIPT>{/literal}
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_minimail.js"></SCRIPT>
 
 <form action="{copixurl dest="minimail||doSend"}" method="post" ENCTYPE="multipart/form-data">
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attachment_size}">

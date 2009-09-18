@@ -36,8 +36,8 @@ DIV#content {ldelim}
 </style>
 </head>
 
-<script type="text/javascript" language="Javascript1.2" src="js/iconito.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="js/lang_{$LANGUE}.js"></script>
+<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/iconito.js"></script>
+<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/lang_{$LANGUE}.js"></script>
 <script>
 var format = '{$format}';
 function sendPhoto( album, photo, ext, nom ) {ldelim}

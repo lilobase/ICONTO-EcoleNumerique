@@ -2,7 +2,7 @@
 <!-- A remplacer par un annuaire interfacé GAEL -->
 Vous pouvez consulter <a href="http://demo-gael.dev.iconito.fr">GAEL</a> pour obtenir les listes d'élèves, de classes, d'écoles, etc. GAEL signifie Gestion administrative des élèves, mais gère en réalité toutes les données relatives aux parents, écoles, classes, enseignants, services vie scolaire, etc.<p>
 </div>
-{literal}<SCRIPT LANGUAGE="Javascript1.2" SRC="js/carnet/carnet.js"></SCRIPT>{/literal}
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_carnet.js"></SCRIPT>
 
 <form action="{copixurl dest="comptes||doListForm"}" method="post">
 <input type="hidden" name="classe" value="{$classe}" />

@@ -8,9 +8,11 @@
 <link href="styles/iconito.css" rel="stylesheet" type="text/css" media="screen" />
 <link href="styles/module_annuaire.css" rel="stylesheet" type="text/css" media="screen" />
 <link rel="SHORTCUT ICON" href="favicon.ico">
-<script type="text/javascript" language="Javascript1.2" src="js/iconito.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="js/lang_{/literal}{$LANGUE}{literal}.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="js/prototype-1.4.0.js"></script>
+{/literal}
+<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/iconito.js"></script>
+<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/lang_{$LANGUE}.js"></script>
+<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/prototype-1.6.0.3.js"></script>
+{literal}
 </head>
 
 <body>
@@ -81,7 +83,7 @@
 
 
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
-<SCRIPT LANGUAGE="Javascript1.2" SRC="js/malle/malle.js"></SCRIPT>
+<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_malle.js"></SCRIPT>
 
 
 
