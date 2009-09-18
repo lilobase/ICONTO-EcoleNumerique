@@ -21,9 +21,9 @@
 	{$zoneActualites}
 
 {else}
-	<h3>Bienvenue sur Iconito, le portail numérique scolaire libre.</h3>
+	<h3>Bienvenue sur Iconito, le portail numÃ©rique scolaire libre.</h3>
 	
-	<p>Iconito est un portail éducatif comprenant un ensemble d'outils et de ressources à destination des enseignants et des élèves, mais aussi des parents et des autres intervenants du système scolaire. Il est développé sous licence libre (GNU GPL).</p>
+	<p>Iconito est un portail Ã©ducatif comprenant un ensemble d'outils et de ressources Ã  destination des enseignants et des Ã©lÃ¨ves, mais aussi des parents et des autres intervenants du systÃ¨me scolaire. Il est dÃ©veloppÃ© sous licence libre (GNU GPL).</p>
 	
 	<a class="button_like" href="{copixurl dest="auth||login"}">Connexion &agrave; Iconito</a>
 	
@@ -43,7 +43,7 @@
 	</div>
 	
 	<br/>
-	<div class="astuce"><b>Astuce</b> - Vous pouvez télécharger un logo pour votre blog. Allez dans Administration du blog, Options, Modifier, puis télécharger le logo. Une bonne taille de logo est 150 x 150 pixels par exemple!
+	<div class="astuce"><b>Astuce</b> - Vous pouvez tÃ©lÃ©charger un logo pour votre blog. Allez dans Administration du blog, Options, Modifier, puis tÃ©lÃ©charger le logo. Une bonne taille de logo est 150 x 150 pixels par exemple!
 	</div>
 
 {/if}
@@ -57,8 +57,8 @@
 <div class="small" style="clear:both;">
 <hr/>
 {if $isDemo}
-Ceci est un site de démonstration. Nous ne sommes pas responsables des contenus que les internautes peuvent publier sur ce site dans le cadre de leurs tests. Pour toute information, n'hésitez pas à nous contacter: <a href="mailto:dev@iconito.org">dev@iconito.org</a><p>
+Ceci est un site de dÃ©monstration. Nous ne sommes pas responsables des contenus que les internautes peuvent publier sur ce site dans le cadre de leurs tests. Pour toute information, n'hÃ©sitez pas Ã  nous contacter: <a href="mailto:dev@iconito.org">dev@iconito.org</a><p>
 {else}
-Les dernières informations sur le développement d'Iconito sont consultables sur <a href="http://www.iconito.org">iconito.org</a>. Pour toute information, n'hésitez pas à contacter directement l'équipe des développeurs: <a href="mailto:dev@iconito.org">dev@iconito.org</a>
+Les derniÃ¨res informations sur le dÃ©veloppement d'Iconito sont consultables sur <a href="http://www.iconito.org">iconito.org</a>. Pour toute information, n'hÃ©sitez pas Ã  contacter directement l'Ã©quipe des dÃ©veloppeurs: <a href="mailto:dev@iconito.org">dev@iconito.org</a>
 {/if}
 </div>
