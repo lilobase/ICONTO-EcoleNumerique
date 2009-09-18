@@ -10,6 +10,6 @@
 		<!-- Groupes de villes -->
 		<property name="grv_id_grv"        fieldname="id_grv"        type="integer" table="kernel_bu_groupe_villes" pk="yes"/>
 		<property name="grv_nom_groupe"    fieldname="nom_groupe"    type="string"  table="kernel_bu_groupe_villes" pk="no"/>
-		<property name="grv_date_creation" fieldname="date_creation" type="date"    table="kernel_bu_groupe_villes" pk="no"/>
+		<property name="grv_date_creation" fieldname="date_creation" type="datetime"    table="kernel_bu_groupe_villes" pk="no"/>
 	</properties>
 </daodefinition>

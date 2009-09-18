@@ -13,7 +13,7 @@
 		<property name="title" fieldname="title" type="string" table="minimail_from" pk="no"/>
 		<property name="message" fieldname="message" type="string" table="minimail_from" pk="no"/>
 		<property name="format" fieldname="format" type="string" table="minimail_from" pk="no"/>
-		<property name="date_send" fieldname="date_send" type="date" table="minimail_from" pk="no"/>
+		<property name="date_send" fieldname="date_send" type="datetime" table="minimail_from" pk="no"/>
 		<property name="is_deleted" fieldname="is_deleted" type="integer" table="minimail_from" pk="no"/>
 		<property name="attachment1" fieldname="attachment1" type="string" table="minimail_from" pk="no"/>
 		<property name="attachment2" fieldname="attachment2" type="string" table="minimail_from" pk="no"/>

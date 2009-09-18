@@ -9,7 +9,7 @@
 	<properties>
 		<property name="id" fieldname="id" type="autoincrement" table="teleprocedure" pk="yes"/>
 		<property name="titre" fieldname="titre" type="string" table="teleprocedure" pk="no"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="teleprocedure" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="teleprocedure" pk="no"/>
 	</properties>
 	<methods>
 	</methods>

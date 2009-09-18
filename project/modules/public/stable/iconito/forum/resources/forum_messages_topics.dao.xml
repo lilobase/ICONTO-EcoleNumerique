@@ -13,7 +13,7 @@
 		<property name="topic" fieldname="topic" type="integer" table="forum_messages" pk="no" fkfieldname="id" fktable="forum_topics"/>
 		<property name="forum" fieldname="forum" type="integer" table="forum_messages" pk="no"/>
 		<property name="auteur" fieldname="auteur" type="integer" table="forum_messages" pk="no"/>
-		<property name="date" fieldname="date" type="date" table="forum_messages" pk="no"/>
+		<property name="date" fieldname="date" type="datetime" table="forum_messages" pk="no"/>
 		<property name="status" fieldname="status" type="integer" table="forum_messages" pk="no"/>
 		<property name="message" fieldname="message" type="string" table="forum_messages" pk="no"/>
 		<property name="format" fieldname="format" type="string" table="forum_messages" pk="no"/>
@@ -22,12 +22,12 @@
 		<property name="topic_id" fieldname="id" type="integer" table="forum_topics" pk="yes"/>
 		<property name="topic_titre" fieldname="titre" type="string" table="forum_topics" pk="no"/>
 		<property name="topic_forum" fieldname="forum" type="integer" table="forum_topics" pk="no" fkfieldname="id" fktable="forum_forums"/>
-		<property name="topic_date_creation" fieldname="date_creation" type="date" table="forum_topics" pk="no"/>
+		<property name="topic_date_creation" fieldname="date_creation" type="datetime" table="forum_topics" pk="no"/>
 		<property name="topic_nb_messages" fieldname="nb_messages" type="integer" table="forum_topics" pk="no"/>
 		<property name="topic_status" fieldname="status" type="integer" table="forum_topics" pk="no"/>
 		<property name="topic_last_msg_id" fieldname="last_msg_id" type="integer" table="forum_topics" pk="no"/>
 		<property name="topic_last_msg_auteur" fieldname="last_msg_auteur" type="integer" table="forum_topics" pk="no"/>
-		<property name="topic_last_msg_date" fieldname="last_msg_date" type="date" table="forum_topics" pk="no"/>
+		<property name="topic_last_msg_date" fieldname="last_msg_date" type="datetime" table="forum_topics" pk="no"/>
 	</properties>
 
 	<methods>

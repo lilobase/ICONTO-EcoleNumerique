@@ -33,7 +33,7 @@
          />
  <property name="dateinfo"
          captioni18n="copix:exemple.dao.intervention.fields.dateinter"
-         type="date"
+         type="datetime"
          required="yes"
          /> 
 	 

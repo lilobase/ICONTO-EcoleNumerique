@@ -1,59 +1,118 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE daodefinition SYSTEM "dao.dtd">
-<daodefinition version="1">
-	<datasource>
-		<tables>
-			<table name="module_ressource_res2domaine" tablename="module_ressource_res2domaine" primary="yes"/>
-			<table name="module_ressource_ressources"  tablename="module_ressource_ressources"  join="LEFT"/>
-			<table name="module_ressource_domaines"    tablename="module_ressource_domaines"    join="LEFT"/>
-		</tables>
-	</datasource>
-	<properties>
-		<property name="res2domaine_id_ressource" fieldname="id_ressource" type="integer" table="module_ressource_res2domaine" pk="yes" fktable="module_ressource_ressources" fkfieldname="id"/>
-		<property name="res2domaine_id_domaine"   fieldname="id_domaine"   type="integer" table="module_ressource_res2domaine" pk="yes" fktable="module_ressource_domaines"   fkfieldname="id"/>
-
-		<property name="ressources_id" fieldname="id" type="integer" table="module_ressource_ressources" pk="yes"/>
-		<property name="ressources_id_annu" fieldname="id" type="integer" table="module_ressource_ressources" pk="no" fktable="module_ressource_annuaires" fkfieldname="id"/>
-		<property name="ressources_nom" fieldname="nom" type="string" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_url" fieldname="url" type="string" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_description" fieldname="description" type="string" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_mots" fieldname="mots" type="string" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_auteur" fieldname="auteur" type="string" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_submit_user" fieldname="submit_user" type="date" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_submit_date" fieldname="submit_date" type="date" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_valid_user" fieldname="valid_user" type="date" table="module_ressource_ressources" pk="no"/>
-		<property name="ressources_valid_date" fieldname="valid_date" type="date" table="module_ressource_ressources" pk="no"/>
-
-		<property name="domaines_id"         fieldname="id"          type="integer" table="module_ressource_domaines" pk="yes"/>
-		<property name="domaines_id_niveau"  fieldname="id_niveau"   type="integer" table="module_ressource_domaines" pk="no"/>
-		<property name="domaines_nom"        fieldname="nom"         type="string"  table="module_ressource_domaines" pk="no"/>
-		<property name="domaines_parent"     fieldname="parent"      type="integer" table="module_ressource_domaines" pk="no"/>
-		<property name="domaines_ordre"      fieldname="ordre"       type="integer" table="module_ressource_domaines" pk="no"/>
-	</properties>
-	<methods>
-		<method name="getByRessource" type="select">
-			<parameters>
-				<parameter name="ressource" />
-			</parameters>
-			<conditions>
-				<condition property="res2domaine_id_ressource" operator="=" value="$ressource" />
-			</conditions>
-		</method>
-		<method name="delByRessource" type="delete">
-			<parameters>
-				<parameter name="ressource" />
-			</parameters>
-			<conditions>
-				<condition property="res2domaine_id_ressource" operator="=" value="$ressource" />
-			</conditions>
-		</method>
-		<method name="getByDomaine" type="select">
-			<parameters>
-				<parameter name="domaine" />
-			</parameters>
-			<conditions>
-				<condition property="res2domaine_id_domaine" operator="=" value="$domaine" />
-			</conditions>
-		</method>
-	</methods>
-</daodefinition>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+
+<daodefinition version="1">
+
+	<datasource>
+
+		<tables>
+
+			<table name="module_ressource_res2domaine" tablename="module_ressource_res2domaine" primary="yes"/>
+
+			<table name="module_ressource_ressources"  tablename="module_ressource_ressources"  join="LEFT"/>
+
+			<table name="module_ressource_domaines"    tablename="module_ressource_domaines"    join="LEFT"/>
+
+		</tables>
+
+	</datasource>
+
+	<properties>
+
+		<property name="res2domaine_id_ressource" fieldname="id_ressource" type="integer" table="module_ressource_res2domaine" pk="yes" fktable="module_ressource_ressources" fkfieldname="id"/>
+
+		<property name="res2domaine_id_domaine"   fieldname="id_domaine"   type="integer" table="module_ressource_res2domaine" pk="yes" fktable="module_ressource_domaines"   fkfieldname="id"/>
+
+
+
+		<property name="ressources_id" fieldname="id" type="integer" table="module_ressource_ressources" pk="yes"/>
+
+		<property name="ressources_id_annu" fieldname="id" type="integer" table="module_ressource_ressources" pk="no" fktable="module_ressource_annuaires" fkfieldname="id"/>
+
+		<property name="ressources_nom" fieldname="nom" type="string" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_url" fieldname="url" type="string" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_description" fieldname="description" type="string" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_mots" fieldname="mots" type="string" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_auteur" fieldname="auteur" type="string" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_submit_user" fieldname="submit_user" type="string" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_submit_date" fieldname="submit_date" type="datetime" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_valid_user" fieldname="valid_user" type="integer" table="module_ressource_ressources" pk="no"/>
+
+		<property name="ressources_valid_date" fieldname="valid_date" type="datetime" table="module_ressource_ressources" pk="no"/>
+
+
+
+		<property name="domaines_id"         fieldname="id"          type="integer" table="module_ressource_domaines" pk="yes"/>
+
+		<property name="domaines_id_niveau"  fieldname="id_niveau"   type="integer" table="module_ressource_domaines" pk="no"/>
+
+		<property name="domaines_nom"        fieldname="nom"         type="string"  table="module_ressource_domaines" pk="no"/>
+
+		<property name="domaines_parent"     fieldname="parent"      type="integer" table="module_ressource_domaines" pk="no"/>
+
+		<property name="domaines_ordre"      fieldname="ordre"       type="integer" table="module_ressource_domaines" pk="no"/>
+
+	</properties>
+
+	<methods>
+
+		<method name="getByRessource" type="select">
+
+			<parameters>
+
+				<parameter name="ressource" />
+
+			</parameters>
+
+			<conditions>
+
+				<condition property="res2domaine_id_ressource" operator="=" value="$ressource" />
+
+			</conditions>
+
+		</method>
+
+		<method name="delByRessource" type="delete">
+
+			<parameters>
+
+				<parameter name="ressource" />
+
+			</parameters>
+
+			<conditions>
+
+				<condition property="res2domaine_id_ressource" operator="=" value="$ressource" />
+
+			</conditions>
+
+		</method>
+
+		<method name="getByDomaine" type="select">
+
+			<parameters>
+
+				<parameter name="domaine" />
+
+			</parameters>
+
+			<conditions>
+
+				<condition property="res2domaine_id_domaine" operator="=" value="$domaine" />
+
+			</conditions>
+
+		</method>
+
+	</methods>
+
+</daodefinition>
+

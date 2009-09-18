@@ -17,7 +17,7 @@
 		<property name="nb_folders" fieldname="nb_folders" type="integer" table="malle_folders" pk="no"/>
 		<property name="nb_files" fieldname="nb_files" type="integer" table="malle_folders" pk="no"/>
 		<property name="taille" fieldname="taille" type="integer" table="malle_folders" pk="no"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="malle_folders" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="malle_folders" pk="no"/>
 	</properties>
 
 	<methods>

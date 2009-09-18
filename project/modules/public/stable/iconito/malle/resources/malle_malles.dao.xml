@@ -10,7 +10,7 @@
 		<!-- TABLE MALLES -->
 		<property name="id" fieldname="id" type="autoincrement" table="malle_malles" pk="yes"/>
 		<property name="titre" fieldname="titre" type="string" table="malle_malles" pk="no"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="malle_malles" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="malle_malles" pk="no"/>
 		<property name="cle" fieldname="cle" type="string" table="malle_malles" pk="no"/>
 	</properties>
 

@@ -14,7 +14,7 @@
 		<property name="format" fieldname="format" type="string" table="carnet_topics" pk="no"/>
 		<property name="classe" fieldname="classe" type="integer" table="carnet_topics" pk="no"/>
 		<property name="createur" fieldname="createur" type="integer" table="carnet_topics" pk="no"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="carnet_topics" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="carnet_topics" pk="no"/>
 	</properties>
 
 	<methods>

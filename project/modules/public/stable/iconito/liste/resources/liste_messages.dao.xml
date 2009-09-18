@@ -12,7 +12,7 @@
 		<property name="id" fieldname="id" type="autoincrement" table="liste_messages" pk="yes"/>
 		<property name="liste" fieldname="liste" type="integer" table="liste_messages" pk="no" fkfieldname="id" fktable="liste_listes"/>
 		<property name="auteur" fieldname="auteur" type="integer" table="liste_messages" pk="no"/>
-		<property name="date" fieldname="date" type="date" table="liste_messages" pk="no"/>
+		<property name="date" fieldname="date" type="datetime" table="liste_messages" pk="no"/>
 		<property name="titre" fieldname="titre" type="string" table="liste_messages" pk="no"/>
 		<property name="message" fieldname="message" type="string" table="liste_messages" pk="no"/>
 		<!-- TABLE LISTES -->

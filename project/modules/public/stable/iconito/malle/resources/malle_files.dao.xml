@@ -18,7 +18,7 @@
 		<property name="taille" fieldname="taille" type="integer" table="malle_files" pk="no"/>
 		<property name="type" fieldname="type" type="string" table="malle_files" pk="no"/>
 		<property name="cle" fieldname="cle" type="string" table="malle_files" pk="no"/>
-		<property name="date_upload" fieldname="date_upload" type="date" table="malle_files" pk="no"/>
+		<property name="date_upload" fieldname="date_upload" type="datetime" table="malle_files" pk="no"/>
 	</properties>
 
 	<methods>

@@ -12,7 +12,7 @@
 		<property name="id" fieldname="id" type="autoincrement" table="carnet_messages" pk="yes"/>
 		<property name="topic" fieldname="topic" type="integer" table="carnet_messages" pk="no" fkfieldname="id" fktable="carnet_topics"/>
 		<property name="eleve" fieldname="eleve" type="integer" table="carnet_messages" pk="no"/>
-		<property name="date" fieldname="date" type="date" table="carnet_messages" pk="no"/>
+		<property name="date" fieldname="date" type="datetime" table="carnet_messages" pk="no"/>
 		<property name="message" fieldname="message" type="string" table="carnet_messages" pk="no"/>
 		<property name="format" fieldname="format" type="string" table="carnet_messages" pk="no"/>
 		<property name="auteur" fieldname="auteur" type="integer" table="carnet_messages" pk="no"/>
@@ -20,7 +20,7 @@
 		<property name="topic_id" fieldname="id" type="integer" table="carnet_topics" pk="yes"/>
 		<property name="topic_titre" fieldname="titre" type="string" table="carnet_topics" pk="no"/>
 		<property name="topic_message" fieldname="message" type="string" table="carnet_topics" pk="no"/>
-		<property name="topic_date_creation" fieldname="date_creation" type="date" table="carnet_topics" pk="no"/>
+		<property name="topic_date_creation" fieldname="date_creation" type="datetime" table="carnet_topics" pk="no"/>
 
 	</properties>
 

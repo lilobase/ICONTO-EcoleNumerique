@@ -1,6 +1,6 @@
 <?php
 
-$getMalle   				= & new CopixAction ('malle', 'getMalle');
+$getMalle   				= & new CopixAction ('malle', 'processGetMalle');
 $getMallePopup   		= & new CopixAction ('malle', 'getMallePopup');
 
 $doDownloadFile   	= & new CopixAction ('malle', 'doDownloadFile');
@@ -18,7 +18,7 @@ $getActionRename    = & new CopixAction ('malle', 'getActionRename');
 $doActionRename     = & new CopixAction ('malle', 'doActionRename');
 $doActionDownloadZip     = & new CopixAction ('malle', 'doActionDownloadZip');
 
-$go 								= & new CopixAction ('malle', 'getMalle');
+$go 								= & new CopixAction ('malle', 'processGetMalle');
 
 $default						= & $go;
 

@@ -10,7 +10,7 @@
 		<!-- TABLE LISTES -->
 		<property name="id" fieldname="id" type="autoincrement" table="liste_listes" pk="yes"/>
 		<property name="titre" fieldname="titre" type="string" table="liste_listes" pk="no"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="liste_listes" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="liste_listes" pk="no"/>
 	</properties>
 
 	<methods>

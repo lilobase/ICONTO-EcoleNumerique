@@ -29,7 +29,7 @@
 		<property name="vil_nom"           fieldname="nom"           type="string"  table="kernel_bu_ville" pk="no"/>
 		<property name="vil_canon"         fieldname="canon"         type="string"  table="kernel_bu_ville" pk="no"/>
 		<property name="vil_id_grville"    fieldname="id_grville"    type="integer" table="kernel_bu_ville" pk="no"/>
-		<property name="vil_date_creation" fieldname="date_creation" type="date"    table="kernel_bu_ville" pk="no"/>
+		<property name="vil_date_creation" fieldname="date_creation" type="datetime"    table="kernel_bu_ville" pk="no"/>
 	</properties>
 
 	<methods>

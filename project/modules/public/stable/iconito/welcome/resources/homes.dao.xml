@@ -9,6 +9,6 @@
 	<properties>
 		<!-- TABLE TEST VERSION -->
 		<property name="id"   fieldname="id"   type="autoincrement" table="module_welcome_homes" pk="yes"/>
-		<property name="date" fieldname="date" type="date"          table="module_welcome_homes" pk="no" />
+		<property name="date" fieldname="date" type="datetime"          table="module_welcome_homes" pk="no" />
 	</properties>
 </daodefinition>

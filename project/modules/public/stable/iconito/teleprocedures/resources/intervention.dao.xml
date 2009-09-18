@@ -58,7 +58,7 @@
 
 	<property name="datederniere"
          captioni18n="teleprocedures.intervention.field.dern.action"
-         type="date"
+         type="datetime"
          required="yes"
          /> 
 		 

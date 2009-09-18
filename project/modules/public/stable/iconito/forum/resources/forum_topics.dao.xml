@@ -12,18 +12,18 @@
 		<property name="id" fieldname="id" type="autoincrement" table="forum_topics" pk="yes"/>
 		<property name="titre" fieldname="titre" type="string" table="forum_topics" pk="no"/>
 		<property name="forum" fieldname="forum" type="integer" table="forum_topics" pk="no" fkfieldname="id" fktable="forum_forums"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="forum_topics" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="forum_topics" pk="no"/>
 		<property name="createur" fieldname="createur" type="integer" table="forum_topics" pk="no"/>
 		<property name="nb_messages" fieldname="nb_messages" type="integer" table="forum_topics" pk="no"/>
 		<property name="nb_lectures" fieldname="nb_lectures" type="integer" table="forum_topics" pk="no"/>
 		<property name="status" fieldname="status" type="integer" table="forum_topics" pk="no"/>
 		<property name="last_msg_id" fieldname="last_msg_id" type="integer" table="forum_topics" pk="no"/>
 		<property name="last_msg_auteur" fieldname="last_msg_auteur" type="integer" table="forum_topics" pk="no"/>
-		<property name="last_msg_date" fieldname="last_msg_date" type="date" table="forum_topics" pk="no"/>
+		<property name="last_msg_date" fieldname="last_msg_date" type="datetime" table="forum_topics" pk="no"/>
 		<!-- TABLE FORUMS -->
 		<property name="forum_id" fieldname="id" type="integer" table="forum_forums" pk="yes"/>
 		<property name="forum_titre" fieldname="titre" type="string" table="forum_forums" pk="no"/>
-		<property name="forum_date_creation" fieldname="date_creation" type="date" table="forum_forums" pk="no"/>
+		<property name="forum_date_creation" fieldname="date_creation" type="datetime" table="forum_forums" pk="no"/>
 	</properties>
 
 	<methods>

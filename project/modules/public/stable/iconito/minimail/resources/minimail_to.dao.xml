@@ -11,7 +11,7 @@
 		<property name="id2" fieldname="id" type="autoincrement" table="minimail_to" pk="yes"/>
 		<property name="id_message" fieldname="id_message" type="integer" table="minimail_to" pk="no" fkfieldname="id" fktable="minimail_from"/>
 		<property name="to_id" fieldname="to_id" type="integer" table="minimail_to" pk="no"/>
-		<property name="date_read" fieldname="date_read" type="date" table="minimail_to" pk="no"/>
+		<property name="date_read" fieldname="date_read" type="datetime" table="minimail_to" pk="no"/>
 		<property name="is_read" fieldname="is_read" type="integer" table="minimail_to" pk="no"/>
 		<property name="is_replied" fieldname="is_replied" type="integer" table="minimail_to" pk="no"/>
 		<property name="is_deleted" fieldname="is_deleted" type="integer" table="minimail_to" pk="no"/>
@@ -20,7 +20,7 @@
 		<property name="from_id" fieldname="from_id" type="integer" table="minimail_from" pk="no"/>
 		<property name="title" fieldname="title" type="string" table="minimail_from" pk="no"/>
 		<property name="message" fieldname="message" type="string" table="minimail_from" pk="no"/>
-		<property name="date_send" fieldname="date_send" type="date" table="minimail_from" pk="no"/>
+		<property name="date_send" fieldname="date_send" type="datetime" table="minimail_from" pk="no"/>
 		<property name="attachment1" fieldname="attachment1" type="string" table="minimail_from" pk="no"/>
 		<property name="attachment2" fieldname="attachment2" type="string" table="minimail_from" pk="no"/>
 		<property name="attachment3" fieldname="attachment3" type="string" table="minimail_from" pk="no"/>

@@ -10,7 +10,7 @@
 		<!-- TABLE FORUMS -->
 		<property name="id" fieldname="id" type="autoincrement" table="forum_forums" pk="yes"/>
 		<property name="titre" fieldname="titre" type="string" table="forum_forums" pk="no"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="forum_forums" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="forum_forums" pk="no"/>
 	</properties>
 
 	<methods>

@@ -12,13 +12,13 @@
 		<property name="album_id" fieldname="id" type="integer" table="album_albums" pk="yes"/>
 		<property name="album_nom" fieldname="nom" type="string" table="album_albums" pk="no"/>
 		<property name="album_prefs" fieldname="prefs" type="string" table="album_albums" pk="no"/>
-		<property name="album_date" fieldname="date" type="date" table="album_albums" pk="no"/>
+		<property name="album_date" fieldname="date" type="datetime" table="album_albums" pk="no"/>
 		
 		<property name="photo_id" fieldname="id" type="integer" table="album_photos" pk="yes"/>
 		<property name="photo_album" fieldname="album" type="integer" table="album_photos" pk="no" fktable="album_albums" fkfieldname="id"/>
 		<property name="photo_nom" fieldname="nom" type="string" table="album_photos" pk="no"/>
 		<property name="photo_comment" fieldname="comment" type="string" table="album_photos" pk="no"/>
-		<property name="photo_date" fieldname="date" type="date" table="album_photos" pk="no"/>
+		<property name="photo_date" fieldname="date" type="datetime" table="album_photos" pk="no"/>
 	</properties>
 	<methods>
 		<method name="listPhotos" type="select">

@@ -13,7 +13,7 @@
 		<property name="description" fieldname="description" type="string" table="groupe_groupe" pk="no"/>
 		<property name="is_open" fieldname="is_open" type="integer" table="groupe_groupe" pk="no"/>
 		<property name="createur" fieldname="createur" type="integer" table="groupe_groupe" pk="no"/>
-		<property name="date_creation" fieldname="date_creation" type="date" table="groupe_groupe" pk="no"/>
+		<property name="date_creation" fieldname="date_creation" type="datetime" table="groupe_groupe" pk="no"/>
 	</properties>
 
 	<methods>

@@ -21,7 +21,7 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @param integer $folder Id du répertoire
 	 * @param array $errors (option) Erreurs rencontrées
    */
-   function getMalle () {
+   function processGetMalle () {
 	 	
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
@@ -343,7 +343,8 @@ class ActionGroupMalle extends CopixActionGroup {
 			$rMalle = $daoMalles->get($id);
 			if (!$rMalle)
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
-      $malle_cle = $rMalle->cle;
+			else
+	      $malle_cle = $rMalle->cle;
 		}
 		if (!$criticErrors) {
 			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
@@ -356,9 +357,6 @@ class ActionGroupMalle extends CopixActionGroup {
 		}
   
     
-
-
-    //print_r($rMalle);
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('malle||getMalle', array('id'=>$id, 'folder'=>$folder))));
 
@@ -420,6 +418,7 @@ class ActionGroupMalle extends CopixActionGroup {
   			$errors[] = CopixI18N::get ('malle|malle.error.uploadFileDB');
   		}
   	}
+
     if ($errors)
   		return CopixActionGroup::process ($processReturn, array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors, 'field'=>$field));
   	return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);	
