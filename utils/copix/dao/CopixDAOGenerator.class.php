@@ -71,7 +71,7 @@ class CopixDAOGenerator {
 				//MySQL et SQLite gèrent les entrées sous le même format
 				switch ($field->type){
 					case 'datetime';
-						$values[':'.$fieldName] = 'CopixDateTime::yyyymmddhhiissToFormat ($' . $prefixfield . $fieldName.", 'Y-m-d H:i:s')";
+						$values[':'.$fieldName] = 'CopixDateTime::yyyymmddhhiissToFormat2 ($' . $prefixfield . $fieldName.", 'Y-m-d H:i:s')";
 						$formatted[':'.$fieldName] = ":".$fieldName;
 						break;
 					case 'date':
@@ -601,7 +601,7 @@ return $toReturn;
 				$result .= "));\n  }\n";
 			}
 			if (in_array ($field->type, array('datetime'))) {
-				$result .= '	if (CopixDateTime::yyyymmddhhiisstodatetime ($pRecord->'.$field->name.') === false){'."\n";
+				$result .= '	if (CopixDateTime::ISODateTimeToDateTime ($pRecord->'.$field->name.', \'/\') === false && CopixDateTime::yyyymmddhhiisstodatetime ($pRecord->'.$field->name.') === false){'."\n";
 				$result .= '		$errorObject->addError(\'' . $field->name . '\', _i18n (\'copix:dao.errors.yyyymmddhhiiss\',array(';
 				if ($field->captionI18N !== null) {
 					$result .= '_i18n (\'' . $field->captionI18N . '\')';

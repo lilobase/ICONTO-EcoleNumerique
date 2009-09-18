@@ -1,4 +1,4 @@
-{literal}<link rel="stylesheet" type="text/css" href="styles/module_ressource.css" />{/literal}
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_ressource.css"}" />
 
 <p>{i18n key="ressource.liste.rechercheTxt"}</p>
 

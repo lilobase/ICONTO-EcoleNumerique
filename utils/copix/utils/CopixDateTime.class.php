@@ -540,6 +540,24 @@ class CopixDateTime {
 	}
 	
 	/**
+	 * Patch CB, fonction utilisee dans CopixDAOGenerator.class.php
+	 * Utilise pour reformater les dates pour insertion dans la BDD
+	 */
+	public static function yyyymmddhhiissToFormat2 ($pYYYYMMDDHHIISS, $pFormat) {
+		//echo "yyyymmddhhiissToFormat2 ($pYYYYMMDDHHIISS, $pFormat)";
+		if( ereg ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $pYYYYMMDDHHIISS, $regs) ) {
+			//print_r($regs);
+			$mk = mktime($regs[4], $regs[5], $regs[6], $regs[2], $regs[1], $regs[3]);
+			return date ($pFormat, $mk);
+		} else
+			return $this->yyyymmddhhiissToFormat($pYYYYMMDDHHIISS, $pFormat);
+	}
+	
+	
+	
+	
+	
+	/**
 	 * Converti une heure au format demandé.
 	 *
 	 * @param string $pHHIISS l'heure à convertir

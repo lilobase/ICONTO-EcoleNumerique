@@ -73,6 +73,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			$eleves = $carnet_service->getUserElevesInClasse($classe);
 			//print_r($eleves);
 			//$nb_eleves_classe = count($eleves);
+			//die();
 			$list = $dao->getListCarnetsTopicsForElevesInClasse ($eleves, $classe, $session['user_id']);
 
 		}			
@@ -120,7 +121,8 @@ class ActionGroupCarnet extends CopixActionGroup {
 			//print_r($list[$k]);
 		}
 		//print_r($list);
-
+		
+		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 
 		$tpl = & new CopixTpl ();
@@ -180,7 +182,8 @@ class ActionGroupCarnet extends CopixActionGroup {
 			
 			$unread = $daoTracking->getFirstUnreadMessage($id, $session['user_id'], $idEleves);
 
-			//print_r($unread);
+			print_r($unread);
+			die('ici');
 			if ($unread[0]->id) {	// Il est déjà passé dans le topic
 				$urlReturn = CopixUrl::get ('|getTopic', array('id'=>$id, 'eleve'=>$eleve)).'#m'.$unread[0]->id;
 			} else { // Jamais passé, on le renvoie au début du topic

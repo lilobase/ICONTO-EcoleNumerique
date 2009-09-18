@@ -12,7 +12,7 @@
 		<property name="topic" fieldname="topic" type="integer" table="carnet_tracking" pk="yes" fkfieldname="id" fktable="carnet_topics"/>
 		<property name="utilisateur" fieldname="utilisateur" type="integer" table="carnet_tracking" pk="yes"/>
 		<property name="eleve" fieldname="eleve" type="integer" table="carnet_tracking" pk="yes"/>
-		<property name="last_visite" fieldname="last_visite" type="date" table="carnet_tracking" pk="no"/>
+		<property name="last_visite" fieldname="last_visite" type="datetime" table="carnet_tracking" pk="no"/>
 		<!-- TABLE TOPICS -->
 		<property name="topic_id" fieldname="id" type="integer" table="carnet_topics" pk="yes"/>
 		<property name="topic_titre" fieldname="titre" type="string" table="carnet_topics" pk="no"/>

@@ -37,9 +37,6 @@ class DAOCarnet_Topics {
 	function getListCarnetsTopicsForElevesInClasse ($eleves, $classe, $user) {
 		$idEleves = array(); foreach ($eleves as $item) $idEleves[] = $item["id"];
 		if (count($idEleves)>0) {
-			//print_r($idEleves);
-			//$critere = 'SELECT DISTINCT(TOP.id), TOP.*, MAX(MSG.id) AS last_msg_id, MAX(MSG.date) AS last_msg_date FROM module_carnet_topics TOP, module_carnet_topics_to DEST LEFT JOIN module_carnet_messages MSG ON (MSG.topic=DEST.topic AND MSG.eleve=DEST.eleve) WHERE DEST.topic=TOP.id AND DEST.eleve IN ('.implode(", ",$idEleves).') AND TOP.classe='.$classe.' GROUP BY TOP.id ORDER BY last_msg_date DESC, TOP.date_creation DESC';
-			//$critere = 'SELECT DISTINCT(TOP.id), TOP.*, MAX(MSG.id) AS last_msg_id, MAX(MSG.date) AS last_msg_date, TRA.last_visite FROM module_carnet_topics TOP, module_carnet_topics_to DEST LEFT JOIN module_carnet_messages MSG ON (MSG.topic=DEST.topic AND MSG.eleve=DEST.eleve) LEFT JOIN module_carnet_tracking TRA ON (TRA.topic=TOP.id AND TRA.utilisateur='.$user.') WHERE DEST.topic=TOP.id AND DEST.eleve IN ('.implode(", ",$idEleves).') AND TOP.classe='.$classe.' GROUP BY TOP.id ORDER BY last_msg_date DESC, TOP.date_creation DESC';
 			$critere = 'SELECT DISTINCT(TOP.id), TOP.*, MAX(MSG.id) AS last_msg_id, MAX(MSG.date) AS last_msg_date, TRA.last_visite FROM (module_carnet_topics TOP, module_carnet_topics_to DEST) LEFT JOIN module_carnet_messages MSG ON (MSG.topic=DEST.topic AND MSG.eleve=DEST.eleve) LEFT JOIN module_carnet_tracking TRA ON (TRA.topic=TOP.id AND TRA.utilisateur='.$user.') WHERE DEST.topic=TOP.id AND DEST.eleve IN ('.implode(", ",$idEleves).') AND TOP.classe='.$classe.' GROUP BY TOP.id ORDER BY last_msg_date DESC, TOP.date_creation DESC';
 			$arTopics = _doQuery($critere);
 			//print_r($arTopics);

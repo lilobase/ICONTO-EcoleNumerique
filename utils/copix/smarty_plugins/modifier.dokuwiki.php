@@ -38,9 +38,8 @@ require_once(DOKU_INC.'inc/html.php');
 //require_once(DOKU_INC.'inc/actions.php');
 
 require_once (COPIX_UTILS_PATH.'WikiIconito.lib.php');
-require_once (COPIX_MODULE_PATH.'malle/'.COPIX_CLASSES_DIR.'malleservice.class.php');
-require_once (COPIX_MODULE_PATH.'malle/'.COPIX_CLASSES_DIR.'kernelmalle.class.php');
-
+_classInclude('malle|malleservice');
+_classInclude('malle|kernelmalle');
 
 function smarty_modifier_dokuwiki ($string){
 	return utf8_decode(p_wiki_xhtml (utf8_encode($string)));	

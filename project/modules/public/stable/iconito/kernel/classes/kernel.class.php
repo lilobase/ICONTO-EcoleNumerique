@@ -1291,10 +1291,17 @@ class Kernel {
 	function getModParent( $type, $id ) {
 		//echo "getModParent ($type,$id)";
 		$dao = _dao("kernel|kernel_mod_enabled");
-		$result = $dao->getByModule($type,$id);
-		//print_r($result);
-		if (substr($result[0]->node_type,0,4) == 'MOD_')
-			$result = Kernel::getModParent($result[0]->node_type,$result[0]->node_id);
+		$list = $dao->getByModule($type,$id);
+		$result = array();
+		if ($list) {
+			foreach ($list as $r) {
+				if (!count($result)) {
+					$result = $r;
+				}
+			}
+		}
+		if ($result && substr($result->node_type,0,4) == 'MOD_')
+			$result = Kernel::getModParent($result->node_type,$result->node_id);
 		return $result;
 	}
 	
@@ -1561,7 +1568,7 @@ class Kernel {
 				if( array_search("mod_".$modname, $modinstalled)===false ) {
 					$file     = & CopixSelectorFactory::create($modname."|".$modname);
 					$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
-var_dump($filePath);
+					//var_dump($filePath);
 					if (is_readable($filePath)){
 						$modservice = & CopixClassesFactory::Create ($modname.'|kernel'.$modname);
 						if( method_exists( $modservice, "create" ) ) {

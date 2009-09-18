@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="carnet_tracking" tablename="module_carnet_tracking" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TRACKING -->
+		<property name="topic" fieldname="topic" type="integer" table="carnet_tracking" pk="yes" />
+		<property name="utilisateur" fieldname="utilisateur" type="integer" table="carnet_tracking" pk="yes"/>
+		<property name="eleve" fieldname="eleve" type="integer" table="carnet_tracking" pk="yes"/>
+		<property name="last_visite" fieldname="last_visite" type="datetime" table="carnet_tracking" pk="no"/>
+	</properties>
+</daodefinition>

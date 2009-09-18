@@ -124,7 +124,7 @@ class CarnetService {
 		switch (_currentUser()->getExtra('type')) {
 			case "USER_ENS" :	// Enseignant
 				$childs = $kernel_service->getNodeChilds ("BU_CLASSE", $classe);
-				var_dump($childs);
+				//var_dump($childs);
 				foreach ($childs as $k=>$child) {
 				//while (list($k,$child) = each($childs)) {
 					if ($child["type"] != "USER_ELE") continue;
@@ -274,16 +274,15 @@ class CarnetService {
 	 * @param array $eleves Tableau avec les ids des élèves (en valeurs)
 	 */
 	function userReadTopic ($id_topic, $user, $eleves) {
-		$daoTracking = _dao("carnet|carnet_tracking");
+		$daoTracking = _dao("carnet|carnet_tracking3");
 		
 		foreach ($eleves as $eleve) {
 			$visite = $daoTracking->get($id_topic, $user, $eleve);
-			//print_r($visite);
 			if ($visite) {	// Il a déjà visité ce topic
 				$visite->last_visite = date("Y-m-d H:i:s");
 				$daoTracking->update($visite);
 			} else {	// 1e visite !
-				$newVisite = _record("carnet|carnet_tracking");
+				$newVisite = _record("carnet|carnet_tracking3");
 				$newVisite->topic = $id_topic;
 				$newVisite->utilisateur = $user;
 				$newVisite->eleve = $eleve;
