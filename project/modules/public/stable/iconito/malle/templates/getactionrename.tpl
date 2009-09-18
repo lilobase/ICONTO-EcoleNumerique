@@ -16,7 +16,7 @@
 
 {if $folders neq null}
 	{foreach from=$folders item=item}
-	<DIV CLASS="malle_folder_line"><DIV CLASS="new_name"><input type="text" name="newFolders[{$item->id}]" value="{$item->nom}" maxlength="200" /></DIV><IMG CLASS="malle_folder_line_img" SRC="img/malle/icon_folder.png" />{$item->nom|htmlentities} 
+	<DIV CLASS="malle_folder_line"><DIV CLASS="new_name"><input type="text" name="newFolders[{$item->id}]" value="{$item->nom}" maxlength="200" /></DIV><IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" />{$item->nom|htmlentities} 
 	</DIV>
 	{/foreach}
 {else}
@@ -24,7 +24,7 @@
 
 {if $files neq null}
 	{foreach from=$files item=item}
-	<DIV CLASS="malle_file_line"><DIV CLASS="new_name"><input type="text" name="newFiles[{$item->id}]" value="{$item->nom}" maxlength="200" /></DIV><IMG CLASS="malle_file_line_img" SRC="img/malle/{$item->type_icon}" />{$item->nom|htmlentities}
+	<DIV CLASS="malle_file_line"><DIV CLASS="new_name"><input type="text" name="newFiles[{$item->id}]" value="{$item->nom}" maxlength="200" /></DIV><IMG CLASS="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" />{$item->nom|htmlentities}
 	</DIV>
 	{/foreach}
 {else}

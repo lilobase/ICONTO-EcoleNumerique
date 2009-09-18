@@ -21,14 +21,14 @@
 		{foreach from=$list item=mp}
 			{counter name="i"}
 			<tr CLASS="list_line{math equation="x%2" x=$i}">
-				<td ALIGN="CENTER"><IMG SRC="img/minimail/msg_read_{$mp->is_read}.gif" /></td>
+				<td ALIGN="CENTER"><IMG src="{copixresource path="img/minimail/msg_read_`$mp->is_read`.gif"}" /></td>
 				<td><a href="{copixurl dest="|getMessage" id=$mp->id}">{$mp->title}</a></td>
 				<td>
 				
 				{user label=$mp->from_id_infos userType=$mp->from.type userId=$mp->from.id linkAttribs='STYLE="text-decoration:none;";'}
 
 				</td>
-				<td ALIGN="CENTER">{if $mp->attachment1 }<IMG SRC="img/minimail/attachment.gif" ALT="{i18n key="minimail.msg.attachments"}" TITLE="{i18n key="minimail.msg.attachments"}" />{/if}</td>
+				<td ALIGN="CENTER">{if $mp->attachment1 }<IMG src="{copixresource path="img/minimail/attachment.gif"}" ALT="{i18n key="minimail.msg.attachments"}" TITLE="{i18n key="minimail.msg.attachments"}" />{/if}</td>
 				<td ALIGN="CENTER">{$mp->date_send|datei18n:"date_short_time"}</td>
 				<td ALIGN="CENTER"><input type="checkbox" name="messages[]" value="{$mp->id2}" class="noBorder"></td>
 			</tr>

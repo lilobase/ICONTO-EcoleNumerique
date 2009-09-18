@@ -21,9 +21,9 @@
 				<td>{assign var=sep value=""}{assign var=is_read value=0}{foreach from=$mp->destin item=dest}{$sep}
 
 {user label=$dest->to_id_infos userType=$dest->to.type userId=$dest->to.id linkAttribs='STYLE="text-decoration:none;";'}{assign var=sep value=", "}{if $dest->is_read eq 1}{assign var=is_read value=1}{/if}{/foreach}</td>
-				<td ALIGN="CENTER">{if $mp->attachment1 }<IMG SRC="img/minimail/attachment.gif" ALT="{i18n key="minimail.msg.attachments"}" TITLE="{i18n key="minimail.msg.attachments"}" />{/if}</td>
+				<td ALIGN="CENTER">{if $mp->attachment1 }<IMG src="{copixresource path="img/minimail/attachment.gif"}" ALT="{i18n key="minimail.msg.attachments"}" TITLE="{i18n key="minimail.msg.attachments"}" />{/if}</td>
 				<td ALIGN="CENTER"><NOBR>{$mp->date_send|datei18n:"date_short_time"}</NOBR></td>
-				<td ALIGN="CENTER"><IMG SRC="img/minimail/msg_read_{$is_read}.gif" /></td>
+				<td ALIGN="CENTER"><IMG src="{copixresource path="img/minimail/msg_read_`$is_read`.gif"}" /></td>
 				<td ALIGN="CENTER"><input type="checkbox" name="messages[]" value="{$mp->id}" class="noBorder"></td>
 			</tr>
 		{/foreach}

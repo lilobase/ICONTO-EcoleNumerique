@@ -213,12 +213,11 @@ function viewUser (type, id, i18nwaiting) {
 	if(x+w>windowWidth) x = windowWidth-w-7;
 	gProfilElm.style.left=x+"px";
 	gProfilElm.style.top=(y+16)+"px";
-	gProfilElm.innerHTML = '<DIV ALIGN="CENTER">'+i18nwaiting+'<br><IMG SRC="img/annuaire/spinner.gif" WIDTH="16" HEIGHT="16" BORDER="0" VSPACE="3" /><br></DIV>';
+	gProfilElm.innerHTML = '<DIV ALIGN="CENTER">'+i18nwaiting+'<br><IMG SRC="'+getRessourcePathImg+'img/annuaire/spinner.gif" WIDTH="16" HEIGHT="16" BORDER="0" VSPACE="3" /><br></DIV>';
 	gProfilElm.style.visibility = "visible";
 	
-	
-	var url = 'index.php';
-	var pars = 'module=annuaire&action=getUserProfil&type='+type+'&id='+id+'';
+	var url = getActionURL('annuaire|default|getUserProfil');
+	var pars = 'type='+type+'&id='+id+'';
   var myAjax = new Ajax.Updater(
 		{success: 'divUserProfil'},
     url,
@@ -340,10 +339,10 @@ function ajaxFicheEcole (id_ecole) {
 	div.style.left=x+"px";
 	div.style.top=(y+0)+"px";
 
-	div.innerHTML = '<div align="center"><img src="img/ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>';
+	div.innerHTML = '<div align="center"><img src="'+getRessourcePathImg+'img/ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>';
 	div.style.visibility = "visible";
-	var url = 'index.php';
-	var pars = 'module=fichesecoles&action=ficheAjax&id='+id_ecole;
+	var url = getActionURL('fichesecoles|default|ficheAjax');
+	var pars = 'id='+id_ecole;
   var myAjax = new Ajax.Updater(
 		{success: 'ajaxDiv'},
     url,
@@ -355,5 +354,21 @@ function ajaxFicheEcole (id_ecole) {
   );
 	return false;
 }
+
+var module = 'default';
+
+function getActionURL (action, data) {
+		var parts = action.split('|');
+		var url = urlBase + 'index.php/' + $pick(parts[0], module) + '/' + $pick(parts[1], 'default') + '/' + parts[2];
+		if(data) {
+			//url += (url.contains('?') ? '&' : '?') + Object.toQueryString(data);
+			url += (url.indexOf('?') > -1 ? '&' : '?') + data;
+		}
+		return url;
+}
+
+function $defined(obj){return(obj!=undefined);};
+function $pick(obj,picked){return $defined(obj)?obj:picked;};
+
 
 

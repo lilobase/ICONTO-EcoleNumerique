@@ -1,7 +1,7 @@
 
 <DIV ID="ecole_infos_bloc">
 
-<DIV><IMG CLASS="coude" SRC="img/groupe/lucien_coude.gif" /></DIV>
+<DIV><IMG CLASS="coude" src="{copixresource path="img/groupe/lucien_coude.gif"}" /></DIV>
 
 <DIV ID="ecole_infos">
 

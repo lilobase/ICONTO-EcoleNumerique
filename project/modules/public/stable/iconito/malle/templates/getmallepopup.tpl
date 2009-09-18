@@ -118,7 +118,7 @@
 {if $folders neq null}
 	{foreach from=$folders item=item}
 	<DIV CLASS="malle_folder_line" style="width:90%;"><DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}</DIV>
-	<IMG CLASS="malle_folder_line_img" SRC="img/malle/icon_folder.png" /><A HREF="{copixurl dest="|getMallePopup" id=$id folder=$item->id field=$field format=$format}">{$item->nom|htmlentities}</A>
+	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMallePopup" id=$id folder=$item->id field=$field format=$format}">{$item->nom|htmlentities}</A>
 	</DIV>
 	{math equation="x+y" x=$tailleFolders y=$item->taille assign="tailleFolders"}
 	{/foreach}

@@ -16,7 +16,7 @@
 
 {if $can.file_upload or $can.folder_create or $can.item_delete or $can.item_move or $can.item_copy or $can.item_rename or ($can.item_downloadZip and ($folders or $files))}
 <DIV CLASS="malle_actions_bloc">
-<DIV><IMG CLASS="coude" SRC="img/groupe/lucien_coude.gif" /></DIV>
+<DIV><IMG CLASS="coude" src="{copixresource path="img/groupe/lucien_coude.gif"}" /></DIV>
 <DIV CLASS="malle_actions">
 
 
@@ -105,7 +105,7 @@
 {if $folders neq null}
 	{foreach from=$folders item=item}
 	<DIV CLASS="malle_folder_line">{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}<DIV CLASS="malle_file_line_checked"><INPUT TYPE="checkbox" NAME="folders[]" VALUE="{$item->id}"></DIV>{/if}<DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}</DIV>
-	<IMG CLASS="malle_folder_line_img" SRC="img/malle/icon_folder.png" /><A HREF="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|htmlentities}</A>
+	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|htmlentities}</A>
 	</DIV>
 	{math equation="x+y" x=$tailleFolders y=$item->taille assign="tailleFolders"}
 	{/foreach}

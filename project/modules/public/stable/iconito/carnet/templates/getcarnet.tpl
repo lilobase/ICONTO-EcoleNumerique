@@ -41,7 +41,7 @@
 		{foreach from=$list item=item}
 			{counter name="i"}
 			<tr CLASS="list_line{math equation="x%2" x=$i}">
-			<TD>{if ($item->last_visite eq null or $item->last_visite<$item->last_msg_date)}<a title="{i18n key="carnet.list.goNewTitle"}" href="{copixurl dest="|getTopic" id=$item->id eleve=$eleve go=new}"><IMG SRC="img/iconito/icon_new.gif" WIDTH="17" HEIGHT="17" BORDER="0" /></A>{/if}</TD>
+			<TD>{if ($item->last_visite eq null or $item->last_visite<$item->last_msg_date)}<a title="{i18n key="carnet.list.goNewTitle"}" href="{copixurl dest="|getTopic" id=$item->id eleve=$eleve go=new}"><IMG src="{copixresource path="img/iconito/icon_new.gif"}" WIDTH="17" HEIGHT="17" BORDER="0" /></A>{/if}</TD>
 			<td>
 			<b><a href="{copixurl dest="|getTopic" id=$item->id eleve=$eleve}">{$item->titre}</A></b>
 			
