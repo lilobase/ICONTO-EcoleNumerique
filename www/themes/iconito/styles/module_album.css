@@ -20,9 +20,25 @@ DIV.album DIV.photoseule IMG {
 	background-color: #FFF;
 }
 
-DIV.album DIV.photo IMG {
-	/* border: 1px solid #000; */
+DIV.album DIV.photo a.album {
+	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../img/album/photoalbum.jpg);
 }
+DIV.album DIV.photo a.parent {
+	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../img/album/photoalbum_parent.jpg);
+}
+
+
+DIV.album DIV.photo {
+	border: 1px solid #000;
+	float: left;
+	margin: 4px;
+	padding: 5px;
+	background-color: #FFF;
+}
+
+
+
+
 
 TABLE.liste TR TD {
 	margin: 0px;

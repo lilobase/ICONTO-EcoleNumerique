@@ -1302,7 +1302,7 @@ class Kernel {
 		}
 		if ($result && substr($result->node_type,0,4) == 'MOD_')
 			$result = Kernel::getModParent($result->node_type,$result->node_id);
-		return $result;
+		return $list;
 	}
 	
 	function getModParentInfo( $type, $id ) {
@@ -1356,7 +1356,9 @@ class Kernel {
 			}
 		}
 		// print_r("getModRight( $mod_type, $mod_id, $user_type, $user_id)<br/>");
-
+		
+		//print_r($mod_parents);
+		
 		foreach( $mod_parents AS $mod_key=>$mod_val ) {
 			// Check user -> admin
 			if( $mod_val->node_type==$user_type && $mod_val->node_id==$user_id ) $droit=PROFILE_CCV_ADMIN;

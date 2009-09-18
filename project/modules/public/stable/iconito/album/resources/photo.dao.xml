@@ -14,7 +14,7 @@
 		<property name="photo_album" fieldname="id_album" type="integer" table="module_album_photos" pk="no" fktable="module_album_albums" fkfieldname="id"/>
 		<property name="photo_dossier" fieldname="id_dossier" type="integer" table="module_album_photos" pk="no" fktable="module_album_dossiers" fkfieldname="id"/>
 		<property name="photo_nom" fieldname="nom" type="string" table="module_album_photos" pk="no"/>
-		<property name="photo_comment" fieldname="commentaire" type="string" table="module_album_photos" pk="no"/>
+		<property name="photo_comment" fieldname="commentaire" type="string" table="module_album_photos" pk="no" required="false" />
 		<property name="photo_date" fieldname="date" type="string" table="module_album_photos" pk="no"/>
 		<property name="photo_ext" fieldname="ext" type="string" table="module_album_photos" pk="no"/>
 		<property name="photo_cle" fieldname="cle" type="string" table="module_album_photos" pk="no"/>

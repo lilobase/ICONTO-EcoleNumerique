@@ -19,7 +19,7 @@ class ZoneDossiersTree extends CopixZone {
 		$dossiers_tree_move = Album::tree2move( $dossiers_tree, $this->getParam('dossier_id') );
 		$dossiers_commands_move = Album::tree2commands( $dossiers_tree_move );
 		
-		// Kernel::MyDebug( $dossiers_commands_move );
+		//Kernel::MyDebug( $dossiers_commands_move );
 		
 		$tpl->assign('album_id', $this->getParam('album_id') );
 		$tpl->assign('dossier_id', $this->getParam('dossier_id') );

@@ -140,8 +140,6 @@ class Album {
 		$pathfolder = $path2data.'/album/'.$album;
 		$pathfile = $pathfolder.'/'.$file.'.'.$ext;
 		
-		
-		
 		if( $toext!='' ) { // Changement de format
 			$savedfile = $pathfolder.'/'.$file.'_'.$taille.'.'.$toext;
 			if( file_exists($savedfile) && !$force ) return true;
@@ -277,7 +275,7 @@ class Album {
 	function checkThumbnails( $album, $key ) {
 		$failed=0;
 		
-		$_SESSION['modules']['album']['vignettes']['nb-'.$key] = 0;
+		_sessionSet ('modules|album|vignettes|nb-'.$key, 0);
 		
 		$album_dao = _dao("photo");
 		$photolist = $album_dao->findAllByAlbum($album);
@@ -319,13 +317,20 @@ class Album {
 			if( !file_exists($savedfile) ) {
 				$failed++;
 				
-				$_SESSION['modules']['album']['vignettes'][$key][] = array(
+				if (!$get = _sessionGet ('modules|album|vignettes|'.$key)) {
+					$get = array();
+				}
+				
+				$get[] = array(
 					'album'=>$album,
 					'photo'=>$file,
 					'taille'=>$taille,
 					'ext'=>$ext,
 				);
-				$_SESSION['modules']['album']['vignettes']['nb-'.$key]++;
+				_sessionSet ('modules|album|vignettes|'.$key, $get);
+				
+				$nb = _sessionGet ('modules|album|vignettes|nb-'.$key);
+				_sessionSet ('modules|album|vignettes|nb-'.$key, $nb+1);
 			}
 		}
 		
@@ -497,7 +502,7 @@ class Album {
 		$folders = Album::getFoldersTree( $album_id, $dossier_id );
 		$pictures = $photo_dao->findAllByAlbumAndFolder($album_id,$dossier_id);
 		
-		if( $this->vars["dossier_todo"]=='moveparent' ) {
+		if( _request('dossier_todo')=='moveparent' ) {
 			
 			// Déplacement des dossiers...
 			foreach( $folders as $folder_tmp ) {
@@ -516,7 +521,7 @@ class Album {
 			// Suppression du dossier vide...
 			$dossier_dao->delete( $dossier_id );
 			
-		} elseif( $this->vars["dossier_todo"]=='deleteall' ) {
+		} elseif( _request('dossier_todo')=='deleteall' ) {
 //			echo "<li><tt>BEGIN Delete (album=".$album_id."/dossier=".$dossier_id.")</tt></li>";
 //			echo "<ul>";
 			
@@ -548,7 +553,7 @@ class Album {
 	
 	function tree2commands( $dossiers_tree ) {
 		$cmds = array();
-		
+		//var_dump($dossiers_tree);
 		if( count($dossiers_tree) ) {
 			// $cmds[] = array( 'type'=>'open' );
 			
@@ -569,7 +574,7 @@ class Album {
 			}
 			// $cmds[] = array( 'type'=>'close' );
 		}
-		
+		//var_dump($cmds);
 		return $cmds;
 	}
 	

@@ -95,12 +95,15 @@ class ActionGroupAlbum extends CopixActionGroup {
 		}
 		
 		// Vérification des vignettes
-		unset($_SESSION['modules']['album']['vignettes'][$album->album_id.'_'.$album->album_cle]);
-		unset($_SESSION['modules']['album']['vignettes']['nb-'.$album->album_id.'_'.$album->album_cle]);
-		$errors = Album::checkThumbnails( $album_id, $album->album_id.'_'.$album->album_cle );
+		
+		$key = $album->album_id.'_'.$album->album_cle;
+		CopixSession::delete ('modules|album|vignettes|'.$key);
+		CopixSession::delete ('modules|album|vignettes|nb-'.$key);
+		
+		$errors = Album::checkThumbnails( $album_id, $key );
 		if( $errors > 0 ) {
 			//die (".".$errors);
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|vignettes', array('album'=>$album_id,'dossier'=>$dossier_id,'key'=>$album->album_id.'_'.$album->album_cle) ) );
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|vignettes', array('album'=>$album_id,'dossier'=>$dossier_id,'key'=>$key) ) );
 		}
 		
 		
@@ -742,14 +745,15 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album_id = _request("album_id");
 		
 		if( !_request("dossier_id") || !ereg ("^[0-9]+$", _request("dossier_id")) ) {
-			if( isset($_SESSION['modules']['album']['lastfolder'][$album_id]) ) {
-				$dossier_id = $_SESSION['modules']['album']['lastfolder'][$album_id];
+			
+			if( $get = _sessionGet ('modules|album|vignettes|lastfolder|'.$album_id)) {
+				$dossier_id = $get;
 			} else {
 				$dossier_id = 0;
 			}
 		} else {
 			$dossier_id = _request("dossier_id");
-			$_SESSION['modules']['album']['lastfolder'][$album_id] = $dossier_id;
+			_sessionSet ('modules|album|vignettes|lastfolder|'.$album_id, $dossier_id);
 		}
 		$format = _request("format");
 		
@@ -848,16 +852,23 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			        'back'=>CopixUrl::get('||')));
 		}
 		
-		if( !isset($_SESSION['modules']['album']['vignettes'][_request("key")]) ) {
+		if( !_sessionGet ('modules|album|vignettes|'._request("key")) ) {
+			
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("album"),'dossier_id'=>_request("dossier")) ));
+			/*
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array (	'message'=>CopixI18N::get ('album.error.nothumbscreate'),
 			        'back'=>CopixUrl::get('album||album',array('album_id'=>_request("album")))));
+			*/
 		}
 		
 		
 		$tpl = & new CopixTpl ();
 		
-		$image = array_shift( $_SESSION['modules']['album']['vignettes'][_request("key")] );
+		$vignettes = _sessionGet ('modules|album|vignettes|'._request("key"));
+		//print_r($vignettes);
+		$image = array_shift( $vignettes );
+		_sessionSet ('modules|album|vignettes|'._request("key"), $vignettes);
 		if( $image == NULL ) {
 			$tpl->assign ('url_album', _request("album"));
 			$tpl->assign ('url_dossier', _request("dossier"));
@@ -868,9 +879,11 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("album"),'dossier_id'=>_request("dossier")) ));
 			// return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, "album|vignettes.tpl" );
 		}
+
 		
 		$photo_dao= null;
 		$ok = Album::createThumbnail( $image['album'], $image['photo'], $image['ext'], $image['taille'] );
+
 		if( !$ok ) {
 			if( ereg( "^([0-9]+)_([0-9a-fA-F]+)$", $image['photo'], $photo_regs ) ) {
 				if( $photo_dao==null ) $photo_dao = CopixDAOFactory::create("photo");
@@ -882,20 +895,21 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$tpl->assign ('url_dossier', _request("dossier"));
 		$tpl->assign ('url_key', _request("key"));
 		
+		$nb = _sessionGet ('modules|album|vignettes|nb-'._request("key"));
+		$vignettes = _sessionGet ('modules|album|vignettes|'._request("key"));
+		
 		$tpl->assign (
 			'message', CopixI18N::get (
 				'album.message.thumbs_create',
 				array(
-					($_SESSION['modules']['album']['vignettes']['nb-'._request("key")] -
-					sizeof($_SESSION['modules']['album']['vignettes'][_request("key")])),
-
-					$_SESSION['modules']['album']['vignettes']['nb-'._request("key")]
+					($nb - sizeof($vignettes)),
+					$nb
 				)
 			)
 		);
 
-		$tpl->assign ('bar_max', $_SESSION['modules']['album']['vignettes']['nb-'._request("key")] );
-		$tpl->assign ('bar_value', $_SESSION['modules']['album']['vignettes']['nb-'._request("key")] - sizeof($_SESSION['modules']['album']['vignettes'][_request("key")]) );
+		$tpl->assign ('bar_max', $nb );
+		$tpl->assign ('bar_value', $nb - sizeof($vignettes) );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, "album|vignettes.tpl" );
 	}
@@ -1166,7 +1180,18 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 
 		$archive = new PclZip($_FILES['fichier']['tmp_name']);
 		$list = $archive->listContent();
-
+		
+		$album_dao = CopixDAOFactory::create("album");
+		$album = $album_dao->get(_request('album_id'));
+		
+		
+		if (!is_array($list)) {
+		
+			return new CopixActionReturn (COPIX_AR_REDIRECT,
+			CopixUrl::get ('album|default|album', array('album_id'=>$album->album_id, 'dossier_id'=>_request("dossier_id")) ));		
+		}
+		
+		
 		foreach ($list as $k=>$f) {
 			if ($f['size']<=CopixConfig::get ('album|file_size_photo'))
 				$okIndex[] = $k;
@@ -1176,8 +1201,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$tmpFolder = tempnam ('XXXXX','PclZip_'._request('album_id').'_');
 		unlink( $tmpFolder ); mkdir( $tmpFolder );
 		
-		$album_dao = CopixDAOFactory::create("album");
-		$album = $album_dao->get(_request('album_id'));
+		
 		$path2data = realpath("static");
 		$path2album = $path2data."/album/".$album->album_id."_".$album->album_cle;
 
@@ -1266,18 +1290,14 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 		
+		$dossier_id = CopixRequest::getInt ('dossier_id', -1);
 		
-		if( !(_request("dossier_id") )   ||
-		    trim(_request("dossier_id"))==""   ||
-		    ! ereg ("^[0-9]+$", _request("dossier_id")) ) {
+		if( $dossier_id == -1 ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.nofoldernumber'),
 						'back'=>CopixUrl::get('album||album', array('album_id'=>$album_id) )));
 		}
 		
-		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
-		else $dossier_id = 0;
-				
 		$dossier_dao = CopixDAOFactory::create("dossier");
 		if( $dossier_id > 0 ) {
 			$dossier = $dossier_dao->get($dossier_id);
