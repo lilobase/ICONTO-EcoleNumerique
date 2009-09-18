@@ -50,7 +50,7 @@ class CacheServices {
 	 * @since 2007/01/19
 	 */
 	function clearConfDB () {
-		//$sauvegarde = array( '|isDemo' , 'kernel|demoInstalled');
+		//$sauvegarde = array( 'default|isDemo' , 'kernel|demoInstalled');
 		$sauvegarde = array('kernel|demoInstalled');
 		$saved_data = array();
 		

@@ -3,29 +3,7 @@
 	<general>
 		<default name="kernel" description="Noyau" longdescription="Noyau" />
  	</general>
-
-<parameters>
-	<parameter name="homePage"  captioni18n="parameter.homePage"  default="index.php?module=kernel" />
-	<parameter name="titlePage" captioni18n="parameter.titlePage" default="Iconito" />
-	<parameter name="titleBar"  captioni18n="parameter.titleBar"  default="{$TITLE_PAGE}"  />
-	<parameter name="mailEnabled"  captioni18n="parameter.mailEnabled"  default="0"  />
-	<parameter name="mailFrom"  captioni18n="parameter.mailFrom"  default="nobody@iconito.fr"  />
-	<parameter name="mailFromName"  captioni18n="parameter.mailFromName"  default="Iconito"  />
-	<parameter name="mailSaveToDisk"  captioni18n="parameter.mailSaveToDisk"  default="0"  />
-	<parameter name="mailSmtpHost"  captioni18n="parameter.mailSmtpHost"  default="localhost"  />
-	<parameter name="mailMethod"  captioni18n="parameter.mailMethod"  default="smtp"  />
-	<parameter name="noticeLegale"  captioni18n="parameter.noticeLegale"  default="1"  />
-	<parameter name="websiteplan"  captioni18n="parameter.websiteplan"  default="1"  />
-	<parameter name="contact"  captioni18n="parameter.contact"  default="1"  />
-	<parameter name="aide"  captioni18n="parameter.aide"  default="1"  />
-	<parameter name="isDemo"  captioni18n="parameter.isDemo"  default="1"  />
-	<parameter name="urlGael" captioni18n="parameter.urlGael"  default=""  />
-	<parameter name="conf_DirClasse" captioni18n="parameter.conf_DirClasse"  default="0"  />
-	<parameter name="conf_ModTeleprocedures" captioni18n="parameter.conf_ModTeleprocedures"  default="1"  />
-	<parameter name="conf_ModSso" captioni18n="parameter.conf_ModSso"  default="0" />
-	<parameter name="statsEnabled"  captioni18n="parameter.statsEnabled"  default="1" />
-	<parameter name="conf_ModConcerto" captioni18n="parameter.conf_ModConcerto"  default="1" />
-</parameters>
-
-
+	<parameters>
+  	<parameter name="demoInstalled" caption="parameter.demoInstalled" default="1" />
+	</parameters>
 </moduledefinition>

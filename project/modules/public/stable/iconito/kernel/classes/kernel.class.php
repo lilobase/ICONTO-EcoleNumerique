@@ -1843,7 +1843,7 @@ class Kernel {
 	 * @return bool True si Iconito est en mode "démo" (cf. config |isdemo)
 	 */
 	function isDemo() {
-		return( CopixConfig::exists('|isDemo') && CopixConfig::get('|isDemo') );
+		return( CopixConfig::exists('default|isDemo') && CopixConfig::get('default|isDemo') );
 	}
 	
 	function noDemo() {
