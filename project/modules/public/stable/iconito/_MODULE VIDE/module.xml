@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<moduledefinition>
-	<general>
-		<default name="welcome" description="Pages publiques" longdescription="Pages publiques" />
- 	</general>
-	<parameters>
-	</parameters>
-</moduledefinition>
