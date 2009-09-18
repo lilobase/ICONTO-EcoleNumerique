@@ -44,7 +44,7 @@ class ZoneGetUserProfil extends CopixZone {
 			$tpl->assign('parents', $parents);
 			$tpl->assign('enfants', $enfants);
 	    $toReturn = $tpl->fetch ('getuserprofilzone.tpl');
-			//$toReturn = $res;
+			
 		}
     return true;
 	}

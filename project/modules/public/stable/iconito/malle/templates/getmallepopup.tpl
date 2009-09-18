@@ -4,11 +4,10 @@
 <html>
 
 <head>
-<title>{/literal}{$TITLE_PAGE}{literal}</title>
-<link href="styles/iconito.css" rel="stylesheet" type="text/css" media="screen" />
-<link href="styles/module_annuaire.css" rel="stylesheet" type="text/css" media="screen" />
+<title>{/literal}{$TITLE_PAGE}</title>
+<link href="{copixresource path="styles/theme.css"}" rel="stylesheet" type="text/css" media="screen" />
+<link href="{copixresource path="styles/module_annuaire.css"}" rel="stylesheet" type="text/css" media="screen" />
 <link rel="SHORTCUT ICON" href="favicon.ico">
-{/literal}
 <script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/iconito.js"></script>
 <script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/lang_{$LANGUE}.js"></script>
 <script type="text/javascript" language="Javascript1.2" src="{copixurl}js/prototype-1.6.0.3.js"></script>

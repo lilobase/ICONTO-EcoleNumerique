@@ -5,7 +5,7 @@
 
 <head>
 <title>{/literal}{i18n key="kernel|kernel.codes.mod_annuaire"}{literal}</title>
-<link href="{copixresource path="styles/iconito.css"}" rel="stylesheet" type="text/css" media="screen" />
+<link href="{copixresource path="styles/theme.css"}" rel="stylesheet" type="text/css" media="screen" />
 <link href="{copixresource path="styles/module_annuaire.css"}" rel="stylesheet" type="text/css" media="screen" />
 <link rel="SHORTCUT ICON" href="favicon.ico">
 {/literal}

@@ -59,8 +59,7 @@ class MinimailService {
           // On vérifie que l'envoi de mails est activé, qu'un serveur SMTP est configuré, que le destinataire a coché l'option "etre prévenu par mail" et qu'il a renseigné un mail
 					if ($newDest->id2 && CopixConfig::get('|mailEnabled')==1 && CopixConfig::get('|mailSmtpHost')) {
   					$prefs = Prefs::getPrefs ($to_id);
-            //print_r($prefs);
-            if ($prefs['prefs']['alerte_mail_email'] && $prefs['minimail']['alerte_minimail']==1) {
+            if (isset($prefs['prefs']['alerte_mail_email']) && isset($prefs['minimail']['alerte_minimail']) && $prefs['prefs']['alerte_mail_email'] && $prefs['minimail']['alerte_minimail']==1) {
   						$userInfoFrom = Kernel::getUserInfo("ID", $from_id);
 	  					//print_r($userInfoFrom);
 		  				$to = $prefs['prefs']['alerte_mail_email'];
@@ -94,7 +93,7 @@ class MinimailService {
 	 * @param integer id_user Id utilisateur de celui qui lit le minimail
 	 */
 	function markMinimailAsRead ($dest, $id_user) {
-		while (list(,$d) = each ($dest)) {
+		foreach ($dest as $d) {
 			if ($d->to_id==$id_user && $d->is_read==0) {	// L'usager figure bien dans les destinataires
 				$DAOminimail_from = _dao("minimail|minimail_to");
 				$mp = $DAOminimail_from->get($d->id2);

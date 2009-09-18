@@ -18,8 +18,8 @@ class ZoneNewMinimail extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
-		$idUser = 0;	// Todo mettre son ID
-		
+		$idUser = _currentUser()->getId();
+
 		if ($idUser) {
 		
 			$dao = _dao("minimail|minimail_to");

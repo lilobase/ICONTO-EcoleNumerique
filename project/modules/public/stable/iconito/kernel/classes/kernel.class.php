@@ -608,9 +608,10 @@ class Kernel {
 		if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
 			$dao = _dao("kernel|kernel_bu_res2ele");
 			$res = $dao->getByBeneficiaire("USER_ELE", $id);
+			//print_r($res);
 			foreach( $res AS $key=>$val ) {
 				if( $val->res2ele_type_responsable != "responsable" ) continue;
-				$return[]=array("type"=>"USER_RES", "id"=>$val->res2ele_id_responsable, "res2ele_type"=>$val->res2ele_type, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
+				$return[]=array("type"=>"USER_RES", "id"=>$val->res2ele_id_responsable, "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
 			}
 		}
 		

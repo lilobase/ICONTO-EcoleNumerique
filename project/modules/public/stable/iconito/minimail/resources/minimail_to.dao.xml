@@ -11,7 +11,7 @@
 		<property name="id2" fieldname="id" type="autoincrement" table="minimail_to" pk="yes"/>
 		<property name="id_message" fieldname="id_message" type="integer" table="minimail_to" pk="no" fkfieldname="id" fktable="minimail_from"/>
 		<property name="to_id" fieldname="to_id" type="integer" table="minimail_to" pk="no"/>
-		<property name="date_read" fieldname="date_read" type="datetime" table="minimail_to" pk="no"/>
+		<property name="date_read" fieldname="date_read" type="string" table="minimail_to" pk="no"/>
 		<property name="is_read" fieldname="is_read" type="integer" table="minimail_to" pk="no"/>
 		<property name="is_replied" fieldname="is_replied" type="integer" table="minimail_to" pk="no"/>
 		<property name="is_deleted" fieldname="is_deleted" type="integer" table="minimail_to" pk="no"/>
@@ -100,7 +100,7 @@
 			</order>
 			<limit offset="0" count="20" />
 		</method>
-		<method name="getToPrevMessage" type="select">
+		<method name="getToPrevMessage" type="selectfirst">
 			<parameters>
 				<parameter name="date_send" />
 				<parameter name="to_id" />
@@ -114,7 +114,7 @@
 			</order>
 			<limit offset="0" count="1" />
 		</method>
-		<method name="getToNextMessage" type="select">
+		<method name="getToNextMessage" type="selectfirst">
 			<parameters>
 				<parameter name="date_send" />
 				<parameter name="to_id" />

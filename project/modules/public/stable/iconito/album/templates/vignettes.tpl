@@ -2,7 +2,7 @@
 
 <head>
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_album.css"}" />
-<link rel="stylesheet" type="text/css" href="styles/iconito.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/theme.css"}" media="screen" />
 
 {if $finish}
 <meta HTTP-EQUIV="REFRESH" content="3; url={copixurl dest="album||album" album_id=$url_album dossier=$url_dossier}">

@@ -15,7 +15,6 @@ class ActionGroupMinimail extends CopixActionGroup {
    */
    function getListRecv () {
 	 
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 	 	$dao = _dao("minimail_to");
@@ -33,9 +32,8 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$messages = $dao->getListRecv($userId,$offset,CopixConfig::get ('minimail|list_nblines'));	
 
 		// Infos des utilisateurs
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		foreach ($messages as $k=>$topic) {
-			$userInfo = $kernel_service->getUserInfo("ID", $messages[$k]->from_id);
+			$userInfo = Kernel::getUserInfo("ID", $messages[$k]->from_id);
 			//print_r($userInfo);
 			$messages[$k]->from = $userInfo;
 			$messages[$k]->from_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
@@ -69,7 +67,6 @@ class ActionGroupMinimail extends CopixActionGroup {
    */
 	function getListSend () {
 	 
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 	 	$daoFrom = CopixDAOFactory::create("minimail_from");
@@ -85,12 +82,11 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 
 		// Infos des utilisateurs
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		foreach ($messages as $k=>$null) {
       $dest = $daoTo->selectDestFromId ($messages[$k]->id);
-			while (list($j,) = each($dest)) {
+			foreach ($dest as $j=>$null) {
 				//print_r($dest[$j]->to_id);
-				$userInfo = $kernel_service->getUserInfo("ID", $dest[$j]->to_id);
+				$userInfo = Kernel::getUserInfo("ID", $dest[$j]->to_id);
 				$dest[$j]->to = $userInfo;
 				$dest[$j]->to_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
 			}
@@ -127,7 +123,6 @@ class ActionGroupMinimail extends CopixActionGroup {
    */
 	function getMessage () {
 	 	
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$MinimailService = & CopixClassesFactory::Create ('minimail|MinimailService');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
@@ -142,8 +137,10 @@ class ActionGroupMinimail extends CopixActionGroup {
 		
 		$message = $daoFrom->getMessage($idMessage);
 		$dest = $daoTo->selectDestFromId ($idMessage);
-		//print_r2($message);
+		
 		//print_r2($dest);
+		
+		//print_r($message[0]);
 		
 		$message[0]->prev = NULL;
 		$message[0]->next = NULL;
@@ -151,10 +148,10 @@ class ActionGroupMinimail extends CopixActionGroup {
 			$message[0]->type="send";
 			$prev = $daoFrom->getFromPrevMessage($message[0]->date_send,$idUser);
 			if ($prev)
-				$message[0]->prev = $prev[0]->id;
+				$message[0]->prev = $prev->id;
 			$next = $daoFrom->getFromNextMessage($message[0]->date_send,$idUser);
 			if ($next)
-				$message[0]->next = $next[0]->id;
+				$message[0]->next = $next->id;
 		} else {	// Il en est peut-être destinataire
 			$isDest = $daoTo->selectDestFromIdAndToUser ($idMessage, $idUser);	// Test s'il est dans les destin
 			if ($isDest) {
@@ -163,10 +160,10 @@ class ActionGroupMinimail extends CopixActionGroup {
 				$message[0]->type="recv";
 				$prev = $daoTo->getToPrevMessage($message[0]->date_send,$idUser);
 				if ($prev)
-					$message[0]->prev = $prev[0]->id;
+					$message[0]->prev = $prev->id;
 				$next = $daoTo->getToNextMessage($message[0]->date_send,$idUser);
 				if ($next)
-					$message[0]->next = $next[0]->id;
+					$message[0]->next = $next->id;
 			} else {	// Il tente d'afficher un message qu'il n'a pas envoyé ni reçu !
 				$errors[] = CopixI18N::get ('minimail.error.cantDisplay');
 			}
@@ -176,12 +173,12 @@ class ActionGroupMinimail extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('minimail||')));
 		} else {
 			
-			$userInfo = $kernel_service->getUserInfo("ID", $message[0]->from_id);
+			$userInfo = Kernel::getUserInfo("ID", $message[0]->from_id);
 			$message[0]->from = $userInfo;
 			$message[0]->from_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
-			while (list($j,) = each($dest)) {
+			foreach ($dest as $j=>$null) {
 				//print_r($dest[$j]->to_id);
-				$userInfo = $kernel_service->getUserInfo("ID", $dest[$j]->to_id);
+				$userInfo = Kernel::getUserInfo("ID", $dest[$j]->to_id);
 				$dest[$j]->to = $userInfo; 
 				$dest[$j]->to_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
 			}
@@ -236,7 +233,6 @@ class ActionGroupMinimail extends CopixActionGroup {
    */
 	function processGetNewForm () {
 
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$tpl = & new CopixTpl ();
@@ -311,7 +307,6 @@ class ActionGroupMinimail extends CopixActionGroup {
 	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
    */
 	function doSend () {
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$dest = _request("dest") ? _request("dest") : "";
@@ -340,10 +335,9 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 		$tabDest = array();
 		// On vérifie que les destinataires existent
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		while (list(,$login) = each ($destin)) {
 			if (!$login) continue;
-			$userInfo = $kernel_service->getUserInfo("LOGIN", $login);
+			$userInfo = Kernel::getUserInfo("LOGIN", $login);
 			//print_r("login=$login");
 			//print_r($userInfo);
 			if (!$userInfo)
@@ -446,7 +440,6 @@ class ActionGroupMinimail extends CopixActionGroup {
    */
 	function doDelete () {
 
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$messages = _request("messages") ? _request("messages") : NULL;
@@ -482,7 +475,6 @@ class ActionGroupMinimail extends CopixActionGroup {
 	 * @todo Vérifier les droits par rapport au minimail contenant cette pièce jointe
    */
 	function downloadAttachment () {
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
@@ -509,7 +501,6 @@ class ActionGroupMinimail extends CopixActionGroup {
    */
 	function previewAttachment () {
 
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$file = _request("file") ? _request("file") : "";
