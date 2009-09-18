@@ -121,7 +121,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	* Appelle la zone agendamenu et agendaeditevent
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
-	function getEdit (){
+	function processGetEdit (){
 	
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 	

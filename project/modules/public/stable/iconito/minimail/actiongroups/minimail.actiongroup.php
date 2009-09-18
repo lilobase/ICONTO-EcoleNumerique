@@ -234,7 +234,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 	 * @param string $message Corps du minimail (si formulaire soumis)
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
    */
-	function getNewForm () {
+	function processGetNewForm () {
 
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
@@ -425,9 +425,6 @@ class ActionGroupMinimail extends CopixActionGroup {
 			}
 			
 		}
-			die ('e');
-
-		//$errors[] = "CB";
 		
 		return CopixActionGroup::process ('minimail|minimail::getNewForm', array ('dest'=>$dest, 'title'=>$title, 'message'=>$message, 'format'=>$format, 'errors'=>$errors, 'preview'=>(($go=='save')?0:1)));
 		

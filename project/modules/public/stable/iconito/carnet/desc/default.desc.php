@@ -3,9 +3,9 @@
 
 $getCarnet   					= & new CopixAction ('Carnet', 'getCarnet');
 $getTopic   					= & new CopixAction ('Carnet', 'getTopic');
-$getTopicForm   			= & new CopixAction ('Carnet', 'getTopicForm');
+$getTopicForm   			= & new CopixAction ('Carnet', 'processGetTopicForm');
 $doTopicForm   				= & new CopixAction ('Carnet', 'doTopicForm');
-$getMessageForm   		= & new CopixAction ('Carnet', 'getMessageForm');
+$getMessageForm   		= & new CopixAction ('Carnet', 'processGetMessageForm');
 $doMessageForm   			= & new CopixAction ('Carnet', 'doMessageForm');
 
 $go 									= & new CopixAction ('Carnet', 'go');

@@ -3,7 +3,7 @@
 
 
 $getSso			= & new CopixAction ('sso', 'getSso');
-$getServiceNewForm			= & new CopixAction ('sso', 'getServiceNewForm');
+$getServiceNewForm			= & new CopixAction ('sso', 'processGetServiceNewForm');
 $doServiceNewForm			= & new CopixAction ('sso', 'doServiceNewForm');
 
 $doActivateService			= & new CopixAction ('sso', 'doActivateService');

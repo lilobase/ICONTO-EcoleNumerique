@@ -94,7 +94,7 @@ class ActionGroupLecon extends CopixActionGroup {
 	* Appelle les zones agendamenu et agendaeditlecon
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
-	function getEdit (){
+	function processGetEdit (){
 	  
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 

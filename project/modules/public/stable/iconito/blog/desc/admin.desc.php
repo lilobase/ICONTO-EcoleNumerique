@@ -10,7 +10,7 @@
 
 // Blog
 $prepareEditBlog        = & new CopixAction ('AdminBlog', 'doPrepareEditBlog');
-$showBlog               = & new CopixAction ('AdminBlog', 'getShowBlog');
+$showBlog               = & new CopixAction ('AdminBlog', 'processGetShowBlog');
 $deleteBlog             = & new CopixAction ('AdminBlog', 'doDeleteBlog');
 $validBlog              = & new CopixAction ('AdminBlog', 'doValidBlog');
 $suggestBlogUrl         = & new CopixAction ('AdminBlog', 'doSuggestBlogUrl');

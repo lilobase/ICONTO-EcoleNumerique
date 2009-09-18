@@ -8,7 +8,7 @@
 
 {foreach from=$buttons item=button}
 
-<button style="background:#eee url(dokuwiki/lib/images/toolbar/{$button.icon}) no-repeat center center;height:20px;width:24px;border:solid 1px #ccc;" type="button" title="{$button.titre|htmlentities}" onClick="{$button.link}"></button>
+<button style="background:#eee url({copixresource path="dokuwiki/lib/images/toolbar/`$button.icon`"}) no-repeat center center;height:20px;width:24px;border:solid 1px #ccc;" type="button" title="{$button.titre|htmlentities}" onClick="{$button.link}"></button>
 
 {/foreach}
 {help mode="bulle" text="kernel|wikibuttons.help.dokuwiki"}

@@ -17,7 +17,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	/**
     * Afficage de la liste des articles d'un blog.
     */
-	function getListArticle() {
+	function processGetListArticle() {
 		
 		//var_dump($this);
 		

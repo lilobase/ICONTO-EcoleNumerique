@@ -11,6 +11,6 @@
 
 $prepareEdit = & new CopixAction ('Lecon', 'doPrepareEdit');
 $create      = & new CopixAction ('Lecon', 'doCreate');
-$edit        = & new CopixAction ('Lecon', 'getEdit');
+$edit        = & new CopixAction ('Lecon', 'processGetEdit');
 $valid       = & new CopixAction ('Lecon', 'doValid');
 ?>

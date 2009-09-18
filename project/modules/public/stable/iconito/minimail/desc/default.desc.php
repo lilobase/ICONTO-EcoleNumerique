@@ -2,7 +2,7 @@
 
 $getListRecv    		= & new CopixAction ('Minimail', 'getListRecv');
 $getListSend    		= & new CopixAction ('Minimail', 'getListSend');
-$getNewForm    			= & new CopixAction ('Minimail', 'getNewForm');
+$getNewForm    			= & new CopixAction ('Minimail', 'processGetNewForm');
 $getMessage    			= & new CopixAction ('Minimail', 'getMessage');
 $doSend   					= & new CopixAction ('Minimail', 'doSend');
 $downloadAttachment	= & new CopixAction ('Minimail', 'downloadAttachment');

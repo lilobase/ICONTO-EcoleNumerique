@@ -2,13 +2,13 @@
 
 $getListPublic    		= & new CopixAction ('Groupe', 'getListPublic');
 $getListMy    				= & new CopixAction ('Groupe', 'getListMy');
-$getEdit    					= & new CopixAction ('Groupe', 'getEdit');
+$getEdit    					= & new CopixAction ('Groupe', 'processGetEdit');
 $doEdit   						= & new CopixAction ('Groupe', 'doEdit');
 $getHome    					= & new CopixAction ('Groupe', 'getHome');
 $getHomeMembers				= & new CopixAction ('Groupe', 'getHomeMembers');
 $getHomeAdmin					= & new CopixAction ('Groupe', 'getHomeAdmin');
-$getHomeAdminMembers	= & new CopixAction ('Groupe', 'getHomeAdminMembers');
-$getHomeAdminMember 	= & new CopixAction ('Groupe', 'getHomeAdminMember');
+$getHomeAdminMembers	= & new CopixAction ('Groupe', 'processGetHomeAdminMembers');
+$getHomeAdminMember 	= & new CopixAction ('Groupe', 'processGetHomeAdminMember');
 $getHomeAdminModules	= & new CopixAction ('Groupe', 'getHomeAdminModules');
 $getDelete   					= & new CopixAction ('Groupe', 'getDelete');
 $doDelete   					= & new CopixAction ('Groupe', 'doDelete');

@@ -11,7 +11,7 @@
 
 $prepareEdit = & new CopixAction ('Event', 'doPrepareEdit');
 $create      = & new CopixAction ('Event', 'doCreate');
-$edit        = & new CopixAction ('Event', 'getEdit');
+$edit        = & new CopixAction ('Event', 'processGetEdit');
 $valid       = & new CopixAction ('Event', 'doValid');
 $delete      = & new CopixAction ('Event', 'doDelete');
 

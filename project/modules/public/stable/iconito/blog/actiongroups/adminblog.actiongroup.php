@@ -16,7 +16,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 	/**
     * Préparation de l'édition d'un blog.
     */
-	function getShowBlog() {
+	function processGetShowBlog() {
 		
 		$id_blog = $this->getRequest('id_blog', null);
 		

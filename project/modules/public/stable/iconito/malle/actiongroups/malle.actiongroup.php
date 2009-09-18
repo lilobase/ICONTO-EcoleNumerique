@@ -149,7 +149,7 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @param string $field Champ utilisé dans la fenêtre "en-dessous"
 	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
    */
-   function getMallePopup () {
+   function processGetMallePopup () {
 	 	
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
@@ -434,7 +434,7 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @param integer $folder Id du répertoire
 	 * @param array $file Toutes les infos du fichier ajouté (issues de $_FILES)
    */
-	function getUploadFileZip () {
+	function processGetUploadFileZip () {
 
 		$id = $this->getRequest('id');
 		$folder = $this->getRequest('folder');
@@ -1153,7 +1153,7 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @param array $newFiles Liste des nouveaux noms de fichiers
 	 * @param array $newFolders Liste des nouveaux noms de dossiers
    */
-   function doActionRename () {
+   function processDoActionRename () {
 	 	
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
@@ -1245,7 +1245,7 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @param array $files Liste des fichiers sélectionnés
 	 * @param array $folders Liste des dossiers sélectionnés
    */
-   function doActionDownloadZip () {
+   function processDoActionDownloadZip () {
 	 	
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');

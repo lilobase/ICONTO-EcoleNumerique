@@ -33,7 +33,7 @@ $doeditphotos = & new CopixAction ('Album', 'doEditPhotos');
 $dofolder = & new CopixAction ('Album', 'doFolder');
 
 $addzip = & new CopixAction ('Album', 'getAddZip');
-$doaddzip = & new CopixAction ('Album', 'doAddZip');
+$doaddzip = & new CopixAction ('Album', 'processDoAddZip');
 
 
 $debug = & new CopixAction ('Album', 'debug');

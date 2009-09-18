@@ -256,7 +256,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * @param string $message Texte du message (si formulaire soumis)
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
    */
-	function getMessageForm () {
+	function processGetMessageForm () {
 	
 		$criticErrors = array();	
 		$topic = _request("topic") ? _request("topic") : NULL;
@@ -453,7 +453,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * @param array $errors (option) Erreurs rencontrées
 	 * @param integer $preview (option) Si 1, affichera la preview de la discussion soumise, si 0 validera le formulaire
    */
-	function getTopicForm () {
+	function processGetTopicForm () {
 	
 		$criticErrors = array();	
 		$forum = _request("forum") ? _request("forum") : NULL;

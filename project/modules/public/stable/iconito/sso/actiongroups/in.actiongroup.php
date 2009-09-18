@@ -95,7 +95,7 @@ class ActionGroupIn extends CopixActionGroup {
 			if (md5($sso->challenge.$sso->cle_privee) == $key) {
 				if ((mktime()-$sso->date) < CopixConfig::get ('sso|in_challenge_delay')) { // OK
 					//echo("OK!");
-					return CopixActionGroup::process ('auth|Login::doLogin',
+					return CopixActionGroup::process ('auth|log::in',
 						array (
 							'login'=>$sso->login,
 							'key'=>$key,

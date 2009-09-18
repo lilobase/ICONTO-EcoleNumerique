@@ -464,7 +464,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 				break;
 			case 'application/zip':
 			case 'application/x-zip-compressed':
-				return CopixActionGroup::process ('album|album::getUploadFileZip', array ('album'=>_request("album_id"), 'file'=>$_FILES));
+				return CopixActionGroup::process ('album|album::doAddZip');
 				break;
 			default:
 				$photofile = null;
@@ -1138,7 +1138,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	 *
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
-	function doAddZip() {
+	function processDoAddZip() {
 		
 		if( ! is_uploaded_file( $_FILES['fichier']['tmp_name'] ) ) {
 			$message = '';

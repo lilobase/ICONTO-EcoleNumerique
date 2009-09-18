@@ -218,7 +218,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @param array $his_modules (si formulaire soumis) Les modules à rattacher au groupe
 	 * @param array $errors (option) Erreurs rencontrées
    */
-   function getEdit () {
+   function processGetEdit () {
 	 
 		//$messages = $dao->getList();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
@@ -667,7 +667,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @param string $membres (option) Liste des logins des nouveaux membres à inscrire séparés par des virgules éventuellement) 
 	 * @param array $errors (option) Erreurs rencontrées
    */
-	function getHomeAdminMembers () {
+	function processGetHomeAdminMembers () {
 	 	
 	 	$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
@@ -1356,7 +1356,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @param string $droit (option) Valeur du début de validité si formulaire déjà soumis
 	 * @param string $fin (option) Valeur de fin de validité si formulaire déjà soumis
    */
-	function getHomeAdminMember () {
+	function processGetHomeAdminMember () {
 	 	
 	 	$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');

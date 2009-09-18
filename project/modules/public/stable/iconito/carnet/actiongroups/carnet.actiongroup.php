@@ -304,7 +304,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 	 * @param array $errors (option) Erreurs rencontrées
 	 * @param integer $preview (option) Si 1, affichera la preview de la discussion soumise, si 0 validera le formulaire
    */
-	function getTopicForm () {
+	function processGetTopicForm () {
 		
 		$carnet_service = & CopixClassesFactory::Create ('carnet|CarnetService');
 		
@@ -465,7 +465,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 	 * @param array $errors (option) Erreurs rencontrées
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
    */
-	function getMessageForm () {
+	function processGetMessageForm () {
 		
 		
 		$carnet_service = & CopixClassesFactory::Create ('carnet|CarnetService');

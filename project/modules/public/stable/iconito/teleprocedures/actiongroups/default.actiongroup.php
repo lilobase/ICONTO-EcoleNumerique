@@ -35,7 +35,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @param integer $id Id du module
 
    */
-	function listTeleprocedures () {
+	function processListTeleprocedures () {
 		
 		$id = $this->getRequest ('id', null);
 		$motcle = _request("motcle") ? _request("motcle") : NULL;
@@ -248,7 +248,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @param integer $print Si version imprimable
 	 * @param array $rFiche (Si on revient en modif apres erreur) Contient des donnees de l'intervention qui ecrasent celles issues de la base
    */
-	function fiche () {
+	function processFiche () {
 		
 		$id = $this->getRequest ('id', null);
 		$errors = $this->getRequest ('errors', array());
@@ -317,7 +317,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @param integer $id Id de la procedure
 	 * @param array $rFiche (Si on revient en modif apres erreur) Contient des donnees de l'intervention qui ecrasent celles issues de la base
    */
-	function ficheDroits () {
+	function processFicheDroits () {
 		
 		$id = $this->getRequest ('id', null);
 		$errors = $this->getRequest ('errors', array());

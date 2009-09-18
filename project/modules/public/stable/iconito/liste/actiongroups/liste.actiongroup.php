@@ -75,7 +75,7 @@ class ActionGroupListe extends CopixActionGroup {
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
    * @param array $errors Erreurs déjà rencontrées
    */
-	 function getMessageForm () {
+	 function processGetMessageForm () {
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		

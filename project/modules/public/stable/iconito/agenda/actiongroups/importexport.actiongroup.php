@@ -24,7 +24,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* récupère l'objet importParams en session s'il existe et créer sinon puis stock en session
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
-	function getPrepareImport(){	
+	function processGetPrepareImport(){	
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		
@@ -197,7 +197,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @author Audrey Vassal <avassal@sqli.com>
 	* appelle les zones agendamenu et agendaexport
 	*/
-	function getPrepareExport(){	
+	function processGetPrepareExport(){	
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		

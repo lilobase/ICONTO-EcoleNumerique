@@ -10,7 +10,7 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-$listArticle  = & new CopixAction ('FrontBlog', 'getListArticle');
+$listArticle  = & new CopixAction ('FrontBlog', 'processGetListArticle');
 $showArticle  = & new CopixAction ('FrontBlog', 'getArticle');
 $listPage     = & new CopixAction ('FrontBlog', 'getListPage');
 $showPage     = & new CopixAction ('FrontBlog', 'getPage');

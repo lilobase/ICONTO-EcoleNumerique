@@ -106,7 +106,7 @@ class ActionGroupSso extends CopixActionGroup {
 	 * @param array $errors Tableau d'erreurs
 	 * @todo vérifier les droits
 	 */
-  function getServiceNewForm () {
+  function processGetServiceNewForm () {
 		$id = $this->getRequest('id', null);
 		$errors = $this->getRequest('errors', null);
 		$url = $this->getRequest('url', CopixConfig::get ('sso|sso_gael_url'));
