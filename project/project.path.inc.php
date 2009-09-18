@@ -17,4 +17,6 @@ define ('COPIX_CACHE_PATH',   COPIX_TEMP_PATH.'cache/');
 define ('COPIX_LOG_PATH',     COPIX_TEMP_PATH.'log/');
 define ('COPIX_VAR_PATH',     COPIX_PROJECT_PATH.'../var/');
 
+
+
 ?>

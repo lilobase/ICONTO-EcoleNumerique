@@ -203,13 +203,11 @@ class AgendaService {
 					AND (((datefin_event >= ' . $pDateDeb . ') OR (endrepeatdate_event >= ' . $pDateDeb . '))
 						AND (datedeb_event <= ' . $pDateFin . '))' ;
 						
-        $ct = & CopixDBFactory::getConnection ();
-        $result = $ct->doQuery ($query);
+        $result = _doQuery($query);
 				
 				$arResultat = array();
-        while ($r = $result->fetch ()) {
-            $arResultat[] = $r;
-        }
+				foreach ($result as $r) 
+	        $arResultat[] = $r;
         return $arResultat;
     } 
 

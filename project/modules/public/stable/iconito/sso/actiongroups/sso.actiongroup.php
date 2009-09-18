@@ -164,7 +164,7 @@ class ActionGroupSso extends CopixActionGroup {
 			
 			$newSso = CopixDAOFactory::createRecord("sso_auth");
 			$newSso->sso_auth_id_sso = $id;
-			$newSso->sso_auth_login_local = $_SESSION['user']->bu['login'];
+			$newSso->sso_auth_login_local = _currentUser()->getLogin();
 			$newSso->sso_auth_type = $type;
 			$newSso->sso_auth_url = $url;
 			$newSso->sso_auth_date_crea = date("Y-m-d H:i:s");
@@ -175,7 +175,7 @@ class ActionGroupSso extends CopixActionGroup {
 			$dao->insert ($newSso);
 			
 			if ($newSso->sso_auth_id !== NULL) {
-        $go = $url.'?mode=register'."&login_ico=".$_SESSION['user']->bu['login']."&url=".urlencode(CopixUrl::get().CopixUrl::get('sso||doActivateService', array('id'=>$newSso->sso_auth_id)));
+        $go = $url.'?mode=register'."&login_ico="._currentUser()->getLogin()."&url=".urlencode(CopixUrl::get().CopixUrl::get('sso||doActivateService', array('id'=>$newSso->sso_auth_id)));
 //        die ($go);
         return new CopixActionReturn (COPIX_AR_REDIRECT, $go );
 			}

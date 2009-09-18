@@ -4,15 +4,16 @@
 
 	<datasource>
 		<tables>
-		<table name="copixuser" tablename="copixuser" primary="yes"/>
+		<table name="copixuser" tablename="dbuser" primary="yes"/>
 		</tables>
 	</datasource>
 
 	<properties>
-		<property name="id_cusr" fieldname="id_cusr" type="autoincrement" table="copixuser" pk="yes"/>
-		<property name="login_cusr" fieldname="login_cusr" type="string" table="copixuser" pk="no"/>
-		<property name="password_cusr" fieldname="password_cusr" type="string" table="copixuser" pk="no"/>
-		<property name="email_cusr" fieldname="email_cusr" type="string" table="copixuser" pk="no"/>
+		<property name="id_dbuser" fieldname="id_dbuser" type="autoincrement" table="copixuser" pk="yes"/>
+		<property name="login_dbuser" fieldname="login_dbuser" type="string" table="copixuser" pk="no"/>
+		<property name="password_dbuser" fieldname="password_dbuser" type="string" table="copixuser" pk="no"/>
+		<property name="email_dbuser" fieldname="email_dbuser" type="string" table="copixuser" pk="no"/>
+		<property name="enabled_dbuser" fieldname="enabled_dbuser" type="integer" table="copixuser" pk="no"/>
 	</properties>
 	<methods>
 		<method name="getByLogin" type="select">
@@ -20,7 +21,7 @@
 				<parameter name="login" />
 			</parameters>
 			<conditions>
-				<condition property="login_cusr" operator="=" value="$login" />
+				<condition property="login_dbuser" operator="=" value="$login" />
 			</conditions>
 		</method>
 	</methods>

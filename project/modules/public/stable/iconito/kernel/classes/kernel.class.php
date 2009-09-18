@@ -53,43 +53,6 @@ class Kernel {
 		} else return( $ymd );
 	}
 	
-	/**
-	 * getUser
-	 *
-	 * Retourne les informations d'un utilisateur, par son id.
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
-	 * @deprecated 2006-01-10
-	 * @param integer $id Identifiant de l'utilisateur.
-	 * @return array Informations utilisateur. 
-	 */
-	function getUser( $id=-1 ) {
-	
-		// Démo !!!
-		// Si l'identifiant n'est pas défini, on continue avec l'identifiant
-		// de l'utilisateur connecté. Pour la démo, c'est "1".
-		if( $id<=0 ) { $id = 1; $moimeme = true; } else { $moimeme = false; }
-		
-		/* Appel à la base de donnée coupée, pour démo.
-		$user_dao = _dao("kernel|kernel");
-		$user = $user_dao->get($id);
-		*/
-		
-		$users[1]->user_id = "1";
-		$users[1]->user_login = "freiss";
-		$users[1]->user_nom = "Reiss";
-		$users[1]->user_prenom = "Frédéric";
-		$users[1]->user_ddn="1976-10-17";
-		
-		$users[2]->user_id = "2";
-		$users[2]->user_login = "cbeyer";
-		$users[2]->user_nom = "Beyer";
-		$users[2]->user_prenom = "Christophe";
-		$users[2]->user_ddn="1978-04-14";
-
-		if( isset($users[$id]) ) return( $users[$id] );
-		else return( false );
-	}
-
 
 	function getLevel( $node_type, $node_id=0, $user_type="-1", $user_id="-1" ) {
 		//print_r("getLevel ($node_type, $node_id, $user_type, $user_id)<br/>");

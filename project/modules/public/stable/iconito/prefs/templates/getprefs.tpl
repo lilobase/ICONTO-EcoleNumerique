@@ -66,7 +66,7 @@
 				{if $form.value}
 				<tr><th>{$form.text}</th><td>
 				<div style="maring: 0px; padding: 0px;"{if $form.error} class="error"{/if}>
-				<img src="{$form.value}"/>
+				<img src="{copixurl}{$form.value}" alt="{$form.value}" />
 				</div>
 				{if $form.error}<div class="errormsg">{$form.error}</div>{/if}
 				</td></tr>

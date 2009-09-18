@@ -12,14 +12,12 @@
 _classInclude('prefs|prefs');
 
 class ActionGroupPrefs extends CopixActionGroup {
-
+	
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+	}
+	
 	function getPrefs () {
-		
-		if( !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
-	      return CopixActionGroup::process ('genericTools|Messages::getError',
-	      array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'),
-	      'back'=>CopixUrl::get ('auth|default|login')));
-		}
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
 
@@ -29,20 +27,26 @@ class ActionGroupPrefs extends CopixActionGroup {
 		$prefs=array();
 		
 		$modules = Prefs::getModules();
-		
 		$data = Prefs::getPrefs();
+		$arModulesPath = CopixConfig::instance ()->arModulesPath;
 		
 		foreach( $modules AS $mod_key=>$mod_val ) {
-			
-			$class_file = COPIX_MODULE_PATH.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
-			if( !file_exists( $class_file ) ) continue;
-			
-			$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
-			
-			$pref = $module_class->getPrefs( $data[$mod_val->rep] );
-			$pref['code'] = $mod_val->rep;
-			$prefs[] = $pref;
+			foreach ($arModulesPath as $modulePath) {
+				$class_file = $modulePath.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
+				if( !file_exists( $class_file ) ) continue;
+				
+				$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
+				
+				$d = (isset($data[$mod_val->rep])) ? $data[$mod_val->rep] : null;
+				
+				$pref = $module_class->getPrefs( $d );
+
+				$pref['code'] = $mod_val->rep;
+				$prefs[] = $pref;
+			}
 		}
+		
+		//print_r($prefs);
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('prefs.moduleDescription'));
 		$tpl->assign ('MAIN', CopixZone::process ('prefs|prefs', array('prefs'=>$prefs, 'get'=>$_GET )));
@@ -55,14 +59,10 @@ class ActionGroupPrefs extends CopixActionGroup {
 	}
 
 	function setPrefs () {
-		if( Kernel::isDemo() ) return Kernel::noDemo();
 		
-		if( !isset($_SESSION["user"]->bu) || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
-	      return CopixActionGroup::process ('genericTools|Messages::getError',
-	      array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'),
-	      'back'=>CopixUrl::get ('auth|default|login')));
-		}
+		if( 0 && Kernel::isDemo() ) return Kernel::noDemo();
 		
+
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
 
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>' );
@@ -73,64 +73,73 @@ class ActionGroupPrefs extends CopixActionGroup {
 		
 		// Liste des modules qui peuvent avoir des préférences...
 		$modules = Prefs::getModules();
+		$arModulesPath = CopixConfig::instance ()->arModulesPath;
 
 		$datas = array();
 		$errors = array();
-
+		
 		reset( $modules );
 		foreach( $modules AS $mod_key=>$mod_val ) {
+			foreach ($arModulesPath as $modulePath) {
 			
-			$class_file = COPIX_MODULE_PATH.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
-			if( !file_exists( $class_file ) ) continue;
+				$class_file = $modulePath.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
+				if( !file_exists( $class_file ) ) continue;
 			
-			$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
-			
-			reset($_POST);
-			// Parcours de tous les parametres passé en POST, pour chaque module.
-			foreach( $_POST AS $post_key => $post_val ) {
-				if( ereg( '^'.$mod_val->rep.'_(.+)$', $post_key, $regs ) ) {
-					$datas[$mod_val->rep][$regs[1]] = $post_val;
+				$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
+				
+				reset($_POST);
+				// Parcours de tous les parametres passé en POST, pour chaque module.
+				foreach( $_POST AS $post_key => $post_val ) {
+					if( ereg( '^'.$mod_val->rep.'_(.+)$', $post_key, $regs ) ) {
+						$datas[$mod_val->rep][$regs[1]] = $post_val;
+					}
+				}
+	
+				// Appel de la fonction de vérification du module.
+				if( method_exists( $module_class, 'checkPrefs' ) ) {
+					$d = (isset($datas[$mod_val->rep])) ? $datas[$mod_val->rep] : null;
+					$error = $module_class->checkPrefs( $mod_val->rep, $d );
+					if( sizeof( $error ) ) $errors[$mod_val->rep] = $error;
 				}
 			}
-
-			// Appel de la fonction de vérification du module.
-			if( method_exists( $module_class, 'checkPrefs' ) ) {
-				$error = $module_class->checkPrefs( $mod_val->rep, $datas[$mod_val->rep] );
-				if( sizeof( $error ) ) $errors[$mod_val->rep] = $error;
-			}
 		}
-		
 		if( sizeof( $errors ) ) {
+			
+			//print_r($errors);
 //			$tplPrefs = & new CopixTpl ();
 
 			// Liste des modules disponibles...
 			reset( $modules );
 			foreach( $modules AS $mod_key=>$mod_val ) {
+				foreach ($arModulesPath as $modulePath) {
 				
-				// Vérification de la présence de la classe de préférence pour le module...
-				$class_file = COPIX_MODULE_PATH.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
-				if( !file_exists( $class_file ) ) continue;
+					$class_file = $modulePath.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
+					if( !file_exists( $class_file ) ) continue;
 				
-				// Chargement de la classe...
-				$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
+					// Chargement de la classe...
+					$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
 				
-				// Récupération de la structure des prefs...
-				$pref = $module_class->getPrefs( $data[$mod_val->rep] );
-				$pref['code'] = $mod_val->rep;
-				
-				if($pref['form']) // Protection contre les modules aux prefs vides
-				foreach( $pref['form'] AS $key=>$val ) {
-					if( isset($val['code']) && isset($_POST[$pref['code'].'_'.$val['code']]) ) {
-						$pref['form'][$key]['value'] = $_POST[$pref['code'].'_'.$val['code']];
-					}
+					// Récupération de la structure des prefs...
+					$d = (isset($data[$mod_val->rep])) ? $data[$mod_val->rep] : null;
+					$pref = $module_class->getPrefs( $d );
 					
-					if( isset($errors[$pref['code']][$val['code']]) ) {
-						$pref['form'][$key]['error'] = $errors[$pref['code']][$val['code']];
+					$pref['code'] = $mod_val->rep;
+				
+					if (isset($pref['form'])) { // Protection contre les modules aux prefs vides
+						
+						foreach( $pref['form'] AS $key=>$val ) {
+							if( isset($val['code']) && isset($_POST[$pref['code'].'_'.$val['code']]) ) {
+								$pref['form'][$key]['value'] = $_POST[$pref['code'].'_'.$val['code']];
+							}
+							//print_r($val);
+							if( isset($val['code']) && isset($errors[$pref['code']][$val['code']]) ) {
+								$pref['form'][$key]['error'] = $errors[$pref['code']][$val['code']];
+							}
+							
+						}
 					}
-					
+					$prefs[] = $pref;
 				}
-				
-				$prefs[] = $pref;
 			}
 			
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('prefs.moduleDescription'));
@@ -141,20 +150,16 @@ class ActionGroupPrefs extends CopixActionGroup {
 
 			reset( $modules );
 			foreach( $modules AS $mod_key=>$mod_val ) {
-				$class_file = COPIX_MODULE_PATH.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
-				if( !file_exists( $class_file ) ) continue;
-				$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
-
-			/*
-			foreach( $datas AS $mod_key=>$mod_val ) {
+				foreach ($arModulesPath as $modulePath) {
 				
-				$class_file = COPIX_MODULE_PATH.$mod_key.'/'.COPIX_CLASSES_DIR.'mod'.$mod_key.'prefs.class.php';
-				if( !file_exists( $class_file ) ) continue;
+					$class_file = $modulePath.$mod_val->rep.'/'.COPIX_CLASSES_DIR.'mod'.$mod_val->rep.'prefs.class.php';
+					if( !file_exists( $class_file ) ) continue;
 				
-				$module_class = & CopixClassesFactory::Create ($mod_key.'|mod'.$mod_key.'prefs');
-			*/
+					$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
 					
-				$module_class->setPrefs( $mod_val->rep, $datas[$mod_val->rep] );
+					$d = (isset($datas[$mod_val->rep])) ? $datas[$mod_val->rep] : null;
+					$module_class->setPrefs( $mod_val->rep, $d );
+				}
 			}
 		}
 		

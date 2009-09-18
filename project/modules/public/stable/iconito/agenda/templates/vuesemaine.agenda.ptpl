@@ -1,8 +1,8 @@
 <?php
 
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'dateservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendaservices.class.php');
-require_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'agendatype.class.php');
+_classInclude ("agenda|dateservices");
+_classInclude ("agenda|agendaservices");
+_classInclude ("agenda|agendatype");
 
 
 $serviceDate   = new DateService;
@@ -174,7 +174,7 @@ $iJour = 1;
 				$i = strlen($i) > 1 ? $i : '0'.$i;
 				$html .= '<a href = "' . CopixUrl::get('agenda|event|create', array('jourCourant'=>$jourCourant, 'heureDeb'=>$i.':00','heureFin'=>$hFin.':00')) .'">';
 			}
-			$html .= '<img onmouseover="javascript:hidePopupEvent(1);" src="img/agenda/case_jour.jpg" alt="case_jour.jpg" width="113" height="37" />';
+			$html .= '<img onmouseover="javascript:hidePopupEvent(1);" src="'.CopixUrl::getResource ("img/agenda/case_jour.jpg").'" alt="case_jour.jpg" width="113" height="37" />';
 			if($writeAgenda){
 				$html .= '</a>';
 			}

@@ -19,22 +19,7 @@ class ModCarnetPrefs {
 	function getPrefs ( $data=null ) {
 		$toReturn = array();
 
-    /*
-		$toReturn['name'] = 'Cahier de liaison';
-		$toReturn['form'] = array(
-			array(
-				'type'=>'titre',
-				'text'=>CopixI18N::get ('carnet|carnet.config.alerte.title'), // Alerte par email
-				'expl'=>CopixI18N::get ('carnet|carnet.config.alerte.expl'), // 'Vous pouvez être alerté par un email à chaque fois que vous recevez un minimail',
-			),
-			array(
-				'code'=>'alerte_carnet',
-				'type'=>'checkbox',
-				'text'=>CopixI18N::get ('carnet|carnet.config.alerte.active'),
-				'value'=>($data['alerte_carnet']?true:false)
-			),
-		);
-    */
+    
 		return( $toReturn );
 	}
 

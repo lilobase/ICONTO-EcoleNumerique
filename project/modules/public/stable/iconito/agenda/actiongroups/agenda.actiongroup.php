@@ -16,7 +16,11 @@ _classInclude('agenda|semaineparams');
 require_once (COPIX_TEMP_PATH.'../utils/copix/smarty_plugins/modifier.wiki.php');
 
 class ActionGroupAgenda extends CopixActionGroup {
-
+	
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+	}
+	
 	/**
 	* Fonction qui prépare l'affichage de la vue semaine
 	*/
@@ -24,13 +28,6 @@ class ActionGroupAgenda extends CopixActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_agenda.js');
 		
-		$plugAuth = CopixPluginRegistry::get ("auth|auth");
-    $user      = & $plugAuth->getUser();
-		if (!$user->isConnected ())
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
-						'back'=>CopixUrl::get()));
-
 		$obj = new AgendaService();
 		$listAgendas = $obj->getAvailableAgenda();
 		

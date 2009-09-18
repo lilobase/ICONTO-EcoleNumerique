@@ -44,7 +44,7 @@ class ModPrefsPrefs {
 			'code'=>'avatar_upload',
 			'type'=>'upload',
 			'text'=>CopixI18N::get ('prefs.config.avatar.upload'),
-			'value'=>($data['nom']?$data['nom']:$_SESSION['user']->bu['nom'])
+			'value'=>(isset($data['nom'])?$data['nom']:_currentUser()->getExtra('nom'))
 		);
 		if( $avatar ) {
 			$toReturn['form'][] = array(
@@ -73,7 +73,7 @@ class ModPrefsPrefs {
 				'code'=>'alerte_mail_email',
 				'type'=>'string',
 				'text'=>CopixI18N::get ('prefs.config.mail.alerte_mail_email'), // 'Si oui, saisissez votre email',
-				'value'=>($data['alerte_mail_email']?$data['alerte_mail_email']:'') );
+				'value'=>(isset($data['alerte_mail_email'])?$data['alerte_mail_email']:'') );
 		
 		return( $toReturn );
 	}
@@ -123,7 +123,7 @@ class ModPrefsPrefs {
 			$bu = Kernel::getSessionBU();
 			$dao = _dao('kernel|kernel_copixuser');
 			$user = $dao->get( $bu['user_id'] );
-			$user->password_cusr = md5($data['passwd1']);
+			$user->password_dbuser = md5($data['passwd1']);
 			$dao->update( $user );
 		}
 		unset( $data['passwd1'] );
@@ -131,7 +131,7 @@ class ModPrefsPrefs {
 		
 		
 		// Traiter l'effacement d'un avatar
-		if( $data['avatar_delete'] == '1' ) {
+		if( isset($data['avatar_delete']) && $data['avatar_delete'] == '1' ) {
 			$path2data  = realpath("static");
 			$path2prefs = $path2data."/prefs";
 			$path2avatars = $path2prefs."/avatar";
@@ -159,10 +159,10 @@ class ModPrefsPrefs {
 					@unlink( $path2avatars.'/'.$avatar_old );
 				}
 				
-				$avatar_file  = $path2avatars."/".$_SESSION['user']->bu['login'].'.'.$regs[1];
+				$avatar_file  = $path2avatars."/"._currentUser()->getLogin().'.'.$regs[1];
 				move_uploaded_file ( $_FILES['prefs_avatar_upload']['tmp_name'], $avatar_file );
-				
-				$data['avatar'] = $_SESSION['user']->bu['login'].'.'.$regs[1];
+
+				$data['avatar'] = _currentUser()->getLogin().'.'.$regs[1];
 			}
 		}
 		
