@@ -62,8 +62,11 @@ class KernelMalle {
 			}
 			// On efface le répertoire
 			$rmdir = rmdir ($folder);
-			$dbw->doDelete ('module_malle_files', array('malle'=>$id));
-			$dbw->doDelete ('module_malle_folders', array('malle'=>$id));
+			
+			$criteres = _daoSp ()->addCondition ('malle', '=', $id);
+			_dao ('module_malle_files')->deleteBy($criteres);
+			_dao ('module_malle_folders')->deleteBy($criteres);
+
 			$daoMalles->delete ($id);
 			$res = true;
 		}
@@ -112,7 +115,7 @@ class KernelMalle {
 		$a = _doQuery($sql);
 		$res['nbFiles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFiles', array($a[0]->nb)));
 		$sql = 'SELECT SUM(taille) AS nb FROM module_malle_files';
-		$a = $dbw->fetchFirst ($sql);
+		$a = _doQuery ($sql);
 		$res['size'] = array ('name'=>CopixI18N::get ('malle|malle.stats.size', array(KernelMalle::human_file_size($a->nb))));
 		return $res;
 	}

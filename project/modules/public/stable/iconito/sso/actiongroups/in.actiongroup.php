@@ -44,10 +44,17 @@ class ActionGroupIn extends CopixActionGroup {
 					
 					// On insère le nouveau challenge
 	    		$token = randomkeys(CopixConfig::get ('sso|in_encrypt_size'));
-	  		  $res = $dbw->doInsert('kernel_sso_challenges', array('id_sso'=>$id_sso, 'challenge'=>"'".$token."'", 'date'=>mktime()));
+					
+					$res = record('kernel_sso_challenges');
+					$res->id_sso = $id_sso;
+					$res->challenge = $token;
+					$res->date = mktime();
+					_ioDao('kernel_sso_challenges')->insert($record);
+					
+
 	        //print_r($res);
 	
-	  		  if ($res->_idResult != 1)	{ echo "-ERR BDD: Erreur lors de l'enregistrement dans la base de données"; }
+	  		 // if ($res->_idResult != 1)	{ echo "-ERR BDD: Erreur lors de l'enregistrement dans la base de données"; }
 					//Kernel::deb (md5($token.'FobVVbarwb'));
 					//die();
 	  		  $token = "+OK ".$token;

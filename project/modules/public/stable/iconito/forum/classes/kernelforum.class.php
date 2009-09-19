@@ -45,9 +45,11 @@ class KernelForum {
 			$criteres->addCondition('forum', '=', $idForum);
 			$topics = $daoTopics->findBy($criteres);
 			while (list(,$topic) = each($topics)) {
-				$dbw->doDelete ('module_forum_tracking', array('topic'=>$topic->id));
-				$dbw->doDelete ('module_forum_messages', array('topic'=>$topic->id));
-				$dbw->doDelete ('module_forum_topics', array('id'=>$topic->id));
+				$criteres = _daoSp ()->addCondition ('topic', '=', $topic->id);
+				_dao ('module_forum_tracking')->deleteBy($criteres);
+				_dao ('module_forum_messages')->deleteBy($criteres);
+				$criteres = _daoSp ()->addCondition ('id', '=', $topic->id);
+				_dao ('module_forum_topics')->deleteBy($criteres);
 			}
 			$daoForums->delete ($idForum);
 			$res = true;

@@ -34,7 +34,8 @@ class KernelListe {
 		$rListe = $daoListes->get($id);
 		$res = false;
 		if ($rListe) {
-			$dbw->doDelete ('module_liste_messages', array('liste'=>$id));
+			$criteres = _daoSp ()->addCondition ('liste', '=', $id);
+			_dao ('module_liste_messages')->deleteBy($criteres);
 			$daoListes->delete ($id);
 			$res = true;
 		}

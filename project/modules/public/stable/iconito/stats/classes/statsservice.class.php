@@ -16,7 +16,7 @@
 class StatsService {
 
 	/**
-	 * Met à jour les données de la base 
+	 * Met à jour les données de la base. Complete les parents pour les modules dont ils ne sont pas renseignes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/06/12
@@ -40,8 +40,13 @@ class StatsService {
 			$parent = Kernel::getNodeParents ($mod, $e->module_id);
 			if ($parent) {
 				//Kernel::deb ($sql);
-				$dbw->doUpdate ('module_stats_logs', array ('parent_type'=>"'".$parent[0]['type']."'", 'parent_id'=>$parent[0]['id']), array ('module_type'=>"'".$e->module_type."'", 'module_id'=>$e->module_id));
-				
+				$sql = "UPDATE module_stats_logs SET parent_type=:parent_type, parent_id=:parent_id WHERE module_type=:module_type AND module_id=:module_id";
+				_doQuery ($sql, array (
+					':parent_type' => $parent[0]['type'],
+					':parent_id' => $parent[0]['id'],
+					':module_type' => $e->module_type,
+					':module_id' => $e->module_id,
+				));
 			}
 			//print_r($parent);
 			$i++;

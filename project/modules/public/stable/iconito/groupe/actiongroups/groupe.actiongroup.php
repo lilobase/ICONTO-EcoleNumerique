@@ -280,7 +280,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				$his_modules = array();
 				$modEnabled = $kernel_service->getModEnabled ("club", $id);
 				//print_r($modEnabled);
-				while (list(,$tmp) = each($modEnabled)) {
+				foreach ($modEnabled as $tmp) {
 					$his_modules[$tmp->module_type] = 1;
 				}
 			}
@@ -288,7 +288,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$errors = $this->getRequest ('errors', array());
 			$kernel_service = CopixClassesFactory::create("kernel|Kernel");
 			$modules = $kernel_service->getModAvailable ("club");
-			while (list($k,$tmp) = each($modules)) {
+			foreach ($modules as $k=>$tmp) {
 				$modules[$k]->module_name = Kernel::Code2Name ($tmp->module_type);
 				$modules[$k]->module_desc = Kernel::Code2Desc ($tmp->module_type);
 			}
@@ -377,8 +377,6 @@ class ActionGroupGroupe extends CopixActionGroup {
 		
 		$createurId = _currentUser ()->getId();
 		
-		$modules = $kernel_service->getModAvailable ("club");
-
 		$dao = CopixDAOFactory::create("groupe");
 		if ($id) {	// Modification d'un groupe
 			$groupe[0]->titre = $titre;
@@ -504,7 +502,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		} else {
 			// On supprime ses modules
 			$his_modules = Kernel::getModEnabled ("CLUB", $id);
-			while (list($k,$node) = each($his_modules)) {
+			foreach ($his_modules as $k=>$node) {
 				list(,$module) = explode("_",$node->module_type);
 				$module = strtolower($module);
 				$classeModule = & CopixClassesFactory::create($module.'|Kernel'.$module);
@@ -791,7 +789,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$his_modules = array();
 			$modEnabled = $kernel_service->getModEnabled ("club", $id);
 			//print_r($modEnabled);
-			while (list(,$tmp) = each($modEnabled)) {
+			foreach ($modEnabled as $tmp) {
 				$his_modules[$tmp->module_type] = 1;
 			}
 			//print_r($his_modules);
@@ -1235,7 +1233,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			//print_r($his_modules);
 
 			// On parcourt l'ensemble des modules ayant pu être cochés/décochés
-			while (list(,$tmp) = each ($modules)) {
+			foreach ($modules as $tmp) {
 				
 				$moduleType = $tmp->module_type;			
 				list (,$module) = explode ("_", strtolower($moduleType));

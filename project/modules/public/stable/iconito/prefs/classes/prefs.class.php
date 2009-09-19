@@ -24,15 +24,13 @@ class Prefs {
 				$modules = Kernel::getModEnabled( $node->type, $node->id,
 					_currentUser()->getExtra('type'),   _currentUser()->getExtra('id') );
 				
-				if(sizeof($modules)) {
-					foreach( $modules AS $modules_key=>$module ) {
-						if( $module->module_type!="MOD_PREFS" && ereg('^MOD_(.+)$', $module->module_type, $regs) ) {
-							$mod_tmp->type = $module->module_type;
-							$mod_tmp->nom  = $module->module_nom;
-							$mod_tmp->rep  = strtolower($regs[1]);
-							$my_modules[$module->module_type] = $mod_tmp;
-              unset ($mod_tmp);
-						}
+				foreach( $modules AS $modules_key=>$module ) {
+					if( $module->module_type!="MOD_PREFS" && ereg('^MOD_(.+)$', $module->module_type, $regs) ) {
+						$mod_tmp->type = $module->module_type;
+						$mod_tmp->nom  = $module->module_nom;
+						$mod_tmp->rep  = strtolower($regs[1]);
+						$my_modules[$module->module_type] = $mod_tmp;
+             unset ($mod_tmp);
 					}
 				}
 			}

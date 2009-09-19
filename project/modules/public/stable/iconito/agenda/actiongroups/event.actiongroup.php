@@ -189,9 +189,8 @@ class ActionGroupEvent extends CopixActionGroup {
 		$serviceAuth   = new AgendaAuth;
 		
 		//initialisation des cases à cocher
-		if (!_request('repeat'))_request('repeat') = 0;
-		if (!_request('alldaylong_event'))_request('alldaylong_event') = 0;
-
+		
+		
 		if (!$toValid = $this->_getSessionEvent()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('agenda.error.cannotFindSession'),
@@ -513,7 +512,9 @@ class ActionGroupEvent extends CopixActionGroup {
 		$toCheck = array ('id_agenda', 'title_event', 'desc_event','place_event', 'datefin_event', 'datedeb_event', 'alldaylong_event', 'repeat', 'repeat_event', 'endrepeat_event', 'nb_fois', 'dateendrepeat_event');
 		foreach ($toCheck as $elem){
 			if (_request($elem)){
-				if ($elem == 'datedeb_event' || $elem == 'datefin_event')
+				if ($elem == 'repeat' || $elem == 'alldaylong_event')
+	        $toUpdate->$elem = (_request($elem))*1;
+				elseif ($elem == 'datedeb_event' || $elem == 'datefin_event')
 	        $toUpdate->$elem = Kernel::_validDateProperties(_request($elem));
 				else
 					$toUpdate->$elem = _request($elem);

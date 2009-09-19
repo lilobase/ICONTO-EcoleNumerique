@@ -399,10 +399,6 @@ if($debug) echo "comboclassesinecole ".date("H:i:s")." ".(microtime(true)-$start
 			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboempty', array('fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"')));
 if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
 		}
-		
-//$sql = "SELECT 1 AS FIN";
-//$dbw->fetchAll ($sql);
-
 		$visib = array (
 			'USER_ELE' => Kernel::getUserTypeVisibility ('USER_ELE'),
 			'USER_ENS' => Kernel::getUserTypeVisibility ('USER_ENS'),
