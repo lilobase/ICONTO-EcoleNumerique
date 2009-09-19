@@ -672,7 +672,7 @@ class ActionGroupComptes extends CopixActionGroup {
 
 
 		$nodeinfo['type'] = _request('node_type');
-		$nodeinfo['id'  ] = $this->vars['node_id'  ];
+		$nodeinfo['id'  ] = _request('node_id'  );
 		$tplGetUser->assign ('node', $nodeinfo );
 		$tplGetUser->assign ('user', $userinfo );
 		$tplGetUser->assign ('error', _request('error') );

@@ -104,7 +104,6 @@ class TeleproceduresService {
 	 * @return null
 	 */
 	function saveDroits ($pTable, $pId, $pField, $pArUsers) {
-		$ct = & CopixDBFactory::getConnection ();
 		$droit = null;
 		
 		if ($pField == 'responsables') $droit = TeleproceduresService::DROIT_RESPONSABLE;
@@ -120,7 +119,7 @@ class TeleproceduresService {
 			$droitField = 'idinter';
 		}
 		
-		$ct->doQuery($sqlDelete);
+		_doQuery($sqlDelete);
 		$daoTypeDroit = _dao($daoDroit);
 		foreach ($pArUsers as $user) {
 			$newDroit = _record($daoDroit);

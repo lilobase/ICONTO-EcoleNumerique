@@ -512,11 +512,11 @@ class ActionGroupEvent extends CopixActionGroup {
 	function _validFromForm (& $toUpdate){
 		$toCheck = array ('id_agenda', 'title_event', 'desc_event','place_event', 'datefin_event', 'datedeb_event', 'alldaylong_event', 'repeat', 'repeat_event', 'endrepeat_event', 'nb_fois', 'dateendrepeat_event');
 		foreach ($toCheck as $elem){
-			if (isset ($this->vars[$elem])){
+			if (_request($elem)){
 				if ($elem == 'datedeb_event' || $elem == 'datefin_event')
-	        $toUpdate->$elem = Kernel::_validDateProperties($this->vars[$elem]);
+	        $toUpdate->$elem = Kernel::_validDateProperties(_request($elem));
 				else
-					$toUpdate->$elem = $this->vars[$elem];
+					$toUpdate->$elem = _request($elem);
 			}
 		}
 		

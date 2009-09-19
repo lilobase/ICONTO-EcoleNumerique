@@ -24,7 +24,6 @@ class DAOLogs {
 	function getStatsModule ($params){
 		//print_r($params);
 		$stats = array();
-		$ct = & CopixDBFactory::getConnection ();
 		$query = "SELECT COUNT(id) AS nb, action FROM module_stats_logs WHERE";
 		$query .= " module_type='".$params['module_type']."'";
 		$query .= " AND module_id=".$params['module_id']."";
@@ -34,7 +33,7 @@ class DAOLogs {
 			$query .= " AND DATE_FORMAT(date, '%Y-%m-%d')<='".$params['date_fin']."'";
 		$query .= " GROUP BY action ORDER BY nb DESC";
 		//Kernel::deb($query);
-		$result = $ct->doQuery ($query);
+		$result = _doQuery ($query);
     while ($r = $result->fetch ()) {
 			$stats[] = $r;
 		}
@@ -52,7 +51,6 @@ class DAOLogs {
 	function getStatsModuleAction ($params){
 		//print_r($params);
 		$stats = array();
-		$ct = & CopixDBFactory::getConnection ();
 		$query = "SELECT COUNT(id) AS nb, objet_a FROM module_stats_logs WHERE";
 		$query .= " module_type='".$params['module_type']."'";
 		$query .= " AND module_id=".$params['module_id']."";
@@ -63,7 +61,7 @@ class DAOLogs {
 			$query .= " AND DATE_FORMAT(date, '%Y-%m-%d')<='".$params['date_fin']."'";
 		$query .= " GROUP BY objet_a ORDER BY nb DESC";
 		//Kernel::deb($query);
-		$result = $ct->doQuery ($query);
+		$result = _doQuery ($query);
     while ($r = $result->fetch ()) {
 			$stats[] = $r;
 		}

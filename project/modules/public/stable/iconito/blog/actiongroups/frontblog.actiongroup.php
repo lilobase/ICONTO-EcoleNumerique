@@ -324,8 +324,8 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	function _validFromPostProperties (& $toUpdate){
 		$arMaj = array ('id_bact', 'authorid_bacc', 'authorname_bacc', 'authoremail_bacc', 'authorweb_bacc', 'authorip_bacc', 'date_bacc', 'time_bacc', 'content_bacc');
 		foreach ($arMaj as $var){
-			if (isset ($this->vars[$var])){
-				$toUpdate->$var = $this->vars[$var];
+			if (_request($var)){
+				$toUpdate->$var = _request($var);
 			}
 		}
 	}

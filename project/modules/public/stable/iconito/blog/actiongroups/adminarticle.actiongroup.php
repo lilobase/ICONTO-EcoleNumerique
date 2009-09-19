@@ -304,11 +304,11 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   function _validFromPostProperties (& $toUpdate){
     $arMaj = array ('id_blog', 'name_bact', 'sumary_bact', 'content_bact', 'date_bact', 'time_bact', 'author_bact', 'url_bact', 'format_bact');
     foreach ($arMaj as $var){
-      if (isset ($this->vars[$var])){
+      if (_request($var)){
 				if ($var == 'date_bact')
-	        $toUpdate->$var = Kernel::_validDateProperties($this->vars[$var]);
+	        $toUpdate->$var = Kernel::_validDateProperties(_request($var));
 				else
-	        $toUpdate->$var = $this->vars[$var];
+	        $toUpdate->$var = _request($var);
       }
     }
     if(strlen($toUpdate->url_bact)==0 && strlen($toUpdate->name_bact)>0) {

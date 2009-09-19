@@ -65,8 +65,8 @@ class ActionGroupAdminPage extends CopixActionGroup {
 	function _validFromPostProperties (& $toUpdate){
 		$arMaj = array ('id_blog', 'name_bpge', 'content_bpge', 'author_bpge', 'date_bpge', 'url_bpge', 'format_bpge');
 		foreach ($arMaj as $var){
-			if (isset ($this->vars[$var])){
-				$toUpdate->$var = $this->vars[$var];
+			if (_request($var)){
+				$toUpdate->$var = _request($var);
 			}
 		}
     if(strlen($toUpdate->url_bpge)==0 && strlen($toUpdate->name_bpge)>0) {

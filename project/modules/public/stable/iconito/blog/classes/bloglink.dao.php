@@ -32,13 +32,12 @@ class DAOBlogLink {
     */
    function doUp ($id_blog, $link) {
       if (intVal($link->order_blnk) > 1) {
-         $ct = & CopixDBFactory::getConnection ();
          // MoveUp previous menu
          $sqlSwap1 = 'UPDATE module_blog_link SET order_blnk='.$link->order_blnk.' WHERE id_blog='.$id_blog.' AND order_blnk='.(intval($link->order_blnk) - 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveDown this menu
          $sqlSwap2 = 'UPDATE module_blog_link SET order_blnk=order_blnk-1 WHERE id_blog='.$id_blog.' AND id_blnk='.$link->id_blnk;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -48,8 +47,7 @@ class DAOBlogLink {
     * @return
     */
    function doDown ($id_blog, $link) {
-      $ct = & CopixDBFactory::getConnection ();
-      $RS = $ct->doQuery('SELECT MAX(order_blnk) as max FROM module_blog_link WHERE id_blog='.$id_blog);
+      $RS = _doQuery('SELECT MAX(order_blnk) as max FROM module_blog_link WHERE id_blog='.$id_blog);
       if ($record = $RS->fetch()) {
          $maxOrder = $record->max;
       }else{
@@ -58,10 +56,10 @@ class DAOBlogLink {
    	if ($link->order_blnk < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_link SET order_blnk='.$link->order_blnk.' WHERE id_blog='.$id_blog.' AND order_blnk='.(intval($link->order_blnk) + 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveUp this menu
          $sqlSwap2 = 'UPDATE module_blog_link SET order_blnk=order_blnk+1 WHERE id_blog='.$id_blog.' AND id_blnk='.$link->id_blnk;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -86,15 +84,14 @@ class DAOBlogLink {
     * @return
     */
    function delete ($item) {
-       $ct = & CopixDBFactory::getConnection ();
 
        // Delete menu item
        $sqlDelete = 'DELETE FROM module_blog_link WHERE id_blnk=' . $item->id_blnk;
-       $ct->doQuery($sqlDelete);
+       _doQuery($sqlDelete);
        
        // Reorder
        $sqlOrdre = 'UPDATE module_blog_link SET order_blnk=order_blnk - 1 WHERE order_blnk > '.$item->order_blnk;
-       $ct->doQuery($sqlOrdre);
+       _doQuery($sqlOrdre);
    }
     /**
     * Get all links from a blog

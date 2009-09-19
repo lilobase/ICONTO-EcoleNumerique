@@ -207,21 +207,6 @@ class DAOBlogArticle {
 		$arIds = array();
 		foreach($arCritere as $word) {
 
-			/*
-			$query = 'SELECT * FROM module_blog_article where id_blog = ' . $id_blog . '
-						AND is_online=1 
-						AND ((name_bact LIKE \'%' . $word . '%\') OR (sumary_bact LIKE \'%' . $word . '%\')
-							OR (content_bact LIKE \'%' . $word . '%\')) 
-							ORDER BY date_bact DESC, time_bact DESC, id_bact DESC' ;
-							
-	        $ct = CopixDBFactory::getConnection ($this->_connectionName);
-	        $result = $ct->doQuery ($query);
-	
-	        while ($r = $result->fetch ()) {
-	            $arResultat[] = $r;
-	        }
-				*/
-
 			$arArticle = $this->findByCritere ($id_blog, '%'.$word.'%');
 			
 			foreach ($arArticle as $key=>$article){
@@ -239,29 +224,7 @@ class DAOBlogArticle {
 				}
 			}
 		}
-		//var_dump($arArticle);
-		//$arResultat = $arArticle;
-		/*
-		//on supprime les doublons
-		$arResultSansDoublon = array();
-		foreach($arResultat as $key=>$value){
-			if( !isset($arResultSansDoublon[$value->id_bact])){
-				$arResultSansDoublon[$value->id_bact] = $value;
-			}
-		}
 		
-		// on renseigne les catégories
-		foreach ($arResultSansDoublon as $key=>$article){
-			$sp = _daoSp ();
-			$sp->addCondition ('id_bact', '=', $article->id_bact);
-
-			$arResultSansDoublon[$key]->categories = array();
-			foreach ($daoLink->findBy($sp) as $object) {
-				$arResultSansDoublon[$key]->categories[] = $dao->get($object->id_bacg);
-			}
-		}
-    return $arResultSansDoublon;
-		*/
 		return $arResultat;
 	}
 
@@ -331,19 +294,18 @@ class DAOBlogArticle {
     * @return
     */
 	function delete ($item){
-		$ct = & CopixDBFactory::getConnection ();
 
 		// Delete link with category table
 		$sqlDelete = 'DELETE FROM module_blog_article_blogarticlecategory WHERE id_bact=' . $item->id_bact;
-		$ct->doQuery($sqlDelete);
+		_doQuery($sqlDelete);
 
 		// Delete article comment
 		$sqlDelete = 'DELETE FROM module_blog_articlecomment WHERE id_bact=' . $item->id_bact;
-		$ct->doQuery($sqlDelete);
+		_doQuery($sqlDelete);
 
 		// Delete article
 		$sqlDelete = 'DELETE FROM module_blog_article WHERE id_bact=' . $item->id_bact;
-		$ct->doQuery($sqlDelete);
+		_doQuery($sqlDelete);
 	}
 
 }

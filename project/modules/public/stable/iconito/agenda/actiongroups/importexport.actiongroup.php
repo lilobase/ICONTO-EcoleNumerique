@@ -358,8 +358,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function _validFromFormImportParams (& $toUpdate){
 		$toCheck = array ('id_agenda', 'import_ordi', 'import_internet','option');
 		foreach ($toCheck as $elem){
-			if (isset ($this->vars[$elem])){
-				$toUpdate->$elem = $this->vars[$elem];
+			if (_request($elem)){
+				$toUpdate->$elem = _request($elem);
 			}
 		}
 	}
@@ -428,11 +428,11 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function _validFromFormExportParams (& $toUpdate){
 		$toCheck = array ('id_agenda', 'datedeb_export', 'datefin_export');
 		foreach ($toCheck as $elem){
-			if (isset ($this->vars[$elem])){
+			if (_request($elem)){
 				if ($elem == 'datedeb_export' || $var == 'datefin_event')
-	        $toUpdate->$elem = Kernel::_validDateProperties($this->vars[$elem]);
+	        $toUpdate->$elem = Kernel::_validDateProperties(_request($elem));
 				else
-					$toUpdate->$elem = $this->vars[$elem];
+					$toUpdate->$elem = _request($elem);
 			}
 		}
 		$toUpdate->agenda = (_request("agenda")) ? _request("agenda") : array();

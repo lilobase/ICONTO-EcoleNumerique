@@ -50,7 +50,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		if (_request('updateAgendaAffiches')){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
-				if(isset($this->vars['agendas_'.$agenda->id_agenda])){
+				if(_request('agendas_'.$agenda->id_agenda)){
 					$arIdAgendas[$agenda->id_agenda] = $agenda->id_agenda;
 				}
 			}
@@ -64,7 +64,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		//on met à jour la session
 		$this->_setSessionSemaineParams($params);
 		
-		//on détermine la date de début et de fin de la semaine en cours d'affichage
+		//on determine la date de début et de fin de la semaine en cours d'affichage
 		$dateDebutSemaine = date('Ymd', $dateService->numweekToDate($params->numSemaine, $params->annee, 1));//date au format bdd
 		$dateFinSemaine   = date('Ymd', $dateService->numweekToDate($params->numSemaine, $params->annee, 0));//date au format bdd
 		$arEventsSemaine  = array();
@@ -133,7 +133,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$tpl = & new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', $title['title']);
     
-		$tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches, 'parent'=>$title['parent'])));
+		$tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches, 'parent'=>(isset($title['parent'])?$title['parent']:''))));
 
 		$tpl->assign ('MAIN', $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
@@ -153,7 +153,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		if (_request('updateAgendaAffiches')){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
-				if(isset($this->vars['agendas_'.$agenda->id_agenda])){
+				if(_request('agendas_'.$agenda->id_agenda)){
 					$arIdAgendas[$agenda->id_agenda] = $agenda->id_agenda;
 				}
 			}

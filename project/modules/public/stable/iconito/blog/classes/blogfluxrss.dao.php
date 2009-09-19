@@ -33,13 +33,12 @@ class DAOBlogFluxRss {
     */
    function doUp ($id_blog, $fluxRss) {
       if (intVal($fluxRss->order_bfrs) > 1) {
-         $ct = & CopixDBFactory::getConnection ();
          // MoveUp previous menu
          $sqlSwap1 = 'UPDATE module_blog_fluxrss SET order_bfrs='.$fluxRss->order_bfrs.' WHERE id_blog='.$id_blog.' AND order_bfrs='.(intval($fluxRss->order_bfrs) - 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveDown this menu
          $sqlSwap2 = 'UPDATE module_blog_fluxrss SET order_bfrs=order_bfrs-1 WHERE id_blog='.$id_blog.' AND id_bfrs='.$fluxRss->id_bfrs;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -49,8 +48,7 @@ class DAOBlogFluxRss {
     * @return
     */
    function doDown ($id_blog, $fluxRss) {
-      $ct = & CopixDBFactory::getConnection ();
-      $RS = $ct->doQuery('SELECT MAX(order_bfrs) as max FROM module_blog_fluxrss WHERE id_blog='.$id_blog);
+      $RS = _doQuery('SELECT MAX(order_bfrs) as max FROM module_blog_fluxrss WHERE id_blog='.$id_blog);
       if ($record = $RS->fetch()) {
          $maxOrder = $record->max;
       }else{
@@ -59,10 +57,10 @@ class DAOBlogFluxRss {
    	if ($link->order_blnk < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_fluxrss SET order_bfrs='.$fluxRss->order_bfrs.' WHERE id_blog='.$id_blog.' AND order_bfrs='.(intval($fluxRss->order_bfrs) + 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveUp this menu
          $sqlSwap2 = 'UPDATE module_blog_fluxrss SET order_bfrs=order_bfrs+1 WHERE id_blog='.$id_blog.' AND id_bfrs='.$fluxRss->id_bfrs;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -87,15 +85,14 @@ class DAOBlogFluxRss {
     * @return
     */
    function delete ($item) {
-       $ct = & CopixDBFactory::getConnection ();
 
        // Delete menu item
        $sqlDelete = 'DELETE FROM module_blog_fluxrss WHERE id_bfrs=' . $item->id_bfrs;
-       $ct->doQuery($sqlDelete);
+       _doQuery($sqlDelete);
        
        // Reorder
        $sqlOrdre = 'UPDATE module_blog_fluxrss SET order_bfrs=order_bfrs - 1 WHERE order_bfrs > '.$item->order_bfrs;
-       $ct->doQuery($sqlOrdre);
+       _doQuery($sqlOrdre);
    }
    
     /**

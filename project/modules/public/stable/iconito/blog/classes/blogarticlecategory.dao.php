@@ -66,13 +66,12 @@ class DAOBlogarticlecategory {
     */
    function doUp ($id_blog, $category) {
       if (intVal($category->order_bacg) > 1) {
-         $ct = & CopixDBFactory::getConnection ();
          // MoveUp previous menu
          $sqlSwap1 = 'UPDATE module_blog_articlecategory SET order_bacg='.$category->order_bacg.' WHERE id_blog='.$id_blog.' AND order_bacg='.(intval($category->order_bacg) - 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveDown this menu
          $sqlSwap2 = 'UPDATE module_blog_articlecategory SET order_bacg=order_bacg-1 WHERE id_blog='.$id_blog.' AND id_bacg='.$category->id_bacg;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -82,8 +81,7 @@ class DAOBlogarticlecategory {
     * @return
     */
    function doDown ($id_blog, $category) {
-      $ct = & CopixDBFactory::getConnection ();
-      $RS = $ct->doQuery('SELECT MAX(order_bacg) as max FROM module_blog_articlecategory WHERE id_blog='.$id_blog);
+      $RS = _doQuery('SELECT MAX(order_bacg) as max FROM module_blog_articlecategory WHERE id_blog='.$id_blog);
       if ($record = $RS->fetch()) {
          $maxOrder = $record->max;
       }else{
@@ -92,10 +90,10 @@ class DAOBlogarticlecategory {
    	if ($category->order_bacg < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_articlecategory SET order_bacg='.$category->order_bacg.' WHERE id_blog='.$id_blog.' AND order_bacg='.(intval($category->order_bacg) + 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveUp this menu
          $sqlSwap2 = 'UPDATE module_blog_articlecategory SET order_bacg=order_bacg+1 WHERE id_blog='.$id_blog.' AND id_bacg='.$category->id_bacg;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -120,15 +118,14 @@ class DAOBlogarticlecategory {
     * @return
     */
    function delete ($item) {
-       $ct = & CopixDBFactory::getConnection ();
 
        // Delete menu item
        $sqlDelete = 'DELETE FROM module_blog_articlecategory WHERE id_bacg=' . $item->id_bacg;
-       $ct->doQuery($sqlDelete);
+       _doQuery($sqlDelete);
        
        // Reorder
        $sqlOrdre = 'UPDATE module_blog_articlecategory SET order_bacg=order_bacg - 1 WHERE order_bacg > '.$item->order_bacg;
-       $ct->doQuery($sqlOrdre);
+       _doQuery($sqlOrdre);
    } 
 
 		/**

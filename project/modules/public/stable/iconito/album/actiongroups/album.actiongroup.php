@@ -1402,7 +1402,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		
 		if( count($pictures) ) {
 			foreach( $pictures as $picture ) {
-				if( $this->vars['photo_'.$picture->photo_id] ) {
+				if( _request['photo_'.$picture->photo_id] ) {
 					$picture_modif = $photo_dao->get($picture->photo_id);
 					$picture_modif->photo_dossier = _request('folder_move');
 					$photo_dao->update( $picture_modif );

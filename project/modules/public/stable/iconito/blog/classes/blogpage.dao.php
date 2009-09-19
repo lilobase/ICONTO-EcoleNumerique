@@ -66,13 +66,12 @@ class DAOBlogPage {
     */
    function doUp ($id_blog, $page) {
       if (intVal($page->order_bpge) > 1) {
-         $ct = & CopixDBFactory::getConnection ();
          // MoveUp previous menu
          $sqlSwap1 = 'UPDATE module_blog_page SET order_bpge='.$page->order_bpge.' WHERE id_blog='.$id_blog.' AND order_bpge='.(intval($page->order_bpge) - 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveDown this menu
          $sqlSwap2 = 'UPDATE module_blog_page SET order_bpge=order_bpge-1 WHERE id_blog='.$id_blog.' AND id_bpge='.$page->id_bpge;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -82,8 +81,7 @@ class DAOBlogPage {
     * @return
     */
    function doDown ($id_blog, $page) {
-      $ct = & CopixDBFactory::getConnection ();
-      $RS = $ct->doQuery('SELECT MAX(order_bpge) as max FROM module_blog_page WHERE id_blog='.$id_blog);
+      $RS = _doQuery('SELECT MAX(order_bpge) as max FROM module_blog_page WHERE id_blog='.$id_blog);
       if ($record = $RS->fetch()) {
          $maxOrder = $record->max;
       }else{
@@ -92,10 +90,10 @@ class DAOBlogPage {
    	if ($page->order_bpge < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_page SET order_bpge='.$page->order_bpge.' WHERE id_blog='.$id_blog.' AND order_bpge='.(intval($page->order_bpge) + 1);
-         $ct->doQuery($sqlSwap1);
+         _doQuery($sqlSwap1);
          // MoveUp this menu
          $sqlSwap2 = 'UPDATE module_blog_page SET order_bpge=order_bpge+1 WHERE id_blog='.$id_blog.' AND id_bpge='.$page->id_bpge;
-         $ct->doQuery($sqlSwap2);
+         _doQuery($sqlSwap2);
       }
    }
    
@@ -120,15 +118,14 @@ class DAOBlogPage {
     * @return
     */
    function delete ($item) {
-       $ct = & CopixDBFactory::getConnection ();
 
        // Delete menu item
        $sqlDelete = 'DELETE FROM module_blog_page WHERE id_bpge=' . $item->id_bpge;
-       $ct->doQuery($sqlDelete);
+       _doQuery($sqlDelete);
        
        // Reorder
        $sqlOrdre = 'UPDATE module_blog_page SET order_bpge=order_bpge - 1 WHERE order_bpge > '.$item->order_bpge;
-       $ct->doQuery($sqlOrdre);
+       _doQuery($sqlOrdre);
    }
    
 }

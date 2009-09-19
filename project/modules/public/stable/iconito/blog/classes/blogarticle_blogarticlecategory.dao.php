@@ -15,14 +15,13 @@ class DAOBlogarticle_blogarticlecategory {
 
 	function deleteAndInsert ($id_bact, $tabCategories){
 		if(count($tabCategories) > 0) {
-			$ct = & CopixDBFactory::getConnection ();
 			// Delete all data
 			$sqlSwap1 = 'DELETE FROM module_blog_article_blogarticlecategory WHERE id_bact='.$id_bact;
-			$ct->doQuery($sqlSwap1);
+			_doQuery($sqlSwap1);
 			// insert new data
 			foreach($tabCategories as $id_bacg) {
 				$sqlSwap2 = 'INSERT INTO module_blog_article_blogarticlecategory (id_bact , id_bacg)VALUES (\''.$id_bact.'\', \''.$id_bacg.'\')';
-				$ct->doQuery($sqlSwap2);
+				_doQuery($sqlSwap2);
 			}
 		}
 	}

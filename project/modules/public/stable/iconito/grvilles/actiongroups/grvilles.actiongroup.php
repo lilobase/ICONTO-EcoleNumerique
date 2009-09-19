@@ -79,7 +79,7 @@ class ActionGroupGrvilles extends CopixActionGroup {
 			$grvilles_gr2ville->updated_at = $date;
 			$grvilles_gr2ville->updated_by = $user['login'];
 			foreach( $villes AS $ville ) {
-				if( isset($this->vars["ville_".$ville->vil_id_vi]) && $this->vars["ville_".$ville->vil_id_vi]==1 ) {
+				if( _request("ville_".$ville->vil_id_vi])==1 ) {
 					$grvilles_gr2ville->id_ville = $ville->vil_id_vi;
 					$dao_grvilles_gr2ville->insert($grvilles_gr2ville);
 				}

@@ -47,15 +47,14 @@ class DAOBlog {
     * @return
     */
 	function delete ($id_blog) {
-		$ct = & CopixDBFactory::getConnection ();
 
 		// Delete item
 		$sqlDelete = 'DELETE FROM module_blog WHERE id_blog=' . $id_blog;
-		$ct->doQuery($sqlDelete);
+		_doQuery($sqlDelete);
 
 		// Delete item
 		$sqlDelete = 'DELETE FROM module_blog_functions WHERE id_blog=' . $id_blog;
-		$ct->doQuery($sqlDelete);
+		_doQuery($sqlDelete);
 	}
 }
 
