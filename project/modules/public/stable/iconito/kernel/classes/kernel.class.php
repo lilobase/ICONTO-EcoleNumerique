@@ -1391,7 +1391,7 @@ class Kernel {
 		$cache_type = 'getmynodes';
 		$cache_id = $bu_type.'-'.$bu_id;
 		
-		if (1 || !CopixCache::exists($cache_id, $cache_type)) { //La donnee n’est pas en cache, on traite la demande. // TODO : remettre avec cache
+		if (!CopixCache::exists($cache_id, $cache_type)) { //La donnee n’est pas en cache, on traite la demande.
 		
 			//var_dump("getMyNodes / type=$type / id=$id");
 			$data = array();

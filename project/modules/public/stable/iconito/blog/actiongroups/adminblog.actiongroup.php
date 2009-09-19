@@ -716,10 +716,8 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			while (list(,$user) = each ($tabInscrits)) {
 				//print_r($user);
 				Kernel::setLevel("MOD_BLOG", $id, $user["type"], $user["id"], $droit);
-				$cache = & new CopixCache ($user["type"].'-'.$user["id"], 'getnodeparents');
-				$cache->remove ();
-				$cache = & new CopixCache ($user["type"].'-'.$user["id"], 'getmynodes');
-				$cache->remove ();
+				CopixCache::clear ($user["type"].'-'.$user["id"], 'getnodeparents');
+				CopixCache::clear ($user["type"].'-'.$user["id"], 'getmynodes');
 			}
 
 			$back = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id, 'kind'=>$kind));
@@ -768,10 +766,8 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 				if ($user_type && $user_id) {
 					//print ("user_type=$user_type / user_id=$user_id");
 					Kernel::setLevel("MOD_BLOG", $id, $user_type, $user_id, 0);
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getnodeparents');
-					$cache->remove ();
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getmynodes');
-					$cache->remove ();
+					CopixCache::clear ($user_type.'-'.$user_id, 'getnodeparents');
+					CopixCache::clear ($user_type.'-'.$user_id, 'getmynodes');
 				}
 			}
 

@@ -855,10 +855,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 				if ($user_type && $user_id) {
 					//print ("user_type=$user_type / user_id=$user_id");
 					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, 0);
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getnodeparents');
-					$cache->remove ();
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getmynodes');
-					$cache->remove ();
+					CopixCache::clear ($user_type.'-'.$user_id, 'getnodeparents');
+					CopixCache::clear ($user_type.'-'.$user_id, 'getmynodes');
 				}
 			}
 
@@ -955,10 +953,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 				
 				while (list(,$user) = each ($tabInscrits)) {
 					$kernel_service->setLevel("CLUB", $id, $user["type"], $user["id"], PROFILE_CCV_MEMBER, $debut, $fin);
-					$cache = & new CopixCache ($user["type"].'-'.$user["id"], 'getnodeparents');
-					$cache->remove ();
-					$cache = & new CopixCache ($user["type"].'-'.$user["id"], 'getmynodes');
-					$cache->remove ();
+					CopixCache::clear ($user["type"].'-'.$user["id"], 'getnodeparents');
+					CopixCache::clear ($user["type"].'-'.$user["id"], 'getmynodes');
 				}
 
 				$back = CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id));
@@ -1036,10 +1032,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 					continue;
 				} elseif ($action == '0') {	// On ne l'accepte pas
 					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, 0);
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getnodeparents');
-					$cache->remove ();
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getmynodes');
-					$cache->remove ();
+					CopixCache::clear ($user_type.'-'.$user_id, 'getnodeparents');
+					CopixCache::clear ($user_type.'-'.$user_id, 'getmynodes');
           // On l'informe par minimail
   				$userInfo = Kernel::getUserInfo($user_type, $user_id);
 					$his_nom = _currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom');
@@ -1053,10 +1047,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 				} elseif ($action == '1') {	// On l'accepte !
 					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, 0);
 					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, PROFILE_CCV_MEMBER, $debutW, $finW);
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getnodeparents');
-					$cache->remove ();
-					$cache = & new CopixCache ($user_type.'-'.$user_id, 'getmynodes');
-					$cache->remove ();
+					CopixCache::clear ($user_type.'-'.$user_id, 'getnodeparents');
+					CopixCache::clear ($user_type.'-'.$user_id, 'getmynodes');
           // On l'informe par minimail
   				$userInfo = Kernel::getUserInfo($user_type, $user_id);
 					$his_nom = _currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom');
@@ -1119,10 +1111,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 		} else {
 			
 			$kernel_service->setLevel("CLUB", $id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'), PROFILE_CCV_SHOW);
-			$cache = & new CopixCache (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getnodeparents');
-			$cache->remove ();
-			$cache = & new CopixCache (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getmynodes');
-			$cache->remove ();
+			CopixCache::clear (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getnodeparents');
+			CopixCache::clear (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getmynodes');
 			
 			// On récupère le propriétaire, afin de lui envoyer un message
 			$childs = $kernel_service->getNodeChilds( "CLUB", $id );

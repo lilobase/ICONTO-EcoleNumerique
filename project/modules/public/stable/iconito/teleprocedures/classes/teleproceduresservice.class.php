@@ -175,17 +175,19 @@ class TeleproceduresService {
 	function getDroit ($idinter) {
 		$user_type = _currentUser()->getExtra('type');
 		$user_id = _currentUser()->getExtra('id');
-		$cache = new CopixCache ($user_type.'-'.$user_id.'-'.$idinter, 'telepdroit');
-		$cacheRead = $cache->read ();
-		if ($cacheRead == '' || $cacheRead == null) {
+		
+		$cache_id = $user_type.'-'.$user_id.'-'.$idinter;
+		$cache_type = 'telepdroit';
+		
+		if (!CopixCache::exists ($cache_id, $cache_type)) {
 			$getDroit = 0;
 			$DAOinterventionDroit = & _dao ('teleprocedures|intervention_droit');
 			if ($droit = $DAOinterventionDroit->findForIdinterAndUser ($idinter, $user_type, $user_id))
 				$getDroit = $droit[0]->droit;
 			
-			$cache->write ($getDroit);
+			CopixCache::write ($cache_id, $content, $cache_type);
 		} else // En cache
-			$getDroit = ($cacheRead);
+			$getDroit = CopixCache::read ($cache_id, $cache_type);
 		return $getDroit;
 	}
 
