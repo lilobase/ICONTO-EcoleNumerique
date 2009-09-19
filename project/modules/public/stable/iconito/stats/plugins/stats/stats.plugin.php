@@ -53,7 +53,6 @@ class PluginStats extends CopixPlugin {
 		$par = getUrlTab ($_GET);
 		
 		//print_r($this);
-		//print_r($_SESSION);
 		
 		$module = ($this->module) ? $this->module : ( isset($par['module']) ? $par['module'] : '');
 		$action = ($this->action) ? $this->action : ( isset($par['action']) ? $par['action'] : '');
@@ -97,15 +96,14 @@ class PluginStats extends CopixPlugin {
 			$par['objet_b'] = $this->objet_b;
 
 			$chaine = $par['module_type'].'/'.$par['module_id']. '/'.$par['action'].'/'. $par['objet_a'].'/'.$par['objet_b'];
-
-			if ($this->config->cache == true && isset($_SESSION['cache']['stats'][$chaine]) && $_SESSION['cache']['stats'][$chaine] == 1)
+			
+			if ($this->config->cache == true && _sessionGet ('cache|stats|'.$chaine))
 				return;
 			//Kernel::deb($chaine);
 			
 	    $objMetier->add ($par);
 			if ($this->config->cache == true)
-				$_SESSION['cache']['stats'][$chaine] = 1;
-		
+				_sessionSet ('cache|stats|'.$chaine, 1);
 		}
 		
    }

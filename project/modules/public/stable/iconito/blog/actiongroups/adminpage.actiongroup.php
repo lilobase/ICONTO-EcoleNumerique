@@ -304,7 +304,6 @@ class ActionGroupAdminPage extends CopixActionGroup {
 	* @access : private.
 	*/
 	function _setSessionPage ($toSet){
-		//$_SESSION['MODULE_BLOG_SAISIE_PAGE'] = $toSet !== null ? serialize($toSet) : null;
 	}
 	
 	
@@ -313,8 +312,6 @@ class ActionGroupAdminPage extends CopixActionGroup {
 	* @access : private.
 	*/
 	function _getSessionPage () {
-		//CopixDAOFactory::fileInclude ('event');
-		//return isset ($_SESSION['MODULE_BLOG_SAISIE_PAGE']) ? unserialize ($_SESSION['MODULE_BLOG_SAISIE_PAGE']) : null;
 	}
 }
 ?>

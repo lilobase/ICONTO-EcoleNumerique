@@ -35,7 +35,7 @@ class PluginKernel extends CopixPlugin {
 				$_SESSION["user"]->bu = Kernel::getUserInfo( "LOGIN", $_SESSION["user"]->login );
 				$_SESSION["user"]->_isIdentified = true; // true;
 				if (isset($GLOBALS['COPIX']['DEBUG'])) {
-					$GLOBALS['COPIX']['DEBUG']->addInfo("Login ("._currentUser()->getExtra('type')."/"._currentUser()->getExtra('id')." : ".$_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"].")", 'Kernel Plugin :');
+					$GLOBALS['COPIX']['DEBUG']->addInfo("Login ("._currentUser()->getExtra('type')."/"._currentUser()->getExtra('id')." : "._currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom').")", 'Kernel Plugin :');
 				}
 				
 				// Cas du parent d'élève
@@ -83,10 +83,7 @@ class PluginKernel extends CopixPlugin {
 */
 					} elseif( count($mynodes) == 1 ) {
 						$home = current($mynodes);
-						/*
-						$_SESSION["user"]->home["type"] = $home->type;
-						$_SESSION["user"]->home["id"] = $home->id;
-						*/
+
 						Kernel::setMyNode( $home->type, $home->id );
 						// return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getHome' ));
 					} else {
@@ -109,7 +106,7 @@ class PluginKernel extends CopixPlugin {
 		{
 			
 			if (isset($GLOBALS['COPIX']['DEBUG'])&&isset( $_SESSION["user"]->bu )){
-				$GLOBALS['COPIX']['DEBUG']->addInfo("Logout ("._currentUser()->getExtra('type')."/"._currentUser()->getExtra('id')." : ".$_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"].")", 'Kernel Plugin :');
+				$GLOBALS['COPIX']['DEBUG']->addInfo("Logout ("._currentUser()->getExtra('type')."/"._currentUser()->getExtra('id')." : "._currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom').")", 'Kernel Plugin :');
 			}
 			
 			if( isset( $_SESSION["user"]->bu ) )

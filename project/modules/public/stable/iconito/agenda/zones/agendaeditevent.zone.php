@@ -62,8 +62,6 @@ class ZoneAgendaEditEvent extends CopixZone {
         $id_agenda = $idAgenda;
     }
     
-    //print_r($_SESSION);
-    
 		$tpl->assign('arTitleAgendasAffiches', $listeFiltre);
 		$tpl->assign('arError'    , $this->getParam('errors'));
 		$tpl->assign('toEdit'     , $this->getParam('toEdit'));

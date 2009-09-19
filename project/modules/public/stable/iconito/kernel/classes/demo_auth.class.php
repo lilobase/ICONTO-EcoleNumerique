@@ -19,7 +19,6 @@ class Demo_Auth {
 	 * @return boolean True s'il a le droit, false sinon
 	 */
 	function canInstall () {
-    //print_r($_SESSION);
 		return (_currentUser()->user->getLogin() == 'admin');
 	}
 

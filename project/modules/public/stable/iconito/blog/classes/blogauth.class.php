@@ -55,16 +55,12 @@ class BlogAuth {
 	* return : Le prénom et le nom de l'utilisateur connecté
 	*/
 	function getUserInfos($id_blog=NULL) {
-		/* ... */
-		//print_r($_SESSION);
 		$user = new user();
 		if ($id_blog) {
-			if (!isset($_SESSION['cache']['right']['MOD_BLOG'][$id_blog])) {
-				$_SESSION['cache']['right']['MOD_BLOG'][$id_blog] = Kernel::getLevel("MOD_BLOG", $id_blog);
-				//Kernel::deb ("getUserInfos($id_blog)");
-				//print_r($_SESSION);
+			if (!_sessionGet ('cache|right|MOD_BLOG|'.$id_blog)) {
+				_sessionSet ('cache|right|MOD_BLOG|'.$id_blog, Kernel::getLevel("MOD_BLOG", $id_blog));
 			}
-			$user->right = $_SESSION['cache']['right']['MOD_BLOG'][$id_blog];
+			$user->right = _sessionGet ('cache|right|MOD_BLOG|'.$id_blog);
 		}
 		return $user;
 	}

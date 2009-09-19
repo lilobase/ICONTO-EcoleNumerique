@@ -578,7 +578,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			if ($rFiche->ecole_type)
 				$subject .= ' ('.$rFiche->ecole_type.')';
 			
-			$de = $_SESSION['user']->bu['prenom'].' '.$_SESSION['user']->bu['nom'];
+			$de = _currentUser()->getExtra('prenom').' '._currentUser()->getExtra('nom');
 	
 			$message = '';
 			$message .= "<p>L'intervention suivante vous est transmise par ".$de.".</p>";

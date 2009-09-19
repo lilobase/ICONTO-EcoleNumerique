@@ -115,7 +115,6 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$arLecons = $agendaService->getLeconsByDay((array)$params->agendas, $dateDebutSemaine, $dateFinSemaine);
 		
 		//récupération de la liste des agendas affichés
-		//$listAgendasAffiches = $_SESSION['modules']['agenda']['affiches'];
     $listAgendasAffiches = $obj->getAgendaAffiches();
 
 		//template pour agenda
@@ -181,7 +180,8 @@ class ActionGroupAgenda extends CopixActionGroup {
 	* @access : private.
 	*/
 	function _setSessionSemaineParams ($toSet){
-		$_SESSION['modules']['agenda']['vue_semaine'] = $toSet !== null ? serialize($toSet) : null;
+		$toSession = ($toSet !== null) ? serialize($toSet) : null;
+		_sessionSet('modules|agenda|vue_semaine', $toSession);
 	}
 	
 	
@@ -190,7 +190,8 @@ class ActionGroupAgenda extends CopixActionGroup {
 	* @access : private.
 	*/
 	function _getSessionSemaineParams () {
-		return isset ($_SESSION['modules']['agenda']['vue_semaine']) ? unserialize ($_SESSION['modules']['agenda']['vue_semaine']) : null;
+		$inSession = _sessionGet ('modules|agenda|vue_semaine');
+		return ($inSession) ? unserialize ($inSession) : null;
 	}
 
 	/**

@@ -673,9 +673,6 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		
 		if (!$droit)
 			$errors[] = CopixI18N::get ('blog.error.subscribe.noRight');
-			
-		//print_r($membres);
-		//print_r($_SESSION);
 		
 		if (!$errors) {
 			$tab_membres = $membres;
@@ -763,9 +760,6 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
-		
-		//print_r($membres);
-		//print_r($_SESSION);
 		
 		if (!$errors) {
 			

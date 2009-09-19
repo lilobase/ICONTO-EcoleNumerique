@@ -21,7 +21,6 @@ class ActionGroupMinimail extends CopixActionGroup {
 		
 		//$userId = _currentUser ()->getId();
 		$userId = _currentUser ()->getId();
-		//var_dump($_SESSION);
 		
 		$page = _request("page") ? _request("page") : 1;
 		$offset = ($page-1)*CopixConfig::get ('minimail|list_nblines');
@@ -236,8 +235,6 @@ class ActionGroupMinimail extends CopixActionGroup {
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$tpl = & new CopixTpl ();
-		
-		//print_r($_SESSION);
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('minimail.mess_write'));
 		$menu = '';

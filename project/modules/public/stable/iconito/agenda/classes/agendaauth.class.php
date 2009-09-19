@@ -18,14 +18,12 @@ class AgendaAuth {
 		
 		//print_r("rights=");
 		
-		if ($idAgenda && !isset($_SESSION['modules']['agenda']['rights'][$idAgenda])) {
+		if ($idAgenda && !_sessionGet ('modules|agenda|rights|'.$idAgenda)) {
 			$droit = Kernel::getModRight('MOD_AGENDA', $idAgenda);
-			$_SESSION['modules']['agenda']['rights'][$idAgenda] = $droit;
+			_sessionSet ('modules|agenda|rights|'.$idAgenda, $droit);
 		}
 
-		//print_r($_SESSION['modules']['agenda']['rights']);
-		
-    $d = $_SESSION['modules']['agenda']['rights'][$idAgenda];
+    $d = _sessionGet ('modules|agenda|rights|'.$idAgenda);
     
     if ($d >= PROFILE_CCV_MEMBER)
       $res = $this->getModerate();

@@ -83,7 +83,6 @@ class ActionGroupEvent extends CopixActionGroup {
 		}
 		
 		//récupération de la liste des agendas affichés
-		//$listAgendasAffiches = $_SESSION['AGENDAS_AFFICHES'];
 		$listAgendasAffiches = $obj->getAgendaAffiches();
 		
 		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
@@ -154,7 +153,6 @@ class ActionGroupEvent extends CopixActionGroup {
 		$listAgendas = $obj->getAvailableAgenda();
 		
 		//récupération de la liste des agendas affichés
-		//$listAgendasAffiches = $_SESSION['AGENDAS_AFFICHES'];
 		
 		$serviceAgenda = new AgendaService;
 		
@@ -493,7 +491,8 @@ class ActionGroupEvent extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionEvent ($toSet){
-		$_SESSION['modules']['agenda']['edited_event'] = $toSet !== null ? serialize($toSet) : null;
+		$toSession = ($toSet !== null) ? serialize($toSet) : null;
+		_sessionSet('modules|agenda|edited_event', $toSession);
 	}
 	
 	/**
@@ -501,8 +500,8 @@ class ActionGroupEvent extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _getSessionEvent () {
-		CopixDAOFactory::fileInclude ('event');
-		return isset ($_SESSION['modules']['agenda']['edited_event']) ? unserialize ($_SESSION['modules']['agenda']['edited_event']) : null;
+		$inSession = _sessionGet ('modules|agenda|edited_event');
+		return ($inSession) ? unserialize ($inSession) : null;
 	}
 	
 	/**

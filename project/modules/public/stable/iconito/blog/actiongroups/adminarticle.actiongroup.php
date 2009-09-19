@@ -375,7 +375,6 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 	* @access : private.
 	*/
 	function _setSessionArticle ($toSet){
-		//$_SESSION['MODULE_BLOG_SAISIE_ARTICLE'] = $toSet !== null ? serialize($toSet) : null;
 	}
 	
 	
@@ -384,8 +383,6 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 	* @access : private.
 	*/
 	function _getSessionArticle () {
-		//CopixDAOFactory::fileInclude ('event');
-		//return isset ($_SESSION['MODULE_BLOG_SAISIE_ARTICLE']) ? unserialize ($_SESSION['MODULE_BLOG_SAISIE_ARTICLE']) : null;
 	}
 }
 ?>

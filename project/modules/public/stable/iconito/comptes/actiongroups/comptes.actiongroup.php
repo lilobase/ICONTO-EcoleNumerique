@@ -51,8 +51,8 @@ class ActionGroupComptes extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 			*/
 			
-			_request("type") = $_SESSION['user']->home['type'];
-			_request("id") = $_SESSION['user']->home['id'];
+			_request("type") = _currentUser()->getExtraHome("type");
+			_request("id") = _currentUser()->getExtraHome("id");
 		}
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getnode'));
@@ -206,8 +206,11 @@ class ActionGroupComptes extends CopixActionGroup {
 		$result = $tplGetNode->fetch("getNode.tpl");
 		
 		$menu = array();
-		if( isset($_SESSION["modules"]["comptes"]["doLoginCreate"]["success"]) && sizeof($_SESSION["modules"]["comptes"]["doLoginCreate"]["success"]) ) {
-			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.showloginresult', sizeof($_SESSION["modules"]["comptes"]["doLoginCreate"]["success"]) ), 'url' => CopixUrl::get ('comptes||getLoginResult') );
+		
+		$session = _sessionGet ('modules|comptes|doLoginCreate|success');
+		
+		if( $session && is_array($session) && sizeof($session) ) {
+			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.showloginresult', sizeof($session) ), 'url' => CopixUrl::get ('comptes||getLoginResult') );
 		}
 		if( Kernel::getLevel( 'ROOT', 0 ) >= PROFILE_CCV_ADMIN ) {
 			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt') );
@@ -328,7 +331,10 @@ class ActionGroupComptes extends CopixActionGroup {
 								$node_infos = Kernel::getNodeInfo( _request('type'), _request('id'), false );
 								
 								// Garder en mémoire les comptes créés pour impression des passwords
-								$_SESSION["modules"]["comptes"]["doLoginCreate"]["success"][$typeid] = array(
+								if (!$session = _sessionGet ('modules|comptes|doLoginCreate|success'))
+									$session = array();
+								
+								$session[$typeid] = array(
 									'id'      => $user_new->id_cusr,
 									'login'   => _request('login')[$typeid],
 									'passwd'  => _request('passwd')[$typeid],
@@ -341,11 +347,15 @@ class ActionGroupComptes extends CopixActionGroup {
 									'type_nom'  => Kernel::Code2Name($user_type),
 									'node_nom' => Kernel::Code2Name(_request('type'))." ".$node_infos['nom'],
 								);
+								_sessionSet ('modules|comptes|doLoginCreate|success', $session);
 								
 							} else { // Si le lien entre la BU et le login ne fonctionne pas...
 								
 								// Garder en mémoire les echecs pour proposer une nouvelle insertion
-								$_SESSION["modules"]["comptes"]["doLoginCreate"]["error"][$typeid] = array(
+								if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
+									$session = array();
+									
+								$session[$typeid] = array(
 									'login'   => _request('login')[$typeid],
 									'passwd'  => _request('passwd')[$typeid],
 									'nom'     => $user_infos['nom'],
@@ -354,14 +364,18 @@ class ActionGroupComptes extends CopixActionGroup {
 									'bu_id'   => $user_id,
 									'error'   => 'BU2USER',
 								);
+								_sessionSet ('modules|comptes|doLoginCreate|error', $session);
 								
 								// Prévoir un Rollback pour effacer le login ?
 							}
 							
 						} else { // Si le login est impossible à créer...
 							
+							if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
+								$session = array();
+									
 							// Garder en mémoire les echecs pour proposer une nouvelle insertion
-							$_SESSION["modules"]["comptes"]["doLoginCreate"]["error"][$typeid] = array(
+							$session[$typeid] = array(
 								'login'   => _request('login')[$typeid],
 								'passwd'  => _request('passwd')[$typeid],
 								'nom'     => $user_infos['nom'],
@@ -371,6 +385,8 @@ class ActionGroupComptes extends CopixActionGroup {
 								'error'   => 'COPIXUSER',
 							);
 							
+							_sessionSet ('modules|comptes|doLoginCreate|error', $session);
+							
 						}
 						
 					} else { // Si le login existe déjà, vérification qu'il ne s'agit pas de la même personne.
@@ -379,8 +395,11 @@ class ActionGroupComptes extends CopixActionGroup {
 						$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 						$bu_user = $bu_dao->getByLogin(_request('login')[$typeid]);
 						if( $bu_user[0]->bu_type!=$user_type || $bu_user[0]->bu_id!=$user_id ) {
+							if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
+								$session = array();
+								
 							// Garder en mémoire les echecs pour proposer une nouvelle insertion
-							$_SESSION["modules"]["comptes"]["doLoginCreate"]["error"][$typeid] = array(
+							$session[$typeid] = array(
 								'login'   => _request('login')[$typeid],
 								'passwd'  => _request('passwd')[$typeid],
 								'nom'     => $user_infos['nom'],
@@ -389,6 +408,8 @@ class ActionGroupComptes extends CopixActionGroup {
 								'bu_id'   => $user_id,
 								'error'   => 'LOGINEXISTS',
 							);
+							_sessionSet ('modules|comptes|doLoginCreate|error', $session);
+							
 						}
 					}
 				}
@@ -407,7 +428,9 @@ class ActionGroupComptes extends CopixActionGroup {
 	 */
 	function getLoginResult() {
 		
-		if( !sizeof($_SESSION['modules']['comptes']['doLoginCreate']['success']) ) {
+		$inSession = _sessionGet ('modules|comptes|doLoginCreate|success');
+		
+		if( !$inSession || !is_array($inSession) || !sizeof($inSession) ) {
 			$urlReturn = CopixUrl::get ('comptes||getNode' );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
@@ -426,7 +449,8 @@ class ActionGroupComptes extends CopixActionGroup {
 		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_return'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
 		$tpl->assign ('MENU', $menu );
 		
-		$logins = $_SESSION['modules']['comptes']['doLoginCreate']['success'];
+		
+		$logins = $inSession;
 		
 		if( !_request('format') || trim(_request('format'))=='' ) {
 			$format = "default";
@@ -461,7 +485,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			*/
 			case 'session': // DEBUG
-				$main = '<pre>'.print_r( $_SESSION['modules']['comptes']['doLoginCreate']['success'], true ).'</pre>';
+				$main = '<pre>'.print_r( $inSession, true ).'</pre>';
 				break;
 			default:
 				break;
@@ -479,8 +503,9 @@ class ActionGroupComptes extends CopixActionGroup {
 	 */
 	function getPurgeResult() {
 		
-		// if( !sizeof($_SESSION['modules']['comptes']['doLoginCreate']['success']) ) {
-		if( !sizeof($_SESSION['modules']['comptes']) ) {
+		$inSession = _sessionGet ('modules|comptes|doLoginCreate|success');
+		
+		if( !$inSession || !is_array($inSession) || !sizeof($inSession) ) {
 			$urlReturn = CopixUrl::get ('comptes||getNode' );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
@@ -493,7 +518,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl->assign ('MENU', $menu );
 		
 		$tplPurgeResult = & new CopixTpl ();
-		$tplPurgeResult->assign ('logins', $_SESSION['modules']['comptes']['doLoginCreate']['success'] );
+		$tplPurgeResult->assign ('logins', $inSession );
 		$main = $tplPurgeResult->fetch ('getPurgeResult.tpl');
 		
 		$tpl->assign ( 'MAIN', $main );
@@ -507,10 +532,16 @@ class ActionGroupComptes extends CopixActionGroup {
 	 * @author	Frédéric Mossmann
 	 */
 	function doPurgeResult() {
+		
+		$inSession = _sessionGet ('modules|comptes|doLoginCreate|success');
+		
 		foreach( _request('users') AS $typeid ) {
-			if( array_key_exists( $typeid, $_SESSION['modules']['comptes']['doLoginCreate']['success'] ) )
-				unset( $_SESSION['modules']['comptes']['doLoginCreate']['success'][$typeid] );
+			if( $inSession && is_array($inSession) && array_key_exists( $typeid, $inSession ) )
+				
+				unset( $inSession[$typeid] );
 		}
+		_sessionSet ('modules|comptes|doLoginCreate|success', $inSession);
+		
 		
 		$urlReturn = CopixUrl::get ('comptes||getLoginResult' );
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);

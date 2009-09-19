@@ -21,7 +21,6 @@ class Admin {
 	 * @return boolean True s'il peut, false sinon
 	 */
   function canAdmin () {
-    //print_r($_SESSION);
     return (_currentUser()->getExtra('type') == 'USER_EXT' && _currentUser()->getExtra('id')==1);
   }
 

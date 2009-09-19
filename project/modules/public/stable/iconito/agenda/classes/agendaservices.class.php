@@ -22,7 +22,8 @@ class AgendaService {
 	* @return array tableau d'objet agenda
 	*/
     function getAvailableAgenda (){
-      if (!isset($_SESSION['modules']['agenda']['his'])) {
+			
+      if (!_sessionGet ('modules|agenda|his')) {
 				$serviceAuth   = new AgendaAuth;
 				
 				//print_r('!SESSION HIS_AGENDAS');
@@ -77,14 +78,10 @@ class AgendaService {
 				}
         //die();
 				//$sess = $daoAgenda->findAll ();
-				$_SESSION['modules']['agenda']['his'] = serialize($res);
+				_sessionSet ('modules|agenda|his', serialize($res));
 			}
 			
-			//$daoAgenda = &CopixDAOFactory::getInstanceOf ('agenda|agenda');
-			//$_SESSION['HIS_AGENDAS'] = $daoAgenda->findAll ();
-			
-			//print_r ($_SESSION['modules']['agenda']['his']);
-			return unserialize($_SESSION['modules']['agenda']['his']);
+			return unserialize(_sessionGet ('modules|agenda|his'));
     }
 	
 	
@@ -95,7 +92,7 @@ class AgendaService {
 	* @param array $pArIdAgenda tableau d'identifiant des éléments à afficher
 	*/
 	function setAgendaAffiches ($pArIdAgenda){
-		$_SESSION['modules']['agenda']['affiches'] = ($pArIdAgenda);
+		_sessionSet ('modules|agenda|affiches', $pArIdAgenda);
 	}
 	
 	
@@ -108,8 +105,8 @@ class AgendaService {
 	*/
 	function getAgendaAffiches (){
 
-		if (isset($_SESSION['modules']['agenda']['affiches']) && $_SESSION['modules']['agenda']['affiches'] != null){
-	   	return ($_SESSION['modules']['agenda']['affiches']);
+		if (_sessionGet ('modules|agenda|affiches')){
+	   	return (_sessionGet ('modules|agenda|affiches'));
 		}else{
 			$listAgendas = AgendaService::getAvailableAgenda();
       //print_r($listAgendas);

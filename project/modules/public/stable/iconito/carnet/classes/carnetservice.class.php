@@ -22,8 +22,6 @@ class CarnetService {
 		
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$res = 0;
-		//print_r2($_SESSION);
-		//print_r2($params);
 		
 		if ($params["eleve"] && $params["eleve"]!='CLASSE') {
 			switch (_currentUser()->getExtra('type')) {

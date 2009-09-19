@@ -7,7 +7,7 @@ class ZoneMyNodes extends CopixZone {
 		$tpl = & new CopixTpl ();
 		$toReturn = "";
 		
-		if( !isset($_SESSION["user"]->bu ) ) return true;
+		if( !_currentUser()->isConnected() ) return true;
 		
 		$data_old = Kernel::getMyNodes();
 		foreach( $data_old AS $key=>$val ) {

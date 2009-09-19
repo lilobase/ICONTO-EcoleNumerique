@@ -27,13 +27,6 @@ class Kernel {
 	 * 
 	 */
 	function is_connected () {
-		/*
-		if( $_SESSION["user"]->_isConnected  == 1 &&
-		    $_SESSION["user"]->_isIdentified == 1 )
-			return true;
-		else
-			return false;
-		*/
 		$user = _currentUser ();
 		return ($user && $user->isConnected());
 	}
@@ -189,7 +182,7 @@ class Kernel {
 		$nouveau_module->module_id = $module_id;
 		$dao->insert( $nouveau_module );
     if ($module_type == "MOD_AGENDA") {
-      unset($_SESSION['modules']['agenda']);
+			_sessionSet('modules|agenda', null);
     }
 		return true;
 	}
@@ -202,7 +195,7 @@ class Kernel {
 			$dao->delete( $node_type, $node_id, $module_type, $module_id );
 		}
     if ($module_type == "MOD_AGENDA") {
-      unset($_SESSION['modules']['agenda']);
+			_sessionSet('modules|agenda', null);
     }
 		return true;
 	}
@@ -273,7 +266,6 @@ class Kernel {
 	 */
 	function getNodeParents ( $type, $id ) {
     //print_r ("getNodeParents( $type, $id )<br>");
-		//var_dump($_SESSION);
 		//die();
 
 		if (1) { //La donnee n’est pas en cache, on traite la demande.
@@ -1293,8 +1285,7 @@ class Kernel {
 		//echo "getModRight( $mod_type, $mod_id, $user_type, $user_id )";
 		$droit=0;
 		if ($mod_type == "MOD_MINIMAIL") {
-			//print_r($_SESSION);
-			return ($_SESSION["user"]->_isIdentified) ? PROFILE_CCV_ADMIN : 0;
+			return (_currentUSer()->isConnected()) ? PROFILE_CCV_ADMIN : 0;
 		}
 
 		if( $user_type=="-1" && $user_id=="-1" ) {
@@ -1567,14 +1558,6 @@ class Kernel {
 	 */
 	function getSessionBU() {
 		return _currentUser()->getExtras();
-		/*
-		if( isset($_SESSION["user"]) && isset($_SESSION["user"]->bu) ) {
-			return( $_SESSION["user"]->bu );
-		} else {
-			$vide = array();
-			return( $vide );
-		}
-		*/
 	}
 
 	/**
@@ -1614,8 +1597,8 @@ class Kernel {
 
 	function whereAmI( $node_type=false, $node_id=false ) {
 		if( $node_type==false || $node_id==false ) {
-			$node_type=$_SESSION['user']->home['type'];
-			$node_id=$_SESSION['user']->home['id'];
+			$node_type=_currentUser()->getExtraHome("type");
+			$node_id=_currentUser()->getExtraHome("id");
 		}
 		
 		$where = array();

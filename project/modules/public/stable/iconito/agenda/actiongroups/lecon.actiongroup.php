@@ -214,7 +214,8 @@ class ActionGroupLecon extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionLecon ($toSet){
-		$_SESSION['modules']['agenda']['edited_lecon'] = $toSet !== null ? serialize($toSet) : null;
+		$toSession = ($toSet !== null) ? serialize($toSet) : null;
+		_sessionSet('modules|agenda|edited_lecon', $toSession);
 	}
 	
 	/**
@@ -222,8 +223,8 @@ class ActionGroupLecon extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _getSessionLecon () {
-		CopixDAOFactory::fileInclude ('lecon');
-		return isset ($_SESSION['modules']['agenda']['edited_lecon']) ? unserialize ($_SESSION['modules']['agenda']['edited_lecon']) : null;
+		$inSession = _sessionGet ('modules|agenda|edited_lecon');
+		return ($inSession) ? unserialize ($inSession) : null;
 	}
 	
 	/**

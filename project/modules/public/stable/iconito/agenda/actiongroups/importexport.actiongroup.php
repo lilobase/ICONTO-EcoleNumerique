@@ -337,7 +337,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionImport ($toSet){
-		$_SESSION['modules']['agenda']['import_agenda'] = $toSet !== null ? serialize($toSet) : null;
+		$toSession = ($toSet !== null) ? serialize($toSet) : null;
+		_sessionSet('modules|agenda|import_agenda', $toSession);
 	}
 	
 	
@@ -346,8 +347,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _getSessionImport () {
-		CopixDAOFactory::fileInclude ('event');
-		return isset ($_SESSION['modules']['agenda']['import_agenda']) ? unserialize ($_SESSION['modules']['agenda']['import_agenda']) : null;
+		$inSession = _sessionGet ('modules|agenda|import_agenda');
+		return ($inSession) ? unserialize ($inSession) : null;
 	}
 	
 	
@@ -406,7 +407,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionExport ($toSet){
-		$_SESSION['MODULE_AGENDA_EXPORT_AGENDA'] = $toSet !== null ? serialize($toSet) : null;
+		$toSession = ($toSet !== null) ? serialize($toSet) : null;
+		_sessionSet('modules|agenda|export_agenda', $toSession);
 	}
 	
 	
@@ -415,8 +417,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _getSessionExport () {
-		CopixDAOFactory::fileInclude ('event');
-		return isset ($_SESSION['MODULE_AGENDA_EXPORT_AGENDA']) ? unserialize ($_SESSION['MODULE_AGENDA_EXPORT_AGENDA']) : null;
+		$inSession = _sessionGet ('modules|agenda|export_agenda');
+		return ($inSession) ? unserialize ($inSession) : null;
 	}
 	
 	

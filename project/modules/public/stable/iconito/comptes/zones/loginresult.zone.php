@@ -13,7 +13,7 @@ class ZoneLoginResult extends CopixZone {
 		$tpl->assign('format', $this->getParam('format') );
 		$tpl->assign('type',   $this->getParam('type')   );
 		$tpl->assign('id',     $this->getParam('id')     );
-		$tpl->assign('logins', $_SESSION['modules']['comptes']['doLoginCreate']['success'] );
+		$tpl->assign('logins', _sessionGet ('modules|comptes|doLoginCreate|success') );
 		
 		switch( $this->getParam('format') ) {
 			case 'html':
@@ -30,7 +30,7 @@ class ZoneLoginResult extends CopixZone {
 			case 'pdf':
 				break;
 			case 'session':
-				$toReturn = '<pre>'.print_r( $_SESSION['modules']['comptes']['doLoginCreate']['success'], true ).'</pre>';
+				$toReturn = '<pre>'.print_r( _sessionGet ('modules|comptes|doLoginCreate|success'), true ).'</pre>';
 				break;
 			default:
 				break;

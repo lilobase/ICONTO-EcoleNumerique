@@ -182,13 +182,11 @@ class ActionGroupDefault extends CopixActionGroup {
 		}
 		
 		// Cas du parent d'élève qui ne peut revenir qu'à son accueil personnalisé avec ses enfants. CB 06/12/2006
-    //print_r($_SESSION);
     if (_currentUser()->getExtra('type') != 'USER_RES') {
   		Prefs::set( 'kernel', 'home', $pType."-".$pId );
 	  	Logs::set( array('type'=>'INFO', 'message'=>'SelectHome: '.$pType."-".$pId) );
   		Kernel::setMyNode( $pType, $pId );
     }
-		//print_r($_SESSION);
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getHome' ));
 	}
 
@@ -260,7 +258,6 @@ class ActionGroupDefault extends CopixActionGroup {
 			}		
 		}
 		
-		//print_r($_SESSION);
 		
 		if( !_currentUser()->getExtras() ||
 		    !_currentUser()->getExtraHome('type') ||

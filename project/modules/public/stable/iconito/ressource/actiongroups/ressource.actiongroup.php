@@ -240,7 +240,6 @@ class ActionGroupRessource extends CopixActionGroup {
 				'txt' => CopixI18N::get ('ressource.menu.retourListe')
 			);
 						
-			// Kernel::MyDebug( $_SESSION );
 			
 			return CopixActionGroup::process ('genericTools|Messages::getConfirm',
 				array (

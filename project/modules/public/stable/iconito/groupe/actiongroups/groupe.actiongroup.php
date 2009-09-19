@@ -1044,9 +1044,9 @@ class ActionGroupGroupe extends CopixActionGroup {
 					$cache->remove ();
           // On l'informe par minimail
   				$userInfo = Kernel::getUserInfo($user_type, $user_id);
-					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"];
+					$his_nom = _currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom');
 					$msg_from_id = _currentUser ()->getId();
-					$msg_from_login = $_SESSION["user"]->bu["login"];
+					$msg_from_login = _currentUser()->getLogin();
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.nok.title', array($groupe[0]->titre));
 					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.nok.body', array($groupe[0]->titre, $his_nom));
 					$msg_body = str_replace("\\n", "\n", $msg_body);
@@ -1061,9 +1061,9 @@ class ActionGroupGroupe extends CopixActionGroup {
 					$cache->remove ();
           // On l'informe par minimail
   				$userInfo = Kernel::getUserInfo($user_type, $user_id);
-					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"];
+					$his_nom = _currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom');
 					$msg_from_id = _currentUser ()->getId();
-					$msg_from_login = $_SESSION["user"]->bu["login"];
+					$msg_from_login = _currentUser()->getLogin();
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.ok.title', array($groupe[0]->titre));
 					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.ok.body', array($groupe[0]->titre, $his_nom));
           if ($debutW && $finW)
@@ -1149,10 +1149,9 @@ class ActionGroupGroupe extends CopixActionGroup {
 				//print_r2($userInfo);
 				if ($userInfo && $userInfo["user_id"]) {
 					
-					//print_r($_SESSION);
-					$his_nom = $_SESSION["user"]->bu["prenom"]." ".$_SESSION["user"]->bu["nom"]." ("._currentUser()->getExtra('type').")";
+					$his_nom = _currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom')." ("._currentUser()->getExtra('type').")";
 					
-					$msg_from_login = $_SESSION["user"]->bu["login"];
+					$msg_from_login = _currentUser()->getLogin();
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.title', array($groupe[0]->titre));
 					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.body', array(CopixUrl::get('groupe||getHomeAdminMembers', array("id"=>$id)),$his_nom));
 					$msg_body = str_replace("\\n", "\n", $msg_body);
