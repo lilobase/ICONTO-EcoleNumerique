@@ -56,7 +56,7 @@
 		{/if}
 	{/foreach}
 {else}
-	Votre identifiant n'existe pas dans la base unique GAEL, vous n'avez donc pas de zone de travail en particulier liée à une ville, une école ou une classe.
+	Votre identifiant n'existe pas dans la base unique GAEL, vous n'avez donc pas de zone de travail en particulier liÃ©e Ã  une ville, une Ã©cole ou une classe.
 {/if}
 <br clear="both"/>
 

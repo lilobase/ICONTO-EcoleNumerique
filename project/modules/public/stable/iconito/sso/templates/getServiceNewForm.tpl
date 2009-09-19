@@ -15,9 +15,9 @@
 	</DIV>
 {/if}
 
-Pour ajouter un nouveau service externe ("SSO"), vous avez besoin de connaître l'adresse d'enregistrement du service (URL) et être en possession d'un compte utilisateur valide sur ce site distant.
+Pour ajouter un nouveau service externe ("SSO"), vous avez besoin de connaÃ®tre l'adresse d'enregistrement du service (URL) et Ãªtre en possession d'un compte utilisateur valide sur ce site distant.
 <p></p>
-Après validation du formulaire ci-desssous, vous serez redirigé vers le site distant, sur lequel vous devrez vous authentifier. Une fois l'authentification effectuée, vous serez redirigé sur Iconito et votre accès distant sera enregistré. Vous pourrez ensuite accéder au service distant d'un simple clic, sans re-authentification.
+AprÃ¨s validation du formulaire ci-desssous, vous serez redirigÃ© vers le site distant, sur lequel vous devrez vous authentifier. Une fois l'authentification effectuÃ©e, vous serez redirigÃ© sur Iconito et votre accÃ¨s distant sera enregistrÃ©. Vous pourrez ensuite accÃ©der au service distant d'un simple clic, sans re-authentification.
 <p></p>
 <table border="0" CELLSPACING="1" CELLPADDING="1" ALIGN="CENTER">
 	<tr>

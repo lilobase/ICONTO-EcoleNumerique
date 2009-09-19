@@ -4,7 +4,7 @@
 		<li><h1>[{$data_item->type}/{$data_item->id}]: {$data_item->title}</h1>
 
 		{if $data_item->enabled neq null}
-			<h2>Modules créés</h2>
+			<h2>Modules crÃ©Ã©s</h2>
 			<ol>
 			{foreach from=$data_item->enabled item=enabled_item}
 				<li>

@@ -1,6 +1,6 @@
 <div>
-<!-- A remplacer par un annuaire interfacé GAEL -->
-Vous pouvez consulter <a href="http://demo-gael.dev.iconito.fr">GAEL</a> pour obtenir les listes d'élèves, de classes, d'écoles, etc. GAEL signifie Gestion administrative des élèves, mais gère en réalité toutes les données relatives aux parents, écoles, classes, enseignants, services vie scolaire, etc.<p>
+<!-- A remplacer par un annuaire interfacÃ© GAEL -->
+Vous pouvez consulter <a href="http://demo-gael.dev.iconito.fr">GAEL</a> pour obtenir les listes d'Ã©lÃ¨ves, de classes, d'Ã©coles, etc. GAEL signifie Gestion administrative des Ã©lÃ¨ves, mais gÃ¨re en rÃ©alitÃ© toutes les donnÃ©es relatives aux parents, Ã©coles, classes, enseignants, services vie scolaire, etc.<p>
 </div>
 <SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_carnet.js"></SCRIPT>
 
@@ -21,7 +21,7 @@ Vous pouvez consulter <a href="http://demo-gael.dev.iconito.fr">GAEL</a> pour ob
 
 {if $preview and !$errors}
 <DIV CLASS="forum_message_preview">
-<H3>Prévisualisation</H3>
+<H3>PrÃ©visualisation</H3>
 <DIV CLASS="forum_message">
 <DIV CLASS="forum_message_infos">{$titre}</DIV>
 		<DIV CLASS="forum_message_message">{$message|wiki}</DIV>
@@ -50,7 +50,7 @@ Vous pouvez consulter <a href="http://demo-gael.dev.iconito.fr">GAEL</a> pour ob
 	<tr>
 		<td CLASS="form_libelle" VALIGN="TOP">Premier message</td><td CLASS="form_saisie"><textarea name="message" style="width: 500px; height: 180px;" class="form">{$message}</textarea></td>
 	</tr>
-	<tr><td colspan="2" CLASS="form_submit"><input style="width: 55px;" class="form_button" onclick="self.location='{copixurl dest="carnet||getCarnet" classe=$classe eleve=$eleve}'" type="button" value="Annuler" /> <input style="width: 75px;" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'save');" value="Enregistrer" /> <input style="width: 75px;" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="Aperçu" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input style="width: 55px;" class="form_button" onclick="self.location='{copixurl dest="carnet||getCarnet" classe=$classe eleve=$eleve}'" type="button" value="Annuler" /> <input style="width: 75px;" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'save');" value="Enregistrer" /> <input style="width: 75px;" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="AperÃ§u" /></td></tr>
 	
 </table>
 <p><p></p></p>

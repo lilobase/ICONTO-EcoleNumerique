@@ -9,19 +9,19 @@
 	<td><textarea name="ressource_descr" rows="20" cols="60">{$ressource->ressource_descr}</textarea></td>
 </tr>
 <tr>
-	<th valign="top" align="right">Mots clé :</th>
+	<th valign="top" align="right">Mots clÃ© :</th>
 	<td><input name="ressource_mots" value="{$ressource->ressource_mots}" size="80"></td>
 </tr>
 <tr>
 	<th valign="top" align="right">Type :</th>
 	<td>
 	<select name="type">
-	<option value="0" SELECTED>--- à renseigner ---</option>
+	<option value="0" SELECTED>--- Ã  renseigner ---</option>
 	<option value="1">Site web</option>
 	<option value="2">Page web</option>
 	<option value="3">Image</option>
 	<option value="4">Son</option>
-	<option value="5">Vidéo</option>
+	<option value="5">VidÃ©o</option>
 </select>
 	</td>
 </tr>
@@ -34,14 +34,14 @@
 	</td>
 </tr>
 <tr>
-	<th valign="top" align="right">Compétences :</th>
+	<th valign="top" align="right">CompÃ©tences :</th>
 	<td>
-	<div style="margin-bottom: 5px; margin-left: 0px;"><LABEL for="comp-1"><input type="checkbox" name="comp" value="1" id="comp-1">Compétence 1</LABEL></div>
-	<div style="margin-bottom: 5px; margin-left: 0px;"><LABEL for="comp-2"><input type="checkbox" name="comp" value="2" id="comp-2">Compétence 2</LABEL>
-		<div style="margin-bottom: 5px; margin-left: 20px;"><LABEL for="comp-2-1"><input type="checkbox" name="comp" value="2" id="comp-2">Compétence 2 - Sous-compétence 1</LABEL></div>
-		<div style="margin-bottom: 5px; margin-left: 20px;"><LABEL for="comp-2-2"><input type="checkbox" name="comp" value="2" id="comp-2">Compétence 2 - Sous-compétence 2</LABEL></div>
+	<div style="margin-bottom: 5px; margin-left: 0px;"><LABEL for="comp-1"><input type="checkbox" name="comp" value="1" id="comp-1">CompÃ©tence 1</LABEL></div>
+	<div style="margin-bottom: 5px; margin-left: 0px;"><LABEL for="comp-2"><input type="checkbox" name="comp" value="2" id="comp-2">CompÃ©tence 2</LABEL>
+		<div style="margin-bottom: 5px; margin-left: 20px;"><LABEL for="comp-2-1"><input type="checkbox" name="comp" value="2" id="comp-2">CompÃ©tence 2 - Sous-compÃ©tence 1</LABEL></div>
+		<div style="margin-bottom: 5px; margin-left: 20px;"><LABEL for="comp-2-2"><input type="checkbox" name="comp" value="2" id="comp-2">CompÃ©tence 2 - Sous-compÃ©tence 2</LABEL></div>
 	</div>
-	<div style="margin-bottom: 5px; margin-left: 0px;"><LABEL for="comp-3"><input type="checkbox" name="comp" value="3" id="comp-3">Compétence 3</LABEL></div>
+	<div style="margin-bottom: 5px; margin-left: 0px;"><LABEL for="comp-3"><input type="checkbox" name="comp" value="3" id="comp-3">CompÃ©tence 3</LABEL></div>
 	</td>
 </tr>
 

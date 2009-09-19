@@ -7,7 +7,7 @@
 
 <!-- 
 <DIV ALIGN="RIGHT">
-{if $usr.ALL->ele_date_nais}Né(e) le {$usr.ALL->ele_date_nais|datei18n:"date_short"}{/if}
+{if $usr.ALL->ele_date_nais}NÃ©(e) le {$usr.ALL->ele_date_nais|datei18n:"date_short"}{/if}
 </DIV>
 -->
 

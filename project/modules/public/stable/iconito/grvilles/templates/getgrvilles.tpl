@@ -15,7 +15,7 @@
 	</td>
 	
 	<td width="70%" bgcolor="white" valign="top">
-		<h2>{if $grvilles_id}Modifier un regroupement{else}Créer un regroupement{/if}</h2>
+		<h2>{if $grvilles_id}Modifier un regroupement{else}CrÃ©er un regroupement{/if}</h2>
 		<form method="POST">
 			<input id="form_id" name="form_id" type="hidden" value="{$grvilles_infos->id}" />
 			<input id="save" name="save" type="hidden" value="1" />
@@ -26,7 +26,7 @@
 			</p>
 			
 			<p class="form_villes">
-			<label for="form_villes" class="gras">Villes associées</label>
+			<label for="form_villes" class="gras">Villes associÃ©es</label>
 			<div class="villes">
 				<table border="0" width="100%">
 					<tr>

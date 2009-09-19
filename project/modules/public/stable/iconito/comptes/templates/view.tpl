@@ -6,7 +6,7 @@
 <b>{$ecole.nom}</b> ({$ecole.desc})<br />
 {$ecole.ALL->eco_num_rue}{$ecole.ALL->eco_num_seq}, {$ecole.ALL->eco_adresse1}<br />
 {$ecole.ALL->eco_code_postal} {$ecole.ALL->eco_commune}<br />
-<img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="Téléphone" title="Téléphone" border="0" hspace="1" /> {$ecole.ALL->eco_tel}
+<img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="TÃ©lÃ©phone" title="TÃ©lÃ©phone" border="0" hspace="1" /> {$ecole.ALL->eco_tel}
 
 
 
@@ -50,7 +50,7 @@
 {/foreach}
 </div>
 
-<h3>Elèves</h3>
+<h3>ElÃ¨ves</h3>
 <div id="eleves">
 {foreach from=$classe.eleves item=eleve}
 <div><img src="{copixresource path="img/annuaire/sexe`$eleve.info.sexe`a.png"}" width="15" height="17" /> {$eleve.info.prenom} {$eleve.info.nom|upper} {if $eleve.info.login}<A HREF="{copixurl dest="minimail||getNewForm" login=$eleve.info.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="Lui envoyer un minimail" TITLE="Lui envoyer un minimail" BORDER="0" /></A>{/if}</DIV>

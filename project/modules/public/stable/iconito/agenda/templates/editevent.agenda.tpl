@@ -11,7 +11,7 @@
 {literal}
 <script type="text/javascript">
 //<![CDATA[
-//fonction qui test si la case 'toute la journée' est cochée
+//fonction qui test si la case 'toute la journÃ©e' est cochÃ©e
 //afin de rendre les champs 'heuredeb_event' et 'heurefin_event' inactifs
 function inactivechampheure(obj){
 	if (obj.checked == true){
@@ -24,8 +24,8 @@ function inactivechampheure(obj){
 	}
 }
 
-//fonction qui test si la case 'répétition' est cochée
-//afin de rendre la zone Répétition inactive
+//fonction qui test si la case 'rÃ©pÃ©tition' est cochÃ©e
+//afin de rendre la zone RÃ©pÃ©tition inactive
 function inactivechamprepetition(obj){
 	if (obj.checked == false){
 		obj.form.repeat_event.disabled = 'disabled';
@@ -119,7 +119,7 @@ function inactivechamprepetition(obj){
 				</tr>
 				<tr>
 					<td><input type="radio" id="date" name="endrepeat_event" value="date"{if $toEdit->repeat eq "0" || $toEdit->repeat eq null}disabled{/if} {if $toEdit->endrepeat_event eq "date" || ($toEdit->endrepeatdate_event neq null && "99999999" neq $toEdit->endrepeatdate_event)}checked{/if} /><label for="{i18n key="agenda.message.repeatsince"}">{i18n key="agenda.message.repeatsince"}</label>
-					<!--Si le bouton "indefiniment" est cochée, on ne met pas la date de fin de répétition-->
+					<!--Si le bouton "indefiniment" est cochÃ©e, on ne met pas la date de fin de rÃ©pÃ©tition-->
 					{if "99999999" eq $toEdit->endrepeatdate_event}					
 						{assign var=myDate value=""}
 					{else}
@@ -129,7 +129,7 @@ function inactivechamprepetition(obj){
                      		{assign var=myDate value=$toEdit->dateendrepeat_event|datei18n}
                   		{/if}
 					{/if}
-		        	<!--Si la case de répétition n'est pas cochée, on grise le champ-->			
+		        	<!--Si la case de rÃ©pÃ©tition n'est pas cochÃ©e, on grise le champ-->			
 					{if $toEdit->repeat eq "0" || $toEdit->repeat eq null}
 						{calendar name="dateendrepeat_event" value=$myDate disabled=true}
 					{else}

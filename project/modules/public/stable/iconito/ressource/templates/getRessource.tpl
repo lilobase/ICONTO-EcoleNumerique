@@ -93,7 +93,7 @@
 	<td>
 	<select name="type">
 	<option value="0" SELECTED>Attente</option>
-	<option value="1">Validé</option>
+	<option value="1">ValidÃ©</option>
 	</select>
 	</td>
 </tr>
