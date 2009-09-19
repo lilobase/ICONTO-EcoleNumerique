@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gestion des préférences du module Minimail
+ * Gestion des prÃ©fÃ©rences du module Minimail
  * 
  * @package Iconito
  * @subpackage	Minimail
@@ -9,12 +9,12 @@
 class ModMinimailPrefs {
 
 	/**
-	 * Renvoie les préférences du module
+	 * Renvoie les prÃ©fÃ©rences du module
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/05
-	 * @param array $data (option) Tableau avec les données (venues de la base)
-	 * @return array Tableau de tableaux avec toutes les préférences
+	 * @param array $data (option) Tableau avec les donnÃ©es (venues de la base)
+	 * @return array Tableau de tableaux avec toutes les prÃ©fÃ©rences
 	 */
 	function getPrefs ( $data=null ) {
 		$toReturn = array();
@@ -24,7 +24,7 @@ class ModMinimailPrefs {
 			array(
 				'type'=>'titre',
 				'text'=>CopixI18N::get ('minimail|minimail.config.alerte.title'), // Alerte par email
-				'expl'=>CopixI18N::get ('minimail|minimail.config.alerte.expl'), // 'Vous pouvez être alerté par un email à chaque fois que vous recevez un minimail',
+				'expl'=>CopixI18N::get ('minimail|minimail.config.alerte.expl'), // 'Vous pouvez Ãªtre alertÃ© par un email Ã  chaque fois que vous recevez un minimail',
 			),
 			array(
 				'code'=>'alerte_minimail',
@@ -37,7 +37,7 @@ class ModMinimailPrefs {
 	}
 
 	/**
-	 * Vérifie que les valeurs saisies pour les préférences sont valides
+	 * VÃ©rifie que les valeurs saisies pour les prÃ©fÃ©rences sont valides
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/05
@@ -51,7 +51,7 @@ class ModMinimailPrefs {
 	}
 
 	/**
-	 * Enregistre les valeurs des préférences
+	 * Enregistre les valeurs des prÃ©fÃ©rences
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/05

@@ -22,7 +22,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	}
 	
 	/**
-	* Fonction qui prépare l'affichage de la vue semaine
+	* Fonction qui prÃ©pare l'affichage de la vue semaine
 	*/
 	function getVueSemaine (){
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
@@ -46,7 +46,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 			$params->annee      = $this->getRequest('annee'     , $params->annee, true);
 		}
 		
-		//pour savoir si on a cliqué sur un agenda à afficher
+		//pour savoir si on a cliquÃ© sur un agenda Ã  afficher
 		if (_request('updateAgendaAffiches')){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
@@ -58,29 +58,29 @@ class ActionGroupAgenda extends CopixActionGroup {
 		}
 
 
-		//on récupère en session les agendas à afficher
+		//on rÃ©cupÃ¨re en session les agendas Ã  afficher
 		$params->agendas = $agendaService->getAgendaAffiches();
 
-		//on met à jour la session
+		//on met Ã  jour la session
 		$this->_setSessionSemaineParams($params);
 		
-		//on determine la date de début et de fin de la semaine en cours d'affichage
+		//on determine la date de dÃ©but et de fin de la semaine en cours d'affichage
 		$dateDebutSemaine = date('Ymd', $dateService->numweekToDate($params->numSemaine, $params->annee, 1));//date au format bdd
 		$dateFinSemaine   = date('Ymd', $dateService->numweekToDate($params->numSemaine, $params->annee, 0));//date au format bdd
 		$arEventsSemaine  = array();
 
-		//on récupère tous les évènements de la semaine en cours de vue
+		//on rÃ©cupÃ¨re tous les Ã©vÃ¨nements de la semaine en cours de vue
 		foreach((array)$params->agendas as $idAgenda){
 			$arEventsSemaine[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, $dateDebutSemaine, $dateFinSemaine);
 		}
-		//on classe ces évènements par jour
+		//on classe ces Ã©vÃ¨nements par jour
 		$arEventByDay = $agendaService->getEventsByDay($arEventsSemaine, $dateDebutSemaine, $dateFinSemaine);
 		
-		//on ordonne les évènements par ordre croissant d'heure de début d'évènement dans la journée
+		//on ordonne les Ã©vÃ¨nements par ordre croissant d'heure de dÃ©but d'Ã©vÃ¨nement dans la journÃ©e
 		$arEventByDay = $agendaService->getEventsInOrderByDay($arEventByDay);
 				
-		//on détermine l'heure de début et l'heure de fin pour l'affichage du calendrier
-		//on travail sur des heures sans séparateur pour pouvoir les comparer
+		//on dÃ©termine l'heure de dÃ©but et l'heure de fin pour l'affichage du calendrier
+		//on travail sur des heures sans sÃ©parateur pour pouvoir les comparer
 		$heureDeb = CopixConfig::get('agenda|heuredebcal');
 		$heureFin = CopixConfig::get('agenda|heurefincal');
 		foreach ((array)$arEventByDay as $jours){	
@@ -102,19 +102,19 @@ class ActionGroupAgenda extends CopixActionGroup {
     
     
 		
-		//on arrondit à l'heure inférieure pour l'heure de début et à l'heure supérieure pour l'heure de fin
+		//on arrondit Ã  l'heure infÃ©rieure pour l'heure de dÃ©but et Ã  l'heure supÃ©rieure pour l'heure de fin
 		$heureDeb = substr($heureDeb, 0, 2);
-		if(substr($heureFin, 2, 2) == 0){//si les minutes sont à 0, on arrondit à l'heure
+		if(substr($heureFin, 2, 2) == 0){//si les minutes sont Ã  0, on arrondit Ã  l'heure
 			$heureFin = substr($heureFin, 0, 2);
 		}
-		else{//si les minutes ne sont pas à 0, on arrondit à l'heure supérieure
+		else{//si les minutes ne sont pas Ã  0, on arrondit Ã  l'heure supÃ©rieure
 			$heureFin = substr($heureFin, 0, 2)+1;
 		}
 
-		//on récupère les leçons de la semaine à afficher
+		//on rÃ©cupÃ¨re les leÃ§ons de la semaine Ã  afficher
 		$arLecons = $agendaService->getLeconsByDay((array)$params->agendas, $dateDebutSemaine, $dateFinSemaine);
 		
-		//récupération de la liste des agendas affichés
+		//rÃ©cupÃ©ration de la liste des agendas affichÃ©s
     $listAgendasAffiches = $obj->getAgendaAffiches();
 
 		//template pour agenda
@@ -141,7 +141,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	}
 	
 	/**
-	* Fonction qui prépare l'affichage de la zone "aujourd'hui"
+	* Fonction qui prÃ©pare l'affichage de la zone "aujourd'hui"
 	*/
 	function getZoneToday (){
 		
@@ -149,7 +149,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		
 		$agendaService  = new AgendaService;
 		
-		//pour savoir si on a cliqué sur un agenda à afficher
+		//pour savoir si on a cliquÃ© sur un agenda Ã  afficher
 		if (_request('updateAgendaAffiches')){
 			$arIdAgendas = array();			
 			foreach($listAgendas as $agenda){
@@ -160,7 +160,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 			$agendaService->setAgendaAffiches($arIdAgendas);
 		}
 
-		//on récupère en session les agendas à afficher
+		//on rÃ©cupÃ¨re en session les agendas Ã  afficher
 		$arAgendasAffiches = $agendaService->getAgendaAffiches();
 
 		$tplZoneAujourdhui = & new CopixTpl();
@@ -176,7 +176,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	}
 	
 	/**
-	* Mise en session des paramètres de la semaine à afficher
+	* Mise en session des paramÃ¨tres de la semaine Ã  afficher
 	* @access : private.
 	*/
 	function _setSessionSemaineParams ($toSet){
@@ -186,7 +186,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	
 	
 	/**
-	* Récupération en session des paramètres de la semaine à afficher
+	* RÃ©cupÃ©ration en session des paramÃ¨tres de la semaine Ã  afficher
 	* @access : private.
 	*/
 	function _getSessionSemaineParams () {
@@ -195,7 +195,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 	}
 
 	/**
-	* Entrée générique dans un agenda
+	* EntrÃ©e gÃ©nÃ©rique dans un agenda
 	* @author Christophe Beyer <cbeyer@cap-tic.fr> 
 	* @since 2006/08/24
 	* @param integer $id Id de l'agenda (si aucun, l'envoie dans l'agenda perso)
@@ -205,9 +205,9 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$dao = CopixDAOFactory::create('agenda|agenda');
 		if ($id==null) {	// Si pas d'id, on l'envoie dans son agenda perso
 			$userInfo = Kernel::getUserInfo();
-			// Création des modules inexistants.
+			// CrÃ©ation des modules inexistants.
 			Kernel::createMissingModules( $userInfo["type"], $userInfo["id"] );
-			// Liste des modules activés.
+			// Liste des modules activÃ©s.
 			$modsList = Kernel::getModEnabled( $userInfo["type"], $userInfo["id"] );
 			foreach ($modsList AS $modInfo) {
 				if( $modInfo->module_type == "MOD_AGENDA" && $modInfo->module_id) {

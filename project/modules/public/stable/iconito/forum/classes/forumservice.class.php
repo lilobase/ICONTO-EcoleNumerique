@@ -11,16 +11,16 @@ class ForumService {
 	/**
 	 * Ajoute un message dans une discussion d'un forum
 	 *
-	 * Ajoute un message dans le forum et exécute les actions liées (mise à jour du nombre de messages de la discussions, alertes...)
+	 * Ajoute un message dans le forum et exÃ©cute les actions liÃ©es (mise Ã  jour du nombre de messages de la discussions, alertes...)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/08
 	 * @param integer $topic Id de la discussion
 	 * @param integer $forum Id du forum
 	 * @param integer $auteur Id de l'utilisateur auteur du message
-	 * @param string $message Corps du message à insérer
-	 * @param string $format Format message à insérer
-	 * @return integer l'Id du message inséré ou NULL si erreur
+	 * @param string $message Corps du message Ã  insÃ©rer
+	 * @param string $format Format message Ã  insÃ©rer
+	 * @return integer l'Id du message insÃ©rÃ© ou NULL si erreur
 	 */
 	function addForumMessage ($topic, $forum, $auteur, $message, $format) {
 	
@@ -59,7 +59,7 @@ class ForumService {
 	 * @param integer $auteur Id de l'utilisateur auteur de la discussion
 	 * @param string $message Corps du premier message de la discussion
 	 * @param string $format Format du premier message de la discussion
-	 * @return integer l'Id de la discussion démarrée ou NULL si erreur
+	 * @return integer l'Id de la discussion dÃ©marrÃ©e ou NULL si erreur
 	 */
 	function addForumTopic ($forum, $auteur, $titre, $message, $format) {
 	
@@ -94,11 +94,11 @@ class ForumService {
 	
 
 	/**
-	 * Récupère les infos d'une discussion et les met à jour (nb de messages, dernier message...)
+	 * RÃ©cupÃ¨re les infos d'une discussion et les met Ã  jour (nb de messages, dernier message...)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
-	 * @param integer $id_topic Id de la discussion concernée
+	 * @param integer $id_topic Id de la discussion concernÃ©e
 	 */
 	function updateInfosTopics ($id_topic) {
 		
@@ -120,7 +120,7 @@ class ForumService {
 				$last_msg_id = $last_msg_auteur = $last_msg_date = NULL;
 			}
 
-			// 3. Mise à jour effective
+			// 3. Mise Ã  jour effective
 			$topic->nb_messages = $nb_messages;
 			$topic->last_msg_id = $last_msg_id;
 			$topic->last_msg_auteur = $last_msg_auteur;
@@ -133,7 +133,7 @@ class ForumService {
 	/**
 	 * Enregistre la date de passage d'un utilisateur dans une discussion
 	 *
-	 * Cette fonction de "tracking" permet ensuite d'afficher, pour un utilisateur, les discussions dans lesquelles de nouveaux messages ont été écrits depuis sa dernière lecture, et de le renvoyer au premier message non lu.
+	 * Cette fonction de "tracking" permet ensuite d'afficher, pour un utilisateur, les discussions dans lesquelles de nouveaux messages ont Ã©tÃ© Ã©crits depuis sa derniÃ¨re lecture, et de le renvoyer au premier message non lu.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
@@ -144,7 +144,7 @@ class ForumService {
 		$daoTracking = _dao("forum_tracking");
 		$visite = $daoTracking->get($id_topic, $user);
 		//print_r($visite);
-		if ($visite) {	// Il a déjà visité ce topic
+		if ($visite) {	// Il a dÃ©jÃ  visitÃ© ce topic
 			$visite->last_visite = date("Y-m-d H:i:s");
 			$daoTracking->update($visite);
 		} else {	// 1e visite !
@@ -162,7 +162,7 @@ class ForumService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @param integer $id_topic Id de la discussion
-	 * @return bool true si la suppression s'est bien passée, false sinon
+	 * @return bool true si la suppression s'est bien passÃ©e, false sinon
 	 */
 	function deleteForumTopic ($id_topic) {
 	
@@ -187,7 +187,7 @@ class ForumService {
 	/**
 	 * Gestion des droits dans un forum
 	 *
-	 * Teste si l'usager peut effectuer une certaine opération par rapport à son droit. Le droit sur le forum nécessite d'être connu, renvoyé par le kernel avant l'entrée dans cette fonction.
+	 * Teste si l'usager peut effectuer une certaine opÃ©ration par rapport Ã  son droit. Le droit sur le forum nÃ©cessite d'Ãªtre connu, renvoyÃ© par le kernel avant l'entrÃ©e dans cette fonction.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/02

@@ -5,7 +5,7 @@
  * @package	Iconito
  * @subpackage  Admin
  * @version     $Id: uservisibility.actiongroup.php,v 1.3 2007-01-15 14:49:30 fmossmann Exp $
- * @author      Frédéric Mossmann <fmossmann@cap-tic.fr>
+ * @author      FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
  * @copyright   2006 CAP-TIC
  * @link        http://www.cap-tic.fr
  */
@@ -15,9 +15,9 @@ _classInclude('admin|admin');
 class ActionGroupUservisibility extends CopixActionGroup {
 
 	/**
-	 * Affiche la matrice des droits de visibilité entre utilisateurs
+	 * Affiche la matrice des droits de visibilitÃ© entre utilisateurs
 	 * 
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/12/07
 	 */
 	function view () {

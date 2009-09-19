@@ -11,11 +11,11 @@ _classInclude('blog|blogutils');
 class ActionGroupAnnuaire extends CopixActionGroup {
 
    /**
-   * Redirection vers un annuaire. On peut demander à afficher un annuaire de ville ($id vaut alors "VILLE_XX"), d'école ("ECOLE_XX") ou de classe ("CLASSE_XX")
+   * Redirection vers un annuaire. On peut demander Ã  afficher un annuaire de ville ($id vaut alors "VILLE_XX"), d'Ã©cole ("ECOLE_XX") ou de classe ("CLASSE_XX")
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/17
-	 * @param string $id Annuaire demandé
+	 * @param string $id Annuaire demandÃ©
    */
 	 function go () {
    
@@ -33,7 +33,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 				$ville = $regs[1];
 		}
 		
-		// Annuaire par défaut, on regarde sa session
+		// Annuaire par dÃ©faut, on regarde sa session
 		if (!$classe && !$ecole && !$ville) {
 			$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 			$home = $annuaireService->getAnnuaireHome ();
@@ -129,11 +129,11 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		
 
    /**
-   * Affichage d'un annuaire d'école
+   * Affichage d'un annuaire d'Ã©cole
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
-	 * @param integer $ecole Id de l'école
+	 * @param integer $ecole Id de l'Ã©cole
    */
 	function getAnnuaireEcole () {
     if (!Kernel::is_connected())
@@ -157,7 +157,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		$tplListe = & new CopixTpl ();
 		//$tplListe->assign ('ecoles', $ecoles);
 		
-    // Blog de l'école
+    // Blog de l'Ã©cole
 		$blog = getNodeBlog ('BU_ECOLE', $ecole);
     if ($blog)
       $rEcole['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
@@ -233,14 +233,14 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 		
-		// Si c'est le détail d'une classe, on en déduit l'école
+		// Si c'est le dÃ©tail d'une classe, on en dÃ©duit l'Ã©cole
 		$parent = Kernel::getNodeParents ('BU_CLASSE', $classe);
 		if ($parent[0]['type']=='BU_ECOLE')
 			$ecole = $parent[0]['id'];
 
 		$rEcole = Kernel::getNodeInfo ('BU_ECOLE', $ecole, false);
     
-     // Blog de l'école
+     // Blog de l'Ã©cole
 		$blog = getNodeBlog ('BU_ECOLE', $ecole);
     if ($blog)
       $rEcole['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
@@ -267,7 +267,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 
 	
 	/**
-   * Affichage d'une fiche détaillée d'un utilisateur. Appellé en Ajax
+   * Affichage d'une fiche dÃ©taillÃ©e d'un utilisateur. AppellÃ© en Ajax
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/06
@@ -319,7 +319,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 			
-		// Annuaire par défaut, on regarde sa session
+		// Annuaire par dÃ©faut, on regarde sa session
 		if (!$classe && !$ecole && !$ville) {
 			$home = $annuaireService->getAnnuaireHome ();
 			//print_r($home);
@@ -431,9 +431,9 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		// =============== ELEVES =========================
 		$eleves = array();
 		if (isset($profils['ELE']) && $grville && $ville && $ecole && $classe && $visib['USER_ELE']!='NONE') {
-			if ($classe != $ALL)	// Une classe précise
+			if ($classe != $ALL)	// Une classe prÃ©cise
 				$eleves = $annuaireService->getEleves ('BU_CLASSE', $classe);
-			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
+			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une Ã©cole
 				$eleves = $annuaireService->getEleves ('BU_ECOLE', $ecole);
 			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les classes d'une ville
 				$eleves = $annuaireService->getEleves ('BU_VILLE', $ville);
@@ -444,9 +444,9 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		// =============== PERSONNEL =========================
 		$personnel = array();
 		if (isset($profils['PEC']) && $grville && $ville && $ecole && $classe && $visib['USER_ENS']!='NONE') {
-			if ($classe != $ALL)	// Une classe précise
+			if ($classe != $ALL)	// Une classe prÃ©cise
 				$personnel = $annuaireService->getPersonnel ('BU_CLASSE', $classe);
-			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
+			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une Ã©cole
 				$personnel = $annuaireService->getPersonnel ('BU_ECOLE', $ecole);
 			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les classes d'une ville
 				$personnel = $annuaireService->getPersonnel ('BU_VILLE', $ville);
@@ -457,9 +457,9 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		// =============== PARENTS =========================
 		$parents = array();
 		if (isset($profils['PAR']) && $grville && $ville && $ecole && $classe && $visib['USER_RES']!='NONE') {
-			if ($classe != $ALL)	// Une classe précise
+			if ($classe != $ALL)	// Une classe prÃ©cise
 				$parents = $annuaireService->getParents ('BU_CLASSE', $classe);
-			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
+			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une Ã©cole
 				$parents = $annuaireService->getParents ('BU_ECOLE', $ecole);
 			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les classes d'une ville
 				$parents = $annuaireService->getParents ('BU_VILLE', $ville);
@@ -470,7 +470,7 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		// =============== PERSONNEL ADMINISTRATIF =========================
 		$adm = array();
 		if (isset($profils['ADM']) && $grville && $ville && $ecole && $classe && $visib['USER_ADM']!='NONE') {
-			if ( ($classe != $ALL || $classe == $ALL) && $ecole != $ALL) // Les classes d'une école
+			if ( ($classe != $ALL || $classe == $ALL) && $ecole != $ALL) // Les classes d'une Ã©cole
 				$adm = $annuaireService->getPersonnelAdm ('BU_ECOLE', $ecole);
 			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les classes d'une ville
 				$adm = $annuaireService->getPersonnelAdm ('BU_VILLE', $ville);
@@ -481,9 +481,9 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		// =============== PERSONNEL EXTERIEUR =========================
 		$ext = array();
 		if (isset($profils['EXT']) && $grville && $ville && $ecole && $classe && $visib['USER_EXT']!='NONE') {
-			if ($classe != $ALL)	// Une classe précise
+			if ($classe != $ALL)	// Une classe prÃ©cise
 				$ext = $annuaireService->getPersonnelExt ('BU_CLASSE', $classe);
-			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
+			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une Ã©cole
 				$ext = $annuaireService->getPersonnelExt ('BU_ECOLE', $ecole);
 			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les classes d'une ville
 				$ext = $annuaireService->getPersonnelExt ('BU_VILLE', $ville);

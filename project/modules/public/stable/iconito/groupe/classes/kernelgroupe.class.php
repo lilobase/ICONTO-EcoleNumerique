@@ -12,11 +12,11 @@ class KernelGroupe {
 	/**
 	 * Statistiques d'un groupe
 	 *
-	 * Renvoie des éléments chiffrés relatifs à un groupe : nombre de membres
+	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs Ã  un groupe : nombre de membres
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/17
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["Membres"]
+	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["Membres"]
 	 */
 	function getStats ($id_groupe) {
 	
@@ -37,11 +37,11 @@ class KernelGroupe {
 	/**
 	 * Statistiques du module groupes de travail
 	 *
-	 * Renvoie des éléments chiffrés relatifs aux groupes de travail et dédiés à un utilisateur système : nombre de groupes, de modules...
+	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs aux groupes de travail et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : nombre de groupes, de modules...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbMessages"] ["nbMessages24h"]
+	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbMessages"] ["nbMessages24h"]
 	 */
 	function getStatsRoot () {
 		$res = array();	

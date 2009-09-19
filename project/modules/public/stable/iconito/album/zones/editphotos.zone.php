@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Album
 * @version   $Id: editphotos.zone.php,v 1.2 2007-12-07 16:20:07 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2007 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @link      http://www.iconito.org

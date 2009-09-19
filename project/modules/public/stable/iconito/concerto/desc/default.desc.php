@@ -1,9 +1,9 @@
 <?php
 
 $go             = & new CopixAction ('Concerto', 'go');       // Affiche le formulaire de connexion et autosumbit.
-$logout         = & new CopixAction ('Concerto', 'logout');   // Retour à Iconito après déconnexion de l'Espace Famille
-$return         = & new CopixAction ('Concerto', 'logout');   // Retour à Iconito après déconnexion de l'Espace Famille
-$init           = & new CopixAction ('Concerto', 'init');     // Création des comptes parents
+$logout         = & new CopixAction ('Concerto', 'logout');   // Retour Ã  Iconito aprÃ¨s dÃ©connexion de l'Espace Famille
+$return         = & new CopixAction ('Concerto', 'logout');   // Retour Ã  Iconito aprÃ¨s dÃ©connexion de l'Espace Famille
+$init           = & new CopixAction ('Concerto', 'init');     // CrÃ©ation des comptes parents
 
 $default        = & $go;
 

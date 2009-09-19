@@ -3,22 +3,22 @@
 * @package  Iconito
 * @subpackage Comptes
 * @version   $Id: comptes.actiongroup.php,v 1.35 2009-08-31 10:00:17 fmossmann Exp $
-* @author   FrÈdÈric Mossmann
+* @author   Fr√©d√©ric Mossmann
 * @copyright 2006 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
 /**
- * @author	FrÈdÈric Mossmann
+ * @author	Fr√©d√©ric Mossmann
  */
 class ActionGroupComptes extends CopixActionGroup {
 
 	/**
 	 * go
 	 *
-	 * Appel automatique, avec dÈtection du noeud ‡ afficher.
-	 * @author	FrÈdÈric Mossmann
+	 * Appel automatique, avec d√©tection du noeud √† afficher.
+	 * @author	Fr√©d√©ric Mossmann
 	 * @since	09.02.2006
 	 * 
 	 */
@@ -32,8 +32,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * getNode
 	 *
-	 * Affiche les informations d'un noeud et les utilisateurs qui y sont attachÈs.
-	 * @author	FrÈdÈric Mossmann
+	 * Affiche les informations d'un noeud et les utilisateurs qui y sont attach√©s.
+	 * @author	Fr√©d√©ric Mossmann
 	 * @since	09.02.2006
 	 * 
 	 */
@@ -227,8 +227,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * getLoginForm
 	 *
-	 * Affiche la liste des comptes ‡ crÈer, avec proposition de login/passwd.
-	 * @author	FrÈdÈric Mossmann
+	 * Affiche la liste des comptes √† cr√©er, avec proposition de login/passwd.
+	 * @author	Fr√©d√©ric Mossmann
 	 * @since	14.02.2006
 	 * 
 	 */
@@ -256,7 +256,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$user_id   = $user_infos[2];
 				$user_infos = Kernel::getUserInfo( $user_type, $user_id );
 				
-				// VÈrification de l'existance d'un login.
+				// V√©rification de l'existance d'un login.
 				// -> Si c'est le cas, il ne faut pas proposer un nouveau login.
 				$bu_user = $bu_dao->getByBUID( $user_type, $user_id );
 				if( !$bu_user ) {
@@ -282,8 +282,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * doLoginCreate
 	 *
-	 * Execute la crÈattion des comptes et sauvegarde les infos en session.
-	 * @author	FrÈdÈric Mossmann
+	 * Execute la cr√©attion des comptes et sauvegarde les infos en session.
+	 * @author	Fr√©d√©ric Mossmann
 	 * @since	16.02.2006
 	 * 
 	 */
@@ -293,44 +293,44 @@ class ActionGroupComptes extends CopixActionGroup {
 		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
 		$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 		
-		// Parcours de tous les utilisateurs de la liste prÈcÈdente...
+		// Parcours de tous les utilisateurs de la liste pr√©c√©dente...
 		foreach( _request('typeid') AS $typeid ) {
-			// Si l'utilisateur est sÈlectionnÈ, on crÈe le compte. Sinon, on ne fait rien.
+			// Si l'utilisateur est s√©lectionn√©, on cr√©e le compte. Sinon, on ne fait rien.
 			if( _request('confirm')[$typeid] == 1 ) {
-				// VÈrification du format de type "USER_ENS-23", et extraction des valeurs.
+				// V√©rification du format de type "USER_ENS-23", et extraction des valeurs.
 				if( ereg( '(.+)-(.+)', $typeid, $bu_infos ) ) {
 					$user_type = $bu_infos[1];
 					$user_id   = $bu_infos[2];
 					
 					$olduser=$user_service->get(_request('login')[$typeid]);
 					
-					// Test de prÈexistance du login dans la base. Si existe dÈj‡ : erreur.
+					// Test de pr√©existance du login dans la base. Si existe d√©j√† : erreur.
 					if( ! $olduser ) {
 						
-						// RÈcupÈration des information de l'utilisateur dans la base unique.
+						// R√©cup√©ration des information de l'utilisateur dans la base unique.
 						$user_infos = Kernel::getUserInfo( $user_type, $user_id );
 						
-						// CrÈation d'un login dans CopixUser
+						// Cr√©ation d'un login dans CopixUser
 						$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
 						$user_new->login_cusr = _request('login')[$typeid];
 						$user_new->password_cusr = md5(_request('passwd')[$typeid]);
 						$user_new->email_cusr = '';
 						
-						// Enregistrement et vÈrification de l'insertion.
+						// Enregistrement et v√©rification de l'insertion.
 						if( $user_dao->insert( $user_new ) ) {
 							
-							// CrÈation du lien entre l'utilisateur de la base unique et le login.
+							// Cr√©ation du lien entre l'utilisateur de la base unique et le login.
 							$bu_new = CopixDAOFactory::createRecord("kernel|kernel_bu2user");
 							$bu_new->user_id = $user_new->id_cusr;
 							$bu_new->bu_type = $user_type;
 							$bu_new->bu_id = $user_id;
 							
-							// Enregistrement et vÈrification de l'insertion.
+							// Enregistrement et v√©rification de l'insertion.
 							if( $bu_dao->insert( $bu_new ) ) {
 								
 								$node_infos = Kernel::getNodeInfo( _request('type'), _request('id'), false );
 								
-								// Garder en mÈmoire les comptes crÈÈs pour impression des passwords
+								// Garder en m√©moire les comptes cr√©√©s pour impression des passwords
 								if (!$session = _sessionGet ('modules|comptes|doLoginCreate|success'))
 									$session = array();
 								
@@ -351,7 +351,7 @@ class ActionGroupComptes extends CopixActionGroup {
 								
 							} else { // Si le lien entre la BU et le login ne fonctionne pas...
 								
-								// Garder en mÈmoire les echecs pour proposer une nouvelle insertion
+								// Garder en m√©moire les echecs pour proposer une nouvelle insertion
 								if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
 									$session = array();
 									
@@ -366,15 +366,15 @@ class ActionGroupComptes extends CopixActionGroup {
 								);
 								_sessionSet ('modules|comptes|doLoginCreate|error', $session);
 								
-								// PrÈvoir un Rollback pour effacer le login ?
+								// Pr√©voir un Rollback pour effacer le login ?
 							}
 							
-						} else { // Si le login est impossible ‡ crÈer...
+						} else { // Si le login est impossible √† cr√©er...
 							
 							if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
 								$session = array();
 									
-							// Garder en mÈmoire les echecs pour proposer une nouvelle insertion
+							// Garder en m√©moire les echecs pour proposer une nouvelle insertion
 							$session[$typeid] = array(
 								'login'   => _request('login')[$typeid],
 								'passwd'  => _request('passwd')[$typeid],
@@ -389,7 +389,7 @@ class ActionGroupComptes extends CopixActionGroup {
 							
 						}
 						
-					} else { // Si le login existe dÈj‡, vÈrification qu'il ne s'agit pas de la mÍme personne.
+					} else { // Si le login existe d√©j√†, v√©rification qu'il ne s'agit pas de la m√™me personne.
 						// Si c'est le cas, ce n'est pas une erreur, mais un doublon.
 						
 						$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
@@ -398,7 +398,7 @@ class ActionGroupComptes extends CopixActionGroup {
 							if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
 								$session = array();
 								
-							// Garder en mÈmoire les echecs pour proposer une nouvelle insertion
+							// Garder en m√©moire les echecs pour proposer une nouvelle insertion
 							$session[$typeid] = array(
 								'login'   => _request('login')[$typeid],
 								'passwd'  => _request('passwd')[$typeid],
@@ -423,8 +423,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * getLoginResult
 	 *
-	 * Affiche le rÈsultat de la crÈation de comptes (login, passwd) dans diffÈrents formats (html, txt, csv, etc.).
-	 * @author	FrÈdÈric Mossmann
+	 * Affiche le r√©sultat de la cr√©ation de comptes (login, passwd) dans diff√©rents formats (html, txt, csv, etc.).
+	 * @author	Fr√©d√©ric Mossmann
 	 */
 	function getLoginResult() {
 		
@@ -498,8 +498,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * getPurgeResult
 	 *
-	 * Propose l'effacement les information de crÈation de comptes, mÈmorisÈes en session.
-	 * @author	FrÈdÈric Mossmann
+	 * Propose l'effacement les information de cr√©ation de comptes, m√©moris√©es en session.
+	 * @author	Fr√©d√©ric Mossmann
 	 */
 	function getPurgeResult() {
 		
@@ -528,8 +528,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * doPurgeResult
 	 *
-	 * Efface les information de crÈation de comptes, mÈmorisÈes en session.
-	 * @author	FrÈdÈric Mossmann
+	 * Efface les information de cr√©ation de comptes, m√©moris√©es en session.
+	 * @author	Fr√©d√©ric Mossmann
 	 */
 	function doPurgeResult() {
 		
@@ -551,12 +551,12 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * doListForm TODO (description de la fonction)
 	 * @package Comptes
-	 * @author FrÈdÈric REISS
+	 * @author Fr√©d√©ric REISS
 	 * @since 14.12.2005
 	 * 
 	 */
 	function doListForm () {
-		/* DÈclaration des DAO */
+		/* D√©claration des DAO */
 //		$dao = CopixDAOFactory::create("carnet_topics");
 //		$daoMessages = CopixDAOFactory::create("carnet_messages");
 
@@ -721,10 +721,10 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * getUserExt
 	 * 
-	 * Affiche la liste des utilisateurs extÈrieurs
+	 * Affiche la liste des utilisateurs ext√©rieurs
 	 * 
 	 * @package	Comptes
-	 * @author	FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	Fr√©d√©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getUserExt() {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
@@ -762,10 +762,10 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * getUserExtMod
 	 * 
-	 * Affiche le formulaire de modification d'un utilisateur extÈrieur
+	 * Affiche le formulaire de modification d'un utilisateur ext√©rieur
 	 * 
 	 * @package	Comptes
-	 * @author	FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	Fr√©d√©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getUserExtMod() {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )

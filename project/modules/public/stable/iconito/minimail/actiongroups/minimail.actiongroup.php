@@ -8,7 +8,7 @@
 class ActionGroupMinimail extends CopixActionGroup {
 
    /**
-   * Affiche la liste des messages reçus pour l'utilisateur connecté
+   * Affiche la liste des messages reÃ§us pour l'utilisateur connectÃ©
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -59,7 +59,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 	}
 	
    /**
-   * Affiche la liste des messages envoyés pour l'utilisateur connecté
+   * Affiche la liste des messages envoyÃ©s pour l'utilisateur connectÃ©
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -114,7 +114,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 	}
 	
    /**
-   * Affiche un minimail en détail
+   * Affiche un minimail en dÃ©tail
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -143,7 +143,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		
 		$message[0]->prev = NULL;
 		$message[0]->next = NULL;
-		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyé
+		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyÃ©
 			$message[0]->type="send";
 			$prev = $daoFrom->getFromPrevMessage($message[0]->date_send,$idUser);
 			if ($prev)
@@ -151,7 +151,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 			$next = $daoFrom->getFromNextMessage($message[0]->date_send,$idUser);
 			if ($next)
 				$message[0]->next = $next->id;
-		} else {	// Il en est peut-être destinataire
+		} else {	// Il en est peut-Ãªtre destinataire
 			$isDest = $daoTo->selectDestFromIdAndToUser ($idMessage, $idUser);	// Test s'il est dans les destin
 			if ($isDest) {
 				$serv = CopixClassesFactory::create("MinimailService");
@@ -163,7 +163,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 				$next = $daoTo->getToNextMessage($message[0]->date_send,$idUser);
 				if ($next)
 					$message[0]->next = $next->id;
-			} else {	// Il tente d'afficher un message qu'il n'a pas envoyé ni reçu !
+			} else {	// Il tente d'afficher un message qu'il n'a pas envoyÃ© ni reÃ§u !
 				$errors[] = CopixI18N::get ('minimail.error.cantDisplay');
 			}
 		}
@@ -182,7 +182,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 				$dest[$j]->to_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
 			}
       
-      // Avatar de l'expéditeur
+      // Avatar de l'expÃ©diteur
 			$avatar = Prefs::get('prefs', 'avatar', $message[0]->from_id);
 			$message[0]->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
       
@@ -218,12 +218,12 @@ class ActionGroupMinimail extends CopixActionGroup {
 	
 	
    /**
-   * Formulaire d'écriture d'un minimail
+   * Formulaire d'Ã©criture d'un minimail
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
 	 * @see doSend()
-	 * @param integer $id Id du minimail si c'est une réponse à ce minimail
+	 * @param integer $id Id du minimail si c'est une rÃ©ponse Ã  ce minimail
 	 * @param string $title Titre du minimail (si formulaire soumis)
 	 * @param string $login Logins du(des) destinataire(s) (si formulaire soumis)
 	 * @param string $dest Logins du(des) destinataire(s) (si formulaire soumis)
@@ -255,7 +255,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		
 		$preview = _request("preview") ? _request("preview") : 0;
 		
-		if ($idMessage) {	// Tentative de réponse à un message
+		if ($idMessage) {	// Tentative de rÃ©ponse Ã  un message
 			$daoFrom = CopixDAOFactory::create("minimail_from");
     	$daoTo = CopixDAOFactory::create("minimail_to");
 		
@@ -293,7 +293,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 	
 	
    /**
-   * Soumission du formulaire d'écriture d'un minimail (envoie le minimail)
+   * Soumission du formulaire d'Ã©criture d'un minimail (envoie le minimail)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -301,7 +301,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 	 * @param string $dest Logins du(des) destinataire(s)
 	 * @param string $title Titre du minimail
 	 * @param string $message Corps du minimail
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param string $go Forme de soumission : preview (prÃ©visualiser) ou send (enregistrer)
    */
 	function doSend () {
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
@@ -331,7 +331,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 			$errors[] = CopixI18N::get ('minimail.error.typeFormat');
 
 		$tabDest = array();
-		// On vérifie que les destinataires existent
+		// On vÃ©rifie que les destinataires existent
 		while (list(,$login) = each ($destin)) {
 			if (!$login) continue;
 			$userInfo = Kernel::getUserInfo("LOGIN", $login);
@@ -345,7 +345,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 				$tabDest[$userInfo["user_id"]] = $userInfo["user_id"];
 		}
 		
-		// On vérifie les pièces jointes
+		// On vÃ©rifie les piÃ¨ces jointes
 		
 		CopixConfig::get ('minimail|attachment_size');
 		//print_r($_FILES);
@@ -384,7 +384,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 					$errors[] = CopixI18N::get ('minimail.error.send');
 			}
 
-      // Ajout des pièces jointes
+      // Ajout des piÃ¨ces jointes
 			if (!$errors && $go=='save') {
 				$attachments = array();
 				$dataPath = realpath("../data");
@@ -431,9 +431,9 @@ class ActionGroupMinimail extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
-	 * @param array $messages Tableau avec les Ids des minimails à supprimer (les Ids doivent être en valeurs du tableau)
-	 * @param string $mode Mode d'affichage des messages ("recv" si on supprime des messages reçus, "send" si c'est des messages envoyés)
-	 * @todo En cas de suppression, voir pour supprimer les pièces jointes
+	 * @param array $messages Tableau avec les Ids des minimails Ã  supprimer (les Ids doivent Ãªtre en valeurs du tableau)
+	 * @param string $mode Mode d'affichage des messages ("recv" si on supprime des messages reÃ§us, "send" si c'est des messages envoyÃ©s)
+	 * @todo En cas de suppression, voir pour supprimer les piÃ¨ces jointes
    */
 	function doDelete () {
 
@@ -445,12 +445,12 @@ class ActionGroupMinimail extends CopixActionGroup {
 		$daoMinimailFrom 	= CopixDAOFactory::create("minimail_from");
    	$daoMinimailTo 		= CopixDAOFactory::create("minimail_to");
 		foreach($messages as $msg) {
-			// TODO quid pièces jointes ?
-	  	if ($mode == "recv") {    // Message reçu
+			// TODO quid piÃ¨ces jointes ?
+	  	if ($mode == "recv") {    // Message reÃ§u
 				$mp = $daoMinimailTo->get($msg);
 				$mp->is_deleted = 1;
 				$daoMinimailTo->update($mp);
-  		} elseif ($mode == "send") {    // Message envoyé
+  		} elseif ($mode == "send") {    // Message envoyÃ©
 				$mp = $daoMinimailFrom->get($msg);
 				$mp->is_deleted = 1;
 				$daoMinimailFrom->update($mp);
@@ -464,12 +464,12 @@ class ActionGroupMinimail extends CopixActionGroup {
 	
 
    /**
-   * Téléchargement d'une pièce jointe (download)
+   * TÃ©lÃ©chargement d'une piÃ¨ce jointe (download)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
-	 * @param string $file Nom du fichier à télécharger
-	 * @todo Vérifier les droits par rapport au minimail contenant cette pièce jointe
+	 * @param string $file Nom du fichier Ã  tÃ©lÃ©charger
+	 * @todo VÃ©rifier les droits par rapport au minimail contenant cette piÃ¨ce jointe
    */
 	function downloadAttachment () {
 		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
@@ -489,12 +489,12 @@ class ActionGroupMinimail extends CopixActionGroup {
 	}
 	
    /**
-   * Affichage de la prévisualisation d'une pièce jointe sous forme de vignette (si c'est une image)
+   * Affichage de la prÃ©visualisation d'une piÃ¨ce jointe sous forme de vignette (si c'est une image)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
-	 * @param string $file Nom du fichier à télécharger
-	 * @todo Tester que la pièce jointe est bien attachée à un message dont l'utilisateur est destinataire ou expéditeur
+	 * @param string $file Nom du fichier Ã  tÃ©lÃ©charger
+	 * @todo Tester que la piÃ¨ce jointe est bien attachÃ©e Ã  un message dont l'utilisateur est destinataire ou expÃ©diteur
    */
 	function previewAttachment () {
 

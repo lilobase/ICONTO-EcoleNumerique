@@ -10,13 +10,13 @@ class ZoneWikiButtons extends CopixZone {
 
 	
 	/**
-	 * Affiche la sÈrie de boutons permettant ‡ l'utilisateur de mettre en forme simplement le texte qu'il saisit dans une zone de texte libre.
+	 * Affiche la s√©rie de boutons permettant √† l'utilisateur de mettre en forme simplement le texte qu'il saisit dans une zone de texte libre.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/28
-	 * @param string $field Nom du champ dans le formulaire. Correspond ‡ l'attribut "name" et "id" dans le template (les deux doivent Ítre positionnÈs)
+	 * @param string $field Nom du champ dans le formulaire. Correspond √† l'attribut "name" et "id" dans le template (les deux doivent √™tre positionn√©s)
 	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
-	 * @param array $objet (option) Module dans lequel se trouve la barre wiki, dans un tableau indexÈ avec TYPE et ID (exemple: type=>MOD_BLOG, ID=>4). Si positionnÈ, on va vÈrifier si le parent de cet objet a un album photos et une malle, et si oui on affiche les liens vers l'album photos et la malle en mode popup
+	 * @param array $objet (option) Module dans lequel se trouve la barre wiki, dans un tableau index√© avec TYPE et ID (exemple: type=>MOD_BLOG, ID=>4). Si positionn√©, on va v√©rifier si le parent de cet objet a un album photos et une malle, et si oui on affiche les liens vers l'album photos et la malle en mode popup
 	 */
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();

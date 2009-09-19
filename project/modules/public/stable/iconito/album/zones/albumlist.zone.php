@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Album
 * @version   $Id: albumlist.zone.php,v 1.2 2007-06-15 15:32:43 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2007 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @link      http://www.iconito.org

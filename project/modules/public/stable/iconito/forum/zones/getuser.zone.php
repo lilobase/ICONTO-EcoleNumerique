@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone affichant une fiche détaillée d'un utilisateur
+ * Zone affichant une fiche dÃ©taillÃ©e d'un utilisateur
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,7 +9,7 @@
 class ZoneGetUser extends CopixZone {
 
 	/**
-	 * Affiche la fiche détaillée d'un utilisateur (login, nom, prénom...)
+	 * Affiche la fiche dÃ©taillÃ©e d'un utilisateur (login, nom, prÃ©nom...)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/04

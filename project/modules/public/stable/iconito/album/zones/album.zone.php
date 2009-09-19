@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Album
 * @version   $Id: album.zone.php,v 1.2 2007-06-15 15:32:43 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2007 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @link      http://www.iconito.org
@@ -15,8 +15,8 @@ class ZoneAlbumList extends CopixZone {
 	  
 		$albumlist = array();
 		$albumlist[1] = array("nom"=>"Mon premier album");
-		$albumlist[2] = array("nom"=>"Mon deuxième album");
-		$albumlist[3] = array("nom"=>"Mon troisième album");
+		$albumlist[2] = array("nom"=>"Mon deuxiÃ¨me album");
+		$albumlist[3] = array("nom"=>"Mon troisiÃ¨me album");
 		$albumlist[4] = array("nom"=>"Mon dernier album");
 		
 		$tpl->assign('albumlist', $albumlist );

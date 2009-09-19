@@ -9,7 +9,7 @@
 class DAOKernel_bu_ele {
 
 	/**
-	 * Renvoie la liste des élèves rattachés à une classe et ayant un compte utilisateur
+	 * Renvoie la liste des Ã©lÃ¨ves rattachÃ©s Ã  une classe et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
@@ -22,11 +22,11 @@ class DAOKernel_bu_ele {
 	}
 	
 	/**
-	 * Renvoie la liste des élèves rattachés à une école et ayant un compte utilisateur
+	 * Renvoie la liste des Ã©lÃ¨ves rattachÃ©s Ã  une Ã©cole et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
-	 * @param integer $ecole Id de l'école
+	 * @param integer $ecole Id de l'Ã©cole
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInEcole ($ecole) {
@@ -36,7 +36,7 @@ class DAOKernel_bu_ele {
 	}
 	
 	/**
-	 * Renvoie la liste des élèves rattachés à une ville et ayant un compte utilisateur
+	 * Renvoie la liste des Ã©lÃ¨ves rattachÃ©s Ã  une ville et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -51,7 +51,7 @@ class DAOKernel_bu_ele {
 	
 
 	/**
-	 * Renvoie la liste des élèves rattachés à un groupe de villes et ayant un compte utilisateur
+	 * Renvoie la liste des Ã©lÃ¨ves rattachÃ©s Ã  un groupe de villes et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20

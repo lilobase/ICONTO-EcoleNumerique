@@ -1,6 +1,6 @@
 <?php
 /**
- * Actiongroup du module Stats pour les éventuelles opérations à mettre dans la crontab
+ * Actiongroup du module Stats pour les Ã©ventuelles opÃ©rations Ã  mettre dans la crontab
  * 
  * @package	Iconito
  * @subpackage Stats
@@ -15,7 +15,7 @@
 class ActionGroupCron extends CopixActionGroup {
 
   /**
-	* Mise à jour des données n'ayant pas été enregistrées au moment des logs dans la base de données. Correspond à la recherche des parents des modules
+	* Mise Ã  jour des donnÃ©es n'ayant pas Ã©tÃ© enregistrÃ©es au moment des logs dans la base de donnÃ©es. Correspond Ã  la recherche des parents des modules
 	* 
 	* @author Christophe Beyer <cbeyer@cap-tic.fr>
 	* @since 2007/06/12

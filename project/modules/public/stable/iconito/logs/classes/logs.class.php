@@ -6,7 +6,7 @@
  * @package	Iconito
  * @subpackage	Logs
  * @version   $Id: logs.class.php,v 1.3 2006-05-03 08:58:50 fmossmann Exp $
- * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
+ * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
  */
 
 

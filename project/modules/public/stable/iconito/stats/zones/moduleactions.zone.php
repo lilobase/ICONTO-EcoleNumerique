@@ -16,8 +16,8 @@
 * @since 2007/06/14
 * @param string $module_type Type du module
 * @param integer $module_id Id du module
-* @param date $date_debut (option) Début de la période interrogée (si vide : pas de restriction)
-* @param date $date_fin (option) Fin de la période interrogée (si vide : pas de restriction)
+* @param date $date_debut (option) DÃ©but de la pÃ©riode interrogÃ©e (si vide : pas de restriction)
+* @param date $date_fin (option) Fin de la pÃ©riode interrogÃ©e (si vide : pas de restriction)
 */
 class ZoneModuleActions extends CopixZone {
 	function _createContent (&$toReturn) {

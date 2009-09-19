@@ -68,13 +68,13 @@ class DAORecordBlog {
 		}
 		if(!empty($record->url_blog)) {
 			if(empty($record->id_blog)) {
-				// Création
+				// CrÃ©ation
 				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE url_blog=\'' . $record->url_blog.'\'';
 			} else {
 				// Edition
 				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE id_blog!=' . $record->id_blog.' AND url_blog=\'' . $record->url_blog.'\'';
 			}
-			// Vérification de l'unicité de l'url
+			// VÃ©rification de l'unicitÃ© de l'url
 			$DBresult = _doQuery($sqlRequest);
 			if(count($DBresult)>0) {
 				require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');

@@ -18,7 +18,7 @@ class ZoneAgendaToday extends CopixZone {
 		$agendaService = new AgendaService;
 		$serviceDate   = new DateService;
 		
-		//on détermine le jour d'affichage
+		//on dÃ©termine le jour d'affichage
 		if ($this->getParam('day') == null){					
 			$day = date('Ymd');
 			
@@ -26,22 +26,22 @@ class ZoneAgendaToday extends CopixZone {
 			$day = $this->getParam('day');
 		}
 		
-		//on récupère les évènements de la journée
+		//on rÃ©cupÃ¨re les Ã©vÃ¨nements de la journÃ©e
 		foreach($this->getParam('arAgendasAffiches') as $idAgenda){
 			$arEventsSemaine[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, $day, $day);
 		}
 		
-		//on ordonne les évènements par ordre croissant d'heure de début d'évènement dans la journée
+		//on ordonne les Ã©vÃ¨nements par ordre croissant d'heure de dÃ©but d'Ã©vÃ¨nement dans la journÃ©e
 		$arEventByDay = $agendaService->getEventsByDay($arEventsSemaine, $day, $day);		
 		$arEventByDay = $agendaService->getEventsInOrderByDay($arEventByDay);
 				
-		//on simplifie le tableau pour le passer à la zone
+		//on simplifie le tableau pour le passer Ã  la zone
 		$arDayEvent = $arEventByDay[$day]->events;
-		//on récupère la couleur d'affichage de chaque évènement
+		//on rÃ©cupÃ¨re la couleur d'affichage de chaque Ã©vÃ¨nement
 		//$arColorByEvent = $agendaService->getColorByIdEvent($arDayEvent);
 
 		$arAgendas = $agendaService->getTilteAgendaByIdAgenda($this->getParam('arAgendasAffiches'));
-		//on récupère la couleur d'affichage pour chaque agenda
+		//on rÃ©cupÃ¨re la couleur d'affichage pour chaque agenda
 		$boolCroise = array();
 		$daoAgenda = & CopixDAOFactory::getInstanceOf ('agenda|agenda');
 		

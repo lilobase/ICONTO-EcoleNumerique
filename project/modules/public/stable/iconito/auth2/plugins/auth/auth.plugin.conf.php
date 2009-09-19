@@ -3,7 +3,7 @@
 * @package	copix
 * @subpackage auth
 * @version	$Id: auth.plugin.conf.php,v 1.3 2006-03-01 10:36:15 cbeyer Exp $
-* @author	Croes Gérald,  Bertrand Yan see copix.aston.fr for other contributors.
+* @author	Croes GÃ©rald,  Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org

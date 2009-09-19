@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone ComboFolders, qui affiche la liste déroulante avec tous les dossiers d'une malle
+ * Zone ComboFolders, qui affiche la liste dÃ©roulante avec tous les dossiers d'une malle
  * 
  * @package Iconito
  * @subpackage	Malle
@@ -9,15 +9,15 @@
 class ZoneComboFolders extends CopixZone {
 
 	/**
-	 * Affiche la liste déroulante avec tous les dossiers d'une malle
+	 * Affiche la liste dÃ©roulante avec tous les dossiers d'une malle
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
 	 * @param integer $malle Id de la malle
 	 * @param integer $folder Id du dossier (0 si racine)
-	 * @param string $fieldName Nom du champ de type SELECT qui en résulte
+	 * @param string $fieldName Nom du champ de type SELECT qui en rÃ©sulte
 	 * @param string $attribs Attributs HTML de la liste (STYLE, ONCHANGE...)
-	 * @param array $linesSup Lignes supplémentaires à ajouter en haut de la liste au-dessus des dossiers (ex: "Choisissez le dossier"). Chaque ligne est un tableau, de type array ("value"=>"", "libelle"=>"Choisissez")
+	 * @param array $linesSup Lignes supplÃ©mentaires Ã  ajouter en haut de la liste au-dessus des dossiers (ex: "Choisissez le dossier"). Chaque ligne est un tableau, de type array ("value"=>"", "libelle"=>"Choisissez")
 	 */
 	function _createContent (&$toReturn) {
 

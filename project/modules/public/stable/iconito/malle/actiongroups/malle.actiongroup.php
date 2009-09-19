@@ -11,15 +11,15 @@ require_once (COPIX_UTILS_PATH.'pclzip.lib.php');
 class ActionGroupMalle extends CopixActionGroup {
 
    /**
-   * Affichage du détail d'une malle
+   * Affichage du dÃ©tail d'une malle
 	 * 
-	 * Affiche l'ensemble des fichiers, dossiers et actions possibles de réaliser dans un dossier d'une malle
+	 * Affiche l'ensemble des fichiers, dossiers et actions possibles de rÃ©aliser dans un dossier d'une malle
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/02
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $folder Id du rÃ©pertoire
+	 * @param array $errors (option) Erreurs rencontrÃ©es
    */
    function processGetMalle () {
 	 	
@@ -31,19 +31,19 @@ class ActionGroupMalle extends CopixActionGroup {
 		
 		$id = $this->getRequest ('id', null);
 		
-		// Malle perso : si $id non défini ou si $id=0
+		// Malle perso : si $id non dÃ©fini ou si $id=0
 		if( !$id ) {
-			// Récupération des infos de l'utilisateur.
+			// RÃ©cupÃ©ration des infos de l'utilisateur.
 			$userInfo = Kernel::getUserInfo();
-			// Création des modules inexistants.
+			// CrÃ©ation des modules inexistants.
 			Kernel::createMissingModules( $userInfo["type"], $userInfo["id"] );
-			// Liste des modules activés.
+			// Liste des modules activÃ©s.
 			$modsList = Kernel::getModEnabled( $userInfo["type"], $userInfo["id"] );
 			foreach( $modsList AS $modInfo ) {
 				// Recherche du module de malle.
 				//print_r($modInfo);
 				if( $modInfo->module_type == "MOD_MALLE" && $modInfo->module_id) {
-					// Sélection de la malle personnelle.
+					// SÃ©lection de la malle personnelle.
 					$urlReturn = CopixUrl::get ('malle||getMalle', array('id'=>$modInfo->module_id));
 					return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);	
 				}
@@ -82,10 +82,10 @@ class ActionGroupMalle extends CopixActionGroup {
 		} else {
 		
 		
-			// On récupère les dossiers de ce répertoire
+			// On rÃ©cupÃ¨re les dossiers de ce rÃ©pertoire
 			$folders = $daoFolders->getFoldersInFolder($id, $folder);
 			
-			// On récupère les fichiers de ce répertoire
+			// On rÃ©cupÃ¨re les fichiers de ce rÃ©pertoire
 			$files = $daoFiles->getFilesInFolder($id, $folder);
 			foreach ($files as $k=>$file) {	// Ajout des infos sur le type du fichier
 				$mime = $malleService->getTypeInfos ($file->type, $file->fichier);
@@ -139,14 +139,14 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
-	 * Affichage d'une malle en popup, permettant de sélectionner un ou plusieurs fichiers à insérer dans une zone de saisie formaté wiki (blog, forum...)
+	 * Affichage d'une malle en popup, permettant de sÃ©lectionner un ou plusieurs fichiers Ã  insÃ©rer dans une zone de saisie formatÃ© wiki (blog, forum...)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/11/23
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire
-	 * @param array $errors (option) Erreurs rencontrées
-	 * @param string $field Champ utilisé dans la fenêtre "en-dessous"
+	 * @param integer $folder Id du rÃ©pertoire
+	 * @param array $errors (option) Erreurs rencontrÃ©es
+	 * @param string $field Champ utilisÃ© dans la fenÃªtre "en-dessous"
 	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
    */
    function processGetMallePopup () {
@@ -192,10 +192,10 @@ class ActionGroupMalle extends CopixActionGroup {
 		} else {
 		
 		
-			// On récupère les dossiers de ce répertoire
+			// On rÃ©cupÃ¨re les dossiers de ce rÃ©pertoire
 			$folders = $daoFolders->getFoldersInFolder($id, $folder);
 			
-			// On récupère les fichiers de ce répertoire
+			// On rÃ©cupÃ¨re les fichiers de ce rÃ©pertoire
 			$files = $daoFiles->getFilesInFolder($id, $folder);
 			foreach ($files as $k=>$file) {	// Ajout des infos sur le type du fichier
 				$mime = $malleService->getTypeInfos ($file->type, $file->fichier);
@@ -226,7 +226,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			//if ($mondroit>=PROFILE_CCV_PUBLISH)	$tplForum->assign ('canPublish', 1);
 			//else																$tplForum->assign ('canPublish', 0);
 			
-			// On déduit le chemin absolu
+			// On dÃ©duit le chemin absolu
 			$path = $_SERVER['PHP_SELF'];
 			$pos = strrpos($path, "/");
 			if ($pos !== false) {
@@ -247,14 +247,14 @@ class ActionGroupMalle extends CopixActionGroup {
    /**
    * Affichage du formulaire d'upload d'un fichier
 	 * 
-	 * Affiche l'ensemble des fichiers, dossiers et actions possibles de réaliser dans un dossier d'une malle
+	 * Affiche l'ensemble des fichiers, dossiers et actions possibles de rÃ©aliser dans un dossier d'une malle
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/03
-	 * @deprecated Mis de côté dans le desc, on permet en effet l'upload directement depuis l'affichage de la malle
+	 * @deprecated Mis de cÃ´tÃ© dans le desc, on permet en effet l'upload directement depuis l'affichage de la malle
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire destination
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $folder Id du rÃ©pertoire destination
+	 * @param array $errors (option) Erreurs rencontrÃ©es
    */
 	function getUploadFile () {
 	
@@ -309,14 +309,14 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/03
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire destination
-	 * @param string $field (option) Si positionné, cas d'un upload en mode popup
-	 * @param string $format (option) Si positionné, cas d'un upload en mode popup
+	 * @param integer $folder Id du rÃ©pertoire destination
+	 * @param string $field (option) Si positionnÃ©, cas d'un upload en mode popup
+	 * @param string $format (option) Si positionnÃ©, cas d'un upload en mode popup
    */
 	function doUploadFile () {
 	
 		// Temporaire...
-		ini_set( 'memory_limit', '32M' ); // Pb d'allocation mémoire
+		ini_set( 'memory_limit', '32M' ); // Pb d'allocation mÃ©moire
 		ini_set( 'max_execution_time', '120' ); // Pb de temps de traitement
 
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
@@ -388,11 +388,11 @@ class ActionGroupMalle extends CopixActionGroup {
 
     if (!$errors && $_FILES['fichier']['name']) {
   		
-			// On ne permet pas le dézippage en mode popup
+			// On ne permet pas le dÃ©zippage en mode popup
   		if (!$field && !$format && in_array($_FILES['fichier']['type'], array('application/zip', 'application/x-zip-compressed', 'application/forcedownload', 'multipart/x-zip')))
   			return CopixActionGroup::process ('malle|malle::getUploadFileZip', array ('id'=>$id, 'folder'=>$folder, 'file'=>$_FILES['fichier']));
   		
-  		// On insère d'abord dans la base
+  		// On insÃ¨re d'abord dans la base
   		$new = CopixDAOFactory::createRecord("malle|malle_files");
   		$new->malle = $id;
   		$new->folder = $folder;
@@ -426,13 +426,13 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
-	 * Ajout d'un zip : on détaille son contenu et on demande s'il doit être dézippé ou pas
+	 * Ajout d'un zip : on dÃ©taille son contenu et on demande s'il doit Ãªtre dÃ©zippÃ© ou pas
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/20
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire
-	 * @param array $file Toutes les infos du fichier ajouté (issues de $_FILES)
+	 * @param integer $folder Id du rÃ©pertoire
+	 * @param array $file Toutes les infos du fichier ajoutÃ© (issues de $_FILES)
    */
 	function processGetUploadFileZip () {
 
@@ -504,14 +504,14 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
-	 * Ajout effectif d'un zip : on le décompresse ou le copie simplement
+	 * Ajout effectif d'un zip : on le dÃ©compresse ou le copie simplement
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/20
 	 * @param string $file Nom du fichier ZIP
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire
-	 * @param integer $unzip 1 si le fichier est à dézippé, 0 s'il est juste à uploader comme ça
+	 * @param integer $folder Id du rÃ©pertoire
+	 * @param integer $unzip 1 si le fichier est Ã  dÃ©zippÃ©, 0 s'il est juste Ã  uploader comme Ã§a
    */
 	function doUploadFileZip () {
 
@@ -556,7 +556,7 @@ class ActionGroupMalle extends CopixActionGroup {
 
 		$errors = array();
 		
-		if ($unzip) {	// On le dézippe
+		if ($unzip) {	// On le dÃ©zippe
 		
 			$unzipFolder = $malleService->getTmpFolder().'/zip'.mt_rand(1000,9999999);
 			if (!@mkdir ($unzipFolder)) {
@@ -609,7 +609,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			{
 				
 				
-				// On crée le dossier
+				// On crÃ©e le dossier
 				$new = CopixDAOFactory::createRecord("malle|malle_folders");
 				$new->malle = $id;
 				$new->parent = $folder;
@@ -632,7 +632,7 @@ class ActionGroupMalle extends CopixActionGroup {
 						
 						if (!file_exists($unzipFolder.'/'.$name)) continue;	// Si le fichier d'origine n'existe pas (ne devrait pas arriver)
 
-						// On insère d'abord dans la base
+						// On insÃ¨re d'abord dans la base
 						$newf = CopixDAOFactory::createRecord("malle|malle_files");
 						$newf->malle = $id;
 						$newf->folder = $new->id;
@@ -691,7 +691,7 @@ class ActionGroupMalle extends CopixActionGroup {
 						
 						$uploadFrom = $malleService->getTmpFolder().'/'.$name;
 						
-						// On insère d'abord dans la base
+						// On insÃ¨re d'abord dans la base
 						$newf = CopixDAOFactory::createRecord("malle|malle_files");
 						$newf->malle = $id;
 						$newf->folder = $folder;
@@ -737,13 +737,13 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
-   * Soumission du formulaire de création d'un dossier
+   * Soumission du formulaire de crÃ©ation d'un dossier
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/02
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire destination
-	 * @param sting $new_folder Nom du répertoire à créer
+	 * @param integer $folder Id du rÃ©pertoire destination
+	 * @param sting $new_folder Nom du rÃ©pertoire Ã  crÃ©er
    */
 	function doAddFolder () {
 	
@@ -789,7 +789,7 @@ class ActionGroupMalle extends CopixActionGroup {
 				$errors[] = CopixI18N::get ('malle|malle.error.typeFolder');
 			
 			if (!$errors) {
-				// On insère dans la base
+				// On insÃ¨re dans la base
 				$new = CopixDAOFactory::createRecord("malle|malle_folders");
 				$new->malle = $id;
 				$new->parent = $folder;
@@ -816,7 +816,7 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
-   * Téléchargement (download) d'un fichier d'une malle
+   * TÃ©lÃ©chargement (download) d'un fichier d'une malle
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/05
@@ -874,15 +874,15 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/05
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire
-	 * @param array $files Fichier sélectionnés
-	 * @param array $folders Dossiers sélectionnés
-	 * @param integer $folderDest Id du dossier destination (si copie ou déplacement)
+	 * @param integer $folder Id du rÃ©pertoire
+	 * @param array $files Fichier sÃ©lectionnÃ©s
+	 * @param array $folders Dossiers sÃ©lectionnÃ©s
+	 * @param integer $folderDest Id du dossier destination (si copie ou dÃ©placement)
 	 * @param string $actionDelete Si l'action est "supprimer"
-	 * @param string $actionMove Si l'action est "déplacer"
+	 * @param string $actionMove Si l'action est "dÃ©placer"
 	 * @param string $actionCopy Si l'action est "copier"
 	 * @param string $actionRename Si l'action est "renommer"
-	 * @param string $actionDownloadZip Si l'action est "télécharger en zip"
+	 * @param string $actionDownloadZip Si l'action est "tÃ©lÃ©charger en zip"
    */
    function doAction () {
 	 	
@@ -958,13 +958,13 @@ class ActionGroupMalle extends CopixActionGroup {
 				}
 			}
 			
-			elseif ($actionMove) {	// ================ Déplacer =================
+			elseif ($actionMove) {	// ================ DÃ©placer =================
 				
 				// Parcours des fichiers
 				foreach ($files as $item) {
 					$oFile = $daoFiles->get ($item);
 					if ($folder!=$folderDest && $oFile && $oFile->malle==$id && $oFile->folder==$folder) {
-						// On regarde si ce fichier n'est pas déjà présent dans le répertoire destination
+						// On regarde si ce fichier n'est pas dÃ©jÃ  prÃ©sent dans le rÃ©pertoire destination
 						$deja = $daoFiles->isFichierInFolder($oFile->fichier, $folderDest);
 						if (!$deja) {
 							$oFile->folder = $folderDest;
@@ -980,10 +980,10 @@ class ActionGroupMalle extends CopixActionGroup {
 					$oFolder = $daoFolders->get ($item);
 					if ($folder!=$folderDest && $oFolder && $oFolder->malle==$id && $oFolder->parent==$folder) {
 						//print_r($oFolder);
-						// On vérifie que la destination n'est pas "sous" la source
+						// On vÃ©rifie que la destination n'est pas "sous" la source
 						$under = $malleService->isFolderUnderFolder ($folderDest, $item);
 						if (!$under) {	// OK
-							// On vérifie qu'un dossier de même nom n'existe pas déjà dans la destination
+							// On vÃ©rifie qu'un dossier de mÃªme nom n'existe pas dÃ©jÃ  dans la destination
 							$deja = $daoFolders->isFolderInFolder($oFolder->nom, $folderDest);
 							if (!$deja) {
 								$oFolder->parent = $folderDest;
@@ -1003,7 +1003,7 @@ class ActionGroupMalle extends CopixActionGroup {
 				foreach ($files as $item) {
 					$oFile = $daoFiles->get ($item);
 					if ($folder!=$folderDest && $oFile && $oFile->malle==$id && $oFile->folder==$folder) {
-						// On regarde si ce fichier n'est pas déjà présent dans le répertoire destination
+						// On regarde si ce fichier n'est pas dÃ©jÃ  prÃ©sent dans le rÃ©pertoire destination
 						$deja = $daoFiles->isFichierInFolder($oFile->fichier, $folderDest);
 						//print_r($deja);
 						if (!$deja) {
@@ -1019,10 +1019,10 @@ class ActionGroupMalle extends CopixActionGroup {
 					$oFolder = $daoFolders->get ($item);
 					if ($folder!=$folderDest && $oFolder && $oFolder->malle==$id && $oFolder->parent==$folder) {
 						//print_r($oFolder);
-						// On vérifie que la destination n'est pas "sous" la source
+						// On vÃ©rifie que la destination n'est pas "sous" la source
 						$under = $malleService->isFolderUnderFolder ($folderDest, $item);
 						if (!$under) {
-							// On vérifie qu'un dossier de même nom n'existe pas déjà dans la destination
+							// On vÃ©rifie qu'un dossier de mÃªme nom n'existe pas dÃ©jÃ  dans la destination
 							$deja = $daoFolders->isFolderInFolder($oFolder->nom, $folderDest);
 							if (!$deja) {
 								$copy = $malleService->copyFolder ($oFolder, $folderDest);
@@ -1059,14 +1059,14 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
-   * Affichage de la liste des fichiers/dossiers à renommer
+   * Affichage de la liste des fichiers/dossiers Ã  renommer
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/03
 	 * @param integer $id Id de la malle
 	 * @param integer $folder Id du dossier
-	 * @param array $files Liste des fichiers à renommer
-	 * @param array $folders Liste des dossiers à renommer
+	 * @param array $files Liste des fichiers Ã  renommer
+	 * @param array $folders Liste des dossiers Ã  renommer
    */
    function getActionRename () {
 	 	
@@ -1236,14 +1236,14 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
-   * Téléchargement (download) de plusieurs fichiers en un seul fichier ZIP
+   * TÃ©lÃ©chargement (download) de plusieurs fichiers en un seul fichier ZIP
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/09
 	 * @param integer $id Id de la malle
 	 * @param integer $folder Id du dossier
-	 * @param array $files Liste des fichiers sélectionnés
-	 * @param array $folders Liste des dossiers sélectionnés
+	 * @param array $files Liste des fichiers sÃ©lectionnÃ©s
+	 * @param array $folders Liste des dossiers sÃ©lectionnÃ©s
    */
    function processDoActionDownloadZip () {
 	 	

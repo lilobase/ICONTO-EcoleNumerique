@@ -4,22 +4,22 @@
 * @package  Iconito
 * @subpackage Concerto
 * @version   $Id: concerto.actiongroup.php,v 1.6 2009-09-02 09:23:44 cbeyer Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2009 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
 /**
- * @author	Frédéric Mossmann
+ * @author	FrÃ©dÃ©ric Mossmann
  */
 class ActionGroupConcerto extends CopixActionGroup {
 
 	/**
 	 * go
 	 *
-	 * Appel automatique, avec détection du noeud à afficher.
-	 * @author	Frédéric Mossmann
+	 * Appel automatique, avec dÃ©tection du noeud Ã  afficher.
+	 * @author	FrÃ©dÃ©ric Mossmann
 	 * @since	10.03.2009
 	 * 
 	 */
@@ -94,7 +94,7 @@ class ActionGroupConcerto extends CopixActionGroup {
 			if(ftell($file)==0) {
 				$entete = array('id','login','password');
 				fputcsv ( $file, $entete, ";" );
-// echo "Position=".ftell($file)." (après ajout entête)<br/>";
+// echo "Position=".ftell($file)." (aprÃ¨s ajout entÃªte)<br/>";
 			}
 
 
@@ -114,14 +114,14 @@ class ActionGroupConcerto extends CopixActionGroup {
 				$a[$a_key]->passwd = $comptes_service->createPasswd();
 				
 				
-				// Création d'un login dans CopixUser
+				// CrÃ©ation d'un login dans CopixUser
 				$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
 				$user_new->login_cusr = $a[$a_key]->login;
 				$user_new->password_cusr = md5($a[$a_key]->passwd);
 				$user_new->email_cusr = '';
 				$user_dao->insert( $user_new );
 					
-				// Création du lien entre l'utilisateur de la base unique et le login.
+				// CrÃ©ation du lien entre l'utilisateur de la base unique et le login.
 				$bu_new = CopixDAOFactory::createRecord("kernel|kernel_bu2user");
 				$bu_new->user_id = $user_new->id_cusr;
 				$bu_new->bu_type = $user_infos['type'];
@@ -136,7 +136,7 @@ class ActionGroupConcerto extends CopixActionGroup {
 // if( $cpt>=$limit) break;
 			}
 		
-// echo "Position=".ftell($file)." (après enregistrement)<br/>";
+// echo "Position=".ftell($file)." (aprÃ¨s enregistrement)<br/>";
 			fclose($file);
 		
 		}

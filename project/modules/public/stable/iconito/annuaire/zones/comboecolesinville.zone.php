@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone qui affiche la liste déroulante avec toutes les écoles d'une ville
+ * Zone qui affiche la liste dÃ©roulante avec toutes les Ã©coles d'une ville
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,15 +9,15 @@
 class ZoneComboEcolesInVille extends CopixZone {
 
 	/**
-	 * Affiche la liste déroulante avec toutes les écoles d'une ville
+	 * Affiche la liste dÃ©roulante avec toutes les Ã©coles d'une ville
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/06
 	 * @param integer $ville Id de la ville
 	 * @param integer $value Valeur actuelle de la combo
-	 * @param string $fieldName Nom du champ de type SELECT qui en résulte
+	 * @param string $fieldName Nom du champ de type SELECT qui en rÃ©sulte
 	 * @param string $attribs Attributs HTML de la liste (STYLE, ONCHANGE...)
-	 * @param array $linesSup Lignes supplémentaires à ajouter en haut de la liste au-dessus des dossiers (ex: "Choisissez l'école"). Chaque ligne est un tableau, de type array ("value"=>"", "libelle"=>"Choisissez")
+	 * @param array $linesSup Lignes supplÃ©mentaires Ã  ajouter en haut de la liste au-dessus des dossiers (ex: "Choisissez l'Ã©cole"). Chaque ligne est un tableau, de type array ("value"=>"", "libelle"=>"Choisissez")
 	 */
 	function _createContent (&$toReturn) {
 		

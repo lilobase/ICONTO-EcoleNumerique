@@ -12,9 +12,9 @@
 
 class PluginConfigStats {
 	/*
-		Détermine si l'on active le cache.
-		Si true, un seul passage dans une action précise n'est enregistrée par session
-		Si false, chaque passage est enregistré (y compris les rafraîchissements successifs)
+		DÃ©termine si l'on active le cache.
+		Si true, un seul passage dans une action prÃ©cise n'est enregistrÃ©e par session
+		Si false, chaque passage est enregistrÃ© (y compris les rafraÃ®chissements successifs)
 	*/
 	var $cache = true;
 }

@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: listarticle.zone.php,v 1.10 2007-10-15 14:12:55 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat CÃ©dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -20,7 +20,7 @@ class ZoneListArticle extends CopixZone {
 		$cat     = $this->getParam('cat' , null);
 		$critere = $this->getParam('critere' , null);
 		
-	  //on récupère l'ensemble des articles du blog
+	  //on rÃ©cupÃ¨re l'ensemble des articles du blog
       $dao = _dao('blog|blogarticle');
       
       if ($cat == null) {   
@@ -53,9 +53,9 @@ class ZoneListArticle extends CopixZone {
 
       if (count($arData)>0) {
 				
-      	//encodage des URL des catégories pour caractères spéciaux
+      	//encodage des URL des catÃ©gories pour caractÃ¨res spÃ©ciaux
       	foreach($arData as $key=>$data){
-			//Modification suite à apparition d'un warning due à l'absence de catégories , vboniface 06.11.2006
+			//Modification suite Ã  apparition d'un warning due Ã  l'absence de catÃ©gories , vboniface 06.11.2006
 			$arData[$key]->key=$key;
 			if (isset($arData[$key]->categories)) {
 				foreach($arData[$key]->categories as $keyCat=>$categorie){
@@ -81,7 +81,7 @@ class ZoneListArticle extends CopixZone {
             $tpl->assign ('listArticle'          , $Pager->data);
 			$tpl->assign ('arNbCommentByArticle' , $arNbCommentByArticle);
          }
-		 //rajout suite à bug mantis 54 vboniface 06.11.2006
+		 //rajout suite Ã  bug mantis 54 vboniface 06.11.2006
 		 $tpl->assign ('blog' , $blog);	
       }
 

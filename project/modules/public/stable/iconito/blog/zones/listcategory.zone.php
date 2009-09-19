@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: listcategory.zone.php,v 1.8 2007-06-01 16:08:43 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat CÃ©dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -20,7 +20,7 @@ class ZoneListCategory extends CopixZone {
       $dao = _dao('blog|blogarticlecategory');
       $listCategory = $dao->getAllCategoriesFromBlog($blog->id_blog);
 			
-			//encodage des URL à cause des caractères spéciaux
+			//encodage des URL Ã  cause des caractÃ¨res spÃ©ciaux
       foreach($listCategory as $key=>$category){      		
       		$listCategory[$key]->url_bacg = urlencode($category->url_bacg);      		
       }

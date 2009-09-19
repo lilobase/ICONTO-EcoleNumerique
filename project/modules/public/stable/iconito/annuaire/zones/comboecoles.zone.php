@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone qui affiche la liste déroulante avec toutes les écoles d'une ville
+ * Zone qui affiche la liste dÃ©roulante avec toutes les Ã©coles d'une ville
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,13 +9,13 @@
 class ZoneComboEcoles extends CopixZone {
 
 	/**
-	 * Affiche la liste déroulante avec toutes les écoles d'une ville
+	 * Affiche la liste dÃ©roulante avec toutes les Ã©coles d'une ville
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/06
 	 * @param integer $ville Id de la ville
 	 * @param integer $value Valeur actuelle de la combo
-	 * @param string $fieldName Nom du champ de type SELECT qui en résulte
+	 * @param string $fieldName Nom du champ de type SELECT qui en rÃ©sulte
 	 * @param string $attribs Attributs HTML de la liste (STYLE, ONCHANGE...)
 	 */
 	function _createContent (&$toReturn) {

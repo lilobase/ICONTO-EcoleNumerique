@@ -437,7 +437,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$responsables = explode (",", $responsables);
 		$tabResponsables = array();
 		$deja = array();
-		// On vérifie que les membres existent
+		// On vÃ©rifie que les membres existent
 		while (list(,$login) = each ($responsables)) {
 			if (!$login) continue;
 			$userInfo = Kernel::getUserInfo("LOGIN", $login);
@@ -457,7 +457,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$lecteurs = str_replace(array(",",";"), ",", $lecteurs);
 		$lecteurs = explode (",", $lecteurs);
 		$tabLecteurs = array();
-		// On vérifie que les membres existent
+		// On vÃ©rifie que les membres existent
 		while (list(,$login) = each ($lecteurs)) {
 			if (!$login) continue;
 			$userInfo = Kernel::getUserInfo("LOGIN", $login);
@@ -601,9 +601,9 @@ class ActionGroupDefault extends CopixActionGroup {
 			else {
 				$ok = CopixI18N::get ('teleprocedures|teleprocedures.ok.sendMail', $mail_to);
 				
-				$info_commentaire = "Mail envoyé de $from à $to";
+				$info_commentaire = "Mail envoyÃ© de $from Ã  $to";
 				if ($cc)
-					$info_commentaire .= " (copie à $cc)";
+					$info_commentaire .= " (copie Ã  $cc)";
 				if ($mail_message)
 					$info_commentaire .= " - Message d'acompagnement : ".$mail_message."";
 

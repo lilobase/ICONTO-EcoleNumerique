@@ -9,7 +9,7 @@
 class DAOListe_Listes {
 	
 	/**
-	 * Renvoie nb de messages envoyés sur une liste
+	 * Renvoie nb de messages envoyÃ©s sur une liste
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/23

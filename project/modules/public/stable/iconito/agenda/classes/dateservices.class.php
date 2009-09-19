@@ -1,6 +1,6 @@
 <?php
 /**
- * Dans ce service, se trouvent toutes les opérations sur les dates
+ * Dans ce service, se trouvent toutes les opÃ©rations sur les dates
  * @package Iconito
  * @subpackage Agenda
  * @author Audrey Vassal 
@@ -14,15 +14,15 @@ require_once (COPIX_UTILS_PATH.'CopixDateTime.class.php');
 class DateService {
 	
 	/**
-	* Ajoute un nombre de jours/mois/années à une date et retourne la nouvelle date obtenue.
+	* Ajoute un nombre de jours/mois/annÃ©es Ã  une date et retourne la nouvelle date obtenue.
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/24 
-	* @param string $ToDate La date que l'on va incrémenter. Format Fr.
-	* @param integer $Day le nombre de jours à ajouter.
+	* @param string $ToDate La date que l'on va incrÃ©menter. Format Fr.
+	* @param integer $Day le nombre de jours Ã  ajouter.
 	* @param integer $Month le nombre de mois a ajouter.
-	* @param integer $year le nombre d'années à ajouter.
-	* @param string $SplitChar le caractere séparateur utilisé dans les dates (par defaut : /)
-	* @return string La date modifiée. Format fr jj-mm-aaaa.
+	* @param integer $year le nombre d'annÃ©es Ã  ajouter.
+	* @param string $SplitChar le caractere sÃ©parateur utilisÃ© dans les dates (par defaut : /)
+	* @return string La date modifiÃ©e. Format fr jj-mm-aaaa.
 	*/
     function addToDate ($ToDate, $Day, $Month = 0, $Year = 0, $SplitChar = '/'){
 			
@@ -34,24 +34,24 @@ class DateService {
 	
 	
 	/*
-	* Fonction qui donne le nombre de jours écoulés entre deux dates
+	* Fonction qui donne le nombre de jours Ã©coulÃ©s entre deux dates
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/16
 	* @param date $pDate1 au format yyyymmdd
 	* @param date $pDate1 au format yyyymmdd
-	* @return integer $nbDay le nombre de jours écoulés
+	* @return integer $nbDay le nombre de jours Ã©coulÃ©s
 	*/
 	function getNombreJoursEcoulesEntreDeuxDates($pDate1, $pDate2){
 		$date1 = $this->dateAndHoureBdToTimestamp($pDate1, null);
 		$date2 = $this->dateAndHoureBdToTimestamp($pDate2, null);
 		$nbSec = $date1 - $date2;//nb de sec entre les deux jours
-		$nbDays = $nbSec/86400; //86400 est le nb de sec dans une journée
+		$nbDays = $nbSec/86400; //86400 est le nb de sec dans une journÃ©e
 		return $nbDays;
 	}
 	
 	
 	/**
-	* Soustrait un jour à une date
+	* Soustrait un jour Ã  une date
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/11
 	* @param date $pDate date au format yyyymmdd
@@ -66,13 +66,13 @@ class DateService {
 
 	
 	/*
-	* Fonction qui donne la date du jour de la semaine qui suit une date donnée
-	* Utilisée pour la reprise après une date($pDate), d'un évènement qui se répète toutes les semaines
+	* Fonction qui donne la date du jour de la semaine qui suit une date donnÃ©e
+	* UtilisÃ©e pour la reprise aprÃ¨s une date($pDate), d'un Ã©vÃ¨nement qui se rÃ©pÃ¨te toutes les semaines
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/11
-	* @param date $pDate date de référence au format yyyymmdd
-	* @param integer $pJour le jour de la semaine auquel débute l'évènement (0 pour dimanche, 6 pour samedi)
-	* @return date $date la date recherchée au format yyyymmdd
+	* @param date $pDate date de rÃ©fÃ©rence au format yyyymmdd
+	* @param integer $pJour le jour de la semaine auquel dÃ©bute l'Ã©vÃ¨nement (0 pour dimanche, 6 pour samedi)
+	* @return date $date la date recherchÃ©e au format yyyymmdd
 	*/
 	function getDayOfWeekAfterDate($pDate, $pJour){
 		$nbJourAjout = 7 - date('w', $this->dateAndHoureBdToTimestamp($pDate, null)) + $pJour;
@@ -82,13 +82,13 @@ class DateService {
 	
 	
 	/*
-	* Fonction qui donne le jour du mois qui suit une date donnée
-	* Utilisée pour la reprise après une date($pDate), d'un évènement qui se répète tous les mois
+	* Fonction qui donne le jour du mois qui suit une date donnÃ©e
+	* UtilisÃ©e pour la reprise aprÃ¨s une date($pDate), d'un Ã©vÃ¨nement qui se rÃ©pÃ¨te tous les mois
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/16
-	* @param date $pDate date de référence au format yyyymmdd
-	* @param integer $pJour le jour du mois auquel débute l'évènement
-	* @return date $date la date recherchée au format yyyymmdd
+	* @param date $pDate date de rÃ©fÃ©rence au format yyyymmdd
+	* @param integer $pJour le jour du mois auquel dÃ©bute l'Ã©vÃ¨nement
+	* @return date $date la date recherchÃ©e au format yyyymmdd
 	*/
 	function getDayOfMonthAfterDate($pDate, $pJour){
 		
@@ -110,16 +110,16 @@ class DateService {
 	
 	
 	/*
-	* Fonction qui le jour de l'année qui suit une date donnée
-	* Utilisée pour la reprise après une date($pDate), d'un évènement qui se répète tous les ans
+	* Fonction qui le jour de l'annÃ©e qui suit une date donnÃ©e
+	* UtilisÃ©e pour la reprise aprÃ¨s une date($pDate), d'un Ã©vÃ¨nement qui se rÃ©pÃ¨te tous les ans
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/16
-	* @param date $pDate date de référence au format yyyymmdd
-	* @param integer $pJour le jour de l'année auquel débute l'évènement (format mmdd)
-	* @return date $date la date recherchée au format yyyymmdd
+	* @param date $pDate date de rÃ©fÃ©rence au format yyyymmdd
+	* @param integer $pJour le jour de l'annÃ©e auquel dÃ©bute l'Ã©vÃ¨nement (format mmdd)
+	* @return date $date la date recherchÃ©e au format yyyymmdd
 	*/
 	function getDayOfYearAfterDate($pDate, $pJour){
-		if(substr($pDate, 4, 4) < $pJour){//si l'évènement commence après $pDate, on reste dans l'année de $pDate
+		if(substr($pDate, 4, 4) < $pJour){//si l'Ã©vÃ¨nement commence aprÃ¨s $pDate, on reste dans l'annÃ©e de $pDate
 			$date = substr($pDate, 0, 4).$pJour;
 		}
 		else{
@@ -152,17 +152,17 @@ class DateService {
 	
 	
 	/**
-	* Fonction qui donne le nombre de jour écoulés entre deux dates+heure
+	* Fonction qui donne le nombre de jour Ã©coulÃ©s entre deux dates+heure
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/28
 	* @param date $pDateBegin au format jj/mm/aaaa
 	* @param date $pDateEnd au format jj/mm/aaaa
 	* @param date $pHeureDeb heure au format hh:mm
 	* @param date $pHeureFin heure au format hh:mm
-	* @return integer $nbDays nombre de jours qui se sont écoulés entre les deux dates
+	* @return integer $nbDays nombre de jours qui se sont Ã©coulÃ©s entre les deux dates
 	*/
 	function getNomberDaysBeetweenTwoDates($pDateBegin, $pDateEnd, $pHeureBegin, $pHeureEnd){
-		//Extraction des données
+		//Extraction des donnÃ©es
 		//list($jour1, $mois1, $annee1) = explode('/', $pDateBegin); 
 		//list($jour2, $mois2, $annee2) = explode('/', $pDateEnd);
 		$pDate = CopixDateTime::dateToTimestamp ($pDateBegin);
@@ -211,29 +211,29 @@ class DateService {
 	
 	
 	/**
-	* Fonction qui élimine l'élément qui sépare les heures et les minutes
+	* Fonction qui Ã©limine l'Ã©lÃ©ment qui sÃ©pare les heures et les minutes
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/31
 	* @param heure $pHeureToConvert au format hh:mm
-	* @return heure sans séparateur (hhmm)
+	* @return heure sans sÃ©parateur (hhmm)
 	*/
 	function heureWithSeparateurToheureWithoutSeparateur($pHeureToConvert){
 		return str_replace(':', '', $pHeureToConvert);
 	}
 	
 	/**
-	* Fonction qui élimine remet l'élément qui sépare les heures et les minutes
+	* Fonction qui Ã©limine remet l'Ã©lÃ©ment qui sÃ©pare les heures et les minutes
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/02
 	* @param heure $pHeureToConvert au format hhmm
-	* @return heure avec séparateur (hh:mm)
+	* @return heure avec sÃ©parateur (hh:mm)
 	*/
 	function heureWithoutSeparateurToheureWithSeparateur($pHeureToConvert){
-		//cas où on a une heure au format hhmm
+		//cas oÃ¹ on a une heure au format hhmm
 		if(strlen($pHeureToConvert) == 4){
 			return substr($pHeureToConvert, 0, 2) . ':' .substr($pHeureToConvert, 2, 2);
 		}
-		//cas où on a une heure au format hmm
+		//cas oÃ¹ on a une heure au format hmm
 		else{
 			return substr($pHeureToConvert, 0, 1) . ':' .substr($pHeureToConvert, 1, 2);
 		}
@@ -241,20 +241,20 @@ class DateService {
 	
 
 	/**
-	* Fonction qui retourne le numéro de semaine d'une date donnée
+	* Fonction qui retourne le numÃ©ro de semaine d'une date donnÃ©e
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/31
 	* @param date $date au format timestamp
-	* @return int le numéro de la semaine correspondant à la date
+	* @return int le numÃ©ro de la semaine correspondant Ã  la date
 	*/
 	function dateToWeeknum($date) {
-		// cette fonction calcule à partir d'une date le numéro de semaine associé
-		// "la premiere semaine de l'année est celle dans laquelle se trouve le premier jeudi de l'année"
+		// cette fonction calcule Ã  partir d'une date le numÃ©ro de semaine associÃ©
+		// "la premiere semaine de l'annÃ©e est celle dans laquelle se trouve le premier jeudi de l'annÃ©e"
 		$tmp_date = mktime(0,0,0,01,01,date("Y",$date));
 		
-		// initialisation de la date de départ du calcul
-		// initialisation au premier lundi de l'année
-		// indique au passage si ce lundi appartient à la semaine 1 ou 2 de l'année
+		// initialisation de la date de dÃ©part du calcul
+		// initialisation au premier lundi de l'annÃ©e
+		// indique au passage si ce lundi appartient Ã  la semaine 1 ou 2 de l'annÃ©e
 		switch(date("w",$tmp_date)) {
 			case 1:
 				$tmp_date = mktime(0,0,0,01,01,date("Y",$date));
@@ -286,39 +286,39 @@ class DateService {
 			break;
 		}
 		
-		if ($date >= $tmp_date) { 	// si la date recherchée est postérieure au premier lundi de l'année
+		if ($date >= $tmp_date) { 	// si la date recherchÃ©e est postÃ©rieure au premier lundi de l'annÃ©e
 			
-			// nombre de jours écoulés depuis la date de début du calcul
+			// nombre de jours Ã©coulÃ©s depuis la date de dÃ©but du calcul
 			$tmp_nbjours = date("z",mktime(0,0,0,date("m",$date),date("d",$date),date("Y",$date)))-date("z",mktime(0,0,0,date("m",$tmp_date),date("d",$tmp_date),date("Y",$tmp_date)));
 			
-			// nombre de semaines écoulées
+			// nombre de semaines Ã©coulÃ©es
 			$tmp_numsem = floor($tmp_nbjours/7)+$tmp_delta_week+1;
 			if ($tmp_numsem < 10){
 				$tmp_numsem = "0".$tmp_numsem;
 			} // mise en forme du nombre de semaines
 			
-			if ($tmp_numsem == 53) { 	// si on a trouvé la semainhe n°53 : attention au piège : n'est-ce pas une semaine 1 anticipée ?
+			if ($tmp_numsem == 53) { 	// si on a trouvÃ© la semainhe nÂ°53 : attention au piÃ¨ge : n'est-ce pas une semaine 1 anticipÃ©e ?
 				//echo( date("d-m-Y",mktime(0,0,0,date("m",$date),date("d",$date)+delta_to_thursdaysameweek($date),date("Y",$date)))." || ".date("d-m-Y",mktime(0,0,0,01,01,date("Y",$date)+1)));
 				if ( date("Y",mktime(0,0,0,date("m",$date),date("d",$date)+$this->delta_to_thursdaysameweek($date),date("Y",$date))) == date("Y",mktime(0,0,0,01,01,date("Y",$date)+1)) ) {
-					// si le jeudi de cette semaine tombe l'année prochaine alors on est en semaine 1
+					// si le jeudi de cette semaine tombe l'annÃ©e prochaine alors on est en semaine 1
 					return "01";
 				}
 				else{
-					// si le jeudi de cette semaine tombe cette année alors on est en semaine 53
+					// si le jeudi de cette semaine tombe cette annÃ©e alors on est en semaine 53
 					return "53";
 				}
 			}
-			else{// si on est en semaine 1 à 52, ok.
+			else{// si on est en semaine 1 Ã  52, ok.
 				return $tmp_numsem;
 			}
 		}
-		else{ 	// si la date recherchée est antérieure au premier lundi de l'année
+		else{ 	// si la date recherchÃ©e est antÃ©rieure au premier lundi de l'annÃ©e
 			if ($tmp_delta_week == 1){
-				// si on avait noté une semaine de décalage, les jours antérieurs au premier lundi sont tous en semaine 1
+				// si on avait notÃ© une semaine de dÃ©calage, les jours antÃ©rieurs au premier lundi sont tous en semaine 1
 				return "01";
 			}
 			else{
-				// si on n'avait pas noté de semaine de décalage, les jours antérieurs au premier lundi sont tous de la meme semaine que la dernière semaine de l'année d'avant.
+				// si on n'avait pas notÃ© de semaine de dÃ©calage, les jours antÃ©rieurs au premier lundi sont tous de la meme semaine que la derniÃ¨re semaine de l'annÃ©e d'avant.
 				return $this->dateToWeeknum(mktime(0,0,0,12,31,date("Y",$date)-1));
 			}
 		}
@@ -335,25 +335,25 @@ class DateService {
 	}
 	
 	/**
-	* Fonction qui retourne la date du jour en fonction du numéro de la semaine et de l'année
+	* Fonction qui retourne la date du jour en fonction du numÃ©ro de la semaine et de l'annÃ©e
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/31
-	* @param int $numweek numéro de la semaine
-	* @param int $year l'année
-	* @param int $dayOfWeek le jour de la semaine demandé (0=>dimanche, 6=>samedi)
-	* @return int $tmp_date la date du jour demandé
+	* @param int $numweek numÃ©ro de la semaine
+	* @param int $year l'annÃ©e
+	* @param int $dayOfWeek le jour de la semaine demandÃ© (0=>dimanche, 6=>samedi)
+	* @return int $tmp_date la date du jour demandÃ©
 	*/
 	function numweekToDate($numweek,$year,$dayOfWeek) {
-		// cette fonction calcule à partir d'un numéro de semaine, d'une année et d'un jour de semaine la date associée.
+		// cette fonction calcule Ã  partir d'un numÃ©ro de semaine, d'une annÃ©e et d'un jour de semaine la date associÃ©e.
 		$tmp_date = mktime(0,0,0,01,01,$year);
-		// si les paramètres sont mal formatés, la fonction renvoie false
+		// si les paramÃ¨tres sont mal formatÃ©s, la fonction renvoie false
 		if (is_nan($numweek) || is_nan($year) || is_nan ($dayOfWeek) || $numweek > 53 || $numweek < 0 || $dayOfWeek < 0 || $dayOfWeek > 6 || $year <1970 || $year>2030) { 
 			return false;
 			exit;
 		}
-		// initialisation de la date de départ du calcul
-		// initialisation au premier lundi de l'année
-		// indique au passage si ce lundi appartient à la semaine 1 ou 2 de l'année
+		// initialisation de la date de dÃ©part du calcul
+		// initialisation au premier lundi de l'annÃ©e
+		// indique au passage si ce lundi appartient Ã  la semaine 1 ou 2 de l'annÃ©e
 		switch(date("w",$tmp_date)) {
 			case 1:
 				$tmp_date = mktime(0,0,0,01,01,$year);
@@ -392,7 +392,7 @@ class DateService {
 		}	
 		$tmp_date = mktime(0,0,0,date("m",$tmp_date),date("d",$tmp_date)+($numweek-1-$tmp_delta_week)*7 + $tmp_delta_day,date("Y",$tmp_date));
 		//$tmp_date = date("d m Y",$tmp_date);
-		// en cas de semaine 53, on vérifie que la semaine 53 existe en effet, sinon on renvoie false
+		// en cas de semaine 53, on vÃ©rifie que la semaine 53 existe en effet, sinon on renvoie false
 		if ($numweek==53) {
 			if ($this->numweekToDate(01,$year+1,$dayOfWeek)==$tmp_date) {
 				//$tmp_date = false;
@@ -404,11 +404,11 @@ class DateService {
 	
 	
 	/**
-	* Fonction qui retourne le nom du mois en français à partir de son numéro
+	* Fonction qui retourne le nom du mois en franÃ§ais Ã  partir de son numÃ©ro
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/31
-	* @param int $mois numéro du mois (de 1 à 12)
-	* @return string le mois sous forme litérale
+	* @param int $mois numÃ©ro du mois (de 1 Ã  12)
+	* @return string le mois sous forme litÃ©rale
 	*/
 	function moisNumericToMoisLitteral($mois){
 		if ($mois == 1)
@@ -439,11 +439,11 @@ class DateService {
 	
 	
 	/**
-	* Fonction qui retourne le jour en français à partir de la date
+	* Fonction qui retourne le jour en franÃ§ais Ã  partir de la date
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/18
 	* @param date $pDate date du jour au format yyymmdd
-	* @return string le jour sous forme litérale en français
+	* @return string le jour sous forme litÃ©rale en franÃ§ais
 	*/
 	function dayNumericToDayLitteral($pDate){
 		$date = $this->dateAndHoureBdToTimestamp($pDate, null);
@@ -469,7 +469,7 @@ class DateService {
 	* Fonction qui convertit un nombre de minutes en heures au format (hh:mm)
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/03
-	* @param int $pNbMinutes le nombre de minutes à convertir
+	* @param int $pNbMinutes le nombre de minutes Ã  convertir
 	* @return string l'heure au format hh:mm
 	*/
 	function convertMinutesInHours($pNbMinutes){
@@ -487,7 +487,7 @@ class DateService {
 	* Fonction qui convertit une heure au format (hh:mm) en minutes
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/03
-	* @param hour $pHours l'heure à convertir
+	* @param hour $pHours l'heure Ã  convertir
 	* @return int le nombre de minutes
 	*/
 	function convertHoursInMinutes($pHours){

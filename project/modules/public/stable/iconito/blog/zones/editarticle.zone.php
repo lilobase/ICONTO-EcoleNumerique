@@ -2,7 +2,7 @@
 /**
 * @package Iconito
 * @subpackage	Blog
-* @author	Vallat Cédric.
+* @author	Vallat CÃ©dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -49,7 +49,7 @@ class ZoneEditArticle extends CopixZone {
 
 
 
-		//catégorie de l'article
+		//catÃ©gorie de l'article
 		if($this->getParam('kind',null) == 1){
 			$article = $this->getParam('article', null);
 			$idCategorie = $article->tabSelectCat[0];		

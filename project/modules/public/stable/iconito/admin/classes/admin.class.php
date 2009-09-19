@@ -14,7 +14,7 @@
 class Admin {
 
 	/**
-	 * Détermine si l'usager courant peut accéder à la rubrique d'administration
+	 * DÃ©termine si l'usager courant peut accÃ©der Ã  la rubrique d'administration
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/12/05

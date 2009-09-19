@@ -18,7 +18,7 @@ class DAOLogs {
 	* 
 	* @author Christophe Beyer <cbeyer@cap-tic.fr>
 	* @since 2007/06/14
-	* @param array $params Tous les paramètres nécessaires (module_type, module_id, date_debut, date_fin...)
+	* @param array $params Tous les paramÃ¨tres nÃ©cessaires (module_type, module_id, date_debut, date_fin...)
 	* @return array $stats Statistiques
   */
 	function getStatsModule ($params){
@@ -41,11 +41,11 @@ class DAOLogs {
 	}
 
 	/**
-	* Renvoie les stats sur une action module (pour trouver les articles les plus cliqués par ex)
+	* Renvoie les stats sur une action module (pour trouver les articles les plus cliquÃ©s par ex)
 	* 
 	* @author Christophe Beyer <cbeyer@cap-tic.fr>
 	* @since 2007/06/14
-	* @param array $params Tous les paramètres nécessaires (module_type, module_id, action, date_debut, date_fin...)
+	* @param array $params Tous les paramÃ¨tres nÃ©cessaires (module_type, module_id, action, date_debut, date_fin...)
 	* @return array $stats Statistiques
   */
 	function getStatsModuleAction ($params){

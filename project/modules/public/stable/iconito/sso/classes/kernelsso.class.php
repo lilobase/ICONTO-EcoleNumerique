@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Sso
 * @version   $Id: kernelsso.class.php,v 1.1 2006-11-13 15:44:35 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2006 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file

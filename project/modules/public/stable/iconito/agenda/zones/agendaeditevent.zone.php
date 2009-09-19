@@ -17,13 +17,13 @@ class ZoneAgendaEditEvent extends CopixZone {
 		$serviceAuth   = new AgendaAuth;
 		$tpl = & new CopixTpl ();		
 
-		////cas où on est passé par le prepareEdit
-		//si un évènement est répété, la case doit être cochée
+		////cas oÃ¹ on est passÃ© par le prepareEdit
+		//si un Ã©vÃ¨nement est rÃ©pÃ©tÃ©, la case doit Ãªtre cochÃ©e
 		if($this->getParam('toEdit')->everyday_event == 1 || $this->getParam('toEdit')->everyweek_event == 1 || $this->getParam('toEdit')->everymonth_event == 1 || $this->getParam('toEdit')->everyyear_event == 1){
 			$this->getParam('toEdit')->repeat = 1;
 		}
 		
-		//on met à jour la balise select
+		//on met Ã  jour la balise select
 		if($this->getParam('toEdit')->everyday_event == 1){
 			$this->getParam('toEdit')->repeat_event = "everyday_event";
 		}
@@ -45,11 +45,11 @@ class ZoneAgendaEditEvent extends CopixZone {
 			$tpl->assign('showError', $this->getParam('e'));
 		}		
 		
-		//vérification des droits d'écriture sur les agendas
+		//vÃ©rification des droits d'Ã©criture sur les agendas
 		$listeFiltre = $this->getParam('arTitleAgendasAffiches');
-		//on vérifie les droits de lecture des utilisateurs
+		//on vÃ©rifie les droits de lecture des utilisateurs
 		foreach((array)$listeFiltre as $key=>$title_agenda){
-			//on vérifie si l'utilisateur a les droits de lecture sur la liste des agendas
+			//on vÃ©rifie si l'utilisateur a les droits de lecture sur la liste des agendas
 			if($serviceAuth->getCapability($key) < $serviceAuth->getWriteAgenda()){
 				unset($listeFiltre[$key]);
 			}

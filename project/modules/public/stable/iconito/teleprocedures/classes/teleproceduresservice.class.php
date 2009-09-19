@@ -340,7 +340,7 @@ class TeleproceduresService {
 	/**
 	 * Enregistre la date de passage d'un utilisateur dans une intervention
 	 *
-	 * Cette fonction de "tracking" permet ensuite d'afficher, pour un utilisateur, les interventions dans lesquelles de nouveaux messages ont été écrits depuis sa dernière lecture, et de le renvoyer au premier message non lu.
+	 * Cette fonction de "tracking" permet ensuite d'afficher, pour un utilisateur, les interventions dans lesquelles de nouveaux messages ont Ã©tÃ© Ã©crits depuis sa derniÃ¨re lecture, et de le renvoyer au premier message non lu.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2009/03/03
@@ -351,7 +351,7 @@ class TeleproceduresService {
 		$daoTracking = _dao("teleprocedures|tracking");
 		$visite = $daoTracking->get($id_intervention, $user);
 		//print_r($visite);
-		if ($visite) {	// Il a déjà visité ce topic
+		if ($visite) {	// Il a dÃ©jÃ  visitÃ© ce topic
 			$visite->last_visite = date("Y-m-d H:i:s");
 			$daoTracking->update($visite);
 		} else {	// 1e visite !

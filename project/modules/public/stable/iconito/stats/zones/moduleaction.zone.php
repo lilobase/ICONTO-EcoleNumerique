@@ -16,9 +16,9 @@
 * @since 2007/06/14
 * @param string $module_type Type du module
 * @param integer $module_id Id du module
-* @param string $action Action analysée
-* @param date $date_debut (option) Début de la période interrogée (si vide : pas de restriction)
-* @param date $date_fin (option) Fin de la période interrogée (si vide : pas de restriction)
+* @param string $action Action analysÃ©e
+* @param date $date_debut (option) DÃ©but de la pÃ©riode interrogÃ©e (si vide : pas de restriction)
+* @param date $date_fin (option) Fin de la pÃ©riode interrogÃ©e (si vide : pas de restriction)
 */
 class ZoneModuleAction extends CopixZone {
 	function _createContent (&$toReturn) {
@@ -39,7 +39,7 @@ class ZoneModuleAction extends CopixZone {
 
 		foreach ($stats as $k=>$s) {
 			
-			// Détection du nom Copix du module
+			// DÃ©tection du nom Copix du module
 			list (,$module) = explode ("_", strtolower($module_type));
 			
 			$class = CopixClassesFactory::create("$module|Stats$module");

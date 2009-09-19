@@ -13,12 +13,12 @@ _classInclude('blog|blogauth');
 class ZoneShowBlogDroits extends CopixZone {
 
 	/**
-	 * Affiche la liste des personnes ayant des droits spécifiques sur un blog
+	 * Affiche la liste des personnes ayant des droits spÃ©cifiques sur un blog
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/05/31
 	 * @param object $blog Blog (recordset)
-	 * @param integer $kind Numéro générique de la rubrique (ne pas y toucher)
+	 * @param integer $kind NumÃ©ro gÃ©nÃ©rique de la rubrique (ne pas y toucher)
 	 * @param string $attribs Attributs HTML de la liste (STYLE, ONCHANGE...)
 	 */
 	function _createContent (&$toReturn) {
@@ -35,7 +35,7 @@ class ZoneShowBlogDroits extends CopixZone {
 		//Kernel::deb("droit=$droit");
 		//print_r($blog);
 				
-		// On vérifie le droit d'être ici
+		// On vÃ©rifie le droit d'Ãªtre ici
 		if (!BlogAuth::canMakeInBlog ("ADMIN_DROITS", $blog))
 			return false;
 		

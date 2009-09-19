@@ -10,7 +10,7 @@ class ZoneNewMinimail extends CopixZone {
 	/**
 	 * Affiche le nb de messages non lus de l'utilisateur courant
 	 *
-	 * Le nb de messages est cliquable et renvoie vers sa boîte de réception. S'il n'y a pas de messages, la zone n'affiche rien.
+	 * Le nb de messages est cliquable et renvoie vers sa boÃ®te de rÃ©ception. S'il n'y a pas de messages, la zone n'affiche rien.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/17

@@ -16,7 +16,7 @@
 class StatsService {
 
 	/**
-	 * Met à jour les données de la base. Complete les parents pour les modules dont ils ne sont pas renseignes
+	 * Met Ã  jour les donnÃ©es de la base. Complete les parents pour les modules dont ils ne sont pas renseignes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/06/12
@@ -52,7 +52,7 @@ class StatsService {
 			$i++;
 		}
 		
-		Kernel::deb ("$i mises à jour");
+		Kernel::deb ("$i mises Ã  jour");
 		
 	}
 	

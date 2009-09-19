@@ -9,21 +9,21 @@
 class GroupeService {
 
 	/**
-	 * Crée un groupe
+	 * CrÃ©e un groupe
 	 *
-	 * Crée le groupe, donne les droits de propriétaire à son créateur, et initialise les premiers modules.
+	 * CrÃ©e le groupe, donne les droits de propriÃ©taire Ã  son crÃ©ateur, et initialise les premiers modules.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/08
 	 * @param string $titre Titre
 	 * @param string $description Description
-	 * @param integer $is_open 1 si le groupe est public, 0 s'il est privé
-	 * @param integer $createur Id utilisateur du créateur
-	 * @param array $tab_membres Tableau avec les membres à inscrire de suite (clé = id user)
-	 * @param array $his_modules Tableau avec les modules à installer et à relier à ce club
+	 * @param integer $is_open 1 si le groupe est public, 0 s'il est privÃ©
+	 * @param integer $createur Id utilisateur du crÃ©ateur
+	 * @param array $tab_membres Tableau avec les membres Ã  inscrire de suite (clÃ© = id user)
+	 * @param array $his_modules Tableau avec les modules Ã  installer et Ã  relier Ã  ce club
 	 * @param string $parentClass Type du parent (BU_ECOLE...) 
-	 * @param integer $parentRef Référence du parent
-	 * @return integer l'Id du groupe créé ou NULL si erreur
+	 * @param integer $parentRef RÃ©fÃ©rence du parent
+	 * @return integer l'Id du groupe crÃ©Ã© ou NULL si erreur
 	 */
 	function createGroupe ($titre, $description, $is_open, $createur, $tab_membres, $his_modules, $parentClass, $parentRef) {
 	
@@ -56,22 +56,22 @@ class GroupeService {
 					$classeNew = CopixClassesFactory::create("$module|Kernel$module");
 					$new = $classeNew->create(array('title'=>$titre, 'node_type'=>'CLUB', 'node_id'=>$newGroupe->id));
 					//print_r("new=$new");
-					if ($new) {	// Module bien crée, on le rattache
+					if ($new) {	// Module bien crÃ©e, on le rattache
 						$register = $kernelClasse->registerModule( $moduleType, $new, "CLUB", $newGroupe->id );
 					}
 				}
 
-				// On insère le créateur
+				// On insÃ¨re le crÃ©ateur
 				$userInfo = $kernelClasse->getUserInfo("ID", $createur);
 				$kernelClasse->setLevel("CLUB", $newGroupe->id, $userInfo["type"], $userInfo["id"], PROFILE_CCV_ADMIN);
 				
-				// On insère les éventuels membres
+				// On insÃ¨re les Ã©ventuels membres
 				while (list($userId,) = each ($tab_membres)) {
 					$userInfo = $kernelClasse->getUserInfo("ID", $userId);
 					$kernelClasse->setLevel("CLUB", $newGroupe->id, $userInfo["type"], $userInfo["id"], PROFILE_CCV_MEMBER);
 				}
 				
-				// On rattache le groupe à son parent
+				// On rattache le groupe Ã  son parent
 				$kernelClasse->setClubParent( $newGroupe->id, $parentClass, $parentRef);
 
 				$res = $newGroupe->id;
@@ -86,7 +86,7 @@ class GroupeService {
 	/**
 	 * Gestion des droits dans un groupe
 	 *
-	 * Teste si l'usager peut effectuer une certaine opération par rapport à son droit. Le droit sur le groupe nécessite d'être connu, renvoyé par le kernel avant l'entrée dans cette fonction.
+	 * Teste si l'usager peut effectuer une certaine opÃ©ration par rapport Ã  son droit. Le droit sur le groupe nÃ©cessite d'Ãªtre connu, renvoyÃ© par le kernel avant l'entrÃ©e dans cette fonction.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/02
@@ -106,11 +106,11 @@ class GroupeService {
 				$can = ($droit >= PROFILE_CCV_ADMIN);	
 				break;
 					
-			case "UNSUBSCRIBE_HIMSELF" :	// Se désinscrire (soi-même)
+			case "UNSUBSCRIBE_HIMSELF" :	// Se dÃ©sinscrire (soi-mÃªme)
 				$can = ($droit >= PROFILE_CCV_READ && $droit < PROFILE_CCV_ADMIN);	
 				break;
 					
-			case "ADD_GROUP" :	// Création d'un groupe, ne dépend pas du droit sur un groupe mais du profil de l'usager
+			case "ADD_GROUP" :	// CrÃ©ation d'un groupe, ne dÃ©pend pas du droit sur un groupe mais du profil de l'usager
 				$can = (Kernel::isEnseignant() || Kernel::isAgentVille() || Kernel::isPersonnelAdministratif() || Kernel::isAdmin() );
 				break;
 
@@ -124,14 +124,14 @@ class GroupeService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/23
 	 * @param integer $droit Le droit de l'usager
-	 * @return string Nom correspondant à ce droit, en clair
+	 * @return string Nom correspondant Ã  ce droit, en clair
 	 */
 	function getRightName ($droit) {
 		switch ($droit) {
-			case PROFILE_CCV_ADMIN :	// Propriétaire
+			case PROFILE_CCV_ADMIN :	// PropriÃ©taire
 				$res = CopixI18N::get ('groupe|groupe.right.owner');
 				break;
-			case PROFILE_CCV_MODERATE :	// Modérateur
+			case PROFILE_CCV_MODERATE :	// ModÃ©rateur
 				$res = CopixI18N::get ('groupe|groupe.right.moderate');
 				break;
 			case PROFILE_CCV_VALID :	// Contributeur
@@ -154,7 +154,7 @@ class GroupeService {
 
 
 	/**
-	 * Renvoie le nombre d'inscrits à un groupe
+	 * Renvoie le nombre d'inscrits Ã  un groupe
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/25

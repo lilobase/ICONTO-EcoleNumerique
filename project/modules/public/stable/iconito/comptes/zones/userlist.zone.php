@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Comptes
 * @version   $Id: userlist.zone.php,v 1.1 2006-03-01 16:39:03 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 class ZoneUserList extends CopixZone {

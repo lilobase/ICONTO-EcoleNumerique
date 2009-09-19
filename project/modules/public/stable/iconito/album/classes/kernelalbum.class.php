@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Album
 * @version   $Id: kernelalbum.class.php,v 1.9 2009-01-23 17:34:11 cbeyer Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2005 CDC-TIC
 * @link      http://www.cdc-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -12,7 +12,7 @@
 
 class KernelAlbum {
 
-	/* Crée un album photos
+	/* CrÃ©e un album photos
 		 Renvoie son ID ou NULL si erreur
  * @param array $infos (option) Infos sur le module. [title], [subtitle], [node_type], [node_id]		 
 	*/
@@ -43,7 +43,7 @@ class KernelAlbum {
 	}
 
 	/*
-		Renvoie différentes infos chiffrées d'un album photos
+		Renvoie diffÃ©rentes infos chiffrÃ©es d'un album photos
 	*/
 	function getStats ($id_album) {
 		$dao = _dao("album|album");
@@ -61,13 +61,13 @@ class KernelAlbum {
 
 	/*
 	Publication distante (autre module).
-	id de l'album + données -> infos sur la nouvelle données dans l'album
+	id de l'album + donnÃ©es -> infos sur la nouvelle donnÃ©es dans l'album
 	*/
 	function publish ($id, $image) {
 		// $image['file']  -> nom de fichier
-		// $image['title'] -> titre (ou nom à défaut)
+		// $image['title'] -> titre (ou nom Ã  dÃ©faut)
 		// $image['body']  -> commentaire
-		// $image['data']  -> données
+		// $image['data']  -> donnÃ©es
 		
 		if( !isset($image['file']) || trim($image['file'])=='' 
 		||  !isset($image['data']) ||      $image['data'] =='' ) {

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Gestion des préférences du module Minimail
+ * Gestion des prÃ©fÃ©rences du module Minimail
  * 
  * @package Iconito
  * @subpackage	Carnet
@@ -9,12 +9,12 @@
 class ModCarnetPrefs {
 
 	/**
-	 * Renvoie les préférences du module
+	 * Renvoie les prÃ©fÃ©rences du module
 	 *
 	 * @author Frederic Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/12/01
-	 * @param array $data (option) Tableau avec les données (venues de la base)
-	 * @return array Tableau de tableaux avec toutes les préférences
+	 * @param array $data (option) Tableau avec les donnÃ©es (venues de la base)
+	 * @return array Tableau de tableaux avec toutes les prÃ©fÃ©rences
 	 */
 	function getPrefs ( $data=null ) {
 		$toReturn = array();
@@ -24,7 +24,7 @@ class ModCarnetPrefs {
 	}
 
 	/**
-	 * Vérifie que les valeurs saisies pour les préférences sont valides
+	 * VÃ©rifie que les valeurs saisies pour les prÃ©fÃ©rences sont valides
 	 *
 	 * @author Frederic Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/12/01
@@ -38,7 +38,7 @@ class ModCarnetPrefs {
 	}
 
 	/**
-	 * Enregistre les valeurs des préférences
+	 * Enregistre les valeurs des prÃ©fÃ©rences
 	 *
 	 * @author Frederic Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/12/01

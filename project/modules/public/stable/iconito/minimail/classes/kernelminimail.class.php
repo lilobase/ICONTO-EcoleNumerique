@@ -13,11 +13,11 @@ class KernelMinimail {
 	/**
 	 * Statistiques du module minimail
 	 *
-	 * Renvoie des éléments chiffrés relatifs aux minimails et dédiés à un utilisateur système : nombre de messages...
+	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs aux minimails et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : nombre de messages...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbMessages"] ["nbMessages24h"]
+	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbMessages"] ["nbMessages24h"]
 	 */
 	function getStatsRoot () {
 		$res = array();	

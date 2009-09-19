@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone PetitPoucet, qui affiche le chemin depuis la racine jusqu'‡ un dossier
+ * Zone PetitPoucet, qui affiche le chemin depuis la racine jusqu'√† un dossier
  * 
  * @package Iconito
  * @subpackage	Malle
@@ -9,15 +9,15 @@
 class ZonePetitPoucet extends CopixZone {
 
 	/**
-	 * Affiche le chemin d'accËs ‡ un dossier, depuis la racine d'une malle
+	 * Affiche le chemin d'acc√®s √† un dossier, depuis la racine d'une malle
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
 	 * @param integer $malle Id de la malle
 	 * @param integer $folder Id du dossier courant (0 si racine)
-	 * @param string $action Action (au sens Copix) des liens utilisÈs. Si vide=>"getMalle"
-	 * @param string $field (option) Nom du champ pour l'insertion d'un lien vers un doc, utilisÈ en mode Popup
-	 * @param string $format (option) Format de la zone de saisie (wiki, html, fckeditor...), utilisÈ en mode Popup
+	 * @param string $action Action (au sens Copix) des liens utilis√©s. Si vide=>"getMalle"
+	 * @param string $field (option) Nom du champ pour l'insertion d'un lien vers un doc, utilis√© en mode Popup
+	 * @param string $format (option) Format de la zone de saisie (wiki, html, fckeditor...), utilis√© en mode Popup
 	 */
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();

@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: getblogcss.zone.php,v 1.10 2007-06-01 16:08:43 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat CÃ©dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -25,7 +25,7 @@ class ZoneGetBlogCss extends CopixZone {
 				
 				$hisFile = COPIX_VAR_PATH.CopixConfig::get ('blog|cssPath').$blog->id_blog.'.css';
 				
-				if (file_exists($hisFile) && ($blog->style_blog_file==1||$editFile)) { // CSS personnalisée
+				if (file_exists($hisFile) && ($blog->style_blog_file==1||$editFile)) { // CSS personnalisÃ©e
 					$file = $hisFile;
 				} else {	// CSS de base
 					//$file = COPIX_WWW_PATH.CopixConfig::get ('blog|cssPath').$blog->logo_blog;

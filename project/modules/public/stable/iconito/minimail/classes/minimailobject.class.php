@@ -14,12 +14,12 @@ class MinimailObject {
 	 */
 	var $id;
 	/**
-	 * Id utilisateur de l'expéditeur
+	 * Id utilisateur de l'expÃ©diteur
 	 * @var integer 
 	 */
 	var $from_id;
 	/**
-	 * Login de l'expéditeur
+	 * Login de l'expÃ©diteur
 	 * @var string 
 	 */
 	var $from_login;
@@ -29,7 +29,7 @@ class MinimailObject {
 	 */
 	var $date_send;
 	/**
-	 * 1 si le message est supprimé du côté de l'expéditeur, 0 sinon
+	 * 1 si le message est supprimÃ© du cÃ´tÃ© de l'expÃ©diteur, 0 sinon
 	 * @var integer 
 	 */
 	var $is_deleted;
@@ -51,7 +51,7 @@ class MinimailObject {
 
 	
 	/**
-	 * Crée un objet Minimail à partir de la base de données
+	 * CrÃ©e un objet Minimail Ã  partir de la base de donnÃ©es
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/17
@@ -69,7 +69,7 @@ class MinimailObject {
 	}
 	
 	/**
-	 * Remplit les destinataires à partir de la base de données
+	 * Remplit les destinataires Ã  partir de la base de donnÃ©es
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/17
@@ -91,13 +91,13 @@ class MinimailObject {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/17
-	 * @param integer from_id Id utilisateur de l'expéditeur
-	 * @param string from_login Login de l'expéditeur
+	 * @param integer from_id Id utilisateur de l'expÃ©diteur
+	 * @param string from_login Login de l'expÃ©diteur
 	 * @param string title Titre du minimail
 	 * @param string message Corps du minimail
-	 * @param string dest_txt Le ou les destinataires (si plusieurs, séparés par "," ou ";") 
-	 * @param integer is_deleted (option, par défaut=0) 1 si le message est supprimé côté expéditeur, 0 sinon
-	 * @param string date_send (option, par défaut=0) date d'envoi (si 0=maintenant)
+	 * @param string dest_txt Le ou les destinataires (si plusieurs, sÃ©parÃ©s par "," ou ";") 
+	 * @param integer is_deleted (option, par dÃ©faut=0) 1 si le message est supprimÃ© cÃ´tÃ© expÃ©diteur, 0 sinon
+	 * @param string date_send (option, par dÃ©faut=0) date d'envoi (si 0=maintenant)
 	 */
 	function fillMinimail ($from_id, $from_login, $title, $message, $dest_txt, $is_deleted=0, $date_send=0) {
 		if ($date_send==0) $date_send = date("Y-m-d H:i:s");
@@ -107,7 +107,7 @@ class MinimailObject {
 		$this->title = $title;
 		$this->message = $message;
 		$this->is_deleted = $is_deleted;
-		// Découpage du pattern destinataires
+		// DÃ©coupage du pattern destinataires
 		$dest_txt=str_replace(array(" "), "", $dest_txt);
 		$dest_txt=str_replace(array(",",";"), ",", $dest_txt);
 		$this->dest = explode (",", $dest_txt);

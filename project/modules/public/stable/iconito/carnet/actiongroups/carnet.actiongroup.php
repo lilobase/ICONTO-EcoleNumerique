@@ -11,12 +11,12 @@ class ActionGroupCarnet extends CopixActionGroup {
    /**
    * Affiche un cahier de correspondance
 	 * 
-	 * Affiche un cahier de correspondance, pour une classe et/ou un élève.
+	 * Affiche un cahier de correspondance, pour une classe et/ou un Ã©lÃ¨ve.
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $classe Id de la classe
-	 * @param integer $eleve Id de l'élève
+	 * @param integer $eleve Id de l'Ã©lÃ¨ve
    */
    function getCarnet () {
 	 
@@ -41,7 +41,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 		$session = Kernel::getSessionBU();
 
-		if ($eleve && $eleve!='CLASSE') { // Un élève précis
+		if ($eleve && $eleve!='CLASSE') { // Un Ã©lÃ¨ve prÃ©cis
 			$eleves = array(array("id"=>$eleve));
 			$userInfo = $kernel_service->getUserInfo ("USER_ELE", $eleve);
 			if (!$classe) {	// On cherche sa classe
@@ -51,7 +51,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 					if ($w["type"]=="BU_CLASSE")
 						$trouve = $w["id"];
 				}
-				if (!$trouve) { // l'élève n'est dans aucune classe
+				if (!$trouve) { // l'Ã©lÃ¨ve n'est dans aucune classe
 				} else {
 					$classe = $trouve;
 					//$nb_eleves = count($carnet_service->getUserElevesInClasse($classe));
@@ -101,13 +101,13 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 			$to = $dao->getElevesForTopic ($list[$k]->id);
 
-			if ($eleve == 'CLASSE' && count($to) != $nb_eleves_classe) {	// Seulement les messages adressés à toute la classe
+			if ($eleve == 'CLASSE' && count($to) != $nb_eleves_classe) {	// Seulement les messages adressÃ©s Ã  toute la classe
 				unset ($list[$k]);
 				continue;
 			}
 			
 			$list[$k]->nb_eleves = count($to);
-			if ($list[$k]->nb_eleves==1) {	// Un seul élève, on va chercher son nom
+			if ($list[$k]->nb_eleves==1) {	// Un seul Ã©lÃ¨ve, on va chercher son nom
 				while (list($j,) = each($to)) {
 					$userInfo = $kernel_service->getUserInfo("USER_ELE", $to[$j]->eleve);
 					$to[$j]->eleve_nom = $userInfo["prenom"]." ".$userInfo["nom"];
@@ -149,8 +149,8 @@ class ActionGroupCarnet extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $id Id de la discussion
-	 * @param integer $eleve (option) Id de l'élève
-	 * @param integer $print (option, 0 par défaut) Si 1, affiche la discussion au format imprimable
+	 * @param integer $eleve (option) Id de l'Ã©lÃ¨ve
+	 * @param integer $print (option, 0 par dÃ©faut) Si 1, affiche la discussion au format imprimable
 	 * @param string $go (option) Si vaut "new", redirige sur le premier message non lu de la discussion
    */
    function getTopic () {
@@ -184,9 +184,9 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 			print_r($unread);
 			die('ici');
-			if ($unread[0]->id) {	// Il est déjà passé dans le topic
+			if ($unread[0]->id) {	// Il est dÃ©jÃ  passÃ© dans le topic
 				$urlReturn = CopixUrl::get ('|getTopic', array('id'=>$id, 'eleve'=>$eleve)).'#m'.$unread[0]->id;
-			} else { // Jamais passé, on le renvoie au début du topic
+			} else { // Jamais passÃ©, on le renvoie au dÃ©but du topic
 				$urlReturn = CopixUrl::get ('|getTopic', array('id'=>$id, 'eleve'=>$eleve));
 			}
 			//die($urlReturn);
@@ -230,10 +230,10 @@ class ActionGroupCarnet extends CopixActionGroup {
 			//print_r2($topic);
 			
 			// 2. Les messages
-			if ($eleve && $eleve!='CLASSE') {	// Filtrage sur un élève
+			if ($eleve && $eleve!='CLASSE') {	// Filtrage sur un Ã©lÃ¨ve
 				$list = $dao->getListCarnetsMessagesForTopicAndEleve ($id, $eleve);
 				$idEleves = array($eleve);
-			} else {	// Tous les élèves de la classe
+			} else {	// Tous les Ã©lÃ¨ves de la classe
 				$eleves = $carnet_service->getUserElevesInClasse($topic->classe);
 				$list = $dao->getListCarnetsMessagesForTopicAndEleves ($id, $eleves);
 				//print_r($list);
@@ -249,7 +249,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 				$userInfo = $kernel_service->getUserInfo("USER_ELE", $list[$k]->eleve);
 				$list[$k]->eleve_nom = $userInfo["prenom"]." ".$userInfo["nom"];
 				$list[$k]->eleve_infos = $userInfo;
-        // Avatar de l'expéditeur
+        // Avatar de l'expÃ©diteur
   			$avatar = Prefs::get('prefs', 'avatar', $list[$k]->auteur);
 	  		$list[$k]->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
 			}
@@ -291,17 +291,17 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 
    /**
-   * Formulaire d'écriture d'une nouvelle correspondance
+   * Formulaire d'Ã©criture d'une nouvelle correspondance
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @see doTopicForm()
 	 * @param integer $classe Id de la classe
-	 * @param integer $eleve Id de l'élève
-	 * @param integer $eleves (si formulaire soumis) Id des élèves
+	 * @param integer $eleve Id de l'Ã©lÃ¨ve
+	 * @param integer $eleves (si formulaire soumis) Id des Ã©lÃ¨ves
 	 * @param string $titre (si formulaire soumis) Titre de la discussion
 	 * @param string $message (si formulaire soumis) Corps du premier message
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param array $errors (option) Erreurs rencontrÃ©es
 	 * @param integer $preview (option) Si 1, affichera la preview de la discussion soumise, si 0 validera le formulaire
    */
 	function processGetTopicForm () {
@@ -326,7 +326,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 		if ($id) {
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.impossible');
 		} elseif ($classe) {		// Nouvelle correspondance
-			// Droits vérifiés par mondroit
+			// Droits vÃ©rifiÃ©s par mondroit
 		} else {
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.impossible');
 		}
@@ -346,11 +346,11 @@ class ActionGroupCarnet extends CopixActionGroup {
 			$tpl->assign ('TITLE_PAGE', $title_page);
 			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 			
-			// On coche éventuellement l'élève par défaut à la première arrivée
+			// On coche Ã©ventuellement l'Ã©lÃ¨ve par dÃ©faut Ã  la premiÃ¨re arrivÃ©e
 			if (!$eleves) {
-				if ($eleve && $eleve != 'CLASSE') // Un seul élève
+				if ($eleve && $eleve != 'CLASSE') // Un seul Ã©lÃ¨ve
 					$eleves[$eleve] = 0;
-				else	// Toute la classe, tout les élèves sont cochés directement dans le template
+				else	// Toute la classe, tout les Ã©lÃ¨ves sont cochÃ©s directement dans le template
 					$nothing = 1;
 			}
 			
@@ -381,17 +381,17 @@ class ActionGroupCarnet extends CopixActionGroup {
 	
 
    /**
-   * Soumission du formulaire d'écriture d'une nouvelle discussion
+   * Soumission du formulaire d'Ã©criture d'une nouvelle discussion
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @see getTopicForm()
 	 * @param integer $classe Id de la classe
-	 * @param integer $eleve Id de l'élève
-	 * @param array $eleves Id des élèves concernés (cases cochées)
+	 * @param integer $eleve Id de l'Ã©lÃ¨ve
+	 * @param array $eleves Id des Ã©lÃ¨ves concernÃ©s (cases cochÃ©es)
 	 * @param string $titre Valeur saisie pour le champ "titre"
 	 * @param string $message Valeur saisie pour le champ "message"
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param string $go Forme de soumission : preview (prÃ©visualiser) ou send (enregistrer)
    */
 	function doTopicForm () {
 	
@@ -414,7 +414,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 		if ($id) {
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.impossible');
 		} elseif ($classe) {		// Nouvelle correspondance
-			// Droits vérifiés par mondroit
+			// Droits vÃ©rifiÃ©s par mondroit
 		} else {
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.impossible');
 		}
@@ -431,7 +431,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 			$createur = _currentUser ()->getId();
 			
-			if ($id && !$errors && $go=='save') { // Mise à jour
+			if ($id && !$errors && $go=='save') { // Mise Ã  jour
 				// Y a pas
 			} elseif (!$errors && $go=='save') {	// Insertion
 				$add = $carnet_service->addCarnetTopic ($classe, $createur, $titre, $message, $eleves, $format);
@@ -454,15 +454,15 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 
    /**
-   * Affichage du formulaire d'écriture d'un message (réponse à une discussion)
+   * Affichage du formulaire d'Ã©criture d'un message (rÃ©ponse Ã  une discussion)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @see doMessageForm()
 	 * @param integer $topic Id de la discussion
-	 * @param integer $eleve (option) Id de l'élève concerné
+	 * @param integer $eleve (option) Id de l'Ã©lÃ¨ve concernÃ©
 	 * @param string $message Texte du message (si formulaire soumis)
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param array $errors (option) Erreurs rencontrÃ©es
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
    */
 	function processGetMessageForm () {
@@ -470,7 +470,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 		
 		$carnet_service = & CopixClassesFactory::Create ('carnet|CarnetService');
 		$dao_carnets_to = CopixDAOFactory::create("carnet|carnet_topics_to");
-		//$eleves = $carnet_service->getHisCarnetEleves();	// Ses élèves
+		//$eleves = $carnet_service->getHisCarnetEleves();	// Ses Ã©lÃ¨ves
 		
 		$criticErrors = array();	
 		$id = NULL;
@@ -483,7 +483,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 		
 		if ($id) {	// Edition d'un message
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.impossible');
-		} elseif ($topic && $eleve) {		// Réponse dans un topic, sur un élève
+		} elseif ($topic && $eleve) {		// RÃ©ponse dans un topic, sur un Ã©lÃ¨ve
 			$rTopic = $dao_carnets_to->get($topic, $eleve);
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('carnet|carnet.error.noTopic');
@@ -528,15 +528,15 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 
    /**
-   * Soumission du formulaire d'écriture d'un message
+   * Soumission du formulaire d'Ã©criture d'un message
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/17
 	 * @see getMessageForm()
 	 * @param integer $topic Id de la discussion
-	 * @param integer $eleve (option) Id de l'élève concerné
+	 * @param integer $eleve (option) Id de l'Ã©lÃ¨ve concernÃ©
 	 * @param string $message Texte du message
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param string $go Forme de soumission : preview (prÃ©visualiser) ou send (enregistrer)
    */
 	function doMessageForm () {
 		
@@ -553,7 +553,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 		
 		if ($id) {	// Edition d'un message
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.impossible');
-		} elseif ($topic && $eleve) {		// Réponse dans un topic, sur un élève
+		} elseif ($topic && $eleve) {		// RÃ©ponse dans un topic, sur un Ã©lÃ¨ve
 			$rTopic = $dao_carnets_to->get($topic, $eleve);
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('carnet|carnet.error.noTopic');
@@ -596,13 +596,13 @@ class ActionGroupCarnet extends CopixActionGroup {
    /**
    * Redirection vers un carnet
 	 *
-	 * $id peut être de type "XX" (Id de carnet), vaut "CLASSE_XX" (carnet d'une classe) ou ELEVE_XX (carnet d'un élève)
+	 * $id peut Ãªtre de type "XX" (Id de carnet), vaut "CLASSE_XX" (carnet d'une classe) ou ELEVE_XX (carnet d'un Ã©lÃ¨ve)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param string $id Id d'un carnet
 	 * @param integer $classe Id d'une classe
-	 * @param integer $eleve Id d'un élève
+	 * @param integer $eleve Id d'un Ã©lÃ¨ve
    */
 	function go () {
 		$id = $this->getRequest ('id', null);

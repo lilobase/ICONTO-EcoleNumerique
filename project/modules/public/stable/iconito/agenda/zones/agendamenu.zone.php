@@ -27,9 +27,9 @@ class ZoneAgendaMenu extends CopixZone {
 		$agendaAffiches = AgendaService::getAgendaAffiches();
 //    print_r($agendaAffiches);
     
-		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
+		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas affichÃ©s
 		foreach((array)$this->getParam('listAgendasAffiches') as $id_agenda){
-			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
+			//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture sur un des agendas affichÃ©
       //print_r($serviceAuth->getWriteAgenda());
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteAgenda()){
 				$ableToWrite = true;
@@ -37,9 +37,9 @@ class ZoneAgendaMenu extends CopixZone {
 			}
 		}
 		
-		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
+		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas affichÃ©s
 		foreach((array)$this->getParam('listAgendasAffiches') as $id_agenda){
-			//on vérifie si l'utilisateur a les droits d'import
+			//on vÃ©rifie si l'utilisateur a les droits d'import
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getModerate()){
 				$ableToModerate = true;
 				break;
@@ -47,15 +47,15 @@ class ZoneAgendaMenu extends CopixZone {
 		}		
 
 		$listeFiltre = $this->getParam('listAgendas');
-		//on vérifie les droits de lecture des utilisateurs
+		//on vÃ©rifie les droits de lecture des utilisateurs
 		foreach((array)$listeFiltre as $key=>$agenda){
-			//on vérifie si l'utilisateur a les droits de lecture sur la liste des agendas
+			//on vÃ©rifie si l'utilisateur a les droits de lecture sur la liste des agendas
 			if($serviceAuth->getCapability($agenda->id_agenda) < $serviceAuth->getRead()){
 				unset($listeFiltre[$key]);
 			}
 		}
 				
-		//on construit le tableau de couleurs associées au type d'agenda
+		//on construit le tableau de couleurs associÃ©es au type d'agenda
 		$arColorByIdAgenda = array();
 		foreach((array)$listeFiltre as $agenda){
       //print_r("ID=".$agenda->id_agenda);

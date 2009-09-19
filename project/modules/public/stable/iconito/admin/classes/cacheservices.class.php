@@ -15,11 +15,11 @@ _classInclude('kernel|demo_tools');
 class CacheServices {
 
 	/**
-	 * Renvoie la taille occupée par le cache (dossier /temp/cache)
+	 * Renvoie la taille occupÃ©e par le cache (dossier /temp/cache)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/12/05
-	 * @return array Tableau avec la taille occupée par les dossiers (index: [folders])
+	 * @return array Tableau avec la taille occupÃ©e par les dossiers (index: [folders])
 	 */
 	function getCacheSize () {
   

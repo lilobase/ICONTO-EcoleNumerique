@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Comptes
 * @version   $Id: loginresult.zone.php,v 1.1 2006-03-06 16:18:31 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 class ZoneLoginResult extends CopixZone {

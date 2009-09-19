@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Album
 * @version   $Id: album.actiongroup.php,v 1.53 2008-10-20 08:04:43 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2005 CDC-TIC
 * @link      http://www.cdc-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -20,9 +20,9 @@ class ActionGroupAlbum extends CopixActionGroup {
 	/**
 	 * Affiche la liste des albums
 	 *
-	 * Cette page n'est plus utilisée depuis que l'album est lié à un noeud.
+	 * Cette page n'est plus utilisÃ©e depuis que l'album est liÃ© Ã  un noeud.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 * @deprecated 2006
 	 */
 	function getList () {
@@ -33,7 +33,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 
 /*
 		$tpl->assign ('MENU', 
-			(CopixUserProfile::CanDo("modules|album","publier")?'<li><a href="">Créer un album</a></li>':'')
+			(CopixUserProfile::CanDo("modules|album","publier")?'<li><a href="">CrÃ©er un album</a></li>':'')
 			);
 */
 
@@ -43,10 +43,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 	/**
 	 * Affiche le contenu d'un album
 	 *
-	 * Vérifie l'existance et les droits d'un album, et affiche les vignettes.
-	 * Vérifie également la présence de toutes les vignettes, et lance la génération au cas ou.
+	 * VÃ©rifie l'existance et les droits d'un album, et affiche les vignettes.
+	 * VÃ©rifie Ã©galement la prÃ©sence de toutes les vignettes, et lance la gÃ©nÃ©ration au cas ou.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAlbum () {
 		$tpl = & new CopixTpl ();
@@ -94,7 +94,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 			$dossier->album_id = $album_id;
 		}
 		
-		// Vérification des vignettes
+		// VÃ©rification des vignettes
 		
 		$key = $album->album_id.'_'.$album->album_cle;
 		CopixSession::delete ('modules|album|vignettes|'.$key);
@@ -224,7 +224,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 *
 	 * Demande la confirmation avant l'effacement d'un album.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getDelAlbum () {
 		$tpl = & new CopixTpl ();
@@ -244,9 +244,9 @@ class ActionGroupAlbum extends CopixActionGroup {
 	/**
 	 * Effacement d'un album.
 	 *
-	 * Non utilisé, depuis que l'album est lié à un noeud (effacement via une classe).
+	 * Non utilisÃ©, depuis que l'album est liÃ© Ã  un noeud (effacement via une classe).
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function doDelAlbum () {
 		
@@ -264,9 +264,9 @@ class ActionGroupAlbum extends CopixActionGroup {
 	/**
 	 * Affichage une photo.
 	 *
-	 * Affiche la photo d'un album, avec les liens vers les précédentes et suivantes.
+	 * Affiche la photo d'un album, avec les liens vers les prÃ©cÃ©dentes et suivantes.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getPhoto () {
 		$tpl = & new CopixTpl ();
@@ -334,7 +334,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 *
 	 * Affiche le formulaire d'upload d'une photo, avec nom et commentaire.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAddPhoto () {
 		$tpl = & new CopixTpl ();
@@ -397,14 +397,14 @@ class ActionGroupAlbum extends CopixActionGroup {
 	/**
 	 * Ajout une photo dans un album.
 	 *
-	 * Aprés vérification des droits et de l'image, engeristrement dans la base et copie du fichier dans le répertoire.
+	 * AprÃ©s vÃ©rification des droits et de l'image, engeristrement dans la base et copie du fichier dans le rÃ©pertoire.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function doAddPhoto () {
 		
 		// Temporaire...
-		@ini_set( 'memory_limit', '64M' ); // Pb d'allocation mémoire
+		@ini_set( 'memory_limit', '64M' ); // Pb d'allocation mÃ©moire
 		@ini_set( 'max_execution_time', '120' ); // Pd de temps de traitement
 		
 		if( !(_request("album_id") ) ) {
@@ -506,7 +506,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 *
 	 * Demande confirmation avant effacement d'une photo.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getDelPhoto () {
 		return CopixActionGroup::process ('genericTools|Messages::getConfirm',
@@ -522,9 +522,9 @@ class ActionGroupAlbum extends CopixActionGroup {
 	/**
 	 * Effacement de photo
 	 *
-	 * Procédure d'effacement de photo, dans la base et dans les fichiers
+	 * ProcÃ©dure d'effacement de photo, dans la base et dans les fichiers
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function doDelPhoto () {
 		
@@ -545,12 +545,12 @@ class ActionGroupAlbum extends CopixActionGroup {
 
 
 	/**
-	 * Envoie les données d'un fichier image.
+	 * Envoie les donnÃ©es d'un fichier image.
 	 *
-	 * Cette fonction permet de véfirier les droits d'accés et d'envoyer ensuite les données d'une image.
-	 * Ceci est remplacé par un accés direct aux fichiers, avec un clé dans le nom de l'album et de l'image.
+	 * Cette fonction permet de vÃ©firier les droits d'accÃ©s et d'envoyer ensuite les donnÃ©es d'une image.
+	 * Ceci est remplacÃ© par un accÃ©s direct aux fichiers, avec un clÃ© dans le nom de l'album et de l'image.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 * @deprecated 2005
 	 */
 	function getFile () {
@@ -580,7 +580,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$files = array();
 		if ($handle = opendir($path2album)) {
 			while (false !== ($file = readdir($handle)))
-				if( ereg("([0-9]+)(_?[0-9a-f]{10})?\.([a-zA-Z0-9]+)", $file, $regs) ) { // A modifier (obliger la clé MD5)
+				if( ereg("([0-9]+)(_?[0-9a-f]{10})?\.([a-zA-Z0-9]+)", $file, $regs) ) { // A modifier (obliger la clÃ© MD5)
 					if( $regs[1] == $photo_id ) {
 						$pathfile = $path2album."/".$file;
 						
@@ -635,8 +635,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 									// die('Type inconnu : '.$mime);
 							}
 
-							if (!$image) { /* Vérification */
-								$image = imagecreate(200, 30); /* Création d'une image blanche */
+							if (!$image) { /* VÃ©rification */
+								$image = imagecreate(200, 30); /* CrÃ©ation d'une image blanche */
 								$bgc = imagecolorallocate($image, 255, 255, 255);
 								$tc  = imagecolorallocate($image, 128, 128, 128);
 								imagefilledrectangle($image, 0, 0, 200, 30, $bgc);
@@ -650,7 +650,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 								}
 							
 							if (isset($GLOBALS['COPIX']['DEBUG'])){
-								$GLOBALS['COPIX']['DEBUG']->addInfo("Génération d'image (".$width."x".$height.")->(".$new_width."x".$new_height.")", 'Album :');
+								$GLOBALS['COPIX']['DEBUG']->addInfo("GÃ©nÃ©ration d'image (".$width."x".$height.")->(".$new_width."x".$new_height.")", 'Album :');
 							}
 
 							// SQUARE //
@@ -691,11 +691,11 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 
 	
 	/**
-	 * Accés direct à un album
+	 * AccÃ©s direct Ã  un album
 	 *
-	 * Fonction générique d'accés à un album, depuis un noeud.
+	 * Fonction gÃ©nÃ©rique d'accÃ©s Ã  un album, depuis un noeud.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function go () {
 		if( (_request("id") ) ) {
@@ -709,9 +709,9 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	/**
 	 * Ouverture de l'album en Popup
 	 *
-	 * Appel direct à l'album sous forme de popup pour le choix d'images depuis le blog.
+	 * Appel direct Ã  l'album sous forme de popup pour le choix d'images depuis le blog.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function popup () {
 		if( (_request("id") ) ) {
@@ -725,10 +725,10 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	/**
 	 * Affichage de l'album en popup
 	 *
-	 * Affichage simplifié de l'album, avec choix de la taille et de la position de l'image.
+	 * Affichage simplifiÃ© de l'album, avec choix de la taille et de la position de l'image.
 	 * Retourne le code Wiki pour l'affichage de l'image directement dans le blog.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getPopup () {
 		$tpl = & new CopixTpl ();
@@ -820,7 +820,7 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 		$tpl->assign ('field', _request("field") );
 		$tpl->assign ('format', $format );
 		
-		// On déduit le chemin absolu
+		// On dÃ©duit le chemin absolu
 		$path = $_SERVER['PHP_SELF'];
 		$pos = strrpos($path, "/");
 		if ($pos !== false) {
@@ -838,12 +838,12 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	}
 
 	/**
-	 * Création des vignettes manquantes
+	 * CrÃ©ation des vignettes manquantes
 	 *
-	 * Si des vignettes sont à créer, cette page va créer une vignette et se recharger pour créer les suivantes.
-	 * Ceci permet d'afficher l'avancé de la génération, et éviter les timeout.
+	 * Si des vignettes sont Ã  crÃ©er, cette page va crÃ©er une vignette et se recharger pour crÃ©er les suivantes.
+	 * Ceci permet d'afficher l'avancÃ© de la gÃ©nÃ©ration, et Ã©viter les timeout.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function vignettes () {
 		if( !(_request("album") ) ) {
@@ -917,9 +917,9 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	/**
 	 * Publication de l'album
 	 *
-	 * Copie les fichiers image et vignette, et génère le fichier XML pour SimpleViewer
+	 * Copie les fichiers image et vignette, et gÃ©nÃ¨re le fichier XML pour SimpleViewer
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function doPublier() {
 		
@@ -1022,11 +1022,11 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 
 
 	/**
-	 * Retire les éléments de publication.
+	 * Retire les Ã©lÃ©ments de publication.
 	 *
-	 * Supprime les fichiers pour l'accés depuis SimpleViewer
+	 * Supprime les fichiers pour l'accÃ©s depuis SimpleViewer
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function doDepublier() {
 		
@@ -1083,9 +1083,9 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	/**
 	 * Formulaire d'ajout d'images dans un Zip
 	 *
-	 * Affiche le formulaire de téléchargement de fichier zip.
+	 * Affiche le formulaire de tÃ©lÃ©chargement de fichier zip.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAddZip() {
 		$tpl = & new CopixTpl ();
@@ -1134,9 +1134,9 @@ if (isset($GLOBALS['COPIX']['DEBUG'])){
 	/**
 	 * Traitement de l'archive ZIP
 	 *
-	 * Décompresse l'archive, vérifie et exrait les images, puis lance la génération des vignettes.
+	 * DÃ©compresse l'archive, vÃ©rifie et exrait les images, puis lance la gÃ©nÃ©ration des vignettes.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDoAddZip() {
 		

@@ -3,7 +3,7 @@
  * @package  Iconito
  * @subpackage Album
  * @version   $Id: dossierstree.zone.php,v 1.4 2007-07-04 10:20:20 fmossmann Exp $
- * @author   Frédéric Mossmann
+ * @author   FrÃ©dÃ©ric Mossmann
  * @copyright 2007 CAP-TIC
  * @link      http://www.cap-tic.fr
  * @link      http://www.iconito.org

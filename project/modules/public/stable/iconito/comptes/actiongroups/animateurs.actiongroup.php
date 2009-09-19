@@ -3,24 +3,24 @@
 * @package  Iconito
 * @subpackage Comptes
 * @version   $Id: animateurs.actiongroup.php,v 1.1 2009-08-31 10:00:17 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2009 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
 /**
- * @author	Frédéric Mossmann
+ * @author	FrÃ©dÃ©ric Mossmann
  */
 class ActionGroupAnimateurs extends CopixActionGroup {
 
 	/**
 	 * list
 	 * 
-	 * Affiche le formulaire de modification d'un utilisateur extérieur
+	 * Affiche le formulaire de modification d'un utilisateur extÃ©rieur
 	 * 
 	 * @package	Comptes
-	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getList() {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )

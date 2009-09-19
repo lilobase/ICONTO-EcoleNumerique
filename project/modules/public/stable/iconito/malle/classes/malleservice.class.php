@@ -13,12 +13,12 @@ class MalleService {
 	/**
 	 * Retourne des infos sur un type MIME en clair
 	 *
-	 * A partir d'un type MIME ou d'une extension de fichier, retourne des infos en clair dans un tableau indexé : type_txt = nom en clair en Français (ex: Document Word), type_icon = nom de l'image icone à utiliser (dans /www/img/malle/)
+	 * A partir d'un type MIME ou d'une extension de fichier, retourne des infos en clair dans un tableau indexÃ© : type_txt = nom en clair en FranÃ§ais (ex: Document Word), type_icon = nom de l'image icone Ã  utiliser (dans /www/img/malle/)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/06
 	 * @param string $mime_type Type MIME
-	 * @return array Tableau indexé
+	 * @return array Tableau indexÃ©
 	 */
 	function getTypeInfos ($mime_type, $file_name='') {
 		//print_r("getTypeInfos ($mime_type)");
@@ -150,7 +150,7 @@ class MalleService {
 	
 
 	/**
-	 * Met à jour les infos d'un répertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "haut" jusqu'à la racine
+	 * Met Ã  jour les infos d'un rÃ©pertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "haut" jusqu'Ã  la racine
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
@@ -175,7 +175,7 @@ class MalleService {
 
 
 	/**
-	 * Met à jour les infos d'un répertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "bas" dans ses sous-répertoires (fonction récursive)
+	 * Met Ã  jour les infos d'un rÃ©pertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "bas" dans ses sous-rÃ©pertoires (fonction rÃ©cursive)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
@@ -199,7 +199,7 @@ class MalleService {
 		//$res["date_maj"] = $infos[0]->date_maj;
 		$res["nb_folders"] = $infos2[0]->nb;
 
-		// Les répertoires en-dessous"
+		// Les rÃ©pertoires en-dessous"
 		$folders = $daoFolders->getFoldersInFolder($malle, $folder);
 		foreach ($folders as $rep) {
 			//print_r($rep);
@@ -233,7 +233,7 @@ class MalleService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
-	 * @param object rFile recordset du fichier (récupéré par DAO)
+	 * @param object rFile recordset du fichier (rÃ©cupÃ©rÃ© par DAO)
 	 */
 	function deleteFile ($rFile) {
 		$daoFiles = _dao("malle|malle_files");
@@ -246,11 +246,11 @@ class MalleService {
 	}
 
 	/**
-	 * Suppression d'un répertoire. Supprime aussi ses sous-répertoires
+	 * Suppression d'un rÃ©pertoire. Supprime aussi ses sous-rÃ©pertoires
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
-	 * @param object $rFile recordset du dossier (récupéré par DAO)
+	 * @param object $rFile recordset du dossier (rÃ©cupÃ©rÃ© par DAO)
 	 */
 	function deleteFolder ($rFolder) {
 		
@@ -278,9 +278,9 @@ class MalleService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
 	 * @param integer $malle	Id de la malle
-	 * @param integer $folder (option, 0 par défaut) Id du dossier (ou 0 si racine)
-	 * @param integer $niveau (option, 1 par défaut)	Profondeur dans l'arbre
-	 * @return array Tableau avec l'arborescence. Chaque dossier correspond à une entrée dans le tableau, comprenant un tableau indexé comme suit : id (id du dossier), nom (son nom), niveau (profondeur par rapport à la racine)
+	 * @param integer $folder (option, 0 par dÃ©faut) Id du dossier (ou 0 si racine)
+	 * @param integer $niveau (option, 1 par dÃ©faut)	Profondeur dans l'arbre
+	 * @return array Tableau avec l'arborescence. Chaque dossier correspond Ã  une entrÃ©e dans le tableau, comprenant un tableau indexÃ© comme suit : id (id du dossier), nom (son nom), niveau (profondeur par rapport Ã  la racine)
 	 */
 	function buildComboFolders ($malle, $folder=0, $niveau=1) {
 		//print_r("buildComboFolders ($malle, $folder, $res)");
@@ -298,14 +298,14 @@ class MalleService {
 	}
 
 	/**
-	 * Teste si un dossier est situé "plus bas" qu'un autre dossier (cad figure dans son arborescence)
+	 * Teste si un dossier est situÃ© "plus bas" qu'un autre dossier (cad figure dans son arborescence)
 	 *
-	 * Sert notamment de vérification avant de déplacer/copier un dossier
+	 * Sert notamment de vÃ©rification avant de dÃ©placer/copier un dossier
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/06
 	 * @param integer $folder1	Id du premier dossier
-	 * @param integer $folder2	Id du deuxième dossier
+	 * @param integer $folder2	Id du deuxiÃ¨me dossier
 	 * @return bool true si $folder1 est dans l'arborescence descendante partant de $folder2, false sinon
 	 */
 	function isFolderUnderFolder ($folder1, $folder2) {
@@ -316,7 +316,7 @@ class MalleService {
 
 		$rFolder = $daoFolders->get($folder1);
 		$fusible = 99;
-		// On remonte de $folder1 jusqu'à la racine ou jusqu'à trouver $folder2
+		// On remonte de $folder1 jusqu'Ã  la racine ou jusqu'Ã  trouver $folder2
 		while (!$fini && $fusible) {
 			
 			if ($rFolder->parent==0 || $rFolder->parent==$folder2)
@@ -342,16 +342,16 @@ class MalleService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
-	 * @param object $rFile recordset du fichier "source" à copier (obtenu par DAO)
-	 * @param integer $folderDest Id du répertoire destination
-	 * @return true si l'opération s'est bien passée, false sinon
+	 * @param object $rFile recordset du fichier "source" Ã  copier (obtenu par DAO)
+	 * @param integer $folderDest Id du rÃ©pertoire destination
+	 * @return true si l'opÃ©ration s'est bien passÃ©e, false sinon
 	 */
 	function copyFile ($rFile, $folderDest) {
 		//print_r($rFile);
 		$res = false;
 		$daoFiles = _dao("malle|malle_files");
 		
-		// On insère d'abord dans la base
+		// On insÃ¨re d'abord dans la base
 		$new = _record("malle|malle_files");
 		$new->malle = $rFile->malle;
 		$new->folder = $folderDest;
@@ -383,9 +383,9 @@ class MalleService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
-	 * @param object $rFolder recordset du dossier "source" à copier (obtenu par DAO)
-	 * @param integer $folderDest Id du répertoire destination
-	 * @return mixed id du dossier crée, ou NULL si problème
+	 * @param object $rFolder recordset du dossier "source" Ã  copier (obtenu par DAO)
+	 * @param integer $folderDest Id du rÃ©pertoire destination
+	 * @return mixed id du dossier crÃ©e, ou NULL si problÃ¨me
 	 */
 	function copyFolder ($rFolder, $folderDest) {
 		//print_r($rFolder);
@@ -393,7 +393,7 @@ class MalleService {
 		$daoFolders = _dao("malle|malle_folders");
 		$daoFiles = _dao("malle|malle_files");
 		
-		// On insère d'abord dans la base
+		// On insÃ¨re d'abord dans la base
 		$new = _record("malle|malle_folders");
 		$new->malle = $rFolder->malle;
 		$new->parent = $folderDest;
@@ -406,7 +406,7 @@ class MalleService {
 				
 		if ($new->id!==NULL) {
 			
-			// On cherche ses fichiers, à copier aussi
+			// On cherche ses fichiers, Ã  copier aussi
 			$files = $daoFiles->getFilesInFolder($rFolder->malle, $rFolder->id);
 			foreach ($files as $file) {
 				malleService::copyFile ($file, $new->id);
@@ -431,7 +431,7 @@ class MalleService {
 	/**
 	 * Gestion des droits dans une malle
 	 *
-	 * Teste si l'usager peut effectuer une certaine opération par rapport à son droit. Le droit sur la malle nécessite d'être connu, renvoyé par le kernel avant l'entrée dans cette fonction.
+	 * Teste si l'usager peut effectuer une certaine opÃ©ration par rapport Ã  son droit. Le droit sur la malle nÃ©cessite d'Ãªtre connu, renvoyÃ© par le kernel avant l'entrÃ©e dans cette fonction.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
@@ -452,7 +452,7 @@ class MalleService {
 				break;
 			case "FOLDER_CREATE" :
 			case "ITEM_DELETE" : // Supprimer fichier/dossier
-			case "ITEM_MOVE" : // Déplacer fichier/dossier
+			case "ITEM_MOVE" : // DÃ©placer fichier/dossier
 			case "ITEM_COPY" : // Copier fichier/dossier
 			case "ITEM_RENAME" : // Renommer fichier/dossier
 				$can = ($droit >= PROFILE_CCV_MODERATE);
@@ -464,7 +464,7 @@ class MalleService {
 
 
 	/**
-	 * Renvoie le chemin vers le répertoire temporaire du serveur, dans lequel Apache a les droits d'écriture
+	 * Renvoie le chemin vers le rÃ©pertoire temporaire du serveur, dans lequel Apache a les droits d'Ã©criture
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/20
@@ -485,7 +485,7 @@ class MalleService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/21
 	 * @param string $dir Chemin complet
-	 * @return boolean True si suppression bien passée, false sinon
+	 * @return boolean True si suppression bien passÃ©e, false sinon
 	 */
 
 	function deleteDir($dir)
@@ -530,9 +530,9 @@ class MalleService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/09
 	 * @param integer $malle Id de la malle
-	 * @param integer $folder Id du dossier de départ
-	 * @param integer $files Fichiers trouvés. Tableau passé par référence et complété au fur et à mesure, contenant donc les résultats à exploiter 
-	 * @param string $path Chemin (type x/dossier/photos), utilisé pour parcourir les sous-dossiers, uniquement utilisé pour info
+	 * @param integer $folder Id du dossier de dÃ©part
+	 * @param integer $files Fichiers trouvÃ©s. Tableau passÃ© par rÃ©fÃ©rence et complÃ©tÃ© au fur et Ã  mesure, contenant donc les rÃ©sultats Ã  exploiter 
+	 * @param string $path Chemin (type x/dossier/photos), utilisÃ© pour parcourir les sous-dossiers, uniquement utilisÃ© pour info
 	 */
 	function getFilesInFolder ($malle, $folder, &$files, $path='') {
 		
@@ -566,11 +566,11 @@ class MalleService {
 	}
 
 	/**
-	 * Génération d'une clé hexa de 10 caractères aléatoires
+	 * GÃ©nÃ©ration d'une clÃ© hexa de 10 caractÃ¨res alÃ©atoires
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/11/23
-	 * @return string Clé hexa de 10 caractères aléatoires
+	 * @return string ClÃ© hexa de 10 caractÃ¨res alÃ©atoires
 	 */
 	function createKey () {
 		return substr( md5(microtime()), 0, 10 );

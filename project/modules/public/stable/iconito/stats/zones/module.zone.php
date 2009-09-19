@@ -10,16 +10,16 @@
  */
 
 /**
-* Affichage des stats d'un module précis
+* Affichage des stats d'un module prÃ©cis
 * 
 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 * @since 2007/06/15
 * @param string $module_type Type du module
 * @param integer $module_id Id du module
-* @param string $url Adresse à utiliser pour les liens à l'intérieur de l'affichage des stats, pour afficher d'autres périodes etc.
+* @param string $url Adresse Ã  utiliser pour les liens Ã  l'intÃ©rieur de l'affichage des stats, pour afficher d'autres pÃ©riodes etc.
 * @param date $date (option) Date
 * @param integer $mois (option) Mois
-* @param integer $annee (option) Année
+* @param integer $annee (option) AnnÃ©e
 */
 class ZoneModule extends CopixZone {
 	function _createContent (&$toReturn) {

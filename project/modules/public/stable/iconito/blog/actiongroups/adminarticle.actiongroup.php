@@ -2,7 +2,7 @@
 /**
 * @package  copix
 * @version   $Id: adminarticle.actiongroup.php,v 1.21 2008-12-15 16:53:11 cbeyer Exp $
-* @author Vallat Cédric.
+* @author Vallat CÃ©dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -17,7 +17,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 	
 
   /**
-    * Préparation à l'édition d'un article.
+    * PrÃ©paration Ã  l'Ã©dition d'un article.
     */
   function doPrepareEditArticle() {
 		
@@ -43,7 +43,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 		$id_bact = $this->getRequest('id_bact', null);
 		$article = CopixDAOFactory::createRecord('blogarticle');
 
-		// Préparation du filtre CATEGORIES
+		// PrÃ©paration du filtre CATEGORIES
 		$blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
 		$resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
 
@@ -52,7 +52,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 			$articleDAO = CopixDAOFactory::create('blog|blogarticle');
 			$article = $articleDAO->get($id_bact);
 			$article->time_bact = BDToTime($article->time_bact);
-			// Recherche des catégories correspondantes à cet article
+			// Recherche des catÃ©gories correspondantes Ã  cet article
 			$artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
 			$tabSelectCat = $artctgDAO->findIdCategoryForArticle($article->id_bact);
 			//var_dump($tabSelectCat);
@@ -104,7 +104,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   		$this->_validFromPostProperties($article);
 		
 
-		// Catégories cochées...
+		// CatÃ©gories cochÃ©es...
 	    $tabSelectCat = array();
 	    if(_request('tabSelectCat')) {
 	      $tabSelectCat = (array) _request('tabSelectCat');
@@ -138,11 +138,11 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
     $tpl = & new CopixTpl ();
 
-    // On récupère l'utilisateur connecté
+    // On rÃ©cupÃ¨re l'utilisateur connectÃ©
     $user = BlogAuth::getUserInfos();
 
     $articleDAO = CopixDAOFactory::create('blog|blogarticle');
-    // Catégories cochées...
+    // CatÃ©gories cochÃ©es...
     $tabSelectCat = array();
     if(_request('tabSelectCat')) {
       $tabSelectCat = (array) _request('tabSelectCat');
@@ -218,7 +218,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       }
     }
 
-    // Préparation du filtre CATEGORIES
+    // PrÃ©paration du filtre CATEGORIES
     $blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
     $resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
     $tabArticleCategory = array();
@@ -274,12 +274,12 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     $this->_validFromPostProperties($article);
     $article->url_bact = killBadUrlChars($article->name_bact);
 
-    // Catégories cochées...
+    // CatÃ©gories cochÃ©es...
     $tabSelectCat = array();
     if(_request('tabSelectCat')) {
       $tabSelectCat = (array) _request('tabSelectCat');
     }
-    // Préparation du filtre CATEGORIES
+    // PrÃ©paration du filtre CATEGORIES
     $blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
     $resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
     $tabArticleCategory = array();
@@ -371,7 +371,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   
   
   /**
-	* Mise en session des paramètres de l'article
+	* Mise en session des paramÃ¨tres de l'article
 	* @access : private.
 	*/
 	function _setSessionArticle ($toSet){
@@ -379,7 +379,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 	
 	
 	/**
-	* Récupération en session des paramètres de l'article
+	* RÃ©cupÃ©ration en session des paramÃ¨tres de l'article
 	* @access : private.
 	*/
 	function _getSessionArticle () {

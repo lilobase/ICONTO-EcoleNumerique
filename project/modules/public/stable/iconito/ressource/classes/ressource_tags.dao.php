@@ -2,7 +2,7 @@
 
 class DAORessource_Tags {
 	
-	// Liste des tags joints à un tag donné, avec le nombre de ressources attachées.
+	// Liste des tags joints Ã  un tag donnÃ©, avec le nombre de ressources attachÃ©es.
 	function getSimilarTags ($tag, $annu=0) {
 		$tag = addslashes( $tag );
 
@@ -49,7 +49,7 @@ class DAORessource_Tags {
 	}
 	
 	
-	// Cherche les ressources classées dans une certaine fonction
+	// Cherche les ressources classÃ©es dans une certaine fonction
 	function getAdvancedSearch ($params, $id_annuaire) {
 		
 		//print_r($params);
@@ -59,7 +59,7 @@ class DAORessource_Tags {
 		$critere = 'SELECT DISTINCT(RESS.id), RESS.nom, RESS.description, RESS.submit_date, RESS.valid_date, RESS.url FROM module_ressource_ressources RESS';
 		$where[] = 'RESS.id_annu='.$id_annuaire;
 		
-		// 0. Mot clé
+		// 0. Mot clÃ©
 		if ($params['mot']) {
 			$testpattern=str_replace(array(" ","%20"), "%20", $params['mot']);
 			$temp = split ("%20", $testpattern);
@@ -110,7 +110,7 @@ class DAORessource_Tags {
 		return _doQuery ($critere);
 	}
 
-	// Cherche les ressources classées dans un certaine contenu
+	// Cherche les ressources classÃ©es dans un certaine contenu
 	function getSearchRessourcesInContenu ($id_contenu, $id_annuaire) {
 		$critere = 'SELECT RESS.id, RESS.nom, RESS.description FROM module_ressource_ressources RESS, module_ressource_res2contenu R2C WHERE R2C.id_ressource=RESS.id AND R2C.id_contenu='.$id_contenu.' AND RESS.id_annu='.$id_annuaire.' ORDER BY nom ASC, id ASC';
 		return _doQuery ($critere);

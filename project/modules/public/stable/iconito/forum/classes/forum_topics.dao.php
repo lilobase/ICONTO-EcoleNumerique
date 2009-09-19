@@ -9,14 +9,14 @@
 class DAOForum_Topics {
 
 	/**
-	 * La liste des discussion d'un forum, avec éventuellement la date de dernière lecture par l'utilisateur concerné
+	 * La liste des discussion d'un forum, avec Ã©ventuellement la date de derniÃ¨re lecture par l'utilisateur concernÃ©
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/08
 	 * @param integer $forum Id du forum
-	 * @param integer $offset Position dans la liste des discussions (requête: ...LIMIT offset,count)
-	 * @param integer $count Nombre de discussions à renvoyer (requête: ...LIMIT offset,count)
-	 * @param string $orderby Champ ORDER BY de la requête (doit valoir last_msg_date ou date_creation)
+	 * @param integer $offset Position dans la liste des discussions (requÃªte: ...LIMIT offset,count)
+	 * @param integer $count Nombre de discussions Ã  renvoyer (requÃªte: ...LIMIT offset,count)
+	 * @param string $orderby Champ ORDER BY de la requÃªte (doit valoir last_msg_date ou date_creation)
 	 * @param integer $user Id de l'utilisateur lisant le forum
 	 * @return mixed Objet DAO
 	 */

@@ -2,7 +2,7 @@
 /**
 * @package	  copix
 * @version	  $Id: blogarticle_blogarticlecategory.dao.class.php,v 1.6 2006-10-09 16:21:31 cbeyer Exp $
-* @author	    Vallat Cédric see copix.aston.fr for other contributors.
+* @author	    Vallat CÃ©dric see copix.aston.fr for other contributors.
 * @copyright  2001-2005 CopixTeam
 * @link       http://copix.org
 * @licence    http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file

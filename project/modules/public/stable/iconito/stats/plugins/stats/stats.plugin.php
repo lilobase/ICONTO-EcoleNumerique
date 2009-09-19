@@ -10,7 +10,7 @@
 */
 class PluginStats extends CopixPlugin {
 		
-		var $save = true;	// Permet d'empêcher de logger
+		var $save = true;	// Permet d'empÃªcher de logger
 
 		var $module = '';
 		var $action = '';
@@ -40,7 +40,7 @@ class PluginStats extends CopixPlugin {
    function afterProcess($actionreturn){
 		
 		//print_r($copixaction);
-		// === Si les stats ne sont pas du tout activés, on zappe ===
+		// === Si les stats ne sont pas du tout activÃ©s, on zappe ===
 		$statsEnabled = CopixConfig::get ('default|statsEnabled');
 		if (!$statsEnabled)
 			return;
@@ -109,8 +109,8 @@ class PluginStats extends CopixPlugin {
    }
 	 
 	 /**
-	  * Force des paramètres
-    * @param array params Paramètres à personnaliser
+	  * Force des paramÃ¨tres
+    * @param array params ParamÃ¨tres Ã  personnaliser
 		*/ 
 	 function setParams ($params) {
 	 	if (isset($params['module']))	$this->module = $params['module'];
@@ -123,8 +123,8 @@ class PluginStats extends CopixPlugin {
 	 }
 	 
 	 /**
-	  * Force des paramètres
-    * @param boolean $save Définit si on sauve ou pas comme prévu
+	  * Force des paramÃ¨tres
+    * @param boolean $save DÃ©finit si on sauve ou pas comme prÃ©vu
 		*/ 
 	 function setSave ($save) {
 	 	$this->module_id = $save;
@@ -133,7 +133,7 @@ class PluginStats extends CopixPlugin {
 }
 
 /**
-* Objet métier pour ajouter des urls en base.
+* Objet mÃ©tier pour ajouter des urls en base.
 */
 class DAOPluginStats {
  

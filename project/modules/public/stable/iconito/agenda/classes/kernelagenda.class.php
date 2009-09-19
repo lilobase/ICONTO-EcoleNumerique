@@ -12,12 +12,12 @@ _classInclude('agenda|agendatype');
 class KernelAgenda {
 
 	/**
-	 * Création d'un agenda
+	 * CrÃ©ation d'un agenda
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/08/24
 	 * @param array $infos (option) informations permettant d'initialiser le blog. Index: title, node_type, node_id
-	 * @return integer l'Id de l'agenda créé ou NULL si erreur
+	 * @return integer l'Id de l'agenda crÃ©Ã© ou NULL si erreur
 	 */
 	function create ($infos=array()) {
 		
@@ -42,12 +42,12 @@ class KernelAgenda {
 	/**
 	 * Suppression d'un agenda
 	 *
-	 * Supprime un agenda, ses évènements, leçons etc.
+	 * Supprime un agenda, ses Ã©vÃ¨nements, leÃ§ons etc.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/08/24
-	 * @param integer $id Id de l'agenda à supprimer 
-	 * @return boolean true si la suppression s'est bien passée, false sinon
+	 * @param integer $id Id de l'agenda Ã  supprimer 
+	 * @return boolean true si la suppression s'est bien passÃ©e, false sinon
 	 */
 	function delete ($id_agenda) {
 
@@ -56,12 +56,12 @@ class KernelAgenda {
 	/**
 	 * Statistiques d'un agenda
 	 *
-	 * Renvoie des éléments chiffrés relatifs à un agenda : nombre d'évènements...
+	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs Ã  un agenda : nombre d'Ã©vÃ¨nements...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/08/24
 	 * @param integer $id_agenda Id de l'agenda
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbEvenements"]
+	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbEvenements"]
 	 */
 	function getStats ($id_agenda) {
 		$res = array();	
@@ -75,11 +75,11 @@ class KernelAgenda {
 	/**
 	 * Statistiques du module agenda
 	 *
-	 * Renvoie des éléments chiffrés relatifs aux agendas et dédiés à un utilisateur système : nombre d'évènements...
+	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs aux agendas et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : nombre d'Ã©vÃ¨nements...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbAgendas"] ["nbEvenements"] ["nbLecons"]
+	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbAgendas"] ["nbEvenements"] ["nbLecons"]
 	 */
 	function getStatsRoot () {
 		$res = array();	

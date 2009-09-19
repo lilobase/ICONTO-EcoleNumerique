@@ -16,21 +16,21 @@ class ComptesService {
 	/**
 	 * createLogin
 	 *
-	 * Propose un login en fonction des information de l'utilisateur (nom, prénom, rôle, etc.)
+	 * Propose un login en fonction des information de l'utilisateur (nom, prÃ©nom, rÃ´le, etc.)
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 * @param array $user_infos Tableau des informations de l'utilisateur.
-	 * @return string Login composé des information disponibles.
+	 * @return string Login composÃ© des information disponibles.
 	 */
 	function createLogin( $user_infos ) {
 		
-		// Caractères pouvant être dans un nom/prenom.
+		// CaractÃ¨res pouvant Ãªtre dans un nom/prenom.
 		$interdits = array(" ", "'", "-");
 		
 		$nom = $user_infos['nom'];
 		$prenom = $user_infos['prenom'];
 		
-		// Recherche des initiales : la première lettre de chaque entité dans un nom/prenom.
+		// Recherche des initiales : la premiÃ¨re lettre de chaque entitÃ© dans un nom/prenom.
 		$separateur_init = implode( '', $interdits );
 		$tok = strtok($nom, $separateur_init);
 		while ($tok !== false) {
@@ -43,7 +43,7 @@ class ComptesService {
 			$tok = strtok($separateur_init);
 		}
 		
-		// Retrait des caractères spéciaux des noms/prénoms.
+		// Retrait des caractÃ¨res spÃ©ciaux des noms/prÃ©noms.
 		$nom       = str_replace($interdits, "", $nom);
 		$prenom    = str_replace($interdits, "", $prenom);
 		
@@ -55,24 +55,24 @@ class ComptesService {
 		
 		$login_parts = array();
 		switch( $user_infos['type'] ) {
-			case 'USER_ELE': // Elèves : Prénom et initiale du nom
+			case 'USER_ELE': // ElÃ¨ves : PrÃ©nom et initiale du nom
 				if( trim($prenom)   != '' ) $login_parts[] = $prenom;
 				// if( trim($nom_init) != '' ) $login_parts[] = $nom_init;
 				$login = implode( '', $login_parts );
 				break;
-			case 'USER_VIL': // Officiels : prénom et nom séparés par un point
+			case 'USER_VIL': // Officiels : prÃ©nom et nom sÃ©parÃ©s par un point
 				if( trim($prenom) != '' ) $login_parts[] = $prenom;
 				if( trim($nom)    != '' ) $login_parts[] = $nom;
 				$login = implode( '.', $login_parts );
 				break;
-			default; // Par défaut : initiale du prénom et nom
+			default; // Par dÃ©faut : initiale du prÃ©nom et nom
 				if( trim($prenom_init) != '' ) $login_parts[] = $prenom_init;
 				if( trim($nom)         != '' ) $login_parts[] = $nom;
 				$login = implode( '', $login_parts );
 				break;
 		}
 		
-		$ext=''; $fusible=1000; // Fusible pour éviter les boucles sans fin.
+		$ext=''; $fusible=1000; // Fusible pour Ã©viter les boucles sans fin.
 		while( $this->user_service->get($login.$ext) && $fusible-- ) {
 			if( $ext=='' ) $ext=1;
 			else $ext++;
@@ -84,10 +84,10 @@ class ComptesService {
 	/**
 	 * createPasswd
 	 *
-	 * Propose un mot de passe aléatoire.
+	 * Propose un mot de passe alÃ©atoire.
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
-	 * @return string Mot de passe aléatoire.
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @return string Mot de passe alÃ©atoire.
 	 */
 	function createPasswd() {
 		$lettres  = 'abcdefghijklmnopqrstuvwxyz';
@@ -125,7 +125,7 @@ class ComptesService {
 		return $tab;
 	}
 
-	// Tri les elèves
+	// Tri les elÃ¨ves
 	function order_tab_eleves ($tab) {
 		usort ($tab, array("AnnuaireService", "compare_info_nom"));
 		return $tab;
@@ -172,7 +172,7 @@ class ComptesService {
 		
 		$level = max( $level, Kernel::getLevel_r( 'ROOT','0' ) );
 		
-		if( $level<70 ) { // A vérifier...
+		if( $level<70 ) { // A vÃ©rifier...
 			die( 'Pas le droit !' );
 		}
 		

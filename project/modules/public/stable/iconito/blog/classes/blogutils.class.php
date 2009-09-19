@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version	$Id: blogutils.class.php,v 1.15 2007-06-01 16:08:43 cbeyer Exp $
-* @author	Cédric VALLAT, Bertrand Yan see copix.aston.fr for other contributors.
+* @author	CÃ©dric VALLAT, Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -84,7 +84,7 @@ function BDToDateTime($date, $time, $format) {
 
 
 	/**
-	 * Retourne le blog d'un noeud (personne, école, classe...)
+	 * Retourne le blog d'un noeud (personne, Ã©cole, classe...)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/16
@@ -108,7 +108,7 @@ function BDToDateTime($date, $time, $format) {
 	}
 
 	/**
-	 * Crée un objet de type BLOG à partir d'un ID
+	 * CrÃ©e un objet de type BLOG Ã  partir d'un ID
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/06/01

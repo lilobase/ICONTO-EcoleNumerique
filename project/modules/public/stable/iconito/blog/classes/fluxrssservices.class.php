@@ -11,7 +11,7 @@
 class FluxRSSServices {
 
 	/**
-	* Récupère le flux RSS à partir d'une URL.
+	* RÃ©cupÃ¨re le flux RSS Ã  partir d'une URL.
 	* Utilise MagpieRss http://magpierss.sourceforge.net/ 
 	*/
 	function getRss($url, $nbMax = -1) {
@@ -72,7 +72,7 @@ class FluxRSSServices {
 	}	
 
    /**
-	 * Convertit les caractères 
+	 * Convertit les caractÃ¨res 
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/11/28

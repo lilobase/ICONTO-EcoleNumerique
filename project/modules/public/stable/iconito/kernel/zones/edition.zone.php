@@ -10,14 +10,14 @@ class ZoneEdition extends CopixZone {
 
 	
 	/**
-	 * Affiche la sÈrie de boutons permettant ‡ l'utilisateur de mettre en forme simplement le texte qu'il saisit dans une zone de texte libre.
+	 * Affiche la s√©rie de boutons permettant √† l'utilisateur de mettre en forme simplement le texte qu'il saisit dans une zone de texte libre.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/05/22
 	 * @param string $field Nom du champ dans le formulaire.
-	 * @param string $format Format ‡ utiliser (html, wiki...)
+	 * @param string $format Format √† utiliser (html, wiki...)
 	 * @param string $content Contenu "brut" saisi
-	 * @param array $objet (option) Module dans lequel se trouve la zone d'Èdition, dans un tableau indexÈ avec TYPE et ID (exemple: type=>MOD_BLOG, id=>4). Si positionnÈ, on va vÈrifier si le parent de cet objet a un album photos, et si oui on affiche le lien vers l'album photos en mode popup
+	 * @param array $objet (option) Module dans lequel se trouve la zone d'√©dition, dans un tableau index√© avec TYPE et ID (exemple: type=>MOD_BLOG, id=>4). Si positionn√©, on va v√©rifier si le parent de cet objet a un album photos, et si oui on affiche le lien vers l'album photos en mode popup
 	 * @param integer $width (option) Largeur de la zone de saisie
 	 * @param integer $height (option) Hauteur de la zone de saisie
 	 * @param array $options (option) Options permettant de personnaliser la zone

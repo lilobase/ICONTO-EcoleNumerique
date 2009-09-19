@@ -17,11 +17,11 @@ class ActionGroupSso extends CopixActionGroup {
       $id = $this->getRequest('id', null);
       
    		if (!$id) {
-			// Récupération des infos de l'utilisateur.
+			// RÃ©cupÃ©ration des infos de l'utilisateur.
 			$userInfo = Kernel::getUserInfo();
-			// Création des modules inexistants.
+			// CrÃ©ation des modules inexistants.
 			Kernel::createMissingModules( $userInfo["type"], $userInfo["id"] );
-			// Liste des modules activés.
+			// Liste des modules activÃ©s.
 			$modsList = Kernel::getModEnabled( $userInfo["type"], $userInfo["id"] );
 			foreach( $modsList AS $modInfo ) {
 				if( $modInfo->module_type == "MOD_SSO" && $modInfo->module_id) {
@@ -33,7 +33,7 @@ class ActionGroupSso extends CopixActionGroup {
 		
 
     if (!$id)
-			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>'Problème', 'back'=>CopixUrl::get('||')));  
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>'ProblÃ¨me', 'back'=>CopixUrl::get('||')));  
         
    
 		$tpl = & new CopixTpl ();
@@ -104,7 +104,7 @@ class ActionGroupSso extends CopixActionGroup {
 	 * @since 2006/11/14
 	 * @param integer $sso Id de la collection SSO
 	 * @param array $errors Tableau d'erreurs
-	 * @todo vérifier les droits
+	 * @todo vÃ©rifier les droits
 	 */
   function processGetServiceNewForm () {
 		$id = $this->getRequest('id', null);
@@ -140,9 +140,9 @@ class ActionGroupSso extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/11/14
 	 * @param integer $sso Id de la collection SSO
-	 * @param string $url URL à interroger
+	 * @param string $url URL Ã  interroger
 	 * @param string $type Type
-   * @todo vérifier les droits
+   * @todo vÃ©rifier les droits
    */
   function doServiceNewForm () {
 		$id = $this->getRequest('id', null);
@@ -189,14 +189,14 @@ class ActionGroupSso extends CopixActionGroup {
   }
 
    /**
-	 * Activation d'un service SSO. Adresse "cachée" utilisée par le site distant après vérification du compte à jumeler
+	 * Activation d'un service SSO. Adresse "cachÃ©e" utilisÃ©e par le site distant aprÃ¨s vÃ©rification du compte Ã  jumeler
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/11/14
-	 * @param integer $id Id du SSO à activer
+	 * @param integer $id Id du SSO Ã  activer
 	 * @param string $login_distant Login distant
-	 * @param string $key Clé utilisée pour communiquer entre les 2 sites
-   * @todo vérifier les droits et tester les erreurs. Afficher un message OK quand l'activation s'est bien passée ?
+	 * @param string $key ClÃ© utilisÃ©e pour communiquer entre les 2 sites
+   * @todo vÃ©rifier les droits et tester les erreurs. Afficher un message OK quand l'activation s'est bien passÃ©e ?
    */
   
   function doActivateService () {
@@ -235,7 +235,7 @@ class ActionGroupSso extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/11/14
-	 * @param integer $id Id du SSO à supprimer
+	 * @param integer $id Id du SSO Ã  supprimer
    */
   
   function doDeleteService () {

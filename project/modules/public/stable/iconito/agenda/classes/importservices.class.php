@@ -15,24 +15,24 @@ class ImportService {
 	
 	
 	/**
-	* Fonction qui insère en base de données les évènements récupérés du fichier iCal
+	* Fonction qui insÃ¨re en base de donnÃ©es les Ã©vÃ¨nements rÃ©cupÃ©rÃ©s du fichier iCal
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/11 
-	* @param array $pArEventsICal le tableau construit après parse du fichier iCal
-	* @param integer $pIdAgenda identifiant de l'agenda dans lequel doivent être insérés les évènements
-	* @return interger $nbEventsInseres nombre d'insertions effectuées
+	* @param array $pArEventsICal le tableau construit aprÃ¨s parse du fichier iCal
+	* @param integer $pIdAgenda identifiant de l'agenda dans lequel doivent Ãªtre insÃ©rÃ©s les Ã©vÃ¨nements
+	* @return interger $nbEventsInseres nombre d'insertions effectuÃ©es
 	*/
 	function importSansVider($pArEventsICal, $pIdAgenda){
 		$serviceDate = new DateService;
 		$nbEventsInseres = 0;
 		foreach($pArEventsICal as $day=>$arEventsByDay){
-			if(is_numeric($day) && strlen($day) == 8){//on élimine les première case du tableau qui nous sont inutiles
+			if(is_numeric($day) && strlen($day) == 8){//on Ã©limine les premiÃ¨re case du tableau qui nous sont inutiles
 				foreach($arEventsByDay as $key=>$arEvents){
 					foreach($arEvents as $event){								
 						if($event['event_text'] != null && $event['start_unixtime'] != null && $event['end_unixtime'] != null && $event['event_start'] != null && $event['event_end'] != null){
 							$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
 							$record   = _record ('event');
-							//on regarde si l'évènement à insérer existe déjà dans l'agenda
+							//on regarde si l'Ã©vÃ¨nement Ã  insÃ©rer existe dÃ©jÃ  dans l'agenda
 							$criteres = _daoSp();
 							$criteres->addCondition('id_agenda'     , '=', $pIdAgenda);
 							$criteres->addCondition('title_event'   , '=', $event['event_text']);
@@ -41,11 +41,11 @@ class ImportService {
 							$criteres->addCondition('heuredeb_event', '=', $serviceDate->heureWithoutSeparateurToheureWithSeparateur($event['event_start']));
 							$criteres->addCondition('heurefin_event', '=', $serviceDate->heureWithoutSeparateurToheureWithSeparateur($event['event_end']));	
 							$resultat = $daoEvent->findBy($criteres);
-							if (count($resultat) > 0){//l'évènement existe, on passe au suivant
+							if (count($resultat) > 0){//l'Ã©vÃ¨nement existe, on passe au suivant
 								break;								
 							}
 							
-							else{//l'évènement n'existe pas dans l'agenda, on l'insère	
+							else{//l'Ã©vÃ¨nement n'existe pas dans l'agenda, on l'insÃ¨re	
 								$record->id_agenda        = $pIdAgenda;
 								$record->title_event      = $event['event_text'];
 								$record->desc_event       = $event['description'];
@@ -62,21 +62,21 @@ class ImportService {
 								$record->endrepeatdate_event = null;
 								
 								$daoEvent->insert ($record);	
-								$nbEventsInseres = $nbEventsInseres + 1;//on incrémente le nombre d'insertions
+								$nbEventsInseres = $nbEventsInseres + 1;//on incrÃ©mente le nombre d'insertions
 							}
 						}
-						else{ //cas des évènements qui ont lieu sur toute la journée
+						else{ //cas des Ã©vÃ¨nements qui ont lieu sur toute la journÃ©e
 							
 							if($event['event_text'] != null){
 								$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
 								$record   = _record ('event');
-								//on regarde si l'évènement à insérer existe déjà dans l'agenda
+								//on regarde si l'Ã©vÃ¨nement Ã  insÃ©rer existe dÃ©jÃ  dans l'agenda
 								$criteres = _daoSp();
 								$criteres->addCondition('id_agenda'     , '=', $pIdAgenda);
 								$criteres->addCondition('title_event'   , '=', $event['event_text']);
 								$criteres->addCondition('datedeb_event' , '=', $day);
 								$resultat = $daoEvent->findBy($criteres);
-								if (count($resultat) > 0){//l'évènement existe, on passe au suivant
+								if (count($resultat) > 0){//l'Ã©vÃ¨nement existe, on passe au suivant
 									break;								
 								}							
 								else{
@@ -94,7 +94,7 @@ class ImportService {
 									$record->endrepeatdate_event = null;
 									
 									$daoEvent->insert ($record);	
-									$nbEventsInseres = $nbEventsInseres + 1;//on incrémente le nombre d'insertions
+									$nbEventsInseres = $nbEventsInseres + 1;//on incrÃ©mente le nombre d'insertions
 								}
 							}
 						}
@@ -107,16 +107,16 @@ class ImportService {
 	
 	
 	/**
-	* Fonction qui vide les évènements en base sur la période concernée
-	* En vidant l'agenda sur la période concernée
+	* Fonction qui vide les Ã©vÃ¨nements en base sur la pÃ©riode concernÃ©e
+	* En vidant l'agenda sur la pÃ©riode concernÃ©e
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/11 
-	* @param array $pArEventsICal La date que l'on va incrémenter. Format Fr.
-	* @param integer $pIdAgenda identifiant de l'agenda dans lequel doivent être insérés les évènements
-	* @return interger $nbEventsInseres nombre d'insertions effectuées
+	* @param array $pArEventsICal La date que l'on va incrÃ©menter. Format Fr.
+	* @param integer $pIdAgenda identifiant de l'agenda dans lequel doivent Ãªtre insÃ©rÃ©s les Ã©vÃ¨nements
+	* @return interger $nbEventsInseres nombre d'insertions effectuÃ©es
 	*/
 	function viderBase ($pArEventsICal, $pIdAgenda){
-		//on récupère la date et heure de début
+		//on rÃ©cupÃ¨re la date et heure de dÃ©but
 		foreach($pArEventsICal as $day=>$arEventsByDay){			
 			if(checkdate((int)substr($day, 4, 2), (int)substr($day, 6, 2), (int)substr($day, 0, 4))){
 				foreach($arEventsByDay as $key=>$arEvents){
@@ -129,7 +129,7 @@ class ImportService {
 			}
 		}
 
-		//on récupère la date et heure de fin
+		//on rÃ©cupÃ¨re la date et heure de fin
 		foreach($pArEventsICal as $day=>$arEventsByDay){			
 			if(checkdate((int)substr($day, 4, 2), (int)substr($day, 6, 2), (int)substr($day, 0, 4))){
 				foreach($arEventsByDay as $key=>$arEvents){
@@ -141,17 +141,17 @@ class ImportService {
 			}
 		}		
 	
-		//on récupère tous les évènements de l'agenda sur la période concernée
+		//on rÃ©cupÃ¨re tous les Ã©vÃ¨nements de l'agenda sur la pÃ©riode concernÃ©e
 		$serviceAgenda = new AgendaService;
 		$serviceDate   = new DateService;
 		$arEventsInBdd = $serviceAgenda->checkEventOfAgendaInBdd($pIdAgenda, $dateDeb, $dateFin);
 		
-		//voir quels agendas on prend quand on vide sur la période
+		//voir quels agendas on prend quand on vide sur la pÃ©riode
 		
-		//on vide l'agenda sur la période concernée
+		//on vide l'agenda sur la pÃ©riode concernÃ©e
 		$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
 		foreach((array)$arEventsInBdd as $event){
-			//cas d'un évènement qui ne se répète pas
+			//cas d'un Ã©vÃ¨nement qui ne se rÃ©pÃ¨te pas
 			if($event->endrepeatdate_event == null){				
 				if(($event->datefin_event > $dateDeb && $event->datedeb_event < $dateFin) || 
 				   ($event->datedeb_event == $dateDeb && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event) > $heureDeb && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $heureFin) || 
@@ -162,17 +162,17 @@ class ImportService {
 				}
 			}
 			
-			//l'évènement à supprimer se répète, on découpe l'évènement en 2 parties :
-			//un évènement avant la période d'insertion, un évènement après le période d'insertion
+			//l'Ã©vÃ¨nement Ã  supprimer se rÃ©pÃ¨te, on dÃ©coupe l'Ã©vÃ¨nement en 2 parties :
+			//un Ã©vÃ¨nement avant la pÃ©riode d'insertion, un Ã©vÃ¨nement aprÃ¨s le pÃ©riode d'insertion
 			else{
-				$eventDuplicate = $event;//duplication de l'évènement pour garder les infos de base			
+				$eventDuplicate = $event;//duplication de l'Ã©vÃ¨nement pour garder les infos de base			
 				$record = _record ('event');
 
 				$criteres = _daoSp();
 				$criteres->addCondition('id_event', '=', $event->id_event);	
 				$resultat = $daoEvent->findBy($criteres);
 				
-				//on modifie la date de fin de répétition de l'évènement
+				//on modifie la date de fin de rÃ©pÃ©tition de l'Ã©vÃ¨nement
 				if (count($resultat) > 0){
 					$record = $resultat[0];
 					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($record->heurefin_event) < $heureDeb && $record->alldaylong_event == 0){
@@ -184,8 +184,8 @@ class ImportService {
 					$daoEvent->update ($record);
 				}				
 								
-				//on crée un autre évènement qui commence après la période concernée
-				//si il se poursuivait après cette période
+				//on crÃ©e un autre Ã©vÃ¨nement qui commence aprÃ¨s la pÃ©riode concernÃ©e
+				//si il se poursuivait aprÃ¨s cette pÃ©riode
 				if($eventDuplicate->endrepeatdate_event > $dateFin || ($eventDuplicate->endrepeatdate_event == $dateFin && $eventDuplicate->heuredeb_event >= $heureFin)){				
 					$record = _record ('event');
 					if($eventDuplicate->everyday_event == 1){
@@ -206,7 +206,7 @@ class ImportService {
 						}
 					}
 					if($eventDuplicate->everyweek_event == 1){
-						//le jour de début d'évènement est le jour de fin de période
+						//le jour de dÃ©but d'Ã©vÃ¨nement est le jour de fin de pÃ©riode
 						if(date('w', $serviceDate->dateAndHoureBdToTimestamp($eventDuplicate->datedeb_event, null)) == date('w', $serviceDate->dateAndHoureBdToTimestamp($dateFin, null))){
 							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
 								//les heures se chevauchent, on va au jour de la semaine suivante
@@ -233,7 +233,7 @@ class ImportService {
 						
 					}
 					if($eventDuplicate->everymonth_event == 1){
-						//le jour de début d'évènement est le jour de fin de période
+						//le jour de dÃ©but d'Ã©vÃ¨nement est le jour de fin de pÃ©riode
 						if(date('md', $serviceDate->dateAndHoureBdToTimestamp($eventDuplicate->datedeb_event, null)) == date('md', $serviceDate->dateAndHoureBdToTimestamp($dateFin, null))){
 							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
 								//les heures se chevauchent, on va au jour du mois suivant
@@ -259,10 +259,10 @@ class ImportService {
 						}
 					}
 					if($eventDuplicate->everyyear_event == 1){
-						//le jour de début d'évènement est le jour de fin de période
+						//le jour de dÃ©but d'Ã©vÃ¨nement est le jour de fin de pÃ©riode
 						if(date('Ymd', $serviceDate->dateAndHoureBdToTimestamp($eventDuplicate->datedeb_event, null)) == date('Ymd', $serviceDate->dateAndHoureBdToTimestamp($dateFin, null))){
 							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
-								//les heures se chevauchent, on va au jour de l'année suivante
+								//les heures se chevauchent, on va au jour de l'annÃ©e suivante
 								$datedebEvent = $dateFin;
 								$datedebEvent = $serviceDate->dateBddToDateFr($datedebEvent);
 								$datedebEvent = $serviceDate->addToDate($datedebEvent, 0, 0, 1);

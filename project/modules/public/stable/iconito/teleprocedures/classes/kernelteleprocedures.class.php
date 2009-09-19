@@ -26,12 +26,12 @@ class KernelTeleprocedures {
 	}
 
 	/**
-	 * Suppression définitive
+	 * Suppression dÃ©finitive
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2009/01/23
 	 * @param integer $id Id du module
-	 * @return boolean true si la suppression s'est bien passée, false sinon
+	 * @return boolean true si la suppression s'est bien passÃ©e, false sinon
 	 */
 	function delete ($id) {
 		$dao = _dao("teleprocedures|teleprocedure");

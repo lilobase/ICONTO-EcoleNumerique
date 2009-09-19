@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone affichant une fiche détaillée d'un utilisateur
+ * Zone affichant une fiche dÃ©taillÃ©e d'un utilisateur
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,7 +9,7 @@
 class ZoneGetUserProfil extends CopixZone {
 
 	/**
-	 * Affiche la fiche détaillée d'un utilisateur (login, nom, prénom...)
+	 * Affiche la fiche dÃ©taillÃ©e d'un utilisateur (login, nom, prÃ©nom...)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/04
@@ -33,7 +33,7 @@ class ZoneGetUserProfil extends CopixZone {
 			$usr['avatar'] = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
 			
 			$parents = $enfants = array();
-			if ($type == 'USER_ELE') { // Pour un élève, on cherche ses parents
+			if ($type == 'USER_ELE') { // Pour un Ã©lÃ¨ve, on cherche ses parents
 				$parents = $annuaireService->getParentsFromEleve ($id);
 			} elseif ($type == 'USER_RES') { // Pour un parent, on cherche ses enfants
 				$enfants = $annuaireService->getEnfantsFromParent ($id);

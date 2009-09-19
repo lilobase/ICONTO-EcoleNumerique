@@ -1,6 +1,6 @@
 <?php
 
-$list		= & new CopixAction ('Animateurs', 'getList');  // Affichage d'un noeud avec les utilisateurs attachés.
+$list		= & new CopixAction ('Animateurs', 'getList');  // Affichage d'un noeud avec les utilisateurs attachÃ©s.
 
 $default		= & $list;
 

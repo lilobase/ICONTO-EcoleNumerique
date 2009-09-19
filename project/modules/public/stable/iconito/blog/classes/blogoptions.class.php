@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version	$Id: blogoptions.class.php,v 1.5 2006-10-09 16:21:31 cbeyer Exp $
-* @author	Cédric VALLAT, Bertrand Yan see copix.aston.fr for other contributors.
+* @author	CÃ©dric VALLAT, Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -17,7 +17,7 @@ class BlogOptions {
 	/**
 	* fonction articleIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function articleIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');
@@ -31,7 +31,7 @@ class BlogOptions {
 	/**
 	* fonction articleIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function pageIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');
@@ -45,7 +45,7 @@ class BlogOptions {
 	/**
 	* fonction ArchiveIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function archiveIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');
@@ -59,7 +59,7 @@ class BlogOptions {
 	/**
 	* fonction findIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function findIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');
@@ -73,7 +73,7 @@ class BlogOptions {
 	/**
 	* fonction linkIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function linkIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');
@@ -87,7 +87,7 @@ class BlogOptions {
 	/**
 	* fonction rssIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function rssIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');
@@ -102,7 +102,7 @@ class BlogOptions {
 	/**
 	* fonction photoIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function photoIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');
@@ -117,7 +117,7 @@ class BlogOptions {
 	/**
 	* fonction optionIsActive
 	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
+	* return : vrai si authorisÃ© Ã  afficher
 	*/
 	function optionIsActive($id_blog) {
 		$blogFunctionsDAO = _dao('blog|blogfunctions');

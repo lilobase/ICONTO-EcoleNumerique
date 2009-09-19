@@ -26,11 +26,11 @@ class ZoneAgendaImport extends CopixZone {
 		$tpl->assign('arError'     , $this->getParam('errors'));
 		$tpl->assign('importParams', $this->getParam('importParams'));
 		
-		//vérification des droits d'écriture sur les agendas
+		//vÃ©rification des droits d'Ã©criture sur les agendas
 		$listeFiltre = $this->getParam('arTitleAgendasAffiches');
-		//on vérifie les droits de lecture des utilisateurs
+		//on vÃ©rifie les droits de lecture des utilisateurs
 		foreach((array)$listeFiltre as $key=>$title_agenda){
-			//on vérifie si l'utilisateur a les droits de lecture sur la liste des agendas
+			//on vÃ©rifie si l'utilisateur a les droits de lecture sur la liste des agendas
 			if($serviceAuth->getCapability($key) < $serviceAuth->getModerate()){
 				unset($listeFiltre[$key]);
 			}

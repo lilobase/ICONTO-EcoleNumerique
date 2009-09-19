@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Prefs
 * @version   $Id: prefs.class.php,v 1.4 2007-03-22 15:31:37 cbeyer Exp $
-* @author   Frédéric Mossmann
+* @author   FrÃ©dÃ©ric Mossmann
 * @copyright 2005 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file

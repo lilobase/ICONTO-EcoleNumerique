@@ -10,7 +10,7 @@ class ListeService {
 
 
 	/**
-	 * Ajoute un message à une liste, et s'occupe de l'envoyer à tous ses membres en minimail
+	 * Ajoute un message Ã  une liste, et s'occupe de l'envoyer Ã  tous ses membres en minimail
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/23
@@ -18,7 +18,7 @@ class ListeService {
 	 * @param integer $auteur Id de l'utilisateur auteur du message
 	 * @param string $titre Titre du message
 	 * @param string $message Corps du message
-	 * @return integer l'Id du message inséré ou NULL si erreur
+	 * @return integer l'Id du message insÃ©rÃ© ou NULL si erreur
 	 */
 	function addListeMessage ($liste, $auteur, $titre, $message) {
 
@@ -73,7 +73,7 @@ class ListeService {
 	/**
 	 * Gestion des droits dans une liste
 	 *
-	 * Teste si l'usager peut effectuer une certaine opération par rapport à son droit. Le droit sur la liste nécessite d'être connu, renvoyé par le kernel avant l'entrée dans cette fonction.
+	 * Teste si l'usager peut effectuer une certaine opÃ©ration par rapport Ã  son droit. Le droit sur la liste nÃ©cessite d'Ãªtre connu, renvoyÃ© par le kernel avant l'entrÃ©e dans cette fonction.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/03/30

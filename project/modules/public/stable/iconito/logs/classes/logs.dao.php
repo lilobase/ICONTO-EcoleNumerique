@@ -9,9 +9,9 @@
 class DAOLogs {
 
 	/**
-	 * Renvoie les infos de la dernière connexion d'un login
+	 * Renvoie les infos de la derniÃ¨re connexion d'un login
 	 * 
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/05/10
 	 * @param string $login Login de l'utilisateur
 	 * @return mixed Objet DAO

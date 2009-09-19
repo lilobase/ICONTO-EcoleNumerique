@@ -3,7 +3,7 @@
 * @package	copix
 * @subpackage auth
 * @version	$Id: login.actiongroup.php,v 1.12 2007-09-07 14:14:04 cbeyer Exp $
-* @author	Croes Gérald, Bertrand Yan see copix.aston.fr for other contributors.
+* @author	Croes GÃ©rald, Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -17,10 +17,10 @@ class ActionGroupLogin extends CopixActionGroup {
     * Try to log in
     * @param string $login the login
     * @param string $password the password
-    * @param string $key (option) Clé, en cas de SSO
-    * @param string $node_type (option) Type du noeud à atteindre après connexion
-    * @param integer $node_id (option) Id du noeud à atteindre après connexion
-    * @param string $module_type (option) Type du module du noeud à atteindre (MOB_BLOG,...)
+    * @param string $key (option) ClÃ©, en cas de SSO
+    * @param string $node_type (option) Type du noeud Ã  atteindre aprÃ¨s connexion
+    * @param integer $node_id (option) Id du noeud Ã  atteindre aprÃ¨s connexion
+    * @param string $module_type (option) Type du module du noeud Ã  atteindre (MOB_BLOG,...)
 
     * @return Object CopixActionReturn
     */

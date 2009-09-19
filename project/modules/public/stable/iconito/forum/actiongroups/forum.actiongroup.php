@@ -10,9 +10,9 @@ class ActionGroupForum extends CopixActionGroup {
    /**
    * Affiche la liste de tous les forums de la base
 	 * 
-	 * Affiche l'ensemble des forums présents dans la base, avec  un lien pour accéder à chacun d'entre eux. Utilisée à des fins de tests, est désactivée dans le DESC.
+	 * Affiche l'ensemble des forums prÃ©sents dans la base, avec  un lien pour accÃ©der Ã  chacun d'entre eux. UtilisÃ©e Ã  des fins de tests, est dÃ©sactivÃ©e dans le DESC.
 	 * 
-	 * @deprecated Ne sert qu'à des fins de tests
+	 * @deprecated Ne sert qu'Ã  des fins de tests
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/08
    */
@@ -85,7 +85,7 @@ class ActionGroupForum extends CopixActionGroup {
 			$user = _currentUser ()->getId();
 			$list = $dao_topics->getListTopicsInForum($id,$offset,CopixConfig::get ('forum|list_nbtopics'),$orderby, $user);
 		
-			// Pour chaque message on cherche les infos de son créateur et du dernier message
+			// Pour chaque message on cherche les infos de son crÃ©ateur et du dernier message
 			//print_r($list);
 			while (list($k,$topic) = each($list)) {
 				$userInfo = Kernel::getUserInfo("ID", $list[$k]->createur);
@@ -130,7 +130,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * @param integer $id Id de la discussion
 	 * @param integer $page (option) Page courante. Si null, vaut 1.
 	 * @param string $go (option) Si vaut "new", redirige sur le premier message non lu de la discussion
-	 * @param integer $message (option) Si positionné, redirige sur le message (à la bonne page)
+	 * @param integer $message (option) Si positionnÃ©, redirige sur le message (Ã  la bonne page)
    */
    function getTopic () {
 	 	
@@ -151,9 +151,9 @@ class ActionGroupForum extends CopixActionGroup {
 			$daoTracking = CopixDAOFactory::create("forum|forum_tracking2");
 			$unread = $daoTracking->getFirstUnreadMessage($id, _currentUser ()->getId());
 			//print_r($unread);
-			if ($unread[0]->id) {	// Il est déjà passé dans le topic
+			if ($unread[0]->id) {	// Il est dÃ©jÃ  passÃ© dans le topic
 				$urlReturn = CopixUrl::get ('forum||getTopic', array("message"=>$unread[0]->id))."#".$unread[0]->id;
-			} else { // Jamais passé, on le renvoie au début du topic
+			} else { // Jamais passÃ©, on le renvoie au dÃ©but du topic
 				$urlReturn = CopixUrl::get ('forum||getTopic', array("id"=>$id));
 			}
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
@@ -164,7 +164,7 @@ class ActionGroupForum extends CopixActionGroup {
 			$rMessage = $dao_messages->get($message);
 			if ($rMessage) {
 				$id = $rMessage->topic_id;
-		  	// On cherche ensuite à quelle page il faut aller pour trouver ce message
+		  	// On cherche ensuite Ã  quelle page il faut aller pour trouver ce message
 				$before = $dao_messages->getListMessagesInTopicBefore($id, $message, $rMessage->date);
 				$page = ceil((count($before)+1) / CopixConfig::get ('forum|list_nbmessages'));
 				//print_r($before);
@@ -207,7 +207,7 @@ class ActionGroupForum extends CopixActionGroup {
 				$userInfo = Kernel::getUserInfo("ID", $list[$k]->auteur);
 				$list[$k]->auteur_infos = $userInfo["prenom"]." ".$userInfo["nom"];
 
-        // Avatar de l'expéditeur
+        // Avatar de l'expÃ©diteur
   			$avatar = Prefs::get('prefs', 'avatar', $list[$k]->auteur);
 	  		$list[$k]->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
  			}
@@ -241,15 +241,15 @@ class ActionGroupForum extends CopixActionGroup {
 
 
    /**
-   * Affichage du formulaire d'écriture d'un message
+   * Affichage du formulaire d'Ã©criture d'un message
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @see doMessageForm()
-	 * @param integer $topic Id de la discussion (si réponse dans cette discussion)
-	 * @param integer $id Id d'un message (si édition de ce message)
-	 * @param integer $quote (option) Numéro du message cité
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $topic Id de la discussion (si rÃ©ponse dans cette discussion)
+	 * @param integer $id Id d'un message (si Ã©dition de ce message)
+	 * @param integer $quote (option) NumÃ©ro du message citÃ©
+	 * @param array $errors (option) Erreurs rencontrÃ©es
 	 * @param string $message Texte du message (si formulaire soumis)
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
    */
@@ -283,7 +283,7 @@ class ActionGroupForum extends CopixActionGroup {
 					$topic = $rMessage->topic;
 				}
 			}
-		} elseif ($topic) {		// Réponse dans un topic
+		} elseif ($topic) {		// RÃ©ponse dans un topic
 			$rTopic = $dao_topics->get($topic);
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noTopic');
@@ -357,14 +357,14 @@ class ActionGroupForum extends CopixActionGroup {
 
 
    /**
-   * Soumission du formulaire d'écriture d'un message
+   * Soumission du formulaire d'Ã©criture d'un message
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @see getMessageForm()
-	 * @param integer $topic Id de la discussion (si réponse dans cette discussion)
-	 * @param integer $id Id d'un message (si édition de ce message)
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param integer $topic Id de la discussion (si rÃ©ponse dans cette discussion)
+	 * @param integer $id Id d'un message (si Ã©dition de ce message)
+	 * @param string $go Forme de soumission : preview (prÃ©visualiser) ou send (enregistrer)
 	 * @param string $message Champ message saisi
 	 * @param string $format Format du message
    */
@@ -392,7 +392,7 @@ class ActionGroupForum extends CopixActionGroup {
 					$forum = $rMessage->forum_id;
 			}
 		
-		} elseif ($topic) {		// Réponse dans un topic
+		} elseif ($topic) {		// RÃ©ponse dans un topic
 			$dao_topics = CopixDAOFactory::create("forum_topics");
 			$rTopic = $dao_topics->get($topic);
 			if (!$rTopic)
@@ -436,16 +436,16 @@ class ActionGroupForum extends CopixActionGroup {
 	
 
    /**
-   * Affichage du formulaire d'écriture d'une discussion
+   * Affichage du formulaire d'Ã©criture d'une discussion
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @see doTopicForm()
 	 * @param integer $forum Id du forum (si nouvelle discussion dans ce forum)
-	 * @param integer $id Id d'une discussion (si édition de cette discussion)
+	 * @param integer $id Id d'une discussion (si Ã©dition de cette discussion)
 	 * @param string $titre Valeur du champ "titre" (si formulaire soumis)
 	 * @param string $message Valeur du champ "message" (si formulaire soumis)
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param array $errors (option) Erreurs rencontrÃ©es
 	 * @param integer $preview (option) Si 1, affichera la preview de la discussion soumise, si 0 validera le formulaire
    */
 	function processGetTopicForm () {
@@ -523,17 +523,17 @@ class ActionGroupForum extends CopixActionGroup {
 	
 	
    /**
-   * Soumission du formulaire d'écriture d'une discussion
+   * Soumission du formulaire d'Ã©criture d'une discussion
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
 	 * @see getTopicForm()
 	 * @param integer $forum Id du forum (si nouvelle discussion dans ce forum)
-	 * @param integer $id Id d'une discussion (si édition de cette discussion)
+	 * @param integer $id Id d'une discussion (si Ã©dition de cette discussion)
 	 * @param string $titre Valeur saisie pour le champ "titre"
 	 * @param string $message Valeur saisie pour le champ "message"
 	 * @param string $format Format du message
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param string $go Forme de soumission : preview (prÃ©visualiser) ou send (enregistrer)
    */
 	function doTopicForm () {
 	
@@ -582,7 +582,7 @@ class ActionGroupForum extends CopixActionGroup {
 
 			$auteur = _currentUser ()->getId();
 			
-			if ($id && !$errors && $go=='save') { // Mise à jour			
+			if ($id && !$errors && $go=='save') { // Mise Ã  jour			
 				$rTopic->titre = $titre;
 				$dao_topics->update($rTopic);
 				$urlReturn = CopixUrl::get ('forum||getTopic', array("id"=>$id));
@@ -609,7 +609,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id du message à supprimer
+	 * @param integer $id Id du message Ã  supprimer
    */
 	function getDeleteMessage () {
 	 	
@@ -651,11 +651,11 @@ class ActionGroupForum extends CopixActionGroup {
    /**
    * Suppression d'un message
 	 *
-	 * La suppression d'un message change son statut dans la base, afin d'en conserver une trace tout en le rendant inaccessible à la lecture.
+	 * La suppression d'un message change son statut dans la base, afin d'en conserver une trace tout en le rendant inaccessible Ã  la lecture.
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id du message à supprimer
+	 * @param integer $id Id du message Ã  supprimer
    */
 	function doDeleteMessage () {
 	 	
@@ -693,12 +693,12 @@ class ActionGroupForum extends CopixActionGroup {
    /**
    * Alerte un message
 	 *
-	 * L'alerte sur un message permet de signaler un message comme non conforme ou illicite. L'alerte incrémente un compteur (un compteur par message).
+	 * L'alerte sur un message permet de signaler un message comme non conforme ou illicite. L'alerte incrÃ©mente un compteur (un compteur par message).
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id du message à alerter
-	 * @todo A implémenter (en commentaires dans le template)
+	 * @param integer $id Id du message Ã  alerter
+	 * @todo A implÃ©menter (en commentaires dans le template)
    */
 	function doAlertMessage () {
 	 	
@@ -736,7 +736,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id de la discussion à supprimer
+	 * @param integer $id Id de la discussion Ã  supprimer
    */
 	function getDeleteTopic () {
 
@@ -776,7 +776,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id de la discussion à supprimer
+	 * @param integer $id Id de la discussion Ã  supprimer
    */
 	function doDeleteTopic () {
 	 	

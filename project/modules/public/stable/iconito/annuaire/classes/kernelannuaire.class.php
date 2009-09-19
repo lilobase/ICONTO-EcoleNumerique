@@ -12,11 +12,11 @@ class KernelAnnuaire {
 	/**
 	 * Statistiques du module annuaire
 	 *
-	 * Renvoie des éléments chiffrés relatifs à l'annuaire et dédiés à un utilisateur système : nombre de messages...
+	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs Ã  l'annuaire et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : nombre de messages...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbEcoles"] ["nbClasses"] ["nbEleves"] ["nbPersonnel"] ["nbParents"] ["nbUsers"]
+	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbEcoles"] ["nbClasses"] ["nbEleves"] ["nbPersonnel"] ["nbParents"] ["nbUsers"]
 	 */
 	function getStatsRoot () {
 		$res = array();	

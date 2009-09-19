@@ -10,16 +10,16 @@
 class DAOCarnet_Topics {
 
 	/**
-	 * Renvoie la liste des topics dans un carnet, pour une liste d'élèves
+	 * Renvoie la liste des topics dans un carnet, pour une liste d'Ã©lÃ¨ves
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
-	 * @param array $eleves Tableau avec les ID des élèves. Attention c'est un tableau évolué, avec différentes infos sur les élèves. Exemple : 		Array (
+	 * @param array $eleves Tableau avec les ID des Ã©lÃ¨ves. Attention c'est un tableau Ã©voluÃ©, avec diffÃ©rentes infos sur les Ã©lÃ¨ves. Exemple : 		Array (
     	[0] => Array
         (
             [type] => USER_ELE
             [id] => 3776
-            [prenom] => Naël
+            [prenom] => NaÃ«l
             [nom] => SIRIEIX
         )
 
@@ -62,13 +62,13 @@ class DAOCarnet_Topics {
 	
 	
 	/**
-	 * Les messages d'une discussion, pour une liste d'élèves
+	 * Les messages d'une discussion, pour une liste d'Ã©lÃ¨ves
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/17
 	 * @see getListCarnetsTopicsForElevesInClasse()
 	 * @param integer $id_topic Id de la discussion
-	 * @param array $eleves Tableau avec les ID des élèves. Attention c'est un tableau évolué, avec différentes infos sur les élèves. Voir ci-dessus pour exemple.
+	 * @param array $eleves Tableau avec les ID des Ã©lÃ¨ves. Attention c'est un tableau Ã©voluÃ©, avec diffÃ©rentes infos sur les Ã©lÃ¨ves. Voir ci-dessus pour exemple.
 	 * @return mixed Objet DAO
 	 */
 	function getListCarnetsMessagesForTopicAndEleves ($id_topic, $eleves) {
@@ -79,12 +79,12 @@ class DAOCarnet_Topics {
 	}
 
 	/**
-	 * Les messages d'une discussion, pour un élève précis
+	 * Les messages d'une discussion, pour un Ã©lÃ¨ve prÃ©cis
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/17
 	 * @param integer $id_topic Id de la discussion
-	 * @param integer $eleve Id de l'élève
+	 * @param integer $eleve Id de l'Ã©lÃ¨ve
 	 * @return mixed Objet DAO
 	 */
 	function getListCarnetsMessagesForTopicAndEleve ($id_topic, $eleve) {
@@ -93,7 +93,7 @@ class DAOCarnet_Topics {
 	}
 
 	/**
-	 * Les destinataire (=élèves distincts) d'une discussion
+	 * Les destinataire (=Ã©lÃ¨ves distincts) d'une discussion
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16

@@ -17,8 +17,8 @@ _classInclude('agenda|agendaauth');
 class ActionGroupLecon extends CopixActionGroup {
 	
 	/**
-	* Fonction qui est appelée lorsque l'on veut modifier une leçon
-	* Récupère l'objet en base de données et le stocke en session
+	* Fonction qui est appelÃ©e lorsque l'on veut modifier une leÃ§on
+	* RÃ©cupÃ¨re l'objet en base de donnÃ©es et le stocke en session
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @return redirige vers l'action "edit" de l'actiongroup
 	*/
@@ -41,7 +41,7 @@ class ActionGroupLecon extends CopixActionGroup {
 						'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}
 		
-		//on vérifie si l'utilisateur a les droits d'écriture de leçons sur l'agenda et que c'est un agenda de classe
+		//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture de leÃ§ons sur l'agenda et que c'est un agenda de classe
 		if($serviceAuth->getCapability($toEdit->id_agenda) < $serviceAuth->getWriteLecon() || $serviceAgenda->getTypeAgendaByIdAgenda($toEdit->id_agenda) != $serviceType->getClassRoom()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
@@ -54,8 +54,8 @@ class ActionGroupLecon extends CopixActionGroup {
 
 	
 	/**
-	* Fonction qui est appelée lorsque l'on veut insérer une nouvelle leçon
-	* Créé un objet vide  et initialise la propriété id_agenda
+	* Fonction qui est appelÃ©e lorsque l'on veut insÃ©rer une nouvelle leÃ§on
+	* CrÃ©Ã© un objet vide  et initialise la propriÃ©tÃ© id_agenda
 	* Stock l'objet en session
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @return redirige vers l'action "edit" de l'actiongroup
@@ -72,7 +72,7 @@ class ActionGroupLecon extends CopixActionGroup {
 			'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}		
 		
-		//on vérifie si l'utilisateur a les droits d'écriture de leçon sur l'agenda
+		//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture de leÃ§on sur l'agenda
 		//et que l'agenda est un agenda de classe
 		if($serviceAuth->getCapability(_request('id_agenda')) < $serviceAuth->getWriteLecon()  || $serviceAgenda->getTypeAgendaByIdAgenda(_request('id_agenda')) != $serviceType->getClassRoom()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -90,7 +90,7 @@ class ActionGroupLecon extends CopixActionGroup {
 	
 	
 	/**
-	* Récupère l'objet en session
+	* RÃ©cupÃ¨re l'objet en session
 	* Appelle les zones agendamenu et agendaeditlecon
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
@@ -137,9 +137,9 @@ class ActionGroupLecon extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction qui est appelée lorsque l'on valide la saisie d'un évènement
-	* Met à jour l'objet avec les données du formulaire
-	* Vérifie les informations saisies dans le formulaire
+	* Fonction qui est appelÃ©e lorsque l'on valide la saisie d'un Ã©vÃ¨nement
+	* Met Ã  jour l'objet avec les donnÃ©es du formulaire
+	* VÃ©rifie les informations saisies dans le formulaire
 	* @author Audrey Vassal <avassal@sqli.com>
 	* @return redirige vers l'action "getVueSemaine" de l'actiongroup agenda
 	*/
@@ -161,7 +161,7 @@ class ActionGroupLecon extends CopixActionGroup {
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
 		
-		//demande de mettre l'objet à jour en fonction des valeurs saisies dans le formulaire
+		//demande de mettre l'objet Ã  jour en fonction des valeurs saisies dans le formulaire
 		$this->_validFromForm ($toValid);
 		
 		$errors = $this->_check();
@@ -202,7 +202,7 @@ class ActionGroupLecon extends CopixActionGroup {
 		}	
 	}
 	
-	//vérification des entrées du formulaire
+	//vÃ©rification des entrÃ©es du formulaire
 	function _check (){		
 		$toReturn = array();		
 		if(_request('desc_lecon') == null || _request('desc_lecon') == ''){
@@ -212,7 +212,7 @@ class ActionGroupLecon extends CopixActionGroup {
 	}
 	
 	/**
-	* Mise en session des paramètres de la leçon en édition
+	* Mise en session des paramÃ¨tres de la leÃ§on en Ã©dition
 	* @access: private.
 	*/
 	function _setSessionLecon ($toSet){
@@ -222,7 +222,7 @@ class ActionGroupLecon extends CopixActionGroup {
 	}
 	
 	/**
-	* Récupération en session des paramètres de la leçon en édition
+	* RÃ©cupÃ©ration en session des paramÃ¨tres de la leÃ§on en Ã©dition
 	* @access: private.
 	*/
 	function _getSessionLecon () {
