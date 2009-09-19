@@ -491,6 +491,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionEvent ($toSet){
+		$tmp = _ioDao('event');
 		$toSession = ($toSet !== null) ? serialize($toSet) : null;
 		_sessionSet('modules|agenda|edited_event', $toSession);
 	}
@@ -500,6 +501,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _getSessionEvent () {
+		$tmp = _ioDao('tmp');
 		$inSession = _sessionGet ('modules|agenda|edited_event');
 		return ($inSession) ? unserialize ($inSession) : null;
 	}

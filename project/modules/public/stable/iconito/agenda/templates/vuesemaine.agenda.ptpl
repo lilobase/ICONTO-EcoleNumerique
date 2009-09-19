@@ -299,7 +299,7 @@ if ($readLecon || $writeLecon){
 	foreach($arLecons as $date=>$elecon){
 		$html .= '
     <td class="texte_lecons">';
-		if ( ($readLecon || $writeLecon) && $elecon->desc_lecon){
+		if ( ($readLecon || $writeLecon) && isset($elecon->desc_lecon) && $elecon->desc_lecon){
 			$html .= nl2br($elecon->desc_lecon);
 		}
 		if($elecon != null){

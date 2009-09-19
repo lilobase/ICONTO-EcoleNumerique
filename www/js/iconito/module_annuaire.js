@@ -134,8 +134,8 @@ function ficheViewBlogs (ecoleId) {
 		//$('ficheblogs').style.display = 'block';
 		//$('ficheblogs').style.display
 		$('ficheblogs').innerHTML = '<div align="center"><img src="'+getRessourcePathImg+'img/ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>';
-		var url = 'index.php';
-		var pars = 'module=fichesecoles&action=blogs&id='+ecoleId;
+		var url = getActionURL('fichesecoles|default|blogs');
+		var pars = 'id='+ecoleId;
 	  var myAjax = new Ajax.Updater(
 			{success: 'ficheblogs'},
 	    url,

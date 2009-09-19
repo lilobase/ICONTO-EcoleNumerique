@@ -183,6 +183,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$ecoleDAO = CopixDAOFactory::create('kernel|kernel_bu_ecole');
 		$ficheDAO = CopixDAOFactory::create("fiches_ecoles");
 		
+		$criticErrors = array();
 		if (!$rEcole = $ecoleDAO->get($id))
 			$criticErrors[] = CopixI18N::get ('fichesecoles.error.param');
 		elseif (!FichesEcolesService::canMakeInFicheEcole($id,'VIEW'))

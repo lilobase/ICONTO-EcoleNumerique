@@ -111,6 +111,8 @@ class ActionGroupLecon extends CopixActionGroup {
 			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}
 		
+		$serviceAuth->getCapability($toEdit->id_agenda);
+		
 		if($serviceAuth->getCapability($toEdit->id_agenda) < $serviceAuth->getWriteLecon() || $serviceAgenda->getTypeAgendaByIdAgenda($toEdit->id_agenda) != $serviceType->getClassRoom()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
@@ -126,7 +128,7 @@ class ActionGroupLecon extends CopixActionGroup {
 		
 		//template principal
 		$tpl = & new CopixTpl();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.title.lecon', array('jour'=>CopixDateTime::timestampToText($toEdit->date_lecon))));
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.title.lecon', array('jour'=>CopixDateTime::yyyymmddToDate($toEdit->date_lecon))));
     $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
@@ -173,7 +175,7 @@ class ActionGroupLecon extends CopixActionGroup {
 			$daoLecon = & CopixDAOFactory::getInstanceOf ('lecon');
 			$record = & CopixDAOFactory::createRecord ('lecon');
 			
-			$criteres = CopixDAOFactory::createSearchConditions();
+			$criteres = _daoSp();
 			$criteres->addCondition('id_lecon', '=', $toValid->id_lecon);	
 			$resultat = $daoLecon->findBy($criteres);
 			
@@ -214,6 +216,7 @@ class ActionGroupLecon extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionLecon ($toSet){
+		$tmp = _ioDao('lecon');
 		$toSession = ($toSet !== null) ? serialize($toSet) : null;
 		_sessionSet('modules|agenda|edited_lecon', $toSession);
 	}
@@ -223,6 +226,7 @@ class ActionGroupLecon extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _getSessionLecon () {
+		$tmp = _ioDao('lecon');
 		$inSession = _sessionGet ('modules|agenda|edited_lecon');
 		return ($inSession) ? unserialize ($inSession) : null;
 	}
@@ -233,8 +237,8 @@ class ActionGroupLecon extends CopixActionGroup {
 	function _validFromForm (& $toUpdate){
 		$toCheck = array ('desc_lecon');
 		foreach ($toCheck as $elem){
-			if (isset ($this->vars[$elem])){
-				$toUpdate->$elem = $this->vars[$elem];
+			if (_request($elem)){
+				$toUpdate->$elem = _request($elem);
 			}
 		}
 	}

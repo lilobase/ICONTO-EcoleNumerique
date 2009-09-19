@@ -7,7 +7,7 @@
 {i18n key="agenda.menu.agenda" assign=text}
 *}
 {assign var="text" value="<span style=\"text-decoration:underline;\">$text</span>"}
-{popupinformation displayimg=false displaytext=true text=$text divclass="popupAgenda"}
+{popupinformation2 displayimg=false displaytext=true text=$text divclass="popupAgenda"}
 
 	<form action="{copixurl dest="agenda|agenda|vueSemaine"}" method="post" name="chooseAgenda">
 		{foreach from=$listAgendas item=agenda}
@@ -18,4 +18,4 @@
 		<input type="hidden" name="updateAgendaAffiches" value="1" />
 		<input type="submit" class="form_button" style="margin-top: 5px;" value="{i18n key="copix:common.buttons.valid"}" />
 	</form>
-{/popupinformation}
+{/popupinformation2}
