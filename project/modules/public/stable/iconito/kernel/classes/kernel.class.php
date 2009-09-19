@@ -1910,17 +1910,22 @@ class Kernel {
 	 * @return array Tableau contenant les modules et leurs descriptif
 	 */
 	function getAllModules() {
-		$dir = COPIX_MODULE_PATH;
 		$all_modules = array();
-		if (is_dir($dir)) {
-   		if ($dh = opendir($dir)) {
-      	while (($file = readdir($dh)) !== false) {
-					if (is_dir($dir.$file) && $file!='.' && $file!='..' && $file!='CVS') {
-						$all_modules[$file] = $file;
-					}
-       	}
-      	closedir($dh);
-   		}
+
+		$arModulesPath = CopixConfig::instance ()->arModulesPath;
+		foreach( $modules AS $mod_key=>$mod_val ) {
+			foreach ($arModulesPath as $modulePath) {
+				if (is_dir($dir)) {
+		   		if ($dh = opendir($dir)) {
+		      	while (($file = readdir($dh)) !== false) {
+							if (is_dir($dir.$file) && $file!='.' && $file!='..' && $file!='CVS') {
+								$all_modules[$file] = $file;
+							}
+		       	}
+		      	closedir($dh);
+		   		}
+				}
+			}
 		}
 		return $all_modules;
 	}

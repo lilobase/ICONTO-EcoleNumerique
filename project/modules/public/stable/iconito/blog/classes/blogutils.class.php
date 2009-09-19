@@ -13,8 +13,6 @@
  */
 
 //require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
-_classInclude ('blog|blog.dao');
-//require_once (COPIX_MODULE_PATH.'blog/'.COPIX_CLASSES_DIR.'blog.dao.class.php');
 
 function killBadUrlChars ($url) {
 	$result = strtolower($url); 
@@ -75,7 +73,8 @@ function BDToDateTime($date, $time, $format) {
 		$arMaj = array ('article_bfct', 'archive_bfct', 'find_bfct', 'link_bfct', 'rss_bfct', 'photo_bfct', 'option_bfct');
 		foreach ($arMaj as $var){
 			$function->value  = $var;
-			$function->text = 'blog|dao.blogfunctions.fields.'.$var;
+			//$function->text = 'blog|dao.blogfunctions.fields.'.$var;
+			$function->text = CopixI18N::get('blog|dao.blogfunctions.fields.'.$var);
 			$function->selected = 0;
 			array_push($results, $function);
 		}
@@ -117,7 +116,7 @@ function BDToDateTime($date, $time, $format) {
 	 * @return object Objet
 	 */
 	function create_blog_object ($id_blog) {
-		$blog = new DAOBlog();
+		$blog = _record("blog|blog");
 		$blog->id_blog = $id_blog;
 		return $blog;
 	}

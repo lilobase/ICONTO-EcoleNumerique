@@ -40,17 +40,22 @@ class ActionGroupStats extends CopixActionGroup {
 		$tab = array();
 
 		foreach( $modules as $mod_val ) {
-			$class_file = COPIX_MODULE_PATH.$mod_val.'/'.COPIX_CLASSES_DIR.'kernel'.$mod_val.'.class.php';
-			if( !file_exists( $class_file ) ) continue;
 		
-			$module_class = & CopixClassesFactory::Create ($mod_val.'|Kernel'.$mod_val);
-			//print_r($module_class);
-			if (!is_callable(array($module_class, 'getStatsRoot')))
-				continue;
+			$arModulesPath = CopixConfig::instance ()->arModulesPath;
+			foreach ($arModulesPath as $modulePath) {
+				$class_file = $modulePath.$mod_val.'/'.COPIX_CLASSES_DIR.'kernel'.$mod_val.'.class.php';
+				if( !file_exists( $class_file ) ) continue;
+				
+				$module_class = & CopixClassesFactory::Create ($mod_val.'|Kernel'.$mod_val);
+				//print_r($module_class);
+				if (!is_callable(array($module_class, 'getStatsRoot')))
+					continue;
+				
+				//$classeModule = CopixClassesFactory::create("$label|Kernel$label");
+				$tab[$mod_val]['module_nom'] = Kernel::Code2Name ('mod_'.$mod_val);
+				$tab[$mod_val]['stats'] = $module_class->getStatsRoot();
 			
-			//$classeModule = CopixClassesFactory::create("$label|Kernel$label");
-			$tab[$mod_val]['module_nom'] = Kernel::Code2Name ('mod_'.$mod_val);
-			$tab[$mod_val]['stats'] = $module_class->getStatsRoot();
+			}
 		}
 		
 		//print_r($tab);

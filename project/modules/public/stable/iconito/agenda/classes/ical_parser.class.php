@@ -128,8 +128,9 @@ class ical_parser {
 	// $property	= The property being examined, e.g. DTSTART, DTEND.
 	// $field		= The full field being examined, e.g. DTSTART;TZID=US/Pacific
 	function extractDateTime($data, $property, $field) {
-      global $tz_array;
-      include_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'timezones.php');
+    global $tz_array;
+		
+		_classInclude('agenda|timezones');
 
 		// Initialize values.
 		unset($unixtime, $date, $time, $allday);
