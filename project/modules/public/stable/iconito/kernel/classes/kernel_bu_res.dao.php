@@ -9,7 +9,7 @@
 class DAOKernel_bu_res {
 
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une classe
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une classe
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -22,11 +22,11 @@ class DAOKernel_bu_res {
 	}
 	
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une Ã©cole
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une école
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
-	 * @param integer $ecole Id de l'Ã©cole
+	 * @param integer $ecole Id de l'école
 	 * @return mixed Objet DAO
 	 */
 	function getParentsInEcole ($ecole) {
@@ -35,7 +35,7 @@ class DAOKernel_bu_res {
 	}
 	
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une Ã©cole d'une ville
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une école d'une ville
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -50,7 +50,7 @@ class DAOKernel_bu_res {
 	
 
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une Ã©cole d'une ville d'un groupe de villes
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une école d'une ville d'un groupe de villes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20

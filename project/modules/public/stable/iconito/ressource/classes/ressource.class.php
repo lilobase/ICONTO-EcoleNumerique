@@ -30,7 +30,7 @@ class Ressource {
 	
 	function searchRessources( $params, $annu=-1 ) {
 		
-		// DÃ©coupage du pattern
+		// Découpage du pattern
 		$testpattern=str_replace(array(" ","%20"), "%20", $params["text"]);
 		$temp = split ("%20", $testpattern);
 		
@@ -57,7 +57,7 @@ class Ressource {
 		$conditions->addCondition("ressources_id_annu", "=", $annu);
 		*/
 
-		// RÃ©cupÃ©ration de la liste des ressources
+		// Récupération de la liste des ressources
 		$ressources_dao = CopixDAOFactory::create("ressource_ressources");
 		return $ressources_dao->findBy($conditions);
 	}
@@ -89,7 +89,7 @@ class Ressource {
 	}
 
 	function tag2ressources( $tag, $annu=0 ) {
-		/* ** MÃ©thode par recherche texte
+		/* ** Méthode par recherche texte
 		$conditions = CopixDAOFactory::createSearchConditions("and");
 		$conditions->addCondition("ressources_mots", " like ", "%".$tag."%");
 		$ressources_dao = CopixDAOFactory::create("ressource_ressources");
@@ -171,7 +171,7 @@ class Ressource {
 			$searchStringLogic = "OR";
 		}
 		
-		// DÃ©coupage du pattern
+		// Découpage du pattern
 		$testpattern=str_replace(array(" ","%20"), "%20", $params["criteria"]);
 		$temp = split ("%20", $testpattern);
 
@@ -189,7 +189,7 @@ class Ressource {
 		$conditions->addCondition("news_valid", "=", 1);
 		$conditions->addCondition("news_langref", "=", $langref);
 		
-		// RÃ©cupÃ©ration de la liste des news
+		// Récupération de la liste des news
 		$news_dao = CopixDAOFactory::create("news");
 		return $news_dao->findBy($conditions);
 	

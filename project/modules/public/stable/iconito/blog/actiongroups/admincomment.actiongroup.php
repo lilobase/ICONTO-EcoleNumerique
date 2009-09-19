@@ -2,7 +2,7 @@
 /**
 * @package  copix
 * @version   $Id: admincomment.actiongroup.php,v 1.9 2007-06-01 16:08:43 cbeyer Exp $
-* @author Vallat CÃ©dric.
+* @author Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -13,7 +13,7 @@ _classInclude('blog|blogutils');
 
 class ActionGroupAdminComment extends CopixActionGroup {
 	/**
-    * PrÃ©paration Ã  l'affichage de la liste des commentaires.
+    * Préparation à l'affichage de la liste des commentaires.
     */
 	function getListComment() {
 
@@ -42,7 +42,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 			array_push($resultats, $r);
 		}
 
-		// On rÃ©cupÃ¨re l'utilisateur connectÃ©
+		// On récupère l'utilisateur connecté
 		$user = BlogAuth::getUserInfos();
 		$toEdit = CopixDAOFactory::createRecord('blogarticlecomment');
     $toEdit->authorid_bacc = $user->userId;
@@ -130,7 +130,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 
 		$tpl = & new CopixTpl ();
 		
-		// On rÃ©cupÃ¨re l'utilisateur connectÃ©
+		// On récupère l'utilisateur connecté
 		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
 		// CREATION D'UN COMM
 		$comment = CopixDAOFactory::createRecord('blogarticlecomment');
@@ -172,7 +172,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 	}
 
 	/**
-    * PrÃ©paration Ã  l'Ã©dition d'un commentaire.
+    * Préparation à l'édition d'un commentaire.
     */
 	function doPrepareEditComment() {
 
@@ -218,7 +218,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 
 
 	/**
-    * Validation d'une catÃ©gorie.
+    * Validation d'une catégorie.
     */
 	function doValidModifyComment() {
 
@@ -282,7 +282,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 	 * @param integer $id_blog Id du blog
 	 * @param integer $id_bact Id de l'article
 	 * @param integer $id_bacc Id du commentaire
-	 * @todo VÃ©rifier droits sur blog
+	 * @todo Vérifier droits sur blog
    */
 	function doOnlineComment() {
 
@@ -320,7 +320,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 	 * @param integer $id_blog Id du blog
 	 * @param integer $id_bact Id de l'article
 	 * @param integer $id_bacc Id du commentaire
-	 * @todo VÃ©rifier droits sur blog
+	 * @todo Vérifier droits sur blog
    */
 	function doOfflineComment() {
 

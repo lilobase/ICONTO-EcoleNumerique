@@ -9,7 +9,7 @@
 class DAOMalle_Malles {
 	
 	/**
-	 * Renvoie des stats sur les fichiers d'une malle : nb de fichiers (nbFiles), taille occupÃ©e (taille)
+	 * Renvoie des stats sur les fichiers d'une malle : nb de fichiers (nbFiles), taille occupée (taille)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07

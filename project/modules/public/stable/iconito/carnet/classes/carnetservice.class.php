@@ -11,12 +11,12 @@ class CarnetService {
 	/**
 	 * Renvoie le droit de l'usager courant sur un carnet de correspondance
 	 *
-	 * Test du droit de l'usager courant sur un carnet, selon qu'on affiche un carnet d'une classe ou d'un Ã©lÃ¨ve. 
+	 * Test du droit de l'usager courant sur un carnet, selon qu'on affiche un carnet d'une classe ou d'un élève. 
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
-	 * @param array $params Tableau avec un numÃ©ro de classe et/ou d'Ã©lÃ¨ve. Cles=eleve/classe valeurs=x/y (ids)
-	 * @return integer Le droit: 0 si aucun, PROFILE_CCV_ADMIN s'il peut lire/Ã©crire
+	 * @param array $params Tableau avec un numéro de classe et/ou d'élève. Cles=eleve/classe valeurs=x/y (ids)
+	 * @return integer Le droit: 0 si aucun, PROFILE_CCV_ADMIN s'il peut lire/écrire
 	 */
 	function getUserDroitInCarnet ($params) {
 		
@@ -28,7 +28,7 @@ class CarnetService {
 				
 				case "USER_ENS" :
 
-					// On vÃ©rifie que l'enseignant a des droits sur la classe de l'Ã©lÃ¨ve
+					// On vérifie que l'enseignant a des droits sur la classe de l'élève
 					$parentEns = $kernel_service->getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 					//print_r($parentEns);
 					$parentEle = $kernel_service->getNodeParents( "USER_ELE", $params["eleve"] );
@@ -87,7 +87,7 @@ class CarnetService {
 	/**
 	 * Gestion des droits dans un carnet
 	 *
-	 * Teste si l'usager peut effectuer une certaine opÃ©ration par rapport Ã  son droit. Le droit sur le cahier nÃ©cessite d'Ãªtre connu, renvoyÃ© par getUserDroitInCarnet avant l'entrÃ©e dans cette fonction. Le droit peut Ãªtre zappÃ© 
+	 * Teste si l'usager peut effectuer une certaine opération par rapport à son droit. Le droit sur le cahier nécessite d'être connu, renvoyé par getUserDroitInCarnet avant l'entrée dans cette fonction. Le droit peut être zappé 
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/25
@@ -98,7 +98,7 @@ class CarnetService {
 	function canMakeInCarnet ($action, $droit) {
 		$can = false;
 		switch ($action) {
-			case "WRITE_CLASSE" : // Ecrire Ã  toute la classe courante (en plus de sa/ses Ã©lÃ¨ve(s))
+			case "WRITE_CLASSE" : // Ecrire à toute la classe courante (en plus de sa/ses élève(s))
 			case "PRINT_TOPIC" : // Imprimer une correspondance
 				$can = (_currentUser()->getExtra('type') == "USER_ENS");
 				break;
@@ -107,12 +107,12 @@ class CarnetService {
 	}
 	
 	/**
-	 * Renvoie la liste des Ã©lÃ¨ves d'une classe pour lesquels l'usager courant pour voir les carnets de correspondance et/ou dÃ©marrer une discussion
+	 * Renvoie la liste des élèves d'une classe pour lesquels l'usager courant pour voir les carnets de correspondance et/ou démarrer une discussion
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $classe Id de la classe
-	 * @return array Tableau avec des infos sur les Ã©lÃ¨ves
+	 * @return array Tableau avec des infos sur les élèves
 	 */
 	function getUserElevesInClasse ($classe) {
 		
@@ -143,7 +143,7 @@ class CarnetService {
 					//print_r2($parentEle);
 					while (!$res && list(,$w) = each($parentEle)) {
 						if ($w["type"] != "BU_CLASSE") continue;
-						if ($w["id"]==$classe) {	// Un enfant trouvÃ© dans la bonne classe
+						if ($w["id"]==$classe) {	// Un enfant trouvé dans la bonne classe
 							$userInfo = $kernel_service->getUserInfo ($v["type"], $v["id"]);
 							$parent[$k]["prenom"] = $userInfo["prenom"];
 							$parent[$k]["nom"] = $userInfo["nom"];
@@ -164,12 +164,12 @@ class CarnetService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $classe Id de la classe
-	 * @param integer $createur Id utilisateur du crÃ©ateur de la discussion
+	 * @param integer $createur Id utilisateur du créateur de la discussion
 	 * @param string $titre Titre de la discussion
 	 * @param string $message Corps du premier message
-	 * @param array $eleves Id des Ã©lÃ¨ves concernÃ©s
+	 * @param array $eleves Id des élèves concernés
 	 * @param string $format Format de la discussion
-	 * @return integer Id du topic crÃ©e ou NULL si erreur
+	 * @return integer Id du topic crée ou NULL si erreur
 	 */
 	function addCarnetTopic ($classe, $createur, $titre, $message, $eleves, $format) {
 	
@@ -192,17 +192,17 @@ class CarnetService {
 			$daoTopicsTo = _dao("carnet|carnet_topics_to");
 			
 			/*
-			if (!$eleve) {		// Tous les Ã©lÃ¨ves de la classe !
+			if (!$eleve) {		// Tous les élèves de la classe !
 				$eleves = $kernelClasse->getNodeChilds ("BU_CLASSE", $classe);
 				while (list(,$v) = each($eleves)) {
-					if ($v["type"]=="USER_ELE") { 	// Todo prÃ©voir fonction qui ne renvoie que les Ã©lÃ¨ves pour zapper ce test
+					if ($v["type"]=="USER_ELE") { 	// Todo prévoir fonction qui ne renvoie que les élèves pour zapper ce test
 						$newTopicTo = _record("carnet|carnet_topics_to");
 						$newTopicTo->topic = $newTopic->id;
 						$newTopicTo->eleve = $v["id"];
 						$daoTopicsTo->insert ($newTopicTo);
 					}
 				}
-			} else {	// Chez un Ã©lÃ¨ve prÃ©cis
+			} else {	// Chez un élève précis
 				$daoTopicsTo = _dao("carnet|carnet_topics_to");
 				$newTopicTo = _record("carnet|carnet_topics_to");
 				$newTopicTo->topic = $newTopic->id;
@@ -232,11 +232,11 @@ class CarnetService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $topic Id de la discussion
-	 * @param integer $eleve Id de l'Ã©lÃ¨ve
+	 * @param integer $eleve Id de l'élève
 	 * @param integer auteur Id utilisateur de l'auteur du message
 	 * @param string $message Corps du message
 	 * @param string $format Format du message
-	 * @return integer Id du message insÃ©rÃ© ou NULL si erreur
+	 * @return integer Id du message inséré ou NULL si erreur
 	 */
 	function addCarnetMessage ($topic, $eleve, $auteur, $message, $format) {
 	
@@ -263,20 +263,20 @@ class CarnetService {
 	/**
 	 * Enregistre la date de passage d'un utilisateur dans une discussion
 	 *
-	 * Cette fonction de "tracking" permet ensuite d'afficher, pour un utilisateur, les discussions dans lesquelles de nouveaux messages ont Ã©tÃ© Ã©crits depuis sa derniÃ¨re lecture, et de le rediriger vers le premier message non lu.
+	 * Cette fonction de "tracking" permet ensuite d'afficher, pour un utilisateur, les discussions dans lesquelles de nouveaux messages ont été écrits depuis sa dernière lecture, et de le rediriger vers le premier message non lu.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/03/09
 	 * @param integer $id_topic Id de la discussion
 	 * @param integer $user Id de l'utilisateur
-	 * @param array $eleves Tableau avec les ids des Ã©lÃ¨ves (en valeurs)
+	 * @param array $eleves Tableau avec les ids des élèves (en valeurs)
 	 */
 	function userReadTopic ($id_topic, $user, $eleves) {
 		$daoTracking = _dao("carnet|carnet_tracking3");
 		
 		foreach ($eleves as $eleve) {
 			$visite = $daoTracking->get($id_topic, $user, $eleve);
-			if ($visite) {	// Il a dÃ©jÃ  visitÃ© ce topic
+			if ($visite) {	// Il a déjà visité ce topic
 				$visite->last_visite = date("Y-m-d H:i:s");
 				$daoTracking->update($visite);
 			} else {	// 1e visite !
@@ -292,12 +292,12 @@ class CarnetService {
 	
 
 	/**
-	 * Renvoie le nb d'Ã©lÃ¨ves d'une classe
+	 * Renvoie le nb d'élèves d'une classe
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/18
 	 * @param integer $classe Id de la classe
-	 * @return integer Nb d'lÃ©Ã¨ves
+	 * @return integer Nb d'léèves
 	 */
 	function getNbElevesInClasse ($classe) {
 		

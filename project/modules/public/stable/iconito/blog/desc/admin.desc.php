@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version	$Id: admin.desc.php,v 1.10 2007-06-04 14:39:50 cbeyer Exp $
-* @author	CÃ©dric VALLAT see copix.aston.fr for other contributors.
+* @author	Cédric VALLAT see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -73,7 +73,7 @@ $doUnsubscribe   = & new CopixAction ('AdminBlog', 'doUnsubscribe');
 
 
 //update URL
-//mettre en commentaire une fois lancÃ©
+//mettre en commentaire une fois lancé
 $updateUrl          = & new CopixAction ('AdminArticle', 'doUpdateUrl');
 
 $default       = & $listBlog;

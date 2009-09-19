@@ -13,11 +13,11 @@ _classInclude('agenda|dateservices');
 class ExportService {
 	
 	/**
-	* Fonction qui retourne un fichier texte contenant les Ã©vÃ¨nements exportÃ©s d'aprÃ¨s une pÃ©riode et les agendas concernÃ©s
+	* Fonction qui retourne un fichier texte contenant les évènements exportés d'après une période et les agendas concernés
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/17
-	* @param array $pArEvents tableau d'Ã©vÃ¨nements Ã  exporter, classÃ©s par ordre croissant de dÃ©but
-	* @return string $content chaine de caractÃ¨re reprÃ©sentant le contenu du fichier iCal exportÃ©
+	* @param array $pArEvents tableau d'évènements à exporter, classés par ordre croissant de début
+	* @return string $content chaine de caractère représentant le contenu du fichier iCal exporté
 	*/	
 	function getFileICal($pArEvents){
 	
@@ -32,7 +32,7 @@ class ExportService {
 			foreach((array)$day->events as $event){				
 				$content .= 'BEGIN:VEVENT' . "\n";
 				$content .= 'SUMMARY:'.$event->title_event . "\n";
-				if($event->alldaylong_event == 1){//si l'Ã©vÃ¨nement se dÃ©roule toute la journÃ©e
+				if($event->alldaylong_event == 1){//si l'évènement se déroule toute la journée
 					$dateCourante = $jour;
 					$content .= 'DTSTART;VALUE=DATE:' . $dateCourante . "\n" ;
 					$dateFin = $serviceDate->dateBddToDateFr($dateCourante);
@@ -40,11 +40,11 @@ class ExportService {
 					$dateFin = $serviceDate->dateFrToDateBdd($dateFin);
 					$content .= 'DTEND;VALUE=DATE:' .  $dateFin . "\n";
 				}
-				else if($event->endrepeatdate_event != null){//si c'est un Ã©vÃ¨nement qui se rÃ©pÃ¨te
+				else if($event->endrepeatdate_event != null){//si c'est un évènement qui se répète
 					$content .= 'DTSTART;TZID=' . CopixConfig::get('agenda|timeZone') . ':' . $jour . 'T' . $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) . '00Z' . "\n";
 					$content .= 'DTEND;TZID=' . CopixConfig::get('agenda|timeZone') . ':' . $jour . 'T' . $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event) . '00Z' . "\n";
 				}
-				else{//cas d'un Ã©vÃ¨nement classique
+				else{//cas d'un évènement classique
 					$content .= 'DTSTART;TZID=' . CopixConfig::get('agenda|timeZone') . ':' .$event->datedeb_event . 'T' . $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) . '00Z' . "\n";
 					$content .= 'DTEND;TZID=' . CopixConfig::get('agenda|timeZone') . ':' .$event->datefin_event . 'T' . $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event) . '00Z' . "\n";
 				}

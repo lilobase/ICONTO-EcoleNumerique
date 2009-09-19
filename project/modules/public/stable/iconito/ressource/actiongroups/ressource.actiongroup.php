@@ -157,7 +157,7 @@ class ActionGroupRessource extends CopixActionGroup {
 				);
 			}
 						
-			// Liste des domaines sÃ©lectionnÃ©es
+			// Liste des domaines sélectionnées
 			$domainesel_dao = CopixDAOFactory::create("ressource_res2domaine");
 			$domainesel_tmp = $domainesel_dao->getByRessource($ressource->ressources_id);
 			foreach( $domainesel_tmp AS $domainesel_key=>$domainesel_val ) {
@@ -166,7 +166,7 @@ class ActionGroupRessource extends CopixActionGroup {
 			$tplMain->assign ('domainesel_list', $domainesel_list);
 			
 			
-			// Liste des fonctions sÃ©lectionnÃ©es
+			// Liste des fonctions sélectionnées
 			$fonctionsel_dao = CopixDAOFactory::create("ressource_res2fonction");
 			$fonctionsel_tmp = $fonctionsel_dao->getByRessource($ressource->ressources_id);
 			foreach( $fonctionsel_tmp AS $fonctionsel_key=>$fonctionsel_val ) {
@@ -174,7 +174,7 @@ class ActionGroupRessource extends CopixActionGroup {
 			}
 			$tplMain->assign ('fonctionsel_list', $fonctionsel_list);
 			
-			// Liste des contenus sÃ©lectionnÃ©es
+			// Liste des contenus sélectionnées
 			$contenusel_dao = CopixDAOFactory::create("ressource_res2contenu");
 			$contenusel_tmp = $contenusel_dao->getByRessource($ressource->ressources_id);
 			foreach( $contenusel_tmp AS $contenusel_key=>$contenusel_val ) {
@@ -393,33 +393,33 @@ class ActionGroupRessource extends CopixActionGroup {
 		$licence_list = $licence_dao->getOrdre();
 		$tplMain->assign ('licence_list', $licence_list);
 
-		// Mot clÃ© saisi
+		// Mot clé saisi
 		if ($mot) {
 			$params['mot'] = $mot;
 		}
 				
-		// Liste des fonctions sÃ©lectionnÃ©es
+		// Liste des fonctions sélectionnées
 		$fonctionsel_list = array();
 		if ($fonctions) {
 			$params['fonctions'] = $fonctions;
 			$fonctionsel_list[$fonctions] = 1;
 		}
 
-		// Liste des contenus sÃ©lectionnÃ©s
+		// Liste des contenus sélectionnés
 		$contenusel_list = array();
 		if ($contenus) {
 			$params['contenus'] = $contenus;
 			$contenusel_list[$contenus] = 1;
 		}
 
-		// Liste des licences sÃ©lectionnÃ©s
+		// Liste des licences sélectionnés
 		$licencesel_list = array();
 		if ($licences) {
 			$params['licences'] = $licences;
 			$licencesel_list[$licences] = 1;
 		}
 
-		// Liste des domaines sÃ©lectionnÃ©s
+		// Liste des domaines sélectionnés
 		$valDomaines = $domainesel_list = array();
 		if (is_array($domaines)) {
 			foreach ($domaines as $tmp) {
@@ -445,7 +445,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		$tplMain->assign ('search', $search);
 		$tplMain->assign ('mot', $mot);
 		
-		// On cherche les ressources correspondant aux critÃ¨res
+		// On cherche les ressources correspondant aux critères
 		$ressources = array();
 		if ($params) {
 			$ressources = Ressource::searchAdvancedRessources($params, $id);

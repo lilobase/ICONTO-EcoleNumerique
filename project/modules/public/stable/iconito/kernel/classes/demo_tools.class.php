@@ -92,7 +92,7 @@ class Demo_Tools {
   }
 
   // Suppression d'un dossier et de ses sous-dossiers
-  // $dir = dossier Ã  supprimer, sans / Ã  la fin
+  // $dir = dossier à supprimer, sans / à la fin
   function dirdelete ($dir) {
     if ($handle = opendir("$dir")) {
      while (false !== ($item = readdir($handle))) {
@@ -111,8 +111,8 @@ class Demo_Tools {
     }
   }
   
-  // Vidage d'un dossier et de ses sous-dossiers : tous les fichiers situÃ©s sous ce dossier et en-dessous sont supprimÃ©s. On ne parcourt pas les dossiers CVS et les fichiers .dummy_file ne sont pas supprimÃ©s
-  // $dir = dossier Ã  vider, sans / Ã  la fin
+  // Vidage d'un dossier et de ses sous-dossiers : tous les fichiers situés sous ce dossier et en-dessous sont supprimés. On ne parcourt pas les dossiers CVS et les fichiers .dummy_file ne sont pas supprimés
+  // $dir = dossier à vider, sans / à la fin
   function dirempty ($dir) {
     if ($handle = opendir("$dir")) {
      while (false !== ($item = readdir($handle))) {
@@ -133,7 +133,7 @@ class Demo_Tools {
   }
 
 
-  // Retourne la taille d'un rÃ©pertoire 
+  // Retourne la taille d'un répertoire 
   function dirSize($path, $recursive=true) {
     $result = 0;
     if(!is_dir($path) || !is_readable($path)) 

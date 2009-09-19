@@ -3,7 +3,7 @@
 * @package	copix
 * @subpackage auth
 * @version	$Id: loginform.zone.php,v 1.7 2006-04-27 13:39:30 fmossmann Exp $
-* @author	Croes GÃ©rald, Bertrand Yan see copix.aston.fr for other contributors.
+* @author	Croes Gérald, Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org

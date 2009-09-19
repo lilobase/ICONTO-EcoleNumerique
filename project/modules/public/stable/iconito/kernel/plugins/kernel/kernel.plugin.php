@@ -3,7 +3,7 @@
 * @package	copix
 * @subpackage kernel
 * @version	$Id: kernel.plugin.php,v 1.11 2007-06-04 14:39:55 cbeyer Exp $
-* @author	FrÃ©dÃ©ric Mossmann - CAP-TIC
+* @author	Frédéric Mossmann - CAP-TIC
 * @copyright 2005 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @link      http://copix.org
@@ -24,7 +24,7 @@ class PluginKernel extends CopixPlugin {
 
     /**
 	 * IPCheck if needed, creating the user object if not yet.
-	 * @param	CopixAction	$action	le descripteur de page dÃ©tÃ©ctÃ©.
+	 * @param	CopixAction	$action	le descripteur de page détécté.
 	 * @access public
 	 */
     function beforeProcess (&$execParam){
@@ -38,7 +38,7 @@ class PluginKernel extends CopixPlugin {
 					$GLOBALS['COPIX']['DEBUG']->addInfo("Login ("._currentUser()->getExtra('type')."/"._currentUser()->getExtra('id')." : "._currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom').")", 'Kernel Plugin :');
 				}
 				
-				// Cas du parent d'Ã©lÃ¨ve
+				// Cas du parent d'élève
 				if ( _currentUser()->getExtra('type') == "USER_RES") {
 					/*
 					print_r($_SESSION);
@@ -60,15 +60,15 @@ class PluginKernel extends CopixPlugin {
 					reset($mynodes);
 					
 					if( count($mynodes) == 0 ) {
-/* CoupÃ© pour ne pas aller directement dans un groupe par dÃ©faut...
-						// Non liÃ© Ã  la base unique : on teste les clubs
+/* Coupé pour ne pas aller directement dans un groupe par défaut...
+						// Non lié à la base unique : on teste les clubs
 						$mynodes = Kernel::getMyNodes();
 						foreach( $mynodes AS $key=>$val ) {
 							// Suppression de tous les noeuds qui ne sont pas des groupes
 							if( !ereg( "^CLUB$", $val->type) ) {
 								unset( $mynodes[$key] );
 							}
-							// Suppression des groupes dont on est pas membre validÃ© (demande en cours)
+							// Suppression des groupes dont on est pas membre validé (demande en cours)
 							if( $val->droit <= 10 ) {
 								unset( $mynodes[$key] );
 							}
@@ -78,7 +78,7 @@ class PluginKernel extends CopixPlugin {
 							$home = current($mynodes);
 							Kernel::setMyNode( $home->type, $home->id );
 						} else {
-							// die( "Login non liÃ© Ã  la base unique. Contactez votre administrateur." );
+							// die( "Login non lié à la base unique. Contactez votre administrateur." );
 						}
 */
 					} elseif( count($mynodes) == 1 ) {
@@ -91,7 +91,7 @@ class PluginKernel extends CopixPlugin {
 							$home->type = $regs[1];
 							$home->id   = $regs[2];
 						} else {
-							// On positionne sur le 1er element de myNodes (prÃ©voir une mÃ©morisation dans les prefs)
+							// On positionne sur le 1er element de myNodes (prévoir une mémorisation dans les prefs)
 							$home = current($mynodes);
 						}
 						Kernel::setMyNode( $home->type, $home->id );

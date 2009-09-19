@@ -18,9 +18,9 @@ class MinimailService {
 	 * @since 2005/10/18
 	 * @param string title Titre du minimail
 	 * @param string message Corps du minimail
-	 * @param integer from_id Id utilisateur de l'expÃ©diteur
-	 * @param array destin Id tableau avec les destinataires (clÃ© = id user)
-	 * @return mixed Id du message crÃ©Ã© ou NULL si erreur
+	 * @param integer from_id Id utilisateur de l'expéditeur
+	 * @param array destin Id tableau avec les destinataires (clé = id user)
+	 * @return mixed Id du message créé ou NULL si erreur
 	 */
 	function sendMinimail ($title, $message, $from_id, $destin, $format) {
 	
@@ -56,7 +56,7 @@ class MinimailService {
 					$DAOminimail_to->insert ($newDest);
 
 					// ======= Alerte mail ===============
-          // On vÃ©rifie que l'envoi de mails est activÃ©, qu'un serveur SMTP est configurÃ©, que le destinataire a cochÃ© l'option "etre prÃ©venu par mail" et qu'il a renseignÃ© un mail
+          // On vérifie que l'envoi de mails est activé, qu'un serveur SMTP est configuré, que le destinataire a coché l'option "etre prévenu par mail" et qu'il a renseigné un mail
 					if ($newDest->id2 && CopixConfig::get('|mailEnabled')==1 && CopixConfig::get('|mailSmtpHost')) {
   					$prefs = Prefs::getPrefs ($to_id);
             if (isset($prefs['prefs']['alerte_mail_email']) && isset($prefs['minimail']['alerte_minimail']) && $prefs['prefs']['alerte_mail_email'] && $prefs['minimail']['alerte_minimail']==1) {
@@ -113,11 +113,11 @@ class MinimailService {
 	 * @param mixed message DAO du message
 	 * @param mixed destin DAO des destinataires
 	 * @param integer idUser Id utilisateur de celui qui souhaite lire le minimail
-	 * @return bool true s'il a le droit (il en l'expÃ©diteur ou le destinataire), false sinon
+	 * @return bool true s'il a le droit (il en l'expéditeur ou le destinataire), false sinon
 	 */
 	function canViewMessage ($message, $destin, $idUser) {
 		$res = false;
-		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyÃ©
+		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyé
 			$res = true;
 		} else {
 			while (!$res && list(,$d) = each($destin)) {
@@ -129,15 +129,15 @@ class MinimailService {
 	
 
 	/**
-	 * Construit la rÃ©ponse Ã  un message
+	 * Construit la réponse à un message
 	 *
-	 * A partir d'un message, construit le titre, le message et les destinataires si un usager fait "RÃ©pondre".
+	 * A partir d'un message, construit le titre, le message et les destinataires si un usager fait "Répondre".
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/19
 	 * @param mixed message DAO du message original
 	 * @param mixed destin DAO des destinataires
-	 * @param integer idUser Id utilisateur de celui qui souhaite rÃ©pondre
+	 * @param integer idUser Id utilisateur de celui qui souhaite répondre
 	 * @return array tableau : array(title=>"Re : le titre", dest=>"toto, titi", message=>"re salut...")
    */
 	function constructAnswer ($message, $destin, $idUser, $format) {
@@ -172,7 +172,7 @@ class MinimailService {
 	
 
 	/**
-	 * DÃ©termine si la prÃ©visualisation d'une piÃ¨ce jointe est possible (cas des images)
+	 * Détermine si la prévisualisation d'une pièce jointe est possible (cas des images)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/02/21
@@ -189,12 +189,12 @@ class MinimailService {
 	}
 
 	/**
-	 * Renvoie le nom "propre" d'une piÃ¨ce jointe, sans l'ID du message devant
+	 * Renvoie le nom "propre" d'une pièce jointe, sans l'ID du message devant
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/02/21
 	 * @param string $file Nom du fichier
-	 * @return string Nom Ã©purÃ©
+	 * @return string Nom épuré
    */
 	function getAttachmentName ($file) {
 		if ($file && ereg("^([0-9]+)_(.*)", $file, $regs))	$res = $regs[2];

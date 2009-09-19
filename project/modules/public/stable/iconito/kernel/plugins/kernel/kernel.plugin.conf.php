@@ -3,7 +3,7 @@
 * @package	copix
 * @subpackage auth
 * @version	$Id: kernel.plugin.conf.php,v 1.1 2005-12-19 15:32:54 fmossmann Exp $
-* @author	Croes GÃ©rald,  Bertrand Yan see copix.aston.fr for other contributors.
+* @author	Croes Gérald,  Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org

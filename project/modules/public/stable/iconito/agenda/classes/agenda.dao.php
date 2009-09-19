@@ -9,7 +9,7 @@
 class DAOAgenda {
 
 /**
-	* RÃ©cupÃ©ration d'une liste d'agendas parmi une liste d'ids
+	* Récupération d'une liste d'agendas parmi une liste d'ids
 	* @author Christophe Beyer <cbeyer@cap-tic.fr>
 	* @since 2006/08/24
     */
@@ -19,7 +19,7 @@ class DAOAgenda {
 	}
 
 	/**
-	 * Renvoie des stats sur les Ã©vÃ¨nements d'un agenda : nb d'Ã©vÃ¨nements (nbEvenements)
+	 * Renvoie des stats sur les évènements d'un agenda : nb d'évènements (nbEvenements)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/10/06

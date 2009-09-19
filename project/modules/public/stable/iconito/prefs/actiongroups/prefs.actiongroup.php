@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Prefs
 * @version   $Id: prefs.actiongroup.php,v 1.8 2007-12-20 09:46:27 fmossmann Exp $
-* @author   FrÃ©dÃ©ric Mossmann
+* @author   Frédéric Mossmann
 * @copyright 2005 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -71,7 +71,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 		
 		$tpl = & new CopixTpl ();
 		
-		// Liste des modules qui peuvent avoir des prÃ©fÃ©rences...
+		// Liste des modules qui peuvent avoir des préférences...
 		$modules = Prefs::getModules();
 		$arModulesPath = CopixConfig::instance ()->arModulesPath;
 
@@ -88,14 +88,14 @@ class ActionGroupPrefs extends CopixActionGroup {
 				$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
 				
 				reset($_POST);
-				// Parcours de tous les parametres passÃ© en POST, pour chaque module.
+				// Parcours de tous les parametres passé en POST, pour chaque module.
 				foreach( $_POST AS $post_key => $post_val ) {
 					if( ereg( '^'.$mod_val->rep.'_(.+)$', $post_key, $regs ) ) {
 						$datas[$mod_val->rep][$regs[1]] = $post_val;
 					}
 				}
 	
-				// Appel de la fonction de vÃ©rification du module.
+				// Appel de la fonction de vérification du module.
 				if( method_exists( $module_class, 'checkPrefs' ) ) {
 					$d = (isset($datas[$mod_val->rep])) ? $datas[$mod_val->rep] : null;
 					$error = $module_class->checkPrefs( $mod_val->rep, $d );
@@ -119,7 +119,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 					// Chargement de la classe...
 					$module_class = & CopixClassesFactory::Create ($mod_val->rep.'|mod'.$mod_val->rep.'prefs');
 				
-					// RÃ©cupÃ©ration de la structure des prefs...
+					// Récupération de la structure des prefs...
 					$d = (isset($data[$mod_val->rep])) ? $data[$mod_val->rep] : null;
 					$pref = $module_class->getPrefs( $d );
 					

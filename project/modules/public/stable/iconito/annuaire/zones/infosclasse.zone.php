@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone qui affiche les infos d'une classe (enseignant et Ã©lÃ¨ves)
+ * Zone qui affiche les infos d'une classe (enseignant et élèves)
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,7 +9,7 @@
 class ZoneInfosClasse extends CopixZone {
 
 	/**
-	 * Affiche les infos d'une classe (enseignant et Ã©lÃ¨ves)
+	 * Affiche les infos d'une classe (enseignant et élèves)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18

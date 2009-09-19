@@ -13,7 +13,7 @@ class ZoneRss extends CopixZone {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/03/23
-	 * @param string $kw Mot-clÃ© pour la recherche (option)
+	 * @param string $kw Mot-clé pour la recherche (option)
 	 */
 	function _createContent (&$toReturn) {
 		
@@ -21,7 +21,7 @@ class ZoneRss extends CopixZone {
     
 		$tpl  = & new CopixTpl ();
 		
-	  //on rÃ©cupÃ¨re l'ensemble des articles du blog
+	  //on récupère l'ensemble des articles du blog
     //$dao = _dao('blog|blogarticle');
 		
 		$dao     = _dao('blog|blogarticlecategory');

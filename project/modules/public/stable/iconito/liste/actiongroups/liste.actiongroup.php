@@ -64,16 +64,16 @@ class ActionGroupListe extends CopixActionGroup {
 
    
    /**
-   * Formulaire d'√©criture d'un message
+   * Formulaire d'Ècriture d'un message
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/23
 	 * @see doMessageForm()
-	 * @param integer $liste Id de la liste sur laquelle on √©crit
+	 * @param integer $liste Id de la liste sur laquelle on Ècrit
 	 * @param string $title Titre du message
 	 * @param string $message Corps du message
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
-   * @param array $errors Erreurs d√©j√† rencontr√©es
+   * @param array $errors Erreurs dÈj‡ rencontrÈes
    */
 	 function processGetMessageForm () {
 		
@@ -137,15 +137,15 @@ class ActionGroupListe extends CopixActionGroup {
 	
 	
    /**
-   * Soumission du formulaire d'√©criture d'un message sur une liste
+   * Soumission du formulaire d'Ècriture d'un message sur une liste
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/23
 	 * @see getMessageForm()
-	 * @param integer $liste Id de la liste sur laquelle on √©crit
+	 * @param integer $liste Id de la liste sur laquelle on Ècrit
 	 * @param string $title Titre du minimail
 	 * @param string $message Corps du minimail
-	 * @param string $go Forme de soumission : preview (pr√©visualiser) ou send (enregistrer)
+	 * @param string $go Forme de soumission : preview (prÈvisualiser) ou send (enregistrer)
    */
 	function doMessageForm () {
 	

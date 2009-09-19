@@ -16,7 +16,7 @@ class ZoneGetListBlogs extends CopixZone {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/03/23
-	 * @param string $kw Mot-clÃ© pour la recherche (option)
+	 * @param string $kw Mot-clé pour la recherche (option)
 	 */
 	function _createContent (&$toReturn) {
 		

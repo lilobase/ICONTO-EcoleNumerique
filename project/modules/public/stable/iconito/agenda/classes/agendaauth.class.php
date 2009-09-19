@@ -11,7 +11,7 @@
 class AgendaAuth {
 
 	/**
-	* Retourne le niveau de droit de la personne connectÃ©e
+	* Retourne le niveau de droit de la personne connectée
 	* @param integer $idAgenda l'identifiant de l'agenda
 	*/
 	function getCapability($idAgenda){

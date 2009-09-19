@@ -2,11 +2,11 @@
 /**
  * Kernel - ActionGroup
  *
- * Fonctions du coeur d'Iconito : Gestion des utilisateurs, des liens avec les entitÃ©s, de l'accÃ¨s Ã  la base Ã©lÃ¨ve, des droits.
+ * Fonctions du coeur d'Iconito : Gestion des utilisateurs, des liens avec les entités, de l'accès à la base élève, des droits.
  * @package	Iconito
  * @subpackage	Kernel
  * @version   $Id: kernel.actiongroup.php,v 1.50 2009-07-10 09:13:20 cbeyer Exp $
- * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+ * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
  */
 
 _classInclude ('welcome|welcome');
@@ -24,8 +24,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	/**
 	 * getNodes
 	 *
-	 * Affiche la liste des entitÃ©s reliÃ©es Ã  l'utilisateur connectÃ© (classe, Ã©cole, ville, etc.)
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * Affiche la liste des entités reliées à l'utilisateur connecté (classe, école, ville, etc.)
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processGetNodes () {
 		
@@ -104,7 +104,7 @@ class ActionGroupDefault extends CopixActionGroup {
 				$nodes_perso[$key_grville][$key_ville]["info"]["type_nom"] = CopixI18N::get ('kernel.codes.bu_ville');
 				$nodes_perso[$key_grville][$key_ville]["info"]["selected"] = (_currentUser()->getExtraHome('type')=="BU_VILLE" && _currentUser()->getExtraHome('id')==$key_ville)?true:false;
 				
-				// Pour toutes les Ã©coles...
+				// Pour toutes les écoles...
 				foreach( $val_ville as $key_ecole => $val_ecole ) { // ECOLE
 					if( !is_int($key_ecole) ) continue;
 					$info = Kernel::getNodeInfo( "BU_ECOLE", $key_ecole, false );
@@ -125,7 +125,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			}
 		}
 		
-		// Cas du parent d'Ã©lÃ¨ve
+		// Cas du parent d'élève
 		if (_currentUser()->getExtra('type') == "USER_RES") {
 			$childs = Kernel::getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
 			while (list(,$child) = each($childs)) {
@@ -164,8 +164,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	/**
 	 * doSelectHome
 	 *
-	 * MÃ©morisation en session du noeud (ville, Ã©cole, classe) actuel de travail de l'utilisateur connectÃ©.
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * Mémorisation en session du noeud (ville, école, classe) actuel de travail de l'utilisateur connecté.
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDoSelectHome() {
 		if( !_currentUser()->getExtras() || !(_currentUser()->getExtra('type')) || !(_currentUser()->getExtra('id')) ) {
@@ -181,7 +181,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes' ));
 		}
 		
-		// Cas du parent d'Ã©lÃ¨ve qui ne peut revenir qu'Ã  son accueil personnalisÃ© avec ses enfants. CB 06/12/2006
+		// Cas du parent d'élève qui ne peut revenir qu'à son accueil personnalisé avec ses enfants. CB 06/12/2006
     if (_currentUser()->getExtra('type') != 'USER_RES') {
   		Prefs::set( 'kernel', 'home', $pType."-".$pId );
 	  	Logs::set( array('type'=>'INFO', 'message'=>'SelectHome: '.$pType."-".$pId) );
@@ -194,7 +194,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * getHome
 	 *
 	 * Affiche les information de la zone de travail active (modules disponibles, etc.)
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processGetHome() {
 		$tpl = & new CopixTpl ();
@@ -240,7 +240,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			if ( isset($node->node_type) && isset($node->node_id) ) {
 				$blog = getNodeBlog ($node->node_type, $node->node_id);
 				if ($blog) {
-					// On vÃ©rifie qu'il y a au moins un article
+					// On vérifie qu'il y a au moins un article
 					$blog->stats = KernelBlog::getStats ($blog->id_blog);
 					//print_r($blog);
 					if ($blog->stats['nbArticles']['value']>0)
@@ -266,7 +266,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes' ));
 		}
 							
-		// Cas particulier (invitÃ©) : non attachÃ© Ã  la base unique, mais Ã  un club
+		// Cas particulier (invité) : non attaché à la base unique, mais à un club
 		if( _currentUser()->getExtraHome('type') == 'CLUB' ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHome', array('id'=>_currentUser()->getExtraHome('id') ) ));
 		}
@@ -298,8 +298,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	/**
 	 * getTree
 	 *
-	 * DEBUG: Affiche l'arbre d'information de l'utilisateur connectÃ©.
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * DEBUG: Affiche l'arbre d'information de l'utilisateur connecté.
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processGetTree () {
 		$tpl = & new CopixTpl ();
@@ -314,7 +314,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * debug
 	 *
 	 * DEBUG: Fonction de tests, librement modifiable...
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDebug () {
 		$tpl = & new CopixTpl ();
@@ -354,7 +354,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 *
 	 * DEBUG: Affichage des parents et enfants d'un noeud, pour valider le
 	 * fonctionnement des fonctions getNodeParents et getNodeChilds.
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 * @see getNodeParents( $type, $id )
 	 * @see getNodeChilds( $type, $id )
 	 */
@@ -431,7 +431,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	/**
 	 * getLink
 	 *
-	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 * @todo A faire...
 	 */
 	function processGetLink () {
@@ -451,7 +451,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	/**
 	 * doLink
 	 *
-	 * @author FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 * @todo A faire...
 	 */
 	function processDoLink () {

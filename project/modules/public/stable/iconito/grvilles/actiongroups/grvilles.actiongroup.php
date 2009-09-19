@@ -101,7 +101,7 @@ class ActionGroupGrvilles extends CopixActionGroup {
 				$grvilles_villes_raw = $dao_grvilles_gr2ville->findByGroupe(_request("groupe"));
 				
 				
-				// Tableau indexÃ© par id de ville
+				// Tableau indexé par id de ville
 				$grvilles_villes = array();
 				foreach( $grvilles_villes_raw AS $grvilles_villes_item ) {
 					$grvilles_villes[$grvilles_villes_item->id_ville] = $grvilles_villes_item;
@@ -114,7 +114,7 @@ class ActionGroupGrvilles extends CopixActionGroup {
 				
 				
 			} else {
-				// CrÃ©ation d'un nouveau groupe
+				// Création d'un nouveau groupe
 				
 			}
 		}

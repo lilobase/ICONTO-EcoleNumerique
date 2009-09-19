@@ -9,12 +9,12 @@
 class DAOForum_Tracking2 {
 	
 	/**
-	 * Renvoie le premier message non lu d'une discussion par rapport Ã  la derniÃ¨re date de lecture par un utilisateur de cette discussion.
+	 * Renvoie le premier message non lu d'une discussion par rapport à la dernière date de lecture par un utilisateur de cette discussion.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @param integer $topic Id de la discussion
-	 * @param integer $user Id de l'utilisateur concernÃ©
+	 * @param integer $user Id de l'utilisateur concerné
 	 * @return mixed Objet DAO ou NULL si l'utilisateur n'a jamais lu la discussion
 	 */
 	function getFirstUnreadMessage ($topic, $user) {

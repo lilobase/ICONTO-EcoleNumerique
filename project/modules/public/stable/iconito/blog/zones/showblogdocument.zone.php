@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: showblogdocument.zone.php,v 1.2 2007-06-01 16:08:43 cbeyer Exp $
-* @author	Vallat CÃ©dric.
+* @author	Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file

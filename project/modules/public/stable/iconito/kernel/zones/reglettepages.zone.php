@@ -6,10 +6,10 @@ class ZoneReglettePages extends CopixZone {
 	
 
 	/*
-		ParamÃ¨tres :
+		Paramètres :
 		nbPages = nombre total de page
 		page = page courante
-		url = URL accÃ©dÃ©e en cliquant sur les pages (sans le paramÃ¨tre page qui est ajoutÃ© automatiquement)
+		url = URL accédée en cliquant sur les pages (sans le paramètre page qui est ajouté automatiquement)
 		
 		*/
 	function _createContent (&$toReturn) {
@@ -20,9 +20,9 @@ class ZoneReglettePages extends CopixZone {
 		$page = intval($this->getParam('page'));
 		$url = $this->getParam('url');
 		
-		// Nb de pages Ã  afficher de chaque cÃ´tÃ© de la page courante
+		// Nb de pages à afficher de chaque côté de la page courante
 		$autour = $this->getParam('autour',3);
-		// Nb de pages Ã  chaque bout de la rÃ¨gle
+		// Nb de pages à chaque bout de la règle
 		$extremite = $this->getParam('extremite',1);
 
 		if ($nbPages<2) return true;
@@ -40,7 +40,7 @@ class ZoneReglettePages extends CopixZone {
 		$pages3 = range($nbPages-$extremite+1,$nbPages);
 		if ($autourFrom<=$extremite+1) 	// Les premiers ... sautent
 			$sep1 = '';
-		if ($autourTo>=$nbPages-$extremite) 	// Les deuxiÃ¨mes ... sautent
+		if ($autourTo>=$nbPages-$extremite) 	// Les deuxièmes ... sautent
 			$sep2 = '';
 		
 		if (!$sep1) {	// On fusionne les premiers tableaux

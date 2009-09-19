@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version	$Id: blogauth.class.php,v 1.11 2007-06-15 15:05:48 cbeyer Exp $
-* @author	CÃ©dric VALLAT, Bertrand Yan see copix.aston.fr for other contributors.
+* @author	Cédric VALLAT, Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -52,7 +52,7 @@ class BlogAuth {
 	/**
 	* fonction getUserInfos
 	* param : 
-	* return : Le prÃ©nom et le nom de l'utilisateur connectÃ©
+	* return : Le prénom et le nom de l'utilisateur connecté
 	*/
 	function getUserInfos($id_blog=NULL) {
 		$user = new user();
@@ -81,7 +81,7 @@ class BlogAuth {
 	/**
 	 * Gestion des droits dans un blog
 	 *
-	 * Teste si l'usager peut effectuer une certaine opÃ©ration par rapport Ã  son droit. Le droit sur le blog est calculÃ© ou rÃ©cupÃ©rÃ© de la session dans la fonction
+	 * Teste si l'usager peut effectuer une certaine opération par rapport à son droit. Le droit sur le blog est calculé ou récupéré de la session dans la fonction
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/05/31

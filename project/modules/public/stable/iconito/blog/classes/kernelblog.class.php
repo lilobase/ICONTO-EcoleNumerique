@@ -7,11 +7,11 @@ require_once (COPIX_UTILS_PATH.'../../smarty/plugins/shared.make_timestamp.php')
 
 class KernelBlog {
 
-	/* CrÃ©e un blog dans la base de donnÃ©es
+	/* Crée un blog dans la base de données
 	Renvoie son ID ou NULL si erreur
 	$infos peut contenir
 	$title = Titre du blog
-	$author = Auteur du premier article (id user). Si non positionnÃ©, prend la session. Sinon, valeur par dÃ©faut (voir conf du module)
+	$author = Auteur du premier article (id user). Si non positionné, prend la session. Sinon, valeur par défaut (voir conf du module)
 	*/
 	function create ($infos=array()) {
 		$blogDAO = _dao('blog|blog');
@@ -37,11 +37,11 @@ class KernelBlog {
 		
 		if ($blog->id_blog !== NULL) {
     
-      // On dÃ©termine l'URL titre
+      // On détermine l'URL titre
       $blog->url_blog        = KernelBlog::calcule_url_blog($blog->id_blog, $blog->name_blog);
       $blogDAO->update ($blog);
       
-			// On ajoute une catÃ©gorie
+			// On ajoute une catégorie
 			$categoryDAO = _dao('blog|blogarticlecategory');
 			$category = _record('blog|blogarticlecategory');
 			$category->id_blog	 = $blog->id_blog;
@@ -76,7 +76,7 @@ class KernelBlog {
 				$article->sticky_bact = 0;
 				$articleDAO->insert($article);
 				
-				if ($article->id_bact!==NULL) {	// On relie l'article Ã  la catÃ©gorie
+				if ($article->id_bact!==NULL) {	// On relie l'article à la catégorie
   				$article->url_bact = killBadUrlChars($article->id_bact.'-'.$article->name_bact);
   				$articleDAO->update($article);
 
@@ -91,7 +91,7 @@ class KernelBlog {
 
 
 	/**
-	Renvoie diffÃ©rentes infos chiffrÃ©es d'un blog, dans un tableau
+	Renvoie différentes infos chiffrées d'un blog, dans un tableau
 	*/
 	function getStats ($id_blog) {
 		$dao = _dao('blog|blogarticle');
@@ -117,11 +117,11 @@ class KernelBlog {
 	/**
 	 * Statistiques du module blog
 	 *
-	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs aux blogs et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : nombre de blogs, d'articles...
+	 * Renvoie des éléments chiffrés relatifs aux blogs et dédiés à un utilisateur système : nombre de blogs, d'articles...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbForums"] ["nbTopics"] ["nbMessages"]
+	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbForums"] ["nbTopics"] ["nbMessages"]
 	 */
 	function getStatsRoot () {
 		$res = array();	
@@ -145,7 +145,7 @@ class KernelBlog {
 		$blogDAO = & _dao ('blog|blog');
 		$blogDAO->delete($id_blog);
 		
-		//suppression des pages liÃ©es au blog
+		//suppression des pages liées au blog
 		$daoPage = & CopixDAOFactory::getInstanceOf ('blog|blogpage');
 		$record  = _record ('blog|blogpage');
 	
@@ -157,7 +157,7 @@ class KernelBlog {
 			$daoPage->delete($page);
 		}	
 		
-		//suppression des liens liÃ©s au blog
+		//suppression des liens liés au blog
 		$daoLien = & CopixDAOFactory::getInstanceOf ('blog|bloglink');
 		$record  = _record ('blog|bloglink');
 	
@@ -169,7 +169,7 @@ class KernelBlog {
 			$daoLien->delete($lien);
 		}	
 
-		//suppression des catÃ©gories du blog
+		//suppression des catégories du blog
 		$daoCategorie = & CopixDAOFactory::getInstanceOf ('blog|blogarticlecategory');
 		$record  = _record ('blog|blogarticlecategory');
 	
@@ -181,7 +181,7 @@ class KernelBlog {
 			$daoCategorie->delete($categorie);
 		}	
 
-		//suppression des articles, des commentaires et des liens catÃ©gories / articles
+		//suppression des articles, des commentaires et des liens catégories / articles
 		$arIdBact = array();	
 		$daoArticle = & CopixDAOFactory::getInstanceOf ('blog|blogarticle');
 		$record     = _record ('blog|blogarticle');
@@ -200,7 +200,7 @@ class KernelBlog {
 
 	/*
 	Publication distante (autre module).
-	id du blog + donnÃ©es -> infos sur la nouvelle donnÃ©es dans le blog
+	id du blog + données -> infos sur la nouvelle données dans le blog
 	*/
 	function publish ($id, $data) {
 	
@@ -225,14 +225,14 @@ class KernelBlog {
 		$articleDAO->update($article);
 
 		/*
-		if ($article->id_bact!==NULL) {	// On relie l'article Ã  la catÃ©gorie
+		if ($article->id_bact!==NULL) {	// On relie l'article à la catégorie
 			$artctgDAO = _dao('blog|blogarticle_blogarticlecategory');
 			$artctgDAO->deleteAndInsert($article->id_bact, array($category->id_bacg));
 		}
 		*/
 		
 		return( "yo".print_r( $article, true )."yo" );
-		// $article['title']  -> titre (ou nom Ã  dÃ©faut)
+		// $article['title']  -> titre (ou nom à défaut)
 		// $article['body'] -> texte
 		
 		/*
@@ -317,15 +317,15 @@ class KernelBlog {
   
 
   /**
-   * DÃ©termine l' "url_blog" unique d'un blog, Ã  partir de son titre
+   * Détermine l' "url_blog" unique d'un blog, à partir de son titre
 	 * 
-	 * A partir du titre d'un blog, en dÃ©duit son "url_blog". Regarde dans la BDD si un blog de mÃªme titre n'existe pas dÃ©jÃ  pour rendre cette valeur unique (au besoin, ajoute un numÃ©ro Ã  la fin pour le rendre unique). Ne doit Ãªtre appellÃ© qu'Ã  la crÃ©ation d'un blog.
+	 * A partir du titre d'un blog, en déduit son "url_blog". Regarde dans la BDD si un blog de même titre n'existe pas déjà pour rendre cette valeur unique (au besoin, ajoute un numéro à la fin pour le rendre unique). Ne doit être appellé qu'à la création d'un blog.
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/10/23
 	 * @param integer $id Id du blog
 	 * @param string $titre Titre du blog
-	 * @return string url_blog Ã  stocker dans la BDD. Chaine vide si problÃ¨me
+	 * @return string url_blog à stocker dans la BDD. Chaine vide si problème
    */
   function calcule_url_blog ($id, $titre) {
     if (strlen($titre)>97) $titre = substr($titre, 0, 97);

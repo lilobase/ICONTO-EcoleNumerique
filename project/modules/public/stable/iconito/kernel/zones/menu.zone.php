@@ -18,7 +18,7 @@ class ZoneMenu extends CopixZone {
 		$ppo = new CopixPPO ();		
 		$pMenu = $this->getParam ('MENU');
 		
-		// Si le menu est dÃ©fini Ã  partir d'un tableau, crÃ©ation du HTML pour affichage.
+		// Si le menu est défini à partir d'un tableau, création du HTML pour affichage.
 		if( is_array($pMenu) ) {
 			$out = '';
 			$sep = '';

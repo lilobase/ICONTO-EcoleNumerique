@@ -162,7 +162,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 				$responsables = explode (",", $responsables);
 				$tabResponsables = array();
 				$deja = array();
-				// On vÃ©rifie que les membres existent
+				// On vérifie que les membres existent
 				while (list(,$login) = each ($responsables)) {
 					if (!$login) continue;
 					$userInfo = Kernel::getUserInfo("LOGIN", $login);
@@ -183,7 +183,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 				$lecteurs = str_replace(array(",",";"), ",", $lecteurs);
 				$lecteurs = explode (",", $lecteurs);
 				$tabLecteurs = array();
-				// On vÃ©rifie que les membres existent
+				// On vérifie que les membres existent
 				while (list(,$login) = each ($lecteurs)) {
 					if (!$login) continue;
 					$userInfo = Kernel::getUserInfo("LOGIN", $login);
@@ -276,7 +276,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 				$lecteurs = str_replace(array(",",";"), ",", $lecteurs);
 				$lecteurs = explode (",", $lecteurs);
 				$tabLecteurs = array();
-				// On vÃ©rifie que les membres existent
+				// On vérifie que les membres existent
 				while (list(,$login) = each ($lecteurs)) {
 					if (!$login) continue;
 					$userInfo = Kernel::getUserInfo("LOGIN", $login);

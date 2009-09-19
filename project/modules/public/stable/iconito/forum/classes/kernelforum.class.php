@@ -9,12 +9,12 @@
 class KernelForum {
 
 	/**
-	 * CrÃ©ation d'un forum
+	 * Création d'un forum
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/08
    * @param array $infos (option) Infos sur le module. [title], [subtitle], [node_type], [node_id]
-	 * @return integer l'Id du forum crÃ©Ã© ou NULL si erreur
+	 * @return integer l'Id du forum créé ou NULL si erreur
 	 */
 	function create ($infos=array()) {
 		$daoForum = _dao("forum|forum_forums");
@@ -32,8 +32,8 @@ class KernelForum {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/09
-	 * @param integer $id Id du forum Ã  supprimer 
-	 * @return boolean true si la suppression s'est bien passÃ©e, false sinon
+	 * @param integer $id Id du forum à supprimer 
+	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($idForum) {
 		$daoForums = _dao("forum|forum_forums");
@@ -60,12 +60,12 @@ class KernelForum {
 	/**
 	 * Statistiques d'un forum
 	 *
-	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs Ã  un forum : nombre de discussions, nombre de messages...
+	 * Renvoie des éléments chiffrés relatifs à un forum : nombre de discussions, nombre de messages...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id_forum Id du forum Ã  analyser
-	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["Discussions"] ["Messages"]
+	 * @param integer $id_forum Id du forum à analyser
+	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["Discussions"] ["Messages"]
 	 */
 	function getStats ($id_forum) {
 		$daoForum = _dao("forum|forum_forums");
@@ -81,11 +81,11 @@ class KernelForum {
 	/**
 	 * Statistiques du module forum
 	 *
-	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs aux forums et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : nombre de discussions, nombre de messages...
+	 * Renvoie des éléments chiffrés relatifs aux forums et dédiés à un utilisateur système : nombre de discussions, nombre de messages...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/19
-	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbForums"] ["nbTopics"] ["nbMessages"]
+	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbForums"] ["nbTopics"] ["nbMessages"]
 	 */
 	function getStatsRoot () {
 		$res = array();	

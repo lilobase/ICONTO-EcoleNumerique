@@ -66,7 +66,7 @@ class ModPrefsPrefs {
 		$toReturn['form'][] = array(
 				'code'=>'alerte_mail_active',
 				'type'=>'checkbox',
-				'text'=>CopixI18N::get ('prefs.config.mail.alerte_mail_active'), // 'Souhaitez-vous Ãªtre alertÃ© par un email Ã  chaque fois que vous recevez un minimail ?',
+				'text'=>CopixI18N::get ('prefs.config.mail.alerte_mail_active'), // 'Souhaitez-vous être alerté par un email à chaque fois que vous recevez un minimail ?',
 				'value'=>($data['alerte_mail_active']?true:false) );
 		*/
 		$toReturn['form'][] = array(

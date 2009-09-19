@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: showpage.zone.php,v 1.8 2007-09-04 09:59:55 cbeyer Exp $
-* @author	Vallat CÃ©dric.
+* @author	Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -17,7 +17,7 @@ class ZoneShowPage extends CopixZone {
 
       $blog = $this->getParam('blog', '');
       
-      //on rÃ©cupÃ¨re l'ensemble des articles du blog
+      //on récupère l'ensemble des articles du blog
       $dao = _dao('blog|blogpage');
 			$page = $dao->getPageByUrl($blog->id_blog, $this->getParam('page', ''));	
 

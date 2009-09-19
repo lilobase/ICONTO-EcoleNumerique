@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Welcome
 * @version   $Id: welcome.class.php,v 1.4 2007-07-20 16:08:54 cbeyer Exp $
-* @author   FrÃ©dÃ©ric Mossmann
+* @author   Frédéric Mossmann
 * @copyright 2006 CAP-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -16,7 +16,7 @@ class Welcome {
 	 *
 	 * Fonction de simplification d'URL (retire les protocoles et les '/' finaux)
 	 * pour faciliter la recherche.
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function simplifyUrl( $url ) {
 		// Retrait du type de connexion
@@ -33,10 +33,10 @@ class Welcome {
 	 *
 	 * Recherche une URL identique ou similaire dans la base,
 	 * et retourne le noeud correspondant.
-	 * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function findNodeByUrl( $url ) {
-		// Simplification de l'URL Ã  tester.
+		// Simplification de l'URL à tester.
 		$url_site = Welcome::simplifyUrl( $url );
 		
 		// Initialisation des tests de similitude.
@@ -65,13 +65,13 @@ class Welcome {
 			$test_similar_text = similar_text( $url_site, $url_test );
 			$test_levenshtein  = levenshtein ( $url_site, $url_test );
 			
-			// MÃ©morisation si la similitude par "similar_text" est la meilleure.
+			// Mémorisation si la similitude par "similar_text" est la meilleure.
 			if( $test_similar_text>=$last_similar_text ) {
 				$last_similar_text=$test_similar_text;
 				$best_similar_text_node=$url_val;
 			}
 			
-			// MÃ©morisation si la similitude par "levenshtein" est la meilleure.
+			// Mémorisation si la similitude par "levenshtein" est la meilleure.
 			if( $test_levenshtein<=$last_levenshtein ) {
 				$last_levenshtein=$test_levenshtein;
 				$best_levenshtein_node=$url_val;

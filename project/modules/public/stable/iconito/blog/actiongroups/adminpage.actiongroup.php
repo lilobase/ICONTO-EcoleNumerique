@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version   $Id: adminpage.actiongroup.php,v 1.12 2007-09-07 14:14:07 cbeyer Exp $
-* @author	Vallat CÃ©dric.
+* @author	Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -14,7 +14,7 @@ require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.blog_format_article.p
 
 class ActionGroupAdminPage extends CopixActionGroup {
 	/**
-    * PrÃ©paration Ã  l'Ã©dition d'une page.
+    * Préparation à l'édition d'une page.
     */
 	function doPrepareEditPage() {
 
@@ -108,7 +108,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 
 		$pageDAO = CopixDAOFactory::create('blog|blogpage');
 		$id_bpge = $this->getRequest('id_bpge', null); if(strlen($id_bpge)==0) $id_bpge=null;
-		// On rÃ©cupÃ¨re l'utilisateur connectÃ©
+		// On récupère l'utilisateur connecté
 		$user = BlogAuth::getUserInfos();
 		if($id_bpge!=null) {
 			// EDITION D'UNE PAGE
@@ -300,7 +300,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 	
 	
 	/**
-	* Mise en session des paramÃ¨tres de l'article
+	* Mise en session des paramètres de l'article
 	* @access : private.
 	*/
 	function _setSessionPage ($toSet){
@@ -308,7 +308,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 	
 	
 	/**
-	* RÃ©cupÃ©ration en session des paramÃ¨tres de l'article
+	* Récupération en session des paramètres de l'article
 	* @access : private.
 	*/
 	function _getSessionPage () {

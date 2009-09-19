@@ -8,7 +8,7 @@
  */
 class KernelListe {
 
-	/* CrÃ©e une liste de diffusion
+	/* Crée une liste de diffusion
 		 Renvoie son ID ou NULL si erreur
 		 * @param array $infos (option) Infos sur le module. [title], [subtitle], [node_type], [node_id]
 	*/
@@ -22,12 +22,12 @@ class KernelListe {
 	}
 
 	/**
-	 * Suppression dÃ©finitive d'une liste
+	 * Suppression définitive d'une liste
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/09
 	 * @param integer $id Id de la liste
-	 * @return boolean true si la suppression s'est bien passÃ©e, false sinon
+	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($id) {
 		$daoListes = _dao("liste|liste_listes");
@@ -43,7 +43,7 @@ class KernelListe {
 	}
 
 	/*
-		Renvoie diffÃ©rentes infos chiffrÃ©es d'une liste
+		Renvoie différentes infos chiffrées d'une liste
 	*/
 	function getStats ($id_liste) {
 		$res = array();	
@@ -58,11 +58,11 @@ class KernelListe {
 	/**
 	 * Statistiques du module liste
 	 *
-	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs aux listes de diffusion et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : nombre de listes, messages envoyÃ©s...
+	 * Renvoie des éléments chiffrés relatifs aux listes de diffusion et dédiés à un utilisateur système : nombre de listes, messages envoyés...
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbMalles"] ["nbFolders"] ["nbFiles"] ["size"]
+	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbMalles"] ["nbFolders"] ["nbFiles"] ["size"]
 	 */
 	function getStatsRoot () {
 		$res = array();	

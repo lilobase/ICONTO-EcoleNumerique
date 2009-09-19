@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: getlistblog.zone.php,v 1.6 2007-06-01 16:08:43 cbeyer Exp $
-* @author	Vallat CÃ©dric.
+* @author	Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org

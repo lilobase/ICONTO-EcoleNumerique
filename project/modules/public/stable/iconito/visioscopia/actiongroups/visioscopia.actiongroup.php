@@ -26,7 +26,7 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 			$conf_msg    = $this->getRequest ('conf_msg'   , '');
 			$conf_active = $this->getRequest ('conf_active', 0 );
 			
-			if( 1 ) { // test de validitÃ© ?
+			if( 1 ) { // test de validité ?
 				$conf_result->conf_id     = $conf_id;
 				$conf_result->conf_msg    = $conf_msg;
 				$conf_result->conf_active = $conf_active;

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone qui affiche les infos d'une Ã©cole (coordonnÃ©es, directeur, classes...)
+ * Zone qui affiche les infos d'une école (coordonnées, directeur, classes...)
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,11 +9,11 @@
 class ZoneInfosEcole extends CopixZone {
 
 	/**
-	 * Affiche les infos d'une Ã©cole (coordonnÃ©es, directeur, classes...)
+	 * Affiche les infos d'une école (coordonnées, directeur, classes...)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
-	 * @param integer $rEcole Recordset de l'Ã©cole
+	 * @param integer $rEcole Recordset de l'école
 	 */
 	function _createContent (&$toReturn) {
 		

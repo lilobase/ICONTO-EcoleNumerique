@@ -6,7 +6,7 @@
  * @package	Iconito
  * @subpackage	Logs
  * @version   $Id: logs.actiongroup.php,v 1.3 2006-05-11 10:09:41 fmossmann Exp $
- * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
+ * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
  */
 
 _classInclude('logs|logsolesservice');
@@ -32,7 +32,7 @@ class ActionGroupLogs extends CopixActionGroup {
 
 	function display_details () {
 		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', "Logs :: DÃ©tails");
+		$tpl->assign ('TITLE_PAGE', "Logs :: Détails");
 		$tpl->assign ('MENU', array(
 			array( 'url'=>'url', 'titre'=>'titre' ),
 		) );

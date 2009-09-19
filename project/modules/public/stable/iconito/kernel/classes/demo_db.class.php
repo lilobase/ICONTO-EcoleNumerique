@@ -1,6 +1,6 @@
 <?php
 /**
- * Demo - Base de donnÃ©es
+ * Demo - Base de données
  *
  * @package	Iconito
  * @subpackage	Kernel
@@ -36,7 +36,7 @@ class Demo_DB {
   	global $params, $_conn;
   	switch ($params['driver']) {
   		case 'mysql' :
-  			$res = mysql_query ($query, $_conn) or die ("Erreur $_conn (requÃªte ".htmlentities($query).") : [".mysql_errno()."] ".mysql_error());
+  			$res = mysql_query ($query, $_conn) or die ("Erreur $_conn (requête ".htmlentities($query).") : [".mysql_errno()."] ".mysql_error());
   			return $res;
   			break;
   	}
@@ -78,9 +78,9 @@ class Demo_DB {
   			if ($params['driver'] == 'mysql') {
   				if ($params['dataBase'] && $params['host'] && $params['user']) {
   				} else
-  					die ("Les champs dataBase, host et user doivent Ãªtre complÃ©tÃ©s");
+  					die ("Les champs dataBase, host et user doivent être complétés");
   			} else
-  				die ("Mise Ã  jour hors MySql non implÃ©mentÃ©e");
+  				die ("Mise à jour hors MySql non implémentée");
   		} else
   			die ("Impossible d'ouvrir le fichier ".$file."");
   	} else

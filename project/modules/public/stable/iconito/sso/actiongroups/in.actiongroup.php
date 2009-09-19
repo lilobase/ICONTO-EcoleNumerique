@@ -18,7 +18,7 @@ class ActionGroupIn extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/12/08
 	 * @param integer $id_sso Id SSO
-	 * @return string rÃ©sultat du challenge. -ERR xxx si erreur, +OK xxx si c'est bon
+	 * @return string résultat du challenge. -ERR xxx si erreur, +OK xxx si c'est bon
    */
     function challenge () {
       
@@ -27,7 +27,7 @@ class ActionGroupIn extends CopixActionGroup {
 			if (!$id_sso)
 		    echo "-ERR ACC: id_sso manquant";
 			elseif (!preg_match('/^[0-9]+$/',$id_sso))
-		    echo "-ERR ACC: id_sso doit Ãªtre un nombre";
+		    echo "-ERR ACC: id_sso doit être un nombre";
 			else {
 				
 	    	$token = false;
@@ -38,11 +38,11 @@ class ActionGroupIn extends CopixActionGroup {
 	      
 	      if ($sso) {
 				
-					// On efface l'Ã©ventuel challenge courant
+					// On efface l'éventuel challenge courant
 					$daoChallenges = CopixDAOFactory::create('sso|sso_challenges');
 					$daoChallenges->deleteByIdSso ($id_sso);
 					
-					// On insÃ¨re le nouveau challenge
+					// On insère le nouveau challenge
 	    		$token = randomkeys(CopixConfig::get ('sso|in_encrypt_size'));
 					
 					$res = record('kernel_sso_challenges');
@@ -54,7 +54,7 @@ class ActionGroupIn extends CopixActionGroup {
 
 	        //print_r($res);
 	
-	  		 // if ($res->_idResult != 1)	{ echo "-ERR BDD: Erreur lors de l'enregistrement dans la base de donnÃ©es"; }
+	  		 // if ($res->_idResult != 1)	{ echo "-ERR BDD: Erreur lors de l'enregistrement dans la base de données"; }
 					//Kernel::deb (md5($token.'FobVVbarwb'));
 					//die();
 	  		  $token = "+OK ".$token;
@@ -74,10 +74,10 @@ class ActionGroupIn extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/12/08
 	 * @param integer $id_sso Id SSO
-	 * @param string $key ClÃ©
-	 * @param string $node_type (option) Type du noeud Ã  atteindre aprÃ¨s connexion
-	 * @param integer $node_id (option) Id du noeud Ã  atteindre aprÃ¨s connexion
-	 * @param string $module_type (option) Type du module du noeud Ã  atteindre (MOB_BLOG,...)
+	 * @param string $key Clé
+	 * @param string $node_type (option) Type du noeud à atteindre après connexion
+	 * @param integer $node_id (option) Id du noeud à atteindre après connexion
+	 * @param string $module_type (option) Type du module du noeud à atteindre (MOB_BLOG,...)
 	 * @return integer $id_sso Id SSO
 	 */
 	function login () {
@@ -113,13 +113,13 @@ class ActionGroupIn extends CopixActionGroup {
 					);
 					
 				} else {
-		   			echo "-ERR REP: Le temps allouÃ© pour la rÃ©ponse est dÃ©passÃ©. Veuillez essayer une nouvelle connexion ou contacter votre administrateur pour lui signaler le problÃ¨me.";
+		   			echo "-ERR REP: Le temps alloué pour la réponse est dépassé. Veuillez essayer une nouvelle connexion ou contacter votre administrateur pour lui signaler le problème.";
 		   		}
 			} else {
-				echo "-ERR REP: Erreur (1) lors de la vÃ©rification d'identitÃ©. Veuillez essayer une nouvelle connexion ou contacter votre administrateur pour lui signaler le problÃ¨me.";
+				echo "-ERR REP: Erreur (1) lors de la vérification d'identité. Veuillez essayer une nouvelle connexion ou contacter votre administrateur pour lui signaler le problème.";
 			}
 		} else {
-			echo "-ERR REP: Erreur (2) lors de la vÃ©rification d'identitÃ©. Veuillez essayer une nouvelle connexion ou contacter votre administrateur pour lui signaler le problÃ¨me.";
+			echo "-ERR REP: Erreur (2) lors de la vérification d'identité. Veuillez essayer une nouvelle connexion ou contacter votre administrateur pour lui signaler le problème.";
 		}
     
 		return new CopixActionReturn (COPIX_AR_NONE, 0); 

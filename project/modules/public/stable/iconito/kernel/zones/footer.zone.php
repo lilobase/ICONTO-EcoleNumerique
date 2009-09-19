@@ -19,7 +19,7 @@ class ZoneFooter extends CopixZone {
 			
 			$display = true;
 			
-			// RÃ©cupÃ©ration des infos de gÃ©olocalisation.
+			// Récupération des infos de géolocalisation.
 			$whereami = Kernel::whereAmI();
 			
 			if( isset( $whereami['BU_GRVILLE'] ) ) {
@@ -42,7 +42,7 @@ class ZoneFooter extends CopixZone {
 				$tpl->assign('classe_nom', $whereami['BU_CLASSE']['nom'] );
 			}
 			
-			// RÃ©cupÃ©ration des valeurs d'URL.
+			// Récupération des valeurs d'URL.
 			if( isset( $_GET['module'] ) ) {
 				$tpl->assign('module', $_GET['module']);
 			}
@@ -51,7 +51,7 @@ class ZoneFooter extends CopixZone {
 				$tpl->assign('action', $_GET['action']);
 			}
 			
-			// RÃ©cupÃ©ration des valeurs de sessions (personne).
+			// Récupération des valeurs de sessions (personne).
 			if( _currentUser()->getExtra('type') ) {
 				$tpl->assign('user_type', _currentUser()->getExtra('type') );
 				$tpl->assign('user_id', _currentUser()->getExtra('id') );

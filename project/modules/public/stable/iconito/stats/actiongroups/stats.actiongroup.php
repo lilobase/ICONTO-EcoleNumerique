@@ -1,6 +1,6 @@
 <?php
 /**
- * Actiongroup du module Stats pour les Ã©ventuelles opÃ©rations Ã  mettre dans la crontab
+ * Actiongroup du module Stats pour les éventuelles opérations à mettre dans la crontab
  * 
  * @package	Iconito
  * @subpackage Stats

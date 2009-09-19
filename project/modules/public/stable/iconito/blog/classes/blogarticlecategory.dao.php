@@ -150,7 +150,7 @@ class DAORecordblogarticlecategory {
 
 			if( (!empty($record->url_bacg)) && (!empty($record->id_blog))) {
 				if(empty($record->id_bacg)) {
-					// CrÃ©ation 
+					// Création 
 					$sqlRequest = 'SELECT id_bacg FROM module_blog_articlecategory WHERE '.
 														' id_blog=' . $record->id_blog.
 														' AND url_bacg=\'' . $record->url_bacg.'\'';
@@ -161,7 +161,7 @@ class DAORecordblogarticlecategory {
 														' AND id_bacg!=' . $record->id_bacg.
 														' AND url_bacg=\'' . $record->url_bacg.'\'';
 				}
-				// VÃ©rification de l'unicitÃ© de l'url
+				// Vérification de l'unicité de l'url
       	$DBresult = _doQuery($sqlRequest);
 				if(count($DBresult)>0) {
 					require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');

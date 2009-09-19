@@ -10,12 +10,12 @@ class KernelVisioScopia {
 
 
 	/**
-	 * CrÃ©ation d'une malle
+	 * Création d'une malle
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/06
 	 * @param array $infos (option) informations permettant d'initialiser la malle. Index: title, node_type, node_id
-	 * @return integer l'Id de la malle crÃ©Ã©e ou NULL si erreur
+	 * @return integer l'Id de la malle créée ou NULL si erreur
 	 */
 	function create ($infos=array()) {
 		
@@ -28,7 +28,7 @@ class KernelVisioScopia {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/09
 	 * @param integer $id Id de la malle
-	 * @return boolean true si la suppression s'est bien passÃ©e, false sinon
+	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($id) {
 
@@ -38,12 +38,12 @@ class KernelVisioScopia {
 	/**
 	 * Statistiques d'une malle
 	 *
-	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs Ã  une malle : taille occupÃ©e (format "humain"), nombre de dossiers, nombre de fichiers
+	 * Renvoie des éléments chiffrés relatifs à une malle : taille occupée (format "humain"), nombre de dossiers, nombre de fichiers
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
 	 * @param integer $malle Id de la malle
-	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbFiles"] ["nbFolders"] ["size"]
+	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbFiles"] ["nbFolders"] ["size"]
 	 */
 	function getStats ($malle) {
 		
@@ -53,11 +53,11 @@ class KernelVisioScopia {
 	/**
 	 * Statistiques du module documents
 	 *
-	 * Renvoie des Ã©lÃ©ments chiffrÃ©s relatifs aux documents et dÃ©diÃ©s Ã  un utilisateur systÃ¨me : taille occupÃ©e (format "humain"), nombre de zones de documents, nombre de dossiers, nombre de fichiers
+	 * Renvoie des éléments chiffrés relatifs aux documents et dédiés à un utilisateur système : taille occupée (format "humain"), nombre de zones de documents, nombre de dossiers, nombre de fichiers
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs reprÃ©sentent les libellÃ©s des stats et les valeurs les stats chiffrÃ©es. Clefs utilisÃ©es : ["nbMalles"] ["nbFolders"] ["nbFiles"] ["size"]
+	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbMalles"] ["nbFolders"] ["nbFiles"] ["size"]
 	 */
 	function getStatsRoot () {
 		

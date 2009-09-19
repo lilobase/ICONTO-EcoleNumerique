@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version   $Id: adminblog.actiongroup.php,v 1.24 2009-03-03 16:46:57 cbeyer Exp $
-* @author	Vallat CÃ©dric.
+* @author	Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -14,7 +14,7 @@ require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
 
 class ActionGroupAdminBlog extends CopixActionGroup {
 	/**
-    * PrÃ©paration de l'Ã©dition d'un blog.
+    * Préparation de l'édition d'un blog.
     */
 	function processGetShowBlog() {
 		
@@ -60,7 +60,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'p'=>$this->getRequest('p', '')
 			));
 		} else if($kind=='1') {
-			// CatÃ©gories
+			// Catégories
 			$result = CopixZone::process ('ShowBlogCategory',
 			array('id_blog'=>$id_blog,
 			'kind'=>$kind
@@ -84,7 +84,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 							CopixUrl::get ('album||go', array('id'=>$mods[0]->module_id)));
 					}
 				}
-			} // Si on arrive lÃ , c'est pas normal
+			} // Si on arrive là, c'est pas normal
 			$result = CopixZone::process ('ShowBlogPhoto',
 			array('id_blog'=>$id_blog,
 			'kind'=>$kind
@@ -102,7 +102,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 							CopixUrl::get ('malle||go', array('id'=>$mods[0]->module_id)));
 					}
 				}
-			} // Si on arrive lÃ , c'est pas normal
+			} // Si on arrive là, c'est pas normal
 			$result = CopixZone::process ('ShowBlogDocument',
 			array('id_blog'=>$id_blog,
 			'kind'=>$kind
@@ -205,8 +205,8 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 
 
 	/**
-    * PrÃ©paration Ã  l'affichage de la modif d'un blog
-		* @todo rendre la crÃ©ation impossible
+    * Préparation à l'affichage de la modif d'un blog
+		* @todo rendre la création impossible
     */
  	function doPrepareEditBlog() {
 		
@@ -283,7 +283,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 
 		$tpl = & new CopixTpl ();
 
-		// RÃ©cupÃ©ration de toutes les fonctions du blog
+		// Récupération de toutes les fonctions du blog
 		$tabFunctions = returnAllBlogFunctions();
 		$tabSelectedFunctions = (array) $this->getRequest('tabBlogFunctions', '');
 		$tabBlogFunctions = array();
@@ -372,7 +372,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 	/**
     * Suppression d'un blog.
     */
-	//fonction obsolÃ¨te Ã  prÃ©sent, la fonction appellÃ©e pour supprimer un blog se trouve dans kernelblog.class.php
+	//fonction obsolète à présent, la fonction appellée pour supprimer un blog se trouve dans kernelblog.class.php
 	function doDeleteBlog (){
 		_classInclude('blog|kernelblog');
 		$id_blog = $this->getRequest('id_blog', null);
@@ -443,7 +443,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		$blog->id_ctpt	 = $this->getRequest('id_ctpt', '');
 		$blog->url_blog = killBadUrlChars($blog->name_blog);
 
-		// RÃ©cupÃ©ration de toutes les fonctions du blog
+		// Récupération de toutes les fonctions du blog
 		$tabFunctions = returnAllBlogFunctions();
 		$tabSelectedFunctions = (array) $this->getRequest('tabBlogFunctions', '');
 		$tabBlogFunctions = array();
@@ -598,7 +598,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			
 			$blog->style_blog_file = $style_blog_file;
 			
-			//Gestion du fichier CSS personnalisÃ©
+			//Gestion du fichier CSS personnalisé
 			if ($style_blog_file==1) {
 				$file = COPIX_VAR_PATH.CopixConfig::get ('blog|cssPath').$id_blog.'.css';
 				
@@ -637,14 +637,14 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 
 
    /**
-   * Inscription directe et effective de membres avec des droits spÃ©cifiques dans le blog, Ã  partir de leurs logins
+   * Inscription directe et effective de membres avec des droits spécifiques dans le blog, à partir de leurs logins
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/06/01
 	 * @param integer $id Id du blog
-	 * @param integer $kind NumÃ©ro gÃ©nÃ©rique de la rubrique (ne pas y toucher)
-	 * @param array $membres Les logins des membres Ã  inscrire (sÃ©parÃ©s par des , ou ; si plusieurs)
-	 * @param integer $droit Le droit Ã  appliquer Ã  ces membres
+	 * @param integer $kind Numéro générique de la rubrique (ne pas y toucher)
+	 * @param array $membres Les logins des membres à inscrire (séparés par des , ou ; si plusieurs)
+	 * @param integer $droit Le droit à appliquer à ces membres
    */
 	function doSubscribe () {
 
@@ -681,7 +681,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			$tab_membres = explode (",", $tab_membres);
 			
 			$tabInscrits = array();
-			// On vÃ©rifie que les membres existent
+			// On vérifie que les membres existent
 			while (list(,$login) = each ($tab_membres)) {
 				if (!$login) continue;
 				if ($login == _currentUser()->user->getLogin()) {
@@ -694,7 +694,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 				//print_r($userInfo);
 				if (!$userInfo)
 					$errors[] = CopixI18N::get ('blog.error.subscribe.memberNoUser', array($login));
-				else {	// On regarde s'il est dÃ©jÃ  membre
+				else {	// On regarde s'il est déjà membre
 					$droit2 = Kernel::getLevel( "MOD_BLOG", $id, $userInfo["type"], $userInfo["id"]);
 					//Kernel::deb("login=$login / droit=$droit / droit2=$droit2");
 					//print_r($userInfo);
@@ -711,7 +711,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			return CopixActionGroup::process ('blog|AdminBlog::getShowBlog', array ('id_blog'=>$id, 'kind'=>$kind, 'membres'=>$membres, 'droit'=>$droit, 'errors'=>$errors));
 
 		} else {
-			// On insÃ¨re les Ã©ventuels membres
+			// On insère les éventuels membres
 			
 			while (list(,$user) = each ($tabInscrits)) {
 				//print_r($user);
@@ -727,13 +727,13 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 	}
 
    /**
-   * Suppression des droits atribuÃ©s Ã  des membres sur un blog
+   * Suppression des droits atribués à des membres sur un blog
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/06/04
 	 * @param integer $id Id du blog
-	 * @param integer $kind NumÃ©ro gÃ©nÃ©rique de la rubrique (ne pas y toucher)
-	 * @param array $membres Les membres Ã  dÃ©sinscrire (les valeurs sont de type USER_TYPE|USER_ID)
+	 * @param integer $kind Numéro générique de la rubrique (ne pas y toucher)
+	 * @param array $membres Les membres à désinscrire (les valeurs sont de type USER_TYPE|USER_ID)
    */
 	function doUnsubscribe () {
 

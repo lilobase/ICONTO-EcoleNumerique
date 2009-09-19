@@ -43,11 +43,11 @@ class ActionGroupDefault extends CopixActionGroup {
 						$pages = $modhelp->getPages();
 					}
 					
-					if ($page && is_array($pages) && isset($pages[$page])) {	// Page prÃ©cise
+					if ($page && is_array($pages) && isset($pages[$page])) {	// Page précise
 						$tpl->assign ('TITLE_PAGE', Kernel::Code2Name('mod_'.$rubrique).' - '.$pages[$page]['title']);
 						$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('aide||', array('rubrique'=>$rubrique)).'">'.CopixI18N::get ('aide|aide.link.top').'</a> :: <a href="'.CopixUrl::get ('aide||').'">'.CopixI18N::get ('aide|aide.link.index').'</a>');
 						
-						// On vÃ©rifie que le fichier existe bien
+						// On vérifie que le fichier existe bien
 						$lg = CopixI18N::getLang();
 						$file = $modulePath.$rubrique.'/'.COPIX_TEMPLATES_DIR.'help_'.$page.'_'.$lg.'.html';
 
@@ -69,7 +69,7 @@ class ActionGroupDefault extends CopixActionGroup {
 								foreach ($links as $link) {
 									$l = explode ('|', $link);
 									//print_r($l);
-									if (count($l)==1) {	// MÃªme module
+									if (count($l)==1) {	// Même module
 										$see[] = array('rubrique'=>$rubrique, 'page'=>$l[0], 'title'=>$pages[$l[0]]['title']);
 									} else {	// Autre module
 										
@@ -103,7 +103,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			if (!$hasHelpRub)
 				$MAIN = $tpl->fetch('viewhelp.tpl');
 		} else {
-			$rubs = array('minimail', 'album');	// ComplÃ©ter avec les modules dont l'aide est Ã©crite
+			$rubs = array('minimail', 'album');	// Compléter avec les modules dont l'aide est écrite
 			
 			$rubriques = array();
 			foreach ($rubs as $rub) {

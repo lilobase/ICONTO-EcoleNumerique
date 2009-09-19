@@ -5,7 +5,7 @@ class KernelRessource {
 
 
 	/*
-		Renvoie diffÃ©rentes infos chiffrÃ©es d'un annuaire de ressources, dans un tableau
+		Renvoie différentes infos chiffrées d'un annuaire de ressources, dans un tableau
 	*/
 	function getStats ($id_ressource) {
 		$dao = CopixDAOFactory::create("ressource|ressource_annuaires");

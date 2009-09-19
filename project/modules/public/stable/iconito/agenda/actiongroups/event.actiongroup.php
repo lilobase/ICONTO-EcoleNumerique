@@ -18,15 +18,15 @@ require_once (COPIX_UTILS_PATH.'CopixDateTime.class.php');
 class ActionGroupEvent extends CopixActionGroup {
 	
 	/**
-	* Fonction qui est appelÃ©e lors de la modification d'un Ã©vÃ¨nement
-	* RÃ©cupÃ¨re l'objet 'event' en  base de donnÃ©es grÃ¢ce Ã  l'id_event
-	* RÃ©dirige vers l'action "edit" de l'actiongroup
+	* Fonction qui est appelée lors de la modification d'un évènement
+	* Récupère l'objet 'event' en  base de données grâce à l'id_event
+	* Rédirige vers l'action "edit" de l'actiongroup
 	*/
 	function doPrepareEdit (){
 	
 		$serviceAuth   = new AgendaAuth;
 	
-		//rÃ©cupÃ©ration de l'objet event en base de donnÃ©e
+		//récupération de l'objet event en base de donnée
 		$daoSearchParams = & CopixDAOFactory::createSearchParams ();
 		$daoSearchParams->addCondition ('id_event', '=', _request('id_event'));
 		
@@ -42,7 +42,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}		
 		
-		//on vÃ©rifie si l'utilisateur a les droits de modification sur l'agenda concernÃ©
+		//on vérifie si l'utilisateur a les droits de modification sur l'agenda concerné
 		if($serviceAuth->getCapability($event->id_agenda) < $serviceAuth->getModerate()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
@@ -62,8 +62,8 @@ class ActionGroupEvent extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction qui est appelÃ©e lorsque l'on veut insÃ©rer un nouvel Ã©vÃ¨nement
-	* CrÃ©Ã© un objet vide  et initialise la propriÃ©tÃ© id_agenda
+	* Fonction qui est appelée lorsque l'on veut insérer un nouvel évènement
+	* Créé un objet vide  et initialise la propriété id_agenda
 	* Stock l'objet en session
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @return redirige vers l'action "edit" de l'actiongroup
@@ -72,7 +72,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 		$serviceAuth   = new AgendaAuth;
 		
-		//on ne peut ajouter un Ã©vÃ¨nement que s'il existe un agenda
+		//on ne peut ajouter un évènement que s'il existe un agenda
 		$obj = new AgendaService();
 		$listAgendas = $obj->getAvailableAgenda();		
 		
@@ -82,12 +82,12 @@ class ActionGroupEvent extends CopixActionGroup {
 			'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
 		
-		//rÃ©cupÃ©ration de la liste des agendas affichÃ©s
+		//récupération de la liste des agendas affichés
 		$listAgendasAffiches = $obj->getAgendaAffiches();
 		
-		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas affichÃ©s
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		foreach((array)$listAgendasAffiches as $id_agenda){
-			//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture sur un des agendas affichÃ©
+			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteAgenda()){
 				$ableToWrite = true;
 			}
@@ -115,8 +115,8 @@ class ActionGroupEvent extends CopixActionGroup {
 	
 	
 	/**
-	* RÃ©cupÃ¨re l'objet en session
-	* CrÃ©Ã© un objet vide  et initialise la propriÃ©tÃ© id_agenda
+	* Récupère l'objet en session
+	* Créé un objet vide  et initialise la propriété id_agenda
 	* Appelle la zone agendamenu et agendaeditevent
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
@@ -133,11 +133,11 @@ class ActionGroupEvent extends CopixActionGroup {
 			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}
 		
-		//rÃ©cupÃ©ration de la liste des agendas affichÃ©s
+		//récupération de la liste des agendas affichés
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
-		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas affichÃ©s
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		foreach((array)$listAgendasAffiches as $id_agenda){
-			//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture sur un des agendas affichÃ©
+			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteAgenda()){
 				$ableToWrite = true;
 			}
@@ -152,11 +152,11 @@ class ActionGroupEvent extends CopixActionGroup {
 		$obj = new AgendaService();
 		$listAgendas = $obj->getAvailableAgenda();
 		
-		//rÃ©cupÃ©ration de la liste des agendas affichÃ©s
+		//récupération de la liste des agendas affichés
 		
 		$serviceAgenda = new AgendaService;
 		
-		//on rÃ©cupÃ¨re en session la liste des agendas en cours de visualisation
+		//on récupère en session la liste des agendas en cours de visualisation
 		$arAgendasAffiches      = $serviceAgenda->getAgendaAffiches();
 		$arTitleAgendasAffiches = $serviceAgenda->getArTitleAgendaByArIdAgenda($arAgendasAffiches);
 		
@@ -178,9 +178,9 @@ class ActionGroupEvent extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction qui est appelÃ©e lorsque l'on valide la saisie d'un Ã©vÃ¨nement
-	* Met Ã  jour l'objet avec les donnÃ©es du formulaire
-	* VÃ©rifie les informations saisies dans le formulaire
+	* Fonction qui est appelée lorsque l'on valide la saisie d'un évènement
+	* Met à jour l'objet avec les données du formulaire
+	* Vérifie les informations saisies dans le formulaire
 	* @author Audrey Vassal <avassal@sqli.com>
 	* @return redirige vers l'action "getVueSemaine" de l'actiongroup agenda
 	*/
@@ -188,7 +188,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 		$serviceAuth   = new AgendaAuth;
 		
-		//initialisation des cases Ã  cocher
+		//initialisation des cases à cocher
 		
 		
 		if (!$toValid = $this->_getSessionEvent()){
@@ -197,11 +197,11 @@ class ActionGroupEvent extends CopixActionGroup {
 			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}		
 			
-		//demande de mettre l'objet Ã  jour en fonction des valeurs saisies dans le formulaire
+		//demande de mettre l'objet à jour en fonction des valeurs saisies dans le formulaire
 		$this->_validFromForm ($toValid);
 		//var_dump($toValid);
 		
-		//on vÃ©rifie les droits
+		//on vérifie les droits
 		if($serviceAuth->getCapability($toValid->id_agenda) < $serviceAuth->getWriteAgenda()){
 				return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
@@ -230,7 +230,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			}
 		
 			//on fait l'enregistrement en base
-			if($toValid->endrepeat_event == 'nbfois' && $toValid->nb_fois != null){//on determine la date de fin dans le cas oÃ¹ il s'agit d'une rÃ©pÃ©tion n fois			
+			if($toValid->endrepeat_event == 'nbfois' && $toValid->nb_fois != null){//on determine la date de fin dans le cas où il s'agit d'une répétion n fois			
 				$obj = new AgendaService();
 				$dateFin = $obj->getDateEndRepeatByNbFois($toValid->nb_fois, $toValid->repeat_event, $toValid->datefin_event);
 			}
@@ -245,14 +245,14 @@ class ActionGroupEvent extends CopixActionGroup {
 			$record->heurefin_event   = $toValid->heurefin_event;			
 			$record->alldaylong_event = (isset($toValid->alldaylong_event)) ? $toValid->alldaylong_event : 0;
 			
-			//si il y a rÃ©pÃ©tition de l'Ã©vÃ¨nement
+			//si il y a répétition de l'évènement
 			if($toValid->repeat == 1){
 				$record->everyday_event   = ($toValid->repeat_event == 'everyday_event' && $toValid->repeat == 1) ? 1 : 0;
 				$record->everyweek_event  = ($toValid->repeat_event == 'everyweek_event' && $toValid->repeat == 1) ? 1 : 0;
 				$record->everymonth_event = ($toValid->repeat_event == 'everymonth_event' && $toValid->repeat == 1) ? 1 : 0;
 				$record->everyyear_event  = ($toValid->repeat_event == 'everyyear_event' && $toValid->repeat == 1) ? 1 : 0;
 				
-				//date de fin de rÃ©pÃ©tition (Ã  voir selon ce qui est cochÃ©)
+				//date de fin de répétition (à voir selon ce qui est coché)
 				if(isset($dateFin)){
 					//$record->endrepeatdate_event = CopixI18N::dateToBD ($dateFin);//convertion des dates au format bdd
 					$record->endrepeatdate_event = DateService::dateFrToDateBdd($dateFin);
@@ -265,7 +265,7 @@ class ActionGroupEvent extends CopixActionGroup {
 					$record->endrepeatdate_event = ($toValid->endrepeat_event == '99999999') ? $toValid->endrepeat_event : null;
 				}
 			}
-			//si pas de rÃ©pÃ©tition, on met tous les champs Ã  0
+			//si pas de répétition, on met tous les champs à 0
 			else{
 				$record->everyday_event = 0;
 				$record->everyweek_event = 0;
@@ -294,9 +294,9 @@ class ActionGroupEvent extends CopixActionGroup {
 	}
 	
 	/**
-	* Fonction qui est appelÃ©e lors de la suppression d'un Ã©vÃ¨nement
-	* RÃ©cupÃ¨re l'objet 'event' en  base de donnÃ©es grÃ¢ce Ã  l'id_event
-	* Supprime l'objet en base de donnÃ©es
+	* Fonction qui est appelée lors de la suppression d'un évènement
+	* Récupère l'objet 'event' en  base de données grâce à l'id_event
+	* Supprime l'objet en base de données
 	*/
 	function doDelete (){
 		
@@ -316,7 +316,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		}
 		
 		
-		//on vÃ©rifie si l'utilisateur a les droits de suppression sur l'agenda concernÃ©
+		//on vérifie si l'utilisateur a les droits de suppression sur l'agenda concerné
 		if($serviceAuth->getCapability($toDelete->id_agenda) < $serviceAuth->getModerate()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
@@ -339,7 +339,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	}
 	
 	/**
-	* Fonction qui fait la vÃ©rification sur les champs de saisie du formulaire d'ajout d'un Ã©vÃ¨nement
+	* Fonction qui fait la vérification sur les champs de saisie du formulaire d'ajout d'un évènement
 	* @access: private
 	* @return array $toReturn tableau qui contient les erreurs de saisie de l'utilisateur
 	*/
@@ -367,7 +367,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		//$dateendrepeat_event = $this->getRequest('dateendrepeat_event', null);
 		$repeat_event = $obj->repeat_event;
 				
-		//vÃ©rification si les champs sont bien remplis
+		//vérification si les champs sont bien remplis
 		if ($obj->title_event == null || $obj->title_event == ''){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.notitle');
 		}
@@ -411,7 +411,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		//var_dump($datedebTs);
 		//var_dump($datefinTs);
 		
-		//vÃ©rification sur le format des dates
+		//vérification sur le format des dates
 		if ($datedeb) {
 			if (CopixDateTime::timestampToDate ($datedebTs) === false)
 				$toReturn[] = CopixI18N::get('agenda|agenda.error.formdatedeb');
@@ -422,7 +422,7 @@ class ActionGroupEvent extends CopixActionGroup {
 				$toReturn[] = CopixI18N::get('agenda|agenda.error.formdatefin');
 		}
 		
-		//vÃ©rification sur la cohÃ©rence des dates de dÃ©but et de fin		
+		//vérification sur la cohérence des dates de début et de fin		
 		if ($datedeb && $datefin && $datedebTs && $datefinTs && $datedebTs > $datefinTs){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.inversiondate');
 		}
@@ -431,7 +431,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.inversiondaterepeat');
 		}
 		
-		//vÃ©rification sur la cohÃ©rence des heures de dÃ©but et de fin
+		//vérification sur la cohérence des heures de début et de fin
 		if ($datedebTs && $datefinTs && $datedebTs == $datefinTs && $heuredeb > $heurefin && $obj->alldaylong_event != 1 && ($obj->heurefin_event !=null || $obj->heurefin_event != '')){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.inversionheure');
 		}
@@ -442,7 +442,7 @@ class ActionGroupEvent extends CopixActionGroup {
 				$toReturn[] = CopixI18N::get('agenda|agenda.error.formdatejusqu');
 		}
 		
-		//vÃ©rification sur le format des heures
+		//vérification sur le format des heures
 		if ($obj->heuredeb_event != null || $obj->heuredeb_event !='') {
 			if (!ereg("([0-2])?[0-9]:[0-5][0-9]", $obj->heuredeb_event)){
 				$toReturn[] = CopixI18N::get('agenda|agenda.error.formheuredeb');
@@ -465,7 +465,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			}
 		}
 		
-		//vÃ©rifier que la frÃ©quence de rÃ©pÃ©tition est cohÃ©rente avec la durÃ©e de l'Ã©vÃ¨nement
+		//vérifier que la fréquence de répétition est cohérente avec la durée de l'évènement
 		if($repeat_event == 'everyday_event' && DateService::getNomberDaysBeetweenTwoDates($obj->datedeb_event, $obj->datefin_event, $obj->heuredeb_event, $obj->heurefin_event) > 1){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.freqrepetitionday');
 		}
@@ -486,7 +486,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	}
 	
 	/**
-	* Mise en session des paramÃ¨tres de l'Ã©vÃ¨nement en Ã©dition
+	* Mise en session des paramètres de l'évènement en édition
 	* @access: private.
 	*/
 	function _setSessionEvent ($toSet){
@@ -496,7 +496,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	}
 	
 	/**
-	* RÃ©cupÃ©ration en session des paramÃ¨tres de l'Ã©vÃ¨nement en Ã©dition
+	* Récupération en session des paramètres de l'évènement en édition
 	* @access: private.
 	*/
 	function _getSessionEvent () {
@@ -523,7 +523,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 		//cas particulier de l'heure
 		if (_request('heuredeb_event')){
-			//cas de l'heure saisie sur 4 caractÃ¨re (9:00 au lieu de 09:00)
+			//cas de l'heure saisie sur 4 caractère (9:00 au lieu de 09:00)
 			if (strlen(_request('heuredeb_event')) == 4) {
 				$toUpdate->heuredeb_event = '0'._request('heuredeb_event');
 			}else{
@@ -531,7 +531,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			}
 		}
 		if (_request('heurefin_event')){
-			//cas de l'heure saisie sur 4 caractÃ¨re (9:00 au lieu de 09:00)
+			//cas de l'heure saisie sur 4 caractère (9:00 au lieu de 09:00)
 			if (strlen(_request('heurefin_event')) == 4) {
 				$toUpdate->heurefin_event = '0'._request('heurefin_event');
 			}else{

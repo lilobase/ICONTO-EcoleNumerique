@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version   $Id: admincategory.actiongroup.php,v 1.7 2007-07-30 14:42:07 cbeyer Exp $
-* @author	Vallat CÃ©dric.
+* @author	Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -13,7 +13,7 @@ _classInclude('blog|blogutils');
 
 class ActionGroupAdminCategory extends CopixActionGroup {
 	/**
-    * PrÃ©paration Ã  l'Ã©dition d'une catÃ©gorie.
+    * Préparation à l'édition d'une catégorie.
     */
 	function doPrepareEditCategory() {
 
@@ -63,7 +63,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 
 
 	/**
-    * Validation d'une catÃ©gorie.
+    * Validation d'une catégorie.
     */
 	function doValidCategory() {
 

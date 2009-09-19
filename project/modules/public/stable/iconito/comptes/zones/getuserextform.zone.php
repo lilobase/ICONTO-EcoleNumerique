@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Comptes
 * @version   $Id: getuserextform.zone.php,v 1.1 2007-02-07 17:10:26 fmossmann Exp $
-* @author   FrÃ©dÃ©ric Mossmann
+* @author   Frédéric Mossmann
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 class ZoneGetUserExtForm extends CopixZone {

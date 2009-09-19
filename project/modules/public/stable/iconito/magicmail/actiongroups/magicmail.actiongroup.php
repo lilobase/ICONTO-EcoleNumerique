@@ -210,7 +210,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 									
 									if( $blog != null ) {
 										if( ! $blog_article['title'] || trim($blog_article['title'])=='' ) {
-											$date = date('d/m/Y \Ã  H\hi');
+											$date = date('d/m/Y \à H\hi');
 											$blog_article['title'] = 'Article du '.$date;
 										}
 										

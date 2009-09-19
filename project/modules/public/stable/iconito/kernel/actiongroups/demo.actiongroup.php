@@ -2,7 +2,7 @@
 /**
  * Demo - ActionGroup
  *
- * Fonctions relatives au jeu d'essai de d√©mo
+ * Fonctions relatives au jeu d'essai de dÈmo
  * @package	Iconito
  * @subpackage	Kernel
  * @version   $Id: demo.actiongroup.php,v 1.5 2009-04-01 13:10:00 cbeyer Exp $
@@ -17,7 +17,7 @@ _classInclude('admin|admin');
 class ActionGroupDemo extends CopixActionGroup {
 
   /**
-   * Regarde si la d√©mo est d√©j√† install√©
+   * Regarde si la dÈmo est dÈj‡ installÈ
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/10/26
@@ -79,7 +79,7 @@ class ActionGroupDemo extends CopixActionGroup {
     }
     $db->db_close ();
       
-    // Copie des dossiers (pas de slashs √† la fin!)
+    // Copie des dossiers (pas de slashs ‡ la fin!)
     $tools->installFolder ('www/static/malle/1_9a4ba0cdef');
     $tools->installFolder ('var/data/blog/logos');
     $tools->installFolder ('www/static/album/1_be8550b87c');

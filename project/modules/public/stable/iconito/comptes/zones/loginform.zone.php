@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Comptes
 * @version   $Id: loginform.zone.php,v 1.2 2006-03-03 14:44:07 fmossmann Exp $
-* @author   FrÃ©dÃ©ric Mossmann
+* @author   Frédéric Mossmann
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 class ZoneLoginForm extends CopixZone {

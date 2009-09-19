@@ -9,7 +9,7 @@
 class DAOKernel_ext_user {
 
 	/**
-	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  une classe et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extérieures rattachées à une classe et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -23,11 +23,11 @@ class DAOKernel_ext_user {
 	}
 	
 	/**
-	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  une Ã©cole et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extérieures rattachées à une école et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
-	 * @param integer $ecole Id de l'Ã©cole
+	 * @param integer $ecole Id de l'école
 	 * @return mixed Objet DAO
 	 */
 	function getPersonnelExtInEcole ($ecole) {
@@ -37,7 +37,7 @@ class DAOKernel_ext_user {
 	}
 	
 	/**
-	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  une ville et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extérieures rattachées à une ville et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -52,7 +52,7 @@ class DAOKernel_ext_user {
 	
 
 	/**
-	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  un groupe de villes et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extérieures rattachées à un groupe de villes et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15

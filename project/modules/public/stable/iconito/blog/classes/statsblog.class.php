@@ -3,7 +3,7 @@
 class StatsBlog {
 
 	/*
-		Renvoie le nom d'un objet dont l'ID a Ã©tÃ© enregistrÃ© dans les stats/logs
+		Renvoie le nom d'un objet dont l'ID a été enregistré dans les stats/logs
 	*/
 	function getObjet ($action, $id_objet) {
 		if (!$id_objet)

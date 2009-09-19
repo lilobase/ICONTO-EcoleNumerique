@@ -23,7 +23,7 @@ class DAOMalle_Files {
 	}
 
 	/**
-	 * Renvoie le nb de sous-rÃ©pertoires contenus dans un rÃ©pertoire
+	 * Renvoie le nb de sous-répertoires contenus dans un répertoire
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07

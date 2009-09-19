@@ -12,7 +12,7 @@
 class Demo_Auth {
 
 	/**
-	 * VÃ©rifie que l'usager courant peut installer la dÃ©mo
+	 * Vérifie que l'usager courant peut installer la démo
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/10/26

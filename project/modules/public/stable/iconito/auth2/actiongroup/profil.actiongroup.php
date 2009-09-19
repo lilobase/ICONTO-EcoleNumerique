@@ -3,7 +3,7 @@
 * @package	copix
 * @subpackage auth
 * @version	$Id: profil.actiongroup.php,v 1.4 2008-01-22 08:41:39 fmossmann Exp $
-* @author	Croes GÃ©rald, Julien Mercier, Bertrand Yan see copix.aston.fr for other contributors.
+* @author	Croes Gérald, Julien Mercier, Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -63,27 +63,27 @@ class ActionGroupProfil extends CopixActionGroup {
       $plugAuth = CopixPluginRegistry::get ("auth|auth");
       $user = & $plugAuth->getUser();
 
-      // VÃ©rification que les informations sont valides
+      // Vérification que les informations sont valides
       if (_request('auth_password') != _request('auth_password2')) {
          return $this->getModifUserForm('Erreur dans la saisie du mot de passe.');
       }  // if
       if (! $user->checkLoginIsUnique(_request('auth_login'))) {
-         return $this->getModifUserForm('Ce login Ã©xiste dÃ©jÃ .');
+         return $this->getModifUserForm('Ce login éxiste déjà.');
       }  // if
       if (! $user->checkEMailIsUnique(_request('auth_email'))) {
-         return $this->getModifUserForm('Cette adresse E-Mail Ã©xiste dÃ©jÃ .');
+         return $this->getModifUserForm('Cette adresse E-Mail éxiste déjà.');
       }  // if
 
       // Sauvegarde de l'utilisateur
       if (($plugAuth->config->verifEMailAddress === true) && (_request('auth_email') != $user->email)) {
-         // ==> Avec vÃ©rification de l'adresse mail et adresse mail modifiÃ©e
+         // ==> Avec vérification de l'adresse mail et adresse mail modifiée
          $user->doUpdate(_request('auth_login'), _request('auth_password'), _request('auth_name'),
                        _request('auth_surname'), _request('auth_email'), 0);
          $this->_mailActiveKey();
          $user->logout();
          return $this->_getEndModifUser();
       } else {
-         // ==> Sans vÃ©rification de l'adresse mail
+         // ==> Sans vérification de l'adresse mail
          $user->doUpdate(_request('auth_login'), _request('auth_password'), _request('auth_name'),
                     _request('auth_surname'), _request('auth_email'), 1);
          return $this->getProfil();
@@ -92,14 +92,14 @@ class ActionGroupProfil extends CopixActionGroup {
 
 
    /**
-   * Envoie le mail de confirmation de crÃ©ation de compte avec la clÃ© d'activation associÃ©e
+   * Envoie le mail de confirmation de création de compte avec la clé d'activation associée
    *
    * @return bool
    */
    function _mailActiveKey()
    {
       $plugAuth = CopixPluginRegistry::get ("auth|auth");
-      // test si cette action est activÃ© dans le fichier de configuration
+      // test si cette action est activé dans le fichier de configuration
       if ($plugAuth->config->allowCreateNew === false) {
          return true;
       }  // if
@@ -114,7 +114,7 @@ class ActionGroupProfil extends CopixActionGroup {
    }  // function mailActiveKey
 
    /**
-   * Affiche la confirmation de mise Ã  jour du compte et l'envoi d'une nouvelle clÃ©
+   * Affiche la confirmation de mise à jour du compte et l'envoi d'une nouvelle clé
    *
    * @return Object CopixActionReturn
    */

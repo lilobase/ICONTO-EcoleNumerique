@@ -79,7 +79,7 @@ class AgendaType {
 	}
 
 	/**
-	* A partir d'un noeud (node_type/node_id), dÃ©termine le type d'agenda. Utile notamment Ã  la crÃ©ation d'un agenda, pour bien positionner le champ type dans la BDD
+	* A partir d'un noeud (node_type/node_id), détermine le type d'agenda. Utile notamment à la création d'un agenda, pour bien positionner le champ type dans la BDD
 	* @author Christophe Beyer <cbeyer@cap-tic.fr>
 	* @param string $node_type Type du noeud de rattachement
 	* @param integer $node_id Id du noeud

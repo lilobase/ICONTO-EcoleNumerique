@@ -41,13 +41,13 @@ class AnnuaireService {
 	
 	
 	/**
-	 * Retourne les Ã©coles d'une ville
+	 * Retourne les écoles d'une ville
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/17
 	 * @param integer $ville Id de la ville
 	 * @param array $options (option) Options facultatives, [directeur] (true/false) indiquant 
-	 * @return array Tableau avec les Ã©coles
+	 * @return array Tableau avec les écoles
 	 */
 	function getEcolesInVille ($ville, $params=array('directeur'=>true)) {
 		$ecoles = array();
@@ -73,12 +73,12 @@ class AnnuaireService {
 
 
 	/**
-	 * Retourne les Ã©coles d'un groupe de ville
+	 * Retourne les écoles d'un groupe de ville
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
 	 * @param integer $grville Id du groupe de ville
-	 * @return array Tableau avec les Ã©coles
+	 * @return array Tableau avec les écoles
 	 */
 	function getEcolesInGrville ($grville, $options=array()) {
 		$ecoles = array();
@@ -107,11 +107,11 @@ class AnnuaireService {
 
 
 	/**
-	 * Retourne les classes d'une Ã©cole, avec les infos des enseignants affectÃ©s
+	 * Retourne les classes d'une école, avec les infos des enseignants affectés
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
-	 * @param integer $ecole Id de l'Ã©cole
+	 * @param integer $ecole Id de l'école
 	 * @param array $options Tableau d'options. Implemente : [forceCanViewEns] force l'affichage des enseignants au lieu de regarder si l'usager a les droits [onlyWithBlog] ne renvoie que les classes ayant un blog [enseignant] si on veut avoir l'enseignant de la classe (true par defaut) [withNiveaux] cherche les niveaux de chaque classe
 	 * @return array Tableau avec les classes
 	 * @todo Voir pour remplacer le -1 par un ID d'un enseignant
@@ -179,7 +179,7 @@ class AnnuaireService {
 	}
 	
 	/**
-	 * Retourne les classes d'une ville, avec les infos des enseignants affectÃ©s
+	 * Retourne les classes d'une ville, avec les infos des enseignants affectés
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
@@ -214,7 +214,7 @@ class AnnuaireService {
 	
 	
 	/**
-	 * Retourne les classes d'un groupe de villes, avec les infos des enseignants affectÃ©s
+	 * Retourne les classes d'un groupe de villes, avec les infos des enseignants affectés
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
@@ -246,11 +246,11 @@ class AnnuaireService {
 	
 	
 	/**
-	 * Retourne le(s) directeur(s) d'une Ã©cole
+	 * Retourne le(s) directeur(s) d'une école
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
-	 * @param integer $ecole Id de l'Ã©cole
+	 * @param integer $ecole Id de l'école
 	 * @return array Tableau avec les directeurs
 	 */
 	function getDirecteurInEcole ($ecole, $options=array()) {	
@@ -292,11 +292,11 @@ class AnnuaireService {
 
 
 	/**
-	 * Retourne le personnel administratif d'une Ã©cole
+	 * Retourne le personnel administratif d'une école
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/12/20
-	 * @param integer $ecole Id de l'Ã©cole
+	 * @param integer $ecole Id de l'école
 	 * @return array Tableau avec le personnel
 	 */
 	function getAdministratifInEcole ($ecole, $options=array()) {	
@@ -324,7 +324,7 @@ class AnnuaireService {
 	 */
 	function getEnseignantInClasse ($classe, $options=array()) {
 		$enseignant = array();
-		$result = Kernel::getNodeChilds('BU_CLASSE', $classe, false); // true=normal false=optimisÃ©
+		$result = Kernel::getNodeChilds('BU_CLASSE', $classe, false); // true=normal false=optimisé
 		foreach ($result AS $key=>$value) {
 			//print_r($value);
 			if ($value['type']=='USER_ENS') {
@@ -341,12 +341,12 @@ class AnnuaireService {
 
 
 	/**
-	 * Retourne les Ã©lÃ¨ves d'une classe
+	 * Retourne les élèves d'une classe
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
 	 * @param integer $classe Id de la classe
-	 * @return array Tableau avec les Ã©lÃ¨ves
+	 * @return array Tableau avec les élèves
 	 * @todo Ajouter les parents
 	 */
 	function getElevesInClasse ($classe, $options=array()) {	
@@ -397,14 +397,14 @@ class AnnuaireService {
 	}
 
 	/**
-	 * Fonction de comparaison permettant de trier avec usort un tableau selon le nom des Ã©lÃ©ments
+	 * Fonction de comparaison permettant de trier avec usort un tableau selon le nom des éléments
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
 	 * @link http://www.php.net/usort
-	 * @param mixed $a Premier Ã©lÃ©ment
-	 * @param mixed $b DeuxiÃ¨me Ã©lÃ©ment
-	 * @return integer Valeur de comparaison : infÃ©rieur, Ã©gal ou supÃ©rieur Ã  zÃ©ro suivant que le premier Ã©lÃ©ment est considÃ©rÃ© comme plus petit, Ã©gal ou plus grand que le second Ã©lÃ©ment
+	 * @param mixed $a Premier élément
+	 * @param mixed $b Deuxième élément
+	 * @return integer Valeur de comparaison : inférieur, égal ou supérieur à zéro suivant que le premier élément est considéré comme plus petit, égal ou plus grand que le second élément
 	 */
 	function usort_nom ($a, $b) {
   	$comp = strcmp($a["nom"], $b["nom"]);
@@ -415,13 +415,13 @@ class AnnuaireService {
 	
 
 	/**
-	 * Tous les Ã©lÃ¨ves d'une classe, d'une Ã©cole, d'une ville ou d'un groupe de villes
+	 * Tous les élèves d'une classe, d'une école, d'une ville ou d'un groupe de villes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
-	 * @param string $type Type du parent oÃ¹ sont rattachÃ©s les Ã©lÃ¨ves (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
+	 * @param string $type Type du parent où sont rattachés les élèves (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
 	 * @param integer $id Id du parent
-	 * @return array Tableau contenant tous les Ã©lÃ¨ves, triÃ©s alphabÃ©tiquement
+	 * @return array Tableau contenant tous les élèves, triés alphabétiquement
 	 */
 	function getEleves ($type, $id) {
 		$dao = _dao("kernel|kernel_bu_ele");
@@ -439,13 +439,13 @@ class AnnuaireService {
 	}
 
 	/**
-	 * Tous le personnel Ã©cole d'une classe, d'une Ã©cole, d'une ville ou d'un groupe de villes
+	 * Tous le personnel école d'une classe, d'une école, d'une ville ou d'un groupe de villes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
-	 * @param string $type Type du parent oÃ¹ sont rattachÃ©s les personnels (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
+	 * @param string $type Type du parent où sont rattachés les personnels (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
 	 * @param integer $id Id du parent
-	 * @return array Tableau contenant tout le personnel Ã©cole, triÃ© alphabÃ©tiquement
+	 * @return array Tableau contenant tout le personnel école, trié alphabétiquement
 	 */
 	function getPersonnel ($type, $id) {
 	
@@ -464,13 +464,13 @@ class AnnuaireService {
 	}
 	
 	/**
-	 * Tous les parents ayant un enfant dans une classe, une Ã©cole, une ville ou un groupe de villes
+	 * Tous les parents ayant un enfant dans une classe, une école, une ville ou un groupe de villes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
-	 * @param string $type Type du parent oÃ¹ sont rattachÃ©s les parents (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
+	 * @param string $type Type du parent où sont rattachés les parents (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
 	 * @param integer $id Id du parent
-	 * @return array Tableau contenant tout les parents, triÃ©s alphabÃ©tiquement
+	 * @return array Tableau contenant tout les parents, triés alphabétiquement
 	 */
 	function getParents ($type, $id) {
 		$dao = _dao("kernel|kernel_bu_res");
@@ -488,13 +488,13 @@ class AnnuaireService {
 		
 
 	/**
-	 * Tout le personnel extÃ©rieur d'une classe, d'une Ã©cole, d'une ville ou d'un groupe de villes
+	 * Tout le personnel extérieur d'une classe, d'une école, d'une ville ou d'un groupe de villes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
-	 * @param string $type Type du parent oÃ¹ sont rattachÃ©s les personnes (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
+	 * @param string $type Type du parent où sont rattachés les personnes (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GRVILLE)
 	 * @param integer $id Id du parent
-	 * @return array Tableau contenant les personnes, triÃ©es alphabÃ©tiquement
+	 * @return array Tableau contenant les personnes, triées alphabétiquement
 	 */
 	function getPersonnelExt ($type, $id) {
 	
@@ -514,13 +514,13 @@ class AnnuaireService {
 
 
 	/**
-	 * Tout le personnel administratif d'une Ã©cole, d'une ville ou d'un groupe de villes
+	 * Tout le personnel administratif d'une école, d'une ville ou d'un groupe de villes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/01/19
-	 * @param string $type Type du parent oÃ¹ sont rattachÃ©s les personnes (BU_ECOLE, BU_VILLE, BU_GRVILLE)
+	 * @param string $type Type du parent où sont rattachés les personnes (BU_ECOLE, BU_VILLE, BU_GRVILLE)
 	 * @param integer $id Id du parent
-	 * @return array Tableau contenant les personnes, triÃ©es alphabÃ©tiquement
+	 * @return array Tableau contenant les personnes, triées alphabétiquement
 	 */
 	function getPersonnelAdm ($type, $id) {
 		$dao = _dao("kernel|kernel_bu_personnel");
@@ -539,9 +539,9 @@ class AnnuaireService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/11/06
-	 * @param string $type Type du parent oÃ¹ sont rattachÃ©s les personnes (BU_VILLE uniquement)
+	 * @param string $type Type du parent où sont rattachés les personnes (BU_VILLE uniquement)
 	 * @param integer $id Id du parent
-	 * @return array Tableau contenant les personnes, triÃ©es alphabÃ©tiquement
+	 * @return array Tableau contenant les personnes, triées alphabétiquement
 	 */
 	function getPersonnelVil ($type, $id) {
 		$dao = _dao("kernel|kernel_bu_personnel");
@@ -554,11 +554,11 @@ class AnnuaireService {
 	}
 
 	/**
-	 * Retourne les parents d'un Ã©lÃ¨ve
+	 * Retourne les parents d'un élève
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/23
-	 * @param integer $eleve Id de l'Ã©lÃ¨ve
+	 * @param integer $eleve Id de l'élève
 	 * @return array Tableau avec les parents
 	 */
 	function getParentsFromEleve ($eleve) {	
@@ -600,18 +600,18 @@ class AnnuaireService {
 	}
   
   /**
-	 * Teste si l'usager courant peut effectuer une certaine opÃ©ration dans l'annuaire
+	 * Teste si l'usager courant peut effectuer une certaine opération dans l'annuaire
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/25
 	 * @param string $action Action pour laquelle on veut tester le droit
 	 * @return bool true s'il a le droit d'effectuer l'action, false sinon
-	 * @todo Tester si adulte plutÃ´t que USER_ENS (utiliser fonction du kernel)
+	 * @todo Tester si adulte plutôt que USER_ENS (utiliser fonction du kernel)
 	 */
 	function canMakeInAnnuaire ($action) {
 		$can = false;
 		switch ($action) {
-			case "POPUP_CHECK_ALL_ELEVES" : // Cocher tous les Ã©lÃ¨ves affichÃ©s (version popup)
+			case "POPUP_CHECK_ALL_ELEVES" : // Cocher tous les élèves affichés (version popup)
 			case "POPUP_CHECK_ALL_PARENTS" : // Cocher tous les parents (version popup)
 			case "POPUP_CHECK_ALL_PERSONNEL" : // Cocher tous le personnel (version popup)
 				$can = (_currentUser()->getExtra('type') == "USER_ENS");
@@ -641,7 +641,7 @@ class AnnuaireService {
 	
   
   /**
-	 * Renvoie l'entrÃ©e de l'annuaire pour l'usager courant. S'appuie sur Kernel::getSessionHome. Pour les parents, prends le home d'un des enfants. S'il n'y a pas d'enfant ou que le compte n'est rattachÃ© Ã  rien, on l'envoie dans la 1e ville.
+	 * Renvoie l'entrée de l'annuaire pour l'usager courant. S'appuie sur Kernel::getSessionHome. Pour les parents, prends le home d'un des enfants. S'il n'y a pas d'enfant ou que le compte n'est rattaché à rien, on l'envoie dans la 1e ville.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/12/20
@@ -649,7 +649,7 @@ class AnnuaireService {
 	 */
   function getAnnuaireHome () {
     $home = Kernel::getSessionHome();
-    if (!$home && Kernel::isParent()) {  // Cas du parent d'Ã©lÃ¨ve
+    if (!$home && Kernel::isParent()) {  // Cas du parent d'élève
       $enfants = Kernel::getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
       while (list($k,$v) = each($enfants)) {
         if ($v["type"] != "USER_ELE") continue;
@@ -664,7 +664,7 @@ class AnnuaireService {
         break;
       }
     }
-    if ( !$home || Kernel::isAdmin() ) {  // Si rattachÃ© Ã  rien, on l'envoie dans la 1e ville
+    if ( !$home || Kernel::isAdmin() ) {  // Si rattaché à rien, on l'envoie dans la 1e ville
       $sql = "SELECT MIN(id_vi) AS ville FROM kernel_bu_ville LIMIT 1";
     	$v = _doQuery($sql);
       $home = array('type'=>'BU_VILLE', 'id'=>$v[0]->ville);

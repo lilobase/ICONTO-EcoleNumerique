@@ -3,7 +3,7 @@
 * @package	copix
 * @subpackage auth
 * @version	$Id: loginbar.zone.php,v 1.8 2007-11-08 10:16:15 cbeyer Exp $
-* @author	Croes GÃ©rald, Bertrand Yan see copix.aston.fr for other contributors.
+* @author	Croes Gérald, Bertrand Yan see copix.aston.fr for other contributors.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org

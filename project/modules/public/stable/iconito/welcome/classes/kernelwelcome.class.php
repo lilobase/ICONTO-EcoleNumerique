@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Welcome
 * @version   $Id: kernelwelcome.class.php,v 1.1 2006-05-22 15:11:49 fmossmann Exp $
-* @author   FrÃ©dÃ©ric Mossmann
+* @author   Frédéric Mossmann
 * @copyright 2006 CDC-TIC
 * @link      http://www.cap-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -23,7 +23,7 @@ class KernelWelcome {
 	}
 
 	/*
-		Renvoie diffÃ©rentes infos chiffrÃ©es d'un album photos
+		Renvoie différentes infos chiffrées d'un album photos
 	*/
 	function getStats ($id_album) {
 		die( 'KernelWelcome::getStats' );

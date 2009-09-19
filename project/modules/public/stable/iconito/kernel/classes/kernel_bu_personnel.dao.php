@@ -9,7 +9,7 @@
 class DAOKernel_bu_personnel {
 
 	/**
-	 * Renvoie la liste du personnel Ã©cole rattachÃ© Ã  une classe et ayant un compte utilisateur
+	 * Renvoie la liste du personnel école rattaché à une classe et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -22,11 +22,11 @@ class DAOKernel_bu_personnel {
 	}
 	
 	/**
-	 * Renvoie la liste du personnel Ã©cole rattachÃ© Ã  une Ã©cole et ayant un compte utilisateur
+	 * Renvoie la liste du personnel école rattaché à une école et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
-	 * @param integer $ecole Id de l'Ã©cole
+	 * @param integer $ecole Id de l'école
 	 * @return mixed Objet DAO
 	 */
 	function getPersonnelInEcole ($ecole) {
@@ -36,7 +36,7 @@ class DAOKernel_bu_personnel {
 	}
 	
 	/**
-	 * Renvoie la liste du personnel Ã©cole rattachÃ© aux Ã©coles d'une ville et ayant un compte utilisateur
+	 * Renvoie la liste du personnel école rattaché aux écoles d'une ville et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -51,7 +51,7 @@ class DAOKernel_bu_personnel {
 	
 
 	/**
-	 * Renvoie la liste du personnel Ã©cole rattachÃ© aux Ã©coles des villes d'un groupe de villes et ayant un compte utilisateur
+	 * Renvoie la liste du personnel école rattaché aux écoles des villes d'un groupe de villes et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -66,11 +66,11 @@ class DAOKernel_bu_personnel {
 
 
 	/**
-	 * Renvoie la liste du personnel administratif rattachÃ© Ã  une Ã©cole et ayant un compte utilisateur
+	 * Renvoie la liste du personnel administratif rattaché à une école et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
-	 * @param integer $ecole Id de l'Ã©cole
+	 * @param integer $ecole Id de l'école
 	 * @return mixed Objet DAO
 	 */
 	function getPersonnelAdmInEcole ($ecole) {
@@ -80,7 +80,7 @@ class DAOKernel_bu_personnel {
 	}
 	
 	/**
-	 * Renvoie la liste du personnel administratif rattachÃ© aux Ã©coles d'une ville et ayant un compte utilisateur
+	 * Renvoie la liste du personnel administratif rattaché aux écoles d'une ville et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
@@ -95,7 +95,7 @@ class DAOKernel_bu_personnel {
 	
 
 	/**
-	 * Renvoie la liste du personnel administratif rattachÃ© aux Ã©coles des villes d'un groupe de villes et ayant un compte utilisateur
+	 * Renvoie la liste du personnel administratif rattaché aux écoles des villes d'un groupe de villes et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
@@ -110,7 +110,7 @@ class DAOKernel_bu_personnel {
 
 	
 	/**
-	 * Renvoie la liste des agents de villes rattachÃ©s a une ville et ayant un compte utilisateur
+	 * Renvoie la liste des agents de villes rattachés a une ville et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/11/06
@@ -125,7 +125,7 @@ class DAOKernel_bu_personnel {
 
 
 	/**
-	 * Renvoie la liste des agents de ville rattachÃ©s aux villes d'un groupe de villes et ayant un compte utilisateur
+	 * Renvoie la liste des agents de ville rattachés aux villes d'un groupe de villes et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/11/06

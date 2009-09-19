@@ -19,9 +19,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 
 	
 	/**
-	* Fonction appelÃ©e lorsque l'on clique sur le lien import du menu
-	* RÃ©cupÃ¨re en session les agendas en cours de visualisation
-	* rÃ©cupÃ¨re l'objet importParams en session s'il existe et crÃ©er sinon puis stock en session
+	* Fonction appelée lorsque l'on clique sur le lien import du menu
+	* Récupère en session les agendas en cours de visualisation
+	* récupère l'objet importParams en session s'il existe et créer sinon puis stock en session
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
 	function processGetPrepareImport(){	
@@ -31,12 +31,12 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$serviceAuth   = new AgendaAuth;
 		$serviceAgenda = new AgendaService;
 		
-		//rÃ©cupÃ©ration de la liste des agendas affichÃ©s
+		//récupération de la liste des agendas affichés
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
 
-		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas affichÃ©s
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		foreach((array)$listAgendasAffiches as $id_agenda){
-			//on vÃ©rifie si l'utilisateur a les droits d'import sur un des agendas affichÃ©
+			//on vérifie si l'utilisateur a les droits d'import sur un des agendas affiché
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getModerate()){
 				$ableToModerate = true;
 			}
@@ -47,16 +47,16 @@ class ActionGroupImportExport extends CopixActionGroup {
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}		
 		
-		//on rÃ©cupÃ¨re en session la liste des agendas en cours de visualisation
+		//on récupère en session la liste des agendas en cours de visualisation
 		$arTitleAgendasAffiches = $serviceAgenda->getArTitleAgendaByArIdAgenda($listAgendasAffiches);
 		
 		if (!$importParams = $this->_getSessionImport ()){
-			//initialisation de l'objet importParams avec le premier agenda affichÃ© de la liste			
+			//initialisation de l'objet importParams avec le premier agenda affiché de la liste			
 			$importParams->id_agenda = isset($arAgendasAffiches) && is_array($arAgendasAffiches) ? current($arAgendasAffiches) : null;
 			$this->_setSessionImport($importParams);
 		}
 
-		//rÃ©cupÃ©ration de la liste des agendas en bdd (pour l'affichage du menu)
+		//récupération de la liste des agendas en bdd (pour l'affichage du menu)
 		$listAgendas = $serviceAgenda->getAvailableAgenda();
 				
 		//template pour agenda
@@ -75,9 +75,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction appelÃ©e lorsque l'on clique sur le bouton 'import'
-	* Appel la mÃ©thode privÃ©e _validFromFormImportParams
-	* vÃ©rifie les infos saisies dans le formulaire
+	* Fonction appelée lorsque l'on clique sur le bouton 'import'
+	* Appel la méthode privée _validFromFormImportParams
+	* vérifie les infos saisies dans le formulaire
 	* stock l'objet en session
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
@@ -85,7 +85,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$serviceAuth   = new AgendaAuth;
 		$serviceImport = new ImportService;
 
-		//demande de mettre l'objet Ã  jour en fonction des valeurs saisies dans le formulaire
+		//demande de mettre l'objet à jour en fonction des valeurs saisies dans le formulaire
 		if (!$importParams = $this->_getSessionImport()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('agenda.error.cannotFindSession'),
@@ -94,7 +94,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		
 		$this->_validFromFormImportParams ($importParams);
 		
-		//on vÃ©rifie les droits
+		//on vérifie les droits
 		if($serviceAuth->getCapability($importParams->id_agenda) < $serviceAuth->getModerate()){
 				return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
@@ -141,7 +141,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 						array ('message'=>CopixI18N::get ('agenda.error.cannotFindFile'),
 								'back'=>CopixUrl::get ('agenda|importexport|prepareImport')));
 			}
-			if($importParams->option == 1){//cas oÃ¹ on rÃ©alise l'import sans vider
+			if($importParams->option == 1){//cas où on réalise l'import sans vider
 				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams->id_agenda);
 			}
 			else{
@@ -149,7 +149,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams->id_agenda);
 			}			
 		}
-		//on efface le fichier temporaire crÃ©Ã© pour faire l'import
+		//on efface le fichier temporaire créé pour faire l'import
 		unlink(CopixConfig::get ('agenda|tempfiles') . 'import.ics');
 		
 		//on vide la session
@@ -159,7 +159,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction appelÃ©e Ã  partir de doImport
+	* Fonction appelée à partir de doImport
 	* Appel la zone agendamenu et agendaafterimport
 	* @since 2006/08/16
 	* @author Audrey Vassal <avassal@sqli.com> 
@@ -168,11 +168,11 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 	
-		//rÃ©cupÃ©ration de la liste des agendas en bdd (pour l'affichage du menu)
+		//récupération de la liste des agendas en bdd (pour l'affichage du menu)
 		$serviceAgenda = new AgendaService;
 		$listAgendas   = $serviceAgenda->getAvailableAgenda();
 		
-		//rÃ©cupÃ©ration de la liste des agendas affichÃ©s
+		//récupération de la liste des agendas affichés
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();		
 		
 		//template pour agenda
@@ -190,9 +190,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction appelÃ©e lorsque l'on clique sur le lien export du menu
-	* RÃ©cupÃ¨re en session les agendas visualisables de l'utilisateur
-	* rÃ©cupÃ¨re l'objet exportParams en session s'il existe, le crÃ©er sinon, puis stock en session
+	* Fonction appelée lorsque l'on clique sur le lien export du menu
+	* Récupère en session les agendas visualisables de l'utilisateur
+	* récupère l'objet exportParams en session s'il existe, le créer sinon, puis stock en session
 	* @since 2006/08/17
 	* @author Audrey Vassal <avassal@sqli.com>
 	* appelle les zones agendamenu et agendaexport
@@ -204,10 +204,10 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$serviceAuth   = new AgendaAuth;		
 		$serviceAgenda = new AgendaService;
 		
-		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas affichÃ©s
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
 		foreach((array)$listAgendasAffiches as $id_agenda){
-			//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture sur un des agendas affichÃ©
+			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
 			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getRead()){
 				$ableToRead = true;
 			}
@@ -218,19 +218,19 @@ class ActionGroupImportExport extends CopixActionGroup {
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
 		
-		//on rÃ©cupÃ¨re en session la liste des agendas en cours de visualisation
+		//on récupère en session la liste des agendas en cours de visualisation
 		$arAgendasAffiches = $serviceAgenda->getAgendaAffiches();
 		$arTitleAgendasAffiches = $serviceAgenda->getArTitleAgendaByArIdAgenda($arAgendasAffiches);
 		
 		if (!$exportParams = $this->_getSessionExport ()){
-			//initialisation de l'objet exportParams avec le premier agenda affichÃ© de la liste
+			//initialisation de l'objet exportParams avec le premier agenda affiché de la liste
 			$exportParams->id_agenda = current($arAgendasAffiches);
 			$this->_setSessionExport($exportParams);
 		}
 
-		//rÃ©cupÃ©ration de la liste des agendas en bdd (pour l'affichage du menu)
+		//récupération de la liste des agendas en bdd (pour l'affichage du menu)
 		$listAgendas = $serviceAgenda->getAvailableAgenda();
-		//rÃ©cupÃ©ration de la liste des agendas affichÃ©s
+		//récupération de la liste des agendas affichés
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
 
 		//template pour agenda
@@ -249,9 +249,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction appelÃ©e lorsque l'on clique sur le bouton 'import'
-	* Appel la mÃ©thode privÃ©e _validFromFormImportParams
-	* vÃ©rifie les infos saisies dans le formulaire
+	* Fonction appelée lorsque l'on clique sur le bouton 'import'
+	* Appel la méthode privée _validFromFormImportParams
+	* vérifie les infos saisies dans le formulaire
 	* stock l'objet en session
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
@@ -261,16 +261,16 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$agendaService = new AgendaService;
 		$dateService   = new DateService;
 
-		//demande de mettre l'objet Ã  jour en fonction des valeurs saisies dans le formulaire
+		//demande de mettre l'objet à jour en fonction des valeurs saisies dans le formulaire
 		if (!$exportParams = $this->_getSessionExport()){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('agenda.error.cannotFindSession'),
 			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}		
 		
-		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas sÃ©lectionnÃ©s
+		//on vérifie les droits des utilisateurs sur la liste des agendas sélectionnés
 		foreach((array)$this->getRequest('agenda') as $id_agenda){
-			//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture sur un des agendas affichÃ©
+			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
 			if($serviceAuth->getCapability($id_agenda) < $serviceAuth->getRead()){
 				return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
@@ -291,15 +291,15 @@ class ActionGroupImportExport extends CopixActionGroup {
 			//var_dump($exportParams);
 			//die();
 		
-			//on rÃ©cupÃ¨re tous les Ã©vÃ¨nements des agendas cochÃ©s dans la pÃ©riode demandÃ©e
+			//on récupère tous les évènements des agendas cochés dans la période demandée
 			foreach((array)_request('agenda') as $idAgenda){
 				$arEventsPeriode[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, CopixI18N::dateToBD($exportParams->datedeb_export), CopixI18N::dateToBD($exportParams->datefin_export));
 			}
 			
-			//on classe ces Ã©vÃ¨nements par jour
+			//on classe ces évènements par jour
 			$arEventByDay = $agendaService->getEventsByDay($arEventsPeriode, CopixI18N::dateToBD($exportParams->datedeb_export), CopixI18N::dateToBD($exportParams->datefin_export));
 			
-			//on ordonne les Ã©vÃ¨nements par ordre croissant d'heure de dÃ©but d'Ã©vÃ¨nement dans la journÃ©e
+			//on ordonne les évènements par ordre croissant d'heure de début d'évènement dans la journée
 			$arEventByDay = $agendaService->getEventsInOrderByDay($arEventByDay);
 			$content = $serviceExport->getFileICal($arEventByDay, CopixI18N::dateToBD($exportParams->datedeb_export), CopixI18N::dateToBD($exportParams->datefin_export));
 		}
@@ -312,7 +312,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction qui fait la vÃ©rification sur les champs de saisie du formulaire d'import
+	* Fonction qui fait la vérification sur les champs de saisie du formulaire d'import
 	* @author Audrey Vassal <avassal@sqli.com>
 	* @access: private
 	* @return array $toReturn tableau qui contient les erreurs de saisie de l'utilisateur
@@ -320,7 +320,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function _checkImport (){
 		$toReturn = array();
 				
-		//vÃ©rification si les champs sont bien remplis
+		//vérification si les champs sont bien remplis
 		if (!is_uploaded_file ($_FILES['import_ordi']['tmp_name']) && (_request('import_internet') == null || _request('import_internet') == 'http://')){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.nofile');
 		}
@@ -333,7 +333,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	}
 	
 	/**
-	* Mise en session des paramÃ¨tres de l'Ã©vÃ¨nement en Ã©dition
+	* Mise en session des paramètres de l'évènement en édition
 	* @access: private.
 	*/
 	function _setSessionImport ($toSet){
@@ -343,7 +343,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* RÃ©cupÃ©ration en session des paramÃ¨tres de l'Ã©vÃ¨nement en Ã©dition
+	* Récupération en session des paramètres de l'évènement en édition
 	* @access: private.
 	*/
 	function _getSessionImport () {
@@ -366,7 +366,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* Fonction qui fait la vÃ©rification sur les champs de saisie du formulaire d'import
+	* Fonction qui fait la vérification sur les champs de saisie du formulaire d'import
 	* @author Audrey Vassal <avassal@sqli.com>
 	* @access: private
 	* @return array $toReturn tableau qui contient les erreurs de saisie de l'utilisateur
@@ -380,7 +380,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$datedebTs 		 = CopixDateTime::dateToTimestamp($datedeb);
 		$datefinTs 		 = CopixDateTime::dateToTimestamp($datefin);
 		
-		//vÃ©rification si les champs sont bien remplis
+		//vérification si les champs sont bien remplis
 		if (!$datedeb) {
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.nodatedeb');
 		}
@@ -389,7 +389,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.nodatefin');
 		}
 			
-		//vÃ©rification sur la cohÃ©rence des dates de dÃ©but et de fin
+		//vérification sur la cohérence des dates de début et de fin
 		if ($datedeb && $datefin && $datedebTs && $datefinTs && $datedebTs > $datefinTs){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.inversiondate');
 		}
@@ -403,7 +403,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* Mise en session des paramÃ¨tres de l'Ã©vÃ¨nement en Ã©dition
+	* Mise en session des paramètres de l'évènement en édition
 	* @access: private.
 	*/
 	function _setSessionExport ($toSet){
@@ -413,7 +413,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 	
 	/**
-	* RÃ©cupÃ©ration en session des paramÃ¨tres de l'Ã©vÃ¨nement en Ã©dition
+	* Récupération en session des paramètres de l'évènement en édition
 	* @access: private.
 	*/
 	function _getSessionExport () {

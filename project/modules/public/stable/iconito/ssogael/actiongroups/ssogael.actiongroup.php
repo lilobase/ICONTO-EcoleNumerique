@@ -14,24 +14,24 @@ class ActionGroupSsogael extends CopixActionGroup {
 
    function doSsoGael () {
 
-		// VÃ©rification du profil : Le SSO est limitÃ© aux enseignants et aux agents de ville...
+		// Vérification du profil : Le SSO est limité aux enseignants et aux agents de ville...
 		if( !Kernel::isEnseignant() && !Kernel::isAgentVille() ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ssogael||error',array('err'=>'profil') ));
 		}
 
-		// VÃ©rification de la configuration d'Iconito
+		// Vérification de la configuration d'Iconito
 		if( !CopixConfig::exists('|urlGael') || trim(CopixConfig::get('|urlGael'))=='' ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ssogael||error',array('err'=>'config') ));
 		}
 		
 		$mysession = Kernel::getSessionBU();
 
-		// VÃ©rification de la prÃ©sence de la clÃ© secrete de l'utilisateur (en provenance de Gael)
+		// Vérification de la présence de la clé secrete de l'utilisateur (en provenance de Gael)
 		if( trim($mysession['cle_privee'])=='' ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ssogael||error',array('err'=>'secretkey') ));
 		}
 		
-		// Demande de challenge Ã  Gael
+		// Demande de challenge à Gael
 		$url = CopixConfig::get('|urlGael').'/sso-iconito.php?mode=challenge';
 		$url.= '&identifiant='.$mysession['id'];
 
@@ -56,7 +56,7 @@ class ActionGroupSsogael extends CopixActionGroup {
 		
 		$challenge = $regs[1];
 
-		// PrÃ©paration de la rÃ©ponse au challenge
+		// Préparation de la réponse au challenge
 		$challenge_crypt = md5($challenge.$mysession["ALL"]->pers_cle_privee);
 		$url = CopixConfig::get('|urlGael').'/sso-iconito.php?mode=login';
 		$url.= '&identifiant='.$mysession['id'];

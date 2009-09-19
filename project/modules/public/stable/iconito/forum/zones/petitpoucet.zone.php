@@ -2,7 +2,7 @@
 
 
 /**
- * Zone PetitPoucet, qui affiche le chemin depuis la racine jusqu'Ã  une discussion ou un forum
+ * Zone PetitPoucet, qui affiche le chemin depuis la racine jusqu'à une discussion ou un forum
  * 
  * @package Iconito
  * @subpackage	Forum
@@ -10,9 +10,9 @@
 class ZonePetitPoucet extends CopixZone {
 
 	/**
-	 * Affiche le chemin d'accÃ¨s Ã  une discussion ou un forum, depuis la racine d'un forum
+	 * Affiche le chemin d'accès à une discussion ou un forum, depuis la racine d'un forum
 	 *
-	 * Les paramÃ¨tres dÃ©pendent de la navigation dans le forum (il suffit de passer un paramÃ¨tre)
+	 * Les paramètres dépendent de la navigation dans le forum (il suffit de passer un paramètre)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/08

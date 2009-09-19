@@ -13,7 +13,7 @@ class ZoneLinkPopup extends CopixZone {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/23
-	 * @param string $field Nom du champ oÃ¹ vont figurer les logins
+	 * @param string $field Nom du champ où vont figurer les logins
 	 * @param string $profil (option) Profil qu'on veut afficher par defaut
 	 */
 	function _createContent (&$toReturn) {

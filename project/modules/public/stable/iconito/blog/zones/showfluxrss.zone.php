@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: showfluxrss.zone.php,v 1.4 2007-06-01 16:08:43 cbeyer Exp $
-* @author	Vallat CÃ©dric.
+* @author	Vallat Cédric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -24,7 +24,7 @@ class ZoneShowFluxrss extends CopixZone {
       $flux = $daoFlux->getFluxById($id_flux);
 	  $urlFlux = $flux->url_bfrs;
 
-	  //on rÃ©cupÃ¨re le flux RSS de l'URL
+	  //on récupère le flux RSS de l'URL
 	  $serviceFlux = new FluxRSSServices;
 	  $arFlux = $serviceFlux->getRss($urlFlux);
 		
