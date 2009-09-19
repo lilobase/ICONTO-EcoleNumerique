@@ -20,7 +20,7 @@ class DAOBlogfunctions {
        		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }
        $blogFunctions->id_blog = $id_blog;
-			 $this->_compiled->insert($blogFunctions);     
+			 $this->insert($blogFunctions);     
    }
   
   
@@ -35,7 +35,7 @@ class DAOBlogfunctions {
        		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }
        $blogFunctions->id_blog = $id_blog;
-			 $this->_compiled->update($blogFunctions);     
+			 $this->update($blogFunctions);     
    }
   
 }

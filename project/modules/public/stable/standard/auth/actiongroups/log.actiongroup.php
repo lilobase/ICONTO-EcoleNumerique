@@ -54,13 +54,18 @@ class ActionGroupLog extends CopixActionGroup {
 			} else {
 				$urlReturn = _url ('log|');
 			}
+			Logs::set( array('type'=>'LOG', 'message'=>'Login ok: '.CopixRequest::get ('login')) );
+			//die ($urlReturn);
+			
 			return _arRedirect ($urlReturn);
 		}
 		if (CopixConfig::get('auth|authorizeRedirectIfNoK')) {
-			$urlReturn = CopixRequest::get ('auth_failed_url_return', _url ('log|', array ('failed'=>1, 'auth_url_return'=>CopixRequest::get ('auth_url_return', CopixUrl::get ('auth_url_return')))));
+			$urlReturn = CopixRequest::get ('auth_failed_url_return', _url ('log|', array ('failed'=>1, 'auth_url_return'=>CopixRequest::get ('auth_url_return'))));
 		} else {
-			$urlReturn = _url ('log|', array ('failed'=>1, 'auth_url_return'=>CopixRequest::get ('auth_url_return', CopixUrl::get ('auth_url_return'))));
+			$urlReturn = _url ('log|', array ('failed'=>1, 'auth_url_return'=>CopixRequest::get ('auth_url_return')));
 		}
+		
+		Logs::set( array('type'=>'LOG', 'message'=>'Login failed: '.CopixRequest::get ('login').'/'.CopixRequest::get ('password')) );
 		
 		return _arRedirect ($urlReturn);
 	}
@@ -69,6 +74,7 @@ class ActionGroupLog extends CopixActionGroup {
 	 * Logout
 	 */
 	public function processOut (){
+		Logs::set( array('type'=>'LOG', 'message'=>'Logout: '._currentUser()->getLogin()) );
 		CopixAuth::getCurrentUser ()->logout (array ());
 		CopixEventNotifier::notify ('logout', array ('login'=>CopixAuth::getCurrentUser()->getLogin ()));
 		CopixAuth::destroyCurrentUser ();

@@ -387,7 +387,7 @@ class Kernel {
 			$res = $dao->getByResponsable($type, $id);
 			foreach( $res AS $key=>$val ) {
 				if( $val->res2ele_type_beneficiaire != "eleve" ) continue;
-				$return[]=array("type"=>"USER_ELE", "id"=>$val->res2ele_id_beneficiaire, "droit"=>($val->res2ele_auth_parentale?PROFILE_CCV_ADMIN:PROFILE_CCV_READ), "res2ele_type"=>$val->res2ele_type, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
+				$return[]=array("type"=>"USER_ELE", "id"=>$val->res2ele_id_beneficiaire, "droit"=>($val->res2ele_auth_parentale?PROFILE_CCV_ADMIN:PROFILE_CCV_READ), "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
 			}
 		}
 				
@@ -1042,9 +1042,6 @@ class Kernel {
 						break;
 
 					default :
-						if (isset($GLOBALS['COPIX']['DEBUG'])){
-							$GLOBALS['COPIX']['DEBUG']->addInfo("ERREUR - Type utilisateur (".$userval->bu_type."/".$userval->bu_id.") inconnu.", 'Kernel Plugin :');
-						}
 						break;
 				} // switch( $userval->bu_type )
 			// } // foreach( $users as $key => $userval )
@@ -1533,14 +1530,6 @@ class Kernel {
 							$modid = $modservice->create(array('title'=>trim($nodeInfo['prenom'].' '.$nodeInfo['nom']), 'subtitle'=>$subtitle, 'node_type'=>$node_type, 'node_id'=>$node_id));
 							if( $modid != null ) {
 								Kernel::registerModule( $module->module_type, $modid, $node_type, $node_id );
-								if (isset($GLOBALS['COPIX']['DEBUG'])){
-									$GLOBALS['COPIX']['DEBUG']->addInfo(
-										"Enregistrement de module (".
-										$module->module_type.",".$modid.
-										") -> (".$node_type.",".$node_id.")",
-										'Kernel/createMissingModules :'
-									);
-								}
 							}
 						}
 					}

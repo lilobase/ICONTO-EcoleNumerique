@@ -429,7 +429,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$toCheck = array ('id_agenda', 'datedeb_export', 'datefin_export');
 		foreach ($toCheck as $elem){
 			if (_request($elem)){
-				if ($elem == 'datedeb_export' || $var == 'datefin_event')
+				if ($elem == 'datedeb_export' || $elem == 'datefin_event')
 	        $toUpdate->$elem = Kernel::_validDateProperties(_request($elem));
 				else
 					$toUpdate->$elem = _request($elem);

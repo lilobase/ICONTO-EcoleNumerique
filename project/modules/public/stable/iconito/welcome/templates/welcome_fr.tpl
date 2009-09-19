@@ -25,7 +25,7 @@
 	
 	<p>Iconito est un portail éducatif comprenant un ensemble d'outils et de ressources à destination des enseignants et des élèves, mais aussi des parents et des autres intervenants du système scolaire. Il est développé sous licence libre (GNU GPL).</p>
 	
-	<a class="button_like" href="{copixurl dest="auth||login"}">Connexion &agrave; Iconito</a>
+	<a class="button_like" href="{copixurl dest="auth||"}">Connexion &agrave; Iconito</a>
 	
 	<br/>
 	

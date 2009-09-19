@@ -584,10 +584,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 					if( $regs[1] == $photo_id ) {
 						$pathfile = $path2album."/".$file;
 						
-						if (isset($GLOBALS['COPIX']['DEBUG'])){
-							$GLOBALS['COPIX']['DEBUG']->addInfo("Image : Chemin=".$pathfile."", 'Album :');
-						}
-
 						if( file_exists($paththumbnail) ) {
 							die( "Image exise : ".$paththumbnail );
 						}
@@ -644,15 +640,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 								imagestring($image, 1, 10, 10, "Erreur !", $tc);
 							}
 
-							if( !$image ) 
-								if (isset($GLOBALS['COPIX']['DEBUG'])){
-									$GLOBALS['COPIX']['DEBUG']->addInfo("Erreur d'ouverture de l'image (imagecreatefrom...)", 'Album :');
-								}
-							
-							if (isset($GLOBALS['COPIX']['DEBUG'])){
-								$GLOBALS['COPIX']['DEBUG']->addInfo("Génération d'image (".$width."x".$height.")->(".$new_width."x".$new_height.")", 'Album :');
-							}
-
 							// SQUARE //
 							if( $mode == "square" ) {
 								$image_p = imagecreatetruecolor($square_thumbsize, $square_thumbsize);
@@ -669,10 +656,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 							closedir($handle);
 							return new CopixActionReturn (COPIX_AR_NONE);
 						}
-
-if (isset($GLOBALS['COPIX']['DEBUG'])){
-	$GLOBALS['COPIX']['DEBUG']->addInfo("Copie d'image (".$width."x".$height.")", 'Album :');
-}
 
 						header ("Cache-Control: must-revalidate, post-check=0, pre-check=0");
 						header ("Content-Type: image/".$regs[2]);

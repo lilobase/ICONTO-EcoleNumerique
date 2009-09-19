@@ -44,35 +44,32 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplGetNode = & new CopixTpl ();
 		
-		if( !_request("type") || trim(_request("type"))=='' ) {
-			/*
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('comptes.error.badnodetype'),
-			'back'=>CopixUrl::get ('||')));
-			*/
-			
-			_request("type") = _currentUser()->getExtraHome("type");
-			_request("id") = _currentUser()->getExtraHome("id");
+		$pType = _request("type");
+		$pId = _request("id");
+		
+		if( !$pType ) {
+			$pType = _currentUser()->getExtraHome("type");
+			$pId = _currentUser()->getExtraHome("id");
 		}
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getnode'));
 		$petitpoucet=array();
-		$droit = 0+Kernel::getLevel( _request("type"), _request("id") );
+		$droit = 0+Kernel::getLevel( $pType, $pId );
 
-		switch( _request("type") ) {
+		switch( $pType ) {
 			case 'ROOT':
-				_request("id") = 0;
+				$pId = 0;
 				
 				// ROOT
 				$petitpoucet[] = array( 'txt' => 'Root' );
 				
-				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
+				$childs = Kernel::getNodeChilds( $pType, $pId );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				break;
 			
 			case 'BU_GRVILLE':
-				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
+				$infos = Kernel::getNodeInfo( $pType, $pId, false );
 				
 				// ROOT
 				$petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
@@ -80,7 +77,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
+				$childs = Kernel::getNodeChilds( $pType, $pId );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				$droit = max($droit, Kernel::getLevel( 'ROOT', 0 ) );
@@ -88,10 +85,10 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			
 			case 'BU_VILLE':
-				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
+				$infos = Kernel::getNodeInfo( $pType, $pId, false );
 				
 				// Recherche des parents
-				$parents = Kernel::getNodeParents( _request("type"), _request("id") );
+				$parents = Kernel::getNodeParents( $pType, $pId );
 				$parent_grville = Kernel::filterNodeList( $parents, 'BU_GRVILLE' );
 				
 				// ROOT
@@ -102,7 +99,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
+				$childs = Kernel::getNodeChilds( $pType, $pId );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				$droit = max($droit, Kernel::getLevel( 'BU_GRVILLE', $parent_grville[0]["id"] ) );
@@ -111,10 +108,10 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			
 			case 'BU_ECOLE':
-				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
+				$infos = Kernel::getNodeInfo( $pType, $pId, false );
 				
 				// Recherche des parents
-				$parents = Kernel::getNodeParents( _request("type"), _request("id") );
+				$parents = Kernel::getNodeParents( $pType, $pId );
 				$parent_ville = Kernel::filterNodeList( $parents, 'BU_VILLE' );
 				$parents = Kernel::getNodeParents( $parent_ville[0]["type"], $parent_ville[0]["id"] );
 				$parent_grville = Kernel::filterNodeList( $parents, 'BU_GRVILLE' );
@@ -129,7 +126,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
+				$childs = Kernel::getNodeChilds( $pType, $pId );
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				$droit = max($droit, Kernel::getLevel( 'BU_VILLE', $parent_ville[0]["id"] ) );
@@ -139,10 +136,10 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			
 			case 'BU_CLASSE':
-				$infos = Kernel::getNodeInfo( _request("type"), _request("id"), false );
+				$infos = Kernel::getNodeInfo( $pType, $pId, false );
 				
 				// Recherche des parents
-				$parents = Kernel::getNodeParents( _request("type"), _request("id") );
+				$parents = Kernel::getNodeParents( $pType, $pId );
 				$parent_ecole = Kernel::filterNodeList( $parents, 'BU_ECOLE' );
 				$parents = Kernel::getNodeParents( $parent_ecole[0]["type"], $parent_ecole[0]["id"] );
 				$parent_ville = Kernel::filterNodeList( $parents, 'BU_VILLE' );
@@ -161,7 +158,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
 				// Liste des "BU_VILLE"
-				$childs = Kernel::getNodeChilds( _request("type"), _request("id") );
+				$childs = Kernel::getNodeChilds( $pType, $pId );
 				
 				$eleves = Kernel::filterNodeList( $childs, 'USER_ELE' );
 				foreach( $eleves AS $eleve ) {
@@ -200,7 +197,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( isset($petitpoucet) ) $tplGetNode->assign ('PETITPOUCET', Kernel::PetitPoucet($petitpoucet," &raquo; ") );
 		$tplGetNode->assign ('NAVIGATION', CopixZone::process ('comptes|navigation'));
 		
-		if( $droit>=70 ) $tplGetNode->assign ('MAIN', CopixZone::process ('comptes|userlist', array('childs'=>$childs,'type'=>_request('type'),'id'=>_request('id'))) );
+		if( $droit>=70 ) $tplGetNode->assign ('MAIN', CopixZone::process ('comptes|userlist', array('childs'=>$childs,'type'=>$pType,'id'=>$pId)) );
 		else             $tplGetNode->assign ('MAIN', CopixI18N::get ('comptes.error.badrights') );
 		
 		$result = $tplGetNode->fetch("getNode.tpl");

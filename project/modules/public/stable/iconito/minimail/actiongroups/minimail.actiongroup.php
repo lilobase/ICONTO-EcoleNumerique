@@ -6,7 +6,11 @@
  * @subpackage	Minimail
  */
 class ActionGroupMinimail extends CopixActionGroup {
-
+		
+		public function beforeAction (){
+			_currentUser()->assertCredential ('group:[current_user]');
+		}
+	
    /**
    * Affiche la liste des messages reçus pour l'utilisateur connecté
 	 * 
