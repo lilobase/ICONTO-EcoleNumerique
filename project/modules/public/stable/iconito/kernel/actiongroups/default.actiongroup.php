@@ -182,7 +182,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$pType = _request('type');
 		$pId = _request('id');
 		
-		if( !$pType || !$pId ) {
+		if( !$pType ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes' ));
 		}
 		
@@ -265,8 +265,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		
 		if( !_currentUser()->getExtras() ||
-		    !_currentUser()->getExtraHome('type') ||
-		    !_currentUser()->getExtraHome('id') ) {
+		    !_currentUser()->getExtraHome('type') ) {
 			
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes' ));
 		}
@@ -478,11 +477,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	 */
 	function processSelectTheme () {
 		$pTheme = CopixRequest::getAlpha('theme');
-
 		Kernel::setTheme ($pTheme);
-		
 		$from = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : CopixUrl::get ('kernel||getHome');
-		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $from);
 	}
 

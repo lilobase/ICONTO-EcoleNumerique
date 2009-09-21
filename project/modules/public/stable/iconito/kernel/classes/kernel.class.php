@@ -769,7 +769,7 @@ class Kernel {
 		$old = array();
 		$node_list_new = array();
 		foreach( $node_list AS $key=>$val ) {
-			if( ! $old[$val['type']."-".$val['id']] ) {
+			if( ! isset($old[$val['type']."-".$val['id']]) ) {
 				$node_list_new[] = $val;
 				$old[$val['type']."-".$val['id']] = true;
 			}

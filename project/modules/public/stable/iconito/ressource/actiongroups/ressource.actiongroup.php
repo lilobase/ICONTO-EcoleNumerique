@@ -10,6 +10,11 @@ _classInclude('ressource|ressource');
  */
 class ActionGroupRessource extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
 	function go() {
 		if( (_request("id")) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>_request("id")) ));

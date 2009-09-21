@@ -14,6 +14,11 @@
  */
 class ActionGroupComptes extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
 	/**
 	 * go
 	 *
@@ -290,16 +295,20 @@ class ActionGroupComptes extends CopixActionGroup {
 		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
 		$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 		
+		$pConfirm = _request('confirm', array());
+		$pLogin = _request('login', array());
+		$pPasswd = _request('passwd', array());
+		
 		// Parcours de tous les utilisateurs de la liste précédente...
 		foreach( _request('typeid') AS $typeid ) {
 			// Si l'utilisateur est sélectionné, on crée le compte. Sinon, on ne fait rien.
-			if( _request('confirm')[$typeid] == 1 ) {
+			if( $pConfirm[$typeid] == 1 ) {
 				// Vérification du format de type "USER_ENS-23", et extraction des valeurs.
 				if( ereg( '(.+)-(.+)', $typeid, $bu_infos ) ) {
 					$user_type = $bu_infos[1];
 					$user_id   = $bu_infos[2];
 					
-					$olduser=$user_service->get(_request('login')[$typeid]);
+					$olduser=$user_service->get($pLogin[$typeid]);
 					
 					// Test de préexistance du login dans la base. Si existe déjà : erreur.
 					if( ! $olduser ) {
@@ -309,8 +318,8 @@ class ActionGroupComptes extends CopixActionGroup {
 						
 						// Création d'un login dans CopixUser
 						$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
-						$user_new->login_cusr = _request('login')[$typeid];
-						$user_new->password_cusr = md5(_request('passwd')[$typeid]);
+						$user_new->login_cusr = $pLogin[$typeid];
+						$user_new->password_cusr = md5($pPasswd[$typeid]);
 						$user_new->email_cusr = '';
 						
 						// Enregistrement et vérification de l'insertion.
@@ -333,8 +342,8 @@ class ActionGroupComptes extends CopixActionGroup {
 								
 								$session[$typeid] = array(
 									'id'      => $user_new->id_cusr,
-									'login'   => _request('login')[$typeid],
-									'passwd'  => _request('passwd')[$typeid],
+									'login'   => $pLogin[$typeid],
+									'passwd'  => $pPasswd[$typeid],
 									'nom'     => $user_infos['nom'],
 									'prenom'  => $user_infos['prenom'],
 									'bu_type' => $user_type,
@@ -353,8 +362,8 @@ class ActionGroupComptes extends CopixActionGroup {
 									$session = array();
 									
 								$session[$typeid] = array(
-									'login'   => _request('login')[$typeid],
-									'passwd'  => _request('passwd')[$typeid],
+									'login'   => $pLogin[$typeid],
+									'passwd'  => $pPasswd[$typeid],
 									'nom'     => $user_infos['nom'],
 									'prenom'  => $user_infos['prenom'],
 									'bu_type' => $user_type,
@@ -373,8 +382,8 @@ class ActionGroupComptes extends CopixActionGroup {
 									
 							// Garder en mémoire les echecs pour proposer une nouvelle insertion
 							$session[$typeid] = array(
-								'login'   => _request('login')[$typeid],
-								'passwd'  => _request('passwd')[$typeid],
+								'login'   => $pLogin[$typeid],
+								'passwd'  => $pPasswd[$typeid],
 								'nom'     => $user_infos['nom'],
 								'prenom'  => $user_infos['prenom'],
 								'bu_type' => $user_type,
@@ -390,15 +399,15 @@ class ActionGroupComptes extends CopixActionGroup {
 						// Si c'est le cas, ce n'est pas une erreur, mais un doublon.
 						
 						$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
-						$bu_user = $bu_dao->getByLogin(_request('login')[$typeid]);
+						$bu_user = $bu_dao->getByLogin($pLogin[$typeid]);
 						if( $bu_user[0]->bu_type!=$user_type || $bu_user[0]->bu_id!=$user_id ) {
 							if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
 								$session = array();
 								
 							// Garder en mémoire les echecs pour proposer une nouvelle insertion
 							$session[$typeid] = array(
-								'login'   => _request('login')[$typeid],
-								'passwd'  => _request('passwd')[$typeid],
+								'login'   => $pLogin[$typeid],
+								'passwd'  => $pPasswd[$typeid],
 								'nom'     => $user_infos['nom'],
 								'prenom'  => $user_infos['prenom'],
 								'bu_type' => $user_type,
@@ -774,11 +783,13 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		
 		$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
-
+		
+		$pNom = trim(_request('nom'));
+		$pPrenom = trim(_request('prenom'));
+		
+		
 		if( _request('mode') ) {
 			
-			_request('nom')    = trim( _request('nom') );
-			_request('prenom') = trim( _request('prenom') );
 			$mode = _request('mode');
 			
 			switch( _request('mode') ) {
@@ -788,11 +799,11 @@ class ActionGroupComptes extends CopixActionGroup {
 					
 					$userext_item = $userext_dao->get( _request('id') );
 					// $userext_item->ext_id     = _request('id');
-					if( _request('nom')=='' && _request('prenom')=='' ) {
+					if( $pNom=='' && $pPrenom=='' ) {
 						$errors['ext_nom'] = CopixI18N::get ('comptes.alert.nameempty');
 					} else {
-						$userext_item->ext_nom    = _request('nom');
-						$userext_item->ext_prenom = _request('prenom');
+						$userext_item->ext_nom    = $pNom;
+						$userext_item->ext_prenom = $pPrenom;
 						$userext_dao->update( $userext_item );
 						return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 					}
@@ -803,12 +814,12 @@ class ActionGroupComptes extends CopixActionGroup {
 					$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextadd'));
 					
 					$userext_item = CopixDAOFactory::createRecord("kernel|kernel_ext_user");
-					if( _request('nom')=='' && _request('prenom')=='' ) {
+					if( $pNom=='' && $pPrenom=='' ) {
 						$errors['ext_nom'] = CopixI18N::get ('comptes.alert.nameempty');
 						$userext_item->ext_id = 0;
 					} else {
-						$userext_item->ext_nom         = _request('nom');
-						$userext_item->ext_prenom      = _request('prenom');
+						$userext_item->ext_nom         = $pNom;
+						$userext_item->ext_prenom      = $pPrenom;
 						$userext_item->ext_description = '';
 						$userext_dao->insert( $userext_item );
 						return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );

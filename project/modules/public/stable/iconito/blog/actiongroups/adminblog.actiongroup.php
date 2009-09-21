@@ -13,6 +13,12 @@ _classInclude('blog|blogutils');
 require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
 
 class ActionGroupAdminBlog extends CopixActionGroup {
+	
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
 	/**
     * Préparation de l'édition d'un blog.
     */

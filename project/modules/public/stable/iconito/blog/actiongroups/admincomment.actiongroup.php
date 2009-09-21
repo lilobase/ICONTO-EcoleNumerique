@@ -12,6 +12,12 @@ _classInclude('blog|blogauth');
 _classInclude('blog|blogutils');
 
 class ActionGroupAdminComment extends CopixActionGroup {
+	
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
 	/**
     * Préparation à l'affichage de la liste des commentaires.
     */

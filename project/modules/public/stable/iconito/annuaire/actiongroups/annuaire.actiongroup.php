@@ -9,7 +9,13 @@ _classInclude('blog|blogutils');
  * @subpackage Annuaire
  */
 class ActionGroupAnnuaire extends CopixActionGroup {
-
+	
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+	
+	
    /**
    * Redirection vers un annuaire. On peut demander à afficher un annuaire de ville ($id vaut alors "VILLE_XX"), d'école ("ECOLE_XX") ou de classe ("CLASSE_XX")
 	 * 

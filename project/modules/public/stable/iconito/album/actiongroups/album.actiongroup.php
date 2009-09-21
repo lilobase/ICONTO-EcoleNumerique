@@ -16,7 +16,13 @@ require_once (COPIX_UTILS_PATH.'pclzip.lib.php');
  * handle the photo gallery
  */
 class ActionGroupAlbum extends CopixActionGroup {
-
+	
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+	
+	
 	/**
 	 * Affiche la liste des albums
 	 *

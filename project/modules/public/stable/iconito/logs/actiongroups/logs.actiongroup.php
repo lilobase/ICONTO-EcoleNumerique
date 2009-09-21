@@ -14,6 +14,12 @@ require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
 
 class ActionGroupLogs extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
+
    function display () {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Logs");

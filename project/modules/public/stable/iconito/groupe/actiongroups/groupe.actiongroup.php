@@ -10,6 +10,11 @@ _classInclude('agenda|dateservices');
  */
 class ActionGroupGroupe extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
    /**
    * Affiche la liste des groupes où l'usager courant est inscrit
 	 * 

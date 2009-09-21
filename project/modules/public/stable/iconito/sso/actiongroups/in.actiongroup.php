@@ -12,6 +12,11 @@
 
 class ActionGroupIn extends CopixActionGroup {
 
+	public function beforeAction (){
+		//_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
    /**
    * Etablissement d'un challenge, sur la base d'un identifiant SSO
 	 * 

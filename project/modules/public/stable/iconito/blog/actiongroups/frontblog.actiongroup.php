@@ -12,7 +12,11 @@ _classInclude('blog|blogutils');
 _classInclude('groupe|groupeservice');
 
 class ActionGroupFrontBlog extends CopixActionGroup {
-
+	
+	public function beforeAction (){
+		//_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
 
 	/**
     * Afficage de la liste des articles d'un blog.

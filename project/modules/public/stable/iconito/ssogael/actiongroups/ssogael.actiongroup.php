@@ -12,6 +12,11 @@
 
 class ActionGroupSsogael extends CopixActionGroup {
 
+	public function beforeAction (){
+		//_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
    function doSsoGael () {
 
 		// Vérification du profil : Le SSO est limité aux enseignants et aux agents de ville...

@@ -10,6 +10,11 @@ _classInclude('fichesecoles|fichesecolesservice');
 
 class ActionGroupAdmin extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
 	/**
    * Formulaire de modification des infos d'une ecole
 	 * 

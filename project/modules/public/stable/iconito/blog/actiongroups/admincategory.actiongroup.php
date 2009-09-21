@@ -12,6 +12,12 @@ _classInclude('blog|blogauth');
 _classInclude('blog|blogutils');
 
 class ActionGroupAdminCategory extends CopixActionGroup {
+
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+	
 	/**
     * Préparation à l'édition d'une catégorie.
     */

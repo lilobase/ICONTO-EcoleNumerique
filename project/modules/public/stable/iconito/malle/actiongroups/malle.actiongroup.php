@@ -10,6 +10,11 @@ require_once (COPIX_UTILS_PATH.'pclzip.lib.php');
  
 class ActionGroupMalle extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
    /**
    * Affichage du détail d'une malle
 	 * 

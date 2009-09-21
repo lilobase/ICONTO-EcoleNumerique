@@ -14,6 +14,13 @@
  
 class ActionGroupCron extends CopixActionGroup {
 
+
+	public function beforeAction (){
+		//_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
+
   /**
 	* Mise à jour des données n'ayant pas été enregistrées au moment des logs dans la base de données. Correspond à la recherche des parents des modules
 	* 

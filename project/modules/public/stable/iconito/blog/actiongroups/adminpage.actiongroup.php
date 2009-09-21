@@ -13,6 +13,12 @@ _classInclude('blog|blogutils');
 require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.blog_format_article.php');
 
 class ActionGroupAdminPage extends CopixActionGroup {
+	
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
 	/**
     * Préparation à l'édition d'une page.
     */

@@ -16,6 +16,11 @@ _classInclude('admin|admin');
 
 class ActionGroupDemo extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
   /**
    * Regarde si la démo est déjà installé
 	 * 

@@ -12,6 +12,11 @@ _classInclude('blog|blogutils');
 
 class ActionGroupDefault extends CopixActionGroup {
 
+	public function beforeAction (){
+		//_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
 	/**
    * Affichage de la fiche d'une ecole
 	 * 

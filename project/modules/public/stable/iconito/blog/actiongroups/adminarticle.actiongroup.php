@@ -14,8 +14,11 @@ require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.blog_format_article.p
 
 class ActionGroupAdminArticle extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
 	
-
   /**
     * Préparation à l'édition d'un article.
     */

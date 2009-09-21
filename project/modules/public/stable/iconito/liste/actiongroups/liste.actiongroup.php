@@ -10,6 +10,11 @@ _classInclude('liste|listeservice');
  */
 class ActionGroupListe extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+
    /**
    * Accueil d'une liste
 	 * 
