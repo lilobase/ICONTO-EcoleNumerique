@@ -3,7 +3,7 @@
 		{if $key_grville|string_format:"%d" == $key_grville}
 		{if isset($val_grville.droit)}
 			{assign var=this value=$val_grville}
-			<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url(/img/iconito/kernel/kernel_{$this.info.type}_light.gif);">
+			<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url({copixresource path="img/kernel/kernel_`$this.info.type`_light.gif"});">
 			<p>
 			{$this.info.type_nom} - {$this.info.nom}
 			({$this.droit})
@@ -15,7 +15,7 @@
 			{if $key_ville|string_format:"%d" == $key_ville}
 			{if isset($val_ville.droit)}
 				{assign var=this value=$val_ville}
-				<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url(/img/iconito/kernel/kernel_{$this.info.type}_light.gif);">
+				<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url({copixresource path="img/kernel/kernel_`$this.info.type`_light.gif"});">
 				<p>
 				{$this.info.type_nom} - {$this.info.nom}
 				({$this.droit})
@@ -27,7 +27,7 @@
 				{if $key_ecole|string_format:"%d" == $key_ecole}
 				{if isset($val_ecole.droit)}
 					{assign var=this value=$val_ecole}
-					<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url(/img/iconito/kernel/kernel_{$this.info.type}_light.gif);">
+					<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url({copixresource path="img/kernel/kernel_`$this.info.type`_light.gif"});">
 					<p>
 					{$this.info.type_nom} - {$this.info.nom}
 					({$this.droit})
@@ -39,7 +39,7 @@
 					{if $key_classe|string_format:"%d" == $key_classe}
 					{if isset($val_classe.droit)}
 						{assign var=this value=$val_classe}
-						<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url(/img/iconito/kernel/kernel_{$this.info.type}_light.gif);">
+						<a class="box{if isset($this.info.selected) and $this.info.selected} selected{/if}" href="{copixurl dest="kernel||doSelectHome" type=$this.info.type id=$this.info.id}" style="background-image: url({copixresource path="img/kernel/kernel_`$this.info.type`_light.gif"});">
 						<p>
 						{$this.info.type_nom} - {$this.info.nom}
 						({$this.droit})

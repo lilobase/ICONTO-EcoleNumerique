@@ -65,21 +65,19 @@
 <div class="zone" style="width:520px;">
 	{foreach from=$data_children item=child}
     <div class="enfant"><div class="classe">{$child.info.classe}</div>{$child.info.prenom} {$child.info.nom}</div>
+		{assign var=id value='ELEVE_'|cat:$child.info.id}
 		<a
 		class="box_M"
-		href="index.php?module=carnet&desc=default&action=go&id=ELEVE_{$child.info.id}">
-		<img src="{copixresource path="img/iconito/kernel/module_MOD_CARNET_M.gif"}" border=0 alt="{i18n key="kernel.codes.mod_carnet"}" title="{i18n key="kernel.codes.mod_carnet"}"><br/>
-<span class="modname">{i18n key="kernel.codes.mod_carnet"}</span>
-		</a>
+		href="{copixurl dest="carnet||go" id=$id}"><img src="{copixresource path="img/kernel/module_MOD_CARNET_M.gif"}" border=0 alt="{i18n key="kernel.codes.mod_carnet"}" title="{i18n key="kernel.codes.mod_carnet"}"><br/>
+<span class="modname">{i18n key="kernel.codes.mod_carnet"}</span></a>
 	  
     {foreach from=$child.modules item=mod}
     {assign var="module_type_array" value="_"|split:$mod->module_type|lower}
+		{assign var=dest value=$module_type_array[1]|cat:'||go'}
     <a
 		class="box_M"
-href="index.php?module={$module_type_array[1]}&desc=default&action=go&id={$mod->module_id}">
-		<img src="{copixresource path="img/iconito/kernel/module_`$mod->module_type`_M.gif"}" border=0 alt="{$mod->module_nom|htmlentities}" title="{$mod->module_nom|htmlentities}"><br/>
-<span class="modname">{$mod->module_nom}</span>
-		</a>
+href="{copixurl dest=$dest id=$mod->module_id}"><img src="{copixresource path="img/kernel/module_`$mod->module_type`_M.gif"}" border=0 alt="{$mod->module_nom|htmlentities}" title="{$mod->module_nom|htmlentities}"><br/>
+<span class="modname">{$mod->module_nom}</span></a>
     {/foreach}
 	{/foreach}
 <br clear="left"/>
