@@ -66,8 +66,8 @@ class MinimailService {
 			  			$auteur = $userInfoFrom['prenom'].' '.$userInfoFrom['nom'].' ('.$userInfoFrom['login'].')';
 						  $subject = CopixI18N::get ('minimail|minimail.mail.alert.subject', array($auteur));
 						  $message = str_replace('<br />', "\n", CopixI18N::get ('minimail|minimail.mail.alert.body', array($auteur, CopixUrl::get ().CopixUrl::get ('minimail||getMessage', array('id'=>$newMp->id)), CopixUrl::get ())));
-						  $from = CopixConfig::get ('|mailFrom');
-						  $fromName = CopixConfig::get ('|mailFromName');
+						  $from = CopixConfig::get ('default|mailFrom');
+						  $fromName = CopixConfig::get ('default|mailFromName');
 						  $monMail = & new CopixTextEMail ($to, $cc, $cci, $subject, $message);
 						  $send = $monMail->send ($from, $fromName);
             }

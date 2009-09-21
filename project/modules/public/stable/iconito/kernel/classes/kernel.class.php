@@ -1969,7 +1969,7 @@ class Kernel {
 	 */
 	function getTheme () {
 		if (!$theme = CopixSession::get ('theme')) {
-			$theme = 'iconito';
+			$theme = 'default';
 			self::setTheme($theme);
 		}
 		//var_dump($theme);

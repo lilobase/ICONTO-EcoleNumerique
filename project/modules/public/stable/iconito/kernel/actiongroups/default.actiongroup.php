@@ -481,7 +481,7 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		Kernel::setTheme ($pTheme);
 		
-		$from = ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : CopixUrl::get ('kernel||getHome');
+		$from = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : CopixUrl::get ('kernel||getHome');
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $from);
 	}
