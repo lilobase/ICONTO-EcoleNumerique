@@ -16,7 +16,7 @@ class ActionGroupStats extends CopixActionGroup {
 
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');
-		CopixTpl::setTheme(Kernel::getTheme());
+
 	}
 
 

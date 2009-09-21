@@ -56,7 +56,7 @@
 									{assign var=cptCat value=$cptCat+1}
 	             {/foreach}
 							 {if !$article->categories|@count}{i18n key="blog.article.nocategory" assign="listCat"}{/if}
-							 {i18n key="blog.message.theAtIn" day=$article->date_bact|datei18n:text time=$article->time_bact|hour_format:"%H:%i" categ=$listCat}
+							 {i18n key="blog.message.theAtIn" day=$article->date_bact|datei18n:text time=$article->time_bact|hour_format:"%H:%i" categ=$listCat noEscape=1}
 
 			   				<a href="{copixurl dest="blog|admin|prepareEditArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind}" title="{i18n key="blog.messages.update"}">[{i18n key="blog.messages.update"}]</a>
 								{if $canDelete}

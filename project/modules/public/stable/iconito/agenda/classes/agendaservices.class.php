@@ -159,7 +159,7 @@ class AgendaService {
 			
       $serviceDate = new DateService;
 			
-			$dateI18N = CopixI18N::dateToBD ($pDateDebutEvent);
+			$dateI18N = CopixDateTime::dateToTimestamp ($pDateDebutEvent);
 			$date2 = $serviceDate->dateBddToDateFr($dateI18N);
 
 			//var_dump($dateI18N);

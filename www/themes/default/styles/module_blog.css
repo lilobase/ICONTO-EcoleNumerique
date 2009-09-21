@@ -111,7 +111,7 @@
 #listArticles DIV.postContent .suite {
 	clear: both;
 	padding-left: 20px;
-	background: transparent url(../img/blog/suite.gif) no-repeat left top;
+	background: transparent url(../img_styles/blog/suite.gif) no-repeat left top;
 }
 /* Liste des pages */
 #listArticles P.pager {

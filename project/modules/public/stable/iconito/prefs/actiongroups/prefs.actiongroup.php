@@ -15,7 +15,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-		CopixTpl::setTheme(Kernel::getTheme());
+
 	}
 	
 	function getPrefs () {
@@ -50,7 +50,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 		//print_r($prefs);
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('prefs.moduleDescription'));
-		$tpl->assign ('MAIN', CopixZone::process ('prefs|prefs', array('prefs'=>$prefs, 'get'=>$_GET )));
+		$tpl->assign ('MAIN', CopixZone::process ('prefs|prefs', array('prefs'=>$prefs, 'msg'=>_request('msg') )));
 		
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE"/>' );
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="Expires" CONTENT="-1"/>' );

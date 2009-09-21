@@ -17,8 +17,8 @@ class ZonePrefs extends CopixZone {
 		
 		$tpl->assign ("prefs", $this->getParam('prefs'));
 		
-		$get = $this->getParam('get');
-		if( isset($get['msg']) && $get['msg']=='save' ) {
+		$msg = $this->getParam('msg');
+		if( $msg && $msg=='save' ) {
 			$tpl->assign ('msg', array(
 				'type'  => 'ok',
 				'image_url' => 'img/iconito/prefs/smiley_black.png',

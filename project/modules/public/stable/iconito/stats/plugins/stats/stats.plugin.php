@@ -50,7 +50,7 @@ class PluginStats extends CopixPlugin {
 	 	$objMetier = new DAOPluginStats ();
     include_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		
-		$par = getUrlTab ($_GET);
+		$par = getUrlTab ();
 		
 		//print_r($this);
 		

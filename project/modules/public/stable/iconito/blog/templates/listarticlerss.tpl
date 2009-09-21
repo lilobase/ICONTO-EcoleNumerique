@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>{$rss.title|rss}</title>
@@ -19,7 +19,7 @@
 
      <item>
      <title>{$article->name_bact}</title>
-     <link>{copixurl}{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}</link>
+     <link>{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}</link>
      <guid isPermaLink="true">{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}</guid>
      <pubDate>{$article->dateRFC822}</pubDate>
     

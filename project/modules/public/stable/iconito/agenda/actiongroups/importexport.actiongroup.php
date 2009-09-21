@@ -293,15 +293,15 @@ class ActionGroupImportExport extends CopixActionGroup {
 		
 			//on récupère tous les évènements des agendas cochés dans la période demandée
 			foreach((array)_request('agenda') as $idAgenda){
-				$arEventsPeriode[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, CopixI18N::dateToBD($exportParams->datedeb_export), CopixI18N::dateToBD($exportParams->datefin_export));
+				$arEventsPeriode[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, CopixDateTime::dateToTimestamp($exportParams->datedeb_export), CopixDateTime::dateToTimestamp($exportParams->datefin_export));
 			}
 			
 			//on classe ces évènements par jour
-			$arEventByDay = $agendaService->getEventsByDay($arEventsPeriode, CopixI18N::dateToBD($exportParams->datedeb_export), CopixI18N::dateToBD($exportParams->datefin_export));
+			$arEventByDay = $agendaService->getEventsByDay($arEventsPeriode, CopixDateTime::dateToTimestamp($exportParams->datedeb_export), CopixDateTime::dateToTimestamp($exportParams->datefin_export));
 			
 			//on ordonne les évènements par ordre croissant d'heure de début d'évènement dans la journée
 			$arEventByDay = $agendaService->getEventsInOrderByDay($arEventByDay);
-			$content = $serviceExport->getFileICal($arEventByDay, CopixI18N::dateToBD($exportParams->datedeb_export), CopixI18N::dateToBD($exportParams->datefin_export));
+			$content = $serviceExport->getFileICal($arEventByDay, CopixDateTime::dateToTimestamp($exportParams->datedeb_export), CopixDateTime::dateToTimestamp($exportParams->datefin_export));
 		}
 		
 		//on vide la session

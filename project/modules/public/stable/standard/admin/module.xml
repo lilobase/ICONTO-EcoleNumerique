@@ -20,7 +20,7 @@
   <link url="admin||rebuildClassPath" captioni18n="install.button.rebuildClassPath" credentials="basic:admin" />
  </admin>
  <parameters>
-  <parameter name="defaultThemeId" captioni18n="themes.parameters.defaultThemeId" default="iconito" />
+  <parameter name="defaultThemeId" captioni18n="themes.parameters.defaultThemeId" default="default" />
  </parameters>
  <credentialhandlers>
  	<credentialhandler name='installcredentialhandler' stopOnSuccess='true' stopOnFailure='false' />

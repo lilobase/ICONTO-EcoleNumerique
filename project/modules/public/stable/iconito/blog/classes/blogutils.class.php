@@ -12,7 +12,7 @@
  * Class de gestion des droits utilisateur
  */
 
-//require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
+require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 
 function killBadUrlChars ($url) {
 	$result = strtolower($url); 

@@ -10,7 +10,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');
-		CopixTpl::setTheme(Kernel::getTheme());
+
 	}
 		
 	function processDefault () {
@@ -83,6 +83,8 @@ class ActionGroupDefault extends CopixActionGroup {
   function processRss () {
     
 		$rss = CopixZone::process ('Rss');
+		//echo "rss=$rss<p></p>";
+		
 		return _arContent ($rss, array ('content-type'=>CopixMIMETypes::getFromExtension ('xml')));
   }	
 }

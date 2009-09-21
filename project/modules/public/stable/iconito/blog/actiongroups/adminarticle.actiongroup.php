@@ -16,7 +16,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-		CopixTpl::setTheme(Kernel::getTheme());
+
 	}
 	
   /**
@@ -152,20 +152,21 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     }
     $id_bact = $this->getRequest('id_bact', null);
 	  if(strlen($id_bact)==0) $id_bact=null;
-	
+		$showErrors = false;
+		
     if($id_bact!=null) {
       // EDITION D'UN ARTICLE
       $article = $articleDAO->get($id_bact);
       $this->_validFromPostProperties($article);
       if (!$article->date_bact) $article->date_bact = date('d/m/Y');
       if (!$article->time_bact) $article->time_bact = date('H:i');
-      $article->date_bact = CopixI18N::dateToBD($article->date_bact);
+      $article->date_bact = CopixDateTime::dateToTimestamp($article->date_bact);
       $article->time_bact = timeToBD($article->time_bact);
       $article->author_bact = $user->userId;
 
       $tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.article.title'));
 			//print_r($article);
-      $errors = $article->check();
+      $errors = $articleDAO->check($article);
       if(count($tabSelectCat)==0) {
         $errors = array();
         array_push($errors, CopixI18N::get ('blog.error.nocategoryselect'));
@@ -193,11 +194,11 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       $this->_validFromPostProperties($article);
       if (!$article->date_bact) $article->date_bact = date('d/m/Y');
       if (!$article->time_bact) $article->time_bact = date('H:i');
-      $article->date_bact = CopixI18N::dateToBD($article->date_bact);
+      $article->date_bact = CopixDateTime::dateToTimestamp($article->date_bact);
       $article->time_bact = timeToBD($article->time_bact);
       $article->author_bact = $user->userId;
       $tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.article.title'));
-      $errors = $article->check();
+      $errors = $articleDAO->check($article);
       if(count($tabSelectCat)==0) {
         $errors = array();
         array_push($errors, CopixI18N::get ('blog.error.nocategoryselect'));

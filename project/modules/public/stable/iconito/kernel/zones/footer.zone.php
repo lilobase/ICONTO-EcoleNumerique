@@ -45,13 +45,11 @@ class ZoneFooter extends CopixZone {
 			}
 			
 			// Récupération des valeurs d'URL.
-			if( isset( $_GET['module'] ) ) {
-				$tpl->assign('module', $_GET['module']);
-			}
+			if ($module = CopixRequest::get ('module'))
+				$tpl->assign('module', $module);
 			
-			if( isset( $_GET['action'] ) ) {
-				$tpl->assign('action', $_GET['action']);
-			}
+			if ($action = CopixRequest::get ('action'))
+				$tpl->assign('action', $action);
 			
 			// Récupération des valeurs de sessions (personne).
 			if( _currentUser()->getExtra('type') ) {

@@ -239,8 +239,8 @@ class ActionGroupEvent extends CopixActionGroup {
 			$record->title_event      = $toValid->title_event;
 			$record->desc_event       = $toValid->desc_event;
 			$record->place_event      = $toValid->place_event;
-			$record->datedeb_event    = CopixI18N::dateToBD ($toValid->datedeb_event);//convertion des dates au format bdd
-			$record->datefin_event    = CopixI18N::dateToBD ($toValid->datefin_event);//convertion des dates au format bdd
+			$record->datedeb_event    = CopixDateTime::dateToTimestamp ($toValid->datedeb_event);//convertion des dates au format bdd
+			$record->datefin_event    = CopixDateTime::dateToTimestamp ($toValid->datefin_event);//convertion des dates au format bdd
 			$record->heuredeb_event   = $toValid->heuredeb_event;
 			$record->heurefin_event   = $toValid->heurefin_event;			
 			$record->alldaylong_event = (isset($toValid->alldaylong_event)) ? $toValid->alldaylong_event : 0;
@@ -254,12 +254,11 @@ class ActionGroupEvent extends CopixActionGroup {
 				
 				//date de fin de répétition (à voir selon ce qui est coché)
 				if(isset($dateFin)){
-					//$record->endrepeatdate_event = CopixI18N::dateToBD ($dateFin);//convertion des dates au format bdd
 					$record->endrepeatdate_event = DateService::dateFrToDateBdd($dateFin);
 					
 				}
 				elseif(isset($toValid->dateendrepeat_event) && $toValid->endrepeat_event == 'date'){
-					$record->endrepeatdate_event = CopixI18N::dateToBD ($toValid->dateendrepeat_event);
+					$record->endrepeatdate_event = CopixDateTime::dateToTimestamp ($toValid->dateendrepeat_event);
 				}
 				else{
 					$record->endrepeatdate_event = ($toValid->endrepeat_event == '99999999') ? $toValid->endrepeat_event : null;

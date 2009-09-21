@@ -25,8 +25,11 @@ class Logs {
 		
 		if( isset($data['message']) ) $nouveau->logs_message = $data['message'];
 		
-		$nouveau->logs_mod_name   = (isset($_GET['module'])?$_GET['module']:'kernel');
-		$nouveau->logs_mod_action = (isset($_GET['action'])?$_GET['action']:'default');
+		$module = CopixRequest::get ('module', 'kernel');
+		$action = CopixRequest::get ('action', 'default');
+		
+		$nouveau->logs_mod_name   = $module;
+		$nouveau->logs_mod_action = $action;
 		
 		$user = Kernel::getSessionBU();
 		if( sizeof($user) && isset($user['id']) ) {

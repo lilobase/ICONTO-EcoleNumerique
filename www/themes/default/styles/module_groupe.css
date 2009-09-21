@@ -156,10 +156,10 @@ DIV.groupe_title a:hover {
 	text-decoration: none;
 }
 /* Actions */
-#groups DIV.actions A.home { background: #D9E575 url(../img/groupe/puce_home.gif) no-repeat left center; }
-#groups DIV.actions A.subscribe { background: #D9E575 url(../img/groupe/puce_subscribe.gif) no-repeat left center; }
-#groups DIV.actions A.admin { background: #D9E575 url(../img/groupe/puce_admin.gif) no-repeat left center; }
-#groups DIV.actions A.blog { background: #D9E575 url(../img/groupe/puce_blog.gif) no-repeat left center; }
+#groups DIV.actions A.home { background: #D9E575 url(../img_styles/groupe/puce_home.gif) no-repeat left center; }
+#groups DIV.actions A.subscribe { background: #D9E575 url(../img_styles/groupe/puce_subscribe.gif) no-repeat left center; }
+#groups DIV.actions A.admin { background: #D9E575 url(../img_styles/groupe/puce_admin.gif) no-repeat left center; }
+#groups DIV.actions A.blog { background: #D9E575 url(../img_styles/groupe/puce_blog.gif) no-repeat left center; }
 #groups DIV.actions A:hover {
 	background-color: #B9C554;
 	color: #000;
@@ -222,10 +222,10 @@ DIV.groupe_title a:hover {
 	text-decoration: none;
 }
 /* Actions */
-#groups-home DIV.actions A.home { background: #D9E575 url(../img/groupe/puce_home.gif) no-repeat left center; }
-#groups-home DIV.actions A.subscribe { background: #D9E575 url(../img/groupe/puce_subscribe.gif) no-repeat left center; }
-#groups-home DIV.actions A.admin { background: #D9E575 url(../img/groupe/puce_admin.gif) no-repeat left center; }
-#groups-home DIV.actions A.blog { background: #D9E575 url(../img/groupe/puce_blog.gif) no-repeat left center; }
+#groups-home DIV.actions A.home { background: #D9E575 url(../img_styles/groupe/puce_home.gif) no-repeat left center; }
+#groups-home DIV.actions A.subscribe { background: #D9E575 url(../img_styles/groupe/puce_subscribe.gif) no-repeat left center; }
+#groups-home DIV.actions A.admin { background: #D9E575 url(../img_styles/groupe/puce_admin.gif) no-repeat left center; }
+#groups-home DIV.actions A.blog { background: #D9E575 url(../img_styles/groupe/puce_blog.gif) no-repeat left center; }
 #groups-home DIV.actions A:hover {
 	background-color: #B9C554;
 	color: #000;

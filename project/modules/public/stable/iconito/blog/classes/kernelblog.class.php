@@ -214,7 +214,7 @@ class KernelBlog {
 		$article->content_bact	 = '';
 		$article->content_html_bact = smarty_modifier_blog_format_article ($article->content_bact, $article->format_bact);
  		$article->author_bact = 'Publication par mail...';
-		$article->date_bact = CopixI18N::dateToBD(date('d/m/Y'));
+		$article->date_bact = CopixDateTime::dateToTimestamp(date('d/m/Y'));
 		$article->time_bact = timeToBD(date('H:i'));
 		$article->url_bact = killBadUrlChars($article->name_bact);
 		$article->sticky_bact = 0;

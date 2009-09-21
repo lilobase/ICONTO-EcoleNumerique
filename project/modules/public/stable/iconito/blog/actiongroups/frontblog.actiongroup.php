@@ -15,7 +15,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');
-		CopixTpl::setTheme(Kernel::getTheme());
+
 	}
 
 	/**
@@ -372,7 +372,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 
 		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
-		$comment = CopixDAOFactory::createRecord('blogarticlecomment');
+		$comment = CopixDAOFactory::createRecord('blog|blogarticlecomment');
 		$this->_validFromPostProperties($comment);
 		$comment->date_bacc = date('Ymd');
 		$comment->time_bacc = date('Hi');
@@ -383,7 +383,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 
 		$tpl->assign ('blog', $blog);
 		
-		$errors = $comment->check();
+		$errors = $commentDAO->check($comment);
 		//print_r($comment);
 		$showErrors =  false;
 		if($errors!=1) {
