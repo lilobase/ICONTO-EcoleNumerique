@@ -20,6 +20,7 @@ class ZoneMenu extends CopixZone {
 		$pPopup = $this->getParam ('popup');
 		$pCanClose = $this->getParam ('canClose', true); // Seulement si popup, true par defaut
 		
+		if ($pCanClose===null) $pCanClose = true;
 		// Si le menu est défini à partir d'un tableau, création du HTML pour affichage.
 		if( is_array($pMenu) ) {
 			$out = '';

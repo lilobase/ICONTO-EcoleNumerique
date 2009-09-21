@@ -45,8 +45,8 @@
 
 <tr class="list_line{$cpt%2}">
 	<td><input type="CHECKBOX" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
-	<td>{$item->nom|upper|htmlentities}</td>
-	<td>{$item->prenom|htmlentities}</td>
+	<td>{$item->nom|escape|upper}</td>
+	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
 </tr>
 {assign var="cat_login" value=$item->login}

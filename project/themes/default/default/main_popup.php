@@ -30,7 +30,7 @@
 <div class="content">
 <div class="title"><?php echo $TITLE_PAGE; ?></div>
 
-<?php if (1 || isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)))); } ?>
+<?php if (1 || isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:null))); } ?>
 
 <div class="main <?php $module = CopixRequest::get ('module'); if ($module) echo $module; ?>">
 	<?php echo $MAIN; ?>

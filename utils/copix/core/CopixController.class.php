@@ -343,10 +343,9 @@ class CopixController {
 				$tplMain->assign ('TITLE_PAGE', isset ($toProcess->data->TITLE_PAGE) ? $toProcess->data->TITLE_PAGE : null);
 				$tplMain->assign ('TITLE_BAR', isset ($toProcess->data->TITLE_BAR) ? $toProcess->data->TITLE_BAR : null);	
 				$tplMain->assign ('POPUP', isset ($toProcess->data->POPUP) ? $toProcess->data->POPUP : null);	
-				/**
-         		* HACK POUR GESTION DU MENU
-         		*/
+
 				$tplMain->assign ('MENU', isset ($toProcess->data->MENU) ? $toProcess->data->MENU : null);
+				$tplMain->assign ('CAN_CLOSE', isset ($toProcess->data->CAN_CLOSE) ? $toProcess->data->CAN_CLOSE : null);
 				
 				$tplMain->assign ('BODY_ON_LOAD', isset ($toProcess->data->BODY_ON_LOAD) ? $toProcess->data->BODY_ON_LOAD : null);
 				$tplMain->assign ('BODY_ON_UNLOAD', isset ($toProcess->data->BODY_ON_UNLOAD) ? $toProcess->data->BODY_ON_UNLOAD : null);

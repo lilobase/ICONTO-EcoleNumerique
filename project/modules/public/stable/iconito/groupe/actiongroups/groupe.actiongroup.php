@@ -83,7 +83,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		
 		$groupes = $dao->getListPublic($offset,CopixConfig::get ('groupe|list_nbgroupes'));
 
-		while (list($k,) = each($groupes)) {
+		foreach ($groupes as $k=>$null) {
 			$userInfo = $kernel_service->getUserInfo("ID", $groupes[$k]->createur);
 			$groupes[$k]->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
 			$groupes[$k]->createur_infos = $userInfo;
