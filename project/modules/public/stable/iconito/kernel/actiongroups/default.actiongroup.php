@@ -14,6 +14,11 @@ _classInclude ('welcome|welcome');
 
 class ActionGroupDefault extends CopixActionGroup {
 	
+	public function beforeAction (){
+		//_currentUser()->assertCredential ('group:[current_user]');
+		CopixTpl::setTheme(Kernel::getTheme());
+	}
+		
 	
 	function processDefault () {
 		return _arRedirect (_url ('|getHome'));
@@ -461,6 +466,33 @@ class ActionGroupDefault extends CopixActionGroup {
 		$tpl->assign ('MAIN', "<pre>".$return_str."</pre>" );
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
+
+
+
+	/**
+	 * Choix du theme
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2009/09/21
+	 * @param string $theme Nom du theme
+	 */
+	function processSelectTheme () {
+		$pTheme = CopixRequest::getAlpha('theme');
+
+		Kernel::setTheme ($pTheme);
+		
+		$from = ($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : CopixUrl::get ('kernel||getHome');
+		
+		return new CopixActionReturn (COPIX_AR_REDIRECT, $from);
+	}
+
+
+
+
+
+
+
+
 
 }
 ?>

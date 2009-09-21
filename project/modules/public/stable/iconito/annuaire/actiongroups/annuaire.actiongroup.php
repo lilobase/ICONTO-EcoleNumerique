@@ -314,7 +314,6 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		$profils = _request('profils') ? _request('profils') : array();
 		$profil = $this->getRequest ('profil'); // Si on force sur un profil unique a afficher
 		
-		
 		$ALL = CopixConfig::get ('annuaire|annu_combo_all');
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
@@ -509,8 +508,6 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 			'checkPersonnelExt'=>$annuaireService->canMakeInAnnuaire('POPUP_CHECK_ALL_PERSONNEL_EXT'),
 		);
 		
-		$tplListe->assign ('TITLE_PAGE', CopixI18N::get ('annuaire|annuaire.moduleDescription'));
-		$tplListe->assign ('LANGUE', PluginI18n::getLang());
 		$tplListe->assign ('field', $field);
 		$tplListe->assign ('grville', $grville);
 		$tplListe->assign ('eleves', $eleves);
@@ -528,15 +525,15 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		$tplListe->assign ('profil', $profil);
 		$result = $tplListe->fetch('getpopup.tpl');
 
-		echo $result;
-		//print_r($rEcole);
-		/*
-		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('annuaire|annuaire.moduleDescription'));
-		$tpl->assign ('MAIN', $result);
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		*/
-		return new CopixActionReturn (COPIX_AR_NONE, 0);
+		$ppo = new CopixPPO ();
+		$ppo->result = $result;
+		$ppo->TITLE_PAGE = CopixI18N::get ('annuaire|annuaire.moduleDescription');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_annuaire.css")); 
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_annuaire_popup.css")); 
+		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_annuaire.js")); 
+		
+		return _arPPO ($ppo, array ('template'=>'getpopup_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));
+
 	}
 }
 

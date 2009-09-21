@@ -1,34 +1,12 @@
-{literal}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
-
-<head>
-<title>{/literal}{$TITLE_PAGE}</title>
-<link href="{copixresource path="styles/theme.css"}" rel="stylesheet" type="text/css" media="screen" />
-<link href="{copixresource path="styles/module_annuaire.css"}" rel="stylesheet" type="text/css" media="screen" />
-<link rel="SHORTCUT ICON" href="favicon.ico">
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/iconito.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/lang_{$LANGUE}.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/prototype-1.6.0.3.js"></script>
-{literal}
-</head>
-
-<body>
-
-<div id="divUserProfil" onclick="hideUser();"></div>
-
-<div class="page" style="width:680px;border:0;margin:0;margin-left: auto;	margin-right: auto;">
-
-<div class="content">
-{/literal}
-<div class="title">{$TITLE_PAGE}</div>
-
-<div class="options"><a href="javascript:self.close();">{i18n key="kernel|kernel.popup.close"}</a></div>
-
-<div class="main malle kernel">
-
-
+{assign var=id value=$ppo->id}
+{assign var=folder value=$ppo->folder}
+{assign var=folders value=$ppo->folders}
+{assign var=files value=$ppo->files}
+{assign var=errors value=$ppo->errors}
+{assign var=field value=$ppo->field}
+{assign var=format value=$ppo->format}
+{assign var=combofolders value=$ppo->combofolders}
 
 
 
@@ -73,18 +51,7 @@
 </div>
 
 
-
-
-
-
-
 <!-- DEBUT PAGE -->
-
-
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
-<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_malle.js"></SCRIPT>
-
-
 
 <DIV CLASS="malle_go_folder_form">
 {if $combofolders|trim}
@@ -99,7 +66,8 @@
 {/if}
 </DIV>
 
-{$petitpoucet}
+{copixzone process='malle|petitpoucet' malle=$ppo->id folder=$ppo->folder action=getMallePopup field=$ppo->field format=$ppo->format}
+
 
 <DIV STYLE="min-height:275px;">
 
@@ -129,7 +97,9 @@
 {if $files neq null}
 	{foreach from=$files item=item}
 	
-	{assign var=file value="{copixurl}static/malle/"|cat:$item->malle|cat:"_"|cat:$item->malle_cle|cat:"/"|cat:$item->id|cat:"_"|cat:$item->fichier}
+	{copixurl assign='copixurl'}
+	
+	{assign var=file value=$copixurl|cat:"static/malle/"|cat:$item->malle|cat:"_"|cat:$item->malle_cle|cat:"/"|cat:$item->id|cat:"_"|cat:$item->fichier}
 	
 	{if $format eq "fckeditor" OR $format eq "html"}
 		{*{assign var=htmlDownload value="[["|cat:$abspath|cat:$file|cat:"|download]]"}*}
@@ -155,16 +125,3 @@
 
 </DIV>
 
-
-
-<!-- FIN PAGE -->
-{literal}
-
-<br clear="all"/>
-</div>
-
-</div><!-- content -->
-</div><!-- page -->
-</body>
-</html>
-{/literal}

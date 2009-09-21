@@ -1,43 +1,4 @@
-{literal}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<html>
-
-<head>
-<title>{/literal}{i18n key="kernel|kernel.codes.mod_annuaire"}{literal}</title>
-<link href="{copixresource path="styles/theme.css"}" rel="stylesheet" type="text/css" media="screen" />
-<link href="{copixresource path="styles/module_annuaire.css"}" rel="stylesheet" type="text/css" media="screen" />
-<link rel="SHORTCUT ICON" href="favicon.ico">
-{/literal}
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/iconito.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/lang_{$LANGUE}.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/prototype-1.6.0.3.js"></script>
-{literal}
-</head>
-
-<body>
-
-<div id="divUserProfil" onclick="hideUser();"></div>
-
-<div class="page" style="width:500px;border:0;margin:0;margin-left: auto;	margin-right: auto;">
-
-<div class="content">
-{/literal}
-
-
-<div class="title">{$TITLE_PAGE}</div>
-
-<div class="options"><a href="javascript:self.close();">{i18n key="annuaire.btn.close"}</a></div>
-
-<div class="main annuaire kernel">
-
-
-
-<!-- DEBUT PAGE -->
-
-
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_annuaire.css" />
-<script language="Javascript1.2" SRC="{copixurl}js/iconito/module_annuaire.js"></script>
 
 <div id="annu_popup_filtrage">
 
@@ -247,17 +208,3 @@
 {/literal}
 
 
-<br clear="all" />
-
-
-<!-- FIN PAGE -->
-{literal}
-
-<br clear="all"/>
-</div>
-
-</div><!-- content -->
-</div><!-- page -->
-</body>
-</html>
-{/literal}

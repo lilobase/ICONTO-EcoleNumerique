@@ -35,7 +35,7 @@ function click_all (field, tab) {
 }
 
 function open_annuaire (field) {
-		var url = "index.php?module=annuaire&action=getPopup&field="+field+"";
+		var url = getActionURL('annuaire|default|getPopup', 'field='+field);
     var name = "messagerie";
     var options = "height=500,width=540,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,directories=no,status=no";
     var a = window.open (url, name, options);
@@ -43,7 +43,7 @@ function open_annuaire (field) {
 			a.focus();
 }
 function open_annuaire_profil (field, profil) {
-		var url = "index.php?module=annuaire&action=getPopup&field="+field+"&profil="+profil;
+		var url = getActionURL('annuaire|default|getPopup', 'field='+field+'&profil='+profil);
     var name = "messagerie";
     var options = "height=500,width=540,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,directories=no,status=no";
     var a = window.open (url, name, options);

@@ -5,6 +5,6 @@
         <package name="copixdivers" version="2.2" />
     </general>
     <parameters>
- 	    <parameter name="annu_combo_all" captioni18n="" default="ALL" />
+ 	    <parameter name="annu_combo_all" captioni18n="annuaire.parameter.annu_combo_all" default="ALL" />
   	</parameters>
 </moduledefinition>

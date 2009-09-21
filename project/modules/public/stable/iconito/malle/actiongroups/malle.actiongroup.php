@@ -151,6 +151,8 @@ class ActionGroupMalle extends CopixActionGroup {
    */
    function processGetMallePopup () {
 	 	
+		$ppo = new CopixPPO ();
+		
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
 	 	$daoMalles = CopixDAOFactory::create("malle|malle_malles");
@@ -164,7 +166,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		$format = $this->getRequest ('format', null);
     
 		$criticErrors = array();
-
+		
 		if ($folder) {
 			$rFolder = $daoFolders->get($folder);
 			if (!$rFolder)
@@ -206,25 +208,20 @@ class ActionGroupMalle extends CopixActionGroup {
 			$dispMenu = true;
 			if (substr($parent['type'],0,5)=='USER_')		{
 				$title = CopixI18N::get ('malle|malle.perso'); $dispMenu = false;
-			} elseif (!$title)
+			} elseif (!isset($title))
 				$title = $parent["nom"];
 
-			$tplMalle = & new CopixTpl ();
-			$tplMalle->assign ('TITLE_PAGE', CopixI18N::get ('malle|malle.popup.title'));
-			$tplMalle->assign ('LANGUE', PluginI18n::getLang());
-			$tplMalle->assign ('id', $id);
-			$tplMalle->assign ('folder', $folder);
-			$tplMalle->assign ('folders', $folders);
-			$tplMalle->assign ('files', $files);
-			$tplMalle->assign ('errors', $errors);
-			$tplMalle->assign ('field', $field);
-			$tplMalle->assign ('format', $format);
-			$tplMalle->assign ('petitpoucet', CopixZone::process ('malle|petitpoucet', array('malle'=>$id, 'folder'=>$folder, 'action'=>'getMallePopup', 'field'=>$field, 'format'=>$format)));
-			$tplMalle->assign ('combofolders', CopixZone::process ('malle|combofolders', array('malle'=>$id, 'folder'=>$folder, 'fieldName'=>'folder', 'attribs'=>'ONCHANGE="this.form.submit();"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>CopixI18N::get ('malle|malle.comboDirectAccess'))))));
-			$tplMalle->assign ("uploadMaxSize", CopixConfig::get ('malle|uploadMaxSize') );
-			
-			//if ($mondroit>=PROFILE_CCV_PUBLISH)	$tplForum->assign ('canPublish', 1);
-			//else																$tplForum->assign ('canPublish', 0);
+			$ppo->TITLE_PAGE = CopixI18N::get ('malle|malle.popup.title');
+			$ppo->id = $id;
+			$ppo->folder = $folder;
+			$ppo->folders = $folders;
+			$ppo->files = $files;
+			$ppo->errors = $errors;
+			$ppo->field = $field;
+			$ppo->format = $format;
+
+			$ppo->combofolders = CopixZone::process ('malle|combofolders', array('malle'=>$id, 'folder'=>$folder, 'fieldName'=>'folder', 'attribs'=>'ONCHANGE="this.form.submit();"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>CopixI18N::get ('malle|malle.comboDirectAccess')))));
+			$ppo->uploadMaxSize = CopixConfig::get ('malle|uploadMaxSize');
 			
 			// On déduit le chemin absolu
 			$path = $_SERVER['PHP_SELF'];
@@ -232,12 +229,15 @@ class ActionGroupMalle extends CopixActionGroup {
 			if ($pos !== false) {
 				$abspath = substr($path,0,$pos+1);
 			}
-			$tplMalle->assign ('abspath', $abspath);	
+			$ppo->abspath = $abspath;
 			
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css")); 
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_malle_popup.css")); 
+			CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js")); 
+
+
+			return _arPPO ($ppo, array ('template'=>'getmallepopup.tpl', 'mainTemplate'=>'default|main_popup.php'));
 			
-			$result = $tplMalle->fetch('getmallepopup.tpl');
-      echo $result;
-			return new CopixActionReturn (COPIX_AR_NONE, 0);
 		}
 	}
 

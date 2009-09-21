@@ -11,7 +11,7 @@
 		<!-- TABLE MALLES_FOLDERS -->
 		<property name="id" fieldname="id" type="autoincrement" table="malle_folders" pk="yes"/>
 		<property name="malle" fieldname="malle" type="integer" table="malle_folders" pk="no" fkTable="malle_malles" fkFieldName="id"/>
-		<property name="malle_cle" fieldname="cle" type="integer" table="malle_malles" pk="no"/>
+		<property name="malle_cle" fieldname="cle" type="string" table="malle_malles" pk="no"/>
 		<property name="parent" fieldname="parent" type="integer" table="malle_folders" pk="no"/>
 		<property name="nom" fieldname="nom" type="string" table="malle_folders" pk="no"/>
 		<property name="nb_folders" fieldname="nb_folders" type="integer" table="malle_folders" pk="no"/>

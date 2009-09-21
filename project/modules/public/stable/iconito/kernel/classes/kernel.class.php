@@ -1960,8 +1960,28 @@ class Kernel {
 	}
 	
 	
-
-
+	/**
+	 * Detail d'un dossier : contrats
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2009/09/21
+	 * @param integer $id Id de la demande
+	 */
+	function getTheme () {
+		if (!$theme = CopixSession::get ('theme')) {
+			$theme = 'iconito';
+			self::setTheme($theme);
+		}
+		//var_dump($theme);
+		return $theme;
+	
+	
+	}
+	function setTheme ($pTheme) {
+		CopixSession::set ('theme', $pTheme);
+	}
+	
+	
 }
 
 ?>

@@ -13,9 +13,11 @@ class ZoneFooter extends CopixZone {
 		
 		foreach ($arModulesPath as $modulePath) {
 		
-			$tpl_file = $modulePath.'modules/kernel/templates/footer.tpl';
+			$tpl_file = $modulePath.'kernel/templates/footer.tpl';
 
 			if( !file_exists( $tpl_file ) ) continue;
+			
+			
 			
 			$display = true;
 			

@@ -26,7 +26,7 @@
 								{assign var=cptCat value=$cptCat+1}
              {/foreach}
 						 {if !$article->categories|@count}{i18n key="blog.article.nocategory" assign="listCat"}{/if}
-						 {i18n key="blog.message.theAtIn" day=$article->date_bact|datei18n:text time=$article->time_bact|hour_format:"%H:%i" categ=$listCat}
+						 {i18n key="blog.message.theAtIn" day=$article->date_bact|datei18n:text time=$article->time_bact|hour_format:"%H:%i" categ=$listCat noEscape=1}
          </div>
          <div class="postContent">
          {$article->sumary_html_bact}

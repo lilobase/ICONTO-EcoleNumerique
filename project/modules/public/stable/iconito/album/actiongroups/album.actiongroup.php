@@ -845,7 +845,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 			*/
 		}
 		
-		
+		$finish = false;
 		$tpl = & new CopixTpl ();
 		
 		$vignettes = _sessionGet ('modules|album|vignettes|'._request("key"));
@@ -853,10 +853,11 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$image = array_shift( $vignettes );
 		_sessionSet ('modules|album|vignettes|'._request("key"), $vignettes);
 		if( $image == NULL ) {
+			$finish = true;
 			$tpl->assign ('url_album', _request("album"));
 			$tpl->assign ('url_dossier', _request("dossier"));
 			$tpl->assign ('url_key', _request("key"));
-			$tpl->assign ('finish', true );
+			$tpl->assign ('finish', $finish);
 			$tpl->assign ('message', CopixI18N::get ('album.message.thumbs_end') );
 			
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("album"),'dossier_id'=>_request("dossier")) ));
@@ -874,12 +875,12 @@ class ActionGroupAlbum extends CopixActionGroup {
 			}
 		}
 		
-		$tpl->assign ('url_album', _request("album"));
-		$tpl->assign ('url_dossier', _request("dossier"));
-		$tpl->assign ('url_key', _request("key"));
+		$pAlbum = _request("album");
+		$pDossier = _request("dossier");
+		$pKey = _request("key");
 		
-		$nb = _sessionGet ('modules|album|vignettes|nb-'._request("key"));
-		$vignettes = _sessionGet ('modules|album|vignettes|'._request("key"));
+		$nb = _sessionGet ('modules|album|vignettes|nb-'.$pKey);
+		$vignettes = _sessionGet ('modules|album|vignettes|'.$pKey);
 		
 		$tpl->assign (
 			'message', CopixI18N::get (
@@ -894,7 +895,22 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tpl->assign ('bar_max', $nb );
 		$tpl->assign ('bar_value', $nb - sizeof($vignettes) );
 
-		return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, "album|vignettes.tpl" );
+		$result = $tpl->fetch('vignettes.tpl');
+		
+		$ppo = new CopixPPO ();
+		$ppo->result = $result;
+		$ppo->TITLE_PAGE = CopixI18N::get ('album|album.moduleDescription');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css")); 
+		
+		if ($finish)
+			CopixHTMLHeader::addOthers ('<meta HTTP-EQUIV="REFRESH" content="3; url='.CopixUrl::get ('album||album', array('album_id'=>$pAlbum, 'dossier'=>$pDossier)).'"');
+		else
+			CopixHTMLHeader::addOthers ('<meta HTTP-EQUIV="REFRESH" content="0; url='.CopixUrl::get ('album||vignettes', array('album'=>$pAlbum, 'dossier'=>$pDossier, 'key'=>$pKey)).'"');
+		
+		$ppo->CAN_CLOSE = false;
+		return _arPPO ($ppo, array ('template'=>'vignettes_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));
+		
+		//return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, "album|vignettes.tpl" );
 	}
 
 	/**
@@ -1385,7 +1401,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		if( count($pictures) ) {
 			foreach( $pictures as $picture ) {
-				if( _request['photo_'.$picture->photo_id] ) {
+				if( _request('photo_'.$picture->photo_id) ) {
 					$picture_modif = $photo_dao->get($picture->photo_id);
 					$picture_modif->photo_dossier = _request('folder_move');
 					$photo_dao->update( $picture_modif );

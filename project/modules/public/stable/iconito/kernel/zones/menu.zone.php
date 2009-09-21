@@ -17,6 +17,8 @@ class ZoneMenu extends CopixZone {
 			
 		$ppo = new CopixPPO ();		
 		$pMenu = $this->getParam ('MENU');
+		$pPopup = $this->getParam ('popup');
+		$pCanClose = $this->getParam ('canClose', true); // Seulement si popup, true par defaut
 		
 		// Si le menu est défini à partir d'un tableau, création du HTML pour affichage.
 		if( is_array($pMenu) ) {
@@ -39,8 +41,11 @@ class ZoneMenu extends CopixZone {
 		} else {
 			$ppo->menu = $pMenu;
 		}
-
 		
+		if ($pPopup && $pCanClose) {
+			$ppo->menu .= ($ppo->menu) ? ' :: ' : '';
+			$ppo->menu .= '<a href="javascript:self.close();">'.CopixI18N::get('kernel|kernel.popup.close').'</a>';
+		}
 		
 		
 		$toReturn = $this->_usePPO ($ppo, 'menu.tpl');
