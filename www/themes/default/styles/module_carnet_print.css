@@ -1,0 +1,17 @@
+
+BODY {
+  font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 14px;
+	background-color: white;
+}
+
+div.carnet_message {
+	border: solid 1px gray;
+	page-break-inside: avoid;
+	width:100%;
+}
+
+table.head, div.icons, div#footer {
+  visibility: hidden;
+  display: none;
+}

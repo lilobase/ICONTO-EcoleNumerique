@@ -1,0 +1,270 @@
+
+/* =================================
+	Général
+	================================= */
+#mainBlog {
+	REMbackground: #D9E575; /* vert de fond */
+	-moz-border-radius:6px;	
+	background: #FFF;
+	font-size: 11px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	padding: 1em;
+	height: 90%;
+}
+
+/* Partie centrale */
+#mainContent {
+	background: #FFF;
+	float: right;
+	width: 640px;
+}
+/* Barre latérale */
+#mainSideBar {
+	background: #FFF;
+	float: right;
+	width: 210px;
+	border-right: dotted 2px #CCC;
+	margin-right: 1em;
+	padding-right: 1em;
+}
+/* Barre latérale - Logo */
+#mainSideBar .bloglogo {
+	text-align: center;
+	padding-top: 1em;
+	padding-bottom: 1em;
+}
+
+/* Barre latérale - Titre */
+#mainSideBar H2 {
+	color: #337E5A;
+	font-size: 140%;
+	margin: 10px 0px 3px 0px;
+	border-top: dotted 2px #CCC;
+	padding-top: 3px;
+}
+/* Barre latérale - Liste d'éléments */
+#mainSideBar UL {
+	padding: 0;
+	margin: 0;
+}
+/* Barre latérale - Eléments */
+#mainSideBar LI {
+	list-style-type: square;
+	margin-left:16px;
+	color: #AAA;
+}
+#mainSideBar UL A {
+	color: #333F5A;
+	text-decoration: none;
+}
+#mainSideBar UL A:hover {
+	text-decoration: underline;
+}
+
+
+/* =================================
+	Liste d'articles
+	================================= */
+#listArticles {
+}
+#listArticles h2 b {
+	color: #FF2966;
+}
+/* Jours */
+#listArticles DIV.day {
+	display: none;
+	border-bottom: dotted 2px #CCC;
+	margin: 1px;
+	padding: 1px;
+	font-size: 100%;
+	color: #337E5A;
+	margin-top: 6px;
+	text-align: right;
+}
+/* Titre de l'article */
+#listArticles DIV.postTitle {
+	margin: 5px 0px 8px 0px;
+	font-size: 170%;
+	font-weight: bold;
+	font-family: Georgia;
+	clear: both;
+}
+#listArticles DIV.postTitle A {
+	color: #337E5A;
+}
+/* Infos de l'article (date, catégories...) */
+#listArticles DIV.postInfo {
+	margin: 0px 0px 3px 0px;
+	color: #B58106;
+	font-weight: normal;
+	font-size: 100%;
+}
+#listArticles DIV.postInfo A {
+	color: #B58106;
+}
+/* Article (chapo ou entier) */
+#listArticles DIV.postContent {
+	margin-left: 0px;
+	margin-bottom: 2em;
+	font-size: 105%;
+}
+#listArticles DIV.postContent .suite {
+	clear: both;
+	padding-left: 20px;
+	background: transparent url(../img/blog/suite.gif) no-repeat left top;
+}
+/* Liste des pages */
+#listArticles P.pager {
+}
+
+
+/* =================================
+	Détail d'un article
+	================================= */
+#article {
+	margin-bottom: 4em;
+	border-bottom: solid 1px #D9E575;
+}
+/* Titre */
+#article H1 {
+	margin: 0;
+	color: #337E5A;
+	font-family: Georgia;
+}
+#article H2 {
+	margin: 0;
+	color: #337E5A;
+	font-family: Georgia;
+	font-size: 2em;
+}
+#article H3 {
+	color: #337E5A;
+	font-family: Georgia;
+	font-size: 1.6em;
+	border-bottom: solid 1px #D9E575;
+	margin: 0;
+	margin-top: 0.3em;
+	margin-bottom: 0.6em;
+}
+#article H4 {
+	color: #337E5A;
+	font-family: Georgia;
+	font-size: 1.4em;
+	margin: 0;
+	margin-top: 0.3em;
+	margin-bottom: 0.6em;
+}
+#article img, #listArticles img, div.adminArticleList img {
+	background: transparent;
+	border: 0;
+	padding:0;
+}
+/* Infos de l'article (date, catégories...) */
+#article DIV.postInfo {
+	margin: 0px 0px 3px 0px;
+	color: #B58106;
+	font-weight: normal;
+	font-size: 100%;
+}
+#article DIV.postInfo A {
+	color: #B58106;
+}
+/* Chapo */
+#article DIV.postSummary {
+	text-align: left;
+	font-size: 1.3em;
+	font-family: Georgia, Trebuchet;
+	font-style: italic;
+	line-height: 1.3em;
+	border-left: solid 6px #D9E575;
+	padding-left: 0.5em;
+}
+/* Article */
+#article DIV.postContent { /* Article */
+	text-align: justify;
+	font-size: 105%;
+	clear: both;
+}
+#article DIV.postContent TABLE,  #article DIV.postSummary TABLE,  #listArticles DIV.postContent TABLE {
+	border: solid 1px #D9E575;
+}
+#article DIV.postContent TR, #article DIV.postSummary TR, #listArticles DIV.postContent TR  {
+	border: solid 1px #D9E575;
+	background: #D9E575;
+}
+#article DIV.postContent TD, #article DIV.postSummary TD, #listArticles DIV.postContent TD {
+	border: 0;
+}
+
+
+/* =================================
+	Commentaires
+	================================= */
+#comments {
+}
+/* Titre */
+#comments H2 {
+	margin: 0;
+	margin-top: 1em;
+	margin-bottom: 0.5em;
+	color: #337E5A;
+	font-family: Georgia;
+	clear: both;
+}
+/* Corps */
+#comments DIV.commentBody {
+	border-radius: 4px;
+	-moz-border-radius:4px;
+	-khtml-border-radius:4px;
+	color: #595949;
+	font-size: 11px;
+	margin: 0px 30px 6px 30px;
+	padding: 5px 5px 5px 5px;
+	background: #f7f7f0;
+	border: 1px solid #f0f0e0;
+}
+/* Auteur + date */
+#comments DIV.commentAuthor {
+	margin-bottom: 5px;
+	border-bottom: solid 1px #FFF;
+}
+#comments DIV.commentAuthor A {
+	font-size: 80%;
+	font-weight: normal;
+}
+/* Numéro */
+#comments DIV.commentCount a {
+	position: relative;
+	float: right;
+	right: 0px;
+	top: 0px;
+	font-family: Georgia;
+	font-size: 14px;
+	font-weight: bold;
+	color: #CFC097;
+	margin: 0px;
+}
+/* Formulaire d'ajout de commentaires - zones de saisie */
+#comments INPUT.text {
+	width: 230px;
+	font-family: inherit;
+	font-size: 95%;
+}
+#comments TEXTAREA.text {
+	width: 330px;
+	height: 100px;
+	font-family: inherit;
+	font-size: 90%;
+}
+/* Formulaire d'ajout de commentaires - bouton de validation */
+#comments INPUT.submit {
+	background-color: #FF2966;
+	border: 0;
+	color: #FFF;
+	font-family: Verdana,Arial;
+	font-weight: bold;
+	padding: 0.3em;
+}
+
+
+

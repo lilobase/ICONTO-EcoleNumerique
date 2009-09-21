@@ -1,0 +1,113 @@
+
+#ecole_infos_bloc {
+	float: right;
+	display: block;
+	width: 250px;
+}
+
+#ecole_infos {
+	background-color: #E2ED8A;
+	font-size: 11px;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	khtml-border-radius: 15px;
+	padding: 6px;
+	border: solid 2px #FFFFFF;
+}	
+
+#ecole_infos_bloc IMG.coude {
+	margin-left: 180px;
+}
+
+#ecole_infos H2 {
+	border-bottom: solid 2px #FFF;
+	font-size: 16px;
+	margin-bottom: 5px;	
+}	
+
+H2 {
+	margin-top: 8px;	
+	margin-bottom: 2px;	
+}
+H3 {
+	border-bottom: solid 1px #FFF;
+	font-size: 14px;
+	margin-top: 15px;	
+	margin-bottom: 5px;	
+}
+#eleves {
+	margin-left: 15px;
+	font-size: 11px;
+}
+#eleves IMG {
+}
+
+DIV.ecole_web {
+	color: #A6B24D;
+	display: inline;
+	float: right;
+	font-size: 10px;
+	text-align: left;
+	margin: 1px 10px 0px 10px;
+}
+DIV.ecole_classe_enseignant {
+	display: inline;
+	float: right;
+	text-align: right;
+}
+
+
+
+
+/* FICHE UTILISATEUR */
+#user_infos {
+	/*float: right;*/
+	display: block;
+	width: 234px;
+	
+	background-color: #E2ED8A;
+	font-size: 11px;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	khtml-border-radius: 15px;
+	padding: 6px;
+	border: solid 2px #FFFFFF;
+	margin-top: 10px;
+}	
+
+SELECT.annu_combo_popup {
+	width: 190px;
+	font-size: 10px;
+	margin: 1px;
+}
+
+
+
+/* POPUP */
+#annu_popup_filtrage {
+	/*background-color: #E2ED8A;*/
+	font-size: 11px;
+	border-radius: 15px;
+	-moz-border-radius: 15px;
+	khtml-border-radius: 15px;
+	/*padding: 20px 2px 4px 2px;*/
+	padding: 3px;
+	border: solid 2px #FFFFFF;
+	background-image: url(../img/groupe/lucien_coude.gif);
+	background-repeat: no-repeat;
+	background-position: bottom right;
+}
+#annu_popup_filtrage form {
+  margin: 0;
+}
+DIV.annu_popup_zone {
+	text-align: right;
+	float: left;
+	display: block;
+	margin: 0px 6px -1em 6px;
+}
+DIV.annu_write_all {
+	text-align: right;
+	font-size: 11px;
+	margin-right: 5px;
+}

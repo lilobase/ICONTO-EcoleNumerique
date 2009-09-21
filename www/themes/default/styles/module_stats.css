@@ -1,0 +1,37 @@
+
+
+div.dates {
+	font-size:0.9em;
+	margin:3px;
+	padding:4px;
+	background-color: #E7E9D4;
+	border-radius: 4px;
+	-moz-border-radius:4px;
+	-khtml-border-radius:4px;
+}
+div.dates form {
+	float: right;
+	margin:0;
+}
+div.dates form select {
+	font-size:0.9em;
+}
+div.dates a.sel {
+	color: #04570F;
+	font-weight: bolder;
+	text-decoration: none;
+}	
+
+table.stats_table {
+	font-size:0.9em;
+	border: solid 1px gray;
+	width:200px;
+
+}
+
+table.stats_table th {
+	text-align: left;
+	border-bottom: solid 1px #7F835B;
+}
+
+

@@ -1,0 +1,61 @@
+
+DIV.prefs FORM H3 {
+	font-size: 160%;
+	margin: 3px;
+}
+
+DIV.prefs FORM H4 {
+	font-size: 120%;
+	margin: 3px 0 3px 0;
+	margin-top: 10px;
+	padding-top: 10px;
+}
+
+DIV.prefs FORM I {
+	font-size: 80%;
+	padding-bottom: 10px;
+	color: #333;
+}
+
+DIV.prefs FORM .error {
+	border: 3px solid red;
+}
+
+DIV.prefs FORM .errormsg {
+	color: red;
+}
+
+DIV.prefs TABLE.prefs TH {
+	font-weight: bold;
+	text-align: right;
+	vertical-align: top;
+	width: 40%;
+	white-space : nowrap;
+}
+
+DIV.prefs HR {
+	background-color: #C1CF4D;
+	color: red;
+	height: 2px;
+	border: 0px;
+}
+
+
+
+DIV.prefs TABLE.msg {
+	padding: 10px;
+	margin: 10px;
+	font-weight: bold;
+}
+
+DIV.prefs TABLE.msg TD.text {
+	text-align: center;
+	padding-left: 30px;
+	padding-right: 30px;
+}
+
+DIV.prefs TABLE.ok {
+	border: 1px solid #666;
+	background-color: white;
+	padding: 10px;
+}

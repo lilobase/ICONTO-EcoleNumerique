@@ -1,0 +1,11 @@
+
+#header,
+#menu,
+#ss_menu,
+.breadCrumbs,
+.noPrint
+ {
+	display:none;
+}
+
+

@@ -1,0 +1,117 @@
+
+DIV.blog H1, .blog H1 {
+	color: #508957;
+	margin: 0 0 5 0;
+	padding: 0;
+	line-height: 1em;
+	font-size: 155%;
+	vertical-align: top;
+}
+
+
+/* Liste des articles */
+
+DIV.adminArticleForm {
+	background: #CCD865;
+	padding: 2px;
+	font-size: 11px
+}
+
+DIV.adminArticleList {
+	background: #DBE77A;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	border-bottom: solid 1px #FFF;
+	padding: 3px;
+	font-size: 11px;
+}
+DIV.adminArticleList DIV.expand {
+	margin: 10px;
+	padding: 2px;
+	background: #FFF;
+}
+DIV.adminArticleList div.is_online0 a, td div.is_online0, td div.is_online0 a {
+	color: #9F300F;
+}
+DIV.adminArticleList div.is_online1 a {
+}
+
+
+/* =================================
+	Commentaires
+	================================= */
+#comments {
+}
+/* Titre */
+#comments H2 {
+	margin: 0;
+	color: #337E5A;
+	font-family: Georgia;
+}
+/* Corps */
+#comments DIV.commentBody {
+	border-radius: 4px;
+	-moz-border-radius:4px;
+	-khtml-border-radius:4px;
+	color: #595949;
+	font-size: 11px;
+	margin: 0px 30px 6px 30px;
+	padding: 5px 5px 5px 5px;
+	background: #f7f7f0;
+	border: 1px solid #f0f0e0;
+}
+#comments DIV.commentBody div.is_online0 {
+	border-left: solid 2px red;
+}
+#comments DIV.commentBody div.is_online1 {
+	border-left: solid 2px #22740E;
+}
+/* Auteur + date */
+#comments DIV.commentAuthor {
+	margin-bottom: 5px;
+	border-bottom: solid 1px #FFF;
+	margin-left:6px;
+}
+#comments DIV.commentAuthor A {
+	font-size: 90%;
+	font-weight: normal;
+}
+/* Numéro */
+#comments DIV.commentCount a {
+	position: relative;
+	float: right;
+	right: 0px;
+	top: 0px;
+	font-family: Georgia;
+	font-size: 14px;
+	font-weight: bold;
+	color: #CFC097;
+	margin: 0px;
+}
+#comments DIV.commentMsg {
+	margin-left:6px;
+}
+#comments DIV.commentMsg p {
+	margin:0;
+}
+/* Formulaire d'ajout de commentaires - zones de saisie */
+#comments INPUT.text {
+	width: 230px;
+	font-family: inherit;
+	font-size: 90%;
+}
+#comments TEXTAREA.text {
+	width: 330px;
+	height: 100px;
+	font-family: inherit;
+	font-size: 90%;
+}
+/* Formulaire d'ajout de commentaires - bouton de validation */
+#comments INPUT.submit {
+	background-color: #f7f7f0;
+	border: 0;
+}
+
+
+/* STATS */
+
