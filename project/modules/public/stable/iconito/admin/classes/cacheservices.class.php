@@ -60,8 +60,8 @@ class CacheServices {
 				$saved_data[$saved_key] = CopixConfig::get($saved_key);
 		}
 		
-		$criteres = _daoSp ();
-		$nbDeleted = _dao ('copixconfig')->deleteBy($criteres);
+		$sql = "DELETE FROM copixconfig";
+		_doQuery ($sql);
 		
 		foreach( $saved_data AS $saved_key=>$saved_val ) {
 			CopixConfig::set($saved_key,$saved_val);

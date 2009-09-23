@@ -116,7 +116,7 @@ class KernelMalle {
 		$res['nbFiles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFiles', array($a[0]->nb)));
 		$sql = 'SELECT SUM(taille) AS nb FROM module_malle_files';
 		$a = _doQuery ($sql);
-		$res['size'] = array ('name'=>CopixI18N::get ('malle|malle.stats.size', array(KernelMalle::human_file_size($a->nb))));
+		$res['size'] = array ('name'=>CopixI18N::get ('malle|malle.stats.size', array(KernelMalle::human_file_size($a[0]->nb))));
 		return $res;
 	}
 

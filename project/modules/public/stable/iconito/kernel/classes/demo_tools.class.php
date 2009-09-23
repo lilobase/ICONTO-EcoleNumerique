@@ -118,10 +118,10 @@ class Demo_Tools {
      while (false !== ($item = readdir($handle))) {
        if ($item != "." && $item != "..") {
          if (is_dir("$dir/$item")) {
-           if ($item != "CVS")
+           if ($item != "CVS" && $item != ".svn")
              Demo_Tools::dirempty ("$dir/$item");
          } elseif (is_file("$dir/$item")) {
-           if ($item != ".dummy_file") {
+           if ($item != ".dummy_file" && $item != ".cvsignore") {
              unlink("$dir/$item");
              //echo " emptying $dir/$item<br/>\n";
            }

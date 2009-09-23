@@ -12,21 +12,8 @@
 class ZoneAlbumList extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
-		/*
-		$service = & CopixClassesFactory::Create ('Album');
-
-	 	$album_dao = _dao("album");
-		$albumlist = $album_dao->listAlbums();
 		
-		foreach( $albumlist as $key => $albumitem ) {
-// echo 'modules|album|'.$albumitem->album_id." = ".CopixUserProfile::valueOf ('modules|album|'.$albumitem->album_id, 'droit')."<br />";
-			$albumlist[$key]->nb_photos = $service->getNbPhotos($albumitem->album_id);
-			$albumlist[$key]->droit_lire = CopixUserProfile::CanDo('modules|album|'.$albumitem->album_id,"lire");
-			$albumlist[$key]->droit_publier = CopixUserProfile::CanDo('modules|album|'.$albumitem->album_id,"publier");
-			$albumlist[$key]->droit_moderer = CopixUserProfile::CanDo('modules|album|'.$albumitem->album_id,"moderer");
-			$albumlist[$key]->droit_administrer = CopixUserProfile::CanDo('modules|album|'.$albumitem->album_id,"administrer");
-		}
-		*/
+		
 		$tpl->assign('albumlist', $albumlist );
 		
       // retour de la fonction :

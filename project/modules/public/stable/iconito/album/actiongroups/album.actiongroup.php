@@ -37,12 +37,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.main'));
 		$tpl->assign ('MAIN', CopixZone::process ('album|albumlist'));
 
-/*
-		$tpl->assign ('MENU', 
-			(CopixUserProfile::CanDo("modules|album","publier")?'<li><a href="">Créer un album</a></li>':'')
-			);
-*/
-
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 

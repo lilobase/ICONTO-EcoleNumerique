@@ -84,9 +84,7 @@ class PluginStats extends CopixPlugin {
 		//print_r($action);
 		if (isset($modules[$module]) && isset($actions[$module][$action])) {
 			
-			
-			//$par['profil'] = _currentUser()->getExtra('type');
-			$par['profil'] = 1;
+			$par['profil'] = _currentUser()->getExtra('type');
 			$par['module_id'] = $this->module_id;
 			$par['parent_type'] = $this->parent_type;
 			$par['parent_id'] = $this->parent_id;

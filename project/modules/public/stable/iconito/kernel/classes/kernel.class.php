@@ -1885,18 +1885,17 @@ class Kernel {
 		$all_modules = array();
 
 		$arModulesPath = CopixConfig::instance ()->arModulesPath;
-		foreach( $modules AS $mod_key=>$mod_val ) {
-			foreach ($arModulesPath as $modulePath) {
-				if (is_dir($dir)) {
-		   		if ($dh = opendir($dir)) {
-		      	while (($file = readdir($dh)) !== false) {
-							if (is_dir($dir.$file) && $file!='.' && $file!='..' && $file!='CVS') {
-								$all_modules[$file] = $file;
-							}
-		       	}
-		      	closedir($dh);
-		   		}
-				}
+		foreach ($arModulesPath as $modulePath) {
+			$dir = $modulePath;
+			if (is_dir($dir)) {
+	   		if ($dh = opendir($dir)) {
+	      	while (($file = readdir($dh)) !== false) {
+						if (is_dir($dir.$file) && $file!='.' && $file!='..' && $file!='CVS') {
+							$all_modules[$file] = $file;
+						}
+	       	}
+	      	closedir($dh);
+	   		}
 			}
 		}
 		return $all_modules;

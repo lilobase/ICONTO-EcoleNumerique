@@ -50,19 +50,7 @@ class KernelVisioScopia {
 		
 	}
 	
-	/**
-	 * Statistiques du module documents
-	 *
-	 * Renvoie des éléments chiffrés relatifs aux documents et dédiés à un utilisateur système : taille occupée (format "humain"), nombre de zones de documents, nombre de dossiers, nombre de fichiers
-	 *
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbMalles"] ["nbFolders"] ["nbFiles"] ["size"]
-	 */
-	function getStatsRoot () {
-		
-		
-	}
+
 
 	
 }

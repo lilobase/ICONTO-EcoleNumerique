@@ -51,7 +51,7 @@ class ActionGroupCache extends CopixActionGroup {
 		if (!Admin::canAdmin())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 
-		CacheServices::clearCache ();
+		//CacheServices::clearCache ();
 		CacheServices::clearConfDB ();
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('admin||'));
 	}
