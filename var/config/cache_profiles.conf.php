@@ -8,4 +8,15 @@
     'link' => '',
     'duration' => '0',
   ),
+
+  'kernel_limits_urls' => 
+  array (
+    'name' => 'kernel_limits_urls',
+    'enabled' => true,
+    'strategy' => 'file',
+    'dir' => 'default',
+    'link' => '',
+    'duration' => '0',
+  ),
+
 ); ?>
