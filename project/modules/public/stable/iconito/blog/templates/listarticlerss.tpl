@@ -5,7 +5,7 @@
     <link>{$rss.link|rss}</link>
     <description>{$rss.description|rss}</description>
     {if $rss.logo}<image>
-  		<url>{copixurl}{copixurl dest="blog|admin|logo" id_blog=$blog->id_blog}</url>
+  		<url>{copixurl}{copixurl dest="blog||logo" id_blog=$blog->id_blog}</url>
 		</image>{/if}
     <language>{$rss.language}</language>
     <copyright>{$rss.copyright|rss}</copyright>

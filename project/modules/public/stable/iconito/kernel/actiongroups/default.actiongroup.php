@@ -240,18 +240,19 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		if( !$user->isConnected() || !$user->getExtra('type') || !$user->getExtra('id') ) {
 			$dispBlog = false;
-			$node = Welcome::findNodeByUrl(CopixUrl::get());
-			//print_r($node);
-			if ( isset($node->node_type) && isset($node->node_id) ) {
-				$blog = getNodeBlog ($node->node_type, $node->node_id);
-				if ($blog) {
+			
+			$getKernelLimits = Kernel::getKernelLimits();
+			//var_dump($getKernelLimits);
+			if ( $getKernelLimits && $getKernelLimits->id_blog ) {
+				_classInclude ('blog|kernelblog');
+				if ($blog = _ioDao('blog|blog')->getBlogById ($getKernelLimits->id_blog)) {
 					// On vérifie qu'il y a au moins un article
-					$blog->stats = KernelBlog::getStats ($blog->id_blog);
-					//print_r($blog);
-					if ($blog->stats['nbArticles']['value']>0)
+					$stats = KernelBlog::getStats ($blog->id_blog);
+					if ($stats['nbArticles']['value']>0)
 						$dispBlog = true;
 				}
 			}
+			
 			if ($dispBlog) {
 				return CopixActionGroup::process ('blog|frontblog::getListArticle', array ('blog'=>$blog->url_blog));	
 			} else {

@@ -9,7 +9,7 @@
 		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.kernel_limits_urls.fields.id" />
 		<property name="url" fieldname="url" pk="no" type="string" required="yes" captioni18n="dao.kernel_limits_urls.fields.url" />
 		<property name="theme" fieldname="theme" pk="no" type="string" required="no" captioni18n="dao.kernel_limits_urls.fields.theme" />
-		<property name="url_blog" fieldname="url_blog" pk="no" type="string" required="no" captioni18n="dao.kernel_limits_urls.fields.url_blog" />
+		<property name="id_blog" fieldname="id_blog" pk="no" type="integer" required="no" captioni18n="dao.kernel_limits_urls.fields.id_blog" />
 		<property name="ville" fieldname="ville" pk="no" type="string" required="no" captioni18n="dao.kernel_limits_urls.fields.ville" />
 	</properties>
 </daodefinition>

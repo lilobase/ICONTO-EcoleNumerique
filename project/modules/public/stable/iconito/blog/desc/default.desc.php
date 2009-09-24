@@ -23,6 +23,7 @@ $getBlogCss   = & new CopixAction ('FrontBlog', 'getBlogCss');
 $rss          = & new CopixAction ('FrontBlog', 'getBlogRss');
 $js           = & new CopixAction ('FrontBlog', 'getBlogJs');
 $jsPages      = & new CopixAction ('FrontBlog', 'getBlogJsPages');
+$logo					= & new CopixAction ('FrontBlog', 'logo');
 
 $go           = & new CopixAction ('FrontBlog', 'go');
 

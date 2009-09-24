@@ -25,7 +25,7 @@
 	   </tr>
 	   <tr>
 	      <th>{i18n key='dao.blog.fields.logo_blog'}</th>
-		  	<td>{if $blog->logo_blog!=''}<img src="{copixurl dest="blog|admin|logo" id_blog=$blog->id_blog}" border="0"><br /><a href="{copixurl dest="blog|admin|deleteLogoBlog" id_blog=$blog->id_blog kind=$kind}" title="{i18n key="blog.buttons.delete.logo"}">{i18n key="blog.buttons.delete.logo"}</a>{else}{i18n key="blog.nofound.logo"}{/if}</td>		
+		  	<td>{if $blog->logo_blog!=''}<img src="{copixurl dest="blog||logo" id_blog=$blog->id_blog}" border="0"><br /><a href="{copixurl dest="blog|admin|deleteLogoBlog" id_blog=$blog->id_blog kind=$kind}" title="{i18n key="blog.buttons.delete.logo"}">{i18n key="blog.buttons.delete.logo"}</a>{else}{i18n key="blog.nofound.logo"}{/if}</td>		
 	   </tr>
 		   <tr>
 		      <th>{i18n key='dao.blog.fields.is_public'}</th>

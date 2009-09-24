@@ -564,5 +564,30 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 	}
 
+	/**
+    * Afficher le logo.
+    */
+	function logo() {
+		$id_blog = $this->getRequest('id_blog', null);
+		if($id_blog!=null) {
+			$blogDAO = & CopixDAOFactory::create ('blog|blog');
+			if ($blog = $blogDAO->get ($id_blog)){
+				$file = COPIX_VAR_PATH.CopixConfig::get ('blog|logoPath').$blog->logo_blog;
+				//print_r("file=$file");
+				if (file_exists($file)) {
+					$format_pict = strrchr($blog->logo_blog,'.');
+					header("Content-Type: image/".substr($format_pict,1));
+					readfile($file, 'r+');
+					return new CopixActionReturn (COPIX_AR_NONE, 0);
+				}
+			}
+		}
+		header("HTTP/1.0 404 Not Found");
+		return new CopixActionReturn (COPIX_AR_NONE, 0);
+	}
+
+
+
+
 }
 ?>

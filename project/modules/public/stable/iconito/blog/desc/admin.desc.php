@@ -15,7 +15,6 @@ $deleteBlog             = & new CopixAction ('AdminBlog', 'doDeleteBlog');
 $validBlog              = & new CopixAction ('AdminBlog', 'doValidBlog');
 $suggestBlogUrl         = & new CopixAction ('AdminBlog', 'doSuggestBlogUrl');
 $deleteLogoBlog         = & new CopixAction ('AdminBlog', 'doDeleteLogoBlog');
-$logo					= & new CopixAction ('AdminBlog', 'logo');
 $prepareEditBlogStyle   = & new CopixAction ('AdminBlog', 'doPrepareEditBlogStyle');
 $validBlogStyle         = & new CopixAction ('AdminBlog', 'doValidBlogStyle');
 

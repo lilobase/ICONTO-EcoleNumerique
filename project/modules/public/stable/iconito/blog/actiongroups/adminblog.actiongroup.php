@@ -508,26 +508,6 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		CopixUrl::get ('blog|admin|showBlog', array('id_blog'=>$id_blog, 'kind'=>$this->getRequest('kind', 0))));
 	}
 
-	/**
-    * Afficher le logo.
-    */
-	function logo() {
-		$id_blog = $this->getRequest('id_blog', null);
-		if($id_blog!=null) {
-			$blogDAO = & CopixDAOFactory::create ('blog|blog');
-			if ($blog = $blogDAO->get ($id_blog)){
-				$file = COPIX_VAR_PATH.CopixConfig::get ('blog|logoPath').$blog->logo_blog;
-				//print_r("file=$file");
-				if (file_exists($file)) {
-					$format_pict = strrchr($blog->logo_blog,'.');
-					return new CopixActionReturn (COPIX_AR_BINARY, $file, 'image/'.substr($format_pict,1));
-				}
-			}
-		}
-		header("HTTP/1.0 404 Not Found");
-		return new CopixActionReturn (COPIX_AR_NONE, 0);
-	}
-
 
 
    /**

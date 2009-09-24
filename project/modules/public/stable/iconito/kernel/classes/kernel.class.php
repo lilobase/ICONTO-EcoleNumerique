@@ -1978,16 +1978,15 @@ class Kernel {
 	 * @return string Nom du theme
 	 */
 	function getTheme () {
-		if (!$theme = CopixSession::get ('theme')) {
+		if (1 || !$theme = CopixSession::get ('theme')) {
 			_classInclude('welcome|welcome');
 			
 			$null = _dao("kernel|kernel_limits_urls");
 			$cache_type = 'kernel_limits_urls';
 			$cache_id = CopixUrl::get();
-			
-			if (CopixCache::exists ($cache_id, $cache_type)) {
+			//Kernel::deb($cache_id);
+			if (0 && CopixCache::exists ($cache_id, $cache_type)) {
 				$node = CopixCache::read ($cache_id, $cache_type);
-				
 			} else {
 				$node = Welcome::findNodeByUrl($cache_id);
 				CopixCache::write ($cache_id, $node, $cache_type);
@@ -2006,6 +2005,31 @@ class Kernel {
 	function setTheme ($pTheme) {
 		CopixSession::set ('theme', $pTheme);
 	}
+	
+	
+	/**
+	 * Les limites de l'utilisateur selon son URL
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2009/09/24
+	 * @param non
+	 * @return string Nom du theme
+	 */
+	function getKernelLimits () {
+		$null = _dao("kernel|kernel_limits_urls");
+		$cache_type = 'kernel_limits_urls';
+		$cache_id = CopixUrl::get();
+		if (CopixCache::exists ($cache_id, $cache_type)) {
+			$node = CopixCache::read ($cache_id, $cache_type);
+		} else {
+			$node = Welcome::findNodeByUrl($cache_id);
+			CopixCache::write ($cache_id, $node, $cache_type);
+		}
+		return $node;
+	}
+	
+	
+	
 	
 	
 }

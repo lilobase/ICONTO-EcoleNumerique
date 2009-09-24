@@ -164,7 +164,9 @@ class ActionGroupDefault extends CopixActionGroup {
 					$formats = array(IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF);
 						if (in_array($size[2],$formats)) {
 							$format_pict = strrchr($photo,'.');
-							return new CopixActionReturn (COPIX_AR_BINARY, $file, 'image/'.substr($format_pict,1));
+							header("Content-Type: image/".substr($format_pict,1));
+							readfile($file, 'r+');
+							return new CopixActionReturn (COPIX_AR_NONE, 0);
 						}
 				}
 			}
