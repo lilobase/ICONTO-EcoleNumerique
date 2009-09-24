@@ -51,7 +51,7 @@ class Demo_Tools {
              else echo "Error: File '$srcfile' could not be copied!\n";
            /*}*/
          }
-         else if(is_dir($srcfile) && $file != 'CVS') {
+         else if(is_dir($srcfile) && $file != 'CVS' && $file != '.svn') {
            $num += Demo_Tools::dircopy($srcfile, $dstfile, $verbose);
          }
        }
@@ -80,7 +80,7 @@ class Demo_Tools {
              else echo "Error: File '$srcfile' could not be moved!\n";
            /*}*/
          }
-         else if(is_dir($srcfile) && $file != 'CVS') {
+         else if(is_dir($srcfile) && $file != 'CVS' && $file != '.svn') {
            $num += Demo_Tools::dirmove($srcfile, $dstfile, $verbose);
          }
        }
@@ -111,7 +111,7 @@ class Demo_Tools {
     }
   }
   
-  // Vidage d'un dossier et de ses sous-dossiers : tous les fichiers situés sous ce dossier et en-dessous sont supprimés. On ne parcourt pas les dossiers CVS et les fichiers .dummy_file ne sont pas supprimés
+  // Vidage d'un dossier et de ses sous-dossiers : tous les fichiers situés sous ce dossier et en-dessous sont supprimés. On ne parcourt pas les dossiers CVS, ni SVN, et les fichiers .dummy_file et .cvsignore ne sont pas supprimés
   // $dir = dossier à vider, sans / à la fin
   function dirempty ($dir) {
     if ($handle = opendir("$dir")) {

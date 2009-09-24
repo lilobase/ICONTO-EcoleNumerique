@@ -307,7 +307,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 		//on vide la session
 		
 		//$this->_setSessionExport(null);	
-		return new CopixActionReturn (COPIX_AR_DOWNLOAD_CONTENT, $content, 'agenda.ics');
+		return _arContent ($content, array ('filename'=>'agenda.ics', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.ics')));
+
 	}
 	
 	

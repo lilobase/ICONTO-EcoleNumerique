@@ -7,7 +7,7 @@
 
 {else}
 
-{i18n key="kernel|demo.error.alreadyInstalled"}
+{i18n key="kernel|demo.error.alreadyInstalled" noEscape=1}
 <p></p>
-{i18n key="kernel|demo.txt.accounts"}
+{i18n key="kernel|demo.txt.accounts" noEscape=1}
 {/if}

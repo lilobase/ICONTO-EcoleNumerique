@@ -10,8 +10,8 @@
  * @link        http://www.cap-tic.fr
  */
 
-_classInclude('admin|cacheservices');
-_classInclude('admin|admin');
+_classInclude('admin2|cacheservices');
+_classInclude('admin2|admin');
 
 class ActionGroupCache extends CopixActionGroup {
 
@@ -28,13 +28,13 @@ class ActionGroupCache extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 		
 		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin|admin.menu.cache'));
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin2|admin.menu.cache'));
 		$tpl->assign ('MENU', Admin::getMenu());
 		
 		$tplCache = & new CopixTpl();
-		$tplCache->assign ('info', CopixZone::process('admin|cacheStatus'));
+		$tplCache->assign ('info', CopixZone::process('admin2|cacheStatus'));
 		
-		$tpl->assign ('MAIN', $tplCache->fetch('admin|cache.info.tpl'));
+		$tpl->assign ('MAIN', $tplCache->fetch('admin2|cache.info.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -53,7 +53,7 @@ class ActionGroupCache extends CopixActionGroup {
 
 		//CacheServices::clearCache ();
 		CacheServices::clearConfDB ();
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('admin||'));
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('admin2||'));
 	}
 
 }

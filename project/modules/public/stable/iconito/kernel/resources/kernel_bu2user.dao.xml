@@ -12,7 +12,8 @@
 		<property name="bu_type" fieldname="bu_type" type="string"  table="kernel_link_bu2user" pk="yes"/>
 		<property name="bu_id"   fieldname="bu_id"   type="integer" table="kernel_link_bu2user" pk="yes"/>
 
-		<property name="user_login" fieldname="login_dbuser" type="string"  table="auth_copixuser" pk="no"/>
+		<property name="user_login" fieldname="login_dbuser" type="string"  table="auth_copixuser" pk="no" required="no" />
+
 	</properties>
 	<methods>
 		<method name="getByUserID" type="select">

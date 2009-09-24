@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_link_bu2user" tablename="kernel_link_bu2user" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="user_id" fieldname="user_id" type="integer" table="kernel_link_bu2user" pk="yes" />
+		<property name="bu_type" fieldname="bu_type" type="string"  table="kernel_link_bu2user" pk="yes"/>
+		<property name="bu_id"   fieldname="bu_id"   type="integer" table="kernel_link_bu2user" pk="yes"/>
+	</properties>
+</daodefinition>

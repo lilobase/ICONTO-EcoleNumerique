@@ -10,7 +10,7 @@
  * @link        http://www.cap-tic.fr
  */
 
-_classInclude('admin|admin');
+_classInclude('admin2|admin');
 
 class ActionGroupUservisibility extends CopixActionGroup {
 
@@ -44,12 +44,12 @@ class ActionGroupUservisibility extends CopixActionGroup {
 		$tplUserVisibility = & new CopixTpl();
 
 		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin|admin.moduleDescription'));
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin2|admin.moduleDescription'));
 
 		$tplUserVisibility->assign ('visibility', $visibility_matrice);
 		$tplUserVisibility->assign ('user_types', $user_types);
 
-		$tpl->assign ('MAIN', $tplUserVisibility->fetch('admin|uservisibility.tpl'));
+		$tpl->assign ('MAIN', $tplUserVisibility->fetch('admin2|uservisibility.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}

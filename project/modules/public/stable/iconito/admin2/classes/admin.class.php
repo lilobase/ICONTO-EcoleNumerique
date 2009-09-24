@@ -35,20 +35,24 @@ class Admin {
   function getMenu () {
     $menu = array();
 		$menu[] = array(
-			'txt' => CopixI18N::get ('admin|admin.shortDescription'),
-			'url' => CopixUrl::get ('admin||')
+			'txt' => CopixI18N::get ('admin2|admin.shortDescription'),
+			'url' => CopixUrl::get ('admin2||')
 		);
 		$menu[] = array(
-			'txt' => CopixI18N::get ('admin|admin.menu.cache'),
-			'url' => CopixUrl::get ('admin|cache|')
+			'txt' => CopixI18N::get ('admin2|admin.menu.cache'),
+			'url' => CopixUrl::get ('admin2|cache|')
 		);
 		$menu[] = array(
-			'txt' => CopixI18N::get ('admin|admin.menu.stats'),
-			'url' => CopixUrl::get ('admin|stats|')
+			'txt' => CopixI18N::get ('admin2|admin.menu.stats'),
+			'url' => CopixUrl::get ('admin2|stats|')
 		);
 		$menu[] = array(
 			'txt' => CopixI18N::get ('kernel|demo.titlePage'),
 			'url' => CopixUrl::get ('kernel|demo|')
+		);
+		$menu[] = array(
+			'txt' => CopixI18N::get ('admin2|admin.menu.phpinfo'),
+			'url' => CopixUrl::get ('admin2|admin|phpinfo')
 		);
     return $menu;
   }

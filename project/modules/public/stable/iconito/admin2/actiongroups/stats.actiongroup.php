@@ -10,8 +10,8 @@
  * @link        http://www.cap-tic.fr
  */
 
-_classInclude('admin|statsservices');
-_classInclude('admin|admin');
+_classInclude('admin2|statsservices');
+_classInclude('admin2|admin');
 
 class ActionGroupStats extends CopixActionGroup {
 
@@ -30,7 +30,7 @@ class ActionGroupStats extends CopixActionGroup {
 
 		
 		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin|admin.menu.stats'));
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin2|admin.menu.stats'));
 		$tpl->assign ('MENU', Admin::getMenu());
 		
 		$tplStats = & new CopixTpl();
@@ -62,7 +62,7 @@ class ActionGroupStats extends CopixActionGroup {
 		
 		$tplStats->assign ('tab', $tab);
 		
-		$tpl->assign ('MAIN', $tplStats->fetch('admin|stats.modules.tpl'));
+		$tpl->assign ('MAIN', $tplStats->fetch('admin2|stats.modules.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		

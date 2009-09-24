@@ -10,9 +10,9 @@
  */
 
 _classInclude('kernel|demo_db');
-_classInclude('kerenl|demo_auth');
+_classInclude('kernel|demo_auth');
 _classInclude('kernel|demo_tools');
-_classInclude('admin|admin');
+_classInclude('admin2|admin');
 
 class ActionGroupDemo extends CopixActionGroup {
 
@@ -20,7 +20,8 @@ class ActionGroupDemo extends CopixActionGroup {
 		_currentUser()->assertCredential ('group:[current_user]');
 
 	}
-
+	
+	
   /**
    * Regarde si la démo est déjà installé
 	 * 
@@ -40,7 +41,7 @@ class ActionGroupDemo extends CopixActionGroup {
     $tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel|demo.titlePage'));
 		$tplDemo = & new CopixTpl ();
-		$tplDemo->assign ("installed", CopixConfig::get ('kernel|demoInstalled'));
+		$tplDemo->assign ("installed", CopixConfig::get ('kernel|jeuEssaiInstalled'));
 		$tpl->assign ("MAIN", $tplDemo->fetch("demo_status.tpl"));
 		$tpl->assign ('MENU', Admin::getMenu());
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -65,7 +66,7 @@ class ActionGroupDemo extends CopixActionGroup {
     
     if (!Demo_Auth::canInstall())
       $errors[] = CopixI18N::get ('kernel|demo.error.noRights');
-    elseif (CopixConfig::get ('kernel|demoInstalled') == 1)
+    elseif (CopixConfig::get ('kernel|jeuEssaiInstalled') == 1)
       $errors[] = CopixI18N::get ('kernel|demo.error.alreadyInstalled');
     elseif (!is_file($fileSQL))
       $errors[] = CopixI18N::get ('kernel|demo.error.noFileSql');
@@ -93,7 +94,7 @@ class ActionGroupDemo extends CopixActionGroup {
     $tools->installFolder ('www/static/prefs/avatar');
     
     // Fin
-    CopixConfig::set ('kernel|demoInstalled', 1);
+    CopixConfig::set ('kernel|jeuEssaiInstalled', 1);
     
     $tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel|demo.titlePage'));

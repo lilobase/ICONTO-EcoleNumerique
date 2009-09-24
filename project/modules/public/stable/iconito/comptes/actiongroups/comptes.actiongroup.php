@@ -164,6 +164,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				
 				// Liste des "BU_VILLE"
 				$childs = Kernel::getNodeChilds( $pType, $pId );
+				//print_r($childs);
 				
 				$eleves = Kernel::filterNodeList( $childs, 'USER_ELE' );
 				foreach( $eleves AS $eleve ) {
@@ -173,7 +174,7 @@ class ActionGroupComptes extends CopixActionGroup {
 						$childs[] = $parent;
 					}
 				}
-				
+
 				$childs = Kernel::filterNodeList( $childs, 'USER_*' );
 				
 				$droit = max($droit, Kernel::getLevel( 'BU_ECOLE', $parent_ecole[0]["id"] ) );
@@ -252,7 +253,11 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$users = array();
 		
-		foreach( _request('users') AS $user ) {
+		$pUsers = _request('users');
+		//var_dump($pUsers);
+		
+		
+		foreach( $pUsers AS $user ) {
 			if( ereg( '(.+)-(.+)', $user, $user_infos ) ) {
 				$user_type = $user_infos[1];
 				$user_id   = $user_infos[2];
@@ -261,7 +266,8 @@ class ActionGroupComptes extends CopixActionGroup {
 				// Vérification de l'existance d'un login.
 				// -> Si c'est le cas, il ne faut pas proposer un nouveau login.
 				$bu_user = $bu_dao->getByBUID( $user_type, $user_id );
-				if( !$bu_user ) {
+
+				if( !count($bu_user) ) {
 					
 					$user_infos['login']  = $comptes_service->createLogin( $user_infos );
 					$user_infos['passwd'] = $comptes_service->createPasswd();
@@ -284,14 +290,13 @@ class ActionGroupComptes extends CopixActionGroup {
 	/**
 	 * doLoginCreate
 	 *
-	 * Execute la créattion des comptes et sauvegarde les infos en session.
+	 * Execute la création des comptes et sauvegarde les infos en session.
 	 * @author	Frédéric Mossmann
 	 * @since	16.02.2006
 	 * 
 	 */
 	function doLoginCreate () {
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
-		$user_service = & CopixClassesFactory::Create ('auth|ProjectUser');
 		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
 		$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 		
@@ -308,31 +313,32 @@ class ActionGroupComptes extends CopixActionGroup {
 					$user_type = $bu_infos[1];
 					$user_id   = $bu_infos[2];
 					
-					$olduser=$user_service->get($pLogin[$typeid]);
+					$olduser = _dao("kernel|kernel_copixuser")->getByLogin($pLogin[$typeid]);
 					
 					// Test de préexistance du login dans la base. Si existe déjà : erreur.
-					if( ! $olduser ) {
-						
+					if( ! count($olduser) ) {
+							
 						// Récupération des information de l'utilisateur dans la base unique.
 						$user_infos = Kernel::getUserInfo( $user_type, $user_id );
 						
 						// Création d'un login dans CopixUser
 						$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
-						$user_new->login_cusr = $pLogin[$typeid];
-						$user_new->password_cusr = md5($pPasswd[$typeid]);
-						$user_new->email_cusr = '';
+						$user_new->login_dbuser = $pLogin[$typeid];
+						$user_new->password_dbuser = md5($pPasswd[$typeid]);
+						$user_new->email_dbuser = '';
+						$user_new->enabled_dbuser = 1;
 						
 						// Enregistrement et vérification de l'insertion.
 						if( $user_dao->insert( $user_new ) ) {
 							
 							// Création du lien entre l'utilisateur de la base unique et le login.
-							$bu_new = CopixDAOFactory::createRecord("kernel|kernel_bu2user");
-							$bu_new->user_id = $user_new->id_cusr;
+							$bu_new = _record("kernel|kernel_bu2user2");
+							$bu_new->user_id = $user_new->id_dbuser;
 							$bu_new->bu_type = $user_type;
 							$bu_new->bu_id = $user_id;
 							
 							// Enregistrement et vérification de l'insertion.
-							if( $bu_dao->insert( $bu_new ) ) {
+							if( _dao("kernel|kernel_bu2user2")->insert( $bu_new ) ) {
 								
 								$node_infos = Kernel::getNodeInfo( _request('type'), _request('id'), false );
 								
@@ -341,7 +347,7 @@ class ActionGroupComptes extends CopixActionGroup {
 									$session = array();
 								
 								$session[$typeid] = array(
-									'id'      => $user_new->id_cusr,
+									'id'      => $user_new->id_dbuser,
 									'login'   => $pLogin[$typeid],
 									'passwd'  => $pPasswd[$typeid],
 									'nom'     => $user_infos['nom'],
@@ -397,10 +403,18 @@ class ActionGroupComptes extends CopixActionGroup {
 						
 					} else { // Si le login existe déjà, vérification qu'il ne s'agit pas de la même personne.
 						// Si c'est le cas, ce n'est pas une erreur, mais un doublon.
-						
 						$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 						$bu_user = $bu_dao->getByLogin($pLogin[$typeid]);
-						if( $bu_user[0]->bu_type!=$user_type || $bu_user[0]->bu_id!=$user_id ) {
+						
+						$bu_user_deja = false;
+						foreach ($bu_user as $user) {
+							$bu_user_deja = $user;
+							break;
+						}
+						
+						//print_r($bu_user_deja);
+						
+						if( $bu_user_deja && $bu_user_deja->bu_type!=$user_type || $bu_user_deja->bu_id!=$user_id ) {
 							if (!$session = _sessionGet ('modules|comptes|doLoginCreate|error'))
 								$session = array();
 								
@@ -441,6 +455,8 @@ class ActionGroupComptes extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		
+		//print_r($inSession);
+		
 		$tpl = & new CopixTpl ();
 		$tplLoginResult = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getloginresult'));
@@ -472,19 +488,19 @@ class ActionGroupComptes extends CopixActionGroup {
 				break;
 			case 'html':
 				$main = $tplLoginResult->fetch ('LoginResult-html.tpl');
-				return new CopixActionReturn (COPIX_AR_DOWNLOAD_CONTENT, $main, 'Logins-'.date('YmdHi').'.html');
+				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
 				break;
 			case 'text':
 				$main = $tplLoginResult->fetch ('LoginResult-text.tpl');
-				return new CopixActionReturn (COPIX_AR_DOWNLOAD_CONTENT, $main, 'Logins-'.date('YmdHi').'.txt');
+				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.txt', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.txt')));
 				break;
 			case 'csv':
 				$main = $tplLoginResult->fetch ('LoginResult-csv.tpl');
-				return new CopixActionReturn (COPIX_AR_DOWNLOAD_CONTENT, $main, 'Logins-'.date('YmdHi').'.csv');
+				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.csv', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.csv')));
 				break;
 			case 'xml':
 				$main = $tplLoginResult->fetch ('LoginResult-xml.tpl');
-				return new CopixActionReturn (COPIX_AR_DOWNLOAD_CONTENT, $main, 'Logins-'.date('YmdHi').'.xml');
+				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.xml', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.xml')));
 				break;
 			/*
 			case 'pdf':
@@ -692,7 +708,7 @@ class ActionGroupComptes extends CopixActionGroup {
 	}
 
 	function setUserPasswd() {
-		if( Kernel::isDemo() ) return Kernel::noDemo();
+		if( 0 && Kernel::isDemo() ) return Kernel::noDemo();
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$userinfo = $comptes_service->checkLoginAccess( _request('login') );
 		
@@ -711,12 +727,13 @@ class ActionGroupComptes extends CopixActionGroup {
 				array('node_type'=>_request('node_type'), 'node_id'=>_request('node_id'), 'login'=>_request('login'), 'error'=>'notsamepassword' ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
-
+		
 		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
 		$user_new = $user_dao->getByLogin( _request('login') );
-		$user_new[0]->password_cusr = md5(_request('passwd1'));
+		$user_new[0]->password_dbuser = md5(_request('passwd1'));
 		$user_dao->update( $user_new[0] );
 		
+		//print_r($user_new);
 
 		
 		$urlReturn = CopixUrl::get ('comptes||getNode',

@@ -50,8 +50,7 @@ class CacheServices {
 	 * @since 2007/01/19
 	 */
 	function clearConfDB () {
-		//$sauvegarde = array( 'default|isDemo' , 'kernel|demoInstalled');
-		$sauvegarde = array('kernel|demoInstalled');
+		$sauvegarde = array('kernel|jeuEssaiInstalled');
 		$saved_data = array();
 		
 		reset( $sauvegarde );

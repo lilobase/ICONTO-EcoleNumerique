@@ -10,7 +10,7 @@
  * @link        http://www.cap-tic.fr
  */
 
-_classInclude('admin|admin');
+_classInclude('admin2|admin');
 
 class ActionGroupAdmin extends CopixActionGroup {
 
@@ -22,13 +22,29 @@ class ActionGroupAdmin extends CopixActionGroup {
 		$tplHome = & new CopixTpl();
 
 		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin|admin.moduleDescription'));
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin2|admin.moduleDescription'));
 		$tpl->assign ('MENU', Admin::getMenu());
 		
-		$tpl->assign ('MAIN', $tplHome->fetch('admin|home.tpl'));
+		$tpl->assign ('MAIN', $tplHome->fetch('admin2|home.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
+	
+	function processPhpinfo (){
+		$ppo = new CopixPPO ();
+		$ppo->TITLE_PAGE = 'PHPInfo';
+		$ppo->MENU = Admin::getMenu();
+		$ppo->CopixVersion = COPIX_VERSION;
 
+		ob_start();                                                                                                       
+		phpinfo();                                                                                                        
+		$info = ob_get_contents();                                                                                        
+		ob_end_clean();                                                                                                   
+		$ppo->phpinfo = preg_replace('%^.*<body>(.*)</body>.*$%ms', '$1', $info);
+
+		return _arPpo ($ppo, 'phpinfo.tpl');
+	}
+	
+	
 }
 ?>

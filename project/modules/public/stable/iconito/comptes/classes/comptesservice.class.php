@@ -7,12 +7,7 @@
  */
 
 class ComptesService {
-	var $user_service;
 
-	function ComptesService() {
-		$this->user_service = & CopixClassesFactory::Create ('auth|ProjectUser');
-	}
-	
 	/**
 	 * createLogin
 	 *
@@ -29,6 +24,7 @@ class ComptesService {
 		
 		$nom = $user_infos['nom'];
 		$prenom = $user_infos['prenom'];
+		$nom_init = $prenom_init = '';
 		
 		// Recherche des initiales : la première lettre de chaque entité dans un nom/prenom.
 		$separateur_init = implode( '', $interdits );
@@ -73,9 +69,12 @@ class ComptesService {
 		}
 		
 		$ext=''; $fusible=1000; // Fusible pour éviter les boucles sans fin.
-		while( $this->user_service->get($login.$ext) && $fusible-- ) {
+		
+		$get = _dao('kernel|kernel_copixuser')->getByLogin($login.$ext);
+		while( count($get) && $fusible-- ) {
 			if( $ext=='' ) $ext=1;
 			else $ext++;
+			$get = _dao('kernel|kernel_copixuser')->getByLogin($login.$ext);
 		}
 		
 		return $login.$ext;
@@ -155,19 +154,6 @@ class ComptesService {
 		
 		$level = 0;
 		
-		/*
-		$userparents = Kernel::getNodeParents( $userinfo['type'], $userinfo['id'] );
-		foreach( $userparents AS $parent_key=>$parent_val ) {
-			$level = max( $level, Kernel::getLevel( $parent_val['type'], $parent_val['id'] ) );
-			
-			while( ereg( '^BU_', $parent_val['type']) && $node = Kernel::getNodeParents( $parent_val['type'], $parent_val['id'] ) ) {
-				$parent_val['type'] = $node['0']['type'];
-				$parent_val['id'] = $node['0']['id'];
-				$level = max( $level, Kernel::getLevel( $parent_val['type'], $parent_val['id'] ) );
-			}
-		}
-		*/
-		// $level = ComptesService::getNodeLevel_r( $userinfo['type'], $userinfo['id'] );
 		$level = Kernel::getLevel_r( $userinfo['type'], $userinfo['id'] );
 		
 		$level = max( $level, Kernel::getLevel_r( 'ROOT','0' ) );

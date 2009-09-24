@@ -19,7 +19,7 @@ class Demo_Auth {
 	 * @return boolean True s'il a le droit, false sinon
 	 */
 	function canInstall () {
-		return (_currentUser()->user->getLogin() == 'admin');
+		return (_currentUser()->getLogin() == 'admin');
 	}
 
 }

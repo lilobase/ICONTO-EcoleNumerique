@@ -19,7 +19,9 @@ _classInclude('blog|blogauth');
 
 class ZoneGetBlogCss extends CopixZone {
    function _createContent (&$toReturn) {
-
+			
+			$res = '';
+			
       $blog = $this->getParam('blog',null);
       $editFile = $this->getParam('editFile',false);
 				

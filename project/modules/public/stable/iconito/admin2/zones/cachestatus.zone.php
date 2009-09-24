@@ -10,7 +10,7 @@
  * @link        http://www.cap-tic.fr
  */
 
-_classInclude('admin|cacheservices');
+_classInclude('admin2|cacheservices');
 
 class ZoneCacheStatus extends CopixZone {
   function _createContent (& $toReturn){

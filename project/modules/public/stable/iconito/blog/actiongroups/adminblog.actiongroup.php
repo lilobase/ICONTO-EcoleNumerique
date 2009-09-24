@@ -690,7 +690,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			// On vérifie que les membres existent
 			while (list(,$login) = each ($tab_membres)) {
 				if (!$login) continue;
-				if ($login == _currentUser()->user->getLogin()) {
+				if ($login == _currentUser()->getLogin()) {
 					$errors[] = CopixI18N::get ('blog.error.subscribe.notHimself');
 					continue;
 				}

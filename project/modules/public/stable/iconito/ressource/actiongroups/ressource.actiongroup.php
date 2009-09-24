@@ -229,7 +229,7 @@ class ActionGroupRessource extends CopixActionGroup {
 			$ressource = $ressource_dao->get($id);
 			
 			// DELETE
-			if( _request("confirm") == md5(_currentUser()->user->getLogin().$ressource->ressources_id) ) {
+			if( _request("confirm") == md5(_currentUser()->getLogin().$ressource->ressources_id) ) {
 				die( "DELETE" );
 			}
 			
@@ -250,7 +250,7 @@ class ActionGroupRessource extends CopixActionGroup {
 				array (
 					// 'message'=>'Merci de confirmer l\'effacement de '.$ressource->ressources_nom,
 					'title' => CopixI18N::get( 'ressource.alerte.effaceRessource', array($ressource->ressources_nom) ),
-					'confirm' => CopixUrl::get( 'ressource||getRessource', array('id'=>$ressource->ressources_id,'mode'=>'del','confirm'=>md5( _currentUser()->user->getLogin().$ressource->ressources_id ) ) ),
+					'confirm' => CopixUrl::get( 'ressource||getRessource', array('id'=>$ressource->ressources_id,'mode'=>'del','confirm'=>md5( _currentUser()->getLogin().$ressource->ressources_id ) ) ),
 					'cancel'=>CopixUrl::get('ressource||getRessource', array('id'=>$ressource->ressources_id) ),
 					'back'=>CopixUrl::get ('||')));
 

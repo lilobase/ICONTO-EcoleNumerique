@@ -1,4 +1,4 @@
-{i18n key="comptes|comptes.expl.getuserext"}
+{i18n key="comptes|comptes.expl.getuserext" noEscape=1}
 
 <div style="margin-bottom:15px; margin-right:7px; text-align:right;"><a class="button_like" href="{copixurl dest="comptes||getUserExtMod" id=0}" type="button" value="{i18n key="comptes|comptes.strings.add"}">{i18n key="comptes|comptes.strings.add"}</a></div>
 

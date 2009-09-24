@@ -542,7 +542,7 @@ class Kernel {
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"USER_ENS", "id"=>$val->pers_entite_id_per);
 					}
-					
+					//print_r($return);
 					$this->cache_getNodeChilds_classe[$id] = $return;
 				}
 				break;
@@ -600,8 +600,9 @@ class Kernel {
 			
 			$userext_dao = & _dao("kernel|kernel_ext_user");
 			$userext_list = $userext_dao->findAll();
-			foreach( $userext_list AS $userext_key=>$userext_val ) {
-				if( $userext_old[$userext_val->ext_id] ) continue;
+			
+			foreach( $userext_list as $userext_key=>$userext_val ) {
+				if( isset($userext_old[$userext_val->ext_id]) ) continue;
 				$userext_new = array(
 					'type' => 'USER_EXT',
 					'id' => $userext_val->ext_id,
@@ -634,6 +635,7 @@ class Kernel {
 							$return[$key][$info_key] = $info_val;
 			}
 		}
+		//print_r($return);
 		reset($return);
 		return $return;
 	}
@@ -712,8 +714,8 @@ class Kernel {
 				$types = array_flip( $types );
 				
 				if ($a['type'] == $b['type']) {
-					if ($a['nom'] == $b['nom']) {
-						if ($a['prenom'] == $b['prenom']) {
+					if (!isset($a['nom']) || !isset($b['nom']) || $a['nom'] == $b['nom']) {
+						if (!isset($a['prenom']) || !isset($b['prenom']) || $a['prenom'] == $b['prenom']) {
 							return 0;
 						}
 						return (Kernel::simpleName($a['prenom']) > Kernel::simpleName($b['prenom'])) ? 1 : -1;
@@ -933,6 +935,7 @@ class Kernel {
 
 
 	function getUserInfo( $type="ME", $id=0 ) {
+		//Kernel::deb("getUserInfo / type=$type / id=$id");
 		$user = array();
 		switch( $type ) {
 			case "ID":
@@ -952,9 +955,16 @@ class Kernel {
 				if (count($users)) {
 					$users[0]->bu_type = $type;
 					$users[0]->bu_id   = $id;
+				} else {
+					$record = _record("kernel|kernel_bu2user");
+					$record->bu_type = $type;
+					$record->bu_id   = $id;
+					$users = array();
+					$users[0] = $record;
 				}
 				break;
 		}
+		//print_r($users);
 		
 		if( sizeof( $users ) ) {
 			// foreach( $users as $key => $userval ) {
@@ -1202,7 +1212,7 @@ class Kernel {
 		if( $user_type=='USER_EXT' && $user_id==1 ) {
 			$admin->node_type   = $node_type;
 			$admin->node_id     = $node_id;
-			$admin->module_type = 'MOD_ADMIN';
+			$admin->module_type = 'MOD_ADMIN2';
 			$admin->module_nom   = Kernel::Code2Name ('MOD_ADMIN');
 			$modules[] = $admin;
 		}
@@ -1890,7 +1900,7 @@ class Kernel {
 			if (is_dir($dir)) {
 	   		if ($dh = opendir($dir)) {
 	      	while (($file = readdir($dh)) !== false) {
-						if (is_dir($dir.$file) && $file!='.' && $file!='..' && $file!='CVS') {
+						if (is_dir($dir.$file) && $file!='.' && $file!='..' && $file!='CVS' && $file!='.svn') {
 							$all_modules[$file] = $file;
 						}
 	       	}

@@ -465,46 +465,21 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	function getBlogCss () {
 	
 		$id_blog = $this->getRequest('id_blog', null);
+		$res = '';
 		if($id_blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
 			if ($blog = $blogDAO->get ($id_blog)){
 				//print_r($blog);
-				$css = CopixZone::process ('GetBlogCss', array('blog'=>$blog));
-				return new CopixActionReturn (COPIX_AR_BINARY_CONTENT, $css, 'text/css');
+				$res = CopixZone::process ('GetBlogCss', array('blog'=>$blog));
 			}
 		}
-		header("HTTP/1.0 404 Not Found");
+		header("Content-Type: text/css");
+		echo $res;
 		return new CopixActionReturn (COPIX_AR_NONE, 0);
 		
 	}
 	
-	/**
-	* @since 28/08/2006
-	* @author Audrey Vassal <avassal@sqli.com>
-	*/
-  /*
-	function getRss() {
-		$idFlux = $this->getRequest('id_flux_rss',null,true);		
-		$dao = CopixDAOFactory::create('FluxRss');
-		$urlFlux = $dao->get($idFlux);
-		// récupération de l'url RSS
-		
-		
-		// appel du service
-		if($urlFlux->url_bfrs != null) {
-			$arFeeds = FluxRSSServices::getRss($urlFlux->url_bfrs); 	
-		}
-		else {
-			$arFeeds = array();
-		}
-		
-		$tpl = & new CopixTpl();
-      	$tpl->assign('arFeeds',$arFeeds);		
-			
-		return new CopixActionReturn(COPIX_AR_DISPLAY,$tpl);
-	}
-	*/
-
+	
    /**
 	 * Affichage du flux RSS d'un blog (flux sortant)
 	 * 
@@ -547,7 +522,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
 				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr));
-				return new CopixActionReturn (COPIX_AR_BINARY_CONTENT, trim($rss), 'text/html');
+				header("Content-Type: text/html");
+				echo trim($rss);
+				return new CopixActionReturn (COPIX_AR_NONE, 0);
 			}
 		}
 		return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -577,7 +554,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
 				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr));
-				return new CopixActionReturn (COPIX_AR_BINARY_CONTENT, trim($rss), 'text/html');
+				header("Content-Type: text/html");
+				echo trim($rss);
+				return new CopixActionReturn (COPIX_AR_NONE, 0);
 			}
 		}
 		return CopixActionGroup::process ('genericTools|Messages::getError',

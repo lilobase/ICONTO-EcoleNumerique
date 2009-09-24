@@ -356,12 +356,12 @@ class AnnuaireService {
 			//print_r($value);
 			if ($value['type']=='USER_ELE') {
 				$nodeInfo = Kernel::getUserInfo ($value["type"], $value["id"]);
-				//print_r($nodeInfo);
+				//var_dump($nodeInfo);
 				
 				//$parents = Kernel::getNodeChilds ($value["type"], $value["id"]);
 				//print_r($parents);
-				
-				$ele = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$nodeInfo['login'], 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
+				$login = isset($nodeInfo['login']) ? $nodeInfo['login'] : '';
+				$ele = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$login, 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
 				//$enseignants[] = $result[$key];
 				$eleves[] = $ele;
 			} 
