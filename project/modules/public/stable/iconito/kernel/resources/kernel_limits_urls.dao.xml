@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="kernel_limits_urls" tablename="kernel_limits_urls" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.kernel_limits_urls.fields.id" />
+		<property name="url" fieldname="url" pk="no" type="string" required="yes" captioni18n="dao.kernel_limits_urls.fields.url" />
+		<property name="theme" fieldname="theme" pk="no" type="string" required="no" captioni18n="dao.kernel_limits_urls.fields.theme" />
+		<property name="url_blog" fieldname="url_blog" pk="no" type="string" required="no" captioni18n="dao.kernel_limits_urls.fields.url_blog" />
+		<property name="ville" fieldname="ville" pk="no" type="string" required="no" captioni18n="dao.kernel_limits_urls.fields.ville" />
+	</properties>
+</daodefinition>

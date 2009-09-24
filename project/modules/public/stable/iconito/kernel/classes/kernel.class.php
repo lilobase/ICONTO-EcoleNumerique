@@ -1970,16 +1970,33 @@ class Kernel {
 	
 	
 	/**
-	 * Detail d'un dossier : contrats
+	 * Le theme utilise actuellement. Regarde si on force un template selon l'URL.
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2009/09/21
-	 * @param integer $id Id de la demande
+	 * @param non
+	 * @return string Nom du theme
 	 */
 	function getTheme () {
 		if (!$theme = CopixSession::get ('theme')) {
-			$theme = 'default';
-			self::setTheme($theme);
+			_classInclude('welcome|welcome');
+			
+			$null = _dao("kernel|kernel_limits_urls");
+			$cache_type = 'kernel_limits_urls';
+			$cache_id = CopixUrl::get();
+			
+			if (CopixCache::exists ($cache_id, $cache_type)) {
+				$node = CopixCache::read ($cache_id, $cache_type);
+				
+			} else {
+				$node = Welcome::findNodeByUrl($cache_id);
+				CopixCache::write ($cache_id, $node, $cache_type);
+			}
+			if ($node && $node->theme) {
+				$theme = $node->theme;
+			} else
+				$theme = CopixConfig::get ('admin|defaultThemeId');
+			//self::setTheme($theme);
 		}
 		//var_dump($theme);
 		return $theme;

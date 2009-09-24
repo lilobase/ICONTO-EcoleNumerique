@@ -48,12 +48,13 @@ class Welcome {
 		$best_levenshtein_node = null;
 		
 		// Recherche de toutes les URLs.
-		$url_dao = _dao("welcome|url");
+		//$url_dao = _dao("welcome|url");
+		$url_dao = _dao("kernel|kernel_limits_urls");
 		$url_list = $url_dao->findAll();
 		
 		// Pour chaque URL...
-		foreach( $url_list AS $url_key=>$url_val ) {
-		
+		foreach( $url_list as $url_val ) {
+			//var_dump($url_val);
 			// Simplifier l'URL
 			$url_test = Welcome::simplifyUrl( $url_val->url );
 			
@@ -82,7 +83,7 @@ class Welcome {
 		// Si aucune URL n'est identique, et si il y a une URL
 		// similaire par les deux algorithmes, on peut la retourner.
 		if( isset($best_similar_text_node->url) && isset($best_levenshtein_node->url) && ($best_similar_text_node->url == $best_levenshtein_node->url ))
-			return($best_similar_text_node);
+			return $best_similar_text_node;
 
 		// Si vraiment rien ne colle, on ne retourne rien.
 		return null;
