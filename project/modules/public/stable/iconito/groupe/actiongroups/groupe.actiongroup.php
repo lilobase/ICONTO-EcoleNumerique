@@ -148,19 +148,8 @@ class ActionGroupGroupe extends CopixActionGroup {
   	$testpattern=str_replace(array(" ","%20"), "%20", $kw);
   	$temp = split ("%20", $testpattern);
 		
-		/* Ne marche plus avec PHP5
-		$criteres = CopixDAOFactory::createSearchConditions();
-		$criteres->startGroup("OR");
-  	foreach ($temp as $word) {
-   		if ($word != "") {
-    		$criteres->addCondition('titre', ' like ', '%'.$word.'%');
-    		$criteres->addCondition('description', ' like ', '%'.$word.'%');
-	   }
-  	}
-  	$criteres->endGroup();
-		$criteres->addCondition("is_open", "=", 1);
-		*/
-		$query = 'SELECT GR.id, GR.titre, GR.description, GR.is_open FROM module_groupe_groupe GR WHERE (';
+		
+		$query = 'SELECT GR.id, GR.titre, GR.description, GR.is_open, GR.createur FROM module_groupe_groupe GR WHERE (';
 		$iWord = 0;
 		foreach ($temp as $word) {
    		if ($word != "") {
@@ -174,7 +163,10 @@ class ActionGroupGroupe extends CopixActionGroup {
 		//Kernel::deb ($query);
 		$groupes = _doQuery($query);
 		
-		while (list($k,) = each($groupes)) {
+		foreach ($groupes as $k=>$null) {
+		
+			//print_r($groupes[$k]);
+		
 			$userInfo = $kernel_service->getUserInfo("ID", $groupes[$k]->createur);
 			$groupes[$k]->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
 			$groupes[$k]->createur_infos = $userInfo;
@@ -186,8 +178,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$parent = $kernel_service->getNodeParents ("CLUB", $groupes[$k]->id );
 			if ($parent) {
 				$parentInfo = $kernel_service->getNodeInfo ($parent[0]["type"], $parent[0]["id"], false);
-				if ($parentInfo["nom"])		$groupes[$k]->rattachement = $parentInfo["nom"];
-				if ($parentInfo["desc"])	$groupes[$k]->rattachement .= " (".$parentInfo["desc"].")";
+				if (isset($parentInfo["nom"]))		$groupes[$k]->rattachement = $parentInfo["nom"];
+				if (isset($parentInfo["desc"]))	$groupes[$k]->rattachement .= " (".$parentInfo["desc"].")";
 			}
 			$blog = $groupeService->getGroupeBlog($groupes[$k]->id);
 			if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))

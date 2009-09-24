@@ -10,4 +10,4 @@
 </table>
 </form>
 
-{i18n key="album.form.file_size_photo" 1=$file_size_photo|human_file_size}
+{i18n key="album.form.file_size_photo" 1=$file_size_photo|human_file_size noEscape=1}

@@ -570,28 +570,6 @@ class ActionGroupComptes extends CopixActionGroup {
 	}
 
 
-	/**
-	 * doListForm TODO (description de la fonction)
-	 * @package Comptes
-	 * @author Frédéric REISS
-	 * @since 14.12.2005
-	 * 
-	 */
-	function doListForm () {
-		/* Déclaration des DAO */
-//		$dao = CopixDAOFactory::create("carnet_topics");
-//		$daoMessages = CopixDAOFactory::create("carnet_messages");
-
-		$user_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
-		$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
-		$user_new->login_cusr = _request("login_cusr");
-		$user_new->password_cusr = md5(_request("password_cusr"));
-
-		$user_dao->insert ($user_new);
-
-		
-	}
-
    /**
    * L'annuaire (TODO temporaire)
    */

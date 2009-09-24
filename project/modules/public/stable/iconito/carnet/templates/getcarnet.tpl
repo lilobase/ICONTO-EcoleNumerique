@@ -57,7 +57,8 @@
 			
 		{/foreach}
 </table><br/>
-	<DIV STYLE="font-size:0.8em;">{i18n key="carnet.list.newExplain"}</DIV>
+	{copixresource path="img/icon_new.gif" assign="img"}
+	<DIV STYLE="font-size:0.8em;">{i18n key="carnet.list.newExplain" img=$img noEscape=1}</DIV>
 	</DIV>
 	
 	{else}

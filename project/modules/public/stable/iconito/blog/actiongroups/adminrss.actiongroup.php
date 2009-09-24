@@ -98,7 +98,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			$fluxRss->name_bfrs = $this->getRequest('name_bfrs', '');
 			$fluxRss->url_bfrs	 = $this->getRequest('url_bfrs', '');
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.rss.title'));
-			$errors = $fluxRss->check();
+			$errors = _dao('blog|blogfluxrss')->check($fluxRss);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
@@ -116,7 +116,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			$fluxRss->url_bfrs	 = $this->getRequest('url_bfrs', '');
 			$fluxRss->order_bfrs = $fluxRssDAO->getNewPos($id_blog);
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.rss.title'));
-			$errors = $fluxRss->check();
+			$errors = _dao('blog|blogfluxrss')->check($fluxRss);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;

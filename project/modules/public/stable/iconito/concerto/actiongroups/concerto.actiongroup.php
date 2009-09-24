@@ -121,19 +121,18 @@ class ActionGroupConcerto extends CopixActionGroup {
 				
 				// Création d'un login dans CopixUser
 				$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
-				$user_new->login_cusr = $a[$a_key]->login;
-				$user_new->password_cusr = md5($a[$a_key]->passwd);
-				$user_new->email_cusr = '';
+				$user_new->login_dbuser = $a[$a_key]->login;
+				$user_new->password_dbuser = md5($a[$a_key]->passwd);
+				$user_new->email_dbuser = '';
+				$user_new->enabled_dbuser = 1;
 				$user_dao->insert( $user_new );
 					
 				// Création du lien entre l'utilisateur de la base unique et le login.
 				$bu_new = CopixDAOFactory::createRecord("kernel|kernel_bu2user");
-				$bu_new->user_id = $user_new->id_cusr;
+				$bu_new->user_id = $user_new->id_dbuser;
 				$bu_new->bu_type = $user_infos['type'];
 				$bu_new->bu_id = $user_infos['id'];
 				$bu_dao->insert( $bu_new );
-				
-				
 				
 				$ligne = array($a[$a_key]->id_ext,$a[$a_key]->login,$a[$a_key]->passwd);
 				fputcsv ( $file, $ligne, ";" );

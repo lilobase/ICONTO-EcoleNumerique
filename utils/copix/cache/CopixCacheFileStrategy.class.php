@@ -113,7 +113,9 @@ class CopixCacheFileStrategy implements ICopixCacheStrategy {
 	 */
 	public function clear ($pId, $pType, $pExtra) {
 		if ($pId !== null) {
-			unlink ($this->_makeFileName ($pId, $pType, $pExtra));
+			$fileName = $this->_makeFileName ($pId, $pType, $pExtra);
+			if (is_readable ($fileName))
+				unlink ($this->_makeFileName ($pId, $pType, $pExtra));
 		} else {
 			if (file_exists (COPIX_CACHE_PATH . self::_getDir ($pExtra) . $this->_getDirectory ($pType, $pExtra))) {
 				CopixFile::removeDir (COPIX_CACHE_PATH . self::_getDir ($pExtra) . $this->_getDirectory ($pType, $pExtra) . '/');

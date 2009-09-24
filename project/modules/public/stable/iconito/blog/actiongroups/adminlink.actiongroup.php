@@ -97,7 +97,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 			$link->name_blnk = $this->getRequest('name_blnk', '');
 			$link->url_blnk	 = $this->getRequest('url_blnk', '');
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.link.title'));
-			$errors = $link->check();
+			$errors = _dao('blog|bloglink')->check($link);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
@@ -115,7 +115,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 			$link->url_blnk	 = $this->getRequest('url_blnk', '');
 			$link->order_blnk = $linkDAO->getNewPos($id_blog);
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.link.title'));
-			$errors = $link->check();
+			$errors = _dao('blog|bloglink')->check($link);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;

@@ -1,43 +1,4 @@
-<html>
 
-<head>
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_album.css"}" />
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/theme.css"}" media="screen" />
-<style>
-<!--
-BODY {ldelim}
-	margin: 0px;
-{rdelim}
-
-DIV#header {ldelim}
-	padding: 10px 10px 10px 0px;
-	background: #DDD;
-	text-align: center;
-	
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 30px;
-	
-	white-space: nowrap;
-{rdelim}
-
-DIV#header FORM {ldelim}
-	padding: 0px;
-	margin: 0px;
-{rdelim}
-
-DIV#content {ldelim}
-	padding: 10px;
-	padding-top: 60px;
-{rdelim}
--->
-</style>
-</head>
-
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/iconito.js"></script>
-<script type="text/javascript" language="Javascript1.2" src="{copixurl}js/iconito/lang_{$LANGUE}.js"></script>
 <script>
 var format = '{$format}';
 function sendPhoto( album, photo, ext, nom ) {ldelim}
@@ -90,7 +51,6 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 {rdelim}
 </script>
 
-<body>
 
 <div id="header">
 <form name="form" id="form">
@@ -139,10 +99,7 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 </form>
 </div>
 
-<div id="content">
+
 {$PHOTOS}
-</div>
 
-</body>
 
-</html>

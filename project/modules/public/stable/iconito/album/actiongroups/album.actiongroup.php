@@ -811,13 +811,16 @@ class ActionGroupAlbum extends CopixActionGroup {
 		}
 		$tpl->assign ('abspath', $abspath);	
 		
+		$result = $tpl->fetch('album|popup.tpl');
 		
-		$menu = '';
-		$menu.= '<a href="'.CopixUrl::get ('album||addphoto', array("album_id"=>$album->album_id)).'">'.CopixI18N::get ('album.menu.addphoto').'</a>';
-		$tpl->assign ('MENU', $menu );
-		$tpl->assign ('LANGUE', PluginI18n::getLang());
+		$ppo = new CopixPPO ();
+		$ppo->result = $result;
+		$ppo->TITLE_PAGE = CopixI18N::get ('album.title.album', array($album->parent["nom"]) );
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css")); 
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album_popup.css")); 
 		
-		return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, "album|popup.tpl" );
+		return _arPPO ($ppo, array ('template'=>'popup_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));
+		
 	}
 
 	/**

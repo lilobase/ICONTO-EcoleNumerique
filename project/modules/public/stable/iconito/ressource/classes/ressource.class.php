@@ -35,7 +35,7 @@ class Ressource {
 		$temp = split ("%20", $testpattern);
 		
 		// Conditions de recherche
-		$conditions = CopixDAOFactory::createSearchConditions("and");
+		$conditions = _daoSp ();
 		
 		// Texte
 		$conditions->startGroup("AND");
@@ -89,12 +89,6 @@ class Ressource {
 	}
 
 	function tag2ressources( $tag, $annu=0 ) {
-		/* ** Méthode par recherche texte
-		$conditions = CopixDAOFactory::createSearchConditions("and");
-		$conditions->addCondition("ressources_mots", " like ", "%".$tag."%");
-		$ressources_dao = CopixDAOFactory::create("ressource_ressources");
-		$ressources_list = $ressources_dao->findBy($conditions);
-		*/
 		
 		$tags_dao = CopixDAOFactory::create("ressource_tags");
 		if( $annu > 0 )
@@ -106,7 +100,7 @@ class Ressource {
 	}
 
 	function alltags( $annu=0 ) {
-		$conditions = CopixDAOFactory::createSearchConditions("and");
+		$conditions = _daoSp ();
 		
 		if( $annu > 0 ) $conditions->addCondition("ressources_id_annu", "=", "$annu");
 		$ressources_dao = CopixDAOFactory::create("ressource_ressources");
@@ -154,47 +148,9 @@ class Ressource {
 			$restag->tag  = $tag_key;
 			@ $tags_dao->insert( $restag );
 		}
-		
-		// $ressource->ressources_mots
 	}
 
 
-
-/*
-	function search($params, $langref) {
-		
-		// Conditions logiques ET / OU
-		if ($params["logic"] == "AND") {
-			$searchStringLogic = "AND";
-		}
-		else {
-			$searchStringLogic = "OR";
-		}
-		
-		// Découpage du pattern
-		$testpattern=str_replace(array(" ","%20"), "%20", $params["criteria"]);
-		$temp = split ("%20", $testpattern);
-
-		// Conditions de recherche
-		$conditions = CopixDAOFactory::createSearchConditions("and");
-		$conditions->startGroup($searchStringLogic);
-		foreach ($temp as $word) {
-			if ($word != "") {
-				$conditions->addCondition("news_versionname", " like ", "%".$word."%");
-			}
-		}
-		$conditions->endGroup();
-		
-		// Conditions de base
-		$conditions->addCondition("news_valid", "=", 1);
-		$conditions->addCondition("news_langref", "=", $langref);
-		
-		// Récupération de la liste des news
-		$news_dao = CopixDAOFactory::create("news");
-		return $news_dao->findBy($conditions);
-	
-	}
-*/
 
 }
 

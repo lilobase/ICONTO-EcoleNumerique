@@ -319,7 +319,8 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 				move_uploaded_file ($_FILES['logoFile']['tmp_name'], $file);
 			}
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.blog.title'));
-			$errors = $blog->check();
+			$errors = _dao('blog|blog')->check($blog);
+			
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
@@ -350,7 +351,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 				move_uploaded_file ($_FILES['logoFile']['tmp_name'], $file);
 			}
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.blog.title'));
-			$errors = $blog->check();
+			$errors = _dao('blog|blog')->check($blog);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
@@ -616,7 +617,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			}
 
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.blog.title'));
-			$errors = $blog->check();
+			$errors = _dao('blog|blog')->check($blog);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;

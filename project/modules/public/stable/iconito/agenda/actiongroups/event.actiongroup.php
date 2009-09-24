@@ -220,7 +220,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
 			$record   = & CopixDAOFactory::createRecord ('event');
 
-			$criteres = CopixDAOFactory::createSearchConditions();
+			$criteres = _daoSp ();
 			$criteres->addCondition('id_event', '=', $toValid->id_event);	
 			$resultat = $daoEvent->findBy($criteres);
 			

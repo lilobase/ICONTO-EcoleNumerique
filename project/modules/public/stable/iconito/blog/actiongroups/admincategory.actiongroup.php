@@ -100,7 +100,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 	    	$category->url_bacg = killBadUrlChars($category->name_bacg);
 	    }
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.category.title'));
-			$errors = $category->check();
+			$errors = _dao('blog|blogarticlecategory')->check($category);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
@@ -122,7 +122,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 	    	$category->url_bacg = killBadUrlChars($category->name_bacg);
 	    }
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.category.title'));
-			$errors = $category->check();
+			$errors = _dao('blog|blogarticlecategory')->check($category);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;

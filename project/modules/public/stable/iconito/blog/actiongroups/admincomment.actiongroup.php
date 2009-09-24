@@ -146,7 +146,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 		$comment->authorip_bacc = $_SERVER["REMOTE_ADDR"];
 
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.comment.title'));
-		$errors = $comment->check();
+		$errors = _dao('blog|blogarticlecomment')->check($comment);
 		if($errors!=1) {
 			// Traitement des erreurs
 			$showErrors =  true;
@@ -251,7 +251,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 		$this->_validFromPostProperties($comment);
 
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.comment.title'));
-		$errors = $comment->check();
+		$errors = _dao('blog|blogarticlecomment')->check($comment);
 		if($errors!=1) {
 			// Traitement des erreurs
 			$showErrors =  true;

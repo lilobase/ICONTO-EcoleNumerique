@@ -234,7 +234,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 				if ($type->mail_to && !$type->mail_from)
 					$errors[] = CopixI18N::get ('teleprocedures|teleprocedures.error.mail_from');
 				
-				$errorsDao = $type->check();
+				$errorsDao = _dao('teleprocedures|type')->check($type);
+
 				//die();
 				if (count($errors) || is_array($errorsDao)) { // Erreurs
 					if (is_array($errorsDao))
@@ -306,7 +307,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 				$type->mail_to = $this->getRequest ('mail_to');
 				$type->mail_cc = $this->getRequest ('mail_cc');
 				$type->mail_message = $this->getRequest ('mail_message');
-				$errorsDao = $type->check();
+				$errorsDao = _dao('teleprocedures|type')->check($type);
 				
 				if (count($errors) || is_array($errorsDao)) { // Erreurs
 					if (is_array($errorsDao))

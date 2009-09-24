@@ -122,7 +122,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 			$this->_validFromPostProperties($page);
 
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.page.title'));
-			$errors = $page->check();
+			$errors = _dao('blog|blogpage')->check($page);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
@@ -142,7 +142,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 			$page->author_bpge = $user->userId;
 
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.page.title'));
-			$errors = $page->check();
+			$errors = _dao('blog|blogpage')->check($page);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
