@@ -38,12 +38,11 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		
 		$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
 
-		_request('nom')    = trim( _request('nom') );
 		$userext_item = $userext_dao->get( _request('id') );
 
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextadd'));
 					
-		
+		$result = '';
 		$tpl->assign ('MAIN', $result );
 		
 		$menu=array();

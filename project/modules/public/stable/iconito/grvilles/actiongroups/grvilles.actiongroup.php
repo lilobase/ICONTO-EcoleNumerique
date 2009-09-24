@@ -81,14 +81,14 @@ class ActionGroupGrvilles extends CopixActionGroup {
 				$dao_grvilles->insert($grvilles_infos);
 			}
 			
-			$grvilles_gr2ville  = CopixDAOFactory::createRecord("grvilles|grvilles_gr2ville");
+			$grvilles_gr2ville  = _record("grvilles|grvilles_gr2ville2");
 			$grvilles_gr2ville->id_groupe = $grvilles_infos->id;
 			$grvilles_gr2ville->updated_at = $date;
 			$grvilles_gr2ville->updated_by = $user['login'];
 			foreach( $villes AS $ville ) {
-				if( _request("ville_".$ville->vil_id_vi])==1 ) {
+				if( _request("ville_".$ville->vil_id_vi)==1 ) {
 					$grvilles_gr2ville->id_ville = $ville->vil_id_vi;
-					$dao_grvilles_gr2ville->insert($grvilles_gr2ville);
+					_dao("grvilles|grvilles_gr2ville2")->insert($grvilles_gr2ville);
 				}
 				
 			}
