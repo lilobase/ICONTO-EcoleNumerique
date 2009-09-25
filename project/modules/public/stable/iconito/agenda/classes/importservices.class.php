@@ -117,7 +117,11 @@ class ImportService {
 	*/
 	function viderBase ($pArEventsICal, $pIdAgenda){
 		//on récupère la date et heure de début
-		foreach($pArEventsICal as $day=>$arEventsByDay){			
+
+			print_r($pArEventsICal);
+
+		foreach($pArEventsICal as $day=>$arEventsByDay){
+			
 			if(checkdate((int)substr($day, 4, 2), (int)substr($day, 6, 2), (int)substr($day, 0, 4))){
 				foreach($arEventsByDay as $key=>$arEvents){
 					foreach($arEvents as $event){

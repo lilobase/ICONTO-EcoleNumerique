@@ -25,7 +25,7 @@ class ZoneAgendaMenu extends CopixZone {
 		$tpl = & new CopixTpl ();
 		
 		$agendaAffiches = AgendaService::getAgendaAffiches();
-    print_r($agendaAffiches);
+
     
 		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		foreach((array)$this->getParam('listAgendasAffiches') as $id_agenda){
@@ -75,7 +75,10 @@ class ZoneAgendaMenu extends CopixZone {
 				$arColorByIdAgenda[$agenda->id_agenda] = $arColor[0];
 			}
 		}		
-
+		
+		
+		//var_dump($listeFiltre);
+		
     //die();
   	$tpl->assign('parent'             , $this->getParam('parent'));
 		$tpl->assign('arColorByIdAgenda'  , $arColorByIdAgenda);

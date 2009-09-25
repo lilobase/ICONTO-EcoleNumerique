@@ -202,6 +202,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processGetHome() {
+	
+		//print_r($_SESSION);
+	
 		$tpl = & new CopixTpl ();
 		$tplModule = & new CopixTpl ();
 		

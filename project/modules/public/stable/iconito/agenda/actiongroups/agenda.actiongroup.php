@@ -120,7 +120,6 @@ class ActionGroupAgenda extends CopixActionGroup {
 
 		//template pour agenda
 		$tplAgenda = & new CopixTpl();
-		//$tplAgenda->assign ('MENU_AGENDA', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendavuesemaine', array('elementsSemaineAffichee'=>$params,
 																								'arEventByDay'=>$arEventByDay,
 																								'heureDeb'=>$heureDeb,

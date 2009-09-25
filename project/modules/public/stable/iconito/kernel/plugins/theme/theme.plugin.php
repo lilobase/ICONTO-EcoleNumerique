@@ -13,6 +13,8 @@
 */
 
 _classInclude ('kernel|kernel');
+_classInclude ('prefs|prefs');
+_classInclude ('logs|logs');
 
 class PluginTheme extends CopixPlugin {
 

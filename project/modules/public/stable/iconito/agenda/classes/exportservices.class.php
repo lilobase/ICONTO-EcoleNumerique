@@ -29,7 +29,16 @@ class ExportService {
 		$content .= 'METHOD:PUBLISH' . "\n";
 		
 		foreach((array)$pArEvents as $jour=>$day){
-			foreach((array)$day->events as $event){				
+			
+			if (!isset($day->events))
+				continue;
+			
+			
+							
+			foreach( $day->events as $event ) {
+				
+				
+				
 				$content .= 'BEGIN:VEVENT' . "\n";
 				$content .= 'SUMMARY:'.$event->title_event . "\n";
 				if($event->alldaylong_event == 1){//si l'évènement se déroule toute la journée
@@ -45,6 +54,7 @@ class ExportService {
 					$content .= 'DTEND;TZID=' . CopixConfig::get('agenda|timeZone') . ':' . $jour . 'T' . $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event) . '00Z' . "\n";
 				}
 				else{//cas d'un évènement classique
+					//var_dump($event);
 					$content .= 'DTSTART;TZID=' . CopixConfig::get('agenda|timeZone') . ':' .$event->datedeb_event . 'T' . $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) . '00Z' . "\n";
 					$content .= 'DTEND;TZID=' . CopixConfig::get('agenda|timeZone') . ':' .$event->datefin_event . 'T' . $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event) . '00Z' . "\n";
 				}

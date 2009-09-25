@@ -163,8 +163,6 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 		//template pour agenda
 		$tplAgenda = & new CopixTpl();
-		//$tplAgenda->assign ('MENU_AGENDA', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
-//print_r($arTitleAgendasAffiches);
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaeditevent', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'toEdit'=>$toEdit)));
 		
 		//template principal

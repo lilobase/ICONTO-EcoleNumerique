@@ -51,8 +51,16 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$arTitleAgendasAffiches = $serviceAgenda->getArTitleAgendaByArIdAgenda($listAgendasAffiches);
 		
 		if (!$importParams = $this->_getSessionImport ()){
-			//initialisation de l'objet importParams avec le premier agenda affiché de la liste			
-			$importParams->id_agenda = isset($arAgendasAffiches) && is_array($arAgendasAffiches) ? current($arAgendasAffiches) : null;
+			//initialisation de l'objet importParams avec le premier agenda affiché de la liste	
+			$importParams = array();
+			if (isset($listAgendasAffiches) && is_array($listAgendasAffiches)) {
+				if ($current = current($listAgendasAffiches))
+					$importParams['id_agenda'] = $current;
+				else
+					$importParams = null;
+			}
+			else
+				$importParams = null;
 			$this->_setSessionImport($importParams);
 		}
 
@@ -61,7 +69,6 @@ class ActionGroupImportExport extends CopixActionGroup {
 				
 		//template pour agenda
 		$tplAgenda = & new CopixTpl();
-		//$tplAgenda->assign ('MENU_AGENDA', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaimport', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'importParams'=>$importParams)));
 		
 		//template principal
@@ -91,15 +98,15 @@ class ActionGroupImportExport extends CopixActionGroup {
 			array ('message'=>CopixI18N::get ('agenda.error.cannotFindSession'),
 			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}
-		
 		$this->_validFromFormImportParams ($importParams);
-		
+
 		//on vérifie les droits
-		if($serviceAuth->getCapability($importParams->id_agenda) < $serviceAuth->getModerate()){
+		if($serviceAuth->getCapability($importParams['id_agenda']) < $serviceAuth->getModerate()){
 				return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
+		
 		
 		
 		$errors = $this->_checkImport();
@@ -141,19 +148,23 @@ class ActionGroupImportExport extends CopixActionGroup {
 						array ('message'=>CopixI18N::get ('agenda.error.cannotFindFile'),
 								'back'=>CopixUrl::get ('agenda|importexport|prepareImport')));
 			}
-			if($importParams->option == 1){//cas où on réalise l'import sans vider
-				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams->id_agenda);
+			//echo "a";
+			print_r($importEvents);
+			
+			if($importParams['option'] == 1){//cas où on réalise l'import sans vider
+				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams['id_agenda']);
 			}
 			else{
-				$serviceImport->viderBase($importEvents, $importParams->id_agenda);
-				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams->id_agenda);
+				$serviceImport->viderBase($importEvents, $importParams['id_agenda']);
+				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams['id_agenda']);
 			}			
 		}
 		//on efface le fichier temporaire créé pour faire l'import
 		unlink(CopixConfig::get ('agenda|tempfiles') . 'import.ics');
 		
 		//on vide la session
-		$this->_setSessionImport(null);
+		//$this->_setSessionImport(null);
+		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|importexport|afterImport', array('nbInsertions'=>$nbInsertions)));
 	}
 	
@@ -235,7 +246,6 @@ class ActionGroupImportExport extends CopixActionGroup {
 
 		//template pour agenda
 		$tplAgenda = & new CopixTpl();
-		//$tplAgenda->assign ('MENU_AGENDA', CopixZone::process('agenda|agendamenu'  , array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaexport', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'exportParams'=>$exportParams)));
 	
 		//template principal
@@ -293,20 +303,25 @@ class ActionGroupImportExport extends CopixActionGroup {
 		
 			//on récupère tous les évènements des agendas cochés dans la période demandée
 			foreach((array)_request('agenda') as $idAgenda){
-				$arEventsPeriode[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, CopixDateTime::dateToTimestamp($exportParams->datedeb_export), CopixDateTime::dateToTimestamp($exportParams->datefin_export));
+				$arEventsPeriode[$idAgenda] = $agendaService->checkEventOfAgendaInBdd($idAgenda, CopixDateTime::dateToYYYYMMDD($exportParams->datedeb_export), CopixDateTime::dateToYYYYMMDD($exportParams->datefin_export));
 			}
 			
 			//on classe ces évènements par jour
-			$arEventByDay = $agendaService->getEventsByDay($arEventsPeriode, CopixDateTime::dateToTimestamp($exportParams->datedeb_export), CopixDateTime::dateToTimestamp($exportParams->datefin_export));
+			$arEventByDay = $agendaService->getEventsByDay($arEventsPeriode, CopixDateTime::dateToYYYYMMDD($exportParams->datedeb_export), CopixDateTime::dateToYYYYMMDD($exportParams->datefin_export));
+			
 			
 			//on ordonne les évènements par ordre croissant d'heure de début d'évènement dans la journée
+			//var_dump($arEventByDay);
+			
 			$arEventByDay = $agendaService->getEventsInOrderByDay($arEventByDay);
+			
+			
 			$content = $serviceExport->getFileICal($arEventByDay, CopixDateTime::dateToTimestamp($exportParams->datedeb_export), CopixDateTime::dateToTimestamp($exportParams->datefin_export));
 		}
 		
 		//on vide la session
+		$this->_setSessionExport(null);
 		
-		//$this->_setSessionExport(null);	
 		return _arContent ($content, array ('filename'=>'agenda.ics', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.ics')));
 
 	}
@@ -338,6 +353,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionImport ($toSet){
+		var_dump($toSet);
 		$toSession = ($toSet !== null) ? serialize($toSet) : null;
 		_sessionSet('modules|agenda|import_agenda', $toSession);
 	}
@@ -359,8 +375,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function _validFromFormImportParams (& $toUpdate){
 		$toCheck = array ('id_agenda', 'import_ordi', 'import_internet','option');
 		foreach ($toCheck as $elem){
-			if (_request($elem)){
-				$toUpdate->$elem = _request($elem);
+			if (_request($elem) !== null){
+				$toUpdate[$elem] = _request($elem);
 			}
 		}
 	}

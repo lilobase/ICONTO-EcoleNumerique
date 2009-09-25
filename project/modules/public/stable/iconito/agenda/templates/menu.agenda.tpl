@@ -1,7 +1,7 @@
 {if $parent.url && $parent.txt}<a href="{$parent.url}">{$parent.txt}</a> :: {/if}
 {if 1}<a href="{copixurl dest="agenda|agenda|vueSemaine"}">{i18n key="agenda.menu.back"}</a> :: {/if}
 {if $ableToWrite}<a href="{copixurl dest="agenda|event|create"}">{i18n key="agenda.menu.ajoutEvent"}</a> :: {/if}
-{if $ableToModerate}<a href="{copixurl dest="agenda|importexport|prepareImport"}">{i18n key="agenda.menu.import"}</a> :: {/if}
+{if 0 && $ableToModerate}<a href="{copixurl dest="agenda|importexport|prepareImport"}">{i18n key="agenda.menu.import"}</a> :: {/if}
 <a href="{copixurl dest="agenda|importexport|prepareExport"}">{i18n key="agenda.menu.export"}</a> ::
 {*
 {i18n key="agenda.menu.agenda" assign=text}
