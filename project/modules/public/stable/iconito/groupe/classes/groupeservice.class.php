@@ -205,13 +205,14 @@ class GroupeService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/09/25
 	 * @param integer $pGroupe	Id du groupe
+	 * @param array $pParent (option) Parent(s) du groupe. Si null ou pas passe, se charge de le chercher en base. Si passe, doit provenir de la fonction getNodeParents
 	 * @return integer Id de la ville, ou 0 si aucune
 	 */
-	function getGroupeVille ($pGroupe) {
+	function getGroupeVille ($pGroupe, $pParent=null) {
 		
 		$ville = 0;
 		
-		$parent = Kernel::getNodeParents('CLUB', $pGroupe);
+		$parent = ($pParent==null) ? Kernel::getNodeParents('CLUB', $pGroupe) : $pParent;
 		//var_dump($parent);
 		if ($parent && $parent[0]['type'] == 'BU_VILLE') {
 			$ville = $parent[0]['id'];

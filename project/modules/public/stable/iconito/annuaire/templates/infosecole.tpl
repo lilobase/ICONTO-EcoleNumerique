@@ -7,9 +7,7 @@
 
 <DIV ALIGN="RIGHT">
 
-<form name="formGo" id="formGo" action="" method="get">
-<input type="hidden" name="module" value="annuaire" />
-<input type="hidden" name="action" value="getAnnuaireEcole" />
+<form name="formGo" id="formGo" action="{copixurl dest="annuaire||getAnnuaireEcole"}" method="get">
 {$comboecoles}
 <input type="submit" value="{i18n key="annuaire.btn.go"}" class="form_button" />
 </form>

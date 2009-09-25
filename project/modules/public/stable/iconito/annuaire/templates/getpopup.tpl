@@ -3,9 +3,7 @@
 <div id="annu_popup_filtrage">
 
 
-<form name="formGo" id="formGo" action="" method="get">
-<input type="hidden" name="module" value="annuaire" />
-<input type="hidden" name="action" value="getPopup" />
+<form name="formGo" id="formGo" action="{copixurl dest="annuaire||getPopup"}" method="get">
 <input type="hidden" name="field" value="{$field}" />
 <input type="hidden" name="grville" value="{$grville}" />
 <input type="hidden" name="profil" value="{$profil}" />

@@ -81,28 +81,55 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$groupesAll = $dao->getListPublicAll();
 		$nbPages = ceil(count($groupesAll) / CopixConfig::get ('groupe|list_nbgroupes'));
 		
-		$groupes = $dao->getListPublic($offset,CopixConfig::get ('groupe|list_nbgroupes'));
+		$list = $dao->getListPublic($offset,CopixConfig::get ('groupe|list_nbgroupes'));
+		$groupes = array();
+		
+		//var_dump($groupes);
+		
+		foreach ($list as $groupe) {
 
-		foreach ($groupes as $k=>$null) {
-			$userInfo = $kernel_service->getUserInfo("ID", $groupes[$k]->createur);
-			$groupes[$k]->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
-			$groupes[$k]->createur_infos = $userInfo;
-			$mondroit = $kernel_service->getLevel( "CLUB", $groupes[$k]->id);
-			$groupes[$k]->mondroit = $mondroit;
-			$members = $groupeService->getNbMembersInGroupe($groupes[$k]->id);
-			$groupes[$k]->inscrits = $members['inscrits'];
-			$groupes[$k]->canViewHome = ($groupeService->canMakeInGroupe('VIEW_HOME', $mondroit));
-			$parent = $kernel_service->getNodeParents ("CLUB", $groupes[$k]->id );
+			$parent = $kernel_service->getNodeParents ("CLUB", $groupe->id );
+			
+			$ok = true;
+			
 			if ($parent) {
-				$parentInfo = $kernel_service->getNodeInfo ($parent[0]["type"], $parent[0]["id"], false);
-				if (isset($parentInfo["nom"]))		$groupes[$k]->rattachement = $parentInfo["nom"];
-				if (isset($parentInfo["desc"]))	$groupes[$k]->rattachement .= " (".$parentInfo["desc"].")";
+				//var_dump($parent);
+			
+				if (Kernel::getKernelLimits('ville')) {
+					$ville = GroupeService::getGroupeVille($parent[0]['id']);
+					if (!in_array($ville, Kernel::getKernelLimits('ville_as_array')))
+						$ok = false;
+				}
+				
+				if ($ok) {
+					$parentInfo = $kernel_service->getNodeInfo ($parent[0]["type"], $parent[0]["id"], false);
+					if (isset($parentInfo["nom"]))		$groupe->rattachement = $parentInfo["nom"];
+					if (isset($parentInfo["desc"]))	$groupe->rattachement .= " (".$parentInfo["desc"].")";
+				}	
+				
 			}
-			$blog = $groupeService->getGroupeBlog($groupes[$k]->id);
-			if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
-				$groupes[$k]->blog = $blog;
-			$groupes[$k]->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
+
+			if ($ok) {
+
+				$userInfo = $kernel_service->getUserInfo("ID", $groupe->createur);
+				$groupe->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
+				$groupe->createur_infos = $userInfo;
+				$mondroit = $kernel_service->getLevel( "CLUB", $groupe->id);
+				$groupe->mondroit = $mondroit;
+				$members = $groupeService->getNbMembersInGroupe($groupe->id);
+				$groupe->inscrits = $members['inscrits'];
+				$groupe->canViewHome = ($groupeService->canMakeInGroupe('VIEW_HOME', $mondroit));
+				
+				$blog = $groupeService->getGroupeBlog($groupe->id);
+				if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
+					$groupe->blog = $blog;
+				$groupe->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
+				$groupes[] = $groupe;
+			}
+			
 		}
+		
+		//var_dump($groupes);
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('groupe|groupe.annuaire'));

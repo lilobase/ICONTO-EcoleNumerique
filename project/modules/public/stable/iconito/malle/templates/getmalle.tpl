@@ -5,9 +5,7 @@
 
 <DIV CLASS="malle_go_folder_form">
 {if $combofolders}
-<form name="formGo" id="formGo" action="" method="get">
-<input type="hidden" name="module" value="malle" />
-<input type="hidden" name="action" value="getMalle" />
+<form name="formGo" id="formGo" action="{copixurl dest="malle||getMalle"}" method="get">
 <input type="hidden" name="id" value="{$id}" />
 {$combofolders}
 <input type="submit" value="GO" class="form_button" /></form>
