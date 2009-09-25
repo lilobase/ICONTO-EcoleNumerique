@@ -29,7 +29,8 @@ class ZoneComboEcolesInVille extends CopixZone {
 		$attribs = ($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
 		$linesSup = ($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
 		
-		$ecoles = $annuaireService->getEcolesInVille ($ville, 'TYPE');
+		
+		$ecoles = $annuaireService->getEcolesInVille ($ville);
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign('items', $ecoles);

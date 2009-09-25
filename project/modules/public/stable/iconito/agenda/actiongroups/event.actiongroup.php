@@ -69,22 +69,23 @@ class ActionGroupEvent extends CopixActionGroup {
 	* @return redirige vers l'action "edit" de l'actiongroup
 	*/
 	function doCreate (){
-		
+		die ("a");
 		$serviceAuth   = new AgendaAuth;
 		
+				
 		//on ne peut ajouter un évènement que s'il existe un agenda
 		$obj = new AgendaService();
 		$listAgendas = $obj->getAvailableAgenda();		
-		
+				
 		if (!count($listAgendas)>0){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('agenda.error.missingParameters'),
 			'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
-		
+
 		//récupération de la liste des agendas affichés
 		$listAgendasAffiches = $obj->getAgendaAffiches();
-		
+
 		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		foreach((array)$listAgendasAffiches as $id_agenda){
 			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
@@ -97,7 +98,6 @@ class ActionGroupEvent extends CopixActionGroup {
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
-		
 		//initialisation de l'objet event
 		$event = & CopixDAOFactory::createRecord ('event');		
 		$event->id_agenda        = $listAgendas[0]->id_agenda;		

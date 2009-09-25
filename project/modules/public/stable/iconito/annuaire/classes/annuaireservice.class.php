@@ -80,12 +80,6 @@ class AnnuaireService {
 	function getEcolesInVille ($ville, $params=array('directeur'=>true)) {
 		$ecoles = array();
 
-		if( isset($options['getNodeInfo_light']) && $options['getNodeInfo_light'] ) {
-			$getNodeInfo_full = false;
-		} else {
-			$getNodeInfo_full = true;
-		}
-
 		$childs = Kernel::getNodeChilds ('BU_VILLE', $ville);
 		foreach ($childs as $child) {
 			if ($child['type']=='BU_ECOLE') {
@@ -111,21 +105,19 @@ class AnnuaireService {
 	function getEcolesInGrville ($grville, $options=array()) {
 		$ecoles = array();
 
-		if( isset($options['getNodeInfo_light']) && $options['getNodeInfo_light'] ) {
-			$getNodeInfo_full = false;
-		} else {
-			$getNodeInfo_full = true;
-		}
-
 		$childs = Kernel::getNodeChilds ('BU_GRVILLE', $grville);
 		//print_r($childs);
 		foreach ($childs as $child) {
 			if ($child['type']=='BU_VILLE') {
+			
+				if ( ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) && !in_array($child['id'],$ville_as_array))
+					continue;
+			
 				$node = Kernel::getNodeInfo ($child['type'], $child['id'], false);
 				// $ecoles[] = array('id'=>'0', 'nom'=>'');
 				$ecoles[] = array('id'=>'0', 'nom'=>$node['nom']);
 				// $ecoles[] = array('id'=>'0', 'nom'=>'=======================');
-				$tmp = AnnuaireService::getEcolesInVille ($child['id'], 'TYPE');
+				$tmp = AnnuaireService::getEcolesInVille ($child['id']);
 				$ecoles = array_merge ($ecoles, $tmp);
 			}
 		}
@@ -226,7 +218,7 @@ class AnnuaireService {
 		}
 
 //$start = microtime(true);
-		$ecoles = AnnuaireService::getEcolesInVille ($ville, 'TYPE');
+		$ecoles = AnnuaireService::getEcolesInVille ($ville);
 //echo "&gt; getEcolesInVille ".(microtime(true)-$start)."<br />";
 //$start = microtime(true);	
 		foreach ($ecoles as $ecole) {
@@ -261,9 +253,15 @@ class AnnuaireService {
 		$childs = Kernel::getNodeChilds ('BU_GRVILLE', $grville);
 		foreach ($childs as $child) {
 			if ($child['type']=='BU_VILLE') {
+				
+				
+				if ( ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) && !in_array($child['id'],$ville_as_array))
+					continue;
+				
+				
 				$node = Kernel::getNodeInfo ($child['type'], $child['id'], $getNodeInfo_full);
 				//$classes[] = array('id'=>'0', 'nom'=>'');
-				$classes[] = array('id'=>'0', 'nom'=>$node['nom']);
+				$classes[] = array('id'=>'0', 'nom'=>"----- ".$node['nom']." -----");
 				//$classes[] = array('id'=>'0', 'nom'=>'=======================');
 				$tmp = AnnuaireService::getClassesInVille ($child['id']);
 				$classes = array_merge ($classes, $tmp);
@@ -283,26 +281,7 @@ class AnnuaireService {
 	 */
 	function getDirecteurInEcole ($ecole, $options=array()) {	
 		$directeur = array();
-    /*
-    // Ancienne version
-		$result = Kernel::getNodeChilds('BU_ECOLE', $ecole );
-		foreach ($result AS $key=>$value) {
-			//print_r($value);
-			if ($value['type']=='USER_ENS') {
-				$droit = Kernel::getLevel ('BU_ECOLE', $ecole, $value["type"], $value["id"]);
-				if ($droit >= PROFILE_CCV_ADMIN) {
-					$nodeInfo = Kernel::getUserInfo ($value["type"], $value["id"]);
-					//print_r($nodeInfo);
-					$dir = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$nodeInfo['login'], 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom']);
-					//$enseignants[] = $result[$key];
-					$directeur[] = $dir;
-				}
-			} 
-		}
-    usort ($directeur, array('AnnuaireService', 'usort_nom'));
-    */
     
-    // 2e version
     $sql = "SELECT PER.numero, PER.nom, PER.prenom1 FROM kernel_bu_personnel PER, kernel_bu_personnel_entite ENT WHERE PER.numero=ENT.id_per AND ENT.reference=".$ecole." AND type_ref='ECOLE' AND role=2 ORDER BY PER.nom, PER.prenom1";
    	$list = _doQuery ($sql);
     foreach ($list as $r) {
@@ -358,7 +337,8 @@ class AnnuaireService {
 			if ($value['type']=='USER_ENS') {
 				$nodeInfo = Kernel::getUserInfo ($value["type"], $value["id"]);
 				//print_r($nodeInfo);
-				$ens = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$nodeInfo['login'], 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
+				$login = isset($nodeInfo['login']) ? $nodeInfo['login'] : '';
+				$ens = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$login, 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
 				//$enseignants[] = $result[$key];
 				$enseignant[] = $ens;
 			} 
@@ -415,7 +395,8 @@ class AnnuaireService {
 			if ($value['type']=='USER_VIL') {
 				if ($nodeInfo = Kernel::getUserInfo ($value["type"], $value["id"])) {
 					//var_dump($nodeInfo);
-					$age = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$nodeInfo['login'], 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
+					$login = isset($nodeInfo['login']) ? $nodeInfo['login'] : '';
+					$age = array('type'=>$nodeInfo['type'], 'id'=>$nodeInfo['id'], 'login'=>$login, 'nom'=>$nodeInfo['nom'], 'prenom'=>$nodeInfo['prenom'], 'sexe'=>$nodeInfo['sexe']);
 					$agents[] = $age;
 				}
 			} 
@@ -453,7 +434,6 @@ class AnnuaireService {
 	 */
 	function getEleves ($type, $id) {
 		$dao = _dao("kernel|kernel_bu_ele");
-		
 		if ($type == 'BU_CLASSE')
 			$res = $dao->getElevesInClasse($id);
 		elseif ($type == 'BU_ECOLE')

@@ -1537,7 +1537,8 @@ class Kernel {
 						$modservice = & CopixClassesFactory::Create ($modname.'|kernel'.$modname);
 						if( method_exists( $modservice, "create" ) ) {
 							$subtitle = ($node_type=='BU_ECOLE' && isset($nodeInfo['ALL']->eco_type)) ? $nodeInfo['ALL']->eco_type : '';
-							$modid = $modservice->create(array('title'=>trim($nodeInfo['prenom'].' '.$nodeInfo['nom']), 'subtitle'=>$subtitle, 'node_type'=>$node_type, 'node_id'=>$node_id));
+							$prenom = isset($nodeInfo['prenom']) ? $nodeInfo['prenom'] : '';
+							$modid = $modservice->create(array('title'=>trim($prenom.' '.$nodeInfo['nom']), 'subtitle'=>$subtitle, 'node_type'=>$node_type, 'node_id'=>$node_id));
 							if( $modid != null ) {
 								Kernel::registerModule( $module->module_type, $modid, $node_type, $node_id );
 							}

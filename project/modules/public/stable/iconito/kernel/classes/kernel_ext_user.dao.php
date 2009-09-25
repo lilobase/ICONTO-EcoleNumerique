@@ -45,7 +45,10 @@ class DAOKernel_ext_user {
 	 * @return mixed Objet DAO
 	 */
 	function getPersonnelExtInVille ($ville) {
-		$query = "SELECT E.id, E.nom, E.prenom, VI.nom AS nom_ville, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_ext_user E, kernel_bu_ville VI, kernel_link_bu2user LI, kernel_link_user2node NO, dbuser U WHERE LI.user_id=U.id_dbuser AND NO.user_type=LI.bu_type AND NO.user_id=LI.bu_id AND NO.node_type='BU_VILLE' AND NO.node_id=VI.id_vi AND LI.bu_type='USER_EXT' AND LI.bu_id=E.id AND VI.id_vi=".$ville." ORDER BY nom, prenom";
+		$sqlPlus = '';
+		if ( Kernel::getKernelLimits('ville') )
+			$sqlPlus .= ' AND VI.id_vi IN ('.Kernel::getKernelLimits('ville').')';
+		$query = "SELECT E.id, E.nom, E.prenom, VI.nom AS nom_ville, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_ext_user E, kernel_bu_ville VI, kernel_link_bu2user LI, kernel_link_user2node NO, dbuser U WHERE LI.user_id=U.id_dbuser AND NO.user_type=LI.bu_type AND NO.user_id=LI.bu_id AND NO.node_type='BU_VILLE' AND NO.node_id=VI.id_vi AND LI.bu_type='USER_EXT' AND LI.bu_id=E.id AND VI.id_vi=".$ville.$sqlPlus." ORDER BY nom, prenom";
 		//print_r($query);
 		return _doQuery($query);
 	}

@@ -28,7 +28,9 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 	$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
-
+	
+		
+		/*
 		// Existance de groupes personnels ?
 		$dao_kernel_link_user2node = CopixDAOFactory::create("kernel|kernel_link_user2node");
 		$mes_groupes = $dao_kernel_link_user2node->getByUserAndNodeType( _currentUser()->getExtra('type'), _currentUser()->getExtra('id'), "CLUB" );
@@ -39,7 +41,6 @@ class ActionGroupGroupe extends CopixActionGroup {
 			}
 		}
 		
-		/*
 		if( 0==count($mes_groupes) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListPublic'));
 		}

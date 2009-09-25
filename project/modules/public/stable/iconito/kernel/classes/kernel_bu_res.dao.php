@@ -58,7 +58,10 @@ class DAOKernel_bu_res {
 	 * @return mixed Objet DAO
 	 */
 	function getParentsInGrville ($grville) {
-  	$query = "SELECT DISTINCT(R.numero) AS id, R.nom, R.prenom1 AS prenom, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_bu_responsable R, kernel_bu_sexe S, kernel_bu_responsables RE, kernel_bu_eleve_admission EA, kernel_bu_ecole E, kernel_bu_ville V, kernel_link_bu2user LI, dbuser U WHERE R.id_sexe=S.id_s AND R.numero=RE.id_responsable AND RE.type='responsable' AND RE.id_beneficiaire=EA.eleve AND RE.type_beneficiaire='eleve' AND EA.etablissement=E.numero AND E.id_ville=V.id_vi AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_RES' AND LI.bu_id=R.numero AND  V.id_grville=".$grville." ORDER BY R.nom, R.prenom1";
+		$sqlPlus = '';
+		if ( Kernel::getKernelLimits('ville') )
+			$sqlPlus .= ' AND V.id_vi IN ('.Kernel::getKernelLimits('ville').')';
+  	$query = "SELECT DISTINCT(R.numero) AS id, R.nom, R.prenom1 AS prenom, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_bu_responsable R, kernel_bu_sexe S, kernel_bu_responsables RE, kernel_bu_eleve_admission EA, kernel_bu_ecole E, kernel_bu_ville V, kernel_link_bu2user LI, dbuser U WHERE R.id_sexe=S.id_s AND R.numero=RE.id_responsable AND RE.type='responsable' AND RE.id_beneficiaire=EA.eleve AND RE.type_beneficiaire='eleve' AND EA.etablissement=E.numero AND E.id_ville=V.id_vi AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_RES' AND LI.bu_id=R.numero AND  V.id_grville=".$grville.$sqlPlus." ORDER BY R.nom, R.prenom1";
 		//print_r($query);
 		return _doQuery($query);
 	}	

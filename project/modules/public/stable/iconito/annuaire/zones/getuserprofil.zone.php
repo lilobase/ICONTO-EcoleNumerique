@@ -29,7 +29,9 @@ class ZoneGetUserProfil extends CopixZone {
 			$usr['type_nom'] = Kernel::Code2Name ($usr['type']);
 			
 			// Avatar
-			$avatar = Prefs::get('prefs', 'avatar', $usr['user_id']);
+			$avatar = '';
+			if (isset($usr['user_id']))
+				$avatar = Prefs::get('prefs', 'avatar', $usr['user_id']);
 			$usr['avatar'] = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
 			
 			$parents = $enfants = array();

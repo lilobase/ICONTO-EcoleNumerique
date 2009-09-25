@@ -435,17 +435,30 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 					break;
 			}
 		}
+
+		if ( ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) ) { // Limitation par URL, on verifie les parametres
+			if ($ville && $ville != $ALL && !in_array($ville,$ville_as_array)) {
+				$ville = 0;
+			}
+			if ($ecole && $ecole != $ALL && ($rEcole=Kernel::getNodeInfo('BU_ECOLE', $ecole, false)) && !in_array($rEcole['ALL']->vil_id_grville,$ville_as_array)) {
+				$ecole = 0;
+			}
+			if ($classe && $classe != $ALL && ($rClasse=Kernel::getNodeInfo('BU_CLASSE', $classe, false)) && !in_array($rClasse['ALL']->eco_id_ville,$ville_as_array)) {
+				$classe = 0;
+			}
+		}
+		
 		
 		// =============== ELEVES =========================
 		$eleves = array();
 		if (isset($profils['ELE']) && $grville && $ville && $ecole && $classe && $visib['USER_ELE']!='NONE') {
 			if ($classe != $ALL)	// Une classe précise
 				$eleves = $annuaireService->getEleves ('BU_CLASSE', $classe);
-			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
+			elseif ($classe == $ALL && $ecole != $ALL) // Les eleves d'une école
 				$eleves = $annuaireService->getEleves ('BU_ECOLE', $ecole);
-			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les classes d'une ville
+			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les eleves d'une ville
 				$eleves = $annuaireService->getEleves ('BU_VILLE', $ville);
-			elseif ($classe == $ALL && $ecole == $ALL && $ville == $ALL) // Les classes d'un groupe de villes
+			elseif ($classe == $ALL && $ecole == $ALL && $ville == $ALL) // Les eleves d'un groupe de villes
 				$eleves = $annuaireService->getEleves ('BU_GRVILLE', $grville);
 		}
 			

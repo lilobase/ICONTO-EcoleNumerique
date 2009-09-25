@@ -11,7 +11,7 @@
 {$groupe->description}
 <DIV ALIGN="RIGHT"><i>
 {user label=$groupe->createur_nom userType=$groupe->createur_infos.type userId=$groupe->createur_infos.id login=$groupe->createur_infos.login dispMail=1 linkAttribs='STYLE="text-decoration:none;"' assign='who'}
-{i18n key="groupe.homeCreation" nb=$groupe->date_creation|datei18n:"date_short" who=$who} </i>
+{i18n key="groupe.homeCreation" nb=$groupe->date_creation|datei18n:"date_short" who=$who noEscape=1} </i>
 <br/>
 {if $canUnsubscribeHimself eq 1}<a href="{copixurl dest="groupe||doUnsubscribeHimself" id=$groupe->id}" title="">{i18n key="groupe.group.unsubscribe"}</a>{/if}
 
