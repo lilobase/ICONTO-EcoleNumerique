@@ -869,7 +869,9 @@ class ActionGroupMalle extends CopixActionGroup {
 			//return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$rFile->folder, 'errors'=>$errors));
 		}
-		return new CopixActionReturn (COPIX_AR_DOWNLOAD, $fullFile, '"'.$rFile->nom.'"');
+		
+		return _arContent ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>CopixMIMETypes::getFromExtension ($fullFile)));
+		
 	}
 
 
@@ -1356,17 +1358,21 @@ class ActionGroupMalle extends CopixActionGroup {
 			}
 		}
 
-
+		//print_r($fullFile);
+		//var_dump($malleService->getTmpFolder().'/'.$zipFile);
+		//die ('a');		
+		
 		//print_r($archive);
-		$list = $archive->listContent();
+		//$list = $archive->listContent();
 		//print_r($list);
 		
 		if ($errors) {
 			//print_r($errors);
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors));
 		} else {
-			//return new CopixActionReturn (COPIX_AR_NONE, 0);
-			return new CopixActionReturn (COPIX_AR_DOWNLOAD, $malleService->getTmpFolder().'/'.$zipFile, $zipFile);
+			
+			return _arFile ($malleService->getTmpFolder().'/'.$zipFile, array ('filename'=>$zipFile, 'content-type'=>CopixMIMETypes::getFromExtension ($zipFile)));
+			
 		}
 	}
 

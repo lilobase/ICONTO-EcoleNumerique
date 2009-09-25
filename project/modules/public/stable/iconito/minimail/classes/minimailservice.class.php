@@ -181,7 +181,7 @@ class MinimailService {
    */
 	function isAttachmentImage ($file) {
 		$res = false;
-		$fullFile = realpath("../data")."/minimail/".($file);
+		$fullFile = realpath("../var/data")."/minimail/".($file);
 		if ($file && file_exists($fullFile) && getimagesize ($fullFile))
 			$res = true;
 		return $res;

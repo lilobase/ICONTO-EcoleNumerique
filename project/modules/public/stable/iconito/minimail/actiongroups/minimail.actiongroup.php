@@ -393,7 +393,7 @@ class ActionGroupMinimail extends CopixActionGroup {
       // Ajout des pièces jointes
 			if (!$errors && $go=='save') {
 				$attachments = array();
-				$dataPath = realpath("../data");
+				$dataPath = realpath("../var/data");
 				
         for ($i=1 ; $i<=3 ; $i++) {
 	        if ($_FILES["attachment".$i]["name"]) {
@@ -482,7 +482,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$file = _request("file") ? _request("file") : NULL;
-		$fullFile = realpath("../data")."/minimail/".($file);
+		$fullFile = realpath("../var/data")."/minimail/".($file);
 		$errors = array();
 		if (!$file || !file_exists($fullFile))
 			$errors[] = CopixI18N::get ('minimail.error.noFile');
@@ -491,7 +491,9 @@ class ActionGroupMinimail extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		$fileDl = $minimailService->getAttachmentName ($file);
-		return new CopixActionReturn (COPIX_AR_DOWNLOAD, $fullFile, $fileDl);
+
+		return _arContent ($fullFile, array ('filename'=>$fileDl, 'content-type'=>CopixMIMETypes::getFromExtension ($fileDl)));
+		
 	}
 	
    /**
@@ -507,7 +509,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$file = _request("file") ? _request("file") : "";
-		$fullFile = realpath("../data")."/minimail/".($file);
+		$fullFile = realpath("../var/data")."/minimail/".($file);
 		$errors = array();
 		
 		if (!$file || !file_exists($fullFile))
