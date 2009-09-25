@@ -23,10 +23,11 @@ class AgendaService {
 	*/
     function getAvailableAgenda (){
 			
+			//var_dump($_SESSION);
+			
+			
       if (!_sessionGet ('modules|agenda|his')) {
 				$serviceAuth   = new AgendaAuth;
-				
-				//print_r('!SESSION HIS_AGENDAS');
 				
 				$res = array();
 				
@@ -151,16 +152,20 @@ class AgendaService {
 	* @since 2006/07/26
 	* @param integer $pNbFois nombre de fois que l'évènement est répété
 	* @param integer $pFrequence fréquence à laquelle l'évènement est répété (jour, semaine, mois, annee)
-	* @param date $ (au format yyyymmdd) $pDateDebutEvent date du début de l'évènement
+	* @param date $pDateDebutEvent $pDateDebutEvent date du début de l'évènement, format JJ/MM/AAAA
 	* @return date (au format yyyymmdd) $dateFinEvent date à laquelle se termine l'évènement
 	*/
     function getDateEndRepeatByNbFois ($pNbFois, $pFrequence, $pDateDebutEvent){ 
 			//var_dump($pDateDebutEvent);
+			//echo "getDateEndRepeatByNbFois ($pNbFois, $pFrequence, $pDateDebutEvent)";
 			
       $serviceDate = new DateService;
 			
+			/*
 			$dateI18N = CopixDateTime::dateToTimestamp ($pDateDebutEvent);
 			$date2 = $serviceDate->dateBddToDateFr($dateI18N);
+			*/
+			$date2 = $pDateDebutEvent;
 
 			//var_dump($dateI18N);
 			//var_dump($date2);
@@ -254,6 +259,8 @@ class AgendaService {
 		$dateCourante = $dateDebutSemaine;
 		$dateService = new DateService;
 		$noEvent = true;//variable à true s'il n'y a pas d'évènements dans la semaine
+		$arEventByDay = array();
+		
 		while($dateCourante <= $dateFinSemaine){
 			foreach($arEventsSemaine as $idAgenda=>$arEvents){
 				foreach((array)$arEvents as $event){
@@ -445,7 +452,7 @@ class AgendaService {
 							}
 						}
 					//si pas d'évènement ce jour là
-					if(count($arEventByDay[$dateCourante]) == 0){
+					if(!isset($arEventByDay[$dateCourante]) || count($arEventByDay[$dateCourante]) == 0){
 						$arEventByDay[$dateCourante] = null;						
 					}
 				}

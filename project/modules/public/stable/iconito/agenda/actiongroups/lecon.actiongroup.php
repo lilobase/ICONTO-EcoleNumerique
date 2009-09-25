@@ -179,6 +179,7 @@ class ActionGroupLecon extends CopixActionGroup {
 			$criteres->addCondition('id_lecon', '=', $toValid->id_lecon);	
 			$resultat = $daoLecon->findBy($criteres);
 			
+			$modif = false;
 			if (count($resultat) > 0){//modification
 				$record = $resultat[0];
 				$modif = true;

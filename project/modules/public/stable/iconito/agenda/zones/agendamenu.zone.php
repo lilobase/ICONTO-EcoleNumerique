@@ -25,7 +25,7 @@ class ZoneAgendaMenu extends CopixZone {
 		$tpl = & new CopixTpl ();
 		
 		$agendaAffiches = AgendaService::getAgendaAffiches();
-//    print_r($agendaAffiches);
+    print_r($agendaAffiches);
     
 		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		foreach((array)$this->getParam('listAgendasAffiches') as $id_agenda){

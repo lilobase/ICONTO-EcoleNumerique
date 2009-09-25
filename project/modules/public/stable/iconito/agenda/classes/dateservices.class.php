@@ -139,11 +139,13 @@ class DateService {
 	* @return string La date en timestamp
 	*/
     function dateAndHoureBdToTimestamp ($pDate, $pHour) {
-//      print_r("dateAndHoureBdToTimestamp ($pDate, $pHour)");
+      //print_r("dateAndHoureBdToTimestamp ($pDate, $pHour)");
         if ($pHour) {
             $hour = substr ($pHour, 0, strpos($pHour, ':'));
             $minut = substr ($pHour, strpos($pHour, ':') + 1, 2);
-        } 
+        } else {
+					$hour = $minut = 0;
+				}
         $day = substr($pDate, 6, 2);
         $month = substr($pDate, 4, 2);
         $year = substr($pDate, 0, 4);
@@ -491,10 +493,12 @@ class DateService {
 	* @return int le nombre de minutes
 	*/
 	function convertHoursInMinutes($pHours){
-			
+		//Kernel::deb($pHours);
 		$Tbl = explode (':', $pHours);
-		
-		return($Tbl[0]*60 + $Tbl[1]);
+		$nb = $Tbl[0]*60;
+		if (isset($Tbl[1]))
+			$nb += $Tbl[1];
+		return ($nb);
 	}
 
 	

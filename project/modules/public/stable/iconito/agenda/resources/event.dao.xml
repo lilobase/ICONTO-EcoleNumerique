@@ -41,7 +41,7 @@
 		
 		<property name="datedeb_event"
 			captioni18n="dao.event.fields.datedeb_event"
-			type="date"
+			type="string"
 			required="yes"
 		/>
 		
@@ -54,7 +54,7 @@
 		
 		<property name="datefin_event"
 			captioni18n="dao.event.fields.datefin_event"
-			type="date"
+			type="string"
 			required="yes"
 		/>
 		

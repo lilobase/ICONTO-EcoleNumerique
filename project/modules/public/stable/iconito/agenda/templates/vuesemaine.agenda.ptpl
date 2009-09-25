@@ -51,6 +51,8 @@ $html .= '<tbody>';
 $html .= '<tr>';
 $html .= '<td class="journee">' . CopixI18N::get ('agenda|agenda.message.journee') . '</td>';
 
+$decalage = $margeHaut = 0;
+
 //quand un évènnement se déroule sur la journée, on l'affiche en haut de la colonne
 foreach((array)$arEventByDay as $jours){
 
@@ -200,11 +202,11 @@ $iJour = 1;
 					$color = $arColorByIdAgenda[$event->id_agenda];
 		
 					//on opère un décalage si deux évènements se chevauchent
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)
+					if(isset($heureFinInter) && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)
 					   && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter)){
 						$decalage = $decalage + 20;
 					}
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter) <= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) && $decalage > 20){
+					if(isset($heureFinInter) && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter) <= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) && $decalage > 20){
 						$decalage = 20;
 					}
 					if($decalage == 0 && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){

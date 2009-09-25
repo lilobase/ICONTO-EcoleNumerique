@@ -69,7 +69,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	* @return redirige vers l'action "edit" de l'actiongroup
 	*/
 	function doCreate (){
-		die ("a");
+		
 		$serviceAuth   = new AgendaAuth;
 		
 				
@@ -99,15 +99,14 @@ class ActionGroupEvent extends CopixActionGroup {
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
 		}
 		//initialisation de l'objet event
-		$event = & CopixDAOFactory::createRecord ('event');		
+		$event = _record('event');		
 		$event->id_agenda        = $listAgendas[0]->id_agenda;		
-		//$event->datedeb_event    = DateService::dateBddToDateFr($this->getRequest('jourCourant', ''));
-		$event->datedeb_event    = CopixDateTime::timestampToDate($this->getRequest('jourCourant', ''));
-		//$event->datefin_event    = DateService::dateBddToDateFr($this->getRequest('jourCourant', ''));
-		$event->datefin_event    = CopixDateTime::timestampToDate($this->getRequest('jourCourant', ''));
+		$event->datedeb_event    = $this->getRequest('jourCourant');
+		$event->datefin_event    = $this->getRequest('jourCourant');
 		$event->heuredeb_event   = $this->getRequest('heureDeb', '');
 		$event->heurefin_event   = $this->getRequest('heureFin', '');
-		
+		//var_dump($event);
+		//die();
 		$this->_setSessionEvent($event);
 
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|event|edit'));
@@ -132,6 +131,8 @@ class ActionGroupEvent extends CopixActionGroup {
 			array ('message'=>CopixI18N::get ('agenda.unableToGetEdited'),
 			'back'=>CopixUrl::get ('agenda|agenda|vueSemaine')));
 		}
+		
+		//var_dump($toEdit);
 		
 		//récupération de la liste des agendas affichés
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
@@ -218,35 +219,40 @@ class ActionGroupEvent extends CopixActionGroup {
 		else{
 			
 			$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
-			$record   = & CopixDAOFactory::createRecord ('event');
+			$record   = _record('event');
 
 			$criteres = _daoSp ();
 			$criteres->addCondition('id_event', '=', $toValid->id_event);	
 			$resultat = $daoEvent->findBy($criteres);
 			
+			$modif = false;
 			if (count($resultat) > 0){//modification
 				$record = $resultat[0];
 				$modif = true;
 			}
 		
 			//on fait l'enregistrement en base
-			if($toValid->endrepeat_event == 'nbfois' && $toValid->nb_fois != null){//on determine la date de fin dans le cas où il s'agit d'une répétion n fois			
+			if(isset($toValid->endrepeat_event) && $toValid->endrepeat_event == 'nbfois' && $toValid->nb_fois != null){//on determine la date de fin dans le cas où il s'agit d'une répétion n fois			
 				$obj = new AgendaService();
 				$dateFin = $obj->getDateEndRepeatByNbFois($toValid->nb_fois, $toValid->repeat_event, $toValid->datefin_event);
 			}
+			
+			//die ("dateFin=$dateFin");
 			
 			$record->id_agenda        = $toValid->id_agenda;
 			$record->title_event      = $toValid->title_event;
 			$record->desc_event       = $toValid->desc_event;
 			$record->place_event      = $toValid->place_event;
-			$record->datedeb_event    = CopixDateTime::dateToTimestamp ($toValid->datedeb_event);//convertion des dates au format bdd
-			$record->datefin_event    = CopixDateTime::dateToTimestamp ($toValid->datefin_event);//convertion des dates au format bdd
+			//$record->datedeb_event    = CopixDateTime::dateToTimestamp ($toValid->datedeb_event);//convertion des dates au format bdd
+			$record->datedeb_event    = CopixDateTime::dateToYYYYMMDD ($toValid->datedeb_event, '/');
+			//$record->datefin_event    = CopixDateTime::dateToTimestamp ($toValid->datefin_event);//convertion des dates au format bdd
+			$record->datefin_event    = CopixDateTime::dateToYYYYMMDD ($toValid->datefin_event, '/');
 			$record->heuredeb_event   = $toValid->heuredeb_event;
 			$record->heurefin_event   = $toValid->heurefin_event;			
 			$record->alldaylong_event = (isset($toValid->alldaylong_event)) ? $toValid->alldaylong_event : 0;
 			
 			//si il y a répétition de l'évènement
-			if($toValid->repeat == 1){
+			if(isset($toValid->repeat) && $toValid->repeat == 1){
 				$record->everyday_event   = ($toValid->repeat_event == 'everyday_event' && $toValid->repeat == 1) ? 1 : 0;
 				$record->everyweek_event  = ($toValid->repeat_event == 'everyweek_event' && $toValid->repeat == 1) ? 1 : 0;
 				$record->everymonth_event = ($toValid->repeat_event == 'everymonth_event' && $toValid->repeat == 1) ? 1 : 0;
@@ -254,7 +260,7 @@ class ActionGroupEvent extends CopixActionGroup {
 				
 				//date de fin de répétition (à voir selon ce qui est coché)
 				if(isset($dateFin)){
-					$record->endrepeatdate_event = DateService::dateFrToDateBdd($dateFin);
+					$record->endrepeatdate_event = CopixDateTime::dateToYYYYMMDD ($dateFin, '/');
 					
 				}
 				elseif(isset($toValid->dateendrepeat_event) && $toValid->endrepeat_event == 'date'){
@@ -362,9 +368,9 @@ class ActionGroupEvent extends CopixActionGroup {
 		$heuredeb = dateService::heureWithSeparateurToheureWithoutSeparateur($obj->heuredeb_event);
 		$heurefin = dateService::heureWithSeparateurToheureWithoutSeparateur($obj->heurefin_event);
 		
-		$endrepeat_event = $obj->endrepeat_event;
+		$endrepeat_event = isset($obj->endrepeat_event) ? $obj->endrepeat_event : false;
 		//$dateendrepeat_event = $this->getRequest('dateendrepeat_event', null);
-		$repeat_event = $obj->repeat_event;
+		$repeat_event = isset($obj->repeat_event) ? $obj->repeat_event : false;
 				
 		//vérification si les champs sont bien remplis
 		if ($obj->title_event == null || $obj->title_event == ''){
@@ -403,7 +409,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.nodatefinrepeat');
 		}
 		
-		if($obj->repeat == 1 && $obj->endrepeat_event == null){
+		if(isset($obj->repeat) && $obj->repeat == 1 && (!isset($obj->endrepeat_event) || $obj->endrepeat_event == null)){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.noprecisionrepeat');
 		}
 		
@@ -426,7 +432,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.inversiondate');
 		}
 		
-		if ($obj->repeat == 1 && $datedebTs && $datejusquauTs && $obj->endrepeat_event != null && $datedebTs > $datejusquauTs && $obj->endrepeat_event == 'date'){
+		if (isset($obj->repeat) && $obj->repeat == 1 && $datedebTs && $datejusquauTs && $obj->endrepeat_event != null && $datedebTs > $datejusquauTs && $obj->endrepeat_event == 'date'){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.inversiondaterepeat');
 		}
 		
@@ -499,7 +505,7 @@ class ActionGroupEvent extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _getSessionEvent () {
-		$tmp = _ioDao('tmp');
+		$tmp = _ioDao('event');
 		$inSession = _sessionGet ('modules|agenda|edited_event');
 		return ($inSession) ? unserialize ($inSession) : null;
 	}
