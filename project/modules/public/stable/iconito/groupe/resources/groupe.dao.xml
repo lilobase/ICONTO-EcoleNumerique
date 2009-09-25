@@ -17,30 +17,6 @@
 	</properties>
 
 	<methods>
-		<method name="getListPublic" type="select">
-			<parameters>
-				<parameter name="offset" />
-				<parameter name="count" />
-			</parameters>
-			<conditions>
-				<condition property="is_open" operator="=" value="1" />
-			</conditions>
-			<order>
-				<orderitem property="date_creation" way="desc" />
-			</order>
-			<limit offset="$offset" count="$count" />
-		</method>
-
-		<method name="getListPublicAll" type="select">
-			<parameters>
-			</parameters>
-			<conditions>
-				<condition property="is_open" operator="=" value="1" />
-			</conditions>
-			<order>
-				<orderitem property="date_creation" way="desc" />
-			</order>
-		</method>
 
 		<method name="getListAll" type="select">
 			<parameters>

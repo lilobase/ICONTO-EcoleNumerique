@@ -66,66 +66,61 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/15
 	 * @param integer $page (option, 1 par défaut) Numéro de page dans la liste des groupes
+	 * @param string $kw (option, NULL par défaut) Mot clé en cas de recherche
    */
    function getListPublic () {
 	 
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 	 	$dao = CopixDAOFactory::create("groupe");
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
 
 		$page = $this->getRequest ('page', 1);
-
-		$offset = ($page-1)*CopixConfig::get ('groupe|list_nbgroupes');
-		$groupesAll = $dao->getListPublicAll();
-		$nbPages = ceil(count($groupesAll) / CopixConfig::get ('groupe|list_nbgroupes'));
+		$kw = $this->getRequest ('kw');
 		
-		$list = $dao->getListPublic($offset,CopixConfig::get ('groupe|list_nbgroupes'));
+		
+		$offset = ($page-1)*CopixConfig::get ('groupe|list_nbgroupes');
+		$count = CopixConfig::get ('groupe|list_nbgroupes');
+		
+		$groupesAll = $dao->getListPublic('','',$kw);
+		//var_dump($groupesAll);
+		
+		$nbPages = ceil(count($groupesAll) / $count);
+		//echo "offset=$offset / count=$count / nbPages=$nbPages";
+		
+		$list = array_slice ($groupesAll, $offset, $count);
+		
 		$groupes = array();
 		
 		//var_dump($groupes);
 		
 		foreach ($list as $groupe) {
 
-			$parent = $kernel_service->getNodeParents ("CLUB", $groupe->id );
+			$parent = Kernel::getNodeParents ("CLUB", $groupe->id );
 			
 			$ok = true;
 			
-			if ($parent) {
-				//var_dump($parent);
+			if ($groupe->parent) {
+				$parentInfo = Kernel::getNodeInfo ($groupe->parent[0]["type"], $groupe->parent[0]["id"], false);
+				if (isset($parentInfo["nom"]))		$groupe->rattachement = $parentInfo["nom"];
+				if (isset($parentInfo["desc"]))	$groupe->rattachement .= " (".$parentInfo["desc"].")";
+				
+			}
+
+			$userInfo = Kernel::getUserInfo("ID", $groupe->createur);
+			$groupe->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
+			$groupe->createur_infos = $userInfo;
+			$mondroit = Kernel::getLevel( "CLUB", $groupe->id);
+			$groupe->mondroit = $mondroit;
+			$members = $groupeService->getNbMembersInGroupe($groupe->id);
+			$groupe->inscrits = $members['inscrits'];
+			$groupe->canViewHome = ($groupeService->canMakeInGroupe('VIEW_HOME', $mondroit));
 			
-				if (Kernel::getKernelLimits('ville')) {
-					$ville = GroupeService::getGroupeVille($parent[0]['id']);
-					if (!in_array($ville, Kernel::getKernelLimits('ville_as_array')))
-						$ok = false;
-				}
-				
-				if ($ok) {
-					$parentInfo = $kernel_service->getNodeInfo ($parent[0]["type"], $parent[0]["id"], false);
-					if (isset($parentInfo["nom"]))		$groupe->rattachement = $parentInfo["nom"];
-					if (isset($parentInfo["desc"]))	$groupe->rattachement .= " (".$parentInfo["desc"].")";
-				}	
-				
-			}
-
-			if ($ok) {
-
-				$userInfo = $kernel_service->getUserInfo("ID", $groupe->createur);
-				$groupe->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
-				$groupe->createur_infos = $userInfo;
-				$mondroit = $kernel_service->getLevel( "CLUB", $groupe->id);
-				$groupe->mondroit = $mondroit;
-				$members = $groupeService->getNbMembersInGroupe($groupe->id);
-				$groupe->inscrits = $members['inscrits'];
-				$groupe->canViewHome = ($groupeService->canMakeInGroupe('VIEW_HOME', $mondroit));
-				
-				$blog = $groupeService->getGroupeBlog($groupe->id);
-				if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
-					$groupe->blog = $blog;
-				$groupe->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
-				$groupes[] = $groupe;
-			}
+			$blog = $groupeService->getGroupeBlog($groupe->id);
+			if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
+				$groupe->blog = $blog;
+			$groupe->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
+			$groupes[] = $groupe;
 			
 		}
 		
@@ -139,95 +134,15 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$tplListe->assign ('list', $groupes);
 		$tplListe->assign ('canCreate', ($groupeService->canMakeInGroupe('ADD_GROUP',NULL) ? 1 : 0));
 		$tplListe->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('groupe||getListPublic'))));
-		$result = $tplListe->fetch("getlist.tpl");
-
-		$tpl->assign ("MAIN", $result);
-
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-	}
-	
-
-   /**
-   * Effectue une recherche dans les groupes
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2005/11/15
-	 * @param string $kw (option, NULL par défaut) Mot clé en cas de recherche dans les groupes
-   */
-   function getSearch () {
-	 
-		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
-
-		$errors = array();
-
-	 	$dao = CopixDAOFactory::create("groupe");
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
-
-		$kw = $this->getRequest ('kw', null);
-		
-		if (!$kw) {
-			$errors[] = CopixI18N::get ('groupe|groupe.error.typeKw');
-			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||getListPublic')));
-		}
-		
-		// Découpage du pattern
-  	$testpattern=str_replace(array(" ","%20"), "%20", $kw);
-  	$temp = split ("%20", $testpattern);
-		
-		
-		$query = 'SELECT GR.id, GR.titre, GR.description, GR.is_open, GR.createur FROM module_groupe_groupe GR WHERE (';
-		$iWord = 0;
-		foreach ($temp as $word) {
-   		if ($word != "") {
-				if ($iWord>0)
-					$query .= " OR ";
-    		$query .= "GR.titre LIKE '%".addslashes($word)."%' OR GR.description LIKE '%".addslashes($word)."%'";
-				$iWord++;
-	   }
-  	}
- 		$query .= ")";
-		//Kernel::deb ($query);
-		$groupes = _doQuery($query);
-		
-		foreach ($groupes as $k=>$null) {
-		
-			//print_r($groupes[$k]);
-		
-			$userInfo = $kernel_service->getUserInfo("ID", $groupes[$k]->createur);
-			$groupes[$k]->createur_nom = $userInfo["prenom"]." ".$userInfo["nom"];
-			$groupes[$k]->createur_infos = $userInfo;
-			$mondroit = $kernel_service->getLevel( "CLUB", $groupes[$k]->id);
-			$groupes[$k]->mondroit = $mondroit;
-			$members = $groupeService->getNbMembersInGroupe($groupes[$k]->id);
-			$groupes[$k]->inscrits = $members['inscrits'];
-			$groupes[$k]->canViewHome = ($groupeService->canMakeInGroupe('VIEW_HOME', $mondroit));
-			$parent = $kernel_service->getNodeParents ("CLUB", $groupes[$k]->id );
-			if ($parent) {
-				$parentInfo = $kernel_service->getNodeInfo ($parent[0]["type"], $parent[0]["id"], false);
-				if (isset($parentInfo["nom"]))		$groupes[$k]->rattachement = $parentInfo["nom"];
-				if (isset($parentInfo["desc"]))	$groupes[$k]->rattachement .= " (".$parentInfo["desc"].")";
-			}
-			$blog = $groupeService->getGroupeBlog($groupes[$k]->id);
-			if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
-				$groupes[$k]->blog = $blog;
-			$groupes[$k]->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
-		}
-
-		$tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('groupe|groupe.searchKw', array($kw)));
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
-		$tplListe = & new CopixTpl ();
-		$tplListe->assign ("list", $groupes);
 		$tplListe->assign ("kw", $kw);
 		$result = $tplListe->fetch("getlist.tpl");
-		
+
 		$tpl->assign ("MAIN", $result);
-		
+
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		
 	}
 	
+
 
    /**
    * Formulaire de création / modification d'un groupe

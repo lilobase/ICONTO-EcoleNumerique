@@ -12,7 +12,6 @@ $getHomeAdminMember 	= & new CopixAction ('Groupe', 'processGetHomeAdminMember')
 $getHomeAdminModules	= & new CopixAction ('Groupe', 'getHomeAdminModules');
 $getDelete   					= & new CopixAction ('Groupe', 'getDelete');
 $doDelete   					= & new CopixAction ('Groupe', 'doDelete');
-$getSearch   					= & new CopixAction ('Groupe', 'getSearch');
 $doUnsubscribe   			= & new CopixAction ('Groupe', 'doUnsubscribe');
 $doSubscribe   				= & new CopixAction ('Groupe', 'doSubscribe');
 $doSubscribeWaiting		= & new CopixAction ('Groupe', 'doSubscribeWaiting');
