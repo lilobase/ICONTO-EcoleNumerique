@@ -40,7 +40,7 @@
 	            captioni18n="dao.blog.fields.url_blog"
 	            type="string"
 	            maxlength="100"
-	            required="yes"
+	            required="no"
 	            />
 	     <property name="style_blog_file"
 	            fieldName="style_blog_file"

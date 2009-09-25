@@ -39,8 +39,11 @@ class ActionGroupDefault extends CopixActionGroup {
 		$grville = 1;
 		
 		$tplListe = & new CopixTpl ();
-		//$tplListe->assign ('list', CopixZone::process ('GetListBlogs', array('kw'=>$kw)));
-		$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'grville'=>$grville)));
+		
+		if ($ville=Kernel::getKernelLimits('ville_as_array')) {
+			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'ville'=>$ville)));
+		} else
+			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'grville'=>$grville)));
 		$tplListe->assign ('kw', $kw);
 		
 		//styles/module_public.css

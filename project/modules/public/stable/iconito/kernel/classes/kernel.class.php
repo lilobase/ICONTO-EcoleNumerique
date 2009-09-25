@@ -1979,28 +1979,12 @@ class Kernel {
 	 */
 	function getTheme () {
 		if (1 || !$theme = CopixSession::get ('theme')) {
-			_classInclude('welcome|welcome');
-			
-			$null = _dao("kernel|kernel_limits_urls");
-			$cache_type = 'kernel_limits_urls';
-			$cache_id = CopixUrl::get();
-			//Kernel::deb($cache_id);
-			if (0 && CopixCache::exists ($cache_id, $cache_type)) {
-				$node = CopixCache::read ($cache_id, $cache_type);
-			} else {
-				$node = Welcome::findNodeByUrl($cache_id);
-				CopixCache::write ($cache_id, $node, $cache_type);
-			}
-			if ($node && $node->theme) {
-				$theme = $node->theme;
-			} else
+			$theme = self::getKernelLimits('theme');
+			if (!$theme)
 				$theme = CopixConfig::get ('admin|defaultThemeId');
 			//self::setTheme($theme);
 		}
-		//var_dump($theme);
 		return $theme;
-	
-	
 	}
 	function setTheme ($pTheme) {
 		CopixSession::set ('theme', $pTheme);
@@ -2008,24 +1992,37 @@ class Kernel {
 	
 	
 	/**
-	 * Les limites de l'utilisateur selon son URL
+	 * Les limites de l'utilisateur, basees sur l'URL, sur un champ particulier ou toutes les infos
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2009/09/24
-	 * @param non
-	 * @return string Nom du theme
+	 * @param $pField string (option) Si on veut un champ particulier. Si null, on renvoit tous les champs
+	 * @return mixed Si pField=null, tout le recordset, sinon la valeur du champ (ou null si vide)
 	 */
-	function getKernelLimits () {
+	function getKernelLimits ($pField=null) {
+		_classInclude('welcome|welcome');
 		$null = _dao("kernel|kernel_limits_urls");
 		$cache_type = 'kernel_limits_urls';
 		$cache_id = CopixUrl::get();
-		if (CopixCache::exists ($cache_id, $cache_type)) {
+		if (0 && CopixCache::exists ($cache_id, $cache_type)) {
 			$node = CopixCache::read ($cache_id, $cache_type);
 		} else {
 			$node = Welcome::findNodeByUrl($cache_id);
+			if ($node->ville) {
+				$node->ville_as_array = explode(',',$node->ville);
+			} else
+				$node->ville_as_array = null;
+			//var_dump($node);
 			CopixCache::write ($cache_id, $node, $cache_type);
 		}
-		return $node;
+		//var_dump($node);
+		if ($pField && $node->$pField)
+			$return = $node->$pField;
+		elseif ($pField)
+			$return = null;
+		else
+			$return = $node;
+		return $return;
 	}
 	
 	

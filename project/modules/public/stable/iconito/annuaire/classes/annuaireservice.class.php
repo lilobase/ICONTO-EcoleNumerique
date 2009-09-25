@@ -41,6 +41,34 @@ class AnnuaireService {
 	
 	
 	/**
+	 * Retourne une liste de villes selon leurs ID
+	 *
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2009/09/25
+	 * @param array $pVilles Tableau des ID de ville (ID en valeur)
+	 * @return array Tableau avec les villes
+	 */
+	function getVilles ($pVilles, $options=array()) {
+		$villes = array();
+
+		if( isset($options['getNodeInfo_light']) && $options['getNodeInfo_light'] ) {
+			$getNodeInfo_full = false;
+		} else {
+			$getNodeInfo_full = true;
+		}
+
+		foreach ($pVilles as $child) {
+			$node = Kernel::getNodeInfo ('BU_VILLE', $child, $getNodeInfo_full);
+			$villes[] = array('id'=>$child['id'], 'nom'=>$node['nom']);
+		}
+		//print_r($villes);
+		usort ($villes, array('AnnuaireService', 'usort_nom'));
+		return $villes;
+	}
+	
+	
+	
+	/**
 	 * Retourne les écoles d'une ville
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>

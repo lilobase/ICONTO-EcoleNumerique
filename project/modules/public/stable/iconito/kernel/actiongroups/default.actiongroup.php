@@ -241,11 +241,10 @@ class ActionGroupDefault extends CopixActionGroup {
 		if( !$user->isConnected() || !$user->getExtra('type') || !$user->getExtra('id') ) {
 			$dispBlog = false;
 			
-			$getKernelLimits = Kernel::getKernelLimits();
-			//var_dump($getKernelLimits);
-			if ( $getKernelLimits && $getKernelLimits->id_blog ) {
+			$getKernelLimitsIdBlog = Kernel::getKernelLimits('id_blog');
+			if ( $getKernelLimitsIdBlog ) {
 				_classInclude ('blog|kernelblog');
-				if ($blog = _ioDao('blog|blog')->getBlogById ($getKernelLimits->id_blog)) {
+				if ($blog = _ioDao('blog|blog')->getBlogById ($getKernelLimitsIdBlog)) {
 					// On vérifie qu'il y a au moins un article
 					$stats = KernelBlog::getStats ($blog->id_blog);
 					if ($stats['nbArticles']['value']>0)

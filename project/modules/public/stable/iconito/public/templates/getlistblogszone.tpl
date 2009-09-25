@@ -12,7 +12,7 @@
 			{if $item->stats.lastUpdate.value} - {i18n key="public.blog.lastUpdate" 1=$item->stats.lastUpdate.value|datei18n:"date_short_time"}{/if}</div>
 			</td>
 			<td align="right" valign="top">
-			{if $item->logo_blog}<div><img class="logo" src="{copixurl dest="blog|admin|logo" id_blog=$item->id_blog}" border="0" /></div>{/if}
+			{if $item->logo_blog}<div><img class="logo" src="{copixurl dest="blog||logo" id_blog=$item->id_blog}" border="0" /></div>{/if}
 			</td></tr></table>
 			</div>
 			{counter name="i"}

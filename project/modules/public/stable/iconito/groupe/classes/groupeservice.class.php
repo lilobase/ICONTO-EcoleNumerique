@@ -199,6 +199,37 @@ class GroupeService {
 		return $blog;
 	}
 
+	/**
+	 * Renvoie la ville d'un groupe
+	 *
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2006/09/25
+	 * @param integer $pGroupe	Id du groupe
+	 * @return integer Id de la ville, ou 0 si aucune
+	 */
+	function getGroupeVille ($pGroupe) {
+		
+		$ville = 0;
+		
+		$parent = Kernel::getNodeParents('CLUB', $pGroupe);
+		//var_dump($parent);
+		if ($parent && $parent[0]['type'] == 'BU_VILLE') {
+			$ville = $parent[0]['id'];
+		}	elseif ($parent && $parent[0]['type'] == 'BU_CLASSE') {
+			$ville = $parent[0]['ALL']->eco_id_ville;
+		}	elseif ($parent && $parent[0]['type'] == 'BU_ECOLE') {
+			//var_dump($parent);
+			$ville = $parent[0]['ALL']->vil_id_grville;
+		}		
+		
+		return $ville;
+	}
+
+
+
+
+
+
 }
 
 

@@ -59,7 +59,7 @@ class Welcome {
 			$url_test = Welcome::simplifyUrl( $url_val->url );
 			
 			// Tester l'exactitude.
-			if( false && 0==strncasecmp( $url, $host, strlen($host) ) )
+			if ($url_site == $url_test)
 				return( $url_val );
 			
 			// Mesurer les similitudes.
