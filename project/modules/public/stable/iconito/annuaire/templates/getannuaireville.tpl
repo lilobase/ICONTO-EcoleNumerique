@@ -9,10 +9,14 @@
 
 <div align="right">
 
+{if !$kernel_ville_as_array || $kernel_ville_as_array|@count > 1}
 <form name="formGo" id="formGo" action="{copixurl dest="annuaire||getAnnuaireVille"}" method="get">
-{$combovilles}
+{copixzone process="annuaire|combovilles" grville=$grville value=$ville.id fieldName=ville attribs='class="annu_combo_popup" onchange="this.form.submit();"'}
 <input type="submit" value="{i18n key="annuaire.btn.go"}" class="form_button" />
 </form>
+{/if}
+
+
 
 </div>
 

@@ -2012,7 +2012,7 @@ class Kernel {
 				if ($node->ville) {
 					$node->ville_as_array = explode(',',$node->ville);
 				} else
-					$node->ville_as_array = null;
+					$node->ville_as_array = array();
 			}
 			//var_dump($node);
 			CopixCache::write ($cache_id, $node, $cache_type);

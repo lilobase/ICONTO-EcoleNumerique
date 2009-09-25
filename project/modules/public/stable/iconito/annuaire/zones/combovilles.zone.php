@@ -29,8 +29,12 @@ class ZoneComboVilles extends CopixZone {
 		$attribs = ($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
 		$linesSup = ($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
 		
-		$villes = $annuaireService->getVillesInGrville ($grville);
-
+		
+		if ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
+			$villes = $annuaireService->getVilles ($ville_as_array);
+		} else
+			$villes = $annuaireService->getVillesInGrville ($grville);
+			
 		$tpl = & new CopixTpl ();
 		$tpl->assign('items', $villes);
 		$tpl->assign('value', $value);

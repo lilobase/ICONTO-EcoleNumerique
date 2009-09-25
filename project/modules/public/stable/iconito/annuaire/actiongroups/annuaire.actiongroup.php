@@ -91,7 +91,9 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		
 		if (!$rVille)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noVille');
-
+		elseif (Kernel::getKernelLimits('ville') && !in_array($ville,Kernel::getKernelLimits('ville_as_array')))
+			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noVille');
+		
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 		
@@ -104,7 +106,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		$agents = $annuaireService->getAgentsInVille ($ville);
 		$agents = $annuaireService->checkVisibility ($agents);
 		
-		//print_r($ecoles);
+		//print_r($rVille);
     
     // On cherche les blogs
     foreach ($ecoles as $k=>$e) {
@@ -121,7 +123,8 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		$tplListe->assign ('ecoles', $ecoles);
 		$tplListe->assign ('agents', $agents);
 		$tplListe->assign ('ville', $rVille);
-		$tplListe->assign ('combovilles', CopixZone::process ('annuaire|combovilles', array('grville'=>$grville, 'value'=>$ville, 'fieldName'=>'ville', 'attribs'=>'class="annu_combo_popup" onchange="this.form.submit();"')));
+		$tplListe->assign ('grville', $grville);
+		$tplListe->assign ('kernel_ville_as_array', Kernel::getKernelLimits('ville_as_array'));
 		$result = $tplListe->fetch("getannuaireville.tpl");
 
 		$tpl = & new CopixTpl ();
@@ -364,7 +367,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		}
 
 		$comboEcoles = $comboClasses = true;
-		// On fore les valeurs des combos
+		// On force les valeurs des combos
 		if ($profil) {
 			switch ($profil) {
 				case 'USER_VIL':
@@ -376,12 +379,12 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		
 		$tplListe = & new CopixTpl ();
 
-$debug = false;
-$start = microtime(true);
+		$debug = false;
+		$start = microtime(true);
 		$tplListe->assign ('combovilles', CopixZone::process ('annuaire|combovilles', array('grville'=>$grville, 'value'=>$ville, 'fieldName'=>'ville', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_ville(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllVilles'))))));
 if($debug) echo "combovilles ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
 		
-$start = microtime(true);
+		$start = microtime(true);
 		if ($ville == $ALL && $comboEcoles) {
 			$tplListe->assign ('comboecoles', CopixZone::process ('annuaire|comboecolesingrville', array('grville'=>$grville, 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_ecole(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllEcoles'))))));
 if($debug) echo "comboecolesingrville ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
