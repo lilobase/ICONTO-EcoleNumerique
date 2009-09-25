@@ -9,9 +9,7 @@
 
 <div align="right">
 
-<form name="formGo" id="formGo" action="" method="get">
-<input type="hidden" name="module" value="annuaire" />
-<input type="hidden" name="action" value="getAnnuaireVille" />
+<form name="formGo" id="formGo" action="{copixurl dest="annuaire||getAnnuaireVille"}" method="get">
 {$combovilles}
 <input type="submit" value="{i18n key="annuaire.btn.go"}" class="form_button" />
 </form>

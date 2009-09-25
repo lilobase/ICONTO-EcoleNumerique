@@ -2008,15 +2008,17 @@ class Kernel {
 			$node = CopixCache::read ($cache_id, $cache_type);
 		} else {
 			$node = Welcome::findNodeByUrl($cache_id);
-			if ($node->ville) {
-				$node->ville_as_array = explode(',',$node->ville);
-			} else
-				$node->ville_as_array = null;
+			if ($node != null) {
+				if ($node->ville) {
+					$node->ville_as_array = explode(',',$node->ville);
+				} else
+					$node->ville_as_array = null;
+			}
 			//var_dump($node);
 			CopixCache::write ($cache_id, $node, $cache_type);
 		}
 		//var_dump($node);
-		if ($pField && $node->$pField)
+		if ($pField && $node != null && $node->$pField)
 			$return = $node->$pField;
 		elseif ($pField)
 			$return = null;

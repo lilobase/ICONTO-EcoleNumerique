@@ -40,8 +40,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$tplListe = & new CopixTpl ();
 		
-		if ($ville=Kernel::getKernelLimits('ville_as_array')) {
-			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'ville'=>$ville)));
+		if ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
+			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'ville'=>$ville_as_array)));
 		} else
 			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'grville'=>$grville)));
 		$tplListe->assign ('kw', $kw);

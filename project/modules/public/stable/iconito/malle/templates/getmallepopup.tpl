@@ -55,9 +55,7 @@
 
 <DIV CLASS="malle_go_folder_form">
 {if $combofolders|trim}
-<form name="formGo" id="formGo" action="" method="get">
-<input type="hidden" name="module" value="malle" />
-<input type="hidden" name="action" value="getMallePopup" />
+<form name="formGo" id="formGo" action="{copixurl dest="malle||getMallePopup"}" method="get">
 <input type="hidden" name="id" value="{$id}" />
 <input type="hidden" name="field" value="{$field}" />
 <input type="hidden" name="format" value="{$format}" />

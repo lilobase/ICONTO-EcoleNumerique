@@ -1,33 +1,5 @@
-<form name="dossiers" action="{copixurl}index.php" method="get" onchange="dossiers.submit();">
-
-
 
 {i18n key="album.folder.title"}
-
-<!-- // Suppression de la combo
-<input type="hidden" name="module" value="album" />
-<input type="hidden" name="desc" value="default" />
-<input type="hidden" name="action" value="album" />
-<input type="hidden" name="album_id" value="{$album_id}" />
-
-
-{if $commands neq null}
-	{assign var=level value=0}
-	<select NAME="dossier_id">
-	{foreach from=$commands item=valeur}
-		{if $valeur.type eq 'open'}
-			{assign var=level value=`$level+1`}
-		{elseif $valeur.type eq 'close'}
-			{assign var=level value=`$level-1`}
-		{elseif $valeur.type eq 'folder'}
-			<option VALUE="{$valeur.data->dossier_id}"{if $valeur.data->dossier_id == $dossier_id} selected{/if}>{$TitreArticle|indent:$level:"&gt;&nbsp;"}{$valeur.data->dossier_nom|htmlentities}</option>
-		{/if}
-	{/foreach}
-	</select>
-{/if}
-
-// Fin suppression combo -->
-
 
 {if $dossiermenu neq null}
 [
@@ -39,8 +11,6 @@
 {/foreach}
 ]
 {/if}
-
-</form>
 
 {if $dossiermenu neq null}
 
@@ -73,10 +43,7 @@ DIV.folder_action {
 
 <div id="folder_new" class="folder_action" style="display: none;">
 
-	<form name="folder_new" action="{copixurl}index.php" method="get">
-	<input type="hidden" name="module" value="album" />
-	<input type="hidden" name="desc" value="default" />
-	<input type="hidden" name="action" value="dofolder" />
+	<form name="folder_new" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="new" />
 	<input type="hidden" name="album_id" value="{$album_id}" />
 	<input type="hidden" name="dossier_id" value="{$dossier_id}" />
@@ -90,10 +57,7 @@ DIV.folder_action {
 
 <div id="folder_move" class="folder_action" style="display: none;">
 
-	<form name="folder_move" action="{copixurl}index.php" method="get">
-	<input type="hidden" name="module" value="album" />
-	<input type="hidden" name="desc" value="default" />
-	<input type="hidden" name="action" value="dofolder" />
+	<form name="folder_move" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="move" />
 	<input type="hidden" name="album_id" value="{$album_id}" />
 	<input type="hidden" name="dossier_id" value="{$dossier_id}" />
@@ -119,10 +83,7 @@ DIV.folder_action {
 
 <div id="folder_rename" class="folder_action" style="display: none;">
 
-	<form name="folder_rename" action="{copixurl}index.php" method="get">
-	<input type="hidden" name="module" value="album" />
-	<input type="hidden" name="desc" value="default" />
-	<input type="hidden" name="action" value="dofolder" />
+	<form name="folder_rename" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="rename" />
 	<input type="hidden" name="album_id" value="{$album_id}" />
 	<input type="hidden" name="dossier_id" value="{$dossier_id}" />
@@ -136,10 +97,7 @@ DIV.folder_action {
 
 <div id="folder_delete" class="folder_action" style="display: none;">
 
-	<form name="folder_delete" action="{copixurl}index.php" method="get">
-	<input type="hidden" name="module" value="album" />
-	<input type="hidden" name="desc" value="default" />
-	<input type="hidden" name="action" value="dofolder" />
+	<form name="folder_delete" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="delete" />
 	<input type="hidden" name="album_id" value="{$album_id}" />
 	<input type="hidden" name="dossier_id" value="{$dossier_id}" />

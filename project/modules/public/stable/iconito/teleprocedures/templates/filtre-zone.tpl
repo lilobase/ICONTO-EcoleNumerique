@@ -1,13 +1,10 @@
 
 <table align="center" cellspacing="1" BORDER="0">
 <tr>
-<form action="{copixurl dest="|"}" method="get">
-<input type="hidden" name="module" value="teleprocedures" />
 {if $admin}
-<input type="hidden" name="desc" value="admin" />
-<input type="hidden" name="action" value="admin" />
+<form action="{copixurl dest="teleprocedures|admin|admin"}" method="get">
 {else}
-<input type="hidden" name="action" value="listTeleprocedures" />
+<form action="{copixurl dest="teleprocedures||listTeleprocedures"}" method="get">
 {/if}
 <input type="hidden" name="id" value="{$rTelep->id}" />
 	<td CLASS="form_libelle">{i18n key="teleprocedures|teleprocedures.filtre.kw"}</td><td><input type="text" name="motcle" value="{$motcle|escape}" CLASS="form" /></td>

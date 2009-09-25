@@ -128,10 +128,10 @@ class KernelBlog {
 		$sql = 'SELECT COUNT(id_blog) AS nb FROM module_blog';
 		$a = _doQuery($sql);
 		$res['nbBlogs'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbBlogs', array($a[0]->nb)));
-		$sql = 'SELECT COUNT(id_bact) AS nb FROM module_blog_article';
+		$sql = 'SELECT COUNT(id_bact) AS nb FROM module_blog_article WHERE is_online=1';
 		$a = _doQuery($sql);
 		$res['nbArticles'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbArticles', array($a[0]->nb)));
-		$sql = 'SELECT COUNT(id_bacc) AS nb FROM module_blog_articlecomment';
+		$sql = 'SELECT COUNT(id_bacc) AS nb FROM module_blog_articlecomment WHERE is_online=1';
 		$a = _doQuery($sql);
 		$res['nbComments'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbComments', array($a[0]->nb)));
 		return $res;
