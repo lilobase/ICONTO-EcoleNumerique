@@ -3,7 +3,7 @@
 
 <div class="dates">
 
-<form method="get" action="{copixurl}">
+<form method="get" action="{$form_dest}">
 {foreach from=$urlTab item=value key=name}
 <input type="hidden" name="{$name}" value="{$value}" />
 

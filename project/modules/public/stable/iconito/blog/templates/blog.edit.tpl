@@ -25,7 +25,7 @@
    <tr>
       <td CLASS="form_libelle">{i18n key='dao.blog.fields.logo_blog'}</td>
 	  	<td CLASS="form_saisie">
- 						{if $blog->logo_blog!=''}<img src="{copixurl dest="blog||logo" id_blog=$blog->id_blog}" border="0" /><br />{/if}
+ 						{if $blog->logo_blog!=''}<img alt="{$blog->logo_blog}" src="{copixurl dest="blog||logo" id_blog=$blog->id_blog}" border="0" /><br />{/if}
             <input size="35" type="file" name="logoFile" class="form" style="width:250px;"><br/>{i18n key='blog.logo.messages.instructions' nb=$logo_max_width}
 			</td>
    </tr>

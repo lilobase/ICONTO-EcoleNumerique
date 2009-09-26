@@ -70,9 +70,6 @@ class ZoneModule extends CopixZone {
 			}
 		}
 		
-		
-
-		
 		$stats1 = CopixZone::process ('moduleActions', array(
 			'module_type'=>$module_type,
 			'module_id'=>$module_id,
@@ -122,10 +119,18 @@ class ZoneModule extends CopixZone {
 		$tpl->assign ('date_debut', $date_debut);
 		$tpl->assign ('date_fin', $date_fin);
 		$tpl->assign ('url', $url);
+		
 		$urlTab = getUrlTab();
+		$form_dest = CopixUrl::get ($urlTab['module'].'|'.$urlTab['group'].'|'.$urlTab['action']);
+		$tpl->assign ('form_dest', $form_dest);
+		unset ($urlTab['module']);
+		unset ($urlTab['group']);
+		unset ($urlTab['action']);
+		unset ($urlTab['Copix']);
 		unset ($urlTab['mois']);
 		unset ($urlTab['annee']);
 		unset ($urlTab['date']);
+		//print_r($urlTab);
 		$tpl->assign ('urlTab', $urlTab);
 		$tpl->assign ('date', $date);
 

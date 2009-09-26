@@ -34,9 +34,8 @@ class DAOLogs {
 		$query .= " GROUP BY action ORDER BY nb DESC";
 		//Kernel::deb($query);
 		$result = _doQuery ($query);
-    while ($r = $result->fetch ()) {
+		foreach ($result as $r)
 			$stats[] = $r;
-		}
 		return $stats;
 	}
 
@@ -62,9 +61,8 @@ class DAOLogs {
 		$query .= " GROUP BY objet_a ORDER BY nb DESC";
 		//Kernel::deb($query);
 		$result = _doQuery ($query);
-    while ($r = $result->fetch ()) {
+    foreach ($result as $r)
 			$stats[] = $r;
-		}
 		return $stats;
 	}
 	

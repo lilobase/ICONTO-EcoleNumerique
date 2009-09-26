@@ -6,6 +6,6 @@
     </general>
 
     <parameters>
-			<parameter name="magicmail_url"  captioni18n="magicmail.magicmail_url"  default="http://magicmail.iconito.fr/" />
+			<parameter name="magicmail_url"  captioni18n="magicmail.parameter.magicmail_url"  default="http://magicmail.iconito.fr/" />
     </parameters>
 </moduledefinition>

@@ -88,14 +88,15 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 
 		$tpl = & new CopixTpl ();
 
+		
 		$categoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
 		$id_bacg = $this->getRequest('id_bacg', null); if(strlen($id_bacg)==0) $id_bacg=null;
 		if($id_bacg!=null) {
 			// EDITION D'UNE CATEGORIE
 			$category = $categoryDAO->get($id_bacg);
 			$category->id_blog	 = $id_blog;
-			$category->name_bacg = $this->getRequest('name_bacg', '');
-			$category->url_bacg	 = $this->getRequest('url_bacg', '');
+			$category->name_bacg = $this->getRequest('name_bacg');
+			$category->url_bacg	 = $this->getRequest('url_bacg');
 	    if(strlen($category->url_bacg)==0) {
 	    	$category->url_bacg = killBadUrlChars($category->name_bacg);
 	    }
@@ -115,14 +116,16 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 
 			$category = CopixDAOFactory::createRecord('blogarticlecategory');
 			$category->id_blog	 = $id_blog;
-			$category->name_bacg = $this->getRequest('name_bacg', '');
-			$category->url_bacg	 = $this->getRequest('url_bacg', '');
+			$category->name_bacg = $this->getRequest('name_bacg');
+			$category->url_bacg	 = $this->getRequest('url_bacg');
 			$category->order_bacg = $categoryDAO->getNewPos($id_blog);
+    	$category->url_bacg = killBadUrlChars($category->name_bacg);
 	    if(strlen($category->url_bacg)==0) {
 	    	$category->url_bacg = killBadUrlChars($category->name_bacg);
 	    }
+
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.category.title'));
-			$errors = _dao('blog|blogarticlecategory')->check($category);
+			$errors = _dao('blogarticlecategory')->check($category);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;

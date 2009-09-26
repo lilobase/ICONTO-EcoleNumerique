@@ -15,6 +15,8 @@
 require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 
 function killBadUrlChars ($url) {
+	if (!strlen($url))
+		return $url;
 	$result = strtolower($url); 
 	$result = killFrenchChars($result); 
 	$result	 = strtr($result,'&~#"\'\\/{}[]`@%&:| .?!','_____________________');

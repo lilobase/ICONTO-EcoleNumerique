@@ -95,8 +95,8 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			// EDITION D'UNE Link
 			$fluxRss = $fluxRssDAO->get($id_bfrs);
 			$fluxRss->id_blog	 = $id_blog;
-			$fluxRss->name_bfrs = $this->getRequest('name_bfrs', '');
-			$fluxRss->url_bfrs	 = $this->getRequest('url_bfrs', '');
+			$fluxRss->name_bfrs = $this->getRequest('name_bfrs');
+			$fluxRss->url_bfrs	 = $this->getRequest('url_bfrs');
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.rss.title'));
 			$errors = _dao('blog|blogfluxrss')->check($fluxRss);
 			if($errors!=1) {
@@ -112,8 +112,8 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			// CREATION D'UNE Link
 			$fluxRss = CopixDAOFactory::createRecord('blogfluxrss');
 			$fluxRss->id_blog	 = $id_blog;
-			$fluxRss->name_bfrs  = $this->getRequest('name_bfrs', '');
-			$fluxRss->url_bfrs	 = $this->getRequest('url_bfrs', '');
+			$fluxRss->name_bfrs  = $this->getRequest('name_bfrs');
+			$fluxRss->url_bfrs	 = $this->getRequest('url_bfrs');
 			$fluxRss->order_bfrs = $fluxRssDAO->getNewPos($id_blog);
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.rss.title'));
 			$errors = _dao('blog|blogfluxrss')->check($fluxRss);

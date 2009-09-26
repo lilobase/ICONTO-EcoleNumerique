@@ -292,7 +292,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.page.title'));
 		}
 		$this->_validFromPostProperties($page);
-		$page->name_bpge = $this->getRequest('name_bpge', '');
+		$page->name_bpge = $this->getRequest('name_bpge');
 		$page->url_bpge = killBadUrlChars($page->name_bpge);
 
 		$tpl->assign ('MAIN', CopixZone::process ('EditPage',
