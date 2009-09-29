@@ -45,7 +45,7 @@
     
     {if $item->avatar}<img src="{copixurl}{$item->avatar}" alt="{$item->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
 
-    {user label=$item->auteur_nom userType=$item->auteur_infos.type userId=$item->auteur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->auteur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$item->date|datei18n:"date_short_time"} :
+    {user label=$item->auteur_nom userType=$item->auteur_infos.type userId=$item->auteur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->auteur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$item->date|datei18n:"date_short_time" noEscape=1} :
 		</DIV>
 		<DIV CLASS="carnet_message_message"><DIV CLASS="carnet_message_eleve">{i18n key="carnet.msg.eleve"} : {user label=$item->eleve_nom userType=$item->eleve_infos.type userId=$item->eleve_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->eleve_infos.login dispMail=0}</DIV>{$item->message|render:$item->format}</DIV>
 		<DIV CLASS="carnet_message_actions">

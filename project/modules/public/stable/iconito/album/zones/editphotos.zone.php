@@ -13,34 +13,37 @@ class ZoneEditPhotos extends CopixZone {
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
 		
+		$pAlbumId = $this->getParam('album_id');
+		$pDossierId = $this->getParam('dossier_id');
+		
 		// $album_dao = _dao("album");
 		$dossier_dao = _dao("dossier");
 		$photo_dao = _dao("photo");
 		
 		
-		if( $this->getParam('dossier_id') > 0 ) {
-			$dossier = $dossier_dao->get($this->getParam('dossier_id'));
+		if( $pDossierId > 0 ) {
+			$dossier = $dossier_dao->get($pDossierId);
 		} else {
 			$dossier->dossier_id = 0;
 			$dossier->dossier_album = $this->getParam('album_id');
 			$dossier->dossier_parent = -1;
 			$dossier->dossier_nom = CopixI18N::get ('album|album.message.topfolder');
 			$dossier->dossier_comment = "";
-			$dossier->album_id = $album_id;
+			$dossier->album_id = $pAlbumId;
 		}
-		if( $dossier->dossier_album != $this->getParam('album_id') ) return false;
+		if( $dossier->dossier_album != $pAlbumId ) return false;
 		
-		$pictures = $photo_dao->findAllByAlbumAndFolder($this->getParam('album_id'),$this->getParam('dossier_id'));
+		$pictures = $photo_dao->findAllByAlbumAndFolder($pAlbumId,$pDossierId);
 		
-		$tpl->assign('album_id',   $this->getParam('album_id') );
-		$tpl->assign('dossier_id', $this->getParam('dossier_id') );
+		$tpl->assign('album_id',   $pAlbumId );
+		$tpl->assign('dossier_id', $pDossierId );
 		
 		$tpl->assign('dossier',    $dossier );
 		$tpl->assign('pictures',   $pictures );
 		
 		$tpl->assign('picture_thumbsize', '_s64' );
 		
-		$dossiers_tree = Album::getFoldersTree( $this->getParam('album_id') );
+		$dossiers_tree = Album::getFoldersTree( $pAlbumId );
 		$dossiers_commands = Album::tree2commands( $dossiers_tree );
 		$tpl->assign('commands_move', $dossiers_commands );
 		

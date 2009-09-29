@@ -38,7 +38,7 @@
 		</method>
 
 		<!-- Renvoie un fichier d'un certain nom présent dans un dossier -->
-		<method name="isFichierInFolder" type="select">
+		<method name="isFichierInFolder" type="selectfirst">
 			<parameters>
 				<parameter name="fichier" />
 				<parameter name="folder" />

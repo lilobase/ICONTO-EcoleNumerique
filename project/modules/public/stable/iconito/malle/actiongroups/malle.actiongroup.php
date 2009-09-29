@@ -1054,7 +1054,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			} else
 				$errors[] = CopixI18N::get ('malle|malle.error.noSelection');
 			if ( ($actionCopy || $actionMove) && $folder==$folderDest)
-				$errors[] = CopixI18N::get ('malle|malle.error.noSelection');
+				$errors[] = CopixI18N::get ('malle|malle.error.moveFolderOther');
 			//print_r($errors);
 			
 			if (count($errors)>0)
