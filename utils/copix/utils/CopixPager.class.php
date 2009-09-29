@@ -825,7 +825,8 @@ class CopixPager {
      * @return string le template une fois parsé
      * @since 1.0
      */
-   function getMultipage(){
+   function getMultipage(){				
+
         // On balance les traitements
         $this-> setup();
       return $this-> tpl_data;

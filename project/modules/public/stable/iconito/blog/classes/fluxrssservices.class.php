@@ -52,11 +52,11 @@ class FluxRSSServices {
 			
 			if ($currentDate != -1) {
 				$Feed['dc']['datecopix'] = date("Ymd", $currentDate);
-				if (!$Feed['date_timestamp'])
+				if (!isset($Feed['date_timestamp']))
 					$Feed['date_timestamp'] = $currentDate;
 			}
 			else {
-				if ($Feed['date_timestamp']) { // Ok with b2evolution that uses timestamp format
+				if (isset($Feed['date_timestamp'])) { // Ok with b2evolution that uses timestamp format
 					$Feed['dc']['datecopix'] = date('Ymd', $Feed['date_timestamp']);
 				}
 				else{

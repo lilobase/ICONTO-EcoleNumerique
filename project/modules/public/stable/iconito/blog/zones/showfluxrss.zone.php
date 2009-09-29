@@ -33,7 +33,7 @@ class ZoneShowFluxrss extends CopixZone {
 	  $tpl->assign ('arFlux', $arFlux);
 
       // retour de la fonction :
-      $toReturn = $tpl->fetch('showfluxrss.tpl');
+      $toReturn = utf8_encode($tpl->fetch('showfluxrss.tpl'));
       return true;
    }
 }

@@ -1965,7 +1965,8 @@ class Kernel {
 
 			$value = $regs[1].'/'.$regs[2].'/'.$year;
 			//Kernel::deb("value=$value");
-		}
+		} elseif ($value == '__/__/____')
+			$value = '';
 		return $value;
 	}
 	

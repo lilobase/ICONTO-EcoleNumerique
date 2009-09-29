@@ -26,7 +26,7 @@ class ZoneAgendaMenu extends CopixZone {
 		
 		$agendaAffiches = AgendaService::getAgendaAffiches();
 
-    
+    $ableToWrite = $ableToModerate = false;
 		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
 		foreach((array)$this->getParam('listAgendasAffiches') as $id_agenda){
 			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché

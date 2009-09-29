@@ -5,7 +5,7 @@
     </general>
     <parameters>
         <parameter name="logoPath" captioni18n="blog.parameter.logoPath" default="data/blog/logos/" />
-        <parameter name="nbMaxArticles" captioni18n="blog.nbMaxArticles.draw" default="20" />
+        <parameter name="nbMaxArticles" captioni18n="blog.nbMaxArticles.draw" default="5" />
         <parameter name="cssPath" captioni18n="blog.parameter.cssPath" default="data/blog/css/" />
         <parameter name="blogDefaultArticleOwner" captioni18n="blog.default.article.owner" default="1" />
         <parameter name="nbRssArticles" captioni18n="blog.nbRssArticles" default="15" />

@@ -291,6 +291,8 @@ class CopixDateTime {
 	 * @return int Un timestamp
 	 */
 	public static function dateToTimestamp ($pParam, $separator='/') {
+		/*
+		VERSION COPIX 3
 	    if (($pParam !== false) && (($pParam === null) || (strlen ($pParam = trim ($pParam)) === 0))){
 			return null;
 		}
@@ -298,6 +300,73 @@ class CopixDateTime {
 			return false;
 		}
 		return self::yyyymmddToTimestamp ($yyyymmdd); 
+		
+		*/
+		
+		/* VERSION COPIX 2 */
+		
+		$date = $pParam;
+		if (($date === null) || (strlen ($date = trim ($date)) === 0)){
+			return null;
+		}
+
+		//is the date have exactly 3 parts (day, month, year)
+		if (count ($tmp = explode ($separator, $date)) !== 3){
+			return false;
+		}
+		foreach ($tmp as $key=>$value){
+			$tmp[$key] = intval ($value);
+		}
+
+		//gets the format & pos of each elements
+		$format = CopixI18N::getDateFormat ($separator);
+		
+		print_r($pParam);
+		print_r($format);
+		print_r($tmp);
+		
+		//Very very weird thing to get the date in our requested format.
+		//array of positions for day, month and year (D, M, Y) in the tab
+		//we wants to order positions to get 0, 1, 2
+		$positions = array ('d'=>strpos ($format, 'd'),
+		'm'=>strpos ($format, 'm'),
+		'Y'=>strpos ($format, 'Y'));
+		//we know the first match will be 0 (at least we start with d m or Y)
+		switch (array_search (0, $positions)){
+			case 'd': if ($positions['m'] > $positions['Y']){
+				$positions['m'] = 2;
+				$positions['Y'] = 1;
+			}else{
+				$positions['m'] = 1;
+				$positions['Y'] = 2;
+			}
+			break;
+			case 'm': if ($positions['d'] > $positions['Y']){
+				$positions['d'] = 2;
+				$positions['Y'] = 1;
+			}else{
+				$positions['d'] = 1;
+				$positions['Y'] = 2;
+			}
+			break;
+			case 'Y': if ($positions['d'] > $positions['m']){
+				$positions['d'] = 2;
+				$positions['m'] = 1;
+			}else{
+				$positions['d'] = 1;
+				$positions['m'] = 2;
+			}
+			break;
+		}
+
+		if (! checkdate ($tmp[$positions['m']], $tmp[$positions['d']], $tmp[$positions['Y']])){
+			return false;
+		}
+
+		//the timestamp (YYYMMDD)
+		return $tmp[$positions['Y']].sprintf("%02d",$tmp[$positions['m']]).sprintf( "%02d", $tmp[$positions['d']]);
+		
+
 	}
 	
 	/**

@@ -163,7 +163,6 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       $article->date_bact = CopixDateTime::dateToTimestamp($article->date_bact);
       $article->time_bact = timeToBD($article->time_bact);
       $article->author_bact = $user->userId;
-
       $tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.article.title'));
 			//print_r($article);
       $errors = $articleDAO->check($article);
@@ -197,6 +196,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       $article->date_bact = CopixDateTime::dateToTimestamp($article->date_bact);
       $article->time_bact = timeToBD($article->time_bact);
       $article->author_bact = $user->userId;
+
+
       $tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.article.title'));
       $errors = $articleDAO->check($article);
       if(count($tabSelectCat)==0) {
