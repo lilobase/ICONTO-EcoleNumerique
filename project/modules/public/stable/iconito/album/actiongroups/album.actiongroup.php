@@ -803,14 +803,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tpl->assign ('field', _request("field") );
 		$tpl->assign ('format', $format );
 		
-		// On déduit le chemin absolu
-		$path = $_SERVER['PHP_SELF'];
-		$pos = strrpos($path, "/");
-		if ($pos !== false) {
-			$abspath = substr($path,0,$pos+1);
-		}
-		$tpl->assign ('abspath', $abspath);	
-		
 		$result = $tpl->fetch('album|popup.tpl');
 		
 		$ppo = new CopixPPO ();

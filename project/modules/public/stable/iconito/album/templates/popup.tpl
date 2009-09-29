@@ -16,26 +16,26 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 	if( form.size[1].checked ) size='_240';
 	if( form.size[2].checked ) size='_480';
 
-	if( form.zoom.checked ) popup = 'static/album/'+album+'/'+photo+'.'+ext;
+	if( form.zoom.checked ) popup = urlBase+'static/album/'+album+'/'+photo+'.'+ext;
 	
 	img_width=img_height='';
 	switch (format) {ldelim}
 		case 'wiki' :
-			window.opener.add_photo('{$field}', 'static/album/'+album+'/'+photo+size+'.'+ext+'|'+nom+'|'+align, popup);
+			window.opener.add_photo('{$field}',urlBase+'static/album/'+album+'/'+photo+size+'.'+ext+'|'+nom+'|'+align, popup);
 			break;
 
 		case 'dokuwiki' :
-			window.opener.add_photo ('{$field}','static/album/'+album+'/'+photo+size+'.'+ext,nom,align,popup);
+			window.opener.add_photo ('{$field}',urlBase+'static/album/'+album+'/'+photo+size+'.'+ext,nom,align,popup);
 			break;
 
 		case 'fckeditor' :
 		case 'html' :
-			var html = '<img alt="'+nom+'" border="0" src="{$abspath}'+'static/album/'+album+'/'+photo+size+'.'+ext+'"';
+			var html = '<img alt="'+nom+'" border="0" src="'+urlBase+'static/album/'+album+'/'+photo+size+'.'+ext+'"';
 			if 			(align == 'L')	html += ' align="left"';
 			else if (align == 'R')	html += ' align="right"';
 			html += '/>';
 			if (popup)
-				html = '<a target="_blank" href="{$abspath}'+'static/album/'+album+'/'+photo+'.'+ext+'">'+html+'</a>';
+				html = '<a target="_blank" href="'+urlBase+'static/album/'+album+'/'+photo+'.'+ext+'">'+html+'</a>';
 			if (format == 'fckeditor')
 				window.opener.add_photo_fckeditor ('{$field}', html);
 			else

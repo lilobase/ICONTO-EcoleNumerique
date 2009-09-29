@@ -42,10 +42,10 @@ class ZoneEdition extends CopixZone {
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
 				case "fckeditor" :
-CopixHtmlHeader::addJSLink(CopixUrl::get().'js/FCKeditor/fckeditor.js');
-					include("js/fckeditor/fckeditor.php");
+					CopixHTMLHeader::addJSLink (_resource('js/FCKeditor/fckeditor.js'));
+					include("js/FCKeditor/fckeditor.php");
 					$oFCKeditor = new FCKeditor($field);
-					$oFCKeditor->BasePath = 'js/fckeditor/';
+					$oFCKeditor->BasePath = CopixUrl::get().'/js/FCKeditor/';
 					$oFCKeditor->Value = $content;
 					$oFCKeditor->ToolbarSet = isset($options['ToolbarSet']) ? $options['ToolbarSet'] : 'Iconito';
 					if (isset($options['EnterMode']))

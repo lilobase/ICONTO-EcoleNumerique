@@ -25,7 +25,7 @@ function iconito_multimedia ($contents, $attr){
 					else								{ $name = substr($file,$pos+1); $href=substr($file,0,$pos+1).rawurlencode($name); }
 					if (strlen($name)>35) $name=substr($name,0,35).'...';
 //        print_r();
-					$ret = '<div class="file_dl"><a href="'.($href).'" title="'.htmlentities($file).'"><img src="'.CopixUrl::get().'img/malle/'.$ext['type_icon32'].'" width="32" height="32" border="0" title="'.htmlentities($ext['type_text']).'" alt="'.htmlentities($ext['type_text']).'" /><div class="name">'.$name.'</div></a><div class="desc">'.$ext['type_text'].''.$size.'</div></div>';
+					$ret = '<div class="file_dl"><a href="'.($href).'" title="'.htmlentities($file).'"><img src="'._resource ('img/malle/'.$ext['type_icon32']).'" width="32" height="32" border="0" title="'.htmlentities($ext['type_text']).'" alt="'.htmlentities($ext['type_text']).'" /><div class="name">'.$name.'</div></a><div class="desc">'.$ext['type_text'].''.$size.'</div></div>';
 				} else {
 					$ret = '<div>Fichier '.$file.' introuvable</div>';
 				}
@@ -77,7 +77,7 @@ function iconito_multimedia ($contents, $attr){
 			} elseif ($mode == 'mp3') {
 				$width = 200;
 				$height = 20;
-				$ret = '<div><object type="application/x-shockwave-flash" data="dewplayer/dewplayer.swf?son='.$file.'" width="'.$width.'" height="'.$height.'"> <param name="movie" value="dewplayer/dewplayer.swf?son='.$file.'" /></object></div>';
+				$ret = '<div><object type="application/x-shockwave-flash" data="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf?son='.$file.'" width="'.$width.'" height="'.$height.'"> <param name="movie" value="dewplayer/dewplayer.swf?son='.$file.'" /></object></div>';
 			} elseif ($mode == 'wmv') {
 				$id = "media-Player".md5(mt_rand());
 				$width = 480;
@@ -123,7 +123,7 @@ function iconito_multimedia ($contents, $attr){
 				$ret = '
 <p id="player-'.$rand.'"><a href="http://www.macromedia.com/go/getflashplayer">Get the Flash Player</a> to see this player.</p>
 <script type="text/javascript">
-        var FU = { movie:"flvplayer/flvplayer.swf",width:"'.$width.'",height:"'.$height.'",majorversion:"7",build:"0",bgcolor:"#FFFFFF",
+        var FU = { movie:"'.CopixUrl::getRequestedScriptPath().'flvplayer/flvplayer.swf",width:"'.$width.'",height:"'.$height.'",majorversion:"7",build:"0",bgcolor:"#FFFFFF",
                                 flashvars:"file='.(!ereg("^https?://",$file)?CopixUrl::get():"").$file.'&showdigits=true&autostart=false" };
         UFO.create(FU, "player-'.$rand.'");
 </script>';

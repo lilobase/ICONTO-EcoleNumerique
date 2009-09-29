@@ -102,8 +102,11 @@
 	{if $format eq "fckeditor" OR $format eq "html"}
 		{*{assign var=htmlDownload value="[["|cat:$abspath|cat:$file|cat:"|download]]"}*}
 		{assign var=htmlDownload value="[["|cat:$file|cat:"|download]]"}
-		{assign var=htmlView value="[["|cat:$abspath|cat:$file|cat:"|view]]"}
+		{*{assign var=htmlView value="[["|cat:$abspath|cat:$file|cat:"|view]]"}*}
+		{assign var=htmlView value="[["|cat:$file|cat:"|view]]"}
 	{/if}
+	
+	{$htmlView}
 	
 	{i18n key="malle|malle.error.unsupportedFormat" format=$format assign=i18n_unsupportedFormat}
 

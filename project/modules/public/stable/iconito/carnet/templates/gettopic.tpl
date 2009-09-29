@@ -4,7 +4,7 @@
   
   {if $topic->avatar}<img src="{copixurl}{$topic->avatar}" alt="{$topic->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
   
-  {user label=$topic->createur_nom userType=$topic->createur_infos.type userId=$topic->createur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$topic->createur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$topic->date_creation|datei18n:"date_short_time"} :</DIV>
+  {user label=$topic->createur_nom userType=$topic->createur_infos.type userId=$topic->createur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$topic->createur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$topic->date_creation|datei18n:"date_short_time" noEscape=1} :</DIV>
 	<DIV CLASS="carnet_message_message">{$topic->message|render:$topic->format}</DIV>
 <DIV CLASS="carnet_concerne">
 
@@ -14,15 +14,15 @@
 
 {if $canWriteClasse}
 	{if !$eleve or $eleve eq "CLASSE"}
-		{i18n key="carnet.msg.concernLinkSel" pNb=$topic->nb_eleves link=$linkClasse}
+		{i18n key="carnet.msg.concernLinkSel" pNb=$topic->nb_eleves link=$linkClasse noEscape=1}
 	{else}
-		{i18n key="carnet.msg.concernLink" pNb=$topic->nb_eleves link=$linkClasse}
+		{i18n key="carnet.msg.concernLink" pNb=$topic->nb_eleves link=$linkClasse noEscape=1}
 	{/if}
 {else}
 	{if !$eleve or $eleve eq "CLASSE"}
-		{i18n key="carnet.msg.concernSel" pNb=$topic->nb_eleves}
+		{i18n key="carnet.msg.concernSel" pNb=$topic->nb_eleves noEscape=1}
 	{else}
-		{i18n key="carnet.msg.concern" pNb=$topic->nb_eleves}
+		{i18n key="carnet.msg.concern" pNb=$topic->nb_eleves noEscape=1}
 	{/if}
 {/if}
 		

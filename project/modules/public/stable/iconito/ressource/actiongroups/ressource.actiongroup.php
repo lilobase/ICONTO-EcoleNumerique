@@ -464,7 +464,7 @@ class ActionGroupRessource extends CopixActionGroup {
 
 	//	print_r($niveau_list);
 
-		$result = $tplMain->fetch("getSearchAdvanced.tpl");
+		$result = $tplMain->fetch("ressource|getSearchAdvanced.tpl");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('ressource.title.module').' &raquo; '.CopixI18N::get ('ressource.title.recherche'));
 		
 		$menu[] = array(

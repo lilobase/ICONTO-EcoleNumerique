@@ -547,7 +547,7 @@ class CopixDateTime {
 		//echo "yyyymmddhhiissToFormat2 ($pYYYYMMDDHHIISS, $pFormat)";
 		if( ereg ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})", $pYYYYMMDDHHIISS, $regs) ) {
 			//print_r($regs);
-			$mk = mktime($regs[4], $regs[5], $regs[6], $regs[2], $regs[1], $regs[3]);
+			$mk = mktime($regs[4], $regs[5], $regs[6], $regs[2], $regs[3], $regs[1]);
 			return date ($pFormat, $mk);
 		} else
 			return self::yyyymmddhhiissToFormat($pYYYYMMDDHHIISS, $pFormat);

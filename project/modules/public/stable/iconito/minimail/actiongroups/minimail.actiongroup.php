@@ -38,10 +38,11 @@ class ActionGroupMinimail extends CopixActionGroup {
 
 		// Infos des utilisateurs
 		foreach ($messages as $k=>$topic) {
-			$userInfo = Kernel::getUserInfo("ID", $messages[$k]->from_id);
-			//print_r($userInfo);
-			$messages[$k]->from = $userInfo;
-			$messages[$k]->from_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
+			if ($userInfo = Kernel::getUserInfo("ID", $messages[$k]->from_id)) {
+				//print_r($userInfo);
+				$messages[$k]->from = $userInfo;
+				$messages[$k]->from_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
+			}
 		}
 
 		$tpl = & new CopixTpl ();

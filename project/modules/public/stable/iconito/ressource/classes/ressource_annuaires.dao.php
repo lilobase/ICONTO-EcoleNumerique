@@ -22,7 +22,7 @@ class DAORessource_Annuaires {
 		$where[] = 'RESS.id_annu='.$id_annuaire;
 		
 		// 0. Mot clé
-		if ($params['mot']) {
+		if (isset($params['mot']) && $params['mot']) {
 			$testpattern=str_replace(array(" ","%20"), "%20", $params['mot']);
 			$temp = split ("%20", $testpattern);
 			foreach ($temp as $word) {

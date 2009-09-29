@@ -56,7 +56,7 @@ FCKConfig.AutoGrowMax = 400 ;
 // FCKConfig.ProtectedSource.Add( /(<asp:[^\>]+>[\s|\S]*?<\/asp:[^\>]+>)|(<asp:[^\>]+\/>)/gi ) ;	// ASP.Net style tags <asp:control>
 
 FCKConfig.AutoDetectLanguage	= true ;
-FCKConfig.DefaultLanguage		= 'en' ;
+FCKConfig.DefaultLanguage		= 'fr' ;
 FCKConfig.ContentLangDirection	= 'ltr' ;
 
 FCKConfig.ProcessHTMLEntities	= true ;
@@ -115,17 +115,20 @@ FCKConfig.ToolbarSets["Basic"] = [
 	['Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About']
 ] ;
 
-FCKConfig.ToolbarSets["Copix"] = [
-	['Source'],
-	['Cut','Copy','Paste','PasteText','PasteWord'],
-	['Undo','Redo','-','Find','Replace'],
-	['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
-	['OrderedList','UnorderedList','-','Outdent','Indent'],
+FCKConfig.ToolbarSets["Iconito"] = [
+	['Bold','Italic','Underline','StrikeThrough'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
-	['Link','Unlink','Anchor'],
-	['Image','Rule','SpecialChar','Smiley']
-    //['Style', 'mailto'],//, 'phototheque','document','cmslink','cmslinkpopup'],'/',
-	//['Table','-','TableInsertRow','TableDeleteRows','TableInsertColumn','TableDeleteColumns','TableInsertCell','TableDeleteCells','TableMergeCells','TableSplitCell']
+	['Cut','Copy','Paste','PasteText','PasteWord'],
+	['OrderedList','UnorderedList','-','Outdent','Indent','-','Link','Unlink'],
+	['Find','Replace','-','RemoveFormat'],
+	'/',
+	['FontFormat','FontName','FontSize'],
+	['TextColor','BGColor','-','Table'],
+	['FitWindow','About']
+] ;
+
+FCKConfig.ToolbarSets["IconitoBasic"] = [
+	['Bold','Italic','Underline','-','TextColor','-','OrderedList','UnorderedList','-','Link','Unlink']
 ] ;
 
 FCKConfig.EnterMode = 'p' ;			// p | div | br

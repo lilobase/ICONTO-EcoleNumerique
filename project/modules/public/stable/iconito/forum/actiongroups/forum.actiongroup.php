@@ -66,7 +66,7 @@ class ActionGroupForum extends CopixActionGroup {
 
 		$forum = $dao_forums->getForum($id);
 		
-		if (!$forum)
+		if (!count($forum))
 			$errors[] = CopixI18N::get ('forum|forum.error.noForum');
 		else {
 			$mondroit = Kernel::getLevel( "MOD_FORUM", $id );

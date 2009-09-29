@@ -228,6 +228,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			$ppo->combofolders = CopixZone::process ('malle|combofolders', array('malle'=>$id, 'folder'=>$folder, 'fieldName'=>'folder', 'attribs'=>'ONCHANGE="this.form.submit();"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>CopixI18N::get ('malle|malle.comboDirectAccess')))));
 			$ppo->uploadMaxSize = CopixConfig::get ('malle|uploadMaxSize');
 			
+			/*
 			// On déduit le chemin absolu
 			$path = $_SERVER['PHP_SELF'];
 			$pos = strrpos($path, "/");
@@ -235,6 +236,7 @@ class ActionGroupMalle extends CopixActionGroup {
 				$abspath = substr($path,0,$pos+1);
 			}
 			$ppo->abspath = $abspath;
+			*/
 			
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css")); 
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_malle_popup.css")); 
@@ -916,7 +918,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		elseif ($actionDownloadZip)
 			return CopixActionGroup::process ('malle|malle::doActionDownloadZip', array ('id'=>$id, 'folder'=>$folder, 'files'=>$files, 'folders'=>$folders));
 
-		$criticErrors = array();
+		$criticErrors = $errors = array();
 
 		if ($folder) {
 			$rFolder = $daoFolders->get($folder);
@@ -1055,7 +1057,7 @@ class ActionGroupMalle extends CopixActionGroup {
 				$errors[] = CopixI18N::get ('malle|malle.error.noSelection');
 			//print_r($errors);
 			
-			if ($errors)
+			if (count($errors)>0)
 				return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors));
 			else {
 				$urlReturn = CopixUrl::get ('malle||getMalle', array('id'=>$id, 'folder'=>$folder));
