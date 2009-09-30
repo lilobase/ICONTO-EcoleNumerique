@@ -4,8 +4,8 @@
 <tr>
 <td class="ecoles">
 
-{if $zoneEcoles}
-	{$zoneEcoles}
+{if 0}
+	{copixzone process='welcome|ecoles' titre='Les &eacute;coles :' colonnes=1 grville=1 ville=1}
 {else}
 	<img src="{copixresource path="img/iconito-home2.gif"}" width="209" height="234" alt="Iconito vous souhaite la bienvenue" style="margin-right:20px;" />
 {/if}
@@ -14,11 +14,11 @@
 </td>
 <td>
 
-{if $zonePhotos || $zoneActualites}
+{if 0}
 
-	{$zonePhotos}
+	{copixzone process='welcome|photos' mode=dewslider titre='Test photos Dewslider :' album=1 dossier=0 width=640 height=230 legendes=true}
 
-	{$zoneActualites}
+	{copixzone process='welcome|actualites' titre='A la Une' blog='Ecole_du_bois_fleuri' nb=2 colonnes=2 chapo=false hreflib=''}
 
 {else}
 	<h3>Bienvenue sur Iconito, le portail numérique scolaire libre.</h3>
@@ -56,6 +56,9 @@
 
 <div class="small" style="clear:both;">
 <hr/>
+
+{copixconf parameter='default|isDemo' assign=isDemo}
+
 {if $isDemo}
 Ceci est un site de démonstration. Nous ne sommes pas responsables des contenus que les internautes peuvent publier sur ce site dans le cadre de leurs tests. Pour toute information, n'hésitez pas à nous contacter: <a href="mailto:dev@iconito.org">dev@iconito.org</a><p>
 {else}

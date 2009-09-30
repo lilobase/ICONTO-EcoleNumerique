@@ -60,7 +60,7 @@ class ZonePhotos extends CopixZone {
 					}
 					
 					foreach ($photolist as $key=>$photo) {
-						$photolist[$key]->folder = 'static/album/'.$photo->album_id.'_'.$photo->album_cle;
+						$photolist[$key]->folder = CopixUrl::getRequestedScriptPath ().'static/album/'.$photo->album_id.'_'.$photo->album_cle;
 						$photolist[$key]->file = $photo->photo_id.'_'.$photo->photo_cle.'_'.$trouve.'.'.$photo->photo_ext;
 					}
 					
@@ -115,7 +115,7 @@ function generateDewsliderXml ($rAlbum, $photolist, $trouve, $legendes) {
 	>';
 			foreach( $photolist AS $photo ) {
 				$flush .= "\n";
-				$flush .= '<img src="'.$photo->folder.'/'.$photo->file.'" title="'.utf8_encode($photo->photo_comment).'" />';
+				$flush .= '<img src="'.$photo->folder.'/'.$photo->file.'" title="'.($photo->photo_comment).'" />';
 			}
 			
 			$flush .= '
