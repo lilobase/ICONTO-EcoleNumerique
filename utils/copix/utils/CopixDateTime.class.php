@@ -321,10 +321,6 @@ class CopixDateTime {
 		//gets the format & pos of each elements
 		$format = CopixI18N::getDateFormat ($separator);
 		
-		print_r($pParam);
-		print_r($format);
-		print_r($tmp);
-		
 		//Very very weird thing to get the date in our requested format.
 		//array of positions for day, month and year (D, M, Y) in the tab
 		//we wants to order positions to get 0, 1, 2

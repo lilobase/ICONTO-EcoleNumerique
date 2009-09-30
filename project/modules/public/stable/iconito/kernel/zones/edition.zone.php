@@ -69,6 +69,10 @@ class ZoneEdition extends CopixZone {
 				case "dokuwiki" :
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
+				case "ckeditor" :
+					CopixHTMLHeader::addJSLink (_resource('js/ckeditor/ckeditor.js'));
+					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
+					break;
 			}
 			
 			$tpl->assign('field', $field);

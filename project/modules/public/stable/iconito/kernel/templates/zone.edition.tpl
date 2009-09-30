@@ -27,6 +27,19 @@
 <div>{$fckeditor}</div>
 <div>{$wikibuttons}</div>
 
+{elseif $format eq "ckeditor"}
+
+<div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+
+<script type="text/javascript">
+CKEDITOR.replace( '{$field}',
+{literal}{{/literal}
+	customConfig : '{copixresource path="js/ckeditor.js"}'
+{literal}}{/literal});
+</script>
+
+<div>{$wikibuttons}</div>
+
 {else}
 
 {i18n key="kernel.zone.edition.error.format"}

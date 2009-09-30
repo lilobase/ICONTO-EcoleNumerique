@@ -37,6 +37,7 @@ function smarty_modifier_blog_format_article ($txt, $format) {
 			break;
 		case 'html' :
 		case 'fckeditor' :
+		case 'ckeditor' :
 			$res = $txt;
 			break;
 		default :

@@ -58,11 +58,14 @@ function sendDocument (url, field, format, htmlDownload, htmlView, i18n_unsuppor
 			break;	
 		
 		case 'fckeditor' :
+		case 'ckeditor' :
 		case 'html' :
 			if (mode == 'view') 					html = urldecode(htmlView);
 			else if (mode == 'download')	html = urldecode(htmlDownload);
 			if (format == 'fckeditor')
 				window.opener.add_photo_fckeditor (field, html);
+			else if (format == 'ckeditor')
+				window.opener.add_photo_ckeditor (field, html);
 			else
 				window.opener.add_html (field, html);
 			break;

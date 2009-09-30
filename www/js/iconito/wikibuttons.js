@@ -417,6 +417,12 @@ function add_photo_fckeditor (field, txt) {
 	oEditor.InsertHtml(txt);
 }
 
+function add_photo_ckeditor (field, txt) {
+	if (oEditor = CKEDITOR.instances[field])
+		oEditor.insertHtml(txt);
+}
+
+
 function add_html (field, txt) {
 
 	donotinsert = false;

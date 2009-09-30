@@ -29,6 +29,7 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 			break;
 
 		case 'fckeditor' :
+		case 'ckeditor' :
 		case 'html' :
 			var html = '<img alt="'+nom+'" border="0" src="'+urlBase+'static/album/'+album+'/'+photo+size+'.'+ext+'"';
 			if 			(align == 'L')	html += ' align="left"';
@@ -38,6 +39,8 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 				html = '<a target="_blank" href="'+urlBase+'static/album/'+album+'/'+photo+'.'+ext+'">'+html+'</a>';
 			if (format == 'fckeditor')
 				window.opener.add_photo_fckeditor ('{$field}', html);
+			else if (format == 'ckeditor')
+				window.opener.add_photo_ckeditor ('{$field}', html);
 			else
 				window.opener.add_html ('{$field}', html);
 			break;

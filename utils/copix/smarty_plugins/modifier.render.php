@@ -23,6 +23,7 @@ function smarty_modifier_render ($string, $format) {
 			break;
 		case "fckeditor" :
 		case "html" :
+		case "ckeditor" :
 			$res = $string;
 			break;
 		default :
