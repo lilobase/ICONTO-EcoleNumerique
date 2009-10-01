@@ -66,7 +66,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 		if ($save == 1) {
 
 			$rForm->id = $id;
-			$rForm->photo = $rFiche->photo;
+			$rForm->photo = ($rFiche) ? $rFiche->photo : '';
 			
 			if (is_uploaded_file($_FILES['photoFile']['tmp_name'])) {
 				if ($size = @getimagesize ($_FILES['photoFile']['tmp_name'])) {
@@ -144,10 +144,15 @@ class ActionGroupAdmin extends CopixActionGroup {
 					
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('default|fiche', array('id'=>$id)));
 			}
-		} else {
+		} else { // Arrivee dans le formulaire
 			
-			$rForm = $rFiche;
+			if (!$rFiche)
+				$rFiche = _record('fiches_ecoles');
 
+			$rForm = $rFiche;
+			
+			//var_dump($rEcole);
+			
 			if ($canModifyVille && !$rForm->zone_ville_titre && !$rForm->zone_ville_texte) {
 				$ville = FichesEcolesService::getZoneVille($rEcole);
 				$rForm->zone_ville_titre = $ville['zone_ville_titre'];

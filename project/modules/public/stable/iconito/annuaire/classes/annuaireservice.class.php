@@ -223,7 +223,10 @@ class AnnuaireService {
 //$start = microtime(true);	
 		foreach ($ecoles as $ecole) {
 			//$classes[] = array('id'=>'0', 'nom'=>'');
-			$classes[] = array('id'=>'0', 'nom'=>$ecole['nom']);
+			$nom = $ecole['nom'];
+			if (isset($ecole['type']) && $ecole['type'])
+				$nom .= ' ('.$ecole['type'].')';
+			$classes[] = array('id'=>'0', 'nom'=>$nom);
 			//$classes[] = array('id'=>'0', 'nom'=>'------------------------');
 			$tmp = AnnuaireService::getClassesInEcole ($ecole['id'], $getClassesInEcole_params);
 			$classes = array_merge ($classes, $tmp);

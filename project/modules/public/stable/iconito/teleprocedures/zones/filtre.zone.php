@@ -28,7 +28,7 @@ class ZoneFiltre extends CopixZone {
 		$canViewComboEcoles = TeleproceduresService::canMakeInTelep('VIEW_COMBO_ECOLES',$mondroit);
 		
 		if ($canViewComboEcoles) {
-			$tpl->assign ('comboEcoles', CopixZone::process ('annuaire|comboecolesinville', array('ville'=>$rTelep->parent['id'], 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'class="form"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>'---'), 1=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllEcoles'))))));
+			$tpl->assign ('comboEcoles', CopixZone::process ('annuaire|comboecolesinville', array('ville'=>$rTelep->parent['id'], 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'class="form"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>'---'), 1=>array('value'=>'', 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllEcoles'))))));
 
 			//$tplListe->assign ('comboEcoles', CopixZone::process('filtre',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'admin'=>true, 'mondroit'=>$mondroit)));
 		}

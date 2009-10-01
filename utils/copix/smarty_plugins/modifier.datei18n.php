@@ -25,7 +25,10 @@
  * @return string
  */
 function smarty_modifier_datei18n($string, $format="") {
-		/*
+	
+	// COPIX 3
+	
+	/*
    if ($format == ""){
       return (($date = CopixDateTime::yyyymmddToDate ($string)) !== false) ? $date : $string;
    }elseif ($format == "text"){
@@ -34,14 +37,27 @@ function smarty_modifier_datei18n($string, $format="") {
 	 */
 	 require_once (COPIX_UTILS_PATH.'CopixDateTime.class.php');
 
+
+	// COPIX 2
+	
+
 	if ($format == ""){
       return (($date = CopixDateTime::yyyymmddToDate ($string)) !== false) ? $date : $string;
    } elseif ($format == "text") {
       return (($date = CopixDateTime::yyyymmddToText ($string)) !== false) ? $date : $string;
    } elseif ($format == "date_short") { // JJ/MM/AAAA (fr)
 	 		//var_dump($string);
-			return Kernel::ymd2dmy($string);
+			//return CopixDateTime::yyyymmddToDate($string);
+			
+			$mktime = smarty_make_timestamp($string);
+			//var_dump($mktime.'/'.date('d/m/Y',$mktime));
+			$yyyymmdd = CopixDateTime::timestampToyyyymmdd($mktime);
+			$res = CopixDateTime::yyyymmddToDate ($yyyymmdd);
+			return $res;
+			
 			/*
+			return Kernel::ymd2dmy($string);
+			
 			$mktime = smarty_make_timestamp($string);
 			$timestamp = date("Ymd", $mktime);
       //return (($date = CopixDateTime::timestampToDate ($timestamp)) !== false) ? $date : $string;

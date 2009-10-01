@@ -95,11 +95,13 @@ class KernelBlog {
 	*/
 	function getStats ($id_blog) {
 		$dao = _dao('blog|blogarticle');
-		//var_dump($dao);
 		$res = array();	
 		$arData = $dao->getAllArticlesFromBlog($id_blog, NULL);
 		$nbArticles = count($arData);
-		$res['nbArticles'] = array ('name'=>CopixI18N::get ('blog|blog.stats.nbArticles', array($nbArticles)), 'value'=>$nbArticles);
+		$res['nbArticles'] = array (
+			'name'=>CopixI18N::get ('blog|blog.stats.nbArticles', array($nbArticles)),
+			'value'=>$nbArticles,
+		);
 		//print_r($arData);
 		if ($nbArticles>0) {
 			$date = BDToDateTime($arData[0]->date_bact, $arData[0]->time_bact, 'mysql');
@@ -110,6 +112,7 @@ class KernelBlog {
 				'value_order'=>$mktime,
 			);
 		}
+		//print_r($res);
 		return $res;
 	}
 

@@ -32,12 +32,12 @@ class KernelMagicmail {
 		$magic_result = $dao->get($id_magicmail);
 
 		$res = array();	
-		if($magic_result && trim($magic_result->magicmail_login)!='' && trim($magic_result->magicmail_domain)!='' )
+		if($magic_result && trim($magic_result->magicmail_login)!='' && trim($magic_result->magicmail_domain)!='' ) {
+			$mail = '<a href="mailto:'.$magic_result->magicmail_login.'@'.$magic_result->magicmail_domain.'">'.$magic_result->magicmail_login.'@'.$magic_result->magicmail_domain.'</a>';
 			$res['email'] = array (
-				'name'=>CopixI18N::get ('magicmail|magicmail.message.stats_yourmailis'),
-				'value'=>'<a href="mailto:'.$magic_result->magicmail_login.'@'.$magic_result->magicmail_domain.'">'.$magic_result->magicmail_login.'@'.$magic_result->magicmail_domain.'</a>'
+				'name'=>CopixI18N::get ('magicmail|magicmail.message.stats_yourmailis', array('mail'=>$mail)),
 			);
-		else
+		} else
 			$res['email'] = array (
 				'name'=>CopixI18N::get ('magicmail|magicmail.message.stats_nomail')
 			);

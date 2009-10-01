@@ -30,7 +30,7 @@ class ZoneComboClassesInVille extends CopixZone {
 		$linesSup = ($this->getParam('linesSup')) ? $this->getParam('linesSup') : NULL;
 		
 		$classes = $annuaireService->getClassesInVille ($ville, array('getNodeInfo_light'=>1));
-// echo "<pre>"; print_r($classes); die();
+ 		//echo "<pre>"; print_r($classes); die();
 		$tpl = & new CopixTpl ();
 		$tpl->assign('items', $classes);
 		$tpl->assign('value', $value);

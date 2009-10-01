@@ -157,7 +157,9 @@ class ActionGroupAdmin extends CopixActionGroup {
 		// Traitement
 
 		if ($idtype) { // Modif
-		
+			
+			$title = CopixI18N::get ('teleprocedures|teleprocedures.title.modifType');
+			
 			if ($save) {
 				
 				// Responsables

@@ -62,7 +62,7 @@
 		<br/>
 		<span class="lib">{i18n key="teleprocedures|teleprocedures.intervention.field.type"}&nbsp;:</span>  {$rFiche->idtype_nom|escape}<br/>
 		<span class="lib">{i18n key="teleprocedures|teleprocedures.intervention.field.objet"}&nbsp;:</span>  {$rFiche->objet|escape}<br/>
-		<span class="lib noPrint">Description d&eacute;taill&eacute;e :</span> Voir ci-dessous - <a href="javascript:Element.toggle('telep-details');">afficher / masquer</a><br/>
+		<span class="lib noPrint">Description d&eacute;taill&eacute;e :</span> Voir ci-dessous - <a href="#" onClick="Element.toggle('telep-details');">afficher / masquer</a><br/>
 	</div>
 	</td>
 	

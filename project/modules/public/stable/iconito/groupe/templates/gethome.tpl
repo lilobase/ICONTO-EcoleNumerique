@@ -35,11 +35,11 @@
 <div class="groupe_infos">
 	{assign var=sep value=""}
 	{foreach from=$val_modules->infos item=infos}
-	{$sep}
-	{$infos.name}{if $infos.name && $infos.value neq ""}&nbsp;:{/if}
-	<b>{$infos.value}</b>
-	{assign var=sep value=" &middot; "}
-{/foreach}
+		{$sep}
+		{$infos.name}{if 0 && $infos.name && $infos.value neq ""}&nbsp;: <b>{$infos.value}</b>{/if}
+		
+		{assign var=sep value=" &middot; "}
+	{/foreach}
 </div>
 
 </div>

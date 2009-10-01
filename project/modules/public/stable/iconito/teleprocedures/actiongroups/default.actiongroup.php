@@ -43,10 +43,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	function processListTeleprocedures () {
 		
 		$id = $this->getRequest ('id', null);
-		$motcle = _request("motcle") ? _request("motcle") : NULL;
-		$type = _request("type") ? _request("type") : NULL;
-		$clos = _request("clos") ? _request("clos") : NULL;
-		$ecole = _request("ecole") ? _request("ecole") : NULL;
+		$motcle = _request("motcle");
+		$type = _request("type");
+		$clos = _request("clos");
+		$ecole = _request("ecole");
 		
 		$dao = CopixDAOFactory::create("teleprocedures|teleprocedure");
 		$rTelep = $dao->get($id);
@@ -184,7 +184,7 @@ class ActionGroupDefault extends CopixActionGroup {
 				$daoIntervention = CopixDAOFactory::create("intervention");
 				$session = Kernel::getSessionBU();
 				$rForm->iduser = $session['user_id'];
-				$rForm->dateinter = date('Y-m-d');
+				$rForm->dateinter = date('Ymd');
 				$rForm->idetabliss = $rEcole["id"];
 				//$rForm->datederniere = 0;
 				$rForm->datederniere = date('Y-m-d H:i:s');
@@ -194,6 +194,7 @@ class ActionGroupDefault extends CopixActionGroup {
 				$rForm->mail_to = $rType->mail_to;
 				$rForm->mail_cc = $rType->mail_cc;
 				$rForm->mail_message = $rType->mail_message;
+				//print_r($rForm);
 				$daoIntervention->insert ($rForm);
 				
 				if ($rForm->idinter) {
@@ -306,9 +307,14 @@ class ActionGroupDefault extends CopixActionGroup {
 		}
 		
 		
-		if ($print)
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_print.tpl');		
-		else
+		if ($print) {
+			$ppo = new CopixPPO ();
+			$ppo->result = $main;
+			$ppo->TITLE_PAGE = $title;
+		
+		
+			return _arPPO ($ppo, array ('template'=>'print_ppo.tpl', 'mainTemplate'=>'default|main_print.php'));
+		} else
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);		
 	}
 

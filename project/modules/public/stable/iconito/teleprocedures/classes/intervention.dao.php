@@ -8,8 +8,6 @@
 * @licence  http://www.gnu.org/licenses/lgpl.htmlGNU Leser General Public Licence, see LICENCE file
 */
 
-include_once (COPIX_UTILS_PATH.'CopixDate.lib.php');
-
 class DAORecordIntervention {
 	
 	
@@ -36,9 +34,9 @@ class DAORecordIntervention {
 		$rForm->idinter = $this->idinter;
 		$rForm->iduser = $session['user_id'];
 		$rForm->dateinfo = date('Y-m-d H:i:s');
-		if ($info_message)
+		if ($info_message && trim($info_message)!='<br />')
 			$rForm->info_message = $info_message;
-		if ($info_commentaire)
+		if ($info_commentaire && trim($info_commentaire)!='<br />')
 			$rForm->info_commentaire = $info_commentaire;
 		$daoInfoSupp->insert ($rForm);
 		
@@ -62,8 +60,10 @@ class DAOIntervention {
     if (count($r = $this->findBy ($sp)) > 0)  {
 			$get = $r[0];
 			$now = date('d/m/Y');
-			$datederniere = dateMySQLToFr($get->datederniere);
-			$get->depuis = round(timeBetween($datederniere,$now)/(60*60*24));
+			$d1 = CopixDateTime::yyyymmddhhiissToTimeStamp ($get->datederniere);
+			$d2 = CopixDateTime::timestampToyyyymmdd($d1);
+			$datederniere = CopixDateTime::yyyymmddToDate ($d2, '/');
+			$get->depuis = round(CopixDateTime::timeBetween($datederniere,$now)/(60*60*24));
 			//var_dump($get->depuis);
 		}
 		return $get;

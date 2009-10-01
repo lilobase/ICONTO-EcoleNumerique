@@ -29,7 +29,7 @@
 	            fieldName="module_type"
 	            captioni18n="dao.logs.fields.module_type"
 	            type="string"
-	            maxlength="15"
+	            maxlength="20"
 	            />
 	     <property name="module_id"
 	            fieldName="module_id"
@@ -50,7 +50,7 @@
 	            fieldName="parent_type"
 	            captioni18n="dao.logs.fields.parent_type"
 	            type="string"
-	            maxlength="15"
+	            maxlength="20"
 	            />
 	     <property name="parent_id"
 	            fieldName="parent_id"

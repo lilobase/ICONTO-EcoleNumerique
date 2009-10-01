@@ -75,8 +75,8 @@ class FichesEcolesService {
 	 */
 	function propageZoneVille ($rEcole, $rForm) {
 		$daoSearchParams = _daoSp ();
-		$daoSearchParams->addCondition ('id_ville', '=', $rEcole->id_ville);
-		$dao = & CopixDAOFactory::getInstanceOf ('fichesecoles|fiches_ecoles');
+		$daoSearchParams->addCondition ('ecole_id_ville', '=', $rEcole->id_ville);
+		$dao = _dao('fichesecoles|fiches_ecoles');
 		$arFiches  = $dao->findBy ($daoSearchParams);
 		foreach ($arFiches as $fiche) {
 			$fiche->zone_ville_titre = $rForm->zone_ville_titre;
@@ -94,13 +94,16 @@ class FichesEcolesService {
 	 * @return array Tableau avec [zone_ville_titre] et [zone_ville_texte]
 	 */	
 	function getZoneVille ($rEcole) {
+		//var_dump($rEcole);
 		$res = array('zone_ville_titre'=>null, 'zone_ville_texte'=>null);
 		$daoSearchParams = _daoSp ();
-		$daoSearchParams->addCondition ('id_ville', '=', $rEcole->id_ville);
-		$dao = & CopixDAOFactory::getInstanceOf ('fichesecoles|fiches_ecoles');
-		if ($arFiches = $dao->findBy ($daoSearchParams)) {
-			$res['zone_ville_titre'] = $arFiches[0]->zone_ville_titre;
-			$res['zone_ville_texte'] = $arFiches[0]->zone_ville_texte;
+		$daoSearchParams->addCondition ('ecole_id_ville', '=', $rEcole->id_ville);
+		$dao = _dao('fichesecoles|fiches_ecoles');
+		$arFiches = $dao->findBy ($daoSearchParams);
+		foreach ($arFiches as $r) {
+			$res['zone_ville_titre'] = $r->zone_ville_titre;
+			$res['zone_ville_texte'] = $r->zone_ville_texte;
+			break;		
 		}
 		return $res;
 	}

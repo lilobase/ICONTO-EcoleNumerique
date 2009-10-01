@@ -77,7 +77,7 @@ DIV.carnet_filtrage_col {
 	color: #000;
 	padding: 3px;
 }
-DIV.carnet_filtrage_col A, A:visited {
+DIV.carnet_filtrage_col A, DIV.carnet_filtrage_col A:visited {
 	text-decoration: none;
 }
 DIV.carnet_filtrage_col A:hover {

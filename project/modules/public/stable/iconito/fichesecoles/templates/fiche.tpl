@@ -11,8 +11,8 @@
 
 <p></p>
 <div class="fiche">{i18n key="fichesecoles.fields.adresse"}</div>
-<div>{$rEcole->num_rue} {$rEcole->num_seq} {$rEcole->adresse1} {if $rEcole->adresse2}<br/>{$rEcole->adresse2}{/if}<br/>{$rEcole->code_postal} {$rEcole->commune}
-{if $rEcole->tel}<br/><img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel}{/if}
+<div>{$rEcole->num_rue|escape} {$rEcole->num_seq|escape} {$rEcole->adresse1|escape} {if $rEcole->adresse2}<br/>{$rEcole->adresse2|escape}{/if}<br/>{$rEcole->code_postal|escape} {$rEcole->commune|escape}
+{if $rEcole->tel|escape}<br/><img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel|escape}{/if}
 </div>
 
 {assign var=mapWidth value="230px"}
@@ -32,8 +32,8 @@
 
 {if $rFiche->zone_ville_titre && $rFiche->zone_ville_texte}
 	<div class="ficheVille">
-	<div class="fiche">{$rFiche->zone_ville_titre|htmlentities}</div>
-	<div>{$rFiche->zone_ville_texte|htmlentities|nl2br}</div>
+	<div class="fiche">{$rFiche->zone_ville_titre|escape}</div>
+	<div>{$rFiche->zone_ville_texte|escape|nl2br}</div>
 	</div>
 {/if}
 
@@ -42,7 +42,7 @@
 	<div class="horaires">
 	<img class="icon" alt="{i18n key="dao.fiches_ecoles.fields.horaires"}" title="{i18n key="dao.fiches_ecoles.fields.horaires"}" border="0" width="32" height="32" src="{copixresource path="img/fichesecoles/icon_horaires.gif"}" />
 	<div class="fiche">{i18n key="dao.fiches_ecoles.fields.horaires"}</div>
-	<div>{$rFiche->horaires|nl2br}</div>
+	<div>{$rFiche->horaires|escape|nl2br}</div>
 	</div>
 {/if}
 
@@ -55,8 +55,8 @@
 <DIV CLASS="ecole_classe_enseignant">
 {foreach from=$rEcole->directeur item=directeur}
 {assign var=nom value=$directeur.prenom|cat:" "|cat:$directeur.nom}
-{if $canViewEns}{user label=$nom|htmlentities userType=$directeur.type userId=$directeur.id login=$directeur.login dispMail=1 escape=1}{else}
-	{$nom|htmlentities}{/if}{assign var=sep value=", "}{/foreach}
+{if $canViewEns}{user label=$nom|escape userType=$directeur.type userId=$directeur.id login=$directeur.login dispMail=1 escape=1}{else}
+	{$nom|escape}{/if}{assign var=sep value=", "}{/foreach}
 </DIV>
 {i18n key="fichesecoles.fields.direction"} :
 {assign var=sep value=""}
@@ -74,18 +74,18 @@
 {assign var=nom value=$enseignant.prenom|cat:" "|cat:$enseignant.nom}
 
 {if $canViewEns}
-	{user label=$nom|htmlentities userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1 escape=1}{else}
-	{$nom|htmlentities}{/if}{assign var=sep value=", "}{/foreach}
+	{user label=$nom|escape userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1 escape=1}{else}
+	{$nom|escape}{/if}{assign var=sep value=", "}{/foreach}
 </DIV>
 {/if}
-{*<b><A HREF="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom|htmlentities}</A></b>*}
+{*<b><A HREF="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom|escape}</A></b>*}
 
 {assign var=sep value=""}
 {foreach from=$class.niveaux item=niveau}{$sep}
 {$niveau->niveau_court}
 {assign var=sep value=" - "}
 {foreachelse}
-	{$class.nom|htmlentities}
+	{$class.nom|escape}
 {/foreach}
 </DIV>
 
@@ -110,23 +110,23 @@
 {/if}
 
 {if $rFiche->zone1_titre && $rFiche->zone1_texte}
-	<div class="fiche">{$rFiche->zone1_titre|htmlentities}</div>
-	<div>{$rFiche->zone1_texte|htmlentities|nl2br}</div>
+	<div class="fiche">{$rFiche->zone1_titre|escape}</div>
+	<div>{$rFiche->zone1_texte|escape|nl2br}</div>
 {/if}
 
 {if $rFiche->zone2_titre && $rFiche->zone2_texte}
-	<div class="fiche">{$rFiche->zone2_titre|htmlentities}</div>
-	<div>{$rFiche->zone2_texte|htmlentities|nl2br}</div>
+	<div class="fiche">{$rFiche->zone2_titre|escape}</div>
+	<div>{$rFiche->zone2_texte|escape|nl2br}</div>
 {/if}
 
 {if $rFiche->zone3_titre && $rFiche->zone3_texte}
-	<div class="fiche">{$rFiche->zone3_titre|htmlentities}</div>
-	<div>{$rFiche->zone3_texte|htmlentities|nl2br}</div>
+	<div class="fiche">{$rFiche->zone3_titre|escape}</div>
+	<div>{$rFiche->zone3_texte|escape|nl2br}</div>
 {/if}
 
 {if $rFiche->zone4_titre && $rFiche->zone4_texte}
-	<div class="fiche">{$rFiche->zone4_titre|htmlentities}</div>
-	<div>{$rFiche->zone4_texte|htmlentities|nl2br}</div>
+	<div class="fiche">{$rFiche->zone4_titre|escape}</div>
+	<div>{$rFiche->zone4_texte|escape|nl2br}</div>
 {/if}
 
 

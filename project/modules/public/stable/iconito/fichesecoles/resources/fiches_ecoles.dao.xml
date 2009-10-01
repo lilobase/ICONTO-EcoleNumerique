@@ -77,7 +77,7 @@
 			table="fiches_ecoles"
 			pk="no"/>
 
-		<property name="ecole_numero"		fieldname="numero"		type="integer"	table="kernel_bu_ecole" pk="yes" />
+		<property name="ecole_numero"		fieldname="numero"		type="autoincrement"	table="kernel_bu_ecole" pk="yes" />
 		<property name="ecole_id_ville"	fieldname="id_ville"	type="integer"	table="kernel_bu_ecole" />
 	</properties>
 </daodefinition>

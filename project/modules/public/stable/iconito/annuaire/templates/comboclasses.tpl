@@ -10,10 +10,10 @@
 	{foreach from=$items item=item}
 		{if $item.id == 0}
 			{if $optgroup}</optgroup>{/if}
-			<optgroup label="{$item.nom|htmlentities}">
+			<optgroup label="{$item.nom|escape}">
 			{assign var="optgroup" value=1}
 		{else}
-			<OPTION VALUE="{$item.id}"{if $item.id == $value} SELECTED{/if}>{$item.nom|htmlentities}</OPTION>
+			<OPTION VALUE="{$item.id}"{if $item.id == $value} SELECTED{/if}>{$item.nom|escape}</OPTION>
 		{/if}
 	{/foreach}
 	{if $optgroup}</optgroup>{/if}

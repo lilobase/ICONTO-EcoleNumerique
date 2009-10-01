@@ -1,11 +1,35 @@
 
-#header,
-#menu,
-#ss_menu,
-.breadCrumbs,
+table.head,
+div.icons,
+#footer,
+div.page div.content div.options,
 .noPrint
- {
+{
 	display:none;
 }
 
 
+div.page {
+	border:0;
+	margin:0;
+	width:100%;
+	background-image:none;
+}
+div.page div.content div.title {
+	background-image:none;
+}
+div.page div.content {
+	padding:0;
+}
+div.page div.content div.main {
+	background:none;
+	
+}
+/* BLOGS */
+#mainBlog #mainSideBar {
+	display:none;
+}
+#mainBlog #mainContent {
+	float:none;
+	width:auto;
+}

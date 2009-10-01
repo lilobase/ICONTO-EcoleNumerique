@@ -805,7 +805,20 @@ class CopixDateTime {
 		return $toReturn;
 	}
 
-
+	/**
+	 * Calcul le laps de temps écoulé entre deux dates.
+	 * @param   string  $DteMin     la date a soustraire de DteMax Chaine au format Fr jj/mm/aaaa.
+	 * @param   string  $DteMax     la date d'ou soustraire DteMin Chaine au format Fr jj/mm/aaaa.
+	 * @param   string  $SplitChar  le caractere séparateur utilisé dans les dates (par defaut : /)
+	 * @return integer  Positif Max > Min, Negatif Max < Min, 0 Max = Min.
+	 */
+	function timeBetween ($DteMin, $DteMax, $SplitChar='/'){
+		//Kernel::deb("timeBetween ($DteMin, $DteMax, $SplitChar");
+		$MinTable = explode ($SplitChar, $DteMin);
+		$MaxTable = explode ($SplitChar, $DteMax);
+		$Between = mktime (0,0,0,$MaxTable[1], $MaxTable[0], $MaxTable[2]) - mktime (0,0,0,$MinTable[1], $MinTable[0], $MinTable[2]);
+		return $Between;
+	}
 
 
 }

@@ -13,7 +13,7 @@
 		<property name="utilisateur" fieldname="utilisateur" type="integer" table="tracking" pk="yes"/>
 		<property name="last_visite" fieldname="last_visite" type="datetime" table="tracking" pk="no"/>
 		<!-- TABLE intervention -->
-		<property name="intervention_idinter" fieldname="idinter" type="integer" table="intervention" pk="yes"/>
+		<property name="intervention_idinter" fieldname="idinter" type="autoincrement" table="intervention" pk="yes"/>
 		<property name="intervention_objet" fieldname="objet" type="string" table="intervention" />
 		<property name="intervention_datederniere" fieldname="datederniere" type="datetime" table="intervention"/>
 	</properties>
