@@ -415,7 +415,7 @@ class CopixUser implements ICopixUser {
 			$userHandlerResponse = $this->getHandlerResponse ($pUserHandler);
 	   }
 
-	   if ($userHandlerResponse === null){
+	   if ($userHandlerResponse !== null){
 	   		//Si on est bien connecté avec au moins un utilisateur, il est possible de 
 	   		//définir l'information supplémentaire
 	   		return $userHandlerResponse->addExtra ($pInformationId, $pInformationValue);

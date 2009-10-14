@@ -299,3 +299,17 @@ td.form_saisie div.telep {
 	text-align:right;
 	margin-top:2px;
 }
+
+/* Filtrage */
+table.filtre input.motcle {
+	width:85px;
+}
+table.filtre select.ecoles {
+	width:210px;
+}
+table.filtre select.types {
+	width:170px;
+}
+
+
+

@@ -42,6 +42,21 @@
 				<condition property="annee_current" operator="=" value="1" />
 			</conditions>
 		</method>
+
+		<method name="getByEcoleAnnee" type="select">
+			<parameters>
+				<parameter name="eco" />
+				<parameter name="annee" />
+			</parameters>
+			<conditions>
+				<condition property="cla_ecole" operator="=" value="$eco" />
+				<condition property="cla_is_validee" operator="=" value="1" />
+				<condition property="cla_is_supprimee" operator="=" value="0" />
+				<condition property="cla_annee_scol" operator="=" value="$annee" />
+			</conditions>
+		</method>
+
+
 	</methods>
 
 </daodefinition>

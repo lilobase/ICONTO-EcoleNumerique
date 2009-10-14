@@ -442,7 +442,7 @@ class Kernel {
 	 * @param integer $id Identifiant du noeud parent.
 	 * @return array Liste des noeuds, chacun sous forme (type,id). 
 	 */
-	function getNodeChilds( $type, $id, $addchildinfo=true ) {
+	function getNodeChilds( $type, $id, $addchildinfo=true, $options=array() ) {
 		
 		
 		
@@ -498,12 +498,23 @@ class Kernel {
 				}
 				break;
 			case "BU_ECOLE":
-				if( isset($this->cache_getNodeChilds_ecole[$id]) ) {
-					$return = $this->cache_getNodeChilds_ecole[$id];
+				
+				$cacheId = (isset($options['annee']) && $options['annee']) ? $id.'|'.$options['annee'] : $id;
+				//Kernel::deb($cacheId);
+			
+				if( isset($this->cache_getNodeChilds_ecole[$cacheId]) ) {
+					$return = $this->cache_getNodeChilds_ecole[$cacheId];
 				} else {
 					// Ecole --(n)--> Classes
 					$dao = _dao("kernel|kernel_tree_cla");
-					$res = $dao->getByEcole($id);
+					
+					if (isset($options['annee']) && $options['annee'])
+						$res = $dao->getByEcoleAnnee($id, $options['annee']);
+					else
+						$res = $dao->getByEcole($id);
+					//var_dump($res);
+					
+					
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"BU_CLASSE", "id"=>$val->cla_id);
 					}
@@ -522,7 +533,7 @@ class Kernel {
 						}
 					}
 					
-					$this->cache_getNodeChilds_ecole[$id] = $return;
+					$this->cache_getNodeChilds_ecole[$cacheId] = $return;
 				}
 				break;
 			case "BU_CLASSE":
@@ -2030,7 +2041,20 @@ class Kernel {
 	}
 	
 	
-	
+	/**
+	 * L'annee scolaire courante
+	 *
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2008/05/06
+	 * @return object Recordset de la table annee_scolaire, ou null si aucune
+	 */
+	function getAnneeScolaireCourante () {
+		$res = null;
+		$sql = "SELECT * FROM kernel_bu_annee_scolaire WHERE current=1";
+		if ($ar = _doQuery ($sql))
+			$res = $ar[0];
+		return $res;
+	}
 	
 	
 }

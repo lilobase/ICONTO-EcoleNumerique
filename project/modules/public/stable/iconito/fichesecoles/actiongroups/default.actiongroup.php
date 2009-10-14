@@ -187,7 +187,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	 function blogs () {
 		
 		$id = $this->getRequest('id', null);
-
+		$pAnnee = $this->getRequest('annee', null);
+		
+		//
+		
 		$ecoleDAO = CopixDAOFactory::create('kernel|kernel_bu_ecole');
 		$ficheDAO = CopixDAOFactory::create("fiches_ecoles");
 		
@@ -200,14 +203,39 @@ class ActionGroupDefault extends CopixActionGroup {
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 
-		$arClasses = AnnuaireService::getClassesInEcole ($rEcole->numero, array('forceCanViewEns'=>true, 'onlyWithBlog'=>true, 'enseignant'=>false));
+		$arClasses = AnnuaireService::getClassesInEcole ($rEcole->numero, array('forceCanViewEns'=>true, 'onlyWithBlog'=>true, 'enseignant'=>false, 'annee'=>$pAnnee));
 		
 		$rEcole->blog = getNodeBlog ('BU_ECOLE', $rEcole->numero);
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('rEcole', $rEcole);
 	  $tpl->assign ('arClasses', $arClasses);
+		
+		
+		
+		if ( ($anneeDebutBlogs = CopixConfig::get ('fichesecoles|anneeDebutBlogs')) ) {
+			
+			
+			$anneeFinBlogs = Kernel::getAnneeScolaireCourante()->id_as;
+			
+			//Kernel::deb("anneeDebutBlogs=$anneeDebutBlogs / anneeFinBlogs=$anneeFinBlogs");
+			
+			if (!$pAnnee)
+				$pAnnee = $anneeFinBlogs;
+						
+			if ($anneeFinBlogs > $anneeDebutBlogs) {
+				
+				
+				$comboAnnees = CopixZone::process('kernel|combo_annees', array('name'=>'annee', 'selected'=>$pAnnee, 'debut'=>$anneeDebutBlogs, 'fin'=>$anneeFinBlogs, 'extra2'=>'onChange="ficheViewBlogs('.$id.',this.options[this.selectedIndex].value);"'));		
+				$tpl->assign ('comboAnnees', $comboAnnees);
+			}
+			
+		
+		}
+		
+		
 		$result = $tpl->fetch ('blogs.tpl');
+		
 
 		header('Content-type: text/html; charset=utf-8');
 		echo utf8_encode($result);

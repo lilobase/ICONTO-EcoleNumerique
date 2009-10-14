@@ -132,7 +132,7 @@ class AnnuaireService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
 	 * @param integer $ecole Id de l'école
-	 * @param array $options Tableau d'options. Implemente : [forceCanViewEns] force l'affichage des enseignants au lieu de regarder si l'usager a les droits [onlyWithBlog] ne renvoie que les classes ayant un blog [enseignant] si on veut avoir l'enseignant de la classe (true par defaut) [withNiveaux] cherche les niveaux de chaque classe
+	 * @param array $options Tableau d'options. Implemente : [forceCanViewEns] force l'affichage des enseignants au lieu de regarder si l'usager a les droits [onlyWithBlog] ne renvoie que les classes ayant un blog [enseignant] si on veut avoir l'enseignant de la classe (true par defaut) [withNiveaux] cherche les niveaux de chaque classe [annee] Force une annee scolaire
 	 * @return array Tableau avec les classes
 	 * @todo Voir pour remplacer le -1 par un ID d'un enseignant
 	 */
@@ -146,7 +146,12 @@ class AnnuaireService {
 			$getNodeInfo_full = true;
 		}
 
-		$childs = Kernel::getNodeChilds ('BU_ECOLE', $ecole, $getNodeInfo_full);
+		
+		$getNodeChildsOptions = array();
+		if (isset($options['annee']) && $options['annee'])
+			$getNodeChildsOptions['annee'] = $options['annee'];
+		
+		$childs = Kernel::getNodeChilds ('BU_ECOLE', $ecole, $getNodeInfo_full, $getNodeChildsOptions);
 
 //return($childs);
 //echo "<pre>"; print_r($childs); die();
