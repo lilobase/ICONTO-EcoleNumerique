@@ -211,11 +211,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		$tpl->assign ('rEcole', $rEcole);
 	  $tpl->assign ('arClasses', $arClasses);
 		
-		
-		
 		if ( ($anneeDebutBlogs = CopixConfig::get ('fichesecoles|anneeDebutBlogs')) ) {
-			
-			
+
 			$anneeFinBlogs = Kernel::getAnneeScolaireCourante()->id_as;
 			
 			//Kernel::deb("anneeDebutBlogs=$anneeDebutBlogs / anneeFinBlogs=$anneeFinBlogs");
@@ -224,8 +221,6 @@ class ActionGroupDefault extends CopixActionGroup {
 				$pAnnee = $anneeFinBlogs;
 						
 			if ($anneeFinBlogs > $anneeDebutBlogs) {
-				
-				
 				$comboAnnees = CopixZone::process('kernel|combo_annees', array('name'=>'annee', 'selected'=>$pAnnee, 'debut'=>$anneeDebutBlogs, 'fin'=>$anneeFinBlogs, 'extra2'=>'onChange="ficheViewBlogs('.$id.',this.options[this.selectedIndex].value);"'));		
 				$tpl->assign ('comboAnnees', $comboAnnees);
 			}
