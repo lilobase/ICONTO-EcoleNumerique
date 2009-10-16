@@ -84,6 +84,7 @@ switch( $step ) {
 		display_menu();
 		display_title();
 		session_start();
+		
 		$data = check_mysql_login();
 		if( is_array($data) ) {
 			$_SESSION['install_iconito'] = array();
@@ -116,12 +117,12 @@ switch( $step ) {
 	case 5:
 		display_menu();
 		display_title();
-		
+		session_start();
+
 		if( isset( $_POST['database'] ) && !("new_database" == $_POST['database'] && ""==trim($_POST['database_name']) ) ) {
 			if( ereg( "^database_(.*)$", $_POST['database'], $regs ) ) $database = $regs[1];
 			elseif( "new_database" == $_POST['database'] ) $database = $_POST['database_name'];
 
-			session_start();
 			$_SESSION['install_iconito']['database'] = $database;
 
 			$tables = check_mysql_tables( $database );
@@ -173,7 +174,8 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 	case 6:
 		display_menu();
 		display_title();
-
+		session_start();
+		
 		$result = check_mysql_importdump( '../../instal/iconito.sql' );
 		if( $result ) {
 			display_message( _LOGO_GOOD."Les tables ont été créées." );
@@ -188,7 +190,8 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 	case 7:
 		display_menu();
 		display_title();
-
+		session_start();
+		
 		$result = check_mysql_importdump( '../../instal/data.sql' );
 		if( $result ) {
 			check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
@@ -205,6 +208,7 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 	case 8:
 		display_menu();
 		display_title();
+		session_start();
 		
 		$data = check_admin_password();
 		
@@ -244,6 +248,7 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 	case 9:
 		display_menu();
 		display_title();
+		session_start();
 		
 		$data = check_admin_config();
 		
@@ -332,6 +337,7 @@ TABLE.conftable TD {
 	case 10:
 		display_menu();
 		display_title();
+		session_start();
 		
 		$data = check_copy_files();
 		if( $data['errors'] && count($data['errors']) ) {

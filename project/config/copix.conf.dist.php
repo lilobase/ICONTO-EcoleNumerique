@@ -13,7 +13,7 @@
 $config = CopixConfig::instance ();
 
 //Paramètrage pré-configuré
-$config->setMode (CopixConfig::DEVEL);//valeurs possibles DEVEL, PRODUCTION, FORCE_INITIALISATION
+$config->setMode (CopixConfig::PRODUCTION);//valeurs possibles DEVEL, PRODUCTION, FORCE_INITIALISATION
 
 // Gestionnaire d'erreurs désativé par défaut.
 $config->copixerrorhandler_enabled = false;

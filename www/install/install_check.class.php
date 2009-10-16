@@ -8,6 +8,14 @@ function check_rights() {
 		COPIX_LOG_PATH,
 		COPIX_VAR_PATH,
 		COPIX_VAR_PATH.'config/',
+		COPIX_VAR_PATH.'data/',
+		COPIX_VAR_PATH.'data/blog',
+		COPIX_VAR_PATH.'data/blog/css',
+		COPIX_VAR_PATH.'data/blog/logos',
+		COPIX_VAR_PATH.'data/concerto',
+		COPIX_VAR_PATH.'data/fichesecoles',
+		COPIX_VAR_PATH.'data/fichesecoles/photos',
+		COPIX_VAR_PATH.'data/minimail',
 		COPIX_CACHE_PATH,
 		COPIX_CACHE_PATH.'php',
 		COPIX_CACHE_PATH.'php/templates',
@@ -22,10 +30,6 @@ function check_rights() {
 		COPIX_PROJECT_PATH.'../www/static/malle',
 		COPIX_PROJECT_PATH.'../www/static/prefs',
 		COPIX_PROJECT_PATH.'../www/static/prefs/avatar',
-		COPIX_PROJECT_PATH.'../data',
-		COPIX_PROJECT_PATH.'../data/album',
-		COPIX_PROJECT_PATH.'../data/malle',
-		COPIX_PROJECT_PATH.'../data/minimail',
 	);
 
 	$data['errors'] = array();
@@ -33,6 +37,10 @@ function check_rights() {
 
 	foreach($files as $file){
 		$file = realpath($file);
+		
+		if (!is_dir($file))
+			echo "*".$file;
+		
 		if(!is_writable($file)){
 			$data['caninstall'] = false;
 			$data['errors'][]= $file;
@@ -208,7 +216,7 @@ function check_mysql_login() {
 
 function check_mysql_databases() {
 	$data = array();
-	session_start();
+	//session_start();
 	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
 	$db_list = @mysql_list_dbs($link);
 	if( $db_list != false ) {
@@ -221,7 +229,7 @@ function check_mysql_databases() {
 
 function check_mysql_tables($database) {
 	$data = array();
-	session_start();
+	//session_start();
 	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
 
 	$db_selected = mysql_select_db($database, $link);
@@ -240,7 +248,7 @@ function check_mysql_tables($database) {
 
 function check_mysql_createdatabase( $database ) {
 	if( -1 != check_mysql_tables( $database )) return false;
-	session_start();
+	//session_start();
 	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
 
 	$sql = "CREATE DATABASE $database";
@@ -252,7 +260,7 @@ function check_mysql_createdatabase( $database ) {
 }
 
 function check_mysql_importdump( $filename ) {
-	session_start();
+	//session_start();
 	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
 	if( !$link ) die( "Erreur de connexion MySQL" );
 	
@@ -318,7 +326,7 @@ function do_mysql_importdump( $filename, $link ) {
 
 // CB
 function check_mysql_runquery( $query ) {
-	session_start();
+	//session_start();
 	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
 	if( !$link ) die( "Erreur de connexion MySQL" );
 	
@@ -383,7 +391,7 @@ function check_admin_password() {
 }
 
 function set_admin_password( $passwd ) {
-	session_start();
+	//session_start();
 	$link = mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']);
 	if( !$link ) die( "Erreur de connexion MySQL : ".mysql_error() );
 	mysql_select_db($_SESSION['install_iconito']['database']);
@@ -399,7 +407,12 @@ function check_admin_config() {
 	
 	if( !isset($_POST["conf"]) ) $data['caninstall'] = false;
 	
-	if( false !== strpos($_POST["conf_mailFrom"].$_POST["conf_mailFromName"].$_POST["conf_mailSmtpHost"], '"' ) ) {
+	$conf = '';
+	$conf .= (isset($_POST["conf_mailFrom"])) ? $_POST["conf_mailFrom"] : '';
+	$conf .= (isset($_POST["conf_mailFromName"])) ? $_POST["conf_mailFromName"] : '';
+	$conf .= (isset($_POST["conf_mailSmtpHost"])) ? $_POST["conf_mailSmtpHost"] : '';
+
+	if( false !== strpos($conf, '"' ) ) {
 		$data['caninstall'] = false;
 		$data['errors'][] = array(
 			'level' => 'error',
@@ -412,44 +425,44 @@ function check_admin_config() {
 }
 
 function set_admin_config() {
-	$string = do_read_file( COPIX_PROJECT_PATH."project.default.xml" );
+	$string = do_read_file( COPIX_PROJECT_PATH."modules/public/stable/standard/default/module.dist.xml" );
+	//var_dump($string);
 	if( isset($_POST["conf_mailEnabled"]) && $_POST["conf_mailEnabled"] ) {
-		$patterns[0] = '/captioni18n="parameter.mailEnabled"  default="0"/';
-		$patterns[1] = '/captioni18n="parameter.mailFrom"  default="nobody@iconito.fr"/';
-		$patterns[2] = '/captioni18n="parameter.mailFromName"  default="Iconito"/';
-		$patterns[3] = '/captioni18n="parameter.mailSmtpHost"  default="localhost"/';
-		$replacements[0] = 'captioni18n="parameter.mailEnabled"  default="1"';
-		$replacements[1] = 'captioni18n="parameter.mailFrom"  default="'.stripslashes($_POST["conf_mailFrom"]).'"';
-		$replacements[2] = 'captioni18n="parameter.mailFromName"  default="'.stripslashes($_POST["conf_mailFromName"]).'"';
-		$replacements[3] = 'captioni18n="parameter.mailSmtpHost"  default="'.stripslashes($_POST["conf_mailSmtpHost"]).'"';
+		$patterns[0] = '/captioni18n="parameter.mailEnabled" default="0"/';
+		$patterns[1] = '/captioni18n="parameter.mailFrom" default="nobody@iconito.fr"/';
+		$patterns[2] = '/captioni18n="parameter.mailFromName" default="Iconito"/';
+		$patterns[3] = '/captioni18n="parameter.mailSmtpHost" default="localhost"/';
+		$replacements[0] = 'captioni18n="parameter.mailEnabled" default="1"';
+		$replacements[1] = 'captioni18n="parameter.mailFrom" default="'.stripslashes($_POST["conf_mailFrom"]).'"';
+		$replacements[2] = 'captioni18n="parameter.mailFromName" default="'.stripslashes($_POST["conf_mailFromName"]).'"';
+		$replacements[3] = 'captioni18n="parameter.mailSmtpHost" default="'.stripslashes($_POST["conf_mailSmtpHost"]).'"';
 		$string = preg_replace($patterns, $replacements, $string);
 	}
-	do_write_file( COPIX_PROJECT_PATH."project.xml", $string );
+	do_write_file( COPIX_PROJECT_PATH."modules/public/stable/standard/default/module.xml", $string );
 	
 }
 
 function check_copy_files() {
-	session_start();
+	//session_start();
 	
-	$string = do_read_file( COPIX_PROJECT_PATH."config/copix.conf.default.php" );
+	$string = do_read_file( COPIX_PROJECT_PATH."config/copix.conf.dist.php" );
 	do_write_file( COPIX_PROJECT_PATH."config/copix.conf.php", $string );
 	
 	
-	$string = do_read_file( COPIX_VAR_PATH."config/profils.copixdb.default.xml" );
-	$patterns[0] = '/dataBase="iconito"/';
-	$patterns[1] = '/host="localhost"/';
-	$patterns[2] = '/user="root"/';
-	$patterns[3] = '/password=""/';
-	$replacements[0] = 'dataBase="'.addslashes($_SESSION['install_iconito']['database']).'"';
-	$replacements[1] = 'host="'.addslashes($_SESSION['install_iconito']['host']).'"';
-	$replacements[2] = 'user="'.addslashes($_SESSION['install_iconito']['login']).'"';
-	$replacements[3] = 'password="'.addslashes($_SESSION['install_iconito']['password']).'"';
+	$string = do_read_file( COPIX_VAR_PATH."config/db_profiles.conf.dist.php" );
+	$patterns[0] = '/<DBNAME A SAISIR>/';
+	$patterns[1] = '/<HOST A SAISIR>/';
+	$patterns[2] = '/<USER A SAISIR>/';
+	$patterns[3] = '/<PASSWORD A SAISIR>/';
+	$replacements[0] = addslashes($_SESSION['install_iconito']['database']);
+	$replacements[1] = addslashes($_SESSION['install_iconito']['host']);
+	$replacements[2] = addslashes($_SESSION['install_iconito']['login']);
+	$replacements[3] = addslashes($_SESSION['install_iconito']['password']);
 	$string = preg_replace($patterns, $replacements, $string);
-	do_write_file( COPIX_VAR_PATH."config/profils.copixdb.xml", $string );
+	do_write_file( COPIX_VAR_PATH."config/db_profiles.conf.php", $string );
 	
 	do_write_file( COPIX_LOG_PATH.'.installed', '' );
 	
-	return $data;
 }
 
 function do_read_file( $filename ) {

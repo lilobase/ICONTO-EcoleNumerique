@@ -2,9 +2,9 @@
   'iconito_ecole_numerique' => 
   array (
     'driver' => 'pdo_mysql',
-    'connectionString' => 'dbname=<A SAISIR>',
-    'user' => '<A SAISIR>',
-    'password' => '<A SAISIR>',
+    'connectionString' => 'dbname=<DBNAME A SAISIR>;host=<HOST A SAISIR>',
+    'user' => '<USER A SAISIR>',
+    'password' => '<PASSWORD A SAISIR>',
     'extra' => 
     array (
     ),

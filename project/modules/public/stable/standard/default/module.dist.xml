@@ -10,13 +10,13 @@
 			<parameter name="titleBar" captioni18n="parameter.titleBar" default="{$TITLE_PAGE} - Iconito"  />
 		</group>
 		<group captioni18n="parameter.group.mail">
-			<parameter name="mailEnabled" captioni18n="parameter.mailEnabled" default="1" type="bool"  />
+			<parameter name="mailEnabled" captioni18n="parameter.mailEnabled" default="0" type="bool"  />
 			<parameter name="mailLogging" captioni18n="parameter.mailLogging" default="0" type="bool" />
-			<parameter name="mailFrom" captioni18n="parameter.mailFrom" default="support@cap-tic.fr"  />
-			<parameter name="mailFromName" captioni18n="parameter.mailFromName" default="support@cap-tic.fr"  />
+			<parameter name="mailFrom" captioni18n="parameter.mailFrom" default="nobody@iconito.fr"  />
+			<parameter name="mailFromName" captioni18n="parameter.mailFromName" default="Iconito"  />
 			<parameter name="mailAlwaysBcc" captioni18n="parameter.mailAlwaysBcc" default=""  />
 			<parameter name="mailMethod" captioni18n="parameter.mailMethod" default="smtp" type="select" listValues="mail=>Fonction mail () PHP;smtp=>Serveur SMTP" />
-			<parameter name="mailSmtpHost" captioni18n="parameter.mailSmtpHost" default="zorg.cdc"  />
+			<parameter name="mailSmtpHost" captioni18n="parameter.mailSmtpHost" default="localhost"  />
 			<parameter name="mailSmtpAuth" captioni18n="parameter.mailAuth" default=""  />
 			<parameter name="mailSmtpPass" captioni18n="parameter.mailPass" default=""  />
 		</group>
