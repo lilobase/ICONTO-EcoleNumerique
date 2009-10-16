@@ -396,7 +396,7 @@ function set_admin_password( $passwd ) {
 	if( !$link ) die( "Erreur de connexion MySQL : ".mysql_error() );
 	mysql_select_db($_SESSION['install_iconito']['database']);
 
-	$query = "UPDATE copixuser SET password_cusr = MD5( '".addslashes($passwd)."' ) WHERE id_cusr=1;";
+	$query = "UPDATE dbuser SET `password_dbuser` = MD5( '".addslashes($passwd)."' ) WHERE `dbuser`.`id_dbuser`=1;";
 	mysql_query($query, $link) or die( mysql_error() );
 }
 
