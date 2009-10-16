@@ -32,7 +32,7 @@ $config->mainTemplate   = 'default|main.php';
 //Configuration des répertoires de module
 //---------------------------------------------
 $config->arModulesPath = array (
-	COPIX_PROJECT_PATH.'modules/public/stable/petiteenfance/',
+	COPIX_PROJECT_PATH.'modules/public/stable/iconito/',
 	COPIX_PROJECT_PATH.'modules/public/stable/standard/', 
 	COPIX_PROJECT_PATH.'modules/public/stable/webtools/',
 	COPIX_PROJECT_PATH.'modules/public/stable/tools/',
