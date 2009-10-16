@@ -194,6 +194,16 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		
 		$result = check_mysql_importdump( '../../instal/data.sql' );
 		if( $result ) {
+			display_message( _LOGO_GOOD."Les données ont été importées." );
+			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
+		} else {
+			display_message( _LOGO_ERROR."Erreur lors de l'importation des données." );
+			display_link( "Vérifiez vos identifiants", 'index.php?step='.($step-3) );
+			echo " ou ";
+			display_link( "recréez vos tables", 'index.php?step='.($step-1) );
+		}
+		$result = check_mysql_importdump( '../../instal/ressources.sql' );
+		if( $result ) {
 			check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
 			display_message( _LOGO_GOOD."Les données ont été importées." );
 			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
