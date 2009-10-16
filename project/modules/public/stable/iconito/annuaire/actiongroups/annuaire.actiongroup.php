@@ -340,26 +340,28 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 					break;		
 				case 'BU_VILLE' :
 					$info = Kernel::getNodeInfo ($home['type'], $home['id']);
-					//print_r($info);
-					$grville = $info['ALL']->vil_id_grville;
+					if ($info)
+						$grville = $info['ALL']->vil_id_grville;
 					$ville = $home['id'];
 					$ecole = $ALL;
 					$classe = $ALL;
 					break;		
 				case 'BU_ECOLE' :
 					$info = Kernel::getNodeInfo ($home['type'], $home['id']);
-					//print_r($info);
-					$grville = $info['ALL']->vil_id_grville;
-					$ville = $info['ALL']->eco_id_ville;
+					if ($info) {
+						$grville = $info['ALL']->vil_id_grville;
+						$ville = $info['ALL']->eco_id_ville;
+					}
 					$ecole = $home['id'];
 					$classe = $ALL;
 					break;		
 				case 'BU_CLASSE' :
 					$info = Kernel::getNodeInfo ($home['type'], $home['id']);
-					//var_dump($info);
-					$grville = $info['parent']['ALL']->vil_id_grville;
-					$ville = $info['parent']['ALL']->eco_id_ville;
-					$ecole = $info['parent']['id'];
+					if ($info) {
+						$grville = $info['parent']['ALL']->vil_id_grville;
+						$ville = $info['parent']['ALL']->eco_id_ville;
+						$ecole = $info['parent']['id'];
+					}
 					$classe = $home['id'];
 					//echo "grville=$grville / ville=$ville / ecole=$ecole / classe=$classe";
 					break;		
