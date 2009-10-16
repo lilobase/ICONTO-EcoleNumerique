@@ -66,7 +66,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		}
 		
 		$tplList->assign ('id', $id);
-		$result = $tplList->fetch("getList.tpl");
+		$result = $tplList->fetch("getlist.tpl");
 		$tpl->assign ('MAIN', $result);
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -258,7 +258,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		
 		
 		// Liste des ressources
-		$result = $tplMain->fetch("getRessource.tpl");
+		$result = $tplMain->fetch("getressource.tpl");
 		$tpl->assign ('MENU', $menu );
 		$tpl->assign ('MAIN', $result);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -343,7 +343,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		
 		$tplMain->assign ('ressource_list', $ressources);
 		
-		$result = $tplMain->fetch("getList.tpl");
+		$result = $tplMain->fetch("getlist.tpl");
 		$tpl->assign ('MAIN', $result);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -464,7 +464,7 @@ class ActionGroupRessource extends CopixActionGroup {
 
 	//	print_r($niveau_list);
 
-		$result = $tplMain->fetch("ressource|getSearchAdvanced.tpl");
+		$result = $tplMain->fetch("ressource|getsearchadvanced.tpl");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('ressource.title.module').' &raquo; '.CopixI18N::get ('ressource.title.recherche'));
 		
 		$menu[] = array(
@@ -520,7 +520,7 @@ class ActionGroupRessource extends CopixActionGroup {
 		}
 		
 		
-		$result = $tplList->fetch("getTag.tpl");
+		$result = $tplList->fetch("gettag.tpl");
 		$tpl->assign ('MENU', $menu);
 		$tpl->assign ('MAIN', $result);
 
