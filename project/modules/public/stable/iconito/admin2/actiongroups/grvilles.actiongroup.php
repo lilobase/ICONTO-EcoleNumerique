@@ -4,7 +4,7 @@
  *
  * @package	Iconito
  * @subpackage  Grvilles
- * @version     $Id: grvilles.actiongroup.php,v 1.1 2009-08-31 09:59:53 fmossmann Exp $
+ * @version     $Id: grvilles.actiongroup.php,v 1.1 2009-09-30 10:06:20 fmossmann Exp $
  * @author      Frederic Mossmann <fmossmann@cap-tic.fr>
  * @copyright   2006 CAP-TIC
  * @link        http://www.cap-tic.fr
@@ -29,15 +29,17 @@
  * ) ENGINE = MYISAM;
  */
 
-class ActionGroupGrvilles extends CopixActionGroup {
+_classInclude ('admin2|cacheservices');
+_classInclude ('admin2|admin');
 
+class ActionGroupGrvilles extends CopixActionGroup {
+		
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
 
 	}
-
-
-
+	
+	
    function getGrvilles () {
    		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
@@ -45,12 +47,13 @@ class ActionGroupGrvilles extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplGrVilles = & new CopixTpl ();
 		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_admin.css"));
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_grvilles.css"));
-
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('grvilles|grvilles.module.titre'));
 		
-		$dao_grvilles_gr2ville = CopixDAOFactory::create("grvilles|grvilles_gr2ville");
-		$dao_grvilles = CopixDAOFactory::create("grvilles|grvilles");
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('admin2|grvilles.module.titre'));
+		
+		$dao_grvilles_gr2ville = CopixDAOFactory::create("kernel|grvilles_gr2ville");
+		$dao_grvilles = CopixDAOFactory::create("kernel|grvilles");
 		$dao_villes = CopixDAOFactory::create("kernel|kernel_tree_vil");
 		$villes = $dao_villes->findAll();
 		$tplGrVilles->assign ('villes', $villes );
@@ -58,7 +61,7 @@ class ActionGroupGrvilles extends CopixActionGroup {
 		if( _request("delete") ) {
 			$dao_grvilles->delete(_request("delete"));
 			$dao_grvilles_gr2ville->deleteByGroupe(_request("delete"));
-			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('grvilles||'));
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('admin2|grvilles|'));
 		}
 		
 		if( _request("save") && _request("save")==1 ) {
@@ -93,7 +96,7 @@ class ActionGroupGrvilles extends CopixActionGroup {
 			}
 			
 			if(_request("form_id")==0) {
-				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('grvilles||', array('groupe'=>$grvilles_infos->id ) ));
+				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('admin2|grvilles|', array('groupe'=>$grvilles_infos->id ) ));
 			}
 		}
 		
@@ -122,9 +125,11 @@ class ActionGroupGrvilles extends CopixActionGroup {
 		// print_r($grvilles_list);
 		$tplGrVilles->assign ('grvilles_list', $grvilles_list );
 
-		$main = $tplGrVilles->fetch ('getgrvilles.tpl');
+		$main = $tplGrVilles->fetch ('grvilles-getgrvilles.tpl');
 		
 		$tpl->assign ( 'MAIN', $main );
+
+		$tpl->assign ('MENU', Admin::getMenu());
 		
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

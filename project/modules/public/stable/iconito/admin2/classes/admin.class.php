@@ -51,6 +51,10 @@ class Admin {
 			'url' => CopixUrl::get ('kernel|demo|')
 		);
 		$menu[] = array(
+			'txt' => CopixI18N::get ('admin2|admin.menu.grvilles'),
+			'url' => CopixUrl::get ('admin2|grvilles|')
+		);
+		$menu[] = array(
 			'txt' => CopixI18N::get ('admin2|admin.menu.phpinfo'),
 			'url' => CopixUrl::get ('admin2|admin|phpinfo')
 		);

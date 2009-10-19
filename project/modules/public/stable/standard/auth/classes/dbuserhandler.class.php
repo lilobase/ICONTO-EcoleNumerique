@@ -127,13 +127,14 @@ class DBUserHandler implements ICopixUserHandler {
 			if ($results[0]->enabled_dbuser == 0){
 				return new CopixUserLogResponse (false, null, null, null);
 			}
+			
 			// Si en SSO, mot de passe deja crypte
 			$password_test = (isset($pParams['ssoIn']) && $pParams['ssoIn']) ? $pParams['password'] : ($this->_cryptPassword (isset ($pParams['password']) ? $pParams['password'] : ''));
-			if ($results[0]->password_dbuser == $password_test){
+			
+			if ( (isset($pParams['assistance']) && $pParams['assistance']) || $results[0]->password_dbuser == $password_test){
+			
 				$extra = array();
-				
-				
-				
+
 				$getUserInfo = Kernel::getUserInfo( "LOGIN", $results[0]->login_dbuser );
 				//var_dump($getUserInfo);
 				$extra = $getUserInfo;

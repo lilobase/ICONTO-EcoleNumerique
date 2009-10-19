@@ -1,4 +1,5 @@
 
+
 {if $ppo->user->isConnected ()}
 
 
@@ -6,8 +7,13 @@
 {assign var=nom value=$ppo->user->getExtra('nom')}
 {assign var=prenom value=$ppo->user->getExtra('prenom')}
 
-		{i18n key=auth|auth.connected.bonjour login=$prenom|cat:' '|cat:$nom}
-(<a href="{copixurl dest="auth|log|out"}" title="{i18n key=auth|auth.buttons.logout}">{i18n key=auth|auth.buttons.logout}</a>)
+{if $ppo->animateur eq 1}
+<span style="background-color: red; padding-left: 20px; padding-right: 20px; font-weight: bold; margin-right: 10px;">Vous avez pris le contr&ocirc;le du compte de {$login}</span> 
+{else}
+	{i18n key=auth|auth.connected.bonjour login=$prenom|cat:' '|cat:$nom}
+{/if}
+
+({if $ppo->animateur eq 1}<a href="{copixurl dest="assistance||switch"}" style="color: red;">Stopper la prise de contr&ocirc;le</a>{else}<a href="{copixurl dest="auth|log|out"}" title="{i18n key=auth|auth.buttons.logout}">{i18n key=auth|auth.buttons.logout}</a>{/if})
  |
 <a href="{copixurl dest="prefs||"}" title="{i18n key=auth|auth.nav.prefs}">{i18n key=auth|auth.nav.prefs}</a> 
  |

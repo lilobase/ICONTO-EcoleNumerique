@@ -15,6 +15,7 @@ class ZoneUserLogged extends CopixZone {
 		$ppo = new CopixPPO ();		
 		
 		$ppo->user = _currentUser ();
+		$ppo->animateur = (_sessionGet('user_animateur')) ? 1 : 0;
 		
 		$toReturn = $this->_usePPO ($ppo, 'userlogged.tpl');
 	}

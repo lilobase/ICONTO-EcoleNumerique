@@ -1451,7 +1451,7 @@ class Kernel {
 		return $data;
 	}
 	
-	// Si on passe le tebleau $extra, on ne touche pas a la session (utilise a la connexion, quand on n'a pas encore la session PHP) - CB
+	// Si on passe le tableau $extra, on ne touche pas a la session (utilise a la connexion, quand on n'a pas encore la session PHP) - CB
 	function setMyNode( $type, $id, &$extra=array() ) {
 		if (isset($extra) && count($extra)) {
 			$extra['home'] = array();

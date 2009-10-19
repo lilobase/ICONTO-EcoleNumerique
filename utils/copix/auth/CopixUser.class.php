@@ -51,6 +51,9 @@ class CopixUser implements ICopixUser {
 	 * @return bool
      */
     public function login ($pParams = array ()) {
+		
+			//var_dump($pParams);
+		
     	$this->_asserted = array ();
     	$this->_groups = false;
     	$responses = array();
@@ -77,6 +80,7 @@ class CopixUser implements ICopixUser {
 	   	} else {
 	   		$this->_logged = $isConnected ? $responses : array();
 	   	}
+			
 	   	return $isConnected;
     }
     
@@ -209,6 +213,12 @@ class CopixUser implements ICopixUser {
 		public function isSsoIn () {
       return !is_null($response = $this->_getFirstLogged ()) ? $response->isSsoIn () : null;
     }
+		
+		public function hasAssistance () {
+			$animateur_dao = _dao("kernel|kernel_animateurs");
+			$animateur = $animateur_dao->get($this->getExtra('type'), $this->getExtra('id'));
+			return ($animateur) ? true : false;
+		}
 	
     
     /**
@@ -430,6 +440,9 @@ class CopixUser implements ICopixUser {
 		$userHandlerResponse = $this->_getFirstLogged ();
  		return $userHandlerResponse->addExtraHome ($pInformationId, $pInformationValue);
 	}
+	
+	
+	
 }
 
 /**
@@ -564,6 +577,10 @@ class CopixUserLogResponse {
 	   $this->_data['extra']['home'][$pInformationName] = $pInformationValue;
 	   return true;
 	}
+	
+	
+	
+	
 	
 }
 ?>

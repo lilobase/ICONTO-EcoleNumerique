@@ -118,6 +118,11 @@ function login( nom, pass ) {
 <div class="icobloc"><a class="icoa" href="<?php echo CopixUrl::get ('agenda||') ?>">
 <img width="58" height="45" border="0" class="icoimg" src="<?php echo CopixUrl::getResource ("img/ico_agenda.gif"); ?>" alt="<?php echo _i18n('kernel|kernel.codes.mod_agenda') ?>" title="<?php echo _i18n('kernel|kernel.codes.mod_agenda') ?>"><br/><?php echo _i18n('kernel|kernel.codes.mod_agenda') ?></a></div>
 
+<?php if ($user->hasAssistance()) { ?>
+<div class="icobloc"><a class="icoa" href="<?php echo CopixUrl::get ('assistance||') ?>">
+<img width="58" height="45" border="0" class="icoimg" src="<?php echo CopixUrl::getResource ("img/ico_assistance.gif"); ?>" alt="<?php echo _i18n('kernel|kernel.codes.mod_assistance') ?>" title="<?php echo _i18n('kernel|kernel.codes.mod_assistance') ?>"><br/><?php echo _i18n('kernel|kernel.codes.mod_assistance') ?></a></div>
+<?php } ?>
+
 </p>
 </div>
 <?php } else { ?>
