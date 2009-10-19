@@ -13,4 +13,13 @@
 		<property name="ext_prenom"      fieldname="prenom"      type="string"  table="kernel_ext_user" pk="no"/>
 		<property name="ext_description" fieldname="description" type="string"  table="kernel_ext_user" pk="no"/>
 	</properties>
+
+	<methods>
+		<method name="listUsers" type="select">
+			<order>
+				<orderitem property="ext_nom" way="asc" />
+				<orderitem property="ext_prenom" way="asc" />
+			</order>
+		</method>
+	</methods>
 </daodefinition>

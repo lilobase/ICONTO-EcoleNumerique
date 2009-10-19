@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_animateurs2grville" tablename="kernel_animateurs2grville" primary="yes"/>
+			<table name="module_grvilles_gr2ville" tablename="module_grvilles_gr2ville" join="LEFT"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="user_type"  fieldname="user_type"  type="string"   table="kernel_animateurs2grville" pk="yes"/>
+		<property name="user_id"    fieldname="user_id"    type="integer"  table="kernel_animateurs2grville" pk="yes"/>
+		<property name="grville_id" fieldname="grville_id" type="integer"  table="kernel_animateurs2grville" pk="no"  fktable="module_grvilles_gr2ville" fkfieldname="id_groupe" />
+		
+		<property name="id_ville"   fieldname="id_ville"   type="integer" table="module_grvilles_gr2ville" pk="yes"/>
+	</properties>
+	
+	<methods>
+		<method name="findByUser" type="select">
+			<parameters>
+				<parameter name="user_type" />
+				<parameter name="user_id"   />
+			</parameters>
+			<conditions>
+				<condition property="user_type" operator="=" value="$user_type" />
+				<condition property="user_id"   operator="=" value="$user_id"   />
+			</conditions>
+		</method>
+		
+		<method name="deleteByUser" type="delete">
+			<parameters>
+				<parameter name="user_type" />
+				<parameter name="user_id"   />
+			</parameters>
+			<conditions>
+				<condition property="user_type" operator="=" value="$user_type" />
+				<condition property="user_id"   operator="=" value="$user_id"   />
+			</conditions>
+		</method>
+	</methods>
+	
+</daodefinition>

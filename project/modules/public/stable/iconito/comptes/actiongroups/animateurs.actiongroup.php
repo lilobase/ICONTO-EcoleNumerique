@@ -34,24 +34,273 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
 		$tpl = & new CopixTpl ();
-		$tplGrVilles = & new CopixTpl ();
+		$tplAnimateurs = & new CopixTpl ();
 		
-		$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
+		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+		$animateurs = $animateurs_dao->findAll();
+		$ppo->animateurs = array();
+		
+		foreach( $animateurs AS $animateur ) {
+			$animateur->user_infos = Kernel::getUserInfo( $animateur->user_type, $animateur->user_id );
+			$animateur->grvilles = array();
+			$ppo->animateurs[$animateur->user_type."-".$animateur->user_id] = $animateur;
+		}
 
-		$userext_item = $userext_dao->get( _request('id') );
+		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
+		$animateurs2grville = $animateurs2grville_dao->findAll();
 
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextadd'));
-					
-		$result = '';
+		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
+		$grvilles = $comptes_service->getGrvillesList();
+		$ppo->grvilles = array();
+		
+		foreach( $grvilles AS $grville ) {
+			$ppo->grvilles[$grville->id] = $grville;
+		}
+		
+		foreach( $animateurs2grville AS $anim2gr) {
+			$ppo->animateurs[$anim2gr->user_type."-".$anim2gr->user_id]->grvilles[$anim2gr->grville_id] = $ppo->grvilles[$anim2gr->grville_id];
+		}
+		
+		// print_r($ppo->animateurs);
+		
+		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
+		$ppo->grvilles = $comptes_service->getGrvillesList();
+		
+		
+		/*
+		echo "<pre>";
+		print_r($ppo->animateurs);
+		print_r($ppo->grvilles);
+		die();
+		*/
+		
+		$tplAnimateurs->assign('ppo', $ppo);
+		$result = $tplAnimateurs->fetch("animateurs-list.tpl");
+		
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_list'));
 		$tpl->assign ('MAIN', $result );
 		
 		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getuserext'), 'url' => CopixUrl::get ('comptes||getUserExt') );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
 		$tpl->assign ('MENU', $menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
+
+
+
+
+	function getEdit() {
+		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
+		
+		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_comptes.css');
+
+		$tpl = & new CopixTpl ();
+		$tplAnimateurs = & new CopixTpl ();
+
+		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
+		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
+	
+		$pUserType = _request('user_type');
+		$pUserId = _request('user_id');
+		$pSave = _request('save');
+		
+		$user = Kernel::getUserInfo();
+
+		$ppo->pouvoirs = array(
+			array('id'=>'can_connect',        'nom'=>'Se connecter en tant qu\'un enseignant/directeur' ),
+			array('id'=>'can_tableaubord',    'nom'=>'Tableau de bord des usages'),
+			array('id'=>'can_comptes',        'nom'=>'Administration des comptes d\'accès'),
+		);
+
+		$grvilles = $comptes_service->getGrvillesList();
+		$ppo->grvilles = array();
+		foreach( $grvilles AS $grville ) {
+			$ppo->grvilles[$grville->id] = $grville;
+		}
+
+		if( !$pUserType || !$pUserId ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list'));
+		}
+		
+		$ppo->animateur = $animateurs_dao->get($pUserType, $pUserId);
+		
+		$new = false;
+		if(!$ppo->animateur) {
+			$ppo->animateur = _record("kernel|kernel_animateurs");
+			
+			$ppo->animateur->user_type = $pUserType;
+			$ppo->animateur->user_id = $pUserId;
+			$ppo->animateur->can_connect = 0;
+			$ppo->animateur->can_tableaubord = 0; 
+			$ppo->animateur->can_comptes = 0; 
+			$ppo->animateur->is_visibleannuaire = 0; 
+			$ppo->animateur->updated_at = date("Y-m-d H:i:s");
+			$ppo->animateur->updated_by = $user['login'];
+    		$new=true;
+			// return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list'));
+		}
+		
+		if($pSave==1) {
+			
+			foreach( $ppo->pouvoirs AS $pouvoir ) {
+				$ppo->animateur->$pouvoir['id'] = _request('pouvoir_'.$pouvoir['id'])*1;
+			}
+			
+			$ppo->animateur->is_visibleannuaire = _request('annuaire')*1;
+			
+			$ppo->animateur->updated_at = date("Y-m-d H:i:s");
+			$ppo->animateur->updated_by = $user['login'];
+
+			if($new) $animateurs_dao->insert($ppo->animateur);
+			         $animateurs_dao->update($ppo->animateur);
+			
+			$animateurs2grville_dao->deleteByUser($pUserType, $pUserId);
+			
+			$animateur2grville  = _record("kernel|kernel_animateurs2grville2");
+			
+			
+			$animateur2grville->user_type = $pUserType;
+			$animateur2grville->user_id   = $pUserId;
+			foreach( $ppo->grvilles AS $grville ) {
+				if( _request('groupe_'.$grville->id)==1 ) {
+					$animateur2grville->grville_id = $grville->id;
+					_dao("kernel|kernel_animateurs2grville2")->insert($animateur2grville);
+				}
+			}
+			
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list' ) );
+		}
+		
+		$ppo->animateur->user_infos = Kernel::getUserInfo( $pUserType, $pUserId );
+		
+		$animateur_grvilles = $animateurs2grville_dao->findByUser($pUserType, $pUserId);
+		$ppo->animateur_grville = array();
+		foreach( $animateur_grvilles AS $animateur_grville ) {
+			$ppo->animateur_grville[$animateur_grville->grville_id] = 1;
+		}
+		
+		$tplAnimateurs->assign('ppo', $ppo);
+		$result = $tplAnimateurs->fetch("animateurs-edit.tpl");
+		
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_edit'));
+		$tpl->assign ('MAIN', $result );
+		
+		$menu=array();
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
+		$menu[] = array( 'txt' => 'Liste des animateurs', 'url' => CopixUrl::get ('comptes|animateurs|list') );
+		$tpl->assign ('MENU', $menu );
+		
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+		
+		
+	}
+	
+	
+	function getNew() {
+		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
+		
+		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_comptes.css');
+
+		$tpl = & new CopixTpl ();
+		$tplAnimateurs = & new CopixTpl ();
+		
+		$animateurs_dao = _dao("kernel|kernel_animateurs");
+		$animateurs = $animateurs_dao->findAll();
+		$ppo->animateurs = array();
+		
+		foreach( $animateurs AS $animateur ) {
+			$ppo->animateurs[$animateur->user_type."-".$animateur->user_id] = $animateur;
+		}
+		
+		$userext_dao = _dao("kernel|kernel_ext_user");
+		$list = $userext_dao->listUsers();
+		$user_key = 0;
+		foreach( $list AS $user_val ) {
+			$ppo->userext[$user_key] = $user_val;
+			$user_key++;
+		}
+		foreach( $ppo->userext AS $user_key => $user_val ) {
+			if( isset($ppo->animateurs["USER_EXT-".$user_val->ext_id]) ) {
+				// Si la personne est déjà animateur
+				unset($ppo->userext[$user_key]);
+			} else {
+				$ppo->userext[$user_key]->user_infos = Kernel::getUserInfo( 'USER_EXT', $user_val->ext_id );
+				if( !isset($ppo->userext[$user_key]->user_infos['login']) ) {
+					// Si la personne n'a pas de login de type enseignant
+					unset($ppo->userext[$user_key]);
+				}
+			}
+		}
+		
+		$userens_dao = _dao("kernel|kernel_bu_personnel");
+		$list = $userens_dao->listUsers();
+		$user_key = 0;
+		foreach( $list AS $user_val ) {
+			$ppo->userens[$user_key] = $user_val;
+			$user_key++;
+		}
+		foreach( $ppo->userens AS $user_key => $user_val ) {
+			if( isset($ppo->animateurs["USER_ENS-".$user_val->pers_numero]) ) {
+				// Si la personne est déjà animateur
+				unset($ppo->userens[$user_key]);
+			} else {
+				$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
+				if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
+					// Si la personne n'a pas de login de type enseignant
+					unset($ppo->userens[$user_key]);
+				}
+			}
+		}
+		
+		
+		
+		/*
+		echo "<pre>";
+		// print_r($ppo->animateurs);
+		print_r($ppo->userext);
+		// print_r($ppo->userens);
+		die();
+		*/
+		
+		$tplAnimateurs->assign('ppo', $ppo);
+		$result = $tplAnimateurs->fetch("animateurs-new.tpl");
+		
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_list'));
+		$tpl->assign ('MAIN', $result );
+		
+		$menu=array();
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
+		$menu[] = array( 'txt' => "Liste des animateurs", 'url' => CopixUrl::get ('comptes|animateurs|list') );
+		$tpl->assign ('MENU', $menu );
+		
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+	}
+	
+	function getDelete() {
+		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
+		
+		$pUserType = _request('user_type');
+		$pUserId = _request('user_id');
+			
+		if( !$pUserType || !$pUserId ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list'));
+		}
+
+		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
+
+		
+		$animateurs_dao->delete($pUserType, $pUserId);
+		$animateurs2grville_dao->deleteByUser($pUserType, $pUserId);
+		
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list'));
+	}	
 }
 
 ?>

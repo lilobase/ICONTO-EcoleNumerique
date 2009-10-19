@@ -165,6 +165,24 @@ class ComptesService {
 		return( $userinfo );
 	}
 
+	function getGrvillesList() {
+		$grvilles = array();
+		
+		$grvilles_dao  = & CopixDAOFactory::create("kernel|grvilles");
+		$grvilles_list = $grvilles_dao->findAll();
+		foreach( $grvilles_list AS $grvilles_item ) {
+			$grvilles_item->villes = array();
+			$grvilles[$grvilles_item->id] = $grvilles_item;
+		}
+		
+		$grvilles_gr2ville_dao = & CopixDAOFactory::create("kernel|grvilles_gr2ville");
+		$grvilles_gr2ville_list = $grvilles_gr2ville_dao->findAll();
+		foreach( $grvilles_gr2ville_list AS $grvilles_gr2ville_item ) {
+			$grvilles[$grvilles_gr2ville_item->id_groupe]->villes[$grvilles_gr2ville_item->id_ville] = $grvilles_gr2ville_item;
+		}
+		
+		return $grvilles;
+	}
 	
 }
 

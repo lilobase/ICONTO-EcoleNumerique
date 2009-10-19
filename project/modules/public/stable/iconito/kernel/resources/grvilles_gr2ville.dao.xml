@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="gr2ville" tablename="module_grvilles_gr2ville" primary="yes"/>
+			<table name="ville"             tablename="kernel_bu_ville"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id_groupe"  fieldname="id_groupe"  type="integer" table="gr2ville" pk="yes"/>
+		<property name="id_ville"   fieldname="id_ville"   type="integer" table="gr2ville" pk="yes" fktable="ville" fkfieldname="id_vi"/>
+		<property name="updated_at" fieldname="updated_at" type="date"    table="gr2ville" pk="no"/>
+		<property name="updated_by" fieldname="updated_by" type="string"  table="gr2ville" pk="no"/>
+		
+		<property name="ville_nom"  fieldname="nom"        type="string"  table="ville"    pk="no"/>
+ 	</properties>
+	<methods>
+		<method name="findByGroupe" type="select">
+			<parameters>
+				<parameter name="groupe" />
+			</parameters>
+			<conditions>
+				<condition property="id_groupe" operator="=" value="$groupe" />
+			</conditions>
+		</method>
+		
+		<method name="deleteByGroupe" type="delete">
+			<parameters>
+				<parameter name="groupe" />
+			</parameters>
+			<conditions>
+				<condition property="id_groupe" operator="=" value="$groupe" />
+			</conditions>
+		</method>
+		
+	</methods>
+</daodefinition>
