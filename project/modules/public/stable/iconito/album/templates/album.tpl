@@ -1,6 +1,8 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_album.css"}" />
 
+<div>
 {$dossiers}
+</div>
 
 {if $dossier->dossier_id gt 0}
 <div class="photo"><a class="parent" href="{copixurl dest="album||album" album_id=$dossier->dossier_album dossier_id=$dossier->dossier_parent}"></a></div>
