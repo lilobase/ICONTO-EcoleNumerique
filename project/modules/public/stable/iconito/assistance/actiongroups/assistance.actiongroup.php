@@ -83,20 +83,14 @@ class ActionGroupAssistance extends CopixActionGroup {
 		$login = _request('login');
 		
 		if( $login!='' ) {
-		
 			_sessionSet('user_animateur', _currentUser()->getLogin());
-			//var_dump(_currentUser());
 			_currentUser()->login(array('login'=>$login, 'assistance'=>true));
-			
-			// echo "<pre>"; print_r($_SESSION); die("</pre>");
 			$url_return = CopixUrl::get ('kernel||doSelectHome');
 		} else {
 			if ($session = _sessionGet('user_animateur')) {
-				//var_dump($session);
 				_sessionSet('user_animateur', null);
 				_currentUser()->login(array('login'=>$session, 'assistance'=>true));
 			}
-			
 			$url_return = CopixUrl::get ('assistance||users');
 		}
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $url_return);
