@@ -56,7 +56,9 @@ table.welcome td.ecoles {
 }
 #welcome_photos div.object {
 	background:#fff;
-	padding:2px;
+	padding:0px;
+	border:solid 3px #000;
+	height:230px;
 }
 
 #welcome_actualites {

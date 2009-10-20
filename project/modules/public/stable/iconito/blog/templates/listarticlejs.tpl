@@ -16,7 +16,7 @@
 			{assign var=cptCat value=$cptCat+1}
 		{/foreach}
 		</div>
-		<div class="titre"><a href="{copixurl}{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}">{$article->name_bact}</a></div>
+		<div class="titre"><a href="{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}">{$article->name_bact}</a></div>
 		{if $chapo}<div class="chapo">{$article->sumary_html_bact}</div>{/if}
 		{if $hr}<div class="hr"></div>{/if}
 		</div>

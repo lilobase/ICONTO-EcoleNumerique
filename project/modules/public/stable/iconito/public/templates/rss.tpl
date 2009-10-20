@@ -5,7 +5,7 @@
     <link>{$rss.link|rss}</link>
     <description>{$rss.description|rss}</description>
     {if $rss.logo}<image>
-  		<url>{copixurl}{copixurl dest="blog|admin|logo" id_blog=$blog->id_blog}</url>
+  		<url>{copixurl dest="blog|admin|logo" id_blog=$blog->id_blog}</url>
 		</image>{/if}
     <language>{$rss.language}</language>
     <copyright>{$rss.copyright|rss}</copyright>
@@ -27,7 +27,7 @@
      <category>{foreach from=$article->categories item=category}{if $cptCat>0}, {/if}{assign var=cptCat value=$cptCat+1}{$category->name_bacg|rss}{/foreach}</category>
      {/if}
      
-     {if $blog->has_comments_activated eq 1}<comments>{copixurl}{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}#comments</comments>{/if}
+     {if $blog->has_comments_activated eq 1}<comments>{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}#comments</comments>{/if}
      <description>{$article->sumary_html_bact|rss}</description>
 		 {$article->sumary_bact|rss_enclosure}
 
