@@ -20,7 +20,7 @@
 
 *}
 
-{i18n key="aide.guide_ext"}
+{i18n key="aide.guide_ext" noEscape=1}
 
 
-</div>aaa
+</div>

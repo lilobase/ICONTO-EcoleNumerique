@@ -37,6 +37,15 @@ table.welcome td.ecoles {
 	font-weight:bold;
 	font-size:1.3em;
 }
+#welcome_ecoles div.type {
+	background:#fff;
+	padding:4px;
+	margin-top:5px;
+	margin-bottom:5px;
+	text-transform:uppercase;
+	font-weight:bolder;
+}
+
 
 #welcome_photos {
 	margin-bottom:10px;
