@@ -140,6 +140,22 @@ TABLE.head TD.ecole-login-bar INPUT.submit {
 	color: #FFF;
 	font-weight: bold;
 }
+table.head div.minimailNbMessages {
+	background-color:#EAE9D8;
+	border: solid 1px #FFFFFF;
+	margin:0px;
+	width:120px;
+	padding:0px;
+	border-radius:12px;
+	-moz-border-radius:12px;
+	text-align:center;
+	font-size: 65%;
+}
+table.head div.minimailNbMessages a {
+	font-weight:bold;
+	line-height:100%;
+	font-size:200%;
+}
 
 .debug, .debug A, .debug A:visited  {
 	font-size: 0.8em;

@@ -31,8 +31,6 @@ class ZoneNewMinimail extends CopixZone {
 			
 			// retour de la fonction :
 	    $toReturn = $tpl->fetch ('newminimail.tpl');
-			
-			if( !$nbMessages ) $toReturn="";
 
 		}
 		
