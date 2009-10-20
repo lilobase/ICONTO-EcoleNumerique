@@ -95,7 +95,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_comptes.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
 		$tpl = & new CopixTpl ();
 		$tplAnimateurs = & new CopixTpl ();
@@ -204,7 +204,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
-		CopixHtmlHeader::addCSSLink(CopixUrl::get().'styles/module_comptes.css');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
 		$tpl = & new CopixTpl ();
 		$tplAnimateurs = & new CopixTpl ();
