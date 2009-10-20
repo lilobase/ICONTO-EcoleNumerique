@@ -44,13 +44,13 @@ class ActionGroupMagicmail extends CopixActionGroup {
 		// $tplForm->assign ('magicmail_mail', CopixConfig::get ('magicmail|magicmail_mail'));
 		
 		if( (_request("return") ) )
-		$tplForm->assign ('return', _request("return"));
+			$tplForm->assign ('return', _request("return"));
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
 
 		$tplForm->assign ('msg', array(
 			'type'  => 'ok',
-			'image_url' => 'img/iconito/prefs/smiley_black.png',
+			'image_url' => _resource('img/prefs/smiley_black.png'),
 			'image_alt' => 'Ok !',
 			'value' => CopixI18N::get ('prefs|prefs.msg.prefsrecorded')
 		) );

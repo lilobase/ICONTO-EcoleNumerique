@@ -21,7 +21,7 @@ class ZonePrefs extends CopixZone {
 		if( $msg && $msg=='save' ) {
 			$tpl->assign ('msg', array(
 				'type'  => 'ok',
-				'image_url' => 'img/iconito/prefs/smiley_black.png',
+				'image_url' => _resource('img/prefs/smiley_black.png'),
 				'image_alt' => CopixI18N::get ('prefs.msg.prefsrecorded_alt'),
 				'value' => CopixI18N::get ('prefs.msg.prefsrecorded')
 			) );
