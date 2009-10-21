@@ -21,6 +21,17 @@ class PluginTheme extends CopixPlugin {
     function beforeProcess (&$execParam){
 			CopixTpl::setTheme(Kernel::getTheme());
     }
+		
+		function beforeDisplay (& $display) {
+			$HTTP_USER_AGENT = (isset($_SERVER["HTTP_USER_AGENT"])) ? $_SERVER["HTTP_USER_AGENT"] : '';
+			if (preg_match("/MSIE 6.0/", $HTTP_USER_AGENT)) {
+				CopixHTMLHeader::addCSSLink (_resource("styles/theme_ie.css"));	
+				CopixHTMLHeader::addCSSLink (_resource("styles/theme_ie6.css"));	
+			} elseif (preg_match("/MSIE 7.0/", $HTTP_USER_AGENT)) {
+				CopixHTMLHeader::addCSSLink (_resource("styles/theme_ie.css"));	
+				CopixHTMLHeader::addCSSLink (_resource("styles/theme_ie7.css"));	
+			}
+		}	
 
 }
 
