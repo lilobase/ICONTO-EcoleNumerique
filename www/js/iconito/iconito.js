@@ -371,4 +371,24 @@ function $defined(obj){return(obj!=undefined);};
 function $pick(obj,picked){return $defined(obj)?obj:picked;};
 
 
+function include(file) {
+  var oScript = document.createElement("script");
+  oScript.src = file;
+  oScript.type = "text/javascript";
+  document.body.appendChild(oScript);
+}
+function IncludeJavaScript(jsFile)
+{
+  document.write('<script type="text/javascript" src="'
+    + jsFile + '"></scr' + 'ipt>'); 
+}
+
+
+// On l'utilise :
+
+if (is_ie6) {
+	IncludeJavaScript(urlBase+"js/iconito/ie6png.js");
+	IncludeJavaScript(urlBase+"js/iconito/ie6fix.js");
+}
+
 

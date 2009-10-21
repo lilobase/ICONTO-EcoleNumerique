@@ -6,12 +6,12 @@
   <title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/theme.css"); ?>" type="text/css"/>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
+	<script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/iconito.js"></script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/prototype-1.6.0.3.js"></script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/lang_<?php echo CopixI18N::getLang(); ?>.js"></script>
   <link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
   <?php echo $HTML_HEAD; ?>
-	<script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
 </head>
 
 <body<?php if (isset($BODY_ON_LOAD) && $BODY_ON_LOAD) echo ' onLoad="'.$BODY_ON_LOAD.'"'; if (isset($BODY_ON_UNLOAD) && $BODY_ON_UNLOAD) echo ' onUnLoad="'.$BODY_ON_UNLOAD.'"'; ?>>
