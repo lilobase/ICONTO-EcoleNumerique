@@ -485,7 +485,27 @@ class ActionGroupDefault extends CopixActionGroup {
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $from);
 	}
 
-
+	/**
+	 * Choix de la langue
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2009/11/03
+	 * @param string $lang Langue a mettre en place
+	 */
+	
+	function processSetLang () {
+		_currentUser()->assertCredential ('group:[current_user]');
+		$pLang = CopixRequest::getAlpha('lang');
+		
+		//$getLang = CopixI18N::getLang (); echo "getLang=".$getLang;
+		
+		if ($pLang) {
+			CopixI18N::setLang ($pLang);
+		}
+		$from = (isset($_SERVER['HTTP_REFERER'])) ? $_SERVER['HTTP_REFERER'] : CopixUrl::get ('kernel||getHome');
+		return new CopixActionReturn (COPIX_AR_REDIRECT, $from);
+		
+	}
 
 
 
