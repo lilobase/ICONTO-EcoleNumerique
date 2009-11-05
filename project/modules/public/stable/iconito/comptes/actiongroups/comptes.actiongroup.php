@@ -206,7 +206,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( $droit>=70 ) $tplGetNode->assign ('MAIN', CopixZone::process ('comptes|userlist', array('childs'=>$childs,'type'=>$pType,'id'=>$pId)) );
 		else             $tplGetNode->assign ('MAIN', CopixI18N::get ('comptes.error.badrights') );
 		
-		$result = $tplGetNode->fetch("getNode.tpl");
+		$result = $tplGetNode->fetch("getnode.tpl");
 		
 		$menu = array();
 		
@@ -484,22 +484,22 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		switch( $format ) {
 			case 'default':
-				$main = $tplLoginResult->fetch ('LoginResult.tpl');
+				$main = $tplLoginResult->fetch ('loginresult.tpl');
 				break;
 			case 'html':
-				$main = $tplLoginResult->fetch ('LoginResult-html.tpl');
+				$main = $tplLoginResult->fetch ('loginresult-html.tpl');
 				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
 				break;
 			case 'text':
-				$main = $tplLoginResult->fetch ('LoginResult-text.tpl');
+				$main = $tplLoginResult->fetch ('loginresult-text.tpl');
 				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.txt', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.txt')));
 				break;
 			case 'csv':
-				$main = $tplLoginResult->fetch ('LoginResult-csv.tpl');
+				$main = $tplLoginResult->fetch ('loginresult-csv.tpl');
 				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.csv', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.csv')));
 				break;
 			case 'xml':
-				$main = $tplLoginResult->fetch ('LoginResult-xml.tpl');
+				$main = $tplLoginResult->fetch ('loginresult-xml.tpl');
 				return _arContent ($main, array ('filename'=>'Logins-'.date('YmdHi').'.xml', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.xml')));
 				break;
 			/*
@@ -541,7 +541,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$tplPurgeResult = & new CopixTpl ();
 		$tplPurgeResult->assign ('logins', $inSession );
-		$main = $tplPurgeResult->fetch ('getPurgeResult.tpl');
+		$main = $tplPurgeResult->fetch ('getpurgeresult.tpl');
 		
 		$tpl->assign ( 'MAIN', $main );
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -678,7 +678,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tplGetUser->assign ('error', _request('error') );
 
 		
-		$result = $tplGetUser->fetch("getUser.tpl");
+		$result = $tplGetUser->fetch("getuser.tpl");
 		
 		$tpl->assign ("MAIN", $result);
 
@@ -748,7 +748,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		}
 		$tplGetUserExt->assign ('userlist', $userext_list );
 		
-		$result = $tplGetUserExt->fetch("getUserExt.tpl");
+		$result = $tplGetUserExt->fetch("getuserext.tpl");
 		// $result = '<pre>'.print_r( $userext_list, true ).'</pre>'.$result;
 		$tpl->assign ('MAIN', $result );
 		

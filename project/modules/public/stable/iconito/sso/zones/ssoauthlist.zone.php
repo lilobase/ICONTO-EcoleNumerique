@@ -24,7 +24,7 @@ class ZoneSsoAuthList extends CopixZone {
 		$tpl->assign('id', $id);
 		
 
-        $toReturn = $tpl->fetch ('SsoAuthList_Zone.tpl');
+        $toReturn = $tpl->fetch ('ssoauthlist_zone.tpl');
 
         return true;
 

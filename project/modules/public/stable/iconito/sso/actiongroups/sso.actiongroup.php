@@ -132,7 +132,7 @@ class ActionGroupSso extends CopixActionGroup {
 		$tplForm->assign ('type', $type);
 		$tplForm->assign ("errors", $errors);
 
-		$result = $tplForm->fetch('getServiceNewForm.tpl');
+		$result = $tplForm->fetch('getservicenewform.tpl');
 		$tpl->assign ('MAIN', $result);
 			
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
