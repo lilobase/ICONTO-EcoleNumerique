@@ -103,7 +103,7 @@
 {if $folders neq null}
 	{foreach from=$folders item=item}
 	<DIV CLASS="malle_folder_line">{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}<DIV CLASS="malle_file_line_checked"><INPUT TYPE="checkbox" NAME="folders[]" VALUE="{$item->id}"></DIV>{/if}<DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}</DIV>
-	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|htmlentities}</A>
+	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|escape}</A>
 	</DIV>
 	{math equation="x+y" x=$tailleFolders y=$item->taille assign="tailleFolders"}
 	{/foreach}
@@ -113,7 +113,7 @@
 {if $files neq null}
 	{foreach from=$files item=item}
 	<DIV CLASS="malle_file_line">{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}<DIV CLASS="malle_file_line_checked"><INPUT TYPE="checkbox" NAME="files[]" VALUE="{$item->id}"></DIV>{/if}<DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{$item->type_text}</DIV>
-	<img class="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|htmlentities}" title="{$item->type_text|htmlentities}" />{if $can.file_download}<A HREF="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|htmlentities}</A>{else}{$item->nom|htmlentities}{/if}
+	<img class="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" />{if $can.file_download}<A HREF="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</A>{else}{$item->nom|escape}{/if}
 	</DIV>
 	{math equation="x+y" x=$tailleFiles y=$item->taille assign="tailleFiles"}
 	{/foreach}

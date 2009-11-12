@@ -39,20 +39,20 @@
 
 {if $message->attachment1 }
 <DIV CLASS="minimail_attachment">
-<b>{i18n key="minimail.msg.attach1}</b> : <a href="{copixurl dest="|downloadAttachment"  file=$message->attachment1|htmlentities}">{$message->attachment1Name}</a>
-{if $message->attachment1IsImage }<br/><a href="{copixurl dest="|downloadAttachment"  file=$message->attachment1|htmlentities}"><img width="100" border="0" src="{copixurl dest="|previewAttachment" file=$message->attachment1}"></a>{/if}
+<b>{i18n key="minimail.msg.attach1}</b> : <a href="{copixurl dest="|downloadAttachment"  file=$message->attachment1|escape}">{$message->attachment1Name}</a>
+{if $message->attachment1IsImage }<br/><a href="{copixurl dest="|downloadAttachment"  file=$message->attachment1|escape}"><img width="100" border="0" src="{copixurl dest="|previewAttachment" file=$message->attachment1}"></a>{/if}
 </DIV>
 {/if}
 {if $message->attachment2 }
 <DIV CLASS="minimail_attachment">
-<b>{i18n key="minimail.msg.attach2}</b> : <a href="{copixurl dest="|downloadAttachment"  file=$message->attachment2|htmlentities}">{$message->attachment2Name}</a>
-{if $message->attachment2IsImage }<br/><a href="{copixurl dest="|downloadAttachment"  file=$message->attachment2|htmlentities}"><img width="100" border="0" src="{copixurl dest="|previewAttachment" file=$message->attachment2}"></a>{/if}
+<b>{i18n key="minimail.msg.attach2}</b> : <a href="{copixurl dest="|downloadAttachment"  file=$message->attachment2|escape}">{$message->attachment2Name}</a>
+{if $message->attachment2IsImage }<br/><a href="{copixurl dest="|downloadAttachment"  file=$message->attachment2|escape}"><img width="100" border="0" src="{copixurl dest="|previewAttachment" file=$message->attachment2}"></a>{/if}
 </DIV>
 {/if}
 {if $message->attachment3 }
 <DIV CLASS="minimail_attachment">
-<b>{i18n key="minimail.msg.attach3}</b> : <a href="{copixurl dest="|downloadAttachment"  file=$message->attachment3|htmlentities}">{$message->attachment3Name}</a>
-{if $message->attachment3IsImage }<br/><a href="{copixurl dest="|downloadAttachment"  file=$message->attachment3|htmlentities}"><img width="100" border="0" src="{copixurl dest="|previewAttachment" file=$message->attachment3}"></a>{/if}
+<b>{i18n key="minimail.msg.attach3}</b> : <a href="{copixurl dest="|downloadAttachment"  file=$message->attachment3|escape}">{$message->attachment3Name}</a>
+{if $message->attachment3IsImage }<br/><a href="{copixurl dest="|downloadAttachment"  file=$message->attachment3|escape}"><img width="100" border="0" src="{copixurl dest="|previewAttachment" file=$message->attachment3}"></a>{/if}
 </DIV>
 {/if}
 
