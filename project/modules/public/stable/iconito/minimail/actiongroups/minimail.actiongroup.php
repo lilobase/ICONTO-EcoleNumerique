@@ -493,7 +493,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 		}
 		$fileDl = $minimailService->getAttachmentName ($file);
 
-		return _arContent ($fullFile, array ('filename'=>$fileDl, 'content-type'=>CopixMIMETypes::getFromExtension ($fileDl)));
+		return _arFile ($fullFile, array ('filename'=>$fileDl, 'content-type'=>CopixMIMETypes::getFromExtension ($fileDl)));
 		
 	}
 	

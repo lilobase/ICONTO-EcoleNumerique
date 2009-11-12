@@ -805,8 +805,11 @@ class ActionGroupMalle extends CopixActionGroup {
 		$errors = array();
 		if (!file_exists($fullFile))
 			$errors[] = CopixI18N::get ('malle|malle.error.noFile');
+		
 		//print_r($rFile);
 		//print_r($errors);
+		
+		//Kernel::deb($fullFile);
 		
 		//die();
 		
@@ -815,8 +818,8 @@ class ActionGroupMalle extends CopixActionGroup {
 			//return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$rFile->folder, 'errors'=>$errors));
 		}
-		
-		return _arContent ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>CopixMIMETypes::getFromExtension ($fullFile)));
+
+		return _arFile ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>CopixMIMETypes::getFromExtension ($fullFile)));
 		
 	}
 
