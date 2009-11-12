@@ -34,7 +34,7 @@
 		/>
 </properties>
 <methods>
-	<method name="findForIdinterAndUser" type="select">
+	<method name="findForIdinterAndUser" type="selectfirst">
 		<parameters>
 			<parameter name="idinter" />
 			<parameter name="user_type" />

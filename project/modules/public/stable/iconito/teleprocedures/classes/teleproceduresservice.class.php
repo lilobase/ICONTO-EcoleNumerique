@@ -181,11 +181,11 @@ class TeleproceduresService {
 		
 		if (!CopixCache::exists ($cache_id, $cache_type)) {
 			$getDroit = 0;
-			$DAOinterventionDroit = & _dao ('teleprocedures|intervention_droit');
-			if ($droit = $DAOinterventionDroit->findForIdinterAndUser ($idinter, $user_type, $user_id))
-				$getDroit = $droit[0]->droit;
-			
-			CopixCache::write ($cache_id, $content, $cache_type);
+			$DAOinterventionDroit = _dao ('teleprocedures|intervention_droit');
+			if ($droit = $DAOinterventionDroit->findForIdinterAndUser ($idinter, $user_type, $user_id)) {
+				$getDroit = $droit->droit;
+			}
+			CopixCache::write ($cache_id, $getDroit, $cache_type);
 		} else // En cache
 			$getDroit = CopixCache::read ($cache_id, $cache_type);
 		return $getDroit;

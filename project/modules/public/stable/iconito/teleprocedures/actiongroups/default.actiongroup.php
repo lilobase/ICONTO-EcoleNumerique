@@ -204,7 +204,6 @@ class ActionGroupDefault extends CopixActionGroup {
 					TeleproceduresService::userReadIntervention ($rForm->idinter, $session['user_id']);
 					
 				}
-				
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('|listTeleprocedures', array('id'=>$rType->teleprocedure)));
 
 			}
@@ -612,9 +611,9 @@ class ActionGroupDefault extends CopixActionGroup {
 			else {
 				$ok = CopixI18N::get ('teleprocedures|teleprocedures.ok.sendMail', $mail_to);
 				
-				$info_commentaire = "Mail envoyé de $from à $to";
+				$info_commentaire = "Mail envoy&eacute; de $from &agrave; $to";
 				if ($cc)
-					$info_commentaire .= " (copie à $cc)";
+					$info_commentaire .= " (copie &agrave; $cc)";
 				if ($mail_message)
 					$info_commentaire .= " - Message d'acompagnement : ".$mail_message."";
 

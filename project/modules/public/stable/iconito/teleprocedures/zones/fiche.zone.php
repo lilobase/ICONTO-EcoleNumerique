@@ -64,12 +64,6 @@ class ZoneFiche extends CopixZone {
 		$tplFiche = $tpl->fetch ('fiche-zone.tpl');
 		
 		$toReturn = $tplFiche;
-		if ($print) {
-			$tplMain = & new CopixTpl ();
-			$tplMain->assign ('TITLE_PAGE', $rFiche->objet);
-			$tplMain->assign ('MAIN', $tplFiche);
-			$toReturn = $tplMain->fetch ('|main_print.tpl');
-		}
     
 		return true;
 	 
