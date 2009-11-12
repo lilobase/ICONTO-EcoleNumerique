@@ -5,7 +5,7 @@
 		<tables>
 			<table name="kernel_bu_ecole_classe" tablename="kernel_bu_ecole_classe" primary="yes"/>
 			<table name="kernel_bu_ecole" tablename="kernel_bu_ecole"/>
-			<table name="kernel_bu_ecole_classe_niveau" tablename="kernel_bu_ecole_classe_niveau"/>
+			<table name="kernel_bu_ecole_classe_niveau" tablename="kernel_bu_ecole_classe_niveau" join="LEFT"/>
 			<table name="kernel_bu_annee_scolaire" tablename="kernel_bu_annee_scolaire"/>
 		</tables>
 	</datasource>
@@ -44,6 +44,7 @@
 				<condition property="cla_ecole" operator="=" value="$eco" />
 				<condition property="cla_is_validee" operator="=" value="1" />
 				<condition property="cla_is_supprimee" operator="=" value="0" />
+				<condition property="annee_current" operator="=" value="1" />
 			</conditions>
 		</method>
 	</methods>
