@@ -28,7 +28,10 @@ class KernelBlog {
 		$blog->id_ctpt     	   = 1;
 		$blog->style_blog_file = 0;
 		
-		$blog->is_public       = isset($infos['is_public']) ? $infos['is_public'] : 1;
+		
+		$is_public_default = CopixConfig::exists ('blog|blog.default.is_public')?CopixConfig::get ('blog|blog.default.is_public'):1;
+		
+		$blog->is_public       = isset($infos['is_public']) ? $infos['is_public'] : $is_public_default;
 		$blog->has_comments_activated = 0;
 		$blog->type_moderation_comments = CopixConfig::get ('blog|blog.default.type_moderation_comments');
 		$blog->default_format_articles = CopixConfig::get ('blog|blog.default.default_format_articles');
