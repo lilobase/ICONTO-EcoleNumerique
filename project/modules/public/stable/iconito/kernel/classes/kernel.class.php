@@ -1736,10 +1736,15 @@ class Kernel {
 		return (_currentUser()->getExtra('type') == 'USER_ADM');
 	}
 
-  // $options : 
+  // $options : [parent] (option) si on a deja le parent
 	function menuReturntoParent ( $module_type, $module_id, $options=array()) {
 		//$parents = Kernel::getModParent( $module_type, $module_id );
-    $parent = Kernel::getModParentInfo ( $module_type, $module_id );
+
+		if (!isset($options['parent']))
+	    $parent = Kernel::getModParentInfo ( $module_type, $module_id );
+		else
+			$parent = $options['parent'];
+			
 		//var_dump($parent);
 		//if( sizeof($parents) ) {
 		if ( $parent ) {

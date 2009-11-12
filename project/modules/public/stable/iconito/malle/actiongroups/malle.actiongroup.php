@@ -106,8 +106,12 @@ class ActionGroupMalle extends CopixActionGroup {
 			
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $title);
-			if ($dispMenu)
-				$tpl->assign ('MENU', '<a href="'.CopixUrl::get (''.$parent["module"].'||go', array("id"=>$parent["id"])).'">'.CopixI18N::get ('malle|malle.backMalle').'</a>');
+			if ($dispMenu) {
+				//$tpl->assign ('MENU', '<a href="'.CopixUrl::get (''.$parent["module"].'||go', array("id"=>$parent["id"])).'">'.CopixI18N::get ('malle|malle.backMalle').'</a>');
+				$returntoparent = Kernel::menuReturntoParent( "MOD_MALLE", $id, array('parent'=>$parent) );
+				if ($returntoparent) $menu = array($returntoparent);
+				$tpl->assign ('MENU', $menu);
+			}
 			
 			$can = array(
 				'file_download'=>$malleService->canMakeInMalle("FILE_DOWNLOAD",$mondroit),
@@ -248,66 +252,6 @@ class ActionGroupMalle extends CopixActionGroup {
 		}
 	}
 
-
-
-
-   /**
-   * Affichage du formulaire d'upload d'un fichier
-	 * 
-	 * Affiche l'ensemble des fichiers, dossiers et actions possibles de réaliser dans un dossier d'une malle
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2005/12/03
-	 * @deprecated Mis de côté dans le desc, on permet en effet l'upload directement depuis l'affichage de la malle
-	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire destination
-	 * @param array $errors (option) Erreurs rencontrées
-   */
-	function getUploadFile () {
-	
-
-		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
-	 	$daoMalles = CopixDAOFactory::create("malle|malle_malles");
-	 	$daoFolders = CopixDAOFactory::create("malle|malle_folders");
-		
-		$id = $this->getRequest ('id', null);
-		$folder = $this->getRequest ('folder', 0);
-		$errors = $this->getRequest ('errors', array());
-		
-		$criticErrors = array();	
-		
-		if ($folder) {	// Upload dans un dossier
-			$rFolder = $daoFolders->get($folder);
-			//print_r($rFolder);
-			if (!$rFolder)
-				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
-			else {
-				//print_r($rMessage);
-				$mondroit = $kernelService->getLevel("MOD_MALLE", $rFolder->malle);
-				if (!$malleService->canMakeInMalle("FILE_UPLOAD",$mondroit))
-					$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
-			}
-		}
-
-		if ($criticErrors) {
-			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('malle||')));
-		} else {
-			$tpl = & new CopixTpl ();
-			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('malle|malle.newFile'));
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|getMalle', array("id"=>$id, "folder"=>$folder)).'">'.CopixI18N::get ('malle|malle.backMalle').'</a>');
-
-			$tplForm = & new CopixTpl ();
-			$tplForm->assign ('id', $id);
-			$tplForm->assign ('folder', $folder);
-			$tplForm->assign ("errors", $errors);
-			$tplForm->assign ('petitpoucet', CopixZone::process ('malle|petitpoucet', array('malle'=>$id, 'folder'=>$folder)));
-
-			$result = $tplForm->fetch('getuploadfileform.tpl');
-			$tpl->assign ('MAIN', $result);
-			
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		}
-	}
 
 
    /**
