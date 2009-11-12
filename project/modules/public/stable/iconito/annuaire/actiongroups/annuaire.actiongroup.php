@@ -98,7 +98,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 		
     // Blog de la ville
-		$blog = getNodeBlog ('BU_VILLE', $ville);
+		$blog = getNodeBlog ('BU_VILLE', $ville, array('is_public'=>1));
     if ($blog)
       $rVille['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
 
@@ -110,7 +110,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
     
     // On cherche les blogs
     foreach ($ecoles as $k=>$e) {
-      $blog = getNodeBlog ('BU_ECOLE', $e['id']);
+      $blog = getNodeBlog ('BU_ECOLE', $e['id'], array('is_public'=>1));
       if ($blog)
         $ecoles[$k]['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
       // On zappe le site web
@@ -167,7 +167,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		//$tplListe->assign ('ecoles', $ecoles);
 		
     // Blog de l'école
-		$blog = getNodeBlog ('BU_ECOLE', $ecole);
+		$blog = getNodeBlog ('BU_ECOLE', $ecole, array('is_public'=>1));
     if ($blog)
       $rEcole['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
 
@@ -250,7 +250,7 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 		$rEcole = Kernel::getNodeInfo ('BU_ECOLE', $ecole, false);
     
      // Blog de l'école
-		$blog = getNodeBlog ('BU_ECOLE', $ecole);
+		$blog = getNodeBlog ('BU_ECOLE', $ecole, array('is_public'=>1));
     if ($blog)
       $rEcole['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
     

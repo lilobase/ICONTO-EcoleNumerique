@@ -132,7 +132,7 @@ class AnnuaireService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
 	 * @param integer $ecole Id de l'école
-	 * @param array $options Tableau d'options. Implemente : [forceCanViewEns] force l'affichage des enseignants au lieu de regarder si l'usager a les droits [onlyWithBlog] ne renvoie que les classes ayant un blog [enseignant] si on veut avoir l'enseignant de la classe (true par defaut) [withNiveaux] cherche les niveaux de chaque classe [annee] Force une annee scolaire
+	 * @param array $options Tableau d'options. Implemente : [forceCanViewEns] force l'affichage des enseignants au lieu de regarder si l'usager a les droits [onlyWithBlog] ne renvoie que les classes ayant un blog [onlyWithBlog] ne renvoie que les classes ayant un blog [onlyWithBlogIsPublic] verifie que le blog est public (ou pas, selon valeur onlyWithBlogIsPublic) [enseignant] si on veut avoir l'enseignant de la classe (true par defaut) [withNiveaux] cherche les niveaux de chaque classe [annee] Force une annee scolaire
 	 * @return array Tableau avec les classes
 	 * @todo Voir pour remplacer le -1 par un ID d'un enseignant
 	 */
@@ -180,7 +180,12 @@ class AnnuaireService {
 				}
 				// On cherche seulement les classes avec blog
 				if (isset($options['onlyWithBlog']) && $options['onlyWithBlog']) {
-					if ($blog = getNodeBlog ('BU_CLASSE', $child['id'])) {
+				
+					$getNodeBlogOptions = array();
+					if (isset($options['onlyWithBlogIsPublic']))
+						$getNodeBlogOptions['is_public'] = $options['onlyWithBlogIsPublic'];
+				
+					if ($blog = getNodeBlog ('BU_CLASSE', $child['id'], $getNodeBlogOptions)) {
 						//var_dump($blog);
 						$classe['url_blog'] = $blog->url_blog;
 					} else

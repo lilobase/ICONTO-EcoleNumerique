@@ -92,18 +92,23 @@ function BDToDateTime($date, $time, $format) {
 	 * @since 2006/05/16
 	 * @param string $parent_type Type du parent (club, classe...)
 	 * @param string $parent_id Id du parent
+	 * @param array $pOptions Options [is_public] pour forcer un test sur le champ is_public
 	 * @return mixed NULL si pas de blog, le recordset sinon
 	 */
-	function getNodeBlog ($parent_type, $parent_id) {
+	function getNodeBlog ($parent_type, $parent_id, $options=array()) {
 		$blog = NULL;
+		$trouve = false;
 		$hisModules = Kernel::getModEnabled ($parent_type, $parent_id);
 		foreach ($hisModules as $node) {
 			//print_r($node);
-			if ($blog)
+			if ($trouve)
 				break;
 			if ($node->module_type == 'MOD_BLOG') {
 				$dao = _dao("blog|blog");
 				$blog = $dao->get($node->module_id);
+				if (isset($options['is_public']) && $blog->is_public!=$options['is_public'])
+					$blog = null;
+				$trouve = true;
 			}
 		}
 		return $blog;

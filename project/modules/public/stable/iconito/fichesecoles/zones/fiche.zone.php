@@ -39,10 +39,15 @@ class ZoneFiche extends CopixZone {
 		
 		$canModify = FichesEcolesService::canMakeInFicheEcole($rEcole->numero,'MODIFY');
 		
-		$blog = getNodeBlog ('BU_ECOLE', $rEcole->numero);
+		$blog = getNodeBlog ('BU_ECOLE', $rEcole->numero, array('is_public'=>1));
 		//var_dump($blog);
+		$arClassesBlogs = false;
     if ($blog)
 			$rEcole->blog = $blog;
+		else // Si pas de blog, on regarde s'il y a des blogs publics de classes
+			$arClassesBlogs = AnnuaireService::getClassesInEcole ($rEcole->numero, array('onlyWithBlog'=>true, 'onlyWithBlogIsPublic'=>1, 'enseignant'=>false));
+		//Kernel::deb($arClassesBlogs);
+		
 		
 		$rEcole->directeur = AnnuaireService::getDirecteurInEcole($rEcole->numero);
 		//var_dump($rEcole);
@@ -51,6 +56,7 @@ class ZoneFiche extends CopixZone {
 	  $tpl->assign ('rFiche', $rFiche);
 	  $tpl->assign ('isAjax', $isAjax);
 	  $tpl->assign ('arClasses', $arClasses);
+	  $tpl->assign ('arClassesBlogs', $arClassesBlogs);
 	  $tpl->assign ('canModify', $canModify);
 	  $tpl->assign ('googleMapsKey', CopixConfig::get ('fichesecoles|googleMapsKey'));
 	  $tpl->assign ('canViewEns', $canViewEns);

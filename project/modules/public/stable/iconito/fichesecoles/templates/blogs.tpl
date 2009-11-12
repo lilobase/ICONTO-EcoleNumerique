@@ -9,12 +9,12 @@
 
 
 {if $rEcole->blog}
-<div><b><a href="{copixurl dest="blog||" blog=$rEcole->blog->url_blog}">{$rEcole->nom|htmlentities}</a></b></div>
+<div><b><a href="{copixurl dest="blog||" blog=$rEcole->blog->url_blog}">{$rEcole->nom|escape}</a></b></div>
 {/if}
 
 {if $arClasses}
 	{foreach from=$arClasses item=classe}
-		<div><a href="{copixurl dest="blog||" blog=$classe.url_blog}">{$classe.nom|htmlentities}</a></div>
+		<div><a href="{copixurl dest="blog||" blog=$classe.url_blog}">{$classe.nom|escape}</a></div>
 	{/foreach}
 {/if}
 

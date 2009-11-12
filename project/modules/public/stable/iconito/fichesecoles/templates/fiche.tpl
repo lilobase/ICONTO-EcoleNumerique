@@ -98,7 +98,7 @@
 <br clear="all" />
 
 
-{if $rEcole->blog}
+{if $rEcole->blog || $arClassesBlogs}
 	<div style="position:relative;">
 	<div class="blog">
 	
