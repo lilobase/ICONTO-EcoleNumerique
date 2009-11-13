@@ -32,6 +32,19 @@ class Kernel {
 	}
 
 	/**
+	 * Test si un utilisateur est reconnecté en animateur
+	 * @return	boolean	true si un utilisateur est connectÈ, false sinon
+	 * @author	Frédéric MOSSMANN
+	 * @since	13.11.2009
+	 * 
+	 */
+	function is_animateur () {
+		$isAnim = _currentUser ();
+		if ($isAnim != '') return true;
+		return false;
+	}
+
+	/**
 	 * ymd2dmy
 	 *
 	 * Transforme une date du format informatique (YYYY-MM-DD) en format franÁais (JJ/MM/YYYY).
