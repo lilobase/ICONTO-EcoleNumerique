@@ -1,4 +1,13 @@
 -- 
+-- Contenu de la table `copixmodule`
+-- 
+
+INSERT INTO `copixmodule` VALUES('admin', 'project/modules/public/stable/standard/', '0');
+INSERT INTO `copixmodule` VALUES('auth', 'project/modules/public/stable/standard/', '0');
+INSERT INTO `copixmodule` VALUES('default', 'project/modules/public/stable/standard/', '0');
+INSERT INTO `copixmodule` VALUES('generictools', 'project/modules/public/stable/standard/', '0');
+
+-- 
 -- Contenu de la table `dbuser`
 -- 
 
