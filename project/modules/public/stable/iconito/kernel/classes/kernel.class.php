@@ -39,7 +39,7 @@ class Kernel {
 	 * 
 	 */
 	function is_animateur () {
-		$isAnim = _currentUser ();
+		$isAnim = _sessionGet('user_animateur');
 		if ($isAnim != '') return true;
 		return false;
 	}
