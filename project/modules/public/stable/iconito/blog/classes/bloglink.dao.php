@@ -48,11 +48,10 @@ class DAOBlogLink {
     */
    function doDown ($id_blog, $link) {
       $RS = _doQuery('SELECT MAX(order_blnk) as max FROM module_blog_link WHERE id_blog='.$id_blog);
-      if ($record = $RS->fetch()) {
-         $maxOrder = $record->max;
-      }else{
+      if (isset($RS[0]))
+         $maxOrder = $RS[0]->max;
+      else
          return false;
-      }
    	if ($link->order_blnk < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_link SET order_blnk='.$link->order_blnk.' WHERE id_blog='.$id_blog.' AND order_blnk='.(intval($link->order_blnk) + 1);

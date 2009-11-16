@@ -49,11 +49,10 @@ class DAOBlogFluxRss {
     */
    function doDown ($id_blog, $fluxRss) {
       $RS = _doQuery('SELECT MAX(order_bfrs) as max FROM module_blog_fluxrss WHERE id_blog='.$id_blog);
-      if ($record = $RS->fetch()) {
-         $maxOrder = $record->max;
-      }else{
+      if (isset($RS[0]))
+         $maxOrder = $RS[0]->max;
+      else
          return false;
-      }
    	if ($link->order_blnk < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_fluxrss SET order_bfrs='.$fluxRss->order_bfrs.' WHERE id_blog='.$id_blog.' AND order_bfrs='.(intval($fluxRss->order_bfrs) + 1);

@@ -82,11 +82,10 @@ class DAOBlogarticlecategory {
     */
    function doDown ($id_blog, $category) {
       $RS = _doQuery('SELECT MAX(order_bacg) as max FROM module_blog_articlecategory WHERE id_blog='.$id_blog);
-      if ($record = $RS->fetch()) {
-         $maxOrder = $record->max;
-      }else{
+      if (isset($RS[0]))
+         $maxOrder = $RS[0]->max;
+      else
          return false;
-      }
    	if ($category->order_bacg < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_articlecategory SET order_bacg='.$category->order_bacg.' WHERE id_blog='.$id_blog.' AND order_bacg='.(intval($category->order_bacg) + 1);

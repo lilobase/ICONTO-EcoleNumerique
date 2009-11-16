@@ -82,11 +82,10 @@ class DAOBlogPage {
     */
    function doDown ($id_blog, $page) {
       $RS = _doQuery('SELECT MAX(order_bpge) as max FROM module_blog_page WHERE id_blog='.$id_blog);
-      if ($record = $RS->fetch()) {
-         $maxOrder = $record->max;
-      }else{
+      if (isset($RS[0]))
+         $maxOrder = $RS[0]->max;
+      else
          return false;
-      }
    	if ($page->order_bpge < $maxOrder) {
          // MoveDown next menu
          $sqlSwap1 = 'UPDATE module_blog_page SET order_bpge='.$page->order_bpge.' WHERE id_blog='.$id_blog.' AND order_bpge='.(intval($page->order_bpge) + 1);
