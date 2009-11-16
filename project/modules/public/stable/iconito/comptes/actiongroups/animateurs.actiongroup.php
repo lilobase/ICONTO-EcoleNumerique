@@ -240,6 +240,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$userens_dao = _dao("kernel|kernel_bu_personnel");
 		$list = $userens_dao->listUsers();
 		$user_key = 0;
+		$ppo->userens = array();
 		foreach( $list AS $user_val ) {
 			$ppo->userens[$user_key] = $user_val;
 			$user_key++;
