@@ -17,7 +17,7 @@
 {if $photolist neq null}	
 
 	{foreach from=$photolist item=valeur}
-		<div class="photo"><a href="{copixurl dest="album||photo" photo_id=$valeur->photo_id}"><img src="{copixurl}static/album/{$valeur->album_id}_{$valeur->album_cle}/{$valeur->photo_id}_{$valeur->photo_cle}{$album_thumbsize}.{$valeur->photo_ext}" border="0" alt="{$valeur->photo_nom|htmlentities}" title="{$valeur->photo_nom|htmlentities}" width="{$album_thumbsize_width}" height="{$album_thumbsize_height}"></a></div>
+		<div class="photo"><a href="{copixurl dest="album||photo" photo_id=$valeur->photo_id}"><img src="{copixurl}static/album/{$valeur->album_id}_{$valeur->album_cle}/{$valeur->photo_id}_{$valeur->photo_cle}{$album_thumbsize}.{$valeur->photo_ext}" border="0" alt="{$valeur->photo_nom|escape}" title="{$valeur->photo_nom|escape}" width="{$album_thumbsize_width}" height="{$album_thumbsize_height}"></a></div>
 	{/foreach}
 
 {else}

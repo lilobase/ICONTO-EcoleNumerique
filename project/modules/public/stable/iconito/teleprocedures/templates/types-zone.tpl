@@ -8,9 +8,9 @@
 {foreach from=$list item=r}
 <li>{if $admin}
 
-<a title="{i18n key="kernel|kernel.btn.modify"}" class="is_online{$r->is_online}" href="{copixurl dest="admin|formtype" idtype=$r->idtype}"><img src="{copixresource path="img/edit_16x16.gif"}" alt="edit_16x16.gif" align="right" width="8" height="8" /> {$r->nom|htmlentities}</a>{* - <a href="{copixurl dest="|insert" idtype=$r->idtype}">{i18n key="kernel|kernel.btn.delete"}</a>*}
+<a title="{i18n key="kernel|kernel.btn.modify"}" class="is_online{$r->is_online}" href="{copixurl dest="admin|formtype" idtype=$r->idtype}"><img src="{copixresource path="img/edit_16x16.gif"}" alt="edit_16x16.gif" align="right" width="8" height="8" /> {$r->nom|escape}</a>{* - <a href="{copixurl dest="|insert" idtype=$r->idtype}">{i18n key="kernel|kernel.btn.delete"}</a>*}
 
-{else}<a href="{copixurl dest="|insert" idtype=$r->idtype}">{$r->nom|htmlentities}</a>{/if}
+{else}<a href="{copixurl dest="|insert" idtype=$r->idtype}">{$r->nom|escape}</a>{/if}
 
 </li>
 

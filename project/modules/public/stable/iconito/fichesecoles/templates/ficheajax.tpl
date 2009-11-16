@@ -38,13 +38,13 @@
 {assign var=nom value=$enseignant.prenom|cat:" "|cat:$enseignant.nom}
 
 {if $canViewEns}
-	{user label=$nom|htmlentities userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1 escape=1}{else}
-	{$nom|htmlentities}{/if}{assign var=sep value=", "}{/foreach}
+	{user label=$nom|escape userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1 escape=1}{else}
+	{$nom|escape}{/if}{assign var=sep value=", "}{/foreach}
 </DIV>
 {/if}
 
-<b><A HREF="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom|htmlentities}</A></b>
-{$class.nom|htmlentities}
+<b><A HREF="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom|escape}</A></b>
+{$class.nom|escape}
 
 </DIV>
 

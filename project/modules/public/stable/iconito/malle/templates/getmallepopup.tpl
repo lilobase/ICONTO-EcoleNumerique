@@ -85,7 +85,7 @@
 {if $folders neq null}
 	{foreach from=$folders item=item}
 	<DIV CLASS="malle_folder_line" style="width:90%;"><DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}</DIV>
-	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMallePopup" id=$id folder=$item->id field=$field format=$format}">{$item->nom|htmlentities}</A>
+	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMallePopup" id=$id folder=$item->id field=$field format=$format}">{$item->nom|escape}</A>
 	</DIV>
 	{math equation="x+y" x=$tailleFolders y=$item->taille assign="tailleFolders"}
 	{/foreach}
@@ -109,7 +109,7 @@
 	{i18n key="malle|malle.error.unsupportedFormat" format=$format assign=i18n_unsupportedFormat}
 
 	<DIV CLASS="malle_file_line" style="width:90%;"><div style="float:right; margin-right:5px;"><a href="#" onClick="return sendDocument('{$file}', '{$field}', '{$format}', '{$htmlDownload|wiki|urlencode}', '{$htmlView|wiki|urlencode}', '{$i18n_unsupportedFormat|addslashes|escape}');">{i18n key="malle|malle.popup.select"}</a></div><DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{$item->type_text}</DIV>
-	<img class="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|htmlentities}" title="{$item->type_text|htmlentities}" /><a href="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|htmlentities}</a>
+	<img class="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" /><a href="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</a>
 	</DIV>
 	{math equation="x+y" x=$tailleFiles y=$item->taille assign="tailleFiles"}
 	{/foreach}

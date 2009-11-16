@@ -4,8 +4,8 @@
 		<tr>
 		<th>{$entry->logs_date}</th>
 		<td>{$entry->logs_user_ip}</td>
-		<td><acronym title="{$entry->logs_url|htmlentities}">{$entry->logs_mod_name|htmlentities}/{$entry->logs_mod_action|htmlentities}</acronym></td>
-		<td>{$entry->logs_message|htmlentities} ({$entry->logs_user_login|htmlentities})</td>
+		<td><acronym title="{$entry->logs_url|escape}">{$entry->logs_mod_name|escape}/{$entry->logs_mod_action|escape}</acronym></td>
+		<td>{$entry->logs_message|escape} ({$entry->logs_user_login|escape})</td>
 		</tr>
 	{/foreach}
 	</table>

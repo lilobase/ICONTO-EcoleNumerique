@@ -35,11 +35,11 @@ function photo_all ( mode ) {
 			<td width="1"><input type="checkbox" name="photo_{$picture->photo_id}" value="1" /></td>
 			<td width="1">
 				<a href="javascript:photo_toggle('photo_{$picture->photo_id}');">
-				<img src="{copixurl}static/album/{$picture->album_id}_{$picture->album_cle}/{$picture->photo_id}_{$picture->photo_cle}{$picture_thumbsize}.{$picture->photo_ext}" border="0" alt="{$picture->photo_nom|htmlentities}" title="{$picture->photo_nom|htmlentities}" width="{$album_thumbsize_width}" height="{$album_thumbsize_height}" align="left" id="thumb_{$picture->photo_id}"/>
+				<img src="{copixurl}static/album/{$picture->album_id}_{$picture->album_cle}/{$picture->photo_id}_{$picture->photo_cle}{$picture_thumbsize}.{$picture->photo_ext}" border="0" alt="{$picture->photo_nom|escape}" title="{$picture->photo_nom|escape}" width="{$album_thumbsize_width}" height="{$album_thumbsize_height}" align="left" id="thumb_{$picture->photo_id}"/>
 				</a>
 			</td>
 			<td align="left">
-				{$picture->photo_nom|htmlentities}
+				{$picture->photo_nom|escape}
 			</td>
 		</tr>
 	{/foreach}
@@ -57,7 +57,7 @@ function photo_all ( mode ) {
 		{elseif $valeur.type eq 'close'}
 			{assign var=level value=`$level-1`}
 		{elseif $valeur.type eq 'folder'}
-			<option VALUE="{$valeur.data->dossier_id}"{if $valeur.data->dossier_id == $dossier->dossier_id} selected{/if}>{$TitreArticle|indent:$level:"&gt;&nbsp;"}{$valeur.data->dossier_nom|htmlentities}</option>
+			<option VALUE="{$valeur.data->dossier_id}"{if $valeur.data->dossier_id == $dossier->dossier_id} selected{/if}>{$TitreArticle|indent:$level:"&gt;&nbsp;"}{$valeur.data->dossier_nom|escape}</option>
 		{/if}
 	{/foreach}
 	</select>

@@ -7,7 +7,7 @@
 	{/foreach}
 	
 	{foreach from=$items item=item}
-	<OPTION VALUE="{$item.id}"{if $item.id == $value} SELECTED{/if}>{$item.nom|htmlentities}</OPTION>
+	<OPTION VALUE="{$item.id}"{if $item.id == $value} SELECTED{/if}>{$item.nom|escape}</OPTION>
 	{/foreach}
 
 	</SELECT>{/if}

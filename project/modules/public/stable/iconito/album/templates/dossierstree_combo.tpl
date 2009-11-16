@@ -72,7 +72,7 @@ DIV.folder_action {
 		{elseif $valeur.type eq 'close'}
 			{assign var=level value=`$level-1`}
 		{elseif $valeur.type eq 'folder'}
-			<option VALUE="{$valeur.data->dossier_id}"{if $valeur.data->dossier_id == $dossier->dossier_parent} selected{/if}>{$TitreArticle|indent:$level:"&gt;&nbsp;"}{$valeur.data->dossier_nom|htmlentities}</option>
+			<option VALUE="{$valeur.data->dossier_id}"{if $valeur.data->dossier_id == $dossier->dossier_parent} selected{/if}>{$TitreArticle|indent:$level:"&gt;&nbsp;"}{$valeur.data->dossier_nom|escape}</option>
 		{/if}
 	{/foreach}
 	</select>
@@ -89,7 +89,7 @@ DIV.folder_action {
 	<input type="hidden" name="dossier_id" value="{$dossier_id}" />
 
 	{i18n key="album.folder.action.rename"}
-	<input name="folder_rename" value="{$dossier->dossier_nom|htmlentities}" />
+	<input name="folder_rename" value="{$dossier->dossier_nom|escape}" />
 	<input type="submit" value="{i18n key="album.folder.action.rename.submit"}" />
 	</form>
 	

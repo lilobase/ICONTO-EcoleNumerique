@@ -5,7 +5,7 @@
 	{/foreach}
 	<OPTION VALUE="0"{if 0 == $folder} SELECTED{/if}>{i18n key="malle.root"}</OPTION>
 	{foreach from=$combofolders item=item}
-	<OPTION VALUE="{$item.id}"{if $item.id == $folder} SELECTED{/if}>{$item.nom|htmlentities|indent:$item.niveau:"&nbsp;&middot;&nbsp;"}</OPTION>
+	<OPTION VALUE="{$item.id}"{if $item.id == $folder} SELECTED{/if}>{$item.nom|escape|indent:$item.niveau:"&nbsp;&middot;&nbsp;"}</OPTION>
 	{/foreach}
 	</SELECT>
 {/if}

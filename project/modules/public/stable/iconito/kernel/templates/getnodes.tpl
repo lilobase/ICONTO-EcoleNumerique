@@ -76,7 +76,7 @@
 		{assign var=dest value=$module_type_array[1]|cat:'||go'}
     <a
 		class="box_M"
-href="{copixurl dest=$dest id=$mod->module_id}"><img src="{copixresource path="img/kernel/module_`$mod->module_type`_M.gif"}" border=0 alt="{$mod->module_nom|htmlentities}" title="{$mod->module_nom|htmlentities}"><br/>
+href="{copixurl dest=$dest id=$mod->module_id}"><img src="{copixresource path="img/kernel/module_`$mod->module_type`_M.gif"}" border=0 alt="{$mod->module_nom|escape}" title="{$mod->module_nom|escape}"><br/>
 <span class="modname">{$mod->module_nom}</span></a>
     {/foreach}
 	{/foreach}

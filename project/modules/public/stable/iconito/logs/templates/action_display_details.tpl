@@ -11,7 +11,7 @@
 	{foreach from=$data key=key item=item}
 	<tr>
 		<th>{$key}</th>
-		<td>{$item|htmlentities}</td>
+		<td>{$item|escape}</td>
 	</tr>
 	{/foreach}
 </table>
