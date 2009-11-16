@@ -14,6 +14,10 @@ _classInclude('admin2|admin');
 
 class ActionGroupUservisibility extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+	}
+
 	/**
 	 * Affiche la matrice des droits de visibilité entre utilisateurs
 	 * 

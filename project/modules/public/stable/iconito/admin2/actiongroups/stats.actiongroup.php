@@ -15,6 +15,9 @@ _classInclude('admin2|admin');
 
 class ActionGroupStats extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+	}
 
 	/**
 	 * Accueil des stats

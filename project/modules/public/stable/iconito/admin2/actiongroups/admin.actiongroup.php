@@ -14,6 +14,10 @@ _classInclude('admin2|admin');
 
 class ActionGroupAdmin extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+	}
+	
    function home () {
     
     if (!Admin::canAdmin())

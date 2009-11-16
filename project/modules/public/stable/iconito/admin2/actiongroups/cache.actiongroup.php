@@ -15,6 +15,9 @@ _classInclude('admin2|admin');
 
 class ActionGroupCache extends CopixActionGroup {
 
+	public function beforeAction (){
+		_currentUser()->assertCredential ('group:[current_user]');
+	}
 
 	/**
 	 * Renvoie les infos sur le cache
