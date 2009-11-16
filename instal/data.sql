@@ -1,4 +1,19 @@
 -- 
+-- Contenu de la table `dbgroup`
+-- 
+
+INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
+(1, 'Admin', 'Groupe administrateur', 1, 0, 0),
+(2, 'current_user', 'Utilisation classique de l''application', 0, 0, 1);
+
+-- 
+-- Contenu de la table `dbgroup_users`
+-- 
+
+INSERT INTO `dbgroup_users` (`id_dbgroup`, `userhandler_dbgroup`, `user_dbgroup`) VALUES
+(1, 'auth|dbuserhandler', '1');
+
+-- 
 -- Contenu de la table `copixmodule`
 -- 
 
