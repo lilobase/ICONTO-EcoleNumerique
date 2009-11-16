@@ -39,7 +39,8 @@ class ZoneGetUser extends CopixZone {
 			
 			$tpl = & new CopixTpl ();
 			$tpl->assign('usr', $usr);
-	    $toReturn = utf8_encode($tpl->fetch ('getuser.tpl'));
+	    //$toReturn = utf8_encode($tpl->fetch ('getuser.tpl'));
+	    $toReturn = $tpl->fetch ('getuser.tpl');
 			//$toReturn = $res;
 		}
     return true;

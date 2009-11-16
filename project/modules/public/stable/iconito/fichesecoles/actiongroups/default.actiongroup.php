@@ -138,6 +138,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$result = $fiche;
 
 		header('Content-type: text/html; charset=utf-8');
+		//echo utf8_encode($result);
 		echo utf8_encode($result);
 		
 		return new CopixActionReturn (COPIX_AR_NONE, 0);

@@ -297,7 +297,8 @@ class ActionGroupAnnuaire extends CopixActionGroup {
 
 		//$tpl->assign ('MAIN', $result);
 		header('Content-type: text/html; charset=utf-8');
-		echo utf8_encode($result);
+		//echo utf8_encode($result);
+		echo $result;
 		
 		return new CopixActionReturn (COPIX_AR_NONE, 0);
 	}
