@@ -121,8 +121,14 @@ class MinimailService {
 		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyé
 			$res = true;
 		} else {
+			/** COPIX2 **
 			while (!$res && list(,$d) = each($destin)) {
 				$res = ($d->to_id==$idUser);
+			}
+			*/
+			foreach($destin AS $d) {
+				$res = ($d->to_id==$idUser);
+				if($res) break;
 			}
 		}
 		return $res;
