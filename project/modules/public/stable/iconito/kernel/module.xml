@@ -4,6 +4,6 @@
 		<default name="kernel" description="Noyau" longdescription="Noyau" />
  	</general>
 	<parameters>
-  	<parameter name="jeuEssaiInstalled" caption="kernel.parameter.jeuEssaiInstalled" default="1" />
+  	<parameter name="jeuEssaiInstalled" caption="kernel.parameter.jeuEssaiInstalled" default="0" />
 	</parameters>
 </moduledefinition>
