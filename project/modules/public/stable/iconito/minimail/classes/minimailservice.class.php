@@ -45,7 +45,7 @@ class MinimailService {
 				//print_r($newMp);
 				// On parcourt chaque destinataire
 				while (list($to_id,) = each ($destin)) {
-					//print_r("to_id=$to_id / to_login=$to_login");
+					// print_r("to_id=$to_id / to_login=$to_login");
 					$newDest = _record("minimail|minimail_to");
 					$newDest->id_message = $newMp->id;
 					$newDest->to_id = $to_id;
@@ -172,6 +172,9 @@ class MinimailService {
 			case 'dokuwiki' :
 				$message =  "\n\n\n> --------- ".CopixI18N::get ('minimail.msg.origin')." ---------\n> ".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"]))." :\n> " . str_replace("\n", "\n>", $message[0]->message);
 			
+				break;
+			case 'ckeditor' :
+				$message =  "<br/><blockquote><b>--- ".CopixI18N::get ('minimail.msg.origin')." ---</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"]))." :</i><br/>" . str_replace("\n", "<br/>", $message[0]->message)."</blockquote><br/>";
 				break;
 		}
 		return array("dest"=>$dest, "title"=>$title, "message"=>$message);
