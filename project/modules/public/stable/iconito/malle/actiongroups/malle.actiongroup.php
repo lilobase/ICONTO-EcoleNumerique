@@ -266,8 +266,8 @@ class ActionGroupMalle extends CopixActionGroup {
    */
 	function doUploadFile () {
 	
-		// Temporaire...
-		ini_set( 'memory_limit', '32M' ); // Pb d'allocation mémoire
+		// A faire dans le .htaccess
+		// ini_set( 'memory_limit', '32M' ); // Pb d'allocation mémoire
 		ini_set( 'max_execution_time', '120' ); // Pb de temps de traitement
 
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
