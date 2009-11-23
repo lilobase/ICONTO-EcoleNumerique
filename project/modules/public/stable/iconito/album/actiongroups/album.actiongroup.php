@@ -403,8 +403,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 */
 	function doAddPhoto () {
 		
-		// Temporaire...
-		@ini_set( 'memory_limit', '64M' ); // Pb d'allocation mémoire
+		// A faire dans le .htaccess
+		// @ini_set( 'memory_limit', '64M' ); // Pb d'allocation mémoire
 		@ini_set( 'max_execution_time', '120' ); // Pd de temps de traitement
 		
 		if( !(_request("album_id") ) ) {
@@ -969,8 +969,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tplXml->assign ("album_key", $album->album_cle);
 		$tplXml->assign ("album_titre", $parent['nom']);
 		$tplXml->assign ("dossier_id", $dossier_id);
-		$tplXml->assign ("dossier_key", $dossier->dossier_cle);
-		$tplXml->assign ("dossier_titre", $dossier->dossier_nom);
+		if(isset($dossier->dossier_cle)) $tplXml->assign ("dossier_key", $dossier->dossier_cle);
+		if(isset($dossier->dossier_nom)) $tplXml->assign ("dossier_titre", $dossier->dossier_nom);
 		
 		$photo_dao = CopixDAOFactory::create("photo");
 		// $photolist = $photo_dao->findAllByAlbum($album_id);
@@ -1004,8 +1004,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tplHtml->assign ("album_key", $album->album_cle);
 		$tplHtml->assign ("album_titre", $parent['nom']);
 		$tplHtml->assign ("dossier_id", $dossier_id);
-		$tplHtml->assign ("dossier_key", $dossier->dossier_cle);
-		$tplHtml->assign ("dossier_nom", $dossier->dossier_nom);
+		if(isset($dossier->dossier_cle)) $tplHtml->assign ("dossier_key", $dossier->dossier_cle);
+		if(isset($dossier->dossier_nom)) $tplHtml->assign ("dossier_nom", $dossier->dossier_nom);
 		$result = $tplHtml->fetch("simpleviewer_html.tpl");
 		fwrite( $file_html, $result );
 		fclose( $file_html );

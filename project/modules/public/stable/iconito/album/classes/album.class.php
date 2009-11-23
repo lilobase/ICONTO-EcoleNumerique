@@ -132,8 +132,21 @@ class Album {
 	 */
 	function createThumbnail( $album, $file, $ext, $taille="s128", $force=false, $toext='' ) {
 		
-		// Augmentation des limites
-		@ini_set( 'memory_limit', '64M' );
+		$memoryLimit = ini_get("memory_limit");
+		switch( substr($memoryLimit,-1) ) {
+			case 'K':
+				$memoryLimit = 1024*(int)substr($memoryLimit,0,-1);
+				break;
+			case 'M':
+				$memoryLimit = 1024*1024*(int)substr($memoryLimit,0,-1);
+				break;
+			case 'G':
+				$memoryLimit = 1024*1024*1024*(int)substr($memoryLimit,0,-1);
+				break;
+		}
+		
+		// A faire dans le .htaccess
+		// @ini_set( 'memory_limit', '64M' );
 		@ini_set( 'max_execution_time', '120' );
 		
 		$path2data = realpath("static");
@@ -147,8 +160,6 @@ class Album {
 			$savedfile = $pathfolder.'/'.$file.'_'.$taille.'.'.$ext;
 			if( file_exists($savedfile) && !$force ) return true;
 		}
-		
-		
 		
 		// Décodage de la taille ('s' pour carrée et nombre de pixels)
 		if( ereg("^s([0-9]+)$", $taille, $regs) ) {
@@ -193,6 +204,28 @@ class Album {
 			$new_height = $height;
 		}
 		
+		// Mémoire déjà utilisée par PHP et Iconito
+		$memoryUsed = memory_get_usage();
+		
+		// Mémoire prévue pour ouvrir le fichier original
+		if(!isset($file_info['channels'])) $file_info['channels']=4; // Normalement 3, mais au pire avec l'AlphaChannel, on prend 4.
+		if(!isset($file_info['bits']))     $file_info['bits'    ]=8; // 8 bits.
+		$memoryNeeded = round(($file_info[0] * $file_info[1] * $file_info['bits'] * $file_info['channels'] / 8 + Pow(2, 16)) * 1.65);
+		
+		// Mémoire prévue pour ouvrir la vignette (en prévoyant un peu large)
+		$memoryNeeded += round((1024 * 1024 * 8 * 4 / 8 + Pow(2, 16)) * 1.65);
+
+		// Est-ce qu'il reste assez de mémoire pour allouer l'image originale et la vignette ? 
+		if( ($memoryLimit-($memoryUsed+$memoryNeeded)) <0 ) {
+			/*
+			echo "<li>memoryLimit=".$memoryLimit."</li>";
+			echo "<li>memoryUsed=".$memoryUsed."</li>";
+			echo "<li>memoryNeeded=".$memoryNeeded."</li>";
+			echo "<li>Free=".($memoryLimit-($memoryUsed+$memoryNeeded))."</li>";
+			*/
+			return false;
+		}
+		
 		// Ouverture du fichier en fonction du format
 		switch( $ext ) {
 			case "gif":
@@ -218,6 +251,8 @@ class Album {
 			*/
 		}
 		
+		// echo "<li>Usage Apres ouverture: ".memory_get_usage()."</li>";
+		
 		if( $mode == "square" ) {
 			// Mode carré...
 			$image_p = imagecreatetruecolor($square_thumbsize, $square_thumbsize);
@@ -241,7 +276,7 @@ class Album {
 				$new_width, $new_height,
 				$width, $height);
 		}
-
+		
 		if( $toext!='' ) $ext=$toext;
 		
 		// Enregistrement de l'image au format souhaité
@@ -259,7 +294,6 @@ class Album {
 	
 		if($image_p) imagedestroy($image_p);
 		imagedestroy($image);
-		
 		return true;
 	}
 
