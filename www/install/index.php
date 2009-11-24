@@ -28,8 +28,9 @@ $titles = array(
 if( file_exists(COPIX_LOG_PATH.'.installed') && file_exists('../../project/config/copix.conf.php') ) {
 	// display_menu();
 	display_title();
-	display_message( "ICONITO EcoleNumerique est déjà installé. Pour y accéder, <a href=\"..\">cliquez ici</a> !" );
+	display_message( "ICONITO EcoleNumerique est d&eacute;j&agrave; install&eacute;. Pour y acc&eacute;der, <a href=\"..\">cliquez ici</a> !" );
 	display_message( "Si vous souhaitez refaire une installation, vous devez supprimer manuellement le fichier \".installed\" qui se trouve dans \"temp/log\" et recharger cette page." );
+	ob_flush();
 	die();
 }
 
@@ -46,13 +47,13 @@ switch( $step ) {
 		display_title();
 		$data = check_rights();
 		if( ! $data['caninstall'] ) {
-			display_message( _LOGO_ERROR."Les fichiers et répertoires suivants doivent êtres accessible en écriture pour Apache :" );
+			display_message( _LOGO_ERROR."Les fichiers et r&eacute;pertoires suivants doivent &ecirc;tres accessible en &eacute;criture pour Apache :" );
 			display_list_start();
 			foreach( $data['errors'] AS $file ) display_list_item( $file );
 			display_list_stop();
-			display_link( "Corrigez et cliquez ici pour réessayer", 'index.php?step='.($step) );
+			display_link( "Corrigez et cliquez ici pour r&eacute;essayer", 'index.php?step='.($step) );
 		} else {
-			display_message( _LOGO_GOOD."Les droits sur les fichiers et répertoires sont corrects" );
+			display_message( _LOGO_GOOD."Les droits sur les fichiers et r&eacute;pertoires sont corrects" );
 			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		}
 		break;
@@ -73,7 +74,7 @@ switch( $step ) {
 		}
 		
 		if( ! $data['caninstall'] ) {
-			display_link( "Corrigez et cliquez ici pour réessayer", 'index.php?step='.($step) );
+			display_link( "Corrigez et cliquez ici pour r&eacute;essayer", 'index.php?step='.($step) );
 		} else {
 			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		}
@@ -99,15 +100,15 @@ switch( $step ) {
 				display_message( _LOGO_ERROR.$data['errors'][0]['message']);
 			}
 		} else {
-			display_message( "Afin de configurer votre base de données, merci de renseigner les information de connexion." );
+			display_message( "Afin de configurer votre base de donn&eacute;es, merci de renseigner les information de connexion." );
 		}
 ?>
 <form method="post">
 <table border="0">
-<tr><td align="right">Serveur :</td><td><input name="host" value="<?php if(isset($_SESSION['install_iconito']['host'])) echo $_SESSION['install_iconito']['host']; else echo "localhost"; ?>" /> (vous pouvez préciser le port. Exemple : <tt>serveur:3306</tt>)</td></tr>
+<tr><td align="right">Serveur :</td><td><input name="host" value="<?php if(isset($_SESSION['install_iconito']['host'])) echo $_SESSION['install_iconito']['host']; else echo "localhost"; ?>" /> (vous pouvez pr&eacute;ciser le port. Exemple : <tt>serveur:3306</tt>)</td></tr>
 <tr><td align="right">Login :</td><td><input name="login" value="<?php if(isset($_SESSION['install_iconito']['login'])) echo $_SESSION['install_iconito']['login']; ?>" /></td></tr>
 <tr><td align="right">Mot de passe :</td><td><input name="password" type="password" value="<?php if(isset($_SESSION['install_iconito']['password'])) echo $_SESSION['install_iconito']['password']; ?>" /></td></tr>
-<!--  <tr><td align="right">Base de données :</td><td><input name="database" /></td></tr> -->
+<!--  <tr><td align="right">Base de donn&eacute;es :</td><td><input name="database" /></td></tr> -->
 <tr><td align="right"></td><td><input type="submit" value="Valider" /></td></tr>
 </table>
 </form>
@@ -132,31 +133,31 @@ switch( $step ) {
 				
 				$result = check_mysql_createdatabase( $_SESSION['install_iconito']['database'] );
 				if( $result ) {
-					display_message( _LOGO_GOOD."La base \"".$_SESSION['install_iconito']['database']."\" a été créée." );
-					display_link( "Cliquez ici pour créer les tables", 'index.php?step='.($step+1) );
+					display_message( _LOGO_GOOD."La base \"".$_SESSION['install_iconito']['database']."\" a &eacute;t&eacute; cr&eacute;&eacute;e." );
+					display_link( "Cliquez ici pour cr&eacute;er les tables", 'index.php?step='.($step+1) );
 				} else {
-					display_message( _LOGO_ERROR."La base \"".$_SESSION['install_iconito']['database']."\" ne peut pas être créée. Vérifiez les droits d'accès à votre base de données. N'utilisez pas de caractères spéciaux." );
+					display_message( _LOGO_ERROR."La base \"".$_SESSION['install_iconito']['database']."\" ne peut pas &ecirc;tre cr&eacute;&eacute;e. V&eacute;rifiez les droits d'acc&egrave;s &agrave; votre base de donn&eacute;es. N'utilisez pas de caract&egrave;res sp&eacute;ciaux." );
 					echo "Vous pouvez ";
-					display_link( "reconfigurer votre base de données", 'index.php?step='.($step-1) );
+					display_link( "reconfigurer votre base de donn&eacute;es", 'index.php?step='.($step-1) );
 					echo " ou ";
 					display_link( "choisir une autre base", 'index.php?step='.($step) );
 				}
 
 				break;
 			} elseif( count($tables) ) {
-				display_message( _LOGO_WARNING."Attention, cette base n'est pas vide. Vous risquez d'effacer des données !!!" );
+				display_message( _LOGO_WARNING."Attention, cette base n'est pas vide. Vous risquez d'effacer des donn&eacute;es !!!" );
 				display_link( "Cliquez ici pour choisir une autre base", 'index.php?step='.($step) );
 				echo " ou ";
-				display_link( "cliquez ici pour écraser les tables existantes", 'index.php?step='.($step+1) );
+				display_link( "cliquez ici pour &eacute;craser les tables existantes", 'index.php?step='.($step+1) );
 				break;
 			} else {
 				display_message( _LOGO_GOOD."Cette base est vide." );
-				display_link( "Cliquez ici pour créer les tables", 'index.php?step='.($step+1) );
+				display_link( "Cliquez ici pour cr&eacute;er les tables", 'index.php?step='.($step+1) );
 				break;
 			}
 		}
 		
-		display_message( "Choisissez la base que vous souhaitez utiliser, ou créez-en une." );
+		display_message( "Choisissez la base que vous souhaitez utiliser, ou cr&eacute;ez-en une." );
 		
 		$data = check_mysql_databases();
 
@@ -178,12 +179,12 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		
 		$result = check_mysql_importdump( '../../instal/iconito.sql' );
 		if( $result ) {
-			display_message( _LOGO_GOOD."Les tables ont été créées." );
-			display_link( "Cliquez ici pour importer les données", 'index.php?step='.($step+1) );
-			echo " (cette opération peut prendre du temps...).";
+			display_message( _LOGO_GOOD."Les tables ont &eacute;t&eacute; cr&eacute;&eacute;es." );
+			display_link( "Cliquez ici pour importer les donn&eacute;es", 'index.php?step='.($step+1) );
+			echo " (cette op&eacute;ration peut prendre du temps...).";
 		} else {
-			display_message( _LOGO_ERROR."Erreur lors de la création des tables." );
-			display_link( "Vérifiez vos identifiants", 'index.php?step='.($step-2) );
+			display_message( _LOGO_ERROR."Erreur lors de la cr&eacute;ation des tables." );
+			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-2) );
 		}
 		break;
 
@@ -192,26 +193,31 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		display_title();
 		session_start();
 		
+		$ok=true;
 		$result = check_mysql_importdump( '../../instal/data.sql' );
 		if( $result ) {
-			display_message( _LOGO_GOOD."Les données ont été importées." );
-			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
+			display_message( _LOGO_GOOD."Les donn&eacute;es ont &eacute;t&eacute; import&eacute;es." );
 		} else {
-			display_message( _LOGO_ERROR."Erreur lors de l'importation des données." );
-			display_link( "Vérifiez vos identifiants", 'index.php?step='.($step-3) );
-			echo " ou ";
-			display_link( "recréez vos tables", 'index.php?step='.($step-1) );
+			display_message( _LOGO_ERROR."Erreur lors de l'importation des donn&eacute;es." );
+			$ok=false;
 		}
-		$result = check_mysql_importdump( '../../instal/ressources.sql' );
-		if( $result ) {
-			check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
-			display_message( _LOGO_GOOD."Les données ont été importées." );
-			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
-		} else {
-			display_message( _LOGO_ERROR."Erreur lors de l'importation des données." );
-			display_link( "Vérifiez vos identifiants", 'index.php?step='.($step-3) );
+		
+		if($ok) {
+			$result = check_mysql_importdump( '../../instal/ressources.sql' );
+			if( $result ) {
+				check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
+				display_message( _LOGO_GOOD."Les ressources ont &eacute;t&eacute; import&eacute;es." );
+			} else {
+				display_message( _LOGO_ERROR."Erreur lors de l'importation des ressources." );
+				$ok=false;
+			}
+		}
+			
+		if($ok) display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
+		else {
+			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-3) );
 			echo " ou ";
-			display_link( "recréez vos tables", 'index.php?step='.($step-1) );
+			display_link( "recr&eacute;ez vos tables", 'index.php?step='.($step-1) );
 		}
 		break;
 	
@@ -234,11 +240,11 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		
 		if( $data['caninstall'] ) {
 			set_admin_password( $_POST["passwd"] );
-			display_message( _LOGO_GOOD."Votre mot de passe a été enregistré." );
+			display_message( _LOGO_GOOD."Votre mot de passe a &eacute;t&eacute; enregistr&eacute;." );
 			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		} else {
 		
-			display_message( "Afin de protéger votre Iconito, merci de choisir le mot de passe d'administration." );
+			display_message( "Afin de prot&eacute;ger votre Iconito, merci de choisir le mot de passe d'administration." );
 ?>
 <form method="post" name="selectpasswd">
 
@@ -248,7 +254,7 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 <tr><td></td><td><input type="submit" value="Valider" /></td></tr>
 </table>
 
-<p><b>Note :</b> <i>Votre mot de passe doit faire au minimum 6 caractères et ne pas comporter que des lettres ou que des chiffres.</i></p>
+<p><b>Note :</b> <i>Votre mot de passe doit faire au minimum 6 caract&egrave;res et ne pas comporter que des lettres ou que des chiffres.</i></p>
 
 </form>
 <?php
@@ -274,11 +280,11 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		
 		if( $data['caninstall'] ) {
 			set_admin_config();
-			display_message( _LOGO_GOOD."Vos préférences ont été enregistrées." );
+			display_message( _LOGO_GOOD."Vos pr&eacute;f&eacute;rences ont &eacute;t&eacute; enregistr&eacute;es." );
 			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		} else {
 		
-			display_message( "Pour finir, vous pouvez configurer quelques fonctionnalités d'ICONITO EcoleNumerique." );
+			display_message( "Pour finir, vous pouvez configurer quelques fonctionnalit&eacute;s d'ICONITO EcoleNumerique." );
 ?>
 
 <script type="text/javascript">
@@ -317,7 +323,7 @@ TABLE.conftable TD {
 <input name="conf" type="hidden" value="1" />
 
 <label for="conf_mailEnabled"><strong>&raquo; Activer l'envoi de mails :</strong></label>
-<input name="conf_mailEnabled" id="conf_mailEnabled" value="1" type="checkbox" onchange="javascript: toggle_mailEnabled();" /> Activer ?<br /><i>(à activer pour autoriser les alertes par mail)</i>
+<input name="conf_mailEnabled" id="conf_mailEnabled" value="1" type="checkbox" onchange="javascript: toggle_mailEnabled();" /> Activer ?<br /><i>(&agrave; activer pour autoriser les alertes par mail)</i>
 
 <div style="display: none; visibility: hidden;" id="conf_mailSmtpHost_box">
 	<table class="conftable" cellspacing="0">
@@ -327,10 +333,10 @@ TABLE.conftable TD {
 	</tr>
 	<tr>
 		<td align="right"><span>Adresse mail d'envoi :</span></td>
-		<td><input name="conf_mailFrom" id="conf_mailFrom" value="" /> (utilisez une adresse réelle)</td>
+		<td><input name="conf_mailFrom" id="conf_mailFrom" value="" /> (utilisez une adresse r&eacute;elle)</td>
 	</tr>
 	<tr>
-		<td align="right"><span>Nom de l'expéditeur :</span></td>
+		<td align="right"><span>Nom de l'exp&eacute;diteur :</span></td>
 		<td><input name="conf_mailFromName" id="conf_mailFromName" value="Alerte Iconito" /></td>
 	</tr>
 	</table>
@@ -361,10 +367,10 @@ TABLE.conftable TD {
 				display_message( $msg );
 			}
 		} else {
-			display_message( _LOGO_GOOD."F&eacute;licitations, ICONITO EcoleNumerique est installé !" );
-			display_message( "Pour vous connecter, utilisez le login <b>admin</b> et le mot de passe d'administration choisi précédement." );
+			display_message( _LOGO_GOOD."F&eacute;licitations, ICONITO EcoleNumerique est install&eacute; !" );
+			display_message( "Pour vous connecter, utilisez le login <b>admin</b> et le mot de passe d'administration choisi pr&eacute;c&eacute;dement." );
 			display_link( "Cliquez ici pour y acc&eacute;der", ".." );
-			display_message( "Afin de découvrir Iconito, vous pouvez utiliser le \"jeu d'essai\", un ensemble de comptes d'accès et de contenus de démonstration. Pour l'installer, connectez-vous en administrateur et allez dans le module d'administration." );
+			display_message( "Afin de d&eacute;couvrir Iconito, vous pouvez utiliser le \"jeu d'essai\", un ensemble de comptes d'acc&egrave;s et de contenus de d&eacute;monstration. Pour l'installer, connectez-vous en administrateur et allez dans le module d'administration." );
 		}
 		
 		break;

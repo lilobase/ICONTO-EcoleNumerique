@@ -64,9 +64,9 @@ H1, H2, H3 {
 	echo '<div class="steps">'."\n";
 	foreach( $titles AS $title_id => $title_name ) {
 		if( $cpt++ ) echo ' &raquo; ';
-		if( $title_id == $step ) echo '<span class="actif">'.$title_name.'</span>';
-		elseif( $title_id < $step ) echo '<a class="old" href="index.php?step='.$title_id.'">'.$title_name.'</a>';
-		else echo $title_name;
+		if( $title_id == $step ) echo '<span class="actif">'.htmlentities($title_name).'</span>';
+		elseif( $title_id < $step ) echo '<a class="old" href="index.php?step='.$title_id.'">'.htmlentities($title_name).'</a>';
+		else echo htmlentities($title_name);
 	}
 	echo "\n".'</div>'."\n";
 	
@@ -79,7 +79,7 @@ function display_title( $title="" ) {
 	
 	if( $title=='' ) {
 		$title = _MAIN_TITLE;
-		if( $titles[$step] ) $title .= " &raquo; ".$titles[$step];
+		if( isset($titles[$step]) && $titles[$step] ) $title .= " &raquo; ".$titles[$step];
 	}
 	echo '<h1>'.$title.'</h1>'."\n";
 }
