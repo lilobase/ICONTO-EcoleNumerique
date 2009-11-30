@@ -49,7 +49,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		//si la catégorie est fournie on vérifie qu'elle existe
 		if (null != ($cat = ($this->getRequest ('cat', null)))){
 			$daoCat = CopixDAOFactory::create('blog|blogarticlecategory');
-			if (!$cat = $daoCat->getCategoryByName ($cat)){
+			if (!$cat = $daoCat->getCategoryByName ($blog->id_blog, $cat)){
 				return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('blog.error.unableToFindCat'),
 				'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));

@@ -11,8 +11,9 @@ class DAOBlogarticlecategory {
     * @param  name
     * @return
     */
-    function getCategoryByName ($url_bacg){
+    function getCategoryByName ($id_blog, $url_bacg){
       $sp = _daoSp ();
+      $sp->addCondition ('id_blog' , '=', $id_blog);
       $sp->addCondition ('url_bacg', '=', $url_bacg);
 
       if (count($arCat = $this->findBy ($sp)) > 0)  {
