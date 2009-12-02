@@ -30,7 +30,7 @@
 		<property name="ele_adresse2"     fieldname="adresse2"     type="string"  table="kernel_bu_eleve" pk="no"/>
 		<property name="ele_code_postal"  fieldname="code_postal"  type="string"  table="kernel_bu_eleve" pk="no"/>
 		<property name="ele_commune"      fieldname="commune"      type="string"  table="kernel_bu_eleve" pk="no"/>
-		<property name="ele_id_directeur" fieldname="id_directeur" type="string"  table="kernel_bu_eleve" pk="no"/>
+		<!-- <property name="ele_id_directeur" fieldname="id_directeur" type="string"  table="kernel_bu_eleve" pk="no"/> -->
 		<!-- property name="ele_observations" fieldname="observations" type="string"  table="kernel_bu_eleve" pk="no" -->
 		<!-- property name="ele_flag"         fieldname="flag"         type="integer" table="kernel_bu_eleve" pk="no" -->
 		<!-- property name="ele_adresse_tmp"  fieldname="adresse_tmp"  type="string"  table="kernel_bu_eleve" pk="no" -->
