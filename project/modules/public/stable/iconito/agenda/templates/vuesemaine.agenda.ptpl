@@ -9,10 +9,10 @@ $serviceDate   = new DateService;
 $serviceAgenda = new AgendaService;
 $serviceType   = new AgendaType;
 
-//année et semaine courante
+//annÃ©e et semaine courante
 $html  = '<div id="situ_semaine">';
 
-//éléments "semaine précédente" et "semaine suivante"
+//Ã©lÃ©ments "semaine prÃ©cÃ©dente" et "semaine suivante"
 $html .= '<div class="prev">';
 $html .= '<a href="' . CopixUrl::get('agenda|agenda|vueSemaine', array('numSemaine'=>$semaine_precedente, 'annee'=>$annee_precedente)) . '">&lt;&lt;&nbsp;' . CopixI18N::get ('agenda|agenda.message.semaine_precedente') . '</a>';
 $html .= '</div>';
@@ -32,9 +32,11 @@ $html .= '</div>';
 
 $html .= '</div>';
 
+
+
 $html .= '<table class="agendaVueSemaine" border="0">';
 
-//en-têtes du tableau
+//en-tÃªtes du tableau
 $html .= '<thead>';
 $html .= '<tr>';
 $html .= '<td></td>';
@@ -51,9 +53,9 @@ $html .= '<tbody>';
 $html .= '<tr>';
 $html .= '<td class="journee">' . CopixI18N::get ('agenda|agenda.message.journee') . '</td>';
 
-$decalage = $margeHaut = 0;
+//$decalage = $margeHaut = 0;
 
-//quand un évènnement se déroule sur la journée, on l'affiche en haut de la colonne
+//quand un Ã©vÃ¨nnement se dÃ©roule sur la journÃ©e, on l'affiche en haut de la colonne
 foreach((array)$arEventByDay as $jours){
 
 	$html .= '<td class="elements_journee">';
@@ -61,10 +63,10 @@ foreach((array)$arEventByDay as $jours){
 	if (isset($jours->events)) {
 		foreach((array)$jours->events as $event){
 			if($event->alldaylong_event == 1){
-				//on récupère la couleur de fond pour l'évènement
+				//on rÃ©cupÃ¨re la couleur de fond pour l'Ã©vÃ¨nement
 				$arColor = $serviceType->getColors($serviceAgenda->getTypeAgendaByIdAgenda($event->id_agenda));
 				$color = $arColor[0];
-				//on ajoute l'évènement
+				//on ajoute l'Ã©vÃ¨nement
 				$html .= '<tr>';
 				$html .= '<td>';
 				
@@ -74,10 +76,12 @@ foreach((array)$arEventByDay as $jours){
 				
 				$largeurDivEvenement = 112;
 				
-				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
+//				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
+				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\')" onmouseout="javascript:hidePopupEvent(0);" >';
+
 				
 				
-				//lien pour modifier l'évènement
+				//lien pour modifier l'Ã©vÃ¨nement
 	
 				if(strlen($event->title_event)>10){//on tronque le titre si il est trop grand
 					$html .= '<span class="titreEvent">' . substr($event->title_event, 0, 10) . '...</span>';
@@ -123,9 +127,9 @@ $html .= '<tr>';
 $html .= '<td class=""><table border="0"><tr><td>'; //' . $heure_deb . ':00'
 //$html .= '<td class="">'; //' . $heure_deb . ':00'
 
-//on construit la colonne des heures (qui s'adapte à l'heure de début et de fin de l'évènement)
+//on construit la colonne des heures (qui s'adapte Ã  l'heure de dÃ©but et de fin de l'Ã©vÃ¨nement)
 $varheure_deb = $heure_deb;
-//on affiche les 9:00 sur 5 caractères : 09:00
+//on affiche les 9:00 sur 5 caractÃ¨res : 09:00
 while ($varheure_deb < $heure_fin){
 	/*$html .= '<tr>';
 	$html .= '<td class="case_heure">' . $varheure_deb . ':00';
@@ -140,12 +144,14 @@ $html .= '</td></tr></table>';
 
 $html .= '</td>';
 $html .= '<td class="case_jourEvent" colspan="7">';
+$html .= '<div id="popupEvent2" class="popupEvent2" onmouseover="javascript:mouseOverPopupEvent();" onmouseout="javascript:mouseOutPopupEvent();"></div>';
+
+
 $html .= '<table class="contenu_semaine" border="0">';
 
 $html .= '<tr>
 
 
-<div id="popupEvent2" class="popupEvent2" onmouseover="javascript:mouseOverPopupEvent();" onmouseout="javascript:mouseOutPopupEvent();"></div>
 
 ';
 
@@ -160,16 +166,16 @@ $iJour = 1;
 		$html .= '<td>';
 		$html .= '<div style="position:relative ; display:block ;">';
 		
-		//on initialise les variable $decalage et $heureFin pour le calcule du décalage
+		//on initialise les variable $decalage et $heureFin pour le calcule du dÃ©calage
 		$decalage = 0;
 		$heureFin = '0:00';
 		$nbEvent = 0;
-		//on place les images blanches qui permettent de cliquer pour ajouter un évènement
+		//on place les images blanches qui permettent de cliquer pour ajouter un Ã©vÃ¨nement
 		for ($i = $heure_deb ; $i < $heure_fin ; $i++) {
 			$decalageEnMin = ($i - $heure_deb)*60;
 			$margeHaut = $decalageEnMin*40/60;
 			$html .= '<div class="evenement" style="position:absolute; top:' . $margeHaut . 'px ;">';
-			//on vérifie si l'utilisateur à les droits d'écriture sur un agenda sélectionné
+			//on vÃ©rifie si l'utilisateur Ã  les droits d'Ã©criture sur un agenda sÃ©lectionnÃ©
 			if($writeAgenda){
 				$hFin = $i + 1;
 				$hFin = strlen($hFin) > 1 ? $hFin : '0'.$hFin;
@@ -188,20 +194,20 @@ $iJour = 1;
 			foreach((array)$jours->events as $event){
 				//print_r($event);
 				$nbEvent = $nbEvent + 1;
-				if($event->alldaylong_event == 0){//si l'évènement se déroule sur la journée, on ne l'affiche pas
-					//calcul en minutes de l'écart entre le début de la journée et le début de l'évènement
+				if($event->alldaylong_event == 0){//si l'Ã©vÃ¨nement se dÃ©roule sur la journÃ©e, on ne l'affiche pas
+					//calcul en minutes de l'Ã©cart entre le dÃ©but de la journÃ©e et le dÃ©but de l'Ã©vÃ¨nement
 					$refDebut = $serviceDate->convertHoursInMinutes($event->heuredeb_event) - $serviceDate->convertHoursInMinutes($heure_deb);
 					$margeHautIE = ($refDebut*40/60);
 					$margeHaut = ($refDebut*40/60);
-					//calcul en minutes de la durée de l'évènement
+					//calcul en minutes de la durÃ©e de l'Ã©vÃ¨nement
 					$refDureeEvent = $serviceDate->convertHoursInMinutes($event->heurefin_event) - $serviceDate->convertHoursInMinutes($event->heuredeb_event);
 					$duree = ($refDureeEvent*40/60)-4;
 					$dureeIE = ($refDureeEvent*40/60)-4;
 	//        print_r($duree);
-					//on récupère la couleur de fond pour l'évènement
+					//on rÃ©cupÃ¨re la couleur de fond pour l'Ã©vÃ¨nement
 					$color = $arColorByIdAgenda[$event->id_agenda];
 		
-					//on opère un décalage si deux évènements se chevauchent
+					//on opÃ¨re un dÃ©calage si deux Ã©vÃ¨nements se chevauchent
 					if(isset($heureFinInter) && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)
 					   && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter)){
 						$decalage = $decalage + 20;
@@ -212,18 +218,18 @@ $iJour = 1;
 					if($decalage == 0 && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){
 						$decalage = $decalage + 20;
 					}
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) >= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){//on remet le décalage à 0
+					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) >= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){//on remet le dÃ©calage Ã  0
 						$decalage = 0;
 					}
 					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event)){
 						$heureFin = $event->heurefin_event;
 					}
 					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin) > $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event)){
-						//variable créée dans le cas où il y a plusieurs évènement dans un évènement qui dure longtemps
+						//variable crÃ©Ã©e dans le cas oÃ¹ il y a plusieurs Ã©vÃ¨nement dans un Ã©vÃ¨nement qui dure longtemps
 						$heureFinInter = $event->heurefin_event;
 					}
 					
-					$largeurDivEvenement = 112-$decalage;//90 correspond à la largueur de l'omage blanche moins 2px de bordure
+					$largeurDivEvenement = 112-$decalage;//90 correspond Ã  la largueur de l'omage blanche moins 2px de bordure
 					$id   = uniqid('popupEvent');
 
 					$html2 = '';
@@ -240,7 +246,7 @@ $iJour = 1;
 						$html2 .= '<br />';
 						$html2 .= '<span class="titrePopupEvent">Lieu :</span> ' . $event->place_event;
 					}
-					//vérification des droits de suppression
+					//vÃ©rification des droits de suppression
 					if($arDroits[$event->id_agenda]->canModerate == 1){
 						$html2 .= '<br /><br /><a title="'.htmlentities(CopixI18N::get ('agenda|agenda.message.modifier')).'" href = "' . CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)) .'">';
 						$html2 .= CopixI18N::get ('agenda|agenda.message.modifier');
@@ -250,11 +256,11 @@ $iJour = 1;
 				    }
 					$html2 .= '</div>';
 					
-         	$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
+         	$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\')" onmouseout="javascript:hidePopupEvent(0);" >';
 	
 					$html .= $html2;
 	
-					//vérification des droits de modification
+					//vÃ©rification des droits de modification
 					if(strlen($event->title_event)>10){
 						$html .= '<span class="titreEvent">' . substr($event->title_event, 0, 10) . '...</span>';
 					}
@@ -293,7 +299,7 @@ $html .= '</td>';
 $html .= '</tr>';
 
 
-//ligne des leçons
+//ligne des leÃ§ons
 if ($readLecon || $writeLecon){
 	$html .= '<tr>
   ';
