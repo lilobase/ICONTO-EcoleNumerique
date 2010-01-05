@@ -227,9 +227,9 @@ class ActionGroupMagicmail extends CopixActionGroup {
 										}
 										
 										foreach( $images AS $image ) {
-											$blog_article['body'] .= "\n".'[((static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
+											$blog_article['body'] .= "\n".'[(('.CopixUrl::get().'static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
 											$image['photo_id'].'_'.$image['photo_key'].'_240.'.$image['photo_ext'].'|'.
-											$image['title'].'|))|static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
+											$image['title'].'|))|'.CopixUrl::get().'static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
 											$image['photo_id'].'_'.$image['photo_key'].'.'.$image['photo_ext'].']'."\n";
 										}
 
