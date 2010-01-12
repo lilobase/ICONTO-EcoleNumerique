@@ -10,6 +10,7 @@
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/iconito.js"></script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/prototype-1.6.0.3.js"></script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/lang_<?php echo CopixI18N::getLang(); ?>.js"></script>
+	<script type="text/javascript" src="<?php echo CopixUrl::get () ?>flvplayer/ufo.js"></script>
   <link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
   <?php echo $HTML_HEAD; ?>
 </head>
