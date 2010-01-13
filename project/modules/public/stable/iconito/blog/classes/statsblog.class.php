@@ -18,7 +18,8 @@ class StatsBlog {
 		}
 		if ($sql) {
 			$first = _doQuery($sql);
-			return $first[0];
+			if(count($first)) return $first[0];
+			else              return false;
 		}
 	}
 	

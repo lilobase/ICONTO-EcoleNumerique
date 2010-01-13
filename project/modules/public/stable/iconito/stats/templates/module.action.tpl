@@ -9,11 +9,12 @@
 		<th>{i18n key="stats|stats.col.nb"}</th>
 	</tr>
 	{foreach from=$stats item=stat}
+	{if $stat->objet_name}
 	<tr>
 		<td>{$stat->objet_name}</td>
 		<td>{$stat->nb}</td>
 	</tr>
-	
+	{/if}
 	{/foreach}
 	</table>
 {else}

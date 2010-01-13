@@ -9,11 +9,12 @@
 		<th>{i18n key="stats|stats.col.nb"}</th>
 	</tr>
 	{foreach from=$getStatsModule item=blog}
+	{if $blog->action_name}
 	<tr>
 		<td>{$blog->action_name}</td>
 		<td>{$blog->nb}</td>
 	</tr>
-	
+	{/if}
 	{/foreach}
 	</table>
 {else}
