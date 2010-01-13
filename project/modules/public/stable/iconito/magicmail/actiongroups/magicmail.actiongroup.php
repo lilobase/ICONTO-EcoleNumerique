@@ -148,7 +148,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 							//////////////////////////
 							
 									$blog_article = array();
-									$album_photo  = array();
+									$album_photos  = array();
 									$audio_files  = array();
 									
 									while (ereg ("^(SUBJECT|IMAGE|AUDIO|VIDEO-FLV|BODY) ?([^\n]+)\n(.*)$", $reply, $regs)) {
@@ -206,7 +206,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 									
 									if( $album != null ) {
 									
-										foreach( $album_photos AS $album_photo ) {
+										if($album_photos) foreach( $album_photos AS $album_photo ) {
 											$album_photo_retour = $album_service->publish( $album, $album_photo );
 											$images[] = $album_photo_retour;
 										}
