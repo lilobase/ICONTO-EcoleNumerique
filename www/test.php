@@ -1,5 +1,5 @@
 <?php
-/**
+/***
 * @package  copix
 * @author   Croes Gérald
 * @copyright Copix Team
