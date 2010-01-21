@@ -136,19 +136,19 @@ function accessDB() {
 	$pwdKey = key(preg_grep("/'password'/", $configDB));
 
 	preg_match("/ => '(.*);(.*)',/", $configDB[$csKey], $result);
-if (count($result) > 0) {
-	array_shift($result);
-	$key = key(preg_grep('/host/', $result));
-	preg_match("/host=(.*)/", $result[$key], $tmp);
-	$host = $tmp[1];
-	$key = key(preg_grep('/dbname/', $result));
-	preg_match("/dbname=(.*)/", $result[$key], $tmp);
-	$db = $tmp[1];
-} else {
+	if (count($result) > 0) {
+		array_shift($result);
+		$key = key(preg_grep('/host/', $result));
+		preg_match("/host=(.*)/", $result[$key], $tmp);
+		$host = $tmp[1];
+		$key = key(preg_grep('/dbname/', $result));
+		preg_match("/dbname=(.*)/", $result[$key], $tmp);
+		$db = $tmp[1];
+	} else {
         preg_match("/'dbname=(.*)'/", $configDB[$csKey], $tmp);
         $host = "localhost";
         $db = $tmp[1];
-}
+	}
 
 	preg_match("/ => '(.*)',/", $configDB[$userKey], $result);
 	$user = $result[1];
