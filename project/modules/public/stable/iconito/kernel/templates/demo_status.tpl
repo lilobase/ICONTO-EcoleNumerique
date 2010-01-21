@@ -1,7 +1,7 @@
 
 {if $installed eq 0}
 
-{i18n key="kernel|demo.txt.install"}
+{$demo_txt_install}
 <p></p>
 <a href="{copixurl dest="kernel|demo|install"}" class="button_like">{i18n key="kernel|demo.btn.install"}</a>
 

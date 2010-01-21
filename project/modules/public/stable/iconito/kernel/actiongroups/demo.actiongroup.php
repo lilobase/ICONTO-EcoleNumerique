@@ -42,6 +42,7 @@ class ActionGroupDemo extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel|demo.titlePage'));
 		$tplDemo = & new CopixTpl ();
 		$tplDemo->assign ("installed", CopixConfig::get ('kernel|jeuEssaiInstalled'));
+		$tplDemo->assign ('demo_txt_install', CopixI18N::get ('kernel|demo.txt.install'));
 		$tpl->assign ("MAIN", $tplDemo->fetch("demo_status.tpl"));
 		$tpl->assign ('MENU', Admin::getMenu());
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
