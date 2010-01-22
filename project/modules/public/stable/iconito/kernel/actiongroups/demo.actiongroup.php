@@ -75,17 +75,18 @@ class ActionGroupDemo extends CopixActionGroup {
     if ($errors)
       return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get()));
 
+      
     $contents = file_get_contents ($fileSQL);
     $lines = explode (";\n", $contents);
     foreach ($lines as $line) {
       $line = trim($line);
       if ($line) {
-        //print_r("<br>***line=".$line);
+        // print_r("<br>***line=".$line);
         $db->run_query ($line);
       }
     }
     $db->db_close ();
-      
+
     // Copie des dossiers (pas de slashs à la fin!)
     $tools->installFolder ('www/static/malle/1_9a4ba0cdef');
     $tools->installFolder ('var/data/blog/logos');
@@ -101,6 +102,9 @@ class ActionGroupDemo extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel|demo.titlePage'));
 		$tplDemo = & new CopixTpl ();
 		//$tplDemo->assign ("toto", 1);
+		$tplDemo->assign ('demo_txt_installed', CopixI18N::get ('kernel|demo.txt.installed'));
+		$tplDemo->assign ('demo_txt_accounts', CopixI18N::get ('kernel|demo.txt.accounts'));
+		
 		$tpl->assign ("MAIN", $tplDemo->fetch("demo_install.tpl"));
 		$tpl->assign ('MENU', Admin::getMenu());
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
