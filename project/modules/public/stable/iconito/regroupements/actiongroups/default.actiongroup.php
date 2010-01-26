@@ -24,7 +24,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 			
 		$tpl = & new CopixTpl ();
-		$tplGrVilles = & new CopixTpl ();
+		$tplRegroupements = & new CopixTpl ();
 		
 		// CopixHTMLHeader::addCSSLink (_resource("styles/module_grvilles.css"));
 
@@ -32,9 +32,13 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$dao_grvilles = CopixDAOFactory::create("regroupements|grvilles");
 		$grvilles = $dao_grvilles->findAll();
-		$tplGrVilles->assign ( 'GRVILLES', count($grvilles) );
-				
-		$main = $tplGrVilles->fetch ('default.tpl');
+		$tplRegroupements->assign ( 'GRVILLES', count($grvilles) );
+
+		$dao_grecoles = CopixDAOFactory::create("regroupements|grecoles");
+		$grecoles = $dao_grecoles->findAll();
+		$tplRegroupements->assign ( 'GRECOLES', count($grecoles) );
+		
+		$main = $tplRegroupements->fetch ('default.tpl');
 		
 		$tpl->assign ( 'MAIN', $main );
 		
