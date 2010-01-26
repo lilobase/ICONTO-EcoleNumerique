@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="gr2ecole" tablename="module_regroupements_grecoles2ecoles" primary="yes"/>
+			<table name="ecole"             tablename="kernel_bu_ecole" join="inner"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id_groupe"  fieldname="id_groupe"  type="integer" table="gr2ecole" pk="yes"/>
+		<property name="id_ecole"   fieldname="id_ecole"   type="integer" table="gr2ecole" pk="yes" fktable="ecole" fkfieldname="numero"/>
+		<property name="updated_at" fieldname="updated_at" type="datetime"    table="gr2ecole" pk="no"/>
+		<property name="updated_by" fieldname="updated_by" type="string"  table="gr2ecole" pk="no"/>
+		
+ 	</properties>
+	<methods>
+		<method name="findByGroupe" type="select">
+			<parameters>
+				<parameter name="groupe" />
+			</parameters>
+			<conditions>
+				<condition property="id_groupe" operator="=" value="$groupe" />
+			</conditions>
+		</method>
+		
+		<method name="deleteByGroupe" type="delete">
+			<parameters>
+				<parameter name="groupe" />
+			</parameters>
+			<conditions>
+				<condition property="id_groupe" operator="=" value="$groupe" />
+			</conditions>
+		</method>
+		
+	</methods>
+</daodefinition>

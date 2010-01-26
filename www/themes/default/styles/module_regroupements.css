@@ -1,18 +1,18 @@
-TABLE.grvilles LABEL.gras {
+TABLE.regroupements LABEL.gras {
 	font-weight: bold;
 }
 
-TABLE.grvilles H2 {
+TABLE.regroupements H2 {
 	padding: 0px;
 	margin: 0px;
 	font-size: 1.2em;
 }
 
-TABLE.grvilles DIV.button_like {
+TABLE.regroupements DIV.button_like {
 	margin-bottom: 10px;
 }
 
-TABLE.grvilles UL {
+TABLE.regroupements UL {
 	padding: 0px;
 	padding-left: 20px;
 	margin: 0px;
@@ -20,35 +20,35 @@ TABLE.grvilles UL {
 	list-style-type: square;
 }
 
-TABLE.grvilles P {
+TABLE.regroupements P {
 	margin: 0px;
 }
 
-TABLE.grvilles P.form_nom {
+TABLE.regroupements P.form_nom {
 	padding-top: 20px;
 	padding-bottom: 15px;
 }
 
-TABLE.grvilles P.form_submit {
+TABLE.regroupements P.form_submit {
 	padding-right: 20px;
 	text-align: right;
 }
 
-TABLE.grvilles A.button_like {
+TABLE.regroupements A.button_like {
 	height: 20px;
 }
 
-TABLE.grvilles P#delete_confirm {
+TABLE.regroupements P#delete_confirm {
 	padding: 30px;
 	padding-bottom: 10px;
 	text-align: center;
 }
 
-TABLE.grvilles P#delete_confirm A {
+TABLE.regroupements P#delete_confirm A {
 	display: block;
 }
 
-TABLE.grvilles P#delete_confirm A.confirm {
+TABLE.regroupements P#delete_confirm A.confirm {
 	border: 3px solid #F66;
 	background-color: #FCC;
 	padding: 10px;
@@ -59,7 +59,7 @@ TABLE.grvilles P#delete_confirm A.confirm {
 	margin-bottom: 10px;
 }
 
-TABLE.grvilles P#delete_confirm A.confirm:hover {
+TABLE.regroupements P#delete_confirm A.confirm:hover {
 	border: 3px solid red;
 	background-color: #F99;
 }
