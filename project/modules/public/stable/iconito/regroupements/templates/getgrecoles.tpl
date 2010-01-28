@@ -1,3 +1,56 @@
+{literal}
+<script>
+<!--
+function ville_toggle( ville, mode ) {
+	var childs = $('ecolesByVille').descendants();
+	var reg = new RegExp('^ville_'+ville+'(_ecole_([0-9]+))?$');
+	childs.each(function(node) {
+		if (reg.exec(node.id)) {
+			// alert(node);
+			if(mode=='check') node.setValue(1);
+			if(mode=='uncheck') node.setValue(0);
+		}
+	});
+}
+-->
+</script>
+
+<style>
+<!--
+DIV.ecolesByVille UL.villes {
+	list-style-type: none;
+	padding:0;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+DIV.ecolesByVille LI.ville {
+}
+
+DIV.ecolesByVille UL.ecoles {
+	list-style-type: none;
+	padding:0;
+	padding-left:10px;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+DIV.ecolesByVille LI.ecole {
+}
+
+DIV.ecolesByVille H1.ville {
+	font-size: 130%;
+	margin-bottom: 0px;
+}
+
+DIV.ecolesByVille H1.ville SPAN {
+	font-size: 60%;
+}
+-->
+</style>
+{/literal}
+
+
 <table border="0" cellpadding="10" cellspacing="10" width="100%" class="regroupements">
 <tr height="100">
 	<td width="30%" bgcolor="white" valign="top">
@@ -27,16 +80,27 @@
 			
 			<p class="form_ecoles">
 			<label for="form_ecoles" class="gras">Ecoles associ&eacute;es</label>
-			<div class="ecoles">
-				<table border="0" width="100%">
-					<tr>
-						{foreach from=$ecoles item=ecole}
-							{assign var=id_ecole value=$ecole->eco_numero}
-							<td width="33%"><input type="checkbox" name="ecole_{$id_ecole}" id="ecole_{$id_ecole}" value="1"{if $grecoles_ecoles.$id_ecole} CHECKED{/if} /> <label for="ecole_{$id_ecole}">{$ecole->eco_nom}</label></td>
-							{cycle values=",,</tr><tr>"}
-						{/foreach}
-					</tr>
-				</table>
+			<div class="ecolesByVille" id="ecolesByVille">
+				<ul class="villes">
+					{foreach from=$ecolesByVille item=ville}
+						<li class="ville">
+							<h1 class="ville">
+								{$ville->info->vil_nom}
+								<span><a href="javascript: ville_toggle({$ville->info->vil_id_vi}, 'check');">tout</a> <a href="javascript: ville_toggle({$ville->info->vil_id_vi}, 'uncheck');">rien</a></span>
+							</h1>
+							
+							<ul class="ecoles">
+							{foreach from=$ville->ecoles item=ecole}
+								<li class="ecole">
+								{assign var=id_ecole value=$ecole->eco_numero}
+								<input type="checkbox" name="ecole_{$id_ecole}" id="ville_{$ville->info->vil_id_vi}_ecole_{$id_ecole}" value="1"{if $grecoles_ecoles.$id_ecole} CHECKED{/if} />
+								<label for="ville_{$ville->info->vil_id_vi}_ecole_{$id_ecole}">{$ecole->eco_nom}</label>
+								</li>
+							{/foreach}
+							</ul>
+						</li>
+					{/foreach}
+				</ul>
 			</div>
 			</p>
 			

@@ -37,7 +37,20 @@ class ActionGroupEcoles extends CopixActionGroup {
 		$dao_grecoles = CopixDAOFactory::create("regroupements|grecoles");
 		$dao_ecoles = CopixDAOFactory::create("kernel|kernel_tree_eco");
 		$ecoles = $dao_ecoles->findAll();
+		
+		$ecolesByVille = array();
+		foreach( $ecoles AS $ecole ) {
+			if(!isset($ecolesByVille[$ecole->vil_id_vi])) {
+				$ecolesByVille[$ecole->vil_id_vi] = new CopixPPO();
+				$ecolesByVille[$ecole->vil_id_vi]->info = $ecole;
+				$ecolesByVille[$ecole->vil_id_vi]->ecoles = array();
+				
+			}
+			$ecolesByVille[$ecole->vil_id_vi]->ecoles[] = $ecole;
+		}
+
 		$tplGroupes->assign ('ecoles', $ecoles );
+		$tplGroupes->assign ('ecolesByVille', $ecolesByVille );
 		
 		if( _request("delete") ) {
 			$dao_grecoles->delete(_request("delete"));

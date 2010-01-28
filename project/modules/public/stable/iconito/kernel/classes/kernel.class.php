@@ -1265,9 +1265,9 @@ class Kernel {
 		    && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
 			$mod_grvilles->node_type   = $node_type;
 			$mod_grvilles->node_id     = $node_id;
-			$mod_grvilles->module_type = 'MOD_GRVILLES';
+			$mod_grvilles->module_type = 'MOD_REGROUPEMENTS';
 			$mod_grvilles->module_id = $node_type.'-'.$node_id;
-			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_GRVILLES');
+			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_REGROUPEMENTS');
 			$modules[] = $mod_grvilles;
 		}
 
