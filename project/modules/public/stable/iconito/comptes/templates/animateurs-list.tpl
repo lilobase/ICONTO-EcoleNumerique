@@ -12,6 +12,7 @@
 		<th class="liste_th" width="14"><img src="{copixresource path="img/comptes/comptes_animateurs_visibleannuaire.png"}"/></th>
 		
 		<th class="liste_th">Groupes de villes</th>
+		<th class="liste_th">Groupes d'&eacute;coles</th>
 		
 		<th class="liste_th">Actions</th>
 	</tr>
@@ -25,7 +26,12 @@
 			<td align="center">{if $animateur->can_tableaubord}X{/if}</td>
 			<td align="center">{if $animateur->can_comptes}X{/if}</td>
 			<td align="center">{if $animateur->is_visibleannuaire}X{/if}</td>
-			<td>{foreach from=$animateur->grvilles item=grville name=grvilles}{if ! $smarty.foreach.grvilles.first}, {/if}{$grville->nom}{/foreach}</td>
+			<td>
+				{foreach from=$animateur->regroupements->grvilles item=grville name=grvilles}{if ! $smarty.foreach.grvilles.first}, {/if}{$grville->nom}{/foreach}
+			</td>
+			<td>
+				{foreach from=$animateur->regroupements->grecoles item=grecole name=grecoles}{if ! $smarty.foreach.grecoles.first}, {/if}{$grecole->nom}{/foreach}
+			</td>
 			
 			<td><a href="{copixurl dest="comptes|animateurs|edit" user_type=$animateur->user_type user_id=$animateur->user_id}">modifier</a></td>
 		</tr>

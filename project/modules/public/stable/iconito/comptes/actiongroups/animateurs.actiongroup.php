@@ -42,29 +42,42 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		
 		foreach( $animateurs AS $animateur ) {
 			$animateur->user_infos = Kernel::getUserInfo( $animateur->user_type, $animateur->user_id );
-			$animateur->grvilles = array();
+			$animateur->regroupements = new CopixPPO();
+			$animateur->regroupements->grvilles = array();
+			$animateur->regroupements->grecoles = array();
 			$ppo->animateurs[$animateur->user_type."-".$animateur->user_id] = $animateur;
 		}
 
-		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
-		$animateurs2grville = $animateurs2grville_dao->findAll();
+		$animateurs2regroupements_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2regroupements");
+		$animateurs2regroupements = $animateurs2regroupements_dao->findAll();
 
+		// echo "<pre>"; print_r($animateurs2regroupements); die("</pre>");
+		
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$grvilles = $comptes_service->getGrvillesList();
-		$ppo->grvilles = array();
+		$grecoles = $comptes_service->getGrecolesList();
 		
+		$ppo->grvilles = array();
 		foreach( $grvilles AS $grville ) {
 			$ppo->grvilles[$grville->id] = $grville;
 		}
-		
-		foreach( $animateurs2grville AS $anim2gr) {
-			$ppo->animateurs[$anim2gr->user_type."-".$anim2gr->user_id]->grvilles[$anim2gr->grville_id] = $ppo->grvilles[$anim2gr->grville_id];
+
+		$ppo->grecoles = array();
+		foreach( $grecoles AS $grecole ) {
+			$ppo->grecoles[$grecole->id] = $grecole;
 		}
 		
-		// print_r($ppo->animateurs);
+		foreach( $animateurs2regroupements AS $anim2gr) {
+			if($anim2gr->regroupement_type=='ecoles')
+				$ppo->animateurs[$anim2gr->user_type."-".$anim2gr->user_id]->regroupements->grecoles[$anim2gr->regroupement_id] = $ppo->grecoles[$anim2gr->regroupement_id];
+			if($anim2gr->regroupement_type=='villes')
+				$ppo->animateurs[$anim2gr->user_type."-".$anim2gr->user_id]->regroupements->grvilles[$anim2gr->regroupement_id] = $ppo->grvilles[$anim2gr->regroupement_id];
+		}
 		
-		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
-		$ppo->grvilles = $comptes_service->getGrvillesList();
+		// echo "<pre>"; print_r($ppo->animateurs); die("</pre>");
+		
+		// $comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
+		// $ppo->grvilles = $comptes_service->getGrvillesList();
 		
 		
 		/*
@@ -102,7 +115,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
-		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
+		$animateurs2regroupements_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2regroupements");
 	
 		$pUserType = _request('user_type');
 		$pUserId = _request('user_id');
@@ -113,7 +126,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$ppo->pouvoirs = array(
 			array('id'=>'can_connect',        'nom'=>'Se connecter en tant qu\'un enseignant/directeur' ),
 			array('id'=>'can_tableaubord',    'nom'=>'Tableau de bord des usages'),
-			array('id'=>'can_comptes',        'nom'=>'Administration des comptes d\'accès'),
+			array('id'=>'can_comptes',        'nom'=>'Administration des comptes d\'acc&egrave;s'),
 		);
 
 		$grvilles = $comptes_service->getGrvillesList();
@@ -121,7 +134,13 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		foreach( $grvilles AS $grville ) {
 			$ppo->grvilles[$grville->id] = $grville;
 		}
-
+		
+		$grecoles = $comptes_service->getGrecolesList();
+		$ppo->grecoles = array();
+		foreach( $grecoles AS $grecole ) {
+			$ppo->grecoles[$grecole->id] = $grecole;
+		}
+		
 		if( !$pUserType || !$pUserId ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list'));
 		}
@@ -158,17 +177,27 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			if($new) $animateurs_dao->insert($ppo->animateur);
 			         $animateurs_dao->update($ppo->animateur);
 			
-			$animateurs2grville_dao->deleteByUser($pUserType, $pUserId);
+			$animateurs2regroupements_dao->deleteByUser($pUserType, $pUserId);
 			
-			$animateur2grville  = _record("kernel|kernel_animateurs2grville2");
+			$animateurs2regroupements  = _record("kernel|kernel_animateurs2regroupements");
 			
 			
-			$animateur2grville->user_type = $pUserType;
-			$animateur2grville->user_id   = $pUserId;
+			$animateurs2regroupements->user_type = $pUserType;
+			$animateurs2regroupements->user_id   = $pUserId;
+			
+			$animateurs2regroupements->regroupement_type   = 'villes';
 			foreach( $ppo->grvilles AS $grville ) {
-				if( _request('groupe_'.$grville->id)==1 ) {
-					$animateur2grville->grville_id = $grville->id;
-					_dao("kernel|kernel_animateurs2grville2")->insert($animateur2grville);
+				if( _request('groupe_villes_'.$grville->id)==1 ) {
+					$animateurs2regroupements->regroupement_id = $grville->id;
+					_dao("kernel|kernel_animateurs2regroupements")->insert($animateurs2regroupements);
+				}
+			}
+			
+			$animateurs2regroupements->regroupement_type   = 'ecoles';
+			foreach( $ppo->grecoles AS $grecole ) {
+				if( _request('groupe_ecoles_'.$grecole->id)==1 ) {
+					$animateurs2regroupements->regroupement_id = $grecole->id;
+					_dao("kernel|kernel_animateurs2regroupements")->insert($animateurs2regroupements);
 				}
 			}
 			
@@ -177,10 +206,14 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		
 		$ppo->animateur->user_infos = Kernel::getUserInfo( $pUserType, $pUserId );
 		
-		$animateur_grvilles = $animateurs2grville_dao->findByUser($pUserType, $pUserId);
+		$animateur_regroupements = $animateurs2regroupements_dao->findByUser($pUserType, $pUserId);
 		$ppo->animateur_grville = array();
-		foreach( $animateur_grvilles AS $animateur_grville ) {
-			$ppo->animateur_grville[$animateur_grville->grville_id] = 1;
+		foreach( $animateur_regroupements AS $animateur_regroupement ) {
+			if($animateur_regroupement->regroupement_type=='villes')
+				$ppo->animateur_grville[$animateur_regroupement->regroupement_id] = 1;
+			if($animateur_regroupement->regroupement_type=='ecoles')
+				$ppo->animateur_grecole[$animateur_regroupement->regroupement_id] = 1;
+				
 		}
 		
 		$tplAnimateurs->assign('ppo', $ppo);

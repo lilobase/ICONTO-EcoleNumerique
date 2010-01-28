@@ -168,20 +168,39 @@ class ComptesService {
 	function getGrvillesList() {
 		$grvilles = array();
 		
-		$grvilles_dao  = & CopixDAOFactory::create("kernel|grvilles");
+		$grvilles_dao  = & CopixDAOFactory::create("regroupements|grvilles");
 		$grvilles_list = $grvilles_dao->findAll();
 		foreach( $grvilles_list AS $grvilles_item ) {
 			$grvilles_item->villes = array();
 			$grvilles[$grvilles_item->id] = $grvilles_item;
 		}
 		
-		$grvilles_gr2ville_dao = & CopixDAOFactory::create("kernel|grvilles_gr2ville");
+		$grvilles_gr2ville_dao = & CopixDAOFactory::create("regroupements|grvilles_gr2ville");
 		$grvilles_gr2ville_list = $grvilles_gr2ville_dao->findAll();
 		foreach( $grvilles_gr2ville_list AS $grvilles_gr2ville_item ) {
 			$grvilles[$grvilles_gr2ville_item->id_groupe]->villes[$grvilles_gr2ville_item->id_ville] = $grvilles_gr2ville_item;
 		}
 		
 		return $grvilles;
+	}
+
+	function getGrecolesList() {
+		$grecoles = array();
+		
+		$grecoles_dao  = & CopixDAOFactory::create("regroupements|grecoles");
+		$grecoles_list = $grecoles_dao->findAll();
+		foreach( $grecoles_list AS $grecoles_item ) {
+			$grecoles_item->ecoles = array();
+			$grecoles[$grecoles_item->id] = $grecoles_item;
+		}
+		
+		$grecoles_gr2ecole_dao = & CopixDAOFactory::create("regroupements|grecoles_gr2ecole");
+		$grecoles_gr2ecole_list = $grecoles_gr2ecole_dao->findAll();
+		foreach( $grecoles_gr2ecole_list AS $grecoles_gr2ecole_item ) {
+			$grecoles[$grecoles_gr2ecole_item->id_groupe]->ecoles[$grecoles_gr2ecole_item->id_ecole] = $grecoles_gr2ecole_item;
+		}
+		
+		return $grecoles;
 	}
 	
 }

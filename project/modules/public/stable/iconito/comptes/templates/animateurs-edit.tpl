@@ -14,12 +14,24 @@
 		</tr>
 		
 		<tr>
-			<td class="form_libelle">Regroupements de villes : <div class="help">Vous pouvez associer ce compte &agrave; un regroupement de ville pour des t&acirc;ches d'assistance ou d'administration.</div></td>
+			<td class="form_libelle">Regroupements de villes : <div class="help">Vous pouvez associer ce compte &agrave; des regroupements de ville pour des t&acirc;ches d'assistance ou d'administration.</div></td>
 			<td class="form_saisie">
 				{foreach from=$ppo->grvilles item=grville name=grvilles}
 				{assign var=id_grville value=$grville->id}
 				<div>
-					<input type="checkbox" name="groupe_{$grville->id}" id="groupe_{$grville->id}" value="1" {if $ppo->animateur_grville.$id_grville}checked{/if} /> <label for="groupe_{$grville->id}">{$grville->nom|escape}</label>
+					<input type="checkbox" name="groupe_villes_{$grville->id}" id="groupe_villes_{$grville->id}" value="1" {if $ppo->animateur_grville.$id_grville}checked{/if} /> <label for="groupe_villes_{$grville->id}">{$grville->nom|escape}</label>
+				</div>
+				{/foreach}
+			</td>
+		</tr>
+
+		<tr>
+			<td class="form_libelle">Regroupements d'&eacute;coles : <div class="help">Vous pouvez associer ce compte &agrave; des regroupements d'&eacute;coles pour des t&acirc;ches d'assistance ou d'administration.</div></td>
+			<td class="form_saisie">
+				{foreach from=$ppo->grecoles item=grecole name=grecoles}
+				{assign var=id_grecole value=$grecole->id}
+				<div>
+					<input type="checkbox" name="groupe_ecoles_{$grecole->id}" id="groupe_ecoles_{$grecole->id}" value="1" {if $ppo->animateur_grecole.$id_grecole}checked{/if} /> <label for="groupe_ecoles_{$grecole->id}">{$grecole->nom|escape}</label>
 				</div>
 				{/foreach}
 			</td>
@@ -31,7 +43,7 @@
 				{foreach from=$ppo->pouvoirs item=pouvoir}
 				{assign var=id_pouvoir value=$pouvoir.id}
 				<div>
-					<input type="checkbox" name="pouvoir_{$pouvoir.id}" id="pouvoir_{$pouvoir.id}" value="1" {if $ppo->animateur->$id_pouvoir}checked{/if} /> <label for="pouvoir_{$pouvoir.id}">{$pouvoir.nom|escape}</label>
+					<input type="checkbox" name="pouvoir_{$pouvoir.id}" id="pouvoir_{$pouvoir.id}" value="1" {if $ppo->animateur->$id_pouvoir}checked{/if} /> <label for="pouvoir_{$pouvoir.id}">{$pouvoir.nom}</label>
 				</div>
 				{/foreach}
 			</td>
