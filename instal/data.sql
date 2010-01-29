@@ -29,6 +29,13 @@ INSERT INTO `copixmodule` VALUES('generictools', 'project/modules/public/stable/
 INSERT INTO `dbuser` (`id_dbuser`, `login_dbuser`, `password_dbuser`, `email_dbuser`, `enabled_dbuser`) VALUES 
 (1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '', 1);
 
+--
+-- Dumping data for table `kernel_bu_personnel_role`
+--
+
+
+INSERT INTO `kernel_bu_personnel_role` VALUES (1,'Enseignant','Enseignants','ECOLE|CLASSE',2),(2,'Directeur','Directeurs','ECOLE|CLASSE',1),(3,'Personnel administratif','Personnels administratif','ECOLE',3),(4,'Agent de ville','Agents de ville','VILLE',4),(5,'Agent de groupe de villes','Agents de groupes de villes','GVILLE',5);
+
 -- 
 -- Contenu de la table `kernel_ext_user`
 -- 
