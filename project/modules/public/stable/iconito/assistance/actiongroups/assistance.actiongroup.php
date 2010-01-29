@@ -35,27 +35,66 @@ class ActionGroupAssistance extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		
 		$animateur_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
-		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
+		$animateurs2regroupements_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2regroupements");
+		$grvilles_gr2ville_dao = & CopixDAOFactory::create("regroupements|grvilles_gr2ville");
+		$grecoles_gr2ecole_dao = & CopixDAOFactory::create("regroupements|grecoles_gr2ecole");
+		
 		$ecoles_dao = & CopixDAOFactory::create("kernel|kernel_tree_eco");
 		$personnels_dao = & CopixDAOFactory::create("kernel|kernel_bu_personnel");
 		
 		$animateur = $animateur_dao->get(_currentUser()->getExtra("type"), _currentUser()->getExtra("id"));
-
-		
 		// echo "<pre>"; print_r($animateur); die("</pre>");
+		
 
-		$grville_list = $animateurs2grville_dao->findByUser(_currentUser()->getExtra("type"), _currentUser()->getExtra("id"));
+		$regroupements_list = $animateurs2regroupements_dao->findByUser(_currentUser()->getExtra("type"), _currentUser()->getExtra("id"));
+		// echo "<pre>"; print_r($regroupements_list); die("</pre>");
+		
 		$users=array();
-		foreach($grville_list AS $grville_item) {
-			if(!isset($users[$grville_item->id_ville])) {
-				$users[$grville_item->id_ville] = $ecoles_dao->getByVille($grville_item->id_ville);
-				foreach($users[$grville_item->id_ville] AS $ecole_key => $ecole_val ) {
-					$users[$grville_item->id_ville][$ecole_key]->personnels = $personnels_dao->getPersonnelInEcole($ecole_val->eco_numero);
+		
+		// Pour chaque regroupement
+		foreach($regroupements_list AS $regroupement_item) {
+			
+			// Si c'est un groupe de villes...
+			if($regroupement_item->regroupement_type=='villes') {
+				// Pour toutes les villes du grvilles
+				$villes = $grvilles_gr2ville_dao->findByGroupe($regroupement_item->regroupement_id);
+				foreach( $villes AS $ville ) {
+					
+					// Si on n'a jamais traité la ville (qui peut être dans plusieurs regroupements)
+					if(!isset($users[$ville->id_ville])) {
+						$users[$ville->id_ville] = array();
+						
+						// On cherche les ecoles de la ville (format DAO)
+						$ecoles = $ecoles_dao->getByVille($ville->id_ville);
+						// On traite la sortie du DAO pour avoir un array propre
+						foreach( $ecoles AS $ecole ) {
+							$users[$ville->id_ville][$ecole->eco_numero] = $ecole;
+							$users[$ville->id_ville][$ecole->eco_numero]->personnels = $personnels_dao->getPersonnelInEcole($ecole->eco_numero);
+						}
+						
+						// echo "<pre>"; print_r($users[$ville->id_ville]); echo("</pre>");
+					}
 				}
+			}
+			
+			// Si c'est un groupe d'ecoles...
+			if($regroupement_item->regroupement_type=='ecoles') {
+				$ecoles = $grecoles_gr2ecole_dao->findByGroupe($regroupement_item->regroupement_id);
+				// echo "<pre>"; print_r($ecoles); echo("</pre>");
 				
+				foreach( $ecoles AS $ecole ) {
+					$ecole_info = $ecoles_dao->get($ecole->id_ecole);
+					$ecole_info->personnels = $personnels_dao->getPersonnelInEcole($ecole->id_ecole);
+					
+					// echo "<pre>"; print_r($ecole_info); echo("</pre>");
+					
+					if(!isset($users[$ecole_info->vil_id_vi])) $users[$ecole_info->vil_id_vi] = array();
+					$users[$ecole_info->vil_id_vi][$ecole_info->eco_numero] = $ecole_info;
+					// echo "<pre>"; print_r($users); die("</pre>");
+					
+				}
 			}
 		}
-		
 		// echo "<pre>"; print_r($users); die("</pre>");
 		
 		$tplUsers = & new CopixTpl ();
