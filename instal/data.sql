@@ -36,6 +36,13 @@ INSERT INTO `dbuser` (`id_dbuser`, `login_dbuser`, `password_dbuser`, `email_dbu
 
 INSERT INTO `kernel_bu_personnel_role` VALUES (1,'Enseignant','Enseignants','ECOLE|CLASSE',2),(2,'Directeur','Directeurs','ECOLE|CLASSE',1),(3,'Personnel administratif','Personnels administratif','ECOLE',3),(4,'Agent de ville','Agents de ville','VILLE',4),(5,'Agent de groupe de villes','Agents de groupes de villes','GVILLE',5);
 
+--
+-- Dumping data for table `kernel_bu_sexe`
+--
+
+INSERT INTO `kernel_bu_sexe` VALUES (1,'Masculin'),(2,'Féminin');
+
+
 -- 
 -- Contenu de la table `kernel_ext_user`
 -- 
