@@ -26,9 +26,14 @@
 					
 					
 					<td width="1" style="white-space: nowrap;">
-						<a href="{copixurl dest="assistance||switch" login=$personnel->login}">Connexion</a>
-						::
-						<a href="{copixurl dest="comptes||getUser" login=$personnel->login}">Mot de passe</a>
+					
+						{if $animateur->can_connect}
+							{if $personnel->assistance}<a href="{copixurl dest="assistance||switch" login=$personnel->login}">Connexion</a>{else}<span style="text-decoration: line-through; color: #CCC;">Connexion</span>{/if}
+						{/if}
+						{if $animateur->can_connect && $animateur->can_comptes} :: {/if}
+						{if $animateur->can_comptes}
+							<a href="{copixurl dest="comptes||getUser" login=$personnel->login from="assistance"}">Mot de passe</a>
+						{/if}
 					</td>
 				</tr>
 		

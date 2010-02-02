@@ -33,71 +33,17 @@ class ActionGroupAssistance extends CopixActionGroup {
 	function getUsers () {
 		
 		$tpl = & new CopixTpl ();
-		
-		$animateur_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
-		$animateurs2regroupements_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2regroupements");
-		$grvilles_gr2ville_dao = & CopixDAOFactory::create("regroupements|grvilles_gr2ville");
-		$grecoles_gr2ecole_dao = & CopixDAOFactory::create("regroupements|grecoles_gr2ecole");
-		
-		$ecoles_dao = & CopixDAOFactory::create("kernel|kernel_tree_eco");
-		$personnels_dao = & CopixDAOFactory::create("kernel|kernel_bu_personnel");
-		
-		$animateur = $animateur_dao->get(_currentUser()->getExtra("type"), _currentUser()->getExtra("id"));
-		// echo "<pre>"; print_r($animateur); die("</pre>");
-		
-
-		$regroupements_list = $animateurs2regroupements_dao->findByUser(_currentUser()->getExtra("type"), _currentUser()->getExtra("id"));
-		// echo "<pre>"; print_r($regroupements_list); die("</pre>");
-		
-		$users=array();
-		
-		// Pour chaque regroupement
-		foreach($regroupements_list AS $regroupement_item) {
-			
-			// Si c'est un groupe de villes...
-			if($regroupement_item->regroupement_type=='villes') {
-				// Pour toutes les villes du grvilles
-				$villes = $grvilles_gr2ville_dao->findByGroupe($regroupement_item->regroupement_id);
-				foreach( $villes AS $ville ) {
-					
-					// Si on n'a jamais traité la ville (qui peut être dans plusieurs regroupements)
-					if(!isset($users[$ville->id_ville])) {
-						$users[$ville->id_ville] = array();
-						
-						// On cherche les ecoles de la ville (format DAO)
-						$ecoles = $ecoles_dao->getByVille($ville->id_ville);
-						// On traite la sortie du DAO pour avoir un array propre
-						foreach( $ecoles AS $ecole ) {
-							$users[$ville->id_ville][$ecole->eco_numero] = $ecole;
-							$users[$ville->id_ville][$ecole->eco_numero]->personnels = $personnels_dao->getPersonnelInEcole($ecole->eco_numero);
-						}
-						
-						// echo "<pre>"; print_r($users[$ville->id_ville]); echo("</pre>");
-					}
-				}
-			}
-			
-			// Si c'est un groupe d'ecoles...
-			if($regroupement_item->regroupement_type=='ecoles') {
-				$ecoles = $grecoles_gr2ecole_dao->findByGroupe($regroupement_item->regroupement_id);
-				// echo "<pre>"; print_r($ecoles); echo("</pre>");
-				
-				foreach( $ecoles AS $ecole ) {
-					$ecole_info = $ecoles_dao->get($ecole->id_ecole);
-					$ecole_info->personnels = $personnels_dao->getPersonnelInEcole($ecole->id_ecole);
-					
-					// echo "<pre>"; print_r($ecole_info); echo("</pre>");
-					
-					if(!isset($users[$ecole_info->vil_id_vi])) $users[$ecole_info->vil_id_vi] = array();
-					$users[$ecole_info->vil_id_vi][$ecole_info->eco_numero] = $ecole_info;
-					// echo "<pre>"; print_r($users); die("</pre>");
-					
-				}
-			}
-		}
-		// echo "<pre>"; print_r($users); die("</pre>");
-		
 		$tplUsers = & new CopixTpl ();
+		
+		$me_info = Kernel::getUserInfo( "ME", 0 );
+		
+		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+		$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
+		$tplUsers->assign('animateur', $animateur);
+		
+		$assistance_service = & CopixClassesFactory::Create ('assistance|assistance');
+		$users=$assistance_service->getAssistanceUsers();
+
 		$tplUsers->assign('users', $users);
 		$result = $tplUsers->fetch("users-list.tpl");
 		
@@ -122,6 +68,35 @@ class ActionGroupAssistance extends CopixActionGroup {
 		$login = _request('login');
 		
 		if( $login!='' ) {
+			
+			$me_info = Kernel::getUserInfo( "ME", 0 );
+			$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+			$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
+			
+			// echo "<pre>"; print_r($animateur); die("</pre>");
+			
+			if( ! $animateur || !isset($animateur->can_connect) || !$animateur->can_connect )
+				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
+			
+			$user_info = Kernel::getUserInfo( "LOGIN", $login );
+			// $user_info->user_id
+			
+			if(!$user_info) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
+		
+			$ok = false;
+			
+			
+			$assistance_service = & CopixClassesFactory::Create ('assistance|assistance');
+			$user_assistance = $assistance_service->getAssistanceUsers();
+			
+			if(!$user_assistance) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
+			
+			foreach($user_assistance AS $ville_id => $ville) foreach($ville AS $ecole_id => $ecole) foreach($ecole->personnels AS $personnel_id => $personnel) {
+				if( $personnel->id_copix == $user_info['user_id'] ) $ok = $personnel->assistance;
+			}
+		
+			if(!$ok) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
+			
 			$currentUserLogin = _currentUser()->getLogin();
 			CopixSession::destroyNamespace('default');
 			_sessionSet('user_animateur', $currentUserLogin);
@@ -137,7 +112,6 @@ class ActionGroupAssistance extends CopixActionGroup {
 		}
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $url_return);
 	}
-	
 	
 	
 }

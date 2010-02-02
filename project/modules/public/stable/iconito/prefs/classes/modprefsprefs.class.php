@@ -24,6 +24,18 @@ class ModPrefsPrefs {
 			'text'=>CopixI18N::get ('prefs.config.passwd2.input'),
 			'value'=>''
 		);
+		
+		$toReturn['form'][] = array(
+			'type'=>'titre',
+			'text'=>CopixI18N::get ('prefs.config.assistance.title'),
+			'expl'=>CopixI18N::get ('prefs.config.assistance.expl'),
+		);
+		$toReturn['form'][] = array(
+			'code'=>'assistance',
+			'type'=>'checkbox',
+			'text'=>CopixI18N::get ('prefs.config.assistance'), // 'Si oui, saisissez votre email',
+			'value'=>(isset($data['assistance'])&&$data['assistance'])?true:false );
+		
 		$toReturn['form'][] = array(
 			'type'=>'titre',
 			'text'=>CopixI18N::get ('prefs.config.avatar.title'),
@@ -165,6 +177,8 @@ class ModPrefsPrefs {
 				$data['avatar'] = _currentUser()->getLogin().'.'.$regs[1];
 			}
 		}
+		
+		if( !isset($data['assistance']) ) $data['assistance']=0;
 		
 		/*
 		if( !isset($data['alerte_mail_active']) ) $data['alerte_mail_active']=0;

@@ -158,6 +158,27 @@ class ComptesService {
 		
 		$level = max( $level, Kernel::getLevel_r( 'ROOT','0' ) );
 		
+		
+		// Test via le module assistance
+		$ok = false;
+		
+		$animateur_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+		$animateur = $animateur_dao->get(_currentUser()->getExtra("type"), _currentUser()->getExtra("id"));
+		if( $animateur && isset($animateur->can_comptes) && $animateur->can_comptes ) {
+			$assistance_service = & CopixClassesFactory::Create ('assistance|assistance');
+			$user_assistance = $assistance_service->getAssistanceUsers();
+			
+			if(!$user_assistance) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
+			foreach($user_assistance AS $ville_id => $ville) foreach($ville AS $ecole_id => $ecole) foreach($ecole->personnels AS $personnel_id => $personnel) {
+				if( $personnel->login == $login ) {
+					$ok = true;
+					// echo "<pre>"; print_r($personnel); die("</pre>");
+				}
+			}
+			if($ok) $level=70;
+		}
+			
+			
 		if( $level<70 ) { // A vérifier...
 			die( 'Pas le droit !' );
 		}

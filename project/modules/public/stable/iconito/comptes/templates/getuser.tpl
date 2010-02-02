@@ -10,6 +10,7 @@
 {/literal}
 
 <form method="post" action="{copixurl dest="comptes||setUserPasswd" node_type=$node.type node_id=$node.id login=$user.login}">
+	<input type="hidden" name="from" id="from" value="{$from}" />
 	<fieldset>
 		<legend>{i18n key="comptes|comptes.strings.modpasswd" 1=$user.prenom 2=$user.nom 3=$user.login}</legend>
 		<table border="0">

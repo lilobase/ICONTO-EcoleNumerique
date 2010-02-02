@@ -676,7 +676,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tplGetUser->assign ('node', $nodeinfo );
 		$tplGetUser->assign ('user', $userinfo );
 		$tplGetUser->assign ('error', _request('error') );
-
+		$tplGetUser->assign ('from', _request('from', '') );
 		
 		$result = $tplGetUser->fetch("getuser.tpl");
 		
@@ -686,6 +686,8 @@ class ActionGroupComptes extends CopixActionGroup {
 	}
 
 	function setUserPasswd() {
+		$from = _request('from', '');
+		
 		if( 0 && Kernel::isDemo() ) return Kernel::noDemo();
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$userinfo = $comptes_service->checkLoginAccess( _request('login') );
@@ -696,13 +698,13 @@ class ActionGroupComptes extends CopixActionGroup {
 
 		if( $passwd1=='' || strlen($passwd1)<6 ) {
 			$urlReturn = CopixUrl::get ('comptes||getUser',
-				array('node_type'=>_request('node_type'), 'node_id'=>_request('node_id'), 'login'=>_request('login'), 'error'=>'tooshortpassword' ) );
+				array('node_type'=>_request('node_type'), 'node_id'=>_request('node_id'), 'login'=>_request('login'), 'error'=>'tooshortpassword', 'from'=>$from ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		
 		if( $passwd2=='' || $passwd1!=$passwd2 ) {
 			$urlReturn = CopixUrl::get ('comptes||getUser',
-				array('node_type'=>_request('node_type'), 'node_id'=>_request('node_id'), 'login'=>_request('login'), 'error'=>'notsamepassword' ) );
+				array('node_type'=>_request('node_type'), 'node_id'=>_request('node_id'), 'login'=>_request('login'), 'error'=>'notsamepassword', 'from'=>$from ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		
@@ -713,9 +715,10 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		//print_r($user_new);
 
-		
-		$urlReturn = CopixUrl::get ('comptes||getNode',
-			array('type'=>_request('node_type'), 'id'=>_request('node_id')) );
+		if( $from == 'assistance' )
+			$urlReturn = CopixUrl::get ('assistance||users' );
+		else
+			$urlReturn = CopixUrl::get ('comptes||getNode', array('type'=>_request('node_type'), 'id'=>_request('node_id')) );
 		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 	}
 	
