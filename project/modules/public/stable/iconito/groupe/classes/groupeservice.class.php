@@ -220,7 +220,7 @@ class GroupeService {
 			$ville = $parent[0]['ALL']->eco_id_ville;
 		}	elseif ($parent && $parent[0]['type'] == 'BU_ECOLE') {
 			//var_dump($parent);
-			$ville = $parent[0]['ALL']->vil_id_grville;
+			$ville = $parent[0]['ALL']->vil_id_vi;
 		}		
 		
 		return $ville;
