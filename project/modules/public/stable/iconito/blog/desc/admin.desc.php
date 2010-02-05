@@ -13,7 +13,6 @@ $prepareEditBlog        = & new CopixAction ('AdminBlog', 'doPrepareEditBlog');
 $showBlog               = & new CopixAction ('AdminBlog', 'processGetShowBlog');
 $deleteBlog             = & new CopixAction ('AdminBlog', 'doDeleteBlog');
 $validBlog              = & new CopixAction ('AdminBlog', 'doValidBlog');
-$suggestBlogUrl         = & new CopixAction ('AdminBlog', 'doSuggestBlogUrl');
 $deleteLogoBlog         = & new CopixAction ('AdminBlog', 'doDeleteLogoBlog');
 $prepareEditBlogStyle   = & new CopixAction ('AdminBlog', 'doPrepareEditBlogStyle');
 $validBlogStyle         = & new CopixAction ('AdminBlog', 'doValidBlogStyle');

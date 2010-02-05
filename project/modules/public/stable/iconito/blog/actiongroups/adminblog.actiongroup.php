@@ -32,13 +32,13 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 		
 		if ($id_blog==null){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.param'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>CopixUrl::get ('||')));
 		}
 		$kind = $this->getRequest('kind', '0');
 		$tpl = & new CopixTpl ();
@@ -224,7 +224,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
 		$tpl = & new CopixTpl ();
@@ -284,7 +284,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
 		$tpl = & new CopixTpl ();
@@ -360,8 +360,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 				$blogDAO->insert($blog);
 				$blogFunctionsDAO = CopixDAOFactory::create('blog|blogfunctions');
 				$blogFunctionsDAO->createBlogFunctions($blog->id_blog, $tabBlogFunctions);
-				return new CopixActionReturn (COPIX_AR_REDIRECT,
-				CopixUrl::get ('blog|admin|listBlog'));
+				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||'));
 			}
 		}
 
@@ -385,88 +384,6 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		$id_blog = $this->getRequest('id_blog', null);
 		$kernel = new KernelBlog;
 		$kernel->delete($id_blog);
-		/*if ($id_blog==null){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.param'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
-		}
-
-		$blogDAO = & CopixDAOFactory::create ('blog|blog');
-		logo
-		article
-		page
-		lien
-		if (!$toDelete = $blogDAO->get ($id_blog)){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.cannotFindBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
-		}
-
-		if($this->getRequest('confirm', null) != null) {
-			$blogDAO->delete($toDelete->id_blog);
-			return new CopixActionReturn (COPIX_AR_REDIRECT,
-			CopixUrl::get ('blog|admin|listBlog'));
-
-		}
-
-		return CopixActionGroup::process ('genericTools|messages::getConfirm',
-		array ('confirm'=>CopixUrl::get ('blog|admin|deleteBlog',
-		array('id_blog'=>$id_blog,
-		'confirm'=>1)),
-		'cancel'=>CopixUrl::get ('blog|admin|listBlog'),
-		'message'=>CopixI18N::get ('blog.messages.confirmDeleteBlog'),
-		'title'=>CopixI18N::get ('blog.get.delete.blog.title')));*/
-
-	}
-
-	/**
-    * Propose url
-    * @param 
-    */
-	function doSuggestBlogUrl() {
-		/*
-		$id_blog = $this->getRequest('id_blog', null);
-		
-		if (!BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog)){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
-		}
-
-		$tpl = & new CopixTpl ();
-
-		
-		if($id_blog!=null) {
-			// EDITION D'UN BLOG
-			$blogDAO = CopixDAOFactory::create('blog|blog');
-			$blog = $blogDAO->get($id_blog);
-			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.blog.title'));
-		} else {
-			// CREATION D'UNE CATEGORIE
-			$blog = CopixDAOFactory::createRecord('blog');
-			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.blog.title'));
-		}
-		$blog->name_blog = $this->getRequest('name_blog', '');
-		$blog->id_ctpt	 = $this->getRequest('id_ctpt', '');
-		$blog->url_blog = killBadUrlChars($blog->name_blog);
-
-		// Récupération de toutes les fonctions du blog
-		$tabFunctions = returnAllBlogFunctions();
-		$tabSelectedFunctions = (array) $this->getRequest('tabBlogFunctions', '');
-		$tabBlogFunctions = array();
-		foreach($tabFunctions as $fct) {
-			if(in_array($fct->value, $tabSelectedFunctions)) {$fct->selected = 1;}
-			array_push($tabBlogFunctions, $fct);
-		}
-
-		$tpl->assign ('MAIN', CopixZone::process ('EditBlog',
-		array('id_blog'=>$id_blog,
-		'blog'=>$blog,
-		'kind'=>$this->getRequest('kind', 0),
-		'tabBlogFunctions'=>$tabBlogFunctions
-		)));
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		*/
 	}
 
 	/**
@@ -481,21 +398,21 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$toUpdate)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($toUpdate) ? CopixUrl::get('|', array('blog'=>$toUpdate->url_blog)) : CopixUrl::get ('||')));
 		}
 
 		
 		if ($id_blog==null){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.param'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>CopixUrl::get ('||')));
 		}
 
 		
 		if (!$toUpdate){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotFindBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>CopixUrl::get ('||')));
 		}
 
 		$file = COPIX_VAR_PATH.CopixConfig::get ('blog|logoPath').$toUpdate->logo_blog;
@@ -526,7 +443,8 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
+
 		}
 
 		$tpl = & new CopixTpl ();
@@ -570,7 +488,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
 		$tpl = & new CopixTpl ();
@@ -649,13 +567,14 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!$blog || !$kind){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.param'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 		
 		if (!BlogAuth::canMakeInBlog('ADMIN_DROITS', $blog)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
+
 		}
 		
 		if (!$droit)
@@ -737,13 +656,15 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (!$blog || !$kind){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.param'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
+
 		}
 		
 		if (!BlogAuth::canMakeInBlog('ADMIN_DROITS', $blog)){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageBlog'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
+
 		}
 		
 		if (!$errors) {
