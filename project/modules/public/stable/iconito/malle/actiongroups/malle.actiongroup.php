@@ -101,9 +101,13 @@ class ActionGroupMalle extends CopixActionGroup {
 			$dispMenu = true;
 			if (substr($parent['type'],0,5)=='USER_')		{
 				$title = CopixI18N::get ('malle|malle.perso'); $dispMenu = false;
-			} else
-				$title = $parent["nom"];
-			
+			} else {
+				// RUSTINE A CORRIGER
+				if (isset($parent["nom"]))
+					$title = $parent["nom"];
+				else 
+					$title = "Malle Téléprocédures";
+			}
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $title);
 			if ($dispMenu) {
@@ -217,9 +221,15 @@ class ActionGroupMalle extends CopixActionGroup {
 			$dispMenu = true;
 			if (substr($parent['type'],0,5)=='USER_')		{
 				$title = CopixI18N::get ('malle|malle.perso'); $dispMenu = false;
-			} elseif (!isset($title))
-				$title = $parent["nom"];
-
+			} elseif (!isset($title)) {
+				// RUSTINE A CORRIGER
+				if (isset($parent["nom"]))
+					$title = $parent["nom"];
+				else
+					$title = "Malle Téléprocédures";
+			}
+				
+			
 			$ppo->TITLE_PAGE = CopixI18N::get ('malle|malle.popup.title');
 			$ppo->id = $id;
 			$ppo->folder = $folder;

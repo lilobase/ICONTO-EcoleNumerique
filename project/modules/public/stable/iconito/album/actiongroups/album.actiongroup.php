@@ -160,7 +160,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 
 		$tpl->assign ('MAIN', $result);
 		
-		$album_nom = $album->parent["nom"];
+		if (isset($album->parent["nom"]))
+			$album_nom = $album->parent["nom"];
+		else 
+			$album_nom = "Album Téléprocédures";
 		if( $dossier_id > 0 ) $album_nom .= " / ".$dossier->dossier_nom;
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get('album.title.album', array($album_nom) ));
 		
@@ -799,7 +802,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 
 		$tpl->assign ('PHOTOS', $result);
 		
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.album', array($album->parent["nom"]) ));
+		if (isset($album->parent["nom"])) 
+			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.album', array($album->parent["nom"]) ));
+		else
+			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.album', array("Album Téléprocédures") ));		
 		$tpl->assign ('field', _request("field") );
 		$tpl->assign ('format', $format );
 		
@@ -807,7 +813,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$ppo = new CopixPPO ();
 		$ppo->result = $result;
-		$ppo->TITLE_PAGE = CopixI18N::get ('album.title.album', array($album->parent["nom"]) );
+		if (isset($album->parent["nom"])) 
+			$ppo->TITLE_PAGE = CopixI18N::get ('album.title.album', array($album->parent["nom"]) );
+		else
+			$ppo->TITLE_PAGE = CopixI18N::get ('album.title.album', array("Album Téléprocédures") );			
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css")); 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album_popup.css")); 
 		
