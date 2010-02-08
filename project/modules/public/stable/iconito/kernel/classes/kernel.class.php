@@ -1341,7 +1341,7 @@ class Kernel {
 				if ($parent['type'] == 'BU_ECOLE' && $parent['droit']>=PROFILE_CCV_ADMIN && $parent['ALL']->eco_id_ville == $villeMod)
 					return PROFILE_CCV_READ;
 			}
-		} elseif ($mod_parents[0]->node_type == 'MOD_TELEPROCEDURES' && $user_type == 'USER_VIL') {
+		} elseif (isset($mod_parents[0]) && $mod_parents[0]->node_type == 'MOD_TELEPROCEDURES' && $user_type == 'USER_VIL') {
 			// Rustine CB 05/02/2010 pour les droits des agents de ville dans les teleprocedures
 			return Kernel::getModRight ($mod_parents[0]->node_type, $mod_parents[0]->node_id, $user_type, $user_id);
 		}
