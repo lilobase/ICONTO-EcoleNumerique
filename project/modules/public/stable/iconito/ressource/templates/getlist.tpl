@@ -25,7 +25,7 @@
 			{counter name="i"}
 			<tr CLASS="list_line{math equation="x%2" x=$i}">
 				<!-- <td><a href="{copixurl dest="|getRessource" id=$ressource_item->ressources_id}">#{$ressource_item->ressources_id}</a></td> -->
-				<td ALIGN="LEFT"><a href="{$ressource_item->ressources_url}" target-"_blank">{$ressource_item->ressources_nom}</a>
+				<td ALIGN="LEFT"><a href="{$ressource_item->ressources_url}" target="_blank">{$ressource_item->ressources_nom}</a>
 				<div class="ressource_description">{$ressource_item->ressources_description}</div>
 				</td>
 				<!-- <td ALIGN="LEFT">{if $ressource_item->ressources_valid_date}Oui{else}Non{/if}</td> -->
