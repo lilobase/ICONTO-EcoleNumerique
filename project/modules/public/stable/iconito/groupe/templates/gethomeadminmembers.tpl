@@ -121,7 +121,7 @@
 <textarea class="form" style="width: 400px; height: 50px;" name="membres" id="membres">{$membres}</textarea>
 
 </TD></TR>
-<tr><td CLASS="form_saisie" colspan="2">{i18n key="groupe.adminMembers.addInfo"} {$linkpopup}</TD></TR>
+<tr><td CLASS="form_saisie" colspan="2">{i18n key="groupe.adminMembers.addInfo" noEscape=1} {$linkpopup}</TD></TR>
 
 <tr>
 <td class="form_saisie"><br/>{i18n key="groupe.adminMembers.addDates"}<br/>
