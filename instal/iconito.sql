@@ -158,15 +158,16 @@ CREATE TABLE `kernel_animateurs` (
 -- --------------------------------------------------------
 
 -- 
--- Structure de la table `kernel_animateurs2grville`
+-- Structure de la table `kernel_animateurs2regroupements`
 -- 
 
-DROP TABLE IF EXISTS `kernel_animateurs2grville`;
-CREATE TABLE `kernel_animateurs2grville` (
+DROP TABLE IF EXISTS `kernel_animateurs2regroupements`;
+CREATE TABLE `kernel_animateurs2regroupements` (
   `user_type` varchar(10) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `grville_id` int(11) NOT NULL,
-  PRIMARY KEY  (`user_type`,`user_id`,`grville_id`)
+  `regroupement_type` ENUM('villes', 'ecoles') NOT NULL,
+  `regroupement_id` int(11) NOT NULL,
+  PRIMARY KEY  (`user_type`,`user_id`,`regroupement_type`, `regroupement_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1593,11 +1594,11 @@ CREATE TABLE `module_groupe_groupe` (
 -- --------------------------------------------------------
 
 -- 
--- Structure de la table `module_grvilles`
+-- Structure de la table `module_regroupements_grvilles`
 -- 
 
-DROP TABLE IF EXISTS `module_grvilles`;
-CREATE TABLE `module_grvilles` (
+DROP TABLE IF EXISTS `module_regroupements_grvilles`;
+CREATE TABLE `module_regroupements_grvilles` (
   `id` int(11) NOT NULL auto_increment,
   `nom` varchar(255) NOT NULL,
   `updated_at` datetime NOT NULL,
@@ -1618,6 +1619,36 @@ CREATE TABLE `module_grvilles_gr2ville` (
   `updated_at` datetime NOT NULL,
   `updated_by` varchar(50) NOT NULL,
   PRIMARY KEY  (`id_groupe`,`id_ville`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_regroupements_grecoles`
+--
+
+DROP TABLE IF EXISTS `module_regroupements_grecoles`;
+CREATE TABLE module_regroupements_grecoles (
+	id          int(11)      NOT NULL AUTO_INCREMENT,
+	nom         varchar(255) NOT NULL,
+	updated_at  datetime     NOT NULL,
+	updated_by  varchar(49)  NOT NULL,
+	PRIMARY KEY (id)
+) ENGINE=MYISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_regroupements_grecoles2ecoles`
+--
+
+DROP TABLE IF EXISTS `module_regroupements_grecoles2ecoles`;
+CREATE TABLE module_regroupements_grecoles2ecoles (
+	id_groupe   int(11) NOT NULL,
+	id_ecole    int(11) NOT NULL,
+	updated_at  datetime NOT NULL,
+	updated_by  varchar(50) NOT NULL,
+	PRIMARY KEY (id_groupe,id_ecole)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
