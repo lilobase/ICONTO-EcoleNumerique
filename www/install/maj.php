@@ -57,7 +57,7 @@ if (!file_exists($paramFile)) {
 if (isset($_POST['do'])) {
 	echo "Mise à jour en cours...<br/>";
 	exec("$svnCmd --username=$loginSVN --password=$passwordSVN up $dossierInstall", $svnUp, $error);	
-	preg_replace("/$dossierInstall/", "//", $svnUp);
+	//preg_replace("/$dossierInstall/", "//", $svnUp);
 	echo "<pre>";
 	foreach ($svnUp as $line) {
 		echo preg_replace("/".$dossierInstall."/", "//", $line)."\n";
