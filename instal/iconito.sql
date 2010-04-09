@@ -1609,6 +1609,21 @@ CREATE TABLE `module_regroupements_grvilles` (
 -- --------------------------------------------------------
 
 -- 
+-- Structure de la table `module_regroupements_grvilles2villes`
+-- 
+
+DROP TABLE IF EXISTS `module_regroupements_grvilles2villes`;
+CREATE TABLE `module_regroupements_grvilles2villes` (
+      `id_groupe` int(11) NOT NULL,
+      `id_ville` int(11) NOT NULL,
+      `updated_at` datetime NOT NULL,
+      `updated_by` varchar(50) NOT NULL,
+      PRIMARY KEY  (`id_groupe`,`id_ville`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
 -- Structure de la table `module_grvilles_gr2ville`
 -- 
 
