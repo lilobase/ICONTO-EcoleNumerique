@@ -59,7 +59,8 @@ class AnnuaireService {
 
 		foreach ($pVilles as $child) {
 			$node = Kernel::getNodeInfo ('BU_VILLE', $child, $getNodeInfo_full);
-			$villes[] = array('id'=>$child['id'], 'nom'=>$node['nom']);
+			//$villes[] = array('id'=>$child['id'], 'nom'=>$node['nom']);
+			$villes[] = array('id'=>$child, 'nom'=>$node['nom']);
 		}
 		//print_r($villes);
 		usort ($villes, array('AnnuaireService', 'usort_nom'));
