@@ -77,7 +77,11 @@ class ActionGroupComptes extends CopixActionGroup {
 				$infos = Kernel::getNodeInfo( $pType, $pId, false );
 				
 				// ROOT
-				$petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                if (_currentUser()->getExtra('type') == "USER_EXT") {
+                    $petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                else
+                    $petitpoucet[] = array( 'txt' => 'Root');
+                }
 				// BU_GRVILLE
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
@@ -97,9 +101,17 @@ class ActionGroupComptes extends CopixActionGroup {
 				$parent_grville = Kernel::filterNodeList( $parents, 'BU_GRVILLE' );
 				
 				// ROOT
-				$petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                if(_currentUser()->getExtra('type') == "USER_EXT") {
+                    $petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                } else {
+                    $petitpoucet[] = array( 'txt' => 'Root');
+                }
 				// BU_GRVILLE
-				$petitpoucet[] = array( 'txt' => $parent_grville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_grville[0]['type'], 'id'=>$parent_grville[0]['id'])) );
+                if(_currentUser()->getExtra('type') == "USER_ENS") {
+                    $petitpoucet[] = array( 'txt' => $parent_grville[0]['nom']);
+                } else {
+                    $petitpoucet[] = array( 'txt' => $parent_grville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_grville[0]['type'], 'id'=>$parent_grville[0]['id'])) );
+                }
 				// BU_VILLE
 				$petitpoucet[] = array( 'txt' => $infos['nom'] );
 				
@@ -122,9 +134,17 @@ class ActionGroupComptes extends CopixActionGroup {
 				$parent_grville = Kernel::filterNodeList( $parents, 'BU_GRVILLE' );
 				
 				// ROOT
-				$petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                if(_currentUser()->getExtra('type') == "USER_EXT") {
+                    $petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                } else {
+                    $petitpoucet[] = array( 'txt' => 'Root');
+                }
 				// BU_GRVILLE
-				$petitpoucet[] = array( 'txt' => $parent_grville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_grville[0]['type'], 'id'=>$parent_grville[0]['id'])) );
+                if(_currentUser()->getExtra('type') == "USER_ENS") {
+                    $petitpoucet[] = array( 'txt' => $parent_grville[0]['nom']);
+                } else {
+                    $petitpoucet[] = array( 'txt' => $parent_grville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_grville[0]['type'], 'id'=>$parent_grville[0]['id'])) );
+                }
 				// BU_VILLE
 				$petitpoucet[] = array( 'txt' => $parent_ville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_ville[0]['type'], 'id'=>$parent_ville[0]['id'])) );
 				// BU_ECOLE
@@ -152,11 +172,23 @@ class ActionGroupComptes extends CopixActionGroup {
 				$parent_grville = Kernel::filterNodeList( $parents, 'BU_GRVILLE' );
 				
 				// ROOT
-				$petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                if(_currentUser()->getExtra('type') == "USER_EXT") {
+                    $petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
+                } else {
+                    $petitpoucet[] = array( 'txt' => 'Root');
+                }
 				// BU_GRVILLE
-				$petitpoucet[] = array( 'txt' => $parent_grville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_grville[0]['type'], 'id'=>$parent_grville[0]['id'])) );
+                if(_currentUser()->getExtra('type') == "USER_ENS") {
+                    $petitpoucet[] = array( 'txt' => $parent_grville[0]['nom']);
+                } else {
+                    $petitpoucet[] = array( 'txt' => $parent_grville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_grville[0]['type'], 'id'=>$parent_grville[0]['id'])) );
+                }
 				// BU_VILLE
-				$petitpoucet[] = array( 'txt' => $parent_ville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_ville[0]['type'], 'id'=>$parent_ville[0]['id'])) );
+                if(_currentUser()->getExtra('type') == "USER_ENS") {
+                    $petitpoucet[] = array( 'txt' => $parent_ville[0]['nom'] );
+                } else {
+                    $petitpoucet[] = array( 'txt' => $parent_ville[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_ville[0]['type'], 'id'=>$parent_ville[0]['id'])) );
+                }
 				// BU_ECOLE
 				$petitpoucet[] = array( 'txt' => $parent_ecole[0]['nom'], 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>$parent_ecole[0]['type'], 'id'=>$parent_ecole[0]['id'])) );
 				// BU_CLASSE
@@ -201,8 +233,19 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		
 		if( isset($petitpoucet) ) $tplGetNode->assign ('PETITPOUCET', Kernel::PetitPoucet($petitpoucet," &raquo; ") );
-		$tplGetNode->assign ('NAVIGATION', CopixZone::process ('comptes|navigation'));
-		
+		//$tplGetNode->assign ('NAVIGATION', CopixZone::process ('comptes|navigation'));
+        switch($pType) {
+            case 'BU_CLASSE':
+                $TYPE_ = 'BU_ECOLE';
+                $ID_ = $parent_ecole[0]["id"] ;
+                break ;
+            default:
+                $TYPE_ = $pType ;
+                $ID_ = $pId ;
+                break;
+        }
+        $tplGetNode->assign ('NAVIGATION', CopixZone::process ('comptes|navigation',array('TYPE_'=>$TYPE_,'ID_'=>$ID_)));    
+
 		if( $droit>=70 ) $tplGetNode->assign ('MAIN', CopixZone::process ('comptes|userlist', array('childs'=>$childs,'type'=>$pType,'id'=>$pId)) );
 		else             $tplGetNode->assign ('MAIN', CopixI18N::get ('comptes.error.badrights') );
 		

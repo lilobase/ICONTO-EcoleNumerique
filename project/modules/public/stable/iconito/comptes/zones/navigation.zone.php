@@ -13,8 +13,24 @@ class ZoneNavigation extends CopixZone {
 		$tree = Kernel::getTree();
 		
 		$tpl->assign('tree', $tree );
-		
-		$toReturn = $tpl->fetch ('navigation.tpl');
+
+        switch($this->getParam ('TYPE_')) {
+            case 'BU_VILLE':
+                $toReturn = $tpl->fetch ('navigation_ville.tpl');
+                break;
+
+            case 'BU_ECOLE':
+                $toReturn = $tpl->fetch ('navigation_ecole.tpl');
+                break;
+
+            case 'BU_CLASSE':
+                $toReturn = $tpl->fetch ('navigation_classe.tpl');
+                break;
+
+            default:
+                $toReturn = $tpl->fetch ('navigation.tpl');
+                break;
+        }
 		
 		// $toReturn = '<pre>'.print_r($tree,true).'</pre>';
 		return true;
