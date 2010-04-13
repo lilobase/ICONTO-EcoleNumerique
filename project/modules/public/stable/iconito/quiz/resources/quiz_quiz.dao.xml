@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+    <datasource>
+        <tables>
+            <table name="quiz_quiz" tablename="module_quiz_quiz" primary="yes" />
+        </tables>
+    </datasource>
+    <properties>
+        <property name="id" type="autoincrement" pk="yes" />
+        <property name="id_author" type="int" />
+        <property name="date_start" type="int" />
+        <property name="date_end" type="int" />
+        <property name="name" type="string" />
+        <property name="description" type="string"/>
+        <property name="pic" type="string"/>
+        <property name="opt_save" type="int" />
+        <property name="opt_show_results" type="string"/>
+        <property name="lock" type="int"/>
+    </properties>
+    <methods>
+        <method name="getCurrentQuiz" type="select">
+            <parameters>
+                <parameter name="date" />
+            </parameters>
+            <conditions>
+                <condition property="date_start" value="$date" operator="&gt;" />
+                <condition property="date_end" value="$date" operator="&lt;" />
+                <condition property="date_end" value="0" operator="=" logic="OR" />
+                <condition property="date_start" value="0" operator="=" logic="OR" />
+                <condition property="lock" value="0" operator="=" />
+            </conditions>
+            <order>
+                <orderitem property="date_end" way="desc" />
+            </order>
+        </method>
+    </methods>
+</daodefinition>

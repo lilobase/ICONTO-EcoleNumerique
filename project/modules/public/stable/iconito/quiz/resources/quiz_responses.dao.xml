@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="quiz_responses" tablename="module_quiz_responses" primary="yes" />
+                        <table name="quiz_questions" tablename="module_quiz_questions" primary="no" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" pk="yes" type="autoincrement" table="quiz_responses" required="yes" />
+		<property name="id_user" fieldname="id_user" pk="no" type="integer" table="quiz_responses" required="yes" />
+		<property name="id_choice" fieldname="id_choice" pk="no" type="integer" table="quiz_responses" required="yes" />
+		<property name="id_question" fieldname="id_question" pk="no" type="integer" table="quiz_responses" required="yes" fkfieldname="id" fktable="quiz_questions" />
+		<property name="date" fieldname="date" pk="no" type="integer" required="yes" table="quiz_responses" />
+                <property name="txt" fieldname="txt" pk="no" type="string" required="no" table="quiz_responses" />
+
+                <property name="id_quiz" fieldname="id_quiz" pk="no" type="integer" table="quiz_questions" required="no" />
+                <property name="order" fieldname="order" pk="no" type="integer" table="quiz_questions" required="no" />
+        </properties>
+        <methods>
+            <method name="getResponsesFromUser" type="select">
+                <parameters>
+                    <parameter name="uId" />
+                    <parameter name="qId" />
+                </parameters>
+                <conditions>
+                    <condition property="id_user" value="$uId" operator="=" />
+                    <condition property="id_quiz" value="$qId" operator="=" />
+                </conditions>
+                <order>
+                    <orderitem property="order" way="asc" />
+                </order>
+            </method>
+            <method name="getResponsesByQuiz" type="select">
+                <parameters>
+                    <parameter name="qId" />
+                </parameters>
+                <conditions>
+                    <condition property="id_quiz" value="$qId" operator="=" />
+                </conditions>
+                <order>
+                    <orderitem property="order" way="asc" />
+                </order>
+            </method>
+        </methods>
+</daodefinition>

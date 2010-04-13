@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="quiz_questions" tablename="module_quiz_questions" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.module_quiz_questions.fields.id" />
+		<property name="id_quiz" fieldname="id_quiz" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_questions.fields.id_quiz" />
+		<property name="content_txt" fieldname="content_txt" pk="no" type="string" required="no" captioni18n="dao.module_quiz_questions.fields.content_txt" />
+		<property name="content_pic" fieldname="content_pic" pk="no" type="string" required="no" captioni18n="dao.module_quiz_questions.fields.content_pic" />
+		<property name="order" fieldname="order" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_questions.fields.order" />
+                <property name="opt_type" fieldname="opt_type" pk="no" type="string" required="yes" captioni18n="dao.module_quiz_questions.fields.opt_show_type" />
+
+        </properties>
+        <methods>
+            <method name="getQuestionsForQuiz" type="select">
+                <parameters>
+                    <parameter name="qId" />
+                </parameters>
+                <conditions>
+                    <condition property="id_quiz" value="$qId" operator="=" />
+                </conditions>
+                <order>
+                    <orderitem property="order" way="asc" />
+                </order>
+            </method>
+        </methods>
+</daodefinition>

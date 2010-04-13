@@ -1,0 +1,15 @@
+<daodefinition>
+	<datasource>
+		<tables>
+			<table name="module_quiz_responses" tablename="module_quiz_responses" primary="yes" />
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" />
+		<property name="id_user" fieldname="id_user" pk="no" type="integer" required="yes" />
+		<property name="id_choice" fieldname="id_choice" pk="no" type="integer" required="yes" />
+		<property name="id_question" fieldname="id_question" pk="no" type="integer" required="yes"/>
+		<property name="date" fieldname="date" pk="no" type="integer" required="yes" />
+                <property name="txt" fieldname="txt" pk="no" type="string" required="no" />
+        </properties>
+</daodefinition>

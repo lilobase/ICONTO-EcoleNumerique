@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+	<datasource>
+		<tables>
+                    <table name="quiz_choices" tablename="module_quiz_choices" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id" table="quiz_choices" fieldname="id" pk="no" type="autoincrement" required="yes" captioni18n="dao.module_quiz_choices.fields.id" />
+		<property name="id_question" table="quiz_choices" fieldname="id_question" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_choices.fields.id_question"/>
+		<property name="content_txt" table="quiz_choices" fieldname="content_txt" pk="no" type="string" required="no" captioni18n="dao.module_quiz_choices.fields.content_txt" />
+		<property name="content_pic" table="quiz_choices" fieldname="content_pic" pk="no" type="string" required="no" captioni18n="dao.module_quiz_choices.fields.content_pic" />
+		<property name="correct" table="quiz_choices" fieldname="correct" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_choices.fields.correct" />
+		<property name="order" table="quiz_choices" fieldname="order" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_choices.fields.order" />         
+        </properties>
+        <methods>
+            <method name="getChoices" type="select">
+                <parameters>
+                    <parameter name="qId" />
+                </parameters>
+                <conditions>
+                    <condition property="id_question" value="$qId" operator="=" />
+                </conditions>
+                <order>
+                    <orderitem property="order" way="asc" />
+                </order>
+            </method>
+    </methods>
+</daodefinition>
