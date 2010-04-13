@@ -847,8 +847,8 @@ class Kernel {
 				}
 				break;
 			case "BU_VILLE":
-				if( isset($this->cache_getNodeInfo_ville[$id]) ) {
-					$return = $this->cache_getNodeInfo_ville[$id];
+				if( isset($this->cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")]) ) {
+					$return = $this->cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")];
 				} else {
 					$dao = _dao("kernel|kernel_tree_vil");
 					if( $result = $dao->get($id) ) {
@@ -868,12 +868,12 @@ class Kernel {
 						}
 					}
 					
-					$this->cache_getNodeInfo_ville[$id] = $return;
+					$this->cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")] = $return;
 				}
 				break;
 			case "BU_ECOLE":
-				if( isset($this->cache_getNodeInfo_ecole[$id]) ) {
-					$return = $this->cache_getNodeInfo_ecole[$id];
+				if( isset($this->cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")]) ) {
+					$return = $this->cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")];
 				} else {
 					$dao = _dao("kernel|kernel_tree_eco");
 					if( $result = $dao->get($id) ) {
@@ -894,12 +894,12 @@ class Kernel {
 						}
 					}
 						
-					$this->cache_getNodeInfo_ecole[$id] = $return;
+					$this->cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")] = $return;
 				}
 				break;
 			case "BU_CLASSE":
-				if( isset($this->cache_getNodeInfo_classe[$id]) ) {
-					$return = $this->cache_getNodeInfo_classe[$id];
+				if( isset($this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")]) ) {
+					$return = $this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")];
 				} else {
 					$dao = _dao("kernel|kernel_tree_cla");
 					if( $result = $dao->get($id) ) {
@@ -918,7 +918,7 @@ class Kernel {
 						}
 					}
 							
-					$this->cache_getNodeInfo_classe[$id] = $return;
+					$this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")] = $return;
 				}
 				break;
 			case "CLUB":
@@ -959,7 +959,7 @@ class Kernel {
 
 
 
-	function getUserInfo( $type="ME", $id=0 ) {
+	function getUserInfo( $type="ME", $id=0, $options=array() ) {
 		//Kernel::deb("getUserInfo / type=$type / id=$id");
 		$user = array();
 		switch( $type ) {
@@ -1047,6 +1047,10 @@ class Kernel {
 									$user["link"]->classe[$value['id']] = 1;
 									$user["link"]->ecole[$value['ALL']->cla_ecole] = 1;
 									$user["link"]->ville[$value['ALL']->eco_id_ville] = 1;
+																		
+									if(isset($options['link_data'])&&$options['link_data'])
+										$user["link_data"]->classe[$value['id']] = Kernel::getNodeInfo( "BU_CLASSE",$value['id'], true );
+									
 									break;
 							}
 						}
