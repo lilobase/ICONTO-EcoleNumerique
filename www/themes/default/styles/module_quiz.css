@@ -1,0 +1,161 @@
+/* 
+    Document   : module_quiz.css
+    Created on : 12 avr. 2010, 17:59:03
+    Author     : arnox
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+#main_quiz h3, .quiz h3{
+    text-align: center;
+    color: #222222;
+}
+.quiz-quiz{
+    width: 290px;
+    height: 150px;
+    margin: 5px;
+    float: left;
+    background-color: #E8F299;
+}
+.quiz-quiz h5{
+    margin-left: 25px;
+    margin-bottom: 5px;
+}
+.quiz-quiz p{
+    margin-left: 15px;
+    height: 65px;
+}
+.quiz-quiz a{
+    display: block;
+    float: right;
+    margin-right: 10px;
+}
+.quiz h4{
+    text-align: center;
+    color: #222222;
+}
+#quiz-author{
+    font-size: 0.9em;
+    font-weight: bold;
+    margin-left: 150px;
+}
+.quiz-u-resp{
+    height: 25px;
+    font-size : 0.8em;
+    font-weight: bold;
+    text-align: center;
+    width: 860px;
+    margin-left: 20px;
+    border: solid 2px maroon;
+    line-height: 25px;
+    background-color: white;
+}
+#quiz-list{
+    margin-left: 25px;
+}
+
+#start-quiz{
+    display: block;
+    float: right;
+    margin-right: 150px;
+    margin-top: 30px;
+    height: 30px;
+    width: 90px;
+    line-height: 30px;
+    font-weight: bold;
+    font-size: 1.1em;
+    border: solid 2px black;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #993300;
+}
+
+.quiz-response{
+    margin-left: 20px;
+    margin-right: 15px;
+    width: 510px;
+    float: left;
+    text-align: center;
+}
+#quiz-response-list{
+    margin-left: 15px;
+    width: 325px;
+    float: left;
+    padding: 0px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background-color: #E8F299;
+    margin-right: 15px;
+}
+#quiz-response-list li{
+    margin-bottom: 5px;
+    margin-left: 25px;
+
+}
+.quiz-prev, .quiz-next{
+    display: block;
+    margin-top: 15px;
+    height: 35px;
+    width: 120px;
+    line-height: 35px;
+    font-size: 15px;
+    border: solid 2px black;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    background-color: #993300;
+    padding:0px;
+    font-family:"Trebuchet MS",verdana,lucida,arial,helvetica,sans-serif;
+}
+.quiz-next{
+    float: right;
+    margin-right: 15px;
+}
+.quiz-prev{
+    float: left;
+    margin-left: 20px;
+}
+.quiz-prev:hover{
+    color: white;
+}
+.quiz-clear{
+    width: 100%;
+    clear: both;
+}
+
+#quiz-adm-all{
+	width: 90%;
+	margin-left: 20px;
+
+}
+#quiz-adm-all thead th{
+	height: 20px;
+	font-size: 14px;
+	line-height: 20px;
+	font-weight: bold;
+	text-align: left;
+}
+.quiz-adm-responses{
+	background-color: grey;
+	border: solid 1px black;
+	height: 8px;
+	width: 8px;
+	margin: 1px;
+	float: left;
+}
+.quiz-adm-correct{
+	background-color: green;
+}
+.quiz-adm-resp{
+	background-color: maroon;
+}
+#quiz-adm{
+ background-color: white;
+ padding: 15px;
+}
