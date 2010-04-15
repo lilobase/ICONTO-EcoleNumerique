@@ -79,10 +79,6 @@ class ActionGroupQuiz extends CopixActionGroup {
             }
             array_unique($userResponses);
         }
-        //if false :
-        if(!$uResp)
-            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => 1));
-
 
         //fetch all question
         $i=0;
@@ -113,11 +109,12 @@ class ActionGroupQuiz extends CopixActionGroup {
         qSession('prev', false);
 		
         //if qID exists in url : routing to question
-        if(CopixRequest::exists('qId')&& CopixRequest::getInt('qId'))
-            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => CopixRequest::getInt('qId')));
+        $qId = CopixRequest::get('qId', false);
+        if($qId)
+            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => (int)$qId));
         elseif(!$uResp) //if users have not started the quiz :
             return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => $questionsReturn[0]['id']));
-	
+
         //var_dump($questionsReturn);
         //start TPL
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
@@ -161,7 +158,7 @@ class ActionGroupQuiz extends CopixActionGroup {
         //get params
         $pId = CopixRequest::getInt('id', false);
         $pQId = CopixRequest::getInt('qId', false);
-
+        
         //test params
         if(!$pId || is_null(qSession('id')) || $pId != qSession('id') || !$pQId)
             return CopixActionGroup::process('quiz|quiz::Quiz', array ('id' => $pId, 'qId' => false));
