@@ -79,6 +79,10 @@ class ActionGroupQuiz extends CopixActionGroup {
             }
             array_unique($userResponses);
         }
+        //if false :
+        if(!$uResp)
+            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => 1));
+
 
         //fetch all question
         $i=0;
@@ -108,11 +112,12 @@ class ActionGroupQuiz extends CopixActionGroup {
         qSession('next', $questionsReturn[0]);
         qSession('prev', false);
 		
-        //routing to question :
-        if(CopixRequest::exists('qId')&& CopixRequest::getInt('qId')){
+        //if qID exists in url : routing to question
+        if(CopixRequest::exists('qId')&& CopixRequest::getInt('qId'))
             return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => CopixRequest::getInt('qId')));
-        }
-		
+        elseif(!$uResp) //if users have not started the quiz :
+            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => $questionsReturn[0]['id']));
+	
         //var_dump($questionsReturn);
         //start TPL
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
