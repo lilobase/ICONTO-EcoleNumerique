@@ -27,7 +27,6 @@ class ActionGroupQuiz extends CopixActionGroup {
     /* show answers */
     public function processQuiz(){
         $pId = CopixRequest::getInt('id', false);
-        qSession('delete');
         //init & secure quiz system !
         if(is_null(CopixSession::get('id')) || $pId != qSession('id')){
             if($pId === false || !($quizData = _dao('quiz|quiz_quiz')->get($pId)))
@@ -284,6 +283,8 @@ class ActionGroupQuiz extends CopixActionGroup {
         if($quizData->lock == 1)
             return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.lock'), 'back'=>CopixUrl::get('quiz||')));
 
+        //in session :
+        qSession('questions', $questions);
         $nextQ = qSession('next');
         //var_dump($nextQ);die();
         if(!$nextQ)
