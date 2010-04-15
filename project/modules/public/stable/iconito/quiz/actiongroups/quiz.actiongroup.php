@@ -55,10 +55,6 @@ class ActionGroupQuiz extends CopixActionGroup {
         }else{
             $quizData = _dao('quiz|quiz_quiz')->get($pId);
         }
-        //routing to question :
-        if(CopixRequest::exists('qId')&& CopixRequest::getInt('qId')){
-            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => CopixRequest::getInt('qId')));
-        }
 
         //echo CopixRequest::get('action');
         //ICI REROUTAGE EN FONCTION BESOIN !!
@@ -112,7 +108,12 @@ class ActionGroupQuiz extends CopixActionGroup {
         qSession('current', false);
         qSession('next', $questionsReturn[0]);
         qSession('prev', false);
-        
+		
+        //routing to question :
+        if(CopixRequest::exists('qId')&& CopixRequest::getInt('qId')){
+            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => CopixRequest::getInt('qId')));
+        }
+		
         //var_dump($questionsReturn);
         //start TPL
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
