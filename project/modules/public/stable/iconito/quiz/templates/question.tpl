@@ -19,9 +19,9 @@
 <ul id="quiz-response-list">
     {foreach from=$ppo->choices item=choice}
     <li {if $choice.user}class="quiz-user"{/if}><label for="response">
+        <input type="{$ppo->select}" name="response[]" id="response[]" value="{$choice.id}" {if $choice.user}checked="checked"{/if} />
         {if $choice.txt != null}{$choice.txt}{/if}
         {if $choice.pic != null}<img src="{$choice.pic}" />{/if}</label>
-        <input type="{$ppo->select}" name="response[]" id="response[]" value="{$choice.id}" {if $choice.user}checked="checked"{/if} />
     </li>
     {/foreach}
 </ul>

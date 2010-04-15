@@ -19,9 +19,11 @@
     {foreach from=$ppo->questions item=question}
         <li {if $question.userResp}class="quiz-user-resp"{/if}>
             <a href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$question.id'}">
-                {i18n key="quiz.msg.question" noEscape=1} : {$question.order} {if $question.userResp}<span class="quiz-infos">({i18n key="quiz.msg.alreadyResp" noEscape=1})</span>{/if}
+                {i18n key="quiz.msg.question" noEscape=1} : {$question.order} {if $question.userResp}<div class="quiz-comment"></div>{/if}
             </a>
         </li>
     {/foreach}
 </ul>
+<div class="quiz-clear"></div>
+<p><div class="quiz-comment"></div> = {i18n key="quiz.msg.alreadyResp" noEscape=1}</p>
 <a id="start-quiz" href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$ppo->next.id}" title="{i18n key="quiz.msg.start" noEscape=1}">{i18n key="quiz.msg.start" noEscape=1}</a>

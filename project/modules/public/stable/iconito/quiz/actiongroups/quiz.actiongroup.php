@@ -132,7 +132,7 @@ class ActionGroupQuiz extends CopixActionGroup {
         $ppo->questions = $questionsReturn;
         $ppo->next = qSession('next');
         
-        return _arPPO($ppo, 'accueilQuiz.tpl');
+        return _arPPO($ppo, 'accueil_quiz.tpl');
     }
 
     /*
