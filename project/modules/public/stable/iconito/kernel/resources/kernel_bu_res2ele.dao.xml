@@ -10,9 +10,9 @@
 		<!-- Table des liens : responsables-élèves -->
 		<property name="res2ele_id_rel"            fieldname="id_rel"            type="integer" table="kernel_bu_responsables" pk="yes"/>
 		<property name="res2ele_id_beneficiaire"   fieldname="id_beneficiaire"   type="integer" table="kernel_bu_responsables" pk="no" />
-		<property name="res2ele_type_beneficiaire" fieldname="type_beneficiaire" type="integer" table="kernel_bu_responsables" pk="no" />
+		<property name="res2ele_type_beneficiaire" fieldname="type_beneficiaire" type="varchar" table="kernel_bu_responsables" pk="no" />
 		<property name="res2ele_id_responsable"    fieldname="id_responsable"    type="integer" table="kernel_bu_responsables" pk="no" />
-		<property name="res2ele_type_responsable"  fieldname="type"              type="integer" table="kernel_bu_responsables" pk="no" />
+		<property name="res2ele_type_responsable"  fieldname="type"              type="varchar" table="kernel_bu_responsables" pk="no" />
 		<property name="res2ele_auth_parentale"    fieldname="auth_parentale"    type="integer" table="kernel_bu_responsables" pk="no" />
 		<property name="res2ele_id_par"            fieldname="id_par"            type="integer" table="kernel_bu_responsables" pk="no" />
 	</properties>

@@ -65,6 +65,15 @@ class DAOKernel_bu_res {
 		//print_r($query);
 		return _doQuery($query);
 	}	
+	
+	function getByStudent ($studentId) {
+	  
+	  $sql = $this->_selectQuery . ', kernel_bu_responsables'
+		     . ' WHERE kernel_bu_responsable.numero=kernel_bu_responsables.id_responsable'
+		     . ' AND kernel_bu_responsables.id_beneficiaire=:id';
+			  
+		return new CopixDAORecordIterator (_doQuery ($sql, array (':id' => $studentId)), $this->getDAOId ());
+	}
 
 }
 

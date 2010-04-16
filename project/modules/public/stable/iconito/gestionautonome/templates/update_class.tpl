@@ -1,0 +1,58 @@
+<h2>Modification d'une classe</h2>
+
+<h3>Classe</h3>
+
+{if not $ppo->errors eq null}
+	<div class="message_erreur">
+	  <ul>
+	    {foreach from=$ppo->errors item=error}
+		    <li>{$error}</li><br \>
+	    {/foreach}
+	  </ul>
+	</div>
+{/if}
+
+<form name="class_update" id="class_update" action="{copixurl dest="|validateClassUpdate"}" method="POST" enctype="multipart/form-data">
+  <fieldset>
+    <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
+    <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
+    
+    <label for="ville"> Ecole :</label>
+    <select class="form" name="ecole" id="ecole">
+      {html_options values=$ppo->schoolIds output=$ppo->schoolNames selected=$ppo->class->ecole}  
+    </select>
+
+    <div class="field">
+      <label for="name"> Nom :</label>
+      <input class="form" type="text" name="nom" id="nom" value="{$ppo->class->nom}" />
+    </div>
+    
+    <div class="field">
+      <label for="name"> Niveaux :</label>
+      {html_checkboxes name='niveaux' values=$ppo->levelIds output=$ppo->levelNames selected=$ppo->levels}
+    </div>
+    
+    <label for="type"> Type :</label>
+      <select class="form" name="type" id="type">
+      {html_options values=$ppo->typeIds output=$ppo->typeNames selected=$ppo->type}  
+    </select>
+      
+  </fieldset>
+  
+  <ul class="actions">
+    <li><input class="form_button" type="button" value="Annuler" id="cancel" /></li>
+  	<li><input class="form_button" type="submit" name="save" id="save" value="Enregistrer" /></li>
+  </ul>
+</form>
+
+{literal}
+<script type="text/javascript">
+//<![CDATA[
+  
+  $('#cancel').click(function() {
+    
+    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+  });
+//]]> 
+</script>
+{/literal}

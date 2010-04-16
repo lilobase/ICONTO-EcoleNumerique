@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+	<general>
+		<default name="gestionautonome" descriptioni18n="gestionautonome.moduleDescription"/>
+		<package name="copixdivers" version="2.2" />
+	</general>
+</moduledefinition>

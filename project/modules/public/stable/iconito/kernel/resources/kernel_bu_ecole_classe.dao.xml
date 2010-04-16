@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_ecole_classe" tablename="kernel_bu_ecole_classe" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id"           fieldname="id"            type="integer"  table="kernel_bu_ecole_classe" pk="yes"/>
+		<property name="ecole"        fieldname="ecole"         type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
+		<property name="nom"          fieldname="nom"           type="string"   table="kernel_bu_ecole_classe" pk="no"/>
+		<property name="annee_scol"   fieldname="annee_scol"    type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
+		<property name="is_validee"   fieldname="is_validee"    type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
+		<property name="is_supprimee" fieldname="is_supprimee"  type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
+	</properties>
+	<methods>
+	</methods>
+</daodefinition>
+

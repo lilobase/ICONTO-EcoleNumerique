@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_ecole_classe_niveau" tablename="kernel_bu_ecole_classe_niveau" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="classe"        fieldname="classe"        type="integer"  table="kernel_bu_ecole_classe_niveau" pk="yes"/>
+		<property name="niveau"        fieldname="niveau"        type="integer"  table="kernel_bu_ecole_classe_niveau" pk="yes"/>
+		<property name="type"          fieldname="type"          type="string"   table="kernel_bu_ecole_classe_niveau" pk="no"/>
+	</properties>
+	<methods>
+	</methods>
+</daodefinition>
+
