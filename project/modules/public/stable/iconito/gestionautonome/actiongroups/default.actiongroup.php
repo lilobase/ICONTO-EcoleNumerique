@@ -1131,7 +1131,6 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->personnel->tel_dom      = _request ('tel_dom', null);
     $ppo->personnel->tel_gsm      = _request ('tel_gsm', null);
     $ppo->personnel->tel_pro      = _request ('tel_pro', null);
-    $ppo->personnel->num_poste    = _request ('num_poste', null);
     $ppo->personnel->mel          = _request ('mel', null);
     $ppo->personnel->mel_pro      = _request ('mel_pro', null);
     $ppo->personnel->num_rue      = _request ('num_rue', null);
@@ -1156,10 +1155,6 @@ class ActionGroupDefault extends CopixActionGroup {
     if (!$ppo->personnel->cle_privee) {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePrivateKey');
-    }
-    if (!$ppo->personnel->num_poste) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeNumber');
     }
     if (!$ppo->personnel->num_rue) {
       
@@ -1242,12 +1237,178 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processUpdatePersonnel () {
 	
-	
+	  $ppo = new CopixPPO ();                                       
+
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId   = _request ('nodeId', null);
+	  $ppo->nodeType = _request ('nodeType', null);
+	  $personnelId   = _request ('personnelId', null);
+	  
+	  $personnelDAO  = _ioDAO ('kernel_bu_personnel');
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || !$ppo->personnel = $personnelDAO->get ($personnelId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+		
+		// Récupération des villes
+		$cityDAO = _ioDAO ('kernel_bu_ville');
+	  $cities = $cityDAO->findAll ();
+	  
+	  $ppo->cityNames = array ();
+	  $ppo->cityIds   = array ();
+	  
+	  foreach ($cities as $city) {
+
+      $ppo->cityNames[] = $city->nom;
+      $ppo->cityIds[]   = $city->id_vi;
+    }
+
+	  // Récupération des pays
+		$countryDAO = _ioDAO ('kernel_bu_pays');
+	  $countries = $countryDAO->findAll ();
+	  
+	  $ppo->countryNames = array ();
+	  $ppo->countryIds   = array ();
+	  
+	  foreach ($countries as $country) {
+
+      $ppo->countryNames[] = $country->pays;
+      $ppo->countryIds[]   = $country->id;
+    }
+    
+    // Civilités
+    $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
+	  
+	  // Récupération du type de compte é créer
+	  $ppo->role = _request ('role', null);
+
+		return _arPPO ($ppo, 'update_personnel.tpl');
 	}
 	
 	public function processValidatePersonnelUpdate () {
 	  
+	  $ppo = new CopixPPO (); 
 	  
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId   = _request ('id_node', null);
+	  $ppo->nodeType = _request ('type_node', null);
+	  $personnelId   = _request ('id_personnel', null);
+	  
+	  $personnelDAO       = _ioDAO ('kernel_bu_personnel');
+	  
+	  if (!$ppo->personnel = $personnelDAO->get ($personnelId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+		_classInclude ('kernel|Tools');
+         
+    $ppo->personnel->nom         = Tools::capitalizeFirst (trim (_request ('nom', null)));
+    $ppo->personnel->nom_jf      = Tools::capitalizeFirst (trim (_request ('nom_jf', null)));
+    $ppo->personnel->prenom1     = Tools::capitalizeFirst (trim (_request ('prenom1', null)));
+    $ppo->personnel->civilite    = _request ('civilite', null);
+    
+    if ($ppo->personnel->civilite == 'Monsieur') {
+      
+      $ppo->personnel->id_sexe = 1;
+    }
+    else {
+      
+      $ppo->personnel->id_sexe = 2;
+    }
+    
+    $ppo->personnel->date_nais    = _request ('date_nais', null);
+    $ppo->personnel->cle_privee   = _request ('cle_privee', null);
+    $ppo->personnel->profession   = _request ('profession', null);
+    $ppo->personnel->tel_dom      = _request ('tel_dom', null);
+    $ppo->personnel->tel_gsm      = _request ('tel_gsm', null);
+    $ppo->personnel->tel_pro      = _request ('tel_pro', null);
+    $ppo->personnel->mel          = _request ('mel', null);
+    $ppo->personnel->mel_pro      = _request ('mel_pro', null);
+    $ppo->personnel->num_rue      = _request ('num_rue', null);
+    $ppo->personnel->adresse1     = _request ('adresse1', null);
+    $ppo->personnel->adresse2     = _request ('adresse2', null);
+    $ppo->personnel->code_postal  = _request ('code_postal', null);
+    $ppo->personnel->commune      = _request ('commune', null);
+    $ppo->personnel->id_ville     = _request ('ville', null);
+    $ppo->personnel->pays         = _request ('pays', null);
+    
+    // Traitement des erreurs
+    $ppo->errors = array ();
+    
+    if (!$ppo->personnel->nom) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+    }
+    if (!$ppo->personnel->prenom1) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+    }
+    if (!$ppo->personnel->cle_privee) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePrivateKey');
+    }
+    if (!$ppo->personnel->num_rue) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
+    }
+    if (!$ppo->personnel->adresse1) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
+    }
+    if (!$ppo->personnel->code_postal) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
+    }
+    if (!$ppo->personnel->commune) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
+    }
+    
+    if (!empty ($ppo->errors)) {
+      
+      // Récupération des villes
+  		$cityDAO = _ioDAO ('kernel_bu_ville');
+  	  $cities = $cityDAO->findAll ();
+  	  
+  	  $ppo->cityNames = array ();
+  	  $ppo->cityIds   = array ();
+  	  
+  	  foreach ($cities as $city) {
+
+        $ppo->cityNames[] = $city->nom;
+        $ppo->cityIds[]   = $city->id_vi;
+      }
+
+  	  // Récupération des pays
+  		$countryDAO = _ioDAO ('kernel_bu_pays');
+  	  $countries = $countryDAO->findAll ();
+  	  
+  	  $ppo->countryNames = array ();
+  	  $ppo->countryIds   = array ();
+  	  
+  	  foreach ($countries as $country) {
+
+        $ppo->countryNames[] = $country->pays;
+        $ppo->countryIds[]   = $country->id;
+      }
+      
+      // Civilités
+      $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
+  	   
+      return _arPPO ($ppo, 'update_personnel.tpl');
+    }
+    
+    $personnelDAO->update ($ppo->personnel);
+		
+		return _arPPO ($ppo, 'update_success.tpl');
 	}
 	
 	public function processDeletePersonnel () {

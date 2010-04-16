@@ -1,4 +1,4 @@
-<h2>Création d'une personne</h2>
+<h2>Modification d'une personne</h2>
 
 <h3>Personne</h3>
 
@@ -12,11 +12,11 @@
 	</div>
 {/if}
 
-<form name="personnel_creation" id="personnel_creation" action="{copixurl dest="|validatePersonnelCreation"}" method="POST" enctype="multipart/form-data">
+<form name="personnel_update" id="personnel_update" action="{copixurl dest="|validatePersonnelUpdate"}" method="POST" enctype="multipart/form-data">
   <fieldset>
-    <input type="hidden" name="id_parent" id="id-parent" value="{$ppo->nodeId}" />
-    <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->nodeType}" />
-    <input type="hidden" name="role" id="type-role" value="{$ppo->role}" />
+    <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
+    <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
+    <input type="hidden" name="id_personnel" id="id-personnel" value="{$ppo->personnel->numero}" />
     
     <label for="civilite"> Civilité :</label>
     <select class="form" name="civilite" id="civilite">
