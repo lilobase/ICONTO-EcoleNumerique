@@ -250,7 +250,7 @@ class CopixActionGroup {
 		try {
 			if (($result = $actiongroup->_beforeAction ($extractedPath->method)) === null) {
 				if ($methName == 'otherAction') {
-					$toReturn = $actiongroup->$methName ($extractedPath->method);
+					$toReturn = $actiongroup->$methName ($extractedPath);
 				} else {
 					$toReturn = $actiongroup->$methName ();
 				}
@@ -343,11 +343,11 @@ class CopixActionGroup {
 	 * 
 	 * @return CopixActionReturn
 	 */
-	protected function otherAction () {
+	protected function otherAction ($infos) {
 		if (CopixConfig::instance ()->notFoundDefaultRedirectTo !== false) {
 			return new CopixActionReturn (CopixActionReturn::REDIRECT, CopixUrl::get (CopixConfig::instance ()->notFoundDefaultRedirectTo));
 		}
-		return new CopixActionReturn (CopixActionReturn::HTTPCODE, CopixHTTPHeader::get404 (), _i18n ('copix:copix.error.404').'<br /> search : '.CopixContext::get());
+		return new CopixActionReturn (CopixActionReturn::HTTPCODE, CopixHTTPHeader::get404 (), _i18n ('copix:copix.error.404').'<br /> search : '.$infos->module.'|'.$infos->actiongroup.'::'.$infos->method);
 	}
 	
 	/**

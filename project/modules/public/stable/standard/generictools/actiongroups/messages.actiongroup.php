@@ -51,7 +51,6 @@ class ActionGroupMessages extends CopixActionGroup {
 	 */
 	public function processGetInformation (){
 		$tpl = new CopixTpl ();
-
 		$tpl->assign ('TITLE_PAGE', _request ('TITLE_PAGE', _i18n ('messages.titlePage.information')));
 		$tpl->assignZone ('MAIN', 'PassThrough', array    ('message'=>_request ('message'),
 		'back'=>_request ('continue'),
