@@ -347,7 +347,7 @@ class CopixActionGroup {
 		if (CopixConfig::instance ()->notFoundDefaultRedirectTo !== false) {
 			return new CopixActionReturn (CopixActionReturn::REDIRECT, CopixUrl::get (CopixConfig::instance ()->notFoundDefaultRedirectTo));
 		}
-		return new CopixActionReturn (CopixActionReturn::HTTPCODE, CopixHTTPHeader::get404 (), _i18n ('copix:copix.error.404'));
+		return new CopixActionReturn (CopixActionReturn::HTTPCODE, CopixHTTPHeader::get404 (), _i18n ('copix:copix.error.404').'<br /> search : '.CopixContext::get());
 	}
 	
 	/**

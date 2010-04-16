@@ -344,27 +344,27 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		//On verifit que le blog existe (on récupère le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
+			return CopixActionGroup::process ('genericTools|Messages::processgetError',
 			array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
 			'back'=>CopixUrl::get('')));
 		}
 
 		// On vérifie que le droit de lecture est présent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
-			return CopixActionGroup::process ('genericTools|Messages::getError',
+			return CopixActionGroup::process ('genericTools|Messages::processgetError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
 			'back'=>CopixUrl::get('')));
 		}
 
 		if (!$blog->has_comments_activated){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
+			return CopixActionGroup::process ('genericTools|Messages::processgetError',
 			array ('message'=>CopixI18N::get ('blog.add.comment.closed'),
 			'back'=>CopixUrl::get ('', array('blog'=>_request('blog')))));
 		}
 
 		$id_bact = $this->getRequest('id_bact', null);
 		if (!BlogAuth::canComment($blog->id_blog)){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
+			return CopixActionGroup::process ('genericTools|Messages::processgetError',
 			array ('message'=>CopixI18N::get ('blog.error.cannotManageComment'),
 			'back'=>CopixUrl::get ('', array('blog'=>_request('blog')))));
 		}
@@ -409,7 +409,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			if ($comment->is_online == 1){
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog||showArticle', array('blog'=>urlencode($blog->url_blog), 'article'=>_request('article'))).'#comments');
                         } else {
-                        //print_r($blog);
+
 			return CopixActionGroup::process ('genericTools|Messages::processgetInfo',
 			array ('message'=>CopixI18N::get ('blog.comments.offline.info'),
 			'back'=>CopixUrl::get('blog|default|showArticle', array('blog'=>$blog->url_blog, 'article'=>$url_bact))));
