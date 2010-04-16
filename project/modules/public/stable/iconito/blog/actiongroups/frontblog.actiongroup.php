@@ -338,9 +338,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
     * Validation d'un commentaire.
     */
 	function doValidComment() {
-		
+
 		$url_bact = _request('url_bact');
-		
+				
 		//On verifit que le blog existe (on récupère le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
@@ -406,13 +406,13 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		
 		
 		if (!$showErrors) {
-			if ($comment->is_online == 1)
+			if ($comment->is_online == 1){
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog||showArticle', array('blog'=>urlencode($blog->url_blog), 'article'=>_request('article'))).'#comments');
-			else {
-	//		print_r($blog);
-				return CopixActionGroup::process ('genericTools|Messages::getInfo',
+                        } else {
+                        //print_r($blog);
+			return CopixActionGroup::process ('genericTools|Messages::processgetInfo',
 			array ('message'=>CopixI18N::get ('blog.comments.offline.info'),
-			'back'=>CopixUrl::get('blog||showArticle', array('blog'=>$blog->url_blog, 'article'=>$url_bact))));
+			'back'=>CopixUrl::get('blog|default|showArticle', array('blog'=>$blog->url_blog, 'article'=>$url_bact))));
 			}
 					
 		}
