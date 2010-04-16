@@ -77,7 +77,7 @@ function iconito_multimedia ($contents, $attr){
 			} elseif ($mode == 'mp3') {
 				$width = 200;
 				$height = 20;
-				$ret = '<div><object type="application/x-shockwave-flash" data="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf?son='.$file.'" width="'.$width.'" height="'.$height.'"> <param name="movie" value="dewplayer/dewplayer.swf?son='.$file.'" /></object></div>';
+				$ret = '<div><object type="application/x-shockwave-flash" data="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf?son='.$file.'" width="'.$width.'" height="'.$height.'"> <param name="movie" value="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf?son='.$file.'" /></object></div>';
 			} elseif ($mode == 'wmv') {
 				$id = "media-Player".md5(mt_rand());
 				$width = 480;
