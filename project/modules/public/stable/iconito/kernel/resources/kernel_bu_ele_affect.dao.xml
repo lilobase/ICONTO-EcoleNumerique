@@ -13,6 +13,7 @@
 		<property name="affect_annee_scol" fieldname="annee_scol" type="string"  table="kernel_bu_eleve_affectation" pk="no"/>
 		<property name="affect_classe"     fieldname="classe"     type="string"  table="kernel_bu_eleve_affectation" pk="no"/>
 		<property name="affect_niveau"     fieldname="niveau"     type="string"  table="kernel_bu_eleve_affectation" pk="no"/>
+		<property name="affect_current"    fieldname="current"    type="string"  table="kernel_bu_eleve_affectation" pk="no"/>
 	</properties>
 	<methods>
 		<method name="getByEleve" type="select">
@@ -21,6 +22,7 @@
 			</parameters>
 			<conditions>
 				<condition property="affect_eleve" operator="=" value="$eleve" />
+				<condition property="affect_current" operator="=" value="1" />
 			</conditions>
 		</method>
 		<method name="getByClasse" type="select">
@@ -29,6 +31,7 @@
 			</parameters>
 			<conditions>
 				<condition property="affect_classe" operator="=" value="$classe" />
+				<condition property="affect_current" operator="=" value="1" />
 			</conditions>
 		</method>
 	</methods>
