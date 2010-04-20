@@ -28,7 +28,7 @@
 {else}
     {i18n key="quiz.msg.response" noEscape=1} : <input type="text" name="response" id="response" />
 {/if}
-<div class="quiz-clear"></div>
-<a href="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$ppo->prev.id}"><button class="quiz-prev">{i18n key="quiz.msg.prev" noEscape=1}</button></a>
-<input type="submit" value="{i18n key="quiz.msg.next" noEscape=1}" class="quiz-next">
+<div class="quiz-clear"></div><input type="submit" value="{i18n key="quiz.msg.next" noEscape=1}" class="quiz-next">
 </form>
+<a class="quiz-prev" href="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$ppo->prev.id}">{i18n key="quiz.msg.prev" noEscape=1}</a>
+
