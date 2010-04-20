@@ -117,6 +117,9 @@
     margin-left: 15px;
     list-style: none;
 }
+.ISIE67 #quiz-response-list{
+    margin-left: 0px;
+}
 .quiz-comment{
     background-image: url('../img/datatable/comment.png');
     height: 16px;
@@ -141,6 +144,7 @@
     background-color: #993300;
     padding:0px;
     font-family:"Trebuchet MS",verdana,lucida,arial,helvetica,sans-serif;
+    cursor:  pointer;
 }
 .quiz-prev a{
     text-decoration: none;
@@ -150,12 +154,16 @@
     float: right;
     margin-right: 15px;
 }
+
 .quiz-prev{
     float: left;
     margin-left: 20px;
 }
 .quiz-prev:hover{
     color: white;
+}
+.ISIE67 .quiz-prev{
+    margin-top: -2px;
 }
 .quiz-clear{
     width: 100%;

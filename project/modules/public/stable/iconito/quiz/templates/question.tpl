@@ -1,5 +1,5 @@
 <h3>{i18n key="quiz.msg.questionCount" noEscape=1} {$ppo->question->order}</h3>
-
+<!--[if lte IE 7]><div class="ISIE67"><![endif]--> 
 {if $ppo->error}
     <p class="quiz-error">
     {$ppo->error}
@@ -31,4 +31,4 @@
 <div class="quiz-clear"></div><input type="submit" value="{i18n key="quiz.msg.next" noEscape=1}" class="quiz-next">
 </form>
 <a class="quiz-prev" href="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$ppo->prev.id}">{i18n key="quiz.msg.prev" noEscape=1}</a>
-
+<!--[if lte IE 7]></div><![endif]--> 
