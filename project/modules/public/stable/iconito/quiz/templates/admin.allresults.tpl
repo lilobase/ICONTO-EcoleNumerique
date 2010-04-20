@@ -75,7 +75,7 @@ jQuery(document).ready(function($){
 				{elseif $response == 'resp'}
 					{i18n key="quiz.msg.false" noEscape=1}
 				{elseif $response == 'no-resp'}
-					i18n key="quiz.msg.empty" noEscape=1}
+					{i18n key="quiz.msg.empty" noEscape=1}
 				{/if}
 				</div>
 			{/foreach}
