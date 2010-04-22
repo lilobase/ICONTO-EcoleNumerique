@@ -26,7 +26,7 @@ class ActionGroupQuiz extends CopixActionGroup {
 
     /* show answers */
     public function processQuiz(){
-                qSession('delete');
+
         $pId = CopixRequest::getInt('id', false);
         //init & secure quiz system !
         if(is_null(CopixSession::get('id')) || $pId != qSession('id')){
