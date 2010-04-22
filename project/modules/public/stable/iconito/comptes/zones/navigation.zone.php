@@ -13,6 +13,8 @@ class ZoneNavigation extends CopixZone {
 		$tree = Kernel::getTree();
 		
 		$tpl->assign('tree', $tree );
+		
+		// Kernel::MyDebug($tree);
 
         switch($this->getParam ('TYPE_')) {
             case 'BU_VILLE':

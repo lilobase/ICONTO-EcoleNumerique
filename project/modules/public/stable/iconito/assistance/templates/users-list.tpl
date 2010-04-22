@@ -25,12 +25,12 @@
 					<td>{$ecole->vil_nom|escape}</td>
 					
 					
-					<td width="1" style="white-space: nowrap;">
+					<td width="1" style="text-align: right; white-space: nowrap;">
 					
 						{if $animateur->can_connect}
-							{if $personnel->assistance}<a href="{copixurl dest="assistance||switch" login=$personnel->login}">Connexion</a>{else}<span style="text-decoration: line-through; color: #CCC;">Connexion</span>{/if}
+							{if $personnel->assistance}<a href="{copixurl dest="assistance||switch" login=$personnel->login}">Connexion</a>{else}<span style="visibility: hidden;">Connexion</span>{/if}
 						{/if}
-						{if $animateur->can_connect && $animateur->can_comptes} :: {/if}
+						{if $personnel->assistance && $animateur->can_connect && $animateur->can_comptes} :: {/if}
 						{if $animateur->can_comptes}
 							<a href="{copixurl dest="comptes||getUser" login=$personnel->login from="assistance"}">Mot de passe</a>
 						{/if}

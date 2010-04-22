@@ -79,7 +79,7 @@ class ActionGroupComptes extends CopixActionGroup {
 				// ROOT
                 if (_currentUser()->getExtra('type') == "USER_EXT") {
                     $petitpoucet[] = array( 'txt' => 'Root', 'url'=>CopixUrl::get ('comptes||getNode', array('type'=>'ROOT')) );
-                else
+                } else {
                     $petitpoucet[] = array( 'txt' => 'Root');
                 }
 				// BU_GRVILLE
