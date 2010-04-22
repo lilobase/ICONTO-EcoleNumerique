@@ -1,11 +1,12 @@
 <h3>{$ppo->name}</h3>
+<p id="quiz-author">{i18n key="quiz.msg.author" noEscape=1} {$ppo->surname} {$ppo->nameAuthor}</p>
 {if $ppo->description != null}
-    <h4 id="quiz-desc">{$ppo->description}</h4>
+    <div id="quiz-desc">{$ppo->description}</div>
 {/if}
 {if $ppo->pic != null}
     <img id="quiz-pic" scr="{$ppo->pic}">
 {/if}
-<p id="quiz-author">{i18n key="quiz.msg.author" noEscape=1} {$ppo->surname} {$ppo->nameAuthor}</p>
+
 {if $ppo->uResp}
     <p class="quiz-u-resp">
         {if $ppo->uEnd}
@@ -19,7 +20,7 @@
     {foreach from=$ppo->questions item=question}
         <li {if $question.userResp}class="quiz-user-resp"{/if}>
             <a href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$question.id'}">
-                {i18n key="quiz.msg.question" noEscape=1} : {$question.order} {if $question.userResp}<div class="quiz-comment"></div>{/if}
+                {i18n key="quiz.msg.question" noEscape=1} {$question.order} {if $question.userResp}<div class="quiz-comment"></div>{/if}
             </a>
         </li>
     {/foreach}

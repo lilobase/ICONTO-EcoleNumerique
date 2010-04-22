@@ -26,6 +26,7 @@ class ActionGroupQuiz extends CopixActionGroup {
 
     /* show answers */
     public function processQuiz(){
+                qSession('delete');
         $pId = CopixRequest::getInt('id', false);
         //init & secure quiz system !
         if(is_null(CopixSession::get('id')) || $pId != qSession('id')){
@@ -41,6 +42,9 @@ class ActionGroupQuiz extends CopixActionGroup {
                 'save' => $quizData->opt_save,
                 'show_result' => $quizData->opt_show_results,
             ));
+            $desc = ($quizData->description == null) ? null : $quizData->description;
+            qSession('help', $desc);
+
             if($quizData->lock == 1)
                 return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.lock'), 'back'=>CopixUrl::get('quiz||')));
 
@@ -122,7 +126,7 @@ class ActionGroupQuiz extends CopixActionGroup {
         //global data for quiz
         $ppo->name = $quizData->name;
         $ppo->quizId = $pId;
-        $ppo->description = ($quizData->description == null) ? null : $quizData->description;
+        $ppo->description = stripslashes($desc);
         $ppo->nameAuthor = $authorInfos['nom'];
         $ppo->surname = $authorInfos['prenom'];
         $ppo->img = $quizData->pic;
@@ -160,9 +164,9 @@ class ActionGroupQuiz extends CopixActionGroup {
         $pQId = CopixRequest::getInt('qId', false);
         
         //test params
-        if(!$pId || is_null(qSession('id')) || $pId != qSession('id') || !$pQId)
+        if(!$pId || qSession('id') == null || $pId != qSession('id') || !$pQId)
             return CopixActionGroup::process('quiz|quiz::Quiz', array ('id' => $pId, 'qId' => false));
-        
+
         //test if question exist :
         $questions = qSession('questions');
         $questionExist = false;
@@ -222,6 +226,11 @@ class ActionGroupQuiz extends CopixActionGroup {
             return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get('quiz.errors.noTrue'), 'back'=>CopixUrl::get('quiz||')));
         
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
+        CopixHTMLHeader::addCSSLink (_resource("styles/jquery.fancybox-1.3.1.css"));
+        CopixHtmlHeader::addJSLink('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
+        CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/help.js');
+        CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/jquery.fancybox-1.3.1.pack.js');
+        CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/jquery.easing-1.3.pack.js');
         $ppo = new CopixPPO();
         $ppo->error =  CopixRequest::get('error', false);
         $ppo->userResp = ($currentQ['userResp']) ? true : false;
@@ -231,7 +240,7 @@ class ActionGroupQuiz extends CopixActionGroup {
         $ppo->question = $questionsData;
         $ppo->type = ($questionsData->opt_type == 'choice') ? 'radio' : 'txt';
         $ppo->select = ($one == 1) ? 'radio' : 'checkbox';
-
+        $ppo->help = qSession('help');
         return _arPPO($ppo, 'question.tpl'); 
 
     }

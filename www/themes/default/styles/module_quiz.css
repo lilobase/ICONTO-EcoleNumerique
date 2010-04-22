@@ -11,9 +11,10 @@
    Syntax recommendation http://www.w3.org/TR/REC-CSS2/
 */
 
-#main_quiz h3, .quiz h3{
+.quiz h3{
     text-align: center;
     color: #222222;
+    margin-bottom: 1px;
 }
 .quiz-quiz{
     width: 290px;
@@ -22,18 +23,19 @@
     float: left;
     background-color: #E8F299;
 }
-.quiz-quiz h5{
-    margin-left: 25px;
-    margin-bottom: 5px;
+.quiz h2{
+    text-align: center;
+    font-size: 26px;
 }
-.quiz-quiz p{
-    margin-left: 15px;
-    height: 65px;
+.quiz-index-title{
+    font-size: 20px;
+    margin-bottom: 30px;
+    text-align: center;
 }
 .quiz-quiz a{
     display: block;
     float: right;
-    margin-right: 10px;
+    margin-right: 20px;
 }
 .quiz h4{
     text-align: center;
@@ -51,7 +53,7 @@
     text-align: center;
     width: 860px;
     margin-left: 20px;
-    border: solid 2px maroon;
+    border: solid 2px #1B6F25;
     line-height: 25px;
     background-color: white;
 }
@@ -73,7 +75,7 @@
 }
 #quiz-list li a {
     text-decoration: none;
-    color: maroon;
+    color: #1B6F25;
 }
 #quiz-list li a:hover{
     color: black;
@@ -94,7 +96,14 @@
     color: white;
     background-color: #993300;
 }
-
+#quiz-desc{
+    background-color: #E8F299;
+    padding: 15px;
+    margin-left: 20px;
+    width: 835px;
+    font-size: 12px;
+    line-height: 14px;
+}
 .quiz-response{
     margin-left: 20px;
     margin-right: 15px;
@@ -129,7 +138,14 @@
 #quiz-list .quiz-comment{
     float: right;
 }
-
+#quiz-go-home{
+    height: 32px;
+    width: 32px;
+    float: left;
+    margin-left: 20px;
+    background-image: url('../img/datatable/home.png');
+    margin-bottom: 10px;
+}
 .quiz-prev, .quiz-next{
     display: block;
     margin-top: 15px;
@@ -194,9 +210,18 @@
 	background-color: green;
 }
 .quiz-adm-resp{
-	background-color: maroon;
+	background-color: #1B6F25;
 }
 #quiz-adm{
  background-color: white;
  padding: 15px;
+}
+
+#quiz-help{
+    height: 32px;
+    width: 32px;
+    float: right;
+    margin-right: 20px;
+    background-image: url('../img/datatable/help.png');
+    margin-bottom: 10px;
 }
