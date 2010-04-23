@@ -1,3 +1,5 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
 <h2>Ajout d'un élève</h2>
 
 <div id="persons-in-charge" style="display:none">
@@ -39,8 +41,13 @@
     </div>
     
     <div class="field">
+      <label for="student_birthdate" class="form_libelle"> Date de naissance :</label>
+      <input class="form datepicker" type="text" name="student_birthdate" id="student_birthdate" value="{$ppo->student->date_nais}" />
+    </div>
+    
+    <div class="field">
       <label class="form_libelle"> Sexe :</label>
-      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->student->gender selected=$ppo->genderIds[0]}<br />
+      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->student->id_sexe}<br />
     </div>
 
     <div class="field">
@@ -52,12 +59,6 @@
       <label for="student_password" class="form_libelle"> Mot de passe :</label>
       <input class="form" type="text" name="student_password" id="student_password" value="{$ppo->password}" /> (<a href="#" id="student-generate-password">Générer</a>)
     </div>
-    
-    <div class="field">
-      <label for="student_birthdate" class="form_libelle"> Date de naissance :</label>
-      <input class="form" type="text" name="student_birthdate" id="student_birthdate" value="{$ppo->student->date_nais}" />
-    </div>
-    
     <div class="field">
       <label for="add-persons-in-charge" class="form_libelle"> Responsables :</label>
       <input class="form" type="checkbox" id="add-persons-in-charge" name="person_in_charge" {if $ppo->resp_on}checked="checked"{/if}/>
@@ -88,6 +89,12 @@
  	    
  	    jQuery('#persons-in-charge').hide();
  	  }
+ 	  
+ 	  jQuery('.datepicker').datepicker({
+    			showOn: 'button',
+    			buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.gif"}{literal}',
+    			buttonImageOnly: true
+    });
   });
   
   jQuery('#cancel').click(function() {

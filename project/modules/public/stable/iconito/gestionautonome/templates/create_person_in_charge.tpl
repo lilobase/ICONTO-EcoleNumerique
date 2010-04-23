@@ -62,7 +62,7 @@
     <div class="column-right">
       <div class="field">
         <label class="form_libelle"> Sexe :</label>
-        {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->student->gender selected=$ppo->genderIds[0]}
+        {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
       </div>
 
       <div class="field">

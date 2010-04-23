@@ -35,32 +35,43 @@ class ZonePersonsData extends CopixZone {
   		  $ppo->childs = Kernel::filterNodeList ($childs, 'USER_*');
   		  break;
   		case "BU_CLASSE":    	  
-    	  $ppo->childs = Kernel::getNodeChilds ($type, $id);
-				
-				$eleves = Kernel::filterNodeList ($ppo->childs, 'USER_ELE');
-				foreach ($eleves as $eleve) {
-				  
-					$parents = Kernel::getNodeChilds ($eleve['type'], $eleve['id']);
-					$parents = Kernel::filterNodeList ($parents, 'USER_RES');
-					foreach ($parents as $parent) {
-					  
-						$ppo->childs[] = $parent;
-					}
-				}
+    	  $childs = Kernel::getNodeChilds ($type, $id);
 
-				$ppo->childs = Kernel::filterNodeList ($ppo->childs, 'USER_*');
-    	  
+				$ppo->students = Kernel::filterNodeList ($childs, 'USER_ELE');
+				$ppo->persons = Kernel::filterNodeList ($childs, 'USER_ENS');
+				
+				// Dédoublonnage et tri
+      	$ppo->students = Kernel::sortNodeList ($ppo->students, 'comptes');
+      	$ppo->persons = Kernel::uniqNodeList ($ppo->persons);
     	  break;
 		}
 		
-		// Dédoublonnage et tri
-		$ppo->childs = Kernel::sortNodeList ($ppo->childs, 'comptes');
-		$ppo->childs = Kernel::uniqNodeList ($ppo->childs);
-		
-		// Ajoute le type d'utilisateur en toute lettres.
-		foreach ($ppo->childs AS $child_key=>$child_val) {
+		if (isset ($ppo->childs)) {
+		  
+		  // Dédoublonnage et tri
+  		$ppo->childs = Kernel::sortNodeList ($ppo->childs, 'comptes');
+  		$ppo->childs = Kernel::uniqNodeList ($ppo->childs);
+  		
+  		// Ajoute le type d'utilisateur en toute lettres.
+  		foreach ($ppo->childs AS $child_key=>$child_val) {
 
-		  $ppo->childs[$child_key]['type_nom'] = Kernel::Code2Name ($child_val['type']);
+  		  $ppo->childs[$child_key]['type_nom'] = Kernel::Code2Name ($child_val['type']);
+  		}
+		}
+
+		if (isset ($ppo->students)) {
+		  
+		  foreach ($ppo->students AS $child_key=>$child_val) {
+
+  		  $ppo->students[$child_key]['type_nom'] = Kernel::Code2Name ($child_val['type']);
+  		}
+		}
+		if (isset ($ppo->persons)) {
+		  
+		  foreach ($ppo->persons AS $child_key=>$child_val) {
+
+  		  $ppo->persons[$child_key]['type_nom'] = Kernel::Code2Name ($child_val['type']);
+  		}
 		}
 
     $toReturn = $this->_usePPO ($ppo, '_persons_data.tpl');

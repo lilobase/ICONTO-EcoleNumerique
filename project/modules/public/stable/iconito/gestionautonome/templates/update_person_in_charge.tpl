@@ -47,11 +47,6 @@
       <label for="prenom1" class="form_libelle"> Prénom :</label>
       <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->person->prenom1}" />
     </div>
-    
-    <div class="field">
-      <label for="date_nais" class="form_libelle"> Date de naissance :</label>
-      <input class="form" type="text" name="date_nais" id="date_nais" value="{$ppo->person->date_nais}" />
-    </div>
 
     <div class="field">
       <label for="id_par" class="form_libelle"> Relation avec l'élève :</label>

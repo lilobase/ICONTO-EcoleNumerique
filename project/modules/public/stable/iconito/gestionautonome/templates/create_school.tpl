@@ -1,3 +1,5 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
+
 <h2>Ajout d'une école</h2>
 
 <h3>Ecole</h3>

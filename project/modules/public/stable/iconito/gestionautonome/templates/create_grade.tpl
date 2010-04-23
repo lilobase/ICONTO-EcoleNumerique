@@ -25,7 +25,7 @@
     </div>
     <div class="field">
       <label for="dateFin" class="form_libelle"> Année courante :</label>
-      <input class="form" type="checkbox" name="current" id="current" value="{$ppo->grade->current}" />
+      <input class="form" type="checkbox" name="current" id="current" {if $ppo->grade->current} checked=checked{/if}" />
     </div>
 </form>
 
@@ -41,11 +41,14 @@
   jQuery.noConflict();
   
   jQuery(document).ready(function() {
+
+    jQuery('.datepicker').datepicker({
+    			showOn: 'button',
+    			buttonImage: 'images/calendar.gif',
+    			buttonImageOnly: true
+    });   
     
-    jQuery('.datepicker').datepicker();
     jQuery('.button').button();
-    
-    jQuery('.datepicker').datepicker("option", "dateFormat", 'yy-mm-dd');
   });
   
   jQuery('#cancel').click(function() {

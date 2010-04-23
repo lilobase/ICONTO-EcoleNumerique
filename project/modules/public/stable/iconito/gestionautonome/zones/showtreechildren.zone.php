@@ -29,7 +29,7 @@ class ZoneShowTreeChildren extends CopixZone {
 	  $ppo->targetType = $this->getParam ('targetType');
 
 	  $ppo->path = $this->getParam ('path');
-
+	  
 	  $toReturn = $this->_usePPO ($ppo, '_show_tree_children.tpl');
   }
 }

@@ -1,3 +1,5 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
 <h2>Ajout d'une ville</h2>
 
 <h3>Ville</h3>

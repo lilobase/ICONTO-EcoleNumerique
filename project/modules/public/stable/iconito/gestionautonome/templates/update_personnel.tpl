@@ -1,4 +1,6 @@
-<h2>Modification d'une personne</h2>
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
+<h2>Modification de {$ppo->personName}</h2>
 
 <h3>Personne</h3>
 
@@ -31,7 +33,12 @@
     
     <div class="field">
       <label for="date_nais" class="form_libelle"> Date de naissance :</label>
-      <input class="form" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->date_nais}" />
+      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->date_nais}" />
+    </div>
+    
+    <div class="field">
+      <label class="form_libelle"> Sexe :</label>
+      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->id_sexe}<br />
     </div>
     
     <div class="field">
@@ -61,7 +68,13 @@
   
   jQuery(document).ready(function(){
  	
- 	  jQuery('.button').button();
+ 	  jQuery('.button').button(); 
+ 	  
+ 	  jQuery('.datepicker').datepicker({
+    			showOn: 'button',
+    			buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.gif"}{literal}',
+    			buttonImageOnly: true
+    });
   });
   
   jQuery('#cancel').click(function() {

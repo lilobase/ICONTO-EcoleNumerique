@@ -1,3 +1,5 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
 <h2>Modification d'un élève</h2>
 
 <p>Ce formulaire vous permet de modifier l'élève et de gérer ses responsables (parents).</p>
@@ -33,6 +35,16 @@
     </div>
     
     <div class="field">
+      <label for="date_nais" class="form_libelle"> Date de naissance :</label>
+      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->student->date_nais}" />
+    </div> 
+    
+    <div class="field">
+      <label class="form_libelle"> Sexe :</label>
+      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->student->id_sexe}<br />
+    </div>
+    
+    <div class="field">
       <label for="login" class="form_libelle"> Login :</label>
       <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
     </div>  
@@ -60,6 +72,12 @@
   jQuery(document).ready(function(){
  	
  	  jQuery('.button').button();
+ 	  
+ 	  jQuery('.datepicker').datepicker({
+    			showOn: 'button',
+    			buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.gif"}{literal}',
+    			buttonImageOnly: true
+    });
   });
   
   jQuery('#cancel').click(function() {

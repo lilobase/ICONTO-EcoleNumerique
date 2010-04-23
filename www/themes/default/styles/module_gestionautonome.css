@@ -70,7 +70,8 @@ input[type=checkbox] {
   font-size:12px;
 }
 
-ul {
+#tree ul,
+ul.actions {
   list-style-type: none;
   padding-left: 20px;
 }
@@ -169,10 +170,6 @@ ul.actions li a.button {
   background-color:#E2ED8A;
   font-size:11px;
 }
-
-
-
-
 
 .column-left {
   float: left;

@@ -35,11 +35,6 @@
   
   jQuery.noConflict();
   
-  jQuery(document).ready(function(){
- 	
- 	  jQuery('.success').error();
-  });
-  
 //]]> 
 </script>
 {/literal}

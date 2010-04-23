@@ -43,7 +43,7 @@
 
 
 <ul class="actions">
-  <li><input class="button" type="button" value="OK" id="ok" /></li>
+  <li><input class="button" type="button" value="Retour" id="back" /></li>
 </ul>        
 
 {literal}
@@ -52,7 +52,12 @@
   
   jQuery.noConflict();
 
-  jQuery('#ok').click(function() {
+  jQuery(document).ready(function(){
+ 	
+ 	  jQuery('.button').button();
+  });
+  
+  jQuery('#back').click(function() {
     
     document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
   });
