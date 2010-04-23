@@ -41,8 +41,10 @@ class ZoneCreatePersonInCharge extends CopixZone {
       $ppo->genderNames[] = $gender->sexe;
       $ppo->genderIds[] = $gender->id_s;
     }
+    
+    $session = _sessionGet ('modules|gestionautonome|tmpAccount');
+		$ppo->personsInSession = $session[$ppo->nodeType.'-'.$ppo->nodeId];
 
-	  
     $toReturn = $this->_usePPO ($ppo, '_create_person_in_charge.tpl');
   }
 }

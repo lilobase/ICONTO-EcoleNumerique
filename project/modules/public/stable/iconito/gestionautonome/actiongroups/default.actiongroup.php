@@ -1587,6 +1587,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	  
+	  // Remise à zéro des sessions tmp
+	  _sessionSet ('modules|gestionautonome|tmpAccount', null);
     
     // Récupération des niveaux de la classe
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
@@ -2545,6 +2548,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 	  $ppo->account->login    = _request ('login', null);
 	  $ppo->account->password = _request ('password', null);
+	  
+	  $ppo->cpt = _request('cpt', null);
  
 	  // Récupération des relations    
 	  $parentLinkDAO = _ioDAO ('kernel_bu_lien_parental'); 
@@ -2568,6 +2573,21 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->genderNames[] = $gender->sexe;
       $ppo->genderIds[] = $gender->id_s;
     }
+    
+    $session = _sessionGet ('modules|gestionautonome|tmpAccount');
+		if (!$session || !is_array ($session)) {
+		  
+		  $session = array();
+		}
+		
+		if (!isset ($session[$ppo->nodeType.'-'.$ppo->nodeId])) {
+		  
+		  $ppo->personsInSession = null;
+		}
+		else {
+		  
+		  $ppo->personsInSession = $session[$ppo->nodeType.'-'.$ppo->nodeId];
+		}
     
 	  // Traitement des erreurs
     $ppo->errors = array ();
@@ -2602,18 +2622,7 @@ class ActionGroupDefault extends CopixActionGroup {
       return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
     }  
     
-    $type_user = 'USER_ELE';
-    
-    $node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
-		
-		$session = _sessionGet ('modules|gestionautonome|tmpAccount');
-		if (!$session || !is_array ($session)) {
-		  
-		  $session = array();
-		}
-		
-		$ppo->cpt = _request('cpt', null);
-		
+
 		$session[$ppo->nodeType.'-'.$ppo->nodeId][$ppo->cpt] = array(
 		  'nom'       => $ppo->person->nom,
 			'prenom'    => $ppo->person->prenom1,
@@ -2623,6 +2632,15 @@ class ActionGroupDefault extends CopixActionGroup {
 		);
 		
 		_sessionSet ('modules|gestionautonome|tmpAccount', $session);
+
+		$ppo->person  = null;
+		$ppo->account = null;
+		
+		$ppo->personsInSession = $session[$ppo->nodeType.'-'.$ppo->nodeId];
+		if (!$ppo->personsInSession || !is_array ($ppo->personsInSession)) {
+		  
+		  $ppo->personsInSession = array();
+		}
 		
 		if ($ppo->cpt) {
 
@@ -2632,9 +2650,6 @@ class ActionGroupDefault extends CopixActionGroup {
 
       $ppo->cpt = 1;
     }
-    
-		$ppo->person  = null;
-		$ppo->account = null;
 		
 		return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
 	}

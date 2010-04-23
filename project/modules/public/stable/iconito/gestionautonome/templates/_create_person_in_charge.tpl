@@ -1,5 +1,26 @@
 <p>Ne remplissez ce bloc que si vous souhaitez créer des comptes parents associés à cet élève.</p>
 
+{if not $ppo->personsInSession eq null}
+  <table class="liste">
+    <tr>
+      <th class="liste_th"></th>
+      <th class="liste_th">nom</th>
+      <th class="liste_th">prenom</th>
+      <th class="liste_th">login</th> 
+      <th class="liste_th">password</th> 
+    </tr>
+    {foreach from=$ppo->personsInSession key=k item=item}
+      <tr>
+        <td>{$k}</td>
+        <td>{$item.nom}</td>
+        <td>{$item.prenom}</td>
+        <td>{$item.login}</td>
+        <td>{$item.password}</td>
+      </tr>
+    {/foreach}
+  </table>                                  
+{/if}
+
 <h4>RESPONSABLE {$ppo->cpt}</h4>
 
 {if not $ppo->errors eq null}
@@ -40,7 +61,7 @@
     
     <div class="field">
       <label class="form_libelle"> Sexe :</label>
-      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->gender selected=$ppo->genderIds[0]}
+      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->gender}
     </div>
 
     <div class="field">
