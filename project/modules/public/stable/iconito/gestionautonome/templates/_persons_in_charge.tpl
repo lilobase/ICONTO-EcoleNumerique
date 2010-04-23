@@ -10,43 +10,59 @@
     </tr>
     {foreach from=$ppo->persons item=item}
       <tr>
-        <td></td>
+        <td>{$item->getLoginAccount()}</td>
         <td>{$item->res_nom}</td>
         <td>{$item->res_prenom1}</td>
         <td>
-          Modifier -
-          <a href="#" onclick="removePerson({$item->res_numero}, {$ppo->studentId})";>Retirer</a> -
-          Supprimer
+          <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixresource path="img/edit_16x16.gif"}" /></a> -
+          <a href="#" onclick="return confirm('Etes-vous sur de vouloir retirer cette affectation ?');removePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="img/tools/trash.png"}" /></a> -
+          <a href="#" onclick="return confirm('Etes-vous sur de vouloir supprimer ce responsable ?');deletePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="img/delete_16x16.gif"}" /></a>
         </td>
       </tr>
     {/foreach}
   </table>
 {/if}
 
-<a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}">Ajouter un responsable</a>
+<ul class="actions">
+  <li><a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button">Ajouter un responsable</a></li>
+</ul>
 
 {literal}
 <script type="text/javascript">
 //<![CDATA[
   
+  jQuery(document).ready(function(){
+ 	
+ 	  jQuery('.button').button();
+  });
+  
   function removePerson(idPerson, idStudent) {
          
-    $.ajax({
+    jQuery.ajax({
       url: {/literal}'{copixurl dest=gestionautonome|default|removePersonInCharge}'{literal},
       global: true,
       type: "GET",
       data: ({personId: idPerson, studentId: idStudent}),
       success: function(html){
-        $('#persons-in-charge').empty();
-        $("#persons-in-charge").append(html);
+        jQuery('#persons-in-charge').empty();
+        jQuery("#persons-in-charge").append(html);
       }
     }).responseText;
   }
   
-  $('#remove').click(function() {
-    
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
-  });
+  function deletePerson(idPerson, idStudent) {
+         
+    jQuery.ajax({
+      url: {/literal}'{copixurl dest=gestionautonome|default|deletePersonInCharge}'{literal},
+      global: true,
+      type: "GET",
+      data: ({personId: idPerson, studentId: idStudent}),
+      success: function(html){
+        jQuery('#persons-in-charge').empty();
+        jQuery("#persons-in-charge").append(html);
+      }
+    }).responseText;
+  }
 //]]> 
 </script>
 {/literal}

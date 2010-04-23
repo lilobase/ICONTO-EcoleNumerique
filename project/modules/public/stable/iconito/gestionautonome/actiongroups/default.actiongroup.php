@@ -16,7 +16,10 @@ class ActionGroupDefault extends CopixActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-		
+		                   
+    CopixHTMLHeader::addJSLink (_resource ('js/jquery-1.4.2.min.js'));
+    CopixHTMLHeader::addJSLink (_resource ('js/jquery-ui-1.8.custom.min.js'));
+    CopixHTMLHeader::addCSSLink (_resource ('jquery-ui-theme/jquery-ui-1.8.custom.css'));  
 		CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
 	}
 	
@@ -134,15 +137,14 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
-		_classInclude ('kernel|Tools');
-    $cityName = _request ('nom', null);
+    $cityName  = _request ('nom', null);
         
-    $cityDAO = _ioDAO ('kernel_bu_ville');
+    $cityDAO   = _ioDAO ('kernel|kernel_bu_ville');
         
-    $ppo->city = _record ('kernel_bu_ville');
-    
-    $ppo->city->nom           = Tools::capitalizeFirst (trim ($cityName));
-    $ppo->city->canon         = strtolower (trim ($cityName));
+    $ppo->city = _record ('kernel|kernel_bu_ville');
+
+    $ppo->city->nom           = trim ($cityName);
+    $ppo->city->canon         = Kernel::createCanon ($cityName);
     $ppo->city->id_grville    = $ppo->parentId;
     $ppo->city->date_creation = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
     
@@ -228,12 +230,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-
-    _classInclude ('kernel|Tools');
       
     $cityName = _request ('name', null);
     
-    $ppo->city->nom   = Tools::capitalizeFirst (trim ($cityName));
+    $ppo->city->nom   = trim ($cityName);
     $ppo->city->canon = strtolower (trim ($cityName));
 
     // Traitement des erreurs
@@ -368,68 +368,21 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-	  
-		_classInclude ('kernel|Tools');
-		
+
     $schoolDAO = _ioDAO ('kernel_bu_ecole');
         
     $ppo->school = _record ('kernel_bu_ecole');
     
-    $ppo->school->RNE                 = _request ('RNE', null);
-    $ppo->school->code_ecole_vaccination = '';
-    $ppo->school->type                = _request ('type', null);
-    $ppo->school->nom                 = Tools::capitalizeFirst (trim (_request ('nom', null)));
-    $ppo->school->num_rue             = _request ('num_rue', null);
-    $ppo->school->adresse1            = _request ('adresse1', null);
-    
-    if (is_null ($ppo->school->adresse2 = _request ('adresse2', null))) {
-      
-      $ppo->school->adresse2 = '';
-    }
-    else {
-      
-      $ppo->school->adresse2 = _request ('adresse2', null);
-    }
-    
-    $ppo->school->code_postal         = _request ('code_postal', null);
-    $ppo->school->commune             = _request ('commune', null);
-    $ppo->school->tel                 = _request ('tel', null);
-    $ppo->school->web                 = _request ('web', null);
-    $ppo->school->mail                = _request ('mail', null);
-    $ppo->school->numordre            = 0;
-    $ppo->school->num_plan_interactif = 0;
-    $ppo->school->id_ville            = $ppo->parentId;
+    $ppo->school->type      = _request ('type', null);
+    $ppo->school->nom       = trim (_request ('nom', null));
+    $ppo->school->id_ville  = $ppo->parentId;
 
     // Traitement des erreurs
     $ppo->errors = array ();
     
-    if (!$ppo->school->RNE) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeRNE');
-    }
     if (!$ppo->school->nom) {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
-    }
-    if (!$ppo->school->num_rue) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
-    }
-    if (!$ppo->school->adresse1) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
-    }
-    if (!$ppo->school->code_postal) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
-    }
-    if (!$ppo->school->commune) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
-    }
-    if (!$ppo->school->tel) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePhone');
     }
     
     if (!empty ($ppo->errors)) {
@@ -518,62 +471,17 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-	  
-	  _classInclude ('kernel|Tools');
-                         
-    $ppo->school->RNE          = _request ('RNE', null);
-    $ppo->school->code_ecole_vaccination = '';
-    $ppo->school->type         = _request ('type', null);
-    $ppo->school->nom          = Tools::capitalizeFirst (trim (_request ('nom', null)));
-    $ppo->school->num_rue      = _request ('num_rue', null);
-    $ppo->school->adresse1     = _request ('adresse1', null);
-    if (is_null ($ppo->school->adresse2 = _request ('adresse2', null))) {
-      
-      $ppo->school->adresse2 = '';
-    }
-    else {
-      
-      $ppo->school->adresse2 = _request ('adresse2', null);
-    }
-    $ppo->school->code_postal  = _request ('code_postal', null);
-    $ppo->school->commune      = _request ('commune', null);
-    $ppo->school->tel          = _request ('tel', null);
-    $ppo->school->web          = _request ('web', null);
-    $ppo->school->mail         = _request ('mail', null);
-    $ppo->school->numordre            = 0;
-    $ppo->school->num_plan_interactif = 0;
-    $ppo->school->id_ville     = _request ('ville', null);
+ 
+    $ppo->school->type      = _request ('type', null);
+    $ppo->school->nom       = trim (_request ('nom', null));
+    $ppo->school->id_ville  = _request ('ville', null);
 		
     // Traitement des erreurs
     $ppo->errors = array ();
     
-    if (!$ppo->school->RNE) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeRNE');
-    }
     if (!$ppo->school->nom) {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
-    }
-    if (!$ppo->school->num_rue) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
-    }
-    if (!$ppo->school->adresse1) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
-    }
-    if (!$ppo->school->code_postal) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
-    }
-    if (!$ppo->school->commune) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
-    }
-    if (!$ppo->school->tel) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePhone');
     }
     
     if (!empty ($ppo->errors)) {
@@ -682,8 +590,8 @@ class ActionGroupDefault extends CopixActionGroup {
     }
     
     // Récupération des types de classe
-    $classTypeDAO   = _ioDAO ('kernel_bu_classe_type');
-    $types     = $classTypeDAO->findAll ();
+    $classTypeDAO = _ioDAO ('kernel_bu_classe_type');
+    $types        = $classTypeDAO->findAll ();
     
     $ppo->typeNames = array ();
     $ppo->typeIds   = array ();
@@ -721,8 +629,6 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 
-		_classInclude ('kernel|Tools');
-		
     $schoolClassDAO       = _ioDAO ('kernel_bu_ecole_classe');
     $schoolClassLevelDAO  = _ioDAO ('kernel_bu_ecole_classe_niveau');
     
@@ -733,7 +639,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->class = _record ('kernel_bu_ecole_classe');
 
     $ppo->class->ecole        = $ppo->parentId;
-    $ppo->class->nom          = Tools::capitalizeFirst (trim (_request ('nom', null)));
+    $ppo->class->nom          = trim (_request ('nom', null));
     $ppo->class->annee_scol   = Kernel::getAnneeScolaireCourante ()->id_as;
     $ppo->class->is_validee   = 1;
     $ppo->class->is_supprimee = 0;
@@ -895,11 +801,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-	  
-	  _classInclude ('kernel|Tools');
-                         
+
     $ppo->class->ecole  = _request ('ecole', null);
-    $ppo->class->nom    = Tools::capitalizeFirst (trim (_request ('nom', null)));
+    $ppo->class->nom    = trim (_request ('nom', null));
 
     // Affectations classe-niveau
     $schoolClassLevel = _record ('kernel|kernel_bu_ecole_classe_niveau');
@@ -1028,6 +932,8 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $classLevelDAO->delete ($classLevel->classe, $classLevel->niveau);
     }
+    
+    // TODO : Suppression des affectations élève
 	  
 	  // Suppression de la classe
 	  $classDAO->delete ($class->id);
@@ -1050,36 +956,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-		
-		// Récupération des villes
-		$cityDAO = _ioDAO ('kernel_bu_ville');
-	  $cities = $cityDAO->findAll ();
-	  
-	  $ppo->cityNames = array ();
-	  $ppo->cityIds   = array ();
-	  
-	  foreach ($cities as $city) {
-
-      $ppo->cityNames[] = $city->nom;
-      $ppo->cityIds[]   = $city->id_vi;
-    }
-
-	  // Récupération des pays
-		$countryDAO = _ioDAO ('kernel_bu_pays');
-	  $countries = $countryDAO->findAll ();
-	  
-	  $ppo->countryNames = array ();
-	  $ppo->countryIds   = array ();
-	  
-	  foreach ($countries as $country) {
-
-      $ppo->countryNames[] = $country->pays;
-      $ppo->countryIds[]   = $country->id;
-    }
-    
-    // Civilités
-    $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
-	  
+			  
 	  // Récupération du type de compte é créer
 	  $ppo->role = _request ('role', null);
 
@@ -1105,41 +982,21 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		_classInclude ('kernel|Tools');
 		
+		// DAO
     $personnelDAO       = _ioDAO ('kernel_bu_personnel');
-    $personnelEntiteDAO = _ioDAO ('kernel_bu_personnel_entite');    
+    $personnelEntiteDAO = _ioDAO ('kernel_bu_personnel_entite');
+    $dbUserDAO          = _ioDAO ('kernel|kernel_copixuser');
+    $dbLinkDAO          = _ioDAO ('kernel|kernel_bu2user2');    
         
-    // Création de la personne
+    // Enregistrement kernel_bu_personnel
     $ppo->personnel = _record ('kernel_bu_personnel');
-                            
-    $ppo->personnel->nom         = Tools::capitalizeFirst (trim (_request ('nom', null)));
-    $ppo->personnel->nom_jf      = Tools::capitalizeFirst (trim (_request ('nom_jf', null)));
-    $ppo->personnel->prenom1     = Tools::capitalizeFirst (trim (_request ('prenom1', null)));
-    $ppo->personnel->civilite    = _request ('civilite', null);
+                                   
+    $ppo->personnel->nom         = trim (_request ('nom', null));
+    $ppo->personnel->prenom1     = trim (_request ('prenom1', null));    
+    $ppo->personnel->date_nais   = _request ('date_nais', null);
     
-    if ($ppo->personnel->civilite == 'Monsieur') {
-      
-      $ppo->personnel->id_sexe = 1;
-    }
-    else {
-      
-      $ppo->personnel->id_sexe = 2;
-    }
-    
-    $ppo->personnel->date_nais    = _request ('date_nais', null);
-    $ppo->personnel->cle_privee   = _request ('cle_privee', null);
-    $ppo->personnel->profession   = _request ('profession', null);
-    $ppo->personnel->tel_dom      = _request ('tel_dom', null);
-    $ppo->personnel->tel_gsm      = _request ('tel_gsm', null);
-    $ppo->personnel->tel_pro      = _request ('tel_pro', null);
-    $ppo->personnel->mel          = _request ('mel', null);
-    $ppo->personnel->mel_pro      = _request ('mel_pro', null);
-    $ppo->personnel->num_rue      = _request ('num_rue', null);
-    $ppo->personnel->adresse1     = _request ('adresse1', null);
-    $ppo->personnel->adresse2     = _request ('adresse2', null);
-    $ppo->personnel->code_postal  = _request ('code_postal', null);
-    $ppo->personnel->commune      = _request ('commune', null);
-    $ppo->personnel->id_ville     = _request ('ville', null);
-    $ppo->personnel->pays         = _request ('pays', null);
+    $ppo->login                  = _request ('login', null);
+    $ppo->password               = _request ('password', null);
     
     // Traitement des erreurs
     $ppo->errors = array ();
@@ -1152,87 +1009,161 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
     }
-    if (!$ppo->personnel->cle_privee) {
+    if (!$ppo->login) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePrivateKey');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
     }
-    if (!$ppo->personnel->num_rue) {
+    if (!$ppo->password) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
     }
-    if (!$ppo->personnel->adresse1) {
+    elseif (!Kernel::checkPasswordFormat ($ppo->password)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
     }
-    if (!$ppo->personnel->code_postal) {
+    if (!Kernel::isLoginAvailable ($ppo->login)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
     }
-    if (!$ppo->personnel->commune) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
-    }
-    
+   
     if (!empty ($ppo->errors)) {
-      
-      // Récupération des villes
-  		$cityDAO = _ioDAO ('kernel_bu_ville');
-  	  $cities = $cityDAO->findAll ();
-  	  
-  	  $ppo->cityNames = array ();
-  	  $ppo->cityIds   = array ();
-  	  
-  	  foreach ($cities as $city) {
-
-        $ppo->cityNames[] = $city->nom;
-        $ppo->cityIds[]   = $city->id_vi;
-      }
-
-  	  // Récupération des pays
-  		$countryDAO = _ioDAO ('kernel_bu_pays');
-  	  $countries = $countryDAO->findAll ();
-  	  
-  	  $ppo->countryNames = array ();
-  	  $ppo->countryIds   = array ();
-  	  
-  	  foreach ($countries as $country) {
-
-        $ppo->countryNames[] = $country->pays;
-        $ppo->countryIds[]   = $country->id;
-      }
-      
-      // Civilités
-      $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
   	   
       return _arPPO ($ppo, 'create_personnel.tpl');
     }
     
     $personnelDAO->insert ($ppo->personnel);
+                                 
+    switch ($ppo->nodeType) {
+			case 'BU_GRVILLE' :
+        $type_ref  = 'GVILLE';
+        $type_user = 'USER_VIL';
+				break;
+		  case 'BU_VILLE' :
+        $type_ref  = 'VILLE';
+        $type_user = 'USER_VIL';
+  			break;
+  		case 'BU_ECOLE' :
+        $type_ref  = 'ECOLE';
+        if ($ppo->role == '3') {
+          $type_user = 'USER_ADM';
+        }                         
+        else {
+          $type_user = 'USER_ENS';
+        }
+    		break;		
+    	case 'BU_CLASSE' :
+        $type_ref  = 'CLASSE';
+        $type_user = 'USER_ENS';
+      	break;
+		}
+		
+    // Enregistrement dbuser
+    $dbuser = _record ('kernel|kernel_copixuser');
+
+    $dbuser->login_dbuser    = $ppo->login;
+    $dbuser->password_dbuser = md5 ($ppo->password);
+    $dbuser->email_dbuser    = '';
+    $dbuser->enabled_dbuser  = 1;
     
-    // Création de l'association personne->rôle
+    $dbUserDAO->insert ($dbuser);
+    
+    // Enregistrement kernel_link_bu2user
+    $dbLink = _record ('kernel|kernel_bu2user2');
+
+    $dbLink->user_id = $dbuser->id_dbuser;
+    $dbLink->bu_type = $type_user;
+    $dbLink->bu_id   = $ppo->personnel->numero;
+    
+    $dbLinkDAO->insert ($dbLink);                                    
+    
+    // Enregistrement kernel_bu_personnel_entite
     $newPersonnelEntite = _record ('kernel_bu_personnel_entite');
     
 		$newPersonnelEntite->id_per    = $ppo->personnel->numero; 
 		$newPersonnelEntite->reference = $ppo->nodeId;
-		switch ($ppo->nodeType) {
-			case 'BU_GRVILLE' :
-        $newPersonnelEntite->type_ref  = 'GVILLE';
-				break;
-		  case 'BU_VILLE' :
-        $newPersonnelEntite->type_ref  = 'VILLE';
-  			break;
-  		case 'BU_ECOLE' :
-        $newPersonnelEntite->type_ref  = 'ECOLE';
-    		break;		
-    	case 'BU_CLASSE' :
-        $newPersonnelEntite->type_ref  = 'CLASSE';
-      	break;
-		}
-		$newPersonnelEntite->role = $ppo->role;
+		$newPersonnelEntite->type_ref  = $type_ref;
+		$newPersonnelEntite->role      = $ppo->role;
 		
 		$personnelEntiteDAO->insert ($newPersonnelEntite);
 		
-		return _arPPO ($ppo, array ('template' => 'create_success.tpl', 'mainTemplate' => null));
+		// Si création d'un enseignant dans une classe, affectation également dans l'école (pot commun)
+		if ($ppo->nodeType == 'BU_CLASSE') {
+		  
+		  $newPersonnelEntite2 = _record ('kernel_bu_personnel_entite');
+		  $newPersonnelEntite2->id_per    = $ppo->personnel->numero;
+		  $newPersonnelEntite2->reference = $ppo->nodeId;
+		  $newPersonnelEntite2->type_ref  = 'ECOLE';
+		  $newPersonnelEntite2->role = $ppo->role;
+		  
+		  $personnelEntiteDAO->insert ($newPersonnelEntite2);
+		}
+		
+		$session = _sessionGet ('modules|gestionautonome|createAccount');
+		if (!$session || !is_array ($session)) {
+		  
+		  $session = array();
+		}
+		
+		$node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
+		
+		$session[$type_user.'-'.$ppo->personnel->numero][0] = array(
+		  'nom'       => $ppo->personnel->nom,
+			'prenom'    => $ppo->personnel->prenom1,
+			'login'     => $ppo->login,
+			'password'  => $ppo->password,
+			'bu_type'   => $type_user,
+			'bu_id'     => $ppo->personnel->numero,
+			'type_nom'  => Kernel::Code2Name($type_user),
+			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
+		);
+		
+		_sessionSet ('modules|gestionautonome|createAccount', $session);
+		
+		$sessionId = $type_user.'-'.$ppo->personnel->numero;
+
+		$urlReturn = CopixUrl::get ('gestionautonome||showAccountListing', array ('sessionId' => $sessionId, 'nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType));
+		
+		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
+	}
+	
+	public function processShowAccountListing () {
+	                                                                        
+	  $ppo = new CopixPPO (); 
+	  
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId   = _request ('nodeId', null);
+	  $ppo->nodeType = _request ('nodeType', null);
+	  
+	  // Récupération des informations des comptes créés
+	  $session = _sessionGet ('modules|gestionautonome|createAccount');
+	  $ppo->sessionId = _request ('sessionId', null);
+	  $ppo->sessionDatas = $session[$ppo->sessionId]; 
+
+	  if( !_request ('format') || trim (_request ('format')) == '' ) {
+	    
+			$format = "default";
+		} else {
+		  
+			$format = _request('format');
+		} 
+		
+		$tplResult = & new CopixTpl ();
+		$tplResult->assign ('sessionDatas', $ppo->sessionDatas);
+		
+	  switch ($format) {
+			case 'default':
+				return _arPPO ($ppo, 'account_listing.tpl');
+			case 'html':
+			  $result = $tplResult->fetch ('account_listing_html.tpl');
+			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
+			  break;
+			case 'csv':
+			  $result = $tplResult->fetch ('account_listing_csv.tpl');
+			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.csv', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.csv')));
+			  break;
+		}
 	}
 	
 	public function processUpdatePersonnel () {
@@ -1245,46 +1176,22 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId   = _request ('nodeId', null);
 	  $ppo->nodeType = _request ('nodeType', null);
 	  $personnelId   = _request ('personnelId', null);
+	  $ppo->type     = _request ('type', null);
 	  
 	  $personnelDAO  = _ioDAO ('kernel_bu_personnel');
+	  $dbuserDAO     = _ioDAO ('kernel|kernel_copixuser');
 	  
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || !$ppo->personnel = $personnelDAO->get ($personnelId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-		
-		// Récupération des villes
-		$cityDAO = _ioDAO ('kernel_bu_ville');
-	  $cities = $cityDAO->findAll ();
-	  
-	  $ppo->cityNames = array ();
-	  $ppo->cityIds   = array ();
-	  
-	  foreach ($cities as $city) {
 
-      $ppo->cityNames[] = $city->nom;
-      $ppo->cityIds[]   = $city->id_vi;
-    }
-
-	  // Récupération des pays
-		$countryDAO = _ioDAO ('kernel_bu_pays');
-	  $countries = $countryDAO->findAll ();
-	  
-	  $ppo->countryNames = array ();
-	  $ppo->countryIds   = array ();
-	  
-	  foreach ($countries as $country) {
-
-      $ppo->countryNames[] = $country->pays;
-      $ppo->countryIds[]   = $country->id;
-    }
-    
-    // Civilités
-    $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
-	  
 	  // Récupération du type de compte é créer
 	  $ppo->role = _request ('role', null);
+	                                                                               
+	  // Récupération du compte dbuser
+	  $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($personnelId, $ppo->type);
 
 		return _arPPO ($ppo, 'update_personnel.tpl');
 	}
@@ -1299,47 +1206,23 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId   = _request ('id_node', null);
 	  $ppo->nodeType = _request ('type_node', null);
 	  $personnelId   = _request ('id_personnel', null);
+	  $ppo->type     = _request ('type', null);
 	  
-	  $personnelDAO       = _ioDAO ('kernel_bu_personnel');
+	  $personnelDAO  = _ioDAO ('kernel_bu_personnel');
+	  $dbuserDAO     = _ioDAO ('kernel|kernel_copixuser');
 	  
 	  if (!$ppo->personnel = $personnelDAO->get ($personnelId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }
+	  }     
 
-		_classInclude ('kernel|Tools');
-         
-    $ppo->personnel->nom         = Tools::capitalizeFirst (trim (_request ('nom', null)));
-    $ppo->personnel->nom_jf      = Tools::capitalizeFirst (trim (_request ('nom_jf', null)));
-    $ppo->personnel->prenom1     = Tools::capitalizeFirst (trim (_request ('prenom1', null)));
-    $ppo->personnel->civilite    = _request ('civilite', null);
+    $ppo->personnel->nom         = trim (_request ('nom', null));
+    $ppo->personnel->prenom1     = trim (_request ('prenom1', null));
+    $ppo->personnel->date_nais   = _request ('date_nais', null); 
     
-    if ($ppo->personnel->civilite == 'Monsieur') {
-      
-      $ppo->personnel->id_sexe = 1;
-    }
-    else {
-      
-      $ppo->personnel->id_sexe = 2;
-    }
-    
-    $ppo->personnel->date_nais    = _request ('date_nais', null);
-    $ppo->personnel->cle_privee   = _request ('cle_privee', null);
-    $ppo->personnel->profession   = _request ('profession', null);
-    $ppo->personnel->tel_dom      = _request ('tel_dom', null);
-    $ppo->personnel->tel_gsm      = _request ('tel_gsm', null);
-    $ppo->personnel->tel_pro      = _request ('tel_pro', null);
-    $ppo->personnel->mel          = _request ('mel', null);
-    $ppo->personnel->mel_pro      = _request ('mel_pro', null);
-    $ppo->personnel->num_rue      = _request ('num_rue', null);
-    $ppo->personnel->adresse1     = _request ('adresse1', null);
-    $ppo->personnel->adresse2     = _request ('adresse2', null);
-    $ppo->personnel->code_postal  = _request ('code_postal', null);
-    $ppo->personnel->commune      = _request ('commune', null);
-    $ppo->personnel->id_ville     = _request ('ville', null);
-    $ppo->personnel->pays         = _request ('pays', null);
-    
+    $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($personnelId, $ppo->type);
+   
     // Traitement des erreurs
     $ppo->errors = array ();
     
@@ -1351,63 +1234,21 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
     }
-    if (!$ppo->personnel->cle_privee) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePrivateKey');
-    }
-    if (!$ppo->personnel->num_rue) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
-    }
-    if (!$ppo->personnel->adresse1) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
-    }
-    if (!$ppo->personnel->code_postal) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
-    }
-    if (!$ppo->personnel->commune) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
-    }
-    
+
     if (!empty ($ppo->errors)) {
-      
-      // Récupération des villes
-  		$cityDAO = _ioDAO ('kernel_bu_ville');
-  	  $cities = $cityDAO->findAll ();
-  	  
-  	  $ppo->cityNames = array ();
-  	  $ppo->cityIds   = array ();
-  	  
-  	  foreach ($cities as $city) {
 
-        $ppo->cityNames[] = $city->nom;
-        $ppo->cityIds[]   = $city->id_vi;
-      }
-
-  	  // Récupération des pays
-  		$countryDAO = _ioDAO ('kernel_bu_pays');
-  	  $countries = $countryDAO->findAll ();
-  	  
-  	  $ppo->countryNames = array ();
-  	  $ppo->countryIds   = array ();
-  	  
-  	  foreach ($countries as $country) {
-
-        $ppo->countryNames[] = $country->pays;
-        $ppo->countryIds[]   = $country->id;
-      }
-      
-      // Civilités
-      $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
-  	   
       return _arPPO ($ppo, 'update_personnel.tpl');
     }
     
     $personnelDAO->update ($ppo->personnel);
-		
+        
+    $newPassword = _request ('password', null);
+    if ($ppo->account->password_dbuser != md5 ($newPassword)) {
+      
+      $ppo->account->password_dbuser = md5 ($newPassword);
+      $dbuserDAO->update ($ppo->account);
+    }
+
 		return _arPPO ($ppo, 'update_success.tpl');
 	}
 	
@@ -1437,38 +1278,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
+	  
 	  // Récupération des paramètres
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-	  
-	  // Récupération des villes
-		$cityDAO = _ioDAO ('kernel_bu_ville');
-	  $cities  = $cityDAO->findAll ();
-	  
-	  $ppo->cityNames = array ();
-	  $ppo->cityIds   = array ();
-	  
-	  foreach ($cities as $city) {
-
-      $ppo->cityNames[] = $city->nom;
-      $ppo->cityIds[]   = $city->id_vi;
-    }
-
-	  // Récupération des pays
-		$countryDAO = _ioDAO ('kernel_bu_pays');
-	  $countries = $countryDAO->findAll ();
-	  
-	  $ppo->countryNames = array ();
-	  $ppo->countryIds   = array ();
-	  
-	  foreach ($countries as $country) {
-
-      $ppo->countryNames[] = $country->pays;
-      $ppo->countryIds[]   = $country->id;
-    }
     
     // Récupération des niveaux de la classe
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
@@ -1486,8 +1302,10 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->levelIds[]   = $level->id_n;
     }
     
-    // Civilités
-    $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
+    $ppo->genderNames = array ('Garçon', 'Fille');
+    $ppo->genderIds = array ('0', '1');
+    
+    $ppo->cpt = 1;
 	  
 		return _arPPO ($ppo, 'create_student.tpl');
 	}
@@ -1496,7 +1314,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO (); 
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";    
 	  
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('id_parent', null);
@@ -1511,33 +1329,34 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		_classInclude ('kernel|Tools');
 		
-    $studentDAO       = _ioDAO ('kernel_bu_eleve');
-    $studentClassDAO  = _ioDAO ('kernel_bu_eleve_affectation');    
+    $studentDAO              = _ioDAO ('kernel_bu_eleve');
+    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_ele_inscr');
+    $studentAdmissionDAO     = _ioDAO ('kernel_bu_eleve_admission');
+    $studentAssignmentDAO    = _ioDAO ('kernel_bu_eleve_affectation');
+    $dbuserDAO               = _ioDAO ('kernel|kernel_copixuser'); 
+    $dbLinkDAO               = _ioDAO ('kernel_link_bu2user');    
         
     // Création de l'élève
     $ppo->student = _record ('kernel_bu_eleve');
                             
     $ppo->student->numero       = '';                        
-    $ppo->student->nom          = Tools::capitalizeFirst (trim (_request ('nom', null)));
-    $ppo->student->prenom1      = Tools::capitalizeFirst (trim (_request ('prenom1', null)));
-    $ppo->student->civilite     = _request ('civilite', null);
-    if ($ppo->student->civilite == 'Monsieur') {
+    $ppo->student->nom          = trim (_request ('student_lastname', null));
+    $ppo->student->prenom1      = trim (_request ('student_firstname', null));
+    $ppo->student->flag         = 0;
+    
+    $ppo->login                 = _request ('student_login', null);
+    $ppo->password              = _request ('student_password', null); 
+    
+    $ppo->resp_on               = _request ('person_in_charge', null);
+    
+    if ($cpt = _request('cpt', null)) {
       
-      $ppo->student->id_sexe = 1;
-    }
+      $ppo->cpt = $cpt++;
+    }                                
     else {
       
-      $ppo->student->id_sexe = 2;
+      $ppo->cpt = 1;
     }
-    $ppo->student->num_rue            = _request ('num_rue', null);
-    $ppo->student->adresse1           = _request ('adresse1', null);
-    $ppo->student->code_postal        = _request ('code_postal', null);
-    $ppo->student->commune            = _request ('commune', null);
-    $ppo->student->id_ville           = _request ('ville', null);
-    $ppo->student->pays               = _request ('pays', null);
-    $ppo->student->hors_scol          = _request ('hors_scol', null);
-    $ppo->student->ele_last_update    = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
-    $ppo->student->flag               = 0;
     
     // Traitement des erreurs
     $ppo->errors = array ();
@@ -1550,50 +1369,24 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
     }
-    if (!$ppo->student->num_rue) {
+    if (!$ppo->login) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
     }
-    if (!$ppo->student->adresse1) {
+    elseif (!Kernel::isLoginAvailable ($ppo->login)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
     }
-    if (!$ppo->student->code_postal) {
+    if (!$ppo->password) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
     }
-    if (!$ppo->student->commune) {
+    elseif (!Kernel::checkPasswordFormat ($ppo->password)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
     }
     
     if (!empty ($ppo->errors)) {
-      
-      // Récupération des villes
-  		$cityDAO = _ioDAO ('kernel_bu_ville');
-  	  $cities = $cityDAO->findAll ();
-  	  
-  	  $ppo->cityNames = array ();
-  	  $ppo->cityIds   = array ();
-  	  
-  	  foreach ($cities as $city) {
-
-        $ppo->cityNames[] = $city->nom;
-        $ppo->cityIds[]   = $city->id_vi;
-      }
-
-  	  // Récupération des pays
-  		$countryDAO = _ioDAO ('kernel_bu_pays');
-  	  $countries = $countryDAO->findAll ();
-  	  
-  	  $ppo->countryNames = array ();
-  	  $ppo->countryIds   = array ();
-  	  
-  	  foreach ($countries as $country) {
-
-        $ppo->countryNames[] = $country->pays;
-        $ppo->countryIds[]   = $country->id;
-      }
       
       // Récupération des niveaux de la classe
       $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
@@ -1611,29 +1404,195 @@ class ActionGroupDefault extends CopixActionGroup {
         $ppo->levelIds[]    = $level->id_n;
       }
       
-      // Civilités
-      $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
+      $ppo->genderNames = array ('Garçon', 'Fille');
+      $ppo->genderIds = array ('0', '1');
   	   
       return _arPPO ($ppo, 'create_student.tpl');
     }
 
     $studentDAO->insert ($ppo->student);
     
-    
-    // Création de l'affectation de l'élève
-    $ppo->studentAssignment = _record ('kernel_bu_eleve_affectation');
-    
-    $ppo->studentAssignment->eleve = $ppo->student->idEleve;
-    $ppo->studentAssignment->annee_scol = Kernel::getAnneeScolaireCourante ()->id_as;
-    $ppo->studentAssignment->classe = $ppo->nodeId;
-    $ppo->studentAssignment->niveau = $ppo->level;
-    $ppo->studentAssignment->dateDebut = CopixDateTime::timestampToYYYYMMDD (time ());
-    $ppo->studentAssignment->current = 1;
-    $ppo->studentAssignment->previsionnel_cl = 0;
+    // Création du compte dbuser
+    $dbuser = _record ('kernel|kernel_copixuser');
 
-    $studentClassDAO->insert ($ppo->studentAssignment);
+    $dbuser->login_dbuser    = $ppo->login;
+    $dbuser->password_dbuser = md5 ($ppo->password);
+    $dbuser->email_dbuser    = '';
+    $dbuser->enabled_dbuser  = 1;
     
-		return _arPPO ($ppo, array ('template' => 'create_success.tpl', 'mainTemplate' => null));
+    $dbuserDAO->insert ($dbuser);
+    
+    // Création du link bu2user
+    $dbLink = _record ('kernel_link_bu2user');
+
+    $dbLink->user_id = $dbuser->id_dbuser;
+    $dbLink->bu_type = 'USER_ELE';
+    $dbLink->bu_id   = $ppo->student->idEleve;
+    
+    $dbLinkDAO->insert ($dbLink);
+
+    // Récupération des inscriptions de l'élève pour passage current 0
+    $studentRegistrations = $studentRegistrationDAO->getByStudent ($ppo->student->idEleve); 
+    foreach ($studentRegistrations as $studentRegistration) {
+      
+      $studentRegistration->current = 0;
+      $studentRegistrationDAO->update ($studentRegistration);
+    }
+    
+    // Inscription de l'élève dans l'école
+    $studentRegistration = _record ('kernel|kernel_bu_ele_inscr');
+    
+    $studentRegistration->inscr_eleve                   = $ppo->student->idEleve;
+    $studentRegistration->inscr_annee_scol              = Kernel::getAnneeScolaireCourante ()->id_as;;
+    $studentRegistration->inscr_date_preinscript        = CopixDateTime::timestampToYYYYMMDD (time ());;
+    $studentRegistration->inscr_date_effet_preinscript  = CopixDateTime::timestampToYYYYMMDD (time ());;
+    $studentRegistration->inscr_date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());;
+    $studentRegistration->inscr_date_effet_inscript     = CopixDateTime::timestampToYYYYMMDD (time ());;
+    $studentRegistration->inscr_etablissement_refus     = 0;
+    $studentRegistration->inscr_id_niveau               = 0;
+    $studentRegistration->inscr_id_typ_cla              = 0;
+    $studentRegistration->inscr_vaccins_aj              = 0;
+    $studentRegistration->inscr_attente                 = 0;
+    $studentRegistration->inscr_derogation_dem          = 0;
+    $studentRegistration->inscr_temporaire              = 0;
+    $studentRegistration->inscr_current_inscr           = 1;
+
+    $studentRegistrationDAO->insert ($studentRegistration);
+
+    // Admission de l'élève dans l'école
+    $studentAdmission = _record ('kernel_bu_eleve_admission');
+    
+    $studentAdmission->eleve          = $ppo->student->idEleve;
+    $studentAdmission->etablissement  = '';
+    $studentAdmission->annee_scol     = Kernel::getAnneeScolaireCourante ()->id_as;
+    $studentAdmission->id_niveau      = $ppo->level;
+    $studentAdmission->etat_eleve     = 1;
+    $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAdmission->date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAdmission->code_radiation = '';
+    $studentAdmission->previsionnel   = '';
+    
+    $studentAdmissionDAO->insert ($studentAdmission);
+    
+    // Affectation de l'élève dans les classes
+    $studentAssignment = _record ('kernel_bu_eleve_affectation');
+    
+    $studentAssignment->eleve           = $ppo->student->idEleve;
+    $studentAssignment->annee_scol      = Kernel::getAnneeScolaireCourante ()->id_as;
+    $studentAssignment->classe          = $ppo->nodeId;
+    $studentAssignment->niveau          = $ppo->level;
+    $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAssignment->current         = 1;
+    $studentAssignment->previsionnel_cl = 0;
+
+    $studentAssignmentDAO->insert ($studentAssignment);
+    
+    $type_user = 'USER_ELE';
+    
+    $node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
+		
+		// Mise en session des comptes créés : 0 -> élève / x -> responsables
+		$session = _sessionGet ('modules|gestionautonome|createAccount');
+		if (!$session || !is_array ($session)) {
+		  
+		  $session = array();
+		}
+		
+		$session[$type_user.'-'.$ppo->student->idEleve][0] = array(
+		  'nom'       => $ppo->student->nom,
+			'prenom'    => $ppo->student->prenom1,
+			'login'     => $ppo->login,
+			'password'  => $ppo->password,
+			'bu_type'   => $type_user,
+			'bu_id'     => $ppo->student->idEleve,
+			'type_nom'  => Kernel::Code2Name($type_user),
+			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
+		);
+		                                                                      
+		// Récupérations des infos temporaires en session et ajout aux sessions
+		$tmpSession = _sessionGet ('modules|gestionautonome|tmpAccount');                                                                
+		if ($tmpSession && is_array ($tmpSession)) {
+		  
+		  $personDAO       = _ioDAO ('kernel_bu_responsable');
+      $personLinkDAO   = _ioDAO ('kernel_bu_responsables');
+      
+		  if ($personSessions = $tmpSession[$ppo->nodeType.'-'.$ppo->nodeId]) {
+		    
+		    $cptPerson = 1;
+
+  		  foreach ($personSessions as $personSession) {
+
+          if (Kernel::isLoginAvailable ($personSession['login'])) {
+            
+            // Création du responsable
+            $ppo->person = _record ('kernel_bu_responsable');
+
+            $ppo->person->nom        = trim ($personSession['nom']);
+            $ppo->person->prenom1    = trim ($personSession['prenom']);
+            $ppo->res_id_par         = $personSession['id_par'];
+
+    		    $personDAO->insert ($ppo->person);
+
+            // Création de l'association personne->rôle
+            $newPersonLink = _record ('kernel_bu_responsables');
+
+        		$newPersonLink->id_beneficiaire   = $ppo->student->idEleve; 
+        		$newPersonLink->type_beneficiaire = 'eleve';
+        		$newPersonLink->id_responsable    = $ppo->person->numero;
+        		$newPersonLink->type              = 'responsable';
+        		$newPersonLink->auth_parentale    = '0';
+        		$newPersonLink->id_par            = $personSession['id_par'];
+
+        		$personLinkDAO->insert ($newPersonLink);
+
+        		// Création du compte dbuser
+            $dbuser = _record ('kernel|kernel_copixuser');
+
+            $dbuser->login_dbuser    = $personSession['login'];
+            $dbuser->password_dbuser = md5 ($personSession['password']);
+            $dbuser->email_dbuser    = '';
+            $dbuser->enabled_dbuser  = 1;
+
+            $dbuserDAO->insert ($dbuser);
+
+            // Création du link bu2user
+            $dbLink = _record ('kernel_link_bu2user');
+
+            $dbLink->user_id = $dbuser->id_dbuser;
+            $dbLink->bu_type = 'USER_RES';
+            $dbLink->bu_id   = $ppo->person->numero;
+
+            $dbLinkDAO->insert ($dbLink);
+
+
+            $session[$type_user.'-'.$ppo->student->idEleve][$cptPerson] = array(
+        		  'nom'       => $personSession['nom'],
+        			'prenom'    => $personSession['prenom'],
+        			'login'     => $personSession['login'],
+        			'password'  => $personSession['password'],
+        			'bu_type'   => 'USER_RES',
+        			'bu_id'     => $ppo->student->idEleve,
+        			'type_nom'  => Kernel::Code2Name('USER_RES'),
+        			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
+        		);
+
+        		$cptPerson++;
+          }
+        }
+		  }
+		}
+		
+		// Mise en session de l'élève et des responsables
+		_sessionSet ('modules|gestionautonome|createAccount', $session);
+		
+		// Remise à zéro des sessions tmp
+		_sessionSet ('modules|gestionautonome|tmpAccount', null);
+		
+		$sessionId = $type_user.'-'.$ppo->student->idEleve;
+
+		$urlReturn = CopixUrl::get ('gestionautonome||showAccountListing', array ('sessionId' => $sessionId, 'nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType));
+		
+		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 	}
 	
 	public function processUpdateStudent () {
@@ -1647,7 +1606,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeType = _request ('nodeType', null);
 	  $studentId     = _request ('studentId', null);
 	  
-	  $studentDAO = _ioDAO ('kernel_bu_eleve');
+	  $studentDAO    = _ioDAO ('kernel_bu_eleve');
+	  $dbuserDAO     = _ioDAO ('kernel|kernel_copixuser');
+	  $classDAO      = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  $schoolDAO     = _ioDAO ('kernel|kernel_bu_ecole');
 	  
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || !$ppo->student = $studentDAO->get ($studentId)) {
 	    
@@ -1655,34 +1617,33 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
-    // Récupération des villes
-		$cityDAO = _ioDAO ('kernel_bu_ville');
-	  $cities  = $cityDAO->findAll ();
+	  // Classe actuelle de l'élève
+	  $class = $classDAO->get ($ppo->nodeId);
+	  $ppo->actualClassId = $class->id;
 	  
-	  $ppo->cityNames = array ();
-	  $ppo->cityIds   = array ();
-	  
-	  foreach ($cities as $city) {
+	  // Ecole actuelle de l'élève
+	  $ppo->actualSchoolId = $class->ecole;
+                                   
+	  $cityId = $schoolDAO->get ($class->ecole)->id_ville;
+	  // Récupération des écoles de la ville de l'élève
+	  $schools = $schoolDAO->getByCity ($cityId);
 
-      $ppo->cityNames[] = $city->nom;
-      $ppo->cityIds[]   = $city->id_vi;
-    }
-
-	  // Récupération des pays
-		$countryDAO = _ioDAO ('kernel_bu_pays');
-	  $countries = $countryDAO->findAll ();
+	  foreach ($schools as $school) {
+	    
+	    $ppo->schoolIds[]   = $school->numero;
+	    $ppo->schoolNames[] = $school->nom;
+	  }
 	  
-	  $ppo->countryNames = array ();
-	  $ppo->countryIds   = array ();
-	  
-	  foreach ($countries as $country) {
-
-      $ppo->countryNames[] = $country->pays;
-      $ppo->countryIds[]   = $country->id;
+	  // Récupération des classes de l'école
+    $classes = $classDAO->getBySchool ($ppo->actualSchoolId); 
+    
+    foreach ($classes as $class) {
+      
+      $ppo->classIds[]   = $class->id;
+      $ppo->classNames[] = $class->nom;
     }
     
-    // Civilités
-    $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
+    $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
 	  
 	  return _arPPO ($ppo, 'update_student.tpl');
 	}
@@ -1699,6 +1660,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $studentId     = _request ('id_student', null);
 	  
 	  $studentDAO = _ioDAO ('kernel_bu_eleve');
+	  $dbuserDAO  = _ioDAO ('kernel|kernel_copixuser');
 	  
 	  if (!$ppo->student = $studentDAO->get ($studentId)) {
 	    
@@ -1706,29 +1668,12 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 
-    _classInclude ('kernel|Tools');
-         
     $ppo->student->numero       = '';                        
-    $ppo->student->nom          = Tools::capitalizeFirst (trim (_request ('nom', null)));
-    $ppo->student->prenom1      = Tools::capitalizeFirst (trim (_request ('prenom1', null)));
-    $ppo->student->civilite     = _request ('civilite', null);
-    if ($ppo->student->civilite == 'Monsieur') {
-      
-      $ppo->student->id_sexe = 1;
-    }
-    else {
-      
-      $ppo->student->id_sexe = 2;
-    }
-    $ppo->student->num_rue            = _request ('num_rue', null);
-    $ppo->student->adresse1           = _request ('adresse1', null);
-    $ppo->student->code_postal        = _request ('code_postal', null);
-    $ppo->student->commune            = _request ('commune', null);
-    $ppo->student->id_ville           = _request ('ville', null);
-    $ppo->student->pays               = _request ('pays', null);
-    $ppo->student->hors_scol          = _request ('hors_scol', null);
-    $ppo->student->ele_last_update    = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
-    $ppo->student->flag               = 0;
+    $ppo->student->nom          = trim (_request ('nom', null));
+    $ppo->student->prenom1      = trim (_request ('prenom1', null));
+    $ppo->student->flag         = 0;
+     
+    $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
     
     // Traitement des erreurs
     $ppo->errors = array ();
@@ -1741,51 +1686,9 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
     }
-    if (!$ppo->student->num_rue) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
-    }
-    if (!$ppo->student->adresse1) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
-    }
-    if (!$ppo->student->code_postal) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
-    }
-    if (!$ppo->student->commune) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
-    }
     
     if (!empty ($ppo->errors)) {
-      
-      // Récupération des villes
-  		$cityDAO = _ioDAO ('kernel_bu_ville');
-  	  $cities = $cityDAO->findAll ();
-  	  
-  	  $ppo->cityNames = array ();
-  	  $ppo->cityIds   = array ();
-  	  
-  	  foreach ($cities as $city) {
-
-        $ppo->cityNames[] = $city->nom;
-        $ppo->cityIds[]   = $city->id_vi;
-      }
-
-  	  // Récupération des pays
-  		$countryDAO = _ioDAO ('kernel_bu_pays');
-  	  $countries = $countryDAO->findAll ();
-  	  
-  	  $ppo->countryNames = array ();
-  	  $ppo->countryIds   = array ();
-  	  
-  	  foreach ($countries as $country) {
-
-        $ppo->countryNames[] = $country->pays;
-        $ppo->countryIds[]   = $country->id;
-      }
-      
+            
       // Récupération des niveaux de la classe
       $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
       $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
@@ -1801,15 +1704,19 @@ class ActionGroupDefault extends CopixActionGroup {
         $ppo->levelNames[]  = $level->niveau_court;
         $ppo->levelIds[]    = $level->id_n;
       }
-      
-      // Civilités
-      $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
   	   
       return _arPPO ($ppo, 'update_student.tpl');
     }
       
     $studentDAO->update ($ppo->student);
 		
+		$newPassword = _request ('password', null);
+    if ($ppo->account->password_dbuser != md5 ($newPassword)) {
+      
+      $ppo->account->password_dbuser = md5 ($newPassword);
+      $dbuserDAO->update ($ppo->account);
+    }
+    
 		$ppo->targetId   = $ppo->nodeId;
 		$ppo->targetType = $ppo->nodeType;
 
@@ -1819,18 +1726,18 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processRemoveStudent () {
 	  
-	  $ppo->targetId   = _request ('nodeId', null);
-	  $ppo->targetType = _request ('nodeType', null);
+	  $ppo->nodeId   = _request ('nodeId', null);
+	  $ppo->nodeType = _request ('nodeType', null);
 	  $studentId       = _request ('studentId', null);
 	  
-	  if (is_null ($ppo->targetId) || is_null ($ppo->targetType) || is_null ($studentId)) {
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
 	  $assignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
-	  $assignment    = $assignmentDAO->getByStudentAndClass ($studentId, $ppo->targetId);
+	  $assignment    = $assignmentDAO->getByStudentAndClass ($studentId, $ppo->nodeId);
 	  
 	  $assignmentDAO->delete ($assignment->affect_id);
 	  
@@ -1839,11 +1746,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processDeleteStudent () {
 	  
-	  $ppo->targetId   = _request ('nodeId', null);
-	  $ppo->targetType = _request ('nodeType', null);
+	  $ppo->nodeId   = _request ('nodeId', null);
+	  $ppo->nodeType = _request ('nodeType', null);
 	  $studentId       = _request ('studentId', null);
 	  
-	  if (is_null ($ppo->targetId) || is_null ($ppo->targetType) || is_null ($studentId)) {
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
@@ -1882,38 +1789,18 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
-	  // Récupération de l'élève
-	  $studentDAO   = _ioDAO ('kernel|kernel_bu_ele');
+	  $studentDAO    = _ioDAO ('kernel|kernel_bu_ele'); 
+	  $cityDAO       = _ioDAO ('kernel_bu_ville');  
+	  $countryDAO    = _ioDAO ('kernel_bu_pays');  
+	  $parentLinkDAO = _ioDAO ('kernel_bu_lien_parental');
+	  $situationDAO  = _ioDAO ('kernel_bu_situation_familiale');
+	  $pcsDAO        = _ioDAO ('kernel_bu_pcs');     
+	  $dbuserDAO     = _ioDAO ('kernel|kernel_copixuser');
+	  	  
+	  // Récupération de l'élève  
 	  $ppo->student = $studentDAO->get ($studentId);
 	  
-	  // Récupération des villes
-		$cityDAO = _ioDAO ('kernel_bu_ville');
-	  $cities  = $cityDAO->findAll ();
-	  
-	  $ppo->cityNames = array ();
-	  $ppo->cityIds   = array ();
-	  
-	  foreach ($cities as $city) {
-
-      $ppo->cityNames[] = $city->nom;
-      $ppo->cityIds[]   = $city->id_vi;
-    }
-
-	  // Récupération des pays
-		$countryDAO = _ioDAO ('kernel_bu_pays');
-	  $countries = $countryDAO->findAll ();
-	  
-	  $ppo->countryNames = array ();
-	  $ppo->countryIds   = array ();
-	  
-	  foreach ($countries as $country) {
-
-      $ppo->countryNames[] = $country->pays;
-      $ppo->countryIds[]   = $country->id;
-    }
-    
-    // Récupération des pays
-		$parentLinkDAO = _ioDAO ('kernel_bu_lien_parental');
+    // Récupération des relations
 	  $parentLinks = $parentLinkDAO->findAll ();
 	  
 	  $ppo->linkNames = array ();
@@ -1925,34 +1812,10 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->linkIds[]   = $parentLink->id_pa;
     }
     
-    // Récupération des situations familliales
-    $situationDAO = _ioDAO ('kernel_bu_situation_familiale');
-	  $situations = $situationDAO->findAll ();
-	  
-	  $ppo->situationNames = array ();
-	  $ppo->situationIds   = array ();
-
-	  foreach ($situations as $situation) {
-
-      $ppo->situationNames[] = $situation->situation;
-      $ppo->situationIds[]   = $situation->id_sf;
-    }
+    $ppo->genderNames = array ('Homme', 'Femme');
+    $ppo->genderIds = array ('0', '1');
     
-    // Récupération des pcs
-    $pcsDAO = _ioDAO ('kernel_bu_pcs');
-	  $allPcs = $pcsDAO->findAll ();
-	  
-	  $ppo->pcsIds   = array ();
-	  $ppo->pcsNames = array ();
-	  
-	  foreach ($allPcs as $pcs) {
-
-      $ppo->pcsNames[] = $pcs->pcs;
-      $ppo->pcsIds[]   = $pcs->id_p;
-    }
-    
-    // Civilités
-    $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
+    $ppo->studentAccount = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
 	  
 		return _arPPO ($ppo, 'create_person_in_charge.tpl');	  
 	}
@@ -1964,58 +1827,31 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
 	  
 	  // Récupération des paramètres
-	  $ppo->nodeId   = _request ('id_node', null);
-	  $ppo->nodeType = _request ('type_node', null);
-	  $ppo->studentId     = _request ('id_student', null);
+	  $ppo->nodeId    = _request ('id_node', null);
+	  $ppo->nodeType  = _request ('type_node', null);
+	  $ppo->studentId = _request ('id_student', null);
 	  
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($ppo->studentId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-
-		_classInclude ('kernel|Tools');
-		
+	  
     $personDAO       = _ioDAO ('kernel_bu_responsable');
-    $personLinkDAO   = _ioDAO ('kernel_bu_responsables');    
+    $personLinkDAO   = _ioDAO ('kernel_bu_responsables');
+    $dbuserDAO       = _ioDAO ('kernel|kernel_copixuser');
+    $dbLinkDAO          = _ioDAO ('kernel|kernel_bu2user2');  
         
     // Création de la personne
     $ppo->person = _record ('kernel_bu_responsable');
                         
-    $ppo->person->nom         = Tools::capitalizeFirst (trim (_request ('nom', null)));
-    $ppo->person->nom_jf      = Tools::capitalizeFirst (trim (_request ('nom_jf', null)));
-    $ppo->person->prenom1     = Tools::capitalizeFirst (trim (_request ('prenom1', null)));
-    $ppo->person->civilite    = _request ('civilite', null);
-                  
-    if ($ppo->person->civilite == 'Monsieur') {
-      
-      $ppo->person->id_sexe = 1;
-    }
-    else {
-      
-      $ppo->person->id_sexe = 2;
-    }
+    $ppo->person->nom        = trim (_request ('nom', null));
+    $ppo->person->prenom1    = trim (_request ('prenom1', null));
+    $ppo->res_id_par         = _request ('id_par', null);
     
-    $ppo->person->date_nais    = _request ('date_nais', null);
-    $ppo->person->profession   = _request ('profession', null);
-    $ppo->person->tel_dom      = _request ('tel_dom', null);
-    $ppo->person->tel_gsm      = _request ('tel_gsm', null);
-    $ppo->person->tel_pro      = _request ('tel_pro', null);
-    $ppo->person->num_poste    = _request ('num_poste', null);
-    $ppo->person->mel          = _request ('mel', null);
-    $ppo->person->mel_pro      = _request ('mel_pro', null);
-    $ppo->person->num_rue      = _request ('num_rue', null);
-    $ppo->person->adresse1     = _request ('adresse1', null);
-    $ppo->person->adresse2     = _request ('adresse2', null);
-    $ppo->person->code_postal  = _request ('code_postal', null);
-    $ppo->person->commune      = _request ('commune', null);
-    $ppo->person->id_ville     = _request ('ville', null);
-    $ppo->person->pays         = _request ('pays', null);
-    $ppo->person->id_pcs       = _request ('id_pcs', null);
-    $ppo->person->id_fam       = _request ('id_fam', null);
-    $ppo->person->num_seq      = '';
-    $ppo->res_id_par           = _request ('id_par', null);
-    
+    $ppo->login     = _request ('login', null);
+    $ppo->password  = _request ('password', null);
+       
     // Traitement des erreurs
     $ppo->errors = array ();
     
@@ -2027,25 +1863,21 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
     }
-    if (!$ppo->person->num_poste) {
+    if (!$ppo->login) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeNumber');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
     }
-    if (!$ppo->person->num_rue) {
+    elseif (!Kernel::isLoginAvailable ($ppo->login)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStreetNumber');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
     }
-    if (!$ppo->person->adresse1) {
+    if (!$ppo->password) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeAddress');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
     }
-    if (!$ppo->person->code_postal) {
+    elseif (!Kernel::checkPasswordFormat ($ppo->password)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeZipCode');
-    }
-    if (!$ppo->person->commune) {
-      
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeCommune');
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
     }
     
     if (!empty ($ppo->errors)) {
@@ -2054,33 +1886,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
   	  $ppo->student = $studentDAO->get ($ppo->studentId);
   	  
-      // Récupération des villes
-  		$cityDAO = _ioDAO ('kernel_bu_ville');
-  	  $cities  = $cityDAO->findAll ();
-
-  	  $ppo->cityNames = array ();
-  	  $ppo->cityIds   = array ();
-
-  	  foreach ($cities as $city) {
-
-        $ppo->cityNames[] = $city->nom;
-        $ppo->cityIds[]   = $city->id_vi;
-      }
-
-  	  // Récupération des pays
-  		$countryDAO = _ioDAO ('kernel_bu_pays');
-  	  $countries = $countryDAO->findAll ();
-
-  	  $ppo->countryNames = array ();
-  	  $ppo->countryIds   = array ();
-
-  	  foreach ($countries as $country) {
-
-        $ppo->countryNames[] = $country->pays;
-        $ppo->countryIds[]   = $country->id;
-      }
-
-      // Récupération des pays
+      // Récupération des relations
   		$parentLinkDAO = _ioDAO ('kernel_bu_lien_parental');
   	  $parentLinks = $parentLinkDAO->findAll ();
 
@@ -2092,41 +1898,34 @@ class ActionGroupDefault extends CopixActionGroup {
         $ppo->linkNames[] = $parentLink->parente;
         $ppo->linkIds[]   = $parentLink->id_pa;
       }
-
-      // Récupération des situations familliales
-      $situationDAO = _ioDAO ('kernel_bu_situation_familiale');
-  	  $situations = $situationDAO->findAll ();
-
-  	  $ppo->situationNames = array ();
-  	  $ppo->situationIds   = array ();
-
-  	  foreach ($situations as $situation) {
-
-        $ppo->situationNames[] = $situation->situation;
-        $ppo->situationIds[]   = $situation->id_sf;
-      }
-
-      // Récupération des pcs
-      $pcsDAO = _ioDAO ('kernel_bu_pcs');
-  	  $allPcs = $pcsDAO->findAll ();
-
-  	  $ppo->pcsIds   = array ();
-  	  $ppo->pcsNames = array ();
-
-  	  foreach ($allPcs as $pcs) {
-
-        $ppo->pcsNames[] = $pcs->pcs;
-        $ppo->pcsIds[]   = $pcs->id_p;
-      }
-
-      // Civilités
-      $ppo->civilities = array ('Monsieur', 'Madame', 'Mademoiselle');
-  	   
+      
+      $ppo->genderNames = array ('Homme', 'Femme');
+      $ppo->genderIds = array ('0', '1');
+      
       return _arPPO ($ppo, 'create_person_in_charge.tpl');
     }
     
     $personDAO->insert ($ppo->person);
     
+    // Création du compte dbuser
+    $dbuser = _record ('kernel|kernel_copixuser');
+
+    $dbuser->login_dbuser    = $ppo->login;
+    $dbuser->password_dbuser = md5 ($ppo->password);
+    $dbuser->email_dbuser    = '';
+    $dbuser->enabled_dbuser  = 1;
+    
+    $dbuserDAO->insert ($dbuser);
+    
+    // Création du link bu2user
+    $dbLink = _record ('kernel_link_bu2user');
+
+    $dbLink->user_id = $dbuser->id_dbuser;
+    $dbLink->bu_type = 'USER_RES';
+    $dbLink->bu_id   = $ppo->person->numero;
+    
+    $dbLinkDAO->insert ($dbLink);
+
     // Création de l'association personne->rôle
     $newPersonLink = _record ('kernel_bu_responsables');
 
@@ -2142,6 +1941,131 @@ class ActionGroupDefault extends CopixActionGroup {
 		return _arPPO ($ppo, array ('template' => 'create_person_in_charge_success.tpl', 'mainTemplate' => null));  
 	}
 	
+	public function processUpdatePersonInCharge () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId   = _request ('nodeId', null);
+	  $ppo->nodeType = _request ('nodeType', null);
+	  $studentId     = _request ('studentId', null);
+	  $personId      = _request ('personId', null);
+	  
+	  $personDAO       = _ioDAO ('kernel_bu_responsable');
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId) || !$ppo->person = $personDAO->get ($personId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+	  // Récupération de l'élève
+	  $studentDAO   = _ioDAO ('kernel|kernel_bu_ele');
+	  $ppo->student = $studentDAO->get ($studentId);
+	  
+	  $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
+	  $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
+	  
+    // Récupération des liens parentaux
+		$parentLinkDAO = _ioDAO ('kernel_bu_lien_parental');
+	  $parentLinks = $parentLinkDAO->findAll ();
+	  
+	  $ppo->linkNames = array ();
+	  $ppo->linkIds   = array ();
+	  
+	  foreach ($parentLinks as $parentLink) {
+
+      $ppo->linkNames[] = $parentLink->parente;
+      $ppo->linkIds[]   = $parentLink->id_pa;
+    }
+    
+    // Récupération du lien responsable-élève
+    $res2eleDAO = _ioDAO ('kernel|kernel_bu_res2ele');
+    $ppo->res2ele = $res2eleDAO->getByPersonAndStudent ($personId, $studentId); 
+
+		return _arPPO ($ppo, 'update_person_in_charge.tpl');
+	}
+	
+	public function processValidatePersonInChargeUpdate () {
+	  
+	  $ppo = new CopixPPO (); 
+	  
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId    = _request ('id_node', null);
+	  $ppo->nodeType  = _request ('type_node', null);
+	  $ppo->studentId = _request ('id_student', null);
+	  $personId       = _request ('id_person', null);
+	  
+	  $personDAO       = _ioDAO ('kernel_bu_responsable');
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($ppo->studentId) || !$ppo->person = $personDAO->get ($personId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  // Récupération du lien responsable-élève
+    $res2eleDAO = _ioDAO ('kernel|kernel_bu_res2ele');
+    $ppo->res2ele = $res2eleDAO->getByPersonAndStudent ($personId, $ppo->studentId);
+
+    $ppo->person->nom         = trim (_request ('nom', null));
+    $ppo->person->prenom1     = trim (_request ('prenom1', null));
+    $ppo->person->date_nais   = _request ('date_nais', null);
+    $res_id_par               = _request ('id_par', null);
+    
+    // Traitement des erreurs
+    $ppo->errors = array ();
+    
+    if (!$ppo->person->nom) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+    }
+    if (!$ppo->person->prenom1) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+    }
+    
+    if (!empty ($ppo->errors)) {
+      
+      // Récupération de l'élève
+  	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+  	  $ppo->student = $studentDAO->get ($ppo->studentId);
+       
+      $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
+  	  $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($ppo->studentId, 'USER_ELE');
+
+      // Récupération des liens parentaux
+  		$parentLinkDAO = _ioDAO ('kernel_bu_lien_parental');
+  	  $parentLinks = $parentLinkDAO->findAll ();
+
+  	  $ppo->linkNames = array ();
+  	  $ppo->linkIds   = array ();
+
+  	  foreach ($parentLinks as $parentLink) {
+
+        $ppo->linkNames[] = $parentLink->parente;
+        $ppo->linkIds[]   = $parentLink->id_pa;
+      }
+
+      return _arPPO ($ppo, 'update_person_in_charge.tpl');
+    }
+    
+    $personDAO->update ($ppo->person);
+    
+    if ($ppo->res2ele->res2ele_id_par != $res_id_par) {
+      
+      $ppo->res2ele->res2ele_id_par = $res_id_par;
+      $res2eleDAO->update ($ppo->res2ele);
+    }
+
+		return _arPPO ($ppo, array ('template' => 'create_person_in_charge_success.tpl', 'mainTemplate' => null));
+	}
+	
+	// AJAX
 	public function processRemovePersonInCharge () {
 	  
 	  $ppo = new CopixPPO ();
@@ -2166,5 +2090,315 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->persons       = $personsInChargeDAO->getByStudent ($studentId);
 
     return _arPPO ($ppo, array ('template' => '_persons_in_charge.tpl', 'mainTemplate' => null));
+	}
+	
+	public function processDeletePersonInCharge () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $personId   = _request ('personId', null);
+	  $studentId  = _request ('studentId', null);
+	  
+	  if (is_null ($personId) || is_null ($studentId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  $personsInChargeDAO = _ioDAO ('kernel|kernel_bu_res');
+    $personInChargeLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
+	  
+	  // Récupération des affectations du responsable
+	  $assignments = $personInChargeLinkDAO->getByPerson ($personId);
+	  
+	  foreach ($assignments as $assignment) {
+	    
+	    $personInChargeLinkDAO->delete ($assignment->res2ele_id_rel);
+	  }
+	  
+	  $personsInChargeDAO->delete ($personId);
+	  
+	  // Récupération des responsables de l'élève
+	  $ppo->persons = $personsInChargeDAO->getByStudent ($studentId);
+	  
+	  return _arPPO ($ppo, array ('template' => '_persons_in_charge.tpl', 'mainTemplate' => null));
+	} 
+	
+	// AJAX
+	public function processPersonInChargeCreation () {
+	  
+	  $ppo->nodeId          = _request ('nodeId', null);
+	  $ppo->nodeType        = _request ('nodeType', null);
+
+	  $ppo->person->nom     = _request ('nom', null);
+	  $ppo->person->prenom1 = _request ('prenom1', null);
+	  $ppo->person->sexe    = _request ('sexe', null);
+		$ppo->person->id_par  = _request ('parId', null);
+		
+	  $ppo->account->login    = _request ('login', null);
+	  $ppo->account->password = _request ('password', null);
+ 
+	  // Récupération des relations    
+	  $parentLinkDAO = _ioDAO ('kernel_bu_lien_parental'); 
+	  $parentLinks = $parentLinkDAO->findAll ();
+
+	  $ppo->linkNames = array ();
+	  $ppo->linkIds   = array ();
+
+	  foreach ($parentLinks as $parentLink) {
+
+      $ppo->linkNames[] = $parentLink->parente;
+      $ppo->linkIds[]   = $parentLink->id_pa;
+    }
+
+    // Récupérations des sexes
+    $genderDAO = _ioDAO ('kernel_bu_sexe');
+    $genders = $genderDAO->findAll ();
+
+    foreach ($genders as $gender) {
+
+      $ppo->genderNames[] = $gender->sexe;
+      $ppo->genderIds[] = $gender->id_s;
+    }
+    
+	  // Traitement des erreurs
+    $ppo->errors = array ();
+    
+    if (!$ppo->person->nom) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+    }
+    if (!$ppo->person->prenom1) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+    }
+    if (!$ppo->account->login) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
+    }
+    if (!$ppo->account->password) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
+    }
+    elseif (!Kernel::checkPasswordFormat ($ppo->account->password)) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
+    }
+    if (!Kernel::isLoginAvailable ($ppo->account->login)) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
+    }
+    
+    if (!empty ($ppo->errors)) {
+
+      return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
+    }  
+    
+    $type_user = 'USER_ELE';
+    
+    $node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
+		
+		$session = _sessionGet ('modules|gestionautonome|tmpAccount');
+		if (!$session || !is_array ($session)) {
+		  
+		  $session = array();
+		}
+		
+		$ppo->cpt = _request('cpt', null);
+		
+		$session[$ppo->nodeType.'-'.$ppo->nodeId][$ppo->cpt] = array(
+		  'nom'       => $ppo->person->nom,
+			'prenom'    => $ppo->person->prenom1,
+			'id_par'    => $ppo->person->id_par,
+			'login'     => $ppo->account->login,
+			'password'  => $ppo->account->password,
+		);
+		
+		_sessionSet ('modules|gestionautonome|tmpAccount', $session);
+		
+		if ($ppo->cpt) {
+
+      $ppo->cpt++;                
+    }                                
+    else {
+
+      $ppo->cpt = 1;
+    }
+    
+		$ppo->person  = null;
+		$ppo->account = null;
+		
+		return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
+	}
+	
+	public function processManageGrades () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  
+	  // Récupérations des années scolaires
+    $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $ppo->grades = $gradesDAO->findAll ();
+	  
+	  return _arPPO ($ppo, 'manage_grades.tpl');
+	}
+	
+	public function processCreateGrade () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  
+	  return _arPPO ($ppo, 'create_grade.tpl');
+	}
+	
+	public function processValidateGradeCreation () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  
+	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  
+	  $ppo->grade = _record ('kernel_bu_annee_scolaire');
+
+    $dateDebut                  = _request ('dateDebut', null);
+    $dateFin                    = _request ('dateFin', null);
+    
+    $ppo->grade->id_as          = substr($dateDebut, 0, 4);
+	  $ppo->grade->annee_scolaire = substr($dateDebut, 0, 4).'-'.substr($dateFin, 0, 4);
+	  $ppo->grade->dateDebut      = $dateDebut;
+	  $ppo->grade->dateFin        = $dateFin;
+	  $ppo->grade->current        = _request ('current', null);
+	  
+    if (!$ppo->grade->dateDebut) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStartDate');
+    }
+    if (!$ppo->grade->dateFin) {
+      
+      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeEndDate');
+    }
+    
+    if (!empty ($ppo->errors)) {
+    
+      return _arPPO ($ppo, 'create_grade.tpl');
+    }
+    
+    $gradesDAO->insert ($ppo->grade);
+    
+	  // Récupérations des années scolaires
+    $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $ppo->grades = $gradesDAO->findAll ();
+	  
+	  return _arPPO ($ppo, 'manage_grades.tpl');
+	}
+	
+	public function processSetCurrentGrade () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  
+	  $gradeId = _request ('gradeId', null);
+	  
+	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $grades = $gradesDAO->findAll ();
+	  
+	  foreach ($grades as $grade) {
+	    
+	    $grade->current = 0;
+	    $gradesDAO->update ($grade);
+	  }
+	  
+	  $newCurrentGrade = $gradesDAO->get ($gradeId);
+	  $newCurrentGrade->current = 1;
+	  $gradesDAO->update ($newCurrentGrade);
+	  
+	  // Récupérations des années scolaires
+    $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $ppo->grades = $gradesDAO->findAll ();
+	  
+	  return _arPPO ($ppo, 'manage_grades.tpl');
+	}
+	
+	public function processAddExistingPersonnel () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  
+	  $ppo->nodeId   = _request ('parentId', null);
+	  $ppo->nodeType = _request ('parentType', null);
+	  $ppo->role     = _request ('role', null);
+	  
+	  $type = substr ($ppo->nodeType, 3);
+	  if ($type == 'GRVILLE') {
+	    
+	    $type = 'GVILLE'; 
+	  }                                                       
+	   
+	  $personDAO = _ioDAO ('kernel|kernel_bu_personnel');
+	  $ppo->persons = $personDAO->getPersonnelForAssignment ($ppo->nodeId, $type, $ppo->role);
+	  
+	  return _arPPO ($ppo, 'add_existing_personnel.tpl');
+	}
+	
+	public function processValidateExistingPersonsAdd () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  
+	  $ppo->nodeId   = _request ('id_node', null);
+	  $ppo->nodeType = _request ('type_node', null);
+	  $ppo->role     = _request ('role', null);
+	  $ppo->personIds = _request ('personIds', null);
+
+	  $type = substr ($ppo->nodeType, 3);  
+	  if ($type == 'GRVILLE') {
+	    $type = 'GVILLE';
+	  }
+	  
+	  $personEntityDAO = _ioDAO ('kernel_bu_personnel_entite');    
+        
+	  foreach ($ppo->personIds as $personId) {
+	    
+	    $newPersonEntity = _record ('kernel_bu_personnel_entite');
+	    
+	    $newPersonEntity->id_per = $personId;
+  	  $newPersonEntity->reference = $ppo->nodeId;
+  	  $newPersonEntity->type_ref = $type;
+  	  $newPersonEntity->role = $ppo->role;
+
+  	  $personEntityDAO->insert ($newPersonEntity);
+	  }
+	  
+	  $personDAO    = _ioDAO ('kernel|kernel_bu_personnel');
+	  $ppo->persons = $personDAO->getPersonnelForAssignment ($ppo->nodeId, $type, $ppo->role);
+	  $ppo->save    = 1;
+	  
+	  return _arPPO ($ppo, 'add_existing_personnel.tpl');
+	}
+	
+	// AJAX
+	public function processGenerateLogin () {
+	                              
+	  $users_infos ['nom']    = _request ('lastname', null);
+	  $users_infos ['prenom'] = _request ('firstname', null); 
+	  $users_infos ['type']   = _request ('type', null);
+                                             
+	  echo Kernel::createLogin ($users_infos); 
+	  
+	  return _arNone ();
+	}
+	
+	// AJAX
+	public function processGeneratePassword () {
+	  
+	  echo Kernel::createPasswd ();
+	  
+	  return _arNone ();
 	}
 }

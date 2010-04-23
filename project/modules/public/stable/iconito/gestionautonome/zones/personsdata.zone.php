@@ -15,7 +15,7 @@ class ZonePersonsData extends CopixZone {
 	  $ppo = new CopixPPO ();                               
 	  
 	  // Récupération des paramètres
-	  $id = $this->getParam ('nodeId');
+	  $id   = $this->getParam ('nodeId');
 	  $type = $this->getParam ('nodeType');
 	  
 	  $ppo->parent = Kernel::getNodeInfo ($type, $id);
@@ -62,7 +62,7 @@ class ZonePersonsData extends CopixZone {
 
 		  $ppo->childs[$child_key]['type_nom'] = Kernel::Code2Name ($child_val['type']);
 		}
-	  
+
     $toReturn = $this->_usePPO ($ppo, '_persons_data.tpl');
   }
 }

@@ -25,6 +25,20 @@ class DAOKernel_bu_res2ele {
 		
 		return isset ($results[0]) ? $results[0] : false;
 	}
+	
+	/**
+	 * Retourne l'affectation pour un responsable
+	 *
+	 * @param int $personId   Identifiant du responsable
+	 * @return DAORecord
+	 */
+	public function getByPerson ($personId) {
+		
+		$criteria = _daoSp ();
+		$criteria->addCondition ('res2ele_id_responsable', '=', $personId);
+		
+		return $this->findBy ($criteria);
+	}
 }
 
 

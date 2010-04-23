@@ -1,11 +1,14 @@
 <p>Ce module vous permet de gérer les villes, écoles, classes et les personnes associées (agents, personnel de l’education nationale, etc.)</p>
 
 {if $ppo->save neq null}
-  <p class="success">Modification effectuée</p>
+  <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
+    <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
+    <strong>Modification effectuée</strong>
+  </p>
 {/if}
 
 <div id="tree">
-  <h4>Positionnez-vous dans la structure</h4>
+  <h4>POSITIONNEZ-VOUS DANS LA STRUCTURE</h4>
   
   {copixzone process=gestionautonome|showTree root=$ppo->root targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path}    
   
@@ -26,3 +29,17 @@
   {/if}
 </div>      
 
+{literal}
+<script type="text/javascript">
+//<![CDATA[
+  
+  jQuery.noConflict();
+  
+  jQuery(document).ready(function(){
+ 	
+ 	  jQuery('.success').error();
+  });
+  
+//]]> 
+</script>
+{/literal}

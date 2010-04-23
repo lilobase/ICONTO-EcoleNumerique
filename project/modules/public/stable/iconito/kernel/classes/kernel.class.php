@@ -2,11 +2,11 @@
 /**
  * Kernel - Classes
  *
- * Fonctions du coeur d'Iconito : Gestion des utilisateurs, des liens avec les entitÈs, de l'accËs ‡ la base ÈlËve, des droits.
+ * Fonctions du coeur d'Iconito : Gestion des utilisateurs, des liens avec les entit√às, de l'acc√ãs ‚Ä° la base √àl√ãve, des droits.
  * @package	Iconito
  * @subpackage	Kernel
  * @version   $Id: kernel.class.php,v 1.111 2009-08-31 09:59:53 fmossmann Exp $
- * @author	FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+ * @author	Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
  */
 
 class Kernel {
@@ -20,9 +20,9 @@ class Kernel {
 	private $cache_getNodeInfo_classe = array();
 	
 	/**
-	 * Test un utilisateur est connectÈ
-	 * @return	boolean	true si un utilisateur est connectÈ, false sinon
-	 * @author	FrÈdÈric REISS
+	 * Test un utilisateur est connect√à
+	 * @return	boolean	true si un utilisateur est connect√à, false sinon
+	 * @author	Fr√àd√àric REISS
 	 * @since	15.12.2005
 	 * 
 	 */
@@ -32,9 +32,9 @@ class Kernel {
 	}
 
 	/**
-	 * Test si un utilisateur est reconnecté en animateur
-	 * @return	boolean	true si un utilisateur est connectÈ, false sinon
-	 * @author	Frédéric MOSSMANN
+	 * Test si un utilisateur est reconnect√© en animateur
+	 * @return	boolean	true si un utilisateur est connect√à, false sinon
+	 * @author	Fr√©d√©ric MOSSMANN
 	 * @since	13.11.2009
 	 * 
 	 */
@@ -47,10 +47,10 @@ class Kernel {
 	/**
 	 * ymd2dmy
 	 *
-	 * Transforme une date du format informatique (YYYY-MM-DD) en format franÁais (JJ/MM/YYYY).
-	 * @author  FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * Transforme une date du format informatique (YYYY-MM-DD) en format fran√Åais (JJ/MM/YYYY).
+	 * @author  Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param string $ymd Date au format informatique (YYYY-MM-DD).
-	 * @return string Date au format franÁais (JJ/MM/YYYY).
+	 * @return string Date au format fran√Åais (JJ/MM/YYYY).
 	 */
 	function ymd2dmy( $ymd ) {
 		if( ereg ("([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})", $ymd, $regs) ) {
@@ -118,10 +118,10 @@ class Kernel {
 	
 	
 	/**
-	 * Recherche rÈcursive du droit le plus fort d'un utilisateur sur un noeud.
+	 * Recherche r√àcursive du droit le plus fort d'un utilisateur sur un noeud.
 	 *
 	 * @return  integer Droit (entre 0 et 70).
-	 * @author  FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author  Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getLevel_r( $node_type, $node_id, $user_type="-1", $user_id="-1", $fusible=9 ) {
 		if( $fusible-- <= 0 ) return 0;
@@ -138,11 +138,11 @@ class Kernel {
 	}
 
 	/**
-	 * Fonction rÈcursive de parcours de l'arbre des noeuds, en remontant les parents, et concatÈnation de toutes les donnÈes.
+	 * Fonction r√àcursive de parcours de l'arbre des noeuds, en remontant les parents, et concat√ànation de toutes les donn√àes.
 	 * Ne pas utiliser directement, mais passer par getNodes.
 	 *
-	 * @return  array Liste des noeuds rencontrÈs, avec doublons.
-	 * @author  FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @return  array Liste des noeuds rencontr√às, avec doublons.
+	 * @author  Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @since   15.06.2006
 	 */
 	function getNodes_r( $node_type, $node_id, $user_type, $user_id, $fusible=9 ) {
@@ -164,7 +164,7 @@ class Kernel {
 	 * Recherche de tous les parents d'une personnes, directs ou indirects, avec informations completes.
 	 *
 	 * @return  array Liste des noeuds, par type, puis par ID.
-	 * @author  FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author  Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @since   15.06.2006
 	 */
 	function getNodes( $user_type="-1", $user_id="-1" ) {
@@ -224,7 +224,7 @@ class Kernel {
 					$tree->groupes[$value->grv_id_grv]->info["nom" ] = $value->grv_nom_groupe;
 					$tree->groupes[$value->grv_id_grv]->info["crea"] = $value->grv_date_creation;
 					$tree->groupes[$value->grv_id_grv]->info["level"] = 0+Kernel::getLevel( 'BU_GRVILLE', $value->grv_id_grv );
-					// Recherche des villes dans chaque groupe trouvÈ
+					// Recherche des villes dans chaque groupe trouv√à
 					$villes = Kernel::getTree( "BU_GRVILLE", $value->grv_id_grv );
 					$tree->groupes[$value->grv_id_grv]->villes = $villes->villes;
 				}
@@ -237,12 +237,12 @@ class Kernel {
 					$tree->villes[$value->vil_id_vi]->info["nom" ] = $value->vil_nom;
 					$tree->villes[$value->vil_id_vi]->info["crea"] = $value->vil_date_creation;
 					$tree->villes[$value->vil_id_vi]->info["level"] = 0+Kernel::getLevel( 'BU_VILLE', $value->vil_id_vi );
-					// Recherche des ecoles dans chaque ville trouvÈe
+					// Recherche des ecoles dans chaque ville trouv√àe
 					$ecoles = Kernel::getTree( "BU_VILLE", $value->vil_id_vi );
 					$tree->villes[$value->vil_id_vi]->ecoles = $ecoles->ecoles;
 				}
 				break;
-			case "BU_VILLE" : // Recherche des Ècoles dans une ville...
+			case "BU_VILLE" : // Recherche des √àcoles dans une ville...
 				$eco_dao = _dao("kernel|kernel_tree_eco");
 				$eco_list = $eco_dao->getByVille($racine_node);
 				$tree->ecoles = array();
@@ -250,12 +250,12 @@ class Kernel {
 					$tree->ecoles[$value->eco_numero]->info["nom" ] = $value->eco_nom;
 					$tree->ecoles[$value->eco_numero]->info["type"] = $value->eco_type;
 					$tree->ecoles[$value->eco_numero]->info["level"] = 0+Kernel::getLevel( 'BU_ECOLE', $value->eco_numero );
-					// Recherche des classes dans chaque Ècole trouvÈe
+					// Recherche des classes dans chaque √àcole trouv√àe
 					$classes = Kernel::getTree( "BU_ECOLE", $value->eco_numero );
 					$tree->ecoles[$value->eco_numero]->classes = $classes->classes;
 				}
 				break;
-			case "BU_ECOLE" : // Recherche des Ècoles dans une ville...
+			case "BU_ECOLE" : // Recherche des √àcoles dans une ville...
 				$cla_dao = _dao("kernel|kernel_tree_claniv");
 				$cla_list = $cla_dao->getByEcole($racine_node);
 				$tree->classes = array();
@@ -282,7 +282,7 @@ class Kernel {
     //print_r ("getNodeParents( $type, $id )<br>");
 		//die();
 
-		if (1) { //La donnee níest pas en cache, on traite la demande.
+		if (1) { //La donnee n√≠est pas en cache, on traite la demande.
 		
 		$return = array();
 		switch( $type ) {
@@ -321,7 +321,7 @@ class Kernel {
 			
 			case "USER_ENS": // Enseignant --(n)--> Classes/Ecoles
 			case "USER_VIL": // Agent de ville --(1?)--> Ville
-			case "USER_ADM": // Administratif Ècole --(n)--> Ecoles
+			case "USER_ADM": // Administratif √àcole --(n)--> Ecoles
 				$dao = _dao("kernel|kernel_bu_personnel_entite");
 				$res = $dao->getById($id);
 				
@@ -332,7 +332,7 @@ class Kernel {
 							$role2droit = array(1=>PROFILE_CCV_WRITE,2=>PROFILE_CCV_ADMIN,3=>PROFILE_CCV_WRITE);
 							$return[]=array("type"=>"BU_ECOLE", "id"=>$val->pers_entite_reference,"droit"=>$role2droit[$val->pers_entite_role]);
 							
-							// Patch pour accËs directeur dans les classes
+							// Patch pour acc√ãs directeur dans les classes
 							if( CopixConfig::exists('|conf_DirClasse') && CopixConfig::get('|conf_DirClasse') )
 							{
 								// Enseignant --(n)--> Classes (directeur)
@@ -384,7 +384,7 @@ class Kernel {
 						$return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
 				}
 				// PNL - en dur, chef de Grandville (id1)
-				// en rÈalitÈ il faut balayer tout ce qui est attachÈ ‡ ce user EXT
+				// en r√àalit√à il faut balayer tout ce qui est attach√à ‚Ä° ce user EXT
 				// $return[]=array("type"=>"BU_VILLE", "id"=>1,"droit"=>99);
 				
 				// Les USER_EXT sont attaches par defaut a ROOT/0 sans droits
@@ -395,7 +395,7 @@ class Kernel {
 				break;
 		}
 
-		// Responsable --(n)--> BÈnÈficiaire (limitÈ ‡ parent --> enfants)
+		// Responsable --(n)--> B√àn√àficiaire (limit√à ‚Ä° parent --> enfants)
 		if( $type=="USER_RES" /* || $type="ORGANISME" */ ) {
 			$dao = _dao("kernel|kernel_bu_res2ele");
 			$res = $dao->getByResponsable($type, $id);
@@ -432,10 +432,10 @@ class Kernel {
 			}
 		}
 		
-		// Ajoute les infos aux donnÈes sur les enfants
+		// Ajoute les infos aux donn√àes sur les enfants
 		foreach( $return AS $key=>$val ) {
 			$infos = Kernel::getNodeInfo( $val['type'], $val['id'], false );
-			if( $infos ) // VÈrifie qu'il y a des infos...
+			if( $infos ) // V√àrifie qu'il y a des infos...
 				foreach( $infos AS $info_key=>$info_val )
 					if( !isset($return[$key][$info_key]) ) // Evite les effacements...
 						$return[$key][$info_key] = $info_val;
@@ -450,8 +450,8 @@ class Kernel {
 	/**
 	 * getNodeChilds
 	 *
-	 * Retourne la liste des noeuds dÈpendant d'un noeud (enfants).
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * Retourne la liste des noeuds d√àpendant d'un noeud (enfants).
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param string $type Type du noeud parent.
 	 * @param integer $id Identifiant du noeud parent.
 	 * @return array Liste des noeuds, chacun sous forme (type,id). 
@@ -555,7 +555,7 @@ class Kernel {
 					$return = $this->cache_getNodeChilds_classe[$id];
 				} else {
 
-					// Classe --(n)--> ElËves
+					// Classe --(n)--> El√ãves
 					$dao = _dao("kernel|kernel_bu_ele_affect");
 					$res = $dao->getByClasse($id);
 					foreach( $res AS $key=>$val ) {
@@ -574,7 +574,7 @@ class Kernel {
 			
 			/*
 			case "USER_ELE": // A FINIR !!!
-				// BÈnÈficiaire --(n)--> Responsable
+				// B√àn√àficiaire --(n)--> Responsable
 				$dao = _dao("kernel|kernel_bu_res2ele");
 				$res = $dao->getByBeneficiaire("USER_ELE", $id);
 				foreach( $res AS $key=>$val ) {
@@ -584,7 +584,7 @@ class Kernel {
 			*/
 		}
 
-		// BÈnÈficiaire --(n)--> Responsable (limitÈ ‡ enfant --> parents)
+		// B√àn√àficiaire --(n)--> Responsable (limit√à ‚Ä° enfant --> parents)
 		if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
 			$dao = _dao("kernel|kernel_bu_res2ele");
 			$res = $dao->getByBeneficiaire("USER_ELE", $id);
@@ -614,7 +614,7 @@ class Kernel {
 			// Groupes
 		}
 		
-		// Ajoute les personnes extÈrieures (mÍme non liÈes ‡ un noeud) ‡ la racine
+		// Ajoute les personnes ext√àrieures (m√çme non li√àes ‚Ä° un noeud) ‚Ä° la racine
 		if( $type=='ROOT' ) {
 			
 			$return_add = array();
@@ -651,10 +651,10 @@ class Kernel {
 		}
 		
 		if( $addchildinfo ) {
-			// Ajoute les infos aux donnÈes sur les enfants
+			// Ajoute les infos aux donn√àes sur les enfants
 			foreach( $return AS $key=>$val ) {
 		 		$infos = Kernel::getNodeInfo( $val['type'], $val['id'], false );
-				if( $infos ) // VÈrifie qu'il y a des infos...
+				if( $infos ) // V√àrifie qu'il y a des infos...
 					foreach( $infos AS $info_key=>$info_val )
 						if( !isset($return[$key][$info_key]) ) // Evite les effacements...
 							$return[$key][$info_key] = $info_val;
@@ -669,10 +669,10 @@ class Kernel {
 	 * filterNodeList
 	 *
 	 * Filtre une liste des noeuds en fonction d'un type.
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param array $node_list Liste de noeuds.
 	 * @param string $node_type Type de noeud.
-	 * @return array Liste des noeuds, filtrÈ sur le type, renumÈrotÈ.
+	 * @return array Liste des noeuds, filtr√à sur le type, renum√àrot√à.
 	 */
 	function filterNodeList( $node_list, $node_type ) {
 		$liste_filtree = array();
@@ -700,7 +700,7 @@ class Kernel {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @param array $module_list Liste de modules
 	 * @param string $module_type Type de module
-	 * @return array Liste des noeuds, filtrÈ sur le type, renumÈrotÈ.
+	 * @return array Liste des noeuds, filtr√à sur le type, renum√àrot√à.
 	 */
 	function filterModuleList( $module_list, $module_type ) {
 		//print_r($module_list);
@@ -725,9 +725,9 @@ class Kernel {
 	 * sortNodeList
 	 *
 	 * Tri une liste des noeuds par type.
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param array $node_list Liste de noeuds.
-	 * @return array Liste des noeuds, triÈ par type, renumÈrotÈ.
+	 * @return array Liste des noeuds, tri√à par type, renum√àrot√à.
 	 */
 	function sortNodeList( $node_list, $col='type', $ordre=SORT_ASC ) {
 		
@@ -787,7 +787,7 @@ class Kernel {
 	 * uniqNodeList
 	 * 
 	 * Elimine les doublons d'une liste des noeuds.
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param array $node_list Liste de noeuds.
 	 * @return array Liste des noeuds.
 	 */
@@ -808,8 +808,8 @@ class Kernel {
 	/**
 	 * setClubParent
 	 *
-	 * Attache un club ($club_id) ‡ un noeud ($node_type, $node_id).
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * Attache un club ($club_id) ‚Ä° un noeud ($node_type, $node_id).
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param integer $club_id Identifiant du club.
 	 * @param string $node_type Type de noeud.
 	 * @param integer $node_id Identifiant du noeud.
@@ -828,10 +828,10 @@ class Kernel {
 	 * getNodeInfo
 	 *
 	 * Retourne les information d'un noeud ($type, $id).
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param string $type Type de noeud.
 	 * @param integer $id Identifiant du noeud.
-	 * @param boolean $addparents Ajouter les infos sur les parents (vrai par dÈfaut).
+	 * @param boolean $addparents Ajouter les infos sur les parents (vrai par d√àfaut).
 	 */
 	function getNodeInfo( $type, $id, $addparents=true ) {
 		$return = array();
@@ -992,6 +992,7 @@ class Kernel {
 		//print_r($users);
 		
 		if( sizeof( $users ) ) {
+
 			// foreach( $users as $key => $userval ) {
 			$userval = $users[0];
 			$user["type"]     = $users[0]->bu_type;
@@ -1147,9 +1148,9 @@ class Kernel {
 	/**
 	 * getModEnabled
 	 *
-	 * Retourne la liste des modules attachÈs ‡ un noeud, et en option, ceux dÈpendant du type d'utilisateur.
+	 * Retourne la liste des modules attach√às ‚Ä° un noeud, et en option, ceux d√àpendant du type d'utilisateur.
 	 *
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @param string  $node_type Type de noeud.
 	 * @param integer $node_id   Identifiant du noeud.
 	 * @param string  $user_type Type d'utilisateur (facultatif).
@@ -1186,7 +1187,7 @@ class Kernel {
 
 		if( CopixConfig::exists('|conf_ModTeleprocedures') && CopixConfig::get('|conf_ModTeleprocedures')==0 )
 		{
-			// Pas de module de tÈlÈprocÈdures...
+			// Pas de module de t√àl√àproc√àdures...
 		} else {
 			if( $user_type == "USER_ENS" &&
 			    $node_type == "BU_ECOLE" &&
@@ -1224,7 +1225,7 @@ class Kernel {
 			$modules[] = $comptes;
 		}
 		
-		// Cas particuliers : modules personnels sans numÈros
+		// Cas particuliers : modules personnels sans num√àros
 		if( 0 == strncmp($node_type,"USER_",5) ) {
 			$perso_list = array( 'MOD_ANNUAIRE', 'MOD_MINIMAIL', 'MOD_GROUPE', 'MOD_RESSOURCE' );
 			foreach( $perso_list AS $perso_module ) {
@@ -1246,7 +1247,7 @@ class Kernel {
 			$modules[] = $admin;
 		}
 		
-		// Cas ENS+VIL : SSO vers Gael si tout est configurÈ.
+		// Cas ENS+VIL : SSO vers Gael si tout est configur√à.
 		$SsoGaelService = & CopixClassesFactory::Create ('ssogael|ssogael');
 		if( (
 			($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
@@ -1364,7 +1365,7 @@ class Kernel {
 			//foreach( $user_parents AS $user_key=>$user_val ) {
 			while ($user_val = array_pop($user_parents)) {
         
-				// Rustine 1 : les gens rattachÈs ‡ une classe ont le mÍme droit dans l'Ècole de la classe
+				// Rustine 1 : les gens rattach√às ‚Ä° une classe ont le m√çme droit dans l'√àcole de la classe
 				if ($user_val["type"] == "BU_CLASSE") {
 					$ecoles = Kernel::getNodeParents( $user_val["type"], $user_val["id"] );
 					foreach ($ecoles as $ecole_key=>$ecole_val) {
@@ -1432,7 +1433,7 @@ class Kernel {
 		$cache_type = 'getmynodes';
 		$cache_id = $bu_type.'-'.$bu_id;
 		
-		if (!CopixCache::exists($cache_id, $cache_type)) { //La donnee níest pas en cache, on traite la demande.
+		if (!CopixCache::exists($cache_id, $cache_type)) { //La donnee n√≠est pas en cache, on traite la demande.
 		
 			//var_dump("getMyNodes / type=$type / id=$id");
 			$data = array();
@@ -1528,7 +1529,7 @@ class Kernel {
 	
 	function simpleName( $titre ) {
 		$res = trim($titre);
-		$tofind = " ¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò()[]'~$&%*@!?;,:/\^®Ä{}|+-";
+		$tofind = " ¬ø¬°¬¨‚àö∆í‚âà‚Ä°¬∑‚Äö‚Äû‚Ä∞√Ç‚Äú‚Äù‚Äò‚Äô√∑√ø√ö√õ√ôƒ±ÀÜ¬Ø¬ª‚Ä¶¬†√Ä√ã√à√ç√é¬´√Å√É√ï≈í≈ì√è√å√ì√î≈∏‚ÅÑ‚Ç¨‚ÄπÀòÀôÀö¬∏Àá‚Äî√í()[]'~$&%*@!?;,:/\^¬Æ√Ñ{}|+-";
 		$replac = "-AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn--------------------------";
 		$res =(strtr($res,$tofind,$replac));
 		$res = strtolower($res);
@@ -1587,8 +1588,8 @@ class Kernel {
 	 * getSessionBU
 	 *
 	 * Retourne les information de l'utilisateur courant (depuis la Session)
-	 * @return	array	tableau contenant les informations sur l'entitÈ courante
-	 * @author	FrÈdÈric Mossmann
+	 * @return	array	tableau contenant les informations sur l'entit√à courante
+	 * @author	Fr√àd√àric Mossmann
 	 */
 	function getSessionBU() {
 		return _currentUser()->getExtras();
@@ -1597,9 +1598,9 @@ class Kernel {
 	/**
 	 * getSessionHome
 	 *
-	 * Retourne un tableau contenant les informations sur l'entitÈ de rattachement courant
-	 * @return	array	tableau contenant les informations sur l'entitÈ courante
-	 * @author	FrÈdÈric REISS
+	 * Retourne un tableau contenant les informations sur l'entit√à de rattachement courant
+	 * @return	array	tableau contenant les informations sur l'entit√à courante
+	 * @author	Fr√àd√àric REISS
 	 * @since	15.12.2005
 	 */
 	function getSessionHome () {
@@ -1693,18 +1694,18 @@ class Kernel {
 
 
 	/**
-	 * DÈtermine si l'usager courant est un ÈlËve
+	 * D√àtermine si l'usager courant est un √àl√ãve
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
-	 * @return bool True si c'est un ÈlËve, false sinon
+	 * @return bool True si c'est un √àl√ãve, false sinon
 	 */
 	function isEleve () {
 		return (_currentUser()->getExtra('type') == 'USER_ELE');
 	}
 
 	/**
-	 * DÈtermine si l'usager courant est un parent
+	 * D√àtermine si l'usager courant est un parent
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
@@ -1716,7 +1717,7 @@ class Kernel {
 
 
 	/**
-	 * DÈtermine si l'usager courant est un enseignant ou directeur
+	 * D√àtermine si l'usager courant est un enseignant ou directeur
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
@@ -1727,7 +1728,7 @@ class Kernel {
 	}
 
 	/**
-	 * DÈtermine si l'usager courant est un agent de ville
+	 * D√àtermine si l'usager courant est un agent de ville
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
@@ -1738,9 +1739,9 @@ class Kernel {
 	}
 
 	/**
-	 * DÈtermine si l'usager courant est un administrateur
+	 * D√àtermine si l'usager courant est un administrateur
 	 * 
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2007/02/19
 	 * @return bool True si c'est un administrateur, false sinon
 	 */
@@ -1749,7 +1750,7 @@ class Kernel {
 	}
 
    /**
-   * DÈtermine si l'usager courant est du personnel administratif
+   * D√àtermine si l'usager courant est du personnel administratif
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/01/24
@@ -1824,11 +1825,11 @@ class Kernel {
 	}
 	
 	/**
-	 * DÈtermine si Iconito est en mode "dÈmo" (accËs limitÈ et auto-login).
+	 * D√àtermine si Iconito est en mode "d√àmo" (acc√ãs limit√à et auto-login).
 	 * 
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/11/23
-	 * @return bool True si Iconito est en mode "dÈmo" (cf. config |isdemo)
+	 * @return bool True si Iconito est en mode "d√àmo" (cf. config |isdemo)
 	 */
 	function isDemo() {
 		return( CopixConfig::exists('default|isDemo') && CopixConfig::get('default|isDemo') );
@@ -1857,11 +1858,11 @@ class Kernel {
 	}
 
 	/**
-	 * Retourne la visibilitÈ d'un type d'utilisateur
+	 * Retourne la visibilit√à d'un type d'utilisateur
 	 * 
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/12/07
-	 * @param string $dst Type personne ‡ voir.
+	 * @param string $dst Type personne ‚Ä° voir.
 	 * @param string $src Type personne qui veut voir (option)
 	 * @return string 'FULL', 'NONE' ou un niveau 'BU_VILLE', 'BU_ECOLE', etc.
 	 */
@@ -1885,16 +1886,16 @@ class Kernel {
 	}
 
 	/**
-	 * Retourne la visibilitÈ d'un utilisateur
+	 * Retourne la visibilit√à d'un utilisateur
 	 * 
-	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Fr√àd√àric Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2006/12/07
-	 * @param string $dst_type Type personne ‡ voir.
-	 * @param integer $dst_id Identifiant personne ‡ voir.
-	 * @param string $src_type Type personne qui veut voir (option). L'utilisateur connectÈ par dÈfaut.
-	 * @param integer $src_id Identifiant personne qui veut voir (option). L'utilisateur connectÈ par dÈfaut.
-	 * @return bool True si la visibilitÈ est autorisÈe
-	 * @todo Affiner la recherche si la visibilitÈ est limitÈ ‡ un noeud (ville, ecole, etc.)
+	 * @param string $dst_type Type personne ‚Ä° voir.
+	 * @param integer $dst_id Identifiant personne ‚Ä° voir.
+	 * @param string $src_type Type personne qui veut voir (option). L'utilisateur connect√à par d√àfaut.
+	 * @param integer $src_id Identifiant personne qui veut voir (option). L'utilisateur connect√à par d√àfaut.
+	 * @return bool True si la visibilit√à est autoris√àe
+	 * @todo Affiner la recherche si la visibilit√à est limit√à ‚Ä° un noeud (ville, ecole, etc.)
 	 */
 	function getUserVisibility( $dst_type, $dst_id, $src_type="ME", $src_id=0 ) {
 		if( $src_type=='ME' ) {
@@ -1905,10 +1906,10 @@ class Kernel {
 			else return( false );
 		}
 		
-		// Recherche la visibilitÈ gÈnÈrique en fonction du type d'utilisateur.
+		// Recherche la visibilit√à g√àn√àrique en fonction du type d'utilisateur.
 		$type_visibility = Kernel::getUserTypeVisibility( $dst_type, $src_type );
 
-		// Si c'est FULL ou NONE, on rÈpond de suite. Sinon, on doit affiner la recherche (TODO)
+		// Si c'est FULL ou NONE, on r√àpond de suite. Sinon, on doit affiner la recherche (TODO)
 		switch( $type_visibility ) {
 			case 'FULL':
 				return true;
@@ -1925,7 +1926,7 @@ class Kernel {
 	}
 	
 	/**
-	 * Renvoie tous les modules dÈveloppÈs. Parcourt le dossier modules
+	 * Renvoie tous les modules d√àvelopp√às. Parcourt le dossier modules
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/22
@@ -2084,7 +2085,170 @@ class Kernel {
 		return $res;
 	}
 	
+	/**
+	 * createLogin
+	 *
+	 * Propose un login en fonction des information de l'utilisateur (nom, pr√©nom, r√¥le, etc.)
+	 *
+	 * @author Fr√©d√©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @param array $user_infos Tableau des informations de l'utilisateur.
+	 * @return string Login compos√© des information disponibles.
+	 */
+	function createLogin( $user_infos ) {
+		
+		// Caract√®res pouvant √™tre dans un nom/prenom.
+		$interdits = array(" ", "'", "-");
+		
+		$nom = $user_infos['nom'];
+		$prenom = $user_infos['prenom'];
+		$nom_init = $prenom_init = '';
+		
+		// Recherche des initiales : la premi√®re lettre de chaque entit√© dans un nom/prenom.
+		$separateur_init = implode( '', $interdits );
+		$tok = strtok($nom, $separateur_init);
+		while ($tok !== false) {
+			$nom_init .= $tok{0};
+			$tok = strtok($separateur_init);
+		}
+		$tok = strtok($prenom, $separateur_init);
+		while ($tok !== false) {
+			$prenom_init .= $tok{0};
+			$tok = strtok($separateur_init);
+		}
+		
+		// Retrait des caract√®res sp√©ciaux des noms/pr√©noms.
+		$nom       = str_replace($interdits, "", $nom);
+		$prenom    = str_replace($interdits, "", $prenom); 
+
+		// Simplification (accents, majuscules, etc.)
+		$nom         = Kernel::simpleName($nom);
+		$nom_init    = Kernel::simpleName($nom_init);
+		$prenom      = Kernel::simpleName($prenom);
+		$prenom_init = Kernel::simpleName($prenom_init);  
+		
+		$login_parts = array();
+		switch( $user_infos['type'] ) {
+			case 'USER_ELE': // El√®ves : Pr√©nom et initiale du nom
+				if( trim($prenom)   != '' ) $login_parts[] = $prenom;
+				// if( trim($nom_init) != '' ) $login_parts[] = $nom_init;
+				$login = implode( '', $login_parts );
+				break;
+			case 'USER_VIL': // Officiels : pr√©nom et nom s√©par√©s par un point
+				if( trim($prenom) != '' ) $login_parts[] = $prenom;
+				if( trim($nom)    != '' ) $login_parts[] = $nom;
+				$login = implode( '.', $login_parts );
+				break;
+			default; // Par d√©faut : initiale du pr√©nom et nom
+				if( trim($prenom_init) != '' ) $login_parts[] = $prenom_init;
+				if( trim($nom)         != '' ) $login_parts[] = $nom;
+				$login = implode( '', $login_parts );
+				break;
+		}
+		
+		$ext=''; $fusible=1000; // Fusible pour √©viter les boucles sans fin.
+		
+		$get = _dao('kernel|kernel_copixuser')->getByLogin($login.$ext);
+		while( count($get) && $fusible-- ) {
+			if( $ext=='' ) $ext=1;
+			else $ext++;
+			$get = _dao('kernel|kernel_copixuser')->getByLogin($login.$ext);
+		}
+		
+		return $login.$ext;
+	}
 	
+	/**
+	 * createPasswd
+	 *
+	 * Propose un mot de passe al√©atoire.
+	 *
+	 * @author Fr√©d√©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @return string Mot de passe al√©atoire.
+	 */
+	function createPasswd() {
+		$lettres  = 'abcdefghijklmnopqrstuvwxyz';
+		$chiffres = '0123456789';
+		$passwd = '';
+		
+		$passwd .= $lettres{mt_rand(0, strlen($lettres)-1)};
+		$passwd .= $lettres{mt_rand(0, strlen($lettres)-1)};
+		$passwd .= $chiffres{mt_rand(0, strlen($chiffres)-1)};
+		$passwd .= $chiffres{mt_rand(0, strlen($chiffres)-1)};
+		$passwd .= $lettres{mt_rand(0, strlen($lettres)-1)};
+		$passwd .= $lettres{mt_rand(0, strlen($lettres)-1)};
+		$passwd .= $chiffres{mt_rand(0, strlen($chiffres)-1)};
+		$passwd .= $chiffres{mt_rand(0, strlen($chiffres)-1)};
+		
+		return( $passwd );
+	}
+	
+	/**
+	 * isLoginAvailable
+	 *
+	 * V√©rifie que le login soit disponible.
+	 *
+	 * @author xxxx
+	 * @return string Login souhait√©.
+	 */
+	function isLoginAvailable ($login) {
+	  
+	  $dbUserDAO = _ioDAO ('kernel|kernel_copixuser');
+
+	  if ($dbUserDAO->getByUserLogin ($login)) {
+	     
+	    return false;
+	  }
+	   
+	  return true;
+	}
+	
+	/**
+	 * checkPasswordFormat
+	 *
+	 * V√©rifie le format du password : au moins 6 caract√®res dont 1 chiffre.
+	 *
+	 * @author xxxx
+	 * @return string Password souhait√©.
+	 */
+	function checkPasswordFormat ($password) {
+	  
+	  if (strlen ($password) < 6) {
+	    
+	    return false;
+	  }
+
+	  if (!preg_match('/[0-9]/', $password)) {
+	    
+	    return false;
+	  }
+	
+	  return true;
+  }
+  
+  function createCanon ($cityName) {
+    
+    $canon = strtolower (trim ($cityName));
+    
+    $cityDAO = _ioDAO('kernel|kernel_bu_ville');
+    $city = $cityDAO->getByCanon($canon);
+  	$cpt = '';           
+  	
+  	while (count ($city)) {
+      
+      if ($cpt == '') {
+      
+        $cpt = 1;
+      }
+			else {
+			  
+			  $cpt++;
+			}
+			
+  		$city = $cityDAO->getByCanon($canon.$cpt);
+  	}
+  	
+  	return $canon.$cpt;
+  }
 }
 
 ?>

@@ -17,13 +17,13 @@
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
     
-    <label> Nom :</label>
+    <label class="form_libelle"> Nom :</label>
     <input class="form" type="text" name="name" id="name" value="{$ppo->city->nom}" />
   </fieldset>
   
   <ul class="actions">
-    <li><input class="form_button" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="form_button" type="submit" name="save" id="save" value="Enregistrer" /></li>
+    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
+  	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
   </ul>
 </form>
 
@@ -31,7 +31,14 @@
 <script type="text/javascript">
 //<![CDATA[
   
-  $('#cancel').click(function() {
+  jQuery.noConflict();
+  
+  jQuery(document).ready(function(){
+ 	
+ 	  jQuery('.button').button();
+  });
+  
+  jQuery('#cancel').click(function() {
     
     document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
   });

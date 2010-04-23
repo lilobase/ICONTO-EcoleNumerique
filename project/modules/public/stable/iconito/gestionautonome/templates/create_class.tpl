@@ -18,24 +18,24 @@
     <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->parentType}" />
     
     <div class="field">
-      <label for="name"> Nom :</label>
+      <label for="name" class="form_libelle"> Nom :</label>
       <input class="form" type="text" name="nom" id="nom" value="{$ppo->class->nom}" />
     </div>
     
     <div class="field">
-      <label for="name"> Niveaux :</label>
+      <label for="name" class="form_libelle"> Niveaux :</label>
       {html_checkboxes name='levels' values=$ppo->levelIds output=$ppo->levelNames selected=$ppo->levels}
     </div>
     
-    <label for="type"> Type :</label>
+    <label for="type" class="form_libelle"> Type :</label>
     <select class="form" name="type" id="type">
       {html_options values=$ppo->typeIds output=$ppo->typeNames selected=$ppo->type} 
   	</select>
   </fieldset>
   
   <ul class="actions">
-    <li><input class="form_button" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="form_button" type="submit" name="save" id="save" value="Enregistrer" /></li>
+    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
+  	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
   </ul>
 </form>
 
@@ -43,7 +43,14 @@
 <script type="text/javascript">
 //<![CDATA[
   
-  $('#cancel').click(function() {
+  jQuery.noConflict();
+  
+  jQuery(document).ready(function(){
+ 	
+ 	  jQuery('.button').button();
+  });
+  
+  jQuery('#cancel').click(function() {
     
     document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->parentId nodeType=$ppo->parentType notxml=true}'{literal};
   });

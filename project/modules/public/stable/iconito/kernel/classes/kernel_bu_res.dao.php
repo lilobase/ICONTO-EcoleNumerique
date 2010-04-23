@@ -5,11 +5,28 @@
  * 
  * @package Iconito
  * @subpackage Kernel
- */
+ */      
+ 
+class DAORecordKernel_bu_res {
+  
+  protected $_loginAccount = null;
+  
+  function getLoginAccount () {
+    
+    if (is_null ($this->_loginAccount)) {
+      
+      $dbUserDAO = _ioDAO ('kernel|kernel_copixuser');
+      $this->_loginAccount = $dbUserDAO->getUserByBuIdAndBuType ($this->res_numero, 'USER_RES')->login_dbuser;
+    }
+
+    return $this->_loginAccount;
+  }
+}
+ 
 class DAOKernel_bu_res {
 
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une classe
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une classe
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -22,11 +39,11 @@ class DAOKernel_bu_res {
 	}
 	
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une école
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une Ã©cole
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
-	 * @param integer $ecole Id de l'école
+	 * @param integer $ecole Id de l'Ã©cole
 	 * @return mixed Objet DAO
 	 */
 	function getParentsInEcole ($ecole) {
@@ -35,7 +52,7 @@ class DAOKernel_bu_res {
 	}
 	
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une école d'une ville
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une Ã©cole d'une ville
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20
@@ -50,7 +67,7 @@ class DAOKernel_bu_res {
 	
 
 	/**
-	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattaché à une école d'une ville d'un groupe de villes
+	 * Renvoie la liste des parents ayant un compte utilisateur et un enfant rattachÃ© Ã  une Ã©cole d'une ville d'un groupe de villes
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/20

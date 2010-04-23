@@ -39,7 +39,10 @@ $validatePersonnelCreation = & new CopixAction ('default', 'processValidatePerso
 $updatePersonnel = & new CopixAction ('default', 'processUpdatePersonnel');
 $validatePersonnelUpdate = & new CopixAction ('default', 'processValidatePersonnelUpdate');
 
-$deletePersonnel = & new CopixAction ('default', 'processDeletePersonnel');
+$deletePersonnel = & new CopixAction ('default', 'processDeletePersonnel');   
+
+$addExistingPersonnel = & new CopixAction ('default', 'processAddExistingPersonnel');
+$validateExistingPersonsAdd = & new CopixAction ('default', 'processValidateExistingPersonsAdd');
 
 // Eleves
 $createStudent = & new CopixAction ('default', 'processCreateStudent');
@@ -56,3 +59,9 @@ $createPersonInCharge = & new CopixAction ('default', 'processCreatePersonInChar
 $validatePersonInChargeCreation = & new CopixAction ('default', 'processValidatePersonInChargeCreation');
 
 $removePersonInCharge = & new CopixAction ('default', 'processRemovePersonInCharge');
+$deletePersonInCharge = & new CopixAction ('default', 'processDeletePersonInCharge');
+
+// Années scolaires
+$createGrade = & new CopixAction ('default', 'processCreateGrade');
+$validateGradeCreation = & new CopixAction ('default', 'processValidateGradeCreation');
+$setCurrentGrade = & new CopixAction ('default', 'processSetCurrentGrade');

@@ -1,10 +1,72 @@
+/* Hack pour Firefox supprimant les pointillés lors des clics
+------------------------------------------------------------------------------*/
+a,
+input.button {
+  outline: none;
+}
+
+a:focus,
+input.button:focus {
+  -moz-outline-style: none;
+}
+
+a img {
+	border: none;
+}
+ 
+/* Général
+------------------------------------------------------------------------------*/ 
+h4 {
+  color: grey;
+  border-bottom: 1px solid grey;
+}
+
+p.success {
+  margin: 10px 1px;
+  padding: 2px;
+  -moz-border-radius:6px 6px 6px 6px;
+  background-color:#B9C55B;
+  font-size:10px;
+}
+
+.notice-light {
+  width: 400px; 
+  height: 30px;
+  padding-top: 10px;
+} 
+
+.error-light {
+  width: 400px;
+}  
+
+/* Form
+------------------------------------------------------------------------------*/
+label.form_libelle {
+  font-size:12px;
+  font-weight:bold;
+  vertical-align:top;
+  float: left;
+  width: 150px;
+}
+
+div.field {
+  padding-bottom: 2px;
+}
+
+input[type=radio],
+input[type=checkbox] {
+  margin-right: 2px;
+}
+
+/* Tree
+------------------------------------------------------------------------------*/ 
 #tree {
   float: left;
   width: 45%;
   margin: 1px;
   padding: 5px;
   -moz-border-radius:6px 6px 6px 6px;
-  background-color:#E2ED8A;
+  /*background-color:#E2ED8A;*/
   font-size:12px;
 }
 
@@ -15,15 +77,45 @@ ul {
 
 li.collapsed ul {
   display: none;
+} 
+
+#tree ul.tree a.expand {
+  margin-left:0 !important;
+  position:absolute;
+}
+  
+ul.tree a.expand span {
+  left:-5000px;
+  position:absolute;
+}
+
+ul.tree a.after-expand {
+  margin-left: 16px;
+}
+
+ul.tree li.collapsed a.expand {
+  background:url("/themes/default/img/collapsed.gif") no-repeat scroll left center transparent;
+  height:20px;
+}
+
+ul.tree a.expand {
+  background:url("/themes/default/img/expanded.gif") no-repeat scroll left center transparent;
+  display:block;
+  float:left;
+  height:20px;
+  margin-right:5px;
+  width:11px;
 }
 
 li a.current {
-  font-weight: bold;
+  background-color:#327E04 !important;
+  color:white !important;
+  padding:2px;
 }
+                                                                                
 
 #column-data {
   float: right;
-  height: 500px;
   width: 50%;
   padding:6px;
   -moz-border-radius:15px 15px 15px 15px;
@@ -40,20 +132,34 @@ li a.current {
   font-size:10px;
 }
 
-p.success {
-  margin: 10px 1px;
-  padding: 2px;
-  -moz-border-radius:6px 6px 6px 6px;
-  background-color:#B9C55B;
-  font-size:10px;
+#tree-actions a {
+  width: 350px;
+  margin-bottom: 2px;
 }
+
+
 
 ul.actions li {
   float: left;
   margin-right: 5px;
+}    
+
+ul.actions li a.button {
+  width: 410px;
+  margin-bottom: 2px;
 }
 
 #persons-in-charge {
+  float: right;
+  width: 50%;
+  padding:6px;
+  -moz-border-radius:15px 15px 15px 15px;
+  border:2px solid #FFFFFF;
+  background-color:#E2ED8A;
+  font-size:11px;
+}
+
+#accounts-info {
   float: right;
   height: 250px;
   width: 50%;
@@ -62,4 +168,18 @@ ul.actions li {
   border:2px solid #FFFFFF;
   background-color:#E2ED8A;
   font-size:11px;
+}
+
+
+
+
+
+.column-left {
+  float: left;
+  width: 50%;
+}            
+
+.column-right {
+  float: right;
+  width: 50%; 
 }

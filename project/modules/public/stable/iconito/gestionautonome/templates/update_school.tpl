@@ -17,70 +17,29 @@
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
     
-    <label for="ville"> Ville :</label>
-    <select class="form" name="ville" id="ville">
-      {html_options values=$ppo->cityIds output=$ppo->cityNames selected=$ppo->school->id_ville}  
-    </select>
-    
     <div class="field">
-      <label for="name"> RNE :</label>
-      <input class="form" type="text" name="RNE" id="RNE" value="{$ppo->school->RNE}" />
+      <label for="ville" class="form_libelle"> Ville :</label>
+      <select class="form" name="ville" id="ville">
+        {html_options values=$ppo->cityIds output=$ppo->cityNames selected=$ppo->school->id_ville}  
+      </select>
     </div>
-    
-    <label for="type"> Type :</label>
-    <select class="form" name="type" id="type">
-  	  {html_options values=$ppo->types output=$ppo->types selected=$ppo->school->type}
-  	</select>
+   
+    <div class="field">
+      <label for="type" class="form_libelle"> Type :</label>
+      <select class="form" name="type" id="type">
+  	    {html_options values=$ppo->types output=$ppo->types selected=$ppo->school->type}
+  	  </select>
+  	</div>
     
     <div class="field">
-      <label for="name"> Nom :</label>
+      <label for="name" class="form_libelle"> Nom :</label>
       <input class="form" type="text" name="nom" id="nom" value="{$ppo->school->nom}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Numéro rue :</label>
-      <input class="form" type="text" name="num_rue" id="num_rue" value="{$ppo->school->num_rue}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Adresse 1 :</label>
-      <input class="form" type="text" name="adresse1" id="adresse1" value="{$ppo->school->adresse1}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Adresse 2 :</label>
-      <input class="form" type="text" name="adresse2" id="adresse2" value="{$ppo->school->adresse2}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Code postal :</label>
-      <input class="form" type="text" name="code_postal" id="code_postal" value="{$ppo->school->code_postal}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Commune :</label>
-      <input class="form" type="text" name="commune" id="commune" value="{$ppo->school->commune}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Téléphone :</label>
-      <input class="form" type="text" name="tel" id="tel" value="{$ppo->school->tel}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Site internet :</label>
-      <input class="form" type="text" name="web" id="web" value="{$ppo->school->web}" />
-    </div>
-    
-    <div class="field">
-      <label for="name"> Mail :</label>
-      <input class="form" type="text" name="mail" id="mail" value="{$ppo->school->mail}" />
     </div>
   </fieldset>
   
   <ul class="actions">
-    <li><input class="form_button" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="form_button" type="submit" name="save" id="save" value="Enregistrer" /></li>
+    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
+  	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
   </ul>
 </form>
 
@@ -88,7 +47,14 @@
 <script type="text/javascript">
 //<![CDATA[
   
-  $('#cancel').click(function() {
+  jQuery.noConflict();
+  
+  jQuery(document).ready(function(){
+ 	
+ 	  jQuery('.button').button();
+  });
+  
+  jQuery('#cancel').click(function() {
     
     document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
   });

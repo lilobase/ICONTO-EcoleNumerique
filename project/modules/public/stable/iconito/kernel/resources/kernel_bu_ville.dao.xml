@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_ville" tablename="kernel_bu_ville" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id_vi"     fieldname="id_vi"      type="integer" table="kernel_bu_ville" pk="yes"/>
+		<property name="nom"       fieldname="nom"       type="string"  table="kernel_bu_ville" pk="no"/>
+		<property name="canon"          fieldname="canon"          type="string"  table="kernel_bu_ville" pk="no"/>
+		<property name="id_grville"          fieldname="id_grville"          type="int"  table="kernel_bu_ville" pk="no"/>
+		<property name="date_creation"       fieldname="date_creation"       type="string"  table="kernel_bu_ville" pk="no"/>
+	</properties>
+	<methods>
+	</methods>
+</daodefinition>
