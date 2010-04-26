@@ -1279,18 +1279,6 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$personnelEntiteDAO->insert ($newPersonnelEntite);
 		
-		// Si création d'un enseignant dans une classe, affectation également dans l'école (pot commun)
-		if ($ppo->nodeType == 'BU_CLASSE') {
-		  
-		  $newPersonnelEntite2 = _record ('kernel_bu_personnel_entite');
-		  $newPersonnelEntite2->id_per    = $ppo->personnel->numero;
-		  $newPersonnelEntite2->reference = $ppo->nodeId;
-		  $newPersonnelEntite2->type_ref  = 'ECOLE';
-		  $newPersonnelEntite2->role = $ppo->role;
-		  
-		  $personnelEntiteDAO->insert ($newPersonnelEntite2);
-		}
-		
 		$session = _sessionGet ('modules|gestionautonome|createAccount');
 		if (!$session || !is_array ($session)) {
 		  
