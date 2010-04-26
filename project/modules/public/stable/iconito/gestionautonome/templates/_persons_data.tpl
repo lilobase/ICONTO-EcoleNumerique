@@ -27,7 +27,7 @@
               <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" />
             {/if}
           </td>
-          <td>{if $ppo->parent.type == 'BU_ECOLE' AND $item.type_nom == 'Enseignant'}Directeur{else}{$item.type_nom}{/if}</td>
+          <td>{$item.type_nom}</td>
           <td>{$item.nom}</td>
           <td>{$item.prenom}</td>
           <td>{$item.login}</td>
@@ -97,7 +97,7 @@
             <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" />
           {/if}
         </td>
-        <td>{$item.type_nom}</td>
+        <td>{if $ppo->parent.type == 'BU_ECOLE' AND $item.type_nom == 'Enseignant'}Directeur{else}{$item.type_nom}{/if}</td>
         <td>{$item.nom}</td>
         <td>{$item.prenom}</td>
         <td>{$item.login}</td>
