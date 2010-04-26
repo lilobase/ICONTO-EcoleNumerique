@@ -17,6 +17,7 @@ class ZonePersonsData extends CopixZone {
 	  // Récupération des paramètres
 	  $id   = $this->getParam ('nodeId');
 	  $type = $this->getParam ('nodeType');
+	  $ppo->tab = ($this->getParam('tab')) ? $this->getParam('tab') : 0;
 	  
 	  $ppo->parent = Kernel::getNodeInfo ($type, $id);
 

@@ -151,6 +151,10 @@
  	
  	  jQuery('.button').button();
  	  jQuery("#tabs").tabs();
+ 	  if ({/literal}{$ppo->tab}{literal}) {
+ 	    
+ 	    jQuery("#tabs").tabs({ selected: {/literal}{$ppo->tab}{literal}});
+ 	  }
   });
   
 //]]> 

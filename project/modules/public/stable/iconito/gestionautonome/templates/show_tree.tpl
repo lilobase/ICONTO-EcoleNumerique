@@ -23,7 +23,7 @@
 
 <div id="column-data">
   {if $ppo->targetId neq null && $ppo->targetType neq null}
-    {copixzone process=gestionautonome|PersonsData nodeId=$ppo->targetId nodeType=$ppo->targetType}
+    {copixzone process=gestionautonome|PersonsData nodeId=$ppo->targetId nodeType=$ppo->targetType tab=$ppo->tab}
   {else}
     {copixzone process=gestionautonome|PersonsData nodeId=$ppo->root.id nodeType=$ppo->root.type}
   {/if}

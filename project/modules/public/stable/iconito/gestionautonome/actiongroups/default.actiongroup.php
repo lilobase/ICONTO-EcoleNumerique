@@ -37,7 +37,10 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->root = $groupcity[0];
     
     // Y a t-il eu des modifications ?
-    $ppo->save = _request ('save', null);
+    $ppo->save = _request ('save', null); 
+    
+    // Sélection de l'onglet courant
+    $ppo->tab = _request ('tab', null);
     
     // Récupération du noeud cible (noeud courant)
     $ppo->targetId   = _request ('nodeId');
@@ -1656,7 +1659,8 @@ class ActionGroupDefault extends CopixActionGroup {
     $studentAdmissionDAO     = _ioDAO ('kernel_bu_eleve_admission');
     $studentAssignmentDAO    = _ioDAO ('kernel_bu_eleve_affectation');
     $dbuserDAO               = _ioDAO ('kernel|kernel_copixuser'); 
-    $dbLinkDAO               = _ioDAO ('kernel_link_bu2user');    
+    $dbLinkDAO               = _ioDAO ('kernel_link_bu2user');
+    $classDAO                = _ioDAO ('kernel_bu_ecole_classe');    
         
     // Création de l'élève
     $ppo->student = _record ('kernel_bu_eleve');
@@ -1714,7 +1718,7 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
     }
-    if (!$ppo->student->id_sexe) {
+    if (is_null($ppo->student->id_sexe)) {
       
       $ppo->errors[] = CopixI18N::get ('gestionautonome.error.selectGender');
     }
@@ -1814,7 +1818,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $studentAdmission = _record ('kernel_bu_eleve_admission');
     
     $studentAdmission->eleve          = $ppo->student->idEleve;
-    $studentAdmission->etablissement  = '';
+    $studentAdmission->etablissement  = $classDAO->get ($ppo->nodeId)->ecole;
     $studentAdmission->annee_scol     = Kernel::getAnneeScolaireCourante ()->id_as;
     $studentAdmission->id_niveau      = $ppo->level;
     $studentAdmission->etat_eleve     = 1;
@@ -2144,7 +2148,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo->nodeId   = _request ('nodeId', null);
 	  $ppo->nodeType = _request ('nodeType', null);
-	  $studentId       = _request ('studentId', null);
+	  $studentId     = _request ('studentId', null);
 	  
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId)) {
 	    
@@ -2478,7 +2482,7 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
-	  // Suppression du responsable
+	  // Suppression de l'affectation du responsable
 	  $personInChargeLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
 	  $personInChargeLink    = $personInChargeLinkDAO->getByPersonAndStudent ($personId, $studentId);
 	  
