@@ -205,7 +205,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 
 		$arClasses = AnnuaireService::getClassesInEcole ($rEcole->numero, array('forceCanViewEns'=>true, 'onlyWithBlog'=>true, 'onlyWithBlogIsPublic'=>1, 'enseignant'=>false, 'annee'=>$pAnnee));
-		
+
 		$rEcole->blog = getNodeBlog ('BU_ECOLE', $rEcole->numero, array('is_public'=>1));
 
 		$tpl = & new CopixTpl ();
