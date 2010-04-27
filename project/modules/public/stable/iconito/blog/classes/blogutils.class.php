@@ -113,8 +113,8 @@ function BDToDateTime($date, $time, $format) {
 		}
                 //remove empty blog
                 if(!empty($blog)){
-                    $result = _doQuery('SELECT COUNT(*) FROM module_blog_article WHERE id_blog = :id AND is_online = 1', array(':id' => $blog->id_blog));
-                    if($result == 0)
+                    $result = _doQuery('SELECT COUNT(*) AS count FROM module_blog_article WHERE id_blog = :id AND is_online = 1', array(':id' => $blog->id_blog));
+                    if($result[0]->count == 0)
                         $blog = null;
                 }
 
