@@ -30,22 +30,22 @@
       
       <p id="assignment-filters" class="hidden">
         <span id="groupcity-filter">
-          {copixzone process=gestionautonome|filterGroupCity role=$ppo->role}
+          {copixzone process=gestionautonome|filterGroupCity selected=$ppo->listFilters.groupcity}
         </span>
       
         <span id="city-filter">
-          {copixzone process=gestionautonome|filterCity role=$ppo->role}
+          {copixzone process=gestionautonome|filterCity selected=$ppo->listFilters.city city_group_id=$ppo->listFilters.groupcity}
         </span>
 
         {if $ppo->role < 4}
           <span id="school-filter">
-             {copixzone process=gestionautonome|filterSchool role=$ppo->role}
+             {copixzone process=gestionautonome|filterSchool selected=$ppo->listFilters.school city_id=$ppo->listFilters.city}
           </span>
         {/if}
         
         {if $ppo->role < 3}
           <span id="class-filter">
-             {copixzone process=gestionautonome|filterClass role=$ppo->role}
+             {copixzone process=gestionautonome|filterClass selected=$ppo->listFilters.class school_id=$ppo->listFilters.school}
           </span>
         {/if}
       </p>
@@ -125,21 +125,92 @@
  	    
  	    jQuery('#assignment-filters').toggleClass('hidden');
  	  }
-  });
-  
-  jQuery('#withAssignment').change(function() {
-    
-    jQuery('#assignment-filters').toggleClass('hidden');
-  });
-  
-  jQuery('#cancel').click(function() {
-    
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
-  });
-  
-  jQuery('#filter-displayer').click(function() {
+ 	  
+ 	  jQuery('#withAssignment').change(function() {
 
-    jQuery('#persons-list-filter').toggleClass('hidden');
+      jQuery('#assignment-filters').toggleClass('hidden');
+    });
+
+    jQuery('#cancel').click(function() {
+
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+    });
+
+    jQuery('#filter-displayer').click(function() {
+
+      jQuery('#persons-list-filter').toggleClass('hidden');
+    });
+    
+    {/literal}
+    {if $ppo->role < 4}
+    {literal}
+    
+      jQuery('#school').live('change', function(){
+
+        jQuery('#class-filter').empty();
+        
+        var schoolId = jQuery('#school').val();
+        if (schoolId != '') {
+          
+          jQuery.ajax({
+            url: {/literal}'{copixurl dest=gestionautonome|default|refreshClassFilter}'{literal},
+            global: true,
+            type: "GET",
+            data: ({school_id: schoolId}),
+            success: function(html){
+
+              jQuery('#class-filter').append(html);
+            }
+          });
+        }
+      });
+    
+    {/literal}
+    {/if}
+    {literal}
+
+    jQuery('#groupcity').live('change', function(){
+
+      jQuery('#city-filter').empty();
+      jQuery('#school-filter').empty();
+      jQuery('#class-filter').empty();
+      
+      var cityGroupId = jQuery('#groupcity').val();
+      if (cityGroupId != '') {
+        
+        jQuery.ajax({
+          url: {/literal}'{copixurl dest=gestionautonome|default|refreshCityFilter}'{literal},
+          global: true,
+          type: "GET",
+          data: ({city_group_id: cityGroupId}),
+          success: function(html){
+
+            jQuery("#city-filter").append(html);
+          }
+        });
+      }
+    });
+
+    jQuery('#city').live('change', function(){
+      
+      jQuery('#school-filter').empty();
+      jQuery('#class-filter').empty();
+      
+      var cityId = jQuery('#city').val();
+      if (cityId != '') {
+        
+        jQuery.ajax({
+          url: {/literal}'{copixurl dest=gestionautonome|default|refreshSchoolFilter}'{literal},
+          global: true,
+          type: "GET",
+          data: ({city_id: cityId}),
+          success: function(html){
+
+            jQuery('#school-filter').append(html);
+          }
+        });
+      }
+    });
   });
 //]]> 
 </script>

@@ -3654,60 +3654,45 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processRefreshCityFilter () {
 	                                  
-	  // Récupération des paramètres                                      
-	  $role = _request ('role', null);
-	  
-	  // Récupération des filtres en session
-	  $listFilters = _sessionGet ('gestionautonome|addExisting');
-	  if (!is_array ($listFilters)) {
+	  $cityGroupId = _request ('city_group_id', null);
+	  if (!is_null ($cityGroupId)) {
 	    
-	    $listFilters = array ();
+	    $groupDAO = _ioDAO ('kernel_bu_groupe_villes');
+	    if ($group = $groupDAO->get($cityGroupId)) {
+	      
+	      echo CopixZone::process ('gestionautonome|FilterCity', array('city_group_id' => $cityGroupId));
+	    }
 	  }
-	  
-	  $listFilters['groupcity'] = _request ('cityGroupId', null);
-	  _sessionSet ('gestionautonome|addExisting', $listFilters);
-	  
-		echo CopixZone::process ('gestionautonome|FilterCity');
     
     return _arNone ();
 	}
 	
 	public function processRefreshSchoolFilter () {
-	                                        
-	  // Récupération des paramètres                                      
-	  $role = _request ('role', null);
-	  
-	  // Récupération des filtres en session
-	  $listFilters = _sessionGet ('gestionautonome|addExisting');
-	  if (!is_array ($listFilters)) {
+
+	  $cityId = _request ('city_id', null);
+	  if (!is_null ($cityId)) {
 	    
-	    $listFilters = array ();
+	    $cityDAO = _ioDAO ('kernel_bu_ville');
+	    if ($city = $cityDAO->get($cityId)) {
+	      
+	      echo CopixZone::process ('gestionautonome|FilterSchool', array('city_id' => $cityId));
+	    }
 	  }
-
-	  $listFilters['city'] = _request ('cityId', null);
-	  _sessionSet ('gestionautonome|addExisting', $listFilters);
 	  
-		echo CopixZone::process ('gestionautonome|FilterSchool');
-
     return _arNone ();
 	}
 	
 	public function processRefreshClassFilter () {
-	                                        
-	  // Récupération des paramètres                                      
-	  $role = _request ('role', null);
 	  
-	  // Récupération des filtres en session
-	  $listFilters = _sessionGet ('gestionautonome|addExisting');
-	  if (!is_array ($listFilters)) {
+	  $schoolId = _request ('school_id', null);
+	  if (!is_null ($schoolId)) {
 	    
-	    $listFilters = array ();
+	    $schoolDAO = _ioDAO ('kernel_bu_ecole');
+	    if ($school = $schoolDAO->get($schoolId)) {
+	      
+	      echo CopixZone::process ('gestionautonome|FilterClass', array('school_id' => $schoolId));
+	    }
 	  }
-
-	  $listFilters['school'] = _request ('schoolId', null);
-	  _sessionSet ('gestionautonome|addExisting', $listFilters);
-	  
-		echo CopixZone::process ('gestionautonome|FilterClass');
 
     return _arNone ();
 	}
