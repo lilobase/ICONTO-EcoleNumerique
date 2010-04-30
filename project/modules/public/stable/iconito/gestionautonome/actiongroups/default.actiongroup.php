@@ -24,6 +24,17 @@ class ActionGroupDefault extends CopixActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
 	}
 	
+	/**
+	 * Action par défaut => redirige vers showTree
+	 */
+	public function processDefault () {
+	  
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree'));
+	}
+	
+	/**
+	 * Affichage principal (arbre)
+	 */
 	public function processShowTree () {
 	  
 	  $ppo = new CopixPPO ();
