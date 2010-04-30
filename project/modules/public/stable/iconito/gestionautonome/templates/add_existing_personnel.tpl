@@ -32,20 +32,26 @@
         <span id="groupcity-filter">
           {copixzone process=gestionautonome|filterGroupCity selected=$ppo->listFilters.groupcity}
         </span>
-      
+        
         <span id="city-filter">
-          {copixzone process=gestionautonome|filterCity selected=$ppo->listFilters.city city_group_id=$ppo->listFilters.groupcity}
+          {if $ppo->listFilters.groupcity}
+            {copixzone process=gestionautonome|filterCity selected=$ppo->listFilters.city city_group_id=$ppo->listFilters.groupcity}
+          {/if}
         </span>
-
+        
         {if $ppo->role < 4}
           <span id="school-filter">
-             {copixzone process=gestionautonome|filterSchool selected=$ppo->listFilters.school city_id=$ppo->listFilters.city}
+            {if $ppo->listFilters.city}
+              {copixzone process=gestionautonome|filterSchool selected=$ppo->listFilters.school city_id=$ppo->listFilters.city}
+            {/if}
           </span>
         {/if}
         
         {if $ppo->role < 3}
           <span id="class-filter">
-             {copixzone process=gestionautonome|filterClass selected=$ppo->listFilters.class school_id=$ppo->listFilters.school}
+            {if $ppo->listFilters.school}
+              {copixzone process=gestionautonome|filterClass selected=$ppo->listFilters.class school_id=$ppo->listFilters.school}
+            {/if}
           </span>
         {/if}
       </p>
