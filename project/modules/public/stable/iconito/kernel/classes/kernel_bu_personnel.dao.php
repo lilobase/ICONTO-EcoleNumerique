@@ -168,9 +168,20 @@ class DAOKernel_bu_personnel {
 	           
 	            $sql .= ' WHERE PE.reference='.$filters['class'];
 	          }
-	          elseif ($typeRef == 'ECOLE') {
-
-               $sql .= ' WHERE PE.reference='.$filters['school'];
+	          elseif ($typeRef == 'ECOLE') {                           
+	            
+              $sql .= ' JOIN kernel_bu_ecole_classe C ON (PE.reference=C.id AND C.ecole='.$filters['school'].')';
+               
+              if ($filters['user_type'] == 'USER_ADM') {
+                
+                $sql .= ' WHERE (PE.reference='.$filters['school'];
+                $sql .= ' AND C.id IS NULL)';
+              }
+              elseif ($filters['user_type'] == 'USER_ENS') {
+                
+                //$sql .= ' WHERE (PE.reference='.$filters['school'];
+                //$sql .= ' OR C.id IS NOT NULL)';
+              } 
             }
             elseif ($typeRef == 'CLASSE') {
 
