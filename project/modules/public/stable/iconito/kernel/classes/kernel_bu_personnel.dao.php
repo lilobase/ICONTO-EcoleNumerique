@@ -147,49 +147,81 @@ class DAOKernel_bu_personnel {
 		return _doQuery($query);
 	}
 	
-	function getPersonnelForAssignment ($reference, $typeRef, $role) {
-	   
-	  $query = 'SELECT P.numero, P.nom, P.prenom1, P.date_nais, P.mel, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, PE.role, PR.nom_role, PE.reference, PE.type_ref 
-	  FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U 
-	  WHERE P.numero=PE.id_per 
-	  AND PE.role=PR.id_role
-	  AND P.numero NOT IN 
-	  (
-	    SELECT kernel_bu_personnel.numero 
-	    FROM kernel_bu_personnel, kernel_bu_personnel_entite
-	    WHERE kernel_bu_personnel.numero = kernel_bu_personnel_entite.id_per
-	    AND kernel_bu_personnel_entite.reference = '.$reference.'
-	    AND kernel_bu_personnel_entite.type_ref = "'.$typeRef.'"
-	    AND kernel_bu_personnel_entite.role = '.$role.'
-	  )  
-	  AND LI.user_id=U.id_dbuser
-	  AND LI.bu_id=P.numero
-	  GROUP BY P.numero
-	  ORDER BY PR.priorite, P.nom, P.prenom1';
+	function findPersonnelsForAssignment ($reference, $typeRef, $filters = array ()) {
 
-		return _doQuery($query);
+	  if (isset ($filters['withAssignment'])) {
+	    
+	    $sql = 'SELECT P.numero, P.nom, P.prenom1, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, PE.role, PR.nom_role, PE.reference, PE.type_ref 
+  	    FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U 
+    	  WHERE P.numero=PE.id_per
+    	  AND P.numero=LI.bu_id
+    	  AND LI.user_id=U.id_dbuser
+        AND PE.role=PR.id_role
+        AND LI.bu_type="'.$filters['user_type'].'"';
+	    
+	    if (isset ($filters['class'])) {
+
+  	    $sql .= ' AND PE.type_ref="CLASSE"';
+  	    $sql .= ' AND PE.reference='.$filters['class']; 
+  	  }
+	    elseif (isset ($filters['school'])) {
+
+  	    $sql .= ' AND PE.type_ref="ECOLE"';
+  	    $sql .= ' AND PE.reference='.$filters['school']; 
+  	  }
+  	  elseif (isset ($filters['city'])) {
+
+  	    $sql .= ' AND PE.type_ref="VILLE"';
+  	    $sql .= ' AND PE.reference='.$filters['city']; 
+  	  }
+  	  elseif (isset ($filters['groupcity'])) {
+
+  	    $sql .= ' AND PE.type_ref="GVILLE"';
+  	    $sql .= ' AND PE.reference='.$filters['groupcity']; 
+  	  }
+	  }
+	  else {
+	    
+	    $sql = 'SELECT P.numero, P.nom, P.prenom1, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, PE.role, PR.nom_role, PE.reference, PE.type_ref 
+  	    FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U 
+  	    WHERE P.numero NOT IN (SELECT kernel_bu_personnel_entite.id_per FROM kernel_bu_personnel_entite)
+  	    AND P.numero=LI.bu_id
+    	  AND LI.user_id=U.id_dbuser
+        AND LI.bu_type="'.$filters['user_type'].'"';
+	  }
+	  
+	  if (isset ($filters['lastname'])) {
+	    
+	    $sql .= ' AND P.nom LIKE \'' . $filters['lastname'] . '%\''; 
+	  }
+	  if (isset ($filters['firstname'])) {
+	    
+	    $sql .= ' AND P.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
+	  }
+		
+	  $sql .= ' GROUP BY P.numero';
+	  $sql .= ' ORDER BY PR.priorite, P.nom, P.prenom1';
+    var_dump($sql);
+		return _doQuery($sql);
 	}
 	
 	function findPersonnelWithAccountByIdAndType ($id, $type) {
 	  
-	  $query = 'SELECT P.numero, P.nom, P.prenom1, P.date_nais, P.mel, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, PE.role, PR.nom_role 
-	  FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U 
-	  WHERE P.numero=PE.id_per 
-	  AND PE.role=PR.id_role  
-	  AND LI.user_id=U.id_dbuser
-	  AND LI.bu_id=P.numero
-	  AND P.numero='.$id.'
-	  AND LI.bu_type="'.$type.'"
-	  ORDER BY PR.priorite, P.nom, P.prenom1';
+	  $sql = 'SELECT P.numero, P.nom, P.prenom1, P.date_nais, P.mel, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, PE.role, PR.nom_role 
+	    FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U 
+  	  WHERE P.numero=PE.id_per 
+  	  AND PE.role=PR.id_role  
+  	  AND LI.user_id=U.id_dbuser
+  	  AND LI.bu_id=P.numero
+  	  AND P.numero='.$id.'
+  	  AND LI.bu_type="'.$type.'"
+  	  ORDER BY PR.priorite, P.nom, P.prenom1';
 
-		$results = _doQuery($query);
+		$results = _doQuery($sql);
 
 		return isset ($results[0]) ? $results[0] : false;
 	}
 
 }
-
-
-
 
 ?>

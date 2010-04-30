@@ -4,16 +4,22 @@
   <table class="liste">
     <tr>
       <th class="liste_th"></th>
-      <th class="liste_th">nom</th>
-      <th class="liste_th">prenom</th>
-      <th class="liste_th">login</th> 
-      <th class="liste_th">password</th> 
+      <th class="liste_th">Nom</th>
+      <th class="liste_th">Prénom</th>
+      <th class="liste_th">Login</th> 
+      <th class="liste_th">Password</th> 
     </tr>
     {foreach from=$ppo->personsInSession key=k item=item}
       <tr>
-        <td>{$k}</td>
-        <td>{$item.nom}</td>
-        <td>{$item.prenom}</td>
+        <td>
+          {if $item.id_sexe eq 0}
+            <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
+          {else}                                                                 
+            <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />
+          {/if}  
+        </td>
+        <td>{$item.lastname}</td>
+        <td>{$item.firstname}</td>
         <td>{$item.login}</td>
         <td>{$item.password}</td>
       </tr>
@@ -61,7 +67,7 @@
     
     <div class="field">
       <label class="form_libelle"> Sexe :</label>
-      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->gender}
+      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
     </div>
 
     <div class="field">
@@ -94,7 +100,7 @@
     var firstname = jQuery('#prenom1').val();
     var login = jQuery('#login').val();
     var password = jQuery('#password').val();
-    var gender = jQuery('#sexe').val();
+    var gender = jQuery('input[type=radio][name=gender]:checked').attr('value');
     var id_par = jQuery('#id_par').val();
     var nodeId = {/literal} {$ppo->nodeId} {literal}
     var nodeType = {/literal} '{$ppo->nodeType}' {literal}
@@ -104,7 +110,7 @@
       url: {/literal}'{copixurl dest=gestionautonome|default|personInChargeCreation}'{literal},
       global: true,
       type: "POST",
-      data: ({nom: lastname, prenom1: firstname, login: login, password: password, sexe: gender, parId: id_par, nodeId: nodeId, nodeType: nodeType, cpt: cpt}),
+      data: ({nom: lastname, prenom1: firstname, login: login, password: password, gender: gender, parId: id_par, nodeId: nodeId, nodeType: nodeType, cpt: cpt}),
       success: function(html){
         jQuery('#persons-in-charge').empty();
         jQuery('#persons-in-charge').html(html);

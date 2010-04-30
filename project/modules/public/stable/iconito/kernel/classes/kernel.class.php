@@ -660,6 +660,7 @@ class Kernel {
 							$return[$key][$info_key] = $info_val;
 			}
 		}
+
 		//print_r($return);
 		reset($return);
 		return $return;
@@ -893,7 +894,7 @@ class Kernel {
 							}
 						}
 					}
-						
+ 	
 					$this->cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")] = $return;
 				}
 				break;
@@ -962,6 +963,7 @@ class Kernel {
 	function getUserInfo( $type="ME", $id=0, $options=array() ) {
 		//Kernel::deb("getUserInfo / type=$type / id=$id");
 		$user = array();
+
 		switch( $type ) {
 			case "ID":
 				$user_dao = _dao("kernel|kernel_bu2user");
@@ -977,6 +979,7 @@ class Kernel {
 			default:
 				$user_dao = _dao("kernel|kernel_bu2user");
 				$users = $user_dao->getByBUID($type,$id);
+
 				if (count($users)) {
 					$users[0]->bu_type = $type;
 					$users[0]->bu_id   = $id;
@@ -2248,6 +2251,32 @@ class Kernel {
   	}
   	
   	return $canon.$cpt;
+  }
+  
+  function generateBreadcrumbs ($nodeInfos) {
+
+    $breadcrumbs=array();
+	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
+	  if (isset ($nodeInfos['ALL']->vil_id_vi)) {
+	    
+	    $breadcrumbs[] = array('txt' => $nodeInfos['ALL']->vil_nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $nodeInfos['ALL']->vil_id_vi, 'nodeType' => 'BU_VILLE')));
+	  }
+	  elseif (isset ($nodeInfos['ALL']->eco_id_ville)) {
+	    
+	    $cityDAO = _dao('kernel|kernel_bu_ville');
+	    $city = $cityDAO->get ($nodeInfos['ALL']->eco_id_ville);
+	    $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $nodeInfos['ALL']->eco_id_ville, 'nodeType' => 'BU_VILLE')));
+	  }
+	  if (isset ($nodeInfos['ALL']->eco_numero)) {
+	    
+	    $breadcrumbs[] = array('txt' => $nodeInfos['ALL']->eco_nom, 'url' => CopixUrl::get('gestionautonome||updateSchool', array ('nodeId' => $nodeInfos['ALL']->eco_numero, 'nodeType' => 'BU_ECOLE')));
+	  }
+	  if (isset ($nodeInfos['ALL']->cla_id)) {
+	    
+	    $breadcrumbs[] = array('txt' => $nodeInfos['ALL']->cla_nom, 'url' => CopixUrl::get('gestionautonome||updateClass', array ('nodeId' => $nodeInfos['ALL']->cla_id, 'nodeType' => 'BU_CLASSE')));
+	  }
+	  
+	  return $breadcrumbs;
   }
 }
 

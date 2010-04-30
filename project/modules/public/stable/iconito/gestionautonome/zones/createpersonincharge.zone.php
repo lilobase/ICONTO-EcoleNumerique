@@ -32,15 +32,8 @@ class ZoneCreatePersonInCharge extends CopixZone {
       $ppo->linkIds[]   = $parentLink->id_pa;
     }
     
-    // Récupérations des sexes
-    $genderDAO = _ioDAO ('kernel_bu_sexe');
-    $genders = $genderDAO->findAll ();
-    
-    foreach ($genders as $gender) {
-      
-      $ppo->genderNames[] = $gender->sexe;
-      $ppo->genderIds[] = $gender->id_s;
-    }
+    $ppo->genderNames = array ('Homme', 'Femme');
+    $ppo->genderIds = array ('0', '1');
     
     $session = _sessionGet ('modules|gestionautonome|tmpAccount');
 		$ppo->personsInSession = $session[$ppo->nodeType.'-'.$ppo->nodeId];

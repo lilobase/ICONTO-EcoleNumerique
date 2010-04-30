@@ -20,6 +20,7 @@ class DAOKernel_bu_ele_affect {
 		$criteria = _daoSp ();
 		$criteria->addCondition ('affect_eleve', '=', $studentId);
 		$criteria->addCondition ('affect_classe', '=', $classId);
+		$criteria->addCondition ('affect_current', '=', 1);
 		
 		$results = $this->findBy ($criteria);
 		

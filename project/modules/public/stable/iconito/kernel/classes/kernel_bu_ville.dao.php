@@ -22,6 +22,14 @@ class DAOKernel_bu_ville {
 		
 		return $this->findBy ($criteria);
 	}
+	
+	public function getByIdGrville ($id_grville) {
+	  
+	  $criteria = _daoSp ();
+		$criteria->addCondition ('id_grville', '=', $id_grville);
+		
+		return $this->findBy ($criteria);
+	}
 
 }
 

@@ -1,14 +1,11 @@
-<ul class="tree">
+<li {if !is_array ($ppo->path) or !in_array (array ($ppo->root.type, $ppo->root.id), $ppo->path) } class="collapsed"{/if}>  
+  <a href="#" class="expand" onclick="toggleTreeChildren(this, false);return false;"><span>+</span></a>
+  <a href="#" onclick="toggleTreeChildren(this, true);showPersonsData('{$ppo->root.type}', {$ppo->root.id});updateTreeActions('{$ppo->root.type}', {$ppo->root.id});return false;" class="after-expand {if $ppo->root.id == $ppo->targetId && $ppo->root.type == $ppo->targetType}current{/if}"><span>{$ppo->root.nom}</span></a>
   
-  <li {if !in_array (array ($ppo->root.type, $ppo->root.id), $ppo->path) } class="collapsed"{/if}>  
-    <a href="#" class="expand" onclick="toggleTreeChildren(this, false);return false;"><span>+</span></a>
-    <a href="#" onclick="toggleTreeChildren(this, true);showPersonsData('{$ppo->root.type}', {$ppo->root.id});updateTreeActions('{$ppo->root.type}', {$ppo->root.id});return false;" class="after-expand {if $ppo->root.id == $ppo->targetId && $ppo->root.type == $ppo->targetType}current{/if}"><span>{$ppo->root.nom}</span></a>
-    
-    <ul class="child">
-      {copixzone process="gestionautonome|showTreeChildren" node=$ppo->root targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path}
-    </ul>                              
-  </li>
-</ul>
+  <ul class="child">
+    {copixzone process="gestionautonome|showTreeChildren" node=$ppo->root targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path grade=$ppo->grade}
+  </ul>                              
+</li>
 
 {literal}
 <script type="text/javascript">
@@ -22,18 +19,26 @@
     if (highlight) {
       jQuery('.current').toggleClass('current');
       jQuery(elt).addClass ('current');
-    }
-
-    if (li.hasClass('collapsed')) {
       
-      li.removeClass('collapsed');
-      li.addClass('expanded');
+      if (li.hasClass('collapsed')) {
+
+        li.removeClass('collapsed');
+        li.addClass('expanded');
+      }
     }
     else {
       
-      li.removeClass('expanded');
-      li.addClass('collapsed');
-    } 
+      if (li.hasClass('collapsed')) {
+
+        li.removeClass('collapsed');
+        li.addClass('expanded');
+      }
+      else {
+
+        li.removeClass('expanded');
+        li.addClass('collapsed');
+      }
+    }
   }
   
   function showPersonsData(type, id) {

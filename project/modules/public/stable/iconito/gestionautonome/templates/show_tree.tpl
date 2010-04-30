@@ -10,7 +10,16 @@
 <div id="tree">
   <h4>POSITIONNEZ-VOUS DANS LA STRUCTURE</h4>
   
-  {copixzone process=gestionautonome|showTree root=$ppo->root targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path}    
+  <div class="field">
+    <label for="grade" class="form_libelle"> Année scolaire :</label>
+    <select class="form" name="grade" id="grade">
+      {html_options values=$ppo->gradesIds output=$ppo->gradesNames selected=$ppo->grade}
+    </select>
+  </div>
+  
+  <ul class="tree">
+    {copixzone process=gestionautonome|showTree root=$ppo->root targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path grade=$ppo->grade}    
+  </ul>
   
   <div id="tree-actions"> 
     {if $ppo->targetId neq null && $ppo->targetType neq null}
@@ -34,6 +43,22 @@
 //<![CDATA[
   
   jQuery.noConflict();
+  
+  jQuery('#grade').change(function(){
+    
+    var grade = jQuery('#grade').val();
+    
+    jQuery.ajax({
+      url: {/literal}'{copixurl dest=gestionautonome|default|refreshTree}'{literal},
+      global: true,
+      type: "GET",
+      data: ({root: {/literal}{$ppo->root}{literal}, grade: grade}),
+      success: function(html){
+        jQuery('.tree').empty();
+        jQuery('.tree').append(html);
+      }
+    }).responseText;
+  });
   
 //]]> 
 </script>

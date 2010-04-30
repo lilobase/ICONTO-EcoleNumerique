@@ -66,6 +66,49 @@ class DAOKernel_bu_ele {
 		//print_r($query);
 		return _doQuery($query);
 	}
+	
+	function findStudentsForAssignment ($reference, $typeRef, $filters = array ()) {
+  
+    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, E.date_nais, EC.nom as eco_nom, U.login_dbuser, LI.bu_type, LI.bu_id, CN.niveau_court 
+      FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve_admission EAD, kernel_bu_eleve E, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_link_bu2user LI, dbuser U 
+      WHERE EC.id=EA.classe
+      AND E.idEleve=EAD.eleve 
+      AND EA.eleve=E.idEleve 
+      AND EA.niveau=CN.id_n
+      AND EC.ecole=ECO.numero
+      AND LI.user_id=U.id_dbuser 
+      AND LI.bu_type="USER_ELE" 
+      AND LI.bu_id=E.idEleve';
+    
+    if (!isset ($filters['withAssignment'])) {
+      
+      $sql .= ' AND (SELECT kernel_bu_eleve_admission.etat_eleve FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve ORDER BY kernel_bu_eleve_admission.numero DESC LIMIT 1) = 3';
+    }
+    else {
+      
+      if (isset ($filters['school'])) {
+
+  	    $sql .= ' AND EAD.etablissement = ' . $filters['school'] . ''; 
+  	  }
+  	  if (isset ($filters['class'])) {
+
+  	    $sql .= ' AND EA.classe = ' . $filters['class'] . ''; 
+  	  }
+    }
+    if (isset ($filters['lastname'])) {
+	    
+	    $sql .= ' AND E.nom LIKE \'' . $filters['lastname'] . '%\''; 
+	  }
+	  if (isset ($filters['firstname'])) {
+	    
+	    $sql .= ' AND E.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
+	  }
+	   
+    $sql .= ' GROUP BY E.idEleve';
+    $sql .= ' ORDER BY E.nom, E.prenom1';
+    var_dump($sql);  
+    return _doQuery($sql);
+  }
 }
 
 

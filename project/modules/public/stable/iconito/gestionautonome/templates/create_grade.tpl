@@ -44,7 +44,7 @@
 
     jQuery('.datepicker').datepicker({
     			showOn: 'button',
-    			buttonImage: 'images/calendar.gif',
+    			buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.gif"}{literal}',
     			buttonImageOnly: true
     });   
     

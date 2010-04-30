@@ -13,18 +13,18 @@
       <tr>
         <td>
           {if $item->res_id_sexe eq 0}
-            <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" />
+            <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
           {else}                                                                 
-            <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" />
+            <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />
           {/if}
         </td>
         <td>{$item->getLoginAccount()}</td>
         <td>{$item->res_nom}</td>
         <td>{$item->res_prenom1}</td>
         <td class="actions">
-          <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixresource path="img/edit_16x16.gif"}" /></a>
-          <a href="#" onclick="return confirm('Etes-vous sur de vouloir retirer cette affectation ?');removePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="img/tools/trash.png"}" /></a>
-          <a href="#" onclick="return confirm('Etes-vous sur de vouloir supprimer ce responsable ?');deletePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="img/delete_16x16.gif"}" /></a>
+          <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier le responsable" /></a>
+          <a href="#" onclick="return confirm('Etes-vous sur de vouloir retirer cette affectation ?');removePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Ne plus affecter ce responsable à cet élève" /></a>
+          <a href="#" onclick="return confirm('Etes-vous sur de vouloir supprimer ce responsable ?');deletePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer ce responsable" /></a>
         </td>
       </tr>
     {/foreach}

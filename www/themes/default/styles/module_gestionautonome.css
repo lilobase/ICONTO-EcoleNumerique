@@ -37,7 +37,33 @@ p.success {
 
 .error-light {
   width: 400px;
-}  
+}
+
+p.items-count {
+  font-style:italic;
+}
+
+.hidden {
+  display:none;
+}
+
+fieldset.filter {
+  border:1px dashed #A0A0A0;
+  margin-bottom:10px;
+}
+
+fieldset.filter legend {
+  font-style:italic;
+  font-weight:bold;
+}
+
+table.liste td {
+  text-align: center;
+}
+
+p.breadcrumbs {
+  font-size:0.8em;
+} 
 
 /* Form
 ------------------------------------------------------------------------------*/
@@ -112,6 +138,10 @@ li a.current {
   background-color:#327E04 !important;
   color:white !important;
   padding:2px;
+}
+
+#student_creation_data {
+  float: left;
 }
                                                                                 
 

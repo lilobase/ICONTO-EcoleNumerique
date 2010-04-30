@@ -16,7 +16,7 @@
 
 <div class="field">
   <label for="student_login"> Login :</label>
-  <span>{$ppo->account->login_dbuser}</span>
+  <span>{$ppo->student_account->login_dbuser}</span>
 </div>
 
 <h3>Responsable</h3>
@@ -49,10 +49,27 @@
     </div>
 
     <div class="field">
+      <label class="form_libelle"> Sexe :</label>
+      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
+    </div>
+    
+    <div class="field">
       <label for="id_par" class="form_libelle"> Relation avec l'élève :</label>
       <select class="form" name="id_par" id="id_par">
         {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->res2ele->res2ele_id_par}
   	  </select>
+    </div>
+    
+    <div class="field">
+      <label for="login" class="form_libelle"> Login :</label>
+      <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
+    </div>  
+    
+    <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
+    
+    <div class="field" id="new-password" style="display: none">
+      <label for="password" class="form_libelle"> Mot de passe :</label>
+      <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
     </div>
   </fieldset>
   
@@ -76,6 +93,24 @@
   jQuery('#cancel').click(function() {
     
     document.location.href={/literal}'{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->ele_idEleve notxml=true}'{literal};
+  });
+  
+  jQuery('#new-password-link').click(function() {
+
+    jQuery('#new-password').show();
+  });
+  
+  jQuery('#generate-password').click(function() {
+    
+    jQuery.ajax({
+      url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
+      global: true,
+      type: "GET",
+      success: function(html){
+        jQuery('#password').empty();
+        jQuery("#password").val(html);
+      }
+    }).responseText;
   });
 //]]> 
 </script>

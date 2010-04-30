@@ -1,7 +1,7 @@
 <h2>Ajout d'un {$ppo->sessionDatas[0].type_nom} dans {$ppo->sessionDatas[0].node_nom}</h2>
 
 <div id="accounts-info">
-  {copixzone process=gestionautonome|AccountsInfo sessionId=$ppo->sessionId}
+  {copixzone process=gestionautonome|AccountsInfo}
 </div>
 
 <div style="margin-top: 20px; padding: 10px 0.7em 0 0.7em;" class="notice-light ui-state-highlight ui-corner-all"> 
@@ -21,12 +21,12 @@
   
   <div class="field">
     <label for="personnel_name" class="form_libelle"> Nom :</label>
-    <span id="personnel_name"><strong>{$sessionData.nom}</strong></span>
+    <span id="personnel_name"><strong>{$sessionData.lastname}</strong></span>
   </div>
 
   <div class="field">
     <label for="personnel_firstname" class="form_libelle"> Prénom :</label>
-    <span id="personnel_firstname"><strong>{$sessionData.prenom}</strong></span>
+    <span id="personnel_firstname"><strong>{$sessionData.firstname}</strong></span>
   </div>
 
   <div class="field">

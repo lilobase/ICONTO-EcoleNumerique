@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_eleve_admission" tablename="kernel_bu_eleve_admission" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="admission_numero"         fieldname="numero"         type="integer" table="kernel_bu_eleve_admission" pk="yes"/>
+		<property name="admission_eleve"      fieldname="eleve"      type="integer"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_etablissement" fieldname="etablissement" type="integer"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_annee_scol"     fieldname="annee_scol"     type="integer"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_id_niveau"     fieldname="id_niveau"     type="integer"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_etat_eleve"    fieldname="etat_eleve"    type="integer"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_date"    fieldname="date"    type="string"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_date_effet"    fieldname="date_effet"    type="string"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_code_radiation"    fieldname="code_radiation"    type="integer"  table="kernel_bu_eleve_admission" pk="no"/>
+		<property name="admission_previsionnel"    fieldname="previsionnel"    type="integer"  table="kernel_bu_eleve_admission" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getByStudent" type="select">
+			<parameters>
+				<parameter name="studentId" />
+			</parameters>
+			<conditions>
+				<condition property="admission_numero" operator="=" value="$studentId" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

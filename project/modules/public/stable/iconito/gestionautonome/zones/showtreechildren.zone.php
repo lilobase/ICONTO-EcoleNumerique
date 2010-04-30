@@ -16,11 +16,12 @@ class ZoneShowTreeChildren extends CopixZone {
 	  
 	  // Récupération des paramètres
 	  $node = $this->getParam('node');
+	  $ppo->grade = $this->getParam('grade');
 	  
 	  if (!is_null ($node)) {
 	    
 	    // Récupération des fils
-	    $ppo->child = Kernel::getNodeChilds ($node['type'], $node['id']);
+	    $ppo->child = Kernel::getNodeChilds ($node['type'], $node['id'], true, array('annee' => $ppo->grade));
 	    $ppo->child = Kernel::filterNodeList ($ppo->child, 'BU_*' ); 
 	  }
 	  

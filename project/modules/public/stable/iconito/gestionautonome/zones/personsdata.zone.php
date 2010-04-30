@@ -15,28 +15,28 @@ class ZonePersonsData extends CopixZone {
 	  $ppo = new CopixPPO ();                               
 	  
 	  // Récupération des paramètres
-	  $id   = $this->getParam ('nodeId');
-	  $type = $this->getParam ('nodeType');
-	  $ppo->tab = ($this->getParam('tab')) ? $this->getParam('tab') : 0;
+	  $id        = $this->getParam ('nodeId');
+	  $ppo->type = $this->getParam ('nodeType');
+	  $ppo->tab  = ($this->getParam('tab')) ? $this->getParam('tab') : 0;
 	  
-	  $ppo->parent = Kernel::getNodeInfo ($type, $id);
+	  $ppo->parent = Kernel::getNodeInfo ($ppo->type, $id);
 
-    // Récupérations des enfants du noeud
-	  $childs = Kernel::getNodeChilds ($type, $id);
-	  
+    // Récupérations des enfants du noeud           
+	  $childs = Kernel::getNodeChilds ($ppo->type, $id);
+
 	  // Récupéreration des personnes du noeud courant
-	  switch ($type) {
+	  switch ($ppo->type) {
 			case "BU_GRVILLE":
 			  $ppo->childs = Kernel::filterNodeList ($childs, 'USER_*');
 			  break;
 			case "BU_VILLE":
 			  $ppo->childs = Kernel::filterNodeList ($childs, 'USER_*');
 			  break;
-			case "BU_ECOLE":
+			case "BU_ECOLE":;
   		  $ppo->childs = Kernel::filterNodeList ($childs, 'USER_*');
   		  break;
   		case "BU_CLASSE":    	  
-    	  $childs = Kernel::getNodeChilds ($type, $id);
+    	  $childs = Kernel::getNodeChilds ($ppo->type, $id);
 
 				$ppo->students = Kernel::filterNodeList ($childs, 'USER_ELE');
 				$ppo->persons = Kernel::filterNodeList ($childs, 'USER_ENS');

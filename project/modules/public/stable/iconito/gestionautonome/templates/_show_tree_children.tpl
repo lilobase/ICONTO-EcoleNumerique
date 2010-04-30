@@ -9,7 +9,7 @@
     {/if}
     
     <ul class="child">
-      {copixzone process=gestionautonome|ShowTreeChildren node=$item targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path}
+      {copixzone process=gestionautonome|ShowTreeChildren node=$item targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path grade=$ppo->grade}
     </ul>
   </li> 
 {/foreach}
