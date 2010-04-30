@@ -201,7 +201,7 @@ class DAOKernel_bu_personnel {
 		
 	  $sql .= ' GROUP BY P.numero';
 	  $sql .= ' ORDER BY PR.priorite, P.nom, P.prenom1';
-    var_dump($sql);
+
 		return _doQuery($sql);
 	}
 	
