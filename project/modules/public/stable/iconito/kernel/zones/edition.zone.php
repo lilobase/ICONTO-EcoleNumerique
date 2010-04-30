@@ -41,8 +41,8 @@ class ZoneEdition extends CopixZone {
 				case "wiki" :
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
-				case "fckeditor" :
-					CopixHTMLHeader::addJSLink (_resource('js/FCKeditor/fckeditor.js'));
+				
+					/*CopixHTMLHeader::addJSLink (_resource('js/FCKeditor/fckeditor.js'));
 					include("js/FCKeditor/fckeditor.php");
 					$oFCKeditor = new FCKeditor($field);
 					$oFCKeditor->BasePath = CopixUrl::get().'/js/FCKeditor/';
@@ -59,7 +59,7 @@ class ZoneEdition extends CopixZone {
 					$fckeditor = $oFCKeditor->CreateHtml();
 					$tpl->assign ('fckeditor', $fckeditor);
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
-					break;
+					break;*/
 				case "html" :
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
@@ -69,9 +69,11 @@ class ZoneEdition extends CopixZone {
 				case "dokuwiki" :
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
+                                case "fckeditor" :
 				case "ckeditor" :
 					CopixHTMLHeader::addJSLink (_resource('js/ckeditor/ckeditor.js'));
-					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
+                                        CopixHTMLHeader::addJSLink (_resource('js/ckeditor/config.js'));
+					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>'ckeditor', 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
 			}
 			

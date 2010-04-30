@@ -22,12 +22,12 @@
 <div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
 <div>{$wikibuttons}</div>
 
-{elseif $format eq "fckeditor"}
+{*{elseif $format eq "fckeditor"}
 
 <div>{$fckeditor}</div>
 <div>{$wikibuttons}</div>
-
-{elseif $format eq "ckeditor"}
+*}
+{elseif $format eq "ckeditor" || $format eq "fckeditor"}
 
 <div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
 

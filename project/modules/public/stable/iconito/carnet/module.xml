@@ -5,6 +5,6 @@
         <package name="copixdivers" version="2.2" />
     </general>
     <parameters>
-			<parameter name="default_format" captioni18n="carnet.parameter.default_format" default="dokuwiki" />
+			<parameter name="default_format" captioni18n="carnet.parameter.default_format" default="ckeditor" />
   	</parameters>
 </moduledefinition>
