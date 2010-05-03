@@ -109,6 +109,23 @@ class DAOKernel_bu_ele {
  
     return _doQuery($sql);
   }
+  
+  function getStudentsByClass ($classId) {
+    
+    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe' 
+      . ' FROM kernel_bu_eleve E, kernel_bu_eleve_affectation A, kernel_link_bu2user LI, dbuser U, kernel_bu_classe_niveau CN, kernel_bu_ecole_classe CL'
+		  . ' WHERE E.idEleve = A.eleve'
+		  . ' AND A.classe = CL.id'
+		  . ' AND A.classe=:id'
+		  . ' AND A.current=1'
+		  . ' AND LI.bu_type = "USER_ELE"'
+		  . ' AND LI.bu_id=E.idEleve'
+		  . ' AND U.id_dbuser = LI.user_id'
+		  . ' AND A.niveau=CN.id_n'
+		  . ' ORDER BY E.nom, E.prenom1';  
+      
+    return _doQuery ($sql, array (':id' => $classId));
+  }
 }
 
 

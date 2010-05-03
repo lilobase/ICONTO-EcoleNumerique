@@ -56,6 +56,8 @@ $deleteStudent = & new CopixAction ('default', 'processDeleteStudent');
 
 $addMultipleStudens = & new CopixAction ('default', 'processAddMultipleStudents');
 
+$changeStudentsAffect = & new CopixAction ('default', 'processChangeStudentsAffect');
+
 // Responsables
 $createPersonInCharge = & new CopixAction ('default', 'processCreatePersonInCharge');
 $validatePersonInChargeCreation = & new CopixAction ('default', 'processValidatePersonInChargeCreation');

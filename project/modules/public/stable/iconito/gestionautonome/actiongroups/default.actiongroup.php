@@ -3696,4 +3696,148 @@ class ActionGroupDefault extends CopixActionGroup {
 
     return _arNone ();
 	}
+	
+	public function processChangeStudentsAffect () {
+	  
+	  $ppo = new CopixPPO (); 
+	  
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId   = _request ('parentId', null);
+	  $ppo->nodeType = _request ('parentType', null);
+	  
+	  // Récupération des informations du noeud
+	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+    
+    // Breadcrumbs
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Changer d\'affectation plusieurs élèves');
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+    
+    // DAO
+    $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
+    $schoolClassDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    $schoolClassLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+    
+    // ID de l'école
+    $schoolId = $nodeInfos['ALL']->cla_ecole;                                               
+    
+    // Récupération des classes de l'école
+    $classes = $schoolClassDAO->getBySchool ($schoolId);
+    
+    $ppo->levelNames = array ();
+    $ppo->levelIds   = array ();
+    
+    foreach ($classes as $class) {
+      
+      $schoolClassLevels = $schoolClassLevelDAO->getByClass ($class->id);
+
+      foreach ($schoolClassLevels as $schoolClassLevel) {
+
+        $level             = $classLevelDAO->get ($schoolClassLevel->niveau);
+
+        $ppo->levelNames[] = $level->niveau_court.' - '.$class->nom;
+        $ppo->levelIds[]   = $level->id_n.'-'.$class->id;
+      }
+    }
+    
+    $ppo->levelNames[] = '-- quitte la classe (sans affectation définie) --';
+    $ppo->levelIds[] = '0-0';
+                    
+	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+	  $ppo->students = $studentDAO->getStudentsByClass ($ppo->nodeId);
+
+	  return _arPPO ($ppo, 'change_students_affect.tpl');
+	}
+	
+	public function processValidateChangeStudentsAffect () {
+	  
+	  $ppo = new CopixPPO (); 
+	  
+	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId   = _request ('id_node', null);
+	  $ppo->nodeType = _request ('type_node', null);
+	  
+	  // DAO
+	  $studentAdmissionDAO  = _ioDAO ('kernel_bu_eleve_admission');
+    $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect'); 
+	  
+	  // Récupération des informations du noeud
+	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+
+	  // ID de l'école
+    $schoolId = $nodeInfos['ALL']->cla_ecole;
+	  
+	  $students   = _request ('students', null);
+	  $newAffects = _request ('newAffects', null);
+	  
+	  foreach ($newAffects as $key => $newAffect) {
+	    
+	    // Si l'affectation change 
+	    if ($newAffect != "") {
+	    
+	      // Récupération de l'élève
+	      $studentId = $students[$key];                          
+	      
+	      // Récupération des données de la nouvelle affectation : classe et niveau
+  	    $datas = explode ('-', $newAffect);
+  	    $level = $datas[0];
+  	    $class = $datas[1];
+
+        // Si option : -- quitte la classe (sans affectation définie) --
+  	    if ($class == 0 && $level == 0) {
+  	      
+  	      // Ajout d'un enregistrement de radiation
+      	  $studentAdmission = _record ('kernel_bu_eleve_admission');
+
+          $studentAdmission->eleve          = $studentId;
+          $studentAdmission->etablissement  = $schoolId;
+          $studentAdmission->annee_scol     = Kernel::getAnneeScolaireCourante ()->id_as;
+          $studentAdmission->id_niveau      = '';
+          $studentAdmission->etat_eleve     = 3;
+          $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
+          $studentAdmission->date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
+          $studentAdmission->code_radiation = '';
+          $studentAdmission->previsionnel   = '';
+
+          $studentAdmissionDAO->insert ($studentAdmission);
+
+          // Passage du flag de l'affectation de l'élève à 0
+          $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $ppo->nodeId);
+          if ($studentAssignment) {                            
+  	        
+  	        $studentAssignment->affect_current = 0;
+            $studentAssignmentDAO->update ($studentAssignment);
+  	      }
+  	    }
+  	    else {
+  	      
+  	      // Passage du flag de l'affectation de l'élève à 0 
+  	      $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $ppo->nodeId);
+  	      if ($studentAssignment) {                            
+  	        
+  	        $studentAssignment->affect_current = 0;
+            $studentAssignmentDAO->update ($studentAssignment);
+  	      }
+          
+          // Affectation de l'élève dans sa nouvelle classe
+          $newStudentAssignment = _record ('kernel|kernel_bu_ele_affect');
+
+          $newStudentAssignment->affect_eleve       = $studentId;
+          $newStudentAssignment->affect_annee_scol  = Kernel::getAnneeScolaireCourante ()->id_as;
+          $newStudentAssignment->affect_classe      = $class;
+          $newStudentAssignment->affect_niveau      = $level;
+          $newStudentAssignment->affect_dateDebut   = CopixDateTime::timestampToYYYYMMDD (time ());
+          $newStudentAssignment->affect_current     = 1;
+          
+          $studentAssignmentDAO->insert ($newStudentAssignment);
+  	    }  
+	    }
+	  }
+	  
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
+	}
 }
