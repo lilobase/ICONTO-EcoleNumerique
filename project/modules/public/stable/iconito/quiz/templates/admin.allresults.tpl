@@ -40,6 +40,9 @@ jQuery(document).ready(function($){
 			<th>
 				{i18n key="quiz.msg.results" noEscape=1}
 			</th>
+                        <th>
+				{i18n key="quiz.msg.results" noEscape=1}
+			</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -56,19 +59,19 @@ jQuery(document).ready(function($){
 				{$user.surname}
 			</td>
 			<td>
-			{if $user.classe != null}
+			{if !empty($user.classe)}
 				{$user.classe}
 			{/if}
 			</td>
 			<td>
-			{if $user.school != null}
+			{if !empty($user.school)}
 				{$user.school}
 			{/if}
 			</td>
 			<td>
 			{foreach from=$user.responses item=response key=ii}
 				<div class="quiz-adm-{$response} quiz-adm-responses"></div>
-				<div class="quiz-adm-responses-hide">
+				{* <div class="quiz-adm-responses-hide">
 				{i18n key="quiz.msg.response" noEscape=1} {$ii} : 
 				{if $response == 'correct'}
 					{i18n key="quiz.msg.true" noEscape=1}
@@ -77,9 +80,12 @@ jQuery(document).ready(function($){
 				{elseif $response == 'no-resp'}
 					{i18n key="quiz.msg.empty" noEscape=1}
 				{/if}
-				</div>
+				</div> *}
 			{/foreach}
 			</td>
+                        <td>
+                            {$user.goodresp}/{$ppo->nbQuestions}
+                        </td>
 		</tr>
 		{/foreach}
 		

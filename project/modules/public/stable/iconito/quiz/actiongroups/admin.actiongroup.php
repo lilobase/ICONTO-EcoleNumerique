@@ -109,13 +109,16 @@ class ActionGroupAdmin extends CopixActionGroup{
 
 		/*====================================
 		MERGE ALL DATA : ARRAY INSERTION
-		users += 
+		users +=
+                        'goodresp' = COUNT GOOD QUESTIONS,
 		=====================================*/
 		foreach($users as $key => $user){
 			$response = $responses[$user['id']];			
 			$users[$key]['date'] = date("d/m H:i",max($response['date']));
+                        $users[$key]['goodresp'] = 0;
+                        $nbQuestions = 0;
 			foreach($questions as $Qkey => $question){
-
+                                $nbQuestions++;
 				if(!isset($response[$question['id']])){
 					$users[$key]['responses'][$Qkey] = 'no-resp';
 					continue;
@@ -124,6 +127,7 @@ class ActionGroupAdmin extends CopixActionGroup{
 				$correct = array_diff($localResponse, $question['correct']);
 				if(count($correct) == 0){
 					$users[$key]['responses'][$Qkey] = 'correct';
+                                        $users[$key]['goodresp']++;
 				}else{
 					$users[$key]['responses'][$Qkey] = 'resp';
 				}
@@ -138,8 +142,9 @@ class ActionGroupAdmin extends CopixActionGroup{
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/ZeroClipboard.js');
 
 		$ppo = new CopixPPO();
-        $ppo->quiz = $quizData;
+                $ppo->quiz = $quizData;
 		$ppo->users = $users;
+                $ppo->nbQuestions = $nbQuestions;
 		$ppo->pathClip = CopixUrl::get().'js/datatable/';
 		return _arPPO($ppo, 'admin.allresults.tpl');
     }
