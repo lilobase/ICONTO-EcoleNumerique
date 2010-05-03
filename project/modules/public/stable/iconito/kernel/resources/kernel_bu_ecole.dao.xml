@@ -7,7 +7,7 @@
 		</tables>
 	</datasource>
 	<properties>
-		<property name="numero"      fieldname="numero"      type="integer" table="kernel_bu_ecole" pk="yes"/>
+		<property name="numero"      fieldname="numero"      type="autoincrement" table="kernel_bu_ecole" pk="yes"/>
 		<property name="type"       fieldname="type"       type="string"  table="kernel_bu_ecole" pk="no"/>
 		<property name="nom"          fieldname="nom"          type="string"  table="kernel_bu_ecole" pk="no"/>
 		<property name="num_rue"          fieldname="num_rue"          type="string"  table="kernel_bu_ecole" pk="no"/>

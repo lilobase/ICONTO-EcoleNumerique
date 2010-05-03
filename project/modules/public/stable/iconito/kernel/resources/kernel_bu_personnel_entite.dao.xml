@@ -14,7 +14,7 @@
 		<property name="pers_entite_type_ref"  fieldname="type_ref"  type="string"  table="kernel_bu_personnel_entite" pk="no"/>
 		<property name="pers_entite_role"      fieldname="role"      type="integer" table="kernel_bu_personnel_entite" pk="no"/>
 		<!-- TABLE kernel_bu_personnel -->
-		<property name="pers_numero" fieldname="numero" type="integer" table="kernel_bu_personnel" pk="yes"/>
+		<property name="pers_numero" fieldname="numero" type="autoincrement" table="kernel_bu_personnel" pk="yes"/>
 		<property name="pers_nom" fieldname="nom" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_nom_jf" fieldname="nom_jf" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_prenom1" fieldname="prenom1" type="string" table="kernel_bu_personnel" pk="no"/>

@@ -86,14 +86,19 @@ class DAOKernel_bu_ele {
       $sql .= ' AND (SELECT kernel_bu_eleve_affectation.current FROM kernel_bu_eleve_affectation WHERE kernel_bu_eleve_affectation.eleve=E.idEleve ORDER BY kernel_bu_eleve_affectation.id DESC LIMIT 1) = 0';
     }
     else {
-      
-      if (isset ($filters['school'])) {
 
-  	    $sql .= ' AND EAD.etablissement = ' . $filters['school'] . ''; 
-  	  }
   	  if (isset ($filters['class'])) {
 
-  	    $sql .= ' AND EA.classe = ' . $filters['class'] . ''; 
+  	    $sql .= ' AND EA.classe = '.$filters['class']; 
+  	  }
+  	  elseif (isset ($filters['school'])) {
+
+  	    $sql .= ' AND EAD.etablissement = '.$filters['school']; 
+  	  }
+  	  elseif (isset ($filters['city'])) {
+
+  	    $sql .= ' AND EAD.etablissement=ECO.numero';
+  	    $sql .= ' AND ECO.id_ville = '.$filters['city'];     
   	  }
     }
     if (isset ($filters['lastname'])) {
@@ -107,7 +112,7 @@ class DAOKernel_bu_ele {
 	   
     $sql .= ' GROUP BY E.idEleve';
     $sql .= ' ORDER BY E.nom, E.prenom1';
-
+    var_dump($sql);
     return _doQuery($sql);
   }
   
