@@ -360,8 +360,7 @@ class ActionGroupMalle extends CopixActionGroup {
   		if ($new->id!==NULL) {
   			$name = $new->id."_".$new->fichier;
   			$uploadFrom = $_FILES['fichier']['tmp_name'];
-          $uploadTo = realpath('./static/malle').'/'.$id.'_'.$malle_cle.'/'.($name);
-          echo $uploadTo;
+          $uploadTo = realpath('./static/malle').'/'.$id.'_'.$malle_cle.'/'.($name); 
           if (@move_uploaded_file($uploadFrom, $uploadTo)) {
   				$malleService->update_infos_for_folder ($id, $folder);
   			} else {
@@ -1027,7 +1026,7 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @param array $files Liste des fichiers à renommer
 	 * @param array $folders Liste des dossiers à renommer
    */
-   function processgetActionRename () {
+   function getActionRename () {
 	 	
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
@@ -1059,7 +1058,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			if ( !$malleService->canMakeInMalle("ITEM_RENAME",$mondroit) )
 				$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			else {
-                            //$parent = $kernelService->getModParentInfo( "MOD_MALLE", $id);
+				//$parent = $kernelService->getModParentInfo( "MOD_MALLE", $id);
 			}
 		}
 		
