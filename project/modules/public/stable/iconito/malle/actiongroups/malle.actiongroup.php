@@ -1026,7 +1026,7 @@ class ActionGroupMalle extends CopixActionGroup {
 	 * @param array $files Liste des fichiers à renommer
 	 * @param array $folders Liste des dossiers à renommer
    */
-   function getActionRename () {
+   function processgetActionRename () {
 	 	
 		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
