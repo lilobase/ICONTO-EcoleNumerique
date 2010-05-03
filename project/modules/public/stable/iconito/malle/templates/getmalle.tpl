@@ -57,7 +57,7 @@
 {if $can.item_delete}
 <input type="submit" name="actionDelete" value="{i18n key="malle.btn.delete"}" class="form_button" onclick="return confirmDelete();" style="margin-top:2px;" />
 {/if}
-{if 0 && $can.item_rename}
+{if $can.item_rename}
 <input type="submit" name="actionRename" value="{i18n key="malle.btn.rename"}" class="form_button" onclick="return confirmRename();" style="margin-top:2px;" />
 {/if}
 {if $can.item_downloadZip}
