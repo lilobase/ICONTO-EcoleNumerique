@@ -34,4 +34,6 @@
   		<td colspan="8"></td>
   	</tr>
   </table>
+{else}
+<i>Aucun élève ajouté</i>
 {/if}

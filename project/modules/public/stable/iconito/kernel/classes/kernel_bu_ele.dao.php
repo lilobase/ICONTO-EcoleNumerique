@@ -83,6 +83,7 @@ class DAOKernel_bu_ele {
     if (!isset ($filters['withAssignment'])) {
       
       $sql .= ' AND (SELECT kernel_bu_eleve_admission.etat_eleve FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve ORDER BY kernel_bu_eleve_admission.numero DESC LIMIT 1) = 3';
+      $sql .= ' AND (SELECT kernel_bu_eleve_affectation.current FROM kernel_bu_eleve_affectation WHERE kernel_bu_eleve_affectation.eleve=E.idEleve ORDER BY kernel_bu_eleve_affectation.id DESC LIMIT 1) = 0';
     }
     else {
       
@@ -106,7 +107,7 @@ class DAOKernel_bu_ele {
 	   
     $sql .= ' GROUP BY E.idEleve';
     $sql .= ' ORDER BY E.nom, E.prenom1';
- 
+
     return _doQuery($sql);
   }
   

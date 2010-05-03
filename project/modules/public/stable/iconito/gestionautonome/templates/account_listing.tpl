@@ -9,8 +9,6 @@
 	<strong>{$ppo->sessionDatas[0].type_nom} ajouté !</strong>
 </div>
 
-
-
 {foreach from=$ppo->sessionDatas key=k item=sessionData}
 
   {if $k eq 0}
@@ -39,8 +37,6 @@
     <span id="personnel_password"><strong>{$sessionData.password}</strong></span>
   </div>
 {/foreach}
-
-
 
 <ul class="actions">
   <li><input class="button" type="button" value="Retour" id="back" /></li>

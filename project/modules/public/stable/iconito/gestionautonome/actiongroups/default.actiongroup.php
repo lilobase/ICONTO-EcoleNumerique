@@ -1469,7 +1469,12 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
     }
-
+    
+    if ($ppo->type == 'USER_ENS' && $ppo->nodeType == 'BU_CLASSE') {
+      
+      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'tab' => 1, 'save' => 1)));
+    }
+    
 		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
@@ -1506,6 +1511,11 @@ class ActionGroupDefault extends CopixActionGroup {
 
       $personEntityDAO->delete ($personId, $ppo->nodeId, $type_ref);
     }
+    
+    if ($ppo->nodeType == 'BU_CLASSE') {
+      
+      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'tab' => 1, 'save' => 1)));
+    }
 
 	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
@@ -1533,6 +1543,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $personnelLinkDAO->delete ($link->id_per);
 	  }
 	  
+	  if ($ppo->nodeType == 'BU_CLASSE') {
+      
+      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'tab' => 1, 'save' => 1)));
+    }
+    
 	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
@@ -2794,7 +2809,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
     $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
     
-	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->listFilters['class']);
+	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 	  
     $ppo->levelNames = array ();
     $ppo->levelIds   = array ();
@@ -2870,7 +2885,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
     $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
     
-	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->listFilters['class']);
+	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 	  
     $ppo->levelNames = array ();
     $ppo->levelIds   = array ();
@@ -3229,7 +3244,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo->nodeId   = _request ('id_parent', null);
   	$ppo->nodeType = _request ('type_parent', null);
-  	$ppo->liste    = _request ('liste', null);
+  	$liste    = _request ('liste', null);
   	
   	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
@@ -3244,150 +3259,151 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
 
-    $lines = explode("\n", nl2br($ppo->liste));
-
-    $ppo->students = array ();
-    
-    foreach ($lines as $key => $line) {
+    if (!is_null ($liste)) {
       
-       $datas = explode (',', $line);
+      $lines = explode("\n", nl2br($liste));
 
-       // Données de l'élève : nom - prénom - sexe - DDN
-       if (isset ($datas[0])) {
-         
-         $ppo->students[$key]['lastname'] = $datas[0];
-       }
-       
-       if (isset ($datas[1])) {
+      $ppo->students = array ();
 
-         $ppo->students[$key]['firstname'] = $datas[1];
-       }
+      foreach ($lines as $key => $line) {
 
-       if (isset ($datas[2])) {
-         
-         if (substr($datas[2], 0, 1) == 'M') {
-           
-           $ppo->students[$key]['gender'] = 0;
+         $datas = explode (',', $line);
+
+         // Données de l'élève : nom - prénom - sexe - DDN
+         if (isset ($datas[0])) {
+
+           $ppo->students[$key]['lastname'] = $datas[0];
          }
-         else {
-           
-           $ppo->students[$key]['gender'] = 1;
+
+         if (isset ($datas[1])) {
+
+           $ppo->students[$key]['firstname'] = $datas[1];
          }
-       }
-       
-       if (isset ($datas[3])) {
-         
-         $ppo->students[$key]['birthdate'] = $datas[3];
-       }
-       
-       // Données des responsables : nom - prénom - sexe - relation
-       $continue = true;
-       $keyPerson=0;
-       $cpt = 4;
-       
-       while ($continue) {
-         
-         if (isset($datas[$cpt])) {
-           
-           switch ($cpt - (4*($keyPerson+1))) {
-             
-             case 0:
-               $ppo->students[$key]['person'][$keyPerson]['lastname'] = $datas[$cpt];
-               break;
-             case 1:       
-               $ppo->students[$key]['person'][$keyPerson]['firstname'] = $datas[$cpt];
-               break; 
-             case 2:
-               if (substr($datas[$cpt], 0, 1) == 'M') {
 
-                 $ppo->students[$key]['person'][$keyPerson]['gender'] = 0;
-               }
-               else {
+         if (isset ($datas[2])) {
 
-                 $ppo->students[$key]['person'][$keyPerson]['gender'] = 1;
-               }
-               break;
-             case 3: 
-               $ppo->students[$key]['person'][$keyPerson]['nom_pa'] = $datas[$cpt];
-               
-               switch (strip_tags(trim($datas[$cpt]))) {
-                 case 'MERE':
-                   $id_par = 1;
-                   break;
-                 case 'PERE':
-                   $id_par = 2;
-                   break;
-                 case 'FRERE':
-                   $id_par = 3;
-                   break;
-                 case 'SOEUR':
-                   $id_par = 4;
-                   break;
-                 case 'GRAND-PERE':
-                   $id_par = 5;
-                   break;
-                 case 'GRAND-MERE':
-                   $id_par = 6;
-                   break;
-                 case 'ONCLE':
-                   $id_par = 7;
-                   break;
-                 case 'TANTE':
-                   $id_par = 8;
-                   break;
-                 case 'COLLATERAUX':
-                   $id_par = 9;
-                   break;
-                 case 'TUTEUR':
-                   $id_par = 10;
-                   break;
-                 case 'INCONNU':
-                   $id_par = 11;
-                   break;
-               }
+           if (substr($datas[2], 0, 1) == 'M') {
 
-               $ppo->students[$key]['person'][$keyPerson]['id_par'] = $id_par;
-               break;
-             }
+             $ppo->students[$key]['gender'] = 0;
            }
-         else {
-           
-           $continue = false;
+           else {
+
+             $ppo->students[$key]['gender'] = 1;
+           }
          }
 
-         if (($cpt+1) % 4 == 0) {
-           
-           $ppo->students[$key]['person'][$keyPerson]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['person'][$keyPerson]['lastname'], 'prenom' => $ppo->students[$key]['person'][$keyPerson]['firstname'], 'type' => 'USER_RES'));
-           $ppo->students[$key]['person'][$keyPerson]['password'] = Kernel::createPasswd ();
-           $keyPerson++;
-         }       
-         
-         $cpt++; 
-       }
-                                                                  
-       $ppo->students[$key]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['lastname'], 'prenom' => $ppo->students[$key]['firstname'], 'type' => 'USER_ELE'));
-       $ppo->students[$key]['password'] = Kernel::createPasswd ();
-    }
+         if (isset ($datas[3])) {
 
-    // Mise en session des informations récupérées
-    _sessionSet ('gestionautonome|addMultipleStudents', $ppo->students);
-    
-    
-    
-    // Récupération des niveaux de la classe
-    $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-    $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
-    
-    $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
-    
-    $ppo->levelNames = array ();
-    $ppo->levelIds   = array ();
-    
-    foreach ($classSchoolLevels as $classSchoolLevel) {
-      
-      $level             = $classLevelDAO->get ($classSchoolLevel->niveau);
-      $ppo->levelNames[] = $level->niveau_court;
-      $ppo->levelIds[]   = $level->id_n;
+           $ppo->students[$key]['birthdate'] = $datas[3];
+         }
+
+         // Données des responsables : nom - prénom - sexe - relation
+         $continue = true;
+         $keyPerson=0;
+         $cpt = 4;
+
+         while ($continue) {
+
+           if (isset($datas[$cpt])) {
+
+             switch ($cpt - (4*($keyPerson+1))) {
+
+               case 0:
+                 $ppo->students[$key]['person'][$keyPerson]['lastname'] = $datas[$cpt];
+                 break;
+               case 1:       
+                 $ppo->students[$key]['person'][$keyPerson]['firstname'] = $datas[$cpt];
+                 break; 
+               case 2:
+                 if (substr($datas[$cpt], 0, 1) == 'M') {
+
+                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 0;
+                 }
+                 else {
+
+                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 1;
+                 }
+                 break;
+               case 3: 
+                 $ppo->students[$key]['person'][$keyPerson]['nom_pa'] = $datas[$cpt];
+
+                 switch (strip_tags(trim($datas[$cpt]))) {
+                   case 'MERE':
+                     $id_par = 1;
+                     break;
+                   case 'PERE':
+                     $id_par = 2;
+                     break;
+                   case 'FRERE':
+                     $id_par = 3;
+                     break;
+                   case 'SOEUR':
+                     $id_par = 4;
+                     break;
+                   case 'GRAND-PERE':
+                     $id_par = 5;
+                     break;
+                   case 'GRAND-MERE':
+                     $id_par = 6;
+                     break;
+                   case 'ONCLE':
+                     $id_par = 7;
+                     break;
+                   case 'TANTE':
+                     $id_par = 8;
+                     break;
+                   case 'COLLATERAUX':
+                     $id_par = 9;
+                     break;
+                   case 'TUTEUR':
+                     $id_par = 10;
+                     break;
+                   case 'INCONNU':
+                     $id_par = 11;
+                     break;
+                 }
+
+                 $ppo->students[$key]['person'][$keyPerson]['id_par'] = $id_par;
+                 break;
+               }
+             }
+           else {
+
+             $continue = false;
+           }
+
+           if (($cpt+1) % 4 == 0) {
+
+             $ppo->students[$key]['person'][$keyPerson]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['person'][$keyPerson]['lastname'], 'prenom' => $ppo->students[$key]['person'][$keyPerson]['firstname'], 'type' => 'USER_RES'));
+             $ppo->students[$key]['person'][$keyPerson]['password'] = Kernel::createPasswd ();
+             $keyPerson++;
+           }       
+
+           $cpt++; 
+         }
+
+         $ppo->students[$key]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['lastname'], 'prenom' => $ppo->students[$key]['firstname'], 'type' => 'USER_ELE'));
+         $ppo->students[$key]['password'] = Kernel::createPasswd ();
+      }
+
+      // Mise en session des informations récupérées
+      _sessionSet ('gestionautonome|addMultipleStudents', $ppo->students);
+
+      // Récupération des niveaux de la classe
+      $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+      $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+
+      $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
+
+      $ppo->levelNames = array ();
+      $ppo->levelIds   = array ();
+
+      foreach ($classSchoolLevels as $classSchoolLevel) {
+
+        $level             = $classLevelDAO->get ($classSchoolLevel->niveau);
+        $ppo->levelNames[] = $level->niveau_court;
+        $ppo->levelIds[]   = $level->id_n;
+      }
     }
 
 	  return _arPPO ($ppo, 'add_multiple_students_listing.tpl');

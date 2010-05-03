@@ -167,71 +167,84 @@ class DAOKernel_bu_personnel {
             if (isset ($filters['class'])) {
 	           
 	            $sql .= ' WHERE PE.reference='.$filters['class'];
+	            $sql .= ' AND PE.type_ref="CLASSE"';
 	          }
-	          elseif ($typeRef == 'ECOLE') {                           
+	          elseif ($typeRef == "ECOLE") {                           
 	            
               $sql .= ' JOIN kernel_bu_ecole_classe C ON (PE.reference=C.id AND C.ecole='.$filters['school'].')';
                
-              if ($filters['user_type'] == 'USER_ADM') {
+              if ($filters['user_type'] == "USER_ADM") {
                 
                 $sql .= ' WHERE (PE.reference='.$filters['school'];
                 $sql .= ' AND C.id IS NULL)';
+                $sql .= ' AND PE.type_ref="ECOLE"';
               }
-              elseif ($filters['user_type'] == 'USER_ENS') {
+              elseif ($filters['user_type'] == "USER_ENS") {
                 
-                //$sql .= ' WHERE (PE.reference='.$filters['school'];
-                //$sql .= ' OR C.id IS NOT NULL)';
+                $sql .= ' WHERE ((PE.reference='.$filters['school'].' AND PE.type_ref="ECOLE")';
+                $sql .= ' OR (C.id IS NOT NULL AND PE.type_ref="CLASSE"))';
               } 
             }
-            elseif ($typeRef == 'CLASSE') {
+            elseif ($typeRef == "CLASSE") {
 
-               $sql .= ' JOIN kernel_bu_ecole_classe C ON (PE.reference=C.id)';
-               $sql .= ' WHERE C.ecole='.$filters['school'];
+               $sql .= ' JOIN kernel_bu_ecole_classe C ON (PE.reference=C.id AND C.ecole='.$filters['school'].')';
+               $sql .= ' WHERE ((PE.reference='.$filters['school'].' AND PE.type_ref="ECOLE")';
+               $sql .= ' OR (C.id IS NOT NULL AND PE.type_ref="CLASSE"))';
             }
           }
-          elseif ($typeRef == 'VILLE') {
+          elseif ($typeRef == "GVILLE") {
             
-            $sql .= ' WHERE PE.reference='.$filters['city'];
+            $sql .= ' WHERE ((PE.reference='.$filters['groupcity'].' AND PE.type_ref="GVILLE")';
+            $sql .= ' OR (PE.reference='.$filters['city'].' AND PE.type_ref="VILLE"))';
           }
-          elseif ($typeRef == 'ECOLE') {
+          elseif ($typeRef == "VILLE") {
+            
+            $sql .= ' WHERE (PE.reference='.$filters['city'].' AND PE.type_ref="VILLE")';
+          }
+          elseif ($typeRef == "ECOLE") {
 
             $sql .= ' JOIN kernel_bu_ecole E ON (PE.reference=E.numero)';
             $sql .= ' WHERE E.id_ville='.$filters['city'];
+            $sql .= ' AND PE.type_ref="ECOLE"';
           }
-          elseif ($typeRef == 'CLASSE') {
+          elseif ($typeRef == "CLASSE") {
 
             $sql .= ' JOIN kernel_bu_ecole_classe C ON (PE.reference=C.id)';
             $sql .= ' JOIN kernel_bu_ecole E ON (C.ecole=E.numero)';
             $sql .= ' WHERE E.id_ville='.$filters['city'];
+            $sql .= ' AND PE.type_ref="CLASSE"';
           }
         }
-        elseif ($typeRef == 'GVILLE') {
+        elseif ($typeRef == "GVILLE" || $typeRef == "VILLE") {
           
-          $sql .= ' WHERE PE.reference='.$filters['groupcity'];
+          $sql .= ' JOIN kernel_bu_ville V ON (PE.reference=V.id_vi)';
+          $sql .= ' WHERE ((PE.reference='.$filters['groupcity'].' AND PE.type_ref="GVILLE")';
+          $sql .= ' OR (V.id_vi IS NOT NULL AND PE.type_ref="VILLE"))';
         }
-        elseif ($typeRef == 'VILLE') {
+        elseif ($typeRef == "VILLE") {
           
           $sql .= ' JOIN kernel_bu_ville V ON (PE.reference=V.id_vi)';
           $sql .= ' WHERE V.id_grville='.$filters['groupcity'];
+          $sql .= ' AND PE.type_ref="VILLE"';
         }
-        elseif ($typeRef == 'ECOLE') {
+        elseif ($typeRef == "ECOLE") {
           
           $sql .= ' JOIN kernel_bu_ecole E ON (PE.reference=E.numero)';
           $sql .= ' JOIN kernel_bu_ville V ON (E.id_ville=V.id_vi)';
           $sql .= ' WHERE V.id_grville='.$filters['groupcity'];
+          $sql .= ' PE.type_ref="ECOLE"';
         }
-        elseif ($typeRef == 'CLASSE') {
+        elseif ($typeRef == "CLASSE") {
           
           $sql .= ' JOIN kernel_bu_ecole_classe C ON (PE.reference=C.id)';
           $sql .= ' JOIN kernel_bu_ecole E ON (C.ecole=E.numero)';
           $sql .= ' JOIN kernel_bu_ville V ON (E.id_ville=V.id_vi)';
           $sql .= ' WHERE V.id_grville='.$filters['groupcity'];
+          $sql .= ' AND PE.type_ref="CLASSE"';
         }
       }
       
-      
       $sql .= ' AND LI.bu_type="'.$filters['user_type'].'"';
-      $sql .= ' AND PE.type_ref="'.$typeRef.'"';
 	  }
 	  else {
 	    

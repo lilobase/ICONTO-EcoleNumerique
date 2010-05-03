@@ -26,7 +26,7 @@
       <input type="text" class="form" id="firstname" name="firstname" value="{$ppo->listFilters.firstname}" />
       
       <input type="checkbox" name="withAssignment" id="withAssignment" value="1"{if isset ($ppo->listFilters.withAssignment)} checked="checked" {/if} />
-      <label for="withAssignment">Avec affectations</label>
+      <label for="withAssignment">Avec affectation(s)</label>
       
       <p id="assignment-filters" class="hidden">
         <span id="groupcity-filter">
@@ -138,8 +138,15 @@
     });
 
     jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+      
+      if ({/literal}'{$ppo->nodeType}'{literal} == 'BU_ECOLE') {
+        
+        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType tab=1 notxml=true}'{literal};
+      }
+      else {
+        
+        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+      }
     });
 
     jQuery('#filter-displayer').click(function() {

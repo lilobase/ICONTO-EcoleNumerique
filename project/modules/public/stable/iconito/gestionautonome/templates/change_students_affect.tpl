@@ -44,6 +44,13 @@
     		<td colspan="8"></td>
     	</tr>
     </table>
+
+    <p>Raccourci pour positionner une nouvelle affectation pour tous les élèves :</p>
+    <select class="form" name="allAffect">
+      <option value="">-- pas de changement --</option>
+      {html_options values=$ppo->levelIds output=$ppo->levelNames}
+	  </select>
+	  <input class="button" type="button" value="Appliquer" id="allAffect" /> 
     
     <ul class="actions">
       <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
@@ -66,6 +73,17 @@
   jQuery('#cancel').click(function() {
     
     document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+  });
+  
+  jQuery('#allAffect').click(function () {
+    
+    var valeur = jQuery('[name|=allAffect] option:selected').val();
+    
+    jQuery('[name|=newAffects[]]').each(function () {
+      
+      jQuery(this).val(valeur);     
+
+    });
   });
 //]]> 
 </script>
