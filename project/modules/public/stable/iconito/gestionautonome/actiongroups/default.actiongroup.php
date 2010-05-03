@@ -225,7 +225,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->nodeId   = $ppo->city->id_vi;
 		$ppo->nodeType = 'BU_VILLE';
 
-		return _arPPO ($ppo, array ('template' => 'create_success.tpl', 'mainTemplate' => null));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
   }
   
   /**
@@ -322,7 +322,7 @@ class ActionGroupDefault extends CopixActionGroup {
       
     $cityDAO->update ($ppo->city);
 		
-		return _arPPO ($ppo, array ('template' => 'update_success.tpl', 'mainTemplate' => null));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	/**
@@ -353,6 +353,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	                 
+	  // Récupération GRVILLE pour redirect
+	  $ppo->nodeId = $city->id_grville;
+	  $ppo->nodeType = 'BU_GRVILLE';
 	  
 	  // Récupération des écoles de la ville
 	  $schools = $schoolDAO->getByCity ($nodeId);
@@ -384,7 +388,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  // Suppression de la ville 
   	$cityDAO->delete ($city->id_vi);
 		
-		return _arPPO ($ppo, 'update_success.tpl');
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	/**
@@ -488,7 +492,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->nodeId    = $ppo->school->numero;
     $ppo->nodeType  = 'BU_ECOLE';
 		
-		return _arPPO ($ppo, array ('template' => 'create_success.tpl', 'mainTemplate' => null));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	/**
@@ -533,7 +537,8 @@ class ActionGroupDefault extends CopixActionGroup {
     // Liste des types d'école
 	  $ppo->types = array ('Maternelle', 'Elémentaire', 'Primaire');
 	  
-	  $city = _ioDAO ('kernel_bu_ville')->get ($ppo->nodeId);
+	  $city = _ioDAO ('kernel_bu_ville')->get ($ppo->school->id_ville);
+
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
@@ -573,7 +578,7 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
  
-    $city = _ioDAO ('kernel_bu_ville')->get ($ppo->nodeId);
+    $city = _ioDAO ('kernel_bu_ville')->get ($ppo->school->id_ville);
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
@@ -617,7 +622,7 @@ class ActionGroupDefault extends CopixActionGroup {
       
     $schoolDAO->update ($ppo->school);
     
-		return _arPPO ($ppo, array ('template' => 'update_success.tpl', 'mainTemplate' => null));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processDeleteSchool () {
@@ -627,18 +632,22 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
 	  
 	  // Récupération des paramètres
-	  $ppo->nodeId   = _request ('nodeId', null);
-	  $ppo->nodeType = _request ('nodeType', null);
+	  $nodeId   = _request ('nodeId', null);
+	  $nodeType = _request ('nodeType', null);
 
 	  $schoolDAO     = _ioDAO ('kernel_bu_ecole');
 	  $classDAO      = _ioDAO ('kernel|kernel_bu_ecole_classe');
 	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
 
-	  if ($ppo->nodeType != 'BU_ECOLE' || !$school = $schoolDAO->get ($ppo->nodeId)) {
+	  if ($nodeType != 'BU_ECOLE' || !$school = $schoolDAO->get ($nodeId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	  
+	  // Récupération VILLE pour redirect
+	  $ppo->nodeId = $school->id_ville;
+	  $ppo->nodeType = 'BU_VILLE';
 	  
 	  // Récupération des classes de l'école
 	  $classes = $classDAO->getBySchool ($school->numero);
@@ -660,7 +669,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  // Suppression de l'école
 	  $schoolDAO->delete ($school->numero);
 
-		return _arPPO ($ppo, 'update_success.tpl');
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	/**
@@ -839,7 +848,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->nodeId   = $ppo->class->id;
 		$ppo->nodeType = 'BU_CLASSE';
 		
-		return _arPPO ($ppo, array ('template' => 'create_success.tpl', 'mainTemplate' => null));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processUpdateClass () {
@@ -1057,10 +1066,10 @@ class ActionGroupDefault extends CopixActionGroup {
     
     $classDAO->update ($ppo->class);
 		
-		$ppo->targetId   = $ppo->class->id;
-		$ppo->targetType = 'BU_CLASSE';
+		$ppo->nodeId   = $ppo->class->id;
+		$ppo->nodeType = 'BU_CLASSE';
 
-		return _arPPO ($ppo, array ('template' => 'update_success.tpl', 'mainTemplate' => null));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processDeleteClass () {
@@ -1080,7 +1089,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }
+	  } 
+	  
+	  // Récupération ECOLE pour redirect
+	  $ppo->nodeId = $class->ecole;
+	  $ppo->nodeType = 'BU_ECOLE';
 	  
 	  // Récupération de l'association classe-niveau
     $classLevels = $classLevelDAO->getByClass ($class->id);
@@ -1095,7 +1108,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  // Suppression de la classe
 	  $classDAO->delete ($class->id);
 		
-		return _arPPO ($ppo, 'update_success.tpl');
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processCreatePersonnel () {
@@ -1457,7 +1470,7 @@ class ActionGroupDefault extends CopixActionGroup {
       $dbuserDAO->update ($ppo->account);
     }
 
-		return _arPPO ($ppo, 'update_success.tpl');
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processRemovePersonnel () {
@@ -1494,7 +1507,7 @@ class ActionGroupDefault extends CopixActionGroup {
       $personEntityDAO->delete ($personId, $ppo->nodeId, $type_ref);
     }
 
-	  return _arPPO ($ppo, 'update_success.tpl');
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processDeletePersonnel () {
@@ -1520,7 +1533,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $personnelLinkDAO->delete ($link->id_per);
 	  }
 	  
-	  return _arPPO ($ppo, 'update_success.tpl');
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processCreateStudent () {
@@ -1985,11 +1998,8 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
     }
-    
-		$ppo->targetId   = $ppo->nodeId;
-		$ppo->targetType = $ppo->nodeType;
 
-		return _arPPO ($ppo, array ('template' => 'update_success.tpl', 'mainTemplate' => null));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	
@@ -2033,7 +2043,7 @@ class ActionGroupDefault extends CopixActionGroup {
     
     $studentAssignmentDAO->update ($studentAssignment);
 	  
-	  return _arPPO ($ppo, 'update_success.tpl');
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processDeleteStudent () {
@@ -2094,7 +2104,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  // Suppression de l'élève
 	  $studentDAO->delete ($studentId);
 	  
-	  return _arPPO ($ppo, 'update_success.tpl');
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'save' => 1)));
 	}
 	
 	public function processCreatePersonInCharge () {
@@ -2481,6 +2491,12 @@ class ActionGroupDefault extends CopixActionGroup {
 
 	  $ppo->nodeId          = _request ('nodeId', null);
 	  $ppo->nodeType        = _request ('nodeType', null);
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
 
 	  $ppo->person->nom     = _request ('nom', null);
 	  $ppo->person->prenom1 = _request ('prenom1', null);
@@ -2806,6 +2822,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeType = _request ('parentType', null);
 	  $ppo->role     = _request ('role', null);
 	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
     // Breadcrumbs
@@ -2876,6 +2898,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeType    = _request ('type_node', null);
 	  $ppo->role        = _request ('role', null);
 	  $ppo->studentIds  = _request ('studentIds', null);
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
 
 	  switch ($ppo->nodeType) {
 			case 'BU_GRVILLE' :
@@ -3050,6 +3078,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeType = _request ('parentType', null);
 	  $ppo->role     = _request ('role', null);
 	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
     // Breadcrumbs
@@ -3103,7 +3137,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId      = _request ('id_node', null);
 	  $ppo->nodeType    = _request ('type_node', null);
 	  $ppo->role        = _request ('role', null);
-	  $ppo->personIds   = _request ('personIds', null);
+	  $ppo->personIds   = _request ('personIds', null); 
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
 
 	  switch ($ppo->nodeType) {
 			case 'BU_GRVILLE' :
@@ -3160,6 +3200,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId   = _request ('parentId', null);
   	$ppo->nodeType = _request ('parentType', null);
   	
+  	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+  	
   	$nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
     // Breadcrumbs
@@ -3184,6 +3230,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId   = _request ('id_parent', null);
   	$ppo->nodeType = _request ('type_parent', null);
   	$ppo->liste    = _request ('liste', null);
+  	
+  	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
   	
   	$nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
@@ -3349,7 +3401,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('id_node', null);
-  	$ppo->nodeType = _request ('type_node', null);                  
+  	$ppo->nodeType = _request ('type_node', null);
+  	
+  	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }                  
   	
   	// Récupération des informations du formulaire                                             
   	$keys      = _request ('keys', array ());       // Elèves de la liste à créer (checkbox de confirmation)
@@ -3601,6 +3659,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId   = _request ('nodeId', null);
 	  $ppo->nodeType = _request ('nodeType', null);
 	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
 	  // Récupération des informations des comptes créés
 	  $ppo->students = _sessionGet ('gestionautonome|addMultipleStudents|success'); 
 
@@ -3707,6 +3771,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
 	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
 	  // Récupération des informations du noeud
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
@@ -3760,6 +3830,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('id_node', null);
 	  $ppo->nodeType = _request ('type_node', null);
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
 	  
 	  // DAO
 	  $studentAdmissionDAO  = _ioDAO ('kernel_bu_eleve_admission');
