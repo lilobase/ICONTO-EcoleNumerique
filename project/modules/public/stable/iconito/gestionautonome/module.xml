@@ -16,7 +16,7 @@
 	</credentialhandlers>
 	
 	<credentials>
-		<credential name="cities group">
+		<credential name="cities_group">
 			<value name="create" level="1" />
 			<value name="update" level="2" />
 			<value name="delete" level="3" />
@@ -32,6 +32,41 @@
 			<value name="delete" level="3" />
 		</credential>
 		<credential name="classroom">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="cities_group_agent">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="city_agent">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="administration_staff">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="principal">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="teacher">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="student">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="person_in_charge">
 			<value name="create" level="1" />
 			<value name="update" level="2" />
 			<value name="delete" level="3" />
