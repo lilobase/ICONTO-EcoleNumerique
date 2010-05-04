@@ -1,7 +1,40 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <moduledefinition>
 	<general>
-		<default name="gestionautonome" descriptioni18n="gestionautonome.moduleDescription"/>
+		<default name="gestionautonome" description="Iconito : gestion autonome"/>
 		<package name="copixdivers" version="2.2" />
 	</general>
+	
+	<grouphandlers>
+		<grouphandler name='iconitogrouphandler' />
+	</grouphandlers>
+	
+	<credentialhandlers>
+	 	<credentialhandler name='iconitomodulecredentialhandler' stopOnSuccess='true' stopOnFailure='false'>
+	 		<handle name='module' />
+		</credentialhandler>
+	</credentialhandlers>
+	
+	<credentials>
+		<credential name="cities group">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="city">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="school">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+		<credential name="classroom">
+			<value name="create" level="1" />
+			<value name="update" level="2" />
+			<value name="delete" level="3" />
+		</credential>
+	</credentials>
 </moduledefinition>

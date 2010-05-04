@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <moduledefinition>
     <general>
-        <default name="admin" descriptioni18n="admin.moduleDescription"/>
+        <default name="concerto" descriptioni18n="concerto.moduleDescription"/>
         <package name="copixdivers" version="2.2" />
     </general>
 
