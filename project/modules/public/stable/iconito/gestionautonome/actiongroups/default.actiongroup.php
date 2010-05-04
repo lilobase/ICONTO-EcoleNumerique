@@ -2755,15 +2755,15 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $gradeId = _request ('gradeId', null);
 	  
 	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  $grades = $gradesDAO->findAll ();
+	  $grades = $gradeDAO->findAll ();
 	  
 	  foreach ($grades as $grade) {
 	    
 	    $grade->current = 0;
-	    $gradesDAO->update ($grade);
+	    $gradeDAO->update ($grade);
 	  }
 	  
-	  $newCurrentGrade = $gradesDAO->get ($gradeId);
+	  $newCurrentGrade = $gradeDAO->get ($gradeId);
 	  $newCurrentGrade->current = 1;
 	  $gradeDAO->update ($newCurrentGrade);
 	  
