@@ -47,7 +47,11 @@
     
     <div class="field">
       <label class="form_libelle"> Sexe :</label>
-      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->pers_id_sexe}<br />
+      {if isset ($ppo->personnel->pers_id_sexe)}
+        {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->pers_id_sexe}<br />
+      {else}                                                                                                        
+        {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->genderIds.0}<br />
+      {/if}
     </div>
   </fieldset>
   
