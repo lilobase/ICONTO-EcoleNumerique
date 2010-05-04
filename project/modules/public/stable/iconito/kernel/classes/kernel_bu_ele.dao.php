@@ -112,7 +112,7 @@ class DAOKernel_bu_ele {
 	   
     $sql .= ' GROUP BY E.idEleve';
     $sql .= ' ORDER BY E.nom, E.prenom1';
-    var_dump($sql);
+
     return _doQuery($sql);
   }
   

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_eleve_inscription" tablename="kernel_bu_eleve_inscription" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="inscr_numero"        fieldname="numero"         type="integer" table="kernel_bu_eleve_inscription" pk="yes"/>
+		<property name="inscr_eleve"         fieldname="eleve"          type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="inscr_annee_scol"    fieldname="annee_scol"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="inscr_date_inscript" fieldname="date_inscript"  type="date"    table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="inscr_etablissement" fieldname="etablissement"  type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="inscr_id_niveau"     fieldname="id_niveau"      type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="inscr_id_typ_cla"    fieldname="id_typ_cla"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="inscr_current_inscr" fieldname="current_inscr"  type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+	</properties>
+</daodefinition>

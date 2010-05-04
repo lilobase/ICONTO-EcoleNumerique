@@ -11,13 +11,13 @@ class DAOKernel_bu_ecole_classe_niveau {
 	/**
 	 * Retourne les associations classe-niveau pour une classe donnée
 	 *
-	 * @param int $idClasse Identifiant d'une classe
+	 * @param int $classId Identifiant d'une classe
 	 * @return CopixDAORecordIterator
 	 */
-	public function getByClass ($idClass) {
+	public function getByClass ($classId) {
 		
 		$criteria = _daoSp ();
-		$criteria->addCondition ('classe', '=', $idClass);
+		$criteria->addCondition ('classe', '=', $classId);
 		
 		return $this->findBy ($criteria);
 	}

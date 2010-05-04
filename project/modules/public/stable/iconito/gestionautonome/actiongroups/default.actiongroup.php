@@ -9,9 +9,6 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-/**
- * @author	xxxxx
- */
 class ActionGroupDefault extends CopixActionGroup {
 
 	public function beforeAction (){
@@ -53,10 +50,10 @@ class ActionGroupDefault extends CopixActionGroup {
     // Sélection de l'onglet courant
     $ppo->tab = _request ('tab', null);
     
-    // Récupération de l'année scolaire
+    // Récupération de l'année scolaire : si non précisée, récupération de l'année scolaire courante
     $ppo->grade = _request ('grade', Kernel::getAnneeScolaireCourante ()->id_as);
     
-    // Récupération des années scolaires
+    // Récupération de la liste des années scolaires disponibles pour select
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $grades = $gradesDAO->findAll ();
 
@@ -88,14 +85,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * displayPersonsData (Ajax)
 	 *
 	 * Récupération des personnes du noeud courant.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processDisplayPersonsData () {
 
 	  $ppo = new CopixPPO ();                                       
 	  
+	  // Récupération des paramètres
 	  $id   = _request ('nodeId', null);
 	  $type = _request ('nodeType', null);
 	  
@@ -108,14 +104,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * updateTreeActions (Ajax)
 	 *
 	 * Récupération des actions disponibles pour le noeud courant.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processUpdateTreeActions () {
 
 	  $ppo = new CopixPPO ();
 	  
+	  // Récupération des paramètres
 	  $id   = _request ('nodeId', null);
 	  $type = _request ('nodeType', null);
 	  
@@ -128,8 +123,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * createCity
 	 *
 	 * Création d'une ville.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processCreateCity () {
@@ -154,7 +147,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
 		
 		return _arPPO ($ppo, 'create_city.tpl');
 	}
@@ -163,8 +156,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * validateCityCreation
 	 *
 	 * Validation du formulaire de création de ville.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processValidateCityCreation () {
@@ -191,7 +182,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
 
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");    
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");    
     
     // Récupération des paramètres
     $cityName  = _request ('nom', null); 
@@ -232,8 +223,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * updateCity
 	 *
 	 * Edition d'une ville.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processUpdateCity () {
@@ -263,7 +252,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => $ppo->city->nom);
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
 		
 		return _arPPO ($ppo, 'update_city.tpl');
 	}
@@ -272,8 +261,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * validateCityUpdate
 	 *
 	 * Validation du formulaire d'édition de ville.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processValidateCityUpdate () {
@@ -299,13 +286,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => $ppo->city->nom);
 
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
       
     // Récupération des paramètres
     $cityName = _request ('name', null);
     
     $ppo->city->nom   = trim ($cityName);
-    $ppo->city->canon = strtolower (trim ($cityName));
+    $ppo->city->canon = Kernel::createCanon ($cityName);
 
     // Traitement des erreurs
     $ppo->errors = array ();
@@ -329,8 +316,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * deleteVille
 	 *
 	 * Suppression d'une ville.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processDeleteCity () {
@@ -343,13 +328,15 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $nodeId   = _request ('nodeId', null);
 	  $nodeType = _request ('nodeType', null);
 	  
-	  $cityDAO       = _ioDAO ('kernel|kernel_bu_ville');
-	  $schoolDAO     = _ioDAO ('kernel|kernel_bu_ecole');
-	  $classDAO      = _ioDAO ('kernel|kernel_bu_ecole_classe');
-	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-	  $studentDAO    = _ioDAO ('kernel|kernel_bu_ele');
-	  $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
-	  $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_ele_admission');
+	  // DAO
+	  $cityDAO                = _ioDAO ('kernel|kernel_bu_ville');
+	  $schoolDAO              = _ioDAO ('kernel|kernel_bu_ecole');
+	  $classDAO               = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  $classLevelDAO          = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+	  $studentDAO             = _ioDAO ('kernel|kernel_bu_ele');
+	  $studentAssignmentDAO   = _ioDAO ('kernel|kernel_bu_ele_affect');
+	  $studentAdmissionDAO    = _ioDAO ('kernel|kernel_bu_ele_admission');
+	  $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
 	  
 	  if ($nodeType != 'BU_VILLE' || !$city = $cityDAO->get ($nodeId)) {
 	    
@@ -358,7 +345,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 	                 
 	  // Récupération GRVILLE pour redirect
-	  $ppo->nodeId = $city->id_grville;
+	  $ppo->nodeId   = $city->id_grville;
 	  $ppo->nodeType = 'BU_GRVILLE';
 	  
 	  // Récupération des écoles de la ville
@@ -380,6 +367,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	      $classLevelDAO->delete ($classLevel->classe, $classLevel->niveau);
 	      }
 	      
+	      // Récupération des élèves de la classe
 	      $students = $studentDAO->getElevesInClasse ($class->id);
         foreach ($students as $student) {
 
@@ -393,6 +381,12 @@ class ActionGroupDefault extends CopixActionGroup {
       	  if ($admission = $studentAdmissionDAO->getByStudentAndSchool ($student->id, $school->numero)) {
 
       	    $studentAdmissionDAO->delete ($admission->admission_numero);  
+      	  }
+      	  
+      	  // Récupérations des inscriptions de l'élève
+      	  if ($registration = $studentRegistrationDAO->getByStudentAndSchool ($student->id, $school->numero)) {
+
+      	    $studentRegistrationDAO->delete ($registration->inscr_numero);  
       	  }
         }
 	      
@@ -414,8 +408,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * createEcole
 	 *
 	 * Création d'une école.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processCreateSchool () {
@@ -443,7 +435,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $ppo->parentId, 'nodeType' => $ppo->parentType)));
 	  $breadcrumbs[] = array('txt' => 'Création d\'une école');
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
 		
 		return _arPPO ($ppo, 'create_school.tpl');
 	}
@@ -452,8 +444,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * validateSchoolCreation
 	 *
 	 * Validation du formulaire de création d'une école.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processValidateSchoolCreation () {
@@ -518,8 +508,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * updateSchool
 	 *
 	 * Edition d'une école.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processUpdateSchool () {
@@ -573,8 +561,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * validateSchoolUpdate
 	 *
 	 * Validation du formulaire d'édition d'une école.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processValidateSchoolUpdate () {
@@ -714,8 +700,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * createClass
 	 *
 	 * Création d'une classe.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processCreateClass () {
@@ -778,8 +762,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * validateClassCreation
 	 *
 	 * Validation du formulaire de création d'une classe.
-	 * @author	xxxxx
-	 * @since	xxxx
 	 * 
 	 */
 	public function processValidateClassCreation () {
@@ -1669,12 +1651,13 @@ class ActionGroupDefault extends CopixActionGroup {
 		_classInclude ('kernel|Tools');
 		
     $studentDAO              = _ioDAO ('kernel_bu_eleve');
-    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_ele_inscr');
+    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_eleve_inscription');
     $studentAdmissionDAO     = _ioDAO ('kernel_bu_eleve_admission');
     $studentAssignmentDAO    = _ioDAO ('kernel_bu_eleve_affectation');
     $dbuserDAO               = _ioDAO ('kernel|kernel_copixuser'); 
     $dbLinkDAO               = _ioDAO ('kernel_link_bu2user');
-    $classDAO                = _ioDAO ('kernel|kernel_bu_ecole_classe');    
+    $classDAO                = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    $schoolClassLevelDAO     = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');    
         
     // Création de l'élève
     $ppo->student = _record ('kernel_bu_eleve');
@@ -1777,23 +1760,23 @@ class ActionGroupDefault extends CopixActionGroup {
     $dbLink->bu_id   = $ppo->student->idEleve;
     
     $dbLinkDAO->insert ($dbLink);
+                 
+    // Récupération des données nécessaires à l'ajout des enregistrements inscription / adhésion / admission
+    $class = $classDAO->get ($ppo->nodeId); 
+    $schoolClassLevels = $schoolClassLevelDAO->getByClass ($class->id);
+    $classType = $schoolClassLevels[0]->type;
+    $schoolId = $class->ecole;
+    $currentGradeId = Kernel::getAnneeScolaireCourante ()->id_as;
     
     // Inscription de l'élève dans l'école
-    $studentRegistration = _record ('kernel|kernel_bu_ele_inscr');
+    $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');
     
     $studentRegistration->inscr_eleve                   = $ppo->student->idEleve;
-    $studentRegistration->inscr_annee_scol              = Kernel::getAnneeScolaireCourante ()->id_as;
-    $studentRegistration->inscr_date_preinscript        = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentRegistration->inscr_date_effet_preinscript  = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentRegistration->inscr_annee_scol              = $currentGradeId;
     $studentRegistration->inscr_date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentRegistration->inscr_date_effet_inscript     = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentRegistration->inscr_etablissement_refus     = 0;
-    $studentRegistration->inscr_id_niveau               = 0;
-    $studentRegistration->inscr_id_typ_cla              = 0;
-    $studentRegistration->inscr_vaccins_aj              = 0;
-    $studentRegistration->inscr_attente                 = 0;
-    $studentRegistration->inscr_derogation_dem          = 0;
-    $studentRegistration->inscr_temporaire              = 0;
+    $studentRegistration->inscr_etablissement           = $schoolId;
+    $studentRegistration->inscr_id_niveau               = $ppo->level;
+    $studentRegistration->inscr_id_typ_cla              = $classType;
     $studentRegistration->inscr_current_inscr           = 1;
 
     $studentRegistrationDAO->insert ($studentRegistration);
@@ -1802,8 +1785,8 @@ class ActionGroupDefault extends CopixActionGroup {
     $studentAdmission = _record ('kernel_bu_eleve_admission');
     
     $studentAdmission->eleve          = $ppo->student->idEleve;
-    $studentAdmission->etablissement  = $classDAO->get ($ppo->nodeId)->ecole;
-    $studentAdmission->annee_scol     = Kernel::getAnneeScolaireCourante ()->id_as;
+    $studentAdmission->etablissement  = $schoolId;
+    $studentAdmission->annee_scol     = $currentGradeId;
     $studentAdmission->id_niveau      = $ppo->level;
     $studentAdmission->etat_eleve     = 1;
     $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
@@ -1817,7 +1800,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $studentAssignment = _record ('kernel_bu_eleve_affectation');
     
     $studentAssignment->eleve           = $ppo->student->idEleve;
-    $studentAssignment->annee_scol      = Kernel::getAnneeScolaireCourante ()->id_as;
+    $studentAssignment->annee_scol      = $currentGradeId;
     $studentAssignment->classe          = $ppo->nodeId;
     $studentAssignment->niveau          = $ppo->level;
     $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
@@ -2942,8 +2925,8 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->levelNames[] = $level->niveau_court;
       $ppo->levelIds[]   = $level->id_n;
     }
-    
-    $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+	  
+	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
 	  $ppo->students = $studentDAO->findStudentsForAssignment ($ppo->nodeId, $type_ref, $ppo->listFilters);
 
 	  return _arPPO ($ppo, 'add_existing_student.tpl');
@@ -2981,62 +2964,66 @@ class ActionGroupDefault extends CopixActionGroup {
       	break;
 		}
 	  
-    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_ele_inscr');
+    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_eleve_inscription');
     $studentAdmissionDAO     = _ioDAO ('kernel_bu_eleve_admission');
     $studentAssignmentDAO    = _ioDAO ('kernel_bu_eleve_affectation');
     $classDAO                = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    $schoolClassLevelDAO     = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+  
+	  if (!is_null ($ppo->studentIds)) {
+	    
+	    foreach ($ppo->studentIds as $studentId) {
+
+        $level = _request ('level-'.$studentId, null);
         
-	  foreach ($ppo->studentIds as $studentId) {
+        $class = $classDAO->get ($ppo->nodeId); 
+        $schoolClassLevels = $schoolClassLevelDAO->getByClass ($class->id);
+        $classType = $schoolClassLevels[0]->type;
+        $schoolId = $class->ecole;
 
-      $level = _request ('level-'.$studentId, null);
-      
-      // Inscription de l'élève dans l'école
-      $studentRegistration = _record ('kernel|kernel_bu_ele_inscr');
+        // Inscription de l'élève dans l'école
+        $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');
 
-      $studentRegistration->inscr_eleve                   = $studentId;
-      $studentRegistration->inscr_annee_scol              = Kernel::getAnneeScolaireCourante ()->id_as;
-      $studentRegistration->inscr_date_preinscript        = CopixDateTime::timestampToYYYYMMDD (time ());
-      $studentRegistration->inscr_date_effet_preinscript  = CopixDateTime::timestampToYYYYMMDD (time ());
-      $studentRegistration->inscr_date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
-      $studentRegistration->inscr_date_effet_inscript     = CopixDateTime::timestampToYYYYMMDD (time ());
-      $studentRegistration->inscr_etablissement_refus     = 0;
-      $studentRegistration->inscr_id_niveau               = 0;
-      $studentRegistration->inscr_id_typ_cla              = 0;
-      $studentRegistration->inscr_vaccins_aj              = 0;
-      $studentRegistration->inscr_attente                 = 0;
-      $studentRegistration->inscr_derogation_dem          = 0;
-      $studentRegistration->inscr_temporaire              = 0;
-      $studentRegistration->inscr_current_inscr           = 1;
+        $studentRegistration->inscr_eleve                   = $studentId;
+        $studentRegistration->inscr_annee_scol              = Kernel::getAnneeScolaireCourante ()->id_as;
+        $studentRegistration->inscr_date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->inscr_etablissement           = $schoolId;
+        $studentRegistration->inscr_id_niveau               = $level;
+        $studentRegistration->inscr_id_typ_cla              = $classType;
+        $studentRegistration->inscr_current_inscr           = 1;
 
-      $studentRegistrationDAO->insert ($studentRegistration);
+        $studentRegistrationDAO->insert ($studentRegistration);
 
-      // Admission de l'élève dans l'école
-      $studentAdmission = _record ('kernel_bu_eleve_admission');
+        // Admission de l'élève dans l'école
+        $studentAdmission = _record ('kernel_bu_eleve_admission');
 
-      $studentAdmission->eleve          = $studentId;
-      $studentAdmission->etablissement  = $classDAO->get ($ppo->nodeId)->ecole;
-      $studentAdmission->annee_scol     = Kernel::getAnneeScolaireCourante ()->id_as;
-      $studentAdmission->id_niveau      = $level;
-      $studentAdmission->etat_eleve     = 1;
-      $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
-      $studentAdmission->date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
-      $studentAdmission->code_radiation = '';
-      $studentAdmission->previsionnel   = '';
+        $studentAdmission->eleve          = $studentId;
+        $studentAdmission->etablissement  = $classDAO->get ($ppo->nodeId)->ecole;
+        $studentAdmission->annee_scol     = Kernel::getAnneeScolaireCourante ()->id_as;
+        $studentAdmission->id_niveau      = $level;
+        $studentAdmission->etat_eleve     = 1;
+        $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentAdmission->date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentAdmission->code_radiation = '';
+        $studentAdmission->previsionnel   = '';
 
-      $studentAdmissionDAO->insert ($studentAdmission);
+        $studentAdmissionDAO->insert ($studentAdmission);
 
-      // Affectation de l'élève dans les classes
-      $studentAssignment = _record ('kernel_bu_eleve_affectation');
+        // Affectation de l'élève dans les classes
+        $studentAssignment = _record ('kernel_bu_eleve_affectation');
 
-      $studentAssignment->eleve           = $studentId;
-      $studentAssignment->annee_scol      = Kernel::getAnneeScolaireCourante ()->id_as;
-      $studentAssignment->classe          = $ppo->nodeId;
-      $studentAssignment->niveau          = $level;
-      $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
-      $studentAssignment->current         = 1;
-      $studentAssignment->previsionnel_cl = 0;
+        $studentAssignment->eleve           = $studentId;
+        $studentAssignment->annee_scol      = Kernel::getAnneeScolaireCourante ()->id_as;
+        $studentAssignment->classe          = $ppo->nodeId;
+        $studentAssignment->niveau          = $level;
+        $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentAssignment->current         = 1;
+        $studentAssignment->previsionnel_cl = 0;
 
-      $studentAssignmentDAO->insert ($studentAssignment);
+        $studentAssignmentDAO->insert ($studentAssignment);
+  	  }
+  	  
+  	  $ppo->save = 1;
 	  }
 	  
 	  $ppo->listFilters = _sessionGet ('gestionautonome|addExisting');
@@ -3045,9 +3032,24 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $ppo->listFilters = array ();
 	  }
 	  
+	  // Récupération des niveaux de la classe
+    $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+    $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+    
+	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
+	  
+    $ppo->levelNames = array ();
+    $ppo->levelIds   = array ();
+    
+    foreach ($classSchoolLevels as $classSchoolLevel) {
+      
+      $level             = $classLevelDAO->get ($classSchoolLevel->niveau);
+      $ppo->levelNames[] = $level->niveau_court;
+      $ppo->levelIds[]   = $level->id_n;
+    }
+	  
 	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
 	  $ppo->students = $studentDAO->findStudentsForAssignment ($ppo->nodeId, $type_ref, $ppo->listFilters);
-	  $ppo->save = 1;
 
 	  return _arPPO ($ppo, 'add_existing_student.tpl');
 	}
