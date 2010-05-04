@@ -14,6 +14,7 @@
 		<property name="pers_prenom1" fieldname="prenom1" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_civilite" fieldname="civilite" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_id_sexe" fieldname="id_sexe" type="integer" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_date_nais" fieldname="date_nais" type="date" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_cle_privee" fieldname="cle_privee" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_profession" fieldname="profession" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_tel_dom" fieldname="tel_dom" type="string" table="kernel_bu_personnel" pk="no"/>

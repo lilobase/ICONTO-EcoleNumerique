@@ -387,7 +387,7 @@ class ActionGroupDefault extends CopixActionGroup {
       	  // Récupérations des inscriptions de l'élève
       	  if ($registration = $studentRegistrationDAO->getByStudentAndSchool ($student->id, $school->numero)) {
 
-      	    $studentRegistrationDAO->delete ($registration->inscr_numero);  
+      	    $studentRegistrationDAO->delete ($registration->numero);  
       	  }
         }
 	      
@@ -1379,7 +1379,7 @@ class ActionGroupDefault extends CopixActionGroup {
 				return _arPPO ($ppo, 'account_listing.tpl');
 			case 'html':
 			  $result = $tplResult->fetch ('account_listing_html.tpl');
-			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
+			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'inline', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
 			  break;
 			case 'csv':
 			  $result = $tplResult->fetch ('account_listing_csv.tpl');
@@ -1415,9 +1415,9 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->genderNames = array ('Homme', 'Femme');
     $ppo->genderIds = array ('0', '1');
     
-    $ppo->personnel->date_nais = CopixDateTime::yyyymmddToDate ($ppo->personnel->date_nais);
+    $ppo->personnel->pers_date_nais = CopixDateTime::yyyymmddToDate ($ppo->personnel->pers_date_nais);
     
-    $ppo->personName = $ppo->personnel->nom.' '.$ppo->personnel->prenom1;
+    $ppo->personName = $ppo->personnel->pers_nom.' '.$ppo->personnel->pers_prenom1;
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
 
 	  // Breadcrumbs
@@ -1460,22 +1460,22 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[]    = array('txt' => $ppo->personName.' ('.Kernel::Code2Name ($ppo->type).')');
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");     
 
-    $ppo->personnel->nom         = trim (_request ('nom', null));
-    $ppo->personnel->prenom1     = trim (_request ('prenom1', null));
-    $ppo->personnel->date_nais   = _request ('date_nais', null);
-    $ppo->personnel->id_sexe     = _request ('gender', null);
-    $ppo->personnel->date_nais   = CopixDateTime::dateToyyyymmdd (_request ('date_nais', null)); 
+    $ppo->personnel->pers_nom         = trim (_request ('nom', null));
+    $ppo->personnel->pers_prenom1     = trim (_request ('prenom1', null));
+    $ppo->personnel->pers_date_nais   = _request ('date_nais', null);
+    $ppo->personnel->pers_id_sexe     = _request ('gender', null);
+    $ppo->personnel->pers_date_nais   = CopixDateTime::dateToyyyymmdd (_request ('date_nais', null)); 
     
     $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($personnelId, $ppo->type);
    
     // Traitement des erreurs
     $ppo->errors = array ();
     
-    if (!$ppo->personnel->nom) {
+    if (!$ppo->personnel->pers_nom) {
       
       $ppo->errors[] = 'Saisissez un nom';
     }
-    if (!$ppo->personnel->prenom1) {
+    if (!$ppo->personnel->pers_prenom1) {
       
       $ppo->errors[] = 'Saisissez un prénom';
     }
@@ -1772,13 +1772,21 @@ class ActionGroupDefault extends CopixActionGroup {
     // Inscription de l'élève dans l'école
     $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');
     
-    $studentRegistration->inscr_eleve                   = $ppo->student->idEleve;
-    $studentRegistration->inscr_annee_scol              = $currentGradeId;
-    $studentRegistration->inscr_date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentRegistration->inscr_etablissement           = $schoolId;
-    $studentRegistration->inscr_id_niveau               = $ppo->level;
-    $studentRegistration->inscr_id_typ_cla              = $classType;
-    $studentRegistration->inscr_current_inscr           = 1;
+    $studentRegistration->eleve                   = $ppo->student->idEleve;
+    $studentRegistration->annee_scol              = $currentGradeId;
+    $studentRegistration->date_preinscript        = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentRegistration->date_effet_preinscript  = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentRegistration->date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentRegistration->date_effet_inscript     = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentRegistration->etablissement           = $schoolId;
+    $studentRegistration->etablissement_refus     = 0;
+    $studentRegistration->id_niveau               = $ppo->level;
+    $studentRegistration->id_typ_cla              = $classType;
+    $studentRegistration->vaccins_aj              = 0;
+    $studentRegistration->attente                 = 0;
+    $studentRegistration->derogation_dem          = 0; 
+    $studentRegistration->temporaire              = 0;
+    $studentRegistration->current_inscr           = 1;
 
     $studentRegistrationDAO->insert ($studentRegistration);
 
@@ -2985,14 +2993,22 @@ class ActionGroupDefault extends CopixActionGroup {
         // Inscription de l'élève dans l'école
         $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');
 
-        $studentRegistration->inscr_eleve                   = $studentId;
-        $studentRegistration->inscr_annee_scol              = Kernel::getAnneeScolaireCourante ()->id_as;
-        $studentRegistration->inscr_date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
-        $studentRegistration->inscr_etablissement           = $schoolId;
-        $studentRegistration->inscr_id_niveau               = $level;
-        $studentRegistration->inscr_id_typ_cla              = $classType;
-        $studentRegistration->inscr_current_inscr           = 1;
-
+        $studentRegistration->eleve                   = $studentId;
+        $studentRegistration->annee_scol              = Kernel::getAnneeScolaireCourante ()->id_as; 
+        $studentRegistration->date_preinscript        = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->date_effet_preinscript  = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->date_effet_inscript     = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->etablissement           = $schoolId;
+        $studentRegistration->etablissement_refus     = 0;
+        $studentRegistration->id_niveau               = $level;
+        $studentRegistration->id_typ_cla              = $classType;
+        $studentRegistration->vaccins_aj              = 0;
+        $studentRegistration->attente                 = 0;
+        $studentRegistration->derogation_dem          = 0; 
+        $studentRegistration->temporaire              = 0;
+        $studentRegistration->current_inscr           = 1; 
+        
         $studentRegistrationDAO->insert ($studentRegistration);
 
         // Admission de l'élève dans l'école
@@ -3501,14 +3517,15 @@ class ActionGroupDefault extends CopixActionGroup {
   	
   	// DAO 
   	$studentDAO              = _ioDAO ('kernel_bu_eleve');
-    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_ele_inscr');
+    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_eleve_inscription');
     $studentAdmissionDAO     = _ioDAO ('kernel_bu_eleve_admission');
     $studentAssignmentDAO    = _ioDAO ('kernel_bu_eleve_affectation');
     $dbuserDAO               = _ioDAO ('kernel|kernel_copixuser'); 
     $dbLinkDAO               = _ioDAO ('kernel_link_bu2user');
     $classDAO                = _ioDAO ('kernel_bu_ecole_classe');
     $personDAO               = _ioDAO ('kernel_bu_responsable');
-    $personLinkDAO           = _ioDAO ('kernel_bu_responsables');
+    $personLinkDAO           = _ioDAO ('kernel_bu_responsables'); 
+    $schoolClassLevelDAO     = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
   	
   	$node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
   	
@@ -3558,24 +3575,32 @@ class ActionGroupDefault extends CopixActionGroup {
         $dbLink->bu_id   = $ppo->student->idEleve;
         
         $dbLinkDAO->insert ($dbLink);
+
+        // Récupération des données nécessaires à l'ajout des enregistrements inscription / adhésion / admission
+        $class = $classDAO->get ($ppo->nodeId); 
+        $schoolClassLevels = $schoolClassLevelDAO->getByClass ($ppo->nodeId);
+        $classType = $schoolClassLevels[0]->type;
+        $schoolId = $class->ecole;
+        $currentGradeId = Kernel::getAnneeScolaireCourante ()->id_as;
         
         // Inscription de l'élève dans l'école
-        $studentRegistration = _record ('kernel|kernel_bu_ele_inscr');
+        $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');
         
-        $studentRegistration->inscr_eleve                   = $ppo->student->idEleve;
-        $studentRegistration->inscr_annee_scol              = Kernel::getAnneeScolaireCourante ()->id_as;
-        $studentRegistration->inscr_date_preinscript        = CopixDateTime::timestampToYYYYMMDD (time ());
-        $studentRegistration->inscr_date_effet_preinscript  = CopixDateTime::timestampToYYYYMMDD (time ());
-        $studentRegistration->inscr_date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
-        $studentRegistration->inscr_date_effet_inscript     = CopixDateTime::timestampToYYYYMMDD (time ());
-        $studentRegistration->inscr_etablissement_refus     = 0;
-        $studentRegistration->inscr_id_niveau               = 0;
-        $studentRegistration->inscr_id_typ_cla              = 0;
-        $studentRegistration->inscr_vaccins_aj              = 0;
-        $studentRegistration->inscr_attente                 = 0;
-        $studentRegistration->inscr_derogation_dem          = 0;
-        $studentRegistration->inscr_temporaire              = 0;
-        $studentRegistration->inscr_current_inscr           = 1;
+        $studentRegistration->eleve                   = $ppo->student->idEleve;
+        $studentRegistration->annee_scol              = $currentGradeId;
+        $studentRegistration->date_preinscript        = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->date_effet_preinscript  = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->date_inscript           = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->date_effet_inscript     = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentRegistration->etablissement           = $schoolId;
+        $studentRegistration->etablissement_refus     = 0;
+        $studentRegistration->id_niveau               = $students[$key]['level'];
+        $studentRegistration->id_typ_cla              = $classType;
+        $studentRegistration->vaccins_aj              = 0;
+        $studentRegistration->attente                 = 0;
+        $studentRegistration->derogation_dem          = 0; 
+        $studentRegistration->temporaire              = 0;
+        $studentRegistration->current_inscr           = 1; 
         
         $studentRegistrationDAO->insert ($studentRegistration);
         
@@ -3583,8 +3608,8 @@ class ActionGroupDefault extends CopixActionGroup {
         $studentAdmission = _record ('kernel_bu_eleve_admission');
         
         $studentAdmission->eleve          = $ppo->student->idEleve;
-        $studentAdmission->etablissement  = $classDAO->get ($ppo->nodeId)->ecole;
-        $studentAdmission->annee_scol     = Kernel::getAnneeScolaireCourante ()->id_as;
+        $studentAdmission->etablissement  = $schoolId;
+        $studentAdmission->annee_scol     = $currentGradeId;
         $studentAdmission->id_niveau      = $students[$key]['level'];
         $studentAdmission->etat_eleve     = 1;
         $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
@@ -3598,7 +3623,7 @@ class ActionGroupDefault extends CopixActionGroup {
         $studentAssignment = _record ('kernel_bu_eleve_affectation');
         
         $studentAssignment->eleve           = $ppo->student->idEleve;
-        $studentAssignment->annee_scol      = Kernel::getAnneeScolaireCourante ()->id_as;
+        $studentAssignment->annee_scol      = $currentGradeId;
         $studentAssignment->classe          = $ppo->nodeId;
         $studentAssignment->niveau          = $students[$key]['level'];
         $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());

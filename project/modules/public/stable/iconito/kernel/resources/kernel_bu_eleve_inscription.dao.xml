@@ -7,13 +7,28 @@
 		</tables>
 	</datasource>
 	<properties>
-		<property name="inscr_numero"        fieldname="numero"         type="integer" table="kernel_bu_eleve_inscription" pk="yes"/>
-		<property name="inscr_eleve"         fieldname="eleve"          type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
-		<property name="inscr_annee_scol"    fieldname="annee_scol"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
-		<property name="inscr_date_inscript" fieldname="date_inscript"  type="date"    table="kernel_bu_eleve_inscription" pk="no"/>
-		<property name="inscr_etablissement" fieldname="etablissement"  type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
-		<property name="inscr_id_niveau"     fieldname="id_niveau"      type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
-		<property name="inscr_id_typ_cla"    fieldname="id_typ_cla"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
-		<property name="inscr_current_inscr" fieldname="current_inscr"  type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="numero"        fieldname="numero"         type="integer" table="kernel_bu_eleve_inscription" pk="yes"/>
+		<property name="eleve"         fieldname="eleve"          type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="annee_scol"    fieldname="annee_scol"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="date_preinscript" fieldname="date_preinscript"  type="date"    table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="date_effet_preinscript" fieldname="date_effet_preinscript"  type="date"    table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="date_inscript" fieldname="date_inscript"  type="date"    table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="date_effet_inscript" fieldname="date_effet_inscript"  type="date"    table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="etablissement" fieldname="etablissement"  type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="etablissement_refus" fieldname="etablissement_refus"  type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="id_niveau"     fieldname="id_niveau"      type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="id_typ_cla"    fieldname="id_typ_cla"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="vaccins_aj"    fieldname="vaccins_aj"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="attente"    fieldname="attente"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="date_attente"    fieldname="date_attente"     type="date" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="derogation_dem"    fieldname="derogation_dem"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="derogation_accept"    fieldname="derogation_accept"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="derogation_date_dem"    fieldname="derogation_date_dem"     type="date" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="derogation_date_accept"    fieldname="derogation_date_accept"     type="date" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="derogation_maire"    fieldname="derogation_maire"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="derogation_commune"    fieldname="derogation_commune"     type="string" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="temporaire"    fieldname="temporaire"     type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="date_vac_limit"    fieldname="date_vac_limit"     type="date" table="kernel_bu_eleve_inscription" pk="no"/>
+		<property name="current_inscr" fieldname="current_inscr"  type="integer" table="kernel_bu_eleve_inscription" pk="no"/>
 	</properties>
 </daodefinition>
