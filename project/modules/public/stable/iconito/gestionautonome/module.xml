@@ -36,5 +36,6 @@
 			<value name="update" level="2" />
 			<value name="delete" level="3" />
 		</credential>
+		<credential name="access" />
 	</credentials>
 </moduledefinition>

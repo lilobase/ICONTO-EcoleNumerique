@@ -30,24 +30,32 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
 	 */
 	private function _hasCredential ($name, $value, $group, $module = null) {
 	  
-    $sql = 'SELECT * '
-      . 'FROM modulecredentials mc, dbgroup, modulecredentialsgroups mcg, modulecredentialsvalues mcv1, modulecredentialsvalues mcv2 '
-      . 'WHERE mc.id_mc = mcg.id_mc '
-  		. 'AND mc.name_mc = :name '
-  		. 'AND mcg.id_group = dbgroup.id_dbgroup AND dbgroup.caption_dbgroup = :group '
-  		. 'AND mcg.handler_group = :handler_group '
-			. 'AND mcv2.id_mcv = mcg.id_mcv '
-			. 'AND mcv1.id_mc = mc.id_mc '
-		  . 'AND mcv1.value_mcv = :value '
-		  . 'AND ((mcv2.level_mcv > mcv1.level_mcv AND mcv1.level_mcv IS NOT NULL) OR mcv2.value_mcv = mcv1.value_mcv)';
-    
-    $arValues = array(
+	  $arValues = array(
       ':name'          => $name,
-      ':value'         => $value,
       ':group'         => $group,
       ':handler_group' => 'auth|dbgrouphandler'
     );
     
+    $sql = 'SELECT * '
+      . 'FROM modulecredentials mc, dbgroup, modulecredentialsgroups mcg ';
+    if ($value != '') {
+      
+      $sql .= ', modulecredentialsvalues mcv1, modulecredentialsvalues mcv2 ';
+    } 
+    $sql .= 'WHERE mc.id_mc = mcg.id_mc '
+  		. 'AND mc.name_mc = :name '
+  		. 'AND mcg.id_group = dbgroup.id_dbgroup AND dbgroup.caption_dbgroup = :group '
+  		. 'AND mcg.handler_group = :handler_group ';
+    if ($value != '') {
+      
+      $sql .= 'AND mcv2.id_mcv = mcg.id_mcv '
+			. 'AND mcv1.id_mc = mc.id_mc '
+		  . 'AND mcv1.value_mcv = :value '
+		  . 'AND ((mcv2.level_mcv > mcv1.level_mcv AND mcv1.level_mcv IS NOT NULL) OR mcv2.value_mcv = mcv1.value_mcv)';
+		  
+		  $arValues[':value'] = $value;
+    }
+
     if (!is_null($module)) {
       
       $sql .= ' AND mc.module_mc = :module';
@@ -75,12 +83,13 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
 	    'school'       => array('principal', 'administration_staff'),
 	    'city'         => array('city_agent'),
 	    'cities_group' => array('cities_group_agent'),
+	    '*'            => array('teacher', 'principal', 'administration_staff', 'city_agent', 'cities_group_agent'),
 	  );
 	  
     // Teste de la ressource parente
     $module           = substr($pString, strrpos($pString, '@')+1);
     $credentialParams = explode('|', substr($pString, 0, strrpos($pString, '@')));
-
+    
     // Si le formatage du droit n'est pas bon
     if (count($credentialParams) != 4 || !isset($mapResourceTypeToRole[$credentialParams[0]])) {
       
@@ -105,7 +114,7 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
         
         // Recherche générique
         foreach ($userGroups['gestionautonome|iconitogrouphandler'] as $key => $group) {
-          
+
           if (substr($key, 0, strrpos($key, '_')) == $role) {
 
             if ($this->_hasCredential ($credentialParams[2], $credentialParams[3], $role, $module)) {
@@ -116,7 +125,7 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
         }
       }
     }
-    
+
     // Récupération du parent
     if ($credentialParams[1] != '') {
       
