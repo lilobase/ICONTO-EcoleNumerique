@@ -68,9 +68,12 @@
  	  jQuery('.button').button();
  	  
  	  jQuery('.datepicker').datepicker({
-    			showOn: 'button',
-    			buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.gif"}{literal}',
-    			buttonImageOnly: true
+    	showOn: 'button',
+    	buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.png"}{literal}',
+    	buttonImageOnly: true,
+    	changeMonth: true,
+      changeYear: true,
+      yearRange: 'c-50:c+10'
     });
   });
   

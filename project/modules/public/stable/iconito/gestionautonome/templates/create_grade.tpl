@@ -43,9 +43,12 @@
   jQuery(document).ready(function() {
 
     jQuery('.datepicker').datepicker({
-    			showOn: 'button',
-    			buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.gif"}{literal}',
-    			buttonImageOnly: true
+    	showOn: 'button',
+    	buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.png"}{literal}',
+    	buttonImageOnly: true,
+    	changeMonth: true,
+      changeYear: true,
+      yearRange: 'c-5:c+5'
     });   
     
     jQuery('.button').button();
