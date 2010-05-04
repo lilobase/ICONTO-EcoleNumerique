@@ -62,13 +62,21 @@
     <div class="column-right">
       <div class="field">
         <label class="form_libelle"> Sexe :</label>
-        {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
+        {if isset ($ppo->person->id_sexe)}
+          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
+        {else}
+          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->genderIds.0}
+        {/if}
       </div>
 
       <div class="field">
         <label for="id_par" class="form_libelle"> Relation avec l'élève :</label>
         <select class="form" name="id_par" id="id_par">
-          {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->id_par}
+          {if isset ($ppo->id_par)}
+            {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->id_par}
+          {else}
+            {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->linkIds.1}
+          {/if}
     	  </select>
       </div>
     </div>  

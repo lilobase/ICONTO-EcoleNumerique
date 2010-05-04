@@ -77,7 +77,11 @@
     <div class="field">
       <label for="id_par" class="form_libelle"> Relation :</label>
       <select class="form" name="id_par" id="id_par">
-        {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->id_par}
+        {if isset ($ppo->id_par)}
+          {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->id_par}
+        {else}
+          {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->linkIds.1}
+        {/if}
   	  </select>
     </div>
   </fieldset>
