@@ -336,7 +336,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $classLevelDAO          = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
 	  $studentDAO             = _ioDAO ('kernel|kernel_bu_ele');
 	  $studentAssignmentDAO   = _ioDAO ('kernel|kernel_bu_ele_affect');
-	  $studentAdmissionDAO    = _ioDAO ('kernel|kernel_bu_ele_admission');
+	  $studentAdmissionDAO    = _ioDAO ('kernel|kernel_bu_eleve_admission');
 	  $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
 	  
 	  if ($nodeType != 'BU_VILLE' || !$city = $cityDAO->get ($nodeId)) {
@@ -646,7 +646,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
 	  $studentDAO    = _ioDAO ('kernel|kernel_bu_ele');
 	  $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
-	  $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_ele_admission');
+	  $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_eleve_admission');
 	  
 	  if ($nodeType != 'BU_ECOLE' || !$school = $schoolDAO->get ($nodeId)) {
 	    
@@ -2115,8 +2115,8 @@ class ActionGroupDefault extends CopixActionGroup {
     $dbLinkDAO        = _ioDAO ('kernel|kernel_bu2user');
 	  $studentDAO       = _ioDAO ('kernel_bu_eleve');
 	  $assignmentDAO    = _ioDAO ('kernel|kernel_bu_ele_affect');
-	  $registrationDAO  = _ioDAO ('kernel|kernel_bu_ele_inscr');
-    $admissionDAO     = _ioDAO ('kernel|kernel_bu_ele_admission');
+	  $registrationDAO  = _ioDAO ('kernel|kernel_bu_eleve_inscription');
+    $admissionDAO     = _ioDAO ('kernel|kernel_bu_eleve_admission');
 
 	  // Récupération et suppression du DbLink et dbuser
 	  $dbLink = $dbLinkDAO->getByBUID ('USER_ELE', $studentId);
@@ -2690,7 +2690,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
 	  
-	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  
 	  $ppo->grade = _record ('kernel_bu_annee_scolaire');
 
@@ -2737,11 +2737,11 @@ class ActionGroupDefault extends CopixActionGroup {
       $currentGrade->current = 0;
     }
     
-    $gradesDAO->insert ($ppo->grade); 
+    $gradeDAO->insert ($ppo->grade); 
     
     // Récupérations des années scolaires
-    $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  $ppo->grades = $gradesDAO->findAll ();
+    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $ppo->grades = $gradeDAO->findAll ();
 
 	  return _arPPO ($ppo, 'manage_grades.tpl');
 	}
@@ -2754,7 +2754,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $gradeId = _request ('gradeId', null);
 	  
-	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $grades = $gradesDAO->findAll ();
 	  
 	  foreach ($grades as $grade) {
@@ -2765,12 +2765,33 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $newCurrentGrade = $gradesDAO->get ($gradeId);
 	  $newCurrentGrade->current = 1;
-	  $gradesDAO->update ($newCurrentGrade);
+	  $gradeDAO->update ($newCurrentGrade);
 	  
 	  // Récupérations des années scolaires
-	  $ppo->grades = $gradesDAO->findAll ();
+	  $ppo->grades = $gradeDAO->findAll ();
 	  
 	  return _arPPO ($ppo, 'manage_grades.tpl');
+	}
+	
+	public function processUpdateGrade () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
+
+	  if (!$ppo->grade = $gradeDAO->get (_request ('gradeId', null))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  return _arPPO ($ppo, 'update_grade.tpl');
+	}
+	
+	public function processValidateGradeUpdate () {
+	  
+	  
 	}
 	
 	public function processDeleteGrade () {
@@ -3241,12 +3262,12 @@ class ActionGroupDefault extends CopixActionGroup {
 		}
 	  
 	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
-        
-	  if (!is_array ($ppo->personIds) && !empty ($ppo->personIds)) {
-	    
+   
+	  if (is_array ($ppo->personIds) && !empty ($ppo->personIds)) {
+
 	    foreach ($ppo->personIds as $personId) {
 
-        if (!$personEntityDAO->get ($personId, $ppo->nodeId, $type_ref)) {
+        if (!$personEntityDAO->getByIdReferenceAndType ($personId, $ppo->nodeId, $type_ref)) {
 
           // Création de l'association kernel_bu_personnel_entite
           $newPersonEntity = _record ('kernel|kernel_bu_personnel_entite');

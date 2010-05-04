@@ -86,7 +86,9 @@ class DAOKernel_bu_ele {
       $sql .= ' AND (SELECT kernel_bu_eleve_affectation.current FROM kernel_bu_eleve_affectation WHERE kernel_bu_eleve_affectation.eleve=E.idEleve ORDER BY kernel_bu_eleve_affectation.id DESC LIMIT 1) = 0';
     }
     else {
-
+      
+      $sql .= ' AND (SELECT kernel_bu_eleve_admission.etat_eleve FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve ORDER BY kernel_bu_eleve_admission.numero DESC LIMIT 1) != 3';
+      
   	  if (isset ($filters['class'])) {
 
   	    $sql .= ' AND EA.classe = '.$filters['class']; 
@@ -129,7 +131,8 @@ class DAOKernel_bu_ele {
 		  . ' AND U.id_dbuser = LI.user_id'
 		  . ' AND A.niveau=CN.id_n'
 		  . ' ORDER BY E.nom, E.prenom1';  
-      
+     var_dump($sql);
+     var_dump($classId);
     return _doQuery ($sql, array (':id' => $classId));
   }
 }

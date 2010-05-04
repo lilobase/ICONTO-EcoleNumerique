@@ -56,7 +56,13 @@
       <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
     	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer les nouvelles affectations" /></li>
     </ul>
-  </form>                 
+  </form>
+{else}
+  <i>Aucun élève</i>
+  
+  <ul class="actions">
+    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
+  </ul>                 
 {/if}
 
 {literal}

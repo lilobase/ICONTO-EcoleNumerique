@@ -23,8 +23,18 @@ class DAOKernel_bu_eleve_inscription {
 		
 		return $this->findBy ($criteria);
 	}
-
+	
+	/**
+	 * Retourne les enregistrements d'un élève
+	 *
+	 * @param int $studentId Identifiant d'un élève
+	 * @return CopixDAORecordIterator
+	 */
+	public function getByStudent ($studentId) {
+		
+		$criteria = _daoSp ();
+		$criteria->addCondition ('inscr_eleve', '=', $studentId);
+		
+		return $this->findBy ($criteria);
+	}
 }
-
-
-?>

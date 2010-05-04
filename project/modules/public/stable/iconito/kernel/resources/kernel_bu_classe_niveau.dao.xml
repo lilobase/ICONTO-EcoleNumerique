@@ -3,7 +3,7 @@
 <daodefinition version="1">
 	<datasource>
 		<tables>
-		<table name="kernel_bu_classe_niveau" tablename="kernel_bu_classe_niveau" primary="yes"/>
+		  <table name="kernel_bu_classe_niveau" tablename="kernel_bu_classe_niveau" primary="yes"/>
 		</tables>
 	</datasource>
 
