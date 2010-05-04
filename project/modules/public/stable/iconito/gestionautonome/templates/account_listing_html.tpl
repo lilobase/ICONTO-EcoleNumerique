@@ -6,7 +6,7 @@
   <link rel="stylesheet" href="http://local.iconito.fr/themes/default/styles/theme.css" type="text/css"/>
 </head>
 <body>
-  {i18n key="comptes|comptes.strings.dateliste" 1=$smarty.now|datei18n:"date_short_time"}
+  Liste éditée le {$smarty.now|datei18n:"date_short_time"}
 
   <table border="1" cellspacing="2" cellpadding="2" style="-moz-border-radius:6px 6px 6px 6px;background-color:#FFFFFF;font-size:12px;width:50%">
   	<tr>

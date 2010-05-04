@@ -11,9 +11,8 @@
 
 class ActionGroupDefault extends CopixActionGroup {
 
-	public function beforeAction (){
-		_currentUser()->assertCredential ('group:[current_user]');
-		                   
+	public function beforeAction () {
+		
     CopixHTMLHeader::addJSLink (_resource ('js/jquery-1.4.2.min.js'));
     CopixHTMLHeader::addJSLink (_resource ('js/jquery-ui-1.8.custom.min.js'));
     CopixHTMLHeader::addJSLink (_resource ('js/jquery.ui.datepicker-fr.js'));
@@ -33,15 +32,17 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * Affichage principal (arbre)
 	 */
 	public function processShowTree () {
-	  
+
+	  //CopixAuth::getCurrentUser()->testCredential('module:school|1|classroom|create@gestionautonome');
+
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  $ppo->TITLE_PAGE = 'Gestion de la structure scolaire';
 	  
 	  // Récupération du noeud ROOT
 	  $groupcity = Kernel::getNodeChilds ('ROOT', 0);
 	  $groupcity = Kernel::filterNodeList ($groupcity, 'BU_GRVILLE');
-    
+     
     $ppo->root = $groupcity[0];
     
     // Y a t-il eu des modifications ?
@@ -67,7 +68,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->targetId   = _request ('nodeId');
     $ppo->targetType = _request ('nodeType');
 
-		return _arPPO ($ppo, 'show_tree.tpl'); 
+		return _arPPO ($ppo, 'show_tree.tpl');
 	}
 	
 	public function processRefreshTree () {
@@ -198,11 +199,11 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->city->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->city->id_grville) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.unknownError');
+      $ppo->errors[] = 'Une erreur est survenue';
     }
     
     if (!empty ($ppo->errors)) {
@@ -299,7 +300,7 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->city->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     
     if (!empty ($ppo->errors)) {
@@ -486,7 +487,7 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->school->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     
     if (!empty ($ppo->errors)) {
@@ -602,7 +603,7 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->school->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     
     if (!empty ($ppo->errors)) {
@@ -812,12 +813,12 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->class->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     
     if (!$ppo->levels) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.selectLevel');
+      $ppo->errors[] = 'Saisissez un niveau';
     }
     
     if (!empty ($ppo->errors)) {
@@ -1002,12 +1003,12 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->class->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     
     if (!$ppo->levels) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.selectLevel');
+      $ppo->errors[] = 'Saisissez un niveau';
     }
     
     if (!empty ($ppo->errors)) {
@@ -1228,31 +1229,31 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->personnel->pers_nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->personnel->pers_prenom1) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+      $ppo->errors[] = 'Saisissez un prénom';
     }
     if (!$ppo->login) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
+      $ppo->errors[] = 'Saisissez un login';
     }
     if (!$ppo->password) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
+      $ppo->errors[] = 'Saisissez un mot de passe';
     }
     elseif (!Kernel::checkPasswordFormat ($ppo->password)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
+      $ppo->errors[] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
     }
     if (!Kernel::isLoginAvailable ($ppo->login)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
+      $ppo->errors[] = 'Login non disponible';
     }
     if (is_null($ppo->personnel->pers_id_sexe)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.selectGender');
+      $ppo->errors[] = 'Saisissez un sexe';
     }
    
     if (!empty ($ppo->errors)) {
@@ -1472,11 +1473,11 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->personnel->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->personnel->prenom1) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+      $ppo->errors[] = 'Saisissez un prénom';
     }
 
     if (!empty ($ppo->errors)) {
@@ -1687,31 +1688,31 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->student->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->student->prenom1) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+      $ppo->errors[] = 'Saisissez un prénom';
     }
     if (is_null($ppo->student->id_sexe)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.selectGender');
+      $ppo->errors[] = 'Saisissez un sexe';
     }
     if (!$ppo->login) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
+      $ppo->errors[] = 'Saisissez un login';
     }
     elseif (!Kernel::isLoginAvailable ($ppo->login)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
+      $ppo->errors[] = 'Login non disponible';
     }
     if (!$ppo->password) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
+      $ppo->errors[] = 'Saisissez un mot de passe';
     }
     elseif (!Kernel::checkPasswordFormat ($ppo->password)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
+      $ppo->errors[] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
     }
     
     if (!empty ($ppo->errors)) {
@@ -2000,11 +2001,11 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->student->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->student->prenom1) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+      $ppo->errors[] = 'Saisissez un prénom';
     }
     
     if (!empty ($ppo->errors)) {
@@ -2237,31 +2238,31 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->person->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->person->prenom1) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+      $ppo->errors[] = 'Saisissez un prénom';
     }
     if (is_null($ppo->person->id_sexe)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.selectGender');
+      $ppo->errors[] = 'Saisissez un sexe';
     }
     if (!$ppo->login) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
+      $ppo->errors[] = 'Saisissez un login';
     }
     elseif (!Kernel::isLoginAvailable ($ppo->login)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
+      $ppo->errors[] = 'Login non disponible';
     }
     if (!$ppo->password) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
+      $ppo->errors[] = 'Saisissez un mot de passe';
     }
     elseif (!Kernel::checkPasswordFormat ($ppo->password)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
+      $ppo->errors[] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
     }
     
     if (!empty ($ppo->errors)) {
@@ -2417,11 +2418,11 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->person->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->person->prenom1) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+      $ppo->errors[] = 'Saisissez un prénom';
     }
     
     if (!empty ($ppo->errors)) {
@@ -2588,31 +2589,31 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!$ppo->person->nom) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeName');
+      $ppo->errors[] = 'Saisissez un nom';
     }
     if (!$ppo->person->prenom1) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeFirstName');
+      $ppo->errors[] = 'Saisissez un prénom';
     }
     if (is_null($ppo->person->id_sexe)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.selectGender');
+      $ppo->errors[] = 'Saisissez un sexe';
     }
     if (!$ppo->account->login) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeLogin');
+      $ppo->errors[] = 'Saisissez un login';
     }
     if (!$ppo->account->password) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typePassword');
+      $ppo->errors[] = 'Saisissez un mot de passe';
     }
     elseif (!Kernel::checkPasswordFormat ($ppo->account->password)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.passwordFormat');
+      $ppo->errors[] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
     }
     if (!Kernel::isLoginAvailable ($ppo->account->login)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.loginNotAvailable');
+      $ppo->errors[] = 'Login non disponible';
     }
     
     if (!empty ($ppo->errors)) {
@@ -2703,15 +2704,15 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
     if (!$ppo->grade->dateDebut) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeStartDate');
+      $ppo->errors[] = 'Saisissez une date de début';
     }
     if (!$ppo->grade->dateFin) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.typeEndDate');
+      $ppo->errors[] = 'Saisissez une date de fin';
     }
     if ($gradesDAO->get ($ppo->grade->id_as)) {
       
-      $ppo->errors[] = CopixI18N::get ('gestionautonome.error.gradeAlreadyExist');
+      $ppo->errors[] = 'Cette année scolaire existe déjà';
     }
     
     if (!empty ($ppo->errors)) {
