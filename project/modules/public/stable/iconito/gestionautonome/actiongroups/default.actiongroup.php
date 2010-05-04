@@ -2786,12 +2786,77 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
+	  $ppo->grade->dateDebut    = CopixDateTime::yyyymmddToDate($ppo->grade->dateDebut);
+	  $ppo->grade->dateFin      = CopixDateTime::yyyymmddToDate($ppo->grade->dateFin);
+	  
 	  return _arPPO ($ppo, 'update_grade.tpl');
 	}
 	
 	public function processValidateGradeUpdate () {
 	  
+	  $ppo = new CopixPPO ();
 	  
+	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  
+	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  
+	  if (!$ppo->grade = $gradeDAO->get (_request ('id_as', null))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+    $dateDebut                  = _request ('dateDebut', null);
+    $dateFin                    = _request ('dateFin', null);
+
+	  $ppo->grade->annee_scolaire = substr($dateDebut, 6, 10).'-'.substr($dateFin, 6, 10);
+	  $ppo->grade->dateDebut      = CopixDateTime::dateToyyyymmdd($dateDebut);
+	  $ppo->grade->dateFin        = CopixDateTime::dateToyyyymmdd($dateFin);
+	  if (_request ('current', null) == 'on') {
+      
+      $ppo->grade->current = 1;
+    }                    
+    else {
+      
+      $ppo->grade->current = 0;
+    }
+	  
+    if (!$ppo->grade->dateDebut) {
+      
+      $ppo->errors[] = 'Saisissez une date de début';
+    }
+    if (!$ppo->grade->dateFin) {
+      
+      $ppo->errors[] = 'Saisissez une date de fin';
+    }
+    if ($ppo->grade->id_as != substr($dateDebut, 6, 10) && $gradeDAO->get ($ppo->grade->id_as)) {
+      
+      $ppo->errors[] = 'Cette année scolaire existe déjà';
+    }
+    
+    if (!empty ($ppo->errors)) {
+      
+      $ppo->grade->dateDebut    = CopixDateTime::yyyymmddToDate($ppo->grade->dateDebut);
+  	  $ppo->grade->dateFin      = CopixDateTime::yyyymmddToDate($ppo->grade->dateFin);
+  	  
+      return _arPPO ($ppo, 'create_grade.tpl');
+    }
+    
+    if ($ppo->grade->current == 1) {
+      
+      $currentGrade = Kernel::getAnneeScolaireCourante ();
+      $currentGrade->current = 0;
+    }
+    
+    $ppo->grade->id_as  = substr($dateDebut, 6, 10);
+    
+    $gradeDAO->update ($ppo->grade); 
+    
+    // Récupérations des années scolaires
+    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $ppo->grades = $gradeDAO->findAll ();
+
+	  return _arPPO ($ppo, 'manage_grades.tpl');
 	}
 	
 	public function processDeleteGrade () {

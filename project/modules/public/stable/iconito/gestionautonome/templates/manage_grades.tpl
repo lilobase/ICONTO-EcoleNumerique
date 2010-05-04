@@ -17,7 +17,7 @@
         <td>{if $grade->current eq '1'}Oui{/if}</td>
         <td>
           {if $grade->current neq 1}<a href="{copixurl dest="gestionautonome||setCurrentGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/icon_tick.gif"}" title="Indiquer comme l'année courante" /></a>{else}<img src="{copixresource path="../gestionautonome/blank.gif"}" />{/if}
-          <a href="#"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier l'année scolaire" /></a>
+          <a href="{copixurl dest="gestionautonome||updateGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier l'année scolaire" /></a>
           <a href="{copixurl dest="gestionautonome||deleteGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette année scolaire" /></a>
         </td>
       </tr>
