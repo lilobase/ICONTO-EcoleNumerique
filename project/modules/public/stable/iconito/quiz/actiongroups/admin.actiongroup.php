@@ -132,6 +132,9 @@ class ActionGroupAdmin extends CopixActionGroup{
 					$users[$key]['responses'][$Qkey] = 'resp';
 				}
 			}
+                        if($users[$key]['goodresp'] < 10){
+                            $users[$key]['goodresp'] = '0'.$users[$key]['goodresp'];
+                        }
 		}
 		
         CopixHTMLHeader::addCSSLink(_resource("styles/module_quiz.css"));
