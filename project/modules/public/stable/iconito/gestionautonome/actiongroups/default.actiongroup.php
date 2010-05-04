@@ -347,6 +347,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $schoolDAO     = _ioDAO ('kernel|kernel_bu_ecole');
 	  $classDAO      = _ioDAO ('kernel|kernel_bu_ecole_classe');
 	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+	  $studentDAO    = _ioDAO ('kernel|kernel_bu_ele');
+	  $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
+	  $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_ele_admission');
 	  
 	  if ($nodeType != 'BU_VILLE' || !$city = $cityDAO->get ($nodeId)) {
 	    
@@ -376,6 +379,22 @@ class ActionGroupDefault extends CopixActionGroup {
 	        // Suppression des associations classe-niveau
   	      $classLevelDAO->delete ($classLevel->classe, $classLevel->niveau);
 	      }
+	      
+	      $students = $studentDAO->getElevesInClasse ($class->id);
+        foreach ($students as $student) {
+
+          // Récupération de l'affectation de l'élève à la classe
+          if ($studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($student->id, $class->id)) {
+
+            $studentAssignmentDAO->delete ($studentAssignment->affect_id);
+          }
+
+          // Récupérations des admission de l'élève
+      	  if ($admission = $studentAdmissionDAO->getByStudentAndSchool ($student->id, $school->numero)) {
+
+      	    $studentAdmissionDAO->delete ($admission->admission_numero);  
+      	  }
+        }
 	      
 	      // Suppression de la classe
 	      $classDAO->delete ($class->id);
@@ -638,7 +657,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $schoolDAO     = _ioDAO ('kernel|kernel_bu_ecole');
 	  $classDAO      = _ioDAO ('kernel|kernel_bu_ecole_classe');
 	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-
+	  $studentDAO    = _ioDAO ('kernel|kernel_bu_ele');
+	  $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
+	  $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_ele_admission');
+	  
 	  if ($nodeType != 'BU_ECOLE' || !$school = $schoolDAO->get ($nodeId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
@@ -661,11 +683,27 @@ class ActionGroupDefault extends CopixActionGroup {
 	      
 	      $classLevelDAO->delete ($classLevel->classe, $classLevel->niveau);
 	    }
+	    
+	    $students = $studentDAO->getElevesInClasse ($class->id);
+      foreach ($students as $student) {
+
+        // Récupération de l'affectation de l'élève à la classe
+        if ($studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($student->id, $class->id)) {
+          
+          $studentAssignmentDAO->delete ($studentAssignment->affect_id);
+        }
+        
+        // Récupérations des admission de l'élève
+    	  if ($admission = $studentAdmissionDAO->getByStudentAndSchool ($student->id, $school->numero)) {
+    	  
+    	    $studentAdmissionDAO->delete ($admission->admission_numero);  
+    	  }
+      }
 	      
 	    // Suppression de la classe
 	    $classDAO->delete ($class->id);
 	  }
-	    
+ 
 	  // Suppression de l'école
 	  $schoolDAO->delete ($school->numero);
 
@@ -1084,6 +1122,8 @@ class ActionGroupDefault extends CopixActionGroup {
 
 	  $classDAO      = _ioDAO ('kernel|kernel_bu_ecole_classe');
 	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+	  $studentDAO    = _ioDAO ('kernel|kernel_bu_ele');
+	  $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
 
 	  if ($nodeType != 'BU_CLASSE' || !$class = $classDAO->get ($nodeId)) {
 	    
@@ -1103,8 +1143,14 @@ class ActionGroupDefault extends CopixActionGroup {
       $classLevelDAO->delete ($classLevel->classe, $classLevel->niveau);
     }
     
-    // TODO : Suppression des affectations élève
-	  
+    $students = $studentDAO->getElevesInClasse ($nodeId);
+    foreach ($students as $student) {
+      
+      // Récupération de l'affectation de l'élève pour cette classe
+      $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($student->ele_idEleve, $nodeId);
+      $studentAssignmentDAO->delete ($studentAssignment->affect_id);
+    }
+    
 	  // Suppression de la classe
 	  $classDAO->delete ($class->id);
 		
@@ -3485,7 +3531,7 @@ class ActionGroupDefault extends CopixActionGroup {
         $ppo->student->nom          = $students[$key]['lastname'];
         $ppo->student->prenom1      = $students[$key]['firstname'];
         $ppo->student->id_sexe      = $students[$key]['gender'];             
-        $ppo->student->date_nais    = CopixDateTime::dateToYYYYMMDD (strip_tags(trim($students[$key]['birthdate'])));
+        $ppo->student->date_nais    = (isset ($students[$key]['birthdate'])) ? CopixDateTime::dateToYYYYMMDD (strip_tags(trim($students[$key]['birthdate']))) : '';
         $ppo->student->flag         = 0;
         $ppo->student->ele_last_update = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
         
@@ -3743,7 +3789,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $groupDAO = _ioDAO ('kernel_bu_groupe_villes');
 	    if ($group = $groupDAO->get($cityGroupId)) {
 	      
-	      echo CopixZone::process ('gestionautonome|FilterCity', array('city_group_id' => $cityGroupId));
+	      echo CopixZone::process ('gestionautonome|filterCity', array('city_group_id' => $cityGroupId));
 	    }
 	  }
     
@@ -3758,7 +3804,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
 	    if ($city = $cityDAO->get($cityId)) {
 	      
-	      echo CopixZone::process ('gestionautonome|FilterSchool', array('city_id' => $cityId));
+	      echo CopixZone::process ('gestionautonome|filterSchool', array('city_id' => $cityId));
 	    }
 	  }
 	  
@@ -3773,7 +3819,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
 	    if ($school = $schoolDAO->get($schoolId)) {
 	      
-	      echo CopixZone::process ('gestionautonome|FilterClass', array('school_id' => $schoolId));
+	      echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId));
 	    }
 	  }
 

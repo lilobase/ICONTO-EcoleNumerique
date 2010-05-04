@@ -55,6 +55,11 @@
     });
   });
   
+  jQuery('#cancel').click(function() {
+
+    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+  });
+  
   jQuery('#students-data').click(function(){
     
     jQuery('#liste').empty();

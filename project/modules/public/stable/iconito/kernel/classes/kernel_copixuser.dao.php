@@ -1,6 +1,6 @@
 <?php
 /**
-* @package    remotetransmission
+* @package    Iconito
 * @subpackage kernel
 * @author     Sébastien CAS
 */

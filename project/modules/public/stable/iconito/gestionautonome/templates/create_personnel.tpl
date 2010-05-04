@@ -22,17 +22,17 @@
 
     <div class="field">
       <label for="nom" class="form_libelle"> Nom :</label>
-      <input class="form" type="text" name="nom" id="nom" value="{$ppo->personnel->nom}" />
+      <input class="form" type="text" name="nom" id="nom" value="{$ppo->personnel->pers_nom}" />
     </div>
     
     <div class="field">
       <label for="prenom1" class="form_libelle"> Prénom :</label>
-      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->personnel->prenom1}" />
+      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->personnel->pers_prenom1}" />
     </div>
     
     <div class="field">
       <label for="date_nais" class="form_libelle"> Date de naissance :</label>
-      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->date_nais}" />
+      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->pers_date_nais}" />
     </div>
     
     <div class="field">
@@ -47,7 +47,7 @@
     
     <div class="field">
       <label class="form_libelle"> Sexe :</label>
-      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->id_sexe}<br />
+      {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->pers_id_sexe}<br />
     </div>
   </fieldset>
   

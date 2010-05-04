@@ -18,22 +18,22 @@
   <fieldset>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
-    <input type="hidden" name="id_personnel" id="id-personnel" value="{$ppo->personnel->numero}" />
+    <input type="hidden" name="id_personnel" id="id-personnel" value="{$ppo->personnel->pers_numero}" />
     <input type="hidden" name="type" id="type" value="{$ppo->type}" />
 
     <div class="field">
       <label for="nom" class="form_libelle"> Nom :</label>
-      <input class="form" type="text" name="nom" id="nom" value="{$ppo->personnel->nom}" />
+      <input class="form" type="text" name="nom" id="nom" value="{$ppo->personnel->pers_nom}" />
     </div>
     
     <div class="field">
       <label for="prenom1" class="form_libelle"> Prénom :</label>
-      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->personnel->prenom1}" />
+      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->personnel->pers_prenom1}" />
     </div>
     
     <div class="field">
       <label for="date_nais" class="form_libelle"> Date de naissance :</label>
-      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->date_nais}" />
+      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->pers_date_nais}" />
     </div>
     
     <div class="field">
