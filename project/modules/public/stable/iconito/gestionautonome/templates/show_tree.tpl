@@ -15,6 +15,12 @@
     <select class="form" name="grade" id="grade">
       {html_options values=$ppo->gradesIds output=$ppo->gradesNames selected=$ppo->grade}
     </select>
+    <br />
+    <form name="search_form" id="search-form">
+      <label for="search-input" class="form_libelle">Recherche par nom</label>
+      <input type="text" name="search" value="" id="search-input" />
+      <input type="submit" value="Ok" id="search-button" />
+    </form>
   </div>
   
   <ul class="tree">
@@ -36,6 +42,33 @@
   
     jQuery.noConflict();
     jQuery(document).ready(function(){
+      
+      jQuery('#search-form').submit(function(){
+        
+        return false;
+      });
+      
+      jQuery('#search-button').click(function(){
+        
+        var value = jQuery('#search-input').val();
+        
+        if (value != '' && value.length > 2){
+          
+          jQuery.ajax({
+            url:     '{/literal}{copixurl dest=gestionautonome|default|search}{literal}',
+            global:  true,
+            type:    'GET',
+            data:    { value: value },
+            success: function(html){
+
+              jQuery('#tree-actions').html('<h4>ACTIONS SUR LA STRUCTURE</h4><p>Sélectionnez un élément dans la structure.</p>');
+              jQuery('#column-data').html('<p>Aucun élément sélectionné dans la structure.</p>');
+              jQuery('ul.tree').empty();
+              jQuery('ul.tree').append(html);
+            }
+          });
+        }
+      });
       
       jQuery('a.toggle-node, a.node').live('click', function(){
         

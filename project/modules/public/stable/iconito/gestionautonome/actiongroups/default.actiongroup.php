@@ -111,7 +111,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  return _arNone ();
 	}
-	
+
   /**
    * Mise en session de l'état de l'arbre
    */ 
@@ -134,6 +134,123 @@ class ActionGroupDefault extends CopixActionGroup {
     }
     
     _sessionSet ($type, $nodesAr);
+	}
+	
+	/**
+	 * Recherche de noeuds
+	 */
+	public function processSearch () {
+	  
+	  $value = _request ('value');
+	  if (!is_null($value)) {
+	    
+	    // Réinitialisation des valeurs de session
+	    _sessionSet ('current', null);
+	    _sessionSet ('cities_groups_nodes', array());
+	    _sessionSet ('cities_nodes', array());
+	    _sessionSet ('schools_nodes', array());
+	    
+	    if (is_null($grade = _sessionGet('grade'))) {
+
+        $grade = Kernel::getAnneeScolaireCourante ()->id_as;
+      }
+      
+	    $ppo->matchedNodes = array(
+	      'cities_groups' => array(),
+	      'cities'        => array(),
+	      'schools'       => array(),
+	      'classrooms'    => array(),
+	    );
+	    
+	    // Recherche dans les groupes de villes
+	    $citiesGroupsDAO = _ioDAO ('kernel_bu_groupe_villes');
+	    $criteria = _daoSp ();
+	    $criteria->addCondition ('nom_groupe', 'LIKE', '%'.$value.'%');
+	    
+	    $citiesGroups = $citiesGroupsDAO->findBy ($criteria);
+	    foreach ($citiesGroups as $citiesGroup) {
+	     
+	      $ppo->matchedNodes['cities_groups'][] = $citiesGroup->id_grv;
+	    }
+	    
+	    // Recherche dans les villes
+	    $citiesGroupNodesAr = array();
+	    
+	    $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
+	    $criteria = _daoSp ();
+	    $criteria->addCondition ('nom', 'LIKE', '%'.$value.'%');
+	    
+	    $cities = $cityDAO->findBy ($criteria);
+	    foreach ($cities as $city) {
+	     
+	      $ppo->matchedNodes['cities'][] = $city->id_vi;
+	      
+	      // Ouverture du path
+	      if ($citiesGroup = $city->getCitiesGroup ()) {
+	        
+	        $citiesGroupNodesAr[] = $citiesGroup->id_grv;
+	      }
+	    }
+	    
+	    // Recherche dans les écoles
+	    $cityNodesAr = array();
+	    
+	    $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
+	    $criteria = _daoSp ();
+	    $criteria->addCondition ('nom', 'LIKE', '%'.$value.'%');
+	    
+	    $schools = $schoolDAO->findBy ($criteria);
+	    foreach ($schools as $school) {
+	     
+	      $ppo->matchedNodes['schools'][] = $school->numero;
+	      
+	      // Ouverture du path
+	      if ($city = $school->getCity ()) {
+	        
+	        $cityNodesAr[] = $city->id_vi;
+	        if ($citiesGroup = $city->getCitiesGroup ()) {
+
+  	        $citiesGroupNodesAr[] = $citiesGroup->id_grv;
+  	      }
+	      }	      
+	    }
+	    
+	    // Recherche dans les classes
+	    $schoolNodesAr = array();
+	    
+	    $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	    $criteria = _daoSp ();
+	    $criteria->addCondition ('nom', 'LIKE', '%'.$value.'%');
+	    $criteria->addCondition ('annee_scol', '=', $grade);
+	    
+	    $classrooms = $classroomDAO->findBy ($criteria);
+	    foreach ($classrooms as $classroom) {
+	     
+	      $ppo->matchedNodes['classrooms'][] = $classroom->id;
+	      
+	      // Ouverture du path
+	      if ($school = $classroom->getSchool ()) {
+	        
+	        $schoolNodesAr[] = $school->numero;
+	        if ($city = $school->getCity ()) {
+
+  	        $cityNodesAr[] = $city->id_vi;
+  	        if ($citiesGroup = $city->getCitiesGroup ()) {
+
+    	        $citiesGroupNodesAr[] = $citiesGroup->id_grv;
+    	      }
+  	      }
+	      }	      
+	    }
+	    
+	    _sessionSet ('cities_groups_nodes', $citiesGroupNodesAr);
+	    _sessionSet ('cities_nodes', $cityNodesAr);
+	    _sessionSet ('schools_nodes', $schoolNodesAr);
+	  }
+
+	  echo CopixZone::process ('gestionautonome|searchresult', array('matched_nodes' => $ppo->matchedNodes));
+	  
+	  return _arNone();
 	}
 	
 	/**
