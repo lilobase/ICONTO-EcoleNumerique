@@ -100,18 +100,20 @@ class ActionGroupDefault extends CopixActionGroup {
 	private function setNodeStatusInSession ($type, $nodeId, $showForced) {
 	  
     $nodesAr = _sessionGet ($type);
-    if (is_array($nodesAr)) {
+    if (is_null($nodesAr)) {
       
-      if (isset($nodesAr[$nodeId]) && !$showForced) {
-        
-        unset($nodesAr[$nodeId]);
-      }
-      else {
-        
-        $nodesAr[$nodeId] =	$nodeId;
-      }
-      _sessionSet ($type, $nodesAr);
+      $nodesAr = array();
     }
+      
+    if (isset($nodesAr[$nodeId]) && !$showForced) {
+      
+      unset($nodesAr[$nodeId]);
+    }
+    else {
+      
+      $nodesAr[$nodeId] =	$nodeId;
+    }
+    _sessionSet ($type, $nodesAr);
 	}
 	
 	/**
