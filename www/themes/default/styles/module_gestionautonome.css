@@ -104,34 +104,27 @@ ul.actions {
 
 li.collapsed ul {
   display: none;
-} 
-
-#tree ul.tree a.expand {
-  margin-left:0 !important;
-  position:absolute;
 }
-  
-ul.tree a.expand span {
+
+ul.tree a.toggle-node span {
   left:-5000px;
   position:absolute;
 }
 
-ul.tree a.after-expand {
-  margin-left: 16px;
-}
-
-ul.tree li.collapsed a.expand {
-  background:url("/themes/default/img/collapsed.gif") no-repeat scroll left center transparent;
-  height:20px;
-}
-
-ul.tree a.expand {
-  background:url("/themes/default/img/expanded.gif") no-repeat scroll left center transparent;
+ul.tree a.toggle-node {
   display:block;
   float:left;
   height:20px;
-  margin-right:5px;
   width:11px;
+  background:url("/themes/default/img/collapsed.gif") no-repeat scroll left center transparent; 
+}
+
+ul.tree a.expand{
+  background:url("/themes/default/img/expanded.gif") no-repeat scroll left center transparent;
+}
+
+ul.tree a.after-expand {
+  margin-left: 5px;
 }
 
 li a.current {
