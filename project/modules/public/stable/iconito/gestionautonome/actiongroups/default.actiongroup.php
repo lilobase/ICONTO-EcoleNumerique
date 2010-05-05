@@ -33,18 +33,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	 */
 	public function processShowTree () {
 
-	  //CopixAuth::getCurrentUser()->testCredential('module:school|1|classroom|create@gestionautonome');
-
 	  $ppo = new CopixPPO ();
 	  
 	  $ppo->TITLE_PAGE = 'Gestion de la structure scolaire';
 	  
-	  // Récupération du noeud ROOT
-	  $groupcity = Kernel::getNodeChilds ('ROOT', 0);
-	  $groupcity = Kernel::filterNodeList ($groupcity, 'BU_GRVILLE');
-     
-    $ppo->root = $groupcity[0];
-    
     // Y a t-il eu des modifications ?
     $ppo->save = _request ('save', null); 
     
@@ -53,33 +45,73 @@ class ActionGroupDefault extends CopixActionGroup {
     
     // Récupération de l'année scolaire : si non précisée, récupération de l'année scolaire courante
     $ppo->grade = _request ('grade', Kernel::getAnneeScolaireCourante ()->id_as);
+    _sessionSet('grade', $ppo->grade);
+    
+    // Réaffectation des zones après retour d'action
+    $ppo->targetId = _request ('target_id');
+    $ppo->targetType = _request ('target_type');
     
     // Récupération de la liste des années scolaires disponibles pour select
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $grades = $gradesDAO->findAll ();
-
 	  foreach ($grades as $grade) {
 
 	    $ppo->gradesIds[]   = $grade->id_as;
 	    $ppo->gradesNames[] = $grade->annee_scolaire;
 	  }
-    
-    // Récupération du noeud cible (noeud courant)
-    $ppo->targetId   = _request ('nodeId');
-    $ppo->targetType = _request ('nodeType');
 
 		return _arPPO ($ppo, 'show_tree.tpl');
 	}
 	
-	public function processRefreshTree () {
-	  
-	  // Récupération des paramètres
-	  $root = _request ('root', null);
-	  $grade = _request ('grade', null);
-	  
-	  echo CopixZone::process ('gestionautonome|showTree', array ('root' => $root, 'grade' => $grade));
+	/**
+	 * Toggle d'un noeud
+	 */
+	public function processToggleNode () {
 
-    return _arNone ();  
+	  $nodeType = _request('node_type');
+	  $nodeId = _request('node_id');
+	  $showForced = _request('show_forced', false);
+	  
+	  if (!is_null($nodeType) && !is_null($nodeId)) {
+	    
+	    switch ($nodeType) {
+	      
+	      case 'cities-group':
+	        $this->setNodeStatusInSession ('cities_groups_nodes', $nodeId, $showForced);
+	        echo CopixZone::process ('gestionautonome|city', array ('cities_group_id' => $nodeId));
+	        break;
+	      case 'city':
+	        $this->setNodeStatusInSession ('cities_nodes', $nodeId, $showForced);
+	        echo CopixZone::process ('gestionautonome|school', array ('city_id' => $nodeId));
+	        break;
+	      case 'school':
+	        $this->setNodeStatusInSession ('schools_nodes', $nodeId, $showForced);
+	        echo CopixZone::process ('gestionautonome|classroom', array ('school_id' => $nodeId));
+	        break;
+	    }
+	  }
+	  
+	  return _arNone ();
+	}
+	
+  /**
+   * Mise en session de l'état de l'arbre
+   */ 
+	private function setNodeStatusInSession ($type, $nodeId, $showForced) {
+	  
+    $nodesAr = _sessionGet ($type);
+    if (is_array($nodesAr)) {
+      
+      if (isset($nodesAr[$nodeId]) && !$showForced) {
+        
+        unset($nodesAr[$nodeId]);
+      }
+      else {
+        
+        $nodesAr[$nodeId] =	$nodeId;
+      }
+      _sessionSet ($type, $nodesAr);
+    }
 	}
 	
 	/**
@@ -89,15 +121,30 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * 
 	 */
 	public function processDisplayPersonsData () {
+	
+	  $nodeId   = _request ('node_id', null);
+	  $nodeType = _request ('node_type', null);
 
-	  $ppo = new CopixPPO ();                                       
-	  
-	  // Récupération des paramètres
-	  $id   = _request ('nodeId', null);
-	  $type = _request ('nodeType', null);
-	  
-		echo CopixZone::process ('gestionautonome|PersonsData', array ('nodeId' => $id, 'nodeType' => $type));
-    
+	  if (!is_null($nodeType) && !is_null($nodeId)) {
+	    
+	    $typeRef = null;
+	    switch ($nodeType) {
+	      
+	      case 'cities-group':
+	        $typeRef = 'BU_GRVILLE';
+	        break;
+	      case 'city':
+	        $typeRef = 'BU_VILLE';
+	        break;
+	      case 'school':
+	        $typeRef = 'BU_ECOLE';
+	        break;
+	      case 'classroom':
+	        $typeRef = 'BU_CLASSE';
+	    }
+	    
+		  echo CopixZone::process ('gestionautonome|PersonsData', array ('node_id' => $nodeId, 'node_type' => $typeRef));
+    }
     return _arNone ();
 	}
 	
@@ -109,14 +156,30 @@ class ActionGroupDefault extends CopixActionGroup {
 	 */
 	public function processUpdateTreeActions () {
 
-	  $ppo = new CopixPPO ();
-	  
-	  // Récupération des paramètres
-	  $id   = _request ('nodeId', null);
-	  $type = _request ('nodeType', null);
-	  
-		echo CopixZone::process ('gestionautonome|TreeActions', array ('nodeId' => $id, 'nodeType' => $type));
-    
+	  $nodeId   = _request ('node_id', null);
+	  $nodeType = _request ('node_type', null);
+
+	  if (!is_null($nodeType) && !is_null($nodeId)) {
+	    
+	    $typeRef = null;
+	    switch ($nodeType) {
+	      
+	      case 'cities-group':
+	        $typeRef = 'BU_GRVILLE';
+	        break;
+	      case 'city':
+	        $typeRef = 'BU_VILLE';
+	        break;
+	      case 'school':
+	        $typeRef = 'BU_ECOLE';
+	        break;
+	      case 'classroom':
+	        $typeRef = 'BU_CLASSE';
+	    }
+	    
+	    echo CopixZone::process ('gestionautonome|TreeActions', array ('node_id' => $nodeId, 'node_type' => $typeRef));
+	  }
+		
     return _arNone ();
 	}
 	

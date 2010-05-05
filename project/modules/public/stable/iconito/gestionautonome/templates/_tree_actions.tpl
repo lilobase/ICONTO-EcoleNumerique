@@ -24,17 +24,22 @@
     <li><a href="{copixurl dest="gestionautonome||updateClass" nodeId=$ppo->nodeId nodeType=$ppo->nodeType}" class="button">Modifier la classe</a></li>
     <li><a href="{copixurl dest="gestionautonome||deleteClass" nodeId=$ppo->nodeId nodeType=$ppo->nodeType}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette classe ?')" class="button">Supprimer la classe</a></li>
   </ul>
+
+{else}
+  <p>
+    Sélectionnez un élément dans la structure.
+  </p>
 {/if}
 
 {literal}
-<script type="text/javascript">
-//<![CDATA[
+  <script type="text/javascript">
+  //<![CDATA[
   
-  jQuery(document).ready(function(){
+    jQuery(document).ready(function(){
  	
- 	  jQuery('.button').button();
-  });
+   	  jQuery('.button').button();
+    });
   
-//]]> 
-</script>
+  //]]> 
+  </script>
 {/literal}

@@ -18,48 +18,14 @@
   </div>
   
   <ul class="tree">
-    {copixzone process=gestionautonome|showTree root=$ppo->root targetId=$ppo->targetId targetType=$ppo->targetType path=$ppo->path grade=$ppo->grade}    
+    {copixzone process=gestionautonome|citiesGroup}
   </ul>
-  
-  <div id="tree-actions"> 
-    {if $ppo->targetId neq null && $ppo->targetType neq null}
-      {copixzone process=gestionautonome|TreeActions nodeId=$ppo->targetId nodeType=$ppo->targetType}
-    {else}
-      {copixzone process=gestionautonome|TreeActions nodeId=$ppo->root.id nodeType=$ppo->root.type}
-    {/if}                           
-  </div>         
+   
+   <div id="tree-actions"> 
+     {copixzone process=gestionautonome|TreeActions nodeId=$ppo->targetId nodeType=$ppo->targetType}
+   </div>
 </div>
 
 <div id="column-data">
-  {if $ppo->targetId neq null && $ppo->targetType neq null}
-    {copixzone process=gestionautonome|PersonsData nodeId=$ppo->targetId nodeType=$ppo->targetType tab=$ppo->tab}
-  {else}
-    {copixzone process=gestionautonome|PersonsData nodeId=$ppo->root.id nodeType=$ppo->root.type}
-  {/if}
+  {copixzone process=gestionautonome|PersonsData nodeId=$ppo->targetId nodeType=$ppo->targetType tab=$ppo->tab}
 </div>      
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  jQuery.noConflict();
-  
-  jQuery('#grade').change(function(){
-    
-    var grade = jQuery('#grade').val();
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|refreshTree}'{literal},
-      global: true,
-      type: "GET",
-      data: ({root: {/literal}{$ppo->root}{literal}, grade: grade}),
-      success: function(html){
-        jQuery('.tree').empty();
-        jQuery('.tree').append(html);
-      }
-    }).responseText;
-  });
-  
-//]]> 
-</script>
-{/literal}
