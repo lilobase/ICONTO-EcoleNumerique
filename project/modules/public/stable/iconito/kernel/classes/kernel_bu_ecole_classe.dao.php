@@ -3,10 +3,23 @@
 class DAORecordKernel_bu_ecole_classe {
   
   protected $_levels = null;
+  protected $_school = null;
   
   public function __toString () {
     
     return $this->nom.' ('.implode(' - ', $this->getLevels ()->fetchAll ()).')';
+  }
+  
+  public function getSchool () {
+    
+    if (is_null($this->_school)) {
+      
+      $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
+      
+      $this->_school = $schoolDAO->get ($this->ecole);
+    }
+    
+    return $this->_school;
   }
   
   public function getLevels () {

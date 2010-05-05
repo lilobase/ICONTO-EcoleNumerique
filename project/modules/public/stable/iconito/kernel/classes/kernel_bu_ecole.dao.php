@@ -1,12 +1,22 @@
 <?php
 
-/**
- * Surcharge de la DAO Kernel_bu_ecole
- * 
- * @package Iconito
- * @subpackage Kernel
- */
-
+class DAORecordKernel_bu_ecole {
+  
+  protected $_city = null;
+  
+  public function getCity () {
+    
+    if (is_null($this->_city)) {
+      
+      $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
+      
+      $this->_city = $cityDAO->get ($this->id_ville);
+    }
+    
+    return $this->_city;
+  }
+}
+  
 class DAOKernel_bu_ecole {
 
 	/**
