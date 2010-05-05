@@ -44,12 +44,18 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->tab = _request ('tab', null);
     
     // Récupération de l'année scolaire : si non précisée, récupération de l'année scolaire courante
-    $ppo->grade = _request ('grade', Kernel::getAnneeScolaireCourante ()->id_as);
-    _sessionSet('grade', $ppo->grade);
+    if (is_null($ppo->grade = _sessionGet('grade'))) {
+      
+      $ppo->grade = Kernel::getAnneeScolaireCourante ()->id_as;
+    }
     
     // Réaffectation des zones après retour d'action
-    $ppo->targetId = _request ('target_id');
-    $ppo->targetType = _request ('target_type');
+    $currentInSession = _sessionGet ('current');
+    if (!is_null($currentInSession)) {
+      
+      $ppo->targetId = $currentInSession['node_id'];
+      $ppo->targetType = $currentInSession['node_type'];
+    }
     
     // Récupération de la liste des années scolaires disponibles pour select
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
@@ -61,6 +67,18 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 
 		return _arPPO ($ppo, 'show_tree.tpl');
+	}
+	
+	public function processRefreshTree () {
+	  
+	  $grade = _request ('grade', Kernel::getAnneeScolaireCourante ()->id_as);
+	  _sessionSet('grade', $grade);
+	  
+	  _sessionSet ('current', null);
+	  
+	  echo CopixZone::process ('gestionautonome|citiesGroup');
+	  
+	  return _arNone ();
 	}
 	
 	/**
@@ -99,6 +117,7 @@ class ActionGroupDefault extends CopixActionGroup {
    */ 
 	private function setNodeStatusInSession ($type, $nodeId, $showForced) {
 	  
+	  // Récupération de l'état actuel ou initialisation
     $nodesAr = _sessionGet ($type);
     if (is_null($nodesAr)) {
       
@@ -113,6 +132,7 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $nodesAr[$nodeId] =	$nodeId;
     }
+    
     _sessionSet ($type, $nodesAr);
 	}
 	
@@ -178,8 +198,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	      case 'classroom':
 	        $typeRef = 'BU_CLASSE';
 	    }
-	    
+	    	    
 	    echo CopixZone::process ('gestionautonome|TreeActions', array ('node_id' => $nodeId, 'node_type' => $typeRef));
+	    
+	    // Stockage de l'état courrant
+	    _sessionSet ('current', array('node_type' => $typeRef, 'node_id' => $nodeId));
 	  }
 		
     return _arNone ();
