@@ -27,11 +27,8 @@ class DAOKernel_bu_ville {
 	  
 	  $criteria = _daoSp ();
 		$criteria->addCondition ('id_grville', '=', $id_grville);
+		$criteria->orderBy ('nom');
 		
 		return $this->findBy ($criteria);
 	}
-
 }
-
-
-?>

@@ -22,8 +22,4 @@ class DAOKernel_bu_ecole {
 		
 		return $this->findBy ($criteria);
 	}
-
 }
-
-
-?>

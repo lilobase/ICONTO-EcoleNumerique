@@ -1,5 +1,13 @@
 <?php
 
+class DAORecordKernel_bu_ecole_classe_niveau {
+  
+  public function __toString() {
+    
+    return $this->nom;
+  }
+}
+
 /**
  * Surcharge de la DAO Kernel_bu_ecole_classe_niveau
  * 
@@ -21,8 +29,4 @@ class DAOKernel_bu_ecole_classe_niveau {
 		
 		return $this->findBy ($criteria);
 	}
-
 }
-
-
-?>
