@@ -21,7 +21,11 @@ class ZoneSchool extends CopixZone {
 	  
 	    $ppo->schools = $schoolDAO->getByCity ($cityId);
 	  }
-	  //$ppo->schools = $schoolDAO->findByUserIdAndUserType ($cityId, $user->getId (), $user->getExtra('type'));
+	  else {
+      
+      $groups = _currentUser ()->getGroups ();
+      $ppo->schools = $schoolDAO->findByUserGroups ($groups['gestionautonome|iconitogrouphandler']);
+    }
 	  
 	  // Récupération des noeuds ouvert
 	  $ppo->nodes = _sessionGet('schools_nodes');

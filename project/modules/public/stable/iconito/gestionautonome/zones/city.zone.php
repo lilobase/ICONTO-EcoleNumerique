@@ -21,7 +21,11 @@ class ZoneCity extends CopixZone {
 	  
       $ppo->cities = $cityDAO->getByIdGrville ($citiesGroupId);
 	  }
-	  //$ppo->cities = $cityDAO->findByUserIdAndUserType ($citiesGroupId, $user->getId (), $user->getExtra('type'));
+	  else {
+      
+      $groups = _currentUser ()->getGroups ();
+      $ppo->cities = $cityDAO->findByUserGroups ($groups['gestionautonome|iconitogrouphandler']);
+    }
 	  
 	  // Récupération des noeuds ouvert
 	  $ppo->nodes = _sessionGet('cities_nodes');

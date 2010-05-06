@@ -17,8 +17,11 @@ class ZoneCitiesGroup extends CopixZone {
       $criteria->orderBy ('nom_groupe');
       $ppo->citiesGroups = $citiesGroupDAO->findBy ($criteria);
     }
-  
-	  //$ppo->citiesGroups = $citiesGroupDAO->findByUserIdAndUserType ($user->getId (), $user->getExtra('type'));
+    else {
+      
+      $groups = _currentUser ()->getGroups ();
+      $ppo->citiesGroups = $citiesGroupDAO->findByUserGroups ($groups['gestionautonome|iconitogrouphandler']);
+    }
 	   
 	  // Récupération des noeuds ouvert
 	  $ppo->nodes = _sessionGet('cities_groups_nodes');

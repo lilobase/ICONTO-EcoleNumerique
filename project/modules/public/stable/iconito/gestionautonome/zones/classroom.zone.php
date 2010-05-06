@@ -21,15 +21,18 @@ class ZoneClassroom extends CopixZone {
 	    return;
 	  }
 
+    $grade = _sessionGet('grade');
 	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
 	  
 	  if (_currentUser ()->testCredential ('group:[Admin]@auth|dbgrouphandler')) {
 	  
-      $grade = _sessionGet('grade');
       $ppo->classrooms = $classroomDAO->getBySchool ($schoolId, $grade);
 	  }
-	  
-	  //$ppo->classrooms = $classroomDAO->findByUserIdAndUserType ($schoolId, $user->getId (), $user->getExtra('type'), $grade);
+	  else {
+	    
+      $groups = _currentUser ()->getGroups ();
+      $ppo->classrooms = $classroomDAO->findByUserGroups ($groups['gestionautonome|iconitogrouphandler'], $grade);
+	  }
 
     $toReturn = $this->_usePPO ($ppo, '_classroom.tpl');
   }
