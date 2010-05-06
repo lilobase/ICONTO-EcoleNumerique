@@ -17,7 +17,9 @@ class ZonePersonsInCharge extends CopixZone {
 	  // Récupération des paramètres
 	  $ppo->nodeId    = $this->getParam ('nodeId');
 	  $ppo->nodeType  = $this->getParam ('nodeType');
-	  $ppo->studentId = $this->getParam ('studentId');
+	  $ppo->studentId = $this->getParam ('studentId'); 
+	  
+	  $ppo->user = _currentUser ();
 	  
 	  // Récupérations des responsables de l'élève
 	  $personsInChargeDAO = _ioDAO ('kernel|kernel_bu_res');

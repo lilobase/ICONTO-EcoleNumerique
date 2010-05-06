@@ -21,10 +21,14 @@
         <td>{$item->getLoginAccount()}</td>
         <td>{$item->res_nom}</td>
         <td>{$item->res_prenom1}</td>
-        <td class="actions">
-          <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier le responsable" /></a>
-          <a href="#" onclick="return confirm('Etes-vous sur de vouloir retirer cette affectation ?');removePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Ne plus affecter ce responsable à cet élève" /></a>
-          <a href="#" onclick="return confirm('Etes-vous sur de vouloir supprimer ce responsable ?');deletePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer ce responsable" /></a>
+        <td class="actions"> 
+          {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|update@gestionautonome")}
+            <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier le responsable" /></a>
+            <a href="#" onclick="return confirm('Etes-vous sur de vouloir retirer cette affectation ?');removePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Ne plus affecter ce responsable à cet élève" /></a>
+          {/if}
+          {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|delete@gestionautonome")}
+            <a href="#" onclick="return confirm('Etes-vous sur de vouloir supprimer ce responsable ?');deletePerson({$item->res_numero}, {$ppo->studentId})";><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer ce responsable" /></a>
+          {/if}
         </td>
       </tr>
     {/foreach}
@@ -32,7 +36,9 @@
 {/if}
 
 <ul class="actions">
-  <li><a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button">Ajouter un responsable</a></li>
+  {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|create@gestionautonome")}
+    <li><a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button">Ajouter un responsable</a></li>
+  {/if}
 </ul>
 
 {literal}
