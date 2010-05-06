@@ -81,11 +81,14 @@ class DAOKernel_bu_ecole_classe {
       case 'USER_VIL':
         $sql .= ' AND ((PE.type_ref = "GVILLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole IN (SELECT id FROM kernel_bu_ecole WHERE id_ville IN (SELECT id_vi FROM kernel_bu_ville WHERE id_grville = PE.reference))))'; // Agent GRVille
         $sql .= ' OR (PE.type_ref = "VILLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole IN (SELECT id FROM kernel_bu_ecole WHERE id_ville = PE.reference))))'; // Agent Ville
+        break;
       case 'USER_ADM':
         $sql .= ' AND (PE.type_ref = "ECOLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole=PE.reference)'; // Personnel Administratif
+        break;
       case 'USER_ENS':
         $sql .= ' AND ((PE.type_ref = "ECOLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole=PE.reference))';
         $sql .= ' OR (PE.type_ref = "CLASSE" AND kernel_bu_ecole_classe.id=PE.reference))';
+        break;
     }
     
     return new CopixDAORecordIterator (_doQuery ($sql), $this->getDAOId ());
