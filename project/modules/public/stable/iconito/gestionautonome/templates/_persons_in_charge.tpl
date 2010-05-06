@@ -50,7 +50,7 @@
       url: {/literal}'{copixurl dest=gestionautonome|default|removePersonInCharge}'{literal},
       global: true,
       type: "GET",
-      data: ({personId: idPerson, studentId: idStudent}),
+      data: ({personId: idPerson, studentId: idStudent, nodeId: {/literal}{$ppo->nodeId}{literal}}),
       success: function(html){
         jQuery('#persons-in-charge').empty();
         jQuery("#persons-in-charge").append(html);
@@ -64,7 +64,7 @@
       url: {/literal}'{copixurl dest=gestionautonome|default|deletePersonInCharge}'{literal},
       global: true,
       type: "GET",
-      data: ({personId: idPerson, studentId: idStudent}),
+      data: ({personId: idPerson, studentId: idStudent, nodeId: {/literal}{$ppo->nodeId}{literal}}),
       success: function(html){
         jQuery('#persons-in-charge').empty();
         jQuery("#persons-in-charge").append(html);

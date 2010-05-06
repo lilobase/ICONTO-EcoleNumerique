@@ -57,7 +57,7 @@
   
   jQuery('#cancel').click(function() {
 
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
   });
   
   jQuery('#students-data').click(function(){

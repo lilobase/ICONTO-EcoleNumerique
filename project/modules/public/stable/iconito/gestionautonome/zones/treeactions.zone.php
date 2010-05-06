@@ -18,6 +18,8 @@ class ZoneTreeActions extends CopixZone {
 	  $ppo->nodeId = $this->getParam ('node_id');
 	  $ppo->nodeType = $this->getParam ('node_type');
 	  
+	  $ppo->user = _currentUser ();
+	  
     $toReturn = $this->_usePPO ($ppo, '_tree_actions.tpl');
   }
 }

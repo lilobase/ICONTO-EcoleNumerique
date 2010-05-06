@@ -1,3 +1,5 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
 <h2>Ajout d'une année scolaire</h2>
 
 <h3>Année scolaire</h3>

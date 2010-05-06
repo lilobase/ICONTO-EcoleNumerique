@@ -28,7 +28,7 @@
       <input type="checkbox" name="withAssignment" id="withAssignment" value="1"{if isset ($ppo->listFilters.withAssignment)} checked="checked" {/if} />
       <label for="withAssignment">Avec affectations</label>
       
-      <p id="assignment-filters" class="hidden">
+      <p id="assignment-filters">
         <span id="groupcity-filter">
           {copixzone process=gestionautonome|filterGroupCity selected=$ppo->listFilters.groupcity}
         </span>
@@ -129,19 +129,9 @@
  	
  	  jQuery('.button').button(); 
 
- 	  if (jQuery('#withAssignment:checked').val()) {
- 	    
- 	    jQuery('#assignment-filters').toggleClass('hidden');
- 	  }
-    
-    jQuery('#withAssignment').change(function() {
-
-      jQuery('#assignment-filters').toggleClass('hidden');
-    });
-
     jQuery('#cancel').click(function() {
 
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
     });
 
     jQuery('#filter-displayer').click(function() {

@@ -19,6 +19,8 @@ class ZonePersonsData extends CopixZone {
 	  $ppo->type = $this->getParam ('node_type');
 	  $ppo->tab  = ($this->getParam('tab')) ? $this->getParam('tab') : 0;
 	  
+	  $ppo->user = _currentUser ();
+	  
 	  if (!is_null($ppo->type) && !is_null($id)) {
 	    
 	    $ppo->parent = Kernel::getNodeInfo ($ppo->type, $id);
@@ -45,6 +47,7 @@ class ZonePersonsData extends CopixZone {
 
   				// Dédoublonnage et tri
         	$ppo->students = Kernel::sortNodeList ($ppo->students, 'comptes');
+        	$ppo->students = Kernel::uniqNodeList ($ppo->students);
         	$ppo->persons = Kernel::uniqNodeList ($ppo->persons);
       	  break;
   		}

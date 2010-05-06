@@ -6,7 +6,7 @@ class DAORecordKernel_bu_ecole_classe {
   protected $_school = null;
   
   public function __toString () {
-    
+
     return $this->nom.' ('.implode(' - ', $this->getLevels ()->fetchAll ()).')';
   }
   
@@ -56,5 +56,37 @@ class DAOKernel_bu_ecole_classe {
 		$criteria->orderBy (array ('id', 'DESC'));
 		
 		return $this->findBy ($criteria);
+	}
+	
+	/**
+	 * Retourne les classes accessibles pour un utilisateur
+	 *
+	 * @param int    $schoolId   Identifiant de la ville
+	 * @param int    $userId   Identifiant de l'utilisateur
+	 * @param string $userType Type de l'utilisateur
+	 * @return CopixDAORecordIterator
+	 */
+	public function findByUserIdAndUserType ($schoolId, $userId, $userType) {
+		
+		$sql = $this->_selectQuery
+      . ', kernel_bu_personnel_entite PE, kernel_link_bu2user LI '
+      . 'WHERE ecole ='.$schoolId.' ' 
+      . 'AND LI.user_id ='.$userId.' ' 
+      . 'AND PE.id_per = LI.bu_id '
+      . 'AND LI.bu_type = "'.$userType.'"'; 
+
+    switch ($userType) {
+      
+      case 'USER_VIL':
+        $sql .= ' AND ((PE.type_ref = "GVILLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole IN (SELECT id FROM kernel_bu_ecole WHERE id_ville IN (SELECT id_vi FROM kernel_bu_ville WHERE id_grville = PE.reference))))'; // Agent GRVille
+        $sql .= ' OR (PE.type_ref = "VILLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole IN (SELECT id FROM kernel_bu_ecole WHERE id_ville = PE.reference))))'; // Agent Ville
+      case 'USER_ADM':
+        $sql .= ' AND (PE.type_ref = "ECOLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole=PE.reference)'; // Personnel Administratif
+      case 'USER_ENS':
+        $sql .= ' AND ((PE.type_ref = "ECOLE" AND kernel_bu_ecole_classe.id IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole=PE.reference))';
+        $sql .= ' OR (PE.type_ref = "CLASSE" AND kernel_bu_ecole_classe.id=PE.reference))';
+    }
+    
+    return new CopixDAORecordIterator (_doQuery ($sql), $this->getDAOId ());
 	}
 }

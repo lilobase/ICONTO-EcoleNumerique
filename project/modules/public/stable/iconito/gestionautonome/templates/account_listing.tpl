@@ -57,11 +57,11 @@
     
     if ({/literal}'{$ppo->sessionDatas[0].bu_type}'{literal} == 'USER_ENS') {
       
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType tab=1 notxml=true}'{literal};
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1}'{literal};
     }
     else {
       
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
     }
   });
 //]]> 

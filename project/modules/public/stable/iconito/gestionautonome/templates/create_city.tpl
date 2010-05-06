@@ -44,7 +44,7 @@
    
   jQuery('#cancel').click(function() {
     
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->parentId nodeType=$ppo->parentType notxml=true}'{literal};
+    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
   });
 //]]> 
 </script>

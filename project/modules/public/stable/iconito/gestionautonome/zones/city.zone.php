@@ -9,6 +9,8 @@ class ZoneCity extends CopixZone {
 	  
 	  $ppo = new CopixPPO ();                               
 	  
+	  $user = _currentUser ();
+	  
 	  if (is_null($citiesGroupId = $this->getParam('cities_group_id'))) {
 	    
 	    $toReturn = '';
@@ -16,7 +18,7 @@ class ZoneCity extends CopixZone {
 	  }
 	  
 	  $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
-	  $ppo->cities = $cityDAO->getByIdGrville ($citiesGroupId);
+	  $ppo->cities = $cityDAO->findByUserIdAndUserType ($citiesGroupId, $user->getId (), $user->getExtra('type'));
 	  
 	  // Récupération des noeuds ouvert
 	  $ppo->nodes = _sessionGet('cities_nodes');

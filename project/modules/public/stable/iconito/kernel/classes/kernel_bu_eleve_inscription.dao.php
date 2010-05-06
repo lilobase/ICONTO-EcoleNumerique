@@ -9,7 +9,7 @@
 class DAOKernel_bu_eleve_inscription {
 	
 	/**
-	 * Retourne les enregistrements d'un élève pour une école donnée
+	 * Retourne l'inscription d'un élève pour une école donnée
 	 *
 	 * @param int $studentId Identifiant d'un élève
 	 * @param int $schoolid  Identifiant d'un école
@@ -18,10 +18,12 @@ class DAOKernel_bu_eleve_inscription {
 	public function getByStudentAndSchool ($studentId, $schoolId) {
 		
 		$criteria = _daoSp ();
-		$criteria->addCondition ('inscr_eleve', '=', $studentId);
-		$criteria->addCondition ('inscr_etablissement', '=', $schoolId);
+		$criteria->addCondition ('eleve', '=', $studentId);
+		$criteria->addCondition ('etablissement', '=', $schoolId);
 		
-		return $this->findBy ($criteria);
+		$results = $this->findBy ($criteria);
+		
+		return isset ($results[0]) ? $results[0] : false;
 	}
 	
 	/**
@@ -33,7 +35,7 @@ class DAOKernel_bu_eleve_inscription {
 	public function getByStudent ($studentId) {
 		
 		$criteria = _daoSp ();
-		$criteria->addCondition ('inscr_eleve', '=', $studentId);
+		$criteria->addCondition ('eleve', '=', $studentId);
 		
 		return $this->findBy ($criteria);
 	}

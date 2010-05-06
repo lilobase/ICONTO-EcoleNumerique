@@ -111,7 +111,8 @@ ul.tree a.toggle-node span {
   position:absolute;
 }
 
-ul.tree a.toggle-node {
+ul.tree a.toggle-node { 
+  position: absolute;
   display:block;
   float:left;
   height:20px;
@@ -124,7 +125,7 @@ ul.tree a.expand{
 }
 
 ul.tree a.after-expand {
-  margin-left: 5px;
+  margin-left: 15px;
 }
 
 li a.current {

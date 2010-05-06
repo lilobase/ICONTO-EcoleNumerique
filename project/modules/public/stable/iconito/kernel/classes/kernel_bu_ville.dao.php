@@ -41,4 +41,37 @@ class DAOKernel_bu_ville {
 		
 		return $this->findBy ($criteria);
 	}
+	
+	/**
+	 * Retourne les villes accessibles pour un utilisateur
+	 *
+	 * @param int    $citiesGroupid   Identifiant du groupe de ville
+	 * @param int    $userId   Identifiant de l'utilisateur
+	 * @param string $userType Type de l'utilisateur
+	 * @return CopixDAORecordIterator
+	 */
+	public function findByUserIdAndUserType ($citiesGroupId, $userId, $userType) {
+		
+		$sql = $this->_selectQuery
+      . ', kernel_bu_personnel_entite PE, kernel_link_bu2user LI '
+      . 'WHERE id_grville ='.$citiesGroupId.' ' 
+      . 'AND LI.user_id ='.$userId.' ' 
+      . 'AND PE.id_per = LI.bu_id '
+      . 'AND LI.bu_type = "'.$userType.'"'; 
+
+      
+    switch ($userType) {
+      
+      case 'USER_VIL':
+        $sql .= ' AND ((PE.type_ref = "GVILLE" AND kernel_bu_ville.id_grville = PE.reference)'; // Agent GRVille
+        $sql .= ' OR (PE.type_ref = "VILLE" AND kernel_bu_ville.id_vi = PE.reference))'; // Agent Ville
+      case 'USER_ADM':
+        $sql .= ' AND (PE.type_ref = "ECOLE" AND kernel_bu_ville.id_vi IN (SELECT EC.id_ville FROM kernel_bu_ecole EC WHERE PE.reference=EC.numero))'; // Personnel Administratif
+      case 'USER_ENS':
+        $sql .= ' AND ((PE.type_ref = "ECOLE" AND kernel_bu_ville.id_vi IN (SELECT EC.id_ville FROM kernel_bu_ecole EC WHERE PE.reference=EC.numero))';
+        $sql .= ' OR (PE.type_ref = "CLASSE" AND kernel_bu_ville.id_vi IN (SELECT EC.id_ville FROM kernel_bu_ecole EC WHERE EC.numero IN (SELECT ecole FROM kernel_bu_ecole_classe WHERE id=PE.reference))))';
+    }
+
+    return new CopixDAORecordIterator (_doQuery ($sql), $this->getDAOId ());
+	}
 }

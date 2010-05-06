@@ -1,3 +1,5 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
 <h2>Modification de l'année scolaire {$ppo->grade->id_as}</h2>
 
 <h3>Année scolaire</h3>

@@ -9,18 +9,17 @@ class ZoneClassroom extends CopixZone {
 	  
 	  $ppo = new CopixPPO ();                               
 	  
+	  $user = _currentUser ();
+	  
 	  if (is_null($schoolId = $this->getParam('school_id'))) {
 	    
 	    $toReturn = '';
 	    return;
 	  }
-	  
-	  // Récupération de l'année scolaire
-	  $grade = _sessionGet('grade');
-	  
+
 	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
-	  $ppo->classrooms = $classroomDAO->getBySchool ($schoolId, $grade);
-	  
+	  $ppo->classrooms = $classroomDAO->findByUserIdAndUserType ($schoolId, $user->getId (), $user->getExtra('type'));
+
     $toReturn = $this->_usePPO ($ppo, '_classroom.tpl');
   }
 }

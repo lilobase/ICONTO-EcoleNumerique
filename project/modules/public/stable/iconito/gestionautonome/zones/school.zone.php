@@ -9,6 +9,8 @@ class ZoneSchool extends CopixZone {
 	  
 	  $ppo = new CopixPPO ();                               
 	  
+	  $user = _currentUser ();
+	  
 	  if (is_null($cityId = $this->getParam('city_id'))) {
 	    
 	    $toReturn = '';
@@ -16,7 +18,7 @@ class ZoneSchool extends CopixZone {
 	  }
 	  
 	  $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
-	  $ppo->schools = $schoolDAO->getByCity ($cityId);
+	  $ppo->schools = $schoolDAO->findByUserIdAndUserType ($cityId, $user->getId (), $user->getExtra('type'));
 	  
 	  // Récupération des noeuds ouvert
 	  $ppo->nodes = _sessionGet('schools_nodes');

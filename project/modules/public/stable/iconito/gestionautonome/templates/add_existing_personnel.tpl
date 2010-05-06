@@ -141,11 +141,11 @@
       
       if ({/literal}'{$ppo->nodeType}'{literal} == 'BU_ECOLE') {
         
-        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType tab=1 notxml=true}'{literal};
+        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1 notxml=true}'{literal};
       }
       else {
         
-        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree notxml=true}'{literal};
       }
     });
 

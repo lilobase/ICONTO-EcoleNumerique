@@ -20,6 +20,7 @@
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
     <input type="hidden" name="id_personnel" id="id-personnel" value="{$ppo->personnel->pers_numero}" />
     <input type="hidden" name="type" id="type" value="{$ppo->type}" />
+    <input type="hidden" name="role" id="role" value="{$ppo->role}" />
 
     <div class="field">
       <label for="nom" class="form_libelle"> Nom :</label>
@@ -82,7 +83,7 @@
   
   jQuery('#cancel').click(function() {
     
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}'{literal};
+    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
   });
   
   jQuery('#new-password-link').click(function() {

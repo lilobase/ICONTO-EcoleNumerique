@@ -1,3 +1,7 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
+<h2>Gestion des années scolaires</h2>
+
 {if $ppo->grades neq null}
   <table class="liste">
     <tr>

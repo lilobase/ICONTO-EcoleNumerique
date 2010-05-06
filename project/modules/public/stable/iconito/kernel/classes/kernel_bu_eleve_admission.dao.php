@@ -15,11 +15,16 @@ class DAOKernel_bu_eleve_admission {
 	 * @param int $schoolId   Identifiant d'une école
 	 * @return DAORecord
 	 */
-	public function getByStudentAndSchool ($studentId, $schoolId) {
+	public function getByStudentAndSchool ($studentId, $schoolId, $state = null) {
 		
 		$criteria = _daoSp ();
 		$criteria->addCondition ('admission_eleve', '=', $studentId);
 		$criteria->addCondition ('admission_etablissement', '=', $schoolId);
+		
+		if (!is_null ($state)) {
+		  
+		  $criteria->addCondition ('admission_etat_eleve', '=', $state);
+		}
 		
 		$results = $this->findBy ($criteria);
 		
