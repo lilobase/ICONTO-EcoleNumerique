@@ -20,7 +20,7 @@ class ZoneFilterGroupCity extends CopixZone {
     $ppo->cityGroupsIds = array('');
 	  $ppo->cityGroupsNames = array('');
 	  
-	  $cityGroups = _ioDAO ('kernel_bu_groupe_villes')->findAll ();
+	  $cityGroups = _ioDAO ('kernel|kernel_bu_groupe_villes')->findAll ();
 	  foreach ($cityGroups as $cityGroup) {
 	    
 	    $ppo->cityGroupsIds[]   = $cityGroup->id_grv;

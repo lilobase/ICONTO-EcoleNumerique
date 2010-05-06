@@ -168,7 +168,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    );
 	    
 	    // Recherche dans les groupes de villes
-	    $citiesGroupsDAO = _ioDAO ('kernel_bu_groupe_villes');
+	    $citiesGroupsDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
 	    $criteria = _daoSp ();
 	    $criteria->addCondition ('nom_groupe', 'LIKE', '%'.$value.'%');
 	    
@@ -4118,7 +4118,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo = new CopixPPO ();
 	  
 	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
+
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('id_node', null);
   	$ppo->nodeType = _request ('type_node', null);
@@ -4130,7 +4130,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }                  
-  	
+
   	// Récupération des informations du formulaire                                             
   	$keys      = _request ('keys', array ());       // Elèves de la liste à créer (checkbox de confirmation)
   	$logins    = _request ('logins', array ());     // Logins des élèves (possibilité de changer le login généré)
@@ -4156,11 +4156,11 @@ class ActionGroupDefault extends CopixActionGroup {
   	// DAO 
   	$studentDAO              = _ioDAO ('kernel_bu_eleve');
     $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_eleve_inscription');
-    $studentAdmissionDAO     = _ioDAO ('kernel_bu_eleve_admission');
+    $studentAdmissionDAO     = _ioDAO ('kernel|kernel_bu_eleve_admission');
     $studentAssignmentDAO    = _ioDAO ('kernel_bu_eleve_affectation');
     $dbuserDAO               = _ioDAO ('kernel|kernel_copixuser'); 
     $dbLinkDAO               = _ioDAO ('kernel_link_bu2user');
-    $classDAO                = _ioDAO ('kernel_bu_ecole_classe');
+    $classDAO                = _ioDAO ('kernel|kernel_bu_ecole_classe');
     $personDAO               = _ioDAO ('kernel_bu_responsable');
     $personLinkDAO           = _ioDAO ('kernel_bu_responsables'); 
     $schoolClassLevelDAO     = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
@@ -4248,17 +4248,17 @@ class ActionGroupDefault extends CopixActionGroup {
         $studentRegistrationDAO->insert ($studentRegistration);
         
         // Admission de l'élève dans l'école
-        $studentAdmission = _record ('kernel_bu_eleve_admission');
+        $studentAdmission = _record ('kernel|kernel_bu_eleve_admission');
         
-        $studentAdmission->eleve          = $ppo->student->idEleve;
-        $studentAdmission->etablissement  = $schoolId;
-        $studentAdmission->annee_scol     = $grade;
-        $studentAdmission->id_niveau      = $students[$key]['level'];
-        $studentAdmission->etat_eleve     = 1;
-        $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
-        $studentAdmission->date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
-        $studentAdmission->code_radiation = '';
-        $studentAdmission->previsionnel   = '';
+        $studentAdmission->admission_eleve          = $ppo->student->idEleve;
+        $studentAdmission->admission_etablissement  = $schoolId;
+        $studentAdmission->admission_annee_scol     = $grade;
+        $studentAdmission->admission_id_niveau      = $students[$key]['level'];
+        $studentAdmission->admission_etat_eleve     = 1;
+        $studentAdmission->admission_date           = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentAdmission->admission_date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
+        $studentAdmission->admission_code_radiation = '';
+        $studentAdmission->admission_previsionnel   = '';
         
         $studentAdmissionDAO->insert ($studentAdmission);
         
@@ -4394,16 +4394,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
 	  
-	  // Récupération des paramètres
-	  $ppo->nodeId   = _request ('nodeId', null);
-	  $ppo->nodeType = _request ('nodeType', null);
-	  
-	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
-	    
-	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }
-	  
 	  // Récupération des informations des comptes créés
 	  $ppo->students = _sessionGet ('gestionautonome|addMultipleStudents|success'); 
 
@@ -4460,7 +4450,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $cityGroupId = _request ('city_group_id', null);
 	  if (!is_null ($cityGroupId)) {
 	    
-	    $groupDAO = _ioDAO ('kernel_bu_groupe_villes');
+	    $groupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
 	    if ($group = $groupDAO->get($cityGroupId)) {
 	      
 	      echo CopixZone::process ('gestionautonome|filterCity', array('city_group_id' => $cityGroupId));

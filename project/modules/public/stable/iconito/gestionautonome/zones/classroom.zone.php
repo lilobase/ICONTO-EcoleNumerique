@@ -11,6 +11,12 @@ class ZoneClassroom extends CopixZone {
 	  
 	  $user = _currentUser ();
 	  
+	  // Récupération de l'année scolaire
+    if (is_null($grade = _sessionGet('grade'))) {
+      
+      $grade = Kernel::getAnneeScolaireCourante ()->id_as;
+    }
+	  
 	  if (is_null($schoolId = $this->getParam('school_id'))) {
 	    
 	    $toReturn = '';
@@ -18,7 +24,7 @@ class ZoneClassroom extends CopixZone {
 	  }
 
 	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
-	  $ppo->classrooms = $classroomDAO->findByUserIdAndUserType ($schoolId, $user->getId (), $user->getExtra('type'));
+	  $ppo->classrooms = $classroomDAO->findByUserIdAndUserType ($schoolId, $user->getId (), $user->getExtra('type'), $grade);
 
     $toReturn = $this->_usePPO ($ppo, '_classroom.tpl');
   }

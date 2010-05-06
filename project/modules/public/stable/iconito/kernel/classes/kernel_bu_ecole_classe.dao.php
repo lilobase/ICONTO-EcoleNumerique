@@ -66,11 +66,12 @@ class DAOKernel_bu_ecole_classe {
 	 * @param string $userType Type de l'utilisateur
 	 * @return CopixDAORecordIterator
 	 */
-	public function findByUserIdAndUserType ($schoolId, $userId, $userType) {
+	public function findByUserIdAndUserType ($schoolId, $userId, $userType, $grade) {
 		
 		$sql = $this->_selectQuery
       . ', kernel_bu_personnel_entite PE, kernel_link_bu2user LI '
-      . 'WHERE ecole ='.$schoolId.' ' 
+      . 'WHERE ecole ='.$schoolId.' '
+      . 'AND kernel_bu_ecole_classe.annee_scol='.$grade.' ' 
       . 'AND LI.user_id ='.$userId.' ' 
       . 'AND PE.id_per = LI.bu_id '
       . 'AND LI.bu_type = "'.$userType.'"'; 

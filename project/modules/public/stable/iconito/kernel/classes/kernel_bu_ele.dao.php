@@ -133,6 +133,11 @@ class DAOKernel_bu_ele {
     return _doQuery($sql);
   }
   
+  /**
+	 * Retourne les élèves d'une classe donnée
+	 *
+	 * @param integer $classId   Identifiant de la classe
+	 */
   function getStudentsByClass ($classId) {
     
     $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe' 
@@ -144,8 +149,9 @@ class DAOKernel_bu_ele {
 		  . ' AND LI.bu_type = "USER_ELE"'
 		  . ' AND LI.bu_id=E.idEleve'
 		  . ' AND U.id_dbuser = LI.user_id'
-		  . ' AND A.niveau=CN.id_n'
-		  . ' ORDER BY E.nom, E.prenom1';  
+		  . ' AND A.niveau=CN.id_n';
+		  
+		$sql .= ' ORDER BY E.nom, E.prenom1';  
 
     return _doQuery ($sql, array (':id' => $classId));
   }

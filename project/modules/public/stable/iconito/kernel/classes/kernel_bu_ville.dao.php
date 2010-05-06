@@ -8,7 +8,7 @@ class DAORecordKernel_bu_ville {
     
     if (is_null($this->_citiesGroup)) {
       
-      $citiesGroupsDAO = _ioDAO ('kernel_bu_groupe_villes');
+      $citiesGroupsDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
       
       $this->_citiesGroup = $citiesGroupsDAO->get ($this->id_grville);
     }

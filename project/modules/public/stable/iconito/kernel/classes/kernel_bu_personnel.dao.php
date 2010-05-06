@@ -147,6 +147,13 @@ class DAOKernel_bu_personnel {
 		return _doQuery($query);
 	}
 	
+	/**
+	 * Renvoie la liste des personnes pouvant être assignés à un noeud
+	 *
+	 * @param integer $reference Id du noeud reference
+	 * @param string  $typeRef   Type du noeud reference
+	 * @param array   $filters   Filtres
+	 */
 	function findPersonnelsForAssignment ($reference, $typeRef, $filters = array ()) {
     
     // Recherche sur le personnel ayant au moins une affectation
@@ -254,6 +261,12 @@ class DAOKernel_bu_personnel {
 		return _doQuery($sql);
 	}
 	
+	/**
+	 * Retourne une personne suivant son id et son type
+	 *
+	 * @param integer $id   Identifiant de la personne
+	 * @param string  $type Type de compte
+	 */
 	function findPersonnelWithAccountByIdAndType ($id, $type) {
 	  
 	  $sql = 'SELECT P.numero, P.nom, P.prenom1, P.date_nais, P.mel, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, PE.role, PR.nom_role 
@@ -269,6 +282,90 @@ class DAOKernel_bu_personnel {
 		$results = _doQuery($sql);
 
 		return isset ($results[0]) ? $results[0] : false;
+	}
+	
+	/**
+	 * Retourne les agents de groupe de villes pour un groupe de ville donné
+	 *
+	 * @param integer $citiesGroupId   Identifiant du groupe de ville
+	 */
+	function findCitiesAgentsByCitiesGroupId ($citiesGroupId) {
+	  
+	  $sql = 'SELECT P.numero, P.nom, P.prenom1, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, PE.role, PR.nom_role
+	          FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U
+	          WHERE P.numero=PE.id_per
+	          AND PE.role=PR.id_role
+	          AND LI.user_id=U.id_dbuser
+	          AND LI.bu_id=P.numero
+	          AND LI.bu_type="USER_VIL"
+	          AND PE.type_ref="GVILLE"
+	          AND PE.reference='.$citiesGroupId.'
+	          ORDER BY P.nom, P.prenom1';
+	          
+	  return _doQuery($sql);
+	}
+	
+	/**
+	 * Retourne les agents de villes pour une ville donnée
+	 *
+	 * @param integer $cityId   Identifiant de la ville
+	 */
+	function findCityAgentsByCityId ($cityId) {
+	  
+	  $sql = 'SELECT P.numero, P.nom, P.prenom1, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, PE.role, PR.nom_role
+	          FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U
+	          WHERE P.numero=PE.id_per
+	          AND PE.role=PR.id_role
+	          AND LI.user_id=U.id_dbuser
+	          AND LI.bu_id=P.numero
+	          AND LI.bu_type="USER_VIL"
+	          AND PE.type_ref="VILLE"
+	          AND PE.reference='.$cityId.'
+	          ORDER BY P.nom, P.prenom1';
+	          
+	  return _doQuery($sql);
+	}
+	
+	/**
+	 * Retourne le personnel administratif et les directeurs d'une école
+	 *
+	 * @param integer $schoolId   Identifiant de l'école
+	 */
+	function findAdministrationStaffAndPrincipalBySchoolId ($schoolId) {
+	  
+	  $sql = 'SELECT P.numero, P.nom, P.prenom1, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, PE.role, PR.nom_role
+	          FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U
+	          WHERE P.numero=PE.id_per
+	          AND PE.role=PR.id_role
+	          AND LI.user_id=U.id_dbuser
+	          AND LI.bu_id=P.numero
+            AND (LI.bu_type="USER_ADM" OR LI.bu_type="USER_ENS")
+	          AND PE.type_ref="ECOLE"
+	          AND PE.reference='.$schoolId.'
+	          ORDER BY P.nom, P.prenom1';
+	          
+	  return _doQuery($sql);
+	}
+	
+	/**
+	 * Retourne les enseignants d'une classe
+	 *
+	 * @param integer $classroomId   Identifiant de la classer
+	 */
+	function findTeachersByClassroomId ($classroomId) {
+	  
+	  $sql = 'SELECT P.numero, P.nom, P.prenom1, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, PE.role, PR.nom_role
+	          FROM kernel_bu_personnel P, kernel_bu_personnel_entite PE, kernel_bu_personnel_role PR, kernel_link_bu2user LI, dbuser U
+	          WHERE P.numero=PE.id_per
+	          AND PE.role=PR.id_role
+	          AND LI.user_id=U.id_dbuser
+	          AND LI.bu_id=P.numero
+            AND LI.bu_type="USER_ENS"
+	          AND PE.type_ref="CLASSE"
+	          AND PE.reference='.$classroomId.'
+	          ORDER BY P.nom, P.prenom1';
+	          
+	  return _doQuery($sql);
 	}
 
 }

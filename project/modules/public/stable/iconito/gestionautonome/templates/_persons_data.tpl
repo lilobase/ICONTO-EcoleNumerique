@@ -19,28 +19,28 @@
             <th class="liste_th">Login</th>
             <th class="liste_th"></th>
           </tr>
-          {foreach from=$ppo->students item=item}
+          {foreach from=$ppo->students item=student}
             <tr>
               <td>
-                {if $item.sexe eq 0}
+                {if $student->id_sexe eq 0}
                   <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Garçon" />
                 {else}                                                                 
                   <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Fille" />
                 {/if}
               </td>
-              <td>{$item.type_nom}</td>
-              <td>{$item.nom}</td>
-              <td>{$item.prenom}</td>
-              <td>{$item.login}</td>
+              <td>Elève</td>
+              <td>{$student->nom}</td>
+              <td>{$student->prenom1}</td>
+              <td>{$student->login}</td>
               <td class="actions">
                 {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|student|update@gestionautonome")}
-                  <a href="{copixurl dest="gestionautonome||updateStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$item.id}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier l'élève" /></a>
+                  <a href="{copixurl dest="gestionautonome||updateStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$student->idEleve}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier l'élève" /></a>
                 {/if}
                 {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|student|update@gestionautonome")}
-                  <a href="{copixurl dest="gestionautonome||removeStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$item.id}" onclick="return confirm('Etes-vous sur de vouloir retirer cet élève ?')"><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Ne plus affecter cet élève à cette classe" /></a>
+                  <a href="{copixurl dest="gestionautonome||removeStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$student->idEleve}" onclick="return confirm('Etes-vous sur de vouloir retirer cet élève ?')"><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Ne plus affecter cet élève à cette classe" /></a>
                 {/if}
                 {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|student|delete@gestionautonome")}
-                  <a href="{copixurl dest="gestionautonome||deleteStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$item.id}" onclick="return confirm('Etes-vous sur de vouloir supprimer cet élève ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cet élève" /></a>
+                  <a href="{copixurl dest="gestionautonome||deleteStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$student->idEleve}" onclick="return confirm('Etes-vous sur de vouloir supprimer cet élève ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cet élève" /></a>
                 {/if}
               </td>
             </tr>
@@ -61,28 +61,28 @@
             <th class="liste_th">Login</th>
             <th class="liste_th"></th>
           </tr>
-          {foreach from=$ppo->persons item=item}
+          {foreach from=$ppo->persons item=person}
             <tr>
               <td>
-                {if $item.sexe eq 0}
+                {if $person->id_sexe eq 0}
                   <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
                 {else}                                                                 
                   <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />
                 {/if}
               </td>
-              <td>{$item.type_nom}</td>
-              <td>{$item.nom}</td>
-              <td>{$item.prenom}</td>
-              <td>{$item.login}</td>
+              <td>{$person->nom_role}</td>
+              <td>{$person->nom}</td>
+              <td>{$person->prenom1}</td>
+              <td>{$person->login_dbuser}</td>
               <td class="actions">
                 {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|teacher|update@gestionautonome")}
-                  <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$item.id type=$item.type}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier la personne" /></a>
+                  <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->id type=$person->bu_type}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier la personne" /></a>
                 {/if}
                 {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|teacher|update@gestionautonome")}
-                  <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$item.id userId=$item.user_id type=$item.type}" onclick="return confirm('Etes-vous sur de vouloir retirer cette personne ?')"><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Supprimer le rôle de cette personne" /></a>
+                  <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->id userId=$person->id_dbuser type=$item->bu_type}" onclick="return confirm('Etes-vous sur de vouloir retirer cette personne ?')"><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Supprimer le rôle de cette personne" /></a>
                 {/if}
                 {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|teacher|update@gestionautonome")}
-                  <a href="{copixurl dest="gestionautonome||deletePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$item.id type=$item.type}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette personne ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette personne" /></a>
+                  <a href="{copixurl dest="gestionautonome||deletePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->id type=$person->bu_type}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette personne ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette personne" /></a>
                 {/if}
               </td>
             </tr>
@@ -93,7 +93,7 @@
       {/if} 
     </div>
   </div>
-  {elseif $ppo->childs neq null}
+  {elseif $ppo->persons neq null}
 
     <table class="liste">
       <tr>
@@ -104,30 +104,30 @@
         <th class="liste_th">Login</th>
         <th class="liste_th"></th>
       </tr>
-      {foreach from=$ppo->childs item=item}
+      {foreach from=$ppo->persons item=person}
         <tr>
           <td>
-            {if $item.sexe eq 0}
+            {if $person->id_sexe eq 0}
               <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
             {else}                                                                 
               <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />
             {/if}
           </td>
-          <td>{if $ppo->parent.type == 'BU_ECOLE' AND $item.type_nom == 'Enseignant'}Directeur{else}{$item.type_nom}{/if}</td>
-          <td>{$item.nom}</td>
-          <td>{$item.prenom}</td>
-          <td>{$item.login}</td>
+          <td>{$person->nom_role}</td>
+          <td>{$person->nom}</td>
+          <td>{$person->prenom1}</td>
+          <td>{$person->login_dbuser}</td>
           <td class="actions">
-            {if (($item.type == 'USER_ADM' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|administration_staff|update@gestionautonome")) 
-              || ($item.type == 'USER_ENS' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|principal|update@gestionautonome")))}
+            {if (($person->bu_type == 'USER_ADM' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|administration_staff|update@gestionautonome")) 
+              || ($person->bu_type == 'USER_ENS' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|principal|update@gestionautonome")))}
 
-              <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$item.id type=$item.type}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier la personne" /></a>
-              <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$item.id userId=$item.user_id type=$item.type}" onclick="return confirm('Etes-vous sur de vouloir retirer cette personne ?')"><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Supprimer le rôle de cette personne" /></a>
+              <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->id type=$person->bu_type}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier la personne" /></a>
+              <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->id userId=$person->id_dbuser type=$person->bu_type}" onclick="return confirm('Etes-vous sur de vouloir retirer cette personne ?')"><img src="{copixresource path="../gestionautonome/supprimer-role.gif"}" title="Supprimer le rôle de cette personne" /></a>
             {/if}
-            {if (($item.type == 'USER_ADM' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|administration_staff|delete@gestionautonome")) 
-              || ($item.type == 'USER_ENS' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|principal|delete@gestionautonome")))}
+            {if (($person->bu_type == 'USER_ADM' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|administration_staff|delete@gestionautonome")) 
+              || ($person->bu_type == 'USER_ENS' && $ppo->user->testCredential ("module:school|`$ppo->parent.id`|principal|delete@gestionautonome")))}
                
-              <a href="{copixurl dest="gestionautonome||deletePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$item.id type=$item.type}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette personne ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette personne" /></a>
+              <a href="{copixurl dest="gestionautonome||deletePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->id type=$person->bu_type}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette personne ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette personne" /></a>
             {/if}
             </td>
         </tr>
