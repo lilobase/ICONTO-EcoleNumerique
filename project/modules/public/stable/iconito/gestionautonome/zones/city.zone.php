@@ -7,10 +7,8 @@ class ZoneCity extends CopixZone {
 
 	function _createContent (& $toReturn) {
 	  
-	  $ppo = new CopixPPO ();                               
-	  
-	  $user = _currentUser ();
-	  
+	  $ppo = new CopixPPO ();
+
 	  if (is_null($citiesGroupId = $this->getParam('cities_group_id'))) {
 	    
 	    $toReturn = '';
@@ -18,7 +16,12 @@ class ZoneCity extends CopixZone {
 	  }
 	  
 	  $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
-	  $ppo->cities = $cityDAO->findByUserIdAndUserType ($citiesGroupId, $user->getId (), $user->getExtra('type'));
+	  
+	  if (_currentUser ()->testCredential ('group:[Admin]@auth|dbgrouphandler')) {
+	  
+      $ppo->cities = $cityDAO->getByIdGrville ($citiesGroupId);
+	  }
+	  //$ppo->cities = $cityDAO->findByUserIdAndUserType ($citiesGroupId, $user->getId (), $user->getExtra('type'));
 	  
 	  // Récupération des noeuds ouvert
 	  $ppo->nodes = _sessionGet('cities_nodes');

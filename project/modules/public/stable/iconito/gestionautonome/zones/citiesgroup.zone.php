@@ -9,10 +9,16 @@ class ZoneCitiesGroup extends CopixZone {
 	  
 	  $ppo = new CopixPPO ();                               
     
-    $user = _currentUser ();
+    $citiesGroupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
 
-	  $citiesGroupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
-	  $ppo->citiesGroups = $citiesGroupDAO->findByUserIdAndUserType ($user->getId (), $user->getExtra('type'));
+    if (_currentUser ()->testCredential ('group:[Admin]@auth|dbgrouphandler')) {
+      
+      $criteria = _daoSp ();
+      $criteria->orderBy ('nom_groupe');
+      $ppo->citiesGroups = $citiesGroupDAO->findBy ($criteria);
+    }
+  
+	  //$ppo->citiesGroups = $citiesGroupDAO->findByUserIdAndUserType ($user->getId (), $user->getExtra('type'));
 	   
 	  // Récupération des noeuds ouvert
 	  $ppo->nodes = _sessionGet('cities_groups_nodes');

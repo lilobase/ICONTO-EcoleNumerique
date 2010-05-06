@@ -46,16 +46,20 @@ class DAOKernel_bu_ecole_classe {
 	 */
 	public function getBySchool ($idEcole, $grade = null) {
 		
-		$criteria = _daoSp ();
-		$criteria->addCondition ('ecole', '=', $idEcole);
+		$sql = $this->_selectQuery
+		  . ', kernel_bu_ecole_classe_niveau '
+		  . 'WHERE kernel_bu_ecole_classe.id=kernel_bu_ecole_classe_niveau.classe '
+		  . 'AND kernel_bu_ecole_classe.ecole=:idEcole';
+
 		if (!is_null($grade)) {
 		  
-		  $criteria->addCondition ('annee_scol', '=', $grade);
+		  $sql .= ' AND kernel_bu_ecole_classe.annee_scol='.$grade;
 		}
-		  
-		$criteria->orderBy (array ('id', 'DESC'));
 		
-		return $this->findBy ($criteria);
+		$sql .= ' GROUP BY kernel_bu_ecole_classe.id '
+		  . 'ORDER BY kernel_bu_ecole_classe_niveau.niveau, kernel_bu_ecole_classe.nom';
+		
+		return new CopixDAORecordIterator (_doQuery ($sql, array(':idEcole' => $idEcole)), $this->getDAOId ());
 	}
 	
 	/**

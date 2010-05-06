@@ -7,9 +7,7 @@ class ZoneClassroom extends CopixZone {
 
 	function _createContent (& $toReturn) {
 	  
-	  $ppo = new CopixPPO ();                               
-	  
-	  $user = _currentUser ();
+	  $ppo = new CopixPPO ();
 	  
 	  // Récupération de l'année scolaire
     if (is_null($grade = _sessionGet('grade'))) {
@@ -24,7 +22,14 @@ class ZoneClassroom extends CopixZone {
 	  }
 
 	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
-	  $ppo->classrooms = $classroomDAO->findByUserIdAndUserType ($schoolId, $user->getId (), $user->getExtra('type'), $grade);
+	  
+	  if (_currentUser ()->testCredential ('group:[Admin]@auth|dbgrouphandler')) {
+	  
+      $grade = _sessionGet('grade');
+      $ppo->classrooms = $classroomDAO->getBySchool ($schoolId, $grade);
+	  }
+	  
+	  //$ppo->classrooms = $classroomDAO->findByUserIdAndUserType ($schoolId, $user->getId (), $user->getExtra('type'), $grade);
 
     $toReturn = $this->_usePPO ($ppo, '_classroom.tpl');
   }

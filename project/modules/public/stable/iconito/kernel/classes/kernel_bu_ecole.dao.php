@@ -29,6 +29,7 @@ class DAOKernel_bu_ecole {
 		
 		$criteria = _daoSp ();
 		$criteria->addCondition ('id_ville', '=', $idVille);
+		$criteria->orderBy ('nom');
 		
 		return $this->findBy ($criteria);
 	}
