@@ -1,4 +1,19 @@
 --
+-- Contenu de la table `dbgroup`
+--
+
+INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
+(1, 'Admin', 'Groupe administrateur', 1, 0, 0),
+(2, 'current_user', 'Utilisation classique de l''application', 0, 0, 1),
+(3, 'cities_group_agent', NULL, 0, 0, 0),
+(4, 'city_agent', NULL, 0, 0, 0),
+(5, 'administration_staff', NULL, 0, 0, 0),
+(6, 'principal', NULL, 0, 0, 0),
+(7, 'teacher', NULL, 0, 0, 0),
+(8, 'cities_group_animator', NULL, 0, 0, 0),
+(9, 'schools_group_animator', NULL, 0, 0, 0);
+
+--
 -- Contenu de la table `modulecredentials`
 --
 
@@ -45,9 +60,23 @@ INSERT INTO `modulecredentialsgroups` (`id_mcg`, `id_mc`, `id_mcv`, `handler_gro
 (24, 10, 30, 'auth|dbgrouphandler', '6'),
 (25, 11, 33, 'auth|dbgrouphandler', '6'),
 (26, 12, NULL, 'auth|dbgrouphandler', '6'),
-(27, 10, 30, 'auth|dbgrouphandler', '7'),
-(28, 11, 33, 'auth|dbgrouphandler', '7'),
-(29, 12, NULL, 'auth|dbgrouphandler', '7');
+(32, 11, 32, 'auth|dbgrouphandler', '7'),
+(33, 3, 8, 'auth|dbgrouphandler', '8'),
+(29, 12, NULL, 'auth|dbgrouphandler', '7'),
+(30, 4, 12, 'auth|dbgrouphandler', '3'),
+(31, 10, 29, 'auth|dbgrouphandler', '7'),
+(34, 4, 12, 'auth|dbgrouphandler', '8'),
+(35, 7, 21, 'auth|dbgrouphandler', '8'),
+(36, 8, 24, 'auth|dbgrouphandler', '8'),
+(37, 9, 27, 'auth|dbgrouphandler', '8'),
+(38, 10, 30, 'auth|dbgrouphandler', '8'),
+(39, 11, 33, 'auth|dbgrouphandler', '8'),
+(40, 12, NULL, 'auth|dbgrouphandler', '8'),
+(41, 4, 11, 'auth|dbgrouphandler', '9'),
+(42, 9, 27, 'auth|dbgrouphandler', '9'),
+(43, 10, 30, 'auth|dbgrouphandler', '9'),
+(44, 11, 33, 'auth|dbgrouphandler', '9'),
+(45, 12, NULL, 'auth|dbgrouphandler', '9');
 
 --
 -- Contenu de la table `modulecredentialsvalues`
