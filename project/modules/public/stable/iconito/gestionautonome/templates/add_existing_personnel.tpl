@@ -9,6 +9,7 @@
   </p>
 {/if}
 
+<a href="#" id="filter-displayer">Afficher / Masquer les filtres</a>
 <form class="filter-form{if empty($ppo->listFilters)} hidden{/if}" id="persons-list-filter" name="persons" action="{copixurl dest="|filterExistingPersonnel"}" method="post">
  
   <input type="hidden" name="parentId" id="parentId" value="{$ppo->nodeId}" />
@@ -70,7 +71,7 @@
   <input type="hidden" name="role" id="role" value="{$ppo->role}" />
   
   {if $ppo->persons neq null}
-    <p class="items-count">{$ppo->persons|@count} personnes - <a href="#" id="filter-displayer">Afficher / Masquer les filtres</a></p> 
+    <p class="items-count">{$ppo->persons|@count} personnes</p> 
     <table class="liste">
       <tr>
         <th class="liste_th"></th>
@@ -108,7 +109,6 @@
   {else} 
     <p class="items-count">
       Pas de personnes disponibles
-      - <a href="#" id="filter-displayer">Afficher / Masquer les filtres</a>
     </p>
     
     <ul class="actions">
