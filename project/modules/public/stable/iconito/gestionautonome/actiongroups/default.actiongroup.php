@@ -3264,7 +3264,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $ppo->grades = $gradesDAO->findAll ();
 	  
-	  $ppo->TITLE_PAGE = 'Gestion des années scolaires';
+	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|gradesManagementTitle');
 	  
 	  return _arPPO ($ppo, 'manage_grades.tpl');
 	}
@@ -3405,19 +3405,17 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
-
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }                                             
+	  }
 	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
+
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
     // Breadcrumbs
@@ -3482,16 +3480,16 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
 	  $ppo->students = $studentDAO->findStudentsForAssignment ($ppo->nodeId, $type_ref, $ppo->listFilters);
-
+    
+    $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    
 	  return _arPPO ($ppo, 'add_existing_student.tpl');
 	}
 	
 	public function processFilterExistingStudents () {
 	  
 	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
+
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
 	  $ppo->role     = _request ('role', null);
@@ -3567,16 +3565,16 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
 	  $ppo->students = $studentDAO->findStudentsForAssignment ($ppo->nodeId, $type_ref, $ppo->listFilters);
-
+    
+    $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    
 	  return _arPPO ($ppo, 'add_existing_student.tpl');
 	}
 	
 	public function processValidateExistingStudentsAdd () {
 	  
 	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
+
 	  $ppo->nodeId      = _request ('id_node', null);
 	  $ppo->nodeType    = _request ('type_node', null);
 	  $ppo->role        = _request ('role', null);
@@ -3716,7 +3714,17 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
 	  $ppo->students = $studentDAO->findStudentsForAssignment ($ppo->nodeId, $type_ref, $ppo->listFilters);
-
+    
+    $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    
+    // Breadcrumbs
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
+    
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Ajout d\'un élève existant');
+	  
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+	  
 	  return _arPPO ($ppo, 'add_existing_student.tpl');
 	}
 	
@@ -3724,8 +3732,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
+    $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
 	  $ppo->role     = _request ('role', null);
@@ -3820,7 +3828,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
@@ -3899,7 +3907,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
+	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
 	  $ppo->nodeId      = _request ('id_node', null);
 	  $ppo->nodeType    = _request ('type_node', null);
@@ -3976,7 +3984,14 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $personDAO    = _ioDAO ('kernel|kernel_bu_personnel');
 	  $ppo->persons = $personDAO->findPersonnelsForAssignment ($ppo->nodeId, $type_ref, $ppo->listFilters);
 	  $ppo->save    = 1;
-
+    
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+    
+    // Breadcrumbs
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une personne existante');
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+	  
 	  return _arPPO ($ppo, 'add_existing_personnel.tpl');
 	}
 	
