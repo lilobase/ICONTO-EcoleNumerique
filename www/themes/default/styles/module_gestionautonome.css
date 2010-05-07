@@ -30,9 +30,7 @@ p.success {
 }
 
 .notice-light {
-  width: 400px; 
-  height: 30px;
-  padding-top: 10px;
+  width: 400px;
 } 
 
 .error-light {
@@ -144,8 +142,7 @@ li a.current {
 
 #student_creation_data {
   float: left;
-}
-                                                                                
+}                                                                                
 
 #column-data {
   float: right;
@@ -162,15 +159,13 @@ li a.current {
   padding:2px 2px 2px 4px;
   -moz-border-radius:6px 6px 6px 6px;
   background-color:#B9C55B;
-  font-size:10px;
+  font-size:11px;
 }
 
 #tree-actions a {
   width: 350px;
   margin-bottom: 2px;
 }
-
-
 
 ul.actions li {
   float: left;

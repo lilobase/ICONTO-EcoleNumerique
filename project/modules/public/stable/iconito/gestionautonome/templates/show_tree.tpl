@@ -3,7 +3,7 @@
 {if $ppo->save neq null}
   <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
     <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-    <strong>Modification effectuée</strong>
+    <strong>Structure mise à jour</strong>
   </p>
 {/if}
 

@@ -4,10 +4,10 @@
   {copixzone process=gestionautonome|MultipleAccountsInfo}
 </div>
 
-<div style="margin-top: 20px; padding: 10px 0.7em 0 0.7em;" class="notice-light ui-state-highlight ui-corner-all"> 
+<p class="notice-light ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
   <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-	<strong>Elèves ajoutés !</strong>
-</div>
+  <strong>Elèves ajoutés !</strong>
+</p>
 
 <h4>Liste des élèves ajoutés</h4>
 
