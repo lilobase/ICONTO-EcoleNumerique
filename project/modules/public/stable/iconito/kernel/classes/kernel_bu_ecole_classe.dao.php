@@ -89,7 +89,7 @@ class DAOKernel_bu_ecole_classe {
       
       return array();
     }
-    
+
 		$sql = $this->_selectQuery
 		  . ', kernel_bu_ecole_classe_niveau '
 		  . 'WHERE kernel_bu_ecole_classe.id=kernel_bu_ecole_classe_niveau.classe '
@@ -101,6 +101,7 @@ class DAOKernel_bu_ecole_classe {
 		}
 
 		$sql .= ' AND kernel_bu_ecole_classe.id IN ('.implode(',', $groupsIds).')';
+		$sql .= ' GROUP BY kernel_bu_ecole_classe.id';
 		$sql .= ' ORDER BY kernel_bu_ecole_classe_niveau.niveau, kernel_bu_ecole_classe.nom';
 
     return new CopixDAORecordIterator (_doQuery ($sql), $this->getDAOId ());
