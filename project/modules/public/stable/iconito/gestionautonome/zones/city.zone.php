@@ -17,14 +17,14 @@ class ZoneCity extends CopixZone {
 	  
 	  $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
 	  
-	  if (_currentUser ()->testCredential ('group:[Admin]@auth|dbgrouphandler')) {
+	  if (_currentUser ()->testCredential ('module:cities_group|'.$citiesGroupId.'|city|create@gestionautonome')) {
 	  
       $ppo->cities = $cityDAO->getByIdGrville ($citiesGroupId);
 	  }
 	  else {
-      
+
       $groups = _currentUser ()->getGroups ();
-      $ppo->cities = $cityDAO->findByUserGroups ($groups['gestionautonome|iconitogrouphandler']);
+      $ppo->cities = $cityDAO->findByCitiesGroupIdAndUserGroups ($citiesGroupId, $groups['gestionautonome|iconitogrouphandler']);
     }
 	  
 	  // Récupération des noeuds ouvert

@@ -17,14 +17,14 @@ class ZoneSchool extends CopixZone {
 	  
 	  $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
 	  
-	  if (_currentUser ()->testCredential ('group:[Admin]@auth|dbgrouphandler')) {
+	  if (_currentUser ()->testCredential ('module:city|'.$cityId.'|school|create@gestionautonome')) {
 	  
 	    $ppo->schools = $schoolDAO->getByCity ($cityId);
 	  }
 	  else {
       
       $groups = _currentUser ()->getGroups ();
-      $ppo->schools = $schoolDAO->findByUserGroups ($groups['gestionautonome|iconitogrouphandler']);
+      $ppo->schools = $schoolDAO->findByCityIdAndUserGroups ($cityId, $groups['gestionautonome|iconitogrouphandler']);
     }
 	  
 	  // Récupération des noeuds ouvert

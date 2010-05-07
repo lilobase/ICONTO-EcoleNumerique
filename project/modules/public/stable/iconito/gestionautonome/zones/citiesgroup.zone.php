@@ -11,7 +11,7 @@ class ZoneCitiesGroup extends CopixZone {
     
     $citiesGroupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
 
-    if (_currentUser ()->testCredential ('group:[Admin]@auth|dbgrouphandler')) {
+    if (_currentUser ()->testCredential ('module:*||cities_group|create@gestionautonome')) {
       
       $criteria = _daoSp ();
       $criteria->orderBy ('nom_groupe');

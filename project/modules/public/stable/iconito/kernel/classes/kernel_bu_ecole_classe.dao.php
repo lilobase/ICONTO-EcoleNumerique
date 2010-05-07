@@ -63,88 +63,46 @@ class DAOKernel_bu_ecole_classe {
 	}
 	
 	/**
-	 * Retourne les classes accessibles pour un utilisateur
+	 * Retourne les classes d'une école accessibles pour un utilisateur
 	 *
-	 * @param array $groups  Groupes
-	 * @param int $grade
+	 * @param int   $schoolId Identifiant de l'école
+	 * @param array $groups   Groupes
+	 * @param int   $grade    Année scolaire
    *
 	 * @return CopixDAORecordIterator
 	 */
-	public function findByUserGroups ($groups, $grade = null) {
+	public function findBySchoolIdAndUserGroups ($schoolId, $groups, $grade = null) {
 		
-		$groupsIds = array(
-      'citiesGroupsIds' => array(),
-      'citiesIds'       => array(),
-      'schoolsIds'      => array(),
-      'classroomsIds'   => array()
-    );
+		$groupsIds = array();
     
     foreach ($groups as $key => $group) {
       
       $id = substr($key, strrpos($key, '_')+1);
-      
-      if (preg_match('/^cities_group_agent/', $key)) {
+
+      if (preg_match('/^teacher/', $key)) {
         
-        $groupsIds['citiesGroupsIds'][] = $id;
-      }
-      elseif (preg_match('/^city_agent/', $key)) {
-        
-        $groupsIds['citiesIds'][] = $id;
-      }
-      elseif (preg_match('/^administration_staff/', $key)) {
-        
-        $groupsIds['schoolsIds'][] = $id;
-      }
-      elseif (preg_match('/^principal/', $key)) {
-        
-        $groupsIds['schoolsIds'][] = $id;
-      }
-      elseif (preg_match('/^teacher/', $key)) {
-        
-        $groupsIds['classroomsIds'][] = $id;
+        $groupsIds[] = $id;
       }
     }
     
-    if (empty ($groupsIds['citiesGroupsIds']) && empty ($groupsIds['citiesIds'])
-      && empty ($groupsIds['schoolsIds']) && empty ($groupsIds['classroomsIds'])) {
+    if (empty ($groupsIds)) {
       
       return array();
     }
     
 		$sql = $this->_selectQuery
-		  . ', kernel_bu_groupe_villes, kernel_bu_ville, kernel_bu_ecole, kernel_bu_ecole_classe_niveau '
-		  . 'WHERE kernel_bu_groupe_villes.id_grv=kernel_bu_ville.id_grville '
-		  . 'AND kernel_bu_ville.id_vi=kernel_bu_ecole.id_ville '
-		  . 'AND kernel_bu_ecole.numero=kernel_bu_ecole_classe.ecole '
-		  . 'AND kernel_bu_ecole_classe.id=kernel_bu_ecole_classe_niveau.classe';
+		  . ', kernel_bu_ecole_classe_niveau '
+		  . 'WHERE kernel_bu_ecole_classe.id=kernel_bu_ecole_classe_niveau.classe '
+		  . 'AND kernel_bu_ecole_classe.ecole='.$schoolId;
 		
 		if (!is_null($grade)) {
 		  
 		  $sql .= ' AND kernel_bu_ecole_classe.annee_scol='.$grade;
 		}
-		
-		$conditions = array();
-		if (!empty ($groupsIds['citiesGroupsIds'])) {
-		  
-		  $conditions[] = 'kernel_bu_groupe_villes.id_grv IN ('.implode(',', $groupsIds['citiesGroupsIds']).')';
-		}
-		if (!empty ($groupsIds['citiesIds'])) {
-		  
-		  $conditions[] = 'kernel_bu_ville.id_vi IN ('.implode(',', $groupsIds['citiesIds']).')';
-		}
-		if (!empty ($groupsIds['schoolsIds'])) {
-		  
-		  $conditions[] = 'kernel_bu_ecole.numero IN ('.implode(',', $groupsIds['schoolsIds']).')';
-		}
-		if (!empty ($groupsIds['classroomsIds'])) {
-		  
-		  $conditions[] = 'kernel_bu_ecole_classe.id IN ('.implode(',', $groupsIds['classroomsIds']).')';
-		}
-		
-		$sql .= ' AND ('.implode('OR', $conditions).')';
-		$sql .= ' GROUP BY kernel_bu_ecole.numero, kernel_bu_ecole_classe.id';
+
+		$sql .= ' AND kernel_bu_ecole_classe.id IN ('.implode(',', $groupsIds).')';
 		$sql .= ' ORDER BY kernel_bu_ecole_classe_niveau.niveau, kernel_bu_ecole_classe.nom';
-    
+
     return new CopixDAORecordIterator (_doQuery ($sql), $this->getDAOId ());
 	}
 }

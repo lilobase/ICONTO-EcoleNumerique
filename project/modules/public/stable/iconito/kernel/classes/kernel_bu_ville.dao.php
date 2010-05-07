@@ -43,16 +43,16 @@ class DAOKernel_bu_ville {
 	}
 	
 	/**
-	 * Retourne les villes accessibles pour un utilisateur
+	 * Retourne les villes d'un groupe de ville accessibles pour un utilisateur
 	 *
-	 * @param array $groups  Groupes
+	 * @param int   $citiesGroupId  Identifiant du groupe de ville
+	 * @param array $groups         Groupes
    *
  	 * @return CopixDAORecordIterator
 	 */
-	public function findByUserGroups ($groups) {
+	public function findByCitiesGroupIdAndUserGroups ($citiesGroupId, $groups) {
 		
 		$groupsIds = array(
-      'citiesGroupsIds' => array(),
       'citiesIds'       => array(),
       'schoolsIds'      => array(),
       'classroomsIds'   => array()
@@ -62,11 +62,7 @@ class DAOKernel_bu_ville {
       
       $id = substr($key, strrpos($key, '_')+1);
       
-      if (preg_match('/^cities_group_agent/', $key)) {
-        
-        $groupsIds['citiesGroupsIds'][] = $id;
-      }
-      elseif (preg_match('/^city_agent/', $key)) {
+      if (preg_match('/^city_agent/', $key)) {
         
         $groupsIds['citiesIds'][] = $id;
       }
@@ -84,23 +80,18 @@ class DAOKernel_bu_ville {
       }
     }
     
-    if (empty ($groupsIds['citiesGroupsIds']) && empty ($groupsIds['citiesIds'])
-      && empty ($groupsIds['schoolsIds']) && empty ($groupsIds['classroomsIds'])) {
+    if (empty ($groupsIds['citiesIds']) && empty ($groupsIds['schoolsIds']) && empty ($groupsIds['classroomsIds'])) {
       
       return array();
     }
     
 		$sql = $this->_selectQuery
-		  . ', kernel_bu_groupe_villes, kernel_bu_ecole, kernel_bu_ecole_classe '
-		  . 'WHERE kernel_bu_groupe_villes.id_grv=kernel_bu_ville.id_grville '
-		  . 'AND kernel_bu_ville.id_vi=kernel_bu_ecole.id_ville '
-		  . 'AND kernel_bu_ecole.numero=kernel_bu_ecole_classe.ecole';
+		  . ', kernel_bu_ecole, kernel_bu_ecole_classe '
+		  . 'WHERE kernel_bu_ville.id_vi=kernel_bu_ecole.id_ville '
+		  . 'AND kernel_bu_ecole.numero=kernel_bu_ecole_classe.ecole '
+		  . 'AND kernel_bu_ville.id_grville='.$citiesGroupId;
 		
 		$conditions = array();
-		if (!empty ($groupsIds['citiesGroupsIds'])) {
-		  
-		  $conditions[] = 'kernel_bu_groupe_villes.id_grv IN ('.implode(',', $groupsIds['citiesGroupsIds']).')';
-		}
 		if (!empty ($groupsIds['citiesIds'])) {
 		  
 		  $conditions[] = 'kernel_bu_ville.id_vi IN ('.implode(',', $groupsIds['citiesIds']).')';
