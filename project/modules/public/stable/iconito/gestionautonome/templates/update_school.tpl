@@ -18,13 +18,6 @@
   <fieldset>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
-    
-    <div class="field">
-      <label for="ville" class="form_libelle"> Ville :</label>
-      <select class="form" name="ville" id="ville">
-        {html_options values=$ppo->cityIds output=$ppo->cityNames selected=$ppo->school->id_ville}  
-      </select>
-    </div>
    
     <div class="field">
       <label for="type" class="form_libelle"> Type :</label>
