@@ -4116,7 +4116,7 @@ class ActionGroupDefault extends CopixActionGroup {
                  }
                  break;
                case 3: 
-                 $ppo->students[$key]['person'][$keyPerson]['nom_pa'] = $datas[$cpt];
+                 $ppo->students[$key]['person'][$keyPerson]['nom_pa'] = strip_tags(trim($datas[$cpt]));
 
                  switch (strip_tags(trim($datas[$cpt]))) {
                    case 'MERE':
