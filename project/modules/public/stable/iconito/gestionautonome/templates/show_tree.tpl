@@ -78,8 +78,9 @@
         // Changement de l'état de la flèche
         // Affectation de l'état "current"
         var show_forced = 0;
+ 
         if (jQuery(this).hasClass('node')) {
-          
+
           jQuery(this).prev().addClass('expand');
           jQuery(this).parent().find('ul').first().show();
           
@@ -106,6 +107,10 @@
         
         if (show_forced){
           
+          // Affichage du loader ajax
+          jQuery('#tree-actions').empty();
+          jQuery('#tree-actions').html('<p align="center">Chargement en cours...</p>');
+          
           // Chargement de la zone "Actions"
           jQuery.ajax({
             url:     '{/literal}{copixurl dest=gestionautonome|default|updateTreeActions}{literal}',
@@ -119,7 +124,11 @@
              jQuery('#tree-actions').append(html);
             }
           });
-
+          
+          // Affichage du loader ajax
+          jQuery('#column-data').empty();
+          jQuery('#column-data').html('<p align="center">Chargement en cours...</p>');
+          
           // Chargement de la zone "Personnes infos"
           jQuery.ajax({
             url:     '{/literal}{copixurl dest=gestionautonome|default|displayPersonsData}{literal}',
@@ -137,6 +146,8 @@
         
         // Si le noeud est déplié => chargement des fils
         if (a_expand.length > 0) {
+           
+          jQuery('<img class="load-img" src="/themes/default/img/ajax-loader-mini.gif" />').insertAfter(a_node); 
           
           if (a_expand.hasClass('expand')) {
 
@@ -158,9 +169,11 @@
               var ul = jQuery(this).find('ul').first();
               ul.empty();
               ul.append(html);
+              jQuery('img.load-img').remove();  
             }
           });
-        }      
+        }
+        return false;      
       });
       
       // Filtre année scolaire
