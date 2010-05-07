@@ -107,7 +107,7 @@ li.collapsed ul {
 }
 
 ul.tree li {
-  line-height:20px;
+  line-height: 23px;
 }                  
 
 ul.tree a.toggle-node span {
@@ -130,6 +130,10 @@ ul.tree a.expand{
 
 ul.tree a.after-expand {
   margin-left: 15px;
+}
+
+ul.tree a.classroom {
+  margin-left: 7px;
 }
 
 li a.current {
