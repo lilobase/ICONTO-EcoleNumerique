@@ -106,6 +106,10 @@ li.collapsed ul {
   display: none;
 }
 
+ul.tree li {
+  line-height:20px;
+}                  
+
 ul.tree a.toggle-node span {
   left:-5000px;
   position:absolute;
