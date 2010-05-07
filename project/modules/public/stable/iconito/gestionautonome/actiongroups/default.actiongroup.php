@@ -1682,7 +1682,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->sessionDatas = _sessionGet ('modules|gestionautonome|createAccount'); 
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
-    		
+    
     // Récupération du format de sortie demandé
 	  if( !_request ('format') || trim (_request ('format')) == '' ) {
 	    
@@ -3985,30 +3985,37 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
 	  $ppo->nodeId   = _request ('parentId', null);
   	$ppo->nodeType = _request ('parentType', null);
-  	
-  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
   	
   	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-  	
-  	$nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-    
-    // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
-  	
+	  
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroomDAO->get ($ppo->nodeId )) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
+  		
   	// RAZ des sessions
   	_sessionSet ('gestionautonome|addMultipleStudents', array ());
   	_sessionSet ('gestionautonome|addMultipleStudents|success', array ());
   	_sessionSet ('gestionautonome|addMultipleStudents|error', array ());
+  	
+    // Breadcrumbs
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+    
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+  	
+  	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
 	  return _arPPO ($ppo, 'add_multiple_students.tpl');
 	}
@@ -4017,26 +4024,25 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
 	  $ppo->nodeId   = _request ('id_parent', null);
   	$ppo->nodeType = _request ('type_parent', null);
-  	$liste    = _request ('liste', null);
-  	
-  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
   	
   	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	  
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroomDAO->get ($ppo->nodeId )) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
   	
-  	$nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-    
-    // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+  	$liste = _request ('liste', null);
 
     if (!is_null ($liste)) {
       
@@ -4184,40 +4190,47 @@ class ActionGroupDefault extends CopixActionGroup {
         $ppo->levelIds[]   = $level->id_n;
       }
     }
-
+    
+    // Breadcrumbs
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+    
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+  	
+  	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	
 	  return _arPPO ($ppo, 'add_multiple_students_listing.tpl');
 	}
 	
 	public function processValidateMultipleStudentsListing () {
 	  
 	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
 
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('id_node', null);
   	$ppo->nodeType = _request ('type_node', null);
   	
-  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
-  	
   	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }                  
+	  }
+	  
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroomDAO->get ($ppo->nodeId )) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
 
   	// Récupération des informations du formulaire                                             
   	$keys      = _request ('keys', array ());       // Elèves de la liste à créer (checkbox de confirmation)
   	$logins    = _request ('logins', array ());     // Logins des élèves (possibilité de changer le login généré)
   	$passwords = _request ('passwords', array ());  // Passwords des élèves (possibilité de changer le mot de passe généré)
   	$levels    = _request ('levels', array ());     // Niveau des élèves dans la classe
-  	
-  	$nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-    
-    // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
                                   
     // Récupération des élèves déjà créés en session
   	if (!$ppo->studentsSuccess = _sessionGet ('gestionautonome|addMultipleStudents|success')) {
@@ -4452,23 +4465,25 @@ class ActionGroupDefault extends CopixActionGroup {
       // Flag pour affichage du message d'erreur
       $ppo->error = 1;
       
+      // Breadcrumbs
+      $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+
+  	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+  	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+
+    	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    	
       return _arPPO ($ppo, 'add_multiple_students_listing.tpl');
     }
     
-    // Mise en session du noeud courant
-		_sessionSet ('current', array('node_type' => $ppo->nodeType, 'node_id' => $ppo->nodeId));
-		
-    $urlReturn = CopixUrl::get ('gestionautonome||showMultipleAccountsListing');
-		
-		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
+		return _arRedirect (CopixUrl::get ('gestionautonome||showMultipleAccountsListing'));
 	}
 	
 	public function processShowMultipleAccountsListing () {
 	                                                                        
 	  $ppo = new CopixPPO (); 
-	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
+
 	  // Récupération des informations des comptes créés
 	  $ppo->students = _sessionGet ('gestionautonome|addMultipleStudents|success'); 
 
@@ -4482,6 +4497,15 @@ class ActionGroupDefault extends CopixActionGroup {
 			$format = _request('format');
 		} 
 		
+		// Breadcrumbs
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+
+  	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	
 		// Sortie suivant le format demandé
 		$tplResult = & new CopixTpl ();
 		$tplResult->assign ('sessionDatas', $ppo->students);
@@ -4569,8 +4593,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO (); 
 	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
@@ -4585,11 +4607,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  // Récupération des informations du noeud
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-    
-    // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Changer d\'affectation plusieurs élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
     
     // DAO
     $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
@@ -4623,15 +4640,20 @@ class ActionGroupDefault extends CopixActionGroup {
                     
 	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
 	  $ppo->students = $studentDAO->getStudentsByClass ($ppo->nodeId);
-
+    
+    // Breadcrumbs
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Changer d\'affectation plusieurs élèves');
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+	  
+	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+	  
 	  return _arPPO ($ppo, 'change_students_affect.tpl');
 	}
 	
 	public function processValidateChangeStudentsAffect () {
 	  
 	  $ppo = new CopixPPO (); 
-	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
 	  
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('id_node', null);

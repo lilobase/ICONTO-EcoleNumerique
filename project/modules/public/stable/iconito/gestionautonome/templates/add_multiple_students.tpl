@@ -45,13 +45,14 @@
   jQuery.noConflict();
   
   jQuery(document).ready(function(){
- 	
+ 	  
  	  jQuery('.button').button();
  	  
  	  jQuery("#liste").resizable({
-    			minHeight: 200,
-          minWidth: 500,
-          maxWidth: 650
+    	
+    	minHeight: 200,
+      minWidth: 500,
+      maxWidth: 650
     });
   
     jQuery('#cancel').click(function() {
@@ -60,17 +61,15 @@
     });
   
     jQuery('#students-data').click(function(){
-    
-      jQuery('#liste').empty();
-      jQuery('#liste').html('BERANGER,Kevin,M\nGEORGES,Arthur,M\nGAGERE,Emma,F,15/12/2000\nZEBULON,Jean-Luc,F');
       
+      jQuery('#liste').val('BERANGER,Kevin,M\nGEORGES,Arthur,M\nGAGERE,Emma,F,15/12/2000\nZEBULON,Jean-Luc,F');
+  
       return false;
     });
   
     jQuery('#students-and-persons-data').click(function(){
     
-      jQuery('#liste').empty();
-      jQuery('#liste').html('BERANGER,Kevin,M,,BERANGER,Richard,M,PERE\nGEORGES,Arthur,M,,GEORGES,Sylvette,F,MERE,GEORGES,Antoine,M,PERE\nGAGERE,Emma,F,15/12/2000,GAGERE,Rene,M,PERE,GAGERE,Sylvie,F,MERE\nZEBULON,Jean-Luc,F,,ZEBULON,William,M,PERE,ZEBULON,Natacha,F,MERE');
+      jQuery('#liste').val('BERANGER,Kevin,M,,BERANGER,Richard,M,PERE\nGEORGES,Arthur,M,,GEORGES,Sylvette,F,MERE,GEORGES,Antoine,M,PERE\nGAGERE,Emma,F,15/12/2000,GAGERE,Rene,M,PERE,GAGERE,Sylvie,F,MERE\nZEBULON,Jean-Luc,F,,ZEBULON,William,M,PERE,ZEBULON,Natacha,F,MERE');
     
       return false;
     });
