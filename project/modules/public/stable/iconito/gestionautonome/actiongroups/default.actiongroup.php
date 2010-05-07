@@ -3084,13 +3084,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $studentId  = _request ('studentId', null);
 	  $nodeId     = _request ('nodeId', null);
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$nodeId.'|person_in_charge|update@gestionautonome');
-	  
 	  if (is_null ($personId) || is_null ($studentId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$nodeId.'|person_in_charge|update@gestionautonome');
 	  
 	  // Suppression de l'affectation du responsable
 	  $personInChargeLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
@@ -3105,6 +3105,9 @@ class ActionGroupDefault extends CopixActionGroup {
     return _arPPO ($ppo, array ('template' => '_persons_in_charge.tpl', 'mainTemplate' => null));
 	}
 	
+	/**
+	 * AJAX - Suppression d'un responsable d'un élève
+	 */
 	public function processDeletePersonInCharge () {
 	  
 	  $ppo = new CopixPPO ();
@@ -3113,20 +3116,22 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $studentId  = _request ('studentId', null);
 	  $nodeId     = _request ('nodeId', null); 
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$nodeId.'|person_in_charge|delete@gestionautonome');
-	  
 	  if (is_null ($personId) || is_null ($studentId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
+	  _currentUser()->assertCredential('module:classroom|'.$nodeId.'|person_in_charge|delete@gestionautonome');
+	  
 	  $personsInChargeDAO = _ioDAO ('kernel|kernel_bu_res');
     $personInChargeLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
 	  
+	  /**
+	   * TODO
+	   */
 	  // Récupération des affectations du responsable
 	  $assignments = $personInChargeLinkDAO->getByPerson ($personId);
-	  
 	  foreach ($assignments as $assignment) {
 	    
 	    $personInChargeLinkDAO->delete ($assignment->res2ele_id_rel);
@@ -3247,8 +3252,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	public function processManageGrades () {
 	  
 	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
 	                                        
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
@@ -3260,21 +3263,23 @@ class ActionGroupDefault extends CopixActionGroup {
     $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $ppo->grades = $gradesDAO->findAll ();
 	  
+	  $ppo->TITLE_PAGE = 'Gestion des années scolaires';
+	  
 	  return _arPPO ($ppo, 'manage_grades.tpl');
 	}
 	
 	public function processCreateGrade () {
 	  
 	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
-	  
+
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires', 'url' => CopixUrl::get('gestionautonome||manageGrades'));
 	  $breadcrumbs[] = array('txt' => 'Ajout d\'une année scolaire');
 	  
 	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+	  
+	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|gradesManagementTitle');
 	  
 	  return _arPPO ($ppo, 'create_grade.tpl');
 	}
@@ -3283,35 +3288,26 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
-	  
-	  // Breadcrumbs
-	  $breadcrumbs   = array();
-	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires', 'url' => CopixUrl::get('gestionautonome||manageGrades'));
-	  $breadcrumbs[] = array('txt' => 'Ajout d\'une année scolaire');
-	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
-	  
-	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  
-	  $ppo->grade = _record ('kernel_bu_annee_scolaire');
-
-    $dateDebut                  = _request ('dateDebut', null);
-    $dateFin                    = _request ('dateFin', null);
-                                                            
+    $dateDebut = _request ('dateDebut', null);
+    $dateFin   = _request ('dateFin', null);
+                               
+    $ppo->grade = _record ('kernel_bu_annee_scolaire');
+    
     $ppo->grade->id_as          = substr($dateDebut, 6, 10);
 	  $ppo->grade->annee_scolaire = substr($dateDebut, 6, 10).'-'.substr($dateFin, 6, 10);
 	  $ppo->grade->dateDebut      = CopixDateTime::dateToyyyymmdd($dateDebut);
 	  $ppo->grade->dateFin        = CopixDateTime::dateToyyyymmdd($dateFin);
-	  if (_request ('current', null) == 'on') {
+
+    $current = _request ('current', null);
+    if ($current == 'on') {
       
       $ppo->grade->current = 1;
-    }                    
+    }
     else {
       
       $ppo->grade->current = 0;
     }
-	  
+
     if (!$ppo->grade->dateDebut) {
       
       $ppo->errors[] = 'Saisissez une date de début';
@@ -3320,59 +3316,71 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = 'Saisissez une date de fin';
     }
-    if ($gradesDAO->get ($ppo->grade->id_as)) {
+    
+    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
+    if ($gradeDAO->get ($ppo->grade->id_as)) {
       
       $ppo->errors[] = 'Cette année scolaire existe déjà';
     }
-    
+
     if (!empty ($ppo->errors)) {
       
-      $ppo->grade->dateDebut    = CopixDateTime::yyyymmddToDate($ppo->grade->dateDebut);
-  	  $ppo->grade->dateFin      = CopixDateTime::yyyymmddToDate($ppo->grade->dateFin);
+      $ppo->grade->dateDebut = CopixDateTime::yyyymmddToDate($ppo->grade->dateDebut);
+  	  $ppo->grade->dateFin   = CopixDateTime::yyyymmddToDate($ppo->grade->dateFin);
+  	  
+  	  // Breadcrumbs
+  	  $breadcrumbs   = array();
+  	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires', 'url' => CopixUrl::get('gestionautonome||manageGrades'));
+  	  $breadcrumbs[] = array('txt' => 'Ajout d\'une année scolaire');
+
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
   	  
       return _arPPO ($ppo, 'create_grade.tpl');
     }
-    
+
     if ($ppo->grade->current == 1) {
       
       $currentGrade = Kernel::getAnneeScolaireCourante ();
-      $currentGrade->current = 0;
+      if (!is_null ($currentGrade)) {
+        
+        $currentGrade->dateDebut = str_replace($currentGrade->dateDebut, '-', '');
+    	  $currentGrade->dateFin = str_replace($currentGrade->dateFin, '-', '');
+        $currentGrade->current = 0;
+        
+        $gradeDAO->update ($currentGrade); 
+      }
     }
     
     $gradeDAO->insert ($ppo->grade); 
-    
-    // Récupérations des années scolaires
-    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  $ppo->grades = $gradeDAO->findAll ();
 
-	  return _arPPO ($ppo, 'manage_grades.tpl');
+    return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
 	}
 	
 	public function processSetCurrentGrade () {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
-	  
 	  $gradeId = _request ('gradeId', null);
-	  
-	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  $grades = $gradeDAO->findAll ();
-	  
-	  foreach ($grades as $grade) {
+	  if (!is_null($gradeId)) {
 	    
-	    $grade->current = 0;
-	    $gradeDAO->update ($grade);
+	    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	    while ($currentGrade = Kernel::getAnneeScolaireCourante ()) {
+	      
+	      $currentGrade->dateDebut = str_replace($currentGrade->dateDebut, '-', '');
+    	  $currentGrade->dateFin = str_replace($currentGrade->dateFin, '-', '');
+        $currentGrade->current = 0;
+        
+        $gradeDAO->update ($currentGrade);
+	    }
+
+  	  if ($grade = $gradeDAO->get ($gradeId)) {
+
+  	    $grade->current = 1;
+    	  $gradeDAO->update ($grade);
+  	  }
 	  }
-	  
-	  $newCurrentGrade = $gradeDAO->get ($gradeId);
-	  $newCurrentGrade->current = 1;
-	  $gradeDAO->update ($newCurrentGrade);
-	  
-	  // Récupérations des années scolaires
-	  $ppo->grades = $gradeDAO->findAll ();
-	  
-	  return _arPPO ($ppo, 'manage_grades.tpl');
+
+	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
 	}
 	
 	public function processUpdateGrade () {
