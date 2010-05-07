@@ -74,11 +74,11 @@ class DAOKernel_bu_ele {
       JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve) 
       JOIN dbuser U ON (U.id_dbuser=LI.user_id)
       JOIN kernel_bu_eleve_admission EAD ON (EAD.eleve=E.idEleve)
-      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve)      
       JOIN kernel_bu_ecole ECO ON (ECO.numero=EAD.etablissement)
       JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville)
       JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville)
-      JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
+      JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)
+      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id)';
 
     // Eleves sans affectation
     if (!isset ($filters['withAssignment'])) {
