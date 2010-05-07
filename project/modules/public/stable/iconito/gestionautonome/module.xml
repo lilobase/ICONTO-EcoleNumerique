@@ -5,6 +5,10 @@
 		<package name="copixdivers" version="2.2" />
 	</general>
 	
+	<parameters>
+		<parameter name="moduleTitle" caption="Titre des pages du module" default="Gestion de la structure scolaire" />
+	</parameters>
+	
 	<grouphandlers>
 		<grouphandler name='iconitogrouphandler' />
 	</grouphandlers>

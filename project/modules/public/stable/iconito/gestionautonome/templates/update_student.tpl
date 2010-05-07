@@ -51,7 +51,7 @@
     
     <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
     
-    <div class="field" id="new-password" style="display: none">
+    <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
       <label for="password" class="form_libelle"> Mot de passe :</label>
       <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
     </div>
