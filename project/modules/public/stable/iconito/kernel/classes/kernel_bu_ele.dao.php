@@ -78,20 +78,13 @@ class DAOKernel_bu_ele {
       JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville)
       JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville)
       JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)
-      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id)';
+      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id)
+      WHERE LI.bu_type="USER_ELE"';
 
     // Eleves sans affectation
-    if (!isset ($filters['withAssignment'])) {
-           
-      // $sql .= ' JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.current=1)';
-      // $sql .= ' WHERE EA.id IS NULL';       
+    if (isset ($filters['withAssignment'])) {
       
-      //$sql .= ' AND (SELECT kernel_bu_eleve_admission.etat_eleve FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve AND kernel_bu_eleve_admission.annee_scol='.$filters['grade'].' GROUP BY etablissement HAVING MAX(kernel_bu_eleve_admission.numero)) = 3';
-    }
-    // Eleves avec affectation(s)
-    else {
-      
-      $sql .= ' WHERE EA.current = 1';
+      $sql .= ' AND EA.current = 1';
     }
     
 	  if (isset ($filters['class'])) {
@@ -120,11 +113,16 @@ class DAOKernel_bu_ele {
 	    $sql .= ' AND E.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
 	  }
   
-	  $sql .= ' AND LI.bu_type="USER_ELE"';
     // $sql .= ' AND E.idEleve NOT IN (SELECT eleve FROM kernel_bu_eleve_affectation WHERE classe='.$reference.' AND current=1)';   
     $sql .= ' GROUP BY E.idEleve';
+
+    if (!isset ($filters['withAssignment'])) {
+    
+      $sql .= ' HAVING SUM(EA.current) = 0';
+    }
+    
     $sql .= ' ORDER BY E.nom, E.prenom1';
-    var_dump($sql);
+
     return _doQuery($sql);
   }
   
