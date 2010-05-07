@@ -1958,6 +1958,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $personnelDAO = _ioDAO ('kernel|kernel_bu_personnel');
 	  $personnelDAO->delete ($personnelId);
 
+    /**
+     * TODO suppression de l'utilisateur lié et refactoring de la suppression des entités
+     */
 	  $personnelLinkDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
 	  $links = $personnelLinkDAO->getById ($personnelId);
 	  
@@ -1977,6 +1980,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
 	}
 	
+	/**
+	 * Création des étudiants
+	 */
 	public function processCreateStudent () {
 	  
 	  $ppo = new CopixPPO ();                                       
@@ -1986,27 +1992,34 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeId   = _request ('parentId', null);
 	  $ppo->nodeType = _request ('parentType', null);
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
-	  
 	  // Récupération des paramètres
-	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || $ppo->nodeType != 'BU_CLASSE') {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroom = $classroomDAO->get ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
+
 	  // Remise à zéro des sessions tmp
-	  _sessionSet ('modules|gestionautonome|tmpAccount', array ());
+	  _sessionSet ('modules|gestionautonome|tmpAccount', array ()); // Pour responsable
 	  _sessionSet ('modules|gestionautonome|createAccount', array ());
     
     // Récupération des niveaux de la classe
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-    $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
-    
     $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
     
     $ppo->levelNames = array ();
     $ppo->levelIds   = array ();
+    
+    $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
     
     foreach ($classSchoolLevels as $classSchoolLevel) {
       
@@ -2020,12 +2033,13 @@ class ActionGroupDefault extends CopixActionGroup {
     
     // Compteur responsable
     $ppo->cpt = 1;
-
-	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-
-	  // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Création d\'un élève');
+    
+    // Breadcrumbs
+	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
+	  
+	  $breadcrumbs   = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[] = array('txt' => 'Création d\'un élève');
+	  
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
 	  
 		return _arPPO ($ppo, 'create_student.tpl');
@@ -2042,47 +2056,39 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->nodeType = _request ('type_parent', null);
 	  $ppo->level    = _request ('level', null);
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
-	  
-	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
+	  // Récupération des paramètres
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || $ppo->nodeType != 'BU_CLASSE') {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	  
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroom = $classroomDAO->get ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
 
 		_classInclude ('kernel|Tools');
-		
-    $studentDAO              = _ioDAO ('kernel_bu_eleve');
-    $studentRegistrationDAO  = _ioDAO ('kernel|kernel_bu_eleve_inscription');
-    $studentAdmissionDAO     = _ioDAO ('kernel_bu_eleve_admission');
-    $studentAssignmentDAO    = _ioDAO ('kernel_bu_eleve_affectation');
-    $dbuserDAO               = _ioDAO ('kernel|kernel_copixuser'); 
-    $dbLinkDAO               = _ioDAO ('kernel_link_bu2user');
-    $classDAO                = _ioDAO ('kernel|kernel_bu_ecole_classe');
-    $schoolClassLevelDAO     = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');    
         
     // Création de l'élève
     $ppo->student = _record ('kernel_bu_eleve');
                             
-    $ppo->student->numero       = '';                        
-    $ppo->student->nom          = trim (_request ('student_lastname', null));
-    $ppo->student->prenom1      = trim (_request ('student_firstname', null));
-    $ppo->student->id_sexe      = _request ('gender', null);
-    $ppo->student->date_nais    = CopixDateTime::dateToyyyymmdd(_request ('student_birthdate', null));
-    $ppo->student->flag         = 0;
+    $ppo->student->numero          = '';                        
+    $ppo->student->nom             = trim (_request ('student_lastname', null));
+    $ppo->student->prenom1         = trim (_request ('student_firstname', null));
+    $ppo->student->id_sexe         = _request ('gender', null);
+    $ppo->student->date_nais       = CopixDateTime::dateToyyyymmdd(_request ('student_birthdate', null));
+    $ppo->student->flag            = 0;
     $ppo->student->ele_last_update = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
     
-    $ppo->login                 = _request ('student_login', null);
-    $ppo->password              = _request ('student_password', null); 
+    $ppo->login    = _request ('student_login', null);
+    $ppo->password = _request ('student_password', null); 
     
-    $ppo->resp_on               = _request ('person_in_charge', null);
-    
-    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-    
-    // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Création d\'un élève');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+    $ppo->resp_on = _request ('person_in_charge', null);
     
     // Traitement des erreurs
     $ppo->errors = array ();
@@ -2137,14 +2143,24 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->genderNames = array ('Garçon', 'Fille');
       $ppo->genderIds = array ('0', '1');
   	   
-      $ppo->student->date_nais    = _request('student_birthdate', null);
+      $ppo->student->date_nais = _request('student_birthdate', null);
       
+      // Breadcrumbs
+      $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
+      
+  	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+  	  $breadcrumbs[]    = array('txt' => 'Création d\'un élève');
+  	  
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  
       return _arPPO ($ppo, 'create_student.tpl');
     }
 
+    $studentDAO = _ioDAO ('kernel_bu_eleve');
     $studentDAO->insert ($ppo->student);
     
     // Création du compte dbuser
+    $dbuserDAO = _ioDAO ('kernel|kernel_copixuser'); 
     $dbuser = _record ('kernel|kernel_copixuser');
 
     $dbuser->login_dbuser    = $ppo->login;
@@ -2155,6 +2171,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $dbuserDAO->insert ($dbuser);
     
     // Création du link bu2user
+    $dbLinkDAO = _ioDAO ('kernel_link_bu2user');
     $dbLink = _record ('kernel_link_bu2user');
 
     $dbLink->user_id = $dbuser->id_dbuser;
@@ -2164,7 +2181,9 @@ class ActionGroupDefault extends CopixActionGroup {
     $dbLinkDAO->insert ($dbLink);
                  
     // Récupération des données nécessaires à l'ajout des enregistrements inscription / adhésion / admission
-    $class = $classDAO->get ($ppo->nodeId); 
+    $class = $classroomDAO->get ($ppo->nodeId);
+    
+    $schoolClassLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
     $schoolClassLevels = $schoolClassLevelDAO->getByClass ($class->id);
     $classType = $schoolClassLevels[0]->type;
     $schoolId = $class->ecole;
@@ -2176,6 +2195,7 @@ class ActionGroupDefault extends CopixActionGroup {
     }
     
     // Inscription de l'élève dans l'école
+    $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
     $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');
     
     $studentRegistration->eleve                   = $ppo->student->idEleve;
@@ -2197,6 +2217,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $studentRegistrationDAO->insert ($studentRegistration);
 
     // Admission de l'élève dans l'école
+    $studentAdmissionDAO = _ioDAO ('kernel_bu_eleve_admission');
     $studentAdmission = _record ('kernel_bu_eleve_admission');
     
     $studentAdmission->eleve          = $ppo->student->idEleve;
@@ -2211,7 +2232,8 @@ class ActionGroupDefault extends CopixActionGroup {
     
     $studentAdmissionDAO->insert ($studentAdmission);
     
-    // Affectation de l'élève dans les classes
+    // Affectation de l'élève dans les classes  
+    $studentAssignmentDAO = _ioDAO ('kernel_bu_eleve_affectation');
     $studentAssignment = _record ('kernel_bu_eleve_affectation');
     
     $studentAssignment->eleve           = $ppo->student->idEleve;
@@ -2246,12 +2268,12 @@ class ActionGroupDefault extends CopixActionGroup {
 			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
 		);
 		                                                                      
-		// Récupérations des infos temporaires en session et ajout aux sessions
+		// Récupérations des infos temporaires en session et ajout aux sessions => Ajouter via ajax
 		$tmpSession = _sessionGet ('modules|gestionautonome|tmpAccount');                                                                
 		if ($tmpSession && is_array ($tmpSession) && !empty ($tmpSession)) {
 		  
-		  $personDAO       = _ioDAO ('kernel_bu_responsable');
-      $personLinkDAO   = _ioDAO ('kernel_bu_responsables');
+		  $personDAO     = _ioDAO ('kernel_bu_responsable');
+      $personLinkDAO = _ioDAO ('kernel_bu_responsables');
       
 		  if ($personSessions = $tmpSession) {
 		    
@@ -2327,14 +2349,10 @@ class ActionGroupDefault extends CopixActionGroup {
 		// Remise à zéro des sessions tmp
 		_sessionSet ('modules|gestionautonome|tmpAccount', array ());
 		
-		$sessionId = $type_user.'-'.$ppo->student->idEleve;
-		
 		// Mise en session du noeud courant
 		_sessionSet ('current', array('node_type' => $ppo->nodeType, 'node_id' => $ppo->nodeId));
-
-		$urlReturn = CopixUrl::get ('gestionautonome||showAccountListing');
 		
-		return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
+		return _arRedirect (CopixUrl::get ('gestionautonome||showAccountListing'));
 	}
 	
 	public function processUpdateStudent () {
