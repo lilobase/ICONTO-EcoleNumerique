@@ -367,6 +367,24 @@ class DAOKernel_bu_personnel {
 	          
 	  return _doQuery($sql);
 	}
+	
+	/**
+	 * Retourne une personne via son id et son type
+	 *                                             
+	 * @param integer   $id   Identifiant de la personne
+	 * @param string    $type Type de la personne
+	 *
+	 * return CopixDAORecordIterator
+	 */
+	function getByIdAndType ($id, $type) {
+	  
+	  $sql = $this->_selectQuery
+      . ' JOIN kernel_link_bu2user LI ON (LI.bu_id=kernel_bu_personnel.numero)'
+      . ' WHERE LI.bu_id=:id'
+      . ' AND LI.bu_type=:type';
+
+    return new CopixDAORecordIterator (_doQuery ($sql, array (':id' => $id, 'type' => $type)), $this->getDAOId ());
+	}
 
 }
 
