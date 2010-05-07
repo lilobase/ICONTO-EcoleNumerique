@@ -51,19 +51,20 @@
   jQuery(document).ready(function(){
  	
  	  jQuery('.button').button();
-  });
   
-  jQuery('#back').click(function() {
+  
+    jQuery('#back').click(function() {
     
-    if ({/literal}'{$ppo->sessionDatas[0].bu_type}'{literal} == 'USER_ENS') {
+      if ({/literal}'{$ppo->sessionDatas[0].bu_type}'{literal} == 'USER_ENS') {
       
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1}'{literal};
-    }
-    else {
+        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1}'{literal};
+      }
+      else {
       
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    }
-  });
+        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+      }
+    });
+  }); 
 //]]> 
 </script>
 {/literal}

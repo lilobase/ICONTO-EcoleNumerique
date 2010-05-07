@@ -53,13 +53,13 @@
     });   
     
     jQuery('.button').button();
-  });
-  
-  jQuery('#cancel').click(function() {
     
-    document.location.href={/literal}'{copixurl dest=gestionautonome||manageGrades}'{literal};
+    jQuery('#cancel').click(function() {
+
+      document.location.href={/literal}'{copixurl dest=gestionautonome||manageGrades}'{literal};
+    });
   });
-  
+
 //]]> 
 </script>
 {/literal}

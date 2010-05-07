@@ -46,11 +46,11 @@
   jQuery(document).ready(function(){
  	
  	  jQuery('.button').button();
-  });
-  
-  jQuery('#cancel').click(function() {
-    
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+ 	  
+ 	  jQuery('#cancel').click(function() {
+
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+    });
   });
 //]]> 
 </script>

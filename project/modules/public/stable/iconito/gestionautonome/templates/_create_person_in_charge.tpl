@@ -145,6 +145,8 @@
           jQuery("#login").val(html);
         }
       });
+      
+      return false;
     });
 
     jQuery('#generate-password').click(function() {
@@ -160,6 +162,8 @@
           jQuery("#password").val(html);
         }
       });
+      
+      return false;
     });
   });
 //]]> 

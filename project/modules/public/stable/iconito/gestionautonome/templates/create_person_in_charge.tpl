@@ -100,42 +100,46 @@
   jQuery(document).ready(function(){
  	
  	  jQuery('.button').button();
-  });
-   
-  jQuery('#cancel').click(function() {
-    
-    document.location.href={/literal}'{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->ele_idEleve notxml=true}'{literal};
-  });
-  
-  jQuery('#generate-login').click(function() {
-    
-    var lastname = jQuery('#nom').val();
-    var firstname = jQuery('#prenom1').val();
-    var nodeType = 'USER_RES';   
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|generateLogin}'{literal},
-      global: true,
-      type: "GET",
-      data: ({lastname: lastname, firstname: firstname, type: nodeType}),
-      success: function(html){
-        jQuery('#login').empty();
-        jQuery("#login").val(html);
-      }
-    }).responseText;
-  });
-  
-  jQuery('#generate-password').click(function() {
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
-      global: true,
-      type: "GET",
-      success: function(html){
-        jQuery('#password').empty();
-        jQuery("#password").val(html);
-      }
-    }).responseText;
+ 	  
+ 	  jQuery('#cancel').click(function() {
+
+      document.location.href={/literal}'{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->ele_idEleve notxml=true}'{literal};
+    });
+
+    jQuery('#generate-login').click(function() {
+
+      var lastname = jQuery('#nom').val();
+      var firstname = jQuery('#prenom1').val();
+      var nodeType = 'USER_RES';   
+
+      jQuery.ajax({
+        url: {/literal}'{copixurl dest=gestionautonome|default|generateLogin}'{literal},
+        global: true,
+        type: "GET",
+        data: ({lastname: lastname, firstname: firstname, type: nodeType}),
+        success: function(html){
+          jQuery('#login').empty();
+          jQuery("#login").val(html);
+        }
+      }).responseText;
+      
+      return false;
+    });
+
+    jQuery('#generate-password').click(function() {
+
+      jQuery.ajax({
+        url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
+        global: true,
+        type: "GET",
+        success: function(html){
+          jQuery('#password').empty();
+          jQuery("#password").val(html);
+        }
+      }).responseText;
+      
+      return false;
+    });
   });
 //]]> 
 </script>

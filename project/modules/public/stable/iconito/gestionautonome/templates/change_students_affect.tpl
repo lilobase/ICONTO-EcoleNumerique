@@ -74,21 +74,21 @@
   jQuery(document).ready(function(){
  	
  	  jQuery('.button').button();
-  });
-  
-  jQuery('#cancel').click(function() {
-    
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-  });
-  
-  jQuery('#allAffect').click(function () {
-    
-    var valeur = jQuery('[name|=allAffect] option:selected').val();
-    
-    jQuery('[name|=newAffects[]]').each(function () {
-      
-      jQuery(this).val(valeur);     
+ 	  
+ 	  jQuery('#cancel').click(function() {
 
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+    });
+
+    jQuery('#allAffect').click(function () {
+
+      var valeur = jQuery('[name|=allAffect] option:selected').val();
+
+      jQuery('[name|=newAffects[]]').each(function () {
+
+        jQuery(this).val(valeur);     
+
+      });
     });
   });
 //]]> 

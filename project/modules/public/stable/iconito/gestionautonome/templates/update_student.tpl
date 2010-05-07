@@ -81,29 +81,31 @@
       changeYear: true,
       yearRange: 'c-20:c+10'
     });
-  });
-  
-  jQuery('#cancel').click(function() {
     
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-  });
-  
-  jQuery('#new-password-link').click(function() {
+    jQuery('#cancel').click(function() {
 
-    jQuery('#new-password').show();
-  });
-  
-  jQuery('#generate-password').click(function() {
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
-      global: true,
-      type: "GET",
-      success: function(html){
-        jQuery('#password').empty();
-        jQuery("#password").val(html);
-      }
-    }).responseText;
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+    });
+
+    jQuery('#new-password-link').click(function() {
+
+      jQuery('#new-password').show();
+    });
+
+    jQuery('#generate-password').click(function() {
+
+      jQuery.ajax({
+        url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
+        global: true,
+        type: "GET",
+        success: function(html){
+          jQuery('#password').empty();
+          jQuery("#password").val(html);
+        }
+      }).responseText;
+      
+      return false;
+    });
   });
 //]]> 
 </script>

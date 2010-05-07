@@ -34,11 +34,11 @@
   jQuery(document).ready(function(){
  	
  	  jQuery('.button').button();
-  });
-  
-  jQuery('#back').click(function() {
+ 	  
+ 	  jQuery('#back').click(function() {
 
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+    });
   });
 //]]> 
 </script>

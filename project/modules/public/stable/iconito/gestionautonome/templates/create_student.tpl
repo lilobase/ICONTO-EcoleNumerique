@@ -102,54 +102,58 @@
       changeYear: true,
       yearRange: 'c-20:c+10'
     });
-  });
-  
-  jQuery('#cancel').click(function() {
     
-    document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-  });
-  
-  jQuery('#add-persons-in-charge').change(function() {
-    
-    if (jQuery('#add-persons-in-charge').is(':checked')) {
-      
-      jQuery('#persons-in-charge').show();
-    }
-    else {
-      
-      jQuery('#persons-in-charge').hide();
-    }
-  });
-  
-  jQuery('#student-generate-login').click(function() {
-    
-    var lastname = jQuery('#student_lastname').val();
-    var firstname = jQuery('#student_firstname').val(); 
-    var nodeType = 'USER_ELE';   
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|generateLogin}'{literal},
-      global: true,
-      type: "GET",
-      data: ({lastname: lastname, firstname: firstname, type: nodeType}),
-      success: function(html){
-        jQuery('#student_login').empty();
-        jQuery("#student_login").val(html);
+    jQuery('#cancel').click(function() {
+
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+    });
+
+    jQuery('#add-persons-in-charge').change(function() {
+
+      if (jQuery('#add-persons-in-charge').is(':checked')) {
+
+        jQuery('#persons-in-charge').show();
       }
-    }).responseText;
-  });
-  
-  jQuery('#student-generate-password').click(function() {
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
-      global: true,
-      type: "GET",
-      success: function(html){
-        jQuery('#student_password').empty();
-        jQuery("#student_password").val(html);
+      else {
+
+        jQuery('#persons-in-charge').hide();
       }
-    }).responseText;
+    });
+
+    jQuery('#student-generate-login').click(function() {
+
+      var lastname = jQuery('#student_lastname').val();
+      var firstname = jQuery('#student_firstname').val(); 
+      var nodeType = 'USER_ELE';   
+
+      jQuery.ajax({
+        url: {/literal}'{copixurl dest=gestionautonome|default|generateLogin}'{literal},
+        global: true,
+        type: "GET",
+        data: ({lastname: lastname, firstname: firstname, type: nodeType}),
+        success: function(html){
+          jQuery('#student_login').empty();
+          jQuery("#student_login").val(html);
+        }
+      }).responseText;
+      
+      return false;
+    });
+
+    jQuery('#student-generate-password').click(function() {
+
+      jQuery.ajax({
+        url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
+        global: true,
+        type: "GET",
+        success: function(html){
+          jQuery('#student_password').empty();
+          jQuery("#student_password").val(html);
+        }
+      }).responseText;
+      
+      return false;
+    });
   });
 //]]> 
 </script>
