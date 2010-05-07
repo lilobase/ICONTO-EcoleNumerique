@@ -1,8 +1,10 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
 <h2>Ajout d'un responsable</h2>
 
 <p>Ce formulaire vous permet d'ajouter un responsable d'un élève.</p>
 
-<h3>Eleve</h3>
+<h3>Elève</h3>
 
 <div class="field">
   <label class="form_libelle"> Nom :</label>
