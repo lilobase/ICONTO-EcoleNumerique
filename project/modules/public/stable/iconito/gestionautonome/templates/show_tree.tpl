@@ -11,13 +11,11 @@
   <h4>POSITIONNEZ-VOUS DANS LA STRUCTURE</h4>
   
   <div class="field">
-    {if $ppo->user->testCredential('group:[Admin]')}
-      <label for="grade" class="form_libelle"> Année scolaire :</label>
-      <select class="form" name="grade" id="grade">
-        {html_options values=$ppo->gradesIds output=$ppo->gradesNames selected=$ppo->grade}
-      </select>
-      <br />
-    {/if}
+    <label for="grade" class="form_libelle"> Année scolaire :</label>
+    <select class="form" name="grade" id="grade">
+      {html_options values=$ppo->gradesIds output=$ppo->gradesNames selected=$ppo->grade}
+    </select>
+    <br />
     <form name="search_form" id="search-form">
       <label for="search-input" class="form_libelle">Recherche par nom :</label>
       <input type="text" class="form" name="search" value="" id="search-input" />

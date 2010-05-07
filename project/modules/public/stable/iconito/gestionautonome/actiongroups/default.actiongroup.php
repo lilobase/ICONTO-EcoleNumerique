@@ -1680,7 +1680,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  // Récupération des informations des comptes créés
 	  $ppo->sessionDatas = _sessionGet ('modules|gestionautonome|createAccount'); 
-
+    
+    $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    		
     // Récupération du format de sortie demandé
 	  if( !_request ('format') || trim (_request ('format')) == '' ) {
 	    

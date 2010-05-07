@@ -1,5 +1,5 @@
 {if $ppo->parent.nom}
-  <h4>Personnes dans : {$ppo->parent.nom}</h4>
+  <h4>PERSONNES DANS : {$ppo->parent.nom}</h4>
 
   {if $ppo->type eq 'BU_CLASSE'}
   
