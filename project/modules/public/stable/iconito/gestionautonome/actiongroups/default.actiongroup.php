@@ -346,8 +346,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->parentId    = _request ('nodeId', null);
 	  $ppo->parentType  = _request ('nodeType', null);
 	  
-	  _currentUser()->assertCredential('module:cities_group|'.$ppo->parentId.'|city|create@gestionautonome');
-	  
 	  // La création d'une ville n'est possible qu'à partir d'un groupe de ville
 	  if (is_null ($ppo->parentId) || is_null ($ppo->parentType) || $ppo->parentType != 'BU_GRVILLE') {
 	    
@@ -355,6 +353,8 @@ class ActionGroupDefault extends CopixActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
+	  _currentUser()->assertCredential('module:cities_group|'.$ppo->parentId.'|city|create@gestionautonome');
+
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
@@ -381,24 +381,17 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->parentId    = _request ('id_parent', null);
 	  $ppo->parentType  = _request ('type_parent', null);
 	  
-	  _currentUser()->assertCredential('module:cities_group|'.$ppo->parentId.'|city|create@gestionautonome');
-	  
 	  if (is_null ($ppo->parentId) || is_null ($ppo->parentType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
-	  // DAO
-	  $cityDAO   = _ioDAO ('kernel|kernel_bu_ville');
+	  _currentUser()->assertCredential('module:cities_group|'.$ppo->parentId.'|city|create@gestionautonome');
 	  
-    // Breadcrumbs
-	  $breadcrumbs   = array();
-	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
-	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
-
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");    
-    
+	  // DAO
+	  $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
+	  
     // Récupération des paramètres
     $cityName  = _request ('nom', null); 
     $ppo->city = _record ('kernel|kernel_bu_ville');
@@ -422,6 +415,13 @@ class ActionGroupDefault extends CopixActionGroup {
     
     if (!empty ($ppo->errors)) {
       
+      // Breadcrumbs
+  	  $breadcrumbs   = array();
+  	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
+  	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
+
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+  	  
       return _arPPO ($ppo, 'create_city.tpl');
     }
       
