@@ -2872,30 +2872,45 @@ class ActionGroupDefault extends CopixActionGroup {
 	public function processUpdatePersonInCharge () {
 	  
 	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion de la structure scolaire";
-	  
+
 	  // Récupération des paramètres
 	  $ppo->nodeId   = _request ('nodeId', null);
 	  $ppo->nodeType = _request ('nodeType', null);
 	  $studentId     = _request ('studentId', null);
 	  $personId      = _request ('personId', null);
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|update@gestionautonome');
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId) || is_null ($personId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
 	  
-	  $personDAO     = _ioDAO ('kernel_bu_responsable');
-	  $dbuserDAO     = _ioDAO ('kernel|kernel_copixuser');
+	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+	  if (!$ppo->student = $studentDAO->get ($studentId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
 	  
-	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId) || !$ppo->person = $personDAO->get ($personId)) {
+	  $personDAO = _ioDAO ('kernel_bu_responsable');
+	  if (!$ppo->person = $personDAO->get ($personId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 
-	  // Récupération de l'élève
-	  $studentDAO   = _ioDAO ('kernel|kernel_bu_ele');
-	  $ppo->student = $studentDAO->get ($studentId);
-
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroom = $classroomDAO->get ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|update@gestionautonome');
+	  
+	  $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
+	  
+	  // Récupération du compte du élève
 	  $ppo->student_account = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
 	  
 	  // Récupération du compte du responsable
@@ -2907,7 +2922,6 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo->linkNames = array ();
 	  $ppo->linkIds   = array ();
-	  
 	  foreach ($parentLinks as $parentLink) {
 
       $ppo->linkNames[] = $parentLink->parente;
@@ -2918,9 +2932,20 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->genderIds = array ('0', '1');
     
     // Récupération du lien responsable-élève
-    $res2eleDAO   = _ioDAO ('kernel|kernel_bu_res2ele');
+    $res2eleDAO = _ioDAO ('kernel|kernel_bu_res2ele');
     $ppo->res2ele = $res2eleDAO->getByPersonAndStudent ($personId, $studentId); 
+    
+    // Breadcrumbs
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+	  
+	  $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[] = array('txt' => $ppo->student->ele_nom.' '.$ppo->student->ele_prenom1, 'url' => CopixUrl::get ('gestionautonome||updateStudent', array('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'studentId' => $studentId)));
+    $breadcrumbs[] = array('txt' => 'Modification du responsable '.$ppo->person->nom.' '.$ppo->person->prenom1);
 
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  
+	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+	  
 		return _arPPO ($ppo, 'update_person_in_charge.tpl');
 	}
 	
@@ -2933,31 +2958,53 @@ class ActionGroupDefault extends CopixActionGroup {
 	  // Récupération des paramètres
 	  $ppo->nodeId    = _request ('id_node', null);
 	  $ppo->nodeType  = _request ('type_node', null);
-	  $ppo->studentId = _request ('id_student', null);
+	  $studentId      = _request ('id_student', null);
 	  $personId       = _request ('id_person', null);
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|update@gestionautonome');
-	  
-	  $personDAO      = _ioDAO ('kernel_bu_responsable');
-	  $dbuserDAO      = _ioDAO ('kernel|kernel_copixuser');
-	  
-	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($ppo->studentId) || !$ppo->person = $personDAO->get ($personId)) {
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId) || is_null ($personId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
+	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+	  if (!$ppo->student = $studentDAO->get ($studentId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  $personDAO = _ioDAO ('kernel_bu_responsable');
+	  if (!$ppo->person = $personDAO->get ($personId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroom = $classroomDAO->get ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|update@gestionautonome');
+    
+    $name = $ppo->person->nom.' '.$ppo->person->prenom1;
+    
 	  // Récupération du lien responsable-élève
     $res2eleDAO = _ioDAO ('kernel|kernel_bu_res2ele');
-    $ppo->res2ele = $res2eleDAO->getByPersonAndStudent ($personId, $ppo->studentId);
+    $ppo->res2ele = $res2eleDAO->getByPersonAndStudent ($personId, $studentId);
 
     $ppo->person->nom         = trim (_request ('nom', null));
     $ppo->person->prenom1     = trim (_request ('prenom1', null));
     $ppo->person->date_nais   = _request ('date_nais', null);
     $ppo->person->id_sexe     = _request ('gender', null);
     $res_id_par               = _request ('id_par', null);
+    $newPassword              = _request ('password', null);
     
     // Récupération du compte du responsable
+    $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
 	  $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($personId, 'USER_RES');
     
     // Traitement des erreurs
@@ -2971,13 +3018,13 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = 'Saisissez un prénom';
     }
+    if (!is_null ($newPassword) && !kernel::checkPasswordFormat ($newPassword)) {
+      
+      $ppo->errors['password_invalid'] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
+    }
     
     if (!empty ($ppo->errors)) {
       
-      // Récupération de l'élève
-  	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
-  	  $ppo->student = $studentDAO->get ($ppo->studentId);
-       
       $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
   	  $ppo->student_account = $dbuserDAO->getUserByBuIdAndBuType ($ppo->studentId, 'USER_ELE');
 
@@ -2987,7 +3034,6 @@ class ActionGroupDefault extends CopixActionGroup {
 
   	  $ppo->linkNames = array ();
   	  $ppo->linkIds   = array ();
-
   	  foreach ($parentLinks as $parentLink) {
 
         $ppo->linkNames[] = $parentLink->parente;
@@ -2996,7 +3042,18 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->genderNames = array ('Homme', 'Femme');
       $ppo->genderIds = array ('0', '1');
+      
+      // Breadcrumbs
+      $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
 
+  	  $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
+  	  $breadcrumbs[] = array('txt' => $ppo->student->ele_nom.' '.$ppo->student->ele_prenom1, 'url' => CopixUrl::get ('gestionautonome||updateStudent', array('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'studentId' => $studentId)));
+      $breadcrumbs[] = array('txt' => 'Modification du responsable '.$name);
+
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+
+  	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	  
       return _arPPO ($ppo, 'update_person_in_charge.tpl');
     }
     
@@ -3009,7 +3066,6 @@ class ActionGroupDefault extends CopixActionGroup {
     }
     
     // Modification du password dbuser si différent
-		$newPassword = _request ('password', null);
     if ($ppo->account->password_dbuser != md5 ($newPassword)) {
       
       $ppo->account->password_dbuser = md5 ($newPassword);

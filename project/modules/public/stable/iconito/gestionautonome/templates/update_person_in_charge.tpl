@@ -1,8 +1,10 @@
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+
 <h2>Modification d'un responsable</h2>
 
 <p>Ce formulaire vous permet de modifier le responsable d'un élève.</p>
 
-<h3>Eleve</h3>
+<h3>Elève</h3>
 
 <div class="field">
   <label for="student_name"> Nom :</label>
@@ -67,7 +69,7 @@
     
     <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
     
-    <div class="field" id="new-password" style="display: none">
+    <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
       <label for="password" class="form_libelle"> Mot de passe :</label>
       <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
     </div>
