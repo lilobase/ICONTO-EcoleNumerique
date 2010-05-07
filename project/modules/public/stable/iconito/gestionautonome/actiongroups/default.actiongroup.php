@@ -1473,8 +1473,9 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->roleName = $roleDAO->get ($ppo->role)->nom_role;
     
     // Breadcrumbs
-	  $breadcrumbs   = array();
-	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
+    
+    $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[] = array('txt' => 'Création d\'un '.$ppo->roleName);
 
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
@@ -1579,8 +1580,9 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->roleName    = $roleDAO->get ($ppo->role)->nom_role;
       
   	  // Breadcrumbs
-  	  $breadcrumbs   = array();
-  	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
+  	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
+
+      $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
   	  $breadcrumbs[] = array('txt' => 'Création d\'un '.$ppo->roleName);
 
   	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
@@ -1727,6 +1729,19 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $personnelId   = _request ('personnelId', null);
 	  $ppo->type     = _request ('type', null);
 
+    if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($personnelId) || is_null ($ppo->type)) {
+
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+	  $personnelDAO = _ioDAO ('kernel|kernel_bu_personnel');
+	  if (!$ppo->personnel = $personnelDAO->getByIdAndType ($personnelId, $ppo->type)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
 	  switch ($ppo->nodeType) {
 	    
 	    case 'BU_GRVILLE':
@@ -1751,33 +1766,23 @@ class ActionGroupDefault extends CopixActionGroup {
 	      break;
 	  }
 
-	  // DAO
-	  $personnelDAO  = _ioDAO ('kernel|kernel_bu_personnel');
-	  $dbuserDAO     = _ioDAO ('kernel|kernel_copixuser');
-	  $roleDAO       = _ioDAO ('kernel_bu_personnel_role');
-	  
-	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || !$ppo->personnel = $personnelDAO->get ($personnelId)) {
-	    
-	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }
-    
     $ppo->genderNames = array ('Homme', 'Femme');
     $ppo->genderIds = array ('0', '1');
     
     $ppo->personnel->pers_date_nais = CopixDateTime::yyyymmddToDate ($ppo->personnel->pers_date_nais);
     
-    $ppo->personName = $ppo->personnel->pers_nom.' '.$ppo->personnel->pers_prenom1;
-	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-
-	  // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => $ppo->personName.' ('.Kernel::Code2Name ($ppo->type).')');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
-	                                                                               
-	  // Récupération du compte dbuser
+    // Récupération du compte dbuser
+	  $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
 	  $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($personnelId, $ppo->type);
-
+    
+    // Breadcrumbs
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
+    
+    $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
+    $breadcrumbs[] = array('txt' => $ppo->personnel->pers_nom.' '.$ppo->personnel->pers_prenom1);
+    
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  
 		return _arPPO ($ppo, 'update_personnel.tpl');
 	}
 	
@@ -1793,6 +1798,19 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $personnelId   = _request ('id_personnel', null);
 	  $ppo->type     = _request ('type', null);
 	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($personnelId) || is_null ($ppo->type)) {
+
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+	  $personnelDAO = _ioDAO ('kernel|kernel_bu_personnel');
+	  if (!$ppo->personnel = $personnelDAO->getByIdAndType ($personnelId, $ppo->type)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
 	  switch ($ppo->nodeType) {
 	    
 	    case 'BU_GRVILLE':
@@ -1816,30 +1834,15 @@ class ActionGroupDefault extends CopixActionGroup {
 	      _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|teacher|update@gestionautonome');
 	      break;
 	  }
-	  
-	  $personnelDAO  = _ioDAO ('kernel|kernel_bu_personnel');
-	  $dbuserDAO     = _ioDAO ('kernel|kernel_copixuser');
-	  
-	  if (!$ppo->personnel = $personnelDAO->get ($personnelId)) {
-	    
-	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }
-	  
-	  $ppo->personName = $ppo->personnel->nom.' '.$ppo->personnel->prenom1;
-	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
 
-	  // Breadcrumbs
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => $ppo->personName.' ('.Kernel::Code2Name ($ppo->type).')');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");     
-
-    $ppo->personnel->pers_nom         = trim (_request ('nom', null));
-    $ppo->personnel->pers_prenom1     = trim (_request ('prenom1', null));
-    $ppo->personnel->pers_date_nais   = _request ('date_nais', null);
-    $ppo->personnel->pers_id_sexe     = _request ('gender', null);
-    $ppo->personnel->pers_date_nais   = CopixDateTime::dateToyyyymmdd (_request ('date_nais', null)); 
+    $ppo->personnel->pers_nom       = trim (_request ('nom', null));
+    $ppo->personnel->pers_prenom1   = trim (_request ('prenom1', null));
+    $ppo->personnel->pers_date_nais = _request ('date_nais', null);
+    $ppo->personnel->pers_id_sexe   = _request ('gender', null);
+    $ppo->personnel->pers_date_nais = CopixDateTime::dateToyyyymmdd (_request ('date_nais', null)); 
+    $newPassword                    = _request ('password', null);
     
+    $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
     $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($personnelId, $ppo->type);
    
     // Traitement des erreurs
@@ -1853,17 +1856,29 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->errors[] = 'Saisissez un prénom';
     }
-
+    if (!is_null ($newPassword) && !kernel::checkPasswordFormat ($newPassword)) {
+      
+      $ppo->errors['password_invalid'] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
+    }
+    
     if (!empty ($ppo->errors)) {
       
       $ppo->genderNames = array ('Homme', 'Femme');
       $ppo->genderIds = array ('0', '1'); 
       
-      $ppo->personnel->date_nais = _request ('date_nais', null);
+      $ppo->personnel->pers_date_nais = _request ('date_nais', null);
       
+      // Breadcrumbs
+      $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
+
+      $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
+      $breadcrumbs[] = array('txt' => $ppo->personnel->pers_nom.' '.$ppo->personnel->pers_prenom1);
+
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  
       return _arPPO ($ppo, 'update_personnel.tpl');
     }
-    
+
     $personnelDAO->update ($ppo->personnel);
         
     $newPassword = _request ('password', null);
@@ -1911,8 +1926,7 @@ class ActionGroupDefault extends CopixActionGroup {
       	break;
 		}
 	  
-	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite'); 
-
+	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
     if ($personEntity = $personEntityDAO->get ($personId, $ppo->nodeId, $type_ref)) {
 
       $personEntityDAO->delete ($personId, $ppo->nodeId, $type_ref);
