@@ -57,7 +57,7 @@
 {if not $ppo->error eq null}
 	<div class="message_erreur">
 	  <ul>
-		    <li>Ajouts en erreur</li><br \>
+		    <li>Les identifiants en erreur ont été remplacés.</li><br \>
 	  </ul>
 	</div>
 {/if}
