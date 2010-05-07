@@ -5,17 +5,17 @@
 <h3>Eleve</h3>
 
 <div class="field">
-  <label for="student_name"> Nom :</label>
+  <label class="form_libelle"> Nom :</label>
   <span>{$ppo->student->ele_nom}</span>
 </div>
 
 <div class="field">
-  <label for="student_firstname"> Prénom :</label>
+  <label class="form_libelle"> Prénom :</label>
   <span>{$ppo->student->ele_prenom1}</span>
 </div>
 
 <div class="field">
-  <label for="student_login"> Login :</label>
+  <label class="form_libelle"> Login :</label>
   <span>{$ppo->studentAccount->login_dbuser}</span>
 </div>
 
