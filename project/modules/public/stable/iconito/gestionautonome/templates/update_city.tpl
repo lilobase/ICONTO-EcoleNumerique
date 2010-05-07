@@ -17,7 +17,6 @@
 <form name="city_update" id="city_update" action="{copixurl dest="|validateCityUpdate"}" method="POST" enctype="multipart/form-data">
   <fieldset>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
-    <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
     
     <label class="form_libelle"> Nom :</label>
     <input class="form" type="text" name="name" id="name" value="{$ppo->city->nom}" />

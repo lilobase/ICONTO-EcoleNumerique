@@ -17,7 +17,6 @@
 <form name="class_update" id="class_update" action="{copixurl dest="|validateClassUpdate"}" method="POST" enctype="multipart/form-data">
   <fieldset>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
-    <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
 
     <div class="field">
       <label for="name" class="form_libelle"> Nom :</label>
