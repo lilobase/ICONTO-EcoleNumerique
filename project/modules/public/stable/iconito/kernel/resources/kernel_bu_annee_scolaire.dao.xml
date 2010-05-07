@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_bu_annee_scolaire" tablename="kernel_bu_annee_scolaire" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id_as" fieldname="id_as" type="integer" table="kernel_bu_annee_scolaire" pk="true" />
+		<property name="anneeScolaire" fieldname="annee_scolaire" type="string" table="kernel_bu_annee_scolaire" />
+		<property name="dateDebut" fieldname="dateDebut" type="string" table="kernel_bu_annee_scolaire" />
+		<property name="dateFin" fieldname="dateFin" type="string" table="kernel_bu_annee_scolaire" />
+		<property name="current" fieldname="current" type="integer" table="kernel_bu_annee_scolaire" />
+	</properties>
+</daodefinition>

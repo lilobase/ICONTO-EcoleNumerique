@@ -1,5 +1,3 @@
-<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
-
 <h2>Gestion des années scolaires</h2>
 
 {if $ppo->grades neq null}
@@ -21,7 +19,6 @@
         <td>{if $grade->current eq '1'}Oui{/if}</td>
         <td>
           {if $grade->current neq 1}<a href="{copixurl dest="gestionautonome||setCurrentGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/icon_tick.gif"}" title="Indiquer comme l'année courante" /></a>{else}<img src="{copixresource path="../gestionautonome/blank.gif"}" />{/if}
-          <a href="{copixurl dest="gestionautonome||updateGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier l'année scolaire" /></a>
           <a href="{copixurl dest="gestionautonome||deleteGrade" gradeId=$grade->id_as}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette année scolaire ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette année scolaire" /></a>
         </td>
       </tr>

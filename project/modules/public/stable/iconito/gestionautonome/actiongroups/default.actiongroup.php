@@ -365,7 +365,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     
@@ -429,7 +429,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
   	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -482,7 +482,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => $ppo->city->nom);
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
@@ -540,7 +540,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
   	  $breadcrumbs[] = array('txt' => $name);
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -689,7 +689,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $ppo->parentId)));
 	  $breadcrumbs[] = array('txt' => 'Création d\'une école');
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
@@ -748,7 +748,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $ppo->parentId, 'nodeType' => $ppo->parentType)));
   	  $breadcrumbs[] = array('txt' => 'Création d\'une école');
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -810,7 +810,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $city->id_vi)));
 	  $breadcrumbs[] = array('txt' => $ppo->school->nom);
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
@@ -870,7 +870,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $city->id_vi)));
   	  $breadcrumbs[] = array('txt' => $name);
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
       $ppo->types = array ('Maternelle', 'Elémentaire', 'Primaire');
       
@@ -1021,7 +1021,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => $school->nom, 'url' => CopixUrl::get('gestionautonome||updateSchool', array ('nodeId' => $school->numero)));
 	  $breadcrumbs[] = array('txt' => 'Création d\'une classe');
 
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
@@ -1129,7 +1129,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => $school->nom, 'url' => CopixUrl::get('gestionautonome||updateSchool', array ('nodeId' => $school->numero)));
   	  $breadcrumbs[] = array('txt' => 'Création d\'une classe');
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -1229,7 +1229,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => $school->nom, 'url' => CopixUrl::get('gestionautonome||updateSchool', array ('nodeId' => $school->numero)));
 	  $breadcrumbs[] = array('txt' => $ppo->class->nom);
 
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
@@ -1329,7 +1329,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => $school->nom, 'url' => CopixUrl::get('gestionautonome||updateSchool', array ('nodeId' => $school->numero)));
   	  $breadcrumbs[] = array('txt' => $name);
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -1470,7 +1470,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[] = array('txt' => 'Création d\'un '.$ppo->roleName);
 
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
@@ -1577,7 +1577,7 @@ class ActionGroupDefault extends CopixActionGroup {
       $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
   	  $breadcrumbs[] = array('txt' => 'Création d\'un '.$ppo->roleName);
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -1773,7 +1773,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
     $breadcrumbs[] = array('txt' => $ppo->personnel->pers_nom.' '.$ppo->personnel->pers_prenom1);
     
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
@@ -1866,7 +1866,7 @@ class ActionGroupDefault extends CopixActionGroup {
       $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
       $breadcrumbs[] = array('txt' => $ppo->personnel->pers_nom.' '.$ppo->personnel->pers_prenom1);
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -2032,7 +2032,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs   = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[] = array('txt' => 'Création d\'un élève');
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
@@ -2143,7 +2143,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
   	  $breadcrumbs[]    = array('txt' => 'Création d\'un élève');
   	  
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -2387,7 +2387,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs   = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[] = array('txt' => $ppo->student->nom.' '.$ppo->student->prenom1);
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
@@ -2484,7 +2484,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
   	  $breadcrumbs[] = array('txt' => $name);
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -2723,7 +2723,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => $ppo->student->ele_nom.' '.$ppo->student->ele_prenom1, 'url' => CopixUrl::get ('gestionautonome||updateStudent', array('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'studentId' => $studentId)));
     $breadcrumbs[] = array('txt' => 'Ajout d\'un responsable');
 
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
@@ -2942,7 +2942,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $breadcrumbs[] = array('txt' => $ppo->student->ele_nom.' '.$ppo->student->ele_prenom1, 'url' => CopixUrl::get ('gestionautonome||updateStudent', array('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'studentId' => $studentId)));
     $breadcrumbs[] = array('txt' => 'Modification du responsable '.$ppo->person->nom.' '.$ppo->person->prenom1);
 
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
@@ -3050,7 +3050,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => $ppo->student->ele_nom.' '.$ppo->student->ele_prenom1, 'url' => CopixUrl::get ('gestionautonome||updateStudent', array('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'studentId' => $studentId)));
       $breadcrumbs[] = array('txt' => 'Modification du responsable '.$name);
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
@@ -3251,13 +3251,15 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processManageGrades () {
 	  
+	  _currentUser()->assertCredential('group:[Admin]');
+	  
 	  $ppo = new CopixPPO ();
-	                                        
+    
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires');
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 	  
 	  // Récupérations des années scolaires
     $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
@@ -3270,14 +3272,16 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processCreateGrade () {
 	  
+	  _currentUser()->assertCredential('group:[Admin]');
+	  
 	  $ppo = new CopixPPO ();
-
+    
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires', 'url' => CopixUrl::get('gestionautonome||manageGrades'));
 	  $breadcrumbs[] = array('txt' => 'Ajout d\'une année scolaire');
 	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|gradesManagementTitle');
 	  
@@ -3286,17 +3290,19 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processValidateGradeCreation () {
 	  
+	  _currentUser()->assertCredential('group:[Admin]');
+	  
 	  $ppo = new CopixPPO ();
 	  
     $dateDebut = _request ('dateDebut', null);
     $dateFin   = _request ('dateFin', null);
                                
-    $ppo->grade = _record ('kernel_bu_annee_scolaire');
+    $ppo->grade = _record ('kernel|kernel_bu_annee_scolaire');
     
-    $ppo->grade->id_as          = substr($dateDebut, 6, 10);
-	  $ppo->grade->annee_scolaire = substr($dateDebut, 6, 10).'-'.substr($dateFin, 6, 10);
-	  $ppo->grade->dateDebut      = CopixDateTime::dateToyyyymmdd($dateDebut);
-	  $ppo->grade->dateFin        = CopixDateTime::dateToyyyymmdd($dateFin);
+    $ppo->grade->id_as         = substr($dateDebut, 6, 10);
+	  $ppo->grade->anneeScolaire = substr($dateDebut, 6, 10).'-'.substr($dateFin, 6, 10);
+	  $ppo->grade->dateDebut     = CopixDateTime::dateToyyyymmdd($dateDebut);
+	  $ppo->grade->dateFin       = CopixDateTime::dateToyyyymmdd($dateFin);
 
     $current = _request ('current', null);
     if ($current == 'on') {
@@ -3317,7 +3323,7 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->errors[] = 'Saisissez une date de fin';
     }
     
-    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
+    $gradeDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
     if ($gradeDAO->get ($ppo->grade->id_as)) {
       
       $ppo->errors[] = 'Cette année scolaire existe déjà';
@@ -3333,21 +3339,20 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires', 'url' => CopixUrl::get('gestionautonome||manageGrades'));
   	  $breadcrumbs[] = array('txt' => 'Ajout d\'une année scolaire');
 
-  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
+  	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
   	  
       return _arPPO ($ppo, 'create_grade.tpl');
     }
 
     if ($ppo->grade->current == 1) {
       
-      $currentGrade = Kernel::getAnneeScolaireCourante ();
-      if (!is_null ($currentGrade)) {
+      if ($currentGrade = $gradeDAO->getCurrent ()) {
         
-        $currentGrade->dateDebut = str_replace($currentGrade->dateDebut, '-', '');
-    	  $currentGrade->dateFin = str_replace($currentGrade->dateFin, '-', '');
+        $currentGrade->dateDebut = str_replace('-', '', $currentGrade->dateDebut);
+        $currentGrade->dateFin = str_replace('-', '', $currentGrade->dateFin);
         $currentGrade->current = 0;
-        
-        $gradeDAO->update ($currentGrade); 
+
+        $gradeDAO->update ($currentGrade);
       }
     }
     
@@ -3358,23 +3363,25 @@ class ActionGroupDefault extends CopixActionGroup {
 	
 	public function processSetCurrentGrade () {
 	  
+	  _currentUser()->assertCredential('group:[Admin]');
+	  
 	  $ppo = new CopixPPO ();
 	  
 	  $gradeId = _request ('gradeId', null);
 	  if (!is_null($gradeId)) {
 	    
-	    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	    while ($currentGrade = Kernel::getAnneeScolaireCourante ()) {
+	    $gradeDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
+	    while ($currentGrade = $gradeDAO->getCurrent ()) {
 	      
-	      $currentGrade->dateDebut = str_replace($currentGrade->dateDebut, '-', '');
-    	  $currentGrade->dateFin = str_replace($currentGrade->dateFin, '-', '');
+	      $currentGrade->dateDebut = str_replace('-', '', $currentGrade->dateDebut);
+    	  $currentGrade->dateFin = str_replace('-', '', $currentGrade->dateFin);
         $currentGrade->current = 0;
         
         $gradeDAO->update ($currentGrade);
 	    }
 
   	  if ($grade = $gradeDAO->get ($gradeId)) {
-
+       
   	    $grade->current = 1;
     	  $gradeDAO->update ($grade);
   	  }
@@ -3383,121 +3390,16 @@ class ActionGroupDefault extends CopixActionGroup {
 	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
 	}
 	
-	public function processUpdateGrade () {
-	  
-	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
-	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-
-	  if (!$ppo->grade = $gradeDAO->get (_request ('gradeId', null))) {
-	    
-	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }
-	  
-	  // Breadcrumbs
-	  $breadcrumbs   = array();
-	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires', 'url' => CopixUrl::get('gestionautonome||manageGrades'));
-	  $breadcrumbs[] = array('txt' => 'Modification d\'une année scolaire');
-	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
-	  
-	  $ppo->grade->dateDebut    = CopixDateTime::yyyymmddToDate($ppo->grade->dateDebut);
-	  $ppo->grade->dateFin      = CopixDateTime::yyyymmddToDate($ppo->grade->dateFin);
-	  
-	  return _arPPO ($ppo, 'update_grade.tpl');
-	}
-	
-	public function processValidateGradeUpdate () {
-	  
-	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
-	  
-	  $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  
-	  if (!$ppo->grade = $gradeDAO->get (_request ('id_as', null))) {
-	    
-	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
-	  }
-	  
-	  // Breadcrumbs
-	  $breadcrumbs   = array();
-	  $breadcrumbs[] = array('txt' => 'Gestion des années scolaires', 'url' => CopixUrl::get('gestionautonome||manageGrades'));
-	  $breadcrumbs[] = array('txt' => 'Modification d\'une année scolaire'); 
-	  
-	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs," &raquo; ");
-
-    $dateDebut                  = _request ('dateDebut', null);
-    $dateFin                    = _request ('dateFin', null);
-
-	  $ppo->grade->annee_scolaire = substr($dateDebut, 6, 10).'-'.substr($dateFin, 6, 10);
-	  $ppo->grade->dateDebut      = CopixDateTime::dateToyyyymmdd($dateDebut);
-	  $ppo->grade->dateFin        = CopixDateTime::dateToyyyymmdd($dateFin);
-	  if (_request ('current', null) == 'on') {
-      
-      $ppo->grade->current = 1;
-    }                    
-    else {
-      
-      $ppo->grade->current = 0;
-    }
-	  
-    if (!$ppo->grade->dateDebut) {
-      
-      $ppo->errors[] = 'Saisissez une date de début';
-    }
-    if (!$ppo->grade->dateFin) {
-      
-      $ppo->errors[] = 'Saisissez une date de fin';
-    }
-    if ($ppo->grade->id_as != substr($dateDebut, 6, 10) && $gradeDAO->get ($ppo->grade->id_as)) {
-      
-      $ppo->errors[] = 'Cette année scolaire existe déjà';
-    }
-    
-    if (!empty ($ppo->errors)) {
-      
-      $ppo->grade->dateDebut    = CopixDateTime::yyyymmddToDate($ppo->grade->dateDebut);
-  	  $ppo->grade->dateFin      = CopixDateTime::yyyymmddToDate($ppo->grade->dateFin);
-  	  
-      return _arPPO ($ppo, 'create_grade.tpl');
-    }
-    
-    if ($ppo->grade->current == 1) {
-      
-      $currentGrade = Kernel::getAnneeScolaireCourante ();
-      $currentGrade->current = 0;
-    }
-    
-    $ppo->grade->id_as  = substr($dateDebut, 6, 10);
-    
-    $gradeDAO->update ($ppo->grade); 
-    
-    // Récupérations des années scolaires
-    $gradeDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  $ppo->grades = $gradeDAO->findAll ();
-
-	  return _arPPO ($ppo, 'manage_grades.tpl');
-	}
-	
 	public function processDeleteGrade () {
 	  
-	  $ppo = new CopixPPO ();
-	  
-	  $ppo->TITLE_PAGE = "Gestion des années scolaires";
+	  _currentUser()->assertCredential('group:[Admin]');
 	  
 	  $gradeId = _request ('gradeId', null);
 	  
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $gradesDAO->delete ($gradeId);
-	  
-	  // Récupérations des années scolaires
-	  $ppo->grades = $gradesDAO->findAll ();
-	  
-	  return _arPPO ($ppo, 'manage_grades.tpl');
+
+	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
 	}
 	
 	public function processAddExistingStudent () {
@@ -3522,7 +3424,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'un élève existant');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  // Récupération de l'année scolaire
     if (is_null($grade = _sessionGet('grade'))) {
@@ -3608,7 +3510,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'un élève existant');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  // Récupération de l'année scolaire
     if (is_null($grade = _sessionGet('grade'))) {
@@ -3859,7 +3761,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une personne existante');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  _sessionSet ('gestionautonome|addExisting', array ());                                                                         
 
@@ -3955,7 +3857,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une personne existante');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  switch ($ppo->nodeType) {
 			case 'BU_GRVILLE' :
@@ -4101,7 +4003,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	
   	// RAZ des sessions
   	_sessionSet ('gestionautonome|addMultipleStudents', array ());
@@ -4134,7 +4036,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 
     if (!is_null ($liste)) {
       
@@ -4315,7 +4217,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
                                   
     // Récupération des élèves déjà créés en session
   	if (!$ppo->studentsSuccess = _sessionGet ('gestionautonome|addMultipleStudents|success')) {
@@ -4687,7 +4589,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Changer d\'affectation plusieurs élèves');
-	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs," &raquo; ");
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
     
     // DAO
     $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');

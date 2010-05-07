@@ -2279,5 +2279,3 @@ class Kernel {
 	  return $breadcrumbs;
   }
 }
-
-?>
