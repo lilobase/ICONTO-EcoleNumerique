@@ -382,8 +382,10 @@ class DAOKernel_bu_personnel {
       . ' JOIN kernel_link_bu2user LI ON (LI.bu_id=kernel_bu_personnel.numero)'
       . ' WHERE LI.bu_id=:id'
       . ' AND LI.bu_type=:type';
+      
+    $results = _doQuery($sql, array (':id' => $id, 'type' => $type));
 
-    return new CopixDAORecordIterator (_doQuery ($sql, array (':id' => $id, 'type' => $type)), $this->getDAOId ());
+		return isset ($results[0]) ? $results[0] : false;
 	}
 
 }
