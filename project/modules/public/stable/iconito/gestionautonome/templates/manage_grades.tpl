@@ -16,13 +16,13 @@
       <tr class="list_line{math equation="x%2" x=$k}">
         <td>{$grade->id_as}</td>
         <td>{$grade->annee_scolaire}</td>
-        <td>{$grade->dateDebut}</td>
-        <td>{$grade->dateFin}</td>
+        <td>{$grade->dateDebut|datei18n}</td>
+        <td>{$grade->dateFin|datei18n}</td>
         <td>{if $grade->current eq '1'}Oui{/if}</td>
         <td>
           {if $grade->current neq 1}<a href="{copixurl dest="gestionautonome||setCurrentGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/icon_tick.gif"}" title="Indiquer comme l'année courante" /></a>{else}<img src="{copixresource path="../gestionautonome/blank.gif"}" />{/if}
           <a href="{copixurl dest="gestionautonome||updateGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/edit_item.png"}" title="Modifier l'année scolaire" /></a>
-          <a href="{copixurl dest="gestionautonome||deleteGrade" gradeId=$grade->id_as}"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette année scolaire" /></a>
+          <a href="{copixurl dest="gestionautonome||deleteGrade" gradeId=$grade->id_as}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette année scolaire ?')"><img src="{copixresource path="../gestionautonome/trash.png"}" title="Supprimer cette année scolaire" /></a>
         </td>
       </tr>
     {/foreach}
