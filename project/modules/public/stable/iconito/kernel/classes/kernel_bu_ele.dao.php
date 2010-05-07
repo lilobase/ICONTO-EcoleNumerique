@@ -69,54 +69,48 @@ class DAOKernel_bu_ele {
 	
 	function findStudentsForAssignment ($reference, $typeRef, $filters = array ()) {
     
-    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, E.date_nais, EC.nom as eco_nom, U.login_dbuser, LI.bu_type, LI.bu_id, CN.niveau_court 
-      FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve_admission EAD, kernel_bu_eleve E, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_link_bu2user LI, dbuser U 
-      WHERE EC.id=EA.classe
-      AND E.idEleve=EAD.eleve 
-      AND EA.eleve=E.idEleve 
-      AND EA.niveau=CN.id_n
-      AND EC.ecole=ECO.numero
-      AND LI.user_id=U.id_dbuser 
-      AND LI.bu_type="USER_ELE" 
-      AND LI.bu_id=E.idEleve';
-    
+    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, E.date_nais, EC.nom as eco_nom, U.login_dbuser, LI.bu_type, LI.bu_id
+      FROM kernel_bu_eleve E
+      JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve) 
+      JOIN dbuser U ON (U.id_dbuser=LI.user_id)
+      JOIN kernel_bu_eleve_admission EAD ON (EAD.eleve=E.idEleve)
+      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve)      
+      JOIN kernel_bu_ecole ECO ON (ECO.numero=EAD.etablissement)
+      JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville)
+      JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville)
+      JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
+
     // Eleves sans affectation
     if (!isset ($filters['withAssignment'])) {
+           
+      // $sql .= ' JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.current=1)';
+      // $sql .= ' WHERE EA.id IS NULL';       
       
-      $sql .= ' AND (SELECT kernel_bu_eleve_admission.etat_eleve FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve AND kernel_bu_eleve_admission.annee_scol='.$filters['grade'].' GROUP BY etablissement HAVING MAX(kernel_bu_eleve_admission.numero) ORDER BY kernel_bu_eleve_admission.numero DESC) = 3';
-  
-      if (isset ($filters['class'])) {
-
-  	    $sql .= ' AND (SELECT kernel_bu_eleve_affectation.classe FROM kernel_bu_eleve_affectation WHERE kernel_bu_eleve_affectation.eleve=E.idEleve ORDER BY kernel_bu_eleve_affectation.id DESC LIMIT 1) = '.$filters['class']; 
-  	  }
-  	  elseif (isset ($filters['school'])) {
-
-  	    $sql .= ' AND (SELECT kernel_bu_eleve_admission.etablissement FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve ORDER BY kernel_bu_eleve_admission.numero DESC LIMIT 1) = '.$filters['school']; 
-  	  }
-  	  elseif (isset ($filters['city'])) {
-
-  	    $sql .= ' AND (SELECT kernel_bu_ecole.id_ville FROM kernel_bu_ecole WHERE kernel_bu_ecole.numero=ECO.numero) = '.$filters['city'];     
-  	  }
+      //$sql .= ' AND (SELECT kernel_bu_eleve_admission.etat_eleve FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve AND kernel_bu_eleve_admission.annee_scol='.$filters['grade'].' GROUP BY etablissement HAVING MAX(kernel_bu_eleve_admission.numero)) = 3';
     }
     // Eleves avec affectation(s)
     else {
       
-      $sql .= ' AND (SELECT kernel_bu_eleve_admission.etat_eleve FROM kernel_bu_eleve_admission WHERE kernel_bu_eleve_admission.eleve=E.idEleve AND kernel_bu_eleve_admission.annee_scol='.$filters['grade'].' ORDER BY kernel_bu_eleve_admission.numero DESC LIMIT 1) != 3';
-      
-  	  if (isset ($filters['class'])) {
-
-  	    $sql .= ' AND EA.classe = '.$filters['class']; 
-  	  }
-  	  elseif (isset ($filters['school'])) {
-
-  	    $sql .= ' AND EAD.etablissement = '.$filters['school']; 
-  	  }
-  	  elseif (isset ($filters['city'])) {
-
-  	    $sql .= ' AND EAD.etablissement=ECO.numero';
-  	    $sql .= ' AND ECO.id_ville = '.$filters['city'];     
-  	  }
+      $sql .= ' WHERE EA.current = 1';
     }
+    
+	  if (isset ($filters['class'])) {
+    
+      $sql .= ' AND EC.id='.$filters['class']; 
+    }
+    elseif (isset ($filters['school'])) {
+      
+      $sql .= ' AND ECO.numero='.$filters['school'];
+    }
+    elseif (isset ($filters['city'])) {
+      
+      $sql .= ' AND ECO.id_ville='.$filters['city'];
+    }
+    elseif (isset ($filters['groupcity'])) {
+      
+      $sql .= ' AND GV.id_grv='.$filters['groupcity'];
+    }
+    
     if (isset ($filters['lastname'])) {
 	    
 	    $sql .= ' AND E.nom LIKE \'' . $filters['lastname'] . '%\''; 
@@ -125,11 +119,12 @@ class DAOKernel_bu_ele {
 	    
 	    $sql .= ' AND E.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
 	  }
-	  
-	  $sql .= ' AND E.idEleve NOT IN (SELECT eleve FROM kernel_bu_eleve_affectation WHERE classe='.$reference.' AND current=1)'; 
+  
+	  $sql .= ' AND LI.bu_type="USER_ELE"';
+    // $sql .= ' AND E.idEleve NOT IN (SELECT eleve FROM kernel_bu_eleve_affectation WHERE classe='.$reference.' AND current=1)';   
     $sql .= ' GROUP BY E.idEleve';
     $sql .= ' ORDER BY E.nom, E.prenom1';
-
+    var_dump($sql);
     return _doQuery($sql);
   }
   
