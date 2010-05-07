@@ -69,7 +69,7 @@ class DAOKernel_bu_ele {
 	
 	function findStudentsForAssignment ($reference, $typeRef, $filters = array ()) {
     
-    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, E.date_nais, EC.nom as eco_nom, U.login_dbuser, LI.bu_type, LI.bu_id
+    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, E.date_nais, EC.nom as eco_nom, U.login_dbuser, LI.bu_type, LI.bu_id, SUM(EA.current)
       FROM kernel_bu_eleve E
       JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve) 
       JOIN dbuser U ON (U.id_dbuser=LI.user_id)
@@ -112,8 +112,7 @@ class DAOKernel_bu_ele {
 	    
 	    $sql .= ' AND E.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
 	  }
-  
-    // $sql .= ' AND E.idEleve NOT IN (SELECT eleve FROM kernel_bu_eleve_affectation WHERE classe='.$reference.' AND current=1)';   
+    
     $sql .= ' GROUP BY E.idEleve';
 
     if (!isset ($filters['withAssignment'])) {
