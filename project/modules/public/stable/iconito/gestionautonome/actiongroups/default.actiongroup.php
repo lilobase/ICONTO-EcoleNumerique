@@ -1397,16 +1397,15 @@ class ActionGroupDefault extends CopixActionGroup {
 
 	  // Récupération de l'association classe-niveau
     $classLevels = $classLevelDAO->getByClass ($class->id);
-    
     foreach ($classLevels as $classLevel) {
       
       $classLevelDAO->delete ($classLevel->classe, $classLevel->niveau);
     }
     
+    // Récupération de l'affectation des élèves de cette classe
     $students = $studentDAO->getElevesInClasse ($nodeId);
     foreach ($students as $student) {
       
-      // Récupération de l'affectation de l'élève pour cette classe
       $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($student->ele_idEleve, $nodeId);
       $studentAssignmentDAO->delete ($studentAssignment->affect_id);
     }
@@ -4515,7 +4514,7 @@ class ActionGroupDefault extends CopixActionGroup {
 				return _arPPO ($ppo, 'multiple_accounts_listing.tpl');
 			case 'html':
 			  $result = $tplResult->fetch ('account_listing_html.tpl');
-			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
+			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'inline', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
 			  break;
 			case 'csv':
 			  $result = $tplResult->fetch ('account_listing_csv.tpl');
