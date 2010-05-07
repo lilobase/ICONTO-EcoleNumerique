@@ -2262,77 +2262,70 @@ class ActionGroupDefault extends CopixActionGroup {
 		                                                                      
 		// Récupérations des infos temporaires en session et ajout aux sessions => Ajouter via ajax
 		$tmpSession = _sessionGet ('modules|gestionautonome|tmpAccount');                                                                
-		if ($tmpSession && is_array ($tmpSession) && !empty ($tmpSession)) {
+		if ($ppo->resp_on && !is_null ($tmpSession) && is_array ($tmpSession)) {
 		  
 		  $personDAO     = _ioDAO ('kernel_bu_responsable');
       $personLinkDAO = _ioDAO ('kernel_bu_responsables');
+       
+  		foreach ($tmpSession as $personSession) {
       
-		  if ($personSessions = $tmpSession) {
-		    
-		    $cptPerson = 1;
-
-  		  foreach ($personSessions as $personSession) {
-
-          // Ajout du responsable en session seulement si la création du dbuser est possible
-          if (Kernel::isLoginAvailable ($personSession['login'])) {
-            
-            // Création du responsable
-            $ppo->person = _record ('kernel_bu_responsable');
-
-            $ppo->person->nom        = trim ($personSession['lastname']);
-            $ppo->person->prenom1    = trim ($personSession['firstname']);
-            $ppo->person->id_sexe    = $personSession['id_sexe'];
-            $ppo->res_id_par         = $personSession['id_par'];
-
-    		    $personDAO->insert ($ppo->person);
-
-            // Création de l'association personne->rôle
-            $newPersonLink = _record ('kernel_bu_responsables');
-
-        		$newPersonLink->id_beneficiaire   = $ppo->student->idEleve; 
-        		$newPersonLink->type_beneficiaire = 'eleve';
-        		$newPersonLink->id_responsable    = $ppo->person->numero;
-        		$newPersonLink->type              = 'responsable';
-        		$newPersonLink->auth_parentale    = '0';
-        		$newPersonLink->id_par            = $personSession['id_par'];
-
-        		$personLinkDAO->insert ($newPersonLink);
-
-        		// Création du compte dbuser
-            $dbuser = _record ('kernel|kernel_copixuser');
-
-            $dbuser->login_dbuser    = $personSession['login'];
-            $dbuser->password_dbuser = md5 ($personSession['password']);
-            $dbuser->email_dbuser    = '';
-            $dbuser->enabled_dbuser  = 1;
-
-            $dbuserDAO->insert ($dbuser);
-
-            // Création du link bu2user
-            $dbLink = _record ('kernel_link_bu2user');
-
-            $dbLink->user_id = $dbuser->id_dbuser;
-            $dbLink->bu_type = 'USER_RES';
-            $dbLink->bu_id   = $ppo->person->numero;
-
-            $dbLinkDAO->insert ($dbLink);
-            
-            // Mise en session du responsable
-            $session[$cptPerson] = array(
-        		  'lastname'  => $personSession['lastname'],
-        			'firstname' => $personSession['firstname'],
-        			'login'     => $personSession['login'],
-        			'password'  => $personSession['password'],
-        			'bu_type'   => 'USER_RES',
-        			'bu_id'     => $ppo->student->idEleve,
-        			'type_nom'  => Kernel::Code2Name('USER_RES'),
-        			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
-        		);
-
-        		$cptPerson++;
-          }
+        // Ajout du responsable en session seulement si la création du dbuser est possible
+        if (Kernel::isLoginAvailable ($personSession['login'])) {
+          
+          // Création du responsable
+          $ppo->person = _record ('kernel_bu_responsable');
+      
+          $ppo->person->nom     = trim ($personSession['lastname']);
+          $ppo->person->prenom1 = trim ($personSession['firstname']);
+          $ppo->person->id_sexe = $personSession['id_sexe'];
+          $ppo->res_id_par      = $personSession['id_par'];
+      
+    	    $personDAO->insert ($ppo->person);
+      
+          // Création de l'association personne->rôle
+          $newPersonLink = _record ('kernel_bu_responsables');
+      
+      		$newPersonLink->id_beneficiaire   = $ppo->student->idEleve; 
+      		$newPersonLink->type_beneficiaire = 'eleve';
+      		$newPersonLink->id_responsable    = $ppo->person->numero;
+      		$newPersonLink->type              = 'responsable';
+      		$newPersonLink->auth_parentale    = '0';
+      		$newPersonLink->id_par            = $personSession['id_par'];
+      
+      		$personLinkDAO->insert ($newPersonLink);
+      
+      		// Création du compte dbuser
+          $dbuser = _record ('kernel|kernel_copixuser');
+      
+          $dbuser->login_dbuser    = $personSession['login'];
+          $dbuser->password_dbuser = md5 ($personSession['password']);
+          $dbuser->email_dbuser    = '';
+          $dbuser->enabled_dbuser  = 1;
+      
+          $dbuserDAO->insert ($dbuser);
+      
+          // Création du link bu2user
+          $dbLink = _record ('kernel_link_bu2user');
+      
+          $dbLink->user_id = $dbuser->id_dbuser;
+          $dbLink->bu_type = 'USER_RES';
+          $dbLink->bu_id   = $ppo->person->numero;
+      
+          $dbLinkDAO->insert ($dbLink);
+          
+          // Mise en session du responsable
+          $session[] = array(
+      		  'lastname'  => $personSession['lastname'],
+      			'firstname' => $personSession['firstname'],
+      			'login'     => $personSession['login'],
+      			'password'  => $personSession['password'],
+      			'bu_type'   => 'USER_RES',
+      			'bu_id'     => $ppo->student->idEleve,
+      			'type_nom'  => Kernel::Code2Name('USER_RES'),
+      			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
+      		);
         }
-		  }
+      }
 		}
 		
 		// Mise en session de l'élève et des responsables
@@ -3067,19 +3060,21 @@ class ActionGroupDefault extends CopixActionGroup {
 	  return _arPPO ($ppo, array ('template' => '_persons_in_charge.tpl', 'mainTemplate' => null));
 	} 
 	
-	// AJAX
+	/**
+	 * AJAX - ajout des responsables d'un élève
+	 */ 
 	public function processPersonInChargeCreation () {
 
-	  $ppo->nodeId          = _request ('nodeId', null);
-	  $ppo->nodeType        = _request ('nodeType', null);
-	  
-	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|create@gestionautonome');
+	  $ppo->nodeId   = _request ('nodeId', null);
+	  $ppo->nodeType = _request ('nodeType', null);
 	  
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|create@gestionautonome');
 
 	  $ppo->person->nom     = _request ('nom', null);
 	  $ppo->person->prenom1 = _request ('prenom1', null);
@@ -3089,37 +3084,13 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->account->login    = _request ('login', null);
 	  $ppo->account->password = _request ('password', null);
 	  
-	  $ppo->cpt = _request('cpt', null);
+	  $ppo->cpt = _request('cpt', 1);
  
-	  // Récupération des relations    
-	  $parentLinkDAO = _ioDAO ('kernel_bu_lien_parental'); 
-	  $parentLinks = $parentLinkDAO->findAll ();
-
-	  $ppo->linkNames = array ();
-	  $ppo->linkIds   = array ();
-
-	  foreach ($parentLinks as $parentLink) {
-
-      $ppo->linkNames[] = $parentLink->parente;
-      $ppo->linkIds[]   = $parentLink->id_pa;
-    }
-
-    $ppo->genderNames = array ('Homme', 'Femme');
-    $ppo->genderIds = array ('0', '1');
-
-    $session = _sessionGet ('modules|gestionautonome|tmpAccount');
-		if (!$session || !is_array ($session)) {
+    // Initialisation de la variable de session
+    $ppo->personsInSession = _sessionGet ('modules|gestionautonome|tmpAccount');
+		if (is_null ($ppo->personsInSession) || !is_array ($ppo->personsInSession)) {
 		  
-		  $session = array();
-		}
-		
-		if (!isset ($session)) {
-		  
-		  $ppo->personsInSession = null;
-		}
-		else {
-		  
-		  $ppo->personsInSession = $session;
+		  $ppo->personsInSession = array();
 		}
     
 	  // Traitement des erreurs
@@ -3154,12 +3125,27 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->errors[] = 'Login non disponible';
     }
     
-    if (!empty ($ppo->errors)) {
+    // Récupération des relations    
+	  $parentLinkDAO = _ioDAO ('kernel_bu_lien_parental'); 
+	  $parentLinks = $parentLinkDAO->findAll ();
 
+	  $ppo->linkNames = array ();
+	  $ppo->linkIds   = array ();
+	  foreach ($parentLinks as $parentLink) {
+
+      $ppo->linkNames[] = $parentLink->parente;
+      $ppo->linkIds[]   = $parentLink->id_pa;
+    }
+
+    $ppo->genderNames = array ('Homme', 'Femme');
+    $ppo->genderIds = array ('0', '1');
+    
+    if (!empty ($ppo->errors)) {
+      
       return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
     }  
 
-		$session[$ppo->cpt] = array(
+		$ppo->personsInSession[$ppo->cpt] = array(
 		  'lastname'  => $ppo->person->nom,
 			'firstname' => $ppo->person->prenom1,
 			'id_par'    => $ppo->person->id_par,
@@ -3168,25 +3154,12 @@ class ActionGroupDefault extends CopixActionGroup {
 			'password'  => $ppo->account->password,
 		);
 		
-		_sessionSet ('modules|gestionautonome|tmpAccount', $session);
+		_sessionSet ('modules|gestionautonome|tmpAccount', $ppo->personsInSession);
 
 		$ppo->person  = null;
 		$ppo->account = null;
 		
-		$ppo->personsInSession = $session;
-		if (!$ppo->personsInSession || !is_array ($ppo->personsInSession)) {
-		  
-		  $ppo->personsInSession = array();
-		}
-		
-		if ($ppo->cpt) {
-
-      $ppo->cpt++;                
-    }                                
-    else {
-
-      $ppo->cpt = 1;
-    }
+    $ppo->cpt++;
 		
 		return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
 	}

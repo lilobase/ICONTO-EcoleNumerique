@@ -87,7 +87,7 @@
   </fieldset>
   
   <ul class="actions">
-  	<li><input class="button" type="submit" name="save" id="save-person" value="Ajouter un autre responsable" /></li>
+  	<li><input class="button" type="submit" name="save" id="save-person" value="Ajouter" /></li>
   </ul>
 </form>
 
@@ -98,63 +98,69 @@
   jQuery(document).ready(function(){
 
     jQuery('.button').button();
-  });
-  
-  jQuery('#person_creation').submit(function(e) {
     
-    e.preventDefault();
-    
-    var lastname = jQuery('#nom').val();
-    var firstname = jQuery('#prenom1').val();
-    var login = jQuery('#login').val();
-    var password = jQuery('#password').val();
-    var gender = jQuery('input[type=radio][name=gender]:checked').attr('value');
-    var id_par = jQuery('#id_par').val();
-    var nodeId = {/literal} {$ppo->nodeId} {literal}
-    var nodeType = {/literal} '{$ppo->nodeType}' {literal}
-    var cpt = {/literal} '{$ppo->cpt}' {literal}
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|personInChargeCreation}'{literal},
-      global: true,
-      type: "POST",
-      data: ({nom: lastname, prenom1: firstname, login: login, password: password, gender: gender, parId: id_par, nodeId: nodeId, nodeType: nodeType, cpt: cpt}),
-      success: function(html){
-        jQuery('#persons-in-charge').empty();
-        jQuery('#persons-in-charge').html(html);
-      }
-    }).responseText;
-  });
-  
-  jQuery('#generate-login').click(function() {
-    
-    var lastname = jQuery('#nom').val();
-    var firstname = jQuery('#prenom1').val();
-    var nodeType = 'USER_RES';   
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|generateLogin}'{literal},
-      global: true,
-      type: "GET",
-      data: ({lastname: lastname, firstname: firstname, type: nodeType}),
-      success: function(html){
-        jQuery('#login').empty();
-        jQuery("#login").val(html);
-      }
-    }).responseText;
-  });
-  
-  jQuery('#generate-password').click(function() {
-    
-    jQuery.ajax({
-      url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
-      global: true,
-      type: "GET",
-      success: function(html){
-        jQuery('#password').empty();
-        jQuery("#password").val(html);
-      }
-    }).responseText;
+    jQuery('#person_creation').submit(function(e) {
+
+      e.preventDefault();
+
+      var lastname = jQuery('#nom').val();
+      var firstname = jQuery('#prenom1').val();
+      var login = jQuery('#login').val();
+      var password = jQuery('#password').val();
+      var gender = jQuery('input[type=radio][name=gender]:checked').attr('value');
+      var id_par = jQuery('#id_par').val();
+      var nodeId = {/literal} {$ppo->nodeId} {literal}
+      var nodeType = {/literal} '{$ppo->nodeType}' {literal}
+      var cpt = {/literal} '{$ppo->cpt}' {literal}
+
+      jQuery.ajax({
+        
+        url: {/literal}'{copixurl dest=gestionautonome|default|personInChargeCreation}'{literal},
+        global: true,
+        type: "POST",
+        data: ({nom: lastname, prenom1: firstname, login: login, password: password, gender: gender, parId: id_par, nodeId: nodeId, nodeType: nodeType, cpt: cpt}),
+        success: function(html){
+          
+          jQuery('#persons-in-charge').empty();
+          jQuery('#persons-in-charge').html(html);
+        }
+      });
+    });
+
+    jQuery('#generate-login').click(function() {
+
+      var lastname = jQuery('#nom').val();
+      var firstname = jQuery('#prenom1').val();
+      var nodeType = 'USER_RES';   
+
+      jQuery.ajax({
+        
+        url: {/literal}'{copixurl dest=gestionautonome|default|generateLogin}'{literal},
+        global: true,
+        type: "GET",
+        data: ({lastname: lastname, firstname: firstname, type: nodeType}),
+        success: function(html){
+          
+          jQuery('#login').empty();
+          jQuery("#login").val(html);
+        }
+      });
+    });
+
+    jQuery('#generate-password').click(function() {
+
+      jQuery.ajax({
+        
+        url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
+        global: true,
+        type: "GET",
+        success: function(html){
+          
+          jQuery('#password').empty();
+          jQuery("#password").val(html);
+        }
+      });
+    });
   });
 //]]> 
 </script>
