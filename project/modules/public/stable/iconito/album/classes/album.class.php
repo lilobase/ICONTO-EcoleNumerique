@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Album
 * @version   $Id: album.class.php,v 1.21 2008-10-20 08:04:43 fmossmann Exp $
-* @author   Frédéric Mossmann
+* @author   Frï¿½dï¿½ric Mossmann
 * @copyright 2005 CDC-TIC
 * @link      http://www.cdc-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -16,7 +16,7 @@ class Album {
 	 *
 	 * Retourne informations d'une photo en fonction de son identifiant
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
 	 * @param integer $photo_id Id de la photo
 	 * @return object Informations sur la photo
 	 */
@@ -35,7 +35,7 @@ class Album {
 	 *
 	 * Retourne le nombre de photos d'un album
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
 	 * @param integer $album_id Id de l'album
 	 * @return integer Nombre de photos
 	 */
@@ -48,12 +48,12 @@ class Album {
 	/**
 	 * getPrevPhoto
 	 *
-	 * Retourne l'identifiant de la photo précédente
+	 * Retourne l'identifiant de la photo prï¿½cï¿½dente
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
  	 * @param integer $album_id Id de l'album
 	 * @param integer $photo_id Id de la photo
-	 * @return integer Identifiant de la photo précédente
+	 * @return integer Identifiant de la photo prï¿½cï¿½dente
 	 */
 	function getPrevPhoto($album_id, $dossier_id, $photo_id) {
 		
@@ -71,7 +71,7 @@ class Album {
 	 *
 	 * Retourne l'identifiant de la photo suivante
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
  	 * @param integer $album_id Id de l'album
 	 * @param integer $photo_id Id de la photo
 	 * @return integer Identifiant de la photo suivante
@@ -89,10 +89,10 @@ class Album {
 	/**
 	 * createKey
 	 *
-	 * Retourne une clé hexa de 10 caractères aléatoires
+	 * Retourne une clï¿½ hexa de 10 caractï¿½res alï¿½atoires
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
-	 * @return string Clé hexa de 10 caractères aléatoires
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
+	 * @return string Clï¿½ hexa de 10 caractï¿½res alï¿½atoires
 	 */
 	function createKey() {
 		return substr( md5(microtime()), 0, 10 );
@@ -101,11 +101,11 @@ class Album {
 	/**
 	 * createThumbnails
 	 *
-	 * Demande la création de toutes les tailles de vignette d'une image
+	 * Demande la crï¿½ation de toutes les tailles de vignette d'une image
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
- 	 * @param string $album Nom de la photo et clé, séparés par '_'
-	 * @param string $file Nom de l'album et clé, séparés par '_'
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
+ 	 * @param string $album Nom de la photo et clï¿½, sï¿½parï¿½s par '_'
+	 * @param string $file Nom de l'album et clï¿½, sï¿½parï¿½s par '_'
 	 * @param string $ext Extension de la photo (jpg, gif, etc.)
 	 */
 	function createThumbnails( $album, $file, $ext ) {
@@ -121,14 +121,14 @@ class Album {
 	/**
 	 * createThumbnail
 	 *
-	 * Génère la vignette d'une image en fonction d'une taille donnée
+	 * Gï¿½nï¿½re la vignette d'une image en fonction d'une taille donnï¿½e
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
- 	 * @param string $album Nom de la photo et clé, séparés par '_'
-	 * @param string $file Nom de l'album et clé, séparés par '_'
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
+ 	 * @param string $album Nom de la photo et clï¿½, sï¿½parï¿½s par '_'
+	 * @param string $file Nom de l'album et clï¿½, sï¿½parï¿½s par '_'
 	 * @param string $ext Extension de la photo (jpg, gif, etc.)
-	 * @param string $taille Taille de la vignette à créer (avec 's' pour un format carré)
-	 * @param boolean $force Force la création de la vignette, même si elle existe déjà
+	 * @param string $taille Taille de la vignette ï¿½ crï¿½er (avec 's' pour un format carrï¿½)
+	 * @param boolean $force Force la crï¿½ation de la vignette, mï¿½me si elle existe dï¿½jï¿½
 	 */
 	function createThumbnail( $album, $file, $ext, $taille="s128", $force=false, $toext='' ) {
 		
@@ -161,7 +161,7 @@ class Album {
 			if( file_exists($savedfile) && !$force ) return true;
 		}
 		
-		// Décodage de la taille ('s' pour carrée et nombre de pixels)
+		// Dï¿½codage de la taille ('s' pour carrï¿½e et nombre de pixels)
 		if( ereg("^s([0-9]+)$", $taille, $regs) ) {
 			$size = $regs[1];
 			$mode = "square";
@@ -170,7 +170,7 @@ class Album {
 			$mode = "normal";
 		}
 
-		// Récupération des infos de l'image (sinon erreur)
+		// Rï¿½cupï¿½ration des infos de l'image (sinon erreur)
 		$file_info = getimagesize($pathfile);
 		if( $file_info == false ) {
 			//echo "Erreur : ".$pathfile;
@@ -195,7 +195,7 @@ class Album {
 		}
 		$ratio = max($width,$height) / $size;
 
-		// Doit-on réduite l'image ?
+		// Doit-on rï¿½duite l'image ?
 		if( $ratio > 1 ) {
 			$new_width  = round($width/$ratio);
 			$new_height = round($height/$ratio);
@@ -204,18 +204,18 @@ class Album {
 			$new_height = $height;
 		}
 		
-		// Mémoire déjà utilisée par PHP et Iconito
+		// Mï¿½moire dï¿½jï¿½ utilisï¿½e par PHP et Iconito
 		$memoryUsed = memory_get_usage();
 		
-		// Mémoire prévue pour ouvrir le fichier original
+		// Mï¿½moire prï¿½vue pour ouvrir le fichier original
 		if(!isset($file_info['channels'])) $file_info['channels']=4; // Normalement 3, mais au pire avec l'AlphaChannel, on prend 4.
 		if(!isset($file_info['bits']))     $file_info['bits'    ]=8; // 8 bits.
 		$memoryNeeded = round(($file_info[0] * $file_info[1] * $file_info['bits'] * $file_info['channels'] / 8 + Pow(2, 16)) * 1.65);
 		
-		// Mémoire prévue pour ouvrir la vignette (en prévoyant un peu large)
+		// Mï¿½moire prï¿½vue pour ouvrir la vignette (en prï¿½voyant un peu large)
 		$memoryNeeded += round((1024 * 1024 * 8 * 4 / 8 + Pow(2, 16)) * 1.65);
 
-		// Est-ce qu'il reste assez de mémoire pour allouer l'image originale et la vignette ? 
+		// Est-ce qu'il reste assez de mï¿½moire pour allouer l'image originale et la vignette ? 
 		if( ($memoryLimit-($memoryUsed+$memoryNeeded)) <0 ) {
 			/*
 			echo "<li>memoryLimit=".$memoryLimit."</li>";
@@ -239,11 +239,11 @@ class Album {
 				break;
 		}
 
-		// Si l'image n'est pas ouverte (malgré les tests), errur.
+		// Si l'image n'est pas ouverte (malgrï¿½ les tests), errur.
 		if (!$image) {
 			return false;
 			/* Exemple d'image blanche d'erreur.
-			$image = imagecreate(200, 30); // Création d'une image blanche
+			$image = imagecreate(200, 30); // Crï¿½ation d'une image blanche
 			$bgc = imagecolorallocate($image, 255, 255, 255);
 			$tc  = imagecolorallocate($image, 128, 128, 128);
 			imagefilledrectangle($image, 0, 0, 200, 30, $bgc);
@@ -254,7 +254,7 @@ class Album {
 		// echo "<li>Usage Apres ouverture: ".memory_get_usage()."</li>";
 		
 		if( $mode == "square" ) {
-			// Mode carré...
+			// Mode carrï¿½...
 			$image_p = imagecreatetruecolor($square_thumbsize, $square_thumbsize);
 			
 			$white = imagecolorallocate($image_p, 255, 255, 255);
@@ -279,7 +279,7 @@ class Album {
 		
 		if( $toext!='' ) $ext=$toext;
 		
-		// Enregistrement de l'image au format souhaité
+		// Enregistrement de l'image au format souhaitï¿½
 		switch( $ext ) {
 			case "gif":
 				imagegif ( $image_p, $savedfile );
@@ -301,10 +301,10 @@ class Album {
 	/**
 	 * checkThumbnails
 	 *
-	 * Demande la vérification des vignettes pour toutes les images d'un album
+	 * Demande la vï¿½rification des vignettes pour toutes les images d'un album
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
- 	 * @param string $album Nom de la photo et clé, séparés par '_'
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
+ 	 * @param string $album Nom de la photo et clï¿½, sï¿½parï¿½s par '_'
 	 */
 	function checkThumbnails( $album, $key ) {
 		$failed=0;
@@ -330,11 +330,11 @@ class Album {
 	/**
 	 * checkThumbnail
 	 *
-	 * Vérifie la présence des vignettes d'une image
+	 * Vï¿½rifie la prï¿½sence des vignettes d'une image
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
- 	 * @param string $album Nom de la photo et clé, séparés par '_'
-	 * @param string $file Nom de l'album et clé, séparés par '_'
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
+ 	 * @param string $album Nom de la photo et clï¿½, sï¿½parï¿½s par '_'
+	 * @param string $file Nom de l'album et clï¿½, sï¿½parï¿½s par '_'
 	 * @param string $ext Extension de la photo (jpg, gif, etc.)
 	 */
 	function checkThumbnail( $album, $file, $ext, $key ) {
@@ -376,7 +376,7 @@ class Album {
 	 *
 	 * Efface une photo
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
  	 * @param integer $photo_id Id de la photo
 	 */
 	function delPhoto( $photo_id ) {
@@ -392,7 +392,7 @@ class Album {
 		
 		if(!$dh = @opendir($pathfolder)) return;
 		while (($obj = readdir($dh))) {
-			// Recherche des fichiers liés à l'image (vignettes)
+			// Recherche des fichiers liï¿½s ï¿½ l'image (vignettes)
 			if( ereg( $photo->photo_id.'_'.$photo->photo_cle.'(_s?[0-9]+)?\.'.$photo->photo_ext, $obj ) ) {
 				unlink($pathfolder.'/'.$obj);
 			}
@@ -407,7 +407,7 @@ class Album {
 	 *
 	 * Efface un album
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
  	 * @param integer $album_id Id de l'album
 	 */
 	function delAlbum( $album_id ) {
@@ -440,7 +440,7 @@ class Album {
 	 *
 	 * Retourne l'arbre des dossiers d'un album
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
  	 * @param integer $album_id Id de l'album
  	 * @param integer $parent_id Id du parent (facultatif)
 	 */
@@ -484,24 +484,24 @@ class Album {
 		
 		// Transformation de la liste brute en arbre
 		$dossiers_tree = Album::getFolderTreeFromList( $dossiers_list, $dossier_id );
-		
+                //kernel::MyDebug($dossiers_tree);
 		return( $dossiers_tree );
 	}
 	
 	/**
-	 * getFolderTreeFromList (privée)
+	 * getFolderTreeFromList (privï¿½e)
 	 *
-	 * Fonction privée de construction de l'arbre des dossiers d'un album
+	 * Fonction privï¿½e de construction de l'arbre des dossiers d'un album
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getFolderTreeFromList( $dossiers_list, $parent=-1 ) {
 		$dossiers_tree = array();
-		
 		foreach( $dossiers_list AS $key => $dossier ) {
 			if( $dossier->dossier_parent == $parent ) {
 				
 				$dossiers_childs = Album::getFolderTreeFromList( $dossiers_list, $dossier->dossier_id );
+
 				if( count($dossiers_childs) ) {
 					$dossier->childs = $dossiers_childs;
 				}
@@ -510,8 +510,8 @@ class Album {
 				
 			}
 		}
-		
-		return $dossiers_tree;
+		                
+            return $dossiers_tree;
 	}
 	
 	/**
@@ -519,7 +519,7 @@ class Album {
 	 *
 	 * Efface un dossier
 	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @author Frï¿½dï¿½ric Mossmann <fmossmann@cap-tic.fr>
  	 * @param integer $album_id Id de l'album
  	 * @param integer $dossier_id Id du dossier
  	 * @param string $mode Mode d'effacement (conservation des photos ou non)
@@ -538,14 +538,14 @@ class Album {
 		
 		if( _request('dossier_todo')=='moveparent' ) {
 			
-			// Déplacement des dossiers...
+			// Dï¿½placement des dossiers...
 			foreach( $folders as $folder_tmp ) {
 				$dossier_modif = $dossier_dao->get($folder_tmp->dossier_id);
 				$dossier_modif->dossier_parent = $dossier->dossier_parent;
 				$dossier_dao->update( $dossier_modif );
 			}
 			
-			// Déplacement des photos...
+			// Dï¿½placement des photos...
 			foreach( $pictures as $picture_tmp ) {
 				$picture_modif = $photo_dao->get($picture_tmp->photo_id);
 				$picture_modif->photo_dossier = $dossier->dossier_parent;
@@ -559,13 +559,13 @@ class Album {
 //			echo "<li><tt>BEGIN Delete (album=".$album_id."/dossier=".$dossier_id.")</tt></li>";
 //			echo "<ul>";
 			
-			// Déplacement des dossiers...
+			// Dï¿½placement des dossiers...
 			foreach( $folders as $folder_tmp ) {
 				$dossier_modif = $dossier_dao->get($folder_tmp->dossier_id);
 				Album::delFolder( $album_id, $dossier_modif->dossier_id, $mode );
 			}
 			
-			// Déplacement des photos...
+			// Dï¿½placement des photos...
 			foreach( $pictures as $picture_tmp ) {
 				$picture_modif = $photo_dao->get($picture_tmp->photo_id);
 //				echo "<li><tt>Delete photo (album=".$album_id."/dossier=".$dossier_id."/photo=".$picture_modif->photo_id.")</tt></li>";
