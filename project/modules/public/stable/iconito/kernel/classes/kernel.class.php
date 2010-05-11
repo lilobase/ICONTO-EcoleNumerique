@@ -2278,4 +2278,14 @@ class Kernel {
 	  
 	  return $breadcrumbs;
   }
+  
+  /**
+   * Retourne vrai si le module de gestion autonome est activé
+   *
+   * @return bool
+   */
+  public function isGestionAutonomeEnabled () {
+    
+    return CopixConfig::get ('kernel|gestionAutonomeEnabled');
+  }
 }

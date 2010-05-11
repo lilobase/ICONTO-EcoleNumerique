@@ -5,5 +5,6 @@
  	</general>
 	<parameters>
   	<parameter name="jeuEssaiInstalled" caption="kernel.parameter.jeuEssaiInstalled" default="0" />
+		<parameter name="gestionAutonomeEnabled" caption="Gestion autonome active" default="0" />
 	</parameters>
 </moduledefinition>
