@@ -87,7 +87,7 @@ class DAOKernel_bu_ecole {
 		  $conditions[] = 'kernel_bu_ecole_classe.id IN ('.implode(',', $groupsIds['classroomsIds']).')';
 		}
 		
-		$sql .= ' AND ('.implode('OR', $conditions).')';
+		$sql .= ' AND ('.implode(' OR ', $conditions).')';
 		$sql .= ' GROUP BY kernel_bu_ecole.numero';
 		$sql .= ' ORDER BY kernel_bu_ecole_classe.nom';
 		
