@@ -5,15 +5,21 @@
  */
 define('ENIC_PATH',dirname (__FILE__) . '/');
 
+//get enic Action Group
+require(ENIC_PATH.'enic.actiongroup.php');
 
 /*
  * FACTORY
  */
 class enic{
+
+    //internal link
+    static $l = array();
+
     /*
      * load block in global container
      */
-    public function load($type, $name = null){
+    public static function load($type, $name = null){
 
         //load file 
         enic::to_load($type);
@@ -21,17 +27,17 @@ class enic{
         //get name
         $name = (!empty($name)) ? enic::sanitize($name) : $type;
 
-        if(isset($this->$name))
+        if(in_array($name, self::$l))
             trigger_error('Item <em>'.$name.'</em> in <strong>ENIC ROOT CORE</strong> already exists', E_USER_WARNING);
 
         //load class in local ref
         $className = 'enic'.ucfirst($type);
-        $this->$name = new $className();
+        self::$l[$name] = new $className();
 
         //execute the startExec
-        $this->$name->startExec();
+        self::$l[$name]->startExec();
 
-        return $this->$name;
+        return self::$l[$name];
     }
 
     /*
@@ -52,12 +58,28 @@ class enic{
         if(!class_exists($className))
             trigger_error('Enic class missing : '.$className, E_USER_ERROR);
     }
+
+    /*
+     * get the named object
+     */
+    public static function get($type, $name = null){
+
+        //get name
+        $name = (!empty($name)) ? enic::sanitize($name) : $type;
+
+        //if exists return object
+        if(isset(self::$l[$name]))
+            return self::$l[$name];
+        
+        //else create new object
+        return self::load($type, $name);
+    }
     
     /*
      * sanitize a string
      */
     public static function sanitize($name){
-        $str = strtr(strtolower(trim($name)), "àáâãäåòóôõöøèéêëçìíîïùúûüÿñ","aaaaaaooooooeeeeciiiiuuuuyn");
+        $str = strtr(strtolower(trim($name)), "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½","aaaaaaooooooeeeeciiiiuuuuyn");
 	$str = preg_replace('#([^.a-z0-9]+)#i', '_', $str);
         $str = preg_replace('#_{2,}#','_',$str);
         $str = preg_replace('#_$#','',$str);
@@ -86,10 +108,16 @@ class enicTree{
 
     //ref to parent object
     public $_parentObject;
+
+    //level of current item
+    public $_level;
     
     //using in start/end group
     protected $_jump;
     protected $_lock;
+    
+    //global datas storage
+    protected $_datas;
 
 
     /*
@@ -104,6 +132,7 @@ class enicTree{
         $this->_lock = false;
         $this->_name = false;
         $this->_parentObject = $this;
+        $this->_level = 0;
     }
 
     /*
@@ -137,6 +166,12 @@ class enicTree{
         $this->$nameStr->_content = $content;
         $this->$nameStr->_opt = $opt;
 
+        //exec the addExec methode
+        $this->addExec();
+
+        //set level
+        $this->$nameStr->_level = $this->_level+1;
+
         //if jump : lock the child
         if($this->_jump === true)
             $this->$nameStr->_lock = true;
@@ -148,6 +183,14 @@ class enicTree{
             $this->_jump = false;
             return $this->$nameStr;
         }
+    }
+
+    /*
+     * function call at each add action
+     */
+    public function addExec(){
+
+        return true;
     }
 
     /*
@@ -209,26 +252,30 @@ class enicTree{
     /*
      * method called in the display process
      */
-    public function display($childDisplay = true){
+    public function display($topLimit = 0, $bottomLimit = 0){
+
+       
+
         //call display functions :
         $html = '';
-
-        //if root item : no display
-        if($this->_parent !== false){
-            $html .= $this->displayIn();
+        //if root item : no display and check the level of current item
+        if($this->_level !== 0 &&
+                ($this->_level >= $topLimit || $topLimit == 0) ){
+            $html .= $this->displayHeader();
             $html .= $this->displayMain();
         }
 
-        //get display from child
-        if($childDisplay !== false || empty($this->_children))
+        //get display from child & test the item level
+        if(($this->_level < $bottomLimit || $bottomLimit == 0) && !empty($this->_children))
             foreach($this->_children as $children)
-                $html .= $this->$children->display($childDisplay);
+                $html .= $this->$children->display($topLimit, $bottomLimit);
 
-        //if root item : no display
-        if($this->_parent !== false){
+        //if root item : no display and check the level of current item
+        if($this->_level !== 0 && ($this->_level >= $topLimit || $topLimit == 0) ){
             //end the display process
-            $html .= $this->displayOut();
+            $html .= $this->displayFooter();
         }
+
         //return generated html
         return $html;
     }
@@ -244,7 +291,7 @@ class enicTree{
     /*
      * display in the forward chain
      */
-    public function displayIn(){
+    public function displayHeader(){
 
         return '';
     }
@@ -252,7 +299,7 @@ class enicTree{
     /*
      * display at the return chain
      */
-     public function displayOut($html){
+     public function displayFooter($html){
 
          return '';
      }
@@ -275,7 +322,7 @@ class enicTree{
         $this->_lock = false;
         
         //if no parents : return current object
-        if($this->_parent === false)
+        if($this->_level === 0)
             return $this;
         
         return $this->_parentObject;
@@ -339,7 +386,7 @@ class enicTree{
         //go to root item
         if($name == ':first' || $name === false){
             //if it's the first : he has no parent
-            if($parent === false)
+            if($this->_level == 0)
                 return $this;
             
             //another case : return root
@@ -347,7 +394,7 @@ class enicTree{
         }
 
         //if parent is root : return false
-        if($parent === false)
+        if($this->_level === false)
             return false;
 
         //if parent found : return parentObject
@@ -387,6 +434,20 @@ class enicTree{
     }
 
     /*
+     * set data to entire tree
+     */
+    public function setDatas($name, $value){
+        $this->_root->_datas[$name] = $value;
+        return $this;
+    }
+
+    /*
+     * get data from global container
+     */
+    public function getDatas($name, $value){
+        return $this->_root->_datas[$name];
+    }
+    /*
      * debug function
      */
     public function debug(){
@@ -395,6 +456,7 @@ class enicTree{
         echo 'CONTENT '.var_dump($this->_content).'<br />'.PHP_EOL;
         echo 'TYPE : '.$this->_type.'<br />'.PHP_EOL;
         echo 'PARENT : '.$this->_parent.'<br />'.PHP_EOL;
+        echo 'LEVEL : '.$this->_level.'<br />'.PHP_EOL;
         foreach($this->_children as $children){
             echo '&nbsp;&nbsp;&nbsp;&nbsp;';
             $this->$children->debug().'<br />'.PHP_EOL;
@@ -405,11 +467,12 @@ class enicTree{
 /*
  * Error CLASS
  */
-set_error_handler("enicErrors::errorHandler", E_ALL);
+//desactivated 
+//set_error_handler("enicErrors::errorHandler", E_ALL);
 class enicErrors{
 
     public static function errorHandler($errno, $errstr, $errfile, $errline){
-        switch($errno){
+        echo $errno;switch($errno){
 
             case E_ERROR:
             case E_USER_ERROR:
@@ -448,14 +511,26 @@ class enicErrors{
 }
 
 
+class enicMod{
 
+    public function __construct(){
+
+    }
+
+    public function startExec(){
+
+    }
+
+}
+
+/*
 //enic load :
 $enic = new enic();
 $menu =& $enic->load('menu');
 
 
 $menu->add('player')->startGroup()
-                        ->add('framasoft')
+                        ->add('framasoft', 'http://www.framasoft.net', 'link')
                         ->startGroup()
                             ->add('toto')
                             ->add('tata')
@@ -467,4 +542,5 @@ $menu->add('player')->startGroup()
 
 
 //echo $menu->player->display();
-var_dump($menu->go('tata')->display());
+//var_dump($menu->go('tata')->display());
+echo $menu->player->display(3,3);*/

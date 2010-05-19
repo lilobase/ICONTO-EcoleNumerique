@@ -6,12 +6,12 @@
         return $html;
      }
 
-     public function displayIn(){
+     public function displayHeader(){
         $html = '<ul>';
         return $html;
      }
 
-     public function displayOut(){
+     public function displayFooter(){
          $html = '</ul>';
         return $html;
      }
