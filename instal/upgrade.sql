@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS `ecolenumerique`.`module_rightmatrix` (
 `user_type_in` VARCHAR( 75 ) NOT NULL ,
 `user_type_out` VARCHAR( 75 ) NOT NULL ,
 `right` INT( 2 ) UNSIGNED NOT NULL ,
+`node_type` VARCHAR ( 75 ) NOT NULL,
 INDEX ( `user_type_in` )
 ) ENGINE = MYISAM ;
 
