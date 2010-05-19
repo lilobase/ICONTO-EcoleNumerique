@@ -22,4 +22,6 @@ function qSession($key, $value = false){
     }
     return CopixSession::get('inconito|quiz|'.key);
 }
+
+echo 'test de l';
 ?>

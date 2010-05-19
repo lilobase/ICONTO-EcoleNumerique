@@ -160,6 +160,8 @@ define('COPIX_CLASSPATHS_FILE', COPIX_PATH.'CopixClassPaths.inc.php');
 Copix::RequireOnce (COPIX_CORE_PATH . 'CopixAutoloader.class.php');
 
 Copix::RequireOnce (COPIX_CORE_PATH . 'shortcuts.lib.php');
+
+Copix::RequireOnce(COPIX_PATH.'../enic/enic.core.php');
 //Copix::RequireOnce (COPIX_CORE_PATH . 'CopixErrorHandler.class.php');
 /* N'est plus nécessaire avec l'autoloader 
 Copix::RequireOnce (COPIX_CORE_PATH . 'CopixRequest.class.php');

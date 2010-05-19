@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="rightmatrix" descriptioni18n="rightmatrix.moduleDescription"/>
+    </general>
+
+    <parameters>
+    </parameters>
+</moduledefinition>

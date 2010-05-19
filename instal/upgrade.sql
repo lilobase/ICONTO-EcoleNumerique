@@ -1,3 +1,20 @@
+-- -------------------------------------------------------
+
+--
+-- creation table de matrice des droits
+--
+-- Ajout le 19/05/2010 par Arnaud LEMAIRE
+
+CREATE TABLE IF NOT EXISTS `ecolenumerique`.`module_rightmatrix` (
+`id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+`user_type_in` VARCHAR( 75 ) NOT NULL ,
+`user_type_out` VARCHAR( 75 ) NOT NULL ,
+`right` INT( 2 ) UNSIGNED NOT NULL ,
+INDEX ( `user_type_in` )
+) ENGINE = MYISAM ;
+
+-- -------------------------------------------------------
+
 ALTER TABLE `kernel_bu_ecole`
 CHANGE `RNE` `RNE` VARCHAR(10) NULL DEFAULT NULL,
 CHANGE `code_ecole_vaccination` `code_ecole_vaccination` VARCHAR(15) NULL DEFAULT NULL,
@@ -282,3 +299,4 @@ CREATE TABLE `kernel_animateurs2regroupements` (
   `regroupement_id` int(11) NOT NULL,
   PRIMARY KEY (`user_type`,`user_id`,`regroupement_type`,`regroupement_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
