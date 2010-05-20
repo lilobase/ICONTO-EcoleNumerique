@@ -444,7 +444,7 @@ class enicTree{
     /*
      * get data from global container
      */
-    public function getDatas($name, $value){
+    public function getDatas($name){
         return $this->_root->_datas[$name];
     }
     /*
