@@ -14,7 +14,6 @@ class enicUser extends enicTree {
         $this->login = $userInfos['login'];
         $this->nom = $userInfos['nom'];
         $this->prenom = $userInfos['prenom'];
-        var_dump($userInfos);
     }
 
     public function addExec(){

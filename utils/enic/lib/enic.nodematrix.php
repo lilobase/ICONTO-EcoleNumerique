@@ -1,46 +1,48 @@
 <?php
-class enicNode extends enicTree{
+class enicNodeMatrix extends enicTree{
     
     public $children;
     public $parent;
 
     public function startExec(){
-
+        
     }
 
     public function addExec(){
-        $this->_right = new enicRight();
+        $this->_right = new loadRightMatrix();
+        $this->member_of = false;
+        $this->descendant_of = false;
+        $this->admin_of = false;
     }
 
 
 }
 
-class enicRight{
+class loadRightMatrix{
     
     //right on users type
     public $parent;
     public $eleve;
     public $enseignant;
-    public $directeur;
+    public $directeurt;
     public $agent_ville;
     public $voir;
     public $communiquer;
 
     //build right tree
     public function __construct(){
-        $this->parent = new enicRightAction();
-        $this->eleve = new enicRightAction();
-        $this->enseignant = new enicRightAction();
-        $this->directeur = new enicRightAction();
-        $this->agent_ville = new enicRightAction();
-        
-        $this->voir = new enicRightTypeUser();
-        $this->communiquer = new enicRightTypeUser();
+        $this->parent = new loadRightMatrixAction();
+        $this->eleve = new loadRightMatrixAction();
+        $this->enseignant = new loadRightMatrixAction();
+        $this->directeur = new loadRightMatrixAction();
+        $this->agent_ville = new loadRightMatrixAction();
+        $this->voir = new loadRightMatrixTypeUser();
+        $this->communiquer = new loadRightMatrixTypeUser();
     }
     
 }
 
-class enicRightTypeUser{
+class loadRightMatrixTypeUser{
     //right on users type
     public $parent;
     public $eleve;
@@ -59,7 +61,7 @@ class enicRightTypeUser{
 
 }
 
-class enicRightAction{
+class loadRightMatrixAction{
     
      //right on action
     public $voir;
