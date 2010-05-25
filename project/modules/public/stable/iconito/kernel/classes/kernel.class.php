@@ -375,20 +375,25 @@ class Kernel {
 			
 			// Utilisateurs locaux (hors BU) --(n)--> Noeuds (ecoles, classes, clubs, etc.)
 			case "USER_EXT":
+                                $alreadyOnRoot = false;
 				$dao = _dao("kernel|kernel_link_user2node");
 				$res = $dao->getByUser($type,$id);
 				foreach( $res AS $key=>$val ) {
 					if( ereg( "^BU_(.+)$", $val->node_type, $regs ) )
 						$return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$val->droit);
-					if( ereg( "^ROOT$", $val->node_type ) )
+					if( ereg( "^ROOT$", $val->node_type ) ){
 						$return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
+                                                $alreadyOnRoot = true;
+                                        }
 				}
 				// PNL - en dur, chef de Grandville (id1)
 				// en rÈalitÈ il faut balayer tout ce qui est attachÈ ‡ ce user EXT
 				// $return[]=array("type"=>"BU_VILLE", "id"=>1,"droit"=>99);
 				
 				// Les USER_EXT sont attaches par defaut a ROOT/0 sans droits
-				$return[]=array("type"=>"ROOT", "id"=>0,"droit"=>0);
+                                if(!$alreadyOnRoot)
+                                    $return[]=array("type"=>"ROOT", "id"=>0,"droit"=>0);
+
 				break;
 
 			default:
@@ -411,7 +416,7 @@ class Kernel {
 			foreach( $res AS $key=>$val ) {
 
 				// Utilisateurs --(n)--> Groupes de travail (clubs)
-				if( 1 || $val->node_type=="CLUB" ) {
+				if($val->node_type=="CLUB" ) {
 					$ok = true;
 					if ($val->debut && $val->debut>date("Ymd")) $ok = false;
 					if ($val->fin   && $val->fin  <date("Ymd")) $ok = false;
@@ -899,7 +904,7 @@ class Kernel {
 				}
 				break;
 			case "BU_CLASSE":
-				if( isset($this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")]) ) {
+				if( isset($this->cache_getNodeInfo_classe[$id.'-'.($addparents ? 'parent' : 'noparent' )]) ) {
 					$return = $this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")];
 				} else {
 					$dao = _dao("kernel|kernel_tree_cla");
