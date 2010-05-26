@@ -120,6 +120,7 @@ class enicTree{
     protected $_datas;
 
 
+
     /*
      * set default value
      */
@@ -404,6 +405,19 @@ class enicTree{
     }
 
     /*
+     * load_once
+     */
+    public function loadOnce($type, $name, $content=null, $opt=null){
+        //create computer readable name
+        $nameStr = enic::sanitize($name);
+
+        if(isset($this->$nameStr))
+            return $this;
+
+        return $this->load($type, $name, $content, $opt);
+    }
+
+    /*
      * get specific named object
      * linkable
      */
@@ -430,7 +444,10 @@ class enicTree{
      * get data from global container
      */
     public function getDatas($name){
-        return $this->_root->_datas[$name];
+        if(isset($this->_root->_datas[$name]))
+            return $this->_root->_datas[$name];
+        else
+            return false;
     }
     /*
      * debug function
@@ -671,13 +688,12 @@ class enicList{
      /*
       * get data from the global container
       */
-     public function getDatas($name){
-         //test if datas exists
-         if(!isset($this->_root->_datas[$name]))
+    public function getDatas($name){
+        if(isset($this->_root->_datas[$name]))
+            return $this->_root->_datas[$name];
+        else
             return false;
-
-         return $this->_root->_datas[$name];
-     }
+    }
 
     /*
      * display before main & child
@@ -769,6 +785,19 @@ class enicList{
 
         //return current objet
             return $this;
+    }
+
+    /*
+     * load_once
+     */
+    public function loadOnce($type, $name, $content=null, $opt=null){
+        //create computer readable name
+        $nameStr = enic::sanitize($name);
+
+        if(isset($this->$nameStr))
+            return $this;
+
+        return $this->load($type, $name, $content, $opt);
     }
 
     /*

@@ -16,17 +16,20 @@ class enicMatrix extends enicList {
         $this->groupes->load('nodeMatrix', '_other');
         
         //start the iteration to complete the nodes when the user is member
-        rightMatrixHelpers::completeMemberNodes($user->type, $user->id);
+        rightMatrixHelpers::completeUp($user->type, $user->id);
+
+        //foreach GRVILL : complete tree :
+        foreach($this->villes->_children as $child){
+            if($this->villes->$child->nom == 'other')
+                continue;
+            rightMatrixHelpers::completeDown('BU_GRVILLE', $this->villes->$child->id);
+        }
     }
 
     public function addExec(){
         //load others
         $this->load('nodeMatrix', '_other');
         
-    }
-
-    public function getRight($id = 0){
-        return true;
     }
 
     public function __get($name){
@@ -56,11 +59,12 @@ class enicMatrix extends enicList {
             break;
             case 'ville':
             case 'VILLE':
-            case 'BU_ECOLE';
+            case 'BU_VILLE';
                 $node = $this->_root->villes->ville;
             break;
             case 'villes':
             case 'GVILLE':
+            case 'BU_GRVILLE':
                 $node = $this->_root->villes;
             break;
             case 'CLUB':
@@ -72,7 +76,7 @@ class enicMatrix extends enicList {
             break;
 
             default:
-                trigger_error('Enic Matrix : unknow nodeType : <strong>'.$name.'</strong>', E_USER_ERROR);
+                trigger_error('Enic Matrix : unknow nodeType or wrong method : <strong>'.$name.'</strong>', E_USER_ERROR);
                 return false;
             break;
 
@@ -93,35 +97,36 @@ class enicMatrix extends enicList {
     /*
      * DISPLAY THE WHOLE TREE WITH RIGHT
      */
-    public function displayHeader(){
-        $html = '<ul>';
-        
-        return $html;
-    }
-
     public function displayMain(){
-        $html = '<li>'.$this->name.'</li>';
+        $html = '<li>'.$this->_name.'</li>';
         $html .= '<ul>';
         foreach($this->_children as $child){
-            $html .= '<li>'.$child->name.'</li>';
+            $html .= '<li>'.$this->$child->nom.'</li>';
             $html .= '<ul>';
-                $html .= '<li> Admin : '.($child->admin_of) ? 'true' : 'false' .'</li>';
-                $html .= '<li> Member : '.($child->member_of) ? 'true' : 'false' .'</li>';
-                $html .= '<li> Descendant : '.($child->descendant_of) ? 'true' : 'false' .'</li>';
-                $html .= '<ul>';
-                    foreach($child->_right as $key => $right){
-                        $html .= '<li>'.$key.' : '.($right) ? 'true' : 'false' .'</li>';
+                $html .= (isset($this->$child->id)) ? '<li>Id : '.$this->$child->id.'</li>' : '';
+                $html .= (isset($this->$child->type)) ? '<li>Type : '.$this->$child->type.'</li>' : '';
+                $html .= '<li>-----</li>';
+                $html .= '<li> Admin : '.(($this->$child->admin_of) ? 'true' : 'false' ).'</li>';
+                $html .= '<li> Member : '.(($this->$child->member_of) ? 'true' : 'false' ).'</li>';
+                $html .= '<li> Descendant : '.(($this->$child->descendant_of) ? 'true' : 'false' ).'</li>';
+                    foreach($this->$child->_right as $key => $right){
+                        $html .='<ul>';
+                            $html .= '<li>'.$key.' : </li>';
+                            $html .= '<ul>';
+                                $attr = get_object_vars($right);
+                                if(is_array($attr)){
+                                    foreach($attr as $keyi => $righti){
+                                        $html .= '<li>'.$keyi.' : '.(($righti) ? 'true' : 'false' ). '</li>';
+                                    }
+                                }else{
+                                    $html .= '<li>No RIGHT </li>';
+                                }
+                            $html .= '</ul>';
+                        $html .= '</ul>';
                     }
-                $html .= '</ul>';
             $html .= '</ul>';
         }
         $html .= '</ul>';
-
-        return $html;
-    }
-
-    public function displayFooter(){
-        $html = '</ul>';
 
         return $html;
     }
@@ -132,47 +137,109 @@ class enicMatrix extends enicList {
 class rightMatrixHelpers{
 
     /*
-     * get and push the member's parent nodes
+     * get and push the member's parent nodes and parent's of parents (reccursive)
      */
     protected static $matrix;
 
-    public static function completeMemberNodes($type, $id, $first = true){
+    public static function completeUp($type, $id, $first = true){
         //get the actual matrix:
-        self::$matrix =& enic::get('matrix');
+        $matrix = self::getMatrix();
+
+        //get kernel
         $kernel = new Kernel();
+
+        //list parents and add each at the tree
         foreach($kernel->getNodeParents($type, $id) as $userNode){
 
             //get the node type :
             $nodeType = $userNode['type'];
-            $node = self::$matrix->$nodeType();
+            $node = $matrix->$nodeType();
             $idNode = '_'.$userNode['id'];
-            $node->load('nodeMatrix', $idNode);
-            $node->$idNode->nom = (isset($userNode['nom'])) ? $userNode['nom'] : null;
-
+            
+            //if already exists : pass the loading
+            if(!isset($node->$idNode)){
+                $node->loadOnce('nodeMatrix', $idNode);
+                $node->$idNode->nom = (isset($userNode['nom'])) ? $userNode['nom'] : null;
+                $node->$idNode->type = $userNode['type'];
+                $node->$idNode->id = $userNode['id'];
+            }
+            
             //detect 'nd apply rigth
-            if($userNode['droit'] > 60)
+            if(isset($userNode['droit']) && ($userNode['droit'] > 60))
                 $node->$idNode->admin_of = true;
 
             //if the member is direct member
             if($first){
-            //in all case : user is member
-            $node->$idNode->member_of = true;
+                //in all case : user is member
+                $node->$idNode->member_of = true;
             }else{
                 $node->$idNode->descendant_of = true;
             }
 
+            //add parent in kernelParent
+            $node->$idNode->kernelParent = $id;
+
             //reccursive
-            self::completeMemberNodes($userNode['type'], $userNode['id']);
+            self::completeUp($userNode['type'], $userNode['id'], false);
+
+        }
+
+    }
+
+    /*
+     * reccursive to create the complet tree
+     */
+    public static function completeDown($type, $id){
+        //load matrix ref object
+        $matrix = self::getMatrix();
+        
+        //load kernel
+        $kernel = new Kernel();
+
+        //list type of user :
+        $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES');
+
+        //list child and add each at the Tree
+        foreach($kernel->getNodeChilds($type, $id) as $userNode){
+
+            //if is a user : pass
+            if(in_array($userNode['type'], $userType))
+                continue;
+
+            //get the node type :
+            $nodeType = $userNode['type'];
+
+            //call the ref to node type in matrix list
+            $node = $matrix->$nodeType();
+            $idNode = '_'.$userNode['id'];
+
+            //if already exists : pass the loading
+            if(!isset($node->$idNode)){
+                //load node with informations
+                $node->loadOnce('nodeMatrix', $idNode);
+                $node->$idNode->nom = (isset($userNode['nom'])) ? $userNode['nom'] : null;
+                $node->$idNode->type = $userNode['type'];
+                $node->$idNode->id = $userNode['id'];
+            }
+
+            //add parent is kernelParent array
+            $node->$idNode->kernelChildren[] = $id;
+
+            self::completeDown($userNode['type'], $userNode['id'], false);
 
         }
     }
 
     /*
-     * reccursive to create the 'descendant_of' tree
+     * get Matrix (singleton)
      */
-    public static function completeDescendantOf(){
-
+    protected static function getMatrix(){
+        if(empty(self::$matrix))
+           self::$matrix =& enic::get('matrix');
+        return self::$matrix;
     }
+
+
 
     /*
      * finish the tree with additionnal infos from anothers nodes

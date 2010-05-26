@@ -1,8 +1,14 @@
 <?php
 class enicNodeMatrix extends enicTree{
-    
-    public $children;
-    public $parent;
+
+    public $right;
+    public $member_of;
+    public $descendant_of;
+    public $admin_of;
+    public $kernelChildren;
+    public $kernelParent;
+    public $type;
+    public $id;
 
     public function startExec(){
         
@@ -13,6 +19,9 @@ class enicNodeMatrix extends enicTree{
         $this->member_of = false;
         $this->descendant_of = false;
         $this->admin_of = false;
+        $this->kernelChildren = array();
+        $this->kernelParent = array();
+        $this->nom = 'other';
     }
 
 
@@ -24,7 +33,7 @@ class loadRightMatrix{
     public $parent;
     public $eleve;
     public $enseignant;
-    public $directeurt;
+    public $directeur;
     public $agent_ville;
     public $voir;
     public $communiquer;
