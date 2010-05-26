@@ -29,8 +29,6 @@ $total = $end-$start;
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
 
-
-
     }
 
 }
