@@ -17,13 +17,14 @@ class ActionGroupRightmatrix extends enicActionGroup {
     }
 
     public function processDefault(){
-        $kernel = new kernel();
-$start =  microtime_float();
+        $kernel = new Kernel();
+        echo '<pre>';
+        var_dump($this->matrix->villes->_1->type);
+        echo '</pre>';
         $this->matrix =& enic::get('matrix');
 $end = microtime_float();
-        var_dump($this->matrix->groupes(5)->member_of);
-$total = $end-$start;
-        echo 'time : '.$total;
+        var_dump($this->matrix->BU_VILLE(5)->_right->voir->enseignant);
+
 
         echo $this->matrix->display();
     }
