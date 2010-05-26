@@ -49,7 +49,7 @@ class enic{
              trigger_error('Enic File missing : '.strtolower($type), E_USER_ERROR);
 
         //require class file
-        require_once(ENIC_PATH.'/lib/enic.'.$type.'.php');
+        require_once(ENIC_PATH.'/lib/enic.'.strtolower($type).'.php');
 
         //get class name
         $className = 'enic'.ucfirst($type);
