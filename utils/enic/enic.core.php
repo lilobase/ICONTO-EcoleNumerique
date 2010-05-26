@@ -46,7 +46,7 @@ class enic{
     public static function to_load($type){
         //test if file exists
         if(!file_exists(ENIC_PATH.'/lib/enic.'.strtolower($type).'.php'))
-             trigger_error('Enic File missing : '.$type, E_USER_ERROR);
+             trigger_error('Enic File missing : '.strtolower($type), E_USER_ERROR);
 
         //require class file
         require_once(ENIC_PATH.'/lib/enic.'.$type.'.php');
