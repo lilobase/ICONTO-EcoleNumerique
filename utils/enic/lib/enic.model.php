@@ -20,6 +20,9 @@ class enicModel extends enicMod {
     //db connexion
     protected $_db;
 
+    //results storage
+    protected $_results;
+
     public function startExec(){
 
         //get database config
@@ -50,7 +53,12 @@ class enicModel extends enicMod {
      * Create 'and execute query
      */
     public function query($query){
-        $this->_db->query($query);
+        $this->_results = $this->_db->query($query);
+        if($this->_results === false){
+            echo $this->errorInfo();
+            return false;
+        }
+        return $this;
     }
 
     public function exec($query){
@@ -59,7 +67,7 @@ class enicModel extends enicMod {
     }
 
     public function toArray(){
-
+        return $this->_results->fetchAll();
     }
 
     public function toString(){
@@ -72,7 +80,7 @@ class enicModel extends enicMod {
 
     public function close(){
         $this->lastId = $this->_db->lastInsertId();
-        $this->_db->closeCursor();
+        $this->_results->closeCursor();
     }
 
     public function errorInfo(){

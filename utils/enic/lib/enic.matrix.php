@@ -24,6 +24,9 @@ class enicMatrix extends enicList {
                 continue;
             rightMatrixHelpers::completeDown('BU_GRVILLE', $this->villes->$child->id);
         }
+
+        //fetch and apply right on node :
+        rightMatrixHelpers::completeUserRight();
     }
 
     public function addExec(){
@@ -143,7 +146,7 @@ class rightMatrixHelpers{
 
     public static function completeUp($type, $id, $first = true){
         //get the actual matrix:
-        $matrix = self::getMatrix();
+        $matrix = enic::get('matrix');
 
         //get kernel
         $kernel = new Kernel();
@@ -191,7 +194,7 @@ class rightMatrixHelpers{
      */
     public static function completeDown($type, $id){
         //load matrix ref object
-        $matrix = self::getMatrix();
+        $matrix = enic::get('matrix');
         
         //load kernel
         $kernel = new Kernel();
@@ -200,7 +203,7 @@ class rightMatrixHelpers{
         $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES');
 
         //list child and add each at the Tree
-        foreach($kernel->getNodeChilds($type, $id) as $userNode){
+        foreach($kernel->getNodeChilds($type, $id, false) as $userNode){
 
             //if is a user : pass
             if(in_array($userNode['type'], $userType))
@@ -230,22 +233,23 @@ class rightMatrixHelpers{
         }
     }
 
-    /*
-     * get Matrix (singleton)
-     */
-    protected static function getMatrix(){
-        if(empty(self::$matrix))
-           self::$matrix =& enic::get('matrix');
-        return self::$matrix;
-    }
-
 
 
     /*
      * finish the tree with additionnal infos from anothers nodes
      */
-    public static function completeChildren(){
+    public static function completeUserRight(){
+        //get enic Model library
+        $db = enic::get('model');
 
+        //get user infos
+        $user = enic::get('user');
+
+        //get the right for the type of user
+        $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \''.$user->type.'\'')->toArray();
+        $db->close();
+
+        print_r($datas);
     }
 }
 ?>
