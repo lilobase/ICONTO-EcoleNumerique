@@ -23,7 +23,7 @@ class ActionGroupRightmatrix extends enicActionGroup {
         echo '</pre>';
         $this->matrix =& enic::get('matrix');
 $end = microtime_float();
-        var_dump($this->matrix->BU_VILLE(5)->_right->voir->enseignant);
+        var_dump($this->matrix->groupes->_children);
 
 
         echo $this->matrix->display();

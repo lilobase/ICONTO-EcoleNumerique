@@ -203,7 +203,7 @@ class rightMatrixHelpers{
         $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES');
 
         //list child and add each at the Tree
-        foreach($kernel->getNodeChilds($type, $id, false) as $userNode){
+        foreach($kernel->getNodeChilds($type, $id, true, array('skip_user' => true)) as $userNode){
 
             //if is a user : pass
             if(in_array($userNode['type'], $userType))
