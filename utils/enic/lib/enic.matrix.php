@@ -142,7 +142,7 @@ class rightMatrixHelpers{
     /*
      * get and push the member's parent nodes and parent's of parents (reccursive)
      */
-    protected static $matrix;
+    protected static $kernel;
 
     public static function completeUp($type, $id, $first = true){
         //get the actual matrix:
@@ -197,21 +197,18 @@ class rightMatrixHelpers{
         $matrix = enic::get('matrix');
         
         //load kernel
-        $kernel = new Kernel();
+        if(empty(self::$kernel))
+            self::$kernel = new Kernel();
+        $kernel = self::$kernel;
 
         //list type of user :
         $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES');
 
         //list child and add each at the Tree
-        foreach($kernel->getNodeChilds($type, $id, true, array('skip_user' => true)) as $userNode){
-
-            //if is a user : pass
-            if(in_array($userNode['type'], $userType))
-                continue;
-
+        $children = $kernel->getNodeChilds($type, $id, true, array('skip_user' => true));
+        foreach($children as $userNode){
             //get the node type :
             $nodeType = $userNode['type'];
-
             //call the ref to node type in matrix list
             $node = $matrix->$nodeType();
             $idNode = '_'.$userNode['id'];

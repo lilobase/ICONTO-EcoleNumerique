@@ -490,8 +490,8 @@ class Kernel {
 						$return[]=array("type"=>"BU_VILLE", "id"=>$val->vil_id_vi);
 					}
 
-                                        //skip get user
-                                        if(isset($options['skip_user']) && $options['skip_user']){
+                                        //skip get user infos
+                                        if(!isset($options['skip_user']) || !$options['skip_user']){
                                             // Groupe de Ville --(n)--> Agents de ville
                                             $dao = _dao("kernel|kernel_bu_personnel_entite");
                                             $res = $dao->getByRef("GVILLE",$id);
@@ -515,7 +515,7 @@ class Kernel {
 						$return[]=array("type"=>"BU_ECOLE", "id"=>$val->eco_numero);
 					}
                                         //skip get user infos
-                                        if(isset($options['skip_user']) && $options['skip_user']){
+                                        if(!isset($options['skip_user']) || !$options['skip_user']){
                                             // Ville --(n)--> Agents de ville
                                             $dao = _dao("kernel|kernel_bu_personnel_entite");
                                             $res = $dao->getByRef("VILLE",$id);
@@ -550,7 +550,7 @@ class Kernel {
 
 
                                         //skip get user infos
-                                        if(isset($options['skip_user']) && $options['skip_user']){
+                                        if(!isset($options['skip_user']) || !$options['skip_user']){
                                             // Ecole --(n)--> Enseignants
                                             $dao = _dao("kernel|kernel_bu_personnel_entite");
                                             $res = $dao->getByRef("ECOLE",$id);
@@ -573,7 +573,7 @@ class Kernel {
 			case "BU_CLASSE":
 
                             //skip get user infos
-                            if(isset($options['skip_user']) && $options['skip_user']){
+                            if(!isset($options['skip_user']) || !$options['skip_user']){
 				if( isset($this->cache_getNodeChilds_classe[$id]) ) {
 					$return = $this->cache_getNodeChilds_classe[$id];
 				} else {
@@ -608,21 +608,25 @@ class Kernel {
 			*/
 		}
 
-		// BÈnÈficiaire --(n)--> Responsable (limitÈ ‡ enfant --> parents)
-		if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
-			$dao = _dao("kernel|kernel_bu_res2ele");
-			$res = $dao->getByBeneficiaire("USER_ELE", $id);
-			//print_r($res);
-			foreach( $res AS $key=>$val ) {
-				if( $val->res2ele_type_responsable != "responsable" ) continue;
-				$return[]=array("type"=>"USER_RES", "id"=>$val->res2ele_id_responsable, "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
-			}
-		}
+                //skip get user infos
+                if(!isset($options['skip_user']) || !$options['skip_user']){
+
+                    // BÈnÈficiaire --(n)--> Responsable (limitÈ ‡ enfant --> parents)
+                    if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
+                            $dao = _dao("kernel|kernel_bu_res2ele");
+                            $res = $dao->getByBeneficiaire("USER_ELE", $id);
+                            //print_r($res);
+                            foreach( $res AS $key=>$val ) {
+                                    if( $val->res2ele_type_responsable != "responsable" ) continue;
+                                    $return[]=array("type"=>"USER_RES", "id"=>$val->res2ele_id_responsable, "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
+                            }
+                    }
+                }
 
                 //skip get user infos
-                if(isset($options['skip_user']) && $options['skip_user']){
+                if(!isset($options['skip_user']) || !$options['skip_user']){
                     // Noeud (classe, ecole, etc.) + clubs --(n)--> Utilisateurs ext.
-                    if( !ereg( "^USER_(.+)$", $type, $regs ) ) {
+                    if( !preg_match( "#^USER_(.+)$#", $type, $regs ) ) {
                             $dao = _dao("kernel|kernel_link_user2node");
                             $res = $dao->getByNode($type,$id);
                             foreach( $res AS $key=>$val ) {
@@ -631,22 +635,20 @@ class Kernel {
                     }
                 }
 
-		if( ereg( "^BU_(.+)$", $type, $regs ) ) {
+		if( preg_match( "#^BU_(.+)$#", $type, $regs ) ) {
 			// Noeud (classe, ecole, etc.) --(n)--> Groupes de travail
 			$dao = _dao("kernel|kernel_link_groupe2node");
 			$res = $dao->getByNode($type,$id);
 			foreach( $res AS $key=>$val ) {
 				$return[]=array("type"=>"CLUB", "id"=>$val->groupe_id);
 			}
-
-			// Groupes
 		}
 		
 		// Ajoute les personnes extÈrieures (mÍme non liÈes ‡ un noeud) ‡ la racine
 		if( $type=='ROOT' ) {
 
                     //skip get user infos
-                    if(isset($options['skip_user']) && $options['skip_user']){
+                    if(!isset($options['skip_user']) || !$options['skip_user']){
 			$return_add = array();
 			$userext_old = array();
 			foreach( $return AS $user ) {
@@ -684,7 +686,7 @@ class Kernel {
             if( $addchildinfo ) {
                 // Ajoute les infos aux donnÈes sur les enfants
                 foreach( $return AS $key=>$val ) {
-                    $infos = Kernel::getNodeInfo( $val['type'], $val['id'], false );
+                    $infos = Kernel::getNodeInfo( $val['type'], $val['id'], false);
                     if( $infos ) // VÈrifie qu'il y a des infos...
                         foreach( $infos AS $info_key=>$info_val )
                             if( !isset($return[$key][$info_key]) ) // Evite les effacements...
