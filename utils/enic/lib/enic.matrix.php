@@ -111,6 +111,7 @@ class enicMatrix extends enicList {
                 $html .= '<li>-----</li>';
                 $html .= '<li> Admin : '.(($this->$child->admin_of) ? 'true' : 'false' ).'</li>';
                 $html .= '<li> Member : '.(($this->$child->member_of) ? 'true' : 'false' ).'</li>';
+                $html .= '<li> Director : '.(($this->$child->director_of) ? 'true' : 'false' ).'</li>';
                 $html .= '<li> Descendant : '.(($this->$child->descendant_of) ? 'true' : 'false' ).'</li>';
                     foreach($this->$child->_right as $key => $right){
                         $html .='<ul>';
@@ -148,6 +149,9 @@ class rightMatrixHelpers{
         //get the actual matrix:
         $matrix = enic::get('matrix');
 
+        //get users infos:
+        $user = enic::get('user');
+
         //get kernel
         $kernel = new Kernel();
 
@@ -158,6 +162,7 @@ class rightMatrixHelpers{
             $nodeType = $userNode['type'];
             $node = $matrix->$nodeType();
             $idNode = '_'.$userNode['id'];
+            $parentNode = '_'.$id;
             
             //if already exists : pass the loading
             if(!isset($node->$idNode)){
@@ -168,8 +173,28 @@ class rightMatrixHelpers{
             }
             
             //detect 'nd apply rigth
-            if(isset($userNode['droit']) && ($userNode['droit'] > 60))
+            if(isset($userNode['droit']) && ($userNode['droit'] > 60)){
                 $node->$idNode->admin_of = true;
+
+                //if user is director
+                if($userNode['type'] === 'BU_ECOLE'){
+                    $node->$idNode->director_of = true;
+                    $user->director = $userNode['id'];
+                }
+
+                //SuperAdmin case :
+                if($userNode['type'] === 'ROOT'){
+                    $node->$idNode->root = true;
+                    $user->root = true;
+                }
+            }            
+
+            //test if is the director in branch :
+            if($type != 'BU_CLASSE' &&
+                    $type != 'CLUB' &&
+                    $first == false &&
+                    $node->_childObject->$parentNode->director_of === true)
+                $node->$idNode->director_of = true;
 
             //if the member is direct member
             if($first){
@@ -242,10 +267,19 @@ class rightMatrixHelpers{
         //get user infos
         $user = enic::get('user');
 
+        //matrix :
+        $matrix = enic::get('matrix');
+
         //get the right for the type of user
         $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \''.$user->type.'\'')->toArray();
         $db->close();
 
+        //if user is director :
+        $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = ')
+
+        foreach($datas as $data){
+
+        }
         print_r($datas);
     }
 }

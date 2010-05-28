@@ -9,6 +9,7 @@ class enicNodeMatrix extends enicTree{
     public $kernelParent;
     public $type;
     public $id;
+    public $director_of;
 
     public function startExec(){
         
@@ -21,6 +22,7 @@ class enicNodeMatrix extends enicTree{
         $this->admin_of = false;
         $this->kernelChildren = array();
         $this->kernelParent = array();
+        $this->director_of = false;
         $this->nom = 'other';
     }
 

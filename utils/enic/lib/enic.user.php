@@ -11,6 +11,7 @@ class enicUser extends enicTree {
 
         $this->id = $userInfos['id'];
         $this->type = $userInfos['type'];
+        $this->root = false;
         $this->login = $userInfos['login'];
         $this->nom = $userInfos['nom'];
         $this->prenom = $userInfos['prenom'];
