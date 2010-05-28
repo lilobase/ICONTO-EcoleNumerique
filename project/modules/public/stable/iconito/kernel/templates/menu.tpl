@@ -1,1 +1,1 @@
-<div class="options">{$ppo->menu}</div>
+<div class="submenu">{$ppo->menu}</div>

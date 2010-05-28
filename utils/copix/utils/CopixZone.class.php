@@ -52,6 +52,10 @@ abstract class CopixZone {
      */
     public static function process ($pName, $pParams = array ()){
        $zoneObject = self::_create ($pName);
+       if($zoneObject === false ){
+       		trigger_error('CopixZone ['.$pName.'] not found', E_USER_WARNING);
+       		return false;
+       }
        $content = $zoneObject->_process ($pParams);
        //On sait que createZone place le contexte d'exécution de la zone.
        CopixContext::pop ();
@@ -71,6 +75,8 @@ abstract class CopixZone {
 		//Récupère le nom du fichier en fonction du module courant.
 		$fileName = $fileInfo->getPath(COPIX_ZONES_DIR). strtolower($fileInfo->fileName) . '.zone.php';
 
+		if(!file_exists($fileName)) return false;
+		
 		//inclusion du fichier.
 		Copix::RequireOnce ($fileName);
 		$objName = 'Zone'.$fileInfo->fileName;

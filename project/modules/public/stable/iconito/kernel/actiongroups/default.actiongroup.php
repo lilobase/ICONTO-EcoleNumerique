@@ -21,7 +21,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 	
 	function processDefault () {
-		return _arRedirect (_url ('|getHome'));
+		// return _arRedirect (_url ('|getHome'));
+		return _arRedirect (_url ('kernel|dashboard|'));
 	}
 	
 	
@@ -61,7 +62,7 @@ class ActionGroupDefault extends CopixActionGroup {
 						$nodes_perso['ROOT']["droit"] = $val["droit"];
 						$nodes_perso['ROOT']['type'] = 'ROOT';
 						$nodes_perso['ROOT']['id'  ] = 0;
-						$nodes_perso['ROOT']['nom' ] = 'Root';
+						$nodes_perso['ROOT']['nom' ] = 'Administration';
 					}
 					break;
 				case "BU_CLASSE":
@@ -89,7 +90,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		if( isset($nodes_perso['ROOT']) ) {
 			$nodes_perso['ROOT']["info"]["nom"] = CopixI18N::get ('kernel|kernel.message.admin');
-			$nodes_perso['ROOT']["info"]["type_nom"] = "Root";
+			$nodes_perso['ROOT']["info"]["type_nom"] = "Administration";
 			$nodes_perso['ROOT']["info"]["type"] = "ROOT";
 			$nodes_perso['ROOT']["info"]["id"] = 0;
 			$nodes_perso['ROOT']["info"]["selected"] = (_currentUser()->getExtraHome('type')=="ROOT" )?true:false;
@@ -202,6 +203,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processGetHome() {
+		return _arRedirect (_url ('kernel|dashboard|'));
 	
 		//print_r($_SESSION);
 	
@@ -287,9 +289,10 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		
 		$tplModule->assign ("modules", $modules);
-		$tplModule->assign ("groupes", CopixZone::process ('groupe|mygroupes', array('where'=>'home')));
-		// $tplModule->assign ("aujourdhui", CopixZone::process ('agenda|agendatoday', array('where'=>'home')));
-		$return_str = $tplModule->fetch("getmodules.tpl");
+//		$tplModule->assign ("groupes", CopixZone::process ('groupe|mygroupes', array('where'=>'home')));
+//		$tplModule->assign ("aujourdhui", CopixZone::process ('agenda|agendatoday', array('where'=>'home')));
+//		$return_str = $tplModule->fetch("getmodules.tpl");
+		$return_str = $tplModule->fetch("dashboard.tpl");
 		
 		
 		

@@ -1,0 +1,58 @@
+/**
+ * THEMES - typography.css
+ * Styles typographiques
+ *
+ * @package	Iconito 2010
+ * @cdate 22.01.2010
+ * @mdate 22.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+@font-face {
+	font-family: Gill Sans;  
+	src: url(../fonts/GillSans.ttf);
+}
+
+@font-face {
+	font-family: ecl_cour;
+	src: url(../fonts/ecl_cour.ttf);
+}
+
+body {
+	font-family: 'Gill Sans', Lucida grande, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	letter-spacing: 0em;
+}
+
+a, a:visited, a:hover {
+	color: #000000;
+	text-decoration: none;
+	}
+	
+ul.usermenu a {
+	font-size: 85%;
+	text-decoration: none;
+	}
+ul.usermenu a:hover {
+	color: #00CC00;
+	}
+	
+#breadcrumb {
+	font-size: 75%;
+	font-weight: bold;
+	letter-spacing: 0.2em;
+	}
+	
+.font_dash * {
+	font-family: 'Gill Sans', Lucida grande, Arial, Helvetica, sans-serif;
+}
+
+.font_cursive {
+	font-family: 'Gill Sans', Lucida grande, Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	text-transform: uppercase;
+	color: #b3903c;
+	text-align: center;
+	border-bottom: solid 1px #b3903c;
+	margin-bottom: 12px;
+}

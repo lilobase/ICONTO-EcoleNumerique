@@ -17,13 +17,15 @@ class ZoneMyGroupes extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
-		$where = $this->getParam('where',null);
+		$where = $this->getParam('where','home');
 		
 		$dao = _dao("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
 
 		$groupesAll = $dao->getListAll();
+		
+		//print_r($groupesAll);
 		
 		// Parcours de chaque groupe
 		$groupes = array();

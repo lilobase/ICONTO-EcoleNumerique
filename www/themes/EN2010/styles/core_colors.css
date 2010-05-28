@@ -1,0 +1,55 @@
+/**
+ * THEMES - core_controls.css
+ * Modele couleur
+ *
+ * @package	Iconito 2010
+ * @cdate 22.01.2010
+ * @mdate 22.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+input[type="submit"] {
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 85%;
+	}
+
+a.bouton {
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	padding: 4px;
+	margin: 4px 0px;
+	line-height: 32px;
+	border: solid 1px #666666;
+	background: #F0F0F0;
+	font-size: 85%;
+	}
+	
+a.bouton:hover {
+	background: #D9E575;
+	}
+
+input.form_button {
+	border: solid 1px #333333;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	background: #F0F0F0;
+	color: #333333;
+}
+
+input.form_button:hover {
+	border: solid 1px #333333;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	background: #D9E575;
+	color: #333333;
+}
+
+.ink_blue * {
+	color: #354e81;
+}
+.ink_blue .title span {
+	color: #222;
+	text-shadow: 1px 1px 2px #f0f0f0;
+}
+

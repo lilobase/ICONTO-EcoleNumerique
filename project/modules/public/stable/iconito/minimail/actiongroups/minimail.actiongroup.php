@@ -13,6 +13,7 @@ class ActionGroupMinimail extends CopixActionGroup {
 	}
 
 	
+
    /**
    * Affiche la liste des messages reçus pour l'utilisateur connecté
 	 * 

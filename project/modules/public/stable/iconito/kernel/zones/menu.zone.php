@@ -48,6 +48,7 @@ class ZoneMenu extends CopixZone {
 			$ppo->menu .= '<a href="javascript:self.close();">'.CopixI18N::get('kernel|kernel.popup.close').'</a>';
 		}
 		
+		if (!isset($ppo->menu)) $ppo->menu = 'submenu is empty';
 		
 		$toReturn = $this->_usePPO ($ppo, 'menu.tpl');
 		

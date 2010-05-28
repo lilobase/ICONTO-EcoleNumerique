@@ -1,0 +1,130 @@
+/**
+ * THEMES - core_zones.css
+ * Mise en forme des Zones Copix
+ *
+ * @package	Iconito 2010
+ * @cdate 25.01.2010
+ * @mdate 25.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+div.zone-userlogged {
+	position: relative;
+	float: right;
+	height: 22px;
+	}
+
+div.userlogged {
+	color: #fff;
+	text-shadow: 0px 1px 1px #111;
+	}
+
+div.userlogged .username {
+	font-size: 180%;
+	line-height: 100%;
+	}
+
+div.userlogged .userrole {
+	text-transform: uppercase;
+	font-size: 110%;
+	line-height: 100%;
+	}
+
+div.usermenu {
+	float: right;
+	padding-top: 4px;
+}
+
+ul.usermenu {
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+	}
+
+ul.usermenu li {
+	float: left;
+	}
+	
+ul.usermenu li a {
+	display: block;
+	width: 28px;
+	margin: 1px;
+	padding-top: 32px;
+	text-align: center;
+	overflow: hidden;
+	}
+	
+ul.usermenu li a.menu-accueil		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-groupe		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-ressource		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-annuaire		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-minimail		{ background: url(../images/mod_minimail_28.png) no-repeat center top; }
+ul.usermenu li a.menu-malle			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-agenda		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-prefs			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-aide			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-assistance	{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+
+ul.usermenu li a.logout {
+	display: block;
+	width: 20px;
+	padding-top: 20px;
+	margin-left: 6px;
+	background: url(../images/button_logout_off.png) no-repeat 100% 0;
+	}
+	
+ul.usermenu li a.logout_on {
+	background: url(../images/button_logout_on.png) no-repeat 100% 0;
+	}
+	
+div.zone-mygroupes {
+	border: dotted 1px #333;
+	margin: 8px 0px;
+	}
+
+div.main-kernel {
+	}
+
+div.toolbar ul {
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+	}
+	
+div.toolbar ul li {
+	float: left;
+	}
+	
+div.toolbar ul li a.action {
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	padding: 2px;
+	margin: 0px 1px;
+	line-height: 28px;
+	border: solid 1px #666666;
+	background: #F0F0F0;
+	font-size: 85%;
+	}
+	
+div.toolbar ul li a.action:hover {
+	background: #D9E575;
+	}
+
+	
+div.viewhelp {
+	background: #fff;
+	margin: 12px 12px 12px 0;
+	padding: 6px;
+	border: 1px solid #ddd;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	}
+	
+	
+div.legals {
+	text-align: center;
+	}

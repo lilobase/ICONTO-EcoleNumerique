@@ -837,6 +837,11 @@ class Kernel {
 	function getNodeInfo( $type, $id, $addparents=true ) {
 		$return = array();
 		switch( $type ) {
+			case "ROOT":
+				$return["type"] = $type;
+				$return["id"] = $id;
+				$return["nom"] = 'Administration';
+				break;
 			case "BU_GRVILLE":
 				$dao = _dao("kernel|kernel_tree_grv");
 				if( $result = $dao->get($id) ) {

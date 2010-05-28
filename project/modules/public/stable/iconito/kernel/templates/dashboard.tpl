@@ -1,0 +1,40 @@
+<div class="debug">DASHBOARD.TPL</div>
+
+<div class="dashboard tools_left ink_blue font_dash">
+<div class="border_b font_cursive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tableau d'affichage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+{foreach from=$nodes key=node_type item=nodes_list}
+{foreach from=$nodes_list key=node_id item=node_data}
+
+	{* if $modules neq null *}
+	<div class="dashpanel {$node_type|lower}">
+		<div class="title">
+			<span>{$node_data.nom}</span>
+		</div>
+		<div class="content">
+		faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte 
+		</div>
+		<div class="toolset">
+		<ul class="opacity50">
+		{foreach from=$node_data.modules item=val_modules key=key_modules}
+			{assign var="module_type_array" value="_"|split:$val_modules->module_type|lower}
+			<li>
+			<a
+			{if $val_modules->module_popup}target="_blank"{/if}
+			class="{$val_modules->module_type}{if isset($this.info.selected) and $this.info.selected} selected{/if}"
+			href="{copixurl dest="kernel||go" ntype=$node_type nid=$node_id mtype=$module_type_array[1] mid=$val_modules->module_id}"
+			title="{$val_modules->module_nom}">
+			<span>{$val_modules->module_nom}</span>
+			</a>
+			</li>
+		{/foreach}
+		</ul>
+		</div>
+	</div>
+	{* else}
+		{i18n key="kernel|kernel.getmodules.pasdemodule"}
+	{/if *}
+{*			href="{copixurl dest="$module_type_array[1]||go" id=$val_modules->module_id}" *}
+{/foreach}
+{/foreach}
+
+</div>
