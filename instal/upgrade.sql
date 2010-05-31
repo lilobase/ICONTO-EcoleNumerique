@@ -5,7 +5,7 @@
 --
 -- Ajout le 19/05/2010 par Arnaud LEMAIRE
 
-CREATE TABLE IF NOT EXISTS `ecolenumerique`.`module_rightmatrix` (
+CREATE TABLE IF NOT EXISTS `module_rightmatrix` (
 `id` INT( 11 ) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ,
 `user_type_in` VARCHAR( 75 ) NOT NULL ,
 `user_type_out` VARCHAR( 75 ) NOT NULL ,
