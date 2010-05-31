@@ -293,7 +293,7 @@ class enicTree{
     /*
      * display at the return chain
      */
-     public function displayFooter($html){
+     public function displayFooter(){
 
          return '';
      }

@@ -21,7 +21,7 @@ class enicNodeMatrix extends enicTree{
         $this->descendant_of = false;
         $this->admin_of = false;
         $this->kernelChildren = array();
-        $this->kernelParent = array();
+        $this->kernelParent = null;
         $this->director_of = false;
         $this->nom = 'other';
     }

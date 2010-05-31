@@ -17,11 +17,8 @@ class ActionGroupRightmatrix extends enicActionGroup {
     }
 
     public function processDefault(){
-        echo '<pre>';
-        var_dump($this->matrix->villes->_1->type);
-        echo '</pre>';
-        $this->matrix =& enic::get('matrix');
 
+        $this->matrix =& enic::get('matrix');
 
         echo $this->matrix->display();
     }

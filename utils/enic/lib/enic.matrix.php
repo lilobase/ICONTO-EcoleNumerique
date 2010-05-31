@@ -118,6 +118,8 @@ class enicMatrix extends enicList {
                 $html .= '<li> Member : '.(($this->$child->member_of) ? 'true' : 'false' ).'</li>';
                 $html .= '<li> Director : '.(($this->$child->director_of) ? 'true' : 'false' ).'</li>';
                 $html .= '<li> Descendant : '.(($this->$child->descendant_of) ? 'true' : 'false' ).'</li>';
+                $html .= '<li> Childrens : '.implode(' ,',$this->$child->kernelChildren).'</li>';
+                $html .= '<li> Parent : '.$this->$child->kernelParent.'</li>';
                     foreach($this->$child->_right as $key => $right){
                         $html .='<ul>';
                             $html .= '<li>'.$key.' : </li>';
@@ -166,13 +168,11 @@ class rightMatrixHelpers{
 
         //list parents and add each at the tree
         foreach($kernel->getNodeParents($type, $id) as $userNode){
-
             //get the node type :
             $nodeType = $userNode['type'];
             $node = $matrix->$nodeType();
             $idNode = '_'.$userNode['id'];
-            $parentNode = '_'.$id;
-            
+
             //if already exists : pass the loading
             if(!isset($node->$idNode)){
                 $node->loadOnce('nodeMatrix', $idNode);
@@ -198,13 +198,6 @@ class rightMatrixHelpers{
                 }
             }            
 
-            //test if is the director in branch :
-            if($type != 'BU_CLASSE' &&
-                    $type != 'CLUB' &&
-                    $first == false &&
-                    $node->_childObject->$parentNode->director_of === true)
-                $node->$idNode->director_of = true;
-
             //if the member is direct member
             if($first){
                 //in all case : user is member
@@ -212,9 +205,6 @@ class rightMatrixHelpers{
             }else{
                 $node->$idNode->descendant_of = true;
             }
-
-            //add parent in kernelParent
-            $node->$idNode->kernelParent = $id;
 
             //reccursive
             self::completeUp($userNode['type'], $userNode['id'], false);
@@ -255,10 +245,16 @@ class rightMatrixHelpers{
                 $node->$idNode->type = $userNode['type'];
                 $node->$idNode->id = $userNode['id'];
             }
+            //load parent id :
+            $node->$idNode->kernelParent = $id;
+            
+            //add parent is kernelParent array, club is special case : is attached to root
+            if($node->$idNode->type != 'CLUB'){
+                $parentNode =  '_'.$node->$idNode->kernelParent;
+                $node->_parentObject->$parentNode->kernelChildren[] = $userNode['id'];
+            }
 
-            //add parent is kernelParent array
-            $node->$idNode->kernelChildren[] = $id;
-
+            //reccursif
             self::completeDown($userNode['type'], $userNode['id'], false);
 
         }
