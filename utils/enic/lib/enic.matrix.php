@@ -125,6 +125,10 @@ class enicMatrix extends enicList {
                                 $attr = get_object_vars($right);
                                 if(is_array($attr)){
                                     foreach($attr as $keyi => $righti){
+                                        if($key == 'count'){
+                                            $html .= '<li>'.$keyi.' : '.$righti. '</li>';
+                                            continue;
+                                        }
                                         $html .= '<li>'.$keyi.' : '.(($righti) ? 'true' : 'false' ). '</li>';
                                     }
                                 }else{
@@ -291,6 +295,7 @@ class rightMatrixHelpers{
                     continue;
                 $node->$child->_right->$data['right']->$data['user_type_out'] = true;
                 $node->$child->_right->$data['user_type_out']->$data['right'] = true;
+                $node->$child->_right->count->$data['right']++;
             }
         }
     }
@@ -313,13 +318,23 @@ class rightMatrixHelpers{
         foreach($parentNode->_children as $child){
             //get right from children
             foreach($parentNode->$child->_right as $key => $right){
+                //pass count infos :
+                if($key == 'count')
+                    continue;
+                
                 foreach($right as $keyi => $righti){
                     if($righti === false)
                         continue;
+
+                    
                     //apply right on children :
                     foreach($parentNode->$child->kernelChildren as $kChild){
                         $idNode = '_'.$kChild;
                         $node->$idNode->_right->$key->$keyi = $righti;
+                       
+                        //add count infos :
+                        if($key == 'voir' || $key == 'communiquer')
+                            $node->$idNode->_right->count->$key += 1;
                     }
                 }
             }

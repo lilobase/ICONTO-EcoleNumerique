@@ -39,6 +39,7 @@ class loadRightMatrix{
     public $agent_ville;
     public $voir;
     public $communiquer;
+    public $count;
 
     //build right tree
     public function __construct(){
@@ -49,6 +50,11 @@ class loadRightMatrix{
         $this->agent_ville = new loadRightMatrixAction();
         $this->voir = new loadRightMatrixTypeUser();
         $this->communiquer = new loadRightMatrixTypeUser();
+
+        //add count info
+        $this->count = new loadRightMatrixAction();
+        $this->count->voir = 0;
+        $this->count->communiquer = 0;
     }
 
     public function __get($name){
