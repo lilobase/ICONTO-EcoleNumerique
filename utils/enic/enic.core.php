@@ -506,6 +506,7 @@ class enicList{
         $this->_type = get_class($this);
         $this->_children = array();
         $this->_name = false;
+        $this->_child = false;
 
     }
 

@@ -50,6 +50,32 @@ class loadRightMatrix{
         $this->voir = new loadRightMatrixTypeUser();
         $this->communiquer = new loadRightMatrixTypeUser();
     }
+
+    public function __get($name){
+        switch ($name){
+            case 'USER_RES':
+                return $this->parent;
+            break;
+            case 'USER_ELE':
+                return $this->eleve;
+            break;
+            case 'USER_DIR':
+                return $this->directeur;
+            break;
+            case 'USER_ENS':
+                return $this->enseignant;
+            break;
+            case 'USER_VIL':
+                return $this->agent_ville;
+            break;
+            case 'VOIR':
+                return $this->voir;
+            break;
+            case 'COMM':
+                return $this->communiquer;
+            break;
+        }
+    }
     
 }
 
@@ -69,7 +95,45 @@ class loadRightMatrixTypeUser{
         $this->directeur = false;
         $this->agent_ville = false;
     }
+    public function __get($name){
+        switch ($name){
+            case 'USER_RES':
+                return $this->parent;
+            break;
+            case 'USER_ELE':
+                return $this->eleve;
+            break;
+            case 'USER_DIR':
+                return $this->directeur;
+            break;
+            case 'USER_ENS':
+                return $this->enseignant;
+            break;
+            case 'USER_VIL':
+                return $this->agent_ville;
+            break;
+        }
+    }
 
+    public function __set($name, $value){
+        switch ($name){
+            case 'USER_RES':
+                return $this->parent = $value;
+            break;
+            case 'USER_ELE':
+                return $this->eleve = $value;
+            break;
+            case 'USER_DIR':
+                return $this->directeur = $value;
+            break;
+            case 'USER_ENS':
+                return $this->enseignant = $value;
+            break;
+            case 'USER_VIL':
+                return $this->agent_ville = $value;
+            break;
+        }
+    }
 }
 
 class loadRightMatrixAction{
@@ -82,6 +146,28 @@ class loadRightMatrixAction{
     public function __construct(){
         $this->voir = false;
         $this->communiquer = false;
+    }
+
+    public function __get($name){
+        switch ($name){
+            case 'VOIR':
+                return $this->voir;
+            break;
+            case 'COMM':
+                return $this->communiquer;
+            break;
+        }
+    }
+
+    public function __set($name, $value){
+        switch ($name){
+            case 'VOIR':
+                return $this->voir = $value;
+            break;
+            case 'COMM':
+                return $this->communiquer = $value;
+            break;
+        }
     }
     
 }

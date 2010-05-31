@@ -26,7 +26,12 @@ class enicMatrix extends enicList {
         }
 
         //fetch and apply right on node :
-        rightMatrixHelpers::completeUserRight();
+        rightMatrixHelpers::loadRightOnTree();
+
+        //complet right tree :
+        foreach($this->villes->_children as $child){
+            rightMatrixHelpers::applyRightOnTree('ville');
+        }
     }
 
     public function addExec(){
@@ -147,10 +152,10 @@ class rightMatrixHelpers{
 
     public static function completeUp($type, $id, $first = true){
         //get the actual matrix:
-        $matrix = enic::get('matrix');
+        $matrix =& enic::get('matrix');
 
         //get users infos:
-        $user = enic::get('user');
+        $user =& enic::get('user');
 
         //get kernel
         $kernel = new Kernel();
@@ -219,7 +224,7 @@ class rightMatrixHelpers{
      */
     public static function completeDown($type, $id){
         //load matrix ref object
-        $matrix = enic::get('matrix');
+        $matrix =& enic::get('matrix');
         
         //load kernel
         if(empty(self::$kernel))
@@ -260,27 +265,73 @@ class rightMatrixHelpers{
     /*
      * finish the tree with additionnal infos from anothers nodes
      */
-    public static function completeUserRight(){
+    public static function loadRightOnTree(){
         //get enic Model library
-        $db = enic::get('model');
+        $db =& enic::get('model');
 
         //get user infos
-        $user = enic::get('user');
+        $user =& enic::get('user');
 
         //matrix :
-        $matrix = enic::get('matrix');
+        $matrix =& enic::get('matrix');
 
         //get the right for the type of user
         $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \''.$user->type.'\'')->toArray();
         $db->close();
 
         //if user is director :
-        $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = ')
+        if($user->director !== false)
+            $datas = array_merge($db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \'USER_DIR\'')->toArray(), $datas);
 
+        //load right only on descendant_of node :
         foreach($datas as $data){
-
+            $node = $matrix->$data['node_type']();
+            foreach($node->_children as $child){
+                if($node->$child->descendant_of !== true)
+                    continue;
+                $node->$child->_right->$data['right']->$data['user_type_out'] = true;
+                $node->$child->_right->$data['user_type_out']->$data['right'] = true;
+            }
         }
-        print_r($datas);
+    }
+
+    /*
+     * final treatment
+     */
+    public static function applyRightOnTree($name){
+        //get user infos
+        $user = enic::get('user');
+
+        //matrix :
+        $matrix =& enic::get('matrix');
+
+        //get node
+        $node = $matrix->$name();
+        $parentNode = $node->_parentObject;
+
+        //apply right from parent :
+        foreach($parentNode->_children as $child){
+            //get right from children
+            foreach($parentNode->$child->_right as $key => $right){
+                foreach($right as $keyi => $righti){
+                    if($righti === false)
+                        continue;
+                    //apply right on children :
+                    foreach($parentNode->$child->kernelChildren as $kChild){
+                        $idNode = '_'.$kChild;
+                        $node->$idNode->_right->$key->$keyi = $righti;
+                        echo $node->_name.' = '.$node->$idNode->_name.'<br />';
+                        var_dump($node->$idNode->_right->$key->$keyi);
+                    }
+                }
+            }
+        }
+
+        //reccursive !!!! :D
+        if($node->_child == false)
+            return true;
+        else
+            return self::applyRightOnTree($node->_child);
     }
 }
 ?>
