@@ -287,7 +287,7 @@ class rightMatrixHelpers{
         foreach($datas as $data){
             $node = $matrix->$data['node_type']();
             foreach($node->_children as $child){
-                if($node->$child->descendant_of !== true)
+                if($node->$child->descendant_of !== true && $node->$child->descendant_of !== true)
                     continue;
                 $node->$child->_right->$data['right']->$data['user_type_out'] = true;
                 $node->$child->_right->$data['user_type_out']->$data['right'] = true;
@@ -320,8 +320,6 @@ class rightMatrixHelpers{
                     foreach($parentNode->$child->kernelChildren as $kChild){
                         $idNode = '_'.$kChild;
                         $node->$idNode->_right->$key->$keyi = $righti;
-                        echo $node->_name.' = '.$node->$idNode->_name.'<br />';
-                        var_dump($node->$idNode->_right->$key->$keyi);
                     }
                 }
             }
