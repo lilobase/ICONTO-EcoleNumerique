@@ -18,14 +18,8 @@ class enicActionGroup extends CopixActionGroup {
         //load enic classes
         $this->user     =& enic::get('user');
 
-        $start =  microtime_float();
-echo 'FIRST : '.memory_get_usage();
         $this->matrix   =& enic::get('matrix');
-        echo 'SECOND : '.memory_get_usage();
-$end = microtime_float();
 
-$total = $end-$start;
-        echo 'time : '.$total;
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
 

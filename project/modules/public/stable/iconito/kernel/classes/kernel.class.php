@@ -1541,8 +1541,10 @@ class Kernel {
 	}
 	
 	
-	function MyDebug( $var ) {
-		die( "<pre>".print_r($var,true)."</pre>" );
+	function MyDebug( $var, $die=false) {
+		echo( "<pre>".print_r($var,true)."</pre>" );
+		if ($die)
+			die();
 	}
 	
 	

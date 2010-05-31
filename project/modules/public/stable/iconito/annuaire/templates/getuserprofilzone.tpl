@@ -1,4 +1,8 @@
 
+{if !$usr}
+	{i18n key="kernel|kernel.error.noRights"}
+{else}
+
 <DIV>
 <DIV ALIGN="RIGHT" STYLE="font-size:80%;"><A HREF="#" ONCLICK="return hideUser();">{i18n key="annuaire.btn.close"}</A></DIV>
 <!--<DIV ALIGN="RIGHT">{$usr.civilite}</DIV>-->
@@ -16,8 +20,7 @@
 
 {$usr.type_nom}<br/>
 
-{if $usr.login}{i18n key="annuaire.minimail"} : {$usr.login} <A HREF="{copixurl dest="minimail||getNewForm" login=$usr.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="{i18n key="annuaire.writeMinimail"}" TITLE="{i18n key="annuaire.writeMinimail"}" BORDER="0" /></A>{/if}
-
+{if $canWrite && $usr.login}{i18n key="annuaire.minimail"} : {$usr.login} <A HREF="{copixurl dest="minimail||getNewForm" login=$usr.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="{i18n key="annuaire.writeMinimail"}" TITLE="{i18n key="annuaire.writeMinimail"}" BORDER="0" /></A>{/if}
 
 {if $parents}
 <HR NOSHADE SIZE="1" />
@@ -43,3 +46,5 @@
 </div>
 
 </DIV>
+
+{/if}

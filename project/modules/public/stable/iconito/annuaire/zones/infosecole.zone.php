@@ -17,6 +17,8 @@ class ZoneInfosEcole extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
+		$tpl = & new CopixTpl ();
+		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
 		$rEcole = ($this->getParam('rEcole')) ? $this->getParam('rEcole') : NULL;
@@ -32,15 +34,27 @@ class ZoneInfosEcole extends CopixZone {
 			else
 				$classes = $annuaireService->getClassesInEcole($ecole);
 			
-			$rEcole['directeur'] = $annuaireService->getDirecteurInEcole($ecole);
+			$matrix = & enic::get('matrix');
+
+			$droit = $matrix->ecole($ecole)->_right->USER_DIR->voir;
+			if ($droit) {
+				$rEcole['directeur'] = $annuaireService->getDirecteurInEcole($ecole);
+				$canWrite = $matrix->ecole($ecole)->_right->USER_DIR->communiquer;
+				$tpl->assign ('canWriteUSER_DIR', $canWrite);
+			}
 			
-			$rEcole['directeur'] = $annuaireService->checkVisibility( $rEcole['directeur'] );
+			$droit = $matrix->ecole($ecole)->_right->USER_ADM->voir;
+			if ($droit) {
+				$rEcole['administratif'] = $annuaireService->getAdministratifInEcole($ecole);
+				$canWrite = $matrix->ecole($ecole)->_right->USER_DIR->communiquer;
+				$tpl->assign ('canWriteUSER_ADM', $canWrite);
+			}
 			
-			$rEcole['administratif'] = $annuaireService->getAdministratifInEcole($ecole);
+			//$rEcole['directeur'] = $annuaireService->checkVisibility( $rEcole['directeur'] );
 			
-			$rEcole['administratif'] = $annuaireService->checkVisibility( $rEcole['administratif'] );
+			//$rEcole['administratif'] = $annuaireService->checkVisibility( $rEcole['administratif'] );
+
 			
-			$tpl = & new CopixTpl ();
 			$tpl->assign ('ecole', $rEcole);
 			$tpl->assign ('classes', $classes);
 			
