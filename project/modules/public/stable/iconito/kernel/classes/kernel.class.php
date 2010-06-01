@@ -403,7 +403,7 @@ class Kernel {
 		// Responsable --(n)--> BÈnÈficiaire (limitÈ ‡ parent --> enfants)
 		if( $type=="USER_RES" /* || $type="ORGANISME" */ ) {
 			$dao = _dao("kernel|kernel_bu_res2ele");
-			$res = $dao->getByResponsable($type, $id);
+			$res = $dao->getByResponsable('responsable', $id);
 			foreach( $res AS $key=>$val ) {
 				if( $val->res2ele_type_beneficiaire != "eleve" ) continue;
 				$return[]=array("type"=>"USER_ELE", "id"=>$val->res2ele_id_beneficiaire, "droit"=>($val->res2ele_auth_parentale?PROFILE_CCV_ADMIN:PROFILE_CCV_READ), "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
@@ -614,7 +614,7 @@ class Kernel {
                     // BÈnÈficiaire --(n)--> Responsable (limitÈ ‡ enfant --> parents)
                     if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
                             $dao = _dao("kernel|kernel_bu_res2ele");
-                            $res = $dao->getByBeneficiaire("USER_ELE", $id);
+                            $res = $dao->getByBeneficiaire("eleve", $id);
                             //print_r($res);
                             foreach( $res AS $key=>$val ) {
                                     if( $val->res2ele_type_responsable != "responsable" ) continue;
