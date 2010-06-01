@@ -32,7 +32,7 @@ class ZoneInfosEcole extends CopixZone {
 			if( $this->getParam('classes') )
 				$classes = $this->getParam('classes');
 			else
-				$classes = $annuaireService->getClassesInEcole($ecole);
+				$classes = $annuaireService->getClassesInEcole($ecole, array('droit'=>'VOIR'));
 			
 			$matrix = & enic::get('matrix');
 
@@ -43,12 +43,15 @@ class ZoneInfosEcole extends CopixZone {
 				$tpl->assign ('canWriteUSER_DIR', $canWrite);
 			}
 			
-			$droit = $matrix->ecole($ecole)->_right->USER_ADM->voir;
+			//$droit = $matrix->ecole($ecole)->_right->USER_ADM->voir;
+			$droit = 1;
 			if ($droit) {
 				$rEcole['administratif'] = $annuaireService->getAdministratifInEcole($ecole);
 				$canWrite = $matrix->ecole($ecole)->_right->USER_DIR->communiquer;
 				$tpl->assign ('canWriteUSER_ADM', $canWrite);
 			}
+			
+			$tpl->assign ('canWriteUSER_ENS', $matrix->ecole($ecole)->_right->USER_ENS->communiquer);
 			
 			//$rEcole['directeur'] = $annuaireService->checkVisibility( $rEcole['directeur'] );
 			
@@ -59,7 +62,7 @@ class ZoneInfosEcole extends CopixZone {
 			$tpl->assign ('classes', $classes);
 			
 			// BOOST 1s
-			$tpl->assign ('comboecoles', CopixZone::process ('annuaire|comboecolesinville', array('ville'=>$rEcole['ALL']->vil_id_vi, 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'CLASS="annu_combo_popup" ONCHANGE="if (this.value) this.form.submit();"')));
+			$tpl->assign ('comboecoles', CopixZone::process ('annuaire|comboecolesinville', array('droit'=>'VOIR', 'ville'=>$rEcole['ALL']->vil_id_vi, 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'CLASS="annu_combo_popup" ONCHANGE="if (this.value) this.form.submit();"')));
 
 	    $toReturn = $tpl->fetch ('infosecole.tpl');
 			

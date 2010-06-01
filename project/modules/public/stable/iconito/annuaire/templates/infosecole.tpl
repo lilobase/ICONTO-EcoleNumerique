@@ -64,7 +64,7 @@
 {assign var=sep value=""}
 {foreach from=$class.enseignant item=enseignant}{$sep}
 
-{user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1}
+{user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=$canWriteUSER_ENS}
 
 {assign var=sep value=", "}{/foreach}
 </DIV>

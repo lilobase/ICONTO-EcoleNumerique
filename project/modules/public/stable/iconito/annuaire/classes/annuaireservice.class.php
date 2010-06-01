@@ -150,16 +150,19 @@ class AnnuaireService {
 				if ( ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) && !in_array($child['id'],$ville_as_array))
 					continue;
 			
-				$node = Kernel::getNodeInfo ($child['type'], $child['id'], false);
-				// $ecoles[] = array('id'=>'0', 'nom'=>'');
-				$ecoles[] = array('id'=>'0', 'nom'=>$node['nom']);
-				// $ecoles[] = array('id'=>'0', 'nom'=>'=======================');
+				
 				
 				if (isset($options['droit']))
 					$tmp = AnnuaireService::getEcolesInVille ($child['id'], array('droit'=>$options['droit']));
 				else
 					$tmp = AnnuaireService::getEcolesInVille ($child['id']);
-				$ecoles = array_merge ($ecoles, $tmp);
+					
+				if (count($tmp)>0) {
+					$node = Kernel::getNodeInfo ($child['type'], $child['id'], false);
+					$ecoles[] = array('id'=>'0', 'nom'=>$node['nom']);
+					$ecoles = array_merge ($ecoles, $tmp);
+				}
+					
 			}
 		}
 		//print_r($ecoles);
@@ -173,7 +176,7 @@ class AnnuaireService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
 	 * @param integer $ecole Id de l'école
-	 * @param array $options Tableau d'options. Implemente : [forceCanViewEns] force l'affichage des enseignants au lieu de regarder si l'usager a les droits [onlyWithBlog] ne renvoie que les classes ayant un blog [onlyWithBlog] ne renvoie que les classes ayant un blog [onlyWithBlogIsPublic] verifie que le blog est public (ou pas, selon valeur onlyWithBlogIsPublic) [enseignant] si on veut avoir l'enseignant de la classe (true par defaut) [withNiveaux] cherche les niveaux de chaque classe [annee] Force une annee scolaire [droit] pour n'avoir que les classes sur lesquelles on a ce droit	
+	 * @param array $options Tableau d'options. Implemente : [forceCanViewEns] force l'affichage des enseignants au lieu de regarder si l'usager a les droits [onlyWithBlog] ne renvoie que les classes ayant un blog [onlyWithBlog] ne renvoie que les classes ayant un blog [onlyWithBlogIsPublic] verifie que le blog est public (ou pas, selon valeur onlyWithBlogIsPublic) [enseignant] si on veut avoir l'enseignant de la classe (true par defaut) [withNiveaux] cherche les niveaux de chaque classe [annee] Force une annee scolaire [droit] pour n'avoir que les classes sur lesquelles on a ce droit
 	 * @return array Tableau avec les classes
 	 * @todo Voir pour remplacer le -1 par un ID d'un enseignant
 	 */
@@ -221,9 +224,11 @@ class AnnuaireService {
 				// On cherche les enseignants
 				if (!isset($options['enseignant']) || $options['enseignant']) {
 					if (isset($options['forceCanViewEns']))
-						$canViewEns = $options['forceCanViewEns'];
+						$canViewEns = $options['forceCanViewEns']; // TODO verifier quand appelle et pertinence
 					else {
-						$canViewEns = $cache_getUserVisibility; 
+						$droit = $matrix->classe($child['id'])->_right->USER_ENS->voir;
+						//Kernel::myDebug("id=".$child['id']." / droit=".$droit);
+						$canViewEns = ($droit); 
 					}
 					//Kernel::deb ("canViewEns=$canViewEns");
 					if( !isset($options['no_enseignant']) || $options['no_enseignant']==0 )
@@ -265,6 +270,7 @@ class AnnuaireService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
 	 * @param integer $ville Id de la ville
+	 * @param array $options Tableau d'options. [droit] pour n'avoir que les classes sur lesquelles on a ce droit
 	 * @return array Tableau avec les classes
 	 */
 	function getClassesInVille ($ville, $options=array()) {
@@ -278,19 +284,28 @@ class AnnuaireService {
 			$getClassesInEcole_params = array();
 		}
 
-//$start = microtime(true);
-		$ecoles = AnnuaireService::getEcolesInVille ($ville);
+		$matrix = & enic::get('matrix');
+		
+		if (isset($options['droit'])) {
+			$ecoles = AnnuaireService::getEcolesInVille ($ville, array('droit'=>$options['droit']));
+			$getClassesInEcole_params['droit'] = $options['droit'];
+		} else
+			$ecoles = AnnuaireService::getEcolesInVille ($ville);
+
 //echo "&gt; getEcolesInVille ".(microtime(true)-$start)."<br />";
 //$start = microtime(true);	
 		foreach ($ecoles as $ecole) {
-			//$classes[] = array('id'=>'0', 'nom'=>'');
-			$nom = $ecole['nom'];
-			if (isset($ecole['type']) && $ecole['type'])
-				$nom .= ' ('.$ecole['type'].')';
-			$classes[] = array('id'=>'0', 'nom'=>$nom);
-			//$classes[] = array('id'=>'0', 'nom'=>'------------------------');
+
 			$tmp = AnnuaireService::getClassesInEcole ($ecole['id'], $getClassesInEcole_params);
-			$classes = array_merge ($classes, $tmp);
+
+			if (count($tmp)>0) {
+				$nom = $ecole['nom'];
+				if (isset($ecole['type']) && $ecole['type'])
+					$nom .= ' ('.$ecole['type'].')';
+				$classes[] = array('id'=>'0', 'nom'=>$nom);
+				$classes = array_merge ($classes, $tmp);
+			}
+			
 		}
 //echo "&gt; getClassesInEcole ".(microtime(true)-$start)."<br />";
 		return $classes;
@@ -303,32 +318,38 @@ class AnnuaireService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/19
 	 * @param integer $grville Id du groupe de villes
+	 * @param array $options Tableau d'options. [droit] pour n'avoir que les classes sur lesquelles on a ce droit
 	 * @return array Tableau avec les classes
 	 */
 	function getClassesInGrville ($grville, $options=array()) {
 		$classes = array();
-
+		
 		if( isset($options['getNodeInfo_light']) && $options['getNodeInfo_light'] ) {
 			$getNodeInfo_full = false;
 		} else {
 			$getNodeInfo_full = true;
 		}
 
+		$matrix = & enic::get('matrix');
+				
 		$childs = Kernel::getNodeChilds ('BU_GRVILLE', $grville);
 		foreach ($childs as $child) {
 			if ($child['type']=='BU_VILLE') {
 				
-				
 				if ( ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) && !in_array($child['id'],$ville_as_array))
 					continue;
+
+				if (isset($options['droit'])) {
+					$tmp = AnnuaireService::getClassesInVille ($child['id'], array('droit'=>$options['droit']));
+				} else
+					$tmp = AnnuaireService::getClassesInVille ($child['id']);
 				
+				if (count($tmp)>0) {
+					$node = Kernel::getNodeInfo ($child['type'], $child['id'], $getNodeInfo_full);
+					$classes[] = array('id'=>'0', 'nom'=>"----- ".$node['nom']." -----");
+					$classes = array_merge ($classes, $tmp);
 				
-				$node = Kernel::getNodeInfo ($child['type'], $child['id'], $getNodeInfo_full);
-				//$classes[] = array('id'=>'0', 'nom'=>'');
-				$classes[] = array('id'=>'0', 'nom'=>"----- ".$node['nom']." -----");
-				//$classes[] = array('id'=>'0', 'nom'=>'=======================');
-				$tmp = AnnuaireService::getClassesInVille ($child['id']);
-				$classes = array_merge ($classes, $tmp);
+				}
 			}
 		}
 		return $classes;
@@ -449,14 +470,25 @@ class AnnuaireService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/02/13
 	 * @param integer $ville id de la ville
+	 * @param array $options Tableau d'options : [droit] pour n'avoir que les agents sur lesquels on a ce droit
 	 * @return array Tableau avec les agents
 	 */
 	function getAgentsInVille ($ville, $options=array()) {	
+		$matrix = & enic::get('matrix');
 		$agents = array();
 		$result = Kernel::getNodeChilds('BU_VILLE', $ville);
 		foreach ($result AS $key=>$value) {
 			//print_r($value);
 			if ($value['type']=='USER_VIL') {
+				
+				if (isset($options['droit']) && $options['droit']) {
+					$droit = $matrix->ville($ville)->_right->USER_VIL->$options['droit'];
+					//Kernel::myDebug("droit=".$droit);
+					if (!$droit) {
+						continue;
+					}
+				}
+				
 				if ($nodeInfo = Kernel::getUserInfo ($value["type"], $value["id"])) {
 					//var_dump($nodeInfo);
 					$login = isset($nodeInfo['login']) ? $nodeInfo['login'] : '';

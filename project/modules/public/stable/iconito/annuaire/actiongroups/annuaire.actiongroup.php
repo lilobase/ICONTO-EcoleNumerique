@@ -89,15 +89,14 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$rVille = Kernel::getNodeInfo ('BU_VILLE', $ville, false);
 		
-		$matrix = $this->matrix;
-		print_r($matrix->ville($ville)->_right);
-		
-		
+		$matrix = & enic::get('matrix');
+
 		if (!$rVille)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noVille');
+		elseif (!$matrix->ville($ville)->_right->count->voir > 0)
+			$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		elseif (Kernel::getKernelLimits('ville') && !in_array($ville,Kernel::getKernelLimits('ville_as_array')))
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noVille');
-		
 		
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
@@ -107,10 +106,14 @@ class ActionGroupAnnuaire extends EnicActionGroup {
     if ($blog)
       $rVille['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
 
-		$ecoles = $annuaireService->getEcolesInVille ($ville);
-		$agents = $annuaireService->getAgentsInVille ($ville);
+		$ecoles = $annuaireService->getEcolesInVille ($ville, array('droit'=>'voir', 'directeur'=>true));
+		$agents = $annuaireService->getAgentsInVille ($ville, array('droit'=>'voir'));
 		$agents = $annuaireService->checkVisibility ($agents);
 		
+		$tplListe = & new CopixTpl ();
+		
+		$canWrite_USER_VIL = $matrix->ville($ville)->_right->USER_VIL->communiquer;
+		$tplListe->assign ('canWrite_USER_VIL', $canWrite_USER_VIL);
 		
 		//print_r($rVille);
     
@@ -125,7 +128,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
     
 		//foreach ($result AS $key=>$value) {
 		
-		$tplListe = & new CopixTpl ();
+		
 		$tplListe->assign ('ecoles', $ecoles);
 		$tplListe->assign ('agents', $agents);
 		$tplListe->assign ('ville', $rVille);
@@ -163,8 +166,12 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$rEcole = Kernel::getNodeInfo ('BU_ECOLE', $ecole, false);
 		//print_r($rEcole);
 
+		$matrix = & enic::get('matrix');
+
 		if (!$rEcole)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noEcole');
+		elseif (!$matrix->ecole($ecole)->_right->count->voir > 0)
+			$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
@@ -242,8 +249,12 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$rClasse = Kernel::getNodeInfo ('BU_CLASSE', $classe, false);
 		
+		$matrix = & enic::get('matrix');
+
 		if (!$rClasse)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noClasse');
+		elseif (!$matrix->classe($classe)->_right->count->voir > 0)
+			$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 		
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
@@ -404,10 +415,10 @@ if($debug) echo "comboecolesinville ".date("H:i:s")." ".(microtime(true)-$start)
 
 		$start = microtime(true);
 		if ($ville == $ALL && $ecole == $ALL && $comboClasses) {
-			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboclassesingrville', array('grville'=>$grville, 'value'=>$classe, 'fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllClasses'))))));
+			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboclassesingrville', array('droit'=>'communiquer', 'grville'=>$grville, 'value'=>$classe, 'fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllClasses'))))));
 if($debug) echo "comboclassesingrville ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
 		} elseif ($ecole == $ALL && $comboClasses) {
-			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboclassesinville', array('ville'=>$ville, 'value'=>$classe, 'fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllClasses'))))));
+			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboclassesinville', array('droit'=>'communiquer', 'ville'=>$ville, 'value'=>$classe, 'fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllClasses'))))));
 if($debug) echo "comboclassesinville ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
 		} elseif ($ecole && $comboClasses) {
 			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboclassesinecole', array('droit'=>'communiquer', 'ecole'=>$ecole, 'value'=>$classe, 'fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllClasses'))))));
