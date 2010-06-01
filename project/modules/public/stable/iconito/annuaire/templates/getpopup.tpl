@@ -21,12 +21,12 @@
 <div class="annu_popup_zone">
 {if !$profil}
 <b>{i18n key="annuaire.popup.display"}</b> :<br/>
-{if $visib.USER_ELE != 'NONE'}<LABEL FOR="profil_ELE">{i18n key="annuaire.eleves"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_ELE" {if $profils.ELE==1}CHECKED{/if} NAME="profils[ELE]" VALUE="1" /><br/>{/if}
-{if $visib.USER_ENS != 'NONE'}<LABEL FOR="profil_PEC">{i18n key="annuaire.pec"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_PEC" {if $profils.PEC==1}CHECKED{/if} NAME="profils[PEC]" VALUE="1" /><br/>{/if}
-{if $visib.USER_RES != 'NONE'}<LABEL FOR="profil_PAR">{i18n key="annuaire.parents"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_PAR" {if $profils.PAR==1}CHECKED{/if} NAME="profils[PAR]" VALUE="1" /><br/>{/if}
-{if $visib.USER_ADM != 'NONE'}<LABEL FOR="profil_ADM">{i18n key="annuaire.adm"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_ADM" {if $profils.ADM==1}CHECKED{/if} NAME="profils[ADM]" VALUE="1" /><br/>{/if}
-{if $visib.USER_VIL != 'NONE'}<LABEL FOR="profil_VIL">{i18n key="annuaire.agents"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_VIL" {if $profils.VIL==1}CHECKED{/if} NAME="profils[VIL]" VALUE="1" /><br/>{/if}
-{if $visib.USER_EXT != 'NONE'}<LABEL FOR="profil_EXT">{i18n key="annuaire.ext"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_EXT" {if $profils.EXT==1}CHECKED{/if} NAME="profils[EXT]" VALUE="1" /><br/>{/if}
+{if $visib.USER_ELE}<LABEL FOR="profil_ELE">{i18n key="annuaire.eleves"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_ELE" {if $profils.ELE==1}CHECKED{/if} NAME="profils[ELE]" VALUE="1" /><br/>{/if}
+{if $visib.USER_ENS}<LABEL FOR="profil_PEC">{i18n key="annuaire.pec"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_PEC" {if $profils.PEC==1}CHECKED{/if} NAME="profils[PEC]" VALUE="1" /><br/>{/if}
+{if $visib.USER_RES}<LABEL FOR="profil_PAR">{i18n key="annuaire.parents"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_PAR" {if $profils.PAR==1}CHECKED{/if} NAME="profils[PAR]" VALUE="1" /><br/>{/if}
+{if $visib.USER_ADM}<LABEL FOR="profil_ADM">{i18n key="annuaire.adm"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_ADM" {if $profils.ADM==1}CHECKED{/if} NAME="profils[ADM]" VALUE="1" /><br/>{/if}
+{if $visib.USER_VIL}<LABEL FOR="profil_VIL">{i18n key="annuaire.agents"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_VIL" {if $profils.VIL==1}CHECKED{/if} NAME="profils[VIL]" VALUE="1" /><br/>{/if}
+{if $visib.USER_EXT}<LABEL FOR="profil_EXT">{i18n key="annuaire.ext"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_EXT" {if $profils.EXT==1}CHECKED{/if} NAME="profils[EXT]" VALUE="1" /><br/>{/if}
 
 
 <input type="submit" value="{i18n key="annuaire.btn.display"}" class="form_button" /><br/>

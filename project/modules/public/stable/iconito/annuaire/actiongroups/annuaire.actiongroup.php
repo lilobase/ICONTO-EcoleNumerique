@@ -398,12 +398,22 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		}
 		
 		$tplListe = & new CopixTpl ();
-
+		$visib = array (
+			'USER_ELE' => false,
+			'USER_ENS' => false,
+			'USER_RES' => false,
+			'USER_EXT' => false,
+			'USER_ADM' => false,
+			'USER_VIL' => false,
+		);
+		$matrix = & enic::get('matrix');
+		
 		$debug = false;
+		
 		$start = microtime(true);
 		$tplListe->assign ('combovilles', CopixZone::process ('annuaire|combovilles', array('droit'=>'communiquer', 'grville'=>$grville, 'value'=>$ville, 'fieldName'=>'ville', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_ville(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllVilles'))))));
-if($debug) echo "combovilles ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
-		
+		if($debug) echo "combovilles ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
+
 		$start = microtime(true);
 		if ($ville == $ALL && $comboEcoles) {
 			$tplListe->assign ('comboecoles', CopixZone::process ('annuaire|comboecolesingrville', array('droit'=>'communiquer', 'grville'=>$grville, 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_ecole(this,this.form);"', 'linesSup'=>array(0=>array('value'=>$ALL, 'libelle'=>CopixI18N::get ('annuaire|annuaire.comboAllEcoles'))))));
@@ -427,6 +437,8 @@ if($debug) echo "comboclassesinecole ".date("H:i:s")." ".(microtime(true)-$start
 			$tplListe->assign ('comboclasses', CopixZone::process ('annuaire|comboempty', array('fieldName'=>'classe', 'attribs'=>'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"')));
 if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
 		}
+		
+		/*
 		$visib = array (
 			'USER_ELE' => Kernel::getUserTypeVisibility ('USER_ELE'),
 			'USER_ENS' => Kernel::getUserTypeVisibility ('USER_ENS'),
@@ -435,19 +447,35 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 			'USER_ADM' => Kernel::getUserTypeVisibility ('USER_ADM'),
 			'USER_VIL' => Kernel::getUserTypeVisibility ('USER_VIL'),
 		);
+		*/
 		//print_r($visib);
 		//print_r($profils);
     
-		if (!$profils && $visib['USER_ELE']!='NONE') $profils['ELE']=1;
-		if (!$profils && $visib['USER_ENS']!='NONE') $profils['PEC']=1;
-		if (!$profils && $visib['USER_RES']!='NONE') $profils['PAR']=1;
-		if (!$profils && $visib['USER_EXT']!='NONE') $profils['EXT']=1;
-		if (!$profils && $visib['USER_ADM']!='NONE') $profils['ADM']=1;
-		if (!$profils && $visib['USER_VIL']!='NONE') $profils['VIL']=1;
+		//$e = $matrix->display();
+		//echo $e;
+		/*
+		if (!$profils && $visib['USER_ELE']) $profils['ELE']=1;
+		if (!$profils && $visib['USER_ENS']) $profils['PEC']=1;
+		if (!$profils && $visib['USER_RES']) $profils['PAR']=1;
+		if (!$profils && $visib['USER_EXT']) $profils['EXT']=1;
+		if (!$profils && $visib['USER_ADM']) $profils['ADM']=1;
+		if (!$profils && $visib['USER_VIL']) $profils['VIL']=1;
+		
+		*/
+		
+		if (!$profils && 1) $profils['ELE']=1;
+		if (!$profils && 1) $profils['PEC']=1;
+		if (!$profils && 1) $profils['PAR']=1;
+		if (!$profils && 1) $profils['EXT']=1;
+		if (!$profils && 1) $profils['ADM']=1;
+		if (!$profils && 1) $profils['VIL']=1;
+		
+		
+		
 		//print_r($profils);
     
 		// Si on restreint a un profil
-		if ($profil && $visib[$profil]!='NONE') {
+		if ($profil && $visib[$profil]) {
 			switch ($profil) {
 				case 'USER_VIL':
 					$profils = array();
@@ -468,11 +496,46 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 			}
 		}
 		
+		//kernel::myDebug ("grville=$grville / ville=$ville / ecole=$ecole / classe=$classe");
+		//kernel::myDebug ($profils);
+		
+		if ($grville && $ville && $ecole && $classe) {
+			if ($classe != $ALL)	{ // Une classe précise
+				$visib['USER_ELE'] = ($matrix->classe($classe)->_right->USER_ELE->communiquer);
+				$visib['USER_ENS'] = ($matrix->classe($classe)->_right->USER_ENS->communiquer);
+				$visib['USER_RES'] = ($matrix->classe($classe)->_right->USER_RES->communiquer);
+				//$visib['USER_ADM'] = ($matrix->classe($classe)->_right->USER_ADM->communiquer);
+				//$visib['USER_EXT'] = ($matrix->classe($classe)->_right->USER_EXT->communiquer);
+				$visib['USER_VIL'] = ($matrix->classe($classe)->_right->USER_VIL->communiquer);
+			} elseif ($classe == $ALL && $ecole != $ALL) { // Une école
+				$visib['USER_ELE'] = ($matrix->ecole($ecole)->_right->USER_ELE->communiquer);
+				$visib['USER_ENS'] = ($matrix->ecole($ecole)->_right->USER_ENS->communiquer);
+				$visib['USER_RES'] = ($matrix->ecole($ecole)->_right->USER_RES->communiquer);
+				//$visib['USER_ADM'] = ($matrix->ecole($ecole)->_right->USER_ADM->communiquer);
+				//$visib['USER_EXT'] = ($matrix->ecole($ecole)->_right->USER_EXT->communiquer);
+				$visib['USER_VIL'] = ($matrix->ecole($ecole)->_right->USER_VIL->communiquer);
+			} elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) { // Une ville
+				$visib['USER_ELE'] = ($matrix->ville($ville)->_right->USER_ELE->communiquer);
+				$visib['USER_ENS'] = ($matrix->ville($ville)->_right->USER_ENS->communiquer);
+				$visib['USER_RES'] = ($matrix->ville($ville)->_right->USER_RES->communiquer);
+				//$visib['USER_ADM'] = ($matrix->ville($ville)->_right->USER_ADM->communiquer);
+				//$visib['USER_EXT'] = ($matrix->ville($ville)->_right->USER_EXT->communiquer);
+				$visib['USER_VIL'] = ($matrix->ville($ville)->_right->USER_VIL->communiquer);
+			} elseif ($classe == $ALL && $ecole == $ALL && $ville == $ALL) { // Un groupe de villes
+				$visib['USER_ELE'] = ($matrix->grville($grville)->_right->USER_ELE->communiquer);
+				$visib['USER_ENS'] = ($matrix->grville($grville)->_right->USER_ENS->communiquer);
+				$visib['USER_RES'] = ($matrix->grville($grville)->_right->USER_RES->communiquer);
+				//$visib['USER_ADM'] = ($matrix->grville($grville)->_right->USER_ADM->communiquer);
+				//$visib['USER_EXT'] = ($matrix->grville($grville)->_right->USER_EXT->communiquer);
+				$visib['USER_VIL'] = ($matrix->grville($grville)->_right->USER_VIL->communiquer);
+			}
+		}
+		
 		
 		// =============== ELEVES =========================
 		$eleves = array();
-		if (isset($profils['ELE']) && $grville && $ville && $ecole && $classe && $visib['USER_ELE']!='NONE') {
-			if ($classe != $ALL)	// Une classe précise
+		if (isset($profils['ELE']) && $grville && $ville && $ecole && $classe && $visib['USER_ELE']) {
+			if ($classe != $ALL) // Une classe précise
 				$eleves = $annuaireService->getEleves ('BU_CLASSE', $classe);
 			elseif ($classe == $ALL && $ecole != $ALL) // Les eleves d'une école
 				$eleves = $annuaireService->getEleves ('BU_ECOLE', $ecole);
@@ -481,10 +544,10 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 			elseif ($classe == $ALL && $ecole == $ALL && $ville == $ALL) // Les eleves d'un groupe de villes
 				$eleves = $annuaireService->getEleves ('BU_GRVILLE', $grville);
 		}
-			
+
 		// =============== PERSONNEL =========================
 		$personnel = array();
-		if (isset($profils['PEC']) && $grville && $ville && $ecole && $classe && $visib['USER_ENS']!='NONE') {
+		if (isset($profils['PEC']) && $grville && $ville && $ecole && $classe && $visib['USER_ENS']) {
 			if ($classe != $ALL)	// Une classe précise
 				$personnel = $annuaireService->getPersonnel ('BU_CLASSE', $classe);
 			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
@@ -497,7 +560,7 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		
 		// =============== PARENTS =========================
 		$parents = array();
-		if (isset($profils['PAR']) && $grville && $ville && $ecole && $classe && $visib['USER_RES']!='NONE') {
+		if (isset($profils['PAR']) && $grville && $ville && $ecole && $classe && $visib['USER_RES']) {
 			if ($classe != $ALL)	// Une classe précise
 				$parents = $annuaireService->getParents ('BU_CLASSE', $classe);
 			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
@@ -510,7 +573,7 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		
 		// =============== PERSONNEL ADMINISTRATIF =========================
 		$adm = array();
-		if (isset($profils['ADM']) && $grville && $ville && $ecole && $classe && $visib['USER_ADM']!='NONE') {
+		if (isset($profils['ADM']) && $grville && $ville && $ecole && $classe && $visib['USER_ADM']) {
 			if ( ($classe != $ALL || $classe == $ALL) && $ecole != $ALL) // Les classes d'une école
 				$adm = $annuaireService->getPersonnelAdm ('BU_ECOLE', $ecole);
 			elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) // Les classes d'une ville
@@ -521,7 +584,7 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		
 		// =============== PERSONNEL EXTERIEUR =========================
 		$ext = array();
-		if (isset($profils['EXT']) && $grville && $ville && $ecole && $classe && $visib['USER_EXT']!='NONE') {
+		if (isset($profils['EXT']) && $grville && $ville && $ecole && $classe && $visib['USER_EXT']) {
 			if ($classe != $ALL)	// Une classe précise
 				$ext = $annuaireService->getPersonnelExt ('BU_CLASSE', $classe);
 			elseif ($classe == $ALL && $ecole != $ALL) // Les classes d'une école
@@ -534,13 +597,15 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		
 		// =============== PERSONNEL VILLE =========================
 		$vil = array();
-		if (isset($profils['VIL']) && $grville && $ville && $visib['USER_VIL']!='NONE') {
+		if (isset($profils['VIL']) && $grville && $ville && $visib['USER_VIL']) {
 			if ($ville != $ALL) // Dans une ville
 				$vil = $annuaireService->getPersonnelVil ('BU_VILLE', $ville);
 			elseif ($ville == $ALL) // Dans un groupe de villes
 				$vil = $annuaireService->getPersonnelVil ('BU_GRVILLE', $grville);
 		}
 		
+		//Kernel::myDebug($visib);
+	
 		$droits = array(
 			'checkEleves'=>$annuaireService->canMakeInAnnuaire('POPUP_CHECK_ALL_ELEVES'),
 			'checkParents'=>$annuaireService->canMakeInAnnuaire('POPUP_CHECK_ALL_PARENTS'),

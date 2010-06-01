@@ -24,34 +24,16 @@ class ZoneGetUserProfil extends CopixZone {
 		$id = ($this->getParam('id')) ? $this->getParam('id') : NULL;
 
 		
-		$canWrite = false;
+		$canWrite = $canView = false;
 		if ($type && $id) {	
 			$usr = Kernel::getUserInfo ($type, $id);
 			$usr['type_nom'] = Kernel::Code2Name ($usr['type']);
-			
-			//Kernel::MyDebug($usr);
-			$matrix = & enic::get('matrix');
-			
-			
-			$canView = false;
-			$arTypes = array('classe','ecole');
-			foreach ($arTypes as $vType) {
-				if (!isset($usr['link']->$vType))
-					continue;
-				foreach ($usr['link']->$vType as $jId=>$jRole) {
-					//echo $matrix->$vType()->display();
-					$droit = $matrix->$vType($jId)->_right->$type->voir;
-					//Kernel::MyDebug($droit);
-					if ($droit>0)
-						$canView = true;
-					$droit = $matrix->$vType($jId)->_right->$type->communiquer;
-					//Kernel::MyDebug($droit);
-					if ($droit>0)
-						$canWrite = true;
-				}
-			}
-			//Kernel::MyDebug($canView);
 		
+			//Kernel::myDebug($usr);
+			$droits = Kernel::getUserInfoMatrix ($usr);
+			$canView = $droits['voir'];
+			$canWrite = $droits['communiquer'];
+
 			if ($canView) {
 			
 				// Avatar

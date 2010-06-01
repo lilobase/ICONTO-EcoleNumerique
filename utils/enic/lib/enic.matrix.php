@@ -71,6 +71,7 @@ class enicMatrix extends enicList {
                 $node = $this->_root->villes->ville;
             break;
             case 'villes':
+            case 'grville':
             case 'GVILLE':
             case 'BU_GRVILLE':
                 $node = $this->_root->villes;

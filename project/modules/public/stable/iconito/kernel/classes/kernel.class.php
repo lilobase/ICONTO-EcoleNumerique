@@ -1125,8 +1125,35 @@ class Kernel {
 		return( $user );
 	}
 
-
-
+	// CB 01/06/2010
+	// Renvoie un tableau avec les droits de l'usager courant sur un noeud renvoye par getUserInfo
+	function getUserInfoMatrix ($userInfo) {
+		$matrix = & enic::get('matrix');
+		$arTypes = array('classe','ecole','ville','grville');
+		$res = array('voir'=>false, 'communiquer'=>false);
+		if (!isset($userInfo['link']))
+			return $res;
+		foreach ($arTypes as $vType) {
+			if (!isset($userInfo['link']->$vType))
+				continue;
+			//Kernel::MyDebug($usr['link']->$vType);
+			foreach ($userInfo['link']->$vType as $jId=>$jRole) {
+				//echo $matrix->$vType()->display();
+				$droit = $matrix->$vType($jId)->_right->$userInfo['type']->voir;
+				//Kernel::MyDebug($droit);
+				if ($droit>0)
+					$res['voir'] = true;
+				$droit = $matrix->$vType($jId)->_right->$userInfo['type']->communiquer;
+				//Kernel::MyDebug($droit);
+				if ($droit>0)
+					$res['communiquer'] = true;
+			}
+		}
+		return $res;
+		
+	}
+	
+	
 	function getMyParents( $racine_type="USER", $racine_node=0, $options=array() ) {
 		$tree = array(
 			"direct"=>array(),

@@ -348,8 +348,13 @@ class ActionGroupMinimail extends CopixActionGroup {
 				$errors[] = CopixI18N::get ('minimail.error.badDest', array($login));
 			elseif ($userInfo["user_id"] == $fromId)
 				$errors[] = CopixI18N::get ('minimail.error.writeHimself');
-			else
-				$tabDest[$userInfo["user_id"]] = $userInfo["user_id"];
+			else {
+				$droits = Kernel::getUserInfoMatrix ($userInfo);
+				if (!$droits['communiquer'])
+					$errors[] = CopixI18N::get ('minimail.error.cannotWrite', array($login));
+				else
+					$tabDest[$userInfo["user_id"]] = $userInfo["user_id"];
+			}
 		}
 		
 		// On vérifie les pièces jointes
