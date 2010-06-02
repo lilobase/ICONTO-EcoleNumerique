@@ -11,15 +11,20 @@
 
 class ActionGroupDefault extends CopixActionGroup {
 
+	private $menu;
+	
 	public function beforeAction () {
-		
 		_currentUser()->assertCredential('module:*||access|@gestionautonome');
 		
-    CopixHTMLHeader::addJSLink (_resource ('js/jquery-1.4.2.min.js'));
-    CopixHTMLHeader::addJSLink (_resource ('js/jquery-ui-1.8.custom.min.js'));
-    CopixHTMLHeader::addJSLink (_resource ('js/jquery.ui.datepicker-fr.js'));
-    CopixHTMLHeader::addCSSLink (_resource ('jquery-ui-theme/jquery-ui-1.8.custom.css'));  
+		CopixHTMLHeader::addJSLink (_resource ('js/jquery-1.4.2.min.js'));
+		CopixHTMLHeader::addJSLink (_resource ('js/jquery-ui-1.8.custom.min.js'));
+		CopixHTMLHeader::addJSLink (_resource ('js/jquery.ui.datepicker-fr.js'));
+		CopixHTMLHeader::addCSSLink (_resource ('jquery-ui-theme/jquery-ui-1.8.custom.css'));  
 		CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
+		
+		$this->menu = array();
+		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt') );
+		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list') );
 	}
 
 	/**
@@ -70,6 +75,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    $ppo->MENU = $this->menu;
     
 		return _arPPO ($ppo, 'show_tree.tpl');
 	}

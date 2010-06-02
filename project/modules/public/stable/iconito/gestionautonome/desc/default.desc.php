@@ -1,6 +1,8 @@
 <?php
 
 // Général
+$go = & new CopixAction ('default', 'processShowTree');
+
 $showTree = & new CopixAction ('default', 'processShowTree');
 $displayPersonsData = & new CopixAction ('default', 'processDisplayPersonsData');
 $updateTreeActions = & new CopixAction ('default', 'processUpdateTreeActions');
