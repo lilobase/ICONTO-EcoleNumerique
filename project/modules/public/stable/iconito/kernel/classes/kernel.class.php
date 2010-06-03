@@ -1230,7 +1230,7 @@ class Kernel {
 		
 		foreach ($list as $v) {
 			$v->module_nom	 = Kernel::Code2Name ($v->module_type);
-			$modules[] = $v;
+			$modules[] = clone $v;
 		}
 		
 		//print_r($modules);
@@ -1243,7 +1243,7 @@ class Kernel {
 			$carnetcorresp->module_type = 'MOD_CARNET';
 			$carnetcorresp->module_id   = 'CLASSE_'.$node_id;
 			$carnetcorresp->module_nom	 = Kernel::Code2Name ('MOD_CARNET');
-			$modules[] = $carnetcorresp;
+			$modules[] = clone $carnetcorresp;
 		}
 		
 				
@@ -1260,7 +1260,7 @@ class Kernel {
 				$teleprocedures->module_type = 'MOD_TELEPROCEDURES';
 				$teleprocedures->module_id   = 'ECOLE_'.$node_id;
 				$teleprocedures->module_nom   = Kernel::Code2Name ('MOD_TELEPROCEDURES');
-				$modules[] = $teleprocedures;
+				$modules[] = clone $teleprocedures;
 			} /* elseif( $user_type == "USER_VIL" &&
 			    $node_type == "BU_VILLE" &&
 				Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
@@ -1269,23 +1269,9 @@ class Kernel {
 				$teleprocedures->module_type = 'MOD_TELEPROCEDURES';
 				$teleprocedures->module_id   = 'VILLE_'.$node_id;
 				$teleprocedures->module_nom   = Kernel::Code2Name ('MOD_TELEPROCEDURES');
-				$modules[] = $teleprocedures;
+				$modules[] = clone $teleprocedures;
 			}
 			*/
-		}
-		
-		if( (
-			($user_type == "USER_EXT" && $node_type == "ROOT") ||
-			($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
-			($user_type == "USER_VIL" && $node_type == "BU_VILLE")
-			) &&
-			Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
-			$comptes->node_type   = $node_type;
-			$comptes->node_id     = $node_id;
-			$comptes->module_type = 'MOD_COMPTES';
-			$comptes->module_id = $node_type.'-'.$node_id;
-			$comptes->module_nom   = Kernel::Code2Name ('MOD_COMPTES');
-			$modules[] = $comptes;
 		}
 		
 		// Cas particuliers : modules personnels sans numÈros
@@ -1296,7 +1282,7 @@ class Kernel {
 			  $perso->node_id     = $node_id;
 				$perso->module_type = $perso_module;
 				$perso->module_nom   = Kernel::Code2Name ($perso_module);
-				$modules[] = $perso;
+				$modules[] = clone $perso;
 				unset ($perso);
 			}
 		}
@@ -1307,7 +1293,7 @@ class Kernel {
 			$admin->node_id     = $node_id;
 			$admin->module_type = 'MOD_ADMIN2';
 			$admin->module_nom   = Kernel::Code2Name ('MOD_ADMIN');
-			$modules[] = $admin;
+			$modules[] = clone $admin;
 		}
 		
 		// Cas ENS+VIL : SSO vers Gael si tout est configurÈ.
@@ -1325,7 +1311,7 @@ class Kernel {
 			$comptes->module_id = $node_type.'-'.$node_id;
 			$comptes->module_nom   = Kernel::Code2Name ('MOD_SSO_GAEL');
 			$comptes->module_popup = true; // Mode Popup !!!
-			$modules[] = $comptes;
+			$modules[] = clone $comptes;
 		}
 		
 		// Cas particulier : gestion des groupes de ville (AC/TICE)
@@ -1337,9 +1323,36 @@ class Kernel {
 			$mod_grvilles->module_type = 'MOD_REGROUPEMENTS';
 			$mod_grvilles->module_id = $node_type.'-'.$node_id;
 			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_REGROUPEMENTS');
-			$modules[] = $mod_grvilles;
+			$modules[] = clone $mod_grvilles;
 		}
-
+		
+		// Cas particulier : Gestion autonome
+		// if(    $user_type == "USER_EXT"
+		//    && $node_type == "ROOT"
+		//    && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
+		if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') && _currentUser()->testCredential('module:*||access|@gestionautonome') ) {
+			$mod_grvilles->node_type   = $node_type;
+			$mod_grvilles->node_id     = $node_id;
+			$mod_grvilles->module_type = 'MOD_GESTIONAUTONOME';
+			$mod_grvilles->module_id = $node_type.'-'.$node_id;
+			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_GESTIONAUTONOME');
+			$modules[] = clone $mod_grvilles;
+		} elseif( (
+			($user_type == "USER_EXT" && $node_type == "ROOT") ||
+			($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
+			($user_type == "USER_VIL" && $node_type == "BU_VILLE")
+			) &&
+			Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
+			$comptes->node_type   = $node_type;
+			$comptes->node_id     = $node_id;
+			$comptes->module_type = 'MOD_COMPTES';
+			$comptes->module_id = $node_type.'-'.$node_id;
+			$comptes->module_nom   = Kernel::Code2Name ('MOD_COMPTES');
+			$modules[] = clone $comptes;
+		}
+		
+		
+		
 		reset($modules);
 		return $modules;
 	}

@@ -44,6 +44,10 @@ class ActionGroupComptes extends CopixActionGroup {
 	 */
 	function getNode () {
 		
+		if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('gestionautonome|default|showTree', array('type'=>'ROOT') ));
+		}
+		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
 		$tpl = & new CopixTpl ();
