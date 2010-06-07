@@ -27,7 +27,7 @@
 <div>
 {foreach from=$agents item=agent}
 
-{user label=$agent.prenom|cat:" "|cat:$agent.nom userType=$agent.type userId=$agent.id login=$agent.login dispMail=1}
+{user label=$agent.prenom|cat:" "|cat:$agent.nom userType=$agent.type userId=$agent.id login=$agent.login dispMail=$canWrite_USER_VIL}
 
 <br/>
 {/foreach}

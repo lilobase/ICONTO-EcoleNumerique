@@ -6,8 +6,7 @@
 <DIV ID="eleves">
 {foreach from=$classe.enseignants item=enseignant}
 <DIV><IMG src="{copixresource path="img/annuaire/sexe`$enseignant.sexe`b.png"}" width="15" height="17" /> 
-
-{user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1}
+{user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=$canWriteUSER_ENS}
 
 </DIV>
 {/foreach}
@@ -21,7 +20,7 @@
 {foreach from=$classe.eleves item=eleve}
 <DIV><IMG src="{copixresource path="img/annuaire/sexe`$eleve.sexe`b.png"}" width="15" height="17" /> 
 
-{user label=$eleve.prenom|cat:" "|cat:$eleve.nom userType=$eleve.type userId=$eleve.id login=$eleve.login dispMail=1}
+{user label=$eleve.prenom|cat:" "|cat:$eleve.nom userType=$eleve.type userId=$eleve.id login=$eleve.login dispMail=$canWriteUSER_ELE}
 
 </DIV>
 {/foreach}

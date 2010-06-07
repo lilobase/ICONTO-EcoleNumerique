@@ -375,20 +375,25 @@ class Kernel {
 			
 			// Utilisateurs locaux (hors BU) --(n)--> Noeuds (ecoles, classes, clubs, etc.)
 			case "USER_EXT":
+                                $alreadyOnRoot = false;
 				$dao = _dao("kernel|kernel_link_user2node");
 				$res = $dao->getByUser($type,$id);
 				foreach( $res AS $key=>$val ) {
 					if( ereg( "^BU_(.+)$", $val->node_type, $regs ) )
 						$return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$val->droit);
-					if( ereg( "^ROOT$", $val->node_type ) )
+					if( ereg( "^ROOT$", $val->node_type ) ){
 						$return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
+                                                $alreadyOnRoot = true;
+                                        }
 				}
 				// PNL - en dur, chef de Grandville (id1)
 				// en rÈalitÈ il faut balayer tout ce qui est attachÈ ‡ ce user EXT
 				// $return[]=array("type"=>"BU_VILLE", "id"=>1,"droit"=>99);
 				
 				// Les USER_EXT sont attaches par defaut a ROOT/0 sans droits
-				$return[]=array("type"=>"ROOT", "id"=>0,"droit"=>0);
+                                if(!$alreadyOnRoot)
+                                    $return[]=array("type"=>"ROOT", "id"=>0,"droit"=>0);
+
 				break;
 
 			default:
@@ -398,7 +403,7 @@ class Kernel {
 		// Responsable --(n)--> BÈnÈficiaire (limitÈ ‡ parent --> enfants)
 		if( $type=="USER_RES" /* || $type="ORGANISME" */ ) {
 			$dao = _dao("kernel|kernel_bu_res2ele");
-			$res = $dao->getByResponsable($type, $id);
+			$res = $dao->getByResponsable('responsable', $id);
 			foreach( $res AS $key=>$val ) {
 				if( $val->res2ele_type_beneficiaire != "eleve" ) continue;
 				$return[]=array("type"=>"USER_ELE", "id"=>$val->res2ele_id_beneficiaire, "droit"=>($val->res2ele_auth_parentale?PROFILE_CCV_ADMIN:PROFILE_CCV_READ), "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
@@ -411,7 +416,7 @@ class Kernel {
 			foreach( $res AS $key=>$val ) {
 
 				// Utilisateurs --(n)--> Groupes de travail (clubs)
-				if( 1 || $val->node_type=="CLUB" ) {
+				if($val->node_type=="CLUB" ) {
 					$ok = true;
 					if ($val->debut && $val->debut>date("Ymd")) $ok = false;
 					if ($val->fin   && $val->fin  <date("Ymd")) $ok = false;
@@ -454,7 +459,10 @@ class Kernel {
 	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
 	 * @param string $type Type du noeud parent.
 	 * @param integer $id Identifiant du noeud parent.
-	 * @return array Liste des noeuds, chacun sous forme (type,id). 
+	 * @return array Liste des noeuds, chacun sous forme (type,id).
+         *
+         * $options :
+         * 'skip_user' => true : supprime les infos concernants les utilisateurs
 	 */
 	function getNodeChilds( $type, $id, $addchildinfo=true, $options=array() ) {
 		
@@ -481,12 +489,17 @@ class Kernel {
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"BU_VILLE", "id"=>$val->vil_id_vi);
 					}
-					// Groupe de Ville --(n)--> Agents de ville
-					$dao = _dao("kernel|kernel_bu_personnel_entite");
-					$res = $dao->getByRef("GVILLE",$id);
-					foreach( $res AS $key=>$val ) {
-						$return[]=array("type"=>"USER_VIL", "id"=>$val->pers_entite_id_per);
-					}
+
+                                        //skip get user infos
+                                        if(!isset($options['skip_user']) || !$options['skip_user']){
+                                            // Groupe de Ville --(n)--> Agents de ville
+                                            $dao = _dao("kernel|kernel_bu_personnel_entite");
+                                            $res = $dao->getByRef("GVILLE",$id);
+                                            foreach( $res AS $key=>$val ) {
+                                                    $return[]=array("type"=>"USER_VIL", "id"=>$val->pers_entite_id_per);
+                                            }
+                                        }
+
 					
 					$this->cache_getNodeChilds_grville[$id] = $return;
 				}
@@ -501,13 +514,15 @@ class Kernel {
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"BU_ECOLE", "id"=>$val->eco_numero);
 					}
-					// Ville --(n)--> Agents de ville
-					$dao = _dao("kernel|kernel_bu_personnel_entite");
-					$res = $dao->getByRef("VILLE",$id);
-					foreach( $res AS $key=>$val ) {
-						$return[]=array("type"=>"USER_VIL", "id"=>$val->pers_entite_id_per);
-					}
-					
+                                        //skip get user infos
+                                        if(!isset($options['skip_user']) || !$options['skip_user']){
+                                            // Ville --(n)--> Agents de ville
+                                            $dao = _dao("kernel|kernel_bu_personnel_entite");
+                                            $res = $dao->getByRef("VILLE",$id);
+                                            foreach( $res AS $key=>$val ) {
+                                                    $return[]=array("type"=>"USER_VIL", "id"=>$val->pers_entite_id_per);
+                                            }
+                                        }
 					$this->cache_getNodeChilds_ville[$id] = $return;
 				}
 				break;
@@ -532,25 +547,33 @@ class Kernel {
 					foreach( $res AS $key=>$val ) {
 						$return[]=array("type"=>"BU_CLASSE", "id"=>$val->cla_id);
 					}
-					// Ecole --(n)--> Enseignants
-					$dao = _dao("kernel|kernel_bu_personnel_entite");
-					$res = $dao->getByRef("ECOLE",$id);
-					foreach( $res AS $key=>$val ) {
-						switch( $val->pers_entite_role ) {
-							case "1": // Enseignant
-							case "2": // Directeur
-								$return[]=array("type"=>"USER_ENS", "id"=>$val->pers_entite_id_per);
-								break;
-							case "3": // Personnel administratif
-								$return[]=array("type"=>"USER_ADM", "id"=>$val->pers_entite_id_per);
-								break;
-						}
-					}
-					
+
+
+                                        //skip get user infos
+                                        if(!isset($options['skip_user']) || !$options['skip_user']){
+                                            // Ecole --(n)--> Enseignants
+                                            $dao = _dao("kernel|kernel_bu_personnel_entite");
+                                            $res = $dao->getByRef("ECOLE",$id);
+                                            foreach( $res AS $key=>$val ) {
+                                                    switch( $val->pers_entite_role ) {
+                                                            case "1": // Enseignant
+                                                            case "2": // Directeur
+                                                                    $return[]=array("type"=>"USER_ENS", "id"=>$val->pers_entite_id_per);
+                                                                    break;
+                                                            case "3": // Personnel administratif
+                                                                    $return[]=array("type"=>"USER_ADM", "id"=>$val->pers_entite_id_per);
+                                                                    break;
+                                                    }
+                                            }
+                                        }
 					$this->cache_getNodeChilds_ecole[$cacheId] = $return;
 				}
 				break;
+                        //complet class child (only users)
 			case "BU_CLASSE":
+
+                            //skip get user infos
+                            if(!isset($options['skip_user']) || !$options['skip_user']){
 				if( isset($this->cache_getNodeChilds_classe[$id]) ) {
 					$return = $this->cache_getNodeChilds_classe[$id];
 				} else {
@@ -570,7 +593,8 @@ class Kernel {
 					//print_r($return);
 					$this->cache_getNodeChilds_classe[$id] = $return;
 				}
-				break;
+                            }
+                        break;
 			
 			/*
 			case "USER_ELE": // A FINIR !!!
@@ -584,39 +608,47 @@ class Kernel {
 			*/
 		}
 
-		// BÈnÈficiaire --(n)--> Responsable (limitÈ ‡ enfant --> parents)
-		if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
-			$dao = _dao("kernel|kernel_bu_res2ele");
-			$res = $dao->getByBeneficiaire("USER_ELE", $id);
-			//print_r($res);
-			foreach( $res AS $key=>$val ) {
-				if( $val->res2ele_type_responsable != "responsable" ) continue;
-				$return[]=array("type"=>"USER_RES", "id"=>$val->res2ele_id_responsable, "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
-			}
-		}
-		
-		// Noeud (classe, ecole, etc.) + clubs --(n)--> Utilisateurs ext.
-		if( !ereg( "^USER_(.+)$", $type, $regs ) ) {
-			$dao = _dao("kernel|kernel_link_user2node");
-			$res = $dao->getByNode($type,$id);
-			foreach( $res AS $key=>$val ) {
-				$return[]=array("type"=>$val->user_type, "id"=>$val->user_id,"droit"=>$val->droit, "debut"=>$val->debut, "fin"=>$val->fin);
-			}
-		}
-		if( ereg( "^BU_(.+)$", $type, $regs ) ) {
+                //skip get user infos
+                if(!isset($options['skip_user']) || !$options['skip_user']){
+
+                    // BÈnÈficiaire --(n)--> Responsable (limitÈ ‡ enfant --> parents)
+                    if( $type=="USER_ELE" /* || $type=="USER_RES" */ ) {
+                            $dao = _dao("kernel|kernel_bu_res2ele");
+                            $res = $dao->getByBeneficiaire("eleve", $id);
+                            //print_r($res);
+                            foreach( $res AS $key=>$val ) {
+                                    if( $val->res2ele_type_responsable != "responsable" ) continue;
+                                    $return[]=array("type"=>"USER_RES", "id"=>$val->res2ele_id_responsable, "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
+                            }
+                    }
+                }
+
+                //skip get user infos
+                if(!isset($options['skip_user']) || !$options['skip_user']){
+                    // Noeud (classe, ecole, etc.) + clubs --(n)--> Utilisateurs ext.
+                    if( !preg_match( "#^USER_(.+)$#", $type, $regs ) ) {
+                            $dao = _dao("kernel|kernel_link_user2node");
+                            $res = $dao->getByNode($type,$id);
+                            foreach( $res AS $key=>$val ) {
+                                    $return[]=array("type"=>$val->user_type, "id"=>$val->user_id,"droit"=>$val->droit, "debut"=>$val->debut, "fin"=>$val->fin);
+                            }
+                    }
+                }
+
+		if( preg_match( "#^BU_(.+)$#", $type, $regs ) ) {
 			// Noeud (classe, ecole, etc.) --(n)--> Groupes de travail
 			$dao = _dao("kernel|kernel_link_groupe2node");
 			$res = $dao->getByNode($type,$id);
 			foreach( $res AS $key=>$val ) {
 				$return[]=array("type"=>"CLUB", "id"=>$val->groupe_id);
 			}
-
-			// Groupes
 		}
 		
 		// Ajoute les personnes extÈrieures (mÍme non liÈes ‡ un noeud) ‡ la racine
 		if( $type=='ROOT' ) {
-			
+
+                    //skip get user infos
+                    if(!isset($options['skip_user']) || !$options['skip_user']){
 			$return_add = array();
 			$userext_old = array();
 			foreach( $return AS $user ) {
@@ -635,7 +667,6 @@ class Kernel {
 					'debut' => '',
 					'fin' => '',
 /*
-
 					user_id' => '',
 					'login' => '',
 					'nom' => $userext_val->ext_nom,
@@ -649,21 +680,23 @@ class Kernel {
 			$return = array_merge($return, $return_add);
 			// Kernel::MyDebug($return);
 		}
-		
-		if( $addchildinfo ) {
-			// Ajoute les infos aux donnÈes sur les enfants
-			foreach( $return AS $key=>$val ) {
-		 		$infos = Kernel::getNodeInfo( $val['type'], $val['id'], false );
-				if( $infos ) // VÈrifie qu'il y a des infos...
-					foreach( $infos AS $info_key=>$info_val )
-						if( !isset($return[$key][$info_key]) ) // Evite les effacements...
-							$return[$key][$info_key] = $info_val;
-			}
-		}
+            }
 
-		//print_r($return);
-		reset($return);
-		return $return;
+            //add info for each node
+            if( $addchildinfo ) {
+                // Ajoute les infos aux donnÈes sur les enfants
+                foreach( $return AS $key=>$val ) {
+                    $infos = Kernel::getNodeInfo( $val['type'], $val['id'], false);
+                    if( $infos ) // VÈrifie qu'il y a des infos...
+                        foreach( $infos AS $info_key=>$info_val )
+                            if( !isset($return[$key][$info_key]) ) // Evite les effacements...
+                                $return[$key][$info_key] = $info_val;
+                }
+            }
+
+            //print_r($return);
+            reset($return);
+            return $return;
 	}
 	
 	/**
@@ -904,7 +937,7 @@ class Kernel {
 				}
 				break;
 			case "BU_CLASSE":
-				if( isset($this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")]) ) {
+				if( isset($this->cache_getNodeInfo_classe[$id.'-'.($addparents ? 'parent' : 'noparent' )]) ) {
 					$return = $this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")];
 				} else {
 					$dao = _dao("kernel|kernel_tree_cla");
@@ -1097,8 +1130,35 @@ class Kernel {
 		return( $user );
 	}
 
-
-
+	// CB 01/06/2010
+	// Renvoie un tableau avec les droits de l'usager courant sur un noeud renvoye par getUserInfo
+	function getUserInfoMatrix ($userInfo) {
+		$matrix = & enic::get('matrix');
+		$arTypes = array('classe','ecole','ville','grville');
+		$res = array('voir'=>false, 'communiquer'=>false);
+		if (!isset($userInfo['link']))
+			return $res;
+		foreach ($arTypes as $vType) {
+			if (!isset($userInfo['link']->$vType))
+				continue;
+			//Kernel::MyDebug($usr['link']->$vType);
+			foreach ($userInfo['link']->$vType as $jId=>$jRole) {
+				//echo $matrix->$vType()->display();
+				$droit = $matrix->$vType($jId)->_right->$userInfo['type']->voir;
+				//Kernel::MyDebug($droit);
+				if ($droit>0)
+					$res['voir'] = true;
+				$droit = $matrix->$vType($jId)->_right->$userInfo['type']->communiquer;
+				//Kernel::MyDebug($droit);
+				if ($droit>0)
+					$res['communiquer'] = true;
+			}
+		}
+		return $res;
+		
+	}
+	
+	
 	function getMyParents( $racine_type="USER", $racine_node=0, $options=array() ) {
 		$tree = array(
 			"direct"=>array(),
@@ -1175,7 +1235,7 @@ class Kernel {
 		
 		foreach ($list as $v) {
 			$v->module_nom	 = Kernel::Code2Name ($v->module_type);
-			$modules[] = $v;
+			$modules[] = clone $v;
 		}
 		
 		//print_r($modules);
@@ -1188,7 +1248,7 @@ class Kernel {
 			$carnetcorresp->module_type = 'MOD_CARNET';
 			$carnetcorresp->module_id   = 'CLASSE_'.$node_id;
 			$carnetcorresp->module_nom	 = Kernel::Code2Name ('MOD_CARNET');
-			$modules[] = $carnetcorresp;
+			$modules[] = clone $carnetcorresp;
 		}
 		
 				
@@ -1205,7 +1265,7 @@ class Kernel {
 				$teleprocedures->module_type = 'MOD_TELEPROCEDURES';
 				$teleprocedures->module_id   = 'ECOLE_'.$node_id;
 				$teleprocedures->module_nom   = Kernel::Code2Name ('MOD_TELEPROCEDURES');
-				$modules[] = $teleprocedures;
+				$modules[] = clone $teleprocedures;
 			} /* elseif( $user_type == "USER_VIL" &&
 			    $node_type == "BU_VILLE" &&
 				Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
@@ -1214,23 +1274,9 @@ class Kernel {
 				$teleprocedures->module_type = 'MOD_TELEPROCEDURES';
 				$teleprocedures->module_id   = 'VILLE_'.$node_id;
 				$teleprocedures->module_nom   = Kernel::Code2Name ('MOD_TELEPROCEDURES');
-				$modules[] = $teleprocedures;
+				$modules[] = clone $teleprocedures;
 			}
 			*/
-		}
-		
-		if( (
-			($user_type == "USER_EXT" && $node_type == "ROOT") ||
-			($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
-			($user_type == "USER_VIL" && $node_type == "BU_VILLE")
-			) &&
-			Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
-			$comptes->node_type   = $node_type;
-			$comptes->node_id     = $node_id;
-			$comptes->module_type = 'MOD_COMPTES';
-			$comptes->module_id = $node_type.'-'.$node_id;
-			$comptes->module_nom   = Kernel::Code2Name ('MOD_COMPTES');
-			$modules[] = $comptes;
 		}
 		
 		// Cas particuliers : modules personnels sans numÈros
@@ -1241,7 +1287,7 @@ class Kernel {
 			  $perso->node_id     = $node_id;
 				$perso->module_type = $perso_module;
 				$perso->module_nom   = Kernel::Code2Name ($perso_module);
-				$modules[] = $perso;
+				$modules[] = clone $perso;
 				unset ($perso);
 			}
 		}
@@ -1252,7 +1298,7 @@ class Kernel {
 			$admin->node_id     = $node_id;
 			$admin->module_type = 'MOD_ADMIN2';
 			$admin->module_nom   = Kernel::Code2Name ('MOD_ADMIN');
-			$modules[] = $admin;
+			$modules[] = clone $admin;
 		}
 		
 		// Cas ENS+VIL : SSO vers Gael si tout est configurÈ.
@@ -1270,7 +1316,7 @@ class Kernel {
 			$comptes->module_id = $node_type.'-'.$node_id;
 			$comptes->module_nom   = Kernel::Code2Name ('MOD_SSO_GAEL');
 			$comptes->module_popup = true; // Mode Popup !!!
-			$modules[] = $comptes;
+			$modules[] = clone $comptes;
 		}
 		
 		// Cas particulier : gestion des groupes de ville (AC/TICE)
@@ -1282,9 +1328,36 @@ class Kernel {
 			$mod_grvilles->module_type = 'MOD_REGROUPEMENTS';
 			$mod_grvilles->module_id = $node_type.'-'.$node_id;
 			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_REGROUPEMENTS');
-			$modules[] = $mod_grvilles;
+			$modules[] = clone $mod_grvilles;
 		}
-
+		
+		// Cas particulier : Gestion autonome
+		// if(    $user_type == "USER_EXT"
+		//    && $node_type == "ROOT"
+		//    && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
+		if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') && _currentUser()->testCredential('module:*||access|@gestionautonome') ) {
+			$mod_grvilles->node_type   = $node_type;
+			$mod_grvilles->node_id     = $node_id;
+			$mod_grvilles->module_type = 'MOD_GESTIONAUTONOME';
+			$mod_grvilles->module_id = $node_type.'-'.$node_id;
+			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_GESTIONAUTONOME');
+			$modules[] = clone $mod_grvilles;
+		} elseif( (
+			($user_type == "USER_EXT" && $node_type == "ROOT") ||
+			($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
+			($user_type == "USER_VIL" && $node_type == "BU_VILLE")
+			) &&
+			Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
+			$comptes->node_type   = $node_type;
+			$comptes->node_id     = $node_id;
+			$comptes->module_type = 'MOD_COMPTES';
+			$comptes->module_id = $node_type.'-'.$node_id;
+			$comptes->module_nom   = Kernel::Code2Name ('MOD_COMPTES');
+			$modules[] = clone $comptes;
+		}
+		
+		
+		
 		reset($modules);
 		return $modules;
 	}
@@ -1513,8 +1586,10 @@ class Kernel {
 	}
 	
 	
-	function MyDebug( $var ) {
-		die( "<pre>".print_r($var,true)."</pre>" );
+	function MyDebug( $var, $die=false) {
+		echo( "<pre>".print_r($var,true)."</pre>" );
+		if ($die)
+			die();
 	}
 	
 	

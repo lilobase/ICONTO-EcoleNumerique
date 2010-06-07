@@ -17,6 +17,8 @@ class ZoneInfosClasse extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
+		$tpl = & new CopixTpl ();
+		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
 		$rClasse = ($this->getParam('rClasse')) ? $this->getParam('rClasse') : NULL;
@@ -25,9 +27,10 @@ class ZoneInfosClasse extends CopixZone {
 			$classe = $rClasse['id'];
 			
 			$enseignants = $annuaireService->getEnseignantInClasse ($classe);
-			$enseignants = $annuaireService->checkVisibility( $enseignants );
+			//$enseignants = $annuaireService->checkVisibility( $enseignants );
 			$eleves = $annuaireService->getElevesInClasse ($classe);
 			// $eleves = $annuaireService->checkVisibility( $eleves );
+			
 			
 			if( Kernel::getUserTypeVisibility( 'USER_ELE' ) == 'NONE' )
 				$rClasse["eleves"] = 'NONE';
@@ -39,7 +42,21 @@ class ZoneInfosClasse extends CopixZone {
 			else
 				$rClasse["enseignants"] = $enseignants;
 			
-			$tpl = & new CopixTpl ();
+			
+			$matrix = & enic::get('matrix');
+
+			$droit = $matrix->classe($classe)->_right->USER_ENS->voir;
+			if (!$droit) $rClasse["enseignants"] = 'NONE';
+			$canWrite = $matrix->classe($classe)->_right->USER_ENS->communiquer;
+			$tpl->assign ('canWriteUSER_ENS', $canWrite);
+			
+			$droit = $matrix->classe($classe)->_right->USER_ELE->voir;
+			if (!$droit) $rClasse["eleves"] = 'NONE';
+			$canWrite = $matrix->classe($classe)->_right->USER_ELE->communiquer;
+			$tpl->assign ('canWriteUSER_ELE', $canWrite);
+			
+			
+			
 			$tpl->assign ('classe', $rClasse);
 	    $toReturn = $tpl->fetch ('infosclasse.tpl');
 		}

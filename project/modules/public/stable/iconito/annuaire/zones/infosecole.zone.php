@@ -17,6 +17,8 @@ class ZoneInfosEcole extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
+		$tpl = & new CopixTpl ();
+		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
 		$rEcole = ($this->getParam('rEcole')) ? $this->getParam('rEcole') : NULL;
@@ -30,22 +32,37 @@ class ZoneInfosEcole extends CopixZone {
 			if( $this->getParam('classes') )
 				$classes = $this->getParam('classes');
 			else
-				$classes = $annuaireService->getClassesInEcole($ecole);
+				$classes = $annuaireService->getClassesInEcole($ecole, array('droit'=>'VOIR'));
 			
-			$rEcole['directeur'] = $annuaireService->getDirecteurInEcole($ecole);
+			$matrix = & enic::get('matrix');
+
+			$droit = $matrix->ecole($ecole)->_right->USER_DIR->voir;
+			if ($droit) {
+				$rEcole['directeur'] = $annuaireService->getDirecteurInEcole($ecole);
+				$canWrite = $matrix->ecole($ecole)->_right->USER_DIR->communiquer;
+				$tpl->assign ('canWriteUSER_DIR', $canWrite);
+			}
 			
-			$rEcole['directeur'] = $annuaireService->checkVisibility( $rEcole['directeur'] );
+			//$droit = $matrix->ecole($ecole)->_right->USER_ADM->voir;
+			$droit = 1;
+			if ($droit) {
+				$rEcole['administratif'] = $annuaireService->getAdministratifInEcole($ecole);
+				$canWrite = $matrix->ecole($ecole)->_right->USER_DIR->communiquer;
+				$tpl->assign ('canWriteUSER_ADM', $canWrite);
+			}
 			
-			$rEcole['administratif'] = $annuaireService->getAdministratifInEcole($ecole);
+			$tpl->assign ('canWriteUSER_ENS', $matrix->ecole($ecole)->_right->USER_ENS->communiquer);
 			
-			$rEcole['administratif'] = $annuaireService->checkVisibility( $rEcole['administratif'] );
+			//$rEcole['directeur'] = $annuaireService->checkVisibility( $rEcole['directeur'] );
 			
-			$tpl = & new CopixTpl ();
+			//$rEcole['administratif'] = $annuaireService->checkVisibility( $rEcole['administratif'] );
+
+			
 			$tpl->assign ('ecole', $rEcole);
 			$tpl->assign ('classes', $classes);
 			
 			// BOOST 1s
-			$tpl->assign ('comboecoles', CopixZone::process ('annuaire|comboecolesinville', array('ville'=>$rEcole['ALL']->vil_id_vi, 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'CLASS="annu_combo_popup" ONCHANGE="if (this.value) this.form.submit();"')));
+			$tpl->assign ('comboecoles', CopixZone::process ('annuaire|comboecolesinville', array('droit'=>'VOIR', 'ville'=>$rEcole['ALL']->vil_id_vi, 'value'=>$ecole, 'fieldName'=>'ecole', 'attribs'=>'CLASS="annu_combo_popup" ONCHANGE="if (this.value) this.form.submit();"')));
 
 	    $toReturn = $tpl->fetch ('infosecole.tpl');
 			

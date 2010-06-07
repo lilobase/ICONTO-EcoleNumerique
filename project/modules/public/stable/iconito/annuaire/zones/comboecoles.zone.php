@@ -17,6 +17,7 @@ class ZoneComboEcoles extends CopixZone {
 	 * @param integer $value Valeur actuelle de la combo
 	 * @param string $fieldName Nom du champ de type SELECT qui en résulte
 	 * @param string $attribs Attributs HTML de la liste (STYLE, ONCHANGE...)
+	 * @param string $droit Si on ne veut afficher que les ecoles sur lesquelles l'usager a un certain droit (VOIR / COMM, ou voir / communiquer)
 	 */
 	function _createContent (&$toReturn) {
 		
@@ -26,8 +27,9 @@ class ZoneComboEcoles extends CopixZone {
 		$value = ($this->getParam('value')) ? $this->getParam('value') : 0;
 		$fieldName = ($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
 		$attribs = ($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
+		$pDroit = $this->getParam('droit');
 		
-		$ecoles = $annuaireService->getEcolesInVille ($ville);
+		$ecoles = $annuaireService->getEcolesInVille ($ville, array('droit'=>$pDroit));
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign('items', $ecoles);

@@ -211,51 +211,51 @@ class CopixController {
 		//Analyse du résultat du process
 		switch ($toProcess->code){
 			case CopixActionReturn::ERROR:
-			//erreur
-			header ("Content-Type: text/html");
-			$tpl = new CopixTpl();
-			if (($assignedTitlePage = $tpl->getAssigned ('TITLE_PAGE')) !== null){
-				$tpl->assign ('TITLE_PAGE', '['._i18n ('copix:common.messages.error').']'.$assignedTitlePage);
-			}else{
-				$tpl->assign ('TITLE_PAGE', '['._i18n ('copix:common.messages.error').']');
-			}
-			$this->_processStandard ($tpl);
-			$tpl->assign ('HTML_HEAD', '<$HTML_HEAD />'); 
-			$tpl->assign ('MAIN', $toProcess->data);
-			$content = $tpl->fetch ('|error.tpl');
-			CopixContext::clear ();
-			$this->_beforeDisplay ($content);
-			echo $content;
+                            //erreur
+                            header ("Content-Type: text/html");
+                            $tpl = new CopixTpl();
+                            if (($assignedTitlePage = $tpl->getAssigned ('TITLE_PAGE')) !== null){
+                                    $tpl->assign ('TITLE_PAGE', '['._i18n ('copix:common.messages.error').']'.$assignedTitlePage);
+                            }else{
+                                    $tpl->assign ('TITLE_PAGE', '['._i18n ('copix:common.messages.error').']');
+                            }
+                            $this->_processStandard ($tpl);
+                            $tpl->assign ('HTML_HEAD', '<$HTML_HEAD />');
+                            $tpl->assign ('MAIN', $toProcess->data);
+                            $content = $tpl->fetch ('|error.tpl');
+                            CopixContext::clear ();
+                            $this->_beforeDisplay ($content);
+                            echo $content;
 			break;
 
 			case CopixActionReturn::DISPLAY:
-			$charset = CopixI18N::getCharset ();
-			header("Content-Type: text/html;charset=".$charset);
+                            $charset = CopixI18N::getCharset ();
+                            header("Content-Type: text/html;charset=".$charset);
 
-			$this->_processStandard ($toProcess->data);//appel de la méthode de préparation de la page standard.
-			$toProcess->data->assign ('HTML_HEAD', '<$HTML_HEAD />'); 
-			$toProcess->data->assign ('HOME_TITLE1', _currentUser()->getExtraHome('titre1'));
-			$toProcess->data->assign ('HOME_TITLE2', _currentUser()->getExtraHome('titre2'));
-			//Par ex, bandeaux de pub, menus dynamiques, ... (propres aux projets.)
-			CopixContext::clear ();
-			
-			$content = $toProcess->data->fetch ($config->mainTemplate);
-			$this->_beforeDisplay($content);
-			echo $content;
+                            $this->_processStandard ($toProcess->data);//appel de la méthode de préparation de la page standard.
+                            $toProcess->data->assign ('HTML_HEAD', '<$HTML_HEAD />');
+                            $toProcess->data->assign ('HOME_TITLE1', _currentUser()->getExtraHome('titre1'));
+                            $toProcess->data->assign ('HOME_TITLE2', _currentUser()->getExtraHome('titre2'));
+                            //Par ex, bandeaux de pub, menus dynamiques, ... (propres aux projets.)
+                            CopixContext::clear ();
+
+                            $content = $toProcess->data->fetch ($config->mainTemplate);
+                            $this->_beforeDisplay($content);
+                            echo $content;
 			break;
 
 			case CopixActionReturn::DISPLAY_IN:
-			$charset = CopixI18N::getCharset ();
-			header("Content-Type: text/html;charset=".$charset);
-								
-			$this->_processStandard ($toProcess->data);//appel de la méthode de préparation de la page standard.
-			$toProcess->data->assign ('HTML_HEAD', '<$HTML_HEAD />'); 
-			$toProcess->data->assign ('HOME_TITLE1', _currentUser()->getExtraHome('titre1'));
-			$toProcess->data->assign ('HOME_TITLE2', _currentUser()->getExtraHome('titre2'));
-			//Par ex, bandeaux de pub, menus dynamiques, ... (propres aux projets.)
-			$content = $toProcess->data->fetch ($toProcess->more);
-			$this->_beforeDisplay($content);
-			echo $content;
+                            $charset = CopixI18N::getCharset ();
+                            header("Content-Type: text/html;charset=".$charset);
+
+                            $this->_processStandard ($toProcess->data);//appel de la méthode de préparation de la page standard.
+                            $toProcess->data->assign ('HTML_HEAD', '<$HTML_HEAD />');
+                            $toProcess->data->assign ('HOME_TITLE1', _currentUser()->getExtraHome('titre1'));
+                            $toProcess->data->assign ('HOME_TITLE2', _currentUser()->getExtraHome('titre2'));
+                            //Par ex, bandeaux de pub, menus dynamiques, ... (propres aux projets.)
+                            $content = $toProcess->data->fetch ($toProcess->more);
+                            $this->_beforeDisplay($content);
+                            echo $content;
 			break;
 
 			case CopixActionReturn::FILE:

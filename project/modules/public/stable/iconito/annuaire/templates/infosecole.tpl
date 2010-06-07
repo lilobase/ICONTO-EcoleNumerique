@@ -31,7 +31,7 @@
 <DIV>
 {foreach from=$ecole.directeur item=directeur}
 
-{user label=$directeur.prenom|cat:" "|cat:$directeur.nom userType=$directeur.type userId=$directeur.id login=$directeur.login dispMail=1}
+{user label=$directeur.prenom|cat:" "|cat:$directeur.nom userType=$directeur.type userId=$directeur.id login=$directeur.login dispMail=$canWriteUSER_DIR}
 
 <br/>
 {/foreach}
@@ -44,7 +44,7 @@
 <DIV>
 {foreach from=$ecole.administratif item=item}
 
-{user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id login=$item.login dispMail=1}
+{user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id login=$item.login dispMail=$canWriteUSER_ADM}
 
 <br/>
 {/foreach}
@@ -64,7 +64,7 @@
 {assign var=sep value=""}
 {foreach from=$class.enseignant item=enseignant}{$sep}
 
-{user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1}
+{user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=$canWriteUSER_ENS}
 
 {assign var=sep value=", "}{/foreach}
 </DIV>
