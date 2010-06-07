@@ -253,3 +253,20 @@ div.dashboard div.club div.title		{ background: #ffb94e; }
 div.dashboard div.club div.content		{ border: 2px solid #ffb94e; }
 div.dashboard div.club div.toolset		{ background: #ffb94e; }
 
+/* PUBLIC DASHBOARD */
+
+p.content{
+    margin: 15px;
+    font-size: 120%;
+}
+p.first-item{
+    margin-top: 75px;
+}
+p.content a{
+    color: blue;
+}
+
+.img-left{
+    float: left;
+    margin: 15px;
+}

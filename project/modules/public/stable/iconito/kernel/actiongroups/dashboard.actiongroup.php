@@ -30,6 +30,14 @@ class ActionGroupDashboard extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplModule = & new CopixTpl ();
 
+                //if user is not connected :
+                if(!_currentUser()->isConnected()){
+                    $result = $tplModule->fetch("dashboard_public.tpl");
+                    $tpl->assign ('MAIN', $result);
+                    return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+                }
+
+                
 		$acc = (_currentUser()->getExtraHome('titre1')) ? _currentUser()->getExtraHome('titre1') : '';
 		if( $acc != '' )
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel.title.accueil', array($acc)));
