@@ -44,18 +44,20 @@ class enic{
      * Load only CLass' file & check if the class is callable
      */
     public static function to_load($type){
-        //test if file exists
-        if(!file_exists(ENIC_PATH.'/lib/enic.'.strtolower($type).'.php'))
-             trigger_error('Enic File missing : '.strtolower($type), E_USER_ERROR);
-
-        //require class file
-        require_once(ENIC_PATH.'/lib/enic.'.strtolower($type).'.php');
 
         //get class name
         $className = 'enic'.ucfirst($type);
 
+        //test if class or file exists
+        if(!class_exists($className) && !interface_exists($className) && !file_exists(ENIC_PATH.'/lib/enic.'.strtolower($type).'.php'))
+             trigger_error('Enic File missing : '.strtolower($type), E_USER_ERROR);
+
+        //require class file
+        if(!class_exists($className) && !interface_exists($className))
+            require_once(ENIC_PATH.'/lib/enic.'.strtolower($type).'.php');
+
         //test if class is callable
-        if(!class_exists($className))
+        if(!class_exists($className) && !interface_exists($className))
             trigger_error('Enic class missing : '.$className, E_USER_ERROR);
     }
 

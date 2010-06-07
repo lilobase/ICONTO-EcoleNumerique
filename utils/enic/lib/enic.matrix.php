@@ -1,8 +1,27 @@
 <?php
 
+class enicMatrixCache extends enicCache{
+    public function __construct(){
+        $this->storage = 'file';
+        $this->range = 'user';
+        
+        parent::__construct();
+    }
+}
+
+/*MATRIX MAIN CLASS*/
+
 class enicMatrix extends enicList {
 
     public function startExec(){
+
+        $options =& enic::get('options');
+        $options = $options->matrix;
+        if($options->bypass)
+            $this->bypass = true;
+        else
+            $this->bypass = false;
+
         //get user info
         $user =& enic::get('user');
 
@@ -14,14 +33,21 @@ class enicMatrix extends enicList {
 
         //load the other groups
         $this->groupes->load('nodeMatrix', '_other');
+        $this->groupes->_other->kernelParent = 'other';
+        $this->groupes->_other->kernelChildren[] = 'other';
         
         //start the iteration to complete the nodes when the user is member
         rightMatrixHelpers::completeUp($user->type, $user->id);
 
         //foreach GRVILL : complete tree :
         foreach($this->villes->_children as $child){
+            if($this->bypass == true || $user->root == true){
+                rightMatrixHelpers::loadTrue();
+                continue;
+            }
             if($this->villes->$child->nom == 'other')
                 continue;
+
             rightMatrixHelpers::completeDown('BU_GRVILLE', $this->villes->$child->id);
         }
 
@@ -37,6 +63,8 @@ class enicMatrix extends enicList {
     public function addExec(){
         //load others
         $this->load('nodeMatrix', '_other');
+        $this->_other->kernelParent = 'other';
+        $this->_other->kernelChildren[] = 'other';
         
     }
 
@@ -320,14 +348,13 @@ class rightMatrixHelpers{
                     continue;
                 
                 foreach($right as $keyi => $righti){
-                    if($righti === false)
+                    if($righti === false && $user->root === false && $matrix->bypass === false)
                         continue;
 
-                    
                     //apply right on children :
                     foreach($parentNode->$child->kernelChildren as $kChild){
                         $idNode = '_'.$kChild;
-                        $node->$idNode->_right->$key->$keyi = $righti;
+                        $node->$idNode->_right->$key->$keyi = true;
                        
                         //add count infos :
                         if($key == 'voir' || $key == 'communiquer')
@@ -343,5 +370,20 @@ class rightMatrixHelpers{
         else
             return self::applyRightOnTree($node->_child);
     }
+
+    /*
+     * load true in matrix
+     */
+    public function loadTrue(){
+        //matrix :
+        $matrix =& enic::get('matrix');
+        foreach($matrix->villes->_other->_right as $key => $right){
+            foreach($right as $keyi => $righti){
+                $matrix->villes->_other->_right->$key->$keyi = true;
+            }
+        }
+
+    }
+
 }
 ?>

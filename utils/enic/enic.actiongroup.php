@@ -18,7 +18,10 @@ class enicActionGroup extends CopixActionGroup {
         //load enic classes
         $this->user     =& enic::get('user');
 
-        $this->matrix   =& enic::get('matrix');
+enic::to_load('cache');
+enic::to_load('matrix');
+
+        $this->matrix   =& enic::get('matrixCache');
 
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
