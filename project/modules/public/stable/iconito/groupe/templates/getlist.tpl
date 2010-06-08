@@ -2,14 +2,19 @@
 
 <div class="" align="right">
 
-{if $canCreate}<div style="float: left;"><a class="button_like" href="{copixurl dest="|getEdit"}">{i18n key="groupe.btn.addGroup"}</a></div>
-{/if}
 
 <form action="{copixurl dest="|getListPublic"}" method="get">
 {i18n key="groupe.search"} :
 <input type="text" name="kw" class="form" style="width: 120px;" value="{$kw}" />
 <input type="submit" value="{i18n key="groupe.searchSubmit"}" class="form_button" />
+
+{if $canCreate}<a class="button_like" href="{copixurl dest="|getEdit"}">{i18n key="groupe.btn.addGroup"}</a>{/if}
+
+
 </form>
+
+
+
 
 </div>
 

@@ -54,7 +54,7 @@ class ActionGroupListe extends CopixActionGroup {
 
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $liste->parent["nom"]);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('liste|liste.homeLinkMsgSend').'</a> :: <a href="'.CopixUrl::get (''.$liste->parent["module"].'||go', array("id"=>$liste->parent["id"])).'">'.CopixI18N::get ('liste|liste.backParent').'</a>');
+			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('liste|liste.homeLinkMsgSend').'</a>');
 			
 			$tplListe = & new CopixTpl ();
 			$tplListe->assign ('liste', $liste);

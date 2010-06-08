@@ -1,24 +1,12 @@
 
-DIV.blog H1, .blog H1 {
-	color: #508957;
-	margin: 0 0 5 0;
-	padding: 0;
-	line-height: 1em;
-	font-size: 155%;
-	vertical-align: top;
-}
-
-
 /* Liste des articles */
 
 DIV.adminArticleForm {
-	background: #CCD865;
 	padding: 2px;
 	font-size: 11px
 }
 
 DIV.adminArticleList {
-	background: #DBE77A;
 	margin-top: 10px;
 	margin-bottom: 5px;
 	border-bottom: solid 1px #FFF;

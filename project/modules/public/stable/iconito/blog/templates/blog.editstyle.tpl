@@ -8,11 +8,11 @@ function change_style (obj) {
 	var custom_1 = getRef ('custom_1');
 	var custom_0 = getRef ('custom_0');
 	if (obj.value==1) { // Personnalisation
-		custom_1.className = 'SHOW';
-		custom_0.className = 'HIDDEN';
+		custom_1.className = 'show';
+		custom_0.className = 'hidden';
 	} else {
-		custom_1.className = 'HIDDEN';
-		custom_0.className = 'SHOW';
+		custom_1.className = 'hidden';
+		custom_0.className = 'show';
 	}
 }
 
@@ -49,11 +49,11 @@ function change_style (obj) {
    <tr>
       <td CLASS="form_libelle">{i18n key='dao.blog.fields.style_blog_file'}</td>
 	  	<td CLASS="form_saisie">
-			<DIV ID="custom_1" NAME="custom_1" CLASS="{if $blog->style_blog_file==0}HIDDEN{else}SHOW{/if}" STYLE="width:600px;">
+			<DIV ID="custom_1" NAME="custom_1" CLASS="{if $blog->style_blog_file==0}hidden{else}show{/if}" STYLE="width:600px;">
 			<textarea style="width:600px; height: 600px;" name="style_blog_file_src" class="form">{$style_blog_file_src|escape}</textarea>
 			
 			</DIV>
-			<DIV ID="custom_0" NAME="custom_0" CLASS="{if $blog->style_blog_file==1}HIDDEN{else}SHOW{/if}" STYLE="width:600px;">{i18n key='dao.blog.fields.style_blog_file_not'}</DIV>
+			<DIV ID="custom_0" NAME="custom_0" CLASS="{if $blog->style_blog_file==1}hidden{else}show{/if}" STYLE="width:600px;">{i18n key='dao.blog.fields.style_blog_file_not'}</DIV>
 			
 </td>
    </tr>

@@ -14,7 +14,7 @@ input[type="submit"] {
 	font-size: 85%;
 	}
 
-a.bouton {
+a.bouton, a.button_like {
 	border-radius: 4px;
 	-moz-border-radius: 4px;
 	padding: 4px;
@@ -24,8 +24,8 @@ a.bouton {
 	background: #F0F0F0;
 	font-size: 85%;
 	}
-	
-a.bouton:hover {
+
+a.bouton:hover, a.button_like:hover {
 	background: #D9E575;
 	}
 
@@ -53,3 +53,7 @@ input.form_button:hover {
 	text-shadow: 1px 1px 2px #f0f0f0;
 }
 
+
+
+div.block {
+}

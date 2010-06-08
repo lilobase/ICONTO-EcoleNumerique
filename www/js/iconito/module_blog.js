@@ -2,7 +2,7 @@
 function swapArticle (id) {
 	var obj = getRef ('expand'+id); 
 	if (obj)
-		obj.className = (obj.className=='SHOW') ? 'HIDDEN' : 'SHOW';
+		obj.className = (obj.className=='show') ? 'hidden' : 'show';
 }
 
 function goBlog (form, value) {

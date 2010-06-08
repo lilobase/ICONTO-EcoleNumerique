@@ -577,21 +577,22 @@ class ActionGroupGroupe extends CopixActionGroup {
 		
 		if ($errors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
-		} else {
-			CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe_admin.css"));
-
-			$tpl = & new CopixTpl ();
-			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a>');
-			
-			$tplHome = & new CopixTpl ();
-			$tplHome->assign ('groupe', $groupe[0]);
-
-			$result = $tplHome->fetch('gethomeadmin.tpl');
-			$tpl->assign ('MAIN', $result);
-			
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		}
+
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe.css"));
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe_admin.css"));
+
+  	$tpl = & new CopixTpl ();
+  	$tpl->assign ('TITLE_PAGE', $groupe[0]->titre);
+  	$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a>');
+  	
+  	$tplHome = & new CopixTpl ();
+  	$tplHome->assign ('groupe', $groupe[0]);
+  
+  	$result = $tplHome->fetch('gethomeadmin.tpl');
+  	$tpl->assign ('MAIN', $result);
+  	
+  	return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
 	}
 	

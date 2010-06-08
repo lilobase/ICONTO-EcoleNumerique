@@ -208,7 +208,7 @@ td.texte_lecons a {
 }
 
 div.heure {
-  font-size:70%; text-align: right; border: solid 1px #D9E575; width: 44px; height:36px; margin-top: 1px; margin-bottom: 2px;
+  font-size:70%; text-align: right; border: solid 1px transparent; width: 44px; height:36px; margin-top: 1px; margin-bottom: 2px;
 }
 
 
