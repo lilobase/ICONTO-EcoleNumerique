@@ -312,7 +312,6 @@ class rightMatrixHelpers{
 
         //get the right for the type of user
         $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \''.$user->type.'\'')->toArray();
-        _dump($datas);
         $db->close();
 
         //if user is director :
