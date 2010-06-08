@@ -4,13 +4,19 @@ class enicMatrixCache extends enicCache{
     public function __construct(){
         $this->storage = 'file';
         $this->range = 'user';
-        
-        parent::__construct();
+
+        //get the cached matrix
+        $matrix = parent::__construct();
+
+        return $matrix;
     }
 }
 
 /*MATRIX MAIN CLASS*/
-
+/*
+ * test the existence of nodematrix
+ */
+enic::to_load('nodeMatrix');
 class enicMatrix extends enicList {
 
     public function startExec(){

@@ -13,7 +13,7 @@
 _classInclude ('welcome|welcome');
   
 
-class ActionGroupDashboard extends CopixActionGroup {
+class ActionGroupDashboard extends enicActionGroup {
 	
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');
@@ -60,9 +60,13 @@ class ActionGroupDashboard extends CopixActionGroup {
 			elseif( $nodes[$node['type']][$node['id']]['droit'] < $node['droit'] ) $nodes[$node['type']][$node['id']] = $node;
 		}
 			
-		// $nodes = Kernel::getMyNodes();
-//		echo "<pre>"; print_r($nodes); echo "</pre>"; die();
-		
+
+                /* DRAFT WORKING */
+                //_dump($nodes);
+                /*$rClasse = Kernel::getNodeInfo ('BU_CLASSE', $nodes['BU_CLASSE'][1]['id'], false);
+                CopixZone::process ('annuaire|infosclasse', array('rClasse'=>$rClasse));*/
+                echo $this->matrix->display();
+
 		$tplModule->assign ("nodes", $nodes);
 		$result = $tplModule->fetch("dashboard.tpl");
 		$tpl->assign ('MAIN', $result);

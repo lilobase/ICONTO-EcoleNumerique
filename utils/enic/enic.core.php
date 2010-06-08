@@ -37,6 +37,11 @@ class enic{
         //execute the startExec
         self::$l[$name]->startExec();
 
+        //test if the class is a containor class :
+        if(method_exists(self::$l[$name], 'getClass')){
+            self::$l[$name] = self::$l[$name]->getClass();
+        }
+
         return self::$l[$name];
     }
 
@@ -91,7 +96,7 @@ class enic{
 
 }
 
-class enicTree{
+abstract class enicTree{
 
     //array of children's name
     public $_children;
@@ -469,7 +474,7 @@ class enicTree{
     }
 }
 
-class enicList{
+abstract class enicList{
     
     //child's name
     public $_child;
@@ -520,7 +525,7 @@ class enicList{
 
          //test if item has already a child :
          if(!empty($this->_child))
-            trigger_error('item <strong>'.$className.'</strong> is list : only one child', E_USER_WARNING);
+            trigger_error('item <strong>'.$className.'</strong> is list : only one child in '.get_class($this), E_USER_WARNING);
 
         //create computer readable name
         $nameStr = enic::sanitize($name);
@@ -872,7 +877,7 @@ class enicErrors{
 }
 
 
-class enicMod{
+abstract class enicMod{
 
     public function __construct(){
 
@@ -883,25 +888,3 @@ class enicMod{
     }
 
 }
-
-/*
-//enic load :
-$enic = new enic();
-$menu =& $enic->load('menu');
-
-
-$menu->add('player')->startGroup()
-                        ->add('framasoft', 'http://www.framasoft.net', 'link')
-                        ->startGroup()
-                            ->add('toto')
-                            ->add('tata')
-                        ->endGroup()
-                        ->add('tiya', 'blablabla')
-                    ->endGroup();
-                    
-
-
-
-//echo $menu->player->display();
-//var_dump($menu->go('tata')->display());
-echo $menu->player->display(3,3);*/

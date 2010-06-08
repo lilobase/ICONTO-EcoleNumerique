@@ -37,6 +37,7 @@ class loadRightMatrix{
     public $enseignant;
     public $directeur;
     public $agent_ville;
+    public $invite;
     public $voir;
     public $communiquer;
     public $count;
@@ -48,8 +49,10 @@ class loadRightMatrix{
         $this->enseignant = new loadRightMatrixAction();
         $this->directeur = new loadRightMatrixAction();
         $this->agent_ville = new loadRightMatrixAction();
+        $this->invite = new loadRightMatrixAction();
         $this->voir = new loadRightMatrixTypeUser();
         $this->communiquer = new loadRightMatrixTypeUser();
+
 
         //add count info
         $this->count = new loadRightMatrixAction();
@@ -74,6 +77,9 @@ class loadRightMatrix{
             case 'USER_VIL':
                 return $this->agent_ville;
             break;
+            case 'USER_EXT':
+                return $this->invite;
+            break;
             case 'VOIR':
                 return $this->voir;
             break;
@@ -92,6 +98,7 @@ class loadRightMatrixTypeUser{
     public $enseignant;
     public $directeur;
     public $agent_ville;
+    public $invite;
     
     //build right tree
     public function __construct(){
@@ -100,6 +107,7 @@ class loadRightMatrixTypeUser{
         $this->enseignant = false;
         $this->directeur = false;
         $this->agent_ville = false;
+        $this->invite = false;
     }
     public function __get($name){
         switch ($name){
@@ -117,6 +125,9 @@ class loadRightMatrixTypeUser{
             break;
             case 'USER_VIL':
                 return $this->agent_ville;
+            break;
+            case 'USER_EXT':
+                return $this->invite;
             break;
         }
     }
@@ -137,6 +148,9 @@ class loadRightMatrixTypeUser{
             break;
             case 'USER_VIL':
                 return $this->agent_ville = $value;
+            break;
+            case 'USER_EXT':
+                return $this->invite = $value;
             break;
         }
     }

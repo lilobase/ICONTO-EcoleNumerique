@@ -106,7 +106,7 @@ class enicFileCache extends enicFiles implements enicCacheStorage {
             trigger_error('enicFile -Storage- valid() : file not found for : '.$iName, E_USER_ERROR);
 
         $fileData = file($this->path.$iName, FILE_IGNORE_NEW_LINES);
-        $validityLimit = implode('||', $fileData[0]);
+        $validityLimit = explode('||', $fileData[0]);
         $validityLimit = trim($validityLimit[0]);
 
         return ($validityLimit >= time());
@@ -117,20 +117,21 @@ class enicFileCache extends enicFiles implements enicCacheStorage {
             trigger_error('enicFile -Storage- valid() : file not found for : '.$iName, E_USER_ERROR);
 
         $fileData = file($this->path.$iName, FILE_IGNORE_NEW_LINES);
-        $type = implode('||', $fileData[0]);
+        $type = explode('||', $fileData[0]);
         $oType = trim($type[1]);
 
         return $oType;
     }
 
     public function set($iName, $iData, $iValidity, $iType){
-        $content = $iValidity.'||'.$iType.PHP_EOL.$iData;
+        $content = $iValidity.'||'.$iType.PHP_EOL.'##'.$iData;
         parent::save($iName, $content);
     }
 
     public function get($iName){
-        $content = parent::get($iName);
-        return substr($content, strpos(PHP_EOL, $content));
+        $content = parent::load($iName);
+
+        return trim(substr($content, strpos($content, '##')+2));
     }
 }
 

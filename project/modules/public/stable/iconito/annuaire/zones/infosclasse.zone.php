@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone qui affiche les infos d'une classe (enseignant et élèves)
+ * Zone qui affiche les infos d'une classe (enseignant et ï¿½lï¿½ves)
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,7 +9,7 @@
 class ZoneInfosClasse extends CopixZone {
 
 	/**
-	 * Affiche les infos d'une classe (enseignant et élèves)
+	 * Affiche les infos d'une classe (enseignant et ï¿½lï¿½ves)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
@@ -43,8 +43,8 @@ class ZoneInfosClasse extends CopixZone {
 				$rClasse["enseignants"] = $enseignants;
 			
 			
-			$matrix = & enic::get('matrix');
-
+			$matrix =& enic::get('matrixCache');
+                        $matrix->display();
 			$droit = $matrix->classe($classe)->_right->USER_ENS->voir;
 			if (!$droit) $rClasse["enseignants"] = 'NONE';
 			$canWrite = $matrix->classe($classe)->_right->USER_ENS->communiquer;

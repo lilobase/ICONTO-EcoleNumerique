@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone qui affiche les infos d'une école (coordonnées, directeur, classes...)
+ * Zone qui affiche les infos d'une ï¿½cole (coordonnï¿½es, directeur, classes...)
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,11 +9,11 @@
 class ZoneInfosEcole extends CopixZone {
 
 	/**
-	 * Affiche les infos d'une école (coordonnées, directeur, classes...)
+	 * Affiche les infos d'une ï¿½cole (coordonnï¿½es, directeur, classes...)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
-	 * @param integer $rEcole Recordset de l'école
+	 * @param integer $rEcole Recordset de l'ï¿½cole
 	 */
 	function _createContent (&$toReturn) {
 		
@@ -34,7 +34,7 @@ class ZoneInfosEcole extends CopixZone {
 			else
 				$classes = $annuaireService->getClassesInEcole($ecole, array('droit'=>'VOIR'));
 			
-			$matrix = & enic::get('matrix');
+			$matrix = & enic::get('matrixCache');
 
 			$droit = $matrix->ecole($ecole)->_right->USER_DIR->voir;
 			if ($droit) {
