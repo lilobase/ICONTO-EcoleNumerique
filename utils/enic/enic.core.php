@@ -7,6 +7,8 @@ define('ENIC_PATH',dirname (__FILE__) . '/');
 
 //get enic Action Group
 require(ENIC_PATH.'enic.actiongroup.php');
+//get enic Zone
+require(ENIC_PATH.'enic.zone.php');
 
 /*
  * FACTORY

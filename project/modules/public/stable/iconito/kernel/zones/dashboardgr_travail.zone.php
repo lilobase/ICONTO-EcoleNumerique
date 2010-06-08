@@ -8,7 +8,7 @@
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-class dashboardclassezone {
+class dashboardgr_travail {
     //put your code here
 }
 ?>

@@ -12,6 +12,7 @@ class enicUser extends enicTree {
     public $login;
     public $nom;
     public $prenom;
+    public $idEn;
 
     public function startExec(){
         if(_currentUser()->isConnected()){
@@ -36,6 +37,7 @@ class enicUser extends enicTree {
             $this->nom = 'Anon';
             $this->prenom = 'Anon';
             $this->connected = false;
+            $this->idEn = 0;
         }
     }
 

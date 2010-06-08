@@ -312,6 +312,7 @@ class rightMatrixHelpers{
 
         //get the right for the type of user
         $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \''.$user->type.'\'')->toArray();
+        _dump($datas);
         $db->close();
 
         //if user is director :
@@ -322,7 +323,7 @@ class rightMatrixHelpers{
         foreach($datas as $data){
             $node = $matrix->$data['node_type']();
             foreach($node->_children as $child){
-                if($node->$child->descendant_of !== true && $node->$child->descendant_of !== true)
+                if($node->$child->member_of !== true && $node->$child->descendant_of !== true)
                     continue;
                 $node->$child->_right->$data['right']->$data['user_type_out'] = true;
                 $node->$child->_right->$data['user_type_out']->$data['right'] = true;
