@@ -79,7 +79,7 @@ class enicModel extends enicMod {
     }
 
     public function toInt(){
-
+        return $this->toString()*1;
     }
 
     public function close(){

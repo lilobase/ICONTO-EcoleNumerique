@@ -67,6 +67,9 @@ class ActionGroupDashboard extends enicActionGroup {
                                     case 'BU_VILLE':
                                         $content = CopixZone::process ('kernel|dashboardVille', array ('idZone'=>$node['id']));
                                     break;
+                                    case 'CLUB':
+                                        $content = CopixZone::process ('kernel|dashboardGrTravail', array ('idZone'=>$node['id']));
+                                    break;
                                     default:
                                         $content = 'no content';
                                     break;

@@ -18,7 +18,7 @@ class ZoneDashboardVille extends enicZone {
         $annuaireService =& CopixClassesFactory::Create ('annuaire|AnnuaireService');
 
         $ecolesDatas = $annuaireService->getEcolesInVille($idZone);
-        _dump($ecolesDatas);
+        
         $tpl->assign('ecoles', $ecolesDatas);
 
         //return the html content

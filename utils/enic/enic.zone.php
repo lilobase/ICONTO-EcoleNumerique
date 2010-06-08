@@ -17,9 +17,6 @@ abstract class enicZone extends CopixZone {
 
 
     public function __construct(){
-        //test the user connexion, desactivate for public access
-	//_currentUser()->assertCredential ('group:[current_user]');
-
         //load enic classes
         $this->user     =& enic::get('user');
         $this->options  =& enic::get('options');
@@ -31,7 +28,6 @@ abstract class enicZone extends CopixZone {
 
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
-
     }
 
 }

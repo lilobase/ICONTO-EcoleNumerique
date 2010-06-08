@@ -1,5 +1,0 @@
-{*
-
-	Author:
-	Smarty template
-*}
