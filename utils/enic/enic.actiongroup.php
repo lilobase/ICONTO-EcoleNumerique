@@ -12,8 +12,8 @@ class enicActionGroup extends CopixActionGroup {
     protected $menu;
 
     public function __construct(){
-        //test the user connexion
-	_currentUser()->assertCredential ('group:[current_user]');
+        //test the user connexion, desactivate for public access
+	//_currentUser()->assertCredential ('group:[current_user]');
 
         //load enic classes
         $this->user     =& enic::get('user');
@@ -21,6 +21,7 @@ class enicActionGroup extends CopixActionGroup {
         enic::to_load('cache');
         enic::to_load('matrix');
         $this->matrix   =& enic::get('matrixCache');
+       
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
 

@@ -43,7 +43,7 @@ class enicMatrix extends enicList {
         $this->groupes->_other->kernelChildren[] = 'other';
         
         //start the iteration to complete the nodes when the user is member
-        rightMatrixHelpers::completeUp($user->type, $user->id);
+        rightMatrixHelpers::completeUp($user->type, $user->idEn);
 
         //foreach GRVILL : complete tree :
         foreach($this->villes->_children as $child){

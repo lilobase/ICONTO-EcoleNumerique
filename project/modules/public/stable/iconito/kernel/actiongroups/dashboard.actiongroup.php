@@ -65,7 +65,7 @@ class ActionGroupDashboard extends enicActionGroup {
                 //_dump($nodes);
                 /*$rClasse = Kernel::getNodeInfo ('BU_CLASSE', $nodes['BU_CLASSE'][1]['id'], false);
                 CopixZone::process ('annuaire|infosclasse', array('rClasse'=>$rClasse));*/
-                echo $this->matrix->display();
+                //echo $this->matrix->display();
 
 		$tplModule->assign ("nodes", $nodes);
 		$result = $tplModule->fetch("dashboard.tpl");
