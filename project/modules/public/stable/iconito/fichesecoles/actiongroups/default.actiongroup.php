@@ -64,7 +64,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$main = $fiche;
 		$title = $rEcole->nom;
-		if ($rEcole->type) $title .= ' ('.$rEcole->type.')';
+		if ($rEcole->type)
+                    $title .= ' ('.$rEcole->type.')';
 		
 		$tpl->assign ('TITLE_PAGE', $title);
 		$menu = array();

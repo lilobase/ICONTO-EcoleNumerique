@@ -1,5 +1,9 @@
 <?php
-
+/*
+ * Cache Matrix
+ */
+//test the existence of enicCache
+enic::to_load('cache');
 class enicMatrixCache extends enicCache{
     public function __construct(){
         $this->storage = 'file';
@@ -312,7 +316,6 @@ class rightMatrixHelpers{
 
         //get the right for the type of user
         $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \''.$user->type.'\'')->toArray();
-        $db->close();
 
         //if user is director :
         if($user->director !== false)

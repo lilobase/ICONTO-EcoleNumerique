@@ -11,7 +11,7 @@
 			<span>{$node_data.nom}</span>
 		</div>
 		<div class="content">
-		faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte faux texte 
+                    {$node_data.content}
 		</div>
 		<div class="toolset">
 		<ul class="opacity50">

@@ -11,15 +11,18 @@
 class ZoneUserLogged extends CopixZone {
 
 	function _createContent (& $toReturn) {
-			
-		$ppo = new CopixPPO ();		
-		
-		$ppo->user = _currentUser ();
+            //load PPO
+            $ppo = new CopixPPO ();
+            $ppo->user = _currentUser();
+            //if user is connected : load personal informations
+            if($ppo->user->isConnected()){
 		$ppo->animateur = (_sessionGet('user_animateur')) ? 1 : 0;
 		$type = $ppo->user->getExtra('type');
 		$sexe = ($ppo->user->getExtra('sexe')==2) ? 2 : '';
 		$ppo->usertype = _i18n('kernel|kernel.usertypes.'.strtolower($type).$sexe);
-		
-		$toReturn = $this->_usePPO ($ppo, 'userlogged.tpl');
+            }
+
+            //load tpl
+            $toReturn = $this->_usePPO ($ppo, 'userlogged.tpl');
 	}
 }

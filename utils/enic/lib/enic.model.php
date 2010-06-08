@@ -67,11 +67,15 @@ class enicModel extends enicMod {
     }
 
     public function toArray(){
-        return $this->_results->fetchAll();
+        $oReturn = $this->_results->fetchAll();
+        $this->close();
+        return $oReturn;
     }
 
     public function toString(){
-
+        $oReturn = $this->_results->fetch();
+        $this->close();
+        return $oReturn[0];
     }
 
     public function toInt(){

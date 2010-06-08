@@ -1,14 +1,30 @@
 <?php
-/* 
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-class villedashboardzone {
-    //put your code here
+class ZoneDashboardVille extends enicZone {
+
+    public function _createContent(&$toReturn){
+        //load css file
+        CopixHTMLHeader::addCSSLink (_resource("styles/dashboard_zone.css"));
+
+        //load TPL
+        $tpl = & new CopixTpl();
+
+        //get the id for current zone
+        $idZone = $this->getParam('idZone');
+
+        $annuaireService =& CopixClassesFactory::Create ('annuaire|AnnuaireService');
+
+        $ecolesDatas = $annuaireService->getEcolesInVille($idZone);
+        _dump($ecolesDatas);
+        $tpl->assign('ecoles', $ecolesDatas);
+
+        //return the html content
+        $toReturn = $tpl->fetch ('zone.dashboard.ville.tpl');
+        return true;
+    }
+
 }
 ?>

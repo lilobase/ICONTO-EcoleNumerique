@@ -36,7 +36,6 @@ class ActionGroupDashboard extends enicActionGroup {
                     $tpl->assign ('MAIN', $result);
                     return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
                 }
-
                 
 		$acc = (_currentUser()->getExtraHome('titre1')) ? _currentUser()->getExtraHome('titre1') : '';
 		if( $acc != '' )
@@ -56,8 +55,26 @@ class ActionGroupDashboard extends enicActionGroup {
 				$nodes[$node['type']][$node['id']]['modules'] = Kernel::getModEnabled(
 					$node['type'], $node['id'],
 					_currentUser()->getExtra('type'), _currentUser()->getExtra('id')    );
+
+                                //add item content
+                                switch($node['type']){
+                                    case 'BU_CLASSE':
+                                        $content = CopixZone::process ('kernel|dashboardClasse', array ('idZone'=>$node['id']));
+                                    break;
+                                    case 'BU_ECOLE':
+                                        $content = CopixZone::process ('kernel|dashboardEcole', array ('idZone'=>$node['id']));
+                                    break;
+                                    case 'BU_VILLE':
+                                        $content = CopixZone::process ('kernel|dashboardVille', array ('idZone'=>$node['id']));
+                                    break;
+                                    default:
+                                        $content = 'no content';
+                                    break;
+                                }
+                                $nodes[$node['type']][$node['id']]['content'] = $content;
 			}
-			elseif( $nodes[$node['type']][$node['id']]['droit'] < $node['droit'] ) $nodes[$node['type']][$node['id']] = $node;
+			elseif( $nodes[$node['type']][$node['id']]['droit'] < $node['droit'] )
+                            $nodes[$node['type']][$node['id']] = $node;
 		}
 			
 
