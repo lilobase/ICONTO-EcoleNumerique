@@ -1,26 +1,27 @@
 <?php
 /*
- * TODO : gérer les réponses textuelles !
+ * TODO : gï¿½rer les rï¿½ponses textuelles !
  *
  */
-class ActionGroupQuiz extends CopixActionGroup {
+class ActionGroupQuiz extends enicActionGroup {
 
     public function beforeAction(){
         _currentUser()->assertCredential('group:[current_user]');
     }
 
     public function Index(){
-        $criters = _daoSP()->addCondition('date_start', '<', time())
-                            ->addCondition('date_end', '>', time(), 'and')
-                            ->addCondition('date_start', '=', 0, 'or')
-                            ->addCondition('date_end', '=', 0, 'or')
-                            ->addCondition('lock', '=', 0, 'and')
-                            ->orderBy(array('date_end', 'DESC'));
-        $dataQuiz = _dao('quiz_quiz')->findBy($criters);
+        //get current quiz :
+        $currentQuiz = $this->model->query('SELECT * FROM module_quiz_quiz WHERE
+                                            (`date_start` < '.time().' AND `date_end` > '.time().') OR
+                                            (`date_start` = 0 OR `date_end` = 0) AND
+                                            `lock` = 0
+                                            ORDER BY date_end DESC')
+                                    ->toArray();
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
+
         $ppo = new CopixPPO();
-        $ppo->quiz = $dataQuiz;
+        $ppo->quiz = $currentQuiz;
         return _arPPO($ppo, 'quiz.tpl');
     }
 

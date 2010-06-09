@@ -22,7 +22,7 @@ class ZoneDashboardEcole extends enicZone {
             //get the children's node
             $childNodeDatas = Kernel::getNodeChilds('BU_ECOLE', $idZone, false, array('skip_user' => true));
 
-            //test if the child is a CLASSE get the enseignant
+            //if the child is a CLASSE get the enseignant
             foreach($childNodeDatas as $child)
                 if($child['type'] == 'BU_CLASSE')
                     $enseignants[] = $annuaireService->getEnseignantInClasse($child['id']);

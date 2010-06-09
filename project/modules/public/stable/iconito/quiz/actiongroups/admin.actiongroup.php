@@ -1,5 +1,5 @@
 <?php
-class ActionGroupAdmin extends CopixActionGroup{
+class ActionGroupAdmin extends enicActionGroup{
 
     public function beforeAction(){
         _currentUser()->assertCredential('group:[current_user]');
@@ -7,8 +7,23 @@ class ActionGroupAdmin extends CopixActionGroup{
 
     public function processIndex(){
 
-        echo 'index';
+        CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
+        //start tpl :
+        $ppo = new CopixPPO();
+        return _arPPO($ppo, 'admin.index.tpl');
 
+    }
+
+    public function processList(){
+
+        $this->addCss("styles/module_quiz.css");
+
+        //get the active quiz liste
+        $quizList = $this->service('QuizService')->getQuizByOwner($this->user->id);
+        
+        //start tpl :
+        $ppo = new CopixPPO();
+        return _arPPO($quizList, 'admin.list.tpl');
     }
 
     public function processQuiz(){

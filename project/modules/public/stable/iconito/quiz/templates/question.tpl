@@ -1,10 +1,10 @@
 <h3>{i18n key="quiz.msg.questionCount" noEscape=1} {$ppo->question->order}</h3>
 <!--[if lte IE 7]><div class="ISIE67"><![endif]-->
 <a href="{copixurl dest="quiz|default|quiz" id=$ppo->question->id_quiz}" id="quiz-go-home"></a>
-{if $ppo->help != null}
+{if !empty($ppo->help)}
         <a href="#help-data" id="quiz-help"></a>
         <div style="display:none"><div id="help-data">
-        {if $ppo->help != null}{$ppo->help}{/if}
+        {$ppo->help}
         </div></div>
 {/if}
 <div class="quiz-clear"></div>

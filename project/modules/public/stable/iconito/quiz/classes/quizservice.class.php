@@ -13,15 +13,27 @@ class QuizService {
     public function start($id){
         return true;
     }
-}
 
-//function to set or get var from/to session
-function qSession($key, $value = false){
-    if($value){
-        return CopixSession::set('iconito|quiz|'.$key, $value);
+    public function getCurrentQuiz(){
+        $model =& enic::get('model');
+        return $model->query('SELECT * FROM module_quiz_quiz WHERE
+                                            (`date_start` < '.time().' AND `date_end` > '.time().') OR
+                                            (`date_start` = 0 OR `date_end` = 0) AND
+                                            `lock` = 0
+                                            ORDER BY date_end DESC')
+                                    ->toArray();
     }
-    return CopixSession::get('inconito|quiz|'.key);
-}
 
-echo 'test de l';
+    public function getAllQuizByOwner($iIdOwner){
+        //secure $iIdAuthor
+        $idOwner = $iIdOwner*1;
+
+        //get the enic model
+        $model =& enic::get('model');
+
+        //get all quiz
+        return $model->query('SELECT * FROM module_quiz_quiz WHERE id_owner = '.$idOwner)
+                                    ->toArray();
+    }
+}
 ?>

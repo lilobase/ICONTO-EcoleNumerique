@@ -10,7 +10,8 @@ class enicActionGroup extends CopixActionGroup {
     protected $user;
     protected $matrix;
     protected $menu;
-
+    protected $shared;
+    
     public function __construct(){
         //test the user connexion, desactivate for public access
 	//_currentUser()->assertCredential ('group:[current_user]');
@@ -26,6 +27,20 @@ class enicActionGroup extends CopixActionGroup {
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
 
+    }
+
+    protected function addCss($iPathToJs){
+        CopixHTMLHeader::addCSSLink (_resource($iPathToJs));
+    }
+
+    protected function service($iService){
+        if(!is_string($iService))
+            trigger_error('Enic failed to load Service : invalid name', E_USER_WARNING);
+
+        if(!isset($this->shared['s'.$iService]))
+            $this->shared['s'.$iService] =& CopixClassesFactory::create($iService);
+
+        return $this->shared['s'.$iService];
     }
 
 }

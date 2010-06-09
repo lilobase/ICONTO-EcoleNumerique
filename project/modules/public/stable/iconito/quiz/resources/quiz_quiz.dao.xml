@@ -8,7 +8,7 @@
     </datasource>
     <properties>
         <property name="id" type="autoincrement" pk="yes" />
-        <property name="id_author" type="int" />
+        <property name="id_owner" type="int" />
         <property name="date_start" type="int" />
         <property name="date_end" type="int" />
         <property name="name" type="string" />
