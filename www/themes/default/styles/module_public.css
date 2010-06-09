@@ -4,13 +4,6 @@
 	Liste des blogs
 	================================= */
 
-DIV.blog_colonne_titre {
-	font-size: 14px;
-	font-weight: bold;
-	text-align: left;
-	color: #33691F;
-}
-	
 
 #blogs {
 	float: right;
@@ -20,34 +13,26 @@ DIV.blog_colonne_titre {
 /* Corps */
 #blogs DIV.blogBody {
 	clear: both;
-	border-radius: 8px;
-	-moz-border-radius:8px;
-	-khtml-border-radius:8px;
-	color: #595949;
-	font-size: 11px;
-	margin: 5px 5px 6px 5px;
-	padding: 5px 5px 5px 5px;
-	background: #EDF5A9;
-	border: 1px solid #B9C554;
+	margin: 5px;
 }
 /* Titre */
 #blogs DIV.blogBody A.title {
 	font-size: 150%;
 	font-weight: bold;
 	text-decoration: none;
-	border-bottom: dotted 1px #B9C554;
+	border-bottom: dotted 1px #555;
 	color: #111;
 }
 #blogs DIV.blogBody A.title:hover {
 	text-decoration: none;
-	border-bottom: solid 2px #B9C554;
+	border-bottom: solid 2px #111;
 }
 #blogs DIV.blogBody IMG.logo {
-	background: #FFF;
-	padding: 3px;
-	border-radius: 4px;
-	-moz-border-radius:4px;
-	-khtml-border-radius:4px;
+	background: #eee;
+	padding: 2px;
+	border-radius: 2px;
+	-moz-border-radius:2px;
+	-khtml-border-radius:2px;
 }
 
 /* Type + parent */
@@ -76,7 +61,7 @@ DIV.blog_colonne_titre {
 #blogs_ecoles DIV.ville DIV.nom {
 	font-size: 1.25em;
 	font-weight: bold;
-	border-bottom: solid 1px #EDF5A9;
+	border-bottom: solid 1px #fff;
 	margin-bottom: 3px;
 }
 

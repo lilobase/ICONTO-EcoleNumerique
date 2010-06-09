@@ -1,9 +1,9 @@
 
 <DIV ID="ecole_infos_bloc">
 
-<DIV><IMG CLASS="coude" src="{copixresource path="img/groupe/lucien_coude.gif"}" /></DIV>
+<div class="lucien"></div>
 
-<DIV ID="ecole_infos">
+<DIV ID="ecole_infos" class="block">
 
 <DIV ALIGN="RIGHT">
 

@@ -11,7 +11,7 @@
 	{if $list neq null}
 	
 	{if $canWriteClasse || $hisEleves|@count>0}
-	<DIV CLASS="carnet_filtrage_col">
+	<DIV CLASS="carnet_filtrage_col block">
 	<DIV>{i18n key="carnet.list.filtrageIntro"} :</DIV>
 	
 	{if $canWriteClasse}<p></p>&gt; <A HREF="{copixurl dest="|getCarnet" classe=$classe}">{if !$eleve}<b>{/if}{i18n key="carnet.list.filtrageAll"}{if !$eleve}</b>{/if}</A>{/if}

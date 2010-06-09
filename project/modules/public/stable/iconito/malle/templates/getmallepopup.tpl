@@ -10,18 +10,15 @@
 
 
 
-<div id="popup_actions">
+<div id="popup_actions" class="block">
 <form name="form" id="form">
 
 {* <h1>{i18n key="malle|malle.popup.options"}</h1> *}
 
 <div class="bloc">
 <h2>{i18n key="malle|malle.popup.mode"}</h2>
-<input id="mode-view" type="radio" name="mode" value="view" checked />
-<label for="mode-view">{i18n key="malle|malle.popup.mode.view"}<br/></label>
-<input id="mode-download" type="radio" name="mode" value="download" />
-<label for="mode-download">{i18n key="malle|malle.popup.mode.download"}<br/>
-</label>
+<input id="mode-view" type="radio" name="mode" value="view" checked /><label for="mode-view">{i18n key="malle|malle.popup.mode.view"}</label><br/>
+<input id="mode-download" type="radio" name="mode" value="download" /><label for="mode-download">{i18n key="malle|malle.popup.mode.download"}</label><br/>
 </div>
 
 <div class="bloc">
@@ -53,6 +50,8 @@
 
 <!-- DEBUT PAGE -->
 
+<div class="malle_poucet_combo">
+
 <DIV CLASS="malle_go_folder_form">
 {if $combofolders|trim}
 <form name="formGo" id="formGo" action="{copixurl dest="malle||getMallePopup"}" method="get">
@@ -65,6 +64,9 @@
 </DIV>
 
 {copixzone process='malle|petitpoucet' malle=$ppo->id folder=$ppo->folder action=getMallePopup field=$ppo->field format=$ppo->format}
+
+</div>
+
 
 
 <DIV STYLE="min-height:275px;">

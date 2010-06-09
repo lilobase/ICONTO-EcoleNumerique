@@ -68,14 +68,6 @@ DIV.carnet_message_eleve A:hover {
 DIV.carnet_filtrage_col {
 	float: left;
 	width: 100px;
-	font-size: 11px;
-	background-color: #EDF5A9;
-	border: solid 2px #FFF;
-	border-radius: 6px;
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	color: #000;
-	padding: 3px;
 }
 DIV.carnet_filtrage_col A, DIV.carnet_filtrage_col A:visited {
 	text-decoration: none;
@@ -84,3 +76,10 @@ DIV.carnet_filtrage_col A:hover {
 	text-decoration: underline;
 }
 
+
+
+div.checkEleve {
+  float:left;
+  width:190px;
+  font-size:0.8em;
+}

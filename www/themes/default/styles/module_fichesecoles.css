@@ -4,6 +4,12 @@ div#fichesecoles {
 	padding:2px;
 }
 
+
+div#fichesecoles table {
+  width:100%;
+  
+}
+
 div#fichesecoles td.pratique {
 	vertical-align:top;
 	width:240px;
@@ -49,7 +55,7 @@ div#fichesecoles div.classes {
 	padding:3px;
 	-moz-border-radius:8px;
 	float:left;
-	width:350px;
+	width:270px;
 }
 div#fichesecoles div.classes div.fiche {
 	margin-top:0;
@@ -132,5 +138,18 @@ div#fichesecoles div.blog div#ficheblogs div.inner div.annee select {
 }
 
 
-
-
+/* ADMIN */
+input.zone_ville_titre, input.zone_titre {
+  width:300px;
+}
+textarea.zone_texte {
+  height:80px;
+  width:320px;
+}
+textarea.zone_horaires {
+  height:100px;
+  width:310px;
+}
+td.form_libelle {
+  white-space:nowrap;
+}

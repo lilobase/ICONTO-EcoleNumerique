@@ -31,7 +31,9 @@ class ZoneEdition extends CopixZone {
 		$object = $this->getParam('object', array());
 		$width = $this->getParam('width', 600);
 		$height = $this->getParam('height', 300);
+		$class = $this->getParam('class');
 		$options = $this->getParam('options', array());
+    
 		if ($field && $format) {
 			
 			$object_type = (isset($object['type'])) ? $object['type'] : null;
@@ -82,6 +84,7 @@ class ZoneEdition extends CopixZone {
 			$tpl->assign('content', $content);
 			$tpl->assign('width', $width);
 			$tpl->assign('height', $height);
+			$tpl->assign('class', $class);
 
 
 		}		

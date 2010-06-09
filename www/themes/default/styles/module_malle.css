@@ -88,7 +88,6 @@ DIV.malle_actions_line {
 .malle_go_folder_form {
 	float: right;
 	height: 19px;
-	margin-top: -3px;
 	margin-bottom: 3px;
   width: 465px;
 }
@@ -101,10 +100,6 @@ DIV.malle_actions_line {
 
 /* POPUP */
 #popup_actions {
-  background: #DDDDDD;
-  width: 100%;
-  font-size:80%;
-  margin-bottom: 6px;
 }
 #popup_actions h1 {
   font-size:110%;

@@ -27,22 +27,11 @@ class ZoneInfosClasse extends CopixZone {
 			$classe = $rClasse['id'];
 			
 			$enseignants = $annuaireService->getEnseignantInClasse ($classe);
-			//$enseignants = $annuaireService->checkVisibility( $enseignants );
 			$eleves = $annuaireService->getElevesInClasse ($classe);
-			// $eleves = $annuaireService->checkVisibility( $eleves );
 			
-			
-			if( Kernel::getUserTypeVisibility( 'USER_ELE' ) == 'NONE' )
-				$rClasse["eleves"] = 'NONE';
-			else
-				$rClasse["eleves"] = $eleves;
+			$rClasse["eleves"] = $eleves;
+			$rClasse["enseignants"] = $enseignants;
 
-			if( Kernel::getUserTypeVisibility( 'USER_ENS' ) == 'NONE' )
-				$rClasse["enseignants"] = 'NONE';
-			else
-				$rClasse["enseignants"] = $enseignants;
-			
-			
 			$matrix =& enic::get('matrixCache');
                         $matrix->display();
 			$droit = $matrix->classe($classe)->_right->USER_ENS->voir;

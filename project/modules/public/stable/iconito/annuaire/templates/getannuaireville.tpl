@@ -3,9 +3,9 @@
 
 <div id="ecole_infos_bloc">
 
-<div><img class="coude" src="{copixresource path="img/groupe/lucien_coude.gif"}" /></div>
+<div class="lucien"></div>
 
-<div id="ecole_infos">
+<div id="ecole_infos" class="block">
 
 <div align="right">
 

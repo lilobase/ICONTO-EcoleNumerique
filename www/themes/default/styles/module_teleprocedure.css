@@ -1,7 +1,5 @@
 
 div.teleprocedures {
-	background:#fff;
-	font-size:0.9em;
 }
 div.teleprocedures table.liste {
 	font-size:1em;
@@ -10,7 +8,7 @@ div.teleprocedures table.liste td.discret {
 	font-size:0.9em;
 }
 div.teleprocedures table.liste tr:hover {
-	background:#ECF2BA;
+	background:#eee;
 }
 
 div.teleprocedures_titre {
@@ -56,7 +54,7 @@ div.teleprocedures div.types a {
 	text-decoration:none;
 }
 div.teleprocedures div.types a:hover {
-	background:#ECF2BA;
+	background:#fff;
 }
 div.teleprocedures div.types li a.is_online0 {
 	color:#828883;
@@ -89,7 +87,7 @@ div.telep_pages_ville div.admin a, div.telep_infos_ville1 div.admin a, div.telep
 }
 
 div#welcome_actualites {
-	background:#E4ED9F;
+	background:#fff;
 	-moz-border-radius: 6px;
 	padding:7px;
 }
@@ -102,14 +100,14 @@ div#welcome_actualites div.item div.date {
 	color:#444;
 }
 div#welcome_actualites div.item div.hr, div#welcome_pages div.item div.hr {
-	border-bottom: solid 1px #fff;
+	border-bottom: solid 1px #eee;
 	margin-top:4px;
 	margin-bottom:4px;
 }
 
 
 div#welcome_pages {
-	background:#ECF2BA;
+	background:#fff;
 	-moz-border-radius: 6px;
 	padding:7px;
 }
@@ -144,9 +142,6 @@ div.demande div.entete a {
 div.demande div.entete div.imprimer {
 	float:right;
 	margin-top:5px;
-}
-div.demande div.entete div.imprimer a {
-	color:#fff;
 }
 div.demande .lib {
 	color:#777;
@@ -242,7 +237,6 @@ div.comms table.list td.milieu {
 	padding:0;
 }
 div.comms table.list td.echange {
-	background:#F0F5C8;
 	width:50%;
 	border-bottom:solid 1px #fff;
 	margin-right:1px;
@@ -284,12 +278,15 @@ div.actions td div.linkannuaire {
 
 input.teleprocedures {
 	width:100%;
-	background:#F0F5C8;
+	background:#ccc;
 	border:0;
 	font-weight:bolder;
 	font-size:0.9em;
 	margin-top:1px;
 	padding:3px;
+}
+input.teleprocedures:hover {
+	background:#bbb;
 }
 
 
@@ -301,14 +298,20 @@ td.form_saisie div.telep {
 }
 
 /* Filtrage */
+table.filtre {
+  font-size:0.7em;
+}
+table.filtre input, table.filtre select {
+  font-size:1em;
+}
 table.filtre input.motcle {
 	width:85px;
 }
 table.filtre select.ecoles {
-	width:210px;
+	width:205px;
 }
 table.filtre select.types {
-	width:170px;
+	width:160px;
 }
 
 

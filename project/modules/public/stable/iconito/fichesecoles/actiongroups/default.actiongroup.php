@@ -26,6 +26,8 @@ class ActionGroupDefault extends CopixActionGroup {
    */
 	 function fiche () {
 		
+    CopixHTMLHeader::addCSSLink (_resource("styles/module_fichesecoles.css")); 
+    
 		$id = $this->getRequest('id', null);
 
 		$ecoleDAO = CopixDAOFactory::create('kernel|kernel_bu_ecole');

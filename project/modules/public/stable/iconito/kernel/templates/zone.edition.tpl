@@ -14,12 +14,11 @@
 
 {elseif $format eq "html"}
 
-<div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+<div><textarea{if !$class} style="width:{$width}px; height:{$height}px;"{/if} name="{$field}" id="{$field}" class="form {$class}">{$content}</textarea></div>
 <div>{$wikibuttons}</div>
 
 {elseif $format eq "htmlnl2br"}
-
-<div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+<div><textarea{if !$class} style="width:{$width}px; height:{$height}px;"{/if} name="{$field}" id="{$field}" class="form {$class}">{$content}</textarea></div>
 <div>{$wikibuttons}</div>
 
 {*{elseif $format eq "fckeditor"}

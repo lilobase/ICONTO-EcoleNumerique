@@ -1,9 +1,7 @@
 
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_fichesecoles.css"}" />
-
 <div id="fichesecoles">
 
-<table width="100%">
+<table>
 <tr>
 <td class="pratique">
 

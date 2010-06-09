@@ -24,6 +24,8 @@ class ActionGroupAdmin extends CopixActionGroup {
    */
 	 function form () {
 
+    CopixHTMLHeader::addCSSLink (_resource("styles/module_fichesecoles.css")); 
+    
 		$id = $this->getRequest('id', null);
 		$save = $this->getRequest('save', null);
 
@@ -64,7 +66,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 		$rForm = CopixDAOFactory::createRecord('fiches_ecoles');
 
 		if ($save == 1) {
-
+      
+      
 			$rForm->id = $id;
 			$rForm->photo = ($rFiche) ? $rFiche->photo : '';
 			
@@ -163,11 +166,11 @@ class ActionGroupAdmin extends CopixActionGroup {
 		$tplForm = & new CopixTpl ();
 		$tplForm->assign ('rEcole',$rEcole);
 		$tplForm->assign ('rForm',$rForm);
-		$tplForm->assign ('form_horaires', CopixZone::process ('kernel|edition', array('field'=>'horaires', 'format'=>'htmlnl2br', 'content'=>$rForm->horaires, 'height'=>100, 'width'=>290)));
-		$tplForm->assign ('form_zone1_texte', CopixZone::process ('kernel|edition', array('field'=>'zone1_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone1_texte, 'height'=>80, 'width'=>380)));
-		$tplForm->assign ('form_zone2_texte', CopixZone::process ('kernel|edition', array('field'=>'zone2_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone2_texte, 'height'=>80, 'width'=>380)));
-		$tplForm->assign ('form_zone3_texte', CopixZone::process ('kernel|edition', array('field'=>'zone3_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone3_texte, 'height'=>80, 'width'=>380)));
-		$tplForm->assign ('form_zone4_texte', CopixZone::process ('kernel|edition', array('field'=>'zone4_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone4_texte, 'height'=>80, 'width'=>380)));
+		$tplForm->assign ('form_horaires', CopixZone::process ('kernel|edition', array('field'=>'horaires', 'format'=>'htmlnl2br', 'content'=>$rForm->horaires, 'class'=>'zone_horaires')));
+		$tplForm->assign ('form_zone1_texte', CopixZone::process ('kernel|edition', array('field'=>'zone1_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone1_texte, 'class'=>'zone_texte')));
+		$tplForm->assign ('form_zone2_texte', CopixZone::process ('kernel|edition', array('field'=>'zone2_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone2_texte, 'class'=>'zone_texte')));
+		$tplForm->assign ('form_zone3_texte', CopixZone::process ('kernel|edition', array('field'=>'zone3_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone3_texte, 'class'=>'zone_texte')));
+		$tplForm->assign ('form_zone4_texte', CopixZone::process ('kernel|edition', array('field'=>'zone4_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone4_texte, 'class'=>'zone_texte')));
 		if ($canModifyVille)
 			$tplForm->assign ('form_zone_ville_texte', CopixZone::process ('kernel|edition', array('field'=>'zone_ville_texte', 'format'=>'htmlnl2br', 'content'=>$rForm->zone_ville_texte, 'height'=>80, 'width'=>780)));
 

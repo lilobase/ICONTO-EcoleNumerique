@@ -13,9 +13,9 @@
 {if $preview and !$errors}
 <H3>{i18n key="minimail.preview"}</H3>
 <DIV CLASS="minimail_message">
-<DIV><b>{$title}</b></DIV>
-<HR CLASS="minimail_hr" NOSHADE SIZE="1" />
-<DIV>{$message|render:$format}</DIV>
+  <DIV><b>{$title}</b></DIV>
+  <HR CLASS="minimail_hr" NOSHADE SIZE="1" />
+  <DIV>{$message|render:$format}</DIV>
 </DIV>
 {/if}
 

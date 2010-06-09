@@ -1,6 +1,6 @@
 
 
-<div id="annu_popup_filtrage">
+<div id="annu_popup_filtrage" class="block">
 
 
 <form name="formGo" id="formGo" action="{copixurl dest="annuaire||getPopup"}" method="get">

@@ -50,7 +50,7 @@
 	<form action="{copixurl dest="|insertInfoSupp"}" method="post">
 	 <input type="hidden" name="id" value="{$rFiche->idinter}"/>
 	<tr>
-		<td class="echange {if !$canCheckVisible}echangeDir{/if}">Saisisse votre message :<br/>
+		<td class="echange {if !$canCheckVisible}echangeDir{/if}">Saisissez votre message :<br/>
 		{$info_message_edition}</td>
 		{if $canCheckVisible}
 		<td class="milieu"></td>
