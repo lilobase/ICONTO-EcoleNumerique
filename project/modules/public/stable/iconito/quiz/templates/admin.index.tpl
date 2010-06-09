@@ -17,7 +17,7 @@ jQuery(document).ready(function($){
 <div class="quiz-quiz">
     <h4>{i18n key="quiz.admin.new" noEscape=1}</h4>
     <p class="quiz-center">
-        <a class="quiz-a-img" href="{copixurl dest="quiz|admin|modif" action="new"}">
+        <a class="quiz-a-img" href="{copixurl dest="quiz|admin|modif" qaction="new"}">
             <img src="{copixresource path="images/colorful/64x64/add.png"}" alt="{i18n key="quiz.admin.new" noEscape=1}">
         </a>
     </p>
@@ -25,7 +25,7 @@ jQuery(document).ready(function($){
 <div class="quiz-quiz">
     <h4>{i18n key="quiz.admin.modif" noEscape=1}</h4>
     <p class="quiz-center">
-        <a class="quiz-a-img" href="{copixurl dest="quiz|admin|modif" action="list"}">
+        <a class="quiz-a-img" href="{copixurl dest="quiz|admin|list" qaction="modif"}">
             <img src="{copixresource path="images/colorful/64x64/process.png"}" alt="{i18n key="quiz.admin.modif" noEscape=1}">
         </a>
     </p>
@@ -33,7 +33,7 @@ jQuery(document).ready(function($){
 <div class="quiz-quiz">
     <h4>{i18n key="quiz.admin.results" noEscape=1}</h4>
     <p class="quiz-center">
-        <a class="quiz-a-img" href="{copixurl dest="quiz|admin|results" action="list"}">
+        <a class="quiz-a-img" href="{copixurl dest="quiz|admin|list" qaction="result"}">
             <img src="{copixresource path="images/colorful/64x64/pie_chart.png"}" alt="{i18n key="quiz.admin.results" noEscape=1}">
         </a>
     </p>

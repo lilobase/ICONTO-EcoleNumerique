@@ -1,0 +1,44 @@
+/* 
+    Document   : dashboard_zone
+    Created on : 8 juin 2010, 14:55:34
+    Author     : arnox
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.dashboard-zone-title{
+    text-align: center;
+}
+
+.dashboard-item{
+    margin: 0px;
+    margin-left: 25px;
+    list-style: none;
+    padding: 5px;
+}
+
+.dashboard-item li{
+    float: left;
+    height: 17px;
+    line-height: 17px;
+    font-size: 12px;
+    font-weight: normal;
+    color: white;
+    width: 175px;
+    text-align: center;
+    margin: 4px;
+    padding: 0px;
+    background-color: #0C92B1;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+.dashboard-zone-img{
+    margin: 5px 85px 5px 25px;
+    float:left;
+}
+

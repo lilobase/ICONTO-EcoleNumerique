@@ -24,7 +24,7 @@ class QuizService {
                                     ->toArray();
     }
 
-    public function getAllQuizByOwner($iIdOwner){
+    public function getQuizByOwner($iIdOwner){
         //secure $iIdAuthor
         $idOwner = $iIdOwner*1;
 

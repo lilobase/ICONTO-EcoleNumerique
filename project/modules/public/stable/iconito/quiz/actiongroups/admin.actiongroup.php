@@ -20,10 +20,17 @@ class ActionGroupAdmin extends enicActionGroup{
 
         //get the active quiz liste
         $quizList = $this->service('QuizService')->getQuizByOwner($this->user->id);
-        
+        $action = $this->request('qaction', 'str');
+
         //start tpl :
         $ppo = new CopixPPO();
-        return _arPPO($quizList, 'admin.list.tpl');
+        $ppo->quizList = $quizList;
+        $ppo->action = $action;
+        $ppo->MENU = array(
+                        array( 'txt' => $this->i18n('quiz.admin.index'),
+                            'url' => $this->url('quiz|admin|'))
+                      );
+        return _arPPO($ppo, 'admin.list.tpl');
     }
 
     public function processQuiz(){
@@ -152,18 +159,22 @@ class ActionGroupAdmin extends enicActionGroup{
                         }
 		}
 		
-        CopixHTMLHeader::addCSSLink(_resource("styles/module_quiz.css"));
-		CopixHTMLHeader::addCSSLink(_resource("styles/datatable.css"));
-		CopixHtmlHeader::addJSLink('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/jquery.dataTables.min.js');
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/TableTools.min.js');
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/ZeroClipboard.js');
+                $this->addCss("styles/module_quiz.css");
+		$this->addCss("styles/datatable.css");
+                
+		$this->addJs('js/datatable/jquery.dataTables.min.js');
+		$this->addJs('js/datatable/TableTools.min.js');
+		$this->addJs('js/datatable/ZeroClipboard.js');
 
 		$ppo = new CopixPPO();
                 $ppo->quiz = $quizData;
 		$ppo->users = $users;
                 $ppo->nbQuestions = $nbQuestions;
 		$ppo->pathClip = CopixUrl::get().'js/datatable/';
+                $ppo->MENU = array(
+                        array( 'txt' => $this->i18n('quiz.admin.index'),
+                            'url' => $this->url('quiz|admin|'))
+                      );
 		return _arPPO($ppo, 'admin.allresults.tpl');
     }
 

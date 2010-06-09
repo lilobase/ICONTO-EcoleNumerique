@@ -33,6 +33,10 @@ class enicActionGroup extends CopixActionGroup {
         CopixHTMLHeader::addCSSLink (_resource($iPathToJs));
     }
 
+    protected function addJs($iPathToJs){
+        CopixHtmlHeader::addJSLink(CopixUrl::get().$iPathToJs);
+    }
+
     protected function service($iService){
         if(!is_string($iService))
             trigger_error('Enic failed to load Service : invalid name', E_USER_WARNING);
@@ -41,6 +45,30 @@ class enicActionGroup extends CopixActionGroup {
             $this->shared['s'.$iService] =& CopixClassesFactory::create($iService);
 
         return $this->shared['s'.$iService];
+    }
+
+    protected function request($iName, $iType = 'other', $default = null){
+        $oReturn = CopixRequest::get($iName, $default);
+
+        switch($iType){
+            case 'str':
+                return (string)$oReturn;
+            break;
+            case 'int':
+                return $oReturn*1;
+            break;
+            case 'other':
+                return $oReturn;
+            break;
+        }
+    }
+
+    protected function i18n($iKey){
+        return CopixI18N::get($iKey);
+    }
+
+    protected function url($iUrl, $iParams = array()){
+         return CopixUrl::get ($iUrl, $iParams);
     }
 
 }
