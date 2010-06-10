@@ -72,23 +72,23 @@ class enicFiles implements enicStorage {
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- get() : file not found for : '.$iName, E_USER_ERROR);
 
-        return file_get_contents($this->path.$iName);
+        return file_get_contents($this->path.$iName.'.cache');
 
     }
 
     public function exists($iName){
-        return file_exists($this->path.$iName);
+        return file_exists($this->path.$iName.'.cache');
     }
 
     public function save($iName, $iData){
-        return file_put_contents($this->path.$iName, $iData);
+        return file_put_contents($this->path.$iName.'.cache', $iData);
     }
 
     public function del($iName){
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- del() : file not found for : '.$iName, E_USER_ERROR);
 
-        return unlink($this->path.$iName, $iData);
+        return unlink($this->path.$iName.'.cache', $iData);
     }
 }
 
