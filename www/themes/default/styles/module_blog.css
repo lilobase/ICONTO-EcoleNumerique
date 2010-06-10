@@ -24,8 +24,6 @@
 
 /* Barre latérale - Titre */
 #mainSideBar H2 {
-	color: #337E5A;
-	font-size: 140%;
 	margin: 10px 0px 3px 0px;
 	border-top: dotted 2px #CCC;
 	padding-top: 3px;
@@ -65,7 +63,6 @@
 	margin: 1px;
 	padding: 1px;
 	font-size: 100%;
-	color: #337E5A;
 	margin-top: 6px;
 	text-align: right;
 }
@@ -76,17 +73,16 @@
 	font-weight: bold;
 }
 #listArticles DIV.postTitle A {
-	color: #337E5A;
 }
 /* Infos de l'article (date, catégories...) */
 #listArticles DIV.postInfo {
 	margin: 0px 0px 3px 0px;
-	color: #B58106;
+	color: #888;
 	font-weight: normal;
 	font-size: 100%;
 }
 #listArticles DIV.postInfo A {
-	color: #B58106;
+	color: #888;
 }
 /* Article (chapo ou entier) */
 #listArticles DIV.postContent {
@@ -117,12 +113,12 @@
 /* Infos de l'article (date, catégories...) */
 #article DIV.postInfo {
 	margin: 0px 0px 3px 0px;
-	color: #B58106;
+	color: #888;
 	font-weight: normal;
 	font-size: 100%;
 }
 #article DIV.postInfo A {
-	color: #B58106;
+	color: #888;
 }
 /* Chapo */
 #article DIV.postSummary {
@@ -159,7 +155,6 @@
 	margin: 0;
 	margin-top: 1em;
 	margin-bottom: 0.5em;
-	color: #337E5A;
 }
 /* Corps */
 #comments DIV.commentBody {

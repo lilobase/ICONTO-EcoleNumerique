@@ -30,14 +30,16 @@
 	<tr>
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="carnet.form.concern"}</td><td CLASS="form_saisie">
 	<DIV>
-	{if $canWriteClasse}{i18n key="carnet.list.allClasseTxt"}
-  <br clear="all" />
-  <div class="checkEleve"><A HREF="javascript:checkAllClasse();">{i18n key="carnet.list.allClasse"}</A></div>{/if}
+	{if $canWriteClasse}{i18n key="carnet.list.allClasseTxt"}<br clear="all" />{/if}
 	{foreach from=$hisEleves item=item}
 		{assign var="itemid" value=$item.id}
 		<div class="checkEleve">{*<LABEL FOR="eleves_{$item.id}">*}<input type="checkbox" id="eleves_{$item.id}" name="eleves[]" value="{$item.id}"{if !$eleves or $eleves.$itemid === 0 or $eleves.$itemid>0}CHECKED{/if}> {user label=$item.prenom|cat:' '|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=0}{*</LABEL>*}
 		</div>
 	{/foreach}
+  
+  {if $canWriteClasse}<div class="checkEleve"><A HREF="javascript:checkAllClasse();"><b>{i18n key="carnet.list.allClasse"}</b></A></div>{/if}
+  
+  
 	</DIV>
 		</td>
 	</tr>

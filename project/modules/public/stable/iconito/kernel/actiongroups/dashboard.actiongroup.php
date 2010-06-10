@@ -23,8 +23,8 @@ class ActionGroupDashboard extends enicActionGroup {
 	
 	function processDefault () {
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe.css"));
+		//CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
+		//CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe.css"));
 		
 		
 		$tpl = & new CopixTpl ();

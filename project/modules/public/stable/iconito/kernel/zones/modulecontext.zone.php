@@ -13,7 +13,7 @@ class ZoneModuleContext extends CopixZone {
 
 	function _createContent (&$toReturn) {
 
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
+		//CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
 
 		$ppo = new CopixPPO ();		
 		$toReturn = "";

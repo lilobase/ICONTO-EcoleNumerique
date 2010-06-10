@@ -6,7 +6,7 @@
  * @package Iconito
  * @subpackage	Carnet
  */
-class ActionGroupCarnet extends CopixActionGroup {
+class ActionGroupCarnet extends EnicActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
@@ -186,9 +186,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			//die();
 			
 			$unread = $daoTracking->getFirstUnreadMessage($id, $session['user_id'], $idEleves);
-
-			print_r($unread);
-			die('ici');
+      //_dump($unread[0]);
 			if ($unread[0]->id) {	// Il est déjà passé dans le topic
 				$urlReturn = CopixUrl::get ('|getTopic', array('id'=>$id, 'eleve'=>$eleve)).'#m'.$unread[0]->id;
 			} else { // Jamais passé, on le renvoie au début du topic
@@ -200,10 +198,18 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 		$topic = $dao->get ($id);
 		$classe = $topic->classe;
-		
+		$ppo = new CopixPPO ();
+    
 		if (!$topic)
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.noTopic');
-
+    
+    $matrix = & enic::get('matrixCache');
+    
+    $ppo->canView_USER_RES = $matrix->classe($classe)->_right->USER_RES->voir;
+    $ppo->canView_USER_ENS = $matrix->classe($classe)->_right->USER_ENS->voir;
+    $ppo->canView_USER_ELE = $matrix->classe($classe)->_right->USER_ELE->voir;
+    //_dump($canWrite_USER_RES);
+    
 		$mondroit = $carnet_service->getUserDroitInCarnet (array("classe"=>$classe, "eleve"=>$eleve));
 		//print_r("mondroit=$mondroit");
 		if (!$mondroit)
@@ -276,6 +282,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			//print_r($list);
 			//print_r($topic);
 			$tplListe = & new CopixTpl ();
+			$tplListe->assign ('ppo', $ppo);
 			$tplListe->assign ('topic', $topic);
 			$tplListe->assign ('eleve', $eleve);
 			$tplListe->assign ('canWriteClasse', $canWriteClasse);

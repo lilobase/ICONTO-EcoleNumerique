@@ -6,7 +6,7 @@
  * @package Iconito
  * @subpackage Public
  */
-class ActionGroupDefault extends CopixActionGroup {
+class ActionGroupDefault extends EnicActionGroup {
 	
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');

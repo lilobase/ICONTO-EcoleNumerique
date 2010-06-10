@@ -14,7 +14,7 @@
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/prototype-1.6.0.3.js"); ?>"></script>
 
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/iconito/lang_<?php echo CopixI18N::getLang(); ?>.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/iconito/lang_".CopixI18N::getLang().".js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("flvplayer/ufo.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.2.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
@@ -33,7 +33,11 @@ jQuery(document).ready(function($){
 			success: function (data) { theme = data; }
 		});
 		dim = theme.dimensions.STD;
-		$('#main-wrapper').css('width', dim.main_width);
+    
+ 		//$('#main-wrapper').css('width', dim.main_width);
+    $('<style media="screen">#main-wrapper {width:'+dim.main_width+'px}</style>').appendTo('head');
+    $('<style media="print">#main-wrapper {width:100%}</style>').appendTo('head');
+    
 		$('#left').css('width', dim.left_width);
 		$('#left').css('margin-right', -dim.left_width);
 		$('#right').css('width', dim.right_width);

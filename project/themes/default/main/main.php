@@ -32,7 +32,7 @@ $module = CopixRequest::get ('module');
 <div id="divHelp" onclick="hideHelp();"></div>
 <div id="ajaxDiv"></div>
 
-<div id="main-wrapper" class="wrapper">
+<div id="main-wrapper" class="wrapper" style="">
 
 <div id="absolute"></div>
 <div id="popup"><?php getZones("popup"); ?></div>
@@ -58,7 +58,7 @@ $module = CopixRequest::get ('module');
 				<div id="left"><?php getZones("left"); ?></div>
 				<div class="wrapper-shifter">
 					<div id="content">
-						<div id="contenttop">ZZ<?php getZones("contenttop"); ?></div>
+						<div id="contenttop"><?php getZones("contenttop"); ?></div>
 						<div id="contentmain">
 							<?php if ($module!='kernel') { moduleContext('open'); } ?>
 							<div class="<?php echo $module; ?>">

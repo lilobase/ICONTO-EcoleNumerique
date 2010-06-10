@@ -1133,11 +1133,28 @@ class Kernel {
 	// CB 01/06/2010
 	// Renvoie un tableau avec les droits de l'usager courant sur un noeud renvoye par getUserInfo
 	function getUserInfoMatrix ($userInfo) {
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		$arTypes = array('classe','ecole','ville','grville');
 		$res = array('voir'=>false, 'communiquer'=>false);
+
+    if ($userInfo['type']=='USER_RES') { // Parent : relie a rien, il faut voir pour ses enfants
+      $dao = _dao("kernel|kernel_bu_res2ele");
+			$resp = $dao->getByResponsable('responsable', $userInfo['id']);
+			foreach( $resp AS $key=>$val ) {
+				if( $val->res2ele_type_beneficiaire != "eleve" ) continue;
+        $getUserInfo = Kernel::getUserInfo('USER_ELE', $val->res2ele_id_beneficiaire);
+        $droits = Kernel::getUserInfoMatrix($getUserInfo);
+        //_dump($droits);
+        if ($droits['voir']) $res['voir'] = true;
+        if ($droits['communiquer']) $res['communiquer'] = true;
+      }
+    
+    }
+
+
 		if (!isset($userInfo['link']))
 			return $res;
+
 		foreach ($arTypes as $vType) {
 			if (!isset($userInfo['link']->$vType))
 				continue;

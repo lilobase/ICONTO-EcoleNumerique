@@ -4,7 +4,14 @@
   
   {if $topic->avatar}<img src="{copixurl}{$topic->avatar}" alt="{$topic->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
   
-  {user label=$topic->createur_nom userType=$topic->createur_infos.type userId=$topic->createur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$topic->createur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$topic->date_creation|datei18n:"date_short_time" noEscape=1} :</DIV>
+  {if ($topic->createur_infos.type eq 'USER_RES' AND $ppo->canView_USER_RES) OR ($topic->createur_infos.type eq 'USER_ENS' AND $ppo->canView_USER_ENS) }
+    {user label=$topic->createur_nom userType=$topic->createur_infos.type userId=$topic->createur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$topic->createur_infos.login dispMail=0 assign='who'}
+  {else}
+    {assign var=who value=$topic->createur_nom}
+  {/if}
+  
+  
+  {i18n key="carnet.msg.author" who=$who date=$topic->date_creation|datei18n:"date_short_time" noEscape=1} :</DIV>
 	<DIV CLASS="carnet_message_message">{$topic->message|render:$topic->format}</DIV>
 <DIV CLASS="carnet_concerne">
 
@@ -44,10 +51,22 @@
 		<DIV CLASS="carnet_message_infos{if $session.user_id==$item->auteur}_me{/if}">
     
     {if $item->avatar}<img src="{copixurl}{$item->avatar}" alt="{$item->avatar}" title="" align="right" hspace="2" vspace="2" />{/if}
-
-    {user label=$item->auteur_nom userType=$item->auteur_infos.type userId=$item->auteur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->auteur_infos.login dispMail=0 assign='who'}{i18n key="carnet.msg.author" who=$who date=$item->date|datei18n:"date_short_time" noEscape=1} :
+    
+    {if ($item->auteur_infos.type eq 'USER_RES' AND $ppo->canView_USER_RES) OR ($item->auteur_infos.type eq 'USER_ENS' AND $ppo->canView_USER_ENS) }
+      {user label=$item->auteur_nom userType=$item->auteur_infos.type userId=$item->auteur_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->auteur_infos.login dispMail=0 assign='who'}
+    {else}
+      {assign var=who value=$item->auteur_nom}
+    {/if}
+    
+{i18n key="carnet.msg.author" who=$who date=$item->date|datei18n:"date_short_time" noEscape=1}     :
 		</DIV>
-		<DIV CLASS="carnet_message_message"><DIV CLASS="carnet_message_eleve">{i18n key="carnet.msg.eleve"} : {user label=$item->eleve_nom userType=$item->eleve_infos.type userId=$item->eleve_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->eleve_infos.login dispMail=0}</DIV>{$item->message|render:$item->format}</DIV>
+		<DIV CLASS="carnet_message_message"><DIV CLASS="carnet_message_eleve">{i18n key="carnet.msg.eleve"} : 
+    {if $item->eleve_infos.type eq 'USER_ELE' AND $ppo->canView_USER_ELE}
+      {user label=$item->eleve_nom userType=$item->eleve_infos.type userId=$item->eleve_infos.id linkAttribs='STYLE="text-decoration:none;"' login=$item->eleve_infos.login dispMail=0}
+    {else}
+      {$item->eleve_nom}
+    {/if}
+    </DIV>{$item->message|render:$item->format}</DIV>
 		<DIV CLASS="carnet_message_actions">
 		<a href="{copixurl dest="|getMessageForm" topic=$topic->id eleve=$item->eleve}">{i18n key="carnet.btn.answer"}</a>
 		</DIV></DIV>

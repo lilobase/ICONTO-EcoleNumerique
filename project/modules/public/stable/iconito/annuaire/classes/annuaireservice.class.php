@@ -27,7 +27,7 @@ class AnnuaireService {
 			$getNodeInfo_full = true;
 		}
 		
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		
 		$childs = Kernel::getNodeChilds ('BU_GRVILLE', $grville);
 		foreach ($childs as $child) {
@@ -70,7 +70,7 @@ class AnnuaireService {
 			$getNodeInfo_full = true;
 		}
 		
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		
 		foreach ($pVilles as $child) {
 		
@@ -105,7 +105,7 @@ class AnnuaireService {
 	function getEcolesInVille ($ville, $params=array('directeur'=>true)) {
 		$ecoles = array();
 		
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		
 		$childs = Kernel::getNodeChilds ('BU_VILLE', $ville);
 		foreach ($childs as $child) {
@@ -190,7 +190,7 @@ class AnnuaireService {
 			$getNodeInfo_full = true;
 		}
 
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		
 		$getNodeChildsOptions = array();
 		if (isset($options['annee']) && $options['annee'])
@@ -284,7 +284,7 @@ class AnnuaireService {
 			$getClassesInEcole_params = array();
 		}
 
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		
 		if (isset($options['droit'])) {
 			$ecoles = AnnuaireService::getEcolesInVille ($ville, array('droit'=>$options['droit']));
@@ -330,7 +330,7 @@ class AnnuaireService {
 			$getNodeInfo_full = true;
 		}
 
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 				
 		$childs = Kernel::getNodeChilds ('BU_GRVILLE', $grville);
 		foreach ($childs as $child) {
@@ -474,7 +474,7 @@ class AnnuaireService {
 	 * @return array Tableau avec les agents
 	 */
 	function getAgentsInVille ($ville, $options=array()) {	
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		$agents = array();
 		$result = Kernel::getNodeChilds('BU_VILLE', $ville);
 		foreach ($result AS $key=>$value) {

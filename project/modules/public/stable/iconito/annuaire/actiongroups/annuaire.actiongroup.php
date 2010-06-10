@@ -89,7 +89,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$rVille = Kernel::getNodeInfo ('BU_VILLE', $ville, false);
 		
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 
 		if (!$rVille)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noVille');
@@ -166,7 +166,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$rEcole = Kernel::getNodeInfo ('BU_ECOLE', $ecole, false);
 		//print_r($rEcole);
 
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 
 		if (!$rEcole)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noEcole');
@@ -249,7 +249,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$rClasse = Kernel::getNodeInfo ('BU_CLASSE', $classe, false);
 		
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 
 		if (!$rClasse)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noClasse');
@@ -406,7 +406,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 			'USER_ADM' => false,
 			'USER_VIL' => false,
 		);
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		
 		$debug = false;
 		

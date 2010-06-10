@@ -10,7 +10,7 @@ _classInclude('fichesecoles|fichesecolesservice');
 _classInclude('annuaire|annuaireservice');
 _classInclude('blog|blogutils');
 
-class ActionGroupDefault extends CopixActionGroup {
+class ActionGroupDefault extends EnicActionGroup {
 
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');
