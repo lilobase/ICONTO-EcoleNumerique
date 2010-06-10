@@ -21,9 +21,11 @@ $module = CopixRequest::get ('module');
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 	<title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
+   
 	<?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
 	<?php include_once COPIX_PROJECT_PATH."themes/default/styles.php"; ?>
-	<?php echo $HTML_HEAD; ?>
+        <?php echo $HTML_HEAD; ?>
+	
 </head>
 
 <body class="thm nodebug"<?php if (isset($BODY_ON_LOAD) && $BODY_ON_LOAD) echo ' onLoad="'.$BODY_ON_LOAD.'"'; if (isset($BODY_ON_UNLOAD) && $BODY_ON_UNLOAD) echo ' onUnLoad="'.$BODY_ON_UNLOAD.'"'; ?>>

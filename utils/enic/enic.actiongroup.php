@@ -27,6 +27,8 @@ class enicActionGroup extends CopixActionGroup {
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
 
+        $this->js       =& enic::get('javascript');
+
     }
 
     protected function addCss($iPathToJs){

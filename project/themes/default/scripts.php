@@ -18,8 +18,12 @@
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("flvplayer/ufo.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.2.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
-
-
+<script type="text/javascript">
+<?php
+    $js = enic::get('javascript');
+    echo $js->display();
+?>
+</script>
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function($){

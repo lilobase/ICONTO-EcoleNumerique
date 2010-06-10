@@ -22,6 +22,7 @@
     color: #E98114;
     margin-bottom: 1px;
     font-weight: normal;
+    margin-top: 25px;
 }
 .quiz-quiz{
     width: 260px;
@@ -38,6 +39,13 @@
     height: 2px;
     background-color: #0C92B1;
     border:none;
+}
+.quiz-space{
+    height: 50px;
+    margin-bottom: 20px;
+    border:none;
+    clear: both;
+    width: 100%;
 }
 .quiz h2{
     text-align: center;
@@ -270,17 +278,19 @@
     color: black;
     width: 25%;
     background-color: #DDD;
+    padding-left: 15px;
 }
 #quiz-t-list .col3 p{
-    width: 100px;
-    display: -moz-inline-box;
-    display: inline-block;
-    margin: 0px;
+    margin: 1px;
+    margin-bottom: 5px;
+    height: 16px;
+    line-height: 16px;
     font-weight: bold;
     font-size: 11px;
+    padding-left: 5px;
 }
-#quiz-t-list a:hover{
-    margin-left: 2px;
+#quiz-t-list a:hover p{
+    color: black;
 }
 
 #quiz-t-list .row1{
@@ -288,4 +298,40 @@
 }
 #quiz-t-list .row2{
     background-color: #9CD3D2;
+}
+
+#quiz-form label{
+    display: block;
+    width: 150px;
+    font-weight: bold;
+    font-size: 13px;
+    margin-top: 15px;
+    margin-bottom: 5px;
+    text-align: center;
+    line-height: 14px;
+}
+#quiz-form legend{
+    font-weight: bold;
+    font-size : 16px;
+    color: #E98114;
+}
+#quiz-form fieldset{
+    float: left;
+    border: solid 2px #E98114;
+    padding: 15px;
+    padding-top: 5px;
+    background-color: #F5F8C1
+}
+#qf-main{
+    width: 555px;
+}
+#qf-opt{
+    width: 180px;
+}
+#qf-main textarea{
+    height: 100px;
+    width: 550px;
+    padding: 3px;
+    font-size: 11px;
+    font-weight: bold;
 }

@@ -38,3 +38,7 @@ jQuery(document).ready(function($){
         </a>
     </p>
 </div>
+<hr class="quiz-space" />
+<h3>{i18n key="quiz.msg.listQuiz" noEscape=1}</h3>
+<hr class="quiz-separator" />
+{$ppo->list}

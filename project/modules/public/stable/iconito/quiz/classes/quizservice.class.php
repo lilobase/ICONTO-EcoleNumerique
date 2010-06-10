@@ -10,13 +10,21 @@
  * @author arnox
  */
 class QuizService {
+
+    public $db;
+
+    public function __construct(){
+        //get connection to db
+        $this->db =& enic::get('model');
+    }
+
     public function start($id){
         return true;
     }
 
     public function getCurrentQuiz(){
-        $model =& enic::get('model');
-        return $model->query('SELECT * FROM module_quiz_quiz WHERE
+        
+        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE
                                             (`date_start` < '.time().' AND `date_end` > '.time().') OR
                                             (`date_start` = 0 OR `date_end` = 0) AND
                                             `lock` = 0
@@ -28,12 +36,22 @@ class QuizService {
         //secure $iIdAuthor
         $idOwner = $iIdOwner*1;
 
-        //get the enic model
-        $model =& enic::get('model');
-
         //get all quiz
-        return $model->query('SELECT * FROM module_quiz_quiz WHERE id_owner = '.$idOwner)
+        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE id_owner = '.$idOwner)
                                     ->toArray();
+    }
+
+    public function getQuizDatas($iQuizId){
+        //secure $iQuizId
+        $qId = $iQuizId*1;
+
+        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE id = '.$qId)->toArray();
+    }
+
+    public function getQuestionsByQuiz($iQuizId){
+        //secure $iQuizId
+        $qId = $iQuizId*1;
+        return $this->db->query('SELECT * FROM module_quiz_questions WHERE id_quiz = '.$qId)->toArray();
     }
 }
 ?>

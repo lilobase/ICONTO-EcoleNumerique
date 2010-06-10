@@ -13,21 +13,65 @@ abstract class enicZone extends CopixZone {
     protected $user;
     protected $matrix;
     protected $menu;
-    protected $options;
-
+    protected $shared;
 
     public function __construct(){
+        //test the user connexion, desactivate for public access
+	//_currentUser()->assertCredential ('group:[current_user]');
+
         //load enic classes
         $this->user     =& enic::get('user');
         $this->options  =& enic::get('options');
 
-        //load matrice & cache
         enic::to_load('cache');
         enic::to_load('matrix');
         $this->matrix   =& enic::get('matrixCache');
 
         $this->menu     =& enic::get('menu');
         $this->model    =& enic::get('model');
+
+    }
+
+    protected function addCss($iPathToJs){
+        CopixHTMLHeader::addCSSLink (_resource($iPathToJs));
+    }
+
+    protected function addJs($iPathToJs){
+        CopixHtmlHeader::addJSLink(CopixUrl::get().$iPathToJs);
+    }
+
+    protected function service($iService){
+        if(!is_string($iService))
+            trigger_error('Enic failed to load Service : invalid name', E_USER_WARNING);
+
+        if(!isset($this->shared['s'.$iService]))
+            $this->shared['s'.$iService] =& CopixClassesFactory::create($iService);
+
+        return $this->shared['s'.$iService];
+    }
+
+    protected function request($iName, $iType = 'other', $default = null){
+        $oReturn = CopixRequest::get($iName, $default);
+
+        switch($iType){
+            case 'str':
+                return (string)$oReturn;
+            break;
+            case 'int':
+                return $oReturn*1;
+            break;
+            case 'other':
+                return $oReturn;
+            break;
+        }
+    }
+
+    protected function i18n($iKey){
+        return CopixI18N::get($iKey);
+    }
+
+    protected function url($iUrl, $iParams = array()){
+         return CopixUrl::get ($iUrl, $iParams);
     }
 
 }

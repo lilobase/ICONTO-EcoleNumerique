@@ -10,6 +10,7 @@ class ActionGroupAdmin extends enicActionGroup{
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
         //start tpl :
         $ppo = new CopixPPO();
+        $ppo->list = $ppo->list = CopixZone::process('adminList');
         return _arPPO($ppo, 'admin.index.tpl');
 
     }
@@ -19,17 +20,16 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->addCss("styles/module_quiz.css");
 
         //get the active quiz liste
-        $quizList = $this->service('QuizService')->getQuizByOwner($this->user->id);
         $action = $this->request('qaction', 'str');
 
         //start tpl :
         $ppo = new CopixPPO();
-        $ppo->quizList = $quizList;
-        $ppo->action = $action;
+        $ppo->list = CopixZone::process('adminList', array('action' => $action));
         $ppo->MENU = array(
                         array( 'txt' => $this->i18n('quiz.admin.index'),
                             'url' => $this->url('quiz|admin|'))
                       );
+        
         return _arPPO($ppo, 'admin.list.tpl');
     }
 
@@ -49,6 +49,30 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->quiz = $QuizData;
         $ppo->author = $author;
         return _arPPO($ppo, 'admin.quiz.tpl');
+    }
+
+    public function processModif(){
+        //modif or new quiz
+        $action = $this->request('qaction', 'str');
+        $qId    = $this->request('id', 'int');
+
+        $quizDatas = array();
+        $questionsDatas = array();
+        if((!empty($action) && $action=='modif') || !empty($qId)){
+            $quizDatas = $this->service('QuizService')->getQuizDatas($qId);
+            $questionsDatas = $this->service('QuizService')->getQuestionsByQuiz($qId);
+            _dump($quizDatas);
+            _dump($questionsDatas);
+        }
+
+        $this->js->wysiwyg('qf-description');
+        $this->addCss('styles/jquery.wysiwyg.css');
+        $this->addCss('styles/module_quiz.css');
+        $ppo = new CopixPPO();
+        $ppo->quiz = $quizDatas[0];
+        $ppo->questions = $questionsDatas;
+
+        return _arPPO($ppo, 'admin.modif.tpl');
     }
 
     public function processResults(){
