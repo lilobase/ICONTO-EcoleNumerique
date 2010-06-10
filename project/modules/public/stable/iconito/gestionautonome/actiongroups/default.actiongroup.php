@@ -16,10 +16,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	public function beforeAction () {
 		_currentUser()->assertCredential('module:*||access|@gestionautonome');
 		
-		CopixHTMLHeader::addJSLink (_resource ('js/jquery-1.4.2.min.js'));
-		CopixHTMLHeader::addJSLink (_resource ('js/jquery-ui-1.8.custom.min.js'));
-		CopixHTMLHeader::addJSLink (_resource ('js/jquery.ui.datepicker-fr.js'));
-		CopixHTMLHeader::addCSSLink (_resource ('jquery-ui-theme/jquery-ui-1.8.custom.css'));  
+		//CopixHTMLHeader::addJSLink (_resource ('js/jquery-1.4.2.min.js'));
+		//CopixHTMLHeader::addJSLink (_resource ('js/jquery-ui-1.8.custom.min.js'));
+		//CopixHTMLHeader::addJSLink (_resource ('js/jquery.ui.datepicker-fr.js'));
+		//CopixHTMLHeader::addCSSLink (_resource ('jquery-ui-theme/jquery-ui-1.8.custom.css'));
 		CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
 		
 		$this->menu = array();

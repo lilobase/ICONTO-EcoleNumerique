@@ -28,14 +28,33 @@ class enicJavascript extends enicMod{
         $this->js .= '/* ENIC JS */'.PHP_EOL.PHP_EOL.$iJs.PHP_EOL.PHP_EOL;
     }
 
+    public function date($iIdDom, $iType = 'simple'){
+        $js = '$.datepicker.setDefaults($.datepicker.regional[\'fr\']);';
+
+        $js .= '$("'.$iIdDom.'").datepicker({';
+
+        if($iType == 'full'){
+            $js .= '
+            changeMonth: true,
+            changeYear: true,
+            showButtonPanel: true';
+        }
+
+        $js .= '});';
+
+        $this->addJs($js);
+    }
+
     /*
      * Add a simple wysiwyg editor in textarea
      * iIdDom => id of Dom item
      */
     public function wysiwyg($iIdDom, $iType = 'simple'){
         $this->addFile('js/jwysiwyg/jquery.wysiwyg.js');
-        
-        $js = '$("#'.$iIdDom.'").wysiwyg({';
+        $css =& enic::get('css');
+        $css->addFile('styles/jquery.wysiwyg.css');
+
+        $js = '$("'.$iIdDom.'").wysiwyg({';
         if($iType == 'full'){
             $js .= 'controls: {
               strikeThrough : { visible : true },
@@ -106,9 +125,11 @@ class enicJavascript extends enicMod{
 
               undo : { visible : false },
               redo : { visible : false },
-
+              insertImage : { visible : false },
+              html : {visible : true },
               separator04 : { visible : true },
-
+              
+              separator06 : { visible : false },
               insertOrderedList    : { visible : true },
               insertUnorderedList  : { visible : false },
               insertHorizontalRule : { visible :false },
@@ -116,12 +137,15 @@ class enicJavascript extends enicMod{
               h1 : { visible : false },
               h2 : { visible : false },
               h3 : { visible : false },
+              h1mozilla : { visible : false },
+              h2mozilla : { visible : false },
+              h3mozilla : { visible : false },
               h4 : { visible : true, className : \'h4\', command : \'heading\', arguments : [\'h4\'], tags : [\'h4\'], tooltip : "Header 4" },
               h5 : { visible : true, className : \'h5\', command : \'heading\', arguments : [\'h5\'], tags : [\'h5\'], tooltip : "Header 5" },
               h6 : { visible : true, className : \'h6\', command : \'heading\', arguments : [\'h6\'], tags : [\'h6\'], tooltip : "Header 6" },
-
               separator07 : { visible : false },
-
+              
+              removeFormat : { visible : true },
               cut   : { visible : false },
               copy  : { visible : false },
               paste : { visible : false }

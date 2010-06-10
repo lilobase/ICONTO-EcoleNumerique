@@ -29,14 +29,16 @@ class enicActionGroup extends CopixActionGroup {
 
         $this->js       =& enic::get('javascript');
 
+        $this->css      =& enic::get('css');
+
     }
 
     protected function addCss($iPathToJs){
-        CopixHTMLHeader::addCSSLink (_resource($iPathToJs));
+        $this->css->addFile($iPathToJs);
     }
 
     protected function addJs($iPathToJs){
-        CopixHtmlHeader::addJSLink(CopixUrl::get().$iPathToJs);
+        $this->js->addFile($iPathToJs);
     }
 
     protected function service($iService){

@@ -28,17 +28,3 @@
             </select>
     </fieldset>
 </form>
-{literal}
-<script type="text/javascript">
-    jQuery.noConflict();
-
-    jQuery(document).ready(function($){
-        $.datepicker.setDefaults($.datepicker.regional['fr']);
-        $('.qf-date').datepicker({
-            changeMonth: true,
-            changeYear: true,
-            showButtonPanel: true
-        });
-    } );
-</script>
-{/literal}

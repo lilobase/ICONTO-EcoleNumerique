@@ -65,9 +65,13 @@ class ActionGroupAdmin extends enicActionGroup{
             _dump($questionsDatas);
         }
 
-        $this->js->wysiwyg('qf-description');
-        $this->addCss('styles/jquery.wysiwyg.css');
+        $this->js->wysiwyg('#qf-description');
+        $this->js->wysiwyg('#qf-help');
+        $this->js->date('.qf-date', 'full');
+
         $this->addCss('styles/module_quiz.css');
+
+        
         $ppo = new CopixPPO();
         $ppo->quiz = $quizDatas[0];
         $ppo->questions = $questionsDatas;
