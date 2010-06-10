@@ -56,6 +56,9 @@ function getZones($position, $dispmode="STD") {
 function moduleContext($step='open') {
 	$module = CopixRequest::get('module');
 	$content = CopixZone::process ('kernel|moduleContext', array ('STEP'=>$step, 'MODULE'=>$module));
+	echo '<pre>MODULE=';
+	print_r($module);
+	echo '</pre>';
 	if (!$content) trigger_error('Unable to process Module Context Frame', E_USER_WARNING);
 	else echo $content;				
 }

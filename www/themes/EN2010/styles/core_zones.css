@@ -49,7 +49,7 @@ ul.usermenu li {
 	
 ul.usermenu li a {
 	display: block;
-	width: 28px;
+	width: 32px;
 	margin: 1px;
 	padding-top: 32px;
 	text-align: center;
@@ -58,12 +58,12 @@ ul.usermenu li a {
 	
 ul.usermenu li a.menu-accueil		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
 ul.usermenu li a.menu-groupe		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-ressource		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-annuaire		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-minimail		{ background: url(../images/mod_minimail_28.png) no-repeat center top; }
-ul.usermenu li a.menu-malle			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-agenda		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-prefs			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-ressource		{ background: url(../images/mod_user_ressources.png) no-repeat center top; }
+ul.usermenu li a.menu-annuaire		{ background: url(../images/mod_user_annuaire.png) no-repeat center top; }
+ul.usermenu li a.menu-minimail		{ background: url(../images/mod_user_mail.png) no-repeat center top; }
+ul.usermenu li a.menu-malle			{ background: url(../images/mod_user_malle.png) no-repeat center top; }
+ul.usermenu li a.menu-agenda		{ background: url(../images/mod_user_agenda.png) no-repeat center top; }
+ul.usermenu li a.menu-prefs			{ background: url(../images/mod_user_preferences.png) no-repeat center top; }
 ul.usermenu li a.menu-aide			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
 ul.usermenu li a.menu-assistance	{ background: url(../images/mod_fake_28.png) no-repeat center top; }
 
