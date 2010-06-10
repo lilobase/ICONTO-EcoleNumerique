@@ -105,7 +105,7 @@ class enicFileCache extends enicFiles implements enicCacheStorage {
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- valid() : file not found for : '.$iName, E_USER_ERROR);
 
-        $fileData = file($this->path.$iName, FILE_IGNORE_NEW_LINES);
+        $fileData = file($this->path.$iName.'.cache', FILE_IGNORE_NEW_LINES);
         $validityLimit = explode('||', $fileData[0]);
         $validityLimit = trim($validityLimit[0]);
 
@@ -116,7 +116,7 @@ class enicFileCache extends enicFiles implements enicCacheStorage {
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- valid() : file not found for : '.$iName, E_USER_ERROR);
 
-        $fileData = file($this->path.$iName, FILE_IGNORE_NEW_LINES);
+        $fileData = file($this->path.$iName.'.cache', FILE_IGNORE_NEW_LINES);
         $type = explode('||', $fileData[0]);
         $oType = trim($type[1]);
 
