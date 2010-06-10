@@ -14,7 +14,7 @@ class ActionGroupDefault extends CopixActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_regroupements.css"));
 	}
 
 

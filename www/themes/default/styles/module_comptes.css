@@ -92,3 +92,8 @@ P#delete_confirm A.confirm:hover {
 	border: 3px solid red;
 	background-color: #F99;
 }
+
+div.error {
+	color: red;
+	font-weight: bold;
+}

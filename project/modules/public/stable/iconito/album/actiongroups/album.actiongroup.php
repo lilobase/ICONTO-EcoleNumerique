@@ -49,6 +49,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAlbum () {
+		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
+		
+		
 		$tpl = & new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
@@ -209,9 +213,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 			);
 		}
 		
+		/*
 		$returntoparent = Kernel::menuReturntoParent( "MOD_ALBUM", $album_id );
 		if( $returntoparent ) $menu[] = $returntoparent;
-
+		*/
 
 		$tpl->assign ('MENU', $menu );
 		
@@ -227,6 +232,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getDelAlbum () {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		$tpl = & new CopixTpl ();
 		
 		if( Kernel::getLevel( "MOD_ALBUM", _request("album_id") ) < PROFILE_CCV_ADMIN ) {
@@ -269,6 +275,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getPhoto () {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		$tpl = & new CopixTpl ();
 		
 		if( !(_request("photo_id") ) ) {
@@ -337,6 +344,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAddPhoto () {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		$tpl = & new CopixTpl ();
 		
 		if( !(_request("album_id") ) ) {
@@ -509,6 +517,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getDelPhoto () {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		return CopixActionGroup::process ('genericTools|Messages::getConfirm',
 			array (
 				'title'=>CopixI18N::get ('album.confirm.delphoto'),
@@ -554,6 +563,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @deprecated 2005
 	 */
 	function getFile () {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		if( !(_request("album_id") ) ) die();
 		$album_id = _request("album_id");
 		if( !(_request("photo_id") ) ) die();
@@ -827,6 +837,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function vignettes () {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		if( !(_request("album") ) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array (	'message'=>CopixI18N::get ('album.error.noalbum'),
@@ -1085,6 +1096,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAddZip() {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		$tpl = & new CopixTpl ();
 		
 		if( !(_request("album_id") ) ) {
@@ -1375,6 +1387,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	}
 	
 	function getEditPhotos() {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		$tpl = & new CopixTpl ();
 		
 		$menu = array();

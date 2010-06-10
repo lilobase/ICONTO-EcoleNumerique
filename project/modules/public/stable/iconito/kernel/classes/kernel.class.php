@@ -1862,6 +1862,7 @@ class Kernel {
 
   // $options : [parent] (option) si on a deja le parent
 	function menuReturntoParent ( $module_type, $module_id, $options=array()) {
+		$return = array();
 		//$parents = Kernel::getModParent( $module_type, $module_id );
 
 		if (!isset($options['parent']))

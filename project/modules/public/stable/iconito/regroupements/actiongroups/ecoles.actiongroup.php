@@ -27,7 +27,7 @@ class ActionGroupEcoles extends CopixActionGroup {
 		$tplGroupes = & new CopixTpl ();
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_regroupements.css"));
-
+		
 		$regroupements_service = & CopixClassesFactory::Create ('regroupements|regroupements');
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('regroupements|regroupements.ecoles.titre'));

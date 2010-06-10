@@ -25,6 +25,8 @@ class ActionGroupUservisibility extends CopixActionGroup {
 	 * @since 2006/12/07
 	 */
 	function view () {
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_admin2.css"));
+		
 		if (!Admin::canAdmin())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 

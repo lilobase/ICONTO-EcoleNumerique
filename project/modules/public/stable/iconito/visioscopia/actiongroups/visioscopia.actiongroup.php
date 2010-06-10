@@ -10,7 +10,7 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_visioscopia.css"));
 	}
 
 	
@@ -22,6 +22,8 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 		
 		$conf_result = $dao->get($id);
 
+		
+		$title = "Visioconf&eacute;rence";
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		$tplVisio = & new CopixTpl ();

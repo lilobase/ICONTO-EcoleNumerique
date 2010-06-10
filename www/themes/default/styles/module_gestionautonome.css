@@ -207,3 +207,33 @@ ul.actions li a.button {
   float: right;
   width: 50%; 
 }
+
+/* Look neutre
+------------------------------------------------------------------------------*/ 
+DIV.gestionautonome #tree-actions  {
+	background-color:#DDD;
+}
+
+DIV.gestionautonome #tree-actions a {
+	width:315px;
+}
+
+DIV.gestionautonome ul.actions li a.button {
+	width:370px;
+}
+
+#column-data, #persons-in-charge {
+	background-color:#EEE;
+	border:2px solid #DDD;
+}
+
+DIV.gestionautonome li a.current {
+	background-color:#CCC !important;
+	color:white !important;
+}
+
+DIV.gestionautonome input[type="button"]  {
+	font-family:Arial,Helvetica,sans-serif;
+	font-size:85%;
+	font-weight:normal;
+}

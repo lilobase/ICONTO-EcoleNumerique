@@ -28,19 +28,7 @@ function openbox( name ) {
 {/literal}
 </script>
 
-<style>
-{literal}
-<!--
-DIV.folder_action {
-	margin: 10px;
-	padding: 10px;
-	border: 1px solid black;
-	background-color: #EEE;
-}
--->
-{/literal}
-</style>
-
+<div class="album">
 <div id="folder_new" class="folder_action" style="display: none;">
 
 	<form name="folder_new" action="{copixurl dest="album||dofolder"}" method="get">
@@ -112,6 +100,7 @@ DIV.folder_action {
 	<input type="submit" value="{i18n key="album.folder.action.delete.submit"}" />
 	</form>
 	
+</div>
 </div>
 
 {/if}

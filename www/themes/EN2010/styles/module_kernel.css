@@ -223,22 +223,23 @@ div.tools_right div.dashpanel div.toolset ul li a span {
 	}
 	
 /* SET MODULES ICONS */
-div.dashpanel ul li a.MOD_ADMIN 		{ background-image: url(../images/mod_admin.png); }
-div.dashpanel ul li a.MOD_ADMIN2 		{ background-image: url(../images/mod_admin.png); }
-div.dashpanel ul li a.MOD_AGENDA 		{ background-image: url(../images/mod_agenda.png); }
-div.dashpanel ul li a.MOD_ALBUM 		{ background-image: url(../images/mod_album.png); }
-div.dashpanel ul li a.MOD_BLOG 			{ background-image: url(../images/mod_blog.png); }
-div.dashpanel ul li a.MOD_MALLE 		{ background-image: url(../images/mod_malle.png); }
-div.dashpanel ul li a.MOD_CARNET 		{ background-image: url(../images/mod_carnet.png); }
-div.dashpanel ul li a.MOD_COMPTES		{ background-image: url(../images/mod_comptes.png); }
-div.dashpanel ul li a.MOD_FORUM			{ background-image: url(../images/mod_forum.png); }
-div.dashpanel ul li a.MOD_GRVILLES		{ background-image: url(../images/mod_grvilles.png); }
-div.dashpanel ul li a.MOD_LISTE			{ background-image: url(../images/mod_liste.png); }
-div.dashpanel ul li a.MOD_RESSOURCE		{ background-image: url(../images/mod_ressources.png); }
-div.dashpanel ul li a.MOD_SSOGAEL		{ background-image: url(../images/mod_fake.png); }
-div.dashpanel ul li a.MOD_TELEPROCEDURES{ background-image: url(../images/mod_teleprocedures.png); }
-div.dashpanel ul li a.MOD_VISIOSCOPIA	{ background-image: url(../images/mod_visio.png); }
-div.dashpanel ul li a.MOD_MAGICMAIL		{ background-image: url(../images/mod_magicmail.png); }
+div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../images/mod_admin.png); }
+div.dashpanel ul li a.MOD_ADMIN2 			{ background-image: url(../images/mod_admin.png); }
+div.dashpanel ul li a.MOD_AGENDA 			{ background-image: url(../images/mod_agenda.png); }
+div.dashpanel ul li a.MOD_ALBUM 			{ background-image: url(../images/mod_album.png); }
+div.dashpanel ul li a.MOD_BLOG 				{ background-image: url(../images/mod_blog.png); }
+div.dashpanel ul li a.MOD_MALLE 			{ background-image: url(../images/mod_malle.png); }
+div.dashpanel ul li a.MOD_CARNET 			{ background-image: url(../images/mod_carnet.png); }
+div.dashpanel ul li a.MOD_COMPTES			{ background-image: url(../images/mod_comptes.png); }
+div.dashpanel ul li a.MOD_FORUM				{ background-image: url(../images/mod_forum.png); }
+div.dashpanel ul li a.MOD_GRVILLES			{ background-image: url(../images/mod_grvilles.png); }
+div.dashpanel ul li a.MOD_LISTE				{ background-image: url(../images/mod_liste.png); }
+div.dashpanel ul li a.MOD_RESSOURCE			{ background-image: url(../images/mod_ressources.png); }
+div.dashpanel ul li a.MOD_SSOGAEL			{ background-image: url(../images/mod_fake.png); }
+div.dashpanel ul li a.MOD_TELEPROCEDURES	{ background-image: url(../images/mod_teleprocedures.png); }
+div.dashpanel ul li a.MOD_VISIOSCOPIA		{ background-image: url(../images/mod_visio.png); }
+div.dashpanel ul li a.MOD_MAGICMAIL			{ background-image: url(../images/mod_magicmail.png); }
+div.dashpanel ul li a.MOD_GESTIONAUTONOME	{ background-image: url(../images/mod_comptes.png); }
 
 /* SET GROUPTYPES CONTEXT COLORS */
 div.dashboard div.bu_classe div.title	{ background: #7fc3d2; }

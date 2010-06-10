@@ -14,40 +14,6 @@ function ville_toggle( ville, mode ) {
 }
 -->
 </script>
-
-<style>
-<!--
-DIV.ecolesByVille UL.villes {
-	list-style-type: none;
-	padding:0;
-	margin-left:auto;
-	margin-right:auto;
-}
-
-DIV.ecolesByVille LI.ville {
-}
-
-DIV.ecolesByVille UL.ecoles {
-	list-style-type: none;
-	padding:0;
-	padding-left:10px;
-	margin-left:auto;
-	margin-right:auto;
-}
-
-DIV.ecolesByVille LI.ecole {
-}
-
-DIV.ecolesByVille H1.ville {
-	font-size: 130%;
-	margin-bottom: 0px;
-}
-
-DIV.ecolesByVille H1.ville SPAN {
-	font-size: 60%;
-}
--->
-</style>
 {/literal}
 
 
@@ -86,7 +52,10 @@ DIV.ecolesByVille H1.ville SPAN {
 						<li class="ville">
 							<h1 class="ville">
 								{$ville->info->vil_nom}
-								<span><a href="javascript: ville_toggle({$ville->info->vil_id_vi}, 'check');">tout</a> <a href="javascript: ville_toggle({$ville->info->vil_id_vi}, 'uncheck');">rien</a></span>
+								<span>
+									(<a href="javascript: ville_toggle({$ville->info->vil_id_vi}, 'check');">tout</a>)
+									(<a href="javascript: ville_toggle({$ville->info->vil_id_vi}, 'uncheck');">rien</a>)
+								</span>
 							</h1>
 							
 							<ul class="ecoles">

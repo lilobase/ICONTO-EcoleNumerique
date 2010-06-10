@@ -1,14 +1,3 @@
-{literal}
-<style>
-<!--
-	div.error {
-		color: red;
-		font-weight: bold;
-	}
--->
-</style>
-{/literal}
-
 <form method="post" action="{copixurl dest="comptes||setUserPasswd" node_type=$node.type node_id=$node.id login=$user.login}">
 	<input type="hidden" name="from" id="from" value="{$from}" />
 	<fieldset>

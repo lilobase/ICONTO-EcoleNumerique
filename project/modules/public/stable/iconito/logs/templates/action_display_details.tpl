@@ -1,10 +1,12 @@
 {literal}
-<style><!--
+<style>
+<!--
 	TABLE.logs_details TH {
 		text-align: right;
 		padding-right: 10px;
 	}
---></style>
+-->
+</style>
 {/literal}
 
 <table class="logs_details">

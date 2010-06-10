@@ -16,7 +16,7 @@ class ActionGroupComptes extends CopixActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 	}
 
 	/**
