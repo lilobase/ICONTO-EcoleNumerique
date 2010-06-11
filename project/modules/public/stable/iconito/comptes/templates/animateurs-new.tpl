@@ -27,7 +27,7 @@
 	{if $ppo->userens}
 		{assign var=personne value=0}
 		<tr>
-			<th class="liste_th" colspan="4"><h1 style="margin: 0px;">Enseigants</h1></th>
+			<th class="liste_th" colspan="4"><h1 style="margin: 0px;">Enseignants</h1></th>
 		</tr>
 		<tr>
 			<th class="liste_th">Login</th>

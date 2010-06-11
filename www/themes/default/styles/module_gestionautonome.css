@@ -211,7 +211,7 @@ ul.actions li a.button {
 /* Look neutre
 ------------------------------------------------------------------------------*/ 
 DIV.gestionautonome #tree-actions  {
-	background-color:#DDD;
+	/* background-color:#DDD; */
 }
 
 DIV.gestionautonome #tree-actions a {
@@ -222,7 +222,7 @@ DIV.gestionautonome ul.actions li a.button {
 	width:370px;
 }
 
-#column-data, #persons-in-charge {
+#column-data, #persons-in-charge, #tree-actions {
 	background-color:#EEE;
 	border:2px solid #DDD;
 }
