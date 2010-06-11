@@ -124,6 +124,15 @@ div.viewhelp {
 	-webkit-border-radius: 8px;
 	}
 	
+div.mygroupes {
+	background: #fff;
+	margin: 12px 12px 12px 0;
+	padding: 6px;
+	border: 1px solid #ddd;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	}
+	
 	
 div.legals {
 	text-align: center;
