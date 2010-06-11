@@ -56,6 +56,21 @@ class ActionGroupAdmin extends enicActionGroup{
         $action = $this->request('qaction', 'str');
         $qId    = $this->request('id', 'int');
 
+        //if the form submit
+        $error = array();
+        if($this->request('check') == 1){
+            $form['title'] = $this->request('qf-title');
+            if(empty($form['title']))
+                $error['title'] = '<p class="ui-state-error" >'.$this->i18n('quiz.form.required').'</p>';
+
+            $form['desc'] = $this->request('qf-description');
+            $form['help'] = $this->request('qf-help');
+            $form['dateStart'] = $this->request('qf-datestart');
+            $form['dateEnd'] = $this->request('qf-dateend');
+            $form['optShow'] = $this->request('qf-optshow');
+            $form['lock'] = $this->request('qf-optshow');
+        }
+
         $quizDatas = array();
         $questionsDatas = array();
         if((!empty($action) && $action=='modif') || !empty($qId)){
@@ -77,7 +92,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->questions = $questionsDatas;
         $ppo->MENU = array(
                         array( 'txt' => $this->i18n('quiz.admin.index'),
-                            'url' => $this->url('quiz|admin|'))
+                                'url' => $this->url('quiz|admin|'))
                       );
         return _arPPO($ppo, 'admin.modif.tpl');
     }

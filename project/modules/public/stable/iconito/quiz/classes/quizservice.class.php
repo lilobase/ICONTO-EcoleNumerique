@@ -51,7 +51,7 @@ class QuizService {
     public function getQuestionsByQuiz($iQuizId){
         //secure $iQuizId
         $qId = $iQuizId*1;
-        return $this->db->query('SELECT * FROM module_quiz_questions WHERE id_quiz = '.$qId)->toArray();
+        return $this->db->query('SELECT * FROM module_quiz_questions WHERE id_quiz = '.$qId.' ORDER BY `order` ASC')->toArray();
     }
 }
 ?>
