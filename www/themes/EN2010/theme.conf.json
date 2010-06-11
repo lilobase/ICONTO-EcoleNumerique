@@ -54,7 +54,7 @@
 				},
 			"kernel":
 				{
-				"right":		{"GROUPS":{"supplier":"groupe","zone":"mygroupes","params":""}, "HELP":{"supplier":"aide","zone":"viewhelp","params":""}}
+				"right":		{"GROUPS":{"supplier":"groupe","zone":"viewdashboard","params":""}, "HELP":{"supplier":"aide","zone":"viewhelp","params":""}}
 				}
 			}
 		}

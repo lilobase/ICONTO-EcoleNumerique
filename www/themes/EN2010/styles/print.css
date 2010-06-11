@@ -1,0 +1,35 @@
+
+.noPrint,
+div.submenu,
+#left,
+#right,
+#footer,
+#page-header,
+#page-bottom,
+#contenttop,
+#contentbottom,
+#breadcrumb
+ {
+	display:none;
+
+}
+
+div.dashpanel div.content {
+  padding:0;
+}
+div.dashboard div.bu_classe div.content {
+  border:0;
+}
+
+
+#content {
+  margin:0;
+}
+
+#absolute {
+  position:relative;
+}
+
+#absolute, #popup, #page, #page-header, #page-middle, #header, #top, #menuleft, #menuright, #breadcrumb, #left, #right, .padder, .marger {
+  overflow:visible;
+}

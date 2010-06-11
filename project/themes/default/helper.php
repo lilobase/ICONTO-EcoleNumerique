@@ -53,12 +53,10 @@ function getZones($position, $dispmode="STD") {
 }
 
 
-function moduleContext($step='open') {
+function moduleContext($step='open', $title_page='') {
 	$module = CopixRequest::get('module');
-	$content = CopixZone::process ('kernel|moduleContext', array ('STEP'=>$step, 'MODULE'=>$module));
-	echo '<pre>MODULE=';
-	print_r($module);
-	echo '</pre>';
+	$content = CopixZone::process ('kernel|moduleContext', array ('STEP'=>$step, 'MODULE'=>$module, 'TITLE_PAGE'=>$title_page));
+	//echo '<pre>MODULE=';print_r($module);echo '</pre>';
 	if (!$content) trigger_error('Unable to process Module Context Frame', E_USER_WARNING);
 	else echo $content;				
 }

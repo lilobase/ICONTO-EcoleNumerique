@@ -181,7 +181,6 @@ class AnnuaireService {
 	 * @todo Voir pour remplacer le -1 par un ID d'un enseignant
 	 */
 	function getClassesInEcole ($ecole, $options=array()) {
-		$cache_getUserVisibility = Kernel::getUserVisibility('USER_ENS', -1);
 		$classes = array();
 
 		if( isset($options['getNodeInfo_light']) && $options['getNodeInfo_light'] ) {

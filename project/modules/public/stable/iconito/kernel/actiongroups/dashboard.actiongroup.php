@@ -55,7 +55,37 @@ class ActionGroupDashboard extends enicActionGroup {
 				$nodes[$node['type']][$node['id']]['modules'] = Kernel::getModEnabled(
 					$node['type'], $node['id'],
 					_currentUser()->getExtra('type'), _currentUser()->getExtra('id')    );
-
+        
+        // Cas des groupes : on ajoute les membres et admin, selon les droits
+        if ($node['type'] == 'CLUB') {
+          //_dump($nodes[$node['type']][$node['id']]['modules']);
+          
+          $addModule = new CopixPPO ();
+          $addModule->node_type = $node['type'];
+          $addModule->node_id = $node['id'];
+          $addModule->module_type = 'MOD_COMPTES';
+          $addModule->module_id = 0;
+          $addModule->module_nom = CopixI18N::get ('groupe|groupe.group.members');
+          $nodes[$node['type']][$node['id']]['modules'][] = $addModule;
+          
+          $groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+          $mondroit = Kernel::getLevel($node['type'], $node['id']);
+          if ($groupeService->canMakeInGroupe('ADMIN', $mondroit)) {
+            $addModule = new CopixPPO ();
+            $addModule->node_type = $node['type'];
+            $addModule->node_id = $node['id'];
+            $addModule->module_type = 'MOD_ADMIN';
+            $addModule->module_id = 0;
+            $addModule->module_nom = CopixI18N::get ('groupe|groupe.group.admin');
+            $nodes[$node['type']][$node['id']]['modules'][] = $addModule;
+          
+          
+          }
+          
+          
+          
+        }
+        
                                 //add item content
                                 switch($node['type']){
                                     case 'BU_CLASSE':
@@ -87,14 +117,14 @@ class ActionGroupDashboard extends enicActionGroup {
                 CopixZone::process ('annuaire|infosclasse', array('rClasse'=>$rClasse));*/
                 //echo $this->matrix->display();
 
+    //_dump($nodes);
+    
 		$tplModule->assign ("nodes", $nodes);
 		$result = $tplModule->fetch("dashboard.tpl");
 		$tpl->assign ('MAIN', $result);
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
-		die('stop');
-		return _arRedirect (_url ('dashboard|getHome'));
 	}
 	
 
@@ -108,10 +138,13 @@ class ActionGroupDashboard extends enicActionGroup {
 	function go () {
 		if ( !is_null(_request("ntype")) && !is_null(_request("nid")) && !is_null(_request("mtype")) ) {
 			CopixSession::set ('myNode', array ('type'=>_request("ntype"), 'id'=>_request("nid")));
-			if ( strpos(_request("ntype"), 'USER_') === false ) {
+      if (_request("ntype")=='CLUB' && _request("mtype")=='comptes' && !_request("mid")) {
+        $loadModule = new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeMembers', array('id'=>_request("nid"))));
+      } elseif (_request("ntype")=='CLUB' && _request("mtype")=='admin' && !_request("mid")) {
+        $loadModule = new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array('id'=>_request("nid"))));
+      } elseif ( strpos(_request("ntype"), 'USER_') === false ) {
 				$loadModule = new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get (_request("mtype").'|default|go', array('id'=>_request("mid")) ));
-				}
-			else {
+			} else {
 				$loadModule = new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get (_request("mtype").'||'));
 				}
 			return $loadModule;

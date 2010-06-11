@@ -54,6 +54,7 @@ $html .= '<tr>';
 $html .= '<td class="journee">' . CopixI18N::get ('agenda|agenda.message.journee') . '</td>';
 
 //$decalage = $margeHaut = 0;
+$decalage = 0;
 
 //quand un évènnement se déroule sur la journée, on l'affiche en haut de la colonne
 foreach((array)$arEventByDay as $jours){

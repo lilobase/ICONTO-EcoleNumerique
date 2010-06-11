@@ -35,8 +35,6 @@ class ZoneFiche extends CopixZone {
 		
 		//var_dump($arClasses);
 		
-		$canViewEns = Kernel::getUserVisibility('USER_ENS', -1);
-		
 		$canModify = FichesEcolesService::canMakeInFicheEcole($rEcole->numero,'MODIFY');
 		
 		$blog = getNodeBlog ('BU_ECOLE', $rEcole->numero, array('is_public'=>1));
@@ -52,6 +50,8 @@ class ZoneFiche extends CopixZone {
 		$rEcole->directeur = AnnuaireService::getDirecteurInEcole($rEcole->numero);
 		//var_dump($rEcole);
 		
+    $matrix = & enic::get('matrixCache');
+    
 	  $tpl->assign ('rEcole', $rEcole);
 	  $tpl->assign ('rFiche', $rFiche);
 	  $tpl->assign ('isAjax', $isAjax);
@@ -59,7 +59,12 @@ class ZoneFiche extends CopixZone {
 	  $tpl->assign ('arClassesBlogs', $arClassesBlogs);
 	  $tpl->assign ('canModify', $canModify);
 	  $tpl->assign ('googleMapsKey', CopixConfig::get ('fichesecoles|googleMapsKey'));
-	  $tpl->assign ('canViewEns', $canViewEns);
+
+    $_right = $matrix->ecole($rEcole->numero)->_right;
+	  $tpl->assign ('canViewDir', $_right->USER_DIR->voir);
+	  $tpl->assign ('canWriteDir', $_right->USER_DIR->communiquer);
+	  $tpl->assign ('canViewEns', $_right->USER_ENS->voir);
+	  $tpl->assign ('canWriteEns', $_right->USER_ENS->communiquer);
 
 		if ($isAjax)
 	    $toReturn = $tpl->fetch ('ficheajax.tpl');

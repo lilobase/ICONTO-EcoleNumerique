@@ -13,7 +13,11 @@
 </DIV>
 
 {if $can.file_upload or $can.folder_create or $can.item_delete or $can.item_move or $can.item_copy or $can.item_rename or ($can.item_downloadZip and ($folders or $files))}
+
 <DIV CLASS="malle_actions_bloc">
+
+<div class="lucien"></div>
+
 <DIV CLASS="block malle_actions">
 
 

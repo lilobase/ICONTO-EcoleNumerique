@@ -115,7 +115,7 @@ div.toolbar ul li a.action:hover {
 	}
 
 	
-div.viewhelp {
+div.viewhelp, div.viewdashboard {
 	background: #fff;
 	margin: 12px 12px 12px 0;
 	padding: 6px;
@@ -123,15 +123,15 @@ div.viewhelp {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	}
-	
-div.mygroupes {
-	background: #fff;
-	margin: 12px 12px 12px 0;
-	padding: 6px;
-	border: 1px solid #ddd;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	}
+
+div.viewdashboard h2 {
+  font-size:1.3em;
+  margin:0;
+}
+div.viewdashboard p {
+  margin-top:2px;
+  margin-bottom:2px;
+}
 	
 	
 div.legals {

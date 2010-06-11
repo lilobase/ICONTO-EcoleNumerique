@@ -5,7 +5,7 @@
  * @package Iconito
  * @subpackage	Minimail
  */
-class ActionGroupMinimail extends CopixActionGroup {
+class ActionGroupMinimail extends EnicActionGroup {
 		
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');

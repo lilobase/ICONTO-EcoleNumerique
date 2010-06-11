@@ -286,8 +286,6 @@ class ActionGroupDefault extends CopixActionGroup {
 			_currentUser()->getExtraHome('type'), _currentUser()->getExtraHome('id'),
 			_currentUser()->getExtra('type'),   _currentUser()->getExtra('id')    );
 		
-		
-		
 		$tplModule->assign ("modules", $modules);
 //		$tplModule->assign ("groupes", CopixZone::process ('groupe|mygroupes', array('where'=>'home')));
 //		$tplModule->assign ("aujourdhui", CopixZone::process ('agenda|agendatoday', array('where'=>'home')));

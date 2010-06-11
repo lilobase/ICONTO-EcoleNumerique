@@ -8,6 +8,7 @@
   margin-top: 12px;
   margin-left: -250px;
   z-index:2000;
+  text-align:right;
 }
 .popupAgenda div.titreAgenda {
 	clear:right;
@@ -41,12 +42,12 @@
 #situ_semaine div.annee {
   font-size: 130%;
   font-weight: bold;
-  color: #35730F;
+  color: #000;
 }
 #situ_semaine div.jours {
 /*  font-weight: bold;*/
   font-size: 80%;
-  color: #7DA564;
+  color: #777;
 }
 
 .agendaVueSemaine{
@@ -106,7 +107,7 @@ td.case_heurexx {
 	text-align:center;
   font-weight: bold;
   font-size: 70%;
-  border-bottom: solid 2px #7DA564;
+  border-bottom: solid 2px #fff;
 }
 .jourToday {
 	width:113px;
@@ -114,9 +115,9 @@ td.case_heurexx {
 	text-align:center;
   font-weight: bold;
   font-size: 100%;
-  border-bottom: solid 2px #7DA564;
-  background: #7DA564;
-  color:#fff;
+  border-bottom: solid 2px #fff;
+  background: #fff;
+  color:#444;
 }
 
 td.journee{

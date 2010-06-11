@@ -3,9 +3,16 @@
 	float: right;
 	width: 210px;
 	clear: both;
-  margin-top: -25px;
+  margin-top:-25px;
 }
 
+.malle_actions_bloc div.lucien {
+  height:63px;
+  display:block;
+  background-image: url(../img_styles/groupe/lucien_coude.gif);
+	background-repeat: no-repeat;
+	background-position: 97% 0;
+}
 
 
 DIV.malle_petit_poucet {

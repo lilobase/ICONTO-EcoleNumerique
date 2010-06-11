@@ -53,7 +53,7 @@
 <DIV CLASS="ecole_classe_enseignant">
 {foreach from=$rEcole->directeur item=directeur}
 {assign var=nom value=$directeur.prenom|cat:" "|cat:$directeur.nom}
-{if $canViewEns}{user label=$nom|escape userType=$directeur.type userId=$directeur.id login=$directeur.login dispMail=1 escape=1}{else}
+{if $canViewDir}{user label=$nom|escape userType=$directeur.type userId=$directeur.id login=$directeur.login dispMail=$canWriteDir escape=1}{else}
 	{$nom|escape}{/if}{assign var=sep value=", "}{/foreach}
 </DIV>
 {i18n key="fichesecoles.fields.direction"} :
@@ -72,7 +72,7 @@
 {assign var=nom value=$enseignant.prenom|cat:" "|cat:$enseignant.nom}
 
 {if $canViewEns}
-	{user label=$nom|escape userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=1 escape=1}{else}
+	{user label=$nom|escape userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=$canWriteEns escape=1}{else}
 	{$nom|escape}{/if}{assign var=sep value=", "}{/foreach}
 </DIV>
 {/if}

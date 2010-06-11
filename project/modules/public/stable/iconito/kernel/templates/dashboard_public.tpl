@@ -4,7 +4,7 @@
 *}
 
 <h3 class="font_cursive">
-    Bienvenue sur Iconito Ecole Numérique.
+    Bienvenue sur Iconito Ecole Numérique
 </h3>
 <img class="img-left" src="{copixresource path="img/iconito-home2.gif"}"
     alt="Iconito vous souhaite la bienvenue" />
@@ -23,7 +23,7 @@
 <p class="content font-dash">
     Vous pouvez télécharger la documentation d'Iconito Ecole Numérique en
     visitant 
-    <a title="Documentation d'iconito" href="http://www.iconito.fr/telechargement/
-    documentation/62-utilisation-ecole-numerique/153-guide-utilisateur-
-    iconito-ecole-numerique">cette page</a>.
+    <a title="Documentation d'iconito" href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/153-guide-utilisateur-iconito-ecole-numerique">cette page</a>.
 </p>
+
+<p><a class="button_like" href="{copixurl dest="public||"}">Voir les publications des &eacute;coles</a></p>

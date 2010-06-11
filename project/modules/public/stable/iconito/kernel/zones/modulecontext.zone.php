@@ -19,12 +19,13 @@ class ZoneModuleContext extends CopixZone {
 		$toReturn = "";
 		$step = $this->getParam ('STEP', 'open');
 		$curmod = $this->getParam ('MODULE', '');
+		$titlepage = $this->getParam ('TITLE_PAGE', '');
 		
 		$myNode = CopixSession::get ('myNode');
 		$myNodeData = Kernel::getNodeInfo($myNode['type'], $myNode['id'], false);
 		$panelClass = strtolower($myNode['type']);
 		$closeUrl = CopixUrl::get('kernel|dashboard|default');
-		
+
 		if ( strpos($myNode['type'], 'USER_') === false ) {
 			$modules = Kernel::getModEnabled($myNode['type'], $myNode['id'],_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
 		}
@@ -38,14 +39,14 @@ class ZoneModuleContext extends CopixZone {
 			$toReturn .= '		<div class="wcontrol">';
 			$toReturn .= '		<a class="dashclose" href="'.$closeUrl.'"></a>';
 			$toReturn .= '		</div>';
-			$toReturn .= '		<span>'.$curmod.'</span>';
+			$toReturn .= '		<span>'.(($titlepage)?$titlepage:$curmod).'</span>';
 			$toReturn .= '	</div>';
 			$toReturn .= '	<div class="content">';
 
 		}
 		else {
 			$toReturn  = '	</div>';
-			
+
 			if (isset($modules)) {
 				$toReturn .= '	<div class="toolset">';
 				$toReturn .= '		<ul>';
