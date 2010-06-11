@@ -304,15 +304,15 @@
     display: block;
     width: 150px;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 15px;
     margin-top: 15px;
     margin-bottom: 5px;
     text-align: center;
-    line-height: 14px;
+    line-height: 17px;
 }
 #quiz-form legend{
     font-weight: bold;
-    font-size : 16px;
+    font-size : 17px;
     color: #E98114;
 }
 #quiz-form fieldset{
@@ -325,13 +325,29 @@
 #qf-main{
     width: 555px;
 }
+#qf-main input, #qf-main textarea{
+    width: 550px;
+}
+#qf-main input{
+    font-size: 13px;
+    font-weight: bold;
+}
 #qf-opt{
     width: 180px;
 }
+#qf-opt p{
+    margin: 0px;
+    padding: 0px;
+    font-size: 11px;
+    line-height: 15px;
+    text-align: center;
+}
+#qf-opt label{
+    width: 175px;
+}
+#qf-opt input, #qf-opt select{
+    width: 175px;
+}
 #qf-main textarea{
     height: 100px;
-    width: 550px;
-    padding: 3px;
-    font-size: 11px;
-    font-weight: bold;
 }

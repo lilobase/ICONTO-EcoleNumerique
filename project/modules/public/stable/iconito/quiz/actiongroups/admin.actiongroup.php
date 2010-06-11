@@ -75,7 +75,10 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo = new CopixPPO();
         $ppo->quiz = $quizDatas[0];
         $ppo->questions = $questionsDatas;
-
+        $ppo->MENU = array(
+                        array( 'txt' => $this->i18n('quiz.admin.index'),
+                            'url' => $this->url('quiz|admin|'))
+                      );
         return _arPPO($ppo, 'admin.modif.tpl');
     }
 
