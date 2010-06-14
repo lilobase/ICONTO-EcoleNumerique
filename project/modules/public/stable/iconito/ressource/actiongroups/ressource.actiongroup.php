@@ -19,6 +19,10 @@ class ActionGroupRessource extends CopixActionGroup {
 		if( (_request("id")) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>_request("id")) ));
 		} else {
+			
+			// Patch
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>2) ));
+			
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));
