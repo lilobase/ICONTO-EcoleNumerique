@@ -47,6 +47,45 @@ class ZoneModuleContext extends CopixZone {
 		else {
 			$toReturn  = '	</div>';
 
+        // Cas des groupes : on ajoute les membres et admin, selon les droits
+        if ($myNode['type'] == 'CLUB') {
+          //_dump($modules);
+          
+          //_dump($curmod);
+          //_dump(_request('module'));
+          //_dump($nodes[$node['type']][$node['id']]['modules']);
+          
+          $addModule = new CopixPPO ();
+          $addModule->node_type = $myNode['type'];
+          $addModule->node_id = $myNode['id'];
+          $addModule->module_type = 'MOD_COMPTES';
+          $addModule->module_id = 0;
+          $addModule->module_nom = CopixI18N::get ('groupe|groupe.group.members');
+          $modules[] = $addModule;
+          
+          $groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+          $mondroit = Kernel::getLevel($myNode['type'], $myNode['id']);
+          if ($groupeService->canMakeInGroupe('ADMIN', $mondroit)) {
+            $addModule = new CopixPPO ();
+            $addModule->node_type = $myNode['type'];
+            $addModule->node_id = $myNode['id'];
+            $addModule->module_type = 'MOD_ADMIN';
+            $addModule->module_id = 0;
+            $addModule->module_nom = CopixI18N::get ('groupe|groupe.group.admin');
+            $modules[] = $addModule;
+          }
+          
+          // Patch pour highlight des membres et de l'admin
+          if ($curmod == 'groupe' && _request('action')=='getHomeMembers')
+            $curmod = 'comptes';
+          elseif ($curmod == 'groupe' && (_request('action')=='getHomeAdmin' || _request('action')=='getDelete' || _request('action')=='getHomeAdminMembers' || _request('action')=='getHomeAdminModules' || _request('action')=='getEdit'))
+            $curmod = 'admin';
+          
+          
+        }
+        
+      
+      
 			if (isset($modules)) {
 				$toReturn .= '	<div class="toolset">';
 				$toReturn .= '		<ul>';
