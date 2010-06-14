@@ -65,7 +65,7 @@ ul.usermenu li a.menu-malle			{ background: url(../images/mod_user_malle.png) no
 ul.usermenu li a.menu-agenda		{ background: url(../images/mod_user_agenda.png) no-repeat center top; }
 ul.usermenu li a.menu-prefs			{ background: url(../images/mod_user_preferences.png) no-repeat center top; }
 ul.usermenu li a.menu-aide			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-assistance	{ background: url(../images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-assistance	{ background: url(../images/mod_assistance.png) no-repeat center top; }
 
 ul.usermenu li a.logout {
 	display: block;
