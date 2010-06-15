@@ -50,6 +50,7 @@ class ZoneDashboardEcole extends enicZone {
 
             $tpl->assign('ens', $oEns);
             $tpl->assign('pic', $pic);
+            $tpl->assign('idZone', $idZone);
 
             //return the html content
             $toReturn = $tpl->fetch ('zone.dashboard.ecole.tpl');

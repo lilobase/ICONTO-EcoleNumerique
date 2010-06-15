@@ -242,3 +242,8 @@ div.block hr {
 	z-index:22999;
 }
 
+
+.clearBoth {
+  clear:both;
+  width:100%;
+}

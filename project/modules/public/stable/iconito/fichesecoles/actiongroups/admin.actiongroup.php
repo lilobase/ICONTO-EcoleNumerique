@@ -63,6 +63,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$rFiche = $ficheDAO->get($id);
 
+    //_dump($rFiche);
+    
 		$rForm = CopixDAOFactory::createRecord('fiches_ecoles');
 
 		if ($save == 1) {
@@ -145,7 +147,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 				if ($canModifyVille)
 					FichesEcolesService::propageZoneVille($rEcole, $rForm);
 					
-				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('default|fiche', array('id'=>$id)));
+				//return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('default|fiche', array('id'=>$id)));
 			}
 		} else { // Arrivee dans le formulaire
 			
@@ -231,7 +233,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 					case IMAGETYPE_JPEG :
 						imagejpeg($newImage, $file, 100); break;
 					case IMAGETYPE_PNG :
-						imagepng($newImage, $file, 100); break;
+						imagepng($newImage, $file, 9); break;
 					case IMAGETYPE_GIF :
 						imagegif($newImage, $file, 100); break;
 				}
