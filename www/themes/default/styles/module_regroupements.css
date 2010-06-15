@@ -94,37 +94,3 @@ DIV.ecolesByVille H1.ville SPAN {
 	font-size: 60%;
 }
 
-div#carres {
-	text-align:center;
-}
-
-div#carres div.carres_menu {
-	margin-left:auto;
-	margin-right:auto;
-	position:relative;
-	text-align:center;
-	width:745px;
-}
-
-div#carres div.carres_menu a {
-	background-color:#EEEEEE;
-	color:#999999;
-	display:block;
-	float:left;
-	font-size:200%;
-	height:55px;
-	margin:10px;
-	padding:30px 0;
-	text-decoration:none;
-	width:340px;
-}
-
-div#carres div.carres_menu a:hover {
-	background-color:#FFFFFF;
-	color:#666666;
-}
-
-div#carres div.carres_menu a span {
-	display:block;
-	font-size:0.4em;
-}

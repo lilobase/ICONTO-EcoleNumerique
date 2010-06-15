@@ -1352,13 +1352,27 @@ class Kernel {
 		// if(    $user_type == "USER_EXT"
 		//    && $node_type == "ROOT"
 		//    && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
-		if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') && _currentUser()->testCredential('module:*||access|@gestionautonome') ) {
-			$mod_grvilles->node_type   = $node_type;
-			$mod_grvilles->node_id     = $node_id;
-			$mod_grvilles->module_type = 'MOD_GESTIONAUTONOME';
-			$mod_grvilles->module_id = $node_type.'-'.$node_id;
-			$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_GESTIONAUTONOME');
-			$modules[] = clone $mod_grvilles;
+		if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
+			if( _currentUser()->testCredential('module:*||access|@gestionautonome') ) {
+				$mod_grvilles->node_type   = $node_type;
+				$mod_grvilles->node_id     = $node_id;
+				$mod_grvilles->module_type = 'MOD_GESTIONAUTONOME';
+				$mod_grvilles->module_id = $node_type.'-'.$node_id;
+				$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_GESTIONAUTONOME');
+				$modules[] = clone $mod_grvilles;
+			} elseif( (
+			($user_type == "USER_EXT" && $node_type == "ROOT") ||
+			($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
+			($user_type == "USER_VIL" && $node_type == "BU_VILLE")
+			) &&
+			Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
+				$mod_grvilles->node_type   = $node_type;
+				$mod_grvilles->node_id     = $node_id;
+				$mod_grvilles->module_type = 'MOD_GESTIONAUTONOME';
+				$mod_grvilles->module_id = $node_type.'-'.$node_id;
+				$mod_grvilles->module_nom   = Kernel::Code2Name ('MOD_GESTIONAUTONOME');
+				$modules[] = clone $mod_grvilles;
+			}
 		} elseif( (
 			($user_type == "USER_EXT" && $node_type == "ROOT") ||
 			($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||

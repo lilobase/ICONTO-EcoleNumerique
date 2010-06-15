@@ -35,6 +35,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	 */
 	function processGetNodes () {
 		
+		// Patch EN2010
+		return _arRedirect (_url ('kernel|dashboard|'));
+		
+		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
 		
 		$tpl = & new CopixTpl ();

@@ -5,7 +5,10 @@
 	{assign var=prenom value=$ppo->user->getExtra('prenom')}
 	
 	{if $ppo->animateur eq 1}
-		<span style="background-color: red; padding-left: 20px; padding-right: 20px; font-weight: bold; margin-right: 10px;">Vous avez pris le contr&ocirc;le du compte de {$login}</span> 
+		<div class="prise_controle">
+			<div class="message">Vous avez pris le contr&ocirc;le<br/>du compte de {$login}</div>
+			<a class="stopper" href="{copixurl dest="assistance||switch"}">Stopper la prise de contr&ocirc;le</a>
+		</div> 
 	{else}
 		<span class="username">{$prenom} {$nom}</span><br/>
 		<span class="userrole">{$ppo->usertype}</span>
