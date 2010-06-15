@@ -79,7 +79,6 @@ class ActionGroupLog extends CopixActionGroup {
 		CopixEventNotifier::notify ('logout', array ('login'=>CopixAuth::getCurrentUser()->getLogin ()));
 		CopixAuth::destroyCurrentUser ();
 		CopixSession::destroyNamespace('default');
-		//CopixSession::destroy();
 		return _arRedirect (CopixRequest::get ('auth_url_return', _url ('||')));
 	}
 

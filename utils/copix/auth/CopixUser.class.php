@@ -53,7 +53,7 @@ class CopixUser implements ICopixUser {
     public function login ($pParams = array ()) {
 		
 			//var_dump($pParams);
-		
+	
     	$this->_asserted = array ();
     	$this->_groups = false;
     	$responses = array();
@@ -80,7 +80,6 @@ class CopixUser implements ICopixUser {
 	   	} else {
 	   		$this->_logged = $isConnected ? $responses : array();
 	   	}
-			
 	   	return $isConnected;
     }
     
@@ -91,9 +90,9 @@ class CopixUser implements ICopixUser {
      */
     public function logout ($pParams = array ()) {
     	foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $handler) {
-    		CopixUserHandlerFactory::create ($handler['name'])->logout ($pParams);
-	   	}
-	   	$this->_logged = array ();
+            CopixUserHandlerFactory::create ($handler['name'])->logout ($pParams);
+        }
+        $this->_logged = array ();
     	$this->_asserted = array ();
     	$this->_groups = false;
     }
@@ -102,6 +101,10 @@ class CopixUser implements ICopixUser {
 	 * Retourne la liste des groupes de l'utilisateur, sous la forme d'un tableau (id => caption)
 	 * 
 	 * @return array
+     */
+    /*
+     * PATCH ARNAUD LEMAIRE
+     * AJOUT DE !empty($this->_groups) EN PLACE DE $this->_groups !== false
      */
     public function getGroups () {
         if (!empty($this->_groups) && (CopixConfig::instance ()->copixauth_cache == true)) {
@@ -153,9 +156,9 @@ class CopixUser implements ICopixUser {
 	 * @return bool
 	 */
 	public function testCredential ($pString) {
-    	if (isset ($this->_asserted[$pString]) && (CopixConfig::instance ()->copixauth_cache == true)) {
-    		return $this->_asserted[$pString]; 
-    	}
+            if (isset ($this->_asserted[$pString]) && (CopixConfig::instance ()->copixauth_cache == true)) {
+                    return $this->_asserted[$pString];
+            }
     	$pStringType   = substr ($pString, 0, strpos ($pString, ':'));
     	$pStringString = substr ($pString, strpos ($pString, ':')+1);
 
