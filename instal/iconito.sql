@@ -2318,3 +2318,21 @@ CREATE TABLE `version` (
   `version` varchar(10) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_rightmatrix`
+--
+
+DROP TABLE IF EXISTS `module_rightmatrix`;
+CREATE TABLE IF NOT EXISTS `module_rightmatrix` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_type_in` varchar(75) NOT NULL,
+  `user_type_out` varchar(75) NOT NULL,
+  `right` varchar(5) NOT NULL,
+  `node_type` varchar(75) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_type_in` (`user_type_in`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
+

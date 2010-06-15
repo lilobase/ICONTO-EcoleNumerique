@@ -212,13 +212,40 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 				$ok=false;
 			}
 		}
-			
+
+		if($ok) {
+			$result = check_mysql_importdump( '../../instal/gestionautonome_droits.sql' );
+			if( $result ) {
+				check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
+				display_message( _LOGO_GOOD."Les droits d'acc&egrave;s pour la gestion autonome ont &eacute;t&eacute; import&eacute;es." );
+			} else {
+				display_message( _LOGO_ERROR."Erreur lors de l'importation des ressources." );
+				$ok=false;
+			}
+		}
+		
+		if($ok) {
+			$result = check_mysql_importdump( '../../instal/gestionautonome_nullable.sql' );
+			if( $result ) {
+				check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
+				display_message( _LOGO_GOOD."Les modifications des tables Scolaires ont &eacute;t&eacute; import&eacute;es." );
+			} else {
+				display_message( _LOGO_ERROR."Erreur lors de l'importation des ressources." );
+				$ok=false;
+			}
+		}
+		
+		if ($ok) {
+			check_mysql_runquery("INSERT INTO kernel_limits_urls VALUES (NULL, '".$_SERVER['SERVER_NAME']."', 'EN2010', NULL, NULL)");	
+		}	
+		
 		if($ok) display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		else {
 			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-3) );
 			echo " ou ";
 			display_link( "recr&eacute;ez vos tables", 'index.php?step='.($step-1) );
 		}
+		
 		break;
 	
 	case 8:
