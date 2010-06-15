@@ -1881,7 +1881,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $personnelDAO->update ($ppo->personnel);
         
     $newPassword = _request ('password', null);
-    if ($ppo->account->password_dbuser != md5 ($newPassword)) {
+    if (!is_null ($newPassword) && $ppo->account->password_dbuser != md5 ($newPassword)) {
       
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
@@ -2578,9 +2578,8 @@ class ActionGroupDefault extends CopixActionGroup {
 
       $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
       $studentRegistration = $studentRegistrationDAO->getByStudentAndSchool ($studentId, $schoolId);
-      $studentRegistration->current_inscr = 0;
       
-      $studentRegistrationDAO->update ($studentRegistration);
+      $studentRegistrationDAO->updateCurrentFlag ($studentRegistration->numero, 0);
     }
     
     // Mise en session du noeud courant
