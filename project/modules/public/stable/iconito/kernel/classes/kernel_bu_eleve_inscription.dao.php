@@ -39,4 +39,15 @@ class DAOKernel_bu_eleve_inscription {
 		
 		return $this->findBy ($criteria);
 	}
+	
+	public function updateCurrentFlag ($numero, $flag) {
+	  
+	  $sql = 'UPDATE kernel_bu_eleve_inscription SET kernel_bu_eleve_inscription.current_inscr=:flag '
+      . 'WHERE kernel_bu_eleve_inscription.numero=:numero';
+      
+    return _doQuery ($sql, array (
+      ':flag'   => $flag,
+      ':numero' => $numero,
+    ));
+	}
 }
