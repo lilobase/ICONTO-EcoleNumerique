@@ -53,5 +53,28 @@ class QuizService {
         $qId = $iQuizId*1;
         return $this->db->query('SELECT * FROM module_quiz_questions WHERE id_quiz = '.$qId.' ORDER BY `order` ASC')->toArray();
     }
+
+    public function dateToTime($iDate){
+
+        if($iDate == 0)
+            return 0;
+
+        //get the dd/mm/yyyy format
+        $dateArray = explode('/', $iDate);
+
+        //if missing argument
+        if(count($dateArray) != 3)
+            return false;
+
+        return mktime(0, 0, 0, $dateArray[1], $dateArray[0], $dateArray[2]);
+
+    }
+
+    public function timeToDate($iTime){
+        if($iTime == 0)
+            return 0;
+
+        return date('d/m/Y', $iTime);
+    }
 }
 ?>

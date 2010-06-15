@@ -79,7 +79,7 @@
     {foreach from=$ppo->questions item=question }
     <tr class="{cycle values="row1, row2"}">
         <td class="col1">
-            {$question.id}
+            {$question.name}
         </td>
         <td class="col2">
             {$quiz.description|truncate:50:'...'|utf8_encode|strip_tags}

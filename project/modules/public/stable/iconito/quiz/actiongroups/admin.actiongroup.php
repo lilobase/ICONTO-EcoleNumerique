@@ -66,8 +66,8 @@ class ActionGroupAdmin extends enicActionGroup{
             $form['desc'] = $this->request('qf-description');
             $form['help'] = $this->request('qf-help');
             $form['dateStart'] = $this->request('qf-datestart');
-            $form['dateEnd'] = $this->request('qf-dateend');
-            $form['optShow'] = $this->request('qf-optshow');
+            $form['dateEnd'] = $this->service('QuizService')->dateToTime($this->request('qf-dateend'));
+            $form['optShow'] = $this->service('QuizService')->dateToTime($this->request('qf-optshow'));
             $form['lock'] = $this->request('qf-optshow');
         }
 
@@ -76,6 +76,10 @@ class ActionGroupAdmin extends enicActionGroup{
         if((!empty($action) && $action=='modif') || !empty($qId)){
             $quizDatas = $this->service('QuizService')->getQuizDatas($qId);
             $questionsDatas = $this->service('QuizService')->getQuestionsByQuiz($qId);
+
+            //format timestamp to fr date
+            $quizDatas[0]['date_start'] = $this->service('QuizService')->timeToDate($quizDatas[0]['date_start']);
+            $quizDatas[0]['date_end'] = $this->service('QuizService')->timeToDate($quizDatas[0]['date_end']);
             _dump($quizDatas);
             _dump($questionsDatas);
         }
