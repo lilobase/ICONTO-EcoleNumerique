@@ -77,7 +77,6 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 		      }
 		  }
 		}
-	
 		return $groups;
 	}
 

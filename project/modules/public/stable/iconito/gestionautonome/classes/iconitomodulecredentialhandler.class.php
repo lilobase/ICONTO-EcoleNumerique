@@ -61,7 +61,7 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
       $sql .= ' AND mc.module_mc = :module';
       $arValues[':module'] = $module;
     } else {
-      
+
       $sql .= ' AND mc.module_mc is null';
     }
     
@@ -77,7 +77,7 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
 	private function _module ($pString, $pUser) {
 	  
 	  $userGroups = $pUser->getGroups ();
-	  
+
 	  $mapResourceTypeToRole = array(
 	    'classroom'    => array('teacher'),
 	    'school'       => array('principal', 'administration_staff'),
@@ -89,19 +89,18 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
     // Teste de la ressource parente
     $module           = substr($pString, strrpos($pString, '@')+1);
     $credentialParams = explode('|', substr($pString, 0, strrpos($pString, '@')));
-    
+
     // Si le formatage du droit n'est pas bon
     if (count($credentialParams) != 4 || !isset($mapResourceTypeToRole[$credentialParams[0]])) {
-      
       return false;
     }
     
     // Pour chaque role intervenant dans la ressource, on test les droits
     foreach ($mapResourceTypeToRole[$credentialParams[0]] as $role) {
-      
+
       // Si l'id de la ressource est précisée => alors recherche ciblée
       if ($credentialParams[1] != '') {
-        
+
         if ($pUser->testCredential ('group:'.$role.'_'.$credentialParams[1].'@gestionautonome|iconitogrouphandler')) {  
           
           if ($this->_hasCredential ($credentialParams[2], $credentialParams[3], $role, $module)) {
@@ -111,7 +110,7 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
     	  }
       }
       elseif (isset($userGroups['gestionautonome|iconitogrouphandler'])) {
-        
+
         // Recherche générique
         foreach ($userGroups['gestionautonome|iconitogrouphandler'] as $key => $group) {
 
@@ -155,7 +154,6 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
           break;
       }
     }
-
 	  return false;
 	}
 }

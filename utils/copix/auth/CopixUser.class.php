@@ -104,9 +104,10 @@ class CopixUser implements ICopixUser {
 	 * @return array
      */
     public function getGroups () {
-		if ($this->_groups !== false && (CopixConfig::instance ()->copixauth_cache == true)) {
+        if (!empty($this->_groups) && (CopixConfig::instance ()->copixauth_cache == true)) {
     		return $this->_groups;
     	}
+
 	   	$results = array ();
 
 		//On parcours la liste des gestionnaires de groupes enregistrés.
@@ -155,7 +156,6 @@ class CopixUser implements ICopixUser {
     	if (isset ($this->_asserted[$pString]) && (CopixConfig::instance ()->copixauth_cache == true)) {
     		return $this->_asserted[$pString]; 
     	}
-
     	$pStringType   = substr ($pString, 0, strpos ($pString, ':'));
     	$pStringString = substr ($pString, strpos ($pString, ':')+1);
 
