@@ -235,10 +235,6 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 			}
 		}
 		
-		if ($ok) {
-			check_mysql_runquery("INSERT INTO kernel_limits_urls VALUES (NULL, '".$_SERVER['SERVER_NAME']."', 'EN2010', NULL, NULL)");	
-		}	
-		
 		if($ok) display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		else {
 			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-3) );

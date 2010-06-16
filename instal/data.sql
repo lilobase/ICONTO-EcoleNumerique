@@ -156,3 +156,11 @@ INSERT INTO `module_rightmatrix` (`id`, `user_type_in`, `user_type_out`, `right`
 (51, 'USER_DIR', 'USER_EXT', 'COMM', 'ROOT'),
 (52, 'USER_ENS', 'USER_EXT', 'VOIR', 'ROOT'),
 (53, 'USER_ENS', 'USER_EXT', 'COMM', 'ROOT');
+
+-- 
+-- Contenu de la table copixmodule
+-- 
+
+INSERT INTO `copixmodule` (`name_cpm`, `path_cpm`, `version_cpm`) VALUES 
+    ('gestionautonome', 'project/modules/public/stable/iconito/gestionautonome', '0');
+
