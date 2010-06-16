@@ -72,13 +72,13 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'warning',
 			'code' => 'php_version',
-			'message' => 'Vous utilisez PHP '.PHP_VERSION.' !<br />Cette version, elle arrive en fin de vie et il n\'y aura plus de mise à jour à partir de 2008.<br />Même si Iconito fonctionne avec cette version, si vous le pouvez, passez en PHP 5.',
+			'message' => 'Vous utilisez PHP '.PHP_VERSION.' !<br />Cette version, elle arrive en fin de vie et il n\'y aura plus de mise &agrave; jour &agrave; partir de 2008.<br />Même si Iconito fonctionne avec cette version, si vous le pouvez, passez en PHP 5.',
 		);
 	} else {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_version',
-			'message' => 'Votre version de PHP ('.PHP_VERSION.') est supportée par Iconito.',
+			'message' => 'Votre version de PHP ('.PHP_VERSION.') est support&eacute;e par Iconito.',
 		);
 	}
 	
@@ -87,13 +87,13 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'session_autostart',
-			'message' => 'Vous devez désactiver la création de session automatique. Pour cela, modifiez la directive "session.auto_start" dans votre php.ini (pour tous vos sites), dans la configuration de votre virtualhost dans la configuration d\'Apache (pour ce site spécifiquement), ou dans le .htaccess d\'Iconito (dans le répertoire "Iconito/www").',
+			'message' => 'Vous devez d&eacute;sactiver la cr&eacute;ation de session automatique. Pour cela, modifiez la directive "session.auto_start" dans votre php.ini (pour tous vos sites), dans la configuration de votre virtualhost dans la configuration d\'Apache (pour ce site sp&eacute;cifiquement), ou dans le .htaccess d\'Iconito (dans le r&eacute;pertoire "Iconito/www").',
 		);
 	} else {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'session_autostart',
-			'message' => 'La création de session automatique est désactivée.',
+			'message' => 'La cr&eacute;ation de session automatique est d&eacute;sactiv&eacute;e.',
 		);
 	}
 	
@@ -110,7 +110,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_xml',
-			'message' => 'L\'extension "xml" est activée.',
+			'message' => 'L\'extension "xml" est activ&eacute;e.',
 		);
 	}
 
@@ -125,7 +125,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_session',
-			'message' => 'L\'extension "session" est activée.',
+			'message' => 'L\'extension "session" est activ&eacute;e.',
 		);
 	}
 
@@ -140,7 +140,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_mysql',
-			'message' => 'L\'extension "mysql" est activée.',
+			'message' => 'L\'extension "mysql" est activ&eacute;e.',
 		);
 	}
 
@@ -155,7 +155,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_gd',
-			'message' => 'L\'extension "gd" est activée.',
+			'message' => 'L\'extension "gd" est activ&eacute;e.',
 		);
 		
 		if( ! (imagetypes() & IMG_GIF) ) {
@@ -163,7 +163,7 @@ function check_php () {
 			$data['errors'][] = array(
 				'level' => 'warning',
 				'code' => 'php_gd_gif',
-				'message' => 'Votre version de "gd" ne supporte pas l\'écriture du format GIF. Il est préférable de mettre à jour cette extension.',
+				'message' => 'Votre version de "gd" ne supporte pas l\'&eacute;criture du format GIF. Il est pr&eacute;f&eacute;rable de mettre &agrave; jour cette extension.',
 			);
 		} else {
 			$data['errors'][] = array(
@@ -185,7 +185,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_zlib',
-			'message' => 'L\'extension "zlib" est activée.',
+			'message' => 'L\'extension "zlib" est activ&eacute;e.',
 		);
 	}
 
@@ -200,14 +200,14 @@ function check_mysql_login() {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'mysql_connect',
-			'message' => 'Connexion MySQL réussie.',
+			'message' => 'Connexion MySQL r&eacute;ussie.',
 		);
 		mysql_close($link);
 	} else {
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'mysql_connect',
-			'message' => 'Connexion MySQL impossible. Vérifiez vos identifiants.',
+			'message' => 'Connexion MySQL impossible. V&eacute;rifiez vos identifiants.',
 		);
 	}
 	
@@ -373,7 +373,7 @@ function check_admin_password() {
 			$data['errors'][] = array(
 				'level' => 'error',
 				'code' => 'passwd_tooeasy',
-				'message' => '<b>Votre mot de passe est trop simple</b> : Mélangez les minuscules et majuscules ou ajouter des chiffres ou des symboles.',
+				'message' => '<b>Votre mot de passe est trop simple</b> : M&eacute;langez les minuscules et majuscules ou ajouter des chiffres ou des symboles.',
 			);
 		}
 		if( $_POST["passwd"] != $_POST["passwd2"] ) {
