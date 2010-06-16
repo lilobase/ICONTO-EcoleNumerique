@@ -71,7 +71,7 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 		            $groups['city_agent_'.$entity->reference] = 'Agent de ville';
 		            break;
 		          case 5:
-  		          $groups['cities_group_agent_'.$entity->reference] = 'Agent de groupe de villes';
+                            $groups['cities_group_agent_'.$entity->reference] = 'Agent de groupe de villes';
   		          break;
 		        }
 		      }

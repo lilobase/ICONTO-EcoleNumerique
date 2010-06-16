@@ -5,7 +5,7 @@
 {/if}
 
 <hr class="quiz-separator" />
-<form id="quiz-form" method="post">
+<form id="quiz-form" method="post" action="{$ppo->action}">
 
     <fieldset id="qf-main">
         <p class="qf-success">{$ppo->success}</p>
@@ -14,7 +14,7 @@
         <legend>{i18n key="quiz.form.infos" noEscape=1}</legend>
 
         <label for="qf-title">{i18n key="quiz.form.title" noEscape=1}</label>
-        {$ppo->error.title}
+        {$ppo->errors.title}
             <input type="text" name="qf-title" value="{$ppo->quiz.name|utf8_encode}">
         <br /><br />
 
@@ -57,6 +57,7 @@
                 <option value="endquiz">à la fin du quiz</option>
             </select>
     <input type="hidden" name="check" value="1" />
+    <input type="hidden" name="quizId" value="{$ppo->quiz.id}" />
     </fieldset>
 </form>
 

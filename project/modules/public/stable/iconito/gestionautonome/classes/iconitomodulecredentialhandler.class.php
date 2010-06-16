@@ -110,7 +110,6 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
     	  }
       }
       elseif (isset($userGroups['gestionautonome|iconitogrouphandler'])) {
-
         // Recherche générique
         foreach ($userGroups['gestionautonome|iconitogrouphandler'] as $key => $group) {
 

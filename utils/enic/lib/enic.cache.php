@@ -4,6 +4,7 @@
  * 
  * La classe se base sur le nom de la class appelante pour appeler le cache : enicMatricCache => class enicMatrix
  */
+enic::to_load('storage');
 class enicCache extends enicMod{
 
     public $storage;
@@ -12,9 +13,6 @@ class enicCache extends enicMod{
 
     public function __construct(){
         parent::__construct();
-
-        //load storage :
-        enic::to_load('storage');
 
         //define storage :
         if(empty($this->storage))

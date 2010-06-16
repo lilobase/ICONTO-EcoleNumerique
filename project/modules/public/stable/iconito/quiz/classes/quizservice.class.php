@@ -56,7 +56,7 @@ class QuizService {
 
     public function dateToTime($iDate){
 
-        if($iDate == 0)
+        if($iDate == 0 || empty($iDate))
             return 0;
 
         //get the dd/mm/yyyy format

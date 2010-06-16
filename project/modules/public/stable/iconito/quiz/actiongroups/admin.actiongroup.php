@@ -52,53 +52,129 @@ class ActionGroupAdmin extends enicActionGroup{
     }
 
     public function processModif(){
-        //modif or new quiz
-        $action = $this->request('qaction', 'str');
+        //modif or new quiz or errors
+        $action = ($this->flash->has('modifAction')) ? $this->flash->get('modifAction') : $this->request('qaction', 'str');
         $qId    = $this->request('id', 'int');
+        $errors = $this->flash->has('errors');
 
-        //if the form submit
-        $error = array();
-        if($this->request('check') == 1){
-            $form['title'] = $this->request('qf-title');
-            if(empty($form['title']))
-                $error['title'] = '<p class="ui-state-error" >'.$this->i18n('quiz.form.required').'</p>';
-
-            $form['desc'] = $this->request('qf-description');
-            $form['help'] = $this->request('qf-help');
-            $form['dateStart'] = $this->request('qf-datestart');
-            $form['dateEnd'] = $this->service('QuizService')->dateToTime($this->request('qf-dateend'));
-            $form['optShow'] = $this->service('QuizService')->dateToTime($this->request('qf-optshow'));
-            $form['lock'] = $this->request('qf-optshow');
-        }
-
+        //init data's array
         $quizDatas = array();
         $questionsDatas = array();
-        if((!empty($action) && $action=='modif') || !empty($qId)){
+
+        //init ppo object
+        $ppo = new CopixPPO();
+
+        //case of modification :
+        if((!empty($action) && $action=='modif' && !$errors) || !empty($qId)){
+
+            //case of only qId : set the action type
+            $action = 'modif';
+
+            //get quiz datas
             $quizDatas = $this->service('QuizService')->getQuizDatas($qId);
+            $quizDatas = $quizDatas[0];
+            
+            /*
+             * SECURITY CHECK
+             */
+            //test if the quiz exists
+            if(empty($quizDatas))
+                return $this->error('quiz.errors.noQuiz');
+
+          //test if the current user is owner of the quiz
+            if($quizDatas['id_owner'] !== $this->user->id)
+                return $this->error('quiz.admin.noRight');
+
+            //get questions datas :
             $questionsDatas = $this->service('QuizService')->getQuestionsByQuiz($qId);
 
-            //format timestamp to fr date
-            $quizDatas[0]['date_start'] = $this->service('QuizService')->timeToDate($quizDatas[0]['date_start']);
-            $quizDatas[0]['date_end'] = $this->service('QuizService')->timeToDate($quizDatas[0]['date_end']);
-            _dump($quizDatas);
-            _dump($questionsDatas);
+            //formate timestamp to fr date
+            $quizDatas['date_start'] = $this->service('QuizService')->timeToDate($quizDatas['date_start']);
+            $quizDatas['date_end'] = $this->service('QuizService')->timeToDate($quizDatas['date_end']);
         }
 
+        //case of errors :
+        if($errors){
+
+            //get datas :
+            $quizDatas = $this->flash->get('quizDatas');
+
+            //get errors :
+            $ppo->errors = $this->flash->get('quizErrors');
+
+        }
+
+        /*
+         * generate flash :
+         */
+        $this->flash->set('processAction', $action);
+        $this->flash->set('idQuiz', $qId);
+
+        //generate the tpl
         $this->js->wysiwyg('#qf-description');
         $this->js->wysiwyg('#qf-help');
         $this->js->date('.qf-date', 'full');
 
         $this->addCss('styles/module_quiz.css');
 
-        
-        $ppo = new CopixPPO();
-        $ppo->quiz = $quizDatas[0];
+        $ppo->quiz = $quizDatas;
         $ppo->questions = $questionsDatas;
+        $ppo->action = $this->url('quiz|admin|processModif');
         $ppo->MENU = array(
                         array( 'txt' => $this->i18n('quiz.admin.index'),
                                 'url' => $this->url('quiz|admin|'))
                       );
         return _arPPO($ppo, 'admin.modif.tpl');
+    }
+
+    function processProcessModif(){
+
+        /*
+         * SECURITY CHECK
+         */
+        
+        //test the user right :
+        if(!$this->flash->has('processAction'))
+            return $this->error('quiz.admin.noRight', true, 'quiz|admin|index');
+
+        //test if form's datas exists
+        if($this->request('check') != 1 || $this->flash->has('errors'))
+            return $this->go('quiz|admin|');
+
+        //if modif case : test if the current id is right :
+        if($this->flash->get('processAction') == 'modif' && $this->request('id', 'int') != $this->flash->get('idQuiz'))
+            return $this->error('quiz.errors.badOperation', true, 'quiz|admin|index');
+
+        /*
+         * GET DATAS
+         */
+        //init errors :
+        $error = array();
+
+        //get non-optional values
+        $form['name'] = $this->request('qf-title');
+        if(empty($form['name']))
+            $error['title'] = '<p class="ui-state-error" >'.$this->i18n('quiz.form.required').'</p>';
+
+        //get other values :
+        $form['description']       = $this->request('qf-description');
+        $form['help']       = $this->request('qf-help');
+        $form['optshow']    = $this->request('qf-optshow');
+        $form['lock']       = $this->request('qf-lock');
+        $form['id']         = $this->request('qf-id');
+        $form['date_start']  = $this->service('QuizService')->dateToTime($this->request('qf-datestart'));
+        $form['date_end']    = $this->service('QuizService')->dateToTime($this->request('qf-dateend'));
+
+        //check errors :
+        if(!empty($error)){
+            $this->flash->set('quizErrors', $error);
+            $this->flash->set('quizDatas', $form);
+            $this->flash->set('quizId', $this->flash->get('idQuiz'));
+            $this->flash->set('errors', true);
+            $this->flash->set('modifAction', $this->flash->get('processAction'));
+            return $this->go('quiz|admin|modif', array('id' => $this->flash->get('idQuiz')));
+        }
+
     }
 
     public function processResults(){
