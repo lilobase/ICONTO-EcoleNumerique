@@ -57,7 +57,7 @@ jQuery(document).ready(function($){
 		$('.tools_left > .dashpanel > .toolset').each(function(){
 			$(this).parent().children('.content').css('min-height', $(this).height()-30);
 		});
-		
+
 		$('.tools_right > .dashpanel > .toolset').each(function(){
 			$(this).parent().children('.content').css('min-height', $(this).height()+80);
 		});

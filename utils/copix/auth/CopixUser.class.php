@@ -54,7 +54,7 @@ class CopixUser implements ICopixUser {
 		
 			//var_dump($pParams);
 	
-    	$this->_asserted = array ();
+    	$this->_asserted = array();
     	$this->_groups = false;
     	$responses = array();
     	$isConnected = false;
@@ -79,7 +79,7 @@ class CopixUser implements ICopixUser {
 	   		$this->_logged = $isConnected ? array_merge($this->_logged, $responses) : $this->_logged;
 	   	} else {
 	   		$this->_logged = $isConnected ? $responses : array();
-	   	}
+	   	}        
 	   	return $isConnected;
     }
     

@@ -22,8 +22,8 @@ $module = CopixRequest::get ('module');
 	<title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
    
-	<?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
 	<?php include_once COPIX_PROJECT_PATH."themes/default/styles.php"; ?>
+        <?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
         <?php echo $HTML_HEAD; ?>
 	
 </head>
