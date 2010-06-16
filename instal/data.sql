@@ -164,3 +164,10 @@ INSERT INTO `module_rightmatrix` (`id`, `user_type_in`, `user_type_out`, `right`
 INSERT INTO `copixmodule` (`name_cpm`, `path_cpm`, `version_cpm`) VALUES 
     ('gestionautonome', 'project/modules/public/stable/iconito/gestionautonome', '0');
 
+-- 
+-- Contenu de la table annee_scolaire
+-- 
+
+INSERT INTO `kernel_bu_annee_scolaire` (`id_as`, `annee_scolaire`, `dateDebut`, `dateFin`, `current`) VALUES
+(2010, '2010-2011', '2010-09-02', '2011-07-31', 1);
+
