@@ -1,35 +1,35 @@
 
-table.head,
-div.icons,
+.noPrint,
+div.submenu,
+#left,
+#right,
 #footer,
-div.page div.content div.options,
-.noPrint
-{
+#page-header,
+#page-bottom,
+#contenttop,
+#contentbottom,
+#breadcrumb
+ {
 	display:none;
+
+}
+
+div.dashpanel div.content {
+  padding:0;
+}
+div.dashboard div.bu_classe div.content {
+  border:0;
 }
 
 
-div.page {
-	border:0;
-	margin:0;
-	width:100%;
-	background-image:none;
+#content {
+  margin:0;
 }
-div.page div.content div.title {
-	background-image:none;
+
+#absolute {
+  position:relative;
 }
-div.page div.content {
-	padding:0;
-}
-div.page div.content div.main {
-	background:none;
-	
-}
-/* BLOGS */
-#mainBlog #mainSideBar {
-	display:none;
-}
-#mainBlog #mainContent {
-	float:none;
-	width:auto;
+
+#absolute, #popup, #page, #page-header, #page-middle, #header, #top, #menuleft, #menuright, #breadcrumb, #left, #right, .padder, .marger {
+  overflow:visible;
 }

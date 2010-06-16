@@ -1,75 +1,273 @@
+/**
+ * THEMES - module_kernel.css
+ * Mise en forme dashboard/kernel
+ *
+ * @package	Iconito 2010
+ * @cdate 25.01.2010
+ * @mdate 25.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
 
-
-DIV.kernel div.boxes {
-	width:680px;
-}
-
-
-DIV.kernel A.box_M {
-	border: 5px solid #D3E15F;
-	padding: 0px;
-	margin: 7px;
-	width: 130px;
-	min-width: 130px;
-	height: 136px;
-	min-height: 136px;
-	float: left;
+a.dashclose {
 	display: block;
-	text-decoration: none;
+	width: 25px;
+	height: 25px;
+	background: url(../images/button_dashclose_off.png) no-repeat 100% 0;
+	}
+	
+a.dashclose_on {
+	background: url(../images/button_dashclose_on.png) no-repeat 100% 0;
+	}
+	
+div.dashboard {
+	position: relative;
+	padding: 6px;
+	margin: 0px 20px;
+	}
+
+div.dashpanel {
+	position: relative;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px;
+	padding: 0px 0px 12px 0px;
+	background: url(../images/dash_shadow.png) 50% 100% repeat-y;
+	}
+
+div.dashpanel div.title {
+	position: relative;
+	padding: 4px 4px 2px 8px;
+	margin: 0 0 0 16px;
+	background: #aebdbf;
+	}
+	
+div.dashpanel div.title span {
+	font-size: 160%;
+	text-transform:uppercase;
+	}
+	
+div.dashpanel div.content {
+	position: relative;
+	overflow: hidden;
+	font-size: 120%;
+	padding: 10px;
+	margin: 0px;
+	background: #f0f4f0;
+	border: 2px solid #aebdbf;
+	min-height: 160px;
+	}
+
+div.dashpanel div.toolset {
+	position: absolute;
+	margin: 0px;
+	top: 0px;
+	background: #aebdbf;
+	z-index: 999;
+	width: 32px;
+	}
+
+div.dashpanel div.toolset-expand {
+	width: 160px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	}
+
+div.dashpanel div.toolset ul li.highlight {
+	background: #ffffe6;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	}
+	
+div.dashpanel div.toolset ul li.selected {
+	background: #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	}
+	
+div.dashpanel div.toolset ul {
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+	}
+
+div.dashpanel div.toolset ul li a {
+	display: block;
+	overflow: hidden;
+	height: 32px;
+	min-height: 32px;
+	padding: 2px 0;
+	margin: 0;
+	}
+
+div.dashpanel div.toolset ul li a span {
+	display: block;
+	overflow: hidden;
+	height: 24px;
+	padding-top: 8px;
+	font-size: 110%;
+	line-height: 80%;
+	}
+
+/* CASE DASHBOARD CONTEXT */
+div.tools_left {
+	}
+
+div.tools_left div.dashpanel {
+	width: 94%;
+	}
+
+div.tools_left div.dashpanel div.toolset {
+	padding: 2px 2px 2px 0px;
+	left: 100%;
+	}
+
+div.tools_left div.dashpanel div.toolset-expand, div.tools_left div.toolset-expand ul li.highlight {
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	}
+
+div.tools_left div.dashpanel ul li a {
+	background-position: 0 50%;
+	background-repeat: no-repeat;
+	}
+	
+div.tools_left div.dashpanel div.toolset ul li a span {
+	margin-left: 38px;
+	text-align: left;
+	}
+
+/* CASE MODULE CONTEXT */
+div.tools_right {
+	margin: 6px 20px;
+	}
+	
+div.tools_right div.dashpanel {
+	width: 96%;
+	}
+	
+div.tools_right div.dashpanel div.groupname {
+	float: left;
+	}
+
+div.tools_right div.dashpanel div.wcontrol {
+	float: right;
+	}
+
+div.tools_right div.dashpanel div.title {
+	height: 25px;
+	padding: 4px 4px;
+	margin: 0px;
 	text-align: center;
+	}
+
+div.tools_right div.dashpanel div.content {
+	border-top: 0px;
+	}
+
+div.tools_right div.dashpanel div.title .groupname {
+	padding-top: 2px;
+	font-size: 110%;
+	line-height: 85%;
+	text-transform:uppercase;
+	width: 200px;
+	margin-right: -200px;
+	text-align: left;
+	}
+
+div.tools_right div.dashpanel div.title div.wcontrol {
+	width: 25px;
+	margin-left: -25px;
+	}
+
+div.tools_right div.dashpanel div.toolset {
+	padding: 2px 2px 2px 2px;
+	top: 60px;
+	right: -34px;
+	}
+
+div.tools_right div.dashpanel div.toolset-expand {
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	}
+
+div.tools_right div.dashpanel div.toolset ul li.selected {
+	margin-left: -2px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	}
+
+div.tools_right div.dashpanel div.toolset-expand ul li.selected {
+	margin-left: 0px;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-bottomleft: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	}
+
+div.tools_right div.dashpanel ul li a {
+	background-position: 100% 50%;
+	background-repeat: no-repeat;
+	}
+
+div.tools_right div.dashpanel div.toolset ul li a span {
+	margin-right: 38px;
+	text-align: right;
+	}
+	
+/* SET MODULES ICONS */
+div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../images/mod_admin.png); }
+div.dashpanel ul li a.MOD_ADMIN2 			{ background-image: url(../images/mod_admin.png); }
+div.dashpanel ul li a.MOD_AGENDA 			{ background-image: url(../images/mod_agenda.png); }
+div.dashpanel ul li a.MOD_ALBUM 			{ background-image: url(../images/mod_album.png); }
+div.dashpanel ul li a.MOD_BLOG 				{ background-image: url(../images/mod_blog.png); }
+div.dashpanel ul li a.MOD_MALLE 			{ background-image: url(../images/mod_malle.png); }
+div.dashpanel ul li a.MOD_CARNET 			{ background-image: url(../images/mod_carnet.png); }
+div.dashpanel ul li a.MOD_COMPTES			{ background-image: url(../images/mod_comptes.png); }
+div.dashpanel ul li a.MOD_FORUM				{ background-image: url(../images/mod_forum.png); }
+div.dashpanel ul li a.MOD_REGROUPEMENTS		{ background-image: url(../images/mod_grvilles.png); }
+div.dashpanel ul li a.MOD_LISTE				{ background-image: url(../images/mod_liste.png); }
+div.dashpanel ul li a.MOD_RESSOURCE			{ background-image: url(../images/mod_ressources.png); }
+div.dashpanel ul li a.MOD_SSOGAEL			{ background-image: url(../images/mod_fake.png); }
+div.dashpanel ul li a.MOD_TELEPROCEDURES	{ background-image: url(../images/mod_teleprocedures.png); }
+div.dashpanel ul li a.MOD_VISIOSCOPIA		{ background-image: url(../images/mod_visio.png); }
+div.dashpanel ul li a.MOD_MAGICMAIL			{ background-image: url(../images/mod_magicmail.png); }
+div.dashpanel ul li a.MOD_GESTIONAUTONOME	{ background-image: url(../images/mod_comptes.png); }
+
+/* SET GROUPTYPES CONTEXT COLORS */
+div.dashboard div.bu_classe div.title	{ background: #7fc3d2; }
+div.dashboard div.bu_classe div.content	{ border: 2px solid #7fc3d2; }
+div.dashboard div.bu_classe div.toolset	{ background: #7fc3d2; }
+
+div.dashboard div.bu_ecole div.title 	{ background: #7cd54f; }
+div.dashboard div.bu_ecole div.content 	{ border: 2px solid #7cd54f; }
+div.dashboard div.bu_ecole div.toolset 	{ background: #7cd54f; }
+
+div.dashboard div.club div.title	{ background: #ffb94e; }
+div.dashboard div.club div.content	{ border: 2px solid #ffb94e; }
+div.dashboard div.club div.toolset	{ background: #ffb94e; }
+
+/* PUBLIC DASHBOARD */
+
+p.content{
+    margin: 15px;
+    font-size: 120%;
+}
+p.first-item{
+    margin-top: 75px;
+}
+p.content a{
+    color: blue;
 }
 
-DIV.kernel A.box_M:hover {
-	border: 5px solid #B3C13F;
-}
-.box_M_border {
-	border: 5px solid #D3E15F;
-}
-.box_M_border:hover {
-	border-color:#B3C13F;
-}
-
-DIV.kernel A.box {
-	border: 5px solid #D3E15F;
-	padding: 0px;
-	margin: 7px;
-	width: 150px;
-	height: 150px;
-	float: left;
-	display: block;
-	text-decoration: none;
-}
-
-DIV.kernel A.box:hover {
-	border: 5px solid #04570F;
-}
-
-DIV.kernel A.box P {
-	margin: 0px;
-	padding: 5px;
-	font-size: 80%;
-}
-
-DIV.kernel A.box H3 {
-	margin: 0px;
-	padding: 5px;
-	font-size: 200%;
-	line-height: 1em;
-}
-
-DIV.kernel A.selected {
-	border: 5px solid #F66;
-}
-
-DIV.kernel div.enfant {
-  clear:left;
-  font-size: 1.4em;
-  font-weight: bolder;
-  border-bottom: solid 5px #D3E15F;
-  margin-bottom: 4px;
-  margin-top:5px;
-} 
-DIV.kernel div.enfant div.classe {
-  float:right;
-  color: #587314;
+.img-left{
+    float: left;
+    margin: 15px;
 }
