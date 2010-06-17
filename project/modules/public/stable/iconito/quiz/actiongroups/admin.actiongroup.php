@@ -162,8 +162,8 @@ class ActionGroupAdmin extends enicActionGroup{
         $form['optshow']    = $this->request('qf-optshow');
         $form['lock']       = $this->request('qf-lock');
         $form['id']         = $this->request('qf-id');
-        $form['date_start']  = $this->service('QuizService')->dateToTime($this->request('qf-datestart'));
-        $form['date_end']    = $this->service('QuizService')->dateToTime($this->request('qf-dateend'));
+        $form['date_start']  = $this->request('qf-datestart');
+        $form['date_end']    = $this->request('qf-dateend');
 
         //check errors :
         if(!empty($error)){
