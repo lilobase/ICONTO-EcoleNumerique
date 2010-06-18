@@ -76,5 +76,81 @@ class QuizService {
 
         return date('d/m/Y', $iTime);
     }
+
+    public function updateForm($iDatas){
+        //protect datas
+        $datas = $this->formatFormDatas($iDatas);
+
+        //get & delete id
+        $id = $datas['id'];
+        unset($datas['id']);
+
+        //build query
+        $query = '';
+        //detecte end of array
+        $lastkey = end(array_keys($datas));
+        foreach($datas as $key => $data){
+            $query .= '`'.$key.'` = '.$data;
+
+            if($key !== $lastkey)
+                $query .= ', ';
+        }
+
+        //execute query
+        $this->db->query('UPDATE module_quiz_quiz SET '.$query.' WHERE id = '.$id)->close();
+
+        return true;
+    }
+
+    public function newForm($iDatas){
+
+    }
+
+    public function formatFormDatas($iDatas){
+        
+        //get user's object
+        $user = enic::get('user');
+
+        //protect datas :
+        $form = $iDatas;
+        $form['name'] = $this->db->quote($form['name']);
+        $form['description'] = $this->db->quote($form['description']);
+        $form['help']  = $this->db->quote($form['help']);
+        $form['optshow'] = $this->db->quote($form['optshow']);
+        $form['lock'] = $form['lock']*1;
+        $form['id']  = $form['id']*1;
+        $form['date_start'] = $form['date_start']*1;
+        $form['date_end'] = $form['date_end']*1;
+
+        //format datas
+        $form['optshow'] = (empty($form['optshow'])) ? 'never' : $form['optshow'];
+        $form['lock'] = (empty($form['lock'])) ? 0 : $form['lock'];
+
+        //build final data's array with id information
+        $datas['id'] = $form['id']*1;
+        $datas['id_owner'] = $user->id*1;
+        $datas['date_start'] = $form['date_start'];
+        $datas['date_end'] = $form['date_end'];
+        $datas['name'] = $form['name'];
+        $datas['description'] = $form['description'];
+        $datas['help'] = $form['help'];
+        $datas['pic'] = 'null';
+        $datas['opt_save'] = $this->db->quote('each');
+        $datas['opt_show_results'] = $form['optshow'];
+        $datas['lock'] = $form['lock'];
+
+        return $datas;
+    }
+
+    public function isOwner($iIdQuiz){
+        //get users infos :
+        $user = enic::get('user');
+
+        //protect id
+        $id = $iIdQuiz*1;
+        $id_owner = $this->db->query('SELECT id_owner FROM module_quiz_quiz WHERE id = '.$id)->toInt();
+
+        return ($id == $id_owner);
+    }
 }
 ?>

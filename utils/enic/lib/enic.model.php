@@ -45,7 +45,20 @@ class enicModel extends enicMod {
      * type : int, str, null, bool, lob
      */
     public function quote($str, $type = 'str'){
-        $param = PDO::PARAM_.strtoupper($type);
+        
+        switch($type){
+            case 'int':
+                $param = PDO::PARAM_INT;
+            break;
+            case 'bool':
+                $param = PDO::PARAM_BOOL;
+            break;
+            case 'str':
+            default:
+                $param = PDO::PARAM_STR;
+            break;
+        }
+        
         return $this->_db->quote($str, $param);
     }
 

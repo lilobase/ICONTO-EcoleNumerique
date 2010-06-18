@@ -1,29 +1,27 @@
 {if empty($ppo->quiz.name)}
 <h3>{i18n key="quiz.msg.newQuiz" noEscape=1}</h3>
 {else}
-<h3>{$ppo->quiz.name|utf8_encode}</h3>
+<h3>{$ppo->quiz.name}</h3>
 {/if}
 
 <hr class="quiz-separator" />
 <form id="quiz-form" method="post" action="{$ppo->action}">
 
     <fieldset id="qf-main">
-        <p class="qf-success">{$ppo->success}</p>
-
 
         <legend>{i18n key="quiz.form.infos" noEscape=1}</legend>
 
         <label for="qf-title">{i18n key="quiz.form.title" noEscape=1}</label>
         {$ppo->errors.title}
-            <input type="text" name="qf-title" value="{$ppo->quiz.name|utf8_encode}">
+            <input type="text" name="qf-title" value="{$ppo->quiz.name}" />
         <br /><br />
 
         <label for="qf-description">{i18n key="quiz.form.desc" noEscape=1}</label>
-            <textarea id="qf-description" name="qf-description">{$ppo->quiz.description|utf8_encode}</textarea>
+            <textarea id="qf-description" name="qf-description">{$ppo->quiz.description}</textarea>
         <br />
 
         <label for="qf-help">{i18n key="quiz.form.help" noEscape=1}</label>
-            <textarea id="qf-help" name="qf-help">{$ppo->quiz.help|utf8_encode}</textarea>
+            <textarea id="qf-help" name="qf-help">{$ppo->quiz.help}</textarea>
         <br />
      <input type="submit" value="{i18n key="quiz.form.submit" noEscape=1}" class="button" />
 

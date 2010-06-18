@@ -10,6 +10,7 @@ class ActionGroupAdmin extends enicActionGroup{
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
         //start tpl :
         $ppo = new CopixPPO();
+        $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->list = $ppo->list = CopixZone::process('adminList');
         return _arPPO($ppo, 'admin.index.tpl');
 
@@ -53,8 +54,8 @@ class ActionGroupAdmin extends enicActionGroup{
 
     public function processModif(){
         //modif or new quiz or errors
-        $action = ($this->flash->has('modifAction')) ? $this->flash->get('modifAction') : $this->request('qaction', 'str');
-        $qId    = $this->request('id', 'int');
+        $action = ($this->flash->has('modifAction')) ? $this->flash->modifAction : $this->request('qaction', 'str');
+        $qId    = ($this->flash->has('quizId')) ? $this->flash->quizId : $this->request('id', 'int');
         $errors = $this->flash->has('errors');
 
         //init data's array
@@ -65,7 +66,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo = new CopixPPO();
 
         //case of modification :
-        if((!empty($action) && $action=='modif' && !$errors) || !empty($qId)){
+        if(!empty($action) && $action=='modif' && !$errors && !empty($qId)){
 
             //case of only qId : set the action type
             $action = 'modif';
@@ -97,18 +98,18 @@ class ActionGroupAdmin extends enicActionGroup{
         if($errors){
 
             //get datas :
-            $quizDatas = $this->flash->get('quizDatas');
+            $quizDatas = $this->flash->quizDatas;
 
             //get errors :
-            $ppo->errors = $this->flash->get('quizErrors');
+            $ppo->errors = $this->flash->quizErrors;
 
         }
 
         /*
          * generate flash :
          */
-        $this->flash->set('processAction', $action);
-        $this->flash->set('idQuiz', $qId);
+        $this->flash->processAction = $action;
+        $this->flash->quizId = $qId;
 
         //generate the tpl
         $this->js->wysiwyg('#qf-description');
@@ -137,12 +138,12 @@ class ActionGroupAdmin extends enicActionGroup{
         if(!$this->flash->has('processAction'))
             return $this->error('quiz.admin.noRight', true, 'quiz|admin|index');
 
-        //test if form's datas exists
+        //test if form's datas exists && test errors flash
         if($this->request('check') != 1 || $this->flash->has('errors'))
             return $this->go('quiz|admin|');
 
         //if modif case : test if the current id is right :
-        if($this->flash->get('processAction') == 'modif' && $this->request('id', 'int') != $this->flash->get('idQuiz'))
+        if($this->flash->get('processAction') == 'modif' && $this->request('quizId', 'int') != $this->flash->quizId)
             return $this->error('quiz.errors.badOperation', true, 'quiz|admin|index');
 
         /*
@@ -161,7 +162,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $form['help']       = $this->request('qf-help');
         $form['optshow']    = $this->request('qf-optshow');
         $form['lock']       = $this->request('qf-lock');
-        $form['id']         = $this->request('qf-id');
+        $form['id']         = $this->request('quizId');
         $form['date_start']  = $this->request('qf-datestart');
         $form['date_end']    = $this->request('qf-dateend');
 
@@ -169,11 +170,61 @@ class ActionGroupAdmin extends enicActionGroup{
         if(!empty($error)){
             $this->flash->set('quizErrors', $error);
             $this->flash->set('quizDatas', $form);
-            $this->flash->set('quizId', $this->flash->get('idQuiz'));
+            $this->flash->set('quizId', $this->flash->get('quizId'));
             $this->flash->set('errors', true);
             $this->flash->set('modifAction', $this->flash->get('processAction'));
-            return $this->go('quiz|admin|modif', array('id' => $this->flash->get('idQuiz')));
+
+            //redirect to modif
+            return $this->go('quiz|admin|modif', array('id' => $this->flash->quizId));
         }
+
+        /*
+         * PROCESS DATAS
+         */
+         //date format
+        $form['date_start'] = $this->service('QuizService')->dateToTime($form['date_start']);
+        $form['date_end'] = $this->service('QuizService')->dateToTime($form['date_end']);
+
+        if($this->flash->processAction == 'modif')
+            $this->service('QuizService')->updateForm($form);
+        else
+            $this->service('QuizService')->newForm($form);
+
+        //if all is OK :
+        $this->flash->success = $this->i18n('quiz.admin.modifSuccess');
+        return $this->go('quiz|admin|');
+    }
+
+    public function processNewQuestions(){
+        if(!isset($this->flash->quizId))
+            return $this->error('quiz.admin.noRight');
+
+        //get the current quizId
+        $quizId = $this->flash->quizId;
+
+        //get quiz infos
+        $quizDatas = $this->service('QuizService')->getQuizDatas($quizId);
+        
+        //verify quiz existence
+        if(empty($quizDatas))
+            return $this->error('quiz.errors.noQuiz');
+
+        $ppo = new CopixPPO();
+        $ppo->id = $quizId;
+        $ppo->quizName = $quizDatas['name'];
+
+        return _arPPO($ppo, 'admin.question.tpl');
+    }
+
+    public function processJsonQuestionServerOut(){
+
+
+
+    }
+
+    public function processJsonQuestionServerIn(){
+
+
 
     }
 

@@ -205,8 +205,33 @@ class rightMatrixHelpers{
         //get kernel
         $kernel = new Kernel();
 
+        //get parent real node (not user node) special case for USER_RES
+        if($user->type == 'USER_RES'){
+            $userNodes = array();
+            $currentIdNode = array();
+            $parentNodes = $kernel->getNodeParents($type, $id);
+
+            //get childs parent node :
+            foreach($parentNodes as $parentNode){
+                $currentNodes = $kernel->getNodeParents($parentNode['type'], $parentNode['id']);
+
+                foreach($currentNodes as $currentNode){
+                    if(!in_array($currentNode['id'], $currentIdNode)){
+                        $userNodes[] = $currentNode;
+                        $currentIdNode[] = $currentNode['id'];
+                    }
+                    
+                }
+            }
+        }else{
+            $userNodes = $kernel->getNodeParents($type, $id);
+        }
+
+        //free memory space
+        unset($currentIdNode, $currentNode, $currentNodes, $parentNode, $parentNodes);
+
         //list parents and add each at the tree
-        foreach($kernel->getNodeParents($type, $id) as $userNode){
+        foreach($userNodes as $userNode){
             //get the node type :
             $nodeType = $userNode['type'];
             $node = $matrix->$nodeType();
@@ -287,7 +312,7 @@ class rightMatrixHelpers{
             //load parent id :
             $node->$idNode->kernelParent = $id;
             
-            //add parent is kernelParent array, club is special case : is attached to root
+            //add parent in kernelParent array, club special case : attach node to root
             if($node->$idNode->type != 'CLUB'){
                 $parentNode =  '_'.$node->$idNode->kernelParent;
                 $node->_parentObject->$parentNode->kernelChildren[] = $userNode['id'];

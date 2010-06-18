@@ -14,6 +14,9 @@ jQuery(document).ready(function($){
 </script>
 <h3>{i18n key="quiz.admin.admin" noEscape=1}</h3>
 <hr class="quiz-separator" />
+{if !empty($ppo->success)}
+    <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
+{/if}
 <div class="quiz-quiz">
     <h4>{i18n key="quiz.admin.new" noEscape=1}</h4>
     <p class="quiz-center">

@@ -261,5 +261,26 @@ class enicFlash extends enicSession{
         return $this->load($iName, 'flashDatas');
     }
 
+    /*
+     * magic getter
+     */
+    public function  __get($iName) {
+        return $this->get($iName);
+    }
+
+    /*
+     * magic setter
+     */
+    public function __set($iName, $iDatas){
+        return $this->set($iName, $iDatas);
+    }
+
+    /*
+     * magic isset
+     */
+    public function  __isset($iName) {
+        return $this->has($iName);
+    }
+
 }
 ?>
