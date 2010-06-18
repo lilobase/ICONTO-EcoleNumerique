@@ -12,22 +12,22 @@ interface enicStorage {
      *
      * @return value or false;
      */
-    public function save($iName, $iData, $iNameSpace);
+    public function save($iName, $iData, $iNameSpace = 'dflt');
 
     /*
      * delete existing value
      */
-    public function del($iName, $iNameSpace);
+    public function del($iName, $iNameSpace = 'dflt');
 
     /*
      * get existing value
      */
-    public function load($iName, $iNameSpace);
+    public function load($iName, $iNameSpace = 'dflt');
 
     /*
      * return boolean in function of existing data
      */
-    public function exists($iName, $iNameSpace);
+    public function exists($iName, $iNameSpace = 'dflt');
 }
 
 /*
@@ -83,7 +83,7 @@ class enicFiles implements enicStorage {
     /*
      * get existing value
      */
-    public function load($iName, $iNameSpace = false){
+    public function load($iName, $iNameSpace = 'dflt'){
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- load() : file not found for : '.$iName, E_USER_ERROR);
 
@@ -93,21 +93,21 @@ class enicFiles implements enicStorage {
     /*
      * return boolean in function of existing data
      */
-    public function exists($iName, $iNameSpace = false){
+    public function exists($iName, $iNameSpace = 'dflt'){
         return file_exists($this->path.$iName.'.cache');
     }
 
      /*
      * set new or modify existing value
      */
-    public function save($iName, $iData, $iNameSpace = false){
+    public function save($iName, $iData, $iNameSpace = 'dflt'){
         return file_put_contents($this->path.$iName.'.cache', $iData);
     }
 
     /*
      * delete existing value
      */
-    public function del($iName, $iNameSpace = false){
+    public function del($iName, $iNameSpace = 'dflt'){
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- del() : file not found for : '.$iName, E_USER_ERROR);
 

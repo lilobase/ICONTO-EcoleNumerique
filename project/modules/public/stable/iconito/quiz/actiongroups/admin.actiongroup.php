@@ -195,7 +195,7 @@ class ActionGroupAdmin extends enicActionGroup{
         return $this->go('quiz|admin|');
     }
 
-    public function processNewQuestions(){
+    public function processQuestions(){
         if(!isset($this->flash->quizId))
             return $this->error('quiz.admin.noRight');
 
@@ -208,6 +208,9 @@ class ActionGroupAdmin extends enicActionGroup{
         //verify quiz existence
         if(empty($quizDatas))
             return $this->error('quiz.errors.noQuiz');
+
+        $this->addCss('styles/module_quiz.css');
+        $this->js->wysiwyg('#qf-q-content');
 
         $ppo = new CopixPPO();
         $ppo->id = $quizId;
