@@ -33,8 +33,8 @@
                 <a href="{copixurl dest="quiz|admin|results" id=$quiz.id}">
                     <p>
                         <img class="arrow" src="{copixresource path="images/colorful/16x16/next.png"}" alt="">
-                        &nbsp;{i18n key="quiz.admin.oneresults" noEscape=1}&nbsp;
-                        <img src="{copixresource path="images/colorful/16x16/pie_chart.png"}" alt="{i18n key="quiz.admin.oneresults" noEscape=1}">
+                        &nbsp;{i18n key="quiz.admin.results" noEscape=1}&nbsp;
+                        <img src="{copixresource path="images/colorful/16x16/pie_chart.png"}" alt="{i18n key="quiz.admin.results" noEscape=1}">
                     </p>
                 </a>
             {/if}

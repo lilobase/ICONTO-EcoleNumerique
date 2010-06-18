@@ -81,13 +81,13 @@
             {$question.name}
         </td>
         <td class="col2">
-            {$quiz.description|truncate:50:'...'|utf8_encode|strip_tags}
+            {$question.content|truncate:50:'...'|utf8_encode|strip_tags}
         </td>
         <td class="col3">
-                <a href="{copixurl dest="quiz|admin|modif" id=$quiz.id qaction="modif"}">
+                <a href="{copixurl dest="quiz|admin|questions" id=$question.id qaction="modif"}">
                     <p>
                         <img class="arrow" src="{copixresource path="images/colorful/16x16/next.png"}" alt="">
-                        &nbsp;{i18n key="quiz.admin.onemodif" noEscape=1}&nbsp;&nbsp;&nbsp;
+                        &nbsp;{i18n key="quiz.admin.modifQuestion" noEscape=1}&nbsp;&nbsp;&nbsp;
                         <img src="{copixresource path="images/colorful/16x16/process.png"}" alt="{i18n key="quiz.admin.onemodif" noEscape=1}">
                     </p>
                 </a>

@@ -73,7 +73,6 @@ class ActionGroupAdmin extends enicActionGroup{
 
             //get quiz datas
             $quizDatas = $this->service('QuizService')->getQuizDatas($qId);
-            $quizDatas = $quizDatas[0];
             
             /*
              * SECURITY CHECK
@@ -209,11 +208,40 @@ class ActionGroupAdmin extends enicActionGroup{
         if(empty($quizDatas))
             return $this->error('quiz.errors.noQuiz');
 
+        //check type of modif
+        $modifAction    = $this->request('qaction');
+        $answId         = $this->request('id', 'int');
+
+        /*
+         * modification :
+         */
+        //init the datas arrays
+        $answerDatas = array();
+        $responsesDatas = array();
+
+        //check and validate modification :
+        if($modifAction == 'modif' && !empty($answId)){
+            $answerDatas = $this->service('QuizService')->getAnswerDatas($answId);
+
+            //if no datas return to quiz
+            if(empty($questionDatas))
+                $this->error('quiz.errors.noQuestions');
+
+            //check that id_quiz is the current modif quiz
+            if($answerDatas['id_quiz'] != $quizId)
+                $this->error('quiz.admin.noRight');
+
+            $responsesDatas = $this->service('QuizService')->getChoicesByAnswer($answId);
+        }
+
         $this->addCss('styles/module_quiz.css');
         $this->js->wysiwyg('#qf-q-content');
 
-        $ppo = new CopixPPO();
-        $ppo->id = $quizId;
+        $ppo             = new CopixPPO();
+        $ppo->question  = $answerDatas;
+        $ppo->resp      = $responsesDatas;
+
+        $ppo->id        = $answId;
         $ppo->quizName = $quizDatas['name'];
 
         return _arPPO($ppo, 'admin.question.tpl');

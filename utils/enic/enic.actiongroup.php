@@ -41,7 +41,9 @@ class enicActionGroup extends CopixActionGroup {
         $this->flash        =& enic::get('flash');
         
         //define properties :
-        $this->module   = CopixRequest::get('module');
+        $this->module   = $this->request('module');
+        $this->actiongroup   = $this->request('group');
+        $this->action   = $this->request('action');
     }
 
     /*
@@ -98,7 +100,7 @@ class enicActionGroup extends CopixActionGroup {
         $msg = ($i18n) ? $this->i18n($iMsg) : $iMsg;
 
         //build url
-        $back = (empty($iMsg)) ? $this->module.'||' : $iBack;
+        $back = (empty($iBack)) ? $this->module.'|'.$this->actiongroup.'|' : $iBack;
         $back = $this->url($back);
 
         return CopixActionGroup::process('genericTools|Messages::getError', array ('message' => $msg, 'back' => $back));

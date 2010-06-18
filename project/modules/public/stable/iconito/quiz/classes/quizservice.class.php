@@ -45,7 +45,7 @@ class QuizService {
         //secure $iQuizId
         $qId = $iQuizId*1;
 
-        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE id = '.$qId)->toArray();
+        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE id = '.$qId)->toArray1();
     }
 
     public function getQuestionsByQuiz($iQuizId){
@@ -151,6 +151,21 @@ class QuizService {
         $id_owner = $this->db->query('SELECT id_owner FROM module_quiz_quiz WHERE id = '.$id)->toInt();
 
         return ($id == $id_owner);
+    }
+
+    public function getAnswerDatas($iId){
+        //secure quiz Id
+        $id = $iId*1;
+        
+        return $this->db->query('SELECT * FROM module_quiz_questions WHERE id = '.$id)->toArray1();
+
+    }
+
+    public function getChoicesByAnswer($iIdAns){
+        //secure id
+        $idAns = $iIdAns*1;
+
+        return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$idAns)->toArray1();
     }
 }
 ?>

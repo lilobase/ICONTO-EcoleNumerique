@@ -18,7 +18,7 @@ jQuery(document).ready(function($){
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
 <div class="quiz-quiz">
-    <h4>{i18n key="quiz.admin.new" noEscape=1}</h4>
+    <h4>{i18n key="quiz.admin.new"}</h4>
     <p class="quiz-center">
         <a class="quiz-a-img" href="{copixurl dest="quiz|admin|modif" qaction="new"}">
             <img src="{copixresource path="images/colorful/64x64/add.png"}" alt="{i18n key="quiz.admin.new" noEscape=1}">

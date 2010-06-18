@@ -105,5 +105,12 @@ class enicModel extends enicMod {
         $errorInfos = $this->_db->errorInfo();
         return 'PDO error : '.$errorInfos[2];
     }
+
+    public function toArray1(){
+        $result = $this->toArray();
+        if($result == null)
+            return null;
+        return $result[0];
+    }
 }
 ?>
