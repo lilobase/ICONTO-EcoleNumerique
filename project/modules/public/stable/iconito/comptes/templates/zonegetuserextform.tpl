@@ -21,12 +21,12 @@
 	{/if}
 	
 	<tr>
-		<td CLASS="form_libelle">{i18n key="comptes.colonne.passwd1"} : </td><td CLASS="form_saisie"><input type="text" name="passwd1" value="" class="form" style="width: 400px;" />
+		<td CLASS="form_libelle">{i18n key="comptes.colonne.passwd1"} : </td><td CLASS="form_saisie"><input type="password" name="passwd1" value="" class="form" style="width: 400px;" />
 		{if $errors.passwd1}<br />{i18n key="comptes.error.text"} {$errors.passwd1}{/if}
 		</td>
 	</tr>
 	<tr>
-		<td CLASS="form_libelle">{i18n key="comptes.colonne.passwd2"} : </td><td CLASS="form_saisie"><input type="text" name="passwd2" value="" class="form" style="width: 400px;" />
+		<td CLASS="form_libelle">{i18n key="comptes.colonne.passwd2"} : </td><td CLASS="form_saisie"><input type="password" name="passwd2" value="" class="form" style="width: 400px;" />
 		{if $errors.passwd2}<br />{i18n key="comptes.error.text"} {$errors.passwd2}{/if}
 		</td>
 	</tr>
