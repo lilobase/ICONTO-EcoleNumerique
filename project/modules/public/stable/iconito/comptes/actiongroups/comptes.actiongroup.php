@@ -785,28 +785,58 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		
 		$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
+		$copixuser_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");
+		$bu2user_dao = & CopixDAOFactory::create("kernel|kernel_bu2user2");
 		
 		$pNom = trim(_request('nom'));
 		$pPrenom = trim(_request('prenom'));
+		$pLogin = trim(_request('login'));
+		$pPasswd1 = trim(_request('passwd1'));
+		$pPasswd2 = trim(_request('passwd2'));
 		
+		$mode = _request('mode');
 		
-		if( _request('mode') ) {
+		if( $mode ) {
 			
-			$mode = _request('mode');
-			
-			switch( _request('mode') ) {
+			switch( $mode ) {
 				
 				case 'MOD':
 					$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserextmod'));
 					
 					$userext_item = $userext_dao->get( _request('id') );
-					// $userext_item->ext_id     = _request('id');
+					if(!$userext_item) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
+					
+					
 					if( $pNom=='' && $pPrenom=='' ) {
 						$errors['ext_nom'] = CopixI18N::get ('comptes.alert.nameempty');
-					} else {
+					}
+					
+					if( $pPasswd1!='' && $pPasswd1!=$pPasswd2 ) {
+						$errors['passwd2'] = CopixI18N::get ('comptes.alert.passwddiff');
+					}
+					
+					if(count($errors)==0) {
 						$userext_item->ext_nom    = $pNom;
 						$userext_item->ext_prenom = $pPrenom;
 						$userext_dao->update( $userext_item );
+						
+						if( $pPasswd1!='' && $pPasswd1==$pPasswd2 ) {
+							// Changer passwd
+							
+							// dbuser : id_dbuser 	login_dbuser 	password_dbuser 	email_dbuser 	enabled_dbuser
+							// kernel_link_bu2user : user_id 	bu_type 	bu_id
+							
+							$sql = "
+								UPDATE dbuser
+								JOIN kernel_link_bu2user
+									ON dbuser.id_dbuser=kernel_link_bu2user.user_id
+								SET dbuser.password_dbuser=md5(:passwd)
+								WHERE kernel_link_bu2user.bu_type = 'USER_EXT'
+								AND   kernel_link_bu2user.bu_id   = :id";
+							
+							_doQuery($sql, array(':passwd'=>$pPasswd1, ':id'=>_request('id')) );
+						}
+						
 						return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 					}
 					
@@ -819,11 +849,46 @@ class ActionGroupComptes extends CopixActionGroup {
 					if( $pNom=='' && $pPrenom=='' ) {
 						$errors['ext_nom'] = CopixI18N::get ('comptes.alert.nameempty');
 						$userext_item->ext_id = 0;
+					}
+					
+					if( trim($pLogin)=='' ) {
+						$errors['login'] = CopixI18N::get ('comptes.alert.loginempty');
 					} else {
+						$logins = _doQuery('SELECT * FROM dbuser WHERE login_dbuser=:login', array(':login'=>$pLogin));
+						if( count($logins) ) {
+							$errors['login'] = CopixI18N::get ('comptes.alert.loginexists');
+						}
+					}
+					
+					if( $pPasswd1=='' ) {
+						$errors['passwd1'] = CopixI18N::get ('comptes.alert.passwdempty');
+					}
+					
+					if( $pPasswd1!='' && $pPasswd1!=$pPasswd2 ) {
+						$errors['passwd2'] = CopixI18N::get ('comptes.alert.passwddiff');
+					}
+					
+					
+					if(count($errors)==0) {
+						// $userext_item->ext_id
 						$userext_item->ext_nom         = $pNom;
 						$userext_item->ext_prenom      = $pPrenom;
 						$userext_item->ext_description = '';
 						$userext_dao->insert( $userext_item );
+						
+						$copixuser_item = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
+						$copixuser_item->login_dbuser = trim($pLogin);
+						$copixuser_item->password_dbuser = md5($pPasswd1);
+						$copixuser_item->email_dbuser = '';
+						$copixuser_item->enabled_dbuser = 1;
+						$copixuser_dao->insert( $copixuser_item );
+						
+						$bu2user_item = CopixDAOFactory::createRecord("kernel|kernel_bu2user2");
+						$bu2user_item->user_id = $copixuser_item->id_dbuser;
+						$bu2user_item->bu_type = "USER_EXT";
+						$bu2user_item->bu_id = $userext_item->ext_id;
+						$bu2user_dao->insert( $bu2user_item );
+						
 						return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 					}
 					
@@ -835,6 +900,10 @@ class ActionGroupComptes extends CopixActionGroup {
 					if( $userext_item ) {
 						$userext_dao->delete( abs(_request('id')) );
 					}
+					
+					_doQuery('DELETE FROM dbuser, kernel_link_bu2user USING dbuser JOIN kernel_link_bu2user ON dbuser.id_dbuser=kernel_link_bu2user.user_id WHERE kernel_link_bu2user.bu_type="USER_EXT" AND kernel_link_bu2user.bu_id=:id', array(':id'=>abs(_request('id'))));
+					// _doQuery('DELETE FROM kernel_link_bu2user WHERE kernel_link_bu2user.bu_type="USER_EXT" AND kernel_link_bu2user.bu_id=:id', array(':id'=>abs(_request('id'))));
+					
 					return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
 					
 					break;
