@@ -97,3 +97,8 @@ div.error {
 	color: red;
 	font-weight: bold;
 }
+
+DIV.comptes TD.form_libelle {
+	text-align: right;
+	padding-right: 5px;
+}
