@@ -165,7 +165,7 @@ class QuizService {
         //secure id
         $idAns = $iIdAns*1;
 
-        return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$idAns)->toArray1();
+        return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$idAns.' ORDER BY `order`')->toArray();
     }
 }
 ?>

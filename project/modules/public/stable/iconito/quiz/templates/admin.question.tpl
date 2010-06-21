@@ -4,6 +4,25 @@ jQuery.noConflict();
 
 jQuery(document).ready(function($){
         $("#qf-tabs").tabs();
+
+        $("#qf-sortable").sortable({
+			placeholder: 'ui-state-highlight',
+		});
+        $("#qf-sortable").disableSelection();
+
+        $("#qf-addresp, .qf-submit").button();
+
+        /*
+         * ADD NEW RESPONSE ITEM
+         */
+        $("#qf-addresp").click(function(){
+           $("#qf-sortable")
+        });
+
+        $("#qf-form-resp").submit(function(){
+            //$(".qf-sortable").each(callback)
+            return false;
+        });
     });
 </script>
 {/literal}
@@ -38,10 +57,25 @@ jQuery(document).ready(function($){
         <form id="qf-form-resp" action="" method="" >
             <fieldset>
                 <legend>{i18n key="quiz.msg.resp" noEscape=1}</legend>
-            <ul>
-                <li><input type="text" id="" name="" /><input type="checkbox" id="" name="" /></li>
-                <li><input type="text" id="" name="" /><input type="checkbox" id="" name="" /></li>
-            </ul>
+                <button id="qf-addresp">{i18n key="quiz.admin.addResp" noEscape=1}</button>
+                {if !empty($ppo->resp)}
+                <ul id="qf-sortable">
+                    <!-- RESPONSES ARRAY -->
+                    {foreach from=$ppo->resp item=resp}
+                    <li class="ui-state-default qf-resp">
+                        <img src="{copixresource path="images/colorful/24x24/up.png"}" />
+                        <img src="{copixresource path="images/colorful/24x24/down.png"}" />
+                        <input type="text" class="qf-respvalue" name="qf-respvalue[]" value="{$resp.content|utf8_encode}"/>
+                        <input type="checkbox" name="" {if $resp.correct == 1} checked="checked" {/if} />
+                        <a href="#" id="qf-delResp">
+                            <img class="qf-delresp" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
+                        </a>
+                       <input class="qf-jq-order" type="hidden" name="order" value="" />
+                    </li>
+                    {/foreach}
+                </ul>
+                {/if}
+                <input type="submit" class="qf-submit"/>
             </fieldset>
         </form>
     </div>

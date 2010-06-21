@@ -2,6 +2,7 @@
 <h3>{i18n key="quiz.msg.newQuiz" noEscape=1}</h3>
 {else}
 <h3>{$ppo->quiz.name}</h3>
+<a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
 {/if}
 
 <hr class="quiz-separator" />

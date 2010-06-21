@@ -351,3 +351,39 @@
 #qf-main textarea{
     height: 100px;
 }
+
+/*
+==================
+RESPONSES ADMIN
+==================
+*/
+#qf-sortable{
+    list-style: none;
+}
+.qf-resp img{
+    margin: 0px;
+    padding: 0px;
+    height: 24px;
+    width: 24px;
+    border: none;
+    position: relative;
+    top: 5px;
+}
+.qf-resp input{
+    height: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 2px;
+    padding-left: 10px;
+}
+.qf-respvalue{
+    width: 550px;
+}
+.qf-delresp{
+    border: none;
+    height: 24px;
+    width: 24px;
+}
+.qf-submit{
+    float: right;
+}

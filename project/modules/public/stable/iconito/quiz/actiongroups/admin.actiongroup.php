@@ -235,8 +235,8 @@ class ActionGroupAdmin extends enicActionGroup{
         }
 
         $this->addCss('styles/module_quiz.css');
-        $this->js->wysiwyg('#qf-q-content');
 
+        $this->js->wysiwyg('#qf-q-content');
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
         $ppo->resp      = $responsesDatas;
