@@ -83,7 +83,7 @@
       {foreach from=$ppo->persons key=k item=person}
         <tr class="list_line{math equation="x%2" x=$k}">
           <td>
-            {if $person->id_sexe eq 0}
+            {if $person->id_sexe eq 1}
               <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
             {else}                                                                 
               <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />

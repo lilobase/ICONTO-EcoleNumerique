@@ -12,7 +12,7 @@
     {foreach from=$ppo->personsInSession key=k item=item}
       <tr>
         <td>
-          {if $item.id_sexe eq 0}
+          {if $item.id_sexe eq 1}
             <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
           {else}                                                                 
             <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />

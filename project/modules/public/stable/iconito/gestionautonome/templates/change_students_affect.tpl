@@ -21,7 +21,7 @@
         <tr class="list_line{math equation="x%2" x=$k}">
           <input type="hidden" name="students[]" value="{$student->idEleve}" />
           <td>
-            {if $student->id_sexe eq 0}
+            {if $student->id_sexe eq 1}
               <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
             {else}                                                                 
               <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />

@@ -1460,7 +1460,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  _sessionSet ('modules|gestionautonome|createAccount', array ());
 	  		
 		$ppo->genderNames = array ('Homme', 'Femme');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
 		$roleDAO = _ioDAO ('kernel_bu_personnel_role');
     $ppo->roleName = $roleDAO->get ($ppo->role)->nom_role;
@@ -1527,6 +1527,10 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->personnel->pers_date_nais   = CopixDateTime::dateToyyyymmdd(_request ('date_nais', null));
     $ppo->personnel->pers_id_sexe     = _request ('gender', null);
     
+    $ppo->personnel->pers_civilite = "";
+    if($ppo->personnel->pers_id_sexe==1) $ppo->personnel->pers_civilite = "Monsieur";
+    if($ppo->personnel->pers_id_sexe==2) $ppo->personnel->pers_civilite = "Madame";
+
     $ppo->login    = _request ('login', null);
     $ppo->password = _request ('password', null);
     
@@ -1567,7 +1571,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $ppo->personnel->pers_date_nais = _request ('date_nais', null);
   	  
   	  $ppo->genderNames = array ('Homme', 'Femme');
-      $ppo->genderIds   = array ('0', '1');
+      $ppo->genderIds = array ('1', '2');
       
       $roleDAO = _ioDAO ('kernel_bu_personnel_role');
       $ppo->roleName    = $roleDAO->get ($ppo->role)->nom_role;
@@ -1760,7 +1764,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 
     $ppo->genderNames = array ('Homme', 'Femme');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
     $ppo->personnel->pers_date_nais = CopixDateTime::yyyymmddToDate ($ppo->personnel->pers_date_nais);
     
@@ -1857,7 +1861,7 @@ class ActionGroupDefault extends CopixActionGroup {
     if (!empty ($ppo->errors)) {
       
       $ppo->genderNames = array ('Homme', 'Femme');
-      $ppo->genderIds = array ('0', '1'); 
+      $ppo->genderIds = array ('1', '2');
       
       $ppo->personnel->pers_date_nais = _request ('date_nais', null);
       
@@ -2022,7 +2026,7 @@ class ActionGroupDefault extends CopixActionGroup {
     }
     
     $ppo->genderNames = array ('Garçon', 'Fille');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
     // Compteur responsable
     $ppo->cpt = 1;
@@ -2134,7 +2138,7 @@ class ActionGroupDefault extends CopixActionGroup {
       }
       
       $ppo->genderNames = array ('Garçon', 'Fille');
-      $ppo->genderIds = array ('0', '1');
+      $ppo->genderIds = array ('1', '2');
   	   
       $ppo->student->date_nais = _request('student_birthdate', null);
       
@@ -2380,7 +2384,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->account = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');    
     
     $ppo->genderNames = array ('Garçon', 'Fille');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
     // Breadcrumbs
     $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
@@ -2477,7 +2481,7 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->student->date_nais = _request ('date_nais', null);
       
       $ppo->genderNames = array ('Garçon', 'Fille');
-      $ppo->genderIds = array ('0', '1');
+      $ppo->genderIds = array ('1', '2');
   	  
   	  // Breadcrumbs
       $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
@@ -2711,7 +2715,7 @@ class ActionGroupDefault extends CopixActionGroup {
     }
     
     $ppo->genderNames = array ('Homme', 'Femme');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
     $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
     $ppo->studentAccount = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
@@ -2822,7 +2826,7 @@ class ActionGroupDefault extends CopixActionGroup {
       }
       
       $ppo->genderNames = array ('Homme', 'Femme');
-      $ppo->genderIds = array ('0', '1');
+      $ppo->genderIds = array ('1', '2');
       
       $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
       
@@ -2929,7 +2933,7 @@ class ActionGroupDefault extends CopixActionGroup {
     }
     
     $ppo->genderNames = array ('Homme', 'Femme');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
     // Récupération du lien responsable-élève
     $res2eleDAO = _ioDAO ('kernel|kernel_bu_res2ele');
@@ -3041,7 +3045,7 @@ class ActionGroupDefault extends CopixActionGroup {
       }
       
       $ppo->genderNames = array ('Homme', 'Femme');
-      $ppo->genderIds = array ('0', '1');
+      $ppo->genderIds = array ('1', '2');
       
       // Breadcrumbs
       $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
@@ -3223,7 +3227,7 @@ class ActionGroupDefault extends CopixActionGroup {
     }
 
     $ppo->genderNames = array ('Homme', 'Femme');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
     if (!empty ($ppo->errors)) {
       

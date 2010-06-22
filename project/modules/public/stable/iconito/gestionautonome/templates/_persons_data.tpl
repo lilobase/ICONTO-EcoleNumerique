@@ -29,7 +29,7 @@
             {foreach from=$ppo->students item=student}
               <tr>
                 <td>
-                  {if $student->id_sexe eq 0}
+                  {if $student->id_sexe eq 1}
                     <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Garçon" />
                   {else}                                                                 
                     <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Fille" />
@@ -69,7 +69,7 @@
             {foreach from=$ppo->persons item=person}
               <tr>
                 <td>
-                  {if $person->id_sexe eq 0}
+                  {if $person->id_sexe eq 1}
                     <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
                   {else}                                                                 
                     <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />
@@ -122,7 +122,7 @@
       {foreach from=$ppo->persons item=person}
         <tr>
           <td>
-            {if $person->id_sexe eq 0}
+            {if $person->id_sexe eq 1}
               <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
             {else}                                                                 
               <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />
