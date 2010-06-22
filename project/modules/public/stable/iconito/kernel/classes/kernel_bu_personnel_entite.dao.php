@@ -46,7 +46,8 @@ class DAOKernel_bu_personnel_entite {
    * @return array
    */
   public function findReferenceAndRoleByIds (array $ids) {
-    
+  	if(0==count($ids)) return array();
+  	
     $sql = 'SELECT type_ref, reference, role '
       . 'FROM kernel_bu_personnel_entite '
       . 'WHERE kernel_bu_personnel_entite.id_per IN ('.implode(',', $ids).')';
