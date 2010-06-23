@@ -66,6 +66,8 @@ class enicModel extends enicMod {
      * Create 'and execute query
      */
     public function query($query){
+        $this->lastId = null;
+        $this->lastQuery = $query;
         $this->_results = $this->_db->query($query);
         if($this->_results === false){
             echo $this->errorInfo();
@@ -93,6 +95,40 @@ class enicModel extends enicMod {
 
     public function toInt(){
         return $this->toString()*1;
+    }
+
+    public function update($iTable, $iDatas, $cond = null){
+
+        //extract id :
+        if(isset($iDatas['id']) && !empty($iDatas['id'])){
+            $id = $iDatas['id']*1;
+            unset($iDatas['id']);
+        }else{
+            $id = null;
+        }
+
+        //extract condition
+        $cond = (!empty($cond)) ? $cond : 'id = '.$id;
+
+        //fetch & prepare datas
+        foreach($iDatas as $field => $data)
+            $update[] = $field.' = '.$datas;
+
+        //make query
+        $query = 'UPDATE '.$iTable.' SET '.implode(', ', $update).' WHERE '.$cond;
+        var_dump($query);
+        //return $this->query($query)->close();
+    }
+
+    public function create($iTable, $iDatas){
+        foreach ($iDatas as $field => $value){
+            $fields[] = '`'.$field.'`';
+            $values[] = $value;
+        }
+
+        $query = 'INSERT INTO '.$iTable.' ('.implode(', ', $fields).') VALUES ('.implode(',', $values).')';
+        var_dump($query);
+        //return $this->query($query)->close();
     }
 
     public function close(){
