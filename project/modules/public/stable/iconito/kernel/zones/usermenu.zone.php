@@ -40,13 +40,19 @@ class ZoneUserMenu extends CopixZone {
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_minimail');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'minimail','mid'=>''));
 			$menuitem["class"] = "menu-minimail";
+      // Indicateur des minimails non lus
+      $nb = _dao("minimail|minimail_to")->getNbRecvUnread(_currentUser()->getId());
+      if ($nb > 0) {
+        $menuitem["before"] = '<a title="'.$menuitem["title"].'" id="counter" href="'.$menuitem["url"].'">'.$nb.'</a>';
+      }
 			array_push($menuitems, $menuitem);
+      $menuitem["before"] = '';
 
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_annuaire');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'annuaire','mid'=>''));
 			$menuitem["class"] = "menu-annuaire";
 			array_push($menuitems, $menuitem);
-
+      
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_malle');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'malle','mid'=>''));
 			$menuitem["class"] = "menu-malle";
@@ -82,7 +88,10 @@ class ZoneUserMenu extends CopixZone {
 
 			foreach ($menuitems as $item) {
 				$ppo->usermenu .= "<li class=\"".$item["class"]."\">";
-				$ppo->usermenu .= "<a class=\"".$item["class"]."\" href=\"".$item["url"]."\" title=\"".$item["title"]."\"><span class=\"hidden\">".$item["title"]."</span></a>";
+        if (isset($item["before"]))
+          $ppo->usermenu .= $item["before"];
+				$ppo->usermenu .= "<a class=\"item ".$item["class"]."\" href=\"".$item["url"]."\" title=\"".$item["title"]."\"><span class=\"hidden\">".$item["title"]."</span></a>";
+        
 				$ppo->usermenu .= "</li>";
 				}
 			$ppo->usermenu .= "	<li class=\"".$logout["class"]."\">";
