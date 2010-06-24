@@ -211,7 +211,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function processGetPrepareExport(){	
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
-		
+
+		CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js")); 
+
 		$serviceAuth   = new AgendaAuth;		
 		$serviceAgenda = new AgendaService;
 		
@@ -250,6 +252,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	
 		//template principal
 		$tpl = & new CopixTpl();
+		$tpl->assign ('BODY_ON_LOAD', "setDatePicker('#datedeb_export,#datefin_export')");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.export'));
     $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));

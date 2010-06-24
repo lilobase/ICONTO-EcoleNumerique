@@ -24,6 +24,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     */
   function doPrepareEditArticle() {
 		
+    CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js"));
+    
 		$id_blog = $this->getRequest('id_blog', null);
 		$blogDAO = CopixDAOFactory::create('blog|blog');
 		$blog = $blogDAO->get($id_blog);
@@ -77,6 +79,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 			//$tabSelectCat = $article->tabSelectCat;
 		}
 		
+    $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#date_bact')");
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
 		
@@ -123,6 +126,9 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     * Validation d'un article.
     */
   function doValidArticle() {
+    
+    CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js"));
+    
     $id_blog = $this->getRequest('id_blog', null);
 		$go = $this->getRequest('go', 'preview');
     //die ("go=$go");
@@ -233,6 +239,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     }
     $article->time_bact = BDToTime($article->time_bact);
 
+    $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#date_bact')");
     $tpl->assign ('MAIN', CopixZone::process ('EditArticle', array('id_blog'=>$id_blog,
 																    'id_bact'=>$id_bact,
 																    'article'=>$article,

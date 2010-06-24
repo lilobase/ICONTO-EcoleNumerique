@@ -122,7 +122,9 @@ class ActionGroupEvent extends CopixActionGroup {
 	function processGetEdit (){
 	
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
-	
+	  
+		CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js"));
+
 		$serviceAuth   = new AgendaAuth;
 		$serviceAgenda = new AgendaService();
 		
@@ -167,6 +169,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		
 		//template principal
 		$tpl = & new CopixTpl();
+     $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#datedeb_event,#datefin_event,#dateendrepeat_event')");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.title.editEvent'));
     $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 
@@ -349,19 +352,17 @@ class ActionGroupEvent extends CopixActionGroup {
 	function _check ($obj){
 		$toReturn = array();
 		
+    //var_dump($obj);
+    
 		$datedeb 		 = $obj->datedeb_event;
 		$datefin 		 = $obj->datefin_event;
-		$datejusquau = $obj->dateendrepeat_event;
+		$datejusquau = (isset($obj->dateendrepeat_event)) ? $obj->dateendrepeat_event : null;
 
 		$datedebTs 		 = CopixDateTime::dateToTimestamp($datedeb);
 		$datefinTs 		 = CopixDateTime::dateToTimestamp($datefin);
 		$datejusquauTs = CopixDateTime::dateToTimestamp($datejusquau);
 		
-		//conversion des dates au format yyyymmdd pour pouvoir les comparer
-		//$datedeb     = dateService::dateFrToDateBdd($datedeb);
-		//$datefin     = dateService::dateFrToDateBdd($this->getRequest('datefin_event'));
-		//$datejusquau = dateService::dateFrToDateBdd($this->getRequest('dateendrepeat_event'));
-		
+    
 		//conversion des heures au format hhmm pour pouvoir les comparer
 		$heuredeb = dateService::heureWithSeparateurToheureWithoutSeparateur($obj->heuredeb_event);
 		$heurefin = dateService::heureWithSeparateurToheureWithoutSeparateur($obj->heurefin_event);
@@ -469,7 +470,7 @@ class ActionGroupEvent extends CopixActionGroup {
 		}
 		
 		//vérifier que la fréquence de répétition est cohérente avec la durée de l'évènement
-		if($repeat_event == 'everyday_event' && DateService::getNomberDaysBeetweenTwoDates($obj->datedeb_event, $obj->datefin_event, $obj->heuredeb_event, $obj->heurefin_event) > 1){
+		if($obj->datedeb_event && $obj->datefin_event && $obj->heuredeb_event && $obj->heurefin_event && $repeat_event == 'everyday_event' && DateService::getNomberDaysBeetweenTwoDates($obj->datedeb_event, $obj->datefin_event, $obj->heuredeb_event, $obj->heurefin_event) > 1){
 			$toReturn[] = CopixI18N::get('agenda|agenda.error.freqrepetitionday');
 		}
 		
@@ -517,7 +518,7 @@ class ActionGroupEvent extends CopixActionGroup {
 			if (_request($elem)){
 				if ($elem == 'repeat' || $elem == 'alldaylong_event')
 	        $toUpdate->$elem = (_request($elem))*1;
-				elseif ($elem == 'datedeb_event' || $elem == 'datefin_event')
+				elseif ($elem == 'datedeb_event' || $elem == 'datefin_event' || $elem == 'dateendrepeat_event')
 	        $toUpdate->$elem = Kernel::_validDateProperties(_request($elem));
 				else
 					$toUpdate->$elem = _request($elem);

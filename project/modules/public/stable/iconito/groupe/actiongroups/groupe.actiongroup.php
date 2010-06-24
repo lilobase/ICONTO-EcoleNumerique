@@ -608,6 +608,8 @@ class ActionGroupGroupe extends CopixActionGroup {
    */
 	function processGetHomeAdminMembers () {
 	 	
+		CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js")); 
+
 	 	$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
@@ -637,6 +639,7 @@ class ActionGroupGroupe extends CopixActionGroup {
   		CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe_admin.css"));
 
 			$tpl = & new CopixTpl ();
+      $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#debut,#fin,#debutW,#finW')");
 			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.CopixI18N::get ('groupe|groupe.adminMembers'));
 			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdmin').'</a>');
 			
@@ -1286,6 +1289,8 @@ class ActionGroupGroupe extends CopixActionGroup {
    */
 	function processGetHomeAdminMember () {
 	 	
+    CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js")); 
+
 	 	$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
@@ -1338,6 +1343,7 @@ class ActionGroupGroupe extends CopixActionGroup {
       //print_r($userInfo);
 
 			$tpl = & new CopixTpl ();
+      $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#debut,#fin')");
 			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.$userInfo['prenom'].' '.$userInfo['nom']);
 			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdminMembers').'</a>');
 			
@@ -1376,6 +1382,8 @@ class ActionGroupGroupe extends CopixActionGroup {
    */
 	function doModifyMember () {
 	 	
+    
+
 	 	$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');

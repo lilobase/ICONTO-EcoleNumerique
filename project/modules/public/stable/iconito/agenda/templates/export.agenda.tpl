@@ -21,7 +21,7 @@
 			<td class="form_libelle">{i18n key="agenda.message.periode"}</td>
 			<td class="periode"><label for="{i18n key="agenda.message.begin"}">{i18n key="agenda.message.begin"}</label>		
 				{assign var=myDate value=$exportParams->datedeb_export|datei18n}
-				{calendar name="datedeb_export" value=$myDate} {i18n key="kernel|date.format"}
+        {inputtext class="datepicker" name="datedeb_export" value=$myDate}
 			</td>
 		</tr>
 		<tr>
@@ -29,7 +29,7 @@
 			<td>
 				<label for="{i18n key="agenda.message.end"}">{i18n key="agenda.message.end"}</label>
 				{assign var=myDate value=$exportParams->datefin_export|datei18n}
-				{calendar name="datefin_export" value=$myDate} {i18n key="kernel|date.format"}
+        {inputtext class="datepicker" name="datefin_export" value=$myDate}
 			</td>
 		</tr>
     <tr>

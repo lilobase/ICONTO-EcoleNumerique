@@ -392,3 +392,10 @@ if (is_ie6) {
 }
 
 
+
+// Active le datepicker pour un div
+function setDatePicker (iDiv) {
+	jQuery(iDiv).datepicker({showOn: 'both', buttonImage: '../../../js/jquery/images/datepicker/calendar.gif', buttonImageOnly: true, numberOfMonths: 3, showButtonPanel: true, appendText: '(JJ/MM/AAAA)', constrainInput: true});
+}
+
+

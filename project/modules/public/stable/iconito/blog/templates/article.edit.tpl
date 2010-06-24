@@ -67,7 +67,11 @@ function doUrl (pUrl) {
 		 
 	   <tr>
 	      <td CLASS="form_libelle" VALIGN="TOP">{i18n key="dao.blogarticle.fields.date_bact"}/{i18n key="dao.blogarticle.fields.time_bact"}</td>
-	      <td CLASS="form_saisie">{calendar name="date_bact" value=$article->date_bact|datei18n} {i18n key="blog.get.edit.article.jour_help"}&nbsp;&nbsp;<input type="text" size=5 name="time_bact" value="{$article->time_bact|escape}" class="form"> {i18n key="blog.get.edit.article.heure_help"}
+	      <td CLASS="form_saisie">
+        
+        {inputtext class="datepicker" name="date_bact" value=$article->date_bact|datei18n}
+        
+        &nbsp;&nbsp;<input type="text" size=5 name="time_bact" value="{$article->time_bact|escape}" class="form"> {i18n key="blog.get.edit.article.heure_help"}
 <br/>
 {i18n key="blog.get.edit.article.date_help"}
 
