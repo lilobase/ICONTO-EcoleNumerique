@@ -213,7 +213,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $answId         =  (isset($tthis->flash->answId)) ? $this->flash->answId : $this->request('id', 'int');
 
         //test if is an error :
-        $error = isset($this->errors);
+        $error = isset($this->flash->error);
 
         /*
          * modification :
@@ -249,7 +249,7 @@ class ActionGroupAdmin extends enicActionGroup{
 
             }
 
-            $errorDatas = $this->flash->errors;
+            $errorDatas = $this->flash->errorMsg;
         }
 
         /*
@@ -271,6 +271,8 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->error     = $errorDatas;
         $ppo->id        = $answId;
         $ppo->quizName = $quizDatas['name'];
+        $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
+        $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
 
         $ppo->MENU = array(
                 array( 'txt' => $this->i18n('quiz.admin.goBackToQuiz'),
@@ -278,6 +280,99 @@ class ActionGroupAdmin extends enicActionGroup{
               );
 
         return _arPPO($ppo, 'admin.question.tpl');
+    }
+
+    public function processUpdateAnsw(){
+
+        //get the flash infos :
+        if(!isset($this->flash->answId))
+            return $this->error('quiz.admin.noRight');
+
+        $answId = $this->flash->answId;
+
+        //check is the correct quiz :
+        $quizId = $this->flash->quizId;
+
+        $answIdIn = $this->request('aw-id');
+
+        if($answId != $answIdIn)
+            return $this->error('quiz.errors.badOperation');
+        /*
+         * BUILD FORM DATA ARRAY
+         */
+        $form['id'] = $answId;
+        $form['name'] = $this->request('aw-name');
+        $form['quiz_id'] = $quizId;
+        $form['content'] = $this->request('aw-content');
+        
+        //build global flash 
+        $this->flash->quizId = $quizId;
+        $this->flash->answId = $answId;
+        $this->flash->modifAction = 'modif';
+
+        //check error :
+        $valid = $this->service('QuizService')->validAnsw($form);
+        if($valid[0] == false){
+            $this->flash->error = true;
+            $this->flash->errorMsg = $valid[1];
+            $this->flash->answDatas = $form;
+            return $this->go('quiz|admin|questions');
+        }
+
+        //update responses
+        $this->service('QuizService')->updateAnsw($form);
+
+        $this->flash->success = "ça marche";
+        //return $this->go('quiz|admin|modif');
+    }
+
+    public function processNewAnsw(){
+
+    }
+
+    public function processUpdateResp(){
+
+        //get the flash infos :
+        if(!isset($this->flash->answId))
+            return $this->error('quiz.admin.noRight');
+
+        $answId = $this->flash->answId;
+
+        //check is the correct quiz :
+        $quizId = $this->flash->quizId;
+
+        $answIdIn = $this->request('aw-id');
+
+        if($answId != $answIdIn)
+            return $this->error('quiz.errors.badOperation');
+        /*
+         * BUILD FORM DATA ARRAY
+         */
+        //get the input 
+        $form['id'] = $answId;
+        $form['name'] = $this->request('aw-name');
+        $form['id_quiz'] = $quizId;
+        $form['content'] = $this->request('aw-content');
+
+        //build global flash
+        $this->flash->quizId = $quizId;
+        $this->flash->answId = $answId;
+        $this->flash->modifAction = 'modif';
+
+        //check error :
+        $valid = $this->service('QuizService')->validAnsw($form);
+        if($valid[0] == false){
+            $this->flash->error = true;
+            $this->flash->errorMsg = $valid[1];
+            $this->flash->answDatas = $form;
+            return $this->go('quiz|admin|questions');
+        }
+
+        //update responses
+        $this->service('QuizService')->updateAnsw($form);
+
+        $this->flash->success = "ça marche";
+        //return $this->go('quiz|admin|modif');
     }
 
     public function processResults(){

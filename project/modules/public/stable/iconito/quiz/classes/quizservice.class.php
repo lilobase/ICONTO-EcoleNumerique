@@ -178,7 +178,13 @@ class QuizService {
     }
 
     public function prepareResp($iDatas){
+        $oReturn['id'] = (isset($iDatas['id'])) ? $iDatas['id']*1 : null;
+        $oReturn['id_question'] = $iDatas*1;
+        $oReturn['content'] = $this->db->quote($iDatas['content']);
+        $oReturn['correct'] = (isset($iDatas['correct'])) ? $iDatas['correct']*1 : 0;
+        $oReturn['order'] = 1;
 
+        return $oReturn;
     }
 
     public function validAnsw($iDatas){
@@ -193,32 +199,46 @@ class QuizService {
         $oReturn[] = empty($errors);
         $oReturn[] = $errors;
 
+        return $oReturn;
     }
 
     public function validResp($iDatas){
-        
+        $errors = array();
+
+        //fetch all resp
+        foreach($iDatas as $i => $datas){
+            if(empty($datas['content']))
+                $errors['resp'][$id]['content'] = 'champs obligatoire';
+        }
+
+        $oReturn[] = empty($errors);
+        $oReturn[] = $errors;
+
+        return $oReturn;
     }
 
     public function delResp($iIdAnsw){
-
+        $id = $iIdAnsw;
+        $this->db->delete('module_quiz_choice', 'id_question = '.$id);
     }
 
     public function delAnsw($iIdAnsw){
-        $id = $iIdAnsw*1;
-        $this->db->query('DELETE FROM module_quiz_questions WHERE id = '.$id)->close();
+        $this->db->delete('module_quiz_questions', (int)$iIdAnsw);
     }
 
-    public function updateAnsw($iIdAnsw, $iDatas){
-        $id = $iIdAnsw*1;
-        $this->db->query('UPDATE module_quiz_questions SET ');
+    public function updateAnsw($iDatas){
+        $data = $this->prepareAnsw($iDatas);
+        $this->db->update('module_quiz_questions', $datas);
     }
 
     public function newAnsw($iDatas){
-
+        $data = $this->prepareAnsw($iDatas);
+        $this->db->create('module_quiz_questions', $datas);
     }
 
     public function newResp($iDatas){
-
+        $data = $this->prepareResp($iDatas);
+        $this->db->create('module_quiz_choices', $datas);
     }
     
 }

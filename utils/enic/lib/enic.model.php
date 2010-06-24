@@ -131,6 +131,19 @@ class enicModel extends enicMod {
         //return $this->query($query)->close();
     }
 
+    public function delete($iTable, $iCond){
+
+        //test if is Id
+        if(is_int($iCond))
+            $iCond = 'id = '.$iCond;
+
+        $query = 'DELETE FROM '.$iTable.' WHERE '.$iCond;
+        var_dump($query);
+
+        //return $this->query($query)->close();
+
+    }
+
     public function close(){
         $this->lastId = $this->_db->lastInsertId();
         $this->_results->closeCursor();
