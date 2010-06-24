@@ -209,8 +209,11 @@ class ActionGroupAdmin extends enicActionGroup{
             return $this->error('quiz.errors.noQuiz');
 
         //check type of modif
-        $modifAction    = $this->request('qaction');
-        $answId         = $this->request('id', 'int');
+        $modifAction    = (isset($this->flash->typeAction)) ? $this->flash->typeAction : $this->request('qaction');
+        $answId         =  (isset($tthis->flash->answId)) ? $this->flash->answId : $this->request('id', 'int');
+
+        //test if is an error :
+        $error = isset($this->errors);
 
         /*
          * modification :
@@ -218,9 +221,10 @@ class ActionGroupAdmin extends enicActionGroup{
         //init the datas arrays
         $answerDatas = array();
         $responsesDatas = array();
-
+        $errorDatas = array();
+        
         //check and validate modification :
-        if($modifAction == 'modif' && !empty($answId)){
+        if($modifAction == 'modif' && !empty($answId) && !$error){
             $answerDatas = $this->service('QuizService')->getAnswerDatas($answId);
 
             //if no datas return to quiz
@@ -232,7 +236,31 @@ class ActionGroupAdmin extends enicActionGroup{
                 $this->error('quiz.admin.noRight');
 
             $responsesDatas = $this->service('QuizService')->getChoicesByAnswer($answId);
+
+        //if errors
+        }elseif ($error) {
+            //if is datas in responses :
+            if(isset($this->flash->respDatas)){
+                $responsesDatas = $this->flash->respDatas;
+
+            //if is datas in answ
+            }elseif(isset($this->flash->answDatas)){
+                $answerDatas = $this->flash->answDatas;
+
+            }
+
+            $errorDatas = $this->flash->errors;
         }
+
+        /*
+         * build flash
+         */
+        //for Quiz
+        $this->flash->modifAction = 'modif';
+        $this->flash->quizId = $quizId;
+
+        //for validation :
+        $this->flash->answId = $answId;
 
         $this->addCss('styles/module_quiz.css');
 
@@ -240,23 +268,16 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
         $ppo->resp      = $responsesDatas;
-
+        $ppo->error     = $errorDatas;
         $ppo->id        = $answId;
         $ppo->quizName = $quizDatas['name'];
 
+        $ppo->MENU = array(
+                array( 'txt' => $this->i18n('quiz.admin.goBackToQuiz'),
+                        'url' => $this->url('quiz|admin|modif'))
+              );
+
         return _arPPO($ppo, 'admin.question.tpl');
-    }
-
-    public function processJsonQuestionServerOut(){
-
-
-
-    }
-
-    public function processJsonQuestionServerIn(){
-
-
-
     }
 
     public function processResults(){

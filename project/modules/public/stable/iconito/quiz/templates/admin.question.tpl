@@ -3,22 +3,54 @@
 jQuery.noConflict();
 
 jQuery(document).ready(function($){
+
+    /*
+     * FUNCTIONS LIB
+     */
+    function updateClick(){
+        /*
+         * delete item
+         */
+        $(".qf-delresp").each(function(){
+            $(this).click(function(){
+                $(this).parent(".qf-resp").remove();
+                return false;
+            });
+         });
+    }
+
+        //hide tpl item
+        $("#qf-tpl-respform").hide();
+        
+        //make tabs
         $("#qf-tabs").tabs();
 
+        //create sortable items
         $("#qf-sortable").sortable({
-			placeholder: 'ui-state-highlight',
-		});
+            placeholder: 'ui-state-highlight'
+        });
+
         $("#qf-sortable").disableSelection();
 
+        //apply 'button style'
         $("#qf-addresp, .qf-submit").button();
 
         /*
          * ADD NEW RESPONSE ITEM
          */
         $("#qf-addresp").click(function(){
-           $("#qf-sortable")
+           $("#qf-sortable .qf-resp:last").after($("#qf-tpl-respform ul").html());
+           return false;
         });
 
+        /*
+         * DELETE ITEM
+         */
+        $(".qf-delresp").live('click', function(){
+           $(this).parent(".qf-resp").remove();
+           return false;
+        });
+         
         $("#qf-form-resp").submit(function(){
             //$(".qf-sortable").each(callback)
             return false;
@@ -46,9 +78,10 @@ jQuery(document).ready(function($){
             <fieldset>
                 <legend>{i18n key="quiz.msg.answ" noEscape=1}</legend>
                 <label for="qf-q-name">{i18n key="quiz.form.title" noEscape=1}</label>
-                <input type="text" id="qf-q-name" name="qf-q-name" value="{$ppo->question.name}"/>
+                <input type="text" id="qf-q-name" name="qf-q-name" value="{$ppo->question.name}"/><br />
                 <label for="qf-q-content">{i18n key="quiz.admin.enonce" noEscape=1}</label>
                 <textarea id="qf-q-content" name="qf-q-content">{$ppo->question.content}</textarea>
+                <input type="submit" class="qf-submit"/>
             </fieldset>
         </form>
     </div>
@@ -67,10 +100,9 @@ jQuery(document).ready(function($){
                         <img src="{copixresource path="images/colorful/24x24/down.png"}" />
                         <input type="text" class="qf-respvalue" name="qf-respvalue[]" value="{$resp.content|utf8_encode}"/>
                         <input type="checkbox" name="" {if $resp.correct == 1} checked="checked" {/if} />
-                        <a href="#" id="qf-delResp">
-                            <img class="qf-delresp" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
+                        <a href="#" class="qf-delresp">
+                            <img class="qf-delresp-img" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
                         </a>
-                       <input class="qf-jq-order" type="hidden" name="order" value="" />
                     </li>
                     {/foreach}
                 </ul>
@@ -79,4 +111,17 @@ jQuery(document).ready(function($){
             </fieldset>
         </form>
     </div>
+</div>
+<div id="qf-tpl-respform">
+    <ul>
+        <li class="ui-state-default qf-resp">
+            <img src="{copixresource path="images/colorful/24x24/up.png"}" />
+            <img src="{copixresource path="images/colorful/24x24/down.png"}" />
+            <input type="text" class="qf-respvalue" name="qf-respvalue[]" value=""/>
+            <input type="checkbox" name="" />
+            <a href="#" class="qf-delresp">
+                <img class="qf-delresp-img" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
+            </a>
+        </li>
+    </ul>
 </div>

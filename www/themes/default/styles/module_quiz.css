@@ -300,7 +300,7 @@
     background-color: #9CD3D2;
 }
 
-#quiz-form label{
+#quiz-form label, #qf-form-answ label {
     display: block;
     width: 150px;
     font-weight: bold;
@@ -310,7 +310,7 @@
     text-align: center;
     line-height: 17px;
 }
-#quiz-form legend{
+#quiz-form legend, #qf-form-answ legend, #qf-form-resp legend{
     font-weight: bold;
     font-size : 17px;
     color: #E98114;
@@ -379,11 +379,22 @@ RESPONSES ADMIN
 .qf-respvalue{
     width: 550px;
 }
-.qf-delresp{
+.qf-delresp-img{
     border: none;
     height: 24px;
     width: 24px;
 }
 .qf-submit{
+    margin-top: 15px;
     float: right;
+}
+
+#qf-q-name, #qf-form-answ textarea {
+    width: 700px;
+}
+
+#qf-form-answ legend{
+    font-weight: bold;
+    font-size : 17px;
+    color: #E98114;
 }
