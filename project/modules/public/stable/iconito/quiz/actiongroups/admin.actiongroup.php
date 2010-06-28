@@ -224,7 +224,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $errorDatas = array();
         
         //check and validate modification :
-        if($modifAction == 'modif' && !empty($answId) && !$error){
+        if($modifAction == 'modif' && !empty($answId)){
             $answerDatas = $this->service('QuizService')->getAnswerDatas($answId);
 
             //if no datas return to quiz
@@ -236,9 +236,10 @@ class ActionGroupAdmin extends enicActionGroup{
                 $this->error('quiz.admin.noRight');
 
             $responsesDatas = $this->service('QuizService')->getChoicesByAnswer($answId);
+        }
 
         //if errors
-        }elseif ($error) {
+        if ($error) {
             //if is datas in responses :
             if(isset($this->flash->respDatas)){
                 $responsesDatas = $this->flash->respDatas;
@@ -263,18 +264,25 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->flash->answId = $answId;
         $this->flash->typeAction = $modifAction;
 
+        /*
+         * place user on selected tabs :
+         */
+        $tabs = $this->request('tabs');
+        
+
         $this->addCss('styles/module_quiz.css');
 
         $this->js->wysiwyg('#aw-content');
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
+        $ppo->tabsSelect = (is_null($tabs)) ? '' : '$("#qf-tabs").tabs("select", 1);';
         $ppo->resp      = $responsesDatas;
         $ppo->error     = $errorDatas;
         $ppo->id        = $answId;
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->quizName = $quizDatas['name'];
         $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
-        $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
+        $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateResp') : $this->url('quiz|admin|newAnsw');
 
         $ppo->MENU = array(
                 array( 'txt' => $this->i18n('quiz.admin.goBackToQuiz'),
@@ -372,6 +380,7 @@ class ActionGroupAdmin extends enicActionGroup{
         //build global flash
         $this->flash->quizId = $quizId;
         $this->flash->answId = $answId;
+        $this->flash->typeAction = 'modif';
         $this->flash->modifAction = 'modif';
 
         //check error :
@@ -380,7 +389,7 @@ class ActionGroupAdmin extends enicActionGroup{
             $this->flash->error = true;
             $this->flash->errorMsg = $valid[1];
             $this->flash->respDatas = $responses;
-            return $this->go('quiz|admin|questions');
+            return $this->go('quiz|admin|questions', array('tabs' => 1));
         }
 
         //deletes previous question :
@@ -388,8 +397,8 @@ class ActionGroupAdmin extends enicActionGroup{
         //create new eregs
         $this->service('QuizService')->newResp($responses);
 
-        $this->flash->success = "ça marche";
-        //return $this->go('quiz|admin|modif');
+        $this->flash->success = $this->i18n('quiz.admin.respSuccess');
+        return $this->go('quiz|admin|questions', array('tabs' => 1));
     }
 
     public function processResults(){

@@ -182,7 +182,7 @@ class QuizService {
     public function prepareResp($iDatas){
         foreach($iDatas as $key => $datas){
             $oReturn[$key]['id'] = (isset($datas['id'])) ? $datas['id']*1 : null;
-            $oReturn[$key]['id_question'] = $datas*1;
+            $oReturn[$key]['id_question'] = $datas['id_question']*1;
             $oReturn[$key]['content'] = $this->db->quote($datas['content']);
             $oReturn[$key]['correct'] = (isset($datas['correct'])) ? $datas['correct']*1 : 0;
             $oReturn[$key]['order'] = $datas['order']*1;
@@ -206,10 +206,20 @@ class QuizService {
     public function validResp($iDatas){
         $errors = array();
 
+        //check if almost one choice is the good response
+        $isValid = false;
+
         //fetch all resp
         foreach($iDatas as $i => $datas){
             if(empty($datas['content']))
-                $errors['resp'][$id]['content'] = 'champs obligatoire';
+                $errors['resp']['content'] = 'Une de vos réponse est vide';
+
+            if($datas['correct'] == 1)
+                $isValid = true;
+        }
+
+        if(!$isValid){
+            $errors['resp']['correct'] = 'Il doit y avoir au moin une bonne réponse';
         }
 
         $oReturn[] = empty($errors);
@@ -220,7 +230,7 @@ class QuizService {
 
     public function delResp($iIdAnsw){
         $id = $iIdAnsw;
-        $this->db->delete('module_quiz_choice', 'id_question = '.$id);
+        $this->db->delete('module_quiz_choices', 'id_question = '.$id);
     }
 
     public function delAnsw($iIdAnsw){
@@ -238,8 +248,11 @@ class QuizService {
     }
 
     public function newResp($iDatas){
-        $data = $this->prepareResp($iDatas);
-        $this->db->create('module_quiz_choices', $datas);
+        $datas = $this->prepareResp($iDatas);
+        foreach($datas as $data){
+            $this->db->create('module_quiz_choices', $data);
+        }
+        return true;
     }
     
 }

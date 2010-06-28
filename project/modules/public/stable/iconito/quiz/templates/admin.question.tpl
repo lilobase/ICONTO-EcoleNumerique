@@ -17,13 +17,17 @@ jQuery(document).ready(function($){
                 return false;
             });
          });
-    }
+        }
 
         //hide tpl item
         $("#qf-tpl-respform").hide();
         
         //make tabs
         $("#qf-tabs").tabs();
+
+        {/literal}
+            {$ppo->tabsSelect}
+        {literal}
 
         //create sortable items
         $("#qf-sortable").sortable({
@@ -61,7 +65,7 @@ jQuery(document).ready(function($){
                 
                 var finalValue = mainct+'###'+correct+'###'+order;
                 $(this).children(".qf-content").val(finalValue);
-                    alert($(this).children(".qf-content").val());
+                return true;
             });
         });
     });
@@ -117,23 +121,44 @@ jQuery(document).ready(function($){
         <form id="qf-form-resp" action="{$ppo->actionResp}" method="post" >
             <fieldset>
                 <legend>{i18n key="quiz.msg.resp" noEscape=1}</legend>
+
+                {if isset($ppo->error.resp.content)}<p class="ui-state-error" >{$ppo->error.resp.content}</p>{/if}
+                {if isset($ppo->error.resp.correct)}<p class="ui-state-error" >{$ppo->error.resp.correct}</p>{/if}
+
                 <button id="qf-addresp">{i18n key="quiz.admin.addResp" noEscape=1}</button>
+             
+                <ul id="qf-sortable">   
                 {if !empty($ppo->resp)}
-                <ul id="qf-sortable">
                     <!-- RESPONSES ARRAY -->
                     {foreach from=$ppo->resp item=resp}
                     <li class="ui-state-default qf-resp">
                         <img src="{copixresource path="images/colorful/24x24/up.png"}" />
                         <img src="{copixresource path="images/colorful/24x24/down.png"}" />
-                        <input type="text" class="qf-content" name="qf-content[]" value="{$resp.content|utf8_encode}"/>
+                        <input type="text" class="qf-content" name="qf-content[]" value="{$resp.content}"/>
                         <input type="checkbox" class="qf-correct" name="qf-correct" {if $resp.correct == 1} checked="checked" {/if} />
                         <a href="#" class="qf-delresp">
                             <img class="qf-delresp-img" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
                         </a>
                     </li>
                     {/foreach}
-                </ul>
                 {/if}
+
+                    
+                {* If no responses : *}
+                {if empty($ppo->resp)}
+                    <p class="ui-state-highlight"><strong>{i18n key="quiz.errors.noChoice" noEscape=1}</strong></p>
+                    <li class="ui-state-default qf-resp">
+                        <img src="{copixresource path="images/colorful/24x24/up.png"}" />
+                        <img src="{copixresource path="images/colorful/24x24/down.png"}" />
+                        <input type="text" class="qf-content" name="qf-content[]" value=""/>
+                        <input type="checkbox" class="qf-correct" name="qf-correct" />
+                        <a href="#" class="qf-delresp">
+                            <img class="qf-delresp-img" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
+                        </a>
+                    </li>
+                {/if}
+                </ul>
+                
                 <!-- process data's, integrity check by server side sessions storage -->
                 <input type="hidden" name="aw-id" value="{$ppo->id}" />
                 <input type="submit" class="qf-submit"/>

@@ -121,14 +121,19 @@ class enicModel extends enicMod {
     }
 
     public function create($iTable, $iDatas){
+
+        //delete ID if exists
+        if(array_key_exists('id', $iDatas))
+            unset($iDatas['id']);
+
         foreach ($iDatas as $field => $value){
             $fields[] = '`'.$field.'`';
             $values[] = $value;
         }
 
         $query = 'INSERT INTO '.$iTable.' ('.implode(', ', $fields).') VALUES ('.implode(',', $values).')';
-        var_dump($query);
-        //return $this->query($query)->close();
+
+        return $this->query($query)->close();
     }
 
     public function delete($iTable, $iCond){
@@ -138,9 +143,8 @@ class enicModel extends enicMod {
             $iCond = 'id = '.$iCond;
 
         $query = 'DELETE FROM '.$iTable.' WHERE '.$iCond;
-        var_dump($query);
 
-        //return $this->query($query)->close();
+        return $this->query($query)->close();
 
     }
 
