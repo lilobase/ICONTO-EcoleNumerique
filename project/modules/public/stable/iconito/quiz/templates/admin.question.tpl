@@ -88,20 +88,33 @@ jQuery(document).ready(function($){
     </ul>
 
     <div id="qf-tabs-answ" class="ui-tabs-panel ui-widget-content ui-corner-bottom" >
-        <form id="qf-form-answ" action="" method="" >
+        <form id="qf-form-answ" action="{$ppo->actionAnsw}" method="post" >
             <fieldset>
                 <legend>{i18n key="quiz.msg.answ" noEscape=1}</legend>
-                <label for="qf-q-name">{i18n key="quiz.form.title" noEscape=1}</label>
-                <input type="text" id="qf-q-name" name="qf-q-name" value="{$ppo->question.name}"/><br />
-                <label for="qf-q-content">{i18n key="quiz.admin.enonce" noEscape=1}</label>
-                <textarea id="qf-q-content" name="qf-q-content">{$ppo->question.content}</textarea>
+
+                
+                <label for="aw-name">{i18n key="quiz.form.title" noEscape=1}</label>
+
+                {if isset($ppo->error.name)}<p class="ui-state-error" >{$ppo->error.name}</p>{/if}
+
+                <input type="text" id="aw-name" name="aw-name" value="{$ppo->question.name}"/><br />
+
+
+                <label for="aw-content">{i18n key="quiz.admin.enonce" noEscape=1}</label>
+                <textarea id="aw-content" name="aw-content">{$ppo->question.content}</textarea>
+
+
+                <!-- process data's, integrity check by server side sessions storage -->
+                <input type="hidden" name="aw-id" value="{$ppo->id}" />
+
+
                 <input type="submit" class="qf-submit"/>
             </fieldset>
         </form>
     </div>
 
     <div id="qf-tabs-resp" class="ui-tabs-panel ui-widget-content ui-corner-bottom" >
-        <form id="qf-form-resp" action="" method="" >
+        <form id="qf-form-resp" action="{$ppo->actionResp}" method="post" >
             <fieldset>
                 <legend>{i18n key="quiz.msg.resp" noEscape=1}</legend>
                 <button id="qf-addresp">{i18n key="quiz.admin.addResp" noEscape=1}</button>
@@ -121,6 +134,8 @@ jQuery(document).ready(function($){
                     {/foreach}
                 </ul>
                 {/if}
+                <!-- process data's, integrity check by server side sessions storage -->
+                <input type="hidden" name="aw-id" value="{$ppo->id}" />
                 <input type="submit" class="qf-submit"/>
             </fieldset>
         </form>

@@ -171,10 +171,12 @@ class QuizService {
     public function prepareAnsw($iDatas){
         $oReturn['name'] = $this->db->quote($iDatas['name']);
         $oReturn['content'] = $this->db->quote($iDatas['content']);
-        $oReturn['choice'] = 'choice';
+        $oReturn['opt_type'] = '"choice"';
         $oReturn['id'] = (isset($iDatas['id'])) ? $iDatas['id']*1 : null;
         $oReturn['id_quiz'] = $iDatas['id_quiz']*1;
         $oReturn['order'] = 1;
+
+        return $oReturn;
     }
 
     public function prepareResp($iDatas){
@@ -194,9 +196,6 @@ class QuizService {
 
         if(empty($iDatas['name']))
             $errors['name'] = 'champs obligatoire';
-
-        if(empty($iDatas['id_quiz']))
-            $errors['id_quiz'] = 'champs obligatoire';
 
         $oReturn[] = empty($errors);
         $oReturn[] = $errors;
@@ -229,7 +228,7 @@ class QuizService {
     }
 
     public function updateAnsw($iDatas){
-        $data = $this->prepareAnsw($iDatas);
+        $datas = $this->prepareAnsw($iDatas);
         $this->db->update('module_quiz_questions', $datas);
     }
 

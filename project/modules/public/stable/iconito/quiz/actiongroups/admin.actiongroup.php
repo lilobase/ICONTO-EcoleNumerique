@@ -210,7 +210,7 @@ class ActionGroupAdmin extends enicActionGroup{
 
         //check type of modif
         $modifAction    = (isset($this->flash->typeAction)) ? $this->flash->typeAction : $this->request('qaction');
-        $answId         =  (isset($tthis->flash->answId)) ? $this->flash->answId : $this->request('id', 'int');
+        $answId         =  (isset($this->flash->answId)) ? $this->flash->answId : $this->request('id', 'int');
 
         //test if is an error :
         $error = isset($this->flash->error);
@@ -261,10 +261,11 @@ class ActionGroupAdmin extends enicActionGroup{
 
         //for validation :
         $this->flash->answId = $answId;
+        $this->flash->typeAction = $modifAction;
 
         $this->addCss('styles/module_quiz.css');
 
-        $this->js->wysiwyg('#qf-q-content');
+        $this->js->wysiwyg('#aw-content');
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
         $ppo->resp      = $responsesDatas;
@@ -289,26 +290,28 @@ class ActionGroupAdmin extends enicActionGroup{
         if(!isset($this->flash->answId))
             return $this->error('quiz.admin.noRight');
 
-        $answId = $this->flash->answId;
+        $answId = (int)$this->flash->answId;
 
         //check is the correct quiz :
         $quizId = $this->flash->quizId;
 
-        $answIdIn = $this->request('aw-id');
+        $answIdIn = (int)$this->request('aw-id');
 
-        if($answId != $answIdIn)
+        if((int)$answId != (int)$answIdIn)
             return $this->error('quiz.errors.badOperation');
+
         /*
          * BUILD FORM DATA ARRAY
          */
         $form['id'] = $answId;
         $form['name'] = $this->request('aw-name');
-        $form['quiz_id'] = $quizId;
+        $form['id_quiz'] = $quizId;
         $form['content'] = $this->request('aw-content');
         
         //build global flash 
         $this->flash->quizId = $quizId;
         $this->flash->answId = $answId;
+        $this->flash->typeAction = 'modif';
         $this->flash->modifAction = 'modif';
 
         //check error :
@@ -323,8 +326,8 @@ class ActionGroupAdmin extends enicActionGroup{
         //update responses
         $this->service('QuizService')->updateAnsw($form);
 
-        $this->flash->success = "ça marche";
-        //return $this->go('quiz|admin|questions');
+        $this->flash->success = $this->i18n('quiz.admin.answSuccess');
+        return $this->go('quiz|admin|modif');
     }
 
     public function processNewAnsw(){

@@ -85,7 +85,7 @@
             {$question.name}
         </td>
         <td class="col2">
-            {$question.content|truncate:50:'...'|utf8_encode|strip_tags}
+            {$question.content|truncate:50:'...'|strip_tags}
         </td>
         <td class="col3">
                 <a href="{copixurl dest="quiz|admin|questions" id=$question.id qaction="modif"}">
