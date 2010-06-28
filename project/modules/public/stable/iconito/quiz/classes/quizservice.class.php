@@ -178,11 +178,13 @@ class QuizService {
     }
 
     public function prepareResp($iDatas){
-        $oReturn['id'] = (isset($iDatas['id'])) ? $iDatas['id']*1 : null;
-        $oReturn['id_question'] = $iDatas*1;
-        $oReturn['content'] = $this->db->quote($iDatas['content']);
-        $oReturn['correct'] = (isset($iDatas['correct'])) ? $iDatas['correct']*1 : 0;
-        $oReturn['order'] = 1;
+        foreach($iDatas as $key => $datas){
+            $oReturn[$key]['id'] = (isset($datas['id'])) ? $datas['id']*1 : null;
+            $oReturn[$key]['id_question'] = $datas*1;
+            $oReturn[$key]['content'] = $this->db->quote($datas['content']);
+            $oReturn[$key]['correct'] = (isset($datas['correct'])) ? $datas['correct']*1 : 0;
+            $oReturn[$key]['order'] = $datas['order']*1;
+        }
 
         return $oReturn;
     }

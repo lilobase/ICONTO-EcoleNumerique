@@ -52,13 +52,27 @@ jQuery(document).ready(function($){
         });
          
         $("#qf-form-resp").submit(function(){
-            //$(".qf-sortable").each(callback)
-            return false;
+            console.log('entré dans submit');
+            $("#qf-sortable li").each(function(){
+                //get the values :
+                var mainct = $(this).children(".qf-content").val();
+                var order = $(this).index("#qf-sortable li");
+                var correct = ($(this).children(".qf-correct").is(":checked")) ? 1 : 0;
+                
+                var finalValue = mainct+'###'+correct+'###'+order;
+                $(this).children(".qf-content").val(finalValue);
+                    alert($(this).children(".qf-content").val());
+            });
         });
     });
 </script>
 {/literal}
+<h3>{i18n key="quiz.admin.admin" noEscape=1}</h3>
 
+<hr class="quiz-separator" />
+{if !empty($ppo->success)}
+    <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
+{/if}
 <div id="qf-tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
         <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">
@@ -98,8 +112,8 @@ jQuery(document).ready(function($){
                     <li class="ui-state-default qf-resp">
                         <img src="{copixresource path="images/colorful/24x24/up.png"}" />
                         <img src="{copixresource path="images/colorful/24x24/down.png"}" />
-                        <input type="text" class="qf-respvalue" name="qf-respvalue[]" value="{$resp.content|utf8_encode}"/>
-                        <input type="checkbox" name="" {if $resp.correct == 1} checked="checked" {/if} />
+                        <input type="text" class="qf-content" name="qf-content[]" value="{$resp.content|utf8_encode}"/>
+                        <input type="checkbox" class="qf-correct" name="qf-correct" {if $resp.correct == 1} checked="checked" {/if} />
                         <a href="#" class="qf-delresp">
                             <img class="qf-delresp-img" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
                         </a>
@@ -117,8 +131,8 @@ jQuery(document).ready(function($){
         <li class="ui-state-default qf-resp">
             <img src="{copixresource path="images/colorful/24x24/up.png"}" />
             <img src="{copixresource path="images/colorful/24x24/down.png"}" />
-            <input type="text" class="qf-respvalue" name="qf-respvalue[]" value=""/>
-            <input type="checkbox" name="" />
+            <input type="text" class="qf-content" name="qf-content[]" />
+            <input type="checkbox" class="qf-correct" name="qf-correct" />
             <a href="#" class="qf-delresp">
                 <img class="qf-delresp-img" src="{copixresource path="images/colorful/24x24/trash.png"}" alt="{i18n key="quiz.admin.delResp" noEscape=1}" title="{i18n key="quiz.admin.delResp" noEscape=1}"/>
             </a>

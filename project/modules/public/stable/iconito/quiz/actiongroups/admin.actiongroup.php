@@ -116,7 +116,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->js->date('.qf-date', 'full');
 
         $this->addCss('styles/module_quiz.css');
-
+        $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->quiz = $quizDatas;
         $ppo->questions = $questionsDatas;
         $ppo->action = $this->url('quiz|admin|processModif');
@@ -270,6 +270,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->resp      = $responsesDatas;
         $ppo->error     = $errorDatas;
         $ppo->id        = $answId;
+        $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->quizName = $quizDatas['name'];
         $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
         $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
@@ -323,7 +324,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->service('QuizService')->updateAnsw($form);
 
         $this->flash->success = "ça marche";
-        //return $this->go('quiz|admin|modif');
+        //return $this->go('quiz|admin|questions');
     }
 
     public function processNewAnsw(){
@@ -349,10 +350,21 @@ class ActionGroupAdmin extends enicActionGroup{
          * BUILD FORM DATA ARRAY
          */
         //get the input 
-        $form['id'] = $answId;
-        $form['name'] = $this->request('aw-name');
-        $form['id_quiz'] = $quizId;
-        $form['content'] = $this->request('aw-content');
+        $content = $this->request('qf-content');
+        if(!is_array($content))
+            return $this->error('quiz.errors.badOperation');
+
+        foreach ($content as $key => $response) {
+            $responseDatas = explode('###', $response);
+            //check the arg's number
+            if(count($responseDatas) != 3)
+                return $this->error('quiz.errors.badOperation');
+
+            $responses[$key]['id_question'] = $answId;
+            $responses[$key]['content'] = $responseDatas[0];
+            $responses[$key]['correct'] = $responseDatas[1];
+            $responses[$key]['order'] = $responseDatas[2];
+        }
 
         //build global flash
         $this->flash->quizId = $quizId;
@@ -360,16 +372,18 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->flash->modifAction = 'modif';
 
         //check error :
-        $valid = $this->service('QuizService')->validAnsw($form);
+        $valid = $this->service('QuizService')->validResp($responses);
         if($valid[0] == false){
             $this->flash->error = true;
             $this->flash->errorMsg = $valid[1];
-            $this->flash->answDatas = $form;
+            $this->flash->respDatas = $responses;
             return $this->go('quiz|admin|questions');
         }
 
-        //update responses
-        $this->service('QuizService')->updateAnsw($form);
+        //deletes previous question :
+        $this->service('QuizService')->delResp($answId);
+        //create new eregs
+        $this->service('QuizService')->newResp($responses);
 
         $this->flash->success = "ça marche";
         //return $this->go('quiz|admin|modif');

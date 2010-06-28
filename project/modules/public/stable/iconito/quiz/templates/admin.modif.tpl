@@ -2,6 +2,9 @@
 <h3>{i18n key="quiz.msg.newQuiz" noEscape=1}</h3>
 {else}
 <h3>{$ppo->quiz.name}</h3>
+{if !empty($ppo->success)}
+    <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
+{/if}
 <a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
 {/if}
 
