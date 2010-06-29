@@ -79,10 +79,10 @@ function iconito_multimedia ($contents, $attr){
 				$height = 20;
                 $ret = '<div>
                         <object type="application/x-shockwave-flash" 
-                            data="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf" 
+                            data="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer2.swf" 
                             width="'.$width.'" 
                             height="'.$height.'"> 
-                            <param name="movie" value="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf" />
+                            <param name="movie" value="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer2.swf" />
                             <param name="flashvars" value="mp3='.$file.'" />
                         </object>
                         </div>';
