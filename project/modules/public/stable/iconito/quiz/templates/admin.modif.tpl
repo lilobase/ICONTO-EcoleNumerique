@@ -6,6 +6,7 @@
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
 <a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
+<a href="#goansw" id="q-goansw">{i18n key="quiz.admin.goAnsw" noEscape=1}</a>
 {/if}
 
 <hr class="quiz-separator" />
@@ -64,12 +65,19 @@
 </form>
 
 <hr class="quiz-space" />
+<a name="goansw"></a>
 <h3>{i18n key="quiz.msg.listQuestions" noEscape=1}</h3>
 <hr class="quiz-separator" />
 
 {if empty($ppo->questions)}
         <h4 class="quiz-index-title">{i18n key="quiz.errors.noQuestions" noEscape=1}</h4>
+        <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+            <a href="{copixurl dest='quiz|admin|questions'}" class="ui-button-text">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
+        </button>
 {else}
+        <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
+            <a href="{copixurl dest='quiz|admin|questions'}" class="ui-button-text">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
+        </button>
     <table id="quiz-t-list">
     <thead>
         <tr>

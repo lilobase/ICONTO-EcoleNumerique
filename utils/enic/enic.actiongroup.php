@@ -35,6 +35,7 @@ class enicActionGroup extends CopixActionGroup {
         $this->matrix       =& enic::get('matrixCache');
         $this->menu         =& enic::get('menu');
         $this->model        =& enic::get('model');
+        $this->db           =& enic::get('model');
         $this->js           =& enic::get('javascript');
         $this->css          =& enic::get('css');
         $this->session      =& enic::get('session');

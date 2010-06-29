@@ -127,6 +127,21 @@ class ActionGroupAdmin extends enicActionGroup{
         return _arPPO($ppo, 'admin.modif.tpl');
     }
 
+    function processDelQuiz(){
+        /*
+         * Security
+         */
+        if(!isset($this->flash->quizId))
+            return $this->error('quiz.admin.noRight');
+
+        $this->service('QuizService')->delQuiz($this->flash->quizId);
+
+        $this->flash->success = 'Quiz supprim&eacute;';
+
+        return $this->go('quiz|admin|');
+
+    }
+
     function processProcessModif(){
 
         /*
@@ -282,7 +297,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->quizName = $quizDatas['name'];
         $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
-        $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateResp') : $this->url('quiz|admin|newAnsw');
+        $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateResp') : '#';
 
         $ppo->MENU = array(
                 array( 'txt' => $this->i18n('quiz.admin.goBackToQuiz'),
@@ -320,7 +335,6 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->flash->quizId = $quizId;
         $this->flash->answId = $answId;
         $this->flash->typeAction = 'modif';
-        $this->flash->modifAction = 'modif';
 
         //check error :
         $valid = $this->service('QuizService')->validAnsw($form);
@@ -335,11 +349,49 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->service('QuizService')->updateAnsw($form);
 
         $this->flash->success = $this->i18n('quiz.admin.answSuccess');
-        return $this->go('quiz|admin|modif');
+        return $this->go('quiz|admin|questions');
     }
 
     public function processNewAnsw(){
+        //get the flash infos :
+        if(!isset($this->flash->quizId))
+            return $this->error('quiz.admin.noRight');
 
+        $answId = (int)$this->flash->answId;
+
+        //check is the correct quiz :
+        $quizId = $this->flash->quizId;
+
+        /*
+         * BUILD FORM DATA ARRAY
+         */
+        $form['id'] = $answId;
+        $form['name'] = $this->request('aw-name');
+        $form['id_quiz'] = $quizId;
+        $form['content'] = $this->request('aw-content');
+
+        //build global flash
+        $this->flash->quizId = $quizId;
+
+        //check error :
+        $valid = $this->service('QuizService')->validAnsw($form);
+        if($valid[0] == false){
+            $this->flash->error = true;
+            $this->flash->errorMsg = $valid[1];
+            $this->flash->answDatas = $form;
+            return $this->go('quiz|admin|questions');
+        }
+
+        //update responses
+        $this->service('QuizService')->newAnsw($form);
+
+        $this->flash->success = $this->i18n('quiz.admin.answSuccess');
+
+        //load the new ID
+        $newId = $this->model->lastId;
+        $this->flahs->typeAction = 'modif';
+        $this->flash->answId = $newId;
+        return $this->go('quiz|admin|questions');
     }
 
     public function processUpdateResp(){

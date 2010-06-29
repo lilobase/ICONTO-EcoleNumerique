@@ -17,7 +17,7 @@
             {$quiz.name}
         </td>
         <td class="col2">
-            {$quiz.description|truncate:50:'...'|utf8_encode|strip_tags}
+            {$quiz.description|truncate:50:'...'|strip_tags}
         </td>
         <td class="col3">
             {if $ppo->action == 'modif' || empty($ppo->action)}

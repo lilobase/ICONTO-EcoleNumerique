@@ -103,7 +103,11 @@ class QuizService {
     }
 
     public function newForm($iDatas){
+        $datas = $this->formatFormDatas($iDatas);
 
+        $this->db->create('module_quiz_quiz', $datas);
+
+        return true;
     }
 
     public function formatFormDatas($iDatas){
@@ -244,7 +248,7 @@ class QuizService {
 
     public function newAnsw($iDatas){
         $data = $this->prepareAnsw($iDatas);
-        $this->db->create('module_quiz_questions', $datas);
+        $this->db->create('module_quiz_questions', $data);
     }
 
     public function newResp($iDatas){
@@ -252,6 +256,14 @@ class QuizService {
         foreach($datas as $data){
             $this->db->create('module_quiz_choices', $data);
         }
+        return true;
+    }
+
+    public function delQuiz($iIsQuiz){
+        $id = $iIsQuiz*1;
+
+        $this->db->delete('module_quiz_quiz', $id);
+
         return true;
     }
     
