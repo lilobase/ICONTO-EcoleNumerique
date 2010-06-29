@@ -239,6 +239,7 @@ class QuizService {
 
     public function delAnsw($iIdAnsw){
         $this->db->delete('module_quiz_questions', (int)$iIdAnsw);
+        $this->delResp($iIdAnsw);
     }
 
     public function updateAnsw($iDatas){
@@ -265,6 +266,20 @@ class QuizService {
         $this->db->delete('module_quiz_quiz', $id);
 
         return true;
+    }
+
+    public function existsQuiz($iId){
+        //security
+        $id = $iId*1;
+
+        return !is_null($this->db->query('SELECT id FROM module_quiz_quiz WHERE id = '.$id)->toString());
+    }
+
+    public function existsAnsw($iId){
+        //security
+        $id = $iId*1;
+        
+        return !is_null($this->db->query('SELECT id FROM module_quiz_questions WHERE id = '.$id)->toString());
     }
     
 }

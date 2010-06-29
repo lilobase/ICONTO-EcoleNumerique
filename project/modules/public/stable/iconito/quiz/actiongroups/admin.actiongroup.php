@@ -114,6 +114,9 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->js->wysiwyg('#qf-description');
         $this->js->wysiwyg('#qf-help');
         $this->js->date('.qf-date', 'full');
+        $this->js->addJs('$("#q-suppr").click(function(){
+                                return confirm("'.$this->i18n('quiz.confirm.delQuiz').'");
+                            });');
 
         $this->addCss('styles/module_quiz.css');
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
@@ -134,12 +137,43 @@ class ActionGroupAdmin extends enicActionGroup{
         if(!isset($this->flash->quizId))
             return $this->error('quiz.admin.noRight');
 
-        $this->service('QuizService')->delQuiz($this->flash->quizId);
+        //verify quiz exists
+        $this->service('QuizService')->existsQuiz($this->flash->quizId);
+
+        if(!$this->service('QuizService')->delQuiz($this->flash->quizId))
+            return $this->error('quiz.errors.noQuiz');
 
         $this->flash->success = 'Quiz supprim&eacute;';
 
         return $this->go('quiz|admin|');
 
+    }
+
+    public function processDelAnsw(){
+        /*
+         * Security
+         */
+        if(!isset($this->flash->quizId) || !isset($this->flash->answId))
+            return $this->error ('quiz.admin.noRight');
+
+        //get informations
+        $answId = $this->flash->answId;
+        $quizId = $this->flash->quizId;
+
+        //verify answer existence
+        if(!$this->service('QuizService')->existsAnsw($answId))
+            return $this->error('quiz.errors.noQuestions');
+
+        //del answer
+        $this->service('QuizService')->delAnsw($answId);
+
+        //prepare flash for quiz :
+        $this->flash->modifAction = 'modif';
+        $this->flash->quizid = $quizId;
+
+        $this->flash->success = 'Question supprimée';
+
+        return $this->go('quiz|admin|modif');
     }
 
     function processProcessModif(){
@@ -288,6 +322,10 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->addCss('styles/module_quiz.css');
 
         $this->js->wysiwyg('#aw-content');
+        $this->js->addJs('$("#q-suppr").click(function(){
+                                return confirm("'.$this->i18n('quiz.confirm.delAnsw').'");
+                            });');
+
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
         $ppo->tabsSelect = (is_null($tabs)) ? '' : '$("#qf-tabs").tabs("select", 1);';
@@ -298,6 +336,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->quizName = $quizDatas['name'];
         $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
         $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateResp') : '#';
+        $ppo->new = ($modifAction == 'modif') ? true : false;
 
         $ppo->MENU = array(
                 array( 'txt' => $this->i18n('quiz.admin.goBackToQuiz'),
@@ -389,7 +428,7 @@ class ActionGroupAdmin extends enicActionGroup{
 
         //load the new ID
         $newId = $this->model->lastId;
-        $this->flahs->typeAction = 'modif';
+        $this->flash->typeAction = 'modif';
         $this->flash->answId = $newId;
         return $this->go('quiz|admin|questions');
     }

@@ -77,6 +77,9 @@ jQuery(document).ready(function($){
 {if !empty($ppo->success)}
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
+{if $ppo->new}
+    <a href="{copixurl dest="quiz|admin|delAnsw"}" id="a-suppr">{i18n key="quiz.admin.delAnsw" noEscape=1}</a>
+{/if}
 <div id="qf-tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
         <li class="ui-state-default ui-corner-top ui-tabs-selected ui-state-active">
