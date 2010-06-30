@@ -43,8 +43,9 @@ class ActionGroupQuiz extends enicActionGroup {
                 'save' => $quizData->opt_save,
                 'show_result' => $quizData->opt_show_results,
             ));
+
+            //description
             $desc = ($quizData->description == null) ? null : $quizData->description;
-            qSession('help', $desc);
 
             if($quizData->lock == 1)
                 return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.lock'), 'back'=>CopixUrl::get('quiz||')));
@@ -65,7 +66,7 @@ class ActionGroupQuiz extends enicActionGroup {
 
         //get informations from DB
         $userId = _currentUser()->getId();
-        $authorInfos = Kernel::getUserInfo('ID', $quizData->id_author);
+        $authorInfos = Kernel::getUserInfo('ID', $quizData->id_owner);
         $questionsData = _ioDAO('quiz|quiz_questions')->getQuestionsForQuiz($pId);
         $responsesFromUser = _ioDAO('quiz|quiz_responses')->getResponsesFromUser($userId, $pId);
 
@@ -209,8 +210,7 @@ class ActionGroupQuiz extends enicActionGroup {
         $one = 0;
         foreach($choicesData as $choice){
 
-            $choiceReturn[$i]['txt'] = $choice->content_txt;
-            $choiceReturn[$i]['pic'] = $choice->content_pic;
+            $choiceReturn[$i]['ct'] = $choice->content;
             $choiceReturn[$i]['id'] = $choice->id;
             if(in_array($choice->id, $currentQ['userChoices']))
                 $choiceReturn[$i]['user'] = true;
@@ -241,7 +241,7 @@ class ActionGroupQuiz extends enicActionGroup {
         $ppo->question = $questionsData;
         $ppo->type = ($questionsData->opt_type == 'choice') ? 'radio' : 'txt';
         $ppo->select = ($one == 1) ? 'radio' : 'checkbox';
-        $ppo->help = qSession('help');
+        $ppo->help = (empty($questionsData->help)) ? $this->i18n('quiz.msg.noHelp') : $questionsData->help ;
         return _arPPO($ppo, 'question.tpl'); 
 
     }

@@ -36,6 +36,9 @@ class enic{
         $className = 'enic'.ucfirst($type);
         self::$l[$name] = new $className();
 
+        //add name attribute
+        self::$l[$name]->_name = $name;
+
         //execute the startExec
         self::$l[$name]->startExec();
 

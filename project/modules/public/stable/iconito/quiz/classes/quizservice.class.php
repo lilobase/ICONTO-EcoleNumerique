@@ -148,13 +148,15 @@ class QuizService {
 
     public function isOwner($iIdQuiz){
         //get users infos :
-        $user = enic::get('user');
+        $user =& enic::get('user');
 
         //protect id
         $id = $iIdQuiz*1;
         $id_owner = $this->db->query('SELECT id_owner FROM module_quiz_quiz WHERE id = '.$id)->toInt();
 
-        return ($id == $id_owner);
+        $idUser = $user->id;
+
+        return ($idUser == $id_owner);
     }
 
     public function getAnswerDatas($iId){

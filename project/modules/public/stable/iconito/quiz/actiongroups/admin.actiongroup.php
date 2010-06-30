@@ -82,7 +82,7 @@ class ActionGroupAdmin extends enicActionGroup{
                 return $this->error('quiz.errors.noQuiz');
 
           //test if the current user is owner of the quiz
-            if($quizDatas['id_owner'] !== $this->user->id)
+            if($quizDatas['id_owner'] != $this->user->id)
                 return $this->error('quiz.admin.noRight');
 
             //get questions datas :
@@ -502,10 +502,13 @@ class ActionGroupAdmin extends enicActionGroup{
              return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuiz'), 'back'=>CopixUrl::get('quiz||')));
         }
 
+        //test if the user is owner
+        if(!$this->service('QuizService')->isOwner($pId))
+            $this->error ('quiz.admin.noRight');
+
 
         $responsesData = _ioDAO('quiz_responses')->getResponsesByQuiz($pId);
         $questionsData = _ioDAO('quiz_questions')->getQuestionsForQuiz($pId);
-		
 		
 		
 		/* ========================================
@@ -547,6 +550,7 @@ class ActionGroupAdmin extends enicActionGroup{
 		=========================================*/
         $i = 0;
 		$listUsers = array();
+                $users = array();
         foreach($responsesData as $response){
 			if(!in_array($response->id_user, $listUsers)){
 				//for no duplicate data
@@ -575,11 +579,12 @@ class ActionGroupAdmin extends enicActionGroup{
 		users +=
                         'goodresp' = COUNT GOOD QUESTIONS,
 		=====================================*/
+                $nbQuestions = 0;
 		foreach($users as $key => $user){
 			$response = $responses[$user['id']];			
 			$users[$key]['date'] = date("d/m H:i",max($response['date']));
                         $users[$key]['goodresp'] = 0;
-                        $nbQuestions = 0;
+                       
 			foreach($questions as $Qkey => $question){
                                 $nbQuestions++;
 				if(!isset($response[$question['id']])){
