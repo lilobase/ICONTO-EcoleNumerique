@@ -13,6 +13,7 @@
         <property name="date_end" type="int" />
         <property name="name" type="string" />
         <property name="description" type="string"/>
+        <property name="help" type="string"/>
         <property name="pic" type="string"/>
         <property name="opt_save" type="int" />
         <property name="opt_show_results" type="string"/>

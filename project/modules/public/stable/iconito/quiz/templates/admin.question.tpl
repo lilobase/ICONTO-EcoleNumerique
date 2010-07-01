@@ -44,6 +44,7 @@ jQuery(document).ready(function($){
          */
         $("#qf-addresp").click(function(){
            $("#qf-sortable .qf-resp:last").after($("#qf-tpl-respform ul").html());
+          $("#qf-sortable .qf-resp:last .qf-content").focus();
            return false;
         });
 

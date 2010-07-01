@@ -22,6 +22,11 @@ class QuizService {
         return true;
     }
 
+    public function getHelp($iIdQuiz){
+        $id = $iIdQuiz*1;
+        return $this->query('SELECT help FROM module_quiz_quiz WHERE id = '.$id)->toString();
+    }
+
     public function getCurrentQuiz(){
         
         return $this->db->query('SELECT * FROM module_quiz_quiz WHERE

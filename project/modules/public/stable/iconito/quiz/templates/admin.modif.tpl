@@ -6,6 +6,7 @@
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
 <a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr" class="button">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
+<a href="{copixurl dest="quiz|quiz" id=$ppo->quiz.id}" id="q-goquiz" class="button">{i18n key="quiz.admin.goQuiz" noEscape=1}</a>
 <a href="#goansw" id="q-goansw" class="button">{i18n key="quiz.admin.goAnsw" noEscape=1}</a>
 {/if}
 

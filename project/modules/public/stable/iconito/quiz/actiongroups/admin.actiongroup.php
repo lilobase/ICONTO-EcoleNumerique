@@ -315,9 +315,17 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->flash->typeAction = $modifAction;
 
         /*
-         * place user on selected tabs :
+         * place user on selected tabs & check if is new creation
          */
         $tabs = $this->request('tabs');
+        if($modifAction != 'modif'){
+            $tabDatas = '$("#qf-tabs").tabs("remove", 1);';
+        }elseif(!is_null($tabs)){
+            $tabDatas = '$("#qf-tabs").tabs("select", 1);';
+        }else{
+            $tabDatas = '';
+        }
+
         
 
         $this->addCss('styles/module_quiz.css');
@@ -327,7 +335,7 @@ class ActionGroupAdmin extends enicActionGroup{
 
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
-        $ppo->tabsSelect = (is_null($tabs)) ? '' : '$("#qf-tabs").tabs("select", 1);';
+        $ppo->tabsSelect = $tabDatas;
         $ppo->resp      = $responsesDatas;
         $ppo->error     = $errorDatas;
         $ppo->id        = $answId;
