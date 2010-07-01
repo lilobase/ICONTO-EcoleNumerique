@@ -8,7 +8,7 @@
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-class enicCss {
+class enicCss extends enicMod{
 
     public function startExec(){
         return true;

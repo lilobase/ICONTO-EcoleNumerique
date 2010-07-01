@@ -37,7 +37,7 @@ jQuery(document).ready(function($){
         $("#qf-sortable").disableSelection();
 
         //apply 'button style'
-        $("#qf-addresp, .qf-submit").button();
+        $("#qf-addresp, .qf-submit, .button").button();
 
         /*
          * ADD NEW RESPONSE ITEM
@@ -56,7 +56,7 @@ jQuery(document).ready(function($){
         });
          
         $("#qf-form-resp").submit(function(){
-            console.log('entré dans submit');
+            $(this).hide();
             $("#qf-sortable li").each(function(){
                 //get the values :
                 var mainct = $(this).children(".qf-content").val();
@@ -77,8 +77,8 @@ jQuery(document).ready(function($){
 {if !empty($ppo->success)}
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
-{if $ppo->new}
-    <a href="{copixurl dest="quiz|admin|delAnsw"}" id="a-suppr">{i18n key="quiz.admin.delAnsw" noEscape=1}</a>
+{if !$ppo->new}
+    <a href="{copixurl dest="quiz|admin|delAnsw"}" id="a-suppr" class="button">{i18n key="quiz.admin.delAnsw" noEscape=1}</a>
 {/if}
 <div id="qf-tabs" class="ui-tabs ui-widget ui-widget-content ui-corner-all">
     <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">

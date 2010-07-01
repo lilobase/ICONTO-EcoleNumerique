@@ -303,16 +303,15 @@
 #quiz-form label, #qf-form-answ label {
     display: block;
     width: 150px;
-    font-weight: bold;
-    font-size: 15px;
-    margin-top: 15px;
+    font-size: 14px;
+    margin-top: 10px;
     margin-bottom: 5px;
     text-align: center;
-    line-height: 17px;
+    line-height: 16px;
 }
 #quiz-form legend, #qf-form-answ legend, #qf-form-resp legend{
     font-weight: bold;
-    font-size : 17px;
+    font-size : 16px;
     color: #E98114;
 }
 #quiz-form fieldset{
@@ -349,7 +348,7 @@
     width: 175px;
 }
 #qf-main textarea{
-    height: 100px;
+    height: 50px;
 }
 
 /*
@@ -387,6 +386,15 @@ RESPONSES ADMIN
 .qf-submit{
     margin-top: 15px;
     float: right;
+}
+
+#qf-opt .qf-date{
+    width: 150px;
+}
+
+.qf-date img{
+    position: relative;
+    top: 5px;
 }
 
 #aw-name, #qf-form-answ textarea {

@@ -25,21 +25,26 @@ class enicJavascript extends enicMod{
     }
     
     public function addJs($iJs){
-        $this->js .= '/* ENIC JS */'.PHP_EOL.PHP_EOL.$iJs.PHP_EOL.PHP_EOL;
+        $this->js .= PHP_EOL.'/* ENIC AUTO JQUERY ITEMS FACTORY */'.PHP_EOL.PHP_EOL.$iJs.PHP_EOL.PHP_EOL;
     }
 
     public function date($iIdDom, $iType = 'simple'){
+        $html =& enic::get('html');
+
         $js = '$.datepicker.setDefaults($.datepicker.regional[\'fr\']);';
 
         $js .= '$("'.$iIdDom.'").datepicker({';
-
+        $js .= 'showOn: "button",
+                buttonImage: "'.$html->addImg('colorful/24x24/calendar.png').'",
+                buttonImageOnly: true';
         if($iType == 'full'){
-            $js .= '
+            $js .= ',
             changeMonth: true,
             changeYear: true,
             showButtonPanel: true';
         }
 
+        
         $js .= '});';
 
         $this->addJs($js);
@@ -162,5 +167,19 @@ class enicJavascript extends enicMod{
                         .$this->js.
             '});';
     }
+
+    public function button($iSelector){
+        $this->addJs('$("'.$iSelector.'").button()');
+    }
+
+    public function confirm($iSelector, $iMsg){
+        $msg = html_entity_decode($iMsg, ENT_COMPAT, 'utf-8');
+        $js = '$("'.$iSelector.'").click(function(){
+                    return confirm("'.$msg.'")
+                });';
+
+        $this->addJs($js);
+    }
+
 }
 ?>

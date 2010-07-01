@@ -40,6 +40,7 @@ class enicActionGroup extends CopixActionGroup {
         $this->css          =& enic::get('css');
         $this->session      =& enic::get('session');
         $this->flash        =& enic::get('flash');
+        $this->html         =& enic::get('html');
         
         //define properties :
         $this->module   = $this->request('module');
@@ -112,6 +113,10 @@ class enicActionGroup extends CopixActionGroup {
         $back = ($iUrl == 'default') ? $this->module.'||' : $iUrl;
         
         return _arRedirect($this->url($iUrl, $iParams));
+    }
+
+    protected function addImg($iPath){
+        $this->html->addImg($iPath);
     }
 
 }

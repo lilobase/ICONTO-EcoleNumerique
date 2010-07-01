@@ -117,6 +117,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->js->addJs('$("#q-suppr").click(function(){
                                 return confirm("'.$this->i18n('quiz.confirm.delQuiz').'");
                             });');
+        $this->js->button(".button");
 
         $this->addCss('styles/module_quiz.css');
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
@@ -322,9 +323,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->addCss('styles/module_quiz.css');
 
         $this->js->wysiwyg('#aw-content');
-        $this->js->addJs('$("#q-suppr").click(function(){
-                                return confirm("'.$this->i18n('quiz.confirm.delAnsw').'");
-                            });');
+        $this->js->confirm('#a-suppr', $this->i18n('quiz.confirm.delAnsw'));
 
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
@@ -336,7 +335,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->quizName = $quizDatas['name'];
         $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
         $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateResp') : '#';
-        $ppo->new = ($modifAction == 'modif') ? true : false;
+        $ppo->new = ($modifAction == 'modif') ? false : true;
 
         $ppo->MENU = array(
                 array( 'txt' => $this->i18n('quiz.admin.goBackToQuiz'),

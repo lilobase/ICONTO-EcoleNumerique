@@ -5,8 +5,8 @@
 {if !empty($ppo->success)}
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
-<a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
-<a href="#goansw" id="q-goansw">{i18n key="quiz.admin.goAnsw" noEscape=1}</a>
+<a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr" class="button">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
+<a href="#goansw" id="q-goansw" class="button">{i18n key="quiz.admin.goAnsw" noEscape=1}</a>
 {/if}
 
 <hr class="quiz-separator" />
@@ -36,7 +36,6 @@
         <legend>{i18n key="quiz.form.options" noEscape=1}</legend>
 
        <label for="qf-lock">{i18n key="quiz.form.state" noEscape=1}</label>
-       <p><em>(un vérouillage est automatique appliqué avant la date d'ouverture et après la date de fermeture)</em></p>
             <select name="qf-lock">
                 <option value="0">Activer le formulaire</option>
                 <option value="1">Verrouiller le formulaire</option>
@@ -44,21 +43,20 @@
         <br />
 
         <label for="qf-datestart">{i18n key="quiz.form.datestart" noEscape=1}</label>
-        <p><em>{i18n key="quiz.form.desactivate" noEscape=1}</em></p>
             <input type="text" class="qf-date" name="qf-datestart" value="{$ppo->quiz.date_start}" />
         <br />
 
         <label for="qf-dateend">{i18n key="quiz.form.dateend" noEscape=1}</label>
-        <p><em>{i18n key="quiz.form.desactivate" noEscape=1}</em></p>
             <input type="text" class="qf-date" name="qf-dateend" value="{$ppo->quiz.date_end}" />
        <br />
        
-       <label for="qf-optshow">{i18n key="quiz.form.optshow" noEscape=1}</label>
+       <!-- <label for="qf-optshow">{i18n key="quiz.form.optshow" noEscape=1}</label>
             <select name="qf-optshow" value="{$ppo->quiz.opt_show_results}">
                 <option value="never">jamais</option>
                 <option value="each">après chaque questions</option>
                 <option value="endquiz">à la fin du quiz</option>
-            </select>
+            </select> -->
+    <input type="hidden" name="qf-optshwo" value="never" />
     <input type="hidden" name="check" value="1" />
     <input type="hidden" name="quizId" value="{$ppo->quiz.id}" />
     </fieldset>
