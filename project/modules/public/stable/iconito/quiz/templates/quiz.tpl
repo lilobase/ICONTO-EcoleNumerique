@@ -5,9 +5,7 @@
 {else}
     {foreach from=$ppo->quiz item=quiz }
     <div class="quiz-quiz">
-        <h4 class="quiz-index-title">{$quiz.name}</h4>
-
-        <a href="{copixurl dest="quiz|default|quiz" id=$quiz.id}" class="quiz-prev" >{i18n key="quiz.msg.goQuiz" noEscape=1}</a>
+        <a href="{copixurl dest="quiz|default|quiz" id=$quiz.id}" class="button" >{$quiz.name}</a>
     </div>
     {/foreach}
 {/if}

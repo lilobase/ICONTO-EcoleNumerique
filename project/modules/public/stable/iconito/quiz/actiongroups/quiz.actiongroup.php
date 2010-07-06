@@ -18,7 +18,8 @@ class ActionGroupQuiz extends enicActionGroup {
                                             ORDER BY date_end DESC')
                                     ->toArray();
 
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
+        $this->addCss('styles/module_quiz.css');
+        $this->js->button('.button');
 
         $ppo = new CopixPPO();
         $ppo->quiz = $currentQuiz;
@@ -127,7 +128,9 @@ class ActionGroupQuiz extends enicActionGroup {
 
         //var_dump($questionsReturn);
         //start TPL
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
+        $this->addCss('styles/module_quiz.css');
+        $this->js->button('.button');
+        
         $ppo = new CopixPPO();
         //global data for quiz
         $ppo->name = $quizData->name;

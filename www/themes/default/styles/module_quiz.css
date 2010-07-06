@@ -24,14 +24,17 @@
     font-weight: normal;
     margin-top: 25px;
 }
-.quiz-quiz{
-    width: 260px;
-    height: 150px;
-    margin: 5px;
+
+.quiz-quiz {
     float: left;
-    background-color: #9CD3D2;
-    -moz-border-radius: 15px;
-    -webkit-border-radius: 15px;
+}
+.quiz-quiz a{
+    width: 250px;
+    height: 30px;
+    line-height: 30px;
+    margin: 5px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
 }
 .quiz-separator{
     margin-top: 5px;
