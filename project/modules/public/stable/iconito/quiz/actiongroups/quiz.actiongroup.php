@@ -113,6 +113,10 @@ class ActionGroupQuiz extends enicActionGroup {
         qSession('current', false);
         qSession('next', $questionsReturn[0]);
         qSession('prev', false);
+        
+        //load help
+        $help = (empty($quizData->help)) ? $this->i18n('quiz.msg.noHelp') : $quizData->help ;
+        qSession('help', $help);
 		
         //if qID exists in url : routing to question
         $qId = CopixRequest::get('qId', false);
@@ -241,7 +245,7 @@ class ActionGroupQuiz extends enicActionGroup {
         $ppo->question = $questionsData;
         $ppo->type = ($questionsData->opt_type == 'choice') ? 'radio' : 'txt';
         $ppo->select = ($one == 1) ? 'radio' : 'checkbox';
-        $ppo->help = (empty($questionsData->help)) ? $this->i18n('quiz.msg.noHelp') : $questionsData->help ;
+        $ppo->help = qSession('help');
         return _arPPO($ppo, 'question.tpl'); 
 
     }

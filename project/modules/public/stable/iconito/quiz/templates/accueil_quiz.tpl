@@ -1,10 +1,7 @@
 <h3>{$ppo->name}</h3>
 <p id="quiz-author">{i18n key="quiz.msg.author" noEscape=1} {$ppo->surname} {$ppo->nameAuthor}</p>
 {if $ppo->description != null}
-    <div id="quiz-desc">{$ppo->description}</div>
-{/if}
-{if $ppo->pic != null}
-    <img id="quiz-pic" scr="{$ppo->pic}">
+    <div id="quiz-desc">{$ppo->description|utf8_decode}</div>
 {/if}
 
 {if $ppo->uResp}
