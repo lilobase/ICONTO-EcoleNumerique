@@ -114,6 +114,12 @@ class enicCache extends enicMod{
      * storage => 'file' | 'session'
      */
     public function get($iName, $opt = array()){
+
+        //check if the class is already in enicCache
+        if(isset(enic::$l[$iName]))
+            return enic::$l[$iName];
+
+
         //set storage from options
         $storage = (isset($iOpt['storage'])) ? $iOpt['storage'].'Cache' : $this->storage;
 
@@ -140,19 +146,22 @@ class enicCache extends enicMod{
             break;
         }
 
-        return $oDatas;
+        enic::$l[$iName] =& $oDatas;
+        return enic::$l[$iName];
     }
 
     protected function setEnic($iClassName){
         //get the class :
         $className = strtolower(substr($iClassName, 4));
+        $oReturn = $this->get($className);
 
-        if(($oReturn = $this->get($className)) !== null){
+        if($oReturn !== null){
             return $oReturn;
         }
         
         //execute class
         $datas = enic::get($className);
+
         //caching result
         return $this->set($className, $datas);
 

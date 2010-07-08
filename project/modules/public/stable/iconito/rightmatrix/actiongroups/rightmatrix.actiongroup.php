@@ -20,7 +20,10 @@ class ActionGroupRightmatrix extends enicActionGroup {
 
         $this->matrix =& enic::get('matrix');
 
-        echo $this->matrix->display();
+        $ppo = new CopixPPO();
+        $ppo->matrix = $this->matrix->display();
+        return _arPPO($ppo, 'matrix.tpl');
+
     }
 
 }

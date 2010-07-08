@@ -61,12 +61,14 @@ class enicMatrix extends enicList {
             rightMatrixHelpers::completeDown('BU_GRVILLE', $this->villes->$child->id);
         }
 
-        //fetch and apply right on node :
-        rightMatrixHelpers::loadRightOnTree();
+        if(!$this->bypass || !$user->root){
+            //fetch and apply right on node :
+            rightMatrixHelpers::loadRightOnTree();
 
-        //complet right tree :
-        foreach($this->villes->_children as $child){
-            rightMatrixHelpers::applyRightOnTree('ville');
+            //complet right tree :
+            foreach($this->villes->_children as $child){
+                rightMatrixHelpers::applyRightOnTree('ville');
+            }
         }
     }
 
@@ -75,7 +77,13 @@ class enicMatrix extends enicList {
         $this->load('nodeMatrix', '_other');
         $this->_other->kernelParent = 'other';
         $this->_other->kernelChildren[] = 'other';
-        
+    }
+
+    /*load the users informations in current user object */
+    public function  __wakeup() {
+        $user = &enic::get('user');
+        $user->root = $this->getDatas('userRoot');
+        $user->director = $this->getDatas('userDirector');
     }
 
     public function __get($name){
@@ -250,15 +258,17 @@ class rightMatrixHelpers{
                 $node->$idNode->admin_of = true;
 
                 //if user is director
-                if($userNode['type'] === 'BU_ECOLE'){
+                if($userNode['type'] == 'BU_ECOLE'){
                     $node->$idNode->director_of = true;
-                    $user->director = $userNode['id'];
+                    $user->director[] = $userNode['id'];
+                    $node->setDatasArray('userDirector', $userNode['id']);
                 }
 
                 //SuperAdmin case :
-                if($userNode['type'] === 'ROOT'){
+                if($userNode['type'] == 'ROOT'){
                     $node->$idNode->root = true;
                     $user->root = true;
+                    $node->setDatas('userRoot', true);
                 }
             }            
 

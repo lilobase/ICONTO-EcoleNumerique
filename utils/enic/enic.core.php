@@ -34,7 +34,7 @@ class enic{
 
         //load class in local ref
         $className = 'enic'.ucfirst($type);
-        self::$l[$name] = new $className();
+        self::$l[$name] =& new $className();
 
         //add name attribute
         self::$l[$name]->_name = $name;
@@ -44,7 +44,7 @@ class enic{
 
         //test if the class is a containor class :
         if(method_exists(self::$l[$name], 'getClass')){
-            self::$l[$name] = self::$l[$name]->getClass();
+            self::$l[$name] =& self::$l[$name]->getClass();
         }
 
         return self::$l[$name];
@@ -101,7 +101,7 @@ class enic{
 
 }
 
-abstract class enicTree{
+class enicTree{
 
     //array of children's name
     public $_children;
@@ -695,6 +695,11 @@ abstract class enicList{
       */
      public function setDatas($name, $value){
          $this->_root->_datas[$name] = $value;
+         return $this;
+     }
+
+     public function setDatasArray($key, $value){
+         $this->_root->_datas[$key][] = $value;
          return $this;
      }
 
