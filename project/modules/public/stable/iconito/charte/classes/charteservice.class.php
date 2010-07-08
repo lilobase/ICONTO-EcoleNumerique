@@ -44,15 +44,15 @@ class CharteService {
         //secure :
         $url = $this->db->quote($fileUrl);
         $active = (empty($iActive)) ? 0 : 1;
-        $fileId = (empty($iFileId)) ? 1 : $fileId*1;
+        $fileId = (empty($iFileId)) ? 1 : $iFileId*1;
 
-        foreach($iUserTypes as $userType)
-            $this->db->create('module_charte_users_validation', array('user_type' => $userType, 'file_url' => $url, 'file_id' => $fileId*1, 'active' => $iActive*1));
+        foreach($iUserType as $userType)
+            $this->db->create('module_charte_chartes', array('user_type' => '"'.$userType.'"', 'file_url' => $url, 'file_id' => $fileId*1, 'active' => $iActive*1));
     }
 
     public function delCharte($iUserType){
         foreach($iUserType as $userType)
-            $this->db->delete('module_charte_users_validation', 'user_type = '.$userType);
+            $this->db->delete('module_charte_chartes', 'user_type = "'.$userType.'"');
     }
 
     public function getChartesTypes(){
@@ -68,7 +68,7 @@ class CharteService {
     }
 
     public function getChartesByTypes($iType){
-        return $this->db->query('SELECT * FROM `module_charte_charte` WHERE user_type = "'.$iType.'"')->toArray1();
+        return $this->db->query('SELECT * FROM `module_charte_chartes` WHERE user_type = "'.$iType.'"')->toArray1();
     }
 }
 ?>

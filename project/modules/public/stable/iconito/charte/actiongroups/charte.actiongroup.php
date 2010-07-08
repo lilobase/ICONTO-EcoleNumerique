@@ -11,15 +11,17 @@ class ActionGroupCharte extends enicActionGroup{
 
     public function processAdmin(){
         //check if the user is admin :
-        /*if(!$this->user->root)
-            return $this->error('charte.noRight', true, '||');*/
+        if(!$this->user->root)
+            return $this->error('charte.noRight', true, '||');
 
+        $this->js->button(".button");
 
         $ppo = new CopixPPO();
-        $ppo->errors = (isset($this->flash->error)) ? $this->flash->error : null;
+        $ppo->errors = (isset($this->flash->errors)) ? $this->flash->errors : null;
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->chartes = $this->service('CharteService')->getChartesTypes();
         $ppo->radio = array(1 => 'oui', 0 => 'non');
+
         return _arPPO($ppo, 'charte.admin.tpl');
 
     }
@@ -52,24 +54,26 @@ class ActionGroupCharte extends enicActionGroup{
         switch ($action){
 
             case 'suppr_validation':
-                $this->service('ChartService')->deleteUserValidation(${'user_'.$userType});
+                $this->service('CharteService')->deleteUserValidation(${'user_'.$target});
                 $this->flash->success = $this->i18n('charte.successSupprValid');
             break;
 
-            case 'suppr_chart':
-                $this->service('ChartService')->delChart(${'user_'.$userType});
+            case 'suppr_charte':
+                $this->service('CharteService')->delCharte(${'user_'.$target});
                 $this->flash->success = $this->i18n('charte.successSupprChart');
             break;
 
-            case 'new_chart':
-                $url = $this->request('file_url');
-                $active = $this->request('activate');
+            case 'new_charte':
+                $url = $this->request('ca-file_url');
+                $active = $this->request('ca-activate');
                 
-                if(empty($url))
-                    $this->flash->error[$userType] = $this->i18n('charte.noUrl');
+                if(empty($url)){
+                    $this->flash->errors = array($target => $this->i18n('charte.noUrl'));
+                    break;
+                }
 
-                $this->service('ChartService')->addChart(${'user_'.$userType}, $url, 1, $active);
-                $this->flash->success = $this->i18n('charte.successSupprChart');
+                $this->service('CharteService')->addCharte(${'user_'.$target}, $url, 1, $active);
+                $this->flash->success = $this->i18n('charte.successAddChart');
             break;
             //if défault : bad argument
             default:
@@ -77,7 +81,7 @@ class ActionGroupCharte extends enicActionGroup{
             break;
         }
 
-        $this->go('charte|charte|admin');
+        return $this->go('charte|charte|admin');
         
     }
 

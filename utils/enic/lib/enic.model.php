@@ -143,7 +143,6 @@ class enicModel extends enicMod {
             $iCond = 'id = '.$iCond;
 
         $query = 'DELETE FROM '.$iTable.' WHERE '.$iCond;
-
         return $this->query($query)->close();
 
     }
