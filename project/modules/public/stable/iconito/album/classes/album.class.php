@@ -412,6 +412,8 @@ class Album {
 	 */
 	function delAlbum( $album_id ) {
 		$photo_dao = _dao("album|photo");
+    _classInclude('malle|malleservice');
+    
 		$photos = $photo_dao->findAllByAlbum($album_id);
 		foreach( $photos AS $photo ) {
 			Album::delPhoto( $photo->photo_id );
@@ -422,13 +424,9 @@ class Album {
 		if( $album ) {
 			$path2data = realpath("static");
 			$pathfolder = $path2data.'/album/'.$album->album_id."_".$album->album_cle;
-		  if ($dh = opendir($pathfolder)) {
-				while (($obj = readdir($dh))) {
-					if($obj=='.' || $obj=='..') continue;
-					@unlink($pathfolder.'/'.$obj);
-				}
-			}
-			@rmdir( $pathfolder );
+      
+      MalleService::deleteDir ($pathfolder);
+
 			$album_dao->delete($album_id);
 		}
 		

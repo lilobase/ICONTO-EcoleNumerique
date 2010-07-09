@@ -50,7 +50,8 @@ class KernelAgenda {
 	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($id_agenda) {
-
+    // TODO
+    Kernel::unregisterModule("MOD_AGENDA", $id_agenda);
 	}
 
 	/**

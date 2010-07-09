@@ -39,6 +39,7 @@ class KernelListe {
 			$daoListes->delete ($id);
 			$res = true;
 		}
+    Kernel::unregisterModule("MOD_LISTE", $id);
 		return $res;
 	}
 

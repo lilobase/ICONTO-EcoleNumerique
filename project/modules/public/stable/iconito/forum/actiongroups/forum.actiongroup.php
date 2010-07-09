@@ -93,7 +93,7 @@ class ActionGroupForum extends CopixActionGroup {
 		
 			// Pour chaque message on cherche les infos de son créateur et du dernier message
 			//print_r($list);
-			while (list($k,$topic) = each($list)) {
+      foreach ($list as $k=>$topic) {
 				$userInfo = Kernel::getUserInfo("ID", $list[$k]->createur);
 				$list[$k]->createur_infos = $userInfo["prenom"]." ".$userInfo["nom"];
 				if ($list[$k]->last_msg_auteur) {

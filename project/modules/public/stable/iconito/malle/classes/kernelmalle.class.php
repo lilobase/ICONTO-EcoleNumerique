@@ -54,22 +54,16 @@ class KernelMalle {
 			// On vide le répertoire
 			$path2data = realpath('./static/malle');
 			$folder = $path2data.'/'.$rMalle->id.'_'.$rMalle->cle;
-		  if ($dh = opendir($folder)) {
-				while (($obj = readdir($dh))) {
-					if($obj=='.' || $obj=='..') continue;
-		      unlink($folder.'/'.$obj);
-				}
-			}
-			// On efface le répertoire
-			$rmdir = rmdir ($folder);
-			
+      
+      MalleService::deleteDir ($folder);
+      
 			$criteres = _daoSp ()->addCondition ('malle', '=', $id);
 			_dao ('module_malle_files')->deleteBy($criteres);
 			_dao ('module_malle_folders')->deleteBy($criteres);
-
 			$daoMalles->delete ($id);
 			$res = true;
 		}
+		Kernel::unregisterModule("MOD_MALLE", $id);
 		return $res;
 	}
 

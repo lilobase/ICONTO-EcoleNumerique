@@ -200,6 +200,8 @@ class KernelBlog {
 			$daoArticle->delete($article);
 		}
 		
+    Kernel::unregisterModule("MOD_BLOG", $id_blog);
+    
 		return true;
 	}
 

@@ -44,7 +44,7 @@ class KernelForum {
 			$criteres = _daoSp();
 			$criteres->addCondition('forum', '=', $idForum);
 			$topics = $daoTopics->findBy($criteres);
-			while (list(,$topic) = each($topics)) {
+      foreach ($topics as $topic) {
 				$criteres = _daoSp ()->addCondition ('topic', '=', $topic->id);
 				_dao ('module_forum_tracking')->deleteBy($criteres);
 				_dao ('module_forum_messages')->deleteBy($criteres);
@@ -54,6 +54,7 @@ class KernelForum {
 			$daoForums->delete ($idForum);
 			$res = true;
 		}
+    Kernel::unregisterModule("MOD_FORUM", $idForum);
 		return $res;
 	}
 

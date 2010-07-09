@@ -80,7 +80,7 @@ class MinimailObject {
 		$dests = $dao->getListDest($this->id);
 		//print_r($dests);
 		if ($dests !== NULL) {
-			while (list(,$dest) = each ($dests)) {
+      foreach ($dests as $dest) {
 				$this->dest[] = $dest->to_login;
 			}
 		}
