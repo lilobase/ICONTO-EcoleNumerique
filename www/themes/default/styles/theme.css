@@ -393,23 +393,6 @@ a.zone.sel {
 	z-index:999;
 }
 
-/* Aide */
-#divHelp {
-	border-color: #8D8D8D;
-	position: absolute;
-	background-color: #FBFBE2;
-  border-style: solid;
-  border-width: 1px;
-	padding: 3px;
-  visibility: hidden;
-	display: block;
-	font-size: 80%;
-	filter: alpha(opacity=97);
-	-moz-opacity: 0.97;
-	opacity: 0.97;
-	width: 270px;
-	z-index:998;
-}
 
 /* Div Ajax */
 #ajaxDiv {

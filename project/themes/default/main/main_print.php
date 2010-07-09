@@ -22,12 +22,9 @@
 <?php $user = _currentUser (); ?>
 
 <div id="divUserProfil" onclick="hideUser();"></div>
-<div id="divHelp" onclick="hideHelp();"></div>
 <div id="ajaxDiv"></div>
 
-
 <div class="page">
-
 
 <div class="content">
 <div class="title"><?php echo $TITLE_PAGE; ?></div>

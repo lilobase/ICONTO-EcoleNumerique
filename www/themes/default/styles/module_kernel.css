@@ -271,3 +271,47 @@ p.content a{
     float: left;
     margin: 15px;
 }
+
+
+/* Aide */
+a.tooltip em {
+    display:none;
+}
+a.tooltip:hover {
+    border: 0;
+    position: relative;
+    z-index: 500;
+    text-decoration:none;
+}
+a.tooltip:hover em {
+    font-style: normal;
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: -2px;
+    padding: 5px;
+    color: #000;
+    border: 1px solid #bbb;
+    background: #ffc;
+		text-align:left;
+    width:300px;
+		font-weight:normal;
+    white-space:normal;
+
+}
+a.tooltip:hover em span {
+    position: absolute;
+    top: -7px;
+    left: 5px;
+    height: 7px;
+    width: 11px;
+    background: transparent url(../img_styles/tooltip-arrow.gif);
+		background-repeat:no-repeat;
+    margin:0;
+    padding: 0;
+    border: 0;
+}
+a.tooltip70px:hover em {	width:70px; }
+a.tooltip80px:hover em {	width:80px; }
+a.tooltip90px:hover em {	width:90px; }
+a.tooltip100px:hover em {	width:100px; }

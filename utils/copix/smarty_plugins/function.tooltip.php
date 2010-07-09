@@ -20,8 +20,7 @@
 
 function smarty_function_tooltip ($params, &$smarty) {
 
-	$res = '<a class="tooltip" href="javascript:none();">'.$params['text'].'<em><span></span>
-'.$params['text_tooltip'].'</em></a>
+	$res = '<a class="tooltip" href="javascript:none();">'.$params['text'].'<em><span></span>'.$params['text_tooltip'].'</em></a>
 	';
 	
 	if (isset ($params['assign'])) {

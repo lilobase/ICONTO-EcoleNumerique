@@ -10,7 +10,7 @@ class ZoneViewHelp extends CopixZone {
 		$ppo->aide = _i18n('aide|aide.guide_ext');
 		
 		
-		$toReturn = $this->_usePPO ($ppo, 'viewhelp.tpl');
+		$toReturn = $this->_usePPO ($ppo, 'viewhelp_zone.tpl');
 		return true;
 	}
 

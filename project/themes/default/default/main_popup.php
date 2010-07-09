@@ -19,7 +19,6 @@ $ENpopup = 1;
 <body class="thm nodebug"<?php if (isset($BODY_ON_LOAD) && $BODY_ON_LOAD) echo ' onLoad="'.$BODY_ON_LOAD.'"'; if (isset($BODY_ON_UNLOAD) && $BODY_ON_UNLOAD) echo ' onUnLoad="'.$BODY_ON_UNLOAD.'"'; ?>>
 
 <div id="divUserProfil" onclick="hideUser();"></div>
-<div id="divHelp" onclick="hideHelp();"></div>
 <div id="ajaxDiv"></div>
 
 <div id="page">

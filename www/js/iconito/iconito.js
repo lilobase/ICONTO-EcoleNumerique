@@ -258,64 +258,6 @@ function userProfilError(request) {
 
 
 
-/* =============================
-	Aid
-============================= */
-
-var gHelpElm = null;
-var	gHelpShowing = 0;
-
-/* Initialisation */
-function initHelp() {
-	gHelpElm = document.getElementById('divHelp');
-}
-
-/* Affichage d'une bulle d'aide */
-function viewHelp (code) {
-	if (!gHelpElm)
-		initHelp();
-
-	//if (gProfilShowing)
-	//	hideUser();
-	var obj = $(code);
-	if (!obj) return;
-	
-	x = lastMouseX;
-	y = lastMouseY;
-	var w = gHelpElm.offsetWidth; // largeur
-	var windowWidth = getWindowWidth()-10;
-	//alert ("x="+x+" / w="+w+" / wW="+windowWidth);
-	if(x+w>windowWidth) x = windowWidth-w-7;
-	gHelpElm.style.left=x+"px";
-	gHelpElm.style.top=(y+16)+"px";
-	gHelpElm.style.visibility = "visible";
-	
-	gHelpElm.innerHTML = obj.innerHTML;
-	
-	var h = gHelpElm.offsetHeight; // hauteur
-	var windowHeight = getWindowHeight()-10;
-	var scrollTop = (document.all) ? document.documentElement.scrollTop : 0;
-	//alert ("y="+y+" / h="+h+" / wH="+windowHeight+" / scrollTop="+scrollTop);
-	if (y>windowHeight) {	// On a scrollé
-		// Comment savoir si ça va déborder ? (todo)
-	} else {
-		if(y+h>windowHeight) y = windowHeight-h-7;
-	}
-	//gProfilElm.style.width=w+"px";
-	gHelpElm.style.top=(y+16+scrollTop)+"px";
-	
-	gHelpShowing = 1;
-
-}
-
-/* Masquage d'un profil */
-function hideHelp () {
-	if(!gHelpElm)
-		return false;
-	gHelpShowing = 0;
-	gHelpElm.style.visibility = "hidden";
-	return false;
-}
 
 /* Masquage de ajaxDiv */
 function hideAjaxDiv () {

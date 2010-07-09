@@ -26,7 +26,9 @@
 <br/>
 <table border="0" CELLSPACING="1" CELLPADDING="1" width="700">
 	<tr>
-		<td CLASS="form_libelle"><NOBR>{i18n key="minimail.form.dest"}{help mode="bulle" text="minimail|minimail.help.dest"}</NOBR></td><td CLASS="form_saisie"><input type="text" name="dest" id="dest" value="{$dest|escape:'htmlall'}" class="form" style="width: 400px;" maxlength="255"/>{$linkpopup}<br/>{i18n key="minimail.form.destInfo"}</td>
+		<td CLASS="form_libelle"><nobr>{i18n key="minimail.form.dest"}{help mode="tooltip" text_i18n="minimail|minimail.help.dest"}</nobr>
+
+</td><td CLASS="form_saisie"><input type="text" name="dest" id="dest" value="{$dest|escape:'htmlall'}" class="form" style="width: 400px;" maxlength="255"/>{$linkpopup}<br/>{i18n key="minimail.form.destInfo"}</td>
 	</tr>
 	<tr>
 		<td CLASS="form_libelle">{i18n key="minimail.form.title"}</td><td CLASS="form_saisie"><input type="text" name="title" value="{$title|escape:'htmlall'}" class="form" style="width: 400px;" maxlength="80" /></td>
