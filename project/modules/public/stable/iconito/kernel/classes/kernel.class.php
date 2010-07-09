@@ -1653,6 +1653,7 @@ class Kernel {
 	}
 
 	function createMissingModules( $node_type, $node_id ) {
+    if ($node_type == 'CLUB') return false;
 		$modavailable = Kernel::getModAvailable( $node_type );
 
 		$modenabled = Kernel::getModEnabled($node_type, $node_id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
