@@ -4,4 +4,5 @@
   2 => 'kernel|theme',
   3 => 'stats|stats',
   4 => 'default|i18n',
+  5 => 'charte|charte'
 ); ?>

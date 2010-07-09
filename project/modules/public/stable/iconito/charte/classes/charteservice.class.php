@@ -17,25 +17,42 @@ class CharteService {
     }
 
     public function checkUserValidation(){
-        return ($this->db->query('SELECT COUNT(id) FROM module_charte_users_validation WHERE user_id = '.$this->user->id)->toInt() == 0) ? false : true;
+        if($this->db->query('SELECT COUNT(id) FROM module_charte_users_validation WHERE user_id = '.$this->user->id)->count() != 0){
+            $_SESSION['chartValid'] = true;
+            return  true;
+        }elseif($this->db->query('SELECT COUNT(id) FROM module_charte_chartes WHERE user_type = "'.$this->user->type.'" AND active = 1')->count() != 0){
+            return false;
+        }elseif($this->db->query('SELECT COUNT(id) FROM module_charte_chartes WHERE user_type = "USER_ALL" AND active = 1')->count() != 0){
+            return false;
+        }else{
+            $_SESSION['chartValid'] = true;
+            return true;
+        }
     }
 
     public function deleteUserValidation($iUserTypes){
         foreach($iUserTypes as $userType)
-            $cond[] = 'user_type = '.$userType;
+            $cond[] = 'user_type = "'.$userType.'"';
         
         $this->db->delete('module_charte_users_validation', implode(' AND ', $cond));
     }
 
-    public function addUserValidation(){
+    public function addUserValidation($iUserType){
         $datas['date'] = time();
         $datas['user_id'] = $this->user->id;
         $datas['charte_id'] = 1;
+        $datas['user_type'] = '"'.$iUserType.'"';
         $this->db->create('module_charte_users_validation', $datas);
     }
 
-    public function getCurrentChartForUser(){
-        return $this->db->query('SELECT * FROM module_charte_chartes WHERE user_type = '.$this->user->type)->toArray1();
+    public function getCharte(){
+        $charte = $this->db->query('SELECT * FROM module_charte_chartes WHERE user_type = "'.$this->user->type.'" AND active = 1')->toArray1();
+
+        if(empty($charte)){
+            $charte = $this->db->query('SELECT * FROM module_charte_chartes WHERE user_type = "USER_ALL" AND active = 1')->toArray1();
+        }
+        
+        return $charte;
     }
 
     public function addCharte($iUserType, $fileUrl, $iFileId, $iActive){
@@ -61,9 +78,9 @@ class CharteService {
         $oReturn['adults'] = $this->getChartesByTypes('USER_RES');
 
         //hack for foreach
-        $oReturn['all']['exist'] = 'data';
-        $oReturn['children']['exist'] = 'data';
-        $oReturn['adults']['exist'] = 'data';
+        $oReturn['all']['title'] = 'Tout le monde';
+        $oReturn['children']['title'] = 'Enfants';
+        $oReturn['adults']['title'] = 'Adultes';
         return $oReturn;
     }
 

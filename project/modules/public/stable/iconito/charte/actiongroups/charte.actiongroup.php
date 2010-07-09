@@ -7,6 +7,38 @@ class ActionGroupCharte extends enicActionGroup{
 
     public function processValid(){
 
+
+        $this->flash->redirect = (isset($this->flash->redirect)) ? $this->flash->redirect : $this->url('||');
+
+        $this->js->button('.button');
+        $ppo = new CopixPPO();
+        $charte = $this->service('CharteService')->getCharte();
+
+        $this->flash->userType = $charte['user_type'];
+
+        $ppo->url = $charte['file_url'];
+        if(empty($ppo->url))
+            die('DEBUG : VALID PROCESS FAILED ON CHART SYSTEM');
+
+        
+        return _arPPO($ppo, 'charte.tpl');
+    }
+
+    public function processRedirect(){
+
+        $accept = ($this->request('typeAction') == 'accept') ? true : false ;
+
+        if($accept){
+            $typeUser = (isset($this->flash->userType)) ? $this->flash->userType : 'USER_ALL';
+            $this->service ('CharteService')->addUserValidation($typeUser);
+            $_SESSION['chartValid'] = true;
+            return $this->go(isset($this->flash->redirect) ? $this->flash->redirect : '||');
+        }else{
+            $ppo = new CopixPPO();
+            return _arPPO($ppo, 'charte.no.tpl');
+        }
+
+
     }
 
     public function processAdmin(){
@@ -14,13 +46,19 @@ class ActionGroupCharte extends enicActionGroup{
         if(!$this->user->root)
             return $this->error('charte.noRight', true, '||');
 
-        $this->js->button(".button");
+        $this->js->button(".button-ui");
 
         $ppo = new CopixPPO();
         $ppo->errors = (isset($this->flash->errors)) ? $this->flash->errors : null;
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->chartes = $this->service('CharteService')->getChartesTypes();
         $ppo->radio = array(1 => 'oui', 0 => 'non');
+
+        $mods = Kernel::getModEnabled ($this->user->type, $this->user->id);
+        $mal = Kernel::filterModuleList ($mods, 'MOD_MALLE');
+        $ppo->idMalle = $mal[0]->module_id;
+	$ppo->url = CopixUrl::get ('malle||getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>'ca-file_url', 'format'=>'text'));
+
 
         return _arPPO($ppo, 'charte.admin.tpl');
 

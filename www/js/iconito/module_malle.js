@@ -1,7 +1,7 @@
 
 
 
-// Action sur les cases cochées
+// Action sur les cases cochï¿½es
 function actionChecked (action) {
 	var trouve=false;
   var form = getRef ("form");
@@ -69,7 +69,10 @@ function sendDocument (url, field, format, htmlDownload, htmlView, i18n_unsuppor
 			else
 				window.opener.add_html (field, html);
 			break;
-		
+		//return only url
+                case 'text':
+                    window.opener.add_text(field, url);
+                break;
 		default :
 			alert (i18n_unsupportedFormat);
 			break;

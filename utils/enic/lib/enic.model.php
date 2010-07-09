@@ -73,6 +73,7 @@ class enicModel extends enicMod {
             echo $this->errorInfo();
             return false;
         }
+
         return $this;
     }
 
@@ -150,6 +151,14 @@ class enicModel extends enicMod {
     public function close(){
         $this->lastId = $this->_db->lastInsertId();
         $this->_results->closeCursor();
+    }
+
+    public function count(){
+
+        $return = $this->_results->fetch();
+        $this->close();
+
+        return $return[0]*1;
     }
 
     public function errorInfo(){

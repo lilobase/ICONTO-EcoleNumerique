@@ -13,6 +13,7 @@ class enicUser extends enicTree {
     public $nom;
     public $prenom;
     public $idEn;
+    public $chartValid;
 
     public function startExec(){
         if(_currentUser()->isConnected()){
@@ -28,6 +29,7 @@ class enicUser extends enicTree {
             $this->nom = $userInfos['nom'];
             $this->prenom = $userInfos['prenom'];
             $this->connected = true;
+            $this->chartValid = $_SESSION['chartValid'];
         }else{
             $this->director = false;
             $this->id = 0;
@@ -38,7 +40,12 @@ class enicUser extends enicTree {
             $this->prenom = 'Anon';
             $this->connected = false;
             $this->idEn = 0;
+            $this->chartValid = true;
         }
+    }
+
+    public function forceReload(){
+        $this->startExec();
     }
 
     public function addExec(){

@@ -79,7 +79,8 @@ class CopixUser implements ICopixUser {
 	   		$this->_logged = $isConnected ? array_merge($this->_logged, $responses) : $this->_logged;
 	   	} else {
 	   		$this->_logged = $isConnected ? $responses : array();
-	   	}        
+	   	}
+
 	   	return $isConnected;
     }
     
