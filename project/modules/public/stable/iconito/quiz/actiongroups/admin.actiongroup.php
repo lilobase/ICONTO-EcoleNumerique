@@ -8,14 +8,20 @@ class ActionGroupAdmin extends enicActionGroup{
     public function processIndex(){
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
-        $id_gr_quiz = (int)$this->request('id');
+
+        //check the current groupe quiz id
+        if(!$this->session->exists('id_gr_quiz'))
+            return $this->error ('quiz.errors.badOperation', true, 'quiz||');
+
+        $id_gr_quiz = $this->session->load('id_gr_quiz');
 
         if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
-            $this->error ('quiz.admin.noRight');
+            return $this->error ('quiz.admin.noRight');
+
         //start tpl :
         $ppo = new CopixPPO();
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
-        $ppo->list = $ppo->list = CopixZone::process('adminList', array('id_gr' => $id_gr_quiz));
+        $ppo->list = $ppo->list = CopixZone::process('adminList');
         return _arPPO($ppo, 'admin.index.tpl');
 
     }
@@ -28,10 +34,10 @@ class ActionGroupAdmin extends enicActionGroup{
         $action = $this->request('qaction', 'str');
 
         //get the quiz groupe id
-        $id_gr_quiz = (int)$this->request('id');
+        $id_gr_quiz = $this->session->load('id_gr_quiz');
 
         if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
-            $this->error ('quiz.admin.noRight');
+            return $this->error ('quiz.admin.noRight');
 
 
         //start tpl :
@@ -149,6 +155,7 @@ class ActionGroupAdmin extends enicActionGroup{
         if(!isset($this->flash->quizId))
             return $this->error('quiz.admin.noRight');
 
+
         //verify quiz exists
         $this->service('QuizService')->existsQuiz($this->flash->quizId);
 
@@ -193,7 +200,11 @@ class ActionGroupAdmin extends enicActionGroup{
         /*
          * SECURITY CHECK
          */
-        
+
+        //check the current groupe quiz id
+        if(!$this->session->exists('id_gr_quiz'))
+            return $this->error ('quiz.errors.badOperation', true, 'quiz||');
+
         //test the user right :
         if(!$this->flash->has('processAction'))
             return $this->error('quiz.admin.noRight', true, 'quiz|admin|index');
@@ -520,9 +531,14 @@ class ActionGroupAdmin extends enicActionGroup{
              return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuiz'), 'back'=>CopixUrl::get('quiz||')));
         }
 
-        //test if the user is owner
-        if(!$this->service('QuizService')->isOwner($pId))
-            $this->error ('quiz.admin.noRight');
+        //check the current groupe quiz id
+        if(!$this->session->exists('id_gr_quiz'))
+            return $this->error ('quiz.errors.badOperation', true, 'quiz||');
+        $id_gr_quiz = $this->session->load('id_gr_quiz');
+
+        //test if the user is admin
+        if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
+            return $this->error ('quiz.admin.noRight');
 
 
         $responsesData = _ioDAO('quiz_responses')->getResponsesByQuiz($pId);

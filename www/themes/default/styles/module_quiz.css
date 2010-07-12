@@ -72,7 +72,7 @@
     font-weight: bold;
     margin-left: 150px;
 }
-.quiz-u-resp{
+/*.quiz-u-resp{
     height: 25px;
     font-size : 0.8em;
     font-weight: bold;
@@ -81,7 +81,7 @@
     margin-left: 20px;
     line-height: 25px;
     background-color: white;
-}
+}*/
 #quiz-list{
     margin: 0px;
     margin-left: 25px;
@@ -152,7 +152,7 @@
     width: 16px;
     float: left;
 }
-#quiz-list .quiz-comment{
+.quiz-user-resp .quiz-comment{
     float: right;
 }
 #quiz-go-home{
@@ -163,39 +163,27 @@
     background-image: url('../img/datatable/home.png');
     margin-bottom: 10px;
 }
-.quiz-prev, .quiz-next{
+#quiz-prev, #quiz-next{
     display: block;
     margin-top: 15px;
     height: 35px;
     width: 120px;
-    line-height: 35px;
-    font-size: 15px;
-    text-align: center;
-    text-decoration: none;
-    color: white;
-    border: none;
-    background-color:  #1B6F25;
-    padding:0px;
-    font-family:"Trebuchet MS",verdana,lucida,arial,helvetica,sans-serif;
     cursor:  pointer;
 }
-.quiz-prev a{
-    text-decoration: none;
-    color: white;
-}
-.quiz-next{
+
+#quiz-next{
     float: right;
     margin-right: 15px;
 }
 
-.quiz-prev{
+#quiz-prev{
     float: left;
     margin-left: 20px;
 }
 .quiz-prev:hover{
     color: white;
 }
-.ISIE67 .quiz-prev{
+.ISIE67 #quiz-prev{
     margin-top: -2px;
 }
 .quiz-clear{
@@ -316,10 +304,10 @@
     background-color: #F5F8C1
 }
 #qf-main{
-    width: 555px;
+    width: 540px;
 }
 #qf-main input, #qf-main textarea{
-    width: 550px;
+    width: 500px;
 }
 #qf-main input{
     font-size: 13px;
@@ -343,6 +331,7 @@
 }
 #qf-main textarea{
     height: 50px;
+    width: 500px;
 }
 
 /*
@@ -399,4 +388,11 @@ RESPONSES ADMIN
     font-weight: bold;
     font-size : 17px;
     color: #E98114;
+}
+
+.quiz-user-resp{
+    width: 150px;
+    height: 20px;
+    line-height: 20px;
+    font-size: 15px;
 }

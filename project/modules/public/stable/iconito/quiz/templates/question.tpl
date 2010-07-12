@@ -37,9 +37,13 @@
     {i18n key="quiz.msg.response" noEscape=1} : <input type="text" name="response" id="response" />
 {/if}
 <div class="quiz-clear"></div>
-<input type="submit" value="{i18n key="quiz.msg.next" noEscape=1}" class="quiz-next">
+<input id="quiz-next" type="submit" value="{i18n key="quiz.msg.next" noEscape=1}" class="button">
 </form>
-<a class="quiz-prev" href="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$ppo->prev.id}">{i18n key="quiz.msg.prev" noEscape=1}</a>
+<form action="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$ppo->prev.id}" method="get">
+    <input type="hidden" name="id" value="{$ppo->question->id_quiz}" />
+    <input type="hidden" name="qId" value="{$ppo->prev.id}" />
+    <input type="submit" value="{i18n key="quiz.msg.prev" noEscape=1}" class="button" id="quiz-prev"/>
+</form>
 <!--[if lte IE 7]></div><![endif]-->
 <div class="quiz-clear"></div>
 

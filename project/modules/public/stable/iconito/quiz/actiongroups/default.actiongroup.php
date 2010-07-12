@@ -3,22 +3,31 @@
  * TODO : g�rer les r�ponses textuelles !
  *
  */
-class ActionGroupQuiz extends enicActionGroup {
+class ActionGroupDefault extends enicActionGroup {
 
     public function beforeAction(){
         _currentUser()->assertCredential('group:[current_user]');
     }
 
+    public function processGo(){
+        $id = $this->request('id');
+        return $this->go('quiz|default|default', array('id' => $id));
+    }
+
     public function processDefault(){
         $idGrQuiz = (int)$this->request('id');
-        if(empty($idGrQuiz)){
-            $this->error('quiz.errors.noQuiz');
+        if(empty($idGrQuiz) && !$this->session->exists('id_gr_quiz')){
+            return $this->error('quiz.errors.noQuiz');
+        }else{
+            $idGrQuiz = $this->session->load('id_gr_quiz');
         }
         
         if(Kernel::getLevel( "MOD_QUIZ", $idGrQuiz ) < PROFILE_CCV_READ)
-            $this->error ('quiz.admin.noRight');
+            return $this->error ('quiz.admin.noRight');
 
         qSession('id_gr_quiz', $idGrQuiz);
+        $this->session->save('id_gr_quiz', $idGrQuiz);
+        
         //get current quiz :
         $currentQuiz = $this->model->query('SELECT * FROM module_quiz_quiz WHERE
                                             (`date_start` < '.time().' AND `date_end` > '.time().') OR
@@ -32,6 +41,13 @@ class ActionGroupQuiz extends enicActionGroup {
 
         $ppo = new CopixPPO();
         $ppo->quiz = $currentQuiz;
+
+        if(Kernel::getLevel( 'MOD_QUIZ', $idGrQuiz) <= PROFILE_CCV_ADMIN){
+            $ppo->MENU = array(
+                        array( 'txt' => $this->i18n('quiz.admin.admin'),
+                        'url' => $this->url('quiz|admin|'))
+                        );
+        }
         return _arPPO($ppo, 'quiz.tpl');
     }
 
@@ -50,7 +66,7 @@ class ActionGroupQuiz extends enicActionGroup {
             //security for quiz 
             $gr_id = qSession('id_gr_quiz');
             if($gr_id != $quizData->gr_id)
-                $this->error ('quiz.errors.noQuiz');
+                return $this->error ('quiz.errors.noQuiz');
 
             //session storage :
             qSession('id', $pId);
@@ -71,7 +87,7 @@ class ActionGroupQuiz extends enicActionGroup {
                 return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.beforeStart'), 'back'=>CopixUrl::get('quiz||')));
 
             if(time() > $quizData->date_end && CopixRequest::get('action') != 'end_quiz' &&  $quizData->date_end != 0)
-                return CopixActionGroup::process('quiz|quiz::EndQuiz', array ('id' => $pId));
+                return CopixActionGroup::process('quiz|default::EndQuiz', array ('id' => $pId));
             
         }else{
             $quizData = _dao('quiz|quiz_quiz')->get($pId);
@@ -137,9 +153,9 @@ class ActionGroupQuiz extends enicActionGroup {
         //if qID exists in url : routing to question
         $qId = CopixRequest::get('qId', false);
         if($qId)
-            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => (int)$qId));
+            return CopixActionGroup::process('quiz|default::Question', array ('id' => $pId, 'qId' => (int)$qId));
         elseif(!$uResp) //if users have not started the quiz :
-            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => $pId, 'qId' => $questionsReturn[0]['id']));
+            return CopixActionGroup::process('quiz|default::Question', array ('id' => $pId, 'qId' => $questionsReturn[0]['id']));
 
         //var_dump($questionsReturn);
         //start TPL
@@ -172,7 +188,7 @@ class ActionGroupQuiz extends enicActionGroup {
         $pId = CopixRequest::getInt('id', false);
         //security check
         if(!$pId || is_null(qSession('id')) || $pId != qSession('id')){
-            return CopixActionGroup::process('quiz|quiz::Quiz', array ('id' => $pId));
+            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $pId));
         }
         return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get('quiz.errors.endQuiz'), 'back'=>CopixUrl::get('quiz||')));
 
@@ -189,7 +205,7 @@ class ActionGroupQuiz extends enicActionGroup {
         
         //test params
         if(!$pId || qSession('id') == null || $pId != qSession('id') || !$pQId)
-            return CopixActionGroup::process('quiz|quiz::Quiz', array ('id' => $pId, 'qId' => false));
+            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $pId, 'qId' => false));
 
         //test if question exist :
         $questions = qSession('questions');
@@ -199,7 +215,7 @@ class ActionGroupQuiz extends enicActionGroup {
                 $questionExist = true;
         }
         if(!$questionExist)
-            return CopixActionGroup::process('quiz|quiz::Quiz', array ('id' => $pId, 'qId' => false));
+            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $pId, 'qId' => false));
 
         //update session informations :
         
@@ -254,6 +270,7 @@ class ActionGroupQuiz extends enicActionGroup {
         CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/help.js');
         CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/jquery.fancybox-1.3.1.pack.js');
         CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/jquery.easing-1.3.pack.js');
+        $this->js->button('.button');
         $ppo = new CopixPPO();
         $ppo->error =  CopixRequest::get('error', false);
         $ppo->userResp = ($currentQ['userResp']) ? true : false;
@@ -270,13 +287,13 @@ class ActionGroupQuiz extends enicActionGroup {
 
     public function processSave(){
         if(is_null(qSession('id')))
-            return CopixActionGroup::process('quiz|quiz::Quiz', array ('id' => false));
+            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => false));
         $pResponse = CopixRequest::get('response', false);
         $currentQ = qSession('current');
         $questions = qSession('questions');
 
         if(!$pResponse)
-            return CopixActionGroup::process('quiz|quiz::Question', array ('id' => qSession('id'), 'qId' => $currentQ['id'], 'error' => CopixI18N::get('quiz.errors.emptyResponse')));
+            return CopixActionGroup::process('quiz|default::Question', array ('id' => qSession('id'), 'qId' => $currentQ['id'], 'error' => CopixI18N::get('quiz.errors.emptyResponse')));
 
         $optType = ($currentQ['opt_type'] == 'choice') ? 'radio' : 'txt';
         $userId = _currentUser()->getId();
@@ -322,15 +339,15 @@ class ActionGroupQuiz extends enicActionGroup {
         $nextQ = qSession('next');
         //var_dump($nextQ);die();
         if(!$nextQ)
-            return _arRedirect(_url('quiz|endQuestions', array ('id' => qSession('id'))));
+            return _arRedirect(_url('quiz|default|endQuestions', array ('id' => qSession('id'))));
 
-        return _arRedirect(_url('quiz|question', array ('id' => qSession('id'), 'qId' => $nextQ['id'])));
+        return _arRedirect(_url('quiz|default|question', array ('id' => qSession('id'), 'qId' => $nextQ['id'])));
     }
 
     public function processEndQuestions(){
         $pId = CopixRequest::getInt('id', false);
         if(!$pId || is_null(qSession('id')) || $pId != qSession('id')){
-            return CopixActionGroup::process('quiz|quiz::Quiz', array ('id' => $pId));
+            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $pId));
         }
         $ppo = new CopixPPO();
         return _arPPO($ppo, 'end_questions.tpl');

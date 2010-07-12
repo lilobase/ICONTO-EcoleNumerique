@@ -1,3 +1,4 @@
+
 {if empty($ppo->quiz.name)}
 <h3>{i18n key="quiz.msg.newQuiz" noEscape=1}</h3>
 {else}
@@ -6,7 +7,7 @@
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
 <a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr" class="button">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
-<a href="{copixurl dest="quiz|quiz" id=$ppo->quiz.id}" id="q-goquiz" class="button">{i18n key="quiz.admin.goQuiz" noEscape=1}</a>
+<a href="{copixurl dest="quiz|default|quiz" id=$ppo->quiz.id}" id="q-goquiz" class="button">{i18n key="quiz.admin.goQuiz" noEscape=1}</a>
 <a href="#goansw" id="q-goansw" class="button">{i18n key="quiz.admin.goAnsw" noEscape=1}</a>
 {/if}
 
@@ -26,8 +27,8 @@
             <textarea id="qf-description" name="qf-description">{$ppo->quiz.description}</textarea>
         <br />
 
-        <label for="qf-help">{i18n key="quiz.form.help" noEscape=1}</label>
-            <textarea id="qf-help" name="qf-help">{$ppo->quiz.help}</textarea>
+        <label for="qf-help"><a href="" id="qf-opt-show" >{i18n key="quiz.form.help" noEscape=1}</a></label>
+        <div id="qf-opt-hide"><textarea id="qf-help" name="qf-help">{$ppo->quiz.help}</textarea></div>
         <br />
      <input type="submit" value="{i18n key="quiz.form.submit" noEscape=1}" class="button" />
 
@@ -109,3 +110,13 @@
 
     </table>
 {/if}
+
+        {literal}
+    <script type="text/javascript">
+        jQuery('#qf-opt-hide').hide();
+        jQuery('#qf-opt-show').click(function(){
+            jQuery('#qf-opt-hide').toggle();
+                return false;
+        });
+    </script>
+{/literal}

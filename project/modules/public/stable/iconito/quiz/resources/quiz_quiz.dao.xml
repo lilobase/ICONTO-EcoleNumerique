@@ -18,6 +18,7 @@
         <property name="opt_save" type="int" />
         <property name="opt_show_results" type="string"/>
         <property name="lock" type="int"/>
+        <property name="gr_id" type="int"/>
     </properties>
     <methods>
         <method name="getCurrentQuiz" type="select">

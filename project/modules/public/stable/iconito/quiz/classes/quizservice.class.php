@@ -37,12 +37,12 @@ class QuizService {
                                     ->toArray();
     }
 
-    public function getQuizByOwner($iIdOwner){
+    public function getQuizByGroupe($idGroupe){
         //secure $iIdAuthor
-        $idOwner = $iIdOwner*1;
+        $id = $idGroupe*1;
 
         //get all quiz
-        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE id_owner = '.$idOwner)
+        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE gr_id = '.$id)
                                     ->toArray();
     }
 
@@ -119,6 +119,7 @@ class QuizService {
         
         //get user's object
         $user = enic::get('user');
+        $session = enic::get('session');
 
         //protect datas :
         $form = $iDatas;
@@ -147,6 +148,7 @@ class QuizService {
         $datas['opt_save'] = $this->db->quote('each');
         $datas['opt_show_results'] = $form['optshow'];
         $datas['lock'] = $form['lock'];
+        $datas['gr_id'] = $session->load('id_gr_quiz');
 
         return $datas;
     }

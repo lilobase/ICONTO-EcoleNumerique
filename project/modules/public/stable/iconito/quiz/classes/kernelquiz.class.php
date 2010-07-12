@@ -8,8 +8,8 @@ class kernelQuiz {
         $this->db =& enic::get('model');
     }
 
-    public function create(& $infos = null){
-        $datas['title'] = ($infos['title']) ? $infos['title'] : 'Quiz';
+    public function create($infos = null){
+        $datas['title'] = ($infos['title']) ? '"'.$infos['title'].'"' : '"Quiz"';
         $this->db->create('module_quiz_groupes', $datas);
         return $this->db->lastId;
     }
