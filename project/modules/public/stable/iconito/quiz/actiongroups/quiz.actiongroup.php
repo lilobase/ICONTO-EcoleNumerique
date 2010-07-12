@@ -9,12 +9,21 @@ class ActionGroupQuiz extends enicActionGroup {
         _currentUser()->assertCredential('group:[current_user]');
     }
 
-    public function Index(){
+    public function processDefault(){
+        $idGrQuiz = (int)$this->request('id');
+        if(empty($idGrQuiz)){
+            $this->error('quiz.errors.noQuiz');
+        }
+        
+        if(Kernel::getLevel( "MOD_QUIZ", $idGrQuiz ) < PROFILE_CCV_READ)
+            $this->error ('quiz.admin.noRight');
+
+        qSession('id_gr_quiz', $idGrQuiz);
         //get current quiz :
         $currentQuiz = $this->model->query('SELECT * FROM module_quiz_quiz WHERE
                                             (`date_start` < '.time().' AND `date_end` > '.time().') OR
                                             (`date_start` = 0 OR `date_end` = 0) AND
-                                            `lock` = 0
+                                            `lock` = 0 AND gr_id = '.$idGrQuiz.'
                                             ORDER BY date_end DESC')
                                     ->toArray();
 
@@ -37,6 +46,12 @@ class ActionGroupQuiz extends enicActionGroup {
 
             //to propagate the quizData
             $quizData = &$quizData;
+
+            //security for quiz 
+            $gr_id = qSession('id_gr_quiz');
+            if($gr_id != $quizData->gr_id)
+                $this->error ('quiz.errors.noQuiz');
+
             //session storage :
             qSession('id', $pId);
             qSession('name', $quizData->name);

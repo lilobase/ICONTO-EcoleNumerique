@@ -272,6 +272,12 @@ class QuizService {
 
         $this->db->delete('module_quiz_quiz', $id);
 
+        //delete answ
+        $answ = $this->db->query('SELECT id FROM module_quiz_questions WHERE id_quiz = '.$id)->toArray();
+        foreach($answ as $an){
+            $this->delAnsw($an['id']);
+        }
+
         return true;
     }
 

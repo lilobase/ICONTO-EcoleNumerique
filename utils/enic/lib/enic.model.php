@@ -33,7 +33,7 @@ class enicModel extends enicMod {
 
         //create connection
         try{
-            $this->_db = new PDO('mysql:'.$dbOpt['connectionString'], $dbOpt['user'], $dbOpt['password']);
+            $this->_db = new PDO('mysql:'.$dbOpt['connectionString'], $dbOpt['user'], $dbOpt['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES latin1") );
         }catch(Exception $e){
             trigger_error('Enic Model : connexion fail, '.$e->getMessage(), E_USER_ERROR);
         }

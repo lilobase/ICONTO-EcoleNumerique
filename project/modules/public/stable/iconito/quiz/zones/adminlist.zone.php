@@ -11,9 +11,10 @@
 class ZoneAdminList extends enicZone{
 
     function _createContent (&$toReturn) {
+        $id_gr_quiz = $this->request('id_gr');
 
         //get the active quiz liste
-        $quizList = $this->service('QuizService')->getQuizByOwner($this->user->id);
+        $quizList = $this->service('QuizService')->getQuizByGroupe($id_gr_quiz);
         $action = $this->request('qaction', 'str');
 
         //start tpl :

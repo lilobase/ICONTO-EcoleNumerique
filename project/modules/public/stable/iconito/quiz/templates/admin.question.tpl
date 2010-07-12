@@ -130,7 +130,7 @@ jQuery(document).ready(function($){
                 {if isset($ppo->error.resp.correct)}<p class="ui-state-error" >{$ppo->error.resp.correct}</p>{/if}
 
                 <button id="qf-addresp">{i18n key="quiz.admin.addResp" noEscape=1}</button>
-             
+             <p>{i18n key="quiz.admin.goodAnswMsg" noEscape=1}</p>
                 <ul id="qf-sortable">   
                 {if !empty($ppo->resp)}
                     <!-- RESPONSES ARRAY -->

@@ -8,10 +8,14 @@ class ActionGroupAdmin extends enicActionGroup{
     public function processIndex(){
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
+        $id_gr_quiz = (int)$this->request('id');
+
+        if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
+            $this->error ('quiz.admin.noRight');
         //start tpl :
         $ppo = new CopixPPO();
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
-        $ppo->list = $ppo->list = CopixZone::process('adminList');
+        $ppo->list = $ppo->list = CopixZone::process('adminList', array('id_gr' => $id_gr_quiz));
         return _arPPO($ppo, 'admin.index.tpl');
 
     }
@@ -22,6 +26,13 @@ class ActionGroupAdmin extends enicActionGroup{
 
         //get the active quiz liste
         $action = $this->request('qaction', 'str');
+
+        //get the quiz groupe id
+        $id_gr_quiz = (int)$this->request('id');
+
+        if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
+            $this->error ('quiz.admin.noRight');
+
 
         //start tpl :
         $ppo = new CopixPPO();

@@ -44,11 +44,11 @@
         <br />
 
         <label for="qf-datestart">{i18n key="quiz.form.datestart" noEscape=1}</label>
-            <input type="text" class="qf-date" name="qf-datestart" value="{$ppo->quiz.date_start}" />
+            <input type="text" class="qf-date" name="qf-datestart" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_start}{/if}" />
         <br />
 
         <label for="qf-dateend">{i18n key="quiz.form.dateend" noEscape=1}</label>
-            <input type="text" class="qf-date" name="qf-dateend" value="{$ppo->quiz.date_end}" />
+            <input type="text" class="qf-date" name="qf-dateend" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_end}{/if}" />
        <br />
        
        <!-- <label for="qf-optshow">{i18n key="quiz.form.optshow" noEscape=1}</label>

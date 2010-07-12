@@ -1,4 +1,4 @@
-<h3>{$ppo->question->name}</h3>
+<h3>{$ppo->question->name|utf8_decode}</h3>
 <!--[if lte IE 7]><div class="ISIE67"><![endif]-->
 <a href="{copixurl dest="quiz|default|quiz" id=$ppo->question->id_quiz}" id="quiz-go-home"></a>
 {if !empty($ppo->help)}
@@ -14,12 +14,12 @@
     </p>
 {/if}
 {if $ppo->userResp}
-    <p class="quiz-u-resp">
+<p class="ui-state-highlight"><strong>
         {i18n key="quiz.msg.alreadyQResp" noEscape=1}
-    </p>
+    </strong></p>
 {/if}
 <p class="quiz-response">
-    {$ppo->question->content}
+    {$ppo->question->content|utf8_decode}
 </p>
 <form action="{copixurl dest="quiz|default|save" id=$ppo->question->quiz_id qId=$ppo->prev.id}" method="get">
 {if $ppo->type == radio}
@@ -28,7 +28,7 @@
     <li {if $choice.user}class="quiz-user"{/if}>
         <input type="{$ppo->select}" name="response[]" id="id{$choice.id}" value="{$choice.id}" {if $choice.user}checked="checked"{/if} />
         <label for="id{$choice.id}">
-            {$choice.ct}
+            {$choice.ct|utf8_decode}
         </label>
     </li>
     {/foreach}
