@@ -8,7 +8,6 @@ class ActionGroupAdmin extends enicActionGroup{
     public function processIndex(){
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
-
         //check the current groupe quiz id
         if(!$this->session->exists('id_gr_quiz'))
             return $this->error ('quiz.errors.badOperation', true, 'quiz||');

@@ -18,7 +18,7 @@ jQuery(document).ready(function($){
 {if !empty($ppo->success)}
     <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
 {/if}
-<div class="quiz-quiz">
+<div class="quiz-quiz-a">
     <h4>{i18n key="quiz.admin.new" noEscape=1}</h4>
     <p class="quiz-center">
         <a class="quiz-a-img" href="{copixurl dest="quiz|admin|modif" qaction="new"}">
@@ -26,7 +26,7 @@ jQuery(document).ready(function($){
         </a>
     </p>
 </div>
-<div class="quiz-quiz">
+<div class="quiz-quiz-a">
     <h4>{i18n key="quiz.admin.modif" noEscape=1}</h4>
     <p class="quiz-center">
         <a class="quiz-a-img" href="{copixurl dest="quiz|admin|list" qaction="modif"}">
@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
         </a>
     </p>
 </div>
-<div class="quiz-quiz">
+<div class="quiz-quiz-a">
     <h4>{i18n key="quiz.admin.results" noEscape=1}</h4>
     <p class="quiz-center">
         <a class="quiz-a-img" href="{copixurl dest="quiz|admin|list" qaction="result"}">

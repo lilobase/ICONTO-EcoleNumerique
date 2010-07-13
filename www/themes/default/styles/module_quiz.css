@@ -15,7 +15,7 @@
     border: none;
 }
 .quiz-center img{
-    margin-right: 75px;
+   margin-left: 100px;
 }
 .quiz h3{
     text-align: center;
@@ -24,7 +24,11 @@
     font-weight: normal;
     margin-top: 25px;
 }
-
+.quiz-quiz-a{
+    height: 100px;
+    width: 260px;
+    float: left;
+}
 .quiz-quiz {
     float: left;
 }

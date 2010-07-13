@@ -1,4 +1,4 @@
-<h3>{$ppo->question->name|utf8_decode}</h3>
+<h3>{$ppo->name|utf8_decode}</h3>
 <!--[if lte IE 7]><div class="ISIE67"><![endif]-->
 <a href="{copixurl dest="quiz|default|quiz" id=$ppo->question->id_quiz}" id="quiz-go-home"></a>
 {if !empty($ppo->help)}

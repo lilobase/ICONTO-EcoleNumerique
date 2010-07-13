@@ -16,10 +16,12 @@ class ActionGroupDefault extends enicActionGroup {
 
     public function processDefault(){
         $idGrQuiz = (int)$this->request('id');
-        if(empty($idGrQuiz) && !$this->session->exists('id_gr_quiz')){
-            return $this->error('quiz.errors.noQuiz');
-        }else{
-            $idGrQuiz = $this->session->load('id_gr_quiz');
+        if(empty($idGrQuiz) ){
+            if(!$this->session->exists('id_gr_quiz')){
+                return $this->error('quiz.errors.noQuiz');
+            }else{
+                $idGrQuiz = $this->session->load('id_gr_quiz');
+            }
         }
         
         if(Kernel::getLevel( "MOD_QUIZ", $idGrQuiz ) < PROFILE_CCV_READ)
@@ -250,6 +252,7 @@ class ActionGroupDefault extends enicActionGroup {
 
             $choiceReturn[$i]['ct'] = $choice->content;
             $choiceReturn[$i]['id'] = $choice->id;
+
             if(in_array($choice->id, $currentQ['userChoices']))
                 $choiceReturn[$i]['user'] = true;
             else
@@ -281,6 +284,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->type = ($questionsData->opt_type == 'choice') ? 'radio' : 'txt';
         $ppo->select = ($one == 1) ? 'radio' : 'checkbox';
         $ppo->help = qSession('help');
+        $ppo->name = qSession('name');
         return _arPPO($ppo, 'question.tpl'); 
 
     }
