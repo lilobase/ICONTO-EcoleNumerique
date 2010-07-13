@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<SIMPLEVIEWER_DATA   maxImageDimension="480"
+<SIMPLEVIEWER_DATA   maxImageDimension="{$publ_size}"
                      textColor="0xFFFFFF"
                      frameColor="0xFFFFFF"
                      bgColor="0x181818"

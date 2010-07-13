@@ -977,8 +977,11 @@ class ActionGroupAlbum extends CopixActionGroup {
 			
 		$parent = Kernel::getModParentInfo( "MOD_ALBUM", $album_id );
 		
+    $publ_size = (CopixConfig::exists ('album|photo_publ_size')) ? CopixConfig::get ('album|photo_publ_size') : 640;
+
 		$file_xml = fopen( $path2public.'/imageData.xml', 'w' );
 		$tplXml = & new CopixTpl ();
+		$tplXml->assign ("publ_size", $publ_size);
 		$tplXml->assign ("album_id", $album_id);
 		$tplXml->assign ("album_key", $album->album_cle);
 		$tplXml->assign ("album_titre", $parent['nom']);
@@ -997,11 +1000,9 @@ class ActionGroupAlbum extends CopixActionGroup {
 		@chmod( $path2public.'/thumbs/', 0775 );
 		
 		foreach( $photolist AS $photo ) {
-		
-			Album::createThumbnail( $photo->album_id.'_'.$photo->album_cle, $photo->photo_id.'_'.$photo->photo_cle, $photo->photo_ext, $taille="s64", false, 'jpg' );
-			Album::createThumbnail( $photo->album_id.'_'.$photo->album_cle, $photo->photo_id.'_'.$photo->photo_cle, $photo->photo_ext, $taille="640", false, 'jpg' );
-			
-			copy( $path2album.'/'.$photo->photo_id.'_'.$photo->photo_cle.'_640.jpg',
+			Album::createThumbnail( $photo->album_id.'_'.$photo->album_cle, $photo->photo_id.'_'.$photo->photo_cle, $photo->photo_ext, "s64", false, 'jpg' );
+			Album::createThumbnail( $photo->album_id.'_'.$photo->album_cle, $photo->photo_id.'_'.$photo->photo_cle, $photo->photo_ext, $publ_size, false, 'jpg' );
+			copy( $path2album.'/'.$photo->photo_id.'_'.$photo->photo_cle.'_'.$publ_size.'.jpg',
 			      $path2public.'/images/'.$photo->photo_id.'_'.$photo->photo_cle.'.jpg' );
 			copy( $path2album.'/'.$photo->photo_id.'_'.$photo->photo_cle.'_s64.jpg',
 			      $path2public.'/thumbs/'.$photo->photo_id.'_'.$photo->photo_cle.'.jpg' );
@@ -1010,7 +1011,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$result = $tplXml->fetch("simpleviewer_xml.tpl");
 		fwrite( $file_xml, $result );
 		fclose( $file_xml );
-		
 		
 		$file_html = fopen( $path2public.'/index.html', 'w' );
 		$tplHtml = & new CopixTpl ();
