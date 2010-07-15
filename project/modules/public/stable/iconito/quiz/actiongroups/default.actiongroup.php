@@ -220,24 +220,25 @@ class ActionGroupDefault extends enicActionGroup {
         //data preparation
         $i=0;
         $correct = 0;
+
         foreach($choicesDatas as $choice){
 
             $choiceReturn[$i]['ct'] = $choice['content'];
             $choiceReturn[$i]['id'] = $choice['id'];
+            $choiceReturn[$i]['user'] = false;
             
             if($choice['correct'] == 1)
                 $correct++;
-            
+
             foreach($responsesDatas as $response){
-                if($response['id_choice'] == $choice['id'])
+                if((int)$response['id_choice'] == (int)$choice['id']){
                     $choiceReturn[$i]['user'] = true;
-                else
-                    $choiceReturn[$i]['user'] = false;
+                }
             }
 
             $i++;
         }
-        
+
         //check the current pos in queue:
         $qQueue = $this->session->load('questions');
         foreach($qQueue as $key => $qe){
@@ -260,7 +261,7 @@ class ActionGroupDefault extends enicActionGroup {
         CopixHtmlHeader::addJSLink('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
         $this->js->button('.button');
         $ppo = new CopixPPO();
-        $ppo->error =  CopixRequest::get('error', false);
+        $ppo->error =  ($this->flash->has('error')) ? $this->flash->error : null;
         $ppo->userResp = $uResp;
         $ppo->choices = $choiceReturn;
         $ppo->prev = $prev;
@@ -290,8 +291,10 @@ class ActionGroupDefault extends enicActionGroup {
         //get responses form datas
         $pResponse = CopixRequest::get('response', false);
 
-        if(!$pResponse)
-            return CopixActionGroup::process('quiz|default::Question', array ('id' => qSession('id'), 'qId' => $currentQ['id'], 'error' => CopixI18N::get('quiz.errors.emptyResponse')));
+        if(!$pResponse){
+            $this->flash->error = $this->i18n('quiz.errors.emptyResponse');
+            return $this->go('quiz|default|question', array ('id' => qSession('id'), 'qId' => $this->flash->currentAnsw));
+        }
 
         $optType = ($this->flash->typeAnsw == 'choice') ? 'radio' : 'txt';
         $userId = $this->user->id;
