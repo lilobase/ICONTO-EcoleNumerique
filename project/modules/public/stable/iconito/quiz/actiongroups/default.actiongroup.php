@@ -105,7 +105,7 @@ class ActionGroupDefault extends enicActionGroup {
         $responsesFromUser = _ioDAO('quiz|quiz_responses')->getResponsesFromUser($userId, $pId);
 
         //si pas de questions : erreur :
-        if($questionsData == null)
+        if(empty($questionsData))
             return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuestions'), 'back'=>CopixUrl::get('quiz||')));
         
         //if user have already begin the quiz :
@@ -131,6 +131,11 @@ class ActionGroupDefault extends enicActionGroup {
             $questionsReturn[$i]['userResp'] = isset($userChoices[$currentQuestionId]);
             $i++;
         }
+
+        if(!isset($qQueue))
+            return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuestions'), 'back'=>CopixUrl::get('quiz||')));
+        
+
         //data storage
         $this->session->save('questions', $qQueue);
         
