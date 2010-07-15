@@ -138,6 +138,7 @@ class ActionGroupDefault extends enicActionGroup {
 
         //data storage
         $this->session->save('questions', $qQueue);
+        $this->session->save('quizId', $pId);
         
         //load help
         $help = (empty($quizData->help)) ? $this->i18n('quiz.msg.noHelp') : $quizData->help ;
@@ -195,9 +196,12 @@ class ActionGroupDefault extends enicActionGroup {
         //get params
         $pId = CopixRequest::getInt('id', false);
         $pQId = CopixRequest::getInt('qId', false);
-        
-        if(empty($pId) || empty($pQId) || !$this->session->exists('questions'))
+ 
+        if(empty($pId) || !$this->session->exists('questions'))
             $this->error ('quiz.errors.badOperation');
+
+        if($pQId == false)
+            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $this->session->load('quizId')));
 
         //get question datas
         $questionDatas = $this->service('QuizService')->getQuestion($pQId);
