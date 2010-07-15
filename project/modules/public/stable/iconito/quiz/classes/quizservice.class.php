@@ -269,8 +269,8 @@ class QuizService {
         return true;
     }
 
-    public function delQuiz($iIsQuiz){
-        $id = $iIsQuiz*1;
+    public function delQuiz($iIdQuiz){
+        $id = $iIdQuiz*1;
 
         $this->db->delete('module_quiz_quiz', $id);
 

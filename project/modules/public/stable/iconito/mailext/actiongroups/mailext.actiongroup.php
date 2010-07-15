@@ -15,7 +15,13 @@ class ActionGroupMailExt extends EnicActionGroup {
 
     public function processValidMail(){
 
+        $action = $this->request('typeAction');
 
+        if(empty($action))
+            $this->error('mailext.badOperation');
+
+        //valid datas
+        
 
     }
 
