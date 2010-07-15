@@ -19,9 +19,9 @@
     </strong></p>
 {/if}
 <p class="quiz-response">
-    {$ppo->question->content|utf8_decode}
+    {$ppo->question.content|utf8_decode}
 </p>
-<form action="{copixurl dest="quiz|default|save" id=$ppo->question->quiz_id qId=$ppo->prev.id}" method="get">
+<form action="{copixurl dest="quiz|default|save" id=$ppo->question.id_quiz qId=$ppo->question.id}" method="post">
 {if $ppo->type == radio}
 <ul id="quiz-response-list">
     {foreach from=$ppo->choices item=choice}
@@ -39,9 +39,9 @@
 <div class="quiz-clear"></div>
 <input id="quiz-next" type="submit" value="{i18n key="quiz.msg.next" noEscape=1}" class="button">
 </form>
-<form action="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$ppo->prev.id}" method="get">
+<form action="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$ppo->prev}" method="get">
     <input type="hidden" name="id" value="{$ppo->question->id_quiz}" />
-    <input type="hidden" name="qId" value="{$ppo->prev.id}" />
+    <input type="hidden" name="qId" value="{$ppo->prev}" />
     <input type="submit" value="{i18n key="quiz.msg.prev" noEscape=1}" class="button" id="quiz-prev"/>
 </form>
 <!--[if lte IE 7]></div><![endif]-->

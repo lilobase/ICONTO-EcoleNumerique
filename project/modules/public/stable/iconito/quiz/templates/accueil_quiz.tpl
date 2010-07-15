@@ -15,13 +15,13 @@
 {/if}
 <ul id="quiz-list">
     {foreach from=$ppo->questions item=question}
-        <li {if $question.userResp}class="quiz-user-resp"{/if}>
-            <a class="button" href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$question.id'}">
-                {i18n key="quiz.msg.question" noEscape=1} {$question.order} {if $question.userResp}<div class="quiz-comment"></div>{/if}
+        <li {if $question.ct->userResp}class="quiz-user-resp"{/if}>
+            <a class="button" href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$question.ct->id'}">
+                {$question.ct->name|utf8_decode} {if $question.userResp}<div class="quiz-comment"></div>{/if}
             </a>
         </li>
     {/foreach}
 </ul>
 <div class="quiz-clear"></div>
 <p><div class="quiz-comment"></div> = {i18n key="quiz.msg.alreadyResp" noEscape=1}</p>
-<a id="start-quiz" class="button" href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$ppo->next.id}" title="{i18n key="quiz.msg.start" noEscape=1}">{i18n key="quiz.msg.start" noEscape=1}</a>
+<a id="start-quiz" class="button" href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$ppo->next}" title="{i18n key="quiz.msg.start" noEscape=1}">{i18n key="quiz.msg.start" noEscape=1}</a>

@@ -124,29 +124,15 @@ class ActionGroupDefault extends enicActionGroup {
         $i=0;
         $userAllQuestions = true;
         foreach($questionsData as $question){
-            $questionsReturn[$i]['id'] = $question->id;
-            $questionsReturn[$i]['order'] = $question->order;
-            $questionsReturn[$i]['key'] = $i;
-            $questionsReturn[$i]['userChoices'] = array();
-            $questionsReturn[$i]['opt_type'] = $question->opt_type;
-            if(in_array($question->id, $userResponses)){
-                $questionsReturn[$i]['userResp'] = true;
-                $questionsReturn[$i]['userChoices'][] = $userChoices[$question->id];
-            }else{
-                $questionsReturn[$i]['userResp'] = false;
-                $userAllQuestions = false;
-            }
+            $currentQuestionId = $question->id*1;
+            //pile for question
+            $qQueue[] = $currentQuestionId;
+            $questionsReturn[$i]['ct'] = $question;
+            $questionsReturn[$i]['userResp'] = isset($userChoices[$currentQuestionId]);
             $i++;
         }
-        //pas de questions :
-        if($i == 0)
-            return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuestions'), 'back'=>CopixUrl::get('quiz||')));
-
         //data storage
-        qSession('questions', $questionsReturn);
-        qSession('current', false);
-        qSession('next', $questionsReturn[0]);
-        qSession('prev', false);
+        $this->session->save('questions', $qQueue);
         
         //load help
         $help = (empty($quizData->help)) ? $this->i18n('quiz.msg.noHelp') : $quizData->help ;
@@ -157,7 +143,7 @@ class ActionGroupDefault extends enicActionGroup {
         if($qId)
             return CopixActionGroup::process('quiz|default::Question', array ('id' => $pId, 'qId' => (int)$qId));
         elseif(!$uResp) //if users have not started the quiz :
-            return CopixActionGroup::process('quiz|default::Question', array ('id' => $pId, 'qId' => $questionsReturn[0]['id']));
+            return CopixActionGroup::process('quiz|default::Question', array ('id' => $pId, 'qId' => $qQueue[0]));
 
         //var_dump($questionsReturn);
         //start TPL
@@ -177,7 +163,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->uEnd = $userAllQuestions;
         //questions datas 
         $ppo->questions = $questionsReturn;
-        $ppo->next = qSession('next');
+        $ppo->next = $qQueue[0];
         $ppo->TITLE_PAGE = 'Quiz';
         return _arPPO($ppo, 'accueil_quiz.tpl');
     }
@@ -205,84 +191,82 @@ class ActionGroupDefault extends enicActionGroup {
         $pId = CopixRequest::getInt('id', false);
         $pQId = CopixRequest::getInt('qId', false);
         
-        //test params
-        if(!$pId || qSession('id') == null || $pId != qSession('id') || !$pQId)
-            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $pId, 'qId' => false));
+        if(empty($pId) || empty($pQId) || !$this->session->exists('questions'))
+            $this->error ('quiz.errors.badOperation');
 
-        //test if question exist :
-        $questions = qSession('questions');
-        $questionExist = false;
-        foreach($questions as $question){
-            if($question['id'] == $pQId)
-                $questionExist = true;
-        }
-        if(!$questionExist)
-            return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $pId, 'qId' => false));
+        //get question datas
+        $questionDatas = $this->service('QuizService')->getQuestion($pQId);
 
-        //update session informations :
-        
-        //if user directly access to question :
-        $currentQ = qSession('next');
-        if($pQId != $currentQ['id'] && $currentQ)
-            foreach($questions as $question){
-                if($question['id'] == $pQId)
-                    qSession('next', $question);
-        }
-        $questions = qSession('questions');
-        $currentQ = qSession('next');
-        
-        //create the next informations :
-        $currentArrayPos = $currentQ['key'];
-        $nextQ = (!isset($questions[$currentArrayPos+1])) ? false : $questions[$currentArrayPos+1];
-        $prevQ = (!isset($questions[$currentArrayPos-1])) ? false : $questions[$currentArrayPos-1];
-        qSession('prev', $prevQ);
-        qSession('next', $nextQ);
-        qSession('current', $currentQ);
+        //check if question exists
+        if(empty($questionDatas))
+            $this->error ('quiz.errors.noQuestions');
 
-        //fetch info :
-        $choicesData = _ioDAO('quiz|quiz_choices')->getChoices($pQId);
-        if(!count($choicesData))
-            return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noChoice'), 'back'=>CopixUrl::get('quiz||')));
-        $questionsData = _ioDAO('quiz|quiz_questions')->get($pQId);
+        //check if question & quiz are same id_quiz
+        if($pId != $questionDatas['id_quiz'])
+            $this->error ('quiz.errors.badOperation');
+
+        //get responses from users :
+        $responsesDatas = $this->service('QuizService')->getResponses($pQId, $this->user->id);
+
+        //check if user as already respond to the question
+        $uResp = (!empty($responsesDatas)) ? true : false;
+
+        //get choices for question
+        $choicesDatas = $this->service('QuizService')->getChoices($pQId);
+
+        //if no choices : error :
+        $this->error('quiz.errors.noChoice');
 
         //data preparation
         $i=0;
-        $one = 0;
-        foreach($choicesData as $choice){
+        $correct = 0;
+        foreach($choicesDatas as $choice){
 
-            $choiceReturn[$i]['ct'] = $choice->content;
-            $choiceReturn[$i]['id'] = $choice->id;
-
-            if(in_array($choice->id, $currentQ['userChoices']))
-                $choiceReturn[$i]['user'] = true;
-            else
-                $choiceReturn[$i]['user'] = false;
-            if($choice->correct)
-                $one++;
+            $choiceReturn[$i]['ct'] = $choice['content'];
+            $choiceReturn[$i]['id'] = $choice['id'];
+            
+            if($choice['correct'] == 1)
+                $correct++;
+            
+            foreach($responsesDatas as $response){
+                if($response['id_choice'] == $choice['id'])
+                    $choiceReturn[$i]['user'] = true;
+                else
+                    $choiceReturn[$i]['user'] = false;
+            }
 
             $i++;
         }
-        if($one != 1)
-            $one = false;
-        elseif($one == 0)
-            return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get('quiz.errors.noTrue'), 'back'=>CopixUrl::get('quiz||')));
         
+        //check the current pos in queue:
+        $qQueue = $this->session->load('questions');
+        foreach($qQueue as $key => $qe){
+            //if queue id == current id
+            if($qe == $pQId){
+                $prev = (isset($qQueue[$key-1])) ? $qQueue[$key-1] : false;
+                $next = (isset($qQueue[$key+1])) ? $qQueue[$key+1] : false;
+            }
+
+        }
+
+        //put next answ in flash
+        $this->flash->nextAnsw = $next;
+        $this->flash->currentAnsw = $pQId;
+        $this->flash->typeAnsw = $questionDatas['opt_type'];
+
+        //build tpl
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
         CopixHTMLHeader::addCSSLink (_resource("styles/jquery.fancybox-1.3.1.css"));
         CopixHtmlHeader::addJSLink('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
-        CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/help.js');
-        CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/jquery.fancybox-1.3.1.pack.js');
-        CopixHtmlHeader::addJSLink(CopixUrl::get().'js/datatable/jquery.easing-1.3.pack.js');
         $this->js->button('.button');
         $ppo = new CopixPPO();
         $ppo->error =  CopixRequest::get('error', false);
-        $ppo->userResp = ($currentQ['userResp']) ? true : false;
+        $ppo->userResp = $uResp;
         $ppo->choices = $choiceReturn;
-        $ppo->prev = $prevQ;
-        $ppo->next = $nextQ;
-        $ppo->question = $questionsData;
-        $ppo->type = ($questionsData->opt_type == 'choice') ? 'radio' : 'txt';
-        $ppo->select = ($one == 1) ? 'radio' : 'checkbox';
+        $ppo->prev = $prev;
+        $ppo->question = $questionDatas;
+        $ppo->type = ($questionDatas['opt_type'] == 'choice') ? 'radio' : 'txt';
+        $ppo->select = ($correct > 1) ? 'checkbox' : 'radio';
         $ppo->help = qSession('help');
         $ppo->name = qSession('name');
         return _arPPO($ppo, 'question.tpl'); 
@@ -290,43 +274,47 @@ class ActionGroupDefault extends enicActionGroup {
     }
 
     public function processSave(){
+        if(!$this->flash->has('nextAnsw'))
+            return $this->error('quiz.errors.badOperation');
+
         if(is_null(qSession('id')))
             return CopixActionGroup::process('quiz|default::Quiz', array ('id' => false));
+        
+        //get url's answ id
+        $qId = $this->request('qId')*1;
+        
+        //test id validity
+        if($qId != $this->flash->currentAnsw)
+           return $this->error('quiz.errors.badOperation');
+
+        //get responses form datas
         $pResponse = CopixRequest::get('response', false);
-        $currentQ = qSession('current');
-        $questions = qSession('questions');
 
         if(!$pResponse)
             return CopixActionGroup::process('quiz|default::Question', array ('id' => qSession('id'), 'qId' => $currentQ['id'], 'error' => CopixI18N::get('quiz.errors.emptyResponse')));
 
-        $optType = ($currentQ['opt_type'] == 'choice') ? 'radio' : 'txt';
-        $userId = _currentUser()->getId();
+        $optType = ($this->flash->typeAnsw == 'choice') ? 'radio' : 'txt';
+        $userId = $this->user->id;
 
         //delete previous info
         $criteres = _daoSp()->addCondition('id_user', '=', $userId)
-                            ->addCondition('id_question', '=', $currentQ['id'], 'and');
+                            ->addCondition('id_question', '=', $this->flash->currentAnsw, 'and');
+
         _dao('quiz_response_insert')->deleteBy($criteres);
 
         if($optType == 'radio'){
 
             $i=0;
+
             foreach($pResponse as $response){
                 $record = _record('quiz_response_insert');
                 $record->id_user = $userId;
                 $record->id_choice = $response+0;
-                $record->id_question = $currentQ['id'];
+                $record->id_question = $this->flash->currentAnsw;
                 $record->date = time();
-                $responses[$currentQ['id']][] = $response+0;
+                $responses[] = $response+0;
                 _dao('quiz_response_insert')->insert($record);
                 $i++;
-            }
-
-            //merge new record with session's data
-            foreach($questions as $key => $question){
-                if(isset($responses[$question['id']])){
-                    $questions[$key]['userResp'] = true;
-                    $questions[$key]['userChoices'] = $responses[$question['id']];
-                }
             }
 
         }else{
@@ -338,14 +326,13 @@ class ActionGroupDefault extends enicActionGroup {
         if($quizData->lock == 1)
             return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.lock'), 'back'=>CopixUrl::get('quiz||')));
 
-        //in session :
-        qSession('questions', $questions);
-        $nextQ = qSession('next');
-        //var_dump($nextQ);die();
+        $nextQ = $this->flash->nextAnsw;
+
+        //if next answ = flash : end of quiz
         if(!$nextQ)
             return _arRedirect(_url('quiz|default|endQuestions', array ('id' => qSession('id'))));
 
-        return _arRedirect(_url('quiz|default|question', array ('id' => qSession('id'), 'qId' => $nextQ['id'])));
+        return _arRedirect(_url('quiz|default|question', array ('id' => qSession('id'), 'qId' => $nextQ)));
     }
 
     public function processEndQuestions(){

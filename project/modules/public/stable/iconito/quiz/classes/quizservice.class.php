@@ -296,6 +296,18 @@ class QuizService {
         
         return !is_null($this->db->query('SELECT id FROM module_quiz_questions WHERE id = '.$id)->toString());
     }
+
+    public function getQuestion($iQid){
+        return $this->db->query('SELECT * FROM module_quiz_questions WHERE id = '.$iQid)->toArray1();
+    }
+
+    public function getResponses($iQid, $iUid){
+        return $this->db->query('SELECT * FROM module_quiz_responses WHERE id_question = '.$iQid.' AND id_user = '.$iUid)->toArray();
+    }
+
+    public function getChoices($iQid){
+        return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$iQid)->toArray();
+    }
     
 }
 ?>
