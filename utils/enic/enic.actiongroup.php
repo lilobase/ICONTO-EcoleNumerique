@@ -41,11 +41,12 @@ class enicActionGroup extends CopixActionGroup {
         $this->session      =& enic::get('session');
         $this->flash        =& enic::get('flash');
         $this->html         =& enic::get('html');
+        $this->helpers      =& enic::get('helpers');
         
         //define properties :
-        $this->module   = $this->request('module');
-        $this->actiongroup   = $this->request('group');
-        $this->action   = $this->request('action');
+        $this->module   = $this->helpers->module;
+        $this->actiongroup   = $this->helpers->actiongroup;
+        $this->action   = $this->helpers->action;
     }
 
     /*
@@ -63,56 +64,27 @@ class enicActionGroup extends CopixActionGroup {
     }
 
     protected function service($iService){
-        if(!is_string($iService))
-            trigger_error('Enic failed to load Service : invalid name', E_USER_WARNING);
-
-        if(!isset($this->shared['s'.$iService]))
-            $this->shared['s'.$iService] =& CopixClassesFactory::create($iService);
-
-        return $this->shared['s'.$iService];
+        return $this->helpers->service($iService);
     }
 
     protected function request($iName, $iType = 'other', $default = null){
-        $oReturn = CopixRequest::get($iName, $default);
-
-        switch($iType){
-            case 'str':
-                return (string)$oReturn;
-            break;
-            case 'int':
-                return $oReturn*1;
-            break;
-            case 'other':
-                return $oReturn;
-            break;
-        }
+        return $this->helpers->request($iName, $iType, $default);
     }
 
     protected function i18n($iKey){
-        return CopixI18N::get($iKey);
+        return $this->helpers->i18n($iKey);
     }
 
     protected function url($iUrl, $iParams = array()){
-         return CopixUrl::get ($iUrl, $iParams);
+         return $this->helpers->url($iUrl, $iParams);
     }
 
     protected function error($iMsg, $i18n = true, $iBack = null){
-        
-        //build msg
-        $msg = ($i18n) ? $this->i18n($iMsg) : $iMsg;
-
-        //build url
-        $back = (empty($iBack)) ? $this->module.'|'.$this->actiongroup.'|' : $iBack;
-        $back = $this->url($back);
-
-        return CopixActionGroup::process('genericTools|Messages::getError', array ('message' => $msg, 'back' => $back));
+       return $this->helpers->error($iMsg, $i18n, $iBack);
     }
 
     protected function go($iUrl = 'default', $iParams = array()){
-        //build url :
-        $back = ($iUrl == 'default') ? $this->module.'||' : $iUrl;
-        
-        return _arRedirect($this->url($iUrl, $iParams));
+        return $this->helpers->go($iUrl, $iParams);
     }
 
     protected function addImg($iPath){

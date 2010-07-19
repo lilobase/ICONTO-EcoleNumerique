@@ -1,0 +1,74 @@
+<?php
+
+class enicHelpers extends enicMod{
+
+    protected $shared;
+
+    public function  __construct() {
+        
+        
+
+        parent::__construct();
+
+        //define properties :
+        $this->module   = $this->request('module');
+        $this->actiongroup   = $this->request('group');
+        $this->action   = $this->request('action');
+    }
+
+    public function service($iService){
+        if(!is_string($iService))
+            trigger_error('Enic failed to load Service : invalid name', E_USER_WARNING);
+
+        if(!isset($this->shared['s'.$iService]))
+            $this->shared['s'.$iService] =& CopixClassesFactory::create($iService);
+
+        return $this->shared['s'.$iService];
+    }
+
+    public function request($iName, $iType = 'other', $default = null){
+        $oReturn = CopixRequest::get($iName, $default);
+
+        switch($iType){
+            case 'str':
+                return (string)$oReturn;
+            break;
+            case 'int':
+                return $oReturn*1;
+            break;
+            case 'other':
+                return $oReturn;
+            break;
+        }
+    }
+
+    public function i18n($iKey){
+        return CopixI18N::get($iKey);
+    }
+
+    public function url($iUrl, $iParams = array()){
+         return CopixUrl::get ($iUrl, $iParams);
+    }
+
+    public function error($iMsg, $i18n = true, $iBack = null){
+
+        //build msg
+        $msg = ($i18n) ? $this->i18n($iMsg) : $iMsg;
+
+        //build url
+        $back = (empty($iBack)) ? $this->module.'|'.$this->actiongroup.'|' : $iBack;
+        $back = $this->url($back);
+
+        return CopixActionGroup::process('genericTools|Messages::getError', array ('message' => $msg, 'back' => $back));
+    }
+
+    public function go($iUrl = 'default', $iParams = array()){
+        //build url :
+        $back = ($iUrl == 'default') ? $this->module.'||' : $iUrl;
+
+        return _arRedirect($this->url($iUrl, $iParams));
+    }
+
+
+
+}

@@ -9,6 +9,8 @@ define('ENIC_PATH',dirname (__FILE__) . '/');
 require(ENIC_PATH.'enic.actiongroup.php');
 //get enic Zone
 require(ENIC_PATH.'enic.zone.php');
+//get enic Service
+require(ENIC_PATH.'enic.service.php');
 
 /*
  * FACTORY

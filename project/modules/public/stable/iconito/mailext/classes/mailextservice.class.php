@@ -9,12 +9,7 @@
  *
  * @author alemaire
  */
-class mailExtService {
-    
-    public function  __construct() {
-        $this->model =& enic::get('model');
-        $this->user =& enic::get('user');
-    }
+class mailExtService extends enicService{
 
     public function connect($server, $port, $protocol, $ssl, $user, $pass){
         
@@ -88,15 +83,18 @@ class mailExtService {
     }
 
     public function validMailConf($iDatas){
-        $errors = true;
+        $errors = array();
 
         $required = array('server', 'pseudo', 'pass', 'webmail');
 
         foreach($required as $require){
             if(empty($iDatas[$require])){
-                $errors[$require] = '';
+                $errors[$require] = $this->i18n('mailext.required');
             }
         }
+
+        $oReturn[] = empty($errors);
+        $oReturn[] = $errors;
         
     }
     

@@ -71,13 +71,9 @@
 
 {if empty($ppo->questions)}
         <h4 class="quiz-index-title">{i18n key="quiz.errors.noQuestions" noEscape=1}</h4>
-        <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-            <a href="{copixurl dest='quiz|admin|questions'}" class="ui-button-text">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
-        </button>
+        <a href="{copixurl dest='quiz|admin|questions'}" class="button">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
 {else}
-        <button class="ui-button ui-button-text-only ui-widget ui-state-default ui-corner-all">
-            <a href="{copixurl dest='quiz|admin|questions'}" class="ui-button-text">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
-        </button>
+    <a href="{copixurl dest='quiz|admin|questions'}" class="button">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
     <table id="quiz-t-list">
     <thead>
         <tr>
