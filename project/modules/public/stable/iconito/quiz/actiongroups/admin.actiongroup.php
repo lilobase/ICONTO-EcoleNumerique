@@ -22,10 +22,13 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->list = $ppo->list = CopixZone::process('adminList');
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
+                            'type' => 'update',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
+                            'type' => 'read',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
         return _arPPO($ppo, 'admin.index.tpl');
 
@@ -51,10 +54,13 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->MENU[] = array( 'txt' => $this->i18n('quiz.admin.index'),
                             'url' => $this->url('quiz|admin|'));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
+                            'type' => 'update',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
+                            'type' => 'read',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
         
         return _arPPO($ppo, 'admin.list.tpl');
@@ -76,10 +82,13 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->quiz = $QuizData;
         $ppo->author = $author;
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
+                            'type' => 'update',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
+                            'type' => 'read',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
         return _arPPO($ppo, 'admin.quiz.tpl');
     }
@@ -161,10 +170,13 @@ class ActionGroupAdmin extends enicActionGroup{
                                 'url' => $this->url('quiz|admin|'))
                       );
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
+                            'type' => 'update',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
+                            'type' => 'read',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
         return _arPPO($ppo, 'admin.modif.tpl');
     }
@@ -393,10 +405,13 @@ class ActionGroupAdmin extends enicActionGroup{
                         'url' => $this->url('quiz|admin|modif'))
               );
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
+                            'type' => 'update',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
+                            'type' => 'read',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
 
         return _arPPO($ppo, 'admin.question.tpl');
@@ -683,10 +698,13 @@ class ActionGroupAdmin extends enicActionGroup{
                             'url' => $this->url('quiz|admin|'))
                       );
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
+                            'type' => 'update',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
+                            'type' => 'read',
                             'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
 		return _arPPO($ppo, 'admin.allresults.tpl');
     }

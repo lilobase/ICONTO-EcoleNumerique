@@ -21,7 +21,7 @@ class ZoneMenu extends CopixZone {
 		$pCanClose = $this->getParam ('canClose', true); // Seulement si popup, true par defaut
 		
 		if ($pCanClose===null) $pCanClose = true;
-		// Si le menu est défini à partir d'un tableau, création du HTML pour affichage.
+		// Si le menu est dï¿½fini ï¿½ partir d'un tableau, crï¿½ation du HTML pour affichage.
 		if( is_array($pMenu) ) {
 			$out = '';
 			$sep = '';
@@ -33,8 +33,11 @@ class ZoneMenu extends CopixZone {
 
 				$target = '';
 				if( isset($val['target'])) $color=' target="'.$val['target'].'"';
+
+                                //get type for item, 'nd generate associate class
+                                $class = (isset($val['type'])) ? 'class="'.$val['type'].'"' : '';
 				
-				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '<a'.$color.' href="'.$val['url'].'">';
+				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '<a '.$class.' '.$color.' href="'.$val['url'].'">';
 				$out .= $val['txt'];
 				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '</a>';
 			}
