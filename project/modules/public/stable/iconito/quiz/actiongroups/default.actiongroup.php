@@ -49,6 +49,12 @@ class ActionGroupDefault extends enicActionGroup {
                         array( 'txt' => $this->i18n('quiz.admin.admin'),
                         'url' => $this->url('quiz|admin|'))
                         );
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
+                            'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
+                            'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
         }
         return _arPPO($ppo, 'quiz.tpl');
     }
