@@ -1,5 +1,7 @@
 <?php
 
+enic::to_load('cache');
+
 class enicMatrixCache extends enicCache{
     public function __construct(){
         $this->storage = 'file';
