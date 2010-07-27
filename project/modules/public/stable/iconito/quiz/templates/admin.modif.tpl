@@ -1,118 +1,120 @@
+<ul id="stepbar">
+	<li class="sb-step-first">
+		<a href="{copixurl dest="quiz|admin|list"}" class="sb-list"></a>
+	</li>
+	<li class="sb-step-active">{i18n key="quiz.form.edit" noEscape=1}</li>
+	<li class="sb-message">
+		{if !empty($ppo->success)}
+			{$ppo->success}
+		{else}
+			{if empty($ppo->quiz.name)}
+				{i18n key="quiz.form.newmsg" noEscape=1}
+			{else}
+				{i18n key="quiz.form.editmsg" noEscape=1}
+			{/if}
+		{/if}		
+	</li>
+</ul>
+<div id="stepbar-restore"></div>
 
-{if empty($ppo->quiz.name)}
-<h3>{i18n key="quiz.msg.newQuiz" noEscape=1}</h3>
-{else}
-<h3>{$ppo->quiz.name}</h3>
-{if !empty($ppo->success)}
-    <p class="ui-state-highlight"><strong>{$ppo->success}</strong></p>
+{if !empty($ppo->errors) }
+<div id="dialog-message" title="{i18n key="quiz.errors" noEscape=1}">
+	<ul>
+	{* $ppo->error|@print_r *} 
+	{if isset($ppo->errors.title)}<li>{$ppo->errors.title}</li>{/if}
+	</ul>
+</div>
 {/if}
-<a href="{copixurl dest="quiz|admin|delQuiz"}" id="q-suppr" class="button">{i18n key="quiz.admin.delQuiz" noEscape=1}</a>
-<a href="{copixurl dest="quiz|default|quiz" id=$ppo->quiz.id}" id="q-goquiz" class="button">{i18n key="quiz.admin.goQuiz" noEscape=1}</a>
-<a href="#goansw" id="q-goansw" class="button">{i18n key="quiz.admin.goAnsw" noEscape=1}</a>
-{/if}
 
-<hr class="quiz-separator" />
-<form id="quiz-form" method="post" action="{$ppo->action}">
+<form id="quiz-form" class="quiz" method="post" action="{$ppo->action}">
 
-    <fieldset id="qf-main">
+	<input type="hidden" name="qf-optshow" value="never" />
+	<input type="hidden" name="check" value="1" />
+	<input type="hidden" name="quizId" value="{$ppo->quiz.id}" />
 
-        <legend>{i18n key="quiz.form.infos" noEscape=1}</legend>
+	<div class="col-right">
+		<div class="content-panel">
+			<label>{i18n key="quiz.form.publishState" noEscape=1}</label>
+			<select name="qf-lock" class="qf-publish">
+				<option value="0">{i18n key="quiz.form.published" noEscape=1}</option>
+				<option value="1">{i18n key="quiz.form.unpublished" noEscape=1}</option>
+			</select>
 
-        <label for="qf-title">{i18n key="quiz.form.title" noEscape=1}</label>
-        {$ppo->errors.title}
-            <input type="text" name="qf-title" value="{$ppo->quiz.name}" />
-        <br /><br />
+			<label>{i18n key="quiz.form.datestart" noEscape=1}</label>
+			<input type="text" class="qf-date" name="qf-datestart" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_start}{/if}" />
+ 
+			<label>{i18n key="quiz.form.dateend" noEscape=1}</label>
+			<input type="text" class="qf-date" name="qf-dateend" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_end}{/if}" />
+ 		</div>
+		<div class="content-panel content-panel-button">
+		<input type="submit" value="{i18n key="quiz.form.submit" noEscape=1}" class="button button-save" />
+		</div>
+	</div>
+	
+	<div class="col-main">
+		<div class="content-panel content-panel-edit qf-head">
+			<input type="text" class="qf-title" name="qf-title" value="{$ppo->quiz.name}" />
+			<textarea id="qf-description" class="qf-description" name="qf-description">{$ppo->quiz.description}</textarea>
+		</div>
+		<div class="content-panel">
+			<label><a href="" id="qf-opt-show" >{i18n key="quiz.form.help" noEscape=1}</a></label>
+			<div id="qf-opt-hide"><textarea id="qf-help" name="qf-help">{$ppo->quiz.help}</textarea></div>
+		</div>
+<!--
+		<div class="content-panel">
+			<span class="qf-label">{i18n key="quiz.form.optshow" noEscape=1}</span>
+			<input type="radio" name="qf-optshow" value="never"><label for="qf-optshow">{i18n key="quiz.form.optshowNever" noEscape=1}</label>
+			<input type="radio" name="qf-optshow" value="each"><label for="qf-optshow">{i18n key="quiz.form.optshowEach" noEscape=1}</label>
+			<input type="radio" name="qf-optshow" value="endquiz"><label for="qf-optshow">{i18n key="quiz.form.optshowEndquiz" noEscape=1}</label>
+		</div>
+-->
+		
+	</div>
 
-        <label for="qf-description">{i18n key="quiz.form.desc" noEscape=1}</label>
-            <textarea id="qf-description" name="qf-description">{$ppo->quiz.description}</textarea>
-        <br />
+	<div class="clearBoth"><br/></div>
 
-        <label for="qf-help"><a href="" id="qf-opt-show" >{i18n key="quiz.form.help" noEscape=1}</a></label>
-        <div id="qf-opt-hide"><textarea id="qf-help" name="qf-help">{$ppo->quiz.help}</textarea></div>
-        <br />
-     <input type="submit" value="{i18n key="quiz.form.submit" noEscape=1}" class="button" />
-
-    </fieldset>
-
-    <fieldset id="qf-opt">
-        <legend>{i18n key="quiz.form.options" noEscape=1}</legend>
-
-       <label for="qf-lock">{i18n key="quiz.form.state" noEscape=1}</label>
-            <select name="qf-lock">
-                <option value="0">Activer le formulaire</option>
-                <option value="1">Verrouiller le formulaire</option>
-            </select>
-        <br />
-
-        <label for="qf-datestart">{i18n key="quiz.form.datestart" noEscape=1}</label>
-            <input type="text" class="qf-date" name="qf-datestart" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_start}{/if}" />
-        <br />
-
-        <label for="qf-dateend">{i18n key="quiz.form.dateend" noEscape=1}</label>
-            <input type="text" class="qf-date" name="qf-dateend" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_end}{/if}" />
-       <br />
-       
-       <!-- <label for="qf-optshow">{i18n key="quiz.form.optshow" noEscape=1}</label>
-            <select name="qf-optshow" value="{$ppo->quiz.opt_show_results}">
-                <option value="never">jamais</option>
-                <option value="each">après chaque questions</option>
-                <option value="endquiz">à la fin du quiz</option>
-            </select> -->
-    <input type="hidden" name="qf-optshwo" value="never" />
-    <input type="hidden" name="check" value="1" />
-    <input type="hidden" name="quizId" value="{$ppo->quiz.id}" />
-    </fieldset>
+	{if !empty($ppo->quiz.name) || !empty($ppo->questions)}
+	<div class="content-panel">
+		<span class="quiz-itemlist">{i18n key="quiz.form.questions" noEscape=1}</span>
+			<table class="quiz-qtable">
+			{foreach from=$ppo->questions item=question }
+			<tr class="{cycle values="row1, row2"}">
+				<td class="quiz-col48 quiz-qnum">
+					Q{$question.id}
+					</td>
+					<td class="">
+						<a href="{copixurl dest="quiz|admin|questions" id=$question.id qaction="modif"}" class="button button-update">
+							<div class="quiz-title">{$question.name}</div>
+							<div class="quiz-description">{$question.content|truncate:150:'...'|strip_tags}</div>
+						</a>
+					</td>
+					<td class="quiz-col120">
+						ToDo {i18n key="quiz.question.answersCount" noEscape=1}
+					</td>
+					<td class="quiz-col80">
+						<a href="{copixurl dest="quiz|admin|delAnsw"}" id="a-suppr" class="button button-delete">
+						{i18n key="quiz.question.delete" noEscape=1}&nbsp;&nbsp;&nbsp;
+						</a>
+					</td>
+				</tr>
+			{/foreach}
+			</table>
+			<div class="right">
+				<a href="{copixurl dest='quiz|admin|questions'}" class="button button-add">
+				{i18n key="quiz.question.add" noEscape=1}
+				</a>
+			</div>
+	</div>
+	{/if}
 </form>
 
-<hr class="quiz-space" />
-<a name="goansw"></a>
-<h3>{i18n key="quiz.msg.listQuestions" noEscape=1}</h3>
-<hr class="quiz-separator" />
 
-{if empty($ppo->questions)}
-        <h4 class="quiz-index-title">{i18n key="quiz.errors.noQuestions" noEscape=1}</h4>
-        <a href="{copixurl dest='quiz|admin|questions'}" class="button">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
-{else}
-    <a href="{copixurl dest='quiz|admin|questions'}" class="button">{i18n key="quiz.admin.addAnsw" noEscape=1}</a>
-    <table id="quiz-t-list">
-    <thead>
-        <tr>
-            <th>Nom :</td>
-            <th>Enoncé :</td>
-            <th>Action</td>
-        </tr>
-    </thead>
-    <tbody>
-    {foreach from=$ppo->questions item=question }
-    <tr class="{cycle values="row1, row2"}">
-        <td class="col1">
-            {$question.name}
-        </td>
-        <td class="col2">
-            {$question.content|truncate:50:'...'|strip_tags}
-        </td>
-        <td class="col3">
-                <a href="{copixurl dest="quiz|admin|questions" id=$question.id qaction="modif"}">
-                    <p>
-                        <img class="arrow" src="{copixresource path="images/colorful/16x16/next.png"}" alt="">
-                        &nbsp;{i18n key="quiz.admin.modifQuestion" noEscape=1}&nbsp;&nbsp;&nbsp;
-                        <img src="{copixresource path="images/colorful/16x16/process.png"}" alt="{i18n key="quiz.admin.onemodif" noEscape=1}">
-                    </p>
-                </a>
-        </td>
-    </tr>
-    {/foreach}
-    </tbody>
-
-    </table>
-{/if}
-
-        {literal}
-    <script type="text/javascript">
-        jQuery('#qf-opt-hide').hide();
-        jQuery('#qf-opt-show').click(function(){
-            jQuery('#qf-opt-hide').toggle();
-                return false;
-        });
-    </script>
+{literal}
+<script type="text/javascript">
+	jQuery('#qf-opt-hide').hide();
+	jQuery('#qf-opt-show').click(function(){
+		jQuery('#qf-opt-hide').toggle();
+		return false;
+		});
+</script>
 {/literal}

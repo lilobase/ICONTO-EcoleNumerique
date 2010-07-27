@@ -12,7 +12,7 @@ jQuery(document).ready(function($){
 
 {/literal}
 </script>
-<h3>{i18n key="quiz.admin.admin" noEscape=1}</h3>
+<h3>{i18n key="quiz.admin.edit" noEscape=1}</h3>
 
 <hr class="quiz-separator" />
 {if !empty($ppo->success)}

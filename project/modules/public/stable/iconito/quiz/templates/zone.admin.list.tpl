@@ -1,43 +1,48 @@
 {if empty($ppo->quizList)}
-
-        <h4 class="quiz-index-title">{i18n key="quiz.errors.noQuiz" noEscape=1}</h4>
+    <div class="noquiz-button">
+		{i18n key="quiz.errors.noQuiz" noEscape=1}
+    </div>
 {else}
-    <table id="quiz-t-list">
+    <table id="quiz-table">
     <thead>
-        <tr>
-            <th>Nom :</td>
-            <th>Description :</td>
-            <th>Action</td>
-        </tr>
+    <th></th>
+    <th>{i18n key="quiz.table.published" noEscape=1}</th>
+    <th>{i18n key="quiz.table.datestart" noEscape=1}</th>
+    <th>{i18n key="quiz.table.dateend" noEscape=1}</th>
+    <th>{i18n key="quiz.table.answers" noEscape=1}</th>
+    <th></th>
     </thead>
     <tbody>
     {foreach from=$ppo->quizList item=quiz }
     <tr class="{cycle values="row1, row2"}">
-        <td class="col1">
-            {$quiz.name}
+        <td class="quiz-colstart">
+            <a href="{copixurl dest="quiz|admin|modif" id=$quiz.id qaction="modif"}" class="button button-update">
+            	<div class="quiz-title">{$quiz.name}</div>
+            	<div class="quiz-description">{$quiz.description|truncate:100:'...'|strip_tags}</div>
+            </a>
         </td>
-        <td class="col2">
-            {$quiz.description|truncate:50:'...'|strip_tags}
+        <td class="quiz-col80 center">
+            {if $quiz.lock == 0}
+            <a class="quiz-published"></a>
+			{else}
+            <a class="quiz-unpublished"></a>
+			{/if}
         </td>
-        <td class="col3">
-            {if $ppo->action == 'modif' || empty($ppo->action)}
-                <a href="{copixurl dest="quiz|admin|modif" id=$quiz.id qaction="modif"}">
-                    <p>
-                        <img class="arrow" src="{copixresource path="images/colorful/16x16/next.png"}" alt="">
-                        &nbsp;{i18n key="quiz.admin.onemodif" noEscape=1}&nbsp;&nbsp;&nbsp;
-                        <img src="{copixresource path="images/colorful/16x16/process.png"}" alt="{i18n key="quiz.admin.onemodif" noEscape=1}">
-                    </p>
-                </a>
-            {/if}
-            {if $ppo->action == 'result' || empty($ppo->action)}
-                <a href="{copixurl dest="quiz|admin|results" id=$quiz.id}">
-                    <p>
-                        <img class="arrow" src="{copixresource path="images/colorful/16x16/next.png"}" alt="">
-                        &nbsp;{i18n key="quiz.admin.results" noEscape=1}&nbsp;
-                        <img src="{copixresource path="images/colorful/16x16/pie_chart.png"}" alt="{i18n key="quiz.admin.results" noEscape=1}">
-                    </p>
-                </a>
-            {/if}
+        <td class="quiz-col80 center">
+        	ToDo
+        </td>
+        <td class="quiz-col80 center">
+        	ToDo
+        </td>
+        <td class="quiz-col80 center">
+        	<a href="{copixurl dest="quiz|admin|results" id=$quiz.id}" class="button button-results">
+        	ToDo
+        	</a>
+        </td>
+        <td class="quiz-col100 quiz-colend">
+			<a href="{copixurl dest="quiz|admin|delQuiz" id=$quiz.id}" id="q-suppr" class="button button-delete">
+			{i18n key="quiz.admin.delQuiz" noEscape=1}
+			</a>
         </td>
     </tr>
     {/foreach}
@@ -45,16 +50,3 @@
 
     </table>
 {/if}
-{literal}
-<script type="text/javascript">
-jQuery.noConflict();
-
-jQuery(document).ready(function($){
-    $(".col3 a").click(function(){
-        $(this).fadeOut();
-        $(this).fadeIn('fast');
-        return true;
-    });
-});
-</script>
-{/literal}

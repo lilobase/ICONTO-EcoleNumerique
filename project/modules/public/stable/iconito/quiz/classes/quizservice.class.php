@@ -208,7 +208,7 @@ class QuizService {
         $errors = array();
 
         if(empty($iDatas['name']))
-            $errors['name'] = 'champs obligatoire';
+            $errors['name'] = 'Un énoncé court est au moins nécessaire...';
 
         $oReturn[] = empty($errors);
         $oReturn[] = $errors;
@@ -225,14 +225,14 @@ class QuizService {
         //fetch all resp
         foreach($iDatas as $i => $datas){
             if(empty($datas['content']))
-                $errors['resp']['content'] = 'Une de vos réponse est vide';
+                $errors['resp']['content'] = 'L\'une de vos propositions est vide...';
 
             if($datas['correct'] == 1)
                 $isValid = true;
         }
 
         if(!$isValid){
-            $errors['resp']['correct'] = 'Il doit y avoir au moin une bonne réponse';
+            $errors['resp']['correct'] = 'Vous devez choisir au moins une bonne réponse parmi vos propositions...';
         }
 
         $oReturn[] = empty($errors);

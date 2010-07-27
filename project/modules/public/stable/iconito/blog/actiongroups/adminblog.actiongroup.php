@@ -193,8 +193,8 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog("ADMIN_STATS", $blog))
 			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.stats'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>9)));
 
-		$returntoparent = Kernel::menuReturntoParent( "MOD_BLOG", $id_blog );
-		if( $returntoparent ) $menu[] = $returntoparent;
+//		$returntoparent = Kernel::menuReturntoParent( "MOD_BLOG", $id_blog );
+//		if( $returntoparent ) $menu[] = $returntoparent;
 		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('MENU', $menu);

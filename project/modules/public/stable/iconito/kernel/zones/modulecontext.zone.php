@@ -9,7 +9,7 @@
 	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
 */
 
-class ZoneModuleContext extends CopixZone {
+class ZoneModuleContext extends enicZone {
 
 	function _createContent (&$toReturn) {
 
@@ -39,7 +39,7 @@ class ZoneModuleContext extends CopixZone {
 			$toReturn .= '		<div class="wcontrol">';
 			$toReturn .= '		<a class="dashclose" href="'.$closeUrl.'"></a>';
 			$toReturn .= '		</div>';
-			$toReturn .= '		<span>'.(($titlepage)?$titlepage:$curmod).'</span>';
+			$toReturn .= '		<span>'.$this->module.'</span>';
 			$toReturn .= '	</div>';
 			$toReturn .= '	<div class="content">';
 

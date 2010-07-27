@@ -45,19 +45,16 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->quiz = $currentQuiz;
 
         if(Kernel::getLevel( 'MOD_QUIZ', $idGrQuiz) <= PROFILE_CCV_ADMIN){
-            $ppo->MENU = array(
-                        array( 'txt' => $this->i18n('quiz.admin.admin'),
-                        'url' => $this->url('quiz|admin|'))
-                        );
+
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
+                            'type' => 'list-active',
+                            'url' => $this->url('quiz|default|default', array('qaction' => 'list')));
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listAll'),
+                            'type' => 'list',
+                            'url' => $this->url('quiz|admin|list'));
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
                             'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.modif'),
-                            'type' => 'update',
-                            'url' => $this->url('quiz|admin|list', array('qaction' => 'modif')));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.results'),
-                            'type' => 'read',
-                            'url' => $this->url('quiz|admin|list', array('qaction' => 'result')));
         }
         return _arPPO($ppo, 'quiz.tpl');
     }
@@ -163,7 +160,7 @@ class ActionGroupDefault extends enicActionGroup {
         //var_dump($questionsReturn);
         //start TPL
         $this->addCss('styles/module_quiz.css');
-        $this->js->button('.button');
+//        $this->js->button('.button');
         
         $ppo = new CopixPPO();
         //global data for quiz
@@ -277,7 +274,7 @@ class ActionGroupDefault extends enicActionGroup {
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
         CopixHTMLHeader::addCSSLink (_resource("styles/jquery.fancybox-1.3.1.css"));
         CopixHtmlHeader::addJSLink('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
-        $this->js->button('.button');
+//        $this->js->button('.button');
         $ppo = new CopixPPO();
         $ppo->error =  ($this->flash->has('error')) ? $this->flash->error : null;
         $ppo->userResp = $uResp;
@@ -362,6 +359,7 @@ class ActionGroupDefault extends enicActionGroup {
             return CopixActionGroup::process('quiz|default::Quiz', array ('id' => $pId));
         }
         $ppo = new CopixPPO();
+        CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
         return _arPPO($ppo, 'end_questions.tpl');
     }
     

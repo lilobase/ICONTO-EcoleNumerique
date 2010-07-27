@@ -16,7 +16,7 @@ class ZoneAdminList extends enicZone{
         //get the active quiz liste
         $quizList = $this->service('QuizService')->getQuizByGroupe($id_gr_quiz);
         $action = $this->request('qaction', 'str');
-
+		
         //start tpl :
         $ppo = new CopixPPO();
         $ppo->quizList = $quizList;

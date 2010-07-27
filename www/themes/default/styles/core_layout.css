@@ -13,8 +13,15 @@ body {
 	padding:0;
 	}
 
+.clear		{ clear: both; }
+.clearBoth 	{ clear: both; width:100%; }
+
 .show 	{ visibility: show; }
 .hidden { visibility: hidden; display: none; }
+
+.left 	{ text-align: left; }
+.center	{ text-align: center; }
+.right 	{ text-align: right; }
 
 .opacity100 {
 	opacity : 1;
@@ -131,14 +138,6 @@ body {
 	position: relative;
 	}
 
-#contentmain div.submenu {
-	position: relative;
-  background:#ddd;
-  margin:-10px -10px 10px -10px;
-  padding:5px;
-  font-size:90%;
-	}
-
 #contentbottom {
 	position: relative;
 	}
@@ -160,10 +159,94 @@ body {
 	
 
 /************************************************
+ * Barre de progression contextuelle
+ ***********************************************/
+#stepbar {
+	position: absolute;
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 50px;
+	background: #f0f4f0 url(../images/thm_stepbar_bg.png) repeat-x 0 0;
+	}
+ 
+#stepbar-restore {
+	position: relative;
+	margin-top: 50px;
+	}
+ 
+#stepbar .sb-step {
+	position: relative;
+	float: left;
+	display: block;
+	height: 30px;
+	margin: 0px;
+	padding: 14px 14px 6px 6px;
+	background: url(../images/thm_stepbar_arrow.png) no-repeat 100% 0;
+	color: #666;
+	font-size: 16px;
+	letter-spacing: -0.02em;
+	z-index: 999;
+	}
+ 
+#stepbar .sb-step-active {
+	position: relative;
+	float: left;
+	display: block;
+	height: 30px;
+	margin: 0px;
+	margin-left: -16px;
+	padding: 14px 14px 6px 22px;
+	background: url(../images/thm_stepbar_arrow_active.png) no-repeat 100% 0;
+	color: #444;
+	font-size: 16px;
+	letter-spacing: -0.02em;
+	}
+ 
+#stepbar .sb-step-first {
+	position: relative;
+	float: left;
+	display: block;
+	height: 42px;
+	margin: 0px;
+	padding: 4px 16px 4px 4px;
+	background: url(../images/thm_stepbar_arrow.png) no-repeat 100% 0;
+	z-index: 999;
+	}
+ 
+#stepbar .sb-message {
+	position: relative;
+	float: left;
+	display: block;
+	padding: 14px 6px 6px 6px;
+	font-style: italic;
+	color: #444;
+	}
+ 
+a.sb-list {
+	position: relative;
+	display: inline-block;
+	background: url(../images/button_list_off.png) no-repeat 100% 0;
+	top: 0px;
+	left: 0px;
+	height: 42px;
+	width: 42px;
+	margin: 0px;
+	padding: 0px;
+	}
+ 
+a.sb-list:hover {
+	background: url(../images/button_list_on.png) no-repeat 100% 0;
+	}
+ 
+/************************************************
  * THM : artefacts graphiques propres au theme
  ***********************************************/
 
-body.thm		{ background: url(../images/body_background.gif) repeat-x scroll 0 0 #BAD521; }
+body.thm		{ background: #bad521 url(../images/body_background.gif) repeat-x scroll 0 0; }
 
 #page .thm-logo	{ position: relative; height: 54px; background: url(../images/thm_header_logo.png) no-repeat 0 5px; }
 #page .thm-logo a.logo { position: absolute; width:170px; height:50px; }
@@ -186,24 +269,28 @@ body.thm		{ background: url(../images/body_background.gif) repeat-x scroll 0 0 #
 
 
 
+/************************************************
+ * AUTRES MARQUEURS (a nettoyer)
+ ***********************************************/
+
 /* LISTE GENERIQUE */
-TABLE.liste {
+table.liste {
 	width: 98%;
 	background-color: #FFFFFF;
 	border-radius: 6px;
 	-moz-border-radius: 6px;
 }
-TR.liste_footer {
+tr.liste_footer {
 	background-color: #F8F8F8;
 	text-align: right;
 	font-size:90%;
 }
-TH.liste_th {
+th.liste_th {
 	background-color: #EEEEEE;
 	text-align: center;
 }
-TR.list_line1 { background-color: #F5F5F5; }
-TR.list_line0 { background-color: #FFFFFF; }
+tr.list_line1 { background-color: #F5F5F5; }
+tr.list_line0 { background-color: #FFFFFF; }
 
 
 
@@ -240,12 +327,6 @@ div.block hr {
 	opacity: 0.97;
 	width: 150px;
 	z-index:22999;
-}
-
-
-.clearBoth {
-  clear:both;
-  width:100%;
 }
 
 

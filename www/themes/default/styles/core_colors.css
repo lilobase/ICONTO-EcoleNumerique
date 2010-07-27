@@ -8,12 +8,55 @@
  * @author	Stephane Holtz <sholtz@cap-tic.fr>
  */
 
+/************************************************
+ * Mise en page du bloc de contenu
+ ***********************************************/
+.content-panel {
+	background: #fff;
+	padding: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	margin-bottom: 6px;
+	}
+ 
+.content-panel-edit {
+	background: #fff url(../images/menu_update.png) 8px 8px no-repeat;
+	padding-left: 42px;
+	}
+
+.content-panel-button {
+	text-align: center;
+	padding: 3px;
+	}
+
+/************************************************
+ * Couleurs des textes
+ ***********************************************/
+.ink_blue * {
+	color: #354e81;
+	}
+.ink_blue .title span {
+	color: #222;
+	text-shadow: 1px 1px 2px #f0f0f0;
+	}
+	
+/************************************************
+ * Hacks JQueryUI
+ ***********************************************/
+img.ui-datepicker-trigger {
+	vertical-align: bottom;
+	}
+
+/************************************************
+ * Formulaires & Boutons
+ ***********************************************/
+ 
+/*
 input[type="submit"] {
 	font-family: Arial, Helvetica, sans-serif;
 	font-weight: normal;
 	font-size: 85%;
 	}
-
 a.bouton, a.button_like {
 	border-radius: 4px;
 	-moz-border-radius: 4px;
@@ -28,6 +71,50 @@ a.bouton, a.button_like {
 a.bouton:hover, a.button_like:hover {
 	background: #D9E575;
 	}
+*/
+.button {
+	position: relative;
+	display: inline-block;
+	font-size: 12px;
+	padding: 3px 6px 3px 26px;
+	min-width: 24px;
+	min-height: 14px;
+	background-color : #fff;
+	border: solid 1px #fff;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	}
+	
+.button:hover {
+	background-color: #f0f4f0;
+	border: solid 1px #bad521;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	cursor: pointer;
+	}
+
+.button-update		{ background: #fff url(../images/action_update.png) 4px 50% no-repeat; }
+.button-results		{ background: #fff url(../images/action_results.png) 4px 50% no-repeat; }
+.button-save		{ background: #fff url(../images/action_save.png) 4px 50% no-repeat; }
+.button-add			{ background: #fff url(../images/action_add.png) 4px 50% no-repeat; }
+.button-delete		{ background: #fff url(../images/action_delete.png) 4px 50% no-repeat; }
+.button-cancel		{ background: #fff url(../images/action_cancel.png) 4px 50% no-repeat; }
+.button-continue	{ background: #fff url(../images/action_continue.png) 4px 50% no-repeat; }
+.button-back		{ background: #fff url(../images/action_back.png) 4px 50% no-repeat; }
+.button-next		{ background: #fff url(../images/action_next.png) 4px 50% no-repeat; }
+.button-info		{ background: #fff url(../images/action_info.png) 4px 50% no-repeat; }
+
+.button-p-first		{ background: #fff url(../images/action_p_first.png) 4px 50% no-repeat; }
+.button-p-previous	{ background: #fff url(../images/action_p_previous.png) 4px 50% no-repeat; }
+.button-p-play		{ background: #fff url(../images/action_p_play.png) 4px 50% no-repeat; }
+.button-p-pause		{ background: #fff url(../images/action_p_pause.png) 4px 50% no-repeat; }
+.button-p-stop		{ background: #fff url(../images/action_p_stop.png) 4px 50% no-repeat; }
+.button-p-open		{ background: #fff url(../images/action_p_open.png) 4px 50% no-repeat; }
+.button-p-next		{ background: #fff url(../images/action_p_next.png) 4px 50% no-repeat; }
+.button-p-last		{ background: #fff url(../images/action_p_last.png) 4px 50% no-repeat; }
+.button-p-record	{ background: #fff url(../images/action_p_record.png) 4px 50% no-repeat; }
+.button-p-replay	{ background: #fff url(../images/action_p_replay.png) 4px 50% no-repeat; }
+
 
 input.form_button {
 	border: solid 1px #333333;
@@ -45,13 +132,67 @@ input.form_button:hover {
 	color: #333333;
 }
 
-.ink_blue * {
-	color: #354e81;
-}
-.ink_blue .title span {
-	color: #222;
-	text-shadow: 1px 1px 2px #f0f0f0;
-}
+.button-sort {
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	height: 10px;
+	width: 14px;
+	}
+	
+.button-sortup { background: url(../images/sort_up_off.png) 0 0 no-repeat; cursor: pointer; }
+.button-sortdown { background: url(../images/sort_down_off.png) 0 0 no-repeat; cursor: pointer; }
+
+.button-sortup:hover { background: url(../images/sort_up_on.png) 0 0 no-repeat; cursor: pointer; }
+.button-sortdown:hover { background: url(../images/sort_down_on.png) 0 0 no-repeat; cursor: pointer; }
+	
+.button-drag {
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	height: 36px;
+	width: 11px;
+	vertical-align: middle;
+	}
+	
+#dialog-message ul {
+	padding: 12px;
+	font-size: 14px;
+	list-style-type: none;
+	}
+
+.badge {
+	display: inline-block;
+	width: 17px;
+	height: 16px;
+	padding: 1px 1px 1px 0;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	background: #bad521;
+	color: #fff;
+	font-size: 90%;
+	text-align: center;
+	letter-spacing: -0.1em;
+	}
+	
+.badge-off {
+	background: #999;
+	color: #fff;
+	}
+	
+.badge-on {
+	background: #bad521;
+	color: #fff;
+	}
+	
+.badge-current {
+	background: #f3a807;
+	color: #fff;
+	}
+	
+
 
 
 

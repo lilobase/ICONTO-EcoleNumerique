@@ -51,6 +51,7 @@ div.dashpanel div.content {
 	overflow: hidden;
 	font-size: 120%;
 	padding: 10px;
+//	padding-top: 30px;
 	margin: 0px;
 	background: #f0f4f0;
 	border: 2px solid #aebdbf;
@@ -153,6 +154,10 @@ div.tools_right div.dashpanel div.groupname {
 	float: left;
 	}
 
+div.tools_right div.dashpanel div.mcontrol {
+	float: right;
+	}
+
 div.tools_right div.dashpanel div.wcontrol {
 	float: right;
 	}
@@ -176,6 +181,11 @@ div.tools_right div.dashpanel div.title .groupname {
 	width: 200px;
 	margin-right: -200px;
 	text-align: left;
+	}
+
+div.tools_right div.dashpanel div.title div.mcontrol {
+	width: 25px;
+	margin-right: 32px;
 	}
 
 div.tools_right div.dashpanel div.title div.wcontrol {
@@ -232,6 +242,7 @@ div.dashpanel ul li a.MOD_MALLE 			{ background-image: url(../images/mod_malle.p
 div.dashpanel ul li a.MOD_CARNET 			{ background-image: url(../images/mod_carnet.png); }
 div.dashpanel ul li a.MOD_COMPTES			{ background-image: url(../images/mod_comptes.png); }
 div.dashpanel ul li a.MOD_FORUM				{ background-image: url(../images/mod_forum.png); }
+div.dashpanel ul li a.MOD_QUIZ				{ background-image: url(../images/mod_quiz.png); }
 div.dashpanel ul li a.MOD_REGROUPEMENTS		{ background-image: url(../images/mod_grvilles.png); }
 div.dashpanel ul li a.MOD_LISTE				{ background-image: url(../images/mod_liste.png); }
 div.dashpanel ul li a.MOD_RESSOURCE			{ background-image: url(../images/mod_ressources.png); }
@@ -253,6 +264,103 @@ div.dashboard div.bu_ecole div.toolset 	{ background: #7cd54f; }
 div.dashboard div.club div.title	{ background: #ffb94e; }
 div.dashboard div.club div.content	{ border: 2px solid #ffb94e; }
 div.dashboard div.club div.toolset	{ background: #ffb94e; }
+
+/* CONTENT SUBMENU */
+
+#submenu {
+	position: absolute;
+	overflow: hidden;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 999;
+	filter: alpha(opacity=95);
+	-moz-opacity: 0.95;
+	opacity: 0.95;
+	}
+
+.submenu-marger {
+	margin-top: 30px;
+	}
+
+#submenu .menutab {
+	position: relative;
+	margin: auto;
+	padding: 6px;
+	width: 120px;
+	font-size:90%;
+	text-align: center;
+	background:#ddd;
+	-moz-border-radius-bottomleft: 12px;
+	-moz-border-radius-bottomright: 12px;
+	-webkit-border-bottom-left-radius: 12px;
+	-webkit-border-bottom-right-radius: 12px;
+	}
+	
+#submenu .menuitems {
+	position: relative;
+	display: none;
+	background:#ddd;
+	font-size:90%;
+	line-height: 90%;
+	}
+
+
+#submenu .menuitems ul {
+	position: relative;
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	overflow:auto;
+	margin: 0px;
+	padding: 4px;
+	text-align: center;
+	}
+
+#submenu .menuitems ul li {
+	position: relative;
+//	float: left;
+	display:inline-block;
+	vertical-align: middle;
+	text-align: left;
+	padding: 4px;
+	}
+	
+#submenu .menuitems ul li a {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	padding: 2px 2px 2px 36px;
+	width: 118px;
+	height: 28px;
+	background-color : #f0f4f0;
+	border: solid 1px #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	}
+
+#submenu .menuitems ul li a span {
+	position: relative;
+	vertical-align: middle;
+	display: inline-block;
+	}
+
+span.valign {
+	height: 100%;
+	}
+
+#submenu .menuitems a 				{ background: #f0f4f0 url(../images/menu_default.png) 4px 50% no-repeat; }
+#submenu .menuitems a.create 		{ background: #f0f4f0 url(../images/menu_create.png) 4px 50% no-repeat; }
+#submenu .menuitems a.read			{ background: #f0f4f0 url(../images/menu_read.png) 4px 50% no-repeat; }
+#submenu .menuitems a.update		{ background: #f0f4f0 url(../images/menu_update.png) 4px 50% no-repeat; }
+#submenu .menuitems a.delete		{ background: #f0f4f0 url(../images/menu_delete.png) 4px 50% no-repeat; }
+#submenu .menuitems a.list			{ background: #f0f4f0 url(../images/menu_list.png) 4px 50% no-repeat; }
+#submenu .menuitems a.list-active	{ background: #f0f4f0 url(../images/menu_list_active.png) 4px 50% no-repeat; }
+#submenu .menuitems a.results		{ background: #f0f4f0 url(../images/menu_results.png) 4px 50% no-repeat; }
+
+#submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; }
+
+
 
 /* PUBLIC DASHBOARD */
 

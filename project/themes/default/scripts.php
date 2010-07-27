@@ -42,6 +42,7 @@ jQuery(document).ready(function($){
     $('<style media="screen">#main-wrapper {width:'+dim.main_width+'px}</style>').appendTo('head');
     $('<style media="print">#main-wrapper {width:100%}</style>').appendTo('head');
     
+		/* AUTOMATIC RESIZING */
 		$('#left').css('width', dim.left_width);
 		$('#left').css('margin-right', -dim.left_width);
 		$('#right').css('width', dim.right_width);
@@ -62,6 +63,7 @@ jQuery(document).ready(function($){
 			$(this).parent().children('.content').css('min-height', $(this).height()+80);
 		});
 		
+		/* DASHBOARD TOOLSET BEHAVIOR */
 		$('.dashboard > .dashpanel > .toolset').mouseover(function(){
 			$(this).addClass('toolset-expand');
 		});
@@ -87,6 +89,7 @@ jQuery(document).ready(function($){
 			});
 		});
 
+		/* DASHBOARD BUTTON BEHAVIOR */
 		$('.dashclose').mouseover(function () {
 				$(this).addClass("dashclose_on");
 		});		
@@ -94,12 +97,34 @@ jQuery(document).ready(function($){
 				$(this).removeClass("dashclose_on");
 		});
 		
+		/* SUBMENU DROP DOWN PANEL BEHAVIOR */
+		$('#submenu > .menutab').hover(function(){
+			$(this).parent().find('.menuitems').slideDown(100).show();
+			$(this).parent().hover(function(){}, function(){  
+				$(this).parent().find('.menuitems').slideUp(400);  
+			});
+		});
+
+		/* LOGIN BUTTON BEHAVIOR */
 		$('.logout').mouseover(function () {
 				$(this).addClass("logout_on");
 		});		
 		$('.logout').mouseout(function () {
 				$(this).removeClass("logout_on");
 		});		
+
+		/* MODAL DIALOG */
+		$(function() {
+			$("#dialog-message").dialog({
+				modal: true,
+				buttons: {
+					Ok: function() {
+						$(this).dialog('close');
+					}
+				}
+			});
+		});
+
 	});
 });
 

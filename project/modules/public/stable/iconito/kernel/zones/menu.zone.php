@@ -21,26 +21,30 @@ class ZoneMenu extends CopixZone {
 		$pCanClose = $this->getParam ('canClose', true); // Seulement si popup, true par defaut
 		
 		if ($pCanClose===null) $pCanClose = true;
-		// Si le menu est d�fini � partir d'un tableau, cr�ation du HTML pour affichage.
+		// Si le menu est defini a partir d'un tableau, creation du HTML pour affichage.
 		if( is_array($pMenu) ) {
 			$out = '';
 			$sep = '';
+			$out .= '<ul>';
 			foreach( $pMenu AS $key=>$val ) {
-				$out .= $sep; $sep=' :: ';
-				
+								
 				$color = '';
 				if( isset($val['color'])) $color=' style="color: '.$val['color'].'"';
 
 				$target = '';
 				if( isset($val['target'])) $color=' target="'.$val['target'].'"';
 
-                                //get type for item, 'nd generate associate class
-                                $class = (isset($val['type'])) ? 'class="'.$val['type'].'"' : '';
+				//get type for item, 'nd generate associate class
+				$class = (isset($val['type'])) ? 'class="'.$val['type'].'"' : '';
 				
+				$out .= '<li>';
 				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '<a '.$class.' '.$color.' href="'.$val['url'].'">';
-				$out .= $val['txt'];
+				$out .= '<span class="valign"></span>';
+				$out .= '<span>'.$val['txt'].'</span>';
 				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '</a>';
+				$out .= '</li>';
 			}
+			$out .= '</ul>';
 			$ppo->menu = $out;
 		} else {
 			$ppo->menu = $pMenu;
