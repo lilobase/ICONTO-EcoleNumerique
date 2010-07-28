@@ -23,10 +23,6 @@ class ActionGroupDashboard extends enicActionGroup {
 	
 	function processDefault () {
 		
-		//CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
-		//CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe.css"));
-		
-		
 		$tpl = & new CopixTpl ();
 		$tplModule = & new CopixTpl ();
 
@@ -81,12 +77,9 @@ class ActionGroupDashboard extends enicActionGroup {
           
           
           }
-          
-          
-          
         }
         
-                                //add item content
+		//add item content
                                 switch($node['type']){
                                     case 'BU_CLASSE':
                                         $content = CopixZone::process ('kernel|dashboardClasse', array ('idZone'=>$node['id']));

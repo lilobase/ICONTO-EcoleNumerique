@@ -1313,8 +1313,8 @@ class Kernel {
 		if( $user_type=='USER_EXT' && $user_id==1 ) {
 			$admin->node_type   = $node_type;
 			$admin->node_id     = $node_id;
-			$admin->module_type = 'MOD_ADMIN2';
-			$admin->module_nom   = Kernel::Code2Name ('MOD_ADMIN');
+			$admin->module_type = 'MOD_SYSUTILS';
+			$admin->module_nom   = Kernel::Code2Name ('MOD_SYSUTILS');
 			$modules[] = clone $admin;
 		}
 		

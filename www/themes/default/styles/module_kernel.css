@@ -234,7 +234,7 @@ div.tools_right div.dashpanel div.toolset ul li a span {
 	
 /* SET MODULES ICONS */
 div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../images/mod_admin.png); }
-div.dashpanel ul li a.MOD_ADMIN2 			{ background-image: url(../images/mod_admin.png); }
+div.dashpanel ul li a.MOD_SYSUTILS 			{ background-image: url(../images/mod_admin.png); }
 div.dashpanel ul li a.MOD_AGENDA 			{ background-image: url(../images/mod_agenda.png); }
 div.dashpanel ul li a.MOD_ALBUM 			{ background-image: url(../images/mod_album.png); }
 div.dashpanel ul li a.MOD_BLOG 				{ background-image: url(../images/mod_blog.png); }

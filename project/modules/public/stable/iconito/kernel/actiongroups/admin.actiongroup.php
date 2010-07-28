@@ -9,7 +9,7 @@
  * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
  */
 
-_classInclude('admin2|admin');
+_classInclude('sysutils|admin');
 
 class ActionGroupAdmin extends CopixActionGroup {
 	

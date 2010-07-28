@@ -39,7 +39,7 @@ class ZoneModuleContext extends enicZone {
 			$toReturn .= '		<div class="wcontrol">';
 			$toReturn .= '		<a class="dashclose" href="'.$closeUrl.'"></a>';
 			$toReturn .= '		</div>';
-			$toReturn .= '		<span>'.$this->module.'</span>';
+			$toReturn .= '		<span>'.Kernel::Code2Name('mod_'.$this->module).'</span>';
 			$toReturn .= '	</div>';
 			$toReturn .= '	<div class="content">';
 
@@ -84,9 +84,7 @@ class ZoneModuleContext extends enicZone {
           
         }
         
-      
-      
-			if (isset($modules)) {
+ 			if (isset($modules)) {
 				$toReturn .= '	<div class="toolset">';
 				$toReturn .= '		<ul>';
 				

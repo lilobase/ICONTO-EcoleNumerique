@@ -12,7 +12,7 @@
 _classInclude('kernel|demo_db');
 _classInclude('kernel|demo_auth');
 _classInclude('kernel|demo_tools');
-_classInclude('admin2|admin');
+_classInclude('sysutils|admin');
 
 class ActionGroupDemo extends CopixActionGroup {
 
