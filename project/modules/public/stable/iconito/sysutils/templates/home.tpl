@@ -1,10 +1,24 @@
-<div id="carres">
-<div class="carres_menu">
-
-<a href="{copixurl dest="sysutils|cache|"}" class="button">{i18n key="sysutils|admin.menu.cache"}<span>{i18n key="sysutils|admin.menu.cache_sub"}</span></a>
-<a href="{copixurl dest="sysutils|stats|"}" class="button">{i18n key="sysutils|admin.menu.stats"}<span>{i18n key="sysutils|admin.menu.stats_sub"}</span></a>
-<a href="{copixurl dest="kernel|demo|"}" class="button">{i18n key="sysutils|admin.menu.demo"}<span>{i18n key="sysutils|admin.menu.demo_sub"}</span></a>
-<a href="{copixurl dest="sysutils|admin|phpinfo"}" class="button">{i18n key="sysutils|admin.menu.phpinfo"}<span>{i18n key="sysutils|admin.menu.phpinfo_sub"}</span></a>
-
+<div class="loading-button">
+	<a href="{copixurl dest="sysutils|cache|"}" class="button floatleft">
+	<div class="button-title">{i18n key="sysutils|admin.menu.cache"}</div>
+	<div class="button-subline">{i18n key="sysutils|admin.menu.cache_sub"}</div>
+	</a>
 </div>
+<div class="loading-button">
+	<a href="{copixurl dest="sysutils|stats|"}" class="button floatleft">
+	<div class="button-title">{i18n key="sysutils|admin.menu.stats"}</div>
+	<div class="button-subline">{i18n key="sysutils|admin.menu.stats_sub"}</div>
+	</a>
+</div>
+<div class="loading-button">
+	<a href="{copixurl dest="kernel|demo|"}" class="button floatleft">
+	<div class="button-title">{i18n key="sysutils|admin.menu.demo"}</div>
+	<div class="button-subline">{i18n key="sysutils|admin.menu.demo_sub"}</div>
+	</a>
+</div>
+<div class="loading-button">
+	<a href="{copixurl dest="sysutils|admin|phpinfo"}" class="button floatleft">
+	<div class="button-title">{i18n key="sysutils|admin.menu.phpinfo"}</div>
+	<div class="button-subline">{i18n key="sysutils|admin.menu.phpinfo_sub"}</div>
+	</a>
 </div>

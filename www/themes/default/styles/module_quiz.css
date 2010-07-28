@@ -26,20 +26,10 @@
 /************************************************
  * QUIZ PUBLIES
  ***********************************************/
-.quiz .loading-button {
-    float: left;
-	}
-
 .quiz .loading-button a {
-    display: block;
-    width: 240px;
     min-height: 42px;
-    line-height: 20px;
-    margin: 5px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
-    background: url(../images/quiz_icon.png) top center no-repeat;
     padding-top: 128px;
+    background: url(../images/quiz_icon.png) top center no-repeat;
 	}
 
 .quiz .loading-button a:hover {

@@ -23,6 +23,9 @@ body {
 .center	{ text-align: center; }
 .right 	{ text-align: right; }
 
+.floatleft 	{ float: left; }
+.floatright { float: right; }
+
 .opacity100 {
 	opacity : 1;
 	filter : alpha(opacity=100); 
@@ -329,45 +332,6 @@ div.block hr {
 	z-index:22999;
 }
 
-
-/************************************************
- * Affichage des menus en blocs avec sous-titre
- ***********************************************/
- 
-div#carres {
-	text-align:center;
-}
-
-div#carres div.carres_menu {
-	margin-left:auto;
-	margin-right:auto;
-	position:relative;
-	text-align:center;
-	width:745px;
-}
-
-div#carres div.carres_menu a {
-	background-color:#EEEEEE;
-	color:#999999;
-	display:block;
-	float:left;
-	font-size:200%;
-	height:55px;
-	margin:10px;
-	padding:30px 0;
-	text-decoration:none;
-	width:340px;
-}
-
-div#carres div.carres_menu a:hover {
-	background-color:#FFFFFF;
-	color:#666666;
-}
-
-div#carres div.carres_menu a span {
-	display:block;
-	font-size:0.4em;
-}
 
 /************************************************
  * Prise de controle

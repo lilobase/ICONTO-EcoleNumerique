@@ -50,28 +50,79 @@ img.ui-datepicker-trigger {
 /************************************************
  * Formulaires & Boutons
  ***********************************************/
- 
-/*
-input[type="submit"] {
-	font-family: Arial, Helvetica, sans-serif;
-	font-weight: normal;
-	font-size: 85%;
-	}
-a.bouton, a.button_like {
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	padding: 4px;
-	margin: 4px 0px;
-	line-height: 32px;
-	border: solid 1px #666666;
-	background: #F0F0F0;
-	font-size: 85%;
+.loading-button {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 48%;
+	margin: auto;
 	}
 
-a.bouton:hover, a.button_like:hover {
-	background: #D9E575;
+.loading-button a {
+	position: relative;
+    display: block;
+    width: 80%;
+    min-height: 140px;
+    font-size: 100%;
+    text-align: center;
+    margin: 5% 10%;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    background-color: #f0f4f0;
+    padding: 6px;
 	}
-*/
+
+.loading-button a:hover {
+    background-color: #ffffff;
+	}
+
+.loading-button a div.button-title {
+	font-size: 220%;
+	color: #999;
+	margin: 40px 0;
+	}
+
+.loading-button a div.button-subline {
+    font-size: 90%;
+    line-height: 90%;
+	}
+
+
+div#carres {
+	text-align:center;
+}
+
+div#carres div.carres_menu {
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+	text-align:center;
+	width:745px;
+}
+
+div#carres div.carres_menu .button-block {
+	background-color:#EEEEEE;
+	color:#999999;
+	display:block;
+	float:left;
+	font-size:200%;
+	height:55px;
+	margin:10px;
+	padding:30px 0;
+	text-decoration:none;
+	width:340px;
+}
+
+div#carres div.carres_menu a:hover {
+	background-color:#FFFFFF;
+	color:#666666;
+}
+
+div#carres div.carres_menu a span {
+	display:block;
+	font-size:0.4em;
+}
+
 .button {
 	position: relative;
 	display: inline-block;
