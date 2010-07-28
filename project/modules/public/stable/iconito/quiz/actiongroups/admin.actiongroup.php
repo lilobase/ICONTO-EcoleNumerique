@@ -344,7 +344,7 @@ class ActionGroupAdmin extends enicActionGroup{
             if($answerDatas['id_quiz'] != $quizId)
                 $this->error('quiz.admin.noRight');
 
-            $responsesDatas = $this->service('QuizService')->getChoicesByAnswer($answId);
+            $responsesDatas = $this->service('QuizService')->getChoices($answId);
         }
 
         //if errors

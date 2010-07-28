@@ -200,13 +200,6 @@ GROUP BY quiz.id
 
     }
 
-    public function getChoicesByAnswer($iIdAns){
-        //secure id
-        $idAns = $iIdAns*1;
-
-        return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$idAns.' ORDER BY `order`')->toArray();
-    }
-
     public function prepareAnsw($iDatas){
         $oReturn['name'] = $this->db->quote($iDatas['name']);
         $oReturn['content'] = $this->db->quote($iDatas['content']);
@@ -332,7 +325,7 @@ GROUP BY quiz.id
     }
 
     public function getChoices($iQid){
-        return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$iQid)->toArray();
+        return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$iQid.' ORDER BY `order`')->toArray();
     }
     
 }
