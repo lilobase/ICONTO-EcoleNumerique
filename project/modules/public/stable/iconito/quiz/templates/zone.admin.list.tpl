@@ -29,14 +29,14 @@
 			{/if}
         </td>
         <td class="quiz-col80 center">
-        	ToDo
+        	{$quiz.date_start}
         </td>
         <td class="quiz-col80 center">
-        	ToDo
+        	{$quiz.date_end}
         </td>
         <td class="quiz-col80 center">
         	<a href="{copixurl dest="quiz|admin|results" id=$quiz.id}" class="button button-results">
-        	ToDo
+        	{$quiz.numResp}
         	</a>
         </td>
         <td class="quiz-col100 quiz-colend">

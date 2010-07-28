@@ -13,6 +13,7 @@ class enicJavascript extends enicMod{
     public $js;
     
     public function startExec(){
+        $this->helpers      =& enic::get('helpers');
         $this->js = '';
     }
     
@@ -76,10 +77,29 @@ class enicJavascript extends enicMod{
     }
 
     public function confirm($iSelector, $iMsg){
+        $iMsg = $this->helpers->i18n($iMsg);
         $msg = html_entity_decode($iMsg, ENT_COMPAT, 'utf-8');
         $js = '$("'.$iSelector.'").click(function(){
                     return confirm("'.$msg.'")
                 });';
+
+        $this->addJs($js);
+    }
+
+    public function inputPreFilled($iSelector, $iMsg){
+        $iMsg = $this->helpers->i18n($iMsg);
+        $msg = html_entity_decode($iMsg, ENT_COMPAT, 'utf-8');
+
+        $js = 'if($("'.$iSelector.'").val() == "") {
+                $("'.$iSelector.'").val("'.$iMsg.'");
+                $("'.$iSelector.'").addClass("preFilled");
+                $("'.$iSelector.'").focus(function(){ $(this).val(""); $(this).removeClass("preFilled")});
+                $("'.$iSelector.'").parents("form").submit(function(){
+                    if($("'.$iSelector.'").val() == "'.$iMsg.'"){
+                        $("'.$iSelector.'").val("");
+                    }
+                });
+            }';
 
         $this->addJs($js);
     }

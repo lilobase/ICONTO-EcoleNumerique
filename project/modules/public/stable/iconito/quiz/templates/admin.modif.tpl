@@ -77,10 +77,10 @@
 	<div class="content-panel">
 		<span class="quiz-itemlist">{i18n key="quiz.form.questions" noEscape=1}</span>
 			<table class="quiz-qtable">
-			{foreach from=$ppo->questions item=question }
+			{foreach from=$ppo->questions item=question key=key }
 			<tr class="{cycle values="row1, row2"}">
 				<td class="quiz-col48 quiz-qnum">
-					Q{$question.id}
+					Q{$key+1}
 					</td>
 					<td class="">
 						<a href="{copixurl dest="quiz|admin|questions" id=$question.id qaction="modif"}" class="button button-update">
@@ -89,7 +89,7 @@
 						</a>
 					</td>
 					<td class="quiz-col120">
-						ToDo {i18n key="quiz.question.answersCount" noEscape=1}
+						{$question.respNum} {i18n key="quiz.question.answersCount" noEscape=1}
 					</td>
 					<td class="quiz-col80">
 						<a href="{copixurl dest="quiz|admin|delAnsw"}" id="a-suppr" class="button button-delete">

@@ -31,7 +31,9 @@ class ActionGroupDefault extends enicActionGroup {
         $this->session->save('id_gr_quiz', $idGrQuiz);
         
         //get current quiz :
-        $currentQuiz = $this->model->query('SELECT * FROM module_quiz_quiz WHERE
+        $currentQuiz = $this->model->query('SELECT DISTINCT(quiz.id), quiz.* FROM module_quiz_quiz AS quiz
+                                            INNER JOIN module_quiz_questions AS answ ON quiz.id = answ.id_quiz
+                                            WHERE
                                             (`date_start` < '.time().' AND `date_end` > '.time().') OR
                                             (`date_start` = 0 OR `date_end` = 0) AND
                                             `lock` = 0 AND gr_id = '.$idGrQuiz.'
@@ -177,6 +179,20 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->questions = $questionsReturn;
         $ppo->next = $qQueue[0];
         $ppo->TITLE_PAGE = 'Quiz';
+
+         if(Kernel::getLevel( 'MOD_QUIZ', $pId) <= PROFILE_CCV_ADMIN){
+
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
+                            'type' => 'list-active',
+                            'url' => $this->url('quiz|default|default', array('qaction' => 'list')));
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listAll'),
+                            'type' => 'list',
+                            'url' => $this->url('quiz|admin|list'));
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
+                            'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
+        }
+
         return _arPPO($ppo, 'accueil_quiz.tpl');
     }
 
@@ -254,11 +270,13 @@ class ActionGroupDefault extends enicActionGroup {
             $i++;
         }
 
-        //check the current pos in queue:
+        //check the current pos in queue, and build array for nav
         $qQueue = $this->session->load('questions');
         foreach($qQueue as $key => $qe){
+            $questionTpl[$key+1] = $qe;
             //if queue id == current id
             if($qe == $pQId){
+                $questionTpl[$key+1] = 'current';
                 $prev = (isset($qQueue[$key-1])) ? $qQueue[$key-1] : false;
                 $next = (isset($qQueue[$key+1])) ? $qQueue[$key+1] : false;
             }
@@ -280,11 +298,28 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->userResp = $uResp;
         $ppo->choices = $choiceReturn;
         $ppo->prev = $prev;
+        $ppo->nameAuthor = $this->user->nom;
+        $ppo->surname = $this->user->prenom;
+        $ppo->questionTpl = $questionTpl;
         $ppo->question = $questionDatas;
         $ppo->type = ($questionDatas['opt_type'] == 'choice') ? 'radio' : 'txt';
         $ppo->select = ($correct > 1) ? 'checkbox' : 'radio';
         $ppo->help = qSession('help');
         $ppo->name = qSession('name');
+
+         if(Kernel::getLevel( 'MOD_QUIZ', $pId) <= PROFILE_CCV_ADMIN){
+
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
+                            'type' => 'list-active',
+                            'url' => $this->url('quiz|default|default', array('qaction' => 'list')));
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listAll'),
+                            'type' => 'list',
+                            'url' => $this->url('quiz|admin|list'));
+        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
+                            'type' => 'create',
+                            'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
+        }
+
         return _arPPO($ppo, 'question.tpl'); 
 
     }

@@ -29,7 +29,10 @@ class QuizService {
 
     public function getCurrentQuiz(){
         
-        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE
+        return $this->db->query('SELECT DISTINCT (quiz.id), quiz . *
+                                    FROM module_quiz_quiz AS quiz
+                                    INNER JOIN module_quiz_questions AS answ ON quiz.id = answ.id_quiz
+                                            WHERE
                                             (`date_start` < '.time().' AND `date_end` > '.time().') OR
                                             (`date_start` = 0 OR `date_end` = 0) AND
                                             `lock` = 0
@@ -41,9 +44,27 @@ class QuizService {
         //secure $iIdAuthor
         $id = $idGroupe*1;
 
-        //get all quiz
-        return $this->db->query('SELECT * FROM module_quiz_quiz WHERE gr_id = '.$id)
-                                    ->toArray();
+        //get all quiz with number of users as respond
+        $oReturn = $this->db->query('
+SELECT quiz .  *, COUNT(DISTINCT(resp.id_user)) AS numResp
+FROM `module_quiz_quiz` AS quiz
+LEFT JOIN module_quiz_questions AS question ON question.id_quiz = quiz.id
+LEFT JOIN module_quiz_responses AS resp ON resp.id_question = question.id
+WHERE quiz.gr_id = '.$id.'
+GROUP BY quiz.id
+                        ')->toArray();
+        
+        //format date and check lock from date
+        foreach($oReturn as $k => $v){
+            $oReturn[$k]['lock'] = ($v['lock'] != 1
+                                        && (($v['date_start'] > time() || $v['date_start'] == 0)
+                                        && ( $v['date_end'] < time() || $v['date_end'] == 0))
+                                    )  ? 0 : 1;
+            $oReturn[$k]['date_start'] = $this->timeToDate($v['date_start'], true);
+            $oReturn[$k]['date_end'] = $this->timeToDate($v['date_end'], true);
+        }
+
+        return $oReturn;
     }
 
     public function getQuizDatas($iQuizId){
@@ -56,7 +77,12 @@ class QuizService {
     public function getQuestionsByQuiz($iQuizId){
         //secure $iQuizId
         $qId = $iQuizId*1;
-        return $this->db->query('SELECT * FROM module_quiz_questions WHERE id_quiz = '.$qId.' ORDER BY `order` ASC')->toArray();
+        return $this->db->query('SELECT question .  * , COUNT( choice.id ) AS respNum
+                                FROM module_quiz_questions AS question
+                                LEFT JOIN module_quiz_choices AS choice ON question.id = choice.id_question
+                                WHERE question.id_quiz = '.$qId.'
+                                GROUP BY question.id
+                                ORDER BY `order` ASC')->toArray();
     }
 
     public function dateToTime($iDate){
@@ -75,9 +101,9 @@ class QuizService {
 
     }
 
-    public function timeToDate($iTime){
+    public function timeToDate($iTime, $separator = false){
         if($iTime == 0)
-            return 0;
+            return ($separator) ? '-' : 0;
 
         return date('d/m/Y', $iTime);
     }

@@ -21,7 +21,7 @@ jQuery(document).ready(function($){
 	<div class="content-panel qd-header">
 		<div class="qd-author">
 		{i18n key="quiz.msg.author" noEscape=1}<br/>
-		{$ppo->surname} {$ppo->nameAuthor}
+		{$ppo->surname} {$ppo->nameAuthor}<br />
 		</div>
 		<div class="qd-title">
 		{$ppo->name|utf8_decode}
@@ -44,16 +44,13 @@ jQuery(document).ready(function($){
 	</td>
 	<td class="content-panel">
 		<div class="qd-badges center">
-			<span class="badge badge-off">1</span>
-			<span class="badge badge-off">2</span>
-			<span class="badge badge-off">3</span>
-			<span class="badge badge-current">4</span>
-			<span class="badge badge-on">5</span>
-			<span class="badge badge-on">6</span>
-			<span class="badge badge-on">7</span>
-			<span class="badge badge-on">8</span>
-			<span class="badge badge-on">9</span>
-			<span class="badge badge-on">10</span>
+                    {foreach from=$ppo->questionTpl item=curQuestId key=curQuestNum}
+                        {if $curQuestId != 'current' }
+                            <span class="badge badge-off"><a href="{copixurl dest="quiz|default|question" id=$ppo->question->id_quiz qId=$curQuestId}">{$curQuestNum}</a></span>
+                        {else}
+                            <span class="badge badge-current">{$curQuestNum}</span>
+                        {/if}
+                    {/foreach}
 		</div>
 		
 		{if $ppo->userResp || $ppo->error}
@@ -71,8 +68,8 @@ jQuery(document).ready(function($){
 
 
 		<div class="qd-question">
-			<div class="qd-title">{$ppo->question.name|utf8_decode}</div>
-			{$ppo->question.content|utf8_decode}
+			<div class="qd-title">{$ppo->question.name}</div>
+			{$ppo->question.content}
 	
 			{if $ppo->type == radio}
 			<ul class="qd-propositions">

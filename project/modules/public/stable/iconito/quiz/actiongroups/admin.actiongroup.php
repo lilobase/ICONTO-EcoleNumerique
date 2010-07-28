@@ -47,7 +47,6 @@ class ActionGroupAdmin extends enicActionGroup{
         if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
             return $this->error ('quiz.admin.noRight');
 
-
         //start tpl :
         $ppo = new CopixPPO();
         $ppo->list = CopixZone::process('adminList', array('action' => $action));
@@ -150,13 +149,14 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->flash->quizId = $qId;
 
         //generate the tpl
-//        $this->js->wysiwyg('#qf-description');
         $this->js->wysiwyg('#qf-help');
         $this->js->date('.qf-date', 'full');
         $this->js->addJs('$("#q-suppr").click(function(){
                                 return confirm("'.$this->i18n('quiz.confirm.delQuiz').'");
                             });');
-//        $this->js->button(".button");
+        $this->js->inputPreFilled('.qf-title', 'quiz.admin.setName');
+        $this->js->inputPreFilled('.qf-description', 'quiz.admin.setDescription');
+
 
         $this->addCss('styles/module_quiz.css');
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
@@ -390,7 +390,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $this->addCss('styles/module_quiz.css');
 
         $this->js->wysiwyg('#aw-content');
-        $this->js->confirm('#a-suppr', $this->i18n('quiz.confirm.delAnsw'));
+        $this->js->confirm('#a-suppr', 'quiz.confirm.delAnsw');
 
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
