@@ -125,3 +125,8 @@ DIV.malle_actions_line {
 .malle_go_folder_form FORM, .malle_actions_bloc FORM {
   margin:0;
 }
+
+/* ADDON S.Holtz */
+.malle-breadcrumb {
+	background-color: #f0f4f0;
+	}

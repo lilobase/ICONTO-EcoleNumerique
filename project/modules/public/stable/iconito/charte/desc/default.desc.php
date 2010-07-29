@@ -1,4 +1,5 @@
 <?php
-$valid	= & new CopixAction ('charte', 'processValid'); // Formulaire de suppression d'un compte.
+$valid	= & new CopixAction ('charte', 'processValid'); 
+$go           = & new CopixAction('charte', 'processAdmin');
 $default		= & $valid;
 ?>

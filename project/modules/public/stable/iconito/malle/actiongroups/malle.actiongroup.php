@@ -257,6 +257,102 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
    /**
+	 * POPUP de selection ou d'upload d'un fichier unique
+	 * 
+	 * @author Stephane Holtz <sholtz@cap-tic.fr>
+	 * @since 2010/07/29
+	 * @param integer $id Id de la malle
+	 * @param integer $folder Id du répertoire
+	 * @param array $errors (option) Erreurs rencontrées
+	 * @param string $field Champ utilisé dans la fenêtre "en-dessous"
+	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
+   */
+   function processGetFilePopup () {
+	 	
+		$ppo = new CopixPPO ();
+		
+		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
+		$malleService = & CopixClassesFactory::Create ('malle|malleService');
+	 	$daoMalles = CopixDAOFactory::create("malle|malle_malles");
+	 	$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+	 	$daoFiles = CopixDAOFactory::create("malle|malle_files");
+		
+		$id = $this->getRequest ('id', null);
+		$folder = $this->getRequest ('folder', 0);
+		$errors = $this->getRequest ('errors', array());
+		$field = $this->getRequest ('field', null);
+		$format = $this->getRequest ('format', null);
+    
+		$criticErrors = array();
+		
+		if ($folder) {
+			$rFolder = $daoFolders->get($folder);
+			if (!$rFolder)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
+			elseif ($rFolder->malle != $id)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
+		} else {
+			$rMalle = $daoMalles->get($id);
+			if (!$rMalle)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
+		}
+		if (!$criticErrors) {
+			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
+			//print_r($mondroit);
+			if (!$malleService->canMakeInMalle("READ",$mondroit))
+				$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+			else {
+				$parent = $kernelService->getModParentInfo( "MOD_MALLE", $id);
+				//print_r($parent);
+			}
+		}
+		
+		if ($criticErrors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('malle||')));
+		} else {
+		
+		
+			// On récupère les dossiers de ce répertoire
+			$folders = $daoFolders->getFoldersInFolder($id, $folder);
+			
+			// On récupère les fichiers de ce répertoire
+			$files = $daoFiles->getFilesInFolder($id, $folder);
+			foreach ($files as $k=>$file) {	// Ajout des infos sur le type du fichier
+				$mime = $malleService->getTypeInfos ($file->type, $file->fichier);
+				$files[$k]->type_text = $mime['type_text'];
+				$files[$k]->type_icon = $mime['type_icon'];
+			}
+			
+			$dispMenu = true;
+			if (substr($parent['type'],0,5)=='USER_')		{
+				$title = CopixI18N::get ('malle|malle.perso'); $dispMenu = false;
+			} else {
+				$title = (isset($parent["nom"])) ? $parent["nom"] : CopixI18N::get('malle.moduleDescription');
+			}
+				
+			
+			$ppo->TITLE_PAGE = CopixI18N::get ('malle|malle.popup.title');
+			$ppo->id = $id;
+			$ppo->folder = $folder;
+			$ppo->folders = $folders;
+			$ppo->files = $files;
+			$ppo->errors = $errors;
+			$ppo->field = $field;
+			$ppo->format = $format;
+
+			$ppo->combofolders = CopixZone::process ('malle|combofolders', array('malle'=>$id, 'folder'=>$folder, 'fieldName'=>'folder', 'attribs'=>'ONCHANGE="this.form.submit();"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>CopixI18N::get ('malle|malle.comboDirectAccess')))));
+			$ppo->uploadMaxSize = CopixConfig::get ('malle|uploadMaxSize');
+			
+			CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css")); 
+			CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js")); 
+
+			return _arPPO ($ppo, array ('template'=>'getfilepopup.tpl', 'mainTemplate'=>'main|main_popup.php'));
+			
+		}
+	}
+
+
+   /**
    * Soumission du formulaire d'upload d'un fichier
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>

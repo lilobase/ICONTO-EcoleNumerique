@@ -10,7 +10,7 @@ class ActionGroupCharte extends enicActionGroup{
 
         $this->flash->redirect = (isset($this->flash->redirect)) ? $this->flash->redirect : $this->url('||');
 
-        $this->js->button('.button');
+//        $this->js->button('.button');
         $ppo = new CopixPPO();
         $charte = $this->service('CharteService')->getCharte();
 
@@ -18,9 +18,9 @@ class ActionGroupCharte extends enicActionGroup{
 
         $ppo->url = $charte['file_url'];
         if(empty($ppo->url))
-            die('DEBUG : VALID PROCESS FAILED ON CHART SYSTEM');
+            die('DEBUG : CHARTE VALIDATION PROCESS HAS FAILED');
+        CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
 
-        
         return _arPPO($ppo, 'charte.tpl');
     }
 
@@ -28,6 +28,7 @@ class ActionGroupCharte extends enicActionGroup{
 
         $accept = ($this->request('typeAction') == 'accept') ? true : false ;
 
+        CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
         if($accept){
             $typeUser = (isset($this->flash->userType)) ? $this->flash->userType : 'USER_ALL';
             $this->service ('CharteService')->addUserValidation($typeUser);
@@ -46,8 +47,6 @@ class ActionGroupCharte extends enicActionGroup{
         if(!$this->user->root)
             return $this->error('charte.noRight', true, '||');
 
-        $this->js->button(".button-ui");
-
         $ppo = new CopixPPO();
         $ppo->errors = (isset($this->flash->errors)) ? $this->flash->errors : null;
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
@@ -59,6 +58,7 @@ class ActionGroupCharte extends enicActionGroup{
         $ppo->idMalle = $mal[0]->module_id;
 		$ppo->url = CopixUrl::get ('malle||getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>'ca-file_url', 'format'=>'text'));
 
+        CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
 
         return _arPPO($ppo, 'charte.admin.tpl');
 
@@ -113,7 +113,7 @@ class ActionGroupCharte extends enicActionGroup{
                 $this->service('CharteService')->addCharte(${'user_'.$target}, $url, 1, $active);
                 $this->flash->success = $this->i18n('charte.successAddChart');
             break;
-            //if défault : bad argument
+            //if default : bad argument
             default:
                 return $this->error('charte.badArgs');
             break;

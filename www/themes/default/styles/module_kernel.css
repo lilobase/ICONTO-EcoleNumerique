@@ -38,7 +38,7 @@ div.dashpanel div.title {
 	position: relative;
 	padding: 4px 4px 2px 8px;
 	margin: 0 0 0 16px;
-	background: #aebdbf;
+	background: #bad521;
 	}
 	
 div.dashpanel div.title span {
@@ -54,7 +54,7 @@ div.dashpanel div.content {
 //	padding-top: 30px;
 	margin: 0px;
 	background: #f0f4f0;
-	border: 2px solid #aebdbf;
+	border: 2px solid #bad521;
 	min-height: 160px;
 	}
 
@@ -62,7 +62,7 @@ div.dashpanel div.toolset {
 	position: absolute;
 	margin: 0px;
 	top: 0px;
-	background: #aebdbf;
+	background: #bad521;
 	z-index: 999;
 	width: 32px;
 	}
@@ -233,8 +233,9 @@ div.tools_right div.dashpanel div.toolset ul li a span {
 	}
 	
 /* SET MODULES ICONS */
-div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../images/mod_admin.png); }
-div.dashpanel ul li a.MOD_SYSUTILS 			{ background-image: url(../images/mod_admin.png); }
+div.dashpanel ul li a.MOD_CHARTE 			{ background-image: url(../images/mod_charte.png); }
+div.dashpanel ul li a.MOD_SYSUTILS 			{ background-image: url(../images/mod_sysutils.png); }
+div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../images/mod_preferences.png); }
 div.dashpanel ul li a.MOD_AGENDA 			{ background-image: url(../images/mod_agenda.png); }
 div.dashpanel ul li a.MOD_ALBUM 			{ background-image: url(../images/mod_album.png); }
 div.dashpanel ul li a.MOD_BLOG 				{ background-image: url(../images/mod_blog.png); }

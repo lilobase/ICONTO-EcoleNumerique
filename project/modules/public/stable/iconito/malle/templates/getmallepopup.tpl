@@ -1,4 +1,3 @@
-
 {assign var=id value=$ppo->id}
 {assign var=folder value=$ppo->folder}
 {assign var=folders value=$ppo->folders}
@@ -125,4 +124,3 @@
 
 
 </DIV>
-

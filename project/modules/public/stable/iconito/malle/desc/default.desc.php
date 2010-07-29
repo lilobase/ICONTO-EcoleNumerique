@@ -2,6 +2,7 @@
 
 $getMalle   				= & new CopixAction ('malle', 'processGetMalle');
 $getMallePopup   		= & new CopixAction ('malle', 'processGetMallePopup');
+$getFilePopup   		= & new CopixAction ('malle', 'processGetFilePopup');
 
 $doDownloadFile   	= & new CopixAction ('malle', 'doDownloadFile');
 

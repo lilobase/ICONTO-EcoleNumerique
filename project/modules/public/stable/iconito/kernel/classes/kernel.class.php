@@ -1311,11 +1311,17 @@ class Kernel {
 		
 		// Cas particulier : module d'administration
 		if( $user_type=='USER_EXT' && $user_id==1 ) {
-			$admin->node_type   = $node_type;
-			$admin->node_id     = $node_id;
-			$admin->module_type = 'MOD_SYSUTILS';
-			$admin->module_nom   = Kernel::Code2Name ('MOD_SYSUTILS');
-			$modules[] = clone $admin;
+			$sysutils->node_type   = $node_type;
+			$sysutils->node_id     = $node_id;
+			$sysutils->module_type = 'MOD_SYSUTILS';
+			$sysutils->module_nom   = Kernel::Code2Name ('MOD_SYSUTILS');
+			$modules[] = clone $sysutils;
+			
+			$charte->node_type   = $node_type;
+			$charte->node_id     = $node_id;
+			$charte->module_type = 'MOD_CHARTE';
+			$charte->module_nom   = Kernel::Code2Name ('MOD_CHARTE');
+			$modules[] = clone $charte;
 		}
 		
 		// Cas ENS+VIL : SSO vers Gael si tout est configurÈ.

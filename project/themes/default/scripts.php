@@ -18,6 +18,11 @@
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("flvplayer/ufo.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.2.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
+
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.pack.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.easing-1.3.pack.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.mousewheel-3.0.2.pack.js"); ?>"></script>
+
 <script type="text/javascript">
 <?php
     $js = enic::get('javascript');
@@ -39,8 +44,8 @@ jQuery(document).ready(function($){
 		dim = theme.dimensions.STD;
     
  		//$('#main-wrapper').css('width', dim.main_width);
-    $('<style media="screen">#main-wrapper {width:'+dim.main_width+'px}</style>').appendTo('head');
-    $('<style media="print">#main-wrapper {width:100%}</style>').appendTo('head');
+    	$('<style media="screen">#main-wrapper {width:'+dim.main_width+'px}</style>').appendTo('head');
+    	$('<style media="print">#main-wrapper {width:100%}</style>').appendTo('head');
     
 		/* AUTOMATIC RESIZING */
 		$('#left').css('width', dim.left_width);
@@ -113,9 +118,9 @@ jQuery(document).ready(function($){
 				$(this).removeClass("logout_on");
 		});		
 
-		/* MODAL DIALOG */
+		/* MODAL DIALOGS */
 		$(function() {
-			$("#dialog-message").dialog({
+			$('#dialog-message').dialog({
 				modal: true,
 				buttons: {
 					Ok: function() {
@@ -123,6 +128,27 @@ jQuery(document).ready(function($){
 					}
 				}
 			});
+		});
+		$(function() {
+			$('#dialog').dialog({modal: true, resizable: false});
+		});
+
+		/* FANCY BOXES */
+		$('a.iframe').fancybox({
+				'width'				: '75%',
+				'height'			: '75%',
+				'autoScale'			: false,
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'type'				: 'iframe'
+		});
+		$('a.igetfile').fancybox({
+				'width'				: 500,
+				'height'			: '75%',
+				'autoScale'			: false,
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'type'				: 'iframe'
 		});
 
 	});

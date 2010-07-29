@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_typography.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_debug.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/jquerycss/default/jquery-ui-1.8.2.custom.css"); ?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_kernel.css"); ?>" type="text/css"/>
 <? if (isset($ENpopup) && $ENpopup) { ?><link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/popup.css"); ?>" type="text/css"/><? } ?>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>

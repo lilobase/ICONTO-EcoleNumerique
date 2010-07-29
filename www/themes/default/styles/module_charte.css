@@ -1,0 +1,58 @@
+/**
+ * THEMES - module_charte.css
+ * Mise en forme de la charte usagers
+ *
+ * @package	Iconito 2010
+ * @cdate 25.07.2010
+ * @mdate 25.07.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+/************************************************
+ * GENERAL
+ ***********************************************/
+div.charte .charte-edit {
+	background: #fff url(../images/charte_edit.png) 8px 8px no-repeat;
+	padding-left: 72px;
+	min-height: 72px;
+	}
+	
+div.charte .charte-info {
+	background: #fff url(../images/charte_icon_65.png) 8px 8px no-repeat;
+	padding-left: 72px;
+	min-height: 72px;
+	}
+
+div.charte .charte-file {
+	background: #fff url(../images/charte_icon_42.png) 4px 4px no-repeat;
+	padding-left: 52px;
+	min-height: 34px;
+	}
+
+div.charte .charte-step {
+	margin: 12px 0px;
+	}
+
+div.charte .charte-active {
+	float: right;
+	margin: 12px 0px;
+	}
+	
+.loading-button {
+    display: block;
+    width: 80%;
+	}
+
+.loading-button a {
+    min-height: 42px;
+    padding-top: 128px;
+	background: #ffffff url(../images/charte_icon.png) top center no-repeat;
+	}
+
+.loading-button a:hover {
+    background: #ffffff url(../images/charte_icon.png) top center no-repeat;
+}
+
+.ui-dialog-titlebar {
+	display: none;
+	}

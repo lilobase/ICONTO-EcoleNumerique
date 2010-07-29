@@ -24,7 +24,7 @@
 			{i18n key=auth|auth.rememberMe} : <input type="checkbox" name="rememberMe" id="rememberMe" value="1" />
 		{/if}
 		<input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}" />
-		<input type="submit" class="submit" value="{i18n key="auth.buttons.login"}" />
+		<input type="submit" class="button button-confirm" value="" />
 	</form>
 
 	{if $showLostPassword}

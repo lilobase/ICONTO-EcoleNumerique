@@ -77,10 +77,14 @@ class CharteService {
         $oReturn['children'] = $this->getChartesByTypes('USER_ELE');
         $oReturn['adults'] = $this->getChartesByTypes('USER_RES');
 
-        //hack for foreach
-        $oReturn['all']['title'] = 'Tout le monde';
-        $oReturn['children']['title'] = 'Enfants';
-        $oReturn['adults']['title'] = 'Adultes';
+        $oReturn['all']['title'] = 'charte.user.all';
+        $oReturn['children']['title'] = 'charte.user.children';
+        $oReturn['adults']['title'] = 'charte.user.adults';
+        $oReturn['all']['info'] = 'charte.user.all.info';
+        $oReturn['children']['info'] = 'charte.user.children.info';
+        $oReturn['adults']['info'] = 'charte.user.adults.info';
+
+
         return $oReturn;
     }
 

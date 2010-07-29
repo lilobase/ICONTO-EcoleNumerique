@@ -160,6 +160,11 @@ body {
 	position: relative;
 	}
 	
+#content-popup {
+	position: relative;
+	}
+
+	
 
 /************************************************
  * Barre de progression contextuelle

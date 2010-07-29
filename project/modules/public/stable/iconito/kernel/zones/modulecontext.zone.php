@@ -84,7 +84,7 @@ class ZoneModuleContext extends enicZone {
           
         }
         
- 			if (isset($modules)) {
+ 			if (!empty($modules)) {
 				$toReturn .= '	<div class="toolset">';
 				$toReturn .= '		<ul>';
 				
