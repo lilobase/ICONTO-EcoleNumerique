@@ -21,7 +21,11 @@ jQuery(document).ready(function($){
 	<div class="content-panel qd-header">
 		<div class="qd-author">
 		{i18n key="quiz.msg.author" noEscape=1}<br/>
-		{$ppo->surname} {$ppo->nameAuthor}<br />
+		{$ppo->surname} {$ppo->nameAuthor}<br /><br />
+		{if !empty($ppo->help)}
+        	<div id="qd-help" class="button button-info">{i18n key="quiz.msg.info" noEscape=1}</div>
+        	<div id="help-data" title="{i18n key="quiz.msg.info" noEscape=1}">{$ppo->help}</div>
+		{/if}
 		</div>
 		<div class="qd-title">
 		{$ppo->name|utf8_decode}
@@ -30,10 +34,6 @@ jQuery(document).ready(function($){
 		<div class="qd-description">
 		{$ppo->description|utf8_decode}
 		</div>
-		{/if}
-		{if !empty($ppo->help)}
-        	<div id="qd-help" class="button button-info">{i18n key="quiz.msg.info" noEscape=1}</div>
-        	<div id="help-data" title="{i18n key="quiz.msg.info" noEscape=1}">{$ppo->help}</div>
 		{/if}
 	</div>
 
