@@ -119,9 +119,14 @@ class ActionGroupAdmin extends enicActionGroup{
             if(empty($quizDatas))
                 return $this->error('quiz.errors.noQuiz');
 
-          //test if the current user is owner of the quiz
-            if($quizDatas['id_owner'] != $this->user->id)
-                return $this->error('quiz.admin.noRight');
+            //check the current groupe quiz id
+            if(!$this->session->exists('id_gr_quiz'))
+                return $this->error ('quiz.errors.badOperation', true, 'quiz||');
+
+            $id_gr_quiz = $this->session->load('id_gr_quiz');
+
+            if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
+                return $this->error ('quiz.admin.noRight');
 
             //get questions datas :
             $questionsDatas = $this->service('QuizService')->getQuestionsByQuiz($qId);
@@ -294,18 +299,22 @@ class ActionGroupAdmin extends enicActionGroup{
 
         if($this->flash->processAction == 'modif')
             $this->service('QuizService')->updateForm($form);
-        else
+        else{
             $this->service('QuizService')->newForm($form);
-
+            $this->flash->quizId = $this->model->lastId;
+        }
         //if all is OK :
         $this->flash->success = $this->i18n('quiz.form.success');
-//      return $this->go('quiz|admin|');
-		return $this->go('quiz|admin|modif', array('id' => $this->flash->quizId, 'qaction' => 'modif')); 
+
+        return $this->go('quiz|admin|modif', array('id' => $this->flash->quizId, 'qaction' => 'modif'));
     }
 
     public function processQuestions(){
         if(!isset($this->flash->quizId))
             return $this->error('quiz.admin.noRight');
+
+        //get current quiz group Id
+        $id_gr_quiz = $this->session->load('id_gr_quiz');
 
         //get the current quizId
         $quizId = $this->flash->quizId;
@@ -394,6 +403,7 @@ class ActionGroupAdmin extends enicActionGroup{
 
         $ppo             = new CopixPPO();
         $ppo->question  = $answerDatas;
+        $ppo->addPicPopup = CopixZone::process ('kernel|wikibuttons', array('field'=>'aw-content', 'format'=>'ckeditor', 'object'=>array('type'=>'MOD_QUIZ', 'id'=>$id_gr_quiz), 'height'=>290));
         $ppo->tabsSelect = $tabDatas;
         $ppo->resp      = $responsesDatas;
         $ppo->error     = $errorDatas;

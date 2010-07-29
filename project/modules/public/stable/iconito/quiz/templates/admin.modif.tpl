@@ -37,14 +37,14 @@
 			<label>{i18n key="quiz.form.publishState" noEscape=1}</label>
 			<select name="qf-lock" class="qf-publish">
 				<option value="0">{i18n key="quiz.form.published" noEscape=1}</option>
-				<option value="1">{i18n key="quiz.form.unpublished" noEscape=1}</option>
+				<option value="1" {if $ppo->quiz.lock == 1}selected="selected" {/if}>{i18n key="quiz.form.unpublished" noEscape=1}</option>
 			</select>
 
 			<label>{i18n key="quiz.form.datestart" noEscape=1}</label>
 			<input type="text" class="qf-date" name="qf-datestart" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_start}{/if}" />
  
 			<label>{i18n key="quiz.form.dateend" noEscape=1}</label>
-			<input type="text" class="qf-date" name="qf-dateend" value="{if $ppo->quiz.date_start != 0}{$ppo->quiz.date_end}{/if}" />
+			<input type="text" class="qf-date" name="qf-dateend" value="{if $ppo->quiz.date_end != 0}{$ppo->quiz.date_end}{/if}" />
  		</div>
 		<div class="content-panel content-panel-button">
 		<input type="submit" value="{i18n key="quiz.form.submit" noEscape=1}" class="button button-save" />

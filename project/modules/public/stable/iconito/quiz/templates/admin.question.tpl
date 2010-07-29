@@ -80,6 +80,7 @@ jQuery(document).ready(function($){
 		<input type="text" class="qf-title" id="aw-name" name="aw-name" value="{$ppo->question.name}"/><br />
 		<label for="aw-content">{i18n key="quiz.question.detail" noEscape=1}</label>
 		<textarea class="qf-description" id="aw-content" name="aw-content">{$ppo->question.content}</textarea>
+                {$ppo->addPicPopup}
 		<!-- process data's, integrity check by server side sessions storage -->
 		<input type="hidden" name="aw-id" value="{$ppo->id}" />
 	</div>

@@ -280,6 +280,10 @@ input.file-attach {
 	width: 400px;
 }
 
+input.preFilled, textarea.preFilled {
+    color: #cccccc;
+}
+
 /************************************************
  * Tableaux
  ***********************************************/
