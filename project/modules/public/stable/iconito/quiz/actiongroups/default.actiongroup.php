@@ -319,7 +319,7 @@ class ActionGroupDefault extends enicActionGroup {
                             'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
         }
-
+        $this->js->dialog('#qd-help', '#help-data');
         return _arPPO($ppo, 'question.tpl'); 
 
     }

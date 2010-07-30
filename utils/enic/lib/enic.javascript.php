@@ -104,5 +104,13 @@ class enicJavascript extends enicMod{
         $this->addJs($js);
     }
 
+    public function dialog($iSelectorClick, $iSelectorData){
+
+        $js = '$("'.$iSelectorData.'").dialog({autoOpen: false});';
+        $js .= '$("'.$iSelectorClick.'").click(function(){ $("'.$iSelectorData.'").dialog("open"); });';
+        $this->addJs($js);
+
+    }
+
 }
 ?>

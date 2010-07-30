@@ -32,7 +32,6 @@
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function($){
-	$(document).ready(function(){
 		var theme;
 		/* RMQ : getJSON use async mode and we need sync... */
 		$.ajax({
@@ -151,7 +150,6 @@ jQuery(document).ready(function($){
 				'type'				: 'iframe'
 		});
 
-	});
 });
 
 </script>

@@ -1,21 +1,7 @@
-{literal}
-<script type="text/javascript">
-jQuery.noConflict();
-jQuery(document).ready(function($){
-	$("#qd-help").click(function(){
-			$("#help-data").dialog({
-				modal: true,
-				buttons: {
-					Ok: function() {
-						$(this).dialog('close');
-					}
-				}
-			});
-    });
-});
-</script>
-{/literal}
 
+{if !empty($ppo->help)}
+    <div id="help-data" title="{i18n key="quiz.msg.info" noEscape=1}">{$ppo->help}</div>
+{/if}
 <form action="{copixurl dest="quiz|default|save" id=$ppo->question.id_quiz qId=$ppo->question.id}" method="post">
 <div id="quiz-do">
 	<div class="content-panel qd-header">
@@ -23,8 +9,7 @@ jQuery(document).ready(function($){
 		{i18n key="quiz.msg.author" noEscape=1}<br/>
 		{$ppo->surname} {$ppo->nameAuthor}<br /><br />
 		{if !empty($ppo->help)}
-        	<div id="qd-help" class="button button-info">{i18n key="quiz.msg.info" noEscape=1}</div>
-        	<div id="help-data" title="{i18n key="quiz.msg.info" noEscape=1}">{$ppo->help}</div>
+                    <div id="qd-help" class="button button-info">{i18n key="quiz.msg.info" noEscape=1}</div>
 		{/if}
 		</div>
 		<div class="qd-title">
