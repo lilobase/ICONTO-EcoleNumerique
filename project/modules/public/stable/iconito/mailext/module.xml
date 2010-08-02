@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="mailext" descriptioni18n="mailext.description" />
+        <package name="copixdivers" version="2.2" />
+    </general>
+
+</moduledefinition>

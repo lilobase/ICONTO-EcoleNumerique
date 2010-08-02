@@ -21,7 +21,11 @@ class mailExtService extends enicService{
 
         return imap_open($mailbox, $user, $pass);
     }
-    
+
+    /*
+     * check new messages
+     * return array('name' => (bool)false|(int)nb of new msg);
+     */
     public function check(){
         $confs = $this->getConf();
         
@@ -34,11 +38,11 @@ class mailExtService extends enicService{
 
             //test if connection is right
             if($connect === false){
-                $oReturn[$conf['pseudo']] = false;
+                $oReturn[$conf['name']] = false;
                 continue;
             }
 
-            $oReturn[$conf['pseudo']] = imap_num_recent($connect);
+            $oReturn[$conf['name']] = imap_num_recent($connect);
 
             imap_close($connect);
         }
@@ -62,10 +66,11 @@ class mailExtService extends enicService{
         $oDatas['protocol'] = (!empty($iDatas['protocol'])) ? $this->model->quote($iDatas['protocol']) : 'imap' ;
         $oDatas['ssl'] = (!empty($iDatas['ssl'])) ? $iDatas['ssl']*1 : 0 ;
         $oDatas['server'] = $this->model->quote($iDatas['server']);
-        $oDatas['pseudo'] = $this->model->quote($iDatas['pseudo']);
+        $oDatas['login'] = $this->model->quote($iDatas['pseudo']);
         $oDatas['name'] = (!empty($iDatas['name'])) ? $this->quote($iDatas['name']) : $oDatas['pseudo'];
         $oDatas['pass'] = $this->model->quote($iDatas['pass']);
         $oDatas['webmail'] = $this->model->quote($iDatas['webmail']);
+        $oDatas['imap_url'] = (!empty($iDatas['imap_path'])) ? $this->model->quote($iDatas['imap_url']) : null;
         if(!empty($iDatas['port']))
             $iDatas['port']*1;
         elseif($oDatas['protocol'] == 'imap'){

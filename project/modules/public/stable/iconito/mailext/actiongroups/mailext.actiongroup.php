@@ -9,7 +9,22 @@ class ActionGroupMailExt extends EnicActionGroup {
 
     public function processUpdateMail(){
 
+        $mailConf = $this->service('mailExtService')->getConf();
 
+
+ 
+
+    }
+
+    public function processAdmin(){
+
+        $mailConf = $this->service('mailExtService')->getConf();
+
+
+        $ppo = new CopixPPO();
+
+        $this->addCss('styles/module_mailext.css');
+        return _arPPO($ppo, 'admin.tpl');
 
     }
 
