@@ -26,7 +26,7 @@
 
 {foreach from=$ppo->mailConf item=mail}
 
-<form action="{copixurl dest="mailext|mailext|update"}" id="me-form-new">
+<form action="{copixurl dest="mailext|mailext|update"}" id="me-form">
 	<fieldset>
 		<legend>Compte</legend>
 		<label for="name">Nom du compte mail</label>

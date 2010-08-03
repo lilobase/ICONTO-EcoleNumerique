@@ -73,7 +73,7 @@ class ActionGroupMailExt extends EnicActionGroup {
                 //build new item from error array
                 $newItem = $this->flash->formData;
                 $newItem['error'] = $this->flash->errorMsg;
-                array_unshift($mailConf, $var);
+                array_unshift($mailConf, $newItem);
             }else{
                 foreach($mailConf as $k => $mail){
 
