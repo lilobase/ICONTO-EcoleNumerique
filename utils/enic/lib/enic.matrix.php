@@ -27,10 +27,7 @@ class enicMatrix extends enicList {
 
         $options =& enic::get('options');
         $options = $options->matrix;
-        if($options->bypass)
-            $this->bypass = true;
-        else
-            $this->bypass = false;
+        $options->bypass = (bool)$this->bypass;
 
         //get user info
         $user =& enic::get('user');

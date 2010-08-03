@@ -7,12 +7,56 @@ class ActionGroupMailExt extends EnicActionGroup {
 
     }
 
-    public function processUpdateMail(){
+    public function processUpdate(){
+        
+        $idMailConf = $this->request('id');
 
-        $mailConf = $this->service('mailExtService')->getConf();
+        if(empty($idMailConf))
+            return $this->error ('mailext.badOperation');
 
+        $typeAction = ($idMailConf == 'new') ? 'create' : 'update';
 
- 
+        //check if the user is owner
+        if($typeAction != 'create'){
+            $checkUser = $this->service('mailExtService')->checkUserMailConf($idMailConf);
+            if(!$checkUser)
+                return $this->error ('mailext.badOperation');
+        }
+
+        //format datas
+        $formData['id']             = $this->request('id');
+        $formData['protocol']       = $this->request('protocol');
+        $formData['server']         = $this->request('server');
+        $formData['port']           = $this->request('port');
+        $formData['ssl']            = $this->request('ssl')*1;
+        $formData['login']          = $this->request('login');
+        $formData['pass']           = $this->request('pass');
+        $formData['imap_path']      = $this->request('imap_path');
+        $formData['name']           = $this->request('name');
+        $formData['webmail_url']    = $this->request('webmail_url');
+
+        $valid = $this->service('mailExtService')->validMailConf($formData);
+
+        //if errors
+        if($valid[0] == false){
+            $this->flash->error = true;
+            $this->flash->errorMsg = $valid[1];
+            $this->flash->formData = $formData;
+            $this->flash->mailConfId = $formData['id'];
+
+            return $this->go('mailext|mailext|admin');
+        }
+
+        //insert data in DB :
+        if($typeAction == 'create'){
+            $this->service('mailExtService')->createMailConf($formData);
+            $this->flash->mailConfId = $this->model->lastId;
+        }else{
+            $this->service('mailExtService')->updateMailConf($formData);
+            $this->flash->mailConfId = $formData['id'];
+        }
+
+        return $this->go('mailext|mailext|validMailConf');
 
     }
 
@@ -20,24 +64,55 @@ class ActionGroupMailExt extends EnicActionGroup {
 
         $mailConf = $this->service('mailExtService')->getConf();
 
+        //test if error occured
+        if(isset($this->flash->error) && $this->flash->error || isset($this->flash->validMailConf)){
+            $modifId = $this->flash->mailConfId;
+
+            if($modifId == 'new'){
+
+                //build new item from error array
+                $newItem = $this->flash->formData;
+                $newItem['error'] = $this->flash->errorMsg;
+                array_unshift($mailConf, $var);
+            }else{
+                foreach($mailConf as $k => $mail){
+
+                    if($modifId != $mail['id'])
+                        continue;
+
+                    if(isset($this->flash->error)){
+                        $mailConf[$k] = $this->flash->formData;
+                        $mailConf[$k]['error'] = $this->flash->errorMsg;
+                    }else{
+                        $mailConf[$k]['valid'] = $this->flash->validMailConf;
+                    }
+                    break;
+                }
+            }
+        }
 
         $ppo = new CopixPPO();
+        $ppo->mailConf = $mailConf;
+
+        if(isset($this->flash->validMailConf))
+            $ppo->validMailConf = $this->flash->validMailConf;
 
         $this->addCss('styles/module_mailext.css');
         return _arPPO($ppo, 'admin.tpl');
 
     }
 
-    public function processValidMail(){
+    public function processValidMailConf(){
 
-        $action = $this->request('typeAction');
+        if(!isset($this->flash->mailConfId))
+            $this->error ('mailext.badOperation');
 
-        if(empty($action))
-            $this->error('mailext.badOperation');
+        $test = $this->service('mailExtService')->checkMailConf($this->flash->mailConfId);
 
-        //valid datas
-        
+        $this->flash->validMailConf = $test;
+        $this->flash->mailConfId = $this->flash->mailConfId;
 
+        return $this->go('mailext|mailext|admin');
     }
 
 

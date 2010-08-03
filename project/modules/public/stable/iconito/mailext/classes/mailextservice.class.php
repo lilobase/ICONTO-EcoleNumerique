@@ -16,7 +16,7 @@ class mailExtService extends enicService{
         //build connection string
         $server = $server.':'.port;
         $protocol = '/'.$protocol;
-        $ssl = ($ssl == true) ? '/ssl/novalidate-cert' : ''; 
+        $ssl = ($ssl == 1) ? '/ssl/novalidate-cert' : '';
         $mailbox = '{'.$server.$port.$protocol.$ssl.'}INBOX';
 
         return imap_open($mailbox, $user, $pass);
@@ -33,8 +33,8 @@ class mailExtService extends enicService{
         if(empty($confs))
                 return false;
         
-        foreach($confs as $conf){
-            $connect =& $this->connect();
+        foreach($confs as $mail){
+            $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['login'], $mail['pass']); // WARNING BAD ARGUMENTS FOR CONNECT
 
             //test if connection is right
             if($connect === false){
@@ -50,14 +50,33 @@ class mailExtService extends enicService{
         return $oReturn;
     }
 
-    //return all conf data's linked the current user
+    public function checkMailConf($iIdMailConf){
+        $mail = $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toArray1();
+        
+        $test = $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['login'], $mail['pass']);
+        
+        return  ($test === false) ? false : true;
+    }
+
+    //return all conf data's linked to the current user
     public function getConf(){
         return $this->model->query('SELECT * FROM module_mailext WHERE user_id = '.$this->user->id)->toArray();
+    }
+
+    public function checkUserMailConf($iIdMailConf){
+        $userIdFromDb = $this->query('SELECT user_id FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toString();
+
+        return ($this->user->id == $userIdFromDb);
     }
 
     public function updateMailConf($iDatas){
         $datas = $this->prepareMailConf($iDatas);
         $this->model->update('module_mailext',$datas);
+    }
+
+    public function createMailConf($iDatas){
+        $datas = $this->prepareMailConf($iDatas);
+        $this->model->create($datas);
     }
 
     public function prepareMailConf($iDatas){
@@ -66,11 +85,11 @@ class mailExtService extends enicService{
         $oDatas['protocol'] = (!empty($iDatas['protocol'])) ? $this->model->quote($iDatas['protocol']) : 'imap' ;
         $oDatas['ssl'] = (!empty($iDatas['ssl'])) ? $iDatas['ssl']*1 : 0 ;
         $oDatas['server'] = $this->model->quote($iDatas['server']);
-        $oDatas['login'] = $this->model->quote($iDatas['pseudo']);
-        $oDatas['name'] = (!empty($iDatas['name'])) ? $this->quote($iDatas['name']) : $oDatas['pseudo'];
+        $oDatas['login'] = $this->model->quote($iDatas['login']);
+        $oDatas['name'] = (!empty($iDatas['name'])) ? $this->quote($iDatas['name']) : $oDatas['login'];
         $oDatas['pass'] = $this->model->quote($iDatas['pass']);
-        $oDatas['webmail'] = $this->model->quote($iDatas['webmail']);
-        $oDatas['imap_url'] = (!empty($iDatas['imap_path'])) ? $this->model->quote($iDatas['imap_url']) : null;
+        $oDatas['webmail_url'] = $this->model->quote($iDatas['webmail_url']);
+        $oDatas['imap_path'] = (!empty($iDatas['imap_path'])) ? $this->model->quote($iDatas['imap_path']) : null;
         if(!empty($iDatas['port']))
             $iDatas['port']*1;
         elseif($oDatas['protocol'] == 'imap'){
@@ -90,17 +109,18 @@ class mailExtService extends enicService{
     public function validMailConf($iDatas){
         $errors = array();
 
-        $required = array('server', 'pseudo', 'pass', 'webmail');
+        $required = array('server', 'login', 'pass', 'webmail_url');
 
         foreach($required as $require){
             if(empty($iDatas[$require])){
-                $errors[$require] = $this->i18n('mailext.required');
+                $errors = $this->i18n('mailext.required');
             }
         }
 
         $oReturn[] = empty($errors);
         $oReturn[] = $errors;
-        
+
+        return $oReturn;
     }
     
 }
