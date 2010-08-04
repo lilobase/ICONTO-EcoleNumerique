@@ -26,7 +26,7 @@
 
 {foreach from=$ppo->mailConf item=mail}
 
-<form action="{copixurl dest="mailext|mailext|update"}" id="me-form">
+<form action="{copixurl dest="mailext|mailext|update"}" method="post" id="me-form">
 	<fieldset>
 		<legend>Compte</legend>
 		<label for="name">Nom du compte mail</label>
@@ -34,7 +34,7 @@
 		<label for="login">Login</label>
 		<input type="text" name="login" class="me-login" value="{$mail.login}" />
 		<label for="pass">Mot de passe</label>
-		<input type="text" name="pass" class="me-pass" value="{$mail.pass}" />
+		<input type="password" name="pass" class="me-pass" value="{$mail.pass}" />
 		<label for="webmail_url">Webmail (adresse web)</label>
 		<input type="text" name="webmail_url" class="me-webmail_url" value="{$mail.webmail_url}" />
 	</fieldset>
@@ -69,7 +69,7 @@
 <hr />
 <a id="show-me-form-new" href="">{i18n key="mailext.newForm" noEscape=1}</a>
 
-<form action="{copixurl dest="mailext|mailext|update"}" id="me-form-new">
+<form action="{copixurl dest="mailext|mailext|update"}" method="post" id="me-form-new">
 	<fieldset>
 		<legend>Compte</legend>
 		<label for="name">Nom du compte mail</label>
@@ -77,7 +77,7 @@
 		<label for="login">Login</label>
 		<input type="text" name="login" class="me-login" />
 		<label for="pass">Mot de passe</label>
-		<input type="text" name="pass" class="me-pass" />
+		<input type="password" name="pass" class="me-pass" />
 		<label for="webmail_url">Webmail (adresse web)</label>
 		<input type="text" name="webmail_url" class="me-webmail_url" />
 	</fieldset>

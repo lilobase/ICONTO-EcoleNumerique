@@ -14,10 +14,10 @@ class mailExtService extends enicService{
     public function connect($server, $port, $protocol, $ssl, $user, $pass){
         
         //build connection string
-        $server = $server.':'.port;
+        $server = $server.':'.$port;
         $protocol = '/'.$protocol;
         $ssl = ($ssl == 1) ? '/ssl/novalidate-cert' : '';
-        $mailbox = '{'.$server.$port.$protocol.$ssl.'}INBOX';
+        $mailbox = '{'.$server.$protocol.$ssl.'}INBOX';
 
         return imap_open($mailbox, $user, $pass);
     }
@@ -64,7 +64,7 @@ class mailExtService extends enicService{
     }
 
     public function checkUserMailConf($iIdMailConf){
-        $userIdFromDb = $this->query('SELECT user_id FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toString();
+        $userIdFromDb = $this->model->query('SELECT user_id FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toString();
 
         return ($this->user->id == $userIdFromDb);
     }
@@ -76,7 +76,7 @@ class mailExtService extends enicService{
 
     public function createMailConf($iDatas){
         $datas = $this->prepareMailConf($iDatas);
-        $this->model->create($datas);
+        $this->model->create('module_mailext', $datas);
     }
 
     public function prepareMailConf($iDatas){
@@ -86,24 +86,25 @@ class mailExtService extends enicService{
         $oDatas['ssl'] = (!empty($iDatas['ssl'])) ? $iDatas['ssl']*1 : 0 ;
         $oDatas['server'] = $this->model->quote($iDatas['server']);
         $oDatas['login'] = $this->model->quote($iDatas['login']);
-        $oDatas['name'] = (!empty($iDatas['name'])) ? $this->quote($iDatas['name']) : $oDatas['login'];
+        $oDatas['name'] = (!empty($iDatas['name'])) ? $this->model->quote($iDatas['name']) : $oDatas['login'];
         $oDatas['pass'] = $this->model->quote($iDatas['pass']);
         $oDatas['webmail_url'] = $this->model->quote($iDatas['webmail_url']);
-        $oDatas['imap_path'] = (!empty($iDatas['imap_path'])) ? $this->model->quote($iDatas['imap_path']) : null;
-        if(!empty($iDatas['port']))
-            $iDatas['port']*1;
-        elseif($oDatas['protocol'] == 'imap'){
+        $oDatas['imap_path'] = (!empty($iDatas['imap_path'])) ? $this->model->quote($iDatas['imap_path']) : 'NULL';
+        if(!empty($iDatas['port']) && $iDatas['port'] != 0){
+            $oDatas['port'] = $iDatas['port']*1;
+        }elseif($iDatas['protocol'] == 'imap'){
             if($oDatas['ssl'] == 1)
                 $oDatas['port'] = 993;
             else
                 $oDatas['port'] = 143;
-        }elseif($oDatas['protocol'] == 'pop3'){
+        }elseif($iDatas['protocol'] == 'pop3'){
             if($oDatas['ssl'] == 1)
                 $oDatas['port'] = 995;
             else
                 $oDatas['port'] = 110;
         }
 
+        return $oDatas;
     }
 
     public function validMailConf($iDatas){

@@ -24,7 +24,7 @@ class ActionGroupMailExt extends EnicActionGroup {
         }
 
         //format datas
-        $formData['id']             = $this->request('id');
+        $formData['id']             = $idMailConf;
         $formData['protocol']       = $this->request('protocol');
         $formData['server']         = $this->request('server');
         $formData['port']           = $this->request('port');
