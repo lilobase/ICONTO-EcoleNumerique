@@ -55,6 +55,11 @@ class ActionGroupCharte extends enicActionGroup{
 
         $mods = Kernel::getModEnabled ($this->user->type, $this->user->id);
         $mal = Kernel::filterModuleList ($mods, 'MOD_MALLE');
+
+        //if malle is not initialized for root user
+        if(empty($mal))
+            return $this->error ('charte.admin.noMalle', true, 'malle||');
+
         $ppo->idMalle = $mal[0]->module_id;
 		$ppo->url = CopixUrl::get ('malle||getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>'ca-file_url', 'format'=>'text'));
 
