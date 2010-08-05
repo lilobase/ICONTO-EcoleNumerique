@@ -1,3 +1,26 @@
+-- Généré le : Jeu 05 Août 2010 à 17:54
+-- Version du serveur: 5.1.44
+-- Version de PHP: 5.2.13
+--
+-- Structure de la table `module_mailext`
+--
+
+CREATE TABLE `module_mailext` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `protocol` varchar(255) NOT NULL,
+  `server` varchar(255) NOT NULL,
+  `port` int(2) unsigned NOT NULL,
+  `ssl` tinyint(2) unsigned NOT NULL,
+  `login` varchar(150) NOT NULL,
+  `pass` varchar(150) NOT NULL,
+  `imap_path` varchar(150) DEFAULT NULL,
+  `name` varchar(150) NOT NULL,
+  `webmail_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
 
 -- Généré le : Lun 12 Juillet 2010 à 12:13
 -- Version du serveur: 5.1.44
