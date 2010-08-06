@@ -34,6 +34,7 @@ class ActionGroupMailExt extends EnicActionGroup {
         $formData['imap_path']      = $this->request('imap_path');
         $formData['name']           = $this->request('name');
         $formData['webmail_url']    = $this->request('webmail_url');
+        $formData['tls']            = $this->request('tls');
 
         $valid = $this->service('mailExtService')->validMailConf($formData);
 

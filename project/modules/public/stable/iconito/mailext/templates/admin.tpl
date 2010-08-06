@@ -25,7 +25,19 @@
 <h4>{i18n key="mailext.description" noEscape=1}</h4>
 
 {foreach from=$ppo->mailConf item=mail}
-
+{if isset($mail.error)}
+    <div id="dialog-message" title="{i18n key="mailext.error" noEscape=1}">
+        {$mail.error}
+    </div>
+{elseif isset($mail.valid)}
+    <div id="dialog-message" title="Connection">
+        {if $mail.valid}
+            {i18n key="mailext.sucsessConnect" noEscape=1}
+        {else}
+            {i18n key="mailext.errorConnect" noEscape=1}
+        {/if}
+    </div>
+{/if}
 <form action="{copixurl dest="mailext|mailext|update"}" method="post" id="me-form">
 	<fieldset>
 		<legend>Compte</legend>
@@ -56,6 +68,9 @@
 		<div class="me-advanced">
 			<label for="imap_path">Chemin de la boite de réception</label>
 			<input type="text" name="imap_path" value="{$mail.imap_path}"/>
+                        <label for="tls">Activer le TLS</label>
+                    <input type="radio" name="tls" value="1" {if $mail.tls == '1'}checked="checked" {/if}/>oui
+                    <input type="radio" name="tls" value="0" {if $mail.tls == '0'}checked="checked" {/if}/>non
 		</div>
 
 	</fieldset>

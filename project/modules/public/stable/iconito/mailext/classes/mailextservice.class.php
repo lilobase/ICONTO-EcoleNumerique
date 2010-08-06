@@ -11,15 +11,16 @@
  */
 class mailExtService extends enicService{
 
-    public function connect($server, $port, $protocol, $ssl, $user, $pass){
+    public function connect($server, $port, $protocol, $ssl, $tls, $user, $pass){
         
         //build connection string
         $server = $server.':'.$port;
         $protocol = '/'.$protocol;
         $ssl = ($ssl == 1) ? '/ssl/novalidate-cert' : '';
-        $mailbox = '{'.$server.$protocol.$ssl.'}INBOX';
+        $tls = ($tls == 1) ? '/tls' : '/notls';
+        $mailbox = '{'.$server.$protocol.$ssl.$tls.'}INBOX';
 
-        return imap_open($mailbox, $user, $pass);
+        return @imap_open($mailbox, $user, $pass);
     }
 
     /*
@@ -34,7 +35,7 @@ class mailExtService extends enicService{
                 return false;
         
         foreach($confs as $mail){
-            $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['login'], $mail['pass']); // WARNING BAD ARGUMENTS FOR CONNECT
+            $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']); // WARNING BAD ARGUMENTS FOR CONNECT
 
             //test if connection is right
             if($connect === false){
@@ -53,7 +54,7 @@ class mailExtService extends enicService{
     public function checkMailConf($iIdMailConf){
         $mail = $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toArray1();
         
-        $test = $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['login'], $mail['pass']);
+        $test = $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']);
         
         return  ($test === false) ? false : true;
     }
@@ -103,6 +104,7 @@ class mailExtService extends enicService{
             else
                 $oDatas['port'] = 110;
         }
+        $oDatas['tls'] = (!empty($iDatas['tls']) && $iDatas['tls'] == 1) ? 1 : 0;
 
         return $oDatas;
     }
@@ -110,11 +112,11 @@ class mailExtService extends enicService{
     public function validMailConf($iDatas){
         $errors = array();
 
-        $required = array('server', 'login', 'pass', 'webmail_url');
+        $required = array('server', 'login', 'pass');
 
         foreach($required as $require){
             if(empty($iDatas[$require])){
-                $errors = $this->i18n('mailext.required');
+                $errors = $require.' : '.$this->i18n('mailext.required');
             }
         }
 
