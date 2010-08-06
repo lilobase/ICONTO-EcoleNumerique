@@ -12,6 +12,7 @@ CREATE TABLE `module_mailext` (
   `server` varchar(255) NOT NULL,
   `port` int(2) unsigned NOT NULL,
   `ssl` tinyint(2) unsigned NOT NULL,
+  `tls` tinyint(2) unsigned NOT NULL,
   `login` varchar(150) NOT NULL,
   `pass` varchar(150) NOT NULL,
   `imap_path` varchar(150) DEFAULT NULL,
