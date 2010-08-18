@@ -2453,7 +2453,7 @@ CREATE TABLE `module_quiz_responses` (
 -- Structure de la table `module_charte_chartes`
 --
 
-DROP TABLE IF EXISTS `module_charte_chartes`
+DROP TABLE IF EXISTS `module_charte_chartes`;
 CREATE TABLE `module_charte_chartes` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_type` varchar(75) NOT NULL,
@@ -2470,6 +2470,7 @@ CREATE TABLE `module_charte_chartes` (
 -- Structure de la table `module_charte_users_validation`
 --
 
+DROP TABLE IF EXISTS `module_charte_users_validation`;
 CREATE TABLE `module_charte_users_validation` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
