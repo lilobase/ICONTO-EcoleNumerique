@@ -321,7 +321,7 @@ class Kernel {
 			
 			case "USER_ENS": // Enseignant --(n)--> Classes/Ecoles
 			case "USER_VIL": // Agent de ville --(1?)--> Ville
-			case "USER_ADM": // Administratif Ècole --(n)--> Ecoles
+			case "USER_ADM": // Administratif ecole --(n)--> Ecoles
 				$dao = _dao("kernel|kernel_bu_personnel_entite");
 				$res = $dao->getById($id);
 				
@@ -332,7 +332,7 @@ class Kernel {
 							$role2droit = array(1=>PROFILE_CCV_WRITE,2=>PROFILE_CCV_ADMIN,3=>PROFILE_CCV_WRITE);
 							$return[]=array("type"=>"BU_ECOLE", "id"=>$val->pers_entite_reference,"droit"=>$role2droit[$val->pers_entite_role]);
 							
-							// Patch pour accËs directeur dans les classes
+							// Patch pour acces directeur dans les classes
 							if( CopixConfig::exists('|conf_DirClasse') && CopixConfig::get('|conf_DirClasse') )
 							{
 								// Enseignant --(n)--> Classes (directeur)
@@ -435,6 +435,13 @@ class Kernel {
 				}
 				*/
 			}
+      
+      // Rustine CB 25/08/2010 On ajoute un droit de lecture sur le groupe d'assistance
+      if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+        $return[]=array("type"=>'CLUB', "id"=>$groupeAssistance,"droit"=>PROFILE_CCV_READ);
+        //print_r($return);
+      }
+      
 		}
 		
 		// Ajoute les infos aux donnÈes sur les enfants
@@ -447,7 +454,9 @@ class Kernel {
 		}
 		
 		}
-
+    
+    //print_r($return);
+    
 		reset($return);
 		return $return;
 	}
@@ -1470,8 +1479,23 @@ class Kernel {
 		//print_r($mod_parents);
 		
 		foreach( $mod_parents AS $mod_key=>$mod_val ) {
+      
 			// Check user -> admin
 			if( $mod_val->node_type==$user_type && $mod_val->node_id==$user_id ) $droit=PROFILE_CCV_ADMIN;
+
+      // Rustine CB 25/08/2010 Si c'est un droit d'un module du groupe d'assistance
+      if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $mod_val->node_type=='CLUB' && $mod_val->node_id==$groupeAssistance) {
+        //print_r();
+        switch ($mod_type) {
+          case 'MOD_FORUM' : // Forum : on peut ecrire
+            $droit = PROFILE_CCV_MEMBER;
+            break;
+          case 'MOD_MALLE' : // Malle : on peut lire
+          case 'MOD_BLOG' : // Blog : on peut lire
+            $droit = PROFILE_CCV_READ;
+            break;
+        }
+      }
 			
 			// Check parents nodes -> right (DB)
 			reset( $user_parents );

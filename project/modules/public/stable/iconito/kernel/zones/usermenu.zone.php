@@ -85,7 +85,15 @@ class ZoneUserMenu extends CopixZone {
 				$logout["url"] = CopixUrl::get ('auth|log|out');
 				$logout["class"] = "logout";			
 				}
-
+      
+      if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+        $menuitem["title"] = 'AIDE';
+  			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>'CLUB','nid'=>$groupeAssistance,'mtype'=>'blog'));
+  			$menuitem["class"] = "menu-aide";
+  			array_push($menuitems, $menuitem);
+      }
+            
+      
 			foreach ($menuitems as $item) {
 				$ppo->usermenu .= "<li class=\"".$item["class"]."\">";
         if (isset($item["before"]))
