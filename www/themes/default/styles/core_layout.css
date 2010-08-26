@@ -111,6 +111,7 @@ body {
 	position: relative;
 	overflow: hidden;
 	clear: both;
+	display: none;
 	}
 	
 #left {
@@ -303,8 +304,8 @@ tr.list_line0 { background-color: #FFFFFF; }
 
 
 div.block {
-  border-radius:15px;
-	-moz-border-radius:15px;
+  border-radius:8px;
+	-moz-border-radius:8px;
   background-color:#fff;
   border:1px solid #999;
   padding:6px;

@@ -307,7 +307,35 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	line-height: 90%;
 	}
 
+/*
+#submenu {
+	position: absolute;
+	overflow: hidden;
+	top: 0px;
+	left: 1%;
+	width: 98%;
+	z-index: 999;
+	filter: alpha(opacity=95);
+	-moz-opacity: 0.95;
+	opacity: 0.95;
+	}
 
+.submenu-marger {
+	margin-top: 40px;
+	}
+
+#submenu .menuitems {
+	position: relative;
+	display: block;
+	background: #fff;
+	font-size:90%;
+	line-height: 90%;
+	-moz-border-radius-bottomleft: 8px;
+	-moz-border-radius-bottomright: 8px;
+	-webkit-border-bottom-left-radius: 8px;
+	-webkit-border-bottom-right-radius: 8px;
+	}
+*/
 #submenu .menuitems ul {
 	position: relative;
 	list-style-type: none;
@@ -325,7 +353,7 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	display:inline-block;
 	vertical-align: middle;
 	text-align: left;
-	padding: 4px;
+	padding: 2px;
 	}
 	
 #submenu .menuitems ul li a {
@@ -333,12 +361,16 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	display: inline-block;
 	vertical-align: middle;
 	padding: 2px 2px 2px 36px;
-	width: 118px;
+	width: 92px;
 	height: 28px;
 	background-color : #f0f4f0;
 	border: solid 1px #f0f4f0;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
+	}
+
+#submenu .menuitems ul li a.small {
+	width: 58px;
 	}
 
 #submenu .menuitems ul li a span {
@@ -359,6 +391,14 @@ span.valign {
 #submenu .menuitems a.list			{ background: #f0f4f0 url(../images/menu_list.png) 4px 50% no-repeat; }
 #submenu .menuitems a.list-active	{ background: #f0f4f0 url(../images/menu_list_active.png) 4px 50% no-repeat; }
 #submenu .menuitems a.results		{ background: #f0f4f0 url(../images/menu_results.png) 4px 50% no-repeat; }
+#submenu .menuitems a.article		{ background: #f0f4f0 url(../images/menu_article.png) 4px 50% no-repeat; }
+#submenu .menuitems a.link			{ background: #f0f4f0 url(../images/menu_link.png) 4px 50% no-repeat; }
+#submenu .menuitems a.tag			{ background: #f0f4f0 url(../images/menu_tag.png) 4px 50% no-repeat; }
+#submenu .menuitems a.image			{ background: #f0f4f0 url(../images/menu_image.png) 4px 50% no-repeat; }
+#submenu .menuitems a.page			{ background: #f0f4f0 url(../images/menu_page.png) 4px 50% no-repeat; }
+#submenu .menuitems a.rss			{ background: #f0f4f0 url(../images/menu_rss.png) 4px 50% no-repeat; }
+#submenu .menuitems a.acl			{ background: #f0f4f0 url(../images/menu_acl.png) 4px 50% no-repeat; }
+#submenu .menuitems a.document		{ background: #f0f4f0 url(../images/menu_attach.png) 4px 50% no-repeat; }
 
 #submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; }
 

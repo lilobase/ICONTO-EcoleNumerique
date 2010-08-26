@@ -35,7 +35,7 @@ class ZoneMenu extends CopixZone {
 				if( isset($val['target'])) $color=' target="'.$val['target'].'"';
 
 				//get type for item, 'nd generate associate class
-				$class = (isset($val['type'])) ? 'class="'.$val['type'].'"' : '';
+				$class = (isset($val['type'])) ? 'class="'.$val['type'].' '.$val['size'].'"' : '';
 				
 				$out .= '<li>';
 				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '<a '.$class.' '.$color.' href="'.$val['url'].'">';
