@@ -47,7 +47,7 @@ class ZoneMenu extends CopixZone {
 			$out .= '</ul>';
 			$ppo->menu = $out;
 		} else {
-			$ppo->menu = $pMenu;
+			$ppo->menu = '<ul><li>'.$pMenu.'</li></ul>';
 		}
 		
 		if ($pPopup && $pCanClose) {

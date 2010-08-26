@@ -1,7 +1,13 @@
 
 <div class="groupe_admin_bloc">
-<div class="groupe_thumb_autour"><div class="groupe_thumb"><a  href="{copixurl dest="|getHomeAdminMembers" id=$groupe->id}" title="{i18n key="groupe.adminMembers"}"><img WIDTH="64" HEIGHT="64" src="{copixresource path="img/groupe/admin_members.png"}" alt="{i18n key="groupe.adminMembers"}" BORDER=0 /></a></div>
+<div class="groupe_thumb_autour">
+	<div class="groupe_thumb">
+		<a  href="{copixurl dest="|getHomeAdminMembers" id=$groupe->id}" title="{i18n key="groupe.adminMembers"}">
+			<img WIDTH="64" HEIGHT="64" src="{copixresource path="img/groupe/admin_members.png"}" alt="{i18n key="groupe.adminMembers"}" BORDER=0 />
+		</a>
+	</div>
 </div>
+
 <DIV class="groupe_title"><a href="{copixurl dest="|getHomeAdminMembers" id=$groupe->id}" title="{i18n key="groupe.adminMembers"}">{i18n key="groupe.adminMembers"}</a></DIV>
 <div class="groupe_infos"></div>
 <div class="groupe_desc">{i18n key="groupe.adminMembersDesc"}</div>
