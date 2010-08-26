@@ -1,10 +1,13 @@
 <?php
 
 
-$conf_database = (isset($_GET['base']) && $_GET['base']) ? $_GET['base'] : 'petiteenfance';
+$conf_database = (isset($_GET['base']) && $_GET['base']) ? $_GET['base'] : 'BAC_EcoleNumerique2010';
 
-$conf_table = $_GET['table'];
-$module = $_GET['module'];
+$conf_table = isset($_GET['table']) ? $_GET['table'] : '';
+$module = isset($_GET['module']) ? $_GET['module'] : '';
+
+if (!$module)
+  $module = 'kernel';
 
 if( !$conf_table) {
 	die( 'Utiliser le param&egrave;tre GET "table" pour sp&eacute;cifier le nom de la table');
@@ -24,24 +27,25 @@ $sql = "SHOW COLUMNS FROM ".addslashes($conf_table);
 $colonnes = mysql_query($sql, $connexion);
 
 $table_name_abr = $conf_table;
-if (substr($table_name_abr,0,3)=='pe_')
-	$table_name_abr = substr($table_name_abr,3);
+if (substr($table_name_abr,0,7)=='module_')
+	$table_name_abr = substr($table_name_abr,7);
 
+$tab = '  ';
 
 $res = '';
 $dao = '';
 $mcd = '';
 $smarty = '';
-$res .= xml_begin($conf_table, $table_name_abr);
+$res .= xml_begin($conf_table, $table_name_abr, $tab);
 while ($colonne = mysql_fetch_array($colonnes,MYSQL_ASSOC)) {
 	//print_r( $colonne );
-	$res .= xml_colonne( $colonne , $table_name_abr);
+	$res .= xml_colonne( $colonne , $table_name_abr, $tab);
 	$dao .= dao_fr_colonne ($module,$colonne,$table_name_abr);
 	$mcd .= $colonne['Field']."\n";
 	$smarty .= "{i18n key=".$module."|dao.".$table_name_abr.".fields.".$colonne['Field']." noEscape=1}\n";
 }
 
-$res .= xml_end();
+$res .= xml_end($tab);
 
 echo '<h3>'.$module.'/resources/'.$table_name_abr.'.dao.xml</h3>';
 echo '<textarea style="width:99%;height:500px;font-size:0.9em;">'.$res.'</textarea>';
@@ -66,23 +70,23 @@ echo '</div>';
 mysql_close($connexion);
 
 
-function xml_begin( $table_name, $table_name_abr ) {
+function xml_begin( $table_name, $table_name_abr, $tab ) {
 	
 	$name = $table_name_abr;
 	
 	$res = '';
 	$res .= "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n";
 	$res .= "<daodefinition>\n";
-	$res .= "\t<datasource>\n";
-	$res .= "\t\t<tables>\n";
-	$res .= "\t\t\t<table name=\"".$name."\" tablename=\"".$table_name."\" primary=\"yes\" />\n";
-	$res .= "\t\t</tables>\n";
-	$res .= "\t</datasource>\n";
-	$res .= "\t<properties>\n";
+	$res .= $tab."<datasource>\n";
+	$res .= $tab.$tab."<tables>\n";
+	$res .= $tab.$tab.$tab."<table name=\"".$name."\" tablename=\"".$table_name."\" primary=\"yes\" />\n";
+	$res .= $tab.$tab."</tables>\n";
+	$res .= $tab."</datasource>\n";
+	$res .= $tab."<properties>\n";
 	return $res;
 }
 
-function xml_colonne( $col_infos, $table_name_abr) {
+function xml_colonne( $col_infos, $table_name_abr, $tab) {
 	$res = '';
 	// type="autoincrement" Extra=auto_increment
 	$type = "!!!! ".strtok( $col_infos['Type'], "(" )." !!!!";
@@ -119,13 +123,17 @@ function xml_colonne( $col_infos, $table_name_abr) {
 	$required = ($col_infos["Null"]=="NO") ? ' required="yes"' : ' required="no"';
 	$captioni18n = ' captioni18n="dao.'.$table_name_abr.'.fields.'.$col_infos['Field'].'"';
 
-	$res .= "\t\t<property name=\"".$col_infos['Field']."\" fieldname=\"".$col_infos['Field']."\" pk=\"".($col_infos['Key']=="PRI"?"yes":"no")."\" type=\"".$type."\"".$required.$captioni18n." />\n";
+	$res .= $tab.$tab."<property name=\"".$col_infos['Field']."\" fieldname=\"".$col_infos['Field']."\" pk=\"".($col_infos['Key']=="PRI"?"yes":"no")."\" type=\"".$type."\"".$required.$captioni18n." />\n";
 	return $res;
 }
 
-function xml_end( ) {
+function xml_end($tab) {
 	$res = '';
-  $res .= "\t</properties>\n";
+  $res .= $tab."</properties>\n";
+	$res .= "\n";
+	$res .= $tab."<methods>\n";
+	$res .= $tab."</methods>\n";
+	$res .= "\n";
   $res .= "</daodefinition>\n";
 	return $res;
 }

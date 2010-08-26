@@ -252,6 +252,7 @@ div.dashpanel ul li a.MOD_TELEPROCEDURES	{ background-image: url(../images/mod_t
 div.dashpanel ul li a.MOD_VISIOSCOPIA		{ background-image: url(../images/mod_visio.png); }
 div.dashpanel ul li a.MOD_MAGICMAIL			{ background-image: url(../images/mod_magicmail.png); }
 div.dashpanel ul li a.MOD_GESTIONAUTONOME	{ background-image: url(../images/mod_comptes.png); }
+div.dashpanel ul li a.MOD_CONTACT	{ background-image: url(../images/mod_liste.png); }
 
 /* SET GROUPTYPES CONTEXT COLORS */
 div.dashboard div.bu_classe div.title	{ background: #7fc3d2; }
