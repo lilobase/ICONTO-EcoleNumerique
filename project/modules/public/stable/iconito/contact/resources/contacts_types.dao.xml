@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+  <datasource>
+    <tables>
+      <table name="contacts_types" tablename="module_contacts_types" primary="yes" />
+    </tables>
+  </datasource>
+  <properties>
+    <property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.contacts_types.fields.id" />
+    <property name="contact" fieldname="contact" pk="no" type="integer" required="yes" captioni18n="dao.contacts_types.fields.contact" />
+    <property name="nom" fieldname="nom" pk="no" type="string" required="yes" captioni18n="dao.contacts_types.fields.nom" />
+    <property name="is_default" fieldname="is_default" pk="no" type="integer" required="no" captioni18n="dao.contacts_types.fields.is_default" />
+    <property name="ordre" fieldname="ordre" pk="no" type="integer" required="yes" captioni18n="dao.contacts_types.fields.ordre" />
+  </properties>
+
+  <methods>
+
+    <method name="findByContact" type="select">
+      <parameters>
+        <parameter name="contact" />
+      </parameters>
+      <conditions>
+        <condition property="contact" operator="=" value="$contact" />
+      </conditions>
+      <order>
+        <orderitem property="ordre" way="asc" />
+      </order>
+		</method>
+
+
+  </methods>
+
+</daodefinition>
