@@ -8,7 +8,7 @@
 	{* if $modules neq null *}
 	<div class="dashpanel {$node_type|lower}">
 		<div class="title">
-			<span>{$node_data.nom}</span>
+			<span>{if $node_data.type eq "USER_ELE"}{$node_data.prenom} {/if}{$node_data.nom}</span>
 		</div>
 		<div class="content">
                     {$node_data.content}
