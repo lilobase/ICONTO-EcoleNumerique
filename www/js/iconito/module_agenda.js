@@ -1,7 +1,7 @@
 var overPopup = false;
 var fadePopup;
 
-function displayPopupEvent (id) {
+function displayPopupEvent (id, journee) {
 	var html = $(id);
 	var cellhtml = $("div"+id);
 	var cellPos = cellhtml.cumulativeOffset();
@@ -15,7 +15,10 @@ function displayPopupEvent (id) {
 	var windowWidth = getWindowWidth()-10;
 	if(x+w>windowWidth) x = windowWidth-w-7;
 	popup.style.left=(x+32)+"px";
-	popup.style.top=(y+22)+"px";
+  if (journee)
+  	popup.style.top=(y+12)+"px";
+  else
+  	popup.style.top=(y+22)+"px";
 	popup.style.zIndex = 9999;
 	popup.innerHTML = html.innerHTML;
 	popup.style.visibility = "visible";

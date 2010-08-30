@@ -78,7 +78,7 @@ foreach((array)$arEventByDay as $jours){
 				$largeurDivEvenement = 112;
 				
 //				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
-				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\')" onmouseout="javascript:hidePopupEvent(0);" >';
+				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\',1)" onmouseout="javascript:hidePopupEvent(0);" >';
 
 				
 				
@@ -257,7 +257,7 @@ $iJour = 1;
 				    }
 					$html2 .= '</div>';
 					
-         	$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\')" onmouseout="javascript:hidePopupEvent(0);" >';
+         	$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\',0)" onmouseout="javascript:hidePopupEvent(0);" >';
 	
 					$html .= $html2;
 	
