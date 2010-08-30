@@ -1,16 +1,13 @@
-.popupAgenda{
+div#div_agendas {
 	background-color: #ffffff;
 	border:1px solid #ABABAB;
 	padding:3px;
-  position:absolute;
-  display:inline;
-	width: 250px;
-  margin-top: 12px;
-  margin-left: -250px;
+  display:none;
   z-index:2000;
   text-align:right;
+  margin-top:-5px;
 }
-.popupAgenda div.titreAgenda {
+div#div_agendas div.titreAgenda {
 	clear:right;
 	margin:2px;
 }

@@ -18,6 +18,7 @@ body {
 
 .show 	{ visibility: show; }
 .hidden { visibility: hidden; display: none; }
+.displayNone { display: none; }
 
 .left 	{ text-align: left; }
 .center	{ text-align: center; }
