@@ -15,6 +15,11 @@ class DAOGroupe {
 		
 		$criteres->addCondition ('is_open', '=', 1);
 		
+    if(CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+  		$criteres->addCondition ('id', '!=', $groupeAssistance);
+    }
+    
+    
 		// Découpage du pattern
 		if ($kw) {
 	  	$testpattern=str_replace(array(" ","%20"), "%20", $kw);

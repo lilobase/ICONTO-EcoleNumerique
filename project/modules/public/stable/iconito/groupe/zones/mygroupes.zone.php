@@ -31,7 +31,11 @@ class ZoneMyGroupes extends CopixZone {
 		$groupes = array();
 		
 		foreach ($groupesAll as $k=>$gr) {
-
+      
+      if(CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $gr->id==$groupeAssistance) {
+  		  continue;
+      }
+      
 			$mondroit = $kernel_service->getLevel( "CLUB", $groupesAll[$k]->id);
 			//print_r($mondroit."-".PROFILE_CCV_READ);
 			// Affichage sur la page d'accueil limité aux groupes dont on est admin.

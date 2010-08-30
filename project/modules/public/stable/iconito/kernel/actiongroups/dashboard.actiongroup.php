@@ -43,6 +43,14 @@ class ActionGroupDashboard extends enicActionGroup {
 		
 		$nodes = array();
 		foreach($nodes_all AS $node) {
+    
+      //var_dump($node);
+      
+      if( $node['type']=='CLUB' && CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $node['id']==$groupeAssistance) {
+        continue;
+      }
+      
+      
 			if(!isset($nodes[$node['type']])) $nodes[$node['type']] = array();
 			
 			if(!isset($nodes[$node['type']][$node['id']])) {
