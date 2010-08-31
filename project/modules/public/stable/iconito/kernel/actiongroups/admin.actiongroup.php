@@ -89,7 +89,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 							
 			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
 			
-			echo $login.";123456\n";
+			echo $eleve->nom.";".$eleve->prenom1.";".$login.";123456\n";
 		}
 
 		foreach( $ppo->user_ens AS $ens ) {
@@ -114,7 +114,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 							
 			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
 			
-			echo $login.";123456\n";
+			echo $ens->nom.";".$ens->prenom.";".$login.";123456\n";
 		}
 		
 		echo "</pre>";
