@@ -3,13 +3,13 @@
 <input type="hidden" name="parentClass" value="{$parentClass}" />
 <input type="hidden" name="parentRef" value="{$parentRef}" />
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div id="dialog-message" title="{if $id}{i18n key=groupe.modify}{else}{i18n key=groupe.new}{/if}">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
 
@@ -20,6 +20,16 @@
 	<tr>
 		<td CLASS="form_libelle">{i18n key="groupe.form.desc"}</td><td CLASS="form_saisie"><textarea class="form" style="width: 400px; height: 80px;" name="description" />{$description}</textarea></td>
 	</tr>
+  {if $id eq null}
+	<tr>
+		<td CLASS="form_libelle">{i18n key="groupe.form.rattachement"}</td><td CLASS="form_saisie">
+    {foreach from=$nodes item=node}
+      {assign var=value value=$node.type|cat:'|'|cat:$node.id}
+      <input type="radio" id="parent_{$value}" name="parent" value="{$value}"{if $parent eq $value}checked="checked"{/if}><label for="parent_{$value}"> {$node.nom|escape} {if $node.desc}({$node.desc|escape}){/if}</label><br/>      
+    {/foreach}
+		</td>
+	</tr>
+  {/if}
 	<tr>
 		<td CLASS="form_libelle">{i18n key="groupe.form.restriction"}</td><td CLASS="form_saisie">
 		<INPUT TYPE="radio" NAME="is_open" VALUE="1" {if $is_open eq "1"}CHECKED{/if}> <b>{i18n key="groupe.isOpen1"}</b> : {i18n key="groupe.form.isOpen1Info"}<br/>

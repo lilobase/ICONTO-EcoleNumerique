@@ -10,7 +10,7 @@ _classInclude('teleprocedures|teleproceduresservice');
 
 require_once(COPIX_UTILS_PATH.'CopixUtils.lib.php');
 
-class ActionGroupAdmin extends CopixActionGroup {
+class ActionGroupAdmin extends EnicActionGroup {
 	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');

@@ -8,7 +8,7 @@
 
 _classInclude('teleprocedures|teleproceduresservice');
 
-class ActionGroupDefault extends CopixActionGroup {
+class ActionGroupDefault extends EnicActionGroup {
 	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');

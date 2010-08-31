@@ -172,6 +172,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$titre = $description = $membres = NULL;
 		$is_open = 1;
 		$errors = array();
+    $nodes = array();
 		
 		if ($id) {	// Modification
 			$tplTitle = CopixI18N::get ('groupe|groupe.modify');
@@ -194,16 +195,29 @@ class ActionGroupGroupe extends CopixActionGroup {
 		
 			if (!$groupeService->canMakeInGroupe('ADD_GROUP',NULL))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
-
-			if ( _currentUser()->getExtraHome('type') && _currentUser()->getExtraHome('id') ) {
-				$parentClass = _currentUser()->getExtraHome('type');
-				$parentRef   = _currentUser()->getExtraHome('id');
-			} else {
-				// Pas de parent pour la creation d'un groupe -> attache a ROOT/0  (FM 14/11/2008)
-				// $errors[] = CopixI18N::get ('groupe|groupe.error.noParentClass');
+      
+      
+      // On regarde a quoi on pourrait rattacher le groupe
+      $nodes_all = Kernel::getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
+      foreach($nodes_all AS $node) {
+        if( $node['type']=='CLUB' && CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $node['id']==$groupeAssistance) {
+          continue;
+        }
+        if ($node['type'] == 'BU_CLASSE' || $node['type'] == 'BU_ECOLE' || $node['type'] == 'BU_VILLE') {
+          $nodes[] = $node;
+        }
+      }
+      
+      $nbNodes = count($nodes);
+			if ($nbNodes==1) {
+				$parentClass = $nodes[0]['type'];
+				$parentRef   = $nodes[0]['id'];
+			} elseif ($nbNodes==0) { // Pas de parent pour la creation d'un groupe -> attache a ROOT/0  (FM 14/11/2008)
 				$parentClass = "ROOT";
 				$parentRef   = 0;
-			}
+			} else { // Plus d'un noeud, on proposera le choix
+        $parentClass = $parentRef = '';
+      }
 		}
 
 		if ($errors) {
@@ -215,6 +229,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$is_open = $this->getRequest ('is_open', $is_open);
 			$membres = $this->getRequest ('membres', $membres);
 			$his_modules = $this->getRequest ('his_modules', array());
+			$parent = _request ('parent');
 
 			if ($id) {	// Modif d'un groupe, on cherche ses modules
 				$his_modules = array();
@@ -232,6 +247,10 @@ class ActionGroupGroupe extends CopixActionGroup {
 				$modules[$k]->module_name = Kernel::Code2Name ($tmp->module_type);
 				$modules[$k]->module_desc = Kernel::Code2Desc ($tmp->module_type);
 			}
+      
+      if (!$errors && !$id && !$parent) {
+        $parent = _currentUser()->getExtraHome("type").'|'._currentUser()->getExtraHome("id");
+      }
 		
 			$tpl->assign ('TITLE_PAGE', $tplTitle);
 			if ($id)
@@ -249,6 +268,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$tplForm->assign ("his_modules", $his_modules);
 			$tplForm->assign ('linkpopup', CopixZone::process ('annuaire|linkpopup', array('field'=>'membres')));
 			$tplForm->assign ("errors", $errors);
+			$tplForm->assign ("nodes", $nodes);
+			$tplForm->assign ("parent", $parent);
 			$result = $tplForm->fetch("formedit.tpl");
 
 			$tpl->assign ("MAIN", $result);
@@ -285,6 +306,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$id = $this->getRequest ('id', null);
 		$parentClass = $this->getRequest ('parentClass', null);
 		$parentRef = $this->getRequest ('parentRef', null);
+		$parent = $this->getRequest ('parent', null);
 		
 		if ($id) {	// Modification
 			$groupe = $dao->getGroupe($id);
@@ -297,7 +319,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		} else {	// Nouveau groupe
 			if (!$groupeService->canMakeInGroupe('ADD_GROUP',NULL))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
-			if (!$parentClass)	$errors[] = CopixI18N::get ('groupe|groupe.error.noParentClass');
+			if (!$parentClass && !$parentRef && !$parent)	$errors[] = CopixI18N::get ('groupe|groupe.error.noParentClass');
 		}
 		
 		if ($errors)
@@ -346,7 +368,11 @@ class ActionGroupGroupe extends CopixActionGroup {
 				else
 					$tabInscrits[$userInfo["user_id"]] = $userInfo["user_id"];
 			}
-				
+			
+      if ($parent) {
+        list($parentClass, $parentRef) = explode('|', $parent);
+      }
+      
 			if (!$errors) {
 				$serv = CopixClassesFactory::create("GroupeService");
 				$create = $serv->createGroupe ($titre, $description, $is_open, $createurId, $tabInscrits, $his_modules, $parentClass, $parentRef);
@@ -357,7 +383,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		}
 
 		if ($errors)
-			return CopixActionGroup::process ('groupe|groupe::getEdit', array ('id'=>$id, 'titre'=>$titre, 'description'=>$description, 'is_open'=>$is_open, 'membres'=>$membres, 'his_modules'=>$his_modules, 'errors'=>$errors));
+			return CopixActionGroup::process ('groupe|groupe::getEdit', array ('id'=>$id, 'titre'=>$titre, 'description'=>$description, 'is_open'=>$is_open, 'membres'=>$membres, 'his_modules'=>$his_modules, 'errors'=>$errors, 'parent'=>$parent));
 
 		if ($id)
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)));

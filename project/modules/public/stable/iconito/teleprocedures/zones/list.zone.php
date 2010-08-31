@@ -30,8 +30,11 @@ class ZoneList extends CopixZone {
 		$sqlSelectPlus = $sqlFromPlus = $sqlWherePlus = '';
 		$ville = false;
 		
+    $params = array();
+    
 		if (TeleproceduresService::getTelepProfil()=='DIRECTEUR') {
-			$sqlWherePlus = " AND ITV.idetabliss="._currentUser()->getExtraHome('id');	
+			$sqlWherePlus = " AND ITV.idetabliss = :ecole";
+      $params[':ecole'] = TeleproceduresService::getTelepEcole();	
 		} else { // Compte ville : on ne prend que les teleprocedures qui le concerne
 
 			$sqlSelectPlus = ', DR.droit';
@@ -64,7 +67,7 @@ class ZoneList extends CopixZone {
 		
 		$sql .= ' ORDER BY dateinter DESC, idinter DESC';
     //echo $sql;
-    $liste = _doQuery ($sql);
+    $liste = _doQuery ($sql, $params);
     
 		if ($ville) {
 			foreach ($liste as &$l) {

@@ -28,7 +28,8 @@ class TeleproceduresService {
 	 * @return integer Id de l'ecole, ou NULL si aucune (anormal)
 	 */
 	function getTelepEcole () {
-		return (_currentUser()->getExtraHome('type')=='BU_ECOLE') ? _currentUser()->getExtraHome('id') : null;
+    $myNode = CopixSession::get ('myNode');
+		return ($myNode && $myNode['type']=='BU_ECOLE') ? $myNode['id'] : null;
 	}
 	
 	
