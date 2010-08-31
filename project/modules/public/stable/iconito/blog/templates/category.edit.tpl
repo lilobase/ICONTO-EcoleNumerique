@@ -26,8 +26,8 @@
 	 
 <input type="hidden" name="id_bacg" value="{$category->id_bacg}">
 <input type="hidden" name="id_blog" value="{$id_blog}">
-<input type="submit" class="form_button" value="{i18n key="copix:common.buttons.ok"}" />
-<input type="button" class="form_button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|showBlog" id_blog=$id_blog kind=$kind}'" />
+<input type="submit" class="button button-confirm" value="{i18n key="copix:common.buttons.ok"}" />
+<input type="button" class="button button-cancel" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|showBlog" id_blog=$id_blog kind=$kind}'" />
 	</td></tr>
 </table>
 

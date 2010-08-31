@@ -7,7 +7,7 @@
 	  <!-- ----------------------------------------------------------- -->
 		
 				<DIV STYLE="float:right;">
-<input style="" class="form_button" onclick="self.location='{copixurl dest="blog|admin|prepareEditCategory" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.new"}" />
+<input style="" class="button button-add" onclick="self.location='{copixurl dest="blog|admin|prepareEditCategory" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.new"}" />
 		</DIV><H1>{i18n key="blog.nav.categories"}</H1>
 		
 		{if count($tabArticleCategory)}

@@ -102,13 +102,14 @@ jQuery(document).ready(function($){
 		});
 		
 		/* SUBMENU DROP DOWN PANEL BEHAVIOR */
+/*
 		$('#submenu > .menutab').hover(function(){
 			$(this).parent().find('.menuitems').slideDown(100).show();
 			$(this).parent().hover(function(){}, function(){  
 				$(this).parent().find('.menuitems').slideUp(400);  
 			});
 		});
-
+*/
 		/* LOGIN BUTTON BEHAVIOR */
 		$('.logout').mouseover(function () {
 				$(this).addClass("logout_on");

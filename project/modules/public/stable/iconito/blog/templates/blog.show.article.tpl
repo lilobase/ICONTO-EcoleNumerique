@@ -6,7 +6,7 @@
 	  <!-- ----------------------------------------------------------- -->
 	  <!-- ----------------------------------------------------------- -->
 		<DIV STYLE="float:right;">
-<input style="" class="form_button" onclick="self.location='{copixurl dest="blog|admin|prepareEditArticle" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.new"}" />
+<input style="" class="button button-add" onclick="self.location='{copixurl dest="blog|admin|prepareEditArticle" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.new"}" />
 		</DIV><H1>{i18n key="blog.nav.articles"}</H1>
 		
 		<form name="findArticle" action="{copixurl dest="blog|admin|showBlog" id_blog=$id_blog p=$p}" method="post" class="copixForm">
@@ -31,7 +31,7 @@
 											{/foreach}
 										</select>
 
-									<input type="submit" value="{i18n key="blog.buttons.ok"}" class="form_button" />
+									<input type="submit" value="{i18n key="blog.buttons.ok"}" class="button button-confirm" />
 									
 					</DIV>
 

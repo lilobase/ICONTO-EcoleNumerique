@@ -91,9 +91,9 @@ function doUrl (pUrl) {
 		 <tr><td colspan="2" CLASS="form_submit">
 	<input type="hidden" name="id_bact" value="{$article->id_bact}">
 	<input type="hidden" name="id_blog" value="{$id_blog}">
-	<input type="submit" class="form_button" value="{i18n key='blog.button.previsu'}" onClick="goBlog(this.form, 'preview');" />
-	<input type="submit" class="form_button" value="{i18n key="copix:common.buttons.ok"}"  onClick="goBlog(this.form, 'save');" />
-	<input type="button" class="form_button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|showBlog" id_blog=$id_blog kind=$kind}'" />
+	<input type="submit" class="button button-view" value="{i18n key='blog.button.previsu'}" onClick="goBlog(this.form, 'preview');" />
+	<input type="submit" class="button button-confirm" value="{i18n key="copix:common.buttons.ok"}"  onClick="goBlog(this.form, 'save');" />
+	<input type="button" class="button button-cancel" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|showBlog" id_blog=$id_blog kind=$kind}'" />
 		</td></tr>
 	</table>
 	</form>

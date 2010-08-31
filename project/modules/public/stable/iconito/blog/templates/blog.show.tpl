@@ -9,7 +9,7 @@
 	  <!-- ----------------------------------------------------------- -->
 	  <!-- ----------------------------------------------------------- -->
 				<DIV CLASS="" STYLE="float:right">
-<input style="" class="form_button" onclick="self.location='{copixurl dest="blog|admin|prepareEditBlog" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.update"}" />
+<input style="" class="button button-update" onclick="self.location='{copixurl dest="blog|admin|prepareEditBlog" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.update"}" />
 		</DIV>		<H1>{i18n key="blog.nav.options"}</H1>
 
 		

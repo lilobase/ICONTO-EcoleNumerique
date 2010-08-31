@@ -33,7 +33,7 @@
 
 <br />
 <div align="right">
-<input class="form_button" type="submit" value="{i18n key="comptes|comptes.form.submit"}" />
+<input class="button button-confirm" type="submit" value="{i18n key="comptes|comptes.form.submit"}" />
 </div>
 
 </form>

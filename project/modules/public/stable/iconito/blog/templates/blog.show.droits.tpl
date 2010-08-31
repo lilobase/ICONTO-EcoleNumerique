@@ -74,7 +74,7 @@
 
 {select name="droit" values=$droit_values selected=$droit extra='class="form"'}
 
-<input style="" class="form_button" type="submit" value="{i18n key="groupe|groupe.btn.subscribe"}" />
+<input style="" class="button button-confirm" type="submit" value="{i18n key="groupe|groupe.btn.subscribe"}" />
 
 
 </TD>

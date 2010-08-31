@@ -18,6 +18,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 
 	}
 
+
 	/**
     * Afficage de la liste des articles d'un blog.
     */
@@ -56,17 +57,19 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			}
 		}
 	
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo("MOD_BLOG", $blog->id_blog);
 		$blog->parent = $parent;
-		if ($parent['type']=='CLUB') {
+/*		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			if (GroupeService::canMakeInGroupe('VIEW_HOME', $droit))
 				$menu[] = array('url'=>CopixUrl::get ('groupe||getHome', array("id"=>$parent['id'])), 'txt'=>CopixI18N::get ('blog.menuToGroup'));
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
-		
+*/		
+		$menu = getBlogAdminMenu($blog);
+
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
 							
 		$tpl = & new CopixTpl ();
@@ -128,11 +131,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
 		}
 		
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
-		if ($parent['type']=='CLUB') {
+/*		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
 			if (GroupeService::canMakeInGroupe('VIEW_HOME', $droit))
@@ -140,6 +143,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
+*/
+		$menu = $this->getBlogAdminMenu($blog);
+
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
 		
@@ -205,10 +211,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
 		}
 
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
+/*
 		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
@@ -217,6 +224,8 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
+*/
+		$menu = $this->getBlogAdminMenu($blog);
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
 		
@@ -281,10 +290,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
 		}
 
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
+/*
 		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
@@ -294,6 +304,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 	
+*/
+		$menu = $this->getBlogAdminMenu($blog);
+
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
 		
 		$tpl = & new CopixTpl ();
@@ -417,10 +430,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 					
 		}
 		
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
+/*
 		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
@@ -429,7 +443,10 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
+*/
 		//print_r($menu);
+		$menu = $this->getBlogAdminMenu($blog);
+
 		$tpl->assign ('MENU', $menu);
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
@@ -585,9 +602,6 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		header("HTTP/1.0 404 Not Found");
 		return new CopixActionReturn (COPIX_AR_NONE, 0);
 	}
-
-
-
-
+	
 }
 ?>

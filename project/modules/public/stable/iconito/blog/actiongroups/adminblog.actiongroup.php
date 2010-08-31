@@ -159,6 +159,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			}
 		}
 		
+/*
 		$menu = array();
 		
 		$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.blog'),'type' => 'read', 'size'=> 'small', 'url'=>CopixUrl::get ('|', array("blog"=>$blog->url_blog)));
@@ -186,6 +187,8 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 
 		if (BlogAuth::canMakeInBlog("ADMIN_STATS", $blog))
 			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.stats'),'type' => 'results', 'size'=> 'small', 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>9)));
+*/
+		$menu = getBlogAdminMenu($blog, $kind);
 
 //		$returntoparent = Kernel::menuReturntoParent( "MOD_BLOG", $id_blog );
 //		if( $returntoparent ) $menu[] = $returntoparent;

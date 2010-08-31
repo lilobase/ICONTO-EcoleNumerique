@@ -44,9 +44,9 @@
 	  	<td CLASS="form_saisie"><textarea class="form" style="width:400px; height: 200px;" name="content_bacc">{$comment->content_bacc|escape}</textarea></td>
    </tr>
 	 <tr><td colspan="2" CLASS="form_submit">
-	 <input type="submit" class="form_button" value="{i18n key="copix:common.buttons.ok"}" />
-<input type="button" class="form_button" value="{i18n key="copix:common.buttons.delete"}" onclick="javascript:window.location='{copixurl dest="blog|admin|deleteComment" id_blog=$id_blog id_bact=$id_bact id_bacc=$id_bacc}'" />
-<input type="button" class="form_button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|listComment" id_blog=$id_blog id_bact=$id_bact}'" />
+	 <input type="submit" class="button button-confirm" value="{i18n key="copix:common.buttons.ok"}" />
+<input type="button" class="button button-cancel" value="{i18n key="copix:common.buttons.delete"}" onclick="javascript:window.location='{copixurl dest="blog|admin|deleteComment" id_blog=$id_blog id_bact=$id_bact id_bacc=$id_bacc}'" />
+<input type="button" class="button button-list" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|listComment" id_blog=$id_blog id_bact=$id_bact}'" />
 
 	 </td>
 	 </tr>

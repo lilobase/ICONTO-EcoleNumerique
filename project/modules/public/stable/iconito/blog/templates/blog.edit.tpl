@@ -52,11 +52,11 @@
 
 	 <tr><td colspan="2" CLASS="form_submit">
 <input type="hidden" name="id_blog" value="{$blog->id_blog}">
-<input type="submit" class="form_button" value="{i18n key="copix:common.buttons.ok"}" />
+<input type="submit" class="button button-confirm" value="{i18n key="copix:common.buttons.ok"}" />
 {if ($kind==null) or ($id_blog==null)}
-	<input class="form_button" type="button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|listBlog"}'" />
+	<input class="button button-cancel" type="button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|listBlog"}'" />
 {else}
-	<input class="form_button" type="button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|showBlog" id_blog=$id_blog kind=$kind}'" />
+	<input class="button button-cancel" type="button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|showBlog" id_blog=$id_blog kind=$kind}'" />
 {/if}
 	 
 	</td>	 
