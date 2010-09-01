@@ -1652,14 +1652,27 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$personnelEntiteDAO->insert ($newPersonnelEntite);
 		
+		$node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
+
+		// Enseignant : enregistrement kernel_bu_personnel_entite ecole
+		if ($type_ref == 'CLASSE' && $type_user == 'USER_ENS') {
+		  
+		  $newPersonnelEntite = _record ('kernel|kernel_bu_personnel_entite');
+
+  		$newPersonnelEntite->pers_entite_id_per    = $ppo->personnel->pers_numero; 
+  		$newPersonnelEntite->pers_entite_reference = $node_infos['ALL']->cla_ecole;
+  		$newPersonnelEntite->pers_entite_type_ref  = 'ECOLE';
+  		$newPersonnelEntite->pers_entite_role      = $ppo->role;
+
+  		$personnelEntiteDAO->insert ($newPersonnelEntite);
+		}
+		
 		$session = _sessionGet ('modules|gestionautonome|createAccount');
 		if (!$session || !is_array ($session)) {
 		  
 		  $session = array();
 		}
-		
-		$node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
-		
+
 		$session[0] = array(
 		  'lastname'  => $ppo->personnel->pers_nom,
 			'firstname' => $ppo->personnel->pers_prenom1,
@@ -3943,6 +3956,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
+	  
+	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
 
 	  switch ($ppo->nodeType) {
 			case 'BU_GRVILLE' :
@@ -3977,6 +3992,19 @@ class ActionGroupDefault extends CopixActionGroup {
 
           $personEntityDAO->insert ($newPersonEntity);
         }
+        
+        if ($type_ref == 'CLASSE' && !$personEntityDAO->getByIdReferenceAndType ($personId, $nodeInfos['ALL']->cla_ecole, 'ECOLE')) {
+
+          // Création de l'association kernel_bu_personnel_entite ecole (pour les enseignants)
+          $newPersonEntity = _record ('kernel|kernel_bu_personnel_entite');
+
+          $newPersonEntity->pers_entite_id_per    = $personId;
+          $newPersonEntity->pers_entite_reference = $nodeInfos['ALL']->cla_ecole;
+          $newPersonEntity->pers_entite_type_ref  = 'ECOLE';
+          $newPersonEntity->pers_entite_role      = $ppo->role;
+
+          $personEntityDAO->insert ($newPersonEntity);
+        }
   	  }
 	  }
 	  
@@ -3989,9 +4017,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $personDAO    = _ioDAO ('kernel|kernel_bu_personnel');
 	  $ppo->persons = $personDAO->findPersonnelsForAssignment ($ppo->nodeId, $type_ref, $ppo->listFilters);
 	  $ppo->save    = 1;
-    
-    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-    
+
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une personne existante');
@@ -4086,13 +4112,13 @@ class ActionGroupDefault extends CopixActionGroup {
 
          if (isset ($datas[2])) {
 
-           if (substr($datas[2], 0, 1) == 'M') {
+           if (strpos($datas[2], 'M') === false) {
 
-             $ppo->students[$key]['gender'] = 0;
+             $ppo->students[$key]['gender'] = 1;
            }
            else {
 
-             $ppo->students[$key]['gender'] = 1;
+            $ppo->students[$key]['gender'] = 0;
            }
          }
 

@@ -14,14 +14,13 @@ class ZoneClassroom extends CopixZone {
       
       $grade = Kernel::getAnneeScolaireCourante ()->id_as;
     }
-	  
+
 	  if (is_null($schoolId = $this->getParam('school_id'))) {
 	    
 	    $toReturn = '';
 	    return;
 	  }
 
-    $grade = _sessionGet('grade');
 	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
 	  
 	  if (_currentUser ()->testCredential ('module:school|'.$schoolId.'|classroom|create@gestionautonome')) {

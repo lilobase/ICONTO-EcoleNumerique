@@ -62,15 +62,7 @@
     </div>
     
     <div class="column-right">
-      <div class="field">
-        <label class="form_libelle"> Sexe :</label>
-        {if isset ($ppo->person->id_sexe)}
-          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
-        {else}
-          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->genderIds.0}
-        {/if}
-      </div>
-
+      
       <div class="field">
         <label for="id_par" class="form_libelle"> Relation avec l'élève :</label>
         <select class="form" name="id_par" id="id_par">
@@ -80,6 +72,15 @@
             {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->linkIds.1}
           {/if}
     	  </select>
+      </div>
+      
+      <div class="field">
+        <label class="form_libelle"> Sexe :</label>
+        {if isset ($ppo->person->id_sexe)}
+          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
+        {else}
+          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->genderIds.0}
+        {/if}
       </div>
     </div>  
     
@@ -139,6 +140,18 @@
       }).responseText;
       
       return false;
+    });
+    
+    jQuery("input[name=gender]").change(function() {
+      
+      jQuery('#id_par').val(11);
+    })
+    
+    var links = { "1":"2", "2":"1", "3":"1", "4":"2", "5":"1", "6":"2", "7":"1", "8":"2" };
+    jQuery('#id_par').change(function() {
+      
+      var genderId = links[jQuery(this).val()];
+      jQuery("input[name=gender][value="+genderId+"]").attr("checked", "checked"); 
     });
   });
 //]]> 

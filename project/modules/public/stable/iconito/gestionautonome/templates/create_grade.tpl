@@ -26,14 +26,15 @@
     </div>
     <div class="field">
       <label for="dateFin" class="form_libelle"> Année courante :</label>
-      <input class="form" type="checkbox" name="current" id="current" {if $ppo->grade->current} checked=checked{/if}" />
+      <input class="form" type="checkbox" name="current" id="current" />
     </div>
-</form>
+  </fieldset>
 
-<ul class="actions">
-  <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-</ul>
+  <ul class="actions">
+    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
+	  <li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
+  </ul>
+</form>
 
 {literal}
 <script type="text/javascript">

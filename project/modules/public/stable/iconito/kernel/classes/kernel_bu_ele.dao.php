@@ -97,7 +97,7 @@ class DAOKernel_bu_ele {
     }
     elseif (isset ($filters['city'])) {
       
-      $sql .= ' AND ECO.id_ville='.$filters['city'];
+      $sql .= ' AND V.id_vi='.$filters['city'];
     }
     elseif (isset ($filters['groupcity'])) {
       
