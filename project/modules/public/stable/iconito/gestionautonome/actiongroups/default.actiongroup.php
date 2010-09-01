@@ -4114,7 +4114,7 @@ class ActionGroupDefault extends CopixActionGroup {
 
            if (strpos($datas[2], 'M') === false) {
 
-             $ppo->students[$key]['gender'] = 0;
+             $ppo->students[$key]['gender'] = 2;
            }
            else {
 
@@ -4151,7 +4151,7 @@ class ActionGroupDefault extends CopixActionGroup {
                  }
                  else {
 
-                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 0;
+                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 2;
                  }
                  break;
                case 3: 
