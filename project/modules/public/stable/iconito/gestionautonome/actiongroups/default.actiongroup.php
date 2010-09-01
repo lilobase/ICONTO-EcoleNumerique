@@ -4114,11 +4114,11 @@ class ActionGroupDefault extends CopixActionGroup {
 
            if (strpos($datas[2], 'M') === false) {
 
-             $ppo->students[$key]['gender'] = 1;
+             $ppo->students[$key]['gender'] = 0;
            }
            else {
 
-            $ppo->students[$key]['gender'] = 0;
+            $ppo->students[$key]['gender'] = 1;
            }
          }
 
@@ -4147,11 +4147,11 @@ class ActionGroupDefault extends CopixActionGroup {
                case 2:
                  if (substr($datas[$cpt], 0, 1) == 'M') {
 
-                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 0;
+                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 1;
                  }
                  else {
 
-                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 1;
+                   $ppo->students[$key]['person'][$keyPerson]['gender'] = 0;
                  }
                  break;
                case 3: 
