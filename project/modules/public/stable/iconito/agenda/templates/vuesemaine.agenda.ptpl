@@ -14,11 +14,11 @@ $html  = '<div id="situ_semaine">';
 
 //éléments "semaine précédente" et "semaine suivante"
 $html .= '<div class="prev">';
-$html .= '<a href="' . CopixUrl::get('agenda|agenda|vueSemaine', array('numSemaine'=>$semaine_precedente, 'annee'=>$annee_precedente)) . '">&lt;&lt;&nbsp;' . CopixI18N::get ('agenda|agenda.message.semaine_precedente') . '</a>';
+$html .= '<a class="button button-previous" href="' . CopixUrl::get('agenda|agenda|vueSemaine', array('numSemaine'=>$semaine_precedente, 'annee'=>$annee_precedente)) . '">' . CopixI18N::get ('agenda|agenda.message.semaine_precedente') . '</a>';
 $html .= '</div>';
 
 $html .= '<div class="next">';
-$html .= '<a href="' . CopixUrl::get('agenda|agenda|vueSemaine', array('numSemaine'=>$semaine_suivante, 'annee'=>$annee_suivante)) . '">' . CopixI18N::get ('agenda|agenda.message.semaine_suivante') . '&nbsp;&gt;&gt;</a>';
+$html .= '<a class="button button-next" href="' . CopixUrl::get('agenda|agenda|vueSemaine', array('numSemaine'=>$semaine_suivante, 'annee'=>$annee_suivante)) . '">' . CopixI18N::get ('agenda|agenda.message.semaine_suivante') . '</a>';
 $html .= '</div>';
 
 $html .= '<div class="annee">';

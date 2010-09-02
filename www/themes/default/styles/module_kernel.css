@@ -338,7 +338,7 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	display: inline-block;
 	vertical-align: middle;
 	padding: 2px 2px 2px 28px;
-	width: 92px;
+	width: 84px;
 	height: 28px;
 	background-color : #f0f4f0;
 	background-position: 2px 50%;
@@ -352,10 +352,6 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	background-color: #ccc;
 	border: solid 1px #bbb;
 	color: #aaa;
-	}
-
-#submenu .menuitems ul li a.small {
-	width: 54px;
 	}
 
 #submenu .menuitems ul li a span {
@@ -385,10 +381,18 @@ span.valign {
 #submenu .menuitems a.acl			{ background-image: url(../images/menu_acl.png); }
 #submenu .menuitems a.document		{ background-image: url(../images/menu_attach.png); }
 #submenu .menuitems a.options		{ background-image: url(../images/menu_options.png); }
+#submenu .menuitems a.agendalist	{ background-image: url(../images/menu_agendalist.png); }
+#submenu .menuitems a.week			{ background-image: url(../images/menu_week.png); }
+#submenu .menuitems a.download		{ background-image: url(../images/menu_download.png); }
+#submenu .menuitems a.export		{ background-image: url(../images/menu_export.png); }
+#submenu .menuitems a.import		{ background-image: url(../images/menu_import.png); }
+#submenu .menuitems a.addfile		{ background-image: url(../images/menu_addfile.png); }
+#submenu .menuitems a.addfolder		{ background-image: url(../images/menu_addfolder.png); }
+#submenu .menuitems a.write			{ background-image: url(../images/menu_write.png); }
+#submenu .menuitems a.move			{ background-image: url(../images/menu_move.png); }
+#submenu .menuitems a.copy			{ background-image: url(../images/menu_copy.png); }
 
 #submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; }
-
-
 
 /* PUBLIC DASHBOARD */
 

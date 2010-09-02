@@ -153,6 +153,9 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$tpl->assign('semaine_suivante'  , $service->dateToWeeknum(mktime(0, 0, 0, date('m', $lundi), date('d', $lundi)+7, date('Y', $lundi))));
 		$tpl->assign('annee_precedente'  , date('Y', mktime(0, 0, 0, date('m', $lundi), date('d', $lundi)-4, date('Y', $lundi))));
 		$tpl->assign('annee_suivante'    , date('Y', mktime(0, 0, 0, date('m', $lundi), date('d', $lundi)+10, date('Y', $lundi))));
+		
+		$listAgendas = $this->getParam('listAgendas',null);
+		$tpl->assign('listAgendas',$listAgendas);
 
 		$toReturn = $tpl->fetch ('vuesemaine.agenda.ptpl');
 		return true;

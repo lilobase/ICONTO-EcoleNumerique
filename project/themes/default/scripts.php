@@ -134,6 +134,22 @@ jQuery(document).ready(function($){
 		});
 
 		/* FANCY BOXES */
+		$('a.popup500x300').fancybox({
+				'width'				: 500,
+				'height'			: 240,
+				'autoScale'			: false,
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'type'				: 'iframe'
+		});
+		$('a.popup500x120').fancybox({
+				'width'				: 500,
+				'height'			: 120,
+				'autoScale'			: false,
+				'transitionIn'		: 'none',
+				'transitionOut'		: 'none',
+				'type'				: 'iframe'
+		});
 		$('a.iframe').fancybox({
 				'width'				: '75%',
 				'height'			: '75%',
@@ -150,7 +166,12 @@ jQuery(document).ready(function($){
 				'transitionOut'		: 'none',
 				'type'				: 'iframe'
 		});
-
+		
+		/* AUTOSUBMIT DU FORMULAIRE D'UNE PAGE A PARTIR D'UN APPEL MENU */
+/*		$('.autosubmit').click(function(){
+			$('form.menusubmit').submit();
+		});
+*/
 });
 
 </script>

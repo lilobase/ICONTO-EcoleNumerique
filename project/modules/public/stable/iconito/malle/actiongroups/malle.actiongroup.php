@@ -106,13 +106,15 @@ class ActionGroupMalle extends CopixActionGroup {
 			}
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $title);
+/*
 			if ($dispMenu) {
 				//$tpl->assign ('MENU', '<a href="'.CopixUrl::get (''.$parent["module"].'||go', array("id"=>$parent["id"])).'">'.CopixI18N::get ('malle|malle.backMalle').'</a>');
 				$returntoparent = Kernel::menuReturntoParent( "MOD_MALLE", $id, array('parent'=>$parent) );
 				if ($returntoparent) $menu = array($returntoparent);
 				$tpl->assign ('MENU', $menu);
 			}
-			
+*/			
+
 			$can = array(
 				'file_download'=>$malleService->canMakeInMalle("FILE_DOWNLOAD",$mondroit),
 				'file_upload'=>$malleService->canMakeInMalle("FILE_UPLOAD",$mondroit),
@@ -124,6 +126,29 @@ class ActionGroupMalle extends CopixActionGroup {
 				'item_downloadZip'=>$malleService->canMakeInMalle("ITEM_DOWNLOAD_ZIP",$mondroit),
 			);
 			//print_r($can);
+
+		// CONSTRUCTION DU MENU
+		// S.Holtz 2010.09
+		$menu = array();
+		$size = 64;
+		if ($can['file_upload']) 
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.addfile'),'type' => 'addfile', 'size' => $size, 'behavior' => 'popup500x120', 'url' => CopixUrl::get ('malle|malle|promptAddFile', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['folder_create']) 
+			$menu[] = array('txt'=>CopixI18N::get ('malle.menu.addfolder'),'type' => 'addfolder', 'size' => $size, 'behavior' => 'popup500x120', 'url' => CopixUrl::get ('malle|malle|promptAddFolder', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['item_copy']) 
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'popup500x120', 'autosubmit' => true, 'url' => CopixUrl::get ('malle|malle|promptCopyFile', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['item_move']) 
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'popup500x120', 'url' => CopixUrl::get ('malle|malle|promptMoveFile', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['item_rename']) 
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.rename'),'type' => 'write', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
+		if ($can['item_delete']) 
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.delete'),'type' => 'delete', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
+		if ($can['item_downloadZip']) 
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.download'),'type' => 'download', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
+		$tpl->assign ('MENU', $menu);
+		// FIN CONSTRUCTION DU MENU
+
+
 			$tplMalle = & new CopixTpl ();
 			$tplMalle->assign ('id', $id);
 			$tplMalle->assign ('folder', $folder);
@@ -147,6 +172,54 @@ class ActionGroupMalle extends CopixActionGroup {
 	}
 
 
+	// POPUP D'AJOUT DE FICHIER SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptAddFile() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		$ppo->uploadMaxSize = CopixConfig::get ('malle|uploadMaxSize');
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
+		return _arPPO ($ppo, array ('template'=>'popup_addfile.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+	}
+	
+	// POPUP D'AJOUT DE DOSSIER SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptAddFolder() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
+		return _arPPO ($ppo, array ('template'=>'popup_addfolder.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+	}
+   
+	// POPUP DE COPIE DE FICHIER SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptCopyFile() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		
+		$ppo->files = $this->getRequest ('files', array());
+		$ppo->folders = $this->getRequest ('folders', array());
+		
+		print_r($ppo->files);
+		
+		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'style="width:100%;"'));
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
+		return _arPPO ($ppo, array ('template'=>'popup_copyfile.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+	}
+   
+	// POPUP DE DEPLACEMENT DE FICHIER SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptMoveFile() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
+		return _arPPO ($ppo, array ('template'=>'popup_movefile.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+	}
+   
    /**
 	 * Affichage d'une malle en popup, permettant de sélectionner un ou plusieurs fichiers à insérer dans une zone de saisie formaté wiki (blog, forum...)
 	 * 

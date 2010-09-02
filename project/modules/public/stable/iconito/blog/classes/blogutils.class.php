@@ -30,7 +30,7 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		
 			$txt = CopixI18N::get('blog|blog.nav.blog');
 			$type = 'read';
-			$size = 'small';
+			$size = 54;
 			$current = ($action==99)? true : false;
 			$url = CopixUrl::get ('|', array("blog"=>$blog->url_blog));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -38,7 +38,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog('ADMIN_CATEGORIES', $blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.categories');
 			$type = 'tag';
-			$size = 'small';
 			$current = ($action==1)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>1));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -47,7 +46,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog('ADMIN_ARTICLES', $blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.articles');
 			$type = 'article';
-			$size = 'small';
 			$current = ($action==0)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -56,7 +54,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog('ADMIN_PAGES',$blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.pages');
 			$type = 'page';
-			$size = 'small';
 			$current = ($action==5)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>5));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -65,7 +62,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog('ADMIN_LIENS', $blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.links');
 			$type = 'link';
-			$size = 'small';
 			$current = ($action==2)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>2));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -74,7 +70,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog('ADMIN_RSS',$blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.rss');
 			$type = 'rss';
-			$size = 'small';
 			$current = ($action==6)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>6));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -83,7 +78,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.options');
 			$type = 'options';
-			$size = 'small';
 			$current = ($action==4)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>4));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -92,7 +86,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog("ADMIN_DROITS", $blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.droits');
 			$type = 'acl';
-			$size = 'small';
 			$current = ($action==8)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>8));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);
@@ -101,7 +94,6 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		if (BlogAuth::canMakeInBlog("ADMIN_STATS", $blog)) {
 			$txt = CopixI18N::get('blog|blog.nav.stats');
 			$type = 'results';
-			$size = 'small';
 			$current = ($action==9)? true : false;
 			$url = CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>9));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);

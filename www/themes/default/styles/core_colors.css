@@ -107,6 +107,16 @@ h4{
     text-align: left;
 	}
 
+.explanation {
+    text-align: left;
+    font-size: 110%;
+    line-height: 90%;
+    font-weight: normal;
+    font-style: italic;
+    margin: 0px;
+    padding: 0px;
+    margin: 8px 0px;
+	}
 /************************************************
  * Boutons
  ***********************************************/
@@ -178,6 +188,8 @@ h4{
 .button-continue	{ padding-left: 26px; background: #fff url(../images/action_continue.png) 4px 50% no-repeat; }
 .button-back		{ padding-left: 26px; background: #fff url(../images/action_back.png) 4px 50% no-repeat; }
 .button-next		{ padding-left: 26px; background: #fff url(../images/action_next.png) 4px 50% no-repeat; }
+.button-previous	{ padding-left: 26px; background: #fff url(../images/action_previous.png) 4px 50% no-repeat; }
+.button-continue	{ padding-left: 26px; background: #fff url(../images/action_continue.png) 4px 50% no-repeat; }
 .button-info		{ padding-left: 26px; background: #fff url(../images/action_info.png) 4px 50% no-repeat; }
 .button-attach		{ padding-left: 26px; background: #fff url(../images/action_attach.png) 4px 50% no-repeat; }
 .button-file		{ padding-left: 26px; background: #fff url(../images/action_attach.png) 4px 50% no-repeat; }

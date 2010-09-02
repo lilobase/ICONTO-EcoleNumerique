@@ -1,12 +1,14 @@
 <?php
-/**
- * @package petiteenfance
- * @subpackage kernel
- * @version   $Id: menu.zone.php 38 2009-08-10 15:22:15Z cbeyer $
- * @author   Christophe Beyer <cbeyer@cap-tic.fr>
- * @copyright CAP-TIC
- * @link      http://www.cap-tic.fr
- */
+/*
+	EN2010
+	-------
+	@file 		menu.zone.php
+	@version 	1.0.0b
+	@date 		2010-09-01 09:09:02 +0200 (Wed, 1 Sep 2010)
+	@author 	S.HOLTZ <sholtz@cap-tic.fr>
+
+	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
+*/
 
 /**
  * Zone affichant le menu
@@ -23,32 +25,32 @@ class ZoneMenu extends CopixZone {
 		if ($pCanClose===null) $pCanClose = true;
 		// Si le menu est defini a partir d'un tableau, creation du HTML pour affichage.
 		if( is_array($pMenu) ) {
-			$out = '';
+			$html = '';
 			$sep = '';
-			$out .= '<ul>';
-			foreach( $pMenu AS $key=>$val ) {
-								
-				$color = '';
-				if( isset($val['color'])) $color=' style="color: '.$val['color'].'"';
-
-				$target = '';
-				if( isset($val['target'])) $color=' target="'.$val['target'].'"';
-
+			$html .= '<ul>';
+			foreach( $pMenu as $key=>$val ) {
+				$url = (isset($val['url']) && trim($val['url'])!="") ? $val['url'] : '';
+				
 				$class = 'class="';
+				$class .= (isset($val['behavior'])) ? $val['behavior'].' ':'';
+				$class .= (isset($val['autosubmit']) && $val['autosubmit']) ? 'autosubmit ':'';
 				$class .= (isset($val['type'])) ? $val['type'].' ':'';
-				$class .= (isset($val['size'])) ? $val['size'].' ':'';
 				$class .= (isset($val['current']) && $val['current']) ? 'current ':'';
 				$class .= '"';
 				
-				$out .= '<li>';
-				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '<a '.$class.' '.$color.' href="'.$val['url'].'">';
-				$out .= '<span class="valign"></span>';
-				$out .= '<span>'.$val['txt'].'</span>';
-				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '</a>';
-				$out .= '</li>';
+				$style = 'style="';
+				$style .= (isset($val['size'])) ? 'width: '.$val['size'].'px;':'';
+				$style .= '"';
+				
+				$html .= '<li>';
+				$html .= '<a '.$class.' '.$style.' href="'.$url.'">';
+				$html .= '<span class="valign"></span>';
+				$html .= '<span>'.$val['txt'].'</span>';
+				$html .= '</a>';
+				$html .= '</li>';
 			}
-			$out .= '</ul>';
-			$ppo->menu = $out;
+			$html .= '</ul>';
+			$ppo->menu = $html;
 		} else {
 			$ppo->menu = '<ul><li>'.$pMenu.'</li></ul>';
 		}

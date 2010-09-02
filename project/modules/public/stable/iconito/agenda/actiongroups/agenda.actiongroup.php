@@ -99,11 +99,8 @@ class ActionGroupAgenda extends CopixActionGroup {
 				}
 			}			
 		}
-    
-    
-    
-		
-		//on arrondit à l'heure inférieure pour l'heure de début et à l'heure supérieure pour l'heure de fin
+ 
+ 		//on arrondit à l'heure inférieure pour l'heure de début et à l'heure supérieure pour l'heure de fin
 		$heureDeb = substr($heureDeb, 0, 2);
 		if(substr($heureFin, 2, 2) == 0){//si les minutes sont à 0, on arrondit à l'heure
 			$heureFin = substr($heureFin, 0, 2);
@@ -116,7 +113,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$arLecons = $agendaService->getLeconsByDay((array)$params->agendas, $dateDebutSemaine, $dateFinSemaine);
 		
 		//récupération de la liste des agendas affichés
-    $listAgendasAffiches = $obj->getAgendaAffiches();
+    	$listAgendasAffiches = $obj->getAgendaAffiches();
 
 		//template pour agenda
 		$tplAgenda = & new CopixTpl();
@@ -127,14 +124,46 @@ class ActionGroupAgenda extends CopixActionGroup {
 																								//'arCouleurAgenda'=>$arCouleurAgenda,
 																								'arLecons'=>$arLecons)));
 		
-    $title = $obj->getCurrentTitle ();
+    	$title = $obj->getCurrentTitle ();
 
 		//template principal
 		$tpl = & new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', $title['title']);
-    
-		$tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches, 'parent'=>(isset($title['parent'])?$title['parent']:''))));
+		
+		// CONSTRUCTION DU MENU
+		// S.Holtz 2010.09
+		$menu = array();
+		
+		// Affichage hebdomadaire
+		$menu_txt = CopixI18N::get('agenda.menu.back');
+		$menu_type = 'week';
+		$menu_url = CopixUrl::get ('agenda|agenda|vueSemaine');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => true, 'url' => $menu_url);
+		
+		// Liste des agendas (popup)
+		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
+		$menu_type = 'agendalist';
+		$menu_behavior = 'popup500x300';
+		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'behavior' => $menu_behavior, 'url' => $menu_url);
+		
+		// Nouvel evenement
+		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
+		$menu_type = 'create';
+		$menu_url = CopixUrl::get ('agenda|event|create');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
+		
+		// Export
+		$menu_txt = CopixI18N::get('agenda.menu.export');
+		$menu_type = 'export';
+		$menu_url = CopixUrl::get ('agenda|importexport|prepareExport');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
 
+		$tpl->assign ('MENU', $menu);
+		// FIN CONSTRUCTION DU MENU
+		
+//		$tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches, 'parent'=>(isset($title['parent'])?$title['parent']:''))));
+		
 		$tpl->assign ('MAIN', $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);	
@@ -224,5 +253,77 @@ class ActionGroupAgenda extends CopixActionGroup {
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 	}
 
+	/**
+	* Liste des agendas disponibles
+	* @author Christophe Beyer <cbeyer@cap-tic.fr> 
+	* @since 2006/08/24
+	* @param integer $id Id de l'agenda (si aucun, l'envoie dans l'agenda perso)
+	*/
+	function processAgendaList () {
+		$serviceAuth   = new AgendaAuth;
+		$serviceType   = new AgendaType;
+		$serviceAgenda = new AgendaService;
+    
+		$tpl = & new CopixTpl ();
+		
+		$agendaDispos = AgendaService::getAvailableAgenda();
+		$agendaAffiches = AgendaService::getAgendaAffiches();
+
+	    $ableToWrite = $ableToModerate = false;
+	    
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
+		foreach((array)$agendaAffiches as $id_agenda){
+			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
+      		//print_r($serviceAuth->getWriteAgenda());
+			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteAgenda()){
+				$ableToWrite = true;
+				break;
+			}
+		}
+		
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
+		foreach((array)$agendaAffiches as $id_agenda){
+			//on vérifie si l'utilisateur a les droits d'import
+			if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getModerate()){
+				$ableToModerate = true;
+				break;
+			}
+		}		
+
+		$listeFiltre = $agendaDispos;
+		//on vérifie les droits de lecture des utilisateurs
+		foreach((array)$listeFiltre as $key=>$agenda){
+			//on vérifie si l'utilisateur a les droits de lecture sur la liste des agendas
+			if($serviceAuth->getCapability($agenda->id_agenda) < $serviceAuth->getRead()){
+				unset($listeFiltre[$key]);
+			}
+		}
+				
+		//on construit le tableau de couleurs associées au type d'agenda
+		$arColorByIdAgenda = array();
+		foreach((array)$listeFiltre as $agenda){
+			$arColor = $serviceType->getColors($serviceAgenda->getTypeAgendaByIdAgenda($agenda->id_agenda));
+			$i = 0;
+			foreach($arColorByIdAgenda as $idAgenda=>$couleurAgenda){	
+				if($arColorByIdAgenda[$idAgenda] == $arColor[$i]){
+					$i = $i + 1;
+				}
+			}
+			if($i < count($arColor)){
+				$arColorByIdAgenda[$agenda->id_agenda] = $arColor[$i];
+			}
+			else{
+				$arColorByIdAgenda[$agenda->id_agenda] = $arColor[0];
+			}
+		}		
+
+		$ppo = new CopixPPO ();
+		$ppo->arColorByIdAgenda = $arColorByIdAgenda;
+		$ppo->listAgendas = $listeFiltre;
+		$ppo->agendasSelectionnes = $agendaAffiches;
+		
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
+		return _arPPO ($ppo, array ('template'=>'popup_agendalist.agenda.tpl', 'mainTemplate'=>'default|main_popup.php'));
+	}
 }
 ?>

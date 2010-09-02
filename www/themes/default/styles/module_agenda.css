@@ -1,3 +1,17 @@
+div.agendaList ul {
+	list-style: none;
+	list-style-position: outside;
+	padding: 0px;
+}
+
+div.agendaList li {
+	margin: 4px;
+	padding: 2px;
+}
+
+
+
+
 div#div_agendas {
 	background-color: #ffffff;
 	border:1px solid #ABABAB;
