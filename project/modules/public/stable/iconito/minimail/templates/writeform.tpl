@@ -1,4 +1,3 @@
-<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_minimail.js"></SCRIPT>
 
 <form action="{copixurl dest="minimail||doSend"}" method="post" ENCTYPE="multipart/form-data">
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attachment_size}">
@@ -6,12 +5,13 @@
 <input type="hidden" name="format" value="{$format}" />
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
 	<UL>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<LI>{$error}</LI>
 	{/foreach}
-	</UL></DIV>
+	</UL>
+  </div>
 {/if}
 
 {if $preview and !$errors}
@@ -33,12 +33,6 @@
 	<tr>
 		<td CLASS="form_libelle">{i18n key="minimail.form.title"}</td><td CLASS="form_saisie"><input type="text" name="title" value="{$title|escape:'htmlall'}" class="form" style="width: 400px;" maxlength="80" /></td>
 	</tr>
-	{*
-	<tr>
-		<td CLASS="form_libelle">{i18n key="minimail.form.message"}</td><td CLASS="form_saisie"><textarea class="form" style="width: 600px; height: 200px;" name="message" id="message">{$message|escape:'htmlall'}</textarea>{$wikibuttons}
-	</td>
-	</tr>
-	*}
 	<tr>
 		<td CLASS="form_libelle">{i18n key="minimail.form.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
@@ -53,10 +47,8 @@
 		
 		</td>
 	</tr>
-	<tr><td colspan="2" CLASS="form_submit"><input style="" class="form_button" onclick="self.location='{copixurl dest="minimail||getListRecv"}'" type="button" value="{i18n key="minimail.btn.cancel"}" /> <input style="" class="form_button" type="submit" onClick="goMinimail(this.form, 'save');" value="{i18n key="minimail.btn.send"}" /> <input style="" class="form_button" type="submit" onClick="goMinimail(this.form, 'preview');" value="{i18n key="minimail.btn.preview"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="minimail||getListRecv"}'" type="button" value="{i18n key="minimail.btn.cancel"}" /> <input class="button button-confirm" type="submit" onClick="goMinimail(this.form, 'save');" value="{i18n key="minimail.btn.send"}" /> <input class="button button-view" type="submit" onClick="goMinimail(this.form, 'preview');" value="{i18n key="minimail.btn.preview"}" /></td></tr>
 	
 </table>
-<p><p></p></p>
-
-
 </form>
+<p></p>

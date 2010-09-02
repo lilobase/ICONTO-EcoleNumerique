@@ -23,7 +23,9 @@ class ActionGroupMinimail extends EnicActionGroup {
    function getListRecv () {
 	 
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
-
+    
+    $this->addJs('js/iconito/module_minimail.js');
+    
 	 	$dao = _dao("minimail_to");
 		
 		//$userId = _currentUser ()->getId();
@@ -48,14 +50,16 @@ class ActionGroupMinimail extends EnicActionGroup {
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('minimail.mess_recv'));
-		$menu = '';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListRecv').'">'.CopixI18N::get ('minimail.mess_recv').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('minimail.mess_send').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getNewForm').'">'.CopixI18N::get ('minimail.mess_write').'</a>';
-		$tpl->assign ('MENU', $menu );
+    
+    $menu = array();
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get ('minimail||getListRecv'), 'current'=>true);
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get ('minimail||getListSend'));
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get ('minimail||getNewForm'));
+		$tpl->assign ('MENU', $menu);
 
 		$tplListe = & new CopixTpl ();
 		$tplListe->assign ('list', $messages);
+    
 		$tplListe->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('minimail||getListRecv'))));
 		$result = $tplListe->fetch("getlistrecv.tpl");
 
@@ -75,7 +79,9 @@ class ActionGroupMinimail extends EnicActionGroup {
 	function getListSend () {
 	 
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
-
+    
+    $this->addJs('js/iconito/module_minimail.js');
+    
 	 	$daoFrom = CopixDAOFactory::create("minimail_from");
     $daoTo = CopixDAOFactory::create("minimail_to");
 		$userId = _currentUser ()->getId();
@@ -102,11 +108,12 @@ class ActionGroupMinimail extends EnicActionGroup {
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('minimail.mess_send'));
-		$menu = '';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListRecv').'">'.CopixI18N::get ('minimail.mess_recv').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('minimail.mess_send').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getNewForm').'">'.CopixI18N::get ('minimail.mess_write').'</a>';
-		$tpl->assign ('MENU', $menu );
+		
+    $menu = array();
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get ('minimail||getListRecv'));
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get ('minimail||getListSend'), 'current'=>true);
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get ('minimail||getNewForm'));
+		$tpl->assign ('MENU', $menu);
 		
 		$tplListe = & new CopixTpl ();
 		$tplListe->assign ('list', $messages);
@@ -241,15 +248,18 @@ class ActionGroupMinimail extends EnicActionGroup {
 	function processGetNewForm () {
 
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
-
+    
+    $this->addJs('js/iconito/module_minimail.js');
+    
 		$tpl = & new CopixTpl ();
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('minimail.mess_write'));
-		$menu = '';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListRecv').'">'.CopixI18N::get ('minimail.mess_recv').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('minimail.mess_send').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getNewForm').'">'.CopixI18N::get ('minimail.mess_write').'</a>';
-		$tpl->assign ('MENU', $menu );
+		
+    $menu = array();
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get ('minimail||getListRecv'));
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get ('minimail||getListSend'));
+    $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get ('minimail||getNewForm'), 'current'=>true);
+		$tpl->assign ('MENU', $menu);
 
 
 		$idUser = _currentUser ()->getId();

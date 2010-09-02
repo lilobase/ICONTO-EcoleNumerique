@@ -1,18 +1,17 @@
-<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_minimail.js"></SCRIPT>
 
-<FORM NAME="form" ID="form" ACTION="{copixurl dest="|doDelete"}" METHOD="POST">
-<INPUT TYPE="hidden" NAME="mode" VALUE="send" ></INPUT>
+{if $list|@count}
 
-<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
-	<tr>
-		<th CLASS="liste_th">{i18n key="minimail.list.title"}</th>
-		<th CLASS="liste_th">{i18n key="minimail.list.to"}</th>
-		<th CLASS="liste_th">{i18n key="minimail.list.attach"}</th>
-		<th CLASS="liste_th">{i18n key="minimail.list.date"}</th>
-		<th CLASS="liste_th">{i18n key="minimail.list.read"}</th>
-		<th CLASS="liste_th">{i18n key="minimail.list.delete"}</th>
-	</tr>
-	{if $list neq null}
+  <FORM NAME="form" ID="form" ACTION="{copixurl dest="|doDelete"}" METHOD="POST">
+  <INPUT TYPE="hidden" NAME="mode" VALUE="send" ></INPUT>
+  <table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
+  	<tr>
+  		<th CLASS="liste_th">{i18n key="minimail.list.title"}</th>
+  		<th CLASS="liste_th">{i18n key="minimail.list.to"}</th>
+  		<th CLASS="liste_th">{i18n key="minimail.list.attach"}</th>
+  		<th CLASS="liste_th">{i18n key="minimail.list.date"}</th>
+  		<th CLASS="liste_th">{i18n key="minimail.list.read"}</th>
+  		<th CLASS="liste_th">{i18n key="minimail.list.delete"}</th>
+  	</tr>
 		{counter assign="i" name="i"}
 		{foreach from=$list item=mp}
 			{counter name="i"}
@@ -27,18 +26,16 @@
 				<td ALIGN="CENTER"><input type="checkbox" name="messages[]" value="{$mp->id}" class="noBorder"></td>
 			</tr>
 		{/foreach}
-	<tr CLASS="liste_footer">
-		<TD COLSPAN="5"></TD>
-		<TD ALIGN="CENTER"><a href="javascript: deleteMsgs();">{i18n key="minimail.btn.delete"}</a></TD>
-		</TR>
-	{else}
-		<tr>
-			<td COLSPAN="6">{i18n key="minimail.list.empty"}</td>
-		</tr>
-	{/if}
+  	<tr CLASS="liste_footer">
+  		<TD COLSPAN="5"></TD>
+  		<TD ALIGN="CENTER"><a class="button button-delete" href="javascript:deleteMsgs();">{i18n key="minimail.btn.delete"}</a></TD>
+  		</TR>
+  </table>
+  
+  {$reglettepages}
+  
+  </FORM>
 
-</table>
-
-{$reglettepages}
-
-</FORM>
+{else}
+  <p>{i18n key="minimail.list.empty"}</p>
+{/if}
