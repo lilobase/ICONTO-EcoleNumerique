@@ -1250,7 +1250,7 @@ class Kernel {
 	 * @param string  $user_type Type d'utilisateur (facultatif).
 	 * @param integer $user_id   Identifiant du noeud (facultatif).
 	 */
-	function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0 ) {
+	function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0, $full=0 ) {
 		//echo "getModEnabled( $node_type, $node_id, $user_type, $user_id)";
 		
 		$dao = _dao("kernel|kernel_mod_enabled");
@@ -1260,9 +1260,11 @@ class Kernel {
 		//print_r($modules);
 		
 		foreach ($list as $v) {
+			if(!$full) if($v->node_type=='CLUB' && $v->module_type=='MOD_MAGICMAIL') continue;
 			$v->module_nom	 = Kernel::Code2Name ($v->module_type);
 			$modules[] = clone $v;
 		}
+		// _dump($modules);
 		
 		//print_r($modules);
 		
@@ -1683,12 +1685,9 @@ class Kernel {
 	}
 
 	function createMissingModules( $node_type, $node_id ) {
-    if ($node_type == 'CLUB') return false;
 		$modavailable = Kernel::getModAvailable( $node_type );
 
-		$modenabled = Kernel::getModEnabled($node_type, $node_id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
-		
-		
+		$modenabled = Kernel::getModEnabled($node_type, $node_id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'), 1);
 		
 		$modinstalled = array();
 		foreach( $modenabled AS $module ) {
@@ -1698,6 +1697,41 @@ class Kernel {
 		//var_dump($modinstalled);
 
 		$nodeInfo = Kernel::getNodeInfo ($node_type, $node_id);
+		
+		
+		if ($node_type == 'CLUB') {
+			foreach( $modavailable AS $module ) {
+				// echo "<li>".$module->module_type."</li>";
+				if( $module->module_type == 'MOD_MAGICMAIL' ) {
+					$modname = 'magicmail';
+					
+					// _dump($modinstalled);
+					
+					// if( array_search("mod_magicmail", $modinstalled)===false ) echo "magicmail ";
+					// if( array_search("mod_blog", $modinstalled)!==false ) echo "blog ";
+					
+					if( array_search("mod_magicmail", $modinstalled)===false && array_search("mod_blog", $modinstalled)!==false ) {
+						$file     = & CopixSelectorFactory::create($modname."|".$modname);
+						$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
+						//var_dump($filePath);
+						if (is_readable($filePath)){
+							$modservice = & CopixClassesFactory::Create ($modname.'|kernel'.$modname);
+							if( method_exists( $modservice, "create" ) ) {
+								$subtitle = ($node_type=='BU_ECOLE' && isset($nodeInfo['ALL']->eco_type)) ? $nodeInfo['ALL']->eco_type : '';
+								$prenom = isset($nodeInfo['prenom']) ? $nodeInfo['prenom'] : '';
+								$modid = $modservice->create(array('title'=>trim($prenom.' '.$nodeInfo['nom']), 'subtitle'=>$subtitle, 'node_type'=>$node_type, 'node_id'=>$node_id));
+								if( $modid != null ) {
+									_dump( array( $module->module_type, $modid, $node_type, $node_id ));
+									Kernel::registerModule( $module->module_type, $modid, $node_type, $node_id );
+								}
+							}
+						}
+					}
+				}
+			}
+			return false;
+		}
+		
 		foreach( $modavailable AS $module ) {
 			//var_dump($module);
 				
@@ -1906,12 +1940,28 @@ class Kernel {
 		//$parents = Kernel::getModParent( $module_type, $module_id );
 
 		if (!isset($options['parent']))
-	    $parent = Kernel::getModParentInfo ( $module_type, $module_id );
+		    $parent = Kernel::getModParentInfo ( $module_type, $module_id );
 		else
 			$parent = $options['parent'];
 			
 		//var_dump($parent);
 		//if( sizeof($parents) ) {
+		
+		if( $parent && $module_type='MOD_MAGICMAIL' ) {
+			$mods = Kernel::getModEnabled ($parent['type'], $parent['id'], '', 0, 1);
+			$mods = Kernel::filterModuleList ($mods, 'MOD_BLOG');
+			if(count($mods)) {
+				// _dump($mods);
+				$return['txt'] = CopixI18N::get('kernel|kernel.returnto.blog' );
+				$return['url'] = CopixUrl::get ('blog|admin|showBlog', array('id_blog'=>$mods[0]->module_id, 'kind'=>4, 'id'=>$parent['id']) );
+				// blog/admin/showBlog?id_blog=5&kind=4
+				$return['node_type'] = $parent['type'];
+				$return['node_id'] = $parent['id'];
+				$return['node_name'] = $parent['nom'];
+				return($return);
+			}
+		}
+		
 		if ( $parent ) {
 			//$parent = $parents[0];
       //print_r($parent);

@@ -10,6 +10,8 @@ $getHomeAdmin					= & new CopixAction ('Groupe', 'getHomeAdmin');
 $getHomeAdminMembers	= & new CopixAction ('Groupe', 'processGetHomeAdminMembers');
 $getHomeAdminMember 	= & new CopixAction ('Groupe', 'processGetHomeAdminMember');
 $getHomeAdminModules	= & new CopixAction ('Groupe', 'getHomeAdminModules');
+$getHomeAdminMagicmail	= & new CopixAction ('Groupe', 'getHomeAdminMagicmail');
+
 $getDelete   					= & new CopixAction ('Groupe', 'getDelete');
 $doDelete   					= & new CopixAction ('Groupe', 'doDelete');
 $doUnsubscribe   			= & new CopixAction ('Groupe', 'doUnsubscribe');

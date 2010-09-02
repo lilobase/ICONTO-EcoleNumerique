@@ -786,6 +786,18 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 	}
 	
+	function getHomeAdminMagicmail() {
+		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
+		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
+		
+		$id = $this->getRequest ('id', null);
+		if( $id>0 ) {
+			$mondroit = $kernel_service->getLevel( "CLUB", $id );
+			if ($groupeService->canMakeInGroupe('ADMIN', $mondroit)) {
+				die('ok');
+			}
+		}
+	}
 
 	
    /**

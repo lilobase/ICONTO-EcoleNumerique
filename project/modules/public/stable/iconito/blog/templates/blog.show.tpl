@@ -45,6 +45,20 @@
 					{assign var="key" value="blog.default_format_articles."|cat:$blog->default_format_articles}
 					{i18n key="$key"}</td>
 		   </tr>
+		   {if $magicmail_infos}
+		   <tr>
+		      <th>{i18n key='dao.blog.fields.magicmail'}</th>
+			  	<td>
+			  		{if $magicmail_infos->login}
+			  			{i18n key='dao.blog.fields.magicmail_actif'}
+						{$magicmail_infos->login}@{$magicmail_infos->domain}
+					{else}
+						{i18n key='dao.blog.fields.magicmail_inactif'}
+					{/if}
+					<a href="{copixurl dest='magicmail|default|go' id=$magicmail_infos->id}" class="button button-update">{i18n key='dao.blog.fields.magicmail_change'}</a>
+				</td>
+		   </tr>
+		   {/if}
 		</table>
 	{/if}
 {else}

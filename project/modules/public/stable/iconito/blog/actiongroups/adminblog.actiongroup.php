@@ -195,6 +195,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('MENU', $menu);
+		// _dump($blog);
 		$tpl->assign ('MAIN', CopixZone::process ('ShowBlog',
 													array('id_blog'=>$id_blog,
 															'blog'=>$blog,

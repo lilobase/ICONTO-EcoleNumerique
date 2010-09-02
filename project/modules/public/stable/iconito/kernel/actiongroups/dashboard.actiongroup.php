@@ -44,7 +44,7 @@ class ActionGroupDashboard extends enicActionGroup {
 		$nodes = array();
 		foreach($nodes_all AS $node) {
 
-			//var_dump($node);
+			// var_dump($node);
 
 			if( $node['type']=='CLUB' && CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $node['id']==$groupeAssistance) {
 				continue;
@@ -62,6 +62,17 @@ class ActionGroupDashboard extends enicActionGroup {
 
 				// Cas des groupes : on ajoute les membres et admin, selon les droits
 				if ($node['type'] == 'CLUB') {
+					
+					/*
+					$modules_copy = $nodes[$node['type']][$node['id']]['modules'];
+					foreach( $modules_copy AS $mod_key => $mod_val ) {
+						// _dump($mod_key);
+						// _dump($mod_val);
+						// if($mod_val['module_type']=='MOD_MAGICMAIL') _dump($mod_val); 
+						if($mod_val->module_type=='MOD_MAGICMAIL') unset($nodes[$node['type']][$node['id']]['modules'][$mod_key]);
+					}
+					*/
+					
 					//_dump($nodes[$node['type']][$node['id']]['modules']);
 
 					$addModule = new CopixPPO ();
@@ -74,6 +85,7 @@ class ActionGroupDashboard extends enicActionGroup {
 
 					$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
 					$mondroit = Kernel::getLevel($node['type'], $node['id']);
+					// _dump($mondroit);
 					if ($groupeService->canMakeInGroupe('ADMIN', $mondroit)) {
 						$addModule = new CopixPPO ();
 						$addModule->node_type = $node['type'];
