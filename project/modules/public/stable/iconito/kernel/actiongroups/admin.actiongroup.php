@@ -63,7 +63,31 @@ class ActionGroupAdmin extends CopixActionGroup {
 			AND bu_type IS NULL';
 		$ppo->user_ens = CopixDB::getConnection ()->doQuery ($sql, $sql_params);
 		
-		
+		$sql = '
+			SELECT
+				P.numero, P.nom, P.prenom1 AS prenom, P.civilite, P.id_sexe,
+				PE.role,
+				KLB2U.*
+			FROM
+				kernel_bu_personnel_entite PE, kernel_bu_personnel P
+			LEFT JOIN
+				kernel_link_bu2user KLB2U ON P.numero=KLB2U.bu_id AND KLB2U.bu_type="USER_VIL"
+			WHERE PE.type_ref="ECOLE" AND (PE.role=1 OR PE.role=2) AND PE.id_per=P.numero
+			AND bu_type IS NULL';
+		$ppo->user_vil = CopixDB::getConnection ()->doQuery ($sql, $sql_params);
+
+		$sql = '
+			SELECT
+				R.numero, R.nom, R.prenom1 AS prenom, R.civilite, R.id_sexe,
+				PE.role,
+				KLB2U.*
+			FROM
+				kernel_bu_responsable R
+			LEFT JOIN
+				kernel_link_bu2user KLB2U ON R.numero=KLB2U.bu_id AND KLB2U.bu_type="USER_RES"
+			WHERE bu_type IS NULL';
+		$ppo->user_res = CopixDB::getConnection ()->doQuery ($sql, $sql_params);
+            
 		$fusible = 5;
 		echo "<pre>";
 		
@@ -89,7 +113,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 							
 			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
 			
-			echo $eleve->nom.";".$eleve->prenom.";".$login.";123456\n";
+			echo $eleve->nom.";".$eleve->prenom.";".$login.";123457\n";
 		}
 
 		foreach( $ppo->user_ens AS $ens ) {
@@ -117,6 +141,56 @@ class ActionGroupAdmin extends CopixActionGroup {
 			echo $ens->nom.";".$ens->prenom.";".$login.";123456\n";
 		}
 		
+		foreach( $ppo->user_vil AS $vil ) {
+			if($fusible--<=0) break;
+			
+			$user_infos = Kernel::getUserInfo( 'USER_VIL', $vil->numero );
+			$login = $comptes_service->createLogin( $user_infos );
+			
+			
+			$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
+			$user_new->login_dbuser = $login;
+			$user_new->password_dbuser = md5('123456');
+			$user_new->email_dbuser = '';
+			$user_new->enabled_dbuser = 1;
+								
+			_dao("kernel|kernel_copixuser")->insert( $user_new );
+
+			$bu_new = _record("kernel|kernel_bu2user2");
+			$bu_new->user_id = $user_new->id_dbuser;
+			$bu_new->bu_type = 'USER_VIL';
+			$bu_new->bu_id = $vil->numero;
+							
+			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
+			
+			echo $vil->nom.";".$vil->prenom.";".$login.";123456\n";
+		}
+		
+		foreach( $ppo->user_res AS $res ) {
+			if($fusible--<=0) break;
+			
+			$user_infos = Kernel::getUserInfo( 'USER_RES', $res->numero );
+			$login = $comptes_service->createLogin( $user_infos );
+			
+			
+			$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
+			$user_new->login_dbuser = $login;
+			$user_new->password_dbuser = md5('123456');
+			$user_new->email_dbuser = '';
+			$user_new->enabled_dbuser = 1;
+								
+			_dao("kernel|kernel_copixuser")->insert( $user_new );
+
+			$bu_new = _record("kernel|kernel_bu2user2");
+			$bu_new->user_id = $user_new->id_dbuser;
+			$bu_new->bu_type = 'USER_RES';
+			$bu_new->bu_id = $res->numero;
+							
+			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
+			
+			echo $res->nom.";".$res->prenom.";".$login.";123457\n";
+		}
+
 		echo "</pre>";
 		
 		die();
