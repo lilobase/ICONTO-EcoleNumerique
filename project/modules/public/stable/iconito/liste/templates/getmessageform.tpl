@@ -7,13 +7,13 @@
 <input type="hidden" name="go" value="preview" />
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
 	<UL>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<LI>{$error}</LI>
 	{/foreach}
 	</UL>
-	</DIV>
+	</div>
 {/if}
 
 {if $preview and !$errors}
@@ -35,7 +35,7 @@
 	<tr>
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="liste.field.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
-	<tr><td colspan="2" CLASS="form_submit"><input style="" class="form_button" onclick="self.location='{copixurl dest="liste||getListe" id=$liste}'" type="button" value="{i18n key="liste.btn.cancel"}" /> <input style="" class="form_button" type="submit" onClick="goListe(this.form, 'save');" value="{i18n key="liste.btn.save"}" /> <input style="" class="form_button" type="submit" onClick="goListe(this.form, 'preview');" value="{i18n key="liste.btn.preview"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="liste||getListe" id=$liste}'" type="button" value="{i18n key="liste.btn.cancel"}" /> <input class="button button-confirm" type="submit" onClick="goListe(this.form, 'save');" value="{i18n key="liste.btn.save"}" /> <input class="button button-view" type="submit" onClick="goListe(this.form, 'preview');" value="{i18n key="liste.btn.preview"}" /></td></tr>
 	
 </table>
 </form>
