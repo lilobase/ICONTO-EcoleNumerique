@@ -13,3 +13,7 @@
 div.members_dates_nok {
   color: #ABABAB;
 }
+
+form label {
+  display:inline;
+}
