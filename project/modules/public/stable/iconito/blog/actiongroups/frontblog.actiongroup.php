@@ -144,7 +144,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 */
-		$menu = $this->getBlogAdminMenu($blog);
+		$menu = getBlogAdminMenu($blog);
 
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
@@ -225,7 +225,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 */
-		$menu = $this->getBlogAdminMenu($blog);
+		$menu = getBlogAdminMenu($blog);
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
 		
@@ -305,7 +305,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 	
 */
-		$menu = $this->getBlogAdminMenu($blog);
+		$menu = getBlogAdminMenu($blog);
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
 		
@@ -445,7 +445,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 */
 		//print_r($menu);
-		$menu = $this->getBlogAdminMenu($blog);
+		$menu = getBlogAdminMenu($blog);
 
 		$tpl->assign ('MENU', $menu);
 		
