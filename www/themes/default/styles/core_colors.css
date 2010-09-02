@@ -298,12 +298,29 @@ form label a {
 	color: #aaa;
 	}
 
+form select {
+	border: solid 1px #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	padding: 3px;
+}
+
+form select:hover {
+	border: solid 1px #bad521;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	}
+
 input.file-attach {
 	width: 400px;
 }
 
 input.preFilled, textarea.preFilled {
     color: #cccccc;
+}
+
+form select.multicombo {
+	height: 120px;
 }
 
 /************************************************

@@ -143,7 +143,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		// Liste des agendas (popup)
 		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
 		$menu_type = 'agendalist';
-		$menu_behavior = 'popup500x300';
+		$menu_behavior = 'fancybox';
 		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
 		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'behavior' => $menu_behavior, 'url' => $menu_url);
 		
@@ -323,7 +323,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$ppo->agendasSelectionnes = $agendaAffiches;
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_agendalist.agenda.tpl', 'mainTemplate'=>'default|main_popup.php'));
+		return _arPPO ($ppo, array ('template'=>'popup_agendalist.agenda.tpl', 'mainTemplate'=>'default|main_fancy.php'));
 	}
 }
 ?>

@@ -282,7 +282,10 @@ body.thm		{ background: #bad521 url(../images/body_background.gif) repeat-x scro
 /************************************************
  * AUTRES MARQUEURS (a nettoyer)
  ***********************************************/
-
+form {
+	padding: 0px;
+	margin: 0px;
+}
 /* LISTE GENERIQUE */
 table.liste {
 	width: 98%;

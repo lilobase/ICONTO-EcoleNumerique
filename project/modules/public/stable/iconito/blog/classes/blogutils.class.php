@@ -30,7 +30,7 @@ require_once (COPIX_UTILS_PATH.'CopixUtils.lib.php');
 		
 			$txt = CopixI18N::get('blog|blog.nav.blog');
 			$type = 'read';
-			$size = 54;
+			$size = 55;
 			$current = ($action==99)? true : false;
 			$url = CopixUrl::get ('|', array("blog"=>$blog->url_blog));
 			$menu[] = array('txt'=>$txt,'type' => $type, 'size'=> $size, 'current' => $current, 'url' => $url);

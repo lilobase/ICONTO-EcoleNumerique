@@ -132,13 +132,13 @@ class ActionGroupMalle extends CopixActionGroup {
 		$menu = array();
 		$size = 64;
 		if ($can['file_upload']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.addfile'),'type' => 'addfile', 'size' => $size, 'behavior' => 'popup500x120', 'url' => CopixUrl::get ('malle|malle|promptAddFile', array('id'=>$id, 'folder'=>$folder)));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.addfile'),'type' => 'addfile', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddFile', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['folder_create']) 
-			$menu[] = array('txt'=>CopixI18N::get ('malle.menu.addfolder'),'type' => 'addfolder', 'size' => $size, 'behavior' => 'popup500x120', 'url' => CopixUrl::get ('malle|malle|promptAddFolder', array('id'=>$id, 'folder'=>$folder)));
+			$menu[] = array('txt'=>CopixI18N::get ('malle.menu.addfolder'),'type' => 'addfolder', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddFolder', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_copy']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'popup500x120', 'autosubmit' => true, 'url' => CopixUrl::get ('malle|malle|promptCopyFile', array('id'=>$id, 'folder'=>$folder)));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptCopyFile', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_move']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'popup500x120', 'url' => CopixUrl::get ('malle|malle|promptMoveFile', array('id'=>$id, 'folder'=>$folder)));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptMoveFile', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_rename']) 
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.rename'),'type' => 'write', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
 		if ($can['item_delete']) 
@@ -180,7 +180,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		$ppo->folder = $this->getRequest ('folder', 0);
 		$ppo->uploadMaxSize = CopixConfig::get ('malle|uploadMaxSize');
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_addfile.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+		return _arPPO ($ppo, array ('template'=>'popup_addfile.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
 	
 	// POPUP D'AJOUT DE DOSSIER SUR BOUTON DE MENU
@@ -190,7 +190,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		$ppo->id = $this->getRequest ('id', null);
 		$ppo->folder = $this->getRequest ('folder', 0);
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_addfolder.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+		return _arPPO ($ppo, array ('template'=>'popup_addfolder.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
 	// POPUP DE COPIE DE FICHIER SUR BOUTON DE MENU
@@ -199,15 +199,9 @@ class ActionGroupMalle extends CopixActionGroup {
 		$ppo = new CopixPPO ();
 		$ppo->id = $this->getRequest ('id', null);
 		$ppo->folder = $this->getRequest ('folder', 0);
-		
-		$ppo->files = $this->getRequest ('files', array());
-		$ppo->folders = $this->getRequest ('folders', array());
-		
-		print_r($ppo->files);
-		
-		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'style="width:100%;"'));
+		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_copyfile.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+		return _arPPO ($ppo, array ('template'=>'popup_copyfile.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
 	// POPUP DE DEPLACEMENT DE FICHIER SUR BOUTON DE MENU
@@ -216,8 +210,9 @@ class ActionGroupMalle extends CopixActionGroup {
 		$ppo = new CopixPPO ();
 		$ppo->id = $this->getRequest ('id', null);
 		$ppo->folder = $this->getRequest ('folder', 0);
+		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_movefile.tpl', 'mainTemplate'=>'default|main_popup.php'));	
+		return _arPPO ($ppo, array ('template'=>'popup_movefile.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
    /**

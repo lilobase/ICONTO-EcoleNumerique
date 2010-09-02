@@ -102,7 +102,7 @@
 {assign var="tailleFiles" value=0}
 
 </form>
-<form name="form" id="form" class="menusubmit" action="" method="post">
+<form name="form" id="remote-checker" class="menusubmit" action="" method="post">
 {if $folders neq null}
 	{foreach from=$folders item=item}
 	<DIV CLASS="malle_folder_line">{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}<DIV CLASS="malle_file_line_checked"><INPUT TYPE="checkbox" NAME="folders[]" VALUE="{$item->id}"></DIV>{/if}<DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}</DIV>
@@ -122,28 +122,7 @@
 	{/foreach}
 {else}
 {/if}
-<p><b>Results:</b> <span id="results"></span></p>
-
 </form>
-
-{literal}
-<script>
-jQuery.noConflict();
-jQuery(document).ready(function($){
-    function showValues() {
-      var fields = $('.menusubmit :input').serializeArray();
-      $('#results').empty();
-      jQuery.each(fields, function(i, field){
-        $('#results').append(field.name + " " + field.value + " - ");
-      });
-    }
-
-    $('.menusubmit :checkbox').click(showValues);
-    $('.menusubmit select').change(showValues);
-    showValues();
-});
-</script>
-{/literal}
 
 {if !$folders|@count and !$files|@count}{i18n key="malle.emptyFolder"}{/if}
 

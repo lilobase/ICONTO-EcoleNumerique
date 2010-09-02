@@ -33,7 +33,6 @@ class ZoneMenu extends CopixZone {
 				
 				$class = 'class="';
 				$class .= (isset($val['behavior'])) ? $val['behavior'].' ':'';
-				$class .= (isset($val['autosubmit']) && $val['autosubmit']) ? 'autosubmit ':'';
 				$class .= (isset($val['type'])) ? $val['type'].' ':'';
 				$class .= (isset($val['current']) && $val['current']) ? 'current ':'';
 				$class .= '"';

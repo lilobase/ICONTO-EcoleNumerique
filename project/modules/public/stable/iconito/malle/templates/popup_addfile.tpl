@@ -4,7 +4,7 @@
 {i18n key="malle.addFileZip"}
 </div>
 
-<form action="{copixurl dest="|doUploadFile"}" method="post" ENCTYPE="multipart/form-data" target="_parent">
+<form action="{copixurl dest="|doUploadFile"}" method="post" ENCTYPE="multipart/form-data">
 <input type="hidden" name="MAX_FILE_SIZE" value="{$ppo->uploadMaxSize}">
 <input type="hidden" name="id" value="{$ppo->id}" />
 <input type="hidden" name="folder" value="{$ppo->folder}" />
