@@ -72,14 +72,13 @@ class ActionGroupAdmin extends CopixActionGroup {
 				kernel_bu_personnel_entite PE, kernel_bu_personnel P
 			LEFT JOIN
 				kernel_link_bu2user KLB2U ON P.numero=KLB2U.bu_id AND KLB2U.bu_type="USER_VIL"
-			WHERE PE.type_ref="ECOLE" AND (PE.role=1 OR PE.role=2) AND PE.id_per=P.numero
+			WHERE PE.type_ref="VILLE" AND PE.role=4 AND PE.id_per=P.numero
 			AND bu_type IS NULL';
 		$ppo->user_vil = CopixDB::getConnection ()->doQuery ($sql, $sql_params);
 
 		$sql = '
 			SELECT
 				R.numero, R.nom, R.prenom1 AS prenom, R.civilite, R.id_sexe,
-				PE.role,
 				KLB2U.*
 			FROM
 				kernel_bu_responsable R
