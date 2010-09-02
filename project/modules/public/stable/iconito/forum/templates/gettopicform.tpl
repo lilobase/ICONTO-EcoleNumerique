@@ -11,13 +11,13 @@
 <input type="hidden" name="format" value="{$format}" />
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
 	<UL>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<LI>{$error}</LI>
 	{/foreach}
 	</UL>
-	</DIV>
+	</div>
 {/if}
 
 {if $preview and !$errors}
@@ -39,10 +39,8 @@
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="forum.form.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
 	{/if}
-	<tr><td colspan="2" CLASS="form_submit"><input class="form_button" onclick="self.location='{copixurl dest="forum||getForum" id=$forum}'" type="button" value="{i18n key="forum.btn.cancel"}" /> <input class="form_button" type="submit" onClick="goForum(this.form, 'save');" value="{i18n key="forum.btn.save"}" /> <input class="form_button" type="submit" onClick="goForum(this.form, 'preview');" value="{i18n key="forum.btn.preview"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="forum||getForum" id=$forum}'" type="button" value="{i18n key="forum.btn.cancel"}" /> <input class="button button-confirm" type="submit" onClick="goForum(this.form, 'save');" value="{i18n key="forum.btn.save"}" />{if $id eq null} <input class="button button-view" type="submit" onClick="goForum(this.form, 'preview');" value="{i18n key="forum.btn.preview"}" />{/if}</td></tr>
 
 </table>
-<p><p></p></p>
-
 
 </form>

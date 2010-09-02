@@ -56,7 +56,7 @@
 		{/foreach}
 		<tr CLASS="liste_footer">
 			<td colspan="7"></td>
-			<TD ALIGN="CENTER"><a href="javascript: deleteMembres();">{i18n key="groupe.btn.unsubscribe"}</a></TD>
+			<TD ALIGN="CENTER"><a class="button button-delete" href="javascript:deleteMembres();">{i18n key="groupe.btn.unsubscribe"}</a></TD>
 		</TR>
 		</table>
 		</FORM>

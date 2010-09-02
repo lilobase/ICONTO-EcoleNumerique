@@ -3,7 +3,7 @@
 			
 {if $canAddMessage eq 1}
 <DIV CLASS="" ALIGN="RIGHT">
-<input style="" class="form_button" onclick="self.location='{copixurl dest="|getMessageForm" topic=$topic->id}'" type="button" value="{i18n key="forum.btn.reply"}" />
+<input style="" class="button button-add" onclick="self.location='{copixurl dest="|getMessageForm" topic=$topic->id}'" type="button" value="{i18n key="forum.btn.reply"}" />
 </DIV>
 {/if}
 	
@@ -37,6 +37,7 @@
 		{i18n key="forum.list.noMessage"}
 	{/if}
 
+  <p>{i18n key="forum|forum.nbReads" nb=$topic->nb_lectures}</p>
 
 {$reglettepages}
 

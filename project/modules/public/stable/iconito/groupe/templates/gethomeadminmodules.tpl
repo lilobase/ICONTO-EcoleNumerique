@@ -2,17 +2,17 @@
 <input type="hidden" name="id" value="{$id}" />
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
 	<UL>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<LI>{$error}</LI>
 	{/foreach}
 	</UL>
-	</DIV>
+	</div>
 {elseif $done eq 1}
-	<DIV CLASS="message_ok">
+	<div id="dialog-message" title="">
   {i18n key="groupe.ok.saveModules"}
-	</DIV>
+	</div>
 {/if}
 
 
@@ -38,7 +38,7 @@
 		</td>
 	</tr>
 
-	<tr><td colspan="2" CLASS="form_submit"><input style="width: 55px;" class="form_button" onclick="self.location='{copixurl dest="|getHomeAdmin" id=$id}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input style="width: 75px;" class="form_button" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="|getHomeAdmin" id=$id}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
 	
 </table>
 

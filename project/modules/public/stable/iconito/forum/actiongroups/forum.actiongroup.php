@@ -107,7 +107,6 @@ class ActionGroupForum extends CopixActionGroup {
 
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $forum[0]->parent["nom"]);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get (''.$forum[0]->parent["module"].'||go', array("id"=>$forum[0]->parent["id"])).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 			
 			$tplForum = & new CopixTpl ();
 			$tplForum->assign ('forum', $forum[0]);
@@ -220,12 +219,12 @@ class ActionGroupForum extends CopixActionGroup {
 			
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $rTopic->titre);
-			$menu = CopixI18N::get ('forum|forum.nbReads', array($rTopic->nb_lectures));
-			if ($forumService->canMakeInForum('MODIFY_TOPIC',$mondroit))
-				$menu .= ' :: <A HREF="'.CopixUrl::get('forum||getTopicForm', array("id"=>$id)).'">'.CopixI18N::get ('forum|forum.btn.modify').'</A>';
-			if ($forumService->canMakeInForum('DELETE_TOPIC',$mondroit))
-				$menu .= ' :: <A HREF="'.CopixUrl::get('forum||getDeleteTopic', array("id"=>$id)).'">'.CopixI18N::get ('forum|forum.btn.delete').'</A>';
-			$menu .= ' :: <A HREF="'.CopixUrl::get('forum||getForum', array("id"=>$rTopic->forum)).'">'.CopixI18N::get ('forum|forum.backForum').'</A>';
+      
+      $menu = array();
+      if ($forumService->canMakeInForum('MODIFY_TOPIC',$mondroit))
+        $menu[] = array('txt' => CopixI18N::get('forum|forum.btn.modify'), 'url' => CopixUrl::get('forum||getTopicForm', array("id"=>$id)), 'type'=>'update');
+      if ($forumService->canMakeInForum('DELETE_TOPIC',$mondroit))
+        $menu[] = array('txt' => CopixI18N::get('forum|forum.btn.delete'), 'url' => CopixUrl::get('forum||getDeleteTopic', array("id"=>$id)), 'type'=>'delete');
 			$tpl->assign ('MENU', $menu);
 			
 			$tplForum = & new CopixTpl ();

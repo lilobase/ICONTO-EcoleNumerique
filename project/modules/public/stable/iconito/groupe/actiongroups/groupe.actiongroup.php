@@ -764,6 +764,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 			}
 			//print_r($his_modules);
 
+      CopixHTMLHeader::addCSSLink (_resource("styles/module_groupe_admin.css"));
+      
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre.' - '.CopixI18N::get ('groupe|groupe.adminModules'));
 			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdmin').'</a>');
