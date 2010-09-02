@@ -1,12 +1,12 @@
 
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
 	<UL>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<LI>{$error}</LI>
 	{/foreach}
-	</UL></DIV>
+	</UL></div>
 {elseif not $ok eq null}
 	<DIV CLASS="message_ok">
 	<UL>

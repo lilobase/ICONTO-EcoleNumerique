@@ -112,10 +112,11 @@ class ActionGroupDefault extends EnicActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
+    $MENU = array();
 		if (TeleproceduresService::canMakeInTelep('ADMIN',$mondroit))
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('admin|admin', array('id'=>$rTelep->id)).'">'.CopixI18N::get ('teleprocedures|teleprocedures.admin').'</a>');
+      $MENU[] = array('txt' => CopixI18N::get('teleprocedures|teleprocedures.admin'), 'type' => '', 'url' => CopixUrl::get ('admin|admin', array('id'=>$rTelep->id)));
 		
-		//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('teleprocedures||go', array('id'=>$go)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
+    $tpl->assign ("MENU", $MENU);
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -237,7 +238,6 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('teleprocedures.title.newTelep'));
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|go', array('id'=>$rType->teleprocedure)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 
@@ -296,7 +296,6 @@ class ActionGroupDefault extends EnicActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|listTeleprocedures', array('id'=>$rFiche->type_teleprocedure)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		
 		if (!$print) {
@@ -306,12 +305,10 @@ class ActionGroupDefault extends EnicActionGroup {
 		}
 		
 		
-		if ($print) {
+		if (0 && $print) {
 			$ppo = new CopixPPO ();
 			$ppo->result = $main;
 			$ppo->TITLE_PAGE = $title;
-		
-		
 			return _arPPO ($ppo, array ('template'=>'print_ppo.tpl', 'mainTemplate'=>'default|main_print.php'));
 		} else
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);		
@@ -368,7 +365,6 @@ class ActionGroupDefault extends EnicActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|fiche', array('id'=>$rFiche->idinter)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);		

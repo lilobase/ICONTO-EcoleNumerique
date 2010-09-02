@@ -98,7 +98,6 @@ class ActionGroupAdmin extends EnicActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|listTeleprocedures', array('id'=>$id)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -347,7 +346,6 @@ class ActionGroupAdmin extends EnicActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('admin|admin', array('id'=>$type->teleprocedure)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	
