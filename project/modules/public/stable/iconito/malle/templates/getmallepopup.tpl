@@ -8,7 +8,6 @@
 {assign var=combofolders value=$ppo->combofolders}
 
 
-
 <div id="popup_actions" class="block">
 <form name="form" id="form">
 

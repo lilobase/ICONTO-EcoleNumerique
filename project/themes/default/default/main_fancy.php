@@ -1,3 +1,19 @@
+<?php
+/*
+	@file 		main.php
+	@desc		Main layout constructor
+	@version 	1.0.0b
+	@date 		2010-05-28 09:28:09 +0200 (Fri, 28 May 2010)
+	@author 	S.HOLTZ <sholtz@cap-tic.fr>
+
+	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
+*/
+?>
+<?php
+include_once COPIX_PROJECT_PATH."themes/default/helper.php";
+
+$module = CopixRequest::get ('module');
+?>
 <div id="page">
 	<div id="contentmain">
 		<div class="<?php echo $module; ?>">
