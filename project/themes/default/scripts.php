@@ -138,8 +138,9 @@ jQuery(document).ready(function($){
 			$('a.fancybox').fancybox({
 				'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
+				'autoScale'			: true
 			});
-			$('a.fancybox').fancybox.resize();
+//			$('a.fancybox').fancybox.resize();
 		});
 		
 		$('a.iframe').fancybox({
@@ -150,7 +151,6 @@ jQuery(document).ready(function($){
 				'transitionOut'		: 'none',
 				'type'				: 'iframe'
 		});
-
 
 });
 

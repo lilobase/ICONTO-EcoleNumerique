@@ -1,3 +1,4 @@
+<div class="content-panel" style="width: 500px; min-height: 90px;">
 <h1>{i18n key="malle.addFile"}</h1>
 <div class="explanation">
 {i18n key="malle.addFileTxt" 1=$ppo->uploadMaxSize|human_file_size}<br/>
@@ -13,3 +14,4 @@
 
 <input class="button button-confirm" type="submit" value="{i18n key="malle.btn.submitAddFile"}" />
 </form>
+</div>

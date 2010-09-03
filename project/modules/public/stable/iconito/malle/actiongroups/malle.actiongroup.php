@@ -136,11 +136,11 @@ class ActionGroupMalle extends CopixActionGroup {
 		if ($can['folder_create']) 
 			$menu[] = array('txt'=>CopixI18N::get ('malle.menu.addfolder'),'type' => 'addfolder', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddFolder', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_copy']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptCopyFile', array('id'=>$id, 'folder'=>$folder)));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptCopyItems', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_move']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptMoveFile', array('id'=>$id, 'folder'=>$folder)));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptMoveItems', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_rename']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.rename'),'type' => 'write', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.rename'),'type' => 'write', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptRenameItems', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_delete']) 
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.delete'),'type' => 'delete', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
 		if ($can['item_downloadZip']) 
@@ -193,26 +193,37 @@ class ActionGroupMalle extends CopixActionGroup {
 		return _arPPO ($ppo, array ('template'=>'popup_addfolder.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
-	// POPUP DE COPIE DE FICHIER SUR BOUTON DE MENU
+	// POPUP DE COPIE SUR BOUTON DE MENU
 	// S.Holtz 2010.09
-	function processPromptCopyFile() {
+	function processPromptCopyItems() {
 		$ppo = new CopixPPO ();
 		$ppo->id = $this->getRequest ('id', null);
 		$ppo->folder = $this->getRequest ('folder', 0);
 		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_copyfile.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
+		return _arPPO ($ppo, array ('template'=>'popup_copyitems.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
-	// POPUP DE DEPLACEMENT DE FICHIER SUR BOUTON DE MENU
+	// POPUP DE DEPLACEMENT SUR BOUTON DE MENU
 	// S.Holtz 2010.09
-	function processPromptMoveFile() {
+	function processPromptMoveItems() {
 		$ppo = new CopixPPO ();
 		$ppo->id = $this->getRequest ('id', null);
 		$ppo->folder = $this->getRequest ('folder', 0);
 		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_movefile.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
+		return _arPPO ($ppo, array ('template'=>'popup_moveitems.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
+	}
+   
+	// POPUP DE RENOMMAGE SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptRenameItems() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
+		return _arPPO ($ppo, array ('template'=>'popup_renameitems.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
    /**

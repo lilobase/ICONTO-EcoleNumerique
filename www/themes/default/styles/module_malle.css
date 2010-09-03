@@ -1,3 +1,56 @@
+.malle-table {
+	width: 100%;
+	border-collapse: collapse;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+	font-size: 100%;
+}
+
+.malle-table td {
+	padding: 4px;
+}
+
+.malle-table-folder {
+	background-color: #ddd;
+	border-bottom: solid 2px #f0f4f0;
+}
+
+.malle-table-file {
+	background-color: #e9e9e9;
+	border-bottom: solid 2px #f0f4f0;
+}
+
+td.malle-table-icon {
+	width: 18px;
+}
+td.malle-table-name {
+}
+td.malle-table-content {
+	width: 120px;
+	color: #666;
+	text-align: right;
+}
+td.malle-table-size {
+	width: 60px;
+	color: #aaa;
+	font-size: 70%;
+}
+td.malle-table-edit {
+	width: 24px;
+	background: url("../images/action_update.png") no-repeat center center;
+}
+td.malle-table-action {
+	width: 24px;
+}
+
+.malle-footer {
+	padding: 6px;
+	font-size: 90%;
+}
+
+
+
 
 .malle_actions_bloc {
 	float: right;
