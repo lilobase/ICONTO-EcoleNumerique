@@ -87,9 +87,14 @@ class enicActionGroup extends CopixActionGroup {
         return $this->helpers->go($iUrl, $iParams);
     }
 
+    protected function istyReq($iVar){
+        return $this->helpers->istyReq($iVar);
+    }
+
     protected function addImg($iPath){
         $this->html->addImg($iPath);
     }
+
 
 }
 

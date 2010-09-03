@@ -69,6 +69,13 @@ class enicHelpers extends enicMod{
         return _arRedirect($this->url($iUrl, $iParams));
     }
 
+    public function isty($iVar){
+        return (isset($iVar) && !empty($iVar));
+    }
+
+    public function istyReq($iVar){
+        return $this->isty($this->request($iVar));
+    }
 
 
 }
