@@ -1,7 +1,7 @@
 <?php
 /*
-	@file 		main.php
-	@desc		Main layout constructor
+	@file 		main_fancy.php
+	@desc		Main Fancy constructor (POPUPS with overlay)
 	@version 	1.0.0b
 	@date 		2010-05-28 09:28:09 +0200 (Fri, 28 May 2010)
 	@author 	S.HOLTZ <sholtz@cap-tic.fr>
