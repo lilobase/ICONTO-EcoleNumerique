@@ -1,1 +1,0 @@
-    <h3>New Enic Module Initialized</h3>
