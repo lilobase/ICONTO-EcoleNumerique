@@ -139,12 +139,10 @@ class ActionGroupMalle extends CopixActionGroup {
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptCopyItems', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_move']) 
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptMoveItems', array('id'=>$id, 'folder'=>$folder)));
-		if ($can['item_rename']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.rename'),'type' => 'write', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptRenameItems', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_delete']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.delete'),'type' => 'delete', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.delete'),'type' => 'delete', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptDeleteItems', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_downloadZip']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.download'),'type' => 'download', 'size' => $size, 'url' => CopixUrl::get ('agenda|agenda|vueSemaine'));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.download'),'type' => 'download', 'size' => $size, 'url' => CopixUrl::get ('malle|malle|DoActionDownloadZip', array('id'=>$id, 'folder'=>$folder)));
 		$tpl->assign ('MENU', $menu);
 		// FIN CONSTRUCTION DU MENU
 
@@ -215,15 +213,14 @@ class ActionGroupMalle extends CopixActionGroup {
 		return _arPPO ($ppo, array ('template'=>'popup_moveitems.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
-	// POPUP DE RENOMMAGE SUR BOUTON DE MENU
+	// POPUP DE SUPPRESSION SUR BOUTON DE MENU
 	// S.Holtz 2010.09
-	function processPromptRenameItems() {
+	function processPromptDeleteItems() {
 		$ppo = new CopixPPO ();
 		$ppo->id = $this->getRequest ('id', null);
 		$ppo->folder = $this->getRequest ('folder', 0);
-		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
-		return _arPPO ($ppo, array ('template'=>'popup_renameitems.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
+		return _arPPO ($ppo, array ('template'=>'popup_deleteitems.tpl', 'mainTemplate'=>'default|main_fancy.php'));	
 	}
    
    /**

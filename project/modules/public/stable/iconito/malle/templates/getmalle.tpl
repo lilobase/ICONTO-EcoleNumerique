@@ -4,12 +4,11 @@
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function($){
-
 	$('#folder-checkall').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', true); });
 	$('#folder-checknone').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', false); });
 	$('#file-checkall').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', true); });
 	$('#file-checknone').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', false); });
-	
+	$('.item-rename').click (function() { $('.item-link').eq($('.item-rename').index(this)).toggle(); $('.item-field').eq($('.item-rename').index(this)).toggle(); });
 });
 </script>
 {/literal}
@@ -30,7 +29,9 @@ jQuery(document).ready(function($){
 {assign var="tailleFolders" value=0}
 {assign var="tailleFiles" value=0}
 
-<form id="remote-checker">
+<form id="remote-checker" name="renameitems" action="{copixurl dest="|doActionRename"}" method="post">
+	<input type="hidden" name="id" value="{$id}" />
+	<input type="hidden" name="folder" value="{$folder}" />
 
 {if !$folders|@count and !$files|@count}
 	{i18n key="malle.emptyFolder"}
@@ -44,10 +45,14 @@ jQuery(document).ready(function($){
 			<IMG src="{copixresource path="img/malle/icon_folder.png"}" />
 		</td>
 		<td class="malle-table-name">
-			<A HREF="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|escape}</A>
+			<a class="item-link" href="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|escape}</a>
+			<div class="item-field" style="display: none;">
+				<input type="text" name="newFolders[{$item->id}]" value="{$item->nom}" style="width: 400px;" maxlength="200"/>
+				<input type="submit" class="button button-confirm" value=""/>
+			</div>
 		</td>
 		<td class="malle-table-edit">
-			<A HREF="{copixurl dest="|getMalle" id=$id folder=$item->id}"></A>
+			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
 		</td>
 		<td class="malle-table-content">
 			{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}
@@ -72,10 +77,18 @@ jQuery(document).ready(function($){
 			<img src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" />
 		</td>
 		<td class="malle-table-name">
-			{if $can.file_download}<A HREF="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</A>{else}{$item->nom|escape}{/if}
+			{if $can.file_download}
+				<a class="item-link" href="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</a>
+			{else}
+				<span class="item-link">{$item->nom|escape}</span>
+			{/if}
+			<div class="item-field" style="display: none;">
+				<input type="text" name="newFiles[{$item->id}]" value="{$item->nom}" style="width: 400px;" maxlength="200"/>
+				<input type="submit" class="button button-confirm" value=""/>
+			</div>
 		</td>
 		<td class="malle-table-edit">
-			{if $can.file_download}{$item->nom|escape}{/if}
+			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
 		</td>
 		<td class="malle-table-content">
 			{$item->type_text}
@@ -89,7 +102,7 @@ jQuery(document).ready(function($){
 			{/if}
 		</td>
 	</tr>
-	{math equation="x+y" x=$tailleFolders y=$item->taille assign="tailleFolders"}
+	{math equation="x+y" x=$tailleFiles y=$item->taille assign="tailleFiles"}
 	{/foreach}
 {/if}
 </table>
