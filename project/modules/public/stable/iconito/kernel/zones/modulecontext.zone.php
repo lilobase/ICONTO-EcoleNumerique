@@ -55,6 +55,7 @@ class ZoneModuleContext extends enicZone {
           //_dump(_request('module'));
           //_dump($nodes[$node['type']][$node['id']]['modules']);
           
+          /*
           $addModule = new CopixPPO ();
           $addModule->node_type = $myNode['type'];
           $addModule->node_id = $myNode['id'];
@@ -74,7 +75,16 @@ class ZoneModuleContext extends enicZone {
             $addModule->module_nom = CopixI18N::get ('groupe|groupe.group.admin');
             $modules[] = $addModule;
           }
-          
+          */
+        	
+          $addModule = new CopixPPO ();
+          $addModule->node_type = $myNode['type'];
+          $addModule->node_id = $myNode['id'];
+          $addModule->module_type = 'MOD_ADMIN';
+          $addModule->module_id = 0;
+          $addModule->module_nom = CopixI18N::get ('groupe|groupe.group.admin');
+          $modules[] = $addModule;
+        	        	
           // Patch pour highlight des membres et de l'admin
           if ($curmod == 'groupe' && _request('action')=='getHomeMembers')
             $curmod = 'comptes';

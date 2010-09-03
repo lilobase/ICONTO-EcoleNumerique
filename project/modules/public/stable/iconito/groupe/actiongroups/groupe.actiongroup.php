@@ -598,8 +598,10 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$errors[] = CopixI18N::get ('groupe|groupe.error.noGroup');
 		
 		$mondroit = $kernel_service->getLevel( "CLUB", $id );
-		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
-			$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit)) {
+			return CopixActionGroup::process ('groupe|groupe::getHomeMembers', array ('id'=>$id));
+			// $errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+		}
 		
 		if ($errors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
@@ -750,6 +752,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			// Tous les modules possibles
 			$modules = $kernel_service->getModAvailable ("club");
 			while (list($k,$tmp) = each($modules)) {
+				if($tmp->module_type=='MOD_MAGICMAIL') { unset($modules[$k]); continue; }
 				$modules[$k]->module_name = Kernel::Code2Name ($tmp->module_type);
 				$modules[$k]->module_desc = Kernel::Code2Desc ($tmp->module_type);
 			}
@@ -1254,7 +1257,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @since 2006/02/21
 	 * @param integer $id Id du groupe
    */
-	function getHomeMembers () {
+	function processGetHomeMembers () {
 	 	
 	 	$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
@@ -1300,7 +1303,6 @@ class ActionGroupGroupe extends CopixActionGroup {
 				//$childs[$k]['info'] = $userInfo;
 			}
 			//print_r($childs);
-
 			$tplHome = & new CopixTpl ();
 			$tplHome->assign ('groupe', $groupe[0]);
 			$tplHome->assign ('list', $childs);

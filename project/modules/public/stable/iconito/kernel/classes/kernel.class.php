@@ -1321,7 +1321,7 @@ class Kernel {
 		}
 		
 		// Cas particulier : module d'administration
-		if( $user_type=='USER_EXT' && $user_id==1 ) {
+		if( $user_type=='USER_EXT' && $user_id==1 && $node_type == "ROOT" ) {
 			$sysutils->node_type   = $node_type;
 			$sysutils->node_id     = $node_id;
 			$sysutils->module_type = 'MOD_SYSUTILS';
@@ -1400,6 +1400,7 @@ class Kernel {
 		}
 		
 		
+		// _dump($modules);
 		
 		reset($modules);
 		return $modules;
@@ -1721,7 +1722,7 @@ class Kernel {
 								$prenom = isset($nodeInfo['prenom']) ? $nodeInfo['prenom'] : '';
 								$modid = $modservice->create(array('title'=>trim($prenom.' '.$nodeInfo['nom']), 'subtitle'=>$subtitle, 'node_type'=>$node_type, 'node_id'=>$node_id));
 								if( $modid != null ) {
-									_dump( array( $module->module_type, $modid, $node_type, $node_id ));
+									// _dump( array( $module->module_type, $modid, $node_type, $node_id ));
 									Kernel::registerModule( $module->module_type, $modid, $node_type, $node_id );
 								}
 							}

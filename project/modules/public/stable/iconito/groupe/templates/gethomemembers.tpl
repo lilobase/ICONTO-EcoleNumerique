@@ -1,4 +1,10 @@
+<h1>{$groupe->titre}</h1>
+<quote>{$groupe->description}</quote>
+<p>{if $groupe->is_open}{i18n key=groupe|groupe.homeMembers.group_open}{else}{i18n key=groupe|groupe.homeMembers.group_closed}{/if}
+
+
 	{if $list}
+	<h1>{i18n key=groupe|groupe.homeMembers.members_list}</h1>
 	
 	<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
 		<tr>
