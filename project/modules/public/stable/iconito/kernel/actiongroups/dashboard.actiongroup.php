@@ -40,6 +40,9 @@ class ActionGroupDashboard extends enicActionGroup {
 
 			// var_dump($node);
 
+            if( $node['type']=='CLUB' && CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $node['id']==$groupeAssistance) { 
+                continue; 
+            } 
 
             if (!isset($nodes[$node['type']]))
                 $nodes[$node['type']] = array();
