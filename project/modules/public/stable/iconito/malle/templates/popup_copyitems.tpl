@@ -1,4 +1,4 @@
-<form name="copyfile" id="copyfile" action="{copixurl dest="|doAction"}" method="post">
+<form name="copyfile" id="copyfile" action="{copixurl dest="|doAction"}" method="post" style="display: none;">
 	<h1 id="form-message" style="width: 300px;">{i18n key="malle.copy.where"}</h1>
 	<input type="hidden" name="id" value="{$ppo->id}" />
 	<input type="hidden" name="folder" value="{$ppo->folder}" />
@@ -7,9 +7,9 @@
 	<div class="content-panel content-panel-button"><input type="submit" name="actionCopy" value="{i18n key="malle.btn.copy"}" class="button button-confirm" /></div>
 </form>
 
-<script type="text/javascript">
-	var nosel = '{i18n key="malle.error.noSelection"}';
-</script>
+<div class="warning warning-exclamation" style="display: none; width: 300px;">
+	{i18n key="malle.error.noSelection"}
+</div>
 
 {literal}
 <script type="text/javascript">
@@ -29,8 +29,7 @@ jQuery(document).ready(function($){
 		fileCount++;
 	});
 	
-	if (fileCount==0 && folderCount==0) $('#form-replicator').append(nosel);
-//	$('form#copyfile').submit();
+	if (fileCount==0 && folderCount==0) $('.warning').show();
 	else $('#copyfile').show();
 	
 });

@@ -9,6 +9,10 @@
 	</div>
 </form>
 
+<div class="warning warning-exclamation" style="display: none; width: 300px;">
+	{i18n key="malle.error.noSelection"}
+</div>
+
 {literal}
 <script type="text/javascript">
 jQuery.noConflict();
@@ -27,7 +31,7 @@ jQuery(document).ready(function($){
 		fileCount++;
 	});
 	
-	if (fileCount==0 && folderCount==0) $('form#deletefile').submit();
+	if (fileCount==0 && folderCount==0) $('.warning').show();
 	else $('#deletefile').show();
 	
 	$('.button-cancel').click(function () { $.fancybox.close(); });

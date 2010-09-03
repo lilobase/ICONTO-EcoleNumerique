@@ -9,11 +9,8 @@
 	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
 */
 ?>
-<?php
-include_once COPIX_PROJECT_PATH."themes/default/helper.php";
+<?php $module = CopixRequest::get ('module'); ?>
 
-$module = CopixRequest::get ('module');
-?>
 <div id="page">
 	<div id="contentmain">
 		<div class="<?php echo $module; ?>">

@@ -7,6 +7,10 @@
 	<div class="content-panel content-panel-button"><input type="submit" name="actionMove" value="{i18n key="malle.btn.copy"}" class="button button-confirm" /></div>
 </form>
 
+<div class="warning warning-exclamation" style="display: none; width: 300px;">
+	{i18n key="malle.error.noSelection"}
+</div>
+
 {literal}
 <script type="text/javascript">
 jQuery.noConflict();
@@ -25,7 +29,7 @@ jQuery(document).ready(function($){
 		fileCount++;
 	});
 	
-	if (fileCount==0 && folderCount==0) $('form#movefile').submit();
+	if (fileCount==0 && folderCount==0) $('.warning').show();
 	else $('#movefile').show();
 	
 });

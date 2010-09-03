@@ -233,6 +233,26 @@ h4{
 	
 
 /************************************************
+ * Warnings
+ ***********************************************/
+.warning {
+	position: relative;
+	display: inline-block;
+	font-size: 12px;
+	padding: 3px 6px 3px 6px;
+	min-width: 42px;
+	min-height: 42px;
+	background-color : #fff;
+	border: solid 1px #fff;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	font-size: 14px;
+}
+
+.warning-exclamation { padding-left: 60px; background: #fff url(../images/warn_exclamation.png) 4px 50% no-repeat; }
+.warning-information { padding-left: 60px; background: #fff url(../images/warn_information.png) 4px 50% no-repeat; }
+
+/************************************************
  * Formulaires
  ***********************************************/
 #loginBar input#login, input#password {
