@@ -93,7 +93,7 @@ class ActionGroupEvent extends CopixActionGroup {
 				$ableToWrite = true;
 			}
 		}		
-		if(!$ableToWrite){
+		if(!isset($ableToWrite) || !$ableToWrite){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array ('message'=>CopixI18N::get ('agenda.error.enableToWrite'),
 						'back'=>CopixUrl::get('agenda|agenda|vueSemaine')));
