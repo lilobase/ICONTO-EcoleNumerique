@@ -1,3 +1,21 @@
+-- Généré le : Lun 06 Septembre 2010 à 09:54
+-- Version du serveur: 5.1.44
+-- Version de PHP: 5.2.13
+
+-- Structure de la table `module_admindash`
+--
+
+CREATE TABLE `module_admindash` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `content` text,
+  `picture` varchar(255) DEFAULT NULL,
+  `id_zone` int(11) unsigned NOT NULL,
+  `type_zone` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_zone` (`id_zone`),
+  KEY `type_zone` (`type_zone`)
+) ENGINE=MyISAM  DEFAULT CHARSET=UTF-8;
+
 
 CREATE TABLE `module_contacts` (
   `id` int(11) NOT NULL auto_increment,
