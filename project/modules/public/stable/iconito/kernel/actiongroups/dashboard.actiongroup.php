@@ -15,6 +15,11 @@ _classInclude('welcome|welcome');
 
 class ActionGroupDashboard extends enicActionGroup {
 
+    function  __construct() {
+        $this->picturesPath = COPIX_VAR_PATH.'data/admindash/photos/';
+        parent::__construct();
+    }
+
 	function processDefault() {
 
 		$tpl = & new CopixTpl ();
@@ -242,21 +247,52 @@ class ActionGroupDashboard extends enicActionGroup {
 	}
 
 	function processEreg(){
+            if(!$this->istyReq('id'))
+                return $this->error ('kernel|dashboard.badOperation');
 
-		if(!$this->istyReq('id') || !$this->istyReq('id_zone') || !$this->istyReq('type_zone'))
-		return $this->error ('kernel|dashboard.admin.badOperation');
+            //secure id
+            $id = (int)$this->request('id');
 
-		$datas['content'] = $this->db->quote($this->request('content_txt'));
-		$datas['id'] = (int)$this->request('id');
+            //get infos
+            $zoneDatas = $this->db('SELECT * FROM module_admindash WHERE id = '.$id);
 
-		$this->db->update('module_admindash', $datas);
+            //check security
+            if(Kernel::getLevel($zoneDatas['id_zone'], $zoneDatas['type_zone']) < 60)
+                return $this->error ('kernel|dashboard.admin.noRight');
 
-		return $this->go('kernel|dashboard|processModif', array('node_id' => $this->request('id_zone'), 'node_type' => $this->request('type_zone')));
+            $datas['content'] = $this->db->quote($this->request('content_txt'));
+            $datas['id'] = (int)$this->request('id');
+
+            $this->db->update('module_admindash', $datas);
+
+            //go to processModif
+            return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
 	}
 
 	function processAddPicture(){
 
 	}
+
+        function delete(){
+            if(!$this->istyReq('id'))
+                return $this->error ('kernel|dashboard.badOperation');
+
+            //secure id
+            $id = (int)$this->request('id');
+
+            //get infos
+            $zoneDatas = $this->db('SELECT * FROM module_admindash WHERE id = '.$id);
+
+            //check security
+            if(Kernel::getLevel($zoneDatas['id_zone'], $zoneDatas['type_zone']) < 60)
+                return $this->error ('kernel|dashboard.admin.noRight');
+
+            //delete records
+            $this->db->delete('module_admindash', $id);
+            
+            //go to processModif
+            return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+        }
 
 }
 

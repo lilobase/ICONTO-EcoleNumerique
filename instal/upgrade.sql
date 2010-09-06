@@ -14,7 +14,7 @@ CREATE TABLE `module_admindash` (
   PRIMARY KEY (`id`),
   KEY `id_zone` (`id_zone`),
   KEY `type_zone` (`type_zone`)
-) ENGINE=MyISAM  DEFAULT CHARSET=UTF-8;
+) ENGINE=MyISAM  DEFAULT CHARSET=UTF8;
 
 
 CREATE TABLE `module_contacts` (
