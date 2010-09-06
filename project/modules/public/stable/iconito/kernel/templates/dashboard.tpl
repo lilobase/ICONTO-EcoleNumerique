@@ -8,7 +8,7 @@
 	{* if $modules neq null *}
 	<div class="dashpanel {$node_type|lower}">
 		<div class="title">
-			<span>{if $node_data.type eq "USER_ELE"}{$node_data.prenom} {/if}{$node_data.nom}</span>
+			<span>{if $node_data.type eq "USER_ELE"}{$node_data.prenom|escape} {/if}{$node_data.nom|escape} ({$node_data.nom_classe|escape})</span>
 		</div>
 		<div class="content">
                     {$node_data.content}
@@ -21,7 +21,7 @@
 			<a
 			{if $val_modules->module_popup}target="_blank"{/if}
 			class="{$val_modules->module_type}{if isset($this.info.selected) and $this.info.selected} selected{/if}"
-			href="{copixurl dest="kernel||go" ntype=$node_type nid=$node_id mtype=$module_type_array[1] mid=$val_modules->module_id}"
+			href="{copixurl dest="kernel||go" ntype=$val_modules->node_type nid=$val_modules->node_id mtype=$module_type_array[1] mid=$val_modules->module_id}"
 			title="{$val_modules->module_nom}">
 			<span>{$val_modules->module_nom}</span>
 			</a>

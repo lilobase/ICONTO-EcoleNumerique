@@ -406,7 +406,14 @@ class Kernel {
 			$res = $dao->getByResponsable('responsable', $id);
 			foreach( $res AS $key=>$val ) {
 				if( $val->res2ele_type_beneficiaire != "eleve" ) continue;
-				$return[]=array("type"=>"USER_ELE", "id"=>$val->res2ele_id_beneficiaire, "droit"=>($val->res2ele_auth_parentale?PROFILE_CCV_ADMIN:PROFILE_CCV_READ), "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale);
+
+				$parents = Kernel::getNodeParents( 'USER_ELE', $val->res2ele_id_beneficiaire );
+				$parent = Kernel::filterNodeList( $parents, "BU_CLASSE" );
+				
+				$nom_classe = '';
+				if(count($parent)) $nom_classe = $parent[0]['nom'];
+
+				$return[]=array("type"=>"USER_ELE", "id"=>$val->res2ele_id_beneficiaire, "droit"=>($val->res2ele_auth_parentale?PROFILE_CCV_ADMIN:PROFILE_CCV_READ), "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale, "nom_classe"=>$nom_classe);
 			}
 		}
 				
@@ -1251,13 +1258,35 @@ class Kernel {
 	 * @param integer $user_id   Identifiant du noeud (facultatif).
 	 */
 	function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0, $full=0 ) {
-		//echo "getModEnabled( $node_type, $node_id, $user_type, $user_id)";
+		// echo "getModEnabled( $node_type, $node_id, $user_type, $user_id)";
 		
 		$dao = _dao("kernel|kernel_mod_enabled");
 		$modules = array();
 		
+		
+		if( 0 == strncmp($node_type,"USER_ELE",8) && 0 == strncmp($user_type,"USER_RES",8) ) {
+			$parents = Kernel::getNodeParents( $node_type, $node_id );
+			$parent  = Kernel::filterNodeList( $parents, 'BU_CLASSE' );
+			if(count($parent)) {
+				if( $parent[0]['droit']>=30 ) {
+					$parent_modules = Kernel::getModEnabled( $parent[0]['type'], $parent[0]['id'], $node_type, $node_id );
+					
+					foreach( $parent_modules AS $parent_module ) {
+						$perso->node_type   = $parent[0]['type'];
+						$perso->node_id     = $parent[0]['id'];
+						$perso->module_type = $parent_module->module_type;
+						$perso->module_id   = $parent_module->module_id;
+						$perso->module_nom   = Kernel::Code2Name ($parent_module->module_type);
+						$modules[] = clone $perso;
+					}
+				}
+			}
+			// _dump($modules);
+			reset($modules);
+			return $modules;
+		}
+			
 		$list = $dao->getByNode($node_type,$node_id);
-		//print_r($modules);
 		
 		foreach ($list as $v) {
 			if(!$full) if($v->node_type=='CLUB' && $v->module_type=='MOD_MAGICMAIL') continue;
@@ -1308,11 +1337,11 @@ class Kernel {
 		}
 		
 		// Cas particuliers : modules personnels sans numÈros
-		if( 0 == strncmp($node_type,"USER_",5) ) {
+		if( 0 == strncmp($node_type,"USER_",5) && 0 != strncmp($user_type,"USER_RES",8) ) {
 			$perso_list = array( 'MOD_ANNUAIRE', 'MOD_MINIMAIL', 'MOD_GROUPE', 'MOD_RESSOURCE' );
 			foreach( $perso_list AS $perso_module ) {
-			  $perso->node_type   = $node_type;
-			  $perso->node_id     = $node_id;
+				$perso->node_type   = $node_type;
+				$perso->node_id     = $node_id;
 				$perso->module_type = $perso_module;
 				$perso->module_nom   = Kernel::Code2Name ($perso_module);
 				$modules[] = clone $perso;
