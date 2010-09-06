@@ -142,7 +142,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		if ($can['item_delete']) 
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.delete'),'type' => 'delete', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptDeleteItems', array('id'=>$id, 'folder'=>$folder)));
 		if ($can['item_downloadZip']) 
-			$menu[] = array('txt'=>CopixI18N::get('malle.menu.download'),'type' => 'download', 'size' => $size, 'url' => CopixUrl::get ('malle|malle|DoActionDownloadZip', array('id'=>$id, 'folder'=>$folder)));
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.download'),'type' => 'download', 'size' => $size+10, 'url' => CopixUrl::get ('malle|malle|promptDownloadZip', array('id'=>$id, 'folder'=>$folder)));
 		$tpl->assign ('MENU', $menu);
 		// FIN CONSTRUCTION DU MENU
 
@@ -223,6 +223,27 @@ class ActionGroupMalle extends CopixActionGroup {
 		return _arPPO ($ppo, array ('template'=>'popup_deleteitems.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
 	}
    
+   /**
+	 * Affichage d'une malle en popup, permettant de sélectionner un ou plusieurs fichiers à insérer dans une zone de saisie formaté wiki (blog, forum...)
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2006/11/23
+	 * @param integer $id Id de la malle
+	 * @param integer $folder Id du répertoire
+	 * @param array $errors (option) Erreurs rencontrées
+	 * @param string $field Champ utilisé dans la fenêtre "en-dessous"
+	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
+   */
+	function processPromptDownloadZip() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css"));
+		return _arPPO ($ppo, array ('template'=>'popup_deleteitems.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+	}
+   
+
+
    /**
 	 * Affichage d'une malle en popup, permettant de sélectionner un ou plusieurs fichiers à insérer dans une zone de saisie formaté wiki (blog, forum...)
 	 * 
@@ -1400,6 +1421,9 @@ class ActionGroupMalle extends CopixActionGroup {
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
       $malle_cle = $rMalle->cle;
 		}
+    if (!count($files) && !count($folders))
+      $criticErrors[] = CopixI18N::get ('malle|malle.error.noSelection');
+
 		if (!$criticErrors) {
 			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
 			//print_r($mondroit);
@@ -1424,7 +1448,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		$archive = new PclZip($malleService->getTmpFolder().'/'.$zipFile);
 		
 		//print_r($files);
-		
+
 		$zipFiles = array();
 		foreach ($files as $k) {
 			$r = $daoFiles->get($k);
