@@ -19,8 +19,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
 		
 		$this->menu = array();
-		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt') );
-		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list') );
+		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
+		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>120 );
 	}
 
 	/**
