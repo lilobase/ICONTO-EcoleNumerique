@@ -1279,6 +1279,14 @@ class Kernel {
 						$perso->module_nom   = Kernel::Code2Name ($parent_module->module_type);
 						$modules[] = clone $perso;
 					}
+					
+					$perso->node_type   = $parent[0]['type'];
+					$perso->node_id     = $parent[0]['id'];
+					$perso->module_type = 'MOD_CARNET';
+					$perso->module_id   = 'ELEVE_'.$node_id;
+					$perso->module_nom   = Kernel::Code2Name ($parent_module->module_type);
+					$modules[] = clone $perso;
+				
 				}
 			}
 			// _dump($modules);
