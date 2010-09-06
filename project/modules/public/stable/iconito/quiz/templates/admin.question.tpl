@@ -1,6 +1,5 @@
 {literal}
 <script type="text/javascript">
-jQuery.noConflict();
 jQuery(document).ready(function($){
 		// SORTABLE ANSWERS
         $("#qf-answers").sortable();

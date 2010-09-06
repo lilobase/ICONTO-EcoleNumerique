@@ -2,7 +2,6 @@
 
 {literal}
 <script type="text/javascript">
-jQuery.noConflict();
 jQuery(document).ready(function($){
 	$('#folder-checkall').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', true); });
 	$('#folder-checknone').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', false); });

@@ -13,7 +13,6 @@
 
 {literal}
 <script type="text/javascript">
-jQuery.noConflict();
 jQuery(document).ready(function($){
 	var folders = $('#remote-checker :checked[name="folders[]"]').serializeArray();
 	var folderCount = 0;

@@ -56,7 +56,8 @@ class ActionGroupAdminLink extends CopixActionGroup {
 		
 		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>2)).'">'.CopixI18N::get('blog|blog.nav.links').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>2)).'">'.CopixI18N::get('blog|blog.nav.links').'</a>';
+		$menu = getBlogAdminMenu($blog, 2);
 		$tpl->assign ('MENU', $menu);
 		$tpl->assign ('MAIN', CopixZone::process ('EditLink',
 		array('id_blog'=>$id_blog,

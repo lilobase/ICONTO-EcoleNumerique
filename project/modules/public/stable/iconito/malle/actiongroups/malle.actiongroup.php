@@ -325,7 +325,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js")); 
 
 
-			return _arPPO ($ppo, array ('template'=>'getmallepopup.tpl', 'mainTemplate'=>'default|main_popup.php'));
+			return _arPPO ($ppo, array ('template'=>'getmallepopup.tpl', 'mainTemplate'=>'main|main_popup.php'));
 			
 		}
 	}

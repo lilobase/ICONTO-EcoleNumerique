@@ -56,7 +56,8 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 		
 		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>1)).'">'.CopixI18N::get('blog|blog.nav.categories').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>1)).'">'.CopixI18N::get('blog|blog.nav.categories').'</a>';
+		$menu = getBlogAdminMenu($blog, 1);
 		$tpl->assign ('MENU', $menu);
 		$tpl->assign ('MAIN', CopixZone::process ('EditCategory',
 		array('id_blog'=>$id_blog,

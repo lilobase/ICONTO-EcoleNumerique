@@ -134,19 +134,16 @@ jQuery(document).ready(function($){
 		});
 
 		/* FANCY BOXES */
-		$(function() {
-			$('a.fancybox').fancybox({
+		$('a.fancybox').fancybox({
 				'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
 				'autoScale'			: true
-			});
-//			$('a.fancybox').fancybox.resize();
 		});
 		
-		$('a.iframe').fancybox({
+		$('a.fancyframe').fancybox({
 				'width'				: '75%',
 				'height'			: '75%',
-				'autoScale'			: false,
+				'autoScale'			: true,
 				'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
 				'type'				: 'iframe'

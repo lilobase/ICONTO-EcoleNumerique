@@ -1,8 +1,5 @@
-<script type="text/javascript">
 {literal} 
-
-jQuery.noConflict();
-
+<script type="text/javascript">
 jQuery(document).ready(function($){
 				/* You might need to set the sSwfPath! Something like:
 				 *   TableToolsInit.sSwfPath = "{/literal}{$ppo->pathClip}{literal}ZeroClipboard.swf";
@@ -15,8 +12,8 @@ jQuery(document).ready(function($){
 	$('.quiz-adm-responses-hide').hide();
 } );
 
-{/literal} 
 </script>
+{/literal} 
 <div id="quiz-adm">
 <h2>{i18n key="quiz.results.title" noEscape=1}</h2>
 

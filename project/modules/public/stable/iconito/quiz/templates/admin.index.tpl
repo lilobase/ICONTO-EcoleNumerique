@@ -1,7 +1,5 @@
-<script type="text/javascript">
 {literal}
-
-jQuery.noConflict();
+<script type="text/javascript">
 
 jQuery(document).ready(function($){
     $(".quiz-quiz .quiz-a-img").click(function(){
@@ -10,8 +8,8 @@ jQuery(document).ready(function($){
     })
 } );
 
-{/literal}
 </script>
+{/literal}
 <h3>{i18n key="quiz.admin.edit" noEscape=1}</h3>
 
 <hr class="quiz-separator" />

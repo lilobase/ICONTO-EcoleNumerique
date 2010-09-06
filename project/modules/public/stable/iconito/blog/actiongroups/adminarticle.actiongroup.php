@@ -81,7 +81,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 		
     $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#date_bact')");
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+		$menu = getBlogAdminMenu($blog, 0);
 		
 		$tpl->assign ('MENU', $menu);
 		

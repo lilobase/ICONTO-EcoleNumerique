@@ -59,7 +59,8 @@ class ActionGroupAdminComment extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.list.comment.title'));
 		
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+		$menu = getBlogAdminMenu($blog);
 		$tpl->assign ('MENU', $menu);
 
 		
@@ -200,7 +201,8 @@ class ActionGroupAdminComment extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 
 		if (BlogAuth::canMakeInBlog('ADMIN_COMMENTS',create_blog_object($id_blog)))
-			$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+//			$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+		$menu = getBlogAdminMenu($blog);
 		$tpl->assign ('MENU', $menu);
 
 

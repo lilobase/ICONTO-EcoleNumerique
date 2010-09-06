@@ -74,12 +74,12 @@ class ZoneWikiButtons extends CopixZone {
 					if ($alb) {
 						//print_r($alb);
 						$url = CopixUrl::get ('album||getpopup', array('album_id'=>$alb[0]->module_id, 'field'=>$field, 'format'=>$format));
-						$buttonAlbum = array('titre'=>CopixI18N::get ('wikibuttons.album'), 'accesskey'=>'a', 'tabindex'=>18, 'link'=>"javascript:openWindow('album', '".$url."', 780,550);");	// Album photos
+						$buttonAlbum = array('titre'=>CopixI18N::get ('wikibuttons.album'), 'accesskey'=>'a', 'tabindex'=>18, 'link'=> $url);	// Album photos
 					}
           $mal = Kernel::filterModuleList ($mods, 'MOD_MALLE');
 					if ($mal) {
-						$url = CopixUrl::get ('malle||getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>$field, 'format'=>$format));
-						$buttonMalle = array('titre'=>CopixI18N::get ('wikibuttons.malle'), 'accesskey'=>'d', 'tabindex'=>19, 'link'=>"javascript:openWindow('album', '".$url."', 710,550);");	// Album photos
+						$url = CopixUrl::get ('malle|malle|getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>$field, 'format'=>$format));
+						$buttonMalle = array('titre'=>CopixI18N::get ('wikibuttons.malle'), 'accesskey'=>'d', 'tabindex'=>19, 'link'=> $url);	// Malle
 					}
 				}
 			}

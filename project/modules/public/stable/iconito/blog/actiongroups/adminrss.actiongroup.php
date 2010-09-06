@@ -57,7 +57,8 @@ class ActionGroupAdminRss extends CopixActionGroup {
 		
 		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>6)).'">'.CopixI18N::get('blog|blog.nav.rss').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>6)).'">'.CopixI18N::get('blog|blog.nav.rss').'</a>';
+		$menu = getBlogAdminMenu($blog, 6);
 		$tpl->assign ('MENU', $menu);
 		$tpl->assign ('MAIN', CopixZone::process ('EditRss',
 		array('id_blog'=>$id_blog,
