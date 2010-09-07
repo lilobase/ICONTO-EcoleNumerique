@@ -25,6 +25,8 @@ body, input, textarea {
 }
 
 a, a:visited, a:hover {
+	cursor: pointer;
+	cursor: hand;
 	text-decoration: none;
 	}
 	

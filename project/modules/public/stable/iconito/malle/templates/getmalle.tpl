@@ -1,32 +1,32 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
 
 <script type="text/javascript">
-
 var id = {$id};
 var folder = {$folder};
 var noSelection = "{i18n key="malle.error.noSelection"}";
+</script>
 
 {literal}
+<script type="text/javascript">
 jQuery(document).ready(function($){
 	$('#folder-checkall').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', true); });
 	$('#folder-checknone').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', false); });
 	$('#file-checkall').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', true); });
 	$('#file-checknone').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', false); });
 	$('.item-rename').click (function() { $('.item-link').eq($('.item-rename').index(this)).toggle(); $('.item-field').eq($('.item-rename').index(this)).toggle(); });
-  jQuery('a.download').click (function() { 
-    nb_checked = jQuery('input[type=checkbox][name=files\\[\\]]:checked').size() + jQuery('input[type=checkbox][name=folders\\[\\]]:checked').size();
-    if (nb_checked > 0) {
-      var pars = 'id='+id+'&folder='+folder+'';
-      pars += '&'+jQuery('input[type=checkbox][name=files\\[\\]]:checked').serialize();
-      pars += '&'+jQuery('input[type=checkbox][name=folders\\[\\]]:checked').serialize();
-      var url = getActionURL('malle|default|doActionDownloadZip', pars);
-      self.location = url;
-    } else {
-      alert (noSelection);
-    }
-    return false;
-  });
-  
+  	$('a.download').click (function() { 
+		nb_checked = jQuery('input[type=checkbox][name=files\\[\\]]:checked').size() + jQuery('input[type=checkbox][name=folders\\[\\]]:checked').size();
+		if (nb_checked > 0) {
+			var pars = 'id='+id+'&folder='+folder+'';
+			pars += '&'+$('#remote-checker :checked[name="files[]"]').serialize();
+			pars += '&'+$('#remote-checker :checked[name="folders[]"]').serialize();
+			var url = getActionURL('malle|default|doActionDownloadZip', pars);
+			self.location = url;
+		} else {
+			alert (noSelection);
+		}
+		return false;
+  }); 
 });
 </script>
 {/literal}
@@ -55,7 +55,7 @@ jQuery(document).ready(function($){
 	{i18n key="malle.emptyFolder"}
 {else}
 	
-<table id="#form-replicator" class="malle-table">
+<table class="malle-table">
 {if $folders neq null}
 	{foreach from=$folders item=item}
 	<tr class="malle-table-folder">

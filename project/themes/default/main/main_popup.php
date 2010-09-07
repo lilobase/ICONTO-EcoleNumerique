@@ -23,8 +23,9 @@ $module = CopixRequest::get ('module');
 	<link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
    
 	<?php include_once COPIX_PROJECT_PATH."themes/default/styles.php"; ?>
-        <?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
-        <?php echo $HTML_HEAD; ?>
+	<?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
+	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/popup.css"); ?>" type="text/css"/>
+	<?php echo $HTML_HEAD; ?>
 	
 </head>
 

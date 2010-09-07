@@ -79,7 +79,7 @@ class ZoneWikiButtons extends CopixZone {
           $mal = Kernel::filterModuleList ($mods, 'MOD_MALLE');
 					if ($mal) {
 						$url = CopixUrl::get ('malle|malle|getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>$field, 'format'=>$format));
-						$buttonMalle = array('titre'=>CopixI18N::get ('wikibuttons.malle'), 'accesskey'=>'d', 'tabindex'=>19, 'link'=> $url);	// Malle
+						$buttonMalle = array('titre'=>CopixI18N::get ('wikibuttons.malleTxt'), 'accesskey'=>'d', 'tabindex'=>19, 'link'=> $url);	// Malle
 					}
 				}
 			}

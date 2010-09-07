@@ -343,6 +343,25 @@ form select.multicombo {
 	height: 120px;
 }
 
+#content-popup .option-bar {
+	border-top: solid 1px #f0f4f0;
+	border-bottom: solid 1px #f0f4f0;
+	padding: 3px;	
+	}
+
+#content-popup .option-bar .option1 {
+	float: left;
+	width: 50%;
+	margin-right: 30px;	
+	}
+
+#content-popup .popup-panel {
+	background-color: #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	padding: 6px;	
+	}
+
 /************************************************
  * Tableaux
  ***********************************************/
