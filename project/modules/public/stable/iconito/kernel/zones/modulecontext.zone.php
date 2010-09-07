@@ -27,7 +27,23 @@ class ZoneModuleContext extends enicZone {
 		$closeUrl = CopixUrl::get('kernel|dashboard|default');
 
 		if ( strpos($myNode['type'], 'USER_') === false ) {
+			// Pour tous sauf les users...
 			$modules = Kernel::getModEnabled($myNode['type'], $myNode['id'],_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+		} elseif( strpos($myNode['type'], 'USER_ELE') !== false ) {
+			// Cas particulier, les enfants (vue parent)
+			$parents = Kernel::getNodeParents( $myNode['type'], $myNode['id'] );
+			$parent  = Kernel::filterNodeList( $parents, 'BU_CLASSE' );
+			if(count($parent)) {
+				$modules = Kernel::getModEnabled($parent[0]['type'], $parent[0]['id'],_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+			}
+			$perso->node_type   = $parent[0]['type'];
+			$perso->node_id     = $parent[0]['id'];
+			$perso->module_type = 'MOD_CARNET';
+			$perso->module_id   = 'ELEVE_'.$parent[0]['id'];
+			$perso->module_nom   = Kernel::Code2Name ('MOD_CARNET');
+			$modules[] = clone $perso;
+			
+			// _dump($modules);
 		}
 		
 		if ($step=='open') {
