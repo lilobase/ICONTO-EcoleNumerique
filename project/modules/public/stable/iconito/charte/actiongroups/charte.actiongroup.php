@@ -18,7 +18,8 @@ class ActionGroupCharte extends enicActionGroup{
 
         $ppo->url = $charte['file_url'];
         if(empty($ppo->url))
-            die('DEBUG : CHARTE VALIDATION PROCESS HAS FAILED');
+        	return $this->go('auth|log|out');
+
         CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
 
         return _arPPO($ppo, 'charte.tpl');
