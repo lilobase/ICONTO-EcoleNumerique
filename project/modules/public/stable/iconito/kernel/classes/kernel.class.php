@@ -1906,7 +1906,7 @@ class Kernel {
 
 
 	/**
-	 * DÈtermine si l'usager courant est un ÈlËve
+	 * Détermine si l'usager courant est un ÈlËve
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
@@ -1917,7 +1917,7 @@ class Kernel {
 	}
 
 	/**
-	 * DÈtermine si l'usager courant est un parent
+	 * Détermine si l'usager courant est un parent
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
@@ -1929,7 +1929,7 @@ class Kernel {
 
 
 	/**
-	 * DÈtermine si l'usager courant est un enseignant ou directeur
+	 * Détermine si l'usager courant est un enseignant ou directeur
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
@@ -1940,7 +1940,7 @@ class Kernel {
 	}
 
 	/**
-	 * DÈtermine si l'usager courant est un agent de ville
+	 * Détermine si l'usager courant est un agent de ville
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/06/15
@@ -1951,7 +1951,7 @@ class Kernel {
 	}
 
 	/**
-	 * DÈtermine si l'usager courant est un administrateur
+	 * Détermine si l'usager courant est un administrateur
 	 * 
 	 * @author FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
 	 * @since 2007/02/19
@@ -1962,7 +1962,7 @@ class Kernel {
 	}
 
    /**
-   * DÈtermine si l'usager courant est du personnel administratif
+   * Détermine si l'usager courant est du personnel administratif
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/01/24
@@ -1971,6 +1971,29 @@ class Kernel {
 	function isPersonnelAdministratif () {
 		return (_currentUser()->getExtra('type') == 'USER_ADM');
 	}
+
+    /**
+     * Détermine si l'usager courant est une personne externe
+     *
+     * @author fmadrolle
+     * @since 2010/09/01
+     * @return bool True si c'est une personne externe, false sinon
+     */
+    function isPersonneExterne () {
+        return ( _currentUser()->getExtra('type') == 'USER_EXT'); 
+    }
+
+    /**
+     * Détermine si l'usager courant est un animateur
+     *
+     * @author fmadrolle
+     * @since 2010/09/01
+     * @return bool True si c'est un animateur, false sinon
+     */
+    function isAnimateur () {
+        $user = _currentUser ();
+        return $user->hasAssistance();
+    }
 
   // $options : [parent] (option) si on a deja le parent
 	function menuReturntoParent ( $module_type, $module_id, $options=array()) {

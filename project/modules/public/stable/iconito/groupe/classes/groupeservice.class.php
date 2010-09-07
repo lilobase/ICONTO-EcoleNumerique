@@ -111,7 +111,7 @@ class GroupeService {
 				break;
 					
 			case "ADD_GROUP" :	// Création d'un groupe, ne dépend pas du droit sur un groupe mais du profil de l'usager
-				$can = (Kernel::isEnseignant() || Kernel::isAgentVille() || Kernel::isPersonnelAdministratif() || Kernel::isAdmin() );
+				$can = (Kernel::isEnseignant() || Kernel::isAgentVille() || Kernel::isPersonnelAdministratif() || Kernel::isAnimateur() || Kernel::isAdmin());
 				break;
 
 		}
