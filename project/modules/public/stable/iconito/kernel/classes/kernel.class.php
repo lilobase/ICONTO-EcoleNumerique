@@ -461,8 +461,18 @@ class Kernel {
 		}
 		
 		}
-    
-    //print_r($return);
+    	
+		// Suppression des classes dans les annees scolaires passees...
+		foreach( $return AS $key=>$val ) {
+			if($val['type']=='BU_CLASSE') {
+				if(
+					!$val['ALL']->annee_current ||
+					!$val['ALL']->cla_is_validee ||
+					 $val['ALL']->cla_is_supprimee
+				) unset($return[$key]);
+			}
+		}
+		// _dump($return);
     
 		reset($return);
 		return $return;
