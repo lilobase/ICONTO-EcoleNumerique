@@ -158,6 +158,7 @@ class ActionGroupDashboard extends enicActionGroup {
 	 * @author Stephane Holtz <sholtz@cap-tic.fr>
 	 */
 	function go() {
+		$mid = _request("mid", 0);
 		if (!is_null(_request("ntype")) && !is_null(_request("nid")) && !is_null(_request("mtype"))) {
 			CopixSession::set('myNode', array('type' => _request("ntype"), 'id' => _request("nid")));
 			if (_request("ntype") == 'CLUB' && _request("mtype") == 'comptes' && !_request("mid")) {
@@ -165,7 +166,6 @@ class ActionGroupDashboard extends enicActionGroup {
 			} elseif (_request("ntype") == 'CLUB' && _request("mtype") == 'admin' && !_request("mid")) {
 				$loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('groupe||getHomeAdmin', array('id' => _request("nid"))));
 			} elseif (strpos(_request("ntype"), 'USER_') === false) {
-				$mid = _request("mid");
 				// Si on ne connait pas l'ID du module, on tente de le detecter automatiquement
 				if (!$mid) {
 					$modules = Kernel::getModEnabled(_request("ntype"), _request("nid"));
@@ -176,10 +176,13 @@ class ActionGroupDashboard extends enicActionGroup {
 						}
 					}
 				}
+				// die('CopixUrl::get('._request("mtype").'|default|go   id='.$mid);
 				$loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get(_request("mtype") . '|default|go', array('id' => $mid)));
 			} else {
-
-				$loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get(_request("mtype") . '||'));
+				if($mid)
+					$loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get(_request("mtype") . '|default|go', array('id' => $mid)));
+				else
+					$loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get(_request("mtype") . '||'));
 			}
 			return $loadModule;
 		}

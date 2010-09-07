@@ -1280,18 +1280,33 @@ class Kernel {
 			if(count($parent)) {
 				if( $parent[0]['droit']>=30 ) {
 					$parent_modules = Kernel::getModEnabled( $parent[0]['type'], $parent[0]['id'], $node_type, $node_id );
-					
+
+					/*
+					echo '<li>$parent[0][] = '.$parent[0]['type']."/".$parent[0]['id']."</li>";
+					echo '<li>$node_* = '.$node_type."/".$node_id."</li>";
+					*/
+
 					foreach( $parent_modules AS $parent_module ) {
+						/*
 						$perso->node_type   = $parent[0]['type'];
 						$perso->node_id     = $parent[0]['id'];
+						*/
+						$perso->node_type   = $node_type;
+						$perso->node_id     = $node_id;
+						
 						$perso->module_type = $parent_module->module_type;
 						$perso->module_id   = $parent_module->module_id;
 						$perso->module_nom   = Kernel::Code2Name ($parent_module->module_type);
 						$modules[] = clone $perso;
 					}
 					
+					/*
 					$perso->node_type   = $parent[0]['type'];
 					$perso->node_id     = $parent[0]['id'];
+					*/
+					$perso->node_type   = $node_type;
+					$perso->node_id     = $node_id;
+					
 					$perso->module_type = 'MOD_CARNET';
 					$perso->module_id   = 'ELEVE_'.$node_id;
 					$perso->module_nom   = Kernel::Code2Name ('MOD_CARNET');
