@@ -78,7 +78,11 @@
     <input type="submit" value="enregistrer" />
 </form>
 
-
+<h5>
+    <a href="{copixurl dest="mailext|mailext|deleteMailConf" id=$mail.id}">
+       {i18n key="mailext.delete" noEscape=1}
+    </a>
+</h5>
 {/foreach}
 
 <hr />

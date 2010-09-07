@@ -3,7 +3,7 @@
 {/if}
 <div id="">
     {if !empty($picture)}
-    <img />
+    <img src="{$picture}" />
     {/if}
 {$content}
 </div>

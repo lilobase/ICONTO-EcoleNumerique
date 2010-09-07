@@ -17,6 +17,8 @@ class ActionGroupDashboard extends enicActionGroup {
 
     function  __construct() {
         $this->picturesPath = COPIX_VAR_PATH.'data/admindash/photos/';
+        $this->thumbX = 150;
+        $this->thumbY = 300;
         parent::__construct();
     }
 
@@ -61,42 +63,6 @@ class ActionGroupDashboard extends enicActionGroup {
 
 				// Cas des groupes : on ajoute les membres et admin, selon les droits
 				if ($node['type'] == 'CLUB') {
-						
-					/*
-					 $modules_copy = $nodes[$node['type']][$node['id']]['modules'];
-					 foreach( $modules_copy AS $mod_key => $mod_val ) {
-						// _dump($mod_key);
-						// _dump($mod_val);
-						// if($mod_val['module_type']=='MOD_MAGICMAIL') _dump($mod_val);
-						if($mod_val->module_type=='MOD_MAGICMAIL') unset($nodes[$node['type']][$node['id']]['modules'][$mod_key]);
-						}
-						*/
-						
-					//_dump($nodes[$node['type']][$node['id']]['modules']);
-
-					/*
-					$addModule = new CopixPPO ();
-					$addModule->node_type = $node['type'];
-					$addModule->node_id = $node['id'];
-					$addModule->module_type = 'MOD_COMPTES';
-					$addModule->module_id = 0;
-					$addModule->module_nom = CopixI18N::get('groupe|groupe.group.members');
-					$nodes[$node['type']][$node['id']]['modules'][] = $addModule;
-
-					$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
-					$mondroit = Kernel::getLevel($node['type'], $node['id']);
-					// _dump($mondroit);
-					if ($groupeService->canMakeInGroupe('ADMIN', $mondroit)) {
-						$addModule = new CopixPPO ();
-						$addModule->node_type = $node['type'];
-						$addModule->node_id = $node['id'];
-						$addModule->module_type = 'MOD_ADMIN';
-						$addModule->module_id = 0;
-						$addModule->module_nom = CopixI18N::get ('groupe|groupe.group.admin');
-						$nodes[$node['type']][$node['id']]['modules'][] = $addModule;
-
-					}
-					*/
 					
 					$addModule = new CopixPPO ();
 					$addModule->node_type = $node['type'];
@@ -114,7 +80,6 @@ class ActionGroupDashboard extends enicActionGroup {
 
 				//get content from db :
 				$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $node['id'].' AND type_zone = "'.$node['type'].'"')->toArray1();
-
 				//if no content : get default content
 				if (empty($content)) {
 					switch ($node['type']) {
@@ -134,20 +99,26 @@ class ActionGroupDashboard extends enicActionGroup {
 							$content['content'] = CopixZone::process('kernel|dashboardGrTravail', array('idZone' => $node['id']));
 							$content['picture'] = null;
 							break;
+                                                case 'ADMIN':
+							$content['content'] = 'Administrateur';
+							$content['picture'] = null;
+                                                    break;
 						default:
-							$content['content'] = 'no content';
+							$content['content'] = '';
 							$content['picture'] = null;
 							break;
 					}
-				}
+				}else{
+                                    $content['picture'] = $this->url('kernel|dashboard|image', array('id' => $content['id']));
+                                }
 
 				//is admin :
-				$is_admin = ($node['droit'] > 60);
+				$is_admin = ($node['droit'] >= 60);
 
 				//build html content
 				$content_tpl = & new CopixTpl();
 				$content_tpl->assign('content', $content['content']);
-				$content_tpl->assign('picture', (isset($content['picture']) ? $content['picture'] : null));
+				$content_tpl->assign('picture', $content['picture']);
 				$content_tpl->assign('is_admin', $is_admin);
 				$content_tpl->assign('id', $node['id']);
 				$content_tpl->assign('type', $node['type']);
@@ -155,8 +126,6 @@ class ActionGroupDashboard extends enicActionGroup {
 
 				//free memory
 				unset($content_tpl);
-				unset($admindash_datas);
-
 				/*
 				 *  ===== END CONTENT GENERATION =====
 				 */
@@ -243,6 +212,7 @@ class ActionGroupDashboard extends enicActionGroup {
 
 		$ppo = new CopixPPO();
 		$ppo->content = $content;
+                $ppo->errors = ($this->flash->has('errors')) ? $this->flash->errors : null;
 		$this->js->wysiwyg('#content_txt');
 		return _arPPO($ppo, 'dashboard.admin.tpl');
 	}
@@ -255,10 +225,10 @@ class ActionGroupDashboard extends enicActionGroup {
             $id = (int)$this->request('id');
 
             //get infos
-            $zoneDatas = $this->db('SELECT * FROM module_admindash WHERE id = '.$id);
+            $zoneDatas = $this->db->query('SELECT * FROM module_admindash WHERE id = '.$id)->toArray1();
 
             //check security
-            if(Kernel::getLevel($zoneDatas['id_zone'], $zoneDatas['type_zone']) < 60)
+            if(Kernel::getLevel($zoneDatas['type_zone'], $zoneDatas['id_zone']) < 60)
                 return $this->error ('kernel|dashboard.admin.noRight');
 
             $datas['content'] = $this->db->quote($this->request('content_txt'));
@@ -271,29 +241,185 @@ class ActionGroupDashboard extends enicActionGroup {
 	}
 
 	function processAddPicture(){
-
-	}
-
-        function delete(){
             if(!$this->istyReq('id'))
-                return $this->error ('kernel|dashboard.badOperation');
+                return $this->error ('kernel|dashboard.admin.badOperation');
 
             //secure id
             $id = (int)$this->request('id');
 
             //get infos
-            $zoneDatas = $this->db('SELECT * FROM module_admindash WHERE id = '.$id);
+            $zoneDatas = $this->db->query('SELECT * FROM module_admindash WHERE id = '.$id)->toArray1();
 
             //check security
-            if(Kernel::getLevel($zoneDatas['id_zone'], $zoneDatas['type_zone']) < 60)
+            if(Kernel::getLevel($zoneDatas['type_zone'], $zoneDatas['id_zone']) < 60)
                 return $this->error ('kernel|dashboard.admin.noRight');
 
-            //delete records
-            $this->db->delete('module_admindash', $id);
+            //check error during upload
+             if ($_FILES['image']['error'] > 0){
+                $this->flash->errors = $this->i18n('kernel|dashboard.admin.errorPic');
+                //go to processModif
+                return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+             }
+
+             $ImageNews = $_FILES['image']['name'];
+
+             //mime type
+             $ListeExtension = array('jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif');
+            $ListeExtensionIE = array('jpg' => 'image/pjpg', 'jpeg'=>'image/pjpeg');
+
+
+             //get extension & detect mime type
+            $ExtensionPresumee = explode('.', $ImageNews);
+            $ExtensionPresumee = strtolower($ExtensionPresumee[count($ExtensionPresumee)-1]);
             
+            $ImageNews = getimagesize($_FILES['image']['tmp_name']);
+            $extError = false;
+
+            switch ($ExtensionPresumee) {
+                case 'jpg':
+                case 'jpeg':
+                    if($ImageNews['mime'] != $ListeExtension[$ExtensionPresumee]  && $ImageNews['mime'] != $ListeExtensionIE[$ExtensionPresumee])
+                        $extError = true;
+                    $typeExt = 'jpeg';
+                    break;
+
+                case 'png':
+                    if($ImageNews['mime'] != $ListeExtension[$ExtensionPresumee]  && $ImageNews['mime'] != $ListeExtensionIE[$ExtensionPresumee])
+                        $extError = true;
+                    $typeExt = 'png';
+                    break;
+
+                case 'gif':
+                    if($ImageNews['mime'] != $ListeExtension[$ExtensionPresumee]  && $ImageNews['mime'] != $ListeExtensionIE[$ExtensionPresumee])
+                        $extError = true;
+                    $typeExt = 'gif';
+                    break;
+
+                default:
+                    $extError = true;
+                    break;
+            }
+
+        //check error during upload
+        if ($extError){
+            $this->flash->errors = $this->i18n('kernel|dashboard.admin.errorPic');
             //go to processModif
             return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
         }
 
-}
+        $funcName = 'imagecreatefrom'.$typeExt;
+        $ImageChoisie = $funcName($_FILES['image']['tmp_name']);
+        $TailleImageChoisie = getimagesize($_FILES['image']['tmp_name']);
 
+        //calcul des ratios :
+        $ratio1 = $TailleImageChoisie[1]/$TailleImageChoisie[0];
+        $ratio2 = $this->thumbX / $this->thumbY;
+
+        if($ratio2 > $ratio1){
+            $x2 = $ratio1 * $this->thumbX;
+            $y2 = $this->thumbX;
+	}else{
+            $x2 = $this->thumbX;
+            $y2 = $this->thumbX / $ratio1;
+        }
+
+        //create thumbs
+           $NouvelleImage = imagecreatetruecolor($y2 , $x2) or die ("Erreur");
+
+          imagecopyresampled($NouvelleImage , $ImageChoisie  , 0,0, 0,0, $y2, $x2, $TailleImageChoisie[0],$TailleImageChoisie[1]);
+          imagedestroy($ImageChoisie);
+          $NomImageExploitable = 'dash'. $id;
+
+          //delete the old pic
+        if(!empty($zoneDatas['picture']) && file_exists($this->picturesPath.$zoneDatas['picture'])){
+            unlink($this->picturesPath.$zoneDatas['picture']);
+        }
+
+          $funcName = 'image'.$typeExt;
+          $funcName($NouvelleImage , $this->picturesPath.$NomImageExploitable.'.'.$typeExt, 100);
+
+            $datas['picture'] = $this->db->quote($NomImageExploitable.'.'.$typeExt);
+            $datas['id'] = (int)$this->request('id');
+
+            $this->db->update('module_admindash', $datas);
+
+        return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+    }
+    function processDelete(){
+        if(!$this->istyReq('id'))
+            return $this->error ('kernel|dashboard.badOperation');
+
+        //secure id
+        $id = (int)$this->request('id');
+
+        //get infos
+        $zoneDatas = $this->db->query('SELECT * FROM module_admindash WHERE id = '.$id)->toArray1();
+
+        //check security
+        if(Kernel::getLevel($zoneDatas['type_zone'], $zoneDatas['id_zone']) < 60)
+            return $this->error ('kernel|dashboard.admin.noRight');
+
+        //delete pic
+        if(!empty($zoneDatas['picture']) && file_exists($this->picturesPath.$zoneDatas['picture'])){
+            unlink($this->picturesPath.$zoneDatas['picture']);
+        }
+
+
+        //delete records
+        $this->db->delete('module_admindash', $id);
+
+        //go to processModif
+        return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+    }
+
+    function processDeletePic(){
+        if(!$this->istyReq('id'))
+            return $this->error ('kernel|dashboard.badOperation');
+
+        //secure id
+        $id = (int)$this->request('id');
+
+        //get infos
+        $zoneDatas = $this->db->query('SELECT * FROM module_admindash WHERE id = '.$id)->toArray1();
+
+        //check security
+        if(Kernel::getLevel($zoneDatas['type_zone'], $zoneDatas['id_zone']) < 60)
+            return $this->error ('kernel|dashboard.admin.noRight');
+
+        if(!empty($zoneDatas['picture']) && file_exists($this->picturesPath.$zoneDatas['picture'])){
+            unlink($this->picturesPath.$zoneDatas['picture']);
+        }
+
+            $datas['picture'] = 'null';
+            $datas['id'] = (int)$this->request('id');
+
+            $this->db->update('module_admindash', $datas);
+
+         //go to processModif
+        return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+
+    }
+
+    function processImage(){
+        if(!$this->istyReq('id'))
+            header("HTTP/1.0 404 Not Found");
+        else{
+            $id = (int)$this->request('id');
+            
+            //get pic name :
+            $pic = $this->db->query('SELECT picture FROM module_admindash WHERE id = '.$id)->toString();
+            
+            if(!file_exists($this->picturesPath.$pic)){
+                header("HTTP/1.0 404 Not Found");
+            }else{
+                
+                $ext = explode('.', $pic);
+                $ext = strtolower($ext[count($ext)-1]);
+                header("Content-Type: image/".$ext);
+                readfile($this->picturesPath.$pic, 'r+');
+            }
+        }
+        return new CopixActionReturn (COPIX_AR_NONE, 0);
+    }
+
+}

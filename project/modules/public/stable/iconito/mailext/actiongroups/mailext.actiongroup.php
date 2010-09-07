@@ -116,6 +116,19 @@ class ActionGroupMailExt extends EnicActionGroup {
         return $this->go('mailext|mailext|admin');
     }
 
+    public function processDeleteMailConf(){
 
+        $id = (int)$this->request('id');
+
+        //check security
+        $checkUser = $this->service('mailExtService')->checkUserMailConf($id);
+        if(!$checkUser)
+            return $this->error ('mailext.badOperation');
+
+        $this->db->delete('module_mailext', $id);
+
+        return $this->go('mailext|mailext|admin');
+
+    }
 
 }
