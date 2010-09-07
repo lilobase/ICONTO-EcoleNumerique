@@ -1,5 +1,3 @@
-<p style="text-align: right;"><a class="button_like" href="{copixurl dest="comptes|animateurs|new"}">D&eacute;finir un nouvel animateur</a></p>
-
 {if $ppo->animateurs}
 	<table width="100%" class="liste comptes_animateurs comptes_animateurs_list">
 	<tr>

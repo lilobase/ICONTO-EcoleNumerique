@@ -18,7 +18,7 @@
 				<td>{$user->user_infos.login}</td>
 				<td>{$user->ext_nom}</td>
 				<td>{$user->ext_prenom}</td>
-				<td width="1%" style="white-space: nowrap;"><a href="{copixurl dest="comptes|animateurs|edit" user_type="USER_EXT" user_id=$user->ext_id}">d&eacute;finir comme animateur</a></td>
+				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type="USER_EXT" user_id=$user->ext_id}">d&eacute;finir comme animateur</a></td>
 			</tr>
 		{/foreach}
 	{/if}
@@ -40,7 +40,7 @@
 				<td>{$user->user_infos.login}</td>
 				<td>{$user->pers_nom}</td>
 				<td>{$user->pers_prenom1}</td>
-				<td width="1%" style="white-space: nowrap;"><a href="{copixurl dest="comptes|animateurs|edit" user_type="USER_ENS" user_id=$user->pers_numero}">d&eacute;finir comme animateur</a></td>
+				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type="USER_ENS" user_id=$user->pers_numero}">d&eacute;finir comme animateur</a></td>
 			</tr>
 		{/foreach}
 	{/if}

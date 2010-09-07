@@ -94,7 +94,9 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('MAIN', $result );
 		
 		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'),       'size'=>180 );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.new_animateur'),  'url' => CopixUrl::get ('comptes|animateurs|new'), 'size'=>160, 'type'=>'create' );
+		
 		$tpl->assign ('MENU', $menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -223,8 +225,8 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('MAIN', $result );
 		
 		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
-		$menu[] = array( 'txt' => 'Liste des animateurs', 'url' => CopixUrl::get ('comptes|animateurs|list') );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'), 'size'=>180 );
+		$menu[] = array( 'txt' => 'Liste des animateurs', 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>115 );
 		$tpl->assign ('MENU', $menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -308,8 +310,8 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('MAIN', $result );
 		
 		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
-		$menu[] = array( 'txt' => "Liste des animateurs", 'url' => CopixUrl::get ('comptes|animateurs|list') );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'), 'size'=>180 );
+		$menu[] = array( 'txt' => "Liste des animateurs", 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>115 );
 		$tpl->assign ('MENU', $menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
