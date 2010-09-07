@@ -1263,7 +1263,7 @@ class Kernel {
 		$dao = _dao("kernel|kernel_mod_enabled");
 		$modules = array();
 		
-		
+		// Parent d'eleve...
 		if( 0 == strncmp($node_type,"USER_ELE",8) && 0 == strncmp($user_type,"USER_RES",8) ) {
 			$parents = Kernel::getNodeParents( $node_type, $node_id );
 			$parent  = Kernel::filterNodeList( $parents, 'BU_CLASSE' );
@@ -1284,7 +1284,7 @@ class Kernel {
 					$perso->node_id     = $parent[0]['id'];
 					$perso->module_type = 'MOD_CARNET';
 					$perso->module_id   = 'ELEVE_'.$node_id;
-					$perso->module_nom   = Kernel::Code2Name ($parent_module->module_type);
+					$perso->module_nom   = Kernel::Code2Name ('MOD_CARNET');
 					$modules[] = clone $perso;
 				
 				}
