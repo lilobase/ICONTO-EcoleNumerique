@@ -36,10 +36,10 @@ class ZoneModuleContext extends enicZone {
 			if(count($parent)) {
 				$modules = Kernel::getModEnabled($parent[0]['type'], $parent[0]['id'],_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
 			}
-			$perso->node_type   = $parent[0]['type'];
-			$perso->node_id     = $parent[0]['id'];
+			$perso->node_type   = $myNode['type'];
+			$perso->node_id     = $myNode['id'];
 			$perso->module_type = 'MOD_CARNET';
-			$perso->module_id   = 'ELEVE_'.$parent[0]['id'];
+			$perso->module_id   = 'ELEVE_'.$myNode['id'];
 			$perso->module_nom   = Kernel::Code2Name ('MOD_CARNET');
 			$modules[] = clone $perso;
 			
@@ -47,11 +47,15 @@ class ZoneModuleContext extends enicZone {
 		}
 		
 		if ($step=='open') {
-			
+			// _dump($myNodeData);
 			$toReturn  = '<div class="dashboard tools_right ink_blue font_dash">';
 			$toReturn .= '<div class="dashpanel '.$panelClass.'">';
 			$toReturn .= '	<div class="title">';
-			$toReturn .= '		<div class="groupname">'.$myNodeData['nom'].'</div>';
+			if($myNodeData['type']=='USER_ELE') {
+				$toReturn .= '		<div class="groupname">'.$myNodeData['nom'].' '.$myNodeData['nom'].'</div>';
+			} else {
+				$toReturn .= '		<div class="groupname">'.$myNodeData['nom'].'</div>';
+			}
 			$toReturn .= '		<div class="wcontrol">';
 			$toReturn .= '		<a class="dashclose" href="'.$closeUrl.'"></a>';
 			$toReturn .= '		</div>';
@@ -115,6 +119,7 @@ class ZoneModuleContext extends enicZone {
 				$toReturn .= '		<ul>';
 				
 				foreach ($modules as $module) {
+					// _dump($module);
 					$module_type = explode('_', $module->module_type);
 					$module_type = strtolower($module_type[1]);
 					$module_id = (isset($module->module_id)) ? $module->module_id : '';
