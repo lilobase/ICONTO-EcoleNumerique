@@ -1894,7 +1894,8 @@ class ActionGroupDefault extends CopixActionGroup {
     $personnelDAO->update ($ppo->personnel);
         
     $newPassword = _request ('password', null);
-    if ($ppo->account->password_dbuser != md5 ($newPassword)) {
+
+    if (!is_null ($newPassword) && $ppo->account->password_dbuser != md5 ($newPassword)) {
       
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
