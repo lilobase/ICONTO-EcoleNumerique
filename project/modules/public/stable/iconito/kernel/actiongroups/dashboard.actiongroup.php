@@ -200,7 +200,8 @@ class ActionGroupDashboard extends enicActionGroup {
                 
 		if(Kernel::getLevel($type_node, $id_node) < 60)
 		return $this->error ('kernel|dashboard.admin.noRight');
-
+                
+                CopixSession::set('myNode', array('type' => $type_node, 'id' => $id_node));
 		$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $id_node.' AND type_zone = "'.$type_node.'"')->toArray1();
 
 		//if no content : generate default content

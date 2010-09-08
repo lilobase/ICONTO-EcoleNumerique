@@ -32,7 +32,7 @@
 {elseif isset($mail.valid)}
     <div id="dialog-message" title="Connection">
         {if $mail.valid}
-            {i18n key="mailext.sucsessConnect" noEscape=1}
+            {i18n key="mailext.successConnect" noEscape=1}
         {else}
             {i18n key="mailext.errorConnect" noEscape=1}
         {/if}

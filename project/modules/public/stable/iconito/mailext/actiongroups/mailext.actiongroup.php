@@ -131,4 +131,27 @@ class ActionGroupMailExt extends EnicActionGroup {
 
     }
 
+    public function processGetMsg(){
+
+        $id = (int)$this->request('id_mail');
+
+        $dataMail = $this->service('mailextService')->checkById($id);
+
+        if($dataMail === false){
+            echo $this->i18n('mailext.noConfigured');
+            exit();
+        }
+
+        if($dataMail == 0){
+            echo $this->i18n ('mailext.noMsg');
+            exit();
+        }
+
+        echo $this->i18n('mailext.nbMsg').$dataMail.$this->i18n('mailext.msg');
+
+
+        return new CopixActionReturn (COPIX_AR_NONE, 0);
+    }
+
+
 }

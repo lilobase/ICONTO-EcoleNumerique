@@ -28,5 +28,9 @@ class kernelQuiz {
         }
         
     }
+
+    public function getStats(){
+        return '';
+    }
 }
 ?>

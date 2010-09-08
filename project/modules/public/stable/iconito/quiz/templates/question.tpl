@@ -61,7 +61,7 @@
 				{foreach from=$ppo->choices item=choice}
 				<li>
 					<input type="{$ppo->select}" name="response[]" id="id{$choice.id}" value="{$choice.id}" {if $choice.user}checked="checked"{/if} />
-					<label for="id{$choice.id}">{$choice.ct|utf8_decode}</label>
+					<label for="id{$choice.id}">{$choice.ct}</label>
 				</li>
 				{/foreach}
 			</ul>

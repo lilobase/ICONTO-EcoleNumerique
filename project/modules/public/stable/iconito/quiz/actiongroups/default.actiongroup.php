@@ -46,7 +46,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo = new CopixPPO();
         $ppo->quiz = $currentQuiz;
 
-        if(Kernel::getLevel( 'MOD_QUIZ', $idGrQuiz) <= PROFILE_CCV_ADMIN){
+        if(Kernel::getLevel( 'MOD_QUIZ', $idGrQuiz) >= PROFILE_CCV_ADMIN){
 
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
                             'type' => 'list-active',
@@ -180,7 +180,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->next = $qQueue[0];
         $ppo->TITLE_PAGE = 'Quiz';
 
-         if(Kernel::getLevel( 'MOD_QUIZ', $pId) <= PROFILE_CCV_ADMIN){
+         if(Kernel::getLevel( 'MOD_QUIZ', $pId) >= PROFILE_CCV_ADMIN){
 
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
                             'type' => 'list-active',
@@ -307,7 +307,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->help = qSession('help');
         $ppo->name = qSession('name');
 
-         if(Kernel::getLevel( 'MOD_QUIZ', $pId) <= PROFILE_CCV_ADMIN){
+         if(Kernel::getLevel( 'MOD_QUIZ', $pId) >= PROFILE_CCV_ADMIN){
 
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
                             'type' => 'list-active',

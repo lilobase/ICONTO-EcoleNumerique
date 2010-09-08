@@ -35,7 +35,7 @@ class mailExtService extends enicService{
                 return false;
         
         foreach($confs as $mail){
-            $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']); // WARNING BAD ARGUMENTS FOR CONNECT
+            $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']);
 
             //test if connection is right
             if($connect === false){
@@ -51,6 +51,28 @@ class mailExtService extends enicService{
         return $oReturn;
     }
 
+    public function checkById($id){
+
+        if($this->session->exists('date', 'mailext')){
+            if($this->session->load('date', 'mailext') < time()+(15*60))
+                return $this->session->load('datas', 'mailext');
+        }
+
+        $mail = $this->getConfById($id);
+
+        if(empty($mail))
+            return false;
+
+        $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']);
+
+        $nbMail = imap_num_recent($connect);
+
+        $this->session->save('date', time(), 'mailext');
+        $this->session->save('datas', $nbMail, 'mailext');
+
+        return $nbMail;
+    }
+
     public function checkMailConf($iIdMailConf){
         $mail = $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toArray1();
         
@@ -62,6 +84,10 @@ class mailExtService extends enicService{
     //return all conf data's linked to the current user
     public function getConf(){
         return $this->model->query('SELECT * FROM module_mailext WHERE user_id = '.$this->user->id)->toArray();
+    }
+
+    public function getConfById($id){
+        return $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$id)->toArray1();
     }
 
     public function checkUserMailConf($iIdMailConf){
