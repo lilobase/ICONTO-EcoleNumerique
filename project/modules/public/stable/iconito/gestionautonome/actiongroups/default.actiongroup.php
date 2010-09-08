@@ -2513,7 +2513,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $studentDAO->update ($ppo->student);
 		
 		// Modification du password dbuser si différent
-    if ($ppo->account->password_dbuser != md5 ($newPassword)) {
+    if (!is_null ($newPassword) && $ppo->account->password_dbuser != md5 ($newPassword)) {
       
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
