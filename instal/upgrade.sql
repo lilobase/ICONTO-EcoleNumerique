@@ -1,6 +1,7 @@
 -- Généré le : Mer 08 Septembre 2010 à 15:15
 -- Auteur: PNL
--- Valeur de base manquantes (constantes VS, Quiz, Premier groupe de ville requis pour la gestion des comptes
+-- Valeur de base manquantes (constantes VS, Quiz, Premier groupe de ville requis pour la gestion des comptes)
+-- Attention, on considere qu'on utilise la gestion des comptes autonome et pas Vie Scolaire
 
 
 -- Possibilite d'ajouter un quiz dans les groupes
@@ -10,7 +11,7 @@ INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
 
 -- Premier groupe de villes
 
-INSERT INTO  `en2010a`.`kernel_bu_groupe_villes` (
+INSERT INTO  `kernel_bu_groupe_villes` (
 `id_grv` ,
 `nom_groupe` ,
 `date_creation`
