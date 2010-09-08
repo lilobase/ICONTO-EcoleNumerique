@@ -1,3 +1,7 @@
+input[type=submit] {
+	font-size: 1em;
+}
+	
 /* Hack pour Firefox supprimant les pointillés lors des clics
 ------------------------------------------------------------------------------*/
 a,
@@ -50,13 +54,21 @@ fieldset.filter {
   margin-bottom:10px;
 }
 
+fieldset.leftfield {
+  margin-right: 3em;
+  border:1px solid #DDD;
+  -moz-border-radius:6px 6px 6px 6px;
+}
+
 fieldset.filter legend {
   font-style:italic;
   font-weight:bold;
 }
 
 table.liste td {
+  font-family: Arial Narrow,'Droid Sans',sans-serif;
   text-align: center;
+  font-size: 1.2em;
 }
 
 p.breadcrumbs {
@@ -233,7 +245,7 @@ DIV.gestionautonome li a.current {
 }
 
 DIV.gestionautonome input[type="button"]  {
-	font-family:Arial,Helvetica,sans-serif;
-	font-size:85%;
+	afont-family:Arial,Helvetica,sans-serif;
+	font-size:1em;
 	font-weight:normal;
 }
