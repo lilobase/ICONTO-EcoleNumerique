@@ -194,8 +194,10 @@ class ActionGroupDashboard extends enicActionGroup {
 		if(!$this->istyReq('node_id') || !$this->istyReq('node_type'))
 		return $this->error ('kernel|dashboard.admin.badOperation');
 
-		$id_node = (int)$this->request('node_id');
-		$type_node = $this->request('node_type');
+                $currentNode = CopixSession::get('myNode');
+		$id_node = $currentNode['id'];
+		$type_node = $currentNode['type'];
+                
 		if(Kernel::getLevel($type_node, $id_node) < 60)
 		return $this->error ('kernel|dashboard.admin.noRight');
 
