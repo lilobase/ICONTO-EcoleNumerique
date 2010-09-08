@@ -116,25 +116,50 @@ div.toolbar ul li a.action:hover {
 	}
 
 	
-div.viewhelp, div.viewdashboard {
-	background: #fff;
+#right div.kernel {
+	background: #f4f8f4;
 	margin: 12px 12px 12px 0;
 	padding: 6px;
-	border: 1px solid #ddd;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
+	border: 2px solid #fff;
+	font-size: 110%;
+	color: #444433;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
 	}
 
-div.viewdashboard h2 {
-  font-size:1.3em;
-  margin:0;
+#right div.kernel a {
+	color: #444433;
 }
-div.viewdashboard p {
-  margin-top:2px;
-  margin-bottom:2px;
+
+#right div.kernel a:hover {
+	text-decoration: underline;
+}
+
+#right div.kernel h1 {
+	font-size:120%;
+	text-transform: uppercase;
+	margin-top:0px;
+	color: #b28001;
+}
+	
+#right div.kernel ul {
+	list-style-position: outside;
+	padding-left: 15px;
+}
+#right div.kernel li {
+}
+
+#right div.dashboardwelcome li {
 }
 	
 	
 div.legals {
 	text-align: center;
+	text-transform: uppercase;
+	font-size: 80%;
 	}
+div.legals a {
+	color: #000;
+	font-weight: bold;
+	}
+	

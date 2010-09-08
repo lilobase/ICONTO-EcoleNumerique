@@ -6,7 +6,7 @@
  * @package Iconito
  * @subpackage	Groupe
  */
-class ZoneViewDashboard extends CopixZone {
+class ZoneDashboardGroups extends CopixZone {
 
 	/**
 	 * Pour le dashboard, zone affichant le lien vers l'annuaire des groupes, et le bouton pour creer un groupe
@@ -23,7 +23,7 @@ class ZoneViewDashboard extends CopixZone {
 
 		$tpl->assign ('canCreate', ($groupeService->canMakeInGroupe('ADD_GROUP',NULL) ? 1 : 0));
 
-		$toReturn = $tpl->fetch('viewdashboard.tpl');
+		$toReturn = $tpl->fetch('dashboardgroups.tpl');
 		return true;
 		
 	}
