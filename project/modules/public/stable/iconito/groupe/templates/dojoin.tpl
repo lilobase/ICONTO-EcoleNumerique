@@ -20,7 +20,7 @@
 	</DIV>
 {/if}
 
-<A HREF="{copixurl dest="groupe||getListPublic"}">{i18n key="kernel|kernel.back"}</A>
+<A class="button button-continue" HREF="{copixurl dest="groupe||getListPublic"}">{i18n key="kernel|kernel.back"}</A>
 
 
 

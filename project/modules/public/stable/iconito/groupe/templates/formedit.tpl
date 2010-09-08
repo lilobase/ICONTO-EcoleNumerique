@@ -62,7 +62,7 @@
 <textarea class="form" style="width: 400px; height: 50px;" name="membres" id="membres">{$membres}</textarea><br/>{$linkpopup}</td>
 	</tr>
 	{/if}
-	<tr><td colspan="2" CLASS="form_submit"><input style="width: 55px;" class="form_button" onclick="self.location='{if $id eq null}{copixurl dest="|getListMy"}{else}{copixurl dest="|getHomeAdmin" id=$id}{/if}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input style="width: 75px;" class="form_button" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{if $id eq null}{copixurl dest="||"}{else}{copixurl dest="|getHomeAdmin" id=$id}{/if}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
 	
 </table>
 

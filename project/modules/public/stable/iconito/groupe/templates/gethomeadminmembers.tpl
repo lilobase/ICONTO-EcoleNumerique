@@ -100,7 +100,7 @@
       <br/>
       {i18n key="groupe.adminMembers.addDates.debut"}&nbsp;: {inputtext class="datepicker" name="debutW" value=$debutW|datei18n} &nbsp; {i18n key="groupe.adminMembers.addDates.fin"}&nbsp;: {inputtext class="datepicker" name="finW" value=$finW|datei18n}
       </TD>
-			<TD ALIGN="CENTER"><input style="" class="form_button" type="submit" value="{i18n key="groupe.btn.valid"}" /></TD>
+			<TD ALIGN="CENTER"><input class="button button-confirm" type="submit" value="{i18n key="groupe.btn.valid"}" /></TD>
 		</TR>
 		</table>
 		</FORM>
@@ -132,7 +132,7 @@
 </td>
 <td CLASS="form_submit">
 
-<input style="" class="form_button" type="submit" value="{i18n key="groupe.btn.subscribe"}" />
+<input class="button button-add" type="submit" value="{i18n key="groupe.btn.subscribe"}" />
 
 
 </TD>
