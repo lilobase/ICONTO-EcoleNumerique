@@ -81,7 +81,7 @@ class ActionGroupDashboard extends enicActionGroup {
 				//get content from db :
 				$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $node['id'].' AND type_zone = "'.$node['type'].'"')->toArray1();
 				//if no content : get default content
-				if (empty($content)) {
+				if (empty($content['content'])) {
 					switch ($node['type']) {
 						case 'BU_CLASSE':
 							$content['content'] = CopixZone::process('kernel|dashboardClasse', array('idZone' => $node['id']));
@@ -108,10 +108,11 @@ class ActionGroupDashboard extends enicActionGroup {
 							$content['picture'] = null;
 							break;
 					}
-				}else{
-                                    $content['picture'] = $this->url('kernel|dashboard|image', array('id' => $content['id']));
-                                }
+				}
 
+                                if(!empty($content['picture'])){
+                                    $content['picture'] = $this->url('kernel|dashboard|image', array('id' => $content['id'], 'pic' => $content['picture']));
+                                }
 				//is admin :
 				$is_admin = ($node['droit'] >= 60);
 
@@ -194,14 +195,14 @@ class ActionGroupDashboard extends enicActionGroup {
 		if(!$this->istyReq('node_id') || !$this->istyReq('node_type'))
 		return $this->error ('kernel|dashboard.admin.badOperation');
 
-                $currentNode = CopixSession::get('myNode');
-		$id_node = $currentNode['id'];
-		$type_node = $currentNode['type'];
+		$id_node = (int)$this->request('node_id');
+		$type_node = $this->request('node_type');
                 
 		if(Kernel::getLevel($type_node, $id_node) < 60)
 		return $this->error ('kernel|dashboard.admin.noRight');
                 
                 CopixSession::set('myNode', array('type' => $type_node, 'id' => $id_node));
+
 		$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $id_node.' AND type_zone = "'.$type_node.'"')->toArray1();
 
 		//if no content : generate default content
@@ -414,7 +415,6 @@ class ActionGroupDashboard extends enicActionGroup {
             
             //get pic name :
             $pic = $this->db->query('SELECT picture FROM module_admindash WHERE id = '.$id)->toString();
-            
             if(!file_exists($this->picturesPath.$pic)){
                 header("HTTP/1.0 404 Not Found");
             }else{

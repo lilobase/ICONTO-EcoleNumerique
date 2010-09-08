@@ -13,7 +13,7 @@
 </form><br />
 <form action="{copixurl dest="kernel|dashboard|addPicture" id=$ppo->content.id}" enctype="multipart/form-data" method="post">
 
-    {if !empty($ppo->content.picture)} <img src="{copixurl dest="kernel|dashboard|image" id=$ppo->content.id}" /> {/if}
+    {if !empty($ppo->content.picture)} <img src="{copixurl dest="kernel|dashboard|image" id=$ppo->content.id pic=$ppo->content.picture}" /> {/if}
     <label for="image">Ajouter une image : </label>
     <input type="file" name="image" accept="image/*" />
     <input type="submit" />
