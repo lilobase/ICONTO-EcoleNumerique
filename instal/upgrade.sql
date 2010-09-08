@@ -1,3 +1,54 @@
+-- Généré le : Mer 08 Septembre 2010 à 15:15
+-- Auteur: PNL
+-- Valeur de base manquantes (constantes VS, Quiz, Premier groupe de ville requis pour la gestion des comptes
+
+
+-- Possibilite d'ajouter un quiz dans les groupes
+
+INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
+('CLUB', 'MOD_QUIZ');
+
+-- Premier groupe de villes
+
+INSERT INTO  `en2010a`.`kernel_bu_groupe_villes` (
+`id_grv` ,
+`nom_groupe` ,
+`date_creation`
+)
+VALUES (
+NULL ,  'Les villes',  '2010-09-01 00:00:00'
+);
+
+-- Cycles
+
+INSERT INTO `kernel_bu_cycle` VALUES(1, 'Maternelle');
+INSERT INTO `kernel_bu_cycle` VALUES(2, 'Cycle 2');
+INSERT INTO `kernel_bu_cycle` VALUES(3, 'Cycle 3');
+
+-- Types de classe
+
+INSERT INTO `kernel_bu_classe_type` VALUES(11, 'Ordinaire');
+INSERT INTO `kernel_bu_classe_type` VALUES(12, 'CLAD');
+INSERT INTO `kernel_bu_classe_type` VALUES(13, 'CLIS');
+INSERT INTO `kernel_bu_classe_type` VALUES(31, 'CLIN');
+INSERT INTO `kernel_bu_classe_type` VALUES(24, 'Groupe d''enseignement');
+INSERT INTO `kernel_bu_classe_type` VALUES(32, 'Regroupement d''adaptation');
+INSERT INTO `kernel_bu_classe_type` VALUES(33, 'Autre');
+
+-- Niveaux
+
+INSERT INTO `kernel_bu_classe_niveau` VALUES(1, 'Toute petite section', 1, 'TPS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(2, 'Petite section', 1, 'PS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(3, 'Moyenne section', 1, 'MS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(4, 'Grande section', 1, 'GS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(5, 'Cours préparatoire', 2, 'CP');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(6, 'Cours élémentaire 1er année', 2, 'CE1');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(7, 'Cours élémentaire 2ème année', 3, 'CE2');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(8, 'Cours moyen 1er année', 3, 'CM1');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2ème année', 3, 'CM2');
+
+
+
 -- Généré le : Lun 06 Septembre 2010 à 09:54
 -- Version du serveur: 5.1.44
 -- Version de PHP: 5.2.13
