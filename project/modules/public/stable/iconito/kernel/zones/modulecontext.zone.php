@@ -52,7 +52,7 @@ class ZoneModuleContext extends enicZone {
 			$toReturn .= '<div class="dashpanel '.$panelClass.'">';
 			$toReturn .= '	<div class="title">';
 			if($myNodeData['type']=='USER_ELE') {
-				$toReturn .= '		<div class="groupname">'.$myNodeData['nom'].' '.$myNodeData['nom'].'</div>';
+				$toReturn .= '		<div class="groupname">'.$myNodeData['prenom'].' '.$myNodeData['nom'].'</div>';
 			} else {
 				$toReturn .= '		<div class="groupname">'.$myNodeData['nom'].'</div>';
 			}
