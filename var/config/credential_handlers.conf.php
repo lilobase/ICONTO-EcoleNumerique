@@ -2,4 +2,5 @@
   0 => 'admin|installcredentialhandler',
   1 => 'auth|dbcredentialhandler',
   2 => 'auth|dbmodulecredentialhandler',
+  3 => 'gestionautonome|iconitomodulecredentialhandler',
 ); ?>
