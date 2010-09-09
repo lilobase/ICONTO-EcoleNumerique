@@ -3,7 +3,6 @@
 
 
 {if empty($content)}
-{i18n key="mailext.noConfigured" noEscape=1}
 {else}
     {foreach item=mail from=$content}
 <h4 class="mailext-title">{i18n key="mailext.box" noEscape=1} <em>{$mail.name}</em></h4>
@@ -31,4 +30,4 @@
 {/foreach}
 {/if}
 
-    <a href="{copixurl dest="mailext|mailext|admin"}" class="button button-update">{i18n key="mailext.title" noEscape=1}</a>
+    <a href="{copixurl dest="mailext|mailext|admin"}" class="button button-update">{i18n key="mailext.goAdmin" noEscape=1}</a>

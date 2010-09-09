@@ -6,14 +6,13 @@
         $("#me-form-new").hide();
         $("#show-me-form-new").click(function(){
             $("#me-form-new").show();
-            $(this).hide();
+            $(this).parent(".content-panel").hide();
             return false;
         });
 
         $(".me-advanced").hide();
         $(".show-me-advanced").click(function(){
             $(this).next(".me-advanced").toggle();
-            
             return false;
         });
 
