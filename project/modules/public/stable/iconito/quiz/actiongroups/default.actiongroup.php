@@ -252,6 +252,7 @@ class ActionGroupDefault extends enicActionGroup {
         $i=0;
         $correct = 0;
 
+        $choiceReturn = array();
         foreach($choicesDatas as $choice){
 
             $choiceReturn[$i]['ct'] = $choice['content'];
