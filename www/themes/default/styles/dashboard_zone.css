@@ -48,6 +48,8 @@
     float: left;
 }
 
-a.modif_dash{
-    float:right;
+a.modif_dash{;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
 }
