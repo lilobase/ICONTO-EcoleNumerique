@@ -125,6 +125,8 @@ class ActionGroupDashboard extends enicActionGroup {
 				$content_tpl->assign('type', $node['type']);
 				$content = $content_tpl->fetch('dashboard.nodes.tpl');
 
+                                //add css
+                                $this->addCss('styles/dashboard_zone.css');
 				//free memory
 				unset($content_tpl);
 				/*
@@ -283,7 +285,6 @@ class ActionGroupDashboard extends enicActionGroup {
             
             $ImageNews = getimagesize($_FILES['image']['tmp_name']);
             $extError = false;
-
             switch ($ExtensionPresumee) {
                 case 'jpg':
                 case 'jpeg':
@@ -313,7 +314,7 @@ class ActionGroupDashboard extends enicActionGroup {
         if ($extError){
             $this->flash->errors = $this->i18n('kernel|dashboard.admin.errorPic');
             //go to processModif
-            $this->helpers->go('kernel|dashboard|modif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+            return $this->helpers->go('kernel|dashboard|modif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
         }
 
         $funcName = 'imagecreatefrom'.$typeExt;

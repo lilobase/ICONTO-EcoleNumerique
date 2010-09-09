@@ -6,8 +6,6 @@
 class ZoneDashboardEcole extends enicZone {
 
     public function _createContent(&$toReturn){
-        //load css file
-        CopixHTMLHeader::addCSSLink (_resource("styles/dashboard_zone.css"));
 
         //load TPL
         $tpl = & new CopixTpl();
