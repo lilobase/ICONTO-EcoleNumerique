@@ -34,7 +34,7 @@ jQuery(document).ready(function($){
 
 {$petitpoucet}
 
-<div style="min-height:275px; border: solid 1px;">
+<div style="min-height:275px;">
 
 {if not $errors eq null}
 	<DIV CLASS="message_erreur">
