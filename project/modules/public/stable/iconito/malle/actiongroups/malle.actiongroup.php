@@ -127,21 +127,24 @@ class ActionGroupMalle extends CopixActionGroup {
 			);
 			//print_r($can);
 
+    $nbFiles = count($files);
+    $nbFolders = count($folders);
+    
 		// CONSTRUCTION DU MENU
 		// S.Holtz 2010.09
 		$menu = array();
 		$size = 64;
-		if ($can['file_upload']) 
+		if ($can['file_upload'])
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.addfile'),'type' => 'addfile', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddFile', array('id'=>$id, 'folder'=>$folder)));
-		if ($can['folder_create']) 
+		if ($can['folder_create'])
 			$menu[] = array('txt'=>CopixI18N::get ('malle.menu.addfolder'),'type' => 'addfolder', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddFolder', array('id'=>$id, 'folder'=>$folder)));
-		if ($can['item_copy']) 
+		if ($can['item_copy'] && ($nbFiles>0 || $nbFolders>0))
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptCopyItems', array('id'=>$id, 'folder'=>$folder)));
-		if ($can['item_move']) 
+		if ($can['item_move'] && ($nbFiles>0 || $nbFolders>0))
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptMoveItems', array('id'=>$id, 'folder'=>$folder)));
-		if ($can['item_delete']) 
+		if ($can['item_delete'] && ($nbFiles>0 || $nbFolders>0))
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.delete'),'type' => 'delete', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptDeleteItems', array('id'=>$id, 'folder'=>$folder)));
-		if ($can['item_downloadZip']) 
+		if ($can['item_downloadZip'] && ($nbFiles>0 || $nbFolders>0))
 			$menu[] = array('txt'=>CopixI18N::get('malle.menu.download'),'type' => 'download', 'size' => $size+10, 'url' => CopixUrl::get ('malle|malle|promptDownloadZip', array('id'=>$id, 'folder'=>$folder)));
 		$tpl->assign ('MENU', $menu);
 		// FIN CONSTRUCTION DU MENU
