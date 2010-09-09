@@ -68,6 +68,7 @@ jQuery(document).ready(function($){
 		});
 		
 		/* DASHBOARD TOOLSET BEHAVIOR */
+/*		
 		$('.dashboard > .dashpanel > .toolset').mouseover(function(){
 			$(this).addClass('toolset-expand');
 		});
@@ -84,13 +85,19 @@ jQuery(document).ready(function($){
 			$(this).children('ul').addClass('opacity50');
 		});
 		
-		$('.dashboard > .dashpanel > .toolset > ul > li').each(function(){
-			$(this).mouseover(function(){
-				$(this).addClass('highlight');
-			});
-			$(this).mouseout(function(){
-				$(this).removeClass('highlight');
-			});
+		$('.dashboard > .dashpanel > .toolset > ul > li').mouseover(function(){
+			$(this).addClass('highlight');
+		});
+		$('.dashboard > .dashpanel > .toolset > ul > li').mouseout(function(){
+			$(this).removeClass('highlight');
+		});
+*/
+		$('.dashboard > .dashpanel > .toolset').bind('mouseenter mouseleave', function(event) {
+  			$(this).toggleClass('toolset-expand');
+			$(this).children('ul').toggleClass('opacity50');
+		});
+		$('.dashboard > .dashpanel > .toolset > ul > li').bind('mouseenter mouseleave', function(event) {
+  			$(this).toggleClass('highlight');
 		});
 
 		/* DASHBOARD BUTTON BEHAVIOR */

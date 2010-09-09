@@ -71,6 +71,7 @@ div.dashpanel div.toolset-expand {
 	width: 160px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
+	z-index: 999;
 	}
 
 div.dashpanel div.toolset ul li.highlight {

@@ -1,0 +1,17 @@
+/* general */
+ol.disc {
+	padding: 0px 0px 0px 50px;
+}
+
+ol.disc li {
+	padding-left: 5px;
+}
+
+hr.dotted {
+	background: none;
+	border: dotted 1px #c8c8c8;
+}
+
+p.dropcap:first-letter {
+	line-height: 110%;
+}
