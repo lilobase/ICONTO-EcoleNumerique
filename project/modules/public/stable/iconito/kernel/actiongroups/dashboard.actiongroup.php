@@ -197,7 +197,9 @@ class ActionGroupDashboard extends enicActionGroup {
 
 		$id_node = (int)$this->request('node_id');
 		$type_node = $this->request('node_type');
-                
+                /*var_dump($id_node);
+                var_dump($type_node);
+                die();*/
 		if(Kernel::getLevel($type_node, $id_node) < 60)
 		return $this->error ('kernel|dashboard.admin.noRight');
                 
@@ -244,7 +246,7 @@ class ActionGroupDashboard extends enicActionGroup {
             $this->db->update('module_admindash', $datas);
 
             //go to processModif
-            return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+            return $this->helpers->go('||');
 	}
 
 	function processAddPicture(){
@@ -265,7 +267,7 @@ class ActionGroupDashboard extends enicActionGroup {
              if ($_FILES['image']['error'] > 0){
                 $this->flash->errors = $this->i18n('kernel|dashboard.admin.errorPic');
                 //go to processModif
-                return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+                $this->helpers->go('kernel|dashboard|modif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
              }
 
              $ImageNews = $_FILES['image']['name'];
@@ -311,7 +313,7 @@ class ActionGroupDashboard extends enicActionGroup {
         if ($extError){
             $this->flash->errors = $this->i18n('kernel|dashboard.admin.errorPic');
             //go to processModif
-            return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+            $this->helpers->go('kernel|dashboard|modif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
         }
 
         $funcName = 'imagecreatefrom'.$typeExt;
@@ -350,7 +352,7 @@ class ActionGroupDashboard extends enicActionGroup {
 
             $this->db->update('module_admindash', $datas);
 
-        return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+        return $this->helpers->go('kernel|dashboard|modif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
     }
     function processDelete(){
         if(!$this->istyReq('id'))
@@ -403,7 +405,7 @@ class ActionGroupDashboard extends enicActionGroup {
             $this->db->update('module_admindash', $datas);
 
          //go to processModif
-        return $this->go('kernel|dashboard|processModif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
+        return $this->helpers->go('kernel|dashboard|modif', array('node_id' => $zoneDatas['id_zone'], 'node_type' => $zoneDatas['type_zone'] ));
 
     }
 

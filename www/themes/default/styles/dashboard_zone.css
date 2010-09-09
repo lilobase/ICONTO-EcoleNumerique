@@ -49,10 +49,5 @@
 }
 
 a.modif_dash{
-    color: black;
-    font-size: 0.8em;
-}
-
-a.modif_dash:hover{
-    text-decoration: underline;
+    float:right;
 }

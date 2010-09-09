@@ -12,17 +12,13 @@
 */
 
 #dash-pic img{
-    margin: 5px;
-    border: solid #F0F4F0 10px;
+    margin: 10px;
     float: left;
     margin-right: 20px;
 }
-.button-save{
+#dash-ct .button-save{
     margin-top: 15px;
     margin-right: 10px;
-}
-form{
-    display: inline;
 }
 label{
     font-weight: bold;
@@ -38,4 +34,9 @@ legend{
     font-size: 0.8em;
     color: black;
     font-weight: bold;
+}
+
+#dash-ereg .button{
+    margin: 5px;
+    float: right;
 }
