@@ -9,7 +9,7 @@
 	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
 */
 ?>
-<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+<link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_layout.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_zones.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_colors.css"); ?>" type="text/css"/>
@@ -18,7 +18,7 @@
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/jquerycss/default/jquery-ui-1.8.2.custom.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_kernel.css"); ?>" type="text/css"/>
-<?php if (isset($ENpopup) && $ENpopup) { ?><link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/popup.css"); ?>" type="text/css"/><? } ?>
+<?php if (isset($ENpopup) && $ENpopup) { ?><link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/popup.css"); ?>" type="text/css"/><?php } ?>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
 
 <?php if (ereg("MSIE 6.0", $_SERVER["HTTP_USER_AGENT"])) { ?>

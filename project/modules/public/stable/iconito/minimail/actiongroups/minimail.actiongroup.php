@@ -156,6 +156,8 @@ class ActionGroupMinimail extends EnicActionGroup {
 		
 		//print_r($message[0]);
 		
+    $isRecv = $isSend = false;
+    
 		$message[0]->prev = NULL;
 		$message[0]->next = NULL;
 		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyé
@@ -166,6 +168,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 			$next = $daoFrom->getFromNextMessage($message[0]->date_send,$idUser);
 			if ($next)
 				$message[0]->next = $next->id;
+      $isSend = true;
 		} else {	// Il en est peut-être destinataire
 			$isDest = $daoTo->selectDestFromIdAndToUser ($idMessage, $idUser);	// Test s'il est dans les destin
 			if ($isDest) {
@@ -178,6 +181,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 				$next = $daoTo->getToNextMessage($message[0]->date_send,$idUser);
 				if ($next)
 					$message[0]->next = $next->id;
+        $isRecv = true;
 			} else {	// Il tente d'afficher un message qu'il n'a pas envoyé ni reçu !
 				$errors[] = CopixI18N::get ('minimail.error.cantDisplay');
 			}
@@ -203,11 +207,12 @@ class ActionGroupMinimail extends EnicActionGroup {
       
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $message[0]->title);
-		$menu = '';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListRecv').'">'.CopixI18N::get ('minimail.mess_recv').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('minimail.mess_send').'</a> :: ';
-		$menu.= '<a href="'.CopixUrl::get ('minimail||getNewForm').'">'.CopixI18N::get ('minimail.mess_write').'</a>';
-		$tpl->assign ('MENU', $menu );
+      
+      $menu = array();
+      $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get ('minimail||getListRecv'), 'current'=>$isRecv);
+      $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get ('minimail||getListSend'), 'current'=>$isSend);
+      $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get ('minimail||getNewForm'));
+  		$tpl->assign ('MENU', $menu);
 			
 			$message[0]->attachment1IsImage = $MinimailService->isAttachmentImage ($message[0]->attachment1);
 			$message[0]->attachment2IsImage = $MinimailService->isAttachmentImage ($message[0]->attachment2);
