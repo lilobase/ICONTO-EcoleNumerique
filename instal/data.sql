@@ -219,7 +219,7 @@ INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2ème année', 3, '
 
 -- Liens parentaux
 
--
+--
 -- Contenu de la table `lien_parental`
 --
 
