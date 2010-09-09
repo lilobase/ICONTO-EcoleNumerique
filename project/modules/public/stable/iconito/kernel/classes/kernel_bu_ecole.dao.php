@@ -72,10 +72,9 @@ class DAOKernel_bu_ecole {
       return array();
     }
     
-		$sql = $this->_selectQuery
-		  . ', kernel_bu_ecole_classe '
-		  . 'WHERE kernel_bu_ecole.numero=kernel_bu_ecole_classe.ecole '
-		  . 'AND kernel_bu_ecole.id_ville='.$cityId;
+		$sql = $this->_selectQuery.' '
+		  . 'LEFT JOIN kernel_bu_ecole_classe ON kernel_bu_ecole_classe.ecole = kernel_bu_ecole.numero '
+		  . 'WHERE kernel_bu_ecole.id_ville='.$cityId;
 		
 		$conditions = array();
 		if (!empty ($groupsIds['schoolsIds'])) {

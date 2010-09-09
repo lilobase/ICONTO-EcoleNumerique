@@ -84,12 +84,11 @@ class DAOKernel_bu_ville {
       
       return array();
     }
-    
-		$sql = $this->_selectQuery
-		  . ', kernel_bu_ecole, kernel_bu_ecole_classe '
-		  . 'WHERE kernel_bu_ville.id_vi=kernel_bu_ecole.id_ville '
-		  . 'AND kernel_bu_ecole.numero=kernel_bu_ecole_classe.ecole '
-		  . 'AND kernel_bu_ville.id_grville='.$citiesGroupId;
+
+		$sql = $this->_selectQuery.' '
+		  . 'LEFT JOIN kernel_bu_ecole ON kernel_bu_ecole.id_ville = kernel_bu_ville.id_vi '
+		  . 'LEFT JOIN kernel_bu_ecole_classe ON kernel_bu_ecole_classe.ecole = kernel_bu_ecole.numero '
+		  . 'WHERE kernel_bu_ville.id_grville='.$citiesGroupId;
 		
 		$conditions = array();
 		if (!empty ($groupsIds['citiesIds'])) {
@@ -108,7 +107,7 @@ class DAOKernel_bu_ville {
 		$sql .= ' AND ('.implode(' OR ', $conditions).')';
 		$sql .= ' GROUP BY kernel_bu_ville.id_vi';
 		$sql .= ' ORDER BY kernel_bu_ville.nom';
-		
+
     return new CopixDAORecordIterator (_doQuery ($sql), $this->getDAOId ());
 	}
 }
