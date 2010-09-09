@@ -99,8 +99,8 @@ class ActionGroupDashboard extends enicActionGroup {
 							$content['content'] = CopixZone::process('kernel|dashboardGrTravail', array('idZone' => $node['id']));
 							$content['picture'] = null;
 							break;
-                                                case 'ADMIN':
-							$content['content'] = 'Administrateur';
+                        case 'ROOT':
+							$content['content'] = $this->i18n('dashboard.admin.rootdesc'); 
 							$content['picture'] = null;
                                                     break;
 						default:
