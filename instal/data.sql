@@ -80,6 +80,7 @@ INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
 ('BU_VILLE', 'MOD_ALBUM'),
 ('BU_VILLE', 'MOD_BLOG'),
 ('BU_VILLE', 'MOD_MALLE'),
+('BU_VILLE', 'MOD_TELEPROCEDURES'),
 ('CLUB', 'MOD_AGENDA'),
 ('CLUB', 'MOD_ALBUM'),
 ('CLUB', 'MOD_BLOG'),
