@@ -849,7 +849,6 @@ class ActionGroupAlbum extends CopixActionGroup {
                 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css")); 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album_popup.css")); 
-		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js"));
 		
 		return _arPPO ($ppo, array ('template'=>'popup_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));
 		
