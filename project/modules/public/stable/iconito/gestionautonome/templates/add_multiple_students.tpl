@@ -13,7 +13,7 @@
 </ul>
 
 <form name="student_creation_data" id="student_creation_data" action="{copixurl dest="|validateMultipleStudentsAdd"}" method="POST" enctype="multipart/form-data">
-  <fieldset>
+  <fieldset class="leftfield">
     <input type="hidden" name="id_parent" id="id-parent" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->nodeType}" />
     
@@ -29,8 +29,8 @@
   </ul>
 </form>
 
-<div id="help">
-  Nous pouvons remplir le champ avec des exemples:
+<div id="">
+  Nous pouvons remplir le champ avec des exemples ci-dessous:
   <ul>
     <li><a href="#" id="students-data">Quelques élèves</a></li>
     <li><a href="#" id="students-and-persons-data">Quelques élèves et leurs parents</a></li>
