@@ -31,7 +31,10 @@
 		</td>
 	</tr>
 	
-	<tr><td colspan="2" CLASS="form_submit"><input style="" class="form_button" type="submit" value="{i18n key="comptes.form.submit"}"/></td></tr>
+	<tr><td colspan="2" CLASS="form_submit">
+		<a class="button button-cancel" href="{copixurl dest="comptes||getUserExt"}">{i18n key="comptes.form.cancel"}</a>
+		<input class="button button-save" type="submit" value="{i18n key="comptes.form.submit"}"/>
+	</td></tr>
 	
 </table>
 

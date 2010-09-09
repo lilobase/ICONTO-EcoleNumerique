@@ -760,7 +760,8 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl->assign ('MAIN', $result );
 		
 		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'), 'size'=>175 );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.strings.add'), 'url' => CopixUrl::get ('comptes||getUserExtMod', array('id'=>0)), 'size'=>175, 'type'=>'create' );
 		$tpl->assign ('MENU', $menu );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -946,7 +947,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl->assign ('MAIN', $result );
 		
 		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getuserext'), 'url' => CopixUrl::get ('comptes||getUserExt') );
+		// $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getuserext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>175 );
 		$tpl->assign ('MENU', $menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

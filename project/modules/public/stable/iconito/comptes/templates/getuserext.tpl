@@ -1,7 +1,5 @@
 {i18n key="comptes|comptes.expl.getuserext" noEscape=1}
 
-<div style="margin-bottom:15px; margin-right:7px; text-align:right;"><a class="button_like" href="{copixurl dest="comptes||getUserExtMod" id=0}" type="button" value="{i18n key="comptes|comptes.strings.add"}">{i18n key="comptes|comptes.strings.add"}</a></div>
-
 <table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
 	<tr>
 		<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.nom"}</th>
@@ -18,7 +16,7 @@
 				<td align="left">{$user->ext_prenom}</td>
 				<td align="left"><i>{$user->bu2user->user_login}</i></td>
 				<td align="left"><nobr>
-				<a href="{copixurl dest="comptes||getUserExtMod" id=$user->ext_id}">{i18n key="comptes|comptes.strings.mod"}</a>
+				<a class="button button-update" href="{copixurl dest="comptes||getUserExtMod" id=$user->ext_id}">{i18n key="comptes|comptes.strings.mod"}</a>
 				{if $user->ext_id != 1}
 				- <a href="{copixurl dest="comptes||getUserExtMod" id="-`$user->ext_id`"}">{i18n key="comptes|comptes.strings.del"}</a>
 				{/if}
@@ -36,5 +34,3 @@
 	</tr>
  -->
 </table>
-
-<div style="margin-top: 15px; margin-right:7px; text-align:right;"><a class="button_like" href="{copixurl dest="comptes||getUserExtMod" id=0}" type="button" value="{i18n key="comptes|comptes.strings.add"}">{i18n key="comptes|comptes.strings.add"}</a></div>
