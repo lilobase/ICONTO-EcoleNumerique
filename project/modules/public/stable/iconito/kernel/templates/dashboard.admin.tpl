@@ -16,20 +16,23 @@
       {if empty($ppo->content.picture)}
     <form action="{copixurl dest="kernel|dashboard|addPicture" id=$ppo->content.id}" enctype="multipart/form-data" method="post">
         
-        <label for="image">Ajouter une image : </label><br />
+        <label for="image">{i18n key="kernel|dashboard.admin.labelPic" noEscape="true"}</label><br />
+        <p>{i18n key="kernel|dashboard.admin.picDesc" noEscape="true"}</p>
         <input type="file" name="image" accept="image/*" />
-        <input type="submit" class="button button-add" value=" {i18n key="kernel|dashboard.admin.add" noEscape="true"}"/>
+        <input type="submit" class="button button-confirm" value=" {i18n key="kernel|dashboard.admin.add" noEscape="true"}"/>
     </form>
     {/if}
     {if !empty($ppo->content.picture)}
-        <br /><a href="{copixurl dest="kernel|dashboard|deletePic" id=$ppo->content.id}" class="button button-delete">Supprimer l'image</a>
+        <br /><a href="{copixurl dest="kernel|dashboard|deletePic" id=$ppo->content.id}" class="button button-delete">Supprimer l'illustration</a>
     {/if}
         <div style="clear:both"></div>
  </div>
 <br />
-<div id="dash-ereg" class="content-panel">
-    <a id="dash-submit" href="#" class="button button-save" >Enregistrer</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-delete" >Supprimer le contenu</a>
+<div id="dash-ereg" class="content-panel">    
+
+    <a id="dash-submit" href="#" class="button button-save" >Personnaliser</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-delete" >Contenu par défault</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a id="dash-submit" href="{copixurl dest="||"}" class="button button-cancel" >Annuler</a>
     <div style="clear:both"></div>
 </div>
 
