@@ -82,7 +82,8 @@ INSERT INTO `modulecredentialsgroups` (`id_mcg`, `id_mc`, `id_mcv`, `handler_gro
 (42, 9, 27, 'auth|dbgrouphandler', '9'),
 (43, 10, 30, 'auth|dbgrouphandler', '9'),
 (44, 11, 33, 'auth|dbgrouphandler', '9'),
-(45, 12, NULL, 'auth|dbgrouphandler', '9');
+(45, 12, NULL, 'auth|dbgrouphandler', '9'),
+(46, 8, 24, 'auth|dbgrouphandler', '9');
 
 --
 -- Contenu de la table `modulecredentials`
