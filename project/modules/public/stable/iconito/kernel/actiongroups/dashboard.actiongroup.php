@@ -216,7 +216,7 @@ class ActionGroupDashboard extends enicActionGroup {
 			//get content from db :
 			$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $id_node.' AND type_zone = "'.$type_node.'"')->toArray1();
 		}
-
+                $this->addCss('styles/module_admindash.css');
 		$ppo = new CopixPPO();
 		$ppo->content = $content;
                 $ppo->errors = ($this->flash->has('errors')) ? $this->flash->errors : null;
