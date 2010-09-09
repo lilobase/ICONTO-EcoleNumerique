@@ -223,7 +223,7 @@ INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2ème année', 3, '
 -- Contenu de la table `lien_parental`
 --
 
-INSERT INTO `lien_parental` (`id_pa`, `parente`) VALUES
+INSERT INTO `kernel_bu_lien_parental` (`id_pa`, `parente`) VALUES
 (1, 'Mère'),
 (2, 'Père'),
 (3, 'Frère'),
