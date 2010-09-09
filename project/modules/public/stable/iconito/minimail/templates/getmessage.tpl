@@ -58,7 +58,7 @@
 
 <BR CLEAR="ALL">
 
-{if $message->type eq "recv"}<DIV ALIGN="RIGHT"><input style="margin:2px;" class="form_button" onclick="self.location='{copixurl dest="|getNewForm" id=$message->id}'" type="button" value="{i18n key="minimail.btn.reply}" /></DIV>
+{if $message->type eq "recv"}<DIV ALIGN="RIGHT"><input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" id=$message->id}'" type="button" value="{i18n key="minimail.btn.reply}" /></DIV>
 {/if}
 
 </DIV>

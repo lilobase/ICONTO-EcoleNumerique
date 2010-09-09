@@ -38,7 +38,7 @@
 		</DIV>
 		{if $canPrintTopic}
 		<DIV CLASS="carnet_message_actions">
-		<a href="{copixurl dest="|getTopic" id=$topic->id eleve=$eleve print=1}">{if $topic->eleves|@count>1}{i18n key="carnet.printNex" nb=$topic->eleves|@count}{else}{i18n key="carnet.print1ex" nb=$topic->eleves|@count}{/if}</a>
+		<a class="button button-print" href="{copixurl dest="|getTopic" id=$topic->id eleve=$eleve print=1}">{if $topic->eleves|@count>1}{i18n key="carnet.printNex" nb=$topic->eleves|@count}{else}{i18n key="carnet.print1ex" nb=$topic->eleves|@count}{/if}</a>
 		</DIV>
 		{/if}
 	</DIV>
@@ -81,11 +81,11 @@
 
 {if $eleve && $eleve neq 'CLASSE'}
 <br/><DIV CLASS="" ALIGN="LEFT">
-<input style="" class="form_button" onclick="self.location='{copixurl dest="|getMessageForm" topic=$topic->id eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.answer"}" />
+<input class="button button-continue" onclick="self.location='{copixurl dest="|getMessageForm" topic=$topic->id eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.answer"}" />
 </DIV>
 {elseif $topic->nb_eleves eq 1}
 <br/><DIV CLASS="" ALIGN="LEFT">
-<input style="" class="form_button" onclick="self.location='{copixurl dest="|getMessageForm" topic=$topic->id eleve=$topic->eleves.0->eleve}'" type="button" value="{i18n key="carnet.btn.answer"}" />
+<input class="button button-continue" onclick="self.location='{copixurl dest="|getMessageForm" topic=$topic->id eleve=$topic->eleves.0->eleve}'" type="button" value="{i18n key="carnet.btn.answer"}" />
 </DIV>
 {/if}
 

@@ -51,7 +51,7 @@
   </td>
 </tr>
 <tr>
- <td COLSPAN="4" CLASS="form_submit"><input style="" class="form_button" onclick="self.location='{copixurl dest="|go" id=$rType->teleprocedure}'" type="button" value="{i18n key="kernel|kernel.btn.cancel"}" /> <input class="form_button" type="submit" name="ok" value="{i18n key="kernel|kernel.btn.save"}" /></td>
+ <td COLSPAN="4" CLASS="form_submit"><input style="" class="button button-cancel" onclick="self.location='{copixurl dest="|go" id=$rType->teleprocedure}'" type="button" value="{i18n key="kernel|kernel.btn.cancel"}" /> <input class="button button-save" type="submit" name="ok" value="{i18n key="kernel|kernel.btn.save"}" /></td>
 </tr>
 </table>
 </form>

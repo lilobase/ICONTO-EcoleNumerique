@@ -89,9 +89,8 @@
 	 <i>{i18n key="kernel|kernel.fields.oblig"}</i>
 	 <br/>
 	 
-<input type="hidden" name="id_blog" value="{$blog->id_blog}">
-<input type="submit" class="form_button" value="{i18n key="copix:common.buttons.ok"}" />
-<input class="form_button" type="button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="admin|" id=$type->teleprocedure}'" />
+<input type="submit" class="button button-save" value="{i18n key="kernel|kernel.btn.save"}" />
+<input class="button button-cancel" type="button" value="{i18n key="kernel|kernel.btn.cancel"}" onclick="javascript:window.location='{copixurl dest="admin|" id=$type->teleprocedure}'" />
 	 
 	</td>	 
 	 </tr>

@@ -40,8 +40,8 @@
 		</tr>
     <tr>
     <td colspan="4" CLASS="form_submit">
-		<input type="button" class="form_button" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
-		<input type="submit" class="form_button" value="{i18n key="agenda.message.importation"}" />
+		<input type="button" class="button button-cancel" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
+		<input type="submit" class="button button-continue" value="{i18n key="agenda.message.importation"}" />
     </td>
     </tr>
 	</table>

@@ -151,7 +151,7 @@ class ActionGroupLecon extends CopixActionGroup {
 		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
 		$menu_type = 'create';
 		$menu_url = CopixUrl::get ('agenda|event|create');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => true, 'url' => $menu_url);
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
 		
 		// Export
 		$menu_txt = CopixI18N::get('agenda.menu.export');

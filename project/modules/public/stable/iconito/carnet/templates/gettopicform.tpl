@@ -55,7 +55,7 @@
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="carnet.form.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
 
-	<tr><td colspan="2" CLASS="form_submit"><input style="" class="form_button" onclick="self.location='{copixurl dest="carnet||getCarnet" classe=$classe eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.cancel"}" /> <input style="" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'save');" value="{i18n key="carnet.btn.save"}" /> <input style="" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="{i18n key="carnet.btn.preview"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="carnet||getCarnet" classe=$classe eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.cancel"}" /> <input class="button button-save" type="submit" onClick="submitTopicForm(this.form, 'save');" value="{i18n key="carnet.btn.save"}" /> <input class="button button-view" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="{i18n key="carnet.btn.preview"}" /></td></tr>
 	
 </table>
 

@@ -14,7 +14,7 @@
 {i18n key="annuaire.ville"} : {$combovilles}<br/>
 {if !$profil || $profil!='USER_VIL'}{i18n key="annuaire.ecole"} : {$comboecoles}<br/>{/if}
 {if !$profil || $profil!='USER_VIL'}{i18n key="annuaire.classe"} : {$comboclasses}<br/>{/if}
-{if $profil}<input type="submit" value="{i18n key="annuaire.btn.display"}" class="form_button" /><br/>{/if}
+{if $profil}<input type="submit" value="{i18n key="annuaire.btn.display"}" class="button button-confirm" /><br/>{/if}
 </div>
 
 
@@ -29,7 +29,7 @@
 {if $visib.USER_EXT}<LABEL FOR="profil_EXT">{i18n key="annuaire.ext"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_EXT" {if $profils.EXT==1}CHECKED{/if} NAME="profils[EXT]" VALUE="1" /><br/>{/if}
 
 
-<input type="submit" value="{i18n key="annuaire.btn.display"}" class="form_button" /><br/>
+<input type="submit" value="{i18n key="annuaire.btn.display"}" class="button button-confirm" /><br/>
 {/if}
 </div>
 <br clear="all" /><br clear="all" /></div>

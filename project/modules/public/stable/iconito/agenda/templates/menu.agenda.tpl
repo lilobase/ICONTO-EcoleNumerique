@@ -15,7 +15,7 @@
 			<div class="titreAgenda"><div style="margin-left:3px; margin-right:2px; margin-top:3px; float: right; height:14px; width:14px; background-color:#{$color}">&nbsp;</div>{$agenda->title_agenda}<input type="checkbox" name="agendas.{$agenda->id_agenda}" value=1 {if isset($agendasSelectionnes[$id])}checked="checked"{/if}/></div>
 		{/foreach}
 		<input type="hidden" name="updateAgendaAffiches" value="1" />
-		<input type="submit" class="form_button" style="margin-top: 5px;" value="{i18n key="copix:common.buttons.valid"}" />
+		<input type="submit" class="button" style="margin-top: 5px;" value="{i18n key="copix:common.buttons.valid"}" />
 	</form>
 </div>
   

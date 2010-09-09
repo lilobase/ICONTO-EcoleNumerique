@@ -194,6 +194,7 @@ h4{
 .button-attach		{ padding-left: 26px; background: #fff url(../images/action_attach.png) 4px 50% no-repeat; }
 .button-file		{ padding-left: 26px; background: #fff url(../images/action_attach.png) 4px 50% no-repeat; }
 .button-confirm		{ padding-left: 26px; background: #fff url(../images/action_confirm.png) 4px 50% no-repeat; }
+.button-print		{ padding-left: 26px; background: #fff url(../images/action_print.png) 4px 50% no-repeat; }
 
 .button-p-first		{ padding-left: 26px; background: #fff url(../images/action_p_first.png) 4px 50% no-repeat; }
 .button-p-previous	{ padding-left: 26px; background: #fff url(../images/action_p_previous.png) 4px 50% no-repeat; }

@@ -31,7 +31,7 @@
 				<input type="hidden" name="field" value="{$field}" />
 				<input type="hidden" name="format" value="{$format}" />
 				{$combofolders}
-				<input type="submit" value="GO" class="form_button" />
+				<input type="submit" value="GO" class="button button-continue" />
 			</form>
 			{/if}
 		</div>

@@ -27,7 +27,7 @@
 
 <p></p>
 
-<input style="" class="form_button" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" type="button" value="{i18n key="malle.btn.cancel"}" /> <input style="" class="form_button" type="submit" value="{i18n key="malle.btn.valid"}" />
+<input class="button button-cancel" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" type="button" value="{i18n key="malle.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="malle.btn.valid"}" />
 
 
 </FORM>

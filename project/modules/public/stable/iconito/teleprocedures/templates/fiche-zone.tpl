@@ -46,7 +46,7 @@
 	<td class="ecole">
 	<div class="ecole">
 		
-		<div class="imprimer noPrint"><a title="{i18n key="kernel|kernel.btn.print"}" class="button_like" target="_blank" href="{copixurl dest="|fiche" id=$rFiche->idinter print=1}">{i18n key="kernel|kernel.btn.print"}</a></div>
+		<div class="imprimer noPrint"><a title="{i18n key="kernel|kernel.btn.print"}" class="button button-print" target="_blank" href="{copixurl dest="|fiche" id=$rFiche->idinter print=1}">{i18n key="kernel|kernel.btn.print"}</a></div>
 
 
 		<div class="nom">{$rFiche->ecole_nom|escape}{if $rFiche->ecole_type} ({$rFiche->ecole_type|escape}){/if}</div>

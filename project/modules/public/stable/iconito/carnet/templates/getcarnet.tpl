@@ -1,9 +1,9 @@
 
 <DIV CLASS="" ALIGN="RIGHT">
 {if !$eleve && $hisEleves|@count>0}
-<div style="text-align:right;"><a class="button_like" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
+<div style="text-align:right;"><a class="button button-add" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
 {elseif ($eleve)}
-<div style="text-align:right;"><a class="button_like" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
+<div style="text-align:right;"><a class="button button-add" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
 {/if}
 </DIV>
 <br/>

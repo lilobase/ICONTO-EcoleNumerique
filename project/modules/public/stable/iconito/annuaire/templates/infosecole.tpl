@@ -9,7 +9,7 @@
 
 <form name="formGo" id="formGo" action="{copixurl dest="annuaire||getAnnuaireEcole"}" method="get">
 {$comboecoles}
-<input type="submit" value="{i18n key="annuaire.btn.go"}" class="form_button" />
+<input type="submit" value="{i18n key="annuaire.btn.go"}" class="button" />
 </form>
 
 </DIV>

@@ -59,9 +59,15 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 		$tplListe = & new CopixTpl ();
 		$tplListe->assign ('list', CopixZone::process ('groupe|mygroupes', array('where'=>'groupes')));
-		$tplListe->assign ('canCreate', ($groupeService->canMakeInGroupe('ADD_GROUP',NULL) ? 1 : 0));
 		$result = $tplListe->fetch("getlistmy.tpl");
-
+    
+    $menu = array();
+		if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create');
+    $menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'), 'current'=>false);
+    $menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.my'), 'current'=>true);
+		$tpl->assign ('MENU', $menu);
+    
+    
 		$tpl->assign ("MAIN", $result);
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -140,6 +146,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 		$menu = array();
 		if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create');
+    $menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'), 'current'=>true);
+    $menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.my'));
 		$tpl->assign ('MENU', $menu);
 
 		$tplListe = & new CopixTpl ();

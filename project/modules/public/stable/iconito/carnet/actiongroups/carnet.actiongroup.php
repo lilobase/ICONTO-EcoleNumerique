@@ -277,7 +277,7 @@ class ActionGroupCarnet extends EnicActionGroup {
 			
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $topic->titre);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
+			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 
 			//print_r($list);
 			//print_r($topic);
@@ -356,7 +356,7 @@ class ActionGroupCarnet extends EnicActionGroup {
 			$tpl = & new CopixTpl ();
 			$title_page = ($id) ? CopixI18N::get ('carnet|carnet.modifTopic') : CopixI18N::get ('carnet|carnet.newTopic');
 			$tpl->assign ('TITLE_PAGE', $title_page);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
+			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 			
 			// On coche éventuellement l'élève par défaut à la première arrivée
 			if (!$eleves) {
@@ -531,7 +531,7 @@ class ActionGroupCarnet extends EnicActionGroup {
 
 			$result = $tplForm->fetch('getmessageform.tpl');
 			$tpl->assign ('MAIN', $result);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getTopic', array("id"=>$topic, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backTopic').'</a> :: <a href="'.CopixUrl::get ('carnet||getCarnet', array("eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
+			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getTopic', array("id"=>$topic, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backTopic').'</a> :: <a href="'.CopixUrl::get ('carnet||getCarnet', array("eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 			
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		}

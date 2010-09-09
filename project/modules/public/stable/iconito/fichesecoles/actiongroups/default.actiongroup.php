@@ -85,6 +85,7 @@ class ActionGroupDefault extends EnicActionGroup {
 			$menu[] = array(
 				'url' => CopixUrl::get('admin|form', array('id'=>$rEcole->numero)),
 				'txt' => CopixI18N::get ('kernel|kernel.btn.modify'),
+        'type' => 'update',
 			);
 
 		$tpl->assign ('MENU', $menu);

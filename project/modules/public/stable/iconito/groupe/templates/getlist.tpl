@@ -8,8 +8,6 @@
 <input type="text" name="kw" class="form" style="width: 120px;" value="{$kw}" />
 <input type="submit" value="{i18n key="groupe.searchSubmit"}" class="button button-confirm" />
 
-{* {if $canCreate}<a class="button_like" href="{copixurl dest="|getEdit"}">{i18n key="groupe.btn.addGroup"}</a>{/if} *}
-
 
 </form>
 

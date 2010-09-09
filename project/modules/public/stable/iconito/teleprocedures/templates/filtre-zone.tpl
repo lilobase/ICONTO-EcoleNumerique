@@ -18,7 +18,7 @@
 	{/if}
 	<td CLASS="form_libelle">{i18n key="teleprocedures|teleprocedures.filtre.type"}</td>
 	<td width="" CLASS="form_saisie"> 
-	<td rowspan="3"><input type="submit" value="{i18n key="kernel|kernel.btn.filtrer"}" CLASS="form_button"></td>
+	<td rowspan="3"><input type="submit" value="{i18n key="kernel|kernel.btn.filtrer"}" CLASS="button button-continue"></td>
 </tr>
 
 
