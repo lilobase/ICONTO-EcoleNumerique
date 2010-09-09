@@ -217,6 +217,26 @@ INSERT INTO `kernel_bu_classe_niveau` VALUES(7, 'Cours élémentaire 2ème anné
 INSERT INTO `kernel_bu_classe_niveau` VALUES(8, 'Cours moyen 1er année', 3, 'CM1');
 INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2ème année', 3, 'CM2');
 
+-- Liens parentaux
+
+-
+-- Contenu de la table `lien_parental`
+--
+
+INSERT INTO `lien_parental` (`id_pa`, `parente`) VALUES
+(1, 'Mère'),
+(2, 'Père'),
+(3, 'Frère'),
+(4, 'Soeur'),
+(5, 'Grand-père'),
+(6, 'Grand-mère'),
+(7, 'Oncle'),
+(8, 'Tante'),
+(9, 'Collatéraux'),
+(10, 'Tuteur'),
+(11, 'Inconnu');
+
+
 -- Config contact du module d'aide
 
 INSERT INTO `module_contacts_types` (`id`, `contact`, `nom`, `is_default`, `ordre`) VALUES (1, 1, 'Anomalie', NULL, 1), (2, 1, 'Suggestion', NULL, 2), (3, 1, 'Comment faire ?', NULL, 3), (4, 1, 'Autre', 1, 4);
