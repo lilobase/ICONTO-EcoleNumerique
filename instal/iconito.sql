@@ -2448,6 +2448,7 @@ CREATE TABLE `module_charte_users_validation` (
 -- Structure de la table `module_mailext`
 -- 
 
+DROP TABLE IF EXISTS `module_mailext`;
 CREATE TABLE `module_mailext` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` int(11) unsigned NOT NULL,
@@ -2471,6 +2472,7 @@ CREATE TABLE `module_mailext` (
 -- Structure de la table `module_admindash`
 -- 
 
+DROP TABLE IF EXISTS `module_admindash`;
 CREATE TABLE `module_admindash` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `content` text,
@@ -2488,6 +2490,7 @@ CREATE TABLE `module_admindash` (
 -- Structure de la table `module_contacts`
 -- 
 
+DROP TABLE IF EXISTS `module_contacts`;
 CREATE TABLE `module_contacts` (
   `id` int(11) NOT NULL auto_increment,
   `titre` varchar(100) NOT NULL,
@@ -2502,6 +2505,7 @@ CREATE TABLE `module_contacts` (
 -- Structure de la table `module_contacts_messages`
 -- 
 
+DROP TABLE IF EXISTS `module_contacts_messages`;
 CREATE TABLE `module_contacts_messages` (
   `id` int(11) NOT NULL auto_increment,
   `contact` int(11) NOT NULL,
@@ -2527,6 +2531,7 @@ CREATE TABLE `module_contacts_messages` (
 -- Structure de la table `module_contacts_types`
 -- 
 
+DROP TABLE IF EXISTS `module_contacts_types`;
 CREATE TABLE `module_contacts_types` (
   `id` int(11) NOT NULL auto_increment,
   `contact` int(11) NOT NULL,
