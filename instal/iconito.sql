@@ -2339,46 +2339,6 @@ CREATE TABLE IF NOT EXISTS `module_rightmatrix` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `module_mailext`
---
-
-DROP TABLE IF EXISTS `module_mailext`;
-CREATE TABLE `module_mailext` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
-  `protocol` varchar(255) NOT NULL,
-  `server` varchar(255) NOT NULL,
-  `port` int(2) unsigned NOT NULL,
-  `ssl` tinyint(2) unsigned NOT NULL,
-  `tls` tinyint(2) unsigned NOT NULL,
-  `login` varchar(150) NOT NULL,
-  `pass` varchar(150) NOT NULL,
-  `imap_path` varchar(150) DEFAULT NULL,
-  `name` varchar(150) NOT NULL,
-  `webmail_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_mailext`
--- 
-
-DROP TABLE IF EXISTS `module_quiz_choices`;
-CREATE TABLE `module_quiz_choices` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id_question` int(11) unsigned NOT NULL,
-  `content` text,
-  `correct` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `order` int(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
 -- Structure de la table `module_quiz_groupes`
 --
 
@@ -2482,6 +2442,34 @@ CREATE TABLE `module_charte_users_validation` (
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `module_mailext`
+-- 
+
+CREATE TABLE `module_mailext` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `protocol` varchar(255) NOT NULL,
+  `server` varchar(255) NOT NULL,
+  `port` int(2) unsigned NOT NULL,
+  `ssl` tinyint(2) unsigned NOT NULL,
+  `tls` tinyint(2) unsigned NOT NULL,
+  `login` varchar(150) NOT NULL,
+  `pass` varchar(150) NOT NULL,
+  `imap_path` varchar(150) DEFAULT NULL,
+  `name` varchar(150) NOT NULL,
+  `webmail_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `module_admindash`
+-- 
 
 CREATE TABLE `module_admindash` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
@@ -2494,6 +2482,11 @@ CREATE TABLE `module_admindash` (
   KEY `type_zone` (`type_zone`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=UTF8;
 
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `module_contacts`
+-- 
 
 CREATE TABLE `module_contacts` (
   `id` int(11) NOT NULL auto_increment,
@@ -2502,6 +2495,12 @@ CREATE TABLE `module_contacts` (
   `date_creation` datetime NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `module_contacts_messages`
+-- 
 
 CREATE TABLE `module_contacts_messages` (
   `id` int(11) NOT NULL auto_increment,
@@ -2522,6 +2521,12 @@ CREATE TABLE `module_contacts_messages` (
   KEY `date` (`date`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+-- 
+-- Structure de la table `module_contacts_types`
+-- 
+
 CREATE TABLE `module_contacts_types` (
   `id` int(11) NOT NULL auto_increment,
   `contact` int(11) NOT NULL,
@@ -2533,29 +2538,5 @@ CREATE TABLE `module_contacts_types` (
   KEY `ordre` (`ordre`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
--- INSERT INTO `module_contacts_types` (`id`, `contact`, `nom`, `is_default`, `ordre`) VALUES (1, 1, 'Anomalie', NULL, 1), (2, 1, 'Suggestion', NULL, 2), (3, 1, 'Comment faire ?', NULL, 3), (4, 1, 'Autre', 1, 4);
 
 
--- Généré le : Jeu 05 Août 2010 à 17:54
--- Version du serveur: 5.1.44
--- Version de PHP: 5.2.13
---
--- Structure de la table `module_mailext`
---
-
-CREATE TABLE `module_mailext` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
-  `protocol` varchar(255) NOT NULL,
-  `server` varchar(255) NOT NULL,
-  `port` int(2) unsigned NOT NULL,
-  `ssl` tinyint(2) unsigned NOT NULL,
-  `tls` tinyint(2) unsigned NOT NULL,
-  `login` varchar(150) NOT NULL,
-  `pass` varchar(150) NOT NULL,
-  `imap_path` varchar(150) DEFAULT NULL,
-  `name` varchar(150) NOT NULL,
-  `webmail_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
