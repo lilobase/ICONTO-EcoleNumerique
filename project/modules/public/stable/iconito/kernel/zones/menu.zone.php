@@ -42,7 +42,9 @@ class ZoneMenu extends CopixZone {
 				$style .= '"';
 				
 				$html .= '<li>';
-				$html .= '<a '.$class.' '.$style.' href="'.$url.'">';
+				$html .= '<a '.$class.' '.$style.' href="'.$url.'"';
+				if( isset($val['target']) ) $html .= ' target="'.$val['target'].'"';
+				$html .= '>';
 				$html .= '<span class="valign"></span>';
 				$html .= '<span>'.$val['txt'].'</span>';
 				$html .= '</a>';
