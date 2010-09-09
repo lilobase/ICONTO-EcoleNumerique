@@ -1,6 +1,3 @@
-/*
-
-
 // Action sur les cases coch�es
 function actionChecked (action) {
 	var trouve=false;
@@ -22,7 +19,7 @@ function cocherElements (form, elements, checked) {
 //		if (form[i].checked == true)
 //			trouve=true;
 }
-*/
+
 function confirmDelete () {
 	return confirm (i18n_confirm_delete);
 }
@@ -80,12 +77,11 @@ function sendDocument2 (url, field, format, htmlDownload, htmlView, i18n_unsuppo
 	if( ! form.multi.checked ) self.close();
 }
 */
+
+
 function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat) {
 	var popup = false;
 	var html = '';
-//  var form = $('form');
-//  if( form.mode[0].checked ) mode='view';
-//	if( form.mode[1].checked ) mode='download';
 	switch (format) {
 		case 'wiki' :
 		  self.parent.current_url_doc = "[["+url+"|"+mode+"]]";

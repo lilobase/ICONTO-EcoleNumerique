@@ -3,7 +3,7 @@
 <script type="text/javascript">
 var id = {$id};
 var folder = {$folder};
-var noSelection = "{i18n key="malle.error.noSelection"}";
+var noSelection = "{i18n key='malle.error.noSelection'}";
 </script>
 
 {literal}
@@ -14,8 +14,9 @@ jQuery(document).ready(function($){
 	$('#file-checkall').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', true); });
 	$('#file-checknone').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', false); });
 	$('.item-rename').click (function() { $('.item-link').eq($('.item-rename').index(this)).toggle(); $('.item-field').eq($('.item-rename').index(this)).toggle(); });
+
   	$('a.download').click (function() { 
-		nb_checked = jQuery('input[type=checkbox][name=files\\[\\]]:checked').size() + jQuery('input[type=checkbox][name=folders\\[\\]]:checked').size();
+		nb_checked = jQuery('#remote-checker :checked[name="files[]"]').size() + jQuery('#remote-checker :checked[name="folders[]"]').size();
 		if (nb_checked > 0) {
 			var pars = 'id='+id+'&folder='+folder+'';
 			pars += '&'+$('#remote-checker :checked[name="files[]"]').serialize();
@@ -33,7 +34,7 @@ jQuery(document).ready(function($){
 
 {$petitpoucet}
 
-<div style="min-height:275px;">
+<div style="min-height:275px; border: solid 1px;">
 
 {if not $errors eq null}
 	<DIV CLASS="message_erreur">

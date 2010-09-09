@@ -155,7 +155,7 @@ div.tools_left div.dashpanel div.toolset-expand, div.tools_left div.toolset-expa
 	-webkit-border-bottom-left-radius: 0px;
 	}
 
-div.tools_left div.dashpanel ul li a {
+div.tools_left div.dashpanel div.toolset ul li a {
 	background-position: 2px 50%;
 	background-repeat: no-repeat;
 	padding-left: 34px;
@@ -246,7 +246,7 @@ div.tools_right div.dashpanel div.toolset-expand ul li.selected {
 	-webkit-border-bottom-left-radius: 6px;
 	}
 
-div.tools_right div.dashpanel ul li a {
+div.tools_right div.dashpanel div.toolset ul li a {
 	background-position: 100% 50%;
 	background-repeat: no-repeat;
 	padding-right: 32px;
