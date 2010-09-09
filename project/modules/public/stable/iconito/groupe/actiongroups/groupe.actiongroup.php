@@ -698,7 +698,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				
 			$menu = array();
 			// $menu[] = array('txt'=>CopixI18N::get ('groupe|groupe.backHome'), 'url' => CopixUrl::get ('groupe||getHome', array("id"=>$id)), 'size'=>100);
-			$menu[] = array('txt'=>CopixI18N::get ('groupe|groupe.backHomeAdmin'), 'url' => CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)), 'size'=>190);
+			//$menu[] = array('txt'=>CopixI18N::get ('groupe|groupe.backHomeAdmin'), 'url' => CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)), 'size'=>190);
 			$tpl->assign ('MENU', $menu);
 				
 			$childs = $kernel_service->getNodeChilds( "CLUB", $id );
@@ -1430,7 +1430,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			// $tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdminMembers').'</a>');
 			$menu = array();
 			// $menu[] = array('url' => CopixUrl::get ('groupe||getHome', array("id"=>$id)), 'txt'=>CopixI18N::get ('groupe|groupe.backHome'), 'size'=>100);
-			$menu[] = array('url' => CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id)), 'txt'=>CopixI18N::get ('groupe|groupe.backHomeAdminMembers'), 'size'=>120);
+			//$menu[] = array('url' => CopixUrl::get ('groupe||getHomeAdminMembers', array("id"=>$id)), 'txt'=>CopixI18N::get ('groupe|groupe.backHomeAdminMembers'), 'size'=>120);
 			$tpl->assign ('MENU', $menu);
 			
 

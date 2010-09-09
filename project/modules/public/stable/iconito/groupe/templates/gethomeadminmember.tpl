@@ -29,7 +29,7 @@
 <tr><td class="form_libelle">{i18n key="groupe.adminMembers.addDates.fin"}</td><td>{inputtext class="datepicker" name="fin" value=$his->fin|datei18n}</td>
 
 
-	<tr><td colspan="2" class="form_submit"><br/><input style="" class="form_button" onclick="self.location='{copixurl dest="|getHomeAdminMembers" id=$groupe->id}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input style="" class="form_button" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
+	<tr><td colspan="2" class="form_submit"><br/><input class="button button-cancel" onclick="self.location='{copixurl dest="|getHomeAdminMembers" id=$groupe->id}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
 	
 </table>
 
