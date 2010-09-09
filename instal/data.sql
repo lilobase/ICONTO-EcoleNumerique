@@ -40,7 +40,7 @@ INSERT INTO `kernel_bu_personnel_role` VALUES (1,'Enseignant','Enseignants','ECO
 -- Dumping data for table `kernel_bu_sexe`
 --
 
-INSERT INTO `kernel_bu_sexe` VALUES (1,'Masculin'),(2,'F�minin');
+INSERT INTO `kernel_bu_sexe` VALUES (1,'Masculin'),(2,'F�minin');
 
 
 -- 
@@ -87,6 +87,7 @@ INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
 ('CLUB', 'MOD_LISTE'),
 ('CLUB', 'MOD_MAGICMAIL'),
 ('CLUB', 'MOD_MALLE'),
+('CLUB', 'MOD_QUIZ'),
 ('USER_%', 'MOD_AGENDA'),
 ('USER_%', 'MOD_MALLE'),
 ('USER_%', 'MOD_MINIMAIL'),
@@ -94,6 +95,8 @@ INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
 ('USER_EXT', 'MOD_WEBMAIL'),
 ('USER_RES', 'MOD_CORRESP'),
 ('USER_VIL', 'MOD_WEBMAIL');
+
+
 
 -- 
 -- Contenu de la table `module_teleprocedure_statu`
@@ -170,4 +173,50 @@ INSERT INTO `copixmodule` (`name_cpm`, `path_cpm`, `version_cpm`) VALUES
 
 INSERT INTO `kernel_bu_annee_scolaire` (`id_as`, `annee_scolaire`, `dateDebut`, `dateFin`, `current`) VALUES
 (2010, '2010-2011', '2010-09-02', '2011-07-31', 1);
+
+-- Possibilite d'ajouter un quiz dans les groupes
+
+
+-- Premier groupe de villes
+
+INSERT INTO  `kernel_bu_groupe_villes` (
+`id_grv` ,
+`nom_groupe` ,
+`date_creation`
+)
+VALUES (
+NULL ,  'Les villes',  '2010-09-01 00:00:00'
+);
+
+-- Cycles
+
+INSERT INTO `kernel_bu_cycle` VALUES(1, 'Maternelle');
+INSERT INTO `kernel_bu_cycle` VALUES(2, 'Cycle 2');
+INSERT INTO `kernel_bu_cycle` VALUES(3, 'Cycle 3');
+
+-- Types de classe
+
+INSERT INTO `kernel_bu_classe_type` VALUES(11, 'Ordinaire');
+INSERT INTO `kernel_bu_classe_type` VALUES(12, 'CLAD');
+INSERT INTO `kernel_bu_classe_type` VALUES(13, 'CLIS');
+INSERT INTO `kernel_bu_classe_type` VALUES(31, 'CLIN');
+INSERT INTO `kernel_bu_classe_type` VALUES(24, 'Groupe d''enseignement');
+INSERT INTO `kernel_bu_classe_type` VALUES(32, 'Regroupement d''adaptation');
+INSERT INTO `kernel_bu_classe_type` VALUES(33, 'Autre');
+
+-- Niveaux
+
+INSERT INTO `kernel_bu_classe_niveau` VALUES(1, 'Toute petite section', 1, 'TPS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(2, 'Petite section', 1, 'PS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(3, 'Moyenne section', 1, 'MS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(4, 'Grande section', 1, 'GS');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(5, 'Cours préparatoire', 2, 'CP');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(6, 'Cours élémentaire 1er année', 2, 'CE1');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(7, 'Cours élémentaire 2ème année', 3, 'CE2');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(8, 'Cours moyen 1er année', 3, 'CM1');
+INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2ème année', 3, 'CM2');
+
+-- Config contact du module d'aide
+
+INSERT INTO `module_contacts_types` (`id`, `contact`, `nom`, `is_default`, `ordre`) VALUES (1, 1, 'Anomalie', NULL, 1), (2, 1, 'Suggestion', NULL, 2), (3, 1, 'Comment faire ?', NULL, 3), (4, 1, 'Autre', 1, 4);
 

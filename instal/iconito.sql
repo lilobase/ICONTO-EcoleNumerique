@@ -2480,3 +2480,82 @@ CREATE TABLE `module_charte_users_validation` (
   PRIMARY KEY (`id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
+
+CREATE TABLE `module_admindash` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `content` text,
+  `picture` varchar(255) DEFAULT NULL,
+  `id_zone` int(11) unsigned NOT NULL,
+  `type_zone` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_zone` (`id_zone`),
+  KEY `type_zone` (`type_zone`)
+) ENGINE=MyISAM  DEFAULT CHARSET=UTF8;
+
+
+CREATE TABLE `module_contacts` (
+  `id` int(11) NOT NULL auto_increment,
+  `titre` varchar(100) NOT NULL,
+  `email` varchar(255) default NULL COMMENT 'Email du destinataire. Si plusieurs, separer par des virgules',
+  `date_creation` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `module_contacts_messages` (
+  `id` int(11) NOT NULL auto_increment,
+  `contact` int(11) NOT NULL,
+  `from_nom` varchar(150) NOT NULL,
+  `from_email` varchar(150) NOT NULL,
+  `from_login` varchar(32) default NULL,
+  `from_user_id` int(11) default NULL,
+  `to_email` varchar(255) default NULL,
+  `type` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `date` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `contact` (`contact`),
+  KEY `type` (`type`),
+  KEY `from_user_id` (`from_user_id`),
+  KEY `date` (`date`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE `module_contacts_types` (
+  `id` int(11) NOT NULL auto_increment,
+  `contact` int(11) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `is_default` tinyint(4) default NULL,
+  `ordre` smallint(6) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `contact` (`contact`),
+  KEY `ordre` (`ordre`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- INSERT INTO `module_contacts_types` (`id`, `contact`, `nom`, `is_default`, `ordre`) VALUES (1, 1, 'Anomalie', NULL, 1), (2, 1, 'Suggestion', NULL, 2), (3, 1, 'Comment faire ?', NULL, 3), (4, 1, 'Autre', 1, 4);
+
+
+-- Généré le : Jeu 05 Août 2010 à 17:54
+-- Version du serveur: 5.1.44
+-- Version de PHP: 5.2.13
+--
+-- Structure de la table `module_mailext`
+--
+
+CREATE TABLE `module_mailext` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) unsigned NOT NULL,
+  `protocol` varchar(255) NOT NULL,
+  `server` varchar(255) NOT NULL,
+  `port` int(2) unsigned NOT NULL,
+  `ssl` tinyint(2) unsigned NOT NULL,
+  `tls` tinyint(2) unsigned NOT NULL,
+  `login` varchar(150) NOT NULL,
+  `pass` varchar(150) NOT NULL,
+  `imap_path` varchar(150) DEFAULT NULL,
+  `name` varchar(150) NOT NULL,
+  `webmail_url` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
