@@ -1,7 +1,7 @@
 {if $is_admin}
-    <a href="{copixurl dest="kernel|dashboard|modif" node_id=$id node_type=$type}">{i18n key="kernel|dashboard.admin.link"}</a>
+    <a href="{copixurl dest="kernel|dashboard|modif" node_id=$id node_type=$type}" class="modif_dash">{i18n key="kernel|dashboard.admin.link"}</a>
 {/if}
-<div id="">
+<div class="admindash">
     {if !empty($picture)}
     <img src="{$picture}" />
     {/if}
