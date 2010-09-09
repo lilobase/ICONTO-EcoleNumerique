@@ -27,7 +27,7 @@
 </script>
 {/literal}
 
-<hr />
+<hr class="mailext-hr"/>
 {/foreach}
 {/if}
 
