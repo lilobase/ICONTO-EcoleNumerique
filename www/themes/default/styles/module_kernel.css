@@ -76,7 +76,7 @@ div.dashpanel div.toolset-expand {
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
     border: 1px solid #999;
-	behavior: url('/htc/PIE.htc');
+	behavior: url(/htc/PIE.htc);
 	z-index: 999;
 	}
 
