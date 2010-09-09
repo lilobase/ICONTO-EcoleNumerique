@@ -23,6 +23,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @param integer $page (option, 1 par défaut) Numéro de page dans la liste des groupes
 	 */
 	function getListMy () {
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||'));
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$dao = CopixDAOFactory::create("groupe");

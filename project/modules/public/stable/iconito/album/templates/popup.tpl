@@ -21,11 +21,11 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 	img_width=img_height='';
 	switch (format) {ldelim}
 		case 'wiki' :
-			window.opener.add_photo('{$field}',urlBase+'static/album/'+album+'/'+photo+size+'.'+ext+'|'+nom+'|'+align, popup);
+			self.parent.add_photo('{$field}',urlBase+'static/album/'+album+'/'+photo+size+'.'+ext+'|'+nom+'|'+align, popup);
 			break;
 
 		case 'dokuwiki' :
-			window.opener.add_photo ('{$field}',urlBase+'static/album/'+album+'/'+photo+size+'.'+ext,nom,align,popup);
+			self.parent.add_photo ('{$field}',urlBase+'static/album/'+album+'/'+photo+size+'.'+ext,nom,align,popup);
 			break;
 
 		case 'fckeditor' :
@@ -38,11 +38,11 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 			if (popup)
 				html = '<a target="_blank" href="'+urlBase+'static/album/'+album+'/'+photo+'.'+ext+'">'+html+'</a>';
 			if (format == 'fckeditor')
-				window.opener.add_photo_fckeditor ('{$field}', html);
+				self.parent.add_photo_fckeditor ('{$field}', html);
 			else if (format == 'ckeditor')
-				window.opener.add_photo_ckeditor ('{$field}', html);
+				self.parent.add_photo_ckeditor ('{$field}', html);
 			else
-				window.opener.add_html ('{$field}', html);
+				self.parent.add_html ('{$field}', html);
 			break;
 			
 		default :
@@ -50,7 +50,8 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 			break;
 	{rdelim}
 		
-	if( ! form.multi.checked ) self.close();
+	if( ! form.multi.checked ) parent.jQuery.fancybox.close();
+
 {rdelim}
 </script>
 

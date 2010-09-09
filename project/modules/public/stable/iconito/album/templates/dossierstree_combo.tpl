@@ -1,15 +1,13 @@
 
-{i18n key="album.folder.title"}
+{* {i18n key="album.folder.title"} *}
 
 {if $dossiermenu neq null}
-[
 {assign var=level value=0}
 {foreach from=$dossiermenu item=valeur}
-	{if $level > 0} :: {/if}
-	<a href="{$valeur.url}"{if $valeur.onclick} onclick="{$valeur.onclick}"{/if}>{$valeur.txt}</a>
+	{* {if $level > 0} :: {/if} *}
+	<a class="button button-continue" href="{$valeur.url}"{if $valeur.onclick} onclick="{$valeur.onclick}"{/if}>{$valeur.txt}</a>
 	{assign var=level value=`$level+1`}
 {/foreach}
-]
 {/if}
 
 {if $dossiermenu neq null}

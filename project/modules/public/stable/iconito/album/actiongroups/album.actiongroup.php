@@ -184,19 +184,24 @@ class ActionGroupAlbum extends CopixActionGroup {
 				$menu[] = array(
 					'txt' => CopixI18N::get ('album|album.menu.viewfolder'),
 					'url' => CopixUrl::get ().'static/album/'.$album_id."_".$album->album_cle.$addtopath,
-					'target' => '_blank'
+					'target' => '_blank',
+					'size' => 110,
+					'type' => 'read'
 				);
 				if( Kernel::getLevel( "MOD_ALBUM", $album_id ) >= PROFILE_CCV_PUBLISH ) {
 					$menu[] = array(
 						'txt' => CopixI18N::get ('album|album.menu.deletefolder'),
-						'url' => CopixUrl::get ('album||depublier', array("album_id"=>$album->album_id,"dossier_id"=>$dossier->dossier_id))
+						'url' => CopixUrl::get ('album||depublier', array("album_id"=>$album->album_id,"dossier_id"=>$dossier->dossier_id)),
+						'size' => 140,
+						'type' => 'delete'
 					);
 				}
 			}
 			if( Kernel::getLevel( "MOD_ALBUM", $album_id ) >= PROFILE_CCV_PUBLISH ) {
 				$menu[] = array(
 					'txt' => CopixI18N::get ('album|album.menu.publishfolder'),
-					'url' => CopixUrl::get ('album||publier', array("album_id"=>$album->album_id,"dossier_id"=>$dossier_id))
+					'url' => CopixUrl::get ('album||publier', array("album_id"=>$album->album_id,"dossier_id"=>$dossier_id)),
+					'size' => 100
 				);
 			}
 		}
@@ -205,11 +210,17 @@ class ActionGroupAlbum extends CopixActionGroup {
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) >= PROFILE_CCV_PUBLISH ) {
 			$menu[] = array(
 				'txt' => CopixI18N::get ('album|album.menu.addzip'),
-				'url' => CopixUrl::get ('album||addzip', array("album_id"=>$album->album_id, "dossier_id"=>$dossier_id))
+				'url' => CopixUrl::get ('album||addzip', array("album_id"=>$album->album_id, "dossier_id"=>$dossier_id)),
+				'behavior' => 'fancybox',
+				'size'=>140,
+				'type' => 'addfile'
 			);
 			$menu[] = array(
 				'txt' => CopixI18N::get ('album|album.menu.addphoto'), // 'Ajouter une photo',
-				'url' => CopixUrl::get ('album||addphoto', array("album_id"=>$album->album_id, "dossier_id"=>$dossier_id))
+				'url' => CopixUrl::get ('album||addphoto', array("album_id"=>$album->album_id, "dossier_id"=>$dossier_id)),
+				'behavior' => 'fancybox',
+				'size'=>100,
+				'type' => 'addfile'
 			);
 		}
 		
@@ -316,16 +327,22 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$menu = array();
 		$menu[] = array(
 			'txt' => CopixI18N::get ('album.menu.gotoalbum'),
-			'url' => CopixUrl::get ('album||album', array("album_id"=>$photo->album_id, "dossier_id"=>$photo->photo_dossier))
+			'url' => CopixUrl::get ('album||album', array("album_id"=>$photo->album_id, "dossier_id"=>$photo->photo_dossier)),
+			'size' => 95
 		);
 		if( Kernel::getLevel( "MOD_ALBUM", $photo->album_id ) >= PROFILE_CCV_PUBLISH ) {
 			$menu[] = array(
-				'txt' => CopixI18N::get ('album.menu.addphoto'),
-				'url' => CopixUrl::get ('album||addphoto', array("album_id"=>$photo->album_id, "dossier_id"=>$photo->photo_dossier))
+				'txt' => CopixI18N::get ('album|album.menu.addphoto'), // 'Ajouter une photo',
+				'url' => CopixUrl::get ('album||addphoto', array("album_id"=>$photo->album_id, "dossier_id"=>$photo->photo_dossier)),
+				'behavior' => 'fancybox',
+				'size'=>100,
+				'type' => 'addfile'
 			);
 			$menu[] = array(
 				'txt' => CopixI18N::get ('album.menu.delphoto'),
-				'url' => CopixUrl::get ('album||delphoto', array("photo_id"=>$photo->photo_id))
+				'url' => CopixUrl::get ('album||delphoto', array("photo_id"=>$photo->photo_id)),
+				'size'=>105,
+				'type' => 'delete'
 			);
 		}
 		
@@ -344,6 +361,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAddPhoto () {
+		$ppo = new CopixPPO();
+		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		$tpl = & new CopixTpl ();
 		
@@ -366,7 +385,9 @@ class ActionGroupAlbum extends CopixActionGroup {
 
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
-		$tplAddPhoto->assign ("album", $album);
+		
+		// $tplAddPhoto->assign ("album", $album);
+		$ppo->album = $album;
 
 		$dossier_dao = CopixDAOFactory::create("dossier");
 		if( $dossier_id > 0 ) {
@@ -379,11 +400,15 @@ class ActionGroupAlbum extends CopixActionGroup {
 			$dossier->dossier_comment = "";
 			$dossier->album_id = $album_id;
 		}
-		$tplAddPhoto->assign ("dossier", $dossier);
 		
-		$tplAddPhoto->assign ("file_size_photo", CopixConfig::get ('album|file_size_photo') );
+		// $tplAddPhoto->assign ("dossier", $dossier);
+		$ppo->dossier = $dossier;
 		
-		$result = $tplAddPhoto->fetch("addphoto.tpl");
+		// $tplAddPhoto->assign ("file_size_photo", CopixConfig::get ('album|file_size_photo') );
+		$ppo->file_size_photo = CopixConfig::get ('album|file_size_photo');
+		
+		// $result = $tplAddPhoto->fetch("addphoto.tpl");
+		return _arPPO ($ppo, array ('template'=>'addphoto.tpl', 'mainTemplate'=>'main|main_fancy.php'));
 		
 		$tpl->assign ('MAIN', $result);
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.menu.addphoto'));
@@ -399,6 +424,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		);
 		$tpl->assign ('MENU', $menu );
 
+		// TODO : return _arPPO ($ppo, array ('template'=>'addphoto.tpl', 'mainTemplate'=>'main|main_fancy.php'));
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
@@ -823,6 +849,7 @@ class ActionGroupAlbum extends CopixActionGroup {
                 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css")); 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album_popup.css")); 
+		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js"));
 		
 		return _arPPO ($ppo, array ('template'=>'popup_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));
 		
@@ -1096,6 +1123,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getAddZip() {
+		$ppo = new CopixPPO();
+		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		$tpl = & new CopixTpl ();
 		
@@ -1117,11 +1146,18 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tplAddPhoto = & new CopixTpl ();
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
-		$tplAddPhoto->assign ("album", $album);
-		$tplAddPhoto->assign ("dossier_id", $dossier_id);
-		$tplAddPhoto->assign ("file_size_zip", CopixConfig::get ('album|file_size_zip') );
+
+		// $tplAddPhoto->assign ("album", $album);
+		$ppo->album = $album;
 		
-		$result = $tplAddPhoto->fetch("addzip.tpl");
+		// $tplAddPhoto->assign ("dossier_id", $dossier_id);
+		$ppo->dossier_id = $dossier_id;
+		
+		// $tplAddPhoto->assign ("file_size_zip", CopixConfig::get ('album|file_size_zip') );
+		$ppo->file_size_zip = CopixConfig::get ('album|file_size_zip');
+		
+		// $result = $tplAddPhoto->fetch("addzip.tpl");
+		return _arPPO ($ppo, array ('template'=>'addzip.tpl', 'mainTemplate'=>'main|main_fancy.php'));
 		
 		$tpl->assign ('MAIN', $result);
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.addzip'));
