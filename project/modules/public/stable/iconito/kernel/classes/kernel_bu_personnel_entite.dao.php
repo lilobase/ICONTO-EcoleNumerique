@@ -54,4 +54,48 @@ class DAOKernel_bu_personnel_entite {
     
     return _doQuery ($sql);
   }
+  
+  /**
+   * Retourne si une entité à un rôle d'enseignant dans les écoles d'une école donnée
+   *
+   * @param int   $id
+   * @param int   $school
+   *
+   * @return bool
+   */
+  public function hasTeacherRoleInSchool ($id, $schoolId) {
+    
+    $schoolClassDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    
+    $classrooms = $schoolClassDAO->getBySchool ($schoolId);
+    
+    foreach ($classrooms as $classroom) {
+      
+      if (self::getByIdReferenceAndType($id, $classroom->id, 'CLASSE')) {
+        
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
+  /**
+   * Met à jour le rôle d'une entité
+   *
+   */
+  public function updateRole ($id, $reference, $type_ref, $role) {
+    
+    $sql = 'UPDATE kernel_bu_personnel_entite SET kernel_bu_personnel_entite.role =:role '
+      . 'WHERE kernel_bu_personnel_entite.id_per=:id '
+      . 'AND kernel_bu_personnel_entite.reference=:reference '
+      . 'AND kernel_bu_personnel_entite.type_ref=:type_ref';
+    
+    return _doQuery ($sql, array (
+      ':role'   => $role,
+      ':id' => $id,
+      ':reference' => $reference,
+      ':type_ref' => $type_ref,
+    ));
+  }
 }

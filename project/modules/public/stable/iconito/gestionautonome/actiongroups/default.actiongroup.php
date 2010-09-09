@@ -1941,8 +1941,18 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
     if ($personEntity = $personEntityDAO->get ($personId, $ppo->nodeId, $type_ref)) {
-
-      $personEntityDAO->delete ($personId, $ppo->nodeId, $type_ref);
+      
+      // Si on se trouve sur une ecole et que la personne a une affectation dans une des classes
+      if ($type_ref == 'ECOLE' && $personEntityDAO->hasTeacherRoleInSchool ($personId, $ppo->nodeId)) {
+        
+        // Mise à jour du rôle : directeur -> enseignant
+        $personEntityDAO->updateRole ($personId, $ppo->nodeId, $type_ref, '1');
+      }
+      else {
+        
+        // Suppression de l'affectation
+        $personEntityDAO->delete ($personId, $ppo->nodeId, $type_ref);
+      }
     }
     
     // Mise en session du noeud courant
@@ -4005,6 +4015,12 @@ class ActionGroupDefault extends CopixActionGroup {
           $newPersonEntity->pers_entite_role      = $ppo->role;
 
           $personEntityDAO->insert ($newPersonEntity);
+        }
+
+        if ($type_ref == 'ECOLE' && $personEntityDAO->getByIdReferenceAndType ($personId, $nodeInfos['ALL']->eco_numero, 'ECOLE')) {
+
+          // Mise à jour de l'affectation enseignant à l'école pour passage en directeur
+          $personEntityDAO->updateRole ($personId, $nodeInfos['ALL']->eco_numero, 'ECOLE', $ppo->role);
         }
   	  }
 	  }
