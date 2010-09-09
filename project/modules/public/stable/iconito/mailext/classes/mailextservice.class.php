@@ -53,9 +53,9 @@ class mailExtService extends enicService{
 
     public function checkById($id){
 
-        if($this->session->exists('date', 'mailext')){
-            if($this->session->load('date', 'mailext') < time()+(15*60))
-                return $this->session->load('datas', 'mailext');
+        if($this->session->exists('time', 'mailext')){
+            if($this->session->load('time', 'mailext') < time()+(15*60))
+                return $this->session->load('datas'.$id, 'mailext');
         }
 
         $mail = $this->getConfById($id);
@@ -65,10 +65,10 @@ class mailExtService extends enicService{
 
         $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']);
 
-        $nbMail = imap_num_recent($connect);
+        $nbMail = @imap_num_recent($connect);
 
-        $this->session->save('date', time(), 'mailext');
-        $this->session->save('datas', $nbMail, 'mailext');
+        $this->session->save('time', time(), 'mailext');
+        $this->session->save('datas'.$id, $nbMail, 'mailext');
 
         return $nbMail;
     }

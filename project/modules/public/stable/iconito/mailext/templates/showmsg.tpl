@@ -1,14 +1,18 @@
 <h1>{i18n key="mailext.mailext" noEscape=1}
 </h1>
+
+
 {if empty($content)}
 {i18n key="mailext.noConfigured" noEscape=1}
 {else}
     {foreach item=mail from=$content}
-<h5>{$mail.name}</h5>
-<div id="nbmail{$mail.id}">
-{i18n key="mailext.wait" noEscape=1}
-</div>
-<a href="{$mail.id}">{i18n key="mailext.webmail" noEscape=1}</a>
+<h4 class="mailext-title">{i18n key="mailext.box" noEscape=1} <em>{$mail.name}</em></h4>
+
+<a class="mailext-webmail" href="{$mail.webmail_url}">
+    <div id="nbmail{$mail.id}">
+        {i18n key="mailext.wait" noEscape=1}
+    </div>
+</a>
 
 
 {literal}
@@ -22,8 +26,9 @@
     });
 </script>
 {/literal}
+
+<hr />
 {/foreach}
 {/if}
-<h5>
-    <a href="{copixurl dest="mailext|mailext|admin"}">{i18n key="mailext.title" noEscape=1}</a>
-</h5>
+
+    <a href="{copixurl dest="mailext|mailext|admin"}" class="button button-update">{i18n key="mailext.title" noEscape=1}</a>

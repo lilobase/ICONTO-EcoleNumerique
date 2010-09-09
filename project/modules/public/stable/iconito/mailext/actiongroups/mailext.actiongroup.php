@@ -147,7 +147,7 @@ class ActionGroupMailExt extends EnicActionGroup {
             exit();
         }
 
-        echo $this->i18n('mailext.nbMsg').$dataMail.$this->i18n('mailext.msg');
+        echo $this->i18n('mailext.nbMsg').' <em><strong>'.$dataMail.'</strong> '.$this->i18n('mailext.msg').'</em>';
 
 
         return new CopixActionReturn (COPIX_AR_NONE, 0);

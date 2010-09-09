@@ -12,7 +12,7 @@ class ZoneShowMail extends enicZone{
         $tpl->assign('content', $this->service('mailextService')->getConf());
         $tpl->assign('urlmail', $this->url('mailext|mailext|getMsg'));
         $toReturn = $tpl->fetch ('mailext|showmsg.tpl');
-
+        $this->addCss('styles/module_mailext.css');
         return true;
     }
 
