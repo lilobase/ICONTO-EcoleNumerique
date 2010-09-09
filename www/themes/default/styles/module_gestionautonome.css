@@ -163,7 +163,7 @@ li a.current {
   -moz-border-radius:15px 15px 15px 15px;
   border:2px solid #FFFFFF;
   background-color:#E2ED8A;
-  font-size:11px;
+  font-size:0.8em;
 }
 
 #tree-actions {
