@@ -56,7 +56,7 @@ class DAOKernel_bu_personnel_entite {
   }
   
   /**
-   * Retourne si une entité à un rôle d'enseignant dans les écoles d'une école donnée
+   * Retourne si une entité à un rôle d'enseignant dans les classes d'une école donnée
    *
    * @param int   $id
    * @param int   $school
