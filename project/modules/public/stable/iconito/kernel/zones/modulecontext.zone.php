@@ -131,7 +131,8 @@ class ZoneModuleContext extends enicZone {
 					$href = ' href="'.$url.'"';
 					$toReturn .= '<li'.$highlight.'>';
 					$toReturn .= '<a'.$title.$class.$href.$target.'>';
-					$toReturn .= '<span>'.$module->module_nom.'</span>';
+					$toReturn .= '<span class="label">'.$module->module_nom.'</span>';
+					$toReturn .= '<span class="valign"></span>';
 					$toReturn .= '</a>';
 					$toReturn .= '</li>';
 				}
@@ -142,14 +143,6 @@ class ZoneModuleContext extends enicZone {
 			$toReturn .= '</div>';
 			$toReturn .= '</div>';
 		}
-/*			
-		$ppo->legals = _i18n('public|public.nav.copyright');
-		$ppo->legals .= " | <a href=".CopixUrl::get ('aide||')." title="._i18n('public|public.aide')."><b>"._i18n('public|public.aide')."</b></a>";
-		$ppo->legals .= " | <a href=".CopixUrl::get ('public||aPropos')." title="._i18n('public|public.apropos').">"._i18n('public|public.apropos')."</a>";
-		
-		
-		$toReturn = $this->_usePPO ($ppo, 'legals.tpl');
-*/
 		return true;
 	}
 	

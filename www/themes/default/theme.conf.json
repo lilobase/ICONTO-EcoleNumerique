@@ -19,17 +19,6 @@
 	"footer":"",
 	"debug":""
 	},
-"dimensions":
-	{
-	"STD":
-		{
-		"main_width": 960,
-		"left_width": 200,
-		"left_space": 0,
-		"right_width": 200,
-		"right_space": 0
-		}
-	},
 "layout":
 	{
 	"STD":

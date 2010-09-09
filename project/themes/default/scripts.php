@@ -32,8 +32,9 @@
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function($){
+/*
 		var theme;
-		/* RMQ : getJSON use async mode and we need sync... */
+		// RMQ : getJSON use async mode and we need sync...
 		$.ajax({
 			url: '<?php echo CopixUrl::getResource ("theme.conf.json"); ?>',
 			async: false,
@@ -42,17 +43,18 @@ jQuery(document).ready(function($){
 		});
 		dim = theme.dimensions.STD;
     
- 		//$('#main-wrapper').css('width', dim.main_width);
     	$('<style media="screen">#main-wrapper {width:'+dim.main_width+'px}</style>').appendTo('head');
     	$('<style media="print">#main-wrapper {width:100%}</style>').appendTo('head');
     
-		/* AUTOMATIC RESIZING */
+		// AUTOMATIC RESIZING
 		$('#left').css('width', dim.left_width);
 		$('#left').css('margin-right', -dim.left_width);
 		$('#right').css('width', dim.right_width);
 		$('#right').css('margin-left', -dim.right_width);
 		$('#content').css('margin-left', dim.left_width + dim.left_space);
 		$('#content').css('margin-right', dim.right_width + dim.right_space);
+*/		
+		
 		$('.collapse').parent().each(function(){
 			$(this).hide();
 			if ($(this).is('#left'))	$('#content').css('margin-left', 0);
@@ -92,9 +94,12 @@ jQuery(document).ready(function($){
 			$(this).removeClass('highlight');
 		});
 */
-		$('.dashboard > .dashpanel > .toolset').bind('mouseenter mouseleave', function(event) {
+		$('.tools_left > .dashpanel > .toolset').bind('mouseenter mouseleave', function(event) {
   			$(this).toggleClass('toolset-expand');
 			$(this).children('ul').toggleClass('opacity50');
+		});
+		$('.tools_right > .dashpanel > .toolset').bind('mouseenter mouseleave', function(event) {
+  			$(this).toggleClass('toolset-expand');
 		});
 		$('.dashboard > .dashpanel > .toolset > ul > li').bind('mouseenter mouseleave', function(event) {
   			$(this).toggleClass('highlight');

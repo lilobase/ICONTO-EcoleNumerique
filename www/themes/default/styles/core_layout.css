@@ -13,6 +13,12 @@ body {
 	padding:0;
 	}
 
+#main-wrapper 	{ width: 960px; }
+#left 			{ width: 200px; margin-right: -200px; }
+#right 			{ width: 200px; margin-left: -200px; }
+#content		{ margin-left : 200px; } 	/* #left width [+ additional white space] */
+#content		{ margin-right : 200px; }	/* #right width [+ additional white space] */
+
 .clear		{ clear: both; }
 .clearBoth 	{ clear: both; width:100%; }
 

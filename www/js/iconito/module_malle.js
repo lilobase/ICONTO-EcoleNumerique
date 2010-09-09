@@ -1,4 +1,4 @@
-
+/*
 
 
 // Action sur les cases coch�es
@@ -19,12 +19,10 @@ function cocherElements (form, elements, checked) {
 		if (form[i].name == elements)
 			form[i].checked = checked;
 	}	
-	/*
-		if (form[i].checked == true)
-			trouve=true;
-			*/
+//		if (form[i].checked == true)
+//			trouve=true;
 }
-
+*/
 function confirmDelete () {
 	return confirm (i18n_confirm_delete);
 }
@@ -37,6 +35,7 @@ function confirmDownloadZip () {
 	return actionChecked ();
 }
 
+/*
 //var current_url_doc;
 function sendDocument2 (url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat) {
 	var popup = false;
@@ -80,7 +79,7 @@ function sendDocument2 (url, field, format, htmlDownload, htmlView, i18n_unsuppo
 	
 	if( ! form.multi.checked ) self.close();
 }
-
+*/
 function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat) {
 	var popup = false;
 	var html = '';

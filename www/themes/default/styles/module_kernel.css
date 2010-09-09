@@ -51,7 +51,6 @@ div.dashpanel div.content {
 	overflow: hidden;
 	font-size: 120%;
 	padding: 10px;
-//	padding-top: 30px;
 	margin: 0px;
 	background: #f0f4f0;
 	border: 2px solid #bad521;
@@ -61,19 +60,38 @@ div.dashpanel div.content {
 div.dashpanel div.toolset {
 	position: absolute;
 	margin: 0px;
+	padding: 0px;
 	top: 0px;
 	background: #bad521;
 	z-index: 999;
 	width: 32px;
+	overflow: hidden;
 	}
 
 div.dashpanel div.toolset-expand {
+	margin: 0px;
+	padding: 0px;
 	width: 160px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	z-index: 999;
 	}
 
+div.dashpanel div.toolset ul {
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+	}
+
+div.dashpanel div.toolset ul li {
+	display: block;
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	}
+	
 div.dashpanel div.toolset ul li.highlight {
 	background: #ffffe6;
 	-moz-border-radius: 6px;
@@ -86,31 +104,32 @@ div.dashpanel div.toolset ul li.selected {
 	-webkit-border-radius: 6px;
 	}
 	
-div.dashpanel div.toolset ul {
-	list-style-type: none;
-	list-style-position: outside;
-	list-style-image: none;
-	margin: 0px;
-	padding: 0px;
-	}
-
 div.dashpanel div.toolset ul li a {
 	display: block;
 	overflow: hidden;
+	white-space: nowrap;
 	height: 32px;
-	min-height: 32px;
+//	min-height: 32px;
 	padding: 2px 0;
-	margin: 0;
+	margin: 0px;
 	}
 
 div.dashpanel div.toolset ul li a span {
-	display: block;
-	overflow: hidden;
-	height: 24px;
-	padding-top: 8px;
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	white-space: normal;
 	font-size: 110%;
-	line-height: 80%;
 	}
+	
+div.dashpanel div.toolset ul li a span.label {
+	display: none;
+	}
+	
+div.dashpanel div.toolset-expand ul li a span.label {
+	display: inline-block;
+	}
+
 
 /* CASE DASHBOARD CONTEXT */
 div.tools_left {
@@ -125,6 +144,10 @@ div.tools_left div.dashpanel div.toolset {
 	left: 100%;
 	}
 
+div.tools_right div.dashpanel div.toolset-expand ul li {
+	text-align: left;
+	}
+
 div.tools_left div.dashpanel div.toolset-expand, div.tools_left div.toolset-expand ul li.highlight {
 	-moz-border-radius-topleft: 0px;
 	-moz-border-radius-bottomleft: 0px;
@@ -133,15 +156,11 @@ div.tools_left div.dashpanel div.toolset-expand, div.tools_left div.toolset-expa
 	}
 
 div.tools_left div.dashpanel ul li a {
-	background-position: 0 50%;
+	background-position: 2px 50%;
 	background-repeat: no-repeat;
+	padding-left: 34px;
 	}
 	
-div.tools_left div.dashpanel div.toolset ul li a span {
-	margin-left: 38px;
-	text-align: left;
-	}
-
 /* CASE MODULE CONTEXT */
 div.tools_right {
 	margin: 6px 20px;
@@ -207,6 +226,10 @@ div.tools_right div.dashpanel div.toolset-expand {
 	-webkit-border-bottom-right-radius: 0px;
 	}
 
+div.tools_right div.dashpanel div.toolset ul li {
+	text-align: right;
+	}
+
 div.tools_right div.dashpanel div.toolset ul li.selected {
 	margin-left: -2px;
 	-moz-border-radius-topleft: 0px;
@@ -226,12 +249,9 @@ div.tools_right div.dashpanel div.toolset-expand ul li.selected {
 div.tools_right div.dashpanel ul li a {
 	background-position: 100% 50%;
 	background-repeat: no-repeat;
+	padding-right: 32px;
 	}
 
-div.tools_right div.dashpanel div.toolset ul li a span {
-	margin-right: 38px;
-	text-align: right;
-	}
 	
 /* SET MODULES ICONS */
 div.dashpanel ul li a.MOD_CHARTE 			{ background-image: url(../images/mod_charte.png); }
@@ -329,6 +349,7 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	position: relative;
 //	float: left;
 	display:inline-block;
+	overflow: hidden;
 	vertical-align: middle;
 	text-align: left;
 	padding: 2px;
@@ -337,6 +358,8 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 #submenu .menuitems ul li a {
 	position: relative;
 	display: inline-block;
+	white-space:nowrap;
+	overflow: hidden;
 	vertical-align: middle;
 	padding: 2px 2px 2px 28px;
 	width: 84px;
@@ -359,6 +382,7 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	position: relative;
 	vertical-align: middle;
 	display: inline-block;
+	white-space: normal;
 	}
 
 span.valign {
