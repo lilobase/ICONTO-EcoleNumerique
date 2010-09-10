@@ -51,7 +51,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	function getAlbum () {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
-		
+		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js"));
 		
 		$tpl = & new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
@@ -120,13 +120,13 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$dossiermenu = array();
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) >= PROFILE_CCV_PUBLISH ) {
-			$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.newfolder.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_new\');');
+			$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.newfolder.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_new\');', 'type'=>'add' );
 			if( $dossier_id > 0 ) {
-				$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.rename.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_rename\');');
-				$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.move.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_move\');');
-				$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.delete.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_delete\');');
+				$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.rename.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_rename\');', 'type'=>'update' );
+				$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.move.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_move\');', 'type'=>'next' );
+				$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.delete.menu'), 'url'=>'#', 'onclick'=>'openbox(\'folder_delete\');', 'type'=>'delete' );
 			}
-			$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.movephotos.menu'), 'url'=>CopixUrl::get ('album|default|editphotos', array('album_id'=>$album_id,'dossier_id'=>$dossier_id) )     );
+			$dossiermenu[] = array('txt'=>CopixI18N::get ('album.folder.action.movephotos.menu'), 'url'=>CopixUrl::get ('album|default|editphotos', array('album_id'=>$album_id,'dossier_id'=>$dossier_id) ), 'type'=>'next' );
 		}
 		
 		$dossiers_list = Album::getFoldersTree( $album_id );
@@ -420,7 +420,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 		);
 		$menu[] = array(
 			'txt' => CopixI18N::get ('album.menu.gotoalbum'),
-			'url' => CopixUrl::get ('album||album', array("album_id"=>$album->album_id, "dossier_id"=>$dossier->dossier_id))
+			'url' => CopixUrl::get ('album||album', array("album_id"=>$album->album_id, "dossier_id"=>$dossier->dossier_id)),
+			'size' => 95
 		);
 		$tpl->assign ('MENU', $menu );
 
@@ -1168,7 +1169,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 		);
 		$menu[] = array(
 			'txt' => CopixI18N::get ('album.menu.gotoalbum'),
-			'url' => CopixUrl::get ('album||album', array("album_id"=>$album->album_id, "dossier_id"=>$dossier_id))
+			'url' => CopixUrl::get ('album||album', array("album_id"=>$album->album_id, "dossier_id"=>$dossier_id)),
+			'size' => 95
 		);
 		$tpl->assign ('MENU', $menu );
 
@@ -1428,7 +1430,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$menu = array();
 		$menu[] = array(
 			'txt' => CopixI18N::get ('album.menu.gotoalbum'),
-			'url' => CopixUrl::get ('album||album', array("album_id"=>_request("album_id"), "dossier_id"=>_request("dossier_id")))
+			'url' => CopixUrl::get ('album||album', array("album_id"=>_request("album_id"), "dossier_id"=>_request("dossier_id"))),
+			'size' => 95
 		);
 		$tpl->assign ('MENU', $menu );
 		

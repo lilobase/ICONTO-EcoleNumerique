@@ -5,7 +5,7 @@
 {assign var=level value=0}
 {foreach from=$dossiermenu item=valeur}
 	{* {if $level > 0} :: {/if} *}
-	<a class="button button-continue" href="{$valeur.url}"{if $valeur.onclick} onclick="{$valeur.onclick}"{/if}>{$valeur.txt}</a>
+	<a class="button{if $valeur.type} button-{$valeur.type}{/if}" href="{$valeur.url}"{if $valeur.onclick} onclick="{$valeur.onclick}"{/if}>{$valeur.txt}</a>
 	{assign var=level value=`$level+1`}
 {/foreach}
 {/if}
@@ -36,7 +36,7 @@ function openbox( name ) {
 
 	{i18n key="album.folder.action.newfolder"}
 	<input name="folder_new" value="" />
-	<input type="submit" value="{i18n key="album.folder.action.newfolder.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.newfolder.submit"}" />
 	</form>
 
 </div>
@@ -62,7 +62,7 @@ function openbox( name ) {
 		{/if}
 	{/foreach}
 	</select>
-	<input type="submit" value="{i18n key="album.folder.action.move.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.move.submit"}" />
 	</form>
 	
 </div>
@@ -76,7 +76,7 @@ function openbox( name ) {
 
 	{i18n key="album.folder.action.rename"}
 	<input name="folder_rename" value="{$dossier->dossier_nom|escape}" />
-	<input type="submit" value="{i18n key="album.folder.action.rename.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.rename.submit"}" />
 	</form>
 	
 </div>
@@ -95,7 +95,7 @@ function openbox( name ) {
 		<option value="deleteall">{i18n key="album.folder.action.delete.deleteall"}</option>
 	</select>
 
-	<input type="submit" value="{i18n key="album.folder.action.delete.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.delete.submit"}" />
 	</form>
 	
 </div>

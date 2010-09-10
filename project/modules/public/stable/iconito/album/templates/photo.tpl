@@ -2,11 +2,11 @@
 
 <center>
 
-{if $photo->prev}<a href="{copixurl dest="album||photo" photo_id=$photo->prev}">{else}<span style="visibility: hidden;">{/if}{i18n key="album|album.photo.previous"}{if $photo->prev}</a> :: {else} :: </span>{/if}
+{if $photo->prev}<a class="button button-previous" href="{copixurl dest="album||photo" photo_id=$photo->prev}">{else}<span style="visibility: hidden;">{/if}{i18n key="album|album.photo.previous"}{if $photo->prev}</a>{else}</span>{/if}
 
-<a href="{copixurl dest="album||album" album_id=$photo->album_id dossier_id=$photo->photo_dossier}">{i18n key="album|album.photo.index"}</a>
+<a class="button button-view" href="{copixurl dest="album||album" album_id=$photo->album_id dossier_id=$photo->photo_dossier}">{i18n key="album|album.photo.index"}</a>
 
-{if $photo->next} :: <a href="{copixurl dest="album||photo" photo_id=$photo->next}">{else}<span style="visibility: hidden;"> :: {/if}{i18n key="album|album.photo.next"}{if $photo->next}</a>{else}</span>{/if}
+{if $photo->next} <a class="button button-next" href="{copixurl dest="album||photo" photo_id=$photo->next}">{else}<span style="visibility: hidden;"> :: {/if}{i18n key="album|album.photo.next"}{if $photo->next}</a>{else}</span>{/if}
 
 
 <div class="photoseule">
