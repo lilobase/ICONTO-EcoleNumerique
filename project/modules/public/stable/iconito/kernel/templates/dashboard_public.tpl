@@ -26,4 +26,4 @@
     <a title="Documentation d'iconito" href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/153-guide-utilisateur-iconito-ecole-numerique">cette page</a>.
 </p>
 
-<p><a class="button_like" href="{copixurl dest="public||"}">Voir les publications des &eacute;coles</a></p>
+<p><a class="button button-view" href="{copixurl dest="public||"}">Voir les publications des &eacute;coles</a></p>
