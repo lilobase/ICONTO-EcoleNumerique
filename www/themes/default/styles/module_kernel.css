@@ -373,7 +373,7 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	}
 
 #submenu .menuitems a.current {

@@ -20,8 +20,6 @@ div.zone-userlogged {
 div.userlogged {
 	color: #fff;
 	text-shadow: 0px 1px 1px #111;
-	filter:progid:DXImageTransform.Microsoft.Shadow(color='#222222', Direction=135, Strength=2); 
-	zoom: 1;
 	}
 
 div.userlogged .username {
@@ -72,8 +70,8 @@ ul.usermenu li a.menu-minimail		{ background: url(../images/mod_user_mail.png) n
 ul.usermenu li a.menu-malle			{ background: url(../images/mod_user_malle.png) no-repeat center top; }
 ul.usermenu li a.menu-agenda		{ background: url(../images/mod_user_agenda.png) no-repeat center top; }
 ul.usermenu li a.menu-prefs			{ background: url(../images/mod_user_preferences.png) no-repeat center top; }
-ul.usermenu li a.menu-aide			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-assistance	{ background: url(../images/mod_assistance.png) no-repeat center top; }
+ul.usermenu li a.menu-aide			{ background: url(../images/mod_user_aide.png) no-repeat center top; }
+ul.usermenu li a.menu-assistance	{ background: url(../images/mod_user_assistance.png) no-repeat center top; }
 
 ul.usermenu li.menu-minimail a#counter {
 	position: absolute;
@@ -138,7 +136,7 @@ div.toolbar ul li a.action {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	padding: 2px;
 	margin: 0px 1px;
 	line-height: 28px;
@@ -165,7 +163,7 @@ div.toolbar ul li a.action:hover {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
 	border-radius: 8px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	}
 
 #right div.kernel a {

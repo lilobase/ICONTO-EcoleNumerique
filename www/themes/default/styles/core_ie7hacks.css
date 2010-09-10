@@ -1,17 +1,49 @@
-/* general */
-ol.disc {
-	padding: 0px 0px 0px 50px;
-}
+/* clearing & floating */
+/* http://www.positioniseverything.net/easyclearing.html */
+/* http://www.456bereastreet.com/archive/200603/new_clearing_method_needed_for_ie7/#comment28 */
+html { height: auto; margin-bottom:0; }
+body { position:relative }           
+* html body { position:static }      
+* html #content { overflow: visible; }
 
-ol.disc li {
-	padding-left: 5px;
-}
+body { height: 1% }
+div.wrapper { zoom:1 }          
+div.wrapper { height: 1% }                                       
 
-hr.dotted {
-	background: none;
-	border: dotted 1px #c8c8c8;
-}
+* html #left { display: inline }
+* html #right { display: inline }
 
-p.dropcap:first-letter {
-	line-height: 110%;
+* html .floatleft { display:inline; }
+* html .floatright { display:inline; }
+
+* html textarea { overflow:scroll; overflow-x: hidden; }
+* html input { overflow: hidden; }
+
+* html body a, * html body a:hover { background-color: transparent; }
+
+body ol li { display:list-item; }
+
+.wrapper-shifter 	{ z-index: 999; }
+.submenu-marger {
+	margin-top: 54px;
+	}
+
+#submenu .menuitems {
+	line-height: 118%;
+	}
+	
+ul.usermenu li.menu-minimail a#counter span#counter-text {
+	padding-top: 4px;
+	width: 17px;
+	}
+
+ul {
+	margin: 0;
+	padding: 0;
 }
+li {
+	margin: 0;
+	padding: 0;
+}
+//img, div, a, input { behavior: url(/htc/iepngfix.htc) }
+//img, div, a, input { behavior: url(/htc/PIE.htc) }

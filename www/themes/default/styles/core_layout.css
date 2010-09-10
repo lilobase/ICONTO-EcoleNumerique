@@ -35,12 +35,12 @@ body {
 
 .opacity100 {
 	opacity : 1;
-	filter : alpha(opacity=100); 
+//	filter : alpha(opacity=100); 
 	}
 
 .opacity50 {
 	opacity : 0.7;
-	filter : alpha(opacity=70); 
+//	filter : alpha(opacity=70); 
 	}
 
 .wrapper 			{ clear: both; position: relative; margin: 8px auto; }
@@ -104,7 +104,7 @@ body {
 	left: 6px;
 	display: block;
 	overflow: hidden;
-	width: 30%;
+	width: 35%;
 	}
 	
 #menuright {
@@ -112,7 +112,7 @@ body {
 	right: 6px;
 	display: block;
 	overflow: hidden;
-	width: 30%;
+	width: 35%;
 	}
 
 #menucenter {
@@ -308,7 +308,7 @@ table.liste {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 }
 tr.liste_footer {
 	background-color: #F8F8F8;
@@ -328,7 +328,7 @@ div.block {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
   background-color:#fff;
   border:1px solid #999;
   padding:6px;
@@ -354,7 +354,7 @@ div.block hr {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	filter: alpha(opacity=97);
 	-moz-opacity: 0.97;
 	opacity: 0.97;
@@ -368,16 +368,18 @@ div.block hr {
  ***********************************************/
 
 DIV.prise_controle {
+	width: 30%;
+	margin: 0px;
+	margin: auto;
 	background-color: red;
 	padding: 2px;
 	padding-left: 20px;
 	padding-right: 20px;
 	font-weight: bold;
-	margin: 0px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 }
 
 DIV.prise_controle DIV.message {

@@ -17,7 +17,7 @@
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	margin-bottom: 6px;
 	}
  
@@ -141,7 +141,7 @@ h4{
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 	border-radius: 10px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
     background-color: #f0f4f0;
     padding: 6px;
 	}
@@ -174,7 +174,7 @@ h4{
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	}
 	
 .button:hover {
@@ -254,7 +254,7 @@ h4{
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	font-size: 14px;
 }
 
@@ -270,7 +270,7 @@ h4{
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	height: 18px;
 	padding: 2px;
 	margin: 0;
@@ -283,7 +283,7 @@ h4{
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	min-width: 0px;
 	padding: 2px 2px 2px 20px;
 	}
@@ -305,7 +305,7 @@ input.form_button:hover {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	background: #D9E575;
 	color: #333333;
 }
@@ -315,7 +315,7 @@ form input[type="text"], form textarea {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	padding: 3px;
 	}
 	
@@ -324,7 +324,7 @@ form input[type="text"]:hover, form textarea:hover {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	}
 
 form label {
@@ -342,7 +342,7 @@ form select {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	padding: 3px;
 }
 
@@ -351,7 +351,7 @@ form select:hover {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	}
 
 input.file-attach {
@@ -383,7 +383,7 @@ form select.multicombo {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	padding: 6px;	
 	}
 
@@ -443,7 +443,7 @@ table.std th {
 	-moz-border-radius: 12px;
 	-webkit-border-radius: 12px;
 	border-radius: 12px;
-	behavior: url(/htc/PIE.htc);
+	//behavior: url(/htc/PIE.htc);
 	background: #bad521;
 	color: #fff;
 	font-size: 90%;

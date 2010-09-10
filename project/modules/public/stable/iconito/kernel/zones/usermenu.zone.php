@@ -87,7 +87,7 @@ class ZoneUserMenu extends CopixZone {
 				}
       
       if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
-        $menuitem["title"] = 'AIDE';
+        $menuitem["title"] = _i18n('kernel|kernel.codes.mod_aide');
   			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>'CLUB','nid'=>$groupeAssistance,'mtype'=>'blog'));
   			$menuitem["class"] = "menu-aide";
   			array_push($menuitems, $menuitem);
