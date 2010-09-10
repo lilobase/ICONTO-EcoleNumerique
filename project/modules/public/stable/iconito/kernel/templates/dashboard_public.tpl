@@ -4,8 +4,9 @@
 *}
 
 <h3 class="font_cursive">
-    Bienvenue sur Iconito Ecole Numérique
+    Bienvenue sur Iconito Ecole Numérique 2010
 </h3>
+
 <img class="img-left" src="{copixresource path="img/iconito-home2.gif"}"
     alt="Iconito vous souhaite la bienvenue" />
 
@@ -21,9 +22,14 @@
     <a title="Site web d'iconito" href="http://www.iconito.fr">iconito.fr</a>
 </p>
 <p class="content font-dash">
-    Vous pouvez télécharger la documentation d'Iconito Ecole Numérique en
-    visitant 
-    <a title="Documentation d'iconito" href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/153-guide-utilisateur-iconito-ecole-numerique">cette page</a>.
+	Cette édition 2010 vous propose une nouvelle approche ergonomique que nous espérons plus claire qu'avant.
+	De nouvelles fonctionnalités sont également disponibles, dont la Gestion des Usagers intégrée ou les
+	Quiz dans les groupes de travail. Pour d'autres informations, n'hésitez pas à consulter notre
+	<a title="Nouveautés Iconito Ecole Numérique 2010" href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/154-apercu-des-nouveautes-diconito-ecole-numerique-2010">aperçu des nouveautés Iconito Ecole Numérique 2010</a>
+</p>
+<p class="content font-dash">
+    Consultez notre 
+    <a title="Documentation Iconito Ecole Numérique" href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/153-guide-utilisateur-iconito-ecole-numerique">Guide Utilisateur Iconito Ecole Numérique</a>.
 </p>
 
 <p><a class="button button-view" href="{copixurl dest="public||"}">Voir les publications des &eacute;coles</a></p>
