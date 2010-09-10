@@ -28,6 +28,21 @@
 	width: 160px;
 }
 
+.dashboard-big-item li {
+	display: inline-block;
+	margin-right: 20px;
+	width: 240px;
+	line-height: 1.2em;
+	margin-bottom: 0.4em;
+}
+
+.dashboard-list {
+	text-decoration: none;	
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #AAA;
+}
+
 .dashboard-zone-img{
     margin: 5px 85px 5px 25px;
     float:left;
