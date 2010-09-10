@@ -43,7 +43,7 @@ class KernelBlog {
       // On détermine l'URL titre
       $blog->url_blog        = KernelBlog::calcule_url_blog($blog->id_blog, $blog->name_blog);
       $blogDAO->update ($blog);
-      /*
+      
 			// On ajoute une catégorie
 			$categoryDAO = _dao('blog|blogarticlecategory');
 			$category = _record('blog|blogarticlecategory');
@@ -53,6 +53,8 @@ class KernelBlog {
 			$category->order_bacg = $categoryDAO->getNewPos($blog->id_blog);
 			$categoryDAO->insert($category);
 			
+      /*
+      
 			if ($category->id_bacg!==NULL) {	// On ajoute un article
 				$articleDAO = _dao('blog|blogarticle');
 				$article = _record('blog|blogarticle');
