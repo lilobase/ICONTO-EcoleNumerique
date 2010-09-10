@@ -44,8 +44,10 @@
     width: 240px;
     min-height: 42px;
     line-height: 20px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	behavior: url(/htc/PIE.htc);
     background: #fff url(../images/quiz_icon_no.png) top center no-repeat;
     border: solid 1px #ddd;
     padding-top: 128px;
@@ -130,6 +132,8 @@ form.quiz input[type="text"]:hover, #quiz-form textarea:hover {
 	border: solid 1px #bad521;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	behavior: url(/htc/PIE.htc);
 	}
 
 form.quiz .col-main {
@@ -222,6 +226,8 @@ input.qf-date {
 	vertical-align: bottom;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	behavior: url(/htc/PIE.htc);
 	margin-bottom: 6px;
 	padding:0px;
 	background: #ffffff url(../images/drag_handle_off.png) 0 50% no-repeat;
@@ -407,8 +413,10 @@ input.qf-date {
     min-height: 42px;
     line-height: 20px;
     margin-top: 5px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+	behavior: url(/htc/PIE.htc);
     background: #fff url(../images/quiz_icon.png) top center no-repeat;
     border:solid 1px #ddd;
     padding-top: 128px;

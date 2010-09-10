@@ -74,8 +74,6 @@ div.dashpanel div.toolset-expand {
 	width: 160px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	behavior: url(/htc/PIE.htc);
 	z-index: 999;
 	}
 
@@ -372,6 +370,8 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 	border: solid 1px #f0f4f0;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	behavior: url(/htc/PIE.htc);
 	}
 
 #submenu .menuitems a.current {

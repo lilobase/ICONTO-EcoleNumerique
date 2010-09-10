@@ -38,9 +38,10 @@ DIV.adminArticleList div.is_online1 a {
 }
 /* Corps */
 #comments DIV.commentBody {
-	border-radius: 4px;
-	-moz-border-radius:4px;
-	-khtml-border-radius:4px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	behavior: url(/htc/PIE.htc);
 	color: #595949;
 	font-size: 11px;
 	margin: 0px 30px 6px 30px;
