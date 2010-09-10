@@ -100,8 +100,15 @@ class ActionGroupDashboard extends enicActionGroup {
 							$content['picture'] = null;
 							break;
                         case 'ROOT':
-							$content['content'] = $this->i18n('dashboard.admin.rootdesc'); 
-							$content['picture'] = null;
+                        	if ($this->user->root) {
+								$contentTpl = new CopixTpl();                  		
+                   				$content['content'] = $contentTpl->fetch('zone.dashboard.root.tpl'); 
+								$content['picture'] = null;
+                        	} else {   
+                        		$contentTpl = new CopixTpl();                  		
+                   				$content['content'] = $contentTpl->fetch('zone.dashboard.userext.tpl'); 
+								$content['picture'] = null;
+                        	}
                                                     break;
 						default:
 							$content['content'] = '';
