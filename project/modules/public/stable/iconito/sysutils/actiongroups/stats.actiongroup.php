@@ -34,7 +34,7 @@ class ActionGroupStats extends CopixActionGroup {
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.menu.stats'));
-		$tpl->assign ('MENU', Admin::getMenu());
+		$tpl->assign ('MENU', Admin::getMenu('stats'));
 		
 		$tplStats = & new CopixTpl();
 		

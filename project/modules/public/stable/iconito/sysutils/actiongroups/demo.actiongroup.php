@@ -4,20 +4,22 @@
  *
  * Fonctions relatives au jeu d'essai de démo
  * @package	Iconito
- * @subpackage	Kernel
+ * @subpackage	Sysutils
  * @version   $Id: demo.actiongroup.php,v 1.5 2009-04-01 13:10:00 cbeyer Exp $
  * @author	Christophe Beyer <fmossmann@cap-tic.fr>
  */
 
-_classInclude('kernel|demo_db');
-_classInclude('kernel|demo_auth');
-_classInclude('kernel|demo_tools');
+_classInclude('sysutils|demo_db');
+_classInclude('sysutils|demo_tools');
 _classInclude('sysutils|admin');
 
 class ActionGroupDemo extends CopixActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
+    
+    if (!Admin::canAdmin())
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 
 	}
 	
@@ -28,23 +30,20 @@ class ActionGroupDemo extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/10/26
    */
-  function status () {
+  function processDefault () {
     
     $errors = array();
 
-    if (!Demo_Auth::canInstall())
-      $errors[] = CopixI18N::get ('kernel|demo.error.noRights');
-    
     if ($errors)
       return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get()));
     
     $tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel|demo.titlePage'));
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
 		$tplDemo = & new CopixTpl ();
 		$tplDemo->assign ("installed", CopixConfig::get ('kernel|jeuEssaiInstalled'));
-		$tplDemo->assign ('demo_txt_install', CopixI18N::get ('kernel|demo.txt.install'));
+		$tplDemo->assign ('demo_txt_install', CopixI18N::get ('sysutils|demo.txt.install'));
 		$tpl->assign ("MAIN", $tplDemo->fetch("demo_status.tpl"));
-		$tpl->assign ('MENU', Admin::getMenu());
+		$tpl->assign ('MENU', Admin::getMenu('demo'));
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 
 	}
@@ -55,7 +54,7 @@ class ActionGroupDemo extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/10/26
    */
-  function install () {
+  function processInstall () {
     global $params;
     $db = new Demo_DB();
     $tools = new Demo_Tools();
@@ -65,12 +64,10 @@ class ActionGroupDemo extends CopixActionGroup {
     
     $errors = array();
     
-    if (!Demo_Auth::canInstall())
-      $errors[] = CopixI18N::get ('kernel|demo.error.noRights');
-    elseif (CopixConfig::get ('kernel|jeuEssaiInstalled') == 1)
-      $errors[] = CopixI18N::get ('kernel|demo.error.alreadyInstalled');
+    if (CopixConfig::get ('kernel|jeuEssaiInstalled') == 1)
+      $errors[] = CopixI18N::get ('sysutils|demo.error.alreadyInstalled');
     elseif (!is_file($fileSQL))
-      $errors[] = CopixI18N::get ('kernel|demo.error.noFileSql');
+      $errors[] = CopixI18N::get ('sysutils|demo.error.noFileSql');
     
     if ($errors)
       return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get()));
@@ -99,14 +96,14 @@ class ActionGroupDemo extends CopixActionGroup {
     CopixConfig::set ('kernel|jeuEssaiInstalled', 1);
     
     $tpl = & new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel|demo.titlePage'));
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
 		$tplDemo = & new CopixTpl ();
 		//$tplDemo->assign ("toto", 1);
-		$tplDemo->assign ('demo_txt_installed', CopixI18N::get ('kernel|demo.txt.installed'));
-		$tplDemo->assign ('demo_txt_accounts', CopixI18N::get ('kernel|demo.txt.accounts'));
+		$tplDemo->assign ('demo_txt_installed', CopixI18N::get ('sysutils|demo.txt.installed'));
+		$tplDemo->assign ('demo_txt_accounts', CopixI18N::get ('sysutils|demo.txt.accounts'));
 		
 		$tpl->assign ("MAIN", $tplDemo->fetch("demo_install.tpl"));
-		$tpl->assign ('MENU', Admin::getMenu());
+		$tpl->assign ('MENU', Admin::getMenu('demo'));
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
   }
 }

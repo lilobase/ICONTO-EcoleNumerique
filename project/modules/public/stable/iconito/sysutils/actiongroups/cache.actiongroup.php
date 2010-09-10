@@ -32,7 +32,7 @@ class ActionGroupCache extends CopixActionGroup {
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.menu.cache'));
-		$tpl->assign ('MENU', Admin::getMenu());
+		$tpl->assign ('MENU', Admin::getMenu('cache'));
 		
 		$tplCache = & new CopixTpl();
 		$tplCache->assign ('info', CopixZone::process('sysutils|cacheStatus'));

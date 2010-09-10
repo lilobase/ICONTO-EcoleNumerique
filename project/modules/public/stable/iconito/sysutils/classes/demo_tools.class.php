@@ -3,7 +3,7 @@
  * Demo - Outils
  *
  * @package	Iconito
- * @subpackage	Kernel
+ * @subpackage	Sysutils
  * @version   $Id: demo_tools.class.php,v 1.7 2006-12-05 16:37:13 cbeyer Exp $
  * @author	Christophe Beyer <cbeyer@cap-tic.fr>
  */

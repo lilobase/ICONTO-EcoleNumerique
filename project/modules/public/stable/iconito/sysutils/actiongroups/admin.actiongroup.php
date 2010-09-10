@@ -27,7 +27,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.moduleDescription'));
-		$tpl->assign ('MENU', Admin::getMenu());
+		$tpl->assign ('MENU', Admin::getMenu('sysutils'));
 		
 		$tpl->assign ('MAIN', $tplHome->fetch('sysutils|home.tpl'));
 		
@@ -37,7 +37,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 	function processPhpinfo (){
 		$ppo = new CopixPPO ();
 		$ppo->TITLE_PAGE = 'PHPInfo';
-		$ppo->MENU = Admin::getMenu();
+		$ppo->MENU = Admin::getMenu('phpinfo');
 		$ppo->CopixVersion = COPIX_VERSION;
 
 		ob_start();                                                                                                       

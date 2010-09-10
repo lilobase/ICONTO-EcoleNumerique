@@ -30,25 +30,30 @@ class Admin {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/19
+	 * @param string $iCurrentTab Onglet selectionne
 	 * @return string Contenu du menu (liens...)
 	 */
-  function getMenu () {
+  function getMenu ($iCurrentTab='') {
     $menu = array();
 		$menu[] = array(
 			'txt' => CopixI18N::get ('sysutils|admin.shortDescription'),
-			'url' => CopixUrl::get ('sysutils||')
+			'url' => CopixUrl::get ('sysutils||'),
+			'current' => ($iCurrentTab == 'sysutils'),
 		);
 		$menu[] = array(
 			'txt' => CopixI18N::get ('sysutils|admin.menu.cache'),
-			'url' => CopixUrl::get ('sysutils|cache|')
+			'url' => CopixUrl::get ('sysutils|cache|'),
+			'current' => ($iCurrentTab == 'cache'),
 		);
 		$menu[] = array(
 			'txt' => CopixI18N::get ('sysutils|admin.menu.stats'),
-			'url' => CopixUrl::get ('sysutils|stats|')
+			'url' => CopixUrl::get ('sysutils|stats|'),
+			'current' => ($iCurrentTab == 'stats'),
 		);
 		$menu[] = array(
-			'txt' => CopixI18N::get ('kernel|demo.titlePage'),
-			'url' => CopixUrl::get ('kernel|demo|')
+			'txt' => CopixI18N::get ('sysutils|admin.menu.demo'),
+			'url' => CopixUrl::get ('sysutils|demo|'),
+			'current' => ($iCurrentTab == 'demo'),
 		);
 		/*
 		$menu[] = array(
@@ -58,7 +63,8 @@ class Admin {
 		*/
 		$menu[] = array(
 			'txt' => CopixI18N::get ('sysutils|admin.menu.phpinfo'),
-			'url' => CopixUrl::get ('sysutils|admin|phpinfo')
+			'url' => CopixUrl::get ('sysutils|admin|phpinfo'),
+			'current' => ($iCurrentTab == 'phpinfo'),
 		);
     return $menu;
   }
