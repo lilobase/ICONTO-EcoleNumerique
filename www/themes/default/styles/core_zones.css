@@ -20,6 +20,8 @@ div.zone-userlogged {
 div.userlogged {
 	color: #fff;
 	text-shadow: 0px 1px 1px #111;
+	filter:progid:DXImageTransform.Microsoft.Shadow(color='#222222', Direction=135, Strength=2); 
+	zoom: 1;
 	}
 
 div.userlogged .username {
@@ -67,12 +69,32 @@ ul.usermenu li a.menu-groupe		{ background: url(../images/mod_fake_28.png) no-re
 ul.usermenu li a.menu-ressource		{ background: url(../images/mod_user_ressources.png) no-repeat center top; }
 ul.usermenu li a.menu-annuaire		{ background: url(../images/mod_user_annuaire.png) no-repeat center top; }
 ul.usermenu li a.menu-minimail		{ background: url(../images/mod_user_mail.png) no-repeat center top; }
-ul.usermenu li.menu-minimail a#counter { background: url(../images/mod_user_mail_counter.png) no-repeat center top; display:block; min-height:22px; margin:1px; padding-top:3px; font-weight:bolder; position:absolute; font-size:105%; top:19px; width:32px; text-align:center; color:#fff; }
 ul.usermenu li a.menu-malle			{ background: url(../images/mod_user_malle.png) no-repeat center top; }
 ul.usermenu li a.menu-agenda		{ background: url(../images/mod_user_agenda.png) no-repeat center top; }
 ul.usermenu li a.menu-prefs			{ background: url(../images/mod_user_preferences.png) no-repeat center top; }
 ul.usermenu li a.menu-aide			{ background: url(../images/mod_fake_28.png) no-repeat center top; }
 ul.usermenu li a.menu-assistance	{ background: url(../images/mod_assistance.png) no-repeat center top; }
+
+ul.usermenu li.menu-minimail a#counter {
+	position: absolute;
+	display: block;
+	margin: 1px;
+	padding: 12px 0px 0px 12px;
+	width: 20px;
+	height: 20px;
+	background: url(../images/mod_user_mail_badge.png) no-repeat;
+	}
+
+ul.usermenu li.menu-minimail a#counter span#counter-text {
+	display: block;
+	padding-top: 3px;
+	width: 18px;
+	font-size: 8.5px;
+	letter-spacing: -0.1em;
+	font-weight: bold;
+	text-align: center;
+	color:#333;
+	}
 
 ul.usermenu li a.logout {
 	display: block;
@@ -135,13 +157,15 @@ div.toolbar ul li a.action:hover {
  ***********************************************/
 #right div.kernel {
 	background: #f4f8f4;
-	margin: 12px 12px 12px 0;
+	margin-bottom: 12px;
 	padding: 6px;
 	border: 2px solid #fff;
 	font-size: 110%;
 	color: #444433;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+	border-radius: 8px;
+	behavior: url(/htc/PIE.htc);
 	}
 
 #right div.kernel a {

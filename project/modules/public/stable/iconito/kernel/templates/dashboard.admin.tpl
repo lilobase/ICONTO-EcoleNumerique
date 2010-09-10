@@ -27,11 +27,10 @@
         <div style="clear:both"></div>
  </div>
 <br />
-<div id="dash-ereg" class="content-panel">    
-
-    <a id="dash-submit" href="#" class="button button-save" >Personnaliser</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-delete" >Contenu par défault</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a id="dash-submit" href="{copixurl dest="||"}" class="button button-cancel" >Annuler</a>
+<div id="dash-ereg" class="content-panel content-panel-button">    
+    <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-reload" >{i18n key="kernel|dashboard.admin.default" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+    <a id="dash-submit" href="{copixurl dest="||"}" class="button button-cancel" >{i18n key="kernel|dashboard.admin.cancel" noEscape="true"}</a>
+    <a id="dash-submit" href="#" class="button button-save" >{i18n key="kernel|dashboard.admin.save" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;&nbsp;
     <div style="clear:both"></div>
 </div>
 

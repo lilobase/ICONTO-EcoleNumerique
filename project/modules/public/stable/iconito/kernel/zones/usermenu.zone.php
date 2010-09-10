@@ -43,7 +43,7 @@ class ZoneUserMenu extends CopixZone {
       // Indicateur des minimails non lus
       $nb = _dao("minimail|minimail_to")->getNbRecvUnread(_currentUser()->getId());
       if ($nb > 0) {
-        $menuitem["before"] = '<a title="'.$menuitem["title"].'" id="counter" href="'.$menuitem["url"].'">'.$nb.'</a>';
+        $menuitem["before"] = '<a title="'.$menuitem["title"].'" id="counter" href="'.$menuitem["url"].'"><span id="counter-text">'.$nb.'</span></a>';
       }
 			array_push($menuitems, $menuitem);
       $menuitem["before"] = '';

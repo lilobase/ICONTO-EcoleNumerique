@@ -23,7 +23,7 @@ function getTheme($property, $mode="STD") {
 	}
 }
 
-function getZones($position, $dispmode="STD") {
+function getZones($position, $collapse=true, $dispmode="STD") {
 
 	$module = CopixRequest::get('module');
 	$user = _currentUser ();
@@ -36,7 +36,8 @@ function getZones($position, $dispmode="STD") {
 //	print_r( $jzones );
 
 	if (empty($jzones)) {
-		echo '<div class="collapse debug-layout">'.$position.'</div>';
+		if ($collapse) echo '<div class="collapse debug-layout">'.$position.'</div>';
+		else echo '<div class="filler"></div>';
 	}
 	else {
 		echo '<div class="debug-layout">'.$position.'</div>';		

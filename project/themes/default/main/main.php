@@ -46,9 +46,9 @@ $actiongroup = CopixRequest::get('group');
 			<div class="thm-logo padder"><a class="logo" href="<?php echo CopixUrl::get() ?>"></a>
 			<div id="top"><?php getZones("top"); ?></div>
 			<div id="menu">
-				<div id="menuleft"><?php getZones("menuleft"); ?></div>
-				<div id="menuright"><?php getZones("menuright"); ?></div>
 				<div id="menucenter"><?php getZones("menucenter"); ?></div>
+				<div id="menuleft"><?php getZones("menuleft", false); ?></div>
+				<div id="menuright"><?php getZones("menuright"); ?></div>
 			</div>
 			</div>
 		</div></div></div>		

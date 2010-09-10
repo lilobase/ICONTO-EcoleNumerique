@@ -166,7 +166,8 @@ h4{
 	display: inline-block;
 	font-size: 12px;
 	padding: 3px 6px 3px 6px;
-	min-width: 32px;
+	min-width: 24px;
+	overflow: visible;
 	min-height: 14px;
 	background-color : #fff;
 	border: solid 1px #fff;
@@ -199,6 +200,7 @@ h4{
 .button-file		{ padding-left: 26px; background: #fff url(../images/action_attach.png) 4px 50% no-repeat; }
 .button-confirm		{ padding-left: 26px; background: #fff url(../images/action_confirm.png) 4px 50% no-repeat; }
 .button-print		{ padding-left: 26px; background: #fff url(../images/action_print.png) 4px 50% no-repeat; }
+.button-reload		{ padding-left: 26px; background: #fff url(../images/action_reload.png) 4px 50% no-repeat; }
 
 .button-p-first		{ padding-left: 26px; background: #fff url(../images/action_p_first.png) 4px 50% no-repeat; }
 .button-p-previous	{ padding-left: 26px; background: #fff url(../images/action_p_previous.png) 4px 50% no-repeat; }

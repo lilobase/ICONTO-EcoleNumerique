@@ -24,3 +24,15 @@ div.wrapper { height: 1% }
 body ol li { display:list-item; }
 
 .wrapper-shifter 	{ z-index: 999; }
+.submenu-marger {
+	margin-top: 54px;
+	}
+
+#submenu .menuitems {
+	line-height: 118%;
+	}
+	
+ul.usermenu li.menu-minimail a#counter span#counter-text {
+	padding-top: 4px;
+	width: 17px;
+	}

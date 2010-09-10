@@ -14,8 +14,8 @@ body {
 	}
 
 #main-wrapper 	{ width: 960px; }
-#left 			{ width: 200px; margin-right: -200px; }
-#right 			{ width: 200px; margin-left: -200px; }
+#left 			{ width: 188px; margin-right: -200px; padding: 12px 12px 12px 0; }
+#right 			{ width: 188px; margin-left: -200px; padding: 12px 12px 12px 0; }
 #content		{ margin-left : 200px; } 	/* #left width [+ additional white space] */
 #content		{ margin-right : 200px; }	/* #right width [+ additional white space] */
 
@@ -100,18 +100,26 @@ body {
 	}
 	
 #menuleft {
-	float: left;
+	position: absolute;
+	left: 6px;
+	display: block;
 	overflow: hidden;
+	width: 30%;
 	}
 	
 #menuright {
-	float: right;
+	position: absolute;
+	right: 6px;
+	display: block;
 	overflow: hidden;
+	width: 30%;
 	}
 
 #menucenter {
+	position: absolute;
 	text-align: center;
-	margin: 0 280px;
+	left: 0px;
+	width: 100%;
 	}
 
 #breadcrumb {
@@ -277,7 +285,8 @@ body.thm		{ background: #bad521 url(../images/body_background.gif) repeat-x scro
 #page .thm-BR	{ position: relative; background: url(../images/thm_page_BR.png) no-repeat right top; }
 #page .thm-BM	{ position: relative; background: url(../images/thm_page_BM.png) repeat-x center top; height: 17px; margin: 0 17px; }
 	
-.padder { position: relative; overflow: hidden; padding: 12px 6px 0 12px; }
+.filler { position: relative; width: 100%; }
+.padder { position: relative; overflow: hidden; padding: 12px 6px 0 6px; }
 .marger { position: relative; overflow: hidden; margin: 0 17px; }
 
 #breadcrumb { background: url(../images/thm_breadcrumb_bg.png) repeat-x center center; padding: 6px; height: 14px; }
