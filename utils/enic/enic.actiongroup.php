@@ -10,7 +10,7 @@ class enicActionGroup extends CopixActionGroup {
     //enic attributes
     protected $user;
     protected $matrix;
-    protected $menu;
+    // protected $menu;
     protected $options;
     protected $model;
     protected $js;
@@ -33,7 +33,7 @@ class enicActionGroup extends CopixActionGroup {
         $this->user         =& enic::get('user');
         $this->options      =& enic::get('options');
         $this->matrix       =& enic::get('matrixCache');
-        $this->menu         =& enic::get('menu');
+        // $this->menu         =& enic::get('menu');
         $this->model        =& enic::get('model');
         $this->db           =& enic::get('model');
         $this->js           =& enic::get('javascript');
