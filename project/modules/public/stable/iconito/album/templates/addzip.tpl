@@ -1,3 +1,4 @@
+<div style="width: 500px; min-height: 100px;">
 <form action="{copixurl dest="album||doaddzip"}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="album_id" value="{$ppo->album->album_id}">
 <input type="hidden" name="dossier_id" value="{$ppo->dossier_id}">
@@ -8,3 +9,4 @@
 </form>
 
 {i18n key="album.form.file_size_zip" 1=$ppo->file_size_zip|human_file_size noEscape=1}
+</div>

@@ -62,3 +62,11 @@ div.album_petit_poucet {
 font-size:11px;
 margin:0 3px 6px;
 }
+
+div.album-emptyfolder {
+	background-color: #FCFCFC;
+	border: 1px solid #CCC;
+	margin: 4px;
+	margin-top: 8px;
+	padding: 5px;
+}

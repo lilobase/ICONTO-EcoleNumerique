@@ -13,6 +13,10 @@
 {$dossiers}
 </div>
 
+{if ! $photolist|@count}
+	<div class="album-emptyfolder">{i18n key="album.error.emptyfolder"}</div>
+{/if}
+
 {if $dossier->dossier_id gt 0}
 <div class="photo"><a class="parent" href="{copixurl dest="album||album" album_id=$dossier->dossier_album dossier_id=$dossier->dossier_parent}"></a></div>
 {/if}
@@ -23,12 +27,8 @@
 	{/foreach}
 {/if}
 
-{if $photolist neq null}	
-
+{if $photolist|@count}	
 	{foreach from=$photolist item=valeur}
 		<div class="photo"><a href="{copixurl dest="album||photo" photo_id=$valeur->photo_id}"><img src="{copixurl}static/album/{$valeur->album_id}_{$valeur->album_cle}/{$valeur->photo_id}_{$valeur->photo_cle}{$album_thumbsize}.{$valeur->photo_ext}" border="0" alt="{$valeur->photo_nom|escape}" title="{$valeur->photo_nom|escape}" width="{$album_thumbsize_width}" height="{$album_thumbsize_height}"></a></div>
 	{/foreach}
-
-{else}
-	{i18n key="album.error.emptyfolder"}
 {/if}

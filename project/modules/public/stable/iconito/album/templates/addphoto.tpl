@@ -1,3 +1,4 @@
+<div style="width: 500px; min-height: 200px;">
 <form action="{copixurl dest="album||doaddphoto"}" method="post" enctype="multipart/form-data">
 <input type="hidden" name="MAX_FILE_SIZE" value="{$ppo->file_size_photo}">
 <input type="hidden" name="album_id" value="{$ppo->album->album_id}">
@@ -11,3 +12,4 @@
 </form>
 
 {i18n key="album.form.file_size_photo" 1=$ppo->file_size_photo|human_file_size noEscape=1}
+</div>
