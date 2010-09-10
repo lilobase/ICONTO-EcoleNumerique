@@ -14,6 +14,8 @@
 -- Contenu de la table `module_ressource_annuaires`
 -- 
 
+SET CHARACTER SET 'utf8';
+
 INSERT INTO `module_ressource_annuaires` (`id`, `date_crea`) VALUES 
 (2, '2005-11-18 16:28:25');
 
