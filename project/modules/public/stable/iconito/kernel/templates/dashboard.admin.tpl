@@ -1,7 +1,6 @@
-<h3>
+<h1>
     {i18n key="kernel|dashboard.admin.title" noEscape="true"}
-</h3>
-    <hr />    
+</h1>
 <div id="dash-ct" class="content-panel">
 <form id="dash-form-ct" action="{copixurl dest="kernel|dashboard|ereg"}" method="post">
     <textarea id="content_txt" name="content_txt">{$ppo->content.content}</textarea>
