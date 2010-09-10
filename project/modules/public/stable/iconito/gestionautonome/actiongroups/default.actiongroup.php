@@ -9,7 +9,7 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class ActionGroupDefault extends CopixActionGroup {
+class ActionGroupDefault extends enicActionGroup {
 
 	private $menu;
 	
@@ -20,7 +20,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		$this->menu = array();
 		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
-		$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>120 );
+		if($this->user->root) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>120 );
 	}
 
 	/**
