@@ -22,23 +22,12 @@
     padding: 5px;
 }
 
-.dashboard-item li{
-    float: left;
-    height: 17px;
-    line-height: 17px;
-    font-size: 12px;
-    font-weight: normal;
-    color: white;
-    width: 175px;
-    text-align: center;
-    margin: 4px;
-    padding: 0px;
-    background-color: #0C92B1;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
+.dashboard-item li {
+	display: inline-block;
+	margin-right: 20px;
+	width: 160px;
 }
+
 .dashboard-zone-img{
     margin: 5px 85px 5px 25px;
     float:left;
