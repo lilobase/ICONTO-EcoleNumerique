@@ -19,8 +19,8 @@
 </a>
 </div>
 
-{if $photo->photo_nom}<b>{i18n key="album.form.title"}</b> {$photo->photo_nom}<br />{/if}
-{if $photo->photo_comment}<b>{i18n key="album.form.comment"}</b> {$photo->photo_comment}<br />{/if}
+{if $photo->photo_nom}<b>{i18n key="album.form.title"}</b> {$photo->photo_nom|escape}<br />{/if}
+{if $photo->photo_comment}<b>{i18n key="album.form.comment"}</b> {$photo->photo_comment|escape}<br />{/if}
 {if $photo->photo_date}<b>{i18n key="album.form.date"}</b> {$photo->photo_date}<br />{/if}
 
 </center>

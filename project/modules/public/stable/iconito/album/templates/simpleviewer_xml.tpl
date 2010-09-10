@@ -16,7 +16,7 @@
 {foreach from=$photolist item=photo}
 <IMAGE>
 	<NAME>{$photo->photo_id}_{$photo->photo_cle}.jpg</NAME>
-	<CAPTION><![CDATA[<b>{$photo->photo_nom|escape:"html"|utf8_encode}</b>{if $photo->photo_comment}<br /><i>{$photo->photo_comment}<i></i>{/if}]]></CAPTION>
+	<CAPTION><![CDATA[<b>{$photo->photo_nom|escape:"html"}</b>{if $photo->photo_comment}<br /><i>{$photo->photo_comment|escape:"html"}<i></i>{/if}]]></CAPTION>
 </IMAGE>
 {/foreach}
 

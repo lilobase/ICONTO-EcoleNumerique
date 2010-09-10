@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Album photo : {$album_titre}{if $dossier_id gt 0} / {$dossier_nom}{/if}</title>
+<title>Album photo : {$album_titre|escape:"html"}{if $dossier_id gt 0} / {$dossier_nom|escape:"html"|utf8_decode}{/if}</title>
 <script type="text/javascript" src="{copixurl}simpleviewer/flashobject.js"></script>
 <style type="text/css">	
 	/* hide from ie on mac \*/

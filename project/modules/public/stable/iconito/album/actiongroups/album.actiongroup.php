@@ -160,6 +160,25 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tplAlbum->assign ('album_thumbsize', "_s128" );
 		$tplAlbum->assign ('album_thumbsize_height', "128" );
 		$tplAlbum->assign ('album_thumbsize_width', "128" );
+
+		// Debut petit poucet
+		$petit_poucet_array = array();
+		$dossier_walk = clone $dossier;
+		if($dossier->dossier_id>0) array_unshift( $petit_poucet_array, clone $dossier_walk );
+		// _dump($dossier_walk);
+		while( $dossier_walk->dossier_parent > 0 ) {
+			$dossier_walk = $dossier_dao->get($dossier_walk->dossier_parent);
+			array_unshift( $petit_poucet_array, clone $dossier_walk );
+		}
+
+		$dossier_walk->dossier_id = 0;
+		$dossier_walk->dossier_parent = -1;
+		$dossier_walk->dossier_nom = 'Racine';
+		array_unshift( $petit_poucet_array, clone $dossier_walk );
+		
+		$tplAlbum->assign ('petit_poucet', $petit_poucet_array );
+		// Fin petit poucet
+		
 		$result = $tplAlbum->fetch("album.tpl");
 
 		$tpl->assign ('MAIN', $result);
@@ -1374,7 +1393,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 				$dossier_new = CopixDAOFactory::createRecord("dossier");
 				$dossier_new->dossier_album = $album_id;
 				$dossier_new->dossier_parent = $dossier_id;
-				$dossier_new->dossier_nom = _request("folder_new");
+				$dossier_new->dossier_nom = _request("folder_new", "Nouveau dossier");
 				$dossier_new->dossier_comment = '';
 				$dossier_new->dossier_date = date("Y-m-d H:i:s");
 				$dossier_new->dossier_cle = substr( md5(microtime()), 0, 10 );

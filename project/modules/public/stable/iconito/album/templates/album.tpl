@@ -1,3 +1,14 @@
+{if $petit_poucet}
+	<div class="album_petit_poucet">
+	{foreach from=$petit_poucet item=petit_poucet_item name=petit_poucet}
+		/
+		{if ! $smarty.foreach.petit_poucet.last}<a href="{copixurl dest="album||album" album_id=$petit_poucet_item->dossier_album dossier_id=$petit_poucet_item->dossier_id}">{/if}
+		{$petit_poucet_item->dossier_nom|escape}
+		{if ! $smarty.foreach.petit_poucet.last}</a>{/if}
+	{/foreach}
+	</div>
+{/if}
+
 <div>
 {$dossiers}
 </div>
@@ -8,7 +19,7 @@
 
 {if $dossierlist neq null}	
 	{foreach from=$dossierlist item=valeur}
-		<div class="photo"><a class="album" href="{copixurl dest="album||album" album_id=$valeur->dossier_album dossier_id=$valeur->dossier_id}">{$valeur->dossier_nom}<br /><i style="font-size: 0.8em;">({if $valeur->photos|@count eq 0}{i18n key="album.display.photocount.0"}{else}{if $valeur->photos|@count eq 1}{i18n key="album.display.photocount.1"}{else}{i18n key="album.display.photocount.n" 1=$valeur->photos|@count}{/if}{/if})</i></a></div>
+		<div class="photo"><a class="album" href="{copixurl dest="album||album" album_id=$valeur->dossier_album dossier_id=$valeur->dossier_id}">{$valeur->dossier_nom|escape}<br /><i style="font-size: 0.8em;">({if $valeur->photos|@count eq 0}{i18n key="album.display.photocount.0"}{else}{if $valeur->photos|@count eq 1}{i18n key="album.display.photocount.1"}{else}{i18n key="album.display.photocount.n" 1=$valeur->photos|@count}{/if}{/if})</i></a></div>
 	{/foreach}
 {/if}
 
