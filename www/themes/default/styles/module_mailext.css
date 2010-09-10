@@ -26,3 +26,7 @@ label{
     float: right;
     margin-right: 5px;
 }
+.mailext-hr{
+    border: none;
+    border-bottom: solid 1px #B28001;
+}

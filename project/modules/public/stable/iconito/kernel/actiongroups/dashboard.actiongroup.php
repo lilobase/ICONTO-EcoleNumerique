@@ -275,7 +275,7 @@ class ActionGroupDashboard extends enicActionGroup {
              $ImageNews = $_FILES['image']['name'];
 
              //mime type
-             $ListeExtension = array('jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'png' => 'image/png', 'gif' => 'image/gif');
+             $ListeExtension = array('jpg' => 'image/jpeg', 'jpeg' => 'image/jpeg', 'gif' => 'image/gif');
             $ListeExtensionIE = array('jpg' => 'image/pjpg', 'jpeg'=>'image/pjpeg');
 
 
@@ -291,12 +291,6 @@ class ActionGroupDashboard extends enicActionGroup {
                     if($ImageNews['mime'] != $ListeExtension[$ExtensionPresumee]  && $ImageNews['mime'] != $ListeExtensionIE[$ExtensionPresumee])
                         $extError = true;
                     $typeExt = 'jpeg';
-                    break;
-
-                case 'png':
-                    if($ImageNews['mime'] != $ListeExtension[$ExtensionPresumee]  && $ImageNews['mime'] != $ListeExtensionIE[$ExtensionPresumee])
-                        $extError = true;
-                    $typeExt = 'png';
                     break;
 
                 case 'gif':

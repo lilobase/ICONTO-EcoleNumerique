@@ -131,7 +131,7 @@
         <a href="" class="show-me-advanced button button-add">Configuration avanc&eacute;e</a>
         <div class="me-advanced">
         <label for="port">port</label>
-            <input type="text" name="port" class="me-port"/><br />
+            <input type="text" name="port" class="me-port" value="" /><br />
             <label for="imap_path">Chemin de la boite de réception</label>
             <input type="text" name="imap_path" /><br />
             <label for="tls">Activer le TLS</label>

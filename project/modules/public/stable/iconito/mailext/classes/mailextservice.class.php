@@ -121,7 +121,7 @@ class mailExtService extends enicService{
         $oDatas['pass'] = $this->model->quote($iDatas['pass']);
         $oDatas['webmail_url'] = $this->model->quote($iDatas['webmail_url']);
         $oDatas['imap_path'] = (!empty($iDatas['imap_path'])) ? $this->model->quote($iDatas['imap_path']) : 'NULL';
-        if(!empty($iDatas['port']) && $iDatas['port'] != 0){
+        if(!empty($iDatas['port'])){
             $oDatas['port'] = $iDatas['port']*1;
         }elseif($iDatas['protocol'] == 'imap'){
             if($oDatas['ssl'] == 1)
