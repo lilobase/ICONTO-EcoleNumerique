@@ -17,7 +17,7 @@ class ZoneDashboardEcole extends enicZone {
         $oEns        = array();
 
         //check the matrix right for current classe :
-        if($this->matrix->classe($idZone)->_right->enseignant->voir){
+        if($this->matrix->classe($idZone)->_right->{$this->user->type}->voir){
             $annuaireService =& CopixClassesFactory::Create ('annuaire|AnnuaireService');
 
             //get the children's node

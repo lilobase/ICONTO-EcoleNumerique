@@ -7,7 +7,7 @@
     {foreach item=mail from=$content}
 <h4 class="mailext-title">{i18n key="mailext.box" noEscape=1} <em>{$mail.name}</em></h4>
 
-<a class="mailext-webmail" href="{$mail.webmail_url}">
+<a class="mailext-webmail" href="{$mail.webmail_url}" target="_blank">
     <div id="nbmail{$mail.id}">
         {i18n key="mailext.wait" noEscape=1}
     </div>
