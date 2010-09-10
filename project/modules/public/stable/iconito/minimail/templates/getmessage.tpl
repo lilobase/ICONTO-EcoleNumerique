@@ -35,7 +35,9 @@
 {user label=$message->from_id_infos userType=$message->from.type userId=$message->from.id linkAttribs='STYLE="text-decoration:none;";'}, <b>{i18n key="minimail.msg.to"}</b> {assign var=sep value=""}{foreach from=$dest item=to}{$sep}{user label=$to->to_id_infos userType=$to->to.type userId=$to->to.id linkAttribs='STYLE="text-decoration:none;";'}{assign var=sep value=", "}{/foreach}, <b>{i18n key="minimail.msg.date}</b> {$message->date_send|datei18n:"date_short_time"}
 
 <HR CLASS="minimail_hr" NOSHADE SIZE="1" />
-{$message->message|render:$message->format}
+<div class="render">
+  {$message->message|render:$message->format}
+</div>
 
 {if $message->attachment1 }
 <DIV CLASS="minimail_attachment">

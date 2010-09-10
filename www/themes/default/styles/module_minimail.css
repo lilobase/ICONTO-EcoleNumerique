@@ -7,6 +7,13 @@ DIV.minimail_message {
 	-moz-border-radius: 6px;
 	padding: 2px;
 }
+div.minimail_message div.render a {
+  text-decoration:underline;
+}
+div.minimail_message div.render a:hover {
+  color:#000;
+}
+
 
 TR.minimail_navig {
 	background-color: #EEEEEE;

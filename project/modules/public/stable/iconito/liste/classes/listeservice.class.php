@@ -61,7 +61,7 @@ class ListeService {
 					
           $format = CopixConfig::get ('minimail|default_format');
           
-          if ($format == 'dokuwiki')
+          if ($format == 'dokuwiki' || $format == 'wiki')
   					$message .= "\n\n----\n".CopixI18N::get ('liste|liste.message.footer', array(1=>$rListe->parent["nom"], 2=>CopixUrl::get($rListe->parent["module"].'||getHomeAdmin', array("id"=>$rListe->parent["id"]))));
           else
   					$message .= "<p>-- </p><p>".CopixI18N::get ('liste|liste.message.footerHtml', array(1=>$rListe->parent["nom"], 2=>CopixUrl::get($rListe->parent["module"].'||getHomeAdmin', array("id"=>$rListe->parent["id"]))))."</p>";

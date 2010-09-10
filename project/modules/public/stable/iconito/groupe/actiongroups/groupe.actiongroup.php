@@ -1070,10 +1070,14 @@ class ActionGroupGroupe extends CopixActionGroup {
 					$msg_from_id = _currentUser ()->getId();
 					$msg_from_login = _currentUser()->getLogin();
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.nok.title', array($groupe[0]->titre));
-					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.nok.body', array($groupe[0]->titre, $his_nom));
-					$msg_body = str_replace("\\n", "\n", $msg_body);
+          $format = CopixConfig::get ('minimail|default_format');
+          if ($format == 'dokuwiki' || $format == 'wiki') {
+  					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.nok.body', array($groupe[0]->titre, $his_nom));
+  					$msg_body = str_replace("\\n", "\n", $msg_body);
+          } else
+  					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.nok.bodyHtml', array($groupe[0]->titre, $his_nom));
 					$msg_destin = array($userInfo["user_id"]=>1);
-					$minimailService->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, 'wiki');
+					$minimailService->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, $format);
 				} elseif ($action == '1') {	// On l'accepte !
 					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, 0);
 					$kernel_service->setLevel("CLUB", $id, $user_type, $user_id, PROFILE_CCV_MEMBER, $debutW, $finW);
@@ -1085,18 +1089,34 @@ class ActionGroupGroupe extends CopixActionGroup {
 					$msg_from_id = _currentUser ()->getId();
 					$msg_from_login = _currentUser()->getLogin();
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.ok.title', array($groupe[0]->titre));
-					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.ok.body', array($groupe[0]->titre, $his_nom));
-					if ($debutW && $finW)
-					$msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebutFin', array(CopixDateTime::timestampToDate($debutW), CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHome', array("id"=>$id))));
-					elseif ($debutW)
-					$msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebut', array(CopixDateTime::timestampToDate($debutW), CopixUrl::get('groupe||getHome', array("id"=>$id))));
-					elseif ($finW)
-					$msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyFin', array(CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHome', array("id"=>$id))));
-					else
-					$msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyIllimite', array(CopixUrl::get('groupe||getHome', array("id"=>$id))));
-					$msg_body = str_replace("\\n", "\n", $msg_body);
+          $format = CopixConfig::get ('minimail|default_format');
+          if ($format == 'dokuwiki' || $format == 'wiki') {
+  					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.ok.body', array($groupe[0]->titre, $his_nom));
+					  if ($debutW && $finW)
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebutFin', array(CopixDateTime::timestampToDate($debutW), CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+					  elseif ($debutW)
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebut', array(CopixDateTime::timestampToDate($debutW), CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+					  elseif ($finW)
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyFin', array(CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+					  else
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyIllimite', array(CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+					  $msg_body = str_replace("\\n", "\n", $msg_body);
+          } else { // Format HTML
+  					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyHtml', array($groupe[0]->titre, $his_nom));
+					  if ($debutW && $finW)
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebutFinHtml', array(CopixDateTime::timestampToDate($debutW), CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+					  elseif ($debutW)
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyDebutHtml', array(CopixDateTime::timestampToDate($debutW), CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+					  elseif ($finW)
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyFinHtml', array(CopixDateTime::timestampToDate($finW), CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+					  else
+					    $msg_body .= CopixI18N::get ('groupe|groupe.msgJoin.ok.bodyIllimiteHtml', array(CopixUrl::get('groupe||getHomeAdmin', array("id"=>$id))));
+          
+          
+          }
+          
 					$msg_destin = array($userInfo["user_id"]=>1);
-					$minimailService->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, 'wiki');
+					$minimailService->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, $format);
 				}
 			}
 				
@@ -1166,20 +1186,24 @@ class ActionGroupGroupe extends CopixActionGroup {
 				$userInfo = $kernel_service->getUserInfo($trouve["type"], $trouve["id"]);
 				//print_r2($userInfo);
 				if ($userInfo && $userInfo["user_id"]) {
-						
+					
 					$his_nom = _currentUser()->getExtra('prenom')." "._currentUser()->getExtra('nom')." ("._currentUser()->getExtra('type').")";
 						
 					$msg_from_login = _currentUser()->getLogin();
 					$msg_title = CopixI18N::get ('groupe|groupe.msgJoin.title', array($groupe[0]->titre));
-					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.body', array(CopixUrl::get('groupe||getHomeAdminMembers', array("id"=>$id)),$his_nom));
-					$msg_body = str_replace("\\n", "\n", $msg_body);
+          $format = CopixConfig::get ('minimail|default_format');
+          if ($format == 'dokuwiki' || $format == 'wiki') {
+  					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.body', array(CopixUrl::get('groupe||getHomeAdminMembers', array("id"=>$id)),$his_nom));
+  					$msg_body = str_replace("\\n", "\n", $msg_body);
+          } else
+  					$msg_body = CopixI18N::get ('groupe|groupe.msgJoin.bodyHtml', array(CopixUrl::get('groupe||getHomeAdminMembers', array("id"=>$id)),$his_nom));
 
 					//print_r($msg_body);
 					//die();
 					$msg_from_id = _currentUser ()->getId();
 					$msg_destin = array($userInfo["user_id"]=>1);
 
-					$send = $minimail_service->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, 'wiki');
+					$send = $minimail_service->sendMinimail ($msg_title, $msg_body, $msg_from_id, $msg_destin, $format);
 					if ($send)
 					$oks[] = CopixI18N::get ('groupe|groupe.msgJoin.Ok');
 					else
