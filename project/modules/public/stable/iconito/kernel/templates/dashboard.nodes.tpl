@@ -5,6 +5,6 @@
     {/if}
 {$content}
 </div>
-{if $is_admin}
+{if $is_admin && $type != 'ROOT'}
     <a href="{copixurl dest="kernel|dashboard|modif" node_id=$id node_type=$type}" class="modif_dash button button-update">{i18n key="kernel|dashboard.admin.link"}</a>
 {/if}
