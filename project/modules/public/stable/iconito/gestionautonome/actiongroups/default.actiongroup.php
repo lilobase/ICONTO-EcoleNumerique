@@ -1943,7 +1943,7 @@ class ActionGroupDefault extends CopixActionGroup {
     if ($personEntity = $personEntityDAO->get ($personId, $ppo->nodeId, $type_ref)) {
       
       // Si on se trouve sur une ecole et que la personne a une affectation dans une des classes
-      if ($type_ref == 'ECOLE' && $personEntityDAO->hasTeacherRoleInSchool ($personId, $ppo->nodeId)) {
+      if ($type_ref == 'ECOLE' && $personEntityDAO->hasTeacherRoleInSchool ($personId, $ppo->nodeId, true)) {
         
         // Mise à jour du rôle : directeur -> enseignant
         $personEntityDAO->updateRole ($personId, $ppo->nodeId, $type_ref, '1');

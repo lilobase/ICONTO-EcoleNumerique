@@ -63,11 +63,22 @@ class DAOKernel_bu_personnel_entite {
    *
    * @return bool
    */
-  public function hasTeacherRoleInSchool ($id, $schoolId) {
+  public function hasTeacherRoleInSchool ($id, $schoolId, $forCurrentGrade = false) {
     
     $schoolClassDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
     
-    $classrooms = $schoolClassDAO->getBySchool ($schoolId);
+    if ($forCurrentGrade) {
+      
+      if (is_null($grade = _sessionGet('grade'))) {
+
+        $grade = Kernel::getAnneeScolaireCourante ()->id_as;
+      }
+      $classrooms = $schoolClassDAO->getBySchool ($schoolId, $grade);
+    }
+    else {
+      
+      $classrooms = $schoolClassDAO->getBySchool ($schoolId);
+    }
     
     foreach ($classrooms as $classroom) {
       
