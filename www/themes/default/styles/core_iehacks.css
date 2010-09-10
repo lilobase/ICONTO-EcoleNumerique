@@ -36,3 +36,12 @@ ul.usermenu li.menu-minimail a#counter span#counter-text {
 	padding-top: 4px;
 	width: 17px;
 	}
+
+ul {
+	margin: 0;
+	padding: 0;
+}
+li {
+	margin: 0;
+	padding: 0;
+}
