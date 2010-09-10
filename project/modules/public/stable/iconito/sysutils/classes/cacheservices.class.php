@@ -10,7 +10,7 @@
  * @link        http://www.cap-tic.fr
  */
 
-_classInclude('kernel|demo_tools');
+_classInclude('sysutils|demo_tools');
 
 class CacheServices {
 
