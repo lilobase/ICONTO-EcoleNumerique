@@ -61,7 +61,7 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 			) );
 			
 			foreach( $anim_infos AS $anim_ecoles ) {
-				$groups['principal_'.$anim_ecoles->ecole] = 'Directeur';
+				$groups['schools_group_animator_'.$anim_ecoles->ecole] = 'Directeur';
 			}
 			
 			// Groupe de villes
@@ -84,7 +84,7 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 			) );
 
 			foreach( $anim_infos AS $anim_ecoles ) {
-				$groups['principal_'.$anim_ecoles->ecole] = 'Directeur';
+				$groups['cities_group_animator_'.$anim_ecoles->ecole] = 'Directeur';
 			}
 			
 			
@@ -130,12 +130,13 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 		            $groups['city_agent_'.$entity->reference] = 'Agent de ville';
 		            break;
 		          case 5:
-                            $groups['cities_group_agent_'.$entity->reference] = 'Agent de groupe de villes';
+                $groups['cities_group_agent_'.$entity->reference] = 'Agent de groupe de villes';
   		          break;
 		        }
 		      }
 		  }
 		}
+		
 		return $groups;
 	}
 

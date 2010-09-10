@@ -65,6 +65,14 @@ class DAOKernel_bu_ecole {
         
         $groupsIds['classroomsIds'][] = $id;
       }
+      elseif (preg_match('/^schools_group_animator/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
+      elseif (preg_match('/^cities_group_animator/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
     }
     
     if (empty ($groupsIds['schoolsIds']) && empty ($groupsIds['classroomsIds'])) {

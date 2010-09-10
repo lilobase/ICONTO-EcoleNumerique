@@ -80,10 +80,10 @@ class IconitoModulecredentialhandler implements ICopixCredentialHandler {
 
 	  $mapResourceTypeToRole = array(
 	    'classroom'    => array('teacher'),
-	    'school'       => array('principal', 'administration_staff'),
+	    'school'       => array('principal', 'administration_staff', 'schools_group_animator', 'cities_group_animator'),
 	    'city'         => array('city_agent'),
 	    'cities_group' => array('cities_group_agent'),
-	    '*'            => array('teacher', 'principal', 'administration_staff', 'city_agent', 'cities_group_agent'),
+	    '*'            => array('teacher', 'principal', 'administration_staff', 'city_agent', 'cities_group_agent', 'schools_group_animator', 'cities_group_animator'),
 	  );
 	  
     // Teste de la ressource parente
