@@ -147,8 +147,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 		$menu = array();
 		if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create');
-    $menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'), 'current'=>true);
-    $menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.my'));
+    //$menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'), 'current'=>true);
+    //$menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.my'));
 		$tpl->assign ('MENU', $menu);
 
 		$tplListe = & new CopixTpl ();
@@ -273,14 +273,13 @@ class ActionGroupGroupe extends CopixActionGroup {
 			}
 
 			$tpl->assign ('TITLE_PAGE', $tplTitle);
-			if ($id) {
-				// $tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getHome', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHome').'</a> :: <a href="'.CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)).'">'.CopixI18N::get ('groupe|groupe.backHomeAdmin').'</a>');
-				$menu = array();
-				// $menu[] = array('url' => CopixUrl::get ('groupe||getHome', array("id"=>$id)), 'txt'=>CopixI18N::get ('groupe|groupe.backHome'), 'size'=>100);
-				// $menu[] = array('url' => CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)), 'txt'=>CopixI18N::get ('groupe|groupe.backHomeAdmin'), 'size'=>195);
-				$tpl->assign ('MENU', $menu);
-
-			}
+      
+      $menu = array();
+      if (0 && !$id) {
+    		if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create', 'current'=>true);
+        $menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'));
+      }
+  		$tpl->assign ('MENU', $menu);
 				
 			$tplForm = & new CopixTpl ();
 			$tplForm->assign ("id", $id);
@@ -412,9 +411,9 @@ class ActionGroupGroupe extends CopixActionGroup {
 		return CopixActionGroup::process ('groupe|groupe::getEdit', array ('id'=>$id, 'titre'=>$titre, 'description'=>$description, 'is_open'=>$is_open, 'membres'=>$membres, 'his_modules'=>$his_modules, 'errors'=>$errors, 'parent'=>$parent));
 
 		if ($id)
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)));
+		  return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)));
 		else
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListMy'));
+		  return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListMy'));
 	}
 
 	 
@@ -584,7 +583,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$tpl->assign ('TITLE_PAGE', $groupe[0]->titre);
 			// $tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.backMy').'</a>');
 			$menu = array();
-			$menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.backMy'), 'size'=>120);
+			//$menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.backMy'), 'size'=>120);
 			$tpl->assign ('MENU', $menu);
 
 			$tplHome = & new CopixTpl ();
