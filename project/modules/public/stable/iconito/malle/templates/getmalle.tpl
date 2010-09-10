@@ -146,7 +146,7 @@ jQuery(document).ready(function($){
 	{/if}
 </div>
 
-</form>
 {/if}
+</form>
 
 </div>
