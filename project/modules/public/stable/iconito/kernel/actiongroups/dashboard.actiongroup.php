@@ -52,6 +52,10 @@ class ActionGroupDashboard extends enicActionGroup {
 				continue;
 			}
 
+			if( $node['type']=='CLUB' && $node['droit'] < 30 ) {
+				continue;
+			}
+			
 			if (!isset($nodes[$node['type']]))
 			$nodes[$node['type']] = array();
 
@@ -147,14 +151,20 @@ class ActionGroupDashboard extends enicActionGroup {
 
 
 		/* DRAFT WORKING */
-		//_dump($nodes);
+		// _dump($nodes);
 		/* $rClasse = Kernel::getNodeInfo ('BU_CLASSE', $nodes['BU_CLASSE'][1]['id'], false);
 		CopixZone::process ('annuaire|infosclasse', array('rClasse'=>$rClasse)); */
 		//echo $this->matrix->display();
 		// _dump($nodes);
 
 		$tplModule->assign("nodes", $nodes);
-		$result = $tplModule->fetch("dashboard.tpl");
+		
+		if( count($nodes)==0 ) {
+			$result = $tplModule->fetch("dashboard-empty.tpl");
+		} else {
+			$result = $tplModule->fetch("dashboard.tpl");
+		}
+		
 		$tpl->assign('MAIN', $result);
 
 		return new CopixActionReturn(COPIX_AR_DISPLAY, $tpl);
