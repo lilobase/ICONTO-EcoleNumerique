@@ -11,6 +11,8 @@
 		</DIV>
 		<H1>{i18n key="blog.nav.pages"}</H1>
 
+	<p>{i18n key="blog.get.edit.page.minihelp"}</p>
+
     {if count($tabPages)}
 
 		<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
