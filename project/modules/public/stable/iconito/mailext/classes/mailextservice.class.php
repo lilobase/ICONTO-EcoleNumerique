@@ -43,7 +43,7 @@ class mailExtService extends enicService{
                 continue;
             }
 
-            $oReturn[$conf['name']] = imap_num_recent($connect);
+            $oReturn[$conf['name']] = @imap_num_recent($connect);
 
             imap_close($connect);
         }
