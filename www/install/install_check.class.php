@@ -58,21 +58,21 @@ function check_php () {
 	$ver = explode( '.', PHP_VERSION );
 	$ver_num = $ver[0] . $ver[1] . $ver[2];
 
-	if ( $ver_num < 420 )
+	if ( $ver_num < 500 )
 	{
 		$data['caninstall'] = false;
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'php_version',
-			'message' => 'Votre version de PHP est trop vieille. Installez PHP 4.2 minimum ou PHP 5.',
+			'message' => 'Votre version de PHP est trop vieille. Installez PHP 5.',
 		);
 	}
-	elseif ( $ver_num < 500 )
+	elseif ( $ver_num < 529 )
 	{
 		$data['errors'][] = array(
 			'level' => 'warning',
 			'code' => 'php_version',
-			'message' => 'Vous utilisez PHP '.PHP_VERSION.' !<br />Cette version, elle arrive en fin de vie et il n\'y aura plus de mise &agrave; jour &agrave; partir de 2008.<br />Même si Iconito fonctionne avec cette version, si vous le pouvez, passez en PHP 5.',
+			'message' => 'Vous utilisez PHP '.PHP_VERSION.' !<br />Il est conseill&eacute; d\'utiliser au moins la version 5.2.9 de PHP.',
 		);
 	} else {
 		$data['errors'][] = array(
