@@ -18,7 +18,7 @@
 				<td align="left"><nobr>
 				<a class="button button-update" href="{copixurl dest="comptes||getUserExtMod" id=$user->ext_id}">{i18n key="comptes|comptes.strings.mod"}</a>
 				{if $user->ext_id != 1}
-				- <a href="{copixurl dest="comptes||getUserExtMod" id="-`$user->ext_id`"}">{i18n key="comptes|comptes.strings.del"}</a>
+				<a class="button button-delete" href="{copixurl dest="comptes||getUserExtMod" id="-`$user->ext_id`"}">{i18n key="comptes|comptes.strings.del"}</a>
 				{/if}
 				</nobr>
 				</td>
