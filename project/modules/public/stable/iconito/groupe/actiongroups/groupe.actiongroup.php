@@ -1291,7 +1291,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				//print_r("<br/>moduleType=$moduleType / deja=$deja / ");
 
 
-				if ($deja && !$his_modules[$moduleType]) { // Cocher -> décocher, on supprime le module
+				if ($deja && (!isset($his_modules[$moduleType]) || !$his_modules[$moduleType])) { // Cocher -> décocher, on supprime le module
 					//print_r("Del");
 					$classeDel = CopixClassesFactory::create("$module|Kernel$module");
 					$del = $classeDel->delete($deja);
