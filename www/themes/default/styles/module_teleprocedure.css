@@ -111,10 +111,10 @@ div#welcome_pages {
 	-moz-border-radius: 6px;
 	padding:7px;
 }
-div#welcome_pages div.item div.content {
+div#welcome_pages div.item div.contentWelcomePage {
 	padding:0;
 }
-div#welcome_pages div.item div.content p { margin:0; }
+div#welcome_pages div.item div.contentWelcomePage p { margin:0; }
 div#welcome_pages div.item div.file_dl {
 	width:190px;
 	font-size:0.85em;
