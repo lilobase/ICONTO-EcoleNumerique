@@ -329,11 +329,12 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		}
 
 		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
-		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
-
+		// $animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
+		$animateurs2regroupements_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2regroupements");
 		
 		$animateurs_dao->delete($pUserType, $pUserId);
-		$animateurs2grville_dao->deleteByUser($pUserType, $pUserId);
+		// $animateurs2grville_dao->deleteByUser($pUserType, $pUserId);
+		$animateurs2regroupements_dao->deleteByUser($pUserType, $pUserId);
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list'));
 	}	
