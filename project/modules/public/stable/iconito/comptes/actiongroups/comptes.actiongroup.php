@@ -735,7 +735,7 @@ class ActionGroupComptes extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getUserExt() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && !_currentUser()->hasAssistance('can_comptes') )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
@@ -777,7 +777,7 @@ class ActionGroupComptes extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getUserExtMod() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && !_currentUser()->hasAssistance('can_comptes') )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));

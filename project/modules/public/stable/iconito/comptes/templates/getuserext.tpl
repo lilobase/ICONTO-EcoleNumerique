@@ -12,8 +12,8 @@
 		{foreach from=$userlist item=user}
 			{counter name="i"}
 			<tr CLASS="list_line{math equation="x%2" x=$i}">
-				<td align="left">{$user->ext_nom}</td>
-				<td align="left">{$user->ext_prenom}</td>
+				<td align="left">{$user->ext_nom|escape}</td>
+				<td align="left">{$user->ext_prenom|escape}</td>
 				<td align="left"><i>{$user->bu2user->user_login}</i></td>
 				<td align="left"><nobr>
 				<a class="button button-update" href="{copixurl dest="comptes||getUserExtMod" id=$user->ext_id}">{i18n key="comptes|comptes.strings.mod"}</a>

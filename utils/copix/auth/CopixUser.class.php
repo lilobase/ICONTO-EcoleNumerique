@@ -218,10 +218,32 @@ class CopixUser implements ICopixUser {
       return !is_null($response = $this->_getFirstLogged ()) ? $response->isSsoIn () : null;
     }
 		
-		public function hasAssistance () {
+		public function hasAssistance ( $check='' ) {
 			$animateur_dao = _dao("kernel|kernel_animateurs");
 			$animateur = $animateur_dao->get($this->getExtra('type'), $this->getExtra('id'));
-			return ($animateur) ? true : false;
+			
+			if(!$animateur) return false;
+			
+			switch( $check ) {
+				case 'all':
+					return $animateur;
+					break;
+				case 'can_connect':
+					return ($animateur->can_connect) ? true : false;
+					break;
+				case 'can_tableaubord':
+					return ($animateur->can_tableaubord) ? true : false;
+					break;
+				case 'can_comptes':
+					return ($animateur->can_comptes) ? true : false;
+					break;
+				case 'is_visibleannuaire':
+					return ($animateur->is_visibleannuaire) ? true : false;
+					break;
+				default:
+					return true;
+					break;
+			}
 		}
 	
     

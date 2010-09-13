@@ -1,13 +1,13 @@
 <?php
 /*
-	@file 		usermenu.zone.php
-	@desc		Build user menu
-	@version 	1.0.0b
-	@date 		2010-05-28 09:28:09 +0200 (Fri, 28 May 2010)
-	@author 	S.HOLTZ <sholtz@cap-tic.fr>
+ @file 		usermenu.zone.php
+ @desc		Build user menu
+ @version 	1.0.0b
+ @date 		2010-05-28 09:28:09 +0200 (Fri, 28 May 2010)
+ @author 	S.HOLTZ <sholtz@cap-tic.fr>
 
-	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
-*/
+ Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
+ */
 
 
 /**
@@ -17,12 +17,12 @@ class ZoneUserMenu extends CopixZone {
 
 	function _createContent (& $toReturn) {
 			
-		$ppo = new CopixPPO ();		
+		$ppo = new CopixPPO ();
 		$user = _currentUser ();
-//		echo '<pre>';
-//		print_r($user->getExtra('id'));
-//		echo '</pre>';
-		
+		//		echo '<pre>';
+		//		print_r($user->getExtra('id'));
+		//		echo '</pre>';
+
 		if ($user->isConnected()) {
 			$ppo->usermenu = "<ul class=\"usermenu\">";
 			$menuitem = array("title", "url", "class");
@@ -31,7 +31,7 @@ class ZoneUserMenu extends CopixZone {
 			$uid = $user->getExtra('id');
 
 			$menuitems = array();
-			
+				
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_agenda');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'agenda','mid'=>''));
 			$menuitem["class"] = "menu-agenda";
@@ -40,19 +40,19 @@ class ZoneUserMenu extends CopixZone {
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_minimail');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'minimail','mid'=>''));
 			$menuitem["class"] = "menu-minimail";
-      // Indicateur des minimails non lus
-      $nb = _dao("minimail|minimail_to")->getNbRecvUnread(_currentUser()->getId());
-      if ($nb > 0) {
-        $menuitem["before"] = '<a title="'.$menuitem["title"].'" id="counter" href="'.$menuitem["url"].'"><span id="counter-text">'.$nb.'</span></a>';
-      }
+			// Indicateur des minimails non lus
+			$nb = _dao("minimail|minimail_to")->getNbRecvUnread(_currentUser()->getId());
+			if ($nb > 0) {
+				$menuitem["before"] = '<a title="'.$menuitem["title"].'" id="counter" href="'.$menuitem["url"].'"><span id="counter-text">'.$nb.'</span></a>';
+			}
 			array_push($menuitems, $menuitem);
-      $menuitem["before"] = '';
+			$menuitem["before"] = '';
 
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_annuaire');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'annuaire','mid'=>''));
 			$menuitem["class"] = "menu-annuaire";
 			array_push($menuitems, $menuitem);
-      
+
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_malle');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'malle','mid'=>''));
 			$menuitem["class"] = "menu-malle";
@@ -71,42 +71,41 @@ class ZoneUserMenu extends CopixZone {
 			if ($user->hasAssistance()) {
 				$menuitem["title"] = _i18n('kernel|kernel.codes.mod_assistance');
 				$menuitem["url"] = CopixUrl::get ('assistance||');
-				$menuitem["class"] = "menu-assistance";			
+				$menuitem["class"] = "menu-assistance";
 				array_push($menuitems, $menuitem);
-				}	
-			
+			}
+				
 			if (_sessionGet('user_animateur')) {
 				$logout["title"] = _i18n('auth|auth.buttons.ctrlout');
 				$logout["url"] = CopixUrl::get ('assistance||switch');
-				$logout["class"] = "logout";			
-				}
-			else {
+				$logout["class"] = "logout";
+			} else {
 				$logout["title"] = _i18n('auth|auth.buttons.logout');
 				$logout["url"] = CopixUrl::get ('auth|log|out');
-				$logout["class"] = "logout";			
-				}
-      
-      if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
-        $menuitem["title"] = _i18n('kernel|kernel.codes.mod_aide');
-  			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>'CLUB','nid'=>$groupeAssistance,'mtype'=>'blog'));
-  			$menuitem["class"] = "menu-aide";
-  			array_push($menuitems, $menuitem);
-      }
-            
-      
+				$logout["class"] = "logout";
+			}
+
+			if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+				$menuitem["title"] = _i18n('kernel|kernel.codes.mod_aide');
+				$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>'CLUB','nid'=>$groupeAssistance,'mtype'=>'blog'));
+				$menuitem["class"] = "menu-aide";
+				array_push($menuitems, $menuitem);
+			}
+
+
 			foreach ($menuitems as $item) {
 				$ppo->usermenu .= "<li class=\"".$item["class"]."\">";
-        if (isset($item["before"]))
-          $ppo->usermenu .= $item["before"];
+				if (isset($item["before"]))
+				$ppo->usermenu .= $item["before"];
 				$ppo->usermenu .= "<a class=\"item ".$item["class"]."\" href=\"".$item["url"]."\" title=\"".$item["title"]."\"><span class=\"hidden\">".$item["title"]."</span></a>";
-        
+
 				$ppo->usermenu .= "</li>";
-				}
+			}
 			$ppo->usermenu .= "	<li class=\"".$logout["class"]."\">";
 			$ppo->usermenu .= "<a class=\"".$logout["class"]."\" href=\"".$logout["url"]."\" title=\"".$logout["title"]."\"><span class=\"hidden\">".$logout["title"]."</span></a>";
 			$ppo->usermenu .= "	</li>";
 			$ppo->usermenu .= "</ul>";
-			}
+		}
 		else $ppo->usermenu = "";
 
 		$toReturn = $this->_usePPO ($ppo, 'usermenu.tpl');
