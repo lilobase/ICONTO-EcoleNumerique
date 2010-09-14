@@ -41,6 +41,7 @@ class ActionGroupDashboard extends enicActionGroup {
 		$tpl->assign('TITLE_PAGE', CopixI18N::get('kernel.title.accueilsimple'));
 
 		$nodes_all = Kernel::getNodeParents($this->user->type, $this->user->idEn);
+		$nodes_all = Kernel::sortNodeList($nodes_all);
 		// _dump($nodes_all);
 		
 		$nodes = array();
@@ -104,7 +105,7 @@ class ActionGroupDashboard extends enicActionGroup {
 							$content['picture'] = null;
 							break;
                         case 'ROOT':
-                        	if ($this->user->root) {
+                        	if ($node['droit'] >= 60) {
 								$contentTpl = new CopixTpl();                  		
                    				$content['content'] = $contentTpl->fetch('zone.dashboard.root.tpl'); 
 								$content['picture'] = null;

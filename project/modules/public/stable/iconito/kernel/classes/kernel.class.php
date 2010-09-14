@@ -381,10 +381,12 @@ class Kernel {
 				foreach( $res AS $key=>$val ) {
 					if( ereg( "^BU_(.+)$", $val->node_type, $regs ) )
 						$return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$val->droit);
+					/*
 					if( ereg( "^ROOT$", $val->node_type ) ){
 						$return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
 						$alreadyOnRoot = true;
 					}
+					*/
 				}
 				// PNL - en dur, chef de Grandville (id1)
 				// en rÈalitÈ il faut balayer tout ce qui est attachÈ ‡ ce user EXT
@@ -429,7 +431,10 @@ class Kernel {
 					$droit = ($ok) ? $val->droit : 19; // CB Remplacer 30 par constante
 					$return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$droit);
 				}
-
+				if( $val->node_type == "ROOT" ){
+					$return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
+				}
+			
 				// Utilisateurs --(n)--> Modules
 				/*
 				if( ereg( "^MOD_(.+)$", $val->node_type ) ) {
@@ -797,6 +802,7 @@ class Kernel {
 				$types = array('USER_VIL','USER_ENS','USER_ADM','USER_ELE','USER_RES','USER_EXT');
 				$types = array_flip( $types );
 				
+				// echo "<li>".$a['type']." / ".$b['type']."</li>";
 				if ($a['type'] == $b['type']) {
 					if (!isset($a['nom']) || !isset($b['nom']) || $a['nom'] == $b['nom']) {
 						if (!isset($a['prenom']) || !isset($b['prenom']) || $a['prenom'] == $b['prenom']) {
@@ -832,11 +838,30 @@ class Kernel {
 			}
 			$node_list = $node_list_tri;
 		} else {
+			/*
 			$nodes_type = array();
 			foreach ($node_list as $key => $row) {
 				$nodes_type[$key]  = $row[$col];
 			}
-			array_multisort($nodes_type, $ordre, $node_list);
+			*/
+			function sortNodeList_compare($a, $b) 
+			{
+				$types = array('ROOT', 'BU_CLASSE', 'BU_ECOLE', 'BU_VILLE', 'BU_GRVILLE', 'CLUB');
+				$types = array_flip( $types );
+				
+				// echo "<li>".$a['type']." / ".$b['type']."</li>";
+				if ($a['type'] == $b['type']) {
+					if (!isset($a['nom']) || !isset($b['nom']) || $a['nom'] == $b['nom']) {
+						return 0;
+					}
+					return ($a['nom'] > $b['nom']) ? 1 : -1;
+				}
+				
+				if(!isset($types[$a['type']])||!isset($types[$b['type']])) return 0;
+				return ($types[$a['type']] > $types[$b['type']]) ? 1 : -1;
+			}
+			
+			usort( $node_list, "sortNodeList_compare" );
 		}
 		
 		return $node_list;
@@ -1388,7 +1413,7 @@ class Kernel {
 		}
 		
 		// Cas particulier : module d'administration
-		if( $user_type=='USER_EXT' && $user_id==1 && $node_type == "ROOT" ) {
+		if( $node_type == "ROOT" && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
 			$sysutils->node_type   = $node_type;
 			$sysutils->node_id     = $node_id;
 			$sysutils->module_type = 'MOD_SYSUTILS';
@@ -1421,9 +1446,7 @@ class Kernel {
 		}
 		
 		// Cas particulier : gestion des groupes de ville (AC/TICE)
-		if(    $user_type == "USER_EXT"
-		    && $node_type == "ROOT"
-		    && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
+		if( $node_type == "ROOT" && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
 			$mod_grvilles->node_type   = $node_type;
 			$mod_grvilles->node_id     = $node_id;
 			$mod_grvilles->module_type = 'MOD_REGROUPEMENTS';
@@ -1438,7 +1461,7 @@ class Kernel {
 		//    && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
 		if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 			if( (
-				($user_type == "USER_EXT" && $node_type == "ROOT") ||
+				($node_type == "ROOT") ||
 				($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
 				($user_type == "USER_ENS" && $node_type == "BU_CLASSE") ||
 				($user_type == "USER_VIL" && $node_type == "BU_VILLE")
@@ -1452,7 +1475,7 @@ class Kernel {
 				$modules[] = clone $mod_grvilles;
 			}
 		} elseif( (
-				($user_type == "USER_EXT" && $node_type == "ROOT") ||
+				($node_type == "ROOT") ||
 				($user_type == "USER_ENS" && $node_type == "BU_ECOLE") ||
 				($user_type == "USER_ENS" && $node_type == "BU_CLASSE") ||
 				($user_type == "USER_VIL" && $node_type == "BU_VILLE")
