@@ -1139,12 +1139,18 @@ class Kernel {
 					case "USER_EXT" :
 						$ext_dao = _dao("kernel|kernel_ext_user");
 						$extuser = $ext_dao->get($userval->bu_id);
-						// attention id user = celui de la basu
-						// $user["type"]     = "USER_EXT";
-						// $user["id"]       = $extuser->ext_id;
-						$user["nom"]      = $extuser->ext_nom;
-						$user["prenom"]   = $extuser->ext_prenom;
-						$user["ALL"]      = $extuser;
+						if($extuser) {
+							// attention id user = celui de la basu
+							// $user["type"]     = "USER_EXT";
+							// $user["id"]       = $extuser->ext_id;
+							$user["nom"]      = $extuser->ext_nom;
+							$user["prenom"]   = $extuser->ext_prenom;
+							$user["ALL"]      = $extuser;
+						} else {
+							$user["nom"]      = "Utilisateur inconnu";
+							$user["prenom"]   = "";
+							$user["ALL"]      = null;
+						}
 						break;
 
 					default :
