@@ -52,7 +52,7 @@ class ActionGroupDashboard extends enicActionGroup {
 				continue;
 			}
 
-			if( $node['type']=='CLUB' && $node['droit'] < 30 ) {
+			if( $node['type']=='CLUB' && $node['droit'] < 20 ) {
 				continue;
 			}
 			
