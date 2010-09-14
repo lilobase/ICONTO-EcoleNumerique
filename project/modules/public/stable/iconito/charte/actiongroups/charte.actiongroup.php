@@ -62,7 +62,7 @@ class ActionGroupCharte extends enicActionGroup{
             return $this->error ('charte.admin.noMalle', true, 'malle||');
 
         $ppo->idMalle = $mal[0]->module_id;
-		$ppo->url = CopixUrl::get ('malle||getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>'ca-file_url', 'format'=>'text'));
+		$ppo->url = CopixUrl::get ('GetFilePopup', array('id'=>$mal[0]->module_id, 'field'=>'ca-file_url', 'format'=>'text'));
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
 

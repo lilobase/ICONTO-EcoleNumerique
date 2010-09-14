@@ -35,7 +35,7 @@ function add_text(field, url){
 		</tr>
 		<tr>
 			<td>
-				<a class="button button-file fancybox" href="{copixurl dest='malle||getFilePopup' id=$ppo->idMalle field=$key format='text'}">
+				<a class="button button-file fancyframe" href="{copixurl dest='malle||getFilePopup' id=$ppo->idMalle field=$key format='text'}">
         			{i18n key="charte.admin.addFile" noEscape=1}
         		</a>
         		<input type="text" name="ca-file_url" class="file-{$key} file-attach" value="{$charte.file_url}" />
