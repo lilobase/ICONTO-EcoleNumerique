@@ -224,7 +224,7 @@ class ActionGroupDashboard extends enicActionGroup {
                 
                 CopixSession::set('myNode', array('type' => $type_node, 'id' => $id_node));
 
-		$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $id_node.' AND type_zone = "'.$type_node.'"')->toArray1();
+		$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $id_node.' AND type_zone = "'.$this->db->quote($type_node).'"')->toArray1();
 
 		//if no content : generate default content
 		if (empty($content)) {
