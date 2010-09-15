@@ -1,3 +1,39 @@
+/**
+ * module_welcome.css
+  *
+ * @package	Iconito 2010
+ * @cdate 15.09.2010
+ * @mdate 15.09.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+/* PAGES STATIQUES BLOG */
+#welcome_pages {
+	}
+
+#welcome_pages .bpage_title{
+	font-size: 180%;
+	}
+
+#welcome_pages .bpage_content{
+	font-size: 120%;
+	}
+
+
+/* BLOC PHOTO */
+#welcome_photos {
+	margin-bottom:10px;
+	}
+#welcome_photos div.titre {
+	}
+#welcome_photos div.object {
+	display: inline-block;
+	background:#fff;
+	padding:0px;
+	border:solid 6px #bad521;
+	height:230px;
+}
+
 
 
 /* DEMO */
@@ -46,20 +82,6 @@ table.welcome td.ecoles {
 	font-weight:bolder;
 }
 
-
-#welcome_photos {
-	margin-bottom:10px;
-}
-#welcome_photos div.titre {
-	font-weight:bold;
-	font-size:1.3em;
-}
-#welcome_photos div.object {
-	background:#fff;
-	padding:0px;
-	border:solid 3px #000;
-	height:230px;
-}
 
 #welcome_actualites {
 }
