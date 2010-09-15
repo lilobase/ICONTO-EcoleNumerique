@@ -1323,7 +1323,7 @@ class Kernel {
 						*/
 						$perso->node_type   = $node_type;
 						$perso->node_id     = $node_id;
-						
+
 						$perso->module_type = $parent_module->module_type;
 						$perso->module_id   = $parent_module->module_id;
 						$perso->module_nom   = Kernel::Code2Name ($parent_module->module_type);
@@ -1405,6 +1405,7 @@ class Kernel {
 			foreach( $perso_list AS $perso_module ) {
 				$perso->node_type   = $node_type;
 				$perso->node_id     = $node_id;
+                $perso->module_id   = NULL;
 				$perso->module_type = $perso_module;
 				$perso->module_nom   = Kernel::Code2Name ($perso_module);
 				$modules[] = clone $perso;
@@ -1416,12 +1417,14 @@ class Kernel {
 		if( $node_type == "ROOT" && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
 			$sysutils->node_type   = $node_type;
 			$sysutils->node_id     = $node_id;
+            $sysutils->module_id   = NULL;
 			$sysutils->module_type = 'MOD_SYSUTILS';
 			$sysutils->module_nom   = Kernel::Code2Name ('MOD_SYSUTILS');
 			$modules[] = clone $sysutils;
 			
 			$charte->node_type   = $node_type;
 			$charte->node_id     = $node_id;
+            $charte->module_id   = NULL;
 			$charte->module_type = 'MOD_CHARTE';
 			$charte->module_nom   = Kernel::Code2Name ('MOD_CHARTE');
 			$modules[] = clone $charte;
