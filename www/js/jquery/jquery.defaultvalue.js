@@ -28,7 +28,7 @@
             return this.each(function(index, element) {
 				
 				var $input				=	jQuery(this);
-				var	defaultValue		=	settings.value || $input.attr('title');
+				var	defaultValue		=	settings.value || $input.attr('rel');
 				var	callbackArguments 	=	{'input':$input};
 					
 				// Create clone and switch
