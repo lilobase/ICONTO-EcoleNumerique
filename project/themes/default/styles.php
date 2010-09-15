@@ -9,7 +9,6 @@
 	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
 */
 ?>
-<link href="http://fonts.googleapis.com/css?family=Droid+Sans" rel="stylesheet" type="text/css">
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_layout.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_zones.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_colors.css"); ?>" type="text/css"/>

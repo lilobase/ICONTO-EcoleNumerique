@@ -17,9 +17,8 @@
 {else}
 
 	<form action="{copixurl dest="auth|log|in"}" method="post" id="loginBar">
-		{i18n key=auth|auth.login} <input type="text" name="login" id="login" size="12" value="{$login}" />
-		&nbsp;
-		{i18n key=auth|auth.password} <input type="password" name="password" id="password" size="12" />
+		<input type="text" name="login" id="login" class="login label-overlay" title="{i18n key=auth|auth.login}" value="{$login}" />
+		<input type="password" name="password" class="login label-overlay" id="password" title="{i18n key=auth|auth.password}" />
 		{if $showRememberMe}
 			{i18n key=auth|auth.rememberMe} <input type="checkbox" name="rememberMe" id="rememberMe" value="1" />
 		{/if}

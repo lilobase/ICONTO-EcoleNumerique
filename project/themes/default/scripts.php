@@ -18,6 +18,7 @@
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("flvplayer/ufo.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.2.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery/jquery.defaultvalue.js"); ?>"></script>
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.pack.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.easing-1.3.pack.js"); ?>"></script>
@@ -29,6 +30,7 @@
     echo $js->display();
 ?>
 </script>
+
 <script type="text/javascript">
 jQuery.noConflict();
 jQuery(document).ready(function($){
@@ -160,7 +162,9 @@ jQuery(document).ready(function($){
 				'transitionOut'		: 'none',
 				'type'				: 'iframe'
 		});
-
+		
+		/* SET INLINE FIELD LABEL */
+		$('input.label-overlay').defaultValue();
 });
 
 </script>

@@ -264,7 +264,7 @@ h4{
 /************************************************
  * Formulaires
  ***********************************************/
-#loginBar input#login, input#password {
+#loginBar input.login {
 	border: solid 1px #0c92b1;
 	background: #f0f0f0;
 	-moz-border-radius: 4px;
@@ -274,8 +274,7 @@ h4{
 	height: 18px;
 	padding: 2px;
 	margin: 0;
-	color: #333;
-	width:75px;
+	width:100px;
 	}
 
 #loginBar .button-confirm {
@@ -289,7 +288,8 @@ h4{
 	padding: 2px 2px 2px 20px;
 	}
 
-#loginBar input#login:hover,#loginBar input#password:hover,#loginBar .button-confirm:hover {
+#loginBar input:hover,#loginBar .button-confirm:hover {
+	color: #333;
 	background-color:#fff;
 	}
 
@@ -318,6 +318,10 @@ form input[type="text"], form textarea {
 	border-radius: 6px;
 	//behavior: url(/htc/PIE.htc);
 	padding: 3px;
+	}
+	
+input.label-overlayed {
+	color: #aaa;
 	}
 	
 form input[type="text"]:hover, form textarea:hover {
