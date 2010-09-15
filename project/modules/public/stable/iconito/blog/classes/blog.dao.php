@@ -16,10 +16,11 @@ class DAOBlog {
 	function getBlogByName ($url_blog){
 		$sp = _daoSp ();
 		$sp->addCondition ('url_blog', '=', $url_blog);
-
-		if (count($arBlog = $this->findBy ($sp)) > 0)  {
-			return $arBlog[0];
-		}else{
+    $arBlog = $this->findBy ($sp);
+		if (count($arBlog) > 0)  {
+			foreach ($arBlog as $blog)
+        return $blog;
+		} else {
 			return false;
 		}
 	}
@@ -33,9 +34,11 @@ class DAOBlog {
 	function getBlogById ($id_blog){
 		$sp = _daoSp ();
 		$sp->addCondition ('id_blog', '=', $id_blog);
-		if (count($arBlog = $this->findBy ($sp)) > 0)  {
-			return $arBlog[0];
-		}else{
+    $arBlog = $this->findBy ($sp);
+		if (count($arBlog) > 0)  {
+			foreach ($arBlog as $blog)
+        return $blog;
+		} else {
 			return false;
 		}
 	}	
