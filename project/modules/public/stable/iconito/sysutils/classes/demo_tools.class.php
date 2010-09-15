@@ -113,13 +113,17 @@ class Demo_Tools {
   
   // Vidage d'un dossier et de ses sous-dossiers : tous les fichiers situés sous ce dossier et en-dessous sont supprimés. On ne parcourt pas les dossiers CVS, ni SVN, et les fichiers .dummy_file et .cvsignore ne sont pas supprimés
   // $dir = dossier à vider, sans / à la fin
-  function dirempty ($dir) {
+  // $options['delete'] = permet de supprimer les sous-dossiers mais pas le dossier de depart
+  function dirempty ($dir, $options=array()) {
+    $niveau = isset($options['niveau']) ? $options['niveau'] : 0;
     if ($handle = opendir("$dir")) {
      while (false !== ($item = readdir($handle))) {
        if ($item != "." && $item != "..") {
          if (is_dir("$dir/$item")) {
-           if ($item != "CVS" && $item != ".svn")
-             Demo_Tools::dirempty ("$dir/$item");
+           if ($niveau>0 && isset($options['delete']) && $options['delete'])
+             Demo_Tools::dirdelete ("$dir/$item"); 
+           elseif ($item != "CVS" && $item != ".svn")
+             Demo_Tools::dirempty ("$dir/$item", array('niveau'=>$niveau+1));
          } elseif (is_file("$dir/$item")) {
            if ($item != ".dummy_file" && $item != ".cvsignore") {
              unlink("$dir/$item");
