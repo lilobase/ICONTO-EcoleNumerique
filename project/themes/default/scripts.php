@@ -18,7 +18,6 @@
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("flvplayer/ufo.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.2.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery/jquery.defaultvalue.js"); ?>"></script>
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.pack.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.easing-1.3.pack.js"); ?>"></script>
@@ -164,7 +163,34 @@ jQuery(document).ready(function($){
 		});
 		
 		/* SET INLINE FIELD LABEL */
-		$('input.label-overlay').defaultValue();
+	//	$('input.label-overlay').defaultValue();
+		$('.default-value').each(function() {
+			var default_value = this.value;
+			$(this).focus(function() {
+  				this.toggleClass('label-overlayed');
+				if(this.value == default_value) {
+					this.value = '';
+				}
+			});
+			$(this).blur(function() {
+				if(this.value == '') {
+					this.value = default_value;
+				}
+			});
+		});
+		$('#password-clear').show();
+		$('#password-password').hide();
+		$('#password-clear').focus(function() {
+			$('#password-clear').hide();
+			$('#password-password').show();
+			$('#password-password').focus();
+		});
+		$('#password-password').blur(function() {
+			if($('#password-password').val() == '') {
+				$('#password-clear').show();
+				$('#password-password').hide();
+			}
+		});
 });
 
 </script>
