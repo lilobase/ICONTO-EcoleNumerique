@@ -18,6 +18,10 @@ class Kernel {
 	private $cache_getNodeInfo_ville = array();
 	private $cache_getNodeInfo_ecole = array();
 	private $cache_getNodeInfo_classe = array();
+
+        public function __construct(){
+           $this->helpers =& enic::get('helpers');
+        }
 	
 	/**
 	 * Test un utilisateur est connectÈ
@@ -1366,11 +1370,21 @@ class Kernel {
 			$carnetcorresp->node_type   = $node_type;
 			$carnetcorresp->node_id     = $node_id;
 			$carnetcorresp->module_type = 'MOD_CARNET';
-			$carnetcorresp->module_id   = 'CLASSE_'.$node_id;
+			$carnetcorresp->module_id   = $node_id;
 			$carnetcorresp->module_nom	 = Kernel::Code2Name ('MOD_CARNET');
 			$modules[] = clone $carnetcorresp;
 		}
-		
+
+                //for KNE
+                if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_ECOLE' && $this->helpers->service('kne|kneService')->active){
+                    $modKne = new stdClass();
+                    $modKne->node_type = $node_type;
+                    $modKne->node_id = $node_id;
+                    $modKne->module_type = 'MOD_KNE';
+                    $modKne->module_id = $node_id;
+                    $modKne->module_nom = kernel::Code2Name('MOD_KNE');
+                    $modules[] = $modKne;
+                }
 				
 
 		if( CopixConfig::exists('|conf_ModTeleprocedures') && CopixConfig::get('|conf_ModTeleprocedures')==0 )
