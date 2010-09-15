@@ -46,19 +46,44 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Sélection de l'onglet courant
     $ppo->tab = _request ('tab', null);
-    
+
     // Récupération de l'année scolaire : si non précisée, récupération de l'année scolaire courante
     if (is_null($ppo->grade = _sessionGet('grade'))) {
       
       $ppo->grade = Kernel::getAnneeScolaireCourante ()->id_as;
     }
-
-    // Réaffectation des zones après retour d'action
-    $currentInSession = _sessionGet ('current');
-
-    if (!is_null($currentInSession)) {
+    
+    // Affectation des zones : accès dashboard
+    if (!is_null($myNode = _sessionGet('myNode'))) {
       
-      $ppo->targetId = $currentInSession['node_id'];
+      $ppo->targetId   = $myNode['id'];
+      $ppo->targetType = $myNode['type'];
+      
+      $myNodeInfos = Kernel::getNodeInfo ($myNode['type'], $myNode['id']);
+
+      switch ($ppo->targetType) {
+        case 'BU_VILLE':
+          $this->setNodeStatusInSession ('cities_groups_nodes', $myNodeInfos['ALL']->vil_id_grville, true);
+          break;
+        case 'BU_ECOLE':
+          $this->setNodeStatusInSession ('cities_groups_nodes', $myNodeInfos['ALL']->vil_id_grville, true);
+          $this->setNodeStatusInSession ('cities_nodes', $myNodeInfos['ALL']->eco_id_ville, true);
+          break;
+        case 'BU_CLASSE':
+          $cityGroup = Kernel::getNodeInfo ('BU_VILLE', $myNodeInfos['ALL']->eco_id_ville, false);
+          
+          $this->setNodeStatusInSession ('cities_groups_nodes', $cityGroup['ALL']->grv_id_grv, true);
+          $this->setNodeStatusInSession ('cities_nodes', $myNodeInfos['ALL']->eco_id_ville, true);
+          $this->setNodeStatusInSession ('schools_nodes', $myNodeInfos['ALL']->eco_numero, true);  
+    	    break;
+      }
+      
+      _sessionSet('current', array ('node_type' => $myNode['type'], 'node_id' => $myNode['id']));
+    }
+    // Réaffectation des zones après retour d'action
+    elseif (!is_null($currentInSession = _sessionGet ('current'))) {
+
+      $ppo->targetId   = $currentInSession['node_id'];
       $ppo->targetType = $currentInSession['node_type'];
     }
     
@@ -74,6 +99,8 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     $ppo->MENU = $this->menu;
     
+    _sessionSet('myNode', null);
+
 		return _arPPO ($ppo, 'show_tree.tpl');
 	}
 	
