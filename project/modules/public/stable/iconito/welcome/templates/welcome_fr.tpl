@@ -1,17 +1,13 @@
+{*
+{copixzone process=welcome|photos mode=dewslider titre='' album=1 dossier=0 width=380 height=220 legendes=true}
+*}
+
+{copixzone process=welcome|pages titre='' blog=granville nb=2 colonnes=1 content=true hr=true}
 
 {*
-
-Exemples d'appels aux zones welcome :
-
-{copixzone process=welcome|photos mode=dewslider titre='Test photos Dewslider' album=1 dossier=0 width=640 height=220 legendes=true}
-
-{copixzone process=welcome|pages blog=strasbourg id=1 content=1}
-
 {copixzone process=welcome|actualites blog=strasbourg id=1 chapo=1}
 
 {copixzone process=welcome|ecoles titre='Les &eacute;coles :' ajax=true colonnes=2 grville=1 ville=1}
-
-*}
 
 
 <h3 class="font_cursive">
@@ -44,4 +40,4 @@ Exemples d'appels aux zones welcome :
 </p>
 
 {copixzone process=public|blogs}
-
+*}
