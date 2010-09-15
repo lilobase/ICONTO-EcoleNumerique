@@ -8,15 +8,16 @@
  * @author	Stephane Holtz <sholtz@cap-tic.fr>
  */
 
-/*
 @font-face {
-	font-family: 'Gill Sans';  
-	src: url('../fonts/GillSans.ttf');
+	font-family: 'DroidSansRegular';
+	src: url('../fonts/droidsans-webfont.eot');
+	src: local('?'), url('../fonts/droidsans-webfont.woff') format('woff'), url('../fonts/droidsans-webfont.ttf') format('truetype'), url('../fonts/droidsans-webfont.svg#webfontyzQjp3pD') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
-*/
 
 body, input, textarea {
-	font-family: 'Droid Sans', Lucida grande, Arial, Helvetica, sans-serif;
+	font-family: 'DroidSansRegular', Lucida grande, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	letter-spacing: 0em;
 }
@@ -42,11 +43,11 @@ ul.usermenu a:hover {
 	}
 	
 .font_dash * {
-	font-family: 'Droid Sans', Lucida grande, Arial, Helvetica, sans-serif;
+	font-family: 'DroidSansRegular', Lucida grande, Arial, Helvetica, sans-serif;
 }
 
 .font_cursive {
-	font-family: 'Droid Sans', Lucida grande, Arial, Helvetica, sans-serif;
+	font-family: 'DroidSansRegular', Lucida grande, Arial, Helvetica, sans-serif;
 	font-size: 20px;
 	text-transform: uppercase;
 	color: #b3903c;
