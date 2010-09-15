@@ -16,9 +16,10 @@ class ZonePages extends CopixZone {
 	 * @param string $titre Titre a donner a la zone
 	 * @param string $blog URL_blog du blog
 	 * @param integer $nb Nombre de pages a afficher
+	 * @param integer $id Id d'une page precise a afficher
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param integer $content Si on veut afficher le contenu des pages. Par defaut : 0
-	 * @param boolean $hr Affiche un HR entre chaque article. Par defaut : 0		
+	 * @param boolean $hr Affiche un HR entre chaque page. Par defaut : 0		
 	 */
 	function _createContent (&$toReturn) {
 		
@@ -28,6 +29,7 @@ class ZonePages extends CopixZone {
 		$nb = $this->getParam('nb');
 		$content = $this->getParam('content', false);
 		$hr = $this->getParam('hr', false);
+		$id = $this->getParam('id');
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('titre', $titre);
@@ -36,6 +38,7 @@ class ZonePages extends CopixZone {
 		$tpl->assign ('colonnes', $colonnes);
 		$tpl->assign ('content', $content);
 		$tpl->assign ('hr', $hr);
+		$tpl->assign ('id', $id);
 		
 		$toReturn = $tpl->fetch('zone_pages.tpl');
 		

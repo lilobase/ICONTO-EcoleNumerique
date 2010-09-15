@@ -72,7 +72,8 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
-							
+		CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
+    
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
@@ -86,7 +87,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListFluxRss' , CopixZone::process ('ListFluxRss' , array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+    
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 		
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
@@ -94,10 +99,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$plugStats = CopixPluginRegistry::get ("stats|stats");
 		$plugStats->setParams(array('module_id'=>$blog->id_blog, 'parent_type'=>$parent['type'], 'parent_id'=>$parent['id']));
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
 	/**
@@ -150,6 +152,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('blog', $blog);
@@ -165,7 +168,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListSearch', CopixZone::process ('ListSearch', array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
@@ -173,10 +180,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$plugStats = CopixPluginRegistry::get ("stats|stats");
 		$plugStats->setParams(array('module_id'=>$blog->id_blog, 'parent_type'=>$parent['type'], 'parent_id'=>$parent['id']));
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
 
@@ -231,6 +235,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
@@ -245,7 +250,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListFluxRss' , CopixZone::process ('ListFluxRss' , array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
@@ -253,10 +262,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$plugStats = CopixPluginRegistry::get ("stats|stats");
 		$plugStats->setParams(array('module_id'=>$blog->id_blog, 'parent_type'=>$parent['type'], 'parent_id'=>$parent['id']));
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
 	
@@ -312,6 +318,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
@@ -326,15 +333,16 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListFluxRss' , CopixZone::process ('ListFluxRss' , array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	} 
 	 
 	 
@@ -397,6 +405,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$comment->authorip_bacc = $_SERVER["REMOTE_ADDR"];
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
 		$tpl->assign ('blog', $blog);
 		
@@ -455,15 +464,16 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('MENU', $menu);
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 		
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
 		
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}   
 
 
@@ -530,6 +540,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @since 2006/12/19
 	 * @param string $blog Url_blog du blog
 	 * @param integer $nb (option) Nombre d'articles a afficher. Si null, prend nbJsArticles dans la conf
+	 * @param integer $id (option) Id d'un article precis a afficher
    * @param integer $colonnes (option) Nb de colonnes. Par defaut : 1
 	 * @param integer $chapo (option) Si on veut afficher les chapos. Par defaut : 0
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des articles. Par defaut : 0
@@ -540,10 +551,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$colonnes = $this->getRequest('colonnes', null);
 		$chapo = $this->getRequest('chapo', null);
 		$hr = $this->getRequest('hr', null);
+    $id = $this->getRequest('id', null);
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr));
+				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr, 'id'=>$id));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);
@@ -562,6 +574,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @since 2009/01/23
 	 * @param string $blog Url_blog du blog
 	 * @param integer $nb (option) Nombre de pages a afficher. Si null, prend nbJsArticles dans la conf
+	 * @param integer $id (option) Id d'une page precise a afficher
    * @param integer $colonnes (option) Nb de colonnes. Par defaut : 1
 	 * @param integer $content (option) Si on veut afficher les contenus des pages. Par defaut : 0
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des pages. Par defaut : 0
@@ -572,10 +585,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$colonnes = $this->getRequest('colonnes', null);
 		$content = $this->getRequest('content', null);
 		$hr = $this->getRequest('hr', null);
+		$id = $this->getRequest('id', null);
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr));
+				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr, 'id'=>$id));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);

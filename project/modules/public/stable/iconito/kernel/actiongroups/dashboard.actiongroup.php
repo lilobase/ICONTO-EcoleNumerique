@@ -29,7 +29,27 @@ class ActionGroupDashboard extends enicActionGroup {
 
 		//if user is not connected :
 		if (!$this->user->connected) {
-			$result = $tplModule->fetch("dashboard_public.tpl");
+    
+    
+      // S'il y a un blog prevu a l'accueil
+      $dispBlog = false;
+      $getKernelLimitsIdBlog = Kernel::getKernelLimits('id_blog');
+			if ( $getKernelLimitsIdBlog ) {
+				_classInclude ('blog|kernelblog');
+				if ($blog = _ioDao('blog|blog')->getBlogById ($getKernelLimitsIdBlog)) {
+					// On vérifie qu'il y a au moins un article
+					$stats = KernelBlog::getStats ($blog->id_blog);
+					if ($stats['nbArticles']['value']>0)
+						$dispBlog = true;
+				}
+			}
+			if ($dispBlog)
+				return CopixActionGroup::process ('blog|frontblog::getListArticle', array ('blog'=>$blog->url_blog));	
+      
+      CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
+      CopixHTMLHeader::addCSSLink (_resource("styles/module_welcome.css"));
+			$result = $tplModule->fetch('welcome|welcome_'.CopixI18N::getLang().'.tpl');
+      $tpl->assign ('TITLE_PAGE', ''.CopixI18N::get ('public|public.welcome.title'));  
 			$tpl->assign('MAIN', $result);
 			return new CopixActionReturn(COPIX_AR_DISPLAY, $tpl);
 		}

@@ -20,6 +20,7 @@ class ZoneListPageJs extends CopixZone {
 	 * @since 2009/01/23
 	 * @param mixed $blog Recordset du blog
 	 * @param integer $nb (option) Nombre d'articles a afficher. Si null, prend nbJsArticles dans la conf. Par defaut : null
+	 * @param integer $id (option) Id d'une page precise a afficher
 	 * @param boolean $content (option) Indique si on affiche le corps des pages. Par defaut : false
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param boolean $hr (option) Si on veut afficher un HR entre les pages. Par defaut : false
@@ -35,34 +36,41 @@ class ZoneListPageJs extends CopixZone {
 		
 		$content = $this->getParam('content',false);
     $hr = $this->getParam('hr',false);
+    $id = $this->getParam('id',null);
+    $id = intval($id);
 
-		if (!$nb || $nb<0 || $nb>20)
-			$nb = CopixConfig::get('blog|nbJsArticles');
-		
 		$tpl  = & new CopixTpl ();
-		
-	  //on récupère l'ensemble des articles du blog
-    $dao = _dao('blog|blogpage');
-      
-    $arData = $dao->getAllPagesFromBlog($blog->id_blog);
+
+    $listPage = array();
+    if ($id) { // Page precise
+      if ( ($rPage=_dao('blog|blogpage')->get($id)) && $rPage->id_blog==$blog->id_blog) {
+        $listPage[] = $rPage;
+      }
+    } else { // Les dernieres pages
     
-   	//print_r($arData);
+  		if (!$nb || $nb<0 || $nb>20)
+	  		$nb = CopixConfig::get('blog|nbJsArticles');
 		
-    if (count($arData) <= $nb) {
-			$listPage = $arData;
-    } else {
-      $params = array(
-               'perPage'    => $nb,
-               'delta'      => 1,
-               'recordSet'  => $arData,
-               'template'   => '|pager.tpl'
-      );
-      $Pager = CopixPager::Load($params);
-      $tpl->assign ('pager'                , $Pager->GetMultipage());
-      $listPage = $Pager->data;
+  	  //on récupère l'ensemble des articles du blog
+      $dao = _dao('blog|blogpage');
+      $arData = $dao->getAllPagesFromBlog($blog->id_blog);
+      
+      if (count($arData) <= $nb) {
+  			$listPage = $arData;
+      } else {
+        $params = array(
+                 'perPage'    => $nb,
+                 'delta'      => 1,
+                 'recordSet'  => $arData,
+                 'template'   => '|pager.tpl'
+        );
+        $Pager = CopixPager::Load($params);
+        $tpl->assign ('pager'                , $Pager->GetMultipage());
+        $listPage = $Pager->data;
+      }
+      
     }
-    //print_r($tpl);
-		
+
 		$tpl->assign ('listPage',$listPage);
 		
 		$nbPages = count($listPage);

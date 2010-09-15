@@ -1,67 +1,47 @@
 
-<table class="welcome">
-<tbody>
-<tr>
-<td class="ecoles">
+{*
 
-{if 0}
-	{copixzone process='welcome|ecoles' titre='Les &eacute;coles :' colonnes=1 grville=1 ville=1}
-{else}
-	<img src="{copixresource path="img/iconito-home2.gif"}" width="209" height="234" alt="Iconito vous souhaite la bienvenue" style="margin-right:20px;" />
-{/if}
+Exemples d'appels aux zones welcome :
+
+{copixzone process=welcome|photos mode=dewslider titre='Test photos Dewslider' album=1 dossier=0 width=640 height=220 legendes=true}
+
+{copixzone process=welcome|pages blog=strasbourg id=1 content=1}
+
+{copixzone process=welcome|actualites blog=strasbourg id=1 chapo=1}
+
+{copixzone process=welcome|ecoles titre='Les &eacute;coles :' ajax=true colonnes=2 grville=1 ville=1}
+
+*}
 
 
-</td>
-<td>
+<h3 class="font_cursive">
+    Bienvenue sur Iconito Ecole Numérique 2010
+</h3>
 
-{if 0}
+<img class="img-left" src="{copixresource path="img/iconito-home2.gif"}"
+    alt="Iconito vous souhaite la bienvenue" />
 
-	{copixzone process='welcome|photos' mode=dewslider titre='Test photos Dewslider :' album=1 dossier=0 width=640 height=230 legendes=true}
+<p class="content font-dash first-item">
+    Iconito Ecole Numérique est un portail éducatif comprenant un
+    ensemble d'outils et de ressources à destination des enseignants et
+    des élèves, mais aussi des parents et des autres intervenants du
+    système scolaire.
+</p>
+<p class="content font-dash">
+    Il est développé sous licence libre (GNU GPL). Vous
+    trouverez plus d'informations sur le site dédié
+    <a title="Site web d'iconito" href="http://www.iconito.fr">iconito.fr</a>
+</p>
+<p class="content font-dash">
+	Cette édition 2010 vous propose une nouvelle approche ergonomique que nous espérons plus claire qu'avant.
+	De nouvelles fonctionnalités sont également disponibles, dont la Gestion des Usagers intégrée ou les
+	Quiz dans les groupes de travail. Pour d'autres informations, n'hésitez pas à consulter notre
+	<a title="Nouveautés Iconito Ecole Numérique 2010" href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/154-apercu-des-nouveautes-diconito-ecole-numerique-2010">aperçu des nouveautés Iconito Ecole Numérique 2010</a>
+</p>
+<p class="content font-dash">
+    Consultez notre 
+    <a title="Documentation Iconito Ecole Numérique" href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/153-guide-utilisateur-iconito-ecole-numerique">Guide Utilisateur Iconito Ecole Numérique</a>.
+</p>
 
-	{copixzone process='welcome|actualites' titre='A la Une' blog='Ecole_du_bois_fleuri' nb=2 colonnes=2 chapo=false hreflib=''}
+{copixzone process=public|blogs}
 
-{else}
-	<h3>Bienvenue sur Iconito, le portail numérique scolaire libre.</h3>
-	
-	<p>Iconito est un portail éducatif comprenant un ensemble d'outils et de ressources à destination des enseignants et des élèves, mais aussi des parents et des autres intervenants du système scolaire. Il est développé sous licence libre (GNU GPL).</p>
-	
-	<a class="button_like" href="{copixurl dest="auth||"}">Connexion &agrave; Iconito</a>
-	
-	<br/>
-	
-	</div>
-	
-	<br/>
-	<div class="cartouche">
-	<a href="{copixurl dest="public||"}"><img class="logo" src="{copixresource path="img/welcome/welcome-blog.gif"}" alt="Logo Blogs" border="0"/></a>
-	<h4>Consultez les publications</h4>
-	<p>
-	Ecoles, classes, villes ou groupes de travail, ils peuvent tous publier des blogs.</p> 
-	<br/>
-	<a class="button_like" href="{copixurl dest="public||"}">{i18n key=public|public.blog.annuaire}</a>
-	<span class="rss"><a title="RSS" href="{copixurl dest="public||rss"}"><img src="{copixresource path="img/blog/feed-icon-16x16.png"}" width="16" height="16" border="0" alt="RSS" title="RSS" /> Flux RSS</a></span>
-	</div>
-	
-	<br/>
-	<div class="astuce"><b>Astuce</b> - Vous pouvez télécharger un logo pour votre blog. Allez dans Administration du blog, Options, Modifier, puis télécharger le logo. Une bonne taille de logo est 150 x 150 pixels par exemple!
-	</div>
-
-{/if}
-	
-
-</td>
-</tr>
-</tbody>
-</table>
-
-<div class="small" style="clear:both;">
-<hr/>
-
-{copixconf parameter='default|isDemo' assign=isDemo}
-
-{if $isDemo}
-Ceci est un site de démonstration. Nous ne sommes pas responsables des contenus que les internautes peuvent publier sur ce site dans le cadre de leurs tests. Pour toute information, n'hésitez pas à nous contacter: <a href="mailto:dev@iconito.org">dev@iconito.org</a><p>
-{else}
-Les dernières informations sur le développement d'Iconito sont consultables sur <a href="http://www.iconito.org">iconito.org</a>. Pour toute information, n'hésitez pas à contacter directement l'équipe des développeurs: <a href="mailto:dev@iconito.org">dev@iconito.org</a>
-{/if}
-</div>
