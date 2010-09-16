@@ -22,7 +22,7 @@ class kneService extends enicService {
             return '';
 
         //connect to soap service
-        $client = new SoapClient("http://www.kiosque-edu.com/knewebservice2/knews.asmx?WSDL");
+        $client = new SoapClient("http://www.kiosque-edu.com/knewebservice2/knews.asmx?WSDL", array('exceptions' => FALSE));
 
         //get school infos (for RNE)
         $school = $this->db->query('SELECT * FROM kernel_bu_ecole WHERE numero = '.(int)$id)->toArray1();
@@ -55,6 +55,9 @@ class kneService extends enicService {
 
         //get final result :
         $result = $client->AccesENT($params);
+
+        if(is_a($result, 'SoapFault'))
+            return 'confError';
 
         $ressources = array();
 

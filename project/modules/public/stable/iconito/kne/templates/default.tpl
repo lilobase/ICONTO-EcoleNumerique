@@ -4,6 +4,10 @@
 <div class="content-info">
     {i18n key="kne.emptyRessources" noEscape=1}
 </div>
+{elseif $ppo->ressources == 'confError'}
+<div class="content-info">
+    {i18n key="kne.badConfigSchool" noEscape=1}
+</div>
 {else}
     {foreach from=$ppo->ressources item=ressource}
     <div class="content-panel">
