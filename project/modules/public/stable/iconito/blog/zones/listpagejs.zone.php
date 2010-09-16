@@ -19,8 +19,8 @@ class ZoneListPageJs extends CopixZone {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2009/01/23
 	 * @param mixed $blog Recordset du blog
-	 * @param integer $nb (option) Nombre d'articles a afficher. Si null, prend nbJsArticles dans la conf. Par defaut : null
-	 * @param integer $id (option) Id d'une page precise a afficher
+	 * @param integer $nb (option) Nombre de pages a afficher. Si null, prend nbJsArticles dans la conf. Par defaut : null
+	 * @param integer $page (option) Id d'une page precise a afficher
 	 * @param boolean $content (option) Indique si on affiche le corps des pages. Par defaut : false
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param boolean $hr (option) Si on veut afficher un HR entre les pages. Par defaut : false
@@ -36,14 +36,14 @@ class ZoneListPageJs extends CopixZone {
 		
 		$content = $this->getParam('content',false);
     $hr = $this->getParam('hr',false);
-    $id = $this->getParam('id',null);
-    $id = intval($id);
+    $page = $this->getParam('page',null);
+    $page = intval($page);
 
 		$tpl  = & new CopixTpl ();
 
     $listPage = array();
-    if ($id) { // Page precise
-      if ( ($rPage=_dao('blog|blogpage')->get($id)) && $rPage->id_blog==$blog->id_blog) {
+    if ($page) { // Page precise
+      if ( ($rPage=_dao('blog|blogpage')->get($page)) && $rPage->id_blog==$blog->id_blog) {
         $listPage[] = $rPage;
       }
     } else { // Les dernieres pages

@@ -540,7 +540,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @since 2006/12/19
 	 * @param string $blog Url_blog du blog
 	 * @param integer $nb (option) Nombre d'articles a afficher. Si null, prend nbJsArticles dans la conf
-	 * @param integer $id (option) Id d'un article precis a afficher
+	 * @param integer $article (option) Id d'un article precis a afficher
    * @param integer $colonnes (option) Nb de colonnes. Par defaut : 1
 	 * @param integer $chapo (option) Si on veut afficher les chapos. Par defaut : 0
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des articles. Par defaut : 0
@@ -551,11 +551,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$colonnes = $this->getRequest('colonnes', null);
 		$chapo = $this->getRequest('chapo', null);
 		$hr = $this->getRequest('hr', null);
-    $id = $this->getRequest('id', null);
+    $article = $this->getRequest('article', null);
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr, 'id'=>$id));
+				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr, 'article'=>$article));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);
@@ -574,7 +574,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @since 2009/01/23
 	 * @param string $blog Url_blog du blog
 	 * @param integer $nb (option) Nombre de pages a afficher. Si null, prend nbJsArticles dans la conf
-	 * @param integer $id (option) Id d'une page precise a afficher
+	 * @param integer $page (option) Id d'une page precise a afficher
    * @param integer $colonnes (option) Nb de colonnes. Par defaut : 1
 	 * @param integer $content (option) Si on veut afficher les contenus des pages. Par defaut : 0
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des pages. Par defaut : 0
@@ -585,11 +585,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$colonnes = $this->getRequest('colonnes', null);
 		$content = $this->getRequest('content', null);
 		$hr = $this->getRequest('hr', null);
-		$id = $this->getRequest('id', null);
+		$page = $this->getRequest('page', null);
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr, 'id'=>$id));
+				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr, 'page'=>$page));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);

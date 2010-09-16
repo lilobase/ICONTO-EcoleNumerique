@@ -16,7 +16,7 @@ class ZoneActualites extends CopixZone {
 	 * @param string $titre Titre a donner a la zone
 	 * @param string $blog URL_blog du blog
 	 * @param integer $nb Nombre d'articles a afficher
-	 * @param integer $id Id d'un article precis a afficher
+	 * @param integer $article Id d'un article precis a afficher
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param integer $chapo Si on veut afficher les chapos. Par defaut : 0
 	 * @param string $hreflib Si renseigne, affiche ce texte comme libelle d'un lien menant a l'accueil du blog
@@ -31,7 +31,7 @@ class ZoneActualites extends CopixZone {
 		$chapo = $this->getParam('chapo', false);
 		$hreflib = $this->getParam('hreflib');
 		$hr = $this->getParam('hr', false);
-		$id = $this->getParam('id');
+		$article = $this->getParam('article');
     
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('titre', $titre);
@@ -41,7 +41,7 @@ class ZoneActualites extends CopixZone {
 		$tpl->assign ('chapo', $chapo);
 		$tpl->assign ('hreflib', $hreflib);
 		$tpl->assign ('hr', $hr);
-		$tpl->assign ('id', $id);
+		$tpl->assign ('article', $article);
     
 		$toReturn = $tpl->fetch('zone_actualites.tpl');
 		

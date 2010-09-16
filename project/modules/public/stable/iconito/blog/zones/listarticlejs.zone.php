@@ -20,7 +20,7 @@ class ZoneListArticleJs extends CopixZone {
 	 * @since 2006/12/19
 	 * @param mixed $blog Recordset du blog
 	 * @param integer $nb (option) Nombre d'articles a afficher. Si null, prend nbJsArticles dans la conf. Par defaut : null
-	 * @param integer $id (option) Id d'une page precise a afficher
+	 * @param integer $article (option) Id d'un article precise a afficher
 	 * @param boolean $chapo (option) Indique si on affiche le chapo des articles. Par defaut : false
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param boolean $hr (option) Si on veut afficher un HR entre les pages. Par defaut : false
@@ -36,14 +36,14 @@ class ZoneListArticleJs extends CopixZone {
 
     $chapo = $this->getParam('chapo',false);
     $hr = $this->getParam('hr',false);
-		$id = $this->getParam('id',null);
-    $id = intval($id);
+		$article = $this->getParam('article',null);
+    $article = intval($article);
     
 		$tpl  = & new CopixTpl ();
     
     $listArticle = array();
-    if ($id) { // Article precis
-      if ( ($rArticle=_dao('blog|blogarticle')->get($id)) && $rArticle->id_blog==$blog->id_blog) {
+    if ($article) { // Article precis
+      if ( ($rArticle=_dao('blog|blogarticle')->get($article)) && $rArticle->id_blog==$blog->id_blog) {
         $listArticle[] = $rArticle;
       }
     } else { // Les derniers articles
