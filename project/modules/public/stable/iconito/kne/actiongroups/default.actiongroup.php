@@ -15,9 +15,8 @@
             $ppo = new CopixPPO();
 
             $schoolId = (int)$this->request('id_ecole');
-            $service = $this->service('KneService')->getRessources($schoolId);
-
-            var_dump($service);
+            $KneRessources = $this->service('KneService')->getRessources($schoolId);
+            $ppo->ressources = $KneRessources;
             return _arPPO($ppo, 'default.tpl');
         }
 

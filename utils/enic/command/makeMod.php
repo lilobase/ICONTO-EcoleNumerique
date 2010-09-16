@@ -54,7 +54,7 @@ $default_modulexml = <<<EOT
 </moduledefinition>
 EOT;
 
-$dir = array('actiongroups', 'classes', 'ressources', 'templates', 'zones');
+$dir = array('actiongroups', 'classes', 'resources', 'templates', 'zones');
 $rootDir = '../../../project/modules/public/stable/iconito/';
 
 //makes dir

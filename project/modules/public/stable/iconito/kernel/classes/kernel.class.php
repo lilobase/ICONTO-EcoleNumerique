@@ -19,10 +19,6 @@ class Kernel {
 	private $cache_getNodeInfo_ecole = array();
 	private $cache_getNodeInfo_classe = array();
 
-        public function __construct(){
-           $this->helpers =& enic::get('helpers');
-        }
-	
 	/**
 	 * Test un utilisateur est connectÈ
 	 * @return	boolean	true si un utilisateur est connectÈ, false sinon
@@ -1376,7 +1372,7 @@ class Kernel {
 		}
 
                 //for KNE
-                if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_ECOLE' && $this->helpers->service('kne|kneService')->active){
+                if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_ECOLE' && CopixClassesFactory::create('kne|kneService')->active){
                     $modKne = new stdClass();
                     $modKne->node_type = $node_type;
                     $modKne->node_id = $node_id;

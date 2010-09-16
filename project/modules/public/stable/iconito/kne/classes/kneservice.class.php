@@ -15,32 +15,25 @@ class kneService extends enicService {
         $this->folder = '';
 
         //activate KNE
-        $this->active = TRUE;
+        $this->active = FALSE;
     }
 
     public function testAccess() {
         return ($this->active && in_array($this->user->type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')));
     }
 
-    public function createUrl($id) {
-        $school = _dao('kernel|kernel_bu_ecole')->get($id);
+    function getRessources($id) {
 
-        if (empty($school))
+        if(!$this->testAccess())
             return '';
 
-        $sign = md5($this->user->login . $school->RNE . $this->hash);
-
-        return str_replace(array('{login}', '{rne}', '{sign}'), array($this->user->login, $school['RNE'], $sign), $this->url);
-    }
-
-    function getRessources($id) {
         //connect to soap service
         $client = new SoapClient("http://www.kiosque-edu.com/knewebservice2/knews.asmx?WSDL");
 
         //get school infos (for RNE)
         $school = $this->db->query('SELECT * FROM kernel_bu_ecole WHERE numero = '.(int)$id)->toArray1();
-        var_dump($school);
-        if (empty($school))
+
+        if (empty($school) || empty($school['RNE']))
             return '';
 
         $params->RNE = $school['RNE'];
