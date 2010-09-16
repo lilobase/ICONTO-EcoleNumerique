@@ -6,7 +6,7 @@ class kneService extends enicService {
         parent::__construct();
 
         //add to url
-        $this->hash = 'limoges';
+        $this->hash = ''; //hash
 
         //activate KNE
         $this->active = FALSE;
