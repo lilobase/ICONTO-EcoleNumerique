@@ -38,7 +38,7 @@
   <td CLASS="form_saisie">
 	
 	
-{if $rForm->photo}<img src="{copixurl dest="fichesecoles||photo" photo=$rForm->photo}" alt="{$rForm->photo}" border="0" /><br />{/if}
+{if $rForm->photo}<img src="{copixurl dest="fichesecoles||photo" photo=$rForm->photo}" alt="{$rForm->photo|escape}" border="0" /><br />{/if}
 <input type="file" name="photoFile" class="form"><br/>
 {i18n key="fichesecoles.message.photo" nb=$photoMaxWidth}<br/>
 </td>

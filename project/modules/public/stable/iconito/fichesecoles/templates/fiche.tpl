@@ -5,7 +5,7 @@
 <tr>
 <td class="pratique">
 
-<div class="photo">{if $rFiche->photo}<img src="{copixurl dest="fichesecoles||photo" photo=$rFiche->photo|urlencode}" alt="{$rFiche->photo|urlencode}" border="0" />{else}<img width="230" height="180" src="{copixresource path="img/fichesecoles/no_photo.gif"}" alt="{i18n key="fichesecoles.fields.nophoto"}" title="{i18n key="fichesecoles.fields.nophoto"}" />{/if}</div>
+<div class="photo">{if $rFiche->photo}<img src="{copixurl dest="fichesecoles||photo" photo=$rFiche->photo}" alt="{$rFiche->photo|escape}" border="0" />{else}<img width="230" height="180" src="{copixresource path="img/fichesecoles/no_photo.gif"}" alt="{i18n key="fichesecoles.fields.nophoto"}" title="{i18n key="fichesecoles.fields.nophoto"}" />{/if}</div>
 
 <p></p>
 <div class="fiche">{i18n key="fichesecoles.fields.adresse"}</div>

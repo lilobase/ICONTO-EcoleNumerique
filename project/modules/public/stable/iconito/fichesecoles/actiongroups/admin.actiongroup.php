@@ -63,12 +63,9 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$rFiche = $ficheDAO->get($id);
 
-    //_dump($rFiche);
-    
 		$rForm = CopixDAOFactory::createRecord('fiches_ecoles');
 
 		if ($save == 1) {
-      
       
 			$rForm->id = $id;
 			$rForm->photo = ($rFiche) ? $rFiche->photo : '';
@@ -79,10 +76,12 @@ class ActionGroupAdmin extends CopixActionGroup {
 					if (!in_array($size[2],$formats))
 						$errors[] = CopixI18N::get ('fichesecoles.error.photo.badformat');
 					else {
-						$file = COPIX_VAR_PATH.CopixConfig::get ('fichesecoles|photoPath').$rFiche->photo;
-						if (file_exists($file)) {
-							@unlink($file);
-						}
+            if ($rFiche) {
+  						$file = COPIX_VAR_PATH.CopixConfig::get ('fichesecoles|photoPath').$rFiche->photo;
+	  					if (file_exists($file)) {
+		  					@unlink($file);
+			  			}
+            }
 						$fileName = $rForm->id."_".$_FILES['photoFile']['name'];
 						$file = COPIX_VAR_PATH.CopixConfig::get ('fichesecoles|photoPath').$fileName;
 						if (@move_uploaded_file ($_FILES['photoFile']['tmp_name'], $file)) {
@@ -147,7 +146,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 				if ($canModifyVille)
 					FichesEcolesService::propageZoneVille($rEcole, $rForm);
 					
-				//return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('default|fiche', array('id'=>$id)));
+				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('default|fiche', array('id'=>$id)));
 			}
 		} else { // Arrivee dans le formulaire
 			

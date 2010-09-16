@@ -55,7 +55,7 @@
 *}
 
 
-<div class="photo">{if $rFiche->photo}<p></p><img src="{copixurl dest="fichesecoles||photo" photo=$rFiche->photo|urlencode}" alt="{$rFiche->photo|urlencode}" border="0" width="140" />{/if}</div>
+<div class="photo">{if $rFiche->photo}<p></p><img src="{copixurl dest="fichesecoles||photo" photo=$rFiche->photo}" alt="{$rFiche->photo|escape}" border="0" width="140" />{/if}</div>
 
 
 </td></tr></table>
