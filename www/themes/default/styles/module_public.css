@@ -69,26 +69,18 @@
 /* =================================
 	Page A propos...
 	================================= */
-.apropos_tab {
-	font-size: 1em;
-	border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-width: 1px;
-	border-color: #FFFFFF; /* #508957; */
-	border-style: solid;
-	padding: 1px;
+#apropos a {
+	font-weight: bold;
 }
-.apropos_ligne {
-	background-color: #FFFFFF;
-	padding: 2px;
+
+#apropos DIV.sig {
+	font-style: italic;
 }
-.apropos_case {
-	background-color: #FFFFFF;
-	vertical-align: top;
+
+#apropos DIV.legal {
+	font-size: 0.8em;
+	padding-top: 2em;
+	padding-bottom: 1em;
 }
-.apropos_caseg {
-	background-color: #FFFFFF;
-	width: 120px;
-	vertical-align: top;
-}
+
 	
