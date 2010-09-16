@@ -8,12 +8,6 @@ class kneService extends enicService {
         //add to url
         $this->hash = 'limoges';
 
-        //webservice's url
-        $this->url = 'http://www.kiosque-edu.com/FrontOffice/pages/LimogesAcces.aspx?login={login}&rne={rne}&sign={sign}';
-
-        //ressources storage
-        $this->folder = '';
-
         //activate KNE
         $this->active = FALSE;
     }
