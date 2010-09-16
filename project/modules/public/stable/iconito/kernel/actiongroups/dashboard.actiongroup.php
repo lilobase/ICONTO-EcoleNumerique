@@ -29,8 +29,7 @@ class ActionGroupDashboard extends enicActionGroup {
 
 		//if user is not connected :
 		if (!$this->user->connected) {
-    
-    
+/*    
       // S'il y a un blog prevu a l'accueil
       $dispBlog = false;
       $getKernelLimitsIdBlog = Kernel::getKernelLimits('id_blog');
@@ -52,7 +51,12 @@ class ActionGroupDashboard extends enicActionGroup {
       $tpl->assign ('TITLE_PAGE', ''.CopixI18N::get ('public|public.welcome.title'));  
 			$tpl->assign('MAIN', $result);
 			return new CopixActionReturn(COPIX_AR_DISPLAY, $tpl);
+*/
+		//redirect to "welcome" module
+		return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('welcome|default|'));
 		}
+
+
 
 		$acc = (_currentUser()->getExtraHome('titre1')) ? _currentUser()->getExtraHome('titre1') : '';
 		if (!empty($acc))

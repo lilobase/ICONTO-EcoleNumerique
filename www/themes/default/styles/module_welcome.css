@@ -7,32 +7,173 @@
  * @author	Stephane Holtz <sholtz@cap-tic.fr>
  */
 
+div.welcome {
+	}
+	
+div.welcome p {
+	margin-top: 0px;
+	}
+	
+div.welcome .column1 {
+	display: inline-block;
+	float: left;
+	width: 48%;
+	padding: 12px;
+	}
+	
+div.welcome .column2 {
+	display: inline-block;
+	float: right;
+	width: 48%;
+	padding: 6px;
+	}
+	
+div.welcome .welcome_hr {
+	background: url('../images/thm_welcome_hr.png') no-repeat center center;
+	height: 30px;
+	}
+	
 /* PAGES STATIQUES BLOG */
-#welcome_pages {
+.welcome_pages {
+	margin-bottom: 12px;
 	}
 
-#welcome_pages .bpage_title{
+.welcome_pages .bpage_item {
+	margin-bottom: 16px;
+	}
+		
+.welcome_pages .bpage_title {
 	font-size: 180%;
+	font-weight: bold;
+	margin-bottom: 6px;
 	}
 
-#welcome_pages .bpage_content{
+.welcome_pages .bpage_content {
 	font-size: 120%;
 	}
 
 
+/* ARTICLES BLOG */
+.welcome_articles {
+	margin-bottom: 12px;
+//	background: #f0f4f0;
+//	border: solid 1px #ddd;
+	padding: 8px;
+//	-moz-border-radius: 8px;
+//	-webkit-border-radius: 8px;
+//	border-radius: 8px;
+	//behavior: url(/htc/PIE.htc);
+	}
+
+.articles_title {
+	font-size: 160%;
+//	text-transform: uppercase;
+	font-weight: bold;
+	margin-bottom: 12px;
+	color: #dd8210;
+	}
+
+.welcome_articles .bart_item {
+	margin-bottom: 12px;
+	}
+		
+.welcome_articles .bart_title {
+	font-size: 140%;
+	font-weight: bold;
+	color: #354e81;
+	}
+		
+.welcome_articles .bart_title a {
+	color: #354e81;
+	}
+		
+.welcome_articles .bart_date {
+	font-size: 90%;
+	color:#777;
+	}
+	
+.welcome_articles .bart_chapo {
+	font-size: 100%;
+	}
+	
+
 /* BLOC PHOTO */
-#welcome_photos {
-	margin-bottom:10px;
+.welcome_photos {
+	margin-top: 22px;
+	margin-bottom: 12px;
 	}
-#welcome_photos div.titre {
+	
+.welcome_photos .titre {
 	}
-#welcome_photos div.object {
+	
+.welcome_photos .slider {
 	display: inline-block;
-	background:#fff;
+	background: #dd8210 url('../images/thm_photoslider_title.png') center right no-repeat;
 	padding:0px;
-	border:solid 6px #bad521;
-	height:230px;
-}
+	border: solid 6px #dd8210;
+	border-left: solid 12px #dd8210;
+	height: 220px;
+	width: 420px;
+	overflow: visible;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+	border-radius: 8px;
+	//behavior: url(/htc/PIE.htc);
+	}
+	
+/* BOUTON BLOGS */
+.welcome_blogs a {
+	display: block;
+	width: 438px;
+	height: 52px;
+	background: url('../images/thm_welcome_blogs.png') top left no-repeat;
+	margin-bottom: 24px;
+	font-size: 180%;
+	text-align: center;
+	line-height: 240%;
+	}
+	
+	
+/* ARTICLES BLOG */
+.welcome_ecoles {
+	width: 420px;
+	margin-bottom: 12px;
+//	background: #fcfdf1;
+	border: solid 1px #9dd3e0;
+	padding: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	//behavior: url(/htc/PIE.htc);
+	}
+
+.welcome_ecoles ul {
+	margin: 0;
+	padding-left: 12px;
+	list-style-type: disc;
+	list-style-position: outside;
+	}
+
+.welcome_ecoles ul li {
+	font-size: 110%;
+	margin-bottom: 4px;
+	}
+
+.welcome_ecoles ul li.type {
+	list-style-type: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #dd8210;
+	}
+
+.ecoles_title {
+	font-size: 120%;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-bottom: 12px;
+	}
+
+
 
 
 
@@ -80,35 +221,6 @@ table.welcome td.ecoles {
 	margin-bottom:5px;
 	text-transform:uppercase;
 	font-weight:bolder;
-}
-
-
-#welcome_actualites {
-}
-#welcome_actualites div.titre {
-	font-weight:bold;
-	font-size:1.3em;
-}
-#welcome_actualites div.item {
-}
-#welcome_actualites div.item div.date {
-	font-size:0.9em;
-	color:#777;
-}
-#welcome_actualites div.item div.titre {
-	font-size:1.2em;
-}
-#welcome_actualites div.item div.titre a {
-}
-#welcome_actualites div.item div.chapo {
-	font-size:1.2em;
-}
-#welcome_actualites div.item div.chapo p {
-	margin:0;
-}
-#welcome_actualites div.item div.hreflib {
-}
-#welcome_actualites div.item div.hreflib a {
 }
 
 

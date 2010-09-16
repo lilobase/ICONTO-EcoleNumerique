@@ -63,15 +63,13 @@ $actiongroup = CopixRequest::get('group');
 					<div id="content">
 						<div id="contenttop"><?php getZones("contenttop"); ?></div>
 						<div id="contentmain">
-							<?php 
-								$title = (isset($TITLE_PAGE)) ? $TITLE_PAGE : '';
-								if ($module != 'kernel' || ($actiongroup == 'dashboard' && $action == 'modif')) { moduleContext('open', $title); }
-                                                                ?>
+							<?php $title = (isset($TITLE_PAGE)) ? $TITLE_PAGE : ''; ?>
+							<?php if (($module != 'kernel' && $module != 'welcome') || ($actiongroup == 'dashboard' && $action == 'modif')) { moduleContext('open', $title); } ?>
 							<div class="<?php echo $module; ?>">
 							<?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:false))); } ?>
 							<?php echo $MAIN; ?>
 							</div>
-							<?php if ($module != 'kernel' || ($actiongroup == 'dashboard' && $action == 'modif')) { moduleContext('close'); } ?>
+							<?php if (($module != 'kernel' && $module != 'welcome') || ($actiongroup == 'dashboard' && $action == 'modif')) { moduleContext('close'); } ?>
 						</div>
 						<div id="contentbottom"><?php getZones("contentbottom"); ?></div>
 					</div>
