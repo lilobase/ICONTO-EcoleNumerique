@@ -9,7 +9,7 @@
  */
 
 /************************************************
- * LOGGED : HEADER TITLING
+ * USER LOGIN
  ***********************************************/
 div.zone-userlogged {
 	position: relative;
@@ -32,8 +32,37 @@ div.userlogged .userrole {
 	line-height: 100%;
 	}
 
+#loginBar input.login {
+	border: solid 1px #0c92b1;
+	background: #f0f0f0;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	//behavior: url(/htc/PIE.htc);
+	height: 18px;
+	padding: 2px;
+	margin: 0;
+	width:100px;
+	}
+
+#loginBar .button-confirm {
+	background-color:#f0f0f0;
+	border: solid 1px #0c92b1;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	//behavior: url(/htc/PIE.htc);
+	min-width: 0px;
+	padding: 2px 2px 2px 20px;
+	}
+
+#loginBar input:hover,#loginBar .button-confirm:hover {
+	color: #333;
+	background-color:#fff;
+	}
+	
 /************************************************
- * LOGGED : USERMENU
+ * USERMENU
  ***********************************************/
 div.usermenu {
 	float: right;
@@ -61,17 +90,6 @@ ul.usermenu li a.item {
 	overflow: hidden;
 	}
 	
-ul.usermenu li a.menu-accueil		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-groupe		{ background: url(../images/mod_fake_28.png) no-repeat center top; }
-ul.usermenu li a.menu-ressource		{ background: url(../images/mod_user_ressources.png) no-repeat center top; }
-ul.usermenu li a.menu-annuaire		{ background: url(../images/mod_user_annuaire.png) no-repeat center top; }
-ul.usermenu li a.menu-minimail		{ background: url(../images/mod_user_mail.png) no-repeat center top; }
-ul.usermenu li a.menu-malle			{ background: url(../images/mod_user_malle.png) no-repeat center top; }
-ul.usermenu li a.menu-agenda		{ background: url(../images/mod_user_agenda.png) no-repeat center top; }
-ul.usermenu li a.menu-prefs			{ background: url(../images/mod_user_preferences.png) no-repeat center top; }
-ul.usermenu li a.menu-aide			{ background: url(../images/mod_user_aide.png) no-repeat center top; }
-ul.usermenu li a.menu-assistance	{ background: url(../images/mod_user_assistance.png) no-repeat center top; }
-
 ul.usermenu li.menu-minimail a#counter {
 	position: absolute;
 	display: block;
@@ -79,7 +97,7 @@ ul.usermenu li.menu-minimail a#counter {
 	padding: 12px 0px 0px 12px;
 	width: 20px;
 	height: 20px;
-	background: url(../images/mod_user_mail_badge.png) no-repeat;
+	background: url(/themes/default/images/mod_user_mail_badge.png) no-repeat;
 	}
 
 ul.usermenu li.menu-minimail a#counter span#counter-text {
@@ -98,11 +116,11 @@ ul.usermenu li a.logout {
 	width: 20px;
 	padding-top: 20px;
 	margin-left: 6px;
-	background: url(../images/button_logout_off.png) no-repeat 100% 0;
+	background: url(/themes/default/images/button_logout_off.png) no-repeat 100% 0;
 	}
 	
 ul.usermenu li a.logout_on {
-	background: url(../images/button_logout_on.png) no-repeat 100% 0;
+	background: url(/themes/default/images/button_logout_on.png) no-repeat 100% 0;
 	}
 	
 /************************************************
@@ -117,7 +135,7 @@ div.main-kernel {
 	}
 
 /************************************************
- * LOGGED : DASHBOARD BLOCS TOOLBARS
+ * DASHBOARD BLOCS TOOLBARS
  ***********************************************/
 div.toolbar ul {
 	list-style-type: none;
@@ -150,7 +168,7 @@ div.toolbar ul li a.action:hover {
 
 	
 /************************************************
- * LOGGED : RIGHT COLUMN
+ * RIGHT COLUMN
  ***********************************************/
 #right div.kernel {
 	background: #f4f8f4;
@@ -192,7 +210,7 @@ div.toolbar ul li a.action:hover {
 	
 	
 /************************************************
- * FOOTER LEGALS
+ * LEGALS
  ***********************************************/
 div.legals {
 	text-align: center;
@@ -204,3 +222,281 @@ div.legals a {
 	font-weight: bold;
 	}
 	
+/************************************************
+ * STANDARD CONTENT PANEL
+ ***********************************************/
+.content-panel {
+	background: #fff;
+	padding: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	//behavior: url(/htc/PIE.htc);
+	margin-bottom: 6px;
+	}
+ 
+.content-panel-edit {
+	background: #fff url(/themes/default/images/menu_update.png) 8px 8px no-repeat;
+	padding-left: 42px;
+	}
+
+.content-panel-button {
+	text-align: center;
+	padding: 3px;
+	}
+
+.content-info {
+	padding: 6px 0px;
+	margin-bottom: 6px;
+	font-style: italic;
+	}
+
+/************************************************
+ * JQueryUI HACKS
+ ***********************************************/
+img.ui-datepicker-trigger {
+	vertical-align: bottom;
+	}
+	
+p.ui-state-error {
+	padding: 0 6px;
+	border: solid 1px #ddd;
+	}
+
+.ui-widget-overlay {
+	background: #666;
+	}
+
+/************************************************
+ * POPUPS
+ ***********************************************/
+.popup-title {
+	display: block;
+	background: #0c92b1;
+	font-size: 150%;
+	color: #fff;
+	padding: 6px;
+	}
+
+.popup-subtitle {
+	display: block;
+	font-size: 120%;
+	padding: 0px;
+	margin: 6px 0;
+	border-bottom: solid 1px #ddd;
+	}
+
+/************************************************
+ * USER WARNINGS
+ ***********************************************/
+.warning {
+	position: relative;
+	display: inline-block;
+	font-size: 12px;
+	padding: 3px 6px 3px 6px;
+	min-width: 42px;
+	min-height: 42px;
+	background-color : #fff;
+	border: solid 1px #fff;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	//behavior: url(/htc/PIE.htc);
+	font-size: 14px;
+}
+
+.warning-exclamation { padding-left: 60px; background: #fff url(/themes/default/images/warn_exclamation.png) 4px 50% no-repeat; }
+.warning-information { padding-left: 60px; background: #fff url(/themes/default/images/warn_information.png) 4px 50% no-repeat; }
+
+/************************************************
+ * MODAL MESSAGES
+ ***********************************************/
+#dialog-message {
+	padding: 12px;
+	font-size: 14px;
+	text-align: center;
+	}
+
+#dialog-message ul {
+	padding: 12px;
+	font-size: 14px;
+	list-style-type: none;
+	text-align: left;
+	}
+
+#dialog {
+	padding: 12px;
+	font-size: 14px;
+	}
+
+#dialog ul {
+	padding: 12px;
+	font-size: 14px;
+	list-style-type: none;
+	text-align: left;
+	}
+
+/************************************************
+ * PROGRESSION BADGES
+ ***********************************************/
+.badge {
+	display: inline-block;
+	width: 17px;
+	height: 16px;
+	padding: 1px 1px 1px 0;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	//behavior: url(/htc/PIE.htc);
+	background: #bad521;
+	color: #fff;
+	font-size: 90%;
+	text-align: center;
+	letter-spacing: -0.1em;
+	}
+	
+.badge-off {
+	background: #999;
+	color: #fff;
+	}
+	
+.badge-on {
+	background: #bad521;
+	color: #fff;
+	}
+	
+.badge-current {
+	background: #f3a807;
+	color: #fff;
+	}
+
+/************************************************
+ * FORMS
+ ***********************************************/
+input.form_button {
+	border: solid 1px #333333;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	background: #F0F0F0;
+	color: #333333;
+}
+
+input.form_button:hover {
+	border: solid 1px #333333;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	//behavior: url(/htc/PIE.htc);
+	background: #D9E575;
+	color: #333333;
+}
+
+form input[type="text"], form textarea {
+	border: solid 1px #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	//behavior: url(/htc/PIE.htc);
+	padding: 3px;
+	}
+	
+input.label-overlayed {
+	color: #aaa;
+	}
+	
+form input[type="text"]:hover, form textarea:hover {
+	border: solid 1px #bad521;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	//behavior: url(/htc/PIE.htc);
+	}
+
+form label {
+	display: inline-block;
+	color: #aaa;
+	}
+
+form label a {
+	display: inline-block;
+	color: #aaa;
+	}
+
+form select {
+	border: solid 1px #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	//behavior: url(/htc/PIE.htc);
+	padding: 3px;
+}
+
+form select:hover {
+	border: solid 1px #bad521;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	//behavior: url(/htc/PIE.htc);
+	}
+
+input.file-attach {
+	width: 400px;
+}
+
+input.preFilled, textarea.preFilled {
+    color: #cccccc;
+}
+
+form select.multicombo {
+	height: 120px;
+}
+
+#content-popup .option-bar {
+	border-top: solid 1px #f0f4f0;
+	border-bottom: solid 1px #f0f4f0;
+	padding: 3px;	
+	}
+
+#content-popup .option-bar .option1 {
+	float: left;
+	width: 50%;
+	margin-right: 30px;	
+	}
+
+#content-popup .popup-panel {
+	background-color: #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	//behavior: url(/htc/PIE.htc);
+	padding: 6px;	
+	}
+
+/************************************************
+ * Prise de controle
+ ***********************************************/
+
+div.prise_controle {
+	width: 30%;
+	margin: 0px;
+	margin: auto;
+	background-color: red;
+	padding: 2px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-weight: bold;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	//behavior: url(/htc/PIE.htc);
+}
+
+div.prise_controle div.message {
+	line-height: 90%;
+}
+
+div.prise_controle a.stopper {
+	color: #000;
+	text-shadow: none;
+}
+
