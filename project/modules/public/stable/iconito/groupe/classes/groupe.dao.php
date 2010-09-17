@@ -46,11 +46,9 @@ class DAOGroupe {
 		foreach ($list as $groupe) {
 			$parent = Kernel::getNodeParents ("CLUB", $groupe->id );
 			$ok = true;
-			
 			if (Kernel::getKernelLimits('ville')) {
 				if ($parent) {
-					$ville = GroupeService::getGroupeVille($parent[0]['id']);
-					//echo "id=".$groupe->id." / ville=$ville<br>";
+					$ville = GroupeService::getGroupeVille($groupe->id, $parent);
 					if (!in_array($ville, Kernel::getKernelLimits('ville_as_array')))
 						$ok = false;
 				} else

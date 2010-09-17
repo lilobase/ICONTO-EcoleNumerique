@@ -209,9 +209,7 @@ class GroupeService {
 	 * @return integer Id de la ville, ou 0 si aucune
 	 */
 	function getGroupeVille ($pGroupe, $pParent=null) {
-		
 		$ville = 0;
-		
 		$parent = ($pParent==null) ? Kernel::getNodeParents('CLUB', $pGroupe) : $pParent;
 		//var_dump($parent);
 		if ($parent && $parent[0]['type'] == 'BU_VILLE') {
@@ -219,15 +217,10 @@ class GroupeService {
 		}	elseif ($parent && $parent[0]['type'] == 'BU_CLASSE') {
 			$ville = $parent[0]['ALL']->eco_id_ville;
 		}	elseif ($parent && $parent[0]['type'] == 'BU_ECOLE') {
-			//var_dump($parent);
 			$ville = $parent[0]['ALL']->vil_id_vi;
 		}		
-		
 		return $ville;
 	}
-
-
-
 
 
 
