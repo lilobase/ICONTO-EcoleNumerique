@@ -1,0 +1,489 @@
+BODY {
+  font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 14px;
+	background-color: white;
+	margin:0;
+	padding:0;
+}
+
+.SHOW { visibility: show; }
+.HIDDEN { visibility: hidden; display: none; }
+
+.small {
+	font-size: 0.8em;
+}
+
+input, select, textarea {
+	margin:0;
+}
+
+.button_like, a.button_like:hover, a.button_like:visited {
+	border: solid 1px #508957;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 4px;
+	background: #508957;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+.button_like_error, a.button_like_error:hover, a.button_like_error:visited {
+	border: solid 1px #A6330D;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 4px;
+	background: #A6330D;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+a {
+	/*color: #313057;*/
+	color: #2D2A78;
+}
+a:hover {
+	color: #04570F;
+}
+
+FIELDSET {
+	border: 0;
+}
+
+TH {
+	text-align: right;
+}
+
+.modname {
+	font-weight: bold;
+}
+
+DIV.page {
+	width: 960px;
+	border: 1px solid #666;
+	margin: 3px 20px 20px 20px;
+	margin-left: auto;
+	margin-right: auto;
+	background: #fff url(../img_styles/page-background.gif);
+	/* padding-bottom: 400px; */
+}
+
+TABLE.head TD.ecole-logo {
+	width: 175px;
+	height: 75px;
+	background: url(../img_styles/head-iconito.gif) no-repeat center top;
+}
+
+
+TABLE.head TR TD.ecole-left {
+        background-image: url(../img_styles/head-ecole-left.gif);
+        background-repeat: no-repeat;
+        width: 17px;
+				height: 40px;
+}
+
+TABLE.head TR TD.ecole-center {
+        background-image: url(../img_styles/head-ecole-bg.gif);
+        background-repeat: repeat-x;
+        vertical-align: middle;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 12px;
+	color: #FF940A;
+	font-weight : bold;
+	padding:0;
+	margin:0;
+	height: 40px;
+	width: 72%;
+}
+
+.ecole-center A, .ecole-center A:visited {
+	text-decoration: none;
+	color: #FF940A;
+}
+.ecole-center A:hover {
+	color: #04570F;
+}
+TABLE.head TR TD.ecole-right {
+        background-image: url(../img_styles/head-ecole-right.gif);
+        background-repeat: no-repeat;
+        width: 17px;
+				height: 40px;
+}
+TABLE.head TR TD DIV.annu_blog {
+	width: 110px;
+	float: right;
+	font-size: 80%;
+}
+
+
+TABLE.head TD.ecole-login-bar {
+	height: 45px;
+  background-image: url(../img_styles/head-small-bg.gif);
+  background-repeat: repeat-x;
+	vertical-align: top;
+	text-align: right;
+	padding-right: 10px;
+	font-size: 80%;
+	padding-top: 6px;
+}
+TABLE.head TD.ecole-login-bar INPUT {
+	font-size: 90%;
+	border: solid 1px #B8C648;
+	background: #FFF;
+}
+TABLE.head TD.ecole-login-bar INPUT.submit {
+	background: #B8C648;
+	color: #FFF;
+	font-weight: bold;
+}
+table.head div.minimailNbMessages {
+	background-color:#EAE9D8;
+	border: solid 1px #FFFFFF;
+	margin:0px;
+	width:120px;
+	padding:0px;
+	border-radius:12px;
+	-moz-border-radius:12px;
+	text-align:center;
+	font-size: 65%;
+}
+table.head div.minimailNbMessages a {
+	font-weight:bold;
+	line-height:100%;
+	font-size:200%;
+}
+
+.debug, .debug A, .debug A:visited  {
+	font-size: 0.8em;
+	color: #BBB;
+}
+
+DIV.icons {
+	height: 70px;
+	vertical-align: top;
+	border: 0;
+	padding: 0;
+	margin: 0;
+	text-align: center;
+}
+
+DIV.icons {
+	margin: 0;
+	border: 0;
+	vertical-align: top;
+}
+DIV.icons_no {
+	height: 8px;
+}
+
+.icoa {
+	text-decoration: none;
+	border: 0;
+}
+
+.icobloc {
+	width:70px;
+	float: right;
+	font-size:85%;
+}
+.icobloc a {
+	color: #222;
+}
+.icobloc a:hover {
+	color: #508957;
+}
+
+.icoimg {
+	border:0;
+	text-decoration: none;
+}
+
+
+DIV.content {
+	padding-left: 15px;
+	padding-right: 15px;
+}
+
+DIV.content DIV.title {
+        background-image: url(../img_styles/body-top.gif);
+        background-repeat: no-repeat;
+	font-size: 150%;
+	padding-left: 15px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+        text-transform: uppercase;
+}
+
+DIV.content DIV.options {
+	background-color: #F0F0EA;
+  background-image: url(../img_styles/body-middle-bg.gif);
+	background-repeat: repeat-y;
+	padding: 3px;
+	padding-right: 10px;
+	font-size: 80%;
+	text-align: right;
+}
+DIV.content DIV.options A {
+	color: inherit;
+}
+
+DIV.content DIV.main {
+	/* height: 100%; */
+	background-color: #d9e575;
+	background-repeat: repeat-y;
+	padding: 15px;
+}
+
+DIV#footer {
+  text-align: center;
+  color: #508957;
+  margin-top: -17px;
+  font-size: 70%;
+}
+DIV#footer a {
+  color: #508957;
+}
+
+/* MESSAGE D'ERREUR */
+DIV.message_erreur {
+	background: #C1160D;
+	color: #FFFFFF;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+DIV.message_erreur ul li {
+	display:inline;
+}
+
+/* MESSAGE OK */
+DIV.message_ok {
+	background: #548C42;
+	color: #FFFFFF;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+}
+DIV.message_ok ul li {
+	display:inline;
+}
+
+
+
+
+
+/* FORMULAIRES */
+TD.form_libelle {
+	text-align: right;
+	font-weight: bold;
+	font-size: 12px;
+	vertical-align: top;
+}
+TD.form_saisie {
+	vertical-align: top;
+	font-size: 11px;
+}
+TD.form_submit {
+	text-align: right;
+
+}
+INPUT.form {
+	border: solid 1px #508957;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	padding: 1px;
+}
+INPUT.form_button {
+	border: solid 1px #508957;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 1px;
+	background: #508957;
+	color: #FFFFFF;
+	
+}
+TEXTAREA.form {
+	border: solid 1px #508957;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	padding: 1px;
+}
+SELECT.form {
+	border: solid 1px #508957;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
+	font-size: 11px;
+	padding: 1px;
+}
+
+
+
+/* LISTE GENERIQUE */
+TABLE.liste {
+	width: 98%;
+	background-color: #FFFFFF;
+	font-size: 12px;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+}
+TR.liste_footer {
+	background-color: #F8F8F8;
+	text-align: right;
+	font-size: 10px;
+}
+TH.liste_th {
+	background-color: #EEEEEE;
+	text-align: center;
+}
+TR.list_line1 { background-color: #F5F5F5; }
+TR.list_line0 { background-color: #FFFFFF; }
+
+
+.zone {
+
+	font-weight: normal;
+}
+
+a.zone {
+
+	font-weight: normal;
+	text-decoration: underline;
+}
+
+a.zone.sel {
+
+	font-weight: bold;
+	text-decoration: underline;
+}
+
+.helptext {
+	font-weight: normal;
+	font-style: italic;
+}
+
+
+/* Fiche utilisateur */
+#divUserProfil {
+	border-color: #508957;
+	position: absolute;
+	background-color: #F6F6F6;
+  border-style: solid;
+  border-width: 1px;
+	padding: 4px;
+  visibility: hidden;
+	display: block;
+	font-size: 80%;
+	border-radius: 5px;
+	-moz-border-radius:5px;
+	-khtml-border-radius:5px;
+	filter: alpha(opacity=97);
+	-moz-opacity: 0.97;
+	opacity: 0.97;
+	width: 150px;
+	z-index:999;
+}
+
+
+/* Div Ajax */
+#ajaxDiv {
+	border-color: #508957;
+	position: absolute;
+	background-color: #F6F6F6;
+  border-style: solid;
+  border-width: 1px;
+	padding: 4px;
+	font-size:0.8em;
+	visibility: hidden;
+	z-index:997;
+}
+
+/* DEMO */
+DIV.welcome_demo {
+	-moz-border-radius: 4px;
+	margin: 4px 20px 0px 20px;
+	background: #EEE;
+	font-size: 75%;
+	padding: 2px;
+	text-align:center;
+}
+DIV.welcome_demo TD.account {
+	/*font-style: italic;*/
+	text-align: center;
+}
+DIV.welcome_demo TD.account A {
+	font-style: normal;
+	
+}
+
+/* Fichier à telecharger */
+div.file_dl {
+  width: 320px;
+  height:45px;
+  background: #EFEFEF;
+	border: solid 1px #E4E4E4;
+	border-radius: 8px;
+	-moz-border-radius: 8px;
+  text-align: left;
+  clear: both;
+}
+div.file_dl img  {
+  float:left;
+  margin-top:-5px;
+}
+div.file_dl a  {
+  text-decoration:none;
+}
+div.file_dl a:hover {
+  color: #D42B71;
+}
+div.file_dl div.name {
+  font-weight: bolder;
+  margin-top:4px;
+}
+div.file_dl div.desc {
+  color: #777777;
+}
+
+
+/* GROS CARRES-RECTANGLES */
+div#carres {
+	text-align: center;
+}
+div#carres div.carres_menu {
+	position: relative;
+	width: 745px;
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+}
+div#carres div.carres_menu a {
+	display: block;
+	float:left;
+	text-decoration: none;
+	width: 340px;
+	background-color: #EEE;
+	color: #999;
+	padding: 30px 0px 30px 0px;
+	font-size: 30px;
+	margin: 10px;
+	height: 55px;
+}
+div#carres div.carres_menu a:hover {
+	background-color: #FFF;
+	color: #666;
+}
+
+div#carres div.carres_menu a span {
+	display: block;
+	font-size: 0.4em;
+}
