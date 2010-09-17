@@ -12,11 +12,11 @@ a.dashclose {
 	display: block;
 	width: 25px;
 	height: 25px;
-	background: url(../images/button_dashclose_off.png) no-repeat 100% 0;
+	background: url(/themes/default/images/button_dashclose_off.png) no-repeat 100% 0;
 	}
 	
 a.dashclose_on {
-	background: url(../images/button_dashclose_on.png) no-repeat 100% 0;
+	background: url(/themes/default/images/button_dashclose_on.png) no-repeat 100% 0;
 	}
 	
 div.dashboard {
@@ -31,7 +31,7 @@ div.dashpanel {
 	margin: 0px;
 	margin-bottom: 10px;
 	padding: 0px 0px 12px 0px;
-	background: url(../images/dash_shadow.png) 50% 100% repeat-y;
+	background: url(/themes/default/images/dash_shadow.png) 50% 100% repeat-y;
 	}
 
 div.dashpanel div.title {
@@ -252,29 +252,6 @@ div.tools_right div.dashpanel div.toolset ul li a {
 	padding-right: 32px;
 	}
 
-	
-/* SET MODULES ICONS */
-div.dashpanel ul li a.MOD_CHARTE 			{ background-image: url(../images/mod_charte.png); }
-div.dashpanel ul li a.MOD_SYSUTILS 			{ background-image: url(../images/mod_sysutils.png); }
-div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../images/mod_preferences.png); }
-div.dashpanel ul li a.MOD_AGENDA 			{ background-image: url(../images/mod_agenda.png); }
-div.dashpanel ul li a.MOD_ALBUM 			{ background-image: url(../images/mod_album.png); }
-div.dashpanel ul li a.MOD_BLOG 				{ background-image: url(../images/mod_blog.png); }
-div.dashpanel ul li a.MOD_MALLE 			{ background-image: url(../images/mod_malle.png); }
-div.dashpanel ul li a.MOD_CARNET 			{ background-image: url(../images/mod_carnet.png); }
-div.dashpanel ul li a.MOD_COMPTES			{ background-image: url(../images/mod_comptes.png); }
-div.dashpanel ul li a.MOD_FORUM				{ background-image: url(../images/mod_forum.png); }
-div.dashpanel ul li a.MOD_QUIZ				{ background-image: url(../images/mod_quiz.png); }
-div.dashpanel ul li a.MOD_REGROUPEMENTS		{ background-image: url(../images/mod_grvilles.png); }
-div.dashpanel ul li a.MOD_LISTE				{ background-image: url(../images/mod_liste.png); }
-div.dashpanel ul li a.MOD_RESSOURCE			{ background-image: url(../images/mod_ressources.png); }
-div.dashpanel ul li a.MOD_SSOGAEL			{ background-image: url(../images/mod_fake.png); }
-div.dashpanel ul li a.MOD_TELEPROCEDURES	{ background-image: url(../images/mod_teleprocedures.png); }
-div.dashpanel ul li a.MOD_VISIOSCOPIA		{ background-image: url(../images/mod_visio.png); }
-div.dashpanel ul li a.MOD_MAGICMAIL			{ background-image: url(../images/mod_magicmail.png); }
-div.dashpanel ul li a.MOD_GESTIONAUTONOME	{ background-image: url(../images/mod_comptes.png); }
-div.dashpanel ul li a.MOD_CONTACT	{ background-image: url(../images/mod_liste.png); }
-
 /* SET GROUPTYPES CONTEXT COLORS */
 div.dashboard div.bu_classe div.title	{ background: #7fc3d2; }
 div.dashboard div.bu_classe div.content	{ border: 2px solid #7fc3d2; }
@@ -287,201 +264,3 @@ div.dashboard div.bu_ecole div.toolset 	{ background: #7cd54f; }
 div.dashboard div.club div.title	{ background: #ffb94e; }
 div.dashboard div.club div.content	{ border: 2px solid #ffb94e; }
 div.dashboard div.club div.toolset	{ background: #ffb94e; }
-
-/* CONTENT SUBMENU */
-
-#submenu {
-	position: absolute;
-	overflow: hidden;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	z-index: 999;
-	filter: alpha(opacity=95);
-	-moz-opacity: 0.95;
-	opacity: 0.95;
-	border-bottom: solid 1px #fff;
-	}
-
-.submenu-marger {
-	margin-top: 42px;
-	}
-
-/*
-#submenu .menutab {
-	position: relative;
-	margin: auto;
-	padding: 0px;
-	width: 90%;
-	height: 16px;
-	font-size:90%;
-	text-align: center;
-	background:#e0e0e0 url(../images/thm_admin_trigger.png) 99% 50% no-repeat;
-//	background:#e0e0e0;
-	color: #fff;
-	-moz-border-radius-bottomleft: 10px;
-	-moz-border-radius-bottomright: 10px;
-	-webkit-border-bottom-left-radius: 10px;
-	-webkit-border-bottom-right-radius: 10px;
-	}
-*/
-
-#submenu .menuitems {
-	position: relative;
-//	display: none;
-	display: block;
-	background:#e0e0e0;
-	border-bottom: solid 1px #ccc;
-	font-size:90%;
-	line-height: 90%;
-	}
-
-#submenu .menuitems ul {
-	position: relative;
-	list-style-type: none;
-	list-style-position: outside;
-	list-style-image: none;
-	overflow:auto;
-	margin: 0px;
-	padding: 2px;
-	text-align: center;
-	}
-
-#submenu .menuitems ul li {
-	position: relative;
-//	float: left;
-	display:inline-block;
-	overflow: hidden;
-	vertical-align: middle;
-	text-align: left;
-	padding: 2px;
-	}
-	
-#submenu .menuitems ul li a {
-	position: relative;
-	display: inline-block;
-	white-space:nowrap;
-	overflow: hidden;
-	vertical-align: middle;
-	padding: 2px 2px 2px 28px;
-	width: 84px;
-	height: 28px;
-	background-color : #f0f4f0;
-	background-position: 2px 50%;
-	background-repeat: no-repeat;
-	border: solid 1px #f0f4f0;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
-	}
-
-#submenu .menuitems a.current {
-	background-color: #ccc;
-	border: solid 1px #bbb;
-	color: #aaa;
-	}
-
-#submenu .menuitems ul li a span {
-	position: relative;
-	vertical-align: middle;
-	display: inline-block;
-	white-space: normal;
-	overflow: visible;
-	}
-
-span.valign {
-	height: 100%;
-	}
-
-#submenu .menuitems a 				{ background-image: url(../images/menu_default.png); }
-#submenu .menuitems a.create 		{ background-image: url(../images/menu_create.png); }
-#submenu .menuitems a.read			{ background-image: url(../images/menu_read.png); }
-#submenu .menuitems a.update		{ background-image: url(../images/menu_update.png); }
-#submenu .menuitems a.delete		{ background-image: url(../images/menu_delete.png); }
-#submenu .menuitems a.list			{ background-image: url(../images/menu_list.png); }
-#submenu .menuitems a.list-active	{ background-image: url(../images/menu_list_active.png); }
-#submenu .menuitems a.results		{ background-image: url(../images/menu_results.png); }
-#submenu .menuitems a.article		{ background-image: url(../images/menu_article.png); }
-#submenu .menuitems a.link			{ background-image: url(../images/menu_link.png); }
-#submenu .menuitems a.tag			{ background-image: url(../images/menu_tag.png); }
-#submenu .menuitems a.image			{ background-image: url(../images/menu_image.png); }
-#submenu .menuitems a.page			{ background-image: url(../images/menu_page.png); }
-#submenu .menuitems a.rss			{ background-image: url(../images/menu_rss.png); }
-#submenu .menuitems a.acl			{ background-image: url(../images/menu_acl.png); }
-#submenu .menuitems a.document		{ background-image: url(../images/menu_attach.png); }
-#submenu .menuitems a.options		{ background-image: url(../images/menu_options.png); }
-#submenu .menuitems a.agendalist	{ background-image: url(../images/menu_agendalist.png); }
-#submenu .menuitems a.week			{ background-image: url(../images/menu_week.png); }
-#submenu .menuitems a.download		{ background-image: url(../images/menu_download.png); }
-#submenu .menuitems a.export		{ background-image: url(../images/menu_export.png); }
-#submenu .menuitems a.import		{ background-image: url(../images/menu_import.png); }
-#submenu .menuitems a.addfile		{ background-image: url(../images/menu_addfile.png); }
-#submenu .menuitems a.addfolder		{ background-image: url(../images/menu_addfolder.png); }
-#submenu .menuitems a.write			{ background-image: url(../images/menu_write.png); }
-#submenu .menuitems a.move			{ background-image: url(../images/menu_move.png); }
-#submenu .menuitems a.copy			{ background-image: url(../images/menu_copy.png); }
-
-#submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; }
-
-/* PUBLIC DASHBOARD */
-
-p.content{
-    margin: 15px;
-    font-size: 120%;
-}
-p.first-item{
-    margin-top: 55px;
-}
-p.content a{
-    color: blue;
-}
-
-.img-left{
-    float: left;
-    margin: 15px;
-}
-
-
-/* Aide */
-a.tooltip em {
-    display:none;
-}
-a.tooltip:hover {
-    border: 0;
-    position: relative;
-    z-index: 500;
-    text-decoration:none;
-}
-a.tooltip:hover em {
-    font-style: normal;
-    display: block;
-    position: absolute;
-    top: 20px;
-    left: -2px;
-    padding: 5px;
-    color: #000;
-    border: 1px solid #bbb;
-    background: #ffc;
-		text-align:left;
-    width:300px;
-		font-weight:normal;
-    white-space:normal;
-
-}
-a.tooltip:hover em span {
-    position: absolute;
-    top: -7px;
-    left: 5px;
-    height: 7px;
-    width: 11px;
-    background: transparent url(../img_styles/tooltip-arrow.gif);
-		background-repeat:no-repeat;
-    margin:0;
-    padding: 0;
-    border: 0;
-}
-a.tooltip70px:hover em {	width:70px; }
-a.tooltip80px:hover em {	width:80px; }
-a.tooltip90px:hover em {	width:90px; }
-a.tooltip100px:hover em {	width:100px; }
