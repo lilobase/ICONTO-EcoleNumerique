@@ -48,7 +48,7 @@ class ZoneModuleContext extends enicZone {
 		
 		if ($step=='open') {
 			// _dump($myNodeData);
-			$toReturn  = '<div class="dashboard tools_right ink_blue font_dash">';
+			$toReturn  = '<div class="dashboard module_dash tools_right ink_blue font_dash">';
 			$toReturn .= '<div class="dashpanel '.$panelClass.'">';
 			$toReturn .= '	<div class="title">';
 			if(strpos($myNode['type'], 'USER_') !== false) {
