@@ -19,7 +19,8 @@
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_kernel.css"); ?>" type="text/css"/>
 <?php if (isset($ENpopup) && $ENpopup) { ?><link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/popup.css"); ?>" type="text/css"/><?php } ?>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
-<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/custom.css"); ?>" type="text/css"/>
+
+<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_".$module.".css"); ?>" type="text/css"/>
 
 <?php if (ereg("MSIE 6.0", $_SERVER["HTTP_USER_AGENT"])) { ?>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_iehacks.css"); ?>" type="text/css"/>
@@ -29,3 +30,4 @@
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_iehacks.css"); ?>" type="text/css"/>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_ie7hacks.css"); ?>" type="text/css"/>
 <?php } ?>
+
