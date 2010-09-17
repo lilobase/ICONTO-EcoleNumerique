@@ -130,6 +130,19 @@ div.dashpanel div.toolset-expand ul li a span.label {
 	display: inline-block;
 	}
 
+div.kernel_dash div.dashpanel div.toolset {
+	right: -34px;
+	}
+
+div.kernel_dash div.dashpanel div.toolset-expand {
+	right: -162px;
+	}
+
+div.module_dash div.dashpanel div.toolset {
+	top: 60px;
+	right: -34px;
+	}
+
 
 /* CASE DASHBOARD CONTEXT */
 div.tools_left {
@@ -141,11 +154,6 @@ div.tools_left div.dashpanel {
 
 div.tools_left div.dashpanel div.toolset {
 	padding: 2px 2px 2px 0px;
-	left: 100%;
-	}
-
-div.tools_right div.dashpanel div.toolset-expand ul li {
-	text-align: left;
 	}
 
 div.tools_left div.dashpanel div.toolset-expand, div.tools_left div.toolset-expand ul li.highlight {
@@ -166,6 +174,10 @@ div.tools_right {
 	margin: 6px 20px;
 	}
 	
+div.tools_right div.dashpanel div.toolset-expand ul li {
+	text-align: left;
+	}
+
 div.tools_right div.dashpanel {
 	width: 96%;
 	}
@@ -215,8 +227,6 @@ div.tools_right div.dashpanel div.title div.wcontrol {
 
 div.tools_right div.dashpanel div.toolset {
 	padding: 2px 2px 2px 2px;
-	top: 60px;
-	right: -34px;
 	}
 
 div.tools_right div.dashpanel div.toolset-expand {
