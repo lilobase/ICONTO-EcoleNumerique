@@ -8,6 +8,36 @@
  * @author	Stephane Holtz <sholtz@cap-tic.fr>
  */
 
+/************************************************
+ * DEBUG STUFF
+ ***********************************************/
+body.debug .debug-layout {
+	position: absolute;
+	font-size: 9px;
+	color: #000;
+	background: #fff;
+	z-index: 0;
+	opacity: 0.5;
+	border: solid 1px #000;
+	padding: 1px;
+	}
+
+body.debug .debug, body.debug .debug a, body.debug .debug a:visited  {
+	font-size: 9px;
+	color: #BBB;
+}
+
+body.nodebug .debug-layout {
+	display: none;
+	}
+
+body.nodebug .debug, body.nodebug .debug a, body.nodebug .debug a:visited  {
+	display: none;
+}
+
+/************************************************
+ * MAIN DESIGN POSITIONNING
+ ***********************************************/
 body {
 	margin:0;
 	padding:0;
@@ -82,8 +112,6 @@ body {
 #page-middle {
 	position: relative;
 	overflow: hidden;
-/*	background: #e2eaa3; */
-	background: #fff url(../images/page_background.jpg) repeat-x 0 0;
 	}
 	
 #header {
@@ -181,213 +209,28 @@ body {
 	position: relative;
 	}
 
-	
-
 /************************************************
- * Barre de progression contextuelle
- ***********************************************/
-#stepbar {
-	position: absolute;
-	display: inline;
-	padding: 0px;
-	margin: 0px;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 50px;
-	background: #f0f4f0 url(../images/thm_stepbar_bg.png) repeat-x 0 0;
-	}
- 
-#stepbar-restore {
-	position: relative;
-	margin-top: 50px;
-	}
- 
-#stepbar .sb-step {
-	position: relative;
-	float: left;
-	display: block;
-	height: 30px;
-	margin: 0px;
-	padding: 14px 14px 6px 6px;
-	background: url(../images/thm_stepbar_arrow.png) no-repeat 100% 0;
-	color: #666;
-	font-size: 16px;
-	letter-spacing: -0.02em;
-	z-index: 999;
-	}
- 
-#stepbar .sb-step-active {
-	position: relative;
-	float: left;
-	display: block;
-	height: 30px;
-	margin: 0px;
-	margin-left: -16px;
-	padding: 14px 14px 6px 22px;
-	background: url(../images/thm_stepbar_arrow_active.png) no-repeat 100% 0;
-	color: #444;
-	font-size: 16px;
-	letter-spacing: -0.02em;
-	}
- 
-#stepbar .sb-step-first {
-	position: relative;
-	float: left;
-	display: block;
-	height: 42px;
-	margin: 0px;
-	padding: 4px 16px 4px 4px;
-	background: url(../images/thm_stepbar_arrow.png) no-repeat 100% 0;
-	z-index: 999;
-	}
- 
-#stepbar .sb-message {
-	position: relative;
-	float: left;
-	display: block;
-	padding: 14px 6px 6px 6px;
-	font-style: italic;
-	color: #444;
-	}
- 
-a.sb-list {
-	position: relative;
-	display: inline-block;
-	background: url(../images/button_list_off.png) no-repeat 100% 0;
-	top: 0px;
-	left: 0px;
-	height: 42px;
-	width: 42px;
-	margin: 0px;
-	padding: 0px;
-	}
- 
-a.sb-list:hover {
-	background: url(../images/button_list_on.png) no-repeat 100% 0;
-	}
- 
-/************************************************
- * THM : artefacts graphiques propres au theme
+ * THM : GENERIC THEME SPECIFIC ARTEFACTS
  ***********************************************/
 
-body.thm		{ background: #bad521 url(../images/thm_body_BG.gif) repeat-x scroll 0 0; }
+body.thm		{ background: #bad521 url(/themes/default/images/thm_body_BG.gif) repeat-x scroll 0 0; }
 
-#page .thm-logo	{ position: relative; height: 54px; background: url(../images/thm_header_logo.png) no-repeat 0 5px; }
+#page .thm-logo	{ position: relative; height: 54px; background: url(/themes/default/images/thm_header_logo.png) no-repeat 0 5px; }
 #page .thm-logo a.logo { position: absolute; width:170px; height:50px; }
-#page .thm-HL	{ position: relative; background: url(../images/thm_page_HL.png) no-repeat left top; }
-#page .thm-HR	{ position: relative; background: url(../images/thm_page_HR.png) no-repeat right top; }
-#page .thm-HM	{ position: relative; background: url(../images/thm_page_HM.png) no-repeat center top; height: 67px; margin: 0 35px; }
-#page .thm-MTL	{ position: relative; background: url(../images/thm_page_MTL.png) no-repeat left top; }
-#page .thm-MTR	{ position: relative; background: url(../images/thm_page_MTR.png) no-repeat right top; }
-#page .thm-ML	{ position: relative; background: url(../images/thm_page_ML.png) repeat-y left top; }
-#page .thm-MR	{ position: relative; background: url(../images/thm_page_MR.png) repeat-y right top; }
-#page .thm-BL	{ position: relative; background: url(../images/thm_page_BL.png) no-repeat left top; }
-#page .thm-BR	{ position: relative; background: url(../images/thm_page_BR.png) no-repeat right top; }
-#page .thm-BM	{ position: relative; background: url(../images/thm_page_BM.png) repeat-x center top; height: 17px; margin: 0 17px; }
+#page .thm-HL	{ position: relative; background: url(/themes/default/images/thm_page_HL.png) no-repeat left top; }
+#page .thm-HR	{ position: relative; background: url(/themes/default/images/thm_page_HR.png) no-repeat right top; }
+#page .thm-HM	{ position: relative; background: url(/themes/default/images/thm_page_HM.png) no-repeat center top; height: 67px; margin: 0 35px; }
+#page .thm-MTL	{ position: relative; background: url(/themes/default/images/thm_page_MTL.png) no-repeat left top; }
+#page .thm-MTR	{ position: relative; background: url(/themes/default/images/thm_page_MTR.png) no-repeat right top; }
+#page .thm-ML	{ position: relative; background: url(/themes/default/images/thm_page_ML.png) repeat-y left top; }
+#page .thm-MR	{ position: relative; background: url(/themes/default/images/thm_page_MR.png) repeat-y right top; }
+#page .thm-BL	{ position: relative; background: url(/themes/default/images/thm_page_BL.png) no-repeat left top; }
+#page .thm-BR	{ position: relative; background: url(/themes/default/images/thm_page_BR.png) no-repeat right top; }
+#page .thm-BM	{ position: relative; background: url(/themes/default/images/thm_page_BM.png) repeat-x center top; height: 17px; margin: 0 17px; }
 	
 .filler { position: relative; width: 100%; }
 .padder { position: relative; overflow: hidden; padding: 12px 6px 0 6px; }
 .marger { position: relative; overflow: hidden; margin: 0 17px; }
 
-#breadcrumb { background: url(../images/thm_breadcrumb_bg.png) repeat-x center center; padding: 6px; height: 14px; }
-
-
-
-
-/************************************************
- * AUTRES MARQUEURS (a nettoyer)
- ***********************************************/
-form {
-	padding: 0px;
-	margin: 0px;
-}
-/* LISTE GENERIQUE */
-table.liste {
-	width: 98%;
-	background-color: #FFFFFF;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
-}
-tr.liste_footer {
-	background-color: #F8F8F8;
-	text-align: right;
-	font-size:90%;
-}
-th.liste_th {
-	background-color: #EEEEEE;
-	text-align: center;
-}
-tr.list_line1 { background-color: #F5F5F5; }
-tr.list_line0 { background-color: #FFFFFF; }
-
-
-
-div.block {
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
-  background-color:#fff;
-  border:1px solid #999;
-  padding:6px;
-}
-div.block hr {
-  color: #999;
-  background-color: #999;
-  height: 1px;
-	border: 0;
-}
-
-/* Fiche utilisateur */
-#divUserProfil {
-	border-color:#555;
-	position: absolute;
-	background-color: #fff;
-  border-style: solid;
-  border-width: 1px;
-	padding: 4px;
-  visibility: hidden;
-	display: block;
-	font-size: 80%;
-	-moz-border-radius: 6px;
-	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
-	filter: alpha(opacity=97);
-	-moz-opacity: 0.97;
-	opacity: 0.97;
-	width: 150px;
-	z-index:22999;
-}
-
-
-/************************************************
- * Prise de controle
- ***********************************************/
-
-DIV.prise_controle {
-	width: 30%;
-	margin: 0px;
-	margin: auto;
-	background-color: red;
-	padding: 2px;
-	padding-left: 20px;
-	padding-right: 20px;
-	font-weight: bold;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	//behavior: url(/htc/PIE.htc);
-}
-
-DIV.prise_controle DIV.message {
-	line-height: 90%;
-}
-
-DIV.prise_controle A.stopper {
-	color: #000;
-	text-shadow: none;
-}
+#breadcrumb { background: url(/themes/default/images/thm_breadcrumb_bg.png) repeat-x center center; padding: 6px; height: 14px; }
+#page-middle { background: #fff url(/themes/default/images/page_background.jpg) repeat-x 0 0; }
