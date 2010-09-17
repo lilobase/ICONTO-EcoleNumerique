@@ -27,7 +27,8 @@ $actiongroup = CopixRequest::get('group');
 	<?php include_once COPIX_PROJECT_PATH."themes/default/styles.php"; ?>
         <?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
         <?php echo $HTML_HEAD; ?>
-	
+	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_custom.css"); ?>" type="text/css"/>
+
 </head>
 
 <body class="thm nodebug"<?php if (isset($BODY_ON_LOAD) && $BODY_ON_LOAD) echo ' onLoad="'.$BODY_ON_LOAD.'"'; if (isset($BODY_ON_UNLOAD) && $BODY_ON_UNLOAD) echo ' onUnLoad="'.$BODY_ON_UNLOAD.'"'; ?>>
