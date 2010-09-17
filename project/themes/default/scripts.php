@@ -62,11 +62,11 @@ jQuery(document).ready(function($){
 			if ($(this).is('#right'))	$('#content').css('margin-right', 0);
 		});
 		
-		$('.tools_left > .dashpanel > .toolset').each(function(){
+		$('.kernel_dash > .dashpanel > .toolset').each(function(){
 			$(this).parent().children('.content').css('min-height', $(this).height()-30);
 		});
 
-		$('.tools_right > .dashpanel > .toolset').each(function(){
+		$('.module_dash > .dashpanel > .toolset').each(function(){
 			$(this).parent().children('.content').css('min-height', $(this).height()+80);
 		});
 		
