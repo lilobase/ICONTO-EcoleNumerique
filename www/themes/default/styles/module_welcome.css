@@ -74,11 +74,13 @@ div.welcome .welcome_hr {
 	}
 
 .welcome_articles .bart_item {
-	margin-bottom: 12px;
+	margin-bottom: 16px;
 	}
 		
 .welcome_articles .bart_title {
 	font-size: 140%;
+	line-height: 110%;
+	margin-bottom: 8px;
 	font-weight: bold;
 	color: #354e81;
 	}
@@ -93,7 +95,7 @@ div.welcome .welcome_hr {
 	}
 	
 .welcome_articles .bart_chapo {
-	font-size: 100%;
+	font-size: 110%;
 	}
 	
 
@@ -134,7 +136,7 @@ div.welcome .welcome_hr {
 	}
 	
 	
-/* ARTICLES BLOG */
+/* LISTE DES ECOLES */
 .welcome_ecoles {
 	width: 420px;
 	margin-bottom: 12px;
