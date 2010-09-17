@@ -26,6 +26,7 @@ $module = CopixRequest::get ('module');
 	<?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/popup.css"); ?>" type="text/css"/>
 	<?php echo $HTML_HEAD; ?>
+	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_custom.css"); ?>" type="text/css"/>
 	
 </head>
 
