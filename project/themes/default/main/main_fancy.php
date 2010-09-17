@@ -10,6 +10,8 @@
 */
 ?>
 <?php $module = CopixRequest::get ('module'); ?>
+<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_".$module.".css"); ?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_custom.css"); ?>" type="text/css"/>
 
 <div id="page">
 	<div id="contentmain">
