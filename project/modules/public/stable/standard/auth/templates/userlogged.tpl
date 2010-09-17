@@ -10,27 +10,26 @@
 			<a class="stopper" href="{copixurl dest="assistance||switch"}">Stopper la prise de contr&ocirc;le</a>
 		</div> 
 	{else}
-		<span class="username">{$prenom} {$nom}</span><br/>
-		<span class="userrole">{$ppo->usertype}</span>
+        <div class="userprofile">
+            <span class="username">{$prenom} {$nom}</span><br/>
+            <span class="userrole">{$ppo->usertype}</span>
+        </div>
 	{/if}
 
 {else}
-
-	<form action="{copixurl dest="auth|log|in"}" method="post" id="loginBar">
-		<input id="login" type="text" name="login" class="login default-value label-overlayed" value="{i18n key=auth|auth.login}" />
-	    <input id="password-password" class="login" type="password" name="password" value="" />
-		<input id="password-clear" class="login label-overlayed" type="text" value="{i18n key=auth|auth.password}" />
-
-<!--		<input type="password" name="password" class="login label-overlay" id="password" rel="{i18n key=auth|auth.password}" />-->
-		{if $showRememberMe}
-			{i18n key=auth|auth.rememberMe} <input type="checkbox" name="rememberMe" id="rememberMe" value="1" />
-		{/if}
-		<input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}" />
-		<input type="submit" class="button button-confirm" value="" />
-	</form>
-
-	{if $showLostPassword}
-		<a href="{copixurl dest="auth||lostPasswordAsk"}">{i18n key=auth|auth.lostPassword}</a>
-	{/if}
-
+    <div class="userlogon">
+        <form action="{copixurl dest="auth|log|in"}" method="post" id="loginBar">
+            <input id="login" type="text" name="login" class="login default-value label-overlayed" value="{i18n key=auth|auth.login}" />
+            <input id="password-password" class="login" type="password" name="password" value="" />
+            <input id="password-clear" class="login label-overlayed" type="text" value="{i18n key=auth|auth.password}" />
+            {if $showRememberMe}
+            {i18n key=auth|auth.rememberMe} <input type="checkbox" name="rememberMe" id="rememberMe" value="1" />
+            {/if}
+            <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}" />
+            <input type="submit" class="button button-confirm" value="" />
+        </form>
+        {if $showLostPassword}
+            <a href="{copixurl dest="auth||lostPasswordAsk"}">{i18n key=auth|auth.lostPassword}</a>
+        {/if}
+    </div>
 {/if}
