@@ -16,17 +16,17 @@ div.zone-userlogged {
 	height: 22px;
 	}
 
-div.userlogged {
+div.userprofile {
 	color: #fff;
 	text-shadow: 0px 1px 1px #111;
 	}
 
-div.userlogged .username {
+div.userprofile .username {
 	font-size: 180%;
 	line-height: 100%;
 	}
 
-div.userlogged .userrole {
+div.userprofile .userrole {
 	text-transform: uppercase;
 	font-size: 110%;
 	line-height: 100%;
@@ -168,9 +168,9 @@ div.toolbar ul li a.action:hover {
 
 	
 /************************************************
- * RIGHT COLUMN
+ * SIDE COLUMNS
  ***********************************************/
-#right div.kernel {
+#right div.kernel, #left div.kernel {
 	background: #f4f8f4;
 	margin-bottom: 12px;
 	padding: 6px;
@@ -183,29 +183,29 @@ div.toolbar ul li a.action:hover {
 	//behavior: url(/htc/PIE.htc);
 	}
 
-#right div.kernel a {
+#right div.kernel a, #left div.kernel a {
 	color: #444433;
 }
 
-#right div.kernel a:hover {
+#right div.kernel a:hover, #left div.kernel a:hover {
 	text-decoration: underline;
 }
 
-#right div.kernel h1 {
+#right div.kernel h1, #left div.kernel h1 {
 	font-size:120%;
 	text-transform: uppercase;
 	margin-top:0px;
 	color: #b28001;
 }
 	
-#right div.kernel ul {
+#right div.kernel ul, #left div.kernel ul {
 	list-style-position: outside;
 	padding-left: 15px;
 }
-#right div.kernel li {
+#right div.kernel li, #left div.kernel li {
 }
 
-#right div.dashboardwelcome li {
+#right div.dashboardwelcome li, #left div.dashboardwelcome li {
 }
 	
 	
