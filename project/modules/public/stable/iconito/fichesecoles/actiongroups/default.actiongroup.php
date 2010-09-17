@@ -23,12 +23,14 @@ class ActionGroupDefault extends EnicActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2008/09/03
 	 * @param integer $id Id de l'ecole
+	 * @param integer $popup 1 pour afficher la fiche en popup Fancybox
    */
 	 function fiche () {
 		
     CopixHTMLHeader::addCSSLink (_resource("styles/module_fichesecoles.css")); 
     
 		$id = $this->getRequest('id', null);
+		$iPopup = CopixRequest::getInt('popup');
 
 		$ecoleDAO = CopixDAOFactory::create('kernel|kernel_bu_ecole');
 		$ficheDAO = CopixDAOFactory::create("fiches_ecoles");
@@ -87,65 +89,22 @@ class ActionGroupDefault extends EnicActionGroup {
 				'txt' => CopixI18N::get ('kernel|kernel.btn.modify'),
         'type' => 'update',
 			);
-
+    
 		$tpl->assign ('MENU', $menu);
 		$tpl->assign ("MAIN", $main);
+    
+    
+    if ($iPopup) {
+      $ppo = new CopixPPO ();
+      $ppo->fiche = $fiche;
+      $ppo->TITLE = $title;
+      //return _arDirectPPO ($ppo, 'fiche_popup.tpl');
+      //return new CopixActionReturn (COPIX_AR_NONE, 0);
+      return _arPPO ($ppo, array ('template'=>'fiche_popup.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+
+    }
+    
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-
-	}
-
-	
-	/**
-   * Affichage de la fiche d'une ecole en Ajax
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2008/09/03
-	 * @param integer $id Id de l'ecole
-   */
-	 function ficheAjax () {
-
-		$id = $this->getRequest('id', null);
-
-		$ecoleDAO = CopixDAOFactory::create('kernel|kernel_bu_ecole');
-		$ficheDAO = CopixDAOFactory::create("fiches_ecoles");
-		
-		$criticErrors = array();
-		if (!$rEcole = $ecoleDAO->get($id))
-			$criticErrors[] = CopixI18N::get ('fichesecoles.error.param');
-		elseif (!FichesEcolesService::canMakeInFicheEcole($id,'VIEW'))
-			$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
-
-		if ($criticErrors)
-			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
-
-
-		$rFiche = $ficheDAO->get($id);
-		
-		$tpl = & new CopixTpl ();
-
-		$coords = null;
-		if ($googleAdresse = AnnuaireService::googleMapsFormatAdresse ('ecole', $rEcole)) {
-			//var_dump($googleAdresse);
-			$rEcole->googleAdresse = $googleAdresse;
-			if ($coords = AnnuaireService::googleMapsAdresseCoords ($googleAdresse)) {
-				//var_dump($coords);
-				CopixHtmlHeader::addJSLink('http://maps.google.com/maps?file=api&amp;v=2.x&amp;key='.CopixConfig::get ('fichesecoles|googleMapsKey'));
-				CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
-				$tpl->assign ('BODY_ON_LOAD', "loadGoogleMapsEcole(".$coords['latitude'].",".$coords['longitude'].");");
-				$tpl->assign ('BODY_ON_UNLOAD', 'GUnload();');
-			}
-		}
-		$rEcole->coords = $coords;
-		
-		$fiche = CopixZone::process('fiche',array('rEcole'=>$rEcole, 'rFiche'=>$rFiche, 'isAjax'=>true));		
-		
-		$result = $fiche;
-
-		header('Content-type: text/html; charset=utf-8');
-		//echo utf8_encode($result);
-		echo $result;
-		
-		return new CopixActionReturn (COPIX_AR_NONE, 0);
 
 	}
 

@@ -17,6 +17,7 @@
 	<div id="contentmain">
 		<div class="<?php echo $module; ?>">
 		<?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:false))); } ?>
+		<?php if (isset($ppo->TITLE) && $ppo->TITLE) { echo '<h1>'.$ppo->TITLE.'</h1>'; } ?>
 		<?php echo $MAIN; ?>
 		</div>
 	</div>

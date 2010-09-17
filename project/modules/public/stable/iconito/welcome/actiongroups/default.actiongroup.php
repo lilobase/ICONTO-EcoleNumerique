@@ -37,8 +37,11 @@ class ActionGroupDefault extends enicActionGroup {
 			if ($dispBlog) return CopixActionGroup::process ('blog|frontblog::getListArticle', array ('blog'=>$blog->url_blog));	
    	   
 			CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
-			CopixHTMLHeader::addCSSLink (_resource("styles/module_welcome.css"));
-			$result = $tplModule->fetch('welcome|welcome_'.CopixI18N::getLang().'.tpl');
+      
+      if (CopixConfig::get ('kernel|jeuEssaiInstalled'))
+        $result = $tplModule->fetch('welcome|welcome_demo.tpl');
+      else
+        $result = $tplModule->fetch('welcome|welcome_'.CopixI18N::getLang().'.tpl');
 			$tpl->assign ('TITLE_PAGE', ''.CopixI18N::get ('public|public.welcome.title'));  
 			$tpl->assign('MAIN', $result);
 			return new CopixActionReturn(COPIX_AR_DISPLAY, $tpl);

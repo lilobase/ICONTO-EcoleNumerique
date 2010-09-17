@@ -1,0 +1,19 @@
+<?xml version="1.0" ?>
+	<album
+	showbuttons="yes"
+	showtitles="yes"
+	randomstart="yes"
+	timer="4"
+	aligntitles="bottom"
+	alignbuttons="bottom"
+	transition="blur"
+	speed="10"
+	>
+<img src="../themes/default/images/welcome/23_6749dcb65c_480.jpg" title="Classe de Mme Duclerc" />
+<img src="../themes/default/images/welcome/25_a430565213_480.jpg" title="Au Centre de Loisirs" />
+<img src="../themes/default/images/welcome/27_72547086fd_480.jpg" title="Aline - École du Bois Fleuri" />
+<img src="../themes/default/images/welcome/29_1b1a413e7a_480.jpg" title="En pleine concentration!" />
+<img src="../themes/default/images/welcome/31_0b4d25a044_480.jpg" title="" />
+<img src="../themes/default/images/welcome/33_2b7520befc_480.jpg" title="À la cantine..." />
+	</album>
+			

@@ -60,7 +60,7 @@
 
 <div class="ecole_web">{if $ecole.blog}<a title="{$ecole.blog}" href="{$ecole.blog}">{i18n key="annuaire.blog"}</a><a href="{$ecole.blog}" target="_blank"><img alt="{i18n key="public|public.openNewWindow"}" title="{i18n key="public|public.openNewWindow"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_window.png"}" hspace="4" /></a>{/if}
 
-<a title="{i18n key="annuaire.fiche"}" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{i18n key="annuaire.fiche"}</a><a href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}" onClick="return ajaxFicheEcole({$ecole.id});"><img alt="{i18n key="public|public.openPopup"}" title="{i18n key="public|public.openPopup"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_popup.png"}" hspace="1" /></a>
+<a title="{i18n key="annuaire.fiche"}" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{i18n key="annuaire.fiche"}</a><a class="fancybox" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id popup=1}"><img alt="{i18n key="public|public.openPopup"}" title="{i18n key="public|public.openPopup"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_popup.png"}" hspace="1" /></a>
 
 {if $ecole.web}<a target="_blank" title="{$ecole.web}" href="{$ecole.web}">{i18n key="annuaire.siteWeb"}</a>{/if}
 

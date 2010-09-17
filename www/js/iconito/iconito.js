@@ -267,35 +267,6 @@ function hideAjaxDiv () {
 }
 
 
-/* Fiche ecole */
-function ajaxFicheEcole (id_ecole) {
-	var div = $('ajaxDiv');
-	div.style.width = "170px";
-	x = lastMouseX;
-	x -= 30;
-	y = lastMouseY;
-	var w = div.offsetWidth; // largeur
-	var windowWidth = getWindowWidth()-10;
-	//alert ("x="+x+" / w="+w+" / wW="+windowWidth);
-	if(x+w>windowWidth) x = windowWidth-w-20;
-	div.style.left=x+"px";
-	div.style.top=(y+0)+"px";
-
-	div.innerHTML = '<div align="center"><img src="'+getRessourcePathImg+'ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>';
-	div.style.visibility = "visible";
-	var url = getActionURL('fichesecoles|default|ficheAjax');
-	var pars = 'id='+id_ecole;
-  var myAjax = new Ajax.Updater(
-		{success: 'ajaxDiv'},
-    url,
-    {method: 'get', parameters: pars, onFailure :
-				function (xmlHttp) {
-					alert ("ajaxError / ajaxFicheEcole");
-				}
-		}
-  );
-	return false;
-}
 
 var module = 'default';
 

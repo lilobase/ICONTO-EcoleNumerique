@@ -19,7 +19,7 @@
 		
 		<li>
 		{if $ajaxpopup}
-			<a href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}" onClick="return ajaxFicheEcole({$ecole.id});">{$ecole.nom}</a>
+			<a class="fancybox" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id popup=1}">{$ecole.nom}</a>
 		{else}
 			<a href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{$ecole.nom}</a>
 		{/if}
