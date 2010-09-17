@@ -44,7 +44,12 @@ function getZones($position, $collapse=true, $dispmode="STD") {
 		foreach ($jzones as $zone) {
 			$id = ($position=='popup') ? 'id="'.$module.'-'.$zone->zone.'" ' : '';
 			echo '<div '.$id.'class="'.$module.' '.$zone->zone.'">';
-			$zoneContent = CopixZone::process ($zone->supplier.'|'.$zone->zone);
+            if ($zone->params != "") {
+                $params = $zone->params;
+                $params = unserialize($params);
+                $zoneContent = CopixZone::process ($zone->supplier.'|'.$zone->zone, $params);
+                }
+            else $zoneContent = CopixZone::process ($zone->supplier.'|'.$zone->zone);
 			if (!$zoneContent) trigger_error('CopixZone ['.$zone->supplier.'|'.$zone->zone.'] empty or not found', E_USER_WARNING);
 			else
 				echo $zoneContent;				
