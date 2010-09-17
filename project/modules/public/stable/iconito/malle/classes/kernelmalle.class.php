@@ -34,6 +34,10 @@ class KernelMalle {
 				chmod ($folder, 0777);
 				$return = $new->id;
       }
+      if (!$return) {
+        MalleService::deleteDir ($folder);
+        $dao->delete ($new->id);
+      }
 		}
 		return $return;
 	}

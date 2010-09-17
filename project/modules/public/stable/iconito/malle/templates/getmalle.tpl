@@ -1,9 +1,9 @@
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
 
 <script type="text/javascript">
 var id = {$id};
 var folder = {$folder};
 var noSelection = "{i18n key='malle.error.noSelection'}";
+
 </script>
 
 {literal}
@@ -13,9 +13,12 @@ jQuery(document).ready(function($){
 	$('#folder-checknone').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', false); });
 	$('#file-checkall').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', true); });
 	$('#file-checknone').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', false); });
-	$('.item-rename').click (function() { $('.item-link').eq($('.item-rename').index(this)).toggle(); $('.item-field').eq($('.item-rename').index(this)).toggle(); });
+	$('.item-rename').click (function() {
+    $('.item-link').eq($('.item-rename').index(this)).toggle();
+    $('.item-field').eq($('.item-rename').index(this)).toggle();
+  });
 
-  	$('a.download').click (function() { 
+  $('a.download').click (function() { 
 		nb_checked = jQuery('#remote-checker :checked[name="files[]"]').size() + jQuery('#remote-checker :checked[name="folders[]"]').size();
 		if (nb_checked > 0) {
 			var pars = 'id='+id+'&folder='+folder+'';
@@ -28,6 +31,31 @@ jQuery(document).ready(function($){
 		}
 		return false;
   }); 
+  
+  
+  $('#buttonAddWeb').live('click', function() {
+    var nom = $('input[name=nom]').val();
+    var url = $('input[name=url]').val();
+    if (nom && url && url != 'http://') {
+      $('form#formAddWeb').submit();
+      /*
+      pars = $('form#formAddWeb').serialize();
+      var url = getActionURL('malle|default|doAddWeb', pars);
+      self.location = url;
+      */
+    } else {
+      alert ('{/literal}{i18n key="malle.error.web.add" addslashes=true}{literal}');
+    }
+  });
+
+  $('a.addweb').fancybox({
+  	'onComplete'		: function () { $('input[name=nom]').focus(); }
+	});
+  
+  $('a.addfolder').fancybox({
+  	'onComplete'		: function () { $('input[name=new_folder]').focus(); }
+	});
+  
 });
 </script>
 {/literal}
@@ -92,10 +120,16 @@ jQuery(document).ready(function($){
 {if $files neq null}
 	{foreach from=$files item=item}
 	<tr class="malle-table-file">
+    {if $item->isLink()}
+      {copixzone process=malle|link malle=$id folder=$folder file=$item can=$can}
+    {else}
+      
 		<td class="malle-table-icon">
 			<img src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" />
 		</td>
 		<td class="malle-table-name">
+        
+      
 			{if $can.file_download}
 				<a class="item-link" href="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</a>
 			{else}
@@ -115,9 +149,10 @@ jQuery(document).ready(function($){
 		<td class="malle-table-size">
 			{$item->taille|human_file_size}
 		</td>
+    {/if}
 		<td class="malle-table-action">
 			{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}
-			<INPUT TYPE="checkbox" NAME="files[]" VALUE="{$item->id}">
+  			<INPUT TYPE="checkbox" NAME="files[]" VALUE="{$item->id}" />
 			{/if}
 		</td>
 	</tr>

@@ -187,3 +187,13 @@ DIV.malle_actions_line {
 .malle-breadcrumb {
 	background-color: #f0f4f0;
 	}
+
+label.web {
+  width:85px;
+}  
+input.malle-web-form-nom {
+  width:250px;
+}
+input.malle-web-form-url {
+  width:380px;
+}

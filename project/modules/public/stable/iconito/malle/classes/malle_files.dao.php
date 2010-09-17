@@ -38,7 +38,22 @@ class DAOMalle_Files {
 
 }
 
+class DAORecordMalle_Files {
 
-
+  /**
+  * Determine si un fichier est un raccourci internet. Se base sur le nom du fichier en verifiant s'il a l'extention .web
+  *
+  * @author Christophe Beyer <cbeyer@cap-tic.fr>
+  * @since 2010/09/15
+  * @return boolean True si c'est un lien, false sinon
+  */
+  public function isLink () {
+    $oRes = false;
+    if (substr($this->fichier,-4) == '.web') {
+      $oRes = true;
+    }
+    return $oRes;
+  }
+}
 
 ?>

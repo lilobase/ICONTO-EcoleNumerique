@@ -576,7 +576,24 @@ class MalleService {
 		return substr( md5(microtime()), 0, 10 );
 	}
 
-
+  /**
+  * Genere le contenu d'un ficher type .web, contenant un raccourci vers un site
+  *
+  * @author Christophe Beyer <cbeyer@cap-tic.fr>
+  * @since 2010/09/16
+  * @param string $iTitre Titre du lien
+  * @param string $iUrl URL du lien
+  * @link http://www.cyanwerks.com/file-format-url.html
+  */
+  function generateWebFile ($iTitre, $iUrl) {
+    $oRes = 
+     "[DEFAULT]\n"
+    ."BASEURL=".$iUrl."\n"
+    ."[InternetShortcut]\n"
+    ."URL=".$iUrl."\n"
+    ."Modified=";
+    return $oRes;
+  }
 
 }
 

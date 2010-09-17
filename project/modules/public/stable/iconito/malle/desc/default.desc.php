@@ -18,6 +18,7 @@ $doAction   				= & new CopixAction ('malle', 'doAction');
 $getActionRename    = & new CopixAction ('malle', 'getActionRename');
 $doActionRename     = & new CopixAction ('malle', 'processDoActionRename');
 $doActionDownloadZip     = & new CopixAction ('malle', 'processDoActionDownloadZip');
+$doAddWeb           = & new CopixAction ('malle', 'processDoAddWeb');
 
 $go 								= & new CopixAction ('malle', 'processGetMalle');
 

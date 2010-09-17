@@ -28,7 +28,10 @@ function smarty_function_i18n($params, & $me) {
 		$me->assign ($assignVar, _tag ('i18n', $params));
 		return;
 	}else{
-		return _tag ('i18n', $params);
+    $res = _tag ('i18n', $params);
+    if (isset ($params['addslashes']) && $params['addslashes'])
+      $res = addslashes($res);
+		return $res;
 	}
 }
 ?>

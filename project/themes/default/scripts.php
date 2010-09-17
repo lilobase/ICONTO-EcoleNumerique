@@ -150,7 +150,8 @@ jQuery(document).ready(function($){
 		$('a.fancybox').fancybox({
 				'transitionIn'		: 'none',
 				'transitionOut'		: 'none',
-				'autoScale'			: true
+				'autoScale'       : true,
+        'titleShow'       : false
 		});
 		
 		$('a.fancyframe').fancybox({
