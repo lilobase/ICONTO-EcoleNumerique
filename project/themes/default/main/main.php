@@ -66,7 +66,7 @@ $actiongroup = CopixRequest::get('group');
 						<div id="contentmain">
 							<?php $title = (isset($TITLE_PAGE)) ? $TITLE_PAGE : ''; ?>
 							<?php if (($module != 'kernel' && $module != 'welcome') || ($actiongroup == 'dashboard' && $action == 'modif')) { moduleContext('open', $title); } ?>
-							<div class="<?php echo $module; ?>">
+							<div id="<?php echo $module; ?>" class="<?php echo $module; ?>">
 							<?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:false))); } ?>
 							<?php echo $MAIN; ?>
 							</div>
