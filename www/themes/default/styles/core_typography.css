@@ -8,27 +8,47 @@
  * @author	Stephane Holtz <sholtz@cap-tic.fr>
  */
 
+/************************************************
+ * CUSTOM FONTS DECLARATION
+ ***********************************************/
 @font-face {
 	font-family: 'DroidSans';
-	src: url('../fonts/droidsans-webfont.eot');
-	src: local('?'), url('../fonts/droidsans-webfont.woff') format('woff'), url('../fonts/droidsans-webfont.ttf') format('truetype'), url('../fonts/droidsans-webfont.svg#webfontyzQjp3pD') format('svg');
+	src: url('/themes/default/fonts/droidsans-webfont.eot');
+	src: local('?'), url('/themes/default/fonts/droidsans-webfont.woff') format('woff'), url('/themes/default/fonts/droidsans-webfont.ttf') format('truetype'), url('/themes/default/fonts/droidsans-webfont.svg#webfontyzQjp3pD') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
 
 @font-face {
 	font-family: 'DroidSans';
-	src: url('../fonts/droidsans-bold-webfont.eot');
-	src: local('?'), url('../fonts/droidsans-bold-webfont.woff') format('woff'), url('../fonts/droidsans-bold-webfont.ttf') format('truetype'), url('../fonts/droidsans-bold-webfont.svg#webfontyzQjp3pD') format('svg');
+	src: url('/themes/default/fonts/droidsans-bold-webfont.eot');
+	src: local('?'), url('/themes/default/fonts/droidsans-bold-webfont.woff') format('woff'), url('/themes/default/fonts/droidsans-bold-webfont.ttf') format('truetype'), url('/themes/default/fonts/droidsans-bold-webfont.svg#webfontyzQjp3pD') format('svg');
 	font-weight: bold;
 	font-style: normal;
 }
 
 
+/************************************************
+ * FONT MODEL
+ ***********************************************/
 body, input, textarea {
 	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
 	font-size: 11px;
 	letter-spacing: 0em;
+}
+
+.font_dash * {
+	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
+}
+
+.font_cursive {
+	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	text-transform: uppercase;
+	color: #b3903c;
+	text-align: center;
+	border-bottom: solid 1px #b3903c;
+	margin-bottom: 12px;
 }
 
 a {
@@ -54,26 +74,63 @@ ul.usermenu a:hover {
 	letter-spacing: 0.2em;
 	}
 	
-.font_dash * {
-	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
-}
-
-.font_cursive {
-	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
-	font-size: 20px;
-	text-transform: uppercase;
-	color: #b3903c;
-	text-align: center;
-	border-bottom: solid 1px #b3903c;
-	margin-bottom: 12px;
-}
-
 
 div.block {
   font-size:11px;
 }
 
+/************************************************
+ * TEXT COLORS
+ ***********************************************/
+.ink_blue * {
+	color: #354e81;
+	}
+.ink_blue .title span {
+	color: #222;
+	text-shadow: 1px 1px 2px #f0f0f0;
+	}
+	
+.ink_darkgrey * {
+	color: #333;
+	}
 
+
+/************************************************
+ * TITLING
+ ***********************************************/
+h1 {
+	font-size: 150%;
+	font-weight: normal;
+    margin: 0px;
+    padding: 0px;
+    border-bottom: solid 1px;
+    margin-bottom: 8px;
+	}
+	
+h2 {
+    text-align: left;
+    font-size: 120%;
+    font-weight: normal;
+    margin: 0px;
+    padding: 0px;
+    border-bottom: solid 1px #e0e0e0;
+    margin: 8px 0px;
+	}
+	
+h4{
+    text-align: left;
+	}
+
+.explanation {
+    text-align: left;
+    font-size: 110%;
+    line-height: 90%;
+    font-weight: normal;
+    font-style: italic;
+    margin: 0px;
+    padding: 0px;
+    margin: 8px 0px;
+	}
 
 
 
