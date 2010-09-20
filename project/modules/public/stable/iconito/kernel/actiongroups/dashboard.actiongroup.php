@@ -216,7 +216,8 @@ class ActionGroupDashboard extends enicActionGroup {
 					$modules = Kernel::getModEnabled(_request("ntype"), _request("nid"));
 					foreach ($modules as $module) {
 						if ($module->module_type == 'MOD_' . strtoupper(_request("mtype"))) {
-							$mid = $module->module_id;
+							if(isset($module->module_id)) $mid = $module->module_id;
+							else $mid=0;
 							break;
 						}
 					}
