@@ -13,8 +13,6 @@
 include_once COPIX_PROJECT_PATH."themes/default/helper.php";
 
 $module = CopixRequest::get ('module');
-$action = CopixRequest::get('action');
-$actiongroup = CopixRequest::get('group');
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
@@ -65,12 +63,12 @@ $actiongroup = CopixRequest::get('group');
 						<div id="contenttop"><?php getZones("contenttop"); ?></div>
 						<div id="contentmain">
 							<?php $title = (isset($TITLE_PAGE)) ? $TITLE_PAGE : ''; ?>
-							<?php if (($module != 'kernel' && $module != 'welcome') || ($actiongroup == 'dashboard' && $action == 'modif')) { moduleContext('open', $title); } ?>
+							<?php if (inDashContext()) { moduleContext('open', $title); } ?>
 							<div id="<?php echo $module; ?>" class="<?php echo $module; ?>">
 							<?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:false))); } ?>
 							<?php echo $MAIN; ?>
 							</div>
-							<?php if (($module != 'kernel' && $module != 'welcome') || ($actiongroup == 'dashboard' && $action == 'modif')) { moduleContext('close'); } ?>
+							<?php if (inDashContext()) { moduleContext('close'); } ?>
 						</div>
 						<div id="contentbottom"><?php getZones("contentbottom"); ?></div>
 					</div>
