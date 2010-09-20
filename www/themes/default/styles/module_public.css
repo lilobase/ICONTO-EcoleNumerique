@@ -3,7 +3,9 @@
 /* =================================
 	Liste des blogs
 	================================= */
-
+.welcome_blogsloader {
+    display: none;
+    }
 
 #blogs {
 	float: right;
