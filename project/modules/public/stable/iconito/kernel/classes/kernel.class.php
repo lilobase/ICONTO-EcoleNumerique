@@ -2603,4 +2603,25 @@ class Kernel {
     
     return CopixConfig::get ('kernel|gestionAutonomeEnabled');
   }
+  
+	public function disableCopixUser ( $userid ) {
+		$dbUserDAO = _ioDAO ('kernel|kernel_copixuser');
+		if ( $user = $dbUserDAO->get ($userid)) {
+			$user->enabled_dbuser = 0;
+			$dbUserDAO->update ($user);
+			return true;
+		}
+		return false;
+	}
+	
+	public function enableCopixUser ( $userid ) {
+		$dbUserDAO = _ioDAO ('kernel|kernel_copixuser');
+		if ( $user = $dbUserDAO->get ($userid)) {
+			$user->enabled_dbuser = 1;
+			$dbUserDAO->update ($user);
+			return true;
+		}
+		return false;
+	}
+	
 }
