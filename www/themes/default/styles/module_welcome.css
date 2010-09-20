@@ -125,7 +125,6 @@ div.welcome .welcome_hr {
 	
 /* BOUTON BLOGS */
 .welcome_blogs a {
-	display: block;
 	width: 438px;
 	height: 52px;
 	background: url('/themes/default/images/thm_welcome_blogs.png') top left no-repeat;
@@ -135,7 +134,11 @@ div.welcome .welcome_hr {
 	line-height: 240%;
 	}
 	
-	
+.welcome_blogsloader {
+	display: block;
+    }
+
+
 /* LISTE DES ECOLES */
 .welcome_ecoles {
 	width: 420px;
