@@ -1999,25 +1999,32 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->nodeId   = _request ('nodeId', null);
 	  $ppo->nodeType = _request ('nodeType', null);
 	  $personnelId   = _request ('personnelId', null);
+	  $type          = _request ('type', null);
 	  
-	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($personnelId)) {
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($personnelId) || is_null ($type)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-	  
+
+	  // Suppression du personnel
 	  $personnelDAO = _ioDAO ('kernel|kernel_bu_personnel');
 	  $personnelDAO->delete ($personnelId);
 
-    /**
-     * TODO suppression de l'utilisateur lié et refactoring de la suppression des entités
-     */
+    // Suppression des affectations
 	  $personnelLinkDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
 	  $links = $personnelLinkDAO->getById ($personnelId);
 	  
 	  foreach ($links as $link) {                 
 	    
 	    $personnelLinkDAO->delete ($link->id_per);
+	  }
+	  
+	  // Suppression du compte
+	  $copixUserDAO = _ioDAO ('kernel|kernel_copixuser');
+	  if ($dbUser = $copixUserDAO->getUserByBuIdAndBuType ($personnelId, $type)) {
+	    
+	    Kernel::disableCopixUser($dbUser->id_dbuser);
 	  }
 	  
 	  // Mise en session du noeud courant
@@ -2681,7 +2688,7 @@ class ActionGroupDefault extends enicActionGroup {
      
 	  // Récupération et suppression du DbLink et dbuser
 	  $dbLink = $dbLinkDAO->getByBUID ('USER_ELE', $studentId);
-	  $dbuserDAO->delete ($dbLink[0]->user_id);
+	  Kernel::disableCopixUser ($dbLink[0]->user_id);
 	  $dbLinkDAO->delete ($dbLink[0]->user_id, $dbLink[0]->bu_type, $dbLink[0]->bu_id);
 
 	  // Récupération des affectations de l'élève
