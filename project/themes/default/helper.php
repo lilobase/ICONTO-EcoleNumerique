@@ -59,6 +59,15 @@ function getZones($position, $collapse=true, $dispmode="STD") {
 }
 
 
+function inDashContext() {
+    $module = CopixRequest::get ('module');
+    $action = CopixRequest::get('action');
+    $actiongroup = CopixRequest::get('group');
+    $response = ($module != 'kernel' && $module != 'welcome')? true : false;
+    $response = ($actiongroup == 'dashboard' && $action == 'modif')? true : $response;
+    return $response;
+}
+
 function moduleContext($step='open', $title_page='') {
 	$module = CopixRequest::get('module');
 	$content = CopixZone::process ('kernel|moduleContext', array ('STEP'=>$step, 'MODULE'=>$module, 'TITLE_PAGE'=>$title_page));
