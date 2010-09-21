@@ -4,7 +4,7 @@ $version = trim(file_get_contents('version.txt'));
 
 $version_txt = ($version) ? $version : 'inconnue';
 
-define( '_MAIN_TITLE', "Installation d'ICONITO EcoleNumerique (version ".$version_txt.")" );
+define( '_MAIN_TITLE', "Installation d'Iconito Ecole Num&eacute;rique ".$version_txt );
 
 function display_menu() {
 	global $titles;
@@ -15,15 +15,36 @@ function display_menu() {
 ?>
 <style>
 <!--
+@font-face {
+	font-family: 'DroidSans';
+	src: url('/themes/default/fonts/droidsans-webfont.eot');
+	src: local('?'), url('/themes/default/fonts/droidsans-webfont.woff') format('woff'), url('/themes/default/fonts/droidsans-webfont.ttf') format('truetype'), url('/themes/default/fonts/droidsans-webfont.svg#webfontyzQjp3pD') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'DroidSans';
+	src: url('/themes/default/fonts/droidsans-bold-webfont.eot');
+	src: local('?'), url('/themes/default/fonts/droidsans-bold-webfont.woff') format('woff'), url('/themes/default/fonts/droidsans-bold-webfont.ttf') format('truetype'), url('/themes/default/fonts/droidsans-bold-webfont.svg#webfontyzQjp3pD') format('svg');
+	font-weight: bold;
+	font-style: normal;
+}
+
 BODY {
 	padding: 0px;
 	margin: 0px;
-	font-family: Arial, Helvetica, Verdana, Univers, "MS Trebuchet", sans-serif;
+	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
+}
+
+INPUT {
+	font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+	font-size: 1em;
 }
 
 DIV.steps {
 	font-size: 0.7em;
-	font-family: Arial, Helvetica, Verdana, Univers, "MS Trebuchet", sans-serif;
+	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
 	color: #CCC;
 	font-weight: bold;
 	padding: 3px;
@@ -35,18 +56,22 @@ DIV.steps {
 	border-right: 2px solid #CCC;
 }
 
+A {
+	color: #354E81;
+}
+
 DIV.steps SPAN.actif {
-	color: blue;
+	color: #354E81;
 	font-weight: bold;
 }
 
 DIV.steps A.old {
-	color: #333;
+	color: #354E81;
 	text-decoration: none;
 }
 
 DIV.steps A.old:hover {
-	color: #000;
+	color: #354E81;
 	text-decoration: underline;
 }
 
@@ -57,7 +82,10 @@ DIV.page {
 H1, H2, H3 {
 	padding: 0px;
 	margin: 0px;
+	color: #354E81;
+	font-size: 1.5em;
 }
+
 -->
 </style>
 <?php

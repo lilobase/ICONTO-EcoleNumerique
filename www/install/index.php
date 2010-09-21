@@ -28,7 +28,7 @@ $titles = array(
 if( file_exists(COPIX_LOG_PATH.'.installed') && file_exists('../../project/config/copix.conf.php') ) {
 	// display_menu();
 	display_title();
-	display_message( "ICONITO EcoleNumerique est d&eacute;j&agrave; install&eacute;. Pour y acc&eacute;der, <a href=\"..\">cliquez ici</a> !" );
+	display_message( "ICONITO Ecole Num&eacute;rique est d&eacute;j&agrave; install&eacute;. Pour y acc&eacute;der, <a href=\"..\">cliquez ici</a> !" );
 	display_message( "Si vous souhaitez refaire une installation, vous devez supprimer manuellement le fichier \".installed\" qui se trouve dans \"temp/log\" et recharger cette page." );
 	ob_flush();
 	die();
@@ -39,7 +39,7 @@ switch( $step ) {
 	case 1:
 		display_menu();
 		display_title();
-		display_message( "Vous souhaitez installer ICONITO EcoleNumerique ? <a href=\"index.php?step=".($step+1)."\">Cliquez ici</a> !" );
+		display_message( "Vous souhaitez installer ICONITO Ecole Num&eacute;rique ? <a href=\"index.php?step=".($step+1)."\">Cliquez ici</a> !" );
 		break;
 
 	case 2:
@@ -100,12 +100,12 @@ switch( $step ) {
 				display_message( _LOGO_ERROR.$data['errors'][0]['message']);
 			}
 		} else {
-			display_message( "Afin de configurer votre base de donn&eacute;es, merci de renseigner les information de connexion." );
+			display_message( "Afin de configurer votre base de donn&eacute;es, merci de renseigner les informations de connexion." );
 		}
 ?>
 <form method="post">
 <table border="0">
-<tr><td align="right">Serveur :</td><td><input name="host" value="<?php if(isset($_SESSION['install_iconito']['host'])) echo $_SESSION['install_iconito']['host']; else echo "localhost"; ?>" /> (vous pouvez pr&eacute;ciser le port. Exemple : <tt>serveur:3306</tt>)</td></tr>
+<tr><td align="right">Serveur :</td><td><input name="host" value="<?php if(isset($_SESSION['install_iconito']['host'])) echo $_SESSION['install_iconito']['host']; else echo "localhost"; ?>" /> Vous pouvez pr&eacute;ciser le port. Exemple: <i>serveur:1512</i></td></tr>
 <tr><td align="right">Login :</td><td><input name="login" value="<?php if(isset($_SESSION['install_iconito']['login'])) echo $_SESSION['install_iconito']['login']; ?>" /></td></tr>
 <tr><td align="right">Mot de passe :</td><td><input name="password" type="password" value="<?php if(isset($_SESSION['install_iconito']['password'])) echo $_SESSION['install_iconito']['password']; ?>" /></td></tr>
 <!--  <tr><td align="right">Base de donn&eacute;es :</td><td><input name="database" /></td></tr> -->
@@ -142,6 +142,7 @@ switch( $step ) {
 					echo " ou ";
 					display_link( "choisir une autre base", 'index.php?step='.($step) );
 				}
+				echo " (cette op&eacute;ration peut prendre quelques secondes...).";
 
 				break;
 			} elseif( count($tables) ) {
@@ -149,10 +150,12 @@ switch( $step ) {
 				display_link( "Cliquez ici pour choisir une autre base", 'index.php?step='.($step) );
 				echo " ou ";
 				display_link( "cliquez ici pour &eacute;craser les tables existantes", 'index.php?step='.($step+1) );
+				echo " (cette op&eacute;ration peut prendre quelques secondes...).";
 				break;
 			} else {
 				display_message( _LOGO_GOOD."Cette base est vide." );
 				display_link( "Cliquez ici pour cr&eacute;er les tables", 'index.php?step='.($step+1) );
+				echo " (cette op&eacute;ration peut prendre quelques secondes...).";
 				break;
 			}
 		}
@@ -181,7 +184,6 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		if( $result ) {
 			display_message( _LOGO_GOOD."Les tables ont &eacute;t&eacute; cr&eacute;&eacute;es." );
 			display_link( "Cliquez ici pour importer les donn&eacute;es", 'index.php?step='.($step+1) );
-			echo " (cette op&eacute;ration peut prendre du temps...).";
 		} else {
 			display_message( _LOGO_ERROR."Erreur lors de la cr&eacute;ation des tables." );
 			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-2) );
@@ -390,10 +392,11 @@ TABLE.conftable TD {
 				display_message( $msg );
 			}
 		} else {
-			display_message( _LOGO_GOOD."F&eacute;licitations, ICONITO EcoleNumerique est install&eacute; !" );
+			display_message( _LOGO_GOOD."F&eacute;licitations, ICONITO Ecole Num&eacute;rique est install&eacute; !" );
 			display_message( "Pour vous connecter, utilisez le login <b>admin</b> et le mot de passe d'administration choisi pr&eacute;c&eacute;dement." );
 			display_link( "Cliquez ici pour y acc&eacute;der", ".." );
-			display_message( "Afin de d&eacute;couvrir Iconito, vous pouvez utiliser le \"jeu d'essai\", un ensemble de comptes d'acc&egrave;s et de contenus de d&eacute;monstration. Pour l'installer, connectez-vous en administrateur et allez dans le module d'administration." );
+			display_message( "Afin de d&eacute;couvrir Iconito, vous pouvez utiliser le \"jeu d'essai\", un ensemble de comptes d'acc&egrave;s et de contenus de d&eacute;monstration. Pour l'installer, connectez-vous en administrateur et allez dans le module d'utilitaires syst&egrave;me." );
+			// display_link( "Guide utilisateur Ecole Num&eacute;rique", "http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique");
 		}
 		
 		break;
