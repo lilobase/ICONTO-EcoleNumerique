@@ -1774,9 +1774,9 @@ class Kernel {
 	
 	function simpleName( $titre ) {
 		$res = trim($titre);
-		$tofind = " ¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò()[]'~$&%*@!?;,:/\^®Ä{}|+-";
-		$replac = "-AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn--------------------------";
-		$res =(strtr($res,$tofind,$replac));
+		$tofind = " ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
+		$replac = "-AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+		$res = strtr($res,$tofind,$replac);
 		$res = strtolower($res);
 		$res = ereg_replace("\"","-", $res);
 		$res = ereg_replace ("[^a-z0-9\.-]", "-", $res);
