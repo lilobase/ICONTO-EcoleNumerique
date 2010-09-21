@@ -75,9 +75,13 @@ class ActionGroupDemo extends CopixActionGroup {
       
     $contents = file_get_contents ($fileSQL);
     $lines = explode (";\n", $contents);
+    
+    $path = CopixUrl::getRequestedScriptPath ();
+    
     foreach ($lines as $line) {
       $line = trim($line);
       if ($line) {
+        $line = str_replace ('<PATH>', $path, $line);
         // print_r("<br>***line=".$line);
         $db->run_query ($line);
       }
