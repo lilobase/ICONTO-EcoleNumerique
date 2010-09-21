@@ -1189,6 +1189,7 @@ class Kernel {
 	// CB 01/06/2010
 	// Renvoie un tableau avec les droits de l'usager courant sur un noeud renvoye par getUserInfo
 	function getUserInfoMatrix ($userInfo) {
+    
 		$matrix = & enic::get('matrixCache');
 		$arTypes = array('classe','ecole','ville','grville');
 		$res = array('voir'=>false, 'communiquer'=>false);
@@ -1206,7 +1207,21 @@ class Kernel {
       }
     
     }
-
+    
+    if ($userInfo['type']=='USER_EXT' && !isset($userInfo['link'])) { // Compte exterieur rattache a rien
+      // TODO a modifier en corrigeant la matrice
+      //kernel::myDebug(_currentUser());
+      //kernel::myDebug($matrix->ROOT);
+      //kernel::myDebug($userInfo);
+      $db =& enic::get('model');
+      $datas = $db->query("SELECT * FROM module_rightmatrix WHERE user_type_in = '"._currentUser()->getExtra('type')."' AND user_type_out = '".$userInfo['type']."' AND node_type='ROOT'")->toArray();
+      foreach ($datas as $data) {
+        if ($data['right']=='VOIR') $res['voir'] = true;
+        elseif ($data['right']=='COMM') $res['communiquer'] = true;
+      }
+      return $res;      
+    }
+    
 
 		if (!isset($userInfo['link']))
 			return $res;
