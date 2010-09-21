@@ -1219,7 +1219,16 @@ class Kernel {
         if ($data['right']=='VOIR') $res['voir'] = true;
         elseif ($data['right']=='COMM') $res['communiquer'] = true;
       }
-      return $res;      
+      return $res;    
+    }
+    if ($userInfo['type']=='USER_ENS' && _currentUser()->getExtra('type')=='USER_EXT') { // Compte exterieur rattache a rien
+      $db =& enic::get('model');
+      $datas = $db->query("SELECT * FROM module_rightmatrix WHERE user_type_in = '"._currentUser()->getExtra('type')."' AND user_type_out = '".$userInfo['type']."' AND node_type='ROOT'")->toArray();
+      foreach ($datas as $data) {
+        if ($data['right']=='VOIR') $res['voir'] = true;
+        elseif ($data['right']=='COMM') $res['communiquer'] = true;
+      }
+      return $res;
     }
     
 
@@ -1789,9 +1798,9 @@ class Kernel {
 	
 	function simpleName( $titre ) {
 		$res = trim($titre);
-		$tofind = " ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
-		$replac = "-AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
-		$res = strtr($res,$tofind,$replac);
+		$tofind = " ¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò()[]'~$&%*@!?;,:/\^®Ä{}|+-";
+		$replac = "-AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn--------------------------";
+		$res =(strtr($res,$tofind,$replac));
 		$res = strtolower($res);
 		$res = ereg_replace("\"","-", $res);
 		$res = ereg_replace ("[^a-z0-9\.-]", "-", $res);
