@@ -97,7 +97,7 @@ ul.usermenu li.menu-minimail a#counter {
 	padding: 12px 0px 0px 12px;
 	width: 20px;
 	height: 20px;
-	background: url(/themes/default/images/mod_user_mail_badge.png) no-repeat;
+	background: url(../../../themes/default/images/mod_user_mail_badge.png) no-repeat;
 	}
 
 ul.usermenu li.menu-minimail a#counter span#counter-text {
@@ -116,11 +116,11 @@ ul.usermenu li a.logout {
 	width: 20px;
 	padding-top: 20px;
 	margin-left: 6px;
-	background: url(/themes/default/images/button_logout_off.png) no-repeat 100% 0;
+	background: url(../../../themes/default/images/button_logout_off.png) no-repeat 100% 0;
 	}
 	
 ul.usermenu li a.logout_on {
-	background: url(/themes/default/images/button_logout_on.png) no-repeat 100% 0;
+	background: url(../../../themes/default/images/button_logout_on.png) no-repeat 100% 0;
 	}
 	
 /************************************************
@@ -236,7 +236,7 @@ div.legals a {
 	}
  
 .content-panel-edit {
-	background: #fff url(/themes/default/images/menu_update.png) 8px 8px no-repeat;
+	background: #fff url(../../../themes/default/images/menu_update.png) 8px 8px no-repeat;
 	padding-left: 42px;
 	}
 
@@ -305,8 +305,8 @@ p.ui-state-error {
 	font-size: 14px;
 }
 
-.warning-exclamation { padding-left: 60px; background: #fff url(/themes/default/images/warn_exclamation.png) 4px 50% no-repeat; }
-.warning-information { padding-left: 60px; background: #fff url(/themes/default/images/warn_information.png) 4px 50% no-repeat; }
+.warning-exclamation { padding-left: 60px; background: #fff url(../../../themes/default/images/warn_exclamation.png) 4px 50% no-repeat; }
+.warning-information { padding-left: 60px; background: #fff url(../../../themes/default/images/warn_information.png) 4px 50% no-repeat; }
 
 /************************************************
  * MODAL MESSAGES

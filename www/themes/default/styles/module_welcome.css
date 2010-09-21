@@ -29,7 +29,7 @@ div.welcome .column2 {
 	}
 	
 div.welcome .welcome_hr {
-	background: url('/themes/default/images/thm_welcome_hr.png') no-repeat center center;
+	background: url('../../../themes/default/images/thm_welcome_hr.png') no-repeat center center;
 	height: 30px;
 	}
 	
@@ -110,7 +110,7 @@ div.welcome .welcome_hr {
 	
 .welcome_photos .slider {
 	display: inline-block;
-	background: #dd8210 url('/themes/default/images/thm_photoslider_title.png') center right no-repeat;
+	background: #dd8210 url('../../../themes/default/images/thm_photoslider_title.png') center right no-repeat;
 	padding:0px;
 	border: solid 6px #dd8210;
 	border-left: solid 12px #dd8210;
@@ -127,7 +127,7 @@ div.welcome .welcome_hr {
 .welcome_blogs a {
 	width: 438px;
 	height: 52px;
-	background: url('/themes/default/images/thm_welcome_blogs.png') top left no-repeat;
+	background: url('../../../themes/default/images/thm_welcome_blogs.png') top left no-repeat;
 	margin-bottom: 24px;
 	font-size: 180%;
 	text-align: center;

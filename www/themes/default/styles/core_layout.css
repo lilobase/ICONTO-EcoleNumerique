@@ -213,24 +213,24 @@ body {
  * THM : GENERIC THEME SPECIFIC ARTEFACTS
  ***********************************************/
 
-body.thm		{ background: #bad521 url(/themes/default/images/thm_body_BG.gif) repeat-x scroll 0 0; }
+body.thm		{ background: #bad521 url(../../../themes/default/images/thm_body_BG.gif) repeat-x scroll 0 0; }
 
-#page .thm-logo	{ position: relative; height: 54px; background: url(/themes/default/images/thm_header_logo.png) no-repeat 0 5px; }
+#page .thm-logo	{ position: relative; height: 54px; background: url(../../../themes/default/images/thm_header_logo.png) no-repeat 0 5px; }
 #page .thm-logo a.logo { position: absolute; width:170px; height:50px; }
-#page .thm-HL	{ position: relative; background: url(/themes/default/images/thm_page_HL.png) no-repeat left top; }
-#page .thm-HR	{ position: relative; background: url(/themes/default/images/thm_page_HR.png) no-repeat right top; }
-#page .thm-HM	{ position: relative; background: url(/themes/default/images/thm_page_HM.png) no-repeat center top; height: 67px; margin: 0 35px; }
-#page .thm-MTL	{ position: relative; background: url(/themes/default/images/thm_page_MTL.png) no-repeat left top; }
-#page .thm-MTR	{ position: relative; background: url(/themes/default/images/thm_page_MTR.png) no-repeat right top; }
-#page .thm-ML	{ position: relative; background: url(/themes/default/images/thm_page_ML.png) repeat-y left top; }
-#page .thm-MR	{ position: relative; background: url(/themes/default/images/thm_page_MR.png) repeat-y right top; }
-#page .thm-BL	{ position: relative; background: url(/themes/default/images/thm_page_BL.png) no-repeat left top; }
-#page .thm-BR	{ position: relative; background: url(/themes/default/images/thm_page_BR.png) no-repeat right top; }
-#page .thm-BM	{ position: relative; background: url(/themes/default/images/thm_page_BM.png) repeat-x center top; height: 17px; margin: 0 17px; }
+#page .thm-HL	{ position: relative; background: url(../../../themes/default/images/thm_page_HL.png) no-repeat left top; }
+#page .thm-HR	{ position: relative; background: url(../../../themes/default/images/thm_page_HR.png) no-repeat right top; }
+#page .thm-HM	{ position: relative; background: url(../../../themes/default/images/thm_page_HM.png) no-repeat center top; height: 67px; margin: 0 35px; }
+#page .thm-MTL	{ position: relative; background: url(../../../themes/default/images/thm_page_MTL.png) no-repeat left top; }
+#page .thm-MTR	{ position: relative; background: url(../../../themes/default/images/thm_page_MTR.png) no-repeat right top; }
+#page .thm-ML	{ position: relative; background: url(../../../themes/default/images/thm_page_ML.png) repeat-y left top; }
+#page .thm-MR	{ position: relative; background: url(../../../themes/default/images/thm_page_MR.png) repeat-y right top; }
+#page .thm-BL	{ position: relative; background: url(../../../themes/default/images/thm_page_BL.png) no-repeat left top; }
+#page .thm-BR	{ position: relative; background: url(../../../themes/default/images/thm_page_BR.png) no-repeat right top; }
+#page .thm-BM	{ position: relative; background: url(../../../themes/default/images/thm_page_BM.png) repeat-x center top; height: 17px; margin: 0 17px; }
 	
 .filler { position: relative; width: 100%; }
 .padder { position: relative; overflow: hidden; padding: 12px 6px 0 6px; }
 .marger { position: relative; overflow: hidden; margin: 0 17px; }
 
-#breadcrumb { background: url(/themes/default/images/thm_breadcrumb_bg.png) repeat-x center center; padding: 6px; height: 14px; }
-#page-middle { background: #fff url(/themes/default/images/page_background.jpg) repeat-x 0 0; }
+#breadcrumb { background: url(../../../themes/default/images/thm_breadcrumb_bg.png) repeat-x center center; padding: 6px; height: 14px; }
+#page-middle { background: #fff url(../../../themes/default/images/page_background.jpg) repeat-x 0 0; }

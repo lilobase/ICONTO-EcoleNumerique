@@ -12,11 +12,11 @@ a.dashclose {
 	display: block;
 	width: 25px;
 	height: 25px;
-	background: url(/themes/default/images/button_dashclose_off.png) no-repeat 100% 0;
+	background: url(../../../themes/default/images/button_dashclose_off.png) no-repeat 100% 0;
 	}
 	
 a.dashclose_on {
-	background: url(/themes/default/images/button_dashclose_on.png) no-repeat 100% 0;
+	background: url(../../../themes/default/images/button_dashclose_on.png) no-repeat 100% 0;
 	}
 	
 div.dashboard {
@@ -31,7 +31,7 @@ div.dashpanel {
 	margin: 0px;
 	margin-bottom: 10px;
 	padding: 0px 0px 12px 0px;
-	background: url(/themes/default/images/dash_shadow.png) 50% 100% repeat-y;
+	background: url(../../../themes/default/images/dash_shadow.png) 50% 100% repeat-y;
 	}
 
 div.dashpanel div.title {
