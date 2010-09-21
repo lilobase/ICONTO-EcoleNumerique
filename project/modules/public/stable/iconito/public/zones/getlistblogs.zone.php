@@ -20,6 +20,8 @@ class ZoneGetListBlogs extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+
 		$kw = $this->getParam('kw',null);
 		
 		$tpl = & new CopixTpl ();

@@ -81,6 +81,8 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 	 	
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
+    
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
 
 		$ville = _request("ville") ? _request("ville") : NULL;
 	  $grville = 1;
@@ -161,6 +163,8 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 	function getAnnuaireEcole () {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
+
+		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
 
 		$ecole = _request("ecole") ? _request("ecole") : NULL;
 

@@ -25,6 +25,8 @@ class ZoneGetListBlogs2 extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+    
 		$kw = $this->getParam('kw',null);
 		$pGrVille = $this->getParam('grville',null);
 		$pVille = $this->getParam('ville',null); // Tableau

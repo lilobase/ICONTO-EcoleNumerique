@@ -17,10 +17,10 @@ $module = CopixRequest::get ('module');
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 
-<head>
+<head profile="http://www.w3.org/2005/10/profile">
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 	<title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
-	<link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
+	<link rel="icon" type="image/x-icon" href="<?php echo CopixUrl::getRequestedScriptPath(); ?>favicon.ico" />
    
 	<?php include_once COPIX_PROJECT_PATH."themes/default/styles.php"; ?>
         <?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>

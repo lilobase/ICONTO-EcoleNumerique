@@ -77,10 +77,10 @@ jQuery(document).ready(function($){
 	{foreach from=$folders item=item}
 	<tr class="malle-table-folder">
 		<td class="malle-table-icon">
-			<IMG src="{copixresource path="img/malle/icon_folder.png"}" />
+			<img src="{copixresource path="img/malle/icon_folder.png"}" />
 		</td>
 		<td class="malle-table-name">
-			<a href="{copixurl dest="|getMallePopup" id=$id folder=$item->id}">{$item->nom|escape}</a>
+			<a href="{copixurl dest="|getMallePopup" id=$id folder=$item->id field=$field format=$format}">{$item->nom|escape}</a>
 		</td>
 		<td class="malle-table-content">
 			{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}

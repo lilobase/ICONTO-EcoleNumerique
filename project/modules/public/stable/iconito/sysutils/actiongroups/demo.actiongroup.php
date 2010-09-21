@@ -86,10 +86,12 @@ class ActionGroupDemo extends CopixActionGroup {
 
     // Copie des dossiers (pas de slashs à la fin!)
     $tools->installFolder ('www/static/malle/1_9a4ba0cdef');
+    $tools->installFolder ('www/static/malle/2_7cfbb3fbc2');
     $tools->installFolder ('var/data/blog/logos');
     $tools->installFolder ('www/static/album/1_be8550b87c');
     $tools->installFolder ('www/static/album/2_cf057489c9');
     $tools->installFolder ('www/static/album/3_c996b6cf13');
+    $tools->installFolder ('www/static/album/4_b3ce1d6dcb');
     $tools->installFolder ('www/static/prefs/avatar');
     
     // Fin

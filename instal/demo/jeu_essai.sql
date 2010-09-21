@@ -30,244 +30,33 @@ VALUES
 	( '27', 'jvacken', 'e10adc3949ba59abbe56e057f20f883e', '1', '' ),
 	( '28', 'rvurgul', 'e10adc3949ba59abbe56e057f20f883e', '1', '' );
 
-INSERT INTO `kernel_bu_annee_scolaire` VALUES (2006, '2006-2007', '2006-09-04', '2007-08-31', 0);
-INSERT INTO `kernel_bu_annee_scolaire` VALUES (2007, '2007-2008', '2007-09-04', '2008-06-30', 1);
-
 
 INSERT INTO `kernel_bu_civilite` VALUES (1, 'Monsieur', 'M');
 INSERT INTO `kernel_bu_civilite` VALUES (2, 'Madame', 'Mme');
 INSERT INTO `kernel_bu_civilite` VALUES (3, 'Mademoiselle', 'Mlle');
-
-INSERT INTO `kernel_bu_classe_niveau` VALUES (1, 'Toute petite section', 1, 'TPS');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (2, 'Petite section', 1, 'PS');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (3, 'Moyenne section', 1, 'MS');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (4, 'Grande section', 1, 'GS');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (5, 'Cours préparatoire', 2, 'CP');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (6, 'Cours élémentaire 1er année', 2, 'CE1');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (7, 'Cours élémentaire 2ème année', 3, 'CE2');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (8, 'Cours moyen 1er année', 3, 'CM1');
-INSERT INTO `kernel_bu_classe_niveau` VALUES (9, 'Cours moyen 2ème année', 3, 'CM2');
-
-INSERT INTO `kernel_bu_classe_type` VALUES (11, 'Ordinaire');
-INSERT INTO `kernel_bu_classe_type` VALUES (12, 'CLAD');
-INSERT INTO `kernel_bu_classe_type` VALUES (13, 'CLIS');
-INSERT INTO `kernel_bu_classe_type` VALUES (31, 'CLIN');
-INSERT INTO `kernel_bu_classe_type` VALUES (24, 'Groupe d''enseignement');
-INSERT INTO `kernel_bu_classe_type` VALUES (32, 'Regroupement d''adaptation');
-INSERT INTO `kernel_bu_classe_type` VALUES (33, 'Autre');
-
-INSERT INTO `kernel_bu_cycle` VALUES (1, 'Maternelle');
-INSERT INTO `kernel_bu_cycle` VALUES (2, 'Cycle 2');
-INSERT INTO `kernel_bu_cycle` VALUES (3, 'Cycle 3');
 
 INSERT INTO `kernel_bu_eleve_etat` VALUES (1, 'Admission');
 INSERT INTO `kernel_bu_eleve_etat` VALUES (2, 'Admissibilité');
 INSERT INTO `kernel_bu_eleve_etat` VALUES (3, 'Radiation');
 INSERT INTO `kernel_bu_eleve_etat` VALUES (4, 'Non fréquentation');
 
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '01', 'Ain', 'AIN', '01053', 'Bourg-en-Bresse', 'BOURG-EN-BRESSE', 4, 43, 419, 471019, 515270);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('22', '02', 'Aisne', 'AISNE', '02408', 'Laon', 'LAON', 5, 42, 816, 537259, 535489);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('83', '03', 'Allier', 'ALLIER', '03190', 'Moulins', 'MOULINS', 3, 35, 320, 357710, 344721);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('93', '04', 'Alpes-de-Haute-Provence', 'ALPES-DE-HAUTE-PROVENCE', '04070', 'Digne-les-Bains', 'DIGNE-LES-BAINS', 4, 30, 200, 130883, 139561);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('93', '05', 'Hautes-Alpes', 'HAUTES-ALPES', '05061', 'Gap', 'GAP', 2, 30, 177, 113300, 121419);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('93', '06', 'Alpes-Maritimes', 'ALPES-MARITIMES', '06088', 'Nice', 'NICE', 2, 52, 163, 971829, 1011326);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '07', 'Ardèche', 'ARDECHE', '07186', 'Privas', 'PRIVAS', 3, 33, 339, 277581, 286023);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('21', '08', 'Ardennes', 'ARDENNES', '08105', 'Charleville-Mézières', 'CHARLEVILLE-MEZIERES', 4, 37, 463, 296357, 290130);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '09', 'Ariège', 'ARIEGE', '09122', 'Foix', 'FOIX', 3, 22, 332, 136455, 137205);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('21', '10', 'Aube', 'AUBE', '10387', 'Troyes', 'TROYES', 3, 33, 433, 289207, 292131);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('91', '11', 'Aude', 'AUDE', '11069', 'Carcassonne', 'CARCASSONNE', 3, 35, 438, 298712, 309770);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '12', 'Aveyron', 'AVEYRON', '12202', 'Rodez', 'RODEZ', 3, 46, 304, 270141, 263808);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('93', '13', 'Bouches-du-Rhône', 'BOUCHES-DU-RHONE', '13055', 'Marseille', 'MARSEILLE', 4, 53, 119, 1759371, 1835719);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('25', '14', 'Calvados', 'CALVADOS', '14118', 'Caen', 'CAEN', 4, 49, 705, 618478, 648385);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('83', '15', 'Cantal', 'CANTAL', '15014', 'Aurillac', 'AURILLAC', 3, 27, 260, 158723, 150778);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('54', '16', 'Charente', 'CHARENTE', '16015', 'Angoulême', 'ANGOULEME', 3, 35, 404, 341993, 339628);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('54', '17', 'Charente-Maritime', 'CHARENTE-MARITIME', '17300', 'Rochelle (La)', 'ROCHELLE (LA)', 5, 51, 472, 527146, 557024);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('24', '18', 'Cher', 'CHER', '18033', 'Bourges', 'BOURGES', 3, 35, 290, 321559, 314428);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('74', '19', 'Corrèze', 'CORREZE', '19272', 'Tulle', 'TULLE', 3, 37, 286, 237908, 232576);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('26', '21', 'Côte-d''Or', 'COTE-D''OR', '21231', 'Dijon', 'DIJON', 3, 43, 707, 493866, 506755);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('53', '22', 'Côtes-d''Armor', 'COTES-D''ARMOR', '22278', 'Saint-Brieuc', 'SAINT-BRIEUC', 4, 52, 372, 538395, 542373);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('74', '23', 'Creuse', 'CREUSE', '23096', 'Guéret', 'GUERET', 2, 27, 260, 131349, 124470);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('72', '24', 'Dordogne', 'DORDOGNE', '24322', 'Périgueux', 'PERIGUEUX', 4, 50, 557, 386365, 388293);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('43', '25', 'Doubs', 'DOUBS', '25056', 'Besançon', 'BESANCON', 3, 35, 594, 484770, 499062);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '26', 'Drôme', 'DROME', '26362', 'Valence', 'VALENCE', 3, 36, 369, 414072, 437778);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('23', '27', 'Eure', 'EURE', '27229', 'Évreux', 'EVREUX', 3, 43, 675, 513818, 541054);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('24', '28', 'Eure-et-Loire', 'EURE-ET-LOIRE', '28085', 'Chartres', 'CHARTRES', 4, 29, 403, 396073, 407665);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('53', '29', 'Finistère', 'FINISTERE', '29232', 'Quimper', 'QUIMPER', 4, 54, 283, 838687, 852418);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('94', '2A', 'Corse-du-Sud', 'CORSE-DU-SUD', '2A004', 'Ajaccio', 'AJACCIO', 2, 22, 124, 118808, 118593);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('94', '2B', 'Haute-Corse', 'HAUTE-CORSE', '2B033', 'Bastia', 'BASTIA', 3, 30, 236, 131563, 141603);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('91', '30', 'Gard', 'GARD', '30189', 'Nîmes', 'NIMES', 3, 46, 353, 585049, 623125);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '31', 'Haute-Garonne', 'HAUTE-GARONNE', '31555', 'Toulouse', 'TOULOUSE', 3, 53, 588, 925962, 1046338);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '32', 'Gers', 'GERS', '32013', 'Auch', 'AUCH', 3, 31, 463, 174587, 172335);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('72', '33', 'Gironde', 'GIRONDE', '33063', 'Bordeaux', 'BORDEAUX', 5, 63, 542, 1213499, 1287334);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('91', '34', 'Hérault', 'HERAULT', '34172', 'Montpellier', 'MONTPELLIER', 3, 49, 343, 794603, 896441);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('53', '35', 'Ille-et-Vilaine', 'ILLE-ET-VILAINE', '35238', 'Rennes', 'RENNES', 4, 53, 352, 798718, 867533);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('24', '36', 'Indre', 'INDRE', '36044', 'Châteauroux', 'CHATEAUROUX', 4, 26, 247, 237510, 231139);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('24', '37', 'Indre-et-Loire', 'INDRE-ET-LOIRE', '37261', 'Tours', 'TOURS', 3, 37, 277, 529345, 554003);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '38', 'Isère', 'ISERE', '38185', 'Grenoble', 'GRENOBLE', 3, 58, 533, 1016228, 1094006);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('43', '39', 'Jura', 'JURA', '39300', 'Lons-le-Saunier', 'LONS-LE-SAUNIER', 3, 34, 545, 248759, 250857);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('72', '40', 'Landes', 'LANDES', '40192', 'Mont-de-Marsan', 'MONT-DE-MARSAN', 2, 30, 331, 311461, 327334);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('24', '41', 'Loir-et-Cher', 'LOIR-ET-CHER', '41018', 'Blois', 'BLOIS', 3, 30, 291, 305937, 314968);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '42', 'Loire', 'LOIRE', '42218', 'Saint-Étienne', 'SAINT-ETIENNE', 3, 40, 327, 746288, 728524);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('83', '43', 'Haute-Loire', 'HAUTE-LOIRE', '43157', 'Puy-en-Velay (Le)', 'PUY-EN-VELAY (LE)', 3, 35, 260, 206568, 209113);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('52', '44', 'Loire-Atlantique', 'LOIRE-ATLANTIQUE', '44109', 'Nantes', 'NANTES', 4, 59, 221, 1052183, 1134266);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('24', '45', 'Loiret', 'LOIRET', '45234', 'Orléans', 'ORLEANS', 3, 41, 334, 580612, 618126);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '46', 'Lot', 'LOT', '46042', 'Cahors', 'CAHORS', 3, 31, 340, 155816, 160197);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('72', '47', 'Lot-et-Garonne', 'LOT-ET-GARONNE', '47001', 'Agen', 'AGEN', 4, 40, 318, 305989, 305380);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('91', '48', 'Lozère', 'LOZERE', '48095', 'Mende', 'MENDE', 2, 25, 185, 72825, 73509);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('52', '49', 'Maine-et-Loire', 'MAINE-ET-LOIRE', '49007', 'Angers', 'ANGERS', 4, 41, 363, 705882, 732942);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('25', '50', 'Manche', 'MANCHE', '50502', 'Saint-Lô', 'SAINT-LO', 4, 52, 602, 479636, 481471);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('21', '51', 'Marne', 'MARNE', '51108', 'Châlons-en-Champagne', 'CHALONS-EN-CHAMPAGNE', 5, 44, 619, 558217, 565229);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('21', '52', 'Haute-Marne', 'HAUTE-MARNE', '52121', 'Chaumont', 'CHAUMONT', 3, 32, 432, 204067, 194873);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('52', '53', 'Mayenne', 'MAYENNE', '53130', 'Laval', 'LAVAL', 3, 32, 261, 278037, 285338);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('41', '54', 'Meurthe-et-Moselle', 'MEURTHE-ET-MOSELLE', '54395', 'Nancy', 'NANCY', 4, 44, 594, 711943, 713779);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('41', '55', 'Meuse', 'MEUSE', '55029', 'Bar-le-Duc', 'BAR-LE-DUC', 3, 31, 498, 196223, 192198);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('53', '56', 'Morbihan', 'MORBIHAN', '56260', 'Vannes', 'VANNES', 3, 42, 261, 619838, 643873);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('41', '57', 'Moselle', 'MOSELLE', '57463', 'Metz', 'METZ', 9, 51, 730, 1011302, 1023447);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('26', '58', 'Nièvre', 'NIEVRE', '58194', 'Nevers', 'NEVERS', 4, 32, 312, 233278, 225198);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('31', '59', 'Nord', 'NORD', '59350', 'Lille', 'LILLE', 6, 79, 652, 2531855, 2555020);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('22', '60', 'Oise', 'OISE', '60057', 'Beauvais', 'BEAUVAIS', 4, 41, 693, 725603, 766441);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('25', '61', 'Orne', 'ORNE', '61001', 'Alençon', 'ALENCON', 3, 40, 505, 293204, 292337);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('31', '62', 'Pas-de-Calais', 'PAS-DE-CALAIS', '62041', 'Arras', 'ARRAS', 7, 77, 894, 1433203, 1441568);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('83', '63', 'Puy-de-Dôme', 'PUY-DE-DOME', '63113', 'Clermont-Ferrand', 'CLERMONT-FERRAND', 5, 61, 470, 598213, 604266);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('72', '64', 'Pyrénées-Atlantiques', 'PYRENEES-ATLANTIQUES', '64445', 'Pau', 'PAU', 3, 52, 547, 578516, 600018);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '65', 'Hautes-Pyrénées', 'HAUTES-PYRENEES', '65440', 'Tarbes', 'TARBES', 3, 34, 474, 224759, 222368);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('91', '66', 'Pyrénées-Orientales', 'PYRENEES-ORIENTALES', '66136', 'Perpignan', 'PERPIGNAN', 3, 31, 226, 363796, 392803);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('42', '67', 'Bas-Rhin', 'BAS-RHIN', '67482', 'Strasbourg', 'STRASBOURG', 7, 44, 526, 953053, 1026120);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('42', '68', 'Haut-Rhin', 'HAUT-RHIN', '68066', 'Colmar', 'COLMAR', 6, 31, 377, 671319, 708025);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '69', 'Rhône', 'RHONE', '69123', 'Lyon', 'LYON', 2, 54, 293, 1508966, 1578869);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('43', '70', 'Haute-Saône', 'HAUTE-SAONE', '70550', 'Vesoul', 'VESOUL', 2, 32, 545, 229650, 229732);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('26', '71', 'Saône-et-Loire', 'SAONE-ET-LOIRE', '71270', 'Mâcon', 'MACON', 5, 57, 573, 559413, 544893);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('52', '72', 'Sarthe', 'SARTHE', '72181', 'Mans (Le)', 'MANS (LE)', 3, 40, 375, 513654, 529851);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '73', 'Savoie', 'SAVOIE', '73065', 'Chambéry', 'CHAMBERY', 3, 37, 305, 348261, 373258);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('82', '74', 'Haute-Savoie', 'HAUTE-SAVOIE', '74010', 'Annecy', 'ANNECY', 4, 34, 294, 568286, 631679);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '75', 'Paris', 'PARIS', '75056', 'Paris', 'PARIS', 1, 20, 1, 2152423, 2125246);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('23', '76', 'Seine-Maritime', 'SEINE-MARITIME', '76540', 'Rouen', 'ROUEN', 3, 69, 745, 1223429, 1239138);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '77', 'Seine-et-Marne', 'SEINE-ET-MARNE', '77288', 'Melun', 'MELUN', 5, 43, 514, 1078166, 1193767);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '78', 'Yvelines', 'YVELINES', '78646', 'Versailles', 'VERSAILLES', 4, 39, 262, 1307150, 1354304);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('54', '79', 'Deux-Sèvres', 'DEUX-SEVRES', '79191', 'Niort', 'NIORT', 3, 33, 307, 345965, 344392);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('22', '80', 'Somme', 'SOMME', '80021', 'Amiens', 'AMIENS', 4, 46, 783, 547825, 555551);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '81', 'Tarn', 'TARN', '81004', 'Albi', 'ALBI', 2, 46, 324, 342723, 343402);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('73', '82', 'Tarn-et-Garonne', 'TARN-ET-GARONNE', '82121', 'Montauban', 'MONTAUBAN', 2, 30, 195, 200220, 206034);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('93', '83', 'Var', 'VAR', '83137', 'Toulon', 'TOULON', 3, 43, 153, 815449, 898441);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('93', '84', 'Vaucluse', 'VAUCLUSE', '84007', 'Avignon', 'AVIGNON', 3, 24, 151, 467075, 499685);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('52', '85', 'Vendée', 'VENDEE', '85191', 'Roche-sur-Yon (La)', 'ROCHE-SUR-YON (LA)', 3, 31, 282, 509356, 539664);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('54', '86', 'Vienne', 'VIENNE', '86194', 'Poitiers', 'POITIERS', 3, 38, 281, 380005, 399024);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('74', '87', 'Haute-Vienne', 'HAUTE-VIENNE', '87085', 'Limoges', 'LIMOGES', 3, 42, 201, 353593, 353893);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('41', '88', 'Vosges', 'VOSGES', '88160', 'Épinal', 'EPINAL', 3, 31, 515, 386258, 380952);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('26', '89', 'Yonne', 'YONNE', '89024', 'Auxerre', 'AUXERRE', 3, 42, 453, 323096, 333221);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('43', '90', 'Territoire de Belfort', 'TERRITOIRE DE BELFORT', '90010', 'Belfort', 'BELFORT', 1, 15, 102, 134097, 137408);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '91', 'Essonne', 'ESSONNE', '91228', 'Évry', 'EVRY', 3, 42, 196, 1084824, 1134238);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '92', 'Hauts-de-Seine', 'HAUTS-DE-SEINE', '92050', 'Nanterre', 'NANTERRE', 3, 45, 36, 1391658, 1428881);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '93', 'Seine-Saint-Denis', 'SEINE-SAINT-DENIS', '93008', 'Bobigny', 'BOBIGNY', 3, 40, 40, 1381197, 1382861);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '94', 'Val-de-Marne', 'VAL-DE-MARNE', '94028', 'Créteil', 'CRETEIL', 3, 49, 47, 1215538, 1227250);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('11', '95', 'Val-d''Oise', 'VAL-D''OISE', '95500', 'Pontoise', 'PONTOISE', 3, 39, 185, 1049598, 1105464);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('01', '971', 'Guadeloupe', 'GUADELOUPE', '97105', 'Basse-Terre', 'BASSE-TERRE', 3, 43, 34, 386987, 422496);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('02', '972', 'Martinique', 'MARTINIQUE', '97209', 'Fort-de-France', 'FORT-DE-FRANCE', 4, 45, 34, 359572, 381427);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('03', '973', 'Guyane', 'GUYANE', '97302', 'Cayenne', 'CAYENNE', 2, 19, 22, 114678, 157213);
-INSERT INTO `kernel_bu_geo_departements` VALUES ('04', '974', 'Réunion', 'REUNION', '97411', 'Saint-Denis', 'SAINT-DENIS', 4, 49, 24, 597823, 706300);
-
-INSERT INTO `kernel_bu_lien_parental` VALUES (1, 'Mère');
-INSERT INTO `kernel_bu_lien_parental` VALUES (2, 'Père');
-INSERT INTO `kernel_bu_lien_parental` VALUES (3, 'Frère');
-INSERT INTO `kernel_bu_lien_parental` VALUES (4, 'Soeur');
-INSERT INTO `kernel_bu_lien_parental` VALUES (5, 'Grand-père');
-INSERT INTO `kernel_bu_lien_parental` VALUES (6, 'Grand-mère');
-INSERT INTO `kernel_bu_lien_parental` VALUES (7, 'Oncle');
-INSERT INTO `kernel_bu_lien_parental` VALUES (8, 'Tante');
-INSERT INTO `kernel_bu_lien_parental` VALUES (9, 'Collatéraux');
-INSERT INTO `kernel_bu_lien_parental` VALUES (10, 'Tuteur');
-INSERT INTO `kernel_bu_lien_parental` VALUES (11, 'Inconnu');
-
-INSERT INTO `kernel_bu_nationalite` VALUES (1, 'Française');
-INSERT INTO `kernel_bu_nationalite` VALUES (2, 'Espagnole');
-INSERT INTO `kernel_bu_nationalite` VALUES (3, 'Portugaise');
-INSERT INTO `kernel_bu_nationalite` VALUES (4, 'Italienne');
-INSERT INTO `kernel_bu_nationalite` VALUES (5, 'Autres nationalités de l''UE');
-INSERT INTO `kernel_bu_nationalite` VALUES (6, 'Algérienne');
-INSERT INTO `kernel_bu_nationalite` VALUES (7, 'Marocaine');
-INSERT INTO `kernel_bu_nationalite` VALUES (8, 'Tunisienne');
-INSERT INTO `kernel_bu_nationalite` VALUES (9, 'Autres nationalités d''Afrique');
-INSERT INTO `kernel_bu_nationalite` VALUES (10, 'Turque');
-INSERT INTO `kernel_bu_nationalite` VALUES (11, 'Cambodgienne, Laotienne, Vietnamienne');
-INSERT INTO `kernel_bu_nationalite` VALUES (12, 'Autre');
-
-INSERT INTO `kernel_bu_pays` VALUES (1, 'France');
-INSERT INTO `kernel_bu_pays` VALUES (2, 'Espagne');
-INSERT INTO `kernel_bu_pays` VALUES (3, 'Portugal');
-INSERT INTO `kernel_bu_pays` VALUES (4, 'Italie');
-INSERT INTO `kernel_bu_pays` VALUES (5, 'Allemagne');
-INSERT INTO `kernel_bu_pays` VALUES (6, 'Algérie');
-INSERT INTO `kernel_bu_pays` VALUES (7, 'Maroc');
-INSERT INTO `kernel_bu_pays` VALUES (8, 'Tunisie');
-INSERT INTO `kernel_bu_pays` VALUES (9, 'Sénégal');
-INSERT INTO `kernel_bu_pays` VALUES (10, 'Turquie');
-INSERT INTO `kernel_bu_pays` VALUES (11, 'Cambodge');
-INSERT INTO `kernel_bu_pays` VALUES (12, 'Laos');
-INSERT INTO `kernel_bu_pays` VALUES (13, 'Vietnam');
-
-INSERT INTO `kernel_bu_pcs` VALUES (10, 'Agriculteurs exploitants');
-INSERT INTO `kernel_bu_pcs` VALUES (21, 'Artisans');
-INSERT INTO `kernel_bu_pcs` VALUES (22, 'Commerçants et assimilés');
-INSERT INTO `kernel_bu_pcs` VALUES (23, 'Chef d''entreprise de dix salariés ou plus');
-INSERT INTO `kernel_bu_pcs` VALUES (31, 'Professions libérales et assimilés');
-INSERT INTO `kernel_bu_pcs` VALUES (33, 'Cadres de la fonction publique');
-INSERT INTO `kernel_bu_pcs` VALUES (34, 'professeur et assimilé');
-INSERT INTO `kernel_bu_pcs` VALUES (35, 'Professions de l''information, des arts et des spectacles');
-INSERT INTO `kernel_bu_pcs` VALUES (37, 'Cadres administratifs et commerciaux d''entreprises');
-INSERT INTO `kernel_bu_pcs` VALUES (38, 'Ingénieurs et cadres techniques d''entreprises');
-INSERT INTO `kernel_bu_pcs` VALUES (42, 'Instituteurs et assimilés');
-INSERT INTO `kernel_bu_pcs` VALUES (43, 'Professions intermédiaires de la santé et du travail social');
-INSERT INTO `kernel_bu_pcs` VALUES (44, 'Clergé, religieux');
-INSERT INTO `kernel_bu_pcs` VALUES (45, 'Professions intermédiaires administratives de la fonction publique');
-INSERT INTO `kernel_bu_pcs` VALUES (46, 'Professions intermédiaires administratives et commerciales des entreprises');
-INSERT INTO `kernel_bu_pcs` VALUES (47, 'Techniciens');
-INSERT INTO `kernel_bu_pcs` VALUES (48, 'Contremaîtres');
-INSERT INTO `kernel_bu_pcs` VALUES (52, 'Employés civils et agents de service de la fonction publique');
-INSERT INTO `kernel_bu_pcs` VALUES (53, 'Policiers et militaires');
-INSERT INTO `kernel_bu_pcs` VALUES (54, 'Employés administratifs d''entreprise');
-INSERT INTO `kernel_bu_pcs` VALUES (55, 'Employés de commerce');
-INSERT INTO `kernel_bu_pcs` VALUES (56, 'Personnels des services directs aux particuliers');
-INSERT INTO `kernel_bu_pcs` VALUES (61, 'Ouvriers qualifiés');
-INSERT INTO `kernel_bu_pcs` VALUES (66, 'Ouvriers non qualifiés');
-INSERT INTO `kernel_bu_pcs` VALUES (69, 'Ouvriers agricoles');
-INSERT INTO `kernel_bu_pcs` VALUES (71, 'Retraités agriculteurs exploitants');
-INSERT INTO `kernel_bu_pcs` VALUES (72, 'Retraités artisans, commerçants, chefs d''entreprise');
-INSERT INTO `kernel_bu_pcs` VALUES (73, 'Retraités cadres et professions intermédiaires');
-INSERT INTO `kernel_bu_pcs` VALUES (76, 'Retraités employés et ouvriers');
-INSERT INTO `kernel_bu_pcs` VALUES (81, 'Chômeurs n''ayant jamais travaillé');
-INSERT INTO `kernel_bu_pcs` VALUES (82, 'Personnes diverses sans activité profesionnelle');
-INSERT INTO `kernel_bu_pcs` VALUES (99, 'non renseignée (inconnue ou sans objet)');
-
-INSERT INTO `kernel_bu_radiation` VALUES (1, 'Orientation en établissement spécialisé');
-INSERT INTO `kernel_bu_radiation` VALUES (2, 'Passage de l''école maternelle à l''école élémentaire');
-INSERT INTO `kernel_bu_radiation` VALUES (3, 'Autres passages induisant un changement d''école');
-INSERT INTO `kernel_bu_radiation` VALUES (4, 'Passage en 6ième');
-
-INSERT INTO `kernel_bu_situation_familiale` VALUES (1, 'Célibataire');
-INSERT INTO `kernel_bu_situation_familiale` VALUES (2, 'Marié');
-INSERT INTO `kernel_bu_situation_familiale` VALUES (3, 'Divorcé');
-INSERT INTO `kernel_bu_situation_familiale` VALUES (4, 'Veuf');
-INSERT INTO `kernel_bu_situation_familiale` VALUES (5, 'Concubinage');
-INSERT INTO `kernel_bu_situation_familiale` VALUES (6, 'Séparé');
-INSERT INTO `kernel_bu_situation_familiale` VALUES (7, 'Pacsé');
-
 INSERT INTO `kernel_bu_ecole` VALUES (1, '', '', 'Elémentaire', 'Ecole du bois fleuri', '12', '', 'rue des fleurs', '', '67000', 'Granville', '01.02.99.33.44', 'http://', '', NULL, 0, 0, 1);
 INSERT INTO `kernel_bu_ecole` VALUES (2, '', '', 'Maternelle', 'Maternelle Gutenberg', '4', '', 'boulevard des imprimeurs', '', '67100', 'Bourzac', '', 'http://', '', NULL, 0, 0, 1);
 INSERT INTO `kernel_bu_ecole` VALUES (3, '', '', 'Primaire', 'Ecole Jules Ferry', '16', '', 'rue des écoliers', '', '67000', 'Granville', '', 'http://', '', NULL, 0, 0, 1);
 
-INSERT INTO `kernel_bu_ecole_classe` VALUES (1, 1, 'CP bleu', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (2, 1, 'CE1 bleu', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (3, 1, 'CE2 vert', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (4, 1, 'CM1 rouge', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (5, 1, 'CM2 rose', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (6, 2, 'Année 1', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (7, 2, 'Année 2', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (8, 2, 'Année 3', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (9, 3, 'CP', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (10, 3, 'CE1', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (11, 3, 'CE2', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (12, 3, 'CM1', 2007, 1, 0);
-INSERT INTO `kernel_bu_ecole_classe` VALUES (13, 3, 'CM2', 2007, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (1, 1, 'CP bleu', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (2, 1, 'CE1 bleu', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (3, 1, 'CE2 vert', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (4, 1, 'CM1 rouge', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (5, 1, 'CM2 rose', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (6, 2, 'Année 1', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (7, 2, 'Année 2', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (8, 2, 'Année 3', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (9, 3, 'CP', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (10, 3, 'CE1', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (11, 3, 'CE2', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (12, 3, 'CM1', 2010, 1, 0);
+INSERT INTO `kernel_bu_ecole_classe` VALUES (13, 3, 'CM2', 2010, 1, 0);
 
 INSERT INTO `kernel_bu_ecole_classe_niveau` VALUES (1, 5, 11);
 INSERT INTO `kernel_bu_ecole_classe_niveau` VALUES (2, 6, 11);
@@ -294,49 +83,36 @@ INSERT INTO `kernel_bu_eleve` VALUES (8, '20051229-112429-', NULL, 'Mihel', NULL
 INSERT INTO `kernel_bu_eleve` VALUES (9, '20051229-112550-', NULL, 'Vacken', NULL, 'Charlotte', '', '', 'Mademoiselle', 2, 'France', 1, '75', 'Paris', '1997-07-27', NULL, '183', '', 'rue Curie', '', '67000', 'Granville', 0, 1, 0, NULL, NULL, 0, NULL, NULL, NOW());
 INSERT INTO `kernel_bu_eleve` VALUES (10, '20051229-112718-', NULL, 'Vurgul', NULL, 'Adeline', '', '', 'Mademoiselle', 2, 'France', 1, '66', 'Perpignan', '1996-12-19', NULL, '15', '', 'fossé des tanneurs', '', '67000', 'Granville', 0, 1, 0, NULL, NULL, 0, NULL, NULL, NOW());
 
-INSERT INTO `kernel_bu_eleve_admission` VALUES (1, 8, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (2, 9, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (3, 10, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (4, 3, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (5, 5, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (6, 2, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (7, 1, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (8, 7, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
-INSERT INTO `kernel_bu_eleve_admission` VALUES (9, 6, 1, 2007, 0, 1, '2007-08-29', '2007-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (1, 8, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (2, 9, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (3, 10, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (4, 3, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (5, 5, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (6, 2, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (7, 1, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (8, 7, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
+INSERT INTO `kernel_bu_eleve_admission` VALUES (9, 6, 1, 2010, 0, 1, '2010-08-29', '2010-09-01', 0, 0);
 
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (1, 8, 2007, 3, 7, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (2, 9, 2007, 3, 7, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (3, 10, 2007, 3, 7, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (4, 3, 2007, 1, 5, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (5, 5, 2007, 1, 5, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (6, 2, 2007, 1, 5, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (7, 1, 2007, 1, 5, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (8, 7, 2007, 1, 5, '2007-09-01', 1, 0);
-INSERT INTO `kernel_bu_eleve_affectation` VALUES (9, 6, 2007, 3, 7, '2007-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (1, 8, 2010, 3, 7, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (2, 9, 2010, 3, 7, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (3, 10, 2010, 3, 7, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (4, 3, 2010, 1, 5, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (5, 5, 2010, 1, 5, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (6, 2, 2010, 1, 5, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (7, 1, 2010, 1, 5, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (8, 7, 2010, 1, 5, '2010-09-01', 1, 0);
+INSERT INTO `kernel_bu_eleve_affectation` VALUES (9, 6, 2010, 3, 7, '2010-09-01', 1, 0);
 
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (1, 1, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (2, 2, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (3, 3, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (4, 4, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (5, 5, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (6, 6, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (7, 7, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (8, 8, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (9, 9, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-INSERT INTO `kernel_bu_eleve_inscription` VALUES (10, 10, 2007, '2007-08-01', '2007-08-01', '2007-09-01', '2007-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
-
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (1, 1, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (2, 2, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (3, 3, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (4, 4, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (5, 5, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (6, 6, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (7, 7, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (8, 8, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (9, 9, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-INSERT INTO `kernel_bu_eleve_periscolaire` VALUES (10, 10, 1, 2007, 0, 0, 0, 0, 0, 0, 0, 0);
-
-INSERT INTO `kernel_bu_groupe_villes` VALUES (1, 'Agglomération de démo', NOW());
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (1, 1, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (2, 2, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (3, 3, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (4, 4, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (5, 5, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (6, 6, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (7, 7, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (8, 8, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (9, 9, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
+INSERT INTO `kernel_bu_eleve_inscription` VALUES (10, 10, 2010, '2010-08-01', '2010-08-01', '2010-09-01', '2010-09-01', 1, 0, 0, 0, 0, 0, '0000-00-00', 0, 0, '0000-00-00', '0000-00-00', 0, '', 0, NULL, 1);
 
 INSERT INTO `kernel_bu_personnel` VALUES (1, 'Franc', '', 'Pierre', 'Monsieur', 1, NULL, '', '', '', '', '', '', '', '', '', '', '', '', 1, 1, NULL, NULL);
 INSERT INTO `kernel_bu_personnel` VALUES (2, 'Meyer', '', 'Martine', 'Madame', 2, NULL, '', '', '', '', '', '', '', '', '', '', '', '', 1, 1, NULL, NULL);
@@ -524,7 +300,7 @@ INSERT INTO `module_album_photos` VALUES (8, 1, 0, 'Volcans-Volcanos-3625.jpg', 
 INSERT INTO `module_album_photos` VALUES (9, 1, 0, '696px-Spaccato_vulcano_ita.png', '', NOW(), 'png', '02213ee64e', NULL);
 
 INSERT INTO `kernel_mod_enabled` VALUES ('CLUB', 1, 'MOD_BLOG', 1);
-INSERT INTO `module_blog` VALUES (1, 'Les volcans', 1, '1_semeru_panache.png', 'Les_volcans', 0, 1, 1, 'POST', 'dokuwiki');
+INSERT INTO `module_blog` VALUES (1, 'Les volcans', 1, '1_semeru_panache.png', 'Les_volcans', 0, 1, 1, 'POST', 'dokuwiki', NULL);
 INSERT INTO `module_blog_articlecategory` VALUES (1, 1, 1, 'Général', 'General20061023151649');
 INSERT INTO `module_blog_articlecategory` VALUES (2, 1, 2, 'Photos', 'Photos20061026163749');
 INSERT INTO `module_blog_article` VALUES (1, 1, 'Photos de volcans', 'Voici quelques photos de volcans en activité.\r\n\r\n[[static/album/1_be8550b87c/3_578c089900.jpg|{{ static/album/1_be8550b87c/3_578c089900_240.jpg |volcan_005.jpg}}]]\r\n\r\n[[static/album/1_be8550b87c/6_2d6d81911a.jpg|{{ static/album/1_be8550b87c/6_2d6d81911a_240.jpg |volcan_006.jpg}}]]\r\n\r\n[[static/album/1_be8550b87c/4_80cac360e5.jpg|{{ static/album/1_be8550b87c/4_80cac360e5_240.jpg |volcan_002.jpg}}]]\r\n\r\n[[static/album/1_be8550b87c/5_2b7c5fe806.jpg|{{ static/album/1_be8550b87c/5_2b7c5fe806_240.jpg |volcan_004.jpg}}]]', '\n<p>\nVoici quelques photos de volcans en activité.\n</p>\n\n<p>\n<a href="static/album/1_be8550b87c/3_578c089900.jpg" class="media" target="_blank" title="static/album/1_be8550b87c/3_578c089900.jpg"  rel="nofollow"><img src="static/album/1_be8550b87c/3_578c089900_240.jpg" class="mediacenter" title="volcan_005.jpg" alt="volcan_005.jpg" /></a>\n</p>\n\n<p>\n<a href="static/album/1_be8550b87c/6_2d6d81911a.jpg" class="media" target="_blank" title="static/album/1_be8550b87c/6_2d6d81911a.jpg"  rel="nofollow"><img src="static/album/1_be8550b87c/6_2d6d81911a_240.jpg" class="mediacenter" title="volcan_006.jpg" alt="volcan_006.jpg" /></a>\n</p>\n\n<p>\n<a href="static/album/1_be8550b87c/4_80cac360e5.jpg" class="media" target="_blank" title="static/album/1_be8550b87c/4_80cac360e5.jpg"  rel="nofollow"><img src="static/album/1_be8550b87c/4_80cac360e5_240.jpg" class="mediacenter" title="volcan_002.jpg" alt="volcan_002.jpg" /></a>\n</p>\n\n<p>\n<a href="static/album/1_be8550b87c/5_2b7c5fe806.jpg" class="media" target="_blank" title="static/album/1_be8550b87c/5_2b7c5fe806.jpg"  rel="nofollow"><img src="static/album/1_be8550b87c/5_2b7c5fe806_240.jpg" class="mediacenter" title="volcan_004.jpg" alt="volcan_004.jpg" /></a>\n\n</p>\n', '', '', 'dokuwiki', 13, DATE_FORMAT(NOW(),'%Y%m%d'), DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -10 MINUTE),'%H%i'), '1-Photos_de_volcans', 0, 1);
@@ -556,7 +332,7 @@ INSERT INTO `module_minimail_to` VALUES (30, 5, 7, '0000-00-00 00:00:00', 0, 0, 
 INSERT INTO `module_minimail_to` VALUES (31, 5, 8, '0000-00-00 00:00:00', 0, 0, 0);
 
 INSERT INTO `kernel_mod_enabled` VALUES ('BU_ECOLE', 1, 'MOD_BLOG', 2);
-INSERT INTO `module_blog` VALUES (2, 'Bienvenue sur le site de l''école du Bois Fleuri', 1, '2_ecole.jpg', 'Ecole_du_bois_fleuri', 0, 1, 0, 'POST', 'dokuwiki');
+INSERT INTO `module_blog` VALUES (2, 'Bienvenue sur le site de l''école du Bois Fleuri', 1, '2_ecole.jpg', 'Ecole_du_bois_fleuri', 0, 1, 0, 'POST', 'dokuwiki', NULL);
 INSERT INTO `module_blog_articlecategory` VALUES (3, 2, 1, 'Infos pratiques', 'Infos_pratiques');
 INSERT INTO `module_blog_articlecategory` VALUES (4, 2, 2, 'Actualités de l''école', 'Actualites_de_l_ecole');
 INSERT INTO `module_blog_article` VALUES (3, 2, 'Sécurité routière', 'En complément du travail sur le thème de la route assuré par Mme RIGOULET, M. RIBOT, intervenant Sécurité Routière interviendra auprès des classes de CE2, CM1 et CM2 le **vendredi prochain** en salle Roger Chonwa selon le planning ci-dessous :\r\n\r\n^ horaire ^ classe ^ enseignants accompagnateurs ^ \r\n| 07 h 50 – 08 h 45 | CE2 | Mme Dorothée KUTZ  |\r\n| 08 h 45 – 09 h 40 | CM1 | M. Franck GILET  |\r\n| 09 h 55 – 10 h 50 | CM2 | M. Roger Kyzu  |\r\n\r\n\r\n', '\n<p>\nEn complément du travail sur le thème de la route assuré par Mme RIGOULET, M. RIBOT, intervenant Sécurité Routière interviendra auprès des classes de CE2, CM1 et CM2 le <strong>vendredi prochain</strong> en salle Roger Chonwa selon le planning ci-dessous :\n\n</p>\n<table class="inline">\n	<tr class="row0">\n		<th class="col0"> horaire </th><th class="col1"> classe </th><th class="col2"> enseignants accompagnateurs </th>\n	</tr>\n	<tr class="row1">\n		<td class="col0"> 07 h 50 – 08 h 45 </td><td class="col1"> CE2 </td><td class="col2 leftalign"> Mme Dorothée KUTZ  </td>\n	</tr>\n	<tr class="row2">\n		<td class="col0"> 08 h 45 – 09 h 40 </td><td class="col1"> CM1 </td><td class="col2 leftalign"> M. Franck GILET  </td>\n	</tr>\n	<tr class="row3">\n		<td class="col0"> 09 h 55 – 10 h 50 </td><td class="col1"> CM2 </td><td class="col2 leftalign"> M. Roger Kyzu  </td>\n	</tr>\n</table>\n', '', '', 'dokuwiki', 12, DATE_FORMAT(NOW(),'%Y%m%d'), '0849', '3-Securite_routiere', 0, 1);
@@ -599,7 +375,7 @@ INSERT INTO `module_album_photos` VALUES (17, 2, 0, 'EPSN0213.jpg', '', NOW(), '
 INSERT INTO `module_album_photos` VALUES (18, 2, 0, 'EPSN0242.jpg', '', NOW(), 'jpg', 'd0a20b1ed4', NULL);
 
 INSERT INTO `kernel_mod_enabled` VALUES ('CLUB', 2, 'MOD_BLOG', 3);
-INSERT INTO `module_blog` VALUES (3, 'La Tunisie', 1, NULL, 'La_Tunisie', 0, 1, 0, 'POST', 'dokuwiki');
+INSERT INTO `module_blog` VALUES (3, 'La Tunisie', 1, NULL, 'La_Tunisie', 0, 1, 0, 'POST', 'dokuwiki', NULL);
 INSERT INTO `module_blog_articlecategory` VALUES (5, 3, 1, 'Général', 'GeneralTunisie');
 INSERT INTO `module_blog_article` VALUES (6, 3, 'Mes photos', 'Mes photos, de retour de Tunisie :\r\n\r\n[[static/album/2_cf057489c9/10_bf31503e53.jpg|{{static/album/2_cf057489c9/10_bf31503e53_240.jpg|EPSN0007.jpg}}]] \r\n [[static/album/2_cf057489c9/11_52f0518564.jpg|{{static/album/2_cf057489c9/11_52f0518564_240.jpg|EPSN0124.jpg}}]] \r\n[[static/album/2_cf057489c9/12_0bd77e356a.jpg|{{static/album/2_cf057489c9/12_0bd77e356a_240.jpg|EPSN0134.jpg}}]]\r\n[[static/album/2_cf057489c9/13_c696a3ce60.jpg|{{static/album/2_cf057489c9/13_c696a3ce60_240.jpg|EPSN0146.jpg}}]]\r\n[[static/album/2_cf057489c9/14_58a12ff6df.jpg|{{static/album/2_cf057489c9/14_58a12ff6df_240.jpg|EPSN0189.jpg}}]]\r\n[[static/album/2_cf057489c9/15_20c4f6aff7.jpg|{{static/album/2_cf057489c9/15_20c4f6aff7_240.jpg|EPSN0191.jpg}}]]\r\n[[static/album/2_cf057489c9/16_5431069bb7.jpg|{{static/album/2_cf057489c9/16_5431069bb7_240.jpg|EPSN0202.jpg}}]]\r\n[[static/album/2_cf057489c9/17_1c91b6499a.jpg|{{static/album/2_cf057489c9/17_1c91b6499a_240.jpg|EPSN0213.jpg}}]]\r\n[[static/album/2_cf057489c9/18_d0a20b1ed4.jpg|{{static/album/2_cf057489c9/18_d0a20b1ed4_240.jpg|EPSN0242.jpg}}]]\r\n\r\n', '\n<p>\nMes photos, de retour de Tunisie :\n</p>\n\n<p>\n<a href="static/album/2_cf057489c9/10_bf31503e53.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/10_bf31503e53.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/10_bf31503e53_240.jpg" class="media" title="EPSN0007.jpg" alt="EPSN0007.jpg" /></a> \n <a href="static/album/2_cf057489c9/11_52f0518564.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/11_52f0518564.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/11_52f0518564_240.jpg" class="media" title="EPSN0124.jpg" alt="EPSN0124.jpg" /></a> \n<a href="static/album/2_cf057489c9/12_0bd77e356a.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/12_0bd77e356a.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/12_0bd77e356a_240.jpg" class="media" title="EPSN0134.jpg" alt="EPSN0134.jpg" /></a>\n<a href="static/album/2_cf057489c9/13_c696a3ce60.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/13_c696a3ce60.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/13_c696a3ce60_240.jpg" class="media" title="EPSN0146.jpg" alt="EPSN0146.jpg" /></a>\n<a href="static/album/2_cf057489c9/14_58a12ff6df.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/14_58a12ff6df.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/14_58a12ff6df_240.jpg" class="media" title="EPSN0189.jpg" alt="EPSN0189.jpg" /></a>\n<a href="static/album/2_cf057489c9/15_20c4f6aff7.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/15_20c4f6aff7.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/15_20c4f6aff7_240.jpg" class="media" title="EPSN0191.jpg" alt="EPSN0191.jpg" /></a>\n<a href="static/album/2_cf057489c9/16_5431069bb7.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/16_5431069bb7.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/16_5431069bb7_240.jpg" class="media" title="EPSN0202.jpg" alt="EPSN0202.jpg" /></a>\n<a href="static/album/2_cf057489c9/17_1c91b6499a.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/17_1c91b6499a.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/17_1c91b6499a_240.jpg" class="media" title="EPSN0213.jpg" alt="EPSN0213.jpg" /></a>\n<a href="static/album/2_cf057489c9/18_d0a20b1ed4.jpg" class="media" target="_blank" title="static/album/2_cf057489c9/18_d0a20b1ed4.jpg"  rel="nofollow"><img src="static/album/2_cf057489c9/18_d0a20b1ed4_240.jpg" class="media" title="EPSN0242.jpg" alt="EPSN0242.jpg" /></a>\n</p>\n', '', '', 'dokuwiki', 16, DATE_FORMAT(NOW(),'%Y%m%d'), '0800', '6-Mes_photos', 0, 1);
 INSERT INTO `module_blog_article_blogarticlecategory` VALUES (6, 5);
@@ -632,7 +408,7 @@ INSERT INTO `module_album_photos` VALUES (19, 3, 0, 'Un dessin plein de couleurs
 INSERT INTO `module_album_photos` VALUES (20, 3, 0, 'Dessin sur le thème de la famille', '', DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'jpg', '1a7b30cdec', NULL);
 
 INSERT INTO `kernel_mod_enabled` VALUES ('BU_CLASSE', 1, 'MOD_BLOG', 4);
-INSERT INTO `module_blog` VALUES (4, 'Journal de classe en ligne', 1, '4_cpbleu.jpg', 'CP_bleu', 0, 1, 1, 'POST', 'dokuwiki');
+INSERT INTO `module_blog` VALUES (4, 'Journal de classe en ligne', 1, '4_cpbleu.jpg', 'CP_bleu', 0, 1, 1, 'POST', 'dokuwiki', NULL);
 INSERT INTO `module_blog_articlecategory` VALUES (6, 4, 1, 'Actualités', 'Actualites');
 INSERT INTO `module_blog_article` VALUES (7, 4, 'Journal des CP Bleu', 'L''école Varlin et le site [[http://www.gommeetgribouillages.fr/Presse/Presse.htm|Gomme et Gribouillages]] nous ont permis de reprendre des extraits du journal de la classe de CM1.\r\n\r\n', '\n<p>\nL&#039;école Varlin et le site <a href="http://www.gommeetgribouillages.fr/Presse/Presse.htm" class="urlextern" target="_blank" title="http://www.gommeetgribouillages.fr/Presse/Presse.htm"  rel="nofollow">Gomme et Gribouillages</a> nous ont permis de reprendre des extraits du journal de la classe de CM1.\n</p>\n', '', '', 'dokuwiki', 13, DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -7 DAY),'%Y%m%d'), '0803', '7-Journal_des_CP_Bleu', 0, 1);
 INSERT INTO `module_blog_article_blogarticlecategory` VALUES (7, 6);
@@ -648,5 +424,39 @@ INSERT INTO `module_blog_article_blogarticlecategory` VALUES (11, 6);
 INSERT INTO `module_blog_articlecomment` VALUES (2, 11, 13, 'Arthur', '', '', '127.0.0.1', DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -1 DAY),'%Y%m%d'), '1631', 'Bravo Aurélie pour ce joli dessin !', 1);
 INSERT INTO `module_blog_article` VALUES (12, 4, 'Vacances scolaires', 'Un grand sondage sera bientôt lancé pour savoir si les parents d''élèves souhaitent ou pas passer à la semaine de 4 jours. Rendez-vous ici prochainement !', '\n<p>\nUn grand sondage sera bientôt lancé pour savoir si les parents d&#039;élèves souhaitent ou pas passer à la semaine de 4 jours. Rendez-vous ici prochainement !\n\n</p>\n', '', '', 'dokuwiki', 13, DATE_FORMAT(DATE_ADD(NOW(), INTERVAL -2 DAY),'%Y%m%d'), '0953', '12-Vacances_scolaires', 0, 1);
 INSERT INTO `module_blog_article_blogarticlecategory` VALUES (12, 6);
+
+-- Accueil
+INSERT INTO `module_groupe_groupe` (`id`, `titre`, `description`, `is_open`, `createur`, `date_creation`) VALUES
+(4, 'Accueil', 'Groupe destiné à gérer la page d''accueil', 0, 1, DATE_ADD(NOW(), INTERVAL -1 MINUTE));
+INSERT INTO `kernel_link_groupe2node` (`groupe_id`, `node_type`, `node_id`) VALUES
+(4, 'ROOT', 0);
+INSERT INTO `kernel_link_user2node` (`user_type`, `user_id`, `node_type`, `node_id`, `droit`, `debut`, `fin`) VALUES
+('USER_EXT', 1, 'CLUB', 4, 70, NULL, NULL);
+INSERT INTO `kernel_mod_enabled` (`node_type`, `node_id`, `module_type`, `module_id`) VALUES
+('CLUB', 4, 'MOD_ALBUM', 4),
+('CLUB', 4, 'MOD_BLOG', 5),
+('CLUB', 4, 'MOD_MALLE', 2);
+INSERT INTO `module_album_albums` (`id`, `nom`, `prefs`, `date`, `cle`, `public`) VALUES
+(4, 'Accueil', 'aa', DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'b3ce1d6dcb', 0);
+INSERT INTO `module_blog` (`id_blog`, `name_blog`, `id_ctpt`, `logo_blog`, `url_blog`, `style_blog_file`, `is_public`, `has_comments_activated`, `type_moderation_comments`, `default_format_articles`, `template`) VALUES
+(5, 'Accueil', 1, NULL, 'accueil', 0, 1, 0, 'POST', 'ckeditor', NULL);
+INSERT INTO `module_blog_articlecategory` (`id_bacg`, `id_blog`, `order_bacg`, `name_bacg`, `url_bacg`) VALUES
+(7, 5, 1, 'Actualités', 'actualites20100921103303');
+INSERT INTO `module_malle_malles` (`id`, `titre`, `date_creation`, `cle`) VALUES
+(2, 'Accueil', DATE_ADD(NOW(), INTERVAL -1 MINUTE), '7cfbb3fbc2');
+INSERT INTO `module_album_photos` (`id`, `id_album`, `id_dossier`, `nom`, `commentaire`, `date`, `ext`, `cle`, `public`) VALUES
+(21, 4, 0, 'Boîte', NULL, DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'png', '2c8c12e0c6', NULL);
+INSERT INTO `module_blog_page` (`id_bpge`, `id_blog`, `name_bpge`, `content_bpge`, `content_html_bpge`, `format_bpge`, `author_bpge`, `date_bpge`, `url_bpge`, `order_bpge`, `is_online`) VALUES
+(1, 5, 'Bienvenue !', '<p>\r\n	<img align="left" alt="Bo%C3%AEte" border="0" src="/static/album/4_b3ce1d6dcb/21_2c8c12e0c6_240.png" />Vous avez install&eacute; le <strong>jeu d&#39;essai</strong> d&#39;<strong>Iconito Ecole Num&eacute;rique 2010</strong>.</p>\r\n<p>\r\n	Cette page d&#39;accueil est personnalis&eacute;e avec quelques contenus qui ont &eacute;t&eacute; install&eacute;s automatiquement.</p>\r\n<p>\r\n	Pour modifier cette page d&#39;accueil, suivez nos conseils dans le <a href="http://www.iconito.fr">forum d&#39;iconito.fr</a> !</p>\r\n', '<p>\r\n	<img align="left" alt="Bo%C3%AEte" border="0" src="/static/album/4_b3ce1d6dcb/21_2c8c12e0c6_240.png" />Vous avez install&eacute; le <strong>jeu d&#39;essai</strong> d&#39;<strong>Iconito Ecole Num&eacute;rique 2010</strong>.</p>\r\n<p>\r\n	Cette page d&#39;accueil est personnalis&eacute;e avec quelques contenus qui ont &eacute;t&eacute; install&eacute;s automatiquement.</p>\r\n<p>\r\n	Pour modifier cette page d&#39;accueil, suivez nos conseils dans le <a href="http://www.iconito.fr">forum d&#39;iconito.fr</a> !</p>\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), 'bienvenue', 1, 1);
+INSERT INTO `module_blog_article` (`id_bact`, `id_blog`, `name_bact`, `sumary_bact`, `sumary_html_bact`, `content_bact`, `content_html_bact`, `format_bact`, `author_bact`, `date_bact`, `time_bact`, `url_bact`, `sticky_bact`, `is_online`) VALUES
+(13, 5, 'L''école du Bois Fleuri se met à Iconito', '<p>\r\n	A partir d&#39;aujourd&#39;hui, Iconito est d&eacute;ploy&eacute; &agrave; l&#39;&eacute;cole du Bois Fleuri. Gr&acirc;ce notamment &agrave; l&#39;implication du directeur M. Franc et des enseignants, les parents d&#39;&eacute;l&egrave;ves vont pouvoir :</p>\r\n<ul>\r\n	<li>\r\n		suivre les aventures de leurs enfants lors des sorties et des classes vertes</li>\r\n	<li>\r\n		communiquer avec les enseignants</li>\r\n	<li>\r\n		obtenir des informations pratiques sur l&#39;&eacute;cole</li>\r\n</ul>\r\n', '<p>\r\n	A partir d&#39;aujourd&#39;hui, Iconito est d&eacute;ploy&eacute; &agrave; l&#39;&eacute;cole du Bois Fleuri. Gr&acirc;ce notamment &agrave; l&#39;implication du directeur M. Franc et des enseignants, les parents d&#39;&eacute;l&egrave;ves vont pouvoir :</p>\r\n<ul>\r\n	<li>\r\n		suivre les aventures de leurs enfants lors des sorties et des classes vertes</li>\r\n	<li>\r\n		communiquer avec les enseignants</li>\r\n	<li>\r\n		obtenir des informations pratiques sur l&#39;&eacute;cole</li>\r\n</ul>\r\n', '<br />\r\n', '<br />\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), '0722', '13_lecole_du_bois_fleuri_se_met_iconito', 0, 1);
+INSERT INTO `module_blog_article` (`id_bact`, `id_blog`, `name_bact`, `sumary_bact`, `sumary_html_bact`, `content_bact`, `content_html_bact`, `format_bact`, `author_bact`, `date_bact`, `time_bact`, `url_bact`, `sticky_bact`, `is_online`) VALUES
+(14, 5, 'Démarrage du projet', '<p>\r\n	Apr&egrave;s une installation facile et rapide, Iconito est install&eacute; dans notre commune. Les &eacute;coles devraient rapidement s&#39;approprier l&#39;outil et permettre &agrave; tous les acteurs du monde &eacute;ducatif d&#39;en profiter...</p>\r\n', '<p>\r\n	Apr&egrave;s une installation facile et rapide, Iconito est install&eacute; dans notre commune. Les &eacute;coles devraient rapidement s&#39;approprier l&#39;outil et permettre &agrave; tous les acteurs du monde &eacute;ducatif d&#39;en profiter...</p>\r\n', '<br />\r\n', '<br />\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), '0709', '14_demarrage_du_projet', 0, 1);
+
+
+
+
+
+
 
 

@@ -23,6 +23,8 @@ class ZoneEcoles extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+    
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
 		$titre = $this->getParam('titre');

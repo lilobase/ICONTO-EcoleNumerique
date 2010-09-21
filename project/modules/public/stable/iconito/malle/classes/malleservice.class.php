@@ -126,6 +126,10 @@ class MalleService {
 				$res = array('type_text'=>CopixI18N::get ('malle|mime.zip'), 'type_icon'=>'icon_file_zip.png', 'type_icon32'=>'icon_file_zip32.png', 'type_mime'=>'application/zip');
 				break;
 			
+      case "text/xml" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.xml'), 'type_icon'=>'icon_file_xml.png', 'type_icon32'=>'icon_file_xml32.png', 'type_mime'=>'text/xml');
+				break;
+      
 			
 			default :
 				if ($point !== false) {

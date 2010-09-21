@@ -1222,18 +1222,20 @@ CREATE TABLE `module_album_photos` (
 
 DROP TABLE IF EXISTS `module_blog`;
 CREATE TABLE `module_blog` (
-  `id_blog` bigint(20) NOT NULL auto_increment,
-  `name_blog` varchar(100) NOT NULL default '',
-  `id_ctpt` bigint(20) NOT NULL default '0',
-  `logo_blog` varchar(100) default NULL,
-  `url_blog` varchar(100) default NULL,
-  `style_blog_file` tinyint(4) NOT NULL default '0',
-  `is_public` tinyint(4) NOT NULL default '1',
-  `has_comments_activated` tinyint(1) NOT NULL default '0',
-  `type_moderation_comments` varchar(5) NOT NULL default 'POST',
-  `default_format_articles` varchar(10) NOT NULL default 'wiki',
-  PRIMARY KEY  (`id_blog`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  `id_blog` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name_blog` varchar(100) NOT NULL DEFAULT '',
+  `id_ctpt` bigint(20) NOT NULL DEFAULT '0',
+  `logo_blog` varchar(100) DEFAULT NULL,
+  `url_blog` varchar(100) DEFAULT NULL,
+  `style_blog_file` tinyint(4) NOT NULL DEFAULT '0',
+  `is_public` tinyint(4) NOT NULL DEFAULT '1',
+  `has_comments_activated` tinyint(1) NOT NULL DEFAULT '0',
+  `type_moderation_comments` varchar(5) NOT NULL DEFAULT 'POST',
+  `default_format_articles` varchar(10) NOT NULL DEFAULT 'wiki',
+  `template` varchar(30) DEFAULT NULL COMMENT 'Template a utiliser, si different de blog_main.tpl',
+  PRIMARY KEY (`id_blog`),
+  KEY `url_blog` (`url_blog`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2219,33 +2221,6 @@ CREATE TABLE `module_visioscopia_config` (
   `conf_msg` text NOT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_welcome_homes`
--- 
-
-DROP TABLE IF EXISTS `module_welcome_homes`;
-CREATE TABLE `module_welcome_homes` (
-  `id` int(11) NOT NULL auto_increment,
-  `date` datetime NOT NULL default '0000-00-00 00:00:00',
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_welcome_url`
--- 
-
-DROP TABLE IF EXISTS `module_welcome_url`;
-CREATE TABLE `module_welcome_url` (
-  `url` varchar(255) NOT NULL default '',
-  `node_type` varchar(10) NOT NULL default '',
-  `node_id` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`url`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 

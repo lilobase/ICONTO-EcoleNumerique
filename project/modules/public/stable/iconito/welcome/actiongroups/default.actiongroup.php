@@ -21,7 +21,7 @@ class ActionGroupDefault extends enicActionGroup {
 		$tplModule = & new CopixTpl ();
 
 		//if user is not connected :
-		if (!$this->user->connected) {
+		if (1) {
 			// S'il y a un blog prevu a l'accueil
 			$dispBlog = false;
 			$getKernelLimitsIdBlog = Kernel::getKernelLimits('id_blog');

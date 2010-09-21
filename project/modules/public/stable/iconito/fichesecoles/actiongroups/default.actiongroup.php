@@ -48,7 +48,7 @@ class ActionGroupDefault extends EnicActionGroup {
 		$rFiche = $ficheDAO->get($id);
 
 		$tpl = & new CopixTpl ();
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
+		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
 
 		$coords = null;
 		if ($googleAdresse = AnnuaireService::googleMapsFormatAdresse ('ecole', $rEcole)) {

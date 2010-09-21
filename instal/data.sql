@@ -186,7 +186,7 @@ INSERT INTO  `kernel_bu_groupe_villes` (
 `date_creation`
 )
 VALUES (
-NULL ,  'Les villes',  '2010-09-01 00:00:00'
+NULL ,  'Les villes',  NOW()
 );
 
 -- Cycles
