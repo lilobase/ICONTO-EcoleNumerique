@@ -84,9 +84,14 @@ class TeleproceduresService {
 	 * @return string Le type de profil : DIRECTEUR / AGENT_VILLE / ROOT_VILLE
 	 */
 	function getTelepProfil () {
+    $res = '';
 		$session = Kernel::getSessionBU();
 		switch ($session['type']) {
 			case 'USER_ENS': $res = 'DIRECTEUR'; break;
+			case 'USER_ADM':
+        if (CopixConfig::exists('teleprocedures|USER_ADM_as_USER_ENS') && CopixConfig::get('teleprocedures|USER_ADM_as_USER_ENS'))
+          $res = 'DIRECTEUR';
+        break;
 			case 'USER_VIL': $res = 'AGENT_VILLE'; break;
 			case 'ROOT_VIL': $res = 'ROOT_VILLE'; break; // TODO
 		}

@@ -1238,7 +1238,7 @@ class Kernel {
 		foreach ($arTypes as $vType) {
 			if (!isset($userInfo['link']->$vType))
 				continue;
-			//Kernel::MyDebug($usr['link']->$vType);
+			//Kernel::MyDebug($userInfo['link']->$vType);
 			foreach ($userInfo['link']->$vType as $jId=>$jRole) {
 				//echo $matrix->$vType()->display();
 				$droit = $matrix->$vType($jId)->_right->$userInfo['type']->voir;
@@ -1406,7 +1406,6 @@ class Kernel {
                     $modules[] = $modKne;
                 }
 				
-
 		if( CopixConfig::exists('|conf_ModTeleprocedures') && CopixConfig::get('|conf_ModTeleprocedures')==0 )
 		{
 			// Pas de module de tÈlÈprocÈdures...
@@ -1420,17 +1419,16 @@ class Kernel {
 				$teleprocedures->module_id   = 'ECOLE_'.$node_id;
 				$teleprocedures->module_nom   = Kernel::Code2Name ('MOD_TELEPROCEDURES');
 				$modules[] = clone $teleprocedures;
-			} /* elseif( $user_type == "USER_VIL" &&
-			    $node_type == "BU_VILLE" &&
-				Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
+			} elseif ( CopixConfig::exists('teleprocedures|USER_ADM_as_USER_ENS') && CopixConfig::get('teleprocedures|USER_ADM_as_USER_ENS') && $user_type == "USER_ADM" &&
+			    $node_type == "BU_ECOLE" &&
+				Kernel::getLevel( $node_type, $node_id ) >= 30 ) {
 				$teleprocedures->node_type   = $node_type;
 				$teleprocedures->node_id     = $node_id;
 				$teleprocedures->module_type = 'MOD_TELEPROCEDURES';
-				$teleprocedures->module_id   = 'VILLE_'.$node_id;
+				$teleprocedures->module_id   = 'ECOLE_'.$node_id;
 				$teleprocedures->module_nom   = Kernel::Code2Name ('MOD_TELEPROCEDURES');
 				$modules[] = clone $teleprocedures;
-			}
-			*/
+			} 
 		}
 		
 		// Cas particuliers : modules personnels sans numÈros
@@ -1598,8 +1596,17 @@ class Kernel {
 				if ($parent['type'] == 'BU_ECOLE' && $parent['droit']>=PROFILE_CCV_ADMIN && $parent['ALL']->eco_id_ville == $villeMod)
 					return PROFILE_CCV_READ;
 			}
-		} elseif (isset($mod_parents[0]) && $mod_parents[0]->node_type == 'MOD_TELEPROCEDURES' && $user_type == 'USER_VIL') {
-			// Rustine CB 05/02/2010 pour les droits des agents de ville dans les teleprocedures
+		}
+    // Rustine CB 21/09/2010 pour les administratifs dans les ecoles
+    elseif ($mod_type == 'MOD_TELEPROCEDURES' && $user_type == 'USER_ADM' && CopixConfig::exists('teleprocedures|USER_ADM_as_USER_ENS') && CopixConfig::get('teleprocedures|USER_ADM_as_USER_ENS')) {
+      $villeMod = ($mod_parents[0]->node_type == 'BU_VILLE') ? $mod_parents[0]->node_id : null;
+      foreach ($user_parents as $parent) {
+				if ($parent['type'] == 'BU_ECOLE' && $parent['droit']>=30 && $parent['ALL']->eco_id_ville == $villeMod)
+				  return PROFILE_CCV_READ;
+			}
+    }
+		// Rustine CB 05/02/2010 pour les droits des agents de ville dans les teleprocedures
+    elseif (isset($mod_parents[0]) && $mod_parents[0]->node_type == 'MOD_TELEPROCEDURES' && $user_type == 'USER_VIL') {
 			return Kernel::getModRight ($mod_parents[0]->node_type, $mod_parents[0]->node_id, $user_type, $user_id);
 		}
 		
