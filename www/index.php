@@ -23,7 +23,7 @@ $GLOBALS['QueryCount'] = 0;
 setlocale(LC_TIME, 'fr_FR');
 
 if (!file_exists(COPIX_LOG_PATH.'.installed') || !file_exists('../project/config/copix.conf.php'))
-   die( "Votre Iconito n'est pas encore install&eacute;. <a href=\"install/index.php\">Cliquez ici</a>." );
+   die( "<p>Votre Iconito n'est pas encore install&eacute; &mdash; <a href=\"install/index.php\">Cliquez ici</a></p>" );
 
 // tentative de création du controlleur
 try {	
