@@ -15,6 +15,7 @@ div.welcome p {
 	}
 	
 div.welcome .column1 {
+    position: relative;
 	display: inline-block;
 	float: left;
 	width: 48%;
@@ -22,6 +23,7 @@ div.welcome .column1 {
 	}
 	
 div.welcome .column2 {
+    position: relative;
 	display: inline-block;
 	float: right;
 	width: 48%;
@@ -109,7 +111,8 @@ div.welcome .welcome_hr {
 	}
 	
 .welcome_photos .slider {
-	display: inline-block;
+    position: relative;
+//	display: inline-block;
 	background: #dd8210 url('../../../themes/default/images/thm_photoslider_title.png') center right no-repeat;
 	padding:0px;
 	border: solid 6px #dd8210;
