@@ -1,0 +1,15 @@
+<div class="column1 ink_blue">
+	<div class="welcome_pages ink_blue">{copixzone process=welcome|pages titre='' blog=Accueil page=1 colonnes=1 content=true}</div>
+	<div class="welcome_articles">
+		<div class="articles_title">{i18n key="welcome|welcome.articles"}</div>
+		<div>{copixzone process=welcome|actualites blog=Accueil colonnes=1 chapo=1 nb=2}</div>
+	</div>
+</div>
+<div class="column2 ink_blue">
+	<div class="welcome_photos">{copixzone process=welcome|photos mode=dewslider titre='' album=3 dossier=0 width=380 height=220 legendes=true}</div>
+	<div class="welcome_blogs">{copixzone process=welcome|blogs}</div>
+	<div class="welcome_ecoles">
+		<div class="ecoles_title">{i18n key="welcome|welcome.ecoles"}</div>
+		<div>{copixzone process=welcome|ecoles titre='' ajaxpopup=true colonnes=1 groupBy=type grville=1 ville=1}</div>
+	</div>
+</div>
