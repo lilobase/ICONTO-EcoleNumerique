@@ -19,17 +19,19 @@
 {else}
     <div class="userlogon">
         <form action="{copixurl dest="auth|log|in"}" method="post" id="loginBar">
-            <input id="login" type="text" name="login" class="login default-value label-overlayed" value="{i18n key=auth|auth.login}" />
-            <input id="password-password" class="login" type="password" name="password" value="" />
-            <input id="password-clear" class="login label-overlayed" type="text" value="{i18n key=auth|auth.password}" />
-            {if $showRememberMe}
-            {i18n key=auth|auth.rememberMe} <input type="checkbox" name="rememberMe" id="rememberMe" value="1" />
-            {/if}
-            <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}" />
-            <input type="submit" class="button button-confirm" value="" />
-        </form>
-        {if $showLostPassword}
-            <a href="{copixurl dest="auth||lostPasswordAsk"}">{i18n key=auth|auth.lostPassword}</a>
+            <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}"/>
+            <div class="loginPrompt">
+                <span class="loginMsg">{i18n key=auth|auth.text.logon}{if (true || $canNewAccount) }<br/>{i18n key=auth|auth.text.newAccount}<br/>{/if}</span>
+                <input id="login" type="text" name="login" class="login default-value label-overlayed" value="{i18n key=auth|auth.login}"
+                 /><input id="password-password" class="login" type="password" name="password" value=""
+                 /><input id="password-clear" class="login label-overlayed" type="text" value="{i18n key=auth|auth.password}"
+                 /><input type="submit" class="button button-confirm" value="" />
+            </div>
+        {if (true || $canNewAccount) }
+            <div class="loginNew">
+                <a class="usr-newaccount" alt="{i18n key=auth|auth.newAccount}" title="{i18n key=auth|auth.newAccount}" href="{copixurl dest="auth||auth.newAccount"}"></a>
+            </div>
         {/if}
+        </form>
     </div>
 {/if}
