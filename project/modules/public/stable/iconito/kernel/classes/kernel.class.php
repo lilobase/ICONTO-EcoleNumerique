@@ -1207,8 +1207,9 @@ class Kernel {
       }
     
     }
-    
-    if ($userInfo['type']=='USER_EXT' && !isset($userInfo['link'])) { // Compte exterieur rattache a rien
+
+    //corrigé
+    /*if ($userInfo['type']=='USER_EXT' && !isset($userInfo['link'])) { // Compte exterieur rattache a rien
       // TODO a modifier en corrigeant la matrice
       //kernel::myDebug(_currentUser());
       //kernel::myDebug($matrix->ROOT);
@@ -1220,7 +1221,7 @@ class Kernel {
         elseif ($data['right']=='COMM') $res['communiquer'] = true;
       }
       return $res;    
-    }
+    }*/
     if ($userInfo['type']=='USER_ENS' && _currentUser()->getExtra('type')=='USER_EXT') { // Compte exterieur rattache a rien
       $db =& enic::get('model');
       $datas = $db->query("SELECT * FROM module_rightmatrix WHERE user_type_in = '"._currentUser()->getExtra('type')."' AND user_type_out = '".$userInfo['type']."' AND node_type='ROOT'")->toArray();
