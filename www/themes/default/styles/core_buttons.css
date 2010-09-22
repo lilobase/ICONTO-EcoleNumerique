@@ -55,9 +55,8 @@
 	display: inline-block;
 	font-size: 12px;
 	padding: 3px 6px 3px 6px;
-	min-width: 24px;
 	overflow: visible;
-	min-height: 14px;
+	min-width: 26px;
 	background-color : #fff;
 	border: solid 1px #fff;
 	-moz-border-radius: 6px;
@@ -282,6 +281,17 @@ ul.usermenu li a.menu-agenda		{ background: url(../../../themes/default/images/m
 ul.usermenu li a.menu-prefs			{ background: url(../../../themes/default/images/mod_user_preferences.png) no-repeat center top; }
 ul.usermenu li a.menu-aide			{ background: url(../../../themes/default/images/mod_user_aide.png) no-repeat center top; }
 ul.usermenu li a.menu-assistance	{ background: url(../../../themes/default/images/mod_user_assistance.png) no-repeat center top; }
+
+/************************************************
+ * ASK FOR NEW ACCOUNT BUTTON
+ ***********************************************/
+a.usr-newaccount {
+    position: relative;
+    display: block;
+    width: 48px;
+    height: 48px;
+    background: url(../../../themes/default/images/usr_newaccount.png) no-repeat center center;
+    }
 
 /************************************************
  * CONTEXTUAL PROGRESS BAR
