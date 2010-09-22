@@ -147,11 +147,11 @@ function getWindowWidth() {
 
 var lastMouseX;
 var lastMouseY;
-
+/*
 if(navigator.appName.substring(0,3) == "Net")
 	document.captureEvents(Event.MOUSEMOVE);
 document.onmousemove = mouseMoved;
-
+*/
 function getMouseX(e){
 	if (!e) var e = window.event;
   if(window.opera)                                               //OP6
