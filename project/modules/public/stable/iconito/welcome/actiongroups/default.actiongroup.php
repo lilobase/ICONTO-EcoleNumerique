@@ -38,7 +38,7 @@ class ActionGroupDefault extends enicActionGroup {
    	   
 			CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
       if (CopixConfig::get ('kernel|jeuEssaiInstalled'))
-        $result = $tplModule->fetch('welcome|welcome_demo.tpl');
+        $result = $tplModule->fetch('welcome|welcome_jeuessai.tpl');
       else
         $result = $tplModule->fetch('welcome|welcome_'.CopixI18N::getLang().'.tpl');
 
