@@ -32,6 +32,12 @@ div.userprofile .userrole {
 	line-height: 100%;
 	}
 
+#loginBar {
+    float: right;
+    padding: 0;
+    margin: 0;
+    }
+
 #loginBar input.login {
 	border: solid 1px #0c92b1;
 	background: #f0f0f0;
@@ -39,21 +45,29 @@ div.userprofile .userrole {
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	//behavior: url(/htc/PIE.htc);
-	height: 18px;
-	padding: 2px;
-	margin: 0;
-	width:100px;
+	font-size: 11px;
+	line-height: 11px;
+	font-weight: bold;
+	padding: 4px 0 4px 3px;
+	margin: 3px 2px 0 0;
+	width:104px;
+    height: 14px;
+    vertical-align: top;
 	}
 
 #loginBar .button-confirm {
 	background-color:#f0f0f0;
 	border: solid 1px #0c92b1;
+	width: 30px;
+    height: 24px;
+	font-size: 11px;
+	line-height: 11px;
+	padding: 4px 0 4px 3px;
+	margin: 3px 2px 0 0;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
 	//behavior: url(/htc/PIE.htc);
-	min-width: 0px;
-	padding: 2px 2px 2px 20px;
 	}
 
 #loginBar input:hover,#loginBar .button-confirm:hover {
@@ -61,6 +75,24 @@ div.userprofile .userrole {
 	background-color:#fff;
 	}
 	
+.loginPrompt {
+    display: block;
+    float: left;
+    font-size: 10px;
+    line-height: 9px;
+    color: #333;
+    height: 48px;
+    padding-top: 3px;
+    }
+    
+.loginNew {
+    display: block;
+    float: left;
+    height: 48px;
+    width: 48px;
+    padding-left: 2px;
+    }
+    
 /************************************************
  * USERMENU
  ***********************************************/
