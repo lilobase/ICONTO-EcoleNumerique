@@ -29,6 +29,7 @@
 	</div>
 </div>
 <div class="column2 ink_blue">
+    ATTENTION : version statique sans jeu d'essai (a remanier)
 	<div class="welcome_photos">
   
   <!-- DEBUT PHOTOS -->
