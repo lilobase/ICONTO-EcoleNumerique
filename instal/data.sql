@@ -1,7 +1,6 @@
 -- 
 -- Contenu de la table `dbgroup`
 -- 
-SET CHARACTER SET 'utf8';
 
 INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
 (1, 'Admin', 'Groupe administrateur', 1, 0, 0),
