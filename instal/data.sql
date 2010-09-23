@@ -1,6 +1,7 @@
 -- 
 -- Contenu de la table `dbgroup`
 -- 
+SET CHARACTER SET 'utf8';
 
 INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
 (1, 'Admin', 'Groupe administrateur', 1, 0, 0),
@@ -227,15 +228,15 @@ INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2√®me ann√©e', 3, '
 --
 
 INSERT INTO `kernel_bu_lien_parental` (`id_pa`, `parente`) VALUES
-(1, 'M√®re'),
-(2, 'P√®re'),
+(1, 'MËre'),
+(2, 'PËre'),
 (3, 'Fr√®re'), 
 (4, 'Soeur'),
-(5, 'Grand-p√®re'),
-(6, 'Grand-m√®re'),
+(5, 'Grand-pËre'),
+(6, 'Grand-mËre'),
 (7, 'Oncle'),
 (8, 'Tante'),
-(9, 'Collat√©raux'),
+(9, 'CollatÈraux'),
 (10, 'Tuteur'),
 (11, 'Inconnu');
 
