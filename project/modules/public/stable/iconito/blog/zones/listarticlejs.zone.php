@@ -38,6 +38,9 @@ class ZoneListArticleJs extends CopixZone {
     $hr = $this->getParam('hr',false);
 		$article = $this->getParam('article',null);
     $article = intval($article);
+    $showtitle = $this->getParam('showtitle',true);
+    $showdate = $this->getParam('showdate',true);
+    $showcategorie = $this->getParam('showtitle',true);
     
 		$tpl  = & new CopixTpl ();
     
@@ -94,6 +97,9 @@ class ZoneListArticleJs extends CopixZone {
 		$tpl->assign ('hr' , $hr);
 		$tpl->assign ('parCols', $parCols);
 		$tpl->assign ('widthColonne', round(100/$colonnes,1).'%');	
+		$tpl->assign ('showtitle', $showtitle);
+		$tpl->assign ('showdate', $showdate);
+		$tpl->assign ('showcategorie', $showcategorie);
 
     $txt = $tpl->fetch('listarticlejs.tpl');
     $txt = trim(str_replace ("\r\n", "", $txt));

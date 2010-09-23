@@ -9,7 +9,7 @@
 			{/if}
 		{/if}
 		<div class="bpage_item">
-		<div class="bpage_title"><a href="{copixurl dest="blog||showPage" blog=$page->url_blog page=$page->url_bpge}">{$page->name_bpge}</a></div>
+		{if $showtitle}<div class="bpage_title"><a href="{copixurl dest="blog||showPage" blog=$page->url_blog page=$page->url_bpge}">{$page->name_bpge}</a></div>{/if}
 		{if $content}<div class="bpage_content">{$page->content_html_bpge}</div>{/if}
 		{if $hr}<div class="hr"></div>{/if}
 		</div>

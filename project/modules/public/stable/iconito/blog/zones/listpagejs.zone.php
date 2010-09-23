@@ -38,7 +38,8 @@ class ZoneListPageJs extends CopixZone {
     $hr = $this->getParam('hr',false);
     $page = $this->getParam('page',null);
     $page = intval($page);
-
+    $showtitle = $this->getParam('showtitle',true);
+    
 		$tpl  = & new CopixTpl ();
 
     $listPage = array();
@@ -83,7 +84,8 @@ class ZoneListPageJs extends CopixZone {
 		$tpl->assign ('hr' , $hr);
 		$tpl->assign ('parCols', $parCols);
 		$tpl->assign ('widthColonne', round(100/$colonnes,1).'%');	
-
+    $tpl->assign ('showtitle', $showtitle);
+    
     $txt = $tpl->fetch('listpagejs.tpl');
     $txt = trim(str_replace ("\r\n", "", $txt));
     $txt = trim(str_replace ("\n", "", $txt));
