@@ -138,19 +138,19 @@ class DBUserHandler implements ICopixUserHandler {
 					if (CRYPT_MD5 == 1) {
 						// Si le mot de passe est le bon
 						if( $results[0]->password_dbuser == crypt($pParams['password'],$results[0]->password_dbuser) ) {
-							$password_test = $results[0]->password_dbuser;
-							
+
 							// Changement de mot de passe...
 							$user_tmp = _ioDAO ('dbuser')->get($results[0]->id_dbuser);
-							$user_tmp->password_dbuser = $this->_cryptPassword($password_test);
+							$user_tmp->password_dbuser = $this->_cryptPassword($pParams['password']);
 							_ioDAO ('dbuser')->update($user_tmp);
-							_dump($user_tmp);
+							//_dump($user_tmp);
+              
+              $password_test = $results[0]->password_dbuser = $user_tmp->password_dbuser;
 						}
 					}
 				}
 			}
-
-			
+      
 			if ( (isset($pParams['assistance']) && $pParams['assistance']) || $results[0]->password_dbuser == $password_test){
 			
 				$extra = array();
