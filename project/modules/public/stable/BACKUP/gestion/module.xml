@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<moduledefinition>
-	<general>
-		<default name="gestion" description="Gestion" longdescription="Gestion" />
- 	</general>
-	<parameters>
-	</parameters>
-</moduledefinition>
