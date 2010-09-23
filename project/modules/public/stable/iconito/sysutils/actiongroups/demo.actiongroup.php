@@ -12,6 +12,7 @@
 _classInclude('sysutils|demo_db');
 _classInclude('sysutils|demo_tools');
 _classInclude('sysutils|admin');
+_classInclude('sysutils|cacheservices');
 
 class ActionGroupDemo extends CopixActionGroup {
 
@@ -89,17 +90,19 @@ class ActionGroupDemo extends CopixActionGroup {
     $db->db_close ();
 
     // Copie des dossiers (pas de slashs à la fin!)
-    $tools->installFolder ('www/static/malle/1_9a4ba0cdef');
-    $tools->installFolder ('www/static/malle/2_7cfbb3fbc2');
+    $tools->installFolder ('www/static/malle/2_9a4ba0cdef');
     $tools->installFolder ('var/data/blog/logos');
-    $tools->installFolder ('www/static/album/1_be8550b87c');
-    $tools->installFolder ('www/static/album/2_cf057489c9');
-    $tools->installFolder ('www/static/album/3_c996b6cf13');
-    $tools->installFolder ('www/static/album/4_b3ce1d6dcb');
+    $tools->installFolder ('www/static/album/2_be8550b87c');
+    $tools->installFolder ('www/static/album/3_cf057489c9');
+    $tools->installFolder ('www/static/album/4_c996b6cf13');
     $tools->installFolder ('www/static/prefs/avatar');
     
     // Fin
     CopixConfig::set ('kernel|jeuEssaiInstalled', 1);
+    
+    // Vidage de cache
+    CacheServices::clearCache ();
+		CacheServices::clearConfDB ();
     
     $tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));

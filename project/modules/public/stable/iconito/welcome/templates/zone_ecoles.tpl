@@ -3,6 +3,7 @@
 {assign var=i value=0}
 {assign var=lastType value=''}
 
+{if $list}
 <ul>
 {foreach from=$list item=ecole}
 	{if $ecole.id>0}
@@ -32,3 +33,6 @@
 	{/if}
 {/foreach}
 </ul>
+{else}
+  <p>{i18n key=welcome.ecoles.aucune}</p>
+{/if}

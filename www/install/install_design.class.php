@@ -5,6 +5,7 @@ $version = trim(file_get_contents('version.txt'));
 $version_txt = ($version) ? $version : 'inconnue';
 
 define( '_MAIN_TITLE', "Installation d'Iconito Ecole Num&eacute;rique ".$version_txt );
+define( '_VERSION_TXT', $version_txt);
 
 function display_menu() {
 	global $titles;
@@ -13,6 +14,9 @@ function display_menu() {
 	$display_header = true;
 	$cpt=0;
 ?>
+<html>
+<head>
+  <title>Installation d'Iconito Ecole Num&eacute;rique <?php echo _VERSION_TXT ?></title>
 <style>
 <!--
 @font-face {
@@ -88,6 +92,8 @@ H1, H2, H3 {
 
 -->
 </style>
+</head>
+<body>
 <?php
 	echo '<div class="steps">'."\n";
 	foreach( $titles AS $title_id => $title_name ) {
@@ -100,6 +106,12 @@ H1, H2, H3 {
 	
 	echo '<div class="page">'."\n";
 }
+
+function close_page () {
+  echo '</body></html>';
+}
+
+
 function display_title( $title="" ) {
 	global $titles;
 	if( isset($_GET['step']) ) $step=0+$_GET['step'];

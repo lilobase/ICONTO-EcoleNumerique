@@ -47,6 +47,16 @@ class ZoneListArticleJs extends CopixZone {
     $listArticle = array();
     if ($article) { // Article precis
       if ( ($rArticle=_dao('blog|blogarticle')->get($article)) && $rArticle->id_blog==$blog->id_blog) {
+        
+        $daoLink = _dao('blog|blogarticle_blogarticlecategory');
+        $sp = _daoSp ();
+			  $sp->addCondition ('id_bact', '=', $rArticle->id_bact);
+      
+        $rArticle->categories = array();
+  			foreach ($daoLink->findBy($sp) as $object) {
+  				$rArticle->categories[] = _dao('blog|blogarticlecategory')->get($object->id_bacg);
+  			}
+        
         $listArticle[] = $rArticle;
       }
     } else { // Les derniers articles

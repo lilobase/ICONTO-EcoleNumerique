@@ -86,27 +86,22 @@ class DAOBlogArticle {
     * @return
     */
 	function getArticleById ($id_blog, $id_bact){
-		$sp = _daoSp ();
-		$sp->addCondition ('id_bact', '=', $id_bact);
-		$sp->addCondition ('id_blog' , '=', $id_blog);
-		$sp->addCondition ('is_online', '=', 1);
-		if ( $arArticle = $this->findBy ($sp) )  {
+    $article = $this->get ($id_bact);
+    
+		if ( $article && $article->id_blog==$id_blog && $article->is_online )  {
 
 			//on récupère les catégories liées
 			$dao     = _dao('blog|blogarticlecategory');
 			$daoLink = _dao('blog|blogarticle_blogarticlecategory');
-			$article = $arArticle[0];
 
 			$sp = _daoSp ();
 			$sp->addCondition ('id_bact', '=', $article->id_bact);
-
 			$article->categories = array();
 			foreach ($daoLink->findBy($sp) as $object) {
 				$article->categories[] = $dao->get($object->id_bacg);
 			}
-
 			return $article;
-		}else{
+		} else {
 			return false;
 		}
 	}

@@ -4,6 +4,7 @@ require_once ("install_check.class.php");
 require_once ("install_design.class.php");
 require_once ('../../utils/copix/copix.inc.php');
 require_once ('../../project/project.inc.php');
+require_once ('../../project/modules/public/stable/iconito/sysutils/classes/demo_tools.class.php');
 
 define( '_LOGO_GOOD', '<img src="images/accept.png" align="baseline" />&nbsp;&nbsp;' );
 define( '_LOGO_WARNING', '<img src="images/error.png" align="baseline" />&nbsp;&nbsp;' );
@@ -30,6 +31,7 @@ if( file_exists(COPIX_LOG_PATH.'.installed') && file_exists('../../project/confi
 	display_title();
 	display_message( "ICONITO Ecole Num&eacute;rique est d&eacute;j&agrave; install&eacute;. Pour y acc&eacute;der, <a href=\"..\">cliquez ici</a> !" );
 	display_message( "Si vous souhaitez refaire une installation, vous devez supprimer manuellement le fichier \".installed\" qui se trouve dans \"temp/log\" et recharger cette page." );
+  close_page ();
 	ob_flush();
 	die();
 }
@@ -54,6 +56,12 @@ switch( $step ) {
 			display_link( "Corrigez et cliquez ici pour r&eacute;essayer", 'index.php?step='.($step) );
 		} else {
 			display_message( _LOGO_GOOD."Les droits sur les fichiers et r&eacute;pertoires sont corrects" );
+      
+      // On vide le cache, si jamais il y en a :
+      $tools = new Demo_Tools();
+      $folder = COPIX_TEMP_PATH.'cache';
+  		$tools->dirempty ($folder);
+      
 			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		}
 		break;
@@ -207,7 +215,6 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		if($ok) {
 			$result = check_mysql_importdump( '../../instal/ressources.sql' );
 			if( $result ) {
-				check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
 				display_message( _LOGO_GOOD."Les ressources ont &eacute;t&eacute; import&eacute;es." );
 			} else {
 				display_message( _LOGO_ERROR."Erreur lors de l'importation des ressources." );
@@ -218,10 +225,9 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		if($ok) {
 			$result = check_mysql_importdump( '../../instal/gestionautonome_droits.sql' );
 			if( $result ) {
-				check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
-				display_message( _LOGO_GOOD."Les droits d'acc&egrave;s pour la gestion autonome ont &eacute;t&eacute; import&eacute;es." );
+				display_message( _LOGO_GOOD."Les droits d'acc&egrave;s pour la gestion autonome ont &eacute;t&eacute; import&eacute;s." );
 			} else {
-				display_message( _LOGO_ERROR."Erreur lors de l'importation des ressources." );
+				display_message( _LOGO_ERROR."Erreur lors de l'importation des droits." );
 				$ok=false;
 			}
 		}
@@ -229,19 +235,42 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		if($ok) {
 			$result = check_mysql_importdump( '../../instal/gestionautonome_nullable.sql' );
 			if( $result ) {
-				check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
-				display_message( _LOGO_GOOD."Les modifications des tables Scolaires ont &eacute;t&eacute; import&eacute;es." );
+				display_message( _LOGO_GOOD."Les modifications des tables scolaires ont &eacute;t&eacute; import&eacute;es." );
 			} else {
-				display_message( _LOGO_ERROR."Erreur lors de l'importation des ressources." );
+				display_message( _LOGO_ERROR."Erreur lors des modifications des tables scolaires." );
 				$ok=false;
 			}
 		}
+    
+    if ($ok) {
+      $tools = new Demo_Tools();
+      $folders = array (
+        'www/static/album/1_b3ce1d6dcb',
+        'www/static/malle/1_7cfbb3fbc2',
+        'www/static/prefs/avatar',
+      );
+      foreach ($folders as $folder) {
+        $installFolder = $tools->installFolder ($folder, false);
+        if (!$installFolder) {
+          display_message( _LOGO_ERROR."Probl&egrave;me de mise en place du dossier ".$folder."." );
+          $ok=false;
+        }
+      }
+      if ($ok) {
+        display_message( _LOGO_GOOD."Les dossiers et fichiers de l'&eacute;dito ont bien &eacute;t&eacute; mis en place." );
+      }
+    }
+    
+    if ($ok) {
+  		check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
+    }
+    
 		
 		if($ok) display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		else {
 			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-3) );
 			echo " ou ";
-			display_link( "recr&eacute;ez vos tables", 'index.php?step='.($step-1) );
+			display_link( "Recr&eacute;ez vos tables", 'index.php?step='.($step-1) );
 		}
 		
 		break;
@@ -409,4 +438,7 @@ TABLE.conftable TD {
 
 global $display_header;
 if( $display_header ) echo "</div>";
+
+close_page ();
+
 ?>

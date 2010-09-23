@@ -18,10 +18,20 @@ class Demo_Tools {
 	 * @since 2006/10/26
    * @param string $name Nom du dossier
 	 */
-	function installFolder ($name) {
+	function installFolder ($name, $demo=true) {
     $src = '../instal/demo/'.$name; // Source
     $dst = '../'.$name; // Destination
-    Demo_Tools::dircopy ($src, $dst);
+    if (!$demo) { // Installation de depart
+      $src = '../../instal/'.$name; // Source
+      $dst = '../../'.$name; // Destination
+    }
+    if (is_dir($src)) {
+      Demo_Tools::dircopy ($src, $dst);
+      $oRes = true;
+    } else {
+      $oRes = false;
+    }
+    return $oRes;
 	}
 
 

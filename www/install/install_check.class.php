@@ -280,7 +280,20 @@ function do_mysql_importdump( $filename, $link ) {
 	}
 
 	$scriptfile = false;
-
+  
+  $path = '';
+  $variables = array ('ORIG_SCRIPT_NAME', 'SCRIPT_NAME');
+  foreach ($variables as $variable) {
+    if ($path)
+      continue;
+    if (array_key_exists ($variable, $_SERVER)){
+      $path = substr ($_SERVER[$variable], 0, strrpos ($_SERVER[$variable], '/install/')).'/';
+    }
+  }
+  if (!$path)
+    $path = '/';
+  
+  
 	/* Get rid of the comments and form one jumbo line */
 	foreach($lines as $line)
 	{
@@ -288,6 +301,7 @@ function do_mysql_importdump( $filename, $link ) {
 
 		if(!ereg('^--', $line) && !ereg('^#', $line) )
 		{
+      $line = str_replace ('<PATH>', $path, $line);
 			$scriptfile.="\n".$line;
 		}
 	}

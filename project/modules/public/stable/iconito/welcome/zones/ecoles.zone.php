@@ -65,9 +65,7 @@ class ZoneEcoles extends CopixZone {
 		$tpl->assign ('groupBy', $pGroupBy);
 		$tpl->assign ('dispType', $pDispType);
 
-		
-		if ($nbEcoles>0)
-			$toReturn = $tpl->fetch('zone_ecoles.tpl');
+		$toReturn = $tpl->fetch('zone_ecoles.tpl');
 		
 		return true;
 		
