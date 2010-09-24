@@ -120,8 +120,8 @@ class AnnuaireService {
 				}
 			
 				$node = Kernel::getNodeInfo ($child['type'], $child['id'], false);
-				//print_r($node);
-				$ecoles[] = array('id'=>$child['id'], 'nom'=>$node['nom'], 'type'=>$node['ALL']->eco_type, 'web'=>$node['ALL']->eco_web, 'directeur'=>((isset($params['directeur']) && $params['directeur']) ? AnnuaireService::getDirecteurInEcole($child['id']) : NULL));
+				//kernel::myDebug($node);
+				$ecoles[] = array('id'=>$child['id'], 'nom'=>$node['nom'], 'type'=>$node['ALL']->eco_type, 'web'=>$node['ALL']->eco_web, 'ville'=>$ville, 'ville_nom'=>$node['ALL']->vil_nom, 'directeur'=>((isset($params['directeur']) && $params['directeur']) ? AnnuaireService::getDirecteurInEcole($child['id']) : NULL));
 			}
 		}
 		//print_r($ecoles);
@@ -158,6 +158,7 @@ class AnnuaireService {
 					$tmp = AnnuaireService::getEcolesInVille ($child['id']);
 					
 				if (count($tmp)>0) {
+          //kernel::myDebug($tmp);
 					$node = Kernel::getNodeInfo ($child['type'], $child['id'], false);
 					$ecoles[] = array('id'=>'0', 'nom'=>$node['nom']);
 					$ecoles = array_merge ($ecoles, $tmp);

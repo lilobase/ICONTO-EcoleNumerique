@@ -29,7 +29,9 @@ class ZoneEcoles extends CopixZone {
 		
 		$titre = $this->getParam('titre');
 		$ajaxpopup = $this->getParam('ajaxpopup',false);
-		$colonnes = $this->getParam('colonnes',1);
+    $colonnes = $this->getParam('colonnes');
+    $colonnes = intval($colonnes);
+		if (!$colonnes) $colonnes=1;
 		$grville = $this->getParam('grville',1);
 		$ville = $this->getParam('ville',null);
 		$pGroupBy = $this->getParam('groupBy');
@@ -40,17 +42,25 @@ class ZoneEcoles extends CopixZone {
 		elseif ($grville)
 			$list = $annuaireService->getEcolesInGrville ($grville);
 		
-   
+    
     
 		if ($pGroupBy == 'type') {
-			usort( $list, array($this,"usort_ecoles"));
+			usort( $list, array($this,"usort_ecoles_type"));
+		}
+		elseif ($pGroupBy == 'ville') {
+			usort( $list, array($this,"usort_ecoles_ville"));
 		}
 		
+    //kernel::myDebug($list);
+    
 		$nbEcoles = 0;
-		foreach ($list as $ecole) {
-			if ($ecole['id']>0)
+		foreach ($list as $k=>$ecole) {
+			if ($ecole['id']>0) {
 				$nbEcoles++;
+      }
 		}
+    
+    //kernel::myDebug($list);
 		
 		// Nb elements par colonnes
 		$parCols = ceil($nbEcoles/$colonnes);
@@ -60,7 +70,7 @@ class ZoneEcoles extends CopixZone {
 		$tpl->assign ('ajaxpopup', $ajaxpopup);
 		$tpl->assign ('list', $list);
 		$tpl->assign ('parCols', $parCols);
-		$tpl->assign ('widthColonne', (round(100/$colonnes,1)-1).'%');
+		$tpl->assign ('widthColonne', round(100/$colonnes,1).'%');
 
 		$tpl->assign ('groupBy', $pGroupBy);
 		$tpl->assign ('dispType', $pDispType);
@@ -72,19 +82,28 @@ class ZoneEcoles extends CopixZone {
 	}
 	
 	
-	// Tri des ecoles
-	// CB 20/10/2009
-	function usort_ecoles ($a, $b)
-	{
+	// Tri des ecoles selon leur type - CB 20/10/2009
+	function usort_ecoles_type ($a, $b) {
 		if ($a['type'] == $b['type']) {
-			if ($a['nom'] == $b['nom']) {
+			if ($a['nom'] == $b['nom'])
 				return 0;
-			}
-			return ($a['nom'] < $b['nom']) ? -1 : 1;
+			return strcmp($a['nom'], $b['nom']);
 		}
-		return ($a['type'] < $b['type']) ? -1 : 1;
+		return strcmp($a['type'], $b['type']);
+	}
+
+	// Tri des ecoles selon leur type - CB 20/10/2009
+	function usort_ecoles_ville ($a, $b) {
+		if ($a['ville_nom'] == $b['ville_nom']) {
+			if ($a['nom'] == $b['nom'])
+				return strcmp($a['type'], $b['type']);
+			return strcmp($a["nom"], $b["nom"]);
+		}
+		return strcmp($a["ville_nom"], $b["ville_nom"]);
 	}
 
 
 }
+
+
 ?>

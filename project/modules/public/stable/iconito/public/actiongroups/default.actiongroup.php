@@ -89,7 +89,21 @@ class ActionGroupDefault extends EnicActionGroup {
 		//echo "rss=$rss<p></p>";
 		
 		return _arContent ($rss, array ('content-type'=>CopixMIMETypes::getFromExtension ('xml')));
-  }	
+  }
+  
+  
+  /**
+   * Affiche la liste des ecoles
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2010/09/24
+   */
+   function processEcoles () {
+    $ppo = new CopixPPO();
+    $ppo->TITLE_PAGE = CopixI18N::get ('public|public.listEcoles');
+    return _arPPO($ppo, 'ecoles.tpl');
+	}
+  
 }
 
 ?>

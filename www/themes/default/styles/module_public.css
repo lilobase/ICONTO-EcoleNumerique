@@ -85,4 +85,22 @@
 	padding-bottom: 1em;
 }
 
+/* Liste des ecoles */
+
+.welcome_ecoles ul {
+  margin: 0;
+  padding-left: 12px;
+  list-style-type: disc;
+  list-style-position: outside;
+}
+.welcome_ecoles ul li {
+	margin-bottom: 3px;
+}
+.welcome_ecoles ul li.type {
+	list-style-type: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #dd8210;
+  padding-top:5px;
+}
 	

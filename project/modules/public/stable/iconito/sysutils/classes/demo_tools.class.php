@@ -21,7 +21,7 @@ class Demo_Tools {
 	function installFolder ($name, $demo=true) {
     $src = '../instal/demo/'.$name; // Source
     $dst = '../'.$name; // Destination
-    if (!$demo) { // Installation de depart
+    if (!$demo) { // Installation de depart, depuis /www/install
       $src = '../../instal/'.$name; // Source
       $dst = '../../'.$name; // Destination
     }
