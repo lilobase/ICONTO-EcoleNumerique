@@ -1391,7 +1391,7 @@ class Kernel {
 			$carnetcorresp->node_type   = $node_type;
 			$carnetcorresp->node_id     = $node_id;
 			$carnetcorresp->module_type = 'MOD_CARNET';
-			$carnetcorresp->module_id   = $node_id;
+			$carnetcorresp->module_id   = 'CLASSE_'.$node_id;
 			$carnetcorresp->module_nom	 = Kernel::Code2Name ('MOD_CARNET');
 			$modules[] = clone $carnetcorresp;
 		}
