@@ -60,6 +60,7 @@ class ZoneFiche extends CopixZone {
 	  $tpl->assign ('rFiche', $rFiche);
 	  $tpl->assign ('errors', $errors);
 	  $tpl->assign ('ok', $ok);
+	  $tpl->assign ('print', $print);
 		
 		$tplFiche = $tpl->fetch ('fiche-zone.tpl');
 		

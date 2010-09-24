@@ -34,7 +34,7 @@
 	
 	<td class="left{if $canViewDelai} entete{$puce}{else} enteteDir{/if}">
 		<div class="left">
-		T&eacute;l&eacute;proc&eacute;dure initi&eacute;e le<br/>{$rFiche->dateinter|datei18n:"date_short"}
+		T&eacute;l&eacute;proc&eacute;dure initi&eacute;e le<br/>{$rFiche->dateinter|datei18n}
 		<div class="statu">{$rFiche->idstatu_nom|escape}</div>
 		{if $canViewDelai && $puceLib && $rFiche->depuis>0}Action attendue depuis
 		<div class="action">{$puceLib}</div>{/if}
@@ -46,7 +46,7 @@
 	<td class="ecole">
 	<div class="ecole">
 		
-		<div class="imprimer noPrint"><a title="{i18n key="kernel|kernel.btn.print"}" class="button button-print" target="_blank" href="{copixurl dest="|fiche" id=$rFiche->idinter print=1}">{i18n key="kernel|kernel.btn.print"}</a></div>
+		{if !$print}<div class="imprimer noPrint"><a title="{i18n key="kernel|kernel.btn.print"}" class="button button-print" target="_blank" href="{copixurl dest="|fiche" id=$rFiche->idinter print=1}">{i18n key="kernel|kernel.btn.print"}</a></div>{/if}
 
 
 		<div class="nom">{$rFiche->ecole_nom|escape}{if $rFiche->ecole_type} ({$rFiche->ecole_type|escape}){/if}</div>
@@ -62,7 +62,9 @@
 		<br/>
 		<span class="lib">{i18n key="teleprocedures|teleprocedures.intervention.field.type"}&nbsp;:</span>  {$rFiche->idtype_nom|escape}<br/>
 		<span class="lib">{i18n key="teleprocedures|teleprocedures.intervention.field.objet"}&nbsp;:</span>  {$rFiche->objet|escape}<br/>
+    {if !$print}
 		<span class="lib noPrint">Description d&eacute;taill&eacute;e :</span> Voir ci-dessous - <a href="#" onClick="Element.toggle('telep-details');">afficher / masquer</a><br/>
+    {/if}
 	</div>
 	</td>
 	
@@ -97,3 +99,12 @@
 
 </div> <!-- fin demande -->
 
+{if $print}
+  {literal}
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+    window.print();
+  });
+  </script>
+  {/literal}
+{/if}

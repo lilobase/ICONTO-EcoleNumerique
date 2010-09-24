@@ -283,7 +283,7 @@ class ActionGroupDefault extends EnicActionGroup {
 		if (isset($fiche['mail_message'])) $rFiche->mail_message = $fiche['mail_message'];
 		
 			
-		$fiche = CopixZone::process('fiche',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit, 'errors'=>$errors, 'ok'=>$ok));
+		$fiche = CopixZone::process('fiche',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit, 'errors'=>$errors, 'ok'=>$ok, 'print'=>$print));
 		$comms = CopixZone::process('ficheComms',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit));
 		$actions = CopixZone::process('ficheActions',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit));
 		if ($print)
