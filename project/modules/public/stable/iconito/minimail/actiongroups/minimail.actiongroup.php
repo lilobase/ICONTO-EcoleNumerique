@@ -501,6 +501,8 @@ class ActionGroupMinimail extends EnicActionGroup {
    */
 	function downloadAttachment () {
 		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
+    $malleService = & CopixClassesFactory::Create ('malle|malleService');
+    
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
 		$file = _request("file") ? _request("file") : NULL;
@@ -514,7 +516,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 		}
 		$fileDl = $minimailService->getAttachmentName ($file);
 
-		return _arFile ($fullFile, array ('filename'=>$fileDl, 'content-type'=>CopixMIMETypes::getFromExtension ($fileDl)));
+		return _arFile ($fullFile, array ('filename'=>$fileDl, 'content-type'=>$malleService->getMimeType($fileDl)));
 		
 	}
 	

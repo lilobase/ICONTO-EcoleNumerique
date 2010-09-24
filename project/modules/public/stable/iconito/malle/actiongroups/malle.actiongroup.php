@@ -544,7 +544,8 @@ class ActionGroupMalle extends CopixActionGroup {
   		$new->nom = $_FILES['fichier']['name'];
   		$new->fichier = Kernel::simpleName($_FILES['fichier']['name']);
   		$new->taille = $_FILES['fichier']['size'];
-  		$new->type = $_FILES['fichier']['type'];
+  		//$new->type = $_FILES['fichier']['type'];
+      $new->type = $malleService->getMimeType($new->fichier);
   		$new->cle = $malleService->createKey();
   		$new->date_upload = date("Y-m-d H:i:s");
   		$daoFiles->insert ($new);
@@ -916,17 +917,7 @@ class ActionGroupMalle extends CopixActionGroup {
 						$newf->fichier = $name;
 						$newf->taille = $f['size'];
 						$newf->cle = $malleService->createKey();
-						
-						if (function_exists('mime_content_type'))
-							$newf->type = mime_content_type ($unzipFolder.'/'.$name);
-						else {
-							$point = strrpos ($name, ".");
-							if ($point !== false) {
-								$ext = substr($name,$point+1);
-								$newf->type = strtolower($ext);
-							} else
-								$newf->type = '';
-						}
+						$newf->type = $malleService->getMimeType($newf->fichier);
 
 						$newf->date_upload = date("Y-m-d H:i:s");
 						$daoFiles->insert ($newf);
@@ -1131,12 +1122,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		if (!file_exists($fullFile))
 			$errors[] = CopixI18N::get ('malle|malle.error.noFile');
 		
-		//print_r($rFile);
-		//print_r($errors);
-		
-		//Kernel::deb($fullFile);
-		
-		//die();
+    //kernel::myDebug();
 		
 		if ($errors) {
 			//$urlReturn = CopixUrl::get ('malle||getMalle', array('id'=>$id, 'folder'=>$rFile->folder));
@@ -1144,7 +1130,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$rFile->folder, 'errors'=>$errors));
 		}
 
-		return _arFile ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>CopixMIMETypes::getFromExtension ($fullFile)));
+		return _arFile ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>$malleService->getMimeType($fullFile)));
 		
 	}
 
@@ -1678,7 +1664,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors));
 		} else {
 			
-			return _arFile ($malleService->getTmpFolder().'/'.$zipFile, array ('filename'=>$zipFile, 'content-type'=>CopixMIMETypes::getFromExtension ($zipFile)));
+			return _arFile ($malleService->getTmpFolder().'/'.$zipFile, array ('filename'=>$zipFile, 'content-type'=>$malleService->getMimeType($zipFile)));
 			
 		}
 	}

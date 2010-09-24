@@ -599,6 +599,27 @@ class MalleService {
     return $oRes;
   }
 
+    /**
+  * A partir d'un nom de fichier, renvoie son type MIME
+  *
+  * @author Christophe Beyer <cbeyer@cap-tic.fr>
+  * @since 2010/09/24
+  * @param string $iFilename Nom (ou chemin) du fichier
+  * @return 
+  */
+  function getMimeType ($iFilename) {
+    $point = strrpos ($iFilename, ".");
+    if ($point !== false) {
+      $ext = substr($iFilename,$point+1);
+      $ext = strtolower($ext);
+    } else
+      $ext = $iFilename;
+    $oMimeType = CopixMIMETypes::getFromExtension ($ext);
+    return $oMimeType;
+  }
+
+
+
 }
 
 
