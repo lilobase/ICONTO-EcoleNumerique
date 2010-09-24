@@ -2384,6 +2384,17 @@ CREATE TABLE `module_quiz_responses` (
 
 -- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `module_quiz_choices`;
+CREATE TABLE `module_quiz_choices` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_question` int(11) unsigned NOT NULL,
+  `content` text,
+  `correct` tinyint(3) unsigned NOT NULL DEFAULT '0',
+  `order` int(5) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+
 --
 -- Structure de la table `module_charte_chartes`
 --
