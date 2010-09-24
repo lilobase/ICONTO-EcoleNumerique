@@ -14,9 +14,14 @@
 
 </DIV>
 
-<b>{$ecole.nom}</b>{if $ecole.desc} ({$ecole.desc}){/if}<br/>
-{$ecole.ALL->eco_num_rue}{$ecole.ALL->eco_num_seq}, {$ecole.ALL->eco_adresse1}<br/>
-{$ecole.ALL->eco_code_postal} {$ecole.ALL->eco_commune}<br/>
+<b>{$ecole.nom|escape}</b>{if $ecole.desc} ({$ecole.desc|escape}){/if}<br/>
+{if $ecole.ALL->eco_num_rue OR $ecole.ALL->eco_num_seq OR $ecole.ALL->eco_adresse1 OR $ecole.ALL->eco_code_postal OR $ecole.ALL->eco_commune}
+  {if $ecole.ALL->eco_num_rue OR $ecole.ALL->eco_num_seq}
+    {$ecole.ALL->eco_num_rue}{$ecole.ALL->eco_num_seq}, 
+  {/if}
+   {$ecole.ALL->eco_adresse1}<br/>
+  {$ecole.ALL->eco_code_postal} {$ecole.ALL->eco_commune|escape}<br/>
+{/if}
 {if $ecole.ALL->eco_tel}
 <img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire.telephone"}" title="{i18n key="annuaire.telephone"}" border="0" hspace="1" /> {$ecole.ALL->eco_tel}<br/>
 {/if}
