@@ -552,9 +552,7 @@ class AnnuaireService {
 	 * @return array Tableau contenant tout le personnel école, trié alphabétiquement
 	 */
 	function getPersonnel ($type, $id) {
-	
 		$dao = _dao("kernel|kernel_bu_personnel");
-		
 		if ($type == 'BU_CLASSE')
 			$res = $dao->getPersonnelInClasse($id);
 		elseif ($type == 'BU_ECOLE')
