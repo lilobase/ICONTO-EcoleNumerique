@@ -10,8 +10,12 @@
 		{/if}
 		<div class="bart_item">
 		{if $showdate OR $showcategorie}<div class="bart_date">
-		{if $showdate}{i18n key="blog|blog.article.presentationshort" 1=$article->date_bact|datei18n:text}{/if}
+		
+    {if $showdate AND $showcategorie}{i18n key="blog|blog.article.presentationshort" 1=$article->date_bact|datei18n:text}
+    {elseif $showdate}{i18n key="blog|blog.article.date" 1=$article->date_bact|datei18n:text}{/if}
+    
     {if $showcategorie}
+      {if !$showdate}{i18n key="blog|blog.article.categorie"}{/if}
 		{assign var=cptCat value=1}
 		{foreach from=$article->categories item=categorie }
 			{$categorie->name_bacg|escape}
@@ -20,7 +24,7 @@
 		{/foreach}
     {/if}
 		</div>{/if}
-		{if $showtitle}<div class="bart_title"><a href="{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}">{$article->name_bact}</a></div>{/if}
+		{if $showtitle}<div class="bart_title"><a title="{$article->name_bact|escape}" href="{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}">{$article->name_bact|escape}</a></div>{/if}
 		{if $chapo}<div class="bart_chapo">{$article->sumary_html_bact}</div>{/if}
 		{if $hr}<div class="hr"></div>{/if}
 		</div>

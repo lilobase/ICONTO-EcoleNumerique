@@ -20,6 +20,8 @@ class ZonePages extends CopixZone {
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param integer $content Si on veut afficher le contenu des pages. Par defaut : 0
 	 * @param boolean $hr Affiche un HR entre chaque page. Par defaut : 0		
+	 * @param boolean $showtitle (option) Si on veut afficher le titre des articles. Par defaut : true
+	 * @param integer $truncate (option) Limit de cesure du texte. Par defaut : 0 (pas de cesure)
 	 */
 	function _createContent (&$toReturn) {
 		
@@ -30,6 +32,8 @@ class ZonePages extends CopixZone {
 		$content = $this->getParam('content', false);
 		$hr = $this->getParam('hr', false);
 		$page = $this->getParam('page');
+    $showtitle = $this->getParam('showtitle',true);
+    $truncate = $this->getParam('truncate',0);
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('titre', $titre);
@@ -39,6 +43,8 @@ class ZonePages extends CopixZone {
 		$tpl->assign ('content', $content);
 		$tpl->assign ('hr', $hr);
 		$tpl->assign ('page', $page);
+    $tpl->assign ('showtitle', $showtitle);
+    $tpl->assign ('truncate', $truncate);
 		
 		$toReturn = $tpl->fetch('zone_pages.tpl');
 		

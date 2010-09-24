@@ -552,10 +552,13 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$chapo = $this->getRequest('chapo', null);
 		$hr = $this->getRequest('hr', null);
     $article = $this->getRequest('article', null);
+    $showtitle = $this->getRequest('showtitle');
+    $showdate = $this->getRequest('showdate');
+    $showcategorie = $this->getRequest('showcategorie');
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr, 'article'=>$article));
+				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr, 'article'=>$article, 'showtitle'=>$showtitle, 'showdate'=>$showdate, 'showcategorie'=>$showcategorie));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);
@@ -578,6 +581,8 @@ class ActionGroupFrontBlog extends CopixActionGroup {
    * @param integer $colonnes (option) Nb de colonnes. Par defaut : 1
 	 * @param integer $content (option) Si on veut afficher les contenus des pages. Par defaut : 0
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des pages. Par defaut : 0
+	 * @param boolean $showtitle (option) Si on veut afficher le titre des articles. Par defaut : true
+	 * @param integer $truncate (option) Limit de cesure du texte. Par defaut : 0 (pas de cesure)
    */
   function getBlogJsPages () {
     $blog = $this->getRequest('blog', null);
@@ -586,10 +591,12 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$content = $this->getRequest('content', null);
 		$hr = $this->getRequest('hr', null);
 		$page = $this->getRequest('page', null);
+    $showtitle = $this->getRequest('showtitle');
+    $truncate = $this->getRequest('truncate');
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr, 'page'=>$page));
+				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr, 'page'=>$page, 'showtitle'=>$showtitle, 'truncate'=>$truncate));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);

@@ -21,6 +21,9 @@ class ZoneActualites extends CopixZone {
 	 * @param integer $chapo Si on veut afficher les chapos. Par defaut : 0
 	 * @param string $hreflib Si renseigne, affiche ce texte comme libelle d'un lien menant a l'accueil du blog
 	 * @param boolean $hr Affiche un HR entre chaque article. Par defaut : 0
+	 * @param boolean $showtitle (option) Si on veut afficher le titre des articles. Par defaut : true
+	 * @param boolean $showdate (option) Si on veut afficher la date des articles. Par defaut : true
+	 * @param boolean $showcategorie (option) Si on veut afficher les categories des articles. Par defaut : true
 	 */
 	function _createContent (&$toReturn) {
 		
@@ -32,6 +35,9 @@ class ZoneActualites extends CopixZone {
 		$hreflib = $this->getParam('hreflib');
 		$hr = $this->getParam('hr', false);
 		$article = $this->getParam('article');
+    $showtitle = $this->getParam('showtitle',true);
+    $showdate = $this->getParam('showdate',true);
+    $showcategorie = $this->getParam('showcategorie',true);
     
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('titre', $titre);
@@ -42,6 +48,9 @@ class ZoneActualites extends CopixZone {
 		$tpl->assign ('hreflib', $hreflib);
 		$tpl->assign ('hr', $hr);
 		$tpl->assign ('article', $article);
+    $tpl->assign ('showtitle', $showtitle);
+    $tpl->assign ('showdate', $showdate);
+    $tpl->assign ('showcategorie', $showcategorie);
     
 		$toReturn = $tpl->fetch('zone_actualites.tpl');
 		

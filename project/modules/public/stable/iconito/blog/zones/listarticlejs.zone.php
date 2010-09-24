@@ -24,6 +24,9 @@ class ZoneListArticleJs extends CopixZone {
 	 * @param boolean $chapo (option) Indique si on affiche le chapo des articles. Par defaut : false
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param boolean $hr (option) Si on veut afficher un HR entre les pages. Par defaut : false
+	 * @param boolean $showtitle (option) Si on veut afficher le titre des articles. Par defaut : true
+	 * @param boolean $showdate (option) Si on veut afficher la date des articles. Par defaut : true
+	 * @param boolean $showcategorie (option) Si on veut afficher les categories des articles. Par defaut : true
    */
    function _createContent (&$toReturn) {
     
@@ -40,7 +43,7 @@ class ZoneListArticleJs extends CopixZone {
     $article = intval($article);
     $showtitle = $this->getParam('showtitle',true);
     $showdate = $this->getParam('showdate',true);
-    $showcategorie = $this->getParam('showtitle',true);
+    $showcategorie = $this->getParam('showcategorie',true);
     
 		$tpl  = & new CopixTpl ();
     
@@ -107,9 +110,9 @@ class ZoneListArticleJs extends CopixZone {
 		$tpl->assign ('hr' , $hr);
 		$tpl->assign ('parCols', $parCols);
 		$tpl->assign ('widthColonne', round(100/$colonnes,1).'%');	
-		$tpl->assign ('showtitle', $showtitle);
-		$tpl->assign ('showdate', $showdate);
-		$tpl->assign ('showcategorie', $showcategorie);
+    $tpl->assign ('showtitle', $showtitle);
+    $tpl->assign ('showdate', $showdate);
+    $tpl->assign ('showcategorie', $showcategorie);
 
     $txt = $tpl->fetch('listarticlejs.tpl');
     $txt = trim(str_replace ("\r\n", "", $txt));

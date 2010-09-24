@@ -24,6 +24,8 @@ class ZoneListPageJs extends CopixZone {
 	 * @param boolean $content (option) Indique si on affiche le corps des pages. Par defaut : false
 	 * @param integer $colonnes Nb de colonnes. Par defaut : 1
 	 * @param boolean $hr (option) Si on veut afficher un HR entre les pages. Par defaut : false
+	 * @param boolean $showtitle (option) Si on veut afficher le titre des articles. Par defaut : true
+	 * @param integer $truncate (option) Limit de cesure du texte. Par defaut : 0 (pas de cesure)
    */
    function _createContent (&$toReturn) {
     
@@ -39,6 +41,7 @@ class ZoneListPageJs extends CopixZone {
     $page = $this->getParam('page',null);
     $page = intval($page);
     $showtitle = $this->getParam('showtitle',true);
+    $truncate = $this->getParam('truncate',0);
     
 		$tpl  = & new CopixTpl ();
 
@@ -85,6 +88,7 @@ class ZoneListPageJs extends CopixZone {
 		$tpl->assign ('parCols', $parCols);
 		$tpl->assign ('widthColonne', round(100/$colonnes,1).'%');	
     $tpl->assign ('showtitle', $showtitle);
+    $tpl->assign ('truncate', $truncate);
     
     $txt = $tpl->fetch('listpagejs.tpl');
     $txt = trim(str_replace ("\r\n", "", $txt));

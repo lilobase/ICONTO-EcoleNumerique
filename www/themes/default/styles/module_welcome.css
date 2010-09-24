@@ -53,7 +53,12 @@ div.welcome .welcome_hr {
 .welcome_pages .bpage_content {
 	font-size: 120%;
 	}
-
+.welcome_pages .bpage_item p.suite {
+}
+.welcome_pages .bpage_item p.suite a {
+	padding-left: 20px;
+	background: transparent url(../img_styles/blog/suite.gif) no-repeat left top;
+	}
 
 /* ARTICLES BLOG */
 .welcome_articles {
@@ -99,7 +104,8 @@ div.welcome .welcome_hr {
 .welcome_articles .bart_chapo {
 	font-size: 110%;
 	}
-	
+
+
 
 /* BLOC PHOTO */
 .welcome_photos {
