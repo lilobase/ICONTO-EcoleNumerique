@@ -1208,30 +1208,40 @@ class Kernel {
     
     }
 
-    //corrigé
-    /*if ($userInfo['type']=='USER_EXT' && !isset($userInfo['link'])) { // Compte exterieur rattache a rien
-      // TODO a modifier en corrigeant la matrice
-      //kernel::myDebug(_currentUser());
-      //kernel::myDebug($matrix->ROOT);
-      //kernel::myDebug($userInfo);
-      $db =& enic::get('model');
-      $datas = $db->query("SELECT * FROM module_rightmatrix WHERE user_type_in = '"._currentUser()->getExtra('type')."' AND user_type_out = '".$userInfo['type']."' AND node_type='ROOT'")->toArray();
-      foreach ($datas as $data) {
-        if ($data['right']=='VOIR') $res['voir'] = true;
-        elseif ($data['right']=='COMM') $res['communiquer'] = true;
+    //kernel::myDebug(_currentUser());
+    //kernel::myDebug($userInfo);
+
+    // Compte exterieur rattache a rien
+    if ($userInfo['type']=='USER_EXT' && !isset($userInfo['link'])) {
+    
+      // Si l'usager courant a des liens, on les parcourt pour chercher les droits 
+      if ($links = _currentUser()->getExtra('link')) {
+        foreach ($arTypes as $vType) {
+          if (!isset($links->$vType))
+				    continue;
+          foreach ($links->$vType as $jId=>$jRole) {
+            $droit = $matrix->$vType($jId)->_right->invite->communiquer;
+            if ($droit>0)
+    					$res['communiquer'] = true;
+            $droit = $matrix->$vType($jId)->_right->invite->voir;
+            if ($droit>0)
+    					$res['voir'] = true;
+          }
+        }
+      }
+      // Sinon, c'est certainement un USER_EXT, on va chercher sur (0)
+      else {
+        foreach ($arTypes as $vType) {
+          $droit = $matrix->$vType(0)->_right->invite->communiquer;
+          if ($droit>0)
+  					$res['communiquer'] = true;
+          $droit = $matrix->$vType(0)->_right->invite->voir;
+          if ($droit>0)
+  					$res['voir'] = true;
+        }
       }
       return $res;    
-    }*/
-    if ($userInfo['type']=='USER_ENS' && _currentUser()->getExtra('type')=='USER_EXT') { // Compte exterieur rattache a rien
-      $db =& enic::get('model');
-      $datas = $db->query("SELECT * FROM module_rightmatrix WHERE user_type_in = '"._currentUser()->getExtra('type')."' AND user_type_out = '".$userInfo['type']."' AND node_type='ROOT'")->toArray();
-      foreach ($datas as $data) {
-        if ($data['right']=='VOIR') $res['voir'] = true;
-        elseif ($data['right']=='COMM') $res['communiquer'] = true;
-      }
-      return $res;
     }
-    
 
 		if (!isset($userInfo['link']))
 			return $res;
