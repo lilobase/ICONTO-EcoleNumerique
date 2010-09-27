@@ -83,13 +83,17 @@ class ActionGroupDefault extends EnicActionGroup {
 
         $ppo = new CopixPPO();
 
-        $ppo->errors = ($this->flash->exists('errors')) ? $this->flash->errors : null;
+        $ppo->errors = ($this->flash->has('errors')) ? $this->flash->errors : null;
 
-        $ppo->url = $this->url('public|default|getreqlistclasses');
+        $ppo->content = ($this->flash->has('content')) ? $this->flash->content : null;
 
-        $ppo->actionUrl = $this->url('public|default|getreqereg ');
+        $ppo->baseUrl = $this->url('public|default|getreqlistclasses');
+
+        $ppo->actionUrl = $this->url('public|default|getreqereg');
+
+        $ppo->ecoles = $ecoleList;
         
-        _arPPO($ppo, 'getreq.tpl');
+        return _arPPO($ppo, 'getreq.tpl');
     }
 
     function processGetreqlistclasses() {
@@ -103,7 +107,7 @@ class ActionGroupDefault extends EnicActionGroup {
         }
         $oReturn = array();
         foreach ($classes as $cl) {
-            $oReturn[$cl['id']] = $cl['nom'];
+            $oReturn[$cl['id']] = utf8_encode($cl['nom']);
         }
 
         echo json_encode($oReturn);
@@ -114,7 +118,7 @@ class ActionGroupDefault extends EnicActionGroup {
     function processGetreqereg() {
 
         //check parent informations :
-        $sub = 'parent-';
+        $sub = 'parent';
 
         //array of required values :
         $required = array('nom', 'prenom', 'adresse', 'postal', 'city', 'teldom', 'mail');
@@ -133,19 +137,19 @@ class ActionGroupDefault extends EnicActionGroup {
         $required = array('nom', 'prenom', 'ecole', 'classe');
         $children = array();
         
-        for ($i = 1; $i <= 5; $i++) {
-            $valuei = $this->request($sub . $i . '-nom');
-            $valueii = $this->request($sub . $i . '-prenom');
-            
-            if (empty($valuei) && empty($valueii))
+        for ($i = 1; $i <= 4; $i++) {
+            $valuei = $this->request($sub . $i . 'nom');
+            $valueii = $this->request($sub . $i . 'prenom');
+
+            if (empty($valuei) && empty($valueii) && $i != 1)
                 continue;
 
             foreach($required as $require){
-                $valueiii = $this->request($sub.$i.'-'.$require);
+                $valueiii = $this->request($sub.$i.$require);
                 if(empty($valueiii))
-                    $errors[$sub.$i.'-'.$require] = $this->i18n ('public.getreq.required');
+                    $errors[$sub.$i.$require] = $this->i18n ('public.getreq.required');
                 else
-                    $children[][$require] = $this->request ($sub.$i.'-'.$require);
+                    $children[$i][$require] = $this->request ($sub.$i.$require);
             }
         }
         
@@ -154,7 +158,7 @@ class ActionGroupDefault extends EnicActionGroup {
             $this->flash->errors = $errors;
             $this->flash->content = $_POST;
             
-            return $this->go('public|default|processGetreq');
+            return $this->go('public|default|getreq');
         }
         
         //compose informations
@@ -165,55 +169,66 @@ class ActionGroupDefault extends EnicActionGroup {
         foreach($children as $child){
             $childText .= 'Nom      : '.$child['nom'].PHP_EOL;
             $childText .= 'Prenom   : '.$child['prenom'].PHP_EOL;
-            $childText .= 'Ecole    : '.$child['ecole'].PHP_EOL;
-            $childText .= 'Classe   : '.$child['classe'].PHP_EOL.' ---------------- '.PHP_EOL;
+            $childText .= 'Ecole    : '.$this->db->query('SELECT nom FROM kernel_bu_ecole WHERE numero = '.(int)$child['ecole'])->toString().PHP_EOL;
+            $childText .= 'Classe   : '.$this->db->query('SELECT nom FROM kernel_bu_ecole_classe WHERE id = '.(int)$child['classe'])->toString().PHP_EOL.' ---------------- '.PHP_EOL;
         }
         
         
        //adult infos :
        $adult = array(
-            'nom' => $this->request('parent-nom'),
-           'prenom' => $this->request('parent-prenom'),
-           'adresse' => $this->request('parent-adresse'),
-           'postal' => $this->request('parent-postal'),
-           'city' => $this->request('parent-city'),
-           'teldom' => $this->request('parent-teldom'),
-           'telpro' => $this->request('parent-telpro'),
-           'mail' => $this->request('parent-mail')
+            'nom' => $this->request('parentnom'),
+           'prenom' => $this->request('parentprenom'),
+           'adresse' => $this->request('parentadresse'),
+           'postal' => $this->request('parentpostal'),
+           'city' => $this->request('parentcity'),
+           'teldom' => $this->request('parentteldom'),
+           'telpro' => $this->request('parenttelpro'),
+           'mail' => $this->request('parentmail')
        );
-
         //
 $mailContent = <<<EOT
 
-   Une nouvelle demande d'inscription à été réalisée information :
-   
-   Informations lié à l'adulte :
-   =============================
-   
-        Nom-----------------: {$adult['nom']}
-        Prenom--------------: {$adult['prenom']}
-        Adresse-------------: {$adult['adresse']}
-        Code Postal---------: {$adult['postal']}
-        Ville---------------: {$adult['city']}
-        Tel du domicile-----: {$adult['teldom']}
-        Tel professionel----: {$adult['telpro']}
-        Adresse Mail--------: {$adult['mail']}
-        
-   Information sur l(es) enfant(s) :
-   =================================
+Une nouvelle demande d'inscription à été réalisée information :
 
-        $childText
+Informations lié à l'adulte :
+=============================
 
-   ~~~~~~~~~~~~~~~~~~~~~~
-   ce message à été généré et envoyé automatiquement par l'application ICONITO Ecole Numérique
+    Nom-----------------: {$adult['nom']}
+    Prenom--------------: {$adult['prenom']}
+    Adresse-------------: {$adult['adresse']}
+    Code Postal---------: {$adult['postal']}
+    Ville---------------: {$adult['city']}
+    Tel du domicile-----: {$adult['teldom']}
+    Tel professionel----: {$adult['telpro']}
+    Adresse Mail--------: {$adult['mail']}
+
+Information sur l(es) enfant(s) :
+=================================
+
+$childText
+
+~~~~~~~~~~~~~~~~~~~~~~
+ce message à été généré et envoyé automatiquement par l'application ICONITO Ecole Numérique
 
 
 EOT;
 
-        echo '<pre>'.$mailContent.'</pre>';
 
+    //send Mail
+    mail('pnlabo@cap-tic.fr', 'Nouvelle demande d\'inscription à iconito', $mailContent);
 
-    }
+    //ereg data in DB
+    $dbEreg = array(
+        'parent' => $this->db->quote(serialize($adult)),
+        'enfants' => $this->db->quote(serialize($children)),
+        'date' => time()
+    );
+    $this->db->create('module_getreq', $dbEreg);
+
+    $ppo = new CopixPPO();
+
+    return _arPPO($ppo, 'getreq.success.tpl');
+}
 	
 	/**
 	 * Flux RSS des blogs de tout Iconito

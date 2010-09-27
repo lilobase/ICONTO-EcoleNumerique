@@ -340,6 +340,13 @@ p.ui-state-error {
 .warning-exclamation { padding-left: 60px; background: #fff url(../../../themes/default/images/warn_exclamation.png) 4px 50% no-repeat; }
 .warning-information { padding-left: 60px; background: #fff url(../../../themes/default/images/warn_information.png) 4px 50% no-repeat; }
 
+.error {
+    font-weight: bold;
+    font-style: italic;
+    color: red;
+    font-size: 0.9em;
+}
+
 /************************************************
  * MODAL MESSAGES
  ***********************************************/
