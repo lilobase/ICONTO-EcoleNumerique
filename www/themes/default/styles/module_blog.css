@@ -1,12 +1,92 @@
 
+#blog-template {
+    overflow: hidden;
+}
+
+#blog-template #blog-sidebar{
+    float:left;
+    width: 180px;
+    margin-right: -210px;
+    background: #f0f4f0;
+	padding: 10px;
+	font-size: 90%;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	//behavior: url(/htc/PIE.htc);
+}
+
+#blog-template #blog-content{
+    margin-left: 210px;
+    background: #fff;
+	padding: 10px;
+	font-size: 90%;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+
+#blog-template #blog-sidebar #blog-logo {
+    display: block;
+    background: url('../../../themes/default/images/blog_defaultlogo.gif') no-repeat center 6px;
+    width: 180px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-top: 155px;
+    margin-bottom: 18px;
+    }
+
+#blog-template #blog-sidebar a {
+    display: block;
+    padding: 4px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;    
+}
+
+#blog-template #blog-sidebar a:hover {
+    background: #fff;    
+}
+
+#blog-template #blog-sidebar h2 {
+    font-size: 80%;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#blog-template #blog-sidebar ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+
+
+
+
+
+
+
 /* =================================
 	Général
 	================================= */
+
+
+
+
 #mainBlog {
 }
 
 /* Barre latérale */
 #mainSideBar {
+	float:left;
+	width: 210px;
+	border-right: dotted 2px #CCC;
+  margin-right:-210px;
+}
+
+#blog2 {
 	float:left;
 	width: 210px;
 	border-right: dotted 2px #CCC;
@@ -103,7 +183,7 @@
 	================================= */
 #article {
 	margin-bottom: 4em;
-	border-bottom: solid 1px #D9E575;
+	border-bottom: solid 1px #ddd;
 }
 #article img, #listArticles img, div.adminArticleList img {
 	background: transparent;
