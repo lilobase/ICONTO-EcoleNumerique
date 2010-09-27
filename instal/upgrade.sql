@@ -1,3 +1,16 @@
+-- Généré le : Lun 27 Septembre 2010 à 12:17
+--
+-- Structure de la table `module_getreq`
+--
+
+CREATE TABLE IF NOT EXISTS `module_getreq` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `parent` text NOT NULL,
+  `enfants` text NOT NULL,
+  `date` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
 
 -- UPDATED : cbeyer
 
