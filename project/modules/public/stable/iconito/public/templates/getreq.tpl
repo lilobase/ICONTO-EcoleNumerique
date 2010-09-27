@@ -171,9 +171,9 @@
 
     </div>
     <div class="content-panel">
-        <a href="#" id="add-child" class="button-add">{i18n key="public.getreq.addChild" noEscape=1}</a>
+        <a href="#" id="add-child" class="button button-add">{i18n key="public.getreq.addChild" noEscape=1}</a>
     </div>
     <div class="content-panel">
-        <input type="submit" class="button-confirm" />
+        <input type="submit" class="button button-confirm" />
     </div>
 </form>

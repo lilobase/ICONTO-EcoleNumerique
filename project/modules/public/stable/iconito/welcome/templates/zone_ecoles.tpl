@@ -4,9 +4,23 @@
 {assign var=i value=0}
 {assign var=lastType value=''}
 {assign var=lastVille value=''}
+    {if $displayVille}
+<form action="{copixurl dest="public|default|ecoles"}" method="get">
+    <select name="ville">
+        {foreach from=$villes item=ville}
+        <option value={$ville.id_vi}>{$ville.nom}</option>
+        {/foreach}
+    </select>
+    <input type="submit" class="button button-confirm" value="ok"/>
+</form>
+    {/if}
 
 {if $list}
+
   {foreach from=$list item=ecole}
+
+
+
   	{if $ecole.id>0}
       
       {if $parCols>1}
@@ -19,7 +33,7 @@
       
   		{if $groupBy eq 'type' && $ecole.type neq $lastType}
   			<li class="type">
-  			{if $ecole.type eq 'El�mentaire' || $ecole.type eq 'Elémentaire'}{i18n key="welcome|welcome.ecoles.type.elem"}
+  			{if $ecole.type eq 'Elémentaire' || $ecole.type eq 'Elémentaire'}{i18n key="welcome|welcome.ecoles.type.elem"}
   			{elseif $ecole.type eq 'Primaire'}{i18n key="welcome|welcome.ecoles.type.prim"}
   			{elseif $ecole.type eq 'Maternelle'}{i18n key="welcome|welcome.ecoles.type.mat"}
   			{elseif $ecole.type eq 'Centre de Loisirs'}{i18n key="welcome|welcome.ecoles.type.lois"}

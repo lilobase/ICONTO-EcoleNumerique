@@ -611,9 +611,8 @@ class ActionGroupAdmin extends enicActionGroup{
 		$i=0;
         foreach($questionsData as $question){
             $choicesData = _ioDAO('quiz_choices')->getChoices($question->id);
-			$listQuestions[] = $question->id;
             $questions[$i]['choices'] = $choicesData;
-			$questions[$i]['id'] = $question->id;
+            $questions[$i]['id'] = $question->id;
             foreach($choicesData as $choice){
                 if($choice->correct == 1)
                     $questions[$i]['correct'][] = (int)$choice->id;
@@ -666,14 +665,13 @@ class ActionGroupAdmin extends enicActionGroup{
 		users +=
                         'goodresp' = COUNT GOOD QUESTIONS,
 		=====================================*/
-                $nbQuestions = 0;
+                $nbQuestions = count($questions);
 		foreach($users as $key => $user){
 			$response = $responses[$user['id']];			
 			$users[$key]['date'] = date("d/m H:i",max($response['date']));
                         $users[$key]['goodresp'] = 0;
                        
 			foreach($questions as $Qkey => $question){
-                                $nbQuestions++;
 				if(!isset($response[$question['id']])){
 					$users[$key]['responses'][$Qkey] = 'no-resp';
 					continue;

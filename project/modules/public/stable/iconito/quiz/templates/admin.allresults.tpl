@@ -29,7 +29,7 @@ jQuery(document).ready(function($){
 			<th>{i18n key="quiz.results.class" noEscape=1}</th>
 			<th>{i18n key="quiz.results.school" noEscape=1}</th>
 			<th>{i18n key="quiz.results.results" noEscape=1}</th>
-			<th>{i18n key="quiz.results.results" noEscape=1}s</th>
+			<th>{i18n key="quiz.results.results" noEscape=1}</th>
 		</tr>
 	</thead>
 	<tbody>

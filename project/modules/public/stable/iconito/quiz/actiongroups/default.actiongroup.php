@@ -147,7 +147,8 @@ class ActionGroupDefault extends enicActionGroup {
         //data storage
         $this->session->save('questions', $qQueue);
         $this->session->save('quizId', $pId);
-        
+        $this->session->save('authorName', $authorInfos['nom']);
+        $this->session->save('authorSurname', $authorInfos['prenom']);
         //load help
         $help = (empty($quizData->help)) ? $this->i18n('quiz.msg.noHelp') : $quizData->help ;
         qSession('help', $help);
@@ -299,8 +300,8 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->userResp = $uResp;
         $ppo->choices = $choiceReturn;
         $ppo->prev = $prev;
-        $ppo->nameAuthor = $this->user->nom;
-        $ppo->surname = $this->user->prenom;
+        $ppo->nameAuthor = $this->session->load('authorName');
+        $ppo->surname = $this->session->load('authorSurname');
         $ppo->questionTpl = $questionTpl;
         $ppo->question = $questionDatas;
         $ppo->type = ($questionDatas['opt_type'] == 'choice') ? 'radio' : 'txt';

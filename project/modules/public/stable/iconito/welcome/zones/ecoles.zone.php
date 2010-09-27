@@ -6,7 +6,7 @@
  * @package Iconito
  * @subpackage Welcome
  */
-class ZoneEcoles extends CopixZone {
+class ZoneEcoles extends enicZone {
 
 	/**
 	 * Affiche la liste des ecoles
@@ -65,13 +65,18 @@ class ZoneEcoles extends CopixZone {
 		// Nb elements par colonnes
 		$parCols = ceil($nbEcoles/$colonnes);
 
+                
+                $listVille = $this->db->query('SELECT * FROM kernel_bu_ville')->toArray();
+                $displayVille = (count($listVille) > 1) ? true : false;
+
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('titre', $titre);
 		$tpl->assign ('ajaxpopup', $ajaxpopup);
 		$tpl->assign ('list', $list);
 		$tpl->assign ('parCols', $parCols);
 		$tpl->assign ('widthColonne', round(100/$colonnes,1).'%');
-
+                $tpl->assign ('displayVille', $displayVille);
+                $tpl->assign ('villes', $listVille);
 		$tpl->assign ('groupBy', $pGroupBy);
 		$tpl->assign ('dispType', $pDispType);
 
