@@ -26,6 +26,18 @@
 	border-radius: 8px;
 }
 
+#blog-template #blog-sidebar .blog-rss {
+    display: block;
+    float: right;
+    background: url('../../../themes/default/images/blog_rss.png') no-repeat 0 0;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;    
+    }
+
 #blog-template #blog-sidebar #blog-logo {
     display: block;
     background: url('../../../themes/default/images/blog_defaultlogo.gif') no-repeat center 6px;
@@ -46,7 +58,7 @@
 }
 
 #blog-template #blog-sidebar a:hover {
-    background: #fff;    
+    background-color: #fff;    
 }
 
 #blog-template #blog-sidebar h2 {
@@ -182,6 +194,7 @@
 	Détail d'un article
 	================================= */
 #article {
+    position: relative;
 	margin-bottom: 4em;
 	border-bottom: solid 1px #ddd;
 }
