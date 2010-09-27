@@ -29,7 +29,7 @@
             </div>
         {if (true || $canNewAccount) }
             <div class="loginNew">
-                <a class="usr-newaccount" alt="{i18n key=auth|auth.newAccount}" title="{i18n key=auth|auth.newAccount}" href="{copixurl dest="auth||auth.newAccount"}"></a>
+                <a class="usr-newaccount" alt="{i18n key=auth|auth.newAccount}" title="{i18n key=auth|auth.newAccount}" href="{copixurl dest="public|default|getreq"}"></a>
             </div>
         {/if}
         </form>
