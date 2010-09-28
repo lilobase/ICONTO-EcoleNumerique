@@ -64,7 +64,7 @@ class ZoneEcoles extends enicZone {
             usort($list, array($this, "usort_ecoles_ville"));
         }
 
-        kernel::myDebug($list);
+        //kernel::myDebug($list);
 
         $nbEcoles = 0;
         foreach ($list as $k => $ecole) {

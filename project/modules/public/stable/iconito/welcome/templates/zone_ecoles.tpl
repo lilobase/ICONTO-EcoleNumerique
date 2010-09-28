@@ -33,7 +33,7 @@
 
   	{if $ecole.id>0}
       
-      {if $parCols>1}
+      {if $parCols>=1}
   			{if $i%$parCols eq 0}
   				{if $i>0}</ul></div>{/if}		
   				<div style="float:left;width:{$widthColonne};">
@@ -71,8 +71,8 @@
   		
   	{/if}
   {/foreach}
-  {if $parCols>1 && $i>0}</ul></div>{/if}
-	{if $parCols>1 }
+  {if $parCols>=1 && $i>0}</ul></div>{/if}
+	{if $parCols>=1 }
 		<br clear="left" />
 	{/if}
 {else}
