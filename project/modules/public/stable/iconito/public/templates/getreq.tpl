@@ -91,7 +91,7 @@
         <select name="child1ecole" id="child1ecole" class="f-ecole">
             <option value="0">{i18n key="public|public.getreq.school" noEscape=1}</option>
             {foreach item=ecole from=$ppo->ecoles}
-                <option value="{$ecole.numero}">{$ecole.nom}</option>
+                <option value="{$ecole.numero}">{$ecole.nom|utf8_encode}</option>
             {/foreach}
         </select>
        
@@ -114,7 +114,7 @@
         <select name="child2ecole" id="child2ecole" class="f-ecole">
             <option value="0">{i18n key="public|public.getreq.school" noEscape=1}</option>
             {foreach item=ecole from=$ppo->ecoles}
-                <option value="{$ecole.numero}">{$ecole.nom}</option>
+                <option value="{$ecole.numero}">{$ecole.nom|utf8_encode}</option>
             {/foreach}
         </select>
 
@@ -137,7 +137,7 @@
         <select name="child3ecole" id="child3ecole" class="f-ecole">
             <option value="0">{i18n key="public|public.getreq.school" noEscape=1}</option>
             {foreach item=ecole from=$ppo->ecoles}
-                <option value="{$ecole.numero}">{$ecole.nom}</option>
+                <option value="{$ecole.numero}">{$ecole.nom|utf8_encode}</option>
             {/foreach}
         </select>
 
@@ -160,7 +160,7 @@
         <select name="child4ecole" id="child4ecole" class="f-ecole">
             <option value="0">{i18n key="public|public.getreq.school" noEscape=1}</option>
             {foreach item=ecole from=$ppo->ecoles}
-                <option value="{$ecole.numero}">{$ecole.nom}</option>
+                <option value="{$ecole.numero}">{$ecole.nom|utf8_encode}</option>
             {/foreach}
         </select>
 
