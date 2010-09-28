@@ -4,17 +4,27 @@
 {assign var=i value=0}
 {assign var=lastType value=''}
 {assign var=lastVille value=''}
+<div class="content-panel">
     {if $displayVille}
-<form action="{copixurl dest="public|default|ecoles"}" method="get">
+<form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatleft">
     <select name="ville">
+        <option value="0">{i18n key="welcome.ecoles.all" noEscape=1}</option>
         {foreach from=$villes item=ville}
-        <option value={$ville.id_vi}>{$ville.nom}</option>
+        <option {if $defaultVille == $ville.id_vi}selected="selected"{/if} value={$ville.id_vi}>{$ville.nom|utf8_encode}</option>
         {/foreach}
     </select>
     <input type="submit" class="button button-confirm" value="ok"/>
 </form>
     {/if}
 
+    <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatright">
+        <input type="text" name="search" class="default-value" value="{i18n key="welcome.ecoles.search" noEscape=1}" />
+    <input type="submit" class="button button-confirm" value="ok"/>
+</form>
+    <div class="clearBoth"></div>
+</div>
+
+<div class="content-panel">
 {if $list}
 
   {foreach from=$list item=ecole}
@@ -68,3 +78,4 @@
 {else}
   <p>{i18n key=welcome.ecoles.aucune}</p>
 {/if}
+  </div>
