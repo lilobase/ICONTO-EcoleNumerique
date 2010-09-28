@@ -11,7 +11,7 @@ class ZoneEcoles extends enicZone {
     public  function  __construct() {
         parent::__construct();
         
-        $this->defaultVille = 1;
+        $this->defaultVille = null;
     }
 
     /**
