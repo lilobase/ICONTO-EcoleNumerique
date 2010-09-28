@@ -130,12 +130,19 @@ class AnnuaireService extends enicService {
 	}
 
         function searchEcoles($search){
-            $query = 'SELECT e.numero AS id, e.type AS type, e.nom AS nom, e.web AS web, e.id_ville AS ville, v.nom AS ville_nom FROM kernel_bu_ecole AS e JOIN kernel_bu_ville AS v ON e.id_ville = v.id_vi LIKE e.nom = %'.$this->db->quote($search).'%';
-            $ecolesList = $this->db->query($query)->toArray1();
+            $query = 'SELECT e.numero AS id, e.type AS type, e.nom AS nom, e.web AS web, e.id_ville AS ville, v.nom AS ville_nom FROM kernel_bu_ecole AS e JOIN kernel_bu_ville AS v ON e.id_ville = v.id_vi WHERE e.nom LIKE "%'.addslashes($search).'%"';
+            $ecolesList = $this->db->query($query)->toArray();
             foreach($ecolesList as $key => $ecole)
                 $ecolesList[$key]['directeur'] = (isset($params['directeur']) && $params['directeur']) ? AnnuaireService::getDirecteurInEcole($ecole['id']) : NULL;
-            
-            return usort ($ecolesList, array('AnnuaireService', 'usort_nom'));
+   
+            //utf8 !
+            foreach ($ecolesList as $key => $ecole)
+                foreach($ecole as $keyi => $item)
+                    $ecolesList[$key][$keyi] = utf8_encode ($item);
+
+            usort ($ecolesList, array('AnnuaireService', 'usort_nom'));
+
+            return $ecolesList;
         }
 
 

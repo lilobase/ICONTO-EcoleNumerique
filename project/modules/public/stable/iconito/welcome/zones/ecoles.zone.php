@@ -11,7 +11,7 @@ class ZoneEcoles extends enicZone {
     public  function  __construct() {
         parent::__construct();
         
-        $this->defaultVille = null;
+        $this->defaultVille = 1;
     }
 
     /**
@@ -49,14 +49,12 @@ class ZoneEcoles extends enicZone {
         //add default city :
         $ville = (empty($ville)) ? ((empty($this->defaultVille)) ? null : $this->defaultVille) : $ville;
 
-        if (!empty($ville))
-            $list = $annuaireService->getEcolesInVille($ville);
-        elseif (!empty($search))
+        if (!empty($search))
             $list = $annuaireService->searchEcoles($search);
+        elseif (!empty($ville) && $ville > 0)
+            $list = $annuaireService->getEcolesInVille($ville);
         elseif ($grville)
             $list = $annuaireService->getEcolesInGrville($grville);
-
-
 
         if ($pGroupBy == 'type') {
             usort($list, array($this, "usort_ecoles_type"));

@@ -8,7 +8,7 @@
     {if $displayVille}
 <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatleft">
     <select name="ville">
-        <option value="0">{i18n key="welcome.ecoles.all" noEscape=1}</option>
+        <option value="-99">{i18n key="welcome.ecoles.all" noEscape=1}</option>
         {foreach from=$villes item=ville}
         <option {if $defaultVille == $ville.id_vi}selected="selected"{/if} value={$ville.id_vi}>{$ville.nom|utf8_encode}</option>
         {/foreach}

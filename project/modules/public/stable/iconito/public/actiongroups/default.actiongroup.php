@@ -254,6 +254,7 @@ EOT;
    function processEcoles () {
     $ppo = new CopixPPO();
     $ppo->ville = (int)$this->request('ville');
+    $ppo->search = $this->request('search');
     $ppo->TITLE_PAGE = CopixI18N::get ('public|public.listEcoles');
     return _arPPO($ppo, 'ecoles.tpl');
 	}
