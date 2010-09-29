@@ -21,13 +21,13 @@
         <form action="{copixurl dest="auth|log|in"}" method="post" id="loginBar">
             <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}"/>
             <div class="loginPrompt">
-                <span class="loginMsg">{i18n key=auth|auth.text.logon}{if (true || $canNewAccount) }<br/>{i18n key=auth|auth.text.newAccount}<br/>{/if}</span>
+                <span class="loginMsg">{i18n key=auth|auth.text.logon}{if (false || $canNewAccount) }<br/>{i18n key=auth|auth.text.newAccount}<br/>{/if}</span>
                 <input id="login" type="text" name="login" class="login default-value label-overlayed" value="{i18n key=auth|auth.login}"
                  /><input id="password-password" class="login" type="password" name="password" value=""
                  /><input id="password-clear" class="login label-overlayed" type="text" value="{i18n key=auth|auth.password}"
                  /><input type="submit" class="button button-confirm" value="" />
             </div>
-        {if (true || $canNewAccount) }
+        {if (false || $canNewAccount) } // TODO: lire conf pour savoir si on autorise la demande de compte, sur cette ligne et 4 lignes plus haut
             <div class="loginNew">
                 <a class="usr-newaccount" alt="{i18n key=auth|auth.newAccount}" title="{i18n key=auth|auth.newAccount}" href="{copixurl dest="public|default|getreq"}"></a>
             </div>
