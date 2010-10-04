@@ -14,14 +14,21 @@
         public function processDefault(){
             $ppo = new CopixPPO();
 
-            $schoolId = (int)$this->request('id_ecole');
+            // Le KNE est activé sur une classe, il nous faut son école
+            $classId = (int)$this->request('id_classe');
+            $parent = Kernel::getNodeParents('BU_CLASSE', $classId);
+            if ($parent[0] && $parent[0]['type'] == 'BU_ECOLE')
+            	$schoolId = (int)$parent[0]['id'];
+            else
+            	$schoolId = null;
+          
             $KneRessources = $this->service('KneService')->getRessources($schoolId);
             $ppo->ressources = $KneRessources;
             return _arPPO($ppo, 'default.tpl');
         }
 
         public function processGo(){
-            return $this->go('kne||', array('id_ecole' => $this->request('id')));
+            return $this->go('kne||', array('id_classe' => $this->request('id')));
         }
 
     }
