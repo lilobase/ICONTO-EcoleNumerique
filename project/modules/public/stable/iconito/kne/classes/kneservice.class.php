@@ -6,10 +6,10 @@ class kneService extends enicService {
         parent::__construct();
 
         //add to url
-        $this->hash = 'limoges'; //hash
+        $this->hash = ''; //hash
 
         //activate KNE
-        $this->active = TRUE;
+        $this->active = FALSE;
     }
 
     public function testAccess() {
@@ -17,6 +17,7 @@ class kneService extends enicService {
     }
 
     function getRessources($id) {
+    		// $id = id de l'école
 
         if(!$this->testAccess())
             return '';
@@ -29,17 +30,14 @@ class kneService extends enicService {
 
         if (empty($school) || empty($school['RNE']))
             return '';
-
-        // print_r($this->user->type);
             
         $params->RNE = $school['RNE'];
         $params->Profil = utf8_encode(($this->user->type == 'USER_ELE') ? 'Elève' :
                                 ($this->user->type == 'USER_DIR') ? 'Direction' :
                                         ($this->user->type == 'USER_ENS') ? 'Enseignant' :
                                                 'Demo');
-
         // DEBUG: on force à élève
-        $params->Profil = utf8_encode('Elève');
+        // $params->Profil = utf8_encode('Elève');
                                         
         //get all user parent's nodes (for classe)
         $userNode = Kernel::getNodeParents($this->user->type, $this->user->idEn);
