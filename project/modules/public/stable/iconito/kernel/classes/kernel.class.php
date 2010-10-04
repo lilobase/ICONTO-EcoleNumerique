@@ -1407,7 +1407,7 @@ class Kernel {
 		}
 
                 //for KNE
-                if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_ECOLE' && CopixClassesFactory::create('kne|kneService')->active){
+                if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_CLASSE' && CopixClassesFactory::create('kne|kneService')->active){
                     $modKne = new stdClass();
                     $modKne->node_type = $node_type;
                     $modKne->node_id = $node_id;
