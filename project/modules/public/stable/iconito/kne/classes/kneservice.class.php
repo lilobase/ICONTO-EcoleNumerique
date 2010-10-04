@@ -6,10 +6,10 @@ class kneService extends enicService {
         parent::__construct();
 
         //add to url
-        $this->hash = ''; //hash
+        $this->hash = 'limoges'; //hash
 
         //activate KNE
-        $this->active = FALSE;
+        $this->active = TRUE;
     }
 
     public function testAccess() {
@@ -30,12 +30,17 @@ class kneService extends enicService {
         if (empty($school) || empty($school['RNE']))
             return '';
 
+        // print_r($this->user->type);
+            
         $params->RNE = $school['RNE'];
         $params->Profil = utf8_encode(($this->user->type == 'USER_ELE') ? 'Elève' :
                                 ($this->user->type == 'USER_DIR') ? 'Direction' :
                                         ($this->user->type == 'USER_ENS') ? 'Enseignant' :
                                                 'Demo');
 
+        // DEBUG: on force à élève
+        $params->Profil = utf8_encode('Elève');
+                                        
         //get all user parent's nodes (for classe)
         $userNode = Kernel::getNodeParents($this->user->type, $this->user->idEn);
         $classId = null;
@@ -54,6 +59,9 @@ class kneService extends enicService {
         $params->hash = md5($params->IDUser . $params->RNE . 'ENT');
 
         //get final result :
+        
+        // print_r($params);
+        
         $result = $client->AccesENT($params);
 
         if(is_a($result, 'SoapFault'))
