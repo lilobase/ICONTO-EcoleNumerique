@@ -237,6 +237,7 @@ div.comms table.list td.milieu {
 	padding:0;
 }
 div.comms table.list td.echange {
+	background:#fff;
 	width:50%;
 	border-bottom:solid 1px #fff;
 	margin-right:1px;
@@ -245,7 +246,7 @@ div.comms table.list td.echangeDir {
 	width:100%;
 }
 div.comms table.list td.note {
-	background:#E8EFAC;
+	background:#fff;
 	width:49%;
 	border-bottom:solid 1px #fff;
 }
@@ -257,7 +258,6 @@ div.actions table {
 	width:100%;
 	font-size:0.9em;
 	border-collapse:collapse;
-	background:#E8EFAC;
 }
 div.actions td.message {
 	padding-left:20px;

@@ -216,7 +216,7 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$tplForm = & new CopixTpl ();
 		
-		$tplForm->assign ('detail_edition', CopixZone::process ('kernel|edition', array('field'=>'detail', 'format'=>$rForm->format, 'content'=>$rForm->detail, 'height'=>450, 'width'=>800)));
+		$tplForm->assign ('detail_edition', CopixZone::process ('kernel|edition', array('field'=>'detail', 'format'=>$rForm->format, 'content'=>$rForm->detail, 'height'=>450)));
 				
 		$tplForm->assign ('date',date("Y-m-d"));
 		$tplForm->assign ('rEcole',$rEcole);
