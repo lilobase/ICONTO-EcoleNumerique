@@ -9,7 +9,7 @@
 	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
 */
 ?>
-<script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('images/'); ?>/';</script>
+<script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/iconito/iconito.js"); ?>"></script>
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/prototype-1.6.0.3.js"); ?>"></script>

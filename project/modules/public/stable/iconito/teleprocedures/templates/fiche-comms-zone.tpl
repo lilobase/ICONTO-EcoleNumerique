@@ -65,11 +65,13 @@
 	</table>
 	
 {if $canAddComment}
+  <p align="center">
 	{if $canCheckVisible}
-		<input class="teleprocedures" type="submit" value="Valider le message et/ou la note interne" />
+		<input class="button button-continue" type="submit" value="Valider le message et/ou la note interne" />
 	{else}
-		<input class="teleprocedures" type="submit" value="Valider le message" />
+		<input class="button button-continue" type="submit" value="Valider le message" />
 	{/if}
+  </p>
 </form>
 {/if}
 	

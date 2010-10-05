@@ -96,7 +96,7 @@
  	  
  	  jQuery('.datepicker').datepicker({
     	showOn: 'button',
-    	buttonImage: '{/literal}{copixresource path="../gestionautonome/calendar.png"}{literal}',
+    	buttonImage: '{/literal}{copixresource path="img/gestionautonome/calendar.png"}{literal}',
     	buttonImageOnly: true,
     	changeMonth: true,
       changeYear: true,

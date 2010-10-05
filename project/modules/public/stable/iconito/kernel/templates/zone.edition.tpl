@@ -28,12 +28,21 @@
 *}
 {elseif $format eq "ckeditor" || $format eq "fckeditor"}
 
-<div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+<div>
+
+
+<textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+
 
 <script type="text/javascript">
 CKEDITOR.replace( '{$field}',
 {literal}{{/literal}
-	customConfig : '{copixresource path="js/ckeditor.js"}'
+	customConfig : '{copixresource path="js/ckeditor.js"}',
+  width: '{$width}',
+  height: '{$height}'
+  {if $options.enterMode == 'br'}, enterMode: CKEDITOR.ENTER_BR{/if}
+  {if $options.toolbarSet}, toolbar: '{$options.toolbarSet}'{/if}
+  {if $options.toolbarStartupExpanded}, toolbarStartupExpanded: {$options.toolbarStartupExpanded}{/if}
 {literal}}{/literal});
 </script>
 

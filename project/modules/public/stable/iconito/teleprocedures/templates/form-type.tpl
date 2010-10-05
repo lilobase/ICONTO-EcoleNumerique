@@ -86,8 +86,7 @@
 
 	 <tr><td colspan="2" CLASS="form_submit">
 	 
-	 <i>{i18n key="kernel|kernel.fields.oblig"}</i>
-	 <br/>
+	 <p><i>{i18n key="kernel|kernel.fields.oblig" noEscape=1}</i></p>
 	 
 <input type="submit" class="button button-save" value="{i18n key="kernel|kernel.btn.save"}" />
 <input class="button button-cancel" type="button" value="{i18n key="kernel|kernel.btn.cancel"}" onclick="javascript:window.location='{copixurl dest="admin|" id=$type->teleprocedure}'" />

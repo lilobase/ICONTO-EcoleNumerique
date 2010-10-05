@@ -145,7 +145,7 @@
         // Si le noeud est déplié => chargement des fils
         if (a_expand.length > 0) {
            
-          jQuery('<img class="load-img" src="/themes/default/img/ajax-loader-mini.gif" />').insertAfter(a_node); 
+          jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').insertAfter(a_node); 
           
           if (a_expand.hasClass('expand')) {
 

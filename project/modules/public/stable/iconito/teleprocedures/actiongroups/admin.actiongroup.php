@@ -93,8 +93,6 @@ class ActionGroupAdmin extends EnicActionGroup {
 		
 		$main = $tplListe->fetch('list.tpl');
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
@@ -341,8 +339,6 @@ class ActionGroupAdmin extends EnicActionGroup {
 		
 		$main = $tplForm->fetch('form-type.tpl');
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));	
-
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		

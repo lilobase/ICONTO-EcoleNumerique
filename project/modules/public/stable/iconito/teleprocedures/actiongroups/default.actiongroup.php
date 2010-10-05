@@ -107,8 +107,6 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$main = $tplListe->fetch('list.tpl');
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
@@ -234,8 +232,6 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$main = $tplForm->fetch('insert.tpl');
 	
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('teleprocedures.title.newTelep'));
 		$tpl->assign ("MAIN", $main);
@@ -291,8 +287,6 @@ class ActionGroupDefault extends EnicActionGroup {
 		else
 			$main = $fiche.$comms.$actions;
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
@@ -360,8 +354,6 @@ class ActionGroupDefault extends EnicActionGroup {
 		$actions = CopixZone::process('ficheActionsDroits',array('rFiche'=>$rFiche, 'errors'=>$errors));
 		$main = $fiche.$actions;
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		

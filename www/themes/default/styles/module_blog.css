@@ -29,7 +29,7 @@
 #blog-template #blog-sidebar .blog-rss {
     display: block;
     float: right;
-    background: url('../../../themes/default/images/blog_rss.png') no-repeat 0 0;
+    background: url(../../../themes/default/images/blog_rss.png) no-repeat 0 0;
     width: 16px;
     height: 16px;
     padding: 0;
@@ -40,7 +40,7 @@
 
 #blog-template #blog-sidebar #blog-logo {
     display: block;
-    background: url('../../../themes/default/images/blog_defaultlogo.gif') no-repeat center 6px;
+    background: url(../../../themes/default/images/blog_defaultlogo.gif) no-repeat center 6px;
     width: 180px;
     text-align: center;
     text-transform: uppercase;

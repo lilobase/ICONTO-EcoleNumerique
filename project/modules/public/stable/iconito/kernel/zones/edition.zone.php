@@ -29,10 +29,12 @@ class ZoneEdition extends CopixZone {
 		$format = $this->getParam('format', NULL);
 		$content = $this->getParam('content', NULL);
 		$object = $this->getParam('object', array());
-		$width = $this->getParam('width', 600);
+		$width = $this->getParam('width', 650);
 		$height = $this->getParam('height', 300);
 		$class = $this->getParam('class');
 		$options = $this->getParam('options', array());
+    
+    $html = '';
     
 		if ($field && $format) {
 			
@@ -43,25 +45,6 @@ class ZoneEdition extends CopixZone {
 				case "wiki" :
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
-				
-					/*CopixHTMLHeader::addJSLink (_resource('js/FCKeditor/fckeditor.js'));
-					include("js/FCKeditor/fckeditor.php");
-					$oFCKeditor = new FCKeditor($field);
-					$oFCKeditor->BasePath = CopixUrl::get().'/js/FCKeditor/';
-					$oFCKeditor->Value = $content;
-					$oFCKeditor->ToolbarSet = isset($options['ToolbarSet']) ? $options['ToolbarSet'] : 'Iconito';
-					if (isset($options['EnterMode']))
-						$oFCKeditor->Config['EnterMode'] = $options['EnterMode'];
-					if (isset($options['ToolbarStartExpanded']))
-						$oFCKeditor->Config['ToolbarStartExpanded'] = $options['ToolbarStartExpanded'];
-					$oFCKeditor->Width  = $width ;
-					$oFCKeditor->Height = $height ;
-					//$oFCKeditor->Config["CustomConfigurationsPath"] = "../fckconfig.js";
-					$oFCKeditor->Config["CustomConfigurationsPath"] = "../fckconfig.js?".mktime() ; // Pour forcer le rechargement du fichier de config en cas de modif dedans
-					$fckeditor = $oFCKeditor->CreateHtml();
-					$tpl->assign ('fckeditor', $fckeditor);
-					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
-					break;*/
 				case "html" :
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
@@ -71,10 +54,10 @@ class ZoneEdition extends CopixZone {
 				case "dokuwiki" :
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>$format, 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
-                                case "fckeditor" :
-				case "ckeditor" :
+        case "fckeditor" :
+        case "ckeditor" :
 					CopixHTMLHeader::addJSLink (_resource('js/ckeditor/ckeditor.js'));
-                                        CopixHTMLHeader::addJSLink (_resource('js/ckeditor/config.js'));
+          CopixHTMLHeader::addJSLink (_resource('js/ckeditor/config.js'));
 					$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>$field, 'format'=>'ckeditor', 'object'=>array('type'=>$object_type, 'id'=>$object_id))));
 					break;
 			}
@@ -85,10 +68,12 @@ class ZoneEdition extends CopixZone {
 			$tpl->assign('width', $width);
 			$tpl->assign('height', $height);
 			$tpl->assign('class', $class);
-
+			$tpl->assign('options', $options);
 
 		}		
 		
+    //_dump($options);
+    
     $toReturn = $tpl->fetch ('zone.edition.tpl');
     return true;
 

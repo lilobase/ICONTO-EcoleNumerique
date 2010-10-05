@@ -131,11 +131,11 @@ ul.tree a.toggle-node {
   float:left;
   height:20px;
   width:11px;
-  background:url("/themes/default/img/collapsed.gif") no-repeat scroll left center transparent; 
+  background:url(../img/collapsed.gif) no-repeat scroll left center transparent; 
 }
 
 ul.tree a.expand{
-  background:url("/themes/default/img/expanded.gif") no-repeat scroll left center transparent;
+  background:url(../img/expanded.gif) no-repeat scroll left center transparent;
 }
 
 ul.tree a.after-expand {

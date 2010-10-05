@@ -84,9 +84,9 @@
         <tr class="list_line{math equation="x%2" x=$k}">
           <td>
             {if $person->id_sexe eq 1}
-              <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Homme" />
+              <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
             {else}                                                                 
-              <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Femme" />
+              <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
             {/if}
           </td>
           <td>{$person->nom}</td>

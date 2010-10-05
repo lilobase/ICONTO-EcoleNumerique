@@ -3,7 +3,6 @@
 
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <link rel="stylesheet" href="http://local.iconito.fr/themes/default/styles/theme.css" type="text/css"/>
 </head>
 <body>
   Liste éditée le {$smarty.now|datei18n:"date_short_time"}
