@@ -12,7 +12,9 @@
 {assign var=i value=0}
 {assign var=lastType value=''}
 {assign var=lastVille value=''}
+{if $dispFilter}
 <div class="content-panel">
+
     {if $displayVille}
 <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatleft">
     <select name="ville" id="select-school">
@@ -30,7 +32,7 @@
 </form>
     <div class="clearBoth"></div>
 </div>
-
+{/if}
 <div class="content-panel">
 {if $list}
 
