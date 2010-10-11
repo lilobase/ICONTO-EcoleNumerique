@@ -1,3 +1,11 @@
+
+{if $titre}<div class="titre">{$titre}</div>{/if}
+
+{assign var=i value=0}
+{assign var=lastType value=''}
+{assign var=lastVille value=''}
+{if $dispFilter}
+<div class="content-panel">
 {literal}
 <script type="text/javascript">
     jQuery(document).ready(function($){
@@ -7,14 +15,6 @@
     });
 </script>
 {/literal}
-{if $titre}<div class="titre">{$titre}</div>{/if}
-
-{assign var=i value=0}
-{assign var=lastType value=''}
-{assign var=lastVille value=''}
-{if $dispFilter}
-<div class="content-panel">
-
     {if $displayVille}
 <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatleft">
     <select name="ville" id="select-school">

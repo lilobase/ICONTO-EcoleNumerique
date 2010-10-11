@@ -44,8 +44,7 @@ class ZoneEcoles extends enicZone {
         $search = $this->getParam('search', null);
         $pGroupBy = $this->getParam('groupBy');
         $pDispType = $this->getParam('dispType');
-        $pDispFilter = $this->getParam('dispFilter');
-        $pDispFilter = ($pDispFilter === '')? true : ($pDispFilter) ? true : false;
+        $pDispFilter = ($this->getParam('dispFilter') === '')? true : ($pDispFilter) ? true : false;
 
 
         //add default city :
