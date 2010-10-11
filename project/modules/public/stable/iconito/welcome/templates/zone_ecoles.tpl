@@ -1,4 +1,12 @@
-
+{literal}
+<script type="text/javascript">
+    jQuery(document).ready(function($){
+        $("#select-school").change(function(){
+            $(this).parent("form").submit();
+        });
+    });
+</script>
+{/literal}
 {if $titre}<div class="titre">{$titre}</div>{/if}
 
 {assign var=i value=0}
@@ -7,13 +15,12 @@
 <div class="content-panel">
     {if $displayVille}
 <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatleft">
-    <select name="ville">
+    <select name="ville" id="select-school">
         <option value="-99">{i18n key="welcome.ecoles.all" noEscape=1}</option>
         {foreach from=$villes item=ville}
         <option {if $defaultVille == $ville.id_vi}selected="selected"{/if} value={$ville.id_vi}>{$ville.nom|utf8_encode}</option>
         {/foreach}
     </select>
-    <input type="submit" class="button button-confirm" value="ok"/>
 </form>
     {/if}
 
