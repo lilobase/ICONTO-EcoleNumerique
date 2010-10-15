@@ -8,7 +8,7 @@
 <input type="hidden" name="file" value="{$file.name}" />
 
 <p></p>
-{html_radios name="unzip" values=1 checked=1} {i18n key="malle.zip.unzip" 1=$file.name 2=$uploadMaxSize|human_file_size} 
+{html_radios name="unzip" values=1 checked=1} {i18n key="malle.zip.unzip" 1=$file.name 2=$uploadMaxSize|human_file_size noEscape=1} 
 
 {if $files neq null}
 <UL STYLE="font-size:80%;">

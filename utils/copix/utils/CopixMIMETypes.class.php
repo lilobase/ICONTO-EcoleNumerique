@@ -116,6 +116,7 @@ class CopixMIMETypes {
 			case 'mdb':
 			   return 'application/msaccess';
 			case 'doc':
+			case 'docx':
 			   return 'application/msword';
 			case 'dot':
 			   return 'application/msword';
@@ -165,6 +166,7 @@ class CopixMIMETypes {
 			case 'xul':
 			   return 'application/vnd.mozilla.xul+xml';
 			case 'xls':
+			case 'xlsx':
 			case 'xlb':
 			case 'xlt':
 			   return 'application/vnd.ms-excel';
@@ -173,6 +175,7 @@ class CopixMIMETypes {
 			case 'stl':
 			   return 'application/vnd.ms-pki.stl';
 			case 'ppt':
+			case 'pptx':
 			case 'pps':
 			   return 'application/vnd.ms-powerpoint';
 			case 'mmf':

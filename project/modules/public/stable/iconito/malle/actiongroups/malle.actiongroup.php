@@ -533,11 +533,18 @@ class ActionGroupMalle extends CopixActionGroup {
 
     if (!$errors && $_FILES['fichier']['name']) {
   		
-			// On ne permet pas le dézippage en mode popup
-  		if (!$field && !$format && in_array($_FILES['fichier']['type'], array('application/zip', 'application/x-zip-compressed', 'application/forcedownload', 'multipart/x-zip')))
+      $ext = '';
+      $point = strrpos ($_FILES['fichier']['name'], ".");
+      if ($point !== false) {
+        $ext = substr($_FILES['fichier']['name'],$point+1);
+        $ext = strtolower($ext);
+      } 
+      
+			// On ne permet pas le dezippage en mode popup
+  		if (!$field && !$format && $ext!='docx' && $ext!='pptx' && $ext!='xlsx' && in_array($_FILES['fichier']['type'], array('application/zip', 'application/x-zip-compressed', 'application/forcedownload', 'multipart/x-zip')))
   			return CopixActionGroup::process ('malle|malle::getUploadFileZip', array ('id'=>$id, 'folder'=>$folder, 'file'=>$_FILES['fichier']));
   		
-  		// On insère d'abord dans la base
+  		// On insere d'abord dans la base
   		$new = CopixDAOFactory::createRecord("malle|malle_files");
   		$new->malle = $id;
   		$new->folder = $folder;
