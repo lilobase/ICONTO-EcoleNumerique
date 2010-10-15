@@ -40,6 +40,10 @@ class CacheServices {
 		// Les dossiers de temp
 		$folder = COPIX_TEMP_PATH.'cache';
 		Demo_Tools::dirempty ($folder);
+		
+		$folder = COPIX_TEMP_PATH.'modules/registry';
+		Demo_Tools::dirempty ($folder);
+		
 		return true;
 	}
 
