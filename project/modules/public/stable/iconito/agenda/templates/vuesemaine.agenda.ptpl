@@ -333,6 +333,9 @@ if ($readLecon || $writeLecon){
 
 $html .= '</tbody>';
 $html .= '</table>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
 
 
 
