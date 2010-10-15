@@ -36,8 +36,8 @@ class ZoneLink extends CopixZone {
       
       // Doc : http://www.pragmasoft.be/wiki_kub904/?page=Ouvrir%20les%20fichiers%20.URL%20dans%20le%20navigateur
       
-      $regExp =     '@^(http[s]?:\/\/)([_a-zA-Z0-9-.?#&=\/]+)@i';
-      $regExpURL =  '@^(URL=)(http[s]?:\/\/)([_a-zA-Z0-9-.?#&=\/]+)@i';
+      $regExp =     '@^(http[s]?:\/\/)([_a-zA-Z0-9-.?%#&=\/]+)@i';
+      $regExpURL =  '@^(URL=)(http[s]?:\/\/)([_a-zA-Z0-9-.?%#&=\/]+)@i';
       
       $content = file_get_contents ($fullFile);
       
