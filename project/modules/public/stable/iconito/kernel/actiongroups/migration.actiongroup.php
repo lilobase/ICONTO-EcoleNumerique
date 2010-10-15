@@ -15,8 +15,8 @@ class ActionGroupMigration extends CopixActionGroup {
 	
 	private $connection_name_old = 'iconito_migration_old';
 	private $connection_name_new = 'iconito_migration_new';
-	private $path_old = '';
-	private $path_new = '';
+	private $path_old = '/Users/fmossmann/Documents/Eclipse/EN2010 ALPI/www/static_old';
+	private $path_new = '/Users/fmossmann/Documents/Eclipse/EN2010 ALPI/www/static';
 	
 	private $connection_old;
 	private $connection_new;
@@ -62,9 +62,7 @@ class ActionGroupMigration extends CopixActionGroup {
 			JOIN '.$this->bdname_new.'.kernel_mod_enabled NEW_MOD ON PER.numero=NEW_MOD.node_id AND NEW_MOD.node_type="USER_ENS" AND NEW_MOD.module_type="MOD_MALLE"
 			
 			-- DEBUG
-			WHERE
-				-- OLD_MOD.module_type="MOD_ALBUM" AND
-				OLD_MOD.module_id!=3
+			-- WHERE OLD_MOD.module_type="MOD_MALLE" AND NEW_MOD.module_id=52
 			
 			ORDER BY eco_nom, cla_nom, per_nom, per_prenom
 			');
@@ -170,21 +168,29 @@ class ActionGroupMigration extends CopixActionGroup {
 		$destmalle_dossiers_dao = _dao('malle|malle_folders',$this->connection_name_new);
 		
 		$currentGrade = $annee_scolaire_dao->getCurrent ();
-		if(count($currentGrade)) $archive_name = "Archive ".($currentGrade->anneeScolaire);
-		else                     $archive_name = "Archive";
+		if(count($currentGrade)) $archive_name_main = "Archive ".($currentGrade->anneeScolaire);
+		else                     $archive_name_main = "Archive";
 		
 		foreach( $datas AS $data ) {
+			$archive_name = $archive_name_main." : ".$data->cla_nom;
+			
 			$malleinfos = $destmalle_malle_dao->get($data->to_malle_id);
 
+			if(!is_dir($this->path_new."/malle/".$malleinfos->id."_".$malleinfos->cle)) {
+				mkdir($this->path_new."/malle/".$malleinfos->id."_".$malleinfos->cle);
+			}
+			
 			if( 0==count($data->data->files) && 0==count($data->data->folders) ) continue;
 			
 			
-			// Find Archive folder
+			// Recherche du dossier d'archive
 			$destfolders = $destmalle_dossiers_dao->getFoldersInFolder($data->to_malle_id, 0);
 			$destfolder_found = false;
 			foreach( $destfolders AS $destfolder ) {
-				if($destfolder->nom==$archive_name) $destfolder_found = true;
+				if($destfolder->nom==$archive_name) { $destfolder_found = true; break; }
 			}
+			
+			// Si le dossier d'archive n'existe pas, création...
 			if(!$destfolder_found) {
 				$destfolder = _record('malle|malle_folders',$this->connection_name_new);
 				$destfolder->malle = $data->to_malle_id;
@@ -199,17 +205,35 @@ class ActionGroupMigration extends CopixActionGroup {
 				_dao('malle|malle_folders',$this->connection_name_new)->insert($destfolder);
 			}
 			
-			$destsubfolders = $destmalle_dossiers_dao->getFoldersInFolder($data->to_malle_id, $destfolder->id);
+			// Création du sous-dossier Album ou Malle
+			$destsubfolders = _record('malle|malle_folders',$this->connection_name_new);
+			$destsubfolders->malle = $data->to_malle_id;
+			$destsubfolders->malle_cle = $malleinfos->cle;
+			$destsubfolders->parent = $destfolder->id;
+			$destsubfolders->nb_folders = 0;
+			$destsubfolders->nb_files = 0;
+			$destsubfolders->taille = 0;
+			$destsubfolders->date_creation = date("Y-m-d H:i:s");
+			
 			switch( $data->from_mod_type ) {
 				case 'MOD_ALBUM':
+					$destsubfolders->nom = "Album";
+					_dao('malle|malle_folders',$this->connection_name_new)->insert($destsubfolders);
+					$this->doExportAlbum($destsubfolders, $data->data);
 					break;
 				case 'MOD_MALLE':
+					$destsubfolders->nom = "Malle";
+					_dao('malle|malle_folders',$this->connection_name_new)->insert($destsubfolders);
+					$this->doExportMalle($destsubfolders, $data->data);
 					break;
 			}
 			
-			_dump($data);
-			die('stop');
+			// _dump($data);
+			
+			$malleService = & CopixClassesFactory::Create ('malle|malleService');
+			$malleService->update_infos_for_folder_desc($data->to_malle_id, 0);
 			// Malle Service : update_infos_for_folder
+			// die('stop'.$data->from_mod_type);
 		}
 		// $malle_dossiers_dao
 		
@@ -217,28 +241,81 @@ class ActionGroupMigration extends CopixActionGroup {
 		
 		// Check Malle's folder
 	}
+	
+	private function doExportAlbum($destfolder, $data) {
+
+		foreach( $data->files AS $file ) {
+			$file_from = $this->path_old."/album/".$file->album_id."_".$file->album_cle."/".$file->photo_id."_".$file->photo_cle.".".$file->photo_ext;
+			
+			$destfile = _record('malle|malle_files',$this->connection_name_new);
+			$destfile->malle = $destfolder->malle;
+			$destfile->malle_cle = $destfolder->malle_cle;
+			$destfile->folder = $destfolder->id; 
+			$destfile->nom = $file->photo_nom;
+			$destfile->fichier = "archive_album_".$file->photo_id."_".$file->photo_cle.".".$file->photo_ext;
+			$destfile->taille = filesize($file_from);
+			$destfile->type = CopixMIMETypes::getFromExtension ($file->photo_ext);
+			$destfile->cle = substr( md5(microtime()), 0, 10 );
+			$destfile->date_upload = $destfolder->date_creation;
+			_dao('malle|malle_files',$this->connection_name_new)->insert($destfile);
+			
+			$file_dest = $this->path_new."/malle/".$destfolder->malle."_".$destfolder->malle_cle."/".$destfile->id."_archive_album_".$file->photo_id."_".$file->photo_cle.".".$file->photo_ext;
+			copy( $file_from, $file_dest );
+		}
+		
+		foreach( $data->folders AS $folder ) {
+			$destsubfolders = _record('malle|malle_folders',$this->connection_name_new);
+			$destsubfolders->malle = $destfolder->malle;
+			$destsubfolders->malle_cle = $destfolder->malle_cle;
+			$destsubfolders->parent = $destfolder->id;
+			$destsubfolders->nb_folders = 0;
+			$destsubfolders->nb_files = 0;
+			$destsubfolders->taille = 0;
+			$destsubfolders->date_creation = date("Y-m-d H:i:s");
+			$destsubfolders->nom = $folder->dossier_nom;
+			_dao('malle|malle_folders',$this->connection_name_new)->insert($destsubfolders);
+			
+			$this->doExportAlbum($destsubfolders, $folder);
+		}
+	}
+	
+	private function doExportMalle($destfolder, $data) {
+		$malleService = & CopixClassesFactory::Create ('malle|malleService');
+		
+		foreach( $data->files AS $file ) {
+			$file_from = $this->path_old."/malle/".$file->malle."_".$file->malle_cle."/".$file->id."_".$file->fichier;
+			
+			$destfile = _record('malle|malle_files',$this->connection_name_new);
+			$destfile->malle = $destfolder->malle;
+			$destfile->malle_cle = $destfolder->malle_cle;
+			$destfile->folder = $destfolder->id; 
+			$destfile->nom = stripslashes($file->nom);
+			$destfile->fichier = "archive_malle_".$file->fichier;
+			$destfile->taille = filesize($file_from);
+			$destfile->type = $malleService->getMimeType($file_from);
+			$destfile->cle = substr( md5(microtime()), 0, 10 );
+			$destfile->date_upload = $destfolder->date_creation;
+			_dao('malle|malle_files',$this->connection_name_new)->insert($destfile);
+			
+			$file_dest = $this->path_new."/malle/".$destfolder->malle."_".$destfolder->malle_cle."/".$destfile->id."_archive_malle_".$file->fichier;
+			copy( $file_from, $file_dest );
+		}
+		
+		foreach( $data->folders AS $folder ) {
+			$destsubfolders = _record('malle|malle_folders',$this->connection_name_new);
+			$destsubfolders->malle = $destfolder->malle;
+			$destsubfolders->malle_cle = $destfolder->malle_cle;
+			$destsubfolders->parent = $destfolder->id;
+			$destsubfolders->nb_folders = 0;
+			$destsubfolders->nb_files = 0;
+			$destsubfolders->taille = 0;
+			$destsubfolders->date_creation = date("Y-m-d H:i:s");
+			$destsubfolders->nom = $folder->nom;
+			_dao('malle|malle_folders',$this->connection_name_new)->insert($destsubfolders);
+			
+			$this->doExportMalle($destsubfolders, $folder);
+		}
+	}
 }
-
-/*
-$string = CopixDB::getConnection ('sql')->getProfile ()->getConnectionStringParts ();
-$sqlDBName = $string['dbname'];
-
-$string = CopixDB::getConnection ('viescolaire')->getProfile ()->getConnectionStringParts ();
-$vsDBName = $string['dbname'];
-
-_doQuery ('UPDATE `'.$sqlDBName.'`.Creche SET id=NULL');
-
-$record = _record('kernel|eleve','viescolaire');
-
-_ioDAO('kernel|eleve','viescolaire')->insert($record);
-
-		// $return = 
-		// _ioDAO('kernel|eleve','viescolaire')->insert($record);
-		// findAllByAlbumAndFolder($album_id,$dossier_id);
-		// Album::getFoldersTree( $album_id, $dossier_id );
-		// $dossiers_dao = _dao("dossier");
-		// $dossiers_list = $dossiers_dao->findAllByAlbum($album_id);
-
-*/
 
 ?>
