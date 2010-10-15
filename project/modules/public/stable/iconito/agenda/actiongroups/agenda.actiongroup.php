@@ -13,6 +13,8 @@ _classInclude('agenda|agendaservices');
 _classInclude('agenda|dateservices');
 _classInclude('agenda|agendatype');
 _classInclude('agenda|semaineparams');
+_classInclude('agenda|agendaauth');
+
 require_once (COPIX_TEMP_PATH.'../utils/copix/smarty_plugins/modifier.wiki.php');
 
 class ActionGroupAgenda extends CopixActionGroup {
@@ -148,10 +150,22 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'behavior' => $menu_behavior, 'url' => $menu_url);
 		
 		// Nouvel evenement
-		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
-		$menu_type = 'create';
-		$menu_url = CopixUrl::get ('agenda|event|create');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
+    $listAgendasAffiches = AgendaService::getAgendaAffiches();
+    $ableToWrite = false;
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
+		foreach((array)$listAgendasAffiches as $id_agenda){
+			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
+			if(AgendaAuth::getCapability($id_agenda) >= AgendaAuth::getWriteAgenda()){
+				$ableToWrite = true;
+			}
+		}		
+		if($ableToWrite) {
+  		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
+  		$menu_type = 'create';
+  		$menu_url = CopixUrl::get ('agenda|event|create');
+  		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
+		}
+    
 		
 		// Export
 		$menu_txt = CopixI18N::get('agenda.menu.export');

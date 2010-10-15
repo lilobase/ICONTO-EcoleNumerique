@@ -25,13 +25,13 @@ class AgendaAuth {
 		}
 		
     if ($d >= PROFILE_CCV_MEMBER)
-      $res = $this->getModerate();
+      $res = AgendaAuth::getModerate();
     //elseif ($d >= PROFILE_CCV_VALID)
     //  $res = $this->getWriteAgenda();
     elseif ($d >= PROFILE_CCV_READ)
-      $res = $this->getRead();
+      $res = AgendaAuth::getRead();
     else
-      $res = $this->getNone();
+      $res = AgendaAuth::getNone();
 		
     //print_r ("idAgenda=$idAgenda / res=$res<br>");
 		return $res;
