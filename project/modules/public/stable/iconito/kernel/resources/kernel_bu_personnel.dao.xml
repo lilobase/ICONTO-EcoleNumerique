@@ -27,6 +27,7 @@
 		<property name="pers_adresse2" fieldname="adresse2" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_code_postal" fieldname="code_postal" type="string" table="kernel_bu_personnel" pk="no"/>
 		<property name="pers_commune" fieldname="commune" type="string" table="kernel_bu_personnel" pk="no"/>
+		<property name="pers_id_ville" fieldname="id_ville" type="integer" table="kernel_bu_personnel" pk="no"/>
 	</properties>
 	<methods>
 		<method name="listUsers" type="select">

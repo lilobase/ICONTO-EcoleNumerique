@@ -1521,27 +1521,32 @@ class ActionGroupDefault extends enicActionGroup {
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
+	  $node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
+	  
 	  switch ($ppo->nodeType) {
 	    
 	    case 'BU_GRVILLE':
 	      _currentUser()->assertCredential('module:cities_group|'.$ppo->nodeId.'|cities_group_agent|create@gestionautonome');
+	      $id_ville = null;
 	      break;
 	    case 'BU_VILLE':
 	      _currentUser()->assertCredential('module:city|'.$ppo->nodeId.'|city_agent|create@gestionautonome');
+	      $id_ville = $ppo->nodeId;
 	      break;
 	    case 'BU_ECOLE':
 	      if ($ppo->type == 'USER_ADM') {
 	        
 	        _currentUser()->assertCredential('module:school|'.$ppo->nodeId.'|administration_staff|create@gestionautonome');
-	        break;
 	      }
 	      else {
 	        
 	        _currentUser()->assertCredential('module:school|'.$ppo->nodeId.'|principal|create@gestionautonome');
-	        break;
 	      }
+	      $id_ville = $node_infos['ALL']->eco_id_ville;
+	      break;
 	    case 'BU_CLASSE':
 	      _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|teacher|create@gestionautonome');
+	      $id_ville = $node_infos['ALL']->eco_id_ville;
 	      break;
 	  }
 
@@ -1554,6 +1559,7 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->personnel->pers_prenom1     = trim (_request ('prenom1', null));    
     $ppo->personnel->pers_date_nais   = CopixDateTime::dateToyyyymmdd(_request ('date_nais', null));
     $ppo->personnel->pers_id_sexe     = _request ('gender', null);
+    $ppo->personnel->pers_id_ville    = $id_ville;
     
     $ppo->personnel->pers_civilite = "";
     if($ppo->personnel->pers_id_sexe==1) $ppo->personnel->pers_civilite = "Monsieur";
@@ -1679,8 +1685,6 @@ class ActionGroupDefault extends enicActionGroup {
 		$newPersonnelEntite->pers_entite_role      = $ppo->role;
 		
 		$personnelEntiteDAO->insert ($newPersonnelEntite);
-		
-		$node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
 
 		// Enseignant : enregistrement kernel_bu_personnel_entite ecole
 		if ($type_ref == 'CLASSE' && $type_user == 'USER_ENS') {
