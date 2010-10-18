@@ -20,15 +20,21 @@ class ZoneUserMenu extends CopixZone {
 		$ppo = new CopixPPO ();
 		$user = _currentUser ();
 		//		echo '<pre>';
-		//		print_r($user->getExtra('id'));
+		//		print_r($user->getExtra('type'));
 		//		echo '</pre>';
 
+        $ppo->menuitems = "";
+        $ppo->logout = "";
+        
+		$utype = $user->getExtra('type');
+		$uid = $user->getExtra('id');
+        $ppo->uLogged = $user->isConnected();
+        $ppo->uType = $utype;
+        $ppo->uId = $uid;
+
 		if ($user->isConnected()) {
-			$ppo->usermenu = "<ul class=\"usermenu\">";
 			$menuitem = array("title", "url", "class");
 			$logoff = array("title", "url", "class");
-			$utype = $user->getExtra('type');
-			$uid = $user->getExtra('id');
 
 			$menuitems = array();
 				
@@ -92,22 +98,9 @@ class ZoneUserMenu extends CopixZone {
 				array_push($menuitems, $menuitem);
 			}
 
-
-			foreach ($menuitems as $item) {
-				$ppo->usermenu .= "<li class=\"".$item["class"]."\">";
-				if (isset($item["before"]))
-				$ppo->usermenu .= $item["before"];
-				$ppo->usermenu .= "<a class=\"item ".$item["class"]."\" href=\"".$item["url"]."\" title=\"".$item["title"]."\"><span class=\"hidden\">".$item["title"]."</span></a>";
-
-				$ppo->usermenu .= "</li>";
-			}
-			$ppo->usermenu .= "	<li class=\"".$logout["class"]."\">";
-			$ppo->usermenu .= "<a class=\"".$logout["class"]."\" href=\"".$logout["url"]."\" title=\"".$logout["title"]."\"><span class=\"hidden\">".$logout["title"]."</span></a>";
-			$ppo->usermenu .= "	</li>";
-			$ppo->usermenu .= "</ul>";
-		}
-		else $ppo->usermenu = "";
-
+            $ppo->menuitems = $menuitems;
+            $ppo->logout = $logout;
+        }
 		$toReturn = $this->_usePPO ($ppo, 'usermenu.tpl');
 		return true;
 	}
