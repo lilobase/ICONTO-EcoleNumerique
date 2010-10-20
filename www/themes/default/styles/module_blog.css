@@ -227,11 +227,9 @@
 	text-align: justify;
 }
 #article DIV.postContent TABLE,  #article DIV.postSummary TABLE,  #listArticles DIV.postContent TABLE {
-	border: solid 1px #D9E575;
 }
 #article DIV.postContent TR, #article DIV.postSummary TR, #listArticles DIV.postContent TR  {
-	border: solid 1px #D9E575;
-	background: #D9E575;
+	border: solid 1px #f0f0f0;
 }
 #article DIV.postContent TD, #article DIV.postSummary TD, #listArticles DIV.postContent TD {
 	border: 0;
