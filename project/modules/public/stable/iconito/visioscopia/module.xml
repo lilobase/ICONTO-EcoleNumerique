@@ -4,6 +4,6 @@
   	  <default name="visioscopia" descriptioni18n="visioscopia.moduleDescription"/>
     </general>
     <parameters>
-	    <parameter name="url" captioni18n="visioscopia.parameter.url" default="http://webconf.ac-montpellier.fr/scopia/entry/index.jsp?ID=%ROOM%&amp;page=join&amp;autoconnect" />
+	    <parameter name="conf_ModVisioScopia_url" captioni18n="visioscopia.parameter.url" default="http://webconf.ac-montpellier.fr/scopia/entry/index.jsp?ID=%ROOM%&amp;page=join&amp;autoconnect" />
   	</parameters>
 </moduledefinition>

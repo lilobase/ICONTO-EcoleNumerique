@@ -7,9 +7,9 @@
 		</tables>
 	</datasource>
 	<properties>
-		<property name="id"          fieldname="id"          type="autoincrement" table="visioscopia_config"  pk="yes"/>
+		<property name="id"          fieldname="id"          type="integer"       table="visioscopia_config"  pk="yes"/>
 		<property name="conf_id"     fieldname="conf_id"     type="string"        table="visioscopia_config"  pk="no" />
-		<property name="conf_active" fieldname="conf_active" type="integer"        table="visioscopia_config" pk="no" />
+		<property name="conf_active" fieldname="conf_active" type="integer"       table="visioscopia_config" pk="no" />
 		<property name="conf_msg"    fieldname="conf_msg"    type="string"        table="visioscopia_config"  pk="no" />
  	</properties>
 </daodefinition>
