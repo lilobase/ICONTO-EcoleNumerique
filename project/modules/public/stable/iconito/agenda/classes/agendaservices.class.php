@@ -595,5 +595,68 @@ class AgendaService {
     return $res;
   }
 
+
+  
+	/**
+	 * Renvoie le menu des agendas
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2010/10/20
+	 * @param string $iCurrent Onglet a allumer
+	 * @return array Tableau du menu a afficher
+	 */  
+  function getAgendaMenu ($iCurrent) {
+    $menu = array();
+    
+    // Affichage hebdomadaire
+		$menu_txt = CopixI18N::get('agenda.menu.back');
+		$menu_type = 'week';
+		$menu_url = CopixUrl::get ('agenda|agenda|vueSemaine');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+    
+    // Liste des agendas (popup)
+		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
+		$menu_type = 'agendalist';
+		$menu_behavior = 'fancybox';
+		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'behavior' => $menu_behavior, 'url' => $menu_url);
+    
+    // Nouvel evenement
+    $listAgendasAffiches = AgendaService::getAgendaAffiches();
+    $ableToWrite = false;
+    $ableToModerate = false;
+		//on vérifie les droits des utilisateurs sur la liste des agendas affichés
+		foreach((array)$listAgendasAffiches as $id_agenda){
+			//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affiché
+			if(AgendaAuth::getCapability($id_agenda) >= AgendaAuth::getWriteAgenda()){
+				$ableToWrite = true;
+			}
+			if(AgendaAuth::getCapability($id_agenda) >= AgendaAuth::getModerate()){
+				$ableToModerate = true;
+			}
+		}		
+		if($ableToWrite) {
+  		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
+      $menu_type = 'create';
+  		$menu_url = CopixUrl::get ('agenda|event|create');
+  		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+		}
+		if($ableToModerate) {
+  		$menu_txt = CopixI18N::get('agenda.menu.import');
+      $menu_type = 'import';
+  		$menu_url = CopixUrl::get ('agenda|importexport|prepareImport');
+  		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+		}
+    
+    // Export
+		$menu_txt = CopixI18N::get('agenda.menu.export');
+		$menu_type = 'export';
+		$menu_url = CopixUrl::get ('agenda|importexport|prepareExport');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+    
+     
+    return $menu;
+  
+  }
+
 }
 ?>

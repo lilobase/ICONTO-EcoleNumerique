@@ -95,6 +95,9 @@ class KernelAgenda {
 		$res['nbLecons'] = array ('name'=>CopixI18N::get ('agenda|agenda.stats.nbLecons', array($a[0]->nb)));
 		return $res;
 	}
+  
+
+  
 
 }
 

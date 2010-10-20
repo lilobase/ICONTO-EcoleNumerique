@@ -129,40 +129,10 @@ class ActionGroupLecon extends CopixActionGroup {
 		//template principal
 		$tpl = & new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.title.lecon', array('jour'=>CopixDateTime::yyyymmddToDate($toEdit->date_lecon))));
-
-		// CONSTRUCTION DU MENU
-		// S.Holtz 2010.09
-		$menu = array();
-		
-		// Affichage hebdomadaire
-		$menu_txt = CopixI18N::get('agenda.menu.back');
-		$menu_type = 'week';
-		$menu_url = CopixUrl::get ('agenda|agenda|vueSemaine');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Liste des agendas (popup)
-/*		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
-		$menu_type = 'agendalist';
-		$menu_behavior = 'popup';
-		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'behavior' => $menu_behavior, 'url' => $menu_url);
-*/		
-		// Nouvel evenement
-		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
-		$menu_type = 'create';
-		$menu_url = CopixUrl::get ('agenda|event|create');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Export
-		$menu_txt = CopixI18N::get('agenda.menu.export');
-		$menu_type = 'export';
-		$menu_url = CopixUrl::get ('agenda|importexport|prepareExport');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-
+    
+    $menu = $serviceAgenda->getAgendaMenu('');
 		$tpl->assign ('MENU', $menu);
-		// FIN CONSTRUCTION DU MENU
 
-//    $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

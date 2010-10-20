@@ -75,39 +75,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$tpl = & new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.import'));
 
-		// CONSTRUCTION DU MENU
-		// S.Holtz 2010.09
-		$menu = array();
-		
-		// Affichage hebdomadaire
-		$menu_txt = CopixI18N::get('agenda.menu.back');
-		$menu_type = 'week';
-		$menu_url = CopixUrl::get ('agenda|agenda|vueSemaine');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Liste des agendas (popup)
-/*		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
-		$menu_type = 'agendalist';
-		$menu_behavior = 'popup';
-		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'behavior' => $menu_behavior, 'url' => $menu_url);
-*/		
-		// Nouvel evenement
-		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
-		$menu_type = 'create';
-		$menu_url = CopixUrl::get ('agenda|event|create');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Export
-		$menu_txt = CopixI18N::get('agenda.menu.export');
-		$menu_type = 'export';
-		$menu_url = CopixUrl::get ('agenda|importexport|prepareExport');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => true, 'url' => $menu_url);
-
+		$menu = $serviceAgenda->getAgendaMenu('import');
 		$tpl->assign ('MENU', $menu);
-		// FIN CONSTRUCTION DU MENU
 
-//    	$tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);	
@@ -226,40 +196,10 @@ class ActionGroupImportExport extends CopixActionGroup {
 		//template principal
 		$tpl = & new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.import'));
-
-		// CONSTRUCTION DU MENU
-		// S.Holtz 2010.09
-		$menu = array();
-		
-		// Affichage hebdomadaire
-		$menu_txt = CopixI18N::get('agenda.menu.back');
-		$menu_type = 'week';
-		$menu_url = CopixUrl::get ('agenda|agenda|vueSemaine');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Liste des agendas (popup)
-/*		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
-		$menu_type = 'agendalist';
-		$menu_behavior = 'popup';
-		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'behavior' => $menu_behavior, 'url' => $menu_url);
-*/		
-		// Nouvel evenement
-		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
-		$menu_type = 'create';
-		$menu_url = CopixUrl::get ('agenda|event|create');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Export
-		$menu_txt = CopixI18N::get('agenda.menu.export');
-		$menu_type = 'export';
-		$menu_url = CopixUrl::get ('agenda|importexport|prepareExport');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => true, 'url' => $menu_url);
-
+    
+    $menu = $serviceAgenda->getAgendaMenu('import');
 		$tpl->assign ('MENU', $menu);
-		// FIN CONSTRUCTION DU MENU
 
-//    $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -321,39 +261,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$tpl->assign ('BODY_ON_LOAD', "setDatePicker('#datedeb_export,#datefin_export')");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.export'));
 		
-		// CONSTRUCTION DU MENU
-		// S.Holtz 2010.09
-		$menu = array();
-		
-		// Affichage hebdomadaire
-		$menu_txt = CopixI18N::get('agenda.menu.back');
-		$menu_type = 'week';
-		$menu_url = CopixUrl::get ('agenda|agenda|vueSemaine');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Liste des agendas (popup)
-/*		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
-		$menu_type = 'agendalist';
-		$menu_behavior = 'popup';
-		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'behavior' => $menu_behavior, 'url' => $menu_url);
-*/		
-		// Nouvel evenement
-		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
-		$menu_type = 'create';
-		$menu_url = CopixUrl::get ('agenda|event|create');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => false, 'url' => $menu_url);
-		
-		// Export
-		$menu_txt = CopixI18N::get('agenda.menu.export');
-		$menu_type = 'export';
-		$menu_url = CopixUrl::get ('agenda|importexport|prepareExport');
-		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => true, 'url' => $menu_url);
-
+		$menu = $serviceAgenda->getAgendaMenu('export');
 		$tpl->assign ('MENU', $menu);
-		// FIN CONSTRUCTION DU MENU
 
-//    $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);	
@@ -455,7 +365,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionImport ($toSet){
-		var_dump($toSet);
+		//var_dump($toSet);
 		$toSession = ($toSet !== null) ? serialize($toSet) : null;
 		_sessionSet('modules|agenda|import_agenda', $toSession);
 	}
@@ -493,11 +403,18 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function _checkExport ($obj) {
 		$toReturn = array();
 		
-		$datedeb 		 = $obj->datedeb_export;
-		$datefin 		 = $obj->datefin_export;
+    $datedeb = $datedebTs = null;
+    $datefin = $datefinTs = null;
+    
+    if (isset($obj->datedeb_export)) {
+      $datedeb 		 = $obj->datedeb_export;
+      $datedebTs 		 = CopixDateTime::dateToTimestamp($datedeb);
+    }
+    if (isset($obj->datefin_export)) {
+      $datefin 		 = $obj->datefin_export;
+		  $datefinTs 		 = CopixDateTime::dateToTimestamp($datefin);
+    }
 		
-		$datedebTs 		 = CopixDateTime::dateToTimestamp($datedeb);
-		$datefinTs 		 = CopixDateTime::dateToTimestamp($datefin);
 		
 		//vérification si les champs sont bien remplis
 		if (!$datedeb) {

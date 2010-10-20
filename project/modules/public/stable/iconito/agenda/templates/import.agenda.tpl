@@ -32,7 +32,7 @@
 		</tr>
 		<tr>
 			<td class="form_libelle">{i18n key="agenda.message.option"}</td>
-			<td class="desc_import">{i18n key="agenda.message.define"}
+			<td class="desc_import">{i18n key="agenda.message.define" noEscape=1}
       <br/>
       <input type="radio" name="option" value="0" size="65" {if "0" eq $importParams->option}checked="checked"{/if} /> {i18n key="agenda.message.vider"}<br />
 									<input type="radio" name="option" value="1" size="65" {if "1" eq $importParams->option}checked="checked"{/if} /> {i18n key="agenda.message.importer"}
