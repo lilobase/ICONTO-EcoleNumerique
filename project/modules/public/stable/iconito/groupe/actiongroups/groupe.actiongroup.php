@@ -1288,7 +1288,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				while (!$deja && list(,$mod) = each ($mod_enabled))
 				$deja = (($mod->module_type == $moduleType) ? $mod->module_id : false);
 
-				//print_r("<br/>moduleType=$moduleType / deja=$deja / ");
+				// print_r("<br/>moduleType=$moduleType / deja=$deja / ");
 
 
 				if ($deja && (!isset($his_modules[$moduleType]) || !$his_modules[$moduleType])) { // Cocher -> décocher, on supprime le module
@@ -1299,13 +1299,13 @@ class ActionGroupGroupe extends CopixActionGroup {
 						$unregister = $kernel_service->unregisterModule( $moduleType, $deja, "CLUB", $id );
 					}
 				} elseif (!$deja && isset($his_modules[$moduleType])) { // Décocher -> cocher, on instancie le module
-					//print_r("Add");
+					// print_r("Add");
 					$classeNew = CopixClassesFactory::create("$module|Kernel$module");
 					$new = $classeNew->create(array('title'=>$groupe[0]->titre, 'node_type'=>'CLUB', 'node_id'=>$id));
-					//print_r("new=$new");
+					// print_r("new=$new");
 					if ($new) {	// Module bien crée, on le rattache
 						$register = $kernel_service->registerModule( $moduleType, $new, "CLUB", $id );
-						//print_r("new=$new / register=$register");
+						// print_r("new=$new / register=$register");
 					}
 				} else {	// Pas de changement
 					//print_r("Rien");

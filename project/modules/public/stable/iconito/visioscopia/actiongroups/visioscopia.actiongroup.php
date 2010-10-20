@@ -44,7 +44,6 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 			}
 		}
 		
-		
 		if( $conf_result ) {
 			if( CopixConfig::exists('|conf_ModVisioScopia_url') ) {
 				$tplVisio->assign ('config_ok', 1);
@@ -66,10 +65,13 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 			$tplVisio->assign ('config_ok', 0);
 		}
 		
+		$tplVisio->assign ('visio_id', $id);
 		$tplVisio->assign ('config', $conf_result);
 		
 		$result = $tplVisio->fetch('visioscopia-user.tpl');
 		
+		// echo Kernel::getLevel( "MOD_VISIOSCOPIA", $id );
+
 		if( Kernel::getLevel( "MOD_VISIOSCOPIA", $id ) >= PROFILE_CCV_ADMIN ) {
 			$result .= $tplVisio->fetch('visioscopia-admin.tpl');
 		} else {
@@ -77,8 +79,8 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 		
 		
 		$menu = array();
-		$returntoparent = Kernel::menuReturntoParent( "MOD_VISIOSCOPIA", $id );
-		if( $returntoparent ) $menu[] = $returntoparent;
+		// $returntoparent = Kernel::menuReturntoParent( "MOD_VISIOSCOPIA", $id );
+		// if( $returntoparent ) $menu[] = $returntoparent;
 		$tpl->assign ('MENU', $menu );
 		
 		$tpl->assign ('MAIN', $result);

@@ -18,7 +18,12 @@ class KernelVisioScopia {
 	 * @return integer l'Id de la malle créée ou NULL si erreur
 	 */
 	function create ($infos=array()) {
-		
+		$return = NULL;
+		$dao = _dao("module_visioscopia");
+		$new = _record("module_visioscopia");
+		$new->date_creation = date("Y-m-d H:i:s");
+		$dao->insert ($new);
+		return $new->id;
 		
 	}
 
@@ -31,8 +36,10 @@ class KernelVisioScopia {
 	 * @return boolean true si la suppression s'est bien passée, false sinon
 	 */
 	function delete ($id) {
-
+		$dao = _dao("module_visioscopia");
+		$dao->delete($id);
 		
+		return(true);
 	}
 
 	/**
