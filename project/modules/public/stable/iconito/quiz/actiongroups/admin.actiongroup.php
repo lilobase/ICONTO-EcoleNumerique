@@ -5,35 +5,6 @@ class ActionGroupAdmin extends enicActionGroup{
         _currentUser()->assertCredential('group:[current_user]');
     }
 
-    public function processIndex(){
-
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
-        //check the current groupe quiz id
-        if(!$this->session->exists('id_gr_quiz'))
-            return $this->error ('quiz.errors.badOperation', true, 'quiz||');
-
-        $id_gr_quiz = $this->session->load('id_gr_quiz');
-
-        if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
-            return $this->error ('quiz.admin.noRight');
-
-        //start tpl :
-        $ppo = new CopixPPO();
-        $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
-        $ppo->list = $ppo->list = CopixZone::process('adminList');
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
-                            'type' => 'list-active',
-                            'url' => $this->url('quiz|default|default', array('qaction' => 'list')));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listAll'),
-                            'type' => 'list',
-                            'url' => $this->url('quiz|admin|list'));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
-                            'type' => 'create',
-                            'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
-        return _arPPO($ppo, 'admin.index.tpl');
-
-    }
-
     public function processList(){
 
         $this->addCss("styles/module_quiz.css");
@@ -575,27 +546,31 @@ class ActionGroupAdmin extends enicActionGroup{
     }
 
     public function processResults(){
-        $pId = CopixRequest::getInt('id', false);
-        if(!$pId){
-             return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuiz'), 'back'=>CopixUrl::get('quiz|admin|')));
-        }
-        $quizData = _ioDAO('quiz_quiz')->get($pId);
-        if($quizData == null || count($quizData) == 0){
-             return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuiz'), 'back'=>CopixUrl::get('quiz||')));
-        }
 
-        //check the current groupe quiz id
         if(!$this->session->exists('id_gr_quiz'))
             return $this->error ('quiz.errors.badOperation', true, 'quiz||');
-        $id_gr_quiz = $this->session->load('id_gr_quiz');
-
-        //test if the user is admin
-        if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
+        $groupQuizId = $this->session->load('id_gr_quiz');
+        
+        if(Kernel::getLevel( 'MOD_QUIZ', $groupQuizId) < PROFILE_CCV_ADMIN)
             return $this->error ('quiz.admin.noRight');
 
+        $quizId = $this->request('id')*0;
+        if(empty($quizId))
+            return $this->error ('quiz.errors.noQuiz');
+        
+        $quizDatas = $this->db->query('SELECT * FROM module_quiz_quiz WHERE id = '.$quizId)->toArray1();
+        if(empty($quizDatas))
+            return $this->error('quiz.errors.noQuiz');
 
-        $responsesData = _ioDAO('quiz_responses')->getResponsesByQuiz($pId);
-        $questionsData = _ioDAO('quiz_questions')->getQuestionsForQuiz($pId);
+        $questionsCollection = $this->db->query('SELECT * FROM module_quiz_questions WHERE id_quiz = '.$quizId)->toArray();
+        $answersCollection = $this->db->query('SELECT * FROM module_quiz_responses WHERE id_quiz = '.$quizId)->toArray();
+
+        $questionNumber = count($questionsCollection);
+
+
+
+        $responsesData = _ioDAO('quiz_responses')->getResponsesByQuiz($quizId);
+        $questionsData = _ioDAO('quiz_questions')->getQuestionsForQuiz($quizId);
 		
         $nbQuestions = count($questionsData);
 

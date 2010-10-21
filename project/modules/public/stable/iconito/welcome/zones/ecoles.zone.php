@@ -44,7 +44,8 @@ class ZoneEcoles extends enicZone {
         $search = $this->getParam('search', null);
         $pGroupBy = $this->getParam('groupBy');
         $pDispType = $this->getParam('dispType');
-        $pDispFilter = ($this->getParam('dispFilter') === '')? true : ($pDispFilter) ? true : false;
+        $pDispFilter = ($this->getParam('dispFilter') === '') ? true : ($this->getParam('dispFilter')) ? true : false;
+        $pDispHeader = $this->getParam('dispHeader', 1);
 
 
         //add default city :
@@ -61,8 +62,16 @@ class ZoneEcoles extends enicZone {
             usort($list, array($this, "usort_ecoles_type"));
         } elseif ($pGroupBy == 'ville') {
             usort($list, array($this, "usort_ecoles_ville"));
-        }
+        }elseif($pGroupBy == 'villeType') {
+            foreach($list as $item){
+                if(!array_key_exists('ville', $item))
+                    continue;
 
+                $listByCityAndType[$item['ville_nom']][$item['type']][] = $item;
+            }
+            $list = $listByCityAndType;
+        }
+        
         //kernel::myDebug($list);
 
         $nbEcoles = 0;
@@ -92,6 +101,7 @@ class ZoneEcoles extends enicZone {
         $tpl->assign('groupBy', $pGroupBy);
         $tpl->assign('dispType', $pDispType);
         $tpl->assign('dispFilter', $pDispFilter);
+        $tpl->assign('dispHeader', $pDispHeader);
 
         $toReturn = $tpl->fetch('zone_ecoles.tpl');
 

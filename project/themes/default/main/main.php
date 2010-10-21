@@ -50,7 +50,8 @@ $module = CopixRequest::get ('module');
 				<div id="menuright"><?php getZones("menuright"); ?></div>
 			</div>
 			</div>
-		</div></div></div>		
+		</div></div></div>
+        <?php if ($module=="welcome") { ?><div id="welcome_bienvenue"></div><?php } ?>
 	</div>
 	<div id="page-middle">
 		<div class="thm-ML"><div class="thm-MR"><div class="thm-MTL"><div class="thm-MTR">

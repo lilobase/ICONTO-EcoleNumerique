@@ -103,4 +103,28 @@
 	color: #dd8210;
   padding-top:5px;
 }
-	
+
+.welcome_ecoles h3 {
+color:#DD8210;
+font-weight:bold;
+list-style-type:none;
+padding-top:5px;
+text-transform:uppercase;
+}
+
+.welcome_ecoles .listEcoles li{
+    float: left;
+    width: 155px;
+    height: 22px;
+    font-size: 14px;
+    line-height: 22px;
+    
+}
+
+.welcome_ecoles hr{
+    width: 80%;
+    text-align: center;
+    border-color:#DD8210;
+    margin-bottom: 25px;
+    margin-top: 5px;
+}
