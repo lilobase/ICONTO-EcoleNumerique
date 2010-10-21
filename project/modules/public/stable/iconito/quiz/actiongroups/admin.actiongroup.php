@@ -572,8 +572,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $responsesData = _ioDAO('quiz_responses')->getResponsesByQuiz($quizId);
         $questionsData = _ioDAO('quiz_questions')->getQuestionsForQuiz($quizId);
 		
-        $nbQuestions = count($questionsData);
-
+		
 		/* ========================================
 		PREPARE QUESTIONS DATA : ARRAY CREATION
 		questions = [
@@ -641,6 +640,7 @@ class ActionGroupAdmin extends enicActionGroup{
 		users +=
                         'goodresp' = COUNT GOOD QUESTIONS,
 		=====================================*/
+                $nbQuestions = count($questions);
 		foreach($users as $key => $user){
 			$response = $responses[$user['id']];			
 			$users[$key]['date'] = date("d/m H:i",max($response['date']));
