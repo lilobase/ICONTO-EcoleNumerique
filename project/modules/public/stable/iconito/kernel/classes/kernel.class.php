@@ -1823,6 +1823,7 @@ class Kernel {
 		$res = utf8_decode($res);
 		$tofind = utf8_decode($tofind);
 		
+		
 		$res =(strtr($res,$tofind,$replac));
 		$res = strtolower($res);
 		$res = ereg_replace("\"","-", $res);
