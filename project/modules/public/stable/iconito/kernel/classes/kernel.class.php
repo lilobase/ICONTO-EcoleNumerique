@@ -1816,8 +1816,13 @@ class Kernel {
 
 	function simpleName( $titre ) {
 		$res = trim($titre);
-		$tofind = " ¿¡¬√ƒ≈‡·‚„‰Â“”‘’÷ÿÚÛÙıˆ¯»… ÀËÈÍÎ«ÁÃÕŒœÏÌÓÔŸ⁄€‹˘˙˚¸ˇ—Ò()[]'~$&%*@!?;,:/\^®Ä{}|+-";
-		$replac = "-AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn--------------------------";
+		$tofind = " ÀÁÂÃÄÅàáâãäåÒÓÔÕÖØòóôõöøÈÉÊËèéêëÇçÌÍÎÏìíîïÙÚÛÜùúûüÿÑñ";
+		$replac = "-AAAAAAaaaaaaOOOOOOooooooEEEEeeeeCcIIIIiiiiUUUUuuuuyNn";
+		
+		// Patch UTF8
+		$res = utf8_decode($res);
+		$tofind = utf8_decode($tofind);
+		
 		$res =(strtr($res,$tofind,$replac));
 		$res = strtolower($res);
 		$res = ereg_replace("\"","-", $res);
