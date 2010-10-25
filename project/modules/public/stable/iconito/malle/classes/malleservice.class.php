@@ -43,9 +43,10 @@ class MalleService {
 				
 			case "application/msword" :
 			case "doc" :
+			case "docx" :
 			case "application/vnd.oasis.opendocument.text" :
-			case "ods" :
-				if (strtolower($mime_type)=='application/msword' || strtolower($mime_type)=='doc')
+			case "odt" :
+				if (strtolower($mime_type)=='application/msword' || strtolower($mime_type)=='doc' || strtolower($mime_type)=='docx')
 					$type_mime = 'application/msword';
 				else
 					$type_mime = 'application/vnd.oasis.opendocument.text';
@@ -54,8 +55,13 @@ class MalleService {
 			
 			case "application/vnd.ms-powerpoint" :
 			case "ppt" :
+			case "pptx" :
 			case "pps" :
-				$type_mime = 'application/vnd.ms-powerpoint';		
+			case "odg" :
+				if (strtolower($mime_type)=='odg')
+  				$type_mime = 'application/vnd.oasis.opendocument.graphics';		
+				else
+					$type_mime = 'application/vnd.ms-powerpoint';
 				$res = array('type_text'=>CopixI18N::get ('malle|mime.presentation'), 'type_icon'=>'icon_file_presentation.png', 'type_icon32'=>'icon_file_presentation32.png', 'type_mime'=>$type_mime);
 				break;
 			
@@ -98,9 +104,14 @@ class MalleService {
 				
 			case "application/vnd.ms-excel" :
 			case "xls" :
+			case "xlsx" :
 			case "application/vnd.oasis.opendocument.spreadsheet" :
 			case "ods" :
-				$res = array('type_text'=>CopixI18N::get ('malle|mime.xls'), 'type_icon'=>'icon_file_spreadsheet.png', 'type_icon32'=>'icon_file_spreadsheet32.png');
+        if (strtolower($mime_type)=='application/vnd.ms-excel' || strtolower($mime_type)=='xls' || strtolower($mime_type)=='xlsx')
+  				$type_mime = 'application/vnd.ms-excel';		
+				else
+					$type_mime = 'application/vnd.oasis.opendocument.spreadsheet';
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.xls'), 'type_icon'=>'icon_file_spreadsheet.png', 'type_icon32'=>'icon_file_spreadsheet32.png', 'type_mime'=>$type_mime);
 				break;
 				
 			case "video/mpeg" :
@@ -149,6 +160,7 @@ class MalleService {
 				break;
 				
 		}
+    //print_r($res);
 		return $res;
 	}
 	
@@ -599,7 +611,7 @@ class MalleService {
     return $oRes;
   }
 
-    /**
+  /**
   * A partir d'un nom de fichier, renvoie son type MIME
   *
   * @author Christophe Beyer <cbeyer@cap-tic.fr>
@@ -614,7 +626,15 @@ class MalleService {
       $ext = strtolower($ext);
     } else
       $ext = $iFilename;
+    
     $oMimeType = CopixMIMETypes::getFromExtension ($ext);
+    // On regarde si on veut pas ecraser le type mime
+    if ($oMimeType == 'application/octet-stream') {
+      $tmp = MalleService::getTypeInfos ($ext);
+      if ($tmp && isset($tmp['type_mime'])) {
+        $oMimeType = $tmp['type_mime'];
+      }
+    }
     return $oMimeType;
   }
 
