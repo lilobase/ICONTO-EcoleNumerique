@@ -26,7 +26,10 @@ class ActionGroupDefault extends EnicActionGroup {
 					if ($module->module_type == 'MOD_TELEPROCEDURES')
 						return CopixActionGroup::process ('teleprocedures|default::listTeleprocedures', array ('id'=>$module->module_id));
 				}
-			}
+        return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('teleprocedures|teleprocedures.error.noModule'), 'back'=>CopixUrl::get('||')));
+			} else {
+        return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('teleprocedures|teleprocedures.error.noEcole'), 'back'=>CopixUrl::get('||')));
+      }
 		}
 		return CopixActionGroup::process ('teleprocedures|default::listTeleprocedures', array ('id'=>$id));
 	}
@@ -66,7 +69,7 @@ class ActionGroupDefault extends EnicActionGroup {
 		//print_r($rTelep);
 		
 		if ($criticErrors)
-			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('teleprocedures||')));
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('||')));
 		
 		$title = $rTelep->parent["nom"];
 		$ville = $rTelep->parent["id"];
