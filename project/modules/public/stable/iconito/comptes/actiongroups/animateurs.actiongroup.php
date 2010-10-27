@@ -252,6 +252,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			$ppo->animateurs[$animateur->user_type."-".$animateur->user_id] = $animateur;
 		}
 		
+		//// Personnes externes ///////////////////////////////////////
 		$userext_dao = _dao("kernel|kernel_ext_user");
 		$list = $userext_dao->listUsers();
 		$user_key = 0;
@@ -272,6 +273,8 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			}
 		}
 		
+		//// Personnel (ENS+VIL+ADM) //////////////////////////////////
+		/*
 		$userens_dao = _dao("kernel|kernel_bu_personnel");
 		$list = $userens_dao->listUsers();
 		$user_key = 0;
@@ -287,12 +290,50 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			} else {
 				$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
 				if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
-					// Si la personne n'a pas de login de type enseignant
-					unset($ppo->userens[$user_key]);
+					
+					$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_VIL', $user_val->pers_numero );
+					if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
+					
+						$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_ADM', $user_val->pers_numero );
+						if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
+						
+							// Si la personne n'a pas de login de type enseignant
+							unset($ppo->userens[$user_key]);
+							
+						}
+					}
 				}
 			}
 		}
+		*/
 		
+		$userens_dao = _dao("kernel|kernel_bu_personnel");
+		$list = $userens_dao->listUsers();
+		$user_key = 0;
+		$ppo->userens = array();
+		$ppo->uservil = array();
+		$ppo->useradm = array();
+
+		foreach( $list AS $user_val ) {
+
+			$user = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
+			if( isset($user['login']) && !isset($ppo->animateurs["USER_ENS-".$user_val->pers_numero]) ) {
+				$ppo->userens[$user_key] = $user_val;
+			}
+
+			$user = Kernel::getUserInfo( 'USER_VIL', $user_val->pers_numero );
+			if( isset($user['login']) && !isset($ppo->animateurs["USER_VIL-".$user_val->pers_numero]) ) {
+				$ppo->uservil[$user_key] = $user_val;
+			}
+			
+			$user = Kernel::getUserInfo( 'USER_ADM', $user_val->pers_numero );
+			if( isset($user['login']) && !isset($ppo->animateurs["USER_ADM-".$user_val->pers_numero]) ) {
+				$ppo->useradm[$user_key] = $user_val;
+			}			
+			
+		}
+		
+		_dump($ppo);
 		
 		
 		/*
