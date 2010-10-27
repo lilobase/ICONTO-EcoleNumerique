@@ -333,7 +333,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			
 		}
 		
-		_dump($ppo);
+		// _dump($ppo);
 		
 		
 		/*
