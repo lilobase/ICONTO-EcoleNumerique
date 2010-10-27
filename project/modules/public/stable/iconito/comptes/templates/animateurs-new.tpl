@@ -24,7 +24,7 @@
 	{/if}
 	
 	
-	{if $ppo->userens}
+	{if $ppo->pers.USER_ENS}
 		{assign var=personne value=0}
 		<tr>
 			<th class="liste_th" colspan="4"><h1 style="margin: 0px;">Enseignants</h1></th>
@@ -35,17 +35,17 @@
 			<th class="liste_th">Pr&eacute;nom</th>
 			<th class="liste_th">Actions</th>
 		</tr>
-		{foreach from=$ppo->userens item=user name=user}
+		{foreach from=$ppo->pers.USER_ENS item=user name=user}
 			<tr class="{if $smarty.foreach.user.first}first{/if}{if $smarty.foreach.user.last} last{/if}">
-				<td>{$user->user_infos.login}</td>
-				<td>{$user->pers_nom}</td>
-				<td>{$user->pers_prenom1}</td>
-				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type="USER_ENS" user_id=$user->pers_numero}">d&eacute;finir comme animateur</a></td>
+				<td>{$user->login_dbuser}</td>
+				<td>{$user->nom}</td>
+				<td>{$user->prenom}</td>
+				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type=$user->bu_type user_id=$user->bu_id}">d&eacute;finir comme animateur</a></td>
 			</tr>
 		{/foreach}
 	{/if}
 	
-	{if $ppo->uservil}
+	{if $ppo->pers.USER_VIL}
 		{assign var=personne value=0}
 		<tr>
 			<th class="liste_th" colspan="4"><h1 style="margin: 0px;">Agents de ville</h1></th>
@@ -56,18 +56,17 @@
 			<th class="liste_th">Pr&eacute;nom</th>
 			<th class="liste_th">Actions</th>
 		</tr>
-		{foreach from=$ppo->uservil item=user name=user}
+		{foreach from=$ppo->pers.USER_VIL item=user name=user}
 			<tr class="{if $smarty.foreach.user.first}first{/if}{if $smarty.foreach.user.last} last{/if}">
-				<td>{$user->user_infos.login}</td>
-				<td>{$user->pers_nom}</td>
-				<td>{$user->pers_prenom1}</td>
-				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type="USER_VIL" user_id=$user->pers_numero}">d&eacute;finir comme animateur</a></td>
+				<td>{$user->login_dbuser}</td>
+				<td>{$user->nom}</td>
+				<td>{$user->prenom}</td>
+				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type=$user->bu_type user_id=$user->bu_id}">d&eacute;finir comme animateur</a></td>
 			</tr>
 		{/foreach}
 	{/if}
 	
-	
-	{if $ppo->useradm}
+	{if $ppo->pers.USER_ADM}
 		{assign var=personne value=0}
 		<tr>
 			<th class="liste_th" colspan="4"><h1 style="margin: 0px;">Personnels administratif</h1></th>
@@ -78,16 +77,15 @@
 			<th class="liste_th">Pr&eacute;nom</th>
 			<th class="liste_th">Actions</th>
 		</tr>
-		{foreach from=$ppo->useradm item=user name=user}
+		{foreach from=$ppo->pers.USER_ADM item=user name=user}
 			<tr class="{if $smarty.foreach.user.first}first{/if}{if $smarty.foreach.user.last} last{/if}">
-				<td>{$user->user_infos.login}</td>
-				<td>{$user->pers_nom}</td>
-				<td>{$user->pers_prenom1}</td>
-				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type="USER_ADM" user_id=$user->pers_numero}">d&eacute;finir comme animateur</a></td>
+				<td>{$user->login_dbuser}</td>
+				<td>{$user->nom}</td>
+				<td>{$user->prenom}</td>
+				<td width="1%" style="white-space: nowrap;"><a class="button button-add" href="{copixurl dest="comptes|animateurs|edit" user_type=$user->bu_type user_id=$user->bu_id}">d&eacute;finir comme animateur</a></td>
 			</tr>
 		{/foreach}
 	{/if}
-	
 		
 	</table>
 

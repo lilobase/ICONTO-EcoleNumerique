@@ -273,67 +273,27 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			}
 		}
 		
-		//// Personnel (ENS+VIL+ADM) //////////////////////////////////
-		/*
-		$userens_dao = _dao("kernel|kernel_bu_personnel");
-		$list = $userens_dao->listUsers();
-		$user_key = 0;
-		$ppo->userens = array();
-		foreach( $list AS $user_val ) {
-			$ppo->userens[$user_key] = $user_val;
-			$user_key++;
-		}
-		foreach( $ppo->userens AS $user_key => $user_val ) {
-			if( isset($ppo->animateurs["USER_ENS-".$user_val->pers_numero]) ) {
-				// Si la personne est déjà animateur
-				unset($ppo->userens[$user_key]);
-			} else {
-				$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
-				if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
-					
-					$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_VIL', $user_val->pers_numero );
-					if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
-					
-						$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_ADM', $user_val->pers_numero );
-						if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
-						
-							// Si la personne n'a pas de login de type enseignant
-							unset($ppo->userens[$user_key]);
-							
-						}
-					}
-				}
-			}
-		}
-		*/
+
 		
-		$userens_dao = _dao("kernel|kernel_bu_personnel");
-		$list = $userens_dao->listUsers();
-		$user_key = 0;
-		$ppo->userens = array();
-		$ppo->uservil = array();
-		$ppo->useradm = array();
-
-		foreach( $list AS $user_val ) {
-
-			$user_val->user_infos = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
-			if( isset($user_val->user_infos['login']) && !isset($ppo->animateurs["USER_ENS-".$user_val->pers_numero]) ) {
-				$ppo->userens[$user_key] = clone $user_val;
-			}
-
-			$user_val->user_infos = Kernel::getUserInfo( 'USER_VIL', $user_val->pers_numero );
-			if( isset($user_val->user_infos['login']) && !isset($ppo->animateurs["USER_VIL-".$user_val->pers_numero]) ) {
-				$ppo->uservil[$user_key] = clone $user_val;
-			}
-			
-			$user_val->user_infos = Kernel::getUserInfo( 'USER_ADM', $user_val->pers_numero );
-			if( isset($user_val->user_infos['login']) && !isset($ppo->animateurs["USER_ADM-".$user_val->pers_numero]) ) {
-				$ppo->useradm[$user_key] = clone $user_val;
-			}			
-			
+		$sql = "
+			SELECT PER.nom AS nom, PER.prenom1 AS prenom,
+			       B2U.bu_type AS bu_type, B2U.bu_id AS bu_id,
+			       USR.login_dbuser
+			FROM kernel_bu_personnel PER
+			JOIN kernel_bu_personnel_entite ENT ON PER.numero=ENT.id_per
+			JOIN kernel_link_bu2user B2U ON PER.numero=B2U.bu_id AND B2U.bu_type IN ('USER_VIL','USER_ENS','USER_ADM')
+			JOIN dbuser USR ON B2U.user_id=USR.id_dbuser
+			-- WHERE PER.deleted=0
+			GROUP BY bu_type,bu_id
+		";
+		$pers = _doQuery ($sql);
+		$ppo->pers = array();
+		
+		foreach($pers AS $pers_item) {
+			$ppo->pers[$pers_item->bu_type][$pers_item->bu_id] = $pers_item;
 		}
 		
-		
+
 		/*
 		echo "<pre>";
 		// print_r($ppo->animateurs);
