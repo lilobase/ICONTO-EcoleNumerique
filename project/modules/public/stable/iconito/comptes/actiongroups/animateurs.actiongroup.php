@@ -316,24 +316,22 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 
 		foreach( $list AS $user_val ) {
 
-			$user = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
-			if( isset($user['login']) && !isset($ppo->animateurs["USER_ENS-".$user_val->pers_numero]) ) {
-				$ppo->userens[$user_key] = $user_val;
+			$user_val->user_infos = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
+			if( isset($user_val->user_infos['login']) && !isset($ppo->animateurs["USER_ENS-".$user_val->pers_numero]) ) {
+				$ppo->userens[$user_key] = clone $user_val;
 			}
 
-			$user = Kernel::getUserInfo( 'USER_VIL', $user_val->pers_numero );
-			if( isset($user['login']) && !isset($ppo->animateurs["USER_VIL-".$user_val->pers_numero]) ) {
-				$ppo->uservil[$user_key] = $user_val;
+			$user_val->user_infos = Kernel::getUserInfo( 'USER_VIL', $user_val->pers_numero );
+			if( isset($user_val->user_infos['login']) && !isset($ppo->animateurs["USER_VIL-".$user_val->pers_numero]) ) {
+				$ppo->uservil[$user_key] = clone $user_val;
 			}
 			
-			$user = Kernel::getUserInfo( 'USER_ADM', $user_val->pers_numero );
-			if( isset($user['login']) && !isset($ppo->animateurs["USER_ADM-".$user_val->pers_numero]) ) {
-				$ppo->useradm[$user_key] = $user_val;
+			$user_val->user_infos = Kernel::getUserInfo( 'USER_ADM', $user_val->pers_numero );
+			if( isset($user_val->user_infos['login']) && !isset($ppo->animateurs["USER_ADM-".$user_val->pers_numero]) ) {
+				$ppo->useradm[$user_key] = clone $user_val;
 			}			
 			
 		}
-		
-		// _dump($ppo);
 		
 		
 		/*
