@@ -29,6 +29,9 @@ class ZoneEcoles extends enicZone {
      */
     function _createContent(&$toReturn) {
 
+        //params exclusion list
+        $IdExclusionList = array();
+
         CopixHtmlHeader::addJSLink(CopixUrl::get() . 'js/iconito/module_fichesecoles.js');
 
         $annuaireService = & CopixClassesFactory::Create('annuaire|AnnuaireService');
@@ -67,9 +70,23 @@ class ZoneEcoles extends enicZone {
                 if(!array_key_exists('ville', $item))
                     continue;
 
+                if(in_array($item['id'], $IdExclusionList))
+                    continue;
+
                 $listByCityAndType[$item['ville_nom']][$item['type']][] = $item;
             }
-            $list = $listByCityAndType;
+            //order type
+            foreach($listByCityAndType as $k => $typeCollection){
+                if(array_key_exists('Elémentaire', $typeCollection))
+                    $listByCityAndTypeFinal[$k]['Elémentaire'] = $typeCollection['Elémentaire'];
+                if(array_key_exists('Primaire', $typeCollection))
+                    $listByCityAndTypeFinal[$k]['Primaire'] = $typeCollection['Primaire'];
+                if(array_key_exists('Maternelle', $typeCollection))
+                    $listByCityAndTypeFinal[$k]['Maternelle'] = $typeCollection['Maternelle'];
+                if(array_key_exists('Privée', $typeCollection))
+                    $listByCityAndTypeFinal[$k]['Privée'] = $typeCollection['Privée'];
+            }
+            $list = $listByCityAndTypeFinal;
         }
         
         //kernel::myDebug($list);
