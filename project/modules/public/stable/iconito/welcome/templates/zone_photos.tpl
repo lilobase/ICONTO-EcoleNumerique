@@ -5,8 +5,7 @@
 </object>
 *}
 {if $mode eq 'dewslider' and $nbPhotos>0}
-<div class="slider">
-<object type="application/x-shockwave-flash" data="{copixurl}dewplayer/dewslider.swf?xml={copixurl}static/album/{$rAlbum->album_id}_{$rAlbum->album_cle}/dewslider.xml" width="{$width}" height="{$height}">
+<div class="slider"><object type="application/x-shockwave-flash" data="{copixurl}dewplayer/dewslider.swf?xml={copixurl}static/album/{$rAlbum->album_id}_{$rAlbum->album_cle}/dewslider.xml" width="{$width}" height="{$height}">
 <param name="movie" value="{copixurl}dewplayer/dewslider.swf?xml={copixurl}static/album/{$rAlbum->album_id}_{$rAlbum->album_cle}/dewslider.xml" />
 </object>
 </div>
