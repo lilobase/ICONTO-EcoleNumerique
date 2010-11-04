@@ -43,7 +43,7 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 				$conf_result->conf_id     = $conf_id;
 				$conf_result->conf_msg    = $conf_msg;
 				$conf_result->conf_active = $conf_active;
-				_dump($conf_result);
+				//_dump($conf_result);
 				
 				$dao->delete($id);
 				$dao->insert($conf_result);
