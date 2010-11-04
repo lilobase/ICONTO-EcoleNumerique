@@ -8,7 +8,7 @@
     ajouter uniquement des <strong>élèves</strong>. Tapez une ligne par élève à ajouter, avec les informations suivantes séparées par une virgule, un point-virgule ou une tabulation: Nom, Prénom, Sexe (masculin: M; féminin: F), date de naissance optionnelle (JJ/ MM/AAAA)
   </li>
   <li>
-  ajouter des <strong>élèves et leurs parents</strong>. Tapez, sur la même ligne, les informations de l’élève suivies de celles des parents: Nom élève, Prénom élève, Sexe élève (M ou F), date de naissance optionnelle (JJ/MM/AAAA), nom parent 1, prénom parent 1, sexe parent 1, relation parent 1 (PERE, MERE, AUTRE), nom parent 2, prénom parent 2, sexe parent 2, relation parent 2 (PERE, MERE, AUTRE). Tous les champs «parent 2» sont optionnels. Un champ optionnel peut être vide mais n’oubliez pas le séparateur (virgule, point virgule ou tabulation). Des exemples sont à votre disposition sous l’icône «?» ci-dessous.
+  ajouter des <strong>élèves et leurs parents</strong>. Tapez, sur la même ligne, les informations de l’élève suivies de celles des parents: Nom élève, Prénom élève, Sexe élève (M ou F), date de naissance optionnelle (JJ/MM/AAAA), nom parent 1, prénom parent 1, sexe parent 1, relation parent 1 (PERE, MERE, AUTRE), nom parent 2, prénom parent 2, sexe parent 2, relation parent 2 (PERE, MERE, AUTRE). Tous les champs «parent 2» sont optionnels. Un champ optionnel peut être vide mais n’oubliez pas le séparateur (virgule, point virgule ou tabulation). 
   </li>
 </ul>
 
