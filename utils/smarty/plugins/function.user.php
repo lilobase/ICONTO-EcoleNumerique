@@ -64,7 +64,8 @@ function smarty_function_user ($params, &$smarty)
 		
 		
 		if ($params['userType'] && $params['userId']) {
-			$res = '<A '.$params['linkAttribs'].' HREF="javascript:viewUser(\''.$params['userType'].'\', \''.$params['userId'].'\', \''.addslashes(htmlentities(CopixI18N::get ('annuaire|annuaire.profil.loading'))).'\');">'.$label.'</A>';
+			// $res = '<A '.$params['linkAttribs'].' HREF="javascript:viewUser(\''.$params['userType'].'\', \''.$params['userId'].'\', \''.addslashes(htmlentities(CopixI18N::get ('annuaire|annuaire.profil.loading'))).'\');">'.$label.'</A>';
+			$res = '<a '.$params['linkAttribs'].' class="viewuser" user_type="'.$params['userType'].'" user_id="'.$params['userId'].'">'.$label.'</a>';
 		} else
 			$res = $label;
 

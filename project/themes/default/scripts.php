@@ -193,6 +193,12 @@ jQuery(document).ready(function($){
 				$('#password-password').hide();
 			}
 		});
+
+		$('.viewuser').click(function(e) {
+			var pos = $(this).offset();
+			viewUserXY ($(this).attr('user_type'), $(this).attr('user_id'), '', e.pageX, e.pageY );
+			viewUserXY ($(this).attr('user_type'), $(this).attr('user_id'), '', pos.left, pos.top );
+		});
 });
 
 </script>

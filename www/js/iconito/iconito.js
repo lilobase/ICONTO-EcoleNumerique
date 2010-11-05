@@ -199,14 +199,18 @@ function initUserProfil() {
 
 /* Affichage d'un profil */
 function viewUser (type, id, i18nwaiting) {
+	x = lastMouseX;
+	y = lastMouseY;
+
+	viewUserXY (type, id, i18nwaiting, x, y );
+}
+function viewUserXY (type, id, i18nwaiting, x, y ) {
 	if (!gProfilElm)
 		initUserProfil();
 
 	//if (gProfilShowing)
 	//	hideUser();
 
-	x = lastMouseX;
-	y = lastMouseY;
 	var w = gProfilElm.offsetWidth; // largeur
 	var windowWidth = getWindowWidth()-10;
 	//alert ("x="+x+" / w="+w+" / wW="+windowWidth);
