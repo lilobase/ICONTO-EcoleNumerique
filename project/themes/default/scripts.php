@@ -10,6 +10,7 @@
 */
 ?>
 <script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
+<script type="text/javascript" src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/iconito/iconito.js"); ?>"></script>
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/prototype-1.6.0.3.js"); ?>"></script>
@@ -22,6 +23,10 @@
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.pack.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.easing-1.3.pack.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.mousewheel-3.0.2.pack.js"); ?>"></script>
+
+<script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.bgiframe.js" );  ?>" type="text/javascript"></script>
+<script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.dimensions.js"); ?>" type="text/javascript"></script>
+<script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.tooltip.min.js"  );  ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
 <?php
@@ -199,6 +204,15 @@ jQuery(document).ready(function($){
 			viewUserXY ($(this).attr('user_type'), $(this).attr('user_id'), '', e.pageX, e.pageY );
 			viewUserXY ($(this).attr('user_type'), $(this).attr('user_id'), '', pos.left, pos.top );
 		});
+
+		$('.evenement').tooltip({ 
+		    track: true, 
+		    delay: 0, 
+		    showURL: false, 
+		    showBody: "\n$\n", 
+		    fade: 0 
+		});
+
 });
 
 </script>

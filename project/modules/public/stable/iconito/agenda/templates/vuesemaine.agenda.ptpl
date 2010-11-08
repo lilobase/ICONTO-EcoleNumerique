@@ -257,9 +257,27 @@ $iJour = 1;
 				    }
 					$html2 .= '</div>';
 					
-         	$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\',0)" onmouseout="javascript:hidePopupEvent(0);" >';
+					if(strlen($event->title_event)>50){
+						$event_titre = htmlspecialchars(substr($event->title_event, 0, 50) . '...');
+					}
+					else{
+						$event_titre = htmlspecialchars($event->title_event);
+					}
+					$event_titre .= "\n$\n".$event->heuredeb_event.' &rarr; '.$event->heurefin_event;
+					
+					if($event->place_event != null || $event->place_event != ''){
+						$event_titre .= "\n$\n";
+						$event_titre .= '<b>Lieu :</b> ' . htmlspecialchars($event->place_event);
+					}
+					if($event->desc_event != null || $event->desc_event != ''){
+						$event_titre .= "\n$\n<hr/>";
+						$event_titre .= '<b>Description :</b>' . "\n$\n" . htmlspecialchars(nl2br(smarty_modifier_wiki($event->desc_event)));
+					}
+					
+					
+         	$html .= '<a href="'.CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)).'" id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'" Xonmouseover="javascript:displayPopupEvent(\''.$id.'\',0)" Xonmouseout="javascript:hidePopupEvent(0);" >';
 	
-					$html .= $html2;
+					// $html .= $html2;
 	
 					//vérification des droits de modification
 					if(strlen($event->title_event)>10){
@@ -268,7 +286,6 @@ $iJour = 1;
 					else{
 						$html .= '<span class="titreEvent">' . $event->title_event . '</span>';
 					}
-	        
 
 					
 					
@@ -279,7 +296,7 @@ $iJour = 1;
 					
 					
 					
-					$html .= '</div>';
+					$html .= '</a>';
 					
 					
 					
