@@ -63,7 +63,7 @@
       }).responseText;
       
       return false;
-    }
+    };
   
     function deletePerson(idPerson, idStudent) {
          
@@ -79,7 +79,7 @@
       }).responseText;
       
       return false;
-    }
+    };
   });
 //]]> 
 </script>

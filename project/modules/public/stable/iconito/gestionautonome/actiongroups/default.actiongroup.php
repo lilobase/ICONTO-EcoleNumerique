@@ -2140,7 +2140,7 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->student->numero          = '';                        
     $ppo->student->nom             = trim (_request ('student_lastname', null));
     $ppo->student->prenom1         = trim (_request ('student_firstname', null));
-    $ppo->student->id_sexe         = _request ('gender', null);
+    $ppo->student->id_sexe         = _request ('student_gender', null);
     $ppo->student->date_nais       = CopixDateTime::dateToyyyymmdd(_request ('student_birthdate', null));
     $ppo->student->flag            = 0;
     $ppo->student->ele_last_update = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
@@ -3133,7 +3133,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Modification du password dbuser si différent
-    if ($ppo->account->password_dbuser != md5 ($newPassword)) {
+    if (!is_null ($newPassword) && $ppo->account->password_dbuser != md5 ($newPassword)) {
       
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);

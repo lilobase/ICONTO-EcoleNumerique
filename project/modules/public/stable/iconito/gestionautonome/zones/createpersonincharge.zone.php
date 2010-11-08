@@ -33,7 +33,7 @@ class ZoneCreatePersonInCharge extends CopixZone {
     }
     
     $ppo->genderNames = array ('Homme', 'Femme');
-    $ppo->genderIds = array ('0', '1');
+    $ppo->genderIds = array ('1', '2');
     
     $ppo->personsInSession = _sessionGet ('modules|gestionautonome|tmpAccount');
 
