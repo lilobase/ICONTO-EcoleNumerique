@@ -75,7 +75,7 @@ foreach((array)$arEventByDay as $jours){
 
 				//$html .= '<div id="td'.$id.'" class="evenement" style="margin-bottom:2px;width:113px; background-color:#' . $color . ';" onmouseover="javascript:displayPopupInformation(\''.$id.'\')" onmouseout="javascript:hidePopupInformation(\''.$id.'\');" >';
 
-				$largeurDivEvenement = 112;
+				$largeurDivEvenement = 105;
 
 /*
 				//				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
@@ -267,7 +267,7 @@ foreach((array)$arEventByDay as $jourCourant=>$jours){
 					$heureFinInter = $event->heurefin_event;
 				}
 					
-				$largeurDivEvenement = 112-$decalage;//90 correspond à la largueur de l'omage blanche moins 2px de bordure
+				$largeurDivEvenement = 105-$decalage;//90 correspond à la largueur de l'omage blanche moins 2px de bordure
 				$id   = uniqid('popupEvent');
 
 				/*
