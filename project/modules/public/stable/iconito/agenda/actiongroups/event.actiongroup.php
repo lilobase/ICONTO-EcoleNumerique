@@ -518,11 +518,13 @@ class ActionGroupEvent extends CopixActionGroup {
 		foreach ($toCheck as $elem){
 			if (_request($elem)){
 				if ($elem == 'repeat' || $elem == 'alldaylong_event')
-	        $toUpdate->$elem = (_request($elem))*1;
+					$toUpdate->$elem = (_request($elem))*1;
 				elseif ($elem == 'datedeb_event' || $elem == 'datefin_event' || $elem == 'dateendrepeat_event')
-	        $toUpdate->$elem = Kernel::_validDateProperties(_request($elem));
+					$toUpdate->$elem = Kernel::_validDateProperties(_request($elem));
 				else
 					$toUpdate->$elem = _request($elem);
+			} else {
+				$toUpdate->$elem = null;
 			}
 		}
 		
@@ -543,7 +545,6 @@ class ActionGroupEvent extends CopixActionGroup {
 				$toUpdate->heurefin_event = _request('heurefin_event');
 			}
 		}
-		
 	}
 }
 ?>

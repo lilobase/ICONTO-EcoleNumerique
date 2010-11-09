@@ -70,28 +70,28 @@ foreach((array)$arEventByDay as $jours){
 				//on ajoute l'évènement
 				$html .= '<tr>';
 				$html .= '<td>';
-				
+
 				$id = uniqid('popupEvent');
 
-       	//$html .= '<div id="td'.$id.'" class="evenement" style="margin-bottom:2px;width:113px; background-color:#' . $color . ';" onmouseover="javascript:displayPopupInformation(\''.$id.'\')" onmouseout="javascript:hidePopupInformation(\''.$id.'\');" >';
-				
+				//$html .= '<div id="td'.$id.'" class="evenement" style="margin-bottom:2px;width:113px; background-color:#' . $color . ';" onmouseover="javascript:displayPopupInformation(\''.$id.'\')" onmouseout="javascript:hidePopupInformation(\''.$id.'\');" >';
+
 				$largeurDivEvenement = 112;
-				
-//				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
+
+/*
+				//				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
 				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\',1)" onmouseout="javascript:hidePopupEvent(0);" >';
 
-				
-				
+
 				//lien pour modifier l'évènement
-	
+
 				if(strlen($event->title_event)>10){//on tronque le titre si il est trop grand
 					$html .= '<span class="titreEvent">' . substr($event->title_event, 0, 10) . '...</span>';
 				}
 				else{
 					$html .= '<span class="titreEvent">' . $event->title_event . '</span>';
 				}
-	
-	        	$html .= '<div class="popupEvent" id="'.$id.'" >';
+
+				$html .= '<div class="popupEvent" id="'.$id.'" >';
 				//contenu de la popup
 				$html .= $event->title_event;
 				if($event->desc_event != null || $event->desc_event != ''){
@@ -102,15 +102,52 @@ foreach((array)$arEventByDay as $jours){
 					$html .= '<br />';
 					$html .= '<span class="titrePopupEvent">Lieu :</span> ' . $event->place_event;
 				}
-				
+
 				if($arDroits[$event->id_agenda]->canModerate == 1){
 					$html .= '<br /><br /><a href = "' . CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)) .'">';
-						$html .= CopixI18N::get ('agenda|agenda.message.modifier');
-						$html .= '</a> | <a href = "' . CopixUrl::get('agenda|event|delete', array('id_event'=>$event->id_event)) .'">';
+					$html .= CopixI18N::get ('agenda|agenda.message.modifier');
+					$html .= '</a> | <a href = "' . CopixUrl::get('agenda|event|delete', array('id_event'=>$event->id_event)) .'">';
 					$html .= CopixI18N::get ('agenda|agenda.message.delete');
 					$html .= '</a>';
 				}
 				$html .= '</div>';
+*/
+
+
+				if(strlen($event->title_event)>50){
+					$event_titre = htmlspecialchars(substr($event->title_event, 0, 50) . '...');
+				}
+				else{
+					$event_titre = htmlspecialchars($event->title_event);
+				}
+				$event_titre .= "\n$\n".$event->heuredeb_event.' &rarr; '.$event->heurefin_event;
+					
+				if($event->place_event != null || $event->place_event != ''){
+					$event_titre .= "\n$\n";
+					$event_titre .= '<b>Lieu :</b> ' . htmlspecialchars($event->place_event);
+				}
+				if($event->desc_event != null || $event->desc_event != ''){
+					$event_titre .= "\n$\n<hr/>";
+					$event_titre .= '<b>Description :</b>' . "\n$\n" . htmlspecialchars(nl2br(smarty_modifier_wiki($event->desc_event)));
+				}
+					
+				if($arDroits[$event->id_agenda]->canModerate == 1) {
+					$html .= '<a href="'.CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)).'" id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'">';
+				} else {
+					$html .= '<a id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'">';
+				}
+
+				if(strlen($event->title_event)>10){
+					$html .= '<span class="titreEvent">' . substr($event->title_event, 0, 10) . '...</span>';
+				}
+				else{
+					$html .= '<span class="titreEvent">' . $event->title_event . '</span>';
+				}
+
+				$html .= '</a>';
+
+
+
 				$html .= '</div>';
 				$html .= '</td>';
 				$html .= '</tr>';
@@ -133,12 +170,12 @@ $varheure_deb = $heure_deb;
 //on affiche les 9:00 sur 5 caractères : 09:00
 while ($varheure_deb < $heure_fin){
 	/*$html .= '<tr>';
-	$html .= '<td class="case_heure">' . $varheure_deb . ':00';
-	$html .= '</td>';
-	$html .= '</tr>';
-	*/
-  //$varheure_deb = strlen($varheure_deb) > 4 ? $varheure_deb : '0'.$varheure_deb;
-  $html .= '<div class="heure"><div style="position:relative; top:-12px;">'.str_pad($varheure_deb,2,"0",STR_PAD_LEFT).':00</div></div>';
+	 $html .= '<td class="case_heure">' . $varheure_deb . ':00';
+	 $html .= '</td>';
+	 $html .= '</tr>';
+	 */
+	//$varheure_deb = strlen($varheure_deb) > 4 ? $varheure_deb : '0'.$varheure_deb;
+	$html .= '<div class="heure"><div style="position:relative; top:-12px;">'.str_pad($varheure_deb,2,"0",STR_PAD_LEFT).':00</div></div>';
 	$varheure_deb++;
 }
 $html .= '</td></tr></table>';
@@ -158,158 +195,155 @@ $html .= '<tr>
 
 $zIndexJour = 2;//determine la position des div les unes par rapport aux autres(profondeur)
 $iJour = 1;
-	foreach((array)$arEventByDay as $jourCourant=>$jours){
-		$zIndexJour = $zIndexJour+1;
-		$html .= '
+foreach((array)$arEventByDay as $jourCourant=>$jours){
+	$zIndexJour = $zIndexJour+1;
+	$html .= '
     <td class="colonne_jour">';//colonne jour
-		$html .= '<table class="contenu_jour" border="0" cellspacing="0" cellpadding="0">';
-		$html .= '<tr>';
-		$html .= '<td>';
-		$html .= '<div style="position:relative ; display:block ;">';
-		
-		//on initialise les variable $decalage et $heureFin pour le calcule du décalage
-		$decalage = 0;
-		$heureFin = '0:00';
-		$nbEvent = 0;
-		//on place les images blanches qui permettent de cliquer pour ajouter un évènement
-		for ($i = $heure_deb ; $i < $heure_fin ; $i++) {
-			$decalageEnMin = ($i - $heure_deb)*60;
-			$margeHaut = $decalageEnMin*40/60;
-			$html .= '<div class="evenement" style="position:absolute; top:' . $margeHaut . 'px ;">';
-			//on vérifie si l'utilisateur à les droits d'écriture sur un agenda sélectionné
-			if($writeAgenda){
-				$hFin = $i + 1;
-				$hFin = strlen($hFin) > 1 ? $hFin : '0'.$hFin;
-				$i = strlen($i) > 1 ? $i : '0'.$i;
-				$html .= '<a href = "' . CopixUrl::get('agenda|event|create', array('jourCourant'=>$jourCourant, 'heureDeb'=>$i.':00','heureFin'=>$hFin.':00')) .'">';
-			}
-			$html .= '<img onmouseover="javascript:hidePopupEvent(1);" src="'.CopixUrl::getResource ("img/agenda/case_jour.jpg").'" alt="case_jour.jpg" width="113" height="37" />';
-			if($writeAgenda){
-				$html .= '</a>';
-			}
-			$html .= '</div>
+	$html .= '<table class="contenu_jour" border="0" cellspacing="0" cellpadding="0">';
+	$html .= '<tr>';
+	$html .= '<td>';
+	$html .= '<div style="position:relative ; display:block ;">';
+
+	//on initialise les variable $decalage et $heureFin pour le calcule du décalage
+	$decalage = 0;
+	$heureFin = '0:00';
+	$nbEvent = 0;
+	//on place les images blanches qui permettent de cliquer pour ajouter un évènement
+	for ($i = $heure_deb ; $i < $heure_fin ; $i++) {
+		$decalageEnMin = ($i - $heure_deb)*60;
+		$margeHaut = $decalageEnMin*40/60;
+		$html .= '<div class="evenement" style="position:absolute; top:' . $margeHaut . 'px ;">';
+		//on vérifie si l'utilisateur à les droits d'écriture sur un agenda sélectionné
+		if($writeAgenda){
+			$hFin = $i + 1;
+			$hFin = strlen($hFin) > 1 ? $hFin : '0'.$hFin;
+			$i = strlen($i) > 1 ? $i : '0'.$i;
+			$html .= '<a href = "' . CopixUrl::get('agenda|event|create', array('jourCourant'=>$jourCourant, 'heureDeb'=>$i.':00','heureFin'=>$hFin.':00')) .'">';
+		}
+		$html .= '<img onmouseover="javascript:hidePopupEvent(1);" src="'.CopixUrl::getResource ("img/agenda/case_jour.jpg").'" alt="case_jour.jpg" width="113" height="37" />';
+		if($writeAgenda){
+			$html .= '</a>';
+		}
+		$html .= '</div>
       ';
-		}
-		
-		if (isset($jours->events)) {
-			foreach((array)$jours->events as $event){
-				//print_r($event);
-				$nbEvent = $nbEvent + 1;
-				if($event->alldaylong_event == 0){//si l'évènement se déroule sur la journée, on ne l'affiche pas
-					//calcul en minutes de l'écart entre le début de la journée et le début de l'évènement
-					$refDebut = $serviceDate->convertHoursInMinutes($event->heuredeb_event) - $serviceDate->convertHoursInMinutes($heure_deb);
-					$margeHautIE = ($refDebut*40/60);
-					$margeHaut = ($refDebut*40/60);
-					//calcul en minutes de la durée de l'évènement
-					$refDureeEvent = $serviceDate->convertHoursInMinutes($event->heurefin_event) - $serviceDate->convertHoursInMinutes($event->heuredeb_event);
-					$duree = ($refDureeEvent*40/60)-4;
-					$dureeIE = ($refDureeEvent*40/60)-4;
-	//        print_r($duree);
-					//on récupère la couleur de fond pour l'évènement
-					$color = $arColorByIdAgenda[$event->id_agenda];
-		
-					//on opère un décalage si deux évènements se chevauchent
-					if(isset($heureFinInter) && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)
-					   && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter)){
-						$decalage = $decalage + 20;
-					}
-					if(isset($heureFinInter) && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter) <= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) && $decalage > 20){
-						$decalage = 20;
-					}
-					if($decalage == 0 && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){
-						$decalage = $decalage + 20;
-					}
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) >= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){//on remet le décalage à 0
-						$decalage = 0;
-					}
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event)){
-						$heureFin = $event->heurefin_event;
-					}
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin) > $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event)){
-						//variable créée dans le cas où il y a plusieurs évènement dans un évènement qui dure longtemps
-						$heureFinInter = $event->heurefin_event;
-					}
-					
-					$largeurDivEvenement = 112-$decalage;//90 correspond à la largueur de l'omage blanche moins 2px de bordure
-					$id   = uniqid('popupEvent');
+	}
 
-					$html2 = '';
-					$html2 .= '<div class="popupEvent" id="'.$id.'" >';
-					$html2 .= '<div style="text-align:right; font-size:0.9em;"><a href="javascript:hidePopupEvent(1);">'.CopixI18N::get ('agenda|agenda.message.fermer').'</a></div>';
-	      	$html2 .= '<div>'.$event->heuredeb_event.' - '.$event->heurefin_event.'</div>';
-	      
-	        $html2 .= $event->title_event;
-					if($event->desc_event != null || $event->desc_event != ''){
-						$html2 .= '<br />';
-						$html2 .= '<span class="titrePopupEvent">Description :</span> ' . smarty_modifier_wiki($event->desc_event);
-					}
-					if($event->place_event != null || $event->place_event != ''){
-						$html2 .= '<br />';
-						$html2 .= '<span class="titrePopupEvent">Lieu :</span> ' . $event->place_event;
-					}
-					//vérification des droits de suppression
-					if($arDroits[$event->id_agenda]->canModerate == 1){
-						$html2 .= '<br /><br /><a title="'.htmlentities(CopixI18N::get ('agenda|agenda.message.modifier')).'" href = "' . CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)) .'">';
-						$html2 .= CopixI18N::get ('agenda|agenda.message.modifier');
-						$html2 .= '</a> | <a title="'.htmlentities(CopixI18N::get ('agenda|agenda.message.delete')).'" href = "' . CopixUrl::get('agenda|event|delete', array('id_event'=>$event->id_event)) .'">';
-						$html2 .= CopixI18N::get ('agenda|agenda.message.delete');
-						$html2 .= '</a>';
-				    }
-					$html2 .= '</div>';
-					
-					if(strlen($event->title_event)>50){
-						$event_titre = htmlspecialchars(substr($event->title_event, 0, 50) . '...');
-					}
-					else{
-						$event_titre = htmlspecialchars($event->title_event);
-					}
-					$event_titre .= "\n$\n".$event->heuredeb_event.' &rarr; '.$event->heurefin_event;
-					
-					if($event->place_event != null || $event->place_event != ''){
-						$event_titre .= "\n$\n";
-						$event_titre .= '<b>Lieu :</b> ' . htmlspecialchars($event->place_event);
-					}
-					if($event->desc_event != null || $event->desc_event != ''){
-						$event_titre .= "\n$\n<hr/>";
-						$event_titre .= '<b>Description :</b>' . "\n$\n" . htmlspecialchars(nl2br(smarty_modifier_wiki($event->desc_event)));
-					}
-					
-					
-         	$html .= '<a href="'.CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)).'" id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'" Xonmouseover="javascript:displayPopupEvent(\''.$id.'\',0)" Xonmouseout="javascript:hidePopupEvent(0);" >';
-	
-					// $html .= $html2;
-	
-					//vérification des droits de modification
-					if(strlen($event->title_event)>10){
-						$html .= '<span class="titreEvent">' . substr($event->title_event, 0, 10) . '...</span>';
-					}
-					else{
-						$html .= '<span class="titreEvent">' . $event->title_event . '</span>';
-					}
+	if (isset($jours->events)) {
+		foreach((array)$jours->events as $event){
+			//print_r($event);
+			$nbEvent = $nbEvent + 1;
+			if($event->alldaylong_event == 0){//si l'évènement se déroule sur la journée, on ne l'affiche pas
+				//calcul en minutes de l'écart entre le début de la journée et le début de l'évènement
+				$refDebut = $serviceDate->convertHoursInMinutes($event->heuredeb_event) - $serviceDate->convertHoursInMinutes($heure_deb);
+				$margeHautIE = ($refDebut*40/60);
+				$margeHaut = ($refDebut*40/60);
+				//calcul en minutes de la durée de l'évènement
+				$refDureeEvent = $serviceDate->convertHoursInMinutes($event->heurefin_event) - $serviceDate->convertHoursInMinutes($event->heuredeb_event);
+				$duree = ($refDureeEvent*40/60)-4;
+				$dureeIE = ($refDureeEvent*40/60)-4;
+				//        print_r($duree);
+				//on récupère la couleur de fond pour l'évènement
+				$color = $arColorByIdAgenda[$event->id_agenda];
 
-					
-					
-					
-					
-					
-					
-					
-					
-					
-					$html .= '</a>';
-					
-					
-					
+				//on opère un décalage si deux évènements se chevauchent
+				if(isset($heureFinInter) && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)
+				&& $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter)){
+					$decalage = $decalage + 20;
 				}
+				if(isset($heureFinInter) && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFinInter) <= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) && $decalage > 20){
+					$decalage = 20;
+				}
+				if($decalage == 0 && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){
+					$decalage = $decalage + 20;
+				}
+				if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) >= $serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin)){//on remet le décalage à 0
+					$decalage = 0;
+				}
+				if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin) < $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event)){
+					$heureFin = $event->heurefin_event;
+				}
+				if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($heureFin) > $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event)){
+					//variable créée dans le cas où il y a plusieurs évènement dans un évènement qui dure longtemps
+					$heureFinInter = $event->heurefin_event;
+				}
+					
+				$largeurDivEvenement = 112-$decalage;//90 correspond à la largueur de l'omage blanche moins 2px de bordure
+				$id   = uniqid('popupEvent');
+
+				/*
+				$html2 = '';
+				$html2 .= '<div class="popupEvent" id="'.$id.'" >';
+				$html2 .= '<div style="text-align:right; font-size:0.9em;"><a href="javascript:hidePopupEvent(1);">'.CopixI18N::get ('agenda|agenda.message.fermer').'</a></div>';
+				$html2 .= '<div>'.$event->heuredeb_event.' - '.$event->heurefin_event.'</div>';
+					
+				$html2 .= $event->title_event;
+				if($event->desc_event != null || $event->desc_event != ''){
+					$html2 .= '<br />';
+					$html2 .= '<span class="titrePopupEvent">Description :</span> ' . smarty_modifier_wiki($event->desc_event);
+				}
+				if($event->place_event != null || $event->place_event != ''){
+					$html2 .= '<br />';
+					$html2 .= '<span class="titrePopupEvent">Lieu :</span> ' . $event->place_event;
+				}
+				//vérification des droits de suppression
+				if($arDroits[$event->id_agenda]->canModerate == 1){
+					$html2 .= '<br /><br /><a title="'.htmlentities(CopixI18N::get ('agenda|agenda.message.modifier')).'" href = "' . CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)) .'">';
+					$html2 .= CopixI18N::get ('agenda|agenda.message.modifier');
+					$html2 .= '</a> | <a title="'.htmlentities(CopixI18N::get ('agenda|agenda.message.delete')).'" href = "' . CopixUrl::get('agenda|event|delete', array('id_event'=>$event->id_event)) .'">';
+					$html2 .= CopixI18N::get ('agenda|agenda.message.delete');
+					$html2 .= '</a>';
+				}
+				$html2 .= '</div>';
+				*/
+				
+				
+				if(strlen($event->title_event)>50){
+					$event_titre = htmlspecialchars(substr($event->title_event, 0, 50) . '...');
+				}
+				else{
+					$event_titre = htmlspecialchars($event->title_event);
+				}
+				$event_titre .= "\n$\n".$event->heuredeb_event.' &rarr; '.$event->heurefin_event;
+					
+				if($event->place_event != null || $event->place_event != ''){
+					$event_titre .= "\n$\n";
+					$event_titre .= '<b>Lieu :</b> ' . htmlspecialchars($event->place_event);
+				}
+				if($event->desc_event != null || $event->desc_event != ''){
+					$event_titre .= "\n$\n<hr/>";
+					$event_titre .= '<b>Description :</b>' . "\n$\n" . htmlspecialchars(nl2br(smarty_modifier_wiki($event->desc_event)));
+				}
+					
+				if($arDroits[$event->id_agenda]->canModerate == 1) {
+					$html .= '<a href="'.CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)).'" id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'">';
+				} else {
+					$html .= '<a id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'">';
+				}
+
+				// $html .= $html2;
+
+				//vérification des droits de modification
+				if(strlen($event->title_event)>10){
+					$html .= '<span class="titreEvent">' . substr($event->title_event, 0, 10) . '...</span>';
+				}
+				else{
+					$html .= '<span class="titreEvent">' . $event->title_event . '</span>';
+				}
+
+				$html .= '</a>';
+					
+					
+					
 			}
 		}
-		$html .= '</div>';
-		$html .= '</td>';
-		$html .= '</tr>';
-		$html .= '</table>';			
-		$html .= '</td>';
-		$iJour++;
 	}
+	$html .= '</div>';
+	$html .= '</td>';
+	$html .= '</tr>';
+	$html .= '</table>';
+	$html .= '</td>';
+	$iJour++;
+}
 $html .= '</tr>';
 
 $html .= '</table>';

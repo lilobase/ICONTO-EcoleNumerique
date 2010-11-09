@@ -146,7 +146,7 @@ function inactivechamprepetition(obj){
   <td colspan="4" CLASS="form_submit">
 	<input type="button" class="button button-cancel" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
 	<input type="submit" class="button button-save" value="{i18n key=copix:common.buttons.save}" />
-	<a class="button button-delete" href="{copixurl dest="agenda|event|delete" id_event=$toEdit->id_event}">{i18n key="agenda|agenda.message.delete"}</a>
+	{if $toEdit->id_event}<a class="button button-delete" href="{copixurl dest="agenda|event|delete" id_event=$toEdit->id_event}">{i18n key="agenda|agenda.message.delete"}</a>{/if}
   </td></tr>  
 </table>
 
