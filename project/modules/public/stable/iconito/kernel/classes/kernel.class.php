@@ -60,6 +60,20 @@ class Kernel {
 	}
 
 
+  /**
+   * 
+   * @author Christophe Beyer <cbeyer@cap-tic.fr>
+   * @param string $ymdhis Date Mysql.
+   * @return string Date au format francais (JJ/MM/YYYY HHhII).
+   */
+  function ymdhis2dmyhi ($ymdhis) {
+    if( preg_match ("/^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2}) ([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2})$/", $ymdhis, $regs) ) {
+      $dmyhi = $regs[3]."/".$regs[2]."/".$regs[1]." ".$regs[4]."h".$regs[5];
+      return( $dmyhi );
+    } else return( $ymdhis );
+  }
+
+
 	function getLevel( $node_type, $node_id=0, $user_type="-1", $user_id="-1" ) {
 		//print_r("getLevel ($node_type, $node_id, $user_type, $user_id)<br/>");
 		/*

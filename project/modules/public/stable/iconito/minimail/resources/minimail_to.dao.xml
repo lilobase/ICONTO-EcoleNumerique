@@ -15,6 +15,7 @@
 		<property name="is_read" fieldname="is_read" type="integer" table="minimail_to" pk="no"/>
 		<property name="is_replied" fieldname="is_replied" type="integer" table="minimail_to" pk="no"/>
 		<property name="is_deleted" fieldname="is_deleted" type="integer" table="minimail_to" pk="no"/>
+		<property name="is_forwarded" fieldname="is_forwarded" type="integer" table="minimail_to" pk="no"/>
 		<!-- TABLE MINIMAIL_FROM -->
 		<property name="id" fieldname="id" type="integer" table="minimail_from" pk="yes"/>
 		<property name="from_id" fieldname="from_id" type="integer" table="minimail_from" pk="no"/>
@@ -24,10 +25,10 @@
 		<property name="attachment1" fieldname="attachment1" type="string" table="minimail_from" pk="no"/>
 		<property name="attachment2" fieldname="attachment2" type="string" table="minimail_from" pk="no"/>
 		<property name="attachment3" fieldname="attachment3" type="string" table="minimail_from" pk="no"/>
-
 	</properties>
 
 <methods>
+
 		<method name="getListRecv" type="select">
 			<parameters>
 				<parameter name="to_id" />
@@ -43,6 +44,7 @@
 			</order>
 			<limit offset="$offset" count="$count" />
 		</method>
+
 		<method name="getListRecvUnread" type="select">
 			<parameters>
 				<parameter name="to_id" />
@@ -53,6 +55,7 @@
 				<condition property="is_read" operator="=" value="0" />
 			</conditions>
 		</method>
+
 		<method name="getListRecvAll" type="select">
 			<parameters>
 				<parameter name="to_id" />
@@ -62,18 +65,7 @@
 				<condition property="is_deleted" operator="=" value="0" />
 			</conditions>
 		</method>
-		<method name="getListDest" type="select">
-			<parameters>
-				<parameter name="id" />
-			</parameters>
-			<conditions>
-				<condition property="id" operator="=" value="$id" />
-			</conditions>
-			<order>
-				<orderitem property="id_message" way="desc" />
-			</order>
-			<limit offset="0" count="20" />
-		</method>
+
 		<method name="selectDestFromId" type="select">
 			<parameters>
 				<parameter name="id_message" />
@@ -84,9 +76,9 @@
 			<order>
 				<orderitem property="id_message" way="desc" />
 			</order>
-			<limit offset="0" count="20" />
 		</method>
-		<method name="selectDestFromIdAndToUser" type="select">
+
+		<method name="selectDestFromIdAndToUser" type="selectfirst">
 			<parameters>
 				<parameter name="id_message" />
 				<parameter name="to_id" />
@@ -95,11 +87,8 @@
 				<condition property="id_message" operator="=" value="$id_message" />
 				<condition property="to_id" operator="=" value="$to_id" />
 			</conditions>
-			<order>
-				<orderitem property="id_message" way="desc" />
-			</order>
-			<limit offset="0" count="20" />
 		</method>
+
 		<method name="getToPrevMessage" type="selectfirst">
 			<parameters>
 				<parameter name="date_send" />
@@ -112,8 +101,8 @@
 			<order>
 				<orderitem property="date_send" way="desc" />
 			</order>
-			<limit offset="0" count="1" />
 		</method>
+
 		<method name="getToNextMessage" type="selectfirst">
 			<parameters>
 				<parameter name="date_send" />
@@ -126,7 +115,7 @@
 			<order>
 				<orderitem property="date_send" way="asc" />
 			</order>
-			<limit offset="0" count="1" />
 		</method>
+
 	</methods>
 </daodefinition>

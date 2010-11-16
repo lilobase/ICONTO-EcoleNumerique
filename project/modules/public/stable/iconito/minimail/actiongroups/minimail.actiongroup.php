@@ -152,35 +152,33 @@ class ActionGroupMinimail extends EnicActionGroup {
 		$message = $daoFrom->getMessage($idMessage);
 		$dest = $daoTo->selectDestFromId ($idMessage);
 		
-		//print_r2($dest);
-		
 		//print_r($message[0]);
 		
     $isRecv = $isSend = false;
     
-		$message[0]->prev = NULL;
-		$message[0]->next = NULL;
-		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyé
-			$message[0]->type="send";
-			$prev = $daoFrom->getFromPrevMessage($message[0]->date_send,$idUser);
+		$message->prev = NULL;
+		$message->next = NULL;
+		if ($message->from_id == $idUser) {	// Message qu'il a envoyé
+			$message->type="send";
+			$prev = $daoFrom->getFromPrevMessage($message->date_send,$idUser);
 			if ($prev)
-				$message[0]->prev = $prev->id;
-			$next = $daoFrom->getFromNextMessage($message[0]->date_send,$idUser);
+				$message->prev = $prev->id;
+			$next = $daoFrom->getFromNextMessage($message->date_send,$idUser);
 			if ($next)
-				$message[0]->next = $next->id;
+				$message->next = $next->id;
       $isSend = true;
 		} else {	// Il en est peut-être destinataire
 			$isDest = $daoTo->selectDestFromIdAndToUser ($idMessage, $idUser);	// Test s'il est dans les destin
 			if ($isDest) {
 				$serv = CopixClassesFactory::create("MinimailService");
 				$serv->markMinimailAsRead ($dest, $idUser);
-				$message[0]->type="recv";
-				$prev = $daoTo->getToPrevMessage($message[0]->date_send,$idUser);
+				$message->type="recv";
+				$prev = $daoTo->getToPrevMessage($message->date_send,$idUser);
 				if ($prev)
-					$message[0]->prev = $prev->id;
-				$next = $daoTo->getToNextMessage($message[0]->date_send,$idUser);
+					$message->prev = $prev->id;
+				$next = $daoTo->getToNextMessage($message->date_send,$idUser);
 				if ($next)
-					$message[0]->next = $next->id;
+					$message->next = $next->id;
         $isRecv = true;
 			} else {	// Il tente d'afficher un message qu'il n'a pas envoyé ni reçu !
 				$errors[] = CopixI18N::get ('minimail.error.cantDisplay');
@@ -191,9 +189,9 @@ class ActionGroupMinimail extends EnicActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('minimail||')));
 		} else {
 			
-			$userInfo = Kernel::getUserInfo("ID", $message[0]->from_id);
-			$message[0]->from = $userInfo;
-			$message[0]->from_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
+			$userInfo = Kernel::getUserInfo("ID", $message->from_id);
+			$message->from = $userInfo;
+			$message->from_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
 			foreach ($dest as $j=>$null) {
 				//print_r($dest[$j]->to_id);
 				$userInfo = Kernel::getUserInfo("ID", $dest[$j]->to_id);
@@ -202,11 +200,11 @@ class ActionGroupMinimail extends EnicActionGroup {
 			}
       
       // Avatar de l'expéditeur
-			$avatar = Prefs::get('prefs', 'avatar', $message[0]->from_id);
-			$message[0]->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
+			$avatar = Prefs::get('prefs', 'avatar', $message->from_id);
+			$message->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
       
 			$tpl = & new CopixTpl ();
-			$tpl->assign ('TITLE_PAGE', $message[0]->title);
+			$tpl->assign ('TITLE_PAGE', $message->title);
       
       $menu = array();
       $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get ('minimail||getListRecv'), 'current'=>$isRecv);
@@ -214,16 +212,16 @@ class ActionGroupMinimail extends EnicActionGroup {
       $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get ('minimail||getNewForm'));
   		$tpl->assign ('MENU', $menu);
 			
-			$message[0]->attachment1IsImage = $MinimailService->isAttachmentImage ($message[0]->attachment1);
-			$message[0]->attachment2IsImage = $MinimailService->isAttachmentImage ($message[0]->attachment2);
-			$message[0]->attachment3IsImage = $MinimailService->isAttachmentImage ($message[0]->attachment3);
-			$message[0]->attachment1Name = $MinimailService->getAttachmentName ($message[0]->attachment1);
-			$message[0]->attachment2Name = $MinimailService->getAttachmentName ($message[0]->attachment2);
-			$message[0]->attachment3Name = $MinimailService->getAttachmentName ($message[0]->attachment3);
+			$message->attachment1IsImage = $MinimailService->isAttachmentImage ($message->attachment1);
+			$message->attachment2IsImage = $MinimailService->isAttachmentImage ($message->attachment2);
+			$message->attachment3IsImage = $MinimailService->isAttachmentImage ($message->attachment3);
+			$message->attachment1Name = $MinimailService->getAttachmentName ($message->attachment1);
+			$message->attachment2Name = $MinimailService->getAttachmentName ($message->attachment2);
+			$message->attachment3Name = $MinimailService->getAttachmentName ($message->attachment3);
 			//print_r($message);
 
 			$tplListe = & new CopixTpl ();
-			$tplListe->assign ('message', $message[0]);
+			$tplListe->assign ('message', $message);
 			$tplListe->assign ('dest', $dest);
 			$result = $tplListe->fetch('getmessage.tpl');
 			$tpl->assign ('MAIN', $result);
@@ -243,12 +241,13 @@ class ActionGroupMinimail extends EnicActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
 	 * @see doSend()
-	 * @param integer $id Id du minimail si c'est une réponse à ce minimail
+	 * @param integer $reply Id du minimail si c'est une réponse à ce minimail
 	 * @param string $title Titre du minimail (si formulaire soumis)
 	 * @param string $login Logins du(des) destinataire(s) (si formulaire soumis)
 	 * @param string $dest Logins du(des) destinataire(s) (si formulaire soumis)
 	 * @param string $message Corps du minimail (si formulaire soumis)
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
+	 * @param integer $forward Id du minimail si c'est un forward
    */
 	function processGetNewForm () {
 
@@ -268,7 +267,6 @@ class ActionGroupMinimail extends EnicActionGroup {
 
 
 		$idUser = _currentUser ()->getId();
-		$idMessage = _request("id") ? _request("id") : NULL;
 		
 		$title = _request("title") ? _request("title") : NULL;
 		$login = _request("login") ? _request("login") : NULL;
@@ -277,32 +275,45 @@ class ActionGroupMinimail extends EnicActionGroup {
 		$format = CopixConfig::get ('minimail|default_format');
 		
 		$preview = _request("preview") ? _request("preview") : 0;
+    $iAll = _request("all");
+    $iReply = CopixRequest::getInt('reply');
+    $iForward = CopixRequest::getInt('forward');
 		
-		if ($idMessage) {	// Tentative de réponse à un message
-			$daoFrom = CopixDAOFactory::create("minimail_from");
-    	$daoTo = CopixDAOFactory::create("minimail_to");
-		
-			$message = $daoFrom->getMessage($idMessage);
-			$destin = $daoTo->selectDestFromId ($idMessage);
-			
+    $tplForm = & new CopixTpl ();
+    
+		if ($iReply) {	// Tentative de reponse a un message
+			$message = _ioDAO('minimail_from')->getMessage($iReply);
+			$destin = _ioDAO('minimail_to')->selectDestFromId ($iReply);
 			$serv = CopixClassesFactory::create("MinimailService");
-			if ($serv->canViewMessage ($message, $destin, $idUser)) {
-				$format = $message[0]->format;
-				$answer = $serv->constructAnswer ($message, $destin, $idUser, $format);
+			if ($message && $serv->canViewMessage ($message, $destin, $idUser)) {
+				$format = $message->format;
+				$answer = $serv->constructAnswer ($message, $destin, $idUser, $format, $iAll);
 				$dest = $answer["dest"];
 				$title = $answer["title"];
 				$message = $answer["message"];
+        $tplForm->assign ("reply", $iReply);
 			}
-		}
+		} elseif ($iForward) { // Tentative de forward
+      $message = _ioDAO('minimail_from')->getMessage($iForward);
+			$destin = _ioDAO('minimail_to')->selectDestFromId ($iForward);
+			$serv = CopixClassesFactory::create("MinimailService");
+			if ($message && $serv->canViewMessage ($message, $destin, $idUser)) {
+				$format = $message->format;
+				$forward = $serv->constructForward ($message, $format);
+				$title = $forward["title"];
+				$message = $forward["message"];
+        $tplForm->assign ("forward", $iForward);
+			}
+    }
 
-		$tplForm = & new CopixTpl ();
+		
 		$tplForm->assign ("dest", $dest);
 		$tplForm->assign ("title", $title);
 		$tplForm->assign ("message", $message);
 		$tplForm->assign ("format", $format);
 		$tplForm->assign ("preview", $preview);
 		$tplForm->assign ("errors", (_request("errors") ? _request("errors") : ""));
-		$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'height'=>200)));
+		$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'height'=>200, 'options'=>array('focus'=>1))));
 		
 		$tplForm->assign ('linkpopup', CopixZone::process ('annuaire|linkpopup', array('field'=>'dest')));
 		$tplForm->assign ("attachment_size", CopixConfig::get ('minimail|attachment_size') );
@@ -335,7 +346,10 @@ class ActionGroupMinimail extends EnicActionGroup {
 		$format = _request("format") ? _request("format") : "";
 
 		$go = _request("go") ? _request("go") : 'preview';
-
+    
+    $iReply = CopixRequest::getInt('reply');
+    $iForward = CopixRequest::getInt('forward');
+    
 		$destTxt = $dest;
 		$destTxt = str_replace(array(" "), "", $destTxt);
 		$destTxt = str_replace(array(",",";"), ",", $destTxt);
@@ -399,11 +413,9 @@ class ActionGroupMinimail extends EnicActionGroup {
 						break;
 				}
 			}
-		}
-		
-		if (!$errors) {
-		
-			//die();
+    }
+
+    if (!$errors) {
 			
 			if (!$errors && $go=='save') {
 				$serv = CopixClassesFactory::create("MinimailService");
@@ -412,8 +424,28 @@ class ActionGroupMinimail extends EnicActionGroup {
 					$errors[] = CopixI18N::get ('minimail.error.send');
 			}
 
-      // Ajout des pièces jointes
+      
 			if (!$errors && $go=='save') {
+        
+        // Reponse ou forward ?
+        if ($iReply) {
+          // On verifie qu'on est destinataire
+			    if (($inDest = _ioDAO('minimail_to')->selectDestFromIdAndToUser($iReply, $fromId))) {
+            _doQuery ("UPDATE module_minimail_to SET is_replied=1 WHERE id=:id", array(':id'=>$inDest->id2));
+          }
+        }
+        elseif ($iForward) {
+          $message = _ioDAO('minimail_from')->get($iForward);
+          // Si on etait l'expediteur
+          if ($message && $message->from_id == $fromId) {
+            _doQuery ("UPDATE module_minimail_from SET is_forwarded=1 WHERE id=:id", array(':id'=>$iForward));
+          // Si on etait destinataire
+          } elseif ($message && ($inDest = _ioDAO('minimail_to')->selectDestFromIdAndToUser($iForward, $fromId))) {
+            _doQuery ("UPDATE module_minimail_to SET is_forwarded=1 WHERE id=:id", array(':id'=>$inDest->id2));
+          }
+        }
+        
+        // Ajout des pieces jointes
 				$attachments = array();
 				$dataPath = realpath("../var/data");
 				
@@ -445,7 +477,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 			
 		}
 		
-		return CopixActionGroup::process ('minimail|minimail::getNewForm', array ('dest'=>$dest, 'title'=>$title, 'message'=>$message, 'format'=>$format, 'errors'=>$errors, 'preview'=>(($go=='save')?0:1)));
+		return CopixActionGroup::process ('minimail|minimail::getNewForm', array ('dest'=>$dest, 'title'=>$title, 'message'=>$message, 'format'=>$format, 'errors'=>$errors, 'preview'=>(($go=='save')?0:1), 'reply'=>$iReply, 'forward'=>$iForward));
 		
 		//$url_return = CopixConfig::get('minimail|afterMsgSend');
 		//$url_return = CopixUrl::get('minimail||getListSend');

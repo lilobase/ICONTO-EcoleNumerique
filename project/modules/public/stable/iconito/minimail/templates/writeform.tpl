@@ -3,6 +3,8 @@
 <input type="hidden" name="MAX_FILE_SIZE" value="{$attachment_size}">
 <input type="hidden" name="go" value="preview" />
 <input type="hidden" name="format" value="{$format}" />
+<input type="hidden" name="reply" value="{$reply}" />
+<input type="hidden" name="forward" value="{$forward}" />
 
 {if not $errors eq null}
 	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
@@ -51,4 +53,13 @@
 	
 </table>
 </form>
+
+{literal}
+<script type="text/javascript">
+jQuery(document).ready(function($){
+  $('#message').setCursorPosition(0);
+  $('#message').focus();
+});
+</script>
+{/literal}
 

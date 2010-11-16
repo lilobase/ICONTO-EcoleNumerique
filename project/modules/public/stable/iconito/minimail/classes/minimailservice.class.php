@@ -111,22 +111,17 @@ class MinimailService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
-	 * @param mixed message DAO du message
+	 * @param object Record du message
 	 * @param mixed destin DAO des destinataires
 	 * @param integer idUser Id utilisateur de celui qui souhaite lire le minimail
 	 * @return bool true s'il a le droit (il en l'expéditeur ou le destinataire), false sinon
 	 */
 	function canViewMessage ($message, $destin, $idUser) {
 		$res = false;
-		if ($message[0]->from_id == $idUser) {	// Message qu'il a envoyé
+		if ($message->from_id == $idUser) {	// Message qu'il a envoyé
 			$res = true;
 		} else {
-			/** COPIX2 **
-			while (!$res && list(,$d) = each($destin)) {
-				$res = ($d->to_id==$idUser);
-			}
-			*/
-			foreach($destin AS $d) {
+			foreach($destin as $d) {
 				$res = ($d->to_id==$idUser);
 				if($res) break;
 			}
@@ -142,44 +137,92 @@ class MinimailService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/19
-	 * @param mixed message DAO du message original
-	 * @param mixed destin DAO des destinataires
-	 * @param integer idUser Id utilisateur de celui qui souhaite répondre
+	 * @param object $message Record du message original
+	 * @param mixed $destin DAO des destinataires
+	 * @param integer $idUser Id utilisateur de celui qui souhaite répondre
+	 * @param string $format Format souhaite
+	 * @param integer $iAll Si on veut repondre a tous. Sinon, on ne repond qu'a l'expediteur
 	 * @return array tableau : array(title=>"Re : le titre", dest=>"toto, titi", message=>"re salut...")
    */
-	function constructAnswer ($message, $destin, $idUser, $format) {
+	function constructAnswer ($message, $destin, $idUser, $format, $iAll) {
 		$dest = array();
-		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
-		if ($message[0]->from_id != $idUser) {
-			$userInfoFrom = $kernel_service->getUserInfo("ID", $message[0]->from_id);
+		if ($message->from_id != $idUser) {
+			$userInfoFrom = Kernel::getUserInfo("ID", $message->from_id);
 			$dest[] = $userInfoFrom["login"];
 		}
-
-		foreach ($destin as $d) {
-			if ($d->to_id != $idUser) {
-				$userInfo = $kernel_service->getUserInfo("ID", $d->to_id);
-				$dest[] = $userInfo["login"];
-			}
-		}
+    if ($iAll) {
+  		foreach ($destin as $d) {
+  			if ($d->to_id != $idUser) {
+  				$userInfo = Kernel::getUserInfo("ID", $d->to_id);
+  				$dest[] = $userInfo["login"];
+  			}
+  		}
+    }
 		
 		$dest = implode(", ",$dest);
-		$title = "Re : ".$message[0]->title;
+		$title = "Re : ".$message->title;
 		
 		switch ($format) {
 			case 'wiki' :
-				$message =  "\n\n\n> ----- ".CopixI18N::get ('minimail.msg.origin')." -----\n> ".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"]))." :\n> " . str_replace("\n", "\n> ", $message[0]->message);
+				$message =  "\n\n\n> ----- ".CopixI18N::get ('minimail.msg.origin')." -----\n> ".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :\n> " . str_replace("\n", "\n> ", $message->message);
 				break;
 			case 'dokuwiki' :
-				$message =  "\n\n\n> --------- ".CopixI18N::get ('minimail.msg.origin')." ---------\n> ".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"]))." :\n> " . str_replace("\n", "\n>", $message[0]->message);
+				$message =  "\n\n\n> --------- ".CopixI18N::get ('minimail.msg.origin')." ---------\n> ".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :\n> " . str_replace("\n", "\n>", $message->message);
 			
 				break;
 			case 'ckeditor' :
-				$message =  "<br/><blockquote><b>--- ".CopixI18N::get ('minimail.msg.origin')." ---</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"]))." :</i><br/>" . str_replace("\n", "<br/>", $message[0]->message)."</blockquote><br/>";
+				$message =  "<p></p><blockquote><b>--------- ".CopixI18N::get ('minimail.msg.origin')." ---------</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :</i><br/>" . str_replace("\n", "<br/>", $message->message)."</blockquote><br/>";
 				break;
 		}
 		return array("dest"=>$dest, "title"=>$title, "message"=>$message);
 	}
 	
+
+
+	/**
+	 * Construit le forward à un message. A partir d'un message, construit le titre, le message si un usager fait "Transferer".
+	 *
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2010/11/16
+	 * @param object $message Record du message original
+	 * @param string $format Format souhaite
+	 * @return array tableau : array(title=>"Tr : le titre", message=>"re salut...")
+   */
+	function constructForward ($message, $format) {
+    
+    $userInfoFrom = Kernel::getUserInfo("ID", $message->from_id);
+    
+		$title = "Tr : ".$message->title;
+		
+		switch ($format) {
+			case 'wiki' :
+				$message =  "\n\n\n> ----- ".CopixI18N::get ('minimail.msg.origin')." -----\n> ".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :\n> " . str_replace("\n", "\n> ", $message->message);
+				break;
+			case 'dokuwiki' :
+				$message =  "\n\n\n> --------- ".CopixI18N::get ('minimail.msg.origin')." ---------\n> ".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :\n> " . str_replace("\n", "\n>", $message->message);
+			
+				break;
+			case 'ckeditor' :
+				$message =  "<p></p><blockquote><b>--------- ".CopixI18N::get ('minimail.msg.origin')." ---------</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :</i><br/>" . str_replace("\n", "<br/>", $message->message)."</blockquote><br/>";
+				break;
+		}
+		return array("title"=>$title, "message"=>$message);
+	}
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	/**
 	 * Détermine si la prévisualisation d'une pièce jointe est possible (cas des images)

@@ -18,6 +18,7 @@
 		<property name="attachment1" fieldname="attachment1" type="string" table="minimail_from" pk="no"/>
 		<property name="attachment2" fieldname="attachment2" type="string" table="minimail_from" pk="no"/>
 		<property name="attachment3" fieldname="attachment3" type="string" table="minimail_from" pk="no"/>
+		<property name="is_forwarded" fieldname="is_forwarded" type="integer" table="minimail_from" pk="no"/>
 	</properties>
 	<methods>
 		<method name="getListSend" type="select">
@@ -46,18 +47,15 @@
 			</conditions>
 		</method>
 
-		<method name="getMessage" type="select">
+		<method name="getMessage" type="selectfirst">
 			<parameters>
 				<parameter name="id" />
 			</parameters>
 			<conditions>
 				<condition property="id" operator="=" value="$id" />
 			</conditions>
-			<order>
-				<orderitem property="date_send" way="desc" />
-			</order>
-			<limit offset="0" count="20" />
 		</method>
+
 		<method name="getFromPrevMessage" type="selectfirst">
 			<parameters>
 				<parameter name="date_send" />
