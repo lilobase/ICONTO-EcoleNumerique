@@ -33,6 +33,7 @@
 
 			<div class="titleb">{if 0 && $groupe->canViewHome}<a href="{copixurl dest="|getHome" id=$groupe->id}">{$groupe->titre}</a>{else}{$groupe->titre}{/if}</div>
 			{$groupe->description}
+                        {if !empty($groupe->tags)}<p>{$groupe->tags}</p>{/if}
 			<div class="infos">
 			{i18n key="groupe.creation" nb=$groupe->date_creation|datei18n:"date_short" who=""} {user label=$groupe->createur_nom userType=$groupe->createur_infos.type userId=$groupe->createur_infos.id linkAttribs='STYLE="text-decoration:none;"'}
 			 - {$groupe->rattachement} - {i18n key="groupe.group.member" pNb=$groupe->inscrits}

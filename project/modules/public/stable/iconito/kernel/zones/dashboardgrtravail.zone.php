@@ -19,9 +19,10 @@ class ZoneDashboardGrTravail extends enicZone {
         $descDatas = utf8_encode($descDatas);
 
         $nbUsersInGroup = $this->model->query('SELECT COUNT(user_id) FROM kernel_link_user2node WHERE node_id = '.$idZone)->toInt();
-
+        $tagsLink = $this->service('groupe|tagService')->createLinkForGroup($idZone);
         $tpl->assign('desc', $descDatas);
         $tpl->assign('nbUsers', $nbUsersInGroup);
+        $tpl->assign('tags', $tagsLink);
 
         //return the html content
         $toReturn = $tpl->fetch ('zone.dashboard.grtravail.tpl');

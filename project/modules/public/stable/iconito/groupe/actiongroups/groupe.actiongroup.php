@@ -8,7 +8,7 @@ _classInclude('agenda|dateservices');
  * @package Iconito
  * @subpackage	Groupe
  */
-class ActionGroupGroupe extends CopixActionGroup {
+class ActionGroupGroupe extends enicActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
@@ -16,11 +16,11 @@ class ActionGroupGroupe extends CopixActionGroup {
 	}
 
 	/**
-	 * Affiche la liste des groupes où l'usager courant est inscrit
+	 * Affiche la liste des groupes oï¿½ l'usager courant est inscrit
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/15
-	 * @param integer $page (option, 1 par défaut) Numéro de page dans la liste des groupes
+	 * @param integer $page (option, 1 par dï¿½faut) Numï¿½ro de page dans la liste des groupes
 	 */
 	function getListMy () {
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||'));
@@ -80,8 +80,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/15
-	 * @param integer $page (option, 1 par défaut) Numéro de page dans la liste des groupes
-	 * @param string $kw (option, NULL par défaut) Mot clé en cas de recherche
+	 * @param integer $page (option, 1 par dï¿½faut) Numï¿½ro de page dans la liste des groupes
+	 * @param string $kw (option, NULL par dï¿½faut) Mot clï¿½ en cas de recherche
 	 */
 	function getListPublic () {
 
@@ -98,10 +98,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$count = CopixConfig::get ('groupe|list_nbgroupes');
 
 		$groupesAll = $dao->getListPublic('','',$kw);
-		//var_dump($groupesAll);
 
 		$nbPages = ceil(count($groupesAll) / $count);
-		//echo "offset=$offset / count=$count / nbPages=$nbPages";
 
 		$list = array_slice ($groupesAll, $offset, $count);
 
@@ -135,6 +133,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			if ($blog && ($blog->is_public || $groupeService->canMakeInGroupe('VIEW_HOME', $mondroit)))
 			$groupe->blog = $blog;
 			$groupe->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
+                        $groupe->tags = $this->service('tagService')->createLinkForGroup($groupe->id);
 			$groupes[] = $groupe;
 				
 		}
@@ -166,17 +165,17 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 
 	/**
-	 * Formulaire de création / modification d'un groupe
+	 * Formulaire de crï¿½ation / modification d'un groupe
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/15
-	 * @param integer $id Id du groupe qu'on modifie, ou NULL si création d'un nouveau groupe
+	 * @param integer $id Id du groupe qu'on modifie, ou NULL si crï¿½ation d'un nouveau groupe
 	 * @param string $titre (si formulaire soumis) Titre du groupe
 	 * @param string $description (si formulaire soumis) Sa description
-	 * @param integer $is_open (si formulaire soumis) 1 si le groupe est public, 0 s'il est privé
-	 * @param string $membres (si formulaire soumis) La liste des logins des membres à ajouter (séparés par des virgules éventuellement)
-	 * @param array $his_modules (si formulaire soumis) Les modules à rattacher au groupe
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $is_open (si formulaire soumis) 1 si le groupe est public, 0 s'il est privï¿½
+	 * @param string $membres (si formulaire soumis) La liste des logins des membres ï¿½ ajouter (sï¿½parï¿½s par des virgules ï¿½ventuellement)
+	 * @param array $his_modules (si formulaire soumis) Les modules ï¿½ rattacher au groupe
+	 * @param array $errors (option) Erreurs rencontrï¿½es
 	 */
 	function processGetEdit () {
 
@@ -184,7 +183,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
 		$dao = CopixDAOFactory::create("groupe");
-
+                $tagService = $this->service('tagService');
 		$tpl = & new CopixTpl ();
 
 		$id = $this->getRequest ('id', null);
@@ -193,6 +192,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$is_open = 1;
 		$errors = array();
 		$nodes = array();
+                $tags = '';
 
 		if ($id) {	// Modification
 			$tplTitle = CopixI18N::get ('groupe|groupe.modify');
@@ -203,6 +203,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				if (!$groupeService->canMakeInGroupe('ADMIN',$mondroit))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 				else {
+                                        $tags = $tagService->createTagsString($tagService->getTagsByGroup($id));
 					$titre = $groupe[0]->titre;
 					$description = $groupe[0]->description;
 					$is_open = $groupe[0]->is_open;
@@ -245,6 +246,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		} else {
 
 			$titre = $this->getRequest ('titre', $titre);
+                        $tags = $this->getRequest('tags', $tags);
 			$description = $this->getRequest ('description', $description);
 			$is_open = $this->getRequest ('is_open', $is_open);
 			$membres = $this->getRequest ('membres', $membres);
@@ -280,7 +282,6 @@ class ActionGroupGroupe extends CopixActionGroup {
         $menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'));
       }
   		$tpl->assign ('MENU', $menu);
-				
 			$tplForm = & new CopixTpl ();
 			$tplForm->assign ("id", $id);
 			$tplForm->assign ("titre", $titre);
@@ -295,6 +296,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$tplForm->assign ("errors", $errors);
 			$tplForm->assign ("nodes", $nodes);
 			$tplForm->assign ("parent", $parent);
+                        $tplForm->assign ("tags", $tags);
 			$result = $tplForm->fetch("formedit.tpl");
 
 			$tpl->assign ("MAIN", $result);
@@ -305,26 +307,27 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 
 	/**
-	 * Soumission du formulaire de création / modification d'un groupe
+	 * Soumission du formulaire de crï¿½ation / modification d'un groupe
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/15
-	 * @param integer $id Id du groupe en cas de modification, NULL si création d'un nouveau groupe
+	 * @param integer $id Id du groupe en cas de modification, NULL si crï¿½ation d'un nouveau groupe
 	 * @param string $titre (si formulaire soumis) Titre du groupe
-	 * @param string $parentClass (si nouveau groupe) ParentClass où sera rattaché le groupe
-	 * @param integer $parentRef (si nouveau groupe) ParentRef où sera rattaché le groupe
+	 * @param string $parentClass (si nouveau groupe) ParentClass oï¿½ sera rattachï¿½ le groupe
+	 * @param integer $parentRef (si nouveau groupe) ParentRef oï¿½ sera rattachï¿½ le groupe
 	 * @param string $titre Titre du groupe
 	 * @param string $description Sa description
-	 * @param integer $is_open 1 si le groupe est public, 0 s'il est privé
-	 * @param string $membres Liste des logins des membres à ajouter (séparés par des virgules éventuellement)
-	 * @param array $his_modules Les (nouveaux) modules à rattacher au groupe
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $is_open 1 si le groupe est public, 0 s'il est privï¿½
+	 * @param string $membres Liste des logins des membres ï¿½ ajouter (sï¿½parï¿½s par des virgules ï¿½ventuellement)
+	 * @param array $his_modules Les (nouveaux) modules ï¿½ rattacher au groupe
+	 * @param array $errors (option) Erreurs rencontrï¿½es
 	 */
 	function doEdit () {
 
 		$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = CopixClassesFactory::create("kernel|Kernel");
 		$groupeService = CopixClassesFactory::create("groupe|groupeService");
+                $tagService = $this->service('tagService');
 
 		$errors = array();
 
@@ -355,6 +358,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 		$is_open = $this->getRequest ('is_open', 1);
 		$membres = $this->getRequest ('membres', null);
 		$his_modules = $this->getRequest ('his_modules', array());
+                $tags = $this->request('tags');
 
 
 		if (!$titre)
@@ -370,7 +374,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$groupe[0]->description = $description;
 			$groupe[0]->is_open = $is_open;
 			$dao->update ($groupe[0]);
-		} else {	// Création
+		} else {	// Crï¿½ation
 				
 			$tab_membres = $membres;
 			$tab_membres = str_replace(array(" "), "", $tab_membres);
@@ -379,7 +383,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				
 			$tabInscrits = array();
 
-			// On vérifie que les membres existent
+			// On vï¿½rifie que les membres existent
 			$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 			while (list(,$login) = each ($tab_membres)) {
 				if (!$login) continue;
@@ -401,19 +405,20 @@ class ActionGroupGroupe extends CopixActionGroup {
 			if (!$errors) {
 				$serv = CopixClassesFactory::create("GroupeService");
 				$create = $serv->createGroupe ($titre, $description, $is_open, $createurId, $tabInscrits, $his_modules, $parentClass, $parentRef);
-				if ($create) {
-				} else
-				$errors[] = CopixI18N::get ('groupe|groupe.error.create');
+				if (!$create)
+                                    $errors[] = CopixI18N::get ('groupe|groupe.error.create');
+                                else
+                                    $id = $create;
 			}
 		}
 
-		if ($errors)
-		return CopixActionGroup::process ('groupe|groupe::getEdit', array ('id'=>$id, 'titre'=>$titre, 'description'=>$description, 'is_open'=>$is_open, 'membres'=>$membres, 'his_modules'=>$his_modules, 'errors'=>$errors, 'parent'=>$parent));
-
-		if ($id)
-		  return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)));
-		else
-		  return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getListMy'));
+                if ($errors)
+                    return CopixActionGroup::process('groupe|groupe::getEdit', array('id' => $id, 'titre' => $titre, 'description' => $description, 'is_open' => $is_open, 'membres' => $membres, 'his_modules' => $his_modules, 'errors' => $errors, 'parent' => $parent));
+                else{
+                    $tagService->deleteTagsOgGroup($id);
+                    $tagService->addTagsToGroup($id, $tagService->extractTags($tags));
+                }
+        return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)));
 	}
 
 	 
@@ -516,7 +521,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				Kernel::setLevel("CLUB", $id, $user["type"], $user["id"], 0);
 			}
 				
-			// On supprime le groupe lui-même
+			// On supprime le groupe lui-mï¿½me
 			$dao->delete ($id);
 				
 		}
@@ -556,7 +561,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||')));
 		} else {
 
-			// On récupère les modules du groupe
+			// On rï¿½cupï¿½re les modules du groupe
 			$his_modules = $kernel_service->getModEnabled ("club", $id);
 			foreach ($his_modules as $k=>$node) {
 				//print_r(explode("_",$node->module_type));
@@ -664,8 +669,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $id Id du groupe
-	 * @param string $membres (option) Liste des logins des nouveaux membres à inscrire séparés par des virgules éventuellement)
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param string $membres (option) Liste des logins des nouveaux membres ï¿½ inscrire sï¿½parï¿½s par des virgules ï¿½ventuellement)
+	 * @param array $errors (option) Erreurs rencontrï¿½es
 	 */
 	function processGetHomeAdminMembers () {
 		 
@@ -760,8 +765,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @since 2005/11/16
 	 * @see doFormAdminModules()
 	 * @param integer $id Id du groupe
-	 * @param integer $done Si 1, on vient d'une page ayant bien effectué les modifications demandées
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $done Si 1, on vient d'une page ayant bien effectuï¿½ les modifications demandï¿½es
+	 * @param array $errors (option) Erreurs rencontrï¿½es
 	 */
 	function getHomeAdminModules () {
 		 
@@ -847,12 +852,12 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 
 	/**
-	 * Désinscription effective de membres
+	 * Dï¿½sinscription effective de membres
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $id Id du groupe
-	 * @param array $membres Les membres à désinscrire (les valeurs sont de type USER_TYPE|USER_ID)
+	 * @param array $membres Les membres ï¿½ dï¿½sinscrire (les valeurs sont de type USER_TYPE|USER_ID)
 	 */
 	function doUnsubscribe () {
 
@@ -897,12 +902,12 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 
 	/**
-	 * Inscription directe et effective de membres, à partir de leurs logins
+	 * Inscription directe et effective de membres, ï¿½ partir de leurs logins
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $id Id du groupe
-	 * @param array $membres Les logins des membres à inscrire (séparés par des , ou ; si plusieurs)
+	 * @param array $membres Les logins des membres ï¿½ inscrire (sï¿½parï¿½s par des , ou ; si plusieurs)
 	 */
 	function doSubscribe () {
 
@@ -943,7 +948,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			$tab_membres = explode (",", $tab_membres);
 				
 			$tabInscrits = array();
-			// On vérifie que les membres existent
+			// On vï¿½rifie que les membres existent
 			while (list(,$login) = each ($tab_membres)) {
 				if (!$login) continue;
 				$userInfo = $kernel_service->getUserInfo("LOGIN", $login);
@@ -953,7 +958,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				$errors[] = CopixI18N::get ('groupe|groupe.error.memberNoUser', array($login));
 				elseif ($userInfo["user_id"] == $groupe[0]->createur)
 				$errors[] = CopixI18N::get ('groupe|groupe.error.memberNotHimself');
-				else {	// On regarde s'il est déjà membre
+				else {	// On regarde s'il est dï¿½jï¿½ membre
 					$droit = $kernel_service->getLevel( "CLUB", $id, $userInfo["type"], $userInfo["id"]);
 					if ($droit)
 					$errors[] = CopixI18N::get ('groupe|groupe.error.memberAlready', array($login));
@@ -979,7 +984,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 				return CopixActionGroup::process ('groupe|groupe::getHomeAdminMembers', array ('id'=>$id, 'membres'=>$membres, 'debut'=>$req_debut, 'fin'=>$req_fin, 'errors'=>$errors));
 
 			} else {
-				// On insère les éventuels membres
+				// On insï¿½re les ï¿½ventuels membres
 
 				while (list(,$user) = each ($tabInscrits)) {
 					$kernel_service->setLevel("CLUB", $id, $user["type"], $user["id"], PROFILE_CCV_MEMBER, $debut, $fin);
@@ -1002,7 +1007,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
 	 * @param integer $id Id du groupe
-	 * @param array $membres Les logins des membres à inscrire (séparés par des , ou ; si plusieurs)
+	 * @param array $membres Les logins des membres ï¿½ inscrire (sï¿½parï¿½s par des , ou ; si plusieurs)
 	 */
 	function doSubscribeWaiting () {
 
@@ -1128,7 +1133,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 
 	/**
-	 * Effectue une demande d'inscription à un groupe pour l'utilisateur courant
+	 * Effectue une demande d'inscription ï¿½ un groupe pour l'utilisateur courant
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/16
@@ -1164,20 +1169,20 @@ class ActionGroupGroupe extends CopixActionGroup {
 			CopixCache::clear (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getnodeparents');
 			CopixCache::clear (_currentUser()->getExtra('type').'-'._currentUser()->getExtra('id'), 'getmynodes');
 				
-			// On récupère le propriétaire, afin de lui envoyer un message
+			// On rï¿½cupï¿½re le propriï¿½taire, afin de lui envoyer un message
 			$childs = $kernel_service->getNodeChilds( "CLUB", $id );
 			$trouve = false;
 				
 			foreach ($childs as $child) {
 				if ($trouve)
 				continue;
-				if ($groupeService->canMakeInGroupe('ADMIN',$child["droit"])) // Propriétaire trouvé !
+				if ($groupeService->canMakeInGroupe('ADMIN',$child["droit"])) // Propriï¿½taire trouvï¿½ !
 				$trouve = $child;
 			}
 			//var_dump($trouve);
 			/*
 			while (!$trouve && list(,$child)=each($childs)) {
-			if ($groupeService->canMakeInGroupe('ADMIN',$child["droit"])) // Propriétaire trouvé !
+			if ($groupeService->canMakeInGroupe('ADMIN',$child["droit"])) // Propriï¿½taire trouvï¿½ !
 			$trouve = $child;
 			}
 			*/
@@ -1241,7 +1246,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @since 2005/11/16
 	 * @see getHomeAdminModules()
 	 * @param integer $id Id du groupe
-	 * @param array $his_modules Les modules à ajouter. Le tableau contient dont les clefs correspondent aux codes des modules
+	 * @param array $his_modules Les modules ï¿½ ajouter. Le tableau contient dont les clefs correspondent aux codes des modules
 	 */
 	function doFormAdminModules () {
 
@@ -1276,13 +1281,13 @@ class ActionGroupGroupe extends CopixActionGroup {
 			// On ajoute les modules
 			//print_r($his_modules);
 
-			// On parcourt l'ensemble des modules ayant pu être cochés/décochés
+			// On parcourt l'ensemble des modules ayant pu ï¿½tre cochï¿½s/dï¿½cochï¿½s
 			foreach ($modules as $tmp) {
 
 				$moduleType = $tmp->module_type;
 				list (,$module) = explode ("_", strtolower($moduleType));
 
-				// On vérifie quand même qu'un module de ce type n'existe pas déjà
+				// On vï¿½rifie quand mï¿½me qu'un module de ce type n'existe pas dï¿½jï¿½
 				reset ($mod_enabled);
 				$deja = false;
 				while (!$deja && list(,$mod) = each ($mod_enabled))
@@ -1291,19 +1296,19 @@ class ActionGroupGroupe extends CopixActionGroup {
 				// print_r("<br/>moduleType=$moduleType / deja=$deja / ");
 
 
-				if ($deja && (!isset($his_modules[$moduleType]) || !$his_modules[$moduleType])) { // Cocher -> décocher, on supprime le module
+				if ($deja && (!isset($his_modules[$moduleType]) || !$his_modules[$moduleType])) { // Cocher -> dï¿½cocher, on supprime le module
 					//print_r("Del");
 					$classeDel = CopixClassesFactory::create("$module|Kernel$module");
 					$del = $classeDel->delete($deja);
-					if ($del) {	// Suppression effectuée, on détache le module du groupe
+					if ($del) {	// Suppression effectuï¿½e, on dï¿½tache le module du groupe
 						$unregister = $kernel_service->unregisterModule( $moduleType, $deja, "CLUB", $id );
 					}
-				} elseif (!$deja && isset($his_modules[$moduleType])) { // Décocher -> cocher, on instancie le module
+				} elseif (!$deja && isset($his_modules[$moduleType])) { // Dï¿½cocher -> cocher, on instancie le module
 					// print_r("Add");
 					$classeNew = CopixClassesFactory::create("$module|Kernel$module");
 					$new = $classeNew->create(array('title'=>$groupe[0]->titre, 'node_type'=>'CLUB', 'node_id'=>$id));
 					// print_r("new=$new");
-					if ($new) {	// Module bien crée, on le rattache
+					if ($new) {	// Module bien crï¿½e, on le rattache
 						$register = $kernel_service->registerModule( $moduleType, $new, "CLUB", $id );
 						// print_r("new=$new / register=$register");
 					}
@@ -1396,10 +1401,10 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @param integer $id Id du groupe
 	 * @param string $user_type Type du membre
 	 * @param integer $user_id Id du membre
-	 * @param array $errors (option) Erreurs rencontrées
-	 * @param integer $droit (option) Valeur du droit si formulaire déjà soumis
-	 * @param string $droit (option) Valeur du début de validité si formulaire déjà soumis
-	 * @param string $fin (option) Valeur de fin de validité si formulaire déjà soumis
+	 * @param array $errors (option) Erreurs rencontrï¿½es
+	 * @param integer $droit (option) Valeur du droit si formulaire dï¿½jï¿½ soumis
+	 * @param string $droit (option) Valeur du dï¿½but de validitï¿½ si formulaire dï¿½jï¿½ soumis
+	 * @param string $fin (option) Valeur de fin de validitï¿½ si formulaire dï¿½jï¿½ soumis
 	 */
 	function processGetHomeAdminMember () {
 		 
@@ -1428,7 +1433,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
 			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			else {
-				// On vérifie que le membre demandé fait bien partie du groupe et qu'il n'est pas le propriétaire
+				// On vï¿½rifie que le membre demandï¿½ fait bien partie du groupe et qu'il n'est pas le propriï¿½taire
 				$dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
 				$his = $dao->get($user_type, $user_id, "CLUB", $id);
 				//print_r($his);
@@ -1495,8 +1500,8 @@ class ActionGroupGroupe extends CopixActionGroup {
 	 * @param string $user_type Type du membre
 	 * @param integer $user_id Id du membre
 	 * @param integer $droit Son nouveau droit
-	 * @param string $debut Sa nouvelle date de début de validité
-	 * @param string $fin Sa nouvelle date de fin de validité
+	 * @param string $debut Sa nouvelle date de dï¿½but de validitï¿½
+	 * @param string $fin Sa nouvelle date de fin de validitï¿½
 	 */
 	function doModifyMember () {
 		 
@@ -1529,7 +1534,7 @@ class ActionGroupGroupe extends CopixActionGroup {
 			if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
 			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			else {
-				// On vérifie que le membre demandé fait bien partie du groupe et qu'il n'est pas le propriétaire
+				// On vï¿½rifie que le membre demandï¿½ fait bien partie du groupe et qu'il n'est pas le propriï¿½taire
 				$level = Kernel::getLevel ('CLUB', $id, $user_type, $user_id);
 				if ($level <= PROFILE_CCV_SHOW || $level >= PROFILE_CCV_ADMIN)
 				$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
@@ -1574,12 +1579,12 @@ class ActionGroupGroupe extends CopixActionGroup {
 
 
 	/**
-	 * Désinscription de l'utilisateur courant d'un groupe. Renvoie sur la page demandant confirmation avant de supprimer, ou procède à la desinscription (si la confirmation a déjà eu lieu).
+	 * Dï¿½sinscription de l'utilisateur courant d'un groupe. Renvoie sur la page demandant confirmation avant de supprimer, ou procï¿½de ï¿½ la desinscription (si la confirmation a dï¿½jï¿½ eu lieu).
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/05/30
 	 * @param integer $id Id du groupe
-	 * @param integer $confirm 1 si on revient après confirmation, nul si on pose la question
+	 * @param integer $confirm 1 si on revient aprï¿½s confirmation, nul si on pose la question
 	 */
 	function doUnsubscribeHimself () {
 
