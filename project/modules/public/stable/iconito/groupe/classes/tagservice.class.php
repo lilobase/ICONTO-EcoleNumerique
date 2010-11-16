@@ -68,7 +68,7 @@ class tagService extends enicService{
     public function createTagsString($tags){
         $return = '';
         foreach($tags as $k => $tag){
-            $return .= ($k == 0) ? utf8_encode($tag['name']) : ', '.utf8_encode($tag['name']);
+            $return .= ($k == 0) ? $tag['name'] : ', '.$tag['name'];
         }
         return $return;
     }
@@ -77,8 +77,8 @@ class tagService extends enicService{
         $tags = $this->getTagsByGroup($idGroup);
         $return = '';
         foreach($tags as $k => $tag){
-            $link = $this->url('groupe|default|getListPublic', array('kw' => utf8_encode($tag['name'])));
-            $return .= ($k == 0) ? '<a href="'.$link.'">'.utf8_encode($tag['name']).'</a>' : ', <a href="'.$link.'">'.utf8_encode($tag['name']).'</a>';
+            $link = $this->url('groupe|default|getListPublic', array('kw' => $tag['name']));
+            $return .= ($k == 0) ? '<a href="'.$link.'">'.$tag['name'].'</a>' : ', <a href="'.$link.'">'.$tag['name'].'</a>';
         }
         return (!empty($return)) ? '<strong>Tags : </strong>'.$return : '';
     }
