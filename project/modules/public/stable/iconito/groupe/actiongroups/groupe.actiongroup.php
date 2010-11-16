@@ -15,6 +15,17 @@ class ActionGroupGroupe extends enicActionGroup {
 
 	}
 
+        public function processMigrate(){
+            $datas = $this->db->query('SELECT * FROM module_groupe_tag')->toArray();
+            foreach($datas as $data){
+                $this->service('tagService')->addTagsToGroup($data['groupe'], array($data['tag']));
+            }
+
+            echo "si il n'y a rien au dessus, c'est cool ! :)";
+
+            return _arNone();
+        }
+
 	/**
 	 * Affiche la liste des groupes o� l'usager courant est inscrit
 	 *
