@@ -730,6 +730,7 @@ class ActionGroupGroupe extends enicActionGroup {
 			foreach ($childs AS $k=>$v) {
 				//print_r($v);
 				$userInfo = $kernel_service->getUserInfo($v["type"], $v["id"]);
+        //var_dump($userInfo);
 				$childs[$k]["login"] = $userInfo["login"];
 				$childs[$k]["nom"] = $userInfo["nom"];
 				$childs[$k]["prenom"] = $userInfo["prenom"];

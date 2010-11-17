@@ -1089,12 +1089,13 @@ class Kernel {
 					$record = _record("kernel|kernel_bu2user");
 					$record->bu_type = $type;
 					$record->bu_id   = $id;
+          $record->user_id = '';
+          $record->user_login = '';
 					$users = array();
 					$users[0] = $record;
 				}
 				break;
 		}
-		//print_r($users);
 
 		if( sizeof( $users ) ) {
 
@@ -1111,6 +1112,10 @@ class Kernel {
 				case "USER_ADM" :
 					$pers_dao = _dao("kernel|kernel_bu_personnel");
 					$personne = $pers_dao->get($userval->bu_id);
+          
+          if (!$personne)
+            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
+
 					$user["nom"]      = $personne->pers_nom;
 					$user["prenom"]   = $personne->pers_prenom1;
 					$user["civilite"] = $personne->pers_civilite;
@@ -1138,6 +1143,8 @@ class Kernel {
 				case "USER_ELE" :
 					$ele_dao = _dao("kernel|kernel_bu_ele");
 					$eleve = $ele_dao->get($userval->bu_id);
+          if (!$eleve)
+            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
 					// $user["type"]     = "USER_ELE";
 					// $user["id"]       = $eleve->ele_idEleve;
 					$user["nom"]      = $eleve->ele_nom;
@@ -1166,6 +1173,8 @@ class Kernel {
 				case "USER_RES" :
 					$res_dao = _dao("kernel|kernel_bu_res");
 					$reponsable = $res_dao->get($userval->bu_id);
+          if (!$reponsable)
+            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
 					// $user["type"]     = "USER_RES";
 					// $user["id"]       = $reponsable->res_numero;
 					$user["nom"]      = $reponsable->res_nom;
@@ -1178,18 +1187,14 @@ class Kernel {
 				case "USER_EXT" :
 					$ext_dao = _dao("kernel|kernel_ext_user");
 					$extuser = $ext_dao->get($userval->bu_id);
-					if($extuser) {
-						// attention id user = celui de la basu
-						// $user["type"]     = "USER_EXT";
-						// $user["id"]       = $extuser->ext_id;
-						$user["nom"]      = $extuser->ext_nom;
-						$user["prenom"]   = $extuser->ext_prenom;
-						$user["ALL"]      = $extuser;
-					} else {
-						$user["nom"]      = "Utilisateur inconnu";
-						$user["prenom"]   = "";
-						$user["ALL"]      = null;
-					}
+          if (!$extuser)
+            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
+  				// attention id user = celui de la basu
+  				// $user["type"]     = "USER_EXT";
+  				// $user["id"]       = $extuser->ext_id;
+  				$user["nom"]      = $extuser->ext_nom;
+  				$user["prenom"]   = $extuser->ext_prenom;
+  				$user["ALL"]      = $extuser;
 					break;
 
 				default :

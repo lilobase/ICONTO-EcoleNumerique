@@ -43,7 +43,7 @@ function smarty_function_user ($params, &$smarty)
 		
 		if (isset($params['fromLogin'])) {
     } elseif (empty($params['label'])) {
-        $smarty->trigger_error("mailto: missing 'label' parameter");
+        //$smarty->trigger_error("mailto: missing 'label' parameter");
         return;
     } else {
         $label = trim($params['label']);
