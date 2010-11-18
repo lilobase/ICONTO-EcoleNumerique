@@ -65,7 +65,7 @@
   <input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" reply=$message->id}'" type="button" value="{i18n key="minimail.btn.reply}" />
 
   {if $dest|@count>1}
-    <input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" id=$message->id all=1}'" type="button" value="{i18n key="minimail.btn.replyAll}" />
+    <input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" reply=$message->id all=1}'" type="button" value="{i18n key="minimail.btn.replyAll}" />
   {/if}
 {/if}
 
