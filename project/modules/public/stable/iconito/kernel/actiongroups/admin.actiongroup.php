@@ -2,11 +2,11 @@
 /**
  * Kernel - ActionGroup
  *
- * Fonctions du coeur d'Iconito : Gestion des utilisateurs, des liens avec les entités, de l'accès à la base élève, des droits.
+ * Fonctions du coeur d'Iconito : Gestion des utilisateurs, des liens avec les entitÃ©s, de l'accÃ¨s Ã  la base Ã©lÃ©ve, des droits.
  * @package	Iconito
  * @subpackage	Kernel
  * @version   $Id: kernel.actiongroup.php,v 1.50 2009-07-10 09:13:20 cbeyer Exp $
- * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
+ * @author	FrÃ©dÃ©ric Mossmann <fmossmann@cap-tic.fr>
  */
 
 _classInclude('sysutils|admin');
@@ -31,7 +31,10 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 	    if (!Admin::canAdmin())
 			  return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
-	
+
+        $limit = $this->getRequest ('limit', 5);
+        $password = $this->getRequest ('password', 'yee3Aig5');
+
 		$ppo = new CopixPPO();
 
 		// dbuser : id_dbuser 	login_dbuser 	password_dbuser 	email_dbuser 	enabled_dbuser
@@ -87,7 +90,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 			WHERE bu_type IS NULL';
 		$ppo->user_res = CopixDB::getConnection ()->doQuery ($sql, $sql_params);
             
-		$fusible = 5;
+		$fusible = $limit;
 		echo "<pre>";
 		
 		foreach( $ppo->user_ele AS $eleve ) {
@@ -99,7 +102,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 			
 			$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
 			$user_new->login_dbuser = $login;
-			$user_new->password_dbuser = md5('123456');
+			$user_new->password_dbuser = md5($password);
 			$user_new->email_dbuser = '';
 			$user_new->enabled_dbuser = 1;
 								
@@ -112,7 +115,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 							
 			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
 			
-			echo $eleve->nom.";".$eleve->prenom.";".$login.";123457\n";
+			echo $eleve->nom.";".$eleve->prenom.";".$login.";".$password."\n";
 		}
 
 		foreach( $ppo->user_ens AS $ens ) {
@@ -124,7 +127,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 			
 			$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
 			$user_new->login_dbuser = $login;
-			$user_new->password_dbuser = md5('123456');
+			$user_new->password_dbuser = md5($password);
 			$user_new->email_dbuser = '';
 			$user_new->enabled_dbuser = 1;
 								
@@ -137,7 +140,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 							
 			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
 			
-			echo $ens->nom.";".$ens->prenom.";".$login.";123456\n";
+			echo $ens->nom.";".$ens->prenom.";".$login.";".$password."\n";
 		}
 		
 		foreach( $ppo->user_vil AS $vil ) {
@@ -149,7 +152,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 			
 			$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
 			$user_new->login_dbuser = $login;
-			$user_new->password_dbuser = md5('123456');
+			$user_new->password_dbuser = md5($password);
 			$user_new->email_dbuser = '';
 			$user_new->enabled_dbuser = 1;
 								
@@ -162,7 +165,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 							
 			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
 			
-			echo $vil->nom.";".$vil->prenom.";".$login.";123456\n";
+			echo $vil->nom.";".$vil->prenom.";".$login.";".$password."\n";
 		}
 		
 		foreach( $ppo->user_res AS $res ) {
@@ -174,7 +177,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 			
 			$user_new = CopixDAOFactory::createRecord("kernel|kernel_copixuser");
 			$user_new->login_dbuser = $login;
-			$user_new->password_dbuser = md5('123456');
+			$user_new->password_dbuser = md5($password);
 			$user_new->email_dbuser = '';
 			$user_new->enabled_dbuser = 1;
 								
@@ -187,7 +190,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 							
 			_dao("kernel|kernel_bu2user2")->insert( $bu_new );
 			
-			echo $res->nom.";".$res->prenom.";".$login.";123457\n";
+			echo $res->nom.";".$res->prenom.";".$login.";".$password."\n";
 		}
 
 		echo "</pre>";
@@ -200,7 +203,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 		 * 
 		 * 				$user_infos = Kernel::getUserInfo( $user_type, $user_id );
 				
-				// Vérification de l'existance d'un login.
+				// Vï¿½rification de l'existance d'un login.
 				// -> Si c'est le cas, il ne faut pas proposer un nouveau login.
 				$bu_user = $bu_dao->getByBUID( $user_type, $user_id );
 
@@ -220,13 +223,13 @@ class ActionGroupAdmin extends CopixActionGroup {
 								
 														if( $user_dao->insert( $user_new ) ) {
 							
-							// Création du lien entre l'utilisateur de la base unique et le login.
+							// Crï¿½ation du lien entre l'utilisateur de la base unique et le login.
 							$bu_new = _record("kernel|kernel_bu2user2");
 							$bu_new->user_id = $user_new->id_dbuser;
 							$bu_new->bu_type = $user_type;
 							$bu_new->bu_id = $user_id;
 							
-							// Enregistrement et vérification de l'insertion.
+							// Enregistrement et vï¿½rification de l'insertion.
 							if( _dao("kernel|kernel_bu2user2")->insert( $bu_new ) ) {
 
 
