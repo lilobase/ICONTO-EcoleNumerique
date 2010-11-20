@@ -33,7 +33,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 			  return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 
         $limit = $this->getRequest ('limit', 5);
-        $password = $this->getRequest ('password', 'yee3Aig5');
+        $password = $this->getRequest ('password', '123456');
 
 		$ppo = new CopixPPO();
 
