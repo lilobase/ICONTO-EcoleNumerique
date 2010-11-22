@@ -37,7 +37,14 @@ class ZoneUserMenu extends CopixZone {
 			$logoff = array("title", "url", "class");
 
 			$menuitems = array();
-				
+			
+			if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+				$menuitem["title"] = _i18n('kernel|kernel.codes.mod_visio');
+				$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'visio','mid'=>''));
+				$menuitem["class"] = "menu-visio";
+				array_push($menuitems, $menuitem);
+			}
+			
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_agenda');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'agenda','mid'=>''));
 			$menuitem["class"] = "menu-agenda";

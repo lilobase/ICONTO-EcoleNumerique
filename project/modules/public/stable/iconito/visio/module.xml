@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+  	  <default name="visios" descriptioni18n="visio.moduleDescription"/>
+    </general>
+    <parameters>
+	    <parameter name="conf_ModVisio_url" captioni18n="visio.parameter.url" default="" />
+  	</parameters>
+</moduledefinition>
