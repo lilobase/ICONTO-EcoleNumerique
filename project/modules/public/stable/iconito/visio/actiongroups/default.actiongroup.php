@@ -39,8 +39,6 @@ class ActionGroupDefault extends enicActionGroup {
 		$ppo->visio->useEchoSuppression = (CopixConfig::exists ('visio|conf_useEchoSuppression')) ? CopixConfig::get ('visio|conf_useEchoSuppression') : 'on';
 		$ppo->visio->bufferTime = (CopixConfig::exists ('visio|conf_bufferTime')) ? CopixConfig::get ('visio|conf_bufferTime') : 0;
 		
-		_dump($ppo->visio);
-		
 		if($ppo->login_to) {
 			$user_to = Kernel::getUserInfo("LOGIN", $ppo->login_to);
 			if( $user_to ) {
