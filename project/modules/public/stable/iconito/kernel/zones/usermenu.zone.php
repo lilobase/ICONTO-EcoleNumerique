@@ -38,7 +38,7 @@ class ZoneUserMenu extends CopixZone {
 
 			$menuitems = array();
 			
-			if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+			if( CopixConfig::exists('default|conf_ModVisio') && (1==CopixConfig::get('default|conf_ModVisio'))) {
 				$menuitem["title"] = _i18n('kernel|kernel.codes.mod_visio');
 				$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'visio','mid'=>''));
 				$menuitem["class"] = "menu-visio";
