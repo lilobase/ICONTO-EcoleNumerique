@@ -1097,7 +1097,9 @@ class Kernel {
 				break;
 		}
 
-		if( sizeof( $users ) ) {
+    if( !sizeof( $users ) ) {
+      return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$type.' '.$id, 'login'=>'', 'ALL'=>null));
+    } else {
 
 			// foreach( $users as $key => $userval ) {
 			$userval = $users[0];

@@ -16,7 +16,7 @@
 		{foreach from=$list item=mp}
 			{counter name="i"}
 			<tr CLASS="list_line{math equation="x%2" x=$i}">
-				<td ALIGN="CENTER"><img width="18" height="20" src="{copixresource path="img/minimail/status`$mp->is_read*1``$mp->is_replied*1``$mp->is_forwarded*1`.png"}" /></td>
+				<td ALIGN="CENTER"><img width="20" height="20" src="{copixresource path="img/minimail/status`$mp->is_read*1``$mp->is_replied*1``$mp->is_forwarded*1`.png"}" /></td>
 				<td>
         <a href="{copixurl dest="|getMessage" id=$mp->id}">{$mp->title}</a></td>
 				<td>
