@@ -17,7 +17,7 @@ jQuery(document).ready(function($){
 <div id="quiz-adm">
 <h2>{i18n key="quiz.results.title" noEscape=1}</h2>
 
-{$ppo->quiz->name|utf8_decode}
+{$ppo->quiz.name|utf8_decode}
 
 <div class="content-panel">
 <table id="quiz-adm-all">

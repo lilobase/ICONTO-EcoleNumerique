@@ -554,18 +554,13 @@ class ActionGroupAdmin extends enicActionGroup{
         if(Kernel::getLevel( 'MOD_QUIZ', $groupQuizId) < PROFILE_CCV_ADMIN)
             return $this->error ('quiz.admin.noRight');
 
-        $quizId = $this->request('id')*0;
+        $quizId = $this->request('id')*1;
         if(empty($quizId))
             return $this->error ('quiz.errors.noQuiz');
         
         $quizDatas = $this->db->query('SELECT * FROM module_quiz_quiz WHERE id = '.$quizId)->toArray1();
         if(empty($quizDatas))
             return $this->error('quiz.errors.noQuiz');
-
-        $questionsCollection = $this->db->query('SELECT * FROM module_quiz_questions WHERE id_quiz = '.$quizId)->toArray();
-        $answersCollection = $this->db->query('SELECT * FROM module_quiz_responses WHERE id_quiz = '.$quizId)->toArray();
-
-        $questionNumber = count($questionsCollection);
 
 
 
@@ -673,7 +668,7 @@ class ActionGroupAdmin extends enicActionGroup{
 		$this->addJs('js/datatable/ZeroClipboard.js');
 
 		$ppo = new CopixPPO();
-                $ppo->quiz = $quizData;
+                $ppo->quiz = $quizDatas;
 		$ppo->users = $users;
                 $ppo->nbQuestions = $nbQuestions;
 		$ppo->pathClip = CopixUrl::get().'js/datatable/';
