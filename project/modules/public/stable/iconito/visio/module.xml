@@ -4,18 +4,25 @@
   	  <default name="visio" descriptioni18n="visio.moduleDescription"/>
     </general>
     <parameters>
-        <parameter name="conf_secondsToWait"      captioni18n="visio.conf_secondsToWait" default="30" />
-        <parameter name="conf_secondsToRetry"     captioni18n="visio.conf_secondsToRetry" default="60" />
-        <parameter name="conf_textColor"          captioni18n="visio.conf_textColor" default="#666666" />
-        <parameter name="conf_textOverColor"      captioni18n="visio.conf_textOverColor" default="#000000" />
-        <parameter name="conf_infoTextColor"      captioni18n="visio.conf_infoTextColor" default="#666666" />
+        <parameter name="conf_secondsToWait"       captioni18n="visio.conf_secondsToWait"        default="30" />
+        <parameter name="conf_secondsToRetry"      captioni18n="visio.conf_secondsToRetry"       default="60" />
+        <parameter name="conf_textColor"           captioni18n="visio.conf_textColor"            default="#666666" />
+        <parameter name="conf_textOverColor"       captioni18n="visio.conf_textOverColor"        default="#000000" />
+        <parameter name="conf_infoTextColor"       captioni18n="visio.conf_infoTextColor"        default="#666666" />
     
-        <parameter name="conf_bandwidth"          captioni18n="visio.conf_bandwidth" default="0" />
-        <parameter name="conf_videoQuality"       captioni18n="visio.conf_videoQuality" default="85" />
-        <parameter name="conf_motionLevel"        captioni18n="visio.conf_motionLevel" default="60" />
-        <parameter name="conf_motionTimeout"      captioni18n="visio.conf_motionTimeout" default="1500" />
-        <parameter name="conf_keyFrameInterval"   captioni18n="visio.conf_keyFrameInterval" default="15" />
-        <parameter name="conf_useEchoSuppression" captioni18n="visio.conf_useEchoSuppression" default="on" />
-        <parameter name="conf_bufferTime"         captioni18n="visio.conf_bufferTime" default="0" />
+        <parameter name="conf_bandwidth"           captioni18n="visio.conf_bandwidth"            default="0" />
+        <parameter name="conf_videoQuality"        captioni18n="visio.conf_videoQuality"         default="85" />
+        <parameter name="conf_motionLevel"         captioni18n="visio.conf_motionLevel"          default="60" />
+        <parameter name="conf_motionTimeout"       captioni18n="visio.conf_motionTimeout"        default="1500" />
+        <parameter name="conf_keyFrameInterval"    captioni18n="visio.conf_keyFrameInterval"     default="15" />
+        <parameter name="conf_useEchoSuppression"  captioni18n="visio.conf_useEchoSuppression"   default="on" />
+        <parameter name="conf_bufferTime"          captioni18n="visio.conf_bufferTime"           default="0" />
+        
+        <parameter name="conf_useSpeex"            captioni18n="visio.conf_useSpeex"             default="on" />
+        <parameter name="conf_microSilenceLevel"   captioni18n="visio.conf_microSilenceLevel"    default="0" />
+        <parameter name="conf_microSilenceTimeout" captioni18n="visio.conf_microSilenceTimeout"  default="5000" />
+        <parameter name="conf_microSetLoopBack"    captioni18n="visio.conf_microSetLoopBack"     default="false" />
+        <parameter name="conf_microGain"           captioni18n="visio.conf_microGain"            default="50" />
+        <parameter name="conf_speexEncodeQuality"  captioni18n="visio.conf_speexEncodeQuality"   default="6" />
   	</parameters>
 </moduledefinition>
