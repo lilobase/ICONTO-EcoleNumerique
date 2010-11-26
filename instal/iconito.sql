@@ -1805,23 +1805,24 @@ CREATE TABLE `module_malle_malles` (
 -- Structure de la table `module_minimail_from`
 -- 
 
-DROP TABLE IF EXISTS `module_minimail_from`;
-CREATE TABLE `module_minimail_from` (
-  `id` int(11) NOT NULL auto_increment,
-  `from_id` int(11) NOT NULL default '0',
-  `title` varchar(80) NOT NULL default '',
-  `message` text NOT NULL,
-  `format` varchar(10) NOT NULL,
-  `date_send` datetime NOT NULL default '0000-00-00 00:00:00',
-  `attachment1` varchar(100) default NULL,
-  `attachment2` varchar(100) default NULL,
-  `attachment3` varchar(100) default NULL,
-  `is_deleted` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `from_id` (`from_id`),
-  KEY `date_send` (`date_send`),
-  KEY `is_deleted` (`is_deleted`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+DROP TABLE IF EXISTS module_minimail_from;
+CREATE TABLE IF NOT EXISTS module_minimail_from (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  from_id int(11) NOT NULL DEFAULT '0',
+  title varchar(80) NOT NULL DEFAULT '',
+  message text NOT NULL,
+  format varchar(10) NOT NULL,
+  date_send datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  attachment1 varchar(100) DEFAULT NULL,
+  attachment2 varchar(100) DEFAULT NULL,
+  attachment3 varchar(100) DEFAULT NULL,
+  is_deleted tinyint(4) NOT NULL DEFAULT '0',
+  is_forwarded tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY from_id (from_id),
+  KEY date_send (date_send),
+  KEY is_deleted (is_deleted)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1829,21 +1830,22 @@ CREATE TABLE `module_minimail_from` (
 -- Structure de la table `module_minimail_to`
 -- 
 
-DROP TABLE IF EXISTS `module_minimail_to`;
-CREATE TABLE `module_minimail_to` (
-  `id` int(11) NOT NULL auto_increment,
-  `id_message` int(11) NOT NULL default '0',
-  `to_id` int(11) NOT NULL default '0',
-  `date_read` datetime NOT NULL default '0000-00-00 00:00:00',
-  `is_read` tinyint(4) NOT NULL default '0',
-  `is_replied` tinyint(4) NOT NULL default '0',
-  `is_deleted` tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (`id`),
-  KEY `id_message` (`id_message`),
-  KEY `to_id` (`to_id`),
-  KEY `is_read` (`is_read`),
-  KEY `is_deleted` (`is_deleted`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+DROP TABLE IF EXISTS module_minimail_to;
+CREATE TABLE IF NOT EXISTS module_minimail_to (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  id_message int(11) NOT NULL DEFAULT '0',
+  to_id int(11) NOT NULL DEFAULT '0',
+  date_read datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  is_read tinyint(4) NOT NULL DEFAULT '0',
+  is_replied tinyint(4) NOT NULL DEFAULT '0',
+  is_forwarded tinyint(4) DEFAULT NULL,
+  is_deleted tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (id),
+  KEY id_message (id_message),
+  KEY to_id (to_id),
+  KEY is_read (is_read),
+  KEY is_deleted (is_deleted)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -2529,5 +2531,31 @@ CREATE TABLE `module_contacts_types` (
   KEY `ordre` (`ordre`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
 
+DROP TABLE IF EXISTS `module_tags`;
+CREATE TABLE IF NOT EXISTS `module_tags` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `module_tags_groups`;
+CREATE TABLE IF NOT EXISTS `module_tags_groups` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_group` int(11) unsigned NOT NULL,
+  `id_tag` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_group` (`id_group`,`id_tag`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `module_getreq`;
+CREATE TABLE IF NOT EXISTS `module_getreq` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `parent` text NOT NULL,
+  `enfants` text NOT NULL,
+  `date` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+);
 
