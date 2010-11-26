@@ -1,0 +1,14 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+global
+{
+	content-background-alpha: 1.0;
+}
+.resizeHandler {
+	upSkin:        Embed('pics/resize.png');
+	overSkin:      Embed('pics/resize.png');
+	downSkin:      Embed('pics/resize.png');
+	disabledSkin:  Embed('pics/resize.png');
+}

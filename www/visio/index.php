@@ -118,11 +118,34 @@
 				if (document.getElementById('bufferTime') != null) {
 					bufferTime = document.getElementById('bufferTime').value;
 				}
+				var useSpeex = "";
+				if (document.getElementById('useSpeex') != null) {
+					useSpeex = document.getElementById('useSpeex').value;
+				}
+				var microSilenceLevel = "";
+				if (document.getElementById('microSilenceLevel') != null) {
+					microSilenceLevel = document.getElementById('microSilenceLevel').value;
+				}
+				var microSilenceTimeout = "";
+				if (document.getElementById('microSilenceTimeout') != null) {
+					microSilenceTimeout = document.getElementById('microSilenceTimeout').value;
+				}
+				var microSetLoopBack = "";
+				if (document.getElementById('microSetLoopBack') != null) {
+					microSetLoopBack = document.getElementById('microSetLoopBack').value;
+				}
+				var microGain = "";
+				if (document.getElementById('microGain') != null) {
+					microGain = document.getElementById('microGain').value;
+				}
+				var speexEncodeQuality = "";
+				if (document.getElementById('speexEncodeQuality') != null) {
+					speexEncodeQuality = document.getElementById('speexEncodeQuality').value;
+				}
 		
-
-
+			
 				//alert("callerLogin : "+callerLogin+"\nreceiverLogin : "+receiverLogin+"\nisCaller : "+isCaller+"\nred5 : "+red5Server+"\nsecondsToWait : "+secondsToWait+"\nsecondsToRetry : "+secondsToRetry+"\ntextColor : "+textColor+"\ntextOverColor : "+textOverColor+"\ninfoTextColor : "+infoTextColor);
-				getFlexApp('Iconisio').callVisio(callerLogin, receiverLogin, isCaller, red5Server, secondsToWait, secondsToRetry, textColor, textOverColor, infoTextColor, bandwith, videoQuality, keyFrameInterval, motionLevel, motionTimeout, useEchoSuppression, bufferTime);
+				getFlexApp('Iconisio').callVisio(callerLogin, receiverLogin, isCaller, red5Server, secondsToWait, secondsToRetry, textColor, textOverColor, infoTextColor, bandwith, videoQuality, keyFrameInterval, motionLevel, motionTimeout, useEchoSuppression, bufferTime, useSpeex, microSilenceLevel, microSilenceTimeout, microSetLoopBack, microGain, speexEncodeQuality);
 			}
 			<!-- Reset visio form, this method is called by the flex app on visio close event -->
 			function stopCall()
@@ -155,7 +178,13 @@
 				echo "\t\tflashvars.motionTimeout=\"".$_POST["motionTimeout"]."\";\n";
 				echo "\t\tflashvars.useEchoSuppression=\"".$_POST["useEchoSuppression"]."\";\n";
 				echo "\t\tflashvars.bufferTime=\"".$_POST["bufferTime"]."\";\n";
-
+				echo "\t\tflashvars.useSpeex=\"".$_POST["useSpeex"]."\";\n";
+				echo "\t\tflashvars.microSilenceLevel=\"".$_POST["microSilenceLevel"]."\";\n";
+				echo "\t\tflashvars.microSilenceTimeout=\"".$_POST["microSilenceTimeout"]."\";\n";
+				echo "\t\tflashvars.microSetLoopBack=\"".$_POST["microSetLoopBack"]."\";\n";
+				echo "\t\tflashvars.microGain=\"".$_POST["microGain"]."\";\n";
+				echo "\t\tflashvars.speexEncodeQuality=\"".$_POST["speexEncodeQuality"]."\";\n";
+			
 			}
 ?>
             var params = {};
@@ -206,7 +235,7 @@
                 <param name="allowFullScreen" value="true" />
 <?php
 			if ($_POST) {
-				echo "<param name=\"flashVars\" value=\"caller=".$_POST["callerLogin"]."&receiver=".$_POST["receiverLogin"]."&isCaller=".$_POST["isCaller"]."&red5=".$_POST["red5"]."&secondsToWait=".$_POST["secondsToWait"]."&secondsToRetry=".$_POST["secondsToRetry"]."&textColor=".$_POST["textColor"]."&textOverColor=".$_POST["textOverColor"]."&infoTextColor=".$_POST["infoTextColor"]."&bandwith=".$_POST["bandwith"]."&videoQuality=".$_POST["videoQuality"]."&keyFrameInterval=".$_POST["keyFrameInterval"]."&motionLevel=".$_POST["motionLevel"]."&motionTimeout=".$_POST["motionTimeout"]."&useEchoSuppression=".$_POST["useEchoSuppression"]."&bufferTime=".$_POST["bufferTime"]."\" />;\n";
+				echo "<param name=\"flashVars\" value=\"caller=".$_POST["callerLogin"]."&receiver=".$_POST["receiverLogin"]."&isCaller=".$_POST["isCaller"]."&red5=".$_POST["red5"]."&secondsToWait=".$_POST["secondsToWait"]."&secondsToRetry=".$_POST["secondsToRetry"]."&textColor=".$_POST["textColor"]."&textOverColor=".$_POST["textOverColor"]."&infoTextColor=".$_POST["infoTextColor"]."&bandwith=".$_POST["bandwith"]."&videoQuality=".$_POST["videoQuality"]."&keyFrameInterval=".$_POST["keyFrameInterval"]."&motionLevel=".$_POST["motionLevel"]."&motionTimeout=".$_POST["motionTimeout"]."&useEchoSuppression=".$_POST["useEchoSuppression"]."&bufferTime=".$_POST["bufferTime"]."&useSpeex=".$_POST["useSpeex"]."&microSilenceLevel=".$_POST["microSilenceLevel"]."&microSilenceTimeout=".$_POST["microSilenceTimeout"]."&microSetLoopBack=".$_POST["microSetLoopBack"]."&microGain=".$_POST["microGain"]."&speexEncodeQuality=".$_POST["speexEncodeQuality"]."\" />;\n";
 			}
 ?>
                 <!--[if !IE]>-->
@@ -217,7 +246,7 @@
                     <param name="allowFullScreen" value="true" />
 <?php
 			if ($_POST) {
-				echo "<param name=\"flashVars\" value=\"caller=".$_POST["callerLogin"]."&receiver=".$_POST["receiverLogin"]."&isCaller=".$_POST["isCaller"]."&red5=".$_POST["red5"]."&secondsToWait=".$_POST["secondsToWait"]."&secondsToRetry=".$_POST["secondsToRetry"]."&textColor=".$_POST["textColor"]."&textOverColor=".$_POST["textOverColor"]."&infoTextColor=".$_POST["infoTextColor"]."&bandwith=".$_POST["bandwith"]."&videoQuality=".$_POST["videoQuality"]."&keyFrameInterval=".$_POST["keyFrameInterval"]."&motionLevel=".$_POST["motionLevel"]."&motionTimeout=".$_POST["motionTimeout"]."&useEchoSuppression=".$_POST["useEchoSuppression"]."&bufferTime=".$_POST["bufferTime"]."\" />;\n";
+				echo "<param name=\"flashVars\" value=\"caller=".$_POST["callerLogin"]."&receiver=".$_POST["receiverLogin"]."&isCaller=".$_POST["isCaller"]."&red5=".$_POST["red5"]."&secondsToWait=".$_POST["secondsToWait"]."&secondsToRetry=".$_POST["secondsToRetry"]."&textColor=".$_POST["textColor"]."&textOverColor=".$_POST["textOverColor"]."&infoTextColor=".$_POST["infoTextColor"]."&bandwith=".$_POST["bandwith"]."&videoQuality=".$_POST["videoQuality"]."&keyFrameInterval=".$_POST["keyFrameInterval"]."&motionLevel=".$_POST["motionLevel"]."&motionTimeout=".$_POST["motionTimeout"]."&useEchoSuppression=".$_POST["useEchoSuppression"]."&bufferTime=".$_POST["bufferTime"]."&useSpeex=".$_POST["useSpeex"]."&microSilenceLevel=".$_POST["microSilenceLevel"]."&microSilenceTimeout=".$_POST["microSilenceTimeout"]."&microSetLoopBack=".$_POST["microSetLoopBack"]."&microGain=".$_POST["microGain"]."&speexEncodeQuality=".$_POST["speexEncodeQuality"]."\" />;\n";
 		   }
 ?>
                 <!--<![endif]-->
@@ -260,6 +289,14 @@
               <input name="motionTimeout" id="motionTimeout" type="hidden" value="1500" />
               <input name="useEchoSuppression" id="useEchoSuppression" type="hidden" value="on" />
               <input name="bufferTime" id="bufferTime" type="hidden" value="0" />
+
+			
+              <input name="useSpeex" id="useSpeex" type="hidden" value="off" />
+              <input name="microSilenceLevel" id="microSilenceLevel" type="hidden" value="20" />
+              <input name="microSilenceTimeout" id="microSilenceTimeout" type="hidden" value="-1" />
+              <input name="microSetLoopBack" id="microSetLoopBack" type="hidden" value="off" />
+              <input name="microGain" id="microGain" type="hidden" value="50" />
+              <input name="speexEncodeQuality" id="speexEncodeQuality" type="hidden" value="6" />
               
         	  <br/>	
               <script type="text/javascript">
