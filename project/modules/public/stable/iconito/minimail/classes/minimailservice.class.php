@@ -63,7 +63,7 @@ class MinimailService {
   						$userInfoFrom = Kernel::getUserInfo("ID", $from_id);
 	  					//print_r($userInfoFrom);
 		  				$to = $prefs['prefs']['alerte_mail_email'];
-			  			$auteur = $userInfoFrom['prenom'].' '.$userInfoFrom['nom'].' ('.$userInfoFrom['login'].')';
+			  			$auteur = utf8_decode($userInfoFrom['prenom'].' '.$userInfoFrom['nom'].' ('.$userInfoFrom['login'].')');
 						  $subject = CopixI18N::get ('minimail|minimail.mail.alert.subject', array($auteur));
 						  $message = str_replace('<br />', "\n", CopixI18N::get ('minimail|minimail.mail.alert.body', array($auteur, CopixUrl::get ('minimail||getMessage', array('id'=>$newMp->id)), CopixUrl::get ())));
 						  $from = CopixConfig::get ('default|mailFrom');
