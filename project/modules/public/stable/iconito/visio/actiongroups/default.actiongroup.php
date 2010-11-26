@@ -39,6 +39,13 @@ class ActionGroupDefault extends enicActionGroup {
 		$ppo->visio->useEchoSuppression = (CopixConfig::exists ('visio|conf_useEchoSuppression')) ? CopixConfig::get ('visio|conf_useEchoSuppression') : 'on';
 		$ppo->visio->bufferTime = (CopixConfig::exists ('visio|conf_bufferTime')) ? CopixConfig::get ('visio|conf_bufferTime') : 0;
 		
+		$ppo->visio->useSpeex = (CopixConfig::exists ('visio|conf_useSpeex')) ? CopixConfig::get ('visio|conf_useSpeex') : 'off';
+		$ppo->visio->microSilenceLevel = (CopixConfig::exists ('visio|conf_microSilenceLevel')) ? CopixConfig::get ('visio|conf_microSilenceLevel') : 20;
+		$ppo->visio->microSilenceTimeout = (CopixConfig::exists ('visio|conf_microSilenceTimeout')) ? CopixConfig::get ('visio|conf_microSilenceTimeout') : -1;
+		$ppo->visio->microSetLoopBack = (CopixConfig::exists ('visio|conf_microSetLoopBack')) ? CopixConfig::get ('visio|conf_microSetLoopBack') : 'false';
+		$ppo->visio->microGain = (CopixConfig::exists ('visio|conf_microGain')) ? CopixConfig::get ('visio|conf_microGain') : 50;
+		$ppo->visio->speexEncodeQuality = (CopixConfig::exists ('visio|conf_speexEncodeQuality')) ? CopixConfig::get ('visio|conf_speexEncodeQuality') : 6;
+		
 		if($ppo->login_to) {
 			$user_to = Kernel::getUserInfo("LOGIN", $ppo->login_to);
 			if( $user_to ) {
