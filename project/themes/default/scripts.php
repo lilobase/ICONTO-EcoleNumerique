@@ -168,6 +168,10 @@ jQuery(document).ready(function($){
 				'type'				: 'iframe'
 		});
 		
+		$('a.fancyframe-wfixed').fancybox({
+				'width'				: 850
+		});
+		
 		/* SET INLINE FIELD LABEL */
 	//	$('input.label-overlay').defaultValue();
 		$('.default-value').each(function() {

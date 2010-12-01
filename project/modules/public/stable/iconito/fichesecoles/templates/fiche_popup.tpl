@@ -1,3 +1,3 @@
-<div style="width:800px;height:550px;">
+<div style="width:820px;">
 {$ppo->fiche}
 </div>

@@ -67,7 +67,7 @@
 
         <li>
   		{if $ajaxpopup}
-            <a class="fancybox" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id popup=1}">{$ecole.nom|escape}</a>
+            <a class="fancyframe fancyframe-wfixed" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id popup=1}">{$ecole.nom|escape}</a>
   		{else}
             <a href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{$ecole.nom|escape}</a>
   		{/if}

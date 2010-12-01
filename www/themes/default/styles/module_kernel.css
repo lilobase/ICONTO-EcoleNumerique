@@ -56,6 +56,9 @@ div.dashpanel div.content {
 	border: 2px solid #bad521;
 	min-height: 160px;
 	}
+div.contentmain-fancybox {
+  font-size: 120%;
+}
 
 div.dashpanel div.toolset {
 	position: absolute;

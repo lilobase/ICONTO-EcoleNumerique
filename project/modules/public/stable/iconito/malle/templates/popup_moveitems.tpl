@@ -4,7 +4,7 @@
 	<input type="hidden" name="folder" value="{$ppo->folder}" />
 	<div id="form-replicator"></div>
 	{$ppo->combofoldersdest}
-	<div class="content-panel content-panel-button"><input type="submit" name="actionMove" value="{i18n key="malle.btn.copy"}" class="button button-confirm" /></div>
+	<div class="content-panel content-panel-button"><input type="submit" name="actionMove" value="{i18n key="malle.btn.move"}" class="button button-confirm" /></div>
 </form>
 
 <div class="warning warning-exclamation" style="display: none; width: 300px;">

@@ -44,9 +44,6 @@ class ActionGroupDefault extends EnicActionGroup {
 			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'grville'=>$grville)));
 		$tplListe->assign ('kw', $kw);
 
-        //styles/module_public.css
-
-        CopixHTMLHeader::addCSSLink(_resource("styles/module_public.css"));
         $result = $tplListe->fetch("getlistblogs.tpl");
 
         $tpl->assign("MAIN", $result);
@@ -64,8 +61,6 @@ class ActionGroupDefault extends EnicActionGroup {
 
         $ppo = new CopixPPO ();
         $ppo->TITLE_PAGE = CopixI18N::get('public|public.apropos');
-
-        CopixHTMLHeader::addCSSLink(_resource("styles/module_public.css"));
 
         $nametpl = 'apropos_' . CopixI18N::getLang() . '.html';
 
@@ -252,6 +247,7 @@ EOT;
 	 * @since 2010/09/24
    */
    function processEcoles () {
+    CopixHTMLHeader::addCSSLink(_resource("styles/module_fichesecoles.css"));
     $ppo = new CopixPPO();
     $ppo->ville = (int)$this->request('ville');
     $ppo->search = $this->request('search');

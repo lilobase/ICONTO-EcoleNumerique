@@ -48,10 +48,12 @@
 
 {assign var=current_type value=""}
 
-<div id="eleves">
+<div id="ecoles">
+<ul>
 
 {foreach from=$ecoles item=ecole}
-<div style="padding-bottom:2px;">
+
+<li>
 
 {if $ecole.type <> $current_type}
 <!--<h3>{$ecole.type}</h3>-->
@@ -64,19 +66,20 @@
 
 {if $ecole.web}<a target="_blank" title="{$ecole.web}" href="{$ecole.web}">{i18n key="annuaire.siteWeb"}</a>{/if}
 
-
-
 </div>
 
 <a href="{copixurl dest="|getAnnuaireEcole" ecole=$ecole.id}">{$ecole.nom}{if $ecole.type} ({$ecole.type}){/if}</a>
 
 {if $ecole.directeur}
-{assign var=sep value=""}
-({foreach from=$ecole.directeur item=directeur}{$sep}{$directeur.prenom} {$directeur.nom|upper}{assign var=sep value=", "}{/foreach})
+  {assign var=sep value=""}
+  <span class="directeur">({foreach from=$ecole.directeur item=directeur}{$sep}{$directeur.prenom}
+    {$directeur.nom|upper}{assign var=sep value=", "}{/foreach})</span>
 {/if}
 
-</div>
+</li>
 {/foreach}
+
+</ul>
 
 </div>
 {else}
