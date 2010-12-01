@@ -159,34 +159,6 @@ class DBUserHandler implements ICopixUserHandler {
 				//var_dump($getUserInfo);
 				$extra = $getUserInfo;
 				
-				// Extrait de l'ancien plugin kernel|kernel
-				
-				if ( $getUserInfo["type"] == "USER_RES") { // Cas du parent d'élève
-				} else {
-				
-					$mynodes = Kernel::getMyNodes($getUserInfo['type'],$getUserInfo['id']);
-					
-					foreach( $mynodes AS $key=>$val ) {
-						if( !ereg( "^BU_", $val->type) && !ereg( "^ROOT$", $val->type) ) unset( $mynodes[$key] );
-					}
-					reset($mynodes);
-					
-					if( count($mynodes) == 0 ) {
-					} elseif( count($mynodes) == 1 ) {
-						
-						$home = current($mynodes);
-						Kernel::setMyNode( $home->type, $home->id, $extra );
-					} else {
-						if( ($home_prefs=Prefs::get('kernel','home')) && (ereg('^([^-]+)-(.+)$', $home_prefs, $regs)) ) {
-							$home->type = $regs[1];
-							$home->id   = $regs[2];
-						} else {
-							$home = current($mynodes);
-						}
-						Kernel::setMyNode( $home->type, $home->id, $extra );
-					}
-				}
-				
 				return new CopixUserLogResponse (true, 'auth|dbuserhandler', $results[0]->id_dbuser, $results[0]->login_dbuser, $extra);
 			}
 		}

@@ -243,11 +243,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 			);
 		}
 		
-		/*
-		$returntoparent = Kernel::menuReturntoParent( "MOD_ALBUM", $album_id );
-		if( $returntoparent ) $menu[] = $returntoparent;
-		*/
-
 		$tpl->assign ('MENU', $menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

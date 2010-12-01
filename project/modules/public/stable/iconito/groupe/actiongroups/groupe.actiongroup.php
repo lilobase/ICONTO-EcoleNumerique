@@ -257,7 +257,7 @@ class ActionGroupGroupe extends enicActionGroup {
 		} else {
 
 			$titre = $this->getRequest ('titre', $titre);
-                        $tags = $this->getRequest('tags', $tags);
+      $tags = $this->getRequest('tags', $tags);
 			$description = $this->getRequest ('description', $description);
 			$is_open = $this->getRequest ('is_open', $is_open);
 			$membres = $this->getRequest ('membres', $membres);
@@ -279,10 +279,6 @@ class ActionGroupGroupe extends enicActionGroup {
 			foreach ($modules as $k=>$tmp) {
 				$modules[$k]->module_name = Kernel::Code2Name ($tmp->module_type);
 				$modules[$k]->module_desc = Kernel::Code2Desc ($tmp->module_type);
-			}
-
-			if (!$errors && !$id && !$parent) {
-				$parent = _currentUser()->getExtraHome("type").'|'._currentUser()->getExtraHome("id");
 			}
 
 			$tpl->assign ('TITLE_PAGE', $tplTitle);
@@ -307,7 +303,7 @@ class ActionGroupGroupe extends enicActionGroup {
 			$tplForm->assign ("errors", $errors);
 			$tplForm->assign ("nodes", $nodes);
 			$tplForm->assign ("parent", $parent);
-                        $tplForm->assign ("tags", $tags);
+      $tplForm->assign ("tags", $tags);
 			$result = $tplForm->fetch("formedit.tpl");
 
 			$tpl->assign ("MAIN", $result);

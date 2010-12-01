@@ -106,14 +106,6 @@ class ActionGroupMalle extends CopixActionGroup {
 			}
 			$tpl = & new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $title);
-/*
-			if ($dispMenu) {
-				//$tpl->assign ('MENU', '<a href="'.CopixUrl::get (''.$parent["module"].'||go', array("id"=>$parent["id"])).'">'.CopixI18N::get ('malle|malle.backMalle').'</a>');
-				$returntoparent = Kernel::menuReturntoParent( "MOD_MALLE", $id, array('parent'=>$parent) );
-				if ($returntoparent) $menu = array($returntoparent);
-				$tpl->assign ('MENU', $menu);
-			}
-*/			
 
 			$can = array(
 				'file_download'=>$malleService->canMakeInMalle("FILE_DOWNLOAD",$mondroit),

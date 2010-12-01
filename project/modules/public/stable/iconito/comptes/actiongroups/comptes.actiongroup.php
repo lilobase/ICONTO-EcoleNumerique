@@ -56,11 +56,6 @@ class ActionGroupComptes extends CopixActionGroup {
 		$pType = _request("type");
 		$pId = _request("id");
 		
-		if( !$pType ) {
-			$pType = _currentUser()->getExtraHome("type");
-			$pId = _currentUser()->getExtraHome("id");
-		}
-		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getnode'));
 		$petitpoucet=array();
 		$droit = 0+Kernel::getLevel( $pType, $pId );

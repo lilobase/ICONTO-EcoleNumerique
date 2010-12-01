@@ -60,8 +60,6 @@ class ActionGroupMagicmail extends CopixActionGroup {
 		$tpl->assign ("MAIN", $result);
 
 		$nemu = array();
-		$returntoparent = Kernel::menuReturntoParent( "MOD_MAGICMAIL", $id );
-		if( $returntoparent ) $menu[] = $returntoparent;
 		$tpl->assign ('MENU', $menu );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

@@ -759,14 +759,30 @@ class AnnuaireService extends enicService {
 	
   
   /**
-	 * Renvoie l'entr�e de l'annuaire pour l'usager courant. S'appuie sur Kernel::getSessionHome. Pour les parents, prends le home d'un des enfants. S'il n'y a pas d'enfant ou que le compte n'est rattach� � rien, on l'envoie dans la 1e ville.
+	 * Renvoie l'entree de l'annuaire pour l'usager courant. Pour les parents, prends le home d'un des enfants. S'il n'y a pas d'enfant ou que le compte n'est rattache a rien, on l'envoie dans la 1e ville.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/12/20
 	 * @return array Tableau avec [type] et [id] du noeud (BU_CLASSE, BU_ECOLE, BU_VILLE, BU_GVILLE)
 	 */
   function getAnnuaireHome () {
-    $home = Kernel::getSessionHome();
+    
+    // Recuperation de ses blocs, comme dans le dashboard
+    $nodes_all = Kernel::getNodeParents($this->user->type, $this->user->idEn);
+		$nodes_all = Kernel::sortNodeList($nodes_all);
+		//_dump($nodes_all);
+    
+    $home = null;
+    
+    foreach ($nodes_all as $node) {
+      if ($node['type'] == 'BU_CLASSE' || $node['type'] == 'BU_ECOLE' || $node['type'] == 'BU_VILLE' || $node['type'] == 'BU_GVILLE') {
+        $home = array('type'=>$node['type'], 'id'=>$node['id']);
+        break;
+      }
+    }
+    
+    //_dump($home);
+    
     if (!$home && Kernel::isParent()) {  // Cas du parent d'�l�ve
       $enfants = Kernel::getNodeParents( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') );
       while (list($k,$v) = each($enfants)) {
@@ -782,7 +798,8 @@ class AnnuaireService extends enicService {
         break;
       }
     }
-    if ( !$home || Kernel::isAdmin() ) {  // Si rattach� � rien, on l'envoie dans la 1e ville
+    
+    if ( !$home || Kernel::isAdmin() ) {  // Si rattache a rien, on l'envoie dans la 1e ville
       $sql = "SELECT MIN(id_vi) AS ville FROM kernel_bu_ville LIMIT 1";
     	$v = _doQuery($sql);
       $home = array('type'=>'BU_VILLE', 'id'=>$v[0]->ville);

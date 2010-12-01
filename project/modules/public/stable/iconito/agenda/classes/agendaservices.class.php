@@ -583,12 +583,10 @@ class AgendaService {
     $res = array();
     $listAgendasAffiches = $this->getAgendaAffiches();
     if (count($listAgendasAffiches)==1) {
-      $keys = array_keys($listAgendasAffiches);
-      $parent = Kernel::menuReturntoParent( "MOD_AGENDA", $keys[0]);
-      $res['title'] = $parent['node_name'];
-			$txt = (isset($parent['txt'])) ? $parent['txt'] : '';
-			$url = (isset($parent['url'])) ? $parent['url'] : '';
-      $res['parent'] = array('txt'=>$txt, 'url'=>$url);
+      if ($record = _ioDAO('agenda|agenda')->get(array_shift($listAgendasAffiches)))
+        $res['title'] = $record->title_agenda;
+      else
+        $res['title'] = CopixI18N::get ('agenda|agenda.moduleDescription');
     } else {
       $res['title'] = CopixI18N::get ('agenda|agenda.titlePage.agendas');
     }

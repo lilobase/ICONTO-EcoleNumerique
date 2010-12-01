@@ -1781,35 +1781,7 @@ class Kernel {
 		return $data;
 	}
 
-	// Si on passe le tableau $extra, on ne touche pas a la session (utilise a la connexion, quand on n'a pas encore la session PHP) - CB
-	function setMyNode( $type, $id, &$extra=array() ) {
-		if (isset($extra) && count($extra)) {
-			$extra['home'] = array();
-			$extra['home']["type"] = $type;
-			$extra['home']["id"] = $id;
-			$nodeinfo = Kernel::getNodeInfo( $type, $id, false );
-			$extra['home']["titre1"] = $nodeinfo["nom"];
-			$parent = Kernel::getNodeParents( $type, $id );
-			if( count($parent) ) {
-				//print_r($parent);
-				$parent_item = current($parent);
-				$parentinfo = Kernel::getNodeInfo( $parent_item["type"], $parent_item["id"], false );
-				$extra['home']["titre2"] = $parentinfo["nom"];
-			}
-		} else {
-			_currentUser()->setExtraHome('type', $type);
-			_currentUser()->setExtraHome('id', $id);
-			$nodeinfo = Kernel::getNodeInfo( $type, $id, false);
-			_currentUser()->setExtraHome('titre1', $nodeinfo["nom"]);
-			$parent = Kernel::getNodeParents( $type, $id );
-			if( count($parent) ) {
-				$parent_item = current($parent);
-				$parentinfo = Kernel::getNodeInfo( $parent_item["type"], $parent_item["id"], false );
-				_currentUser()->setExtraHome('titre2', $parentinfo["nom"]);
-			}
-		}
-	}
-
+  
 
 	function MyDebug( $var, $die=false) {
 		echo( "<pre>".print_r($var,true)."</pre>" );
@@ -1942,18 +1914,6 @@ class Kernel {
 		return _currentUser()->getExtras();
 	}
 
-	/**
-	 * getSessionHome
-	 *
-	 * Retourne un tableau contenant les informations sur l'entitÈ de rattachement courant
-	 * @return	array	tableau contenant les informations sur l'entitÈ courante
-	 * @author	FrÈdÈric REISS
-	 * @since	15.12.2005
-	 */
-	function getSessionHome () {
-		$getExtraHome = _currentUser()->getExtraHome('');
-		return ($getExtraHome) ? $getExtraHome : array();
-	}
 
 
 	function Code2Name( $code ) {
@@ -1978,11 +1938,10 @@ class Kernel {
 	}
 
 	function whereAmI( $node_type=false, $node_id=false ) {
-		if( $node_type==false || $node_id==false ) {
-			$node_type=_currentUser()->getExtraHome("type");
-			$node_id=_currentUser()->getExtraHome("id");
-		}
-
+    
+    // Patch EN2010
+    return array();
+  
 		$where = array();
 
 		if( $node_type == 'BU_CLASSE' ) {
@@ -2130,87 +2089,8 @@ class Kernel {
 		return $user->hasAssistance();
 	}
 
-	// $options : [parent] (option) si on a deja le parent
-	function menuReturntoParent ( $module_type, $module_id, $options=array()) {
-		$return = array();
-		//$parents = Kernel::getModParent( $module_type, $module_id );
 
-		if (!isset($options['parent']))
-		$parent = Kernel::getModParentInfo ( $module_type, $module_id );
-		else
-		$parent = $options['parent'];
-			
-		//var_dump($parent);
-		//if( sizeof($parents) ) {
-
-		if( $parent && $module_type='MOD_MAGICMAIL' ) {
-			$mods = Kernel::getModEnabled ($parent['type'], $parent['id'], '', 0, 1);
-			$mods = Kernel::filterModuleList ($mods, 'MOD_BLOG');
-			if(count($mods)) {
-				// _dump($mods);
-				$return['txt'] = CopixI18N::get('kernel|kernel.returnto.blog' );
-				$return['url'] = CopixUrl::get ('blog|admin|showBlog', array('id_blog'=>$mods[0]->module_id, 'kind'=>4, 'id'=>$parent['id']) );
-				// blog/admin/showBlog?id_blog=5&kind=4
-				$return['node_type'] = $parent['type'];
-				$return['node_id'] = $parent['id'];
-				$return['node_name'] = $parent['nom'];
-				return($return);
-			}
-		}
-
-		if ( $parent ) {
-			//$parent = $parents[0];
-			//print_r($parent);
-			/*
-			$parent->node_type] => CLUB
-			$parent->node_id
-			*/
-			switch( $parent['type'] ) {
-				case 'CLUB':
-					$return['txt'] = CopixI18N::get('kernel|kernel.returnto.club' );
-					$return['url'] = CopixUrl::get ('groupe||getHome', array('id'=>$parent['id']) );
-					$return['node_type'] = $parent['type'];
-					$return['node_id'] = $parent['id'];
-					$return['node_name'] = $parent['nom'];
-					break;
-
-				case 'BU_GRVILLE':
-				case 'BU_VILLE':
-				case 'BU_ECOLE':
-				case 'BU_CLASSE':
-					$return['txt'] = CopixI18N::get('kernel|kernel.returnto.'.strtolower($parent['type']) );
-					$return['url'] = CopixUrl::get ('kernel||doSelectHome', array('type'=>$parent['type'], 'id'=>$parent['id']) );
-					$return['node_type'] = $parent['type'];
-					$return['node_id'] = $parent['id'];
-					$return['node_name'] = $parent['nom'];
-					break;
-
-				case 'USER_ENS':
-				case 'USER_ADM':
-				case 'USER_ELE':
-				case 'USER_VIL':
-				case 'USER_RES':
-				case 'USER_EXT':
-					$return['node_type'] = $parent['type'];
-					$return['node_id'] = $parent['id'];
-					$return['node_name'] = trim($parent['prenom'].' '.$parent['nom']);
-					break;
-
-				case 'MOD_TELEPROCEDURES':
-					$return['txt'] = CopixI18N::get('kernel|kernel.returnto.'.strtolower($parent['type']) );
-					$return['url'] = CopixUrl::get ('teleprocedures|admin|admin', array('id'=>$parent['id']) );
-					$return['node_type'] = $parent['type'];
-					$return['node_id'] = $parent['id'];
-					break;
-
-				default:
-					$return = false;
-
-			}
-		}
-		return $return;
-	}
-
+  
 	/**
 	 * DÈtermine si Iconito est en mode "dÈmo" (accËs limitÈ et auto-login).
 	 *

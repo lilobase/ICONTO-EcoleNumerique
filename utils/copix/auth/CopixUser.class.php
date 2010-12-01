@@ -417,20 +417,6 @@ class CopixUser implements ICopixUser {
 			}
 	}
 	
-	// Les infos sur le home
-	// Si $pInformationId est vide, on renvoie tout le tableau home
-	// CB 16/09/2009
-	public function getExtraHome ($pInformationId) {
-		foreach ($this->_logged as $userHandler=>$userResponse){
-				$extra = $userResponse->getExtra ();
-				if ($pInformationId && isset ($extra['home'][$pInformationId])){
-					return $extra['home'][$pInformationId];
-				} elseif (!$pInformationId && isset ($extra['home']))
-					return $extra['home'];
-			}
-	}
-	
-	
 	
 	/**
 	* Définition d'information supplémentaire pour les gestionnaires d'authentification
@@ -459,12 +445,6 @@ class CopixUser implements ICopixUser {
 
 	   	//l'information n'a pas pu être ajoutée, pas de réponse valide.
 		return false;
-	}
-	
-	// CB - 17/09/2009
-	public function setExtraHome ($pInformationId, $pInformationValue){
-		$userHandlerResponse = $this->_getFirstLogged ();
- 		return $userHandlerResponse->addExtraHome ($pInformationId, $pInformationValue);
 	}
 	
 	
@@ -598,12 +578,7 @@ class CopixUserLogResponse {
 	   return true;
 	}
 	
-	// CB - 17/09/2009
-	public function addExtraHome ($pInformationName, $pInformationValue){
-	   $this->_data['extra']['home'][$pInformationName] = $pInformationValue;
-	   return true;
-	}
-	
+
 	
 	
 	

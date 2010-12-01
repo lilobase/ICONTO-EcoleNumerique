@@ -88,10 +88,7 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 		} else {
 		}
 		
-		
 		$menu = array();
-		// $returntoparent = Kernel::menuReturntoParent( "MOD_VISIOSCOPIA", $id );
-		// if( $returntoparent ) $menu[] = $returntoparent;
 		$tpl->assign ('MENU', $menu );
 		
 		$tpl->assign ('MAIN', $result);
