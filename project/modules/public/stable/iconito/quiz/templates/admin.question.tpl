@@ -71,7 +71,11 @@ jQuery(document).ready(function($){
     </ul>
 </div>
 {/if}
-
+<div class="content-panel content-info">
+    <a href="{copixurl dest="quiz|admin|modif" id=$quiz.id qaction="modif"}" class="button-reload">
+        <strong>{i18n key="quiz.admin.goBackToQuiz" noEscape=1} </strong>
+    </a>({i18n key="quiz.form.editmsg" noEscape=1})
+</div>
 <form id="qf-form-question" class="quiz" action="{$ppo->actionAnsw}" method="post" >
     <div class="content-panel content-panel-edit">
         <span class="quiz-itemlist">{i18n key="quiz.question.question" noEscape=1}</span><br/>

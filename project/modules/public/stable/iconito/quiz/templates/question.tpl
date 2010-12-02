@@ -77,6 +77,7 @@
 	</table>
 	<div class="content-panel center">
 		<a class="button button-cancel" href="{copixurl dest="quiz|default|default"}">{i18n key="quiz.msg.stop" noEscape=1}</a>
+                <input class="button button-continue" type="submit" value="{if $ppo->next === false}{i18n key="quiz.msg.endQuestion" noEscape=1}{else}{i18n key="quiz.msg.nextQuestion" noEscape=1}{/if}">
 	</div>
 	
 </div>

@@ -308,6 +308,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->select = ($correct > 1) ? 'checkbox' : 'radio';
         $ppo->help = qSession('help');
         $ppo->name = qSession('name');
+        $ppo->next = $next;
 
          if(Kernel::getLevel( 'MOD_QUIZ', $pId) >= PROFILE_CCV_ADMIN){
 
