@@ -51,6 +51,8 @@
               </tr>
             {/foreach}
           </table>
+          
+          <p class="students-count">Nombre d'élèves dans la classe : {$ppo->students|@count}</p>
           {else}
             <i>Aucun élève...</i>
           {/if} 

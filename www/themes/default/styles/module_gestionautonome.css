@@ -249,3 +249,9 @@ DIV.gestionautonome input[type="button"]  {
 	font-size:1em;
 	font-weight:normal;
 }
+
+p.students-count {
+  margin: 10px 0 0;
+  font-style: italic;
+  font-weight: bold;
+}
