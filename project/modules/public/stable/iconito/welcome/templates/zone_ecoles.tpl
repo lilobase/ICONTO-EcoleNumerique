@@ -84,7 +84,7 @@
 	{if $parCols>=1 }
 <br clear="left" />
 	{/if}
-{elseif $groupBy == 'villeType'}
+{elseif $list && $groupBy == 'villeType'}
     {foreach from=$list item=type key=ville}
 <h3>{$ville}</h3>
                 {foreach from=$type item=ecoleCollection key=nomType}

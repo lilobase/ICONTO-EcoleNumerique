@@ -66,6 +66,7 @@ class ZoneEcoles extends enicZone {
         } elseif ($pGroupBy == 'ville') {
             usort($list, array($this, "usort_ecoles_ville"));
         }elseif($pGroupBy == 'villeType') {
+            $listByCityAndType = array();
             foreach($list as $item){
                 if(!array_key_exists('ville', $item))
                     continue;
