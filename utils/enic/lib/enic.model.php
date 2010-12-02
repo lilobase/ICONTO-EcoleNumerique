@@ -33,7 +33,7 @@ class enicModel extends enicMod {
 
         //create connection
         try{
-            $this->_db = new PDO('mysql:'.$dbOpt['connectionString'], $dbOpt['user'], $dbOpt['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES latin1") );
+            $this->_db = new PDO('mysql:'.$dbOpt['connectionString'], $dbOpt['user'], $dbOpt['password']);
         }catch(Exception $e){
             trigger_error('Enic Model : connexion fail, '.$e->getMessage(), E_USER_ERROR);
         }
@@ -98,6 +98,14 @@ class enicModel extends enicMod {
         return $this->toString()*1;
     }
 
+    public function createMultiple($iTable, $iDatas){
+
+        foreach($iDatas as $datas)
+            $this->create ($iTable, $datas);
+
+        return true;
+    }
+
     public function update($iTable, $iDatas, $cond = null){
         
         //extract id :
@@ -121,10 +129,10 @@ class enicModel extends enicMod {
         return $this->query($query)->close();
     }
 
-    public function create($iTable, $iDatas){
+    public function create($iTable, $iDatas, $iForceId = false){
 
         //delete ID if exists
-        if(array_key_exists('id', $iDatas))
+        if(array_key_exists('id', $iDatas) && !$iForceId)
             unset($iDatas['id']);
 
         foreach ($iDatas as $field => $value){
