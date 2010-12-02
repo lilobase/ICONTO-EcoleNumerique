@@ -60,7 +60,7 @@
   <div>{i18n key="blog.add.comment.closed"}</div>
 {elseif $canComment}
 
-<h2>{i18n key="blog.add.comment.title"}</h2>
+<h2 id="commform">{i18n key="blog.add.comment.title"}</h2>
 
 {if $showErrors}
 <div class="errorMessage">
@@ -70,7 +70,7 @@
 {/if}
 
 
-<form name="commentEdit" action="{copixurl dest="blog||validComment" blog=$blog->url_blog article=$article->url_bact}" method="post" class="">
+<form name="commentEdit" action="{copixurl dest="blog||validComment" blog=$blog->url_blog article=$article->url_bact}#commform" method="post" class="">
 <input type="hidden" name="id_bacc" value="{$toEdit->id_bacc}">
 <input type="hidden" name="id_bact" value="{$article->id_bact}">
 <input type="hidden" name="url_bact" value="{$article->url_bact}">

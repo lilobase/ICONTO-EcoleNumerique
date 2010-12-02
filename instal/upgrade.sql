@@ -1,4 +1,7 @@
 
+ALTER TABLE `module_blog_articlecomment` CHANGE `authorid_bacc` `authorid_bacc` INT( 11 ) NULL DEFAULT NULL;
+
+
 -- PACKAGE
 -- UPDATED : cbeyer
 
