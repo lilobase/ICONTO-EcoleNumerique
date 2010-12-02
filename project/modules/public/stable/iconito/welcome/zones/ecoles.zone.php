@@ -103,7 +103,7 @@ class ZoneEcoles extends enicZone {
         $parCols = ceil($nbEcoles / $colonnes);
 
 
-        $listVille = $this->db->query('SELECT * FROM kernel_bu_ville')->toArray();
+        $listVille = $this->db->query('SELECT * FROM kernel_bu_ville ORDER BY canon')->toArray();
         $displayVille = (count($listVille) > 1) ? true : false;
 
         $tpl = & new CopixTpl ();
