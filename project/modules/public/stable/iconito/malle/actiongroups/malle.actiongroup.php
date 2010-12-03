@@ -1129,7 +1129,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$rFile->folder, 'errors'=>$errors));
 		}
 
-		return _arFile ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>$malleService->getMimeType($fullFile)));
+		return _arFile ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>$malleService->getMimeType($fullFile), 'content-disposition'=>'attachement'));
 		
 	}
 
