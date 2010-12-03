@@ -8,7 +8,9 @@ div.submenu,
 #page-bottom,
 #contenttop,
 #contentbottom,
-#breadcrumb
+#breadcrumb,
+#submenu,
+div.tools_right div.dashpanel div.toolset
  {
 	display:none;
 
@@ -21,9 +23,9 @@ div.dashboard div.bu_classe div.content {
   border:0;
 }
 
-
 #content {
   margin:0;
+  left:0;
 }
 
 #absolute {
@@ -33,3 +35,36 @@ div.dashboard div.bu_classe div.content {
 #absolute, #popup, #page, #page-header, #page-middle, #header, #top, #menuleft, #menuright, #breadcrumb, #left, #right, .padder, .marger {
   overflow:visible;
 }
+
+#main-wrapper {
+  width:100%;
+  background:red;
+}
+.wrapper {
+  margin:0;
+}
+
+.marger {
+  margin:0;
+  overflow:none;
+}
+.wrapper-expander {
+  width:auto;
+}
+.wrapper-shifter {
+  float:none;
+  left:0;
+  width:auto;
+}
+div.tools_right div.dashpanel {
+  width:auto;
+}
+div.dashpanel div.content {
+  border:0;
+}
+
+div.dashboard {
+  margin:0;
+  padding:0;
+}
+

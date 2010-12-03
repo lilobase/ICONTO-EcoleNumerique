@@ -95,7 +95,7 @@
 
 </div> <!-- fin entete -->
 
-<div class="details" id="telep-details">{$rFiche->detail|render:$rFiche->type_format}</div>
+<div class="details" id="telep-details">{$rFiche->detail|render:$rFiche->type_format}<div class="fixed"></div></div>
 
 </div> <!-- fin demande -->
 

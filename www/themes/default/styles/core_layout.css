@@ -234,3 +234,7 @@ body.thm		{ background: #bad521 url(../../../themes/default/images/thm_body_BG.g
 
 #breadcrumb { background: url(../../../themes/default/images/thm_breadcrumb_bg.png) repeat-x center center; padding: 6px; height: 14px; }
 #page-middle { background: #fff url(../../../themes/default/images/page_background.jpg) repeat-x 0 0; }
+
+div.fixed {
+  clear:both;
+}
