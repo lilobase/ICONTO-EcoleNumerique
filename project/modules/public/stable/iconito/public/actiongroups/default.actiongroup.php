@@ -74,7 +74,7 @@ class ActionGroupDefault extends EnicActionGroup {
 
     function processGetreq() {
 
-        $ecoleList = $this->db->query('SELECT * FROM kernel_bu_ecole')->toArray();
+        $ecoleList = $this->db->query('SELECT * FROM kernel_bu_ecole ORDER BY `type`,nom')->toArray();
 
         $ppo = new CopixPPO();
 

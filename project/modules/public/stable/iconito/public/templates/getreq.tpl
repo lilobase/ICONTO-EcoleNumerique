@@ -91,7 +91,7 @@
         <select name="child1ecole" id="child1ecole" class="f-ecole">
             <option value="0">{i18n key="public|public.getreq.school" noEscape=1}</option>
             {foreach item=ecole from=$ppo->ecoles}
-                <option value="{$ecole.numero}">{$ecole.nom|utf8_encode}</option>
+                <option value="{$ecole.numero}">{$ecole.nom|utf8_encode} ({$ecole.type|utf8_encode})</option>
             {/foreach}
         </select>
        
