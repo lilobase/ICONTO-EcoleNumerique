@@ -19,7 +19,6 @@ class ActionGroupAlbum extends CopixActionGroup {
 	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-
 	}
 	
 	
@@ -384,6 +383,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
 		
+		$ppo->display_mode = _request("mode",'normal');
+		$ppo->popup_field  = _request("popup_field",'');
+		$ppo->popup_format = _request("popup_format",'');
+		
 		$album_id = _request("album_id");
 		
 		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
@@ -456,6 +459,12 @@ class ActionGroupAlbum extends CopixActionGroup {
 		// @ini_set( 'memory_limit', '64M' ); // Pb d'allocation m�moire
 		@ini_set( 'max_execution_time', '120' ); // Pd de temps de traitement
 		
+		$ppo = new CopixPPO();
+		$ppo->album_id     = _request("album_id");
+		$ppo->display_mode = _request("mode",'normal');
+		$ppo->popup_field  = _request("popup_field",'');
+		$ppo->popup_format = _request("popup_format",'');
+				
 		if( !(_request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
 		}
@@ -463,7 +472,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		if( Kernel::getLevel( "MOD_ALBUM", _request("album_id") ) < PROFILE_CCV_PUBLISH ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
-			'back'=>CopixUrl::get ('||')));
+			'back'=>CopixUrl::get ( 'album|default|album', array('album_id'=>_request("album_id")) )));
 		}
 		
 		if( ! is_uploaded_file( $_FILES['fichier']['tmp_name'] ) ) {
@@ -488,14 +497,26 @@ class ActionGroupAlbum extends CopixActionGroup {
 					$message = CopixI18N::get ('album|album.error.upload_default', $_FILES['fichier']['type']);
 					break;
 			}
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-				array (
-					'message'=>$message,
-					'back'=> CopixUrl::get( 'album|default|album',
-					                        array('album_id'=>_request("album_id"))
+			
+			if($ppo->display_mode=='popup') {
+				$ppo->message = $message;
+				$ppo->back = CopixUrl::get ('album|default|getpopup', array(
+							'album_id'=>$ppo->album_id,
+							'mode'=>$ppo->display_mode,
+						    'field'=>$ppo->popup_field,
+						    'format'=>$ppo->popup_format
+				) );
+				return _arPPO ($ppo, array ('template'=>'popup_error.tpl', 'mainTemplate'=>'main|main_fancy.php'));
+			} else {
+				return CopixActionGroup::process ('genericTools|Messages::getError',
+					array (
+						'message'=>$message,
+						'back'=> CopixUrl::get( 'album|default|album',
+						                        array('album_id'=>_request("album_id"))
+						)
 					)
-				)
-			);
+				);
+			}
 		}
 		
 		/* Verif photo ! */
@@ -517,9 +538,15 @@ class ActionGroupAlbum extends CopixActionGroup {
 				break;
 			default:
 				$photofile = null;
-				return CopixActionGroup::process ('genericTools|Messages::getError',
-					array ('message'=>CopixI18N::get ('album|album.error.filetype', $_FILES['fichier']['type']),
-					'back'=> CopixUrl::get ('album|default|album', array('album_id'=>_request("album_id")))));
+				if($ppo->display_mode=='popup') {
+					$ppo->message = CopixI18N::get ('album|album.error.filetype', $_FILES['fichier']['type']);
+					$ppo->back = CopixUrl::get ('album|default|getpopup', array('album_id'=>_request("album_id"), 'mode'=>$ppo->display_mode, 'field'=>$ppo->popup_field, 'format'=>$ppo->popup_format));
+					return _arPPO ($ppo, array ('template'=>'popup_error.tpl', 'mainTemplate'=>'main|main_fancy.php'));
+				} else {
+					return CopixActionGroup::process ('genericTools|Messages::getError',
+						array ('message'=>CopixI18N::get ('album|album.error.filetype', $_FILES['fichier']['type']),
+						'back'=> CopixUrl::get ('album|default|album', array('album_id'=>_request("album_id")))));
+				}
 		}
 
 		$album_dao = & CopixDAOFactory::create("album");
@@ -547,6 +574,10 @@ class ActionGroupAlbum extends CopixActionGroup {
 		if( $ext ) $photofile.='.'.$ext;
 		if( $photofile != null ) move_uploaded_file ( $_FILES['fichier']['tmp_name'], $photofile );
 
+		if($ppo->display_mode=='popup') {
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|getpopup', array('album_id'=>_request("album_id"),'dossier_id'=>_request("dossier_id"), 'field'=>$ppo->popup_field, 'format'=>$ppo->popup_format) ));
+		}
+			
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('album|default|album', array('album_id'=>_request("album_id"),'dossier_id'=>_request("dossier_id")) ));
 	}
 
@@ -855,6 +886,8 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', $album_nom);
 		$tpl->assign ('field', _request("field") );
 		$tpl->assign ('format', $format );
+		$tpl->assign ('album_id', $album_id);
+		$tpl->assign ('dossier_id', $dossier_id);
 		
 		$result = $tpl->fetch('album|popup.tpl');
 		

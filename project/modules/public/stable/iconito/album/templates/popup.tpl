@@ -55,7 +55,6 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 {rdelim}
 </script>
 
-
 <div id="header">
 <form name="form" id="form">
 
@@ -98,6 +97,12 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 <b>{i18n key="album.popup.multi"}</b>
 <input id="multi-yes" type="checkbox" name="multi" value="yes" />
 <label for="multi-yes"><img src="{copixresource path="img/album/album_popup_multi.gif"}" alt="{i18n key="album.popup.multi_yes"}" /></label>
+&nbsp;&nbsp;|&nbsp;&nbsp;
+</span>
+
+<span style="white-space: nowrap;">
+<a href="{copixurl dest="album|default|addphoto" album_id=$album_id dossier_id=$dossier_id mode="popup" popup_field=$field popup_format=$format}"><img src="{copixresource path="img/album/album_popup_upload.gif"}" alt="{i18n key="album.popup.upload"}" border="0" /></a>
+<b>{i18n key="album.popup.upload"}</b>
 </span>
 
 </form>
@@ -105,5 +110,4 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 
 
 {$PHOTOS}
-
 
