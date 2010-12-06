@@ -1305,7 +1305,7 @@ DROP TABLE IF EXISTS `module_blog_articlecomment`;
 CREATE TABLE `module_blog_articlecomment` (
   `id_bacc` bigint(20) NOT NULL auto_increment,
   `id_bact` bigint(20) NOT NULL default '0',
-  `authorid_bacc` int(11) NOT NULL default '0',
+  `authorid_bacc` int(11) NULL default NULL,
   `authorname_bacc` varchar(50) NOT NULL default '',
   `authoremail_bacc` varchar(50) default NULL,
   `authorweb_bacc` varchar(100) default NULL,
