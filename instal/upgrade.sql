@@ -1,5 +1,7 @@
 -- PACKAGE
 
+INSERT INTO  `kernel_mod_available` ( `node` , `module` ) VALUES ( 'BU_CLASSE',  'MOD_QUIZ');
+
 ALTER TABLE `module_blog_articlecomment` CHANGE `authorid_bacc` `authorid_bacc` INT( 11 ) NULL DEFAULT NULL;
 
 -- UPDATED : cbeyer

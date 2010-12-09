@@ -76,6 +76,7 @@ INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
 ('BU_CLASSE', 'MOD_ALBUM'),
 ('BU_CLASSE', 'MOD_BLOG'),
 ('BU_CLASSE', 'MOD_MALLE'),
+('BU_CLASSE', 'MOD_QUIZ'),
 ('BU_ECOLE', 'MOD_AGENDA'),
 ('BU_ECOLE', 'MOD_ALBUM'),
 ('BU_ECOLE', 'MOD_BLOG'),
@@ -227,15 +228,15 @@ INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2Ã¨me annÃ©e', 3, '
 --
 
 INSERT INTO `kernel_bu_lien_parental` (`id_pa`, `parente`) VALUES
-(1, 'Mère'),
-(2, 'Père'),
-(3, 'Frère'), 
+(1, 'Mï¿½re'),
+(2, 'Pï¿½re'),
+(3, 'Frï¿½re'), 
 (4, 'Soeur'),
-(5, 'Grand-père'),
-(6, 'Grand-mère'),
+(5, 'Grand-pï¿½re'),
+(6, 'Grand-mï¿½re'),
 (7, 'Oncle'),
 (8, 'Tante'),
-(9, 'Collatéraux'),
+(9, 'Collatï¿½raux'),
 (10, 'Tuteur'),
 (11, 'Inconnu');
 
@@ -248,7 +249,7 @@ INSERT INTO `kernel_bu_lien_parental` (`id_pa`, `parente`) VALUES
 -- Accueil
 
 INSERT INTO `module_groupe_groupe` (`id`, `titre`, `description`, `is_open`, `createur`, `date_creation`) VALUES
-(1, 'Edito', 'Groupe destiné à gérer la page d''accueil', 0, 1, DATE_ADD(NOW(), INTERVAL -1 MINUTE));
+(1, 'Edito', 'Groupe destinï¿½ ï¿½ gï¿½rer la page d''accueil', 0, 1, DATE_ADD(NOW(), INTERVAL -1 MINUTE));
 INSERT INTO `kernel_link_groupe2node` (`groupe_id`, `node_type`, `node_id`) VALUES
 (1, 'ROOT', 0);
 INSERT INTO `kernel_link_user2node` (`user_type`, `user_id`, `node_type`, `node_id`, `droit`, `debut`, `fin`) VALUES
@@ -260,28 +261,28 @@ INSERT INTO `kernel_mod_enabled` (`node_type`, `node_id`, `module_type`, `module
 INSERT INTO `module_album_albums` (`id`, `nom`, `prefs`, `date`, `cle`, `public`) VALUES
 (1, 'Edito', '', DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'b3ce1d6dcb', 0);
 INSERT INTO `module_album_dossiers` (`id`, `id_album`, `id_parent`, `nom`, `commentaire`, `date`, `cle`, `public`) VALUES
-(1, 1, 0, 'Photos défilantes', '', DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'eefc8f8c50', 0),
+(1, 1, 0, 'Photos dï¿½filantes', '', DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'eefc8f8c50', 0),
 (2, 1, 0, 'Illustrations accueil', '', DATE_ADD(NOW(), INTERVAL -1 MINUTE), '3e1a0664bc', 0);
 INSERT INTO `module_album_photos` (`id`, `id_album`, `id_dossier`, `nom`, `commentaire`, `date`, `ext`, `cle`, `public`) VALUES
-(1, 1, 2, 'Boîte', NULL, DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'png', '2c8c12e0c6', NULL),
+(1, 1, 2, 'Boï¿½te', NULL, DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'png', '2c8c12e0c6', NULL),
 (21, 1, 1, 'Un joli dessin', 'Un joli dessin', DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'jpg', '7a646493bc', NULL),
 (22, 1, 1, 'Une famille', 'Une famille', DATE_ADD(NOW(), INTERVAL -1 MINUTE), 'jpg', 'ce1960caf0', NULL);
 INSERT INTO `module_blog` (`id_blog`, `name_blog`, `id_ctpt`, `logo_blog`, `url_blog`, `style_blog_file`, `is_public`, `has_comments_activated`, `type_moderation_comments`, `default_format_articles`, `template`) VALUES
 (1, 'Edito', 1, NULL, 'edito', 0, 0, 0, 'POST', 'ckeditor', NULL);
 INSERT INTO `module_blog_articlecategory` (`id_bacg`, `id_blog`, `order_bacg`, `name_bacg`, `url_bacg`) VALUES
-(1, 1, 1, 'Actualités', 'actualites20100921103303');
+(1, 1, 1, 'Actualitï¿½s', 'actualites20100921103303');
 INSERT INTO `module_malle_malles` (`id`, `titre`, `date_creation`, `cle`) VALUES
 (1, 'Edito', DATE_ADD(NOW(), INTERVAL -1 MINUTE), '7cfbb3fbc2');
 INSERT INTO `module_blog_page` (`id_bpge`, `id_blog`, `name_bpge`, `content_bpge`, `content_html_bpge`, `format_bpge`, `author_bpge`, `date_bpge`, `url_bpge`, `order_bpge`, `is_online`) VALUES
-(1, 1, 'Bienvenue à Iconito Ecole Numérique 2010 !', '<p>\r\n	<img align="left" alt="Bo%C3%AEte" border="0" src="<PATH>static/album/1_b3ce1d6dcb/1_2c8c12e0c6_240.png" />Iconito Ecole Num&eacute;rique est un portail &eacute;ducatif comprenant un ensemble d&#39;outils et de ressources &agrave; destination des enseignants et des &eacute;l&egrave;ves, mais aussi des parents et des autres intervenants du syst&egrave;me scolaire.</p>\r\n<p>\r\n	Il est d&eacute;velopp&eacute; sous licence libre (GNU GPL). Vous trouverez plus d&#39;informations sur le site d&eacute;di&eacute; <strong><a href="http://www.iconito.fr/" target="_blank" title="Site web d''iconito">iconito.fr</a></strong></p>\r\n<p>\r\n	Cette &eacute;dition 2010 vous propose une nouvelle approche ergonomique que nous esp&eacute;rons plus claire qu&#39;avant. De nouvelles fonctionnalit&eacute;s sont &eacute;galement disponibles, dont la Gestion des Usagers int&eacute;gr&eacute;e ou les Quiz dans les groupes de travail. Pour d&#39;autres informations, n&#39;h&eacute;sitez pas &agrave; consulter notre <strong><a href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/154-apercu-des-nouveautes-diconito-ecole-numerique-2010" target="_blank" title="Nouveautés Iconito Ecole Numérique 2010">aper&ccedil;u des nouveaut&eacute;s Iconito Ecole Num&eacute;rique 2010</a></strong></p>\r\n', '<p>\r\n	<img align="left" alt="Bo%C3%AEte" border="0" src="<PATH>static/album/1_b3ce1d6dcb/1_2c8c12e0c6_240.png" />Iconito Ecole Num&eacute;rique est un portail &eacute;ducatif comprenant un ensemble d&#39;outils et de ressources &agrave; destination des enseignants et des &eacute;l&egrave;ves, mais aussi des parents et des autres intervenants du syst&egrave;me scolaire.</p>\r\n<p>\r\n	Il est d&eacute;velopp&eacute; sous licence libre (GNU GPL). Vous trouverez plus d&#39;informations sur le site d&eacute;di&eacute; <strong><a href="http://www.iconito.fr/" target="_blank" title="Site web d''iconito">iconito.fr</a></strong></p>\r\n<p>\r\n	Cette &eacute;dition 2010 vous propose une nouvelle approche ergonomique que nous esp&eacute;rons plus claire qu&#39;avant. De nouvelles fonctionnalit&eacute;s sont &eacute;galement disponibles, dont la Gestion des Usagers int&eacute;gr&eacute;e ou les Quiz dans les groupes de travail. Pour d&#39;autres informations, n&#39;h&eacute;sitez pas &agrave; consulter notre <strong><a href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/154-apercu-des-nouveautes-diconito-ecole-numerique-2010" target="_blank" title="Nouveautés Iconito Ecole Numérique 2010">aper&ccedil;u des nouveaut&eacute;s Iconito Ecole Num&eacute;rique 2010</a></strong></p>\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), 'bienvenue', 1, 1);
+(1, 1, 'Bienvenue ï¿½ Iconito Ecole Numï¿½rique 2010 !', '<p>\r\n	<img align="left" alt="Bo%C3%AEte" border="0" src="<PATH>static/album/1_b3ce1d6dcb/1_2c8c12e0c6_240.png" />Iconito Ecole Num&eacute;rique est un portail &eacute;ducatif comprenant un ensemble d&#39;outils et de ressources &agrave; destination des enseignants et des &eacute;l&egrave;ves, mais aussi des parents et des autres intervenants du syst&egrave;me scolaire.</p>\r\n<p>\r\n	Il est d&eacute;velopp&eacute; sous licence libre (GNU GPL). Vous trouverez plus d&#39;informations sur le site d&eacute;di&eacute; <strong><a href="http://www.iconito.fr/" target="_blank" title="Site web d''iconito">iconito.fr</a></strong></p>\r\n<p>\r\n	Cette &eacute;dition 2010 vous propose une nouvelle approche ergonomique que nous esp&eacute;rons plus claire qu&#39;avant. De nouvelles fonctionnalit&eacute;s sont &eacute;galement disponibles, dont la Gestion des Usagers int&eacute;gr&eacute;e ou les Quiz dans les groupes de travail. Pour d&#39;autres informations, n&#39;h&eacute;sitez pas &agrave; consulter notre <strong><a href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/154-apercu-des-nouveautes-diconito-ecole-numerique-2010" target="_blank" title="Nouveautï¿½s Iconito Ecole Numï¿½rique 2010">aper&ccedil;u des nouveaut&eacute;s Iconito Ecole Num&eacute;rique 2010</a></strong></p>\r\n', '<p>\r\n	<img align="left" alt="Bo%C3%AEte" border="0" src="<PATH>static/album/1_b3ce1d6dcb/1_2c8c12e0c6_240.png" />Iconito Ecole Num&eacute;rique est un portail &eacute;ducatif comprenant un ensemble d&#39;outils et de ressources &agrave; destination des enseignants et des &eacute;l&egrave;ves, mais aussi des parents et des autres intervenants du syst&egrave;me scolaire.</p>\r\n<p>\r\n	Il est d&eacute;velopp&eacute; sous licence libre (GNU GPL). Vous trouverez plus d&#39;informations sur le site d&eacute;di&eacute; <strong><a href="http://www.iconito.fr/" target="_blank" title="Site web d''iconito">iconito.fr</a></strong></p>\r\n<p>\r\n	Cette &eacute;dition 2010 vous propose une nouvelle approche ergonomique que nous esp&eacute;rons plus claire qu&#39;avant. De nouvelles fonctionnalit&eacute;s sont &eacute;galement disponibles, dont la Gestion des Usagers int&eacute;gr&eacute;e ou les Quiz dans les groupes de travail. Pour d&#39;autres informations, n&#39;h&eacute;sitez pas &agrave; consulter notre <strong><a href="http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique/154-apercu-des-nouveautes-diconito-ecole-numerique-2010" target="_blank" title="Nouveautï¿½s Iconito Ecole Numï¿½rique 2010">aper&ccedil;u des nouveaut&eacute;s Iconito Ecole Num&eacute;rique 2010</a></strong></p>\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), 'bienvenue', 1, 1);
 
 
 
 INSERT INTO `module_blog_article` (`id_bact`, `id_blog`, `name_bact`, `sumary_bact`, `sumary_html_bact`, `content_bact`, `content_html_bact`, `format_bact`, `author_bact`, `date_bact`, `time_bact`, `url_bact`, `sticky_bact`, `is_online`) VALUES
-(1, 1, 'L''école du Bois Fleuri se met à Iconito', '<p>\r\n	A partir d&#39;aujourd&#39;hui, Iconito est d&eacute;ploy&eacute; &agrave; l&#39;&eacute;cole du Bois Fleuri. Gr&acirc;ce notamment &agrave; l&#39;implication du directeur M. Franc et des enseignants, les parents d&#39;&eacute;l&egrave;ves vont pouvoir :</p>\r\n<ul>\r\n	<li>\r\n		suivre les aventures de leurs enfants lors des sorties et des classes vertes</li>\r\n	<li>\r\n		communiquer avec les enseignants</li>\r\n	<li>\r\n		obtenir des informations pratiques sur l&#39;&eacute;cole</li>\r\n</ul>\r\n', '<p>\r\n	A partir d&#39;aujourd&#39;hui, Iconito est d&eacute;ploy&eacute; &agrave; l&#39;&eacute;cole du Bois Fleuri. Gr&acirc;ce notamment &agrave; l&#39;implication du directeur M. Franc et des enseignants, les parents d&#39;&eacute;l&egrave;ves vont pouvoir :</p>\r\n<ul>\r\n	<li>\r\n		suivre les aventures de leurs enfants lors des sorties et des classes vertes</li>\r\n	<li>\r\n		communiquer avec les enseignants</li>\r\n	<li>\r\n		obtenir des informations pratiques sur l&#39;&eacute;cole</li>\r\n</ul>\r\n', '<br />\r\n', '<br />\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), '0722', '1_lecole_du_bois_fleuri_se_met_iconito', 0, 1);
+(1, 1, 'L''ï¿½cole du Bois Fleuri se met ï¿½ Iconito', '<p>\r\n	A partir d&#39;aujourd&#39;hui, Iconito est d&eacute;ploy&eacute; &agrave; l&#39;&eacute;cole du Bois Fleuri. Gr&acirc;ce notamment &agrave; l&#39;implication du directeur M. Franc et des enseignants, les parents d&#39;&eacute;l&egrave;ves vont pouvoir :</p>\r\n<ul>\r\n	<li>\r\n		suivre les aventures de leurs enfants lors des sorties et des classes vertes</li>\r\n	<li>\r\n		communiquer avec les enseignants</li>\r\n	<li>\r\n		obtenir des informations pratiques sur l&#39;&eacute;cole</li>\r\n</ul>\r\n', '<p>\r\n	A partir d&#39;aujourd&#39;hui, Iconito est d&eacute;ploy&eacute; &agrave; l&#39;&eacute;cole du Bois Fleuri. Gr&acirc;ce notamment &agrave; l&#39;implication du directeur M. Franc et des enseignants, les parents d&#39;&eacute;l&egrave;ves vont pouvoir :</p>\r\n<ul>\r\n	<li>\r\n		suivre les aventures de leurs enfants lors des sorties et des classes vertes</li>\r\n	<li>\r\n		communiquer avec les enseignants</li>\r\n	<li>\r\n		obtenir des informations pratiques sur l&#39;&eacute;cole</li>\r\n</ul>\r\n', '<br />\r\n', '<br />\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), '0722', '1_lecole_du_bois_fleuri_se_met_iconito', 0, 1);
 INSERT INTO `module_blog_article_blogarticlecategory` VALUES (1, 1);
 INSERT INTO `module_blog_article` (`id_bact`, `id_blog`, `name_bact`, `sumary_bact`, `sumary_html_bact`, `content_bact`, `content_html_bact`, `format_bact`, `author_bact`, `date_bact`, `time_bact`, `url_bact`, `sticky_bact`, `is_online`) VALUES
-(2, 1, 'Démarrage du projet', '<p>\r\n	Apr&egrave;s une installation facile et rapide, Iconito est install&eacute; dans notre commune. Les &eacute;coles devraient rapidement s&#39;approprier l&#39;outil et permettre &agrave; tous les acteurs du monde &eacute;ducatif d&#39;en profiter...</p>\r\n', '<p>\r\n	Apr&egrave;s une installation facile et rapide, Iconito est install&eacute; dans notre commune. Les &eacute;coles devraient rapidement s&#39;approprier l&#39;outil et permettre &agrave; tous les acteurs du monde &eacute;ducatif d&#39;en profiter...</p>\r\n', '<br />\r\n', '<br />\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), '0709', '2_demarrage_du_projet', 0, 1);
+(2, 1, 'Dï¿½marrage du projet', '<p>\r\n	Apr&egrave;s une installation facile et rapide, Iconito est install&eacute; dans notre commune. Les &eacute;coles devraient rapidement s&#39;approprier l&#39;outil et permettre &agrave; tous les acteurs du monde &eacute;ducatif d&#39;en profiter...</p>\r\n', '<p>\r\n	Apr&egrave;s une installation facile et rapide, Iconito est install&eacute; dans notre commune. Les &eacute;coles devraient rapidement s&#39;approprier l&#39;outil et permettre &agrave; tous les acteurs du monde &eacute;ducatif d&#39;en profiter...</p>\r\n', '<br />\r\n', '<br />\r\n', 'ckeditor', 1, DATE_FORMAT(NOW(),'%Y%m%d'), '0709', '2_demarrage_du_projet', 0, 1);
 INSERT INTO `module_blog_article_blogarticlecategory` VALUES (2, 1);
 
 
