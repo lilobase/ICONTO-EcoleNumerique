@@ -54,14 +54,25 @@ class enicJavascript extends enicMod{
     /*
      * Add a simple wysiwyg editor in textarea
      * iIdDom => id of Dom item
+     * iType => nom d'une toolbar CKEditor, défini dans /www/js/ckeditor/config.js
      */
     public function wysiwyg($iIdDom, $iType = 'simple'){
+    	
         $this->addFile('js/ckeditor/ckeditor.js');
         $this->addFile('js/ckeditor/adapters/jquery.js');
         $css =& enic::get('css');
-
-        $js = '$("'.$iIdDom.'").ckeditor()';
+        
+        switch( $iType ) {
+        	case 'full':
+        		$toolbarName = 'full';
+        		break;
+        	case 'simple':
+        	default:
+        		$toolbarName = 'simple';
+        }
        
+        $js = '$("'.$iIdDom.'").ckeditor({toolbar: "' . $toolbarName . '"})';
+        
         $this->addJs($js);
     }
 

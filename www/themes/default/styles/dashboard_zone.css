@@ -54,6 +54,13 @@
     float: left;
 }
 
+#admindash_lower {
+font-size: 0.8em;
+padding: 0.5em;
+padding-left: 30px;
+padding-right: 90px;
+}
+
 a.modif_dash{;
     position: absolute;
     bottom: 5px;
