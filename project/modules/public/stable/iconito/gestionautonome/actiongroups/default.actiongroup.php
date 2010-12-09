@@ -3459,7 +3459,7 @@ class ActionGroupDefault extends enicActionGroup {
   		$newPersonLink->res2ele_id_beneficiaire   = $ppo->student->ele_idEleve; 
   		$newPersonLink->res2ele_type_beneficiaire = 'eleve';
   		$newPersonLink->res2ele_id_responsable    = $ppo->person->res_numero;
-  		$newPersonLink->res2ele_type              = 'responsable';
+  		$newPersonLink->res2ele_type_responsable  = 'responsable';
   		$newPersonLink->res2ele_auth_parentale    = '0';
   		$newPersonLink->res2ele_id_par            = $ppo->person->res_id_sexe == 1 ? '2' : '1';
 
