@@ -115,6 +115,18 @@
       
       return false;
     });
+    
+    jQuery("input[name=gender]").change(function() {
+      
+      jQuery('#id_par').val(11);
+    });
+    
+    var links = { "1":"2", "2":"1", "3":"1", "4":"2", "5":"1", "6":"2", "7":"1", "8":"2" };
+    jQuery('#id_par').change(function() {
+      
+      var genderId = links[jQuery(this).val()];
+      jQuery("input[name=gender][value="+genderId+"]").attr("checked", "checked"); 
+    });
   });
 //]]> 
 </script>
