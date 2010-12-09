@@ -10,28 +10,40 @@
 	<?php echo _i18n('auth|auth.user.create'); ?></a></p>
 	<?php } ?>
   <form action="<?php echo _url("auth|log|in", ($ppo->noCredential) ? array('noCredential'=>true):array()); ?>" method="post" id="loginForm">
-      <fieldset>
+      <fieldset id="loginForm">
       <table>
+      
        <tr>
         <th><?php echo _i18n('auth|auth.login'); ?></th>
         <td><input type="text" name="login" id="login" size="9"
 			value="<?php _etag ('escape', $ppo->login); ?>" /></td>
        </tr>
+       
        <tr>
         <th><?php echo _i18n('auth|auth.password'); ?></th>
         <td><input type="password" name="password" id="password" size="9" /></td>
        </tr>
+       
        <?php if($ppo->ask_rememberme){ ?>
        <tr>
         <th><?php echo _i18n('auth|auth.rememberme'); ?></th>
         <td><input type="checkbox" name="rememberme" id="rememberme" value="yes" /></td>
        </tr>
        <?php } ?>
-       </table>
+       
+       <tr>
+       <th></th>
+       <td>
+       
        <?php if ($ppo->auth_url_return) { ?>
           <input type="hidden" value="<?php echo htmlentities ($ppo->auth_url_return); ?>" name="auth_url_return" />
        <?php } ?>
-       <input type="image" src="<?php echo _resource("img/tools/login.png"); ?>" value="<?php echo _i18n ("copix:common.buttons.login"); ?>" />
+       <input type="submit" class="button button-confirm" value="<?php echo _i18n ("copix:common.buttons.login"); ?>">
+       
+       </td>
+       </tr>
+       </table>
+        
        </fieldset>
    </form>
 <?php }
