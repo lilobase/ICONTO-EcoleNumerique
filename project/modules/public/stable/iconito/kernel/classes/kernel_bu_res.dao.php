@@ -91,6 +91,19 @@ class DAOKernel_bu_res {
 			  
 		return new CopixDAORecordIterator (_doQuery ($sql, array (':id' => $studentId)), $this->getDAOId ());
 	}
+	
+	function getByLogin ($login) {
+	  
+	  $sql = $this->_selectQuery . ', kernel_link_bu2user, dbuser'
+		     . ' WHERE dbuser.login_dbuser=:login'
+		     . ' AND kernel_link_bu2user.user_id=dbuser.id_dbuser'
+		     . ' AND kernel_link_bu2user.bu_type="USER_RES"'
+		     . ' AND kernel_link_bu2user.bu_id=kernel_bu_responsable.numero';
+		     
+		$results = _doQuery($sql, array (':login' => $login));
+
+   	return isset ($results[0]) ? $results[0] : false;
+	}
 
 }
 

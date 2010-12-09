@@ -3147,27 +3147,36 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $personId   = _request ('personId', null);
-	  $studentId  = _request ('studentId', null);
-	  $nodeId     = _request ('nodeId', null);
+	  $ppo->personId   = _request ('personId', null);
+	  $ppo->studentId  = _request ('studentId', null);
+	  $ppo->nodeId     = _request ('nodeId', null);
+	  $ppo->nodeType   = 'BU_CLASSE';
 	  
-	  if (is_null ($personId) || is_null ($studentId)) {
-	    
+	  if (is_null ($ppo->personId) || is_null ($ppo->studentId)) {
+
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
-	  
-	  _currentUser()->assertCredential('module:classroom|'.$nodeId.'|person_in_charge|update@gestionautonome');
+    
+    $ppo->user = _currentUser ();
+	  $ppo->user->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|update@gestionautonome');
 	  
 	  // Suppression de l'affectation du responsable
 	  $personInChargeLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
-	  $personInChargeLink    = $personInChargeLinkDAO->getByPersonAndStudent ($personId, $studentId);
+	  $personInChargeLink    = $personInChargeLinkDAO->getByPersonAndStudent ($ppo->personId, $ppo->studentId);
 	  
 	  $personInChargeLinkDAO->delete ($personInChargeLink->res2ele_id_rel);
 	  
 	  // Récupération des responsables de l'élève
 	  $personsInChargeDAO = _ioDAO ('kernel|kernel_bu_res');
-	  $ppo->persons       = $personsInChargeDAO->getByStudent ($studentId);
+	  $ppo->persons       = $personsInChargeDAO->getByStudent ($ppo->studentId);
+	  
+	  // Fonctionnalité de rattachement de parents à un élève activé ?
+	  $ppo->personInChargeLinkingEnabled = false;
+	  if (CopixConfig::exists('gestionautonome|personInChargeLinkingEnabled') && CopixConfig::get('gestionautonome|personInChargeLinkingEnabled')) {
+	    
+	    $ppo->personInChargeLinkingEnabled = true;
+	  }
 
     return _arPPO ($ppo, array ('template' => '_persons_in_charge.tpl', 'mainTemplate' => null));
 	}
@@ -3179,17 +3188,19 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  $personId   = _request ('personId', null);
-	  $studentId  = _request ('studentId', null);
-	  $nodeId     = _request ('nodeId', null); 
+	  $ppo->personId   = _request ('personId', null);
+	  $ppo->studentId  = _request ('studentId', null);
+	  $ppo->nodeId     = _request ('nodeId', null); 
+	  $ppo->nodeType   = 'BU_CLASSE';
 	  
-	  if (is_null ($personId) || is_null ($studentId)) {
+	  if (is_null ($ppo->personId) || is_null ($ppo->studentId)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
 	  }
 	  
-	  _currentUser()->assertCredential('module:classroom|'.$nodeId.'|person_in_charge|delete@gestionautonome');
+	  $ppo->user = _currentUser ();
+	  $ppo->user->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|delete@gestionautonome');
 	  
 	  $personsInChargeDAO = _ioDAO ('kernel|kernel_bu_res');
     $personInChargeLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
@@ -3198,16 +3209,23 @@ class ActionGroupDefault extends enicActionGroup {
 	   * TODO
 	   */
 	  // Récupération des affectations du responsable
-	  $assignments = $personInChargeLinkDAO->getByPerson ($personId);
+	  $assignments = $personInChargeLinkDAO->getByPerson ($ppo->personId);
 	  foreach ($assignments as $assignment) {
 	    
 	    $personInChargeLinkDAO->delete ($assignment->res2ele_id_rel);
 	  }
 	  
-	  $personsInChargeDAO->delete ($personId);
+	  $personsInChargeDAO->delete ($ppo->personId);
 	  
 	  // Récupération des responsables de l'élève
-	  $ppo->persons = $personsInChargeDAO->getByStudent ($studentId);
+	  $ppo->persons = $personsInChargeDAO->getByStudent ($ppo->studentId);
+	  
+    // Fonctionnalité de rattachement de parents à un élève activé ?
+	  $ppo->personInChargeLinkingEnabled = false;
+	  if (CopixConfig::exists('gestionautonome|personInChargeLinkingEnabled') && CopixConfig::get('gestionautonome|personInChargeLinkingEnabled')) {
+	    
+	    $ppo->personInChargeLinkingEnabled = true;
+	  }
 	  
 	  return _arPPO ($ppo, array ('template' => '_persons_in_charge.tpl', 'mainTemplate' => null));
 	} 
@@ -3314,6 +3332,141 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->cpt++;
 		
 		return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
+	}
+	
+	public function processAddExistingPersonInCharge () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId   = _request ('nodeId', null);
+	  $ppo->nodeType = _request ('nodeType', null);
+	  $studentId     = _request ('studentId', null);
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+	  if (!$ppo->student = $studentDAO->get ($studentId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroom = $classroomDAO->get ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|create@gestionautonome');
+	  
+	  $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
+    $ppo->studentAccount = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
+	  
+	  // Breadcrumbs
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+	  
+	  $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs[] = array('txt' => $ppo->student->ele_nom.' '.$ppo->student->ele_prenom1, 'url' => CopixUrl::get ('gestionautonome||updateStudent', array('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'studentId' => $studentId)));
+    $breadcrumbs[] = array('txt' => 'Associer un responsable existant');
+
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+	  
+	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+	  
+		return _arPPO ($ppo, 'add_existing_person_in_charge.tpl');
+	}
+	
+	public function processValidateExistingPersonInChargeAdd () {
+	  
+	  $ppo = new CopixPPO (); 
+	  
+	  // Récupération des paramètres
+	  $ppo->nodeId    = _request ('id_node', null);
+	  $ppo->nodeType  = _request ('type_node', null);
+	  $studentId      = _request ('id_student', null);
+	  
+	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+	  if (!$ppo->student = $studentDAO->get ($studentId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  if (!$classroom = $classroomDAO->get ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+	  }
+	  
+	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|create@gestionautonome');
+
+    // Récupération des paramètres du formulaire
+    $ppo->login     = _request('login', null);
+    $ppo->agreement = _request('agreement', false);
+       
+    // Traitement des erreurs
+    $ppo->errors = array ();
+    
+    $personInChargeDAO = _ioDAO ('kernel|kernel_bu_res');
+    
+    // Vérification du login
+    if (!$ppo->login) {
+      
+      $ppo->errors[] = 'Saisissez l\'identifiant du responsable à associer à l\'élève.';
+    }
+    // Responsable existant ?
+    elseif (!$ppo->person = $personInChargeDAO->getByLogin($ppo->login)) {
+      
+      $ppo->errors[] = 'Cet identifiant ne correspond à aucun responsable.';
+    }
+    // Conditions validées ?
+    if (!$ppo->agreement) {
+      
+      $ppo->errors[] = 'Merci de valider les conditions d\'association d\'un responsable à un élève.';
+    }
+    
+    if (!empty ($ppo->errors)) {
+      
+      // Récupération du compte de l'élève
+      $dbuserDAO = _ioDAO ('kernel|kernel_copixuser');
+      $ppo->studentAccount = $dbuserDAO->getUserByBuIdAndBuType ($studentId, 'USER_ELE');
+      
+      $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+      
+      return _arPPO ($ppo, 'add_existing_person_in_charge.tpl');
+    }
+
+    // Création de l'association responsable / élève
+    $personLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
+    
+    if (!$personLinkDAO->getByPersonAndStudent ($ppo->person->res_numero, $ppo->student->ele_idEleve)) {
+      
+      $newPersonLink = _record ('kernel|kernel_bu_res2ele');
+
+  		$newPersonLink->res2ele_id_beneficiaire   = $ppo->student->ele_idEleve; 
+  		$newPersonLink->res2ele_type_beneficiaire = 'eleve';
+  		$newPersonLink->res2ele_id_responsable    = $ppo->person->res_numero;
+  		$newPersonLink->res2ele_type              = 'responsable';
+  		$newPersonLink->res2ele_auth_parentale    = '0';
+  		$newPersonLink->res2ele_id_par            = $ppo->person->res_id_sexe == 1 ? '2' : '1';
+
+  		$personLinkDAO->insert ($newPersonLink);
+    }
+		
+		return _arPPO ($ppo, array ('template' => 'create_person_in_charge_success.tpl', 'mainTemplate' => null));
 	}
 	
 	public function processManageGrades () {

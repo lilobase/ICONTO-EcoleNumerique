@@ -220,6 +220,48 @@ ul.actions li a.button {
   width: 50%; 
 }
 
+#person-link div.field {
+  clear: both;
+}
+
+#person-link div.person-login label {
+  width: 300px;
+}
+
+#person-link div.agreement-check {
+  margin: 0 50px 0 300px;
+}
+
+#person-link div.agreement-check input {
+  margin-right: 10px;
+}
+
+#person-link div.student-datas {
+  margin: 20px 0;
+}
+
+#person-link div.student-datas label.form_libelle {
+  font-weight: normal;
+}
+
+#person-link div.student-datas div.label {
+  float: left;
+  width: 300px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#person-link div.student-datas div.datas {
+  float: left;
+}
+
+#person-link div.student-datas hr.clear {
+  visibility: hidden;
+  clear: both;
+  margin: 0;
+  padding: 0;
+}
+
 /* Look neutre
 ------------------------------------------------------------------------------*/ 
 div.gestionautonome #tree-actions  {

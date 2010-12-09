@@ -67,6 +67,9 @@ $validatePersonInChargeCreation = & new CopixAction ('default', 'processValidate
 $removePersonInCharge = & new CopixAction ('default', 'processRemovePersonInCharge');
 $deletePersonInCharge = & new CopixAction ('default', 'processDeletePersonInCharge');
 
+$addExistingPersonInCharge = & new CopixAction ('default', 'processAddExistingPersonInCharge');
+$validateExistingPersonInChargeAdd = & new CopixAction ('default', 'processValidateExistingPersonInChargeAdd');
+
 // Années scolaires
 $createGrade = & new CopixAction ('default', 'processCreateGrade');
 $validateGradeCreation = & new CopixAction ('default', 'processValidateGradeCreation');

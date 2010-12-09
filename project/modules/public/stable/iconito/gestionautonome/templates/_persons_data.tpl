@@ -23,7 +23,7 @@
               <th class="liste_th">Type</th>
               <th class="liste_th">Nom</th>
               <th class="liste_th">Prénom</th>
-              <th class="liste_th">Login</th>
+              <th class="liste_th">Identifiant</th>
               <th class="liste_th"></th>
             </tr>
             {foreach from=$ppo->students item=student}
@@ -65,7 +65,7 @@
               <th class="liste_th">Type</th>
               <th class="liste_th">Nom</th>
               <th class="liste_th">Prénom</th>
-              <th class="liste_th">Login</th>
+              <th class="liste_th">Identifiant</th>
               <th class="liste_th"></th>
             </tr>
             {foreach from=$ppo->persons item=person}
@@ -118,7 +118,7 @@
         <th class="liste_th">Type</th>
         <th class="liste_th">Nom</th>
         <th class="liste_th">Prénom</th>
-        <th class="liste_th">Login</th>
+        <th class="liste_th">Identifiant</th>
         <th class="liste_th"></th>
       </tr>
       {foreach from=$ppo->persons item=person}
