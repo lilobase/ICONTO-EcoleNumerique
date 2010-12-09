@@ -42,7 +42,7 @@ class DAOGroupe {
 		$list = _ioDao ('groupe|groupe')->findBy ($criteres);
 
                 //search tags by Id or Name
-		$listTag = new CopixDAORecordIterator (_doQuery ('SELECT g.id AS id, g.titre AS titre, g.description AS description, g.is_open AS is_open, g.createur AS createur, g.date_creation AS date_creation FROM module_groupe_groupe AS g JOIN module_tags_groups AS tg ON tg.id_group = g.id JOIN module_tags AS t ON tg.id_tag = t.id WHERE t.name LIKE "%'.$kw.'%" OR t.id = '.(int)$kw), $this->getDAOId ());
+		$listTag = new CopixDAORecordIterator (_doQuery ('SELECT g.id AS id, g.titre AS titre, g.description AS description, g.is_open AS is_open, g.createur AS createur, g.date_creation AS date_creation FROM module_groupe_groupe AS g JOIN module_tags_groups AS tg ON tg.id_group = g.id JOIN module_tags AS t ON tg.id_tag = t.id WHERE g.is_open=1 AND t.name LIKE "%'.$kw.'%" OR t.id = '.(int)$kw), $this->getDAOId ());
 
                 //merge records
                 $listGroupFinal = array();
