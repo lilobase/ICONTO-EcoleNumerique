@@ -13,26 +13,26 @@
 {/if}
 
 <form name="person_link" id="person-link" action="{copixurl dest="|validateExistingPersonInChargeAdd"}" method="POST" enctype="multipart/form-data">
-    <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
-    <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
-    <input type="hidden" name="id_student" id="id-student" value="{$ppo->student->ele_idEleve}" />
+  <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
+  <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
+  <input type="hidden" name="id_student" id="id-student" value="{$ppo->student->ele_idEleve}" />
     
-    <div class="field person-login">
-      <label for="login" class="form_libelle">Identifiant du parent à rattacher à cet élève</label>
-      <input class="form" type="text" name="login" id="login" value="{$ppo->login}" />
-    </div>
+  <div class="field person-login">
+    <label for="login" class="form_libelle">Identifiant du parent à rattacher à cet élève</label>
+    <input class="form" type="text" name="login" id="login" value="{$ppo->login}" />
+  </div>
     
-    <div class="field agreement-check">
-      {if $ppo->agreement}
-        <input type="checkbox" name="agreement" checked="checked" />
-      {else}
-        <input type="checkbox" name="agreement" />
-      {/if}
-      <span>
-        Je reconnais connaître l’identité du parent ayant l’identifiant ci-dessus, et m’être assuré qu’il s’agit bien d’un responsable légal de l’enfant ci-dessous. 
-        Ce responsable aura accès à des données personnelles de l’enfant en question.
-      </span>
-    </div>
+  <div class="field agreement-check">
+    {if $ppo->agreement}
+      <input type="checkbox" name="agreement" checked="checked" />
+    {else}
+      <input type="checkbox" name="agreement" />
+    {/if}
+    <span>
+      Je reconnais connaître l’identité du parent ayant l’identifiant ci-dessus, et m’être assuré qu’il s’agit bien d’un responsable légal de l’enfant ci-dessous. 
+      Ce responsable aura accès à des données personnelles de l’enfant en question.
+    </span>
+  </div>
 
   
   <div class="student-datas">

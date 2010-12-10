@@ -2335,12 +2335,42 @@ class ActionGroupDefault extends enicActionGroup {
 		if ($ppo->resp_on && !is_null ($tmpSession) && is_array ($tmpSession)) {
 		  
 		  $personDAO     = _ioDAO ('kernel_bu_responsable');
-      $personLinkDAO = _ioDAO ('kernel_bu_responsables');
+      $personLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
        
   		foreach ($tmpSession as $personSession) {
-      
-        // Ajout du responsable en session seulement si la création du dbuser est possible
-        if (Kernel::isLoginAvailable ($personSession['login'])) {
+        
+        // Si le responsable existe déjà
+        if (isset($personSession['res_numero'])) {
+          
+          // Création de l'association responsable / élève
+          if (!$personLinkDAO->getByPersonAndStudent ($personSession['res_numero'], $ppo->student->idEleve)) {
+
+            $newPersonLink = _record ('kernel|kernel_bu_res2ele');
+
+        		$newPersonLink->res2ele_id_beneficiaire   = $ppo->student->idEleve; 
+        		$newPersonLink->res2ele_type_beneficiaire = 'eleve';
+        		$newPersonLink->res2ele_id_responsable    = $personSession['res_numero'];
+        		$newPersonLink->res2ele_type_responsable  = 'responsable';
+        		$newPersonLink->res2ele_auth_parentale    = '0';
+        		$newPersonLink->res2ele_id_par            = $personSession['res_id_sexe'] == 1 ? '2' : '1';
+
+        		$personLinkDAO->insert ($newPersonLink);
+          }
+          
+          // Mise en session du responsable
+          $session[] = array(
+      		  'lastname'  => $personSession['lastname'],
+      			'firstname' => $personSession['firstname'],
+      			'login'     => $personSession['login'],
+      			'password'  => '******',
+      			'bu_type'   => 'USER_RES',
+      			'bu_id'     => $ppo->student->idEleve,
+      			'type_nom'  => Kernel::Code2Name('USER_RES'),
+      			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
+      		);
+        }
+        // Sinon nouveau responsable : création seulement si la création du dbuser est possible
+        elseif (Kernel::isLoginAvailable ($personSession['login'])) {
           
           // Création du responsable
           $ppo->person = _record ('kernel_bu_responsable');
@@ -2353,14 +2383,14 @@ class ActionGroupDefault extends enicActionGroup {
     	    $personDAO->insert ($ppo->person);
       
           // Création de l'association personne->rôle
-          $newPersonLink = _record ('kernel_bu_responsables');
+          $newPersonLink = _record ('kernel|kernel_bu_res2ele');
       
-      		$newPersonLink->id_beneficiaire   = $ppo->student->idEleve; 
-      		$newPersonLink->type_beneficiaire = 'eleve';
-      		$newPersonLink->id_responsable    = $ppo->person->numero;
-      		$newPersonLink->type              = 'responsable';
-      		$newPersonLink->auth_parentale    = '0';
-      		$newPersonLink->id_par            = $personSession['id_par'];
+      		$newPersonLink->res2ele_id_beneficiaire   = $ppo->student->idEleve; 
+      		$newPersonLink->res2ele_type_beneficiaire = 'eleve';
+      		$newPersonLink->res2ele_id_responsable    = $ppo->person->numero;
+      		$newPersonLink->res2ele_type_responsable  = 'responsable';
+      		$newPersonLink->res2ele_auth_parentale    = '0';
+      		$newPersonLink->res2ele_id_par            = $personSession['id_par'];
       
       		$personLinkDAO->insert ($newPersonLink);
       
@@ -3245,7 +3275,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 	  
 	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|person_in_charge|create@gestionautonome');
-
+    
+    $ppo->isNewParent     = _request ('isNewParent', null);
+    
+    // Paramètres nouveau parent
 	  $ppo->person->nom     = _request ('nom', null);
 	  $ppo->person->prenom1 = _request ('prenom1', null);
 	  $ppo->person->id_sexe = _request ('gender', null);
@@ -3254,6 +3287,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->account->login    = _request ('login', null);
 	  $ppo->account->password = _request ('password', null);
 	  
+	  // Paramètres parent existant
+	  $ppo->login      = _request ('login', null);
+	  $ppo->agreement  = _request ('agreement', false);
+
 	  $ppo->cpt = _request('cpt', 1);
  
     // Initialisation de la variable de session
@@ -3266,33 +3303,56 @@ class ActionGroupDefault extends enicActionGroup {
 	  // Traitement des erreurs
     $ppo->errors = array ();
     
-    if (!$ppo->person->nom) {
+    if ($ppo->isNewParent) {
+    
+      if (!$ppo->person->nom) {
       
-      $ppo->errors[] = 'Saisissez un nom';
+        $ppo->errors[] = 'Saisissez un nom';
+      }
+      if (!$ppo->person->prenom1) {
+      
+        $ppo->errors[] = 'Saisissez un prénom';
+      }
+      if (is_null($ppo->person->id_sexe)) {
+      
+        $ppo->errors[] = 'Saisissez un sexe';
+      }
+      if (!$ppo->account->login) {
+      
+        $ppo->errors[] = 'Saisissez un login';
+      }
+      if (!$ppo->account->password) {
+      
+        $ppo->errors[] = 'Saisissez un mot de passe';
+      }
+      elseif (!Kernel::checkPasswordFormat ($ppo->account->password)) {
+      
+        $ppo->errors[] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
+      }
+      if (!Kernel::isLoginAvailable ($ppo->account->login)) {
+      
+        $ppo->errors[] = 'Login non disponible';
+      }
     }
-    if (!$ppo->person->prenom1) {
+    else {
       
-      $ppo->errors[] = 'Saisissez un prénom';
-    }
-    if (is_null($ppo->person->id_sexe)) {
-      
-      $ppo->errors[] = 'Saisissez un sexe';
-    }
-    if (!$ppo->account->login) {
-      
-      $ppo->errors[] = 'Saisissez un login';
-    }
-    if (!$ppo->account->password) {
-      
-      $ppo->errors[] = 'Saisissez un mot de passe';
-    }
-    elseif (!Kernel::checkPasswordFormat ($ppo->account->password)) {
-      
-      $ppo->errors[] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
-    }
-    if (!Kernel::isLoginAvailable ($ppo->account->login)) {
-      
-      $ppo->errors[] = 'Login non disponible';
+      $personInChargeDAO = _ioDAO ('kernel|kernel_bu_res');
+
+      // Vérification du login
+      if (!$ppo->login) {
+
+        $ppo->errors[] = 'Saisissez l\'identifiant du responsable à associer à l\'élève.';
+      }
+      // Responsable existant ?
+      elseif (!$ppo->person = $personInChargeDAO->getByLogin($ppo->login)) {
+
+        $ppo->errors[] = 'Cet identifiant ne correspond à aucun responsable.';
+      }
+      // Conditions validées ?
+      if ($ppo->agreement == "false") {
+
+        $ppo->errors[] = 'Merci de valider les conditions d\'association d\'un responsable à un élève.';
+      }
     }
     
     // Récupération des relations    
@@ -3311,25 +3371,50 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->genderIds = array ('1', '2');
     
     if (!empty ($ppo->errors)) {
-      
-      return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
-    }  
 
-		$ppo->personsInSession[$ppo->cpt] = array(
-		  'lastname'  => $ppo->person->nom,
-			'firstname' => $ppo->person->prenom1,
-			'id_par'    => $ppo->person->id_par,
-			'id_sexe'   => $ppo->person->id_sexe,
-			'login'     => $ppo->account->login,
-			'password'  => $ppo->account->password,
-		);
+      return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
+    }
+    
+    // S'il s'agit d'un nouveau parent, on stocke les informations le concernant. S'il s'agit d'un parent existant son ID "responsable" est stocké.
+    if ($ppo->isNewParent) {
+      
+      $ppo->personsInSession[$ppo->cpt] = array(
+  		  'lastname'  => $ppo->person->nom,
+  			'firstname' => $ppo->person->prenom1,
+  			'id_par'    => $ppo->person->id_par,
+  			'id_sexe'   => $ppo->person->id_sexe,
+  			'login'     => $ppo->account->login,
+  			'password'  => $ppo->account->password,
+  		);
+  		
+  		$ppo->cpt++;
+    }
+    else {
+
+      $tmpArray = array(
+        'res_numero'    => $ppo->person->res_numero,
+  		  'lastname'      => $ppo->person->res_nom,
+  		  'firstname'     => $ppo->person->res_prenom1,
+  		  'res_id_sexe'   => $ppo->person->res_id_sexe,
+  		  'login'         => $ppo->login,
+  		  'password'      => '******',
+      );
+      
+      if (!in_array($tmpArray, array_values($ppo->personsInSession))) {
+        
+        $ppo->personsInSession[$ppo->cpt] = $tmpArray;
+        $ppo->cpt++;
+      }
+    }
 		
 		_sessionSet ('modules|gestionautonome|tmpAccount', $ppo->personsInSession);
 
+    // Réinitialisation des variables
 		$ppo->person  = null;
 		$ppo->account = null;
-		
-    $ppo->cpt++;
+		$ppo->isNewParent = null;
+		$ppo->login = null;
+		$ppo->agreement = false;
 		
 		return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
 	}

@@ -35,6 +35,7 @@ class ZoneCreatePersonInCharge extends CopixZone {
     $ppo->genderNames = array ('Homme', 'Femme');
     $ppo->genderIds = array ('1', '2');
     
+    // Récupération des responsables en session (devant être créés lors de la création de l'élève)
     $ppo->personsInSession = _sessionGet ('modules|gestionautonome|tmpAccount');
 
     $toReturn = $this->_usePPO ($ppo, '_create_person_in_charge.tpl');
