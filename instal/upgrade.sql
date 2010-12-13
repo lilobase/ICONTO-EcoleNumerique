@@ -1,10 +1,16 @@
+
+-- UPDATED : cbeyer
+
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_BLOG' AND `action`='showArticle' AND `objet_a` IS NULL;
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_BLOG' AND `action`='showPage' AND `objet_a` IS NULL;
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_MINIMAIL' AND `action`='readMinimail' AND `objet_a` IS NULL;
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_MINIMAIL' AND `action`='sendMinimail' AND `objet_a` IS NULL;
+
 -- PACKAGE
 
 INSERT INTO  `kernel_mod_available` ( `node` , `module` ) VALUES ( 'BU_CLASSE',  'MOD_QUIZ');
 
 ALTER TABLE `module_blog_articlecomment` CHANGE `authorid_bacc` `authorid_bacc` INT( 11 ) NULL DEFAULT NULL;
-
--- UPDATED : cbeyer
 
 ALTER TABLE `module_minimail_from` ADD `is_forwarded` TINYINT NULL DEFAULT NULL; 
 ALTER TABLE `module_minimail_to` ADD `is_forwarded` TINYINT NULL DEFAULT NULL AFTER `is_replied`; 

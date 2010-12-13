@@ -138,7 +138,8 @@ class ActionGroupMinimail extends EnicActionGroup {
 	function getMessage () {
 	 	
 		$MinimailService = & CopixClassesFactory::Create ('minimail|MinimailService');
-		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
+		if (!Kernel::is_connected())
+      return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
 
     // 2 DAO -> 2 assign
 		
@@ -152,13 +153,13 @@ class ActionGroupMinimail extends EnicActionGroup {
 		$message = $daoFrom->getMessage($idMessage);
 		$dest = $daoTo->selectDestFromId ($idMessage);
 		
-		//print_r($message[0]);
-		
     $isRecv = $isSend = false;
     
-		$message->prev = NULL;
-		$message->next = NULL;
-		if ($message->from_id == $idUser) {	// Message qu'il a envoyé
+    if ($message) {
+  		$message->prev = NULL;
+	  	$message->next = NULL;
+    }
+		if ($message && $message->from_id == $idUser) {	// Message qu'il a envoyé
 			$message->type="send";
 			$prev = $daoFrom->getFromPrevMessage($message->date_send,$idUser);
 			if ($prev)

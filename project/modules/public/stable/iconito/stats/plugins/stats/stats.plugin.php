@@ -52,8 +52,6 @@ class PluginStats extends CopixPlugin {
 		
 		$par = getUrlTab ();
 		
-		//print_r($this);
-		
 		$module = ($this->module) ? $this->module : ( isset($par['module']) ? $par['module'] : '');
 		$action = ($this->action) ? $this->action : ( isset($par['action']) ? $par['action'] : '');
 		
@@ -64,32 +62,34 @@ class PluginStats extends CopixPlugin {
 		
 		$actions = array();
 		$actions['blog'] = array(
-			'default' => 'listArticle',
-			'listArticle' => 'listArticle',
-			'showArticle' => 'showArticle',
-			'showPage' => 'showPage',
+			'default' => array('action'=>'listArticle'),
+			'listArticle' => array('action'=>'listArticle'),
+			'showArticle' => array('action'=>'showArticle', 'needObjetA'=>true),
+			'showPage' => array('action'=>'showPage', 'needObjetA'=>true),
 		);
 		$actions['groupe'] = array(
-			'getHome' => 'getHome',
+			'getHome' => array('action'=>'getHome'),
 		);
 		$actions['minimail'] = array(
-			'sendMinimail' => 'sendMinimail',
-			'getMessage' => 'readMinimail',
+			'sendMinimail' => array('action'=>'sendMinimail', 'needObjetA'=>true),
+			'getMessage' => array('action'=>'readMinimail', 'needObjetA'=>true),
 		);
-		
-		
-		//var_dump($this);
 		
 		//print_r($module);
 		//print_r($action);
 		if (isset($modules[$module]) && isset($actions[$module][$action])) {
 			
+      // Verification (pour eviter de logger des 404)
+      if (isset($actions[$module][$action]['needObjetA']) && $actions[$module][$action]['needObjetA'] && !$this->objet_a) {
+        return;
+      }
+      
 			$par['profil'] = _currentUser()->getExtra('type');
 			$par['module_id'] = $this->module_id;
 			$par['parent_type'] = $this->parent_type;
 			$par['parent_id'] = $this->parent_id;
 			$par['module_type'] = $modules[$module];
-			$par['action'] = $actions[$module][$action];
+			$par['action'] = $actions[$module][$action]['action'];
 			$par['objet_a'] = $this->objet_a;
 			$par['objet_b'] = $this->objet_b;
 
@@ -97,7 +97,6 @@ class PluginStats extends CopixPlugin {
 			
 			if ($this->config->cache == true && _sessionGet ('cache|stats|'.$chaine))
 				return;
-			//Kernel::deb($chaine);
 			
 	    $objMetier->add ($par);
 			if ($this->config->cache == true)
