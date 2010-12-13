@@ -210,7 +210,7 @@ EOT;
 
 
     //send Mail
-    $mail = new CopixTextEMail('pnlabo@cap-tic.fr', '', '', 'Nouvelle demande d\'inscription à iconito', $mailContent);
+    $mail = new CopixTextEMail('pnlabo@cap-tic.fr', '', '', utf8_decode('Nouvelle demande d\'inscription à iconito'), utf8_encode($mailContent));
     $mail->send();
     
     //ereg data in DB
