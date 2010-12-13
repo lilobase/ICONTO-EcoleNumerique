@@ -210,8 +210,9 @@ EOT;
 
 
     //send Mail
-    mail('pnlabo@cap-tic.fr', 'Nouvelle demande d\'inscription à iconito', $mailContent);
-
+    $mail = new CopixTextEMail('pnlabo@cap-tic.fr', '', '', 'Nouvelle demande d\'inscription à iconito', $mailContent);
+    $mail->send();
+    
     //ereg data in DB
     $dbEreg = array(
         'parent' => $this->db->quote(serialize($adult)),
