@@ -32,9 +32,9 @@
 	<table width="100%">
 	<tr>
 	
-	<td class="left{if $canViewDelai} entete{$puce}{else} enteteDir{/if}">
+	<td class="left enteteLeft{if $canViewDelai} entete{$puce}{else} enteteDir{/if}">
 		<div class="left">
-		T&eacute;l&eacute;proc&eacute;dure initi&eacute;e le<br/>{$rFiche->dateinter|datei18n}
+		T&eacute;l&eacute;proc&eacute;dure initi&eacute;e le<br/>{$rFiche->dateinter|datei18n}<br/>par {user_id id=$rFiche->iduser}
 		<div class="statu">{$rFiche->idstatu_nom|escape}</div>
 		{if $canViewDelai && $puceLib && $rFiche->depuis>0}Action attendue depuis
 		<div class="action">{$puceLib}</div>{/if}

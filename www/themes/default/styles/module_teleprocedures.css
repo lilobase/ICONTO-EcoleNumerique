@@ -166,6 +166,9 @@ div.demande div.entete td.left {
 	text-align:center;
 	color:#fff;
 }
+div.demande div.entete td.enteteLeft {
+  font-size:0.9em;
+}
 div.demande div.entete td.enteteDir {
 	color:#444;
 	border-right:solid 1px #eee;
