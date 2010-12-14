@@ -23,6 +23,7 @@
             	$schoolId = null;
           
             $KneRessources = $this->service('KneService')->getRessources($schoolId);
+
             $ppo->ressources = $KneRessources;
             return _arPPO($ppo, 'default.tpl');
         }

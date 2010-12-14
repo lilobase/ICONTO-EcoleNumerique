@@ -6,10 +6,10 @@ class kneService extends enicService {
         parent::__construct();
 
         //add to url
-        $this->hash = ''; //hash
+        $this->hash = 'limoges'; //hash
 
         //activate KNE
-        $this->active = FALSE;
+        $this->active = TRUE;
     }
 
     public function testAccess() {
@@ -51,14 +51,10 @@ class kneService extends enicService {
 
         if (empty($classId))
             return '';
-
+        
         $params->Classe = $classId;
         $params->IDUser = $this->user->idEn . '@' . $params->RNE;
         $params->hash = md5($params->IDUser . $params->RNE . 'ENT');
-
-        //get final result :
-        
-        // print_r($params);
         
         $result = $client->AccesENT($params);
 
@@ -67,14 +63,13 @@ class kneService extends enicService {
 
         $ressources = array();
 
-        if (isset($result->AccesENTResult->InfoRessource)) {
+        if (is_object($result->AccesENTResult->InfoRessource)) {
             $ressources[] = $result->AccesENTResult->InfoRessource;
         } else {
             foreach ($result->AccesENTResult->InfoRessource AS $ressource) {
                 $ressources[] = $ressource;
             }
         }
-
         return $ressources;
     }
 
