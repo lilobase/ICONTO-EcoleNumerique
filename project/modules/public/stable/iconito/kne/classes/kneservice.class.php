@@ -30,7 +30,7 @@ class kneService extends enicService {
 
         if (empty($school) || empty($school['RNE']))
             return '';
-            
+        
         $params->RNE = $school['RNE'];
         $params->Profil = utf8_encode(($this->user->type == 'USER_ELE') ? 'Elève' :
                                 ($this->user->type == 'USER_DIR') ? 'Direction' :
@@ -58,7 +58,10 @@ class kneService extends enicService {
         
         $result = $client->AccesENT($params);
 
-        if(is_a($result, 'SoapFault') || empty($result))
+        if(is_a($result, 'SoapFault'))
+            return 'confError';
+
+        if(count($result->AccesENTResult))
             return 'confError';
 
         $ressources = array();
