@@ -76,6 +76,8 @@ class ZoneEcoles extends enicZone {
 
                 $listByCityAndType[$item['ville_nom']][$item['type']][] = $item;
             }
+
+            $listByCityAndTypeFinal = array();
             //order type
             foreach($listByCityAndType as $k => $typeCollection){
                 if(array_key_exists('Elémentaire', $typeCollection))
