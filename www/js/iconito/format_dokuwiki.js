@@ -48,8 +48,6 @@ function construct_h3 (txt) {
 // popup = false ou lien vers la photo a ouvrir
 function add_photo (field, current_url, title, align, popup) {
 
-	donotinsert = false;
-	theSelection = false;
 	var txtarea = getRef(field);
 
 	if (current_url==null) return;
@@ -67,8 +65,6 @@ function add_photo (field, current_url, title, align, popup) {
 		objectValueFin = objectValue.substring( txtarea.selectionEnd , txtarea.textLength );
 	} 
 	
-	if ((clientVer >= 4) && is_ie && is_win)
-  	theSelection = document.selection.createRange().text; // Get text selection
 	if (align == 'L') current_url = current_url+' ';
 	else if (align == 'R') current_url = ' '+current_url;
 	else if (align == 'C') current_url = ' '+current_url+' ';
@@ -78,6 +74,8 @@ function add_photo (field, current_url, title, align, popup) {
 		final_image = '[['+popup+'|'+final_image+']]';
 	}	
 
+  //txtarea.insertAtCaret(final_image+'\n');
+  
 	bblink_add (txtarea, objectValue, objectValueDeb, objectValueFin, final_image+'\n');
 
 }

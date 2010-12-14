@@ -40,7 +40,6 @@
   <script type="text/javascript">
   //<![CDATA[
   
-    jQuery.noConflict();
     jQuery(document).ready(function(){
       
       jQuery('#search-form').submit(function(){

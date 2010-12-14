@@ -6,9 +6,8 @@ function change_classe (obj,form) {
 
 function change_ecole (obj,form) {
 	if (obj.value=="" || obj.value=="0") return;
-	var classe = getRef ("classe");
-	if (classe && classe.selectedIndex>1) 
-		classe.selectedIndex=0;
+  if ($('select[name=classe]').val())
+    $('select[name=classe]').val('');
 	form.submit();
 }
 
@@ -16,10 +15,10 @@ function change_ville (obj,form) {
 	if (obj.value=="" || obj.value=="0") return;
 	var ecole = getRef ("ecole");
 	var classe = getRef ("classe");
-	if (ecole && ecole.selectedIndex>1)
-		ecole.selectedIndex=0;
-	if (classe && classe.selectedIndex>1)
-		classe.selectedIndex=0;
+  if ($('select[name=classe]').val())
+    $('select[name=classe]').val('');
+  if ($('select[name=ecole]').val())
+    $('select[name=ecole]').val('');
 	form.submit();
 }
 

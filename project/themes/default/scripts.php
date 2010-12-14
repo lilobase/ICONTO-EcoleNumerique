@@ -13,11 +13,9 @@
 <script type="text/javascript" src="http://cdn.jquerytools.org/1.2.5/jquery.tools.min.js"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/iconito/iconito.js"); ?>"></script>
 
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/prototype-1.6.0.3.js"); ?>"></script>
-
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/iconito/lang_".CopixI18N::getLang().".js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("flvplayer/ufo.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.2.min.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.4.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.pack.js"); ?>"></script>
@@ -36,8 +34,7 @@
 </script>
 
 <script type="text/javascript">
-jQuery.noConflict();
-jQuery(document).ready(function($){
+$(document).ready(function(){
 /*
 		var theme;
 		// RMQ : getJSON use async mode and we need sync...
@@ -205,7 +202,6 @@ jQuery(document).ready(function($){
 
 		$('.viewuser').click(function(e) {
 			var pos = $(this).offset();
-			viewUserXY ($(this).attr('user_type'), $(this).attr('user_id'), '', e.pageX, e.pageY );
 			viewUserXY ($(this).attr('user_type'), $(this).attr('user_id'), '', pos.left, pos.top );
 		});
 
@@ -230,6 +226,37 @@ jQuery(document).ready(function($){
         }
       }
     }(jQuery);
+    
+    jQuery.fn.extend({
+      insertAtCaret: function(myValue){
+        return this.each(function(i) {
+          if (document.selection) {
+            this.focus();
+            sel = document.selection.createRange();
+            sel.text = myValue;
+            this.focus();
+          }
+          else if (this.selectionStart || this.selectionStart == '0') {
+            var startPos = this.selectionStart;
+            var endPos = this.selectionEnd;
+            var scrollTop = this.scrollTop;
+            this.value = this.value.substring(0, startPos)+myValue+this.value.substring(endPos,this.value.length);
+            this.focus();
+            this.selectionStart = startPos + myValue.length;
+            this.selectionEnd = startPos + myValue.length;
+            this.scrollTop = scrollTop;
+          } else {
+            this.value += myValue;
+            this.focus();
+          }
+        })
+      }
+    });
+
+    
+      
+      
+
 
 });
 

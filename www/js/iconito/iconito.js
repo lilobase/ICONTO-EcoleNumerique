@@ -145,169 +145,64 @@ function getWindowWidth() {
     return windowWidth;
 }
 
-var lastMouseX;
-var lastMouseY;
-/*
-if(navigator.appName.substring(0,3) == "Net")
-	document.captureEvents(Event.MOUSEMOVE);
-document.onmousemove = mouseMoved;
-*/
-function getMouseX(e){
-	if (!e) var e = window.event;
-  if(window.opera)                                               //OP6
-  	return e.clientX;
-  else if(document.all) {                                           //IE4,IE5,IE6
-    //return document.documentElement.scrollLeft+e.clientX;
-		return e.clientX;
-	}
-  else if(document.layers||document.getElementById)               //N4,N6,Moz
-    return e.pageX;
-}
-
-function getMouseY(e){
-	if (!e) var e = window.event;
-  if(window.opera)                                                //OP6
-  	return e.clientY;
-  else if(document.all) {                                           //IE4,IE5,IE6
-    //return document.documentElement.scrollTop+e.clientY;
-		return e.clientY;
-	}
-  else if(document.layers||document.getElementById)               //N4,N6,Moz
-    return e.pageY;
-}
 
 
-function mouseMoved(e)
-{
-	lastMouseX = getMouseX(e);
-  lastMouseY = getMouseY(e);
-}
-
-
-
-/* =============================
-	Profils utilisateurs
-============================= */
-
-var gProfilElm = null;
-var	gProfilShowing = 0;
-
-/* Initialisation */
-function initUserProfil() {
-	gProfilElm = document.getElementById('divUserProfil');
-}
-
-/* Affichage d'un profil */
-function viewUser (type, id, i18nwaiting) {
-	x = lastMouseX;
-	y = lastMouseY;
-
-	viewUserXY (type, id, i18nwaiting, x, y );
-}
 function viewUserXY (type, id, i18nwaiting, x, y ) {
-	if (!gProfilElm)
-		initUserProfil();
-
-	//if (gProfilShowing)
-	//	hideUser();
-
-	var w = gProfilElm.offsetWidth; // largeur
-	var windowWidth = getWindowWidth()-10;
-	//alert ("x="+x+" / w="+w+" / wW="+windowWidth);
-	if(x+w>windowWidth) x = windowWidth-w-7;
-	gProfilElm.style.left=x+"px";
-	gProfilElm.style.top=(y+16)+"px";
-	gProfilElm.innerHTML = '<DIV ALIGN="CENTER">'+i18nwaiting+'<br><IMG SRC="'+getRessourcePathImg+'annuaire/spinner.gif" WIDTH="16" HEIGHT="16" BORDER="0" VSPACE="3" /><br></DIV>';
-	gProfilElm.style.visibility = "visible";
-	
-	var url = getActionURL('annuaire|default|getUserProfil');
-	var pars = 'type='+type+'&id='+id+'';
-  var myAjax = new Ajax.Updater(
-		{success: 'divUserProfil'},
-    url,
-    {method: 'get', parameters: pars, onComplete: userProfilResponse, onFailure: userProfilError}
-  );
+  $('#divUserProfil').css('top', y+12);
+  $('#divUserProfil').css('left', x);
+  w = 150;
+  h = 100;
+  wWindow = ($.browser.msie) ? $(window).width() : window.innerWidth;
+  hWindow = ($.browser.msie) ? $(window).height() : window.innerHeight;
+  $('#divUserProfil').css('width', '50px');
+  $('#divUserProfil').html('<DIV ALIGN="CENTER"><IMG SRC="'+getRessourcePathImg+'annuaire/spinner.gif" WIDTH="16" HEIGHT="16" BORDER="0" /></DIV>');
+  $.ajax({
+    url: getActionURL('annuaire|default|getUserProfil'),
+    data: 'type='+type+'&id='+id,
+    success: function(data) {
+      $('#divUserProfil').hide();
+      $('#divUserProfil').css('width', 150+'px');
+      $('#divUserProfil').html(data);
+      h = $('#divUserProfil').height();
+      if (x+w+10 >= wWindow) {
+        $('#divUserProfil').css('left', wWindow-w-35);
+      }
+      if (y+h+10 >= hWindow) {
+        $('#divUserProfil').css('top', hWindow-h-35);
+      }
+      $('#divUserProfil').show();
+    }
+  });
+  $('#divUserProfil').show();
 }
 
 /* Masquage d'un profil */
 function hideUser () {
-	if(!gProfilElm)
-		return false;
-	gProfilShowing = 0;
-	gProfilElm.style.visibility = "hidden";
+  $('#divUserProfil').hide();
 	return false;
 }
-
-/* Résultat */
-function userProfilResponse(originalRequest) {
-	var h = gProfilElm.offsetHeight; // hauteur
-	var windowHeight = getWindowHeight()-10;
-	var scrollTop = (document.all) ? document.documentElement.scrollTop : 0;
-	//alert ("y="+y+" / h="+h+" / wH="+windowHeight+" / scrollTop="+scrollTop);
-	if (y>windowHeight) {	// On a scrollé
-		// Comment savoir si ça va déborder ? (todo)
-	} else {
-		if(y+h>windowHeight) y = windowHeight-h-7;
-	}
-	//gProfilElm.style.width=w+"px";
-	gProfilElm.style.top=(y+16+scrollTop)+"px";
-	
-	gProfilShowing = 1;
-}
-
-/* En cas d'erreur */
-function userProfilError(request) {
-	alert('Error userProfilError');
-}
-
-
 
 
 /* Masquage de ajaxDiv */
 function hideAjaxDiv () {
-	var div = $('ajaxDiv');
-	div.style.visibility = "hidden";
+	$('ajaxDiv').hide();
 	return false;
 }
-
-
 
 var module = 'default';
 
 function getActionURL (action, data) {
-		var parts = action.split('|');
-		var url = urlBase + 'index.php/' + $pick(parts[0], module) + '/' + $pick(parts[1], 'default') + '/' + parts[2];
-		if(data) {
-			//url += (url.contains('?') ? '&' : '?') + Object.toQueryString(data);
-			url += (url.indexOf('?') > -1 ? '&' : '?') + data;
-		}
-		return url;
+  var parts = action.split('|');
+  var url = urlBase + 'index.php/' + $pick(parts[0], module) + '/' + $pick(parts[1], 'default') + '/' + parts[2];
+  if(data) {
+    //url += (url.contains('?') ? '&' : '?') + Object.toQueryString(data);
+    url += (url.indexOf('?') > -1 ? '&' : '?') + data;
+  }
+  return url;
 }
 
 function $defined(obj){return(obj!=undefined);};
 function $pick(obj,picked){return $defined(obj)?obj:picked;};
-
-
-function include(file) {
-  var oScript = document.createElement("script");
-  oScript.src = file;
-  oScript.type = "text/javascript";
-  document.body.appendChild(oScript);
-}
-function IncludeJavaScript(jsFile)
-{
-  document.write('<script type="text/javascript" src="'
-    + jsFile + '"></scr' + 'ipt>'); 
-}
-
-
-// On l'utilise :
-
-if (is_ie6) {
-	IncludeJavaScript(urlBase+"js/iconito/ie6png.js");
-	IncludeJavaScript(urlBase+"js/iconito/ie6fix.js");
-}
-
 
 
 // Active le datepicker pour un div

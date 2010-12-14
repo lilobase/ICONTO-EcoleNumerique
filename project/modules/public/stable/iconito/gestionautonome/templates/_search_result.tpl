@@ -14,8 +14,7 @@
   <script type="text/javascript">
   //<![CDATA[
   
-    jQuery.noConflict();
-    jQuery(document).ready(function(){
+    $(document).ready(function(){
 
       {/literal}
         {foreach from=$ppo->matchedNodes.cities_groups item=cities_group_id}

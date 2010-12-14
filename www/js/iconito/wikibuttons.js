@@ -1,10 +1,6 @@
 
-
 var clientPC = navigator.userAgent.toLowerCase(); // Get client info
 var clientVer = parseInt(navigator.appVersion); // Get browser version
-
-// b2 quick tags
-// - authorized adaptation of the 'bbCode control code' by subBlue design ( www.subBlue.com )
 
 imageTag = false;
 

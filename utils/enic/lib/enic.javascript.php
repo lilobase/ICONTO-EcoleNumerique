@@ -77,8 +77,7 @@ class enicJavascript extends enicMod{
     }
 
     public function display(){
-    return  'jQuery.noConflict();
-                jQuery(document).ready(function($){'
+    return  '$(document).ready(function(){'
                         .$this->js.
             '});';
     }

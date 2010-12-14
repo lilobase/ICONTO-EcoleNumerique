@@ -73,46 +73,7 @@ foreach((array)$arEventByDay as $jours){
 
 				$id = uniqid('popupEvent');
 
-				//$html .= '<div id="td'.$id.'" class="evenement" style="margin-bottom:2px;width:113px; background-color:#' . $color . ';" onmouseover="javascript:displayPopupInformation(\''.$id.'\')" onmouseout="javascript:hidePopupInformation(\''.$id.'\');" >';
-
 				$largeurDivEvenement = 105;
-
-/*
-				//				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\', \''.$decalage.'\', \''.$margeHaut.'\', \''.htmlentities(addslashes($id)).'\')" onmouseout="javascript:hidePopupEvent(0);" >';
-				$html .= '<div id="div'.$id.'" style="border: solid 1px #ccc; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" onmouseover="javascript:displayPopupEvent(\''.$id.'\',1)" onmouseout="javascript:hidePopupEvent(0);" >';
-
-
-				//lien pour modifier l'évènement
-
-				if(strlen($event->title_event)>10){//on tronque le titre si il est trop grand
-					$html .= '<span class="titreEvent">' . substr($event->title_event, 0, 10) . '...</span>';
-				}
-				else{
-					$html .= '<span class="titreEvent">' . $event->title_event . '</span>';
-				}
-
-				$html .= '<div class="popupEvent" id="'.$id.'" >';
-				//contenu de la popup
-				$html .= $event->title_event;
-				if($event->desc_event != null || $event->desc_event != ''){
-					$html .= '<br />';
-					$html .= '<span class="titrePopupEvent">Description :</span> ' . smarty_modifier_wiki($event->desc_event);
-				}
-				if($event->place_event != null || $event->place_event != ''){
-					$html .= '<br />';
-					$html .= '<span class="titrePopupEvent">Lieu :</span> ' . $event->place_event;
-				}
-
-				if($arDroits[$event->id_agenda]->canModerate == 1){
-					$html .= '<br /><br /><a href = "' . CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)) .'">';
-					$html .= CopixI18N::get ('agenda|agenda.message.modifier');
-					$html .= '</a> | <a href = "' . CopixUrl::get('agenda|event|delete', array('id_event'=>$event->id_event)) .'">';
-					$html .= CopixI18N::get ('agenda|agenda.message.delete');
-					$html .= '</a>';
-				}
-				$html .= '</div>';
-*/
-
 
 				if(strlen($event->title_event)>50){
 					$event_titre = htmlspecialchars(substr($event->title_event, 0, 50) . '...');
@@ -182,7 +143,7 @@ $html .= '</td></tr></table>';
 
 $html .= '</td>';
 $html .= '<td class="case_jourEvent" colspan="7">';
-$html .= '<div id="popupEvent2" class="popupEvent2" onmouseover="javascript:mouseOverPopupEvent();" onmouseout="javascript:mouseOutPopupEvent();"></div>';
+$html .= '<div id="popupEvent2" class="popupEvent2"></div>';
 
 
 $html .= '<table class="contenu_semaine" border="0">';
@@ -220,7 +181,7 @@ foreach((array)$arEventByDay as $jourCourant=>$jours){
 			$i = strlen($i) > 1 ? $i : '0'.$i;
 			$html .= '<a href = "' . CopixUrl::get('agenda|event|create', array('jourCourant'=>$jourCourant, 'heureDeb'=>$i.':00','heureFin'=>$hFin.':00')) .'">';
 		}
-		$html .= '<img onmouseover="javascript:hidePopupEvent(1);" src="'.CopixUrl::getResource ("img/agenda/case_jour.jpg").'" alt="case_jour.jpg" width="113" height="37" />';
+		$html .= '<img src="'.CopixUrl::getResource ("img/agenda/case_jour.jpg").'" alt="case_jour.jpg" width="113" height="37" />';
 		if($writeAgenda){
 			$html .= '</a>';
 		}
@@ -269,33 +230,6 @@ foreach((array)$arEventByDay as $jourCourant=>$jours){
 					
 				$largeurDivEvenement = 105-$decalage;//90 correspond à la largueur de l'omage blanche moins 2px de bordure
 				$id   = uniqid('popupEvent');
-
-				/*
-				$html2 = '';
-				$html2 .= '<div class="popupEvent" id="'.$id.'" >';
-				$html2 .= '<div style="text-align:right; font-size:0.9em;"><a href="javascript:hidePopupEvent(1);">'.CopixI18N::get ('agenda|agenda.message.fermer').'</a></div>';
-				$html2 .= '<div>'.$event->heuredeb_event.' - '.$event->heurefin_event.'</div>';
-					
-				$html2 .= $event->title_event;
-				if($event->desc_event != null || $event->desc_event != ''){
-					$html2 .= '<br />';
-					$html2 .= '<span class="titrePopupEvent">Description :</span> ' . smarty_modifier_wiki($event->desc_event);
-				}
-				if($event->place_event != null || $event->place_event != ''){
-					$html2 .= '<br />';
-					$html2 .= '<span class="titrePopupEvent">Lieu :</span> ' . $event->place_event;
-				}
-				//vérification des droits de suppression
-				if($arDroits[$event->id_agenda]->canModerate == 1){
-					$html2 .= '<br /><br /><a title="'.htmlentities(CopixI18N::get ('agenda|agenda.message.modifier')).'" href = "' . CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)) .'">';
-					$html2 .= CopixI18N::get ('agenda|agenda.message.modifier');
-					$html2 .= '</a> | <a title="'.htmlentities(CopixI18N::get ('agenda|agenda.message.delete')).'" href = "' . CopixUrl::get('agenda|event|delete', array('id_event'=>$event->id_event)) .'">';
-					$html2 .= CopixI18N::get ('agenda|agenda.message.delete');
-					$html2 .= '</a>';
-				}
-				$html2 .= '</div>';
-				*/
-				
 				
 				if(strlen($event->title_event)>50){
 					$event_titre = htmlspecialchars(substr($event->title_event, 0, 50) . '...');

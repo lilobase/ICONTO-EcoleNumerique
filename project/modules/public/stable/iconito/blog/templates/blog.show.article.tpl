@@ -74,7 +74,7 @@
 								{/if}
 
 		{/if}
-								<DIV ID="expand{$article->id_bact}" CLASS="hidden">
+								<DIV ID="expand{$article->id_bact}" CLASS="displayNone">
 								<DIV CLASS="expand">
 			       		{if 1 || $article->expand}
 			       			{if $article->sumary_html_bact}{$article->sumary_html_bact}<hr/>{/if}

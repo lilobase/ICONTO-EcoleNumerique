@@ -40,9 +40,7 @@
 <script type="text/javascript">
 //<![CDATA[
   
-  jQuery.noConflict();
-  
-  jQuery(document).ready(function() {
+  $(document).ready(function() {
 
     jQuery('.datepicker').datepicker({
     	showOn: 'button',

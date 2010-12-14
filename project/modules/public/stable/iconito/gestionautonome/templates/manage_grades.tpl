@@ -34,8 +34,6 @@
 <script type="text/javascript">
 //<![CDATA[
   
-  jQuery.noConflict();
-  
   jQuery(document).ready(function(){
  	
  	  jQuery('.button').button();

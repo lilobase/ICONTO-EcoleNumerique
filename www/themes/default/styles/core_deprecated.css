@@ -128,8 +128,7 @@ div.block hr {
   border-style: solid;
   border-width: 1px;
 	padding: 4px;
-  visibility: hidden;
-	display: block;
+	display: none;
 	font-size: 80%;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
