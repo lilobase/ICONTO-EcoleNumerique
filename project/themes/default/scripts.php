@@ -35,6 +35,7 @@
 
 <script type="text/javascript">
 $(document).ready(function(){
+  $ = jQuery.noConflict();
 /*
 		var theme;
 		// RMQ : getJSON use async mode and we need sync...
