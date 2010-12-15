@@ -53,7 +53,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tplGetNode = & new CopixTpl ();
 		
-		$pType = _request("type");
+		$pType = _request("type", 'ROOT');
 		$pId = _request("id");
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getnode'));
@@ -212,7 +212,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$session = _sessionGet ('modules|comptes|doLoginCreate|success');
 		
 		if( $session && is_array($session) && sizeof($session) ) {
-			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.showloginresult', sizeof($session) ), 'url' => CopixUrl::get ('comptes||getLoginResult') );
+			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.showloginresult', sizeof($session) ), 'url' => CopixUrl::get ('comptes||getLoginResult'), 'size'=>160 );
 		}
 		if( Kernel::getLevel( 'ROOT', 0 ) >= PROFILE_CCV_ADMIN ) {
 			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
@@ -245,43 +245,68 @@ class ActionGroupComptes extends CopixActionGroup {
 		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_listes'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
 		$tpl->assign ('MENU', $menu );
 		
-		if( !_request('users') ) {
+		if( $pUsers = _request('users') ) {
+		
+			$users = array();
+			
+			// $pUsers = _request('users');
+			//var_dump($pUsers);
+			
+			
+			foreach( $pUsers AS $user ) {
+				if( ereg( '(.+)-(.+)', $user, $user_infos ) ) {
+					$user_type = $user_infos[1];
+					$user_id   = $user_infos[2];
+					$user_infos = Kernel::getUserInfo( $user_type, $user_id );
+					
+					// Vérification de l'existance d'un login.
+					// -> Si c'est le cas, il ne faut pas proposer un nouveau login.
+					$bu_user = $bu_dao->getByBUID( $user_type, $user_id );
+	
+					if( !count($bu_user) ) {
+						
+						$user_infos['login']  = $comptes_service->createLogin( $user_infos );
+						$user_infos['passwd'] = $comptes_service->createPasswd();
+						
+						$users[] = $user_infos;
+					}
+				}
+			}
+		} elseif( $pReset = _request('reset') ) {
+			$users = array();
+			$pNodeType = _request('type');
+			$pNodeId   = _request('id');
+			
+			$childs = Kernel::getNodeChilds( $pNodeType, $pNodeId );
+			$users_dump = Kernel::filterNodeList( $childs, $pReset );
+
+			foreach( $users_dump AS $user ) {
+				$user_infos = Kernel::getUserInfo( $user['type'], $user['id'] );
+				$bu_user = $bu_dao->getByBUID( $user['type'], $user['id'] );
+
+				// _dump($user_infos);
+				// _dump($bu_user);
+				
+				if( count($bu_user) ) {
+					$user_infos['login']  = $bu_user[0]->user_login;
+					$user_infos['passwd'] = $comptes_service->createPasswd();
+					$users[] = $user_infos;
+				}
+			}
+			
+			
+		} else {
 			$urlReturn = CopixUrl::get ('comptes||getNode', array('type'=>_request('type'), 'id'=>_request('id') ) );
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		
-		$users = array();
-		
-		$pUsers = _request('users');
-		//var_dump($pUsers);
-		
-		
-		foreach( $pUsers AS $user ) {
-			if( ereg( '(.+)-(.+)', $user, $user_infos ) ) {
-				$user_type = $user_infos[1];
-				$user_id   = $user_infos[2];
-				$user_infos = Kernel::getUserInfo( $user_type, $user_id );
-				
-				// Vérification de l'existance d'un login.
-				// -> Si c'est le cas, il ne faut pas proposer un nouveau login.
-				$bu_user = $bu_dao->getByBUID( $user_type, $user_id );
-
-				if( !count($bu_user) ) {
-					
-					$user_infos['login']  = $comptes_service->createLogin( $user_infos );
-					$user_infos['passwd'] = $comptes_service->createPasswd();
-					
-					$users[] = $user_infos;
-				}
-			}
-		}
 		
 		// Ajoute le type d'utilisateur en toute lettres.
 		foreach( $users AS $user_key=>$user_val ) {
 			$users[$user_key]['type_nom'] = Kernel::Code2Name($user_val['type']);
 		}
 		
-		$tpl->assign ('MAIN', CopixZone::process ('comptes|loginform', array('users'=>$users,'type'=>_request('type'),'id'=>_request('id'))) );
+		$tpl->assign ('MAIN', CopixZone::process ('comptes|loginform', array('users'=>$users,'type'=>_request('type'),'id'=>_request('id'), 'reset'=>_request('reset'))) );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -302,6 +327,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$pConfirm = _request('confirm', array());
 		$pLogin = _request('login', array());
 		$pPasswd = _request('passwd', array());
+		$pReset = _request('reset', '');
 		
 		// Parcours de tous les utilisateurs de la liste précédente...
 		foreach( _request('typeid') AS $typeid ) {
@@ -316,7 +342,7 @@ class ActionGroupComptes extends CopixActionGroup {
 					
 					// Test de préexistance du login dans la base. Si existe déjà : erreur.
 					if( ! count($olduser) ) {
-							
+
 						// Récupération des information de l'utilisateur dans la base unique.
 						$user_infos = Kernel::getUserInfo( $user_type, $user_id );
 						
@@ -399,6 +425,30 @@ class ActionGroupComptes extends CopixActionGroup {
 							_sessionSet ('modules|comptes|doLoginCreate|error', $session);
 							
 						}
+						
+					} elseif( $pReset != '' ) {
+						$user_infos = Kernel::getUserInfo( $user_type, $user_id );
+						$user_new = $user_dao->getByLogin( $pLogin[$typeid] );
+						
+						// _dump($user_new); die();
+						
+						$user_new[0]->password_dbuser = md5($pPasswd[$typeid]);
+						$user_dao->update( $user_new[0] );
+						
+						$session[$typeid] = array(
+							'id'      => $user_new[0]->id_dbuser,
+							'login'   => $pLogin[$typeid],
+							'passwd'  => $pPasswd[$typeid],
+							'nom'     => $user_infos['nom'],
+							'prenom'  => $user_infos['prenom'],
+							'bu_type' => $user_type,
+							'bu_id'   => $user_id,
+							'node_type' => _request('type'),
+							'node_id'   => _request('id'),
+							'type_nom'  => Kernel::Code2Name($user_type),
+							'node_nom' => Kernel::Code2Name(_request('type'))." ".$node_infos['nom'],
+						);
+						_sessionSet ('modules|comptes|doLoginCreate|success', $session);
 						
 					} else { // Si le login existe déjà, vérification qu'il ne s'agit pas de la même personne.
 						// Si c'est le cas, ce n'est pas une erreur, mais un doublon.

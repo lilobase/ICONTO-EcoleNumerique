@@ -4,6 +4,7 @@
 
 <input type="hidden" NAME="type" VALUE="{$type}" />
 <input type="hidden" NAME="id"   VALUE="{$id}"   />
+<input type="hidden" name="reset" value="{$reset}" />
 
 <table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
 	<tr>
@@ -23,7 +24,12 @@
 				<td ALIGN="LEFT">{$user.type_nom}</td>
 				<td ALIGN="LEFT">{$user.nom}</td>
 				<td ALIGN="LEFT">{$user.prenom}</td>
-				<td ALIGN="LEFT" width="1"><input NAME="login[{$user.type}-{$user.id}]" VALUE="{$user.login}" SIZE="25" /></td>
+				{if $user.login}
+					<td ALIGN="LEFT">{$user.login}</td>
+					<input type="hidden" NAME="login[{$user.type}-{$user.id}]" VALUE="{$user.login}" SIZE="25" />
+				{else}
+					<td ALIGN="LEFT" width="1"><input NAME="login[{$user.type}-{$user.id}]" VALUE="{$user.login}" SIZE="25" /></td>
+				{/if}
 				<td ALIGN="LEFT" width="1"><input NAME="passwd[{$user.type}-{$user.id}]" VALUE="{$user.passwd}" SIZE="10" /></td>
 				<td ALIGN="CENTER" width="1"><input type="checkbox" NAME="confirm[{$user.type}-{$user.id}]" VALUE="1" CHECKED /></td>
 			</tr>

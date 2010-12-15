@@ -11,8 +11,9 @@ class ZoneLoginForm extends CopixZone {
 		$tpl = & new CopixTpl ();
 		
 		$tpl->assign('users', $this->getParam('users') );
-		$tpl->assign('type',   $this->getParam('type')   );
-		$tpl->assign('id',     $this->getParam('id')     );
+		$tpl->assign('type',  $this->getParam('type' ) );
+		$tpl->assign('id',    $this->getParam('id'   ) );
+		$tpl->assign('reset', $this->getParam('reset') );
 		
 		$toReturn = $tpl->fetch ('getloginform.tpl');
 		

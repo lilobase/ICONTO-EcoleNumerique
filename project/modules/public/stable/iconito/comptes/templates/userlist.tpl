@@ -38,11 +38,15 @@
 </table>
 
 <br />
-{if $nbCheckbox>0}
-  <div align="right">
-  <input class="button button-confirm" type="submit" value="{i18n key="comptes|comptes.form.submit"}" />
-  </div>
+<div align="right">
+{if $type eq "BU_CLASSE"}
+  <a class="button" href="{copixurl dest="comptes|default|getLoginForm" type=$type id=$id reset="USER_RES"}">R&eacute;initialiser les mots de passes des parents</a>
+  <a class="button" href="{copixurl dest="comptes|default|getLoginForm" type=$type id=$id reset="USER_ELE"}">R&eacute;initialiser les mots de passes des &eacute;l&egrave;ves</a>
 {/if}
+{if $nbCheckbox>0}
+  <input class="button button-confirm" type="submit" value="{i18n key="comptes|comptes.form.submit"}" />
+{/if}
+  </div>
 
 </form>
 
