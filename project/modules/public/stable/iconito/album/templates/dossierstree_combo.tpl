@@ -16,18 +16,18 @@
 {literal}
 <!--
 function openbox( name ) {
-	if( name != 'folder_new' ) Element.hide('folder_new');
-	if( name != 'folder_move' ) Element.hide('folder_move');
-	if( name != 'folder_rename' ) Element.hide('folder_rename');
-	if( name != 'folder_delete' ) Element.hide('folder_delete');
-	Element.toggle(name);
+	if( name != 'folder_new' ) $('#folder_new').hide();
+	if( name != 'folder_move' ) $('#folder_move').hide();
+	if( name != 'folder_rename' ) $('#folder_rename').hide();
+	if( name != 'folder_delete' ) $('#folder_delete').hide();
+	$('#'+name).toggle();
 }
 //-->
 {/literal}
 </script>
 
 <div class="album">
-<div id="folder_new" class="folder_action" style="display: none;">
+<div id="folder_new" class="folder_action displayNone">
 
 	<form name="folder_new" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="new" />
@@ -41,7 +41,7 @@ function openbox( name ) {
 
 </div>
 
-<div id="folder_move" class="folder_action" style="display: none;">
+<div id="folder_move" class="folder_action displayNone">
 
 	<form name="folder_move" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="move" />
@@ -67,7 +67,7 @@ function openbox( name ) {
 	
 </div>
 
-<div id="folder_rename" class="folder_action" style="display: none;">
+<div id="folder_rename" class="folder_action displayNone">
 
 	<form name="folder_rename" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="rename" />
@@ -81,7 +81,7 @@ function openbox( name ) {
 	
 </div>
 
-<div id="folder_delete" class="folder_action" style="display: none;">
+<div id="folder_delete" class="folder_action displayNone">
 
 	<form name="folder_delete" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="delete" />

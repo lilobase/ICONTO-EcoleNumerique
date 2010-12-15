@@ -1,4 +1,3 @@
-<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_malle.js"></SCRIPT>
 
 <form action="{copixurl dest="comptes||doPurgeResult"}" enctype="multipart/form-data" name="form_comptes" id="form_comptes" method="POST">
 
@@ -27,14 +26,25 @@
 		{/foreach}
 			<tr CLASS="liste_footer">
 				<TD COLSPAN="4"></TD>
-				<TD ALIGN="CENTER"><a href="javascript:cocherElements('form_comptes', 'users[]', 1);">{i18n key="comptes|comptes.button.all"}</a> / <a href="javascript:cocherElements('form_comptes', 'users[]', 0);">{i18n key="comptes|comptes.button.none"}</a></TD>
+				<TD ALIGN="CENTER"><a class="checkAll" checked="checked" href="">{i18n key="comptes|comptes.button.all"}</a> / <a class="checkAll" checked="" href="">{i18n key="comptes|comptes.button.none"}</a></TD>
 			</tr>
 	{/if}
 </table>
 
 <br />
 <div align="right">
-<input class="form_button" type="submit" value="{i18n key="comptes|comptes.form.submit"}" />
+<input class="button button-confirm" type="submit" value="{i18n key="comptes|comptes.form.submit"}" />
 </div>
 
 </form>
+
+{literal}
+<script type="text/javascript">
+$(document).ready(function(){
+  $('a.checkAll').click(function(){
+    $('form#form_comptes input[type=checkbox]').attr('checked',$(this).attr('checked'));
+    return false;
+  });
+});
+</script>
+{/literal}
