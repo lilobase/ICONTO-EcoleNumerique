@@ -62,10 +62,10 @@
 			<td></td>
 			<td>
 				<input class="button button-save" type="submit" class="button_like" value="Enregistrer" />
-				<a class="button button-delete" href="#delete_confirm" onclick="$('delete_confirm').style.display = 'block';" class="no_button_like">Supprimer cet animateur</a>
+				<a class="button button-delete" href="#delete_confirm" onclick="$('#delete_confirm').show();" class="no_button_like">Supprimer cet animateur</a>
 				<p id="delete_confirm" style="display: none;">
 					<a class="button button-confirm" href="{copixurl dest="comptes|animateurs|delete" user_type=$ppo->animateur->user_type user_id=$ppo->animateur->user_id}">Confirmez la suppression</a>
-					<a class="button button-cancel" href="#" class="cancel" onclick="$('delete_confirm').style.display = 'none';">annuler</a>
+					<a class="button button-cancel" href="#" class="cancel" onclick="$('#delete_confirm').hide();">annuler</a>
 				</p>
 			</td>
 		</tr>
