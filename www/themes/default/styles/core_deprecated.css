@@ -88,7 +88,6 @@ table.liste {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
 }
 tr.liste_footer {
 	background-color: #F8F8F8;
@@ -108,7 +107,6 @@ div.block {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
   background-color:#fff;
   border:1px solid #999;
   padding:6px;
@@ -133,7 +131,6 @@ div.block hr {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
 	filter: alpha(opacity=97);
 	-moz-opacity: 0.97;
 	opacity: 0.97;
