@@ -271,6 +271,8 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 		
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+
 		// Si c'est le détail d'une classe, on en déduit l'école
 		$parent = Kernel::getNodeParents ('BU_CLASSE', $classe);
 		if ($parent[0]['type']=='BU_ECOLE')
