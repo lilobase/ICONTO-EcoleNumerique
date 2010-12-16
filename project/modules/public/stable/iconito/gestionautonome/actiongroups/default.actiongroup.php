@@ -1435,8 +1435,8 @@ class ActionGroupDefault extends enicActionGroup {
     // Récupération de l'affectation des élèves de cette classe
     $students = $studentDAO->getElevesInClasse ($nodeId);
     foreach ($students as $student) {
-      
-      $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($student->ele_idEleve, $nodeId);
+
+      $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($student->id, $nodeId);
       $studentAssignmentDAO->delete ($studentAssignment->affect_id);
     }
     
