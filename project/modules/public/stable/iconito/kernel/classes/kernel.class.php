@@ -2395,11 +2395,11 @@ class Kernel {
 
 		$login_parts = array();
 		switch( $user_infos['type'] ) {
-			case 'USER_ELE': // Elèves : Prénom et initiale du nom
-				if( trim($prenom)   != '' ) $login_parts[] = $prenom;
-				// if( trim($nom_init) != '' ) $login_parts[] = $nom_init;
-				$login = implode( '', $login_parts );
-				break;
+      // case 'USER_ELE': // Elèves : Prénom et initiale du nom
+      //  if( trim($prenom)   != '' ) $login_parts[] = $prenom;
+      //  // if( trim($nom_init) != '' ) $login_parts[] = $nom_init;
+      //  $login = implode( '', $login_parts );
+      //  break;
 			case 'USER_VIL': // Officiels : prénom et nom séparés par un point
 				if( trim($prenom) != '' ) $login_parts[] = $prenom;
 				if( trim($nom)    != '' ) $login_parts[] = $nom;
