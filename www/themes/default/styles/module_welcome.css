@@ -63,18 +63,18 @@ div.welcome .welcome_hr {
 /* ARTICLES BLOG */
 .welcome_articles {
 	margin-bottom: 12px;
-//	background: #f0f4f0;
-//	border: solid 1px #ddd;
+/*	background: #f0f4f0;
+	border: solid 1px #ddd;*/
 	padding: 8px;
-//	-moz-border-radius: 8px;
-//	-webkit-border-radius: 8px;
-//	border-radius: 8px;
-	//behavior: url(/htc/PIE.htc);
+/*	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	behavior: url(/htc/PIE.htc);*/
 	}
 
 .articles_title {
 	font-size: 160%;
-//	text-transform: uppercase;
+/*	text-transform: uppercase;*/
 	font-weight: bold;
 	margin-bottom: 12px;
 	color: #dd8210;
@@ -118,7 +118,7 @@ div.welcome .welcome_hr {
 	
 .welcome_photos .slider {
     position: relative;
-//	display: inline-block;
+/*	display: inline-block;*/
 	background: #dd8210 url('../../../themes/default/images/thm_photoslider_title.png') center right no-repeat;
 	padding:0px;
 	border: solid 6px #dd8210;
@@ -129,7 +129,7 @@ div.welcome .welcome_hr {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
 	border-radius: 8px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 	
 /* BOUTON BLOGS */
@@ -152,13 +152,13 @@ div.welcome .welcome_hr {
 .welcome_ecoles {
 	width: 420px;
 	margin-bottom: 12px;
-//	background: #fcfdf1;
+/*	background: #fcfdf1;*/
 	border: solid 1px #9dd3e0;
 	padding: 8px;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 
 .welcome_ecoles ul {

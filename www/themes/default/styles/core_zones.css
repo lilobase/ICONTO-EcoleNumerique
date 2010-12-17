@@ -44,7 +44,7 @@ div.userprofile .userrole {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	font-size: 11px;
 	line-height: 11px;
 	font-weight: bold;
@@ -67,7 +67,7 @@ div.userprofile .userrole {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 
 #loginBar input:hover,#loginBar .button-confirm:hover {
@@ -185,7 +185,7 @@ div.toolbar ul li a.action {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	padding: 2px;
 	margin: 0px 1px;
 	line-height: 28px;
@@ -212,7 +212,7 @@ div.toolbar ul li a.action:hover {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
 	border-radius: 8px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 
 #right div.kernel a, #left div.kernel a {
@@ -263,7 +263,7 @@ div.legals a {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	margin-bottom: 6px;
 	}
  
@@ -333,7 +333,7 @@ p.ui-state-error {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	font-size: 14px;
 }
 
@@ -386,7 +386,7 @@ p.ui-state-error {
 	-moz-border-radius: 12px;
 	-webkit-border-radius: 12px;
 	border-radius: 12px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	background: #bad521;
 	color: #fff;
 	font-size: 90%;
@@ -425,7 +425,7 @@ input.form_button:hover {
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
 	border-radius: 4px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	background: #D9E575;
 	color: #333333;
 }
@@ -435,7 +435,7 @@ form input[type="text"], form textarea {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	padding: 3px;
 	}
 	
@@ -448,7 +448,7 @@ form input[type="text"]:hover, form textarea:hover {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 
 form label {
@@ -466,7 +466,7 @@ form select {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	padding: 3px;
 }
 
@@ -475,7 +475,7 @@ form select:hover {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 
 input.file-attach {
@@ -507,7 +507,7 @@ form select.multicombo {
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	padding: 6px;	
 	}
 
@@ -527,7 +527,7 @@ div.prise_controle {
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 }
 
 div.prise_controle div.message {

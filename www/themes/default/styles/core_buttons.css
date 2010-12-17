@@ -30,7 +30,7 @@
     -moz-border-radius: 10px;
     -webkit-border-radius: 10px;
 	border-radius: 10px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
     background-color: #f0f4f0;
     padding: 6px;
 	}
@@ -62,7 +62,7 @@
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 	
 .button:hover {
@@ -148,7 +148,7 @@
 
 #submenu .menuitems {
 	position: relative;
-//	display: none;
+/*	display: none;*/
 	display: block;
 	background:#e0e0e0;
 	border-bottom: solid 1px #ccc;
@@ -169,7 +169,7 @@
 
 #submenu .menuitems ul li {
 	position: relative;
-//	float: left;
+/*	float: left;*/
 	display:inline-block;
 	overflow: hidden;
 	vertical-align: middle;
@@ -193,7 +193,7 @@
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	//behavior: url(/htc/PIE.htc);
+	/*behavior: url(/htc/PIE.htc);*/
 	}
 
 #submenu .menuitems a.current {
