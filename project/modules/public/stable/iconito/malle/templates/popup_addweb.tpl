@@ -2,7 +2,7 @@
 <h1>{i18n key="malle.web.add"}</h1>
 <div class="explanation">{i18n key="malle.addWebTxt"}</div>
 
-<form action="{copixurl dest="|doAddWeb"}" method="post" id="formAddWeb" onSubmit="return false;">
+<form action="{copixurl dest="|doAddWeb"}" method="post" id="formAddWeb">
 <input type="hidden" name="id" value="{$ppo->id}" />
 <input type="hidden" name="folder" value="{$ppo->folder}" />
 

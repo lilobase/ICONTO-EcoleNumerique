@@ -81,7 +81,7 @@ foreach((array)$arEventByDay as $jours){
 				else{
 					$event_titre = htmlspecialchars($event->title_event);
 				}
-				$event_titre .= "\n$\n".$event->heuredeb_event.' &rarr; '.$event->heurefin_event;
+				//$event_titre .= "\n$\n".$event->heuredeb_event.' &rarr; '.$event->heurefin_event;
 					
 				if($event->place_event != null || $event->place_event != ''){
 					$event_titre .= "\n$\n";
@@ -93,9 +93,9 @@ foreach((array)$arEventByDay as $jours){
 				}
 					
 				if($arDroits[$event->id_agenda]->canModerate == 1) {
-					$html .= '<a href="'.CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)).'" id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'">';
+					$html .= '<a href="'.CopixUrl::get('agenda|event|prepareEdit', array('id_event'=>$event->id_event)).'" id="div'.$id.'" style="display: block; border: solid 1px #ccc; margin-left:4px; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" title="'.$event_titre.'">';
 				} else {
-					$html .= '<a id="div'.$id.'" style="display: block; border: solid 1px #ccc; position:absolute ; margin-left:' . $decalage . 'px ; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; top:' . $margeHaut . 'px ; height:' . $duree . 'px; _top:' . $margeHautIE . 'px ; _height:' . $dureeIE . 'px; z-index:100;" class="evenement" title="'.$event_titre.'">';
+					$html .= '<a id="div'.$id.'" style="display: block; border: solid 1px #ccc; margin-left:4px; width:' . $largeurDivEvenement . 'px ; background-color:#' . $color . '; z-index:100;" class="evenement" title="'.$event_titre.'">';
 				}
 
 				if(strlen($event->title_event)>10){

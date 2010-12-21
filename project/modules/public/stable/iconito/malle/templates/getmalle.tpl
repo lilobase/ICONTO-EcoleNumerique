@@ -33,18 +33,14 @@ jQuery(document).ready(function($){
   }); 
   
   
-  $('#buttonAddWeb').live('click', function() {
+  $('form#formAddWeb').live('submit', function() {
     var nom = $('input[name=nom]').val();
     var url = $('input[name=url]').val();
     if (nom && url && url != 'http://') {
-      $('form#formAddWeb').submit();
-      /*
-      pars = $('form#formAddWeb').serialize();
-      var url = getActionURL('malle|default|doAddWeb', pars);
-      self.location = url;
-      */
+      return true;
     } else {
       alert ('{/literal}{i18n key="malle.error.web.add" addslashes=true}{literal}');
+      return false;
     }
   });
 
