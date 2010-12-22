@@ -67,12 +67,14 @@ class kneService extends enicService {
 
         $ressources = array();
 
-        if (is_object($result->AccesENTResult->InfoRessource)) {
-            $ressources[] = $result->AccesENTResult->InfoRessource;
-        } else {
-            foreach ($result->AccesENTResult->InfoRessource AS $ressource) {
-                $ressources[] = $ressource;
-            }
+        if( isset($result->AccesENTResult->InfoRessource) ) {
+	        if (is_object($result->AccesENTResult->InfoRessource)) {
+	            $ressources[] = $result->AccesENTResult->InfoRessource;
+	        } else {
+	            foreach ($result->AccesENTResult->InfoRessource AS $ressource) {
+	                $ressources[] = $ressource;
+	            }
+	        }
         }
         return $ressources;
     }
