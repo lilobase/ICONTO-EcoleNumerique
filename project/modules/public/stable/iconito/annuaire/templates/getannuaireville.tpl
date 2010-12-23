@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_annuaire.css"}" />
-<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_annuaire.js"></SCRIPT>
+<script type="text/javascript" src="{copixurl}js/iconito/module_annuaire.js"></script>
 
 <div id="ecole_infos_bloc">
 
@@ -29,7 +29,7 @@
 
 {user label=$agent.prenom|cat:" "|cat:$agent.nom userType=$agent.type userId=$agent.id login=$agent.login dispMail=$canWrite_USER_VIL}
 
-<br/>
+<br />
 {/foreach}
 </div>
 {/if}
@@ -88,4 +88,4 @@
 
 
 
-<br clear="all" />
+<br class="clearBoth" />

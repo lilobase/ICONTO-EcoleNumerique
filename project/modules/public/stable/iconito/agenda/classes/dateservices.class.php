@@ -102,7 +102,7 @@ class DateService {
 			$date = $this->addToDate($this->dateBddToDateFr($pDate), 0, 1, 0);
 			$date = $this->dateFrToDateBdd($date);
 			$date = mktime(0 ,0, 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4));
-			$date = $date - 60*60*24*$nbJourEcart;echo'<br>';
+			$date = $date - 60*60*24*$nbJourEcart;echo'<br />';
 			$date = date('Ymd', $date);
 		}
 		return $date;

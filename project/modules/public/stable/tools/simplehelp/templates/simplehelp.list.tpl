@@ -27,7 +27,7 @@
    {/foreach}
    </tbody>
 </table>  
-<br>
+<br />
 <a href="{copixurl dest="simplehelp|admin|create"}" title="{i18n key="simplehelp|simplehelp.messages.new"}"><img src="{copixresource path="img/tools/new.png"}" alt="{i18n key="copix:common.buttons.new"}" />{i18n key="simplehelp|simplehelp.messages.new"}</a>
 
 <br />

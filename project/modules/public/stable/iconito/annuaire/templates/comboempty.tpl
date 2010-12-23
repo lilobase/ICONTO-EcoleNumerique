@@ -1,6 +1,6 @@
 
-	<SELECT NAME="{$fieldName}" {$attribs}>
+	<select name="{$fieldName}" {$attribs}>
 	
-	<OPTION VALUE="0"{if "0" == $value} SELECTED{/if}>---</OPTION>
+	<option value="0"{if "0" == $value} selected="selected"{/if}>---</option>
 
-	</SELECT>
+	</select>

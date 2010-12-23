@@ -165,11 +165,12 @@
 	margin: 0px;
 	padding: 2px;
 	text-align: center;
+/*	height:38px; overflow:hidden;*/
 	}
 
 #submenu .menuitems ul li {
 	position: relative;
-/*	float: left;*/
+	float: left;
 	display:inline-block;
 	overflow: hidden;
 	vertical-align: middle;

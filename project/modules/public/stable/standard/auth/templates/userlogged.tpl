@@ -19,9 +19,9 @@
 {else}
     <div class="userlogon">
         <form action="{copixurl dest="auth|log|in"}" method="post" id="loginBar">
-            <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}"/>
+            <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}" />
             <div class="loginPrompt">
-                <span class="loginMsg">{i18n key=auth|auth.text.logon}<br>{if (false || $canNewAccount) }{i18n key=auth|auth.text.newAccount}<br/>{/if}</span>
+                <span class="loginMsg">{i18n key=auth|auth.text.logon}<br />{if (false || $canNewAccount) }{i18n key=auth|auth.text.newAccount}<br/>{/if}</span>
                 <input id="login" type="text" name="login" class="login default-value label-overlayed" value="{i18n key=auth|auth.login}"
                  /><input id="password-password" class="login" type="password" name="password" value=""
                  /><input id="password-clear" class="login label-overlayed" type="text" value="{i18n key=auth|auth.password}"

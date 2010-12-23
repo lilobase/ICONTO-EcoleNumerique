@@ -47,8 +47,8 @@ $(document).ready(function(){
 		});
 		dim = theme.dimensions.STD;
     
-    	$('<style media="screen">#main-wrapper {width:'+dim.main_width+'px}</style>').appendTo('head');
-    	$('<style media="print">#main-wrapper {width:100%}</style>').appendTo('head');
+    	$('<style type="text/css" media="screen">#main-wrapper {width:'+dim.main_width+'px}</style>').appendTo('head');
+    	$('<style type="text/css" media="print">#main-wrapper {width:100%}</style>').appendTo('head');
     
 		// AUTOMATIC RESIZING
 		$('#left').css('width', dim.left_width);

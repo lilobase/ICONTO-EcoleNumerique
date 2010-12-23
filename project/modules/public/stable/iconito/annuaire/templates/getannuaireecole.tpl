@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_annuaire.css"}" />
-<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_annuaire.js"></SCRIPT>
+<script type="text/javascript" src="{copixurl}js/iconito/module_annuaire.js"></script>
 
 {$infosecole}
 
@@ -11,4 +11,4 @@
 
 <div id="div_user"></div>
 
-<br clear="all" />
+<br class="clearBoth"/>

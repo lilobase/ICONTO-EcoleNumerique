@@ -14,25 +14,25 @@
 {i18n key="annuaire.ville"} : {$combovilles}<br/>
 {if !$profil || $profil!='USER_VIL'}{i18n key="annuaire.ecole"} : {$comboecoles}<br/>{/if}
 {if !$profil || $profil!='USER_VIL'}{i18n key="annuaire.classe"} : {$comboclasses}<br/>{/if}
-{if $profil}<input type="submit" value="{i18n key="annuaire.btn.display"}" class="button button-confirm" /><br/>{/if}
+{if $profil}<input type="submit" value="{i18n key="annuaire.btn.display"}" class="button button-confirm" /><br />{/if}
 </div>
 
 
 <div class="annu_popup_zone">
 {if !$profil}
 <b>{i18n key="annuaire.popup.display"}</b> :<br/>
-{if $visib.USER_ELE}<LABEL FOR="profil_ELE">{i18n key="annuaire.eleves"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_ELE" {if $profils.ELE==1}CHECKED{/if} NAME="profils[ELE]" VALUE="1" /><br/>{/if}
-{if $visib.USER_ENS}<LABEL FOR="profil_PEC">{i18n key="annuaire.pec"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_PEC" {if $profils.PEC==1}CHECKED{/if} NAME="profils[PEC]" VALUE="1" /><br/>{/if}
-{if $visib.USER_RES}<LABEL FOR="profil_PAR">{i18n key="annuaire.parents"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_PAR" {if $profils.PAR==1}CHECKED{/if} NAME="profils[PAR]" VALUE="1" /><br/>{/if}
-{if $visib.USER_ADM}<LABEL FOR="profil_ADM">{i18n key="annuaire.adm"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_ADM" {if $profils.ADM==1}CHECKED{/if} NAME="profils[ADM]" VALUE="1" /><br/>{/if}
-{if $visib.USER_VIL}<LABEL FOR="profil_VIL">{i18n key="annuaire.agents"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_VIL" {if $profils.VIL==1}CHECKED{/if} NAME="profils[VIL]" VALUE="1" /><br/>{/if}
-{if $visib.USER_EXT}<LABEL FOR="profil_EXT">{i18n key="annuaire.ext"}</LABEL> <INPUT TYPE="CHECKBOX" ID="profil_EXT" {if $profils.EXT==1}CHECKED{/if} NAME="profils[EXT]" VALUE="1" /><br/>{/if}
+{if $visib.USER_ELE}<label for="profil_ELE">{i18n key="annuaire.eleves"}</label> <input type="checkbox" id="profil_ELE" {if $profils.ELE==1}checked="checked"{/if} name="profils[ELE]" value="1" /><br />{/if}
+{if $visib.USER_ENS}<label for="profil_PEC">{i18n key="annuaire.pec"}</label> <input type="checkbox" id="profil_PEC" {if $profils.PEC==1}checked="checked"{/if} name="profils[PEC]" value="1" /><br />{/if}
+{if $visib.USER_RES}<label for="profil_PAR">{i18n key="annuaire.parents"}</label> <input type="checkbox" id="profil_PAR" {if $profils.PAR==1}checked="checked"{/if} name="profils[PAR]" value="1" /><br />{/if}
+{if $visib.USER_ADM}<label for="profil_ADM">{i18n key="annuaire.adm"}</label> <input type="checkbox" id="profil_ADM" {if $profils.ADM==1}checked="checked"{/if} name="profils[ADM]" value="1" /><br />{/if}
+{if $visib.USER_VIL}<label for="profil_VIL">{i18n key="annuaire.agents"}</label> <input type="checkbox" id="profil_VIL" {if $profils.VIL==1}checked="checked"{/if} name="profils[VIL]" value="1" /><br />{/if}
+{if $visib.USER_EXT}<label for="profil_EXT">{i18n key="annuaire.ext"}</label> <input type="checkbox" id="profil_EXT" {if $profils.EXT==1}checked="checked"{/if} name="profils[EXT]" value="1" /><br />{/if}
 
 
 <input type="submit" value="{i18n key="annuaire.btn.display"}" class="button button-confirm" /><br/>
 {/if}
 </div>
-<br clear="all" /><br clear="all" /></div>
+<br class="clearBoth" /><br /></div>
 
 {if $eleves}
 {assign var="eleveslogins" value=""}
@@ -42,7 +42,7 @@
 {foreach from=$eleves item=item}
 
 <tr class="list_line{$cpt%2}">
-	<td><input type="CHECKBOX" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
 	<td>{$item->nom|escape|upper}</td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
@@ -54,7 +54,7 @@
 
 </table>
 
-{if $droits.checkEleves and cpt}<div class="annu_write_all"><script language="javascript1.2">var logins_eleves="{$eleveslogins}"; var tab_eleves=logins_eleves.split(",");</script>
+{if $droits.checkEleves and cpt}<div class="annu_write_all"><script type="text/javascript">var logins_eleves="{$eleveslogins}"; var tab_eleves=logins_eleves.split(",");</script>
 <a href="javascript:click_all('{$field}', 'eleves');">{i18n key="annuaire.checkAllEleves"}</a></div>{/if}
 
 {/if}
@@ -67,7 +67,7 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$personnel item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="CHECKBOX" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
 	<td>{$item->nom|upper|escape}</td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
@@ -77,7 +77,7 @@
 {counter}
 {/foreach}
 </table>
-{if $droits.checkPersonnel and cpt}<div class="annu_write_all"><script language="javascript1.2">var logins_personnel="{$personnellogins}"; var tab_personnel=logins_personnel.split(",");</script>
+{if $droits.checkPersonnel and cpt}<div class="annu_write_all"><script type="text/javascript">var logins_personnel="{$personnellogins}"; var tab_personnel=logins_personnel.split(",");</script>
 <a href="javascript:click_all('{$field}', 'personnel');">{i18n key="annuaire.checkAllPersonnel"}</a></div>{/if}
 {/if}
 
@@ -88,7 +88,7 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$parents item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="CHECKBOX" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
 	<td>{$item->nom|upper|escape}</td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
@@ -98,7 +98,7 @@
 {counter}
 {/foreach}
 </table>
-{if $droits.checkParents and cpt}<div class="annu_write_all"><script language="javascript1.2">var logins_parents="{$parentslogins}"; var tab_parents=logins_parents.split(",");</script>
+{if $droits.checkParents and cpt}<div class="annu_write_all"><script type="text/javascript">var logins_parents="{$parentslogins}"; var tab_parents=logins_parents.split(",");</script>
 <a href="javascript:click_all('{$field}', 'parents');">{i18n key="annuaire.checkAllParents"}</a></div>{/if}
 {/if}
 
@@ -110,7 +110,7 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$adm item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="CHECKBOX" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
 	<td>{$item->nom|upper|escape}</td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
@@ -120,7 +120,7 @@
 {counter}
 {/foreach}
 </table>
-{if $droits.checkPersonnelAdm and cpt}<div class="annu_write_all"><script language="javascript1.2">var logins_adm="{$admlogins}"; var tab_adm=logins_adm.split(",");</script>
+{if $droits.checkPersonnelAdm and cpt}<div class="annu_write_all"><script type="text/javascript">var logins_adm="{$admlogins}"; var tab_adm=logins_adm.split(",");</script>
 <a href="javascript:click_all('{$field}', 'adm');">{i18n key="annuaire.checkAllPersonnelAdm"}</a></div>{/if}
 {/if}
 
@@ -132,7 +132,7 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$vil item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="CHECKBOX" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
 	<td>{$item->nom|upper|escape}</td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
@@ -142,7 +142,7 @@
 {counter}
 {/foreach}
 </table>
-{if $droits.checkPersonnelVil and cpt}<div class="annu_write_all"><script language="javascript1.2">var logins_vil="{$villogins}"; var tab_vil=logins_vil.split(",");</script>
+{if $droits.checkPersonnelVil and cpt}<div class="annu_write_all"><script type="text/javascript">var logins_vil="{$villogins}"; var tab_vil=logins_vil.split(",");</script>
 <a href="javascript:click_all('{$field}', 'vil');">{i18n key="annuaire.checkAllPersonnelVil"}</a></div>{/if}
 {/if}
 
@@ -155,7 +155,7 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$ext item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="CHECKBOX" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
 	<td>{$item->nom|upper|escape}</td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
@@ -165,7 +165,7 @@
 {counter}
 {/foreach}
 </table>
-{if $droits.checkPersonnelext and cpt}<div class="annu_write_all"><script language="javascript1.2">var logins_ext="{$extlogins}"; var tab_ext=logins_ext.split(",");</script>
+{if $droits.checkPersonnelext and cpt}<div class="annu_write_all"><script type="text/javascript">var logins_ext="{$extlogins}"; var tab_ext=logins_ext.split(",");</script>
 <a href="javascript:click_all('{$field}', 'ext');">{i18n key="annuaire.checkAllPersonnelExt"}</a></div>{/if}
 {/if}
 
@@ -182,7 +182,7 @@
 
 
 {literal}
-  <script language="Javascript1.2">
+  <script type="text/javascript">
     if (window.opener != null) {
     var logins = window.opener.getRef ('{/literal}{$field}{literal}');
     if (logins != null) {

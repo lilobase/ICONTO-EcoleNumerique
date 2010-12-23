@@ -3,10 +3,10 @@
 
 	{assign var=current_type value=""}
 
-	<SELECT NAME="{$fieldName}" {$attribs}>
+	<select name="{$fieldName}" {$attribs}>
 	
 	{foreach from=$linesSup item=item}
-		<OPTION VALUE="{$item.value}"{if $item.value == $value} SELECTED{/if}>{$item.libelle}</OPTION>
+		<option value="{$item.value}"{if $item.value == $value} selected="selected"{/if}>{$item.libelle}</option>
 	{/foreach}
 
 	{assign var="optgroup" value=0}
@@ -14,7 +14,7 @@
 
 		{*
 		{if $item.type <> $current_type}
-			<OPTION VALUE="">==== {$item.type} ====</OPTION>
+			<option value="">==== {$item.type} ====</option>
 			{assign var=current_type value=$item.type}
 		{/if}
 		*}
@@ -24,10 +24,10 @@
 			<optgroup label="{$item.nom|escape}">
 			{assign var="optgroup" value=1}
 		{else}
-			<OPTION VALUE="{$item.id}"{if $item.id == $value} SELECTED{/if}>{$item.nom|escape}{if $item.type} ({$item.type|escape}){/if}</OPTION>
+			<option value="{$item.id}"{if $item.id == $value} selected="selected"{/if}>{$item.nom|escape}{if $item.type} ({$item.type|escape}){/if}</option>
 		{/if}
 	{/foreach}
 	{if $optgroup}</optgroup>{/if}
 	
-	</SELECT>
+	</select>
 {/if}

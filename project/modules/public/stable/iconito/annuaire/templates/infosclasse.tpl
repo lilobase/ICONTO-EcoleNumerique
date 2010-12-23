@@ -1,30 +1,30 @@
 
-<H2>{$classe.nom}</H2>
+<h2>{$classe.nom}</h2>
 
 {if $classe.enseignants != 'NONE'}
-<H3>{i18n key="annuaire.enseignant"}</H3>
-<DIV ID="eleves">
+<h3>{i18n key="annuaire.enseignant"}</h3>
+<div id="eleves">
 {foreach from=$classe.enseignants item=enseignant}
-<DIV><IMG src="{copixresource path="img/annuaire/sexe`$enseignant.sexe`b.png"}" width="15" height="17" /> 
+<div><img src="{copixresource path="img/annuaire/sexe`$enseignant.sexe`b.png"}" width="15" height="17" /> 
 {user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=$canWriteUSER_ENS}
 
-</DIV>
+</div>
 {/foreach}
 {if !$classe.enseignants}{i18n key="annuaire.noEnseignants"}{/if}
-</DIV>
+</div>
 {/if}
 
 {if $classe.eleves != 'NONE'}
-<H3>{i18n key="annuaire.eleves"}</H3>
-<DIV ID="eleves">
+<h3>{i18n key="annuaire.eleves"}</h3>
+<div id="eleves">
 {foreach from=$classe.eleves item=eleve}
-<DIV><IMG src="{copixresource path="img/annuaire/sexe`$eleve.sexe`b.png"}" width="15" height="17" /> 
+<div><img src="{copixresource path="img/annuaire/sexe`$eleve.sexe`b.png"}" width="15" height="17" /> 
 
 {user label=$eleve.prenom|cat:" "|cat:$eleve.nom userType=$eleve.type userId=$eleve.id login=$eleve.login dispMail=$canWriteUSER_ELE}
 
-</DIV>
+</div>
 {/foreach}
 {if !$classe.eleves}{i18n key="annuaire.noEleves"}{/if}
-</DIV>
+</div>
 {/if}
 

@@ -37,7 +37,9 @@ div.userprofile .userrole {
     padding: 0;
     margin: 0;
     }
-
+input[type="password"] {
+	font-family:"Lucida grande", Arial, Helvetica, sans-serif;
+}
 #loginBar input.login {
 	border: solid 1px #0c92b1;
 	background: #f0f0f0;

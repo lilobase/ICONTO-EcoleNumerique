@@ -6,9 +6,9 @@
 	  <!-- ----------------------------------------------------------- -->
 	  <!-- ----------------------------------------------------------- -->
 		
-				<DIV STYLE="float:right;">
+				<div class="floatright">
 <input style="" class="button button-add" onclick="self.location='{copixurl dest="blog|admin|prepareEditCategory" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.new"}" />
-		</DIV><H1>{i18n key="blog.nav.categories"}</H1>
+		</div><h1>{i18n key="blog.nav.categories"}</h1>
 		
 		{if count($tabArticleCategory)}
 		<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>

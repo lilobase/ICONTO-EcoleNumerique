@@ -12,4 +12,4 @@
 </tr>
 </table>
 </div>
-<!--{i18n key=copix:pager.messages.dislpayResultFromTo FROM=$FROM TO=$TO}>-->
+<!--{i18n key=copix:pager.messages.displayResultFromTo FROM=$FROM TO=$TO}>-->

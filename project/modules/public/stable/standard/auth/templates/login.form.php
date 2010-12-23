@@ -38,7 +38,7 @@
        <?php if ($ppo->auth_url_return) { ?>
           <input type="hidden" value="<?php echo htmlentities ($ppo->auth_url_return); ?>" name="auth_url_return" />
        <?php } ?>
-       <input type="submit" class="button button-confirm" value="<?php echo _i18n ("copix:common.buttons.login"); ?>">
+       <input type="submit" class="button button-confirm" value="<?php echo _i18n ("copix:common.buttons.login"); ?>" />
        
        </td>
        </tr>
