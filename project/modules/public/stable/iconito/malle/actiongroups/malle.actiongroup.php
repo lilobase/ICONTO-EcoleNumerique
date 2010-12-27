@@ -6,7 +6,7 @@
  * @subpackage	Malle
  */
 
-require_once (COPIX_UTILS_PATH.'pclzip.lib.php');
+require_once (COPIX_UTILS_PATH.'pclzip-2-8-2.lib.php');
  
 class ActionGroupMalle extends CopixActionGroup {
 
@@ -701,14 +701,14 @@ class ActionGroupMalle extends CopixActionGroup {
 
 
 
-   /**
-	 * Ajout d'un zip : on détaille son contenu et on demande s'il doit être dézippé ou pas
+  /**
+	 * Ajout d'un zip : on detaille son contenu et on demande s'il doit etre dezippe ou pas
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/20
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire
-	 * @param array $file Toutes les infos du fichier ajouté (issues de $_FILES)
+	 * @param integer $folder Id du repertoire
+	 * @param array $file Toutes les infos du fichier ajoute (issues de $_FILES)
    */
 	function processGetUploadFileZip () {
 
@@ -751,7 +751,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		$archive = new PclZip($file['tmp_name']);
 		
 		$files = $archive->listContent();
-		//print_r($files);
+		//print_r(($files));
 		//print_r($file);
 		
 		if (move_uploaded_file($file['tmp_name'], $malleService->getTmpFolder().'/'.$file['name'])) {
@@ -1615,8 +1615,6 @@ class ActionGroupMalle extends CopixActionGroup {
 			}
 		}
 		//print_r($zipFiles2);
-		
-		
 		if ($zipFiles) {	// Fichiers
 			foreach ($zipFiles as $f) {
 				//print_r($f);

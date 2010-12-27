@@ -117,14 +117,20 @@ class ActionGroupAdmin extends CopixActionGroup {
 
 			$rForm->horaires = $horaires;
 			for ($i=1 ; $i<=$nbZones ; $i++) {
-				$field = 'zone'.$i.'_titre';
-				$rForm->$field = $$field;
-				$field = 'zone'.$i.'_texte';
-				$rForm->$field = $$field;
+				$fieldTitre = 'zone'.$i.'_titre';
+				$rForm->$fieldTitre = $$fieldTitre;
+				$fieldTexte = 'zone'.$i.'_texte';
+				$rForm->$fieldTexte = $$fieldTexte;
+        if ($rForm->$fieldTexte && !$rForm->$fieldTitre) {
+          $errors[] = CopixI18N::get ('fichesecoles.error.zone', $i);
+        }
 			}
 			if ($canModifyVille) {
 				$rForm->zone_ville_titre = $this->getRequest('zone_ville_titre', null);
 				$rForm->zone_ville_texte = $this->getRequest('zone_ville_texte', null);
+        if ($rForm->zone_ville_texte && !$rForm->zone_ville_titre) {
+          $errors[] = CopixI18N::get ('fichesecoles.error.zoneVille');
+        }
 			} else {
 				if (!$rFiche) { // Pas encore de fiche
 					$ville = FichesEcolesService::getZoneVille($rEcole);
@@ -135,6 +141,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 					$rForm->zone_ville_texte = $rFiche->zone_ville_texte;
 				}
 			}
+      
+      
 
 			if (!count($errors)) {
 				
