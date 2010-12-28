@@ -51,16 +51,29 @@ class ZoneEcoles extends enicZone {
         $pDispHeader = $this->getParam('dispHeader', 1);
 
 
-        //add default city :
-        $ville = (empty($ville)) ? ((empty($this->defaultVille)) ? null : $this->defaultVille) : $ville;
+        if ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
 
-        if (!empty($search))
-            $list = $annuaireService->searchEcoles($search);
-        elseif (!empty($ville) && $ville > 0)
-            $list = $annuaireService->getEcolesInVille($ville);
-        elseif ($grville)
-            $list = $annuaireService->getEcolesInGrville($grville);
+        	
+        	$list = array();
+        	foreach( $ville_as_array AS $ville_item ) {
+        		$list_tmp = $annuaireService->getEcolesInVille($ville_item);
+        		$list = array_merge($list, $list_tmp);
+        	}
+        	
+        } else {
+        	
+	        //add default city :
+	        $ville = (empty($ville)) ? ((empty($this->defaultVille)) ? null : $this->defaultVille) : $ville;
+	
+	        if (!empty($search))
+	            $list = $annuaireService->searchEcoles($search);
+	        elseif (!empty($ville) && $ville > 0)
+	            $list = $annuaireService->getEcolesInVille($ville);
+	        elseif ($grville)
+	            $list = $annuaireService->getEcolesInGrville($grville);
 
+        }
+        
         if ($pGroupBy == 'type') {
             usort($list, array($this, "usort_ecoles_type"));
         } elseif ($pGroupBy == 'ville') {
