@@ -50,10 +50,8 @@ class ZoneEcoles extends enicZone {
         $pDispFilter = ($this->getParam('dispFilter') === '') ? true : ($this->getParam('dispFilter')) ? true : false;
         $pDispHeader = $this->getParam('dispHeader', 1);
 
+        if ($ville<=0 && $ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
 
-        if ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
-
-        	
         	$list = array();
         	foreach( $ville_as_array AS $ville_item ) {
         		$list_tmp = $annuaireService->getEcolesInVille($ville_item);
@@ -119,9 +117,14 @@ class ZoneEcoles extends enicZone {
         $parCols = ceil($nbEcoles / $colonnes);
 
 
-        $listVille = $this->db->query('SELECT * FROM kernel_bu_ville ORDER BY canon')->toArray();
-        $displayVille = (count($listVille) > 1) ? true : false;
-
+        if (($ville_as_array = Kernel::getKernelLimits('ville_as_array')) && is_array($ville_as_array) && count($ville_as_array)>0 ) {
+        	$listVille = $this->db->query('SELECT * FROM kernel_bu_ville WHERE id_vi IN ('.implode(',',$ville_as_array).') ORDER BY canon')->toArray();
+        	$displayVille = (count($listVille) > 1) ? true : false;
+        } else {
+        	$listVille = $this->db->query('SELECT * FROM kernel_bu_ville ORDER BY canon')->toArray();
+        	$displayVille = (count($listVille) > 1) ? true : false;
+        }
+        
         $tpl = & new CopixTpl ();
         $tpl->assign('titre', $titre);
         $tpl->assign('ajaxpopup', $ajaxpopup);

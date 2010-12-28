@@ -11,6 +11,6 @@
 	<div class="welcome_blogs">{copixzone process=welcome|blogs}</div>
 	<div class="welcome_ecoles">
 		<div class="ecoles_title">{i18n key="welcome|welcome.ecoles"}</div>
-		<div>{copixzone process=welcome|ecoles titre='' ajaxpopup=true colonnes=1 groupBy=ville grville=1 ville=0 dispFilter=1 dispHeader=1}</div>
+		<div>{copixzone process=welcome|ecoles titre='' ajaxpopup=true colonnes=1 groupBy=ville grville=1 ville=0 kernellimiturl=1 dispFilter=1 dispHeader=1}</div>
 	</div>
 </div>
