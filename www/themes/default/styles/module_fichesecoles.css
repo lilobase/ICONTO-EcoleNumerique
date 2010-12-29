@@ -100,37 +100,34 @@ div#fichesecoles div.blog img.icon {
 	float:left;
 	margin-right:12px;
 }
-div#fichesecoles div.blog div#ficheblogs {
-	background:#E0E9E4;
-	-moz-border-radius:8px;
-	width:230px;
-	font-weight:normal;
-	position:absolute;
-	margin-left:-120px;
-	margin-top:60px;
+div#fichesecoles div#ficheblogs {
+	position:relative; top:30px; left:180px;
 	border:solid 4px #fff;
-	font-size:0.9em;
+	width:230px;
+	background:#E0E9E4;
+	font-weight:normal; font-size:0.9em;
+	-moz-border-radius:8px;
 }
-div#fichesecoles div.blog div#ficheblogs div.inner {
+div#fichesecoles div#ficheblogs div.inner {
 	padding:6px;
 }
-div#fichesecoles div.blog div#ficheblogs div.inner div.close {
+div#fichesecoles div#ficheblogs div.inner div.close {
 	float:right;
 	font-size:0.8em;
 	color:#A5A5A5;
 }
-div#fichesecoles div.blog div#ficheblogs div.inner div.close a {
+div#fichesecoles div#ficheblogs div.inner div.close a {
 	color:#A5A5A5;
 }
 
-div#fichesecoles div.blog div#ficheblogs div.inner div.annee {
+div#fichesecoles div#ficheblogs div.inner div.annee {
 	font-size:0.9em;
 	color:#444;
 	padding-bottom:5px;
 	margin-bottom:5px;
 	border-bottom:solid 4px #fff;
 }
-div#fichesecoles div.blog div#ficheblogs div.inner div.annee select {
+div#fichesecoles div#ficheblogs div.inner div.annee select {
 	background:#E0E9E4;
 	font-size:0.9em;
 	color:#444;

@@ -97,15 +97,12 @@
 
 
 {if $rEcole->blog || $arClassesBlogs}
-	<div style="position:relative;">
-	<div class="blog">
-	
-	<div id="ficheblogs" style="display:none;"></div>
-	
-	<img class="icon" alt="{i18n key="fichesecoles.fields.viewblogs"}" title="{i18n key="fichesecoles.fields.viewblogs"}" border="0" width="56" height="62" src="{copixresource path="img/fichesecoles/icon_blog.gif"}" />
-	<div><a href="javascript:ficheViewBlogs({$rEcole->numero},'');" title="{i18n key="fichesecoles.fields.viewblogs"}">{i18n key="fichesecoles.fields.viewblogs"}</a></div>
-	
-	</div>
+	<div style="position:relative; clear:both;">
+        <div class="blog">
+            <img class="icon" alt="{i18n key="fichesecoles.fields.viewblogs"}" title="{i18n key="fichesecoles.fields.viewblogs"}" border="0" width="56" height="62" src="{copixresource path="img/fichesecoles/icon_blog.gif"}" />
+            <div><a href="javascript:ficheViewBlogs({$rEcole->numero},'');" title="{i18n key="fichesecoles.fields.viewblogs"}">{i18n key="fichesecoles.fields.viewblogs"}</a></div>
+        </div>
+      	<div id="ficheblogs" style="display:none;"></div>
 	</div>
 {/if}
 

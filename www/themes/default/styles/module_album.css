@@ -1,4 +1,4 @@
-DIV.album DIV.photo {
+div.album div.photo {
 	border: 1px solid #000;
 	float: left;
 	margin: 4px;
@@ -6,29 +6,29 @@ DIV.album DIV.photo {
 	background-color: #FFF;
 }
 
-DIV.album DIV.photosmall IMG {
+div.album div.photosmall img {
 	border: 1px solid #000;
 	margin: 4px;
 	padding: 5px;
 	background-color: #FFF;
 }
 
-DIV.album DIV.photoseule IMG {
+div.album div.photoseule img {
 	border: 1px solid #000;
 	margin: 10px;
 	padding: 10px;
 	background-color: #FFF;
 }
 
-DIV.album DIV.photo a.album {
+div.album div.photo a.album {
 	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../img_styles/album/photoalbum.jpg);
 }
-DIV.album DIV.photo a.parent {
+div.album div.photo a.parent {
 	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../img_styles/album/photoalbum_parent.jpg);
 }
 
 
-DIV.album DIV.photo {
+div.album div.photo {
 	border: 1px solid #000;
 	float: left;
 	margin: 4px;
@@ -37,21 +37,18 @@ DIV.album DIV.photo {
 }
 
 
-
-
-
-TABLE.liste TR TD {
+table.liste tr td {
 	margin: 0px;
 	padding: 10px;
 }
 
-TABLE.liste TR IMG {
+table.liste tr img {
 	border: 1px solid #000;
 	padding: 10px;
 	background-color: #EEE;
 }
 
-DIV.album DIV.folder_action {
+div.album div.folder_action {
 	margin: 10px;
 	padding: 10px;
 	border: 1px solid black;
