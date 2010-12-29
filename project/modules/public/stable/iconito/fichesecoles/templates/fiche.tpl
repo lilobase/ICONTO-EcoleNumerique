@@ -50,12 +50,12 @@
 <div class="fiche">{i18n key="fichesecoles.fields.classes"}</div>
 <div>
 
-<DIV CLASS="ecole_classe_enseignant">
+<div class="ecole_classe_enseignant">
 {foreach from=$rEcole->directeur item=directeur}
 {assign var=nom value=$directeur.prenom|cat:" "|cat:$directeur.nom}
 {if $canViewDir}{user label=$nom|escape userType=$directeur.type userId=$directeur.id login=$directeur.login dispMail=$canWriteDir escape=1}{else}
 	{$nom|escape}{/if}{assign var=sep value=", "}{/foreach}
-</DIV>
+</div>
 {i18n key="fichesecoles.fields.direction"} :
 {assign var=sep value=""}
 <br/>
@@ -63,9 +63,9 @@
 {if $arClasses}
 
 {foreach from=$arClasses item=class}
-<DIV>
+<div>
 {if $class.enseignant}
-<DIV CLASS="ecole_classe_enseignant">
+<div class="ecole_classe_enseignant">
 {assign var=sep value=""}
 {foreach from=$class.enseignant item=enseignant}{$sep}
 
@@ -74,9 +74,9 @@
 {if $canViewEns}
 	{user label=$nom|escape userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=$canWriteEns escape=1}{else}
 	{$nom|escape}{/if}{assign var=sep value=", "}{/foreach}
-</DIV>
+</div>
 {/if}
-{*<b><A HREF="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom|escape}</A></b>*}
+{*<b><a href="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom|escape}</a></b>*}
 
 {assign var=sep value=""}
 {foreach from=$class.niveaux item=niveau}{$sep}
@@ -85,7 +85,7 @@
 {foreachelse}
 	{$class.nom|escape}
 {/foreach}
-</DIV>
+</div>
 
 {/foreach}
 
@@ -93,7 +93,7 @@
 </div>
 </div>
 
-<br clear="all" />
+
 
 
 {if $rEcole->blog || $arClassesBlogs}
@@ -108,6 +108,8 @@
 	</div>
 	</div>
 {/if}
+
+<br class="clearBoth" />
 
 {if $rFiche->zone1_titre && $rFiche->zone1_texte}
 	<div class="fiche">{$rFiche->zone1_titre|escape}</div>

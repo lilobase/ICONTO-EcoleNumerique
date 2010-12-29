@@ -80,16 +80,15 @@ div#fichesecoles div.horaires img.icon {
 }
 
 div#fichesecoles div.blog {
-	background:#E0E9E4;
-	padding:12px;
-	-moz-border-radius:8px;
+	/*right:5px;*/
 	float:right;
-	right:5px;
+	margin-top:10px; padding:12px;
 	width:130px;
-	font-weight:bolder;
-	margin-top:3px;
-	font-size:1.1em;
+	background:#E0E9E4;
+	font-weight:bolder;	font-size:1.1em;
+	-moz-border-radius:8px;
 }
+
 div#fichesecoles div.blog a {
 	color:#000;
 }
