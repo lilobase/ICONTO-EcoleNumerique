@@ -75,6 +75,7 @@ class ActionGroupIconito extends CopixActionGroup
     function processStatus ()
     {
 		$serv = CopixClassesFactory::create("stats|IconitoService");
+        echo "Ecole Numérique\n";
         echo $serv->getInstallationDate("TS")."\n";
         echo $serv->getLastUpdateDate("TS")."\n";
         echo $serv->getSvnRev()."\n";
