@@ -72,6 +72,15 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
+    function processStatus ()
+    {
+		$serv = CopixClassesFactory::create("stats|IconitoService");
+        echo $serv->getInstallationDate("TS")."\n";
+        echo $serv->getLastUpdateDate("TS")."\n";
+        echo $serv->getSvnRev()."\n";
+        return new CopixActionReturn (COPIX_AR_NONE, 0);
+    }
+
     function processMuninCore ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");

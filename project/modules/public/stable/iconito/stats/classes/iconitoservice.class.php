@@ -2,14 +2,24 @@
 
 class IconitoService
 {
-    function getInstallationDate()
+    function getInstallationDate($display = "Human")
     {
-        return date ("d/m/Y H:i:s", filemtime(COPIX_LOG_PATH.".installed"));
+        switch ($display) {
+        case "Human":
+            return date ("d/m/Y H:i:s", filemtime(COPIX_LOG_PATH.".installed"));
+        case "TS":
+            return filemtime(COPIX_LOG_PATH.".installed");
+        }
     }
 
-    function getLastUpdateDate()
+    function getLastUpdateDate($display = "Human")
     {
-        return date ("d/m/Y H:i:s", filemtime(COPIX_PROJECT_PATH."../.svn"));
+        switch ($display) {
+        case "Human":
+            return date ("d/m/Y H:i:s", filemtime(COPIX_PROJECT_PATH."../.svn"));
+        case "TS":
+            return filemtime(COPIX_PROJECT_PATH."../.svn");
+        }
     }
 
     function getSvnRev ()
@@ -126,6 +136,9 @@ class IconitoService
                 break;;
             case "teleprocedures":
                 $sql = "SELECT count(*) as nb FROM  module_teleprocedure";
+                break;;
+            case "groupe":
+                $sql = "SELECT count(*) as nb FROM  module_groupe_groupe";
                 break;;
             default:
                 return -1;
