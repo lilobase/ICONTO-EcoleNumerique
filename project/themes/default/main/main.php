@@ -90,5 +90,7 @@ $module = CopixRequest::get ('module');
 
 </div><!-- wrapper -->
 
+<?php echo CopixZone::process ('kernel|footer') ?>
+
 </body>
 </html>
