@@ -1445,11 +1445,11 @@ class ActionGroupMalle extends CopixActionGroup {
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
 			elseif ($rFolder->malle != $id)
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
-		} else {
+		}
 			$rMalle = $daoMalles->get($id);
 			if (!$rMalle)
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
-		}
+		
 		if (!$criticErrors) {
 			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
 			//print_r($mondroit);
