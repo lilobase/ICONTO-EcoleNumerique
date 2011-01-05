@@ -8,3 +8,7 @@
 	filter : alpha(opacity=100); 
 	}
 
+/* Menus des modules qui ne se place pas horizontalement mais verticalement sinon ! */
+#submenu .menuitems ul li {
+	float: left;
+}

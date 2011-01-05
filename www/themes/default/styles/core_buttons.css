@@ -170,7 +170,6 @@
 
 #submenu .menuitems ul li {
 	position: relative;
-	float: left;
 	display:inline-block;
 	overflow: hidden;
 	vertical-align: middle;
