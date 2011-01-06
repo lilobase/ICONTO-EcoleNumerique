@@ -397,3 +397,13 @@ p.dropcap:first-letter {
 .ie6-zoom {
 	zoom: 1;
 }
+
+/* Marges et bordure droite qui n'apparait pas */
+#page .thm-MR, #page .thm-MTL, #page .thm-MTR, .marger {
+	width:926px;
+}
+/* Blocs qui disparaissent */
+div.welcome .column2, div.welcome .column1 {
+	display:block;
+	width:440px;	
+}
