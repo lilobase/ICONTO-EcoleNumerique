@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
 
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_".$module.".css"); ?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_custom.css"); ?>" type="text/css" />
 
 <?php if (ereg("MSIE 6.0", $_SERVER["HTTP_USER_AGENT"])) { ?>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_iehacks.css"); ?>" type="text/css"/>
