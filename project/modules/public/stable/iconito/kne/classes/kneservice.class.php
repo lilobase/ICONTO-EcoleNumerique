@@ -9,7 +9,7 @@ class kneService extends enicService {
         $this->hash = 'limoges'; //hash
 
         //activate KNE
-        $this->active = TRUE;
+        $this->active = FALSE;
     }
 
     public function testAccess() {
