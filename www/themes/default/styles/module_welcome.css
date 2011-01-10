@@ -129,7 +129,7 @@ div.welcome .welcome_hr {
     -moz-border-radius: 8px;
     -webkit-border-radius: 8px;
 	border-radius: 8px;
-	/*behavior: url(/htc/PIE.htc);*/
+        z-index:1;
 	}
 	
 /* BOUTON BLOGS */
