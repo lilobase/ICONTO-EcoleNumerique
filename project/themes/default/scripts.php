@@ -23,7 +23,6 @@
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.mousewheel-3.0.2.pack.js"); ?>"></script>
 
 <script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.bgiframe.js" );  ?>" type="text/javascript"></script>
-<script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.dimensions.js"); ?>" type="text/javascript"></script>
 <script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.tooltip.min.js"  );  ?>" type="text/javascript"></script>
 
 <script type="text/javascript">
