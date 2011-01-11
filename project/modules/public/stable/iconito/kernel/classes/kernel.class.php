@@ -2358,10 +2358,11 @@ class Kernel {
 	 * Propose un login en fonction des information de l'utilisateur (nom, prénom, rôle, etc.)
 	 *
 	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
-	 * @param array $user_infos Tableau des informations de l'utilisateur.
+	 * @param  array $user_infos Tableau des informations de l'utilisateur.
+	 * @param  array $excluded   Identifiants à exclure lors de la génération (import massif)
 	 * @return string Login composé des information disponibles.
 	 */
-	function createLogin( $user_infos ) {
+	function createLogin( $user_infos, $excluded = array() ) {
 
 		// Caractères pouvant être dans un nom/prenom.
 		$interdits = array(" ", "'", "-");
@@ -2415,7 +2416,7 @@ class Kernel {
 		$ext=''; $fusible=1000; // Fusible pour éviter les boucles sans fin.
 
 		$get = _dao('kernel|kernel_copixuser')->getByLogin($login.$ext);
-		while( count($get) && $fusible-- ) {
+		while( (count($get) || in_array($login.$ext, $excluded)) && $fusible-- ) {
 			if( $ext=='' ) $ext=1;
 			else $ext++;
 			$get = _dao('kernel|kernel_copixuser')->getByLogin($login.$ext);

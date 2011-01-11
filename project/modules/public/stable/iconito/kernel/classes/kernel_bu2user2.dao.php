@@ -3,7 +3,6 @@
 /**
 * @package    Iconito
 * @subpackage kernel
-* @author     Sébastien CAS
 */
 
 class DAOKernel_bu2user2 {

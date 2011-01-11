@@ -2,7 +2,6 @@
 /**
 * @package    Iconito
 * @subpackage kernel
-* @author     Sébastien CAS
 */
 
 class DAOKernel_bu_personnel_entite {
@@ -109,4 +108,4 @@ class DAOKernel_bu_personnel_entite {
       ':type_ref' => $type_ref,
     ));
   }
-}
+} 

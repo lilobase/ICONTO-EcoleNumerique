@@ -2,7 +2,6 @@
 /**
 * @package    Iconito
 * @subpackage kernel
-* @author     Sébastien CAS
 */
 
 class DAOKernel_copixuser {

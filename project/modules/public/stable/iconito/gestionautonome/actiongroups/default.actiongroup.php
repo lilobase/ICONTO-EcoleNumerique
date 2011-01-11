@@ -21,7 +21,6 @@ class ActionGroupDefault extends enicActionGroup {
 		$this->menu = array();
 		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
 		if($this->user->root) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>120 );
-		// _dump($this->user);
 	}
 
 	/**
@@ -914,6 +913,12 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
 	}
 	
+	/**
+	 * deleteSchool
+	 *
+	 * Suppression d'une école.
+	 * 
+	 */
 	public function processDeleteSchool () {
 	  
 	  $ppo = new CopixPPO ();
@@ -1187,6 +1192,12 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
 	}
 	
+	/**
+	 * updateClass
+	 *
+	 * Edition d'une classe
+	 * 
+	 */
 	public function processUpdateClass () {
 	  
 	  $ppo = new CopixPPO ();
@@ -1266,6 +1277,12 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arPPO ($ppo, 'update_class.tpl');
 	}
 	
+	/**
+	 * validateUpdateClass
+	 *
+	 * Validation de l'edition d'une classe
+	 * 
+	 */
 	public function processValidateClassUpdate () {
 	  
 	  $ppo = new CopixPPO ();
@@ -1446,6 +1463,12 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
 	}
 	
+	/**
+	 * createPersonnel
+	 *
+	 * Création d'un personnel
+	 * 
+	 */
 	public function processCreatePersonnel () {
 	  
 	  $ppo = new CopixPPO ();
@@ -1724,6 +1747,12 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arRedirect (CopixUrl::get ('gestionautonome||showAccountListing'));
 	}
 	
+	/**
+	 * showAccountListing
+	 *
+	 * Confirmation de création de compte - Export HTML / CSV des listings
+	 * 
+	 */
 	public function processShowAccountListing () {
 	                                                                        
 	  $ppo = new CopixPPO (); 
@@ -2603,8 +2632,13 @@ class ActionGroupDefault extends enicActionGroup {
 
 		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
 	}
-	
-	
+
+	/**
+	 * removeStudent
+	 *
+	 * Retrait d'un élève d'une classe donnée
+	 * 
+	 */	
 	public function processRemoveStudent () {
 	  
 	  $ppo->nodeId   = _request ('nodeId', null);
@@ -2763,7 +2797,13 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
 	}
-	
+
+	/**
+	 * createPersonInCharge
+	 *
+	 * Création d'un responsable d'élève
+	 * 
+	 */	
 	public function processCreatePersonInCharge () {
 	  
 	  $ppo = new CopixPPO ();
@@ -3419,6 +3459,12 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
 	}
 	
+	/**
+	 * addExistingPersonInCharge
+	 *
+	 * Ajout d'un lien élève - responsable pour un responsable déjà existant
+	 * 
+	 */
 	public function processAddExistingPersonInCharge () {
 	  
 	  $ppo = new CopixPPO ();
@@ -3553,7 +3599,13 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		return _arPPO ($ppo, array ('template' => 'create_person_in_charge_success.tpl', 'mainTemplate' => null));
 	}
-	
+
+	/**
+	 * manageGrades
+	 *
+	 * Gestion des années scolaires
+	 * 
+	 */	
 	public function processManageGrades () {
 	  
 	  _currentUser()->assertCredential('group:[Admin]');
@@ -3574,7 +3626,13 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  return _arPPO ($ppo, 'manage_grades.tpl');
 	}
-	
+
+	/**
+	 * createGrade
+	 *
+	 * Création d'une année scolaire
+	 * 
+	 */	
 	public function processCreateGrade () {
 	  
 	  _currentUser()->assertCredential('group:[Admin]');
@@ -3592,7 +3650,13 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  return _arPPO ($ppo, 'create_grade.tpl');
 	}
-	
+
+	/**
+	 * validateGradeCreation
+	 *
+	 * Validation de la création d'une année scolaire
+	 * 
+	 */	
 	public function processValidateGradeCreation () {
 	  
 	  _currentUser()->assertCredential('group:[Admin]');
@@ -3665,7 +3729,13 @@ class ActionGroupDefault extends enicActionGroup {
 
     return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
 	}
-	
+
+	/**
+	 * setCurrentGrade
+	 *
+	 * Spécifier l'année courante
+	 * 
+	 */	
 	public function processSetCurrentGrade () {
 	  
 	  _currentUser()->assertCredential('group:[Admin]');
@@ -3706,7 +3776,13 @@ class ActionGroupDefault extends enicActionGroup {
 
 	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
 	}
-	
+
+	/**
+	 * addExistingStudent
+	 *
+	 * Association classe - élève pour des élèves déjà existants
+	 * 
+	 */	
 	public function processAddExistingStudent () {
 	  
 	  $ppo = new CopixPPO ();
@@ -4319,7 +4395,13 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  return _arPPO ($ppo, 'add_existing_personnel.tpl');
 	}
-	
+
+	/**
+	 * addMultipleStudents
+	 *
+	 * Ajout d'une liste d'élèves
+	 * 
+	 */	
 	public function processAddMultipleStudents () {
 	  
 	  $ppo = new CopixPPO ();
@@ -4382,6 +4464,7 @@ class ActionGroupDefault extends enicActionGroup {
   	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
   	
   	$liste = _request ('liste', null);
+  	$logins = array ();
 
     if (!is_null ($liste)) {
       
@@ -4498,16 +4581,25 @@ class ActionGroupDefault extends enicActionGroup {
 
            if (($cpt+1) % 4 == 0) {
 
-             $ppo->students[$key]['person'][$keyPerson]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['person'][$keyPerson]['lastname'], 'prenom' => $ppo->students[$key]['person'][$keyPerson]['firstname'], 'type' => 'USER_RES'));
+             // Génération des logins avec exclusion des logins déjà générés pour cet import
+             $ppo->students[$key]['person'][$keyPerson]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['person'][$keyPerson]['lastname'], 'prenom' => $ppo->students[$key]['person'][$keyPerson]['firstname'], 'type' => 'USER_RES'), $logins);
              $ppo->students[$key]['person'][$keyPerson]['password'] = Kernel::createPasswd ();
+             
+             // On stocke le login pour ne pas proposer de doublon lors de la génération des logins
+             $logins[] = $ppo->students[$key]['person'][$keyPerson]['login'];
+             
              $keyPerson++;
            }       
 
            $cpt++; 
          }
-
-         $ppo->students[$key]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['lastname'], 'prenom' => $ppo->students[$key]['firstname'], 'type' => 'USER_ELE'));
+         
+         // Génération des logins avec exclusion des logins déjà générés pour cet import
+         $ppo->students[$key]['login']    = Kernel::createLogin (array ('nom' => $ppo->students[$key]['lastname'], 'prenom' => $ppo->students[$key]['firstname'], 'type' => 'USER_ELE'), $logins);
          $ppo->students[$key]['password'] = Kernel::createPasswd ();
+         
+         // On stocke le login pour ne pas proposer de doublon lors de la génération des logins
+         $logins[] = $ppo->students[$key]['login'];
       }
 
       // Mise en session des informations récupérées
@@ -4927,7 +5019,13 @@ class ActionGroupDefault extends enicActionGroup {
 
     return _arNone ();
 	}
-	
+
+	/**
+	 * changeStudentsAffect
+	 *
+	 * Changer l'affectation de plusieurs élèves
+	 * 
+	 */	
 	public function processChangeStudentsAffect () {
 	  
 	  $ppo = new CopixPPO (); 
