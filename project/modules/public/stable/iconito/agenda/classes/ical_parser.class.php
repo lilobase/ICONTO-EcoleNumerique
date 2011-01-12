@@ -129,7 +129,10 @@ class ical_parser {
 	// $field		= The full field being examined, e.g. DTSTART;TZID=US/Pacific
 	function extractDateTime($data, $property, $field) {
       global $tz_array;
-      include_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'timezones.php');
+      
+      // die(COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'timezones.php');
+//      include_once (COPIX_MODULE_PATH.'agenda/'.COPIX_CLASSES_DIR.'timezones.php');
+		_classInclude('agenda|timezones');
 
 		// Initialize values.
 		unset($unixtime, $date, $time, $allday);
@@ -357,7 +360,8 @@ class ical_parser {
 				} 
 				$nextline = fgets($ifile, 1024);
 				if (trim($nextline) != 'BEGIN:VCALENDAR'){
-					echo'erreur de formatage du fichier';
+					return -1;
+					echo 'erreur de formatage du fichier';
 					//exit(error($lang['l_error_invalidcal'], $filename));
 				}
 				

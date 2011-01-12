@@ -146,13 +146,20 @@ class ActionGroupImportExport extends CopixActionGroup {
 
 			$icalParser   = CopixClassesFactory::create('ical_parser');
 			$importEvents = $icalParser->parse($file);
-			if($icalParser->parse($file) == false){
+			
+			$importError = $icalParser->parse($file);
+			if( $importError == false){
 				return CopixActionGroup::process ('genericTools|Messages::getError',
 						array ('message'=>CopixI18N::get ('agenda.error.cannotFindFile'),
 								'back'=>CopixUrl::get ('agenda|importexport|prepareImport')));
 			}
+			if( $importError == -1){
+				return CopixActionGroup::process ('genericTools|Messages::getError',
+						array ('message'=>CopixI18N::get ('agenda.error.notIcsFile'),
+								'back'=>CopixUrl::get ('agenda|importexport|prepareImport')));
+			}
 			//echo "a";
-			print_r($importEvents);
+			// print_r($importEvents);
 			
 			if($importParams['option'] == 1){//cas où on réalise l'import sans vider
 				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams['id_agenda']);
@@ -179,7 +186,6 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
 	function getAfterImport(){
-	
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 	
 		//récupération de la liste des agendas en bdd (pour l'affichage du menu)
@@ -201,7 +207,6 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$tpl->assign ('MENU', $menu);
 
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
-		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 	
