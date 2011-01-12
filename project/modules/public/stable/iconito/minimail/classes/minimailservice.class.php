@@ -18,9 +18,9 @@ class MinimailService {
 	 * @since 2005/10/18
 	 * @param string title Titre du minimail
 	 * @param string message Corps du minimail
-	 * @param integer from_id Id utilisateur de l'expéditeur
-	 * @param array destin Id tableau avec les destinataires (clé = id user)
-	 * @return mixed Id du message créé ou NULL si erreur
+	 * @param integer from_id Id utilisateur de l'expï¿½diteur
+	 * @param array destin Id tableau avec les destinataires (clï¿½ = id user)
+	 * @return mixed Id du message crï¿½ï¿½ ou NULL si erreur
 	 */
 	function sendMinimail ($title, $message, $from_id, $destin, $format) {
 	
@@ -56,7 +56,7 @@ class MinimailService {
 					$DAOminimail_to->insert ($newDest);
 
 					// ======= Alerte mail ===============
-          // On vérifie que l'envoi de mails est activé, qu'un serveur SMTP est configuré, que le destinataire a coché l'option "etre prévenu par mail" et qu'il a renseigné un mail
+          // On vï¿½rifie que l'envoi de mails est activï¿½, qu'un serveur SMTP est configurï¿½, que le destinataire a cochï¿½ l'option "etre prï¿½venu par mail" et qu'il a renseignï¿½ un mail
 					if ($newDest->id2 && CopixConfig::get('|mailEnabled')==1 && CopixConfig::get('|mailSmtpHost')) {
   					$prefs = Prefs::getPrefs ($to_id);
             if (isset($prefs['prefs']['alerte_mail_email']) && isset($prefs['minimail']['alerte_minimail']) && $prefs['prefs']['alerte_mail_email'] && $prefs['minimail']['alerte_minimail']==1) {
@@ -114,11 +114,11 @@ class MinimailService {
 	 * @param object Record du message
 	 * @param mixed destin DAO des destinataires
 	 * @param integer idUser Id utilisateur de celui qui souhaite lire le minimail
-	 * @return bool true s'il a le droit (il en l'expéditeur ou le destinataire), false sinon
+	 * @return bool true s'il a le droit (il en l'expï¿½diteur ou le destinataire), false sinon
 	 */
 	function canViewMessage ($message, $destin, $idUser) {
 		$res = false;
-		if ($message->from_id == $idUser) {	// Message qu'il a envoyé
+		if ($message->from_id == $idUser) {	// Message qu'il a envoyï¿½
 			$res = true;
 		} else {
 			foreach($destin as $d) {
@@ -131,15 +131,15 @@ class MinimailService {
 	
 
 	/**
-	 * Construit la réponse à un message
+	 * Construit la rï¿½ponse ï¿½ un message
 	 *
-	 * A partir d'un message, construit le titre, le message et les destinataires si un usager fait "Répondre".
+	 * A partir d'un message, construit le titre, le message et les destinataires si un usager fait "Rï¿½pondre".
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/19
 	 * @param object $message Record du message original
 	 * @param mixed $destin DAO des destinataires
-	 * @param integer $idUser Id utilisateur de celui qui souhaite répondre
+	 * @param integer $idUser Id utilisateur de celui qui souhaite rï¿½pondre
 	 * @param string $format Format souhaite
 	 * @param integer $iAll Si on veut repondre a tous. Sinon, on ne repond qu'a l'expediteur
 	 * @return array tableau : array(title=>"Re : le titre", dest=>"toto, titi", message=>"re salut...")
@@ -171,7 +171,7 @@ class MinimailService {
 			
 				break;
 			case 'ckeditor' :
-				$message =  "<p></p><blockquote><b>--------- ".CopixI18N::get ('minimail.msg.origin')." ---------</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :</i><br/>" . str_replace("\n", "<br/>", $message->message)."</blockquote><br/>";
+				$message =  "<p></p><blockquote><b>--------- ".CopixI18N::get ('minimail.msg.origin')." ---------</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :</i><br/>" . $message->message."</blockquote><br/>";
 				break;
 		}
 		return array("dest"=>$dest, "title"=>$title, "message"=>$message);
@@ -180,7 +180,7 @@ class MinimailService {
 
 
 	/**
-	 * Construit le forward à un message. A partir d'un message, construit le titre, le message si un usager fait "Transferer".
+	 * Construit le forward ï¿½ un message. A partir d'un message, construit le titre, le message si un usager fait "Transferer".
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2010/11/16
@@ -203,7 +203,7 @@ class MinimailService {
 			
 				break;
 			case 'ckeditor' :
-				$message =  "<p></p><blockquote><b>--------- ".CopixI18N::get ('minimail.msg.origin')." ---------</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :</i><br/>" . str_replace("\n", "<br/>", $message->message)."</blockquote><br/>";
+				$message =  "<p></p><blockquote><b>--------- ".CopixI18N::get ('minimail.msg.origin')." ---------</b><br/><i>".CopixI18N::get ('minimail.msg.originWho', array($userInfoFrom["login"], Kernel::ymdhis2dmyhi($message->date_send)))." :</i><br/>" . $message->message ."</blockquote><br/>";
 				break;
 		}
 		return array("title"=>$title, "message"=>$message);
@@ -225,7 +225,7 @@ class MinimailService {
 
 
 	/**
-	 * Détermine si la prévisualisation d'une pièce jointe est possible (cas des images)
+	 * Dï¿½termine si la prï¿½visualisation d'une piï¿½ce jointe est possible (cas des images)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/02/21
@@ -242,12 +242,12 @@ class MinimailService {
 	}
 
 	/**
-	 * Renvoie le nom "propre" d'une pièce jointe, sans l'ID du message devant
+	 * Renvoie le nom "propre" d'une piï¿½ce jointe, sans l'ID du message devant
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/02/21
 	 * @param string $file Nom du fichier
-	 * @return string Nom épuré
+	 * @return string Nom ï¿½purï¿½
    */
 	function getAttachmentName ($file) {
 		if ($file && ereg("^([0-9]+)_(.*)", $file, $regs))	$res = $regs[2];
