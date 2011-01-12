@@ -149,6 +149,8 @@ class ActionGroupGroupe extends enicActionGroup {
 				
 		}
 
+                $this->js->confirm('#groups .subscribe', 'groupe.conf.groupJoin');
+
 		//var_dump($groupes);
 
 		$tpl = & new CopixTpl ();
