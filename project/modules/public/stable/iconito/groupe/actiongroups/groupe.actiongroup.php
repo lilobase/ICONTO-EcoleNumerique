@@ -107,7 +107,6 @@ class ActionGroupGroupe extends enicActionGroup {
 
 		$offset = ($page-1)*CopixConfig::get ('groupe|list_nbgroupes');
 		$count = CopixConfig::get ('groupe|list_nbgroupes');
-
 		$groupesAll = $dao->getListPublic('','',$kw);
 
 		$nbPages = ceil(count($groupesAll) / $count);
@@ -145,30 +144,30 @@ class ActionGroupGroupe extends enicActionGroup {
 			$groupe->blog = $blog;
 			$groupe->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
                         $groupe->tags = $this->service('tagService')->createLinkForGroup($groupe->id);
+			$groupsArray[] = $groupe->id;
 			$groupes[] = $groupe;
 				
 		}
 
-                $this->js->confirm('#groups .subscribe', 'groupe.conf.groupJoin');
-
-		//var_dump($groupes);
+		$tagsCloud = $this->service('tagService')->createTagsCloud($groupsArray);
+		//_dump($tagsCloud);
+		$this->js->confirm('#groups .subscribe', 'groupe.conf.groupJoin');
 
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('groupe|groupe.annuaire'));
-		// $tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
-
 		$menu = array();
 		if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create');
-    //$menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'), 'current'=>true);
-    //$menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.my'));
-		$tpl->assign ('MENU', $menu);
+ 		$tpl->assign ('MENU', $menu);
 
 		$tplListe = & new CopixTpl ();
 		$tplListe->assign ('list', $groupes);
 		$tplListe->assign ('canCreate', ($groupeService->canMakeInGroupe('ADD_GROUP',NULL) ? 1 : 0));
 		$tplListe->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('groupe||getListPublic'))));
 		$tplListe->assign ("kw", $kw);
+		$tplListe->assign ('tagsCloud', $tagsCloud);
+		
 		$result = $tplListe->fetch("getlist.tpl");
+		$this->addCss('styles/tag_cloud.css');
 
 		$tpl->assign ("MAIN", $result);
 

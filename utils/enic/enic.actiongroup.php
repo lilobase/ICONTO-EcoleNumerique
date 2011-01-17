@@ -83,6 +83,10 @@ class enicActionGroup extends CopixActionGroup {
        return $this->helpers->error($iMsg, $i18n, $iBack);
     }
 
+    protected function redirect($iUrl = 'default', $iParams = array()){
+        return $this->helpers->go($iUrl, $iParams);
+    }
+
     protected function go($iUrl = 'default', $iParams = array()){
         return $this->helpers->go($iUrl, $iParams);
     }

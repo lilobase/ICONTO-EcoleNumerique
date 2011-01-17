@@ -1,0 +1,116 @@
+/* 
+    Document   : tag_cloud
+    Created on : 12 janv. 2011, 17:52:20
+    Author     : alemaire
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.tagGroup{
+    margin: 2px;
+}
+
+.tagWeight1{
+    font-size: 0.5em;
+    font-weight: bold;
+}
+
+.tagWeight2{
+    font-size: 0.6em;
+    font-weight: normal;
+}
+
+.tagWeight3{
+    font-size: 0.6em;
+    font-weight: bold;
+}
+
+.tagWeight4{
+    font-size: 0.7em;
+    font-weight: normal;
+}
+
+.tagWeight5{
+    font-size: 0.7em;
+    font-weight: bold;
+}
+
+.tagWeight6{
+    font-size: 0.8em;
+    font-weight: normal;
+}
+
+.tagWeight7{
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.tagWeight8{
+    font-size: 0.9em;
+    font-weight: normal;
+}
+
+.tagWeight9{
+    font-size: 0.9em;
+    font-weight: bold;
+}
+
+.tagWeight10{
+    font-size: 1em;
+    font-weight: normal;
+}
+
+.tagWeight11{
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.tagWeight12{
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+.tagWeight13{
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.tagWeight14{
+    font-size: 1.2em;
+    font-weight: normal;
+}
+
+.tagWeight15{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.tagWeight16{
+    font-size: 1.3em;
+    font-weight: normal;
+}
+
+.tagWeight17{
+    font-size: 1.3em;
+    font-weight: bold;
+}
+
+.tagWeight18{
+    font-size: 1.4em;
+    font-weight: normal;
+}
+
+.tagWeight19{
+    font-size: 1.4em;
+    font-weight: bold;
+}
+
+.tagWeight20{
+    font-size: 1.5em;
+    font-weight: normal;
+}

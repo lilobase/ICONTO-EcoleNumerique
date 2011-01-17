@@ -1,5 +1,9 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_groupe.css"}" />
-
+{if !empty($kw)}
+<div class="floatleft">
+    <a href="{copixurl dest="|getListPublic"}" class="button button-back"><em>{i18n key="groupe.list.back"}</em></a>
+</div>
+{/if}
 <div class="" align="right">
 
 
@@ -19,6 +23,14 @@
 	{if $list neq null}
 
 <div id="groups">
+
+    {if !empty($tagsCloud)}<br />
+    <div class="content-panel">
+	{foreach from=$tagsCloud item=tag}
+	    {$tag} 
+	{/foreach}
+    </div>
+    {/if}
 
 {foreach from=$list item=groupe}
 <div class="body">

@@ -40,8 +40,6 @@ class ActionGroupDashboard extends enicActionGroup {
 		$nodes = array();
 		foreach ($nodes_all AS $node) {
 
-			// var_dump($node);
-
 			if( $node['type']=='CLUB' && CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $node['id']==$groupeAssistance) {
 				continue;
 			}
@@ -76,58 +74,69 @@ class ActionGroupDashboard extends enicActionGroup {
 				 *
 				 */
 
+				//cas parent élève
+				if($node['type'] == 'USER_ELE'){
+				    $contentNode = Kernel::getNodeParents($node['type'], $node['id']);
+				    $contentNode = Kernel::filterNodeList($contentNode, 'BU_CLASSE');
+				    $contentNode = $contentNode[0];
+				}else{
+				    $contentNode = $node;
+				}
+
 				//get content from db :
-				$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $node['id'].' AND type_zone = "'.$node['type'].'"')->toArray1();
+				$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $contentNode['id'].' AND type_zone = "'.$contentNode['type'].'"')->toArray1();
+			
 				//if no content : get default content
 				if (empty($content['content'])) {
-					switch ($node['type']) {
+					switch ($contentNode['type']) {
 						case 'BU_CLASSE':
-							$content['content'] = CopixZone::process('kernel|dashboardClasse', array('idZone' => $node['id']));
+						case 'USER_ELE':
+							$content['content'] = CopixZone::process('kernel|dashboardClasse', array('idZone' => $contentNode['id']));
 							$content['picture'] = null;
 							break;
 						case 'BU_ECOLE':
-							$content['content'] = CopixZone::process('kernel|dashboardEcole', array('idZone' => $node['id']));
+							$content['content'] = CopixZone::process('kernel|dashboardEcole', array('idZone' => $contentNode['id']));
 							$content['picture'] = null;
 							break;
 						case 'BU_VILLE':
-							$content['content'] = CopixZone::process('kernel|dashboardVille', array('idZone' => $node['id']));
+							$content['content'] = CopixZone::process('kernel|dashboardVille', array('idZone' => $contentNode['id']));
 							$content['picture'] = null;
 							break;
 						case 'CLUB':
-							$content['content'] = CopixZone::process('kernel|dashboardGrTravail', array('idZone' => $node['id']));
+							$content['content'] = CopixZone::process('kernel|dashboardGrTravail', array('idZone' => $contentNode['id']));
 							$content['picture'] = null;
 							break;
-                        case 'ROOT':
-                        	if ($node['droit'] >= 60) {
-								$contentTpl = new CopixTpl();                  		
-                   				$content['content'] = $contentTpl->fetch('zone.dashboard.root.tpl'); 
-								$content['picture'] = null;
-                        	} else {   
-                        		$contentTpl = new CopixTpl();                  		
-                   				$content['content'] = $contentTpl->fetch('zone.dashboard.userext.tpl'); 
-								$content['picture'] = null;
-                        	}
-                                                    break;
+						case 'ROOT':
+						    if ($contentNode['droit'] >= 60) {
+							$contentTpl = new CopixTpl();
+							$content['content'] = $contentTpl->fetch('zone.dashboard.root.tpl');
+							$content['picture'] = null;
+						    } else {
+							$contentTpl = new CopixTpl();
+							$content['content'] = $contentTpl->fetch('zone.dashboard.userext.tpl');
+							$content['picture'] = null;
+						    }
+						    break;
 						default:
-							$content['content'] = '';
-							$content['picture'] = null;
-							break;
+						    $content['content'] = '';
+						    $content['picture'] = null;
+						    break;
+					    }
 					}
-				}
 
                                 if(!empty($content['picture'])){
                                     $content['picture'] = $this->url('kernel|dashboard|image', array('id' => $content['id'], 'pic' => $content['picture']));
                                 }
 				//is admin :
-				$is_admin = ($node['droit'] >= 60);
+				$is_admin = ($contentNode['droit'] >= 60);
 
 				//build html content
 				$content_tpl = & new CopixTpl();
 				$content_tpl->assign('content', $content['content']);
 				$content_tpl->assign('picture', $content['picture']);
 				$content_tpl->assign('is_admin', $is_admin);
-				$content_tpl->assign('id', $node['id']);
-				$content_tpl->assign('type', $node['type']);
+				$content_tpl->assign('id', $contentNode['id']);
+				$content_tpl->assign('type', $contentNode['type']);
 				$content = $content_tpl->fetch('dashboard.nodes.tpl');
 
                                 //add css

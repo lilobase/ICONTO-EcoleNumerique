@@ -13,18 +13,43 @@ class tagService extends enicService{
             $groupsCollection[$idGroup]['tags'] = $this->getTagsByGroup($idGroup);
 
         //calculate tags weight for group List
-        $tagCollection['tags'] = array();
-        foreach($groupsCollection as $group)
+        $tagCollection = array();
+	$max = 1;
+        foreach($groupsCollection as $group){
             foreach($group['tags'] as $tag)
-                if(!isset($tagCollection['tags'][$tag['name']]))
-                    $tagCollection['tags'][$tag['name']]['weight'] = 1;
-                else
-                    $tagCollection['tags'][$tag['name']]['weight']++;
+                if(!isset($tagCollection[$tag['name']]))
+                    $tagCollection[$tag['name']] = 1;
+                else{
+                    $tagCollection[$tag['name']]++;
+
+		    if($tagCollection[$tag['name']] > $max)
+			$max = $tagCollection[$tag['name']];
+		}
+	}
+
+	//ponderate between 1 and 100
+	$ponde = 100/$max;
+	$ponderation = CopixConfig::get ('groupe|ponderation');
+	foreach($tagCollection as $tagName => $weight){
+	    $tagCollection[$tagName] = round(($weight*$ponde)/$ponderation);
+	}
 
         return $return = array(
-            'tags' => $tagCollection['tags'],
+            'tags' => $tagCollection,
             'groups' => $groupsCollection
         );
+    }
+
+    public function createTagsCloud($idGroups = array()){
+	$tagsList = $this->getTagsByGroups($idGroups);
+	$tagsList = $tagsList['tags'];
+	
+	$tagsFinalArray = array();
+	foreach($tagsList as $name => $weight){
+	    $tagsFinalArray[] = $this->createLinkForTag($name, $weight);
+	}
+
+	return $tagsFinalArray;
     }
 
     public function getGroupsByTag($tagName){
@@ -73,13 +98,19 @@ class tagService extends enicService{
         return $return;
     }
 
+    public function createLinkForTag($name, $weight = null){
+	$link = $this->url('groupe|default|getListPublic', array('kw' => $name));
+	$class = (empty($weight)) ? '' : 'class = "tagGroup tagWeight'.$weight.'"';
+	return '<a href="'.$link.'" '.$class.'>'.$name.'</a>';
+    }
+
     public function createLinkForGroup($idGroup){
         $tags = $this->getTagsByGroup($idGroup);
         $return = '';
         foreach($tags as $k => $tag){
-            $link = $this->url('groupe|default|getListPublic', array('kw' => $tag['name']));
-            $return .= ($k == 0) ? '<a href="'.$link.'">'.$tag['name'].'</a>' : ', <a href="'.$link.'">'.$tag['name'].'</a>';
+            $return .= ($k == 0) ? $this->createLinkForTag($tag['name']) : ', '.$this->createLinkForTag($tag['name']);
         }
+	
         return (!empty($return)) ? '<strong>Tags : </strong>'.$return : '';
     }
 }
