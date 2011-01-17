@@ -10,8 +10,9 @@
 */
 ?>
 <?php
+
 function getTheme($property, $mode="STD") {
-	$jfile = file_get_contents(CopixUrl::getResource ("theme.conf.json"));
+	$jfile = file_get_contents(CopixUrl::getResourcePath ("theme.conf.json"));
 	if (!$jfile) { trigger_error('THEME : unable to find JSON configuration file', E_USER_ERROR); return false; }
 	$jtheme = json_decode($jfile);
 	if (!$jtheme) { trigger_error('THEME : unable to parse JSON configuration file', E_USER_ERROR); return false; }
