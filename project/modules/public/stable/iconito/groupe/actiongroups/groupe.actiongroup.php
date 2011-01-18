@@ -111,6 +111,10 @@ class ActionGroupGroupe extends enicActionGroup {
 
 		$nbPages = ceil(count($groupesAll) / $count);
 
+		//for Tags Cloud
+		foreach($groupesAll as $groupAll)
+		    $groupsArray[] = $groupAll->id;
+
 		$list = array_slice ($groupesAll, $offset, $count);
 
 		$groupes = array();
@@ -144,7 +148,6 @@ class ActionGroupGroupe extends enicActionGroup {
 			$groupe->blog = $blog;
 			$groupe->canAdmin = $groupeService->canMakeInGroupe('ADMIN', $mondroit);
                         $groupe->tags = $this->service('tagService')->createLinkForGroup($groupe->id);
-			$groupsArray[] = $groupe->id;
 			$groupes[] = $groupe;
 				
 		}
