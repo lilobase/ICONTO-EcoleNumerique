@@ -118,7 +118,14 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 		        switch ($entity->role) {
 		          
 		          case 1:
-		            $groups['teacher_'.$entity->reference] = 'Enseignant';
+		            if ($entity->type_ref == "CLASSE") {
+		              
+		              $groups['teacher_'.$entity->reference] = 'Enseignant';
+		            }
+		            else {
+		              $groups['teacher_school_'.$entity->reference] = 'Enseignant';
+		            }
+		            
 		            break;
 		          case 2:
 		            $groups['principal_'.$entity->reference] = 'Directeur';

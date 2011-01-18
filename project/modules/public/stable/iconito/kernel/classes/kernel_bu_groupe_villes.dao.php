@@ -38,6 +38,10 @@ class DAOKernel_bu_groupe_villes {
         
         $groupsIds['schoolsIds'][] = $id;
       }
+      elseif (preg_match('/^teacher_school/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
       elseif (preg_match('/^teacher/', $key)) {
         
         $groupsIds['classroomsIds'][] = $id;
