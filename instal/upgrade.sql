@@ -1,4 +1,12 @@
 
+INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
+(10, 'teacher_school', NULL, 0, 0, 0);
+
+INSERT INTO `modulecredentialsgroups` ( `id_mc`, `id_mcv`, `handler_group`, `id_group`) VALUES
+(10, 29, 'auth|dbgrouphandler', '10'),
+(11, 32, 'auth|dbgrouphandler', '10'),
+(12, NULL, 'auth|dbgrouphandler', '10');
+
 -- UPDATED : cbeyer
 
 DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_BLOG' AND `action`='showArticle' AND `objet_a` IS NULL;
