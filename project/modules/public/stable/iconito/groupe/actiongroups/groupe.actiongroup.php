@@ -112,6 +112,7 @@ class ActionGroupGroupe extends enicActionGroup {
 		$nbPages = ceil(count($groupesAll) / $count);
 
 		//for Tags Cloud
+		$groupsArray = array();
 		foreach($groupesAll as $groupAll)
 		    $groupsArray[] = $groupAll->id;
 
