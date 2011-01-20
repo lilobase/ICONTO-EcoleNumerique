@@ -5,6 +5,7 @@ class enicNodeMatrix extends enicTree{
     public $member_of;
     public $descendant_of;
     public $admin_of;
+    public $animator;
     public $kernelChildren;
     public $kernelParent;
     public $type;
@@ -20,6 +21,7 @@ class enicNodeMatrix extends enicTree{
         $this->member_of = false;
         $this->descendant_of = false;
         $this->admin_of = false;
+	$this->animator = false;
         $this->kernelChildren = array();
         $this->kernelParent = null;
         $this->director_of = false;
@@ -108,6 +110,7 @@ class loadRightMatrixTypeUser{
         $this->directeur = false;
         $this->agent_ville = false;
         $this->invite = false;
+	$this->animateur = false;
     }
     public function __get($name){
         switch ($name){
@@ -129,6 +132,9 @@ class loadRightMatrixTypeUser{
             case 'USER_EXT':
                 return $this->invite;
             break;
+	    case 'USER_ATI':
+		return $this->animateur;
+	    break;
         }
     }
 
@@ -152,6 +158,9 @@ class loadRightMatrixTypeUser{
             case 'USER_EXT':
                 return $this->invite = $value;
             break;
+	    case 'USER_ATI':
+		return $this->animateur = $value;
+	    break;
         }
     }
 }

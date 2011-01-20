@@ -14,6 +14,7 @@ class enicUser extends enicTree {
     public $prenom;
     public $idEn;
     public $chartValid;
+    public $animator;
 
     public function startExec(){
         if(_currentUser()->isConnected()){
@@ -21,6 +22,7 @@ class enicUser extends enicTree {
             $userInfos = Kernel::getUserInfo('ID', $userId);
 
             $this->director = false;
+	    $this->animator = Kernel::isAnimateur();
             $this->idEn = $userInfos['id'];
             $this->id = $userId*1;
             $this->type = $userInfos['type'];
@@ -32,6 +34,7 @@ class enicUser extends enicTree {
             $this->chartValid = $_SESSION['chartValid'];
         }else{
             $this->director = false;
+	    $this->animator = false;
             $this->id = 0;
             $this->type = 'USER_ANON';
             $this->root = false;

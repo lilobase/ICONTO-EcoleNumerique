@@ -81,6 +81,7 @@ class enicMatrix extends enicList {
         $user = &enic::get('user');
         $user->root = $this->getDatas('userRoot');
         $user->director = $this->getDatas('userDirector');
+	$user->animator = $this->getDatas('userAnimator');
     }
 
     public function __get($name){
@@ -297,7 +298,7 @@ class rightMatrixHelpers{
         $kernel = self::$kernel;
 
         //list type of user :
-        $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES', 'USER_EXT');
+        $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES', 'USER_EXT', 'USER_ATI');
 
         //list child and add each at the Tree
         $children = $kernel->getNodeChilds($type, $id, true, array('skip_user' => true));
@@ -352,6 +353,9 @@ class rightMatrixHelpers{
         //if user is director :
         if($user->director !== false)
             $datas = array_merge($db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \'USER_DIR\'')->toArray(), $datas);
+
+	if($user->animator !== false)
+	    $datas = array_merge($db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \'USER_ATI\'')->toArray(), $datas);
 
         //load right only on descendant_of node :
         foreach($datas as $data){
