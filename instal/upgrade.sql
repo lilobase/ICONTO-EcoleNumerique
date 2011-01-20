@@ -1,3 +1,9 @@
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_ENS', 'VOIR', 'BU_GRVILLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_ENS', 'COMM', 'BU_GRVILLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_DIR', 'VOIR', 'BU_GRVILLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_DIR', 'COMM', 'BU_GRVILLE');
+
+--
 
 INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
 (10, 'teacher_school', NULL, 0, 0, 0);
