@@ -2,7 +2,7 @@
 /**
 * @package  copix
 * @version   $Id: admincomment.actiongroup.php,v 1.9 2007-06-01 16:08:43 cbeyer Exp $
-* @author Vallat Cédric.
+* @author Vallat Cï¿½dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -19,7 +19,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 	}
 
 	/**
-    * Préparation à l'affichage de la liste des commentaires.
+    * Prï¿½paration ï¿½ l'affichage de la liste des commentaires.
     */
 	function getListComment() {
 
@@ -48,7 +48,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 			array_push($resultats, $r);
 		}
 
-		// On récupère l'utilisateur connecté
+		// On rï¿½cupï¿½re l'utilisateur connectï¿½
 		$user = BlogAuth::getUserInfos();
 		$toEdit = CopixDAOFactory::createRecord('blogarticlecomment');
     $toEdit->authorid_bacc = $user->userId;
@@ -58,8 +58,11 @@ class ActionGroupAdminComment extends CopixActionGroup {
 		
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.list.comment.title'));
-		
-//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+
+		//creation of blog object for menu
+		$blogDAO = CopixDAOFactory::create('blog|blog');
+		$blog = $blogDAO->get($id_blog);
+
 		$menu = getBlogAdminMenu($blog);
 		$tpl->assign ('MENU', $menu);
 
@@ -137,7 +140,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 
 		$tpl = & new CopixTpl ();
 		
-		// On récupère l'utilisateur connecté
+		// On rï¿½cupï¿½re l'utilisateur connectï¿½
 		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
 		// CREATION D'UN COMM
 		$comment = CopixDAOFactory::createRecord('blogarticlecomment');
@@ -179,7 +182,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 	}
 
 	/**
-    * Préparation à l'édition d'un commentaire.
+    * Prï¿½paration ï¿½ l'ï¿½dition d'un commentaire.
     */
 	function doPrepareEditComment() {
 
@@ -226,7 +229,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 
 
 	/**
-    * Validation d'une catégorie.
+    * Validation d'une catï¿½gorie.
     */
 	function doValidModifyComment() {
 
@@ -290,7 +293,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 	 * @param integer $id_blog Id du blog
 	 * @param integer $id_bact Id de l'article
 	 * @param integer $id_bacc Id du commentaire
-	 * @todo Vérifier droits sur blog
+	 * @todo Vï¿½rifier droits sur blog
    */
 	function doOnlineComment() {
 
@@ -328,7 +331,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 	 * @param integer $id_blog Id du blog
 	 * @param integer $id_bact Id de l'article
 	 * @param integer $id_bacc Id du commentaire
-	 * @todo Vérifier droits sur blog
+	 * @todo Vï¿½rifier droits sur blog
    */
 	function doOfflineComment() {
 

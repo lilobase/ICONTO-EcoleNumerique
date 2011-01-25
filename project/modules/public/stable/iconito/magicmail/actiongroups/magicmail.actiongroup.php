@@ -59,7 +59,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 		$result = $tplForm->fetch("login_form.tpl");
 		$tpl->assign ("MAIN", $result);
 
-		$nemu = array();
+		$menu = array();
 		$tpl->assign ('MENU', $menu );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -212,7 +212,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 									
 									if( $blog != null ) {
 										if( ! $blog_article['title'] || trim($blog_article['title'])=='' ) {
-											$date = date('d/m/Y \à H\hi');
+											$date = date('d/m/Y \ï¿½ H\hi');
 											$blog_article['title'] = 'Article du '.$date;
 										}
 										

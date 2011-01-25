@@ -62,7 +62,7 @@ class kneService extends enicService {
         if(is_a($result, 'SoapFault'))
             return 'confError';
 
-        if(0==count($result->AccesENTResult))
+        if(0 == count($result->AccesENTResult))
             return 'confError';
 
         $ressources = array();
