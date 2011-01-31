@@ -23,6 +23,17 @@ div#fichesecoles td.texte {
 	font-size:0.9em;
 }
 
+div#fichesecoles td.pratique a.fichier {
+    padding-left:26px;
+    line-height:24px;
+    height:24px;
+    display:inline-block;
+    background: transparent url(../images/menu_download.png) left center no-repeat;
+}
+div#fichesecoles td.pratique a:hover {
+    text-decoration:underline;
+}
+
 div#fichesecoles div.photo {
 	text-align:center;
 }
@@ -147,6 +158,18 @@ textarea.zone_horaires {
   height:100px;
   width:310px;
 }
+td.form_libelle, td.form_saisie {
+    vertical-align:top;
+    
+}
 td.form_libelle {
   white-space:nowrap;
 }
+form.ficheEcoleForm label {
+    color:inherit;
+    display:inline;
+}
+form.ficheEcoleForm input.doc_titre {
+    width:520px;
+}
+

@@ -1,3 +1,11 @@
+
+--  UPDATED : cbeyer
+
+ALTER TABLE `module_fiches_ecoles` ADD `doc1_titre` VARCHAR( 200 ) NULL DEFAULT NULL ,
+ADD `doc1_fichier` VARCHAR( 200 ) NULL DEFAULT NULL;
+
+--
+
 INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_ENS', 'VOIR', 'BU_GRVILLE');
 INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_ENS', 'COMM', 'BU_GRVILLE');
 INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_DIR', 'VOIR', 'BU_GRVILLE');
@@ -13,7 +21,7 @@ INSERT INTO `modulecredentialsgroups` ( `id_mc`, `id_mcv`, `handler_group`, `id_
 (11, 32, 'auth|dbgrouphandler', '10'),
 (12, NULL, 'auth|dbgrouphandler', '10');
 
--- UPDATED : cbeyer
+--
 
 DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_BLOG' AND `action`='showArticle' AND `objet_a` IS NULL;
 DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_BLOG' AND `action`='showPage' AND `objet_a` IS NULL;

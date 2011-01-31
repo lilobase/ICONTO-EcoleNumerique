@@ -110,19 +110,19 @@ class ActionGroupDefault extends EnicActionGroup {
 
 	/**
    * Affichage de la photo d'une fiche d'une ecole
-	 * 
+	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2008/09/09
 	 * @param string $photo Fichier de la photo
    */
 	 function photo () {
-		
+
 		$photo = $this->getRequest('photo', null);
-		
+
 		if ($photo != null) {
-			
+
 			$photo = str_replace (array("..","/"), array("","/"), $photo);
-		
+
 			$file = COPIX_VAR_PATH.CopixConfig::get ('fichesecoles|photoPath').$photo;
 			if (@file_exists($file)) {
 				if ($size = @getimagesize ($file)) {
@@ -142,6 +142,27 @@ class ActionGroupDefault extends EnicActionGroup {
 
 
 	/**
+     * Telechargement d'un document joint a une fiche
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2011/01/31
+     * @param string $fichier Nom du fichier
+     *
+     */
+    function processDoc() {
+        $iFichier = CopixRequest::get('fichier');
+        $malleService = & CopixClassesFactory::Create ('malle|malleService');
+        preg_match('/^([0-9]+)_(.+)$/', $iFichier, $regs);
+        $file = COPIX_VAR_PATH . CopixConfig::get('fichesecoles|docPath') . $iFichier;
+        if (@file_exists($file)) {
+            $filename = $regs[2];
+            return _arFile ($file, array ('filename'=>$filename, 'content-type'=>$malleService->getMimeType($file), 'content-disposition'=>'attachement'));
+        }
+        header("HTTP/1.0 404 Not Found");
+        return new CopixActionReturn(COPIX_AR_NONE, 0);
+    }
+
+    /**
    * Affichage de la fiche d'une ecole
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>

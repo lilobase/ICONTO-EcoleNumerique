@@ -16,8 +16,6 @@
     </div>
 {/if}
     
-
-
 {if $rEcole->hasAdresse()}
     {assign var=mapWidth value="230px"}
     {assign var=mapHeight value="150px"}
@@ -31,7 +29,10 @@
     <div><a target="_blank" href="http://maps.google.fr/maps?q={$rEcole->googleAdresse|urlencode}">{i18n key="fichesecoles.fields.viewplan"}</a></div>
 {/if}
 
-
+{if $rFiche->doc1_fichier}
+    <div class="fiche">{i18n key="fichesecoles.fields.doc"}</div>
+    <a class="fichier" href="{copixurl dest="fichesecoles||doc" fichier=$rFiche->doc1_fichier}">{if $rFiche->doc1_titre}{$rFiche->doc1_titre}{else}{$rFiche->getDocumentNom(1)}{/if}</a>
+{/if}
 
 </td>
 <td class="texte">
