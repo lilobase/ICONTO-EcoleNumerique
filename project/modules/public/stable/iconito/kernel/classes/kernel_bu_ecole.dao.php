@@ -15,6 +15,25 @@ class DAORecordKernel_bu_ecole {
     
     return $this->_city;
   }
+
+
+   /**
+    * Determine si l'ecole a une adresse renseignee ou non
+    *
+    * @author Christophe Beyer <cbeyer@cap-tic.fr>
+    * @since 2011/01/31
+    * @return boolean True si au moins un champ de l'adresse est renseigne, false sinon
+    */
+    public function hasAdresse() {
+        $oHas = false;
+        if ($this->num_rue || $this->num_seq || $this->adresse1 || $this->adresse2 || $this->code_postal || $this->commune) {
+            $oHas = true;
+        }
+        return $oHas;
+    }
+
+
+
 }
   
 class DAOKernel_bu_ecole {

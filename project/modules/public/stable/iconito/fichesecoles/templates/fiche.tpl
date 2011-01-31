@@ -7,22 +7,30 @@
 
 <div class="photo">{if $rFiche->photo}<img src="{copixurl dest="fichesecoles||photo" photo=$rFiche->photo}" alt="{$rFiche->photo|escape}" border="0" />{else}<img width="230" height="180" src="{copixresource path="img/fichesecoles/no_photo.gif"}" alt="{i18n key="fichesecoles.fields.nophoto"}" title="{i18n key="fichesecoles.fields.nophoto"}" />{/if}</div>
 
-<p></p>
-<div class="fiche">{i18n key="fichesecoles.fields.adresse"}</div>
-<div>{$rEcole->num_rue|escape} {$rEcole->num_seq|escape} {$rEcole->adresse1|escape} {if $rEcole->adresse2}<br/>{$rEcole->adresse2|escape}{/if}<br/>{$rEcole->code_postal|escape} {$rEcole->commune|escape}
-{if $rEcole->tel|escape}<br/><img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel|escape}{/if}
-</div>
-
-{assign var=mapWidth value="230px"}
-{assign var=mapHeight value="150px"}
-
-<div class="fiche">{i18n key="fichesecoles.fields.plan"}</div>
-{if $rEcole->coords}
-<div id="googleMap" style="width:{$mapWidth};height:{$mapHeight};"></div>
-{else}
-<div style="font-style:italic;font-size:0.8em;">{i18n key="fichesecoles.fields.noplan"}</div>
+{if $rEcole->hasAdresse() || $rEcole->tel}
+    <p></p>
+    <div class="fiche">{i18n key="fichesecoles.fields.adresse"}</div>
+    <div>
+    {if $rEcole->hasAdresse()}{$rEcole->num_rue|escape} {$rEcole->num_seq|escape} {$rEcole->adresse1|escape} {if $rEcole->adresse2}<br/>{$rEcole->adresse2|escape}{/if}<br/>{$rEcole->code_postal|escape} {$rEcole->commune|escape}<br />{/if}
+    {if $rEcole->tel|escape}<img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire|annuaire.telephone"}" title="{i18n key="annuaire|annuaire.telephone"}" border="0" hspace="1" /> {$rEcole->tel|escape}<br />{/if}
+    </div>
 {/if}
-<div><a target="_blank" href="http://maps.google.fr/maps?q={$rEcole->googleAdresse|urlencode}">{i18n key="fichesecoles.fields.viewplan"}</a></div>
+    
+
+
+{if $rEcole->hasAdresse()}
+    {assign var=mapWidth value="230px"}
+    {assign var=mapHeight value="150px"}
+
+    <div class="fiche">{i18n key="fichesecoles.fields.plan"}</div>
+    {if $rEcole->coords}
+    <div id="googleMap" style="width:{$mapWidth};height:{$mapHeight};"></div>
+    {else}
+    <div style="font-style:italic;font-size:0.8em;">{i18n key="fichesecoles.fields.noplan"}</div>
+    {/if}
+    <div><a target="_blank" href="http://maps.google.fr/maps?q={$rEcole->googleAdresse|urlencode}">{i18n key="fichesecoles.fields.viewplan"}</a></div>
+{/if}
+
 
 
 </td>
