@@ -2,7 +2,7 @@
 /**
 * @package Iconito
 * @subpackage	Blog
-* @author	Vallat Cédric.
+* @author	Vallat Cï¿½dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -44,12 +44,12 @@ class ZoneEditArticle extends CopixZone {
 		
 		$art = $this->getParam('article');
 
-		$tpl->assign ('edition_sumary', CopixZone::process ('kernel|edition', array('field'=>'sumary_bact', 'format'=>$art->format_bact, 'content'=>$art->sumary_bact, 'object'=>array('type'=>'MOD_BLOG', 'id'=>$this->getParam('id_blog')), 'height'=>160)));
-		$tpl->assign ('edition_content', CopixZone::process ('kernel|edition', array('field'=>'content_bact', 'format'=>$art->format_bact, 'content'=>$art->content_bact, 'object'=>array('type'=>'MOD_BLOG', 'id'=>$this->getParam('id_blog')), 'height'=>290)));
+		$tpl->assign ('edition_sumary', CopixZone::process ('kernel|edition', array('field'=>'sumary_bact', 'format'=>$art->format_bact, 'content'=>$art->sumary_bact, 'options' => array('toolbarSet' => 'IconitoBlog'), 'object'=>array('type'=>'MOD_BLOG', 'id'=>$this->getParam('id_blog')), 'height'=>160)));
+		$tpl->assign ('edition_content', CopixZone::process ('kernel|edition', array('field'=>'content_bact', 'format'=>$art->format_bact, 'content'=>$art->content_bact, 'options' => array('toolbarSet' => 'IconitoBlog'), 'object'=>array('type'=>'MOD_BLOG', 'id'=>$this->getParam('id_blog')), 'height'=>290)));
 
 
 
-		//catégorie de l'article
+		//catï¿½gorie de l'article
 		if($this->getParam('kind',null) == 1){
 			$article = $this->getParam('article', null);
 			$idCategorie = $article->tabSelectCat[0];		

@@ -21,6 +21,10 @@ class enicJavascript extends enicMod{
         CopixHtmlHeader::addJSLink(CopixUrl::get().$iPathToJs);
     }
 
+    public function addFileByTheme($iPathToJs){
+        CopixHTMLHeader::addJSLink (_resource($iPathToJs));
+    }
+
     public function file($iPathToJs){
         $this->addFile($iPathToJs);
     }
@@ -57,9 +61,10 @@ class enicJavascript extends enicMod{
      * iType => nom d'une toolbar CKEditor, défini dans /www/js/ckeditor/config.js
      */
     public function wysiwyg($iIdDom, $iType = 'simple'){
-    	
+
         $this->addFile('js/ckeditor/ckeditor.js');
         $this->addFile('js/ckeditor/adapters/jquery.js');
+        $this->addFileByTheme('js/ckeditor.js');
         $css =& enic::get('css');
         
         switch( $iType ) {
@@ -68,7 +73,7 @@ class enicJavascript extends enicMod{
         		break;
         	case 'simple':
         	default:
-        		$toolbarName = 'simple';
+        		$toolbarName = 'IconitoBasic';
         }
        
         $js = '$("'.$iIdDom.'").ckeditor({toolbar: "' . $toolbarName . '"})';
