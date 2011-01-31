@@ -435,6 +435,8 @@ class ActionGroupComptes extends CopixActionGroup {
 						$user_new[0]->password_dbuser = md5($pPasswd[$typeid]);
 						$user_dao->update( $user_new[0] );
 						
+						$node_infos = Kernel::getNodeInfo( _request('type'), _request('id'), false );
+						
 						$session[$typeid] = array(
 							'id'      => $user_new[0]->id_dbuser,
 							'login'   => $pLogin[$typeid],
