@@ -7,10 +7,10 @@
  * @subpackage Welcome
  */
 class ZoneEcoles extends enicZone {
-    
-    public  function  __construct() {
+
+    public function __construct() {
         parent::__construct();
-        
+
         $this->defaultVille = null;
     }
 
@@ -50,39 +50,41 @@ class ZoneEcoles extends enicZone {
         $pDispFilter = ($this->getParam('dispFilter') === '') ? true : ($this->getParam('dispFilter')) ? true : false;
         $pDispHeader = $this->getParam('dispHeader', 1);
 
-        if ($ville<=0 && $ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
+        if ($ville <= 0 && $ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
 
-        	$list = array();
-        	foreach( $ville_as_array AS $ville_item ) {
-        		$list_tmp = $annuaireService->getEcolesInVille($ville_item);
-        		$list = array_merge($list, $list_tmp);
-        	}
-        	
+            $list = array();
+            if (!empty($search)) {
+                $list = $annuaireService->searchEcolesByVilles($search, $ville_as_array);
+            } else {
+                foreach ($ville_as_array AS $ville_item) {
+                    $list_tmp = $annuaireService->getEcolesInVille($ville_item);
+                    $list = array_merge($list, $list_tmp);
+                }
+            }
         } else {
-        	
-	        //add default city :
-	        $ville = (empty($ville)) ? ((empty($this->defaultVille)) ? null : $this->defaultVille) : $ville;
-	
-	        if (!empty($search))
-	            $list = $annuaireService->searchEcoles($search);
-	        elseif (!empty($ville) && $ville > 0)
-	            $list = $annuaireService->getEcolesInVille($ville);
-	        elseif ($grville)
-	            $list = $annuaireService->getEcolesInGrville($grville);
 
+            //add default city :
+            $ville = (empty($ville)) ? ((empty($this->defaultVille)) ? null : $this->defaultVille) : $ville;
+
+            if (!empty($search))
+                $list = $annuaireService->searchEcoles($search);
+            elseif (!empty($ville) && $ville > 0)
+                $list = $annuaireService->getEcolesInVille($ville);
+            elseif ($grville)
+                $list = $annuaireService->getEcolesInGrville($grville);
         }
-        
+
         if ($pGroupBy == 'type') {
             usort($list, array($this, "usort_ecoles_type"));
         } elseif ($pGroupBy == 'ville') {
             usort($list, array($this, "usort_ecoles_ville"));
-        }elseif($pGroupBy == 'villeType') {
+        } elseif ($pGroupBy == 'villeType') {
             $listByCityAndType = array();
-            foreach($list as $item){
-                if(!array_key_exists('ville', $item))
+            foreach ($list as $item) {
+                if (!array_key_exists('ville', $item))
                     continue;
 
-                if(in_array($item['id'], $IdExclusionList))
+                if (in_array($item['id'], $IdExclusionList))
                     continue;
 
                 $listByCityAndType[$item['ville_nom']][$item['type']][] = $item;
@@ -90,19 +92,19 @@ class ZoneEcoles extends enicZone {
 
             $listByCityAndTypeFinal = array();
             //order type
-            foreach($listByCityAndType as $k => $typeCollection){
-                if(array_key_exists('Elémentaire', $typeCollection))
+            foreach ($listByCityAndType as $k => $typeCollection) {
+                if (array_key_exists('Elémentaire', $typeCollection))
                     $listByCityAndTypeFinal[$k]['Elémentaire'] = $typeCollection['Elémentaire'];
-                if(array_key_exists('Primaire', $typeCollection))
+                if (array_key_exists('Primaire', $typeCollection))
                     $listByCityAndTypeFinal[$k]['Primaire'] = $typeCollection['Primaire'];
-                if(array_key_exists('Maternelle', $typeCollection))
+                if (array_key_exists('Maternelle', $typeCollection))
                     $listByCityAndTypeFinal[$k]['Maternelle'] = $typeCollection['Maternelle'];
-                if(array_key_exists('Privée', $typeCollection))
+                if (array_key_exists('Privée', $typeCollection))
                     $listByCityAndTypeFinal[$k]['Privée'] = $typeCollection['Privée'];
             }
             $list = $listByCityAndTypeFinal;
         }
-        
+
         //kernel::myDebug($list);
 
         $nbEcoles = 0;
@@ -117,14 +119,14 @@ class ZoneEcoles extends enicZone {
         $parCols = ceil($nbEcoles / $colonnes);
 
 
-        if (($ville_as_array = Kernel::getKernelLimits('ville_as_array')) && is_array($ville_as_array) && count($ville_as_array)>0 ) {
-        	$listVille = $this->db->query('SELECT * FROM kernel_bu_ville WHERE id_vi IN ('.implode(',',$ville_as_array).') ORDER BY canon')->toArray();
-        	$displayVille = (count($listVille) > 1) ? true : false;
+        if (($ville_as_array = Kernel::getKernelLimits('ville_as_array')) && is_array($ville_as_array) && count($ville_as_array) > 0) {
+            $listVille = $this->db->query('SELECT * FROM kernel_bu_ville WHERE id_vi IN (' . implode(',', $ville_as_array) . ') ORDER BY canon')->toArray();
+            $displayVille = (count($listVille) > 1) ? true : false;
         } else {
-        	$listVille = $this->db->query('SELECT * FROM kernel_bu_ville ORDER BY canon')->toArray();
-        	$displayVille = (count($listVille) > 1) ? true : false;
+            $listVille = $this->db->query('SELECT * FROM kernel_bu_ville ORDER BY canon')->toArray();
+            $displayVille = (count($listVille) > 1) ? true : false;
         }
-        
+
         $tpl = & new CopixTpl ();
         $tpl->assign('titre', $titre);
         $tpl->assign('ajaxpopup', $ajaxpopup);
@@ -138,6 +140,8 @@ class ZoneEcoles extends enicZone {
         $tpl->assign('dispType', $pDispType);
         $tpl->assign('dispFilter', $pDispFilter);
         $tpl->assign('dispHeader', $pDispHeader);
+        $searchInputValue = (empty($search)) ? $this->i18n('welcome.ecoles.search') : $search;
+        $tpl->assign('searchInputValue', $searchInputValue);
 
         $toReturn = $tpl->fetch('zone_ecoles.tpl');
 

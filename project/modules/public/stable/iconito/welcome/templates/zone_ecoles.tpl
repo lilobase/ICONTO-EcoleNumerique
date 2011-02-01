@@ -27,7 +27,7 @@
     {/if}
 
     <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatright">
-        <input type="text" name="search" class="default-value" value="{i18n key="welcome.ecoles.search" noEscape=1}" />
+        <input type="text" name="search" class="default-value" value="{$searchInputValue}" />
         <input type="submit" class="button button-confirm" value="ok"/>
     </form>
     <div class="clearBoth"></div>

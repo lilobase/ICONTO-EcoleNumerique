@@ -129,8 +129,21 @@ class AnnuaireService extends enicService {
 		return $ecoles;
 	}
 
-        function searchEcoles($search){
-            $query = 'SELECT e.numero AS id, e.type AS type, e.nom AS nom, e.web AS web, e.id_ville AS ville, v.nom AS ville_nom FROM kernel_bu_ecole AS e JOIN kernel_bu_ville AS v ON e.id_ville = v.id_vi WHERE e.nom LIKE "%'.addslashes($search).'%"';
+        function searchEcoles($search, $villes = array()){
+            
+            //search by ville
+            $cond = '';
+            if(!empty($villes)){
+                $cond .= 'AND ( e.id_ville = '.$villes[0];
+                foreach ($villes as $k => $ville) {
+                    if($k == 0)
+                        continue;
+                    $cond .= ' OR e.id_ville = '.(int)$ville;
+                }
+                $cond .= ')';
+            }
+
+            $query = 'SELECT e.numero AS id, e.type AS type, e.nom AS nom, e.web AS web, e.id_ville AS ville, v.nom AS ville_nom FROM kernel_bu_ecole AS e JOIN kernel_bu_ville AS v ON e.id_ville = v.id_vi WHERE e.nom LIKE "%'.addslashes($search).'%"'.$cond;
             $ecolesList = $this->db->query($query)->toArray();
             foreach($ecolesList as $key => $ecole)
                 $ecolesList[$key]['directeur'] = (isset($params['directeur']) && $params['directeur']) ? AnnuaireService::getDirecteurInEcole($ecole['id']) : NULL;
@@ -141,8 +154,11 @@ class AnnuaireService extends enicService {
                     $ecolesList[$key][$keyi] = utf8_encode ($item);
 
             usort ($ecolesList, array('AnnuaireService', 'usort_nom'));
-
             return $ecolesList;
+        }
+
+        function searchEcolesByVilles($search, $villes = array()){
+            return $this->searchEcoles($search, $villes);
         }
 
 
