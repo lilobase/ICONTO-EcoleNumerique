@@ -48,10 +48,13 @@ class ActionGroupRessource extends CopixActionGroup {
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('ressource.title.module').' &raquo; '.CopixI18N::get ('ressource.title.liste'));
 
-		$menu = '<a href="'.CopixUrl::get('ressource||getSearchAdvanced', array('id'=>$id)).'">'.CopixI18N::get ('ressource.menu.parCriteres').'</a>';
-
-		if( Ressource::checkRight( "ANNU", $id, PROFILE_CCV_WRITE ) )
-			$menu .= ' :: <a href="'.CopixUrl::get('ressource||getRessource', array('id'=>$id,'mode'=>'new') ).'">'.CopixI18N::get ('ressource.menu.ajouterRessource').'</a>';
+		// $menu = '<a href="'.CopixUrl::get('ressource||getSearchAdvanced', array('id'=>$id)).'">'.CopixI18N::get ('ressource.menu.parCriteres').'</a>';
+		$menu[] = array('txt'=>CopixI18N::get ('ressource.menu.parCriteres'), 'size' => 130, 'url' => CopixUrl::get('ressource||getSearchAdvanced', array('id'=>$id)));
+		
+		if( Ressource::checkRight( "ANNU", $id, PROFILE_CCV_WRITE ) ) {
+			// $menu .= ' :: <a href="'.CopixUrl::get('ressource||getRessource', array('id'=>$id,'mode'=>'new') ).'">'.CopixI18N::get ('ressource.menu.ajouterRessource').'</a>';
+			$menu[] = array('txt'=>CopixI18N::get ('ressource.menu.ajouterRessource'), 'type'=>'create', 'size' => 130, 'url' => CopixUrl::get('ressource||getRessource', array('id'=>$id,'mode'=>'new') ));
+		}
 		$tpl->assign ('MENU', $menu);
 
 
