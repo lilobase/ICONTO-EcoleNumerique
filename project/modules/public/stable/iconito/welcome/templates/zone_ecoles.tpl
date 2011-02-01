@@ -100,7 +100,7 @@
     </li>
                     {/foreach}
 </ul>
-<div class="clearBoth"></div>
+<div style="clear:both; width:100%"></div>
                 {/foreach}
 <hr />
     {/foreach}

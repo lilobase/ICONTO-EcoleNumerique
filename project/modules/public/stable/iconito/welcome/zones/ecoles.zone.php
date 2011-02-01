@@ -42,7 +42,7 @@ class ZoneEcoles extends enicZone {
         $colonnes = intval($colonnes);
         if (!$colonnes)
             $colonnes = 1;
-        $grville = $this->getParam('grville', 1);
+        $grville = $this->getParam('grville', null);
         $ville = $this->getParam('ville', null);
         $search = $this->getParam('search', null);
         $pGroupBy = $this->getParam('groupBy');
@@ -70,8 +70,11 @@ class ZoneEcoles extends enicZone {
                 $list = $annuaireService->searchEcoles($search);
             elseif (!empty($ville) && $ville > 0)
                 $list = $annuaireService->getEcolesInVille($ville);
-            elseif ($grville)
+            elseif (!empty($grville))
                 $list = $annuaireService->getEcolesInGrville($grville);
+            else
+                $list = $annuaireService->getAllEcoles();
+
         }
 
         if ($pGroupBy == 'type') {

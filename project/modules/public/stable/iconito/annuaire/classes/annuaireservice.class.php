@@ -143,11 +143,19 @@ class AnnuaireService extends enicService {
                 $cond .= ')';
             }
 
-            $query = 'SELECT e.numero AS id, e.type AS type, e.nom AS nom, e.web AS web, e.id_ville AS ville, v.nom AS ville_nom FROM kernel_bu_ecole AS e JOIN kernel_bu_ville AS v ON e.id_ville = v.id_vi WHERE e.nom LIKE "%'.addslashes($search).'%"'.$cond;
+            $query = ' WHERE e.nom LIKE "%'.addslashes($search).'%" '.$cond;
+
+            $cond = $query.$cond;
+
+            return $this->getAllEcoles($cond);
+        }
+
+        function getAllEcoles($cond = ''){
+            $query = 'SELECT e.numero AS id, e.type AS type, e.nom AS nom, e.web AS web, e.id_ville AS ville, v.nom AS ville_nom FROM kernel_bu_ecole AS e JOIN kernel_bu_ville AS v ON e.id_ville = v.id_vi'.$cond;
             $ecolesList = $this->db->query($query)->toArray();
             foreach($ecolesList as $key => $ecole)
                 $ecolesList[$key]['directeur'] = (isset($params['directeur']) && $params['directeur']) ? AnnuaireService::getDirecteurInEcole($ecole['id']) : NULL;
-   
+
             //utf8 !
             foreach ($ecolesList as $key => $ecole)
                 foreach($ecole as $keyi => $item)
