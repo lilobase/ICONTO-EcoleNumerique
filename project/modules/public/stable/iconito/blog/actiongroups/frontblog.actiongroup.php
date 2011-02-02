@@ -25,21 +25,35 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	function processGetListArticle() {
 		
 		//var_dump($this);
-		
-		if (!_request('blog')){
+	    	
+		if (!_request('blog') && !_request('ecole')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('||')));
 		}
 
-		//On verifie que le blog existe (on récupère le blog avec son nom)
-		$dao = CopixDAOFactory::create('blog|blog');
-		if (!$blog = $dao->getBlogByName (_request('blog'))){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
-			'back'=>CopixUrl::get('||')));
-		}
-		
+		//On verifie que le blog existe (on récupère le blog avec son nom )
+        if (_request('blog')) {
+            $dao = CopixDAOFactory::create('blog|blog');
+            if (!$blog = $dao->getBlogByName (_request('blog'))){
+                return CopixActionGroup::process ('genericTools|Messages::getError',
+                    array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
+                    'back'=>CopixUrl::get('||')));
+            }
+        }
+
+        /*
+		//On verifie que le blog existe (on récupère le blog l'id de l'école )
+        if (_request('ecole')) {
+            $dao = CopixDAOFactory::create('blog|blog');
+            if (!$blog = $dao->getBlogByEcole (_request('ecole'))){
+                return CopixActionGroup::process ('genericTools|Messages::getError',
+                    array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
+                    'back'=>CopixUrl::get('||')));
+            }
+        }
+         */
+
 		// On vérifie que le droit de lecture est présent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
