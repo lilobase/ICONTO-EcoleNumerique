@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version   $Id: frontblog.actiongroup.php,v 1.30 2009-03-11 13:32:52 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat Cï¿½dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -32,7 +32,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('||')));
 		}
 
-		//On verifie que le blog existe (on récupère le blog avec son nom )
+		//On verifie que le blog existe (on rï¿½cupï¿½re le blog avec son nom )
         if (_request('blog')) {
             $dao = CopixDAOFactory::create('blog|blog');
             if (!$blog = $dao->getBlogByName (_request('blog'))){
@@ -42,26 +42,36 @@ class ActionGroupFrontBlog extends CopixActionGroup {
             }
         }
 
-        /*
-		//On verifie que le blog existe (on récupère le blog l'id de l'école )
-        if (_request('ecole')) {
-            $dao = CopixDAOFactory::create('blog|blog');
-            if (!$blog = $dao->getBlogByEcole (_request('ecole'))){
+        
+		//On verifie que le blog existe (on rï¿½cupï¿½re le blog l'id de l'ï¿½cole )
+        if (CopixRequest::getInt('ecole')) {
+            $blog = false;
+
+            $mod = Kernel::getModEnabled ('BU_ECOLE', CopixRequest::getInt('ecole'), 'MOD_BLOG');
+            if ($mod) {
+                $mod = Kernel::filterModuleList ($mod, 'MOD_BLOG');
+                if ($mod) {
+                    if ($blog = _ioDAO('blog|blog')->getBlogById ($mod[0]->module_id)) {
+                        //print_r($blog);
+
+                    }
+                }
+            }
+            if (!$blog)
                 return CopixActionGroup::process ('genericTools|Messages::getError',
                     array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
                     'back'=>CopixUrl::get('||')));
-            }
         }
-         */
+        
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
 			'back'=>CopixUrl::get('||')));
 		}
 
-		//si la catégorie est fournie on vérifie qu'elle existe
+		//si la catï¿½gorie est fournie on vï¿½rifie qu'elle existe
 		if (null != ($cat = ($this->getRequest ('cat', null)))){
 			$daoCat = CopixDAOFactory::create('blog|blogarticlecategory');
 			if (!$cat = $daoCat->getCategoryByName ($blog->id_blog, $cat)){
@@ -117,7 +127,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	}
 
 	/**
-    * Affichage de l'article demandé pour le blog.
+    * Affichage de l'article demandï¿½ pour le blog.
     */
 	function getArticle() {		
 		
@@ -127,7 +137,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -135,7 +145,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
@@ -200,7 +210,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 
 
 	/**
-    * Affichage de LA PAGE demandé pour le blog.
+    * Affichage de LA PAGE demandï¿½ pour le blog.
     */
 	function getPage() {
 
@@ -210,7 +220,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -218,7 +228,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
@@ -281,7 +291,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 
 	
 	/**
-    * Affichage de LA PAGE demandé pour le blog.
+    * Affichage de LA PAGE demandï¿½ pour le blog.
     */
 	function getFluxRss() {
 
@@ -291,7 +301,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 
 		if (!$blog = $dao->getBlogById (_request('blog'))){
@@ -300,7 +310,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
@@ -380,7 +390,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 
 		$url_bact = _request('url_bact');
 				
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -388,7 +398,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
