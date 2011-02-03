@@ -455,12 +455,10 @@ form input[type="text"]:hover, form textarea:hover {
 
 form label {
 	display: inline-block;
-	color: #aaa;
 	}
 
 form label a {
 	display: inline-block;
-	color: #aaa;
 	}
 
 form select {
