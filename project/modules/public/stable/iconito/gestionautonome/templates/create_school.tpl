@@ -25,8 +25,29 @@
   	</select>
     
     <div class="field">
-      <label for="name" class="form_libelle"> Nom :</label>
+      <label for="nom" class="form_libelle"> Nom :</label>
       <input class="form" type="text" name="nom" id="nom" value="{$ppo->school->nom}" />
+    </div>
+    <div class="field">
+      <label for="adresse1" class="form_libelle"> Adresse :</label>
+      <input class="form short-text" type="text" name="num_rue" id="num_rue" value="{$ppo->school->num_rue}" />
+      <input class="form text" type="text" name="adresse1" id="adresse1" value="{$ppo->school->adresse1}" />
+    </div>
+    <div class="field">
+      <label for="adresse2" class="form_libelle"> Complément d'adresse :</label>
+      <input class="form long-text" type="text" name="adresse2" id="adresse2" value="{$ppo->school->adresse2}" />
+    </div>
+    <div class="field">
+      <label for="code_postal" class="form_libelle"> Code postal :</label>
+      <input class="form" type="text" name="code_postal" id="code_postal" value="{$ppo->school->code_postal}" />
+    </div>
+    <div class="field">
+      <label for="commune" class="form_libelle"> Commune :</label>
+      <input class="form" type="text" name="commune" id="commune" value="{$ppo->school->commune}" />
+    </div>
+    <div class="field">
+      <label for="tel" class="form_libelle"> Téléphone :</label>
+      <input class="form" type="text" name="tel" id="tel" value="{$ppo->school->tel}" />
     </div>
   </fieldset>
   

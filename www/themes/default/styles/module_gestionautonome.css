@@ -94,6 +94,18 @@ input[type=checkbox] {
   margin-right: 2px;
 }
 
+input.short-text {
+  width: 30px;
+}
+
+input.text {
+  width: 200px;
+}
+
+input.long-text {
+  width: 240px;
+}
+
 /* Tree
 ------------------------------------------------------------------------------*/ 
 #tree {

@@ -760,6 +760,12 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->school->type      = _request ('type', null);
     $ppo->school->nom       = trim (_request ('nom', null));
     $ppo->school->id_ville  = $ppo->parentId;
+    $ppo->school->num_rue   = _request ('num_rue', null);
+    $ppo->school->adresse1  = _request ('adresse1', null);
+    $ppo->school->adresse2  = _request ('adresse2', null);
+    $ppo->school->code_postal = _request ('code_postal', null);
+    $ppo->school->commune   = _request ('commune', null);
+    $ppo->school->tel       = _request ('tel', null);
 
     // Traitement des erreurs
     $ppo->errors = array ();
@@ -879,6 +885,12 @@ class ActionGroupDefault extends enicActionGroup {
     // Récupération des paramètres
     $ppo->school->type      = _request ('type', null);
     $ppo->school->nom       = trim (_request ('nom', null));
+    $ppo->school->num_rue   = _request ('num_rue', null);
+    $ppo->school->adresse1  = _request ('adresse1', null);
+    $ppo->school->adresse2  = _request ('adresse2', null);
+    $ppo->school->code_postal = _request ('code_postal', null);
+    $ppo->school->commune   = _request ('commune', null);
+    $ppo->school->tel       = _request ('tel', null);
 		
     // Traitement des erreurs
     $ppo->errors = array ();
