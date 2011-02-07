@@ -15,7 +15,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 	
 
    /**
-   * Affiche la liste des messages reçus pour l'utilisateur connecté
+   * Affiche la liste des messages reï¿½us pour l'utilisateur connectï¿½
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -71,7 +71,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 	}
 	
    /**
-   * Affiche la liste des messages envoyés pour l'utilisateur connecté
+   * Affiche la liste des messages envoyï¿½s pour l'utilisateur connectï¿½
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -129,7 +129,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 	}
 	
    /**
-   * Affiche un minimail en détail
+   * Affiche un minimail en dï¿½tail
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -159,7 +159,7 @@ class ActionGroupMinimail extends EnicActionGroup {
   		$message->prev = NULL;
 	  	$message->next = NULL;
     }
-		if ($message && $message->from_id == $idUser) {	// Message qu'il a envoyé
+		if ($message && $message->from_id == $idUser) {	// Message qu'il a envoyï¿½
 			$message->type="send";
 			$prev = $daoFrom->getFromPrevMessage($message->date_send,$idUser);
 			if ($prev)
@@ -168,7 +168,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 			if ($next)
 				$message->next = $next->id;
       $isSend = true;
-		} else {	// Il en est peut-être destinataire
+		} else {	// Il en est peut-ï¿½tre destinataire
 			$isDest = $daoTo->selectDestFromIdAndToUser ($idMessage, $idUser);	// Test s'il est dans les destin
 			if ($isDest) {
 				$serv = CopixClassesFactory::create("MinimailService");
@@ -181,7 +181,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 				if ($next)
 					$message->next = $next->id;
         $isRecv = true;
-			} else {	// Il tente d'afficher un message qu'il n'a pas envoyé ni reçu !
+			} else {	// Il tente d'afficher un message qu'il n'a pas envoyï¿½ ni reï¿½u !
 				$errors[] = CopixI18N::get ('minimail.error.cantDisplay');
 			}
 		}
@@ -200,7 +200,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 				$dest[$j]->to_id_infos = $userInfo["prenom"]." ".$userInfo["nom"]." (".$userInfo["login"].")";
 			}
       
-      // Avatar de l'expéditeur
+      // Avatar de l'expï¿½diteur
 			$avatar = Prefs::get('prefs', 'avatar', $message->from_id);
 			$message->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
       
@@ -237,12 +237,12 @@ class ActionGroupMinimail extends EnicActionGroup {
 	
 	
    /**
-   * Formulaire d'écriture d'un minimail
+   * Formulaire d'ï¿½criture d'un minimail
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
 	 * @see doSend()
-	 * @param integer $reply Id du minimail si c'est une réponse à ce minimail
+	 * @param integer $reply Id du minimail si c'est une rï¿½ponse ï¿½ ce minimail
 	 * @param string $title Titre du minimail (si formulaire soumis)
 	 * @param string $login Logins du(des) destinataire(s) (si formulaire soumis)
 	 * @param string $dest Logins du(des) destinataire(s) (si formulaire soumis)
@@ -290,7 +290,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 				$format = $message->format;
 				$answer = $serv->constructAnswer ($message, $destin, $idUser, $format, $iAll);
 				$dest = $answer["dest"];
-				$title = $answer["title"];
+				$title = utf8_decode($answer["title"]);
 				$message = $answer["message"];
         $tplForm->assign ("reply", $iReply);
 			}
@@ -328,7 +328,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 	
 	
    /**
-   * Soumission du formulaire d'écriture d'un minimail (envoie le minimail)
+   * Soumission du formulaire d'ï¿½criture d'un minimail (envoie le minimail)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
@@ -336,7 +336,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 	 * @param string $dest Logins du(des) destinataire(s)
 	 * @param string $title Titre du minimail
 	 * @param string $message Corps du minimail
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param string $go Forme de soumission : preview (prï¿½visualiser) ou send (enregistrer)
    */
 	function doSend () {
 		if (!Kernel::is_connected()) return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.nologin'), 'back'=>CopixUrl::get ('auth|default|login')));
@@ -369,7 +369,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 			$errors[] = CopixI18N::get ('minimail.error.typeFormat');
 
 		$tabDest = array();
-		// On vérifie que les destinataires existent
+		// On vï¿½rifie que les destinataires existent
 		while (list(,$login) = each ($destin)) {
 			if (!$login) continue;
 			$userInfo = Kernel::getUserInfo("LOGIN", $login);
@@ -388,7 +388,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 			}
 		}
 		
-		// On vérifie les pièces jointes
+		// On vï¿½rifie les piï¿½ces jointes
 		
 		CopixConfig::get ('minimail|attachment_size');
 		//print_r($_FILES);
@@ -492,9 +492,9 @@ class ActionGroupMinimail extends EnicActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
-	 * @param array $messages Tableau avec les Ids des minimails à supprimer (les Ids doivent être en valeurs du tableau)
-	 * @param string $mode Mode d'affichage des messages ("recv" si on supprime des messages reçus, "send" si c'est des messages envoyés)
-	 * @todo En cas de suppression, voir pour supprimer les pièces jointes
+	 * @param array $messages Tableau avec les Ids des minimails ï¿½ supprimer (les Ids doivent ï¿½tre en valeurs du tableau)
+	 * @param string $mode Mode d'affichage des messages ("recv" si on supprime des messages reï¿½us, "send" si c'est des messages envoyï¿½s)
+	 * @todo En cas de suppression, voir pour supprimer les piï¿½ces jointes
    */
 	function doDelete () {
 
@@ -506,12 +506,12 @@ class ActionGroupMinimail extends EnicActionGroup {
 		$daoMinimailFrom 	= CopixDAOFactory::create("minimail_from");
    	$daoMinimailTo 		= CopixDAOFactory::create("minimail_to");
 		foreach($messages as $msg) {
-			// TODO quid pièces jointes ?
-	  	if ($mode == "recv") {    // Message reçu
+			// TODO quid piï¿½ces jointes ?
+	  	if ($mode == "recv") {    // Message reï¿½u
 				$mp = $daoMinimailTo->get($msg);
 				$mp->is_deleted = 1;
 				$daoMinimailTo->update($mp);
-  		} elseif ($mode == "send") {    // Message envoyé
+  		} elseif ($mode == "send") {    // Message envoyï¿½
 				$mp = $daoMinimailFrom->get($msg);
 				$mp->is_deleted = 1;
 				$daoMinimailFrom->update($mp);
@@ -525,12 +525,12 @@ class ActionGroupMinimail extends EnicActionGroup {
 	
 
    /**
-   * Téléchargement d'une pièce jointe (download)
+   * Tï¿½lï¿½chargement d'une piï¿½ce jointe (download)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
-	 * @param string $file Nom du fichier à télécharger
-	 * @todo Vérifier les droits par rapport au minimail contenant cette pièce jointe
+	 * @param string $file Nom du fichier ï¿½ tï¿½lï¿½charger
+	 * @todo Vï¿½rifier les droits par rapport au minimail contenant cette piï¿½ce jointe
    */
 	function downloadAttachment () {
 		$minimailService = & CopixClassesFactory::Create ('minimail|minimailService');
@@ -554,12 +554,12 @@ class ActionGroupMinimail extends EnicActionGroup {
 	}
 	
    /**
-   * Affichage de la prévisualisation d'une pièce jointe sous forme de vignette (si c'est une image)
+   * Affichage de la prï¿½visualisation d'une piï¿½ce jointe sous forme de vignette (si c'est une image)
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/10/18
-	 * @param string $file Nom du fichier à télécharger
-	 * @todo Tester que la pièce jointe est bien attachée à un message dont l'utilisateur est destinataire ou expéditeur
+	 * @param string $file Nom du fichier ï¿½ tï¿½lï¿½charger
+	 * @todo Tester que la piï¿½ce jointe est bien attachï¿½e ï¿½ un message dont l'utilisateur est destinataire ou expï¿½diteur
    */
 	function previewAttachment () {
 
