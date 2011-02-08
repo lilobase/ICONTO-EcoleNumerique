@@ -1,3 +1,11 @@
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_ENS', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_ENS', 'COMM', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_DIR', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_DIR', 'COMM', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ENS', 'USER_ADM', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ENS', 'USER_ADM', 'COMM', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_DIR', 'USER_ADM', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_DIR', 'USER_ADM', 'COMM', 'BU_ECOLE'); 
 
 --  UPDATED : cbeyer
 
