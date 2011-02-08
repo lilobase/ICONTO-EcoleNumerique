@@ -39,6 +39,7 @@ class loadRightMatrix{
     public $enseignant;
     public $directeur;
     public $agent_ville;
+    public $administratif;
     public $invite;
     public $voir;
     public $communiquer;
@@ -51,6 +52,7 @@ class loadRightMatrix{
         $this->enseignant = new loadRightMatrixAction();
         $this->directeur = new loadRightMatrixAction();
         $this->agent_ville = new loadRightMatrixAction();
+        $this->administratif = new loadRightMatrixAction();
         $this->invite = new loadRightMatrixAction();
         $this->voir = new loadRightMatrixTypeUser();
         $this->communiquer = new loadRightMatrixTypeUser();
@@ -78,6 +80,9 @@ class loadRightMatrix{
             break;
             case 'USER_VIL':
                 return $this->agent_ville;
+            break;
+            case 'USER_ADM':
+                return $this->administratif;
             break;
             case 'USER_EXT':
                 return $this->invite;
@@ -110,6 +115,7 @@ class loadRightMatrixTypeUser{
         $this->directeur = false;
         $this->agent_ville = false;
         $this->invite = false;
+        $this->administratif = false;
 	$this->animateur = false;
     }
     public function __get($name){
@@ -128,6 +134,9 @@ class loadRightMatrixTypeUser{
             break;
             case 'USER_VIL':
                 return $this->agent_ville;
+            break;
+            case 'USER_ADM':
+                return $this->administratif;
             break;
             case 'USER_EXT':
                 return $this->invite;
@@ -154,6 +163,9 @@ class loadRightMatrixTypeUser{
             break;
             case 'USER_VIL':
                 return $this->agent_ville = $value;
+            break;
+            case 'USER_ADM':
+                return $this->administratif = $value;
             break;
             case 'USER_EXT':
                 return $this->invite = $value;
