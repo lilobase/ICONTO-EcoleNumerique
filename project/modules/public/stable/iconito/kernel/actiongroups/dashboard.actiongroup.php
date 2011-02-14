@@ -78,6 +78,8 @@ class ActionGroupDashboard extends enicActionGroup {
 				if($node['type'] == 'USER_ELE'){
 				    $contentNode = Kernel::getNodeParents($node['type'], $node['id']);
 				    $contentNode = Kernel::filterNodeList($contentNode, 'BU_CLASSE');
+                    if (empty($contentNode))
+                        continue;
 				    $contentNode = $contentNode[0];
 				}else{
 				    $contentNode = $node;
