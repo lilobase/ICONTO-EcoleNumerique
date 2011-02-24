@@ -20,7 +20,8 @@ class ZoneModuleContext extends enicZone {
 		$step = $this->getParam ('STEP', 'open');
 		$curmod = $this->getParam ('MODULE', '');
 		$titlepage = $this->getParam ('TITLE_PAGE', '');
-		
+
+        //_dump($curmod);
 		$myNode = CopixSession::get ('myNode');
 		$myNodeData = Kernel::getNodeInfo($myNode['type'], $myNode['id'], false);
 		$panelClass = strtolower($myNode['type']);
@@ -47,7 +48,6 @@ class ZoneModuleContext extends enicZone {
 		}
 		
 		if ($step=='open') {
-			// _dump($myNodeData);
 			$toReturn  = '<div class="dashboard module_dash tools_right ink_blue font_dash">';
 			$toReturn .= '<div class="dashpanel '.$panelClass.'">';
 			$toReturn .= '	<div class="title">';
@@ -59,7 +59,13 @@ class ZoneModuleContext extends enicZone {
 			$toReturn .= '		<div class="wcontrol">';
 			$toReturn .= '		<a class="dashclose" href="'.$closeUrl.'"></a>';
 			$toReturn .= '		</div>';
-			$toReturn .= '		<span>'.Kernel::Code2Name('mod_'.$this->module).'</span>';
+			$toReturn .= '		<span>';
+            $title = Kernel::Code2Name('mod_'.$this->module);
+            if ($curmod == 'fichesecoles' && isset($myNodeData['ALL']->eco_type) && strtolower($myNodeData['ALL']->eco_type) == 'crèche')
+            {
+                $title = Kernel::Code2Name('mod_fichesecoles_creche');
+            }
+            $toReturn .= $title.'</span>';
 			$toReturn .= '	</div>';
 			$toReturn .= '	<div class="content">';
 
