@@ -20,6 +20,7 @@ class ZoneModuleContext extends enicZone {
 		$step = $this->getParam ('STEP', 'open');
 		$curmod = $this->getParam ('MODULE', '');
 		$titlepage = $this->getParam ('TITLE_PAGE', '');
+        $titleContext = $this->getParam ('TITLE_CONTEXT', '');
 
         //_dump($curmod);
 		$myNode = CopixSession::get ('myNode');
@@ -61,9 +62,9 @@ class ZoneModuleContext extends enicZone {
 			$toReturn .= '		</div>';
 			$toReturn .= '		<span>';
             $title = Kernel::Code2Name('mod_'.$this->module);
-            if ($curmod == 'fichesecoles' && isset($myNodeData['ALL']->eco_type) && strtolower($myNodeData['ALL']->eco_type) == 'crèche')
+            if ($titleContext)
             {
-                $title = Kernel::Code2Name('mod_fichesecoles_creche');
+                $title = $titleContext;
             }
             $toReturn .= $title.'</span>';
 			$toReturn .= '	</div>';

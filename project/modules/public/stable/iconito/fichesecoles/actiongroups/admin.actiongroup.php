@@ -241,6 +241,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 
         $tpl = & new CopixTpl ();
         $tpl->assign('TITLE_PAGE', $title);
+        if (strtolower($rEcole->type) == 'crèche')
+            $tpl->assign ('TITLE_CONTEXT', CopixI18N::get ('kernel|kernel.codes.mod_fichesecoles_creche'));
         //$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|fiche', array('id'=>$id)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
         $tpl->assign("MAIN", $main);
         return new CopixActionReturn(COPIX_AR_DISPLAY, $tpl);

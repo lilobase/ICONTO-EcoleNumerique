@@ -63,8 +63,9 @@ $module = CopixRequest::get ('module');
 					<div id="content">
 						<div id="contenttop"><?php getZones("contenttop"); ?></div>
 						<div id="contentmain">
-							<?php $title = (isset($TITLE_PAGE)) ? $TITLE_PAGE : ''; ?>
-							<?php if (inDashContext()) { moduleContext('open', $title); } ?>
+							<?php $title = (isset($TITLE_PAGE)) ? $TITLE_PAGE : '';
+                            $titleContext = (isset($TITLE_CONTEXT)) ? $TITLE_CONTEXT : ''; ?>
+							<?php if (inDashContext()) { moduleContext('open', $title, $titleContext); } ?>
 							<div id="<?php echo $module; ?>" class="<?php echo $module; ?>">
 							<?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:false))); } ?>
 							<?php echo $MAIN; ?>

@@ -69,9 +69,9 @@ function inDashContext() {
     return $response;
 }
 
-function moduleContext($step='open', $title_page='') {
+function moduleContext($step='open', $title_page='', $titleContext='') {
 	$module = CopixRequest::get('module');
-	$content = CopixZone::process ('kernel|moduleContext', array ('STEP'=>$step, 'MODULE'=>$module, 'TITLE_PAGE'=>$title_page));
+	$content = CopixZone::process ('kernel|moduleContext', array ('STEP'=>$step, 'MODULE'=>$module, 'TITLE_PAGE'=>$title_page, 'TITLE_CONTEXT'=>$titleContext));
 	//echo '<pre>MODULE=';print_r($module);echo '</pre>';
 	if (!$content) trigger_error('Unable to process Module Context Frame', E_USER_WARNING);
 	else echo $content;				

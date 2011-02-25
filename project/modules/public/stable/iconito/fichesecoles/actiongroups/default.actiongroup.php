@@ -72,6 +72,8 @@ class ActionGroupDefault extends EnicActionGroup {
                     $title .= ' ('.$rEcole->type.')';
 		
 		$tpl->assign ('TITLE_PAGE', $title);
+        if (strtolower($rEcole->type) == 'crèche')
+            $tpl->assign ('TITLE_CONTEXT', CopixI18N::get ('kernel|kernel.codes.mod_fichesecoles_creche'));
 		$menu = array();
 		$menu[] = array(
 			'url' => CopixUrl::get('public||getListBlogs'),
