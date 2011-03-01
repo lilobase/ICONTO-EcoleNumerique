@@ -77,5 +77,9 @@ class enicHelpers extends enicMod{
         return $this->isty($this->request($iVar));
     }
 
+    public function config($iVar){
+        return CopixConfig::get($iVar);
+    }
+
 
 }

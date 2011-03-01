@@ -21,11 +21,6 @@
 <div><textarea{if !$class} style="width:{$width}px; height:{$height}px;"{/if} name="{$field}" id="{$field}" class="form {$class}">{$content}</textarea></div>
 <div>{$wikibuttons}</div>
 
-{*{elseif $format eq "fckeditor"}
-
-<div>{$fckeditor}</div>
-<div>{$wikibuttons}</div>
-*}
 {elseif $format eq "ckeditor" || $format eq "fckeditor"}
 
 <div>

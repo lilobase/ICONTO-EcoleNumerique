@@ -2,6 +2,7 @@
 
 <div class="dashboard kernel_dash tools_left ink_blue font_dash">
 <div class="border_b font_cursive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tableau d'affichage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
+{copixzone process=rssnotifier|dashboardrss}
 {foreach from=$nodes key=node_type item=nodes_list}
 {foreach from=$nodes_list key=node_id item=node_data}
 
