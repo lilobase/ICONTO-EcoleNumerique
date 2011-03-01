@@ -7,7 +7,8 @@ class ZoneDashboardRss extends enicZone {
     }
 
     function _createContent(&$toReturn) {
-        if ($this->helpers->config('enable')) {
+        _dump($this->helpers->config('enable'));
+        if ($this->helpers->config('enable') != 'false') {
             $this->addJs('js/iconito/module_rssnotifier.js');
             $this->js->addFileByTheme('js/jquery.tmpl.js');
             $toReturn = '<ul id="rssNotifier"></ul>';
