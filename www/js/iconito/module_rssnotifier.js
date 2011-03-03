@@ -2,26 +2,26 @@ jQuery(document).ready(function($){
 
     $.getJSON('/index.php/rssnotifier/default/getJson', function(datas){
 
-	var items = '';
-	var buttons = '';
-	var i = 1;
-	
-	$.each(datas, function(index,data) {
+	items = '';
+	buttons = '';
+	left = 50; // % par défaut de placement des boutons par rapport à la gauche. + il y a d'éléments, - on est éloigné de la gauche
+	$.each(datas, function(i,data) {
 		items += '<li><h4><a href="'+data.link+'">'+data.title+'</a></h4><p><a href="'+data.link+'">'+data.content+'</a> <a class="rssNotifierLink" href="'+data.link+'">Lire la suite...</a></p></li>';
-		buttons += '<li><a href="#" rel="'+i+'"><span>'+i+'</span></a></li>';
-		i++;
+		buttons += '<li><a href="#" rel="'+(i+1)+'"><span>'+(i+1)+'</span></a></li>';
+		left--;
 	});
 	
 	$('#rssNotifierItems').append(items);
 	$('#rssNotifier').append('<ul id="rssNotifierSteps">'+buttons+'</ul>');
 
-    var sliderWidth = $("#rssNotifier").width();
-    var elementWidth = sliderWidth;
-    var nbElement = datas.length;
-    var imageReelWidth = elementWidth * nbElement;
+    sliderWidth = $("#rssNotifier").width();
+    elementWidth = sliderWidth;
+    nbElement = datas.length;
+    imageReelWidth = elementWidth * nbElement;
 
     $('#rssNotifierSteps li a:first').addClass('active');
     $('#rssNotifierItems').css('width', imageReelWidth);
+	$('#rssNotifierSteps').css('left',left+'%');
     $('#rssNotifierItems li').css('width', elementWidth-20);
     
 

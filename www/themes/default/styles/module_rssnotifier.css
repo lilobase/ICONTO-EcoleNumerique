@@ -38,7 +38,7 @@
 #rssNotifierSteps {
     position:absolute; bottom:5px; left:43%;
     margin:0; padding:0;
-    width:75px; height:10px;
+    height:10px;
     list-style:none;
 }
 #rssNotifierSteps li {
