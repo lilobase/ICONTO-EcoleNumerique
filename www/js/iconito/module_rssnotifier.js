@@ -9,17 +9,19 @@ jQuery(document).ready(function($){
             $(this).html("Lire la suite...");
         });
 
-    });
+    
     
     
     var sliderWidth = $("#rssNotifier").width();
-    var elementWidth = 630; //$("#rssNotifierItems li").width();
-    var nbElement = 5; //$("#rssNotifierItems a").size();
+    var elementWidth = sliderWidth;
+    var nbElement = 5; //$("#rssNotifierItems li a").size();
     var imageReelWidth = elementWidth * nbElement;
-    
+
     $('#rssNotifier').append('<ul id="rssNotifierSteps"><li><a href="#" rel="1" class="active"><span>1</span></a></li><li><a href="#" rel="2"><span>2</span></a></li><li><a href="#" rel="3"><span>3</span></a></li><li><a href="#" rel="4"><span>4</span></a></li><li><a href="#" rel="5"><span>5</span></a></li></ul>');
     $('#rssNotifierItems').css('width', imageReelWidth);
+    $('#rssNotifierItems li').css('width', elementWidth-20);
     
+
     // Rotation
     rotate = function (){
         var triggerID = $active.attr("rel") - 1; //Get number of times to slide
@@ -42,7 +44,7 @@ jQuery(document).ready(function($){
                 $active = $('#rssNotifierSteps a:first'); //go back to first
             }
             rotate(); //Trigger the paging and slider function
-        }, 5000); //Timer speed in milliseconds 
+        }, 9000); //Timer speed in milliseconds 
     };
 
     rotateSwitch(); //Run function on launch
@@ -63,5 +65,6 @@ jQuery(document).ready(function($){
         rotateSwitch(); // Resume rotation
         return false;
     });
+});
 
 });
