@@ -1,23 +1,26 @@
 jQuery(document).ready(function($){
 
-    $.getJSON('/index.php/rssnotifier/default/getJson', function(data){
+    $.getJSON('/index.php/rssnotifier/default/getJson', function(datas){
 
-        $.tmpl('<li><h4><a>${title}</a></h4><p><a>${content}</a> <a class="rssNotifierLink" href="">${link}</a></p></li>', data).appendTo('#rssNotifierItems');
+	var items = '';
+	var buttons = '';
+	var i = 1;
+	
+	$.each(datas, function(index,data) {
+		items += '<li><h4><a href="'+data.link+'">'+data.title+'</a></h4><p><a href="'+data.link+'">'+data.content+'</a> <a class="rssNotifierLink" href="'+data.link+'">Lire la suite...</a></p></li>';
+		buttons += '<li><a href="#" rel="'+i+'"><span>'+i+'</span></a></li>';
+		i++;
+	});
+	
+	$('#rssNotifierItems').append(items);
+	$('#rssNotifier').append('<ul id="rssNotifierSteps">'+buttons+'</ul>');
 
-        $("#rssNotifierItems a.rssNotifierLink").each(function(){
-            $("#rssNotifierItems a").attr('href', $(this).text());
-            $(this).html("Lire la suite...");
-        });
-
-    
-    
-    
     var sliderWidth = $("#rssNotifier").width();
     var elementWidth = sliderWidth;
-    var nbElement = 5; //$("#rssNotifierItems li a").size();
+    var nbElement = datas.length;
     var imageReelWidth = elementWidth * nbElement;
 
-    $('#rssNotifier').append('<ul id="rssNotifierSteps"><li><a href="#" rel="1" class="active"><span>1</span></a></li><li><a href="#" rel="2"><span>2</span></a></li><li><a href="#" rel="3"><span>3</span></a></li><li><a href="#" rel="4"><span>4</span></a></li><li><a href="#" rel="5"><span>5</span></a></li></ul>');
+    $('#rssNotifierSteps li a:first').addClass('active');
     $('#rssNotifierItems').css('width', imageReelWidth);
     $('#rssNotifierItems li').css('width', elementWidth-20);
     
