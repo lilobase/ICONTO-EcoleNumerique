@@ -435,18 +435,28 @@ class Kernel {
 			if( ereg( "^USER_(.+)$", $type, $regs ) ) {
 				$dao = _dao("kernel|kernel_link_user2node");
 				$res = $dao->getByUser($type,$id);
+				
 				foreach( $res AS $key=>$val ) {
 
 					// Utilisateurs --(n)--> Groupes de travail (clubs)
-					if($val->node_type=="CLUB" ) {
+					if($val->node_type=="CLUB" )
+					{
 						$ok = true;
 						if ($val->debut && $val->debut>date("Ymd")) $ok = false;
 						if ($val->fin   && $val->fin  <date("Ymd")) $ok = false;
 						$droit = ($ok) ? $val->droit : 19; // CB Remplacer 30 par constante
 						$return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$droit);
 					}
-					if( $val->node_type == "ROOT" ){
+					elseif( $val->node_type == "ROOT" )
+					{
 						$return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
+					}
+					else
+					{
+						$ok = true;
+						if ($val->debut && $val->debut>date("Ymd")) $ok = false;
+						if ($val->fin   && $val->fin  <date("Ymd")) $ok = false;
+						if($ok) $return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$val->droit);
 					}
 						
 					// Utilisateurs --(n)--> Modules
