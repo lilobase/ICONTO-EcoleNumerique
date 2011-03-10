@@ -451,7 +451,7 @@ class Kernel {
 					{
 						$return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
 					}
-					else
+					elseif( ereg( "^BU_(.+)$", $val->node_type ) )
 					{
 						$ok = true;
 						if ($val->debut && $val->debut>date("Ymd")) $ok = false;
