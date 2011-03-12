@@ -280,6 +280,18 @@ class ActionGroupComptes extends CopixActionGroup {
 			$childs = Kernel::getNodeChilds( $pNodeType, $pNodeId );
 			$users_dump = Kernel::filterNodeList( $childs, $pReset );
 
+            if( $pReset == 'USER_RES' ) {
+                $users_dump = array();
+                $eleves = Kernel::filterNodeList( $childs, 'USER_ELE' );
+                foreach( $eleves AS $eleve ) {
+                    $parent = Kernel::getNodeChilds( $eleve['type'], $eleve['id'] );
+                    $parents = Kernel::filterNodeList( $parents, 'USER_RES' );
+                    foreach( $parents AS $parent ) {
+                        $users_dump[] = $parent;
+                    }
+                }
+            }
+
 			foreach( $users_dump AS $user ) {
 				$user_infos = Kernel::getUserInfo( $user['type'], $user['id'] );
 				$bu_user = $bu_dao->getByBUID( $user['type'], $user['id'] );
@@ -332,7 +344,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		// Parcours de tous les utilisateurs de la liste précédente...
 		foreach( _request('typeid') AS $typeid ) {
 			// Si l'utilisateur est sélectionné, on crée le compte. Sinon, on ne fait rien.
-			if( $pConfirm[$typeid] == 1 ) {
+			if( isset($pConfirm[$typeid]) && $pConfirm[$typeid] == 1 ) {
 				// Vérification du format de type "USER_ENS-23", et extraction des valeurs.
 				if( ereg( '(.+)-(.+)', $typeid, $bu_infos ) ) {
 					$user_type = $bu_infos[1];
