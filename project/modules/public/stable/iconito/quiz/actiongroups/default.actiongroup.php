@@ -34,8 +34,8 @@ class ActionGroupDefault extends enicActionGroup {
         $currentQuiz = $this->model->query('SELECT DISTINCT(quiz.id), quiz.* FROM module_quiz_quiz AS quiz
                                             INNER JOIN module_quiz_questions AS answ ON quiz.id = answ.id_quiz
                                             WHERE
-                                            (`date_start` < '.time().' AND `date_end` > '.time().') OR
-                                            (`date_start` = 0 OR `date_end` = 0) AND
+                                            ((`date_start` < '.time().' AND `date_end` > '.time().') OR
+                                            (`date_start` = 0 OR `date_end` = 0)) AND
                                             `lock` = 0 AND gr_id = '.$idGrQuiz.'
                                             ORDER BY date_end DESC')
                                     ->toArray();
