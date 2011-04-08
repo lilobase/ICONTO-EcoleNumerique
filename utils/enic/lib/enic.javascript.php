@@ -82,7 +82,7 @@ class enicJavascript extends enicMod{
     }
 
     public function display(){
-    return  '$(document).ready(function(){'
+    return  'jQuery(document).ready(function($){'
                         .$this->js.
             '});';
     }
