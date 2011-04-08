@@ -388,6 +388,9 @@ class ActionGroupFrontBlog extends CopixActionGroup {
     */
 	function doValidComment() {
 
+        if (Kernel::isSpam())
+            return new CopixActionReturn (CopixActionReturn::HTTPCODE, CopixHTTPHeader::get404 (), "Page introuvable");
+
 		$url_bact = _request('url_bact');
 				
 		//On verifit que le blog existe (on r�cup�re le blog avec son nom)
@@ -429,7 +432,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$comment->authorip_bacc = $_SERVER["REMOTE_ADDR"];
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
-    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
+        CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
 		$tpl->assign ('blog', $blog);
 		

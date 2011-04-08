@@ -2584,4 +2584,30 @@ class Kernel {
 		return false;
 	}
 
+
+
+    /**
+     * Verification de spam, selon les parametres passes et le referer
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2011/04/08
+     * @return boolean True si le visiteur est un robot spammeur, true si c'est un humain
+     */
+
+    public function isSpam()
+    {
+        $oIsSpam = false;
+        if (!isset($_SERVER["HTTP_REFERER"]) || !$_SERVER["HTTP_REFERER"]) // Pas de referer
+            $oIsSpam = true;
+        elseif (CopixRequest::get('url1')) // Champ en commentaire rempli
+            $oIsSpam = true;
+        elseif (CopixRequest::get('url2') != 'Abracadabra') // Champ non visible modifie
+            $oIsSpam = true;
+        return $oIsSpam;
+    }
+
+
+
+
+
+
 }
