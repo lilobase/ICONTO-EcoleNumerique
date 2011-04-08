@@ -192,6 +192,26 @@ function check_php () {
 	return $data;
 }
 
+/**
+ * Connexion a la base de donnees
+ *
+ * @author Christophe Beyer <cbeyer@cap-tic.fr>
+ * @since 2011/01/26
+ * @param string $iHost Serveur
+ * @param string $iLogin Utilisateur
+ * @param string $iPassword Mot de passe
+ * @return mixed Connexion si OK, false sinon
+ */
+function check_mysql_connect($iHost, $iLogin, $iPassword) {
+    $link = @mysql_connect($iHost, $iLogin, $iPassword);
+    if ($link) {
+
+    } else {
+        $link = false;
+    }
+    return $link;
+}
+
 function check_mysql_login() {
 	if( !isset($_POST['login']) || trim($_POST['login'])=='' ) return;
 	
@@ -217,7 +237,7 @@ function check_mysql_login() {
 function check_mysql_databases() {
 	$data = array();
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 	$db_list = @mysql_list_dbs($link);
 	if( $db_list != false ) {
 		while ($row = mysql_fetch_object($db_list)) {
@@ -230,7 +250,7 @@ function check_mysql_databases() {
 function check_mysql_tables($database) {
 	$data = array();
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 
 	$db_selected = mysql_select_db($database, $link);
 	if (!$db_selected) {
@@ -249,7 +269,7 @@ function check_mysql_tables($database) {
 function check_mysql_createdatabase( $database ) {
 	if( -1 != check_mysql_tables( $database )) return false;
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 
 	$sql = "CREATE DATABASE $database";
 	if (mysql_query($sql, $link)) {
@@ -261,7 +281,7 @@ function check_mysql_createdatabase( $database ) {
 
 function check_mysql_importdump( $filename ) {
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 	if( !$link ) die( "Erreur de connexion MySQL" );
 	
 	mysql_select_db($_SESSION['install_iconito']['database']);
@@ -341,7 +361,7 @@ function do_mysql_importdump( $filename, $link ) {
 // CB
 function check_mysql_runquery( $query ) {
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 	if( !$link ) die( "Erreur de connexion MySQL" );
 	
 	mysql_select_db($_SESSION['install_iconito']['database']);
@@ -358,10 +378,16 @@ function do_mysql_runquery( $query, $link ) {
 	return true;
 }
 
+function do_mysql_runquery_list($query, $link) {
+    if (!($oList = mysql_query($query . ';', $link))) {
+        return false;
+    }
+    return $oList;
+}
 
-
-
-
+function do_mysql_move_next($result) {
+    return mysql_fetch_array($result, MYSQL_ASSOC);
+}
 
 function check_admin_password() {
 	$data['caninstall'] = false;
@@ -380,7 +406,7 @@ function check_admin_password() {
 			$data['errors'][] = array(
 				'level' => 'error',
 				'code' => 'passwd_tooshort',
-				'message' => '<b>Votre mot de passe est trop court</b> : 6 caractères minimum.',
+				'message' => '<b>Votre mot de passe est trop court</b> : 6 caractï¿½res minimum.',
 			);
 		}
 		if( ereg('^[a-z]*$',$_POST["passwd"]) || ereg('^[A-Z]*$',$_POST["passwd"]) || ereg('^[0-9]*$',$_POST["passwd"]) ) {
@@ -394,7 +420,7 @@ function check_admin_password() {
 			$data['errors'][] = array(
 				'level' => 'error',
 				'code' => 'passwd_diff',
-				'message' => '<b>Merci de confirmer votre mot de passe</b> : Saisissez deux fois la même chose.',
+				'message' => '<b>Merci de confirmer votre mot de passe</b> : Saisissez deux fois la mï¿½me chose.',
 			);
 		}
 	}
@@ -431,7 +457,7 @@ function check_admin_config() {
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'conf_quote',
-			'message' => 'Vous ne pouvez pas utiliser le caractère double-guillemet (")',
+			'message' => 'Vous ne pouvez pas utiliser le caractï¿½re double-guillemet (")',
 		);
 	}
 	

@@ -1,3 +1,29 @@
+-------------------------------------------------------------------------
+---- NE PAS OUBLIER DE VIDER LE CACHE COPIX APRES LA MISE A JOUR !!! ----
+-------------------------------------------------------------------------
+
+NE PLUS AJOUTER D'UPGRADE SQL DANS CE FICHIER.
+DESORMAIS ICONITO - ECOLE NUMERIQUE UTILISE UN GESTIONNAIRE DE VERSION
+POUR FAIRE LES UPGRADE DE BDD : http://<url>/install/upgrade_bdd.php
+
+--
+--
+-- FINI
+--
+--
+
+CREATE TABLE IF NOT EXISTS `kernel_version_bdd` (
+  `id` smallint(6) NOT NULL auto_increment,
+  `version` smallint(6) NOT NULL,
+  `date` varchar(14) NOT NULL,
+  `ip` varchar(30) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `version` (`version`),
+  KEY `date` (`date`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+--
+
 INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_ENS', 'VOIR', 'BU_ECOLE');
 INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_ENS', 'COMM', 'BU_ECOLE');
 INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_DIR', 'VOIR', 'BU_ECOLE');

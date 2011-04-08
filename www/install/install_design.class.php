@@ -4,7 +4,8 @@ $version = trim(file_get_contents('version.txt'));
 
 $version_txt = ($version) ? $version : 'inconnue';
 
-define( '_MAIN_TITLE', "Installation d'Iconito Ecole Num&eacute;rique ".$version_txt );
+if (!defined('_MAIN_TITLE'))
+    define( '_MAIN_TITLE', "Installation d'Iconito Ecole Num&eacute;rique ".$version_txt );
 define( '_VERSION_TXT', $version_txt);
 
 function display_menu() {
@@ -95,6 +96,7 @@ H1, H2, H3 {
 </head>
 <body>
 <?php
+  if (is_array($titles)) {
 	echo '<div class="steps">'."\n";
 	foreach( $titles AS $title_id => $title_name ) {
 		if( $cpt++ ) echo ' &raquo; ';
@@ -103,7 +105,7 @@ H1, H2, H3 {
 		else echo $title_name;
 	}
 	echo "\n".'</div>'."\n";
-	
+  }
 	echo '<div class="page">'."\n";
 }
 
