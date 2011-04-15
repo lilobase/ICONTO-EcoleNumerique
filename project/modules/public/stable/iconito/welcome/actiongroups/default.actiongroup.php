@@ -28,14 +28,18 @@ class ActionGroupDefault extends enicActionGroup {
 			if ( $getKernelLimitsIdBlog ) {
 					_classInclude ('blog|kernelblog');
 					if ($blog = _ioDao('blog|blog')->getBlogById ($getKernelLimitsIdBlog)) {
-						// On vŽrifie qu'il y a au moins un article
+						// On vï¿½rifie qu'il y a au moins un article
 						$stats = KernelBlog::getStats ($blog->id_blog);
 						if ($stats['nbArticles']['value']>0)
 							$dispBlog = true;
 					}
 				}
-			if ($dispBlog) return CopixActionGroup::process ('blog|frontblog::getListArticle', array ('blog'=>$blog->url_blog));	
-   	   
+			if ($dispBlog)
+            {
+                //return CopixActionGroup::process ('blog|frontblog::getListArticle', array ('blog'=>$blog->url_blog));
+                return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog||', array('blog'=>$blog->url_blog)));
+			}
+
 			CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
       CopixHTMLHeader::addCSSLink(_resource("styles/module_fichesecoles.css"));
 
