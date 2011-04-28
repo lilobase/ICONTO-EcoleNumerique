@@ -12,3 +12,8 @@
 #submenu .menuitems ul li {
 	float: left;
 }
+
+/* Définition de la largeur du bloc pour que les éléments soient alignés à droite comme souhaité */
+#loginBar {
+	width:255px;
+}

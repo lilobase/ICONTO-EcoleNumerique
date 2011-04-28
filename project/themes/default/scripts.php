@@ -169,37 +169,7 @@ $(document).ready(function(){
 				'width'				: 850
 		});
 		
-		/* SET INLINE FIELD LABEL */
-	//	$('input.label-overlay').defaultValue();
-		$('.default-value').each(function() {
-			var default_value = this.value;
-			$(this).focus(function() {
-  				$(this).toggleClass('label-overlayed');
-				if($(this).val() == default_value) {
-					$(this).val('');
-				}
-			});
-			$(this).blur(function() {
-  				$(this).toggleClass('label-overlayed');
-				if($(this).val() == '') {
-					$(this).val(default_value);
-				}
-			});
-		});
-		$('#password-clear').show();
-		$('#password-password').hide();
-		$('#password-clear').focus(function() {
-			$('#password-clear').hide();
-			$('#password-password').show();
-			$('#password-password').focus();
-		});
-		$('#password-password').blur(function() {
-			if($('#password-password').val() == '') {
-				$('#password-clear').show();
-				$('#password-password').hide();
-			}
-		});
-
+	
 		$('.viewuser').click(function(e) {
 			var pos = $(this).offset();
 			viewUserXY ($(this).attr('user_type'), $(this).attr('user_id'), '', pos.left, pos.top );

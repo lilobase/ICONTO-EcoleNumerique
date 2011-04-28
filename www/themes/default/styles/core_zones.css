@@ -72,7 +72,7 @@ input[type="password"] {
 	/*behavior: url(/htc/PIE.htc);*/
 	}
 
-#loginBar input:hover,#loginBar .button-confirm:hover {
+#loginBar input:hover,#loginBar .button-confirm:hover, #loginBar input.filled {
 	color: #333;
 	background-color:#fff;
 	}

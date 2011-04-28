@@ -8,7 +8,7 @@
 /**
  * Zone affichant l'utilisateur connecté
  */
-class ZoneUserLogged extends CopixZone {
+class ZoneUserLogged extends enicZone {
 
 	function _createContent (& $toReturn) {
             //load PPO
@@ -21,7 +21,9 @@ class ZoneUserLogged extends CopixZone {
 		$sexe = ($ppo->user->getExtra('sexe')==2) ? 2 : '';
 		$ppo->usertype = _i18n('kernel|kernel.usertypes.'.strtolower($type).$sexe);
             }
-
+		$this->addJs('js/iconito/module_auth.js');
+		$this->addCss('styles/module_auth.css');
+            
             //load tpl
             $toReturn = $this->_usePPO ($ppo, 'userlogged.tpl');
 	}
