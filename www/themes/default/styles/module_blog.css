@@ -4,16 +4,16 @@
 }
 
 #blog-template #blog-sidebar{
-    float:left;
+	position:absolute; top:0; left:0;
+/*    float:left;*/
     width: 180px;
-    margin-right: -210px;
+/*    margin-right: -210px;*/
     background: #f0f4f0;
 	padding: 10px;
 	font-size: 90%;
 	-moz-border-radius: 8px;
 	-webkit-border-radius: 8px;
 	border-radius: 8px;
-	/*behavior: url(/htc/PIE.htc);*/
 }
 
 #blog-template #blog-content{
@@ -160,6 +160,7 @@
 }
 /* Titre de l'article */
 #listArticles DIV.postTitle {
+	clear:both;
 	margin: 5px 0px 8px 0px;
 	font-size: 170%;
 	font-weight: bold;
@@ -201,7 +202,7 @@
 #article img, #listArticles img, div.adminArticleList img {
 	background: transparent;
 	border: 0;
-	padding:0;
+	padding:0; margin:0 5px 3px 0;
 }
 /* Infos de l'article (date, catégories...) */
 #article DIV.postInfo {
@@ -252,7 +253,6 @@
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	behavior: url(/htc/PIE.htc);
 	color: #595949;
 	font-size: 11px;
 	margin: 0px 30px 6px 30px;
