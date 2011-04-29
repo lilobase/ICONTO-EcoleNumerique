@@ -407,3 +407,7 @@ div.welcome .column2, div.welcome .column1 {
 	display:block;
 	width:440px;	
 }
+
+/* Bouton de validation de connexion qui passe en-dessous sinon */
+#loginBar .loginPrompt input { margin-right:1px; padding-left:2px;}
+#loginBar .loginPrompt #submitUserLogin { margin:4px 0 0; }
