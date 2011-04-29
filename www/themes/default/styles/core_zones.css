@@ -89,7 +89,7 @@ input[type="password"] {
     
 .loginNew {
     display: block;
-    float: left;
+    float: right;
     height: 48px;
     width: 48px;
     padding-left: 2px;
