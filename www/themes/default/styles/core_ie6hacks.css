@@ -411,3 +411,7 @@ div.welcome .column2, div.welcome .column1 {
 /* Bouton de validation de connexion qui passe en-dessous sinon */
 #loginBar .loginPrompt input { margin-right:1px; padding-left:2px;}
 #loginBar .loginPrompt #submitUserLogin { margin:4px 0 0; }
+
+
+/* Hauteur du Blog (min-height pour iE7 et >) */
+#blog #blog-template {height:500px; overflow:visible;}
