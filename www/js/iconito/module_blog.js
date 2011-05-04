@@ -27,3 +27,14 @@ function deleteMembres () {
     $('form#form').submit();
   }
 }
+
+
+/* Vérification de la hauteur des blocs et modification de l'apparence si besoin */
+$(document).ready(function(){
+	
+	sidebarHeight = $('#blog-sidebar').height();
+	contentHeight = $('#blog-content').height();
+	if (sidebarHeight > contentHeight)
+		$('#blog-content').css('height', sidebarHeight);
+	
+});
