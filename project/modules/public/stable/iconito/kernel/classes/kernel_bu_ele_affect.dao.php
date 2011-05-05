@@ -45,6 +45,23 @@ class DAOKernel_bu_ele_affect {
 	}
 	
 	/**
+	 * Retourne l'association courante d'un élève
+	 *
+	 * @param int $studentId Identifiant d'un élève
+	 * @return DAORecord
+	 */
+	public function getCurrentAffectByStudent ($studentId) {
+	  
+	  $criteria = _daoSp ();
+		$criteria->addCondition ('affect_eleve', '=', $studentId);
+		$criteria->addCondition ('affect_current', '=', 1);
+		
+		$results = $this->findBy ($criteria);
+		
+		return isset ($results[0]) ? $results[0] : false;
+	}
+	
+	/**
 	* Vérifie si un élève à des affectations dans une école donnée
 	*
 	* @param int $studentId Identifiant d'un élève

@@ -1,0 +1,51 @@
+<?php
+  $html  = '<div class="month-calendar">';
+  $html .=  '<table border="1">';
+  $html .=    '<tr>';
+  $html .=      '<td class="prev-month"><a href="'.CopixUrl::get('cahier||showWorks', array('nid' => $ppo->nid, 'day' => date('d', $ppo->prevMonth), 'month' => date('m', $ppo->prevMonth), 'year' => date('Y', $ppo->prevMonth))).'"><</a></td>';
+  $html .=      '<td colspan="5" class="month">'.$ppo->month_name.' ('.$ppo->year.')</td>';
+  $html .=      '<td class="next-month"><a href="'.CopixUrl::get('cahier||showWorks', array('nid' => $ppo->nid, 'day' => date('d', $ppo->nextMonth), 'month' => date('m', $ppo->nextMonth), 'year' => date('Y', $ppo->nextMonth))).'">></a></td>';
+  $html .=    '<tr>';
+  $html .=      '<td class="day">L</td>';
+  $html .=      '<td class="day">M</td>';
+  $html .=      '<td class="day">M</td>';
+  $html .=      '<td class="day">J</td>';
+  $html .=      '<td class="day">V</td>';
+  $html .=      '<td class="day">S</td>';
+  $html .=      '<td class="day">D</td>';
+  $html .=    '</tr>';
+  $html .=    '<tr>';
+
+  // Cases vides avant premier jour du mois
+  while ($ppo->daycode < $ppo->firstDayOfWeek) {
+    
+    $html .= '<td class="empty">&nbsp;</td>';
+    $ppo->daycode++;
+  }
+
+  // Boucle sur la liste des jours du mois
+  for ($numday = 1; $numday <= $ppo->daysInMonth; $numday++, $ppo->daycode++) {
+    
+    // lundi : ouverture d'une nouvelle ligne
+    if ($ppo->daycode%7 == 1 && $numday != 1) {
+      $html .= '</tr><tr>';
+    }
+    
+    $html .= '<td class="';
+    ($numday == $ppo->day and $html .= 'selected');
+    $html .= '"><a href="'.CopixUrl::get('cahier||showWorks', array('nid' => $ppo->nid, 'day' => $numday, 'month' => $ppo->month, 'year' => $ppo->year)).'">'.$numday.'</a></td>';
+  }
+  
+  // Cases vides après dernier jour du mois
+  while ($ppo->daycode%7 != 1) {
+    
+    $html .= '<td class="empty">&nbsp;</td>';
+    $ppo->daycode++;
+  }
+
+  $html .=     '</tr>';
+  $html .=   '</table>';
+  $html .= '</div>';
+
+  echo $html;
+?>

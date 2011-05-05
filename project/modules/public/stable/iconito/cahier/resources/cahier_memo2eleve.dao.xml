@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="module_cahier_memo2eleve" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="memo_id" fieldname="module_cahier_memo_id" type="integer" required="yes" pk="yes"/>
+    <property name="eleve_id" fieldname="kernel_bu_eleve_idEleve" type="integer" required="yes" pk="yes"/>
+    <property name="signe_le" fieldname="signe_le" type="string" maxlength="14" required="no"/>
+    <property name="commentaire" fieldname="commentaire" type="string" maxlength="255" required="no"/>
+  </properties>
+  <methods>
+  </methods>
+</daodefinition>

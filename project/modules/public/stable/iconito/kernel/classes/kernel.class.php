@@ -2042,6 +2042,10 @@ class Kernel {
 	function isEnseignant () {
 		return (_currentUser()->getExtra('type') == 'USER_ENS');
 	}
+	
+	function isEnseignantForIdClass ($classId) {
+	  return (_currentUser()->getExtra('type') == 'USER_ENS' && in_array($classId, _currentUser()->getExtra('link')->classe));
+	}
 
 	/**
 	 * Détermine si l'usager courant est un agent de ville

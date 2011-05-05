@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="module_cahier_travail2files" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="travail_id" fieldname="module_cahier_travail_id" type="integer" required="yes" fkTable="module_cahier_travail" fkFieldName="id" pk="yes"/>
+    <property name="file_id" fieldname="module_malle_files_id" type="integer" required="yes" fkTable="module_malle_files" fkFieldName="id" pk="yes"/>
+  </properties>
+  <methods>
+  </methods>
+</daodefinition>
