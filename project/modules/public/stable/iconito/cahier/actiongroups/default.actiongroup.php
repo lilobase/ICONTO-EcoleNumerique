@@ -35,6 +35,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->year  = _request ('year', date('Y'));
     
     $ppo->title = 'DATE JOUR';
+    $ppo->userType = _currentUser()->getExtra('type');    
 	  
 	  return _arPPO ($ppo, 'show_works.tpl');
 	}
