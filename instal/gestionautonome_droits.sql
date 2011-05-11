@@ -83,7 +83,10 @@ INSERT INTO `modulecredentialsgroups` (`id_mcg`, `id_mc`, `id_mcv`, `handler_gro
 (43, 10, 30, 'auth|dbgrouphandler', '9'),
 (44, 11, 33, 'auth|dbgrouphandler', '9'),
 (45, 12, NULL, 'auth|dbgrouphandler', '9'),
-(46, 8, 24, 'auth|dbgrouphandler', '9');
+(46, 8, 24, 'auth|dbgrouphandler', '9'),
+(47, 10, 29, 'auth|dbgrouphandler', '10'),
+(48, 11, 32, 'auth|dbgrouphandler', '10'),
+(49, 12, NULL, 'auth|dbgrouphandler', '10');
 
 --
 -- Contenu de la table `modulecredentials`
@@ -110,4 +113,5 @@ INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `
 (6, 'principal', NULL, 0, 0, 0),
 (7, 'teacher', NULL, 0, 0, 0),
 (8, 'cities_group_animator', NULL, 0, 0, 0),
-(9, 'schools_group_animator', NULL, 0, 0, 0);
+(9, 'schools_group_animator', NULL, 0, 0, 0),
+(10, 'teacher_school', NULL, 0, 0, 0);

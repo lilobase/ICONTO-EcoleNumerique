@@ -1103,6 +1103,23 @@ CREATE TABLE `kernel_sso_users` (
 
 -- --------------------------------------------------------
 
+--
+-- Structure de la table `kernel_version_bdd`
+--
+
+DROP TABLE IF EXISTS `kernel_version_bdd`;
+CREATE TABLE IF NOT EXISTS `kernel_version_bdd` (
+  `id` smallint(6) NOT NULL auto_increment,
+  `version` smallint(6) NOT NULL,
+  `date` varchar(14) NOT NULL,
+  `ip` varchar(30) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `version` (`version`),
+  KEY `date` (`date`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
 -- 
 -- Structure de la table `module_agenda_agenda`
 -- 
@@ -1492,6 +1509,8 @@ CREATE TABLE `module_fiches_ecoles` (
   `zone4_titre` varchar(200) default NULL,
   `zone4_texte` text,
   `photo` varchar(200) default NULL,
+  `doc1_titre` VARCHAR( 200 ) NULL DEFAULT NULL,
+  `doc1_fichier` VARCHAR( 200 ) NULL DEFAULT NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
