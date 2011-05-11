@@ -168,14 +168,14 @@ INSERT INTO `module_rightmatrix` (`id`, `user_type_in`, `user_type_out`, `right`
 (55, 'USER_ATI', 'USER_ENS', 'COMM', 'BU_GRVILLE'),
 (56, 'USER_ATI', 'USER_DIR', 'VOIR', 'BU_GRVILLE'),
 (57, 'USER_ATI', 'USER_DIR', 'COMM', 'BU_GRVILLE'),
-(58, 'USER_ADM', 'USER_ENS', 'VOIR', 'BU_ECOLE');
-(59, 'USER_ADM', 'USER_ENS', 'COMM', 'BU_ECOLE');
-(60, 'USER_ADM', 'USER_DIR', 'VOIR', 'BU_ECOLE');
-(61, 'USER_ADM', 'USER_DIR', 'COMM', 'BU_ECOLE');
-(62, 'USER_ENS', 'USER_ADM', 'VOIR', 'BU_ECOLE');
-(63, 'USER_ENS', 'USER_ADM', 'COMM', 'BU_ECOLE');
-(64, 'USER_DIR', 'USER_ADM', 'VOIR', 'BU_ECOLE');
-(65, 'USER_DIR', 'USER_ADM', 'COMM', 'BU_ECOLE');;
+(58, 'USER_ADM', 'USER_ENS', 'VOIR', 'BU_ECOLE'),
+(59, 'USER_ADM', 'USER_ENS', 'COMM', 'BU_ECOLE'),
+(60, 'USER_ADM', 'USER_DIR', 'VOIR', 'BU_ECOLE'),
+(61, 'USER_ADM', 'USER_DIR', 'COMM', 'BU_ECOLE'),
+(62, 'USER_ENS', 'USER_ADM', 'VOIR', 'BU_ECOLE'),
+(63, 'USER_ENS', 'USER_ADM', 'COMM', 'BU_ECOLE'),
+(64, 'USER_DIR', 'USER_ADM', 'VOIR', 'BU_ECOLE'),
+(65, 'USER_DIR', 'USER_ADM', 'COMM', 'BU_ECOLE');
 
 -- 
 -- Contenu de la table copixmodule
