@@ -104,6 +104,26 @@ class DAOKernel_bu_res {
 
    	return isset ($results[0]) ? $results[0] : false;
 	}
+	
+	/**
+   * Indique si un responsable est parent de l'élève indiqué
+   *
+   * @param int $parentId
+   * @param int $studentId
+   *
+   * @return boolean
+   */
+	function isParentOfStudent ($parentId, $studentId) {
+	  
+	  $sql = $this->_selectQuery . ', kernel_bu_responsables'
+		     . ' WHERE kernel_bu_responsable.numero=kernel_bu_responsables.id_responsable'
+		     . ' AND kernel_bu_responsables.id_beneficiaire=:studentId'
+		     . ' AND kernel_bu_responsable.numero=:parentId';
+
+	  $results = _doQuery($sql, array (':studentId' => $studentId, ':parentId' => $parentId));
+
+   	return isset ($results[0]) ? true : false;
+	}
 
 }
 

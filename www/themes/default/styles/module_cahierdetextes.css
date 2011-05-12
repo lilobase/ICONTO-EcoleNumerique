@@ -1,0 +1,52 @@
+.selected {
+  font-weight: bold;
+}
+
+.month-calendar .selected {
+  background-color: #ccc;
+}
+
+.month-calendar .with-work {
+  font-weight: bold;
+}
+
+.works {
+  float: left;
+  margin-right: 2%;
+  width: 80%;
+}
+
+.sidebar {
+  margin-left: 82%;
+}
+
+.classroom-works-list,
+.todo-works-list,
+.memos-list {
+  margin: 10px 0; 
+  padding: 10px;
+  border: 2px solid black;
+}
+
+.work,
+.memo {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px dashed black;
+}
+
+.top-bar {
+  margin: 0;
+  padding: 0;
+  height: 20px;
+  width: 100%;
+  list-style-type: none;
+}
+.top-bar li {
+  float: left;
+  margin-right: 20px;
+}
+
+#show-memos {
+  height: 100px;
+}

@@ -2030,6 +2030,12 @@ class Kernel {
 	function isParent () {
 		return (_currentUser()->getExtra('type') == 'USER_RES');
 	}
+	
+	function isParentOfEleve ($idEleve) {
+	  $resDAO = _ioDAO('kernel|kernel_bu_res');
+	  
+		return (_currentUser()->getExtra('type') == 'USER_RES' && $resDAO->isParentOfStudent (_currentUser()->getExtra('id'), $idEleve)) ;
+	}
 
 
 	/**
@@ -2043,8 +2049,8 @@ class Kernel {
 		return (_currentUser()->getExtra('type') == 'USER_ENS');
 	}
 	
-	function isEnseignantForIdClass ($classId) {
-	  return (_currentUser()->getExtra('type') == 'USER_ENS' && in_array($classId, _currentUser()->getExtra('link')->classe));
+	function isEnseignantOfClasse ($idClasse) {
+	  return (_currentUser()->getExtra('type') == 'USER_ENS' && in_array($idClasse, _currentUser()->getExtra('link')->classe));
 	}
 
 	/**
