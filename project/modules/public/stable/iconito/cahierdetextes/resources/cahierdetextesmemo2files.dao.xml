@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="cahierdetextesmemo2files" tablename="module_cahierdetextes_memo2files" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="memo_id" fieldname="module_cahierdetextes_memo_id" type="integer" pk="yes"/>
+    <property name="file_id" fieldname="module_malle_files_id" type="integer" pk="yes"/>
+  </properties>
+  <methods>
+  </methods>
+</daodefinition>

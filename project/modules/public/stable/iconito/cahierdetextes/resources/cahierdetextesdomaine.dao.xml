@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="cahierdetextesdomaine" tablename="module_cahierdetextes_domaine" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="id" fieldname="id" type="autoincrement" required="yes" pk="true"/>
+    <property name="classe_id" fieldname="kernel_bu_ecole_classe_id" type="integer" required="yes"/>
+    <property name="nom" fieldname="nom" type="string" maxlength="64" required="yes"/>
+  </properties>
+  <methods>
+  </methods>
+</daodefinition>

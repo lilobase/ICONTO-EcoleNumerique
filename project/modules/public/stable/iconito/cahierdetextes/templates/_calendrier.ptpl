@@ -1,0 +1,52 @@
+<?php
+  $html  = '<div class="month-calendar">';
+  $html .=  '<table border="1">';
+  $html .=    '<tr>';
+  $html .=      '<td class="prev-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'"><</a></td>';
+  $html .=      '<td colspan="5" class="mois">'.$ppo->nomMois.' ('.$ppo->annee.')</td>';
+  $html .=      '<td class="next-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'">></a></td>';
+  $html .=    '<tr>';
+  $html .=      '<td class="jour">L</td>';
+  $html .=      '<td class="jour">M</td>';
+  $html .=      '<td class="jour">M</td>';
+  $html .=      '<td class="jour">J</td>';
+  $html .=      '<td class="jour">V</td>';
+  $html .=      '<td class="jour">S</td>';
+  $html .=      '<td class="jour">D</td>';
+  $html .=    '</tr>';
+  $html .=    '<tr>';
+
+  // Cases vides avant premier jour du mois
+  while ($ppo->codePremierJourSemaine < $ppo->codePremierJourDeLaSemaineSelectionnee) {
+    
+    $html .= '<td class="empty">&nbsp;</td>';
+    $ppo->codePremierJourSemaine++;
+  }
+
+  // Boucle sur la liste des jours du mois
+  for ($numjour = 1; $numjour <= $ppo->nombreDeJoursDansLeMois; $numjour++, $ppo->codePremierJourSemaine++) {
+    
+    // lundi : ouverture d'une nouvelle ligne
+    if ($ppo->codePremierJourSemaine%7 == 1 && $numjour != 1) {
+      $html .= '</tr><tr>';
+    }
+    
+    $html .= '<td class="';
+    ($numjour == $ppo->jour and $html .= 'selected ');
+    $html .= count($ppo->travaux[$numjour]) == 0 ? 'no-work' : 'with-work';
+    $html .= '"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => $numjour, 'mois' => $ppo->mois, 'annee' => $ppo->annee)).'">'.$numjour.'</a></td>';
+  }
+  
+  // Cases vides après dernier jour du mois
+  while ($ppo->codePremierJourSemaine%7 != 1) {
+    
+    $html .= '<td class="empty">&nbsp;</td>';
+    $ppo->codePremierJourSemaine++;
+  }
+
+  $html .=     '</tr>';
+  $html .=   '</table>';
+  $html .= '</div>';
+
+  echo $html;
+?>

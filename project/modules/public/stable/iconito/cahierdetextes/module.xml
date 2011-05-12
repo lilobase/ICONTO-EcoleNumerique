@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="cahierdetextes" descriptioni18n="cahierdetextes.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <parameters>
+      <parameter name="format_par_defaut" default="ckeditor" />
+      <parameter name="style_affichage_domaines" default="radio" />
+  	</parameters>
+</moduledefinition>
