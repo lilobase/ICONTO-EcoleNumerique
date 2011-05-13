@@ -21,4 +21,6 @@
   </li>
   
   <li class="next-week"><a href="{copixurl dest="cahierdetextes||voirTravaux" nid=$ppo->nid jour=$ppo->semaineSuivante|date_format:"%d" mois=$ppo->semaineSuivante|date_format:"%m" annee=$ppo->semaineSuivante|date_format:"%Y"}">></a></li>
+  
+  <li><a href="{copixurl dest="cahierdetextes||voirMemos" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.memos"}</a></li>
 </ul>

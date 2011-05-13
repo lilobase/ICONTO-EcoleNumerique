@@ -21,7 +21,7 @@
 <form name="travail_add" id="travail_add" action="{copixurl dest="cahierdetextes||editerTravail"}" method="POST" enctype="multipart/form-data">
   <fieldset>
     <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
-    <input type="hidden" name="aFaire" id="aFaire" value="{$ppo->travail->a_faire}" />
+    <input type="hidden" name="a_faire" id="a_faire" value="{$ppo->travail->a_faire}" />
     <input type="hidden" name="travailId" id="travailId" value="{$ppo->travail->id}" />
     
     {if $ppo->travail->a_faire}  

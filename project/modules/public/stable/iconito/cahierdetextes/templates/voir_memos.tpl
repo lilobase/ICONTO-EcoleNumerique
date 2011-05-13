@@ -2,6 +2,10 @@
 
 <h4>{i18n key="cahierdetextes.message.memos"}</h4>
 
+{if $ppo->success}
+  <p class="success">{i18n key="cahierdetextes.message.success"}</p>
+{/if}
+
 {if $ppo->typeUtilisateur == 'USER_ENS'}<span><a href="{copixurl dest="cahierdetextes||editerMemo" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.addMemo"}</a></span>{/if}
 
 <div class="memos-list">
@@ -11,6 +15,7 @@
         {$memo->message}
         
         {if $ppo->typeUtilisateur == 'USER_ENS'}
+          {popupinformation handler=onclick zone='cahierdetextes|'}{/popupinformation}
           {if $memo->avec_signature}
             Voir le suivi
           {else}
@@ -21,7 +26,15 @@
           </span>
         {/if}
         
-        {if $ppo->typeUtilisateur == 'USER_RES' && $memo->avec_signature}
+        {if $memo->avec_signature}
+          {if $memo->signe_le}
+            {i18n key="cahierdetextes.message.signOn"} : {$memo->signe_le}
+          {else}
+            {i18n key="cahierdetextes.message.toSignOn"} : {$memo->date_max_signature}
+          {/if}
+        {/if}
+        
+        {if $ppo->typeUtilisateur == 'USER_RES' && $memo->avec_signature && $memo->signe_le == ''}
           <form name="memo_sign" id="memo_sign" action="{copixurl dest="cahierdetextes||voirMemos"}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
             <input type="hidden" name="memoId" id="memoId" value="{$memo->id}" />

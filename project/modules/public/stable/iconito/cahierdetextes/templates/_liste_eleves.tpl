@@ -43,12 +43,15 @@
       
       $(':checkbox[name^=eleves]').attr('checked', $('#check_all').is(':checked'));
     });
-    
+
     $(':checkbox[name^=niveaux]').click(function () { 
       
       var class = $(this).val();
-      $('.'+class).find('checkbox').attr('checked', $(this).is(':checked'));
+      $('.'+class+':checkbox').css("border","13px solid red");
+
     });
+    
+    
   });
 //]]> 
 </script>

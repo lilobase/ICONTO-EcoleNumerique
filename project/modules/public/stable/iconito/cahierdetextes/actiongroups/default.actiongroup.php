@@ -151,6 +151,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->jour  = _request ('jour', date('d'));
   	$ppo->mois  = _request ('mois', date('m'));
   	$ppo->annee = _request ('annee', date('Y'));
+  	$ppo->success = _request ('success', null);
   	
   	$ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
 	  
@@ -175,7 +176,7 @@ class ActionGroupDefault extends CopixActionGroup {
 
   	  $ppo->travail = _record ('cahierdetextes|cahierdetextestravail');
   	  
-  	  $ppo->travail->a_faire  = _request ('aFaire', 0);
+  	  $ppo->travail->a_faire  = _request ('a_faire', 0);
     	// Travail à faire, par défaut date de réalisation = date de création + 1
     	if ($ppo->travail->a_faire) {
     	  
@@ -194,7 +195,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (CopixRequest::isMethod ('post')) {
       
       $ppo->travail->domaine_id        = _request ('travail_domaine_id', null);
-      $ppo->travail->a_faire           = _request ('aFaire', null);
+      $ppo->travail->a_faire           = _request ('a_faire', null);
       $ppo->travail->date_creation     = _request ('travail_date_creation', null);
       $ppo->travail->date_realisation  = _request ('travail_date_realisation', null);
       $ppo->travail->description       = _request ('travail_description', null);
@@ -279,13 +280,13 @@ class ActionGroupDefault extends CopixActionGroup {
           return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
           break;
         case 1:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('nid' => $ppo->nid)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('nid' => $ppo->nid, 'success' => $ppo->success)));
           break;
         case 2:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('aFaire' => 1, 'nid' => $ppo->nid)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('nid' => $ppo->nid, 'success' => $ppo->success, 'a_faire' => 1)));
           break;
         default:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
           break;
       }
     }
@@ -339,6 +340,7 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->jour  = _request ('jour', date('d'));
   	$ppo->mois  = _request ('mois', date('m'));
   	$ppo->annee = _request ('annee', date('Y'));
+  	$ppo->success = _request ('success', null);
   	
   	$time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
   	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
@@ -398,6 +400,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->jour   = _request ('jour', date('d'));
   	$ppo->mois   = _request ('mois', date('m'));
   	$ppo->annee  = _request ('annee', date('Y'));
+  	$ppo->success = _request ('success', null);
   	
   	$ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
   	$ppo->format = CopixConfig::get('cahierdetextes|format_par_defaut');
@@ -485,14 +488,41 @@ class ActionGroupDefault extends CopixActionGroup {
           $memo2eleveDAO->insert($memo2eleve);
         }
       }
-      
-      $ppo->success = true;
 
-      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $ppo->nid)));
+      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $ppo->nid, 'success' => true)));
 	  }
   	
   	return _arPPO ($ppo, 'editer_memo.tpl');
   }
+  
+  /**
+	 * Suppression d'un mémo - * Enseignant *
+	 */
+	public function processSupprimerMemo () {
+	  
+	  $ppo = new CopixPPO ();
+	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+	  
+	  if (is_null($nid = _request('nid', null)) || !$memo = $memoDAO->get (_request('memoId', null))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	  }
+	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	  }
+    
+    // Suppression des relations mémos - eleves existantes
+    $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+    $memo2eleveDAO->deleteByMemo($memo->id);
+    
+    // Suppression du mémos
+    $memoDAO->delete($memo->id);
+    
+    return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $nid, 'success' => true)));
+	}
   
   public function go () {
 

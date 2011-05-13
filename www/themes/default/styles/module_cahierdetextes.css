@@ -50,3 +50,8 @@
 #show-memos {
   height: 100px;
 }
+
+.success {
+  background-color: green;
+  color: white;
+}

@@ -20,12 +20,13 @@ class DAOCahierDeTextesMemo {
    */
   public function findByEleve ($idEleve) {
     
-    $sql = 'SELECT '
+    $sql = 'SELECT cahierdetextesmemo.*, module_cahierdetextes_memo2eleve.signe_le'
+      . ' FROM module_cahierdetextes_memo AS cahierdetextesmemo'
   	  . ' LEFT JOIN module_cahierdetextes_memo2eleve ON (cahierdetextesmemo.id = module_cahierdetextes_memo2eleve.module_cahierdetextes_memo_id)'
   	  . ' WHERE module_cahierdetextes_memo2eleve.kernel_bu_eleve_idEleve=:idEleve'
   	  . ' AND cahierdetextesmemo.supprime = 0'
       . ' GROUP BY cahierdetextesmemo.id'
-      . ' ORDER BY cahierdetextesmemo.date_creation ASC';
+      . ' ORDER BY cahierdetextesmemo.date_creation DESC, cahierdetextesmemo.id DESC';
 
   	return _doQuery ($sql, array(':idEleve' => $idEleve));
   }
@@ -39,13 +40,14 @@ class DAOCahierDeTextesMemo {
    */
   public function findByClasse ($idClasse) {
     
-    $sql = $this->_selectQuery
-  	  . ' WHERE kernel_bu_ecole_classe_id=:idClasse'
-  	  . ' AND supprime = 0'
-      . ' GROUP BY id'
-      . ' ORDER BY date_creation ASC';
-
-  	return _doQuery ($sql, array(':idClasse' => $idClasse));
+    $criteria = _daoSp ();
+		$criteria->addCondition ('classe_id', '=', $idClasse);
+		$criteria->addCondition ('supprime', '=', 0);
+		$criteria->groupBy ('id');
+		$criteria->orderBy (array ('date_creation', 'DESC'));
+		$criteria->orderBy (array ('id' , 'DESC'));
+		
+		return $this->findBy ($criteria);
   }
   
   /**
@@ -63,8 +65,7 @@ class DAOCahierDeTextesMemo {
   	  . ' AND cahierdetextesmemo.supprime = 0'
   	  . ' AND cahierdetextesmemo.avec_signature = 1'
   	  . ' AND module_cahierdetextes_memo2eleve.signe_le IS NULL'
-      . ' GROUP BY cahierdetextesmemo.id'
-      . ' ORDER BY cahierdetextesmemo.date_creation ASC';
+      . ' GROUP BY cahierdetextesmemo.id';
       
     $results = _doQuery ($sql, array(':idEleve' => $idEleve));
     
