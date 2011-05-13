@@ -15,7 +15,7 @@
         {$memo->message}
         
         {if $ppo->typeUtilisateur == 'USER_ENS'}
-          {popupinformation handler=onclick zone='cahierdetextes|'}{/popupinformation}
+
           {if $memo->avec_signature}
             Voir le suivi
           {else}
