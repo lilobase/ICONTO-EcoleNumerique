@@ -13,7 +13,9 @@ div.dashboard div.content {
 }
 #cahierdetextes h4 {
 	float:left; clear:both;
+	margin:0.5em 0 1em;
 	width:73%;
+	font-size:1.6rem;
 	text-align:center;
 }
 #cahierdetextes a.actionLink {
@@ -69,6 +71,7 @@ div.dashboard div.content {
 
 
 /* Navigation */
+#cahierdetextes #submenu .menuitems ul li a {width:65px;}
 #cahierdetextes #submenu .menuitems ul li.newGroupItems {margin-left:50px;}
 #cahierdetextes #submenu .menuitems ul li a:hover {text-decoration:none;}
 
