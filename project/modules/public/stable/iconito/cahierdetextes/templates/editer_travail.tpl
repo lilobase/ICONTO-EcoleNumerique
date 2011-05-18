@@ -42,7 +42,7 @@
     {/if}
     <div class="field">
       <label for="travail_domaine_id" class="form_libelle">{i18n key="cahierdetextes.message.domain"} :</label>
-      {if $ppo->domainsStyleView eq 'radio'}
+      {if $ppo->idsDomaine|@count le $ppo->nombreMaxVueRadio}
         {html_radios name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
       {else}
         {html_options name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}

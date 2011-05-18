@@ -11,9 +11,7 @@
 class ZoneMemos extends CopixZone {
 
 	function _createContent (& $toReturn) {
-	  
-	  CopixHtmlHeader::addJSLink(CopixUrl::get().'js/jquery.easynews.js');
-	  
+
 	  $ppo = new CopixPPO ();
 	  
 	  // Récupération des paramètres
@@ -23,29 +21,19 @@ class ZoneMemos extends CopixZone {
 	  $ppo->annee = $this->getParam('date_annee');
     
     $time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
-
-    // S'il s'agit d'un parent, récupération de l'identifiant de l'élève nécessaire
-    if (Kernel::isParent()) {
-      
-      $affectationEleveDAO = _ioDAO('kernel|kernel_bu_ele_affect');
-      $assignationCourante = $affectationEleveDAO->getCurrentAffectByStudent ($ppo->nid);
-      
-      $idClasse = $assignationCourante->affect_classe;
-      $idEleve  = $ppo->nid;
-    }
 	  
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  if (Kernel::isEleve()) {
 	    
-	    $ppo->memos = $memoDAO->findByEleve(_currentUser()->getExtra('id'), $time);
+	    $ppo->memos = $memoDAO->findByEleve(_currentUser()->getExtra('id'), true);
 	  }
 	  elseif (Kernel::isParent()) {
 	    
-	    $ppo->memos = $memoDAO->findByEleve($idEleve, $time);
+	    $ppo->memos = $memoDAO->findByEleve($ppo->nid, true);
 	  }
 	  elseif (Kernel::isEnseignant()) {
 	    
-	    $ppo->memos = $memoDAO->findByClasse($ppo->nid, $time);
+	    $ppo->memos = $memoDAO->findByClasse($ppo->nid, true);
 	  }
 
 	  $toReturn = $this->_usePPO ($ppo, '_memos.tpl');

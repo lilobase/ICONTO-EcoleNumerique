@@ -4,6 +4,16 @@ class ActionGroupDefault extends CopixActionGroup {
 
 	public function beforeAction () {
     
+    // Contrôle d'accès au module
+    $nid = _request ('nid');
+    if (!Kernel::isEnseignantOfClasse($nid)
+     && !Kernel::isEleveOfClasse($nid)
+     && !Kernel::isParentOfEleve($nid)) {
+       
+       return CopixActionGroup::process ('genericTools|Messages::getError', 
+ 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
+     }
+    
 		CopixHTMLHeader::addCSSLink (_resource ('styles/module_cahierdetextes.css'));
 	}
 	
@@ -28,7 +38,62 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($ppo->nid  = _request ('nid'))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+
+    // Récupération des paramètres
+    $ppo->jour  = _request ('jour', date('d'));
+  	$ppo->mois  = _request ('mois', date('m'));
+  	$ppo->annee = _request ('annee', date('Y'));
+  	$ppo->success = _request ('success', false);
+  	
+  	setlocale(LC_TIME, 'fr');
+  	$dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
+    $ppo->titre = strftime('%A %d %B %Y', $dateSelectionnee);  
+	  
+	  return _arPPO ($ppo, 'voir_travaux.tpl');
+	}
+	
+	/**
+	 * Affichage des travaux sous forme de liste
+	 */
+	public function processVoirListeTravaux () {
+	  
+	  $ppo = new CopixPPO ();
+
+	  if (is_null($ppo->nid  = _request ('nid'))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+
+    // Récupération des paramètres
+    $ppo->jour    = _request ('jour', date('d'));
+  	$ppo->mois    = _request ('mois', date('m'));
+  	$ppo->annee   = _request ('annee', date('Y'));
+  	$ppo->success = _request ('success', false);
+  	
+  	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
+  	
+  	$time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
+  	$intervalle = 100;
+  	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
+  	$ppo->travaux = $travailDAO->findByClasseDateEtIntervalParJourEtType($ppo->nid, $time, $intervalle);
+	  
+	  return _arPPO ($ppo, 'voir_liste_travaux.tpl');
+	}
+	
+	/**
+	 * Affichage des travaux avec filtrage par domaine
+	 */
+	public function processVoirTravauxParDomaine () {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  if (is_null($ppo->nid  = _request ('nid'))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 
     // Récupération des paramètres
@@ -37,10 +102,8 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->annee = _request ('annee', date('Y'));
   	
   	$ppo->success = _request ('success', false);
-    
-    $ppo->titre = $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee;  
 	  
-	  return _arPPO ($ppo, 'voir_travaux.tpl');
+	  return _arPPO ($ppo, 'voir_travaux_par_domaine.tpl');
 	}
 	
 	/**
@@ -53,17 +116,20 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($ppo->nid = _request('nid', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  // ACTION PROTEGEE : l'utilisateur doit être enseignant de la classe
 	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
-	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 
     // Récupération des paramètres
     $nomDomaine = _request ('nom', null);
+	  $ppo->jour  = _request ('jour', date('d'));
+  	$ppo->mois  = _request ('mois', date('m'));
+  	$ppo->annee = _request ('annee', date('Y'));
     $ppo->success = false;
 
     if (CopixRequest::isMethod ('post')) {
@@ -106,12 +172,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($ppo->nid = _request('nid', null)) || !$domaine = $domaineDAO->get (_request('domain_id', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
-	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 
     $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
@@ -139,12 +205,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($ppo->nid = _request('nid', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
-	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }   
 	  
 	  // Récupération des paramètres
@@ -155,8 +221,8 @@ class ActionGroupDefault extends CopixActionGroup {
   	
   	$ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
 	  
-	  $ppo->format         = CopixConfig::get('cahierdetextes|format_par_defaut');
-	  $ppo->styleAffichage = CopixConfig::get('cahierdetextes|style_affichage_domaines');
+	  $ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
+	  $ppo->nombreMaxVueRadio = CopixConfig::get('cahierdetextes|nombre_max_vue_radio');
 	  
 	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
 	  $domaines   = $domaineDAO->findByClasse($ppo->nid);
@@ -210,9 +276,24 @@ class ActionGroupDefault extends CopixActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
       }
+      else {
+        
+        $dateCreation = explode ('/', $ppo->travail->date_creation);
+        $timeCreation = mktime (0, 0, 0, $dateCreation[1], $dateCreation[0], $dateCreation[2]);
+      }
       if ($ppo->travail->a_faire && $ppo->travail->date_realisation == '') {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noRealisationDate');
+      }
+      if ($ppo->travail->a_faire && !is_null($ppo->travail->date_realisation)) {
+        
+        $dateRealisation = explode ('/', $ppo->travail->date_realisation);
+        $timeRealisation = mktime (0, 0, 0, $dateRealisation[1], $dateRealisation[0], $dateRealisation[2]);
+        
+        if (isset($timeCreation) && ($timeRealisation < $timeCreation)) {
+          
+          $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongRealisationDate');
+        }
       }
       if ($ppo->travail->domaine_id == '') {
 
@@ -305,12 +386,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($nid = _request('nid', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
-	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
     
     // Suppression des relations travail - eleves existantes
@@ -333,7 +414,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($ppo->nid  = _request ('nid'))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 
     // Récupération des paramètres
@@ -348,15 +429,15 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  if ($ppo->typeUtilisateur == 'USER_ELE') {
 	    
-	    $ppo->memos = $memoDAO->findByEleve(_currentUser()->getExtra('id'), $time);
+	    $ppo->memos = $memoDAO->findByEleve(_currentUser()->getExtra('id'));
 	  }
 	  elseif ($ppo->typeUtilisateur == 'USER_RES') {
 	    
-	    $ppo->memos = $memoDAO->findByEleve($ppo->nid, $time);
+	    $ppo->memos = $memoDAO->findByEleve($ppo->nid);
 	  }
 	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
 	    
-	    $ppo->memos = $memoDAO->findByClasse($ppo->nid, $time);
+	    $ppo->memos = $memoDAO->findByClasse($ppo->nid);
 	  }
 	  
 	  if (CopixRequest::isMethod ('post')) {
@@ -366,13 +447,15 @@ class ActionGroupDefault extends CopixActionGroup {
 	      || !Kernel::isParentOfEleve($ppo->nid)) {
 	      
 	      return CopixActionGroup::process ('generictools|Messages::getError',
-    			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+    			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	    }
       
       $memo2eleve->signe_le    = date('d/m/Y');
       $memo2eleve->commentaire = _request('commentaire', null);
       
       $memo2eleveDAO->update($memo2eleve);
+      
+      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $ppo->nid)));
     }
 	  
 	  return _arPPO ($ppo, 'voir_memos.tpl');
@@ -388,12 +471,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($ppo->nid = _request('nid', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
-	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 	  
 	  // Récupération des paramètres
@@ -436,6 +519,23 @@ class ActionGroupDefault extends CopixActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
       }
+      else {
+        
+        $dateCreation = explode ('/', $ppo->memo->date_creation);
+        $timeCreation = mktime (0, 0, 0, $dateCreation[1], $dateCreation[0], $dateCreation[2]);
+      }
+      
+      if (!is_null($ppo->memo->date_validite)) {
+       
+       $dateValidite     = explode ('/', $ppo->memo->date_validite);
+       $timeValidite     = mktime (0, 0, 0, $dateValidite[1], $dateValidite[0], $dateValidite[2]);
+       
+       if (isset($timeCreation) && ($timeValidite < $timeCreation))  {
+         
+         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongValidityDate');
+       } 
+      }
+      
       if ($ppo->memo->message == '') {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noContent');
@@ -444,7 +544,17 @@ class ActionGroupDefault extends CopixActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noSignatureDate');
       }
-
+      if ($ppo->memo->avec_signature && !is_null($ppo->memo->date_max_signature)) {
+        
+        $dateMaxSignature = explode ('/', $ppo->memo->date_max_signature);
+        $timeMaxSignature = mktime (0, 0, 0, $dateMaxSignature[1], $dateMaxSignature[0], $dateMaxSignature[2]);
+        
+        if ($timeMaxSignature < $timeValidite) {
+          
+          $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongMaxSignatureDate');
+        }
+      } 
+      
       if (!empty ($ppo->erreurs)) {
 
         return _arPPO ($ppo, 'editer_memo.tpl');
@@ -506,12 +616,12 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (is_null($nid = _request('nid', null)) || !$memo = $memoDAO->get (_request('memoId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
-	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('cahierdetextes||voirTravaux')));
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
     
     // Suppression des relations mémos - eleves existantes
@@ -521,7 +631,29 @@ class ActionGroupDefault extends CopixActionGroup {
     // Suppression du mémos
     $memoDAO->delete($memo->id);
     
-    return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $nid, 'success' => true)));
+    return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $nid, 'success' => true)));
+	}
+	
+	public function processSuiviMemo () {
+	  
+	  $ppo = new CopixPPO ();
+	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+	  
+	  if (is_null($nid = _request('nid', null)) || !$ppo->memo = $memoDAO->get (_request('memoId', null))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
+	  
+	  $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+	  $ppo->suivis = $memo2eleveDAO->findSuiviElevesParMemo(_request('memoId', null));
+
+	  return _arPPO ($ppo, 'suivi_memo.tpl');
 	}
   
   public function go () {

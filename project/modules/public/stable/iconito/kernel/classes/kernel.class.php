@@ -2019,6 +2019,10 @@ class Kernel {
 	function isEleve () {
 		return (_currentUser()->getExtra('type') == 'USER_ELE');
 	}
+	
+	function isEleveOfClasse ($idClasse) {
+		return (_currentUser()->getExtra('type') == 'USER_ELE' && in_array($idClasse, _currentUser()->getExtra('link')->classe));
+	}
 
 	/**
 	 * Détermine si l'usager courant est un parent

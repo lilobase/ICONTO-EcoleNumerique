@@ -12,25 +12,14 @@
   {if $ppo->memos neq null}
     {foreach from=$ppo->memos item=memo}
       <div class="memo">
+        {$memo->date_creation} :
         {$memo->message}
-        
-        {if $ppo->typeUtilisateur == 'USER_ENS'}
 
-          {if $memo->avec_signature}
-            Voir le suivi
-          {else}
-            Voir les concernés
-          {/if}
-          <span class="actions">
-            <a href="{copixurl dest="cahierdetextes||editerMemo" nid=$ppo->nid memoId=$memo->id}">{i18n key="cahierdetextes.message.modify"}</a> - <a href="{copixurl dest="cahierdetextes||supprimerMemo" nid=$ppo->nid memoId=$memo->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteMemoConfirm"}')">{i18n key="cahierdetextes.message.delete"}</a>
-          </span>
-        {/if}
-        
         {if $memo->avec_signature}
           {if $memo->signe_le}
-            {i18n key="cahierdetextes.message.signOn"} : {$memo->signe_le}
+            <p>{i18n key="cahierdetextes.message.signOn"} : {$memo->signe_le}</p>
           {else}
-            {i18n key="cahierdetextes.message.toSignOn"} : {$memo->date_max_signature}
+            <p>{i18n key="cahierdetextes.message.toSignOn"} : {$memo->date_max_signature}</p>
           {/if}
         {/if}
         
@@ -42,6 +31,17 @@
             <input type="text" name="commentaire" id="commentaire" value="Commentaire" />
             <input type="submit" value="Signer" />
           </form>
+        {/if}
+        
+        {if $ppo->typeUtilisateur == 'USER_ENS'}
+          <span class="actions">
+            {if $memo->avec_signature}
+              <a href="{copixurl dest="cahierdetextes||suiviMemo" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$memo->id}">Voir le suivi</a> - 
+            {else}
+              <a href="{copixurl dest="cahierdetextes||suiviMemo" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$memo->id}">Voir les concernés</a> - 
+            {/if}
+            <a href="{copixurl dest="cahierdetextes||editerMemo" nid=$ppo->nid memoId=$memo->id}">{i18n key="cahierdetextes.message.modify"}</a> - <a href="{copixurl dest="cahierdetextes||supprimerMemo" nid=$ppo->nid memoId=$memo->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteMemoConfirm"}')">{i18n key="cahierdetextes.message.delete"}</a>
+          </span>
         {/if}
       </div>
     {/foreach}

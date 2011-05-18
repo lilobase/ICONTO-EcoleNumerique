@@ -4,11 +4,11 @@
 
 {if $ppo->success}
   <p class="success">{i18n key="cahierdetextes.message.success"}</p>
-{elseif not $ppo->errors eq null}
+{elseif not $ppo->erreurs eq null}
 	<div class="message_errors">
 	  <ul>
-	    {foreach from=$ppo->errors item=error}
-		    <li>{$error}</li>
+	    {foreach from=$ppo->erreurs item=erreur}
+		    <li>{$erreur}</li>
 	    {/foreach}
 	  </ul>
 	</div>

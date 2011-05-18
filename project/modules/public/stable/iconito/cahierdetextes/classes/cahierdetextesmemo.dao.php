@@ -18,16 +18,23 @@ class DAOCahierDeTextesMemo {
    *
    * @return CopixDAORecordIterator
    */
-  public function findByEleve ($idEleve) {
+  public function findByEleve ($idEleve, $current = false) {
     
     $sql = 'SELECT cahierdetextesmemo.*, module_cahierdetextes_memo2eleve.signe_le'
       . ' FROM module_cahierdetextes_memo AS cahierdetextesmemo'
   	  . ' LEFT JOIN module_cahierdetextes_memo2eleve ON (cahierdetextesmemo.id = module_cahierdetextes_memo2eleve.module_cahierdetextes_memo_id)'
   	  . ' WHERE module_cahierdetextes_memo2eleve.kernel_bu_eleve_idEleve=:idEleve'
-  	  . ' AND cahierdetextesmemo.supprime = 0'
-      . ' GROUP BY cahierdetextesmemo.id'
+  	  . ' AND cahierdetextesmemo.supprime = 0';
+  	
+  	if ($current) {
+  	  
+  	  $sql .= ' AND (cahierdetextesmemo.date_validite <= '.date('d/m/Y')
+  	    . ' OR cahierdetextesmemo.date_validite IS NULL)';
+  	} 
+  	 
+    $sql .= ' GROUP BY cahierdetextesmemo.id'
       . ' ORDER BY cahierdetextesmemo.date_creation DESC, cahierdetextesmemo.id DESC';
-
+      
   	return _doQuery ($sql, array(':idEleve' => $idEleve));
   }
   
@@ -38,11 +45,17 @@ class DAOCahierDeTextesMemo {
    *
    * @return CopixDAORecordIterator
    */
-  public function findByClasse ($idClasse) {
+  public function findByClasse ($idClasse, $current = false) {
     
     $criteria = _daoSp ();
 		$criteria->addCondition ('classe_id', '=', $idClasse);
 		$criteria->addCondition ('supprime', '=', 0);
+		if ($current) {
+		  $criteria->startGroup ()
+               ->addCondition ('date_validite', '>=', date('d/m/Y'))
+               ->addCondition ('date_validite', '=', null, 'or')
+               ->endGroup ();
+		}
 		$criteria->groupBy ('id');
 		$criteria->orderBy (array ('date_creation', 'DESC'));
 		$criteria->orderBy (array ('id' , 'DESC'));

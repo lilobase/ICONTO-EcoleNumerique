@@ -1,7 +1,9 @@
 <span class="title">{i18n key="cahierdetextes.message.studentsConcerned"}</title>
   
 <div id="students-data">
-  {html_checkboxes name="niveaux" values=$ppo->nomsNiveau output=$ppo->nomsNiveau}
+  <span class="levels">
+    {html_checkboxes name="niveaux" values=$ppo->nomsNiveau output=$ppo->nomsNiveau}
+  </span>
            
   {if $ppo->eleves neq null}
     <table class="liste">
@@ -39,19 +41,53 @@
   
   $(document).ready(function() {
     
+    checkboxChange();
+    
     $('#check_all').click(function () {
       
       $(':checkbox[name^=eleves]').attr('checked', $('#check_all').is(':checked'));
     });
 
-    $(':checkbox[name^=niveaux]').click(function () { 
+    $(':checkbox[name^=niveaux]').click(function () {
       
       var class = $(this).val();
-      $('.'+class+':checkbox').css("border","13px solid red");
-
+      $('.'+class).find('td.check :checkbox').attr('checked', $(this).is(':checked'));
     });
     
+    $(':checkbox').change(function() {
+      checkboxChange();
+    })
     
+    function checkboxChange() {
+      
+      var all_checkboxes = $("tbody :checkbox").length;
+      var all_checked    = $("tbody :checkbox").filter(':checked').length;
+
+      if (all_checkboxes == all_checked) {
+
+        $('#check_all').attr('checked', true);
+      }
+      else {
+        
+        $('#check_all').attr('checked', false);
+      }
+      
+      $(':checkbox[name^=niveaux]').each(function() {
+        
+        var class = $(this).val();
+        var class_checkboxes = $('.'+class).find('td.check :checkbox').length;
+        var class_checked = $('.'+class).find('td.check :checkbox').filter(':checked').length;
+        
+        if (class_checkboxes == class_checked) {
+
+          $(this).attr('checked', true);
+        }
+        else {
+
+          $(this).attr('checked', false);
+        }
+      });
+    }
   });
 //]]> 
 </script>

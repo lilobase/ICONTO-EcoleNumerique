@@ -161,4 +161,55 @@ class DAOCahierDeTextesTravail {
     
     return $toReturn;
 	}
+	
+	/**
+   * Retourne les travaux par jour pour une classe et un mois donnés
+   *
+   * @param int $classeId
+   * @param int $mois
+   * @param int $annee
+   *
+   * @return array
+   */
+	public function findByClasseDateEtIntervalParJourEtType ($idClasse, $timestamp, $intervalle) {
+	  
+	  $toReturn = array();
+	  
+	  $dateDeb = date('d/m/Y', $timestamp);
+	  $dateFin = date('d/m/Y', strtotime('+'.$intervalle.' day', $timestamp));
+	        
+	  $sql = 'SELECT module_cahierdetextes_travail.id, module_cahierdetextes_travail.a_faire, module_cahierdetextes_travail.date_creation, '
+	    . ' module_cahierdetextes_travail.date_realisation, module_cahierdetextes_travail.description, module_cahierdetextes_domaine.nom '
+	    . ' FROM module_cahierdetextes_travail'
+	    . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
+	    . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:idClasse'
+	    . ' AND module_cahierdetextes_travail.supprime = 0'
+	    . ' AND ((module_cahierdetextes_travail.date_creation >= :dateDeb'
+	    . ' AND module_cahierdetextes_travail.date_creation <= :dateFin)'
+	    . ' OR (module_cahierdetextes_travail.date_realisation >= :dateDeb'
+	    . ' AND module_cahierdetextes_travail.date_realisation <= :dateFin))'
+	    . ' GROUP BY module_cahierdetextes_travail.id';
+	  
+	  var_dump($dateDeb.'-'.$dateFin);die();
+	  $results = _doQuery ($sql, array(':idClasse' => $idClasse, ':dateDeb' => $dateDeb, ':dateFin' => $dateFin));
+	  
+	  foreach ($results as $result) {
+	    
+	    
+	    if ($result->a_faire) {
+	      
+	      list($jour, $mois, $annee) = explode('/', $result->date_realisation);
+        $date = mktime(0, 0, 0, $mois, $jour, $annee);
+	      $toReturn[$date][$result->a_faire][] = $result;
+	    }
+	    else {
+	      
+	      list($jour, $mois, $annee) = explode('/', $result->date_creation);
+        $date = mktime(0, 0, 0, $mois, $jour, $annee);
+	      $toReturn[$date][$result->a_faire][] = $result;
+	    }
+	  }
+
+	  return $toReturn;
+	}
 }

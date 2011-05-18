@@ -6,6 +6,6 @@
     </general>
     <parameters>
       <parameter name="format_par_defaut" default="ckeditor" />
-      <parameter name="style_affichage_domaines" default="radio" />
+      <parameter name="nombre_max_vue_radio" default="5" />
   	</parameters>
 </moduledefinition>
