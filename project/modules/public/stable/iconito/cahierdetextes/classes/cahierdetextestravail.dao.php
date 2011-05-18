@@ -45,7 +45,7 @@ class DAOCahierDeTextesTravail {
   	$sql .= ' GROUP BY module_cahierdetextes_travail.id'
   	  . ' ORDER BY module_cahierdetextes_domaine.nom ASC';
   	  
-    return _doQuery ($sql, array(':idEleve' => $idEleve, ':typeDeTravail' => $typeDeTravail, ':date' => date('d/m/Y', $date)));
+    return _doQuery ($sql, array(':idEleve' => $idEleve, ':typeDeTravail' => $typeDeTravail, ':date' => date('Ymd', $date)));
 	}
 	
 	/**
@@ -78,7 +78,7 @@ class DAOCahierDeTextesTravail {
   	$sql .= ' GROUP BY module_cahierdetextes_travail.id'
   	  . ' ORDER BY module_cahierdetextes_domaine.nom ASC';
 
-  	return _doQuery ($sql, array(':idClasse' => $idClasse, ':typeDeTravail' => $typeDeTravail, ':date' => date('d/m/Y', $date)));
+  	return _doQuery ($sql, array(':idClasse' => $idClasse, ':typeDeTravail' => $typeDeTravail, ':date' => date('Ymd', $date)));
 	}
 	
 	/**
@@ -115,14 +115,14 @@ class DAOCahierDeTextesTravail {
   	  . ' LEFT JOIN module_cahierdetextes_travail2eleve ON (module_cahierdetextes_travail.id = module_cahierdetextes_travail2eleve.module_cahierdetextes_travail_id)'
   	  . ' WHERE module_cahierdetextes_travail2eleve.kernel_bu_eleve_idEleve=:idEleve'
   	  . ' AND module_cahierdetextes_travail.supprime = 0'
-  	  . ' AND module_cahierdetextes_travail.date_realisation LIKE \'%'.'/'.$mois.'/'.$annee.'\''
+  	  . ' AND module_cahierdetextes_travail.date_realisation LIKE "'.$annee.$mois.'%"'
   	  . ' GROUP BY module_cahierdetextes_travail.id';
   	  
     $results = _doQuery ($sql, array(':idEleve' => $idEleve));
 
     foreach ($results as $result) {
       
-      $jour = substr($result->date_realisation, 0, 2);
+      $jour = substr($result->date_realisation, 6, 2);
       $toReturn[$jour][] = $result;
     }
     
@@ -148,14 +148,14 @@ class DAOCahierDeTextesTravail {
 	    . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
   	  . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:idClasse'
   	  . ' AND module_cahierdetextes_travail.supprime = 0'
-  	  . ' AND module_cahierdetextes_travail.date_realisation LIKE \'%'.'/'.$mois.'/'.$annee.'\''
+  	  . ' AND module_cahierdetextes_travail.date_realisation LIKE "'.$annee.$mois.'%"'
   	  . ' GROUP BY module_cahierdetextes_travail.id';
 
   	$results = _doQuery ($sql, array(':idClasse' => $idClasse));
   	
   	foreach ($results as $result) {
       
-      $jour = substr($result->date_realisation, 0, 2);
+      $jour = substr($result->date_realisation, 6, 2);
       $toReturn[$jour][] = $result;
     }
     
@@ -171,39 +171,49 @@ class DAOCahierDeTextesTravail {
    *
    * @return array
    */
-	public function findByClasseDateEtIntervalParJourEtType ($idClasse, $timestamp, $intervalle) {
+	public function findByClasseDateEtIntervalParJourEtType ($idClasse, $date, $intervalle) {
 	  
 	  $toReturn = array();
+    
+    // Récupération des dates pour l'intervalle de récupération des travaux
+	  $timestamp = mktime(0, 0, 0, substr($date, 4, 2), substr($date, 6, 2), substr($date, 0, 4));
+	  $dateDeb   = date('Ymd', $timestamp);
+	  $dateFin   = date('Ymd', strtotime('+'.$intervalle.' day', $timestamp));
 	  
-	  $dateDeb = date('d/m/Y', $timestamp);
-	  $dateFin = date('d/m/Y', strtotime('+'.$intervalle.' day', $timestamp));
-	        
 	  $sql = 'SELECT module_cahierdetextes_travail.id, module_cahierdetextes_travail.a_faire, module_cahierdetextes_travail.date_creation, '
 	    . ' module_cahierdetextes_travail.date_realisation, module_cahierdetextes_travail.description, module_cahierdetextes_domaine.nom '
 	    . ' FROM module_cahierdetextes_travail'
 	    . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
 	    . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:idClasse'
 	    . ' AND module_cahierdetextes_travail.supprime = 0'
-	    . ' AND ((module_cahierdetextes_travail.date_creation >= :dateDeb'
+	    . ' AND ((module_cahierdetextes_travail.a_faire = 0'
+	    . ' AND module_cahierdetextes_travail.date_creation >= :dateDeb'
 	    . ' AND module_cahierdetextes_travail.date_creation <= :dateFin)'
-	    . ' OR (module_cahierdetextes_travail.date_realisation >= :dateDeb'
+	    . ' OR (module_cahierdetextes_travail.a_faire = 1'
+	    . ' AND module_cahierdetextes_travail.date_realisation >= :dateDeb'
 	    . ' AND module_cahierdetextes_travail.date_realisation <= :dateFin))'
-	    . ' GROUP BY module_cahierdetextes_travail.id';
+	    . ' GROUP BY module_cahierdetextes_travail.id'
+	    . ' ORDER BY date_creation, date_realisation';
 	  
 	  $results = _doQuery ($sql, array(':idClasse' => $idClasse, ':dateDeb' => $dateDeb, ':dateFin' => $dateFin));
 	  
 	  foreach ($results as $result) {
-	    
-	    
+
 	    if ($result->a_faire) {
 	      
-	      list($jour, $mois, $annee) = explode('/', $result->date_realisation);
+	      $annee = substr($result->date_realisation, 0, 4);
+	      $mois  = substr($result->date_realisation, 4, 2);
+	      $jour  = substr($result->date_realisation, 6, 2);
+
         $date = mktime(0, 0, 0, $mois, $jour, $annee);
 	      $toReturn[$date][$result->a_faire][] = $result;
 	    }
 	    else {
 	      
-	      list($jour, $mois, $annee) = explode('/', $result->date_creation);
+	      $annee = substr($result->date_creation, 0, 4);
+	      $mois  = substr($result->date_creation, 4, 2);
+	      $jour  = substr($result->date_creation, 6, 2);
+	      
         $date = mktime(0, 0, 0, $mois, $jour, $annee);
 	      $toReturn[$date][$result->a_faire][] = $result;
 	    }

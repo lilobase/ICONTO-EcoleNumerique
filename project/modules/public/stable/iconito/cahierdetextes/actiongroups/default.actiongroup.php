@@ -42,9 +42,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 
     // Récupération des paramètres
-    $ppo->jour  = _request ('jour', date('d'));
-  	$ppo->mois  = _request ('mois', date('m'));
-  	$ppo->annee = _request ('annee', date('Y'));
+    $ppo->jour    = _request ('jour', date('d'));
+  	$ppo->mois    = _request ('mois', date('m'));
+  	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', false);
   	
   	setlocale(LC_TIME, 'fr');
@@ -68,17 +68,18 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 
     // Récupération des paramètres
-    $ppo->jour    = _request ('jour', date('d'));
-  	$ppo->mois    = _request ('mois', date('m'));
-  	$ppo->annee   = _request ('annee', date('Y'));
-  	$ppo->success = _request ('success', false);
+    $ppo->jour     = _request ('jour', date('d'));
+  	$ppo->mois     = _request ('mois', date('m'));
+  	$ppo->annee    = _request ('annee', date('Y'));
+    $ppo->nbJours  = _request ('nb_jours', 10);
+  	$ppo->dateDeb  = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
+  	$ppo->success  = _request ('success', false);
   	
+  	$ppo->choixNbJours    = array(1,2, 10, 20, 30, 40, 50);
   	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
-  	
-  	$time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
-  	$intervalle = 100;
+
   	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
-  	$ppo->travaux = $travailDAO->findByClasseDateEtIntervalParJourEtType($ppo->nid, $time, $intervalle);
+  	$ppo->travaux = $travailDAO->findByClasseDateEtIntervalParJourEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
 	  
 	  return _arPPO ($ppo, 'voir_liste_travaux.tpl');
 	}
@@ -262,8 +263,8 @@ class ActionGroupDefault extends CopixActionGroup {
       
       $ppo->travail->domaine_id        = _request ('travail_domaine_id', null);
       $ppo->travail->a_faire           = _request ('a_faire', null);
-      $ppo->travail->date_creation     = _request ('travail_date_creation', null);
-      $ppo->travail->date_realisation  = _request ('travail_date_realisation', null);
+      $ppo->travail->date_creation     = CopixDateTime::dateToyyyymmdd(_request ('travail_date_creation', null));
+      $ppo->travail->date_realisation  = CopixDateTime::dateToyyyymmdd(_request ('travail_date_realisation', null));
       $ppo->travail->description       = _request ('travail_description', null);
       $ppo->travail->supprime          = 0;
       $ppo->elevesSelectionnes         = _request ('eleves', array());
@@ -276,24 +277,13 @@ class ActionGroupDefault extends CopixActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
       }
-      else {
-        
-        $dateCreation = explode ('/', $ppo->travail->date_creation);
-        $timeCreation = mktime (0, 0, 0, $dateCreation[1], $dateCreation[0], $dateCreation[2]);
-      }
       if ($ppo->travail->a_faire && $ppo->travail->date_realisation == '') {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noRealisationDate');
       }
-      if ($ppo->travail->a_faire && !is_null($ppo->travail->date_realisation)) {
-        
-        $dateRealisation = explode ('/', $ppo->travail->date_realisation);
-        $timeRealisation = mktime (0, 0, 0, $dateRealisation[1], $dateRealisation[0], $dateRealisation[2]);
-        
-        if (isset($timeCreation) && ($timeRealisation < $timeCreation)) {
-          
-          $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongRealisationDate');
-        }
+      if (!is_null($ppo->travail->date_realisation) && ($ppo->travail->date_realisation < $ppo->travail->date_creation)) {
+
+        $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongRealisationDate');
       }
       if ($ppo->travail->domaine_id == '') {
 
@@ -309,6 +299,9 @@ class ActionGroupDefault extends CopixActionGroup {
       }
 
       if (!empty ($ppo->erreurs)) {
+        
+        $ppo->travail->date_creation     = _request ('travail_date_creation', null);
+        $ppo->travail->date_realisation  = _request ('travail_date_realisation', null);
         
         return _arPPO ($ppo, 'editer_travail.tpl');
       }
@@ -504,11 +497,11 @@ class ActionGroupDefault extends CopixActionGroup {
   	if (CopixRequest::isMethod ('post')) {
 	  
 	    $ppo->memo->classe_id           = $ppo->nid;
-      $ppo->memo->date_creation       = _request ('memo_date_creation', null);
-      $ppo->memo->date_validite       = _request ('memo_date_validite', null);
+      $ppo->memo->date_creation       = CopixDateTime::dateToyyyymmdd(_request ('memo_date_creation', null));
+      $ppo->memo->date_validite       = CopixDateTime::dateToyyyymmdd(_request ('memo_date_validite', null));
       $ppo->memo->message             = _request ('memo_message', null);
       $ppo->memo->avec_signature      = _request ('memo_avec_signature', 0);
-      $ppo->memo->date_max_signature  = _request ('memo_date_max_signature', null);
+      $ppo->memo->date_max_signature  = CopixDateTime::dateToyyyymmdd(_request ('memo_date_max_signature', null));
       $ppo->memo->supprime            = 0;
       $ppo->elevesSelectionnes        = _request ('eleves', array());
       
@@ -519,21 +512,10 @@ class ActionGroupDefault extends CopixActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
       }
-      else {
-        
-        $dateCreation = explode ('/', $ppo->memo->date_creation);
-        $timeCreation = mktime (0, 0, 0, $dateCreation[1], $dateCreation[0], $dateCreation[2]);
-      }
       
-      if (!is_null($ppo->memo->date_validite)) {
-       
-       $dateValidite     = explode ('/', $ppo->memo->date_validite);
-       $timeValidite     = mktime (0, 0, 0, $dateValidite[1], $dateValidite[0], $dateValidite[2]);
-       
-       if (isset($timeCreation) && ($timeValidite < $timeCreation))  {
-         
-         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongValidityDate');
-       } 
+      if (!is_null($ppo->memo->date_validite) && ($ppo->memo->date_validite < $ppo->memo->date_creation)) {
+
+        $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongValidityDate');
       }
       
       if ($ppo->memo->message == '') {
@@ -544,19 +526,17 @@ class ActionGroupDefault extends CopixActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noSignatureDate');
       }
-      if ($ppo->memo->avec_signature && !is_null($ppo->memo->date_max_signature)) {
-        
-        $dateMaxSignature = explode ('/', $ppo->memo->date_max_signature);
-        $timeMaxSignature = mktime (0, 0, 0, $dateMaxSignature[1], $dateMaxSignature[0], $dateMaxSignature[2]);
-        
-        if ($timeMaxSignature < $timeValidite) {
-          
-          $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongMaxSignatureDate');
-        }
+      if (!is_null($ppo->memo->date_max_signature) && ($ppo->memo->date_max_signature < $ppo->memo->date_validite)) {
+
+        $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongMaxSignatureDate');
       } 
       
       if (!empty ($ppo->erreurs)) {
-
+        
+        $ppo->memo->date_creation       = _request ('memo_date_creation', null);
+        $ppo->memo->date_validite       = _request ('memo_date_validite', null);
+        $ppo->memo->date_max_signature  = _request ('memo_date_max_signature', null);
+        
         return _arPPO ($ppo, 'editer_memo.tpl');
       }
       

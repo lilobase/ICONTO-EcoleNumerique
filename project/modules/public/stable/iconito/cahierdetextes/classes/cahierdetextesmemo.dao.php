@@ -28,7 +28,7 @@ class DAOCahierDeTextesMemo {
   	
   	if ($current) {
   	  
-  	  $sql .= ' AND (cahierdetextesmemo.date_validite <= '.date('d/m/Y')
+  	  $sql .= ' AND (cahierdetextesmemo.date_validite <= '.date('Ymd')
   	    . ' OR cahierdetextesmemo.date_validite IS NULL)';
   	} 
   	 
@@ -52,7 +52,7 @@ class DAOCahierDeTextesMemo {
 		$criteria->addCondition ('supprime', '=', 0);
 		if ($current) {
 		  $criteria->startGroup ()
-               ->addCondition ('date_validite', '>=', date('d/m/Y'))
+               ->addCondition ('date_validite', '>=', date('Ymd'))
                ->addCondition ('date_validite', '=', null, 'or')
                ->endGroup ();
 		}

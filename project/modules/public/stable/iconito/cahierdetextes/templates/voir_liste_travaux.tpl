@@ -1,18 +1,18 @@
 {copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
 
-<form>
+<form name="list_filter" id="list_filter" action="{copixurl dest="cahierdetextes||voirListeTravaux"}" method="POST" enctype="multipart/form-data">
+  <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
   <div class="field">
-    <label for="date_from" class="form_libelle">{i18n key="cahierdetextes.message.dateFrom"} :</label>
-    <input class="form datepicker" type="text" name="date_from" id="date_from" value="{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}" />
+    <label for="date_deb" class="form_libelle">{i18n key="cahierdetextes.message.dateFrom"} :</label>
+    <input class="form datepicker" type="text" name="date_deb" id="date_deb" value="{$ppo->dateDeb|date_format:"%d/%m/%Y"}" />
   </div>
   
   <div class="field">
-    <label for="days" class="form_libelle">{i18n key="cahierdetextes.message.daysNumber"}</label>
-    <select name="days">
-      <option value="10" label="10">10</option>
-      <option value="20" label="20">20</option>
-    </select>
+    <label for="nb_jours" class="form_libelle">{i18n key="cahierdetextes.message.daysNumber"}</label>
+    {html_options name='nb_jours' values=$ppo->choixNbJours output=$ppo->choixNbJours selected=$ppo->nbJours}
   </div>
+  
+  <input type="submit" />
 </form>
 
 <div class="works">
