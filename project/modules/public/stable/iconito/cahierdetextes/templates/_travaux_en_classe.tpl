@@ -1,17 +1,17 @@
-<p class="title">{i18n key="cahierdetextes.message.classroomWork"} {if $ppo->typeUtilisateur == 'USER_ENS'}- <span><a href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.addClassroomWork"}</a></span>{/if}</p>
+<h5>{i18n key="cahierdetextes.message.classroomWork"} {if $ppo->typeUtilisateur == 'USER_ENS'}<a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>{/if}</h5>
 
 <div class="classroom-works-list">
   {if $ppo->travaux neq null}
     {foreach from=$ppo->travaux item=travail}
       <div class="work">
-        <h3>{$travail->nom}</h3>
-        {$travail->description}
-        
-        {if $ppo->typeUtilisateur == 'USER_ENS'}
+        <h6>{$travail->nom} {if $ppo->typeUtilisateur == 'USER_ENS'}
           <span class="actions">
             (<a href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid travailId=$travail->id}">{i18n key="cahierdetextes.message.modify"}</a> - <a href="{copixurl dest="cahierdetextes||supprimerTravail" nid=$ppo->nid travailId=$travail->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteWorkConfirm"}')">{i18n key="cahierdetextes.message.delete"}</a>)
           </span>
-        {/if}
+        {/if}</h6>
+        {$travail->description}
+        
+        
       </div>
     {/foreach}
   {else}

@@ -1,19 +1,23 @@
 <?php
-  $html  = '<div class="month-calendar">';
-  $html .=  '<table border="1">';
-  $html .=    '<tr>';
-  $html .=      '<td class="prev-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'"><</a></td>';
-  $html .=      '<td colspan="5" class="mois">'.$ppo->nomMois.' ('.$ppo->annee.')</td>';
-  $html .=      '<td class="next-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'">></a></td>';
-  $html .=    '<tr>';
-  $html .=      '<td class="jour">L</td>';
-  $html .=      '<td class="jour">M</td>';
-  $html .=      '<td class="jour">M</td>';
-  $html .=      '<td class="jour">J</td>';
-  $html .=      '<td class="jour">V</td>';
-  $html .=      '<td class="jour">S</td>';
-  $html .=      '<td class="jour">D</td>';
-  $html .=    '</tr>';
+  //$html  = '<div class="month-calendar">';
+  $html .=  '<table>
+  			 	<thead>
+  					<tr>';
+  $html .=      '<th class="prev-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'"><</a></th>';
+  $html .=      '<th colspan="5" class="mois">'.$ppo->nomMois.' '.$ppo->annee.'</th>';
+  $html .=      '<th class="next-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'">></a></th>
+  				</tr>
+				<tr>';
+  $html .=      '<th>L</th>';
+  $html .=      '<th>M</th>';
+  $html .=      '<th>M</th>';
+  $html .=      '<th>J</th>';
+  $html .=      '<th>V</th>';
+  $html .=      '<th>S</th>';
+  $html .=      '<th>D</th>';
+  $html .=    '</tr>
+  				</thead>
+				<tbody>';
   $html .=    '<tr>';
 
   // Cases vides avant premier jour du mois
@@ -44,9 +48,10 @@
     $ppo->codePremierJourSemaine++;
   }
 
-  $html .=     '</tr>';
+  $html .=     '</tr>
+  				</tbody>';
   $html .=   '</table>';
-  $html .= '</div>';
+  //$html .= '</div>';
 
   echo $html;
 ?>

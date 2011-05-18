@@ -1,39 +1,106 @@
-.selected {
-  font-weight: bold;
+/* Global */
+div.dashboard div.content {
+	padding:0 10px 10px;
 }
-
-.month-calendar .selected {
-  background-color: #ccc;
-}
-
-.month-calendar .with-work {
-  font-weight: bold;
-}
-
+#cahierdetextes a:link {text-decoration:none;}
+#cahierdetextes a:visited {text-decoration:none;}
+#cahierdetextes a:hover, #cahierdetextes a:focus {text-decoration:underline;}
+#cahierdetextes a:active {text-decoration:underline;}
 .works {
-  float: left;
-  margin-right: 2%;
-  width: 80%;
+  float:left;
+  margin-right:2%;
+  width:73%;
 }
+#cahierdetextes h4 {
+	float:left;
+	width:73%;
+	text-align:center;
+}
+#cahierdetextes a.actionLink {
+	float:right;
+	margin:-2px 0 0; padding:0 10px; border:2px solid #eee;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
+	font-size:0.75rem;
+	text-transform:none;
+	line-height:1.7;
+}
+#cahierdetextes a.actionLink:hover {
+	border-color:#fff;
+	background-color:#eee;
+}
+/* End global */
 
-.sidebar {
-  margin-left: 82%;
-}
 
-.classroom-works-list,
-.todo-works-list,
-.memos-list {
-  margin: 10px 0; 
-  padding: 10px;
-  border: 2px solid black;
+/* Sidebar */
+#cahierdetextes .sidebar {
+  margin:0 1% 0 75%;
 }
+#cahierdetextes .sidebar .today-button {
+	margin:10px 0 8px;
+	text-align:center;
+}
+#cahierdetextes .sidebar .actionLink {
+	float:none;
+	margin:0; padding:4px 10px;
+}
+#cahierdetextes .sidebar table {
+	width:100%;
+	margin:0 0 15px 0; border:1px solid #ccc;
+	border-collapse:collapse;
+}
+#cahierdetextes table thead {
+	background-color:#FAFCE6;
+}
+#cahierdetextes table td, #cahierdetextes table th {
+	border:1px solid #ddd;
+	text-align:center;
+}
+#cahierdetextes .sidebar table a {
+	display:block;
+	width:100%; height:20px;
+	line-height:20px;
+}
+#cahierdetextes .sidebar table a:hover {background-color:#f8c56d;}
+#cahierdetextes .sidebar table .no-work {background-color:#fff;}
+#cahierdetextes .sidebar table .selected {font-weight:bold; background-color:#F8C56D;}
+#cahierdetextes .sidebar table .with-work {font-weight:bold; background-color:#fef1d9;}
+/* End Sidebar*/
 
-.work,
-.memo {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px dashed black;
+
+/* Content */
+#cahierdetextes h5 {
+	margin:10px 0 0; padding:0 5px;
+	font-size:1.5rem; font-weight:normal;
+	text-transform:uppercase;
+	line-height:1;
 }
+#cahierdetextes .classroom-works-list,
+#cahierdetextes .todo-works-list,
+#cahierdetextes .memos-list {
+  margin:0 0 10px; padding:10px; border:5px solid #fff;
+  -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+}
+#cahierdetextes .classroom-works-list p,
+#cahierdetextes .todo-works-list p ,
+#cahierdetextes .memos-list p {
+	margin:0;
+}
+#cahierdetextes .work,
+#cahierdetextes .memo {
+	position:relative;
+	margin:0 0 20px; padding:10px; border:1px dashed black;
+}
+#cahierdetextes h6 {
+	margin:0;
+	font-size:1.2rem;
+}
+#cahierdetextes h6 span {
+	float:right;
+	font-size:0.75rem; font-weight:normal;
+}
+/* End Content */
+
 
 .top-bar {
   margin: 0;
@@ -55,3 +122,5 @@
   background-color: green;
   color: white;
 }
+
+
