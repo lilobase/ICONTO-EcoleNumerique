@@ -12,14 +12,14 @@
   {if $ppo->memos neq null}
     {foreach from=$ppo->memos item=memo}
       <div class="memo">
-        {$memo->date_creation} :
+        {$memo->date_creation|datei18n:text} :
         {$memo->message}
 
         {if $memo->avec_signature}
-          {if $memo->signe_le}
-            <p>{i18n key="cahierdetextes.message.signOn"} : {$memo->signe_le}</p>
+          {if $memo->signe_le|datei18n}
+            <p>{i18n key="cahierdetextes.message.signOn"} : {$memo->signe_le|datei18n}</p>
           {else}
-            <p>{i18n key="cahierdetextes.message.toSignOn"} : {$memo->date_max_signature}</p>
+            <p>{i18n key="cahierdetextes.message.toSignOn"} : {$memo->date_max_signature|datei18n}</p>
           {/if}
         {/if}
         

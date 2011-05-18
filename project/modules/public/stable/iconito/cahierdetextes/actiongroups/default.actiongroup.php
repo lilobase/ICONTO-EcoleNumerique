@@ -78,19 +78,18 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->annee    = _request ('annee', date('Y'));
     $ppo->nbJours  = _request ('nb_jours', 10);
   	$ppo->dateDeb  = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
-  	$ppo->success  = _request ('success', false);
   	
-  	$ppo->choixNbJours    = array(1,2, 10, 20, 30, 40, 50);
+  	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
   	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
 
   	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
   	if ($ppo->typeUtilisateur == 'USER_RES') {
 	    
-	    $ppo->travaux = $travailDAO->findByEleveDateEtIntervalParJourEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
+	    $ppo->travaux = $travailDAO->findByEleveDateEtIntervalleParJourEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
 	  }
 	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
 	    
-	    $ppo->travaux = $travailDAO->findByClasseDateEtIntervalParJourEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
+	    $ppo->travaux = $travailDAO->findByClasseDateEtIntervalleParJourEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
 	  }
 	  
 	  return _arPPO ($ppo, 'voir_liste_travaux.tpl');
@@ -113,19 +112,34 @@ class ActionGroupDefault extends CopixActionGroup {
     $ppo->jour    = _request ('jour', date('d'));
   	$ppo->mois    = _request ('mois', date('m'));
   	$ppo->annee   = _request ('annee', date('Y'));
-  	$ppo->success = _request ('success', false);
+  	$ppo->nbJours = _request ('nb_jours', 10);
+  	$ppo->dateDeb = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
+  	$ppo->domaine = _request ('domaine', null);
+  	
+  	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
+  	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
   	
   	// Récupération des domaines
   	$domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
 	  $domaines   = $domaineDAO->findByClasse($ppo->nid);
 
-	  $ppo->idsDomaine  = array();
-	  $ppo->nomsDomaine = array();
+	  $ppo->idsDomaine  = array('');
+	  $ppo->nomsDomaine = array(CopixI18N::get ('cahierdetextes|cahierdetextes.message.ALL'));
 	  
 	  foreach($domaines as $domaine) {
 	    
 	    $ppo->idsDomaine[]  = $domaine->id; 
 	    $ppo->nomsDomaine[] = $domaine->nom;
+	  }
+	  
+	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
+  	if ($ppo->typeUtilisateur == 'USER_RES') {
+	    
+	    $ppo->travaux = $travailDAO->findByEleveDateIntervalleEtDomaineParDomaineEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
+	  }
+	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
+	    
+	    $ppo->travaux = $travailDAO->findByClasseDateIntervalleEtDomaineParDomaineEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
 	  }
 	  
 	  return _arPPO ($ppo, 'voir_travaux_par_domaine.tpl');
@@ -516,8 +530,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	    $ppo->memo = $memoDAO->get($memoId);
 	    
-	    $ppo->memo->date_creation = CopixDateTime::yyyymmddToDate($ppo->memo->date_creation);
-  	  $ppo->memo->date_validite = CopixDateTime::yyyymmddToDate($ppo->memo->date_validite);
+	    $ppo->memo->date_creation      = CopixDateTime::yyyymmddToDate($ppo->memo->date_creation);
+  	  $ppo->memo->date_validite      = CopixDateTime::yyyymmddToDate($ppo->memo->date_validite);
   	  $ppo->memo->date_max_signature = CopixDateTime::yyyymmddToDate($ppo->memo->date_max_signature);
 	    
 	    $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');

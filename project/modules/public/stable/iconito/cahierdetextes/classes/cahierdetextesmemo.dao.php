@@ -41,7 +41,8 @@ class DAOCahierDeTextesMemo {
   /**
    * Retourne les mémos pour une classe donnée
    *
-   * @param int $idClasse
+   * @param int   $idClasse
+   * @param bool  $current (mémos valide à la date du jour ?)
    *
    * @return CopixDAORecordIterator
    */

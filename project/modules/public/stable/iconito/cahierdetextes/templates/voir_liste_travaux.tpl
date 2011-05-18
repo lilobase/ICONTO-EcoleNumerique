@@ -17,8 +17,7 @@
 
 <div class="works">
   {foreach from=$ppo->travaux key=date item=travauxParDate}
-
-    <h3>{$date|date_format:"%A %d %B %Y"}</h3>
+    <h3>{$date|datei18n:text}</h3>
     
     {foreach from=$travauxParDate key=a_faire item=travauxParType}
       <h4>
