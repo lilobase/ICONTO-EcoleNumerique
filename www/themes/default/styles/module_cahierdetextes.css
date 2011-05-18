@@ -1,18 +1,18 @@
 /* Global */
 div.dashboard div.content {
-	padding:0 10px 10px;
+	padding:43px 10px 10px;
 }
 #cahierdetextes a:link {text-decoration:none;}
 #cahierdetextes a:visited {text-decoration:none;}
 #cahierdetextes a:hover, #cahierdetextes a:focus {text-decoration:underline;}
 #cahierdetextes a:active {text-decoration:underline;}
-.works {
+#cahierdetextes .works {
   float:left;
   margin-right:2%;
   width:73%;
 }
 #cahierdetextes h4 {
-	float:left;
+	float:left; clear:both;
 	width:73%;
 	text-align:center;
 }
@@ -63,9 +63,33 @@ div.dashboard div.content {
 }
 #cahierdetextes .sidebar table a:hover {background-color:#f8c56d;}
 #cahierdetextes .sidebar table .no-work {background-color:#fff;}
-#cahierdetextes .sidebar table .selected {font-weight:bold; background-color:#F8C56D;}
 #cahierdetextes .sidebar table .with-work {font-weight:bold; background-color:#fef1d9;}
+#cahierdetextes .sidebar table .selected {font-weight:bold; background-color:#F8C56D;}
 /* End Sidebar*/
+
+
+/* Navigation */
+#cahierdetextes #submenu .menuitems ul li.newGroupItems {margin-left:50px;}
+#cahierdetextes #submenu .menuitems ul li a:hover {text-decoration:none;}
+
+/*#cahierdetextes .top-bar {
+  margin:0; padding:0; 
+  height:28px; width:100%;
+  list-style-type:none;
+}
+#cahierdetextes .top-bar li {
+	float:left;
+	margin:-15px 2px 0; padding:15px 10px 5px; border-left:5px solid #7fc3d2; border-right:4px solid #7fc3d2;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#7FC3D2;
+}
+#cahierdetextes .top-bar li.selectedBar, #cahierdetextes .top-bar li:hover {
+	padding-top:24px; border:0;
+	background:#000; color:#fff;
+	font-weight:bold;
+}
+#cahierdetextes .top-bar li.selectedBar a, #cahierdetextes .top-bar li:hover a {color:#fff;}
+/* End Navigation */
 
 
 /* Content */
@@ -102,17 +126,6 @@ div.dashboard div.content {
 /* End Content */
 
 
-.top-bar {
-  margin: 0;
-  padding: 0;
-  height: 20px;
-  width: 100%;
-  list-style-type: none;
-}
-.top-bar li {
-  float: left;
-  margin-right: 20px;
-}
 
 #show-memos {
   height: 100px;

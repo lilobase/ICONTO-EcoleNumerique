@@ -199,7 +199,7 @@
 #submenu .menuitems a.current {
 	background-color: #ccc;
 	border: solid 1px #bbb;
-	color: #aaa;
+	color: #fff;
 	}
 
 #submenu .menuitems ul li a span {
@@ -242,7 +242,7 @@ span.valign {
 #submenu .menuitems a.move			{ background-image: url(../../../themes/default/images/menu_move.png); }
 #submenu .menuitems a.copy			{ background-image: url(../../../themes/default/images/menu_copy.png); }
 
-#submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; }
+#submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; color:#999; }
 
 /************************************************
  * DASHBOARD MODULES BUTTONS
