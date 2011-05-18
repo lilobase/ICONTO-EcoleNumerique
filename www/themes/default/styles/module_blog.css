@@ -1,5 +1,6 @@
 
 #blog-template {
+	position:relative;
 	min-height:500px;
     overflow: hidden;
 }
