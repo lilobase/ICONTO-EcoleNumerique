@@ -190,7 +190,6 @@ class DAOCahierDeTextesTravail {
 	    . ' AND module_cahierdetextes_travail.date_realisation <= :dateFin))'
 	    . ' GROUP BY module_cahierdetextes_travail.id';
 	  
-	  var_dump($dateDeb.'-'.$dateFin);die();
 	  $results = _doQuery ($sql, array(':idClasse' => $idClasse, ':dateDeb' => $dateDeb, ':dateFin' => $dateFin));
 	  
 	  foreach ($results as $result) {
