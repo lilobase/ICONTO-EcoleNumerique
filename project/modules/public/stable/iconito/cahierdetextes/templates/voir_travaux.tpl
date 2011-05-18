@@ -1,6 +1,6 @@
 {copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
 
-<h4>{$ppo->titre}</h4>
+<h2>{$ppo->titre}</h2>
 
 {if $ppo->success}
   <p class="success">{i18n key="cahierdetextes.message.success"}</p>

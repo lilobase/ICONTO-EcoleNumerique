@@ -1,6 +1,6 @@
 {copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
 
-<h4>{i18n key="cahierdetextes.message.memos"}</h4>
+<h2>{i18n key="cahierdetextes.message.memos"}</h2>
 
 {if $ppo->success}
   <p class="success">{i18n key="cahierdetextes.message.success"}</p>
@@ -28,7 +28,7 @@
             <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
             <input type="hidden" name="memoId" id="memoId" value="{$memo->id}" />
             
-            <input type="text" name="commentaire" id="commentaire" value="Commentaire" />
+            <input type="text" name="commentaire" value="{i18n key="cahierdetextes.message.comment"}" />
             <input type="submit" value="Signer" />
           </form>
         {/if}
@@ -49,3 +49,29 @@
     <p>{i18n key="cahierdetextes.message.noMemo"}</p>
   {/if}
 </div>
+
+{literal}
+<script type="text/javascript">
+//<![CDATA[
+  
+  $(document).ready(function(){
+ 	  
+ 	  $('input[name="commentaire"]').live('focus', function () {
+       if ($(this).val() == '{/literal}{i18n key="cahierdetextes.message.comment"}{literal}') {
+         
+         $(this).val('');
+       }
+    });
+    
+    $('input[name="commentaire"]').live('blur', function () {
+       
+      if ($(this).val() == '') {
+
+        $(this).val('{/literal}{i18n key="cahierdetextes.message.comment"}{literal}');
+      }
+    });
+    
+  });
+//]]> 
+</script>
+{/literal}

@@ -17,16 +17,21 @@
 
 <div class="works">
   {foreach from=$ppo->travaux key=date item=travauxParDate}
+
     <h3>{$date|date_format:"%A %d %B %Y"}</h3>
     
     {foreach from=$travauxParDate key=a_faire item=travauxParType}
       <h4>
         {if $a_faire eq 0}
           {i18n key="cahierdetextes.message.classroomWork"}
-          <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|date_format:"%d" mois=$date|date_format:"%m" annee=$date|date_format:"%Y"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
+          {if $ppo->typeUtilisateur == 'USER_ENS'}
+            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|date_format:"%d" mois=$date|date_format:"%m" annee=$date|date_format:"%Y"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
+          {/if}
         {else}
           {i18n key="cahierdetextes.message.todoWork"}
-          <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|date_format:"%d" mois=$date|date_format:"%m" annee=$date|date_format:"%Y" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
+          {if $ppo->typeUtilisateur == 'USER_ENS'}
+            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|date_format:"%d" mois=$date|date_format:"%m" annee=$date|date_format:"%Y" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
+          {/if}
         {/if}
       </h4>
       
