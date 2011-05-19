@@ -3,9 +3,9 @@
   $html .=  '<table>
   			 	<thead>
   					<tr>';
-  $html .=      '<th class="prev-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'"><</a></th>';
+  $html .=      '<th class="prev-mois"><a title="Voir le mois précédent" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'"><img src="'._resource('images/action_back.png').'" alt="<" /></a></th>';
   $html .=      '<th colspan="5" class="mois">'.$ppo->nomMois.' '.$ppo->annee.'</th>';
-  $html .=      '<th class="next-mois"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'">></a></th>
+  $html .=      '<th class="next-mois"><a title="Voir le mois suivant" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'"><img src="'._resource('images/action_next.png').'" alt=">" /></a></th>
   				</tr>
 				<tr>';
   $html .=      '<th>L</th>';

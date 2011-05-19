@@ -18,12 +18,11 @@
   <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
     
   <div class="field">
+    <label for="nom">{i18n key="cahierdetextes.message.domain"}</label>
     <input class="form" type="text" name="nom" id="nom" value="" />
   </div>
   
-  <ul class="actions">
-  	<li><input class="button" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.addATitle"}" /></li>
-  </ul>
+  <input class="button button-add" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.addATitle"}" />
 </form>
 
 {copixzone process=cahierdetextes|listeDomaines nid=$ppo->nid}

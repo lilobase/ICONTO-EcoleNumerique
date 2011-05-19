@@ -11,25 +11,16 @@ div.dashboard div.content {
   margin-right:2%;
   width:73%;
 }
-#cahierdetextes h4 {
+#cahierdetextes h2 {
 	float:left; clear:both;
-	margin:0.5em 0 1em;
+	margin:0.5em 0 1em; border:none;
 	width:73%;
-	font-size:1.6rem;
+	font-size:1.5rem; font-weight:bold;
 	text-align:center;
 }
-#cahierdetextes a.actionLink {
+#cahierdetextes a.button {
 	float:right;
-	margin:-2px 0 0; padding:0 10px; border:2px solid #eee;
-	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
-	background:#fff;
-	font-size:0.75rem;
 	text-transform:none;
-	line-height:1.7;
-}
-#cahierdetextes a.actionLink:hover {
-	border-color:#fff;
-	background-color:#eee;
 }
 /* End global */
 
@@ -42,7 +33,7 @@ div.dashboard div.content {
 	margin:10px 0 8px;
 	text-align:center;
 }
-#cahierdetextes .sidebar .actionLink {
+#cahierdetextes .sidebar .button {
 	float:none;
 	margin:0; padding:4px 10px;
 }
@@ -105,8 +96,9 @@ div.dashboard div.content {
 #cahierdetextes .classroom-works-list,
 #cahierdetextes .todo-works-list,
 #cahierdetextes .memos-list {
-  margin:0 0 10px; padding:10px; border:5px solid #fff;
-  -webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	margin:3px 0 20px; padding:10px 10px 0; border:5px solid #fff;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
 }
 #cahierdetextes .classroom-works-list p,
 #cahierdetextes .todo-works-list p ,
@@ -116,8 +108,10 @@ div.dashboard div.content {
 #cahierdetextes .work,
 #cahierdetextes .memo {
 	position:relative;
-	margin:0 0 20px; padding:10px; border:1px dashed black;
+	margin:0 0 10px; padding:3px 5px; border:1px solid #eee;
 }
+#cahierdetextes .classroom-works-list p.no-work, 
+#cahierdetextes .todo-works-list p.no-work {margin-bottom:10px;}
 #cahierdetextes h6 {
 	margin:0;
 	font-size:1.2rem;
