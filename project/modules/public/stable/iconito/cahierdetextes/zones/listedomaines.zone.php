@@ -1,14 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
- 
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/
 class ZoneListeDomaines extends CopixZone {
 
 	function _createContent (& $toReturn) {
@@ -18,6 +13,7 @@ class ZoneListeDomaines extends CopixZone {
 	  // Récupération des paramètres 
 	  $ppo->nid = $this->getParam('nid');
     
+    // Récupération des domaines de la classe
 	  $domaineDAO = _ioDAO('cahierdetextes|cahierdetextesdomaine');
 	  $ppo->domaines = $domaineDAO->findByClasse($ppo->nid);
 	  

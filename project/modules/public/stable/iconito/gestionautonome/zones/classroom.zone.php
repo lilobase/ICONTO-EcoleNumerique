@@ -1,10 +1,14 @@
 <?php
-
 /**
- * Affichage des classes
- */
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneClassroom extends CopixZone {
 
+  /**
+   * Affichage des classes
+   */
 	function _createContent (& $toReturn) {
 	  
 	  $ppo = new CopixPPO ();

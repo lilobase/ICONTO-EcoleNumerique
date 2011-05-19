@@ -1,14 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
- 
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/
 class ZoneMenuParent extends CopixZone {
 
 	function _createContent (& $toReturn) {

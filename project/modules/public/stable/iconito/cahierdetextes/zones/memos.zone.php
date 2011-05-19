@@ -1,13 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/
 class ZoneMemos extends CopixZone {
 
 	function _createContent (& $toReturn) {
@@ -22,6 +18,7 @@ class ZoneMemos extends CopixZone {
     
     $time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
 	  
+	  // Récupération des mémos suivant le type de l'utilisateur courant
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  if (Kernel::isEleve()) {
 	    

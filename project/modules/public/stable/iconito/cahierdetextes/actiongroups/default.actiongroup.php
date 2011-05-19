@@ -1,5 +1,11 @@
 <?php
 
+/**
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/
+
 class ActionGroupDefault extends CopixActionGroup {
 
 	public function beforeAction () {
@@ -21,8 +27,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * Action par défaut => redirige vers voirTravaux
 	 */
 	public function processDefault () {
-
-	  return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux'));
+    
+    $nid = _request ('nid');
+    
+	  return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $nid)));
 	}
 	
 	/**
@@ -53,7 +61,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	}
 	
 	/**
-	 * Affichage des travaux sous forme de liste
+	 * Affichage des travaux sous forme de liste - * Enseignant / Responsable *
 	 */
 	public function processVoirListeTravaux () {
 	  
@@ -80,6 +88,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
   	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
 
+    // Récupération des travaux suivant le type de l'utilisateur courant
   	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
   	if ($ppo->typeUtilisateur == 'USER_RES') {
 	    
@@ -94,7 +103,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	}
 	
 	/**
-	 * Affichage des travaux avec filtrage par domaine
+	 * Affichage des travaux avec filtrage par domaine - * Enseignant / Responsable *
 	 */
 	public function processVoirTravauxParDomaine () {
 	  
@@ -104,6 +113,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+	  elseif (Kernel::isEleve()) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 
     // Récupération des paramètres
@@ -130,6 +144,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	    $ppo->nomsDomaine[] = $domaine->nom;
 	  }
 	  
+	  // Récupération des travaux suivant le type de l'utilisateur courant
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
   	if ($ppo->typeUtilisateur == 'USER_RES') {
 	    
@@ -143,6 +158,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	  return _arPPO ($ppo, 'voir_travaux_par_domaine.tpl');
 	}
 	
+	/**
+	 * Affichage des élèves concernés par un travail - * Enseignant *
+	 */
 	public function processVoirConcernesParTravail () {
 	  
 	  $ppo = new CopixPPO ();
@@ -159,6 +177,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 	  
+	  // Récupération des élèves liés au travail
 	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
 	  $ppo->eleves = $travail2eleveDAO->findElevesParTravail($travail->id);
 
@@ -223,6 +242,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	  return _arPPO ($ppo, 'gerer_domaines.tpl');
 	}
 	
+	/**
+	 * Suppression d'un domaine - * Enseignant *
+	 */
 	public function processSupprimerDomaine () {
 	  
 	  $ppo = new CopixPPO ();
@@ -283,6 +305,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
 	  $ppo->nombreMaxVueRadio = CopixConfig::get('cahierdetextes|nombre_max_vue_radio');
 	  
+	  // Récupération des domaines disponibles
 	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
 	  $domaines   = $domaineDAO->findByClasse($ppo->nid);
 
@@ -316,7 +339,13 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $ppo->travail->date_realisation = CopixDateTime::yyyymmddToDate($ppo->travail->date_realisation);
   	  
   	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
-  	  $ppo->elevesSelectionnes = $travail2eleveDAO->findElevesParTravail ($ppo->travail->id);
+  	  $elevesSelectionnes = $travail2eleveDAO->findElevesParTravail ($ppo->travail->id);
+  	  
+  	  $ppo->elevesSelectionnes = array();
+  	  foreach($elevesSelectionnes as $eleve) {
+  	    
+  	    $ppo->elevesSelectionnes = $eleve->idEleve;
+  	  }
   	}
 
 	  if (CopixRequest::isMethod ('post')) {
@@ -366,7 +395,7 @@ class ActionGroupDefault extends CopixActionGroup {
         return _arPPO ($ppo, 'editer_travail.tpl');
       }
       
-      // Create
+      // Création
       if ($ppo->travail->id == '') {
         
         // Insertion de l'enregistrement "travail"
@@ -384,7 +413,7 @@ class ActionGroupDefault extends CopixActionGroup {
           $travail2eleveDAO->insert($travail2eleve);
         }
       }
-      // Update
+      // Mise à jour
       else {
         
         // Mise à jour de l'enregistrement "travail"
@@ -479,6 +508,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	$time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
   	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
 	  
+	  // Récupération des mémos suivant le type de l'utilisateur courant
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  if ($ppo->typeUtilisateur == 'USER_ELE') {
 	    
@@ -607,6 +637,7 @@ class ActionGroupDefault extends CopixActionGroup {
       $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
       $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
       
+      // Création
       if ($ppo->memo->id == '') {
 
         // Insertion de l'enregistrement "memo"
@@ -623,6 +654,7 @@ class ActionGroupDefault extends CopixActionGroup {
           $memo2eleveDAO->insert($memo2eleve);
         }
       }
+      // Mise à jour
       else {
         
         // Mise à jour de l'enregistrement "memo"
@@ -678,6 +710,9 @@ class ActionGroupDefault extends CopixActionGroup {
     return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $nid, 'success' => true)));
 	}
 	
+	/**
+	 * Affichage du suivi d'un mémo (élèves concernés & signatures) - * Enseignant *
+	 */
 	public function processSuiviMemo () {
 	  
 	  $ppo = new CopixPPO ();
@@ -694,6 +729,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 	  
+	  // Récupération des élèves liés au mémo
 	  $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
 	  $ppo->suivis = $memo2eleveDAO->findSuiviElevesParMemo($memo->id);
 

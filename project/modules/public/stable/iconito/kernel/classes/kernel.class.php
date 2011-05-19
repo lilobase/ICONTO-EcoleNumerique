@@ -2020,7 +2020,14 @@ class Kernel {
 		return (_currentUser()->getExtra('type') == 'USER_ELE');
 	}
 	
+	/**
+	 * Détermine si l'usager courant est un élève de la classe indiquée
+	 *
+	 * @author Jérémy FOURNAISE
+	 * @return bool True s'il est élève de la classe, false sinon
+	 */
 	function isEleveOfClasse ($idClasse) {
+	  
 		return (_currentUser()->getExtra('type') == 'USER_ELE' && in_array($idClasse, _currentUser()->getExtra('link')->classe));
 	}
 
@@ -2035,7 +2042,14 @@ class Kernel {
 		return (_currentUser()->getExtra('type') == 'USER_RES');
 	}
 	
+	/**
+	 * Détermine si l'usager courant est parent de l'élève indiqué
+	 *
+	 * @author Jérémy FOURNAISE
+	 * @return bool True s'il est parent de l'élève, false sinon
+	 */
 	function isParentOfEleve ($idEleve) {
+	  
 	  $resDAO = _ioDAO('kernel|kernel_bu_res');
 	  
 		return (_currentUser()->getExtra('type') == 'USER_RES' && $resDAO->isParentOfStudent (_currentUser()->getExtra('id'), $idEleve)) ;
@@ -2053,7 +2067,14 @@ class Kernel {
 		return (_currentUser()->getExtra('type') == 'USER_ENS');
 	}
 	
+	/**
+	 * Détermine si l'usager courant est enseignant ou directeur de la classe indiquée
+	 *
+	 * @author Jérémy FOURNAISE
+	 * @return bool True si c'est un enseignant ou directeur de la classe, false sinon
+	 */
 	function isEnseignantOfClasse ($idClasse) {
+	  
 	  return (_currentUser()->getExtra('type') == 'USER_ENS' && in_array($idClasse, _currentUser()->getExtra('link')->classe));
 	}
 
@@ -2479,7 +2500,7 @@ class Kernel {
 	 *
 	 * Vérifie que le login soit disponible.
 	 *
-	 * @author xxxx
+	 * @author Jérémy FOURNAISE
 	 * @return string Login souhaité.
 	 */
 	function isLoginAvailable ($login) {
@@ -2499,7 +2520,7 @@ class Kernel {
 	 *
 	 * Vérifie le format du password : au moins 6 caractères dont 1 chiffre.
 	 *
-	 * @author xxxx
+	 * @author Jérémy FOURNAISE
 	 * @return string Password souhaité.
 	 */
 	function checkPasswordFormat ($password) {
@@ -2517,6 +2538,14 @@ class Kernel {
 		return true;
 	}
 
+  /**
+	 * createCanon
+	 *
+	 * Génère un slug unique (canon) pour le nom d'une ville
+	 *
+	 * @author Jérémy FOURNAISE
+	 * @return string slug
+	 */
 	function createCanon ($cityName) {
 
 		$canon = strtolower (trim ($cityName));
@@ -2542,6 +2571,14 @@ class Kernel {
 		return $canon.$cpt;
 	}
 
+  /**
+	 * generateBreadcrumbs
+	 *
+	 * Génère le breadcrumb pour le module "gestionautonome"
+	 *
+	 * @author Jérémy FOURNAISE
+	 * @return array  Breadcrumb
+	 */
 	function generateBreadcrumbs ($nodeInfos) {
 
 		$breadcrumbs=array();
@@ -2570,8 +2607,9 @@ class Kernel {
 
 	/**
 	 * Retourne vrai si le module de gestion autonome est activé
-	 *
-	 * @return bool
+	 * 
+	 * @author Jérémy FOURNAISE
+	 * @return bool True si la gestion autonome est activée, false sinon
 	 */
 	public function isGestionAutonomeEnabled () {
 

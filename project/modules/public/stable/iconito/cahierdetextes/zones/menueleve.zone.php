@@ -1,19 +1,15 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
-_classInclude('agenda|dateservices');
- 
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/ 
 class ZoneMenuEleve extends CopixZone {
 
 	function _createContent (& $toReturn) {
-
+    
+    _classInclude('agenda|dateservices');
+    
 	  $ppo = new CopixPPO ();                               
     
     // Récupération des paramètres    

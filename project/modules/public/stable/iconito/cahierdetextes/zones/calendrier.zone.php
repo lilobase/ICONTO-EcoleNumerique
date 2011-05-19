@@ -1,19 +1,15 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
-_classInclude('agenda|dateservices');
- 
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/ 
 class ZoneCalendrier extends CopixZone {
 
 	function _createContent (& $toReturn) {
 
+    _classInclude('agenda|dateservices');
+    
 	  $ppo = new CopixPPO ();                               
     
     // Récupération des paramètres
@@ -42,6 +38,7 @@ class ZoneCalendrier extends CopixZone {
     
     $ppo->codePremierJourSemaine = 1;
     
+    // Récupération des travaux suivant le type de l'utilisateur courant
     $ppo->typeUtilisateur = _currentUser()->getExtra('type');
     $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
 	  if ($ppo->typeUtilisateur == 'USER_ELE') {

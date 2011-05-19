@@ -1,12 +1,8 @@
 <?php
 /**
-* @package  Iconito
+* @package    Iconito
 * @subpackage Gestionautonome
-* @version   $Id: default.actiongroup.php,xxxx $
-* @author   xxxxxxx
-* @copyright xxxx
-* @link     xxxx
-* @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
+* @author     Jérémy FOURNAISE
 */
 
 class ActionGroupDefault extends enicActionGroup {

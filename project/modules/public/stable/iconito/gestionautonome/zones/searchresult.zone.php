@@ -1,5 +1,9 @@
 <?php
-
+/**
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneSearchResult extends CopixZone {
 
 	function _createContent (& $toReturn) {

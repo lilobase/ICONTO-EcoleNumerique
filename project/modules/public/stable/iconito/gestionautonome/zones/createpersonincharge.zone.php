@@ -1,13 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneCreatePersonInCharge extends CopixZone {
 
 	function _createContent (& $toReturn) {

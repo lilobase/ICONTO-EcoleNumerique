@@ -1,13 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/
 class ZoneTravauxEnClasse extends CopixZone {
 
 	function _createContent (& $toReturn) {
@@ -24,6 +20,7 @@ class ZoneTravauxEnClasse extends CopixZone {
     
     $ppo->typeUtilisateur = _currentUser()->getExtra('type');
 	  
+	  // Récupération des travaux suivant le type de l'utilisateur courant
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
 	  if ($ppo->typeUtilisateur == 'USER_ELE') {
 	    

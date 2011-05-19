@@ -1,14 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
-
+* @package    Iconito
+* @subpackage Cahierdetextes
+* @author     Jérémy FOURNAISE
+*/
 class ZoneListeEleves extends CopixZone {
 
 	function _createContent (& $toReturn) {
@@ -17,15 +12,15 @@ class ZoneListeEleves extends CopixZone {
     
     // Récupération des paramètres
     $nid = $this->getParam('nid');
-
-    $eleveDAO = _ioDAO ('kernel|kernel_bu_ele');
-    $ppo->eleves = $eleveDAO->getStudentsByClass ($nid);
-    
     $ppo->elevesSelectionnes = $this->getParam('elevesSelectionnes');
     if (is_null($ppo->elevesSelectionnes) || !is_array($ppo->elevesSelectionnes)) {
       
       $ppo->elevesSelectionnes = array();
     }
+    
+    // Récupération des élèves de la classe
+    $eleveDAO = _ioDAO ('kernel|kernel_bu_ele');
+    $ppo->eleves = $eleveDAO->getStudentsByClass ($nid);
     
     // Récupération des niveaux de la classe
     $classeNiveauDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');

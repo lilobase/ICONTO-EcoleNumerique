@@ -4,7 +4,7 @@
 * @subpackage Cahierdetextes
 * @author     Jérémy FOURNAISE
 */
-class ZoneTravauxAFaire extends CopixZone {
+class ZoneTravauxAVenir extends CopixZone {
 
 	function _createContent (& $toReturn) {
 	  
@@ -24,17 +24,17 @@ class ZoneTravauxAFaire extends CopixZone {
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
 	  if ($ppo->typeUtilisateur == 'USER_ELE') {
 	    
-	    $ppo->travaux = $travailDAO->findByEleveEtTypeDeTravail(_currentUser()->getExtra('id'), DAOCahierDeTextesTravail::TYPE_A_FAIRE, $time);
+	    $ppo->travaux = $travailDAO->findByEleveEtTypeDeTravail(_currentUser()->getExtra('id'), DAOCahierDeTextesTravail::TYPE_EN_CLASSE, $time);
 	  }
 	  elseif ($ppo->typeUtilisateur == 'USER_RES') {
 	    
-	    $ppo->travaux = $travailDAO->findByEleveEtTypeDeTravail($ppo->nid, DAOCahierDeTextesTravail::TYPE_A_FAIRE, $time);
+	    $ppo->travaux = $travailDAO->findByEleveEtTypeDeTravail($ppo->nid, DAOCahierDeTextesTravail::TYPE_EN_CLASSE, $time);
 	  }
 	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
 	    
-	    $ppo->travaux = $travailDAO->findByClasseEtTypeDeTravail($ppo->nid, DAOCahierDeTextesTravail::TYPE_A_FAIRE, $time);
+	    $ppo->travaux = $travailDAO->findByClasseEtTypeDeTravail($ppo->nid, DAOCahierDeTextesTravail::TYPE_EN_CLASSE, $time);
 	  }
 
-	  $toReturn = $this->_usePPO ($ppo, '_travaux_a_faire.tpl');
+	  $toReturn = $this->_usePPO ($ppo, '_travaux_a_venir.tpl');
   }
 }
