@@ -328,6 +328,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->mois    = _request ('mois', date('m'));
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', null);
+  	$ppo->vue     = _request ('vue', null);
   	
   	$ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
 	  
@@ -469,7 +470,17 @@ class ActionGroupDefault extends CopixActionGroup {
       // Redirection
       switch($ppo->travail_redirection) {
         case 0:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+          switch($ppo->vue) {
+            case "jour":
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              break;
+            case "liste":
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              break;
+            case "domaine":
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              break;
+          }
           break;
         case 1:
           return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('nid' => $ppo->nid, 'success' => $ppo->success)));

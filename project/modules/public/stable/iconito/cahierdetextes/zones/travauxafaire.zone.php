@@ -15,6 +15,7 @@ class ZoneTravauxAFaire extends CopixZone {
 	  $ppo->jour  = $this->getParam('date_jour');
 	  $ppo->mois  = $this->getParam('date_mois');
 	  $ppo->annee = $this->getParam('date_annee');
+	  $ppo->vue   = $this->getParam('vue');
     
     $time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
     

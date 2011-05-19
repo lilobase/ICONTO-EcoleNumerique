@@ -1,4 +1,4 @@
-<h5>{i18n key="cahierdetextes.message.todoWork"} {if $ppo->typeUtilisateur == 'USER_ENS'}<a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>{/if}</h5>
+<h5>{i18n key="cahierdetextes.message.todoWork"} {if $ppo->typeUtilisateur == 'USER_ENS'}<a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue=$ppo->vue a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>{/if}</h5>
 
 <div class="todo-works-list">
   {if $ppo->travaux neq null}

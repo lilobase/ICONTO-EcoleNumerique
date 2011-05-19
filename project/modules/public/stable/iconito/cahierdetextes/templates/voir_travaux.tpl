@@ -7,8 +7,8 @@
 {/if}
 
 <div class="works">
-  {copixzone process=cahierdetextes|travauxAFaire nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
-  {copixzone process=cahierdetextes|travauxEnClasse nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
+  {copixzone process=cahierdetextes|travauxAFaire nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee vue=jour}
+  {copixzone process=cahierdetextes|travauxEnClasse nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee vue=jour}
 </div>
 
 <div class="sidebar">

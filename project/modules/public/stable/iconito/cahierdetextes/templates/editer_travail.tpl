@@ -26,6 +26,7 @@
     <input type="hidden" name="jour" id="jour" value="{$ppo->jour}" />
     <input type="hidden" name="mois" id="mois" value="{$ppo->mois}" />
     <input type="hidden" name="annee" id="annee" value="{$ppo->annee}" />
+    <input type="hidden" name="vue" id="vue" value="{$ppo->vue}">
     
     {if $ppo->travail->a_faire}  
       <div class="field">

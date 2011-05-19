@@ -1,4 +1,4 @@
-<h5>{i18n key="cahierdetextes.message.classroomWork"} {if $ppo->typeUtilisateur == 'USER_ENS'}<a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>{/if}</h5>
+<h5>{i18n key="cahierdetextes.message.classroomWork"} {if $ppo->typeUtilisateur == 'USER_ENS'}<a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue=$ppo->vue}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>{/if}</h5>
 
 <div class="classroom-works-list">
   {if $ppo->travaux neq null}

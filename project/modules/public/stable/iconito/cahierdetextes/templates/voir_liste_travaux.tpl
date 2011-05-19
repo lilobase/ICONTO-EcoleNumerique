@@ -1,5 +1,9 @@
 {copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
 
+{if $ppo->success}
+  <p class="success">{i18n key="cahierdetextes.message.success"}</p>
+{/if}
+
 <form name="list_filter" id="list_filter" action="{copixurl dest="cahierdetextes||voirListeTravaux"}" method="POST" enctype="multipart/form-data">
   <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
   <div class="field">
@@ -24,12 +28,12 @@
         {if $a_faire eq 0}
           {i18n key="cahierdetextes.message.classroomWork"}
           {if $ppo->typeUtilisateur == 'USER_ENS'}
-            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|date_format:"%d" mois=$date|date_format:"%m" annee=$date|date_format:"%Y"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
+            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4 vue="liste"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
           {/if}
         {else}
           {i18n key="cahierdetextes.message.todoWork"}
           {if $ppo->typeUtilisateur == 'USER_ENS'}
-            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|date_format:"%d" mois=$date|date_format:"%m" annee=$date|date_format:"%Y" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
+            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4 vue="liste" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
           {/if}
         {/if}
       </h4>
@@ -42,7 +46,7 @@
             <td>-</td>
             {if $ppo->typeUtilisateur == 'USER_ENS'}
               <td>
-                <a href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid travailId=$travail->id}">{i18n key="cahierdetextes.message.modify"}</a>
+                <a href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid vue="liste" travailId=$travail->id}">{i18n key="cahierdetextes.message.modify"}</a>
                 <a href="{copixurl dest="cahierdetextes||supprimerTravail" nid=$ppo->nid travailId=$travail->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteWorkConfirm"}')">{i18n key="cahierdetextes.message.delete"}</a>
               </td>
             {/if}
