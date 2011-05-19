@@ -145,6 +145,28 @@ class ActionGroupDefault extends CopixActionGroup {
 	  return _arPPO ($ppo, 'voir_travaux_par_domaine.tpl');
 	}
 	
+	public function processVoirConcernesParTravail () {
+	  
+	  $ppo = new CopixPPO ();
+	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
+	  
+	  if (is_null($nid = _request('nid', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
+	  
+	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
+	  $ppo->eleves = $travail2eleveDAO->findElevesParTravail($travail->id);
+
+	  return _arPPO ($ppo, 'voir_concernes_par_travail.tpl');
+	}
+	
 	/**
 	 * Gestion d'un domaine - * Enseignant *
 	 */
@@ -663,7 +685,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo = new CopixPPO ();
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  
-	  if (is_null($nid = _request('nid', null)) || !$ppo->memo = $memoDAO->get (_request('memoId', null))) {
+	  if (is_null($nid = _request('nid', null)) || !$memo = $memoDAO->get (_request('memoId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -675,7 +697,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 	  
 	  $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-	  $ppo->suivis = $memo2eleveDAO->findSuiviElevesParMemo(_request('memoId', null));
+	  $ppo->suivis = $memo2eleveDAO->findSuiviElevesParMemo($memo->id);
 
 	  return _arPPO ($ppo, 'suivi_memo.tpl');
 	}

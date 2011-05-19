@@ -10,8 +10,6 @@
           </span>
         {/if}</h6>
         {$travail->description}
-        
-        
       </div>
     {/foreach}
   {else}

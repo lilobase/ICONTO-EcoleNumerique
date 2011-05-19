@@ -35,9 +35,9 @@ class ZoneCalendrier extends CopixZone {
     $ppo->nombreDeJoursDansLeMois     = date('t', $time); // Nombre de jours dans le mois
     $ppo->codePremierJourDeLaSemaine  = date('w', $time); // Premier jour de la semaine (format numérique)
     
-    if ($ppo->codePremierJourDeLaSemaineSelectionnee == 0) {
+    if ($ppo->codePremierJourDeLaSemaine == 0) {
       
-      $ppo->codePremierJourDeLaSemaineSelectionnee = 7;
+      $ppo->codePremierJourDeLaSemaine = 7;
     }
     
     $ppo->codePremierJourSemaine = 1;

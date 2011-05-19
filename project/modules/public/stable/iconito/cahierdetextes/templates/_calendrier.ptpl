@@ -1,5 +1,4 @@
 <?php
-  //$html  = '<div class="month-calendar">';
   $html .=  '<table>
   			 	<thead>
   					<tr>';
@@ -21,7 +20,7 @@
   $html .=    '<tr>';
 
   // Cases vides avant premier jour du mois
-  while ($ppo->codePremierJourSemaine < $ppo->codePremierJourDeLaSemaineSelectionnee) {
+  while ($ppo->codePremierJourSemaine < $ppo->codePremierJourDeLaSemaine) {
     
     $html .= '<td class="empty">&nbsp;</td>';
     $ppo->codePremierJourSemaine++;
@@ -51,7 +50,9 @@
   $html .=     '</tr>
   				</tbody>';
   $html .=   '</table>';
-  //$html .= '</div>';
+  
+  // Légende
+  $html .= '<p class="caption">'.CopixI18N::get ('cahierdetextes|cahierdetextes.message.caption').' : <span class="no-work">17</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.noWork').' - <span class="with-work">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.atLeastOneWork').' - <span class="selected">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.selectedDate').'</p>';
 
   echo $html;
 ?>
