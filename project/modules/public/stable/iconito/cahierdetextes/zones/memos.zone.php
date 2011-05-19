@@ -4,7 +4,7 @@
 * @subpackage Cahierdetextes
 * @author     Jérémy FOURNAISE
 */
-class ZoneMemos extends CopixZone {
+class ZoneMemos extends enicZone {
 
 	function _createContent (& $toReturn) {
 
@@ -32,7 +32,9 @@ class ZoneMemos extends CopixZone {
 	    
 	    $ppo->memos = $memoDAO->findByClasse($ppo->nid, true);
 	  }
-
+	
+	$this->addJs('js/iconito/module_cahierdetextes.js');
+	
 	  $toReturn = $this->_usePPO ($ppo, '_memos.tpl');
   }
 }

@@ -40,6 +40,7 @@ div.dashboard div.content {
 #cahierdetextes .sidebar table {
 	width:100%;
 	margin:0 0 15px 0; border:1px solid #ccc;
+	background-color:#fff;
 	border-collapse:collapse;
 }
 #cahierdetextes table thead {
@@ -55,10 +56,59 @@ div.dashboard div.content {
 	line-height:20px;
 }
 #cahierdetextes .sidebar table a:hover {background-color:#f8c56d;}
-#cahierdetextes .sidebar table .no-work {background-color:#fff;}
+#cahierdetextes .sidebar table .empty {background-color:#f7f7f7;}
 #cahierdetextes .sidebar table .with-work {font-weight:bold; background-color:#fef1d9;}
 #cahierdetextes .sidebar table .selected {font-weight:bold; background-color:#F8C56D;}
-/* End Sidebar*/
+/* Sidebar */
+
+
+/* Sidebar - Memos */
+#cahierdetextes .sidebar #memos-list {
+	position:relative;
+	overflow:hidden;
+	padding:10px 5px 0;
+}
+#cahierdetextes .sidebar #memos-list ul {
+	position:relative;
+	margin:0; padding:0;
+	list-style:none;
+}
+#cahierdetextes .sidebar #memos-list ul li {float:left;}
+#cahierdetextes .sidebar #memos-list #seeAllMemos {
+	display:block;
+	clear:both;
+	padding:10px 0 5px;
+	font-size:0.7rem;
+	text-align:right;
+}
+#cahierdetextes .sidebar #memos-list ul.memo li {
+    margin:0 10px; padding:0;
+}
+#cahierdetextes .sidebar #memosSteps {
+    position:absolute; top:-5px; left:43%;
+    margin:0; padding:0;
+    height:15px;
+    list-style:none;
+}
+#cahierdetextes .sidebar #memosSteps li {
+    float:left;
+    margin-right:3px;
+}
+#cahierdetextes .sidebar #memosSteps li a {
+    display:block;
+    width:11px; height:11px;
+    background:url(../img/rssnotifier/puce_inactive_bleue.png) no-repeat top left;
+}
+#cahierdetextes .sidebar #memosSteps li a.active {
+    font-weight:bold;
+    text-decoration:underline;
+    background:url(../img/rssnotifier/puce_active_bleue.png) no-repeat top left;
+}
+#cahierdetextes .sidebar #memosSteps li a:hover {
+    background:url(../img/rssnotifier/puce_hover_bleue.png) no-repeat top left;
+}
+#cahierdetextes .sidebar #memosSteps li a span {position:absolute; top:-1000px; left:-1000px;}
+/* End Sidebar - Memos */
 
 
 /* Navigation */
@@ -105,9 +155,7 @@ div.dashboard div.content {
 #cahierdetextes .memos-list p {
 	margin:0;
 }
-#cahierdetextes .work,
-#cahierdetextes .memo {
-	position:relative;
+#cahierdetextes .work {
 	margin:0 0 10px; padding:3px 5px; border:1px solid #eee;
 }
 #cahierdetextes .classroom-works-list p.no-work, 

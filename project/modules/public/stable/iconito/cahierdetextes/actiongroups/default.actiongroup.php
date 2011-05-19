@@ -20,7 +20,7 @@ class ActionGroupDefault extends CopixActionGroup {
  	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
      }
     
-		CopixHTMLHeader::addCSSLink (_resource ('styles/module_cahierdetextes.css'));
+		//CopixHTMLHeader::addCSSLink (_resource ('styles/module_cahierdetextes.css'));
 	}
 	
 	/**
