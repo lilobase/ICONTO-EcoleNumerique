@@ -480,6 +480,9 @@ class ActionGroupDefault extends CopixActionGroup {
             case "domaine":
               return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('nid' => $ppo->nid, 'success' => $ppo->success)));
               break;
+            default:
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              break;
           }
           break;
         case 1:
