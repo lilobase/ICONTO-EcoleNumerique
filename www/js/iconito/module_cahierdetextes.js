@@ -20,7 +20,7 @@ jQuery(document).ready(function($){
 	$.each($('#memos-list ul.memo li'), function() {
 		var content = $(this).children('a').html();
 		//On enlève les balises Html qui pourraient trainer
-		content.replace(/<.+?>/g,'');
+		content = content.replace(/<.+?>/g,'');
 		if (content.length > 100)
 		{
 			// On coupe au prochain espace suivant les 50 premiers caractères pour ne pas couper de mot
