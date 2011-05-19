@@ -24,7 +24,9 @@ jQuery(document).ready(function($){
 		if (content.length > 100)
 		{
 			// On coupe au prochain espace suivant les 50 premiers caractères pour ne pas couper de mot
-			content = content.match(/^.{50}(\S+)+?/gm);
+			//content = content.match(/^.{50}\S*/m);
+			var pos = content.indexOf(' ', 50); 
+			if (pos) content = content.substring(0, pos + 1);
 			$(this).children('a').html(content+' (...)');
 		}
 		else

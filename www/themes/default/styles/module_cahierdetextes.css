@@ -12,11 +12,13 @@ div.dashboard div.content {
   width:73%;
 }
 #cahierdetextes h2 {
-	float:left; clear:both;
 	margin:0.5em 0 1em; border:none;
-	width:73%;
 	font-size:1.5rem; font-weight:bold;
 	text-align:center;
+}
+#cahierdetextes h2.todayLabel {
+	float:left; clear:both;
+	width:73%;
 }
 #cahierdetextes a.button {
 	float:right;
@@ -60,6 +62,30 @@ div.dashboard div.content {
 #cahierdetextes .sidebar table .with-work {font-weight:bold; background-color:#fef1d9;}
 #cahierdetextes .sidebar table .selected {font-weight:bold; background-color:#F8C56D;}
 /* Sidebar */
+
+
+/* Memos */
+#cahierdetextes .memos-list {
+	clear:both;
+	padding:10px 0;
+}
+#cahierdetextes .memos-list .memo {
+	margin:3px 0 20px; padding:10px; 
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
+}
+#cahierdetextes .memos-list .memo .memoDate {
+	margin:0 0 5px;
+	color:#999;
+	font-style:italic; font-size:0.75rem;
+	text-align:right;
+}
+#cahierdetextes .memos-list .memo .memoDate span.actions {
+	padding:0 10px 0;
+}
+#cahierdetextes .memos-list .memo p {margin:0.5em 0 0;}
+
+/* Fin Memos */
 
 
 /* Sidebar - Memos */
@@ -145,14 +171,13 @@ div.dashboard div.content {
 }
 #cahierdetextes .classroom-works-list,
 #cahierdetextes .todo-works-list,
-#cahierdetextes .memos-list {
-	margin:3px 0 20px; padding:10px 10px 0; border:5px solid #fff;
+#cahierdetextes .sidebar .memos-list {
+	margin:3px 0 20px; padding:10px 10px 1px;
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
 	background:#fff;
 }
 #cahierdetextes .classroom-works-list p,
-#cahierdetextes .todo-works-list p ,
-#cahierdetextes .memos-list p {
+#cahierdetextes .todo-works-list p {
 	margin:0;
 }
 #cahierdetextes .work {
