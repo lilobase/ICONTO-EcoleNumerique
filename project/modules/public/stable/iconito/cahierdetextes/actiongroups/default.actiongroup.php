@@ -47,7 +47,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', false);
   	
-  	setlocale(LC_TIME, 'fr');
+  	setlocale(LC_TIME, 'fr_FR');
   	$dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
     $ppo->titre = strftime('%A %d %B %Y', $dateSelectionnee);  
 	  
