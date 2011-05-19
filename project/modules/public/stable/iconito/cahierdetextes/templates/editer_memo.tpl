@@ -18,6 +18,9 @@
   <fieldset>
     <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
     <input type="hidden" name="memoId" id="memoId" value="{$ppo->memo->id}" />
+    <input type="hidden" name="jour" id="jour" value="{$ppo->jour}" />
+    <input type="hidden" name="mois" id="mois" value="{$ppo->mois}" />
+    <input type="hidden" name="annee" id="annee" value="{$ppo->annee}" />
         
     <div class="field">
       <label for="memo_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.date"} :</label>

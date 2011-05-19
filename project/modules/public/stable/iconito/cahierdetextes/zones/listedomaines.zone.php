@@ -12,6 +12,9 @@ class ZoneListeDomaines extends CopixZone {
 	  
 	  // Récupération des paramètres 
 	  $ppo->nid = $this->getParam('nid');
+	  $ppo->jour  = $this->getParam('date_jour');
+    $ppo->mois  = $this->getParam('date_mois');
+    $ppo->annee = $this->getParam('date_annee');
     
     // Récupération des domaines de la classe
 	  $domaineDAO = _ioDAO('cahierdetextes|cahierdetextesdomaine');

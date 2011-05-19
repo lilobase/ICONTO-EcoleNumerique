@@ -23,6 +23,9 @@
     <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
     <input type="hidden" name="a_faire" id="a_faire" value="{$ppo->travail->a_faire}" />
     <input type="hidden" name="travailId" id="travailId" value="{$ppo->travail->id}" />
+    <input type="hidden" name="jour" id="jour" value="{$ppo->jour}" />
+    <input type="hidden" name="mois" id="mois" value="{$ppo->mois}" />
+    <input type="hidden" name="annee" id="annee" value="{$ppo->annee}" />
     
     {if $ppo->travail->a_faire}  
       <div class="field">

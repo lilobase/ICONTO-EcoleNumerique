@@ -83,7 +83,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->mois     = _request ('mois', date('m'));
   	$ppo->annee    = _request ('annee', date('Y'));
     $ppo->nbJours  = _request ('nb_jours', 10);
-  	$ppo->dateDeb  = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
+  	$ppo->dateDeb  = _request ('date_deb', $ppo->annee.$ppo->mois.$ppo->jour);
   	
   	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
   	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
@@ -125,7 +125,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->mois    = _request ('mois', date('m'));
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->nbJours = _request ('nb_jours', 10);
-  	$ppo->dateDeb = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
+  	$ppo->dateDeb  = _request ('date_deb', $ppo->annee.$ppo->mois.$ppo->jour);
   	$ppo->domaine = _request ('domaine', null);
   	
   	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
@@ -209,11 +209,23 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->mois  = _request ('mois', date('m'));
   	$ppo->annee = _request ('annee', date('Y'));
     $ppo->success = false;
+    
+    // Mode edition ?
+  	$domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
+  	if (is_null($domaineId = _request('domaineId', null))) {
+
+  	  $ppo->domaine = _record ('cahierdetextes|cahierdetextesdomaine');
+  	}
+  	else {
+  	  
+  	  $ppo->domaine = $domaineDAO->get($domaineId);
+  	}
 
     if (CopixRequest::isMethod ('post')) {
       
       $ppo->domaine = _record ('cahierdetextes|cahierdetextesdomaine');
       
+      $ppo->domaine->id        = _request ('domaineId', null);
       $ppo->domaine->nom       = trim($nomDomaine);
       $ppo->domaine->classe_id = $ppo->nid;
       
@@ -234,9 +246,21 @@ class ActionGroupDefault extends CopixActionGroup {
 
         return _arPPO ($ppo, 'gerer_domaines.tpl');
       }
+      
+      // Création
+      if ($ppo->domaine->id == '') {
         
-      $domaineDAO->insert ($ppo->domaine);
+        $domaineDAO->insert ($ppo->domaine);
+      }
+      // Mise à jour
+      else {
+
+        $domaineDAO->update($ppo->domaine);
+      }
+
       $ppo->success = true;
+      
+      return _arRedirect (CopixUrl::get ('cahierdetextes||gererDomaines', array('nid' => $ppo->nid, 'jour' => $ppo->jour, 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'success' => $ppo->success)));
     } 
 	  
 	  return _arPPO ($ppo, 'gerer_domaines.tpl');
@@ -250,7 +274,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo = new CopixPPO ();
 	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
 	  
-	  if (is_null($ppo->nid = _request('nid', null)) || !$domaine = $domaineDAO->get (_request('domain_id', null))) {
+	  if (is_null($ppo->nid = _request('nid', null)) || !$domaine = $domaineDAO->get (_request('domaineId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -260,6 +284,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
+	  
+	  // Récupération des paramètres
+	  $ppo->jour  = _request ('jour', date('d'));
+  	$ppo->mois  = _request ('mois', date('m'));
+  	$ppo->annee = _request ('annee', date('Y'));
 
     $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
     if (count($travailDAO->findByDomaine($domaine->id)) > 0) {

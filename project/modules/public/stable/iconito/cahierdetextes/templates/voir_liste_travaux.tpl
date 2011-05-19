@@ -4,7 +4,7 @@
   <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
   <div class="field">
     <label for="date_deb" class="form_libelle">{i18n key="cahierdetextes.message.dateFrom"} :</label>
-    <input class="form datepicker" type="text" name="date_deb" id="date_deb" value="{$ppo->dateDeb|date_format:"%d/%m/%Y"}" />
+    <input class="form datepicker" type="text" name="date_deb" id="date_deb" value="{$ppo->dateDeb|datei18n}" />
   </div>
   
   <div class="field">

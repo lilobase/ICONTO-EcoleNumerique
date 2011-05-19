@@ -361,4 +361,82 @@ class DAOCahierDeTextesTravail {
 
 	  return $toReturn;
 	}
+	
+	/**
+   * Retourne x prochains jours de travaux d'un élève
+   *
+   * @param int     $eleveId
+   * @param int     $nbJours
+   *
+   * @return array
+   */
+	public function findTravauxAVenirParEleve ($eleveId, $nbJours = 3) {
+	  
+    $toReturn = array();
+	  
+	  $sql = 'SELECT module_cahierdetextes_travail.id, module_cahierdetextes_travail.date_creation, module_cahierdetextes_travail.date_realisation, '
+	    . ' module_cahierdetextes_travail.description, module_cahierdetextes_domaine.nom '
+	    . ' FROM module_cahierdetextes_travail'
+  	  . ' LEFT JOIN module_cahierdetextes_travail2eleve ON (module_cahierdetextes_travail.id = module_cahierdetextes_travail2eleve.module_cahierdetextes_travail_id)'
+  	  . ' WHERE module_cahierdetextes_travail2eleve.kernel_bu_eleve_idEleve=:idEleve'
+  	  . ' AND module_cahierdetextes_travail.supprime = 0'
+  	  . ' AND module_cahierdetextes_travail.date_realisation > '.date('Ymd')
+  	  . ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_A_FAIRE
+      . ' GROUP BY module_cahierdetextes_travail.date_realisation, module_cahierdetextes_domaine.nom'
+  	  . ' ORDER BY module_cahierdetextes_travail.date_realisation ASC';
+  	  
+    $results = _doQuery ($sql, array(':eleveId' => $eleveId));
+
+    foreach ($results as $result) {
+      
+      // On ne souhaite que les travaux à venir sur $nbJours jours
+      if (count($toReturn) == $nbJours) {
+        
+        break;
+      }
+      
+      $toReturn[$result->date_realisation][] = $result;
+    }
+    
+    return $toReturn;
+	}
+	
+	/**
+   * Retourne x prochains jours de travaux d'un classe
+   *
+   * @param int     $classeId
+   * @param int     $nbJours
+   *
+   * @return array
+   */
+	public function findTravauxAVenirParClasse ($classeId, $nbJours = 3) {
+	  
+	  $toReturn = array();
+	  
+	  $sql = 'SELECT module_cahierdetextes_travail.id, module_cahierdetextes_travail.date_creation, module_cahierdetextes_travail.date_realisation, '
+	    . ' module_cahierdetextes_travail.description, module_cahierdetextes_domaine.nom '
+	    . ' FROM module_cahierdetextes_travail'
+	    . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
+  	  . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:classeId'
+  	  . ' AND module_cahierdetextes_travail.supprime = 0'
+  	  . ' AND module_cahierdetextes_travail.date_realisation > '.date('Ymd')
+  	  . ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_A_FAIRE
+      . ' GROUP BY module_cahierdetextes_travail.date_realisation, module_cahierdetextes_domaine.nom'
+  	  . ' ORDER BY module_cahierdetextes_travail.date_realisation ASC';
+
+  	$results = _doQuery ($sql, array(':classeId' => $classeId));
+  	
+  	foreach ($results as $result) {
+      
+      // On ne souhaite que les travaux à venir sur $nbJours jours
+      if (count($toReturn) == $nbJours) {
+        
+        break;
+      }
+      
+      $toReturn[$result->date_realisation][] = $result;
+    }
+    
+    return $toReturn;
+	}
 }

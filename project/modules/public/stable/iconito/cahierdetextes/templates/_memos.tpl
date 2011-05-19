@@ -1,4 +1,5 @@
 <div id="memos-list" class="memos-list">
+  <h3>{i18n key="cahierdetextes.message.memos"}</h3>
   <ul class="memo">
   {foreach from=$ppo->memos item=memo}
     <li>
