@@ -209,11 +209,8 @@ div.dashboard div.content {
 	float:right;
 	font-weight:normal; font-size:0.8rem;
 }
-#cahierdetextes form .field {
+#cahierdetextes form .field, #cahierdetextes form .textarea {
 	clear:both;
-	margin-bottom:5px;
-}
-#cahierdetextes form .textarea {
 	margin-bottom:5px;
 }
 #cahierdetextes form .field > label, #cahierdetextes form .field > p.label {
@@ -221,9 +218,9 @@ div.dashboard div.content {
 	margin:0;
 	width:35%;
 }
-#cahierdetextes form .field p.input {
-	margin:0 0 0 36%;
-}
+#cahierdetextes form .field p.input {margin:0 0 0 36%;}
+#cahierdetextes form .redirectionField > label {width:20%;}
+#cahierdetextes form .redirectionField p.input {margin:0 0 0 20%;}
 #cahierdetextes form #fieldSignature span {display:block;}
 #cahierdetextes form div.submit {
 	clear:both;

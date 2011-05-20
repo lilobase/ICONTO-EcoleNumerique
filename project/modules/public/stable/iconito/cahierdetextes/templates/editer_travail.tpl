@@ -31,68 +31,48 @@
     {if $ppo->travail->a_faire}  
       <div class="field">
         <label for="travail_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.dateGiven"} :</label>
-        <input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" />
+        <p class="input"><input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" /></p>
       </div>
       
       <div class="field">
         <label for="travail_date_realisation" class="form_libelle">{i18n key="cahierdetextes.message.dateFor"} :</label>
-        <input class="form datepicker" type="text" name="travail_date_realisation" id="travail_date_realisation" value="{$ppo->travail->date_realisation}" />
+        <p class="input"><input class="form datepicker" type="text" name="travail_date_realisation" id="travail_date_realisation" value="{$ppo->travail->date_realisation}" /></p>
       </div>
     {else}
       <div class="field">
         <label for="travail_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.date"} :</label>
-        <input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" />
+        <p class="input"><input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" /></p>
       </div>
     {/if}
     <div class="field">
       <label for="travail_domaine_id" class="form_libelle">{i18n key="cahierdetextes.message.domain"} :</label>
-      {if $ppo->idsDomaine|@count le $ppo->nombreMaxVueRadio}
+      <p class="input">{if $ppo->idsDomaine|@count le $ppo->nombreMaxVueRadio}
         {html_radios name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
       {else}
         {html_options name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
-      {/if}
+      {/if}</p>
     </div>
-    <div class="field">
+    <div class="textarea">
       <label for="travail_description" class="form_libelle">{i18n key="cahierdetextes.message.description"} :</label>
-      {copixzone process=kernel|edition field='travail_description' format=$ppo->format content=$ppo->travail->description height=200}
+      {copixzone process=kernel|edition field='travail_description' format=$ppo->format content=$ppo->travail->description height=200 width=450}
     </div>
     <div class="field">
       <label for="travail_fichiers" class="form_libelle">{i18n key="cahierdetextes.message.relatedDocuments"} :</label>
     </div>
   </fieldset>
   
-  <fieldset>
+  <fieldset class="concernedList">
     {copixzone process=cahierdetextes|listeEleves nid=$ppo->nid elevesSelectionnes=$ppo->elevesSelectionnes}
   </fieldset>
   
-  <div class="field">
+  <div class="field redirectionField">
     <label for="travail_redirection" class="form_libelle">{i18n key="cahierdetextes.message.whatWouldYouDo"}</label>
-    <label><input type="radio" name="travail_redirection" value="0" {if $ppo->travail_redirection eq 0}checked{/if} /> {i18n key="cahierdetextes.message.backWorks"}</label>
+    <p class="input"><label><input type="radio" name="travail_redirection" value="0" {if $ppo->travail_redirection eq 0}checked{/if} /> {i18n key="cahierdetextes.message.backWorks"}</label>
     <label><input type="radio" name="travail_redirection" value="1" {if $ppo->travail_redirection eq 1}checked{/if} /> {i18n key="cahierdetextes.message.addClassroomWork"}</label>
-    <label><input type="radio" name="travail_redirection" value="2" {if $ppo->travail_redirection eq 2}checked{/if} /> {i18n key="cahierdetextes.message.addTodoWork"}</label>
+    <label><input type="radio" name="travail_redirection" value="2" {if $ppo->travail_redirection eq 2}checked{/if} /> {i18n key="cahierdetextes.message.addTodoWork"}</label></p>
   </div>
   
-  <ul class="actions">
-  	<li><input class="button" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" /></li>
-  </ul>
+  <div class="submit">
+  	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" />
+  </div>
 </form>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	  
- 	  $('.datepicker').datepicker({
-    	showOn: 'button',
-    	buttonImage: '{/literal}{copixresource path="img/cahierdetextes/calendar.png"}{literal}',
-    	buttonImageOnly: true,
-    	changeMonth: true,
-      changeYear: true,
-      yearRange: 'c-20:c+10'
-    });
-    
-  });
-//]]> 
-</script>
-{/literal}
