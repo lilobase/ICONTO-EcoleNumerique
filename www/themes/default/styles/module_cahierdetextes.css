@@ -6,30 +6,86 @@ div.dashboard div.content {
 #cahierdetextes a:visited {text-decoration:none;}
 #cahierdetextes a:hover, #cahierdetextes a:focus {text-decoration:underline;}
 #cahierdetextes a:active {text-decoration:underline;}
-#cahierdetextes .works {
+#cahierdetextes a.button {
+	float:right;
+	margin
+	font-weight:normal;
+	text-transform:none;
+}
+#cahierdetextes h2 {
+	clear:both;
+	margin:1em 0 0.5em; border:none;
+	font-size:1.3rem; font-weight:bold;
+}
+#cahierdetextes h3 {
+	margin:10px 0 0; padding:0 0 0 5px;
+	font-size:1.2rem; font-weight:normal;
+	text-transform:uppercase;
+	line-height:1;
+}
+#cahierdetextes h3 a.button {
+	margin:-5px 0 0;
+}
+#cahierdetextes h4 {
+	margin:0;
+	font-size:1.2rem;
+}
+/* End global */
+
+
+/* Content */
+#cahierdetextes .classroom-works-list,
+#cahierdetextes .todo-works-list,
+#cahierdetextes .sidebar .memos-list {
+	margin:3px 0 20px; padding:10px 10px 1px;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
+}
+#cahierdetextes .classroom-works-list p,
+#cahierdetextes .todo-works-list p {
+	margin:0 0 0.5em;
+}
+#cahierdetextes .work {
+	margin:0 0 10px; padding:3px 5px; border:1px solid #eee;
+}
+#cahierdetextes .classroom-works-list p.no-work, 
+#cahierdetextes .todo-works-list p.no-work {margin-bottom:10px;}
+#cahierdetextes h4 span {
+	float:right;
+	font-size:0.75rem; font-weight:normal;
+}
+/* End Content */
+
+
+/* dayView */
+#cahierdetextes #dayView {
   float:left;
   margin-right:2%;
   width:73%;
 }
-#cahierdetextes h2 {
+#cahierdetextes #dayView h2 {
 	margin:0.5em 0 1em; border:none;
 	font-size:1.5rem; font-weight:bold;
 	text-align:center;
 }
-#cahierdetextes h2.todayLabel {
-	float:left; clear:both;
-	width:73%;
+#cahierdetextes #dayView h3 {
+	margin:10px 0 0;
+	font-size:1.5rem; font-weight:normal;
+	text-transform:uppercase;
+	line-height:1;
 }
-#cahierdetextes a.button {
-	float:right;
-	text-transform:none;
-}
-/* End global */
+#cahierdetextes #dayView h3 a.button {margin:0;}
+/* End dayView */
 
 
 /* Sidebar */
 #cahierdetextes .sidebar {
   margin:0 1% 0 75%;
+}
+#cahierdetextes .sidebar h3 {
+	margin:0 0 0.7em 10px;
+	font-size:0.9rem; font-weight:bold;
+	text-transform:none;
 }
 #cahierdetextes .sidebar .today-button {
 	margin:10px 0 8px;
@@ -83,10 +139,6 @@ div.dashboard div.content {
 
 
 /* Sidebar - Memos */
-#cahierdetextes .sidebar #memos-list h3 {
-    margin:0 0 0.7em 10px;
-	font-size:0.8rem;
-}
 #cahierdetextes .sidebar #memos-list {
 	position:relative;
 	clear:none;
@@ -140,59 +192,7 @@ div.dashboard div.content {
 #cahierdetextes #submenu .menuitems ul li a {width:65px;}
 #cahierdetextes #submenu .menuitems ul li.newGroupItems {margin-left:50px;}
 #cahierdetextes #submenu .menuitems ul li a:hover {text-decoration:none;}
-
-/*#cahierdetextes .top-bar {
-  margin:0; padding:0; 
-  height:28px; width:100%;
-  list-style-type:none;
-}
-#cahierdetextes .top-bar li {
-	float:left;
-	margin:-15px 2px 0; padding:15px 10px 5px; border-left:5px solid #7fc3d2; border-right:4px solid #7fc3d2;
-	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
-	background:#7FC3D2;
-}
-#cahierdetextes .top-bar li.selectedBar, #cahierdetextes .top-bar li:hover {
-	padding-top:24px; border:0;
-	background:#000; color:#fff;
-	font-weight:bold;
-}
-#cahierdetextes .top-bar li.selectedBar a, #cahierdetextes .top-bar li:hover a {color:#fff;}
 /* End Navigation */
-
-
-/* Content */
-#cahierdetextes h5 {
-	margin:10px 0 0; padding:0 5px;
-	font-size:1.5rem; font-weight:normal;
-	text-transform:uppercase;
-	line-height:1;
-}
-#cahierdetextes .classroom-works-list,
-#cahierdetextes .todo-works-list,
-#cahierdetextes .sidebar .memos-list {
-	margin:3px 0 20px; padding:10px 10px 1px;
-	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
-	background:#fff;
-}
-#cahierdetextes .classroom-works-list p,
-#cahierdetextes .todo-works-list p {
-	margin:0;
-}
-#cahierdetextes .work {
-	margin:0 0 10px; padding:3px 5px; border:1px solid #eee;
-}
-#cahierdetextes .classroom-works-list p.no-work, 
-#cahierdetextes .todo-works-list p.no-work {margin-bottom:10px;}
-#cahierdetextes h6 {
-	margin:0;
-	font-size:1.2rem;
-}
-#cahierdetextes h6 span {
-	float:right;
-	font-size:0.75rem; font-weight:normal;
-}
-/* End Content */
 
 
 /* Forms */
@@ -219,6 +219,7 @@ div.dashboard div.content {
 	width:35%;
 }
 #cahierdetextes form .field p.input {margin:0 0 0 36%;}
+#cahierdetextes form .field input.datepicker {width:65px;}
 #cahierdetextes form .redirectionField > label {width:20%;}
 #cahierdetextes form .redirectionField p.input {margin:0 0 0 20%;}
 #cahierdetextes form #fieldSignature span {display:block;}
@@ -238,6 +239,16 @@ div.dashboard div.content {
 }
 #cahierdetextes #domain_creation #nom {width:65%;}
 #cahierdetextes #domain_creation input {margin:0 5px 0 0;}
+#cahierdetextes #list_filter {
+	margin:10px 0; padding:5px 5px; border:1px solid #fff;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+}
+#cahierdetextes #list_filter .field {
+	clear:none; float:left;
+	margin:0 10px 0 0;
+}
+#cahierdetextes #list_filter .field label {float:none; display:inline;}
+
 /* End forms */
 
 
@@ -253,9 +264,16 @@ div.dashboard div.content {
 #cahierdetextes table td, #cahierdetextes table th {
 	padding:1px 2px;
 }
-#cahierdetextes table tr.odd td {
+#cahierdetextes table tr.odd td, #cahierdetextes table tr.odd th {
 	background-color:#f7f7f7;
 }
+#cahierdetextes .works table {
+	-webkit-border-radius:6px;-moz-border-radius:6px; border-radius:6px;
+	width:100%;
+	background-color:#fff;
+}
+#cahierdetextes .works table td.actions {width:80px;}
+#cahierdetextes .works table th {width:120px;}
 /* End table */
 
 

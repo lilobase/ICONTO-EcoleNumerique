@@ -1,5 +1,6 @@
+<h3>{i18n key="cahierdetextes.message.memos"}</h3>
 <div id="memos-list" class="memos-list">
-  <h3>{i18n key="cahierdetextes.message.memos"}</h3>
+  
   <ul class="memo">
   {assign var=index value=1}
   {foreach from=$ppo->memos item=memo}

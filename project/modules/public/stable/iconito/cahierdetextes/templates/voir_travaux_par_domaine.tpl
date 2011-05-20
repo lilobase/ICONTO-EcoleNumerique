@@ -21,70 +21,53 @@
     {html_options name='domaine' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->domaine}
   </div>
   
-  <input type="submit" />
+  <input type="submit" class="button button-next" value="{i18n key="cahierdetextes.message.seeWorks"}" />
 </form>
 
 <div class="works">
   {foreach from=$ppo->travaux key=domaine item=travauxParDomaine}
-    <h3>{$domaine}</h3>
+    <h2>{$domaine}</h2>
     
     {foreach from=$travauxParDomaine key=a_faire item=travauxParType}
-      <h4>
+      <h3>
         {if $a_faire eq 0}
           {i18n key="cahierdetextes.message.classroomWork"}
           {if $ppo->typeUtilisateur == 'USER_ENS'}
-            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue="domaine"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
+            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue="domaine"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
           {/if}
         {else}
           {i18n key="cahierdetextes.message.todoWork"}
           {if $ppo->typeUtilisateur == 'USER_ENS'}
-            <a class="actionLink" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue="domaine" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
+            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue="domaine" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
           {/if}
         {/if}
-      </h4>
+      </h3>
       
-      <table class="liste">
+      <table>
+        {assign var=index value=1}
         {foreach from=$travauxParType item=travail}
-          <tr>
-            <td>
+          <tr class="{if $index%2 eq 0}odd{else}even{/if}">
+            <th>
               {if $a_faire}
                 {$travail->date_realisation|datei18n:text}
               {else}
                 {$travail->date_creation|datei18n:text}
               {/if}
-            </td>
+            </th>
             <td>{$travail->description}</td>
             <td>-</td>
             {if $ppo->typeUtilisateur == 'USER_ENS'}
-              <td>
-                <a href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid vue="domaine" travailId=$travail->id}">{i18n key="cahierdetextes.message.modify"}</a>
-                <a href="{copixurl dest="cahierdetextes||supprimerTravail" nid=$ppo->nid travailId=$travail->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteWorkConfirm"}')">{i18n key="cahierdetextes.message.delete"}</a>
+              <td class="center actions">
+                <a href="{copixurl dest="cahierdetextes||voirConcernesParTravail" nid=$ppo->nid travailId=$travail->id}" title="{i18n key="cahierdetextes.message.seeConcerned"}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{i18n key="cahierdetextes.message.seeConcerned"}" /></a>
+                <a href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee travailId=$travail->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a> 
+            <a href="{copixurl dest="cahierdetextes||supprimerTravail" nid=$ppo->nid travailId=$travail->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteWorkConfirm"}')" title="{i18n key="cahierdetextes.message.delete"}"><img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="cahierdetextes.message.delete"}" /></a>
               </td>
             {/if}
           </tr>
+        {assign var=index value=$index+1}
         {/foreach}
       </table>
 
     {/foreach}
   {/foreach}
 </div>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	  
- 	  $('.datepicker').datepicker({
-    	showOn: 'button',
-    	buttonImage: '{/literal}{copixresource path="img/cahierdetextes/calendar.png"}{literal}',
-    	buttonImageOnly: true,
-    	changeMonth: true,
-      changeYear: true,
-      yearRange: 'c-20:c+10'
-    });
-    
-  });
-//]]> 
-</script>
-{/literal}
