@@ -6,11 +6,13 @@
 * @author     Jérémy FOURNAISE
 */
 
-class ActionGroupDefault extends CopixActionGroup {
+class ActionGroupDefault extends enicActionGroup {
 
 	public function beforeAction () {
     
-    // Contrôle d'accès au module
+    $this->addJs('js/iconito/module_cahierdetextes.js');
+	
+	// Contrôle d'accès au module
     $nid = _request ('nid');
     if (!Kernel::isEnseignantOfClasse($nid)
      && !Kernel::isEleveOfClasse($nid)

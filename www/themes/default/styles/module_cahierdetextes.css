@@ -40,15 +40,9 @@ div.dashboard div.content {
 	margin:0; padding:4px 10px;
 }
 #cahierdetextes .sidebar table {
-	width:100%;
-	margin:0 0 15px 0; border:1px solid #ccc;
-	background-color:#fff;
 	border-collapse:collapse;
 }
-#cahierdetextes table thead {
-	background-color:#FAFCE6;
-}
-#cahierdetextes table td, #cahierdetextes table th {
+#cahierdetextes .sidebar table td, #cahierdetextes .sidebar table th {
 	border:1px solid #ddd;
 	text-align:center;
 }
@@ -89,8 +83,13 @@ div.dashboard div.content {
 
 
 /* Sidebar - Memos */
+#cahierdetextes .sidebar #memos-list h3 {
+    margin:0 0 0.7em 10px;
+	font-size:0.8rem;
+}
 #cahierdetextes .sidebar #memos-list {
 	position:relative;
+	clear:none;
 	overflow:hidden;
 	padding:10px 5px 0;
 }
@@ -195,6 +194,64 @@ div.dashboard div.content {
 }
 /* End Content */
 
+
+/* Forms */
+#cahierdetextes form fieldset {
+	float:left;
+	padding:0; border:none;
+}
+#cahierdetextes form fieldset.concernedList {
+	margin-left:20px;
+	width:310px;
+}
+#cahierdetextes form fieldset.concernedList h3 {margin:0 0 5px;}
+#cahierdetextes form fieldset.concernedList h3 span {
+	float:right;
+	font-weight:normal; font-size:0.8rem;
+}
+#cahierdetextes form .field {
+	clear:both;
+	margin-bottom:5px;
+}
+#cahierdetextes form .textarea {
+	margin-bottom:5px;
+}
+#cahierdetextes form .field > label, #cahierdetextes form .field > p.label {
+	float:left;
+	margin:0;
+	width:35%;
+}
+#cahierdetextes form .field p.input {
+	margin:0 0 0 36%;
+}
+#cahierdetextes form #fieldSignature span {display:block;}
+#cahierdetextes form div.submit {
+	clear:both;
+	padding:10px 0;
+	text-align:center;
+}
+#cahierdetextes form div.submit input#save {
+	margin-left:8px;
+}
+/* End forms */
+
+
+/* Table */
+#cahierdetextes .sidebar table, #cahierdetextes table.listStudents {
+	width:100%;
+	margin:0 0 15px 0; border:1px solid #ccc;
+	background-color:#fff;
+}
+#cahierdetextes table thead {
+	background-color:#eee;
+}
+#cahierdetextes table td, #cahierdetextes table th {
+	padding:1px 2px;
+}
+#cahierdetextes table tr.odd td {
+	background-color:#f7f7f7;
+}
+/* End table */
 
 
 #show-memos {

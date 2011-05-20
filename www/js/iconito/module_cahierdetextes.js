@@ -1,8 +1,11 @@
 jQuery(document).ready(function($){
 
-    var elementWidth = $("#memos-list ul.memo").width();
+	/**********************************************************************/
+	/*  Slider Memos  */
+	/**********************************************************************/
+	var elementWidth = $("#memos-list ul.memo").width();
     var nbElement = $('#memos-list ul.memo li').length;
-	var left = (nbElement > 10) ? 10 : ((nbElement > 5) ? 20 : 40);
+	var left = (nbElement > 10) ? 10 : ((nbElement > 5) ? 20 : 35);
     var imageReelWidth = elementWidth * nbElement;
 	var buttons ='';
 	for (var i=0; i<nbElement; i++)
@@ -25,7 +28,7 @@ jQuery(document).ready(function($){
 		{
 			// On coupe au prochain espace suivant les 50 premiers caractères pour ne pas couper de mot
 			//content = content.match(/^.{50}\S*/m);
-			var pos = content.indexOf(' ', 50); 
+			var pos = content.indexOf(' ', 120); 
 			if (pos) content = content.substring(0, pos + 1);
 			$(this).children('a').html(content+' (...)');
 		}
@@ -76,5 +79,32 @@ jQuery(document).ready(function($){
         rotateSwitch(); // Resume rotation
         return false;
     });
+	
 
+	/**********************************************************************/
+	/*  Signature des mémos  */
+	/**********************************************************************/
+	// Vérification au chargement
+	if ($('#memo_avec_signature_non').is(':checked'))
+		$('#fieldSignature span').hide();
+	
+	// S'il y a du changement
+    $('#memo_avec_signature_oui, #memo_avec_signature_non').change(function() {
+        if ($('#memo_avec_signature_oui').is(':checked'))
+	        $('#memo_date_max_signature').val('');
+        $('#fieldSignature span').toggle();
+    });
+	
+	
+	/**********************************************************************/
+	/*  Calendrier pour les champs dates  */
+	/**********************************************************************/
+	$('.datepicker').datepicker({
+    	/*showOn: 'button',
+    	buttonImage: '../../../themes/default/img/cahierdetextes/calendar.png',
+    	buttonImageOnly: true,*/
+    	changeMonth: true,
+        changeYear: true,
+        yearRange: 'c-10:c+10'
+    });
 });

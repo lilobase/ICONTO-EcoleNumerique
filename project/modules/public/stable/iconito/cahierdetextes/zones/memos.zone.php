@@ -15,6 +15,7 @@ class ZoneMemos extends enicZone {
 	  $ppo->jour  = $this->getParam('date_jour');
 	  $ppo->mois  = $this->getParam('date_mois');
 	  $ppo->annee = $this->getParam('date_annee');
+	  
     
     $time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
 	  
@@ -33,7 +34,6 @@ class ZoneMemos extends enicZone {
 	    $ppo->memos = $memoDAO->findByClasse($ppo->nid, true);
 	  }
 	
-	$this->addJs('js/iconito/module_cahierdetextes.js');
 	
 	  $toReturn = $this->_usePPO ($ppo, '_memos.tpl');
   }
