@@ -1,4 +1,4 @@
-<table class="domains-list">
+<table class="classic">
   <thead>
     <tr>
       <th>{i18n key="cahierdetextes.message.domains"}</th>

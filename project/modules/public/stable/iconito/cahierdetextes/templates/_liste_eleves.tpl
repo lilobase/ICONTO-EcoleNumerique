@@ -1,7 +1,7 @@
 <h3>{i18n key="cahierdetextes.message.studentsConcerned"} <span class="levels">{html_checkboxes name="niveaux" values=$ppo->nomsNiveau output=$ppo->nomsNiveau}</span></h3>
            
   {if $ppo->eleves neq null}
-    <table class="listStudents">
+    <table class="classic">
       <thead>
         <tr>
           <th>{i18n key="cahierdetextes.message.account"}</th>

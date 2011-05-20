@@ -230,11 +230,19 @@ div.dashboard div.content {
 #cahierdetextes form div.submit input#save {
 	margin-left:8px;
 }
+#cahierdetextes #domain_creation {margin:0 0 10px 0;}
+#cahierdetextes #domain_creation label {
+	display:block;
+	padding:0 0 0 3px;
+	line-height:0.8;
+}
+#cahierdetextes #domain_creation #nom {width:65%;}
+#cahierdetextes #domain_creation input {margin:0 5px 0 0;}
 /* End forms */
 
 
 /* Table */
-#cahierdetextes .sidebar table, #cahierdetextes table.listStudents {
+#cahierdetextes .sidebar table, #cahierdetextes table.classic {
 	width:100%;
 	margin:0 0 15px 0; border:1px solid #ccc;
 	background-color:#fff;
