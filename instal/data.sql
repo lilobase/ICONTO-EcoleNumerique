@@ -2,6 +2,8 @@
 -- Contenu de la table `dbgroup`
 -- 
 
+SET CHARACTER SET 'utf8';
+
 INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
 (1, 'Admin', 'Groupe administrateur', 1, 0, 0),
 (2, 'current_user', 'Utilisation classique de l''application', 0, 0, 1);
@@ -43,7 +45,7 @@ INSERT INTO `kernel_bu_personnel_role` VALUES (1,'Enseignant','Enseignants','ECO
 -- Dumping data for table `kernel_bu_sexe`
 --
 
-INSERT INTO `kernel_bu_sexe` VALUES (1,'Masculin'),(2,'F�minin');
+INSERT INTO `kernel_bu_sexe` VALUES (1,'Masculin'),(2,'Féminin');
 
 
 -- 
@@ -240,15 +242,15 @@ INSERT INTO `kernel_bu_classe_niveau` VALUES(9, 'Cours moyen 2ème année', 3, '
 --
 
 INSERT INTO `kernel_bu_lien_parental` (`id_pa`, `parente`) VALUES
-(1, 'M�re'),
-(2, 'P�re'),
-(3, 'Fr�re'), 
+(1, 'Mère'),
+(2, 'Père'),
+(3, 'Frère'), 
 (4, 'Soeur'),
-(5, 'Grand-p�re'),
-(6, 'Grand-m�re'),
+(5, 'Grand-père'),
+(6, 'Grand-mère'),
 (7, 'Oncle'),
 (8, 'Tante'),
-(9, 'Collat�raux'),
+(9, 'Collatéraux'),
 (10, 'Tuteur'),
 (11, 'Inconnu');
 
