@@ -139,7 +139,10 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->domaine = _request ('domaine', null);
   	$ppo->eleve   = _request ('eleve', null);
   	
-  	$ppo->choixNbJours = array(10, 20, 30, 40, 50);
+  	$ppo->choixNbJours  = array(10, 20, 30, 40, 50);
+  	$cahierInfos        = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $ppo->estAdmin      = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+    $nodeId             = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
     
   	// Récupération des domaines
   	$domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
@@ -155,11 +158,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 	  
 	  // Récupération des travaux suivant le type de l'utilisateur courant
-	  $travailDAO     = _ioDAO ('cahierdetextes|cahierdetextestravail');
-	  $cahierInfos    = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-    $ppo->estAdmin  = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
-    $nodeId         = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
-	  
+	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');	  
   	if ($ppo->estAdmin) {
 	    
 	    $ppo->travaux = $travailDAO->findByClasseDateIntervalleEtDomaineParDomaineEtType($nodeId, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
