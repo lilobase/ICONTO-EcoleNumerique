@@ -1,5 +1,5 @@
 <div id="submenu">
-<div class="menuitems">
+  <div class="menuitems">
     <ul>
       <li><a class="todo{if $ppo->current == "editerTravailAFaire"} current{/if}" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee a_faire=1}"><span class="valign"></span><span>{i18n key="cahierdetextes.message.todoWork"}</span></a></li>
       <li><a class="classroom{if $ppo->current == "editerTravailEnClasse"} current{/if}" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}"><span class="valign"></span><span>{i18n key="cahierdetextes.message.classroomWork"}</span></a></li>
@@ -9,5 +9,5 @@
       <li class="newGroupItems"><a class="{if $ppo->current == "gererDomaines"} current{/if}" href="{copixurl dest="cahierdetextes||gererDomaines" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}"><span class="valign"></span><span>{i18n key="cahierdetextes.message.domainsList"}</span></a></li>
       <li><a class="article{if $ppo->current == "voirMemos"} current{/if}" href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}"><span class="valign"></span><span>{i18n key="cahierdetextes.message.memos"}</span></a></li>
     </ul>
-</div>
+  </div>
 </div>
