@@ -83,7 +83,7 @@
   $html .=   '</table>';
   
   // Légende
-  $html .= '<p class="caption">'.CopixI18N::get ('cahierdetextes|cahierdetextes.message.caption').' : <span class="no-work">17</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.noWork').' - <span class="with-work">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.atLeastOneWork').' - <span class="selected">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.selectedDate').'</p>';
+  $html .= '<p class="caption"><strong>'.CopixI18N::get ('cahierdetextes|cahierdetextes.message.caption').'</strong> : <span class="no-work">17</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.noWork').' - <span class="with-work">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.atLeastOneWork').' - <span class="selected">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.selectedDate').'</p>';
 
   echo $html;
 ?>

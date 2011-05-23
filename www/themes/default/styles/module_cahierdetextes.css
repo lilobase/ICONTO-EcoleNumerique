@@ -83,7 +83,7 @@ div.dashboard div.content {
   margin:0 1% 0 75%;
 }
 #cahierdetextes .sidebar h3 {
-	margin:0 0 0.7em 10px;
+	margin:20px 0 0.7em 10px;
 	font-size:0.9rem; font-weight:bold;
 	text-transform:none;
 }
@@ -109,9 +109,40 @@ div.dashboard div.content {
 }
 #cahierdetextes .sidebar table a:hover {background-color:#f8c56d;}
 #cahierdetextes .sidebar table .empty {background-color:#f7f7f7;}
-#cahierdetextes .sidebar table .with-work {font-weight:bold; background-color:#fef1d9;}
-#cahierdetextes .sidebar table .selected {font-weight:bold; background-color:#F8C56D;}
+#cahierdetextes .sidebar table .with-work, 
+#cahierdetextes .sidebar .caption span.with-work {font-weight:bold; background-color:#fef1d9;}
+#cahierdetextes .sidebar table .selected,
+#cahierdetextes .sidebar .caption span.selected {font-weight:bold; background-color:#F8C56D;}
+#cahierdetextes .sidebar .next-works ul {
+	padding:0;
+	list-style:none;
+}
+#cahierdetextes .sidebar .next-works ul li {
+	margin-bottom:5px; padding:3px 10px;
+	background:#fff;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+}
+#cahierdetextes .sidebar .next-works ul .dateToDo {
+	display:block;
+	font-size:0.75rem; font-weight:bold;
+	color:#354E81;
+}
 /* Sidebar */
+
+
+/* Sidebar Caption */
+#cahierdetextes .sidebar .caption {
+	margin:0.4em 0;
+	color:#333;
+	font-size:0.65em;
+	line-height:1.5;
+}
+#cahierdetextes .sidebar .caption span {
+	padding:1px 2px; border:1px solid #ddd;
+	background-color:#fff; color:#000;
+}
+
+/* End Sidebar Caption */
 
 
 /* Memos */
@@ -123,6 +154,7 @@ div.dashboard div.content {
 	margin:3px 0 20px; padding:10px; 
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
 	background:#fff;
+	overflow:hidden;
 }
 #cahierdetextes .memos-list .memo .memoDate {
 	margin:0 0 5px;
@@ -134,7 +166,27 @@ div.dashboard div.content {
 	padding:0 10px 0;
 }
 #cahierdetextes .memos-list .memo p {margin:0.5em 0 0;}
-
+#cahierdetextes .memos-list .memo .signature {
+	float:right;
+	padding:5px; border:1px solid #ddd;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
+}
+#cahierdetextes .memos-list .memo .signature p {
+	margin:0.2em 0;
+	text-align:right;
+	font-size:0.9em;
+}
+#cahierdetextes .memos-list .memo .signature .warningSign span {
+	padding:1px 0 2px 25px;
+	background:url(../../../themes/default/images/action_warning.png) no-repeat 0 50%;
+}
+#cahierdetextes .memos-list .memo .signature .confirmSign span {
+	padding:1px 0 2px 25px;
+	background:url(../../../themes/default/images/action_confirm.png) no-repeat 0 50%;
+}
+#cahierdetextes .memos-list .memo .signature input {width:300px;}
+#cahierdetextes .memos-list .memo .signature input.button {border:1px solid #ddd; width:auto;}
 /* Fin Memos */
 
 
@@ -192,6 +244,29 @@ div.dashboard div.content {
 #cahierdetextes #submenu .menuitems ul li a {width:65px;}
 #cahierdetextes #submenu .menuitems ul li.newGroupItems {margin-left:50px;}
 #cahierdetextes #submenu .menuitems ul li a:hover {text-decoration:none;}
+#cahierdetextes #submenu .menuitems ul li a span.memos-count {
+	position:absolute; top:3px; left:-27px;
+	padding:4px 5px;
+	width:14px; height:14px;
+	background:url(../../../themes/default/images/mod_user_mail_badge.png) no-repeat scroll -13px -12px transparent;
+	font-size:0.6rem; font-weight:bold;
+}
+#cahierdetextes #submenu .studentMenu ul li a {
+	padding:2px 3px;
+	width:auto;
+	background-image:none;
+	text-align:center;
+}
+#cahierdetextes #submenu .studentMenu ul li.prev-week, 
+#cahierdetextes #submenu .studentMenu ul li.next-week { padding:2px 0;}
+#cahierdetextes #submenu .studentMenu ul li.prev-week a, 
+#cahierdetextes #submenu .studentMenu ul li.next-week a { width:25px;
+}
+#cahierdetextes #submenu .studentMenu ul li a.article {
+	padding:2px 2px 2px 28px;
+	width:65px;
+	background:url(../../../themes/default/images/menu_article.png) no-repeat 02px 50%;
+}
 /* End Navigation */
 
 
@@ -255,7 +330,7 @@ div.dashboard div.content {
 /* Table */
 #cahierdetextes .sidebar table, #cahierdetextes table.classic {
 	width:100%;
-	margin:0 0 15px 0; border:1px solid #ccc;
+	margin:0; border:1px solid #ccc;
 	background-color:#fff;
 }
 #cahierdetextes table thead {

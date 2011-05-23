@@ -22,25 +22,27 @@
           {/if}
         {$memo->date_creation|datei18n:text}</p>
         {$memo->message}
-
+        
         {if $memo->avec_signature}
+          <div class="signature">
           {if $memo->signe_le|datei18n}
-            <p>{i18n key="cahierdetextes.message.signOn"} : {$memo->signe_le|datei18n}</p>
+              <p class="confirmSign"><span>{i18n key="cahierdetextes.message.signOn"} <strong>{$memo->signe_le|datei18n}</strong></span></p>
           {else}
-            <p>{i18n key="cahierdetextes.message.toSignOn"} : {$memo->date_max_signature|datei18n}</p>
+              <p class="warningSign"><span>{i18n key="cahierdetextes.message.toSignOn"} <strong>{$memo->date_max_signature|datei18n}</strong></span></p>
           {/if}
+          {if $ppo->niveauUtilisateur == PROFILE_CCV_READ && $memo->signe_le == ''}
+              <form name="memo_sign" id="memo_sign" action="{copixurl dest="cahierdetextes||voirMemos"}" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
+                <input type="hidden" name="memoId" id="memoId" value="{$memo->id}" />
+                <input type="hidden" name="eleve" id="eleve" value="{$ppo->eleve}" />
+                
+                <input type="text" name="commentaire" value="{i18n key="cahierdetextes.message.comment"}" />
+                <input type="submit" value="{i18n key="cahierdetextes.message.signNow"}" class="button button-update" />
+              </form>
+          {/if}
+          </div>
         {/if}
         
-        {if $ppo->niveauUtilisateur == PROFILE_CCV_READ && $memo->avec_signature && $memo->signe_le == ''}
-          <form name="memo_sign" id="memo_sign" action="{copixurl dest="cahierdetextes||voirMemos"}" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
-            <input type="hidden" name="memoId" id="memoId" value="{$memo->id}" />
-            <input type="hidden" name="eleve" id="eleve" value="{$ppo->eleve}" />
-            
-            <input type="text" name="commentaire" value="{i18n key="cahierdetextes.message.comment"}" />
-            <input type="submit" value="Signer" />
-          </form>
-        {/if}
       </div>
     {/foreach}
   {else}

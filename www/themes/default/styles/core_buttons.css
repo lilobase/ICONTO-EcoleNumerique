@@ -243,6 +243,9 @@ span.valign {
 #submenu .menuitems a.copy			{ background-image: url(../../../themes/default/images/menu_copy.png); }
 #submenu .menuitems a.todo			{ background-image: url(../../../themes/default/images/menu_todo.png); }
 #submenu .menuitems a.classroom		{ background-image: url(../../../themes/default/images/menu_classroom.png); }
+#submenu .menuitems a.chart			{ background-image: url(../../../themes/default/images/menu_chart.png); }
+#submenu .menuitems a.page			{ background-image: url(../../../themes/default/images/menu_full_page.png); }
+#submenu .menuitems a.event			{ background-image: url(../../../themes/default/images/menu_event.png); }
 
 #submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; color:#999; }
 
