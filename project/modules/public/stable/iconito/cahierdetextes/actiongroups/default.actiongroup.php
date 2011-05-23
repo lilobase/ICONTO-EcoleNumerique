@@ -198,7 +198,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
 	  $ppo->eleves = $travail2eleveDAO->findElevesParTravail($travail->id);
 
-	  return _arPPO ($ppo, 'voir_concernes_par_travail.tpl');
+	  return _arPPO ($ppo, array ('template' => 'voir_concernes_par_travail.tpl', 'mainTemplate' => 'main|main_fancy.php'));
 	}
 	
 	/**
@@ -813,7 +813,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $memo2eleveDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
 	  $ppo->suivis    = $memo2eleveDAO->findSuiviElevesParMemo($ppo->memo->id);
 
-	  return _arPPO ($ppo, 'suivi_memo.tpl');
+	  return _arPPO ($ppo, array ('template' => 'suivi_memo.tpl', 'mainTemplate' => 'main|main_fancy.php'));
 	}
   
   public function go () {
