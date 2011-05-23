@@ -41,46 +41,66 @@
     
     $('#check_all').click(function () {
       
-      $(':checkbox[name^=eleves]').attr('checked', $('#check_all').is(':checked'));
+      if ($('#check_all').is(':checked')) {
+        
+        $(':checkbox[name^=eleves]').attr('checked', 'checked');
+      }
+      else {
+        
+        $(':checkbox[name^=eleves]').removeAttr('checked');
+      }
+      
+      checkboxChange();
     });
 
     $(':checkbox[name^=niveaux]').click(function () {
       
-      var class = $(this).val();
-      $('.'+class).find('td.check :checkbox').attr('checked', $(this).is(':checked'));
-    });
-    
-    $(':checkbox').change(function() {
-      checkboxChange();
-    })
-    
-    function checkboxChange() {
+      var level = $(this).val();
       
-      var all_checkboxes = $("tbody :checkbox").length;
-      var all_checked    = $("tbody :checkbox").filter(':checked').length;
-
-      if (all_checkboxes == all_checked) {
-
-        $('#check_all').attr('checked', true);
+      if ($(this).is(':checked')) {
+        
+        $('.'+level).find('td.check :checkbox').attr('checked', 'checked');
       }
       else {
         
-        $('#check_all').attr('checked', false);
+        $('.'+level).find('td.check :checkbox').removeAttr('checked');
+      }
+      
+      checkboxChange();
+    });
+    
+    $('tbody :checkbox').change(function() {
+      
+      checkboxChange();
+    });
+    
+    function checkboxChange() {
+      
+      var all_checkboxes = $('tbody :checkbox').length;
+      var all_checked    = $('tbody :checkbox').filter(':checked').length;
+
+      if (all_checkboxes == all_checked) {
+
+        $('#check_all').attr('checked', 'checked');
+      }
+      else {
+        
+        $('#check_all').removeAttr('checked');
       }
       
       $(':checkbox[name^=niveaux]').each(function() {
         
-        var class = $(this).val();
-        var class_checkboxes = $('.'+class).find('td.check :checkbox').length;
-        var class_checked = $('.'+class).find('td.check :checkbox').filter(':checked').length;
+        var level = $(this).val();
+        var level_checkboxes = $('.'+level).find('td.check :checkbox').length;
+        var level_checked = $('.'+level).find('td.check :checkbox').filter(':checked').length;
         
-        if (class_checkboxes == class_checked) {
+        if (level_checkboxes == level_checked) {
 
-          $(this).attr('checked', true);
+          $(this).attr('checked', 'checked');
         }
         else {
 
-          $(this).attr('checked', false);
+          $(this).removeAttr('checked');
         }
       });
     }
