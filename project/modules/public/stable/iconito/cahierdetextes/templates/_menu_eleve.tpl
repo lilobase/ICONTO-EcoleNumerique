@@ -22,5 +22,5 @@
   
   <li class="next-week"><a href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$ppo->semaineSuivante|date_format:"%d" mois=$ppo->semaineSuivante|date_format:"%m" annee=$ppo->semaineSuivante|date_format:"%Y"}">></a></li>
   
-  <li><a href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.memos"}</a></li>
+  <li><a class="{if $ppo->current == "voirMemos"}current{/if}" href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.memos"}</a></li>
 </ul>

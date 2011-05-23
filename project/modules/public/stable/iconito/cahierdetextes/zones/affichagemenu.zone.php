@@ -16,6 +16,7 @@ class ZoneAffichageMenu extends CopixZone {
     $ppo->mois      = $this->getParam('date_mois');
     $ppo->annee     = $this->getParam('date_annee');
     $ppo->eleve     = $this->getParam('eleve');
+    $ppo->current   = $this->getParam('current');
     
     $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
     $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;

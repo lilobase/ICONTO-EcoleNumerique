@@ -1,4 +1,8 @@
-{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
+{if $ppo->travail->a_faire}
+  {copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee current="editerTravailAFaire"}
+{else}
+  {copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee current="editerTravailEnClasse"}
+{/if}
 
 {if $ppo->travail->a_faire}
   <h2>{i18n key="cahierdetextes.message.addTodoWork"}</h2>

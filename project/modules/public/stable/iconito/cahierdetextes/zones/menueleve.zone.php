@@ -17,6 +17,7 @@ class ZoneMenuEleve extends CopixZone {
     $ppo->jour     = $this->getParam('date_jour');
     $ppo->mois     = $this->getParam('date_mois');
     $ppo->annee    = $this->getParam('date_annee');
+    $ppo->current  = $this->getParam('current');
     
     // Timestamp de la date sélectionnée
     $ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);

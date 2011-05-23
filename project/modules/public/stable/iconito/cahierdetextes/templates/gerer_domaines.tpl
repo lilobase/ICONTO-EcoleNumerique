@@ -1,4 +1,4 @@
-{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
+{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee current="gererDomaines"}
 
 <h2>{i18n key="cahierdetextes.message.domainsList"}</h2>
 
