@@ -50,8 +50,7 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->eleve   = _request ('eleve', null);
   	
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
-  	
-  	$ppo->dateSelectionnee = $ppo->annee.$ppo->mois.$ppo->jour;
+  	$ppo->dateSelectionnee  = $ppo->annee.$ppo->mois.$ppo->jour;
 	  
 	  return _arPPO ($ppo, 'voir_travaux.tpl');
 	}
@@ -84,13 +83,13 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->dateDeb  = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
   	$ppo->eleve    = _request ('eleve', null);
   	
-  	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
+  	$ppo->choixNbJours  = array(10, 20, 30, 40, 50);
 
     // Récupération des travaux suivant le type de l'utilisateur courant
-  	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
-  	$cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-    $nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
-    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+  	$travailDAO     = _ioDAO ('cahierdetextes|cahierdetextestravail');
+  	$cahierInfos    = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $ppo->estAdmin  = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+    $nodeId         = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
   	
   	// Enseignant
   	if ($ppo->estAdmin) {
@@ -140,10 +139,7 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->domaine = _request ('domaine', null);
   	$ppo->eleve   = _request ('eleve', null);
   	
-  	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
-  	$cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-    $nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
-    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+  	$ppo->choixNbJours = array(10, 20, 30, 40, 50);
     
   	// Récupération des domaines
   	$domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
@@ -159,7 +155,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 	  
 	  // Récupération des travaux suivant le type de l'utilisateur courant
-	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
+	  $travailDAO     = _ioDAO ('cahierdetextes|cahierdetextestravail');
+	  $cahierInfos    = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $ppo->estAdmin  = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+    $nodeId         = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
 	  
   	if ($ppo->estAdmin) {
 	    
@@ -223,10 +222,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 
     // Récupération des paramètres
-    $nomDomaine = _request ('nom', null);
-	  $ppo->jour  = _request ('jour', date('d'));
-  	$ppo->mois  = _request ('mois', date('m'));
-  	$ppo->annee = _request ('annee', date('Y'));
+    $nomDomaine   = _request ('nom', null);
+	  $ppo->jour    = _request ('jour', date('d'));
+  	$ppo->mois    = _request ('mois', date('m'));
+  	$ppo->annee   = _request ('annee', date('Y'));
     $ppo->success = false;
     
     // Mode edition ?
@@ -242,7 +241,7 @@ class ActionGroupDefault extends enicActionGroup {
 
     if (CopixRequest::isMethod ('post')) {
       
-      $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+      $cahierInfos  = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
       
       $ppo->domaine = _record ('cahierdetextes|cahierdetextesdomaine');
       
@@ -257,6 +256,7 @@ class ActionGroupDefault extends enicActionGroup {
         
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noName');
       }
+      
       $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
       if ($domaineDAO->getByNom($ppo->domaine->nom)) {
 
@@ -353,12 +353,11 @@ class ActionGroupDefault extends enicActionGroup {
   	
   	$ppo->dateSelectionnee  = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$cahierInfos            = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
 	  
 	  $ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
 	  $ppo->nombreMaxVueRadio = CopixConfig::get('cahierdetextes|nombre_max_vue_radio');
-	  
-	  $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-	  
+
 	  // Récupération des domaines disponibles
 	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
 	  $domaines   = $domaineDAO->findByClasse($cahierInfos[0]->node_id);
@@ -392,7 +391,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  $ppo->travail->date_creation = CopixDateTime::yyyymmddToDate($ppo->travail->date_creation);
   	  $ppo->travail->date_realisation = CopixDateTime::yyyymmddToDate($ppo->travail->date_realisation);
   	  
-  	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
+  	  $travail2eleveDAO   = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
   	  $elevesSelectionnes = $travail2eleveDAO->findElevesParTravail ($ppo->travail->id);
   	  $ppo->elevesSelectionnes = array();
   	  foreach($elevesSelectionnes as $eleve) {
@@ -572,12 +571,12 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->success = _request ('success', null);
   	$ppo->eleve   = _request ('eleve', null);
   	
-  	$time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
-    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-    $ppo->nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
-    $ppo->nodeType = isset($cahierInfos[0]) ? $cahierInfos[0]->node_type : null;
+  	$time                   = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
+    $cahierInfos            = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
     $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
-    $ppo->estAdmin = $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH ? true : false;
+    $ppo->estAdmin          = $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH ? true : false;
+    $ppo->nodeId            = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
+    $ppo->nodeType          = isset($cahierInfos[0]) ? $cahierInfos[0]->node_type : null;
 	  
 	  // Récupération des mémos suivant le type de l'utilisateur courant
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
@@ -655,15 +654,15 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 	  else {
 	    
-	    $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
-	    $ppo->memo = $memoDAO->get($memoId);
+	    $memoDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+	    $ppo->memo  = $memoDAO->get($memoId);
 	    
 	    $ppo->memo->date_creation      = CopixDateTime::yyyymmddToDate($ppo->memo->date_creation);
   	  $ppo->memo->date_validite      = CopixDateTime::yyyymmddToDate($ppo->memo->date_validite);
   	  $ppo->memo->date_max_signature = CopixDateTime::yyyymmddToDate($ppo->memo->date_max_signature);
 	    
-	    $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-  	  $ppo->elevesSelectionnes = $memo2eleveDAO->findElevesParMemo ($ppo->memo->id);
+	    $memo2eleveDAO            = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+  	  $ppo->elevesSelectionnes  = $memo2eleveDAO->findElevesParMemo ($ppo->memo->id);
 	  }
   	
   	if (CopixRequest::isMethod ('post')) {
@@ -687,7 +686,8 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
       }
       
-      if (!is_null($ppo->memo->date_validite) && ($ppo->memo->date_validite < $ppo->memo->date_creation)) {
+      if (!is_null($ppo->memo->date_validite) 
+        && ($ppo->memo->date_validite < $ppo->memo->date_creation)) {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongValidityDate');
       }
@@ -715,8 +715,8 @@ class ActionGroupDefault extends enicActionGroup {
         return _arPPO ($ppo, 'editer_memo.tpl');
       }
       
-      $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
-      $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+      $memoDAO        = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+      $memo2eleveDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
       
       // Création
       if ($ppo->memo->id == '') {
@@ -811,8 +811,8 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 	  
 	  // Récupération des élèves liés au mémo
-	  $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-	  $ppo->suivis = $memo2eleveDAO->findSuiviElevesParMemo($ppo->memo->id);
+	  $memo2eleveDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+	  $ppo->suivis    = $memo2eleveDAO->findSuiviElevesParMemo($ppo->memo->id);
 
 	  return _arPPO ($ppo, 'suivi_memo.tpl');
 	}
