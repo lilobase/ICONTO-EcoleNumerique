@@ -19,17 +19,18 @@ class ZoneTravauxAVenir extends CopixZone {
     
     $time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
     
-    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-    $nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
-    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+    $cahierInfos            = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $estAdmin               = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+	  $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
+	  $nodeId                 = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
 	  
 	  // Récupération des travaux suivant les accès de l'utilisateur courant (élève / responsable / enseignant)
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
-	  if ($ppo->estAdmin) {
+	  if ($estAdmin) {
 	    
 	    $ppo->travaux = $travailDAO->findTravauxAVenirParClasse($nodeId);
 	  }
-	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) == PROFILE_CCV_READ) {
+	  elseif ($ppo->niveauUtilisateur == PROFILE_CCV_READ) {
     
       $ppo->travaux = $travailDAO->findTravauxAVenirParEleve($ppo->eleve);
     }  

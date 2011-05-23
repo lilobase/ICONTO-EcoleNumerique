@@ -4,7 +4,11 @@
     <ul>
     {foreach from=$ppo->travaux key=date item=travailParDate}
       <li>
+        {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
         <a class="actionLink" href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4 eleve=$ppo->eleve}">
+        {else}
+        <a class="actionLink" href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4}">
+        {/if}
           {$date|datei18n} : 
           {foreach from=$travailParDate item=travail}
             {$travail->nom}
