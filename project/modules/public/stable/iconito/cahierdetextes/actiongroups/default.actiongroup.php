@@ -8,31 +8,24 @@
 
 class ActionGroupDefault extends enicActionGroup {
 
-	public function beforeAction () {
-    
+	public function beforeAction ($actionName) {
+	  
     $this->addJs('js/iconito/module_cahierdetextes.js');
 	
-	// Contrôle d'accès au module
-    $nid = _request ('nid');
-    if (!Kernel::isEnseignantOfClasse($nid)
-     && !Kernel::isEleveOfClasse($nid)
-     && !Kernel::isParentOfEleve($nid)) {
-       
-       return CopixActionGroup::process ('genericTools|Messages::getError', 
- 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
-     }
+	  // Contrôle d'accès au module
+    if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
+      
+      return CopixActionGroup::process ('genericTools|Messages::getError',
+ 	     array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
+    }
     
-		//CopixHTMLHeader::addCSSLink (_resource ('styles/module_cahierdetextes.css'));
-	}
-	
-	/**
-	 * Action par défaut => redirige vers voirTravaux
-	 */
-	public function processDefault () {
-    
-    $nid = _request ('nid');
-    
-	  return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $nid)));
+    // Le responsable doit disposer de l'ID de l'élève
+    if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ 
+      && is_null(_request('eleve', null)) && $actionName != 'go') {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
 	}
 	
 	/**
@@ -42,10 +35,8 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  // Récupération ID node
-	  //    * Pour un eleve ou un enseignant, cet ID correspond à l'identifiant de la classe
-	  //    * Pour un parent, cet ID correspond à l'identifiant de l'élève
-	  if (is_null($ppo->nid  = _request ('nid'))) {
+	  // Récupération ID du cahier de textes
+	  if (is_null($ppo->cahierId = _request ('cahierId'))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -56,6 +47,9 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->mois    = _request ('mois', date('m'));
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', false);
+  	$ppo->eleve   = _request ('eleve', null);
+  	
+  	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
   	
   	$ppo->dateSelectionnee = $ppo->annee.$ppo->mois.$ppo->jour;
 	  
@@ -68,13 +62,15 @@ class ActionGroupDefault extends enicActionGroup {
 	public function processVoirListeTravaux () {
 	  
 	  $ppo = new CopixPPO ();
-
-	  if (is_null($ppo->nid  = _request ('nid'))) {
+	  
+	  if (is_null($ppo->cahierId  = _request ('cahierId'))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (Kernel::isEleve()) {
+	  // L'accès admin est nécessaire pour cette vue
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) > PROFILE_CCV_READ 
+	    && Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -85,20 +81,31 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->mois     = _request ('mois', date('m'));
   	$ppo->annee    = _request ('annee', date('Y'));
     $ppo->nbJours  = _request ('nb_jours', 10);
-  	$ppo->dateDeb  = _request ('date_deb', $ppo->annee.$ppo->mois.$ppo->jour);
+  	$ppo->dateDeb  = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
+  	$ppo->eleve    = _request ('eleve', null);
   	
   	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
-  	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
 
     // Récupération des travaux suivant le type de l'utilisateur courant
   	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
-  	if ($ppo->typeUtilisateur == 'USER_RES') {
-	    
-	    $ppo->travaux = $travailDAO->findByEleveDateEtIntervalleParJourEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
+  	$cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
+    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+  	
+  	// Enseignant
+  	if ($ppo->estAdmin) {
+  	  
+	    $ppo->travaux = $travailDAO->findByClasseDateEtIntervalleParJourEtType($nodeId, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
 	  }
-	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
+	  // Responsable
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) == PROFILE_CCV_READ) {
+    
+      $ppo->travaux = $travailDAO->findByEleveDateEtIntervalleParJourEtType($ppo->eleve, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
+    }
+    // Elève
+	  else {
 	    
-	    $ppo->travaux = $travailDAO->findByClasseDateEtIntervalleParJourEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
+	    $ppo->travaux = $travailDAO->findByEleveDateEtIntervalleParJourEtType(_currentUser()->getExtra('id'), CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
 	  }
 	  
 	  return _arPPO ($ppo, 'voir_liste_travaux.tpl');
@@ -111,12 +118,14 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  if (is_null($ppo->nid  = _request ('nid'))) {
+	  if (is_null($ppo->cahierId  = _request ('cahierId'))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (Kernel::isEleve()) {
+	  // L'accès admin est nécessaire pour cette vue
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) > PROFILE_CCV_READ 
+	    && Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -127,15 +136,18 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->mois    = _request ('mois', date('m'));
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->nbJours = _request ('nb_jours', 10);
-  	$ppo->dateDeb  = _request ('date_deb', $ppo->annee.$ppo->mois.$ppo->jour);
+  	$ppo->dateDeb = _request ('date_deb', $ppo->jour.'/'.$ppo->mois.'/'.$ppo->annee);
   	$ppo->domaine = _request ('domaine', null);
+  	$ppo->eleve   = _request ('eleve', null);
   	
   	$ppo->choixNbJours    = array(10, 20, 30, 40, 50);
-  	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
-  	
+  	$cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
+    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+    
   	// Récupération des domaines
   	$domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
-	  $domaines   = $domaineDAO->findByClasse($ppo->nid);
+	  $domaines   = $domaineDAO->findByClasse($nodeId);
 
 	  $ppo->idsDomaine  = array('');
 	  $ppo->nomsDomaine = array(CopixI18N::get ('cahierdetextes|cahierdetextes.message.ALL'));
@@ -148,13 +160,18 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  // Récupération des travaux suivant le type de l'utilisateur courant
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
-  	if ($ppo->typeUtilisateur == 'USER_RES') {
+	  
+  	if ($ppo->estAdmin) {
 	    
-	    $ppo->travaux = $travailDAO->findByEleveDateIntervalleEtDomaineParDomaineEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
+	    $ppo->travaux = $travailDAO->findByClasseDateIntervalleEtDomaineParDomaineEtType($nodeId, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
 	  }
-	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) == PROFILE_CCV_READ) {
 	    
-	    $ppo->travaux = $travailDAO->findByClasseDateIntervalleEtDomaineParDomaineEtType($ppo->nid, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
+	    $ppo->travaux = $travailDAO->findByEleveDateIntervalleEtDomaineParDomaineEtType($ppo->eleve, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
+	  }
+	  else {
+	    
+	    $ppo->travaux = $travailDAO->findByEleveDateIntervalleEtDomaineParDomaineEtType(_currentUser()->getExtra('id'), CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
 	  }
 	  
 	  return _arPPO ($ppo, 'voir_travaux_par_domaine.tpl');
@@ -168,12 +185,12 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo = new CopixPPO ();
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
 	  
-	  if (is_null($nid = _request('nid', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
+	  if (is_null($cahierId = _request('cahierId', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -193,13 +210,13 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  if (is_null($ppo->nid = _request('nid', null))) {
+	  if (is_null($ppo->cahierId = _request('cahierId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  // ACTION PROTEGEE : l'utilisateur doit être enseignant de la classe
-	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -225,11 +242,13 @@ class ActionGroupDefault extends enicActionGroup {
 
     if (CopixRequest::isMethod ('post')) {
       
+      $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+      
       $ppo->domaine = _record ('cahierdetextes|cahierdetextesdomaine');
       
       $ppo->domaine->id        = _request ('domaineId', null);
       $ppo->domaine->nom       = trim($nomDomaine);
-      $ppo->domaine->classe_id = $ppo->nid;
+      $ppo->domaine->classe_id = $cahierInfos[0]->node_id;
       
       // Traitement des erreurs
       $ppo->erreurs = array ();
@@ -262,7 +281,7 @@ class ActionGroupDefault extends enicActionGroup {
 
       $ppo->success = true;
       
-      return _arRedirect (CopixUrl::get ('cahierdetextes||gererDomaines', array('nid' => $ppo->nid, 'jour' => $ppo->jour, 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'success' => $ppo->success)));
+      return _arRedirect (CopixUrl::get ('cahierdetextes||gererDomaines', array('cahierId' => $ppo->cahierId, 'jour' => $ppo->jour, 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'success' => $ppo->success)));
     } 
 	  
 	  return _arPPO ($ppo, 'gerer_domaines.tpl');
@@ -276,12 +295,12 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo = new CopixPPO ();
 	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
 	  
-	  if (is_null($ppo->nid = _request('nid', null)) || !$domaine = $domaineDAO->get (_request('domaineId', null))) {
+	  if (is_null($ppo->cahierId = _request('cahierId', null)) || !$domaine = $domaineDAO->get (_request('domaineId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -314,12 +333,12 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  if (is_null($ppo->nid = _request('nid', null))) {
+	  if (is_null($ppo->cahierId = _request('cahierId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -337,9 +356,11 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
 	  $ppo->nombreMaxVueRadio = CopixConfig::get('cahierdetextes|nombre_max_vue_radio');
 	  
+	  $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+	  
 	  // Récupération des domaines disponibles
 	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
-	  $domaines   = $domaineDAO->findByClasse($ppo->nid);
+	  $domaines   = $domaineDAO->findByClasse($cahierInfos[0]->node_id);
 
 	  $ppo->idsDomaine  = array();
 	  $ppo->nomsDomaine = array();
@@ -353,7 +374,7 @@ class ActionGroupDefault extends enicActionGroup {
   	// Mode edition ?
   	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
   	if (is_null($travailId = _request('travailId', null))) {
-
+  	  
   	  $ppo->travail = _record ('cahierdetextes|cahierdetextestravail');
   	  
   	  $ppo->travail->a_faire  = _request ('a_faire', 0);
@@ -372,14 +393,13 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
   	  $elevesSelectionnes = $travail2eleveDAO->findElevesParTravail ($ppo->travail->id);
-  	  
   	  $ppo->elevesSelectionnes = array();
   	  foreach($elevesSelectionnes as $eleve) {
   	    
-  	    $ppo->elevesSelectionnes = $eleve->idEleve;
+  	    $ppo->elevesSelectionnes[] = $eleve->idEleve;
   	  }
   	}
-
+  	
 	  if (CopixRequest::isMethod ('post')) {
       
       $ppo->travail->domaine_id        = _request ('travail_domaine_id', null);
@@ -474,27 +494,27 @@ class ActionGroupDefault extends enicActionGroup {
         case 0:
           switch($ppo->vue) {
             case "jour":
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
               break;
             case "liste":
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
               break;
             case "domaine":
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
               break;
             default:
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
               break;
           }
           break;
         case 1:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
           break;
         case 2:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('nid' => $ppo->nid, 'success' => $ppo->success, 'a_faire' => 1)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'a_faire' => 1)));
           break;
         default:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'success' => $ppo->success)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
           break;
       }
     }
@@ -510,12 +530,12 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo = new CopixPPO ();
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
 	  
-	  if (is_null($nid = _request('nid', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
+	  if (is_null($cahierId = _request('cahierId', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -528,7 +548,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Suppression du travail
     $travailDAO->delete($travail->id);
     
-    return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => $nid)));
+    return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id)));
 	}
 	
 	/**
@@ -538,7 +558,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo = new CopixPPO ();
 	  
-	  if (is_null($ppo->nid  = _request ('nid'))) {
+	  if (is_null($ppo->cahierId  = _request ('cahierId'))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -549,30 +569,35 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->mois    = _request ('mois', date('m'));
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', null);
+  	$ppo->eleve   = _request ('eleve', null);
   	
   	$time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
-  	$ppo->typeUtilisateur = _currentUser()->getExtra('type');
+    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $ppo->nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
+    $ppo->nodeType = isset($cahierInfos[0]) ? $cahierInfos[0]->node_type : null;
+    $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $ppo->estAdmin = $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH ? true : false;
 	  
 	  // Récupération des mémos suivant le type de l'utilisateur courant
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
-	  if ($ppo->typeUtilisateur == 'USER_ELE') {
+	  if ($ppo->estAdmin) {
+	    
+	    $ppo->memos = $memoDAO->findByClasse($ppo->nodeId);
+	  }
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) == PROFILE_CCV_READ) {
+	    
+	    $ppo->memos = $memoDAO->findByEleve($ppo->eleve);
+	  }
+	  else {
 	    
 	    $ppo->memos = $memoDAO->findByEleve(_currentUser()->getExtra('id'));
-	  }
-	  elseif ($ppo->typeUtilisateur == 'USER_RES') {
-	    
-	    $ppo->memos = $memoDAO->findByEleve($ppo->nid);
-	  }
-	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
-	    
-	    $ppo->memos = $memoDAO->findByClasse($ppo->nid);
 	  }
 	  
 	  if (CopixRequest::isMethod ('post')) {
 	    
 	    $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-	    if (is_null($memo2eleve = $memo2eleveDAO->get(_request('memoId', null), $ppo->nid)) 
-	      || !Kernel::isParentOfEleve($ppo->nid)) {
+	    if (is_null($memo2eleve = $memo2eleveDAO->get(_request('memoId', null), $ppo->eleve)) 
+	      || !Kernel::isParentOfEleve($ppo->eleve)) {
 	      
 	      return CopixActionGroup::process ('generictools|Messages::getError',
     			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -583,7 +608,14 @@ class ActionGroupDefault extends enicActionGroup {
       
       $memo2eleveDAO->update($memo2eleve);
       
-      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $ppo->nid)));
+      if ($ppo->niveauUtilisateur == PROFILE_CCV_READ) {
+        
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'eleve' => $ppo->eleve)));
+      }
+      else {
+        
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId)));
+      }
     }
 	  
 	  return _arPPO ($ppo, 'voir_memos.tpl');
@@ -596,21 +628,21 @@ class ActionGroupDefault extends enicActionGroup {
     
     $ppo = new CopixPPO ();
 	  
-	  if (is_null($ppo->nid = _request('nid', null))) {
+	  if (is_null($ppo->cahierId = _request('cahierId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (!Kernel::isEnseignantOfClasse($ppo->nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 	  
 	  // Récupération des paramètres
-	  $ppo->jour   = _request ('jour', date('d'));
-  	$ppo->mois   = _request ('mois', date('m'));
-  	$ppo->annee  = _request ('annee', date('Y'));
+	  $ppo->jour    = _request ('jour', date('d'));
+  	$ppo->mois    = _request ('mois', date('m'));
+  	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', null);
   	
   	$ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
@@ -635,7 +667,9 @@ class ActionGroupDefault extends enicActionGroup {
   	
   	if (CopixRequest::isMethod ('post')) {
 	  
-	    $ppo->memo->classe_id           = $ppo->nid;
+	    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+	  
+	    $ppo->memo->classe_id           = $cahierInfos[0]->node_id;
       $ppo->memo->date_creation       = CopixDateTime::dateToyyyymmdd(_request ('memo_date_creation', null));
       $ppo->memo->date_validite       = CopixDateTime::dateToyyyymmdd(_request ('memo_date_validite', null));
       $ppo->memo->message             = _request ('memo_message', null);
@@ -665,7 +699,8 @@ class ActionGroupDefault extends enicActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noSignatureDate');
       }
-      if (!is_null($ppo->memo->date_max_signature) && ($ppo->memo->date_max_signature < $ppo->memo->date_validite)) {
+      if ((!is_null($ppo->memo->date_max_signature) && !is_null($ppo->memo->date_validite)) 
+        && ($ppo->memo->date_max_signature > $ppo->memo->date_validite || $ppo->memo->date_max_signature < $ppo->memo->date_creation)) {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongMaxSignatureDate');
       } 
@@ -720,7 +755,7 @@ class ActionGroupDefault extends enicActionGroup {
         }
       }
 
-      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $ppo->nid, 'success' => true)));
+      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'success' => true)));
 	  }
   	
   	return _arPPO ($ppo, 'editer_memo.tpl');
@@ -734,12 +769,12 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo = new CopixPPO ();
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  
-	  if (is_null($nid = _request('nid', null)) || !$memo = $memoDAO->get (_request('memoId', null))) {
+	  if (is_null($cahierId = _request('cahierId', null)) || !$memo = $memoDAO->get (_request('memoId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -752,7 +787,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Suppression du mémos
     $memoDAO->delete($memo->id);
     
-    return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('nid' => $nid, 'success' => true)));
+    return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $cahierId, 'success' => true)));
 	}
 	
 	/**
@@ -763,12 +798,12 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo = new CopixPPO ();
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  
-	  if (is_null($nid = _request('nid', null)) || !$memo = $memoDAO->get (_request('memoId', null))) {
+	  if (is_null($cahierId = _request('cahierId', null)) || !$ppo->memo = $memoDAO->get (_request('memoId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (!Kernel::isEnseignantOfClasse($nid)) {
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
@@ -776,16 +811,24 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  // Récupération des élèves liés au mémo
 	  $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-	  $ppo->suivis = $memo2eleveDAO->findSuiviElevesParMemo($memo->id);
+	  $ppo->suivis = $memo2eleveDAO->findSuiviElevesParMemo($ppo->memo->id);
 
 	  return _arPPO ($ppo, 'suivi_memo.tpl');
 	}
   
   public function go () {
-
-    if (!is_null(_request ('id', null))) {
+    
+    $myNode = CopixSession::get('myNode'); 
+    if (!is_null($id = _request ('id', null))) {
       
-      return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('nid' => _request ('id', null))));
+      if ($myNode['type'] == 'USER_ELE') {
+
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id, 'eleve' => $myNode['id'])));
+      }
+      else {
+        
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id)));
+      }
     }
 	}
 }

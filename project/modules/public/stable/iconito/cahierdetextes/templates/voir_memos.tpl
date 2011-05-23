@@ -1,4 +1,4 @@
-{copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
+{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee eleve=$ppo->eleve}
 
 <h2>{i18n key="cahierdetextes.message.memos"}</h2>
 
@@ -6,22 +6,20 @@
   <p class="success">{i18n key="cahierdetextes.message.success"}</p>
 {/if}
 
-{if $ppo->typeUtilisateur == 'USER_ENS'}<a class="button button-add" href="{copixurl dest="cahierdetextes||editerMemo" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.addMemo"}</a>{/if}
+{if $ppo->estAdmin}<a class="button button-add" href="{copixurl dest="cahierdetextes||editerMemo" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.addMemo"}</a>{/if}
 
 <div class="memos-list">
   {if $ppo->memos neq null}
     {foreach from=$ppo->memos item=memo}
       <div class="memo">
-        <p class="memoDate">{if $ppo->typeUtilisateur == 'USER_ENS'}
+        <p class="memoDate">
+          {if $ppo->estAdmin}
           <span class="actions">
-            {if $memo->avec_signature}
-              <a href="{copixurl dest="cahierdetextes||suiviMemo" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$memo->id}" title="{i18n key="cahierdetextes.message.seeValidated"}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{i18n key="cahierdetextes.message.seeValidated"}" /></a>
-            {else}
-              <a href="{copixurl dest="cahierdetextes||suiviMemo" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$memo->id}" title="{i18n key="cahierdetextes.message.seeConcerned"}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{i18n key="cahierdetextes.message.seeConcerned"}" /></a>
-            {/if}
-            <a href="{copixurl dest="cahierdetextes||editerMemo" nid=$ppo->nid memoId=$memo->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a> <a href="{copixurl dest="cahierdetextes||supprimerMemo" nid=$ppo->nid memoId=$memo->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteMemoConfirm"}')" title="{i18n key="cahierdetextes.message.delete"}"><img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="cahierdetextes.message.delete"}" /></a>
+            <a href="{copixurl dest="cahierdetextes||suiviMemo" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$memo->id}" title="{if $memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{if $memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}" /></a>
+            <a href="{copixurl dest="cahierdetextes||editerMemo" cahierId=$ppo->cahierId memoId=$memo->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a>
+            <a href="{copixurl dest="cahierdetextes||supprimerMemo" cahierId=$ppo->cahierId memoId=$memo->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteMemoConfirm"}')" title="{i18n key="cahierdetextes.message.delete"}"><img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="cahierdetextes.message.delete"}" /></a>
           </span>
-        {/if}
+          {/if}
         {$memo->date_creation|datei18n:text}</p>
         {$memo->message}
 
@@ -33,17 +31,16 @@
           {/if}
         {/if}
         
-        {if $ppo->typeUtilisateur == 'USER_RES' && $memo->avec_signature && $memo->signe_le == ''}
+        {if $ppo->niveauUtilisateur == PROFILE_CCV_READ && $memo->avec_signature && $memo->signe_le == ''}
           <form name="memo_sign" id="memo_sign" action="{copixurl dest="cahierdetextes||voirMemos"}" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
+            <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
             <input type="hidden" name="memoId" id="memoId" value="{$memo->id}" />
+            <input type="hidden" name="eleve" id="eleve" value="{$ppo->eleve}" />
             
             <input type="text" name="commentaire" value="{i18n key="cahierdetextes.message.comment"}" />
             <input type="submit" value="Signer" />
           </form>
         {/if}
-        
-        
       </div>
     {/foreach}
   {else}

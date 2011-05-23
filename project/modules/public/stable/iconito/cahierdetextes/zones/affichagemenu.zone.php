@@ -11,12 +11,14 @@ class ZoneAffichageMenu extends CopixZone {
 	  $ppo = new CopixPPO ();
 	  
 	  // Récupération des paramètres
-    $ppo->nid   = $this->getParam('nid');
-    $ppo->jour  = $this->getParam('date_jour');
-    $ppo->mois  = $this->getParam('date_mois');
-    $ppo->annee = $this->getParam('date_annee');
+    $ppo->cahierId  = $this->getParam('cahierId');
+    $ppo->jour      = $this->getParam('date_jour');
+    $ppo->mois      = $this->getParam('date_mois');
+    $ppo->annee     = $this->getParam('date_annee');
+    $ppo->eleve     = $this->getParam('eleve');
     
-    $ppo->typeUtilisateur = _currentUser()->getExtra('type');
+    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
     
     $toReturn = $this->_usePPO ($ppo, '_affichage_menu.tpl');
   }

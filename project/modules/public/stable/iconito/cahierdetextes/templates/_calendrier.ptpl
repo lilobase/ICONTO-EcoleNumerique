@@ -1,10 +1,32 @@
 <?php
-  $html .=  '<table>
-  			 	<thead>
-  					<tr>';
-  $html .=      '<th class="prev-mois"><a title="Voir le mois précédent" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'"><img src="'._resource('images/action_back.png').'" alt="<" /></a></th>';
-  $html .=      '<th colspan="5" class="mois">'.$ppo->nomMois.' '.$ppo->annee.'</th>';
-  $html .=      '<th class="next-mois"><a title="Voir le mois suivant" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'"><img src="'._resource('images/action_next.png').'" alt=">" /></a></th>
+  $html .=  '<table><thead><tr>';
+  
+  // Bouton mois précédent
+  $html .=    '<th class="prev-mois">';
+  if(!is_null($ppo->eleve)) {
+    
+    $html .=    '<a title="Voir le mois précédent" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent), 'eleve' => $ppo->eleve)).'">';
+  }
+  else {
+    
+    $html .=    '<a title="Voir le mois précédent" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'">';
+  }
+  $html .=    '<img src="'._resource('images/action_back.png').'" alt="<" /></a></th>';
+  
+  // Affichage du mois en cours
+  $html .=    '<th colspan="5" class="mois">'.$ppo->nomMois.' '.$ppo->annee.'</th>';
+  
+  // Bouton mois suivant
+  $html .=    '<th class="next-mois">';
+  if (!is_null($ppo->eleve)) {
+    
+    $html .=    '<a title="Voir le mois suivant" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant), 'eleve' => $ppo->eleve)).'">';
+  }
+  else {
+    
+    $html .=    '<a title="Voir le mois suivant" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'">';
+  }
+  $html .=    '<img src="'._resource('images/action_next.png').'" alt=">" /></a></th>
   				</tr>
 				<tr>';
   $html .=      '<th>L</th>';
@@ -37,7 +59,16 @@
     $html .= '<td class="';
     ($numjour == $ppo->jour and $html .= 'selected ');
     $html .= count($ppo->travaux[$numjour]) == 0 ? 'no-work' : 'with-work';
-    $html .= '"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('nid' => $ppo->nid, 'jour' => $numjour, 'mois' => $ppo->mois, 'annee' => $ppo->annee)).'">'.$numjour.'</a></td>';
+    
+    // Lien sur le jour
+    if (!is_null($ppo->eleve)) {
+      
+      $html .= '"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => sprintf("%02d", $numjour), 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'eleve' => $ppo->eleve)).'">'.$numjour.'</a></td>';
+    }
+    else {
+      
+      $html .= '"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => sprintf("%02d", $numjour), 'mois' => $ppo->mois, 'annee' => $ppo->annee)).'">'.$numjour.'</a></td>';
+    }
   }
   
   // Cases vides après dernier jour du mois

@@ -244,7 +244,7 @@ class DAOCahierDeTextesTravail {
 	    . ' AND module_cahierdetextes_travail.date_realisation >= :dateDeb'
 	    . ' AND module_cahierdetextes_travail.date_realisation <= :dateFin))'
 	    . ' GROUP BY module_cahierdetextes_travail.id'
-	    . ' ORDER BY date_creation, date_realisation';
+	    . ' ORDER BY date_creation DESC, date_realisation ASC';
 	  
 	  $results = _doQuery ($sql, array(':eleveId' => $eleveId, ':dateDeb' => $dateDeb, ':dateFin' => $dateFin));
 	  

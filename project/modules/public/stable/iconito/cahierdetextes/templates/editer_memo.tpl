@@ -1,4 +1,4 @@
-{copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
+{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
 
 <h2>{i18n key="cahierdetextes.message.addMemo"}</h2>
 
@@ -16,7 +16,7 @@
 
 <form name="memo_add" id="memo_add" action="{copixurl dest="cahierdetextes||editerMemo"}" method="POST" enctype="multipart/form-data">
   <fieldset>
-    <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
+    <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
     <input type="hidden" name="memoId" id="memoId" value="{$ppo->memo->id}" />
     <input type="hidden" name="jour" id="jour" value="{$ppo->jour}" />
     <input type="hidden" name="mois" id="mois" value="{$ppo->mois}" />
@@ -53,7 +53,7 @@
   </fieldset>
   
   <fieldset class="concernedList">
-    {copixzone process=cahierdetextes|listeEleves nid=$ppo->nid elevesSelectionnes=$ppo->elevesSelectionnes}
+    {copixzone process=cahierdetextes|listeEleves cahierId=$ppo->cahierId elevesSelectionnes=$ppo->elevesSelectionnes}
   </fieldset>
   
   <div class="submit"><input class="button button-cancel" type="submit" name="cancel" value="{i18n key="cahierdetextes.message.cancel"}" /><input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" />

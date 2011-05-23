@@ -11,7 +11,7 @@ class ZoneMenuEnseignant extends CopixZone {
 	  $ppo = new CopixPPO ();
 	  
     // Récupération des paramètres
-    $ppo->nid   = $this->getParam('nid');
+    $ppo->cahierId   = $this->getParam('cahierId');
     $ppo->jour  = $this->getParam('date_jour');
     $ppo->mois  = $this->getParam('date_mois');
     $ppo->annee = $this->getParam('date_annee');

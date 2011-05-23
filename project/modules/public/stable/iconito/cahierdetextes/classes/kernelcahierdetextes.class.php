@@ -14,7 +14,6 @@ class KernelCahierDeTextes {
 	*/
 	function create () {
 		$return = NULL;
-		$cle = substr( md5(microtime()), 0, 10 );
 		$dao = _dao("cahierdetextes|cahierdetextes");
 		$new = _record("cahierdetextes|cahierdetextes");
 		$dao->insert ($new);

@@ -1,11 +1,12 @@
-{copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
+{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee eleve=$ppo->eleve}
 
 {if $ppo->success}
   <p class="success">{i18n key="cahierdetextes.message.success"}</p>
 {/if}
 
 <form name="list_filter" id="list_filter" action="{copixurl dest="cahierdetextes||voirListeTravaux"}" method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
+  <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
+  <input type="hidden" name="eleve" id="eleve" value="{$ppo->eleve}" />
   <div class="field">
     <label for="date_deb" class="form_libelle">{i18n key="cahierdetextes.message.dateFrom"} :</label>
     <input class="form datepicker" type="text" name="date_deb" id="date_deb" value="{$ppo->dateDeb|datei18n}" />
@@ -27,13 +28,13 @@
       <h3>
         {if $a_faire eq 0}
           {i18n key="cahierdetextes.message.classroomWork"}
-          {if $ppo->typeUtilisateur == 'USER_ENS'}
-            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4 vue="liste"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
+          {if $ppo->estAdmin}
+            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4 vue="liste"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
           {/if}
         {else}
           {i18n key="cahierdetextes.message.todoWork"}
-          {if $ppo->typeUtilisateur == 'USER_ENS'}
-            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4 vue="liste" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
+          {if $ppo->estAdmin}
+            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$date|substr:6:2 mois=$date|substr:4:2 annee=$date|substr:0:4 vue="liste" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
           {/if}
         {/if}
       </h3>
@@ -45,11 +46,11 @@
             <th>{$travail->nom}</th>
             <td>{$travail->description}</td>
             <td>-</td>
-            {if $ppo->typeUtilisateur == 'USER_ENS'}
+            {if $ppo->estAdmin}
               <td class="center actions">
-                <a href="{copixurl dest="cahierdetextes||voirConcernesParTravail" nid=$ppo->nid travailId=$travail->id}" title="{i18n key="cahierdetextes.message.seeConcerned"}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{i18n key="cahierdetextes.message.seeConcerned"}" /></a>
-                <a href="{copixurl dest="cahierdetextes||editerTravail" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee travailId=$travail->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a> 
-            <a href="{copixurl dest="cahierdetextes||supprimerTravail" nid=$ppo->nid travailId=$travail->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteWorkConfirm"}')" title="{i18n key="cahierdetextes.message.delete"}"><img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="cahierdetextes.message.delete"}" /></a>
+                <a href="{copixurl dest="cahierdetextes||voirConcernesParTravail" cahierId=$ppo->cahierId travailId=$travail->id}" title="{i18n key="cahierdetextes.message.seeConcerned"}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{i18n key="cahierdetextes.message.seeConcerned"}" /></a>
+                <a href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee travailId=$travail->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a> 
+            <a href="{copixurl dest="cahierdetextes||supprimerTravail" cahierId=$ppo->cahierId travailId=$travail->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteWorkConfirm"}')" title="{i18n key="cahierdetextes.message.delete"}"><img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="cahierdetextes.message.delete"}" /></a>
               </td>
             {/if}
           </tr>

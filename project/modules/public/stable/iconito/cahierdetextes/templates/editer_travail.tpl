@@ -1,4 +1,4 @@
-{copixzone process=cahierdetextes|affichageMenu nid=$ppo->nid date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
+{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
 
 {if $ppo->travail->a_faire}
   <h2>{i18n key="cahierdetextes.message.addTodoWork"}</h2>
@@ -20,7 +20,7 @@
 
 <form name="travail_add" id="travail_add" action="{copixurl dest="cahierdetextes||editerTravail"}" method="POST" enctype="multipart/form-data">
   <fieldset>
-    <input type="hidden" name="nid" id="nid" value="{$ppo->nid}" />
+    <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
     <input type="hidden" name="a_faire" id="a_faire" value="{$ppo->travail->a_faire}" />
     <input type="hidden" name="travailId" id="travailId" value="{$ppo->travail->id}" />
     <input type="hidden" name="jour" id="jour" value="{$ppo->jour}" />
@@ -46,10 +46,13 @@
     {/if}
     <div class="field">
       <label for="travail_domaine_id" class="form_libelle">{i18n key="cahierdetextes.message.domain"} :</label>
-      <p class="input">{if $ppo->idsDomaine|@count le $ppo->nombreMaxVueRadio}
-        {html_radios name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
-      {else}
-        {html_options name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
+      <p class="input">
+        {if $ppo->idsDomaine|@count eq 0}
+          <a href="{copixurl dest="cahierdetextes||gererDomaines" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.noDomainCreateOne"}</a>
+        {elseif $ppo->idsDomaine|@count le $ppo->nombreMaxVueRadio}
+          {html_radios name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
+        {else}
+          {html_options name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
       {/if}</p>
     </div>
     <div class="textarea">
@@ -62,7 +65,7 @@
   </fieldset>
   
   <fieldset class="concernedList">
-    {copixzone process=cahierdetextes|listeEleves nid=$ppo->nid elevesSelectionnes=$ppo->elevesSelectionnes}
+    {copixzone process=cahierdetextes|listeEleves cahierId=$ppo->cahierId elevesSelectionnes=$ppo->elevesSelectionnes}
   </fieldset>
   
   <div class="field redirectionField">

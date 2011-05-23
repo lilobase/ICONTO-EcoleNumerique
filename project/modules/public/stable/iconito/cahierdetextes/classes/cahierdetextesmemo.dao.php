@@ -28,7 +28,7 @@ class DAOCahierDeTextesMemo {
   	
   	if ($current) {
   	  
-  	  $sql .= ' AND (cahierdetextesmemo.date_validite <= '.date('Ymd')
+  	  $sql .= ' AND (cahierdetextesmemo.date_validite >= '.date('Ymd')
   	    . ' OR cahierdetextesmemo.date_validite IS NULL)';
   	} 
   	 

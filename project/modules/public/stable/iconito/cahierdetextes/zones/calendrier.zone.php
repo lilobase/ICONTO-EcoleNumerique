@@ -13,10 +13,11 @@ class ZoneCalendrier extends CopixZone {
 	  $ppo = new CopixPPO ();                               
     
     // Récupération des paramètres
-    $ppo->nid   = $this->getParam('nid');
-    $ppo->jour  = $this->getParam('date_jour');
-    $ppo->mois  = $this->getParam('date_mois');
-    $ppo->annee = $this->getParam('date_annee');
+    $ppo->cahierId  = $this->getParam('cahierId');
+    $ppo->jour      = $this->getParam('date_jour');
+    $ppo->mois      = $this->getParam('date_mois');
+    $ppo->annee     = $this->getParam('date_annee');
+    $ppo->eleve     = $this->getParam('eleve');
     
     $service = new DateService;
     $ppo->nomMois = $service->moisNumericToMoisLitteral($ppo->mois);
@@ -38,20 +39,23 @@ class ZoneCalendrier extends CopixZone {
     
     $ppo->codePremierJourSemaine = 1;
     
-    // Récupération des travaux suivant le type de l'utilisateur courant
-    $ppo->typeUtilisateur = _currentUser()->getExtra('type');
+    // Récupération des travaux suivant les accès de l'utilisateur courant (élève / responsable / enseignant)
+    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
+    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+    
     $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
-	  if ($ppo->typeUtilisateur == 'USER_ELE') {
+	  if ($ppo->estAdmin) {
+	    
+	    $ppo->travaux = $travailDAO->findByClasseEtMoisParJour($nodeId, $ppo->mois, $ppo->annee);
+	  }
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) == PROFILE_CCV_READ) {
+	    
+	    $ppo->travaux = $travailDAO->findByEleveEtMoisParJour($ppo->eleve, $ppo->mois, $ppo->annee);
+	  }
+	  else {
 	    
 	    $ppo->travaux = $travailDAO->findByEleveEtMoisParJour(_currentUser()->getExtra('id'), $ppo->mois, $ppo->annee);
-	  }
-	  elseif ($ppo->typeUtilisateur == 'USER_RES') {
-	    
-	    $ppo->travaux = $travailDAO->findByEleveEtMoisParJour($ppo->nid, $ppo->mois, $ppo->annee);
-	  }
-	  elseif ($ppo->typeUtilisateur == 'USER_ENS') {
-	    
-	    $ppo->travaux = $travailDAO->findByClasseEtMoisParJour($ppo->nid, $ppo->mois, $ppo->annee);
 	  }
 
     $toReturn = $this->_usePPO ($ppo, '_calendrier.ptpl');

@@ -5,10 +5,22 @@
   {assign var=index value=1}
   {foreach from=$ppo->memos item=memo}
     <li>
-      <a href="{copixurl dest="cahierdetextes||voirMemos" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" rel="{$index}">{$memo->message}</a>
+      {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+      <a href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}" rel="{$index}">
+      {else}
+      <a href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" rel="{$index}">
+      {/if}
+        {$memo->message}
+      </a>
     </li>
   {assign var=index value=$index+1}
   {/foreach}
   </ul>
-  <a id="seeAllMemos" href="{copixurl dest="cahierdetextes||voirMemos" nid=$ppo->nid jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.seeAllMemos"}</a>
+  {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+  <a id="seeAllMemos" href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
+  {else}
+  <a id="seeAllMemos" href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+  {/if}
+    {i18n key="cahierdetextes.message.seeAllMemos"}
+  </a>
 </div>

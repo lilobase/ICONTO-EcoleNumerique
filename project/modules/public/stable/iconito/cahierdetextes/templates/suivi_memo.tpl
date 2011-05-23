@@ -21,8 +21,8 @@
             <td>{$suivi->prenom1}</td>
             <td>{$suivi->niveau_court}</td>
             {if $ppo->memo->avec_signature}
-            <td><input type="checkbox" {if $suivi->signe_le}checked="checked"{/if} disabled /></td>
-            <td>{$suivi->commentaire}</td>
+              <td><input type="checkbox" {if $suivi->signe_le}checked="checked"{/if} disabled /></td>
+              <td>{$suivi->commentaire}</td>
             {/if}
           </tr>
         {/foreach}

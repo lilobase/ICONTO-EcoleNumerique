@@ -11,14 +11,16 @@ class ZoneListeDomaines extends CopixZone {
 	  $ppo = new CopixPPO ();
 	  
 	  // Récupération des paramètres 
-	  $ppo->nid = $this->getParam('nid');
-	  $ppo->jour  = $this->getParam('date_jour');
-    $ppo->mois  = $this->getParam('date_mois');
-    $ppo->annee = $this->getParam('date_annee');
+	  $ppo->cahierId  = $this->getParam('cahierId');
+	  $ppo->jour      = $this->getParam('date_jour');
+    $ppo->mois      = $this->getParam('date_mois');
+    $ppo->annee     = $this->getParam('date_annee');
+    
+    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
     
     // Récupération des domaines de la classe
 	  $domaineDAO = _ioDAO('cahierdetextes|cahierdetextesdomaine');
-	  $ppo->domaines = $domaineDAO->findByClasse($ppo->nid);
+	  $ppo->domaines = $domaineDAO->findByClasse($cahierInfos[0]->node_id);
 	  
 	  $toReturn = $this->_usePPO ($ppo, '_liste_domaines.tpl');
   }

@@ -11,25 +11,27 @@ class ZoneListeEleves extends CopixZone {
 	  $ppo = new CopixPPO ();                               
     
     // Récupération des paramètres
-    $nid = $this->getParam('nid');
+    $ppo->cahierId   = $this->getParam('cahierId');
     $ppo->elevesSelectionnes = $this->getParam('elevesSelectionnes');
     if (is_null($ppo->elevesSelectionnes) || !is_array($ppo->elevesSelectionnes)) {
       
       $ppo->elevesSelectionnes = array();
     }
     
+    $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    
     // Récupération des élèves de la classe
     $eleveDAO = _ioDAO ('kernel|kernel_bu_ele');
-    $ppo->eleves = $eleveDAO->getStudentsByClass ($nid);
+    $ppo->eleves = $eleveDAO->getStudentsByClass ($cahierInfos[0]->node_id);
     
     // Récupération des niveaux de la classe
     $classeNiveauDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-    $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO   = _ioDAO ('kernel_bu_classe_niveau');
       
-    $classeNiveaux = $classeNiveauDAO->getByClass ($nid);
+    $classeNiveaux = $classeNiveauDAO->getByClass ($cahierInfos[0]->node_id);
 
-    $ppo->nomsNiveau = array ();
-    $ppo->idsNiveau  = array ();      
+    $ppo->nomsNiveau = array();
+    $ppo->idsNiveau  = array();      
     foreach ($classeNiveaux as $classeNiveau) {
 
       $niveau = $classLevelDAO->get ($classeNiveau->niveau);

@@ -4,6 +4,21 @@ SET CHARACTER SET 'utf8';
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `module_cahierdetextes`
+--
+
+CREATE TABLE IF NOT EXISTS `module_cahierdetextes` (
+  `id` int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
+('BU_CLASSE', 'MOD_CAHIERDETEXTES'),
+('USER_ELE', 'MOD_CAHIERDETEXTES');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_cahierdetextes_domaine`
 --
 
