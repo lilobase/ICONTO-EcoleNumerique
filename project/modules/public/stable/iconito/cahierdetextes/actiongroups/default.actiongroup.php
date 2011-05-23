@@ -351,7 +351,8 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->success = _request ('success', null);
   	$ppo->vue     = _request ('vue', null);
   	
-  	$ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
+  	$ppo->dateSelectionnee  = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
+  	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
 	  
 	  $ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
 	  $ppo->nombreMaxVueRadio = CopixConfig::get('cahierdetextes|nombre_max_vue_radio');
