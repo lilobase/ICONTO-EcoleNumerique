@@ -120,4 +120,52 @@ jQuery(document).ready(function($){
         changeYear: true,
         yearRange: 'c-10:c+10'
     });
+	
+	
+	/**********************************************************************/
+	/*  Sélections dans la liste des élèves  */
+	/**********************************************************************/
+	checkboxChange();
+    
+    $('#check_all').click(function () {
+		if ($('#check_all').is(':checked'))
+			$(':checkbox[name^=eleves]').attr('checked', 'checked');
+		else
+			$(':checkbox[name^=eleves]').removeAttr('checked');
+		checkboxChange();
+    });
+
+    $(':checkbox[name^=niveaux]').click(function () {
+		var level = $(this).val();
+		if ($(this).is(':checked'))
+			$('.'+level).find('td.check :checkbox').attr('checked', 'checked');
+		else
+			$('.'+level).find('td.check :checkbox').removeAttr('checked');
+		checkboxChange();
+    });
+    
+    $('tbody :checkbox').change(function() {
+        checkboxChange();
+    });
+    
+    function checkboxChange() 
+	{
+        var all_checkboxes = $('tbody :checkbox').length;
+        var all_checked    = $('tbody :checkbox').filter(':checked').length;
+        if (all_checkboxes == all_checked) 
+	    	$('#check_all').attr('checked', 'checked');
+        else
+        	$('#check_all').removeAttr('checked');
+        
+        $(':checkbox[name^=niveaux]').each(function() {
+        	var level = $(this).val();
+        	var level_checkboxes = $('.'+level).find('td.check :checkbox').length;
+        	var level_checked = $('.'+level).find('td.check :checkbox').filter(':checked').length;
+        	if (level_checkboxes == level_checked) 
+				$(this).attr('checked', 'checked');
+        	else 
+				$(this).removeAttr('checked');
+        
+      	});
+    }
 });
