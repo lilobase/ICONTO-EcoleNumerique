@@ -22,7 +22,7 @@
     <label for="nom">{i18n key="cahierdetextes.message.domain"}</label>
     <input class="form" type="text" name="nom" id="nom" value="{$ppo->domaine->nom}" />
   
-  <input class="button button-add" type="submit" name="save" id="save" value="{if $ppo->domaine->id neq null}{i18n key="cahierdetextes.message.save"}{else}{i18n key="cahierdetextes.message.addDomain"}{/if}" />
+  <input class="button {if $ppo->domaine->id neq null}button-update{else}button-add{/if}" type="submit" name="save" id="save" value="{if $ppo->domaine->id neq null}{i18n key="cahierdetextes.message.save"}{else}{i18n key="cahierdetextes.message.addDomain"}{/if}" />
 </form>
 
 {copixzone process=cahierdetextes|listeDomaines cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}

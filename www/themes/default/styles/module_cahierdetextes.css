@@ -41,8 +41,8 @@ div.dashboard div.content {
 	background:url(../../../themes/default/images/action_warning.png) no-repeat 5px 50% #fff; color:#f00;
 	list-style:none;
 }
-#cahierdetextes ul.mesgErrors li {
-
+#cahierdetextes a img {
+	border:0;
 }
 /* End global */
 
@@ -88,13 +88,15 @@ div.dashboard div.content {
 	text-transform:uppercase;
 	line-height:1;
 }
-#cahierdetextes #dayView h3 a.button {margin:0;}
+@media only screen {
+	#cahierdetextes #dayView h3 a.button {margin:0;}
+}
 /* End dayView */
 
 
 /* Sidebar */
 #cahierdetextes .sidebar {
-  margin:0 1% 0 75%;
+    margin:0 1% 0 75%;
 }
 #cahierdetextes .sidebar h3 {
 	margin:20px 0 0.7em 10px;
@@ -202,7 +204,6 @@ div.dashboard div.content {
 #cahierdetextes .memos-list .memo .signature input {width:300px;}
 #cahierdetextes .memos-list .memo .signature input.button {border:1px solid #ddd; width:auto;}
 #cahierdetextes .memos-list .memo .signature label.comment {
-	position:absolute; top:2.8em; left:10px;
 	color:#666;
 	font-size:0.7rem;
 }
@@ -226,7 +227,7 @@ div.dashboard div.content {
 	display:block;
 	clear:both;
 	padding:10px 0 5px;
-	font-size:0.7rem;
+	font-size:11px; font-size:0.7rem;
 	text-align:right;
 }
 #cahierdetextes .sidebar #memos-list ul.memo li {
@@ -314,9 +315,9 @@ div.dashboard div.content {
 #cahierdetextes form .field > label, #cahierdetextes form .field > p.label {
 	float:left;
 	margin:0;
-	width:35%;
+	width:160px;
 }
-#cahierdetextes form .field p.input {margin:0 0 0 36%;}
+#cahierdetextes form .field p.input {margin:0 0 0 170px;}
 #cahierdetextes form .field input.datepicker {width:65px;}
 #cahierdetextes form .redirectionField {
 	margin:10px 0; padding:5px; border:1px solid #fff;
@@ -350,7 +351,6 @@ div.dashboard div.content {
 	margin:0 10px 0 0;
 }
 #cahierdetextes #list_filter .field label {float:none; display:inline;}
-
 /* End forms */
 
 
@@ -377,11 +377,4 @@ div.dashboard div.content {
 #cahierdetextes .works table td.actions {width:80px;}
 #cahierdetextes .works table th {width:120px;}
 /* End table */
-
-
-#show-memos {
-  height: 100px;
-}
-
-
 

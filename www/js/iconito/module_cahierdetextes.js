@@ -96,6 +96,7 @@ jQuery(document).ready(function($){
     });
 	
 	// Label des commentaires
+	$('label.comment').css({'position':'absolute', 'top':'28px', 'left':'10px'});
 	$('label.comment').click(function(){
 		$(this).hide();
 		$(this).next('input').focus();
