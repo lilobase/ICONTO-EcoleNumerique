@@ -63,6 +63,7 @@
     </div>
     <div class="field">
       <label for="travail_fichiers" class="form_libelle">{i18n key="cahierdetextes.message.relatedDocuments"} :</label>
+      <a class="fancybox" href="{copixurl dest="malle|malle|getMallePopup" id=$ppo->malleId}">Ajouter un fichier de la malle</a>
     </div>
   </fieldset>
   
@@ -78,30 +79,27 @@
   </div>
   
   <div class="submit">
-    <input class="button button-cancel" type="button" name="cancel" id="cancel" value="{i18n key="cahierdetextes.message.cancel"}" />
+    {if $ppo->vue eq "jour"}
+      {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+        <a href="{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
+      {else}
+        <a href="{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+      {/if}
+    {elseif $ppo->vue eq "domaine"}
+      {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+        <a href="{copixurl dest=cahierdetextes||voirTravauxParDomaine cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
+      {else}
+        <a href="{copixurl dest=cahierdetextes||voirTravauxParDomaine cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+      {/if}
+    {else}
+      {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+        <a href="{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
+      {else}
+        <a href="{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+      {/if}
+    {/if}
+      <input class="button button-cancel" type="button" name="cancel" id="cancel" value="{i18n key="cahierdetextes.message.cancel"}" />
+    </a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" />
   </div>
 </form>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	  
- 	  $('#cancel').click(function() {
-      
-      {/literal}{if $ppo->vue eq "jour"}{literal}
-        document.location.href={/literal}'{if $ppo->niveauUtilisateur == PROFILE_CCV_READ}{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve notxml=true}{else}{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee notxml=true}{/if}'{literal};
-      {/literal}{elseif $ppo->vue eq "domaine"}{literal}
-        document.location.href={/literal}'{if $ppo->niveauUtilisateur == PROFILE_CCV_READ}{copixurl dest=cahierdetextes||voirTravauxParDomaine cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve notxml=true}{else}{copixurl dest=cahierdetextes||voirTravauxParDomaine cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee notxml=true}{/if}'{literal};
-      {/literal}{else}{literal}
-        document.location.href={/literal}'{if $ppo->niveauUtilisateur == PROFILE_CCV_READ}{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve notxml=true}{else}{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee notxml=true}{/if}'{literal};
-      {/literal}{/if}{literal}
-      
-      return false;
-    });
-  });
-//]]> 
-</script>
-{/literal}

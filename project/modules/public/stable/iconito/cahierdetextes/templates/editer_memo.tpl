@@ -55,24 +55,13 @@
   </fieldset>
   
   <div class="submit">
-    <input class="button button-cancel" type="button" name="cancel" id="cancel" value="{i18n key="cahierdetextes.message.cancel"}" />
+    {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+    <a href="{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
+    {else}
+    <a href="{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+    {/if}
+      <input class="button button-cancel" type="button" name="cancel" id="cancel" value="{i18n key="cahierdetextes.message.cancel"}" />
+    </a>
     <input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" />
   </div>
 </form>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	  
- 	  $('#cancel').click(function() {
-
-      document.location.href={/literal}'{if $ppo->niveauUtilisateur == PROFILE_CCV_READ}{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve notxml=true}{else}{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee notxml=true}{/if}'{literal};
-      
-      return false;
-    });
-  });
-//]]> 
-</script>
-{/literal}
