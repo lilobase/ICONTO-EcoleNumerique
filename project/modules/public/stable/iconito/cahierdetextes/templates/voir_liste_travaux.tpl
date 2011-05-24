@@ -1,7 +1,7 @@
 {copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee eleve=$ppo->eleve current=voirListeTravaux}
 
 {if $ppo->success}
-  <p class="success">{i18n key="cahierdetextes.message.success"}</p>
+  <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
 {/if}
 
 <form name="list_filter" id="list_filter" action="{copixurl dest="cahierdetextes||voirListeTravaux"}" method="POST" enctype="multipart/form-data">
@@ -48,7 +48,7 @@
             <td>-</td>
             {if $ppo->estAdmin}
               <td class="center actions">
-                <a href="{copixurl dest="cahierdetextes||voirConcernesParTravail" cahierId=$ppo->cahierId travailId=$travail->id}" title="{i18n key="cahierdetextes.message.seeConcerned"}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{i18n key="cahierdetextes.message.seeConcerned"}" /></a>
+                <a class="fancybox" href="{copixurl dest="cahierdetextes||voirConcernesParTravail" cahierId=$ppo->cahierId travailId=$travail->id}" title="{i18n key="cahierdetextes.message.seeConcerned"}"><img src="{copixurl}themes/default/images/menu_list_active.png" alt="{i18n key="cahierdetextes.message.seeConcerned"}" /></a>
                 <a href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee travailId=$travail->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a> 
             <a href="{copixurl dest="cahierdetextes||supprimerTravail" cahierId=$ppo->cahierId travailId=$travail->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteWorkConfirm"}')" title="{i18n key="cahierdetextes.message.delete"}"><img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="cahierdetextes.message.delete"}" /></a>
               </td>

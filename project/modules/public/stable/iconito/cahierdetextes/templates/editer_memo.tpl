@@ -3,15 +3,13 @@
 <h2>{i18n key="cahierdetextes.message.addMemo"}</h2>
 
 {if $ppo->success}
-  <p class="success">{i18n key="cahierdetextes.message.success"}</p>
+  <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
 {elseif not $ppo->erreurs eq null}
-	<div class="message_errors">
-	  <ul>
-	    {foreach from=$ppo->erreurs item=erreur}
-		    <li>{$erreur}</li>
-	    {/foreach}
-	  </ul>
-	</div>
+	<ul class="mesgErrors">
+    {foreach from=$ppo->erreurs item=erreur}
+	    <li>{$erreur}</li>
+    {/foreach}
+	</ul>
 {/if}
 
 <form name="memo_add" id="memo_add" action="{copixurl dest="cahierdetextes||editerMemo"}" method="POST" enctype="multipart/form-data">

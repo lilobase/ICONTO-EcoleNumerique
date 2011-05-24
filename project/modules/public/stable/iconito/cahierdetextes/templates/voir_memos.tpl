@@ -3,7 +3,7 @@
 <h2>{i18n key="cahierdetextes.message.memos"}</h2>
 
 {if $ppo->success}
-  <p class="success">{i18n key="cahierdetextes.message.success"}</p>
+  <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
 {/if}
 
 {if $ppo->estAdmin}<a class="button button-add" href="{copixurl dest="cahierdetextes||editerMemo" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.addMemo"}</a>{/if}

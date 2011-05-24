@@ -30,6 +30,20 @@ div.dashboard div.content {
 	margin:0;
 	font-size:1.2rem;
 }
+#cahierdetextes p.mesgSuccess, #cahierdetextes ul.mesgErrors {
+	margin:10px 0 15px; padding:5px 5px 5px 28px; border:1px solid #BAD521;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:url(../../../themes/default/images/action_confirm.png) no-repeat 5px 50% #fff; color:#BAD521;
+	font-weight:bold;
+}
+#cahierdetextes ul.mesgErrors {
+	border-color:#f00;
+	background:url(../../../themes/default/images/action_warning.png) no-repeat 5px 50% #fff; color:#f00;
+	list-style:none;
+}
+#cahierdetextes ul.mesgErrors li {
+
+}
 /* End global */
 
 
@@ -279,7 +293,11 @@ div.dashboard div.content {
 	margin-left:20px;
 	width:310px;
 }
-#cahierdetextes form fieldset.concernedList h3 {margin:0 0 5px;}
+#cahierdetextes form fieldset.concernedList h3 {
+	margin:0 0 5px;
+	font-size:1rem;
+	text-transform:none;
+}
 #cahierdetextes form fieldset.concernedList h3 span {
 	float:right;
 	font-weight:normal; font-size:0.8rem;
@@ -295,6 +313,10 @@ div.dashboard div.content {
 }
 #cahierdetextes form .field p.input {margin:0 0 0 36%;}
 #cahierdetextes form .field input.datepicker {width:65px;}
+#cahierdetextes form .redirectionField {
+	margin:10px 0; padding:5px; border:1px solid #fff;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+}
 #cahierdetextes form .redirectionField > label {width:20%;}
 #cahierdetextes form .redirectionField p.input {margin:0 0 0 20%;}
 #cahierdetextes form #fieldSignature span {display:block;}
@@ -315,7 +337,7 @@ div.dashboard div.content {
 #cahierdetextes #domain_creation #nom {width:65%;}
 #cahierdetextes #domain_creation input {margin:0 5px 0 0;}
 #cahierdetextes #list_filter {
-	margin:10px 0; padding:5px 5px; border:1px solid #fff;
+	margin:10px 0; padding:5px; border:1px solid #fff;
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
 }
 #cahierdetextes #list_filter .field {
@@ -356,9 +378,5 @@ div.dashboard div.content {
   height: 100px;
 }
 
-.success {
-  background-color: green;
-  color: white;
-}
 
 

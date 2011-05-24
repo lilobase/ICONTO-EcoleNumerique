@@ -11,15 +11,13 @@
 {/if}
 
 {if $ppo->success}
-  <p class="success">{i18n key="cahierdetextes.message.success"}</p>
+  <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
 {elseif not $ppo->erreurs eq null}
-	<div class="message_errors">
-	  <ul>
-	    {foreach from=$ppo->erreurs item=erreur}
-		    <li>{$erreur}</li>
-	    {/foreach}
-	  </ul>
-	</div>
+	<ul class="mesgErrors">
+    {foreach from=$ppo->erreurs item=erreur}
+	    <li>{$erreur}</li>
+    {/foreach}
+</ul>
 {/if}
 
 <form name="travail_add" id="travail_add" action="{copixurl dest="cahierdetextes||editerTravail"}" method="POST" enctype="multipart/form-data">

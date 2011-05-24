@@ -3,7 +3,7 @@
     <h2>{$ppo->dateSelectionnee|datei18n:text}</h2>
     
     {if $ppo->success}
-      <p class="success">{i18n key="cahierdetextes.message.success"}</p>
+      <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
     {/if}
     
     <div class="works">
