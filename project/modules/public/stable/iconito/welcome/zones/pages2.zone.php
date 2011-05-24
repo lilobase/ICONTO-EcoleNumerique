@@ -6,10 +6,10 @@
  * @package Iconito
  * @subpackage Welcome
  */
-class ZoneLiens extends CopixZone {
+class ZonePages2 extends CopixZone {
 
     /**
-     * Affiche la liste des liens d'un blog
+     * Affiche la liste des pages d'un blog
      *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2009/01/23
@@ -34,10 +34,10 @@ class ZoneLiens extends CopixZone {
         $tpl->assign('blog', $blog);
         $tpl->assign('nb', $nb);
 
-        $dao = _dao('blog|bloglink');
-        $tpl->assign ('listLiens' , $dao->getAllLinksFromBlog($blog));
+        $dao = _dao('blog|blogpage');
+        $tpl->assign ('listPages', $dao->getAllPagesFromBlog($blog));
       
-        $toReturn = $tpl->fetch('zone_liens.tpl');
+        $toReturn = $tpl->fetch('zone_pages2.tpl');
 
         return true;
     }
