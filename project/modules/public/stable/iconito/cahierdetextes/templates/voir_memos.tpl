@@ -36,7 +36,7 @@
                 <input type="hidden" name="memoId" id="memoId" value="{$memo->id}" />
                 <input type="hidden" name="eleve" id="eleve" value="{$ppo->eleve}" />
                 
-                <input type="text" name="commentaire" value="{i18n key="cahierdetextes.message.comment"}" />
+                <label class="comment" for="commentaire__{$memo->id}">{i18n key="cahierdetextes.message.comment"}</label><input type="text" name="commentaire" id="commentaire_{$memo->id}" value="" />
                 <input type="submit" value="{i18n key="cahierdetextes.message.signNow"}" class="button button-update" />
               </form>
           {/if}
@@ -49,29 +49,3 @@
     <p>{i18n key="cahierdetextes.message.noMemo"}</p>
   {/if}
 </div>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	  
- 	  $('input[name="commentaire"]').live('focus', function () {
-       if ($(this).val() == '{/literal}{i18n key="cahierdetextes.message.comment"}{literal}') {
-         
-         $(this).val('');
-       }
-    });
-    
-    $('input[name="commentaire"]').live('blur', function () {
-       
-      if ($(this).val() == '') {
-
-        $(this).val('{/literal}{i18n key="cahierdetextes.message.comment"}{literal}');
-      }
-    });
-    
-  });
-//]]> 
-</script>
-{/literal}

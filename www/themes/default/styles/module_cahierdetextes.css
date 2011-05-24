@@ -181,7 +181,7 @@ div.dashboard div.content {
 }
 #cahierdetextes .memos-list .memo p {margin:0.5em 0 0;}
 #cahierdetextes .memos-list .memo .signature {
-	float:right;
+	float:right; position:relative;
 	padding:5px; border:1px solid #ddd;
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
 	background:#fff;
@@ -201,6 +201,11 @@ div.dashboard div.content {
 }
 #cahierdetextes .memos-list .memo .signature input {width:300px;}
 #cahierdetextes .memos-list .memo .signature input.button {border:1px solid #ddd; width:auto;}
+#cahierdetextes .memos-list .memo .signature label.comment {
+	position:absolute; top:2.8em; left:10px;
+	color:#666;
+	font-size:0.7rem;
+}
 /* Fin Memos */
 
 

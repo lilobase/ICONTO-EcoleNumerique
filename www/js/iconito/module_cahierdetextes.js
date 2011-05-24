@@ -95,6 +95,19 @@ jQuery(document).ready(function($){
         $('#fieldSignature span').toggle();
     });
 	
+	// Label des commentaires
+	$('label.comment').click(function(){
+		$(this).hide();
+		$(this).next('input').focus();
+	});
+	$('label.comment + input').click(function() {
+		$(this).prev('label').hide();
+	});
+	$('label.comment + input').blur(function() {
+		if ($(this).val() == '')
+			$(this).prev('label').show();
+	});
+	
 	
 	/**********************************************************************/
 	/*  Calendrier pour les champs dates  */
