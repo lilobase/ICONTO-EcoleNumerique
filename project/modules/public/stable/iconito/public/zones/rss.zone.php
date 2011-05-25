@@ -17,7 +17,7 @@ class ZoneRss extends CopixZone {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/03/23
-	 * @param string $kw Mot-clé pour la recherche (option)
+	 * @param string $kw Mot-clï¿½ pour la recherche (option)
 	 */
 	function _createContent (&$toReturn) {
 		
@@ -25,7 +25,7 @@ class ZoneRss extends CopixZone {
     
 		$tpl  = & new CopixTpl ();
 		
-	  //on récupère l'ensemble des articles du blog
+	  //on rï¿½cupï¿½re l'ensemble des articles du blog
     //$dao = _dao('blog|blogarticle');
 		
 		$dao     = _dao('blog|blogarticlecategory');
@@ -34,31 +34,31 @@ class ZoneRss extends CopixZone {
     //$arData = $dao->getAllArticlesFromBlog($blog->id_blog, NULL);
     //print_r($arData); 
     //$arData = $dao->getAllArticlesFromBlogByCritere($blog->id_blog, NULL);
-    
-		
-		$critere = 'SELECT ART.id_bact, ART.name_bact, ART.url_bact, ART.date_bact, ART.time_bact, ART.sumary_bact, ART.sumary_html_bact, BLOG.url_blog, KME.node_type AS parent_type, KME.node_id AS parent_id FROM module_blog BLOG, module_blog_article ART, kernel_mod_enabled KME WHERE ART.id_blog=BLOG.id_blog AND KME.module_id=BLOG.id_blog AND KME.module_type=\'MOD_BLOG\' AND BLOG.is_public=1 AND ART.is_online=1 ORDER BY ART.date_bact DESC, ART.time_bact DESC, ART.id_bact ASC';
-		
-		if (Kernel::getKernelLimits('ville'))
-			$critere .= ' LIMIT '.intval(CopixConfig::get('public|rss.nbArticles')*10);
-		else
-			$critere .= ' LIMIT '.intval(CopixConfig::get('public|rss.nbArticles'));
-		
-		$list = _doQuery($critere);
-		//echo $critere;
-		
-		
-		$arTypes = array();
+
+        $arTypes = array();
 		if (CopixConfig::exists ('public|blogs.types') && CopixConfig::get ('public|blogs.types'))
 			$arTypes = explode(",", CopixConfig::get ('public|blogs.types'));
 		$arTypes[] = 'CLUB';
+
+		
+		$critere = 'SELECT ART.id_bact, ART.name_bact, ART.url_bact, ART.date_bact, ART.time_bact, ART.sumary_bact, ART.sumary_html_bact, BLOG.url_blog, KME.node_type AS parent_type, KME.node_id AS parent_id FROM module_blog BLOG, module_blog_article ART, kernel_mod_enabled KME WHERE ART.id_blog=BLOG.id_blog AND KME.module_id=BLOG.id_blog AND KME.module_type=\'MOD_BLOG\' AND BLOG.is_public=1 AND ART.is_online=1 AND KME.node_type IN (\''.implode('\',\'',$arTypes).'\') ORDER BY ART.date_bact DESC, ART.time_bact DESC, ART.id_bact ASC';
+		
+		if (Kernel::getKernelLimits('ville'))
+			$critere .= ' LIMIT '.intval(CopixConfig::get('public|rss.nbArticles'));
+		else
+			$critere .= ' LIMIT '.intval(CopixConfig::get('public|rss.nbArticles'));
+		
+		$list = _doQuery($critere, array());
+		//echo $critere;
+
+        //_dump($list);
 		
 		$arArticle = array();
-		
+
+        //_dump($list);
+
 		foreach ($list as $article) {
 		
-			if ($arTypes && !in_array($article->parent_type,$arTypes))
-				continue;
-			
 			$add = true;
 			
 			switch ($article->parent_type) {
