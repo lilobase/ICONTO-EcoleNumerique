@@ -147,6 +147,38 @@ class DAOKernel_bu_ele {
 
     return _doQuery ($sql, array (':id' => $classId));
   }
+  
+  /**
+	 * Retourne les identifiants des élèves d'une classe donnée
+	 *
+	 * @param integer $classId   Identifiant de la classe
+	 */
+  function getStudentIdsByClass ($classId) {
+    
+    $toReturn = array();
+    
+    $sql = 'SELECT E.idEleve' 
+      . ' FROM kernel_bu_eleve E, kernel_bu_eleve_affectation A, kernel_link_bu2user LI, dbuser U, kernel_bu_classe_niveau CN, kernel_bu_ecole_classe CL'
+		  . ' WHERE E.idEleve = A.eleve'
+		  . ' AND A.classe = CL.id'
+		  . ' AND A.classe=:id'
+		  . ' AND A.current=1'
+		  . ' AND LI.bu_type = "USER_ELE"'
+		  . ' AND LI.bu_id=E.idEleve'
+		  . ' AND U.id_dbuser = LI.user_id'
+		  . ' AND A.niveau=CN.id_n';
+		  
+		$sql .= ' ORDER BY E.nom, E.prenom1'; 
+
+    $results = _doQuery ($sql, array (':id' => $classId));
+    
+    foreach ($results as $result) {
+      
+      $toReturn[] = $result->idEleve;
+    }
+    
+    return $toReturn;
+  }
 }
 
 

@@ -38,12 +38,13 @@ class DAOCahierDeTextesDomaine {
 	 *
  	 * @return DAORecordCahier_domaine
 	 */
-  public function getByNom($nom) {
+  public function getByClasseEtNom($classe, $nom) {
     
     $sql = $this->_selectQuery
-			   . ' WHERE nom = :nom';
+			   . ' WHERE nom = :nom'
+			   . ' AND kernel_bu_ecole_classe_id = :classe';
 
-	  $resultats = new CopixDAORecordIterator (_doQuery ($sql, array (':nom' => $nom)), $this->getDAOId ());
+	  $resultats = new CopixDAORecordIterator (_doQuery ($sql, array (':classe' => $classe, ':nom' => $nom)), $this->getDAOId ());
 		
 		return isset ($resultats[0]) ? $resultats[0] : false;
   }

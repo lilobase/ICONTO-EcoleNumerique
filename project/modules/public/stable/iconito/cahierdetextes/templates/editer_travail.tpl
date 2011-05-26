@@ -63,7 +63,12 @@
     </div>
     <div class="field">
       <label for="travail_fichiers" class="form_libelle">{i18n key="cahierdetextes.message.relatedDocuments"} :</label>
-      <a class="fancybox" href="{copixurl dest="malle|malle|getMallePopup" id=$ppo->malleId}">Ajouter un fichier de la malle</a>
+      <ul class="travail_fichiers" id="travail_fichiers">
+        {foreach from=$ppo->fichiers key=idFichier item=nomFichier}
+        <li><input type="hidden" name="travail_fichiers[]" value="{$idFichier}"> <span>{$nomFichier}</span><a href="#" class="delete-node">X</a></li>
+        {/foreach}
+      </ul>
+      {copixzone process=kernel|wikibuttons field='travail_fichiers' format='id' object=$ppo->nodeInfos withAlbum=false}
     </div>
   </fieldset>
   

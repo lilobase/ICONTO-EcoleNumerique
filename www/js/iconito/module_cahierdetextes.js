@@ -199,8 +199,8 @@ jQuery(document).ready(function($){
     
     function checkboxChange() 
 	{
-        var all_checkboxes = $('tbody :checkbox').length;
-        var all_checked    = $('tbody :checkbox').filter(':checked').length;
+        var all_checkboxes = $('tbody :checkbox').size();
+        var all_checked    = $('tbody :checkbox').filter(':checked').size();
         if (all_checkboxes == all_checked) 
 	    	$('#check_all').attr('checked', 'checked');
         else
@@ -208,13 +208,20 @@ jQuery(document).ready(function($){
         
         $(':checkbox[name^=niveaux]').each(function() {
         	var level = $(this).val();
-        	var level_checkboxes = $('.'+level).find('td.check :checkbox').length;
-        	var level_checked = $('.'+level).find('td.check :checkbox').filter(':checked').length;
+        	var level_checkboxes = $('.'+level).find('td.check :checkbox').size();
+        	var level_checked = $('.'+level).find('td.check :checkbox').filter(':checked').size();
         	if (level_checkboxes == level_checked) 
 				$(this).attr('checked', 'checked');
         	else 
 				$(this).removeAttr('checked');
         
       	});
-    }
+    };
+    
+    $('a.delete-node').live('click', function() {
+      
+      $(this).parent().remove();
+      
+      return false;
+    });
 });

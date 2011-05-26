@@ -12,6 +12,8 @@
           </span>
         {/if}</h4>
         <div class="workDescription">{$travail->description}</div>
+        
+        {copixzone process=cahierdetextes|affichageFichiers nodeType=travail nodeId=$travail->id}
       </div>
     {/foreach}
   {else}

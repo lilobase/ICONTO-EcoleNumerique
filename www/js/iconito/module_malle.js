@@ -1,5 +1,5 @@
 
-function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat) {
+function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat, idFile, nomFile) {
   var popup = false;
   var html = '';
   switch (format) {
@@ -29,6 +29,11 @@ function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_
     //return only url
     case 'text':
       self.parent.add_text(field, url);
+      break;
+      
+    // Affiche le contenu directement dans le field
+    case 'id':
+      self.parent.add_node(field, idFile, nomFile);
       break;
 
     default :

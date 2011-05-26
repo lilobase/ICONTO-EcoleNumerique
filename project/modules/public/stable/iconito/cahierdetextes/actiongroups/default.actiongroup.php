@@ -20,12 +20,24 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Le responsable doit disposer de l'ID de l'élève
-    if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ 
-      && is_null(_request('eleve', null)) && $actionName != 'go') {
-	    
-	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-	  }
+    if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ) {
+      
+      if ($actionName == "processVoirTravaux" && is_null($eleve = _request('eleve', null))) {
+        
+        $myNode = CopixSession::get('myNode');
+        $eleve = $myNode['type'] == "USER_ELE" ? $myNode['id'] : null;
+      }
+      else {
+        
+        $eleve = _request('eleve', null);
+      }
+      
+      if (is_null($eleve) && $actionName != 'go') {
+        
+        return CopixActionGroup::process ('generictools|Messages::getError',
+    			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+      }
+    } 
 	}
 	
 	/**
@@ -41,13 +53,15 @@ class ActionGroupDefault extends enicActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
+	  
+	  $myNode = CopixSession::get('myNode');
 
     // Récupération des paramètres
     $ppo->jour    = _request ('jour', date('d'));
   	$ppo->mois    = _request ('mois', date('m'));
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', false);
-  	$ppo->eleve   = _request ('eleve', null);
+  	$ppo->eleve   = _request ('eleve', $myNode['type'] == "USER_ELE" ? $myNode['id'] : null);
   	
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
   	$ppo->dateSelectionnee  = $ppo->annee.$ppo->mois.$ppo->jour;
@@ -257,7 +271,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
       
       $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
-      if ($domaineDAO->getByNom($ppo->domaine->nom)) {
+      if ($domaineDAO->getByClasseEtNom($ppo->domaine->classe_id, $ppo->domaine->nom)) {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes.error.domainExist', array($ppo->domaine->nom));
       }
@@ -353,10 +367,11 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->dateSelectionnee  = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
   	$cahierInfos            = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-	  
+	  $ppo->nodeInfos         = array('type' => $cahierInfos[0]->module_type, 'id' => $cahierInfos[0]->module_id);
+
 	  $ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
 	  $ppo->nombreMaxVueRadio = CopixConfig::get('cahierdetextes|nombre_max_vue_radio');
-
+	  
 	  // Récupération des domaines disponibles
 	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
 	  $domaines   = $domaineDAO->findByClasse($cahierInfos[0]->node_id);
@@ -390,6 +405,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  $ppo->travail->date_creation = CopixDateTime::yyyymmddToDate($ppo->travail->date_creation);
   	  $ppo->travail->date_realisation = CopixDateTime::yyyymmddToDate($ppo->travail->date_realisation);
   	  
+  	  // Récupération des élèves
   	  $travail2eleveDAO   = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
   	  $elevesSelectionnes = $travail2eleveDAO->findElevesParTravail ($ppo->travail->id);
   	  $ppo->elevesSelectionnes = array();
@@ -397,6 +413,19 @@ class ActionGroupDefault extends enicActionGroup {
   	    
   	    $ppo->elevesSelectionnes[] = $eleve->idEleve;
   	  }
+  	  
+  	  // Récupération des fichiers
+  	  $filesDAO               = _ioDAO('malle|malle_files');
+  	  $travail2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
+  	  $travail2fichiers       = $travail2fichiersDAO->retrieveByTravail ($ppo->travail->id);
+  	  $ppo->fichiers          = array();
+      foreach($travail2fichiers as $travail2fichier) {
+
+        if ($fichier = $filesDAO->get($travail2fichier->file_id)) {
+          
+          $ppo->fichiers[$fichier->id] = $fichier->nom;
+        }
+      }
   	}
   	
 	  if (CopixRequest::isMethod ('post')) {
@@ -408,7 +437,16 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->travail->description       = _request ('travail_description', null);
       $ppo->travail->supprime          = 0;
       $ppo->elevesSelectionnes         = _request ('eleves', array());
+      $ppo->fichiers                   = _request ('travail_fichiers', array());
       $ppo->travail_redirection        = _request ('travail_redirection', null);
+      
+      // Malle
+      $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+      $malle  = Kernel::filterModuleList ($mods, 'MOD_MALLE');
+      if ($malle) {
+
+        $malleId = $malle[0]->module_id;
+      }
       
       // Traitement des erreurs
       $ppo->erreurs = array ();
@@ -437,36 +475,45 @@ class ActionGroupDefault extends enicActionGroup {
         
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noStudents');
       }
+      if (!empty($ppo->fichiers)) {
+        
+        $ppo->fichiers = array_unique($ppo->fichiers);
+        $fichiersDAO = _ioDAO('malle|malle_files');
+        foreach($ppo->fichiers as $fichierId) {
+
+          if (!$fichiersDAO->isFileOfMalle($fichierId, $malleId)) {
+
+            $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
+            break;
+          }
+        }
+      }
 
       if (!empty ($ppo->erreurs)) {
         
         $ppo->travail->date_creation     = _request ('travail_date_creation', null);
         $ppo->travail->date_realisation  = _request ('travail_date_realisation', null);
+
+        foreach($ppo->fichiers as $fichierId) {
+
+          if ($fichier = $fichiersDAO->get($fichierId)) {
+            
+            $ppo->fichiers[$fichierId] = $fichier->nom;
+          }
+        }
         
         return _arPPO ($ppo, 'editer_travail.tpl');
       }
       
       // Création
       if ($ppo->travail->id == '') {
-        
+
         // Insertion de l'enregistrement "travail"
         $travailDAO->insert ($ppo->travail);
-
-        // Insertion des liens "travail > eleve"
-        $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
-        foreach($ppo->elevesSelectionnes as $eleveId) {
-
-          $travail2eleve = _record ('cahierdetextes|cahierdetextestravail2eleve');
-
-          $travail2eleve->travail_id   = $ppo->travail->id;
-          $travail2eleve->eleve_id     = $eleveId;
-
-          $travail2eleveDAO->insert($travail2eleve);
-        }
       }
       // Mise à jour
       else {
-        
+    	  
         // Mise à jour de l'enregistrement "travail"
         $travailDAO->update($ppo->travail);
         
@@ -474,17 +521,53 @@ class ActionGroupDefault extends enicActionGroup {
         $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
         $travail2eleveDAO->deleteByTravail($ppo->travail->id);
         
-        // Insertion des nouveaux liens "travail > eleve"
-        foreach($ppo->elevesSelectionnes as $eleveId) {
-
-          $travail2eleve = _record ('cahierdetextes|cahierdetextestravail2eleve');
-
-          $travail2eleve->travail_id   = $ppo->travail->id;
-          $travail2eleve->eleve_id     = $eleveId;
-
-          $travail2eleveDAO->insert($travail2eleve);
-        }
+        // Suppression des relations travail - fichiers existants
+        $travail2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
+        $travail2fichierDAO->deleteByTravail($ppo->travail->id);
       }
+      
+      // Insertion des liens "travail > eleve"
+      $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
+      foreach($ppo->elevesSelectionnes as $eleveId) {
+
+        $travail2eleve = _record ('cahierdetextes|cahierdetextestravail2eleve');
+
+        $travail2eleve->travail_id   = $ppo->travail->id;
+        $travail2eleve->eleve_id     = $eleveId;
+
+        $travail2eleveDAO->insert($travail2eleve);
+      }
+      
+      // Insertion des liens "travail > fichiers"
+      $travail2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
+      foreach($ppo->fichiers as $fichierId) {
+      
+        $travail2fichier = _record ('cahierdetextes|cahierdetextestravail2files');
+
+        $travail2fichier->travail_id  = $ppo->travail->id;
+        $travail2fichier->file_id     = $fichierId;
+
+        $travail2fichierDAO->insert($travail2fichier);
+      }
+      
+      // Insertion de l'événement dans l'agenda (si mod activé)
+      $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+  	  $agenda = Kernel::filterModuleList ($mods, 'MOD_AGENDA');
+  	  
+  	  if ($agenda) {
+  	    
+  	    $agendaWorkDAO = _ioDAO ('agenda|work');
+
+        if (!$agendaWorkDAO->get($ppo->travail->id, $agenda[0]->module_id)) {
+
+          $agenda2work = _record ('agenda|work');
+
+          $agenda2work->travail_id  = $ppo->travail->id;
+          $agenda2work->agenda_id   = $agenda[0]->module_id;
+
+          $agendaWorkDAO->insert ($agenda2work);
+        }
+  	  }
       
       $ppo->success = true;
       
@@ -507,13 +590,13 @@ class ActionGroupDefault extends enicActionGroup {
           }
           break;
         case 1:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'vue' => $ppo->vue)));
           break;
         case 2:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'a_faire' => 1)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'vue' => $ppo->vue, 'a_faire' => 1)));
           break;
         default:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'vue' => $ppo->vue)));
           break;
       }
     }
@@ -544,10 +627,26 @@ class ActionGroupDefault extends enicActionGroup {
     $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
     $travail2eleveDAO->deleteByTravail($travail->id);
     
+    // Suppression des relations travail - fichiers existantes
+    $travail2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
+    $travail2fichierDAO->deleteByTravail($travail->id);
+    
+    // Suppression du lien agenda
+    if ($travail->a_faire) {
+      
+      $agendaWorkDAO = _ioDAO('agenda|work');
+      $agendaWorkDAO->deleteByTravail($travail->id);
+    }
+    else {
+      
+      $agendaEventDAO = _ioDAO('agenda|event');
+      $agendaEventDAO->delete($travail->event_id);
+    }
+    
     // Suppression du travail
     $travailDAO->delete($travail->id);
     
-    return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id)));
+    return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId)));
 	}
 	
 	/**
@@ -644,8 +743,10 @@ class ActionGroupDefault extends enicActionGroup {
   	$ppo->annee   = _request ('annee', date('Y'));
   	$ppo->success = _request ('success', null);
   	
-  	$ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
-  	$ppo->format = CopixConfig::get('cahierdetextes|format_par_defaut');
+  	$ppo->dateSelectionnee  = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
+  	$ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
+  	$cahierInfos            = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
+	  $ppo->nodeInfos         = array('type' => $cahierInfos[0]->module_type, 'id' => $cahierInfos[0]->module_id);
   	
   	if (is_null($memoId = _request('memoId', null))) {
 	  
@@ -660,8 +761,22 @@ class ActionGroupDefault extends enicActionGroup {
   	  $ppo->memo->date_validite      = CopixDateTime::yyyymmddToDate($ppo->memo->date_validite);
   	  $ppo->memo->date_max_signature = CopixDateTime::yyyymmddToDate($ppo->memo->date_max_signature);
 	    
+	    // Récupération des élèves liés au mémo
 	    $memo2eleveDAO            = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
   	  $ppo->elevesSelectionnes  = $memo2eleveDAO->findElevesParMemo ($ppo->memo->id);
+  	  
+  	  // Récupération des fichiers liés au mémo
+  	  $filesDAO            = _ioDAO('malle|malle_files');
+  	  $memo2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
+  	  $memo2fichiers       = $memo2fichiersDAO->retrieveByMemo ($ppo->memo->id);
+  	  $ppo->fichiers       = array();
+      foreach($memo2fichiers as $memo2fichier) {
+
+        if ($fichier = $filesDAO->get($memo2fichier->file_id)) {
+          
+          $ppo->fichiers[$fichier->id] = $fichier->nom;
+        }
+      }
 	  }
   	
   	if (CopixRequest::isMethod ('post')) {
@@ -676,6 +791,15 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->memo->date_max_signature  = CopixDateTime::dateToyyyymmdd(_request ('memo_date_max_signature', null));
       $ppo->memo->supprime            = 0;
       $ppo->elevesSelectionnes        = _request ('eleves', array());
+      $ppo->fichiers                  = _request ('memo_fichiers', array());
+      
+      // Malle
+      $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+      $malle  = Kernel::filterModuleList ($mods, 'MOD_MALLE');
+      if ($malle) {
+
+        $malleId = $malle[0]->module_id;
+      }
       
       // Traitement des erreurs
       $ppo->erreurs = array ();
@@ -684,13 +808,11 @@ class ActionGroupDefault extends enicActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
       }
-      
       if (!is_null($ppo->memo->date_validite) 
         && ($ppo->memo->date_validite < $ppo->memo->date_creation)) {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongValidityDate');
       }
-      
       if ($ppo->memo->message == '') {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noContent');
@@ -703,7 +825,24 @@ class ActionGroupDefault extends enicActionGroup {
         && ($ppo->memo->date_max_signature > $ppo->memo->date_validite || $ppo->memo->date_max_signature < $ppo->memo->date_creation)) {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongMaxSignatureDate');
-      } 
+      }
+      if (empty($ppo->elevesSelectionnes)) {
+        
+        $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noStudents');
+      }
+      if (!empty($ppo->fichiers)) {
+        
+        $ppo->fichiers = array_unique($ppo->fichiers);
+        $fichiersDAO = _ioDAO('malle|malle_files');
+        foreach($ppo->fichiers as $fichierId) {
+
+          if (!$fichiersDAO->isFileOfMalle($fichierId, $malleId)) {
+
+            $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
+            break;
+          }
+        }
+      }
       
       if (!empty ($ppo->erreurs)) {
         
@@ -711,28 +850,26 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->memo->date_validite       = _request ('memo_date_validite', null);
         $ppo->memo->date_max_signature  = _request ('memo_date_max_signature', null);
         
+        foreach($ppo->fichiers as $fichierId) {
+
+          if ($fichier = $fichiersDAO->get($fichierId)) {
+            
+            $ppo->fichiers[$fichierId] = $fichier->nom;
+          }
+        }
+        
         return _arPPO ($ppo, 'editer_memo.tpl');
       }
       
-      $memoDAO        = _ioDAO ('cahierdetextes|cahierdetextesmemo');
-      $memo2eleveDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+      $memoDAO          = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+      $memo2eleveDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+      $memo2fichierDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
       
       // Création
       if ($ppo->memo->id == '') {
 
         // Insertion de l'enregistrement "memo"
         $memoDAO->insert ($ppo->memo);
-
-        // Insertion des liens memo > eleve
-        foreach($ppo->elevesSelectionnes as $eleveId) {
-
-          $memo2eleve = _record ('cahierdetextes|cahierdetextesmemo2eleve');
-
-          $memo2eleve->memo_id   = $ppo->memo->id;
-          $memo2eleve->eleve_id  = $eleveId;
-
-          $memo2eleveDAO->insert($memo2eleve);
-        }
       }
       // Mise à jour
       else {
@@ -743,16 +880,30 @@ class ActionGroupDefault extends enicActionGroup {
         // Suppression des relations memo - eleves existantes
         $memo2eleveDAO->deleteByMemo($ppo->memo->id);
         
-        // Insertion des nouveaux liens memo > eleve
-        foreach($ppo->elevesSelectionnes as $eleveId) {
+        // Suppression des relations memo - fichiers existantes
+        $memo2fichierDAO->deleteByMemo($ppo->memo->id);
+      }
+      
+      // Insertion des nouveaux liens memo > eleve
+      foreach($ppo->elevesSelectionnes as $eleveId) {
 
-          $memo2eleve = _record ('cahierdetextes|cahierdetextesmemo2eleve');
+        $memo2eleve = _record ('cahierdetextes|cahierdetextesmemo2eleve');
 
-          $memo2eleve->memo_id   = $ppo->memo->id;
-          $memo2eleve->eleve_id  = $eleveId;
+        $memo2eleve->memo_id   = $ppo->memo->id;
+        $memo2eleve->eleve_id  = $eleveId;
 
-          $memo2eleveDAO->insert($memo2eleve);
-        }
+        $memo2eleveDAO->insert($memo2eleve);
+      }
+      
+      // Insertion des liens "mémo > fichiers"
+      foreach($ppo->fichiers as $fichierId) {
+      
+        $memo2fichier = _record ('cahierdetextes|cahierdetextesmemo2files');
+
+        $memo2fichier->memo_id  = $ppo->memo->id;
+        $memo2fichier->file_id     = $fichierId;
+
+        $memo2fichierDAO->insert($memo2fichier);
       }
 
       return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'success' => true)));
@@ -780,9 +931,13 @@ class ActionGroupDefault extends enicActionGroup {
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
     
-    // Suppression des relations mémos - eleves existantes
+    // Suppression des relations mémo - eleves existantes
     $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
     $memo2eleveDAO->deleteByMemo($memo->id);
+    
+    // Suppression des relations mémo - fichiers existantes
+    $memo2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
+    $memo2fichierDAO->deleteByMemo($memo->id);
     
     // Suppression du mémos
     $memoDAO->delete($memo->id);

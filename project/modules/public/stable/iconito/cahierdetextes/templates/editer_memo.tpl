@@ -37,6 +37,12 @@
     
     <div class="field">
       <label for="memo_fichiers" class="form_libelle">{i18n key="cahierdetextes.message.relatedDocuments"}</label>
+      <ul class="memo_fichiers" id="memo_fichiers">
+        {foreach from=$ppo->fichiers key=idFichier item=nomFichier}
+          <li><input type="hidden" name="memo_fichiers[]" value="{$idFichier}"> <span>{$nomFichier}</span><a href="#" class="delete-node">X</a></li>
+        {/foreach}
+      </ul>
+      {copixzone process=kernel|wikibuttons field='memo_fichiers' format='id' object=$ppo->nodeInfos withAlbum=false}
     </div>
     
     <div class="field">

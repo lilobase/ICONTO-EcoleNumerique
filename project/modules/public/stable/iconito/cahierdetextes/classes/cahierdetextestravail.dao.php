@@ -440,4 +440,206 @@ class DAOCahierDeTextesTravail {
     
     return $toReturn;
 	}
+	
+	/**
+   * Retourne les travaux à faire pour un agenda et une période de date donnés
+   *
+   * @param int     $agendaId           Identifiant de l'agenda
+   * @param string  $dateDebutSemaine   Date de début (YYYYmmdd)
+   * @param string  $dateFinSemaine     Date de fin   (YYYYmmdd)
+   * @param string  $nodeType           Type du node de l'agenda
+   * @param int     $nodeId             Id du node de l'agenda
+   * @param int     $agendaLevel        Level de l'utilisateur sur l'agenda
+   *
+   * @return array
+   */
+	public function findTravauxAFaireByAgendaParJour($agendaId, $dateDebutSemaine, $dateFinSemaine, $nodeType, $nodeId, $agendaLevel) {
+	  
+  	$arTravauxParJour = array();
+  	$dateService  = new DateService;
+  	$dateCourante = $dateDebutSemaine;
+  	
+  	while ($dateCourante <= $dateFinSemaine) {
+  	  
+  	  $arTravauxParJour[$dateCourante] = '';
+  	  
+  	  $dateCourante = $dateService->addToDate($dateService->dateBddToDateFr($dateCourante), 1, 0, 0, '/');
+			$dateCourante = $dateService->dateFrToDateBdd($dateCourante);
+  	}
+  	
+  	// Eleve
+  	if ($agendaLevel == PROFILE_CCV_WRITE) {
+
+    	$sql = 'SELECT count(module_cahierdetextes_travail.id) as count, module_agenda_work.module_agenda_agenda_id_agenda as id_agenda, "'.$nodeType.'" as node_type, '.$nodeId.' as node_id, module_cahierdetextes_travail.date_realisation as date_realisation'
+    	  . ' FROM module_cahierdetextes_travail'
+    	  . ' LEFT JOIN module_agenda_work ON (module_agenda_work.module_agenda_agenda_id_agenda = :agendaId)'
+    	  . ' LEFT JOIN module_cahierdetextes_travail2eleve ON (module_cahierdetextes_travail.id = module_cahierdetextes_travail2eleve.module_cahierdetextes_travail_id)'
+      	. ' WHERE module_agenda_work.module_cahierdetextes_travail_id = module_cahierdetextes_travail.id'
+      	. ' AND module_cahierdetextes_travail2eleve.kernel_bu_eleve_idEleve=:userId'
+      	. ' AND module_cahierdetextes_travail.supprime = 0'
+      	. ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_A_FAIRE
+      	. ' AND module_cahierdetextes_travail.date_realisation >= :dateDebut'
+      	. ' AND module_cahierdetextes_travail.date_realisation <= :dateFin'
+      	. ' GROUP BY module_cahierdetextes_travail.date_realisation';
+        
+    	$results = _doQuery($sql, array('dateDebut' => $dateDebutSemaine, 'dateFin' => $dateFinSemaine, 'userId' => _currentUser()->getExtra('id'), 'agendaId' => $agendaId));
+      
+      foreach ($results as $result) {
+    	  
+    	  $arTravauxParJour[$result->date_realisation] = $result;
+    	}		
+  	}
+  	// Parent
+  	elseif ($agendaLevel == PROFILE_CCV_NONE 
+  	  && _currentUser()->getExtra('type') == 'USER_RES') {
+
+  	  $myNode = CopixSession::get('myNode');
+      $eleveId = $myNode['type'] == "USER_ELE" ? $myNode['id'] : null;
+  	  
+  	  $sql = 'SELECT count(module_cahierdetextes_travail.id) as count, module_agenda_work.module_agenda_agenda_id_agenda as id_agenda, "'.$nodeType.'" as node_type, '.$nodeId.' as node_id, module_cahierdetextes_travail.date_realisation as date_realisation'
+    	  . ' FROM module_cahierdetextes_travail'
+    	  . ' LEFT JOIN module_agenda_work ON (module_agenda_work.module_agenda_agenda_id_agenda = :agendaId)'
+    	  . ' LEFT JOIN module_cahierdetextes_travail2eleve ON (module_cahierdetextes_travail.id = module_cahierdetextes_travail2eleve.module_cahierdetextes_travail_id)'
+      	. ' WHERE module_agenda_work.module_cahierdetextes_travail_id = module_cahierdetextes_travail.id'
+      	. ' AND module_cahierdetextes_travail2eleve.kernel_bu_eleve_idEleve = :eleveId'
+      	. ' AND module_cahierdetextes_travail.supprime = 0'
+      	. ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_A_FAIRE
+      	. ' AND module_cahierdetextes_travail.date_realisation >= :dateDebut'
+      	. ' AND module_cahierdetextes_travail.date_realisation <= :dateFin'
+      	. ' GROUP BY module_cahierdetextes_travail.date_realisation';
+        
+    	$results = _doQuery($sql, array('dateDebut' => $dateDebutSemaine, 'dateFin' => $dateFinSemaine, 'agendaId' => $agendaId, 'eleveId' => $eleveId));
+      
+      foreach ($results as $result) {
+    	  
+    	  $arTravauxParJour[$result->date_realisation] = $result;
+    	}
+  	}
+  	// Classe
+  	elseif ($agendaLevel == PROFILE_CCV_ADMIN) {
+  	  
+    	$sql = 'SELECT count(module_cahierdetextes_travail.id) as count, module_agenda_work.module_agenda_agenda_id_agenda as id_agenda, "'.$nodeType.'" as node_type, '.$nodeId.' as node_id, module_cahierdetextes_travail.date_realisation as date_realisation'
+    	  . ' FROM module_cahierdetextes_travail'
+    	  . ' LEFT JOIN module_agenda_work ON (module_agenda_work.module_agenda_agenda_id_agenda = :agendaId)'
+    	  . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
+    	  . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:nodeId'
+      	. ' AND module_agenda_work.module_cahierdetextes_travail_id = module_cahierdetextes_travail.id'
+      	. ' AND module_cahierdetextes_travail.supprime = 0'
+      	. ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_A_FAIRE
+      	. ' AND module_cahierdetextes_travail.date_realisation >= :dateDebut'
+      	. ' AND module_cahierdetextes_travail.date_realisation <= :dateFin'
+      	. ' GROUP BY module_cahierdetextes_travail.date_realisation';
+      	
+    	$results = _doQuery($sql, array('dateDebut' => $dateDebutSemaine, 'dateFin' => $dateFinSemaine, 'nodeId' => $nodeId, 'agendaId' => $agendaId));
+    	
+    	foreach ($results as $result) {
+    	  
+    	  $arTravauxParJour[$result->date_realisation] = $result;
+    	}
+  	}
+  	
+  	return $arTravauxParJour;
+	}
+	
+	/**
+   * Retourne les travaux en classe pour un agenda et une période de date donnés
+   *
+   * @param int     $agendaId           Identifiant de l'agenda
+   * @param string  $dateDebutSemaine   Date de début (YYYYmmdd)
+   * @param string  $dateFinSemaine     Date de fin   (YYYYmmdd)
+   * @param string  $nodeType           Type du node de l'agenda
+   * @param int     $nodeId             Id du node de l'agenda
+   * @param int     $agendaLevel        Level de l'utilisateur sur l'agenda
+   *
+   * @return array
+   */
+	public function findTravauxEnClasseByAgendaParJour($agendaId, $dateDebutSemaine, $dateFinSemaine, $nodeType, $nodeId, $agendaLevel) {
+	  
+  	$arTravauxParJour = array();
+  	$dateService  = new DateService;
+  	$dateCourante = $dateDebutSemaine;
+  	
+  	while ($dateCourante <= $dateFinSemaine) {
+  	  
+  	  $arTravauxParJour[$dateCourante] = '';
+  	  
+  	  $dateCourante = $dateService->addToDate($dateService->dateBddToDateFr($dateCourante), 1, 0, 0, '/');
+			$dateCourante = $dateService->dateFrToDateBdd($dateCourante);
+  	}
+  	
+  	// Eleve
+  	if ($agendaLevel == PROFILE_CCV_WRITE) {
+
+    	$sql = 'SELECT count(module_cahierdetextes_travail.id) as count, module_agenda_work.module_agenda_agenda_id_agenda as id_agenda, "'.$nodeType.'" as node_type, '.$nodeId.' as node_id, module_cahierdetextes_travail.date_creation as date_creation, module_cahierdetextes_domaine.nom'
+    	  . ' FROM module_cahierdetextes_travail'
+    	  . ' LEFT JOIN module_agenda_work ON (module_agenda_work.module_agenda_agenda_id_agenda = :agendaId)'
+    	  . ' LEFT JOIN module_cahierdetextes_travail2eleve ON (module_cahierdetextes_travail.id = module_cahierdetextes_travail2eleve.module_cahierdetextes_travail_id)'
+    	  . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
+      	. ' WHERE module_agenda_work.module_cahierdetextes_travail_id = module_cahierdetextes_travail.id'
+      	. ' AND module_cahierdetextes_travail2eleve.kernel_bu_eleve_idEleve=:idEleve'
+      	. ' AND module_cahierdetextes_travail.supprime = 0'
+      	. ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_EN_CLASSE
+      	. ' AND module_cahierdetextes_travail.date_creation >= :dateDebut'
+      	. ' AND module_cahierdetextes_travail.date_creation <= :dateFin'
+      	. ' GROUP BY module_cahierdetextes_travail.id';
+        
+    	$results = _doQuery($sql, array('dateDebut' => $dateDebutSemaine, 'dateFin' => $dateFinSemaine, 'idEleve' => _currentUser()->getExtra('id'), 'agendaId' => $agendaId));
+      
+      foreach ($results as $result) {
+    	  
+    	  $arTravauxParJour[$result->date_creation][] = $result;
+    	}		
+  	}
+  	// Parent
+  	elseif ($agendaLevel == PROFILE_CCV_NONE 
+  	  && _currentUser()->getExtra('type') == 'USER_RES') {
+
+  	  $myNode = CopixSession::get('myNode');
+      $eleveId = $myNode['type'] == "USER_ELE" ? $myNode['id'] : null;
+  	  
+  	  $sql = 'SELECT count(module_cahierdetextes_travail.id) as count, module_agenda_work.module_agenda_agenda_id_agenda as id_agenda, "'.$nodeType.'" as node_type, '.$nodeId.' as node_id, module_cahierdetextes_travail.date_creation as date_creation, module_cahierdetextes_domaine.nom'
+    	  . ' FROM module_cahierdetextes_travail'
+    	  . ' LEFT JOIN module_agenda_work ON (module_agenda_work.module_agenda_agenda_id_agenda = :agendaId)'
+    	  . ' LEFT JOIN module_cahierdetextes_travail2eleve ON (module_cahierdetextes_travail.id = module_cahierdetextes_travail2eleve.module_cahierdetextes_travail_id)'
+    	  . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
+      	. ' WHERE module_agenda_work.module_cahierdetextes_travail_id = module_cahierdetextes_travail.id'
+      	. ' AND module_cahierdetextes_travail2eleve.kernel_bu_eleve_idEleve = :eleveId'
+      	. ' AND module_cahierdetextes_travail.supprime = 0'
+      	. ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_EN_CLASSE
+      	. ' AND module_cahierdetextes_travail.date_creation >= :dateDebut'
+      	. ' AND module_cahierdetextes_travail.date_creation <= :dateFin'
+      	. ' GROUP BY module_cahierdetextes_travail.id';
+        
+    	$results = _doQuery($sql, array('dateDebut' => $dateDebutSemaine, 'dateFin' => $dateFinSemaine, 'agendaId' => $agendaId, 'eleveId' => $eleveId));
+      
+      foreach ($results as $result) {
+    	  
+    	  $arTravauxParJour[$result->date_creation][] = $result;
+    	}
+  	}
+  	// Classe
+  	elseif ($agendaLevel == PROFILE_CCV_ADMIN) {
+  	  
+    	$sql = 'SELECT count(module_cahierdetextes_travail.id) as count, module_agenda_work.module_agenda_agenda_id_agenda as id_agenda, "'.$nodeType.'" as node_type, '.$nodeId.' as node_id, module_cahierdetextes_travail.date_creation as date_creation, module_cahierdetextes_domaine.nom'
+    	  . ' FROM module_cahierdetextes_travail'
+    	  . ' LEFT JOIN module_agenda_work ON (module_agenda_work.module_agenda_agenda_id_agenda = :agendaId)'
+    	  . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
+    	  . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:nodeId'
+      	. ' AND module_agenda_work.module_cahierdetextes_travail_id = module_cahierdetextes_travail.id'
+      	. ' AND module_cahierdetextes_travail.supprime = 0'
+      	. ' AND module_cahierdetextes_travail.a_faire = '.self::TYPE_EN_CLASSE
+      	. ' AND module_cahierdetextes_travail.date_creation >= :dateDebut'
+      	. ' AND module_cahierdetextes_travail.date_creation <= :dateFin'
+      	. ' GROUP BY module_cahierdetextes_travail.id';
+      	
+    	$results = _doQuery($sql, array('dateDebut' => $dateDebutSemaine, 'dateFin' => $dateFinSemaine, 'nodeId' => $nodeId, 'agendaId' => $agendaId));
+    	
+    	foreach ($results as $result) {
+    	  
+    	  $arTravauxParJour[$result->date_creation][] = $result;
+    	}
+  	}
+  	
+  	return $arTravauxParJour;
+	}
 }

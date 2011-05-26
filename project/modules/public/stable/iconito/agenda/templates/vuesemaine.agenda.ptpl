@@ -3,11 +3,12 @@
 _classInclude ("agenda|dateservices");
 _classInclude ("agenda|agendaservices");
 _classInclude ("agenda|agendatype");
-
+_classInclude ("cahierdetextes|cahierdetextesservices");
 
 $serviceDate   = new DateService;
 $serviceAgenda = new AgendaService;
 $serviceType   = new AgendaType;
+$serviceCahierDeTextes = new CahierDeTextesServices;
 
 //année et semaine courante
 $html  = '<div id="situ_semaine">';
@@ -57,8 +58,7 @@ $html .= '<td class="journee">' . CopixI18N::get ('agenda|agenda.message.journee
 $decalage = 0;
 
 //quand un évènnement se déroule sur la journée, on l'affiche en haut de la colonne
-foreach((array)$arEventByDay as $jours){
-
+foreach((array)$arEventByDay as $key => $jours){
 	$html .= '<td class="elements_journee">';
 	$html .= '<table border="0" cellspacing="0" cellpadding="0">';
 	if (isset($jours->events)) {
@@ -115,14 +115,40 @@ foreach((array)$arEventByDay as $jours){
 			}
 		}
 	}
+	
+	// Affichage des travaux en classe
+	if (isset($arTravauxEnClasse[$key])) {
+	  
+	  foreach ($arTravauxEnClasse[$key] as $idAgenda => $travaux) {
+	    
+	    if ($travaux != '') {
+	      
+	      foreach ($travaux as $travail) {
+	        
+	        $html .= '<tr><td>';
+        	  $arColor = $serviceType->getColors($serviceAgenda->getTypeAgendaByIdAgenda($idAgenda));
+        		$color = $arColor[0];
+
+        	  if ($travail != '') {
+
+        	    $html .= '<a href="'.$serviceCahierDeTextes->makeVueJourUrl($agenda2cahier[$travail->id_agenda], $key, $travail->node_type, $travail->node_id).'" style="display: block; border: solid 1px #ccc; margin-left:4px; width:105px ; z-index:100; background-color: #'.$color.'">';
+
+          	  $html .= substr($travail->nom, 0, 10) . '...';
+
+          	  $html .= '</a>';
+        	  }
+        	  $html .= '</td></tr>';
+        	}
+	      }
+	    } 
+	}
+	
 	$html .= '</table>';
 	$html .= '</td>';
 }
-
+ 
 $html .= '</tr>';
-
 $html .= '<tr>';
-
 $html .= '<td class=""><table border="0"><tr><td>'; //' . $heure_deb . ':00'
 //$html .= '<td class="">'; //' . $heure_deb . ':00'
 
@@ -316,19 +342,49 @@ if ($readLecon || $writeLecon){
   ';
 }
 
+// Ligne des travaux à faire
+$html .= '<tr>';
+$html .= '<td class="travail">'.CopixI18N::get ('agenda|agenda.message.travaux').'</td>';
+foreach($arTravauxAFaire as $date => $travaux){
+  
+	$html .= '<td class="texte_travaux">';
+	$html .= '<table>';
+	foreach ($travaux as $idAgenda => $travail) {
+	  
+	  $arColor = $serviceType->getColors($serviceAgenda->getTypeAgendaByIdAgenda($idAgenda));
+		$color = $arColor[0];
+	  $html .= '<tr><td>';
+	  if ($travail != '') {
+	    
+	    $html .= '<a href="'.$serviceCahierDeTextes->makeVueJourUrl($agenda2cahier[$idAgenda], $date, $travail->node_type, $travail->node_id).'" style="display: block; border: solid 1px #ccc; margin-left:4px; width:105px ; z-index:100; background-color: #'.$color.'">';
+
+  	  switch ($travail->count) {
+    	  case 1:
+    	    $html .= CopixI18N::get ('agenda|agenda.message.unTravailAFaire');
+    	    break;
+    	  default:
+    	    $html .= CopixI18N::get ('agenda|agenda.message.xTravauxAFaire', array('count' => $travail->count));
+    	    break;
+    	}
+
+  	  $html .= '</a>';
+	  }
+	  else {
+	    
+	    $html .= CopixI18N::get ('agenda|agenda.message.aucunTravailAFaire');
+	  }
+	  
+	  $html .= '</td></tr>';
+	}
+	$html .= '</table></td>';
+}
+$html .= '</tr>';
+
+
 $html .= '</tbody>';
 $html .= '</table>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p>&nbsp;</p>
-
-
-
-
-
-
-
-
-';
+<p>&nbsp;</p>';
 echo $html;
 ?>

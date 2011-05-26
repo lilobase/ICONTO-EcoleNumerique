@@ -20,6 +20,8 @@ jQuery(document).ready(function($){
 	$('#doinsert').click (function() {
 		var domode = $('#options input[name="mode"]:checked').val();
 		$('#malle :checked').each( function() {
+		  doid = $(this).parent('.malle-table-action').children('input[name="item-id"]').val();
+		  doname = $(this).parent('.malle-table-action').children('input[name="item-name"]').val();
 			dofile = $(this).parent('.malle-table-action').children('input[name="item-file"]').val();
 			dofield = $(this).parent('.malle-table-action').children('input[name="item-field"]').val();
 			doformat = $(this).parent('.malle-table-action').children('input[name="item-format"]').val();
@@ -27,7 +29,7 @@ jQuery(document).ready(function($){
 			dovurl = $(this).parent('.malle-table-action').children('input[name="item-vurl"]').val();
 			doerr = $(this).parent('.malle-table-action').children('input[name="item-err"]').val();
 //			console.log("---" + dofile + "," + dofield + "," + doformat + "," + dodurl + "," + dovurl + "," + doerr);
-			insertDocument (domode, dofile, dofield, doformat, dodurl, dovurl, doerr);
+			insertDocument (domode, dofile, dofield, doformat, dodurl, dovurl, doerr, doid, doname);
 		});
 		parent.jQuery.fancybox.close();
 	});
@@ -121,6 +123,8 @@ jQuery(document).ready(function($){
 			{$item->taille|human_file_size}
 		</td>
 		<td class="malle-table-action">
+		  <input type="hidden" name="item-id" value="{$item->id}"/>
+		  <input type="hidden" name="item-name" value="{$item->nom|escape}"/>
 			<input type="hidden" name="item-file" value="{$file}"/>
 			<input type="hidden" name="item-field" value="{$field}"/>
 			<input type="hidden" name="item-format" value="{$format}"/>

@@ -43,6 +43,7 @@
           </div>
         {/if}
         
+        {copixzone process=cahierdetextes|affichageFichiers nodeType=memo nodeId=$memo->id} 
       </div>
     {/foreach}
   {else}

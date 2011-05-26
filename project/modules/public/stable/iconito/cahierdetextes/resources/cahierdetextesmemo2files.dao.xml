@@ -7,9 +7,25 @@
     </tables>
   </datasource>
   <properties>
-    <property name="memo_id" fieldname="module_cahierdetextes_memo_id" type="integer" pk="yes"/>
-    <property name="file_id" fieldname="module_malle_files_id" type="integer" pk="yes"/>
+    <property name="memo_id" fieldname="module_cahierdetextes_memo_id" type="integer" required="yes" pk="yes"/>
+    <property name="file_id" fieldname="module_malle_files_id" type="integer" required="yes" pk="yes"/>
   </properties>
   <methods>
+    <method name="retrieveByMemo" type="select">
+      <parameters>
+         <parameter name="memoId" />
+      </parameters>
+      <conditions>
+         <condition property="memo_id" operator="=" value="$memoId" />
+      </conditions>
+    </method>
+    <method name="deleteByMemo" type="delete">
+        <parameters>
+           <parameter name="memoId" />
+        </parameters>
+        <conditions>
+           <condition property="memo_id" operator="=" value="$memoId" />
+        </conditions>
+     </method>
   </methods>
 </daodefinition>
