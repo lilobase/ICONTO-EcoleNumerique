@@ -44,6 +44,7 @@ div.dashboard div.content {
 #cahierdetextes a img {
 	border:0;
 }
+#cahierdetextes .memos-list .memo p.right {margin-bottom:10px;}
 #cahierdetextes a.openTextEnd, #cahierdetextes a.closeTextEnd { 
 	padding:5px 5px 5px 28px; border:1px solid #ddd;
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
@@ -92,6 +93,7 @@ div.dashboard div.content {
 }
 #cahierdetextes #dayView h3 {
 	margin:10px 0 0;
+	color:#333;
 	font-size:1.5rem; font-weight:normal;
 	text-transform:uppercase;
 	line-height:1;
@@ -282,7 +284,8 @@ div.dashboard div.content {
 #cahierdetextes #submenu .studentMenu ul li a {
 	padding:2px 3px;
 	width:auto;
-	background-image:none;
+	background-image:none; color:#fff;
+	font-weight:bold;
 	text-align:center;
 }
 #cahierdetextes #submenu .studentMenu ul li.prev-week, 
@@ -295,6 +298,13 @@ div.dashboard div.content {
 	width:65px;
 	background:url(../../../themes/default/images/menu_article.png) no-repeat 2px 50%;
 }
+#cahierdetextes #submenu .studentMenu ul li a.monday {background-color:#EE8F00;}
+#cahierdetextes #submenu .studentMenu ul li a.tuesday {background-color:#69CA3F;}
+#cahierdetextes #submenu .studentMenu ul li a.wednesday {background-color:#47A398;}
+#cahierdetextes #submenu .studentMenu ul li a.thursday {background-color:#A13C0A;}
+#cahierdetextes #submenu .studentMenu ul li a.friday {background-color:#813384;}
+#cahierdetextes #submenu .studentMenu ul li a.saturday {background-color:#0967CC;}
+#cahierdetextes #submenu .studentMenu ul li a.current {border-color:#000; color:#eee;}
 /* End Navigation */
 
 
@@ -351,6 +361,7 @@ div.dashboard div.content {
 }
 #cahierdetextes #domain_creation #nom {width:65%;}
 #cahierdetextes #domain_creation input {margin:0 5px 0 0;}
+#cahierdetextes #domain_creation input.updateDomain {border-color:#bad521;}
 #cahierdetextes #list_filter {
 	margin:10px 0; padding:5px; border:1px solid #fff;
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;

@@ -20,7 +20,7 @@
   <input type="hidden" name="annee" id="annee" value="{$ppo->annee}" />
     
     <label for="nom">{i18n key="cahierdetextes.message.domain"}</label>
-    <input class="form" type="text" name="nom" id="nom" value="{$ppo->domaine->nom}" />
+    <input {if $ppo->domaine->id neq null}class="updateDomain"{/if} type="text" name="nom" id="nom" value="{$ppo->domaine->nom}" />
   
   <input class="button {if $ppo->domaine->id neq null}button-update{else}button-add{/if}" type="submit" name="save" id="save" value="{if $ppo->domaine->id neq null}{i18n key="cahierdetextes.message.save"}{else}{i18n key="cahierdetextes.message.addDomain"}{/if}" />
 </form>
