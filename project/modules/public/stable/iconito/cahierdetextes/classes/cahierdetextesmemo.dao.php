@@ -78,8 +78,7 @@ class DAOCahierDeTextesMemo {
   	  . ' WHERE module_cahierdetextes_memo2eleve.kernel_bu_eleve_idEleve=:idEleve'
   	  . ' AND cahierdetextesmemo.supprime = 0'
   	  . ' AND cahierdetextesmemo.avec_signature = 1'
-  	  . ' AND module_cahierdetextes_memo2eleve.signe_le IS NULL'
-      . ' GROUP BY cahierdetextesmemo.id';
+  	  . ' AND module_cahierdetextes_memo2eleve.signe_le IS NULL';
       
     $results = _doQuery ($sql, array(':idEleve' => $idEleve));
     
