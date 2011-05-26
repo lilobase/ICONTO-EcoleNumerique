@@ -2,6 +2,10 @@
 <div id="dayView">
     <h2>{$ppo->dateSelectionnee|datei18n:text}</h2>
     
+    {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+      {copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}
+    {/if}
+    
     {if $ppo->success}
       <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
     {/if}

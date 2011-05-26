@@ -25,6 +25,10 @@
   <input type="submit" class="button button-next" value="{i18n key="cahierdetextes.message.seeWorks"}" />
 </form>
 
+{if !$ppo->estAdmin}
+  {copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}
+{/if}
+
 <div class="works">
   {foreach from=$ppo->travaux key=domaine item=travauxParDomaine}
     <h2>{$domaine}</h2>

@@ -494,7 +494,9 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->travail->date_creation     = _request ('travail_date_creation', null);
         $ppo->travail->date_realisation  = _request ('travail_date_realisation', null);
 
-        foreach($ppo->fichiers as $fichierId) {
+        $fichiersId = $ppo->fichiers;
+        $ppo->fichiers = array();
+        foreach($fichiersId as $fichierId) {
 
           if ($fichier = $fichiersDAO->get($fichierId)) {
             
@@ -850,7 +852,9 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->memo->date_validite       = _request ('memo_date_validite', null);
         $ppo->memo->date_max_signature  = _request ('memo_date_max_signature', null);
         
-        foreach($ppo->fichiers as $fichierId) {
+        $fichiersId = $ppo->fichiers;
+        $ppo->fichiers = array();
+        foreach($fichiersId as $fichierId) {
 
           if ($fichier = $fichiersDAO->get($fichierId)) {
             

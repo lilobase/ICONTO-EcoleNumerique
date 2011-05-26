@@ -2,6 +2,10 @@
 
 <h2>{i18n key="cahierdetextes.message.memos"}</h2>
 
+{if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
+  {copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}
+{/if}
+
 {if $ppo->success}
   <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
 {/if}
