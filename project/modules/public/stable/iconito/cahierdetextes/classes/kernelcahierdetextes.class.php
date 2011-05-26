@@ -13,14 +13,19 @@ class KernelCahierDeTextes {
 	 * Renvoie son ID ou NULL si erreur
 	*/
 	function create () {
-		$return = NULL;
+		
+		$return = null;
+		
 		$dao = _dao("cahierdetextes|cahierdetextes");
 		$new = _record("cahierdetextes|cahierdetextes");
+		
 		$dao->insert ($new);
-		if ($new->id!==NULL) {
+		
+		if ($new->id !== null) {
 
-				$return = $new->id;
+			$return = $new->id;
 		}
+		
 		return $return;
 	}
 }
