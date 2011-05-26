@@ -71,6 +71,20 @@ CREATE TABLE IF NOT EXISTS `module_cahierdetextes_memo2eleve` (
 -- Structure de la table `module_cahierdetextes_memo2files`
 --
 
+CREATE TABLE IF NOT EXISTS `module_agenda_work` (
+  `module_cahierdetextes_travail_id` int(11) NOT NULL,
+  `module_agenda_agenda_id_agenda` int(11) NOT NULL,
+  PRIMARY KEY  (`module_cahierdetextes_travail_id`,`module_agenda_agenda_id_agenda`),
+  KEY `fk_travail` (`module_cahierdetextes_travail_id`),
+  KEY `fk_agenda` (`module_agenda_agenda_id_agenda`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_memo2files`
+--
+
 CREATE TABLE IF NOT EXISTS `module_cahierdetextes_memo2files` (
   `module_cahierdetextes_memo_id` int(11) NOT NULL,
   `module_malle_files_id` int(11) NOT NULL,
