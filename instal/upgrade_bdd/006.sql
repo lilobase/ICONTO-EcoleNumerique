@@ -1,6 +1,20 @@
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 SET CHARACTER SET 'utf8';
 
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_agenda_work`
+--
+
+CREATE TABLE IF NOT EXISTS `module_agenda_work` (
+  `module_cahierdetextes_travail_id` int(11) NOT NULL,
+  `module_agenda_agenda_id_agenda` int(11) NOT NULL,
+  PRIMARY KEY  (`module_cahierdetextes_travail_id`,`module_agenda_agenda_id_agenda`),
+  KEY `fk_travail` (`module_cahierdetextes_travail_id`),
+  KEY `fk_agenda` (`module_agenda_agenda_id_agenda`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 -- --------------------------------------------------------
 
 --
@@ -10,7 +24,7 @@ SET CHARACTER SET 'utf8';
 CREATE TABLE IF NOT EXISTS `module_cahierdetextes` (
   `id` int(11) NOT NULL auto_increment,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES
 ('BU_CLASSE', 'MOD_CAHIERDETEXTES'),
@@ -28,7 +42,7 @@ CREATE TABLE IF NOT EXISTS `module_cahierdetextes_domaine` (
   `nom` varchar(64) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `fk_classe` (`kernel_bu_ecole_classe_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -47,7 +61,7 @@ CREATE TABLE IF NOT EXISTS `module_cahierdetextes_memo` (
   `supprime` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `fk_classe` (`kernel_bu_ecole_classe_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -63,20 +77,6 @@ CREATE TABLE IF NOT EXISTS `module_cahierdetextes_memo2eleve` (
   PRIMARY KEY  (`module_cahierdetextes_memo_id`,`kernel_bu_eleve_idEleve`),
   KEY `fk_memo` (`module_cahierdetextes_memo_id`),
   KEY `fk_eleve` (`kernel_bu_eleve_idEleve`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_cahierdetextes_memo2files`
---
-
-CREATE TABLE IF NOT EXISTS `module_agenda_work` (
-  `module_cahierdetextes_travail_id` int(11) NOT NULL,
-  `module_agenda_agenda_id_agenda` int(11) NOT NULL,
-  PRIMARY KEY  (`module_cahierdetextes_travail_id`,`module_agenda_agenda_id_agenda`),
-  KEY `fk_travail` (`module_cahierdetextes_travail_id`),
-  KEY `fk_agenda` (`module_agenda_agenda_id_agenda`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS `module_cahierdetextes_travail` (
   `supprime` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `fk_domaine` (`module_cahierdetextes_domaine_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
