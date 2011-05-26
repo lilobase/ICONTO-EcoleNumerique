@@ -26,8 +26,8 @@ jQuery(document).ready(function($){
 		content = content.replace(/<.+?>/g,'');
 		if (content.length > 100)
 		{
-			// On coupe au prochain espace suivant les 50 premiers caractères pour ne pas couper de mot
-			//content = content.match(/^.{50}\S*/m);
+			// On coupe au prochain espace suivant les 120 premiers caractères pour ne pas couper de mot
+			//content = content.match(/^.{120}\S*/m);
 			var pos = content.indexOf(' ', 120); 
 			if (pos) content = content.substring(0, pos + 1);
 			$(this).children('a').html(content+' (...)');
@@ -108,6 +108,54 @@ jQuery(document).ready(function($){
 		if ($(this).val() == '')
 			$(this).prev('label').show();
 	});
+	
+	
+	/**********************************************************************/
+	/*  Traitement des blocs de textes long  */
+	/**********************************************************************/
+	jQuery.fn.extend({
+		hideTooLongText : function()
+		{
+			var content = this.html();
+			if (content.length > 100)
+			{
+				var pos = content.indexOf('</p>', 100); 
+				if (pos) 
+				{
+					contentBegin = content.substring(0, pos + 5);
+					contentEnd = content.substring(pos +5);
+					if (contentEnd.length > 0)
+						this.html(contentBegin+' <p class="right"><a href="#" class="openTextEnd">Voir la suite</a></p><div class="textEnd">'+contentEnd+'</div>');
+					
+				}
+				
+			}
+		}
+	});
+	
+	// Pour les mémos
+	$('#cahierdetextes div.memo .memoMesg').each(function() {$(this).hideTooLongText();});
+	$('#cahierdetextes .workDescription').each(function() {$(this).hideTooLongText();});
+	
+	$('.openTextEnd').click(function () {
+		$(this).parent().next('.textEnd').slideToggle();
+		if ($(this).hasClass('openTextEnd'))
+		{
+			$(this).removeClass('openTextEnd').addClass('closeTextEnd');
+			$(this).html('Masquer');
+		}
+		else
+		{
+			$(this).removeClass('closeTextEnd').addClass('openTextEnd');
+			$(this).html('Voir la suite');
+		}
+		return false;
+	});
+	
+	
+	$('.textEnd').hide();
+	
+	
 	
 	
 	/**********************************************************************/

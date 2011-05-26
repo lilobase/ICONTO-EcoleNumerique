@@ -44,7 +44,7 @@
         {foreach from=$travauxParType item=travail}
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
             <th>{$travail->nom}</th>
-            <td>{$travail->description}</td>
+            <td><div class="workDescription">{$travail->description}</div></td>
             <td>-</td>
             {if $ppo->estAdmin}
               <td class="center actions">

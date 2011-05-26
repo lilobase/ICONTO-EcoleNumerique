@@ -44,6 +44,13 @@ div.dashboard div.content {
 #cahierdetextes a img {
 	border:0;
 }
+#cahierdetextes a.openTextEnd, #cahierdetextes a.closeTextEnd { 
+	padding:5px 5px 5px 28px; border:1px solid #ddd;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:none no-repeat 3px 50% #fff;
+}
+#cahierdetextes a.openTextEnd { background-image:url(../../../themes/default/images/action_down.png);}
+#cahierdetextes a.closeTextEnd { background-image:url(../../../themes/default/images/action_up.png);}
 /* End global */
 
 
@@ -62,6 +69,7 @@ div.dashboard div.content {
 #cahierdetextes .work {
 	margin:0 0 10px; padding:3px 5px; border:1px solid #eee;
 }
+
 #cahierdetextes .classroom-works-list p.no-work, 
 #cahierdetextes .todo-works-list p.no-work {margin-bottom:10px;}
 #cahierdetextes h4 span {
@@ -285,7 +293,7 @@ div.dashboard div.content {
 #cahierdetextes #submenu .studentMenu ul li a.article {
 	padding:2px 2px 2px 28px;
 	width:65px;
-	background:url(../../../themes/default/images/menu_article.png) no-repeat 02px 50%;
+	background:url(../../../themes/default/images/menu_article.png) no-repeat 2px 50%;
 }
 /* End Navigation */
 
@@ -294,9 +302,10 @@ div.dashboard div.content {
 #cahierdetextes form fieldset {
 	float:left;
 	padding:0; border:none;
+	max-width:450px;
 }
 #cahierdetextes form fieldset.concernedList {
-	margin-left:20px;
+	margin-left:15px;
 	width:310px;
 }
 #cahierdetextes form fieldset.concernedList h3 {

@@ -21,7 +21,7 @@
           </span>
           {/if}
         {$memo->date_creation|datei18n:text}</p>
-        {$memo->message}
+        <div class="memoMesg">{$memo->message}</div>
         
         {if $memo->avec_signature}
           <div class="signature">

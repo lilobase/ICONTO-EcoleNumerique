@@ -55,7 +55,7 @@
                 {$travail->date_creation|datei18n:text}
               {/if}
             </th>
-            <td>{$travail->description}</td>
+            <td><div class="workDescription">{$travail->description}</div></td>
             <td>-</td>
             {if $ppo->estAdmin}
               <td class="center actions">
