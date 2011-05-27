@@ -4,7 +4,6 @@
     <table class="classic">
       <thead>
         <tr>
-          <th>{i18n key="cahierdetextes.message.account"}</th>
           <th>{i18n key="cahierdetextes.message.name"}</th>
           <th>{i18n key="cahierdetextes.message.firstname"}</th>
           <th>{i18n key="cahierdetextes.message.level"}</th>
@@ -15,7 +14,6 @@
         {assign var=index value=1}
         {foreach from=$ppo->eleves item=eleve}
           <tr class="{if $index%2 eq 0}odd{else}even{/if} {$eleve->niveau_court}">
-            <td>{$eleve->login}</td>
             <td><label for="eleve{$eleve->idEleve}">{$eleve->nom}</label></td>
             <td><label for="eleve{$eleve->idEleve}">{$eleve->prenom1}</label></td>
             <td class="center">{$eleve->niveau_court}</td>

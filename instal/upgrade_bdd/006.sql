@@ -5,6 +5,13 @@ SET CHARACTER SET 'utf8';
 -- --------------------------------------------------------
 
 --
+-- 27/05/11 - Champ "date_validite" d'un mémo obligatoire
+--
+
+ALTER TABLE `module_cahierdetextes_memo` CHANGE `date_validite` `date_validite` VARCHAR( 14 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL 
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_agenda_work`
 --
 
