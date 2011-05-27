@@ -18,7 +18,7 @@ class ZoneDashboardGrTravail extends enicZone {
         //transform in UTF8
         $descDatas = utf8_encode($descDatas);
 
-        $nbUsersInGroup = $this->model->query('SELECT COUNT(user_id) FROM kernel_link_user2node WHERE node_id = '.$idZone)->toInt();
+        $nbUsersInGroup = $this->model->query('SELECT COUNT(user_id) FROM kernel_link_user2node WHERE node_type=\'CLUB\' AND node_id = '.$idZone)->toInt();
         $tagsLink = $this->service('groupe|tagService')->createLinkForGroup($idZone);
         $tpl->assign('desc', $descDatas);
         $tpl->assign('nbUsers', $nbUsersInGroup);
