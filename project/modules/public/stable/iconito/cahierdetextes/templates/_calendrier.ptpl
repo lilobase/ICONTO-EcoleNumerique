@@ -58,7 +58,7 @@
     
     $html .= '<td class="';
     ($numjour == $ppo->jour and $html .= 'selected ');
-    $html .= count($ppo->travaux[$numjour]) == 0 ? 'no-work' : 'with-work';
+    $html .= count($ppo->travaux[sprintf("%02d", $numjour)]) == 0 ? 'no-work' : 'with-work';
     
     // Lien sur le jour
     if (!is_null($ppo->eleve)) {

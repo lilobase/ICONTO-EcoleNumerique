@@ -103,7 +103,7 @@
         <a href="{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
       {/if}
     {/if}
-      <input class="button button-cancel" type="button" name="cancel" id="cancel" value="{i18n key="cahierdetextes.message.cancel"}" />
+      <span class="button button-cancel" class="cancel" id="cancel">{i18n key="cahierdetextes.message.cancel"}</span>
     </a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" />
   </div>

@@ -66,7 +66,7 @@
     {else}
     <a href="{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
     {/if}
-      <input class="button button-cancel" type="button" name="cancel" id="cancel" value="{i18n key="cahierdetextes.message.cancel"}" />
+      <span class="button button-cancel" id="cancel">{i18n key="cahierdetextes.message.cancel"}</span>
     </a>
     <input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" />
   </div>

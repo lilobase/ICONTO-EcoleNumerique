@@ -117,7 +117,8 @@ class ActionGroupAgenda extends CopixActionGroup {
 		// On récupère les travaux de la semaine par agenda
 		$travailDAO = _ioDAO('cahierdetextes|cahierdetextestravail');
 		
-		$arTravaux = array();
+		$arTravauxEnClasse = array();
+		$arTravauxAFaire   = array();
 		foreach ($params->agendas as $agendaId) {
 		  
 		  $agendaInfos    = Kernel::getModParentInfo ('MOD_AGENDA', $agendaId);
