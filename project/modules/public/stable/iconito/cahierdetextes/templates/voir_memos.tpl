@@ -51,7 +51,10 @@
         {copixzone process=cahierdetextes|affichageFichiers nodeType=memo nodeId=$memo->id} 
       </div>
     {/foreach}
-    {$ppo->pager}
+    
+    {if $ppo->pager neq null}
+      {$ppo->pager}
+    {/if}
   {else}
     <p>{i18n key="cahierdetextes.message.noMemo"}</p>
   {/if}

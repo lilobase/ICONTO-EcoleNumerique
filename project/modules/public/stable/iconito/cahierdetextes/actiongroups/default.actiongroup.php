@@ -726,18 +726,25 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 
     // Pager
-    require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
-    
-    $params = array(
-      'perPage'    => intval(CopixConfig::get('cahierdetextes|nombre_max_memos')),
-      'delta'      => 5,
-      'recordSet'  => $memos,
-      'template'   => '|pager.tpl'
-    );
-    
-    $pager = CopixPager::Load($params);
-    $ppo->pager = $pager->GetMultipage();
-    $ppo->memos = $pager->data;
+    if (count($memos) > CopixConfig::get('cahierdetextes|nombre_max_memos')) {
+      
+      require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
+
+      $params = array(
+        'perPage'    => intval(CopixConfig::get('cahierdetextes|nombre_max_memos')),
+        'delta'      => 5,
+        'recordSet'  => $memos,
+        'template'   => '|pager.tpl'
+      );
+
+      $pager = CopixPager::Load($params);
+      $ppo->pager = $pager->GetMultipage();
+      $ppo->memos = $pager->data;
+    }
+    else {
+      
+      $ppo->memos = $memos;
+    }
 	  
 	  if (CopixRequest::isMethod ('post')) {
 	    
