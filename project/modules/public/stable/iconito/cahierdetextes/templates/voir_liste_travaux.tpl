@@ -1,4 +1,4 @@
-{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee eleve=$ppo->eleve current=voirListeTravaux}
+{copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee eleve=$ppo->eleve current=voirListeTravaux vue="liste"}
 
 {if $ppo->success}
   <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>

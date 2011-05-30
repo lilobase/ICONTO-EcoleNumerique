@@ -84,11 +84,11 @@
   </div>
   
   <div class="submit">
-    {if $ppo->vue eq "jour"}
+    {if $ppo->vue eq "liste"}
       {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
-        <a href="{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
+        <a href="{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
       {else}
-        <a href="{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+        <a href="{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
       {/if}
     {elseif $ppo->vue eq "domaine"}
       {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
@@ -98,9 +98,9 @@
       {/if}
     {else}
       {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
-        <a href="{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
+        <a href="{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
       {else}
-        <a href="{copixurl dest=cahierdetextes||voirListeTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+        <a href="{copixurl dest=cahierdetextes||voirTravaux cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
       {/if}
     {/if}
       <span class="button button-cancel" class="cancel" id="cancel">{i18n key="cahierdetextes.message.cancel"}</span>
