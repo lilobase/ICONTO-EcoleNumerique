@@ -982,6 +982,32 @@ class ActionGroupDefault extends enicActionGroup {
 	}
 	
 	/**
+	 * Affichage pour impression d'un mémo - * Enseignant *
+	 */
+	public function processImprMemo () {
+	  
+	  $ppo = new CopixPPO ();
+	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+	  
+	  if (is_null($cahierId = _request('cahierId', null)) || !$ppo->memo = $memoDAO->get (_request('memoId', null))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
+	  
+	  // Récupération du nombre d'exemplaires nécessaires (nombre d'élèves concernés)
+	  $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+	  $ppo->count    = $memo2eleveDAO->retrieveNombreElevesConcernesParMemo($ppo->memo->id);
+
+	  return _arPPO ($ppo, 'impr_memo.tpl');
+	}
+	
+	/**
 	 * Affichage du suivi d'un mémo (élèves concernés & signatures) - * Enseignant *
 	 */
 	public function processSuiviMemo () {

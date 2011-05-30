@@ -57,4 +57,24 @@ class DAOCahierDeTextesMemo2eleve {
 	  
 	  return _doQuery ($sql, array(':idMemo' => $idMemo));
 	}
+	
+	/**
+   * Retourne le nombre d'élèves concernés par un memo
+   *
+   * @param int $idMemo
+   *
+   * @return int
+   */
+	public function retrieveNombreElevesConcernesParMemo ($idMemo) {
+	  
+	  $results = array();
+	  
+	  $sql = 'SELECT COUNT(module_cahierdetextes_memo_id) as counter' 
+      . ' FROM module_cahierdetextes_memo2eleve'
+		  . ' WHERE module_cahierdetextes_memo_id = :idMemo';
+	  
+	  $results = _doQuery ($sql, array(':idMemo' => $idMemo));
+	  
+	  return $results[0] ? $results[0]->counter : 0;
+	}
 }

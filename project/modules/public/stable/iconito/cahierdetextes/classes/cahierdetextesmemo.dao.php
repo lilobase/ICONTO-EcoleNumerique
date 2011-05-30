@@ -73,6 +73,8 @@ class DAOCahierDeTextesMemo {
    */
   public function retrieveNombreMemosNonSignesParEleve ($idEleve) {
     
+    $results = array();
+    
     $sql = 'SELECT COUNT(cahierdetextesmemo.id) as counter FROM module_cahierdetextes_memo AS cahierdetextesmemo'
   	  . ' LEFT JOIN module_cahierdetextes_memo2eleve ON (cahierdetextesmemo.id = module_cahierdetextes_memo2eleve.module_cahierdetextes_memo_id)'
   	  . ' WHERE module_cahierdetextes_memo2eleve.kernel_bu_eleve_idEleve=:idEleve'
@@ -82,6 +84,6 @@ class DAOCahierDeTextesMemo {
       
     $results = _doQuery ($sql, array(':idEleve' => $idEleve));
     
-    return $results[0]->counter;
+    return $results[0] ? $results[0]->counter : 0;
   }
 }
