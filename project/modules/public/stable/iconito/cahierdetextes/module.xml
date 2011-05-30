@@ -7,5 +7,6 @@
     <parameters>
       <parameter name="format_par_defaut" default="ckeditor" />
       <parameter name="nombre_max_vue_radio" default="5" />
+      <parameter name="nombre_max_memos" default="5" />
   	</parameters>
 </moduledefinition>

@@ -714,16 +714,30 @@ class ActionGroupDefault extends enicActionGroup {
 	  $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
 	  if ($ppo->estAdmin) {
 	    
-	    $ppo->memos = $memoDAO->findByClasse($ppo->nodeId);
+	    $memos = $memoDAO->findByClasse($ppo->nodeId);
 	  }
 	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) == PROFILE_CCV_READ) {
 	    
-	    $ppo->memos = $memoDAO->findByEleve($ppo->eleve);
+	    $memos = $memoDAO->findByEleve($ppo->eleve);
 	  }
 	  else {
 	    
-	    $ppo->memos = $memoDAO->findByEleve(_currentUser()->getExtra('id'));
+	    $memos = $memoDAO->findByEleve(_currentUser()->getExtra('id'));
 	  }
+
+    // Pager
+    require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
+    
+    $params = array(
+      'perPage'    => intval(CopixConfig::get('cahierdetextes|nombre_max_memos')),
+      'delta'      => 5,
+      'recordSet'  => $memos,
+      'template'   => '|pager.tpl'
+    );
+    
+    $pager = CopixPager::Load($params);
+    $ppo->pager = $pager->GetMultipage();
+    $ppo->memos = $pager->data;
 	  
 	  if (CopixRequest::isMethod ('post')) {
 	    
@@ -841,6 +855,10 @@ class ActionGroupDefault extends enicActionGroup {
       if ($ppo->memo->date_creation == '') {
 
         $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
+      }
+      if ($ppo->memo->date_validite == '') {
+
+        $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noRealisationDate');
       }
       if (!is_null($ppo->memo->date_validite) 
         && ($ppo->memo->date_validite < $ppo->memo->date_creation)) {
