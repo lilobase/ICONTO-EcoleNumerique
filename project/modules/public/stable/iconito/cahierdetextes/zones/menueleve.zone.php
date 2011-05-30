@@ -26,15 +26,15 @@ class ZoneMenuEleve extends CopixZone {
     $service  = new DateService;
     
     // Récupération des timestamp des jours de la semaine
-		$ppo->lun = $service->numweekToDate($numeroSemaine, $ppo->annee, 1);
-		$ppo->mar = $service->numweekToDate($numeroSemaine, $ppo->annee, 2);
-		$ppo->mer = $service->numweekToDate($numeroSemaine, $ppo->annee, 3);
-		$ppo->jeu = $service->numweekToDate($numeroSemaine, $ppo->annee, 4);
-		$ppo->ven = $service->numweekToDate($numeroSemaine, $ppo->annee, 5);
-		$ppo->sam = $service->numweekToDate($numeroSemaine, $ppo->annee, 6);
+		$ppo->lun = CopixDateTime::timestampToyyyymmdd($service->numweekToDate($numeroSemaine, $ppo->annee, 1));
+		$ppo->mar = CopixDateTime::timestampToyyyymmdd($service->numweekToDate($numeroSemaine, $ppo->annee, 2));
+		$ppo->mer = CopixDateTime::timestampToyyyymmdd($service->numweekToDate($numeroSemaine, $ppo->annee, 3));
+		$ppo->jeu = CopixDateTime::timestampToyyyymmdd($service->numweekToDate($numeroSemaine, $ppo->annee, 4));
+		$ppo->ven = CopixDateTime::timestampToyyyymmdd($service->numweekToDate($numeroSemaine, $ppo->annee, 5));
+		$ppo->sam = CopixDateTime::timestampToyyyymmdd($service->numweekToDate($numeroSemaine, $ppo->annee, 6));
 
-    $ppo->semainePrecedente = strtotime("-1 week", $ppo->lun);
-    $ppo->semaineSuivante   = strtotime("+1 week", $ppo->lun);
+    $ppo->semainePrecedente = strtotime("-1 week", $service->numweekToDate($numeroSemaine, $ppo->annee, 1));
+    $ppo->semaineSuivante   = strtotime("+1 week", $service->numweekToDate($numeroSemaine, $ppo->annee, 1));
 
     $toReturn = $this->_usePPO ($ppo, '_menu_eleve.tpl');
   }
