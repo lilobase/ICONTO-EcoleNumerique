@@ -397,12 +397,24 @@ class ActionGroupDefault extends enicActionGroup {
   	  $ppo->travail = _record ('cahierdetextes|cahierdetextestravail');
   	  
   	  $ppo->travail->a_faire  = _request ('a_faire', 0);
-    	// Travail à faire, par défaut date de réalisation = date de création + 1
+  	  
+    	// Travail à faire
+    	//  - Par défaut : date de réalisation = date de création + 1
+    	//  - Vue liste : date de réalisation = date sélectionnée / date de création = date du jour
     	if ($ppo->travail->a_faire) {
     	  
-    	  $jourSuivant = strtotime("+1 day", $ppo->dateSelectionnee);
-    	  $ppo->travail->date_realisation = date('d/m/Y', $jourSuivant);
-  	  }
+    	  $dateJour = mktime(0, 0, 0, date('m'), date('d'), date('Y'));
+    	  if ($ppo->vue == 'liste' && ($ppo->dateSelectionnee > $dateJour)) {
+  	    
+  	      $ppo->travail->date_creation = date('d/m/Y');
+      	  $ppo->travail->date_realisation = date('d/m/Y', $ppo->dateSelectionnee);
+  	    }
+  	    else {
+  	      
+  	      $jourSuivant = strtotime("+1 day", $ppo->dateSelectionnee);
+      	  $ppo->travail->date_realisation = date('d/m/Y', $jourSuivant);
+  	    }
+    	}
   	}
   	else {
   	  
