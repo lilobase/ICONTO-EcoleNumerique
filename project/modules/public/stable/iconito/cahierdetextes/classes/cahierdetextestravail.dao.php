@@ -282,7 +282,7 @@ class DAOCahierDeTextesTravail {
 	  $dateFin   = date('Ymd', strtotime('+'.$intervalle.' day', $timestamp));
 	  
 	  $sql = 'SELECT module_cahierdetextes_travail.id, module_cahierdetextes_travail.a_faire, module_cahierdetextes_travail.date_creation, '
-	    . ' module_cahierdetextes_travail.date_realisation, module_cahierdetextes_travail.description, module_cahierdetextes_domaine.nom '
+	    . ' module_cahierdetextes_travail.date_realisation, module_cahierdetextes_travail.description, module_cahierdetextes_domaine.id as idDomaine, module_cahierdetextes_domaine.nom '
 	    . ' FROM module_cahierdetextes_travail'
 	    . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
 	    . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:classeId'
@@ -306,7 +306,7 @@ class DAOCahierDeTextesTravail {
 	  
 	  foreach ($results as $result) {
 	    
-	    $toReturn[$result->nom][$result->a_faire][] = $result;
+	    $toReturn[$result->idDomaine][$result->a_faire][] = $result;
 	  }
 
 	  return $toReturn;

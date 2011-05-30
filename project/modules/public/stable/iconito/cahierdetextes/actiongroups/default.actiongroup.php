@@ -164,11 +164,13 @@ class ActionGroupDefault extends enicActionGroup {
 
 	  $ppo->idsDomaine  = array('');
 	  $ppo->nomsDomaine = array(CopixI18N::get ('cahierdetextes|cahierdetextes.message.ALL'));
+	  $ppo->correspondanceDomaines = array();
 	  
 	  foreach($domaines as $domaine) {
 	    
-	    $ppo->idsDomaine[]  = $domaine->id; 
+	    $ppo->idsDomaine[]  = $domaine->id;
 	    $ppo->nomsDomaine[] = $domaine->nom;
+	    $ppo->correspondanceDomaines[$domaine->id] = $domaine->nom;
 	  }
 	  
 	  // Récupération des travaux suivant le type de l'utilisateur courant
@@ -396,7 +398,8 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->travail = _record ('cahierdetextes|cahierdetextestravail');
   	  
-  	  $ppo->travail->a_faire  = _request ('a_faire', 0);
+  	  $ppo->travail->a_faire    = _request ('a_faire', 0);
+  	  $ppo->travail->domaine_id = _request ('domaineId', null);
   	  
     	// Travail à faire
     	//  - Par défaut : date de réalisation = date de création + 1

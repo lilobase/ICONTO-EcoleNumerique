@@ -31,20 +31,20 @@
 
 <div class="works">
 {if $ppo->travaux neq null}
-  {foreach from=$ppo->travaux key=domaine item=travauxParDomaine}
-    <h2>{$domaine}</h2>
+  {foreach from=$ppo->travaux key=domaineId item=travauxParDomaine}
+    <h2>{$ppo->correspondanceDomaines.$domaineId}</h2>
     
     {foreach from=$travauxParDomaine key=a_faire item=travauxParType}
       <h3>
         {if $a_faire eq 0}
           {i18n key="cahierdetextes.message.classroomWork"}
           {if $ppo->estAdmin}
-            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue="domaine"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
+            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee domaineId=$domaineId vue="domaine"}">{i18n key="cahierdetextes.message.addClassroomWork"}</a>
           {/if}
         {else}
           {i18n key="cahierdetextes.message.todoWork"}
           {if $ppo->estAdmin}
-            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee vue="domaine" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
+            <a class="button button-add" href="{copixurl dest="cahierdetextes||editerTravail" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee domaineId=$domaineId vue="domaine" a_faire=1}">{i18n key="cahierdetextes.message.addTodoWork"}</a>
           {/if}
         {/if}
       </h3>
