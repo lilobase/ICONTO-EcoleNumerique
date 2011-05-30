@@ -25,6 +25,7 @@
 {/if}
 
 <div class="works">
+{if $ppo->travaux neq null}
   {foreach from=$ppo->travaux key=date item=travauxParDate}
     <h2>{$date|datei18n:text}</h2>
     
@@ -64,4 +65,7 @@
 
     {/foreach}
   {/foreach}
+{else}
+  <p>{i18n key="cahierdetextes.message.noWork"}</p>
+{/if}
 </div>

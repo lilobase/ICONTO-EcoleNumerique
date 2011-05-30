@@ -30,6 +30,7 @@
 {/if}
 
 <div class="works">
+{if $ppo->travaux neq null}
   {foreach from=$ppo->travaux key=domaine item=travauxParDomaine}
     <h2>{$domaine}</h2>
     
@@ -75,4 +76,7 @@
 
     {/foreach}
   {/foreach}
+{else}
+  <p>{i18n key="cahierdetextes.message.noWork"}</p>
+{/if}
 </div>

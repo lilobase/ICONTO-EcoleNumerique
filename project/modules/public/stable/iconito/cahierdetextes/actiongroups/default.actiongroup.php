@@ -647,8 +647,23 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Suppression du travail
     $travailDAO->delete($travail->id);
-    
-    return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId)));
+
+    // Redirection
+    $vue = _request('vue', null);
+    switch($vue) {
+      case "jour":
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId, 'success' => true)));
+        break;
+      case "liste":
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('cahierId' => $cahierId, 'success' => true)));
+        break;
+      case "domaine":
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('cahierId' => $cahierId, 'success' => true)));
+        break;
+      default:
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId, 'success' => true)));
+        break;
+    }
 	}
 	
 	/**
