@@ -26,11 +26,11 @@
           {/if}
         {$memo->date_creation|datei18n:text}</p>
         <div class="memoMesg">{$memo->message}</div>
-        
         {if $memo->avec_signature}
           <div class="signature">
           {if $memo->signe_le|datei18n}
-              <p class="confirmSign"><span>{i18n key="cahierdetextes.message.signOn"} <strong>{$memo->signe_le|datei18n}</strong></span></p>
+              <p class="confirmSign"><span>{i18n key="cahierdetextes.message.signOn"} <strong>{$memo->signe_le|datei18n}</strong></span>
+                {if $memo->commentaire neq null && $ppo->niveauUtilisateur == PROFILE_CCV_READ}<p>{$memo->commentaire}</p>{/if}</p>
           {else}
               <p class="warningSign"><span>{i18n key="cahierdetextes.message.toSignOn"} <strong>{$memo->date_max_signature|datei18n}</strong></span></p>
           {/if}

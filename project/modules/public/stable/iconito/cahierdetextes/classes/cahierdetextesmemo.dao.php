@@ -20,7 +20,7 @@ class DAOCahierDeTextesMemo {
    */
   public function findByEleve ($idEleve, $current = false) {
     
-    $sql = 'SELECT cahierdetextesmemo.*, module_cahierdetextes_memo2eleve.signe_le'
+    $sql = 'SELECT cahierdetextesmemo.*, module_cahierdetextes_memo2eleve.signe_le, module_cahierdetextes_memo2eleve.commentaire'
       . ' FROM module_cahierdetextes_memo AS cahierdetextesmemo'
   	  . ' LEFT JOIN module_cahierdetextes_memo2eleve ON (cahierdetextesmemo.id = module_cahierdetextes_memo2eleve.module_cahierdetextes_memo_id)'
   	  . ' WHERE module_cahierdetextes_memo2eleve.kernel_bu_eleve_idEleve=:idEleve'
