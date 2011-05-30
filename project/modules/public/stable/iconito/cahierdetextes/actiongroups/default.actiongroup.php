@@ -373,12 +373,17 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->nombreMaxVueRadio = CopixConfig::get('cahierdetextes|nombre_max_vue_radio');
 	  
 	  // Récupération des domaines disponibles
-	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
-	  $domaines   = $domaineDAO->findByClasse($cahierInfos[0]->node_id);
-
 	  $ppo->idsDomaine  = array();
 	  $ppo->nomsDomaine = array();
 	  
+	  $domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
+	  $domaines   = $domaineDAO->findByClasse($cahierInfos[0]->node_id);
+	  if (count($domaines) > $ppo->nombreMaxVueRadio) {
+	    
+	    $ppo->idsDomaine[] = '';
+	    $ppo->nomsDomaine[] = '';
+	  }
+
 	  foreach($domaines as $domaine) {
 	    
 	    $ppo->idsDomaine[]  = $domaine->id; 
