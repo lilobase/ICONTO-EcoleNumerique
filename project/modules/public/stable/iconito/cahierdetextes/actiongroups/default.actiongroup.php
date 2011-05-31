@@ -860,7 +860,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
       if ($ppo->memo->date_validite == '') {
 
-        $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noRealisationDate');
+        $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noValidityDate');
       }
       if (!is_null($ppo->memo->date_validite) 
         && ($ppo->memo->date_validite < $ppo->memo->date_creation)) {
