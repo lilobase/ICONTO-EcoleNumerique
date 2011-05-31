@@ -164,7 +164,6 @@ class ActionGroupDefault extends enicActionGroup {
         //start TPL
         $this->addCss('styles/module_quiz.css');
 //        $this->js->button('.button');
-        
         $ppo = new CopixPPO();
         //global data for quiz
         $ppo->name = $quizData->name;
@@ -293,7 +292,6 @@ class ActionGroupDefault extends enicActionGroup {
         //build tpl
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
         CopixHTMLHeader::addCSSLink (_resource("styles/jquery.fancybox-1.3.1.css"));
-        CopixHtmlHeader::addJSLink('http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js');
 //        $this->js->button('.button');
         $ppo = new CopixPPO();
         $ppo->error =  ($this->flash->has('error')) ? $this->flash->error : null;
