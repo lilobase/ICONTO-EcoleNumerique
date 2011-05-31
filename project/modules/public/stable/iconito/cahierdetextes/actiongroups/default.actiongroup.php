@@ -654,16 +654,8 @@ class ActionGroupDefault extends enicActionGroup {
     $travail2fichierDAO->deleteByTravail($travail->id);
     
     // Suppression du lien agenda
-    if ($travail->a_faire) {
-      
-      $agendaWorkDAO = _ioDAO('agenda|work');
-      $agendaWorkDAO->deleteByTravail($travail->id);
-    }
-    else {
-      
-      $agendaEventDAO = _ioDAO('agenda|event');
-      $agendaEventDAO->delete($travail->event_id);
-    }
+    $agendaWorkDAO = _ioDAO('agenda|work');
+    $agendaWorkDAO->deleteByTravail($travail->id);
     
     // Suppression du travail
     $travailDAO->delete($travail->id);
