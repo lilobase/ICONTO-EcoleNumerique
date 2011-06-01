@@ -119,11 +119,11 @@ jQuery(document).ready(function($){
 			var content = this.html();
 			if (content.length > 100)
 			{
-				var pos = content.indexOf('</p>', 100); 
+				var pos = content.toLowerCase().indexOf('</p>', 100); 
 				if (pos) 
 				{
-					contentBegin = content.substring(0, pos + 5);
-					contentEnd = content.substring(pos +5);
+					var contentBegin = content.substring(0, pos + 5);
+					var contentEnd = content.substring(pos +5);
 					if (contentEnd.length > 0)
 						this.html(contentBegin+' <p class="right"><a href="#" class="openTextEnd">Voir la suite</a></p><div class="textEnd">'+contentEnd+'</div>');
 					
@@ -134,7 +134,7 @@ jQuery(document).ready(function($){
 	});
 	
 	// Pour les mémos
-	$('#cahierdetextes div.memo .memoMesg').each(function() {$(this).hideTooLongText();});
+	$('#cahierdetextes div.memo .memoMesg').each(function() {if(!$(this).hasClass('memoPrint')) $(this).hideTooLongText();});
 	$('#cahierdetextes .workDescription').each(function() {$(this).hideTooLongText();});
 	
 	$('.openTextEnd').click(function () {

@@ -4,7 +4,7 @@
   <div class="memo">
     <p class="memoDate">
     {$ppo->memo->date_creation|datei18n:text}</p>
-    <div class="memoMesg">{$ppo->memo->message}</div>
+    <div class="memoMesg memoPrint">{$ppo->memo->message}</div>
     {if $ppo->memo->avec_signature}
       <div class="signature">
       {if $ppo->memo->signe_le|datei18n}
