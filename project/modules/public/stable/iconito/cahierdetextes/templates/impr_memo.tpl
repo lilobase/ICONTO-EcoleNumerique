@@ -1,6 +1,15 @@
-<div class="memos-list">
+<div id="submenu">
+<div class="menuitems">
+    <ul>
+      <li><a href="" class="back"><span class="valign"></span><span>Retour</span></a></li>
+      <li><a class="print"><span class="valign"></span><span>Imprimer</span></a></li>
+    </ul>
+</div>
+</div>
+  
+  <div class="memos-list">
+
 {section name=count start=0 loop=$ppo->count}
-  <hr class="memo-separator" />
   <div class="memo">
     <p class="memoDate">
     {$ppo->memo->date_creation|datei18n:text}</p>
@@ -15,5 +24,7 @@
       </div>
     {/if}
   </div>
+  <hr />
+  
 {/section}
 </div>

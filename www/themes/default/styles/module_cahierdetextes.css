@@ -217,6 +217,11 @@ div.dashboard div.content {
 	color:#666;
 	font-size:0.7rem;
 }
+#cahierdetextes .memos-list hr {
+	clear:both;
+	margin:0 auto 20px;
+	width:50%;
+}
 /* Fin Memos */
 
 

@@ -247,6 +247,8 @@ span.valign {
 #submenu .menuitems a.chart			{ background-image: url(../../../themes/default/images/menu_chart.png); }
 #submenu .menuitems a.page			{ background-image: url(../../../themes/default/images/menu_full_page.png); }
 #submenu .menuitems a.event			{ background-image: url(../../../themes/default/images/menu_event.png); }
+#submenu .menuitems a.back			{ background-image: url(../../../themes/default/images/menu_back.png); }
+#submenu .menuitems a.print			{ background-image: url(../../../themes/default/images/menu_print.png); }
 
 #submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; color:#999; }
 
