@@ -1020,6 +1020,12 @@ class ActionGroupDefault extends enicActionGroup {
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
 	  }
 	  
+	  // Récupération des paramètres
+	  $ppo->cahierId  = _request ('cahierId', null);
+	  $ppo->jour      = _request ('jour', date('d'));
+  	$ppo->mois      = _request ('mois', date('m'));
+  	$ppo->annee     = _request ('annee', date('Y'));
+	  
 	  // Récupération du nombre d'exemplaires nécessaires (nombre d'élèves concernés)
 	  $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
 	  $ppo->count    = $memo2eleveDAO->retrieveNombreElevesConcernesParMemo($ppo->memo->id);
