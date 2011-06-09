@@ -21,7 +21,7 @@
        
        <tr>
         <th><?php echo _i18n('auth|auth.password'); ?></th>
-        <td><input type="password" name="password" id="password" size="9" /></td>
+        <td><input type="password" name="password" id="password_" size="9" /></td>
        </tr>
        
        <?php if($ppo->ask_rememberme){ ?>
