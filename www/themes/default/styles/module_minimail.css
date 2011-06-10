@@ -41,3 +41,5 @@ DIV.minimail_attachment {
 	margin: 5px;
 	text-align: center;
 }
+
+#minimail form .form_saisie em.legendDescription {font-size:0.9em;}

@@ -89,6 +89,8 @@
 .button-confirm		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_confirm.png) 4px 50% no-repeat; }
 .button-print		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_print.png) 4px 50% no-repeat; }
 .button-reload		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_reload.png) 4px 50% no-repeat; }
+.button-up			{ padding-left: 24px; background: #fff url(../../../themes/default/images/sort_up_off.png) 4px 50% no-repeat; }
+.button-down		{ padding-left: 24px; background: #fff url(../../../themes/default/images/sort_down_off.png) 4px 50% no-repeat; }
 
 .button-p-first		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_p_first.png) 4px 50% no-repeat; }
 .button-p-previous	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_p_previous.png) 4px 50% no-repeat; }

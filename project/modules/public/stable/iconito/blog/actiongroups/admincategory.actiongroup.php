@@ -118,7 +118,6 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 			$category = CopixDAOFactory::createRecord('blogarticlecategory');
 			$category->id_blog	 = $id_blog;
 			$category->name_bacg = $this->getRequest('name_bacg');
-			$category->url_bacg	 = $this->getRequest('url_bacg');
 			$category->order_bacg = $categoryDAO->getNewPos($id_blog);
     	$category->url_bacg = killBadUrlChars($category->name_bacg);
 	    if(strlen($category->url_bacg)==0) {
@@ -140,6 +139,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 			}
 		}
 
+		
 		$tpl->assign ('MAIN', CopixZone::process ('EditCategory',
 		array('id_blog'=>$id_blog,
 		'id_bacg'=>$id_bacg,

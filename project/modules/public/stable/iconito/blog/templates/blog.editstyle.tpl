@@ -1,4 +1,4 @@
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />
+<!--<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />-->
 {literal}
 <script type="text/javascript">
 //<![CDATA[
@@ -21,34 +21,33 @@ function change_style (obj) {
 </script>
 {/literal}
 
+
+<h1>{i18n key="blog.get.editstyle.blog.title"}</h1>
+
 {if $showErrors}
-<div class="errorMessage">
-<h1>{i18n key=copix:common.messages.error}</h1>
+<div class="mesgErrors">
  {ulli values=$errors}
 </div>
 {/if}
 
-<h1>{i18n key="blog.get.editstyle.blog.title"}</h1>
-
-
 <form name="blogEdit" action="{copixurl dest="blog|admin|validBlogStyle" kind=$kind}" method="post" class="">
 
-<table border="0" CELLSPACING="1" CELLPADDING="1" ALIGN="CENTER">
+<table class="editItems">
 
    <tr>
-      <td CLASS="form_libelle">{i18n key='dao.blog.fields.id_ctpt'}</td>
-	  	<td CLASS="form_saisie">
+      <th>{i18n key='dao.blog.fields.id_ctpt'}</th>
+	  	<td>
 
 
-    <input ONCHANGE="change_style(this);" TYPE="radio" VALUE="0" NAME="style_blog_file"{if $blog->style_blog_file==0} CHECKED{/if}>{i18n key='dao.blog.fields.style_blog_file0'}<br>
-    <input ONCHANGE="change_style(this);" TYPE="radio" VALUE="1" NAME="style_blog_file"{if $blog->style_blog_file==1} CHECKED{/if}>{i18n key='dao.blog.fields.style_blog_file1'}<br>
+    <input ONCHANGE="change_style(this);" TYPE="radio" VALUE="0" NAME="style_blog_file"{if $blog->style_blog_file==0} CHECKED{/if} />{i18n key='dao.blog.fields.style_blog_file0'}<br />
+    <input ONCHANGE="change_style(this);" TYPE="radio" VALUE="1" NAME="style_blog_file"{if $blog->style_blog_file==1} CHECKED{/if} />{i18n key='dao.blog.fields.style_blog_file1'}<br />
 
 
 </td>
    </tr>
    <tr>
-      <td CLASS="form_libelle">{i18n key='dao.blog.fields.style_blog_file'}</td>
-	  	<td CLASS="form_saisie">
+      <th>{i18n key='dao.blog.fields.style_blog_file'}</th>
+	  	<td>
 			<DIV ID="custom_1" NAME="custom_1" CLASS="{if $blog->style_blog_file==0}hidden{else}show{/if}" STYLE="width:600px;">
 			<textarea style="width:600px; height: 600px;" name="style_blog_file_src" class="form">{$style_blog_file_src|escape}</textarea>
 			
@@ -58,8 +57,9 @@ function change_style (obj) {
 </td>
    </tr>
 
-	 <tr><td colspan="2" CLASS="form_submit">
-<input type="hidden" name="id_blog" value="{$blog->id_blog}">
+	 <tr><td></td>
+     <td>
+<input type="hidden" name="id_blog" value="{$blog->id_blog}" />
 <input type="submit" class="button button-confirm" value="{i18n key="copix:common.buttons.ok"}" />
 {if ($kind==null) or ($id_blog==null)}
 	<input class="button button-cancel" type="button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="blog|admin|listBlog"}'" />

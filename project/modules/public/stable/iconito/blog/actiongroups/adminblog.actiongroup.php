@@ -213,8 +213,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.blog.title'));
 		}
 		
-		if (BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog))
-			$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>4)).'">'.CopixI18N::get('blog|blog.nav.options').'</a>';
+		$menu = getBlogAdminMenu($blog, 4);
 		$tpl->assign ('MENU', $menu);
 		
 		$tabBlogFunctions = array();
