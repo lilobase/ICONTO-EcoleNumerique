@@ -32,9 +32,10 @@ function deleteMembres () {
 /* Vérification de la hauteur des blocs et modification de l'apparence si besoin */
 $(document).ready(function(){
 	
-	sidebarHeight = $('#blog-sidebar').height();
-	contentHeight = $('#blog-content').height();
+	var sidebarHeight = $('#blog-sidebar').height();
+	var contentHeight = $('#blog-content').height();
+	console.log ('sidebar : '+sidebarHeight + ' content : '+contentHeight);
 	if (sidebarHeight > contentHeight)
-		$('#blog-content').css('height', sidebarHeight);
+		$('#blog-content').css('min-height', sidebarHeight);
 	
 });
