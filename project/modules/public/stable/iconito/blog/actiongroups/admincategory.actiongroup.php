@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version   $Id: admincategory.actiongroup.php,v 1.7 2007-07-30 14:42:07 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat Cï¿½dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -19,7 +19,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 	}
 	
 	/**
-    * Préparation à l'édition d'une catégorie.
+    * Prï¿½paration ï¿½ l'ï¿½dition d'une catï¿½gorie.
     */
 	function doPrepareEditCategory() {
 
@@ -70,7 +70,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 
 
 	/**
-    * Validation d'une catégorie.
+    * Validation d'une catï¿½gorie.
     */
 	function doValidCategory() {
 
@@ -126,13 +126,15 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 	    }
 
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.category.title'));
-			$errors = _dao('blogarticlecategory')->check($category);
+			$errors = _dao('blog|blogarticlecategory')->check($category);
 			if($errors!=1) {
 				// Traitement des erreurs
 				$showErrors =  true;
 			} else {
 				// Insertion dans la base
 				$categoryDAO->insert($category);
+                $category->url_bacg = killBadUrlChars($category->id_bacg.'-'.$category->name_bacg);
+				$categoryDAO->update($category);
 				return new CopixActionReturn (COPIX_AR_REDIRECT,
 				CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>$this->getRequest('kind', '0'))));
 			}

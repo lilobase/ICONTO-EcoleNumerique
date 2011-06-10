@@ -12,10 +12,10 @@ require_once (COPIX_UTILS_PATH.'CopixDateTime.class.php');
 */
 class DAOBlogArticle {
 	/**
-    * findListMonthForArticle
-    * @param 
-    * @return
-    */
+ï¿½ ï¿½ * findListMonthForArticle
+ï¿½ ï¿½ * @param 
+ï¿½ ï¿½ * @return
+ï¿½ ï¿½ */
 	function findListMonthForArticle($id_blog){
 		$critere = 'SELECT art.date_bact as date_bact
     FROM module_blog_article as art WHERE art.id_blog = '.$id_blog.' ORDER BY art.date_bact DESC, art.id_bact DESC';
@@ -61,7 +61,7 @@ class DAOBlogArticle {
 
 		if ( $arArticle = $this->findBy ($sp) )  {
 
-			//on récupère les catégories liées
+			//on rï¿½cupï¿½re les catï¿½gories liï¿½es
 			$dao     = _dao('blog|blogarticlecategory');
 			$daoLink = _dao('blog|blogarticle_blogarticlecategory');
 			$article = $arArticle[0];
@@ -90,7 +90,7 @@ class DAOBlogArticle {
     
 		if ( $article && $article->id_blog==$id_blog && $article->is_online )  {
 
-			//on récupère les catégories liées
+			//on rï¿½cupï¿½re les catï¿½gories liï¿½es
 			$dao     = _dao('blog|blogarticlecategory');
 			$daoLink = _dao('blog|blogarticle_blogarticlecategory');
 
@@ -122,7 +122,7 @@ class DAOBlogArticle {
 
 		$arArticle = $this->findBy ($sp);
 
-		//on récupère les catégories liées
+		//on rï¿½cupï¿½re les catï¿½gories liï¿½es
 		$dao     = _dao('blog|blogarticlecategory');
 		$daoLink = _dao('blog|blogarticle_blogarticlecategory');
 		foreach ($arArticle as $key=>$article){
@@ -151,7 +151,7 @@ class DAOBlogArticle {
     */
 	function getAllArticlesFromBlogByCat ($id_blog, $id_bacg) {
 	
-		//on récupère les identifiants d'article correspondant à la catégorie
+		//on rï¿½cupï¿½re les identifiants d'article correspondant ï¿½ la catï¿½gorie
 		$daoLink = _dao('blog|blogarticle_blogarticlecategory');
 		$sp      = _daoSp ();
 		$sp->addCondition ('id_bacg', '=', $id_bacg);
@@ -173,7 +173,7 @@ class DAOBlogArticle {
 
 		$arArticle = $this->findBy ($sp);
 
-		//on récupère les catégories liées
+		//on rï¿½cupï¿½re les catï¿½gories liï¿½es
 		$dao     = _dao('blog|blogarticlecategory');
 		foreach ($arArticle as $key=>$article){
 			$sp = _daoSp ();
@@ -306,37 +306,5 @@ class DAOBlogArticle {
 }
 
 class DAORecordblogarticle {
-	function check ($record){
-		$result = $this->_compiled_check ($record);
-
-		if ($result === true){
-			$result = array ();
-		}
-
-		if( (!empty($record->url_bact)) && (!empty($record->id_blog))) {
-			if(empty($record->id_bact)) {
-				// Création
-				$sqlRequest = 'SELECT id_bact FROM module_blog_article WHERE '.
-				' id_blog=' . $record->id_blog.
-				' AND url_bact=\'' . $record->url_bact.'\'';
-			} else {
-				// Edition
-				$sqlRequest = 'SELECT id_bact FROM module_blog_article WHERE '.
-				' id_blog=' . $record->id_blog.
-				' AND id_bact!=' . $record->id_bact.
-				' AND url_bact=\'' . $record->url_bact.'\'';
-			}
-			// Vérification de l'unicité de l'url
-			$DBresult = _doQuery($sqlRequest);
-			if(count($DBresult)>0) {
-				require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
-				$errorObject = new CopixErrorObject ();
-				$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog.dao.url.exist'));
-				$result = array_merge ($errorObject->asArray(), $result);
-			}
-		}
-
-		return (count ($result)>0) ? $result : true;
-	}
 }
 ?>

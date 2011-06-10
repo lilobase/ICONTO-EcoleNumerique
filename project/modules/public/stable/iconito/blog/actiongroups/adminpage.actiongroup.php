@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version   $Id: adminpage.actiongroup.php,v 1.12 2007-09-07 14:14:07 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat Cï¿½dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -20,7 +20,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 	}
 
 	/**
-    * Préparation à l'édition d'une page.
+    * Prï¿½paration ï¿½ l'ï¿½dition d'une page.
     */
 	function doPrepareEditPage() {
 
@@ -115,7 +115,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 
 		$pageDAO = CopixDAOFactory::create('blog|blogpage');
 		$id_bpge = $this->getRequest('id_bpge', null); if(strlen($id_bpge)==0) $id_bpge=null;
-		// On récupère l'utilisateur connecté
+		// On rï¿½cupï¿½re l'utilisateur connectï¿½
 		$user = BlogAuth::getUserInfos();
 		if($id_bpge!=null) {
 			// EDITION D'UNE PAGE
@@ -151,6 +151,9 @@ class ActionGroupAdminPage extends CopixActionGroup {
 				// Insertion dans la base
 				$page->content_html_bpge = smarty_modifier_blog_format_article ($page->content_bpge, $page->format_bpge);
 				$pageDAO->insert($page);
+                $page->url_bpge = killBadUrlChars($page->id_bpge.'-'.$page->name_bpge);
+				$pageDAO->update($page);
+
 				//on vide la session
 				//$this->_setSessionPage(null);
 				return new CopixActionReturn (COPIX_AR_REDIRECT,
@@ -261,53 +264,11 @@ class ActionGroupAdminPage extends CopixActionGroup {
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>$this->getRequest('kind', '0'))));
 	}
 
-	/**
-    * Propose url
-    * @param 
-    */
-	function doSuggestPageUrl() {
-		$id_blog = $this->getRequest('id_blog', null);
-		if ($id_blog==null){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.param'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
-		}
-		
-		if (!BlogAuth::canMakeInBlog('ADMIN_PAGES',create_blog_object($id_blog))){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.cannotManagePage'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
-		}
 
-		$tpl = & new CopixTpl ();
 
-		$id_bpge = $this->getRequest('id_bpge', null); if(strlen($id_bpge)==0)$id_bpge=null;
-		if($id_bpge!=null) {
-			// EDITION D'UNE PAGE
-			$pageDAO = CopixDAOFactory::create('blog|blogpage');
-			$page = $pageDAO->get($id_bpge);
-			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.page.title'));
-		} else {
-			// CREATION D'UNE PAGE
-			$page = CopixDAOFactory::createRecord('blogpage');
-			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.page.title'));
-		}
-		$this->_validFromPostProperties($page);
-		$page->name_bpge = $this->getRequest('name_bpge');
-		$page->url_bpge = killBadUrlChars($page->name_bpge);
-
-		$tpl->assign ('MAIN', CopixZone::process ('EditPage',
-		array('id_blog'=>$id_blog,
-		'id_bpge'=>$id_bpge,
-		'page'=>$page,
-		'kind'=>$this->getRequest('kind', '0')
-		)));
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-	}
-	
 	
 	/**
-	* Mise en session des paramètres de l'article
+	* Mise en session des paramï¿½tres de l'article
 	* @access : private.
 	*/
 	function _setSessionPage ($toSet){
@@ -315,7 +276,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 	
 	
 	/**
-	* Récupération en session des paramètres de l'article
+	* Rï¿½cupï¿½ration en session des paramï¿½tres de l'article
 	* @access : private.
 	*/
 	function _getSessionPage () {
