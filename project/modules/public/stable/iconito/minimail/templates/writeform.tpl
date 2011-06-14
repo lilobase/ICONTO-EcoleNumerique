@@ -30,7 +30,7 @@
 	<tr>
 		<td CLASS="form_libelle"><nobr>{i18n key="minimail.form.dest"}{help mode="tooltip" text_i18n="minimail|minimail.help.dest"}</nobr>
 
-</td><td CLASS="form_saisie"><input type="text" name="dest" id="dest" value="{$dest|escape:'htmlall'}" class="form" style="width: 400px;" maxlength="255"/>{$linkpopup}<br/>{i18n key="minimail.form.destInfo"}</td>
+</td><td CLASS="form_saisie"><input type="text" name="dest" id="dest" value="{$dest|escape:'htmlall'}" class="form" style="width: 400px;" maxlength="255"/>{$linkpopup}<br/><em class="legendDescription">{i18n key="minimail.form.destInfo"}</em></td>
 	</tr>
 	<tr>
 		<td CLASS="form_libelle">{i18n key="minimail.form.title"}</td><td CLASS="form_saisie"><input type="text" name="title" value="{$title|escape:'htmlall'}" class="form" style="width: 400px;" maxlength="80" /></td>
@@ -42,7 +42,7 @@
 	<tr>
 		<td CLASS="form_libelle">{i18n key="minimail.form.attachments"}</td><td CLASS="form_saisie">
 		
-		{i18n key="minimail.form.attachmentsInfo" 1=$attachment_size|human_file_size} 
+		<em class="legendDescription">{i18n key="minimail.form.attachmentsInfo" 1=$attachment_size|human_file_size} </em>
 	<br/>1. <INPUT class="form" style="margin: 2px;" TYPE="file" NAME="attachment1" ></INPUT>
 	<br/>2. <INPUT class="form" style="margin: 2px;" TYPE="file" NAME="attachment2" ></INPUT>
 	<br/>3. <INPUT class="form" style="margin: 2px;" TYPE="file" NAME="attachment3" ></INPUT>
