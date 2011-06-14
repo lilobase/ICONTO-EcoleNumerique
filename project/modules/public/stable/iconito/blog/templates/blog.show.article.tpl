@@ -5,14 +5,12 @@
 		<!--ARTICLES-->
 	  <!-- ----------------------------------------------------------- -->
 	  <!-- ----------------------------------------------------------- -->
+<a class="floatright button button-add" href="{copixurl dest="blog|admin|prepareEditArticle" id_blog=$id_blog kind=$kind}">{i18n key="copix:common.buttons.new"}</a>
 		<h1>{i18n key="blog.nav.articles"}</h1>
-		<div class="floatright">
-<input class="button button-add" onclick="self.location='{copixurl dest="blog|admin|prepareEditArticle" id_blog=$id_blog kind=$kind}'" type="button" value="{i18n key="copix:common.buttons.new"}" />
-		</div>
-		
+	
 		<form name="findArticle" action="{copixurl dest="blog|admin|showBlog" id_blog=$id_blog p=$p}" method="post" class="copixForm">
-		<input type="hidden" name="kind" value="{$kind}">
-		<input type="hidden" name="id_bact" value="{$id_bact}">
+		<input type="hidden" name="kind" value="{$kind}" />
+		<input type="hidden" name="id_bact" value="{$id_bact}" />
 
 									<DIV CLASS="adminArticleForm">
 									{i18n key=blog.messages.categories} :
@@ -38,8 +36,16 @@
 
 
 		   {if count($tabArticles)}
-			   {foreach from=$tabArticles item=article}
-			   <DIV CLASS="adminArticleList"><div class="is_online{$article->is_online}">
+			<table class="viewItems">
+            	<tr>
+                	<th>{i18n key='dao.blogarticle.fields.name_bact'}</th>
+                    <th colspan="3">{i18n key="blog.list.actions"}</th>
+                 </tr>   
+                       {counter start=1 assign="cpt"}
+                       {foreach from=$tabArticles item=article}
+                  <tr class="list_line{$cpt%2}">
+                  	<td>
+			   			<DIV CLASS="adminArticleList"><div class="is_online{$article->is_online}">
 			       		{if 0 && $article->expand}
 			       			<a href="#" onClick="JavaScript:submitForm(document.findArticle.selectCategory.options[document.findArticle.selectCategory.selectedIndex].value, 'document.findArticle.selectMonth.options[document.findArticle.selectMonth.selectedIndex].value', '')" title="{$article->name_bact}">[-] {$article->name_bact}</a>
 			       		{else}
@@ -50,31 +56,16 @@
 								
 							 {assign var=cptCat value=1}
 							 {assign var=listCat value=""}
-	             {foreach from=$article->categories item=categorie}
-								  {assign var=thisA value="<a href=\"#\" onClick=\"JavaScript:submitForm(`$categorie->id_bacg`, '', '');\">`$categorie->name_bacg`</a>"}
-							 		{assign var=listCat value=$listCat|cat:$thisA}
-									{if $cptCat<$article->categories|@count}{assign var=listCat value=$listCat|cat:' - '}{/if}
-									{assign var=cptCat value=$cptCat+1}
-	             {/foreach}
+                             {foreach from=$article->categories item=categorie}
+                                      {assign var=thisA value="<a href=\"#\" onClick=\"JavaScript:submitForm(`$categorie->id_bacg`, '', '');\">`$categorie->name_bacg`</a>"}
+                                        {assign var=listCat value=$listCat|cat:$thisA}
+                                        {if $cptCat<$article->categories|@count}{assign var=listCat value=$listCat|cat:' - '}{/if}
+                                        {assign var=cptCat value=$cptCat+1}
+                             {/foreach}
 							 {if !$article->categories|@count}{i18n key="blog.article.nocategory" assign="listCat"}{/if}
 							 {i18n key="blog.message.theAtIn" day=$article->date_bact|datei18n:text time=$article->time_bact|hour_format:"%H:%i" categ=$listCat noEscape=1}
-
-			   				<a href="{copixurl dest="blog|admin|prepareEditArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind}" title="{i18n key="blog.messages.update"}">[{i18n key="blog.messages.update"}]</a>
-								{if $canDelete}
-			   				<a href="{copixurl dest="blog|admin|deleteArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind selectCategory=$selectCategory selectMonth=$selectMonth}" title="{i18n key="blog.messages.delete"}">[{i18n key="blog.messages.delete"}]</a>
-								{/if}
-		{if ($article->nbComment OR $article->nbComment_offline) OR $blog->has_comments_activated}
-								
-								{if $article->nbComment}
-			   				<a href="{copixurl dest="blog|admin|listComment" id_bact=$article->id_bact id_blog=$id_blog}" title="{i18n key="blog.messages.article.comment" pNb=$article->nbComment}">[{i18n key="blog.messages.article.comment" pNb=$article->nbComment}]</a>
-								{/if}
-								
-								{if $article->nbComment_offline AND $canAdminComments}
-			   				<a href="{copixurl dest="blog|admin|listComment" id_bact=$article->id_bact id_blog=$id_blog}" title="{i18n key="blog.messages.article.commentOffline" pNb=$article->nbComment_offline}">[{i18n key="blog.messages.article.commentOffline" pNb=$article->nbComment_offline}]</a>
-								{/if}
-
-		{/if}
-								<DIV ID="expand{$article->id_bact}" CLASS="displayNone">
+                        </div></DIV>
+                             <DIV ID="expand{$article->id_bact}" CLASS="displayNone">
 								<DIV CLASS="expand">
 			       		{if 1 || $article->expand}
 			       			{if $article->sumary_html_bact}{$article->sumary_html_bact}<hr/>{/if}
@@ -82,16 +73,36 @@
 			       		{/if}
 								</DIV>
 								</DIV>
+						</td>
+                        <td class="action"><a class="button button-update" href="{copixurl dest="blog|admin|prepareEditArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind}" title="{i18n key="blog.messages.update"}">{i18n key="blog.messages.update"}</a></td>
+                        {if $canDelete}<td class="action">
+			   				<a class="button button-delete" href="{copixurl dest="blog|admin|deleteArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind selectCategory=$selectCategory selectMonth=$selectMonth}" title="{i18n key="blog.messages.delete"}">{i18n key="blog.messages.delete"}</a>
+						 </td>
+                         {else}<td></td>
+                         {/if}
+                         {if ($article->nbComment OR $article->nbComment_offline) OR $blog->has_comments_activated}
+                         <td class="comment">
 								
-			     </div></DIV>
-
+								{if $article->nbComment}
+			   				<a class="button button-confirm" href="{copixurl dest="blog|admin|listComment" id_bact=$article->id_bact id_blog=$id_blog}" title="{i18n key="blog.messages.article.comment" pNb=$article->nbComment}">{i18n key="blog.messages.article.comment" pNb=$article->nbComment}</a>
+								{/if}
+								
+								{if $article->nbComment_offline AND $canAdminComments}
+			   				<a class="button button-cancel" href="{copixurl dest="blog|admin|listComment" id_bact=$article->id_bact id_blog=$id_blog}" title="{i18n key="blog.messages.article.commentOffline" pNb=$article->nbComment_offline}">{i18n key="blog.messages.article.commentOffline" pNb=$article->nbComment_offline}</a>
+								{/if}
+                        {else}
+                        <td>
+                        {/if}
+						</td>
+					</tr>
+                    {counter}
 			   {/foreach}
+               </table>
 			   {$pagerArticles} 
 			 {else}
-
-						{i18n key="blog.article.list.nodata"}
-				 
+				<p>{i18n key="blog.article.list.nodata"}</p>
 		   {/if}   
+           
 
 		{literal}
 		<script type="text/javascript">
