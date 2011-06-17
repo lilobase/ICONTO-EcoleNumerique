@@ -1446,9 +1446,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  /**
 	   * TODO = refactoring des méthodes de suppression
 	   */
-	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-	  $studentDAO    = _ioDAO ('kernel|kernel_bu_ele');
+	  $classLevelDAO        = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
+	  $studentDAO           = _ioDAO ('kernel|kernel_bu_ele');
 	  $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
+	  $personEntityDAO      = _ioDAO ('kernel|kernel_bu_personnel_entite');
 
 	  // Récupération de l'association classe-niveau
     $classLevels = $classLevelDAO->getByClass ($class->id);
@@ -1463,6 +1464,13 @@ class ActionGroupDefault extends enicActionGroup {
 
       $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($student->id, $nodeId);
       $studentAssignmentDAO->delete ($studentAssignment->affect_id);
+    }
+    
+    // Suppression des affectations enseignants
+    $personEntities = $personEntityDAO->getByIdReferenceAndTypeReference ($nodeId, 'CLASSE');
+    foreach ($personEntities as $personEntity) {
+      
+      $personEntityDAO->delete ($personEntity->pers_entite_id_per, $personEntity->pers_entite_reference, $personEntity->pers_entite_type_ref);
     }
     
 	  // Suppression de la classe

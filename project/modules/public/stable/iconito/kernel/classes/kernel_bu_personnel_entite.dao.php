@@ -7,16 +7,32 @@
 class DAOKernel_bu_personnel_entite {
 
   /**
-	 * Retourne une entité selon un identifiant de personne et un type
+	 * Retourne les enregistrements liés à une ressource
 	 *
-	 * @param int     $id  
-	 * @param string $type
+	 * @param int     $id_ref     Identifiant de la référence 
+	 * @param string  $type_ref   Type de la référence
 	 *
 	 * @return DAORecord or false
 	 */
-  public function getByIdReferenceAndType ($id, $reference, $type_ref) {
+  public function getByIdReferenceAndTypeReference ($id_ref, $type_ref) {
 
-    $sql = $this->_selectQuery.' AND kernel_bu_personnel_entite.id_per='.$id.' AND kernel_bu_personnel_entite.reference='.$reference.' AND kernel_bu_personnel_entite.type_ref="'.$type_ref.'"';
+    $sql = $this->_selectQuery.' AND kernel_bu_personnel_entite.reference='.$id_ref.' AND kernel_bu_personnel_entite.type_ref="'.$type_ref.'"';
+    
+    return _doQuery ($sql);
+  }
+  
+  /**
+	 * Retourne une entité selon un identifiant de personne et un type
+	 *
+	 * @param int     $id_per   Identifiant de la personne
+	 * @param int     $id_ref   Identifiant de la référence
+	 * @param string  $type     Type de la référence
+	 *
+	 * @return DAORecord or false
+	 */
+  public function getByIdReferenceAndType ($id_per, $id_ref, $type_ref) {
+
+    $sql = $this->_selectQuery.' AND kernel_bu_personnel_entite.id_per='.$id_per.' AND kernel_bu_personnel_entite.reference='.$id_ref.' AND kernel_bu_personnel_entite.type_ref="'.$type_ref.'"';
     
     $results = _doQuery ($sql);
     
@@ -26,13 +42,13 @@ class DAOKernel_bu_personnel_entite {
   /**
    * Supprime une entité
    *
-   * @param int    $id  
- 	 * @param int    $reference
+   * @param int    $id_per  
+ 	 * @param int    $id_ref
  	 * @param string $type_ref
    */
-  public function delete ($id, $reference, $type_ref) {
+  public function delete ($id_per, $id_ref, $type_ref) {
     
-    $sql = 'DELETE FROM kernel_bu_personnel_entite WHERE id_per='.$id.' AND reference='.$reference.' AND type_ref="'.$type_ref.'"';
+    $sql = 'DELETE FROM kernel_bu_personnel_entite WHERE id_per='.$id_per.' AND reference='.$id_ref.' AND type_ref="'.$type_ref.'"';
             
     return _doQuery($sql); 
   }
@@ -94,17 +110,17 @@ class DAOKernel_bu_personnel_entite {
    * Met à jour le rôle d'une entité
    *
    */
-  public function updateRole ($id, $reference, $type_ref, $role) {
+  public function updateRole ($id_per, $id_ref, $type_ref, $role) {
     
     $sql = 'UPDATE kernel_bu_personnel_entite SET kernel_bu_personnel_entite.role =:role '
-      . 'WHERE kernel_bu_personnel_entite.id_per=:id '
-      . 'AND kernel_bu_personnel_entite.reference=:reference '
+      . 'WHERE kernel_bu_personnel_entite.id_per=:id_per '
+      . 'AND kernel_bu_personnel_entite.reference=:id_ref '
       . 'AND kernel_bu_personnel_entite.type_ref=:type_ref';
     
     return _doQuery ($sql, array (
       ':role'   => $role,
-      ':id' => $id,
-      ':reference' => $reference,
+      ':id_per' => $id_per,
+      ':id_ref' => $id_ref,
       ':type_ref' => $type_ref,
     ));
   }
