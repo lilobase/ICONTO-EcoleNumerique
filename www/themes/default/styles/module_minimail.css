@@ -42,3 +42,7 @@ DIV.minimail_attachment {
 	text-align: center;
 }
 #minimail form .form_saisie em.legendDescription {font-size:0.9em;}
+
+textarea#dest {
+    height:3em;
+}

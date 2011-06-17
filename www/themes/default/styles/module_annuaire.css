@@ -101,3 +101,9 @@ DIV.annu_write_all {
 	font-size: 11px;
 	margin-right: 5px;
 }
+p.explain {
+    text-align:center;
+}
+p.endForm {
+    text-align:center;
+}

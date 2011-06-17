@@ -25,12 +25,15 @@ function change_ville (obj,form) {
 function click_all (field, tab) {
 	var logins = eval("tab_"+tab);
 	for (var i=0, add=true, res="" ; i < logins.length; i++) {
-		res = window.opener.add_destin (logins[i], field);
-		if (res) add=false;
+		if (window.opener) {
+            res = window.opener.add_destin (logins[i], field);
+            if (res) add=false;
+            else $('input[type=checkbox][value='+logins[i]+']').attr('checked','checked');
+        }
 	}
 	if (res)
 		alert (res);
-	self.close();
+	//self.close();
 }
 
 function open_annuaire (field) {
@@ -111,6 +114,27 @@ function del_destin (login, field) {
         dest.value = res;        
     }
 }
+
+
+jQuery(document).ready(function($){
+
+    $.get(getActionURL('kernel|default|i18n'), { key: 'annuaire|annuaire.popup.close' }, function(data){
+        if (data) {
+            $.get(getActionURL('kernel|default|i18n'), { key: 'annuaire|annuaire.popup.explain2js' }, function(data2){
+                $('p.endForm').html('<a href="#" class="button button-confirm">'+data+'</a>');
+                $('p.explain span').html(data2);
+                $('p.endForm a.button-confirm').click(function(){
+                    self.close();
+                    return false;
+                });
+            });
+        }
+    });
+
+
+    
+});
+
 
 
 

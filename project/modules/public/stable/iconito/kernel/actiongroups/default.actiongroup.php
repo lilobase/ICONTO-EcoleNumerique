@@ -270,6 +270,23 @@ class ActionGroupDefault extends CopixActionGroup {
 	}
 
 
+	/**
+	 * Cle i18n
+	 *
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2011/06/17
+	 * @param string $key Cle demandee
+	 */
+	function processI18n () {
+		_currentUser()->assertCredential ('group:[current_user]');
+		$iKey = CopixRequest::get('key');
+        if (CopixI18N::exists($iKey))
+            echo CopixI18N::get($iKey);
+        return _arNone ();
+
+	}
+
+
 
 
 

@@ -34,6 +34,8 @@
 </div>
 <br class="clearBoth" /><br /></div>
 
+<p class="explain">{i18n key="annuaire.popup.explain1"} <span>{i18n key="annuaire.popup.explain2"}</span></p>
+
 {if $eleves}
 {assign var="eleveslogins" value=""}
 {counter start=0 assign="cpt"}
@@ -42,8 +44,8 @@
 {foreach from=$eleves item=item}
 
 <tr class="list_line{$cpt%2}">
-	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
-	<td>{$item->nom|escape|upper}</td>
+	<td><input type="checkbox" id="logins_{$item->login}" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><label for="logins_{$item->login}">{$item->nom|escape|upper}</label></td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
 </tr>
@@ -67,8 +69,8 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$personnel item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
-	<td>{$item->nom|upper|escape}</td>
+	<td><input type="checkbox" id="logins_{$item->login}" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><label for="logins_{$item->login}">{$item->nom|escape|upper}</label></td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
 </tr>
@@ -88,8 +90,8 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$parents item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
-	<td>{$item->nom|upper|escape}</td>
+	<td><input type="checkbox" id="logins_{$item->login}" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><label for="logins_{$item->login}">{$item->nom|escape|upper}</label></td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
 </tr>
@@ -110,8 +112,8 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$adm item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
-	<td>{$item->nom|upper|escape}</td>
+	<td><input type="checkbox" id="logins_{$item->login}" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><label for="logins_{$item->login}">{$item->nom|escape|upper}</label></td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
 </tr>
@@ -132,8 +134,8 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$vil item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
-	<td>{$item->nom|upper|escape}</td>
+	<td><input type="checkbox" id="logins_{$item->login}" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><label for="logins_{$item->login}">{$item->nom|escape|upper}</label></td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
 </tr>
@@ -155,8 +157,8 @@
 <table border="0" class="liste" align="center" cellspacing="2" cellpadding="2">
 {foreach from=$ext item=item}
 <tr class="list_line{$cpt%2}">
-	<td><input type="checkbox" id="logins[]" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
-	<td>{$item->nom|upper|escape}</td>
+	<td><input type="checkbox" id="logins_{$item->login}" name="logins[]" {$checked} value="{$item->login}" onClick="return window.opener.click_destin('{$item->login}', '{$field}');" /></td>
+	<td><label for="logins_{$item->login}">{$item->nom|escape|upper}</label></td>
 	<td>{$item->prenom|escape}</td>
 	<td>{user label=$item->login userType=$item->bu_type userId=$item->bu_id linkAttribs='STYLE="text-decoration:none;"'}</td>
 </tr>
@@ -179,6 +181,8 @@
 {elseif !$ville || !$ecole || !$classe}
 <div style="color:red; margin:20px; text-align: center;">{i18n key="annuaire.error.chooseVal"}</div>
 {/if}
+
+<p class="endForm"></p>
 
 
 {literal}

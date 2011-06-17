@@ -964,7 +964,7 @@ class ActionGroupGroupe extends enicActionGroup {
 			// On v�rifie que les membres existent
 			while (list(,$login) = each ($tab_membres)) {
 				if (!$login) continue;
-				$userInfo = $kernel_service->getUserInfo("LOGIN", $login);
+				$userInfo = $kernel_service->getUserInfo("LOGIN", $login, array('strict'=>true));
 				//print_r("login=$login");
 				//print_r($userInfo);
 				if (!$userInfo)

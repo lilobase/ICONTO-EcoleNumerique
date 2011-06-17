@@ -1071,10 +1071,13 @@ class Kernel {
 
 
 
-
+    /*
+     * $options[strict] = true -> Si le user n'existe pas, renvoie false
+     *
+     */
 	function getUserInfo( $type="ME", $id=0, $options=array() ) {
 		//Kernel::deb("getUserInfo / type=$type / id=$id");
-		$user = array();
+		$user = $users = array();
 
 		switch( $type ) {
 			case "ID":
@@ -1096,18 +1099,22 @@ class Kernel {
 					$users[0]->bu_type = $type;
 					$users[0]->bu_id   = $id;
 				} else {
-					$record = _record("kernel|kernel_bu2user");
-					$record->bu_type = $type;
-					$record->bu_id   = $id;
-          $record->user_id = '';
-          $record->user_login = '';
-					$users = array();
-					$users[0] = $record;
+                    if (!isset($options['strict']) || $options['strict']) { // Si pas strict
+                        $record = _record("kernel|kernel_bu2user");
+                        $record->bu_type = $type;
+                        $record->bu_id   = $id;
+                        $record->user_id = '';
+                        $record->user_login = '';
+                        $users = array();
+                        $users[0] = $record;
+                    }
 				}
 				break;
 		}
 
     if( !sizeof( $users ) ) {
+      if (isset($options['strict']) && $options['strict'])
+        return false;
       return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$type.' '.$id, 'login'=>'', 'ALL'=>null));
     } else {
 

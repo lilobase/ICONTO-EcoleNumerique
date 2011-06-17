@@ -1,7 +1,7 @@
 <script language="Javascript1.2" SRC="{copixurl}js/iconito/module_groupe_admin.js"></script>
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
 	<UL>
 	{foreach from=$errors item=error}
 		<LI>{$error}</LI><br/>
