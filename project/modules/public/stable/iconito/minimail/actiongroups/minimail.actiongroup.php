@@ -282,7 +282,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 		
     $tplForm = & new CopixTpl ();
     
-		if ($iReply) {	// Tentative de reponse a un message
+		if ($iReply && !$message) {	// Tentative de reponse a un message
 			$message = _ioDAO('minimail_from')->getMessage($iReply);
 			$destin = _ioDAO('minimail_to')->selectDestFromId ($iReply);
 			$serv = CopixClassesFactory::create("MinimailService");
@@ -294,7 +294,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 				$message = $answer["message"];
         $tplForm->assign ("reply", $iReply);
 			}
-		} elseif ($iForward) { // Tentative de forward
+		} elseif ($iForward && !$message) { // Tentative de forward
       $message = _ioDAO('minimail_from')->getMessage($iForward);
 			$destin = _ioDAO('minimail_to')->selectDestFromId ($iForward);
 			$serv = CopixClassesFactory::create("MinimailService");
