@@ -183,10 +183,6 @@ class ActionGroupDefault extends enicActionGroup {
 	    
 	    $ppo->travaux = $travailDAO->findByEleveDateIntervalleEtDomaineParDomaineEtType($ppo->eleve, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
 	  }
-	  else {
-	    
-	    $ppo->travaux = $travailDAO->findByEleveDateIntervalleEtDomaineParDomaineEtType(_currentUser()->getExtra('id'), CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
-	  }
 	  
 	  return _arPPO ($ppo, 'voir_travaux_par_domaine.tpl');
 	}
