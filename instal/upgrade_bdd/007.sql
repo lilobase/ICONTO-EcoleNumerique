@@ -1,0 +1,57 @@
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+SET CHARACTER SET 'utf8';
+
+
+-- --------------------------------------------------------
+INSERT INTO `kernel_mod_available` (`node`, `module`) VALUES 
+('BU_CLASSE', 'MOD_CLASSEUR'),
+('BU_ECOLE', 'MOD_CLASSEUR'),
+('BU_VILLE', 'MOD_CLASSEUR'),
+('CLUB', 'MOD_CLASSEUR'),
+('USER_%', 'MOD_CLASSEUR');
+
+-- -----------------------------------------------------
+-- Table `module_classeur`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `module_classeur` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `titre` VARCHAR(64) NULL,
+  `cle` VARCHAR(10) NOT NULL,
+  `date_creation` DATETIME NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- -----------------------------------------------------
+-- Table `module_classeur_dossier`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `module_classeur_dossier` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_classeur_id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL default '0',
+  `nom` varchar(64) NOT NULL,
+  `date_creation` datetime NOT NULL,
+  `user_type` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `fk_classeur` (`module_classeur_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+-- -----------------------------------------------------
+-- Table `module_classeur_fichier`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `module_classeur_fichier` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_classeur_id` int(11) NOT NULL,
+  `module_classeur_dossier_id` int(11) NOT NULL,
+  `titre` varchar(64) NOT NULL,
+  `commentaire` varchar(255) default NULL,
+  `fichier` varchar(128) NOT NULL,
+  `taille` int(11) NOT NULL,
+  `type` varchar(64) NOT NULL,
+  `cle` varchar(10) NOT NULL,
+  `date_upload` datetime NOT NULL,
+  `user_type` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `fk_dossier` (`module_classeur_dossier_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
