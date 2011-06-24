@@ -70,6 +70,11 @@ class ZoneUserMenu extends CopixZone {
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'malle','mid'=>''));
 			$menuitem["class"] = "menu-malle";
 			array_push($menuitems, $menuitem);
+			
+			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_classeur');
+			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'classeur','mid'=>''));
+			$menuitem["class"] = "menu-classeur";
+			array_push($menuitems, $menuitem);
 
 			$menuitem["title"] = _i18n('kernel|kernel.codes.mod_ressource');
 			$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'ressource', 'mid'=>'2'));

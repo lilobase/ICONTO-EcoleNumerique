@@ -1,0 +1,35 @@
+/* Global */
+#classeur ul.child {
+  
+}
+
+#sidebar {
+  float: left;
+  width: 25%;
+}
+
+#sidebar ul {
+  padding-left: 0;
+  list-style: none;
+}
+
+#sidebar ul ul {
+  padding-left: 15px;
+}
+
+.content-view {
+  float: right;
+  width: 75%;
+}
+
+.mass-actions {
+  clear: both;
+}
+
+#sidebar li {
+  font-weight: bold;
+}
+
+#sidebar li.collapsed {
+  font-weight: normal;
+}
