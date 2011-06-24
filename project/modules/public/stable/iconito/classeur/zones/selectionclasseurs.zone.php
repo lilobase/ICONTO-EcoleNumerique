@@ -25,7 +25,7 @@ class ZoneSelectionClasseurs extends CopixZone {
         
         if ($module->module_type == "MOD_CLASSEUR") {
           
-          if (strpos($module->node_type, 'USER_') !== false) {
+          if (strpos($module->node_type, 'USER_') !== false && $module->node_id == _currentUser()->getExtra('id')) {
             
             $ppo->classeurPersonnel = $module->module_id;
           }
@@ -34,6 +34,9 @@ class ZoneSelectionClasseurs extends CopixZone {
         }
       }
     }
+    
+    // Dédoublonnage des classeurs (responsables avec plusieurs enfants)
+    $classeurIds = array_unique($classeurIds);
     
     $ppo->classeurs = array();
     $classeurDAO = _dao("classeur|classeur");
