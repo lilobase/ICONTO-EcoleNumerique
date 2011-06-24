@@ -195,14 +195,13 @@ class ClasseurService {
     
     // Récupération du classeur
     $oldClasseur = $classeurDAO->get($file->classeur_id);
-    
     if ($targetType == 'dossier') {
       
       $targetFolder = $folderDAO->get($targetId);
       $newClasseur  = $classeurDAO->get($targetFolder->classeur_id);
       
       $file->classeur_id  = $targetFolder->classeur_id;
-      $file->dossier_id   = $targetFolder->parent_id;
+      $file->dossier_id   = $targetFolder->id;
     }
     else {
       
@@ -218,14 +217,17 @@ class ClasseurService {
     $old_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
     $new_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
     
-    if (!file_exists($new_dir)) {
+    if ($old_dir != $new_dir) {
       
-      mkdir($new_dir, 0755, true);
+      if (!file_exists($new_dir)) {
+
+        mkdir($new_dir, 0755, true);
+      }
+
+      $extension = strrchr($file->fichier, '.');
+      copy($old_dir.$file->id.'-'.$file->cle.$extension, $new_dir.$file->id.'-'.$file->cle.$extension);
+      unlink($old_dir.$file->id.'-'.$file->cle.$extension);
     }
-    
-    $extension = strrchr($file->fichier, '.');
-    copy($old_dir.$file->id.'-'.$file->cle.$extension, $new_dir.$clone->id.'-'.$clone->cle.$extension);
-    unlink($old_dir.$file->id.'-'.$file->cle.$extension);
 	}
 	
 	/**
