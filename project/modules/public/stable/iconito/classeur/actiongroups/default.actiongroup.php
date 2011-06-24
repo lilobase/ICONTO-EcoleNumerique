@@ -653,7 +653,7 @@ class ActionGroupDefault extends enicActionGroup {
           $dossier = $dossierDAO->get($arDossierId);
           if ($ppo->destinationType == 'dossier') {
             
-            if (!classeurService::isDescendantOf($dossier, $dossierDestination)) {
+            if (!classeurService::isDescendantOf($dossierDestination, $dossier)) {
               
               $dossiers[] = $dossierDAO->get($arDossierId);
             }
@@ -661,6 +661,7 @@ class ActionGroupDefault extends enicActionGroup {
         }
       }
       
+      // On ne déplace que les dossiers pouvant l'être
       foreach ($dossiers as $dossier) {
         
         classeurService::moveFolder($dossier, $ppo->destinationType, $ppo->destinationId);
