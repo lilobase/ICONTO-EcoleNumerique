@@ -23,7 +23,8 @@ class ZoneArborescenceClasseurs extends CopixZone {
       foreach ($modules as $module) {
         if ($module->module_type == "MOD_CLASSEUR") {
           
-          if (strpos($module->node_type, 'USER_') !== false) {
+          // Identification du classeur personnel de l'utilisateur
+          if (strpos($module->node_type, 'USER_') !== false && $module->node_id == _currentUser()->getExtra('id')) {
             
             $ppo->classeurPersonnel = $module->module_id;
           }
@@ -31,6 +32,9 @@ class ZoneArborescenceClasseurs extends CopixZone {
         }
       }
     }
+    
+    // Dédoublonnage des classeurs (responsables avec plusieurs enfants)
+    $classeurIds = array_unique($classeurIds);
     
     $ppo->classeurs = array();
     $classeurDAO = _dao("classeur|classeur");
