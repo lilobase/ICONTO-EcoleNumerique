@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="classeurfichier" tablename="module_classeur_fichier" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="id" fieldname="id" type="autoincrement" pk="yes"/>
+    <property name="classeur_id" fieldname="module_classeur_id" type="integer" required="yes"/>
+    <property name="dossier_id" fieldname="module_classeur_dossier_id" type="integer" required="yes"/>
+    <property name="titre" fieldname="titre" type="string" maxlength="64" required="yes"/>
+    <property name="commentaire" fieldname="commentaire" type="string" maxlength="255" required="no"/>
+    <property name="fichier" fieldname="fichier" type="string" maxlength="128" required="yes"/>
+    <property name="taille" fieldname="taille" type="integer" required="yes"/>
+    <property name="type" fieldname="type" type="string" maxlength="64" required="yes"/>
+    <property name="cle" fieldname="cle" type="string" maxlength="10" required="yes"/>
+    <property name="date_upload" fieldname="date_upload" type="datetime" required="yes"/>
+    <property name="user_type" fieldname="user_type" type="string" maxlength="64" required="yes"/>
+    <property name="user_id" fieldname="user_id" type="integer" required="yes"/>
+  </properties>
+  <methods>
+    <method name="retrieveByDossier" type="select">
+      <parameters>
+         <parameter name="dossierId" />
+      </parameters>
+      <conditions>
+         <condition property="dossier_id" operator="=" value="$dossierId" />
+      </conditions>
+    </method>
+  </methods>
+</daodefinition>

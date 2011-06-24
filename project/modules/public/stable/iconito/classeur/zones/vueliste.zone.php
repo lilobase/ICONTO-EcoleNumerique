@@ -1,0 +1,30 @@
+<?php
+/**
+* @package    Iconito
+* @subpackage Classeur
+* @author     Jérémy FOURNAISE
+*/
+class ZoneVueListe extends CopixZone {
+
+	function _createContent (& $toReturn) {
+	  
+	  $ppo = new CopixPPO ();
+	  
+	  _classInclude('classeur|ClasseurService');
+	  
+	  // Récupération des paramètres
+	  $ppo->classeurId      = $this->getParam('classeurId');
+	  $ppo->dossierId       = $this->getParam('dossierId');
+
+    // Récupération des paramètres d'affichages
+    $ppo->tri = ClasseurService::getContentSort ();
+    
+    $dossierDAO = _ioDAO('classeur|classeurdossier');
+		$fichierDAO = _ioDAO('classeur|classeurfichier');
+		
+		$ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triDossiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
+		$ppo->fichiers = $fichierDAO->getParDossier($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triFichiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
+    
+	  $toReturn = $this->_usePPO ($ppo, '_vue_liste.tpl');
+  }
+}

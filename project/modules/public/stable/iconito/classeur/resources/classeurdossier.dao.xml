@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="classeurdossier" tablename="module_classeur_dossier" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="id" fieldname="id" type="autoincrement" pk="yes"/>
+    <property name="classeur_id" fieldname="module_classeur_id" type="integer" required="yes"/>
+    <property name="parent_id" fieldname="parent_id" type="integer" required="yes"/>
+    <property name="nom" fieldname="nom" type="string" maxlength="64" required="yes"/>
+    <property name="date_creation" fieldname="date_creation" type="datetime" required="yes"/>
+    <property name="user_type" fieldname="user_type" type="string" maxlength="64" required="yes"/>
+    <property name="user_id" fieldname="user_id" type="integer" required="yes"/>
+  </properties>
+  <methods>
+    <method name="retrieveByClasseur" type="select">
+      <parameters>
+         <parameter name="classeurId" />
+      </parameters>
+      <conditions>
+         <condition property="classeur_id" operator="=" value="$classeurId" />
+      </conditions>
+    </method>
+  </methods>
+</daodefinition>
