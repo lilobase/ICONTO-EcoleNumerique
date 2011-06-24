@@ -72,7 +72,7 @@ jQuery(document).ready(function($){
 		} 
 		else {
 		  
-			alert ('Error JS');
+			alert ('Erreur : aucun fichier/dossier à déplacer');
 		}
 		
 		return false;
@@ -92,7 +92,7 @@ jQuery(document).ready(function($){
 		} 
 		else {
 		  
-			alert ('Error JS');
+			alert ('Erreur : aucun fichier/dossier à supprimer');
 		}
 		
 		return false;
@@ -112,7 +112,7 @@ jQuery(document).ready(function($){
 		} 
 		else {
 		  
-			alert ('Error JS');
+			alert ('Erreur : aucun fichier/dossier à copier');
 		}
 		
 		return false;
@@ -132,7 +132,7 @@ jQuery(document).ready(function($){
 		} 
 		else {
 		  
-			alert ('Error JS');
+			alert ('Erreur : aucun fichier/dossier à télécharger');
 		}
 		
 		return false;
