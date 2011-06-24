@@ -170,7 +170,7 @@ class ActionGroupDefault extends enicActionGroup {
           
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noDestination');
       }
-      elseif ($ppo->destinationType == 'dossier' && $ppo->destinationId == $ppo->dossier->id) {
+      elseif ($ppo->destinationType == 'dossier' && classeurService::isDescendantOf($dossierDestination, $ppo->dossier)) {
 
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.destinationUnauthorized');
       }
@@ -647,11 +647,23 @@ class ActionGroupDefault extends enicActionGroup {
       // Déplacement des dossiers
       if (!empty($arDossierIds)) {
         
+        $dossiers = array();
         foreach ($arDossierIds as $arDossierId) {
           
           $dossier = $dossierDAO->get($arDossierId);
-          classeurService::moveFolder($dossier, $ppo->destinationType, $ppo->destinationId);
+          if ($ppo->destinationType == 'dossier') {
+            
+            if (!classeurService::isDescendantOf($dossier, $dossierDestination)) {
+              
+              $dossiers[] = $dossierDAO->get($arDossierId);
+            }
+          }
         }
+      }
+      
+      foreach ($dossiers as $dossier) {
+        
+        classeurService::moveFolder($dossier, $ppo->destinationType, $ppo->destinationId);
       }
       
       // Déplacement des fichiers

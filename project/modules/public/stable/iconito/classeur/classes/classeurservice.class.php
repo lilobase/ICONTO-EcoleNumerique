@@ -377,6 +377,36 @@ class ClasseurService {
     
     $zip->addFile($pathfile, $file->fichier);
   }
+  
+  /**
+	 * Teste si le folder1 est un descendant du folder2
+	 *
+	 * @param DAORecordClasseurDossier  $folder1     Dossier 1
+	 * @param DAORecordClasseurDossier  $folder2     Dossier 2
+	 *
+	 * @return bool True si le folder1 est un descendant du folder2
+	 */
+  public static function isDescendantOf ($folder1, $folder2) {
+    
+    $folderDAO = _ioDAO('classeur|classeurdossier');
+    
+		if ($folder1 == $folder2) {
+		  
+		  return true;
+		}
+		
+		while ($folder1->parent_id != 0) {
+			
+			if ($folder1->parent_id == $folder2->id) {
+			  
+			  return true;
+			}
+
+			$folder1 = $folderDAO->get($folder1->parent_id);
+		}
+		
+		return false;
+  }
 	
 	/**
    * Stock en session le tri pour l'affichage des contenus du classeur
