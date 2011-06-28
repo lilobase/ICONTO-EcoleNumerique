@@ -5,13 +5,6 @@ SET CHARACTER SET 'utf8';
 -- --------------------------------------------------------
 
 --
--- 27/05/11 - Champ "date_validite" d'un mémo obligatoire
---
-
-ALTER TABLE `module_cahierdetextes_memo` CHANGE `date_validite` `date_validite` VARCHAR( 14 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL 
--- --------------------------------------------------------
-
---
 -- Structure de la table `module_agenda_work`
 --
 
@@ -145,3 +138,10 @@ CREATE TABLE IF NOT EXISTS `module_cahierdetextes_travail2files` (
   KEY `fk_travail` (`module_cahierdetextes_travail_id`),
   KEY `fk_files` (`module_malle_files_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- 27/05/11 - Champ "date_validite" d'un mémo obligatoire
+--
+
+ALTER TABLE `module_cahierdetextes_memo` CHANGE `date_validite` `date_validite` VARCHAR( 14 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL 
+-- --------------------------------------------------------

@@ -43,4 +43,22 @@ class DAOClasseurFichier {
 		
 		return $this->findBy ($criteria);
   }
+  
+  /**
+   * Retourne le nombre de fichiers et la taille qu'ils occupent pour un dossier
+   *
+   * @param int   $idClasseur   Identifiant du classeur
+   * @param int   $idDossier    Identifiant du dossier
+   *
+   * @return CopixDAORecordIterator
+   */
+	function getNombreEtTailleParDossier ($idClasseur, $idDossier) {
+	  
+	  $sql = 'SELECT COUNT(id) AS nb_fichiers, SUM(taille) AS taille'
+	      . ' FROM module_classeur_fichier'
+	      . ' WHERE module_classeur_id=:idClasseur'
+	      . ' AND module_classeur_dossier_id=:idDossier';
+	      
+		return _doQuery($sql, array(':idClasseur' => $idClasseur, ':idDossier' => $idDossier));
+	}
 }

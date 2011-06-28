@@ -128,7 +128,7 @@ class ClasseurService {
 		$filename   = $file->id.'-'.$file->cle;
 		$filepath   = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$file->id.'-'.$file->cle.$extension;
 		
-		@unlink ($filepath);
+		unlink ($filepath);
 		$fileDAO->delete ($file->id);
 	}
 	
@@ -149,7 +149,7 @@ class ClasseurService {
 		$subfolders = $folderDAO->getEnfantsDirects ($folder->classeur_id, $folder->id);
 		foreach ($subfolders as $subfolder) {
 		  
-		  self::moveFolder ($subfolder, $targetType, $targetId);
+		  self::moveFolder ($subfolder, 'dossier', $folder->id);
 		}
 
     // Déplacement du dossier
@@ -212,12 +212,12 @@ class ClasseurService {
     }
     
     $fileDAO->update($file);
-    
-    // Copie physique du fichier
-    $old_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
-    $new_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
-    
-    if ($old_dir != $new_dir) {
+
+    // Si classeurs différents on déplace le fichier
+    if ($oldClasseur != $newClasseur) {
+      
+      $old_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
+      $new_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
       
       if (!file_exists($new_dir)) {
 
@@ -343,17 +343,17 @@ class ClasseurService {
     $folderDAO = _ioDAO('classeur|classeurdossier');
     $fileDAO   = _ioDAO('classeur|classeurfichier');
     
+    $files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
+		foreach($files as $file) {
+
+		  self::addFileToZip ($file, $zip);
+		}
+		
     // Pour chaque sous dossiers on rappelle la méthode
 		$subfolders = $folderDAO->getEnfantsDirects ($folder->classeur_id, $folder->id);
 		foreach ($subfolders as $subfolder) {
 		  
 		  self::addFolderToZip ($subfolder, $zip);
-		}
-		
-		$files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
-		foreach($files as $file) {
-
-		  self::addFileToZip ($file, $zip);
 		}
   }
   
@@ -375,7 +375,7 @@ class ClasseurService {
     
     $pathfile = $dir.$file->id.'-'.$file->cle.$extension;
     
-    $zip->addFile($pathfile, $file->fichier);
+    $zip->addFile($pathfile, $file->id.'-'.$file->fichier);
   }
   
   /**
@@ -407,6 +407,63 @@ class ClasseurService {
 		
 		return false;
   }
+  
+  /**
+	 * Met à jour les informations d'un dossier (nb_dossiers / nb_fichiers & taille)
+	 *
+	 * @param DAORecordClasseurDossier $folder      Dossier à mettre à jour
+	 */
+	function updateFolderInfos ($folder) {
+		
+		$folderDAO = _ioDAO('classeur|classeurdossier');
+		
+		if ($folder) {
+		  
+	    while ($folder->parent_id != 0) {
+	      
+				$folder = $folderDAO->get ($folder->parent_id);
+    	}
+    	
+			self::updateFolderInfosWithDescendants ($folder);
+		}
+	}
+
+
+	/**
+	 * Met à jour les informations d'un dossier (nb_dossiers / nb_fichiers & taille)
+	 * et de ses descendants
+	 *
+	 * @param DAORecordClasseurDossier $folder      Dossier à mettre à jour
+	 */
+	function updateFolderInfosWithDescendants ($folder) {
+	  
+		$fileDAO = _ioDAO('classeur|classeurfichier');
+		$folderDAO = _ioDAO('classeur|classeurdossier');
+		
+		$toReturn["nb_folders"]  = $folderDAO->getNombreEnfantsDirects ($folder->classeur_id, $folder->id);
+		
+		$filesDatas = $fileDAO->getNombreEtTailleParDossier ($folder->classeur_id, $folder->id);
+		$toReturn["nb_files"] 	= $filesDatas[0]->nb_fichiers;
+		$toReturn["size"]       = $filesDatas[0]->taille;
+		
+		// Récupération des dossiers enfants
+		$subfolders = $folderDAO->getEnfantsDirects($folder->classeur_id, $folder->id);
+		foreach ($subfolders as $subfolder) {
+		  
+			$tmp = self::updateFolderInfosWithDescendants ($subfolder);
+			$toReturn["nb_folders"]   += $tmp["nb_folders"];
+			$toReturn["nb_files"] 		+= $tmp["nb_files"];
+			$toReturn["size"]         += $tmp["size"];
+		}
+		
+		// Mise à jour du dossier
+		$folder->nb_dossiers = $toReturn["nb_folders"] * 1;
+		$folder->nb_fichiers = $toReturn["nb_files"] * 1;
+		$folder->taille      = $toReturn["size"] * 1;
+		$folderDAO->update ($folder);		
+		
+		return $toReturn;
+	}
 	
 	/**
    * Stock en session le tri pour l'affichage des contenus du classeur
@@ -417,7 +474,7 @@ class ClasseurService {
    */
 	public static function setContentSort ($folderSort, $fileSort, $direction) {
     
-    $validFolderSorts = array ('nom', 'date_creation');
+    $validFolderSorts = array ('nom', 'taille', 'date_creation');
     $validFileSorts   = array ('titre', 'taille', 'type', 'date_upload');
     
     if (!in_array($fileSort, $validFileSorts)) {

@@ -15,6 +15,10 @@ class ZoneVueListe extends CopixZone {
 	  // Récupération des paramètres
 	  $ppo->classeurId      = $this->getParam('classeurId');
 	  $ppo->dossierId       = $this->getParam('dossierId');
+	  
+	  $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId);
+	  $ppo->typeUtilisateur   = _currentUser()->getExtra('type');
+	  $ppo->idUtilisateur     = _currentUser()->getExtra('id');
 
     // Récupération des paramètres d'affichages
     $ppo->tri = ClasseurService::getContentSort ();

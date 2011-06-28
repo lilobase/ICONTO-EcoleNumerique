@@ -46,17 +46,17 @@ class DAOMalle_Files {
   *
   * @return boolean True si le fichier appartient à la malle, false sinon
   */
-  public function isFileOfMalle ($fileId, $malle) {
+  public function isFileOfMalle ($fileId, $malleId) {
     
     if ($file = $this->get($fileId)) {
       
-      if ($file->malle == $malle) {
+      if ($file->malle == $malleId) {
         
         return true;
       }
     }
     
-    false;
+    return false;
   }
 }
 

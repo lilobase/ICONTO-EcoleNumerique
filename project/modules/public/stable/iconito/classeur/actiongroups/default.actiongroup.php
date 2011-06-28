@@ -10,6 +10,16 @@ class ActionGroupDefault extends enicActionGroup {
   
   public function beforeAction ($actionName) {
     
+    // Contrôle d'accès au module
+    if (!is_null($classeurId = _request ('classeurId', _request('id', null)))) {
+      
+      if (Kernel::getLevel('MOD_CLASSEUR', $classeurId) < PROFILE_CCV_READ) {
+
+        return CopixActionGroup::process ('genericTools|Messages::getError',
+   	     array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
+      }
+    }
+    
     $this->addJs('js/iconito/module_classeur.js');
   }
   
@@ -69,9 +79,32 @@ class ActionGroupDefault extends enicActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
+	  
+	  // Récupération du dossier
+	  $dossierDAO = _ioDAO('classeur|classeurdossier');
+	  if (!is_null($dossierId = _request('dossierId', null))) {
+      
+      $ppo->dossier = $dossierDAO->get($dossierId);
+    }
+    else {
+      
+      $ppo->dossier = _record ('classeur|classeurdossier');
+      
+      $ppo->dossier->nb_dossiers = 0;
+      $ppo->dossier->nb_fichiers = 0;
+      $ppo->dossier->taille      = 0;
+    }
+    
+    // Contrôle d'accès : si non admin & non propriétaire du dossier
+	  if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH 
+	    && ($ppo->dossier->user_type != _currentUser()->getExtra('type') 
+	      || $ppo->dossier->user_id != _currentUser()->getExtra('id'))) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
 
     // Récupération du dossier
-    $dossierDAO = _ioDAO('classeur|classeurdossier');
     if (!is_null($parentId  = _request('parentId', null)) && $parentId != 0) {
       
       $ppo->parent  = $dossierDAO->get($parentId);
@@ -82,15 +115,6 @@ class ActionGroupDefault extends enicActionGroup {
       $classeurDAO  = _ioDAO('classeur|classeur');
       $classeur     = $classeurDAO->get($ppo->classeurId);
       $ppo->path    = '/'.$classeur->titre.'/';
-    }
-    
-    if (!is_null($dossierId = _request('dossierId', null))) {
-      
-      $ppo->dossier = $dossierDAO->get($dossierId);
-    }
-    else {
-      
-      $ppo->dossier = _record ('classeur|classeurdossier');
     }
     
     if (CopixRequest::isMethod ('post')) {
@@ -119,6 +143,9 @@ class ActionGroupDefault extends enicActionGroup {
         
         // Insertion de l'enregistrement "dossier"
         $dossierDAO->insert ($ppo->dossier);
+
+        _classInclude('classeur|classeurservice');
+        classeurService::updateFolderInfos($ppo->dossier);
       }
       else {
         
@@ -140,13 +167,20 @@ class ActionGroupDefault extends enicActionGroup {
     $dossierDAO = _ioDAO('classeur|classeurdossier');
  	  $fichierDAO = _ioDAO('classeur|classeurfichier');
  	  
-    if (is_null($ppo->classeurId  = _request ('classeurId', null))
-     || is_null($ppo->parentId    = _request('parentId', null))
-     || is_null($ppo->dossier     = $dossierDAO->get (_request ('dossierId', null)))) {
+    if (is_null($ppo->classeurId     = _request ('classeurId', null))
+     || is_null($ppo->dossierParent  = $dossierDAO->get(_request('parentId', null)))
+     || is_null($ppo->dossier        = $dossierDAO->get (_request ('dossierId', null)))) {
        
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
+ 	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH 
+	    && ($ppo->dossier->user_type != _currentUser()->getExtra('type') 
+	      || $ppo->dossier->user_id != _currentUser()->getExtra('id'))) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
  	  
  	  if (CopixRequest::isMethod ('post')) {
     
@@ -182,9 +216,14 @@ class ActionGroupDefault extends enicActionGroup {
       
       // Déplacement des dossiers
       classeurService::moveFolder($ppo->dossier, $ppo->destinationType, $ppo->destinationId);
+
+      // Maj des informations du dossier
+      classeurService::updateFolderInfos($ppo->dossierParent);
       
       // Redirection
       if ($ppo->destinationType == 'dossier') {
+        
+        classeurService::updateFolderInfos($dossierDestination);
         
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $dossierDestination->classeur_id, 'dossierId' => $ppo->destinationId, 'success' => true)));
       }
@@ -194,7 +233,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
     }
  	  
- 	  return _arPPO ($ppo, array ('template' => 'deplacer_dossier.tpl'));
+ 	  return _arPPO ($ppo, array ('template' => 'deplacer_dossier.tpl', 'mainTemplate' => 'main|main_fancy.php'));
   }
   
   /**
@@ -202,25 +241,32 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
   public function processSupprimerDossier () {
     
+    _classInclude('classeur|classeurservice');
+	  $dossierDAO = _ioDAO ('classeur|classeurdossier');
+	  $fichierDAO = _ioDAO ('classeur|classeurfichier');
+	  
     if (is_null($classeurId = _request ('classeurId'))
-     || is_null($dossierId  = _request ('dossierId'))) {
+     || is_null($dossier  = $dossierDAO->get(_request ('dossierId', null)))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  
-	  _classInclude('classeur|classeurservice');
-	  $dossierDAO = _ioDAO ('classeur|classeurdossier');
-	  $fichierDAO = _ioDAO ('classeur|classeurfichier');
-	  
-	  // Récupération du dossier à supprimer
-	  $dossier  = $dossierDAO->get($dossierId);
-	  $parentId = $dossier->parent_id;
+	  elseif (Kernel::getLevel('MOD_CLASSEUR', $classeurId) < PROFILE_CCV_PUBLISH 
+	    && ($dossier->user_type != _currentUser()->getExtra('type') 
+	      || $dossier->user_id != _currentUser()->getExtra('id'))) {
+	    
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
 	  
 	  // Suppression
 	  classeurService::deleteFolder($dossier, true);
+	  
+	  // Maj des informations de dossier
+	  $dossierParent = $dossierDAO->get($dossier->parent_id);
+    classeurService::updateFolderInfos($dossierParent);
     
-    return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $parentId, 'success' => true)));
+    return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossierParent->id, 'success' => true)));
   }
   
   /**
@@ -242,6 +288,15 @@ class ActionGroupDefault extends enicActionGroup {
       
       $fichierDAO = _ioDAO('classeur|classeurfichier');
       $ppo->fichier = $fichierDAO->get($fichierId);
+      
+      // Contrôle d'accès
+      if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH 
+  	    && ($ppo->fichier->user_type != _currentUser()->getExtra('type') 
+  	      || $ppo->fichier->user_id != _currentUser()->getExtra('id'))) {
+
+  	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+  	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+  	  }
     }
     else {
       
@@ -390,12 +445,22 @@ class ActionGroupDefault extends enicActionGroup {
 
         // Suppression du dossier TMP
         rmdir($ppo->dossierTmp);
+        
+        // Mise à jour des informations du dossier parent
+        classeurService::updateFolderInfos($ppo->dossier);
       }
       
       return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->dossierId, 'success' => true)));
     }
     
-    return _arPPO ($ppo, array ('template' => 'editer_fichiers.tpl'));
+    if (isset($ppo->fichier) && !is_null($ppo->fichier->id)) {
+      
+      return _arPPO ($ppo, array ('template' => 'editer_fichiers.tpl', 'mainTemplate' => 'main|main_fancy.php'));
+    }
+    else {
+      
+      return _arPPO ($ppo, array ('template' => 'editer_fichiers.tpl'));
+    }
   }
   
   /**
@@ -407,12 +472,19 @@ class ActionGroupDefault extends enicActionGroup {
  	  $fichierDAO = _ioDAO('classeur|classeurfichier');
  	  
     if (is_null($ppo->classeurId  = _request ('classeurId', null))
-     || is_null($ppo->dossierId   = _request ('dossierId', null))
+     || is_null($ppo->dossier     = $dossierDAO->get(_request ('dossierId', null)))
      || is_null($ppo->fichier     = $fichierDAO->get(_request ('fichierId', null)))) {
        
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
+ 	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH 
+	    && ($ppo->fichier->user_type != _currentUser()->getExtra('type') 
+	      || $ppo->fichier->user_id != _currentUser()->getExtra('id'))) {
+
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
  	  
  	  if (CopixRequest::isMethod ('post')) {
     
@@ -449,9 +521,13 @@ class ActionGroupDefault extends enicActionGroup {
       // Déplacement du fichier
       classeurService::moveFile($ppo->fichier, $ppo->destinationType, $ppo->destinationId);
       
+      // Maj des informations des dossiers 
+      classeurService::updateFolderInfos($ppo->dossier);
+            
       // Redirection
       if ($ppo->destinationType == 'dossier') {
         
+        classeurService::updateFolderInfos($dossierDestination);
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $dossierDestination->classeur_id, 'dossierId' => $ppo->destinationId, 'success' => true)));
       }
       else {
@@ -459,8 +535,8 @@ class ActionGroupDefault extends enicActionGroup {
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->destinationId, 'success' => true)));
       }
     }
- 	  
- 	  return _arPPO ($ppo, array ('template' => 'deplacer_fichier.tpl'));
+    
+ 	  return _arPPO ($ppo, array ('template' => 'deplacer_fichier.tpl', 'mainTemplate' => 'main|main_fancy.php'));
   }
   
   /**
@@ -468,22 +544,31 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
   public function processSupprimerFichier () {
     
+    _classInclude('classeur|classeurservice');
+    $dossierDAO = _ioDAO ('classeur|classeurdossier');
+	  $fichierDAO = _ioDAO ('classeur|classeurfichier');
+	  
     if (is_null($classeurId = _request ('classeurId'))
-     || is_null($dossierId  = _request ('dossierId'))
-     || is_null($fichierId  = _request ('fichierId'))) {
+     || is_null($dossier = $dossierDAO->get(_request ('dossierId', null)))
+     || is_null($fichier  = $fichierDAO->get(_request ('fichierId', null)))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
+	  elseif (Kernel::getLevel('MOD_CLASSEUR', $classeurId) < PROFILE_CCV_PUBLISH 
+	    && ($fichier->user_type != _currentUser()->getExtra('type') 
+	      || $fichier->user_id != _currentUser()->getExtra('id'))) {
+
+	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+	  }
 	  
-	  _classInclude('classeur|classeurservice');
-	  $fichierDAO = _ioDAO ('classeur|classeurfichier');
-	  
-	  // Récupération du fichier à supprimer
-	  $fichier  = $fichierDAO->get($fichierId);
 	  classeurService::deleteFile($fichier);
 	  
-	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossierId, 'success' => true)));
+	  // Maj des informations de dossier
+    classeurService::updateFolderInfos($dossier);
+	  
+	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossier->id, 'success' => true)));
   }
   
   /**
@@ -507,8 +592,10 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
   public function processSupprimerContenu () {
     
+    $dossierDAO = _ioDAO ('classeur|classeurdossier');
+    
     if (is_null($classeurId = _request ('classeurId'))
-     || is_null($parentId  = _request ('dossierId'))) {
+     || is_null($dossierParent = $dossierDAO->get(_request ('dossierId', null)))) {
        
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -532,7 +619,10 @@ class ActionGroupDefault extends enicActionGroup {
  	    classeurService::deleteFile($fichier);
  	  }
  	  
- 	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $parentId, 'success' => true)));
+ 	  // Maj des informations de dossier
+    classeurService::updateFolderInfos($dossierParent);
+ 	  
+ 	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossierParent->id, 'success' => true)));
   }
   
   /**
@@ -540,8 +630,10 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
   public function processDeplacerContenu () {
     
+    $dossierDAO = _ioDAO('classeur|classeurdossier');
+    
     if (is_null($ppo->classeurId = _request ('classeurId'))
-     || is_null($ppo->dossierId  = _request ('dossierId'))) {
+     || is_null($ppo->dossierParent = $dossierDAO->get(_request ('dossierId', null)))) {
        
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -607,7 +699,6 @@ class ActionGroupDefault extends enicActionGroup {
  	    $ppo->nomsContenus = _request('fichiersSelectionnes', null);
  	  }
  	  
- 	  
  	  if (CopixRequest::isMethod ('post')) {
     
       _classInclude('classeur|classeurservice');
@@ -615,6 +706,7 @@ class ActionGroupDefault extends enicActionGroup {
       $arFichierIds       = !is_null(_request('fichiers', null)) ? explode (',', _request('fichiers', null)) : null;
       $arDossierIds       = !is_null(_request('dossiers', null)) ? explode (',', _request('dossiers', null)) : null;
       
+      // Récupération des informations sur le noeud de destination
       $destination        = !is_null(_request('destination', null)) ? explode('-', _request('destination', null)) : null;
       if (is_array($destination) && !empty($destination)) {
         
@@ -651,12 +743,10 @@ class ActionGroupDefault extends enicActionGroup {
         foreach ($arDossierIds as $arDossierId) {
           
           $dossier = $dossierDAO->get($arDossierId);
-          if ($ppo->destinationType == 'dossier') {
+          if (($ppo->destinationType == 'dossier' && !classeurService::isDescendantOf($dossierDestination, $dossier)) 
+            || $ppo->destinationType == 'classeur') {
             
-            if (!classeurService::isDescendantOf($dossierDestination, $dossier)) {
-              
-              $dossiers[] = $dossierDAO->get($arDossierId);
-            }
+            $dossiers[] = $dossierDAO->get($arDossierId);
           }
         }
       }
@@ -677,8 +767,13 @@ class ActionGroupDefault extends enicActionGroup {
         }
       }
       
+      // Maj des informations de dossier
+      classeurService::updateFolderInfos($dossierParent);
+      
       // Redirection
       if ($ppo->destinationType == 'dossier') {
+        
+        classeurService::updateFolderInfos($dossierDestination);
         
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $dossierDestination->classeur_id, 'dossierId' => $ppo->destinationId, 'success' => true)));
       }
@@ -770,6 +865,7 @@ class ActionGroupDefault extends enicActionGroup {
       // Redirection
       if ($destinationType == 'dossier') {
         
+        classeurService::updateFolderInfos($dossierDestination);
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $dossierDestination->classeur_id, 'dossierId' => $destinationId, 'success' => true)));
       }
       else {

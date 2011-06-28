@@ -33,7 +33,7 @@
         {else}
           {assign var=triDirection value='ASC'}
         {/if}
-        <a class="{if $ppo->tri.triFichiers eq "taille"}{$triDirection}{/if}" href="{copixurl dest="classeur||voirContenu" vue='liste' classeurId=$ppo->classeurId dossierId=$ppo->dossierId triFichiers='taille' triDirection=$triDirection}">{i18n key="classeur.message.size"}</a>
+        <a class="{if $ppo->tri.triFichiers eq "taille"}{$triDirection}{/if}" href="{copixurl dest="classeur||voirContenu" vue='liste' classeurId=$ppo->classeurId dossierId=$ppo->dossierId triDossiers='taille' triFichiers='taille' triDirection=$triDirection}">{i18n key="classeur.message.size"}</a>
       </th>
       <th></th>
     </tr>
@@ -46,17 +46,27 @@
       <td><a href="{copixurl dest="classeur||voirContenu" vue='liste' classeurId=$ppo->classeurId dossierId=$dossier->id}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom}">{$dossier->nom|escape}</a></td>
       <td>---</td>
       <td>{$dossier->date_creation|datei18n:"date_short_time"}</td>
-      <td></td>
       <td>
+        {if $dossier->nb_dossiers neq 0}
+          {$dossier->nb_dossiers} {if $dossier->nb_dossiers eq 1}dossier{else}dossiers{/if}
+        {/if}
+        {if $dossier->nb_fichiers neq 0}
+          {$dossier->nb_fichiers} {if $dossier->nb_fichiers eq 1}fichier{else}fichiers{/if}
+        {/if}
+        {$dossier->taille|human_file_size}
+      </td>
+      <td>
+        {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
         <a class="fancybox" href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$dossier->id}">
           <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
+        </a>
+        <a class="fancybox" href="{copixurl dest="classeur||deplacerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId dossierId=$dossier->id}">
+          Move
         </a>
         <a href="{copixurl dest="classeur||supprimerDossier" classeurId=$ppo->classeurId dossierId=$dossier->id}" onclick="return confirm('{i18n key="classeur.message.deleteFolderConfirm"}')">
           <img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
         </a>
-        <a href="{copixurl dest="classeur||deplacerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId dossierId=$dossier->id}">
-          Move
-        </a>
+        {/if}
       </td>
     </tr>
     {assign var=index value=$index+1}
@@ -69,15 +79,17 @@
       <td>{$fichier->date_creation|datei18n:"date_short_time"}</td>
       <td>{$fichier->taille|human_file_size}</td>
       <td>
-        <a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}">
+        {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($fichier->user_id eq $ppo->idUtilisateur && $fichier->user_type eq $ppo->typeUtilisateur)}
+        <a class="fancybox" href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}">
           <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
+        </a>
+        <a class="fancybox" href="{copixurl dest="classeur||deplacerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}">
+          Move
         </a>
         <a href="{copixurl dest="classeur||supprimerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" onclick="return confirm('{i18n key="classeur.message.deleteFileConfirm"}')">
           <img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
         </a>
-        <a href="{copixurl dest="classeur||deplacerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}">
-          Move
-        </a>
+        {/if}
       </td>
     </tr>
     {assign var=index value=$index+1}

@@ -12,7 +12,7 @@
 
 <form name="move_folder" id="move_folder" action="{copixurl dest="classeur||deplacerDossier"}" method="POST" enctype="multipart/form-data">
   <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeurId}" />
-  <input type="hidden" name="parentId" id="parentId" value="{$ppo->parentId}" />
+  <input type="hidden" name="parentId" id="parentId" value="{$ppo->dossierParent->id}" />
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossier->id}" />
   
   <div class="field">
@@ -26,7 +26,7 @@
   </div>
   
   <div class="submit">
-    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeurId dossierId=$ppo->parentId}">
+    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeurId dossierId=$ppo->dossierParent->id}">
       <span class="button button-cancel" class="cancel" id="cancel">{i18n key="classeur.message.cancel"}</span>
     </a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="classeur.message.save"}" />

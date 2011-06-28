@@ -66,7 +66,33 @@ class DAOClasseurDossier {
 		  
 		  $criteria->orderBy(array($tri['colonne'], $tri['direction']));
 		}
+		else {
+		  
+		  $criteria->orderBy(array('nom', 'ASC'));
+		}
 		
 		return $this->findBy ($criteria);
   }
+
+	/**
+	 * Renvoie le nombre de sous-répertoires contenus dans un répertoire
+	 *
+	 * @param int   $idClasseur   Identifiant du classeur
+   * @param int   $idDossier    Identifiant du dossier
+   *
+   * @return int
+	 */
+	function getNombreEnfantsDirects ($idClasseur, $idDossier) {
+	  
+		$results = array();
+		
+		$sql = 'SELECT COUNT(id) AS nb_dossiers'
+		    . ' FROM module_classeur_dossier'
+		    . ' WHERE module_classeur_id = :idClasseur'
+		    . ' AND parent_id = :idDossier';
+		    
+	  $results = _doQuery($sql, array(':idClasseur' => $idClasseur, ':idDossier' => $idDossier));
+	  
+	  return $results[0] ? $results[0]->nb_dossiers : 0;
+	}
 }

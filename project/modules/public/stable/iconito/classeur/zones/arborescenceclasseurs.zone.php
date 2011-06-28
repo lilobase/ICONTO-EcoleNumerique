@@ -11,8 +11,8 @@ class ZoneArborescenceClasseurs extends CopixZone {
 	  $ppo = new CopixPPO ();
 	  
 	  // Récupération des paramètres
-	  $ppo->classeurId  = $this->getParam('classeurId');
-	  $ppo->dossierCourant   = $this->getParam('dossierCourant');
+	  $ppo->classeurId      = $this->getParam('classeurId');
+	  $ppo->dossierCourant  = $this->getParam('dossierCourant');
 	  
 	  // Récupération des classeurs accessibles à l'utilisateur
     $classeurIds = array();
