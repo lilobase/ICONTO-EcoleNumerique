@@ -174,6 +174,7 @@ jQuery(document).ready(function($){
 		<input id="doinsert" class="button button-confirm" type="button" value="{i18n key="malle.popup.doinsert"}" />
 		<input id="docancel" class="button button-cancel" type="button" value="{i18n key="malle.popup.cancel"}" />
 	</div>
+	{if $ppo->format neq "id"}
 	<div class="">
 		<form name="form" id="options">
 			{i18n key="malle|malle.popup.mode"}
@@ -181,6 +182,7 @@ jQuery(document).ready(function($){
 			<input id="mode-download" type="radio" name="mode" value="download" /><label for="mode-download">{i18n key="malle|malle.popup.mode.download"}</label>
 		</form>
 	</div>
+	{/if}
 </div>
 
 

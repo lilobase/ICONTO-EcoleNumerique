@@ -144,4 +144,4 @@ CREATE TABLE IF NOT EXISTS `module_cahierdetextes_travail2files` (
 --
 
 ALTER TABLE `module_cahierdetextes_memo` CHANGE `date_validite` `date_validite` VARCHAR( 14 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL 
--- --------------------------------------------------------
+-- -------------------------------------------------------- 

@@ -11,6 +11,41 @@ class DAORecordClasseurFichier {
 	
 		return $this->titre;
 	}
+	
+	/**
+  * Determine si un fichier est un raccourci internet. 
+  * Se base sur le nom du fichier en verifiant s'il a l'extention .url
+  *
+  * @return bool True s'il s'agit d'un favori / false sinon
+  */
+  public function estUnFavori () {
+    
+    if (substr($this->fichier, -4) == '.url') {
+      
+      return true;
+    }
+    
+    return false;
+  }
+  
+  public function getLienFavori () {
+    
+    $toReturn = null;
+    
+    if ($this->estUnFavori ()) {
+      
+      $toReturn = classeurService::getUrlOfFavorite($this);
+    }
+    
+    return $toReturn;
+  }
+  
+  public function getDownloadUrl () {
+    
+    $url = CopixURL::get ('classeur||telechargerFichier', array('classeurId' => $this->classeur_id, 'fichierId' => $this->id));
+
+    return $url;
+  }
 }
 
 class DAOClasseurFichier {
@@ -52,7 +87,7 @@ class DAOClasseurFichier {
    *
    * @return CopixDAORecordIterator
    */
-	function getNombreEtTailleParDossier ($idClasseur, $idDossier) {
+	public function getNombreEtTailleParDossier ($idClasseur, $idDossier) {
 	  
 	  $sql = 'SELECT COUNT(id) AS nb_fichiers, SUM(taille) AS taille'
 	      . ' FROM module_classeur_fichier'

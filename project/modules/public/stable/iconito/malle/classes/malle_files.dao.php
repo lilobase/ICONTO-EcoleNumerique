@@ -62,6 +62,11 @@ class DAOMalle_Files {
 
 class DAORecordMalle_Files {
 
+  public function __toString () {
+	
+		return $this->nom;
+	}
+	
   /**
   * Determine si un fichier est un raccourci internet. Se base sur le nom du fichier en verifiant s'il a l'extention .web
   *

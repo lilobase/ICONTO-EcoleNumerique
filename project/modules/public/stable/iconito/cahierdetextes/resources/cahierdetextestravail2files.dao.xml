@@ -8,6 +8,7 @@
   </datasource>
   <properties>
     <property name="travail_id" fieldname="module_cahierdetextes_travail_id" type="integer" required="yes" pk="yes"/>
+    <property name="module_file" fieldname="module_files_type" type="varchar" required="yes"/>
     <property name="file_id" fieldname="module_malle_files_id" type="integer" required="yes" pk="yes"/>
   </properties>
   <methods>

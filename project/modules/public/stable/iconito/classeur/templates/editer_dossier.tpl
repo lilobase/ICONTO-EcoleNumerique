@@ -1,3 +1,5 @@
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeurId dossierId=$ppo->parent->id}
+
 {if $ppo->dossierId eq null}
   <h2>{i18n key="classeur.message.newFolder"}</h2>
 {else}
@@ -30,7 +32,7 @@
   </div>
   
   <div class="submit">
-    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeur->id}">
+    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeurId}">
       <span class="button button-cancel" class="cancel" id="cancel">{i18n key="classeur.message.cancel"}</span>
     </a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="classeur.message.save"}" />

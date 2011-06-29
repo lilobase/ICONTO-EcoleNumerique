@@ -14,7 +14,8 @@ class ZoneAffichageFichiers extends CopixZone {
 	  $nodeType = $this->getParam('nodeType');
 	  $nodeId   = $this->getParam('nodeId');
 	  
-	  $filesDAO = _ioDAO('malle|malle_files');
+	  $fichierMalleDAO     = _ioDAO('malle|malle_files');
+    $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');
 	  
 	  $fichiers = array();
 	  if ($nodeType == 'travail') {
@@ -33,10 +34,20 @@ class ZoneAffichageFichiers extends CopixZone {
 	  // Récupération des fichiers
 	  $ppo->fichiers = array();
     foreach ($fichiers as $fichier) {
+      
+      if ($fichier->module_file == 'MOD_MALLE') {
+        
+        if ($file = $fichierMalleDAO->get($fichier->file_id)) {
 
-      if ($file = $filesDAO->get($fichier->file_id)) {
+          $ppo->fichiers[] = $file;
+        }
+      }
+      elseif ($fichier->module_file == 'MOD_CLASSEUR') {
+        
+        if ($file = $fichierClasseurDAO->get($fichier->file_id)) {
 
-        $ppo->fichiers[] = $file;
+          $ppo->fichiers[] = $file;
+        }
       }
     }
     

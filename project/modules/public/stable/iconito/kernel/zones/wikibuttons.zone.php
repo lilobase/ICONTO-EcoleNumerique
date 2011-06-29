@@ -16,7 +16,7 @@ class ZoneWikiButtons extends CopixZone {
 	 * @since 2005/12/28
 	 * @param string $field Nom du champ dans le formulaire. Correspond à l'attribut "name" et "id" dans le template (les deux doivent être positionnés)
 	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
-	 * @param array $objet (option) Module dans lequel se trouve la barre wiki, dans un tableau indexé avec TYPE et ID (exemple: type=>MOD_BLOG, ID=>4). Si positionné, on va vérifier si le parent de cet objet a un album photos et une malle, et si oui on affiche les liens vers l'album photos et la malle en mode popup
+	 * @param array $objet (option) Module dans lequel se trouve la barre wiki, dans un tableau indexé avec TYPE et ID (exemple: type=>MOD_BLOG, ID=>4). Si positionné, on va vérifier si le parent de cet objet a un album photos, une malle et un classeur, et si oui on affiche les liens vers l'album photos, la malle et le classeur en mode popup
 	 */
 	function _createContent (&$toReturn) {
 		$tpl = & new CopixTpl ();
@@ -30,7 +30,7 @@ class ZoneWikiButtons extends CopixZone {
 
 		if ($field && $format) {
 			
-      $buttonAlbum = $buttonMalle = array();	// Bouton album photos et malle
+      $buttonAlbum = $buttonMalle = $buttonClasseur = array();	// Bouton album photos et malle
 			$buttons = array();	// Tableau avec les boutons
 
 			switch ($format) {
@@ -82,12 +82,19 @@ class ZoneWikiButtons extends CopixZone {
 						$url = CopixUrl::get ('malle|malle|getMallePopup', array('id'=>$mal[0]->module_id, 'field'=>$field, 'format'=>$format));
 						$buttonMalle = array('titre'=>CopixI18N::get ('wikibuttons.malleTxt'), 'accesskey'=>'d', 'tabindex'=>19, 'link'=> $url);	// Malle
 					}
+					$cla = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR');
+					if ($cla) {
+					  $url = CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $cla[0]->module_id, 'field' => $field, 'format' => $format));
+						$buttonClasseur = array('titre' => CopixI18N::get ('wikibuttons.classeurTxt'), 'accesskey' => 'd', 'tabindex' => 20, 'link' => $url);	// Classeur
+					}
 				}
 			}
+			
 			$tpl->assign('format', $format);
 			$tpl->assign('buttons', $buttons);
 			$tpl->assign('buttonAlbum', $buttonAlbum);
 			$tpl->assign('buttonMalle', $buttonMalle);
+			$tpl->assign('buttonClasseur', $buttonClasseur);
 			$tpl->assign('field', $field);
 	    $toReturn = $tpl->fetch ('wikibuttons.tpl');
 

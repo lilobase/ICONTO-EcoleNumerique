@@ -1,3 +1,5 @@
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeurId dossierId=$ppo->dossierParent->id}
+
 <h2>{i18n key="classeur.message.moveFolder"}</h2>
 
 {if $ppo->success}
@@ -18,6 +20,11 @@
   <div class="field">
     <label for="dossier_id" class="form_libelle">{i18n key="classeur.message.selectedFolder"} :</label>
     <input id="dossier_id" name="dossier_id" type="input" value="{$ppo->dossier->nom}" readonly />
+  </div>
+  
+  <div class="field">
+    <label>{i18n key="classeur.message.currentFolder"} :</label>
+    {$ppo->dossier->getPath()}
   </div>
   
   <div class="field">

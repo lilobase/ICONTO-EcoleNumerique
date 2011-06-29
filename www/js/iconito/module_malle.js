@@ -2,6 +2,7 @@
 function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat, idFile, nomFile) {
   var popup = false;
   var html = '';
+  var typeFile = "MOD_MALLE";
   switch (format) {
     case 'wiki' :
       self.parent.current_url_doc = "[["+url+"|"+mode+"]]";
@@ -31,9 +32,9 @@ function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_
       self.parent.add_text(field, url);
       break;
       
-    // Affiche le contenu directement dans le field
+    // Retourne l'identifiant du fichier (ainsi que le type du module dont il provient)
     case 'id':
-      self.parent.add_node(field, idFile, nomFile);
+      self.parent.add_node(field, typeFile, idFile, nomFile);
       break;
 
     default :

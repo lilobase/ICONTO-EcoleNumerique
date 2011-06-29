@@ -1,3 +1,5 @@
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}
+
 <h2>{i18n key="classeur.message.addFavorite"}</h2>
 
 {if $ppo->success}
@@ -11,7 +13,7 @@
 {/if}
 
 <form name="edit_favorite" id="edit_favorite" action="{copixurl dest="classeur||editerFavori"}" method="POST" enctype="multipart/form-data">
-  <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeurId}" />
+  <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
   <input type="hidden" name="favoriId" id="favoriId" value="{$ppo->favori->id}" />
   
@@ -22,7 +24,7 @@
   
   <div class="textarea">
     <label for="favori_adresse" class="form_libelle">{i18n key="classeur.message.url"}</label>
-    <textarea name="favori_adresse" id="favori_adresse">{$ppo->favori->adresse}</textarea>
+    <input class="form" type="text" name="favori_adresse" value="{$ppo->favori->lien}" />
   </div>
   
   <div class="field">
@@ -31,7 +33,7 @@
   </div>
   
   <div class="submit">
-    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeurId dossierId=$ppo->dossierId}">
+    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">
       <span class="button button-cancel" class="cancel" id="cancel">{i18n key="classeur.message.cancel"}</span>
     </a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="classeur.message.save"}" />

@@ -387,6 +387,9 @@ class ActionGroupDefault extends enicActionGroup {
 	    $ppo->idsDomaine[]  = $domaine->id; 
 	    $ppo->nomsDomaine[] = $domaine->nom;
 	  }
+	  
+	  $fichierMalleDAO        = _ioDAO('malle|malle_files');
+    $fichierClasseurDAO     = _ioDAO('classeur|classeurfichier');
   	
   	// Mode edition ?
   	$travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
@@ -431,15 +434,24 @@ class ActionGroupDefault extends enicActionGroup {
   	  }
   	  
   	  // Récupération des fichiers
-  	  $filesDAO               = _ioDAO('malle|malle_files');
   	  $travail2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
   	  $travail2fichiers       = $travail2fichiersDAO->retrieveByTravail ($ppo->travail->id);
   	  $ppo->fichiers          = array();
       foreach($travail2fichiers as $travail2fichier) {
 
-        if ($fichier = $filesDAO->get($travail2fichier->file_id)) {
+        if ($travail2fichier->module_file == 'MOD_MALLE') {
           
-          $ppo->fichiers[$fichier->id] = $fichier->nom;
+          if ($fichier = $fichierMalleDAO->get($travail2fichier->file_id)) {
+
+            $ppo->fichiers[] = array('type' => $travail2fichier->module_file, 'id' => $travail2fichier->file_id, 'nom' => $fichier->nom);
+          }
+        }
+        elseif ($travail2fichier->module_file == 'MOD_CLASSEUR') {
+          
+          if ($fichier = $fichierClasseurDAO->get ($travail2fichier->file_id)) {
+            
+            $ppo->fichiers[] = array('type' => $travail2fichier->module_file, 'id' => $travail2fichier->file_id, 'nom' => $fichier->titre);
+          }
         }
       }
   	}
@@ -455,14 +467,6 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->elevesSelectionnes         = _request ('eleves', array());
       $ppo->fichiers                   = _request ('travail_fichiers', array());
       $ppo->travail_redirection        = _request ('travail_redirection', null);
-      
-      // Malle
-      $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
-      $malle  = Kernel::filterModuleList ($mods, 'MOD_MALLE');
-      if ($malle) {
-
-        $malleId = $malle[0]->module_id;
-      }
       
       // Traitement des erreurs
       $ppo->erreurs = array ();
@@ -494,13 +498,62 @@ class ActionGroupDefault extends enicActionGroup {
       if (!empty($ppo->fichiers)) {
         
         $ppo->fichiers = array_unique($ppo->fichiers);
-        $fichiersDAO = _ioDAO('malle|malle_files');
-        foreach($ppo->fichiers as $fichierId) {
+        
+        // Récupération de l'identifiant de la malle du node
+        $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+        if ($malle = Kernel::filterModuleList ($mods, 'MOD_MALLE')) {
 
-          if (!$fichiersDAO->isFileOfMalle($fichierId, $malleId)) {
+          $malleId = $malle[0]->module_id;
+        }
+        
+        // Récupération des identifiants de classeur
+        $classeurIds = array();
+        
+        // Classeur du node
+        $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+        if ($classeur  = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
 
-            $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
-            break;
+          $classeurIds[] = $classeur[0]->module_id;
+        }
+        // Classeur personnel
+        $mods = Kernel::getModEnabled (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+        if ($classeur  = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
+
+          $classeurIds[] = $classeur[0]->module_id;
+        }
+        
+        // On détermine s'il s'agit de documents de la malle ou du classeur
+        foreach ($ppo->fichiers as $fichierInfos) {
+          
+          $fichierInfos = explode('-', $fichierInfos);
+          if ($fichierInfos[0] == 'MOD_MALLE') {
+            
+            // Erreur : le fichier n'appartient pas à la malle du node
+            if (!$fichierMalleDAO->isFileOfMalle($fichierInfos[1], $malleId)) {
+            
+              $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
+              break;
+            }
+            else {
+              
+              $fichier = $fichierMalleDAO->get ($fichierInfos[1]);
+              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier->nom);
+            }
+          }
+          elseif ($fichierInfos[0] == 'MOD_CLASSEUR') {
+            
+            $fichier = $fichierClasseurDAO->get ($fichierInfos[1]);
+            
+            // Erreur : le fichier n'appartient pas aux classeurs disponible à l'utilisateur
+            if (!in_array($fichier->classeur_id, $classeurIds)) {
+              
+              $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
+              break;
+            }
+            else {
+              
+              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier->titre);
+            }
           }
         }
       }
@@ -510,15 +563,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->travail->date_creation     = _request ('travail_date_creation', null);
         $ppo->travail->date_realisation  = _request ('travail_date_realisation', null);
 
-        $fichiersId = $ppo->fichiers;
-        $ppo->fichiers = array();
-        foreach($fichiersId as $fichierId) {
-
-          if ($fichier = $fichiersDAO->get($fichierId)) {
-            
-            $ppo->fichiers[$fichierId] = $fichier->nom;
-          }
-        }
+        $ppo->fichiers = $fichiers;
         
         return _arPPO ($ppo, 'editer_travail.tpl');
       }
@@ -558,12 +603,13 @@ class ActionGroupDefault extends enicActionGroup {
       
       // Insertion des liens "travail > fichiers"
       $travail2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
-      foreach($ppo->fichiers as $fichierId) {
-      
+      foreach($fichiers as $fichier) {
+        
         $travail2fichier = _record ('cahierdetextes|cahierdetextestravail2files');
 
         $travail2fichier->travail_id  = $ppo->travail->id;
-        $travail2fichier->file_id     = $fichierId;
+        $travail2fichier->module_file = $fichier['type'];
+        $travail2fichier->file_id     = $fichier['id'];
 
         $travail2fichierDAO->insert($travail2fichier);
       }
@@ -812,15 +858,27 @@ class ActionGroupDefault extends enicActionGroup {
   	  $ppo->elevesSelectionnes  = $memo2eleveDAO->findElevesParMemo ($ppo->memo->id);
   	  
   	  // Récupération des fichiers liés au mémo
-  	  $filesDAO            = _ioDAO('malle|malle_files');
+  	  $fichierMalleDAO     = _ioDAO('malle|malle_files');
+      $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');
+  	  
   	  $memo2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
   	  $memo2fichiers       = $memo2fichiersDAO->retrieveByMemo ($ppo->memo->id);
   	  $ppo->fichiers       = array();
       foreach($memo2fichiers as $memo2fichier) {
 
-        if ($fichier = $filesDAO->get($memo2fichier->file_id)) {
+        if ($memo2fichier->module_file == 'MOD_MALLE') {
           
-          $ppo->fichiers[$fichier->id] = $fichier->nom;
+          if ($fichier = $fichierMalleDAO->get($memo2fichier->file_id)) {
+
+            $ppo->fichiers[] = array('type' => $memo2fichier->module_file, 'id' => $memo2fichier->file_id, 'nom' => $fichier->nom);
+          }
+        }
+        elseif ($memo2fichier->module_file == 'MOD_CLASSEUR') {
+          
+          if ($fichier = $fichierClasseurDAO->get ($memo2fichier->file_id)) {
+            
+            $ppo->fichiers[] = array('type' => $memo2fichier->module_file, 'id' => $memo2fichier->file_id, 'nom' => $fichier->titre);
+          }
         }
       }
 	  }
@@ -838,14 +896,6 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->memo->supprime            = 0;
       $ppo->elevesSelectionnes        = _request ('eleves', array());
       $ppo->fichiers                  = _request ('memo_fichiers', array());
-      
-      // Malle
-      $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
-      $malle  = Kernel::filterModuleList ($mods, 'MOD_MALLE');
-      if ($malle) {
-
-        $malleId = $malle[0]->module_id;
-      }
       
       // Traitement des erreurs
       $ppo->erreurs = array ();
@@ -883,13 +933,62 @@ class ActionGroupDefault extends enicActionGroup {
       if (!empty($ppo->fichiers)) {
         
         $ppo->fichiers = array_unique($ppo->fichiers);
-        $fichiersDAO = _ioDAO('malle|malle_files');
-        foreach($ppo->fichiers as $fichierId) {
+        
+        // Récupération de l'identifiant de la malle du node
+        $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+        if ($malle = Kernel::filterModuleList ($mods, 'MOD_MALLE')) {
 
-          if (!$fichiersDAO->isFileOfMalle($fichierId, $malleId)) {
+          $malleId = $malle[0]->module_id;
+        }
+        
+        // Récupération des identifiants de classeur
+        $classeurIds = array();
+        
+        // Classeur du node
+        $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+        if ($classeur  = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
 
-            $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
-            break;
+          $classeurIds[] = $classeur[0]->module_id;
+        }
+        // Classeur personnel
+        $mods = Kernel::getModEnabled (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+        if ($classeur  = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
+
+          $classeurIds[] = $classeur[0]->module_id;
+        }
+        
+        // On détermine s'il s'agit de documents de la malle ou du classeur
+        foreach ($ppo->fichiers as $fichierInfos) {
+          
+          $fichierInfos = explode('-', $fichierInfos);
+          if ($fichierInfos[0] == 'MOD_MALLE') {
+            
+            // Erreur : le fichier n'appartient pas à la malle du node
+            if (!$fichierMalleDAO->isFileOfMalle($fichierInfos[1], $malleId)) {
+            
+              $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
+              break;
+            }
+            else {
+              
+              $fichier = $fichierMalleDAO->get ($fichierInfos[1]);
+              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier->nom);
+            }
+          }
+          elseif ($fichierInfos[0] == 'MOD_CLASSEUR') {
+            
+            $fichier = $fichierClasseurDAO->get ($fichierInfos[1]);
+            
+            // Erreur : le fichier n'appartient pas aux classeurs disponible à l'utilisateur
+            if (!in_array($fichier->classeur_id, $classeurIds)) {
+              
+              $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
+              break;
+            }
+            else {
+              
+              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier->titre);
+            }
           }
         }
       }
@@ -900,15 +999,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->memo->date_validite       = _request ('memo_date_validite', null);
         $ppo->memo->date_max_signature  = _request ('memo_date_max_signature', null);
         
-        $fichiersId = $ppo->fichiers;
-        $ppo->fichiers = array();
-        foreach($fichiersId as $fichierId) {
-
-          if ($fichier = $fichiersDAO->get($fichierId)) {
-            
-            $ppo->fichiers[$fichierId] = $fichier->nom;
-          }
-        }
+        $ppo->fichiers = $fichiers;
         
         return _arPPO ($ppo, 'editer_memo.tpl');
       }
@@ -948,13 +1039,14 @@ class ActionGroupDefault extends enicActionGroup {
       }
       
       // Insertion des liens "mémo > fichiers"
-      foreach($ppo->fichiers as $fichierId) {
-      
+      foreach($fichiers as $fichier) {
+        
         $memo2fichier = _record ('cahierdetextes|cahierdetextesmemo2files');
-
-        $memo2fichier->memo_id  = $ppo->memo->id;
-        $memo2fichier->file_id     = $fichierId;
-
+        
+        $memo2fichier->memo_id      = $ppo->memo->id;
+        $memo2fichier->module_file  = $fichier['type'];
+        $memo2fichier->file_id      = $fichier['id'];
+        
         $memo2fichierDAO->insert($memo2fichier);
       }
 

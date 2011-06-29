@@ -1,6 +1,12 @@
 {copixzone process=cahierdetextes|affichageMenu cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
 
-<h2>{i18n key="cahierdetextes.message.addMemo"}</h2>
+<h2>
+  {if $ppo->memo->id eq null}
+    {i18n key="cahierdetextes.message.addMemo"}
+  {else}
+    {i18n key="cahierdetextes.message.editMemo"}
+  {/if}
+</h2>
 
 {if $ppo->success}
   <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
@@ -38,8 +44,8 @@
     <div class="field">
       <label for="memo_fichiers" class="form_libelle">{i18n key="cahierdetextes.message.relatedDocuments"}</label>
       <ul class="memo_fichiers" id="memo_fichiers">
-        {foreach from=$ppo->fichiers key=idFichier item=nomFichier}
-          <li><input type="hidden" name="memo_fichiers[]" value="{$idFichier}"> <span>{$nomFichier}</span><a href="#" class="delete-node">X</a></li>
+        {foreach from=$ppo->fichiers item=fichier}
+          <li><input type="hidden" name="memo_fichiers[]" value="{$fichier.type}-{$fichier.id}"> <span>{$fichier.nom}</span><a href="#" class="delete-node">X</a></li>
         {/foreach}
       </ul>
       {copixzone process=kernel|wikibuttons field='memo_fichiers' format='id' object=$ppo->nodeInfos withAlbum=false}

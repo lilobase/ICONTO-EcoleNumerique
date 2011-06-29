@@ -413,7 +413,7 @@ class ClasseurService {
 	 *
 	 * @param DAORecordClasseurDossier $folder      Dossier à mettre à jour
 	 */
-	function updateFolderInfos ($folder) {
+	public static function updateFolderInfos ($folder) {
 		
 		$folderDAO = _ioDAO('classeur|classeurdossier');
 		
@@ -435,7 +435,7 @@ class ClasseurService {
 	 *
 	 * @param DAORecordClasseurDossier $folder      Dossier à mettre à jour
 	 */
-	function updateFolderInfosWithDescendants ($folder) {
+	public static function updateFolderInfosWithDescendants ($folder) {
 	  
 		$fileDAO = _ioDAO('classeur|classeurfichier');
 		$folderDAO = _ioDAO('classeur|classeurdossier');
@@ -503,5 +503,252 @@ class ClasseurService {
     }
 
     return $sort;
+	}
+	
+	/**
+   * Récupère l'adresse web d'un favori
+   *
+   * @return string 
+   */
+	public static function getUrlOfFavorite ($file) {
+	  
+	  $classeurDAO = _ioDAO('classeur|classeur');
+	  $classeur = $classeurDAO->get($file->classeur_id);
+	  
+	  $extension  = strrchr($file->fichier, '.');
+    $nomFichier = $file->id.'-'.$file->cle.$extension;
+    
+    $pathFichier = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.($nomFichier);
+  	if (file_exists($pathFichier)) {
+  	  
+      $regExp =     '@^(http[s]?:\/\/)([_a-zA-Z0-9-.?%#&=\/]+)@i';
+      $regExpURL =  '@^(URL=)(http[s]?:\/\/)([_a-zA-Z0-9-.?%#&=\/]+)@i';
+    
+      $content = file_get_contents ($pathFichier);
+    
+      $lines = explode ("\n",$content);
+    
+      $firstLine = (isset($lines[0])) ? $lines[0] : '';
+      $firstLine9 = strtolower(substr($firstLine,0,9));
+    
+      if ($firstLine9 == '[internet') {
+        
+        $line = (isset($lines[1])) ? $lines[1] : '';
+        if ($line) {
+          
+          if (preg_match($regExpURL, $line, $regs)) {
+            
+            return $regs[2].$regs[3];
+          }
+        }
+      } 
+      else {
+        
+        if ($firstLine9 == '[default]') {
+          
+          $line = (isset($lines[3])) ? $lines[3] : '';
+          if ($line) {
+            
+            if (preg_match($regExpURL, $line, $regs)) {
+              
+              return $regs[2].$regs[3];
+            }
+          }
+        } 
+        else {
+          
+          $line = (isset($lines[0])) ? $lines[0] : '';
+          if (preg_match($regExp, $line, $regs)) {
+            
+            return $regs[1].$regs[2];
+          }
+        }
+      }
+	  }
+	}
+	
+	//////////////////////////////////////////////
+	// Récupération de méthodes du module malle //
+	//////////////////////////////////////////////
+	
+	/**
+  * Genere le contenu d'un ficher type .web, contenant un raccourci vers un site
+  *
+  * @author Christophe Beyer <cbeyer@cap-tic.fr>
+  * @since 2010/09/16
+  * @param string $url URL du lien
+  * @link http://www.cyanwerks.com/file-format-url.html
+  */
+  public static function generateWebFile ($url) {
+    
+    $res = 
+     "[DEFAULT]\n"
+    ."BASEURL=".$url."\n"
+    ."[InternetShortcut]\n"
+    ."URL=".$url."\n"
+    ."Modified=";
+    
+    return $res;
+  }
+  
+  /**
+	 * Retourne des infos sur un type MIME en clair
+	 *
+	 * A partir d'un type MIME ou d'une extension de fichier, retourne des infos en clair dans un tableau index� : type_txt = nom en clair en Fran�ais (ex: Document Word), type_icon = nom de l'image icone � utiliser (dans /www/img/malle/)
+	 *
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/12/06
+	 * @param string $mime_type Type MIME
+	 * @return array Tableau index�
+	 */
+	public static function getTypeInfos ($mime_type, $file_name='') {
+		//print_r("getTypeInfos ($mime_type)");
+
+		$point = strrpos ($file_name, ".");
+		if (!$mime_type) {
+			$mime_type = strtolower(substr($file_name,$point+1));
+		}
+
+		switch (strtolower($mime_type)) {
+			case "text/plain" :
+			case "text/cpp" :
+			case "txt" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.txt'), 'type_icon'=>'icon_file_txt.png', 'type_icon32'=>'icon_file_txt32.png', 'type_mime'=>'text/plain');
+				break;
+				
+			case "text/richtext" :
+			case "application/rtf" :
+			case "rtf" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.rtf'), 'type_icon'=>'icon_file_txt.png', 'type_icon32'=>'icon_file_txt32.png', 'type_mime'=>'text/richtext');
+				break;
+				
+			case "application/msword" :
+			case "doc" :
+			case "docx" :
+			case "application/vnd.oasis.opendocument.text" :
+			case "odt" :
+				if (strtolower($mime_type)=='application/msword' || strtolower($mime_type)=='doc' || strtolower($mime_type)=='docx')
+					$type_mime = 'application/msword';
+				else
+					$type_mime = 'application/vnd.oasis.opendocument.text';
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.doc'), 'type_icon'=>'icon_file_txt.png', 'type_icon32'=>'icon_file_txt32.png', 'type_mime'=>$type_mime);
+				break;
+			
+			case "application/vnd.ms-powerpoint" :
+			case "ppt" :
+			case "pptx" :
+			case "pps" :
+			case "odg" :
+				if (strtolower($mime_type)=='odg')
+  				$type_mime = 'application/vnd.oasis.opendocument.graphics';		
+				else
+					$type_mime = 'application/vnd.ms-powerpoint';
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.presentation'), 'type_icon'=>'icon_file_presentation.png', 'type_icon32'=>'icon_file_presentation32.png', 'type_mime'=>$type_mime);
+				break;
+			
+			case "image/jpeg" :
+			case "jpg" :
+			case "jpeg" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.image.jpg'), 'type_icon'=>'icon_file_image.png', 'type_icon32'=>'icon_file_image32.png', 'type_mime'=>'image/jpeg');
+				break;
+
+			case "image/png" :
+			case "png" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.image.png'), 'type_icon'=>'icon_file_image.png', 'type_icon32'=>'icon_file_image32.png', 'type_mime'=>'image/png');
+				break;
+
+			case "image/gif" :
+			case "gif" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.image.gif'), 'type_icon'=>'icon_file_image.png', 'type_icon32'=>'icon_file_image32.png', 'type_mime'=>'image/gif');
+				break;
+
+			case "image/bmp" :
+			case "bmp" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.image.bmp'), 'type_icon'=>'icon_file_image.png', 'type_icon32'=>'icon_file_image32.png', 'type_mime'=>'image/bmp');
+				break;
+
+			case "audio/wav" : 
+			case "wav" :
+			case "audio/mpeg" : 
+			case "mp3" : 
+				if (strtolower($mime_type)=='audio/wav' || strtolower($mime_type)=='wav')
+					$type_mime = 'audio/wav';
+				else
+					$type_mime = 'audio/mpeg';
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.sound'), 'type_icon'=>'icon_file_sound.png', 'type_icon32'=>'icon_file_sound32.png', 'type_mime'=>$type_mime);
+				break;
+				
+			case "application/pdf" :
+			case "pdf" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.pdf'), 'type_icon'=>'icon_file_pdf.png', 'type_icon32'=>'icon_file_pdf32.png', 'type_mime'=>'application/pdf');
+				break;
+				
+			case "application/vnd.ms-excel" :
+			case "xls" :
+			case "xlsx" :
+			case "application/vnd.oasis.opendocument.spreadsheet" :
+			case "ods" :
+        if (strtolower($mime_type)=='application/vnd.ms-excel' || strtolower($mime_type)=='xls' || strtolower($mime_type)=='xlsx')
+  				$type_mime = 'application/vnd.ms-excel';		
+				else
+					$type_mime = 'application/vnd.oasis.opendocument.spreadsheet';
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.xls'), 'type_icon'=>'icon_file_spreadsheet.png', 'type_icon32'=>'icon_file_spreadsheet32.png', 'type_mime'=>$type_mime);
+				break;
+				
+			case "video/mpeg" :
+			case "video/x-ms-wmv" :
+			case "mpg" :
+			case "mpeg" :
+			case "video/3gpp" :
+			case "3gp" :
+			case "video/quicktime" :
+			case "mov" :
+				if (strtolower($mime_type)=='video/3gpp' || strtolower($mime_type)=='3gp')
+					$type_mime = 'video/3gpp';
+				elseif (strtolower($mime_type)=='video/quicktime' || strtolower($mime_type)=='mov')
+					$type_mime = 'video/quicktime';
+				else
+					$type_mime = 'video/mpeg';
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.video'), 'type_icon'=>'icon_file_video.png', 'type_icon32'=>'icon_file_video32.png', 'type_mime'=>$type_mime);
+				break;
+
+			case "application/zip" :
+			case "zip" :
+			case "application/forcedownload" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.zip'), 'type_icon'=>'icon_file_zip.png', 'type_icon32'=>'icon_file_zip32.png', 'type_mime'=>'application/zip');
+				break;
+			
+            case "text/xml" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.xml'), 'type_icon'=>'icon_file_xml.png', 'type_icon32'=>'icon_file_xml32.png', 'type_mime'=>'text/xml');
+				break;
+
+            case "application/x-smarttech-notebook" :
+            case "nbk" :
+            case "xbk" :
+            case "notebook" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.notebook'), 'type_icon'=>'icon_file_presentation.png', 'type_icon32'=>'icon_file_presentation32.png', 'type_mime'=>'application/x-smarttech-notebook');
+				break;
+
+			
+			default :
+				if ($point !== false) {
+					$ext = strtolower(substr($file_name,$point+1));
+					switch( $ext ) {
+						case 'flv':
+							$res = array('type_text'=>CopixI18N::get ('malle|mime.flv'), 'type_icon'=>'icon_file_video.png', 'type_icon32'=>'icon_file_video32.png');
+							break;
+						default:
+							$res = array('type_text'=>CopixI18N::get ('malle|mime.default'), 'type_icon'=>'icon_file.png', 'type_icon32'=>'icon_file32.png');
+							Logs::set (array('type'=>'INFO', 'message'=>"getTypeInfos ($mime_type, $file_name)"));
+					}
+				} else {
+					$res = array('type_text'=>CopixI18N::get ('malle|mime.default'), 'type_icon'=>'icon_file.png', 'type_icon32'=>'icon_file32.png');			
+					Logs::set (array('type'=>'INFO', 'message'=>"getTypeInfos ($mime_type, $file_name)"));
+				}
+				break;
+				
+		}
+    //print_r($res);
+		return $res;
 	}
 }

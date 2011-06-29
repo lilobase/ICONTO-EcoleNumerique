@@ -45,7 +45,7 @@
       <td><input type="checkbox" class="check" name="dossiers[]" value="{$dossier->id}" /></td>
       <td><a href="{copixurl dest="classeur||voirContenu" vue='liste' classeurId=$ppo->classeurId dossierId=$dossier->id}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom}">{$dossier->nom|escape}</a></td>
       <td>---</td>
-      <td>{$dossier->date_creation|datei18n:"date_short_time"}</td>
+      <td>{$dossier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
       <td>
         {if $dossier->nb_dossiers neq 0}
           {$dossier->nb_dossiers} {if $dossier->nb_dossiers eq 1}dossier{else}dossiers{/if}
@@ -57,13 +57,13 @@
       </td>
       <td>
         {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
-        <a class="fancybox" href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$dossier->id}">
+        <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$dossier->id}" title="{i18n key="classeur.message.modify"}">
           <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
         </a>
-        <a class="fancybox" href="{copixurl dest="classeur||deplacerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId dossierId=$dossier->id}">
+        <a href="{copixurl dest="classeur||deplacerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId dossierId=$dossier->id}" title="{i18n key="classeur.message.move"}">
           Move
         </a>
-        <a href="{copixurl dest="classeur||supprimerDossier" classeurId=$ppo->classeurId dossierId=$dossier->id}" onclick="return confirm('{i18n key="classeur.message.deleteFolderConfirm"}')">
+        <a href="{copixurl dest="classeur||supprimerDossier" classeurId=$ppo->classeurId dossierId=$dossier->id}" onclick="return confirm('{i18n key="classeur.message.deleteFolderConfirm"}')" title="{i18n key="classeur.message.delete"}">
           <img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
         </a>
         {/if}
@@ -72,30 +72,53 @@
     {assign var=index value=$index+1}
     {/foreach}
     {foreach from=$ppo->fichiers item=fichier}
-    <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
-      <td><input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" /></td>
-      <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre}">{$fichier->titre|escape}</a></td>
-      <td>{$fichier->type}</td>
-      <td>{$fichier->date_creation|datei18n:"date_short_time"}</td>
-      <td>{$fichier->taille|human_file_size}</td>
-      <td>
-        {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($fichier->user_id eq $ppo->idUtilisateur && $fichier->user_type eq $ppo->typeUtilisateur)}
-        <a class="fancybox" href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}">
-          <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
-        </a>
-        <a class="fancybox" href="{copixurl dest="classeur||deplacerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}">
-          Move
-        </a>
-        <a href="{copixurl dest="classeur||supprimerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" onclick="return confirm('{i18n key="classeur.message.deleteFileConfirm"}')">
-          <img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
-        </a>
-        {/if}
-      </td>
-    </tr>
+    {if $fichier->estUnFavori()}
+      <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
+        <td><input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" /></td>
+        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre}">{$fichier->titre|escape}</a></td>
+        <td>Favori</td>
+        <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
+        <td>{$fichier->taille|human_file_size}</td>
+        <td>
+          {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
+          <a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id favoriId=$fichier->id}" title="{i18n key="classeur.message.modify"}">
+            <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
+          </a>
+          <a href="{copixurl dest="classeur||deplacerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" title="{i18n key="classeur.message.move"}">
+            Move
+          </a>
+          <a href="{copixurl dest="classeur||supprimerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" onclick="return confirm('{i18n key="classeur.message.deleteFileConfirm"}')" title="{i18n key="classeur.message.delete"}">
+            <img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
+          </a>
+          {/if}
+        </td>
+      </tr>
+    {else}
+      <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
+        <td><input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" /></td>
+        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre}">{$fichier->titre|escape}</a></td>
+        <td>{$fichier->type_text}</td>
+        <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
+        <td>{$fichier->taille|human_file_size}</td>
+        <td>
+          {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
+          <a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" title="{i18n key="classeur.message.modify"}">
+            <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
+          </a>
+          <a href="{copixurl dest="classeur||deplacerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" title="{i18n key="classeur.message.move"}">
+            Move
+          </a>
+          <a href="{copixurl dest="classeur||supprimerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" onclick="return confirm('{i18n key="classeur.message.deleteFileConfirm"}')" title="{i18n key="classeur.message.delete"}">
+            <img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
+          </a>
+          {/if}
+        </td>
+      </tr>
+    {/if}
     {assign var=index value=$index+1}
     {/foreach}
   </tbody>
 </table>
 {else}
-  <p>Pas de fichiers</p>
+  <p>{i18n key="classeur.message.noFiles"}</p>
 {/if}

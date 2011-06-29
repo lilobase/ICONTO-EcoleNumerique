@@ -58,3 +58,10 @@ CREATE TABLE IF NOT EXISTS `module_classeur_fichier` (
   PRIMARY KEY  (`id`),
   KEY `fk_dossier` (`module_classeur_dossier_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+
+--
+-- 29/06/11 - Ajout des champs "_files_type" pour le module "cahierdetextes"
+--
+
+ALTER TABLE `module_cahierdetextes_memo2files` ADD `module_files_type` VARCHAR( 64 ) NOT NULL AFTER `module_cahierdetextes_memo_id`;
+ALTER TABLE `module_cahierdetextes_travail2files` ADD `module_files_type` VARCHAR( 64 ) NOT NULL AFTER `module_cahierdetextes_travail_id`;

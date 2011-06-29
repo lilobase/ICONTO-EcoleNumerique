@@ -1,4 +1,12 @@
-<h2>{i18n key="classeur.message.addFiles"}</h2>
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
+
+<h2>
+  {if $ppo->fichier->id neq null}
+    {i18n key="classeur.message.editFile"}
+  {else}
+    {i18n key="classeur.message.addFiles"}
+  {/if}
+</h2>
 
 {if $ppo->success}
   <p class="mesgSuccess">{i18n key="classeur.message.success"}</p>
@@ -51,13 +59,14 @@
   //<![CDATA[
   $(document).ready(function() {
     $('#fichiers').uploadify({
-      'uploader'  : '/js/uploadify/uploadify.swf',
-      'script'    : '/js/uploadify/module_classeur.php',
-      'cancelImg' : '/js/uploadify/cancel.png',
-      'folder'    : '{/literal}{$ppo->dossierTmp}{literal}',
-      'auto'      : true,
-      'multi'     : true,
-      'buttonText': 'Parcourir'
+      'uploader'        : '/js/uploadify/uploadify.swf',
+      'script'          : '/js/uploadify/module_classeur.php',
+      'cancelImg'       : '',
+      'folder'          : '{/literal}{$ppo->dossierTmp}{literal}',
+      'auto'            : true,
+      'multi'           : true,
+      'removeCompleted' : false,
+      'buttonText'      : 'Parcourir'
     });
   });
   //]]> 

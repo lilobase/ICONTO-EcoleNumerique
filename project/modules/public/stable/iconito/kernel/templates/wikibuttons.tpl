@@ -16,7 +16,7 @@
 {/if}
 
 
-{if $buttonAlbum || $buttonMalle}
+{if $buttonAlbum || $buttonMalle || $buttonClasseur}
 <div>
 
 {if $buttonAlbum}
@@ -28,6 +28,12 @@
 {if $buttonAlbum} | {/if}
 {assign var=button value=$buttonMalle}
 <a class="fancyframe" tabindex="" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.malleTxt"}</a>
+{/if}
+
+{if $buttonClasseur}
+{if $buttonAlbum || $buttonMalle} | {/if}
+{assign var=button value=$buttonClasseur}
+<a class="fancyframe" tabindex="" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.classeurTxt"}</a>
 {/if}
 
 </div>
