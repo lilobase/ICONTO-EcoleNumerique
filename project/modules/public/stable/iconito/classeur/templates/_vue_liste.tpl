@@ -2,7 +2,7 @@
 <table id="folder-content">
   <thead>
     <tr>
-      <th><input type="checkbox" id="check_all" /></th>
+      <th class="left"><input type="checkbox" id="check_all" /></th>
       <th>
         {if $ppo->tri.triDossiers eq "nom" && $ppo->tri.triFichiers eq "titre" && $ppo->tri.triDirection eq "ASC"}
           {assign var=triDirection value='DESC'}

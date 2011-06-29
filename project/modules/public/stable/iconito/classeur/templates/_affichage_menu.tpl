@@ -1,7 +1,11 @@
 <div id="submenu">
+  <div class="menuitems">
   {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH}
-    <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId}">{i18n key="classeur.message.newFolder"}</a> - 
-    <a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}">{i18n key="classeur.message.addFavorite"}</a> - 
-    <a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}">{i18n key="classeur.message.addFiles"}</a>
+    <ul>
+        <li><a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId}"><span class="valign"></span><span>{i18n key="classeur.message.newFolder"}</span></a></li>
+        <li><a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}"><span class="valign"></span><span>{i18n key="classeur.message.addFavorite"}</span></a></li>
+        <li><a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}"><span class="valign"></span><span>{i18n key="classeur.message.addFiles"}</span></a></li>
+    </ul>
   {/if}
+  </div>
 </div>

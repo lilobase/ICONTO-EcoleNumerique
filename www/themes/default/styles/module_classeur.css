@@ -1,31 +1,30 @@
 /* Global */
-#classeur ul.child {
-  
+div.dashboard div.content {
+    padding:43px 10px 10px;
 }
-
-#sidebar {
-  float: left;
-  width: 25%;
-}
-
-#sidebar ul {
-  padding-left: 0;
-  list-style: none;
-}
-
-#sidebar ul ul {
-  padding-left: 15px;
-}
-
 .content-view {
-  float: right;
-  width: 75%;
+  float:right;
+  width:72%;
 }
 
-.mass-actions {
-  clear: both;
-}
+/* End global */
 
+
+ /* Sidebar */
+#sidebar {
+  float:left;
+  margin:10px 0; padding:5px; border:3px solid #ddd;
+  -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+  width:25%;
+  background:#fff;
+}
+#sidebar ul {
+  margin:0; padding:0;
+  list-style:none;
+}
+#sidebar ul ul {
+  padding-left:15px;
+}
 #sidebar li {
   font-weight: bold;
 }
@@ -33,3 +32,43 @@
 #sidebar li.collapsed {
   font-weight: normal;
 }
+/* End Sidebar */
+
+
+/* List view */
+#classeur .content-view .overflow {
+	margin:12px 0 10px; 
+	max-height:350px;
+	overflow:auto;
+}
+#classeur #folder-content {
+	border-radius:8px;
+	width:100%;
+	background:#fff;
+	border-collapse:collapse;
+}
+#classeur #folder-content tr.even {
+	background:#F5F5F5;
+}
+#classeur #folder-content thead th a {
+	padding:0 20px;
+	background:0 3px no-repeat;
+}
+#classeur #folder-content thead th a.ASC {background-image:url(../../../themes/default/images/sort_up_off.png);}
+#classeur #folder-content thead th a.ASC:hover, #classeur #folder-content thead th a:hover {background-image:url(../../../themes/default/images/sort_down_on.png);}
+#classeur #folder-content thead th a.DESC {background-image:url(../../../themes/default/images/sort_down_off.png);}
+#classeur #folder-content thead th a.DESC:hover {background-image:url(../../../themes/default/images/sort_up_on.png);}
+/* End list view */
+
+
+/* Mass Actions */
+#classeur .mass-actions {
+  clear:both;
+  margin:0; padding:0;
+  list-style:none;
+}
+#classeur .mass-actions li {
+	float:left;
+	margin-right:10px;
+}
+/* End mass actions */

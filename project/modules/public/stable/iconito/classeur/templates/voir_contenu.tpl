@@ -9,17 +9,19 @@
 </div>
 
 <div class="content-view">
+  <div class="overflow">
   {if $ppo->vue eq 'liste'}
     {copixzone process=classeur|vueListe classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
   {/if}
+  </div>
   
   <ul class="mass-actions">
     {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || $ppo->classeurId eq $ppo->idClasseurPersonnel}
-      <li><a href="{copixurl dest="classeur||supprimerContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="delete-content">{i18n key="classeur.message.delete"}</a></li>
-      <li><a href="{copixurl dest="classeur||deplacerContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="move-content">{i18n key="classeur.message.move"}</a></li>
+    <li><a href="{copixurl dest="classeur||supprimerContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="button button-delete">{i18n key="classeur.message.delete"}</a></li>
+    <li><a href="{copixurl dest="classeur||deplacerContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="button button-move">{i18n key="classeur.message.move"}</a></li>
     {/if}
-    <li><a href="{copixurl dest="classeur||copierContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="copy-content">{i18n key="classeur.message.copy"}</a></li> 
-    <li><a href="{copixurl dest="classeur||telechargerContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="download-content">{i18n key="classeur.message.download"}</a></li>
+    <li><a href="{copixurl dest="classeur||copierContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="button button-copy">{i18n key="classeur.message.copy"}</a></li> 
+    <li><a href="{copixurl dest="classeur||telechargerContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="button button-download">{i18n key="classeur.message.download"}</a></li>
   </ul>
 </div>
 
