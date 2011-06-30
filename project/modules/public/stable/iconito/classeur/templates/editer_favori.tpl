@@ -39,23 +39,3 @@
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="classeur.message.save"}" />
   </div>
 </form>
-
-{if $ppo->fichier->id eq null}
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-$(document).ready(function() {
-  $('#fichiers').uploadify({
-    'uploader'  : '/js/uploadify/uploadify.swf',
-    'script'    : '/js/uploadify/module_classeur.php',
-    'cancelImg' : '/js/uploadify/cancel.png',
-    'folder'    : '{/literal}{$ppo->dossierTmp}{literal}',
-    'auto'      : false,
-    'multi'     : true,
-    'buttonText': 'Parcourir'
-  });
-});
-//]]> 
-</script>
-{/literal}
-{/if}
