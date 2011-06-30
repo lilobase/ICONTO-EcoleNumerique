@@ -1165,6 +1165,11 @@ class ActionGroupDefault extends enicActionGroup {
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
+ 	  elseif (_currentUser()->getExtra('type') != 'USER_ENS') {
+ 	    
+ 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeur->id))));
+ 	  }
  	  
  	  $ppo->confirmMessage = _request('confirmMessage', null);
  	  
@@ -1219,6 +1224,11 @@ class ActionGroupDefault extends enicActionGroup {
        
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+ 	  }
+ 	  elseif (_currentUser()->getExtra('type') != 'USER_ENS') {
+ 	    
+ 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $classeur->id))));
  	  }
  	  
  	  $path2classeur = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle;
@@ -1319,6 +1329,11 @@ class ActionGroupDefault extends enicActionGroup {
        
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+ 	  }
+ 	  elseif (_currentUser()->getExtra('type') != 'USER_ENS') {
+ 	    
+ 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
+	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $classeur->id))));
  	  }
  	  
  	  $path2classeur = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle;

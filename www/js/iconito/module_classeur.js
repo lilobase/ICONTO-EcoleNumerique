@@ -58,7 +58,7 @@ jQuery(document).ready(function($){
   /**********************************************************************/
 	/*  Actions de masse : suppression / déplacement / copie et download  */
 	/**********************************************************************/
-  $('.move-content').click (function() {
+  $('.mass-actions .button-move').click (function() {
     
 		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
 		
@@ -78,7 +78,7 @@ jQuery(document).ready(function($){
 		return false;
   });
   
-  $('.delete-content').click (function() {
+  $('.mass-actions .button-delete').click (function() {
     
 		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
 		
@@ -98,7 +98,7 @@ jQuery(document).ready(function($){
 		return false;
   });
   
-  $('.copy-content').click (function() {
+  $('.mass-actions .button-copy').click (function() {
     
 		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
 		
@@ -118,7 +118,7 @@ jQuery(document).ready(function($){
 		return false;
   });
   
-  $('.download-content').click (function() {
+  $('.mass-actions .button-download').click (function() {
     
 		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
 		

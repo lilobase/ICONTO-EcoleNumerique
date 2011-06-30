@@ -16,6 +16,7 @@ class ZoneAffichageMenu extends CopixZone {
 	  
 	  // Gestion des droits
 	  $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId);
+	  $ppo->typeUtilisateur   = _currentUser()->getExtra('type');
     
 	  $toReturn = $this->_usePPO ($ppo, '_affichage_menu.tpl');
   }
