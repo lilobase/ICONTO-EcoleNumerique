@@ -24,11 +24,19 @@ class ZoneArborescenceClasseurs extends CopixZone {
         if ($module->module_type == "MOD_CLASSEUR") {
           
           // Identification du classeur personnel de l'utilisateur
-          if (strpos($module->node_type, 'USER_') !== false && $module->node_id == _currentUser()->getExtra('id')) {
+          if (strpos($module->node_type, 'USER_') !== false) {
             
-            $ppo->classeurPersonnel = $module->module_id;
+            if ($module->node_type == _currentUser()->getExtra('type')
+              && $module->node_id == _currentUser()->getExtra('id')) {
+                
+                $ppo->classeurPersonnel = $module->module_id;
+                $classeurIds[] = $module->module_id;
+              }
           }
-          $classeurIds[] = $module->module_id;
+          else {
+            
+            $classeurIds[] = $module->module_id;
+          }
         }
       }
     }

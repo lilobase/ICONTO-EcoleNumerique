@@ -25,9 +25,11 @@
 {if $ppo->album->public eq 0}
   <p>{i18n key="classeur.message.albumNotPublished"}</p>
   
+  {if $ppo->images|@count gt 0}
   <ul class="actions">
     <li><a href="{copixurl dest="classeur||publierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.publishAnAlbum"}</a></li>
   </ul>
+  {/if}
 {else}
   <p>Votre album public a été publié le {$ppo->album->date_publication|datei18n:"date_short_time"|substr:0:10}</p>
   
