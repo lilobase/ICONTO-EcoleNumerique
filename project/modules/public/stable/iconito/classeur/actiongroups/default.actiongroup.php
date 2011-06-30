@@ -683,7 +683,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->favori->dossier_id    = !is_null($dossierId = _request('dossierId', null)) ? $dossierId : 0;
       $ppo->favori->titre         = _request('favori_titre', null);
       $ppo->favori->commentaire   = null;
-      $ppo->favori->fichier       = Kernel::simpleName($ppo->favori->titre).'.url';
+      $ppo->favori->fichier       = Kernel::simpleName($ppo->favori->titre).'.web';
       $ppo->favori->taille        = 0;
       $ppo->favori->type          = 'application/octet-stream';
       $ppo->favori->cle           = classeurService::createKey();
@@ -1145,6 +1145,31 @@ class ActionGroupDefault extends enicActionGroup {
 		}
 
 		return _arFile ($pathFichier, array ('filename' => $fichier->fichier, 'content-type' => classeurService::getMimeType($pathFichier), 'content-disposition' => 'attachement'));
+  }
+  
+  /**
+	 * Edition d'un album public
+	 */
+  public function processEditerAlbumPublic () {
+    
+    $classeurDAO = _ioDAO('classeur|classeur');
+    
+    if (is_null($ppo->classeur = $classeurDAO->get(_request ('classeurId', null)))) {
+       
+      return CopixActionGroup::process ('generictools|Messages::getError',
+   		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+ 	  }
+ 	  
+ 	  $dossierDAO  = _ioDAO('classeur|classeurdossier');
+    $fichierDAO  = _ioDAO('classeur|classeurfichier');
+    
+    if (!is_null($dossierId = _request('dossierId', null))) {
+      
+      $ppo->dossier = $dossierDAO->get($dossierId);
+    }
+ 	  
+ 	  
+    return _arPPO ($ppo, array ('template' => 'editer_album_public.tpl'));
   }
   
   /**

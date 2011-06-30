@@ -65,3 +65,9 @@ CREATE TABLE IF NOT EXISTS `module_classeur_fichier` (
 
 ALTER TABLE `module_cahierdetextes_memo2files` ADD `module_files_type` VARCHAR( 64 ) NOT NULL AFTER `module_cahierdetextes_memo_id`;
 ALTER TABLE `module_cahierdetextes_travail2files` ADD `module_files_type` VARCHAR( 64 ) NOT NULL AFTER `module_cahierdetextes_travail_id`;
+
+--
+-- 29/06/11 - Ajout du champ "public" pour les albums publics du classeur
+--
+ALTER TABLE `module_classeur_dossier` ADD `public` TINYINT( 4 ) NULL DEFAULT '0' AFTER `user_id`;
+ALTER TABLE `module_classeur` ADD `public` TINYINT( 4 ) NULL DEFAULT '0' AFTER `date_creation`;

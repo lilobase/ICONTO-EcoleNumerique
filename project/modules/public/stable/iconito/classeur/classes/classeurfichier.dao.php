@@ -14,13 +14,13 @@ class DAORecordClasseurFichier {
 	
 	/**
   * Determine si un fichier est un raccourci internet. 
-  * Se base sur le nom du fichier en verifiant s'il a l'extention .url
+  * Se base sur le nom du fichier en verifiant s'il a l'extention .web
   *
   * @return bool True s'il s'agit d'un favori / false sinon
   */
   public function estUnFavori () {
     
-    if (substr($this->fichier, -4) == '.url') {
+    if (substr($this->fichier, -4) == '.web') {
       
       return true;
     }

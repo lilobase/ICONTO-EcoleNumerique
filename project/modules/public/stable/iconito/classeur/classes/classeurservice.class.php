@@ -466,6 +466,17 @@ class ClasseurService {
 	}
 	
 	/**
+	 * Récupère tous les fichiers se trouvant dans un dossier
+	 *
+	 * @param DAORecordClasseurDossier  $folder          Dossier contenant les fichiers
+	 * @param Bool                      $withSubfolders  Rechercher également dans les sous dossiers du dossier indiqué ?
+	 */
+	public static function getFilesInFolder($folder, $withSubfolders = true) {
+	  
+	  
+	}
+	
+	/**
    * Stock en session le tri pour l'affichage des contenus du classeur
    *
    * @param string $triDossiers   Colonne sur laquelle trier les dossiers

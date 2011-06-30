@@ -12,6 +12,7 @@
 		<property name="titre" fieldname="titre" type="string" maxlength="64"/>
 		<property name="cle" fieldname="cle" type="string" maxlength="10" required="yes"/>
 		<property name="date_creation" fieldname="date_creation" type="datetime" required="yes"/>
+		<property name="public" fieldname="public" type="integer" pk="no"/>
 	</properties>
 	<methods>
 	</methods>
