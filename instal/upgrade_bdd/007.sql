@@ -71,3 +71,6 @@ ALTER TABLE `module_cahierdetextes_travail2files` ADD `module_files_type` VARCHA
 --
 ALTER TABLE `module_classeur_dossier` ADD `public` TINYINT( 4 ) NULL DEFAULT '0' AFTER `user_id`;
 ALTER TABLE `module_classeur` ADD `public` TINYINT( 4 ) NULL DEFAULT '0' AFTER `date_creation`;
+ALTER TABLE `module_classeur` ADD `date_publication` DATETIME NULL DEFAULT NULL AFTER `date_creation`;
+ALTER TABLE `module_classeur_dossier` ADD `date_publication` DATETIME NULL DEFAULT NULL AFTER `user_id`;
+ALTER TABLE `module_classeur_dossier` ADD `cle` VARCHAR( 10 ) NOT NULL AFTER `taille`;

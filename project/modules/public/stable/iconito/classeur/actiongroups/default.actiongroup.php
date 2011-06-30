@@ -89,6 +89,8 @@ class ActionGroupDefault extends enicActionGroup {
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  
+	  _classInclude('classeur|classeurservice');
+	  
 	  // Récupération du dossier
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
 	  if (!is_null($dossierId = _request('dossierId', null))) {
@@ -131,6 +133,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->dossier->classeur_id    = $ppo->classeurId;
       $ppo->dossier->parent_id      = _request('parentId', 0);
       $ppo->dossier->nom            = _request('dossier_nom', null);
+      $ppo->dossier->cle            = classeurService::createKey();
       $ppo->dossier->date_creation  = date('Y-m-d H:i:s');
       $ppo->dossier->user_type      = _currentUser()->getExtra('type');
       $ppo->dossier->user_id        = _currentUser()->getExtra('id');
@@ -152,8 +155,7 @@ class ActionGroupDefault extends enicActionGroup {
         
         // Insertion de l'enregistrement "dossier"
         $dossierDAO->insert ($ppo->dossier);
-
-        _classInclude('classeur|classeurservice');
+        
         classeurService::updateFolderInfos($ppo->dossier);
         
         $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmCreation');
@@ -364,7 +366,7 @@ class ActionGroupDefault extends enicActionGroup {
         // Contrôle upload du fichier
         if (is_uploaded_file($_FILES['fichiers']['tmp_name'][0])) {
           
-          $dir = $_SERVER['DOCUMENT_ROOT'].'/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+          $dir = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
           $extension = strrchr($ppo->fichier->fichier, '.');
   				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
   				// Suppression de l'ancien fichier
@@ -431,7 +433,7 @@ class ActionGroupDefault extends enicActionGroup {
         }
 
         // Création du répertoire
-        $dir = $_SERVER['DOCUMENT_ROOT'].'/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+        $dir = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
         if (!file_exists($dir)) {
           
           mkdir($dir, 0755, true);
@@ -660,6 +662,10 @@ class ActionGroupDefault extends enicActionGroup {
       if (_request('favori_adresse', null) == '') {
 
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noAddress');
+      }
+      elseif (!@fopen(_request('favori_adresse', null), 'r')) {
+        
+        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.invalidAddress');
       }
 
       if (!empty ($ppo->erreurs)) {
@@ -1070,7 +1076,7 @@ class ActionGroupDefault extends enicActionGroup {
       $classeur    = $classeurDAO->get($fichier->classeur_id);
 
       // Path du fichier
-      $dir        = $_SERVER['DOCUMENT_ROOT'].'/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+      $dir        = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
       $extension  = strrchr($fichier->fichier, '.');
       $pathfile   = $dir.$fichier->id.'-'.$fichier->cle.$extension;
       
@@ -1160,16 +1166,206 @@ class ActionGroupDefault extends enicActionGroup {
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
  	  
+ 	  $ppo->confirmMessage = _request('confirmMessage', null);
+ 	  
+ 	  _classInclude('classeur|classeurservice');
  	  $dossierDAO  = _ioDAO('classeur|classeurdossier');
     $fichierDAO  = _ioDAO('classeur|classeurfichier');
     
-    if (!is_null($dossierId = _request('dossierId', null))) {
+    if (($ppo->dossierId = _request('dossierId', 0)) != 0) {
       
-      $ppo->dossier = $dossierDAO->get($dossierId);
+      $ppo->dossier = $dossierDAO->get($ppo->dossierId);
+      $ppo->album = $ppo->dossier;
+      if ($ppo->album->public == 1) {
+        
+        $ppo->albumUrl = CopixUrl::get ().'static/classeur/'.$ppo->classeur->id.'-'.$ppo->classeur->cle.'/'.$ppo->album->id.'-'.$ppo->album->cle;
+      }
+    }
+    else {
+      
+      $ppo->album = $ppo->classeur;
+      if ($ppo->album->public == 1) {
+        
+        $ppo->albumUrl = CopixUrl::get ().'static/classeur/'.$ppo->album->id.'-'.$ppo->album->cle;
+      }
+    }
+    
+    $ppo->images    = array();
+    $ppo->documents = array();
+    
+    $ppo->fichiers = classeurService::getFilesInFolder($ppo->classeur->id, $ppo->dossierId);
+    foreach($ppo->fichiers as $fichier) {
+      
+      if (strstr($fichier->type, 'image')) {
+        
+        $ppo->images[] = $fichier;
+      }
+      else {
+        
+        $ppo->documents[] = $fichier;
+      }
     }
  	  
- 	  
     return _arPPO ($ppo, array ('template' => 'editer_album_public.tpl'));
+  }
+  
+  public function processPublierAlbum () {
+    
+    $classeurDAO  = _ioDAO('classeur|classeur');
+    $dossierDAO   = _ioDAO('classeur|classeurdossier');
+    
+    if (is_null($classeur = $classeurDAO->get(_request ('classeurId', null)))
+     || is_null($dossierId = _request ('dossierId', null))) {
+       
+      return CopixActionGroup::process ('generictools|Messages::getError',
+   		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+ 	  }
+ 	  
+ 	  $path2classeur = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle;
+ 	  if ($dossierId != 0) {
+ 	    
+      $album        = $dossierDAO->get($dossierId);
+      $albumType    = 'dossier';
+      $path2album   = $path2classeur.'/'.$album->id.'-'.$album->cle;
+      $path2public  = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/'.$album->id.'-'.$album->cle;
+    }
+    else {
+      
+      $album        = $classeur;
+      $albumType    = 'classeur';
+      $path2album   = $path2classeur;
+      $path2public  = CopixUrl::get ().'static/classeur/'.$album->id.'-'.$album->cle;
+    }
+    
+    // Récupération des images à inclure dans l'album
+    _classInclude('classeur|classeurservice');
+    $fichiers = classeurService::getFilesInFolder($classeur->id, $dossierId);
+    foreach($fichiers as $fichier) {
+      
+      if (strstr($fichier->type, 'image')) {
+        
+        $extension = strrchr($fichier->fichier, '.');
+        $images[] = $fichier->id.'-'.$fichier->cle.$extension;
+      }
+    }
+    
+    // Création des dossiers de l'album si nécessaire et copie des images à publier
+    if ($handle = opendir($path2album.'/images/')) {
+      
+      while (($file = readdir($handle)) !== false) {
+        
+         if ($file != '.' && $file != '..') {
+           
+           unlink($path2album.'/images/'.$file);
+         }
+      }
+      
+      closedir($handle);
+      rmdir($path2album.'/images/');
+      unlink($path2album.'/index.html');
+    }
+ 
+    mkdir($path2album, 0775 );
+    mkdir($path2album.'/images/', 0775 );
+		@chmod($path2album, 0775);
+		@chmod($path2album.'/images/', 0775);
+		
+		foreach ($images as $image) {
+		  
+			copy($path2classeur.'/'.$image, $path2album.'/images/'.$image);
+		}
+		
+		// Création du fichier index.html nécessaire à l'affichage de l'album
+		$file_html = fopen($path2album.'/index.html', 'w');
+		$tplHtml = & new CopixTpl ();
+		$tplHtml->assign ("path2public", $path2public);
+		$tplHtml->assign ("images", $images);
+		$tplHtml->assign ("album_id", $album->id);
+		$tplHtml->assign ("album_key", $album->cle);
+		$tplHtml->assign ("album_titre", $classeur->titre);
+		$tplHtml->assign ("dossier_id", $dossierId);
+		if($dossierId != 0) {
+		  
+		  $tplHtml->assign ("dossier_nom", $album);
+		}
+		$result = $tplHtml->fetch("album_html.tpl");
+		fwrite( $file_html, $result );
+		fclose( $file_html );
+		
+		// Edition de l'album : date de publication et publication à 1
+		$album->date_publication = date('Y-m-d H:i:s');
+		$album->public = 1;
+		if ($albumType == 'dossier') {
+		  
+		  $dossierDAO->update($album);
+		}
+		else {
+		  
+		  $classeurDAO->update($album);
+		}
+		
+		$confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmPublished');
+		
+		return _arRedirect (CopixUrl::get ('classeur||editerAlbumPublic', array('classeurId' => $classeur->id, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));	  
+  }
+  
+  public function processDepublierAlbum () {
+    
+    $classeurDAO  = _ioDAO('classeur|classeur');
+    $dossierDAO   = _ioDAO('classeur|classeurdossier');
+    
+    if (is_null($classeur = $classeurDAO->get(_request ('classeurId', null)))
+     || is_null($dossierId = _request ('dossierId', null))) {
+       
+      return CopixActionGroup::process ('generictools|Messages::getError',
+   		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+ 	  }
+ 	  
+ 	  $path2classeur = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle;
+ 	  if ($dossierId != 0) {
+ 	    
+      $album        = $dossierDAO->get($dossierId);
+      $albumType    = 'dossier';
+      $path2album   = $path2classeur.'/'.$album->id.'-'.$album->cle;
+      $path2public  = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/'.$album->id.'-'.$album->cle;
+    }
+    else {
+      
+      $album        = $classeur;
+      $albumType    = 'classeur';
+      $path2album   = $path2classeur;
+      $path2public  = CopixUrl::get ().'static/classeur/'.$album->id.'-'.$album->cle;
+    }
+    
+    if ($handle = opendir($path2album.'/images/')) {
+      
+      while (($file = readdir($handle)) !== false) {
+        
+         if ($file != '.' && $file != '..') {
+           
+           unlink($path2album.'/images/'.$file);
+         }
+      }
+      
+      closedir($handle);
+      rmdir($path2album.'/images/');
+      unlink($path2album.'/index.html');
+    }    
+    
+    $album->date_publication = null;
+		$album->public = 0;
+		if ($albumType == 'dossier') {
+		  
+		  $dossierDAO->update($album);
+		}
+		else {
+		  
+		  $classeurDAO->update($album);
+		}
+		
+		$confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUnpublished');
+		
+		return _arRedirect (CopixUrl::get ('classeur||editerAlbumPublic', array('classeurId' => $classeur->id, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));
   }
   
   /**

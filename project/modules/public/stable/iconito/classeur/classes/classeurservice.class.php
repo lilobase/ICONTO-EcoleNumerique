@@ -468,12 +468,34 @@ class ClasseurService {
 	/**
 	 * Récupère tous les fichiers se trouvant dans un dossier
 	 *
-	 * @param DAORecordClasseurDossier  $folder          Dossier contenant les fichiers
-	 * @param Bool                      $withSubfolders  Rechercher également dans les sous dossiers du dossier indiqué ?
+	 * @param int     $classeurId         Identifiant du classeur
+	 * @param int     $folderId           Identifiant du dossier
+	 * @param Array   $files              Fichiers trouvés
+	 * @param Bool    $withSubfolders     Rechercher également dans les sous dossiers du dossier indiqué ?
 	 */
-	public static function getFilesInFolder($folder, $withSubfolders = true) {
+	public static function getFilesInFolder($classeurId, $folderId = null, $files = array(), $withSubfolders = true) {
 	  
-	  
+	  $fileDAO   = _ioDAO('classeur|classeurfichier');
+		$folderDAO = _ioDAO('classeur|classeurdossier');
+		
+		// Récupération des fichiers du dossier et ajout au tableau $files
+	  $folderFiles = $fileDAO->getParDossier ($classeurId, $folderId);
+		foreach ($folderFiles as $file) {
+		  
+		  $files[] = $file;
+		}
+		
+    // Pour chaque sous dossiers on rappelle la méthode
+    if ($withSubfolders && !is_null($folderId)) {
+      
+      $subfolders = $folderDAO->getEnfantsDirects ($classeurId, $folderId);
+  		foreach ($subfolders as $subfolder) {
+
+  		  $files = self::getFilesInFolder($classeurId, $subfolder->id, $files);
+  		}
+    }
+		
+		return $files;
 	}
 	
 	/**

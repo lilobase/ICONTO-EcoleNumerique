@@ -24,7 +24,7 @@
   
   <div class="textarea">
     <label for="favori_adresse" class="form_libelle">{i18n key="classeur.message.url"}</label>
-    <input class="form" type="text" name="favori_adresse" value="{$ppo->favori->lien}" />
+    <input class="form" type="text" name="favori_adresse" value="{if $ppo->favori->lien neq null}{$ppo->favori->lien}{else}http://{/if}" />
   </div>
   
   <div class="field">
