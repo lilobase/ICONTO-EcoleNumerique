@@ -364,7 +364,7 @@ class ActionGroupDefault extends enicActionGroup {
         // Contrôle upload du fichier
         if (is_uploaded_file($_FILES['fichiers']['tmp_name'][0])) {
           
-          $dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+          $dir = $_SERVER['DOCUMENT_ROOT'].'/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
           $extension = strrchr($ppo->fichier->fichier, '.');
   				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
   				// Suppression de l'ancien fichier
@@ -431,7 +431,7 @@ class ActionGroupDefault extends enicActionGroup {
         }
 
         // Création du répertoire
-        $dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+        $dir = $_SERVER['DOCUMENT_ROOT'].'/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
         if (!file_exists($dir)) {
           
           mkdir($dir, 0755, true);
@@ -1070,7 +1070,7 @@ class ActionGroupDefault extends enicActionGroup {
       $classeur    = $classeurDAO->get($fichier->classeur_id);
 
       // Path du fichier
-      $dir        = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+      $dir        = $_SERVER['DOCUMENT_ROOT'].'/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
       $extension  = strrchr($fichier->fichier, '.');
       $pathfile   = $dir.$fichier->id.'-'.$fichier->cle.$extension;
       
