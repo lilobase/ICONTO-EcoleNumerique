@@ -17,19 +17,19 @@
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
   <input type="hidden" name="favoriId" id="favoriId" value="{$ppo->favori->id}" />
   
-  <div class="field">
-    <label for="favori_titre" class="form_libelle">{i18n key="classeur.message.title"} :</label>
-    <input class="form" type="text" name="favori_titre" id="fichier_titre" value="{$ppo->favori->titre}" />
+  <div class="row">
+    <label for="favori_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
+    <p class="field"><input type="text" name="favori_titre" id="fichier_titre" value="{$ppo->favori->titre}" required="required" /></p>
   </div>
   
-  <div class="textarea">
+  <div class="row">
     <label for="favori_adresse" class="form_libelle">{i18n key="classeur.message.url"}</label>
-    <input class="form" type="text" name="favori_adresse" value="{if $ppo->favori->lien neq null}{$ppo->favori->lien}{else}http://{/if}" />
+    <p class="field"><input class="form" type="url" name="favori_adresse" value="{if $ppo->favori->lien neq null}{$ppo->favori->lien}{else}http://{/if}" placeholder="http://www.google.fr" required="required" /></p>
   </div>
   
-  <div class="field">
-    <label for="fichier_emplacement" class="form_libelle">{i18n key="classeur.message.repository"} :</label>
-    <input class="form" type="text" name="fichier_emplacement" id="fichier_emplacement" value="{$ppo->path}" readonly/>
+  <div class="row">
+    <label for="fichier_emplacement" class="form_libelle">{i18n key="classeur.message.repository"}</label>
+    <p class="field"><input class="form" type="text" name="fichier_emplacement" id="fichier_emplacement" value="{$ppo->path}" readonly="readonly" /></p>
   </div>
   
   <div class="submit">

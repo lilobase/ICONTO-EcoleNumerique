@@ -24,25 +24,25 @@
   <input type="hidden" name="fichierId" id="fichierId" value="{$ppo->fichier->id}" />
   <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
   
-  <div class="field">
-    <label for="fichiers" class="form_libelle">{i18n key="classeur.message.files"} :</label>
-    {if $ppo->fichier->id neq null}{$ppo->fichier->titre} - {$ppo->fichier->fichier}{/if}<br />
-    <input id="fichiers" name="fichiers[]" type="file" />
+  <div class="row">
+    <label for="fichiers" class="form_libelle">{i18n key="classeur.message.files"}</label>
+    <p class="field">{if $ppo->fichier->id neq null}{$ppo->fichier->titre} - {$ppo->fichier->fichier}<br />{/if}
+    <input id="fichiers" name="fichiers[]" type="file" /></p>
   </div>
   
-  <div class="field">
-    <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.title"} :</label>
-    <input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" />
+  <div class="row">
+    <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
+    <p class="field"><input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" required="required" /></p>
   </div>
   
-  <div class="textarea">
+  <div class="row">
     <label for="fichier_commentaire" class="form_libelle">{i18n key="classeur.message.comment"}</label>
-    <textarea name="fichier_commentaire" id="fichier_commentaire">{$ppo->fichier->commentaire}</textarea>
+    <p class="field"><textarea name="fichier_commentaire" id="fichier_commentaire">{$ppo->fichier->commentaire}</textarea></p>
   </div>
   
-  <div class="field">
-    <label for="fichier_emplacement" class="form_libelle">{i18n key="classeur.message.repository"} :</label>
-    <input class="form" type="text" name="fichier_emplacement" id="fichier_emplacement" value="{$ppo->path}" readonly/>
+  <div class="row">
+    <label for="fichier_emplacement" class="form_libelle">{i18n key="classeur.message.repository"}</label>
+    <p class="field"><input class="form" type="text" name="fichier_emplacement" id="fichier_emplacement" value="{$ppo->path}" readonly="readonly" /></p>
   </div>
   
   <div class="submit">

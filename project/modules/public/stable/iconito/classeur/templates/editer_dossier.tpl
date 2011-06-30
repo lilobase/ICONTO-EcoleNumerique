@@ -21,14 +21,14 @@
   <input type="hidden" name="parentId" id="parentId" value="{if $ppo->dossier->parent_id eq null}{$ppo->parent->id}{else}{$ppo->dossier->parent_id}{/if}" />
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossier->id}" />
   
-  <div class="field">
-    <label for="dossier_nom" class="form_libelle">{i18n key="classeur.message.folderName"} :</label>
-    <input class="form" type="text" name="dossier_nom" id="dossier_nom" value="{$ppo->dossier->nom}" />
+  <div class="row">
+    <label for="dossier_nom" class="form_libelle">{i18n key="classeur.message.folderName"}</label>
+    <p class="field"><input class="form" type="text" name="dossier_nom" id="dossier_nom" value="{$ppo->dossier->nom}" required="required" /></p>
   </div>
   
-  <div class="field">
-    <label for="dossier_emplacement" class="form_libelle">{i18n key="classeur.message.repository"} :</label>
-    <input class="form" type="text" name="dossier_emplacement" id="dossier_emplacement" value="{$ppo->path}" readonly/>
+  <div class="row">
+    <label for="dossier_emplacement" class="form_libelle">{i18n key="classeur.message.repository"}</label>
+    <p class="field"><input class="form" type="text" name="dossier_emplacement" id="dossier_emplacement" value="{$ppo->path}" readonly="readonly" /></p>
   </div>
   
   <div class="submit">

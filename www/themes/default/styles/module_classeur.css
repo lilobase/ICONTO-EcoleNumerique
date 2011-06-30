@@ -28,10 +28,10 @@ div.dashboard div.content {
 #sidebar li {
   font-weight: bold;
 }
-
 #sidebar li.collapsed {
   font-weight: normal;
 }
+#sidebar a.expand img {margin:0 0 -1px 0;}
 /* End Sidebar */
 
 
@@ -72,3 +72,28 @@ div.dashboard div.content {
 	margin-right:10px;
 }
 /* End mass actions */
+
+
+/* Forms */
+form {margin:20px 0;}
+form div.row {
+	position:relative;
+	margin:0 0 5px 0;
+}
+form div.row label {
+	position:absolute; top:0; left:0;
+	width:49%;
+	text-align:right;
+}
+form div.row p.field {
+	margin:0 0 0 50%;
+}
+form .row input[type="text"], form .row input[type="url"], form .row input[type="email"], form .row textarea {
+	width:350px;
+}
+form div.submit {
+	margin:10px 0 0 50%;
+}
+form div.submit input {margin:0 5px;}
+form input[readonly="readonly"] {background:#ddd;}
+/* End forms */
