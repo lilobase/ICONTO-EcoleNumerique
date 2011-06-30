@@ -366,7 +366,7 @@ class ActionGroupDefault extends enicActionGroup {
         // Contrôle upload du fichier
         if (is_uploaded_file($_FILES['fichiers']['tmp_name'][0])) {
           
-          $dir = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+          $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
           $extension = strrchr($ppo->fichier->fichier, '.');
   				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
   				// Suppression de l'ancien fichier
@@ -433,7 +433,7 @@ class ActionGroupDefault extends enicActionGroup {
         }
 
         // Création du répertoire
-        $dir = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+        $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
         if (!file_exists($dir)) {
           
           mkdir($dir, 0755, true);
