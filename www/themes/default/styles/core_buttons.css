@@ -91,6 +91,12 @@
 .button-reload		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_reload.png) 4px 50% no-repeat; }
 .button-up			{ padding-left: 24px; background: #fff url(../../../themes/default/images/sort_up_off.png) 4px 50% no-repeat; }
 .button-down		{ padding-left: 24px; background: #fff url(../../../themes/default/images/sort_down_off.png) 4px 50% no-repeat; }
+.button-download	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_download.png) 3px 50% no-repeat; }
+.button-move		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_move.png) 3px 50% no-repeat; }
+.button-copy		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_copy.png) 3px 50% no-repeat; }
+.button-image		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_image.png) 4px 50% no-repeat; }
+.button-imagevalid	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_imagevalid.png) 4px 50% no-repeat; }
+.button-imagedelete	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_imagedelete.png) 4px 50% no-repeat; }
 
 .button-p-first		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_p_first.png) 4px 50% no-repeat; }
 .button-p-previous	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_p_previous.png) 4px 50% no-repeat; }
@@ -263,7 +269,8 @@ div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../../../themes/defau
 div.dashpanel ul li a.MOD_AGENDA 			{ background-image: url(../../../themes/default/images/mod_agenda.png); }
 div.dashpanel ul li a.MOD_ALBUM 			{ background-image: url(../../../themes/default/images/mod_album.png); }
 div.dashpanel ul li a.MOD_BLOG 				{ background-image: url(../../../themes/default/images/mod_blog.png); }
-div.dashpanel ul li a.MOD_MALLE 			{ background-image: url(../../../themes/default/images/mod_malle.png); }
+div.dashpanel ul li a.MOD_MALLE,
+div.dashpanel ul li a.MOD_CLASSEUR 			{ background-image: url(../../../themes/default/images/mod_malle.png); }
 div.dashpanel ul li a.MOD_CARNET 			{ background-image: url(../../../themes/default/images/mod_carnet.png); }
 div.dashpanel ul li a.MOD_COMPTES			{ background-image: url(../../../themes/default/images/mod_comptes.png); }
 div.dashpanel ul li a.MOD_FORUM				{ background-image: url(../../../themes/default/images/mod_forum.png); }
@@ -288,7 +295,8 @@ ul.usermenu li a.menu-groupe		{ background: url(../../../themes/default/images/m
 ul.usermenu li a.menu-ressource		{ background: url(../../../themes/default/images/mod_user_ressources.png) no-repeat center top; }
 ul.usermenu li a.menu-annuaire		{ background: url(../../../themes/default/images/mod_user_annuaire.png) no-repeat center top; }
 ul.usermenu li a.menu-minimail		{ background: url(../../../themes/default/images/mod_user_mail.png) no-repeat center top; }
-ul.usermenu li a.menu-malle			{ background: url(../../../themes/default/images/mod_user_malle.png) no-repeat center top; }
+ul.usermenu li a.menu-malle,
+ul.usermenu li a.menu-classeur		{ background: url(../../../themes/default/images/mod_user_malle.png) no-repeat center top; }
 ul.usermenu li a.menu-agenda		{ background: url(../../../themes/default/images/mod_user_agenda.png) no-repeat center top; }
 ul.usermenu li a.menu-prefs			{ background: url(../../../themes/default/images/mod_user_preferences.png) no-repeat center top; }
 ul.usermenu li a.menu-aide			{ background: url(../../../themes/default/images/mod_user_aide.png) no-repeat center top; }

@@ -17,7 +17,7 @@
   
   {if $ppo->album->public eq 1}
     <ul class="actions">
-      <li><a href="{copixurl dest="classeur||publierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.updateAlbum"}</a></li>
+      <li><a class="button button-image" href="{copixurl dest="classeur||publierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.updateAlbum"}</a></li>
     </ul>
   {/if}
 </div>
@@ -27,14 +27,14 @@
   
   {if $ppo->images|@count gt 0}
   <ul class="actions">
-    <li><a href="{copixurl dest="classeur||publierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.publishAnAlbum"}</a></li>
+    <li><a class="button button-image" href="{copixurl dest="classeur||publierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.publishAnAlbum"}</a></li>
   </ul>
   {/if}
 {else}
   <p>Votre album public a été publié le {$ppo->album->date_publication|datei18n:"date_short_time"|substr:0:10}</p>
   
   <ul class="actions">
-    <li><a href="{$ppo->albumUrl}">{i18n key="classeur.message.viewAlbum"}</a></li>
-    <li><a href="{copixurl dest="classeur||depublierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.removeAnAlbum"}</a></li>
+    <li><a class="button button-imagevalid" href="{$ppo->albumUrl}">{i18n key="classeur.message.viewAlbum"}</a></li>
+    <li><a class="button button-imagedelete" href="{copixurl dest="classeur||depublierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.removeAnAlbum"}</a></li>
   </ul>
 {/if}

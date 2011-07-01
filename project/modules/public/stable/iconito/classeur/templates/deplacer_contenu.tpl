@@ -18,19 +18,19 @@
   <input type="hidden" name="dossiers" id="dossiers" value="{$ppo->dossierIds}">
   <input type="hidden" name="fichiers" id="fichiers" value="{$ppo->fichierIds}">
   
-  <div class="field">
-    <label for="fichiersSelectionnes" class="form_libelle">{i18n key="classeur.message.selectedFiles"} :</label>
-    <input id="fichiersSelectionnes" name="fichiersSelectionnes" type="input" value="{$ppo->nomsContenus}" readonly />
+  <div class="row">
+    <label for="fichiersSelectionnes" class="form_libelle">{i18n key="classeur.message.selectedFiles"}</label>
+    <p class="field"><input id="fichiersSelectionnes" name="fichiersSelectionnes" type="text" value="{$ppo->nomsContenus}" readonly="readonly" /></p>
   </div>
   
-  <div class="field">
-    <label>{i18n key="classeur.message.currentFolder"} :</label>
-    {if $ppo->dossierParent neq null}{$ppo->dossierParent->getPath()}{else}/{$ppo->classeur->titre}/{/if}
+  <div class="row">
+    <label>{i18n key="classeur.message.currentFolder"}</label>
+    <p class="field">{if $ppo->dossierParent neq null}{$ppo->dossierParent->getPath()}{else}/{$ppo->classeur->titre}/{/if}</p>
   </div>
   
-  <div class="field">
-    <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.destinationLocation"} :</label>
-    {copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeurId targetType=$ppo->destinationType targetId=$ppo->destinationId}
+  <div class="row">
+    <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.destinationLocation"}</label>
+    <div class="field selectFolder">{copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeurId targetType=$ppo->destinationType targetId=$ppo->destinationId}</div>
   </div>
   
   <div class="submit">

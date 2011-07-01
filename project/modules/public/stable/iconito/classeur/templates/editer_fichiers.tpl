@@ -32,7 +32,7 @@
   
   <div class="row">
     <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
-    <p class="field"><input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" required="required" /></p>
+    <p class="field"><input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" /></p>
   </div>
   
   <div class="row">
@@ -61,12 +61,16 @@
     $('#fichiers').uploadify({
       'uploader'        : '/js/uploadify/uploadify.swf',
       'script'          : '/js/uploadify/module_classeur.php',
-      'cancelImg'       : '',
+      'cancelImg'       : '/js/uploadify/cancel.png',
       'folder'          : '{/literal}{$ppo->dossierTmp}{literal}',
       'auto'            : true,
       'multi'           : true,
       'removeCompleted' : false,
-      'buttonText'      : 'Parcourir'
+      'buttonText'      : 'Parcourir',
+	  'height'          : '27px',
+	  'width'           : '122px',
+	  'wmode'           : 'transparent',
+	  'buttonImg'       : '/js/uploadify/button-background.png'
     });
   });
   //]]> 

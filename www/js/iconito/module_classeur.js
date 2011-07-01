@@ -4,21 +4,43 @@ jQuery(document).ready(function($){
 	/**********************************************************************/
 	$('a.expand').live('click', function() {
 	  
-	  var id = $(this).attr('class').substring(7);
-	  
-	  // Récupération du li
-    var li = $(this).parent();
-    
-    $.ajax({
-      url:  getActionURL('classeur|default|sauvegardeEtatArbreDossiers'),
-      global:  true,
-      type: 'get',
-      data: { id: id }
-    });
-
-    li.children('ul').toggle();
-    li.toggleClass('collapsed');
+		var id = $(this).attr('class').substring(7);
+		
+		// Fonction d'ouverture/fermeture d'un menu
+		expand(this);
+		
+		$.ajax({
+			url:  getActionURL('classeur|default|sauvegardeEtatArbreDossiers'),
+			global:  true,
+			type: 'get',
+			data: { id: id }
+		});
+		
+		return false;
+		
 	});
+	
+	
+	// On ferme tous les enfants qui doivent l'être
+	$('.closed').hide();
+	
+	// Dépliage des arborescences ouvertes
+	$('.open').each(function() {
+		expand($(this).children('a.expand'));
+	});
+	
+	// Fonction d'ouverture/fermeture d'un menu
+	function expand (lien) {
+		var li = $(lien).parent();
+		var arrow = $(lien).children('img');
+		
+		li.children('ul').slideToggle(function (){
+			var arrowImg = (li.hasClass('collapsed')) ? (urlBase+'themes/default/images/sort_right_off.png') : (urlBase+'themes/default/images/sort_down_off.png');
+			var arrowAlt = (li.hasClass('collapsed')) ? '+' : '-';
+			arrow.attr('src',arrowImg).attr('alt',arrowAlt);
+		});
+		li.toggleClass('collapsed');
+	}
 	
 	/**********************************************************************/
 	/*  Contenu - Cochage / Décochage des dossiers & fichiers             */

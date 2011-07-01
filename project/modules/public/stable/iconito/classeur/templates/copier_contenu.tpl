@@ -8,19 +8,19 @@
   <input type="hidden" name="dossierIds" id="dossierIds" value="{$ppo->dossierIds}">
   <input type="hidden" name="fichierIds" id="fichierIds" value="{$ppo->fichierIds}">
   
-  <div class="field">
+  <div class="row">
     <label for="fichiers" class="form_libelle">{i18n key="classeur.message.selectedFiles"} :</label>
-    <input id="fichiers" name="fichiers[]" type="input" value="{$ppo->nomsContenus}" readonly />
+    <p class="field"><input id="fichiers" name="fichiers[]" type="text" value="{$ppo->nomsContenus}" readonly="readonly" /></p>
   </div>
   
-  <div class="field">
+  <div class="row">
     <label>{i18n key="classeur.message.currentFolder"} :</label>
-    {if $ppo->dossier neq null}{$ppo->dossier->getPath()}{else}/{$ppo->classeur->titre}/{/if}
+    <p class="field">{if $ppo->dossier neq null}{$ppo->dossier->getPath()}{else}/{$ppo->classeur->titre}/{/if}</p>
   </div>
   
-  <div class="field">
+  <div class="row">
     <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.destinationLocation"} :</label>
-    {copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeur->id dossierCourant=$ppo->dossier->id}
+    <div class="field selectFolder">{copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeur->id dossierCourant=$ppo->dossier->id}</div>
   </div>
   
   <div class="submit">

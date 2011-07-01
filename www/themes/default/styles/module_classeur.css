@@ -11,27 +11,30 @@ div.dashboard div.content {
 
 
  /* Sidebar */
-#sidebar {
+#sidebar, .selectFolder {
   float:left;
   margin:10px 0; padding:5px; border:3px solid #ddd;
   -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
   width:25%;
   background:#fff;
 }
-#sidebar ul {
+.selectFolder {
+	float:none;
+	width:350px;
+}
+#sidebar ul, .selectFolder ul {
   margin:0; padding:0;
   list-style:none;
 }
-#sidebar ul ul {
+#sidebar ul ul, .selectFolder ul ul {
   padding-left:15px;
 }
-#sidebar li {
-  font-weight: bold;
+#sidebar li, .selectFolder li {padding:2px 4px;}
+#sidebar li.current, .selectFolder li.current {
+	border:2px solid #BAD521;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }
-#sidebar li.collapsed {
-  font-weight: normal;
-}
-#sidebar a.expand img {margin:0 0 -1px 0;}
+#sidebar a.expand img, .selectFolder a.expand im {margin:0 0 -1px 0;}
 /* End Sidebar */
 
 
@@ -50,10 +53,12 @@ div.dashboard div.content {
 #classeur #folder-content tr.even {
 	background:#F5F5F5;
 }
+#classeur #folder-content th {color:#000;}
 #classeur #folder-content thead th a {
 	padding:0 20px;
 	background:0 3px no-repeat;
 }
+#classeur #folder-content thead th a:hover {text-decoration:underline;}
 #classeur #folder-content thead th a.ASC {background-image:url(../../../themes/default/images/sort_up_off.png);}
 #classeur #folder-content thead th a.ASC:hover, #classeur #folder-content thead th a:hover {background-image:url(../../../themes/default/images/sort_down_on.png);}
 #classeur #folder-content thead th a.DESC {background-image:url(../../../themes/default/images/sort_down_off.png);}
@@ -80,12 +85,12 @@ form div.row {
 	position:relative;
 	margin:0 0 5px 0;
 }
-form div.row label {
+form div.row > label {
 	position:absolute; top:0; left:0;
 	width:49%;
 	text-align:right;
 }
-form div.row p.field {
+form div.row .field {
 	margin:0 0 0 50%;
 }
 form .row input[type="text"], form .row input[type="url"], form .row input[type="email"], form .row textarea {
@@ -97,3 +102,12 @@ form div.submit {
 form div.submit input {margin:0 5px;}
 form input[readonly="readonly"] {background:#ddd;}
 /* End forms */
+
+
+/* Public album */
+ul.actions li {
+	float:left;
+	margin:0 5px;
+	list-style:none;
+}
+/* End public album */
