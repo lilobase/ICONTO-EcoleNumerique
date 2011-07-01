@@ -1214,6 +1214,9 @@ class ActionGroupDefault extends enicActionGroup {
     return _arPPO ($ppo, array ('template' => 'editer_album_public.tpl'));
   }
   
+  /**
+	 * Publication d'un album public
+	 */
   public function processPublierAlbum () {
     
     $classeurDAO  = _ioDAO('classeur|classeur');
@@ -1319,6 +1322,9 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arRedirect (CopixUrl::get ('classeur||editerAlbumPublic', array('classeurId' => $classeur->id, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));	  
   }
   
+  /**
+	 * Dépublication d'un album public
+	 */
   public function processDepublierAlbum () {
     
     $classeurDAO  = _ioDAO('classeur|classeur');
