@@ -1278,8 +1278,15 @@ class ActionGroupDefault extends enicActionGroup {
       unlink($path2album.'/index.html');
     }
  
-    mkdir($path2album, 0775 );
-    mkdir($path2album.'/images/', 0775 );
+    if (!is_dir($path2album)) {
+      
+      mkdir($path2album, 0775);
+    }
+    if (!is_dir($path2album.'/images/')) {
+      
+      mkdir($path2album.'/images/', 0775);
+    }
+    
 		@chmod($path2album, 0775);
 		@chmod($path2album.'/images/', 0775);
 		
