@@ -39,6 +39,6 @@
   </ul>
 {/if}
 
-<a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeur->id}">
+<a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">
   <span class="button button-cancel" class="cancel" id="cancel">{i18n key="classeur.message.cancel"}</span>
 </a>
