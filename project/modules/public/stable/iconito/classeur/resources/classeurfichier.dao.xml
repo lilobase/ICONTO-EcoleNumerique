@@ -10,7 +10,7 @@
     <property name="id" fieldname="id" type="autoincrement" pk="yes"/>
     <property name="classeur_id" fieldname="module_classeur_id" type="integer" required="yes"/>
     <property name="dossier_id" fieldname="module_classeur_dossier_id" type="integer" required="yes"/>
-    <property name="titre" fieldname="titre" type="string" maxlength="64" required="yes"/>
+    <property name="titre" fieldname="titre" type="string" maxlength="64" required="no"/>
     <property name="commentaire" fieldname="commentaire" type="string" maxlength="255" required="no"/>
     <property name="fichier" fieldname="fichier" type="string" maxlength="128" required="yes"/>
     <property name="taille" fieldname="taille" type="integer" required="yes"/>

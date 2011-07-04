@@ -179,7 +179,7 @@ class ActionGroupDefault extends enicActionGroup {
         $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUpdate');
       }
       
-      return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->parent->id, 'confirmMessage' => $confirmMessage)));
+      return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => isset($ppo->parent) ? $ppo->parent->id : 0, 'confirmMessage' => $confirmMessage)));
     }
     
     return _arPPO ($ppo, array ('template' => 'editer_dossier.tpl'));
@@ -432,10 +432,6 @@ class ActionGroupDefault extends enicActionGroup {
         if (empty($fichiersPhysiques)) {
           
           $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noFiles');
-        }
-        if (_request('fichier_titre', null) == '') {
-
-          $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noTitle');
         }
 
         if (!empty ($ppo->erreurs)) {
