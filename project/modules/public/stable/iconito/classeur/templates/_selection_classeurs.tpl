@@ -3,7 +3,7 @@
     <li class="classeur {if $ppo->classeurId neq $classeur->id}collapsed{/if}">
       <p class="{if ($ppo->classeurId eq $classeur->id) && ($ppo->dossierCourant eq 0 || $ppo->dossierCourant eq null)}current{/if}">
       {if $classeur->hasDossiers()}
-        <a href="#" class="expand-classeur"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
+        <a href="#" class="expand-classeur {$classeur->id}"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
       {else}
         <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
       {/if}
