@@ -74,3 +74,8 @@ ALTER TABLE `module_classeur` ADD `public` TINYINT( 4 ) NULL DEFAULT '0' AFTER `
 ALTER TABLE `module_classeur` ADD `date_publication` DATETIME NULL DEFAULT NULL AFTER `date_creation`;
 ALTER TABLE `module_classeur_dossier` ADD `date_publication` DATETIME NULL DEFAULT NULL AFTER `user_id`;
 ALTER TABLE `module_classeur_dossier` ADD `cle` VARCHAR( 10 ) NOT NULL AFTER `taille`;
+
+--
+-- 04/07/11 - Champ "titre" facultatif
+--
+ALTER TABLE `module_classeur_fichier` CHANGE `titre` `titre` VARCHAR( 64 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL;
