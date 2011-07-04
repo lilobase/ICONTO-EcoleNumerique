@@ -6,7 +6,7 @@
       {if $classeur->hasDossiers()}
         <a href="#" class="expand-classeur {$classeur->id}"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
       {else}
-        <span>&nbsp;</span>
+        <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
       {/if}
       <a href="{copixurl dest="classeur||voirContenu" classeurId=$classeur->id}">
         {if $classeur->id eq $ppo->classeurPersonnel}

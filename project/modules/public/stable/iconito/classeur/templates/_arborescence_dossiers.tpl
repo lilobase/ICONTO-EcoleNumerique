@@ -5,7 +5,7 @@
     {if $dossier->hasSousDossiers()}
       <a href="#" class="expand-folder {$dossier->id}"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
     {else}
-      <span>&nbsp;</span>
+      <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
     {/if}
     <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$dossier->id}">{$dossier->nom}</a>
     </p>

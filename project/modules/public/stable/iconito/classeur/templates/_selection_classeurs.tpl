@@ -5,7 +5,7 @@
       {if $classeur->hasDossiers()}
         <a href="#" class="expand-classeur"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
       {else}
-        <span>&nbsp;</span>
+        <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
       {/if}
       <input type="radio" id="classeur-{$classeur->id}" name="destination" value="classeur-{$classeur->id}" {if $ppo->targetType eq "classeur" && $ppo->targetId eq $classeur->id}checked="checked"{/if} />
       <label for="classeur-{$classeur->id}">

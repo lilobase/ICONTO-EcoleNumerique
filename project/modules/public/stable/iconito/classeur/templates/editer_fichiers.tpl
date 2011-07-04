@@ -26,7 +26,7 @@
   
   <div class="row">
     <label for="fichiers" class="form_libelle">{i18n key="classeur.message.files"}</label>
-    <p class="field">{if $ppo->fichier->id neq null}{$ppo->fichier->titre} - {$ppo->fichier->fichier}<br />{/if}
+    <p class="field">{if $ppo->fichier->id neq null}{$ppo->fichier->titre} ({$ppo->fichier->fichier})<br />{/if}
     <input id="fichiers" name="fichiers[]" type="file" /></p>
   </div>
   
