@@ -1,6 +1,6 @@
 <ul>
   {foreach from=$ppo->classeurs item=classeur}
-    <li class="classeur {if $ppo->classeurId eq $classeur->id}current{else}collapsed{/if}">
+    <li class="classeur {if $ppo->classeurId neq $classeur->id}collapsed{/if}">
       <p class="{if $ppo->classeurId eq $classeur->id}current{/if}">
       <a href="#" class="expand"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
       <input type="radio" id="classeur-{$classeur->id}" name="destination" value="classeur-{$classeur->id}" {if $ppo->targetType eq "classeur" && $ppo->targetId eq $classeur->id}checked="checked"{/if} />
