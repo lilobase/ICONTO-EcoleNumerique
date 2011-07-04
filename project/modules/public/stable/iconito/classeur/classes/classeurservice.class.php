@@ -247,8 +247,8 @@ class ClasseurService {
     // Si classeurs différents on déplace le fichier
     if ($oldClasseur != $newClasseur) {
       
-      $old_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
-      $new_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
+      $old_dir = realpath('./static/classeur').'/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
+      $new_dir = realpath('./static/classeur').'/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
       
       if (!file_exists($new_dir)) {
 
@@ -351,8 +351,8 @@ class ClasseurService {
     $fileDAO->insert($clone);
     
     // Copie physique du fichier
-    $old_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
-    $new_dir = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
+    $old_dir = realpath('./static/classeur').'/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
+    $new_dir = realpath('./static/classeur').'/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
     
     if (!file_exists($new_dir)) {
       
@@ -401,7 +401,7 @@ class ClasseurService {
     $classeur = $classeurDAO->get($file->classeur_id);
     
     // Path du fichier
-    $dir        = $_SERVER['DOCUMENT_ROOT'].'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+    $dir        = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
     $extension  = strrchr($file->fichier, '.');
     
     $pathfile = $dir.$file->id.'-'.$file->cle.$extension;
