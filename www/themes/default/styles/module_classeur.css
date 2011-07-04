@@ -31,11 +31,12 @@ div.dashboard div.content {
 }
 #sidebar p, .selectFolder p {margin:0; padding:2px 4px;}
 #sidebar li, .selectFolder li {padding:2px 4px;}
-#sidebar .current, .selectFolder li.current {
+#sidebar .current, .selectFolder .current {
 	border:2px solid #BAD521;
 	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }
 #sidebar a.expand img, .selectFolder a.expand im {margin:0 0 -1px 0;}
+.selectFolder label:hover {cursor:pointer;}
 /* End Sidebar */
 
 

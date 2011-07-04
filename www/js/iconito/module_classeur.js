@@ -42,6 +42,13 @@ jQuery(document).ready(function($){
 		li.toggleClass('collapsed');
 	}
 	
+	// Sélection de la destination
+	$('.classeur input[type="radio"]').hide();
+	$('.classeur label').click(function() {
+		$('.classeur p').removeClass('current');
+		$(this).parent('p').addClass('current');
+	});
+	
 	/**********************************************************************/
 	/*  Contenu - Cochage / Décochage des dossiers & fichiers             */
 	/**********************************************************************/	
