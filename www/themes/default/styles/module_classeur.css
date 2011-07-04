@@ -29,8 +29,9 @@ div.dashboard div.content {
 #sidebar ul ul, .selectFolder ul ul {
   padding-left:15px;
 }
+#sidebar p, .selectFolder p {margin:0; padding:2px 4px;}
 #sidebar li, .selectFolder li {padding:2px 4px;}
-#sidebar li.current, .selectFolder li.current {
+#sidebar .current, .selectFolder li.current {
 	border:2px solid #BAD521;
 	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }

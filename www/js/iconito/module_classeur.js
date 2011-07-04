@@ -31,7 +31,7 @@ jQuery(document).ready(function($){
 	
 	// Fonction d'ouverture/fermeture d'un menu
 	function expand (lien) {
-		var li = $(lien).parent();
+		var li = $(lien).parent('p').parent('li');
 		var arrow = $(lien).children('img');
 		
 		li.children('ul').slideToggle(function (){
