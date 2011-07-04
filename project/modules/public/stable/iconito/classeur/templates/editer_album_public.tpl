@@ -34,7 +34,7 @@
   <p>Votre album public a été publié le {$ppo->album->date_publication|datei18n:"date_short_time"|substr:0:10}</p>
   
   <ul class="actions">
-    <li><a class="button button-imagevalid" href="{$ppo->albumUrl}">{i18n key="classeur.message.viewAlbum"}</a></li>
+    <li><a class="button button-imagevalid" href="{$ppo->albumUrl}" target="_blank">{i18n key="classeur.message.viewAlbum"}</a></li>
     <li><a class="button button-imagedelete" href="{copixurl dest="classeur||depublierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.removeAnAlbum"}</a></li>
   </ul>
 {/if}

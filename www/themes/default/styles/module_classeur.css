@@ -87,17 +87,17 @@ form div.row {
 }
 form div.row > label {
 	position:absolute; top:0; left:0;
-	width:49%;
+	width:39%;
 	text-align:right;
 }
 form div.row .field {
-	margin:0 0 0 50%;
+	margin:0 0 0 40%;
 }
 form .row input[type="text"], form .row input[type="url"], form .row input[type="email"], form .row textarea {
 	width:350px;
 }
 form div.submit {
-	margin:10px 0 0 50%;
+	margin:10px 0 0 40%;
 }
 form div.submit input {margin:0 5px;}
 form input[readonly="readonly"] {background:#ddd;}

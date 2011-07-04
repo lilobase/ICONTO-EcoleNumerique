@@ -28,7 +28,7 @@
   </div>
   
   <div class="row">
-    <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.destinationLocation"} :</label>
+    <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.destinationLocation"}</label>
     <div class="field selectFolder">{copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeurId targetType=$ppo->destinationType targetId=$ppo->destinationId}</div>
   </div>
   
