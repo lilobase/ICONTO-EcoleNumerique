@@ -96,7 +96,7 @@
     {else}
       <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
         <td><input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" /></td>
-        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre noEscape=1}" target="_blank">{$fichier->titre|escape}</a></td>
+        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre noEscape=1}" target="_blank">{$fichier}</a></td>
         <td>{$fichier->type_text}</td>
         <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
         <td class="right">{$fichier->taille|human_file_size}</td>

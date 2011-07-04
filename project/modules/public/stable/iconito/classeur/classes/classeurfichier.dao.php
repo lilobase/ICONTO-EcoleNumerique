@@ -9,7 +9,7 @@ class DAORecordClasseurFichier {
   
   public function __toString () {
 	
-		return $this->titre;
+		return !is_null($this->titre) ? $this->titre : $this->fichier;
 	}
 	
 	/**

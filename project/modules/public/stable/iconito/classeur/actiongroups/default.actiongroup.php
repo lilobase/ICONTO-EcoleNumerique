@@ -78,8 +78,12 @@ class ActionGroupDefault extends enicActionGroup {
 		  $dossierDAO = _ioDAO('classeur|classeurdossier');
 		  $dossier = $dossierDAO->get($ppo->dossierId);
 		  $openFolders = classeurService::getFoldersTreeState ();
-  		if (is_array($openFolders) && !in_array($dossier->parent_id, $openFolders)) {
-
+		  if (!is_array($openFolders)) {
+		    
+		    $openFolders = array();
+		  }
+  		if (!in_array($dossier->parent_id, array_keys($openFolders))) {
+  		  
   		  classeurService::setFoldersTreeState ($dossier->parent_id);
   		}
 		}
