@@ -65,10 +65,10 @@
       'multi'           : true,
       'removeCompleted' : false,
       'buttonText'      : 'Parcourir',
-	  'height'          : '27px',
-	  'width'           : '122px',
-	  'wmode'           : 'transparent',
-	  'buttonImg'       : '/js/uploadify/button-background.png'
+	    'height'          : '27',
+	    'width'           : '122',
+	    'wmode'           : 'transparent',
+	    'buttonImg'       : '/js/uploadify/button-background.png'
     });
   });
   //]]> 
