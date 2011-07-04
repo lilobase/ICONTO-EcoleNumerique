@@ -1274,19 +1274,22 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Création des dossiers de l'album si nécessaire et copie des images à publier
-    if ($handle = opendir($path2album.'/images/')) {
+    if (is_dir($path2album.'/images/')) {
       
-      while (($file = readdir($handle)) !== false) {
-        
-         if ($file != '.' && $file != '..') {
-           
-           unlink($path2album.'/images/'.$file);
-         }
+      if ($handle = opendir($path2album.'/images/')) {
+
+        while (($file = readdir($handle)) !== false) {
+
+           if ($file != '.' && $file != '..') {
+
+             unlink($path2album.'/images/'.$file);
+           }
+        }
+
+        closedir($handle);
+        rmdir($path2album.'/images/');
+        unlink($path2album.'/index.html');
       }
-      
-      closedir($handle);
-      rmdir($path2album.'/images/');
-      unlink($path2album.'/index.html');
     }
  
     if (!is_dir($path2album)) {
