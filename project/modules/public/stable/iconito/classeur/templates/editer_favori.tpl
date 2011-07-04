@@ -17,14 +17,15 @@
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
   <input type="hidden" name="favoriId" id="favoriId" value="{$ppo->favori->id}" />
   
-  <div class="row">
-    <label for="favori_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
-    <p class="field"><input type="text" name="favori_titre" id="fichier_titre" value="{$ppo->favori->titre}" required="required" /></p>
-  </div>
   
   <div class="row">
     <label for="favori_adresse" class="form_libelle">{i18n key="classeur.message.url"}</label>
     <p class="field"><input class="form" type="url" name="favori_adresse" value="{if $ppo->favori->lien neq null}{$ppo->favori->lien}{else}http://{/if}" placeholder="http://www.google.fr" required="required" /></p>
+  </div>
+  
+  <div class="row">
+    <label for="favori_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
+    <p class="field"><input type="text" name="favori_titre" id="fichier_titre" value="{$ppo->favori->titre}" required="required" /></p>
   </div>
   
   <div class="row">
