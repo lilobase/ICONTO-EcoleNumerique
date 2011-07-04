@@ -3,7 +3,13 @@
   <li class="folder {if !isset($ppo->dossiersOuverts[$dossierId])}collapsed{else}open{/if}">
     <p class="{if $dossier->id eq $ppo->dossierCourant}current{/if}">
     {if $dossier->hasSousDossiers()}
-      <a href="#" class="expand-folder {$dossier->id}"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
+      <a href="#" class="expand-folder {$dossier->id}">
+        {if !isset($ppo->dossiersOuverts[$dossierId])}
+          <img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" />
+        {else}
+          <img src="{copixurl}themes/default/images/sort_down_off.png" alt="-" />
+        {/if}
+      </a>
     {else}
       <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
     {/if}
