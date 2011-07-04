@@ -38,3 +38,7 @@
     <li><a class="button button-imagedelete" href="{copixurl dest="classeur||depublierAlbum" classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}">{i18n key="classeur.message.removeAnAlbum"}</a></li>
   </ul>
 {/if}
+
+<a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeur->id}">
+  <span class="button button-cancel" class="cancel" id="cancel">{i18n key="classeur.message.cancel"}</span>
+</a>

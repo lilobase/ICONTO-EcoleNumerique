@@ -19,6 +19,37 @@ class ClasseurService {
   }
   
   /**
+   * Stock l'état de l'arbre des noeuds classeurs
+   *
+   * @param int $id ID du noeud de classeur
+   */
+  public static function setClasseursTreeState ($id) {
+    
+    $state = _sessionGet ('classeur|classeurs_tree_state');
+
+    if (isset ($state[$id])) {
+    
+      unset ($state[$id]);
+    }
+    else {
+      
+      $state[$id] = 1;
+    }
+
+    _sessionSet ('classeur|classeurs_tree_state', $state);
+  }
+  
+  /**
+   * Retourne l'état de l'arbre des noeuds classeurs
+   *
+   * @return array
+   */
+  public static function getClasseursTreeState () {
+    
+    return _sessionGet ('classeur|classeurs_tree_state');
+  }
+  
+  /**
    * Stock l'état de l'arbre des noeuds dossiers
    *
    * @param int $id ID du noeud de dossier

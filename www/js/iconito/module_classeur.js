@@ -2,9 +2,26 @@ jQuery(document).ready(function($){
 	/**********************************************************************/
 	/*  Arborescence classeurs / dossiers                                 */
 	/**********************************************************************/
-	$('a.expand').live('click', function() {
+	$('a.expand-classeur').live('click', function() {
 	  
-		var id = $(this).attr('class').substring(7);
+		var id = $(this).attr('class').substring(16);
+		
+		// Fonction d'ouverture/fermeture d'un menu
+		expand(this);
+		
+		$.ajax({
+			url:  getActionURL('classeur|default|sauvegardeEtatArbreClasseurs'),
+			global:  true,
+			type: 'get',
+			data: { id: id }
+		});
+		
+		return false;
+	});
+	
+	$('a.expand-folder').live('click', function() {
+	  
+		var id = $(this).attr('class').substring(14);
 		
 		// Fonction d'ouverture/fermeture d'un menu
 		expand(this);
@@ -17,7 +34,6 @@ jQuery(document).ready(function($){
 		});
 		
 		return false;
-		
 	});
 	
 	

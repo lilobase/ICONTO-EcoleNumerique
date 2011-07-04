@@ -56,6 +56,13 @@ class ZoneSelectionClasseurs extends CopixZone {
       $classeur = $classeurDAO->get($classeurId);
       $ppo->classeurs[] = $classeur;
     }
+    
+    _classInclude('classeurservice');
+    $ppo->classeursOuverts = ClasseurService::getClasseursTreeState ();
+    if (!is_array($ppo->classeursOuverts)) {
+      
+      $ppo->classeursOuverts = array();
+    }
 
 	  $toReturn = $this->_usePPO ($ppo, '_selection_classeurs.tpl');
   }

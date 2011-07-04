@@ -37,6 +37,13 @@ class DAORecordClasseurDossier {
 	  
 	  return '/'.implode('/', array_reverse($paths)).'/';
 	}
+	
+	public function hasSousDossiers () {
+	  
+	  $dossierDAO = _ioDAO('classeur|classeurdossier');
+	  
+	  return count($dossierDAO->getEnfantsDirects($this->classeur_id, $this->id)->fetchAll()) > 0 ? true : false;
+	}
 }
 
 class DAOClasseurDossier {

@@ -5,10 +5,12 @@
 <title>Album photo : {$album_titre|escape:"html"}{if $dossier_id gt 0} / {$dossier_nom|escape:"html"|utf8_decode}{/if}</title>
 <script type="text/javascript" src="{copixurl}js/jquery-1.4.4.min.js"></script>
 <script type="text/javascript" src="{copixurl}galleria/galleria-1.2.4.min.js"></script>
+{literal}
 <style type="text/css">
 body {background:#000;}
 #gallery {margin:0 auto;}
 </style>
+{/literal}
 </head>
 <body>
 	<div id="gallery">

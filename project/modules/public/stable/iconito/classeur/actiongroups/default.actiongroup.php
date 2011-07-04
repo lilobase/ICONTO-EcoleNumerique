@@ -72,6 +72,17 @@ class ActionGroupDefault extends enicActionGroup {
 		  
 		  ClasseurService::setContentSort ($triDossiers, $triFichiers, $triDirection);
 		}
+		
+		if ($ppo->dossierId != 0) {
+		  
+		  $dossierDAO = _ioDAO('classeur|classeurdossier');
+		  $dossier = $dossierDAO->get($ppo->dossierId);
+		  $openFolders = classeurService::getFoldersTreeState ();
+  		if (!in_array($dossier->parent_id, $openFolders)) {
+
+  		  classeurService::setFoldersTreeState ($dossier->parent_id);
+  		}
+		}
 
     return _arPPO ($ppo, 'voir_contenu.tpl');
   }
@@ -1394,6 +1405,24 @@ class ActionGroupDefault extends enicActionGroup {
 		$confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUnpublished');
 		
 		return _arRedirect (CopixUrl::get ('classeur||editerAlbumPublic', array('classeurId' => $classeur->id, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));
+  }
+  
+  /**
+   * AJAX - Met à jour l'état de l'arbre des dossiers
+   */
+  public function processSauvegardeEtatArbreClasseurs () {
+    
+    if (is_null ($id = _request ('id', null))) {
+      
+      return new CopixActionReturn (CopixActionReturn::HTTPCODE, 
+        array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), CopixI18N::get ('kernel|kernel.error.errorOccurred'));
+    }
+    
+    _classInclude ('classeur|classeurservice');
+    ClasseurService::setClasseursTreeState ($id);
+    
+    return new CopixActionReturn (CopixActionReturn::HTTPCODE, 
+      array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixI18N::get ('classeur|classeur.message.stateChanged'));
   }
   
   /**
