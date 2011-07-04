@@ -18,7 +18,7 @@
 </ul>
 {/if}
 
-<form name="edit_files" id="edit_files" action="{copixurl dest="classeur||editerFichiers"}" method="POST" enctype="multipart/form-data">
+<form id="edit_files" action="{copixurl dest="classeur||editerFichiers"}" method="post" enctype="multipart/form-data">
   <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeurId}" />
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
   <input type="hidden" name="fichierId" id="fichierId" value="{$ppo->fichier->id}" />
@@ -46,9 +46,7 @@
   </div>
   
   <div class="submit">
-    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeurId dossierId=$ppo->dossierId}">
-      <span class="button button-cancel" class="cancel" id="cancel">{i18n key="classeur.message.cancel"}</span>
-    </a>
+    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeurId dossierId=$ppo->dossierId}" class="button button-cancel" id="cancel">{i18n key="classeur.message.cancel"}</a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="classeur.message.save"}" />
   </div>
 </form>
