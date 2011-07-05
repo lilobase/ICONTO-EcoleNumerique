@@ -11,7 +11,8 @@ class ActionGroupDefault extends enicActionGroup {
   public function beforeAction ($actionName) {
     
     // Contrôle d'accès au module
-    if (!is_null($classeurId = _request ('classeurId', _request('id', null)))) {
+    if (!is_null($classeurId = _request ('classeurId', _request('id', null)))
+      && ($actionName != 'sauvegardeEtatArbreClasseurs' && $actionName != 'sauvegardeEtatArbreDossiers')) {
       
       if (Kernel::getLevel('MOD_CLASSEUR', $classeurId) < PROFILE_CCV_READ) {
 
@@ -86,6 +87,16 @@ class ActionGroupDefault extends enicActionGroup {
   		  
   		  classeurService::setFoldersTreeState ($dossier->parent_id);
   		}
+		}
+		
+		$openClasseurs = classeurService::getClasseursTreeState ();
+	  if (!is_array($openClasseurs)) {
+	    
+	    $openClasseurs = array();
+	  }
+		if (!in_array($ppo->classeurId, array_keys($openClasseurs))) {
+		  
+		  classeurService::setClasseursTreeState ($ppo->classeurId);
 		}
 
     return _arPPO ($ppo, 'voir_contenu.tpl');
@@ -692,13 +703,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  if (CopixRequest::isMethod ('post')) {
     
+      $ppo->lien = _request('favori_adresse', null);
+      
       // Traitement des erreurs
       $ppo->erreurs = array ();
-      
-      if (_request('favori_titre', null) == '') {
-
-        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noTitle');
-      }
       
       if (_request('favori_adresse', null) == '') {
 
@@ -748,7 +756,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
       
       // Création du fichier
-      $contenu = classeurService::generateWebFile(_request('favori_adresse', null));
+      $contenu = classeurService::generateWebFile($ppo->lien);
       
       $extension  = strrchr($ppo->favori->fichier, '.');
       $nomFichier = $ppo->favori->id.'-'.$ppo->favori->cle.$extension;

@@ -19,7 +19,7 @@
   
   <div class="row">
     <label for="fichier" class="form_libelle">{i18n key="classeur.message.selectedFile"}</label>
-    <p class="field"><input id="fichier" name="fichier" type="text" value="{$ppo->fichier->titre}" readonly="readonly" /></p>
+    <p class="field"><input id="fichier" name="fichier" type="text" value="{$ppo->fichier}" readonly="readonly" /></p>
   </div>
   
   <div class="row">

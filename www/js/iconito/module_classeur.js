@@ -30,7 +30,7 @@ jQuery(document).ready(function($){
 			url:  getActionURL('classeur|default|sauvegardeEtatArbreDossiers'),
 			global:  true,
 			type: 'get',
-			data: { classeurId: classeurId, id: id }
+			data: { id: id }
 		});
 		
 		return false;

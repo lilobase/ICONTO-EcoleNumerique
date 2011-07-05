@@ -75,7 +75,7 @@
     {if $fichier->estUnFavori()}
       <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
         <td><input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" /></td>
-        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre noEscape=1}" class="iconFavorite" target="_blank">{$fichier->titre|escape}</a></td>
+        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier noEscape=1}" class="iconFavorite" target="_blank">{$fichier->titre|escape}</a></td>
         <td class="center">{i18n key="classeur.message.favorite"}</td>
         <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
         <td class="right">{$fichier->taille|human_file_size}</td>
@@ -96,7 +96,7 @@
     {else}
       <tr class="{if $index%2 eq 0}odd{else}even{/if}">
         <td><input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" /></td>
-        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre noEscape=1}" class="iconFile{$fichier->getExtension()}" target="_blank">{$fichier}</a></td>
+        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier noEscape=1}" class="iconFile{$fichier->getExtension()}" target="_blank">{$fichier}</a></td>
         <td class="center">{$fichier->getExtension()}</td>
         <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
         <td class="right">{$fichier->taille|human_file_size}</td>
