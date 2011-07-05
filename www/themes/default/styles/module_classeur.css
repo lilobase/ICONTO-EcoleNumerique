@@ -6,6 +6,7 @@ div.dashboard div.content {
   float:right;
   width:72%;
 }
+#classeur a img {border:none;}
 
 /* End global */
 
@@ -64,6 +65,17 @@ div.dashboard div.content {
 #classeur #folder-content thead th a.ASC:hover, #classeur #folder-content thead th a:hover {background-image:url(../../../themes/default/images/sort_down_on.png);}
 #classeur #folder-content thead th a.DESC {background-image:url(../../../themes/default/images/sort_down_off.png);}
 #classeur #folder-content thead th a.DESC:hover {background-image:url(../../../themes/default/images/sort_up_on.png);}
+#classeur #folder-content tbody a:hover {border-bottom:1px dotted;}
+#classeur #folder-content a.iconFolder,
+#classeur #folder-content a.iconFavorite,
+#classeur #folder-content a.iconFileJpg,
+#classeur #folder-content a.iconFilePng {
+	padding:0 0 0 20px;
+	background:none no-repeat 0% 50%;
+}
+#classeur #folder-content a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
+#classeur #folder-content a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
+#classeur #folder-content a.iconJpg {background-image:url(../../../themes/default/images/icon-16/icon-jpg.png);}
 /* End list view */
 
 

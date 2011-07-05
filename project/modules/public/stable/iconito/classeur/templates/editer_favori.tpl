@@ -20,7 +20,7 @@
   
   <div class="row">
     <label for="favori_adresse" class="form_libelle">{i18n key="classeur.message.url"}</label>
-    <p class="field"><input class="form" type="url" name="favori_adresse" value="{if $ppo->favori->lien neq null}{$ppo->favori->lien}{else}http://{/if}" placeholder="http://www.google.fr" required="required" /></p>
+    <p class="field"><input class="form" type="url" name="favori_adresse" value="{if $ppo->favori->lien neq null}{$ppo->favori->lien}{else}http://{/if}" placeholder="http://www.google.fr" required="required" autofocus="autofocus" /></p>
   </div>
   
   <div class="row">

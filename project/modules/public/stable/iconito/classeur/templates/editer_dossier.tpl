@@ -23,7 +23,7 @@
   
   <div class="row">
     <label for="dossier_nom" class="form_libelle">{i18n key="classeur.message.folderName"}</label>
-    <p class="field"><input class="form" type="text" name="dossier_nom" id="dossier_nom" value="{$ppo->dossier->nom}" required="required" /></p>
+    <p class="field"><input class="form" type="text" name="dossier_nom" id="dossier_nom" value="{$ppo->dossier->nom}" required="required" autofocus="autofocus" /></p>
   </div>
   
   <div class="row">
