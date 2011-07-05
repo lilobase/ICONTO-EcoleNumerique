@@ -76,7 +76,7 @@
       <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
         <td><input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" /></td>
         <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre noEscape=1}" class="iconFavorite" target="_blank">{$fichier->titre|escape}</a></td>
-        <td>Favori</td>
+        <td>{i18n key="classeur.message.favorite"}</td>
         <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
         <td class="right">{$fichier->taille|human_file_size}</td>
         <td class="center">

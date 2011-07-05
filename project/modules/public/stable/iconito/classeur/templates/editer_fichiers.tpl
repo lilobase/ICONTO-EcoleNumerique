@@ -41,6 +41,11 @@
   </div>
   
   <div class="row">
+    <label for="with_decompress">{i18n key="classeur.message.zipFile"}</label>
+    <p class="field"><input type="checkbox" id="with_decompress" name="with_decompress" value="1" /> <label for="with_decompress">{i18n key="classeur.message.withDecompress"}</label></p>
+  </div>
+  
+  <div class="row">
     <label for="fichier_emplacement" class="form_libelle">{i18n key="classeur.message.repository"}</label>
     <p class="field"><input class="form" type="text" name="fichier_emplacement" id="fichier_emplacement" value="{$ppo->path}" readonly="readonly" /></p>
   </div>

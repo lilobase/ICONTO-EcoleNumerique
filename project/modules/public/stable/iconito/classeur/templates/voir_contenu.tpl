@@ -12,6 +12,8 @@
   <div class="overflow">
   {if $ppo->vue eq 'liste'}
     {copixzone process=classeur|vueListe classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
+  {else}
+    {copixzone process=classeur|vueVignette classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
   {/if}
   </div>
   

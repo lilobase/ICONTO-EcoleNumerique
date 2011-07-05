@@ -31,7 +31,7 @@
   </ul>
   {/if}
 {else}
-  <p>Votre album public a été publié le {$ppo->album->date_publication|datei18n:"date_short_time"|substr:0:10}</p>
+  <p>{i18n key="classeur.message.albumPublishedOn"} {$ppo->album->date_publication|datei18n:"date_short_time"|substr:0:10}</p>
   
   <ul class="actions">
     <li><a class="button button-imagevalid" href="{$ppo->albumUrl}" target="_blank">{i18n key="classeur.message.viewAlbum"}</a></li>

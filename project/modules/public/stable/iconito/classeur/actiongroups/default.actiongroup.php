@@ -415,6 +415,7 @@ class ActionGroupDefault extends enicActionGroup {
         
         // Contrôle : upload effectué / dossier temporaire créé ?
         $fichiersPhysiques = array();
+        $fichiersZip       = array();
         if (!is_dir($ppo->dossierTmp)) {
           
           $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noFiles');
@@ -425,7 +426,15 @@ class ActionGroupDefault extends enicActionGroup {
             
             if ($file != '.' && $file != '..') {
 
-              $fichiersPhysiques[] = $file;
+              $extension = strrchr($file, '.');
+              if ($extension == '.zip' && _request('with_decompress', false)) {
+                
+                $fichiersZip[] = $file;
+              }
+              else {
+                
+                $fichiersPhysiques[] = $file;
+              }
             }
           }
         }
@@ -433,7 +442,7 @@ class ActionGroupDefault extends enicActionGroup {
         // Traitement des erreurs
         $ppo->erreurs = array ();
          
-        if (empty($fichiersPhysiques)) {
+        if (empty($fichiersPhysiques) && empty($fichiersZip)) {
           
           $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noFiles');
         }
@@ -450,8 +459,29 @@ class ActionGroupDefault extends enicActionGroup {
           mkdir($dir, 0755, true);
         }
         
-        // Copie des fichiers dans le rep classeur et suppression des fichiers TMP
         $fichierDAO = _ioDAO('classeur|classeurfichier');
+        // Décompression des archives ZIP et ajout aux fichiers physiques à déplacer
+        foreach ($fichiersZip as $fichierZip) {
+          
+          $zip = new ZipArchive;
+          if ($zip->open($ppo->dossierTmp.'/'.$fichierZip) === true) {
+
+            for ($i = 0; $i < $zip->numFiles; $i++) {
+              
+              // On ignore les fichiers 
+              if (!strstr($zip->getNameIndex($i), '_MACOSX')) {
+                
+                $zip->extractTo($ppo->dossierTmp, array($zip->getNameIndex($i)));
+                $fichiersPhysiques[] = $zip->getNameIndex($i);
+              }
+            }
+            
+            $zip->close();
+            unlink($ppo->dossierTmp.'/'.$fichierZip);
+          }
+        }
+        
+        // Copie des fichiers dans le rep classeur et suppression des fichiers TMP
         foreach ($fichiersPhysiques as $fichierPhysique) {
         
           $fichier = _record('classeur|classeurfichier');
