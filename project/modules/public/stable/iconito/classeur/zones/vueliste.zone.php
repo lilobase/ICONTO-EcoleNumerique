@@ -30,6 +30,11 @@ class ZoneVueListe extends CopixZone {
 		// Récupération des dossiers & des fichiers / favoris
 		$ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triDossiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
 		$ppo->fichiers = $fichierDAO->getParDossier($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triFichiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
+    foreach ($ppo->fichiers as $cle => $fichier)
+    {	
+      $mime = classeurService::getTypeInfos ($fichier->type, $fichier->fichier);
+    	$ppo->fichiers[$cle]->type_text = $mime['type_text'];
+    }
     
 	  $toReturn = $this->_usePPO ($ppo, '_vue_liste.tpl');
   }
