@@ -975,7 +975,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
       
       // Maj des informations de dossier
-      classeurService::updateFolderInfos($dossierParent);
+      classeurService::updateFolderInfos($ppo->dossierParent);
       
       // Redirection
       $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmMove');
