@@ -46,6 +46,11 @@ class DAORecordClasseurFichier {
 
     return $url;
   }
+  
+  public function getExtension () {
+    
+    return strtoupper(substr(strrchr($this->fichier, '.'), 1));
+  }
 }
 
 class DAOClasseurFichier {
