@@ -74,29 +74,27 @@ class ActionGroupDefault extends enicActionGroup {
 		  ClasseurService::setContentSort ($triDossiers, $triFichiers, $triDirection);
 		}
 		
+		// Ouverture du dossier courant dans l'arborescence
 		if ($ppo->dossierId != 0) {
 		  
 		  $dossierDAO = _ioDAO('classeur|classeurdossier');
 		  $dossier = $dossierDAO->get($ppo->dossierId);
-		  $openFolders = classeurService::getFoldersTreeState ();
-		  if (!is_array($openFolders)) {
+		  if ($dossier->parent_id == 0) {
 		    
-		    $openFolders = array();
+		    $openClasseurs = classeurService::getClasseursTreeState ();
+    		if (!in_array($ppo->classeurId, array_keys($openClasseurs))) {
+
+    		  classeurService::setClasseursTreeState ($ppo->classeurId);
+    		}
 		  }
-  		if (!in_array($dossier->parent_id, array_keys($openFolders))) {
-  		  
-  		  classeurService::setFoldersTreeState ($dossier->parent_id);
-  		}
-		}
-		
-		$openClasseurs = classeurService::getClasseursTreeState ();
-	  if (!is_array($openClasseurs)) {
-	    
-	    $openClasseurs = array();
-	  }
-		if (!in_array($ppo->classeurId, array_keys($openClasseurs))) {
-		  
-		  classeurService::setClasseursTreeState ($ppo->classeurId);
+		  else {
+		    
+		    $openFolders = classeurService::getFoldersTreeState ();
+    		if (!in_array($dossier->parent_id, array_keys($openFolders))) {
+
+    		  classeurService::setFoldersTreeState ($dossier->parent_id);
+    		}
+		  }
 		}
 
     return _arPPO ($ppo, 'voir_contenu.tpl');
@@ -227,12 +225,9 @@ class ActionGroupDefault extends enicActionGroup {
     
       _classInclude('classeur|classeurservice');
 
-      $destination = !is_null(_request('destination', null)) ? explode('-', _request('destination', null)) : null;
-      if (is_array($destination) && !empty($destination)) {
+      if (!is_null($destination = _request('destination', null))) {
         
-        $ppo->destinationType    = $destination[0];
-        $ppo->destinationId      = $destination[1];
-        
+        list($ppo->destinationType, $ppo->destinationId) = explode('-', $destination);
         if ($ppo->destinationType == 'dossier') {
           
           $dossierDestination = $dossierDAO->get($ppo->destinationId);
@@ -566,12 +561,9 @@ class ActionGroupDefault extends enicActionGroup {
     
       _classInclude('classeur|classeurservice');
       
-      $destination = !is_null(_request('destination', null)) ? explode('-', _request('destination', null)) : null;
-      if (is_array($destination) && !empty($destination)) {
+      if (!is_null($destination = _request('destination', null))) {
         
-        $ppo->destinationType    = $destination[0];
-        $ppo->destinationId      = $destination[1];
-        
+        list($ppo->destinationType, $ppo->destinationId) = explode ('-', $destination);
         if ($ppo->destinationType == 'dossier') {
           
           $dossierDestination = $dossierDAO->get($ppo->destinationId);
@@ -922,18 +914,19 @@ class ActionGroupDefault extends enicActionGroup {
       $arDossierIds       = !is_null(_request('dossiers', null)) ? explode (',', _request('dossiers', null)) : null;
       
       // Récupération des informations sur le noeud de destination
-      $destination        = !is_null(_request('destination', null)) ? explode('-', _request('destination', null)) : null;
-      if (is_array($destination) && !empty($destination)) {
+      if (!is_null($destination = _request('destination', null))) {
         
-        $ppo->destinationType    = $destination[0];
-        $ppo->destinationId      = $destination[1];
-        
-        $dossierDestination = $dossierDAO->get($ppo->destinationId);
+        list($ppo->destinationType, $ppo->destinationId) = explode('-', $destination);
+        if ($ppo->destinationType == 'dossier') {
+          
+          $dossierDestination = $dossierDAO->get($ppo->destinationId);
+        }
       }
       
       // Traitement des erreurs
       $ppo->erreurs = array ();
-      if (!isset($ppo->destinationType) || !isset($ppo->destinationId) || is_null($ppo->destinationType) || is_null($ppo->destinationId)) {
+      if (!isset($ppo->destinationType) || !isset($ppo->destinationId) 
+        || is_null($ppo->destinationType) || is_null($ppo->destinationId)) {
           
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noDestination');
       }
@@ -1051,11 +1044,14 @@ class ActionGroupDefault extends enicActionGroup {
       $fichierIds         = _request('fichierIds', null);
       $dossierIds         = _request('dossierIds', null);
       
-      $destination        = explode('-', _request('destination', null));
-      $destinationType    = $destination[0];
-      $destinationId      = $destination[1];
-      
-      $dossierDestination = $dossierDAO->get($destinationId);
+      if (!is_null($destination = _request('destination', null))) {
+        
+        list ($destinationType, $destinationId) = explode('-', $destination);
+        if ($destinationType == 'dossier') {
+          
+          $dossierDestination = $dossierDAO->get($destinationId);
+        }
+      }
       
       // Copie des fichiers
       if (!is_null($fichierIds)) {
@@ -1084,7 +1080,8 @@ class ActionGroupDefault extends enicActionGroup {
       if ($destinationType == 'dossier') {
         
         classeurService::updateFolderInfos($dossierDestination);
-        return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $dossierDestination->classeur_id, 'dossierId' => $destinationId, 'confirmMessage' => $confirmMessage)));
+        return _arRedirect (CopixUrl::get ('classeur||voirContenu', 
+          array('classeurId' => $dossierDestination->classeur_id, 'dossierId' => $destinationId, 'confirmMessage' => $confirmMessage)));
       }
       else {
         
