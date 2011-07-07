@@ -101,17 +101,30 @@ jQuery(document).ready(function($){
   };
   
   /**********************************************************************/
+	/*  Vue vignette - Tri                                                */
+	/**********************************************************************/
+	$('#order-column').live('change', function() {
+	  
+	  $('#order-content').submit();
+	});
+	
+	$('#order-direction').live('change', function() {
+	  
+	  $('#order-content').submit();
+	});
+  
+  /**********************************************************************/
 	/*  Actions de masse : suppression / déplacement / copie et download  */
 	/**********************************************************************/
   $('.mass-actions .button-move').click (function() {
     
-		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
+		nb_checked = $('#folder-content :checked[name="dossiers[]"]').size() + $('#folder-content :checked[name="fichiers[]"]').size();
 		
 		if (nb_checked > 0) {
 		  
 			var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
-			data += '&'+$('#folder-content tbody :checked[name="dossiers[]"]').serialize();
-			data += '&'+$('#folder-content tbody :checked[name="fichiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
 			var url = getActionURL('classeur|default|deplacerContenu', data);
 			self.location = url;
 		} 
@@ -125,13 +138,13 @@ jQuery(document).ready(function($){
   
   $('.mass-actions .button-delete').click (function() {
     
-		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
+		nb_checked = $('#folder-content :checked[name="dossiers[]"]').size() + $('#folder-content :checked[name="fichiers[]"]').size();
 		
 		if (nb_checked > 0) {
 		  
 			var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
-			data += '&'+$('#folder-content tbody :checked[name="dossiers[]"]').serialize();
-			data += '&'+$('#folder-content tbody :checked[name="fichiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
 			var url = getActionURL('classeur|default|supprimerContenu', data);
 			self.location = url;
 		} 
@@ -145,13 +158,13 @@ jQuery(document).ready(function($){
   
   $('.mass-actions .button-copy').click (function() {
     
-		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
+		nb_checked = $('#folder-content :checked[name="dossiers[]"]').size() + $('#folder-content :checked[name="fichiers[]"]').size();
 		
 		if (nb_checked > 0) {
 		  
 			var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
-			data += '&'+$('#folder-content tbody :checked[name="dossiers[]"]').serialize();
-			data += '&'+$('#folder-content tbody :checked[name="fichiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
 			var url = getActionURL('classeur|default|copierContenu', data);
 			self.location = url;
 		} 
@@ -165,13 +178,13 @@ jQuery(document).ready(function($){
   
   $('.mass-actions .button-download').click (function() {
     
-		nb_checked = $('#folder-content tbody :checked[name="dossiers[]"]').size() + $('#folder-content tbody :checked[name="fichiers[]"]').size();
+		nb_checked = $('#folder-content :checked[name="dossiers[]"]').size() + $('#folder-content :checked[name="fichiers[]"]').size();
 		
 		if (nb_checked > 0) {
 		  
 			var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
-			data += '&'+$('#folder-content tbody :checked[name="dossiers[]"]').serialize();
-			data += '&'+$('#folder-content tbody :checked[name="fichiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
 			var url = getActionURL('classeur|default|telechargerContenu', data);
 			self.location = url;
 		} 

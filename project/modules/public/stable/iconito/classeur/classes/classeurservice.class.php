@@ -46,7 +46,13 @@ class ClasseurService {
    */
   public static function getClasseursTreeState () {
     
-    return _sessionGet ('classeur|classeurs_tree_state');
+    $treeState = _sessionGet ('classeur|classeurs_tree_state');
+    if (!isset($treeState) || !is_array($treeState)) {
+      
+      return array();
+    }
+    
+    return $treeState;
   }
   
   /**
@@ -77,7 +83,13 @@ class ClasseurService {
    */
   public static function getFoldersTreeState () {
     
-    return _sessionGet ('classeur|folders_tree_state');
+    $treeState = _sessionGet ('classeur|folders_tree_state');
+    if (!isset($treeState) || !is_array($treeState)) {
+      
+      return array();
+    }
+    
+    return $treeState;
   }
   
   /**
@@ -532,14 +544,39 @@ class ClasseurService {
 	/**
    * Stock en session le tri pour l'affichage des contenus du classeur
    *
-   * @param string $triDossiers   Colonne sur laquelle trier les dossiers
-   * @param string $triFichiers   Colonne sur laquelle trier les fichiers
+   * @param string $folderColumn   Colonne sur laquelle trier le contenu
    * @param string $triDirection  Direction du tri
    */
-	public static function setContentSort ($folderSort, $fileSort, $direction) {
+	public static function setContentSort ($column, $direction) {
+    
+    $folderSort = null;
+    $fileSort = null;
     
     $validFolderSorts = array ('nom', 'taille', 'date_creation');
     $validFileSorts   = array ('titre', 'taille', 'type', 'date_upload');
+    
+    switch ($column) {
+      case 'nom':
+        $folderSort = 'nom';
+        $fileSort   = 'titre';
+        break;
+      case 'taille':
+        $folderSort = 'taille';
+        $fileSort   = 'taille';
+        break;
+      case 'date':
+        $folderSort = 'date_creation';
+        $fileSort   = 'date_upload';
+        break;
+      case 'type':
+        $folderSort = 'nom';
+        $fileSort   = 'type';
+        break;
+      default:
+        $folderSort = 'nom';
+        $fileSort   = 'titre';
+        break;
+    }
     
     if (!in_array($fileSort, $validFileSorts)) {
       

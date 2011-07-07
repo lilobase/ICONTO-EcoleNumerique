@@ -33,14 +33,19 @@ class ZoneSelectionClasseurs extends CopixZone {
         foreach ($modules as $module) {
 
           if ($module->module_type == "MOD_CLASSEUR") {
-
+            
             // Identification du classeur personnel de l'utilisateur
-            if (strpos($module->node_type, 'USER_') !== false && $module->node_id == _currentUser()->getExtra('id')) {
+            if (strpos($module->node_type, 'USER_') !== false 
+              && $module->node_id == _currentUser()->getExtra('id')) {
 
               $ppo->classeurPersonnel = $module->module_id;
+              $classeurIds[] = $module->module_id;
             }
-
-            $classeurIds[] = $module->module_id;
+            elseif (strpos($module->node_type, 'USER_') == false 
+              && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) > PROFILE_CCV_READ) {
+              
+              $classeurIds[] = $module->module_id;
+            }
           }
         }
       }

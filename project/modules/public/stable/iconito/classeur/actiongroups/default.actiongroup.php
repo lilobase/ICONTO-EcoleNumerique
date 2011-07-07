@@ -37,11 +37,10 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->classeurId      = _request('classeurId', null);
     $ppo->dossierId       = _request('dossierId', 0);
     $ppo->confirmMessage  = _request('confirmMessage', null);
-    $ppo->vue             = _request('vue', 'liste');
+    $vue                  = _request('vue', null);
     
     // Paramètres de tri
-    $triDossiers   = _request('triDossiers', null);
-    $triFichiers   = _request('triFichiers', null);
+    $triColonne    = _request('triColonne', null);
     $triDirection  = _request('triDirection', 'ASC');
     
     // Gestion des droits
@@ -68,10 +67,18 @@ class ActionGroupDefault extends enicActionGroup {
 	    
 	    $ppo->classeurId = _sessionGet('classeur|idClasseurPersonnel');
 	  }
+	  
+	  // Si type de vue spécifié, on le met en session
+	  if (!is_null($vue) && ($vue == 'liste' || $vue == 'vignette')) {
+	    
+	    _sessionSet('classeur|typeVue', $vue);
+	  }
+	  $ppo->vue = !is_null(_sessionGet('classeur|typeVue')) ? _sessionGet('classeur|typeVue') : 'liste';
 		
-		if (!is_null ($triDossiers) || !is_null ($triFichiers)) {
-		  
-		  ClasseurService::setContentSort ($triDossiers, $triFichiers, $triDirection);
+		// Si tri spécifié, mise en session
+		if (!is_null ($triColonne)) {
+      
+		  ClasseurService::setContentSort ($triColonne, $triDirection);
 		}
 		
 		// Ouverture du dossier courant dans l'arborescence
@@ -494,7 +501,7 @@ class ActionGroupDefault extends enicActionGroup {
         
           $fichier->classeur_id   = $classeur->id;
           $fichier->dossier_id    = isset($ppo->dossierId) ? $ppo->dossierId : 0;
-          $fichier->titre         = _request('fichier_titre', null);
+          $fichier->titre         = !is_null(_request('fichier_titre', null)) ? _request('fichier_titre') : $fichierPhysique;
           $fichier->commentaire   = _request('fichier_commentaire', null);
           $fichier->fichier       = $fichierPhysique;
           $fichier->taille        = filesize($ppo->dossierTmp.'/'.$fichierPhysique);
@@ -700,6 +707,10 @@ class ActionGroupDefault extends enicActionGroup {
       // Traitement des erreurs
       $ppo->erreurs = array ();
       
+      if (_request('favori_titre', null) == '') {
+
+        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noTitle');
+      }
       if (_request('favori_adresse', null) == '') {
 
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noAddress');
@@ -1122,11 +1133,11 @@ class ActionGroupDefault extends enicActionGroup {
       $classeur    = $classeurDAO->get($fichier->classeur_id);
 
       // Path du fichier
-      $dir        = CopixUrl::get ().'static/classeur/'.$classeur->id.'-'.$classeur->cle.'/';
+      $dir        = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
       $extension  = strrchr($fichier->fichier, '.');
       $pathfile   = $dir.$fichier->id.'-'.$fichier->cle.$extension;
       
-      return _arFile ($pathfile, array ('filename' => $fichier->fichier, 'content-type' => classeurService::getMimeType($fichier->fichier)));
+      return _arFile ($pathfile, array ('filename' => $fichier->fichier, 'content-type' => classeurService::getMimeType($fichier->fichier), 'content-disposition' => 'attachment'));
     }
     
     // Path de l'archive ZIP temporaire
@@ -1162,7 +1173,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     $zip->close();
     
-    return _arFile ($dossierTmp.$fichierZip, array ('filename' => $fichierZip, 'content-type' => classeurService::getMimeType($fichierZip)));
+    return _arFile ($dossierTmp.$fichierZip, array ('filename' => $fichierZip, 'content-type' => classeurService::getMimeType($fichierZip), 'content-disposition' => 'attachment'));
   }
   
   /**

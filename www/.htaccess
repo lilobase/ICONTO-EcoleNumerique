@@ -3,5 +3,6 @@
 php_value error_reporting 6143
 AddDefaultCharset utf-8
 RewriteEngine On
-RewriteRule ^index.php/static/(.*)$ /static/$1 [QSA,L,R=301]
+#RewriteRule ^index.php/static/(.*)$ /static/$1 [QSA,L,R=301]
 RewriteRule ^index.php/blog/default/static/(.*)$ /static/$1 [QSA,L,R=301]
+RewriteRule ^index.php/static/(.*)$ /miniature.php?url=$1 [QSA,L,R=301]

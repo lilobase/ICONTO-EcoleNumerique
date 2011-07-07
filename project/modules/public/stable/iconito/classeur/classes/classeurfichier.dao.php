@@ -13,7 +13,7 @@ class DAORecordClasseurFichier {
 	}
 	
 	/**
-  * Determine si un fichier est un raccourci internet. 
+  * Détermine si un fichier est un raccourci internet. 
   * Se base sur le nom du fichier en verifiant s'il a l'extention .web
   *
   * @return bool True s'il s'agit d'un favori / false sinon
@@ -28,6 +28,11 @@ class DAORecordClasseurFichier {
     return false;
   }
   
+  /**
+  * Retourne l'adresse du favori
+  *
+  * @return string Adresse du favori
+  */
   public function getLienFavori () {
     
     $toReturn = null;
@@ -40,6 +45,52 @@ class DAORecordClasseurFichier {
     return $toReturn;
   }
   
+  /**
+  * Détermine si un fichier est une image. 
+  * Se base sur le mime type du fichier
+  *
+  * @return bool True s'il s'agit d'une image / false sinon
+  */
+  public function estUneImage () {
+    
+    $mimeType = CopixMIMETypes::getFromExtension($this->getExtension());
+    if (strstr($mimeType, 'image')) {
+      
+      return true;
+    };
+    
+    return false;
+  }
+  
+  public function getLienMiniature($largeur = null) {
+    
+    $toReturn = null;
+    if ($this->estUneImage ()) {
+      
+      $classeurDAO = _ioDAO('classeur|classeur');	 	
+      $classeur = $classeurDAO->get ($this->classeur_id);
+      
+      $nomClasseur = $classeur->id.'-'.$classeur->cle;
+
+      $extension  = strrchr($this->fichier, '.');
+      if (!is_null($largeur)) {
+        
+        $largeur = '_s'.$largeur;
+      }
+      
+  		$nomFichier = $this->id.'-'.$this->cle.$largeur.$extension;
+
+  		$toReturn = CopixUrl::get ().'index.php/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/'.($nomFichier);
+    }
+    
+    return $toReturn;
+  }
+  
+  /**
+  * Retourne le lien de téléchargement du fichier
+  *
+  * @return string Lien de téléchargement
+  */
   public function getDownloadUrl () {
     
     $url = CopixURL::get ('classeur||telechargerFichier', array('classeurId' => $this->classeur_id, 'fichierId' => $this->id));
@@ -47,6 +98,11 @@ class DAORecordClasseurFichier {
     return $url;
   }
   
+  /**
+  * Retourne l'extension du fichier
+  *
+  * @return string Extension du fichier
+  */
   public function getExtension () {
     
     return strtoupper(substr(strrchr($this->fichier, '.'), 1));
