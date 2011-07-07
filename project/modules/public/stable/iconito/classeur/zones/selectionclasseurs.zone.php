@@ -28,7 +28,7 @@ class ZoneSelectionClasseurs extends CopixZone {
 	    
 	    $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
       foreach ($nodes as $node) {
-
+        
         $modules = Kernel::getModEnabled($node->type, $node->id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
         foreach ($modules as $module) {
 
@@ -43,7 +43,7 @@ class ZoneSelectionClasseurs extends CopixZone {
             }
             elseif (strpos($module->node_type, 'USER_') == false 
               && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) > PROFILE_CCV_READ) {
-              
+                
               $classeurIds[] = $module->module_id;
             }
           }

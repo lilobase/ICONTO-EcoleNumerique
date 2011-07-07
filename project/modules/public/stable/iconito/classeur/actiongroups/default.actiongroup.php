@@ -13,7 +13,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Contrôle d'accès au module
     if (!is_null($classeurId = _request ('classeurId', _request('id', null)))
       && ($actionName != 'sauvegardeEtatArbreClasseurs' && $actionName != 'sauvegardeEtatArbreDossiers')) {
-      
+        
       if (Kernel::getLevel('MOD_CLASSEUR', $classeurId) < PROFILE_CCV_READ) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -138,7 +138,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Contrôle d'accès : si non admin & non propriétaire du dossier
-	  if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH 
+	  if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER 
 	    && ($ppo->dossier->user_type != _currentUser()->getExtra('type') 
 	      || $ppo->dossier->user_id != _currentUser()->getExtra('id'))) {
 	    
@@ -327,7 +327,7 @@ class ActionGroupDefault extends enicActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH) {
+	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
@@ -341,7 +341,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->fichier = $fichierDAO->get($fichierId);
       
       // Contrôle d'accès
-      if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH 
+      if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER 
   	    && ($ppo->fichier->user_type != _currentUser()->getExtra('type') 
   	      || $ppo->fichier->user_id != _currentUser()->getExtra('id'))) {
 
@@ -661,7 +661,7 @@ class ActionGroupDefault extends enicActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id) < PROFILE_CCV_PUBLISH) {
+	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id) < PROFILE_CCV_MEMBER) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeur->id))));
@@ -687,7 +687,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->favori = $fichierDAO->get($favoriId);
       
       // Contrôle d'accès
-      if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id) < PROFILE_CCV_PUBLISH 
+      if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id) < PROFILE_CCV_MEMBER 
   	    && ($ppo->favori->user_type != _currentUser()->getExtra('type') 
   	      || $ppo->favori->user_id != _currentUser()->getExtra('id'))) {
 

@@ -57,10 +57,12 @@
           {$dossier->taille|human_file_size}
         </td>
         <td class="center">
-          {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
+          {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
           <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$dossier->id}" title="{i18n key="classeur.message.modify"}">
             <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
           </a>
+          {/if}
+          {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
           <a href="{copixurl dest="classeur||deplacerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId dossierId=$dossier->id}" title="{i18n key="classeur.message.move"}">
             <img src="{copixurl}themes/default/images/action_move.png" alt="{i18n key="classeur.message.move"}" />
           </a>
@@ -81,10 +83,12 @@
           <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
           <td class="right">{$fichier->taille|human_file_size}</td>
           <td class="center">
-            {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
+            {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
             <a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id favoriId=$fichier->id}" title="{i18n key="classeur.message.modify"}">
               <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
             </a>
+            {/if}
+            {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
             <a href="{copixurl dest="classeur||deplacerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" title="{i18n key="classeur.message.move"}">
               <img src="{copixurl}themes/default/images/action_move.png" alt="{i18n key="classeur.message.move"}" />
             </a>
@@ -102,10 +106,12 @@
           <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
           <td class="right">{$fichier->taille|human_file_size}</td>
           <td class="center">
-            {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
+            {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
             <a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" title="{i18n key="classeur.message.modify"}">
               <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
             </a>
+            {/if}
+            {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($dossier->user_id eq $ppo->idUtilisateur && $dossier->user_type eq $ppo->typeUtilisateur)}
             <a href="{copixurl dest="classeur||deplacerFichier" classeurId=$ppo->classeurId dossierId=$fichier->dossier_id fichierId=$fichier->id}" title="{i18n key="classeur.message.move"}">
               <img src="{copixurl}themes/default/images/action_move.png" alt="{i18n key="classeur.message.move"}" />
             </a>
