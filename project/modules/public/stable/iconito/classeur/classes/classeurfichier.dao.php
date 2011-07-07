@@ -7,6 +7,13 @@
 
 class DAORecordClasseurFichier {
   
+  protected $imgTypes = array(
+    'image/jpeg',
+    'image/pjpeg',
+    'image/png',
+    'image/gif',
+  );
+  
   public function __toString () {
 	
 		return !is_null($this->titre) ? $this->titre : $this->fichier;
@@ -54,7 +61,7 @@ class DAORecordClasseurFichier {
   public function estUneImage () {
     
     $mimeType = CopixMIMETypes::getFromExtension($this->getExtension());
-    if (strstr($mimeType, 'image')) {
+    if (in_array($mimeType, $this->imgTypes)) {
       
       return true;
     };

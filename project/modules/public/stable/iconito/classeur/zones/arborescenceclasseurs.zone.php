@@ -31,7 +31,7 @@ class ZoneArborescenceClasseurs extends CopixZone {
                 $classeurIds[] = $module->module_id;
           }
           elseif (!strpos($module->node_type, 'USER_')
-            && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) > PROFILE_CCV_NONE) {
+            && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) >= PROFILE_CCV_READ) {
             
             $classeurIds[] = $module->module_id;
           }

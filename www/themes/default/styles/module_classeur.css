@@ -125,3 +125,7 @@ ul.actions li {
 	list-style:none;
 }
 /* End public album */
+
+#fichiersQueue .cancel {
+  display: none;
+}

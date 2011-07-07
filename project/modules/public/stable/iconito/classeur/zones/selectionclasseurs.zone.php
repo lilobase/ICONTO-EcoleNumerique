@@ -18,38 +18,30 @@ class ZoneSelectionClasseurs extends CopixZone {
 	  // Récupération des classeurs accessibles à l'utilisateur pour les actions de masse (copie / déplacement)
     $classeurIds = array();
     
-    $typeUtilisateur = _currentUser()->getExtra('type');
-	  if ($typeUtilisateur == 'USER_ELE') {
-	    
-	    $ppo->classeurPersonnel = _sessionGet('classeur|idClasseurPersonnel');
-	    $classeurIds[] = $ppo->classeurPersonnel;
-	  }
-	  else {
-	    
-	    $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
-      foreach ($nodes as $node) {
-        
-        $modules = Kernel::getModEnabled($node->type, $node->id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
-        foreach ($modules as $module) {
 
-          if ($module->module_type == "MOD_CLASSEUR") {
-            
-            // Identification du classeur personnel de l'utilisateur
-            if (strpos($module->node_type, 'USER_') !== false 
-              && $module->node_id == _currentUser()->getExtra('id')) {
-
-              $ppo->classeurPersonnel = $module->module_id;
-              $classeurIds[] = $module->module_id;
-            }
-            elseif (strpos($module->node_type, 'USER_') == false 
-              && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) > PROFILE_CCV_READ) {
-                
-              $classeurIds[] = $module->module_id;
-            }
+	  $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+    foreach ($nodes as $node) {
+      
+      $modules = Kernel::getModEnabled($node->type, $node->id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+      foreach ($modules as $module) {
+    
+        if ($module->module_type == "MOD_CLASSEUR") {
+          
+          // Identification du classeur personnel de l'utilisateur
+          if (strpos($module->node_type, 'USER_') !== false 
+            && $module->node_id == _currentUser()->getExtra('id')) {
+    
+            $ppo->classeurPersonnel = $module->module_id;
+            $classeurIds[] = $module->module_id;
+          }
+          elseif (strpos($module->node_type, 'USER_') == false 
+            && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) >= PROFILE_CCV_MEMBER) {
+              
+            $classeurIds[] = $module->module_id;
           }
         }
       }
-	  }
+    }
 	  
     // Dédoublonnage des classeurs (responsables avec plusieurs enfants)
     $classeurIds = array_unique($classeurIds);

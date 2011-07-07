@@ -697,7 +697,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  // Récupération de l'url du favori
   	  _classInclude('classeur|classeurservice');
-  	  $ppo->favori->lien = $ppo->favori->getLienFavori();
+  	  $ppo->lien = $ppo->favori->getLienFavori();
     }
 	  
 	  if (CopixRequest::isMethod ('post')) {
