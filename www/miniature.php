@@ -1,4 +1,11 @@
 <?php
+
+  /**
+  * Script de récupération d'une miniature 
+  * avec génération via GD si la miniature n'existe pas
+  *
+  * @author     Jérémy FOURNAISE
+  */
   
   // La génération de miniatures nécessite que GD soit installé
   if (!extension_loaded('gd'))

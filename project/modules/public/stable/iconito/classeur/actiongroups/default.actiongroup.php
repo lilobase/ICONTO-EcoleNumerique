@@ -49,9 +49,8 @@ class ActionGroupDefault extends enicActionGroup {
     // Récupération de l'identifiant du classeur personnel si non disponible en session
 		if (is_null($ppo->idClasseurPersonnel = _sessionGet('classeur|idClasseurPersonnel'))) {
 		  
-		  $userInfo = Kernel::getUserInfo();
-			Kernel::createMissingModules ($userInfo["type"], $userInfo["id"]);
-			$modsList = Kernel::getModEnabled ($userInfo["type"], $userInfo["id"]);
+			Kernel::createMissingModules (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+			$modsList = Kernel::getModEnabled (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
 			foreach ($modsList as $modInfo) {
 			  
 				if ($modInfo->module_type == "MOD_CLASSEUR" && $modInfo->module_id) {
@@ -137,7 +136,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->dossier->taille      = 0;
     }
     
-    // Contrôle d'accès : si non admin & non propriétaire du dossier
+    // Contrôle d'accès : si pas d'accès & non propriétaire du dossier
 	  if (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER 
 	    && ($ppo->dossier->user_type != _currentUser()->getExtra('type') 
 	      || $ppo->dossier->user_id != _currentUser()->getExtra('id'))) {
@@ -146,7 +145,7 @@ class ActionGroupDefault extends enicActionGroup {
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
 	  }
 
-    // Récupération du dossier
+    // Récupération du dossier parent
     if (!is_null($parentId  = _request('parentId', null)) && $parentId != 0) {
       
       $ppo->parent  = $dossierDAO->get($parentId);
@@ -187,6 +186,7 @@ class ActionGroupDefault extends enicActionGroup {
         // Insertion de l'enregistrement "dossier"
         $dossierDAO->insert ($ppo->dossier);
         
+        // Mise à jour des informations du dossier (nombre de fichiers, taille, ...)
         classeurService::updateFolderInfos($ppo->dossier);
         
         $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmCreation');
@@ -1457,7 +1457,7 @@ class ActionGroupDefault extends enicActionGroup {
   }
   
   /**
-   * AJAX - Met à jour l'état de l'arbre des dossiers
+   * AJAX - Met à jour l'état de l'arbre des classeurs
    */
   public function processSauvegardeEtatArbreClasseurs () {
     
