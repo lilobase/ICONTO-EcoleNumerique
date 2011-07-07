@@ -1,4 +1,3 @@
-<div class="thumbnail-view">
 {if $ppo->dossiers neq null || $ppo->fichiers neq null}
   <form name="order-content" id="order-content" action="{copixurl dest="classeur||voirContenu"}" method="post">
     <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeurId}" />
@@ -96,4 +95,3 @@
 {else}
   <p>{i18n key="classeur.message.noFiles"}</p>
 {/if}
-</div>

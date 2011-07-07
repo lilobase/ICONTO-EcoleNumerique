@@ -1,5 +1,21 @@
 <h2>{i18n key="classeur.message.filesToAdd"}</h2>
 
+{if $ppo->classeurs neq null}
+  <ul class="classeurs-list">
+    {foreach from=$ppo->classeurs item=classeur}
+    <li>
+      <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$classeur->id field=$ppo->field format=$ppo->format}">
+        {if $classeur->id eq $ppo->classeurPersonnel}
+          {i18n key="classeur.message.personnalFolder"}
+        {else}
+          {$classeur->titre}
+        {/if}
+      </a>
+    </li>
+    {/foreach}
+  </ul>
+{/if}
+
 {if $ppo->dossiers neq null || $ppo->fichiers neq null}
 <table id="folder-content">
   <thead>
@@ -49,7 +65,7 @@
     <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
       <td class="check-file">
         <input type="hidden" name="item-id" value="{$fichier->id}"/>
-    	  <input type="hidden" name="item-name" value="{$fichier->titre|escape}"/>
+    	  <input type="hidden" name="item-name" value="{$fichier|escape}"/>
     		<input type="hidden" name="item-file" value="{$file}"/>
     		<input type="hidden" name="item-field" value="{$ppo->field}"/>
     		<input type="hidden" name="item-format" value="{$ppo->format}"/>
@@ -59,11 +75,11 @@
         <input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" />
       </td>
       {if $fichier->estUnFavori()}
-        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre}">{$fichier->titre|escape}</a></td>
+        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier}">{$fichier|escape}</a></td>
         <td>{i18n key="classeur.message.favorite"}</td>
       {else}
-        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier->titre}">{$fichier->titre|escape}</a></td>
-        <td>{$fichier->type_text}</td>
+        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier}">{$fichier|escape}</a></td>
+        <td>{$fichier->getExtension()}</td>
       {/if}
       <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
       <td>{$fichier->taille|human_file_size}</td>

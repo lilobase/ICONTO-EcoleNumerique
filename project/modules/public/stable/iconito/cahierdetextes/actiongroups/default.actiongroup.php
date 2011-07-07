@@ -450,7 +450,7 @@ class ActionGroupDefault extends enicActionGroup {
           
           if ($fichier = $fichierClasseurDAO->get ($travail2fichier->file_id)) {
             
-            $ppo->fichiers[] = array('type' => $travail2fichier->module_file, 'id' => $travail2fichier->file_id, 'nom' => $fichier->titre);
+            $ppo->fichiers[] = array('type' => $travail2fichier->module_file, 'id' => $travail2fichier->file_id, 'nom' => $fichier);
           }
         }
       }
@@ -552,7 +552,7 @@ class ActionGroupDefault extends enicActionGroup {
             }
             else {
               
-              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier->titre);
+              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier);
             }
           }
         }
@@ -877,7 +877,7 @@ class ActionGroupDefault extends enicActionGroup {
           
           if ($fichier = $fichierClasseurDAO->get ($memo2fichier->file_id)) {
             
-            $ppo->fichiers[] = array('type' => $memo2fichier->module_file, 'id' => $memo2fichier->file_id, 'nom' => $fichier->titre);
+            $ppo->fichiers[] = array('type' => $memo2fichier->module_file, 'id' => $memo2fichier->file_id, 'nom' => $fichier);
           }
         }
       }
@@ -987,7 +987,7 @@ class ActionGroupDefault extends enicActionGroup {
             }
             else {
               
-              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier->titre);
+              $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier);
             }
           }
         }
