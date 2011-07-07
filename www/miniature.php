@@ -64,7 +64,7 @@
   }
   
   // La taille demandée est t-elle correcte ?
-  $minWidth = $size ? strlen(substr($size, 2)): 0;
+  $minWidth = (isset($size) && $size) ? strlen(substr($size, 2)): 0;
   if ($minWidth && $minWidth > 1 && $minWidth < 4) {
     
     $minWidth = substr($size, 2);
