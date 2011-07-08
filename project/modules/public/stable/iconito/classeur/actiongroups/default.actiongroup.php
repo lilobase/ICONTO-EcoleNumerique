@@ -1228,7 +1228,7 @@ class ActionGroupDefault extends enicActionGroup {
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
- 	  elseif (_currentUser()->getExtra('type') != 'USER_ENS') {
+ 	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id) < PROFILE_CCV_MODERATE) {
  	    
  	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeur->id))));
@@ -1291,7 +1291,7 @@ class ActionGroupDefault extends enicActionGroup {
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
- 	  elseif (_currentUser()->getExtra('type') != 'USER_ENS') {
+ 	  elseif (Kernel::getLevel('MOD_CLASSEUR', $classeur->id) < PROFILE_CCV_MODERATE) {
  	    
  	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $classeur->id))));
@@ -1409,7 +1409,7 @@ class ActionGroupDefault extends enicActionGroup {
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
- 	  elseif (_currentUser()->getExtra('type') != 'USER_ENS') {
+ 	  elseif (Kernel::getLevel('MOD_CLASSEUR', $classeur->id) < PROFILE_CCV_MODERATE) {
  	    
  	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $classeur->id))));
