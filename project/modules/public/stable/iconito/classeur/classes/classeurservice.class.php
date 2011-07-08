@@ -93,6 +93,37 @@ class ClasseurService {
   }
   
   /**
+   * Ouvre l'arborescence des classeurs / dossiers
+   */
+  public static function openTree($classeurId, $folderId) {
+    
+    $folderDAO = _ioDAO('classeur|classeurdossier');
+	  $folder = $folderDAO->get($folderId);
+	  
+	  $openFolders = classeurService::getFoldersTreeState ();
+	  if (!in_array($folder->id, array_keys($openFolders))) {
+
+		  classeurService::setFoldersTreeState ($folder->id);
+		}
+	  
+	  while ($folder->parent_id != 0) {
+	    
+	    
+  		if (!in_array($folder->parent_id, array_keys($openFolders))) {
+
+  		  classeurService::setFoldersTreeState ($folder->parent_id);
+  		}
+  		$folder = $folderDAO->get($folder->parent_id);
+	  }
+
+	  $openClasseurs = classeurService::getClasseursTreeState ();
+  	if (!in_array($classeurId, array_keys($openClasseurs))) {
+    
+  	  classeurService::setClasseursTreeState ($classeurId);
+  	}
+  }
+  
+  /**
   * Renvoie le type MIME d'un fichier
   *
   * @param  string $filename Nom du fichier
@@ -483,26 +514,26 @@ class ClasseurService {
 		$fileDAO = _ioDAO('classeur|classeurfichier');
 		$folderDAO = _ioDAO('classeur|classeurdossier');
 		
-		$toReturn["nb_folders"]  = $folderDAO->getNombreEnfantsDirects ($folder->classeur_id, $folder->id);
+		$toReturn['nb_folders']  = $folderDAO->getNombreEnfantsDirects ($folder->classeur_id, $folder->id);
 		
 		$filesDatas = $fileDAO->getNombreEtTailleParDossier ($folder->classeur_id, $folder->id);
-		$toReturn["nb_files"] 	= $filesDatas[0]->nb_fichiers;
-		$toReturn["size"]       = $filesDatas[0]->taille;
+		$toReturn['nb_files'] 	= $filesDatas[0]->nb_fichiers;
+		$toReturn['size']       = $filesDatas[0]->taille;
 		
 		// Récupération des dossiers enfants
 		$subfolders = $folderDAO->getEnfantsDirects($folder->classeur_id, $folder->id);
 		foreach ($subfolders as $subfolder) {
 		  
 			$tmp = self::updateFolderInfosWithDescendants ($subfolder);
-			$toReturn["nb_folders"]   += $tmp["nb_folders"];
-			$toReturn["nb_files"] 		+= $tmp["nb_files"];
-			$toReturn["size"]         += $tmp["size"];
+			$toReturn['nb_folders']   += $tmp['nb_folders'];
+			$toReturn['nb_files'] 		+= $tmp['nb_files'];
+			$toReturn['size']         += $tmp['size'];
 		}
 		
 		// Mise à jour du dossier
-		$folder->nb_dossiers = $toReturn["nb_folders"] * 1;
-		$folder->nb_fichiers = $toReturn["nb_files"] * 1;
-		$folder->taille      = $toReturn["size"] * 1;
+		$folder->nb_dossiers = $toReturn['nb_folders'] * 1;
+		$folder->nb_fichiers = $toReturn['nb_files'] * 1;
+		$folder->taille      = $toReturn['size'] * 1;
 		$folderDAO->update ($folder);		
 		
 		return $toReturn;
@@ -627,7 +658,7 @@ class ClasseurService {
     
       $content = file_get_contents ($pathFichier);
     
-      $lines = explode ("\n",$content);
+      $lines = explode ('\n',$content);
     
       $firstLine = (isset($lines[0])) ? $lines[0] : '';
       $firstLine9 = strtolower(substr($firstLine,0,9));
@@ -703,7 +734,6 @@ class ClasseurService {
 	 * @return array Tableau index�
 	 */
 	public static function getTypeInfos ($mime_type, $file_name='') {
-		//print_r("getTypeInfos ($mime_type)");
 
 		$point = strrpos ($file_name, ".");
 		if (!$mime_type) {

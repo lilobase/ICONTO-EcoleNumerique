@@ -37,6 +37,7 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->classeurId      = _request('classeurId', null);
     $ppo->dossierId       = _request('dossierId', 0);
     $ppo->confirmMessage  = _request('confirmMessage', null);
+    $ppo->errorMessage    = _request('errorMessage', null);
     $vue                  = _request('vue', null);
     
     // Paramètres de tri
@@ -1114,6 +1115,11 @@ class ActionGroupDefault extends enicActionGroup {
       // Récupération du fichier
       $fichier = $fichierDAO->get($fichierIds[0]);
       
+      if ($fichier->estUnFavori()) {
+        
+        return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $fichier->classeur_id, 'dossierId' => $fichier->dossier_id, 'errorMessage' => CopixI18N::get ('classeur|classeur.error.downloadFavorite'))));
+      }
+      
       // Récupération du classeur nécessaire pour déterminer le chemin du fichier
       $classeurDAO = _ioDAO('classeur|classeur');
       $classeur    = $classeurDAO->get($fichier->classeur_id);
@@ -1153,7 +1159,10 @@ class ActionGroupDefault extends enicActionGroup {
    	  foreach ($fichierIds as $fichierId) {
 
    	    $fichier = $fichierDAO->get($fichierId);
-   	    classeurService::addFileToZip($fichier, $zip);
+   	    if (!$fichier->estUnFavori()) {
+   	      
+   	      classeurService::addFileToZip($fichier, $zip);
+   	    }
    	  }
     }
     

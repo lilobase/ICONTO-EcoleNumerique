@@ -142,11 +142,14 @@ jQuery(document).ready(function($){
 		
 		if (nb_checked > 0) {
 		  
-			var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
-			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
-			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
-			var url = getActionURL('classeur|default|supprimerContenu', data);
-			self.location = url;
+		  if (confirm('Etes-vous sûr de vouloir supprimer ces éléments ?')) {
+		    
+		    var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
+  			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+  			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
+  			var url = getActionURL('classeur|default|supprimerContenu', data);
+  			self.location = url;
+		  }
 		} 
 		else {
 		  

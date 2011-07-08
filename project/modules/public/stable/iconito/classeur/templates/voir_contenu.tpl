@@ -3,6 +3,9 @@
 {if $ppo->confirmMessage}
   <p class="mesgSuccess">{$ppo->confirmMessage}</p>
 {/if}
+{if $ppo->errorMessage}
+  <p class="error">{$ppo->errorMessage}</p>
+{/if}
 
 <div id="sidebar">
   {copixzone process=classeur|arborescenceClasseurs classeurId=$ppo->classeurId dossierCourant=$ppo->dossierId}
