@@ -313,6 +313,8 @@ table.editItems {
 	margin:0 auto;
 }
 table.editItems td input[type="text"] {width:250px;}
+table.editItems td input#time_bact,
+table.editItems td input#date_bact {width:auto;}
 table.editItems th { 
 	padding:0 5px 0 0;
 	text-align:right;
