@@ -84,7 +84,7 @@
 .button-previous	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_previous.png) 4px 50% no-repeat; }
 .button-continue	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_continue.png) 4px 50% no-repeat; }
 .button-info		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_info.png) 4px 50% no-repeat; }
-.button-attach		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_attach.png) 4px 50% no-repeat; }
+.button-attach		{ display:inline; padding-left: 26px; background: #fff url(../../../themes/default/images/action_attach.png) 4px 50% no-repeat; }
 .button-file		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_attach.png) 4px 50% no-repeat; }
 .button-confirm		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_confirm.png) 4px 50% no-repeat; }
 .button-print		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_print.png) 4px 50% no-repeat; }
