@@ -27,7 +27,7 @@ class KernelClasseur {
 		if (!is_null($new->id)) {
       
       $path2data = realpath('./static/classeur');
-      $folder = $path2data.'/'.$new->id.'_'.$new->cle;
+      $folder = $path2data.'/'.$new->id.'-'.$new->cle;
       if ($mkdir = mkdir($folder, 0777)) {
         
         chmod($folder, 0777);
