@@ -15,22 +15,25 @@
     </select>
   </form>
   <div class="overflow">
-    <div id="folder-content">
-    <ul class="thumbView">
+    <div id="folder-content" class="thumbView">
+    <ul>
     {assign var=index value=1}
     {foreach from=$ppo->contenus item=contenu}
       
     <!-- Affichage des dossiers -->
     {if $contenu->content_type eq "dossier"}
       <li class="folder">
-        <div class="folder-datas">
-          <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" />
-          <span class="name">
-            <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}">{$contenu->titre|escape}</a><br />
-            {$contenu->date|datei18n:"date_short_time"|substr:0:10}
-          </span>
+        <div class="datas">
+          <a class="icon" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}"><img src="{copixurl}themes/default/images/icon-64/icon-folder.png" /></a>
+          <p class="footerData">
+              <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" />
+              <span class="name">
+                <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}">{$contenu->titre|escape}</a><br />
+                <span class="date">{$contenu->date|datei18n:"date_short_time"|substr:0:10}</span>
+              </span>
+          </p>
         </div>
-        <p class="folder-actions">
+        <p class="actions">
           {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
           <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
             <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
@@ -44,6 +47,7 @@
             <img src="{copixurl}themes/default/images/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
           </a>
           {/if}
+          <span class="size">
           {if $contenu->nb_dossiers neq 0}
             {$contenu->nb_dossiers} {if $contenu->nb_dossiers eq 1}{i18n key="classeur.message.folder"}{else}{i18n key="classeur.message.folders"}{/if}
           {/if}
@@ -51,6 +55,7 @@
             {$contenu->nb_fichiers} {if $contenu->nb_fichiers eq 1}{i18n key="classeur.message.file"}{else}{i18n key="classeur.message.files"}{/if}
           {/if}
           {$contenu->taille|human_file_size}
+          </span>
         </p>
       </li>
       
@@ -64,26 +69,32 @@
       
       <!-- Affichage des fichiers -->
       <li class="file">
-        <div class="file-datas">
+        <div class="datas">
           {if $contenu->lienMiniature neq null}
             <img src="{$contenu->lienMiniature}" />
+          {elseif $contenu->fichier|substr:-4 eq ".web"}
+              <a class="icon" href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank"><img src="{copixurl}themes/default/images/icon-64/icon-favorite.png" /></a>
+          {else}
+              <a class="icon" href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank"><img src="{copixurl}themes/default/images/icon-64/icon-....png" /></a>
           {/if}
-          <input type="checkbox" class="check" name="fichiers[]" value="{$contenu->id}" />
-          <span class="name">
-            {if $contenu->fichier|substr:-4 eq ".web"}
-              <a href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre|escape}</a>
-            {else}
-              <a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre}</a>
-            {/if}
-            <br />{$contenu->date|datei18n:"date_short_time"|substr:0:10}
-          </span>
+          <p class="footerData">
+              <input type="checkbox" class="check" name="fichiers[]" value="{$contenu->id}" />
+              <span class="name">
+                {if $contenu->fichier|substr:-4 eq ".web"}
+                  <a href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre|escape}</a>
+                {else}
+                  <a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre}</a>
+                {/if}
+                <br /><span class="date">{$contenu->date|datei18n:"date_short_time"|substr:0:10}</span>
+              </span>
+          </p>
         </div>
-        <p class="file-actions">
+        <p class="actions">
           {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
             {if $contenu->fichier|substr:-4 eq ".web"}
-            <a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$contenu->dossier_id favoriId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
+            	<a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$contenu->dossier_id favoriId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
             {else}
-            <a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$contenu->dossier_id fichierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
+            	<a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$contenu->dossier_id fichierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
             {/if}
               <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
             </a>
@@ -97,7 +108,7 @@
             </a>
           {/if}
           {$contenu->type}
-          {$contenu->taille|human_file_size}
+          <span class="size">{$contenu->taille|human_file_size}</span>
         </p>
       </li>
     {assign var=index value=$index+1}

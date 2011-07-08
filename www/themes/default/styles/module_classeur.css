@@ -69,6 +69,7 @@ div.dashboard div.content {
 	padding:0 20px;
 	background:0 3px no-repeat;
 }
+
 #classeur .listView thead th a:hover,
 #content-popup .listView thead th a:hover {text-decoration:underline;}
 #classeur .listView thead th a.ASC,
@@ -83,6 +84,7 @@ div.dashboard div.content {
 #content-popup .listView thead th a.DESC:hover {background-image:url(../../../themes/default/images/sort_up_on.png);}
 #classeur .listView tbody a:hover,
 #content-popup .listView tbody a:hover {border-bottom:1px dotted;}
+#classeur .listView td.actions {width:80px;}
 #classeur .listView a.iconFolder,
 #classeur .listView a.iconFavorite,
 #classeur .listView a.iconFileJpg,
@@ -97,11 +99,52 @@ div.dashboard div.content {
 
 
 /* Thumb View */
+#classeur .thumbView {height:330px;}
+#classeur .thumbView ul {margin:0; padding:0;}
 #classeur .thumbView li {
 	float:left;
-	border:1px solid #000;
-	width:100px; height:100px;
+	margin:15px 0 0 15px; 
+	width:120px; height:120px;
+	list-style:none;
 }
+#classeur .thumbView li .datas { 
+	position:relative;
+	margin:0 0 3px 0; border:1px solid #ddd;
+	height:100px;
+	/*background:no-repeat 50% 5px;*/
+}
+#classeur .thumbView li a.icon {
+	display:block;
+	width:100%; height:100px;
+}
+#classeur .thumbView li a.icon img {
+	display:block;
+	margin:0 auto; border:none;
+}
+#classeur .thumbView li .footerData {
+	position:absolute; bottom:0; leftt:0;
+	margin:0;
+	width:100%;
+}
+#classeur .thumbView li .name {
+	float:right;
+	margin:0 2px 2px 0;
+	font-size:0.9em;
+	text-align:right;
+}
+#classeur .thumbView li .name .date {
+	color:#aaa;
+	font-style:italic; font-size:0.9em;
+}
+#classeur .thumbView li p.actions {margin:0;}
+#classeur .thumbView li p.actions .size {
+	float:right;
+	margin:5px 0 0;
+	color:#bbb;
+	font-size:0.8em;
+	text-align:right;
+}
+/*#classeur .thumbView li.folder .datas {background-image:url(../../../themes/default/images/icon-64/icon-folder.png);}*/
 /* End Thumb View */
 
 
@@ -120,6 +163,7 @@ div.dashboard div.content {
 
 /* Forms */
 form {margin:20px 0;}
+form#order-content {margin:10px 0;}
 form div.row {
 	position:relative;
 	margin:0 0 6px 0;
@@ -161,4 +205,7 @@ ul.actions li {
 #content-popup #popup_actions {clear:both;}
 /* End Popup */
 
-/*#fichiersQueue .cancel {display:none;}*/
+
+/* Uploadify */
+#fichiersQueue .cancel {display:none;}
+/* End Uploadify */

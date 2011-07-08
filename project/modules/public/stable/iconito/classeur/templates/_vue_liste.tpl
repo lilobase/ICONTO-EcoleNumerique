@@ -59,7 +59,7 @@
             {/if}
             {$contenu->taille|human_file_size}
           </td>
-          <td class="center">
+          <td class="center actions">
             {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
             <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
               <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
@@ -85,7 +85,7 @@
             <td class="center">{$contenu->type}</td>
             <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>
-            <td class="center">
+            <td class="center actions">
               {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
               <a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$contenu->parent_id favoriId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
                 <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
@@ -116,7 +116,7 @@
             <td class="center">{$contenu->type}</td>
             <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>
-            <td class="center">
+            <td class="center actions">
               {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
               <a href="{copixurl dest="classeur||editerFichiers" classeurId=$ppo->classeurId dossierId=$contenu->parent_id fichierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
                 <img src="{copixurl}themes/default/images/action_update.png" alt="{i18n key="classeur.message.modify"}" />
