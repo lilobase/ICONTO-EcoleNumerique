@@ -424,8 +424,11 @@ class ClasseurService {
     
     $files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
 		foreach($files as $file) {
-
-		  self::addFileToZip ($file, $zip);
+      
+      if (!$file->estUnFavori()) {
+        
+        self::addFileToZip ($file, $zip);
+      }
 		}
 		
     // Pour chaque sous dossiers on rappelle la méthode

@@ -1150,7 +1150,7 @@ class ActionGroupDefault extends enicActionGroup {
       $dossierTmp = $dossierTmp.'/';
     }
     
-    $fichierZip = 'archive'.mt_rand(100000,9999999).'.zip';
+    $fichierZip = 'archive.zip';
 		if (file_exists($dossierTmp.$fichierZip)) {
 		  
 		  unlink ($dossierTmp.$fichierZip);
