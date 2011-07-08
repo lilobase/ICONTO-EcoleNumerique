@@ -634,7 +634,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmDelete');
 	  
-	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossier->id, 'confirmMessage' => $confirmMessage)));
+	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => !is_null($dossier) ? $dossier->id : 0, 'confirmMessage' => $confirmMessage)));
   }
   
   /**

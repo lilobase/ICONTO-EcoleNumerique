@@ -658,7 +658,7 @@ class ClasseurService {
     
       $content = file_get_contents ($pathFichier);
     
-      $lines = explode ('\n',$content);
+      $lines = explode ("\n",$content);
     
       $firstLine = (isset($lines[0])) ? $lines[0] : '';
       $firstLine9 = strtolower(substr($firstLine,0,9));
