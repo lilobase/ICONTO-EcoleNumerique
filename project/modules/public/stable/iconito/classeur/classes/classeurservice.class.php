@@ -218,12 +218,18 @@ class ClasseurService {
 	  
 	  $folderDAO    = _ioDAO('classeur|classeurdossier');
     $fileDAO      = _ioDAO('classeur|classeurfichier');
-		
+    
 		// Pour chaque sous dossiers on rappelle la méthode
 		$subfolders = $folderDAO->getEnfantsDirects ($folder->classeur_id, $folder->id);
 		foreach ($subfolders as $subfolder) {
 		  
 		  self::moveFolder ($subfolder, 'dossier', $folder->id);
+		}
+		
+		// Récupération des fichiers du dossier pour le déplacement
+    if ($withFiles) {
+      
+  		$files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
 		}
 
     // Déplacement du dossier
@@ -243,15 +249,14 @@ class ClasseurService {
     // Mise à jour du dossier après déplacement
     $folderDAO->update($folder);
     
-    // Récupération des fichiers du dossier pour le déplacement
+    // Modification des fichiers du dossier
     if ($withFiles) {
-      
-  		$files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
+  		
   		foreach($files as $file) {
 
   		  self::moveFile ($file, 'dossier', $folder->id);
   		}
-    }
+		}
 	}
 	
 	/**
