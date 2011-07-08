@@ -49,11 +49,12 @@ class ActionGroupDefault extends enicActionGroup {
     // Récupération de l'identifiant du classeur personnel si non disponible en session
 		if (is_null($ppo->idClasseurPersonnel = _sessionGet('classeur|idClasseurPersonnel'))) {
 		  
-			Kernel::createMissingModules (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+			// Création des modules inexistants.
+			Kernel::createMissingModules(_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
 			$modsList = Kernel::getModEnabled (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
 			foreach ($modsList as $modInfo) {
 			  
-				if ($modInfo->module_type == "MOD_CLASSEUR" && $modInfo->module_id) {
+				if ($modInfo->module_type == 'MOD_CLASSEUR' && $modInfo->module_id) {
 				  
 				  _sessionSet('classeur|idClasseurPersonnel', $modInfo->module_id);
 				  $ppo->idClasseurPersonnel = _sessionGet('classeur|idClasseurPersonnel');
@@ -83,24 +84,7 @@ class ActionGroupDefault extends enicActionGroup {
 		// Ouverture du dossier courant dans l'arborescence
 		if ($ppo->dossierId != 0) {
 		  
-		  $dossierDAO = _ioDAO('classeur|classeurdossier');
-		  $dossier = $dossierDAO->get($ppo->dossierId);
-		  if ($dossier->parent_id == 0) {
-		    
-		    $openClasseurs = classeurService::getClasseursTreeState ();
-    		if (!in_array($ppo->classeurId, array_keys($openClasseurs))) {
-
-    		  classeurService::setClasseursTreeState ($ppo->classeurId);
-    		}
-		  }
-		  else {
-		    
-		    $openFolders = classeurService::getFoldersTreeState ();
-    		if (!in_array($dossier->parent_id, array_keys($openFolders))) {
-
-    		  classeurService::setFoldersTreeState ($dossier->parent_id);
-    		}
-		  }
+		  classeurService::openTree($ppo->classeurId, $ppo->dossierId);
 		}
 
     return _arPPO ($ppo, 'voir_contenu.tpl');
@@ -454,7 +438,11 @@ class ActionGroupDefault extends enicActionGroup {
         
         // Traitement des erreurs
         $ppo->erreurs = array ();
-         
+        
+        if (!is_null(_request('fichier_titre', null)) && strlen(_request('fichier_titre')) > 64) {
+          
+          $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.titleTooLong', array('size' => 64));
+        }
         if (empty($fichiersPhysiques) && empty($fichiersZip)) {
           
           $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noFiles');
@@ -501,7 +489,7 @@ class ActionGroupDefault extends enicActionGroup {
         
           $fichier->classeur_id   = $classeur->id;
           $fichier->dossier_id    = isset($ppo->dossierId) ? $ppo->dossierId : 0;
-          $fichier->titre         = !is_null(_request('fichier_titre', null)) ? _request('fichier_titre') : $fichierPhysique;
+          $fichier->titre         = !is_null(_request('fichier_titre', null)) ? _request('fichier_titre') : substr($fichierPhysique, 0, 63);
           $fichier->commentaire   = _request('fichier_commentaire', null);
           $fichier->fichier       = $fichierPhysique;
           $fichier->taille        = filesize($ppo->dossierTmp.'/'.$fichierPhysique);
@@ -536,7 +524,6 @@ class ActionGroupDefault extends enicActionGroup {
       return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->dossierId, 'confirmMessage' => $confirmMessage)));
     }
     
-
     return _arPPO ($ppo, array ('template' => 'editer_fichiers.tpl'));
   }
   
@@ -715,7 +702,7 @@ class ActionGroupDefault extends enicActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noAddress');
       }
-      elseif (!@fopen(_request('favori_adresse', null), 'r')) {
+      elseif (!fopen(_request('favori_adresse', null), 'r')) {
         
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.invalidAddress');
       }
@@ -765,7 +752,7 @@ class ActionGroupDefault extends enicActionGroup {
       $nomFichier = $ppo->favori->id.'-'.$ppo->favori->cle.$extension;
       $pathFichier = realpath('./static/classeur').'/'.$ppo->classeur->id.'-'.$ppo->classeur->cle.'/'.($nomFichier);
       
-      if ($handler = @fopen($pathFichier, 'w+')) {
+      if ($handler = fopen($pathFichier, 'w+')) {
         
         if (fwrite($handler, $contenu)) {
           
@@ -965,15 +952,14 @@ class ActionGroupDefault extends enicActionGroup {
           if (($ppo->destinationType == 'dossier' && !classeurService::isDescendantOf($dossierDestination, $dossier)) 
             || $ppo->destinationType == 'classeur') {
             
-            $dossiers[] = $dossierDAO->get($arDossierId);
+            $dossier = $dossierDAO->get($arDossierId);
+            // On ne déplace que les dossiers pouvant l'être
+            if ($dossier) {
+              
+              classeurService::moveFolder($dossier, $ppo->destinationType, $ppo->destinationId);
+            }
           }
         }
-      }
-      
-      // On ne déplace que les dossiers pouvant l'être
-      foreach ($dossiers as $dossier) {
-        
-        classeurService::moveFolder($dossier, $ppo->destinationType, $ppo->destinationId);
       }
       
       // Déplacement des fichiers
@@ -1347,8 +1333,8 @@ class ActionGroupDefault extends enicActionGroup {
       mkdir($path2album.'/images/', 0775);
     }
     
-		@chmod($path2album, 0775);
-		@chmod($path2album.'/images/', 0775);
+		chmod($path2album, 0775);
+		chmod($path2album.'/images/', 0775);
 		
 		foreach ($images as $image) {
 		  
@@ -1358,19 +1344,19 @@ class ActionGroupDefault extends enicActionGroup {
 		// Création du fichier index.html nécessaire à l'affichage de l'album
 		$file_html = fopen($path2album.'/index.html', 'w');
 		$tplHtml = & new CopixTpl ();
-		$tplHtml->assign ("path2public", $path2public);
-		$tplHtml->assign ("images", $images);
-		$tplHtml->assign ("album_id", $album->id);
-		$tplHtml->assign ("album_key", $album->cle);
-		$tplHtml->assign ("album_titre", $classeur->titre);
-		$tplHtml->assign ("dossier_id", $dossierId);
+		$tplHtml->assign ('path2public', $path2public);
+		$tplHtml->assign ('images', $images);
+		$tplHtml->assign ('album_id', $album->id);
+		$tplHtml->assign ('album_key', $album->cle);
+		$tplHtml->assign ('album_titre', $classeur->titre);
+		$tplHtml->assign ('dossier_id', $dossierId);
 		if($dossierId != 0) {
 		  
-		  $tplHtml->assign ("dossier_nom", $album);
+		  $tplHtml->assign ('dossier_nom', $album);
 		}
-		$result = $tplHtml->fetch("album_html.tpl");
-		fwrite( $file_html, $result );
-		fclose( $file_html );
+		$result = $tplHtml->fetch('album_html.tpl');
+		fwrite($file_html, $result);
+		fclose($file_html);
 		
 		// Edition de l'album : date de publication et publication à 1
 		$album->date_publication = date('Y-m-d H:i:s');
@@ -1523,7 +1509,7 @@ class ActionGroupDefault extends enicActionGroup {
       
       $modules = Kernel::getModEnabled($node->type, $node->id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
       foreach ($modules as $module) {
-        if ($module->module_type == "MOD_CLASSEUR") {
+        if ($module->module_type == 'MOD_CLASSEUR') {
           // Identification du classeur personnel de l'utilisateur
           if (strpos($module->node_type, 'USER_') !== false 
             && ($module->node_type == _currentUser()->getExtra('type') && $module->node_id == _currentUser()->getExtra('id'))) {
@@ -1544,14 +1530,14 @@ class ActionGroupDefault extends enicActionGroup {
     $classeurIds = array_unique($classeurIds);
     
     $ppo->classeurs = array();
-    $classeurDAO = _dao("classeur|classeur");
+    $classeurDAO = _ioDAO('classeur|classeur');
     foreach ($classeurIds as $classeurId) {
       
       $classeur = $classeurDAO->get($classeurId);
       $ppo->classeurs[] = $classeur;
     }
 		
-		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_classeur.js")); 
+		CopixHTMLHeader::addJSLink (_resource('js/iconito/module_classeur.js')); 
  	  
  	  return _arPPO ($ppo, array ('template'=>'classeur_popup.tpl', 'mainTemplate'=>'main|main_popup.php'));
   }
