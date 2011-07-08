@@ -292,12 +292,15 @@ class ActionGroupDefault extends enicActionGroup {
 	  classeurService::deleteFolder($dossier, true);
 	  
 	  // Maj des informations de dossier
-	  $dossierParent = $dossierDAO->get($dossier->parent_id);
-    classeurService::updateFolderInfos($dossierParent);
+	  if ($dossier->parent_id != 0) {
+	    
+	    $dossierParent = $dossierDAO->get($dossier->parent_id);
+      classeurService::updateFolderInfos($dossierParent);
+	  }
     
     $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmDelete');
     
-    return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossierParent->id, 'confirmMessage' => $confirmMessage)));
+    return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => isset($dossierParent) ? $dossierParent->id : 0, 'confirmMessage' => $confirmMessage)));
   }
   
   /**
@@ -613,7 +616,6 @@ class ActionGroupDefault extends enicActionGroup {
 	  $fichierDAO = _ioDAO ('classeur|classeurfichier');
 	  
     if (is_null($classeurId = _request ('classeurId'))
-     || is_null($dossier = $dossierDAO->get(_request ('dossierId', null)))
      || is_null($fichier  = $fichierDAO->get(_request ('fichierId', null)))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
@@ -630,11 +632,16 @@ class ActionGroupDefault extends enicActionGroup {
 	  classeurService::deleteFile($fichier);
 	  
 	  // Maj des informations de dossier
-    classeurService::updateFolderInfos($dossier);
+	  $dossierId = _request ('dossierId', 0);
+	  if ($dossierId != 0) {
+	    
+	    $dossier = $dossierDAO->get($dossierId);
+      classeurService::updateFolderInfos($dossier);
+	  }
     
     $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmDelete');
 	  
-	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => !is_null($dossier) ? $dossier->id : 0, 'confirmMessage' => $confirmMessage)));
+	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));
   }
   
   /**
@@ -786,8 +793,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     $dossierDAO = _ioDAO ('classeur|classeurdossier');
     
-    if (is_null($classeurId = _request ('classeurId'))
-     || is_null($dossierParent = $dossierDAO->get(_request ('dossierId', null)))) {
+    if (is_null($classeurId = _request ('classeurId'))) {
        
       return CopixActionGroup::process ('generictools|Messages::getError',
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -819,11 +825,16 @@ class ActionGroupDefault extends enicActionGroup {
  	  }
  	  
  	  // Maj des informations de dossier
-    classeurService::updateFolderInfos($dossierParent);
+ 	  $dossierParentId = _request ('dossierId', 0);
+ 	  if ($dossierParentId != 0) {
+ 	    
+ 	    $dossierParent = $dossierDAO->get($dossierParentId);
+ 	    classeurService::updateFolderInfos($dossierParent);
+ 	  }
     
     $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmDelete');
  	  
- 	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossierParent->id, 'confirmMessage' => $confirmMessage)));
+ 	  return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $classeurId, 'dossierId' => $dossierParentId, 'confirmMessage' => $confirmMessage)));
   }
   
   /**
@@ -1235,7 +1246,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->album = $ppo->dossier;
       if ($ppo->album->public == 1) {
         
-        $ppo->albumUrl = CopixUrl::get ().'static/classeur/'.$ppo->classeur->id.'-'.$ppo->classeur->cle.'/'.$ppo->album->id.'-'.$ppo->album->cle;
+        $ppo->albumUrl = CopixUrl::get ().'static/classeur/'.$ppo->classeur->id.'-'.$ppo->classeur->cle.'/'.$ppo->album->id.'-'.$ppo->album->cle.'/index.html';
       }
     }
     else {
@@ -1243,7 +1254,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->album = $ppo->classeur;
       if ($ppo->album->public == 1) {
         
-        $ppo->albumUrl = CopixUrl::get ().'static/classeur/'.$ppo->album->id.'-'.$ppo->album->cle;
+        $ppo->albumUrl = CopixUrl::get ().'static/classeur/'.$ppo->album->id.'-'.$ppo->album->cle.'/index.html';
       }
     }
     
