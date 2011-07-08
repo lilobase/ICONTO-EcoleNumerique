@@ -23,19 +23,21 @@ class ZoneVueVignette extends CopixZone {
 
     // Récupération des paramètres d'affichages
     $ppo->tri = ClasseurService::getContentSort ();
-    
-    $dossierDAO = _ioDAO('classeur|classeurdossier');
-		$fichierDAO = _ioDAO('classeur|classeurfichier');
 		
 		// Récupération des dossiers & des fichiers / favoris
-		$ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triDossiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
-		$ppo->fichiers = $fichierDAO->getParDossier($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triFichiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
-		foreach ($ppo->fichiers as $cle => $fichier)
-		{	
-			$mime = classeurService::getTypeInfos ($fichier->type, $fichier->fichier);
-			$ppo->fichiers[$cle]->type_text = $mime['type_text'];
+		$fichierDAO = _ioDAO('classeur|classeurfichier');
+		$dossierDAO = _ioDAO('classeur|classeurdossier');
+		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
+		
+		foreach ($ppo->contenus as $contenu) {
+		  
+		  if ($contenu->content_type == 'fichier') {
+		    
+		    $fichier = $fichierDAO->get($contenu->id);
+		    $contenu->lienMiniature = $fichier->getLienMiniature (90);
+		  }
 		}
-    
+		
 	  $toReturn = $this->_usePPO ($ppo, '_vue_vignette.tpl');
   }
 }

@@ -584,46 +584,15 @@ class ClasseurService {
    * @param string $triDirection  Direction du tri
    */
 	public static function setContentSort ($column, $direction) {
-    
-    $folderSort = null;
-    $fileSort = null;
-    
-    $validFolderSorts = array ('nom', 'taille', 'date_creation');
-    $validFileSorts   = array ('titre', 'taille', 'type', 'date_upload');
-    
-    switch ($column) {
-      case 'nom':
-        $folderSort = 'nom';
-        $fileSort   = 'titre';
-        break;
-      case 'taille':
-        $folderSort = 'taille';
-        $fileSort   = 'taille';
-        break;
-      case 'date':
-        $folderSort = 'date_creation';
-        $fileSort   = 'date_upload';
-        break;
-      case 'type':
-        $folderSort = 'nom';
-        $fileSort   = 'type';
-        break;
-      default:
-        $folderSort = 'nom';
-        $fileSort   = 'titre';
-        break;
-    }
-    
-    if (!in_array($fileSort, $validFileSorts)) {
+        
+    $validSorts = array ('titre', 'type', 'date', 'taille');
+
+    if (!in_array($column, $validSorts)) {
       
-      $fileSort = 'titre';
-    }
-    if (!in_array($folderSort, $validFolderSorts)) {
-      
-      $folderSort = 'nom';
+      $column = 'titre';
     }
     
-    _sessionSet ('classeur|tri_affichage_contenu', array ('triDossiers' => $folderSort, 'triFichiers' => $fileSort, 'triDirection' => $direction));
+    _sessionSet ('classeur|tri_affichage_contenu', array ('colonne' => $column, 'direction' => $direction));
   }
   
   /**
@@ -636,12 +605,30 @@ class ClasseurService {
 	  $sort = _sessionGet ('classeur|tri_affichage_contenu');
     if (is_null($sort)) {
       
-      return array ('triDossiers' => 'nom', 'triFichiers' => 'titre', 'triDirection' => 'ASC');
+      return array ('colonne' => 'titre', 'direction' => 'ASC');
     }
 
     return $sort;
 	}
 	
+	/**
+   * Récupère l'adresse web d'un favori - Fonction raccourcie
+   *
+   * @return string 
+   */
+	public static function getFavoriteLink ($fileId) {
+	  
+	  $fileDAO = _ioDAO('classeur|classeurfichier');
+	  $file = $fileDAO->get ($fileId);
+	  
+	  if ($file) {
+	    
+	    return self::getUrlOfFavorite($file);
+	  }
+	  
+	  return null;
+  }
+  
 	/**
    * Récupère l'adresse web d'un favori
    *

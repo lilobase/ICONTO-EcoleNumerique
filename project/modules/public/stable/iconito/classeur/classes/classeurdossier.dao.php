@@ -80,6 +80,61 @@ class DAOClasseurDossier {
 		
 		return $this->findBy ($criteria);
   }
+  
+  /**
+   * Retourne les contenus (dossiers / fichiers) d'un classeur / dossier
+   *
+   * @param int     $idClasseur Identifiant du classeur
+   * @param int     $idDossier  Identifiant du dossier
+   * @param array   $tri        Paramètres du tri
+   *
+   * @return array
+   */
+  public function getContenus ($idClasseur, $idDossier = null, $tri = array()) {
+    
+    $toReturn = array();
+    
+    $sql = 'SELECT id, parent_id AS parent_id, nom AS titre, nom AS fichier, nb_dossiers, nb_fichiers, taille, "---" AS type, date_creation AS date, user_type, user_id, "dossier" AS content_type'
+        . ' FROM module_classeur_dossier'
+        . ' WHERE module_classeur_id = :idClasseur';
+    if (!is_null($idDossier)) {
+      
+      $sql .= ' AND parent_id = :idDossier';
+    }
+    
+    $sql .= ' UNION';
+    
+    $sql .= ' SELECT id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, date_upload AS date, user_type, user_id, "fichier" AS content_type'
+        . ' FROM module_classeur_fichier'
+        . ' WHERE module_classeur_id = :idClasseur';
+    if (!is_null($idDossier)) {
+      
+      $sql .= ' AND module_classeur_dossier_id = :idDossier';
+    }
+    
+    if (!empty($tri)) {
+      
+      $sql .= ' ORDER BY '.$tri['colonne'].' '.$tri['direction'];
+    }
+    else {
+      
+      $sql .= ' ORDER BY titre ASC';
+    }
+    
+    // Ajout d'un champ lien pour les favoris
+    $results = _doQuery($sql, array (':idClasseur' => $idClasseur, ':idDossier' => $idDossier));
+    foreach ($results as $key => $result) {
+      if ($result->content_type == 'fichier' 
+        && substr($result->fichier, -4) == '.web') {
+        
+        $result->lien = ClasseurService::getFavoriteLink ($result->id);
+      }
+      
+      $toReturn[] = $result;
+    }
+    
+    return $toReturn;
+  }
 
 	/**
 	 * Renvoie le nombre de sous-répertoires contenus dans un répertoire

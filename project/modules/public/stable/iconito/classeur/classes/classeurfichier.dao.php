@@ -60,11 +60,11 @@ class DAORecordClasseurFichier {
   */
   public function estUneImage () {
     
-    $mimeType = CopixMIMETypes::getFromExtension($this->getExtension());
+    $mimeType = CopixMIMETypes::getFromExtension($this->type);
     if (in_array($mimeType, $this->imgTypes)) {
       
       return true;
-    };
+    }
     
     return false;
   }

@@ -497,7 +497,7 @@ class ActionGroupDefault extends enicActionGroup {
           $fichier->commentaire   = _request('fichier_commentaire', null);
           $fichier->fichier       = $fichierPhysique;
           $fichier->taille        = filesize($ppo->dossierTmp.'/'.$fichierPhysique);
-          $fichier->type          = classeurService::getMimeType($fichierPhysique);
+          $fichier->type          = strtoupper(substr(strrchr($fichierPhysique, '.'), 1));
           $fichier->cle           = classeurService::createKey();
           $fichier->date_upload   = date('Y-m-d H:i:s');
           $fichier->user_type     = _currentUser()->getExtra('type');
@@ -738,7 +738,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->favori->commentaire   = null;
       $ppo->favori->fichier       = Kernel::simpleName($ppo->favori->titre).'.web';
       $ppo->favori->taille        = 0;
-      $ppo->favori->type          = 'application/octet-stream';
+      $ppo->favori->type          = 'Favori';
       $ppo->favori->cle           = classeurService::createKey();
       $ppo->favori->date_upload   = date('Y-m-d H:i:s');
       $ppo->favori->user_type     = _currentUser()->getExtra('type');
@@ -920,8 +920,8 @@ class ActionGroupDefault extends enicActionGroup {
     
       _classInclude('classeur|classeurservice');
       
-      $arFichierIds       = !is_null(_request('fichiers', null)) ? explode (',', _request('fichiers', null)) : null;
-      $arDossierIds       = !is_null(_request('dossiers', null)) ? explode (',', _request('dossiers', null)) : null;
+      $arFichierIds       = !is_null(_request('fichiers', null)) ? explode (',', _request('fichiers', null)) : array();
+      $arDossierIds       = !is_null(_request('dossiers', null)) ? explode (',', _request('dossiers', null)) : array();
       
       // Récupération des informations sur le noeud de destination
       if (!is_null($destination = _request('destination', null))) {

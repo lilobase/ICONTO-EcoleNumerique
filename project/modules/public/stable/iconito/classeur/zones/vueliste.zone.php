@@ -24,13 +24,10 @@ class ZoneVueListe extends CopixZone {
     // Récupération des paramètres d'affichages
     $ppo->tri = ClasseurService::getContentSort ();
     
-    $dossierDAO = _ioDAO('classeur|classeurdossier');
-		$fichierDAO = _ioDAO('classeur|classeurfichier');
-		
 		// Récupération des dossiers & des fichiers / favoris
-		$ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triDossiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
-		$ppo->fichiers = $fichierDAO->getParDossier($ppo->classeurId, $ppo->dossierId, array('colonne' => $ppo->tri['triFichiers'], 'direction' => $ppo->tri['triDirection']))->fetchAll();
-    
+		$dossierDAO = _ioDAO('classeur|classeurdossier');
+		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
+		
 	  $toReturn = $this->_usePPO ($ppo, '_vue_liste.tpl');
   }
 }
