@@ -1,6 +1,6 @@
 {if $ppo->dossiers neq null || $ppo->fichiers neq null}
 <div class="overflow">
-  <table id="folder-content">
+  <table id="folder-content" class="listView">
     <thead>
       <tr>
         <th class="left"><input type="checkbox" id="check_all" /></th>
@@ -129,5 +129,5 @@
 </div>
 {copixzone process=classeur|actionsDeMasse classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
 {else}
-  <p>{i18n key="classeur.message.noFiles"}</p>
+  <p id="folder-content"><span>{i18n key="classeur.message.noFiles"}</span></p>
 {/if}

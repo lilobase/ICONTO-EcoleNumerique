@@ -6,7 +6,8 @@ div.dashboard div.content {
 #cahierdetextes a:visited {text-decoration:none;}
 #cahierdetextes a:hover, #cahierdetextes a:focus {text-decoration:underline;}
 #cahierdetextes a:active {text-decoration:underline;}
-#cahierdetextes a.button {
+#cahierdetextes .works a.button, 
+#cahierdetextes #dayView a.button {
 	float:right;
 	margin
 	font-weight:normal;

@@ -1,6 +1,7 @@
 <h2>{i18n key="classeur.message.filesToAdd"}</h2>
 
 {if $ppo->classeurs neq null}
+<div id="sidebar">
   <ul class="classeurs-list">
     {foreach from=$ppo->classeurs item=classeur}
     <li>
@@ -14,10 +15,13 @@
     </li>
     {/foreach}
   </ul>
+</div>
 {/if}
 
+<div class="content-view">
+<div class="overflow">
 {if $ppo->dossiers neq null || $ppo->fichiers neq null}
-<table id="folder-content">
+<table id="folder-content" class="listView">
   <thead>
     <tr>
       <th>&nbsp;</th>
@@ -89,13 +93,15 @@
   </tbody>
 </table>
 {else}
-  <p>{i18n key="classeur.message.noFiles"}</p>
+  <p id="folder-content"><span>{i18n key="classeur.message.noFiles"}</span></p>
 {/if}
+</div>
+</div>
 
 <div id="popup_actions" class="content-panel">
-	<div class="floatright">
-		<input id="doinsert" class="button button-confirm" type="button" value="{i18n key="classeur.message.insert"}" />
+	<div class="center">
 		<input id="docancel" class="button button-cancel" type="button" value="{i18n key="classeur.message.cancel"}" />
+        <input id="doinsert" class="button button-confirm" type="button" value="{i18n key="classeur.message.insert"}" />
 	</div>
 	{if $ppo->format neq "id"}
 	<div class="">

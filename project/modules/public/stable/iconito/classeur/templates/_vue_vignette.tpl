@@ -15,7 +15,8 @@
     </select>
   </form>
   <div class="overflow">
-    <ul id="folder-content">
+    <div id="folder-content">
+    <ul class="thumbView">
     {assign var=index value=1}
     {foreach from=$ppo->dossiers item=dossier}
       <li class="folder">
@@ -93,8 +94,9 @@
     {assign var=index value=$index+1}
     {/foreach}
     </ul>
+    </div>
   </div>
   {copixzone process=classeur|actionsDeMasse classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
 {else}
-  <p>{i18n key="classeur.message.noFiles"}</p>
+  <p id="folder-content"><span>{i18n key="classeur.message.noFiles"}</span></p>
 {/if}

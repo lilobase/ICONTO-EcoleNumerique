@@ -40,43 +40,69 @@ div.dashboard div.content {
 /* End Sidebar */
 
 
-/* List view */
+/* File View */
 #classeur .content-view .overflow {
 	margin:12px 0 10px; 
 	max-height:350px;
 	overflow:auto;
 }
-#classeur #folder-content {
+#classeur #folder-content, #content-popup #folder-content {
 	border-radius:8px;
 	width:100%;
 	background:#fff;
 	border-collapse:collapse;
 }
-#classeur #folder-content tr.even {
+#classeur p#folder-content, #content-popup p#folder-content {padding:5px 0;}
+#classeur p#folder-content span, #content-popup p#folder-content span {padding:10px;}
+/* End File View */
+
+
+/* List view */
+#classeur .listView tr.even,
+#content-popup .listView tr.even {
 	background:#F5F5F5;
 }
-#classeur #folder-content th {color:#000;}
-#classeur #folder-content thead th a {
+#classeur .listView th,
+#content-popup .listView th {color:#000;}
+#classeur .listView thead th a,
+#content-popup .listView thead th a {
 	padding:0 20px;
 	background:0 3px no-repeat;
 }
-#classeur #folder-content thead th a:hover {text-decoration:underline;}
-#classeur #folder-content thead th a.ASC {background-image:url(../../../themes/default/images/sort_up_off.png);}
-#classeur #folder-content thead th a.ASC:hover, #classeur #folder-content thead th a:hover {background-image:url(../../../themes/default/images/sort_down_on.png);}
-#classeur #folder-content thead th a.DESC {background-image:url(../../../themes/default/images/sort_down_off.png);}
-#classeur #folder-content thead th a.DESC:hover {background-image:url(../../../themes/default/images/sort_up_on.png);}
-#classeur #folder-content tbody a:hover {border-bottom:1px dotted;}
-#classeur #folder-content a.iconFolder,
-#classeur #folder-content a.iconFavorite,
-#classeur #folder-content a.iconFileJpg,
-#classeur #folder-content a.iconFilePng {
+#classeur .listView thead th a:hover,
+#content-popup .listView thead th a:hover {text-decoration:underline;}
+#classeur .listView thead th a.ASC,
+#content-popup .listView thead th a.ASC {background-image:url(../../../themes/default/images/sort_up_off.png);}
+#classeur .listView thead th a.ASC:hover,
+#classeur .listView thead th a:hover,
+#content-popup .listView thead th a.ASC:hover,
+#content-popup .listView thead th a:hover {background-image:url(../../../themes/default/images/sort_down_on.png);}
+#classeur .listView thead th a.DESC,
+#content-popup .listView thead th a.DESC {background-image:url(../../../themes/default/images/sort_down_off.png);}
+#classeur .listView thead th a.DESC:hover,
+#content-popup .listView thead th a.DESC:hover {background-image:url(../../../themes/default/images/sort_up_on.png);}
+#classeur .listView tbody a:hover,
+#content-popup .listView tbody a:hover {border-bottom:1px dotted;}
+#classeur .listView a.iconFolder,
+#classeur .listView a.iconFavorite,
+#classeur .listView a.iconFileJpg,
+#classeur .listView a.iconFilePng {
 	padding:0 0 0 20px;
 	background:none no-repeat 0% 50%;
 }
-#classeur #folder-content a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
-#classeur #folder-content a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
-#classeur #folder-content a.iconJpg {background-image:url(../../../themes/default/images/icon-16/icon-jpg.png);}
+#classeur .listView a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
+#classeur .listView a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
+#classeur .listView a.iconJpg {background-image:url(../../../themes/default/images/icon-16/icon-jpg.png);}
 /* End list view */
+
+
+/* Thumb View */
+#classeur .thumbView li {
+	float:left;
+	border:1px solid #000;
+	width:100px; height:100px;
+}
+/* End Thumb View */
 
 
 /* Mass Actions */
@@ -126,6 +152,13 @@ ul.actions li {
 }
 /* End public album */
 
-#fichiersQueue .cancel {
-  display: none;
+
+/* Popup */
+#content-popup #docancel, 
+#content-popup #doinsert {
+	border:1px solid #BAD521;
 }
+#content-popup #popup_actions {clear:both;}
+/* End Popup */
+
+/*#fichiersQueue .cancel {display:none;}*/

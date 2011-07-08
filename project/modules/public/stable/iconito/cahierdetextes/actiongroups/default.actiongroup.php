@@ -11,6 +11,7 @@ class ActionGroupDefault extends enicActionGroup {
 	public function beforeAction ($actionName) {
 	  
     $this->addJs('js/iconito/module_cahierdetextes.js');
+	$this->addCss('themes/default/styles/module_classeur.css');
 	
 	  // Contrôle d'accès au module
     if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
