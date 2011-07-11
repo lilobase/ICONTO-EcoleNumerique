@@ -743,10 +743,12 @@ class ActionGroupDefault extends enicActionGroup {
       if (is_null($ppo->favori->id)) {
         
         $fichierDAO->insert ($ppo->favori);
+        $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmCreation');
       }
       else {
         
         $fichierDAO->update ($ppo->favori);
+        $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUpdate');
       }
       
       // Création du fichier
@@ -773,8 +775,6 @@ class ActionGroupDefault extends enicActionGroup {
         $dossier    = $dossierDAO->get($ppo->favori->dossier_id);
         classeurService::updateFolderInfos ($dossier);
       }
-      
-      $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmCreation');
     
       return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeur->id, 'dossierId' => $ppo->favori->dossier_id, 'confirmMessage' => $confirmMessage)));
     }
