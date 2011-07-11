@@ -14,7 +14,7 @@
       <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
     {/if}
     {if $ppo->field neq null && $ppo->format neq null}
-    <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}">{$dossier->nom}</a>
+    <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeurId dossierId=$dossier->id field=$ppo->field format=$ppo->format}">{$dossier->nom}</a>
     {else}
     <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$dossier->id}">{$dossier->nom}</a>
     {/if}
