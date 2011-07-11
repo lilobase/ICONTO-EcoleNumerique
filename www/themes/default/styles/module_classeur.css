@@ -7,7 +7,9 @@ div.dashboard div.content {
   width:72%;
 }
 #classeur a img {border:none;}
-#submenu .menuitems ul li.newGroupItems {margin-left:40px;}
+#submenu .menuitems ul li a.viewList, 
+#submenu .menuitems ul li a.viewThumbs { width:auto;}
+#submenu .menuitems ul li.newGroupItems {margin-left:125px;}
 #select-choice {
 	float:left;
 	margin:13px 20px 0 0;
@@ -55,7 +57,7 @@ div.dashboard div.content {
 #classeur #folder-content, #content-popup #folder-content {
 	border-radius:8px;
 	width:100%;
-	background:#fff;
+	background:#fff fixed;
 	border-collapse:collapse;
 }
 #classeur p#folder-content, #content-popup p#folder-content {padding:5px 0;}
@@ -105,19 +107,25 @@ div.dashboard div.content {
 
 
 /* Thumb View */
-#classeur .thumbView {height:330px;}
+#classeur .thumbView {height:350px; overflow:auto;}
 #classeur .thumbView ul {margin:0; padding:0;}
 #classeur .thumbView li {
 	float:left;
-	margin:15px 0 0 15px; 
-	width:120px; height:120px;
+	margin:10px 0 0 7px; 
+	width:135px; height:165px;
 	list-style:none;
 }
 #classeur .thumbView li .datas { 
 	position:relative;
 	margin:0 0 3px 0; border:1px solid #ddd;
-	height:100px;
+	height:135px;
 	/*background:no-repeat 50% 5px;*/
+}
+#classeur .thumbView li .datas img {
+	display:block;
+	margin:10px auto;
+	width:90px; max-height:90px;
+	overflow:hidden;
 }
 #classeur .thumbView li a.icon {
 	display:block;
@@ -129,14 +137,11 @@ div.dashboard div.content {
 }
 #classeur .thumbView li .footerData {
 	position:absolute; bottom:0; leftt:0;
-	margin:0;
+	margin:0; padding:0 2px;
 	width:100%;
 }
 #classeur .thumbView li .name {
-	float:right;
-	margin:0 2px 2px 0;
 	font-size:0.9em;
-	text-align:right;
 }
 #classeur .thumbView li .name .date {
 	color:#aaa;

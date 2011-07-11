@@ -4,7 +4,7 @@
   <p class="mesgSuccess">{$ppo->confirmMessage}</p>
 {/if}
 {if $ppo->errorMessage}
-  <p class="error">{$ppo->errorMessage}</p>
+  <p class="mesgError">{$ppo->errorMessage}</p>
 {/if}
 
 <div id="sidebar">
