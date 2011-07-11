@@ -1,22 +1,8 @@
 <h2>{i18n key="classeur.message.filesToAdd"}</h2>
 
-{if $ppo->classeurs neq null}
 <div id="sidebar">
-  <ul class="classeurs-list">
-    {foreach from=$ppo->classeurs item=classeur}
-    <li>
-      <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$classeur->id field=$ppo->field format=$ppo->format}">
-        {if $classeur->id eq $ppo->classeurPersonnel}
-          {i18n key="classeur.message.personnalFolder"}
-        {else}
-          {$classeur->titre}
-        {/if}
-      </a>
-    </li>
-    {/foreach}
-  </ul>
+  {copixzone process=classeur|arborescenceClasseurs classeurId=$ppo->classeur->id dossierCourant=$ppo->dossierId field=$ppo->field format=$ppo->format}
 </div>
-{/if}
 
 <div class="content-view">
 <div class="overflow">
@@ -24,7 +10,7 @@
 <table id="folder-content" class="listView">
   <thead>
     <tr>
-      <th>&nbsp;</th>
+      <th><input type="checkbox" id="check_all" /></th>
       <th>{i18n key="classeur.message.title"}</th>
       <th>{i18n key="classeur.message.type"}</th>
       <th>{i18n key="classeur.message.date"}</th>

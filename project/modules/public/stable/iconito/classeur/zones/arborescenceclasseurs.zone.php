@@ -14,6 +14,10 @@ class ZoneArborescenceClasseurs extends CopixZone {
 	  $ppo->classeurId      = $this->getParam('classeurId');
 	  $ppo->dossierCourant  = $this->getParam('dossierCourant');
 	  
+	  // Paramètres pour la vue popup
+	  $ppo->field           = $this->getParam('field');
+	  $ppo->format          = $this->getParam('format');
+	  
 	  // Récupération des classeurs accessibles à l'utilisateur
     $classeurIds = array();
     $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));

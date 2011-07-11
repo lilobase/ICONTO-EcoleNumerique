@@ -15,6 +15,10 @@ class ZoneArborescenceDossiers extends CopixZone {
 	  $ppo->dossierId       = $this->getParam('dossierId');
 	  $ppo->dossierCourant  = $this->getParam('dossierCourant');
 	  
+	  // Paramètres pour la vue popup
+	  $ppo->field           = $this->getParam('field');
+	  $ppo->format          = $this->getParam('format');
+	  
 	  // Récupération des dossiers
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
 	  $ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId);

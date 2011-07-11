@@ -117,8 +117,8 @@ jQuery(document).ready(function($){
 	/*  Vue vignette - Sélection                                          */
 	/**********************************************************************/
 	$('#select-all').live('click', function() {
-	  
-	  $('#folder-content :checkbox').attr('checked', 'checked');
+	
+    $('#folder-content :checkbox').attr('checked', 'checked');
 	});
 	
 	$('#select-none').live('click', function() {
@@ -253,7 +253,7 @@ function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_
       break;
 
     default :
-      alert (i18n_unsupportedFormat);
+      // alert (i18n_unsupportedFormat);
       break;
   }
 }
