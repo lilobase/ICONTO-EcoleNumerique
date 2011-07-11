@@ -1,4 +1,4 @@
-{copixzone process=classeur|affichageMenu classeurId=$ppo->classeurId dossierId=$ppo->parent->id}
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeurId dossierId=$ppo->parent->id current="editerDossier"}
 
 {if $ppo->dossierId eq null}
   <h2>{i18n key="classeur.message.newFolder"}</h2>

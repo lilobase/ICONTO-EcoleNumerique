@@ -1,4 +1,4 @@
-{copixzone process=classeur|affichageMenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId current="editerFavori"}
 
 <h2>{i18n key="classeur.message.addFavorite"}</h2>
 

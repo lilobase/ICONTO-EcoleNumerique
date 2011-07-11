@@ -112,6 +112,19 @@ jQuery(document).ready(function($){
 	  
 	  $('#order-content').submit();
 	});
+	
+	/**********************************************************************/
+	/*  Vue vignette - Sélection                                          */
+	/**********************************************************************/
+	$('#select-all').live('click', function() {
+	  
+	  $('#folder-content :checkbox').attr('checked', 'checked');
+	});
+	
+	$('#select-none').live('click', function() {
+	  
+	  $('#folder-content :checkbox').removeAttr('checked');
+	});
   
   /**********************************************************************/
 	/*  Actions de masse : suppression / déplacement / copie et download  */

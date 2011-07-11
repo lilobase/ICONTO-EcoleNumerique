@@ -1,4 +1,4 @@
-{copixzone process=classeur|affichageMenu classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeurId dossierId=$ppo->dossierId current="editerFichiers"}
 
 <h2>
   {if $ppo->fichier->id neq null}

@@ -14,6 +14,9 @@
       <option value="DESC" {if $ppo->tri.direction eq "DESC"}selected="selected"{/if}>{i18n key="classeur.message.desc"}</option>
     </select>
   </form>
+  <p id="select-choice">
+    {i18n key="classeur.message.select"} : <span id="select-all">{i18n key="classeur.message.all"}</span> / <span id="select-none">{i18n key="classeur.message.none"}</span>
+  </p>
   <div class="overflow">
     <div id="folder-content" class="thumbView">
     <ul>

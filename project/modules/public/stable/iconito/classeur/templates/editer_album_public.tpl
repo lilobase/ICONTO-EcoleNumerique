@@ -1,4 +1,4 @@
-{copixzone process=classeur|affichageMenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}
+{copixzone process=classeur|affichageMenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId current="editerAlbumPublic"}
 
 <h2>{i18n key="classeur.message.createPublicAlbum"}</h2>
 

@@ -706,13 +706,9 @@ class ActionGroupDefault extends enicActionGroup {
 
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noTitle');
       }
-      if (_request('favori_adresse', null) == '') {
+      if (_request('favori_adresse', null) == '' || _request('favori_adresse', null) == 'http://') {
 
         $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noAddress');
-      }
-      elseif (!fopen(_request('favori_adresse', null), 'r')) {
-        
-        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.invalidAddress');
       }
 
       if (!empty ($ppo->erreurs)) {
