@@ -29,7 +29,7 @@ class ZoneSelectionClasseurs extends CopixZone {
           
           // Identification du classeur personnel de l'utilisateur
           if (strpos($module->node_type, 'USER_') !== false 
-            && $module->node_id == _currentUser()->getExtra('id')) {
+            && ($module->node_type == _currentUser()->getExtra('type') && $module->node_id == _currentUser()->getExtra('id'))) {
     
             $ppo->classeurPersonnel = $module->module_id;
             $classeurIds[] = $module->module_id;
