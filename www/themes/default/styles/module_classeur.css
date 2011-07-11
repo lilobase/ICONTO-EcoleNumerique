@@ -7,7 +7,12 @@ div.dashboard div.content {
   width:72%;
 }
 #classeur a img {border:none;}
-
+#submenu .menuitems ul li.newGroupItems {margin-left:40px;}
+#select-choice {
+	float:left;
+	margin:13px 20px 0 0;
+}
+#select-choice input {margin-right:5px;}
 /* End global */
 
 
@@ -42,6 +47,7 @@ div.dashboard div.content {
 
 /* File View */
 #classeur .content-view .overflow {
+	clear:both;
 	margin:12px 0 10px; 
 	max-height:350px;
 	overflow:auto;
@@ -163,7 +169,7 @@ div.dashboard div.content {
 
 /* Forms */
 form {margin:20px 0;}
-form#order-content {margin:10px 0;}
+form#order-content {float:right; margin:10px 0;}
 form div.row {
 	position:relative;
 	margin:0 0 6px 0;

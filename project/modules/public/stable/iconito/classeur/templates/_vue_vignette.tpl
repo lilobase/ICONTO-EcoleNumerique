@@ -1,4 +1,7 @@
 {if $ppo->contenus neq null}
+  <p id="select-choice">
+     <input type="checkbox" id="selectAllThumbs" /><label for="selectAllThumbs">{i18n key="classeur.message.selectAll"}
+  </p>
   <form name="order-content" id="order-content" action="{copixurl dest="classeur||voirContenu"}" method="post">
     <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeurId}" />
     <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
@@ -14,9 +17,7 @@
       <option value="DESC" {if $ppo->tri.direction eq "DESC"}selected="selected"{/if}>{i18n key="classeur.message.desc"}</option>
     </select>
   </form>
-  <p id="select-choice">
-    {i18n key="classeur.message.select"} : <span id="select-all">{i18n key="classeur.message.all"}</span> / <span id="select-none">{i18n key="classeur.message.none"}</span>
-  </p>
+  
   <div class="overflow">
     <div id="folder-content" class="thumbView">
     <ul>

@@ -59,9 +59,9 @@ jQuery(document).ready(function($){
 	}
 	
 	// Sélection de la destination
-	$('.classeur input[type="radio"]').hide();
-	$('.classeur label').click(function() {
-		$('.classeur p').removeClass('current');
+	$('.selectFolder input[type="radio"]').hide();
+	$('.selectFolder label').click(function() {
+		$('.selectFolder p').removeClass('current');
 		$(this).parent('p').addClass('current');
 	});
 	
@@ -100,7 +100,7 @@ jQuery(document).ready(function($){
     }
   };
   
-  /**********************************************************************/
+  	/**********************************************************************/
 	/*  Vue vignette - Tri                                                */
 	/**********************************************************************/
 	$('#order-column').live('change', function() {
@@ -116,14 +116,19 @@ jQuery(document).ready(function($){
 	/**********************************************************************/
 	/*  Vue vignette - Sélection                                          */
 	/**********************************************************************/
-	$('#select-all').live('click', function() {
-	
-    $('#folder-content :checkbox').attr('checked', 'checked');
+	$('#selectAllThumbs').click(function() {
+		if ($(this).is(':checked'))
+			$('#folder-content :checkbox').attr('checked', 'checked');
+		else
+			$('#folder-content :checkbox').removeAttr('checked');
 	});
-	
-	$('#select-none').live('click', function() {
-	  
-	  $('#folder-content :checkbox').removeAttr('checked');
+	$('#folder-content :checkbox').click(function(){
+		var all_checkboxes = $('#folder-content :checkbox').size();
+    	var all_checked    = $('#folder-content :checkbox').filter(':checked').size();
+    	if (all_checkboxes == all_checked)
+            $('#selectAllThumbs').attr('checked', 'checked');
+        else
+		    $('#selectAllThumbs').removeAttr('checked');
 	});
   
   /**********************************************************************/

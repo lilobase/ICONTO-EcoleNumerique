@@ -230,6 +230,7 @@ span.valign {
 #submenu .menuitems a.list			{ background-image: url(../../../themes/default/images/menu_list.png); }
 #submenu .menuitems a.list-active	{ background-image: url(../../../themes/default/images/menu_list_active.png); }
 #submenu .menuitems a.list-inactive	{ background-image: url(../../../themes/default/images/menu_list_inactive.png); }
+#submenu .menuitems a.thumbs		{ background-image: url(../../../themes/default/images/menu_thumbs.png); }
 #submenu .menuitems a.results		{ background-image: url(../../../themes/default/images/menu_results.png); }
 #submenu .menuitems a.article		{ background-image: url(../../../themes/default/images/menu_article.png); }
 #submenu .menuitems a.link			{ background-image: url(../../../themes/default/images/menu_link.png); }
