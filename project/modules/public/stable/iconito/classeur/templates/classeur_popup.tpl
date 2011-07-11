@@ -65,10 +65,10 @@
         <input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" />
       </td>
       {if $fichier->estUnFavori()}
-        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier}">{$fichier|escape}</a></td>
+        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier}" target="_blank">{$fichier|escape}</a></td>
         <td>{i18n key="classeur.message.favorite"}</td>
       {else}
-        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier}">{$fichier|escape}</a></td>
+        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier}" target="_blank">{$fichier|escape}</a></td>
         <td>{$fichier->type}</td>
       {/if}
       <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
