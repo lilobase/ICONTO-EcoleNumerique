@@ -373,42 +373,47 @@ class ClasseurService {
     $fileDAO      = _ioDAO('classeur|classeurfichier');
     
     // Récupération du classeur
-    $oldClasseur = $classeurDAO->get($file->classeur_id);
+    $oldClasseur  = $classeurDAO->get($file->classeur_id);
+    $old_dir      = realpath('./static/classeur').'/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
+    $extension    = strrchr($file->fichier, '.');
     
-    // Copie de l'enregistrement fichier
-    $clone = clone $file;
-    $clone->cle = self::createKey();
-    
-    if ($targetType == 'dossier') {
+    // Copie du fichier uniquement s'il existe bien
+    if (file_exists($old_dir.$file->id.'-'.$file->cle.$extension)) {
       
-      $targetFolder = $folderDAO->get($targetId);
-      $newClasseur  = $classeurDAO->get($targetFolder->classeur_id);
-      
-      $clone->classeur_id = $targetFolder->classeur_id;
-      $clone->dossier_id  = $targetFolder->id;
+      // Copie de l'enregistrement fichier
+      $clone = clone $file;
+      $clone->cle = self::createKey();
+
+      if ($targetType == 'dossier') {
+
+        $targetFolder = $folderDAO->get($targetId);
+        $newClasseur  = $classeurDAO->get($targetFolder->classeur_id);
+
+        $clone->classeur_id = $targetFolder->classeur_id;
+        $clone->dossier_id  = $targetFolder->id;
+      }
+      else {
+
+        $newClasseur  = $classeurDAO->get($targetId);
+
+        $clone->classeur_id  = $targetId;
+        $clone->dossier_id   = 0;
+      }
+
+      // Insertion du nouveau fichier
+      $fileDAO->insert($clone);
+
+      // Copie physique du fichier
+
+      $new_dir = realpath('./static/classeur').'/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
+
+      if (!file_exists($new_dir)) {
+
+        mkdir($new_dir, 0755, true);
+      }
+
+      copy($old_dir.$file->id.'-'.$file->cle.$extension, $new_dir.$clone->id.'-'.$clone->cle.$extension);
     }
-    else {
-      
-      $newClasseur  = $classeurDAO->get($targetId);
-      
-      $clone->classeur_id  = $targetId;
-      $clone->dossier_id   = 0;
-    }
-    
-    // Insertion du nouveau fichier
-    $fileDAO->insert($clone);
-    
-    // Copie physique du fichier
-    $old_dir = realpath('./static/classeur').'/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
-    $new_dir = realpath('./static/classeur').'/'.$newClasseur->id.'-'.$newClasseur->cle.'/';
-    
-    if (!file_exists($new_dir)) {
-      
-      mkdir($new_dir, 0755, true);
-    }
-    
-    $extension = strrchr($file->fichier, '.');
-    copy($old_dir.$file->id.'-'.$file->cle.$extension, $new_dir.$clone->id.'-'.$clone->cle.$extension);
 	}
 	
 	/**
