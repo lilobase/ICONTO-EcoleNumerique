@@ -97,6 +97,8 @@
 .button-image		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_image.png) 4px 50% no-repeat; }
 .button-imagevalid	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_imagevalid.png) 4px 50% no-repeat; }
 .button-imagedelete	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_imagedelete.png) 4px 50% no-repeat; }
+.button-directory	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_directory.png) 4px 50% no-repeat; }
+.button-search		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_search.png) 4px 50% no-repeat; }
 
 .button-p-first		{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_p_first.png) 4px 50% no-repeat; }
 .button-p-previous	{ padding-left: 26px; background: #fff url(../../../themes/default/images/action_p_previous.png) 4px 50% no-repeat; }

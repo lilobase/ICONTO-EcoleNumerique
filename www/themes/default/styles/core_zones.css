@@ -349,7 +349,7 @@ p.ui-state-error {
     font-size: 0.9em;
 }
 
-p.mesgSuccess, ul.mesgErrors, div.mesgErrors ul, p.mesgError {
+p.mesgSuccess, ul.mesgErrors, div.mesgErrors ul, p.mesgError, p.mesgInfo {
 	margin:10px 0 15px; padding:5px 5px 5px 28px; border:1px solid #BAD521;
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
 	background:url(../../../themes/default/images/action_confirm.png) no-repeat 5px 50% #fff; color:#BAD521;
@@ -359,6 +359,10 @@ ul.mesgErrors, div.mesgErrors ul, p.mesgError {
 	border-color:#f00;
 	background:url(../../../themes/default/images/action_warning.png) no-repeat 5px 50% #fff; color:#f00;
 	list-style:none;
+}
+p.mesgInfo {
+	border-color:#49BFCD;
+	background:url(../../../themes/default/images/action_info.png) no-repeat 5px 50% #fff; color:#49BFCD;
 }
 
 /************************************************

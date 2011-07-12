@@ -34,7 +34,7 @@ H3 {
 }
 #eleves {
 	margin-left: 15px;
-	font-size: 11px;
+	/*font-size: 11px;*/
 }
 #eleves IMG {
 }
@@ -54,7 +54,7 @@ H3 {
 }
 #ecoles ul li .directeur {
   color:#666;
-  font-size:0.9em;
+  /*font-size:0.9em;*/
 }
 #ecoles ul li a:hover {
   text-decoration:underline;

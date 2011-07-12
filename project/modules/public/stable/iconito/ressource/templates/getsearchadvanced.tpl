@@ -63,7 +63,7 @@
 		{foreach from=$fonction_list item=fonction_val}
 		{assign var=fonctions_id value=$fonction_val->fonctions_id}
 		{assign var=selected value=$fonctionsel_list[$fonctions_id]}
-		<option value="{$fonctions_id}" {if $selected}SELECTED{/if}>{$fonction_val->fonctions_nom|escape}</option>
+		<option value="{$fonctions_id}" {if $selected}selected="selected"{/if}>{$fonction_val->fonctions_nom|escape}</option>
 		{/foreach}
 		</select>
 	</td>
@@ -77,7 +77,7 @@
 		{foreach from=$contenu_list item=contenu_val}
 		{assign var=contenus_id value=$contenu_val->contenus_id}
 		{assign var=selected value=$contenusel_list[$contenus_id]}
-		<option value="{$contenus_id}" {if $selected}SELECTED{/if}>{$contenu_val->contenus_nom|escape}</option>
+		<option value="{$contenus_id}" {if $selected}selected="selected"{/if}>{$contenu_val->contenus_nom|escape}</option>
 		{/foreach}
 		</select>
 	</td>
@@ -92,7 +92,7 @@
 		{foreach from=$licence_list item=licence_val}
 		{assign var=licences_id value=$licence_val->licences_id}
 		{assign var=selected value=$licencesel_list[$licences_id]}
-		<option value="{$licence_id}" {if $selected}SELECTED{/if}>{$licence_val->licences_nom|escape}</option>
+		<option value="{$licence_id}" {if $selected}selected="selected"{/if}>{$licence_val->licences_nom|escape}</option>
 		{/foreach}
 		</select>
 	</td>
@@ -112,11 +112,11 @@
 	{foreach from=$niveau_val->domaines item=domaine_val}
 	{assign var=domaines_id value=$domaine_val->domaines_id}
 	{assign var=selected value=$domainesel_list[$domaines_id]}
-	<option value="{$domaines_id}" {if $selected}SELECTED{/if}>{$domaine_val->domaines_nom|escape}</option>
+	<option value="{$domaines_id}" {if $selected}selected="selected"{/if}>{$domaine_val->domaines_nom|escape}</option>
 	{assign var=toutes value=$toutes|cat:"$domaines_id,"}
 	{/foreach}
 	{assign var=selected value=$domainesel_list[$toutes]}
-	<option value="{$toutes}" {if $selected}SELECTED{/if}>{i18n key="ressource.liste.fonction_mini"}</option>
+	<option value="{$toutes}" {if $selected}selected="selected"{/if}>{i18n key="ressource.liste.fonction_mini"}</option>
 	</select>
 
 	</td></tr>
@@ -125,9 +125,9 @@
 
 {/if}
 
-	<tr><td colspan="2" CLASS="form_submit">
-	<input style="" class="form_button" onclick="self.location='{copixurl dest="|getList" id=$id}'" type="button" value="{i18n key="ressource.liste.annuler"}" />
-	<input style="" class="form_button" type="submit" value="{i18n key="ressource.liste.chercher"}" />
+	<tr><td colspan="2" class="center form_submit">
+	<input class="button button-cancel" onclick="self.location='{copixurl dest="|getList" id=$id}'" type="button" value="{i18n key="ressource.liste.annuler"}" />&nbsp;
+	<input class="button button-search" type="submit" value="{i18n key="ressource.liste.chercher"}" />
 </td></tr>
 </table>
 

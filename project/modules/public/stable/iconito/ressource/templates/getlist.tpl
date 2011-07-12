@@ -4,8 +4,8 @@
 
 <div align="right" style="padding: 10px;">
 <FORM method="POST" action="{copixurl dest="|getSearchAdvanced"}">
-<input type="hidden" name="id" value="{$id}">
-{i18n key="ressource.title.recherche"} : <INPUT TYPE="mot" NAME="mot" CLASS="form" STYLE="width:130px;"> <input style="width: 30px;" class="form_button" type="submit" value="{i18n key="ressource.form.ok"}" />
+<input type="hidden" name="id" value="{$id}" />
+{i18n key="ressource.title.recherche"} : <INPUT TYPE="mot" NAME="mot" CLASS="form" STYLE="width:130px;" /> <input style="width: 30px;" class="form_button" type="submit" value="{i18n key="ressource.form.ok"}" />
 </FORM>
 </div>
 

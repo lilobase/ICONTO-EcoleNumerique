@@ -7,8 +7,8 @@
 <input style="width: 55px;" class="form_button" onclick="self.location='{if $res_id eq 0}{copixurl dest="ressource||getList" id=$annu_id}{else}{copixurl dest="ressource||getRessource" id=$res_id}{/if}'" type="button" value="{i18n key="ressource.liste.annuler"}" /> <input style="width: 75px;" class="form_button" type="submit" value="{i18n key="ressource.liste.enregistrer"}" />
 </div>
 
-<input type="hidden" name="res_id" value="{$res_id}">
-<input type="hidden" name="annu_id" value="{$annu_id}">
+<input type="hidden" name="res_id" value="{$res_id}" />
+<input type="hidden" name="annu_id" value="{$annu_id}" />
 {/if}
 
 
@@ -149,7 +149,7 @@
 
 {if $edit}
 <div align="right">
-<input style="width: 55px;" class="form_button" onclick="self.location='{if $res_id eq 0}{copixurl dest="ressource||getList" id=$annu_id}{else}{copixurl dest="ressource||getRessource" id=$res_id}{/if}'" type="button" value="{i18n key="ressource.liste.annuler"}" /> <input style="width: 75px;" class="form_button" type="submit" value="{i18n key="ressource.liste.enregistrer"}" />
+<input style="width: 55px;" class="button button-cancel" onclick="self.location='{if $res_id eq 0}{copixurl dest="ressource||getList" id=$annu_id}{else}{copixurl dest="ressource||getRessource" id=$res_id}{/if}'" type="button" value="{i18n key="ressource.liste.annuler"}" /> <input style="width: 75px;" class="button button-confirm" type="submit" value="{i18n key="ressource.liste.enregistrer"}" />
 </div>
 {/if}
 

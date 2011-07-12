@@ -1,6 +1,5 @@
 <?php if (count ($ppo->errors)) { ?>
-<div class="errorMessage">
- <h1><?php _etag ('i18n', 'copix:common.messages.error');?> </h1>
+<div class="mesgErrors">
  <?php _etag ('ulli', array ('values'=>$ppo->errors)); ?>
 </div>
 <?php } ?>
@@ -73,11 +72,12 @@
 	<?php } ?>
 </table>
 
-<p><input type="submit"
-	value="<?php _etag ('i18n', "copix:common.buttons.valid"); ?>" />
+<p class="center">
 <input type="button"
 	value="<?php _etag ('i18n', "copix:common.buttons.cancel"); ?>"
 	onclick="javascript:document.location.href='<?php if($ppo->createInProcess) {echo _url ('');} else {echo _url ('auth|users|');} ?>'" />
+    <input type="submit"
+	value="<?php _etag ('i18n', "copix:common.buttons.valid"); ?>" />
 </p>
 
 </form>

@@ -1,7 +1,6 @@
 <?php if ($ppo->failed) { ?>
-<div class="errorMessage">
- <h1><?php echo _i18n ('copix:common.messages.error'); ?></h1>
- <?php _etag ('ulli', array ('values'=>$ppo->failed)); ?>
+<div class="mesgErrors">
+  <?php _etag ('ulli', array ('values'=>$ppo->failed)); ?>
 </div>
 <?php } ?>
 <?php if (!$ppo->user || $ppo->noCredential) { ?>
@@ -15,13 +14,13 @@
       
        <tr>
         <th><?php echo _i18n('auth|auth.login'); ?></th>
-        <td><input type="text" name="login" id="login" size="9"
+        <td><input type="text" name="login" id="loginBig" size="9" autofocus="autofocus"
 			value="<?php _etag ('escape', $ppo->login); ?>" /></td>
        </tr>
        
        <tr>
         <th><?php echo _i18n('auth|auth.password'); ?></th>
-        <td><input type="password" name="password" id="password" size="9" /></td>
+        <td><input type="password" name="password" id="passwordBig" size="9" /></td>
        </tr>
        
        <?php if($ppo->ask_rememberme){ ?>

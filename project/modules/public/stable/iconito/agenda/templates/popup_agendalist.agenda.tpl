@@ -8,8 +8,8 @@
 			{assign var="id" value=$agenda->id_agenda}
 			{assign var="color" value=$ppo->arColorByIdAgenda[$id]}
 			<li style="background-color:#{$color};">
-			<input type="checkbox" name="agendas.{$agenda->id_agenda}" value=1 {if isset($ppo->agendasSelectionnes[$id])}checked="checked"{/if}/>
-			{$agenda->title_agenda}
+			<input type="checkbox" name="agendas.{$agenda->id_agenda}" id="agenda{$agenda->id_agenda}" value="1" {if isset($ppo->agendasSelectionnes[$id])}checked="checked"{/if} />
+			<label for="agenda{$agenda->id_agenda}">{$agenda->title_agenda}</label>
 			</li>
 		{/foreach}
 		</ul>

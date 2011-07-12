@@ -1,6 +1,5 @@
 {if $showError}
-	<div class="errorMessage">
-		<h1>{i18n key=copix:common.messages.error}</h1>
+	<div class="mesgErrors">
 		{foreach from=$arError item=errors key=index}
 		{ulli values=$errors}
 		{/foreach}
@@ -16,7 +15,7 @@
     <tr>
   <td colspan="4" CLASS="form_submit">
   <input type="button" class="button button-cancel" value="{i18n key=copix:common.buttons.cancel}" onclick="self.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
-		<input type="submit" class="button button-save" value="{i18n key=copix:common.buttons.save}" />
+		<input type="submit" class="button button-confirm" value="{i18n key=copix:common.buttons.save}" />
   </td></tr>  
 	</table>
 </form>

@@ -1,6 +1,6 @@
 
-DIV.minimail_message {
-	width: 730px;
+div.minimail_message {
+	width:100%; /* 730px;*/
 	background-color: #FFFFFF;
 	font-size: 12px;
 	border-radius: 6px;
@@ -15,7 +15,7 @@ div.minimail_message div.render a:hover {
 }
 
 
-TR.minimail_navig {
+tr.minimail_navig {
 	background-color: #EEEEEE;
 	font-size: 10px;
 	border-radius: 6px;
@@ -25,11 +25,11 @@ TR.minimail_navig {
 }
 
 
-HR.minimail_hr {
+hr.minimail_hr {
 	margin: 5px;
 }
 
-DIV.minimail_attachment {
+div.minimail_attachment {
 	float: left;
 	width: 220px;
 	background-color: #FFF;

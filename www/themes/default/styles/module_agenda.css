@@ -27,6 +27,11 @@ div#div_agendas div.titreAgenda {
 }
 
 /*Template d'affichage de la saisie d'évènement*/
+table.saisieEvent {
+	border:0;
+	width:100%;
+	border-collapse:collapse;
+}
 .saisieEvent tr th{
 	text-align:left;
 }

@@ -1,6 +1,7 @@
+<h2>{if $toEdit->id_event}{i18n key="agenda.menu.modifEvent"}{else}{i18n key="agenda.menu.ajoutEvent"}{/if}</h2>
+
 {if $showError}
-	<div class="errorMessage">
-		<h1>{i18n key=copix:common.messages.error}</h1>
+	<div class="mesgErrors">
 		{foreach from=$arError item=errors key=index}
 		{ulli values=$errors}
 		{/foreach}
@@ -55,7 +56,7 @@ function inactivechamprepetition(obj){
 
 <form action="{copixurl dest="agenda|event|valid"}" method="post" class="copixForm" name="saisieEvent">
 
-<table border="0" CELLSPACING="1" CELLPADDING="1" class="saisieEvent">
+<table class="saisieEvent">
 
 	<tr>
 		<td class="form_libelle"><label for="{i18n key="agenda.message.agenda"}">{i18n key="agenda.message.agenda"}</label></td>
@@ -143,11 +144,11 @@ function inactivechamprepetition(obj){
 		</td>
 	</tr>
   <tr>
-  <td colspan="4" CLASS="form_submit">
+  <td colspan="4" class="center form_submit">
 	<input type="button" class="button button-cancel" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
-	<input type="submit" class="button button-save" value="{i18n key=copix:common.buttons.save}" />
 	{if $toEdit->id_event}<a class="button button-delete" href="{copixurl dest="agenda|event|delete" id_event=$toEdit->id_event}">{i18n key="agenda|agenda.message.delete"}</a>{/if}
-  </td></tr>  
+    <input type="submit" class="button button-confirm" value="{i18n key=copix:common.buttons.save}" />
+  </td></tr>
 </table>
 
 

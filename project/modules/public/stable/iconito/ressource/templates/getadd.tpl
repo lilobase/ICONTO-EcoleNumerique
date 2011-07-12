@@ -2,7 +2,7 @@
 <table border="0" width="100%">
 <tr>
 	<th valign="top" align="right">{i18n key="ressource.form.titre"}</th>
-	<td><input name="ressource_nom" value="{$ressource->ressource_nom}" size="80"></td>
+	<td><input name="ressource_nom" value="{$ressource->ressource_nom}" size="80" /></td>
 </tr>
 <tr>
 	<th valign="top" align="right">Description :</th>
@@ -10,7 +10,7 @@
 </tr>
 <tr>
 	<th valign="top" align="right">Mots clé :</th>
-	<td><input name="ressource_mots" value="{$ressource->ressource_mots}" size="80"></td>
+	<td><input name="ressource_mots" value="{$ressource->ressource_mots}" size="80" /></td>
 </tr>
 <tr>
 	<th valign="top" align="right">Type :</th>
@@ -47,7 +47,7 @@
 
 <tr>
 	<th valign="top" align="right">Valider :</th>
-	<td><input type="Submit" value="Enregistrer"></td>
+	<td><input class="button button-confirm" type="Submit" value="Enregistrer" /></td>
 </tr>
 </table>
 </form>

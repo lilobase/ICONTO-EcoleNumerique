@@ -7,22 +7,22 @@
 <input type="hidden" name="forward" value="{$forward}" />
 
 {if not $errors eq null}
-	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
-	<UL>
+	<div title="{i18n key=kernel|kernel.error.problem}">
+	<ul class="mesgErrors">
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
+	</ul>
   </div>
 {/if}
 
 {if $preview and !$errors}
-<H3>{i18n key="minimail.preview"}</H3>
-<DIV CLASS="minimail_message">
-<DIV><b>{$title}</b></DIV>
+<h3>{i18n key="minimail.preview"}</h3>
+<div class="minimail_message">
+<div><b>{$title}</b></div>
 <HR CLASS="minimail_hr" NOSHADE SIZE="1" />
-<DIV>{$message|render:$format}</DIV>
-</DIV>
+<div>{$message|render:$format}</div>
+</div>
 {/if}
 
 <br/>
@@ -54,8 +54,13 @@
 		
 		</td>
 	</tr>
-	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="minimail||getListRecv"}'" type="button" value="{i18n key="minimail.btn.cancel"}" /> <input class="button button-confirm" type="submit" onClick="goMinimail(this.form, 'save');" value="{i18n key="minimail.btn.send"}" /> <input class="button button-view" type="submit" onClick="goMinimail(this.form, 'preview');" value="{i18n key="minimail.btn.preview"}" /></td></tr>
-	
+	<tr>
+    	<td colspan="2" class="form_submit center">
+        	<input class="button button-cancel" onclick="self.location='{copixurl dest="minimail||getListRecv"}'" type="button" value="{i18n key="minimail.btn.cancel"}" /> 
+            <input class="button button-view" type="submit" onClick="goMinimail(this.form, 'preview');" value="{i18n key="minimail.btn.preview"}" />
+            <input class="button button-confirm" type="submit" onClick="goMinimail(this.form, 'save');" value="{i18n key="minimail.btn.send"}" /> 
+        </td>
+    </tr>
 </table>
 </form>
 

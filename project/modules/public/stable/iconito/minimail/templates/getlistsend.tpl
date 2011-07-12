@@ -2,7 +2,7 @@
 {if $list|@count}
 
   <FORM NAME="form" ID="form" ACTION="{copixurl dest="|doDelete"}" METHOD="POST">
-  <INPUT TYPE="hidden" NAME="mode" VALUE="send" ></INPUT>
+  <INPUT TYPE="hidden" NAME="mode" VALUE="send" />
   <table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
   	<tr>
   		<th CLASS="liste_th">{i18n key="minimail.list.title"}</th>
@@ -23,7 +23,7 @@
 				<td ALIGN="CENTER">{if $mp->attachment1 }<IMG src="{copixresource path="img/minimail/attachment.gif"}" ALT="{i18n key="minimail.msg.attachments"}" TITLE="{i18n key="minimail.msg.attachments"}" />{/if}</td>
 				<td ALIGN="CENTER"><NOBR>{$mp->date_send|datei18n:"date_short_time"}</NOBR></td>
 				<td ALIGN="CENTER"><img width="20" height="20" src="{copixresource path="img/minimail/status`$is_read*1`00.png"}" /></td>
-				<td ALIGN="CENTER"><input type="checkbox" name="messages[]" value="{$mp->id}" class="noBorder"></td>
+				<td ALIGN="CENTER"><input type="checkbox" name="messages[]" value="{$mp->id}" class="noBorder" /></td>
 			</tr>
 		{/foreach}
   	<tr CLASS="liste_footer">

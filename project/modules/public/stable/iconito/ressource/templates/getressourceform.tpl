@@ -4,7 +4,7 @@
 
 <tr>
 	<th valign="top" align="right">{i18n key="ressource.liste.titre"} :</th>
-	<td><input name="ressource_nom" value="{$ressource->ressource_nom}" size="80"></td>
+	<td><input name="ressource_nom" value="{$ressource->ressource_nom}" size="80" /></td>
 </tr>
 <tr>
 	<th valign="top" align="right">{i18n key="ressource.liste.desc"} :</th>
@@ -12,7 +12,7 @@
 </tr>
 <tr>
 	<th valign="top" align="right">{i18n key="ressource.liste.motsCle"} :</th>
-	<td><input name="ressource_mots" value="{$ressource->ressource_mots}" size="80"></td>
+	<td><input name="ressource_mots" value="{$ressource->ressource_mots}" size="80" /></td>
 </tr>
 <tr>
 	<th valign="top" align="right">{i18n key="ressource.liste.type"} :</th>
@@ -49,7 +49,7 @@
 
 <tr>
 	<th valign="top" align="right">Valider :</th>
-	<td><input type="Submit" value="Enregistrer"></td>
+	<td><input class="button button-confirm" type="submit" value="Enregistrer" /></td>
 </tr>
 
 </table>

@@ -5,7 +5,7 @@
 <h3>{i18n key="annuaire.enseignant"}</h3>
 <div id="eleves">
 {foreach from=$classe.enseignants item=enseignant}
-<div><img src="{copixresource path="img/annuaire/sexe`$enseignant.sexe`b.png"}" width="15" height="17" /> 
+<div>{if $enseignant.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $enseignant.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if}
 {user label=$enseignant.prenom|cat:" "|cat:$enseignant.nom userType=$enseignant.type userId=$enseignant.id login=$enseignant.login dispMail=$canWriteUSER_ENS}
 
 </div>
@@ -18,7 +18,7 @@
 <h3>{i18n key="annuaire.eleves"}</h3>
 <div id="eleves">
 {foreach from=$classe.eleves item=eleve}
-<div><img src="{copixresource path="img/annuaire/sexe`$eleve.sexe`b.png"}" width="15" height="17" /> 
+<div>{if $eleve.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $eleve.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if}
 
 {user label=$eleve.prenom|cat:" "|cat:$eleve.nom userType=$eleve.type userId=$eleve.id login=$eleve.login dispMail=$canWriteUSER_ELE}
 

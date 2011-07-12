@@ -311,36 +311,6 @@ $html .= '</td>';
 $html .= '</tr>';
 
 
-//ligne des leçons
-if ($readLecon || $writeLecon){
-	$html .= '<tr>
-  ';
-	$html .= '<td class="lecon">'.CopixI18N::get ('agenda|agenda.lecons').'</td>';
-	foreach($arLecons as $date=>$elecon){
-		$html .= '
-    <td class="texte_lecons">';
-		if ( ($readLecon || $writeLecon) && isset($elecon->desc_lecon) && $elecon->desc_lecon){
-			$html .= nl2br($elecon->desc_lecon);
-		}
-		if($elecon != null){
-			if ($writeLecon){
-				$html .= '<div><a href = "' . CopixUrl::get('agenda|lecon|prepareEdit', array('id_lecon'=>$elecon->id_lecon)) .'">';
-				$html .= CopixI18N::get ('agenda|agenda.message.modifier');
-				$html .= '</a></div>';
-			}
-		}
-		else{
-			if ($writeLecon){
-				$html .= '<div><a href = "' . CopixUrl::get('agenda|lecon|create', array('date'=>$date, 'id_agenda'=>$agendaScolaire)) .'">';
-				$html .= CopixI18N::get ('agenda|agenda.message.ajout');
-				$html .= '</a></div>';
-			}
-		}
-		$html .= '</td>';
-	}
-	$html .= '</tr>
-  ';
-}
 
 // Ligne des travaux à faire
 $html .= '<tr>';

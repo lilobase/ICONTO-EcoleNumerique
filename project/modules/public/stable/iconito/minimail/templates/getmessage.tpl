@@ -1,32 +1,29 @@
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_minimail.css"}" />
-
 <DIV CLASS="minimail_message">
-<TABLE WIDTH="100%" BORDER=0 CELLSPACING=1 CELLPADDING=1 CLASS="minimail_message">
-<TR CLASS="minimail_navig">
-<TD ALIGN="LEFT">
+<table WIDTH="100%" BORDER=0 CELLSPACING=1 CELLPADDING=1 CLASS="minimail_message">
+<tr class="minimail_navig">
+<th class="left">
 {if $message->prev}
 <a href="{copixurl dest="|getMessage" id=$message->prev}">< {i18n key="minimail.msg.previous"}</a>
 {else}
 <FONT COLOR="GRAY">< {i18n key="minimail.msg.previous"}</FONT>
 {/if}
-</TD>
-<TD ALIGN="CENTER">
+</th>
+<th class="center">
 {if $message->type eq "recv"}
 <a href="{copixurl dest="|getListRecv"}">{i18n key="minimail.msg.backList"}</a>
 {else}
 <a href="{copixurl dest="|getListSend"}">{i18n key="minimail.msg.backList"}</a>
 {/if}
-</TD>
-</TD>
-<TD ALIGN="RIGHT">
+</th>
+<th class="right">
 {if $message->next}
 <a href="{copixurl dest="|getMessage" id=$message->next}">{i18n key="minimail.msg.next"} ></a>
 {else}
 <FONT COLOR="GRAY">{i18n key="minimail.msg.next"} ></FONT>
 {/if}
-</TD>
-</TR>
-</TABLE>
+</th>
+</tr>
+</table>
 
 {if $message->avatar}<img src="{copixurl}{$message->avatar}" alt="{$message->avatar}" title="{$message->from.login}" align="right" hspace="2" vspace="2" />{/if}
 
@@ -57,10 +54,10 @@
 {if $message->attachment3IsImage }<br/><a href="{copixurl dest="|downloadAttachment"  file=$message->attachment3|escape}"><img width="100" border="0" src="{copixurl dest="|previewAttachment" file=$message->attachment3}"></a>{/if}
 </DIV>
 {/if}
-
 <br clear="all" />
+</div>
 
-<p align="right">
+<p class="right">
 {if $message->type eq "recv"}
   <input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" reply=$message->id}'" type="button" value="{i18n key="minimail.btn.reply}" />
 
@@ -74,6 +71,6 @@
   </p>
 
 
-</DIV>
+
 
 		

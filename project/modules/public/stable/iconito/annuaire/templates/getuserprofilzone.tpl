@@ -4,10 +4,10 @@
 {else}
 
 <div>
-<div class="right" style="font-size:80%;"><a href="#" onClick="return hideUser();">{i18n key="annuaire.btn.close"}</a></div>
+<div class="right"><a href="#" onClick="return hideUser();">{i18n key="annuaire.btn.close"}</a></div>
 <!--<DIV ALIGN="RIGHT">{$usr.civilite}</DIV>-->
 
-<div style="font-weight:bold; font-size:140%; margin-top: 3px; margin-bottom: 3px;">{if $usr.avatar}<img src="{copixurl}{$usr.avatar}" align="right" />{/if}{if $usr.sexe}<img src="{copixresource path="img/annuaire/sexe`$usr.sexe`b.png"}" width="15" height="17" /> {/if}{$usr.prenom|escape} {$usr.nom|escape}</div>
+<div style="font-weight:bold; font-size:140%; margin-top: 3px; margin-bottom: 3px;">{if $usr.avatar}<img src="{copixurl}{$usr.avatar}" align="right" />{/if}{if $usr.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $usr.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if}{$usr.prenom|escape} {$usr.nom|escape}</div>
 
 <!-- 
 <DIV ALIGN="RIGHT">
@@ -27,7 +27,8 @@
 <div style="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisParents"}</div>
 <div id="">
 {foreach from=$parents item=item}
-<div>{if $item.sexe}<img src="{copixresource path="img/annuaire/sexe`$item.sexe`b.png"}" border="0" width="15" height="17" />{/if} {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
+<div>{if $item.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $item.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if}
+ {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
 
 </div>
 {/foreach}
@@ -37,7 +38,7 @@
 <div style="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisEnfants"}</div>
 <div id="">
 {foreach from=$enfants item=item}
-<div>{if $item.sexe}<IMG src="{copixresource path="img/annuaire/sexe`$item.sexe`b.png"}" border="0" width="15" height="17" />{/if} {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
+<div>{if $item.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $item.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if} {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
 
 </div>
 {/foreach}
