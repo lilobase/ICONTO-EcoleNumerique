@@ -496,7 +496,7 @@ class ActionGroupDefault extends enicActionGroup {
           $fichier->titre         = !is_null(_request('fichier_titre', null)) ? _request('fichier_titre') : substr($fichierPhysique, 0, 63);
           $fichier->commentaire   = _request('fichier_commentaire', null);
           $fichier->fichier       = $fichierPhysique;
-          $fichier->taille        = filesize($ppo->dossierTmp.'/'.$fichierPhysique);
+          $fichier->taille        = file_exists($ppo->dossierTmp.'/'.$fichierPhysique) ? filesize($ppo->dossierTmp.'/'.$fichierPhysique) : 0;
           $fichier->type          = strtoupper(substr(strrchr($fichierPhysique, '.'), 1));
           $fichier->cle           = classeurService::createKey();
           $fichier->date_upload   = date('Y-m-d H:i:s');
@@ -1260,7 +1260,7 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->fichiers = classeurService::getFilesInFolder($ppo->classeur->id, $ppo->dossierId);
     foreach($ppo->fichiers as $fichier) {
       
-      if (strstr($fichier->type, 'image')) {
+      if ($fichier->estUneImage()) {
         
         $ppo->images[] = $fichier;
       }
@@ -1314,7 +1314,7 @@ class ActionGroupDefault extends enicActionGroup {
     $fichiers = classeurService::getFilesInFolder($classeur->id, $dossierId);
     foreach($fichiers as $fichier) {
       
-      if (strstr($fichier->type, 'image')) {
+      if ($fichier->estUneImage()) {
         
         $extension = strrchr($fichier->fichier, '.');
         $images[] = $fichier->id.'-'.$fichier->cle.$extension;
