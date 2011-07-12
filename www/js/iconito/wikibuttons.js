@@ -443,5 +443,5 @@ function add_html (field, txt) {
 
 function add_node (field, typeFile, idFile, nomFile) {
   
-  jQuery('.'+field).append('<li><input type="hidden" name="'+field+'[]" value="'+typeFile+'-'+idFile+'" /><span>'+nomFile+'</span> <a href="#" class="delete-node">X</a></li>');
+  jQuery('.'+field).append('<li><input type="hidden" name="'+field+'[]" value="'+typeFile+'-'+idFile+'" /><span>'+nomFile+'</span> <a href="#" class="delete-node button button-delete">'+jQuery('#textButtonDelete').html()+'</a></li>');
 }

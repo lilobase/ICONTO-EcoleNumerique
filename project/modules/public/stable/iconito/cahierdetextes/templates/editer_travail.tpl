@@ -63,12 +63,15 @@
     </div>
     <div class="field">
       <label for="travail_fichiers" class="form_libelle">{i18n key="cahierdetextes.message.relatedDocuments"} :</label>
-      <ul class="travail_fichiers" id="travail_fichiers">
+      <div class="input">
+       <span id="textButtonDelete">{i18n key="cahierdetextes.message.delete"}</span>
+       <ul class="travail_fichiers" id="travail_fichiers">
         {foreach from=$ppo->fichiers item=fichier}
-          <li><input type="hidden" name="travail_fichiers[]" value="{$fichier.type}-{$fichier.id}"> <span>{$fichier.nom}</span><a href="#" class="delete-node">X</a></li>
+          <li><input type="hidden" name="travail_fichiers[]" value="{$fichier.type}-{$fichier.id}" /> <span>{$fichier.nom}</span> <a href="#" class="delete-node button button-delete">{i18n key="cahierdetextes.message.delete"}</a></li>
         {/foreach}
-      </ul>
-      {copixzone process=kernel|wikibuttons field='travail_fichiers' format='id' object=$ppo->nodeInfos withAlbum=false}
+       </ul>
+       {copixzone process=kernel|wikibuttons field='travail_fichiers' format='id' object=$ppo->nodeInfos withAlbum=false}
+      </div>
     </div>
   </fieldset>
   

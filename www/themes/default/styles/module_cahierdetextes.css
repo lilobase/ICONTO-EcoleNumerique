@@ -331,7 +331,7 @@ div.dashboard div.content {
 	margin:0;
 	width:160px;
 }
-#cahierdetextes form .field p.input {margin:0 0 0 170px;}
+#cahierdetextes form .field .input {margin:0 0 0 170px;}
 #cahierdetextes form .field input.datepicker {width:65px;}
 #cahierdetextes form .redirectionField {
 	margin:10px 0; padding:5px; border:1px solid #fff;
@@ -393,3 +393,8 @@ div.dashboard div.content {
 #cahierdetextes .works table th {width:120px;}
 /* End table */
 
+
+/* Upload File */
+#textButtonDelete { display:none;}
+#travail_fichiers {margin:0; padding:0;}
+/* End Uplaod File */
