@@ -21,8 +21,8 @@
     {assign var=index value=1}
     {foreach from=$ppo->dossiers item=dossier}
     <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
-      <td>&nbsp;</td>
-      <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom}">{$dossier->nom|escape}</a></td>
+      <td class="center"><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-16/icon-folder.png" alt="" /></a></td>
+      <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}">{$dossier->nom|escape}</a></td>
       <td>---</td>
       <td>{$dossier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
       <td>
@@ -68,7 +68,7 @@
         <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier}" target="_blank">{$fichier|escape}</a></td>
         <td>{i18n key="classeur.message.favorite"}</td>
       {else}
-        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier}" target="_blank">{$fichier|escape}</a></td>
+        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier noEscape=1}" target="_blank">{$fichier|escape}</a></td>
         <td>{$fichier->type}</td>
       {/if}
       <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>

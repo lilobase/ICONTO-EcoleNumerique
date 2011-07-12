@@ -93,16 +93,42 @@ div.dashboard div.content {
 #classeur .listView tbody a:hover,
 #content-popup .listView tbody a:hover {border-bottom:1px dotted;}
 #classeur .listView td.actions {width:80px;}
-#classeur .listView a.iconFolder,
-#classeur .listView a.iconFavorite,
-#classeur .listView a.iconFileJpg,
-#classeur .listView a.iconFilePng {
+#classeur .listView a.icon {
 	padding:0 0 0 20px;
 	background:none no-repeat 0% 50%;
 }
 #classeur .listView a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
 #classeur .listView a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
-#classeur .listView a.iconJpg {background-image:url(../../../themes/default/images/icon-16/icon-jpg.png);}
+#classeur .listView a.iconai {background-image:url(../../../themes/default/images/icon-16/icon-ai.png);}
+#classeur .listView a.iconavi {background-image:url(../../../themes/default/images/icon-16/icon-avi.png);}
+#classeur .listView a.iconbmp {background-image:url(../../../themes/default/images/icon-16/icon-bmp.png);}
+#classeur .listView a.iconcss {background-image:url(../../../themes/default/images/icon-16/icon-css.png);}
+#classeur .listView a.iconcsv {background-image:url(../../../themes/default/images/icon-16/icon-csv.png);}
+#classeur .listView a.icondoc, 
+#classeur .listView a.icondocx {background-image:url(../../../themes/default/images/icon-16/icon-doc.png);}
+#classeur .listView a.iconeps {background-image:url(../../../themes/default/images/icon-16/icon-eps.png);}
+#classeur .listView a.icongif {background-image:url(../../../themes/default/images/icon-16/icon-gif.png);}
+#classeur .listView a.iconhtml {background-image:url(../../../themes/default/images/icon-16/icon-html.png);}
+#classeur .listView a.iconico {background-image:url(../../../themes/default/images/icon-16/icon-ico.png);}
+#classeur .listView a.iconjpg {background-image:url(../../../themes/default/images/icon-16/icon-jpg.png);}
+#classeur .listView a.iconjs {background-image:url(../../../themes/default/images/icon-16/icon-js.png);}
+#classeur .listView a.iconjson {background-image:url(../../../themes/default/images/icon-16/icon-json.png);}
+#classeur .listView a.iconmov {background-image:url(../../../themes/default/images/icon-16/icon-mov.png);}
+#classeur .listView a.iconmp3 {background-image:url(../../../themes/default/images/icon-16/icon-mp3.png);}
+#classeur .listView a.iconpdf {background-image:url(../../../themes/default/images/icon-16/icon-pdf.png);}
+#classeur .listView a.iconpng {background-image:url(../../../themes/default/images/icon-16/icon-png.png);}
+#classeur .listView a.iconppt {background-image:url(../../../themes/default/images/icon-16/icon-ppt.png);}
+#classeur .listView a.iconpsd {background-image:url(../../../themes/default/images/icon-16/icon-psd.png);}
+#classeur .listView a.iconsvg {background-image:url(../../../themes/default/images/icon-16/icon-svg.png);}
+#classeur .listView a.iconswf {background-image:url(../../../themes/default/images/icon-16/icon-swf.png);}
+#classeur .listView a.icontiff {background-image:url(../../../themes/default/images/icon-16/icon-tiff.png);}
+#classeur .listView a.iconttf {background-image:url(../../../themes/default/images/icon-16/icon-ttf.png);}
+#classeur .listView a.icontxt {background-image:url(../../../themes/default/images/icon-16/icon-txt.png);}
+#classeur .listView a.iconwav {background-image:url(../../../themes/default/images/icon-16/icon-wav.png);}
+#classeur .listView a.iconxls,
+#classeur .listView a.iconxlsx {background-image:url(../../../themes/default/images/icon-16/icon-xls.png);}
+#classeur .listView a.iconxml {background-image:url(../../../themes/default/images/icon-16/icon-xml.png);}
+#classeur .listView a.iconzip {background-image:url(../../../themes/default/images/icon-16/icon-zip.png);}
 /* End list view */
 
 
@@ -141,6 +167,7 @@ div.dashboard div.content {
 	width:100%;
 }
 #classeur .thumbView li .name {
+	background:#fff;
 	font-size:0.9em;
 }
 #classeur .thumbView li .name .date {
