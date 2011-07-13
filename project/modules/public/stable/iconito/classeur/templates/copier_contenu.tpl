@@ -2,15 +2,25 @@
 
 <h2>{i18n key="classeur.message.copyFiles"}</h2>
 
+{if $ppo->success}
+  <p class="mesgSuccess">{i18n key="classeur.message.success"}</p>
+{elseif not $ppo->erreurs eq null}
+	<ul class="mesgErrors">
+    {foreach from=$ppo->erreurs item=erreur}
+	    <li>{$erreur}</li>
+    {/foreach}
+</ul>
+{/if}
+
 <form id="move_files" action="{copixurl dest="classeur||copierContenu"}" method="post" enctype="multipart/form-data">
   <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossier->id}" />
-  <input type="hidden" name="dossierIds" id="dossierIds" value="{$ppo->dossierIds}" />
-  <input type="hidden" name="fichierIds" id="fichierIds" value="{$ppo->fichierIds}" />
+  <input type="hidden" name="dossiers" id="dossiers" value="{$ppo->dossierIds}" />
+  <input type="hidden" name="fichiers" id="fichiers" value="{$ppo->fichierIds}" />
   
   <div class="row">
-    <label for="fichiers" class="form_libelle">{i18n key="classeur.message.selectedFiles"}</label>
-    <p class="field"><input id="fichiers" name="fichiers[]" type="text" value="{$ppo->nomsContenus}" readonly="readonly" /></p>
+    <label for="fichiersSelectionnes" class="form_libelle">{i18n key="classeur.message.selectedFiles"}</label>
+    <p class="field"><input id="fichiersSelectionnes" name="fichiersSelectionnes" type="text" value="{$ppo->nomsContenus}" readonly="readonly" /></p>
   </div>
   
   <div class="row">

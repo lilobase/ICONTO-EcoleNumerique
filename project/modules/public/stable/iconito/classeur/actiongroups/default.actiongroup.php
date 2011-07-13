@@ -393,7 +393,7 @@ class ActionGroupDefault extends enicActionGroup {
   				
   				$ppo->fichier->fichier       = $_FILES['fichiers']['name'][0];
           $ppo->fichier->taille        = filesize($_FILES['fichiers']['tmp_name'][0]);
-          $ppo->fichier->type          = classeurService::getMimeType($_FILES['fichiers']['name'][0]);
+          $ppo->fichier->type          = strtoupper(substr(strrchr($fichierPhysique, '.'), 1));
           
           $extension = strrchr($_FILES['fichiers']['name'][0], '.');
   				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
@@ -1016,38 +1016,69 @@ class ActionGroupDefault extends enicActionGroup {
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
   
-    $nomsContenus = array(); 	  
+    $nomsContenus = array();
  	  
+ 	  // Récupération des identifiants de dossier à déplacer
  	  $dossierIds = _request ('dossiers', array());
- 	  $ppo->dossierIds = implode($dossierIds, ',');
- 	  foreach ($dossierIds as $dossierId) {
+ 	  if (!is_null($dossierIds)) {
  	    
- 	    $dossier = $dossierDAO->get ($dossierId);
- 	    if ($dossier) {
+ 	    if (is_array($dossierIds)) {
  	      
- 	      $nomsContenus[] = $dossier->nom;
+ 	      $ppo->dossierIds = implode($dossierIds, ',');
  	    }
+ 	    else {
+ 	      
+ 	      $ppo->dossierIds = $dossierIds;
+ 	      $dossierIds = explode ($ppo->dossierIds, ',');
+ 	    }
+   	  foreach ($dossierIds as $dossierId) {
+
+   	    $dossier = $dossierDAO->get ($dossierId);
+   	    if ($dossier) {
+
+   	      $nomsContenus[] = $dossier->nom;
+   	    }
+   	  }
  	  }
  	  
+ 	  // Récupération des identifiants de fichier à déplacer
  	  $fichierIds = _request ('fichiers', array());
- 	  $ppo->fichierIds = implode($fichierIds, ',');
- 	  foreach ($fichierIds as $fichierId) {
+ 	  if (!is_null($fichierIds)) {
  	    
- 	    $fichier = $fichierDAO->get($fichierId);
- 	    if ($fichier) {
+ 	    if (is_array($fichierIds)) {
  	      
- 	      $nomsContenus[] = $fichier->fichier;
+ 	      $ppo->fichierIds = implode($fichierIds, ',');
  	    }
+ 	    else {
+ 	      
+ 	      $ppo->fichierIds = $fichierIds;
+ 	      $fichierIds = explode ($ppo->fichierIds, ',');
+ 	    }
+   	  foreach ($fichierIds as $fichierId) {
+
+   	    $fichier = $fichierDAO->get($fichierId);
+   	    if ($fichier) {
+
+   	      $nomsContenus[] = $fichier->fichier;
+   	    }
+   	  }
  	  }
  	  
- 	  $ppo->nomsContenus = implode($nomsContenus, ', ');
+ 	  if (!empty($nomsContenus)) {
+ 	    
+ 	    $ppo->nomsContenus = implode($nomsContenus, ', ');
+ 	  }
+ 	  else {
+ 	    
+ 	    $ppo->nomsContenus = _request('fichiersSelectionnes', null);
+ 	  }
  	  
  	  if (CopixRequest::isMethod ('post')) {
       
       _classInclude('classeur|classeurservice');
       
-      $fichierIds         = _request('fichierIds', null);
-      $dossierIds         = _request('dossierIds', null);
+      $arFichierIds       = !is_null(_request('fichiers', null)) ? explode (',', _request('fichiers')) : array();
+      $arDossierIds       = !is_null(_request('dossiers', null)) ? explode (',', _request('dossiers')) : array();
       
       if (!is_null($destination = _request('destination', null))) {
         
@@ -1058,25 +1089,53 @@ class ActionGroupDefault extends enicActionGroup {
         }
       }
       
-      // Copie des fichiers
-      if (!is_null($fichierIds)) {
+      // Traitement des erreurs
+      $ppo->erreurs = array ();
+      if (!isset($destinationType) || !isset($destinationId) 
+        || is_null($destinationType) || is_null($destinationId)) {
+          
+        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noDestination');
+      }
+      elseif ($destinationType == 'dossier' && in_array($destinationId, $arDossierIds)) {
+
+        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.destinationUnauthorized');
+      }
+      if (empty($arFichierIds) && empty($arDossierIds)) {
         
-        $arFichierIds = explode (',', $fichierIds);
+        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noContentSelected');
+      }
+      
+      if (!empty ($ppo->erreurs)) {
+        
+        return _arPPO ($ppo, array ('template' => 'copier_contenu.tpl'));
+      }
+      
+      // Copie des dossiers
+      if (!empty($arDossierIds)) {
+        
+        $dossiers = array();
+        foreach ($arDossierIds as $arDossierId) {
+          
+          $dossier = $dossierDAO->get($arDossierId);
+          if (($destinationType == 'dossier' && !classeurService::isDescendantOf($dossierDestination, $dossier)) 
+            || $destinationType == 'classeur') {
+            
+            $dossier = $dossierDAO->get($arDossierId);
+            // On ne déplace que les dossiers pouvant l'être
+            if ($dossier) {
+              
+              classeurService::copyFolder($dossier, $destinationType, $destinationId);
+            }
+          }
+        }
+      }
+      
+      // Copie des fichiers
+      if (!empty($arFichierIds)) {
         foreach ($arFichierIds as $arFichierId) {
           
           $fichier = $fichierDAO->get($arFichierId);
           classeurService::copyFile($fichier, $destinationType, $destinationId);
-        }
-      }
-      
-      // Copie des dossiers
-      if (!is_null($dossierIds)) {
-        
-        $arDossierIds = explode (',', $dossierIds);
-        foreach ($arDossierIds as $arDossierId) {
-          
-          $dossier = $dossierDAO->get($arDossierId);
-          classeurService::copyFolder($dossier, $destinationType, $destinationId);
         }
       }
       
