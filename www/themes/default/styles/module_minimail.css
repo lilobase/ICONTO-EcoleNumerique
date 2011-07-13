@@ -46,3 +46,8 @@ div.minimail_attachment {
 textarea#dest {
     height:3em;
 }
+#minimail table {
+	border:0;
+	width:100%;
+	border-collapse:collapse;
+}

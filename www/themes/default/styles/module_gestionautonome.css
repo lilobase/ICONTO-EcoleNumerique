@@ -159,8 +159,8 @@ ul.tree a.classroom {
 }
 
 li a.current {
-  background-color:#327E04 !important;
-  color:white !important;
+  background-color:#327E04;/* !important;*/
+  color:white; /* !important;*/
   padding:2px;
 }
 
@@ -294,12 +294,15 @@ div.gestionautonome ul.actions li a.button {
 }
 
 div.gestionautonome li a.current {
-	background-color:#CCC !important;
-	color:white !important;
+	/*background-color:#CCC !important;
+	color:white !important;*/
+	background:#fff; color:#000;
+	border:2px solid #BAD521;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }
 
 div.gestionautonome input[type="button"]  {
-	font-family:Arial,Helvetica,sans-serif;
+	/*font-family:Arial,Helvetica,sans-serif;*/
 	font-size:1em;
 	font-weight:normal;
 }

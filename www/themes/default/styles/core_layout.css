@@ -52,7 +52,7 @@ body {
 .clear		{ clear: both; }
 .clearBoth 	{ clear: both; width:100%; }
 
-.show 	{ visibility: show; }
+.show 	{ visibility:visible; }
 .hidden { visibility: hidden; display: none; }
 .displayNone { display: none; }
 

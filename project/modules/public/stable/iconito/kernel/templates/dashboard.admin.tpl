@@ -1,6 +1,4 @@
-<h1>
-    {i18n key="kernel|dashboard.admin.title" noEscape="true"}
-</h1>
+<h2>{i18n key="kernel|dashboard.admin.title" noEscape="true"}</h2>
 <div id="dash-ct" class="content-panel">
 <form id="dash-form-ct" action="{copixurl dest="kernel|dashboard|ereg"}" method="post">
     <textarea id="content_txt" name="content_txt">{$ppo->content.content}</textarea>
@@ -27,10 +25,10 @@
         <div style="clear:both"></div>
  </div>
 <br />
-<div id="dash-ereg" class="content-panel content-panel-button">    
-    <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-reload" >{i18n key="kernel|dashboard.admin.default" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-    <a id="dash-cancel" href="{copixurl dest="||"}" class="button button-cancel" >{i18n key="kernel|dashboard.admin.cancel" noEscape="true"}</a>
-    <a id="dash-submit" href="#" class="button button-save" >{i18n key="kernel|dashboard.admin.save" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;&nbsp;
+<div id="dash-ereg" class="center content-panel-button">    
+    <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-reload" >{i18n key="kernel|dashboard.admin.default" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;
+    <a id="dash-cancel" href="{copixurl dest="||"}" class="button button-cancel" >{i18n key="kernel|dashboard.admin.cancel" noEscape="true"}</a>&nbsp;
+    <a id="dash-submit" href="#" class="button button-confirm" >{i18n key="kernel|dashboard.admin.save" noEscape="true"}</a>
     <div style="clear:both"></div>
 </div>
 

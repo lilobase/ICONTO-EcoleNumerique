@@ -47,3 +47,13 @@ li {
 }
 /*img, div, a, input { behavior: url(/htc/iepngfix.htc) }*/
 /*img, div, a, input { behavior: url(/htc/PIE.htc) }*/
+
+/* Classeur */
+#classeur .thumbView li .datas { 
+	position:static;
+	overflow:hidden;
+}
+#classeur .thumbView li .footerData {
+	position:static;
+}
+/* End Classeur */

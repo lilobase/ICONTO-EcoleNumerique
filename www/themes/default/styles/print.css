@@ -46,7 +46,7 @@ div.dashboard div.bu_classe div.content {
 
 .marger {
   margin:0;
-  overflow:none;
+  overflow:hidden;
 }
 .wrapper-expander {
   width:auto;

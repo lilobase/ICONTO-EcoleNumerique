@@ -58,8 +58,8 @@
   </fieldset>
   
   <ul class="actions">
-    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
+    <li><input class="button button-cancel" type="button" value="Annuler" id="cancel" /></li>
+  	<li><input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" /></li>
   </ul>
 </form>
 
@@ -69,7 +69,7 @@
   
   jQuery(document).ready(function(){
  	
- 	  jQuery('.button').button();
+ 	  //jQuery('.button').button();
  	  
  	  jQuery('.datepicker').datepicker({
     	showOn: 'button',

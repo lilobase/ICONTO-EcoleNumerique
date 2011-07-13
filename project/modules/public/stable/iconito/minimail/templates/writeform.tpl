@@ -26,7 +26,7 @@
 {/if}
 
 <br/>
-<table border="0" CELLSPACING="1" CELLPADDING="1" width="700">
+<table>
 	<tr>
 		<td CLASS="form_libelle"><nobr>{i18n key="minimail.form.dest"}{help mode="tooltip" text_i18n="minimail|minimail.help.dest"}</nobr>
 

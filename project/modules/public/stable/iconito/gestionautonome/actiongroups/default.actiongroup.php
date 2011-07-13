@@ -12,7 +12,7 @@ class ActionGroupDefault extends enicActionGroup {
 	public function beforeAction () {
 		_currentUser()->assertCredential('module:*||access|@gestionautonome');
 		
-		CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
+		//CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
 		
 		$this->menu = array();
 		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );

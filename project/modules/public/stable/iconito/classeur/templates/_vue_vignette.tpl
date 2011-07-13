@@ -38,6 +38,15 @@
           </p>
         </div>
         <p class="actions">
+          <span class="size">
+          {* if $contenu->nb_dossiers neq 0}
+            {$contenu->nb_dossiers} {if $contenu->nb_dossiers eq 1}{i18n key="classeur.message.folder"}{else}{i18n key="classeur.message.folders"}{/if}
+          {/if}
+          {if $contenu->nb_fichiers neq 0}
+            {$contenu->nb_fichiers} {if $contenu->nb_fichiers eq 1}{i18n key="classeur.message.file"}{else}{i18n key="classeur.message.files"}{/if}
+          {/if}
+          {$contenu->taille|human_file_size *}
+          </span>
           {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
           <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
             <img src="{copixurl}themes/default/images/icon-16/action-update.png" alt="{i18n key="classeur.message.modify"}" />
@@ -51,15 +60,7 @@
             <img src="{copixurl}themes/default/images/icon-16/action-delete.png" alt="{i18n key="classeur.message.delete"}" />
           </a>
           {/if}
-          <span class="size">
-          {* if $contenu->nb_dossiers neq 0}
-            {$contenu->nb_dossiers} {if $contenu->nb_dossiers eq 1}{i18n key="classeur.message.folder"}{else}{i18n key="classeur.message.folders"}{/if}
-          {/if}
-          {if $contenu->nb_fichiers neq 0}
-            {$contenu->nb_fichiers} {if $contenu->nb_fichiers eq 1}{i18n key="classeur.message.file"}{else}{i18n key="classeur.message.files"}{/if}
-          {/if}
-          {$contenu->taille|human_file_size *}
-          </span>
+          
         </p>
       </li>
       
@@ -94,6 +95,7 @@
           </p>
         </div>
         <p class="actions">
+          <span class="size">{$contenu->taille|human_file_size}</span>
           {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
             {if $contenu->fichier|substr:-4 eq ".web"}
             	<a href="{copixurl dest="classeur||editerFavori" classeurId=$ppo->classeurId dossierId=$contenu->dossier_id favoriId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
@@ -111,7 +113,6 @@
               <img src="{copixurl}themes/default/images/icon-16/action-delete.png" alt="{i18n key="classeur.message.delete"}" />
             </a>
           {/if}
-          <span class="size">{$contenu->taille|human_file_size}</span>
         </p>
       </li>
     {assign var=index value=$index+1}

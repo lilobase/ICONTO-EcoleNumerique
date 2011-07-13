@@ -13,19 +13,19 @@
       <table>
       
        <tr>
-        <th><?php echo _i18n('auth|auth.login'); ?></th>
+        <th><label for="loginBig"><?php echo _i18n('auth|auth.login'); ?></label></th>
         <td><input type="text" name="login" id="loginBig" size="9" autofocus="autofocus"
 			value="<?php _etag ('escape', $ppo->login); ?>" /></td>
        </tr>
        
        <tr>
-        <th><?php echo _i18n('auth|auth.password'); ?></th>
+        <th><label for="passwordBig"><?php echo _i18n('auth|auth.password'); ?></label></th>
         <td><input type="password" name="password" id="passwordBig" size="9" /></td>
        </tr>
        
        <?php if($ppo->ask_rememberme){ ?>
        <tr>
-        <th><?php echo _i18n('auth|auth.rememberme'); ?></th>
+        <th><label for="rememberme"><?php echo _i18n('auth|auth.rememberme'); ?></label></th>
         <td><input type="checkbox" name="rememberme" id="rememberme" value="yes" /></td>
        </tr>
        <?php } ?>

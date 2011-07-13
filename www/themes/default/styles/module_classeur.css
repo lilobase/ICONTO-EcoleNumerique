@@ -162,7 +162,7 @@ div.dashboard div.content {
 	margin:0 auto; border:none;
 }
 #classeur .thumbView li .footerData {
-	position:absolute; bottom:0; leftt:0;
+	position:absolute; bottom:0; left:0;
 	margin:0; padding:0 2px;
 	width:100%;
 }
@@ -176,7 +176,7 @@ div.dashboard div.content {
 }
 #classeur .thumbView li p.actions {margin:0;}
 #classeur .thumbView li p.actions .size {
-	float:right;
+	display:block; float:right;
 	margin:5px 0 0;
 	color:#bbb;
 	font-size:0.8em;
@@ -200,34 +200,34 @@ div.dashboard div.content {
 
 
 /* Forms */
-form {margin:20px 0;}
-form#order-content {float:right; margin:10px 0;}
-form div.row {
+#classeur form {margin:20px 0;}
+#classeur form#order-content {float:right; margin:10px 0;}
+#classeur form div.row {
 	position:relative;
 	margin:0 0 6px 0;
 }
-form div.row > label, form div.row p.label {
+#classeur form div.row > label, form div.row p.label {
 	position:absolute; top:0; left:0;
 	width:39%;
 	margin:0;
 	text-align:right;
 }
-form div.row .field {
+#classeur form div.row .field {
 	margin:0 0 0 40%;
 }
-form .row input[type="text"], form .row input[type="url"], form .row input[type="email"], form .row textarea {
+#classeur form .row input[type="text"], #classeur form .row input[type="url"], #classeur form .row input[type="email"], #classeur form .row textarea {
 	width:350px;
 }
-form div.submit {
+#classeur form div.submit {
 	margin:15px 0 0 40%;
 }
-form div.submit input {margin:0 5px;}
-form input[readonly="readonly"] {background:#ddd;}
+#classeur form div.submit input {margin:0 5px;}
+#classeur form input[readonly="readonly"] {background:#ddd;}
 /* End forms */
 
 
 /* Public album */
-ul.actions li {
+#classeur ul.actions li {
 	float:left;
 	margin:0 5px;
 	list-style:none;
