@@ -96,7 +96,7 @@ jQuery(document).ready(function($){
 			</div>
 		</td>
 		<td class="malle-table-edit">
-			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
+			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/button-action/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
 		</td>
 		<td class="malle-table-content">
 			{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}
@@ -138,7 +138,7 @@ jQuery(document).ready(function($){
 			</div>
 		</td>
 		<td class="malle-table-edit">
-			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
+			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/button-action/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
 		</td>
 		<td class="malle-table-content">
 			{$item->type_text}

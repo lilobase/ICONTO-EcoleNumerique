@@ -145,7 +145,7 @@ jQuery(document).ready(function($){
 <table class="malle-table">
 	<tr class="malle-table-add">
 		<td class="malle-table-icon">
-			<IMG src="{copixresource path="images/action_add.png"}" />
+			<IMG src="{copixresource path="images/button-action/action_add.png"}" />
 		</td>
 		<td class="malle-table-name">
 			<a class="addfile" style="cursor: hand;">{i18n key="malle|malle.popup.add"}</a>

@@ -270,7 +270,7 @@ div.legals a {
 	}
  
 .content-panel-edit {
-	background: #fff url(../../../themes/default/images/menu_update.png) 8px 8px no-repeat;
+	background: #fff url(../../../themes/default/images/menu/menu_update.png) 8px 8px no-repeat;
 	padding-left: 42px;
 	}
 
@@ -352,17 +352,17 @@ p.ui-state-error {
 p.mesgSuccess, ul.mesgErrors, div.mesgErrors ul, p.mesgError, p.mesgInfo {
 	margin:10px 0 15px; padding:5px 5px 5px 28px; border:1px solid #BAD521;
 	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
-	background:url(../../../themes/default/images/action_confirm.png) no-repeat 5px 50% #fff; color:#BAD521;
+	background:url(../../../themes/default/images/button-action/action_confirm.png) no-repeat 5px 50% #fff; color:#BAD521;
 	font-weight:bold;
 }
 ul.mesgErrors, div.mesgErrors ul, p.mesgError {
 	border-color:#f00;
-	background:url(../../../themes/default/images/action_warning.png) no-repeat 5px 50% #fff; color:#f00;
+	background:url(../../../themes/default/images/button-action/action_warning.png) no-repeat 5px 50% #fff; color:#f00;
 	list-style:none;
 }
 p.mesgInfo {
 	border-color:#49BFCD;
-	background:url(../../../themes/default/images/action_info.png) no-repeat 5px 50% #fff; color:#49BFCD;
+	background:url(../../../themes/default/images/button-action/action_info.png) no-repeat 5px 50% #fff; color:#49BFCD;
 }
 
 /************************************************

@@ -21,10 +21,10 @@ div.album div.photoseule img {
 }
 
 div.album div.photo a.album {
-	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../img_styles/album/photoalbum.jpg);
+	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../images/photoalbum.jpg);
 }
 div.album div.photo a.parent {
-	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../img_styles/album/photoalbum_parent.jpg);
+	text-decoration: none; display: block; width: 128px; height: 128px; background-image: url(../images/photoalbum_parent.jpg);
 }
 
 

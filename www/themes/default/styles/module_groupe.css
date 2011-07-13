@@ -135,10 +135,10 @@ DIV.groupe_title a:hover {
 }
 /* Actions */
 #groups DIV.actions a { background:#eee; background-repeat:no-repeat; background-position: left center; }
-#groups DIV.actions A.home { background-image:url(../img_styles/groupe/puce_home.gif); }
-#groups DIV.actions A.subscribe { background-image:url(../img_styles/groupe/puce_subscribe.gif); }
-#groups DIV.actions A.admin { background-image:url(../img_styles/groupe/puce_admin.gif); }
-#groups DIV.actions A.blog { background-image:url(../img_styles/groupe/puce_blog.gif); }
+#groups DIV.actions A.home { background-image:url(../images/puce_home.gif); }
+#groups DIV.actions A.subscribe { background-image:url(../images/puce_subscribe.gif); }
+#groups DIV.actions A.admin { background-image:url(../images/puce_admin.gif); }
+#groups DIV.actions A.blog { background-image:url(../images/puce_blog.gif); }
 #groups DIV.actions A:hover {
 	background-color: #ccc;
 	color: #000;
@@ -201,10 +201,10 @@ DIV.groupe_title a:hover {
 	text-decoration: none;
 }
 /* Actions */
-#groups-home DIV.actions A.home { background: #D9E575 url(../img_styles/groupe/puce_home.gif) no-repeat left center; }
-#groups-home DIV.actions A.subscribe { background: #D9E575 url(../img_styles/groupe/puce_subscribe.gif) no-repeat left center; }
-#groups-home DIV.actions A.admin { background: #D9E575 url(../img_styles/groupe/puce_admin.gif) no-repeat left center; }
-#groups-home DIV.actions A.blog { background: #D9E575 url(../img_styles/groupe/puce_blog.gif) no-repeat left center; }
+#groups-home DIV.actions A.home { background: #D9E575 url(../images/puce_home.gif) no-repeat left center; }
+#groups-home DIV.actions A.subscribe { background: #D9E575 url(../images/puce_subscribe.gif) no-repeat left center; }
+#groups-home DIV.actions A.admin { background: #D9E575 url(../images/puce_admin.gif) no-repeat left center; }
+#groups-home DIV.actions A.blog { background: #D9E575 url(../images/puce_blog.gif) no-repeat left center; }
 #groups-home DIV.actions A:hover {
 	background-color: #B9C554;
 	color: #000;

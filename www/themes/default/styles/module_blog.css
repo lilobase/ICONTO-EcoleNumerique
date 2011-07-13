@@ -186,7 +186,7 @@
 }
 #listArticles DIV.postContent .suite {
 	padding-left: 20px;
-	background: transparent url(../img_styles/blog/suite.gif) no-repeat left top;
+	background: transparent url(../images/suite.gif) no-repeat left top;
 }
 /* Liste des pages */
 #listArticles P.pager {

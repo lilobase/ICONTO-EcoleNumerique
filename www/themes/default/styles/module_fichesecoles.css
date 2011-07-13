@@ -28,7 +28,7 @@ div#fichesecoles td.pratique a.fichier {
     line-height:24px;
     height:24px;
     display:inline-block;
-    background: transparent url(../images/menu_download.png) left center no-repeat;
+    background: transparent url(../images/menu/menu_download.png) left center no-repeat;
 }
 div#fichesecoles td.pratique a:hover {
     text-decoration:underline;

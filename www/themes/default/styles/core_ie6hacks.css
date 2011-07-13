@@ -86,11 +86,11 @@ div#menu li.fancy div.fancy-container div.fancy-r {
 	right: -1px;
 	width: 51px;
 	height: 35px;
-	background: url(../images/menu_fancy_r.png) 0 0 repeat-x;
+	background: url(../images/menu/menu_fancy_r.png) 0 0 repeat-x;
 }
 
 div#menu ul.menu ul {
-	background: url(../images/menu_dropdown_bg_ie6.png) 0 100% no-repeat;
+	background: url(../images/menu/menu_dropdown_bg_ie6.png) 0 100% no-repeat;
 }
 
 /*

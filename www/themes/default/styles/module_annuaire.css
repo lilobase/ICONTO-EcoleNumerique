@@ -11,7 +11,7 @@
 #ecole_infos_bloc div.lucien {
   height:63px;
   display:block;
-  background-image: url(../img_styles/groupe/lucien_coude.gif);
+  background-image: url(../images/lucien_coude.gif);
 	background-repeat: no-repeat;
 	background-position: 97% 0;
 }
@@ -83,7 +83,7 @@ SELECT.annu_combo_popup {
 
 /* POPUP */
 #annu_popup_filtrage {
-	background-image: url(../img_styles/groupe/lucien_coude.gif);
+	background-image: url(../images/lucien_coude.gif);
 	background-repeat: no-repeat;
 	background-position: bottom right;
 }

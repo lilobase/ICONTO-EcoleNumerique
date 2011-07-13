@@ -1,7 +1,7 @@
 <div id="submenu">
 <div class="menuitems studentMenu">
 <ul>
-  <li class="prev-week"><a href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$ppo->semainePrecedente|date_format:"%d" mois=$ppo->semainePrecedente|date_format:"%m" annee=$ppo->semainePrecedente|date_format:"%Y"}"><span class="valign"></span><span><img src="{copixurl}themes/default/images/action_back.png" alt="<" /></span></a></li>
+  <li class="prev-week"><a href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$ppo->semainePrecedente|date_format:"%d" mois=$ppo->semainePrecedente|date_format:"%m" annee=$ppo->semainePrecedente|date_format:"%Y"}"><span class="valign"></span><span><img src="{copixurl}themes/default/images/button-action/action_back.png" alt="<" /></span></a></li>
   
   <li>
     <a class="monday {if $ppo->lun eq $ppo->dateSelectionnee}current{/if}" href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$ppo->lun|substr:6:2 mois=$ppo->lun|substr:4:2 annee=$ppo->lun|substr:0:4}"><span class="valign"></span><span>{$ppo->lun|datei18n:text|substr:0:-4}</span></a>
@@ -22,7 +22,7 @@
     <a class="saturday {if $ppo->sam eq $ppo->dateSelectionnee}current{/if}" href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$ppo->sam|substr:6:2 mois=$ppo->sam|substr:4:2 annee=$ppo->sam|substr:0:4}"><span class="valign"></span><span>{$ppo->sam|datei18n:text|substr:0:-4}</span></a>
   </li>
   
-  <li class="next-week"><a href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$ppo->semaineSuivante|date_format:"%d" mois=$ppo->semaineSuivante|date_format:"%m" annee=$ppo->semaineSuivante|date_format:"%Y"}"><span class="valign"></span><span><img src="{copixurl}themes/default/images/action_next.png" alt=">" /></span></a></li>
+  <li class="next-week"><a href="{copixurl dest="cahierdetextes||voirTravaux" cahierId=$ppo->cahierId jour=$ppo->semaineSuivante|date_format:"%d" mois=$ppo->semaineSuivante|date_format:"%m" annee=$ppo->semaineSuivante|date_format:"%Y"}"><span class="valign"></span><span><img src="{copixurl}themes/default/images/button-action/action_next.png" alt=">" /></span></a></li>
 </ul>
 </div>
 </div>
