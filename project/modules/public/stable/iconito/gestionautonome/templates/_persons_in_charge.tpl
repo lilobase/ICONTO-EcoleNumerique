@@ -13,9 +13,9 @@
       <tr>
         <td>
           {if $item->res_id_sexe eq 1}
-            <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" />
+            <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
           {else}                                                                 
-            <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" />
+            <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
           {/if}
         </td>
         <td>{$item->getLoginAccount()}</td>

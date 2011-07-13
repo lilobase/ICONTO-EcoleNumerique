@@ -142,16 +142,16 @@ ul.tree a.toggle-node {
   display:block;
   float:left;
   height:20px;
-  width:11px;
-  background:url(../img/collapsed.gif) no-repeat scroll left center transparent; 
+  width:14px;
+  background:url(../images/sort_right_off.png) no-repeat scroll left center transparent; 
 }
 
 ul.tree a.expand{
-  background:url(../img/expanded.gif) no-repeat scroll left center transparent;
+  background:url(../images/sort_down_off.png) no-repeat scroll left center transparent;
 }
 
 ul.tree a.after-expand {
-  margin-left: 15px;
+  margin-left: 18px;
 }
 
 ul.tree a.classroom {
@@ -161,7 +161,7 @@ ul.tree a.classroom {
 li a.current {
   background-color:#327E04;/* !important;*/
   color:white; /* !important;*/
-  padding:2px;
+  padding:2px 4px;
 }
 
 #student_creation_data {
