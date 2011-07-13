@@ -94,7 +94,7 @@ class DAOClasseurDossier {
     
     $toReturn = array();
     
-    $sql = 'SELECT id, parent_id AS parent_id, nom AS titre, nom AS fichier, nb_dossiers, nb_fichiers, taille, "---" AS type, date_creation AS date, user_type, user_id, "dossier" AS content_type'
+    $sql = 'SELECT id, id AS dossier_id, parent_id AS parent_id, nom AS titre, nom AS fichier, nb_dossiers, nb_fichiers, taille, "---" AS type, date_creation AS date, user_type, user_id, "dossier" AS content_type'
         . ' FROM module_classeur_dossier'
         . ' WHERE module_classeur_id = :idClasseur';
     if (!is_null($idDossier)) {
@@ -104,7 +104,7 @@ class DAOClasseurDossier {
     
     $sql .= ' UNION';
     
-    $sql .= ' SELECT id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, date_upload AS date, user_type, user_id, "fichier" AS content_type'
+    $sql .= ' SELECT id, module_classeur_dossier_id AS dossier_id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, date_upload AS date, user_type, user_id, "fichier" AS content_type'
         . ' FROM module_classeur_fichier'
         . ' WHERE module_classeur_id = :idClasseur';
     if (!is_null($idDossier)) {

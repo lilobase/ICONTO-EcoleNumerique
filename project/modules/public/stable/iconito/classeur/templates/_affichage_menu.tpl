@@ -9,7 +9,7 @@
       <li class="newGroupItems"><a class="viewList list{if $ppo->current eq "liste"} current{/if}" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId vue=liste}" title="{i18n key="classeur.message.listView"}"></a></li>
       <li><a class="viewThumbs thumbs{if $ppo->current eq "vignette"} current{/if}" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId vue=vignette}" title="{i18n key="classeur.message.thumbnailView"}"></a></li>
       {if $ppo->niveauUtilisateur >= PROFILE_CCV_MODERATE}
-        <li class="newGroupItems"><a class="image{if $ppo->current eq "editerAlbumPublic"} current{/if}" href="{copixurl dest="classeur||editerAlbumPublic" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}"><span class="valign"></span><span>{i18n key="classeur.message.createPublicAlbum"}</span></a></li>
+        <li class="newGroupItems"><a class="image{if $ppo->current eq "editerAlbumPublic"} current{/if}" href="{copixurl dest="classeur||editerAlbumPublic" classeurId=$ppo->classeurId dossierId=$ppo->dossierId}"><span class="valign"></span><span>{if $ppo->estPublic eq true}{i18n key="classeur.message.updatePublicAlbum"}{else}{i18n key="classeur.message.createPublicAlbum"}{/if}</span></a></li>
       {/if}
     </ul>
   </div>

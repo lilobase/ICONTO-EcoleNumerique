@@ -20,6 +20,27 @@ class ZoneAffichageMenu extends CopixZone {
 	  $ppo->typeUtilisateur   = _currentUser()->getExtra('type');
 	  
 	  $ppo->vue = !is_null(_sessionGet('classeur|typeVue')) ? _sessionGet('classeur|typeVue') : 'liste';
+	  
+	  // L'album public est t-il publié ?
+	  $ppo->estPublic = false;
+	  if (!is_null($ppo->dossierId) && $ppo->dossierId != 0) {
+	    
+	    $dossierDAO = _ioDAO('classeur|classeurdossier');
+	    $dossier = $dossierDAO->get($ppo->dossierId);
+	    if ($dossier->public) {
+	      
+	      $ppo->estPublic = true;
+	    }
+	  }
+	  else {
+	    
+	    $classeurDAO = _ioDAO('classeur|classeur');
+	    $classeur = $classeurDAO->get($ppo->classeurId);
+	    if ($classeur->public) {
+	      
+	      $ppo->estPublic = true;
+	    }
+	  }
     
 	  $toReturn = $this->_usePPO ($ppo, '_affichage_menu.tpl');
   }
