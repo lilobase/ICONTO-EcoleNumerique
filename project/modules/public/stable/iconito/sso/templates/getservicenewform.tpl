@@ -6,13 +6,13 @@
 <input type="hidden" name="id" value="{$id}" />
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
 Pour ajouter un nouveau service externe ("SSO"), vous avez besoin de connaître l'adresse d'enregistrement du service (URL) et être en possession d'un compte utilisateur valide sur ce site distant.

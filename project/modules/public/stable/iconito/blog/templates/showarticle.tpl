@@ -3,7 +3,7 @@
 {else}
 <div id="article">
 
-<h1>{$article->name_bact}</h1>
+<h2>{$article->name_bact}</h2>
 <div class="postInfo">
 	{assign var=cptCat value=1}
 	{assign var=listCat value=""}
@@ -64,7 +64,7 @@
 
 {if $showErrors}
 <div class="errorMessage">
-<h1>{i18n key=copix:common.messages.error}</h1>
+<h2>{i18n key=copix:common.messages.error}</h2>
 {ulli values=$errors}
 </div>	
 {/if}

@@ -5,10 +5,10 @@
 <h3>Personne</h3>
 
 {if not $ppo->errors eq null}
-	<div class="message_erreur">
+	<div class="mesgErrors">
 	  <ul>
 	    {foreach from=$ppo->errors item=error}
-		    <li>{$error}</li><br \>
+		    <li>{$error}</li>
 	    {/foreach}
 	  </ul>
 	</div>

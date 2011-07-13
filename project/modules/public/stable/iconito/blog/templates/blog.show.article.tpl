@@ -6,7 +6,7 @@
 	  <!-- ----------------------------------------------------------- -->
 	  <!-- ----------------------------------------------------------- -->
 <a class="floatright button button-add" href="{copixurl dest="blog|admin|prepareEditArticle" id_blog=$id_blog kind=$kind}">{i18n key="copix:common.buttons.new"}</a>
-		<h1>{i18n key="blog.nav.articles"}</h1>
+		<h2>{i18n key="blog.nav.articles"}</h2>
 	
 		<form name="findArticle" action="{copixurl dest="blog|admin|showBlog" id_blog=$id_blog p=$p}" method="post" class="copixForm">
 		<input type="hidden" name="kind" value="{$kind}" />

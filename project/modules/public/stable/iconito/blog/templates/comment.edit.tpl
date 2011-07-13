@@ -1,6 +1,6 @@
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />
 
-<h1>{i18n key="blog.get.edit.comment.title"}</h1>
+<h2>{i18n key="blog.get.edit.comment.title"}</h2>
 
 {if $showErrors}
 <div class="mesgErrors">

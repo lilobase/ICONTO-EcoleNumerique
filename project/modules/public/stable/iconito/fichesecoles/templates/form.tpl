@@ -1,9 +1,9 @@
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div class="mesgErrors">
 	<UL>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<LI>{$error}</LI>
 	{/foreach}
 	</UL>
 	</DIV>

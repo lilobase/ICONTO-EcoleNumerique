@@ -1,23 +1,23 @@
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
 
 {if not $oks eq null}
-	<DIV CLASS="message_ok">
-	<UL>
+	<div class="mesgSuccess">
+	<ul>
 	{foreach from=$oks item=ok}
-		<LI>{$ok}</LI><br/>
+		<li>{$ok}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
 <A class="button button-continue" HREF="{copixurl dest="groupe||getListPublic"}">{i18n key="kernel|kernel.back"}</A>

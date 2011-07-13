@@ -22,7 +22,7 @@ function change_style (obj) {
 {/literal}
 
 
-<h1>{i18n key="blog.get.editstyle.blog.title"}</h1>
+<h2>{i18n key="blog.get.editstyle.blog.title"}</h2>
 
 {if $showErrors}
 <div class="mesgErrors">

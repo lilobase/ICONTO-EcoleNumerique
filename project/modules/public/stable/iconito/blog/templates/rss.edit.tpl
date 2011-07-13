@@ -1,9 +1,9 @@
 <!--<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />-->
 
 {if $rss==null}
-	<h1>{i18n key="blog.get.create.rss.title"}</h1>
+	<h2>{i18n key="blog.get.create.rss.title"}</h2>
 {else}
-	<h1>{i18n key="blog.get.edit.rss.title"}</h1>
+	<h2>{i18n key="blog.get.edit.rss.title"}</h2>
 {/if}
 
 {if $showErrors}

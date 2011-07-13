@@ -9,10 +9,10 @@
 <h3>Elève</h3>
 
 {if not $ppo->errors eq null}
-	<div class="message_erreur error-light">
+	<div class="mesgErrors error-light">
 	  <ul>
 	    {foreach from=$ppo->errors item=error}
-		    <li>{$error}</li><br \>
+		    <li>{$error}</li>
 	    {/foreach}
 	  </ul>
 	</div>

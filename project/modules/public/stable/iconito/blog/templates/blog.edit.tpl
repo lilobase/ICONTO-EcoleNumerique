@@ -2,9 +2,9 @@
 
 
 {if $id_blog==null}
-	<h1>{i18n key="blog.get.create.blog.title"}</h1>
+	<h2>{i18n key="blog.get.create.blog.title"}</h2>
 {else}
-	<h1>{i18n key="blog.get.edit.blog.title"}</h1>
+	<h2>{i18n key="blog.get.edit.blog.title"}</h2>
 {/if}
 
 {if $showErrors}

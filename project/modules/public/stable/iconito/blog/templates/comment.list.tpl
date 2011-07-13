@@ -1,6 +1,6 @@
 <!--<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />-->
 
-<h1>{i18n key="blog.get.list.comment.title"}</h1>
+<h2>{i18n key="blog.get.list.comment.title"}</h2>
 
 
 <div id="comments">
@@ -52,7 +52,7 @@
    {/if}   
 
 
-<h1>{i18n key="blog.add.comment.title"}</h1>
+<h2>{i18n key="blog.add.comment.title"}</h2>
 {if $showErrors}
 	<ul class="mesgErrors">
 	  {foreach from=$errors item=message}

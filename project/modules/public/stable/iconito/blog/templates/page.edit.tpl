@@ -18,7 +18,7 @@ function doUrl (pUrl) {
 
 {if $preview}
 <div class="forum_message_preview">
-<h1>{i18n key="blog.button.previsu"}</h1>
+<h2>{i18n key="blog.button.previsu"}</h2>
 <div class="postContent">
 <h4>{$page->name_bpge}</h4>
 <div>{$page->content_bpge|blog_format_article:$page->format_bpge}</div>
@@ -28,9 +28,9 @@ function doUrl (pUrl) {
 
 
 {if $id_bpge==null}
-	<h1>{i18n key="blog.get.create.page.title"}</h1>
+	<h2>{i18n key="blog.get.create.page.title"}</h2>
 {else}
-	<h1>{i18n key="blog.get.edit.page.title"}</h1>
+	<h2>{i18n key="blog.get.edit.page.title"}</h2>
 {/if}
 
 {if $showErrors}

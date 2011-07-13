@@ -1,13 +1,13 @@
 <script language="Javascript1.2" src="{copixurl}js/iconito/module_groupe_admin.js"></script>
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
   <form name="form" action="{copixurl dest="|doModifyMember"}" method="POST">

@@ -40,10 +40,10 @@
 
 	<div class="content-panel">
 		{if not $errors eq null}
-		<div class="message_erreur">
+		<div class="mesgErrors">
 			<ul>
 			{foreach from=$errors item=error}
-			<li>{$error}</li><br/>
+			<li>{$error}</li>
 			{/foreach}
 			</ul>
 		</div>

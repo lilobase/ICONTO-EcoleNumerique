@@ -61,12 +61,13 @@ jQuery(document).ready(function($){
 <div style="min-height:275px;">
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL></DIV>
+	</ul>
+	</div>
 {/if}
 
 {assign var="tailleFolders" value=0}

@@ -7,7 +7,7 @@
 	  <!-- ----------------------------------------------------------- -->
 		
         <a class="floatright button button-add" href="{copixurl dest="blog|admin|prepareEditCategory" id_blog=$id_blog kind=$kind}" >{i18n key="copix:common.buttons.new"}</a>
-		<h1>{i18n key="blog.nav.categories"}</h1>
+		<h2>{i18n key="blog.nav.categories"}</h2>
         
 		{i18n key="blog.category.list.nbPublies" pNb=$tabArticleCategory|@count}
 		

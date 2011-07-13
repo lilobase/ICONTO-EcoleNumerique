@@ -7,7 +7,7 @@
 	  <!-- ----------------------------------------------------------- -->
 		
 		<a class="floatright button button-add" href="{copixurl dest="blog|admin|prepareEditRss" id_blog=$id_blog kind=$kind}" >{i18n key="copix:common.buttons.new"}</a>
-		<h1>{i18n key="blog.nav.rss"}</h1>
+		<h2>{i18n key="blog.nav.rss"}</h2>
 		
 		{i18n key="blog.rss.list.nbPublies" pNb=$tabRss|@count}
 		{if count($tabRss)}

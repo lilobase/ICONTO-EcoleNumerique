@@ -2,19 +2,19 @@
 
 
 {if not $errors eq null}
-	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
-	<UL>
+	<div class="mesgErrors" id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI>
+		<li>{$error}</li>
 	{/foreach}
-	</UL></div>
+	</ul></div>
 {elseif not $ok eq null}
-	<DIV CLASS="message_ok">
-	<UL>
+	<div class="mesgSuccess">
+	<ul>
 	{foreach from=$ok item=item}
-		<LI>{$item}</LI><br/>
+		<li>{$item}</li>
 	{/foreach}
-	</UL></DIV>
+	</ul></div>
 {/if}
 
 <div class="actions noPrint">

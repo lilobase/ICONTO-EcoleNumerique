@@ -8,7 +8,7 @@
 		
 		
 <a class="floatright button button-add" href="{copixurl dest="blog|admin|prepareEditLink" id_blog=$id_blog kind=$kind}">{i18n key="copix:common.buttons.new"}</a>
-		<h1>{i18n key="blog.nav.links"}</h1>
+		<h2>{i18n key="blog.nav.links"}</h2>
 		{i18n key="blog.link.list.nbPublies" pNb=$tabLinks|@count}
 		{if count($tabLinks)}
 		<table class="viewItems">

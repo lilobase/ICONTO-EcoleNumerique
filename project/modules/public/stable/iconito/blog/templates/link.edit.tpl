@@ -1,9 +1,9 @@
 <!--<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />-->
 
 {if $link==null}
-	<h1>{i18n key="blog.get.create.link.title"}</h1>
+	<h2>{i18n key="blog.get.create.link.title"}</h2>
 {else}
-	<h1>{i18n key="blog.get.edit.link.title"}</h1>
+	<h2>{i18n key="blog.get.edit.link.title"}</h2>
 {/if}
 
 {if $showErrors}

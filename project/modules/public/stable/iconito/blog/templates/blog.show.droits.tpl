@@ -1,5 +1,5 @@
 
-<h1>{i18n key="blog.nav.droits"}</h1>
+<h2>{i18n key="blog.nav.droits"}</h2>
 	
 
 {if not $errors eq null}

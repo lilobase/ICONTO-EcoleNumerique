@@ -30,10 +30,10 @@
 <h4>RESPONSABLE {$ppo->cpt}</h4>
 
 {if not $ppo->errors eq null}
-	<div class="message_erreur error-light">
+	<div class="mesgErrors error-light">
 	  <ul>
 	    {foreach from=$ppo->errors item=error}
-		    <li>{$error}</li><br \>
+		    <li>{$error}</li>
 	    {/foreach}
 	  </ul>
 	</div>
