@@ -400,4 +400,15 @@ a.sb-list {
 a.sb-list:hover {
 	background: url(../../../themes/default/images/button_list_on.png) no-repeat 100% 0;
 	}
- 
+
+
+/************************************************
+ * MULTI-PAGE LINKS
+ ***********************************************/
+.pagerContainer {
+	display:inline;
+	border:0;
+}
+.pagerContainer strong {
+	border-bottom:1px dotted;
+}

@@ -82,19 +82,19 @@ $options['PAGER'] = Array(
 
 $options['PARAMS'] = Array(
 
-    'nextPage'        => '&nbsp;<img src="'._resource('img/tools/next.png').'" alt="next"/>&nbsp;',         // libellé lien vers la page suivante
+    'nextPage'        => '<img src="'._resource('images/icon-16/pager-next.png').'" alt="next"/>&nbsp;',         // libellé lien vers la page suivante
 
-    'previousPage'    => '&nbsp;<img src="'._resource('img/tools/back.png').'" alt="previous"/>&nbsp;',       // libellé lien vers la page précédente
+    'previousPage'    => '<img src="'._resource('images/icon-16/pager-previous.png').'" alt="previous"/>&nbsp;',       // libellé lien vers la page précédente
 
-    'lastPage'        => '&nbsp;<img src="'._resource('img/tools/last.png').'" alt="last"/>',              // libellé lien vers la dernière page
+    'lastPage'        => '<img src="'._resource('images/icon-16/pager-last.png').'" alt="last"/>',              // libellé lien vers la dernière page
 
-    'firstPage'       => '<img src="'._resource('img/tools/first.png').'" alt="first"/>&nbsp;',              // libellé lien vers la première page
+    'firstPage'       => '<img src="'._resource('images/icon-16/pager-first.png').'" alt="first"/>&nbsp;',              // libellé lien vers la première page
 
     'separator'       => '&nbsp;-&nbsp;',   // Séparateur de page
 
-    'curPageSpanPre'  => '<b>',          // Chaine préfixant la page courante
+    'curPageSpanPre'  => '<strong>',          // Chaine préfixant la page courante
 
-    'curPageSpanPost' => '</b>',        // Chaine suffixant la page courante
+    'curPageSpanPost' => '</strong>',        // Chaine suffixant la page courante
 
     'linkClass'       => 'multipage'    // Classe CSS à ajouter aux liens
 
