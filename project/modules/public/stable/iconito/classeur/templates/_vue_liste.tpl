@@ -41,6 +41,30 @@
     </thead>
     <tbody>
       {assign var=index value=1}
+      {if $ppo->dossierParent}
+        <tr class="folder even">
+          <td>&nbsp;</td>
+          <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierParent->id}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}" class="icon iconFolderUp">{i18n key="classeur.message.parentFolder"}</a></td>
+          <td colspan="4">&nbsp;</td>
+        </tr>
+        {assign var=index value=2}
+      {elseif $ppo->classeurParent}
+        <tr class="folder even">
+          <td>&nbsp;</td>
+          <td>
+            {if $ppo->classeurParent->isPersonnel}
+              {i18n key="classeur.message.personnalFolder" assign=nom}
+            {else}
+              {assign var=nom value=$ppo->classeurParent->titre}
+            {/if}
+            <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}" class="icon iconFolderUp">{i18n key="classeur.message.parentFolder"}</a>
+          </td>
+          <td colspan="4">&nbsp;</td>
+        </tr>
+        {assign var=index value=2}
+      {/if}
+      
+      
       {foreach from=$ppo->contenus item=contenu}
       
       <!-- Affichage des dossiers -->

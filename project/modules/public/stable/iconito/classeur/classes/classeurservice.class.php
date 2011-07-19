@@ -9,6 +9,33 @@
 class ClasseurService {
   
   /**
+   * Retourne l'ID du classeur personnel
+   *
+   * @return int
+   */
+  public static function getClasseurPersonnelId () {
+    
+    $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+    foreach ($nodes as $node) {
+
+      $modules = Kernel::getModEnabled($node->type, $node->id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+      foreach ($modules as $module) {
+
+        if ($module->module_type == "MOD_CLASSEUR") {
+          // Identification du classeur personnel de l'utilisateur
+          if (strpos($module->node_type, 'USER_') !== false 
+            && ($module->node_type == _currentUser()->getExtra('type') && $module->node_id == _currentUser()->getExtra('id'))) {
+
+            return $module->module_id;
+          }
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  /**
    * Méthode de génération d'une clé utilisée pour les dossiers et fichiers du classeur
    *
    * @return string

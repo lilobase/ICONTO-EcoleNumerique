@@ -121,7 +121,7 @@ jQuery(document).ready(function($){
 			dodurl = $(this).parent('.check-file').children('input[name="item-durl"]').val();
 			dovurl = $(this).parent('.check-file').children('input[name="item-vurl"]').val();
 			doerr = $(this).parent('.check-file').children('input[name="item-err"]').val();
-			console.log("---" + dofile + "," + dofield + "," + doformat + "," + dodurl + "," + dovurl + "," + doerr);
+			//console.log("---" + dofile + "," + dofield + "," + doformat + "," + dodurl + "," + dovurl + "," + doerr);
 			insertDocument (domode, dofile, dofield, doformat, dodurl, dovurl, doerr, doid, doname);
 		});
 		parent.jQuery.fancybox.close();

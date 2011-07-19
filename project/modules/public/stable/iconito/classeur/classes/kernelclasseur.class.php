@@ -23,7 +23,6 @@ class KernelClasseur {
 		$new->cle   = ClasseurService::createKey();
 		$new->date_creation = date('Y-m-d H:i:s');
 		$dao->insert ($new);
-
 		if (!is_null($new->id)) {
       
       $path2data = realpath('./static/classeur');

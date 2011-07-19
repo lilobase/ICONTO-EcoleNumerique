@@ -4,7 +4,7 @@
 * @subpackage Cahierdetextes
 * @author     Jérémy FOURNAISE
 */
-class ZoneMemos extends enicZone {
+class ZoneMemos extends CopixZone {
 
 	function _createContent (& $toReturn) {
 

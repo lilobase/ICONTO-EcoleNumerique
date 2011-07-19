@@ -27,6 +27,22 @@ class ZoneVueVignette extends CopixZone {
 		// Récupération des dossiers & des fichiers / favoris
 		$fichierDAO = _ioDAO('classeur|classeurfichier');
 		$dossierDAO = _ioDAO('classeur|classeurdossier');
+		
+		if ($dossier = $dossierDAO->get($ppo->dossierId)) {
+		  
+		  if ($dossier->parent_id != 0) {
+		   
+		    $ppo->dossierParent = $dossierDAO->get($dossier->parent_id); 
+		  }
+		  else {
+		    
+		    $classeurDAO = _ioDAO('classeur|classeur');
+		    $ppo->classeurParent = $classeurDAO->get($ppo->classeurId);
+		    
+		    $ppo->classeurParent->isPersonnel = ClasseurService::getClasseurPersonnelId () == $ppo->classeurParent->id;
+		  }
+		}
+		
 		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
 		
 		foreach ($ppo->contenus as $contenu) {
