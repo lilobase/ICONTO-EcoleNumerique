@@ -54,6 +54,12 @@ div.dashboard div.content {
 	max-height:350px;
 	overflow:auto;
 }
+@media screen and (min-height: 600px) {
+	#classeur .content-view .overflow {max-height:450px;}
+}
+@media screen and (min-height: 700px) {
+	#classeur .content-view .overflow {max-height:550px;}
+}
 #classeur #folder-content, #content-popup #folder-content {
 	border-radius:8px;
 	width:100%;
@@ -133,7 +139,7 @@ div.dashboard div.content {
 
 
 /* Thumb View */
-#classeur .thumbView {height:350px; overflow:auto;}
+#classeur .thumbView {overflow:auto;}
 #classeur .thumbView ul {margin:0; padding:0;}
 #classeur .thumbView li {
 	float:left;
@@ -150,7 +156,7 @@ div.dashboard div.content {
 #classeur .thumbView li .datas img {
 	display:block;
 	margin:10px auto;
-	width:90px; max-height:90px;
+	max-width:90px; max-height:90px;
 	overflow:hidden;
 }
 #classeur .thumbView li a.icon {
@@ -165,6 +171,7 @@ div.dashboard div.content {
 	position:absolute; bottom:0; left:0;
 	margin:0; padding:0 2px;
 	width:100%;
+	overflow:hidden;
 }
 #classeur .thumbView li .name {
 	background:#fff;
