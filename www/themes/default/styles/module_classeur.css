@@ -105,6 +105,7 @@ div.dashboard div.content {
 }
 #classeur .listView a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
 #classeur .listView a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
+#classeur .listView a.iconFolderUp {background-image:url(../../../themes/default/images/icon-16/icon-folder-up.png);}
 #classeur .listView a.iconai {background-image:url(../../../themes/default/images/icon-16/icon-ai.png);}
 #classeur .listView a.iconavi {background-image:url(../../../themes/default/images/icon-16/icon-avi.png);}
 #classeur .listView a.iconbmp {background-image:url(../../../themes/default/images/icon-16/icon-bmp.png);}

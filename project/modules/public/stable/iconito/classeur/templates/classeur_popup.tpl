@@ -53,7 +53,7 @@
   	{i18n key="malle|malle.error.unsupportedFormat" format=$ppo->format assign=i18n_unsupportedFormat}
   	
     <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
-      <td class="check-file">
+      <td class="center check-file">
         <input type="hidden" name="item-id" value="{$fichier->id}"/>
     	  <input type="hidden" name="item-name" value="{$fichier|escape}"/>
     		<input type="hidden" name="item-file" value="{$file}"/>
