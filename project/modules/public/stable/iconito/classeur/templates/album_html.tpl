@@ -7,8 +7,10 @@
 <script type="text/javascript" src="{copixurl}galleria/galleria-1.2.4.min.js"></script>
 {literal}
 <style type="text/css">
-body {background:#000;}
-#gallery {margin:0 auto;}
+html {height:100%;}
+body {background:#000; height:100%;}
+#gallery {margin:0 auto; width:100%; height:100%;}
+#gallery .galleria-thumbnails {margin:0 auto;}
 </style>
 {/literal}
 </head>
@@ -20,7 +22,7 @@ body {background:#000;}
   </div>
   <script>
     Galleria.loadTheme('{copixurl}galleria/themes/classic/galleria.classic.min.js');
-    {literal}$("#gallery").galleria({width: 500, height: 500});{/literal}
+    {literal}$("#gallery").galleria({autoplay:true, maxScaleRatio:1, thumbCrop:true});{/literal}
   </script>
 </body>
 </html>
