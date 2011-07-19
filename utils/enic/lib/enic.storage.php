@@ -213,8 +213,14 @@ class enicSession implements enicStorage {
 
 class enicFlash extends enicSession{
 
+    public $history;
+
     public function startExec(){
         parent::startExec();
+
+        //destroy previous history
+        $this->history = array();
+
         //build flash array
         if(!isset($_SESSION['eS']['flashRegistry']))
             $_SESSION['eS']['flashRegistry'] = array();
@@ -235,16 +241,41 @@ class enicFlash extends enicSession{
      * flash garbage collector
      */
     public function flashGC(){
+
         foreach($_SESSION['eS']['flashRegistry'] as $key => $value){
 
             //check validity
             if($value == 0){
+                //save in history
+                $this->history[$key] = $_SESSION['eS']['flashDatas'][$key];
+
+                //remove datas
                 unset($_SESSION['eS']['flashRegistry'][$key]);
                 unset($_SESSION['eS']['flashDatas'][$key]);
             }else{
                 $_SESSION['eS']['flashRegistry'][$key]--;
             }
         }
+    }
+    
+    /**
+     * extends flash vars lifetime
+     */
+    public function addCycle(){
+      
+        foreach($_SESSION['eS']['flashRegistry'] as $key => $value){
+
+            $_SESSION['eS']['flashRegistry'][$key]++;
+        }
+    }
+    
+    /*
+     * cancel previous GC cycle
+     */
+    public function cancel(){
+      
+        foreach($this->history as $key => $data)
+            $this->set($key, $data);
     }
 
     /*
@@ -281,6 +312,4 @@ class enicFlash extends enicSession{
     public function  __isset($iName) {
         return $this->has($iName);
     }
-
 }
-?>

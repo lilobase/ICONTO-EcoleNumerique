@@ -4,7 +4,7 @@
 * @subpackage Classeur
 * @author     Jérémy FOURNAISE
 */
-class ZoneArborescenceClasseurs extends CopixZone {
+class ZoneArborescenceClasseurs extends enicZone {
 
 	function _createContent (& $toReturn) {
 	  
@@ -60,7 +60,9 @@ class ZoneArborescenceClasseurs extends CopixZone {
       
       $ppo->classeursOuverts = array();
     }
-
+    
+    $this->flash->addCycle();
+    
 	  $toReturn = $this->_usePPO ($ppo, '_arborescence_classeurs.tpl');
   }
 }
