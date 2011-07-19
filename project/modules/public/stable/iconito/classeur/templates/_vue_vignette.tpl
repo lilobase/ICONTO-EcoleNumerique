@@ -25,10 +25,10 @@
       {if $ppo->dossierParent}
         <li class="folder">
           <div class="datas">
-            <a class="iconFolderUp" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierParent->id}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder-up.png" /></a>
-            <p class="footerData">
+            <a class="icon iconFolderUp" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierParent->id}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder-up.png" /></a>
+            <p class="footerData footerFolderUp">
               <span class="name">
-                <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a><br />
+                <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
               </span>
             </p>
           </div>
@@ -41,10 +41,10 @@
             {else}
               {assign var=nom value=$ppo->classeurParent->titre}
             {/if}
-            <a class="iconFolderUp" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder-up.png" /></a>
-            <p class="footerData">
+            <a class="icon iconFolderUp" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder-up.png" /></a>
+            <p class="footerData footerFolderUp">
               <span class="name">
-                <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a><br />
+                <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
               </span>
             </p>
           </div>

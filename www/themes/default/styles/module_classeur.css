@@ -182,6 +182,10 @@ div.dashboard div.content {
 	color:#aaa;
 	font-style:italic; font-size:0.9em;
 }
+#classeur .thumbView li .footerFolderUp {
+	padding:0 2px 1.4em;
+	text-align:center;
+}
 #classeur .thumbView li p.actions {margin:0;}
 #classeur .thumbView li p.actions .size {
 	display:block; float:right;
