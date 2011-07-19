@@ -1,6 +1,12 @@
 {copixzone process=classeur|affichageMenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId current="editerAlbumPublic"}
 
-<h2>{i18n key="classeur.message.createPublicAlbum"}</h2>
+<h2>
+  {if $ppo->album->public eq 0}
+    {i18n key="classeur.message.createPublicAlbum"}
+  {else}
+    {i18n key="classeur.message.updatePublicAlbum"}
+  {/if}
+</h2>
 
 {if $ppo->confirmMessage}
   <p class="mesgSuccess">{$ppo->confirmMessage}</p>
