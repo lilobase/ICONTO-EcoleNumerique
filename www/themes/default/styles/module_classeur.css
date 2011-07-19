@@ -8,7 +8,7 @@ div.dashboard div.content {
 }
 #classeur a img {border:none;}
 #submenu .menuitems ul li a.viewList, 
-#submenu .menuitems ul li a.viewThumbs { width:auto;}
+#submenu .menuitems ul li a.viewThumbs { width:5px; background-position:50% 50%;}
 #submenu .menuitems ul li.newGroupItems {margin-left:125px;}
 #select-choice {
 	float:left;
