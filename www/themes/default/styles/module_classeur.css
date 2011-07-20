@@ -239,9 +239,10 @@ div.dashboard div.content {
 
 
 /* Public album */
+#classeur ul.actions {padding:0;}
 #classeur ul.actions li {
 	float:left;
-	margin:0 5px;
+	margin:0 5px 30px;
 	list-style:none;
 }
 /* End public album */
