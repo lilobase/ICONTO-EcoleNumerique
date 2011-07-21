@@ -1531,6 +1531,8 @@ class ActionGroupDefault extends enicActionGroup {
     _classInclude ('classeur|classeurservice');
     ClasseurService::setClasseursTreeState ($id);
     
+    $this->flash->addCycle();
+    
     return new CopixActionReturn (CopixActionReturn::HTTPCODE, 
       array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixI18N::get ('classeur|classeur.message.stateChanged'));
   }
@@ -1548,6 +1550,8 @@ class ActionGroupDefault extends enicActionGroup {
     
     _classInclude ('classeur|classeurservice');
     ClasseurService::setFoldersTreeState ($id);
+    
+    $this->flash->addCycle();
     
     return new CopixActionReturn (CopixActionReturn::HTTPCODE, 
       array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixI18N::get ('classeur|classeur.message.stateChanged'));
