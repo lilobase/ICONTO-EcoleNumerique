@@ -1,0 +1,1 @@
+<li><a href="{copixurl dest="gestionautonome||getPasswordsList}" class="button">Comptes créés durant la session</a></li>

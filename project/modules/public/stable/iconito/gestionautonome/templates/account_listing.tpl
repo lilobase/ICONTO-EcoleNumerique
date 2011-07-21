@@ -1,4 +1,10 @@
-<h2>Ajout d'un {$ppo->sessionDatas[0].type_nom} dans {$ppo->sessionDatas[0].node_nom}</h2>
+{if !$ppo->isUpdated}
+  <h2>Ajout d'un {$ppo->sessionDatas[0].type_nom|lower}</h2>
+  {assign var=verb value='ajouté'}
+{else}
+  <h2>Modification d'un {$ppo->sessionDatas[0].type_nom|lower}</h2>
+  {assign var=verb value='modifié'}
+{/if}
 
 <div id="accounts-info">
   {copixzone process=gestionautonome|AccountsInfo}
@@ -6,13 +12,12 @@
 
 <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
   <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-  <strong>{$ppo->sessionDatas[0].type_nom} ajouté !</strong>
+  <strong>{$ppo->sessionDatas[0].type_nom} {$verb} !</strong>
 </p>
 
 {foreach from=$ppo->sessionDatas key=k item=sessionData}
-
   {if $k eq 0}
-    <h4>{$sessionData.type_nom} ajouté</h4> 
+      <h4>{$sessionData.type_nom} {$verb}</h4> 
   {else}
     <h4>{$sessionData.type_nom}{$k} ajouté</h4>
   {/if}
@@ -49,8 +54,6 @@
   $(document).ready(function(){
  	
  	  $('.button').button();
-  
-  
     jQuery('#back').click(function() {
     
       if ({/literal}'{$ppo->sessionDatas[0].bu_type}'{literal} == 'USER_ENS') {

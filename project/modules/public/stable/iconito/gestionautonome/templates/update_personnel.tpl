@@ -1,8 +1,6 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p>
 
-<h2>Modification de {$ppo->personName}</h2>
-
-<h3>Personne</h3>
+<h2>Modification d'une personne</h2>
 
 {if not $ppo->errors eq null}
 	<div class="mesgErrors">

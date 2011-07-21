@@ -1,4 +1,4 @@
-<h4>LISTING DES COMPTES CREES</h4>
+<h4>LISTING DES COMPTES</h4>
 
 <p>ICONITO conserve temporairement la liste des comptes que vous avez créés. N’oubliez pas d’enregistrer ou d’imprimer cette liste avant de vous déconnecter, car vous n’aurez plus la possibilité de récupérer les mots de passe ultérieurement pour des raisons de sécurité.</p>
 

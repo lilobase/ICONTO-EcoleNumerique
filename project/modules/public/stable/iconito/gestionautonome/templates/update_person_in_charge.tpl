@@ -2,24 +2,30 @@
 
 <h2>Modification d'un responsable</h2>
 
-<p>Ce formulaire vous permet de modifier le responsable d'un élève.</p>
+{if $ppo->studentId}
+  <p>Ce formulaire vous permet de modifier le responsable d'un élève.</p>
 
-<h3>Elève</h3>
+  <h3>Elève</h3>
 
-<div class="field">
-  <label for="student_name"> Nom :</label>
-  <span>{$ppo->student->ele_nom}</span>
-</div>
+  <div class="field">
+    <label for="student_name"> Nom :</label>
+    <span>{$ppo->student->nom}</span>
+  </div>
 
-<div class="field">
-  <label for="student_firstname"> Prénom :</label>
-  <span>{$ppo->student->ele_prenom1}</span>
-</div>
+  <div class="field">
+    <label for="student_firstname"> Prénom :</label>
+    <span>{$ppo->student->prenom1}</span>
+  </div>
 
-<div class="field">
-  <label for="student_login"> Login :</label>
-  <span>{$ppo->student_account->login_dbuser}</span>
-</div>
+  <div class="field">
+    <label for="student_login"> Login :</label>
+    <span>{$ppo->student_account->login_dbuser}</span>
+  </div>
+{else}
+  <div id="students">
+    {copixzone process=gestionautonome|students nodeId=$ppo->nodeId nodeType=$ppo->nodeType personId=$ppo->person->numero cpt=$ppo->cpt notxml=true}
+  </div>
+{/if}
 
 <h3>Responsable</h3>
 
@@ -37,7 +43,7 @@
   <fieldset>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
-    <input type="hidden" name="id_student" id="id-student" value="{$ppo->student->ele_idEleve}" />
+    <input type="hidden" name="id_student" id="id-student" value="{$ppo->studentId}" />
     <input type="hidden" name="id_person" id="id-person" value="{$ppo->person->numero}" />
 
     <div class="field">
@@ -54,13 +60,15 @@
       <label class="form_libelle"> Sexe :</label>
       {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->person->id_sexe}
     </div>
-    
-    <div class="field">
-      <label for="id_par" class="form_libelle"> Relation avec l'élève :</label>
-      <select class="form" name="id_par" id="id_par">
-        {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->res2ele->res2ele_id_par}
-  	  </select>
-    </div>
+  
+    {if $ppo->studentId}
+      <div class="field">
+        <label for="id_par" class="form_libelle"> Relation avec l'élève :</label>
+        <select class="form" name="id_par" id="id_par">
+          {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->res2ele->res2ele_id_par}
+    	  </select>
+      </div>
+    {/if}
     
     <div class="field">
       <label for="login" class="form_libelle"> Login :</label>
@@ -90,8 +98,13 @@
  	  jQuery('.button').button();
  	  
  	  jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->ele_idEleve notxml=true}'{literal};
+      {/literal}
+        {if $ppo->studentId}
+          document.location.href='{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId notxml=true}';
+        {else}
+          document.location.href='{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}';
+        {/if}
+      {literal}
     });
 
     jQuery('#new-password-link').click(function() {

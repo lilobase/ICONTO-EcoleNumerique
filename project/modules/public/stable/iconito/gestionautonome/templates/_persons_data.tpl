@@ -2,17 +2,22 @@
   <h4>PERSONNES DANS : {$ppo->parent.nom}</h4>
 
   {if $ppo->type eq 'BU_CLASSE'}
-  
+    {assign var='hasCredentialStudentCreate' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|student|create@gestionautonome")}
     {assign var='hasCredentialStudentUpdate' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|student|update@gestionautonome")}
     {assign var='hasCredentialStudentDelete' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|student|delete@gestionautonome")}
     
+    {assign var='hasCredentialTeacherCreate' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|teacher|create@gestionautonome")}
     {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|teacher|update@gestionautonome")}
     {assign var='hasCredentialTeacherDelete' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|teacher|delete@gestionautonome")}
+    
+    {assign var='hasCredentialPersonInChargeUpdate' value=$ppo->user->testCredential("module:classroom|`$ppo->nodeId`|person_in_charge|update@gestionautonome")}
+    {assign var='hasCredentialPersonInChargeDelete' value=$ppo->user->testCredential("module:classroom|`$ppo->nodeId`|person_in_charge|delete@gestionautonome")}
     
     <div id="tabs">
       <ul>
         <li><a href="#students-data"><span>Elèves</span></a></li>
         <li><a href="#persons-data"><span>Enseignants</span></a></li>
+        <li><a href="#parents-data"><span>Parents</span></a></li>
       </ul>
 
       <div id="students-data">
@@ -97,6 +102,43 @@
           <i>Aucun enseignant...</i>
         {/if} 
       </div>
+      <div id="parents-data">
+        {if $ppo->responsables neq null}
+          <table class="liste">
+            <tr>
+              <th class="liste_th"></th>
+              <th class="liste_th">Nom</th>
+              <th class="liste_th">Prénom</th>
+              <th class="liste_th">Identifiant</th>
+              <th class="liste_th"></th>
+            </tr>
+            {foreach from=$ppo->responsables item=responsable}
+              <tr>
+                <td>
+                  {if $responsable->sexe eq 1}
+                    <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
+                  {else}                                                                 
+                    <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
+                  {/if}
+                </td>
+                <td>{$responsable->nom}</td>
+                <td>{$responsable->prenom}</td>
+                <td>{$responsable->login}</td>
+                <td class="actions">
+                  {if $hasCredentialPersonInChargeUpdate}
+                    <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personId=$responsable->id}"><img src="{copixresource path="img/gestionautonome/edit_item.png"}" title="Modifier le responsable" /></a>
+                  {/if}
+                  {if $hasCredentialPersonInChargeDelete}
+                    <a href="{copixurl dest=gestionautonome|default|deletePersonInCharge nodeId=$ppo->parent.id personId=$responsable->id}" class="delete-person"><img src="{copixresource path="img/gestionautonome/trash.png"}" title="Supprimer ce responsable" /></a>
+                  {/if}
+                </td>
+              </tr>
+            {/foreach}  
+          </table>
+        {else}
+          <i>Aucun parent...</i>
+        {/if}
+      </div>
     </div>
   {elseif $ppo->persons neq null}
     
@@ -163,6 +205,7 @@
       {if $ppo->user->testCredential ("module:cities_group|`$ppo->parent.id`|cities_group_agent|create@gestionautonome")}
         <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button">Créer un agent de groupes de villes</a></li>
         <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button">Affecter une personne existante ici</a></li>
+        {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
     </ul>
 
@@ -171,6 +214,7 @@
       {if $ppo->user->testCredential ("module:city|`$ppo->parent.id`|city_agent|create@gestionautonome")}
         <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button">Créer un agent de ville</a></li>
         <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button">Affecter une personne existante ici</a></li>
+        {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
     </ul>
 
@@ -179,26 +223,39 @@
       {if $ppo->user->testCredential ("module:school|`$ppo->parent.id`|principal|create@gestionautonome")} 
         <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button">Créer un directeur</a></li>
         <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button">Affecter un directeur existant ici</a></li>
+        {assign var=hasCredential value=1}
       {/if}
       {if $ppo->user->testCredential ("module:school|`$ppo->parent.id`|administration_staff|create@gestionautonome")}
         <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=3}" class="button">Créer un personnel administratif</a></li>
         <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=3}" class="button">Affecter un personnel administratif existant ici</a></li>
+        {assign var=hasCredential value=1}
+      {/if}
+      {if $hasCredential eq 1}
+        {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
     </ul>
 
   {elseif $ppo->parent.type == 'BU_CLASSE'}
     <ul class="actions">
-      {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|teacher|create@gestionautonome")}
+      {if $hasCredentialTeacherCreate}
         <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button">Créer un enseignant</a></li>
         <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button">Affecter une personne existante ici</a></li>
+        {assign var=hasCredential value=1}
       {/if}
-      {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|student|create@gestionautonome")}
+      {if $hasCredentialStudentCreate}
         <li><a href="{copixurl dest="gestionautonome||createStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Créer un élève</a></li>
         <li><a href="{copixurl dest="gestionautonome||addMultipleStudents" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Ajouter une liste d'élèves</a></li>
         <li><a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Affecter des élèves venant d'une autre classe</a></li> 
+        {assign var=hasCredential value=1}
       {/if}
-      {if $ppo->user->testCredential ("module:classroom|`$ppo->parent.id`|student|update@gestionautonome")}
+      {if $hasCredentialStudentUpdate}
         <li><a href="{copixurl dest="gestionautonome||changeStudentsAffect" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Changer d'affectation plusieurs élèves</a></li>
+      {/if}
+      {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate || $hasCredentialPersonInChargeUpdate}
+        <li><a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button">Re-générer les mots de passe</a></li>
+      {/if}
+      {if $hasCredential eq 1}
+        {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
     </ul>
   {/if}

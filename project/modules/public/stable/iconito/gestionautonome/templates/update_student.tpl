@@ -2,7 +2,34 @@
 
 <h2>Modification d'un élève</h2>
 
-<p>Ce formulaire vous permet de modifier l'élève et de gérer ses responsables (parents).</p>
+{if $ppo->personId}
+
+  <p>Ce formulaire vous permet de modifier l'élève d'un responsable.</p>
+  
+  <h3>Responsable</h3>
+  
+  <div class="field">
+    <label for="student_name"> Nom :</label>
+    <span>{$ppo->person->nom}</span>
+  </div>
+
+  <div class="field">
+    <label for="student_firstname"> Prénom :</label>
+    <span>{$ppo->person->prenom1}</span>
+  </div>
+
+  <div class="field">
+    <label for="student_login"> Login :</label>
+    <span>{$ppo->account_res->login_dbuser}</span>
+  </div>
+{else}
+  <div id="persons-in-charge">
+    {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->idEleve cpt=$ppo->cpt notxml=true}
+  </div>
+  
+{/if}
+
+<h3>Elève</h3>
 
 {if not $ppo->errors eq null}
 	<div class="mesgErrors">
@@ -14,15 +41,12 @@
 	</div>
 {/if}
 
-<div id="persons-in-charge">
-  {copixzone process=gestionautonome|PersonsInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->idEleve notxml=true}
-</div>
-
 <form name="student_update" id="student_update" action="{copixurl dest="|validateStudentUpdate"}" method="POST" enctype="multipart/form-data">
   <fieldset>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type_node" value="{$ppo->nodeType}" />
     <input type="hidden" name="id_student" id="id-student" value="{$ppo->student->idEleve}" />
+    <input type="hidden" name="id_person" id="id-person" value="{$ppo->personId}" />
     
     <div class="field">
       <label for="nom" class="form_libelle"> Nom :</label>
@@ -30,7 +54,7 @@
     </div>
     
     <div class="field">
-      <label for="prenom1" class="form_libelle"> Prenom :</label>
+      <label for="prenom1" class="form_libelle"> Prénom :</label>
       <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->student->prenom1}" />
     </div>
     
@@ -44,6 +68,15 @@
       {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->student->id_sexe}<br />
     </div>
     
+    {if $ppo->personId}
+      <div class="field">
+        <label for="id_par" class="form_libelle"> Relation responsable :</label>
+        <select class="form" name="id_par" id="id_par">
+          {html_options values=$ppo->linkIds output=$ppo->linkNames selected=$ppo->res2ele->res2ele_id_par}
+    	  </select>
+      </div>
+    {/if}
+    
     <div class="field">
       <label for="login" class="form_libelle"> Login :</label>
       <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
@@ -52,8 +85,8 @@
     <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
     
     <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
-      <label for="password" class="form_libelle"> Mot de passe :</label>
-      <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
+      <label for="student-password" class="form_libelle"> Mot de passe :</label>
+      <input class="form" type="text" name="password" id="student-password" value="{$ppo->password}" /> (<a href="#" id="generate-student-password">Générer</a>)
     </div>
   </fieldset>
   
@@ -81,8 +114,13 @@
     });
     
     jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+      {/literal}
+        {if $ppo->personId}
+          document.location.href='{copixurl dest=gestionautonome||updatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType personId=$ppo->personId notxml=true}';
+        {else}
+          document.location.href='{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}';
+        {/if}
+      {literal}
     });
 
     jQuery('#new-password-link').click(function() {
@@ -90,15 +128,15 @@
       jQuery('#new-password').show();
     });
 
-    jQuery('#generate-password').click(function() {
+    jQuery('#generate-student-password').click(function() {
 
       jQuery.ajax({
         url: {/literal}'{copixurl dest=gestionautonome|default|generatePassword}'{literal},
         global: true,
         type: "GET",
         success: function(html){
-          jQuery('#password').empty();
-          jQuery("#password").val(html);
+          jQuery('#student-password').empty();
+          jQuery("#student-password").val(html);
         }
       }).responseText;
       

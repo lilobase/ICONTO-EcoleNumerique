@@ -201,6 +201,15 @@ ul.actions li a.button {
   margin-bottom: 2px;
 }
 
+#students {
+  float: right;
+  width: 50%;
+  padding:6px;
+  -moz-border-radius:15px 15px 15px 15px;
+  border:2px solid #FFFFFF;
+  font-size:11px;
+}
+
 #persons-in-charge {
   float: right;
   width: 50%;

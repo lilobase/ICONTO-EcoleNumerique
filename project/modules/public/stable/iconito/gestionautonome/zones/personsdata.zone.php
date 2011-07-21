@@ -39,6 +39,11 @@ class ZonePersonsData extends CopixZone {
     	    
     	    $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
     	    $ppo->students = $studentDAO->getStudentsByClass ($id);
+    	    
+    	    // Récupération des parents
+    	    $responsableDAO = _ioDAO ('kernel|kernel_bu_res');
+    	    $ppo->responsables =$responsableDAO->getParentsInClasse($id);
+
     	    break;
 	    }
     }

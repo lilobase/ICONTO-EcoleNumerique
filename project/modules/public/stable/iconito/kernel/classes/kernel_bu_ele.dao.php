@@ -179,7 +179,25 @@ class DAOKernel_bu_ele {
     
     return $toReturn;
   }
+  
+  /**
+	 * Retourne les élèves sous la responsabilité d'une personne
+	 *
+	 * @param integer $personId   Identifiant du responsable
+	 */
+  function getStudentsByPersonInChargeId ($personId) {
+    
+    $sql = 'SELECT kernel_bu_eleve.*, u.login_dbuser AS login, kernel_bu_lien_parental.parente as link' 
+      . ' FROM kernel_bu_eleve, kernel_bu_responsables, kernel_link_bu2user li, dbuser u, kernel_bu_lien_parental'
+		  . ' WHERE kernel_bu_responsables.id_responsable=:personId'
+		  . ' AND kernel_bu_responsables.id_par=kernel_bu_lien_parental.id_pa'
+		  . ' AND kernel_bu_responsables.type_beneficiaire="eleve"'
+		  . ' AND kernel_bu_responsables.id_beneficiaire=kernel_bu_eleve.idEleve'
+		  . ' AND li.bu_type="USER_ELE"'
+		  . ' AND li.bu_id=kernel_bu_eleve.idEleve'
+		  . ' AND u.id_dbuser = li.user_id'
+		  . ' ORDER BY kernel_bu_eleve.nom, kernel_bu_eleve.prenom1'; 
+
+    return _doQuery ($sql, array (':personId' => $personId));
+  }
 }
-
-
-?>
