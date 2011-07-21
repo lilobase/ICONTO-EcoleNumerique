@@ -1267,7 +1267,9 @@ class ActionGroupDefault extends enicActionGroup {
 		  return CopixActionGroup::process ('generictools|Messages::getError',
    			array ('message' => CopixI18N::get ('classeur|classeur.error.noFile'), 'back' => CopixUrl::get('classeur||')));
 		}
-
+    
+    $this->flash->addCycle();
+    
 		return _arFile ($pathFichier, array ('filename' => $fichier->fichier, 'content-type' => classeurService::getMimeType($pathFichier), 'content-disposition' => 'attachement'));
   }
   
