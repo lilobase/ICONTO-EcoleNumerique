@@ -4562,12 +4562,85 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 
   	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
-  		
+  	
+  	// Récupération de l'import par fichier
+  	$ppo->import = _sessionGet ('modules|gestionautonome|studentsImport');
+  	_sessionSet ('modules|gestionautonome|studentsImport', null);
+  	
   	// RAZ des sessions
   	_sessionSet ('gestionautonome|addMultipleStudents', array ());
   	_sessionSet ('gestionautonome|addMultipleStudents|success', array ());
   	_sessionSet ('gestionautonome|addMultipleStudents|error', array ());
   	
+  	// Traitement du formulaire
+    if (CopixRequest::isMethod ('post')) {
+      
+      $ppo->errors = array ();
+      switch (CopixUploadedFile::getError ('filename')) {
+  			case UPLOAD_ERR_OK:
+  			  $file = CopixUploadedFile::get ('filename');
+  			  break;
+  			case UPLOAD_ERR_INI_SIZE:
+  			case UPLOAD_ERR_FORM_SIZE:
+  			  $ppo->errors[] = 'Fichier trop volumineux';
+  			  break;
+  			case UPLOAD_ERR_NO_TMP_DIR:
+  			case UPLOAD_ERR_CANT_WRITE:
+  			case UPLOAD_ERR_PARTIAL:
+  			case UPLOAD_ERR_EXTENSION:
+  			  $ppo->errors[] = 'Une erreur est survenue';
+  			  break;
+  			case UPLOAD_ERR_NO_FILE:
+  			  $ppo->errors[] = 'Vous devez sélectionner un fichier';
+  		}
+  		
+  		if (empty ($ppo->errors)) {
+  		  
+  		  // Lecture du fichier
+  		  if (($handle = fopen($file->getTempPath (), 'r')) === false) {
+  		    
+  		    $ppo->errors[] = 'Impossible de lire le fichier';
+  		  }
+  		  else {
+  		    
+  		    $infos = array ();
+  		    
+  		    // Vérification de la ligne d'entête
+  		    if (($data = fgetcsv($handle, 0, ',', '"')) === false || count($data) != 12) {
+  		      
+  		      $ppo->errors[] = 'Fichier invalide';
+  		    }
+  		    else {
+  		      
+  		      // Prend on en compte la première ligne ?
+  		      if ($data[0] != 'Nom') {
+  		        
+  		        $infos[] = implode (',', $data);
+  		      }
+  		      
+  		      // Lecture du reste du fichier
+  		      while (($data = fgetcsv($handle, 0, ',', '"')) !== false) {
+              
+              if (count ($data) != 12) {
+                
+                $ppo->errors[] = 'Fichier invalide';
+                break;
+              }
+              
+              $infos[] = implode(',', $data);
+    		    }
+            
+    		    // Redirection
+    		    if (empty ($ppo->errors)) {
+    		      
+    		      _sessionSet ('modules|gestionautonome|studentsImport', implode ("\n", $infos));
+      		    return _arRedirect (CopixUrl::get ('gestionautonome||AddMultipleStudents', array ('parentId' => $ppo->nodeId, 'parentType' => $ppo->nodeType))); 
+    		    }
+  		    }
+  		  }
+  		}
+    }
+    
     // Breadcrumbs
     $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
@@ -4650,7 +4723,7 @@ class ActionGroupDefault extends enicActionGroup {
 
          while ($continue) {
 
-           if (isset($datas[$cpt])) {
+           if (isset($datas[$cpt]) && !empty($datas[$cpt])) {
 
              switch ($cpt - (4*($keyPerson+1))) {
 
@@ -4712,7 +4785,7 @@ class ActionGroupDefault extends enicActionGroup {
                  $ppo->students[$key]['person'][$keyPerson]['id_par'] = $id_par;
                  break;
                }
-             }
+           }
            else {
 
              $continue = false;

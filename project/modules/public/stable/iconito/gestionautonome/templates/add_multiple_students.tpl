@@ -12,6 +12,34 @@
   </li>
 </ul>
 
+<div id="import-dialog">
+  <h3>Choisissez un document</h3>
+  <p>Attention, le fichier doit respecter le format suivant :</p>
+
+  <code>
+    Nom,Prénom,Sexe (M / F),Date de naissance (JJ/MM/AAAA) - optionnelle,Nom parent1,Prénom parent1,Sexe parent1 (M / F),Relation
+    parent1 (PERE,MERE,AUTRE),Nom parent2,Prénom parent2,Sexe parent2 (M / F),Relation parent2 (PERE,MERE,AUTRE)
+  </code>
+
+  <p><a href="/import_exemple.csv">Télécharger le fichier d'exemple</a></p>
+
+  {if not $ppo->errors eq null}
+  	<div class="mesgErrors">
+  	  <ul>
+  	    {foreach from=$ppo->errors item=error}
+  		    <li>{$error}</li>
+  	    {/foreach}
+  	  </ul>
+  	</div>
+  {/if}
+
+  <form action="{copixurl dest="|addMultipleStudents" parentId=$ppo->nodeId parentType=$ppo->nodeType}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="node_id" value="{$ppo->nodeId}" />
+    <input type="file" name="filename" />
+    <input type="submit" value="Envoyer" />
+  </form>
+</div>
+
 <form name="student_creation_data" id="student_creation_data" action="{copixurl dest="|validateMultipleStudentsAdd"}" method="POST" enctype="multipart/form-data">
   <fieldset class="leftfield">
     <input type="hidden" name="id_parent" id="id-parent" value="{$ppo->nodeId}" />
@@ -19,7 +47,7 @@
     
     <div class="field">
       <label for="liste" style="vertical-align: top"> Liste</label>
-      <textarea name="liste" id="liste" class="form" style="width:500px; height: 200px;"></textarea>
+      <textarea name="liste" id="liste" class="form" style="width:500px; height: 200px;">{$ppo->import}</textarea>
     </div>
   </fieldset>
   
@@ -29,7 +57,7 @@
   </ul>
 </form>
 
-<div id="">
+<div>
   Nous pouvons remplir le champ avec des exemples ci-dessous:
   <ul>
     <li><a href="#" id="students-data">Quelques élèves</a></li>
@@ -46,13 +74,24 @@
  	  
  	  jQuery('.button').button();
  	  
+ 	  jQuery("#import-dialog").dialog({modal: true, autoOpen: {/literal}{if ($ppo->errors)}true{else}false{/if}{literal}, title: "Choisissez un document", width: 400});
+ 	  
  	  jQuery("#liste").resizable({
     	
     	minHeight: 200,
       minWidth: 500,
       maxWidth: 650
     });
-  
+    
+    jQuery("#liste").parent().after("<a href=\"{/literal}{copixurl dest="|importStudentsList" nodeId=$ppo->nodeId}{literal}\" id=\"import-csv\">Importer un fichier</a>");
+    
+    jQuery("#import-csv").click(function(event){
+      event.stopPropagation();
+      jQuery("#import-dialog").dialog("open");
+      
+      return false;
+    });
+    
     jQuery('#cancel').click(function() {
 
       document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
