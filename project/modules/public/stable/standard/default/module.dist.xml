@@ -41,6 +41,11 @@
 			<parameter name="conf_assistance_default" captioni18n="parameter.conf_assistance_default"  default="0" />
 			<parameter name="conf_ModVisio" captioni18n="parameter.conf_ModVisio"  default="0" />
 			<parameter name="conf_ModVisio_url" captioni18n="parameter.conf_ModVisio_url"  default="" />
+
+			<parameter name="conf_Cas_actif" captioni18n="parameter.conf_Cas_actif"  default="0" />
+			<parameter name="conf_Cas_host" captioni18n="parameter.conf_Cas_host"  default="" />
+			<parameter name="conf_Cas_port" captioni18n="parameter.conf_Cas_port"  default="" />
+			<parameter name="conf_Cas_path" captioni18n="parameter.conf_Cas_path"  default="" />
 		</group>
 	</parameters>
 </moduledefinition>

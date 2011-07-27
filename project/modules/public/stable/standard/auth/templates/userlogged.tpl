@@ -18,6 +18,9 @@
 
 {else}
     <div class="userlogon">
+    {if $ppo->conf_Cas_actif}
+        <a href="{copixurl dest="auth|cas|login"}" class="button button-confirm cas-login">Connectez-vous !</a>
+    {else}
         {if (false || $canNewAccount) } {*// TODO: lire conf pour savoir si on autorise la demande de compte, sur cette ligne et 4 lignes plus haut *}
             <div class="loginNew">
                 <a class="usr-newaccount" alt="{i18n key=auth|auth.newAccount}" title="{i18n key=auth|auth.newAccount}" href="{copixurl dest="public|default|getreq"}"></a>
@@ -35,5 +38,6 @@
                  />--><input id="submitUserLogin" type="submit" class="button button-confirm" value="" />
             </div>
         </form>
+    {/if}
     </div>
 {/if}
