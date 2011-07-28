@@ -115,7 +115,9 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Récupération de la liste des années scolaires disponibles pour select
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
-	  $grades = $gradesDAO->findAll ();
+	  $c = _daoSp ();
+    $c->orderBy ('id_as');
+	  $grades = $gradesDAO->findBy ($c);
 	  foreach ($grades as $grade) {
 
 	    $ppo->gradesIds[]   = $grade->id_as;
@@ -5637,5 +5639,221 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->accounts = _sessionGet ('modules|gestionautonome|createAccount');
 	  
 	  return _arPPO ($ppo, 'show_new_classroom_passwords.tpl');
+	}
+	
+	/**
+	 * Affecte des élèves à une classe (passage d'année)
+	 */
+	public function processSetStudentsToClass () {
+	  
+	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+	  
+	  $ppo = new CopixPPO ();
+    
+    // Récupération de la classe destination
+	  $ppo->nodeId = _request ('nodeId');  	
+  	if (is_null ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+	  }
+	  if (!$ppo->destinationClassroom = $classroomDAO->get ($ppo->nodeId)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+	  }
+
+    // Contrôle des droits
+  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome'); 	
+    
+    // Si l'année source est précisée, on doit la prendre en compte
+    $ppo->previousGrade = null;
+    $gradeId = _request ('gradeId');
+	  if (!is_null ($gradeId)) {
+	    
+	    if (!$ppo->previousGrade = $gradesDAO->get ($gradeId)) {
+
+  	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+  	  }
+	  }
+
+    // Récupération des années scolaires
+    $c = _daoSp ();
+    $c->orderBy ('id_as');
+	  $ppo->grades = $gradesDAO->findBy ($c);
+	  
+	  // Détermination de l'année scolaire courante et antérieure
+	  foreach ($ppo->grades as $key => $grade) {
+	    
+	    if ($grade->current) {
+	      
+	      $ppo->currentGrade = $grade;
+	      if (is_null ($ppo->previousGrade)) {
+	        
+	        $ppo->previousGrade = isset ($ppo->grades[$key-1]) ? $ppo->grades[$key-1] : $grade;
+	      }
+	    }
+	  }
+	  
+	  // Si la classe source est précisée
+	  $ppo->sourceClassroom = null;
+	  $sourceClassroomId = _request ('sourceClassroomId');
+	  if (!is_null ($sourceClassroomId)) {
+	    
+	    if (!$ppo->sourceClassroom = $classroomDAO->get ($sourceClassroomId)) {
+
+  	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+  	  }
+  	  
+  	  // Si l'année scolaire est différente de celle de la classe source sélectionnée, erreur de cohérence
+  	  if ($ppo->sourceClassroom->annee_scol != $ppo->previousGrade->id_as) {
+  	    
+  	    $ppo->sourceClassroom = null;
+  	  }
+	  }
+	      
+	  // Récupération des classes de destination
+	  $ppo->destinationClassrooms = $classroomDAO->getBySchool ($ppo->destinationClassroom->ecole, $ppo->currentGrade->id_as);
+	  
+	  // Récupération des classes sources
+	  $ppo->sourceClassrooms = $classroomDAO->getBySchool ($ppo->destinationClassroom->ecole, $ppo->previousGrade->id_as);
+	  
+	  // Récupération des élèves sans affectation
+	  if (!is_null ($ppo->sourceClassroom)) {
+	    
+	    // Récupération des niveaux
+	    $ppo->sourceLevels = $ppo->sourceClassroom->getLevels ();
+	    $ppo->destinationLevels = $ppo->destinationClassroom->getLevels ();
+	    
+	    // Récupération des élèves sans affectation
+	    $ppo->students = $studentDAO->findOldStudentsAssignmentsForNewAssignement ($ppo->sourceClassroom->id, $ppo->previousGrade->id_as, $ppo->currentGrade->id_as);
+	  }
+	  
+	  $ppo->error = null;
+	  // Validation du formulaire d'affectation
+	  if (CopixRequest::isMethod('post')) {
+	    
+	    // Récupération des élèves et contrôle des données
+	    $ids = _request ('ids', array ());
+	    if (empty ($ids)) {
+	      
+	      $ppo->error = 'Vous devez sélectionner au moins 1 élève.';
+	    }
+	    foreach ($ids as $id) {
+	      
+	      $exists = false;
+	      foreach ($ppo->students as $student) {
+	        
+	        if ($student->id == $id) {
+	          
+	          $exists = true;
+	          // Le niveau est-il précisé ?
+	          if (is_null (_request ('level_'.$id))) {
+	            
+	            $ppo->error = 'Une erreur est survenue.';
+	          }
+	          break;
+	        }
+	      }
+	      
+	      // ERREUR
+        if (!$exists) {
+
+          $ppo->error = 'Une erreur est survenue.';
+          break;
+        }
+	    }
+	    
+	    if (!$ppo->error) {
+	      
+	      $studentAssignmentDAO = _ioDAO ('kernel_bu_eleve_affectation');
+	      foreach ($ids as $id) {
+	        
+	        $studentAssignment = _record ('kernel_bu_eleve_affectation');
+	        
+          $studentAssignment->eleve           = $id;
+          $studentAssignment->annee_scol      = $ppo->currentGrade->id_as;
+          $studentAssignment->classe          = $ppo->destinationClassroom->id;
+          $studentAssignment->niveau          = _request ('level_'.$id);
+          $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
+          $studentAssignment->current         = 1;
+          $studentAssignment->previsionnel_cl = 0;
+
+          $studentAssignmentDAO->insert ($studentAssignment);
+	      }
+        
+	      // Redirection
+	      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+	    }
+	  }
+	  
+    // Breadcrumbs
+    $ppo->nodeInfos = Kernel::getNodeInfo ('BU_CLASSE', $ppo->nodeId, true);
+
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($ppo->nodeInfos);
+	  $breadcrumbs[]    = array('txt' => 'Affectation de classe');
+	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
+  	
+  	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+
+	  return _arPPO ($ppo, 'set_students_to_class.tpl');
+	}
+	
+	/**
+	 * AJAX ONLY ! - Rafraichi un sélecteur de classe
+	 */
+	public function processRefreshClassroomSelector () {
+	  
+	  $schoolId = _request ('schoolId');
+	  $gradeId = _request ('gradeId');
+	  
+	  if (is_null ($schoolId) || is_null ($gradeId)) {
+	    
+	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+	  }
+	  
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  $ppo->classrooms = $classroomDAO->getBySchool ($schoolId, $gradeId);
+	  
+	  $ppo->withEmpty = _request ('withEmpty', false);
+	  
+	  return _arPPO ($ppo, array ('template' => '_classrooms_selector_options.tpl', 'mainTemplate' => null));
+	}
+	
+	/**
+	 * AJAX ONLY ! - Rafraichi le sélecteur d'élève à assigner
+	 */
+	public function processRefreshStudentsToAssign () {
+	  
+	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  
+	  $destinationClassroomId = _request ('destinationClassroomId');
+	  if (!$destinationClassroom = $classroomDAO->get ($destinationClassroomId)) {
+	    
+	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+	  }
+    
+	  $sourceClassroomId = _request ('sourceClassroomId');
+	  if (!$sourceClassroom = $classroomDAO->get ($sourceClassroomId)) {
+
+	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+	  }
+	  
+    $previousGradeId = _request ('previousGradeId');
+	  if (!$previousGrade = $gradesDAO->get ($previousGradeId)) {
+
+	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+	  }
+	  
+    $currentGradeId = _request ('currentGradeId');
+	  if (!$currentGrade = $gradesDAO->get ($currentGradeId)) {
+
+	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+	  }
+	  
+	  return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixZone::process ('gestionautonome|studentsToAssign', array ('destinationClassroom' => $destinationClassroom, 'sourceClassroom' => $sourceClassroom, 'previousGrade' => $previousGrade, 'currentGrade' => $currentGrade)));
+	  
+	  return _arPPO ($ppo, array ('template' => '_students_for_assignment.tpl', 'mainTemplate' => null));
 	}
 }

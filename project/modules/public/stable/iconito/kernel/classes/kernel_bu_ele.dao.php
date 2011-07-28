@@ -67,6 +67,31 @@ class DAOKernel_bu_ele {
 		return _doQuery($query);
 	}
 	
+	/**
+	 * Retourne les élèves non affectés l'année A1 mais affecté l'année A2
+	 *
+	 * @param int $classroomId  ID de la classe
+	 * @param int $a1           ID de l'année de l'ancienne affectation
+	 * @param int $a2           ID de l'année de la nouvelle affectation
+	 *
+	 * @return array
+	 */
+	function findOldStudentsAssignmentsForNewAssignement ($classroomId, $a1, $a2) {
+	
+	  $sql = 'SELECT eleve.idEleve AS id, eleve.nom AS nom, eleve.prenom1 AS prenom, niveau.niveau_court AS niveau, niveau.id_n AS niveauId '
+	    .'FROM kernel_bu_eleve AS eleve '
+	    .'JOIN kernel_bu_eleve_affectation AS affectation ON (eleve.idEleve=affectation.eleve) '
+	    .'JOIN kernel_bu_classe_niveau AS niveau ON (niveau.id_n=affectation.niveau) '
+	    .'LEFT JOIN kernel_bu_eleve_affectation AS affectation2 ON (eleve.idEleve=affectation2.eleve AND affectation2.annee_scol=:a2 AND affectation2.current=1) '
+	    .'WHERE affectation.classe=:classroomId '
+	    .'AND affectation.annee_scol=:a1 '
+	    .'AND affectation2.id IS NULL '
+	    .'GROUP BY eleve.idEleve '
+	    .'ORDER BY eleve.nom, eleve.prenom1';
+    
+	  return _doQuery($sql, array(':classroomId' => $classroomId, ':a1' => $a1, ':a2' => $a2));
+	}
+	
 	function findStudentsForAssignment ($reference, $typeRef, $filters = array ()) {
     
     $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, E.date_nais, EC.nom as eco_nom, U.login_dbuser, LI.bu_type, LI.bu_id, SUM(EA.current)
