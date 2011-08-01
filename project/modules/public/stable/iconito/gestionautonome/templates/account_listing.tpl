@@ -1,8 +1,8 @@
 {if !$ppo->isUpdated}
-  <h2>Ajout d'un {$ppo->sessionDatas[0].type_nom|lower}</h2>
+  <h2>Ajout d'un {$ppo->firstElement.type_nom|lower}</h2>
   {assign var=verb value='ajouté'}
 {else}
-  <h2>Modification d'un {$ppo->sessionDatas[0].type_nom|lower}</h2>
+  <h2>Modification d'un {$ppo->firstElement.type_nom|lower}</h2>
   {assign var=verb value='modifié'}
 {/if}
 
@@ -10,7 +10,7 @@
 
 <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
   <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-  <strong>{$ppo->sessionDatas[0].type_nom} {$verb} !</strong>
+  <strong>{$ppo->firstElement.type_nom} {$verb} !</strong>
 </p>
 
 {foreach from=$ppo->sessionDatas key=k item=sessionData}
@@ -42,9 +42,9 @@
 {/foreach}
 
 <p>
-  {if $ppo->sessionDatas[0].bu_type == "USER_ENS"}
+  {if $ppo->firstElement.bu_type == "USER_ENS"}
     <a href="{copixurl dest="gestionautonome||showTree" tab=1}" class="button">Retour</a>
-  {elseif $ppo->sessionDatas[0].bu_type == "USER_RES"}
+  {elseif $ppo->firstElement.bu_type == "USER_RES"}
     <a href="{copixurl dest="gestionautonome||showTree" tab=2}" class="button">Retour</a>
   {else}
     <a href="{copixurl dest="gestionautonome||showTree"}" class="button">Retour</a>

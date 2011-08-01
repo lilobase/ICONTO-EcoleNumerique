@@ -1769,7 +1769,7 @@ class ActionGroupDefault extends enicActionGroup {
 			'type_nom'  => Kernel::Code2Name($type_user),
 			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
 		);
-		_sessionSet ('modules|gestionautonome|createAccount', array($personnel));
+		_sessionSet ('modules|gestionautonome|createAccount', array($ppo->login => $personnel));
 		
 		// Mise en session globale des mots de passe
 		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
@@ -1812,6 +1812,8 @@ class ActionGroupDefault extends enicActionGroup {
 		  
 			$format = _request('format');
 		} 
+		
+		$ppo->firstElement = reset ($ppo->sessionDatas);
 		
 		// Sortie suivant le format demandé
 		$tplResult = & new CopixTpl ();
@@ -2021,11 +2023,11 @@ class ActionGroupDefault extends enicActionGroup {
 			'bu_type'   => $ppo->type,
 			'bu_id'     => $ppo->personnel->pers_numero,
 			'type_nom'  => Kernel::Code2Name($ppo->type),
-			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$nodeInfos['nom'],
+			'node_nom'  => Kernel::Code2Name($ppo->nodeType).' '.$nodeInfos['nom'],
 		);
 		
     // Mise en session
-    _sessionSet ('modules|gestionautonome|createAccount', array($personnel));
+    _sessionSet ('modules|gestionautonome|createAccount', array ($ppo->account->login_dbuser => $personnel));
     
     // Mise en session globale des mots de passe
 		$passwordsList[$ppo->type][$ppo->personnel->pers_numero] = $personnel;
@@ -2421,7 +2423,7 @@ class ActionGroupDefault extends enicActionGroup {
 		  $session = array();
 		}
 		
-		$session[] = array(
+		$session[$ppo->login] = array(
 		  'lastname'  => $ppo->student->nom,
 			'firstname' => $ppo->student->prenom1,
 			'login'     => $ppo->login,
@@ -2468,7 +2470,7 @@ class ActionGroupDefault extends enicActionGroup {
           }
           
           // Mise en session du responsable
-          $session[] = array(
+          $session[$personSession['login']] = array(
       		  'lastname'  => $personSession['lastname'],
       			'firstname' => $personSession['firstname'],
       			'login'     => $personSession['login'],
@@ -2534,7 +2536,7 @@ class ActionGroupDefault extends enicActionGroup {
       			'type_nom'  => Kernel::Code2Name('USER_RES'),
       			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
       		);
-      		$session[] = $responsableAr;
+      		$session[$personSession['login']] = $responsableAr;
       		
       		$passwordsList['USER_RES'][$ppo->person->numero] = $responsableAr;
         }
@@ -2824,7 +2826,7 @@ class ActionGroupDefault extends enicActionGroup {
 		_sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
 		
 		// Session courante
-	  $session[] = $student;
+	  $session[$ppo->account->login_dbuser] = $student;
 	  $session = array_reverse ($session);
     
     $tmpAccounts = _sessionGet ('modules|gestionautonome|tmpAccount');
@@ -2832,7 +2834,7 @@ class ActionGroupDefault extends enicActionGroup {
       
       foreach ($tmpAccounts as $tmpAccount) {
         
-        $session[] = array(
+        $session[$tmpAccount['login']] = array(
     		  'lastname'  => $tmpAccount['lastname'],
     			'firstname' => $tmpAccount['firstname'],
     			'login'     => $tmpAccount['login'],
@@ -3302,7 +3304,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		// Mise en session du responsable
 		$createAccount = _sessionGet ('modules|gestionautonome|createAccount');
-		$createAccount[] = $person;
+		$createAccount[$ppo->account->login_dbuser] = $person;
 		$createAccount = array_reverse ($createAccount);
     _sessionSet ('modules|gestionautonome|createAccount', $createAccount);
     
