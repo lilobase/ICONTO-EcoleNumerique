@@ -4,56 +4,60 @@
 <h2>Affectation de classe</h2>
 
 <form action="{copixurl dest="gestionautonome||setStudentsToClass"}" method="get" id="filter-form">
-  <h3>Classe d'origine</h3>
-  <dl>
-    <dt>Année scolaire :</dt>
-      <dd>
-        <select name="gradeId" id="grade-id">
-          {foreach from=$ppo->grades item=grade}
-            {if $ppo->currentGrade->id_as > $grade->id_as}
-              <option value="{$grade->id_as}"{if $ppo->previousGrade->id_as == $grade->id_as} selected="selected"{/if}>{$grade->annee_scolaire}</option>
-            {/if}
-          {/foreach}
-        </select>
-        <input type="submit" value="Rafaîchir" id="refresh-grade" />
-      </dd>
-    <dt>Groupe de ville :</dt>
-      <dd>Les villes</dd>
-    <dt>Ville :</dt>
-      <dd>{$school->vil_nom}</dd>
-    <dt>Ecole :</dt>
-      <dd>{$school->eco_nom}</dd>
-    <dt>Classe (niveau) :</dt>
-      <dd>
-        <select name="sourceClassroomId" id="source-classroom-id">
-          <option value="">&nbsp;</option>
-          {foreach from=$ppo->sourceClassrooms item=sourceClassroom}
-            <option value="{$sourceClassroom->id}"{if $sourceClassroom->id == $ppo->sourceClassroom->id} selected="selected"{/if}>{$sourceClassroom}</option>
-          {/foreach}
-        </select>
-        <input type="submit" value="Filtrer" />
-      </dd>
-  </dl>
-
-  <h3>Classe de destination</h3>
-  <dl>
-    <dt>Année scolaire :</dt>
-      <dd>{$ppo->currentGrade->annee_scolaire}</dd>
-    <dt>Groupe de ville :</dt>
-      <dd>Les villes</dd>
-    <dt>Ville :</dt>
-      <dd>{$school->vil_nom}</dd>
-    <dt>Ecole :</dt>
-      <dd>{$school->eco_nom}</dd>
-    <dt>Classe (niveau) :</dt>
-      <dd>
-        <select name="nodeId" id="destination-classroom-id">
-          {foreach from=$ppo->destinationClassrooms item=destinationClassroom}
-            <option value="{$destinationClassroom->id}"{if $destinationClassroom->id == $ppo->nodeId} selected="selected"{/if}>{$destinationClassroom}</option>
-          {/foreach}
-        </select>
-      </dd>
-  </dl>
+  <div id="fromClass">
+      <h3>Classe d'origine</h3>
+      <dl>
+        <dt>Année scolaire :</dt>
+          <dd>
+            <select name="gradeId" id="grade-id">
+              {foreach from=$ppo->grades item=grade}
+                {if $ppo->currentGrade->id_as > $grade->id_as}
+                  <option value="{$grade->id_as}"{if $ppo->previousGrade->id_as == $grade->id_as} selected="selected"{/if}>{$grade->annee_scolaire}</option>
+                {/if}
+              {/foreach}
+            </select>
+            <input type="submit" value="Rafaîchir" id="refresh-grade" />
+          </dd>
+        <dt>Groupe de ville :</dt>
+          <dd>Les villes</dd>
+        <dt>Ville :</dt>
+          <dd>{$school->vil_nom}</dd>
+        <dt>Ecole :</dt>
+          <dd>{$school->eco_nom}</dd>
+        <dt>Classe (niveau) :</dt>
+          <dd>
+            <select name="sourceClassroomId" id="source-classroom-id">
+              <option value="">&nbsp;</option>
+              {foreach from=$ppo->sourceClassrooms item=sourceClassroom}
+                <option value="{$sourceClassroom->id}"{if $sourceClassroom->id == $ppo->sourceClassroom->id} selected="selected"{/if}>{$sourceClassroom}</option>
+              {/foreach}
+            </select>
+            <input type="submit" value="Filtrer" />
+          </dd>
+      </dl>
+  </div>
+  
+  <div id="toClass">
+      <h3>Classe de destination</h3>
+      <dl>
+        <dt>Année scolaire :</dt>
+          <dd>{$ppo->currentGrade->annee_scolaire}</dd>
+        <dt>Groupe de ville :</dt>
+          <dd>Les villes</dd>
+        <dt>Ville :</dt>
+          <dd>{$school->vil_nom}</dd>
+        <dt>Ecole :</dt>
+          <dd>{$school->eco_nom}</dd>
+        <dt>Classe (niveau) :</dt>
+          <dd>
+            <select name="nodeId" id="destination-classroom-id">
+              {foreach from=$ppo->destinationClassrooms item=destinationClassroom}
+                <option value="{$destinationClassroom->id}"{if $destinationClassroom->id == $ppo->nodeId} selected="selected"{/if}>{$destinationClassroom}</option>
+              {/foreach}
+            </select>
+          </dd>
+      </dl>
+   </div>
 </form>
 
 <div id="students-selector">

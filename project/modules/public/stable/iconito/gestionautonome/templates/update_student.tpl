@@ -90,10 +90,10 @@
     </div>
   </fieldset>
   
-  <ul class="actions">
-    <li><input class="button button-cancel" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" /></li>
-  </ul>
+  <p class="submit">
+    <input class="button button-cancel" type="button" value="Annuler" id="cancel" />
+  	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+  </p>
 </form>
 
 {literal}

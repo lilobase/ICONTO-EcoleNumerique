@@ -81,7 +81,7 @@
   
   jQuery(document).ready(function(){
  	
- 	  jQuery('.button').button();
+ 	  //jQuery('.button').button();
  	  
  	  if (jQuery('#add-persons-in-charge').is(':checked')) {
  	    

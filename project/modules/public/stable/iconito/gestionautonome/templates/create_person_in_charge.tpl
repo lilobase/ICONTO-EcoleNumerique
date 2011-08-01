@@ -98,7 +98,7 @@
   
   $(document).ready(function(){
  	
- 	  jQuery('.button').button();
+ 	  //jQuery('.button').button();
  	  
  	  jQuery('#cancel').click(function() {
 

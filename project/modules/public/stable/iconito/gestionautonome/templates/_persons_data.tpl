@@ -1,5 +1,5 @@
 {if $ppo->parent.nom}
-  <h4>PERSONNES DANS : {$ppo->parent.nom}</h4>
+  <h2>{$ppo->parent.nom}</h2>
 
   {if $ppo->type eq 'BU_CLASSE'}
     {assign var='hasCredentialStudentCreate' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|student|create@gestionautonome")}
@@ -22,18 +22,19 @@
 
       <div id="students-data">
         {if $ppo->students neq null}
-          <table class="liste">
+          <table>
             <tr>
-              <th class="liste_th"></th>
-              <th class="liste_th">Type</th>
-              <th class="liste_th">Nom</th>
-              <th class="liste_th">Prénom</th>
-              <th class="liste_th">Identifiant</th>
-              <th class="liste_th"></th>
+              <th>Sexe</th>
+              <th>Type</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Identifiant</th>
+              <th>Actions</th>
             </tr>
+            {assign var=index value=1}
             {foreach from=$ppo->students item=student}
-              <tr>
-                <td>
+              <tr class="{if $index%2 eq 0}odd{else}even{/if}">
+                <td class="center">
                   {if $student->id_sexe eq 1}
                     <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />
                   {else}                                                                 
@@ -54,28 +55,29 @@
                   {/if}
                 </td>
               </tr>
+              {assign var=index value=$index+1}
             {/foreach}
           </table>
           
           <p class="students-count">Nombre d'élèves dans la classe : {$ppo->students|@count}</p>
           {else}
-            <i>Aucun élève...</i>
+            <p class="center"><strong>Aucun élève</strong></p>
           {/if} 
       </div> 
       <div id="persons-data">
         {if $ppo->persons neq null}
-          <table class="liste">
+          <table>
             <tr>
-              <th class="liste_th"></th>
-              <th class="liste_th">Type</th>
-              <th class="liste_th">Nom</th>
-              <th class="liste_th">Prénom</th>
-              <th class="liste_th">Identifiant</th>
-              <th class="liste_th"></th>
+              <th>Sexe</th>
+              <th>Type</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Identifiant</th>
+              <th>Actions</th>
             </tr>
             {foreach from=$ppo->persons item=person}
               <tr>
-                <td>
+                <td class="center">
                   {if $person->id_sexe eq 1}
                     <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
                   {else}                                                                 
@@ -88,7 +90,7 @@
                 <td>{$person->login_dbuser}</td>
                 <td class="actions">
                   {if $hasCredentialTeacherUpdate}
-                    <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero type=$person->bu_type}"><img src="{copixurl}themes/default/images/icon-16/action-update.png}" title="Modifier la personne" /></a>
+                    <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero type=$person->bu_type}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier la personne" /></a>
                     <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero userId=$person->id_dbuser type=$item->bu_type}" onclick="return confirm('Etes-vous sur de vouloir retirer cette personne ?')"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="Supprimer le rôle de cette personne" /></a>
                   {/if}
                   {if $hasCredentialTeacherDelete}
@@ -99,26 +101,26 @@
             {/foreach}  
           </table>
         {else}
-          <i>Aucun enseignant...</i>
+          <p class="center"><strong>Aucun enseignant</strong></p>
         {/if} 
       </div>
       <div id="parents-data">
         {if $ppo->responsables neq null}
-          <table class="liste">
+          <table>
             <tr>
-              <th class="liste_th"></th>
-              <th class="liste_th">Nom</th>
-              <th class="liste_th">Prénom</th>
-              <th class="liste_th">Identifiant</th>
-              <th class="liste_th"></th>
+              <th>Sexe</th>
+              <th>Nom</th>
+              <th>Prénom</th>
+              <th>Identifiant</th>
+              <th>Actions</th>
             </tr>
             {foreach from=$ppo->responsables item=responsable}
               <tr>
-                <td>
+                <td class="center">
                   {if $responsable->sexe eq 1}
-                    <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
+                    <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
                   {else}                                                                 
-                    <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
+                    <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
                   {/if}
                 </td>
                 <td>{$responsable->nom}</td>
@@ -126,17 +128,17 @@
                 <td>{$responsable->login}</td>
                 <td class="actions">
                   {if $hasCredentialPersonInChargeUpdate}
-                    <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personId=$responsable->id}"><img src="{copixresource path="img/gestionautonome/edit_item.png"}" title="Modifier le responsable" /></a>
+                    <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personId=$responsable->id}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier le responsable" /></a>
                   {/if}
                   {if $hasCredentialPersonInChargeDelete}
-                    <a href="{copixurl dest=gestionautonome|default|deletePersonInCharge nodeId=$ppo->parent.id personId=$responsable->id}" class="delete-person"><img src="{copixresource path="img/gestionautonome/trash.png"}" title="Supprimer ce responsable" /></a>
+                    <a href="{copixurl dest=gestionautonome|default|deletePersonInCharge nodeId=$ppo->parent.id personId=$responsable->id}" class="delete-person"><img src="{copixurl}themes/default/images/icon-16/action-delete.png" title="Supprimer ce responsable" /></a>
                   {/if}
                 </td>
               </tr>
             {/foreach}  
           </table>
         {else}
-          <i>Aucun parent...</i>
+          <p class="center"><strong>Aucun parent</strong></p>
         {/if}
       </div>
     </div>
@@ -154,18 +156,18 @@
     {assign var='hasCredentialPrincipalUpdate'            value=$ppo->user->testCredential("module:school|`$ppo->parent.id`|principal|update@gestionautonome")}
     {assign var='hasCredentialPrincipalDelete'            value=$ppo->user->testCredential("module:school|`$ppo->parent.id`|principal|delete@gestionautonome")}
     
-    <table class="liste">
+    <table>
       <tr>
-        <th class="liste_th"></th>
-        <th class="liste_th">Type</th>
-        <th class="liste_th">Nom</th>
-        <th class="liste_th">Prénom</th>
-        <th class="liste_th">Identifiant</th>
-        <th class="liste_th"></th>
+        <th>Sexe</th>
+        <th>Type</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Identifiant</th>
+        <th>Actions</th>
       </tr>
       {foreach from=$ppo->persons item=person}
         <tr>
-          <td>
+          <td class="center">
             {if $person->id_sexe eq 1}
               <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
             {else}                                                                 
@@ -198,73 +200,65 @@
     </table>
   {/if}                        
 
-  <h4>ACTIONS SUR LES PERSONNES</h4>
-
+<div id="personsActions">
   {if $ppo->parent.type == 'BU_GRVILLE'}
-    <ul class="actions">
       {if $ppo->user->testCredential ("module:cities_group|`$ppo->parent.id`|cities_group_agent|create@gestionautonome")}
-        <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button">Créer un agent de groupes de villes</a></li>
-        <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button">Affecter une personne existante ici</a></li>
+          <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button button-add">Créer un agent de groupes de villes</a>
+          <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button">Affecter une personne existante ici</a>
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
-    </ul>
 
   {elseif $ppo->parent.type == 'BU_VILLE'}
-    <ul class="actions">
       {if $ppo->user->testCredential ("module:city|`$ppo->parent.id`|city_agent|create@gestionautonome")}
-        <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button">Créer un agent de ville</a></li>
-        <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button">Affecter une personne existante ici</a></li>
+        <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button">Créer un agent de ville</a>
+        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button">Affecter une personne existante ici</a>
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
-    </ul>
 
   {elseif $ppo->parent.type == 'BU_ECOLE'}
-    <ul class="actions">
       {if $ppo->user->testCredential ("module:school|`$ppo->parent.id`|principal|create@gestionautonome")} 
-        <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button">Créer un directeur</a></li>
-        <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button">Affecter un directeur existant ici</a></li>
+        <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button">Créer un directeur</a>
+        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button">Affecter un directeur existant ici</a>
         {assign var=hasCredential value=1}
       {/if}
       {if $ppo->user->testCredential ("module:school|`$ppo->parent.id`|administration_staff|create@gestionautonome")}
-        <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=3}" class="button">Créer un personnel administratif</a></li>
-        <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=3}" class="button">Affecter un personnel administratif existant ici</a></li>
+        <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=3}" class="button">Créer un personnel administratif</a>
+        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=3}" class="button">Affecter un personnel administratif existant ici</a>
         {assign var=hasCredential value=1}
       {/if}
       {if $hasCredential eq 1}
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
-    </ul>
 
   {elseif $ppo->parent.type == 'BU_CLASSE'}
-    <ul class="actions">
       {if $hasCredentialTeacherCreate}
-        <li><a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button">Créer un enseignant</a></li>
-        <li><a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button">Affecter une personne existante ici</a></li>
+        <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button">Créer un enseignant</a>
+        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button">Affecter une personne existante ici</a>
         {assign var=hasCredential value=1}
       {/if}
       {if $hasCredentialStudentCreate}
-        <li><a href="{copixurl dest="gestionautonome||createStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Créer un élève</a></li>
-        <li><a href="{copixurl dest="gestionautonome||addMultipleStudents" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Ajouter une liste d'élèves</a></li>
-        <li><a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Affecter des élèves venant d'une autre classe</a></li> 
-        <li><a href="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->parent.id}" class="button">Affecter des élèves à une classe</a></li> 
+        <a href="{copixurl dest="gestionautonome||createStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Créer un élève</a>
+        <a href="{copixurl dest="gestionautonome||addMultipleStudents" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Ajouter une liste d'élèves</a>
+        <a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Affecter des élèves venant d'une autre classe</a>
+        <a href="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->parent.id}" class="button">Affecter des élèves à une classe</a>
         {assign var=hasCredential value=1}
       {/if}
       {if $hasCredentialStudentUpdate}
-        <li><a href="{copixurl dest="gestionautonome||changeStudentsAffect" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Changer d'affectation plusieurs élèves</a></li>
+        <a href="{copixurl dest="gestionautonome||changeStudentsAffect" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Changer d'affectation plusieurs élèves</a>
       {/if}
       {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate || $hasCredentialPersonInChargeUpdate}
-        <li><a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button">Re-générer les mots de passe</a></li>
+        <a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button">Re-générer les mots de passe</a>
       {/if}
       {if $hasCredential eq 1}
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
-    </ul>
   {/if}
 {else}
   <p>
     Aucun élément sélectionné dans la structure.
   </p>  
 {/if}
+</div>
 
 {literal}
 <script type="text/javascript">
@@ -272,7 +266,6 @@
   
   jQuery(document).ready(function(){
  	
- 	  jQuery('.button').button();
  	  jQuery("#tabs").tabs();
  	  if ({/literal}{$ppo->tab}{literal}) {
  	    

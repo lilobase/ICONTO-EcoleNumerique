@@ -72,7 +72,7 @@
   
   $(document).ready(function(){
  	  
- 	  jQuery('.button').button();
+ 	  //jQuery('.button').button();
  	  
  	  jQuery("#import-dialog").dialog({modal: true, autoOpen: {/literal}{if ($ppo->errors)}true{else}false{/if}{literal}, title: "Choisissez un document", width: 400});
  	  

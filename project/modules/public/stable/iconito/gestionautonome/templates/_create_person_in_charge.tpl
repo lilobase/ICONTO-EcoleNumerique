@@ -174,7 +174,7 @@
 
     jQuery(document).ready(function(){
 
-      jQuery('.button').button();
+      //jQuery('.button').button();
 
       jQuery('#person_creation').submit(function(e) {
 

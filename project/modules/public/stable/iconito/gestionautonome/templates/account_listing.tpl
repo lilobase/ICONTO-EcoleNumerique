@@ -53,7 +53,7 @@
   
   $(document).ready(function(){
  	
- 	  $('.button').button();
+ 	  //$('.button').button();
     jQuery('#back').click(function() {
     
       if ({/literal}'{$ppo->sessionDatas[0].bu_type}'{literal} == 'USER_ENS') {

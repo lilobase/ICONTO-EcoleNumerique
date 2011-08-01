@@ -51,7 +51,7 @@
       yearRange: 'c-5:c+5'
     });   
     
-    jQuery('.button').button();
+    //jQuery('.button').button();
     
     jQuery('#cancel').click(function() {
 

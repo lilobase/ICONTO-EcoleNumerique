@@ -52,7 +52,7 @@
   
   jQuery(document).ready(function(){
 
- 	  jQuery('.button').button();
+ 	  //jQuery('.button').button();
  	  
  	  jQuery('.remove-link').click(function() {
  	   

@@ -123,7 +123,7 @@
   
   $(document).ready(function(){
  	
- 	  jQuery('.button').button(); 
+ 	  //jQuery('.button').button(); 
 
  	  if (jQuery('#withAssignment:checked').val()) {
  	    

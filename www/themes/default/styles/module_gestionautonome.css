@@ -1,19 +1,3 @@
-input[type=submit] {
-	font-size: 1em;
-}
-	
-/* Hack pour Firefox supprimant les pointillés lors des clics
-------------------------------------------------------------------------------*/
-a,
-input.button {
-  outline: none;
-}
-
-a:focus,
-input.button:focus {
-  -moz-outline-style: none;
-}
-
 a img {
 	border: none;
 }
@@ -25,13 +9,13 @@ h4 {
   border-bottom: 1px solid grey;
 }
 
-p.success {
+/*p.success {
   margin: 10px 1px;
   padding: 2px;
   -moz-border-radius:6px 6px 6px 6px;
   background-color:#B9C55B;
   font-size:10px;
-}
+}*/
 
 .notice-light {
   width: 400px;
@@ -89,11 +73,6 @@ div.field {
   padding-bottom: 2px;
 }
 
-input[type=radio],
-input[type=checkbox] {
-  margin-right: 2px;
-}
-
 input.short-text {
   width: 30px;
 }
@@ -105,6 +84,11 @@ input.text {
 input.long-text {
   width: 240px;
 }
+.formExample {
+	padding:0 0 0 5px;
+	font-size:0.8em; font-style:italic;
+}
+
 
 /* Tree
 ------------------------------------------------------------------------------*/ 
@@ -115,13 +99,20 @@ input.long-text {
   padding: 5px;
   -moz-border-radius:6px 6px 6px 6px;
   /*background-color:#E2ED8A;*/
-  font-size:12px;
+  /*font-size:12px;*/
+}
+#tree #treeView {
+    margin:10px 0; padding:5px; border:3px solid #ddd;
+    -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+    background:#fff;
+}
+#tree #treeView > ul {
+	margin:0; padding:0;
 }
 
-#tree ul,
-ul.actions {
-  list-style-type: none;
-  padding-left: 20px;
+#tree ul {
+    padding-left: 20px;
+    list-style-type: none;
 }
 
 li.collapsed ul {
@@ -174,31 +165,14 @@ li a.current {
   padding:6px;
   -moz-border-radius:15px 15px 15px 15px;
   border:2px solid #FFFFFF;
-  background-color:#E2ED8A;
-  font-size:0.8em;
 }
 
-#tree-actions {
-  margin:1px;
-  padding:2px 2px 2px 4px;
-  -moz-border-radius:6px 6px 6px 6px;
-  background-color:#B9C55B;
-  font-size:11px;
-}
 
-#tree-actions a {
-  width: 350px;
-  margin-bottom: 2px;
-}
+
 
 ul.actions li {
   float: left;
   margin-right: 5px;
-}    
-
-ul.actions li a.button {
-  width: 410px;
-  margin-bottom: 2px;
 }
 
 #students {
@@ -289,18 +263,11 @@ div.gestionautonome #tree-actions  {
 	/* background-color:#DDD; */
 }
 
-div.gestionautonome #tree-actions a {
-	width:315px;
-}
 
-div.gestionautonome ul.actions li a.button {
-	width:370px;
-}
-
-#column-data, #persons-in-charge, #tree-actions {
+/*#column-data, #persons-in-charge, #tree-actions {
 	background-color:#EEE;
 	border:2px solid #DDD;
-}
+}*/
 
 div.gestionautonome li a.current {
 	/*background-color:#CCC !important;
@@ -320,3 +287,47 @@ p.students-count {
   margin: 10px 0 0;
   font-weight: bold;
 }
+
+/* Tabs */
+#tabs .ui-tabs-nav li {font-size:1em;}
+/* End tabs */
+
+
+/* Persons Data */
+#column-data table {
+	border:1px solid #ddd;
+	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+	width:100%;
+	background:#fff;
+}
+#column-data table th {
+	background:#eee;
+	text-align:center;
+}
+#column-data table tr.odd { background:#efefef;}
+#column-data table td.actions {
+	text-align:center;
+}
+#column-data .ui-tabs {margin:0 0 10px 0;}
+#column-data .ui-tabs .ui-tabs-panel {
+	padding:1em 0.4em 0.5em;
+	background:#fff;
+}
+/* End Persons Data */
+
+
+/* Actions */
+#treeActions a, #personsActions a {
+	margin:0 5px 5px 0;
+}
+/* End Actions */
+
+
+/* Affect */
+#fromClass, #toClass {
+	margin:10px 0; padding:5px; border:3px solid #ddd;
+    -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+    width:45%;
+	background:#fff;
+}
+/* End Affect */
