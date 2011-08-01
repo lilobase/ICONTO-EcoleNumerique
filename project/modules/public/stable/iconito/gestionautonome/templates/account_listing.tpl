@@ -41,7 +41,6 @@
   </div>
 {/foreach}
 
-<<<<<<< .mine
 <p>
   {if $ppo->sessionDatas[0].bu_type == "USER_ENS"}
     <a href="{copixurl dest="gestionautonome||showTree" tab=1}" class="button">Retour</a>
@@ -52,30 +51,4 @@
   {/if}
   <a href="{copixurl dest="gestionautonome||getPasswordsList" format=html}" class="button">Imprimer</a>
   <a href="{copixurl dest="gestionautonome||getPasswordsList" format=csv}" class="button">Télécharger</a>
-</p>=======
-<ul class="actions">
-  <li><input class="button" type="button" value="Retour" id="back" /></li>
-</ul>        
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	
- 	  //$('.button').button();
-    jQuery('#back').click(function() {
-    
-      if ({/literal}'{$ppo->sessionDatas[0].bu_type}'{literal} == 'USER_ENS') {
-      
-        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1}'{literal};
-      }
-      else {
-      
-        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-      }
-    });
-  }); 
-//]]> 
-</script>
-{/literal}>>>>>>> .r1405
+</p>
