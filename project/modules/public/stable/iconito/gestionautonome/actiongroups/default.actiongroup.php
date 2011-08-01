@@ -1061,18 +1061,11 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  _currentUser()->assertCredential('module:school|'.$ppo->parentId.'|classroom|create@gestionautonome');
 
-		// Récupération des niveaux de classe
-		$classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
-    $levels = $classLevelDAO->findAll ();
+	// Récupération des niveaux de classe
+	$classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
+	$criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
+    $ppo->levels = $classLevelDAO->findBy ($criteres);
     
-    $ppo->levelNames = array ();
-		$ppo->levelIds   = array ();
-		
-    foreach ($levels as $level) {
-      
-      $ppo->levelNames[] = $level->niveau_court;
-      $ppo->levelIds[]   = $level->id_n;
-    }
     
     // Récupération des types de classe
     $classTypeDAO = _ioDAO ('kernel_bu_classe_type');
@@ -1165,23 +1158,18 @@ class ActionGroupDefault extends enicActionGroup {
     if (!$ppo->levels) {
       
       $ppo->errors[] = 'Saisissez un niveau';
+	  $ppo->levelsSelected = array();
     }
+	else
+		$ppo->levelsSelected = $ppo->levels;
     
     if (!empty ($ppo->errors)) {
       
       // Récupération des niveaux de classe
-  		$classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
-      $levels  = $classLevelDAO->findAll ();
+      $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
+      $criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
+      $ppo->levels = $classLevelDAO->findBy ($criteres);
       
-      $ppo->levelNames = array ();
-      $ppo->levelIds   = array ();
-      
-      foreach ($levels as $level) {
-
-        $ppo->levelNames[] = $level->niveau_court;
-        $ppo->levelIds[]   = $level->id_n;
-      }
-
       // Récupération des types de classe
       $classTypeDAO   = _ioDAO ('kernel_bu_classe_type');
       $types     = $classTypeDAO->findAll ();
@@ -1268,25 +1256,19 @@ class ActionGroupDefault extends enicActionGroup {
     $schoolClassLevels = $schoolClassLevelDAO->getByClass ($ppo->nodeId);
 
     $ppo->levels = array ();
+    $ppo->levelsSelected = array ();
     
     foreach ($schoolClassLevels as $ecn) {
       
-      $ppo->levels[] = $ecn->niveau;
+      $ppo->levelsSelected[] = $ecn->niveau;
       $ppo->type = $ecn->type;
     }
     
     // Récupération des niveaux de classe
     $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
-	  $levels = $classLevelDAO->findAll ();
-	  
-	  $ppo->levelNames = array ();
-	  $ppo->levelIds   = array ();
-	  
-    foreach ($levels as $level) {
-      
-      $ppo->levelNames[] = $level->niveau_court;
-      $ppo->levelIds[]   = $level->id_n;
-    }
+	$criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
+    $ppo->levels = $classLevelDAO->findBy ($criteres);
+    
     
     // Récupération des types de classe pour le sélecteur
     $classTypeDAO = _ioDAO ('kernel_bu_classe_type');
