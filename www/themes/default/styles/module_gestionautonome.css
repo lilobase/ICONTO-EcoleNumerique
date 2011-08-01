@@ -194,17 +194,6 @@ ul.actions li {
   font-size:11px;
 }
 
-#accounts-info {
-  float: right;
-  height: 250px;
-  width: 50%;
-  padding:6px;
-  -moz-border-radius:15px 15px 15px 15px;
-  border:2px solid #FFFFFF;
-  background-color:#E2ED8A;
-  font-size:11px;
-}
-
 .column-left {
   float: left;
   width: 50%;

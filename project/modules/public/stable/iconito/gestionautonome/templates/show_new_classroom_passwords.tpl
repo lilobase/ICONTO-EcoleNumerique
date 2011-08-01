@@ -2,9 +2,7 @@
 
 <h2>Re-génération des mots de passe</h2>
 
-<div id="accounts-info">
-  {copixzone process=gestionautonome|AccountsInfo}
-</div>
+{copixzone process=gestionautonome|AccountsInfo}
 
 <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
   <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
@@ -38,20 +36,8 @@
   </tbody>
 </table>
 
-<ul class="actions">
-  <li><input class="button" type="button" value="Retour" id="back" /></li>
-</ul>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
-
-    jQuery('#back').click(function() {
-       document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
-  }); 
-//]]> 
-</script>
-{/literal}
+<p>
+  <a href="{copixurl dest="gestionautonome||showTree"}" class="button">Retour</a>
+  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=html}" class="button">Imprimer</a>
+  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=csv}" class="button">Télécharger</a> 
+</p>

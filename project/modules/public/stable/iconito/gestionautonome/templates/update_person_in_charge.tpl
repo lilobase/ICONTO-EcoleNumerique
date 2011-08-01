@@ -100,7 +100,7 @@
  	  jQuery('#cancel').click(function() {
       {/literal}
         {if $ppo->studentId}
-          document.location.href='{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId notxml=true}';
+          document.location.href='{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId save=1 notxml=true}';
         {else}
           document.location.href='{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}';
         {/if}

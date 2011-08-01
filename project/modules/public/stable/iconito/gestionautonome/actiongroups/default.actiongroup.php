@@ -2,7 +2,7 @@
 /**
 * @package    Iconito
 * @subpackage Gestionautonome
-* @author     Jérémy FOURNAISE
+* @author     Jérémy FOURNAISE <jeremy.fournaise@isics.fr>, Sébastien CAS <sebastien.cas@isics.fr>
 */
 
 class ActionGroupDefault extends enicActionGroup {
@@ -11,8 +11,6 @@ class ActionGroupDefault extends enicActionGroup {
 	
 	public function beforeAction () {
 		_currentUser()->assertCredential('module:*||access|@gestionautonome');
-		
-		//CopixHTMLHeader::addCSSLink (_resource ('styles/module_gestionautonome.css'));
 		
 		$this->menu = array();
 		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
@@ -51,11 +49,21 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 	  
 	  $tplResult = & new CopixTpl ();
-		$tplResult->assign ('sessionDatas', $passwords);
-
-		$html = $tplResult->fetch ('account_listing_html.tpl');
-		
-		return _arContent ($html, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'inline', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
+	  $tplResult->assign ('sessionDatas', $passwords);
+	  
+	  $format = _request ('format', 'html');
+	  if ($format == 'html') {
+	    
+	    $html = $tplResult->fetch ('account_listing_html.tpl');
+	    return _arContent ($html, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'inline', 'content-type' => CopixMIMETypes::getFromExtension ('.html')));
+	  }
+	  elseif ($format == 'csv') {
+	    
+	    $csv = $tplResult->fetch ('account_listing_csv.tpl');
+	    return _arContent ($csv, array ('filename'=>'Logins-'.date('YmdHi').'.csv', 'content-disposition'=>'attachement', 'content-type' => CopixMIMETypes::getFromExtension ('.csv')));
+	  }
+	  
+	  return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
 	}
 	
 	/**
@@ -1989,44 +1997,41 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Mise en session du noeud courant
 		_sessionSet ('current', array('node_type' => $ppo->nodeType, 'node_id' => $ppo->nodeId));
-		    
+		
+		// Liste des mots de passe globale
+		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
+		if (!is_array ($passwordsList)) {
+
+		  $passwordsList = array();
+		}
+		
+		// Nouveau mot de passe ?
     $newPassword = _request ('password', null);
-    
-    if (!is_null ($newPassword) && $ppo->account->password_dbuser != md5 ($newPassword)) {
+    if (!is_null ($newPassword)) {
       
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
-
-      $personnel = array(
-  		  'lastname'  => $ppo->personnel->pers_nom,
-  			'firstname' => $ppo->personnel->pers_prenom1,
-  			'login'     => $ppo->account->login_dbuser,
-  			'password'  => $newPassword,
-  			'bu_type'   => $ppo->type,
-  			'bu_id'     => $ppo->personnel->pers_numero,
-  			'type_nom'  => Kernel::Code2Name($ppo->type),
-  			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$nodeInfos['nom'],
-  		);
-      _sessionSet ('modules|gestionautonome|createAccount', array($personnel));
-      
-      // Mise en session globale des mots de passe
-  		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
-  		if (!is_array ($passwordsList)) {
-
-  		  $passwordsList = array();
-  		}
-  		$passwordsList[$ppo->type][$ppo->personnel->pers_numero] = $personnel;
-      _sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
-      
-  		return _arRedirect (CopixUrl::get ('gestionautonome||showAccountListing', array('isUpdated' => 1)));
     }
+
+    $personnel = array(
+		  'lastname'  => $ppo->personnel->pers_nom,
+			'firstname' => $ppo->personnel->pers_prenom1,
+			'login'     => $ppo->account->login_dbuser,
+			'password'  => !is_null ($newPassword) ? $newPassword : (isset ($passwordsList[$ppo->type][$ppo->personnel->pers_numero]) ? $passwordsList[$ppo->type][$ppo->personnel->pers_numero]['password'] : '******'),
+			'bu_type'   => $ppo->type,
+			'bu_id'     => $ppo->personnel->pers_numero,
+			'type_nom'  => Kernel::Code2Name($ppo->type),
+			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$nodeInfos['nom'],
+		);
+		
+    // Mise en session
+    _sessionSet ('modules|gestionautonome|createAccount', array($personnel));
     
-    if ($ppo->type == 'USER_ENS' && $ppo->nodeType == 'BU_CLASSE') {
-      
-      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('tab' => 1, 'save' => 1)));
-    }
+    // Mise en session globale des mots de passe
+		$passwordsList[$ppo->type][$ppo->personnel->pers_numero] = $personnel;
+    _sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
     
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+    return _arRedirect (CopixUrl::get ('gestionautonome||showAccountListing', array('isUpdated' => 1)));
 	}
 	
 	public function processRemovePersonnel () {
@@ -2467,11 +2472,11 @@ class ActionGroupDefault extends enicActionGroup {
       		  'lastname'  => $personSession['lastname'],
       			'firstname' => $personSession['firstname'],
       			'login'     => $personSession['login'],
-      			'password'  => '******',
+      			'password'  => isset ($passwordsList['USER_RES']['res_numero']) ? $passwordsList['USER_RES']['res_numero']['password'] : '******',
       			'bu_type'   => 'USER_RES',
       			'bu_id'     => $ppo->student->idEleve,
       			'type_nom'  => Kernel::Code2Name('USER_RES'),
-      			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'],
+      			'node_nom'  => Kernel::Code2Name($ppo->nodeType).' '.$node_infos['nom'],
       		);
         }
         // Sinon nouveau responsable : création seulement si la création du dbuser est possible
@@ -2559,6 +2564,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->nodeType = _request ('nodeType', null);
 	  $studentId     = _request ('studentId', null);
 	  $ppo->personId = _request ('personId', false);
+	  $ppo->save = _request ('save');
 	  
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId)) {
 	    
@@ -2602,6 +2608,12 @@ class ActionGroupDefault extends enicActionGroup {
       $res2eleDAO = _ioDAO ('kernel|kernel_bu_res2ele');
       $ppo->res2ele = $res2eleDAO->getByPersonAndStudent ($ppo->personId, $studentId);
 	  }
+	  // Remise à zéro des sessions tmp pour les responsables
+	  elseif (is_null ($ppo->save)) {
+      
+      _sessionSet ('modules|gestionautonome|createAccount', array ());
+    	_sessionSet ('modules|gestionautonome|tmpAccount', array ());
+	  }
 	  
 	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
 	  if (!$classroom = $classroomDAO->get ($ppo->nodeId)) {
@@ -2619,10 +2631,6 @@ class ActionGroupDefault extends enicActionGroup {
     
     $ppo->genderNames = array ('Garçon', 'Fille');
     $ppo->genderIds = array ('1', '2');
-    
-    // Remise à zéro des sessions tmp pour les responsables
-	  _sessionSet ('modules|gestionautonome|createAccount', array ());
-	  _sessionSet ('modules|gestionautonome|tmpAccount', array ());
 	  
     // Breadcrumbs
     $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
@@ -2645,7 +2653,8 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->nodeId   = _request ('id_node', null);
 	  $ppo->nodeType = _request ('type_node', null);
 	  $studentId     = _request ('id_student', null);
-	  $ppo->personId = _request ('personId', false);
+	  $ppo->personId = _request ('id_person', false);
+	  $res_id_par    = _request ('id_par', null);
 	  
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($studentId)) {
 	    
@@ -2786,34 +2795,37 @@ class ActionGroupDefault extends enicActionGroup {
 		$node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
 		
 		// Modification du password dbuser si différent
-    if (!is_null ($newPassword) && $ppo->account->password_dbuser != md5 ($newPassword)) {
+    if (!is_null ($newPassword)) {
       
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
-      
-      // Mise en session de l'élève pour l'export des infos
-      $student = array(
-  		  'lastname'  => $ppo->student->nom,
-  			'firstname' => $ppo->student->prenom1,
-  			'login'     => $ppo->account->login_dbuser,
-  			'password'  => is_null ($newPassword) ? '******' : $newPassword,
-  			'bu_type'   => 'USER_ELE',
-  			'bu_id'     => $ppo->student->idEleve,
-  			'type_nom'  => Kernel::Code2Name('USER_ELE'),
-  			'node_nom'  => Kernel::Code2Name($ppo->nodeType).' '.$node_infos['nom'],
-  		);
-  		
-  		// Mise en session globale des mots de passe
-  		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
-  		if (!is_array ($passwordsList)) {
-
-  		  $passwordsList = array();
-  		}
-  		$passwordsList['USER_ELE'][$ppo->student->idEleve] = $student;
-  		_sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
-  		
-  	  $session[] = $student;
     }
+    
+    $passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
+		if (!is_array ($passwordsList)) {
+
+		  $passwordsList = array();
+		}
+		
+    // Mise en session de l'élève pour l'export des infos
+    $student = array(
+		  'lastname'  => $ppo->student->nom,
+			'firstname' => $ppo->student->prenom1,
+			'login'     => $ppo->account->login_dbuser,
+			'password'  => is_null ($newPassword) ? isset ($passwordsList['USER_ELE'][$ppo->student->idEleve]) ? $passwordsList['USER_ELE'][$ppo->student->idEleve]['password'] : '******' : $newPassword,
+			'bu_type'   => 'USER_ELE',
+			'bu_id'     => $ppo->student->idEleve,
+			'type_nom'  => Kernel::Code2Name('USER_ELE'),
+			'node_nom'  => Kernel::Code2Name($ppo->nodeType).' '.$node_infos['nom'],
+		);
+		
+		// Mise en session globale des mots de passe
+		$passwordsList['USER_ELE'][$ppo->student->idEleve] = $student;
+		_sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
+		
+		// Session courante
+	  $session[] = $student;
+	  $session = array_reverse ($session);
     
     $tmpAccounts = _sessionGet ('modules|gestionautonome|tmpAccount');
     if (is_array($tmpAccounts)) {
@@ -2833,25 +2845,20 @@ class ActionGroupDefault extends enicActionGroup {
       }
       
       // Remise à zéro des sessions tmp
-      _sessionSet ('modules|gestionautonome|tmpAccount', array ());
+      _sessionSet ('modules|gestionautonome|tmpAccount', array ());      
     }
     
     // Mise en session de l'élève
     _sessionSet ('modules|gestionautonome|createAccount', $session);
-      		
+    
     // Mise en session du noeud courant
 		_sessionSet ('current', array('node_type' => $ppo->nodeType, 'node_id' => $ppo->nodeId));
     
-    if (empty($session)) {
+    if (false !== $ppo->personId) {
       
-      if (false !== $ppo->personId) {
-        
-        return _arRedirect (CopixUrl::get ('gestionautonome||updatePersonInCharge', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'personId' => $ppo->personId, 'save' => 1)));
-      }
-        
-      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+      return _arRedirect (CopixUrl::get ('gestionautonome||updatePersonInCharge', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'personId' => $ppo->personId, 'save' => 1)));
     }
-    
+
 		return _arRedirect (CopixUrl::get ('gestionautonome||showAccountListing', array('isUpdated' => 1)));
 	}
 
@@ -3065,6 +3072,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->nodeType  = _request ('nodeType', null);
 	  $personId       = _request ('personId', null);
     $ppo->studentId = _request ('studentId', false);
+    $ppo->save      = _request ('save');
 
 	  if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType) || is_null ($personId)) {
 	    
@@ -3099,6 +3107,11 @@ class ActionGroupDefault extends enicActionGroup {
       // Récupération du lien responsable-élève
       $res2eleDAO = _ioDAO ('kernel|kernel_bu_res2ele');
       $ppo->res2ele = $res2eleDAO->getByPersonAndStudent ($personId, $ppo->studentId);
+	  }
+	  // Remise à zéro des sessions tmp pour les responsables
+	  elseif (is_null ($ppo->save)) {
+      
+      _sessionSet ('modules|gestionautonome|createAccount', array ());
 	  }
 	  
 	  $personDAO = _ioDAO ('kernel_bu_responsable');
@@ -3263,40 +3276,42 @@ class ActionGroupDefault extends enicActionGroup {
       
       $ppo->account->password_dbuser = md5 ($newPassword);
       $dbuserDAO->update ($ppo->account);
-      
-      // Mise en session de l'élève pour l'export des infos
-      $person = array(
-  		  'lastname'  => $ppo->person->nom,
-  			'firstname' => $ppo->person->prenom1,
-  			'login'     => $ppo->account->login_dbuser,
-  			'password'  => is_null ($newPassword) ? '******' : $newPassword,
-  			'bu_type'   => 'USER_RES',
-  			'bu_id'     => $ppo->person->numero,
-  			'type_nom'  => Kernel::Code2Name('USER_RES'),
-  			'node_nom'  => Kernel::Code2Name($ppo->nodeType).' '.$nodeInfos['nom'],
-  		);
-  		
-  		// Mise en session globale des mots de passe
-  		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
-  		if (!is_array ($passwordsList)) {
-
-  		  $passwordsList = array();
-  		}
-  		$passwordsList['USER_RES'][$ppo->student->idEleve] = $person;
-  		_sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
-  		
-  		// Mise en session de l'élève
-      _sessionSet ('modules|gestionautonome|createAccount', array($person));
-      
-      return _arRedirect (CopixUrl::get ('gestionautonome||showAccountListing', array('isUpdated' => 1)));
     }
+    
+    // Mise en session globale des mots de passe
+		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
+		if (!is_array ($passwordsList)) {
+
+		  $passwordsList = array();
+		}
+
+    // Mise en session du responsable pour l'export des infos
+    $person = array(
+		  'lastname'  => $ppo->person->nom,
+			'firstname' => $ppo->person->prenom1,
+			'login'     => $ppo->account->login_dbuser,
+			'password'  => is_null ($newPassword) ? isset ($passwordsList['USER_RES'][$ppo->person->numero]) ? $passwordsList['USER_RES'][$ppo->person->numero]['password'] : '******' : $newPassword,
+			'bu_type'   => 'USER_RES',
+			'bu_id'     => $ppo->person->numero,
+			'type_nom'  => Kernel::Code2Name('USER_RES'),
+			'node_nom'  => Kernel::Code2Name($ppo->nodeType).' '.$nodeInfos['nom'],
+		);
+
+		$passwordsList['USER_RES'][$ppo->person->numero] = $person;
+		_sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
+		
+		// Mise en session du responsable
+		$createAccount = _sessionGet ('modules|gestionautonome|createAccount');
+		$createAccount[] = $person;
+		$createAccount = array_reverse ($createAccount);
+    _sessionSet ('modules|gestionautonome|createAccount', $createAccount);
     
     if (false !== $ppo->studentId) {
       
       return _arRedirect (CopixUrl::get ('gestionautonome||updateStudent', array ('nodeId' => $ppo->nodeId, 'nodeType' => $ppo->nodeType, 'studentId' => $ppo->studentId, 'save' => 1)));
     }
     
-    return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+    return _arRedirect (CopixUrl::get ('gestionautonome||showAccountListing', array('isUpdated' => 1)));
 	}
 	
 	// AJAX
@@ -3547,7 +3562,7 @@ class ActionGroupDefault extends enicActionGroup {
 
       return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
     }
-    
+
     if ($ppo->studentId) {
       
       $session = array();
@@ -3563,6 +3578,12 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->personsInSession = array();
       }
       
+      $passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
+  		if (!is_array ($passwordsList)) {
+
+  		  $passwordsList = array();
+  		}
+  		
       if ($ppo->isNewParent) {
         
         if (Kernel::isLoginAvailable ($ppo->account->login)) {
@@ -3622,17 +3643,12 @@ class ActionGroupDefault extends enicActionGroup {
           _sessionSet ('modules|gestionautonome|tmpAccount', $ppo->personsInSession);
           
           // Mise en session globale des mots de passe
-      		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
-      		if (!is_array ($passwordsList)) {
-
-      		  $passwordsList = array();
-      		}
       		$passwordsList['USER_RES'][$person->numero] = $responsable;
       		_sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
         }
       }
       elseif (!$personLinkDAO->getByPersonAndStudent ($ppo->person->res_numero, $ppo->studentId)) {
-
+    		
         $newPersonLink = _record ('kernel|kernel_bu_res2ele');
 
     		$newPersonLink->res2ele_id_beneficiaire   = $ppo->studentId; 
@@ -3651,7 +3667,7 @@ class ActionGroupDefault extends enicActionGroup {
     		  'firstname'     => $ppo->person->res_prenom1,
     		  'res_id_sexe'   => $ppo->person->res_id_sexe,
     		  'login'         => $ppo->account->login,
-    		  'password'      => '******',
+    		  'password'      => isset ($passwordsList['USER_RES'][$ppo->person->res_numero]) ? $passwordsList['USER_RES'][$ppo->person->res_numero]['password'] : '******',
         );
     		
     		$ppo->personsInSession[] = $responsable;
@@ -3659,7 +3675,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
     }
     else {
-      
+
       // Initialisation de la variable de session
       $ppo->personsInSession = _sessionGet ('modules|gestionautonome|tmpAccount');
       if (!$ppo->personsInSession) {
@@ -3684,6 +3700,7 @@ class ActionGroupDefault extends enicActionGroup {
     		$ppo->cpt++;
       }
       else {
+        
         $parente = $ppo->person->res_id_sexe == 1 ? 1 : 0;
         
         $tmpArray = array(
@@ -3693,7 +3710,7 @@ class ActionGroupDefault extends enicActionGroup {
     		  'res_id_sexe'   => $ppo->person->res_id_sexe,
     		  'login'         => $ppo->account->login,
     		  'parente'       => $ppo->linkNames[$parente],
-    		  'password'      => '******',
+    		  'password'      => $passwordsList['USER_RES'][$ppo->person->res_numero] ? $passwordsList['USER_RES'][$ppo->person->res_numero]['password'] : '******',
         );
 
         if (!in_array($tmpArray, array_values($ppo->personsInSession))) {
@@ -3705,7 +3722,7 @@ class ActionGroupDefault extends enicActionGroup {
 
   		_sessionSet ('modules|gestionautonome|tmpAccount', $ppo->personsInSession);
     }
-    
+
     // Le responsable ne doit pas être présent parmi les responsables existants
     if (false !== $ppo->studentId) {
       
