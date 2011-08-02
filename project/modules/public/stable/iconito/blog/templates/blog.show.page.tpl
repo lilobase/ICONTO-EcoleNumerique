@@ -28,8 +28,8 @@
 			       {* <td>{$page->url_bpge}</td> *}
 			       <td class="action"><div class="is_online{$page->is_online}"><a class="button button-update" href="{copixurl dest="blog|admin|prepareEditPage" id_bpge=$page->id_bpge id_blog=$id_blog kind=$kind}" title="{i18n key="copix:common.buttons.update"}">{i18n key="copix:common.buttons.update"}</a></div></td>
                    <td class="action"><div class="is_online{$page->is_online}"><a class="button button-delete" href="{copixurl dest="blog|admin|deletePage" id_bpge=$page->id_bpge id_blog=$id_blog kind=$kind}" title="{i18n key="copix:common.buttons.delete"}">{i18n key="copix:common.buttons.delete"}</a></div></td>
-                   <td class="action"><div class="is_online{$page->is_online}">{if $cptPge>0}<a class="button button-up" href="{copixurl dest=blog|admin|upPage id_bpge=$page->id_bpge id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.moveup}</a>{/if}</div></td>
-		           <td class="action"><div class="is_online{$page->is_online}">{if $cptPge<$tabPages|@count-1}<a class="button button-down" href="{copixurl dest=blog|admin|downPage id_bpge=$page->id_bpge id_blog=$id_blog kind=$kind}">{i18n key="copix:common.buttons.movedown"}</a>{/if}</div>
+                   <td class="action"><div class="is_online{$page->is_online}">{if $cptPge>0}<a class="button button-sortup" href="{copixurl dest=blog|admin|upPage id_bpge=$page->id_bpge id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.moveup}</a>{/if}</div></td>
+		           <td class="action"><div class="is_online{$page->is_online}">{if $cptPge<$tabPages|@count-1}<a class="button button-sortdown" href="{copixurl dest=blog|admin|downPage id_bpge=$page->id_bpge id_blog=$id_blog kind=$kind}">{i18n key="copix:common.buttons.movedown"}</a>{/if}</div>
                     </td>
 			   </tr>
 				 {assign var=cptPge value=$cptPge+1}

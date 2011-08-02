@@ -26,8 +26,8 @@
 			       <td><a href="#" onClick="JavaScript:window.open('{$link->url_blnk}')">{$link->url_blnk}</a></td>
 			       <td class="action"><a class="button button-update" href="{copixurl dest="blog|admin|prepareEditLink" id_blnk=$link->id_blnk id_blog=$id_blog kind=$kind}" title="{i18n key="copix:common.buttons.update"}">{i18n key="copix:common.buttons.update"}</a></td>
 			       <td class="action"><a class="button button-delete" href="{copixurl dest="blog|admin|deleteLink" id_blnk=$link->id_blnk id_blog=$id_blog kind=$kind}" title="{i18n key="copix:common.buttons.delete"}">{i18n key="copix:common.buttons.delete"}</a></td>
-                   <td class="action">{if $cptLink>0}<a class="button button-up" href="{copixurl dest=blog|admin|upLink id_blnk=$link->id_blnk id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.moveup}</a>{/if}</td>
-		           <td class="action">{if $cptLink<$tabLinks|@count-1}<a class="button button-down" href="{copixurl dest=blog|admin|downLink id_blnk=$link->id_blnk id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.movedown}</a>{/if}</td>
+                   <td class="action">{if $cptLink>0}<a class="button button-sortup" href="{copixurl dest=blog|admin|upLink id_blnk=$link->id_blnk id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.moveup}</a>{/if}</td>
+		           <td class="action">{if $cptLink<$tabLinks|@count-1}<a class="button button-sortdown" href="{copixurl dest=blog|admin|downLink id_blnk=$link->id_blnk id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.movedown}</a>{/if}</td>
 			   </tr>
 				 {assign var=cptLink value=$cptLink+1}
 			   {/foreach}

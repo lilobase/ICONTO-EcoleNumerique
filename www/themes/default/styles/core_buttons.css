@@ -89,8 +89,8 @@
 .button-confirm		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_confirm.png) 4px 50% no-repeat; }
 .button-print		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_print.png) 4px 50% no-repeat; }
 .button-reload		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_reload.png) 4px 50% no-repeat; }
-.button-up			{ padding-left: 24px; background: #fff url(../../../themes/default/images/sort_up_off.png) 4px 50% no-repeat; }
-.button-down		{ padding-left: 24px; background: #fff url(../../../themes/default/images/sort_down_off.png) 4px 50% no-repeat; }
+.button-up			{ padding-left: 24px; background: #fff url(../../../themes/default/images/button-action/action_up.png) 4px 50% no-repeat; }
+.button-down		{ padding-left: 24px; background: #fff url(../../../themes/default/images/button-action/action_down.png) 4px 50% no-repeat; }
 .button-download	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_download.png) 3px 50% no-repeat; }
 .button-move		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_move.png) 3px 50% no-repeat; }
 .button-copy		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_copy.png) 3px 50% no-repeat; }
@@ -111,20 +111,16 @@
 .button-p-record	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_record.png) 4px 50% no-repeat; }
 .button-p-replay	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_replay.png) 4px 50% no-repeat; }
 
-.button-sort {
-	position: relative;
-	display: inline-block;
-	margin: 0;
-	padding: 0;
-	height: 10px;
-	width: 14px;
-	}
-	
-.button-sortup { background: url(../../../themes/default/images/sort_up_off.png) 0 0 no-repeat; cursor: pointer; }
-.button-sortdown { background: url(../../../themes/default/images/sort_down_off.png) 0 0 no-repeat; cursor: pointer; }
+.button-sortup, .button-sortdown {
+	padding-left:26px;
+	background:#fff 4px 50% no-repeat;
+}
 
-.button-sortup:hover { background: url(../../../themes/default/images/sort_up_on.png) 0 0 no-repeat; cursor: pointer; }
-.button-sortdown:hover { background: url(../../../themes/default/images/sort_down_on.png) 0 0 no-repeat; cursor: pointer; }
+.button-sortup { background-image:url(../../../themes/default/images/sort_up_off.png);}
+.button-sortdown { background-image:url(../../../themes/default/images/sort_down_off.png);}
+
+.button-sortup:hover { background-image:url(../../../themes/default/images/sort_up_on.png);}
+.button-sortdown:hover { background-image:url(../../../themes/default/images/sort_down_on.png);}
 	
 .button-drag {
 	position: relative;

@@ -33,8 +33,8 @@
 	 			       		<a class="button button-delete" href="{copixurl dest="blog|admin|deleteCategory" id_bacg=$cat->id_bacg id_blog=$id_blog kind=$kind}" title="{i18n key="copix:common.buttons.delete"}">{i18n key="copix:common.buttons.delete"}</a>
 			       		{/if}
 			       </td>
-			       <td class="action">{if $cptCat>0}<a class="button button-up" href="{copixurl dest=blog|admin|upCategory id_bacg=$cat->id_bacg id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.moveup}</a>{/if}</td>
-                   <td class="action">{if $cptCat<$tabArticleCategory|@count-1}<a class="button button-down" href="{copixurl dest=blog|admin|downCategory id_bacg=$cat->id_bacg id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.movedown}</a>{/if}</td>
+			       <td class="action">{if $cptCat>0}<a class="button button-sortup" href="{copixurl dest=blog|admin|upCategory id_bacg=$cat->id_bacg id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.moveup}</a>{/if}</td>
+                   <td class="action">{if $cptCat<$tabArticleCategory|@count-1}<a class="button button-sortdown" href="{copixurl dest=blog|admin|downCategory id_bacg=$cat->id_bacg id_blog=$id_blog kind=$kind}">{i18n key=copix:common.buttons.movedown}</a>{/if}</td>
 			   </tr>
 				 {assign var=cptCat value=$cptCat+1}
 			   {/foreach}
