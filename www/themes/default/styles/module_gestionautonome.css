@@ -48,6 +48,7 @@ form div.submit {
 	margin:10px 0;
 	text-align:center;
 }
+form div.submit input {margin:0 5px 0 0;}
 
 label.form_libelle {
   font-size:12px;
@@ -155,7 +156,7 @@ ul.tree a.classroom {
   float: right;
   width: 50%;
   padding:6px;
-  -moz-border-radius:15px 15px 15px 15px;
+  -webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
   border:2px solid #FFFFFF;
 }
 
@@ -240,22 +241,6 @@ ul.actions li {
 
 /* Look neutre
 ------------------------------------------------------------------------------*/ 
-div.gestionautonome #tree-actions  {
-	/* background-color:#DDD; */
-}
-
-
-/*#column-data, #persons-in-charge, #tree-actions {
-	background-color:#EEE;
-	border:2px solid #DDD;
-}*/
-
-div.gestionautonome input[type="button"]  {
-	/*font-family:Arial,Helvetica,sans-serif;*/
-	font-size:1em;
-	font-weight:normal;
-}
-
 p.students-count {
   margin: 10px 0 0;
   font-weight: bold;
@@ -263,6 +248,11 @@ p.students-count {
 
 /* Tabs */
 #tabs .ui-tabs-nav li {font-size:1em;}
+#column-data .ui-tabs {margin:0 0 10px 0;}
+#column-data .ui-tabs .ui-tabs-panel {
+	padding:1em 0.4em 0.5em;
+	background:#fff;
+}
 /* End tabs */
 
 
@@ -280,11 +270,6 @@ p.students-count {
 #gestionautonome table tr.odd { background:#efefef;}
 #gestionautonome table td.actions {
 	text-align:center;
-}
-#column-data .ui-tabs {margin:0 0 10px 0;}
-#column-data .ui-tabs .ui-tabs-panel {
-	padding:1em 0.4em 0.5em;
-	background:#fff;
 }
 /* End Persons Data */
 

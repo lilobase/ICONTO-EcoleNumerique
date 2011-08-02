@@ -1,17 +1,15 @@
 {if count($ppo->students) > 0}
-  <p class="center">
   {foreach from=$ppo->sourceLevels item=level}
     <input type="checkbox" value="{$level->id_n}" id="level_{$level->id_n}" class="check-students-by-levels" /><label for="level_{$level->id_n}">{$level}</label>
   {/foreach}
-  </p>
   <form action="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->destinationClassroom->id sourceClassroomId=$ppo->sourceClassroom->id gradeId=$ppo->previousGrade->id_as}" method="post" id="setting-form">
     <table>
       <thead>
         <tr>
           <th><input type="checkbox" name="check_all" id="check-all" /></th>
+          <th>Ancien niveau</th>
           <th>Prénom</th>
           <th>Nom</th>
-          <th>Ancien niveau</th>
           <th>Nouveau niveau</th>
         </tr>
       </thead>
@@ -20,9 +18,9 @@
         {foreach from=$ppo->students item=student}
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
             <td class="center"><input type="checkbox" name="ids[]" id="id_{$student->id}" value="{$student->id}" class="level_{$student->niveauId}" /></td>
+            <td><label for="id_{$student->id}">{$student->niveau}</label></td>
             <td><label for="id_{$student->id}">{$student->prenom}</label></td>
             <td><label for="id_{$student->id}">{$student->nom}</label></td>
-            <td>{$student->niveau}</td>
             <td>
               <select name="level_{$student->id}">
                 {foreach from=$ppo->destinationLevels item=level}
