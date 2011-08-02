@@ -1073,7 +1073,7 @@ class ActionGroupDefault extends enicActionGroup {
 	$classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
 	$criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
     $ppo->levels = $classLevelDAO->findBy ($criteres);
-    
+    $ppo->levelsSelected = array();
     
     // Récupération des types de classe
     $classTypeDAO = _ioDAO ('kernel_bu_classe_type');
