@@ -20,7 +20,7 @@
 
     <div class="field">
       <label for="name" class="form_libelle"> Nom :</label>
-      <input class="form" type="text" name="nom" id="nom" value="{$ppo->class->nom}" />
+      <input class="form" type="text" name="nom" id="nom" value="{$ppo->class->nom}" placeholder="CP/CE1 de Mme Lambert" /> <span class="formExample">Exemple : CP/CE1 de Mme Lambert</span>
     </div>
     
     <div class="field">
