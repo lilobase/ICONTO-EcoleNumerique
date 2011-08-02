@@ -1,7 +1,9 @@
 {if count($ppo->students) > 0}
+  <p class="center">
   {foreach from=$ppo->sourceLevels item=level}
     <input type="checkbox" value="{$level->id_n}" id="level_{$level->id_n}" class="check-students-by-levels" /><label for="level_{$level->id_n}">{$level}</label>
   {/foreach}
+  </p>
   <form action="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->destinationClassroom->id sourceClassroomId=$ppo->sourceClassroom->id gradeId=$ppo->previousGrade->id_as}" method="post" id="setting-form">
     <table>
       <thead>
@@ -14,9 +16,10 @@
         </tr>
       </thead>
       <tbody>
+        {assign var=index value=1}
         {foreach from=$ppo->students item=student}
-          <tr>
-            <td><input type="checkbox" name="ids[]" id="id_{$student->id}" value="{$student->id}" class="level_{$student->niveauId}" /></td>
+          <tr class="{if $index%2 eq 0}odd{else}even{/if}">
+            <td class="center"><input type="checkbox" name="ids[]" id="id_{$student->id}" value="{$student->id}" class="level_{$student->niveauId}" /></td>
             <td><label for="id_{$student->id}">{$student->prenom}</label></td>
             <td><label for="id_{$student->id}">{$student->nom}</label></td>
             <td>{$student->niveau}</td>
@@ -28,10 +31,11 @@
               </select>
             </td>
           </tr>
+          {assign var=index value=$index+1}
         {/foreach}
       </tbody>
     </table>
-    <input type="submit" value="Affecter" />
+    <div class="submit"><input type="submit" value="Affecter" class="button button-confirm" /></div>
   </form>
   
   {literal}

@@ -1,22 +1,5 @@
-a img {
-	border: none;
-}
- 
 /* Général
 ------------------------------------------------------------------------------*/ 
-h4 {
-  color: grey;
-  border-bottom: 1px solid grey;
-}
-
-/*p.success {
-  margin: 10px 1px;
-  padding: 2px;
-  -moz-border-radius:6px 6px 6px 6px;
-  background-color:#B9C55B;
-  font-size:10px;
-}*/
-
 .notice-light {
   width: 400px;
 } 
@@ -61,6 +44,11 @@ p.breadcrumbs {
 
 /* Form
 ------------------------------------------------------------------------------*/
+form div.submit {
+	margin:10px 0;
+	text-align:center;
+}
+
 label.form_libelle {
   font-size:12px;
   font-weight:bold;
@@ -84,7 +72,7 @@ input.text {
 input.long-text {
   width: 240px;
 }
-.formExample {
+form .formExample {
 	padding:0 0 0 5px;
 	font-size:0.8em; font-style:italic;
 }
@@ -105,23 +93,33 @@ input.long-text {
     margin:10px 0; padding:5px; border:3px solid #ddd;
     -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
     background:#fff;
+	font-size:0.9em;
 }
 #tree #treeView > ul {
 	margin:0; padding:0;
 }
-
 #tree ul {
-    padding-left: 20px;
+    padding-left:20px;
     list-style-type: none;
+}
+#treeView li {line-height:2em;}
+#treeView li a {
+	padding:2px 4px;
+}
+#treeView li a.current {
+	background:#fff; color:#000;
+	border:2px solid #BAD521;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+}
+#treeView li a.node:hover {
+	border:2px solid #ddd;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }
 
 li.collapsed ul {
   display: none;
 }
 
-ul.tree li {
-  line-height: 23px;
-}                  
 
 ul.tree a.toggle-node span {
   left:-5000px;
@@ -147,12 +145,6 @@ ul.tree a.after-expand {
 
 ul.tree a.classroom {
   margin-left: 7px;
-}
-
-li a.current {
-  background-color:#327E04;/* !important;*/
-  color:white; /* !important;*/
-  padding:2px 4px;
 }
 
 #student_creation_data {
@@ -258,14 +250,6 @@ div.gestionautonome #tree-actions  {
 	border:2px solid #DDD;
 }*/
 
-div.gestionautonome li a.current {
-	/*background-color:#CCC !important;
-	color:white !important;*/
-	background:#fff; color:#000;
-	border:2px solid #BAD521;
-	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
-}
-
 div.gestionautonome input[type="button"]  {
 	/*font-family:Arial,Helvetica,sans-serif;*/
 	font-size:1em;
@@ -283,18 +267,18 @@ p.students-count {
 
 
 /* Persons Data */
-#column-data table {
+#gestionautonome table {
 	border:1px solid #ddd;
 	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
 	width:100%;
 	background:#fff;
 }
-#column-data table th {
+#gestionautonome table th {
 	background:#eee;
 	text-align:center;
 }
-#column-data table tr.odd { background:#efefef;}
-#column-data table td.actions {
+#gestionautonome table tr.odd { background:#efefef;}
+#gestionautonome table td.actions {
 	text-align:center;
 }
 #column-data .ui-tabs {margin:0 0 10px 0;}
@@ -313,10 +297,30 @@ p.students-count {
 
 
 /* Affect */
-#fromClass, #toClass {
-	margin:10px 0; padding:5px; border:3px solid #ddd;
+#filter-form {
+	height:160px;
+	background:url(../images/icon-128/action-next.png) no-repeat 50% 100%;
+}
+.filterClass {
+	float:left;
+	margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
     -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
-    width:45%;
+    width:40%;
 	background:#fff;
+}
+#toClass {float:right;}
+.filterClass h3 {
+	margin:0;
+}
+.filterClass dl {margin:10px 0 5px;}
+.filterClass dl dt {
+	clear:both; float:left;
+}
+.filterClass dl dd {
+	margin:0 0 4px 40%;
+	line-height:1em;
+}
+#students-selector {
+	clear:both;
 }
 /* End Affect */

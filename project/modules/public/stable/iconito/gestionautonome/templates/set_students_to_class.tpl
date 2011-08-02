@@ -4,7 +4,7 @@
 <h2>Affectation de classe</h2>
 
 <form action="{copixurl dest="gestionautonome||setStudentsToClass"}" method="get" id="filter-form">
-  <div id="fromClass">
+  <div id="fromClass" class="filterClass">
       <h3>Classe d'origine</h3>
       <dl>
         <dt>Année scolaire :</dt>
@@ -37,7 +37,7 @@
       </dl>
   </div>
   
-  <div id="toClass">
+  <div id="toClass" class="filterClass">
       <h3>Classe de destination</h3>
       <dl>
         <dt>Année scolaire :</dt>

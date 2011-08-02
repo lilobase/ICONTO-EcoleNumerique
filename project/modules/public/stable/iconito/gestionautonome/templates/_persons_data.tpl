@@ -75,8 +75,9 @@
               <th>Identifiant</th>
               <th>Actions</th>
             </tr>
+            {assign var=index value=1}
             {foreach from=$ppo->persons item=person}
-              <tr>
+              <tr class="{if $index%2 eq 0}odd{else}even{/if}">
                 <td class="center">
                   {if $person->id_sexe eq 1}
                     <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
@@ -98,6 +99,7 @@
                   {/if}
                 </td>
               </tr>
+              {assign var=index value=$index+1}
             {/foreach}  
           </table>
         {else}
@@ -114,8 +116,9 @@
               <th>Identifiant</th>
               <th>Actions</th>
             </tr>
+            {assign var=index value=1}
             {foreach from=$ppo->responsables item=responsable}
-              <tr>
+              <tr class="{if $index%2 eq 0}odd{else}even{/if}">
                 <td class="center">
                   {if $responsable->sexe eq 1}
                     <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
@@ -135,6 +138,7 @@
                   {/if}
                 </td>
               </tr>
+              {assign var=index value=$index+1}
             {/foreach}  
           </table>
         {else}
@@ -165,8 +169,9 @@
         <th>Identifiant</th>
         <th>Actions</th>
       </tr>
+      {assign var=index value=1}
       {foreach from=$ppo->persons item=person}
-        <tr>
+        <tr class="{if $index%2 eq 0}odd{else}even{/if}">
           <td class="center">
             {if $person->id_sexe eq 1}
               <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
@@ -196,6 +201,7 @@
             {/if}
             </td>
         </tr>
+        {assign var=index value=$index+1}
       {/foreach}
     </table>
   {/if}                        
