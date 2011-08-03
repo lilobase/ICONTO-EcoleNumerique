@@ -10,7 +10,11 @@ div.submenu,
 #contentbottom,
 #breadcrumb,
 #submenu,
-div.tools_right div.dashpanel div.toolset
+div.tools_right div.dashpanel div.toolset,
+.button,
+.mesgSuccess, 
+.mesgErrors, 
+.mesgError
  {
 	display:none;
 

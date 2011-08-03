@@ -77,7 +77,7 @@
 .button-save		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_save.png) 4px 50% no-repeat; }
 .button-add			{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_add.png) 4px 50% no-repeat; }
 .button-delete		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_delete.png) 4px 50% no-repeat; }
-.button-cancel		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_cancel.png) 4px 50% no-repeat; }
+.button-cancel		{ padding-left: 26px; background: #f9f9f9 url(../../../themes/default/images/button-action/action_cancel.png) 4px 50% no-repeat; }
 .button-continue	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_continue.png) 4px 50% no-repeat; }
 .button-back		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_back.png) 4px 50% no-repeat; }
 .button-next		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_next.png) 4px 50% no-repeat; }

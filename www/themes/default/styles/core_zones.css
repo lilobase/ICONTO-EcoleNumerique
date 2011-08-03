@@ -351,7 +351,7 @@ p.ui-state-error {
 
 p.mesgSuccess, ul.mesgErrors, div.mesgErrors ul, p.mesgError, p.mesgInfo {
 	margin:10px 0 15px; padding:5px 5px 5px 28px; border:1px solid #BAD521;
-	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
 	background:url(../../../themes/default/images/button-action/action_confirm.png) no-repeat 5px 50% #fff; color:#BAD521;
 	font-weight:bold;
 }
