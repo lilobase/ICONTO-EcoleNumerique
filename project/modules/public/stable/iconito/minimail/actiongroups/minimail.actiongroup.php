@@ -6,6 +6,8 @@
  * @package Iconito
  * @subpackage	Minimail
  */
+require_once (COPIX_UTILS_PATH . 'CopixPager.class.php');
+
 class ActionGroupMinimail extends EnicActionGroup {
 
     public function beforeAction() {
@@ -25,28 +27,6 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $this->addJs('js/iconito/module_minimail.js');
 
-        $dao = _dao("minimail_to");
-
-        //$userId = _currentUser ()->getId();
-        $userId = _currentUser()->getId();
-
-        $page = _request("page") ? _request("page") : 1;
-        $offset = ($page - 1) * CopixConfig::get('minimail|list_nblines');
-        $messagesAll = $dao->getListRecvAll($userId);
-        $nbPages = ceil(count($messagesAll) / CopixConfig::get('minimail|list_nblines'));
-
-        //die("a");
-        $messages = $dao->getListRecv($userId, $offset, CopixConfig::get('minimail|list_nblines'));
-
-        // Infos des utilisateurs
-        foreach ($messages as $k => $topic) {
-            if ($userInfo = Kernel::getUserInfo("ID", $messages[$k]->from_id)) {
-                //print_r($userInfo);
-                $messages[$k]->from = $userInfo;
-                $messages[$k]->from_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
-            }
-        }
-
         $tpl = & new CopixTpl ();
         $tpl->assign('TITLE_PAGE', CopixI18N::get('minimail.mess_recv'));
 
@@ -57,13 +37,32 @@ class ActionGroupMinimail extends EnicActionGroup {
         $tpl->assign('MENU', $menu);
 
         $tplListe = & new CopixTpl ();
-        $tplListe->assign('list', $messages);
 
-        $tplListe->assign('reglettepages', CopixZone::process('kernel|reglettepages', array('page' => $page, 'nbPages' => $nbPages, 'url' => CopixUrl::get('minimail||getListRecv'))));
+        $messagesAll = _ioDAO("minimail_to")->getListRecvAll(_currentUser()->getId());
+
+        $params = Array(
+               'perPage'    => intval(CopixConfig::get('minimail|list_nblines')),
+               'delta'      => 5,
+               'recordSet'  => $messagesAll,
+               'template'   => '|pager.tpl'
+        );
+        $Pager = CopixPager::Load($params);
+        $tplListe->assign ('pager'                , $Pager->GetMultipage());
+
+        $list = $Pager->data;
+        // Infos des utilisateurs sur les messages a afficher
+        foreach ($list as $k => $topic) {
+            if ($userInfo = Kernel::getUserInfo("ID", $list[$k]->from_id)) {
+                //print_r($userInfo);
+                $list[$k]->from = $userInfo;
+                $list[$k]->from_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
+            }
+        }
+        $tplListe->assign ('list', $list);
+
         $result = $tplListe->fetch("getlistrecv.tpl");
 
         $tpl->assign("MAIN", $result);
-
 
         return new CopixActionReturn(COPIX_AR_DISPLAY, $tpl);
     }
@@ -81,30 +80,6 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $this->addJs('js/iconito/module_minimail.js');
 
-        $daoFrom = CopixDAOFactory::create("minimail_from");
-        $daoTo = CopixDAOFactory::create("minimail_to");
-        $userId = _currentUser()->getId();
-
-        $page = _request("page") ? _request("page") : 1;
-        $offset = ($page - 1) * CopixConfig::get('minimail|list_nblines');
-        $messagesAll = $daoFrom->getListSendAll($userId);
-        $nbPages = ceil(count($messagesAll) / CopixConfig::get('minimail|list_nblines'));
-
-        $messages = $daoFrom->getListSend($userId, $offset, CopixConfig::get('minimail|list_nblines'));
-
-
-        // Infos des utilisateurs
-        foreach ($messages as $k => $null) {
-            $dest = $daoTo->selectDestFromId($messages[$k]->id);
-            foreach ($dest as $j => $null) {
-                //print_r($dest[$j]->to_id);
-                $userInfo = Kernel::getUserInfo("ID", $dest[$j]->to_id);
-                $dest[$j]->to = $userInfo;
-                $dest[$j]->to_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
-            }
-            $messages[$k]->destin = $dest;
-        }
-
         $tpl = & new CopixTpl ();
         $tpl->assign('TITLE_PAGE', CopixI18N::get('minimail.mess_send'));
 
@@ -115,13 +90,35 @@ class ActionGroupMinimail extends EnicActionGroup {
         $tpl->assign('MENU', $menu);
 
         $tplListe = & new CopixTpl ();
-        $tplListe->assign('list', $messages);
-        $tplListe->assign('reglettepages', CopixZone::process('kernel|reglettepages', array('page' => $page, 'nbPages' => $nbPages, 'url' => CopixUrl::get('minimail||getListSend'))));
+
+        $messagesAll = _ioDAO("minimail_from")->getListSendAll(_currentUser()->getId());
+
+        $params = Array(
+               'perPage'    => intval(CopixConfig::get('minimail|list_nblines')),
+               'delta'      => 5,
+               'recordSet'  => $messagesAll,
+               'template'   => '|pager.tpl'
+        );
+        $Pager = CopixPager::Load($params);
+        $tplListe->assign ('pager'                , $Pager->GetMultipage());
+
+        $list = $Pager->data;
+        // Infos des utilisateurs sur les messages a afficher
+        foreach ($list as $k => $null) {
+            $dest = _ioDAO("minimail_to")->selectDestFromId($list[$k]->id);
+            foreach ($dest as $j => $null) {
+                //print_r($dest[$j]->to_id);
+                $userInfo = Kernel::getUserInfo("ID", $dest[$j]->to_id);
+                $dest[$j]->to = $userInfo;
+                $dest[$j]->to_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
+            }
+            $list[$k]->destin = $dest;
+        }
+        $tplListe->assign ('list', $list);
 
         $result = $tplListe->fetch("getlistsend.tpl");
 
         $tpl->assign("MAIN", $result);
-
 
         return new CopixActionReturn(COPIX_AR_DISPLAY, $tpl);
     }
@@ -304,7 +301,7 @@ class ActionGroupMinimail extends EnicActionGroup {
             }
         }
 
-        
+
 
         $tplForm->assign("dest", $dest);
         $tplForm->assign("title", $title);

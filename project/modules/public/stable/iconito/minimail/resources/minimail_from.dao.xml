@@ -1,88 +1,74 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <!DOCTYPE daodefinition SYSTEM "dao.dtd">
 <daodefinition version="1">
-	<datasource>
-		<tables>
-			<table name="minimail_from" tablename="module_minimail_from" primary="yes"/>
-		</tables>
-	</datasource>
-	<properties>
-		<!-- TABLE TEST VERSION -->
-		<property name="id" fieldname="id" type="autoincrement" sequence="minimail_from_id_seq" table="minimail_from" pk="yes"/>
-		<property name="from_id" fieldname="from_id" type="integer" table="minimail_from" pk="no"/>
-		<property name="title" fieldname="title" type="string" table="minimail_from" pk="no"/>
-		<property name="message" fieldname="message" type="string" table="minimail_from" pk="no"/>
-		<property name="format" fieldname="format" type="string" table="minimail_from" pk="no"/>
-		<property name="date_send" fieldname="date_send" type="string" table="minimail_from" pk="no"/>
-		<property name="is_deleted" fieldname="is_deleted" type="integer" table="minimail_from" pk="no"/>
-		<property name="attachment1" fieldname="attachment1" type="string" table="minimail_from" pk="no"/>
-		<property name="attachment2" fieldname="attachment2" type="string" table="minimail_from" pk="no"/>
-		<property name="attachment3" fieldname="attachment3" type="string" table="minimail_from" pk="no"/>
-		<property name="is_forwarded" fieldname="is_forwarded" type="integer" table="minimail_from" pk="no"/>
-	</properties>
-	<methods>
-		<method name="getListSend" type="select">
-			<parameters>
-				<parameter name="from_id" />
-				<parameter name="offset" />
-				<parameter name="count" />
-			</parameters>
-			<conditions>
-				<condition property="from_id" operator="=" value="$from_id" />
-				<condition property="is_deleted" operator="=" value="0" />
-			</conditions>
-			<order>
-				<orderitem property="date_send" way="desc" />
-			</order>
-			<limit offset="$offset" count="$count" />
-		</method>
+    <datasource>
+        <tables>
+            <table name="minimail_from" tablename="module_minimail_from" primary="yes"/>
+        </tables>
+    </datasource>
+    <properties>
+        <property name="id" fieldname="id" type="autoincrement" sequence="minimail_from_id_seq" table="minimail_from" pk="yes"/>
+        <property name="from_id" fieldname="from_id" type="integer" table="minimail_from" pk="no"/>
+        <property name="title" fieldname="title" type="string" table="minimail_from" pk="no"/>
+        <property name="message" fieldname="message" type="string" table="minimail_from" pk="no"/>
+        <property name="format" fieldname="format" type="string" table="minimail_from" pk="no"/>
+        <property name="date_send" fieldname="date_send" type="string" table="minimail_from" pk="no"/>
+        <property name="is_deleted" fieldname="is_deleted" type="integer" table="minimail_from" pk="no"/>
+        <property name="attachment1" fieldname="attachment1" type="string" table="minimail_from" pk="no"/>
+        <property name="attachment2" fieldname="attachment2" type="string" table="minimail_from" pk="no"/>
+        <property name="attachment3" fieldname="attachment3" type="string" table="minimail_from" pk="no"/>
+        <property name="is_forwarded" fieldname="is_forwarded" type="integer" table="minimail_from" pk="no"/>
+    </properties>
+    <methods>
+        <method name="getListSendAll" type="select">
+            <parameters>
+                <parameter name="from_id" />
+            </parameters>
+            <conditions>
+                <condition property="from_id" operator="=" value="$from_id" />
+                <condition property="is_deleted" operator="=" value="0" />
+            </conditions>
+            <order>
+                <orderitem property="date_send" way="desc" />
+            </order>
+        </method>
 
-		<method name="getListSendAll" type="select">
-			<parameters>
-				<parameter name="from_id" />
-			</parameters>
-			<conditions>
-				<condition property="from_id" operator="=" value="$from_id" />
-				<condition property="is_deleted" operator="=" value="0" />
-			</conditions>
-		</method>
+        <method name="getMessage" type="selectfirst">
+            <parameters>
+                <parameter name="id" />
+            </parameters>
+            <conditions>
+                <condition property="id" operator="=" value="$id" />
+            </conditions>
+        </method>
 
-		<method name="getMessage" type="selectfirst">
-			<parameters>
-				<parameter name="id" />
-			</parameters>
-			<conditions>
-				<condition property="id" operator="=" value="$id" />
-			</conditions>
-		</method>
-
-		<method name="getFromPrevMessage" type="selectfirst">
-			<parameters>
-				<parameter name="date_send" />
-				<parameter name="from_id" />
-			</parameters>
-			<conditions>
-				<condition property="date_send" operator="&lt;" value="$date_send" />
-				<condition property="from_id" operator="=" value="$from_id" />
-			</conditions>
-			<order>
-				<orderitem property="date_send" way="desc" />
-			</order>
-			<limit offset="0" count="1" />
-		</method>
-		<method name="getFromNextMessage" type="selectfirst">
-			<parameters>
-				<parameter name="date_send" />
-				<parameter name="from_id" />
-			</parameters>
-			<conditions>
-				<condition property="date_send" operator="&gt;" value="$date_send" />
-				<condition property="from_id" operator="=" value="$from_id" />
-			</conditions>
-			<order>
-				<orderitem property="date_send" way="asc" />
-			</order>
-			<limit offset="0" count="1" />
-		</method>
-	</methods>
+        <method name="getFromPrevMessage" type="selectfirst">
+            <parameters>
+                <parameter name="date_send" />
+                <parameter name="from_id" />
+            </parameters>
+            <conditions>
+                <condition property="date_send" operator="&lt;" value="$date_send" />
+                <condition property="from_id" operator="=" value="$from_id" />
+            </conditions>
+            <order>
+                <orderitem property="date_send" way="desc" />
+            </order>
+            <limit offset="0" count="1" />
+        </method>
+        <method name="getFromNextMessage" type="selectfirst">
+            <parameters>
+                <parameter name="date_send" />
+                <parameter name="from_id" />
+            </parameters>
+            <conditions>
+                <condition property="date_send" operator="&gt;" value="$date_send" />
+                <condition property="from_id" operator="=" value="$from_id" />
+            </conditions>
+            <order>
+                <orderitem property="date_send" way="asc" />
+            </order>
+            <limit offset="0" count="1" />
+        </method>
+    </methods>
 </daodefinition>
