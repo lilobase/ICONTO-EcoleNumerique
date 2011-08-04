@@ -357,9 +357,10 @@ ul.tree a.classroom {
 /******************************************************************************/
 /* Help */
 #gestionautonome .help {
-	margin:0 0 15px; padding:5px 5px 5px 28px; border:2px solid #49BFCD;
+	margin:0 0 25px; padding:5px 5px 5px 28px; border:2px solid #49BFCD;
 	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
 	background:#fff url(../../../themes/default/images/button-action/action_info.png) no-repeat 5px 5%; color:#444;
+	font-size:0.95em;
 }
 #gestionautonome .help pre {
 	margin:10px; padding:4px 8px; border:1px solid #ddd;
