@@ -1,6 +1,6 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
 
-<h2>Ajout d'une liste d'élèves</h2>
+<h2>Importer des élèves</h2>
 
 {if $ppo->studentsSuccess neq null}
   
@@ -69,99 +69,85 @@
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
   
   
-      <table class="liste">
+      <table>
         <tr>
-          <th class="liste_th"></th>
-          <th class="liste_th">Prénom</th> 
-          <th class="liste_th">Nom</th>
-          <th class="liste_th">DDN</th> 
-          <th class="liste_th">Identifiant</th>
-          <th class="liste_th">Mot de passe</th>
-          <th class="liste_th">Niveau / Relation</th>
-          <th class="liste_th">Confirmer création ?</th>
+          <th></th>
+          <th>Prénom</th> 
+          <th>Nom</th>
+          <th>Date de <br/>naissance</th> 
+          <th>Identifiant</th>
+          <th>Mot de passe</th>
+          <th>Niveau <br />ou Relation</th>
+          <th>Confirmer ?</th>
         </tr>
+        {assign var=index value=1}
         {foreach from=$ppo->students key=k item=student}
-          <tr class="list_line1">
+          <tr class="{if $index%2 eq 0}odd{else}even{/if}">
             <td> 
               {if $student.gender eq 1}
-                <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
+                  <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
               {else}                                                                 
-                <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
+                  <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if}
             </td>
             <td>{$student.firstname}</td>
             <td>{$student.lastname}</td>
             <td>{$student.birthdate}</td>
             <td>
-              <input type="text" class="form" name="logins[]" value="{$student.login}" />
+              <input type="text" name="logins[]" value="{$student.login}" />
             </td>
             <td>
-              <input type="text" class="form" name="passwords[]" value="{$student.password}" />
+              <input type="text" name="passwords[]" value="{$student.password}" />
             </td>
-            <td>
-              <select class="form" name="levels[]">
+            <td class="center">
+              <select name="levels[]">
                 {html_options values=$ppo->levelIds output=$ppo->levelNames selected=$ppo->level}
           	  </select>
             </td>
-            <td>
-              <input type="checkbox" class="form" name="keys[]" value="{$k}" checked="checked" />
+            <td class="center">
+              <input type="checkbox" name="keys[]" value="{$k}" checked="checked" />
             </td>
           </tr>
           {foreach from=$student.person key=j item=person}
-            <tr>
+            {assign var=index value=$index+1}
+            <tr class="{if $index%2 eq 0}odd{else}even{/if}">
               <td> 
                 {if $person.gender eq 1}
-                  <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
+                    <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />
                 {else}                                                                 
-                  <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
-                {/if}
-              </td>
+                    <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />
+                {/if}</td>
               <td>{$person.firstname}</td>
               <td>{$person.lastname}</td>
               <td>{$person.birthdate}</td>
               <td>
-                <input type="text" class="form" name="logins{$k}[]" value="{$person.login}" />
+                <input type="text" name="logins{$k}[]" value="{$person.login}" />
               </td>
               <td>
-                <input type="text" class="form" name="passwords{$k}[]" value="{$person.password}" />
+                <input type="text" name="passwords{$k}[]" value="{$person.password}" />
               </td>
-              <td>{$person.nom_pa}</td>
-              <td>
-                <input type="checkbox" class="form" name="person-keys{$k}[]" value="{$j}" checked="checked" />
+              <td class="center">{$person.nom_pa}</td>
+              <td class="center">
+                <input type="checkbox" name="person-keys{$k}[]" value="{$j}" checked="checked" />
               </td>
             </tr>
+            
           {/foreach}
+          {assign var=index value=$index+1}
         {/foreach}
         <tr class="liste_footer">
       		<td colspan="8"></td>
       	</tr>
       </table>
-      <ul class="actions">
-        <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-      	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-      </ul>
+      <div class="submit">
+          <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+          <input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+      </div>
   </form>
 {else}
-  <i>Aucun élève à ajouter</i>
+  <p class="mesgError">Aucun élève à ajouter</p>
 
-  <ul class="actions">
-    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-  </ul>
+  <div class="center">
+      <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+  </div>
 {/if}                                                                                
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	
- 	  //jQuery('.button').button();
- 	  
- 	  jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
-  });
-//]]> 
-</script>
-{/literal}

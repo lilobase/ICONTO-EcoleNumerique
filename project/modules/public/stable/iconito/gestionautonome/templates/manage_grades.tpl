@@ -26,19 +26,6 @@
   </table>
 {/if}
 
-<ul class="actions">
-  <li><a href="{copixurl dest="gestionautonome||createGrade"}" class="button">Créer une nouvelle année scolaire</a></li>
-</ul>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  jQuery(document).ready(function(){
- 	
- 	  //jQuery('.button').button();
-  });
-  
-//]]> 
-</script>
-{/literal}
+<div class="submit">
+    <a href="{copixurl dest="gestionautonome||createGrade"}" class="button button-add">Créer une nouvelle année scolaire</a>
+</div>

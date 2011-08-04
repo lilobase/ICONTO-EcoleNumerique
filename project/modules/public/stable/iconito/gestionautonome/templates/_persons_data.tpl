@@ -15,7 +15,7 @@
     
     <div id="tabs">
       <ul>
-        <li><a href="#students-data"><span>Elèves</span></a></li>
+        <li><a href="#students-data"><span>&Eacute;lèves</span></a></li>
         <li><a href="#persons-data"><span>Enseignants</span></a></li>
         <li><a href="#parents-data"><span>Parents</span></a></li>
       </ul>
@@ -25,7 +25,6 @@
           <table>
             <tr>
               <th>Sexe</th>
-              <th>Type</th>
               <th>Nom</th>
               <th>Prénom</th>
               <th>Identifiant</th>
@@ -41,7 +40,6 @@
                     <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />
                   {/if}
                 </td>
-                <td>Elève</td>
                 <td>{$student->nom}</td>
                 <td>{$student->prenom1}</td>
                 <td>{$student->login}</td>
@@ -59,7 +57,7 @@
             {/foreach}
           </table>
           
-          <p class="students-count">Nombre d'élèves dans la classe : {$ppo->students|@count}</p>
+          <p class="items-count">{$ppo->students|@count} élèves dans cette classe</p>
           {else}
             <p class="center"><strong>Aucun élève</strong></p>
           {/if} 
@@ -69,7 +67,6 @@
           <table>
             <tr>
               <th>Sexe</th>
-              <th>Type</th>
               <th>Nom</th>
               <th>Prénom</th>
               <th>Identifiant</th>
@@ -85,7 +82,6 @@
                     <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
                   {/if}
                 </td>
-                <td>{$person->nom_role}</td>
                 <td>{$person->nom}</td>
                 <td>{$person->prenom1}</td>
                 <td>{$person->login_dbuser}</td>

@@ -1,43 +1,26 @@
-<h2>Ajout d'une liste d'élèves</h2>
+<h2>Importer des élèves</h2>
 
 <div id="accounts-info">
   {copixzone process=gestionautonome|MultipleAccountsInfo}
 </div>
 
-<p class="notice-light ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
-  <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-  <strong>Elèves ajoutés !</strong>
-</p>
+<p class="mesgSuccess">Elèves ajoutés !</p>
 
-<h4>Liste des élèves ajoutés</h4>
-
+<h3>Liste des élèves ajoutés</h3>
+<ul>
 {foreach from=$ppo->students key=k item=student}
-
-  {$student.firstname} {$student.lastname}
-  {foreach from=$student.person key=j item=person}
-    
-    ({$person.firstname} {$person.lastname})
-  {/foreach}
-  ,
+    <li>{if $student.gender eq 1}
+            <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
+          {else}                                                                 
+            <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
+          {/if} {$student.firstname} {$student.lastname}
+    {foreach from=$student.person key=j item=person}
+        <br />({$person.firstname} {$person.lastname})
+    {/foreach}
+    </li>
 {/foreach}
+</ul>
 
-<ul class="actions">
-  <li><input class="button" type="button" value="Retour" id="back" /></li>
-</ul>        
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  jQuery(document).ready(function(){
- 	
- 	  //jQuery('.button').button();
- 	  
- 	  jQuery('#back').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
-  });
-//]]> 
-</script>
-{/literal}
+<div class="submit">
+    <a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
+</div>

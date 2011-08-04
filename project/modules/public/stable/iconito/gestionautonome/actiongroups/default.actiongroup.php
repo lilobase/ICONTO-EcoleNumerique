@@ -15,6 +15,8 @@ class ActionGroupDefault extends enicActionGroup {
 		$this->menu = array();
 		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
 		if($this->user->root) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>120 );
+		
+		$this->addJs('js/iconito/module_gestionautonome.js');
 	}
 
 	/**

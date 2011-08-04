@@ -32,10 +32,5 @@
     {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|classroom|delete@gestionautonome")}
       <a href="{copixurl dest="gestionautonome||deleteClass" nodeId=$ppo->nodeId nodeType=$ppo->nodeType}" onclick="return confirm('Etes-vous sur de vouloir supprimer cette classe ?')" class="button button-delete">Supprimer la classe</a>
     {/if}
- 
 
-{else}
-  <p>
-    Sélectionnez un élément dans la structure.
-  </p>
 {/if}

@@ -73,6 +73,8 @@
   {/if}
 </div>
 
+<a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
+
 {literal}
 <script type="text/javascript">
 //<![CDATA[

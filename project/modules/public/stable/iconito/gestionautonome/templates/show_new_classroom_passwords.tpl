@@ -1,13 +1,10 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p>
 
-<h2>Re-génération des mots de passe</h2>
+<h2 class="noPrint">Réinitialisation des mots de passe</h2>
 
 {copixzone process=gestionautonome|AccountsInfo}
 
-<p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
-  <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-  <strong>Modification effectuée !</strong>
-</p>
+<p class="mesgSuccess">Modification effectuée !</p>
 
 <h3>Liste des comptes modifiés</h3>
 
@@ -16,7 +13,7 @@
     <tr>
       <th>Prénom</th>
   		<th>Nom</th>
-  		<th>Login</th>
+  		<th>Identifiant</th>
   		<th>Mot de passe</th>
   		<th>Type</th>
   	</tr>
@@ -25,7 +22,7 @@
   	{counter assign="i" name="i"}
   	{foreach from=$ppo->accounts item=account}
   		{counter name="i"}
-  		<tr class="list_line{math equation="x%2" x=$i}">
+  		<tr class="{if $i%2==0}even{else}odd{/if}">
   		  <td>{$account.firstname}</td>
   			<td>{$account.lastname}</td>
   			<td >{$account.login}</td>
@@ -36,8 +33,8 @@
   </tbody>
 </table>
 
-<p>
-  <a href="{copixurl dest="gestionautonome||showTree"}" class="button">Retour</a>
-  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=html}" class="button">Imprimer</a>
-  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=csv}" class="button">Télécharger</a> 
-</p>
+<div class="submit">
+  <a href="{copixurl dest="gestionautonome||showTree"}" class="button button-previous">Retour</a>
+  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=html}" class="button button-print hidden">Imprimer</a>
+  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=csv}" class="button button-save">Télécharger</a> 
+</div>

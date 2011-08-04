@@ -1,20 +1,23 @@
-/* Général
-------------------------------------------------------------------------------*/ 
-.notice-light {
-  width: 400px;
-} 
+/**
+ * module_gestionautonome.css
+ * Module de Gestion des usagers
+ *
+ * @package		EN2011
+ * @cdate 		21.12.2010
+ * @mdate		03.08.2011
+ * @author		Philippe Roser <proser@cap-tic.fr>
+ */
 
-.error-light {
-  width: 400px;
-}
 
-p.items-count {
-  font-style:italic;
-}
+/******************************************************************************/
+/* Global */
+p.items-count {font-weight:bold;}
+.hidden {display:none;}
+/* End Global */
+/******************************************************************************/
 
-.hidden {
-  display:none;
-}
+
+
 
 fieldset.filter {
   border:1px dashed #A0A0A0;
@@ -31,25 +34,53 @@ fieldset.filter legend {
   font-style:italic;
   font-weight:bold;
 }
-
-table.liste td {
-  font-family: Arial Narrow,'Droid Sans',sans-serif;
-  text-align: center;
-  font-size: 1.2em;
-}
-
+/*
 p.breadcrumbs {
   font-size:0.8em;
 } 
+*/
 
-/* Form
-------------------------------------------------------------------------------*/
-form div.submit {
+
+/******************************************************************************/
+/* Forms */
+div.submit {
+	color:#F00;
 	margin:10px 0;
 	text-align:center;
 }
-form div.submit input {margin:0 5px 0 0;}
+div.submit input, div.submit a.button {margin:0 5px 0 0;}
+input.short-text {width:30px;}
+input.long-text {width:240px;}
+form .formExample {
+	padding:0 0 0 5px;
+	font-size:0.8em; font-style:italic;
+}
 
+/* New styles */
+#student_creation .field {
+	clear:both;
+	margin:0 0 2px;
+}
+#student_creation .field label,
+#student_creation .field .label,
+#class_creation .field label {
+	display:block;
+	float:left;
+	margin:0;
+	width:29%;
+}
+#class_creation .field label, #class_update .field label {width:19%;}
+#student_creation .field p.input {margin:0 0 0 30%;}
+#class_creation .field p.input, #class_update .field p.input {margin:0 0 0 19%;}
+#student_creation .field p.input label,
+#class_creation .field p.input label, 
+#class_update .field p.input label {
+	display:inline;
+	float:none;
+	padding:0 10px 0 0;
+	width:auto;
+}
+/* Old styles */
 label.form_libelle {
   font-size:12px;
   font-weight:bold;
@@ -73,22 +104,18 @@ input.text {
 input.long-text {
   width: 240px;
 }
-form .formExample {
-	padding:0 0 0 5px;
-	font-size:0.8em; font-style:italic;
-}
+/* End Forms */
+/******************************************************************************/
 
 
-/* Tree
-------------------------------------------------------------------------------*/ 
+
+/******************************************************************************/
+/* Tree */
 #tree {
-  float: left;
-  width: 45%;
-  margin: 1px;
-  padding: 5px;
+  float:left;
+  width:45%;
+  margin:1px; padding:5px;
   -moz-border-radius:6px 6px 6px 6px;
-  /*background-color:#E2ED8A;*/
-  /*font-size:12px;*/
 }
 #tree #treeView {
     margin:10px 0; padding:5px; border:3px solid #ddd;
@@ -116,57 +143,44 @@ form .formExample {
 	border:2px solid #ddd;
 	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }
-
-li.collapsed ul {
-  display: none;
+#tree li.collapsed ul {
+  display:none;
 }
-
-
 ul.tree a.toggle-node span {
   left:-5000px;
   position:absolute;
 }
-
 ul.tree a.toggle-node { 
   position: absolute;
   display:block;
   float:left;
   height:20px;
   width:14px;
-  background:url(../images/sort_right_off.png) no-repeat scroll left center transparent; 
+  background:url(../../../themes/default/images/sort_right_off.png) no-repeat scroll left center transparent; 
 }
-
 ul.tree a.expand{
-  background:url(../images/sort_down_off.png) no-repeat scroll left center transparent;
+  background:url(../../../themes/default/images/sort_down_off.png) no-repeat scroll left center transparent;
 }
-
 ul.tree a.after-expand {
   margin-left: 18px;
 }
-
 ul.tree a.classroom {
-  margin-left: 7px;
+  margin-left:10px;
 }
+/* End Tree */
+/******************************************************************************/
 
-#student_creation_data {
-  float: left;
-}                                                                                
 
+/******************************************************************************/
+/* Data */
 #column-data {
-  float: right;
-  width: 50%;
-  padding:6px;
-  -webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
-  border:2px solid #FFFFFF;
+	float:right;
+	padding:6px; border:2px solid #FFFFFF;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+	width:50%;
 }
 
 
-
-
-ul.actions li {
-  float: left;
-  margin-right: 5px;
-}
 
 #students {
   float: right;
@@ -183,7 +197,6 @@ ul.actions li {
   padding:6px;
   -moz-border-radius:15px 15px 15px 15px;
   border:2px solid #FFFFFF;
-  background-color:#E2ED8A;
   font-size:11px;
 }
 
@@ -196,7 +209,7 @@ ul.actions li {
   float: right;
   width: 50%; 
 }
-
+/*
 #person-link div.field {
   clear: both;
 }
@@ -238,74 +251,141 @@ ul.actions li {
   margin: 0;
   padding: 0;
 }
+/* End Data */
+/******************************************************************************/
 
-/* Look neutre
-------------------------------------------------------------------------------*/ 
-p.students-count {
-  margin: 10px 0 0;
-  font-weight: bold;
-}
 
+/******************************************************************************/
 /* Tabs */
 #tabs .ui-tabs-nav li {font-size:1em;}
+#tabs .ui-tabs-nav li.ui-tabs-selected {
+	border:5px solid #fff;
+	font-weight:bold;
+	line-height:0.9;
+}
+#tabs .ui-tabs-nav li.ui-tabs-selected span {color:#333;}
 #column-data .ui-tabs {margin:0 0 10px 0;}
 #column-data .ui-tabs .ui-tabs-panel {
 	padding:1em 0.4em 0.5em;
 	background:#fff;
 }
 /* End tabs */
+/******************************************************************************/
 
 
+/******************************************************************************/
 /* Persons Data */
 #gestionautonome table {
 	border:1px solid #ddd;
 	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
 	width:100%;
-	background:#fff;
+	background:#fff; color:#333;
+}
+#gestionautonome #column-data > table {
+	margin:0 0 10px;
+	font-size:0.9em;
 }
 #gestionautonome table th {
+	padding:2px;
 	background:#eee;
 	text-align:center;
 }
+#gestionautonome table td {padding:2px;}
 #gestionautonome table tr.odd { background:#efefef;}
-#gestionautonome table td.actions {
-	text-align:center;
-}
+#gestionautonome table td.actions {text-align:center;}
 /* End Persons Data */
+/******************************************************************************/
 
 
+/******************************************************************************/
 /* Actions */
 #treeActions a, #personsActions a {
 	margin:0 5px 5px 0;
 }
 /* End Actions */
+/******************************************************************************/
 
 
+/******************************************************************************/
 /* Affect */
 #filter-form {
 	height:160px;
-	background:url(../images/icon-128/action-next.png) no-repeat 50% 100%;
+	background:url(../../../themes/default/images/icon-128/action-next.png) no-repeat 50% 100%;
 }
 .filterClass {
-	float:left;
-	margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
+    float:left;
+    margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
     -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
     width:40%;
-	background:#fff;
+    background:#fff;
 }
 #toClass {float:right;}
-.filterClass h3 {
-	margin:0;
-}
+.filterClass h3 {margin:0;}
 .filterClass dl {margin:10px 0 5px;}
 .filterClass dl dt {
 	clear:both; float:left;
+	color:#333;
 }
-.filterClass dl dd {
-	margin:0 0 4px 40%;
-	line-height:1em;
-}
+.filterClass dl dd {margin:0 0 0px 40%;}
+.filterClass dl dd, .filterClass dl dt {line-height:1.6em;}
 #students-selector {
 	clear:both;
 }
 /* End Affect */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Import */
+#student_creation_data textarea {
+	width:99%; height:300px;
+	line-height:1.4;
+}
+#import-csv {
+	float:right;
+	margin:-5px 0 5px;
+}
+#gestionautonome .submit .button-previous {background-color:#f9f9f9;}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+	font-size:1.22em;
+}
+/* End Import */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Help */
+#gestionautonome .help {
+	margin:0 0 15px; padding:5px 5px 5px 28px; border:2px solid #49BFCD;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+	background:#fff url(../../../themes/default/images/button-action/action_info.png) no-repeat 5px 5%; color:#444;
+}
+#gestionautonome .help pre {
+	margin:10px; padding:4px 8px; border:1px solid #ddd;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+}
+#gestionautonome .help code {
+	color:#111;
+	font-family:"Lucida Console", Monaco, monospace; font-size:0.9em;
+}
+#gestionautonome .help .optionnal {
+	color:#09C;
+	font-weight:bold; font-size:1.4em;
+}
+#gestionautonome .help a:link {border-bottom:1px dotted;}
+#gestionautonome .help a:visited {border-bottom:1px dotted #ddd;}
+#gestionautonome .help a:hover {border-bottom:1px solid #49BFCD;}
+#gestionautonome .help a:active {border-bottom:1px dotted;}
+#gestionautonome #accounts-info .help {
+	float:right;
+	width:35%;
+}
+#gestionautonome #accounts-info .help a:link {border:1px solid #49BFCD;}
+#gestionautonome #accounts-info .help a:visited {border:1px solid #ddd;}
+#gestionautonome #accounts-info .help a:hover {border:1px solid #BAD521;}
+#gestionautonome #accounts-info .help a:active {border:1px solid #BAD521;}
+/* End help */
+/******************************************************************************/
