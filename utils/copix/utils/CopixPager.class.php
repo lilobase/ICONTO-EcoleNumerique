@@ -477,7 +477,7 @@ class CopixPager {
      * @since 2.0
      */
     function getNextPage() {
-        ($this-> currentPage < $this-> nbLinks) ? $link = '<a href="' . $this-> getLink($this-> currentPage + 1) . '" ' . $this-> linkClass . '>'. $this-> nextPage .'</a>' : $link = '';
+        ($this-> currentPage < $this-> nbLinks) ? $link = '<a href="' . $this-> getLink($this-> currentPage + 1) . '" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.nextPage').'">'. $this-> nextPage .'</a>' : $link = '';
         return $link;
     } // end func getNextPage
 
@@ -492,7 +492,7 @@ class CopixPager {
      * @since 3.1.a
      */
     function getPreviousPage() {
-        ($this-> currentPage != 1) ? $link = '<a href="' . $this-> getLink($this-> currentPage - 1) . '" ' . $this-> linkClass . '>'. $this-> previousPage .'</a>' : $link = '';
+        ($this-> currentPage != 1) ? $link = '<a href="' . $this-> getLink($this-> currentPage - 1) . '" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.previousPage').'">'. $this-> previousPage .'</a>' : $link = '';
         return $link;
     } // end func getPreviousPage
 
@@ -502,7 +502,7 @@ class CopixPager {
      * Retourne le lien html d'accès à la première page du template
      */
     function getFirstPage() {
-        return ($this-> currentPage != 1) ? $link = '<a href="' . $this-> getLink(1) . '" ' . $this-> linkClass . '>'. $this-> firstPage .'</a>' : $link = '';
+        return ($this-> currentPage != 1) ? $link = '<a href="' . $this-> getLink(1) . '" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.firstPage').'">'. $this-> firstPage .'</a>' : $link = '';
     } // end func getFirstPage
 
 
@@ -514,7 +514,7 @@ class CopixPager {
      * return string
      */
     function getLastPage() {
-        return ($this-> currentPage != $this-> nbLinks) ? $link = '<a href="' . $this-> getLink($this-> nbLinks) .'" ' . $this-> linkClass . '>'. $this-> lastPage .'</a>' : $link = '';
+        return ($this-> currentPage != $this-> nbLinks) ? $link = '<a href="' . $this-> getLink($this-> nbLinks) .'" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.lastPage').'">'. $this-> lastPage .'</a>' : $link = '';
     } // end func getLastPage
 
 

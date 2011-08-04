@@ -403,9 +403,17 @@ a.sb-list:hover {
  * MULTI-PAGE LINKS
  ***********************************************/
 .pagerContainer {
-	margin:4px 0; 
+	position:relative;
+	clear:both;
+	margin:15px 0 5px; 
 	text-align:center;
 }
+.pagerContainer .totalPages {
+	position:absolute; top:0; right:2px;
+	color:#777;
+	font-size:0.9em; font-style:italic;
+}
+.pagerContainer p {margin:0 0 4px;}
 .pagerContainer strong {
 	border-bottom:1px dotted;
 }
