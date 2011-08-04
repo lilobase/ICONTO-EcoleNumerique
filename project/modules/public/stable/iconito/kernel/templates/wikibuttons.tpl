@@ -21,17 +21,17 @@
 
 {if $buttonAlbum}
 {assign var=button value=$buttonAlbum}
-<a class="fancyframe button button-image" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.albumTxt"}</a>
+    <a class="fancyframe button button-image" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.albumTxt"}</a>
 {/if}
 
 {if $buttonMalle}
 {assign var=button value=$buttonMalle}
- <a class="fancyframe button button-attach" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.malleTxt"}</a>
+    <a class="fancyframe button button-attach" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.malleTxt"}</a>
 {/if}
 
 {if $buttonClasseur}
 {assign var=button value=$buttonClasseur}
- <a class="fancyframe button button-attach" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.classeurTxt"}</a>
+    <a class="fancyframe button button-attach" accesskey="{$button.accesskey}" href="{$button.link}">{i18n key="wikibuttons.classeurTxt"}</a>
 {/if}
 
 </div>
