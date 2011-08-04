@@ -40,25 +40,30 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $messagesAll = _ioDAO("minimail_to")->getListRecvAll(_currentUser()->getId());
 
-        $params = Array(
+        if (count($messagesAll))
+        {
+
+            $params = Array(
                'perPage'    => intval(CopixConfig::get('minimail|list_nblines')),
                'delta'      => 5,
                'recordSet'  => $messagesAll,
                'template'   => '|pager.tpl'
-        );
-        $Pager = CopixPager::Load($params);
-        $tplListe->assign ('pager'                , $Pager->GetMultipage());
+            );
+            $Pager = CopixPager::Load($params);
+            $tplListe->assign ('pager', $Pager->GetMultipage());
 
-        $list = $Pager->data;
-        // Infos des utilisateurs sur les messages a afficher
-        foreach ($list as $k => $topic) {
-            if ($userInfo = Kernel::getUserInfo("ID", $list[$k]->from_id)) {
-                //print_r($userInfo);
-                $list[$k]->from = $userInfo;
-                $list[$k]->from_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
+            $list = $Pager->data;
+            // Infos des utilisateurs sur les messages a afficher
+            foreach ($list as $k => $topic) {
+
+                if ($userInfo = Kernel::getUserInfo("ID", $list[$k]->from_id)) {
+                    //print_r($userInfo);
+                    $list[$k]->from = $userInfo;
+                    $list[$k]->from_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
+                }
             }
+            $tplListe->assign ('list', $list);
         }
-        $tplListe->assign ('list', $list);
 
         $result = $tplListe->fetch("getlistrecv.tpl");
 
@@ -93,28 +98,31 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $messagesAll = _ioDAO("minimail_from")->getListSendAll(_currentUser()->getId());
 
-        $params = Array(
+        if (count($messagesAll))
+        {
+            $params = Array(
                'perPage'    => intval(CopixConfig::get('minimail|list_nblines')),
                'delta'      => 5,
                'recordSet'  => $messagesAll,
                'template'   => '|pager.tpl'
-        );
-        $Pager = CopixPager::Load($params);
-        $tplListe->assign ('pager'                , $Pager->GetMultipage());
+            );
+            $Pager = CopixPager::Load($params);
+            $tplListe->assign ('pager', $Pager->GetMultipage());
 
-        $list = $Pager->data;
-        // Infos des utilisateurs sur les messages a afficher
-        foreach ($list as $k => $null) {
-            $dest = _ioDAO("minimail_to")->selectDestFromId($list[$k]->id);
-            foreach ($dest as $j => $null) {
-                //print_r($dest[$j]->to_id);
-                $userInfo = Kernel::getUserInfo("ID", $dest[$j]->to_id);
-                $dest[$j]->to = $userInfo;
-                $dest[$j]->to_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
+            $list = $Pager->data;
+            // Infos des utilisateurs sur les messages a afficher
+            foreach ($list as $k => $null) {
+                $dest = _ioDAO("minimail_to")->selectDestFromId($list[$k]->id);
+                foreach ($dest as $j => $null) {
+                    //print_r($dest[$j]->to_id);
+                    $userInfo = Kernel::getUserInfo("ID", $dest[$j]->to_id);
+                    $dest[$j]->to = $userInfo;
+                    $dest[$j]->to_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
+                }
+                $list[$k]->destin = $dest;
             }
-            $list[$k]->destin = $dest;
+            $tplListe->assign ('list', $list);
         }
-        $tplListe->assign ('list', $list);
 
         $result = $tplListe->fetch("getlistsend.tpl");
 
