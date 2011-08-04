@@ -35,6 +35,6 @@
 
 <div class="submit">
   <a href="{copixurl dest="gestionautonome||showTree"}" class="button button-previous">Retour</a>
-  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=html}" class="button button-print hidden">Imprimer</a>
+  <a href="{copixurl dest="gestionautonome||getPasswordsList" format=html}" class="button button-print">Imprimer</a>
   <a href="{copixurl dest="gestionautonome||getPasswordsList" format=csv}" class="button button-save">Télécharger</a> 
 </div>
