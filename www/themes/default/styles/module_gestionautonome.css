@@ -13,6 +13,7 @@
 /* Global */
 p.items-count {font-weight:bold;}
 .hidden {display:none;}
+a img {border:0;}
 /* End Global */
 /******************************************************************************/
 
@@ -57,12 +58,10 @@ form .formExample {
 }
 
 /* New styles */
-#student_creation .field {
+#class_creation .field {
 	clear:both;
 	margin:0 0 2px;
 }
-#student_creation .field label,
-#student_creation .field .label,
 #class_creation .field label {
 	display:block;
 	float:left;
@@ -70,9 +69,7 @@ form .formExample {
 	width:29%;
 }
 #class_creation .field label, #class_update .field label {width:19%;}
-#student_creation .field p.input {margin:0 0 0 30%;}
 #class_creation .field p.input, #class_update .field p.input {margin:0 0 0 19%;}
-#student_creation .field p.input label,
 #class_creation .field p.input label, 
 #class_update .field p.input label {
 	display:inline;

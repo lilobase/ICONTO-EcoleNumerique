@@ -30,10 +30,9 @@
 		{if $errors.passwd2}<br />{i18n key="comptes.error.text"} {$errors.passwd2}{/if}
 		</td>
 	</tr>
-	
-	<tr><td colspan="2" CLASS="form_submit">
+	<tr><td></td><td class="form_submit">
 		<a class="button button-cancel" href="{copixurl dest="comptes||getUserExt"}">{i18n key="comptes.form.cancel"}</a>
-		<input class="button button-save" type="submit" value="{i18n key="comptes.form.submit"}"/>
+		<input class="button button-save" type="submit" value="{i18n key="comptes.form.submit"}" />
 	</td></tr>
 	
 </table>
