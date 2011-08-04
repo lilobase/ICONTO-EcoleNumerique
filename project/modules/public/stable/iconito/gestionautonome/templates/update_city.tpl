@@ -22,25 +22,8 @@
     <input class="form" type="text" name="name" id="name" value="{$ppo->city->nom}" />
   </fieldset>
   
-  <ul class="actions">
-    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-  </ul>
+  <div class="submit">
+    <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+  	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+  </div>
 </form>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  jQuery(document).ready(function(){
- 	
- 	  //jQuery('.button').button(); 
- 	  
- 	  jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
-  });
-//]]> 
-</script>
-{/literal}

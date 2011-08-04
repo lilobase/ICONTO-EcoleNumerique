@@ -72,25 +72,8 @@
     <hr class="clear" />
   </div>
   
-  <ul class="actions">
-    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    <li><input class="button" type="submit" name="save" id="save" value="Valider" /></li>
-  </ul>
+  <div class="submit">
+    <a href="{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->ele_idEleve notxml=true}" class="button button-cancel">Annuler</a>
+    <input class="button button-confirm" type="submit" name="save" id="save" value="Valider" />
+  </div>
 </form>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	
- 	  //jQuery('.button').button();
- 	  
- 	  jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->ele_idEleve notxml=true}'{literal};
-    });
-  });
-//]]> 
-</script>
-{/literal}

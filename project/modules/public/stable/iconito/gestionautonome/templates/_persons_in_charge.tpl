@@ -35,16 +35,16 @@
   </table>
 {/if}
 
-<ul class="actions">
+<div class="submit">
   {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|create@gestionautonome")}
-    <li><a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button">Créer un nouveau parent pour cet élève</a></li>
+    <a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button button-add">Créer un nouveau parent pour cet élève</a>
   {/if}
   {if $ppo->personInChargeLinkingEnabled}
     {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|create@gestionautonome")}
-      <li><a href="{copixurl dest="gestionautonome||addExistingPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button">Associer un parent existant à cet élève</a></li>
+      <a href="{copixurl dest="gestionautonome||addExistingPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button button-next">Associer un parent existant à cet élève</a>
     {/if}
   {/if}
-</ul>
+</div>
 
 {literal}
 <script type="text/javascript">
@@ -52,8 +52,6 @@
   
   jQuery(document).ready(function(){
 
- 	  //jQuery('.button').button();
- 	  
  	  jQuery('.remove-link').click(function() {
  	   
  	   if (confirm('Etes-vous sur de vouloir retirer cette affectation ?')) {

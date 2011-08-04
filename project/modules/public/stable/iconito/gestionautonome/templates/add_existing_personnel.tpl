@@ -59,9 +59,9 @@
     </div>
   </fieldset>
 
-  <ul class="actions">
-    <input type="submit" value="Filtrer" class="button" />
-  </ul>
+  <div class="submit">
+    <input type="submit" value="Filtrer" class="button button-search" />
+  </div>
 </form>
 
 <form name="add_existing_persons" id="add_existing_persons" action="{copixurl dest="|validateExistingPersonsAdd"}" method="POST" enctype="multipart/form-data">
@@ -102,18 +102,18 @@
     	</tr>
     </table>
     
-    <ul class="actions">
-      <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-    </ul>
+    <div class="submit">
+        <a href="{if $ppo->nodeType eq 'BU_ECOLE'}{copixurl dest=gestionautonome||showTree tab=1 notxml=true}{else}{copixurl dest=gestionautonome||showTree notxml=true}{/if}" class="button button-cancel">Annuler</a>
+    	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+    </div>
   {else} 
     <p class="items-count">
       Pas de personnes disponibles
     </p>
     
-    <ul class="actions">
-      <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    </ul>
+    <div class="submit">
+        <a href="{if $ppo->nodeType eq 'BU_ECOLE'}{copixurl dest=gestionautonome||showTree tab=1 notxml=true}{else}{copixurl dest=gestionautonome||showTree notxml=true}{/if}" class="button button-cancel">Annuler</a>
+    </div>
   {/if}
 </form> 
 
@@ -123,8 +123,6 @@
   
   $(document).ready(function(){
  	
- 	  //jQuery('.button').button(); 
-
  	  if (jQuery('#withAssignment:checked').val()) {
  	    
  	    jQuery('#assignment-filters').toggleClass('hidden');
@@ -133,18 +131,6 @@
  	  jQuery('#withAssignment').change(function() {
 
       jQuery('#assignment-filters').toggleClass('hidden');
-    });
-
-    jQuery('#cancel').click(function() {
-      
-      if ({/literal}'{$ppo->nodeType}'{literal} == 'BU_ECOLE') {
-        
-        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1 notxml=true}'{literal};
-      }
-      else {
-        
-        document.location.href={/literal}'{copixurl dest=gestionautonome||showTree notxml=true}'{literal};
-      }
     });
 
     jQuery('#filter-displayer').click(function() {

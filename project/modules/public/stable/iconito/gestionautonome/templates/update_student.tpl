@@ -90,10 +90,10 @@
     </div>
   </fieldset>
   
-  <p class="submit">
-    <input class="button button-cancel" type="button" value="Annuler" id="cancel" />
+  <div class="submit">
+    <a href="{if $ppo->personId}{copixurl dest=gestionautonome||updatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType personId=$ppo->personId notxml=true}{else}{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}{/if}" class="button button-cancel">Annuler</a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
-  </p>
+  </div>
 </form>
 
 {literal}
@@ -102,8 +102,6 @@
   
   jQuery(document).ready(function(){
  	
- 	  //jQuery('.button').button();
- 	  
  	  jQuery('.datepicker').datepicker({
     	showOn: 'button',
     	buttonImage: '{/literal}{copixresource path="img/gestionautonome/calendar.png"}{literal}',
@@ -113,16 +111,6 @@
       yearRange: 'c-20:c+10'
     });
     
-    jQuery('#cancel').click(function() {
-      {/literal}
-        {if $ppo->personId}
-          document.location.href='{copixurl dest=gestionautonome||updatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType personId=$ppo->personId notxml=true}';
-        {else}
-          document.location.href='{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}';
-        {/if}
-      {literal}
-    });
-
     jQuery('#new-password-link').click(function() {
 
       jQuery('#new-password').show();

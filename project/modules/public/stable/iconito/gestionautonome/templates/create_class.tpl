@@ -26,11 +26,12 @@
     
     <div class="field">
       <label for="name" class="form_libelle"> Niveaux :</label>
-      {assign var=currentLevel value=0}
+      <p class="input">{assign var=currentLevel value=0}
       {foreach from=$ppo->levels item=level}
       	<input type="checkbox" name="levels[]" value="{$level->id_n}" id="level{$level->id_n}" {if in_array($level->id_n, $ppo->levelsSelected)}checked="checked"{/if} /><label for="level{$level->id_n}">{$level->niveau_court}</label>{if $level->id_cycle neq $currentLevel && $currentLevel neq 0}<br />{/if}
         {assign var=currentLevel value=$level->id_cycle}
       {/foreach}
+      </p>
     </div>
     
     <label for="type" class="form_libelle"> Type :</label>
@@ -39,25 +40,8 @@
   	</select>
   </fieldset>
   
-  <ul class="actions">
-    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-  </ul>
+  <div class="submit">
+    <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+  	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+  </div>
 </form>
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
- 	
- 	  //jQuery('.button').button();
- 	  
- 	  jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
-  });
-//]]> 
-</script>
-{/literal}

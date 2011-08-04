@@ -56,9 +56,9 @@
     </div>
   </fieldset>
 
-  <ul class="actions">
-    <input type="submit" value="Filtrer" class="button" />
-  </ul>
+  <div class="submti">
+    <input type="submit" value="Filtrer" class="button button-search" />
+  </div>
 </form>
 
 <form name="add_existing_students" id="add_existing_students" action="{copixurl dest="|validateExistingStudentsAdd"}" method="POST" enctype="multipart/form-data">
@@ -105,18 +105,18 @@
     	</tr>
     </table>
     
-    <ul class="actions">
-      <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-    </ul>
+    <div class="submit">
+        <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+    	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+    </div>
   {else} 
     <p class="items-count">
       Pas d'élèves disponibles
     </p>
     
-    <ul class="actions">
-      <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    </ul>
+    <div class="submit">
+        <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+    </div>
   {/if}
 </form> 
 
@@ -125,14 +125,6 @@
 //<![CDATA[
   
   $(document).ready(function(){
- 	
- 	  //jQuery('.button').button(); 
-
-    jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
-
     jQuery('#filter-displayer').click(function() {
 
       jQuery('#students-list-filter').toggleClass('hidden');

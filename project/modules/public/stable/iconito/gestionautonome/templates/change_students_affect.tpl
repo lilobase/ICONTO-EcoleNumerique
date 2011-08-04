@@ -52,17 +52,17 @@
 	  </select>
 	  <input class="button" type="button" value="Appliquer" id="allAffect" /> 
     
-    <ul class="actions">
-      <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer les nouvelles affectations" /></li>
-    </ul>
+    <div class="submit">
+        <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+    	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer les nouvelles affectations" />
+    </div>
   </form>
 {else}
   <i>Aucun élève</i>
   
-  <ul class="actions">
-    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-  </ul>                 
+  <div class="submit">
+      <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+  </div>
 {/if}
 
 {literal}
@@ -70,13 +70,6 @@
 //<![CDATA[
   
   $(document).ready(function(){
- 	
- 	  //jQuery('.button').button();
- 	  
- 	  jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
 
     jQuery('#allAffect').click(function () {
 

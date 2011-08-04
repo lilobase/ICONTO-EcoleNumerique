@@ -83,10 +83,10 @@
     </div>
   </fieldset>
   
-  <ul class="actions">
-    <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-  	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-  </ul>
+  <div class="submit">
+    <a href="{if $ppo->studentId}{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId save=1 notxml=true}{else}{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}{/if}" class="button button-cancel">Annuler</a>
+  	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+  </div>
 </form>
 
 {literal}
@@ -94,18 +94,6 @@
 //<![CDATA[
   
   jQuery(document).ready(function(){
- 	
- 	  //jQuery('.button').button();
- 	  
- 	  jQuery('#cancel').click(function() {
-      {/literal}
-        {if $ppo->studentId}
-          document.location.href='{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId save=1 notxml=true}';
-        {else}
-          document.location.href='{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}';
-        {/if}
-      {literal}
-    });
 
     jQuery('#new-password-link').click(function() {
 
