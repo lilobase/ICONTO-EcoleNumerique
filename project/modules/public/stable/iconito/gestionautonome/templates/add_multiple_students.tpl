@@ -20,7 +20,7 @@
     <p>Les informations entre <span class="optionnal">[ ]</span> sont optionnelles. Un champ optionnel peut être vide mais n'oubliez pas le séparateur (virgule, point virgule ou tabulation).</p>
     
     <p>Voir des exemples de saisies : <a href="#" id="students-data">Quelques élèves</a> - <a href="#" id="students-and-persons-data">Quelques élèves et leurs parents</a> 
-    ou <a href="/import_exemple.csv">Télécharger le fichier d'exemple</a></p>
+    - <a href="/import_exemple.csv">Télécharger un fichier d'exemple</a></p>
 </div>
 
 <div id="import-dialog">
@@ -39,7 +39,7 @@
     <input type="hidden" name="node_id" value="{$ppo->nodeId}" />
     <input type="file" name="filename" />
     <div class="submit">
-        <input type="submit" class="button button-up" value="Envoyer" />
+        <input type="submit" class="button button-upload" value="Envoyer" />
     </div>
     </form>
 </div>
@@ -71,7 +71,7 @@ $(document).ready(function(){
 	jQuery('#import-dialog .submit input').before('<a href="#" class="button button-cancel">Annuler</a>');
 	jQuery('#import-dialog .submit .button-cancel').click(function(){jQuery('#import-dialog').dialog('close'); return false;});
     
-    jQuery("#liste").parent().parent().before("<a href=\"{/literal}{copixurl dest="|importStudentsList" nodeId=$ppo->nodeId}{literal}\" id=\"import-csv\" class=\"button button-up\">Importer un fichier</a>");
+    jQuery("#liste").parent().parent().before("<a href=\"{/literal}{copixurl dest="|importStudentsList" nodeId=$ppo->nodeId}{literal}\" id=\"import-csv\" class=\"button button-upload\">Importer un fichier</a>");
     
     jQuery("#import-csv").click(function(event){
         event.stopPropagation();

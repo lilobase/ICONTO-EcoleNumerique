@@ -83,5 +83,5 @@
   </script>
   {/literal}
 {else}
-  <p>Aucun élève à affecter.</p>
+  <p class="center"><strong>Aucun élève à affecter.</strong></p>
 {/if}

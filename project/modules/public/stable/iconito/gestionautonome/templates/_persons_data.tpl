@@ -235,21 +235,22 @@
   {elseif $ppo->parent.type == 'BU_CLASSE'}
       {if $hasCredentialTeacherCreate}
         <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button button-add">Ajouter un enseignant</a>
-        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button">Affecter une personne existante ici</a>
+        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button button-next">Affecter une personne</a>
         {assign var=hasCredential value=1}
       {/if}
       {if $hasCredentialStudentCreate}
         <a href="{copixurl dest="gestionautonome||createStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-add">Ajouter un élève</a>
-        <a href="{copixurl dest="gestionautonome||addMultipleStudents" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-up">Importer des élèves</a>
-        <a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Affecter des élèves venant d'une autre classe</a>
         <a href="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->parent.id}" class="button button-next">Affecter des élèves</a>
+        <a href="{copixurl dest="gestionautonome||addMultipleStudents" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-upload">Importer des élèves</a>
+        <a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Affecter des élèves venant d'une autre classe</a>
+        
         {assign var=hasCredential value=1}
       {/if}
       {if $hasCredentialStudentUpdate}
         <a href="{copixurl dest="gestionautonome||changeStudentsAffect" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Changer d'affectation plusieurs élèves</a>
       {/if}
       {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate || $hasCredentialPersonInChargeUpdate}
-        <a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button button-save">Gérer les mots de passe</a>
+        <br /><a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button button-save">Gérer les mots de passe</a>
       {/if}
       {if $hasCredential eq 1}
         {copixzone process=gestionautonome|getpasswordslist notxml=true}

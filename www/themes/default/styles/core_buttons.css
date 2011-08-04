@@ -92,6 +92,7 @@
 .button-up			{ padding-left: 24px; background: #fff url(../../../themes/default/images/button-action/action_up.png) 4px 50% no-repeat; }
 .button-down		{ padding-left: 24px; background: #fff url(../../../themes/default/images/button-action/action_down.png) 4px 50% no-repeat; }
 .button-download	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_download.png) 3px 50% no-repeat; }
+.button-upload		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_upload.png) 3px 50% no-repeat; }
 .button-move		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_move.png) 3px 50% no-repeat; }
 .button-copy		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_copy.png) 3px 50% no-repeat; }
 .button-image		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_image.png) 4px 50% no-repeat; }
