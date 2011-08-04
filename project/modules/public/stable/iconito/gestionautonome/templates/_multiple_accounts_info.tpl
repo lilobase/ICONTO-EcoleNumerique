@@ -6,6 +6,6 @@
 <p><a href="{copixurl dest="gestionautonome||showMultipleAccountsListing" format=html}" class="button button-print">Liste des comptes</a><br />
 Liste des comptes et leur mot de passe au format HTML, lisible et imprimable</p>
 
-<p><a href="{copixurl dest="gestionautonome||showMultipleAccountsListing" format=csv}" class="button button-print">Liste des comptes - CSV</a> <br />
+<p><a href="{copixurl dest="gestionautonome||showMultipleAccountsListing" format=csv}" class="button button-save">Liste des comptes - CSV</a> <br />
 Liste des comptes et leur mot de passe au format CSV - Excel - OpenOffice</p>
 </div>
