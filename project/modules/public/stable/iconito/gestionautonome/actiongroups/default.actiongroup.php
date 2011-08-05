@@ -3566,7 +3566,13 @@ class ActionGroupDefault extends enicActionGroup {
 
       return _arPPO ($ppo, array ('template' => '_create_person_in_charge.tpl', 'mainTemplate' => null));
     }
+    
+    $passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
+		if (!is_array ($passwordsList)) {
 
+		  $passwordsList = array();
+		}
+		
     if ($ppo->studentId) {
       
       $session = array();
@@ -3581,12 +3587,6 @@ class ActionGroupDefault extends enicActionGroup {
 
         $ppo->personsInSession = array();
       }
-      
-      $passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
-  		if (!is_array ($passwordsList)) {
-
-  		  $passwordsList = array();
-  		}
   		
       if ($ppo->isNewParent) {
         
