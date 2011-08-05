@@ -287,6 +287,7 @@ ul.tree a.classroom {
 }
 #gestionautonome table td {padding:2px;}
 #gestionautonome table tr.odd { background:#efefef;}
+#gestionautonome table .sexe {width:35px;}
 #gestionautonome table td.actions {text-align:center;}
 /* End Persons Data */
 /******************************************************************************/
@@ -375,10 +376,6 @@ ul.tree a.classroom {
 #gestionautonome .help a:visited {border-bottom:1px dotted #ddd;}
 #gestionautonome .help a:hover {border-bottom:1px solid #49BFCD;}
 #gestionautonome .help a:active {border-bottom:1px dotted;}
-#gestionautonome #accounts-info .help {
-	float:right;
-	width:35%;
-}
 #gestionautonome #accounts-info .help a:link {border:1px solid #49BFCD;}
 #gestionautonome #accounts-info .help a:visited {border:1px solid #ddd;}
 #gestionautonome #accounts-info .help a:hover {border:1px solid #BAD521;}

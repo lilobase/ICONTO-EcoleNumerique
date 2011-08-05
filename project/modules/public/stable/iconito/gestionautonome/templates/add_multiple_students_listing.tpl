@@ -71,7 +71,7 @@
   
       <table>
         <tr>
-          <th></th>
+          <th class="sexe">Sexe</th>
           <th>Prénom</th> 
           <th>Nom</th>
           <th>Date de <br/>naissance</th> 
@@ -109,14 +109,9 @@
             </td>
           </tr>
           {foreach from=$student.person key=j item=person}
-            {assign var=index value=$index+1}
+            
             <tr class="{if $index%2 eq 0}odd{else}even{/if}">
-              <td> 
-                {if $person.gender eq 1}
-                    <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />
-                {else}                                                                 
-                    <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />
-                {/if}</td>
+              <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
               <td>{$person.firstname}</td>
               <td>{$person.lastname}</td>
               <td>{$person.birthdate}</td>
