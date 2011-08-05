@@ -3714,7 +3714,7 @@ class ActionGroupDefault extends enicActionGroup {
     		  'res_id_sexe'   => $ppo->person->res_id_sexe,
     		  'login'         => $ppo->account->login,
     		  'parente'       => $ppo->linkNames[$parente],
-    		  'password'      => $passwordsList['USER_RES'][$ppo->person->res_numero] ? $passwordsList['USER_RES'][$ppo->person->res_numero]['password'] : '******',
+    		  'password'      => isset ($passwordsList['USER_RES'][$ppo->person->res_numero]) ? $passwordsList['USER_RES'][$ppo->person->res_numero]['password'] : '******',
         );
 
         if (!in_array($tmpArray, array_values($ppo->personsInSession))) {
