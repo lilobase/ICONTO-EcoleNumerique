@@ -140,32 +140,30 @@
         
         // Si le noeud est déplié => chargement des fils
         if (a_expand.length > 0) {
-           
-          jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').insertAfter(a_node); 
-          
           if (a_expand.hasClass('expand')) {
-
             jQuery(this).parent().find('ul').first().show();
           }
           else {
-
             jQuery(this).parent().find('ul').first().hide();
           }
-
-          jQuery.ajax({
-            url:     '{/literal}{copixurl dest=gestionautonome|default|toggleNode}{literal}',
-            global:  true,
-            type:    'GET',
-            context: a_expand.parent(),
-            data:    { node_type: node_type, node_id: node_id, show_forced: show_forced },
-            success: function(html){
-
-              var ul = jQuery(this).find('ul').first();
-              ul.empty();
-              ul.append(html);
-              jQuery('img.load-img').remove();  
-            }
-          });
+          
+          if ($(this).parent().find('li').size() == 0) {
+            jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').insertAfter(a_node); 
+            
+            jQuery.ajax({
+              url:     '{/literal}{copixurl dest=gestionautonome|default|toggleNode}{literal}',
+              global:  true,
+              type:    'GET',
+              context: a_expand.parent(),
+              data:    { node_type: node_type, node_id: node_id, show_forced: show_forced },
+              success: function(html){
+                var ul = jQuery(this).find('ul').first();
+                ul.empty();
+                ul.append(html);
+                jQuery('img.load-img').remove();  
+              }
+            });
+          }
         }
         return false;      
       });
