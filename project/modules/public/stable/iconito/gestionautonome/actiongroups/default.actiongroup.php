@@ -3230,6 +3230,8 @@ class ActionGroupDefault extends enicActionGroup {
       
       $ppo->errors['password_invalid'] = 'Format du mot de passe incorrect : au moins 6 caractères dont 1 chiffre';
     }
+    
+    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
 
     if (!empty ($ppo->errors)) {
       
@@ -3253,8 +3255,6 @@ class ActionGroupDefault extends enicActionGroup {
       }
        
       // Breadcrumbs
-      $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-
       $ppo->genderNames = array ('Homme', 'Femme');
       $ppo->genderIds = array ('1', '2');
       
