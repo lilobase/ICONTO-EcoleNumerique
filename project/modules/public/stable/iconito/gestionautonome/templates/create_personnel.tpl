@@ -56,7 +56,7 @@
   </fieldset>
   
   <div class="submit">
-      <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+      <a href="{copixurl dest=gestionautonome||showTree tab=1}" class="button button-cancel">Annuler</a>
       <input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
   </div>
 </form>

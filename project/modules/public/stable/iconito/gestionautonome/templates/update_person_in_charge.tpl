@@ -84,7 +84,7 @@
   </fieldset>
   
   <div class="submit">
-    <a href="{if $ppo->studentId}{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId save=1 notxml=true}{else}{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}{/if}" class="button button-cancel">Annuler</a>
+    <a href="{if $ppo->studentId}{copixurl dest=gestionautonome||updateStudent nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId save=1 notxml=true}{else}{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true tab=2}{/if}" class="button button-cancel">Annuler</a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
   </div>
 </form>

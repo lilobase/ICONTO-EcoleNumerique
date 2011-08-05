@@ -78,7 +78,7 @@
     
     jQuery('#cancel').click(function() {
 
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
+      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1}'{literal};
     });
 
     jQuery('#new-password-link').click(function() {
