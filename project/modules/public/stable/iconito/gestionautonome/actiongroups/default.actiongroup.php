@@ -4611,12 +4611,12 @@ class ActionGroupDefault extends enicActionGroup {
   		    $infos = array ();
   		    
   		    // Vérification de la ligne d'entête
-  		    if (($data = fgetcsv($handle, 0, ',', '"')) === false || count($data) != 12) {
-  		      
+  		    if (($data = fgetcsv($handle, 0, ',', '"')) === false || !in_array(count($data), array(12, 8, 4, 3))) {
+
   		      $ppo->errors[] = 'Fichier invalide';
   		    }
   		    else {
-  		      
+
   		      // Prend on en compte la première ligne ?
   		      if ($data[0] != 'Nom') {
   		        
@@ -4626,7 +4626,7 @@ class ActionGroupDefault extends enicActionGroup {
   		      // Lecture du reste du fichier
   		      while (($data = fgetcsv($handle, 0, ',', '"')) !== false) {
               
-              if (count ($data) != 12) {
+              if (!in_array(count($data), array(12, 8, 4, 3))) {
                 
                 $ppo->errors[] = 'Fichier invalide';
                 break;
