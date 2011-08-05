@@ -2442,7 +2442,7 @@ class ActionGroupDefault extends enicActionGroup {
 
 		  $passwordsList = array();
 		}
-		$passwordsList[$type_user][$ppo->student->idEleve] = $session[0];
+		$passwordsList[$type_user][$ppo->student->idEleve] = reset($session);
                                                                     
 		// Récupérations des infos temporaires en session et ajout aux sessions => Ajouter via ajax
 		$tmpSession = _sessionGet ('modules|gestionautonome|tmpAccount');                                                                
