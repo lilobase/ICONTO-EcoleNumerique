@@ -515,7 +515,7 @@ class ActionGroupDefault extends enicActionGroup {
           // Suppression du fichier temporaire
           unlink($ppo->dossierTmp.'/'.$fichierPhysique);
         }
-
+        
         // Suppression du dossier TMP
         rmdir($ppo->dossierTmp);
         
@@ -1178,6 +1178,8 @@ class ActionGroupDefault extends enicActionGroup {
  	  
  	  $classeurDAO = _ioDAO('classeur|classeur');
     $classeur    = $classeurDAO->get($ppo->classeurId);
+    
+    $cptFavori = 0;
   
     if (empty($dossierIds) && count($fichierIds) == 1) {
       
@@ -1237,10 +1239,19 @@ class ActionGroupDefault extends enicActionGroup {
    	      
    	      classeurService::addFileToZip($fichier, $zip);
    	    }
+   	    else {
+   	      
+   	      $cptFavori++;
+   	    }
    	  }
     }
     
     $zip->close();
+    
+    if ($cptFavori != 0 && $cptFavori == count($fichierIds)) {
+      
+      return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $fichier->classeur_id, 'dossierId' => $fichier->dossier_id, 'errorMessage' => CopixI18N::get ('classeur|classeur.error.downloadFavorite'))));
+    }
     
     return _arFile ($dossierTmp.$fichierZip, array ('filename' => $fichierZip, 'content-type' => classeurService::getMimeType($fichierZip), 'content-disposition' => 'attachment'));
   }

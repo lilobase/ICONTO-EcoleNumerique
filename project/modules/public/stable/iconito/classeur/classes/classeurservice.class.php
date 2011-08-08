@@ -454,6 +454,8 @@ class ClasseurService {
     $folderDAO = _ioDAO('classeur|classeurdossier');
     $fileDAO   = _ioDAO('classeur|classeurfichier');
     
+    $zip->addEmptyDir($folder->getPath());
+    
     $files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
 		foreach($files as $file) {
       
@@ -489,7 +491,7 @@ class ClasseurService {
     
     $pathfile = $dir.$file->id.'-'.$file->cle.$extension;
     
-    $zip->addFile($pathfile, $file->id.'-'.$file->fichier);
+    $zip->addFile($pathfile, $file->getPath().$file->id.'-'.$file->fichier);
   }
   
   /**

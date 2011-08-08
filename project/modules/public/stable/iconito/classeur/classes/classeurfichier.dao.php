@@ -20,6 +20,35 @@ class DAORecordClasseurFichier {
 	}
 	
 	/**
+   * Retourne le path complet du fichier
+   * sous la forme : /Classeur/Dossier1/Dossier2/...
+   */
+	public function getPath () {
+	  
+	  $paths = array();
+	  
+	  $classeurDAO = _ioDAO('classeur|classeur');
+	  $dossierDAO = _ioDAO('classeur|classeurdossier');
+	  
+	  if ($this->dossier_id != 0) {
+	    
+	    $dossier = $dossierDAO->get($this->dossier_id);
+	    $paths[] = $dossier->nom;
+
+  	  while ($dossier->parent_id != 0) {
+
+  	    $dossier = $dossierDAO->get($dossier->parent_id);
+  	    $paths[] = $dossier->nom;
+	    }
+	  }
+	  
+	  $classeur = $classeurDAO->get($this->classeur_id);
+	  $paths[] = $classeur->titre;
+	  
+	  return '/'.implode('/', array_reverse($paths)).'/';
+	}
+	
+	/**
   * Détermine si un fichier est un raccourci internet. 
   * Se base sur le nom du fichier en verifiant s'il a l'extention .web
   *
