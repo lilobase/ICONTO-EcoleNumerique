@@ -57,12 +57,27 @@ class ActionGroupDefault extends enicActionGroup {
 	  if ($format == 'html') {
 	    
 	    $html = $tplResult->fetch ('account_listing_html.tpl');
-	    return _arContent ($html, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'inline', 'content-type' => CopixMIMETypes::getFromExtension ('.html')));
+	    return _arContent ($html, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'inline', 'content-type' => 'text/html'));
 	  }
 	  elseif ($format == 'csv') {
 	    
 	    $csv = $tplResult->fetch ('account_listing_csv.tpl');
-	    return _arContent ($csv, array ('filename'=>'Logins-'.date('YmdHi').'.csv', 'content-disposition'=>'attachement', 'content-type' => CopixMIMETypes::getFromExtension ('.csv')));
+	    
+	    header('Pragma: public');
+      header('Date: '.gmdate('D, d M Y H:i:s', time()).' GMT');
+      header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
+      header('Expires: '.gmdate('D, d M Y H:i:s',time()).' GMT');
+      header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
+      header('Content-Type: application/force-download');
+			header('Content-Type: application/octet-stream', true);
+			header('Content-Type: application/download', true);
+			header('Content-Type: text/csv', true);
+      header('Content-Disposition: attachment; filename="Comptes-'.date('YmdHi').'.csv"');
+      header('Content-Transfer-Encoding: binary');
+      header('Content-Length: '.strlen($csv));
+      
+      echo $csv;
+      return _arNone();
 	  }
 	  
 	  return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
@@ -1830,8 +1845,22 @@ class ActionGroupDefault extends enicActionGroup {
 			  break;
 			case 'csv':
 			  $result = $tplResult->fetch ('account_listing_csv.tpl');
-			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.csv', 'content-disposition'=>'attachement', 'content-type'=>CopixMIMETypes::getFromExtension ('.csv')));
-			  break;
+			  
+			  header('Pragma: public');
+        header('Date: '.gmdate('D, d M Y H:i:s', time()).' GMT');
+        header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
+        header('Expires: '.gmdate('D, d M Y H:i:s',time()).' GMT');
+        header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
+        header('Content-Type: application/force-download');
+  			header('Content-Type: application/octet-stream', true);
+  			header('Content-Type: application/download', true);
+  			header('Content-Type: text/csv', true);
+        header('Content-Disposition: attachment; filename="Comptes-'.date('YmdHi').'.csv"');
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: '.strlen($result));
+
+        echo $result;
+        return _arNone();
 		}
 	}
 	
