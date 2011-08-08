@@ -49,7 +49,7 @@
     <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->nodeType}" />
     
     <div class="field">
-        <label for="liste">&Eacute;lèves à importer dans la classe </label>
+        <label for="liste">&Eacute;lèves à importer dans la classe {$ppo->nodeInfos.nom}</label>
         <textarea name="liste" id="liste" placeholder="Nom, Prénom, M, 01/01/2000, Nom parent1, Prénom parent1, M, PERE, Nom parent2, Prénom parent2, F, MERE">{$ppo->import}</textarea>
     </div>
   

@@ -4676,14 +4676,14 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Breadcrumbs
-    $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+    $ppo->nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
-	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
+	  $breadcrumbs      = Kernel::generateBreadcrumbs ($ppo->nodeInfos);
 	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	
   	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
-	  
+
 	  return _arPPO ($ppo, 'add_multiple_students.tpl');
 	}
 	
