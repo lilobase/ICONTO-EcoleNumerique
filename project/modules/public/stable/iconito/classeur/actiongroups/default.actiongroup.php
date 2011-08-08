@@ -1175,6 +1175,9 @@ class ActionGroupDefault extends enicActionGroup {
  	  // Récupération des paramètres
  	  $dossierIds = _request ('dossiers', array());
  	  $fichierIds = _request ('fichiers', array());
+ 	  
+ 	  $classeurDAO = _ioDAO('classeur|classeur');
+    $classeur    = $classeurDAO->get($ppo->classeurId);
   
     if (empty($dossierIds) && count($fichierIds) == 1) {
       
@@ -1185,10 +1188,6 @@ class ActionGroupDefault extends enicActionGroup {
         
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $fichier->classeur_id, 'dossierId' => $fichier->dossier_id, 'errorMessage' => CopixI18N::get ('classeur|classeur.error.downloadFavorite'))));
       }
-      
-      // Récupération du classeur nécessaire pour déterminer le chemin du fichier
-      $classeurDAO = _ioDAO('classeur|classeur');
-      $classeur    = $classeurDAO->get($fichier->classeur_id);
 
       // Path du fichier
       $dir        = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
@@ -1205,7 +1204,16 @@ class ActionGroupDefault extends enicActionGroup {
       $dossierTmp = $dossierTmp.'/';
     }
     
-    $fichierZip = 'archive.zip';
+    if ($ppo->dossierId != 0) {
+      
+      $dossier = $dossierDAO->get($ppo->dossierId);
+      $fichierZip = $dossier->nom.'.zip';
+    }
+    else {
+      
+      $fichierZip = $classeur->titre.'.zip';
+    }
+    
 		if (file_exists($dossierTmp.$fichierZip)) {
 		  
 		  unlink ($dossierTmp.$fichierZip);
