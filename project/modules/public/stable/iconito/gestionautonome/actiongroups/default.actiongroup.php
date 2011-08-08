@@ -5616,10 +5616,17 @@ class ActionGroupDefault extends enicActionGroup {
         }
       }
       
-      _sessionSet ('modules|gestionautonome|createAccount', $ppo->accounts);
-      _sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
-      
-      return _arRedirect (CopixUrl::get ('gestionautonome||showNewClassroomPasswords', array ('nodeId' => $ppo->nodeId)));
+      if (!empty ($ppo->accounts)) {
+        
+        _sessionSet ('modules|gestionautonome|createAccount', $ppo->accounts);
+        _sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
+
+        return _arRedirect (CopixUrl::get ('gestionautonome||showNewClassroomPasswords', array ('nodeId' => $ppo->nodeId)));
+      }
+      else {
+        
+        $ppo->error = 1;
+      }
     }
 	  
 		return _arPPO ($ppo, 'reset_classroom_passwords.tpl');

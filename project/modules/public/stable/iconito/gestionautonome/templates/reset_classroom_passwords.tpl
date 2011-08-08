@@ -2,6 +2,14 @@
 
 <h2>Gestion des mots de passe</h2>
 
+{if not $ppo->error eq null}
+	<div class="mesgErrors">
+	  <ul>
+		    <li>Vous devez sélectionner au moins un compte !</li>
+	  </ul>
+	</div>
+{/if}
+
 <p>Vous pouvez réinitialiser les mots de passe des personnes rattachées à cette classe : </p>
 <form name="reset_classroom_passwords" action="{copixurl dest="gestionautonome||resetClassroomPasswords"}" method="post">
   <input type="hidden" name="nodeId" value="{$ppo->nodeId}" />
