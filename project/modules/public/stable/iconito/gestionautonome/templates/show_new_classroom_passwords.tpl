@@ -11,6 +11,7 @@
 <table>
   <thead>
     <tr>
+      <th>Sexe</th>
       <th>Prénom</th>
   		<th>Nom</th>
   		<th>Identifiant</th>
@@ -23,6 +24,13 @@
   	{foreach from=$ppo->accounts item=account}
   		{counter name="i"}
   		<tr class="{if $i%2==0}even{else}odd{/if}">
+  		  <td class="sexe">
+  		    {if $account.gender eq 1}
+            <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
+          {else}                                                                 
+            <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
+          {/if}
+  		  </td>
   		  <td>{$account.firstname}</td>
   			<td>{$account.lastname}</td>
   			<td >{$account.login}</td>

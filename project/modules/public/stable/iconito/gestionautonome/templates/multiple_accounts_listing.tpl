@@ -8,12 +8,12 @@
 <table>
   <thead>
     <tr>
-        <th class="sexe">Sexe</th>
+       <th class="sexe">Sexe</th>
        <th>Prénom</th>
-  		<th>Nom</th>
-  		<th>Identifiant</th>
-  		<th>Mot de passe</th>
-  		<th>Type</th>
+  		 <th>Nom</th>
+  		 <th>Identifiant</th>
+  		 <th>Mot de passe</th>
+  		 <th>Type</th>
   	</tr>
   </thead>
   <tbody>

@@ -8,35 +8,46 @@
 
 {copixzone process=gestionautonome|AccountsInfo}
 
-<p class="mesgSuccess">{$ppo->firstElement.type_nom} {$verb} !</p>
+<p class="mesgSuccess">Modification effectuée !</p>
 
-{foreach from=$ppo->sessionDatas key=k item=sessionData}
-  {if $k eq 0}
-      <h3>{$sessionData.type_nom} {$verb}</h3> 
-  {else}
-      <h3>{$sessionData.type_nom}{$k} ajouté</h3>
-  {/if}
-  
-  <div class="field">
-    <label for="personnel_name" > Nom :</label>
-    <span id="personnel_name"><strong>{$sessionData.lastname}</strong></span>
-  </div>
+{if $k eq 0}
+    <h3>{$ppo->firstElement.type_nom} {$verb}</h3> 
+{else}
+    <h3>{$ppo->firstElement.type_nom}{$k} ajouté</h3>
+{/if}
 
-  <div class="field">
-    <label for="personnel_firstname" > Prénom :</label>
-    <span id="personnel_firstname"><strong>{$sessionData.firstname}</strong></span>
-  </div>
-
-  <div class="field">
-    <label for="personnel_login" > Login :</label>
-    <span id="personnel_login"><strong>{$sessionData.login}</strong></span>
-  </div>
-
-  <div class="field">
-    <label for="personnel_password" > Mot de passe :</label>
-    <span id="personnel_password"><strong>{$sessionData.password}</strong></span>
-  </div>
-{/foreach}
+<table>
+  <thead>
+    <tr>
+      <th>Sexe</th>
+      <th>Prénom</th>
+  		<th>Nom</th>
+  		<th>Identifiant</th>
+  		<th>Mot de passe</th>
+  		<th>Type</th>
+  	</tr>
+  </thead>
+  <tbody>
+  	{counter assign="i" name="i"}
+  	{foreach from=$ppo->sessionDatas key=k item=sessionData}
+  	  {counter name="i"}
+  		<tr class="{if $i%2==0}even{else}odd{/if}">
+  		  <td class="sexe">
+  		    {if $sessionData.gender eq 1}
+            <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
+          {else}                                                                 
+            <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
+          {/if}
+        </td>
+  		  <td>{$sessionData.firstname}</td>
+  			<td>{$sessionData.lastname}</td>
+  			<td >{$sessionData.login}</td>
+  			<td>{$sessionData.password}</td>
+  			<td>{$sessionData.type_nom}</td>
+  		</tr>
+  	{/foreach}
+  </tbody>
+</table>
 
 <div class="submit">
   {if $ppo->firstElement.bu_type == "USER_ENS"}
