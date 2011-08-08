@@ -5,7 +5,7 @@
 {if not $ppo->error eq null}
 	<div class="mesgErrors">
 	  <ul>
-		    <li>Vous devez sélectionner au moins un compte !</li>
+		    <li>Vous devez sélectionner au moins un compte.</li>
 	  </ul>
 	</div>
 {/if}

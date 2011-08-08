@@ -4972,6 +4972,8 @@ class ActionGroupDefault extends enicActionGroup {
         
         $studentDAO->insert ($ppo->student);
         
+        $students[$key]['id'] = $ppo->student->numero;
+        
         // Création du compte dbuser
         $dbuser = _record ('kernel|kernel_copixuser');
         
@@ -5063,7 +5065,9 @@ class ActionGroupDefault extends enicActionGroup {
             $ppo->person->id_sexe    = $students[$key]['person'][$personKey]['gender'];
           
             $personDAO->insert ($ppo->person);
-
+            
+             $students[$key]['person'][$personKey]['id'] = $ppo->person->numero;
+            
             // Création du compte dbuser
             $dbuser = _record ('kernel|kernel_copixuser');
 
@@ -5153,6 +5157,47 @@ class ActionGroupDefault extends enicActionGroup {
     	
       return _arPPO ($ppo, 'add_multiple_students_listing.tpl');
     }
+    
+    // Mise en session des comptes créés
+		$passwordsList = _sessionGet ('modules|gestionautonome|passwordsList');
+		if (!is_array ($passwordsList)) {
+
+		  $passwordsList = array();
+		}
+    
+    foreach ($ppo->studentsSuccess as $student) {
+      
+      $studentAr = array(
+  		  'lastname'  => $student['lastname'],
+  			'firstname' => $student['firstname'],
+  			'login'     => $student['login'],
+  			'password'  => $student['password'],
+  			'bu_type'   => 'USER_ELE',
+  			'bu_id'     => $student['id'],
+  			'type_nom'  => $student['type_nom'],
+  			'node_nom'  => $student['node_nom'],
+  		);
+  		
+      $passwordsList['USER_ELE'][$student['id']] = $studentAr;
+      
+      // Enregistrement des personnes
+      foreach ($student['person'] as $person) {
+        
+        $personAr = array(
+    		  'lastname'  => $person['lastname'],
+    			'firstname' => $person['firstname'],
+    			'login'     => $person['login'],
+    			'password'  => $person['password'],
+    			'bu_type'   => 'USER_RES',
+    			'bu_id'     => $person['id'],
+    			'type_nom'  => $person['type_nom'],
+    			'node_nom'  => $person['node_nom'],
+    		);
+
+        $passwordsList['USER_RES'][$person['id']] = $personAr;
+      }
+    }
+    $passwordsList = _sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
     
 		return _arRedirect (CopixUrl::get ('gestionautonome||showMultipleAccountsListing'));
 	}

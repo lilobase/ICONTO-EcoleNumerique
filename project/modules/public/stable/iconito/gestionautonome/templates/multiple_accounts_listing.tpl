@@ -34,14 +34,14 @@
   			<td>{$account.type_nom}</td>
   		</tr>
         {foreach from=$account.person key=j item=person}
-         <tr class="{if $i%2==0}even{else}odd{/if}">
-  		     <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
+          <tr class="{if $i%2==0}even{else}odd{/if}">
+  		      <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
             <td>{$person.firstname}</td>
-  			<td>{$person.lastname}</td>
-  			<td>{$person.login}</td>
-  			<td>{$person.password}</td>
-  			<td>{$person.type_nom}</td>
-  		</tr>
+  			    <td>{$person.lastname}</td>
+      			<td>{$person.login}</td>
+      			<td>{$person.password}</td>
+      			<td>{$person.type_nom}</td>
+  		    </tr>
         {/foreach}
   	{/foreach}
   </tbody>
@@ -49,6 +49,6 @@
 
 <div class="submit">
     <a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
-    <a href="{copixurl dest="gestionautonome||showMultipleAccountsListing" format=html}" class="button button-print">Imprimer</a>
-    <a href="{copixurl dest="gestionautonome||showMultipleAccountsListing" format=csv}" class="button button-save">Télécharger</a>
+    <a href="{copixurl dest="gestionautonome||getPasswordsList" format=html}" class="button button-print">Imprimer</a>
+    <a href="{copixurl dest="gestionautonome||getPasswordsList" format=csv}" class="button button-save">Télécharger</a>
 </div>
