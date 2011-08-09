@@ -33,6 +33,7 @@
   <div class="row">
     <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
     <p class="field"><input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" /></p>
+    <span id="title_note" style="display: none;">{i18n key="classeur.message.titleNote"}</span>
   </div>
   
   <div class="row">
@@ -75,7 +76,29 @@
 	    'height'          : '27',
 	    'width'           : '122',
 	    'wmode'           : 'transparent',
-	    'buttonImg'       : '/js/uploadify/button-background.png'
+	    'buttonImg'       : '/js/uploadify/button-background.png',
+	    'onComplete'      : function (event, ID, fileObj, response, data) {
+	      <!-- Upload multiple, affichage de la note concernant le titre -->
+	      if (data.fileCount > 0 || $('#fichiersQueue div.completed').size() > 0) {
+	        
+	        $('#title_note').show();
+          $('#fichier_titre').attr('disabled', 'disabled');
+	      }
+	    }
+    });
+    
+    $('#with_decompress').change(function() {
+      
+      if ($('#with_decompress').is(':checked')) {
+
+        $('#title_note').show();
+        $('#fichier_titre').attr('disabled', 'disabled');
+      }
+      else {
+        
+        $('#title_note').hide();
+        $('#fichier_titre').removeAttr('disabled');
+      }
     });
   });
   //]]> 
