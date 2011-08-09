@@ -24,7 +24,7 @@ jQuery(document).ready(function($){
 		var content = $(this).children('a').html();
 		//On enlève les balises Html qui pourraient trainer
 		content = content.replace(/<.+?>/g,'');
-		if (content.length > 100)
+		if (content.length > 120)
 		{
 			// On coupe au prochain espace suivant les 120 premiers caractères pour ne pas couper de mot
 			//content = content.match(/^.{120}\S*/m);
