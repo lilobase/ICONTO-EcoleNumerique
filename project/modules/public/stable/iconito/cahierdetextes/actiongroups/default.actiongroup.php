@@ -869,6 +869,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $memo2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
   	  $memo2fichiers       = $memo2fichiersDAO->retrieveByMemo ($ppo->memo->id);
   	  $ppo->fichiers       = array();
+  	  $fichiers            = array();
       foreach($memo2fichiers as $memo2fichier) {
 
         if ($memo2fichier->module_file == 'MOD_MALLE') {
@@ -1044,15 +1045,18 @@ class ActionGroupDefault extends CopixActionGroup {
       }
       
       // Insertion des liens "mémo > fichiers"
-      foreach($fichiers as $fichier) {
+      if (!empty($fichiers)) {
         
-        $memo2fichier = _record ('cahierdetextes|cahierdetextesmemo2files');
-        
-        $memo2fichier->memo_id      = $ppo->memo->id;
-        $memo2fichier->module_file  = $fichier['type'];
-        $memo2fichier->file_id      = $fichier['id'];
-        
-        $memo2fichierDAO->insert($memo2fichier);
+        foreach($fichiers as $fichier) {
+
+          $memo2fichier = _record ('cahierdetextes|cahierdetextesmemo2files');
+
+          $memo2fichier->memo_id      = $ppo->memo->id;
+          $memo2fichier->module_file  = $fichier['type'];
+          $memo2fichier->file_id      = $fichier['id'];
+
+          $memo2fichierDAO->insert($memo2fichier);
+        }
       }
 
       return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'success' => true)));
