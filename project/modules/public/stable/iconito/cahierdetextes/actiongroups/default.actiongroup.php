@@ -1005,7 +1005,10 @@ class ActionGroupDefault extends CopixActionGroup {
         $ppo->memo->date_validite       = _request ('memo_date_validite', null);
         $ppo->memo->date_max_signature  = _request ('memo_date_max_signature', null);
         
-        $ppo->fichiers = $fichiers;
+        if (isset($fichiers)) {
+          
+          $ppo->fichiers = $fichiers;
+        }
         
         return _arPPO ($ppo, 'editer_memo.tpl');
       }
