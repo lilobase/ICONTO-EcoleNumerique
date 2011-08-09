@@ -34,7 +34,7 @@ class DAOKernel_bu_res {
 	 * @return mixed Objet DAO
 	 */
 	function getParentsInClasse ($classe) {
-	  $query = "SELECT DISTINCT(R.numero) AS id, R.nom, R.prenom1 AS prenom, U.login_dbuser AS login, LI.bu_type, LI.bu_id, R.id_sexe AS sexe FROM kernel_bu_responsable R, kernel_bu_sexe S, kernel_bu_responsables RE, kernel_bu_eleve_affectation EA, kernel_link_bu2user LI, dbuser U WHERE R.id_sexe=S.id_s AND R.numero=RE.id_responsable AND RE.type='responsable' AND RE.id_beneficiaire=EA.eleve AND RE.type_beneficiaire='eleve' AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_RES' AND LI.bu_id=R.numero AND EA.classe=".$classe." ORDER BY R.nom, R.prenom1";
+	  $query = "SELECT DISTINCT(R.numero) AS id, R.nom, R.prenom1 AS prenom, U.login_dbuser AS login, LI.bu_type, LI.bu_id, R.id_sexe AS sexe FROM kernel_bu_responsable R, kernel_bu_sexe S, kernel_bu_responsables RE, kernel_bu_eleve_affectation EA, kernel_link_bu2user LI, dbuser U WHERE R.id_sexe=S.id_s AND R.numero=RE.id_responsable AND RE.type='responsable' AND RE.id_beneficiaire=EA.eleve AND RE.type_beneficiaire='eleve' AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_RES' AND LI.bu_id=R.numero AND EA.classe=".$classe." AND EA.current = 1 ORDER BY R.nom, R.prenom1";
 		return _doQuery($query);
 	}
 	

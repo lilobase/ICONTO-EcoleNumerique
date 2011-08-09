@@ -5194,21 +5194,24 @@ class ActionGroupDefault extends enicActionGroup {
       $passwordsList['USER_ELE'][$student['id']] = $studentAr;
       
       // Enregistrement des personnes
-      foreach ($student['person'] as $person) {
+      if (!empty($student['person'])) {
         
-        $personAr = array(
-    		  'lastname'  => $person['lastname'],
-    			'firstname' => $person['firstname'],
-    			'login'     => $person['login'],
-    			'password'  => $person['password'],
-    			'bu_type'   => 'USER_RES',
-    			'bu_id'     => $person['id'],
-    			'type_nom'  => $person['type_nom'],
-    			'node_nom'  => $person['node_nom'],
-    			'gender'    => $person['gender']
-    		);
+        foreach ($student['person'] as $person) {
 
-        $passwordsList['USER_RES'][$person['id']] = $personAr;
+          $personAr = array(
+      		  'lastname'  => $person['lastname'],
+      			'firstname' => $person['firstname'],
+      			'login'     => $person['login'],
+      			'password'  => $person['password'],
+      			'bu_type'   => 'USER_RES',
+      			'bu_id'     => $person['id'],
+      			'type_nom'  => $person['type_nom'],
+      			'node_nom'  => $person['node_nom'],
+      			'gender'    => $person['gender']
+      		);
+
+          $passwordsList['USER_RES'][$person['id']] = $personAr;
+        }
       }
     }
     $passwordsList = _sessionSet ('modules|gestionautonome|passwordsList', $passwordsList);
