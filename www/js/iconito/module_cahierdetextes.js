@@ -241,4 +241,18 @@ jQuery(document).ready(function($){
       
       return false;
     });
+	
+	/**********************************************************************/
+	/*  Ajout de domaines  */
+	/**********************************************************************/
+	if ($('#domain_creation input.button').hasClass('button-add'))
+	{
+		var btnAddDomain = $('#domain_creation label').html();
+		$('#domain_creation').before('<a id="addDomain" href="#" class="button button-add">'+btnAddDomain+'</a>');
+		$('#domain_creation').hide();
+		$('#domain_creation label').hide();
+		$('#addDomain').click(function(){
+			$('#domain_creation').slideToggle()
+		});
+	}
 });

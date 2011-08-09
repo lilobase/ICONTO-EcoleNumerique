@@ -11,7 +11,7 @@
     
     $html .=    '<a title="Voir le mois précédent" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'">';
   }
-  $html .=    '<img src="'._resource('images/action_back.png').'" alt="<" /></a></th>';
+  $html .=    '<img src="'._resource('images/button-action/action_back.png').'" alt="<" /></a></th>';
   
   // Affichage du mois en cours
   $html .=    '<th colspan="5" class="mois">'.$ppo->nomMois.' '.$ppo->annee.'</th>';
@@ -26,7 +26,7 @@
     
     $html .=    '<a title="Voir le mois suivant" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'">';
   }
-  $html .=    '<img src="'._resource('images/action_next.png').'" alt=">" /></a></th>
+  $html .=    '<img src="'._resource('images/button-action/action_next.png').'" alt=">" /></a></th>
   				</tr>
 				<tr>';
   $html .=      '<th>L</th>';

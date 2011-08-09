@@ -19,10 +19,10 @@
   <input type="hidden" name="mois" id="mois" value="{$ppo->mois}" />
   <input type="hidden" name="annee" id="annee" value="{$ppo->annee}" />
     
-    <label for="nom">{i18n key="cahierdetextes.message.domain"}</label>
+    <label for="nom">{i18n key="cahierdetextes.message.addDomain"}</label>
     <input {if $ppo->domaine->id neq null}class="updateDomain"{/if} type="text" name="nom" id="nom" value="{$ppo->domaine->nom}" />
   
-  <input class="button {if $ppo->domaine->id neq null}button-update{else}button-add{/if}" type="submit" name="save" id="save" value="{if $ppo->domaine->id neq null}{i18n key="cahierdetextes.message.save"}{else}{i18n key="cahierdetextes.message.addDomain"}{/if}" />
+  <input class="button {if $ppo->domaine->id neq null}button-update{else}button-add{/if}" type="submit" name="save" id="save" value="{if $ppo->domaine->id neq null}{i18n key="cahierdetextes.message.modify"}{else}{i18n key="cahierdetextes.message.save"}{/if}" />
 </form>
 
 {copixzone process=cahierdetextes|listeDomaines cahierId=$ppo->cahierId date_jour=$ppo->jour date_mois=$ppo->mois date_annee=$ppo->annee}
