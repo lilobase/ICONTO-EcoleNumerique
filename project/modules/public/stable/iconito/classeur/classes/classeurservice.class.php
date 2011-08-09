@@ -494,6 +494,32 @@ class ClasseurService {
     $zip->addFile($pathfile, $file->getPath().$file->id.'-'.$file->fichier);
   }
   
+  
+  public static function getFilesInTmpFolder ($datas, $folder, $excluded) {
+    
+    if ($handle = opendir($folder)) {
+      
+      while (($file = readdir($handle)) !== false) {
+        
+        if ($file != '.' && $file != '..' 
+          && !in_array($file, $excluded) && !strstr($file, '_MACOSX')) {
+            
+          if (is_dir($folder.'/'.$file)) {
+            
+            $datas[$folder]['folders'][] = $file;
+            $datas = self::getFilesInTmpFolder($datas, $folder.'/'.$file, $excluded);
+          }
+          else {
+            
+            $datas[$folder]['files'][] = $file;
+          }
+        }
+      }
+    }
+    
+    return $datas;
+  }
+  
   /**
 	 * Teste si le folder1 est un descendant du folder2
 	 *
