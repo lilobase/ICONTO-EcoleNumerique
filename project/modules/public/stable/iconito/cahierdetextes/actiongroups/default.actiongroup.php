@@ -565,7 +565,10 @@ class ActionGroupDefault extends CopixActionGroup {
         $ppo->travail->date_creation     = _request ('travail_date_creation', null);
         $ppo->travail->date_realisation  = _request ('travail_date_realisation', null);
 
-        $ppo->fichiers = $fichiers;
+        if (isset($fichiers)) {
+  
+          $ppo->fichiers = $fichiers;
+        }
         
         return _arPPO ($ppo, 'editer_travail.tpl');
       }
