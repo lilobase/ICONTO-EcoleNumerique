@@ -245,7 +245,7 @@ jQuery(document).ready(function($){
 	/**********************************************************************/
 	/*  Ajout de domaines  */
 	/**********************************************************************/
-	if ($('#domain_creation input.button').hasClass('button-add'))
+	if ($('#domain_creation input.button').hasClass('button-confirm'))
 	{
 		var btnAddDomain = $('#domain_creation label').html();
 		$('#domain_creation').before('<a id="addDomain" href="#" class="button button-add">'+btnAddDomain+'</a>');
