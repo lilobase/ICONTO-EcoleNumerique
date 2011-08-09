@@ -82,19 +82,21 @@
   <p id="folder-content"><span>{i18n key="classeur.message.noFiles"}</span></p>
 {/if}
 
-<a class="addfile" style="cursor: hand;">{i18n key="classeur.message.add"}</a>
-<div class="addfile-form" style="display: none;">
-	<form action="{copixurl dest="|envoieFichierPopup"}" method="post" enctype="multipart/form-data">
-		<input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
-    <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
-    <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
-    <input type="hidden" name="field" value="{$ppo->field}"/>
-		<input type="hidden" name="format" value="{$ppo->format}"/>
-    <input type="file" name="fichiers[]" id="fichiers" style="margin: 2px;" />
-	  <input class="button button-confirm" type="submit" value="{i18n key="classeur.message.ok"}" />
-		<input class="button button-cancel" type="button" value="{i18n key="classeur.message.cancel"}" />
-	</form>
-</div>
+{if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER}
+  <a class="addfile" style="cursor: hand;">{i18n key="classeur.message.add"}</a>
+  <div class="addfile-form" style="display: none;">
+  	<form action="{copixurl dest="|envoieFichierPopup"}" method="post" enctype="multipart/form-data">
+  		<input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
+      <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
+      <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
+      <input type="hidden" name="field" value="{$ppo->field}"/>
+  		<input type="hidden" name="format" value="{$ppo->format}"/>
+      <input type="file" name="fichiers[]" id="fichiers" style="margin: 2px;" />
+  	  <input class="button button-confirm" type="submit" value="{i18n key="classeur.message.ok"}" />
+  		<input class="button button-cancel" type="button" value="{i18n key="classeur.message.cancel"}" />
+  	</form>
+  </div>
+{/if}
 </div>
 </div>
 

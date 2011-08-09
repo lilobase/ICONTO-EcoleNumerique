@@ -1772,6 +1772,8 @@ class ActionGroupDefault extends enicActionGroup {
  	  $ppo->dossierId = _request('dossierId', 0);
  	  $ppo->field     = _request('field', null);
 		$ppo->format    = _request('format', null);
+		
+		$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id);
  	  
  	  _classInclude('classeur|classeurService');
  	  $dossierDAO = _ioDAO('classeur|classeurdossier');
