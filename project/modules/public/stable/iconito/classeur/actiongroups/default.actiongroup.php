@@ -69,12 +69,57 @@ class ActionGroupDefault extends enicActionGroup {
 	    $ppo->classeurId = _sessionGet('classeur|idClasseurPersonnel');
 	  }
 	  
-	  // Si type de vue spécifié, on le met en session
+	  // Si type de vue spécifié, on le met en session et on le stocke en BDD
+	  $kernelConfUserDAO = _ioDAO('kernel|kernel_conf_user');
 	  if (!is_null($vue) && ($vue == 'liste' || $vue == 'vignette')) {
 	    
 	    _sessionSet('classeur|typeVue', $vue);
+
+  	  $confVue = $kernelConfUserDAO->getByPathAndUserId('/module_classeur/vue', _currentUser()->getExtra('id'));
+	    if ($confVue) {
+	      
+	      $confVue->value = $vue;
+	      $kernelConfUserDAO->update ($confVue);
+	    }
+	    else {
+	      
+	      $kernelConfUser = _record ('kernel|kernel_conf_user');
+
+  	    $kernelConfUser->path = '/module_classeur/vue';
+  	    $kernelConfUser->id_dbuser = _currentUser()->getExtra('id');
+  	    $kernelConfUser->value = $vue;
+
+  	    $kernelConfUserDAO->insert ($kernelConfUser);
+	    }
 	  }
-	  $ppo->vue = !is_null(_sessionGet('classeur|typeVue')) ? _sessionGet('classeur|typeVue') : 'liste';
+	  
+	  // Récupération de la vue en session ou BDD
+	  if (!is_null(_sessionGet('classeur|typeVue'))) {
+	    
+	    $ppo->vue = _sessionGet('classeur|typeVue');
+	  }
+	  else {
+	    
+	    $confVue = $kernelConfUserDAO->getByPathAndUserId('/module_classeur/vue', _currentUser()->getExtra('id'));
+	    if ($confVue) {
+	      
+	      _sessionSet('classeur|typeVue', $vue);
+	      $ppo->vue = _sessionGet('classeur|typeVue');
+	    }
+	    else {
+	      
+	      _sessionSet('classeur|typeVue', 'liste');
+	      
+	      $kernelConfUser = _record ('kernel|kernel_conf_user');
+
+  	    $kernelConfUser->path = '/module_classeur/vue';
+  	    $kernelConfUser->id_dbuser = _currentUser()->getExtra('id');
+  	    $kernelConfUser->value = 'liste';
+
+  	    $kernelConfUserDAO->insert ($kernelConfUser);
+	    }
+	  }
+	  
 		
 		// Si tri spécifié, mise en session
 		if (!is_null ($triColonne)) {
@@ -558,9 +603,9 @@ class ActionGroupDefault extends enicActionGroup {
           $fichier->date_upload   = date('Y-m-d H:i:s');
           $fichier->user_type     = _currentUser()->getExtra('type');
           $fichier->user_id       = _currentUser()->getExtra('id');
-        
+          
           $fichierDAO->insert($fichier);
-        
+          
           $nomClasseur = $classeur->id.'-'.$classeur->cle;
           $nomFichier = $fichier->id.'-'.$fichier->cle;
           $extension = strrchr($fichierPhysique, '.');

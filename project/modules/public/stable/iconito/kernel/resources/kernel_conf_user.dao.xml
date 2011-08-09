@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="kernel_conf_user" tablename="kernel_conf_user" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="path" fieldname="path" type="varchar" maxlength="255" pk="yes"/>
+    <property name="id_dbuser" fieldname="id_dbuser" type="integer" required="yes" pk="yes"/>
+    <property name="value" fieldname="value" type="varchar" maxlength="255" required="yes"/>
+  </properties>
+  <methods>
+  </methods>
+</daodefinition>
