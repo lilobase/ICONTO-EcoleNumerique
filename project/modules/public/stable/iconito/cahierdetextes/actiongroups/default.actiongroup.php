@@ -438,6 +438,7 @@ class ActionGroupDefault extends CopixActionGroup {
   	  $travail2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
   	  $travail2fichiers       = $travail2fichiersDAO->retrieveByTravail ($ppo->travail->id);
   	  $ppo->fichiers          = array();
+  	  $fichiers               = array();
       foreach($travail2fichiers as $travail2fichier) {
 
         if ($travail2fichier->module_file == 'MOD_MALLE') {
@@ -604,16 +605,19 @@ class ActionGroupDefault extends CopixActionGroup {
       
       // Insertion des liens "travail > fichiers"
       $travail2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2files');
-      foreach($fichiers as $fichier) {
+      if (!empty($fichiers)) {
         
-        $travail2fichier = _record ('cahierdetextes|cahierdetextestravail2files');
+        foreach($fichiers as $fichier) {
 
-        $travail2fichier->travail_id  = $ppo->travail->id;
-        $travail2fichier->module_file = $fichier['type'];
-        $travail2fichier->file_id     = $fichier['id'];
+          $travail2fichier = _record ('cahierdetextes|cahierdetextestravail2files');
 
-        $travail2fichierDAO->insert($travail2fichier);
-      }
+          $travail2fichier->travail_id  = $ppo->travail->id;
+          $travail2fichier->module_file = $fichier['type'];
+          $travail2fichier->file_id     = $fichier['id'];
+
+          $travail2fichierDAO->insert($travail2fichier);
+        }
+      } 
       
       // Insertion de l'événement dans l'agenda (si mod activé)
       $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
