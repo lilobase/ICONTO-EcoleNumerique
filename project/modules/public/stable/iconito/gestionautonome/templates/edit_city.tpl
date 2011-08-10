@@ -1,6 +1,12 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p>
 
-<h2>Ajout d'une ville</h2>
+<h2>
+  {if $ppo->nodeId neq null}
+    Modification d'une ville
+  {else}
+    Ajout d'une ville
+  {/if}
+</h2>
 
 <h3>Ville</h3>
 
@@ -14,10 +20,14 @@
 	</div>
 {/if}
 
-<form name="city_creation" id="city_creation" action="{copixurl dest="|validateCityCreation"}" method="POST" enctype="multipart/form-data">
+<form name="edit_city" id="edit_city" action="{if $ppo->nodeId neq null}{copixurl dest="|validateCityUpdate"}{else}{copixurl dest="|validateCityCreation"}{/if}" method="POST" enctype="multipart/form-data">
   <fieldset>
-    <input type="hidden" name="id_parent" id="id-parent" value="{$ppo->parentId}" />
-    <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->parentType}" />
+    {if $ppo->nodeId neq null}
+      <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
+    {else}
+      <input type="hidden" name="id_parent" id="id-parent" value="{$ppo->parentId}" />
+      <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->parentType}" />
+    {/if}
     
     <div class="field">
       <label class="form_libelle"> Nom :</label>

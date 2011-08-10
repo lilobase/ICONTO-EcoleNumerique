@@ -452,7 +452,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     
-		return _arPPO ($ppo, 'create_city.tpl');
+		return _arPPO ($ppo, 'edit_city.tpl');
 	}
 	
 	/**
@@ -516,7 +516,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'create_city.tpl');
+      return _arPPO ($ppo, 'edit_city.tpl');
     }
      
 	  $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
@@ -569,7 +569,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
-		return _arPPO ($ppo, 'update_city.tpl');
+		return _arPPO ($ppo, 'edit_city.tpl');
 	}
 	
 	/**
@@ -603,7 +603,7 @@ class ActionGroupDefault extends enicActionGroup {
     $name = $ppo->city->nom;
     
     // Récupération des paramètres
-    $cityName = _request ('name', null);
+    $cityName = _request ('nom', null);
     
     $ppo->city->nom   = trim ($cityName);
     $ppo->city->canon = Kernel::createCanon ($cityName);
@@ -627,7 +627,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'update_city.tpl');
+      return _arPPO ($ppo, 'edit_city.tpl');
     }
       
     $cityDAO->update ($ppo->city);
@@ -776,7 +776,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
-		return _arPPO ($ppo, 'create_school.tpl');
+		return _arPPO ($ppo, 'edit_school.tpl');
 	}
 	
 	/**
@@ -843,7 +843,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
       $ppo->types = array ('Maternelle', 'Elémentaire', 'Primaire');
 
-      return _arPPO ($ppo, 'create_school.tpl');
+      return _arPPO ($ppo, 'edit_school.tpl');
     }
 
     $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
@@ -903,7 +903,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
-		return _arPPO ($ppo, 'update_school.tpl');
+		return _arPPO ($ppo, 'edit_school.tpl');
 	}
 	
 	/**
@@ -971,7 +971,7 @@ class ActionGroupDefault extends enicActionGroup {
       
       $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
       
-      return _arPPO ($ppo, 'update_school.tpl');
+      return _arPPO ($ppo, 'edit_school.tpl');
     }
       
     $schoolDAO->update ($ppo->school);
@@ -1086,9 +1086,9 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  _currentUser()->assertCredential('module:school|'.$ppo->parentId.'|classroom|create@gestionautonome');
 
-	// Récupération des niveaux de classe
-	$classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
-	$criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
+	  // Récupération des niveaux de classe
+	  $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
+	  $criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
     $ppo->levels = $classLevelDAO->findBy ($criteres);
     $ppo->levelsSelected = array();
     
@@ -1119,7 +1119,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
-		return _arPPO ($ppo, 'create_class.tpl');
+		return _arPPO ($ppo, 'edit_class.tpl');
 	}
 	
 	/**
@@ -1154,7 +1154,7 @@ class ActionGroupDefault extends enicActionGroup {
     // DAO
     $schoolClassLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
     
-    $ppo->levels  = _request ('levels', null);
+    $ppo->levels  = _request ('niveaux', null);
     $ppo->type    = _request ('type', null);
     
     // Récupération de l'année scolaire
@@ -1222,7 +1222,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'create_class.tpl');
+      return _arPPO ($ppo, 'edit_class.tpl');
     }
     
     $schoolClassDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
@@ -1322,7 +1322,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
-		return _arPPO ($ppo, 'update_class.tpl');
+		return _arPPO ($ppo, 'edit_class.tpl');
 	}
 	
 	/**
@@ -1428,7 +1428,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'update_class.tpl');
+      return _arPPO ($ppo, 'edit_class.tpl');
     }
     
     /**
@@ -1580,7 +1580,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
-		return _arPPO ($ppo, 'create_personnel.tpl');
+		return _arPPO ($ppo, 'edit_personnel.tpl');
 	}
 	
 	public function processValidatePersonnelCreation () {
@@ -1697,7 +1697,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'create_personnel.tpl');
+      return _arPPO ($ppo, 'edit_personnel.tpl');
     }
     
     // DAO
@@ -1931,7 +1931,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
-		return _arPPO ($ppo, 'update_personnel.tpl');
+		return _arPPO ($ppo, 'edit_personnel.tpl');
 	}
 	
 	public function processValidatePersonnelUpdate () {
@@ -2024,7 +2024,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'update_personnel.tpl');
+      return _arPPO ($ppo, 'edit_personnel.tpl');
     }
 
     $personnelDAO->update ($ppo->personnel);
@@ -2241,7 +2241,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
-		return _arPPO ($ppo, 'create_student.tpl');
+		return _arPPO ($ppo, 'edit_student.tpl');
 	}
 	
 	public function processValidateStudentCreation () {
@@ -2275,10 +2275,10 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->student = _record ('kernel_bu_eleve');
                             
     $ppo->student->numero          = '';                        
-    $ppo->student->nom             = trim (_request ('student_lastname', null));
-    $ppo->student->prenom1         = trim (_request ('student_firstname', null));
-    $ppo->student->id_sexe         = _request ('student_gender', null);
-    $ppo->student->date_nais       = CopixDateTime::dateToyyyymmdd(_request ('student_birthdate', null));
+    $ppo->student->nom             = trim (_request ('nom', null));
+    $ppo->student->prenom1         = trim (_request ('prenom1', null));
+    $ppo->student->id_sexe         = _request ('id_sexe', null);
+    $ppo->student->date_nais       = CopixDateTime::dateToyyyymmdd(_request ('date_nais', null));
     $ppo->student->flag            = 0;
     $ppo->student->ele_last_update = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
     
@@ -2352,7 +2352,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'create_student.tpl');
+      return _arPPO ($ppo, 'edit_student.tpl');
     }
 
     $studentDAO = _ioDAO ('kernel_bu_eleve');
@@ -2680,7 +2680,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
-	  return _arPPO ($ppo, 'update_student.tpl');
+	  return _arPPO ($ppo, 'edit_student.tpl');
 	}
 	
 	public function processValidateStudentUpdate () {
@@ -2735,7 +2735,7 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->student->numero          = '';                        
     $ppo->student->nom             = trim (_request ('nom', null));
     $ppo->student->prenom1         = trim (_request ('prenom1', null));
-    $ppo->student->id_sexe         = _request ('gender', null);
+    $ppo->student->id_sexe         = _request ('id_sexe', null);
     $ppo->student->date_nais       = CopixDateTime::dateToyyyymmdd (_request ('date_nais', null));
     $ppo->student->flag            = 0;
     $ppo->student->ele_last_update = CopixDateTime::timestampToYYYYMMDDHHIISS (time ());
@@ -2812,7 +2812,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'update_student.tpl');
+      return _arPPO ($ppo, 'edit_student.tpl');
     }
       
     $studentDAO->update ($ppo->student);
@@ -3188,7 +3188,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
-		return _arPPO ($ppo, 'update_person_in_charge.tpl');
+		return _arPPO ($ppo, 'edit_person_in_charge.tpl');
 	}
 	
 	public function processValidatePersonInChargeUpdate () {
@@ -3300,7 +3300,7 @@ class ActionGroupDefault extends enicActionGroup {
 
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	  
-      return _arPPO ($ppo, 'update_person_in_charge.tpl');
+      return _arPPO ($ppo, 'edit_person_in_charge.tpl');
     }
     
     $personDAO->update ($ppo->person);
@@ -3573,8 +3573,8 @@ class ActionGroupDefault extends enicActionGroup {
           
           $isPresent = false;
           foreach ($ppo->persons as $person) {
-
-            if ($person->res_numero == $ppo->person->res_numero) {
+            
+            if (isset($ppo->person->res_numero) && ($person->res_numero == $ppo->person->res_numero)) {
 
               $ppo->errors[] = 'Ce responsable est déjà présent parmi les responsables de l\'élève.';
               break;

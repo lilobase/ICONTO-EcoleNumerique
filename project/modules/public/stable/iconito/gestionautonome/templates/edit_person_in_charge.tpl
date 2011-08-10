@@ -1,6 +1,12 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p>
 
-<h2>Modification d'un responsable</h2>
+<h2>
+  {if $ppo->person->numero neq null}
+    Modification d'un responsable
+  {else}
+    Ajout d'un responsable
+  {/if}
+</h2>
 
 {if $ppo->studentId}
   <p>Ce formulaire vous permet de modifier le responsable d'un élève.</p>
@@ -39,13 +45,17 @@
 	</div>
 {/if}
 
-<form name="person_update" id="person_update" action="{copixurl dest="|validatePersonInChargeUpdate"}" method="POST" enctype="multipart/form-data">
+<form name="edit_person" id="edit_person" action="{if $ppo->person->numero neq null}{copixurl dest="|validatePersonInChargeUpdate"}{else}{copixurl dest="|validatePersonInChargeCreation"}{/if}" method="POST" enctype="multipart/form-data">
   <fieldset>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
-    <input type="hidden" name="id_student" id="id-student" value="{$ppo->studentId}" />
-    <input type="hidden" name="id_person" id="id-person" value="{$ppo->person->numero}" />
-
+    {if $ppo->person->numero neq null}
+      <input type="hidden" name="id_student" id="id-student" value="{$ppo->studentId}" />
+      <input type="hidden" name="id_person" id="id-person" value="{$ppo->person->numero}" />
+    {else}
+      <input type="hidden" name="id_student" id="id-student" value="{$ppo->student->ele_idEleve}" />
+    {/if}
+    
     <div class="field">
       <label for="nom" class="form_libelle"> Nom :</label>
       <input class="form" type="text" name="nom" id="nom" value="{$ppo->person->nom}" />
@@ -93,11 +103,31 @@
 <script type="text/javascript">
 //<![CDATA[
   
-  jQuery(document).ready(function(){
-
+  $(document).ready(function(){
+ 	
     jQuery('#new-password-link').click(function() {
 
       jQuery('#new-password').show();
+    });
+    
+    jQuery('#generate-login').click(function() {
+
+      var lastname = jQuery('#nom').val();
+      var firstname = jQuery('#prenom1').val();
+      var nodeType = 'USER_RES';   
+
+      jQuery.ajax({
+        url: {/literal}'{copixurl dest=gestionautonome|default|generateLogin}'{literal},
+        global: true,
+        type: "GET",
+        data: ({lastname: lastname, firstname: firstname, type: nodeType}),
+        success: function(html){
+          jQuery('#login').empty();
+          jQuery("#login").val(html);
+        }
+      }).responseText;
+      
+      return false;
     });
 
     jQuery('#generate-password').click(function() {

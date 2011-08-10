@@ -1,6 +1,12 @@
-<p class="breadcrumbs">{$ppo->breadcrumbs}</p>
+<p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
 
-<h2>Modification d'une école</h2>
+<h2>
+  {if $ppo->nodeId neq null}
+    Modification d'une école
+  {else}
+    Ajout d'une école
+  {/if}
+</h2>
 
 <h3>Ecole</h3>
 
@@ -14,19 +20,22 @@
 	</div>
 {/if}
 
-<form name="school_update" id="school_update" action="{copixurl dest="|validateSchoolUpdate"}" method="POST" enctype="multipart/form-data">
+<form name="edit_school" id="edit_school" action="{if $ppo->nodeId neq null}{copixurl dest="|validateSchoolUpdate"}{else}{copixurl dest="|validateSchoolCreation"}{/if}" method="POST" enctype="multipart/form-data">
   <fieldset>
-    <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
-   
-    <div class="field">
-      <label for="type" class="form_libelle"> Type :</label>
-      <select class="form" name="type" id="type">
-  	    {html_options values=$ppo->types output=$ppo->types selected=$ppo->school->type}
-  	  </select>
-  	</div>
+    {if $ppo->nodeId neq null}
+      <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
+    {else}
+      <input type="hidden" name="id_parent" id="id-parent" value="{$ppo->parentId}" />
+      <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->parentType}">
+    {/if}
+    
+    <label for="type" class="form_libelle"> Type :</label>
+    <select class="form" name="type" id="type">
+  	  {html_options values=$ppo->types output=$ppo->types selected=$ppo->school->type}
+  	</select>
     
     <div class="field">
-      <label for="name" class="form_libelle"> Nom :</label>
+      <label for="nom" class="form_libelle"> Nom :</label>
       <input class="form" type="text" name="nom" id="nom" value="{$ppo->school->nom}" />
     </div>
     <div class="field">
@@ -53,7 +62,7 @@
   </fieldset>
   
   <div class="submit">
-    <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
-  	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+      <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+      <input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
   </div>
 </form>

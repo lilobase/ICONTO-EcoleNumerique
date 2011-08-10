@@ -32,7 +32,7 @@
 
   <div class="submit">
       <a href="{copixurl dest=gestionautonome||manageGrades}" class="button button-cancel">Annuler</a>
-      <input class="button button-cancel" type="submit" name="save" id="save" value="Enregistrer" />
+      <input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
   </div>
 </form>
 
