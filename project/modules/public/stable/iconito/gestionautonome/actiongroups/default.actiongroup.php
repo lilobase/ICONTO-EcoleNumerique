@@ -87,7 +87,7 @@ class ActionGroupDefault extends enicActionGroup {
 	 * Affichage principal (arbre)
 	 */
 	public function processShowTree () {    
-    
+	  
     $ppo = new CopixPPO ();
     
 	  $ppo->user = _currentUser ();
@@ -105,7 +105,12 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Affectation des zones : accès dashboard
-    if (!is_null($myNode = _sessionGet('myNode'))) {
+    if (!is_null($currentInSession = _sessionGet ('current'))) {
+
+      $ppo->targetId   = $currentInSession['node_id'];
+      $ppo->targetType = $currentInSession['node_type'];
+    }
+    elseif (!is_null($myNode = _sessionGet('myNode'))) {
       
       $ppo->targetId   = $myNode['id'];
       $ppo->targetType = $myNode['type'];
@@ -131,12 +136,6 @@ class ActionGroupDefault extends enicActionGroup {
       
       _sessionSet('current', array ('node_type' => $myNode['type'], 'node_id' => $myNode['id']));
     }
-    // Réaffectation des zones après retour d'action
-    elseif (!is_null($currentInSession = _sessionGet ('current'))) {
-
-      $ppo->targetId   = $currentInSession['node_id'];
-      $ppo->targetType = $currentInSession['node_type'];
-    }
     
     // Récupération de la liste des années scolaires disponibles pour select
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
@@ -151,8 +150,6 @@ class ActionGroupDefault extends enicActionGroup {
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     $ppo->MENU = $this->menu;
-    
-    _sessionSet('myNode', null);
 
 		return _arPPO ($ppo, 'show_tree.tpl');
 	}
@@ -1241,7 +1238,7 @@ class ActionGroupDefault extends enicActionGroup {
     }	
                      
     // Mise en session du noeud courant
-		_sessionSet ('current', array('node_type' => 'BU_CLASSE', 'node_id' => $ppo->class->id));
+		_sessionSet ('currentrent', array('node_type' => 'BU_CLASSE', 'node_id' => $ppo->class->id));
 
 		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
 	}
