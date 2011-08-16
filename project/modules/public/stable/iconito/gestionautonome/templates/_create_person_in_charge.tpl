@@ -2,29 +2,30 @@
 
 {if $ppo->persons}
   {if $ppo->persons|@count > 0}
-    <table class="liste">
+    <table>
       <tr>
-        <th class="liste_th"></th>
-        <th class="liste_th">Nom</th>
-        <th class="liste_th">Prénom</th>
-        <th class="liste_th">Login</th>
-        <th class="liste_th">Relation</th>
-        <th class="liste_th">&nbsp;</th>
+        <th>Sexe</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Login</th>
+        <th>Relation</th>
+        <th>Actions</th>
       </tr>
+      {assign var=index value=1}
       {foreach from=$ppo->persons key=k item=item}
-        <tr>
-          <td>
+        <tr class="{if $index%2 eq 0}odd{else}even{/if}">
+          <td class="center">
               {if $item->res_id_sexe eq 1}
                   <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
               {else}                                                                 
-                <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
+                  <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if} 
           </td>
           <td>{$item->res_nom}</td>
           <td>{$item->res_prenom1}</td>
           <td>{$item->login}</td>
           <td>{$item->link}</td>
-          <td>
+          <td class="actions">
             {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|update@gestionautonome")}
               <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier le responsable" /></a>
               <a href="{copixurl dest=gestionautonome|default|removePersonInCharge nodeId=$ppo->nodeId personId=$item->res_numero studentId=$ppo->studentId}" class="remove-link"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="Ne plus affecter ce responsable à cet élève" /></a>
@@ -34,34 +35,37 @@
             {/if}
           </td>
         </tr>
+        {assign var=index value=$index+1}
       {/foreach}
     </table>
   {else}
     <i>Aucun parent...</i>
   {/if}
 {elseif $ppo->personsInSession}
-  <table class="liste">
+  <table>
     <tr>
-      <th class="liste_th"></th>
-      <th class="liste_th">Nom</th>
-      <th class="liste_th">Prénom</th>
-      <th class="liste_th">Login</th>
-      <th class="liste_th">Relation</th>
+      <th>Sexe</th>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Login</th>
+      <th>Relation</th>
     </tr>
+    {assign var=index value=1}
     {foreach from=$ppo->personsInSession key=k item=item}
-      <tr>
-        <td>
-          {if $item.id_sexe eq 1 || $item.res_id_sexe eq 1}
-            <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
-          {else}                                                                 
-            <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
-          {/if}  
+      <tr class="{if $index%2 eq 0}odd{else}even{/if}">
+        <td class="center">
+              {if $item.id_sexe eq 1 || $item.res_id_sexe eq 1}
+                  <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
+              {else}                                                                 
+                  <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
+              {/if}
         </td>
         <td>{$item.lastname}</td>
         <td>{$item.firstname}</td>
         <td>{$item.login}</td>
         <td>{$item.parente}</td>
       </tr>
+      {assign var=index value=$index+1}
     {/foreach}
   </table>
 {/if}
@@ -99,6 +103,7 @@
   
     <div id="person-method-new" class="{if !isset($ppo->isNewParent) || !$ppo->isNewParent}hidden{/if}">
       <fieldset>
+      	<legend>Profil</legend>
         <div class="field">
           <label for="nom" class="form_libelle"> Nom :</label>
           <input class="form" type="text" name="nom" id="nom" value="{$ppo->person->nom}" />
@@ -107,16 +112,6 @@
         <div class="field">
           <label for="prenom1" class="form_libelle"> Prénom :</label>
           <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->person->prenom1}" />
-        </div>
-    
-        <div class="field">
-          <label for="login" class="form_libelle"> Identifiant :</label>
-          <input class="form" type="text" name="login" id="login" value="{$ppo->account->login}" /> (<a href="#" id="generate-login">Générer</a>)
-        </div>
-    
-        <div class="field">
-          <label for="password" class="form_libelle"> Mot de passe :</label>
-          <input class="form" type="text" name="password" id="password" value="{$ppo->account->password}" /> (<a href="#" id="generate-password">Générer</a>)
         </div>
     
         <div class="field">
@@ -139,6 +134,19 @@
       	  </select>
         </div>
       </fieldset>
+      
+      <fieldset><legend>Connexion</legend>
+      <div class="field">
+          <label for="login" class="form_libelle"> Identifiant :</label>
+          <input class="form" type="text" name="login" id="login" value="{$ppo->account->login}" /> (<a href="#" id="generate-login">Générer</a>)
+        </div>
+    
+        <div class="field">
+          <label for="password" class="form_libelle"> Mot de passe :</label>
+          <input class="form" type="text" name="password" id="password" value="{$ppo->account->password}" /> (<a href="#" id="generate-password">Générer</a>)
+        </div>
+    	</fieldset>
+        
     </div>
   
     <div id="person-method-existing" class="{if !isset($ppo->isNewParent) || $ppo->isNewParent}hidden{/if}">

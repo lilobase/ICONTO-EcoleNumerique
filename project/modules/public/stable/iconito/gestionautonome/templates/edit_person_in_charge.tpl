@@ -8,31 +8,6 @@
   {/if}
 </h2>
 
-{if $ppo->studentId}
-  <p>Ce formulaire vous permet de modifier le responsable d'un élève.</p>
-
-  <h3>Elève</h3>
-
-  <div class="field">
-    <label for="student_name"> Nom :</label>
-    <span>{$ppo->student->nom}</span>
-  </div>
-
-  <div class="field">
-    <label for="student_firstname"> Prénom :</label>
-    <span>{$ppo->student->prenom1}</span>
-  </div>
-
-  <div class="field">
-    <label for="student_login"> Login :</label>
-    <span>{$ppo->student_account->login_dbuser}</span>
-  </div>
-{else}
-  <div id="students">
-    {copixzone process=gestionautonome|students nodeId=$ppo->nodeId nodeType=$ppo->nodeType personId=$ppo->person->numero cpt=$ppo->cpt notxml=true}
-  </div>
-{/if}
-
 <h3>Responsable</h3>
 
 {if not $ppo->errors eq null}
@@ -45,8 +20,35 @@
 	</div>
 {/if}
 
+{if $ppo->studentId}
+  <div class="contentLinked">
+      <h3>Elève</h3>
+    
+      <div class="field">
+        <p class="label"> Nom :</p>
+        <p class="input">{$ppo->student->nom}</p>
+      </div>
+    
+      <div class="field">
+        <p class="label"> Prénom :</p>
+        <p class="input">{$ppo->student->prenom1}</p>
+      </div>
+    
+      <div class="field">
+        <p class="label"> Login :</p>
+        <p class="input">{$ppo->student_account->login_dbuser}</p>
+      </div>
+  </div>
+{else}
+  <div id="students" class="contentLinked">
+    {copixzone process=gestionautonome|students nodeId=$ppo->nodeId nodeType=$ppo->nodeType personId=$ppo->person->numero cpt=$ppo->cpt notxml=true}
+  </div>
+{/if}
+
+
 <form name="edit_person" id="edit_person" action="{if $ppo->person->numero neq null}{copixurl dest="|validatePersonInChargeUpdate"}{else}{copixurl dest="|validatePersonInChargeCreation"}{/if}" method="POST" enctype="multipart/form-data">
   <fieldset>
+  	<legend>Profil</legend>
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
     {if $ppo->person->numero neq null}
@@ -79,13 +81,15 @@
     	  </select>
       </div>
     {/if}
+    </fieldset>
     
+    <fieldset><legend>Connexion</legend>
     <div class="field">
       <label for="login" class="form_libelle"> Login :</label>
       <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
     </div>  
     
-    <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
+    <div class="field"><a href="#" class="button button-update" id="new-password-link">Modifier le mot de passe</a></div>
     
     <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
       <label for="password" class="form_libelle"> Mot de passe :</label>

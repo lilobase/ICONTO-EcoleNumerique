@@ -14,6 +14,14 @@
 p.items-count {font-weight:bold;}
 .hidden {display:none;}
 a img {border:0;}
+.contentLinked{
+	float:right;
+	margin:10px; padding:10px; border:2px solid #fff;
+	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+	width:45%; min-height:187px;
+	font-size:0.9em;
+}
+.contentLinked h3 {margin-top:0;}
 /* End Global */
 /******************************************************************************/
 
@@ -45,7 +53,7 @@ p.breadcrumbs {
 /******************************************************************************/
 /* Forms */
 div.submit {
-	color:#F00;
+	clear:both;
 	margin:10px 0;
 	text-align:center;
 }
@@ -56,20 +64,24 @@ form .formExample {
 	padding:0 0 0 5px;
 	font-size:0.8em; font-style:italic;
 }
+form fieldset {
+	margin:5px 0; border:2px solid #fff;
+	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+}
 
 /* New styles */
 #class_creation .field {
 	clear:both;
 	margin:0 0 2px;
 }
-#class_creation .field label {
+#class_creation .field label, .contentLinked .field .label {
 	display:block;
 	float:left;
 	margin:0;
 	width:29%;
 }
 #class_creation .field label, #class_update .field label {width:19%;}
-#class_creation .field p.input, #class_update .field p.input {margin:0 0 0 19%;}
+#class_creation .field p.input, #class_update .field p.input, .contentLinked .field .input {margin:0 0 0 19%;}
 #class_creation .field p.input label, 
 #class_update .field p.input label {
 	display:inline;
@@ -77,6 +89,7 @@ form .formExample {
 	padding:0 10px 0 0;
 	width:auto;
 }
+#new-password-link {margin:5px 0 5px 150px;}
 /* Old styles */
 label.form_libelle {
   font-size:12px;
@@ -87,6 +100,7 @@ label.form_libelle {
 }
 
 div.field {
+	clear:both;
   padding-bottom: 2px;
 }
 
@@ -177,23 +191,6 @@ ul.tree a.classroom {
 
 
 
-#students {
-  float: right;
-  width: 50%;
-  padding:6px;
-  -moz-border-radius:15px 15px 15px 15px;
-  border:2px solid #FFFFFF;
-  font-size:11px;
-}
-
-#persons-in-charge {
-  float: right;
-  width: 50%;
-  padding:6px;
-  -moz-border-radius:15px 15px 15px 15px;
-  border:2px solid #FFFFFF;
-  font-size:11px;
-}
 
 .column-left {
   float: left;

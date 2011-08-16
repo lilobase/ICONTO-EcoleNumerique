@@ -19,7 +19,7 @@
 {/if}
 
 <form name="edit_personnel" id="edit_personnel" action="{if $ppo->personnel->pers_numero}{copixurl dest="|validatePersonnelUpdate"}{else}{copixurl dest="|validatePersonnelCreation"}{/if}" method="POST" enctype="multipart/form-data">
-  <fieldset>
+  <fieldset><legend>Profil</legend>
     {if $ppo->personnel->pers_numero neq null}
       <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
       <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
@@ -47,41 +47,46 @@
     </div>
     
     {if $ppo->personnel->pers_numero neq null}
-      <div class="field">
-        <label class="form_libelle"> Sexe :</label>
-        {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->pers_id_sexe}<br />
-      </div>
-
-      <div class="field">
-        <label for="login" class="form_libelle"> Login :</label>
-        <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
-      </div>  
-
-      <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
-
-      <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
-        <label for="password" class="form_libelle"> Mot de passe :</label>
-        <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
-      </div>
-    {else}
-      <div class="field">
-        <label for="login" class="form_libelle"> Identifiant :</label>
-        <input class="form" type="text" name="login" id="login" value="{$ppo->login}" /> (<a href="#" id="generate-login">Générer</a>)
-      </div>
-
-      <div class="field">
-        <label for="password" class="form_libelle"> Mot de passe :</label>
-        <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
-      </div>
-
-      <div class="field">
-        <label class="form_libelle"> Sexe :</label>
-        {if isset ($ppo->personnel->pers_id_sexe)}
-          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->pers_id_sexe}<br />
-        {else}                                                                                                        
-          {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->genderIds.0}<br />
-        {/if}
-      </div>
+        <div class="field">
+            <label class="form_libelle"> Sexe :</label>
+            {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->pers_id_sexe}<br />
+        </div>
+        </fieldset>
+        
+        <fieldset><legend>Connexion</legend>
+        <div class="field">
+            <label for="login" class="form_libelle"> Login :</label>
+            <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
+        </div>  
+        
+        <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
+        
+        <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
+            <label for="password" class="form_libelle"> Mot de passe :</label>
+            <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
+        </div>
+	{else}
+        <div class="field">
+            <label class="form_libelle"> Sexe :</label>
+            {if isset ($ppo->personnel->pers_id_sexe)}
+                {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->personnel->pers_id_sexe}<br />
+            {else}                                                                                                        
+                {html_radios name='gender' values=$ppo->genderIds output=$ppo->genderNames selected=$ppo->genderIds.0}<br />
+            {/if}
+        </div>
+        </fieldset>
+        
+        <fieldset><legend>Connexion</legend>
+        <div class="field">
+            <label for="login" class="form_libelle"> Identifiant :</label>
+            <input class="form" type="text" name="login" id="login" value="{$ppo->login}" /> (<a href="#" id="generate-login">Générer</a>)
+        </div>
+        
+        <div class="field">
+            <label for="password" class="form_libelle"> Mot de passe :</label>
+            <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
+        </div>
+      
     {/if}
   </fieldset>
   

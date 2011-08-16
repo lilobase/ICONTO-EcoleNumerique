@@ -8,37 +8,6 @@
   {/if}
 </h2>
 
-{if $ppo->student->idEleve neq null}
-  {if $ppo->personId}
-    <p>Ce formulaire vous permet de modifier l'élève d'un responsable.</p>
-  
-    <h3>Responsable</h3>
-  
-    <div class="field">
-      <label for="student_name"> Nom :</label>
-      <span>{$ppo->person->nom}</span>
-    </div>
-
-    <div class="field">
-      <label for="student_firstname"> Prénom :</label>
-      <span>{$ppo->person->prenom1}</span>
-    </div>
-
-    <div class="field">
-      <label for="student_login"> Login :</label>
-      <span>{$ppo->account_res->login_dbuser}</span>
-    </div>
-  {else}
-    <div id="persons-in-charge">
-      {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->idEleve cpt=$ppo->cpt notxml=true}
-    </div>
-  {/if}
-{else}
-  <div id="persons-in-charge" style="display:none">
-    {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType cpt=$ppo->cpt notxml=true}
-  </div>
-{/if}
-
 <h3>Elève</h3>
 
 {if not $ppo->errors eq null}
@@ -51,8 +20,48 @@
 	</div>
 {/if}
 
+{if $ppo->student->idEleve neq null}
+    {if $ppo->personId}
+        <div class="contentLinked">
+            <h3>Responsable</h3>
+            
+            <div class="field">
+                <p class="label"> Nom :</p>
+                <p class="input">{$ppo->person->nom}</p>
+            </div>
+            
+            <div class="field">
+                <p class="label"> Prénom :</p>
+                <p class="input">{$ppo->person->prenom1}</p>
+            </div>
+            
+            <div class="field">
+                <p class="label"> Login :</p>
+                <p class="input">{$ppo->account_res->login_dbuser}</p>
+            </div>
+        </div>
+    {else}
+        <div id="persons-in-charge" class="contentLinked">
+            {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->student->idEleve cpt=$ppo->cpt notxml=true}
+        </div>
+    {/if}
+{else}
+    <div class="contentLinked">
+    	<div class="field">
+            <label for="add-persons-in-charge" class="form_libelle">Avec responsable(s) :</label>
+            <input class="form" type="checkbox" id="add-persons-in-charge" name="person_in_charge" {if $ppo->resp_on}checked="checked"{/if}/>
+        </div>
+        <div id="persons-in-charge">
+            
+            {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType cpt=$ppo->cpt notxml=true}
+        </div>
+    </div>
+{/if}
+
+
 <form name="edit_student" id="edit_student" action="{if $ppo->student->idEleve neq null}{copixurl dest="|validateStudentUpdate"}{else}{copixurl dest="|validateStudentCreation"}{/if}" method="POST" enctype="multipart/form-data">
   <fieldset>
+  <legend>Profil</legend>
     {if $ppo->student->idEleve neq null}
       <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
       <input type="hidden" name="type_node" id="type_node" value="{$ppo->nodeType}" />
@@ -103,20 +112,25 @@
       	  </select>
         </div>
       {/if}
+    </fieldset>
     
+    <fieldset><legend>Connexion</legend>
       <div class="field">
         <label for="student_login" class="form_libelle"> Login :</label>
         <span class="form" name="student_login" id="student_login"><strong>{$ppo->account->login_dbuser}</strong></span>
       </div>  
     
-      <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
+      <div class="field"><a href="#" class="button button-update" id="new-password-link">Modifier le mot de passe</a></div>
     
       <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
         <label for="student-password" class="form_libelle"> Mot de passe :</label>
         <input class="form" type="text" name="student_password" id="student_password" value="{$ppo->password}" /> (<a href="#" id="generate-student-password">Générer</a>)
       </div>
     {else}
-      <div class="field">
+      </fieldset>
+    
+    <fieldset><legend>Connexion</legend>
+    <div class="field">
         <label for="student_login" class="form_libelle"> Identifiant :</label>
         <input class="form" type="text" name="student_login" id="student_login" value="{$ppo->login}" /> (<a href="#" id="generate-student-login">Générer</a>)
       </div>
@@ -124,10 +138,6 @@
       <div class="field">
         <label for="student_password" class="form_libelle"> Mot de passe :</label>
         <input class="form" type="text" name="student_password" id="student_password" value="{$ppo->password}" /> (<a href="#" id="generate-student-password">Générer</a>)
-      </div>
-      <div class="field">
-        <label for="add-persons-in-charge" class="form_libelle"> Responsables :</label>
-        <input class="form" type="checkbox" id="add-persons-in-charge" name="person_in_charge" {if $ppo->resp_on}checked="checked"{/if}/>
       </div>
     {/if}
   </fieldset>

@@ -1,17 +1,18 @@
 <h4>Responsables de cet élève</h4>
 
 {if count($ppo->persons) > 0}
-  <table class="liste">
+  <table>
     <tr>
-      <th class="liste_th"></th> 
-      <th class="liste_th">Identifiant</th>
-      <th class="liste_th">Nom</th>
-      <th class="liste_th">Prénom</th>
-      <th class="liste_th"></th>
+      <th>Sexe</th> 
+      <th>Identifiant</th>
+      <th>Nom</th>
+      <th>Prénom</th>
+      <th>Actions</th>
     </tr>
+    {assign var=index value=1}
     {foreach from=$ppo->persons item=item}
-      <tr>
-        <td>
+      <tr class="{if $index%2 eq 0}odd{else}even{/if}">
+        <td class="center">
           {if $item->res_id_sexe eq 1}
             <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
           {else}                                                                 
@@ -31,6 +32,7 @@
           {/if}
         </td>
       </tr>
+      {assign var=index value=$index+1}
     {/foreach}
   </table>
 {/if}

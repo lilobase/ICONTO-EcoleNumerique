@@ -1,4 +1,4 @@
-<h4>Responsable de ces élèves</h4>
+<h3>Responsable de ces élèves</h3>
 
 {if $ppo->students|@count > 0}
   <table>
@@ -10,8 +10,9 @@
       <th>Relation</th>
       <th>Actions</th>
     </tr>
+    {assign var=index value=1}
     {foreach from=$ppo->students key=k item=item}
-      <tr>
+      <tr class="{if $index%2 eq 0}odd{else}even{/if}">
         <td class="center">
             {if $item->id_sexe eq 1}
                 <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />
@@ -33,6 +34,7 @@
           {/if}
         </td>
       </tr>
+      {assign var=index value=$index+1}
     {/foreach}
   </table>
 {else}
