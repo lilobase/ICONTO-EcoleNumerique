@@ -86,7 +86,7 @@
   </fieldset>
   
   <div class="submit">
-    <input class="button button-cancel" type="button" value="Annuler" id="cancel" />
+    <a href="{copixurl dest=gestionautonome||showTree tab=1}" class="button button-cancel">Annuler</a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
   </div>
 </form>
@@ -108,10 +108,6 @@
       yearRange: 'c-50:c+10'
     });
     
-    jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree tab=1}'{literal};
-    });
 
     jQuery('#new-password-link').click(function() {
 
