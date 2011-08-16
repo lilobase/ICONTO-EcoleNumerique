@@ -8,8 +8,6 @@
   {/if}
 </h2>
 
-<h3>Elève</h3>
-
 {if not $ppo->errors eq null}
 	<div class="mesgErrors">
 	  <ul>

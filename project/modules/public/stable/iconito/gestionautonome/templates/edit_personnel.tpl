@@ -59,7 +59,7 @@
             <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
         </div>  
         
-        <p><strong><a href="#" id="new-password-link">Nouveau mot de passe</a></strong></p>
+        <div class="field"><a href="#" class="button button-update" id="new-password-link">Modifier le mot de passe</a></div>
         
         <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
             <label for="password" class="form_libelle"> Mot de passe :</label>

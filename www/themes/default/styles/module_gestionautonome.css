@@ -4,7 +4,7 @@
  *
  * @package		EN2011
  * @cdate 		21.12.2010
- * @mdate		03.08.2011
+ * @mdate		16.08.2011
  * @author		Philippe Roser <proser@cap-tic.fr>
  */
 
@@ -70,20 +70,20 @@ form fieldset {
 }
 
 /* New styles */
-#class_creation .field {
+#edit_class .field {
 	clear:both;
 	margin:0 0 2px;
 }
-#class_creation .field label, .contentLinked .field .label {
+#edit_class .field label, .contentLinked .field .label {
 	display:block;
 	float:left;
 	margin:0;
 	width:29%;
 }
-#class_creation .field label, #class_update .field label {width:19%;}
-#class_creation .field p.input, #class_update .field p.input, .contentLinked .field .input {margin:0 0 0 19%;}
-#class_creation .field p.input label, 
-#class_update .field p.input label {
+#edit_class .field label {width:19%;}
+#edit_class .field p.input, .contentLinked .field .input {margin:0 0 0 19%;}
+#edit_class .field p.input label, 
+#edit_class .field p.input label {
 	display:inline;
 	float:none;
 	padding:0 10px 0 0;
@@ -309,7 +309,7 @@ ul.tree a.classroom {
     float:left;
     margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
     -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
-    width:40%;
+    width:35%;
     background:#fff;
 }
 #toClass {float:right;}
