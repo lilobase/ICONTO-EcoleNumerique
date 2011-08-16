@@ -65,7 +65,7 @@
       </div>
 
       <div class="field">
-        <label class="form_libelle"> Login :</label>
+        <label class="form_libelle"> Identifiant :</label>
         <span><strong>{$ppo->studentAccount->login_dbuser}</strong></span>
       </div>
     </div>

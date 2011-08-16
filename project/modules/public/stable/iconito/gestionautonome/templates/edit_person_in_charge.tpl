@@ -33,7 +33,7 @@
       </div>
     
       <div class="field">
-        <p class="label"> Login :</p>
+        <p class="label"> Identifiant :</p>
         <p class="input">{$ppo->student_account->login_dbuser}</p>
       </div>
   </div>
@@ -83,7 +83,7 @@
     
     <fieldset><legend>Connexion</legend>
     <div class="field">
-      <label for="login" class="form_libelle"> Login :</label>
+      <label for="login" class="form_libelle"> Identifiant :</label>
       <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
     </div>  
     

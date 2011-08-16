@@ -3,10 +3,7 @@
 <h2>Elèves disponibles</h2>
 
 {if $ppo->save neq null}
-  <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
-    <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-    <strong>Elève ajouté</strong>
-  </p>
+  <p class="mesgSuccess">Elève ajouté</p>
 {/if}
 
 <a href="#" id="filter-displayer">Afficher / Masquer les filtres</a>
@@ -17,7 +14,7 @@
   <input type="hidden" name="parentType" id="parentType" value="{$ppo->nodeType}" />
   <input type="hidden" name="role" id="role" value="0" />
   
-  <fieldset class="filter">
+  <fieldset>
     <legend>Filtres</legend>
     
      <div class="field">
@@ -56,7 +53,7 @@
     </div>
   </fieldset>
 
-  <div class="submti">
+  <div class="submit">
     <input type="submit" value="Filtrer" class="button button-search" />
   </div>
 </form>
@@ -69,33 +66,33 @@
   
   {if $ppo->students neq null}
     <p class="items-count">{$ppo->students|@count} élèves</p> 
-    <table class="liste">
+    <table>
       <tr>
-        <th class="liste_th"></th>
-        <th class="liste_th">Nom</th>
-        <th class="liste_th">Prénom</th>
-        <th class="liste_th">Login</th>
-        <th class="liste_th">Niveau</th>
-        <th class="liste_th"></th>
+        <th>Sexe</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Identifiant</th>
+        <th>Niveau</th>
+        <th>Actions</th>
       </tr>
       {foreach from=$ppo->students key=k item=student}
-        <tr class="list_line{math equation="x%2" x=$k}">
-          <td>
+        <tr class="{if $k%2 eq 0}even{else}odd{/if}">
+          <td class="center">
             {if $student->id_sexe eq 1}
-              <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Garçon" />
+                <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />
             {else}                                                                 
-              <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Fille" />
+                <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />
             {/if}
           </td>
           <td>{$student->nom}</td>
           <td>{$student->prenom1}</td>
           <td>{$student->login_dbuser}</td>
-          <td>
+          <td class="center">
             <select class="form" name="level-{$student->idEleve}">
               {html_options values=$ppo->levelIds output=$ppo->levelNames}
         	  </select>
           </td>
-          <td>
+          <td class="actions">
             <input type="checkbox" class="form" name="studentIds[]" value="{$student->idEleve}" />
           </td>
         </tr>

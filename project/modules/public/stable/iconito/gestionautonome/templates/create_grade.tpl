@@ -2,8 +2,6 @@
 
 <h2>Ajout d'une année scolaire</h2>
 
-<h3>Année scolaire</h3>
-
 {if not $ppo->errors eq null}
 	<div class="mesgErrors">
 	  <ul>

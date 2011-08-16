@@ -6,7 +6,7 @@
       <th>Sexe</th>
       <th>Nom</th>
       <th>Prénom</th>
-      <th>Login</th>
+      <th>Identifiant</th>
       <th>Relation</th>
       <th>Actions</th>
     </tr>
