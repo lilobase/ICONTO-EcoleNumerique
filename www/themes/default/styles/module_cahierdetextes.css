@@ -24,8 +24,9 @@ div.dashboard div.content {
 	text-transform:uppercase;
 	line-height:1;
 }
-#cahierdetextes h3 a.button {
+#cahierdetextes h3 a.button, #cahierdetextes h2 a.button {
 	margin:-5px 0 0;
+	font-weight:normal;
 }
 #cahierdetextes h4 {
 	margin:0;
