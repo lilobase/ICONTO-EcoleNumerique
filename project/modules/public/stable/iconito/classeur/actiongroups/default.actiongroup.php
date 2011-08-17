@@ -410,11 +410,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Dossier temporaire pour l'upload des fichiers
     _classInclude('classeur|classeurService');
     
-    $dossierTmp = sys_get_temp_dir();
-    if (substr($dossierTmp, -1) != '/') {
-      
-      $dossierTmp = $dossierTmp.'/';
-    }
+    $dossierTmp = classeurService::getTmpFolder();
     $ppo->dossierTmp = $dossierTmp.classeurService::createKey();
     
     // Soumission du formulaire
@@ -1299,11 +1295,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Path de l'archive ZIP temporaire
-    $dossierTmp = sys_get_temp_dir();
-    if (substr($dossierTmp, -1) != '/') {
-      
-      $dossierTmp = $dossierTmp.'/';
-    }
+    $dossierTmp = classeurService::getTmpFolder();
     
     if ($ppo->dossierId != 0) {
       
@@ -1674,11 +1666,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Dossier temporaire pour l'upload des fichiers
     _classInclude('classeur|classeurService');
     
-    $dossierTmp = sys_get_temp_dir();
-    if (substr($dossierTmp, -1) != '/') {
-      
-      $dossierTmp = $dossierTmp.'/';
-    }
+    $dossierTmp = classeurService::getTmpFolder();
     $ppo->dossierTmp = $dossierTmp.classeurService::createKey();
 
     $fichierDAO = _ioDAO('classeur|classeurfichier');
@@ -1792,11 +1780,7 @@ class ActionGroupDefault extends enicActionGroup {
 		// Dossier temporaire pour l'upload des fichiers
     _classInclude('classeur|classeurService');
     
-    $dossierTmp = sys_get_temp_dir();
-    if (substr($dossierTmp, -1) != '/') {
-      
-      $dossierTmp = $dossierTmp.'/';
-    }
+    $dossierTmp = classeurService::getTmpFolder();
     $ppo->dossierTmp = $dossierTmp.classeurService::createKey();
 		
 		CopixHTMLHeader::addJSLink (_resource('js/iconito/module_classeur.js')); 

@@ -777,4 +777,27 @@ class ClasseurService {
     
     return $res;
   }
+
+  
+  /**
+  * Renvoit le dossier temporaire a utiliser pour l'upload. A utiliser a la place de sys_get_temp_dir().
+  *
+  * @author Christophe Beyer <cbeyer@cap-tic.fr>
+  * @since 2011/08/17
+  * @return string Chemin absolu vers le dossier temporaire. Finit par un /
+  */
+  public static function getTmpFolder()
+  {
+      if (isset($_ENV['DYLD_LIBRARY_PATH']) && $_ENV['DYLD_LIBRARY_PATH']== '/Applications/MAMP/Library/lib:') // Patch MAMP
+          $dossierTmp = '/tmp';
+      else
+          $dossierTmp = sys_get_temp_dir();
+      if (substr($dossierTmp, -1) != '/') {
+          $dossierTmp = $dossierTmp.'/';
+      }
+      return $dossierTmp;
+  }
+  
+  
+  
 }
