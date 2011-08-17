@@ -84,7 +84,7 @@
 .button-previous	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_previous.png) 4px 50% no-repeat; }
 .button-continue	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_continue.png) 4px 50% no-repeat; }
 .button-info		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_info.png) 4px 50% no-repeat; }
-.button-attach		{ display:inline-block; margin-top:5px; padding-left:26px; background: #fff url(../../../themes/default/images/button-action/action_attach.png) 4px 50% no-repeat; }
+.button-attach		{ display:inline; margin-top:5px; padding-left:26px; background: #fff url(../../../themes/default/images/button-action/action_attach.png) 4px 50% no-repeat; }
 .button-file		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_attach.png) 4px 50% no-repeat; }
 .button-confirm		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_confirm.png) 4px 50% no-repeat; }
 .button-print		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_print.png) 4px 50% no-repeat; }

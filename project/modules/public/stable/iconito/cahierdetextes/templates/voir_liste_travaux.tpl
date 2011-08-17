@@ -4,6 +4,8 @@
   <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
 {/if}
 
+
+
 <form name="list_filter" id="list_filter" action="{copixurl dest="cahierdetextes||voirListeTravaux"}" method="POST" enctype="multipart/form-data">
   <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
   <input type="hidden" name="eleve" id="eleve" value="{$ppo->eleve}" />
@@ -20,14 +22,11 @@
   <input type="submit" class="button button-next" value="{i18n key="cahierdetextes.message.seeWorks"}" />
 </form>
 
-{if !$ppo->estAdmin}
-  {copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}
-{/if}
 
 <div class="works">
 {if $ppo->travaux neq null}
   {foreach from=$ppo->travaux key=date item=travauxParDate}
-    <h2>{$date|datei18n:text}</h2>
+    <h2>{$date|datei18n:text}{if !$ppo->estAdmin}{copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}{/if}</h2>
     
     {foreach from=$travauxParDate key=a_faire item=travauxParType}
       <h3>
@@ -66,6 +65,9 @@
     {/foreach}
   {/foreach}
 {else}
-  <p>{i18n key="cahierdetextes.message.noWork"}</p>
+    {if !$ppo->estAdmin}
+        <div class="floatright">{copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}</div>
+    {/if}
+    <p>{i18n key="cahierdetextes.message.noWork"}</p>
 {/if}
 </div>

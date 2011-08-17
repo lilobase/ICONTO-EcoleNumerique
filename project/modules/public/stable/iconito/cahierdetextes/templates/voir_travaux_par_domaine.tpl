@@ -25,14 +25,13 @@
   <input type="submit" class="button button-next" value="{i18n key="cahierdetextes.message.seeWorks"}" />
 </form>
 
-{if !$ppo->estAdmin}
-  {copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}
-{/if}
+
+
 
 <div class="works">
 {if $ppo->travaux neq null}
   {foreach from=$ppo->travaux key=domaineId item=travauxParDomaine}
-    <h2>{$ppo->correspondanceDomaines.$domaineId}</h2>
+    <h2>{$ppo->correspondanceDomaines.$domaineId}{if !$ppo->estAdmin}{copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}{/if}</h2>
     
     {foreach from=$travauxParDomaine key=a_faire item=travauxParType}
       <h3>
@@ -77,6 +76,9 @@
     {/foreach}
   {/foreach}
 {else}
-  <p>{i18n key="cahierdetextes.message.noWork"}</p>
+    {if !$ppo->estAdmin}
+        <div class="floatright">{copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}</div>
+    {/if}
+    <p>{i18n key="cahierdetextes.message.noWork"}</p>
 {/if}
 </div>
