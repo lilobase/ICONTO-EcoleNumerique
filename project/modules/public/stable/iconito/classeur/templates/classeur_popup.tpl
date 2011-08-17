@@ -83,37 +83,35 @@
 {/if}
 
 {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER}
-  <a class="addfile" style="cursor: hand;">{i18n key="classeur.message.add"}</a>
+  <a class="addfile button button-add">{i18n key="classeur.message.add"}</a>
   <div class="addfile-form" style="display: none;">
   	<form action="{copixurl dest="|envoieFichierPopup"}" method="post" enctype="multipart/form-data">
   		<input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
-      <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
-      <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
-      <input type="hidden" name="field" value="{$ppo->field}"/>
+        <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
+        <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
+        <input type="hidden" name="field" value="{$ppo->field}"/>
   		<input type="hidden" name="format" value="{$ppo->format}"/>
-      <input type="file" name="fichiers[]" id="fichiers" style="margin: 2px;" />
-  	  <input class="button button-confirm" type="submit" value="{i18n key="classeur.message.ok"}" />
-  		<input class="button button-cancel" type="button" value="{i18n key="classeur.message.cancel"}" />
+        <input type="file" name="fichiers[]" id="fichiers" />
+  	    <a class="button button-cancel">{i18n key="classeur.message.cancel"}</a>
+        <input class="button button-confirm" type="submit" value="{i18n key="classeur.message.ok"}" />
   	</form>
   </div>
 {/if}
-</div>
-</div>
+</div><!-- End overflow -->
 
-<div id="popup_actions" class="content-panel">
-	<div class="center">
-		<input id="docancel" class="button button-cancel" type="button" value="{i18n key="classeur.message.cancel"}" />
-        <input id="doinsert" class="button button-confirm" type="button" value="{i18n key="classeur.message.insert"}" />
-	</div>
-	{if $ppo->format neq "id"}
-	<div class="">
-		<form name="form" id="options">
-			{i18n key="classeur.message.mode"}
-			<input id="mode-view" type="radio" name="mode" value="view" checked /><label for="mode-view">{i18n key="classeur.message.modeView"}</label>
-			<input id="mode-download" type="radio" name="mode" value="download" /><label for="mode-download">{i18n key="classeur.message.modeDownload"}</label>
-		</form>
-	</div>
-	{/if}
+
+{if $ppo->format neq "id"}
+    <form name="form" id="options">
+        {i18n key="classeur.message.mode"}
+        <input id="mode-view" type="radio" name="mode" value="view" checked /><label for="mode-view">{i18n key="classeur.message.modeView"}</label>
+        <input id="mode-download" type="radio" name="mode" value="download" /><label for="mode-download">{i18n key="classeur.message.modeDownload"}</label>
+    </form>
+{/if}
+</div> <!-- End content-view -->
+
+<div id="popup_actions" class="content-panel center">
+    <input id="docancel" class="button button-cancel" type="button" value="{i18n key="classeur.message.cancel"}" />
+    <input id="doinsert" class="button button-confirm" type="button" value="{i18n key="classeur.message.insert"}" />
 </div>
 
 {literal}
