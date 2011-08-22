@@ -6,7 +6,6 @@
 
 <div class="content-view">
 <div class="overflow">
-{if $ppo->dossiers neq null || $ppo->fichiers neq null}
 <table id="folder-content" class="listView">
   <thead>
     <tr>
@@ -100,9 +99,6 @@
     {/foreach}
   </tbody>
 </table>
-{else}
-  <p id="folder-content"><span>{i18n key="classeur.message.noFiles"}</span></p>
-{/if}
 
 {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER}
   <a class="addfile button button-add">{i18n key="classeur.message.add"}</a>
