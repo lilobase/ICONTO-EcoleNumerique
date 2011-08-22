@@ -1709,8 +1709,14 @@ class ActionGroupDefault extends enicActionGroup {
     $dossierDAO = _ioDAO('classeur|classeurdossier');
     if (!is_null($ppo->dossierId  = _request('dossierId', null)) && $ppo->dossierId != 0) {
       
-      $ppo->dossier = $dossierDAO->get($ppo->dossierId);
-      $ppo->path = $ppo->dossier->getPath();
+      if ($ppo->dossier = $dossierDAO->get($ppo->dossierId)) {
+        
+        $ppo->path = $ppo->dossier->getPath();
+      }
+      else {
+        
+        $ppo->path = '/';
+      }
     }
     else {
       
