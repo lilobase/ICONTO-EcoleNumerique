@@ -8,13 +8,13 @@
 
 {copixzone process=gestionautonome|AccountsInfo}
 
-<p class="mesgSuccess">Modification effectuée !</p>
-
-{if $k eq 0}
-    <h3>{$ppo->firstElement.type_nom} {$verb}</h3> 
-{else}
-    <h3>{$ppo->firstElement.type_nom}{$k} ajouté</h3>
-{/if}
+<p class="mesgSuccess">
+  {if $k eq 0}
+      {$ppo->firstElement.type_nom} {$verb}
+  {else}
+      {$ppo->firstElement.type_nom}{$k} ajouté
+  {/if}
+</p>
 
 <table>
   <thead>
