@@ -3,7 +3,7 @@
 /**
 * @package    Iconito
 * @subpackage Cahierdetextes
-* @author     Jérémy FOURNAISE
+* @author     Jérémy FOURNAISE <jeremy.fournaise@isics.fr>
 */
 
 class ActionGroupDefault extends CopixActionGroup {
@@ -66,6 +66,9 @@ class ActionGroupDefault extends CopixActionGroup {
   	
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
   	$ppo->dateSelectionnee  = $ppo->annee.$ppo->mois.$ppo->jour;
+  	
+  	$modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 	  
 	  return _arPPO ($ppo, 'voir_travaux.tpl');
 	}
@@ -121,6 +124,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	    
 	    $ppo->travaux = $travailDAO->findByEleveDateEtIntervalleParJourEtType(_currentUser()->getExtra('id'), CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours);
 	  }
+	  
+	  $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 	  
 	  return _arPPO ($ppo, 'voir_liste_travaux.tpl');
 	}
@@ -184,6 +190,9 @@ class ActionGroupDefault extends CopixActionGroup {
 	    
 	    $ppo->travaux = $travailDAO->findByEleveDateIntervalleEtDomaineParDomaineEtType($ppo->eleve, CopixDateTime::dateToyyyymmdd($ppo->dateDeb), $ppo->nbJours, $ppo->domaine);
 	  }
+	  
+	  $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 	  
 	  return _arPPO ($ppo, 'voir_travaux_par_domaine.tpl');
 	}
@@ -294,7 +303,10 @@ class ActionGroupDefault extends CopixActionGroup {
       $ppo->success = true;
       
       return _arRedirect (CopixUrl::get ('cahierdetextes||gererDomaines', array('cahierId' => $ppo->cahierId, 'jour' => $ppo->jour, 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'success' => $ppo->success)));
-    } 
+    }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 	  
 	  return _arPPO ($ppo, 'gerer_domaines.tpl');
 	}
@@ -570,6 +582,9 @@ class ActionGroupDefault extends CopixActionGroup {
           $ppo->fichiers = $fichiers;
         }
         
+        $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+        
         return _arPPO ($ppo, 'editer_travail.tpl');
       }
       
@@ -672,6 +687,9 @@ class ActionGroupDefault extends CopixActionGroup {
           break;
       }
     }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 	  
 	  return _arPPO ($ppo, 'editer_travail.tpl');
 	}
@@ -815,6 +833,9 @@ class ActionGroupDefault extends CopixActionGroup {
         return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId)));
       }
     }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 	  
 	  return _arPPO ($ppo, 'voir_memos.tpl');
 	}
@@ -1013,6 +1034,9 @@ class ActionGroupDefault extends CopixActionGroup {
           $ppo->fichiers = $fichiers;
         }
         
+        $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+        
         return _arPPO ($ppo, 'editer_memo.tpl');
       }
       
@@ -1067,6 +1091,9 @@ class ActionGroupDefault extends CopixActionGroup {
 
       return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'success' => true)));
 	  }
+	  
+	  $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
   	
   	return _arPPO ($ppo, 'editer_memo.tpl');
   }

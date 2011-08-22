@@ -4665,7 +4665,7 @@ class ActionGroupDefault extends enicActionGroup {
   		      while (($data = fgetcsv($handle, 0, ',', '"')) !== false) {
               
               if (!in_array(count($data), array(12, 8, 4, 3))) {
-                
+
                 $ppo->errors[] = 'Fichier invalide';
                 break;
               }
@@ -4777,7 +4777,7 @@ class ActionGroupDefault extends enicActionGroup {
                  $ppo->students[$key]['person'][$keyPerson]['firstname'] = $datas[$cpt];
                  break; 
                case 2:
-                 if (substr($datas[$cpt], 0, 1) == 'M') {
+                 if (substr(trim($datas[$cpt]), 0, 1) == 'M') {
 
                    $ppo->students[$key]['person'][$keyPerson]['gender'] = 1;
                  }

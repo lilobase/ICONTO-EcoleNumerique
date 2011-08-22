@@ -3,7 +3,7 @@
 /**
 * @package    Iconito
 * @subpackage Classeur
-* @author     Jérémy FOURNAISE
+* @author     Jérémy FOURNAISE <jeremy.fournaise@isics.fr>
 */
 
 class ActionGroupDefault extends enicActionGroup {
@@ -132,6 +132,9 @@ class ActionGroupDefault extends enicActionGroup {
 		  
 		  classeurService::openTree($ppo->classeurId, $ppo->dossierId);
 		}
+		
+		$modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 
     return _arPPO ($ppo, 'voir_contenu.tpl');
   }
@@ -208,6 +211,9 @@ class ActionGroupDefault extends enicActionGroup {
       
       if (!empty ($ppo->erreurs)) {
         
+        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+      	
         return _arPPO ($ppo, array ('template' => 'editer_dossier.tpl'));
       }
       
@@ -231,6 +237,9 @@ class ActionGroupDefault extends enicActionGroup {
       
       return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => isset($ppo->parent) ? $ppo->parent->id : 0, 'confirmMessage' => $confirmMessage)));
     }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
     
     return _arPPO ($ppo, array ('template' => 'editer_dossier.tpl'));
   }
@@ -284,6 +293,9 @@ class ActionGroupDefault extends enicActionGroup {
       
       if (!empty ($ppo->erreurs)) {
         
+        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+      	
         return _arPPO ($ppo, array ('template' => 'deplacer_dossier.tpl'));
       }
       
@@ -306,6 +318,9 @@ class ActionGroupDefault extends enicActionGroup {
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->destinationId, 'confirmMessage' => $confirmMessage)));
       }
     }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
  	  
  	  return _arPPO ($ppo, array ('template' => 'deplacer_dossier.tpl'));
   }
@@ -494,7 +509,10 @@ class ActionGroupDefault extends enicActionGroup {
           }
 
           if (!empty ($ppo->erreurs)) {
-
+            
+            $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+          	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+          	
             return _arPPO ($ppo, array ('template' => 'editer_fichiers.tpl'));
           }
 
@@ -623,6 +641,9 @@ class ActionGroupDefault extends enicActionGroup {
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->dossierId, 'confirmMessage' => $confirmMessage)));
     }
     
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+  	
     return _arPPO ($ppo, array ('template' => 'editer_fichiers.tpl'));
   }
   
@@ -676,6 +697,9 @@ class ActionGroupDefault extends enicActionGroup {
       
       if (!empty ($ppo->erreurs)) {
         
+        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+      	
         return _arPPO ($ppo, array ('template' => 'deplacer_fichier.tpl'));
       }
       
@@ -698,6 +722,9 @@ class ActionGroupDefault extends enicActionGroup {
       }
     }
     
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+  	
  	  return _arPPO ($ppo, array ('template' => 'deplacer_fichier.tpl'));
   }
   
@@ -808,6 +835,9 @@ class ActionGroupDefault extends enicActionGroup {
 
       if (!empty ($ppo->erreurs)) {
 
+        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+      	
         return _arPPO ($ppo, array ('template' => 'editer_favori.tpl'));
       }
       
@@ -873,6 +903,9 @@ class ActionGroupDefault extends enicActionGroup {
     
       return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeur->id, 'dossierId' => $ppo->favori->dossier_id, 'confirmMessage' => $confirmMessage)));
     }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 	  
 	  return _arPPO ($ppo, array ('template' => 'editer_favori.tpl'));
   }
@@ -1042,6 +1075,9 @@ class ActionGroupDefault extends enicActionGroup {
       
       if (!empty ($ppo->erreurs)) {
         
+        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+      	
         return _arPPO ($ppo, array ('template' => 'deplacer_contenu.tpl'));
       }
       
@@ -1091,6 +1127,9 @@ class ActionGroupDefault extends enicActionGroup {
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->destinationId, 'confirmMessage' => $confirmMessage)));
       }
     }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
  	  
  	  return _arPPO ($ppo, array ('template' => 'deplacer_contenu.tpl'));
   }
@@ -1202,6 +1241,9 @@ class ActionGroupDefault extends enicActionGroup {
       
       if (!empty ($ppo->erreurs)) {
         
+        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+      	
         return _arPPO ($ppo, array ('template' => 'copier_contenu.tpl'));
       }
       
@@ -1247,6 +1289,9 @@ class ActionGroupDefault extends enicActionGroup {
         return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $destinationId, 'confirmMessage' => $confirmMessage)));
       }
     }
+    
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
     
     return _arPPO ($ppo, array ('template' => 'copier_contenu.tpl'));
   }
@@ -1441,6 +1486,9 @@ class ActionGroupDefault extends enicActionGroup {
       }
     }
  	  
+ 	  $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+  	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+  	
     return _arPPO ($ppo, array ('template' => 'editer_album_public.tpl'));
   }
   
