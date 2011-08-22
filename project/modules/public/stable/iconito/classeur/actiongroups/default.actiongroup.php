@@ -544,58 +544,64 @@ class ActionGroupDefault extends enicActionGroup {
 
           foreach ($datas as $dossierParent => $data) {
 
-            foreach($data['folders'] as $folder) {
+            if (!empty($data['folders'])) {
+              
+              foreach($data['folders'] as $folder) {
 
-              $dossier = _record ('classeur|classeurdossier');
+                $dossier = _record ('classeur|classeurdossier');
 
-              $dossier->nb_dossiers = 0;
-              $dossier->nb_fichiers = 0;
-              $dossier->taille      = 0;
+                $dossier->nb_dossiers = 0;
+                $dossier->nb_fichiers = 0;
+                $dossier->taille      = 0;
 
-              $dossier->classeur_id    = $classeur->id;
-              $dossier->parent_id      = $dossierParent == $ppo->dossierTmp ? 0 : $correspondanceDossiers[$dossierParent]->id;
-              $dossier->nom            = $folder;
-              $dossier->cle            = classeurService::createKey();
-              $dossier->date_creation  = date('Y-m-d H:i:s');
-              $dossier->user_type      = _currentUser()->getExtra('type');
-              $dossier->user_id        = _currentUser()->getExtra('id');
+                $dossier->classeur_id    = $classeur->id;
+                $dossier->parent_id      = $dossierParent == $ppo->dossierTmp ? 0 : $correspondanceDossiers[$dossierParent]->id;
+                $dossier->nom            = $folder;
+                $dossier->cle            = classeurService::createKey();
+                $dossier->date_creation  = date('Y-m-d H:i:s');
+                $dossier->user_type      = _currentUser()->getExtra('type');
+                $dossier->user_id        = _currentUser()->getExtra('id');
 
-              $dossierDAO->insert($dossier);
+                $dossierDAO->insert($dossier);
 
-              classeurService::updateFolderInfos($dossier);
+                classeurService::updateFolderInfos($dossier);
 
-              $correspondanceDossiers[$dossierParent.'/'.$folder] = $dossier;
+                $correspondanceDossiers[$dossierParent.'/'.$folder] = $dossier;
+              }
             }
+            
+            if (!empty($data['files'])) {
+              
+              foreach ($data['files'] as $file) {
 
-            foreach ($data['files'] as $file) {
+                $fichier = _record('classeur|classeurfichier');
 
-              $fichier = _record('classeur|classeurfichier');
+                $fichier->classeur_id   = $classeur->id;
+                $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? 0 : $correspondanceDossiers[$dossierParent]->id;
+                $fichier->titre         = substr($file, 0, 63);
+                $fichier->commentaire   = '';
+                $fichier->fichier       = $file;
+                $fichier->taille        = file_exists($dossierParent.'/'.$file) ? filesize($dossierParent.'/'.$file) : 0;
+                $fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
+                $fichier->cle           = classeurService::createKey();
+                $fichier->date_upload   = date('Y-m-d H:i:s');
+                $fichier->user_type     = _currentUser()->getExtra('type');
+                $fichier->user_id       = _currentUser()->getExtra('id');
 
-              $fichier->classeur_id   = $classeur->id;
-              $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? 0 : $correspondanceDossiers[$dossierParent]->id;
-              $fichier->titre         = substr($file, 0, 63);
-              $fichier->commentaire   = '';
-              $fichier->fichier       = $file;
-              $fichier->taille        = file_exists($dossierParent.'/'.$file) ? filesize($dossierParent.'/'.$file) : 0;
-              $fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
-              $fichier->cle           = classeurService::createKey();
-              $fichier->date_upload   = date('Y-m-d H:i:s');
-              $fichier->user_type     = _currentUser()->getExtra('type');
-              $fichier->user_id       = _currentUser()->getExtra('id');
+                $fichierDAO->insert($fichier);
 
-              $fichierDAO->insert($fichier);
+                classeurService::updateFolderInfos($correspondanceDossiers[$dossierParent]);
 
-              classeurService::updateFolderInfos($correspondanceDossiers[$dossierParent]);
+                $nomClasseur = $classeur->id.'-'.$classeur->cle;
+                $nomFichier = $fichier->id.'-'.$fichier->cle;
+                $extension = strrchr($file, '.');
 
-              $nomClasseur = $classeur->id.'-'.$classeur->cle;
-              $nomFichier = $fichier->id.'-'.$fichier->cle;
-              $extension = strrchr($file, '.');
+                // Déplacement du fichier temporaire dans le classeur
+                copy($dossierParent.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
 
-              // Déplacement du fichier temporaire dans le classeur
-              copy($dossierParent.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
-
-              // Suppression du fichier temporaire
-              unlink($dossierParent.'/'.$file);
+                // Suppression du fichier temporaire
+                unlink($dossierParent.'/'.$file);
+              }
             }
           }
 
