@@ -19,6 +19,28 @@
   </thead>
   <tbody>
     {assign var=index value=1}
+    {if $ppo->dossierParent}
+      <tr class="folder even">
+        <td>&nbsp;</td>
+        <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$ppo->dossierParent->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a></td>
+        <td colspan="4">&nbsp;</td>
+      </tr>
+      {assign var=index value=2}
+    {elseif $ppo->classeurParent}
+      <tr class="folder even">
+        <td>&nbsp;</td>
+        <td>
+          {if $ppo->classeurParent->isPersonnel}
+            {i18n key="classeur.message.personnalFolder" assign=nom}
+          {else}
+            {assign var=nom value=$ppo->classeurParent->titre}
+          {/if}
+          <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
+        </td>
+        <td colspan="4">&nbsp;</td>
+      </tr>
+      {assign var=index value=2}
+    {/if}
     {foreach from=$ppo->dossiers item=dossier}
     <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
       <td class="center"><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-16/icon-folder.png" alt="" /></a></td>

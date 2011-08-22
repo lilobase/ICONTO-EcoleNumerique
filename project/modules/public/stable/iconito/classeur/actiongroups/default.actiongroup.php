@@ -1823,6 +1823,15 @@ class ActionGroupDefault extends enicActionGroup {
 		if ($ppo->dossierId != 0) {
 		  
 		  classeurService::openTree($ppo->classeur->id, $ppo->dossierId);
+		  $dossier = $dossierDAO->get($ppo->dossierId);
+		  if ($dossier->parent_id != 0) {
+		    
+		    $ppo->dossierParent = $dossierDAO->get($dossier->parent_id);
+		  }
+		  else {
+		    
+		    $ppo->classeurParent = $ppo->classeur;
+		  }
 		}
 		
 		// Dossier temporaire pour l'upload des fichiers
