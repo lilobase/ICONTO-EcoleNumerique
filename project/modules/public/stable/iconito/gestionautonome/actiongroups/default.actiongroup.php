@@ -2474,8 +2474,8 @@ class ActionGroupDefault extends enicActionGroup {
 		$passwordsList[$type_user][$ppo->student->idEleve] = reset($session);
                                                                     
 		// Récupérations des infos temporaires en session et ajout aux sessions => Ajouter via ajax
-		$tmpSession = _sessionGet ('modules|gestionautonome|tmpAccount');                                                                
-		if ($ppo->resp_on && !is_null ($tmpSession) && is_array ($tmpSession)) {
+		$tmpSession = _sessionGet ('modules|gestionautonome|tmpAccount');                                        
+		if (!is_null ($tmpSession) && is_array ($tmpSession)) {
 		  
 		  $personDAO     = _ioDAO ('kernel_bu_responsable');
       $personLinkDAO = _ioDAO ('kernel|kernel_bu_res2ele');
@@ -2484,7 +2484,6 @@ class ActionGroupDefault extends enicActionGroup {
         
         // Si le responsable existe déjà
         if (isset($personSession['res_numero'])) {
-          
           // Création de l'association responsable / élève
           if (!$personLinkDAO->getByPersonAndStudent ($personSession['res_numero'], $ppo->student->idEleve)) {
 
@@ -2515,7 +2514,6 @@ class ActionGroupDefault extends enicActionGroup {
         }
         // Sinon nouveau responsable : création seulement si la création du dbuser est possible
         elseif (Kernel::isLoginAvailable ($personSession['login'])) {
-          
           // Création du responsable
           $ppo->person = _record ('kernel_bu_responsable');
       
@@ -3675,7 +3673,11 @@ class ActionGroupDefault extends enicActionGroup {
       			'id_sexe'   => $person->id_sexe,
       			'login'     => $ppo->account->login,
       			'password'  => $ppo->account->password,
-      			'gender'    => $person->id_sexe
+      			'gender'    => $person->id_sexe,
+      			'bu_type'   => 'USER_RES',
+      			'bu_id'     => $person->numero,
+      			'type_nom'  => Kernel::Code2Name('USER_RES'),
+      			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom']
       		);
       		
       		$ppo->personsInSession[] = $responsable;
@@ -3707,7 +3709,11 @@ class ActionGroupDefault extends enicActionGroup {
     		  'res_id_sexe'   => $ppo->person->res_id_sexe,
     		  'login'         => $ppo->account->login,
     		  'password'      => isset ($passwordsList['USER_RES'][$ppo->person->res_numero]) ? $passwordsList['USER_RES'][$ppo->person->res_numero]['password'] : '******',
-    		  'gender'        => $ppo->person->res_id_sexe
+    		  'gender'        => $ppo->person->res_id_sexe,
+    		  'bu_type'   => 'USER_RES',
+    			'bu_id'     => $person->numero,
+    			'type_nom'  => Kernel::Code2Name('USER_RES'),
+    			'node_nom'  => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom']
         );
     		
     		$ppo->personsInSession[] = $responsable;
@@ -4981,7 +4987,7 @@ class ActionGroupDefault extends enicActionGroup {
         
         $studentDAO->insert ($ppo->student);
         
-        $students[$key]['id'] = $ppo->student->numero;
+        $students[$key]['id'] = $ppo->student->idEleve;
         
         // Création du compte dbuser
         $dbuser = _record ('kernel|kernel_copixuser');
@@ -5075,7 +5081,7 @@ class ActionGroupDefault extends enicActionGroup {
           
             $personDAO->insert ($ppo->person);
             
-             $students[$key]['person'][$personKey]['id'] = $ppo->person->numero;
+            $students[$key]['person'][$personKey]['id'] = $ppo->person->numero;
             
             // Création du compte dbuser
             $dbuser = _record ('kernel|kernel_copixuser');
@@ -5173,7 +5179,7 @@ class ActionGroupDefault extends enicActionGroup {
 
 		  $passwordsList = array();
 		}
-    
+		
     foreach ($ppo->studentsSuccess as $student) {
       
       $studentAr = array(
@@ -5183,8 +5189,8 @@ class ActionGroupDefault extends enicActionGroup {
   			'password'  => $student['password'],
   			'bu_type'   => 'USER_ELE',
   			'bu_id'     => $student['id'],
-  			'type_nom'  => $student['type_nom'],
-  			'node_nom'  => $student['node_nom'],
+  			'type_nom'  => Kernel::Code2Name('USER_ELE'),
+  			'node_nom'  => Kernel::Code2Name('BU_CLASSE').' '.$nodeInfos['nom'],
   			'gender'    => $student['gender']
   		);
   		
@@ -5202,8 +5208,8 @@ class ActionGroupDefault extends enicActionGroup {
       			'password'  => $person['password'],
       			'bu_type'   => 'USER_RES',
       			'bu_id'     => $person['id'],
-      			'type_nom'  => $person['type_nom'],
-      			'node_nom'  => $person['node_nom'],
+      			'type_nom'  => Kernel::Code2Name('USER_RES'),
+      			'node_nom'  => Kernel::Code2Name('BU_CLASSE').' '.$nodeInfos['nom'],
       			'gender'    => $person['gender']
       		);
 

@@ -44,22 +44,17 @@
         </div>
     {/if}
 {else}
-    <div class="contentLinked">
-    	<div class="field">
-            <label for="add-persons-in-charge" class="form_libelle">Avec responsable(s) :</label>
-            <input class="form" type="checkbox" id="add-persons-in-charge" name="person_in_charge" {if $ppo->resp_on}checked="checked"{/if}/>
-        </div>
-        <div id="persons-in-charge">
-            
-            {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType cpt=$ppo->cpt notxml=true}
-        </div>
+  <div class="contentLinked">
+    <div id="persons-in-charge">
+      {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType cpt=$ppo->cpt notxml=true}
     </div>
+  </div>
 {/if}
 
 
 <form name="edit_student" id="edit_student" action="{if $ppo->student->idEleve neq null}{copixurl dest="|validateStudentUpdate"}{else}{copixurl dest="|validateStudentCreation"}{/if}" method="POST" enctype="multipart/form-data">
   <fieldset>
-  <legend>Profil</legend>
+    <legend>Profil</legend>
     {if $ppo->student->idEleve neq null}
       <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
       <input type="hidden" name="type_node" id="type_node" value="{$ppo->nodeType}" />
@@ -112,7 +107,8 @@
       {/if}
     </fieldset>
     
-    <fieldset><legend>Connexion</legend>
+    <fieldset>
+      <legend>Connexion</legend>
       <div class="field">
         <label for="student_login" class="form_libelle"> Identifiant :</label>
         <span class="form" name="student_login" id="student_login"><strong>{$ppo->account->login_dbuser}</strong></span>
@@ -127,8 +123,9 @@
     {else}
       </fieldset>
     
-    <fieldset><legend>Connexion</legend>
-    <div class="field">
+    <fieldset>
+      <legend>Connexion</legend>
+      <div class="field">
         <label for="student_login" class="form_libelle"> Identifiant :</label>
         <input class="form" type="text" name="student_login" id="student_login" value="{$ppo->login}" /> (<a href="#" id="generate-student-login">Générer</a>)
       </div>
@@ -139,6 +136,13 @@
       </div>
     {/if}
   </fieldset>
+  
+  {if $ppo->student->idEleve eq null}
+  <div class="field persons-in-charge-check">
+    <label for="add-persons-in-charge" class="form_libelle">Avec responsable(s) :</label>
+    <input class="form" type="checkbox" id="add-persons-in-charge" name="person_in_charge" {if $ppo->resp_on}checked="checked"{/if}/>
+  </div>
+  {/if}
   
   <div class="submit">
     <a href="{if $ppo->personId}{copixurl dest=gestionautonome||updatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType personId=$ppo->personId notxml=true}{else}{copixurl dest=gestionautonome||showTree nodeId=$ppo->nodeId nodeType=$ppo->nodeType notxml=true}{/if}" class="button button-cancel">Annuler</a>
