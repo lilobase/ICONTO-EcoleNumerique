@@ -28,6 +28,7 @@
               <th>Nom</th>
               <th>Prénom</th>
               <th>Identifiant</th>
+              <th>Niveau</th>
               <th>Actions</th>
             </tr>
             {assign var=index value=1}
@@ -43,6 +44,7 @@
                 <td>{$student->nom}</td>
                 <td>{$student->prenom1}</td>
                 <td>{$student->login}</td>
+                <td>{$student->niveau_court}</td>
                 <td class="actions">
                   {if $hasCredentialStudentUpdate}
                     <a href="{copixurl dest="gestionautonome||updateStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$student->idEleve}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier l'élève" /></a>

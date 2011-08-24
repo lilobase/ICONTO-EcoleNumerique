@@ -35,8 +35,10 @@ class ZonePersonsData extends CopixZone {
     	    $ppo->persons = $personnelDAO->findAdministrationStaffAndPrincipalBySchoolId ($id);
     	    break;
     	  case 'BU_CLASSE':
+    	    // Récupération des enseignants
     	    $ppo->persons = $personnelDAO->findTeachersByClassroomId ($id);
     	    
+    	    // Récupération des élèves
     	    $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
     	    $ppo->students = $studentDAO->getStudentsByClass ($id);
     	    
