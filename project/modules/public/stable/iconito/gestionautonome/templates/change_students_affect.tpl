@@ -3,29 +3,43 @@
 <h2>Liste des élèves</h2>
 
 {if $ppo->students neq null}
+
+<form>
+	<fieldset>
+        <legend>Positionner une nouvelle affectation pour <strong>tous</strong> les élèves</legend>
+        <label>Nouvelle affectation :</label>
+        <select name="allAffect" id="allAffect">
+            <option value="">-- pas de changement --</option>
+            {html_options values=$ppo->levelIds output=$ppo->levelNames}
+        </select>
+        <input class="button button-confirm" type="button" value="Appliquer" id="btnAllAffect" /> 
+    </fieldset>
+</form>
+
+
   <form name="change_students_affect" id="change_students_affect" action="{copixurl dest="|validateChangeStudentsAffect"}" method="POST" enctype="multipart/form-data">
 
     <input type="hidden" name="id_node" id="id-node" value="{$ppo->nodeId}" />
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
     
-    <table class="liste">
+    <table>
       <tr>
-        <th class="liste_th"></th>
-        <th class="liste_th">Compte</th> 
-        <th class="liste_th">Nom</th>
-        <th class="liste_th">Prénom</th> 
-        <th class="liste_th">Dernière affectation</th>
-        <th class="liste_th">Nouvelle affectation</th>
+        <th>Sexe</th>
+        <th>Compte</th> 
+        <th>Nom</th>
+        <th>Prénom</th> 
+        <th>Dernière affectation</th>
+        <th>Nouvelle affectation</th>
       </tr>
       {foreach from=$ppo->students key=k item=student}
         <tr class="list_line{math equation="x%2" x=$k}">
           <input type="hidden" name="students[]" value="{$student->idEleve}" />
-          <td>
-            {if $student->id_sexe eq 1}
-              <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
-            {else}                                                                 
-              <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
-            {/if}
+          <td class="center">
+              {if $student->id_sexe eq 1}
+                  <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
+              {else}                                                                 
+                  <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
+              {/if}
           </td>
           <td>{$student->login}</td>
           <td>{$student->nom}</td>
@@ -45,13 +59,6 @@
     	</tr>
     </table>
 
-    <p>Raccourci pour positionner une nouvelle affectation pour tous les élèves :</p>
-    <select class="form" name="allAffect">
-      <option value="">-- pas de changement --</option>
-      {html_options values=$ppo->levelIds output=$ppo->levelNames}
-	  </select>
-	  <input class="button" type="button" value="Appliquer" id="allAffect" /> 
-    
     <div class="submit">
         <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
     	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer les nouvelles affectations" />
@@ -64,24 +71,3 @@
       <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
   </div>
 {/if}
-
-{literal}
-<script type="text/javascript">
-//<![CDATA[
-  
-  $(document).ready(function(){
-
-    jQuery('#allAffect').click(function () {
-
-      var valeur = jQuery('[name|=allAffect] option:selected').val();
-
-      jQuery('[name|=newAffects[]]').each(function () {
-
-        jQuery(this).val(valeur);     
-
-      });
-    });
-  });
-//]]> 
-</script>
-{/literal}
