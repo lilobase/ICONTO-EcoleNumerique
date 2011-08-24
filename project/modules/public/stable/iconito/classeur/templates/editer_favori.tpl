@@ -25,7 +25,7 @@
   
   <div class="row">
     <label for="favori_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
-    <p class="field"><input type="text" name="favori_titre" id="fichier_titre" value="{$ppo->favori->titre}" /></p>
+    <p class="field"><input type="text" name="favori_titre" id="fichier_titre" value="{$ppo->favori->titre}" required="required" /></p>
   </div>
   
   <div class="row">
