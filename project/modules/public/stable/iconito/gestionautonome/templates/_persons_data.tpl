@@ -44,7 +44,7 @@
                 <td>{$student->nom}</td>
                 <td>{$student->prenom1}</td>
                 <td>{$student->login}</td>
-                <td>{$student->niveau_court}</td>
+                <td class="center">{$student->niveau_court}</td>
                 <td class="actions">
                   {if $hasCredentialStudentUpdate}
                     <a href="{copixurl dest="gestionautonome||updateStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$student->idEleve}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier l'élève" /></a>
@@ -242,20 +242,24 @@
       {/if}
       {if $hasCredentialStudentCreate}
         <a href="{copixurl dest="gestionautonome||createStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-add">Ajouter un élève</a>
-        <a href="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->parent.id}" class="button button-next">Affecter des élèves</a>
         <a href="{copixurl dest="gestionautonome||addMultipleStudents" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-upload">Importer des élèves</a>
-        <a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Affecter des élèves venant d'une autre classe</a>
-        
-        {assign var=hasCredential value=1}
-      {/if}
-      {if $hasCredentialStudentUpdate}
-        <a href="{copixurl dest="gestionautonome||changeStudentsAffect" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button">Changer d'affectation plusieurs élèves</a>
       {/if}
       {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate || $hasCredentialPersonInChargeUpdate}
         <br /><a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button button-save">Gérer les mots de passe</a>
       {/if}
       {if $hasCredential eq 1}
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
+      {/if}
+      {if $hasCredentialStudentCreate || $hasCredentialStudentUpdate}
+        <h3>Affecter des élèves</h3>
+        {if $hasCredentialStudentUpdate}
+            <a href="{copixurl dest="gestionautonome||changeStudentsAffect" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-next">Vers une autre classe</a>
+        {/if}
+        {if $hasCredentialStudentCreate}
+            <a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-next">Venant d'une autre classe</a>
+            <a href="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->parent.id}" class="button button-next">Pour la nouvelle année scolaire</a>
+            {assign var=hasCredential value=1}
+        {/if}
       {/if}
   {/if}
 {else}

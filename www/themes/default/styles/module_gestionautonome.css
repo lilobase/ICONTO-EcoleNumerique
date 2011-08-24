@@ -285,6 +285,10 @@ ul.tree a.classroom {
 #treeActions a, #personsActions a {
 	margin:0 5px 5px 0;
 }
+#personsActions h3 {
+	margin:1em 0 0.5em;
+	font-size:1em;
+}
 /* End Actions */
 /******************************************************************************/
 

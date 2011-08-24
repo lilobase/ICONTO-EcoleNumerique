@@ -6,18 +6,18 @@
   
   <p>Comptes créés avec succès</p> 
   
-  <table class="liste">
+  <table>
     <tr>
-      <th class="liste_th"></th>
-      <th class="liste_th">Prénom</th> 
-      <th class="liste_th">Nom</th>
-      <th class="liste_th">DDN</th> 
-      <th class="liste_th">Identifiant</th>
-      <th class="liste_th">Mot de passe</th>
+      <th>Sexe</th>
+      <th>Prénom</th> 
+      <th>Nom</th>
+      <th>DDN</th> 
+      <th>Identifiant</th>
+      <th>Mot de passe</th>
     </tr>
     {foreach from=$ppo->studentsSuccess key=k item=studentSuccess}
-      <tr class="list_line{math equation="x%2" x=$k}">
-        <td>
+      <tr class="{if $k%2 eq 0}even{else}odd{/if}">
+        <td class="center">
           {if $studentSuccess.gender eq 1}
             <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
           {else}                                                                 
@@ -32,7 +32,7 @@
       </tr>
       {foreach from=$studentSuccess.person key=j item=person}
         <tr>
-          <td> 
+          <td class="center"> 
             {if $person.gender eq 1}
               <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
             {else}                                                                 
@@ -47,9 +47,6 @@
         </tr>
       {/foreach}
     {/foreach}
-    <tr class="liste_footer">
-  		<td colspan="6"></td>
-  	</tr>
   </table>
   <hr />
 {/if} 
@@ -83,7 +80,7 @@
         {assign var=index value=1}
         {foreach from=$ppo->students key=k item=student}
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
-            <td> 
+            <td class="center"> 
               {if $student.gender eq 1}
                   <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
               {else}                                                                 
@@ -115,24 +112,15 @@
               <td>{$person.firstname}</td>
               <td>{$person.lastname}</td>
               <td>{$person.birthdate}</td>
-              <td>
-                <input type="text" name="logins{$k}[]" value="{$person.login}" />
-              </td>
-              <td>
-                <input type="text" name="passwords{$k}[]" value="{$person.password}" />
-              </td>
+              <td><input type="text" name="logins{$k}[]" value="{$person.login}" /></td>
+              <td><input type="text" name="passwords{$k}[]" value="{$person.password}" /></td>
               <td class="center">{$person.nom_pa}</td>
-              <td class="center">
-                <input type="checkbox" name="person-keys{$k}[]" value="{$j}" checked="checked" />
-              </td>
+              <td class="center"><input type="checkbox" name="person-keys{$k}[]" value="{$j}" checked="checked" /></td>
             </tr>
             
           {/foreach}
           {assign var=index value=$index+1}
         {/foreach}
-        <tr class="liste_footer">
-      		<td colspan="8"></td>
-      	</tr>
       </table>
       <div class="submit">
           <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
@@ -145,4 +133,4 @@
   <div class="center">
       <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
   </div>
-{/if}                                                                                
+{/if} 

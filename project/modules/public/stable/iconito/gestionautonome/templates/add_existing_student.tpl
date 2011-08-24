@@ -97,9 +97,6 @@
           </td>
         </tr>
       {/foreach}
-      <tr class="liste_footer">
-    		<td colspan="5"></td>
-    	</tr>
     </table>
     
     <div class="submit">

@@ -7,7 +7,7 @@
 <form>
 	<fieldset>
         <legend>Positionner une nouvelle affectation pour <strong>tous</strong> les élèves</legend>
-        <label>Nouvelle affectation :</label>
+        <label for="allAffect">Nouvelle affectation :</label>
         <select name="allAffect" id="allAffect">
             <option value="">-- pas de changement --</option>
             {html_options values=$ppo->levelIds output=$ppo->levelNames}
@@ -23,6 +23,7 @@
     <input type="hidden" name="type_node" id="type-node" value="{$ppo->nodeType}" />
     
     <table>
+      <thead>
       <tr>
         <th>Sexe</th>
         <th>Compte</th> 
@@ -31,10 +32,11 @@
         <th>Dernière affectation</th>
         <th>Nouvelle affectation</th>
       </tr>
+      </thead>
+      <tbody>
       {foreach from=$ppo->students key=k item=student}
-        <tr class="list_line{math equation="x%2" x=$k}">
-          <input type="hidden" name="students[]" value="{$student->idEleve}" />
-          <td class="center">
+        <tr class="{if $k%2 eq 0}even{else}odd{/if}">
+          <td class="center"><input type="hidden" name="students[]" value="{$student->idEleve}" />
               {if $student->id_sexe eq 1}
                   <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
               {else}                                                                 
@@ -46,26 +48,23 @@
           <td>{$student->prenom1}</td>
           <td>{$student->niveau_court} - {$student->nom_classe}</td>
           <td>
-            <select class="form" name="newAffects[]">
-              <option value="">-- pas de changement --</option>
-              {html_options values=$ppo->levelIds output=$ppo->levelNames selected=$ppo->level}
-        	  </select>
+              <select class="form" name="newAffects[]">
+                  <option value="">-- pas de changement --</option>
+                  {html_options values=$ppo->levelIds output=$ppo->levelNames selected=$ppo->level}
+              </select>
           </td>
-          <td></td>
         </tr>
       {/foreach}
-      <tr class="liste_footer">
-    		<td colspan="8"></td>
-    	</tr>
+      </tbody>
     </table>
 
     <div class="submit">
         <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
-    	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer les nouvelles affectations" />
+        <input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer les nouvelles affectations" />
     </div>
   </form>
 {else}
-  <i>Aucun élève</i>
+  <em>Aucun élève</em>
   
   <div class="submit">
       <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
