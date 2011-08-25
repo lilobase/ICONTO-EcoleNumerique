@@ -1,4 +1,3 @@
-{if $ppo->contenus neq null}
 <div class="overflow">
   <table id="folder-content" class="listView">
     <thead>
@@ -164,6 +163,3 @@
   </table>
 </div>
 {copixzone process=classeur|actionsDeMasse classeurId=$ppo->classeurId dossierId=$ppo->dossierId}
-{else}
-  <p id="folder-content"><span>{i18n key="classeur.message.noFiles"}</span></p>
-{/if}
