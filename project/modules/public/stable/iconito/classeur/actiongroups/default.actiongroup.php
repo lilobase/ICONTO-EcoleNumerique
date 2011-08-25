@@ -824,31 +824,11 @@ class ActionGroupDefault extends enicActionGroup {
     }
 	  
 	  if (CopixRequest::isMethod ('post')) {
-    
-      $ppo->lien = _request('favori_adresse', null);
-      
-      // Traitement des erreurs
-      $ppo->erreurs = array ();
-      
-      if (_request('favori_titre', null) == '') {
-
-        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noTitle');
-      }
-      if (_request('favori_adresse', null) == '' || _request('favori_adresse', null) == 'http://') {
-
-        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noAddress');
-      }
-
-      if (!empty ($ppo->erreurs)) {
-
-        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
-      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
-      	
-        return _arPPO ($ppo, array ('template' => 'editer_favori.tpl'));
-      }
-      
-      _classInclude('classeur|classeurservice');
+	    
+	    _classInclude('classeur|classeurservice');
       $fichierDAO = _ioDAO('classeur|classeurfichier');
+      
+      $ppo->lien = _request('favori_adresse', null);
       
       if (is_null($favoriId = _request('favoriId', null))) {
         
@@ -870,6 +850,26 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->favori->date_upload   = date('Y-m-d H:i:s');
       $ppo->favori->user_type     = _currentUser()->getExtra('type');
       $ppo->favori->user_id       = _currentUser()->getExtra('id');
+      
+      // Traitement des erreurs
+      $ppo->erreurs = array ();
+      
+      if (_request('favori_titre', null) == '') {
+
+        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noTitle');
+      }
+      if (_request('favori_adresse', null) == '' || _request('favori_adresse', null) == 'http://') {
+
+        $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noAddress');
+      }
+
+      if (!empty ($ppo->erreurs)) {
+
+        $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
+      	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+      	
+        return _arPPO ($ppo, array ('template' => 'editer_favori.tpl'));
+      }
       
       if (is_null($ppo->favori->id)) {
         
