@@ -1977,6 +1977,8 @@ class ActionGroupDefault extends enicActionGroup {
 	      _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|teacher|update@gestionautonome');
 	      break;
 	  }
+	  
+	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
 
     $ppo->personnel->pers_nom       = trim (_request ('nom', null));
     $ppo->personnel->pers_prenom1   = trim (_request ('prenom1', null));
@@ -2012,8 +2014,6 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->personnel->pers_date_nais = _request ('date_nais', null);
       
       // Breadcrumbs
-      $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
-
       $breadcrumbs = Kernel::generateBreadcrumbs ($nodeInfos);
       $breadcrumbs[] = array('txt' => $ppo->personnel->pers_nom.' '.$ppo->personnel->pers_prenom1);
 
@@ -4903,6 +4903,8 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->nodeId   = _request ('id_node', null);
   	$ppo->nodeType = _request ('type_node', null);
   	
+  	$nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+  	
   	if (is_null ($ppo->nodeId) || is_null ($ppo->nodeType)) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
@@ -5162,8 +5164,6 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->error = 1;
       
       // Breadcrumbs
-      $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
-
   	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
   	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
   	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
