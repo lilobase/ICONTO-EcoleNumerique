@@ -11,16 +11,14 @@
 
 
 {if not $oks eq null}
-	<div class="mesgSuccess">
-	<ul>
+	<p class="mesgSuccess">
 	{foreach from=$oks item=ok}
-		<li>{$ok}</li>
+		{$ok}
 	{/foreach}
-	</ul>
-	</div>
+	</p>
 {/if}
 
-<A class="button button-continue" HREF="{copixurl dest="groupe||getListPublic"}">{i18n key="kernel|kernel.back"}</A>
+<p class="center"><a class="button button-back" href="{copixurl dest="groupe||getListPublic"}">{i18n key="kernel|kernel.back"}</a></p>
 
 
 

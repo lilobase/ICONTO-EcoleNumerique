@@ -14,7 +14,7 @@
 	{if $list}
 	
 	<FORM NAME="form" ID="form" ACTION="{copixurl dest="|doUnsubscribe"}" METHOD="POST">
-	<INPUT TYPE="hidden" NAME="id" VALUE="{$groupe->id}" ></INPUT>
+	<INPUT TYPE="hidden" NAME="id" VALUE="{$groupe->id}" />
 	<H2>{i18n key="groupe.adminMembers.now"}</H2>
 	<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
 		<tr>
@@ -68,7 +68,7 @@
 	{if $listWaiting}
 	
 	<FORM NAME="form" ID="form" ACTION="{copixurl dest="|doSubscribeWaiting"}" METHOD="POST">
-	<INPUT TYPE="hidden" NAME="id" VALUE="{$groupe->id}" ></INPUT>
+	<INPUT TYPE="hidden" NAME="id" VALUE="{$groupe->id}" />
 	<H2>{i18n key="groupe.adminMembers.waiting"}</H2>
 	<table border="0" CLASS="liste" align="CENTER" CELLSPACING=2 CELLPADDING=2>
 		<tr>
@@ -88,7 +88,7 @@
 				<td ALIGN="CENTER">{$cpt}</td>
 				<td>{$user.login}</td>
 				<td>{$user.nom}</td>
-				<td>{$user.prenom}</td>
+				<td>{$user.prenom} {$user.type_nom}</td>
 				<td ALIGN="CENTER"><input type=radio name="membres[{$user.type}|{$user.id}]" {if $membresW[$tmp] eq "WAIT" || $membresW[$tmp] eq ""}CHECKED{/if} value="WAIT" class="noBorder"></td>
 				<td ALIGN="CENTER"><input type=radio name="membres[{$user.type}|{$user.id}]" {if $membresW[$tmp] eq "1"}CHECKED{/if} value="1" class="noBorder"></td>
 				<td ALIGN="CENTER"><input type=radio name="membres[{$user.type}|{$user.id}]" {if $membresW[$tmp] eq "0"}CHECKED{/if} value="0" class="noBorder"></td>
@@ -126,7 +126,7 @@
 <td class="form_saisie"><br/>{i18n key="groupe.adminMembers.addDates"}<br/>
 <table>
 <tr><td>{i18n key="groupe.adminMembers.addDates.debut"}&nbsp;:</td><td>{inputtext class="datepicker" name="debut" value=$debut|datei18n}</td></tr>
-<tr><td>{i18n key="groupe.adminMembers.addDates.fin"}&nbsp;:</td><td>{inputtext class="datepicker" name="fin" value=$fin|datei18n}</td>
+<tr><td>{i18n key="groupe.adminMembers.addDates.fin"}&nbsp;:</td><td>{inputtext class="datepicker" name="fin" value=$fin|datei18n}</td></tr>
 </table>
 
 </td>
