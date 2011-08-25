@@ -21,7 +21,7 @@
   	{foreach from=$ppo->students key=k item=account}
   		{counter name="i"}
   		<tr class="{if $i%2==0}even{else}odd{/if}">
-  		   <td class="center">{if $account.gender eq 1}
+  		   <td class="sexe">{if $account.gender eq 1}
                   <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
               {else}                                                                 
                   <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />

@@ -17,7 +17,7 @@
     </tr>
     {foreach from=$ppo->studentsSuccess key=k item=studentSuccess}
       <tr class="{if $k%2 eq 0}even{else}odd{/if}">
-        <td class="center">
+        <td class="sexe">
           {if $studentSuccess.gender eq 1}
             <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
           {else}                                                                 

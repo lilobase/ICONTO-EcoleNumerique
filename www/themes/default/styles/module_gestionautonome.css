@@ -274,7 +274,7 @@ ul.tree a.classroom {
 }
 #gestionautonome table td {padding:2px;}
 #gestionautonome table tr.odd { background:#efefef;}
-#gestionautonome table .sexe {width:35px;}
+#gestionautonome table .sexe {width:35px; text-align:center;}
 #gestionautonome table td.actions {text-align:center;}
 /* End Persons Data */
 /******************************************************************************/
