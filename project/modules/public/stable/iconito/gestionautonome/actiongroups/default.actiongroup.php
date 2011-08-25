@@ -3720,7 +3720,7 @@ class ActionGroupDefault extends enicActionGroup {
     		  'password'      => isset ($passwordsList['USER_RES'][$ppo->person->res_numero]) ? $passwordsList['USER_RES'][$ppo->person->res_numero]['password'] : '******',
     		  'gender'        => $ppo->person->res_id_sexe,
     		  'bu_type'       => 'USER_RES',
-    			'bu_id'         => $ppo->person->res_numero
+    			'bu_id'         => $ppo->person->res_numero,
     			'type_nom'      => Kernel::Code2Name('USER_RES'),
     			'node_nom'      => Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom']
         );
