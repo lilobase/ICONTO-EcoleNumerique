@@ -32,7 +32,7 @@
       </tr>
       {foreach from=$studentSuccess.person key=j item=person}
         <tr>
-          <td class="center"> 
+          <td class="sexe"> 
             {if $person.gender eq 1}
               <img src="{copixresource path="img/gestionautonome/sexe-m.gif"}" title="Homme" />
             {else}                                                                 
@@ -80,7 +80,7 @@
         {assign var=index value=1}
         {foreach from=$ppo->students key=k item=student}
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
-            <td class="center"> 
+            <td> 
               {if $student.gender eq 1}
                   <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
               {else}                                                                 
