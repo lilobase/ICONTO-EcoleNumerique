@@ -45,6 +45,9 @@
     {/if}
 {else}
   <div class="contentLinked">
+    <div class="field">
+        <input type="checkbox" id="withPersonInCharge" name="withPersonInCharge" {if $ppo->resp_on}checked="checked"{/if}/> <label for="withPersonInCharge">Avec responsable(s)</label>
+    </div>
     <div id="persons-in-charge">
       {copixzone process=gestionautonome|CreatePersonInCharge nodeId=$ppo->nodeId nodeType=$ppo->nodeType cpt=$ppo->cpt notxml=true}
     </div>
@@ -138,10 +141,10 @@
   </fieldset>
   
   {if $ppo->student->idEleve eq null}
-  <div class="field persons-in-charge-check">
-    <label for="add-persons-in-charge" class="form_libelle">Avec responsable(s) :</label>
-    <input class="form" type="checkbox" id="add-persons-in-charge" name="person_in_charge" {if $ppo->resp_on}checked="checked"{/if}/>
-  </div>
+    <div class="hidden">
+        <label for="add-persons-in-charge" class="form_libelle">Avec responsable(s) :</label>
+        <input class="form" type="checkbox" id="add-persons-in-charge" name="person_in_charge" {if $ppo->resp_on}checked="checked"{/if}/>
+    </div>
   {/if}
   
   <div class="submit">
@@ -157,16 +160,24 @@
   jQuery(document).ready(function(){
  	
  	  {/literal}{if $ppo->student->idEleve eq null}{literal}
- 	    if (jQuery('#add-persons-in-charge').is(':checked')) {
- 	    
-   	    jQuery('#persons-in-charge').show();
-   	  }
-   	  else {
- 	    
-   	    jQuery('#persons-in-charge').hide();
-   	  }
+ 	  if (jQuery('#add-persons-in-charge').is(':checked')) 
+           jQuery('#persons-in-charge').show();
+   	  else 
+	      jQuery('#persons-in-charge').hide();
  	  {/literal}{/if}{literal}
  	  
+	jQuery('#withPersonInCharge').change(function() {
+		if (jQuery('#withPersonInCharge').is(':checked')) {
+			jQuery('#persons-in-charge').show();
+			jQuery('#add-persons-in-charge').attr('checked', true);
+		}
+		else {
+			jQuery('#persons-in-charge').hide();
+			jQuery('#add-persons-in-charge').attr('checked', false);
+		}
+		console.log('caché '+jQuery('#add-persons-in-charge').is(':checked'));
+	});
+	
  	  jQuery('.datepicker').datepicker({
     	showOn: 'button',
     	buttonImage: '{/literal}{copixresource path="img/gestionautonome/calendar.png"}{literal}',
@@ -177,21 +188,10 @@
     });
     
     jQuery('#new-password-link').click(function() {
-
       jQuery('#new-password').show();
     });
     
-    jQuery('#add-persons-in-charge').change(function() {
-
-      if (jQuery('#add-persons-in-charge').is(':checked')) {
-
-        jQuery('#persons-in-charge').show();
-      }
-      else {
-
-        jQuery('#persons-in-charge').hide();
-      }
-    })
+    
     
     if (jQuery('#generate-student-login')) {
       

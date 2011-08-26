@@ -105,6 +105,7 @@ input.text {
 input.long-text {
   width: 240px;
 }
+#withPersonInCharge +label {font-weight:bold;}
 /* End Forms */
 /******************************************************************************/
 
