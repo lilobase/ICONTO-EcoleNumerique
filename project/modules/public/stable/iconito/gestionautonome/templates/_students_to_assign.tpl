@@ -10,7 +10,9 @@
           <th>Ancien niveau</th>
           <th>Nom</th>
           <th>Prénom</th>
+          {if $ppo->destinationLevels neq null}
           <th>Nouveau niveau</th>
+          {/if}
         </tr>
       </thead>
       <tbody>
@@ -21,6 +23,7 @@
             <td><label for="id_{$student->id}">{$student->niveau}</label></td>
             <td><label for="id_{$student->id}">{$student->nom}</label></td>
             <td><label for="id_{$student->id}">{$student->prenom}</label></td>
+            {if $ppo->destinationLevels neq null}
             <td>
               <select name="level_{$student->id}">
                 {foreach from=$ppo->destinationLevels item=level}
@@ -28,6 +31,7 @@
                 {/foreach}
               </select>
             </td>
+            {/if}
           </tr>
           {assign var=index value=$index+1}
         {/foreach}
@@ -78,6 +82,14 @@
    	      jQuery("#check-all").removeAttr("checked");
    	    }
    	  }
+   	  
+   	  {/literal}{if $ppo->destinationClassroom eq null}{literal}
+   	  jQuery("#setting-form").submit(function(){
+   	  
+   	    alert('Vous devez sélectionner une classe de destination');
+   	    return false;
+   	  });
+   	  {/literal}{/if}{literal}
     });
   //]]> 
   </script>

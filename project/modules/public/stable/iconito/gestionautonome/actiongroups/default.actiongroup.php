@@ -5947,7 +5947,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $destinationClassroomId = _request ('destinationClassroomId');
 	  if (!$destinationClassroom = $classroomDAO->get ($destinationClassroomId)) {
 	    
-	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+	    $destinationClassroom = null;
 	  }
     
 	  $sourceClassroomId = _request ('sourceClassroomId');

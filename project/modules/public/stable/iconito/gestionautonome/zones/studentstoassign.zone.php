@@ -18,7 +18,7 @@ class ZoneStudentsToAssign extends CopixZone {
 	  
 	  // Récupération des niveaux
     $ppo->sourceLevels = $ppo->sourceClassroom->getLevels ();
-    $ppo->destinationLevels = $ppo->destinationClassroom->getLevels ();
+    $ppo->destinationLevels = $ppo->destinationClassroom ? $ppo->destinationClassroom->getLevels () : null;
     
     // Récupération des élèves sans affectation
     $studentDAO = _ioDAO ('kernel|kernel_bu_ele');

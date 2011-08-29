@@ -68,9 +68,7 @@
       </ul>
     </div>
   {/if}
-  {if $ppo->destinationClassroom}
     {copixzone process=gestionautonome|studentsToAssign destinationClassroom=$ppo->destinationClassroom sourceClassroom=$ppo->sourceClassroom currentGrade=$ppo->currentGrade nextGrade=$ppo->nextGrade}
-  {/if}
 </div>
 
 <a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
@@ -102,19 +100,16 @@
  	  });
  	  
  	  jQuery("#filter-form").submit(function(e){
- 	    if (jQuery("#destination-classroom-id").val() != null && jQuery("#destination-classroom-id").val() != ""
- 	      && jQuery("#source-classroom-id").val() != null && jQuery("#source-classroom-id").val() != "") {
- 	      jQuery.ajax({
-          url: {/literal}"{copixurl dest=gestionautonome|default|refreshStudentsToAssign}"{literal},
-          global: true,
-          type: "GET",
-          data: {destinationClassroomId: jQuery("#destination-classroom-id").val(), sourceClassroomId: jQuery("#source-classroom-id").val(), nextGradeId: jQuery("#grade-id").val(), currentGradeId: "{/literal}{$ppo->currentGrade->id_as}"{literal}},
-          success: function(list){
-            jQuery("#students-selector").empty();
-            jQuery("#students-selector").append(list)
-          }
-        });
- 	    }
+ 	    jQuery.ajax({
+        url: {/literal}"{copixurl dest=gestionautonome|default|refreshStudentsToAssign}"{literal},
+        global: true,
+        type: "GET",
+        data: {destinationClassroomId: jQuery("#destination-classroom-id").val(), sourceClassroomId: jQuery("#source-classroom-id").val(), nextGradeId: jQuery("#grade-id").val(), currentGradeId: "{/literal}{$ppo->currentGrade->id_as}"{literal}},
+        success: function(list){
+          jQuery("#students-selector").empty();
+          jQuery("#students-selector").append(list)
+        }
+      });
       
  	    return false;
  	  });
