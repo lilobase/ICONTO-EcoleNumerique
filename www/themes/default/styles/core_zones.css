@@ -478,20 +478,18 @@ form label a {
 	}
 
 form select {
-	border: solid 1px #f0f4f0;
+	border:1px solid #f0f4f0;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	/*behavior: url(/htc/PIE.htc);*/
 	padding: 3px;
 }
 
 form select:hover {
-	border: solid 1px #bad521;
+	border:1px solid #bad521;
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
-	border-radius: 6px;
-	/*behavior: url(/htc/PIE.htc);*/
+	border-radius: 6px;*/
 	}
 
 input.file-attach {
@@ -554,4 +552,5 @@ div.prise_controle a.stopper {
 	color: #000;
 	text-shadow: none;
 }
+
 

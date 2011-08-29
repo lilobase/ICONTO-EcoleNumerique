@@ -40,6 +40,7 @@ body, input, textarea {
 .font_dash * {
 	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
 }
+.font_dash select {font-family:"Lucida Grande", sans-serif;}
 
 .font_cursive {
 	font-family: 'DroidSans', Lucida grande, Arial, Helvetica, sans-serif;
