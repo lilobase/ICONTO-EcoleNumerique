@@ -20,8 +20,8 @@
   <thead>
     <tr>
       <th>Sexe</th>
-      <th>Prénom</th>
-  		<th>Nom</th>
+      <th>Nom</th>
+  		<th>Prénom</th>
   		<th>Identifiant</th>
   		<th>Mot de passe</th>
   		<th>Type</th>
@@ -39,8 +39,8 @@
             <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
           {/if}
         </td>
-  		  <td>{$sessionData.firstname}</td>
-  			<td>{$sessionData.lastname}</td>
+  		  <td>{$sessionData.lastname}</td>
+  			<td>{$sessionData.firstname}</td>
   			<td >{$sessionData.login}</td>
   			<td>{$sessionData.password}</td>
   			<td>{$sessionData.type_nom}</td>
