@@ -18,8 +18,8 @@
         <dt>Classe (niveau) :</dt>
           <dd>
             <select name="sourceClassroomId" id="source-classroom-id">
-              {foreach from=$ppo->sourceClassrooms item=sourceClassroom}
-                <option value="{$sourceClassroom->id}"{if $sourceClassroom->id == $ppo->sourceClassroom->id} selected="selected"{/if}>{$sourceClassroom}</option>
+              {foreach from=$ppo->sourceClassrooms item=sourceClassroomOption}
+                <option value="{$sourceClassroomOption->id}"{if $sourceClassroomOption->id == $ppo->sourceClassroom->id} selected="selected"{/if}>{$sourceClassroomOption}</option>
               {/foreach}
             </select>
             <input type="submit" value="Filtrer" />
@@ -51,8 +51,8 @@
           <dd>
             <select name="nodeId" id="destination-classroom-id">
               <option value="">&nbsp;</option>
-              {foreach from=$ppo->destinationClassrooms item=destinationClassroom}
-                <option value="{$destinationClassroom->id}"{if $destinationClassroom->id == $ppo->nodeId} selected="selected"{/if}>{$destinationClassroom}</option>
+              {foreach from=$ppo->destinationClassrooms item=destinationClassroomOption}
+                <option value="{$destinationClassroomOption->id}"{if $destinationClassroomOption->id == $ppo->destinationClassroom->id} selected="selected"{/if}>{$destinationClassroomOption}</option>
               {/foreach}
             </select>
           </dd>
