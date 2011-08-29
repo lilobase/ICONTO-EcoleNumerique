@@ -553,7 +553,7 @@ class ActionGroupDefault extends enicActionGroup {
                 $dossier->nb_dossiers = 0;
                 $dossier->nb_fichiers = 0;
                 $dossier->taille      = 0;
-
+                
                 $dossier->classeur_id    = $classeur->id;
                 $dossier->parent_id      = $dossierParent == $ppo->dossierTmp ? 0 : $correspondanceDossiers[$dossierParent]->id;
                 $dossier->nom            = $folder;
@@ -573,7 +573,7 @@ class ActionGroupDefault extends enicActionGroup {
             if (!empty($data['files'])) {
               
               foreach ($data['files'] as $file) {
-
+                var_dump($file);
                 $fichier = _record('classeur|classeurfichier');
 
                 $fichier->classeur_id   = $classeur->id;
@@ -604,7 +604,7 @@ class ActionGroupDefault extends enicActionGroup {
               }
             }
           }
-
+die();
           // Copie des fichiers dans le rep classeur et suppression des fichiers TMP
           foreach ($fichiersPhysiques as $fichierPhysique) {
 

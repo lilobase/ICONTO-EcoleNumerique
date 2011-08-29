@@ -33,7 +33,7 @@
   		  </td>
   		  <td>{$account.lastname}</td>
           <td>{$account.firstname}</td>
-  			<td >{$account.login}</td>
+  			<td>{$account.login}</td>
   			<td>{$account.password}</td>
   			<td>{$account.type_nom}</td>
   		</tr>
