@@ -12,9 +12,9 @@
   <thead>
     <tr>
       <th>Sexe</th>
+      <th>Nom</th>
       <th>Prénom</th>
-  		<th>Nom</th>
-  		<th>Identifiant</th>
+  	  <th>Identifiant</th>
   		<th>Mot de passe</th>
   		<th>Type</th>
   	</tr>
@@ -31,8 +31,8 @@
             <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
           {/if}
   		  </td>
-  		  <td>{$account.firstname}</td>
-  			<td>{$account.lastname}</td>
+  		  <td>{$account.lastname}</td>
+          <td>{$account.firstname}</td>
   			<td >{$account.login}</td>
   			<td>{$account.password}</td>
   			<td>{$account.type_nom}</td>

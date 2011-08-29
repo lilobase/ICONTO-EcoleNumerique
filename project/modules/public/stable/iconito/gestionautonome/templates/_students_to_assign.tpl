@@ -8,8 +8,8 @@
         <tr>
           <th><input type="checkbox" name="check_all" id="check-all" /></th>
           <th>Ancien niveau</th>
-          <th>Prénom</th>
           <th>Nom</th>
+          <th>Prénom</th>
           <th>Nouveau niveau</th>
         </tr>
       </thead>
@@ -19,8 +19,8 @@
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
             <td class="center"><input type="checkbox" name="ids[]" id="id_{$student->id}" value="{$student->id}" class="level_{$student->niveauId}" /></td>
             <td><label for="id_{$student->id}">{$student->niveau}</label></td>
-            <td><label for="id_{$student->id}">{$student->prenom}</label></td>
             <td><label for="id_{$student->id}">{$student->nom}</label></td>
+            <td><label for="id_{$student->id}">{$student->prenom}</label></td>
             <td>
               <select name="level_{$student->id}">
                 {foreach from=$ppo->destinationLevels item=level}

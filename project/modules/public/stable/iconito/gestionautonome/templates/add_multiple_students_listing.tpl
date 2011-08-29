@@ -9,9 +9,9 @@
   <table>
     <tr>
       <th>Sexe</th>
-      <th>Prénom</th> 
       <th>Nom</th>
-      <th>DDN</th> 
+      <th>Prénom</th> 
+      <th>Date de<br /> naissance</th> 
       <th>Identifiant</th>
       <th>Mot de passe</th>
     </tr>
@@ -24,8 +24,8 @@
             <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
           {/if}
         </td>
-        <td>{$studentSuccess.lastname}</td>
         <td>{$studentSuccess.firstname}</td>
+        <td>{$studentSuccess.lastname}</td>
         <td>{$studentSuccess.birthdate}</td>
         <td>{$studentSuccess.login}</td>
         <td>{$studentSuccess.password}</td>
@@ -39,8 +39,8 @@
               <img src="{copixresource path="img/gestionautonome/sexe-f.gif"}" title="Femme" />
             {/if}
           </td>
-          <td>{$person.lastname}</td>
           <td>{$person.firstname}</td>
+          <td>{$person.lastname}</td>
           <td>{$person.birthdate}</td>
           <td>{$person.login}</td>
           <td>{$person.password}</td>
@@ -54,7 +54,7 @@
 {if not $ppo->error eq null}
 	<div class="mesgErrors">
 	  <ul>
-		    <li>Les identifiants en erreur ont été remplacés.</li>
+		    <li>Les identifiants erronés ont été remplacés.</li>
 	  </ul>
 	</div>
 {/if}
@@ -69,8 +69,8 @@
       <table>
         <tr>
           <th class="sexe">Sexe</th>
-          <th>Prénom</th> 
           <th>Nom</th>
+          <th>Prénom</th> 
           <th>Date de <br/>naissance</th> 
           <th>Identifiant</th>
           <th>Mot de passe</th>
@@ -87,8 +87,8 @@
                   <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if}
             </td>
-            <td>{$student.firstname}</td>
             <td>{$student.lastname}</td>
+            <td>{$student.firstname}</td>
             <td>{$student.birthdate}</td>
             <td>
               <input type="text" name="logins[]" value="{$student.login}" />
@@ -109,8 +109,8 @@
             
             <tr class="{if $index%2 eq 0}odd{else}even{/if}">
               <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
-              <td>{$person.firstname}</td>
               <td>{$person.lastname}</td>
+              <td>{$person.firstname}</td>
               <td>{$person.birthdate}</td>
               <td><input type="text" name="logins{$k}[]" value="{$person.login}" /></td>
               <td><input type="text" name="passwords{$k}[]" value="{$person.password}" /></td>

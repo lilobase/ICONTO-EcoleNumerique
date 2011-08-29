@@ -1,4 +1,4 @@
-Nom;Prénom;Login;Mot de passe;Type;Localisation
+Nom;Prénom;Identifiant;Mot de passe;Type;Localisation
 
 {if $sessionDatas neq null}
 {foreach from=$sessionDatas item=sessionData}

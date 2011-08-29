@@ -26,9 +26,9 @@
       <thead>
       <tr>
         <th>Sexe</th>
-        <th>Compte</th> 
         <th>Nom</th>
         <th>Prénom</th> 
+        <th>Identifiant</th> 
         <th>Dernière affectation</th>
         <th>Nouvelle affectation</th>
       </tr>
@@ -43,9 +43,9 @@
                   <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if}
           </td>
-          <td>{$student->login}</td>
           <td>{$student->nom}</td>
           <td>{$student->prenom1}</td>
+          <td>{$student->login}</td>
           <td>{$student->niveau_court} - {$student->nom_classe}</td>
           <td>
               <select class="form" name="newAffects[]">

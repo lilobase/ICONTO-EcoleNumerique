@@ -9,8 +9,8 @@
   <thead>
     <tr>
        <th class="sexe">Sexe</th>
-       <th>Prénom</th>
-  		 <th>Nom</th>
+        <th>Nom</th>
+  		<th>Prénom</th>
   		 <th>Identifiant</th>
   		 <th>Mot de passe</th>
   		 <th>Type</th>
@@ -27,8 +27,8 @@
                   <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if}
           </td>
-          <td>{$account.firstname}</td>
-  			<td>{$account.lastname}</td>
+          <td>{$account.lastname}</td>
+  			<td>{$account.firstname}</td>
   			<td >{$account.login}</td>
   			<td>{$account.password}</td>
   			<td>{$account.type_nom}</td>
@@ -36,9 +36,9 @@
         {foreach from=$account.person key=j item=person}
           <tr class="{if $i%2==0}even{else}odd{/if}">
   		      <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
-            <td>{$person.firstname}</td>
-  			    <td>{$person.lastname}</td>
-      			<td>{$person.login}</td>
+            <td>{$person.lastname}</td>
+      			<td>{$person.firstname}</td>
+  			    <td>{$person.login}</td>
       			<td>{$person.password}</td>
       			<td>{$person.type_nom}</td>
   		    </tr>
