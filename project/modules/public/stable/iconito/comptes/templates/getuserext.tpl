@@ -1,3 +1,4 @@
+<p class="right"><a href="{copixurl dest="comptes||getUserExtMod" id=0}" class="button button-add">{i18n key="comptes|comptes.strings.add" noEscape=1}</a></p>
 {i18n key="comptes|comptes.expl.getuserext" noEscape=1}
 
 <table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
@@ -25,12 +26,4 @@
 			</tr>
 		{/foreach}
 	{/if}
-<!-- 
-	<tr>
-		<th class="liste_th" colspan="3"></th>
-		<th class="liste_th" align="center">
-			<a href="{copixurl dest="comptes||getUserExtMod" id=0}">{i18n key="comptes|comptes.strings.add"}</a>
-		</th>
-	</tr>
- -->
 </table>

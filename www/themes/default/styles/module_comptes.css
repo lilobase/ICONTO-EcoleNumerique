@@ -1,15 +1,10 @@
 DIV.navigation {
-	XXheight: 200px;
 	max-width: 250px;
 	overflow-y : auto;
 	padding: 0px 10px 0px 10px;
 	float: left;
 	white-space : nowrap;
 
-	XXborder: 2px solid #C1CF4D;
-	XXborder-radius: 10px;
-	XX-moz-border-radius: 10px;
-	XXkhtml-border-radius: 10px;
 }
 DIV.navigation UL {
 	margin: 0px;
@@ -27,8 +22,6 @@ TABLE.comptes_animateurs_off TR TH {
 }
 
 TABLE.comptes_animateurs_off TR TD {
-	Xborder-bottom: 2px solid white;
-	Xbackground-color: #D9E575;
 	background-color: #E5EDA3;
 }
 
@@ -66,34 +59,6 @@ TABLE.comptes_animateurs_new TR.last TD {
 	padding-bottom: 15px;
 }
 
-/*
-P#delete_confirm {
-	padding: 30px;
-	padding-bottom: 10px;
-	text-align: center;
-}
-
-P#delete_confirm A {
-	display: block;
-}
-
-P#delete_confirm A.confirm {
-	border: 3px solid #F66;
-	background-color: #FCC;
-	padding: 10px;
-	color: black;
-	text-decoration: none;
-	width: 200px;
-	margin: auto;
-	margin-bottom: 10px;
-}
-
-P#delete_confirm A.confirm:hover {
-	border: 3px solid red;
-	background-color: #F99;
-}
-*/
-
 div.error {
 	color: red;
 	font-weight: bold;
@@ -103,3 +68,6 @@ DIV.comptes TD.form_libelle {
 	text-align: right;
 	padding-right: 5px;
 }
+
+
+#comptes #submenu .menuitems ul li a {width:125px;}

@@ -12,11 +12,25 @@
 /**
  * @author	Frédéric Mossmann
  */
-class ActionGroupAnimateurs extends CopixActionGroup {
+class ActionGroupAnimateurs extends enicActionGroup {
 
+	private $menu;
+	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-
+		
+		$this->menu = array();
+		
+		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl');
+		}
+		if($this->user->root) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl', 'current'=>'current');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
+		}
 	}
 
 	/**
@@ -93,11 +107,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_list'));
 		$tpl->assign ('MAIN', $result );
 		
-		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'),       'size'=>180 );
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.new_animateur'),  'url' => CopixUrl::get ('comptes|animateurs|new'), 'size'=>160, 'type'=>'create' );
-		
-		$tpl->assign ('MENU', $menu );
+		$tpl->assign ('MENU', $this->menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -224,10 +234,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_edit'));
 		$tpl->assign ('MAIN', $result );
 		
-		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'), 'size'=>180 );
-		$menu[] = array( 'txt' => 'Liste des animateurs', 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>115 );
-		$tpl->assign ('MENU', $menu );
+		$tpl->assign ('MENU', $this->menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -308,10 +315,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_list'));
 		$tpl->assign ('MAIN', $result );
 		
-		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'), 'size'=>180 );
-		$menu[] = array( 'txt' => "Liste des animateurs", 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>115 );
-		$tpl->assign ('MENU', $menu );
+		$tpl->assign ('MENU', $this->menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}

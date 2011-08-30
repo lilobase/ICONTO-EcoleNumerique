@@ -13,8 +13,24 @@ class ActionGroupDefault extends enicActionGroup {
 		_currentUser()->assertCredential('module:*||access|@gestionautonome');
 		
 		$this->menu = array();
-		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
-		if($this->user->root) $this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>120 );
+		switch (_request('action'))
+		{
+			case 'createGrade':
+			case 'validateGradeCreation':
+			case 'manageGrades' : $current = 'manageGrades';
+									break;
+			default : $current = 'showTree';
+		}
+		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users', 'current'=>($current == 'showTree' ? 'current' :'') );
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl', 'current'=>($current == 'getUsersExt' ? 'current' :'') );
+		}
+		if($this->user->root) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl', 'current'=>($current == 'list' ? 'current' :'') );
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist','current'=>($current == 'manageGrades' ? 'current' :'') );
+		}
 		
 		$this->addJs('js/iconito/module_gestionautonome.js');
 	}
@@ -3820,7 +3836,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->grades = $gradesDAO->findAll ();
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|gradesManagementTitle');
-	  
+	  $ppo->MENU = $this->menu;
 	  return _arPPO ($ppo, 'manage_grades.tpl');
 	}
 
@@ -3844,6 +3860,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|gradesManagementTitle');
+	  $ppo->MENU = $this->menu;
 	  
 	  return _arPPO ($ppo, 'create_grade.tpl');
 	}
@@ -3906,7 +3923,8 @@ class ActionGroupDefault extends enicActionGroup {
   	  $breadcrumbs[] = array('txt' => 'Ajout d\'une année scolaire');
 
   	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
-  	  
+  	  $ppo->MENU = $this->menu;
+	  
       return _arPPO ($ppo, 'create_grade.tpl');
     }
 

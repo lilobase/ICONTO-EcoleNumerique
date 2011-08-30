@@ -1,5 +1,5 @@
 <h2>Gestion des années scolaires</h2>
-
+<p class="right"><a href="{copixurl dest="gestionautonome||createGrade"}" class="button button-add">Créer une nouvelle année scolaire</a></p>
 {if $ppo->grades neq null}
   <table>
     <tr>
@@ -25,7 +25,3 @@
     {/foreach}
   </table>
 {/if}
-
-<div class="submit">
-    <a href="{copixurl dest="gestionautonome||createGrade"}" class="button button-add">Créer une nouvelle année scolaire</a>
-</div>

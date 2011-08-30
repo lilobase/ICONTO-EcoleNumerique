@@ -12,11 +12,23 @@
 /**
  * @author	Frédéric Mossmann
  */
-class ActionGroupComptes extends CopixActionGroup {
+class ActionGroupComptes extends enicActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
+		$this->menu = array();
+		
+		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl', 'current'=>'current');
+		}
+		if($this->user->root) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
+		}
+		//CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 	}
 
 	/**
@@ -48,8 +60,7 @@ class ActionGroupComptes extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('gestionautonome|default|showTree', array('type'=>'ROOT') ));
 		}
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
-
+		
 		$tpl = & new CopixTpl ();
 		$tplGetNode = & new CopixTpl ();
 		
@@ -214,11 +225,12 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( $session && is_array($session) && sizeof($session) ) {
 			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.showloginresult', sizeof($session) ), 'url' => CopixUrl::get ('comptes||getLoginResult'), 'size'=>160 );
 		}
-		if( Kernel::getLevel( 'ROOT', 0 ) >= PROFILE_CCV_ADMIN ) {
+		/*if( Kernel::getLevel( 'ROOT', 0 ) >= PROFILE_CCV_ADMIN ) {
 			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.getext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>160 );
 			$menu[] = array( 'txt' => CopixI18N::get('comptes.strings.getanim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'size'=>120 );
 		}
-		if( count($menu) ) $tpl->assign ('MENU', $menu );
+		if( count($menu) ) $tpl->assign ('MENU', $menu );*/
+		$tpl->assign('MENU', $this->menu);
 		$tpl->assign ('MAIN', $result );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -319,7 +331,8 @@ class ActionGroupComptes extends CopixActionGroup {
 		}
 		
 		$tpl->assign ('MAIN', CopixZone::process ('comptes|loginform', array('users'=>$users,'type'=>_request('type'),'id'=>_request('id'), 'reset'=>_request('reset'))) );
-		
+		$tpl->assign ('MENU', $this->menu );
+
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
@@ -577,6 +590,8 @@ class ActionGroupComptes extends CopixActionGroup {
 		}
 		
 		$tpl->assign ( 'MAIN', $main );
+		$tpl->assign ('MENU', $this->menu );
+		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
@@ -599,14 +614,13 @@ class ActionGroupComptes extends CopixActionGroup {
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getpurgeresult'));
 		
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_listes'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
-		$tpl->assign ('MENU', $menu );
-		
 		$tplPurgeResult = & new CopixTpl ();
 		$tplPurgeResult->assign ('logins', $inSession );
 		$main = $tplPurgeResult->fetch ('getpurgeresult.tpl');
 		
 		$tpl->assign ( 'MAIN', $main );
+		$tpl->assign ('MENU', $this->menu );
+
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
@@ -719,7 +733,8 @@ class ActionGroupComptes extends CopixActionGroup {
 		$tpl = & new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $ecole["nom"]." (".$ecole["desc"].")");
 		$tpl->assign ("MAIN", $result);
-		
+		$tpl->assign ('MENU', $this->menu );
+
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
 	}
@@ -744,6 +759,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		$result = $tplGetUser->fetch("getuser.tpl");
 		
 		$tpl->assign ("MAIN", $result);
+		$tpl->assign ('MENU', $this->menu );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -797,8 +813,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && !_currentUser()->hasAssistance('can_comptes') )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
-
+		
 		$tpl = & new CopixTpl ();
 		$tplGetUserExt = & new CopixTpl ();
 		
@@ -818,10 +833,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		// $result = '<pre>'.print_r( $userext_list, true ).'</pre>'.$result;
 		$tpl->assign ('MAIN', $result );
 		
-		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode'), 'size'=>175 );
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.strings.add'), 'url' => CopixUrl::get ('comptes||getUserExtMod', array('id'=>0)), 'size'=>175, 'type'=>'create' );
-		$tpl->assign ('MENU', $menu );
+		$tpl->assign ('MENU', $this->menu );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -839,8 +851,7 @@ class ActionGroupComptes extends CopixActionGroup {
 		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && !_currentUser()->hasAssistance('can_comptes') )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
-
+		
 		$errors=array();
 		$tpl = & new CopixTpl ();
 		
@@ -1004,11 +1015,8 @@ class ActionGroupComptes extends CopixActionGroup {
 			);
 		
 		$tpl->assign ('MAIN', $result );
-		
-		$menu=array();
-		// $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getuserext'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'size'=>175 );
-		$tpl->assign ('MENU', $menu );
-		
+		$tpl->assign ('MENU', $this->menu );
+
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 

@@ -239,6 +239,7 @@ span.valign {
 #submenu .menuitems a.page			{ background-image: url(../../../themes/default/images/menu/menu_page.png); }
 #submenu .menuitems a.rss			{ background-image: url(../../../themes/default/images/menu/menu_rss.png); }
 #submenu .menuitems a.acl			{ background-image: url(../../../themes/default/images/menu/menu_acl.png); }
+#submenu .menuitems a.users			{ background-image: url(../../../themes/default/images/menu/menu_users.png); }
 #submenu .menuitems a.document		{ background-image: url(../../../themes/default/images/menu/menu_attach.png); }
 #submenu .menuitems a.options		{ background-image: url(../../../themes/default/images/menu/menu_options.png); }
 #submenu .menuitems a.agendalist	{ background-image: url(../../../themes/default/images/menu/menu_agendalist.png); }
