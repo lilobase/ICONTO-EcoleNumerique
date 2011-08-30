@@ -13,7 +13,6 @@
 {/if}
 <form id="rssEdit" action="{copixurl dest="blog|admin|validRss" id_blog=$id_blog kind=$kind}" method="post" class="copixForm">
 <table class="editItems">
-
    <tr>
       <th><label for="name_bfrs">{i18n key='dao.blogfluxrss.fields.name_bfrs'}</label></th>
 	  <td><input type="text" id="name_bfrs" name="name_bfrs" value="{$rss->name_bfrs|escape}" /></td>

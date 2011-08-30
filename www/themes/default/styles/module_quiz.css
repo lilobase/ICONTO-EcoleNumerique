@@ -290,19 +290,22 @@ input.qf-date {
 	margin: 0px;
 	padding: 0px;
 	}
-	
+
+#quiz-do ul li.header-questions {margin:0 0 0 22px;}
+#quiz-do ul li.header-questions span {float:right;}
 #quiz-do ul li.qd-question {
-	background: #fff url(../images/quiz_question.png) 24px 50% no-repeat;
+	clear:both;
+	background: #fff none 0 0 no-repeat;
 	}
 
 #quiz-do ul li.qd-question:hover {
-	background: #faf9d9 url(../images/quiz_question.png) 24px 50% no-repeat;
+	background: #faf9d9 none 0 0 no-repeat;
 	}
 
 #quiz-do ul li.qd-question a {
 	display: inline-block;
-	padding: 0 0 0 72px;
-	width: 90%;
+	padding: 0 0 0 12px;
+	width: 97%;
 	}
 
 #quiz-do ul li a.qd-question-done {

@@ -83,7 +83,7 @@
 
 
 /* =================================
-	Général
+	Gï¿½nï¿½ral
 	================================= */
 
 
@@ -92,7 +92,7 @@
 #mainBlog {
 }
 
-/* Barre latérale */
+/* Barre latï¿½rale */
 #mainSideBar {
 	float:left;
 	width: 210px;
@@ -110,24 +110,24 @@
 #mainContent {
   margin-left:230px;
 }
-/* Barre latérale - Logo */
+/* Barre latï¿½rale - Logo */
 #mainSideBar .bloglogo {
 	text-align: center;
 	padding: 1em;
 }
 
-/* Barre latérale - Titre */
+/* Barre latï¿½rale - Titre */
 #mainSideBar H2 {
 	margin: 10px 0px 3px 0px;
 	border-top: dotted 2px #CCC;
 	padding-top: 3px;
 }
-/* Barre latérale - Liste d'éléments */
+/* Barre latï¿½rale - Liste d'ï¿½lï¿½ments */
 #mainSideBar UL {
 	padding: 0;
 	margin: 0;
 }
-/* Barre latérale - Eléments */
+/* Barre latï¿½rale - Elï¿½ments */
 #mainSideBar LI {
 	list-style-type: square;
 	margin-left:16px;
@@ -169,7 +169,7 @@
 }
 #listArticles DIV.postTitle A {
 }
-/* Infos de l'article (date, catégories...) */
+/* Infos de l'article (date, catï¿½gories...) */
 #listArticles DIV.postInfo {
 	margin: 0px 0px 3px 0px;
 	color: #888;
@@ -194,7 +194,7 @@
 
 
 /* =================================
-	Détail d'un article
+	Dï¿½tail d'un article
 	================================= */
 #article {
     position: relative;
@@ -206,7 +206,7 @@
 	border: 0;
 	padding:0; margin:0 5px 3px 0;
 }
-/* Infos de l'article (date, catégories...) */
+/* Infos de l'article (date, catï¿½gories...) */
 #article DIV.postInfo {
 	margin: 0px 0px 3px 0px;
 	color: #888;
@@ -271,7 +271,7 @@
 	font-size: 80%;
 	font-weight: normal;
 }
-/* Numéro */
+/* Numï¿½ro */
 #comments DIV.commentCount a {
 	position: relative;
 	float: right;
@@ -294,7 +294,6 @@
 	font-family: inherit;
 	font-size: 90%;
 }
-
 
 /* Affichage des tableaux */
 table.viewItems {
@@ -321,4 +320,3 @@ table.editItems th {
 }
 table.editItems tr.editCss th, table.editItems tr.editCss td {padding:60px 5px 0 0;}
 table.editItems th.alignTop { padding-top:5px; vertical-align:text-top;}
-

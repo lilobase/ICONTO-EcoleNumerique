@@ -11,11 +11,11 @@ _classInclude('blog|blogauth');
 _classInclude('blog|blogutils');
 _classInclude('groupe|groupeservice');
 
-class ActionGroupFrontBlog extends CopixActionGroup {
+class ActionGroupFrontBlog extends EnicActionGroup {
 	
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');
-
+		$this->addJs('js/iconito/module_blog.js');
 	}
 
 

@@ -21,7 +21,6 @@ function change_style (obj) {
 </script>
 {/literal}
 
-
 <h2>{i18n key="blog.get.editstyle.blog.title"}</h2>
 
 {if $showErrors}

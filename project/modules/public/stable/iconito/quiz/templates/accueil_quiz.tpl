@@ -15,10 +15,11 @@
 	</div>
 
 	<ul class="qd-questions">
-		{foreach from=$ppo->questions item=question}
+		<li class="header-questions"><span>{i18n key="quiz.msg.answered" noEscape=1}</span>{i18n key="quiz.msg.questionCountShort" noEscape=1} {i18n key="quiz.admin.enonce" noEscape=1} </li>
+        {foreach from=$ppo->questions item=question key=curQuestNum}
 		<li class="content-panel qd-question">
 			<a class="{if $question.userResp}qd-question-done{else}qd-question-todo{/if}" href="{copixurl dest="quiz|default|question" id=$ppo->quizId qId=$question.ct->id'}">
-			{$question.ct->name|utf8_decode}
+			<span class="badge">{$curQuestNum+1}</span> {$question.ct->name|utf8_decode}
 			</a>
 		</li>
 		{/foreach}
