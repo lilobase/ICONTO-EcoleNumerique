@@ -1,5 +1,28 @@
 {if $ppo->save neq null}
-  <p class="mesgSuccess">Structure mise à jour</p>
+  <p class="mesgSuccess">
+    {if $ppo->save eq 'cityCreated'}La ville a bien été créée.
+    {elseif $ppo->save eq 'cityUpdated'}La ville a bien été mise à jour.
+    {elseif $ppo->save eq 'cityDeleted'}La ville a bien été supprimée.
+    {elseif $ppo->save eq 'schoolCreated'}L'école a bien été créée.
+    {elseif $ppo->save eq 'schoolUpdated'}L'école a bien été mise à jour.
+    {elseif $ppo->save eq 'schoolDeleted'}L'école a bien été supprimée.
+    {elseif $ppo->save eq 'classCreated'}La classe a bien été créée.
+    {elseif $ppo->save eq 'classUpdated'}La classe a bien été mise à jour.
+    {elseif $ppo->save eq 'classDeleted'}La classe a bien été supprimée.
+    {elseif $ppo->save eq 'gradeCreated'}L'année scolaire a bien été créée.
+    {elseif $ppo->save eq 'gradeUpdated'}L'année scolaire a bien été mise à jour.
+    {elseif $ppo->save eq 'gradeDeleted'}L'année scolaire a bien été supprimée.
+    {elseif $ppo->save eq 'studentRemoved'}L'affectation de l'élève a bien été supprimée.
+    {elseif $ppo->save eq 'studentDeleted'}L'élève a bien été supprimé.
+    {elseif $ppo->save eq 'personnelDeleted'}Le personnel a bien été supprimé.
+    {elseif $ppo->save eq 'personnelRemoved'}L'affectation du personnel a bien été supprimée.
+    {elseif $ppo->save eq 'personInChargeDeleted'}Le responsable a bien été supprimé.
+    {elseif $ppo->save eq 'personInChargeRemoved'}Le lien avec le responsable a bien été supprimé.
+    {elseif $ppo->save eq 'studentsNewClassAffected'}Les élèves ont bien été affectés à la classe de destination.
+    {elseif $ppo->save eq 'studentsListAffected'}Les élèves ont bien été affectés.
+    {else}Structure mise à jour
+    {/if}
+  </p>
 {/if}
 
 <div id="tree">

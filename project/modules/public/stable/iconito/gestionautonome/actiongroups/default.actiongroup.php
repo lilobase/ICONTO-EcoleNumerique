@@ -539,7 +539,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Mise en session du noeud courant
 		_sessionSet ('current', array('node_type' => 'BU_VILLE', 'node_id' => $ppo->city->id_vi));
 
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'cityCreated')));
   }
   
   /**
@@ -645,7 +645,7 @@ class ActionGroupDefault extends enicActionGroup {
       
     $cityDAO->update ($ppo->city);
 		
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'cityUpdated')));
 	}
 	
 	/**
@@ -745,7 +745,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  // Suppression de la ville 
   	$cityDAO->delete ($city->id_vi);
 		
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'cityDeleted')));
 	}
 	
 	/**
@@ -866,7 +866,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Mise en session du noeud courant
     _sessionSet ('current', array('node_type' => 'BU_ECOLE', 'node_id' => $ppo->school->numero));
     
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'schoolCreated')));
 	}
 	
 	/**
@@ -989,7 +989,7 @@ class ActionGroupDefault extends enicActionGroup {
       
     $schoolDAO->update ($ppo->school);
     
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'schoolUpdated')));
 	}
 	
 	/**
@@ -1068,7 +1068,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  // Suppression de l'école
 	  $schoolDAO->delete ($school->numero);
 
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'schoolDeleted')));
 	}
 	
 	/**
@@ -1256,7 +1256,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Mise en session du noeud courant
 		_sessionSet ('currentrent', array('node_type' => 'BU_CLASSE', 'node_id' => $ppo->class->id));
 
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'classCreated')));
 	}
 	
 	/**
@@ -1469,7 +1469,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     $classroomDAO->update ($ppo->class);
 
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'classUpdated')));
 	}
 	
 	public function processDeleteClass () {
@@ -1529,7 +1529,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  // Suppression de la classe
 	  $classroomDAO->delete ($class->id);
 		
-		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'classDeleted')));
 	}
 	
 	/**
@@ -2111,6 +2111,7 @@ class ActionGroupDefault extends enicActionGroup {
         $type_ref  = 'CLASSE';
       	break;
 		}
+		
 	  
 	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
     if ($personEntity = $personEntityDAO->get ($personId, $ppo->nodeId, $type_ref)) {
@@ -2133,10 +2134,10 @@ class ActionGroupDefault extends enicActionGroup {
     
     if ($ppo->nodeType == 'BU_CLASSE') {
       
-      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('tab' => 1, 'save' => 1)));
+      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('tab' => 1, 'save' => 'personnelRemoved')));
     }
 
-	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'personnelRemoved')));
 	}
 	
 	public function processDeletePersonnel () {
@@ -2189,10 +2190,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  if ($ppo->nodeType == 'BU_CLASSE') {
       
-      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('tab' => 1, 'save' => 1)));
+      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('tab' => 1, 'save' => 'personnelDeleted')));
     }
     
-	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'personnelDeleted')));
 	}
 	
 	/**
@@ -2998,7 +2999,7 @@ class ActionGroupDefault extends enicActionGroup {
     // Mise en session du noeud courant
 		_sessionSet ('current', array('node_type' => $ppo->nodeType, 'node_id' => $ppo->nodeId));
 	  
-	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'studentRemoved')));
 	}
 	
 	public function processDeleteStudent () {
@@ -3114,7 +3115,7 @@ class ActionGroupDefault extends enicActionGroup {
 
 	  if ($target == 'eleve' || $isDeleted) {
 	    
-	    return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+	    return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'studentDeleted')));
 	  }
 	  
 	  return _arRedirect (CopixUrl::get ('gestionautonome||updatePersonInCharge', array ('nodeType' => $ppo->nodeType, 'nodeId' => $ppo->nodeId, 'personId' => $personId, 'save' => 1)));
@@ -3437,7 +3438,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     if ($isDeleted) {
       
-      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+      return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'personInChargeRemoved')));
     }
     
     return _arRedirect (CopixUrl::get ('gestionautonome||updatePersonInCharge', array ('nodeType' => $ppo->nodeType, 'nodeId' => $ppo->nodeId, 'personId' => $ppo->personId, 'save' => 1)));
@@ -3494,7 +3495,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  return _arRedirect (CopixUrl::get ('gestionautonome||updateStudent', array ('nodeType' => $ppo->nodeType, 'nodeId' => $ppo->nodeId, 'studentId' => $ppo->studentId, 'save' => 1)));
 		}
     
-	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('tab' => 2, 'save' => 1)));
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('tab' => 2, 'save' => 'personInChargeDeleted')));
 	} 
 	
 	/**
@@ -3942,7 +3943,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     $gradeDAO->insert ($ppo->grade); 
 
-    return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
+    return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 'gradeCreated')));
 	}
 
 	/**
@@ -3977,7 +3978,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  }
 	  }
 
-	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
+	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 'gradeUpdated')));
 	}
 	
 	public function processDeleteGrade () {
@@ -3989,7 +3990,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $gradesDAO->delete ($gradeId);
 
-	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 1)));
+	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 'gradeDeleted')));
 	}
 
 	/**
@@ -5528,7 +5529,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  // Mise en session du noeud courant
 		_sessionSet ('current', array('node_type' => $ppo->nodeType, 'node_id' => $ppo->nodeId));
 		
-	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+	  return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'studentsListAffected')));
 	}
 	
 	/**
@@ -5790,11 +5791,11 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->nodeId = _request ('nodeId');  	
   	if (is_null ($ppo->nodeId)) {
 
-      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Vous n'avez pas défini de classe d'origine.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
     }
     if (!$ppo->sourceClassroom = $classroomDAO->get ($ppo->nodeId)) {
 
-      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "La classe d'origine que vous avez défini n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
     }
 
     // Contrôle des droits
@@ -5807,7 +5808,7 @@ class ActionGroupDefault extends enicActionGroup {
 
       if (!$ppo->nextGrade = $gradesDAO->get ($gradeId)) {
 
-  	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+  	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "L'année de destination n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
   	  }
     }
 
@@ -5836,7 +5837,7 @@ class ActionGroupDefault extends enicActionGroup {
 
       if (!$ppo->destinationClassroom = $classroomDAO->get ($destinationClassroomId)) {
 
-  	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+  	    return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "La classe de destination n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
   	  }
 
   	  // Si l'année scolaire est différente de celle de la classe de destination sélectionnée, erreur de cohérence
@@ -5917,7 +5918,7 @@ class ActionGroupDefault extends enicActionGroup {
         }
 
         // Redirection
-        return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 1)));
+        return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'studentsNewClassAffected')));
       }
     }
 
