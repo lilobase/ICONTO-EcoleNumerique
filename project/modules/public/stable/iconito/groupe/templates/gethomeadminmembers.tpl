@@ -138,7 +138,7 @@
             <td>{inputtext class="datepicker" name="fin" value=$fin|datei18n}</td>
         </tr>
 	</table>
-<div class="center"><input class="button button-add" type="submit" value="{i18n key="groupe.btn.subscribe"}" /></div>
+<div class="center"><a href="{copixurl dest="|getHomeAdmin" id=$groupe->id}" class="button button-cancel">{i18n key="groupe.btn.cancel"}</a> <input class="button button-add" type="submit" value="{i18n key="groupe.btn.subscribe"}" /></div>
 
 </form>	
 	

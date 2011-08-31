@@ -12,9 +12,9 @@
     </div>
 {/if}
 
-    <h3 class="content-panel">{i18n key="groupe.form.adminTitle"}</h3>
+    <h2>{i18n key="groupe.form.adminTitle"}</h2>
 
-    <div class="content-panel">
+    <div>
         <table border="0" CELLSPACING="1" CELLPADDING="1" width="98%">
             <tr>
                 <td CLASS="form_libelle">{i18n key="groupe.form.title"}</td><td CLASS="form_saisie"><input type="text" name="titre" value="{$titre}" class="form" style="width: 400px;" maxlength="100" /></td>
@@ -70,7 +70,7 @@
         </table>
     </div>
 
-    <div class="content-panel">
-        <input class="button button-cancel" onclick="self.location='{if $id eq null}{copixurl dest="||"}{else}{copixurl dest="|getHomeAdmin" id=$id}{/if}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" />
+    <div class="center">
+        <a class="button button-cancel" href="{if $id eq null}{copixurl dest="||"}{else}{copixurl dest="|getHomeAdmin" id=$id}{/if}">{i18n key="groupe.btn.cancel"} </a> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" />
     </div>
 </form>

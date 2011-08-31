@@ -38,9 +38,8 @@
 		</td>
 	</tr>
 
-	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="|getHomeAdmin" id=$id}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
 	
 </table>
 
-
+<div class="center"><a href="{copixurl dest="|getHomeAdmin" id=$id}" class="button button-cancel">{i18n key="groupe.btn.cancel"}</a> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" /></div>
 </form>
