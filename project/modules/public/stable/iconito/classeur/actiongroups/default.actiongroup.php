@@ -604,7 +604,7 @@ class ActionGroupDefault extends enicActionGroup {
               }
             }
           }
-die();
+          
           // Copie des fichiers dans le rep classeur et suppression des fichiers TMP
           foreach ($fichiersPhysiques as $fichierPhysique) {
 
