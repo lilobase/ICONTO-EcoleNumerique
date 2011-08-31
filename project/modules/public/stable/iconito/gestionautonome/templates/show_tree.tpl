@@ -16,6 +16,7 @@
     {elseif $ppo->save eq 'studentDeleted'}L'élève a bien été supprimé.
     {elseif $ppo->save eq 'personnelDeleted'}Le personnel a bien été supprimé.
     {elseif $ppo->save eq 'personnelRemoved'}L'affectation du personnel a bien été supprimée.
+    {elseif $ppo->save eq 'principalRemoved'}Le personnel n'est plus directeur.
     {elseif $ppo->save eq 'personInChargeDeleted'}Le responsable a bien été supprimé.
     {elseif $ppo->save eq 'personInChargeRemoved'}Le lien avec le responsable a bien été supprimé.
     {elseif $ppo->save eq 'studentsNewClassAffected'}Les élèves ont bien été affectés à la classe de destination.
