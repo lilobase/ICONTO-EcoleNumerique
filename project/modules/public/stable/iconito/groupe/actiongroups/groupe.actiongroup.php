@@ -1389,6 +1389,7 @@ class ActionGroupGroupe extends enicActionGroup {
 				$childs[$k]["login"] = $userInfo["login"];
 				$childs[$k]["nom"] = $userInfo["nom"];
 				$childs[$k]["prenom"] = $userInfo["prenom"];
+				$childs[$k]["type"] = $userInfo["type"];
 				$childs[$k]["droitnom"] = $groupeService->getRightName($v['droit']);
 				//$childs[$k]['info'] = $userInfo;
 			}

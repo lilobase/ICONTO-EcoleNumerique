@@ -19,9 +19,10 @@
 	<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
 		<tr>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.number"}</th>
-			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.login"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.name"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.firstname"}</th>
+			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.type"}</th>
+			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.login"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.right"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.dates"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.modif"}</th>
@@ -32,9 +33,10 @@
 		{foreach from=$list item=user}
 			<tr class="list_line{$cpt%2}">
 				<td align="center">{$cpt}</td>
-				<td>{user label=$user.login userType=$user.type userId=$user.id login=$user.login dispMail=1}</td>
 				<td>{$user.nom}</td>
 				<td>{$user.prenom}</td>
+                <td>{$user.type|profil}</td>
+				<td>{user label=$user.login userType=$user.type userId=$user.id login=$user.login dispMail=1}</td>
 				<td>{$user.droitnom}</td>
 				<td>
         {if ($user.debut && $user.debut>$today) || ($user.fin && $user.fin<$today)}<div class="members_dates_nok">{/if}
@@ -55,8 +57,8 @@
 			</tr>
 		{/foreach}
 		<tr CLASS="liste_footer">
-			<td colspan="7"></td>
-			<TD ALIGN="CENTER"><a class="button button-delete" href="javascript:deleteMembres();">{i18n key="groupe.btn.unsubscribe"}</a></TD>
+			<td colspan="8"></td>
+			<td class="center"><a class="button button-delete" href="javascript:deleteMembres();">{i18n key="groupe.btn.unsubscribe"}</a></td>
 		</TR>
 		</table>
 		</FORM>
@@ -109,42 +111,34 @@
 		
 	
 	
-	<H2>{i18n key="groupe.adminMembers.add"}</H2>
+	<h2>{i18n key="groupe.adminMembers.add"}</h2>
 	
-	<table cellpadding="1" cellspacing="1" border="0" width="500">
-<form action="{copixurl dest="|doSubscribe"}" method="post">
-<input type="hidden" name="id" value="{$groupe->id}" />
-	<TR><td CLASS="form_saisie" COLSPAN=2>
-	
-
-<textarea class="form" style="width: 400px; height: 50px;" name="membres" id="membres">{$membres}</textarea>
-
-</TD></TR>
-<tr><td CLASS="form_saisie" colspan="2">{i18n key="groupe.adminMembers.addInfo" noEscape=1} {$linkpopup}</TD></TR>
-
-<tr>
-<td class="form_saisie"><br/>{i18n key="groupe.adminMembers.addDates"}<br/>
-<table>
-<tr><td>{i18n key="groupe.adminMembers.addDates.debut"}&nbsp;:</td><td>{inputtext class="datepicker" name="debut" value=$debut|datei18n}</td></tr>
-<tr><td>{i18n key="groupe.adminMembers.addDates.fin"}&nbsp;:</td><td>{inputtext class="datepicker" name="fin" value=$fin|datei18n}</td></tr>
-</table>
-
-</td>
-<td CLASS="form_submit">
-
-<input class="button button-add" type="submit" value="{i18n key="groupe.btn.subscribe"}" />
-
-
-</TD>
-</tr>
-
-
-
-
-
-
-
-</TABLE>
+	<form action="{copixurl dest="|doSubscribe"}" method="post">
+    <table cellpadding="1" cellspacing="1" border="0">
+        <tr>
+        	<td colspan="2">{i18n key="groupe.adminMembers.addInfo" noEscape=1}</td>
+        </tr>
+        <tr>
+            <td valign="top">{i18n key="groupe.adminMembers.list.login"} :</td>
+            <td>
+            	<input type="hidden" name="id" value="{$groupe->id}" />
+            	<textarea class="form" style="width: 400px; height: 50px;" name="membres" id="membres">{$membres}</textarea><br />
+                {$linkpopup}
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2" class="form_saisie">{i18n key="groupe.adminMembers.addDates"}</td>
+        </tr>
+        <tr>
+            <td>{i18n key="groupe.adminMembers.addDates.debut"}&nbsp;:</td>
+            <td>{inputtext class="datepicker" name="debut" value=$debut|datei18n}</td>
+        </tr>
+        <tr>
+            <td>{i18n key="groupe.adminMembers.addDates.fin"}&nbsp;:</td>
+            <td>{inputtext class="datepicker" name="fin" value=$fin|datei18n}</td>
+        </tr>
+	</table>
+<div class="center"><input class="button button-add" type="submit" value="{i18n key="groupe.btn.subscribe"}" /></div>
 
 </form>	
 	
