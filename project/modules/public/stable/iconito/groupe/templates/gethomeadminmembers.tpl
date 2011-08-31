@@ -75,9 +75,10 @@
 	<table border="0" CLASS="liste" align="CENTER" CELLSPACING=2 CELLPADDING=2>
 		<tr>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.number"}</th>
-			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.login"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.name"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.firstname"}</th>
+			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.type"}</th>
+			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.login"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.subscribeWait"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.subscribe1"}</th>
 			<th CLASS="liste_th">{i18n key="groupe.adminMembers.list.subscribe0"}</th>
@@ -88,9 +89,10 @@
       {assign var=tmp value=$user.type|cat:"|"|cat:$user.id}
 			<tr CLASS="list_line{$cpt%2}">
 				<td ALIGN="CENTER">{$cpt}</td>
-				<td>{$user.login}</td>
 				<td>{$user.nom}</td>
 				<td>{$user.prenom} {$user.type_nom}</td>
+                <td>{$user.type|profil}</td>
+				<td>{$user.login}</td>
 				<td ALIGN="CENTER"><input type=radio name="membres[{$user.type}|{$user.id}]" {if $membresW[$tmp] eq "WAIT" || $membresW[$tmp] eq ""}CHECKED{/if} value="WAIT" class="noBorder"></td>
 				<td ALIGN="CENTER"><input type=radio name="membres[{$user.type}|{$user.id}]" {if $membresW[$tmp] eq "1"}CHECKED{/if} value="1" class="noBorder"></td>
 				<td ALIGN="CENTER"><input type=radio name="membres[{$user.type}|{$user.id}]" {if $membresW[$tmp] eq "0"}CHECKED{/if} value="0" class="noBorder"></td>
