@@ -2122,6 +2122,8 @@ class ActionGroupDefault extends enicActionGroup {
           
         // Mise à jour du rôle : directeur -> enseignant
         $personEntityDAO->updateRole ($personId, $ppo->nodeId, $type_ref, DAOKernel_bu_personnel_entite::ROLE_TEACHER);
+        
+        return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'principalRemoved')));
       }
       else {
         
