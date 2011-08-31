@@ -188,7 +188,9 @@
               || ($ppo->parent.type == 'BU_ECOLE' && $person->bu_type == 'USER_ENS' && $hasCredentialPrincipalUpdate))}
 
               <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero type=$person->bu_type}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier la personne" /></a>
-              <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero userId=$person->id_dbuser type=$person->bu_type}" onclick="return confirm('Etes-vous sur de vouloir retirer cette personne ?')"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="Supprimer le rôle de cette personne" /></a>
+              {if $person->nom_role eq "Directeur"}
+                <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero userId=$person->id_dbuser type=$person->bu_type}" onclick="return confirm('Etes-vous sur de vouloir retirer cette personne ?')"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="Supprimer le rôle de cette personne" /></a>
+              {/if}
             {/if}
             {if (($ppo->parent.type == 'BU_GRVILLE' && $person->bu_type == 'USER_VIL' && $hasCredentialCitiesGroupAgentDelete) 
               || ($ppo->parent.type == 'BU_VILLE' && $person->bu_type == 'USER_VIL' && $hasCredentialCityAgentDelete)
