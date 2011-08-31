@@ -2111,16 +2111,15 @@ class ActionGroupDefault extends enicActionGroup {
         $type_ref  = 'CLASSE';
       	break;
 		}
-		
 	  
 	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
-    if ($personEntity = $personEntityDAO->get ($personId, $ppo->nodeId, $type_ref)) {
+    if ($personEntity = $personEntityDAO->getByIdReferenceAndType ($personId, $ppo->nodeId, $type_ref)) {
       
-      // Si on se trouve sur une ecole et que la personne a une affectation dans une des classes
-      if ($type_ref == 'ECOLE' && $personEntityDAO->hasTeacherRoleInSchool ($personId, $ppo->nodeId, true)) {
+      // Si on se trouve sur une ecole et que la personne (directeur) a une affectation dans une des classes
+      if ($type_ref == 'ECOLE' && $personEntityDAO->hasTeacherRoleInSchool ($personId, $ppo->nodeId, true) && $personEntity->pers_entite_role == DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL) {
         
         // Mise à jour du rôle : directeur -> enseignant
-        $personEntityDAO->updateRole ($personId, $ppo->nodeId, $type_ref, '1');
+        $personEntityDAO->updateRole ($personId, $ppo->nodeId, $type_ref, DAOKernel_bu_personnel_entite::ROLE_TEACHER);
       }
       else {
         
