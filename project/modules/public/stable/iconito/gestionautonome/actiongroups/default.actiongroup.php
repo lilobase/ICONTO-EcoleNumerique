@@ -4979,7 +4979,7 @@ class ActionGroupDefault extends enicActionGroup {
   	$node_infos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, false);
   	
   	// Récupération des élèves en création
-    $students = _sessionGet ('gestionautonome|addMultipleStudents');
+    $studentsInSession = _sessionGet ('gestionautonome|addMultipleStudents');
     
     // Récupération des données nécessaires à l'ajout des enregistrements inscription / adhésion / admission
     $class             = $classDAO->get ($ppo->nodeId); 
@@ -4994,14 +4994,17 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Boucle sur les élèves de la liste à créer
+    $students = array();
     foreach ($keys as $key) {
       
       // La création n'est possible que si le login est disponible
       if (!is_null ($logins[$key]) && !is_null ($passwords[$key]) && Kernel::isLoginAvailable ($logins[$key])) {
-
-        $students[$key]['login']    = $logins[$key];                                              // Récupération des logins pour les élèves en création
-        $students[$key]['password'] = $passwords[$key];                                           // Récupération des passwords pour les élèves en création
-        $students[$key]['level']    = $levels[$key];                                              // Récupération des niveaux pour les élèves en création 
+        
+        $students[$key] = $studentsInSession[$key];
+        
+        $students[$key]['login']    = $logins[$key];                // Récupération des logins pour les élèves en création
+        $students[$key]['password'] = $passwords[$key];             // Récupération des passwords pour les élèves en création
+        $students[$key]['level']    = $levels[$key];                // Récupération des niveaux pour les élèves en création 
   			$students[$key]['type_nom'] = Kernel::Code2Name('USER_ELE');
   			$students[$key]['node_nom'] = Kernel::Code2Name($ppo->nodeType)." ".$node_infos['nom'];
          
@@ -5090,13 +5093,16 @@ class ActionGroupDefault extends enicActionGroup {
         
         // Récupération des responsables sélectionnés pour l'élève
         $personsKeys      = _request ('person-keys'.$key, array ());
-        $personsLogins    = _request ('logins'.$key, array ());        // Récupération des logins des responsables de l'élève
+        $personsLogins    = _request ('logins'.$key, array ());     // Récupération des logins des responsables de l'élève
         $personsPasswords = _request ('passwords'.$key, array ());  // Récupération des passwords des responsables de l'élève
         
+        $students[$key]['person'] = array();
         foreach ($personsKeys as $personKey) {
 
           // La création du responsable n'est possible que si le login est disponible
           if (!is_null ($personsLogins[$personKey]) && !is_null ($personsPasswords[$personKey]) && Kernel::isLoginAvailable ($personsLogins[$personKey])) {
+            
+            $students[$key]['person'][$personKey] = $studentsInSession[$key]['person'][$personKey];
             
             $students[$key]['person'][$personKey]['login']    = $personsLogins[$personKey];
             $students[$key]['person'][$personKey]['password'] = $personsPasswords[$personKey];
@@ -5158,7 +5164,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->studentsError[] = $students[$key];
       }
     }
-
+    
     // Si des créations ont bien eu lieu, les mettre en session pour affichage de confirmation 
     if (!empty ($ppo->studentsSuccess)) {
       
