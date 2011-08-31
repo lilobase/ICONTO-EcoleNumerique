@@ -6,6 +6,13 @@
 
 class DAOKernel_bu_personnel_entite {
 
+  const
+	  ROLE_TEACHER              = 1,
+	  ROLE_PRINCIPAL            = 2,
+    ROLE_ADMINISTRATION_STAFF = 3,
+    ROLE_CITY_AGENT           = 4,
+    ROLE_CITY_GROUP_AGENT     = 5;
+    
   /**
 	 * Retourne les enregistrements liés à une ressource
 	 *
@@ -104,6 +111,44 @@ class DAOKernel_bu_personnel_entite {
     }
     
     return false;
+  }
+  
+  /**
+   * Retourne si une entité à un rôle d'enseignant dans les classes d'une école donnée
+   *
+   * @param int   $id
+   * @param int   $school
+   *
+   * @return bool
+   */
+  public function getTeacherRoleInSchool ($id, $schoolId, $forCurrentGrade = false) {
+    
+    $toReturn = false;
+    
+    $schoolClassDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    
+    if ($forCurrentGrade) {
+      
+      if (is_null($grade = _sessionGet('grade'))) {
+
+        $grade = Kernel::getAnneeScolaireCourante ()->id_as;
+      }
+      $classrooms = $schoolClassDAO->getBySchool ($schoolId, $grade);
+    }
+    else {
+      
+      $classrooms = $schoolClassDAO->getBySchool ($schoolId);
+    }
+    
+    foreach ($classrooms as $classroom) {
+      
+      if ($entity = self::getByIdReferenceAndType($id, $classroom->id, 'CLASSE')) {
+        
+        $toReturn[] = $entity;
+      }
+    }
+    
+    return $toReturn;
   }
   
   /**

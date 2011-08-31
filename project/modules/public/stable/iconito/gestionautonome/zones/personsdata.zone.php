@@ -32,7 +32,36 @@ class ZonePersonsData extends CopixZone {
   	      $ppo->persons = $personnelDAO->findCityAgentsByCityId ($id);
   	      break;
   	    case 'BU_ECOLE':
+  	      $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
+  	      $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+  	      $classnames = array();
+  	      
     	    $ppo->persons = $personnelDAO->findAdministrationStaffAndPrincipalBySchoolId ($id);
+    	    
+    	    foreach ($ppo->persons as $person) {
+    	      
+    	      // Pour les enseignants, on récupère leurs affectations pour déterminer s'il est possible de les désaffecter de l'école
+    	      if ($person->role == DAOKernel_bu_personnel_entite::ROLE_TEACHER
+    	        && $personEntityDAO->hasTeacherRoleInSchool ($person->numero, $id, true)) {
+    	        
+    	        $person->hasTeacherRoleInSchool = true;
+    	        
+    	        // Récupération du nom des classes ou il est affecté
+    	        $personEntities = $personEntityDAO->getTeacherRoleInSchool ($person->numero, $id, true);
+    	        foreach ($personEntities as $personEntity) {
+    	          
+            	  $class = $classroomDAO->get ($personEntity->pers_entite_reference);
+            	  $classnames[] = $class->nom;
+    	        }
+    	        
+    	        $person->classrooms = implode(', ', $classnames);
+    	      }
+    	      else {
+    	        
+    	        $person->hasTeacherRoleInSchool = false;
+    	      }
+    	    }
+    	    
     	    break;
     	  case 'BU_CLASSE':
     	    // Récupération des enseignants
