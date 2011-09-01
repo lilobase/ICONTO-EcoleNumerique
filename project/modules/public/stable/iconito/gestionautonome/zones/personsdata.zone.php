@@ -47,7 +47,8 @@ class ZonePersonsData extends CopixZone {
     	        $person->hasTeacherRoleInSchool = true;
     	        
     	        // Récupération du nom des classes ou il est affecté
-    	        $personEntities = $personEntityDAO->getTeacherRoleInSchool ($person->numero, $id, true);
+    	        $classnames = array();
+				$personEntities = $personEntityDAO->getTeacherRoleInSchool ($person->numero, $id, true);
     	        foreach ($personEntities as $personEntity) {
     	          
             	  $class = $classroomDAO->get ($personEntity->pers_entite_reference);
