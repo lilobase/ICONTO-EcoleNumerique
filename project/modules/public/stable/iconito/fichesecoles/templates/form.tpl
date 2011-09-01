@@ -70,16 +70,9 @@
 
     </td>
 </tr>
-
-<tr>
- <td COLSPAN="4" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="|fiche" id=$rEcole->numero}'" type="button" value="{i18n key="kernel|kernel.btn.cancel"}" /> <input class="button button-save" type="submit" name="ok" value="{i18n key="kernel|kernel.btn.save"}" /></td>
-</tr>
-
 </table>
 
-
-
-
+<div class="center"><a class="button button-cancel" href="{copixurl dest="|fiche" id=$rEcole->numero}">{i18n key="kernel|kernel.btn.cancel"}</a> <input class="button button-save" type="submit" name="ok" value="{i18n key="kernel|kernel.btn.save"}" /></div>
 
 
 </form>

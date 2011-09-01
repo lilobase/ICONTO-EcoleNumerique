@@ -27,8 +27,6 @@ class ActionGroupDefault extends EnicActionGroup {
    */
 	 function fiche () {
 		
-    CopixHTMLHeader::addCSSLink (_resource("styles/module_fichesecoles.css")); 
-    
 		$id = $this->getRequest('id', null);
 		$iPopup = CopixRequest::getInt('popup');
 
@@ -83,13 +81,6 @@ class ActionGroupDefault extends EnicActionGroup {
 			$menu[] = array(
 				'url' => CopixUrl::get('annuaire||getAnnuaireEcole', array('ecole'=>$rEcole->numero)),
 				'txt' => CopixI18N::get ('annuaire|annuaire.backEcole'),
-			);
-
-		if (FichesEcolesService::canMakeInFicheEcole($id,'MODIFY'))
-			$menu[] = array(
-				'url' => CopixUrl::get('admin|form', array('id'=>$rEcole->numero)),
-				'txt' => CopixI18N::get ('kernel|kernel.btn.modify'),
-        'type' => 'update',
 			);
     
 		$tpl->assign ('MENU', $menu);

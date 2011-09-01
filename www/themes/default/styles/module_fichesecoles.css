@@ -1,6 +1,5 @@
 
 div#fichesecoles {
-	background-color:#fff;
 	padding:2px;
 	min-height:350px;
 }
@@ -20,7 +19,7 @@ div#fichesecoles td.pratique {
 div#fichesecoles td.texte {
 	vertical-align:top;
 	padding:5px;
-	font-size:0.9em;
+	/*font-size:0.9em;*/
 }
 
 div#fichesecoles td.pratique a.fichier {
@@ -55,7 +54,7 @@ div#fichesecoles div.fiche {
 div#fichesecoles div.ficheVille {
 	background:#F9F7DF;
 	padding:5px;
-	-moz-border-radius:8px;
+	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
 	margin-bottom:10px;
 }
 div#fichesecoles div.ficheVille div.fiche {
@@ -65,7 +64,7 @@ div#fichesecoles div.ficheVille div.fiche {
 div#fichesecoles div.classes {
 	background:#f3f3f3;
 	padding:3px;
-	-moz-border-radius:8px;
+	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
 	float:left;
 	width:270px;
 }
@@ -78,10 +77,9 @@ div#fichesecoles div.classes img.icon {
 
 div#fichesecoles div.horaires {
 	background:#f3f3f3;
-	padding:3px;
-	-moz-border-radius:8px;
-	float:right;
-	width:250px;
+	padding:3px; margin:0 0 10px 0;
+	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
+	width:270px;
 	font-size:0.9em;
 }
 div#fichesecoles div.horaires div.fiche {
@@ -90,47 +88,48 @@ div#fichesecoles div.horaires div.fiche {
 div#fichesecoles div.horaires img.icon {
 	float:right;
 }
-
-div#fichesecoles div.blog {
+table td.voirBlogs {
+	width:240px;
+	text-align:left;
+	vertical-align:top;
+	position:relative;
+}
+div#fichesecoles a.blog {
 	/*right:5px;*/
-	float:right;
-	margin-top:10px; padding:12px;
+	display:block;
+	margin-top:10px; padding:12px; border:2px solid #E0E9E4;
 	width:130px;
-	background:#E0E9E4;
-	font-weight:bolder;	font-size:1.1em;
-	-moz-border-radius:8px;
+	background:#fff; color:#000;
+	font-weight:bold; font-size:1.1em;
+	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
 }
-
-div#fichesecoles div.blog a {
-	color:#000;
+div#fichesecoles a.blog:hover {
+	border-color:#fff;
+	color:#444; background:#E0E9E4;
 }
-div#fichesecoles div.blog a:hover {
-	color:#444;
-}
-div#fichesecoles div.blog img.icon {
+div#fichesecoles a.blog img.icon {
 	float:left;
-	margin-right:12px;
+	margin-right:12px; border:0;
 }
 div#fichesecoles div#ficheblogs {
-	position:relative; top:30px; left:180px;
+	position:relative; top:-15px; left:10px;
 	border:solid 4px #fff;
 	width:230px;
 	background:#E0E9E4;
 	font-weight:normal; font-size:0.9em;
-	-moz-border-radius:8px;
+	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
+	overflow:visible;
+	z-index:auto; zoom:1;
 }
 div#fichesecoles div#ficheblogs div.inner {
 	padding:6px;
 }
-div#fichesecoles div#ficheblogs div.inner div.close {
-	float:right;
+div#fichesecoles div#ficheblogs div.inner a.close {
+	float:right; display:block;
 	font-size:0.8em;
 	color:#A5A5A5;
 }
-div#fichesecoles div#ficheblogs div.inner div.close a {
-	color:#A5A5A5;
-}
-
+div#fichesecoles div#ficheblogs div.inner a.close:hover {color:#000;}
 div#fichesecoles div#ficheblogs div.inner div.annee {
 	font-size:0.9em;
 	color:#444;

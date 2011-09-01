@@ -16,18 +16,22 @@ function loadGoogleMapsEcole (latitude, longitude, isAjax) {
 
 function ficheViewBlogs (ecoleId, annee) {
 
-	if (!$('#ficheblogs').html() || annee!='close') {
-    
-    $('#ficheblogs').html('<div align="center"><img src="'+getRessourcePathImg+'ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>');
-    $('#ficheblogs').show();
-    
-    var url = getActionURL('fichesecoles|default|blogs');
-		var pars = 'id='+ecoleId+'&annee='+annee;
-    $('#ficheblogs').load( url, pars, function () {
-  	});
+	if (!$('#ficheblogs').html() || annee!='close') 
+	{
+    	$('#ficheblogs').html('<div align="center"><img src="'+getRessourcePathImg+'ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>');
+		$('#ficheblogs').show();
 		
-	} else if (annee == 'close') {
-    $('#ficheblogs').toggle();
+		var url = getActionURL('fichesecoles|default|blogs');
+		var pars = 'id='+ecoleId+'&annee='+annee;
+		$('#ficheblogs').load( url, pars, function () {
+			var h = $(this).height();
+			$(this).height(h);
+		});
+		
+	}
+	else if (annee == 'close') 
+	{
+    	$('#ficheblogs').toggle();
 	}
 }
 

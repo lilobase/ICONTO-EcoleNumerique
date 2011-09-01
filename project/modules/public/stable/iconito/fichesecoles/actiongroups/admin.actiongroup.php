@@ -23,8 +23,6 @@ class ActionGroupAdmin extends CopixActionGroup {
      */
     function form() {
 
-        CopixHTMLHeader::addCSSLink(_resource("styles/module_fichesecoles.css"));
-
         $id = $this->getRequest('id', null);
         $save = $this->getRequest('save', null);
 

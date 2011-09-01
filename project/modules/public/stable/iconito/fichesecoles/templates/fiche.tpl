@@ -1,4 +1,4 @@
-
+{if $canModify}<p class="right"><a href="{copixurl dest="admin|form" id=$rEcole->numero}" class="button button-update">{i18n key="kernel|kernel.btn.modify"}</a></p>{/if}
 <div id="fichesecoles">
 
 <table>
@@ -26,7 +26,7 @@
     {else}
     <div style="font-style:italic;font-size:0.8em;">{i18n key="fichesecoles.fields.noplan"}</div>
     {/if}
-    <div><a target="_blank" href="http://maps.google.fr/maps?q={$rEcole->googleAdresse|urlencode}">{i18n key="fichesecoles.fields.viewplan"}</a></div>
+    <div><a class="button button-search" target="_blank" href="http://maps.google.fr/maps?q={$rEcole->googleAdresse|urlencode}">{i18n key="fichesecoles.fields.viewplan"}</a></div>
 {/if}
 
 {if $rFiche->doc1_fichier}
@@ -103,19 +103,14 @@
 </div>
 
 
-
+</td>
+<td class="voirBlogs">
 
 {if $rEcole->blog || $arClassesBlogs}
-	<div style="position:relative; clear:both;">
-        <div class="blog">
-            <img class="icon" alt="{i18n key="fichesecoles.fields.viewblogs"}" title="{i18n key="fichesecoles.fields.viewblogs"}" border="0" width="56" height="62" src="{copixresource path="img/fichesecoles/icon_blog.gif"}" />
-            <div><a href="javascript:ficheViewBlogs({$rEcole->numero},'');" title="{i18n key="fichesecoles.fields.viewblogs"}">{i18n key="fichesecoles.fields.viewblogs"}</a></div>
-        </div>
-      	<div id="ficheblogs" style="display:none;"></div>
-	</div>
+    	<a class="blog" href="javascript:ficheViewBlogs({$rEcole->numero},'');" title="{i18n key="fichesecoles.fields.viewblogs"}"><img class="icon" alt="{i18n key="fichesecoles.fields.viewblogs"}" title="{i18n key="fichesecoles.fields.viewblogs"}" width="56" height="62" src="{copixresource path="img/fichesecoles/icon_blog.gif"}" /> {i18n key="fichesecoles.fields.viewblogs"}</a>
+    	<div id="ficheblogs" style="display:none;"></div>
 {/if}
 
-<br class="clearBoth" />
 
 {if $rFiche->zone1_titre && $rFiche->zone1_texte}
 	<div class="fiche">{$rFiche->zone1_titre|escape}</div>

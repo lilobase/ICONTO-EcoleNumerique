@@ -1,6 +1,6 @@
 <div class="inner">
 
-<div class="close">[ <a href="javascript:ficheViewBlogs({$rEcole->numero},'close');">{i18n key="annuaire|annuaire.btn.close"}</a> ]</div>
+<a class="close" href="javascript:ficheViewBlogs({$rEcole->numero},'close');">[ {i18n key="annuaire|annuaire.btn.close"} ]</a>
 
 
 {if $comboAnnees}
