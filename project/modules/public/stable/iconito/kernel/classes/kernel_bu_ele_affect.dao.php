@@ -83,6 +83,28 @@ class DAOKernel_bu_ele_affect {
 
     return $results[0]->count; 
 	}
+	
+	/**
+	 * Retourne l'affectation pour un élève et une année scolaire
+	 *
+	 * @param int $studentId Identifiant d'un élève
+	 * @param int $gradeId   Identifiant de l'année scolaire
+	 * @return DAORecord
+	 */
+	public function getByStudentAndGrade ($studentId, $gradeId, $current = null) {
+		
+		$criteria = _daoSp ();
+		$criteria->addCondition ('affect_eleve', '=', $studentId);
+		$criteria->addCondition ('affect_annee_scol', '=', $gradeId);
+		if (!is_null ($current)) {
+		  
+		   $criteria->addCondition ('affect_current', '=', $current);
+		}
+		
+		$results = $this->findBy ($criteria);
+		
+		return isset ($results[0]) ? $results[0] : false;
+	}
 
 }
 

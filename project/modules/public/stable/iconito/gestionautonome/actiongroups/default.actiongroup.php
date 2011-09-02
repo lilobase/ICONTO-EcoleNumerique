@@ -5884,7 +5884,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->sourceLevels = $ppo->sourceClassroom->getLevels ();
 
       // Récupération des élèves sans affectation
-      $ppo->students = $studentDAO->findOldStudentsAssignmentsForNewAssignement ($ppo->sourceClassroom->id, $ppo->oldGrade->id_as, $ppo->nextGrade->id_as);
+      $ppo->students = $studentDAO->getStudentsByClass ($ppo->sourceClassroom->id);
     }
 
     $ppo->error = null;
@@ -5924,18 +5924,23 @@ class ActionGroupDefault extends enicActionGroup {
 
       if (!$ppo->error) {
 
-        $studentAssignmentDAO = _ioDAO ('kernel_bu_eleve_affectation');
+        $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
         foreach ($ids as $id) {
-
+          
+          // Si l'utilisateur est déjà affecté
+          if ($oldStudentAssignment = $studentAssignmentDAO->getByStudentAndGrade($id, $ppo->nextGrade->id_as, true)) {
+            
+            $oldStudentAssignment->affect_current = 0;
+            $studentAssignmentDAO->update ($oldStudentAssignment);
+          }
+          
           $studentAssignment = _record ('kernel_bu_eleve_affectation');
 
-          $studentAssignment->eleve           = $id;
-          $studentAssignment->annee_scol      = $ppo->nextGrade->id_as;
-          $studentAssignment->classe          = $ppo->destinationClassroom->id;
-          $studentAssignment->niveau          = _request ('level_'.$id);
-          $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
-          $studentAssignment->current         = 1;
-          $studentAssignment->previsionnel_cl = 0;
+          $studentAssignment->affect_eleve           = $id;
+          $studentAssignment->affect_annee_scol      = $ppo->nextGrade->id_as;
+          $studentAssignment->affect_classe          = $ppo->destinationClassroom->id;
+          $studentAssignment->affect_niveau          = _request ('level_'.$id);
+          $studentAssignment->affect_current         = 1;
 
           $studentAssignmentDAO->insert ($studentAssignment);
         }
