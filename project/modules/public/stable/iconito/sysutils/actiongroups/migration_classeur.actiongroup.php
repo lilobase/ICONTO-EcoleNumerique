@@ -44,6 +44,8 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			if( !isset($album_tree[$album_item->album_id])) {
 				$album_tree[$album_item->album_id] = new CopixPPO();
 				$album_tree[$album_item->album_id]->info = $album_item;
+				$parent = Kernel::getModParent( "MOD_ALBUM", $album_item->album_id );
+				$album_tree[$album_item->album_id]->parent = $parent[0];
 				$album_tree[$album_item->album_id]->dossier = array();
 				$album_tree[$album_item->album_id]->photo = array();
 			}
@@ -73,6 +75,13 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			if( !isset($malle_tree[$malle_item->id])) {
 				$malle_tree[$malle_item->id] = new CopixPPO();
 				$malle_tree[$malle_item->id]->info = $malle_item;
+				
+				$parent = Kernel::getModParent( "MOD_MALLE", $malle_item->id );
+				$malle_tree[$malle_item->id]->parent = $parent[0];
+				
+				$user_parents = Kernel::getNodeParents( $parent[0]->node_type, $parent[0]->node_id );
+				$malle_tree[$malle_item->id]->user_parents = $user_parents;
+				
 				$malle_tree[$malle_item->id]->dossier = array();
 				$malle_tree[$malle_item->id]->docs = array();
 			}
@@ -84,7 +93,80 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		
 		
 		
-		echo "<pre>"; print_r( $malle_tree ); die();
+		/////////////////////////////////////
+		/////////////////////////////////////
+		
+		// kernel_mod_enabled : node_type 	node_id 	module_type 	module_id
+		// module_classeur : id 	titre 	cle 	date_creation 	date_publication 	public
+		// module_classeur_dossier : id 	module_classeur_id 	parent_id 	nom 	nb_dossiers 	nb_fichiers 	taille 	cle 	date_creation 	user_type 	user_id 	date_publication 	public
+		// module_classeur_fichier : id 	module_classeur_id 	module_classeur_dossier_id 	titre 	commentaire 	fichier 	taille 	type 	cle 	date_upload 	user_type 	user_id
+		
+		foreach( $album_tree AS $album_item ) {
+			
+			
+			//// RECHERCHE D'UN CLASSEUR EXISTANT
+			$sql = "
+				SELECT module_id
+				FROM kernel_mod_enabled
+				WHERE node_type=:node_type AND node_id=:node_id AND module_type=:module_type
+			";
+			$param = array(
+				'node_type'   => $album_item->parent->node_type,
+				'node_id'     => $album_item->parent->node_id,
+				'module_type' => 'MOD_CLASSEUR'
+			);
+			$mod_classeur = _doQuery( $sql, $param );
+			if( !isset($mod_classeur[0]) ) {
+				$file     = & CopixSelectorFactory::create("classeur|classeur");
+				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
+				$modservice = & CopixClassesFactory::Create ('classeur|kernelclasseur');
+				if( method_exists( $modservice, "create" ) ) {
+					$modid = $modservice->create(array('title'=>'', 'subtitle'=>'', 'node_type'=>$album_item->parent->node_type, 'node_id'=>$album_item->parent->node_id));
+					if( $modid != null ) {
+						Kernel::registerModule( 'MOD_CLASSEUR', $modid, $album_item->parent->node_type, $album_item->parent->node_id );
+					}
+				}
+				$classeur_id = $modid;
+			} else {
+				$classeur_id = $mod_classeur[0]->module_id;
+			}
+			
+			$classeurDAO  = _ioDAO('classeur|classeur');
+			$classeur = $classeurDAO->get($classeur_id);
+			$new_dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+			if (!file_exists($new_dir)) {
+				mkdir($new_dir, 0755, true);
+			}
+			
+				
+			//// CREATION D'UN DOSSIER D'IMPORT
+			$dossierDAO = _ioDAO('classeur|classeurdossier');
+			$dossier = _record ('classeur|classeurdossier');
+
+			$dossier->classeur_id    = $classeur_id;
+			$dossier->parent_id      = 0;
+			$dossier->nom            = "Import Album ".$album_item->info->album_id;
+			$dossier->cle            = $album_item->info->album_cle;
+			$dossier->date_creation  = $album_item->info->album_date;
+			$dossier->user_type      = "";
+			$dossier->user_id        = "";
+			$dossier->nb_dossiers    = 0;
+			$dossier->nb_fichiers    = 0;
+			$dossier->taille         = 0;
+			
+			$dossierDAO->insert ($dossier);
+
+			// $dossier->id
+
+			$this->albumImport( $album_item, $dossier );
+			
+			
+			// updateFolderInfosWithDescendants ($folder)
+			
+			
+		}
+		
+		echo "<pre>"; print_r( $album_tree ); die();
 		
 		$tplCache = & new CopixTpl();
 		$tplCache->assign ('info', CopixZone::process('sysutils|cacheStatus'));
@@ -121,8 +203,9 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		
 		$sql = "
 			SELECT
-				P.id AS photo_id, P.id AS photo_id, P.id_album AS photo_id_album, P.id_dossier AS photo_id_dossier, P.nom AS photo_nom, P.commentaire AS photo_commentaire, P.date AS photo_date, P.ext AS photo_ext, P.cle AS photo_cle, P.public AS photo_public
+				P.id AS photo_id, P.id AS photo_id, P.id_album AS photo_id_album, P.id_dossier AS photo_id_dossier, P.nom AS photo_nom, P.commentaire AS photo_commentaire, P.date AS photo_date, P.ext AS photo_ext, P.cle AS photo_cle, P.public AS photo_public, A.cle AS album_cle
 			FROM module_album_photos P
+			JOIN module_album_albums A ON A.id=P.id_album
 			WHERE P.id_album=:id_album AND P.id_dossier=:id_dossier
 			ORDER BY P.id
 		";
@@ -181,5 +264,103 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		return $return;
 	}
 	
+	private function albumImport( $album_dossier, $classeur_dossier ) {
+		$tailles = explode(",",CopixConfig::get ('album|thumb_sizes'));
+						
+		$classeurDAO = _ioDAO('classeur|classeur');
+		$classeur = $classeurDAO->get($classeur_dossier->classeur_id);
+		// print_r($classeur); die();
+		
+				
+		if( count($album_dossier->dossier) ) {
+			// Import dossiers
+			foreach( $album_dossier->dossier AS $album_dossier_item ) {
+				
+				$dossierDAO = _ioDAO('classeur|classeurdossier');
+				$dossier = _record ('classeur|classeurdossier');
+	
+				$dossier->classeur_id    = $classeur_dossier->classeur_id;
+				$dossier->parent_id      = $classeur_dossier->id;
+				$dossier->nom            = $album_dossier_item->info->dossier_nom;
+				$dossier->cle            = $album_dossier_item->info->dossier_cle;
+				$dossier->date_creation  = $album_dossier_item->info->dossier_date;
+				$dossier->user_type      = ""; // TODO
+				$dossier->user_id        = ""; // TODO
+				$dossier->nb_dossiers    = 0;
+				$dossier->nb_fichiers    = 0;
+				$dossier->taille         = 0;
+				
+				$dossierDAO->insert ($dossier);
+				
+				
+				$this->albumImport( $album_dossier_item, $dossier );
+			}
+		}
+		if( count($album_dossier->photo) ) {
+			// Import photos
+			foreach( $album_dossier->photo AS $album_photo_item ) {
+				// print_r($album_photo_item); die();
+				
+/*
+[photo_id] => 27
+[photo_id_album] => 1
+[photo_id_dossier] => 6
+[photo_nom] => Photo niveau 3
+[photo_commentaire] => 
+[photo_date] => 2011-09-01 16:00:51
+[photo_ext] => png
+[photo_cle] => 238eeea0a9
+[photo_public] => 
+*/
+
+				// module_classeur_fichier : id 	module_classeur_id 	module_classeur_dossier_id 	titre 	commentaire 	fichier 	taille 	type 	cle 	date_upload 	user_type 	user_id
+				
+				$fichierDAO = _ioDAO('classeur|classeurfichier');
+				$fichier = _record ('classeur|classeurfichier');
+	
+				$fichier->classeur_id    = $classeur_dossier->classeur_id;
+				$fichier->dossier_id     = $classeur_dossier->id;
+				$fichier->titre          = $album_photo_item->photo_nom;
+				$fichier->commentaire    = $album_photo_item->photo_commentaire;
+				$fichier->cle            = $album_photo_item->photo_cle;
+				$fichier->date_upload    = $album_photo_item->photo_date;
+				$fichier->user_type      = ""; // TODO
+				$fichier->user_id        = ""; // TODO
+
+				$fichier->taille         = 0; // TODO
+				$fichier->type           = strtoupper($album_photo_item->photo_ext); // TODO
+				$fichier->fichier        = $album_photo_item->photo_nom.'.'.$album_photo_item->photo_ext; // 'image-'.$album_photo_item->photo_id.".".$album_photo_item->photo_ext; // TODO
+				
+				$fichierDAO->insert ($fichier);
+				
+			
+				$old_file = realpath('./static/album').'/'.$album_photo_item->photo_id_album.'_'.$album_photo_item->album_cle.'/'.$album_photo_item->photo_id.'_'.$album_photo_item->photo_cle.'.'.$album_photo_item->photo_ext;
+				$new_file = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$fichier->id.'-'.$album_photo_item->photo_cle.'.'.$album_photo_item->photo_ext;
+				copy( $old_file, $new_file );
+				
+				foreach( $tailles AS $taille ) {
+					$old_file = realpath('./static/album').'/'.$album_photo_item->photo_id_album.'_'.$album_photo_item->album_cle.'/'.$album_photo_item->photo_id.'_'.$album_photo_item->photo_cle.'_'.$taille.'.'.$album_photo_item->photo_ext;
+					$new_file = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$fichier->id.'-'.$album_photo_item->photo_cle.'_'.$taille.'.'.$album_photo_item->photo_ext;
+					copy( $old_file, $new_file );
+					// echo "<li>".$old_file." &raquo; ".$new_file;
+				
+				}				
+				// echo "<li>".$old_file." &raquo; ".$new_file;
+				
+				
+				
+				/*
+				./album/2_313fc27fdf/26_88ac2e9434_480.jpg
+				./album/3_5ac946b20b
+				./classeur/4-1d691e55c5
+				./classeur/4-1d691e55c5/1-81338881fe.pdf
+				
+				$filepath   = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$file->id.'-'.$file->cle.$extension;
+				
+				*/
+
+			}
+		}
+	}
 }
 ?>
