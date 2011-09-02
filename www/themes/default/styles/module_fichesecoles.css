@@ -38,7 +38,8 @@ div#fichesecoles div.photo img {
 div#fichesecoles div.ecole_classe_enseignant table td {
 	vertical-align:top;
 }
-div#fichesecoles a.viewuser:hover {
+div#fichesecoles a.viewuser:hover, 
+div#fichesecoles #ficheblogs a:hover {
 	border-bottom:1px dotted;
 }
 
