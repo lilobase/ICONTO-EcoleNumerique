@@ -157,7 +157,7 @@ class DAOKernel_bu_ele {
 	 */
   function getStudentsByClass ($classId) {
     
-    $sql = 'SELECT E.idEleve, E.idEleve as id, E.nom, E.prenom1, E.id_sexe, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe, CN.niveau_court AS niveau, CN.id_n AS niveauId' 
+    $sql = 'SELECT E.idEleve, E.idEleve as id, E.nom, E.prenom1, E.prenom1 as prenom, E.id_sexe, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe, CN.niveau_court AS niveau, CN.id_n AS niveauId' 
       . ' FROM kernel_bu_eleve E, kernel_bu_eleve_affectation A, kernel_link_bu2user LI, dbuser U, kernel_bu_classe_niveau CN, kernel_bu_ecole_classe CL'
 		  . ' WHERE E.idEleve = A.eleve'
 		  . ' AND A.classe = CL.id'
