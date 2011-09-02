@@ -8,7 +8,14 @@
       <h3>Classe d'origine</h3>
       <dl>
         <dt>Année scolaire :</dt>
-          <dd>{$ppo->currentGrade->annee_scolaire}</dd>
+          <dd>
+            <select name="oldGradeId" id="old-grade-id">
+              {foreach from=$ppo->grades item=grade}
+                <option value="{$grade->id_as}"{if $ppo->oldGrade->id_as == $grade->id_as} selected="selected"{/if}>{$grade->annee_scolaire}</option>
+              {/foreach}
+            </select>
+            <input type="submit" value="Rafaîchir" id="refresh-grade" />
+          </dd>
         <dt>Groupe de ville :</dt>
           <dd>Les villes</dd>
         <dt>Ville :</dt>
@@ -18,6 +25,7 @@
         <dt>Classe (niveau) :</dt>
           <dd>
             <select name="sourceClassroomId" id="source-classroom-id">
+              <option value="">&nbsp;</option>
               {foreach from=$ppo->sourceClassrooms item=sourceClassroomOption}
                 <option value="{$sourceClassroomOption->id}"{if $sourceClassroomOption->id == $ppo->sourceClassroom->id} selected="selected"{/if}>{$sourceClassroomOption}</option>
               {/foreach}
@@ -32,9 +40,9 @@
       <dl>
         <dt>Année scolaire :</dt>
           <dd>
-            <select name="gradeId" id="grade-id">
+            <select name="nextGradeId" id="next-grade-id">
               {foreach from=$ppo->grades item=grade}
-                {if $ppo->currentGrade->id_as < $grade->id_as}
+                {if $ppo->currentGrade->id_as <= $grade->id_as}
                   <option value="{$grade->id_as}"{if $ppo->nextGrade->id_as == $grade->id_as} selected="selected"{/if}>{$grade->annee_scolaire}</option>
                 {/if}
               {/foreach}
@@ -68,7 +76,7 @@
       </ul>
     </div>
   {/if}
-    {copixzone process=gestionautonome|studentsToAssign destinationClassroom=$ppo->destinationClassroom sourceClassroom=$ppo->sourceClassroom currentGrade=$ppo->currentGrade nextGrade=$ppo->nextGrade}
+    {copixzone process=gestionautonome|studentsToAssign destinationClassroom=$ppo->destinationClassroom sourceClassroom=$ppo->sourceClassroom currentGrade=$ppo->currentGrade oldGrade=$ppo->oldGrade nextGrade=$ppo->nextGrade}
 </div>
 
 <a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
@@ -79,7 +87,23 @@
   jQuery(document).ready(function(){
  	  jQuery("#filter-form input[type='submit']").hide();
  	  
- 	  jQuery("#grade-id").change(function(){
+ 	  jQuery("#old-grade-id").change(function(){
+ 	    jQuery.ajax({
+        url: {/literal}"{copixurl dest=gestionautonome|default|refreshClassroomSelector schoolId=$ppo->sourceClassroom->ecole}"{literal},
+        global: true,
+        type: "GET",
+        data: ({gradeId: $(this).val(), withEmpty: true}),
+        success: function(options){
+          jQuery("#students-selector").empty();
+          jQuery("#source-classroom-id").empty();
+          jQuery("#source-classroom-id").append(options)
+        }
+      });
+      
+      return false;
+ 	  });
+ 	  
+ 	  jQuery("#next-grade-id").change(function(){
  	    jQuery.ajax({
         url: {/literal}"{copixurl dest=gestionautonome|default|refreshClassroomSelector schoolId=$ppo->sourceClassroom->ecole}"{literal},
         global: true,
@@ -104,7 +128,7 @@
         url: {/literal}"{copixurl dest=gestionautonome|default|refreshStudentsToAssign}"{literal},
         global: true,
         type: "GET",
-        data: {destinationClassroomId: jQuery("#destination-classroom-id").val(), sourceClassroomId: jQuery("#source-classroom-id").val(), nextGradeId: jQuery("#grade-id").val(), currentGradeId: "{/literal}{$ppo->currentGrade->id_as}"{literal}},
+        data: {destinationClassroomId: jQuery("#destination-classroom-id").val(), sourceClassroomId: jQuery("#source-classroom-id").val(), oldGradeId: jQuery("#old-grade-id").val(), nextGradeId: jQuery("#next-grade-id").val()},
         success: function(list){
           jQuery("#students-selector").empty();
           jQuery("#students-selector").append(list)

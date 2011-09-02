@@ -2,7 +2,7 @@
   {foreach from=$ppo->sourceLevels item=level}
     <input type="checkbox" value="{$level->id_n}" id="level_{$level->id_n}" class="check-students-by-levels" /><label for="level_{$level->id_n}">{$level}</label>
   {/foreach}
-  <form action="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->sourceClassroom->id destinationClassroomId=$ppo->destinationClassroom->id gradeId=$ppo->nextGrade->id_as}" method="post" id="setting-form">
+  <form action="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->sourceClassroom->id destinationClassroomId=$ppo->destinationClassroom->id oldGradeId=$ppo->oldGrade->id_as nextGradeId=$ppo->nextGrade->id_as}" method="post" id="setting-form">
     <table>
       <thead>
         <tr>

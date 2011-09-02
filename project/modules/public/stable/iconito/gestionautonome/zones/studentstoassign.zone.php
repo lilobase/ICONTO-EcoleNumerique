@@ -15,6 +15,7 @@ class ZoneStudentsToAssign extends CopixZone {
 	  $ppo->sourceClassroom = $this->getParam ('sourceClassroom');
 	  $ppo->currentGrade = $this->getParam ('currentGrade');
 	  $ppo->nextGrade = $this->getParam ('nextGrade');
+	  $ppo->oldGrade = $this->getParam ('oldGrade');
 	  
 	  // Récupération des niveaux
     $ppo->sourceLevels = $ppo->sourceClassroom->getLevels ();
@@ -22,7 +23,7 @@ class ZoneStudentsToAssign extends CopixZone {
     
     // Récupération des élèves sans affectation
     $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
-    $ppo->students = $studentDAO->findOldStudentsAssignmentsForNewAssignement ($ppo->sourceClassroom->id, $ppo->currentGrade->id_as, $ppo->nextGrade->id_as);
+    $ppo->students = $studentDAO->findOldStudentsAssignmentsForNewAssignement ($ppo->sourceClassroom->id, $ppo->oldGrade->id_as, $ppo->nextGrade->id_as);
 	  
     $toReturn = $this->_usePPO ($ppo, '_students_to_assign.tpl');
   }
