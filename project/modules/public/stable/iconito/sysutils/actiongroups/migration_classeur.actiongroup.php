@@ -121,11 +121,30 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			);
 			$mod_classeur = _doQuery( $sql, $param );
 			if( !isset($mod_classeur[0]) ) {
+                switch($album_item->parent->node_type) {
+                    case "BU_CLASSE":
+                        $sql = "SELECT nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
+                        break;
+                    case "BU_ECOLE":
+                        $sql = "SELECT nom FROM kernel_bu_ecole_ecole WHERE id = :node_id";
+                        break;
+                    case "BU_VILLE":
+                        $sql = "SELECT nom FROM kernel_bu_ville WHERE id = :node_id";
+                        break;
+                    case "CLUB":
+                        $sql = "SELECT titre as nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
+                        break;
+                }
+                $param = array(
+                    'node_id'     => $album_item->parent->node_id,
+                );
+                $node_info = _doQuery( $sql, $params );
+
 				$file     = & CopixSelectorFactory::create("classeur|classeur");
 				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
 				$modservice = & CopixClassesFactory::Create ('classeur|kernelclasseur');
 				if( method_exists( $modservice, "create" ) ) {
-					$modid = $modservice->create(array('title'=>'Classeur', 'subtitle'=>'', 'node_type'=>$album_item->parent->node_type, 'node_id'=>$album_item->parent->node_id));
+					$modid = $modservice->create(array('title'=>$node_info[0]->nom, 'subtitle'=>'', 'node_type'=>$album_item->parent->node_type, 'node_id'=>$album_item->parent->node_id));
 					if( $modid != null ) {
 						Kernel::registerModule( 'MOD_CLASSEUR', $modid, $album_item->parent->node_type, $album_item->parent->node_id );
 					}
@@ -187,11 +206,30 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			);
 			$mod_classeur = _doQuery( $sql, $param );
 			if( !isset($mod_classeur[0]) ) {
+                switch($malle_item->parent->node_type) {
+                    case "BU_CLASSE":
+                        $sql = "SELECT nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
+                        break;
+                    case "BU_ECOLE":
+                        $sql = "SELECT nom FROM kernel_bu_ecole_ecole WHERE id = :node_id";
+                        break;
+                    case "BU_VILLE":
+                        $sql = "SELECT nom FROM kernel_bu_ville WHERE id = :node_id";
+                        break;
+                    case "CLUB":
+                        $sql = "SELECT titre as nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
+                        break;
+                }
+                $param = array(
+                    'node_id'     => $malle_item->parent->node_id,
+                );
+                $node_info = _doQuery( $sql, $params );
+
 				$file     = & CopixSelectorFactory::create("classeur|classeur");
 				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
 				$modservice = & CopixClassesFactory::Create ('classeur|kernelclasseur');
 				if( method_exists( $modservice, "create" ) ) {
-					$modid = $modservice->create(array('title'=>'Classeur', 'subtitle'=>'', 'node_type'=>$malle_item->parent->node_type, 'node_id'=>$malle_item->parent->node_id));
+					$modid = $modservice->create(array('title'=>$node_info[0]->nom, 'subtitle'=>'', 'node_type'=>$malle_item->parent->node_type, 'node_id'=>$malle_item->parent->node_id));
 					if( $modid != null ) {
 						Kernel::registerModule( 'MOD_CLASSEUR', $modid, $malle_item->parent->node_type, $malle_item->parent->node_id );
 					}
@@ -237,7 +275,8 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		}
 
 		echo "<h1>Fin</h1>";
-		echo "<pre>"; print_r( $album_tree ); print_r( $malle_tree ); die();
+		echo "<pre>"; print_r( $album_tree ); print_r( $malle_tree );
+        die();
 		
 		
 	}
@@ -386,12 +425,14 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$fichierDAO->insert ($fichier);
 				
 				$new_file = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$fichier->id.'-'.$album_photo_item->photo_cle.'.'.$album_photo_item->photo_ext;
-				copy( $old_file, $new_file );
+				if (file_exists($old_file))
+                    copy( $old_file, $new_file );
 				
 				foreach( $tailles AS $taille ) {
 					$old_file = realpath('./static/album').'/'.$album_photo_item->photo_id_album.'_'.$album_photo_item->album_cle.'/'.$album_photo_item->photo_id.'_'.$album_photo_item->photo_cle.'_'.$taille.'.'.$album_photo_item->photo_ext;
 					$new_file = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$fichier->id.'-'.$album_photo_item->photo_cle.'_'.$taille.'.'.$album_photo_item->photo_ext;
-					copy( $old_file, $new_file );
+					if (file_exists($old_file))
+                        copy( $old_file, $new_file );
 					// echo "<li>".$old_file." &raquo; ".$new_file;
 				
 				}				
@@ -469,7 +510,8 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$fichierDAO->insert ($fichier);
 				
 				$new_file = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$fichier->id.'-'.$malle_item->cle.'.'.end(explode(".", $malle_item->fichier));
-				copy( $old_file, $new_file );
+				if (file_exists($old_file))
+                    copy( $old_file, $new_file );
 				
 				// echo "<li>".$old_file." &raquo; ".$new_file;
 				
