@@ -121,30 +121,13 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			);
 			$mod_classeur = _doQuery( $sql, $param );
 			if( !isset($mod_classeur[0]) ) {
-                switch($album_item->parent->node_type) {
-                    case "BU_CLASSE":
-                        $sql = "SELECT nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
-                        break;
-                    case "BU_ECOLE":
-                        $sql = "SELECT nom FROM kernel_bu_ecole_ecole WHERE id = :node_id";
-                        break;
-                    case "BU_VILLE":
-                        $sql = "SELECT nom FROM kernel_bu_ville WHERE id = :node_id";
-                        break;
-                    case "CLUB":
-                        $sql = "SELECT titre as nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
-                        break;
-                }
-                $param = array(
-                    'node_id'     => $album_item->parent->node_id,
-                );
-                $node_info = _doQuery( $sql, $params );
+                $node_infos = getNodeInfos($album_item->parent->node_type, $album_item->parent->node_id);
 
 				$file     = & CopixSelectorFactory::create("classeur|classeur");
 				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
 				$modservice = & CopixClassesFactory::Create ('classeur|kernelclasseur');
 				if( method_exists( $modservice, "create" ) ) {
-					$modid = $modservice->create(array('title'=>$node_info[0]->nom, 'subtitle'=>'', 'node_type'=>$album_item->parent->node_type, 'node_id'=>$album_item->parent->node_id));
+					$modid = $modservice->create(array('title'=>$node_infos->nom, 'subtitle'=>'', 'node_type'=>$album_item->parent->node_type, 'node_id'=>$album_item->parent->node_id));
 					if( $modid != null ) {
 						Kernel::registerModule( 'MOD_CLASSEUR', $modid, $album_item->parent->node_type, $album_item->parent->node_id );
 					}
@@ -206,30 +189,13 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			);
 			$mod_classeur = _doQuery( $sql, $param );
 			if( !isset($mod_classeur[0]) ) {
-                switch($malle_item->parent->node_type) {
-                    case "BU_CLASSE":
-                        $sql = "SELECT nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
-                        break;
-                    case "BU_ECOLE":
-                        $sql = "SELECT nom FROM kernel_bu_ecole_ecole WHERE id = :node_id";
-                        break;
-                    case "BU_VILLE":
-                        $sql = "SELECT nom FROM kernel_bu_ville WHERE id = :node_id";
-                        break;
-                    case "CLUB":
-                        $sql = "SELECT titre as nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
-                        break;
-                }
-                $param = array(
-                    'node_id'     => $malle_item->parent->node_id,
-                );
-                $node_info = _doQuery( $sql, $params );
+                $node_infos = $this->getNodeInfos($malle_item->parent->node_type, $malle_item->parent->node_id);
 
 				$file     = & CopixSelectorFactory::create("classeur|classeur");
 				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
 				$modservice = & CopixClassesFactory::Create ('classeur|kernelclasseur');
 				if( method_exists( $modservice, "create" ) ) {
-					$modid = $modservice->create(array('title'=>$node_info[0]->nom, 'subtitle'=>'', 'node_type'=>$malle_item->parent->node_type, 'node_id'=>$malle_item->parent->node_id));
+					$modid = $modservice->create(array('title'=>$node_infos->nom, 'subtitle'=>'', 'node_type'=>$malle_item->parent->node_type, 'node_id'=>$malle_item->parent->node_id));
 					if( $modid != null ) {
 						Kernel::registerModule( 'MOD_CLASSEUR', $modid, $malle_item->parent->node_type, $malle_item->parent->node_id );
 					}
@@ -530,6 +496,29 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			}
 		}
 	}
+
+    private function getNodeInfos ($node_type, $node_id) {
+        switch($node_type) {
+            case "BU_CLASSE":
+                $sql = "SELECT nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
+                break;
+            case "BU_ECOLE":
+                $sql = "SELECT nom FROM kernel_bu_ecole WHERE numeo = :node_id";
+                break;
+            case "BU_VILLE":
+                $sql = "SELECT nom FROM kernel_bu_ville WHERE id_vi = :node_id";
+                break;
+            case "CLUB":
+                $sql = "SELECT titre as nom FROM module_groupe_groupe WHERE id = :node_id";
+                break;
+        }
+        $param = array(
+            'node_id'     => $node_id,
+        );
+        $node_info = _doQuery( $sql, $param );
+
+        return $node_info[0];
+    }
 	
 }
 ?>
