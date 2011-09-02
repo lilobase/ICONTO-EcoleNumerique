@@ -511,6 +511,10 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
             case "CLUB":
                 $sql = "SELECT titre as nom FROM module_groupe_groupe WHERE id = :node_id";
                 break;
+            default:
+                $retour = new CopixPPO();
+                $retour->nom = 'Classeur';
+                return $retour;
         }
         $param = array(
             'node_id'     => $node_id,
