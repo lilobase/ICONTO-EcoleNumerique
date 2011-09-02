@@ -125,7 +125,7 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
 				$modservice = & CopixClassesFactory::Create ('classeur|kernelclasseur');
 				if( method_exists( $modservice, "create" ) ) {
-					$modid = $modservice->create(array('title'=>'', 'subtitle'=>'', 'node_type'=>$album_item->parent->node_type, 'node_id'=>$album_item->parent->node_id));
+					$modid = $modservice->create(array('title'=>'Classeur', 'subtitle'=>'', 'node_type'=>$album_item->parent->node_type, 'node_id'=>$album_item->parent->node_id));
 					if( $modid != null ) {
 						Kernel::registerModule( 'MOD_CLASSEUR', $modid, $album_item->parent->node_type, $album_item->parent->node_id );
 					}
@@ -171,7 +171,73 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		}
 		
 		
-		echo "<pre>"; print_r( $malle_tree ); die();
+		// IMPORT MALLES
+		if(1) foreach( $malle_tree AS $malle_item ) {
+			
+			//// RECHERCHE D'UN CLASSEUR EXISTANT
+			$sql = "
+				SELECT module_id
+				FROM kernel_mod_enabled
+				WHERE node_type=:node_type AND node_id=:node_id AND module_type=:module_type
+			";
+			$param = array(
+				'node_type'   => $malle_item->parent->node_type,
+				'node_id'     => $malle_item->parent->node_id,
+				'module_type' => 'MOD_CLASSEUR'
+			);
+			$mod_classeur = _doQuery( $sql, $param );
+			if( !isset($mod_classeur[0]) ) {
+				$file     = & CopixSelectorFactory::create("classeur|classeur");
+				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
+				$modservice = & CopixClassesFactory::Create ('classeur|kernelclasseur');
+				if( method_exists( $modservice, "create" ) ) {
+					$modid = $modservice->create(array('title'=>'Classeur', 'subtitle'=>'', 'node_type'=>$malle_item->parent->node_type, 'node_id'=>$malle_item->parent->node_id));
+					if( $modid != null ) {
+						Kernel::registerModule( 'MOD_CLASSEUR', $modid, $malle_item->parent->node_type, $malle_item->parent->node_id );
+					}
+				}
+				$classeur_id = $modid;
+			} else {
+				$classeur_id = $mod_classeur[0]->module_id;
+			}
+			
+			$classeurDAO  = _ioDAO('classeur|classeur');
+			$classeur = $classeurDAO->get($classeur_id);
+			$new_dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+			if (!file_exists($new_dir)) {
+				mkdir($new_dir, 0755, true);
+			}
+			
+				
+			//// CREATION D'UN DOSSIER D'IMPORT
+			$dossierDAO = _ioDAO('classeur|classeurdossier');
+			$dossier = _record ('classeur|classeurdossier');
+
+			$dossier->classeur_id    = $classeur_id;
+			$dossier->parent_id      = 0;
+			$dossier->nom            = "Import documents ".$malle_item->info->id;
+			$dossier->cle            = $malle_item->info->cle;
+			$dossier->date_creation  = $malle_item->info->date_creation;
+			$dossier->user_type      = "";
+			$dossier->user_id        = "";
+			$dossier->nb_dossiers    = 0;
+			$dossier->nb_fichiers    = 0;
+			$dossier->taille         = 0;
+			
+			$dossierDAO->insert ($dossier);
+
+			// $dossier->id
+
+			$this->malleImport( $malle_item, $dossier );
+			
+			
+			
+			
+			$classeurservice->updateFolderInfosWithDescendants($dossier);
+		}
+
+		echo "<h1>Fin</h1>";
+		echo "<pre>"; print_r( $album_tree ); print_r( $malle_tree ); die();
 		
 		
 	}
@@ -247,8 +313,9 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		// module_malle_files : id 	malle 	folder 	nom 	fichier 	taille 	type 	cle 	date_upload
 		$sql = "
 			SELECT
-				id, malle, folder, nom, fichier, taille, type, cle, date_upload
-			FROM module_malle_files
+				F.id, F.malle, F.folder, F.nom, F.fichier, F.taille, F.type, F.cle, F.date_upload, M.cle AS malle_cle
+			FROM module_malle_files F
+			JOIN module_malle_malles M ON M.id=F.malle
 			WHERE malle=:id_malle AND folder=:id_dossier
 			ORDER BY id
 		";
@@ -312,7 +379,7 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$fichier->user_type      = "";
 				$fichier->user_id        = "";
 
-				$fichier->taille         = filesize($old_file); // TODO
+				$fichier->taille         = filesize($old_file);
 				$fichier->type           = strtoupper($album_photo_item->photo_ext);
 				$fichier->fichier        = $album_photo_item->photo_nom.'.'.$album_photo_item->photo_ext; // 'image-'.$album_photo_item->photo_id.".".$album_photo_item->photo_ext;
 				
@@ -345,5 +412,82 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			}
 		}
 	}
+	
+	private function malleImport( $malle_dossier, $classeur_dossier ) {
+						
+		$classeurDAO = _ioDAO('classeur|classeur');
+		$classeur = $classeurDAO->get($classeur_dossier->classeur_id);
+		
+				
+		if( count($malle_dossier->dossier) ) {
+			// Import dossiers
+			foreach( $malle_dossier->dossier AS $malle_dossier_item ) {
+				// print_r($malle_dossier_item); die();
+				
+				$dossierDAO = _ioDAO('classeur|classeurdossier');
+				$dossier = _record ('classeur|classeurdossier');
+	
+				$dossier->classeur_id    = $classeur_dossier->classeur_id;
+				$dossier->parent_id      = $classeur_dossier->id;
+				$dossier->nom            = $malle_dossier_item->info->nom;
+				$dossier->cle            = substr( md5(microtime()), 0, 10 );
+				$dossier->date_creation  = $malle_dossier_item->info->date_creation;
+				$dossier->user_type      = "";
+				$dossier->user_id        = "";
+				$dossier->nb_dossiers    = 0;
+				$dossier->nb_fichiers    = 0;
+				$dossier->taille         = 0;
+				
+				$dossierDAO->insert ($dossier);
+				
+				
+				$this->malleImport( $malle_dossier_item, $dossier );
+			}
+		}
+		if( count($malle_dossier->docs) ) {
+			foreach( $malle_dossier->docs AS $malle_item ) {
+				// print_r($malle_item); die();
+
+				$old_file = realpath('./static/malle').'/'.$malle_item->malle.'_'.$malle_item->malle_cle.'/'.$malle_item->id.'_'.$malle_item->fichier;
+				
+				$fichierDAO = _ioDAO('classeur|classeurfichier');
+				$fichier = _record ('classeur|classeurfichier');
+	
+				$fichier->classeur_id    = $classeur_dossier->classeur_id;
+				$fichier->dossier_id     = $classeur_dossier->id;
+				$fichier->titre          = $malle_item->nom;
+				$fichier->commentaire    = '';
+				$fichier->cle            = $malle_item->cle;
+				$fichier->date_upload    = $malle_item->date_upload;
+				$fichier->user_type      = "";
+				$fichier->user_id        = "";
+
+				$fichier->taille         = filesize($old_file);
+				$fichier->type           = end(explode(".", $malle_item->fichier));
+				$fichier->fichier        = $malle_item->fichier;
+				
+				$fichierDAO->insert ($fichier);
+				
+				$new_file = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$fichier->id.'-'.$malle_item->cle.'.'.end(explode(".", $malle_item->fichier));
+				copy( $old_file, $new_file );
+				
+				// echo "<li>".$old_file." &raquo; ".$new_file;
+				
+				
+				
+				/*
+				./album/2_313fc27fdf/26_88ac2e9434_480.jpg
+				./album/3_5ac946b20b
+				./classeur/4-1d691e55c5
+				./classeur/4-1d691e55c5/1-81338881fe.pdf
+				
+				$filepath   = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$file->id.'-'.$file->cle.$extension;
+				
+				*/
+
+			}
+		}
+	}
+	
 }
 ?>
