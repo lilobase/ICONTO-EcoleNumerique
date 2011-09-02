@@ -20,6 +20,9 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 	}
 
 	function processDefault () {
+		$classeurservice = & CopixClassesFactory::Create ('classeur|classeurservice');
+		
+				
 		/* DEBUG
 		if (!Admin::canAdmin())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
@@ -101,7 +104,8 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		// module_classeur_dossier : id 	module_classeur_id 	parent_id 	nom 	nb_dossiers 	nb_fichiers 	taille 	cle 	date_creation 	user_type 	user_id 	date_publication 	public
 		// module_classeur_fichier : id 	module_classeur_id 	module_classeur_dossier_id 	titre 	commentaire 	fichier 	taille 	type 	cle 	date_upload 	user_type 	user_id
 		
-		foreach( $album_tree AS $album_item ) {
+		// IMPORT ALBUMS
+		if(1) foreach( $album_tree AS $album_item ) {
 			
 			
 			//// RECHERCHE D'UN CLASSEUR EXISTANT
@@ -161,19 +165,14 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			$this->albumImport( $album_item, $dossier );
 			
 			
-			// updateFolderInfosWithDescendants ($folder)
 			
 			
+			$classeurservice->updateFolderInfosWithDescendants($dossier);
 		}
 		
-		echo "<pre>"; print_r( $album_tree ); die();
 		
-		$tplCache = & new CopixTpl();
-		$tplCache->assign ('info', CopixZone::process('sysutils|cacheStatus'));
+		echo "<pre>"; print_r( $malle_tree ); die();
 		
-		$tpl->assign ('MAIN', $tplCache->fetch('sysutils|cache.info.tpl'));
-		
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
 	}
 
@@ -284,8 +283,8 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$dossier->nom            = $album_dossier_item->info->dossier_nom;
 				$dossier->cle            = $album_dossier_item->info->dossier_cle;
 				$dossier->date_creation  = $album_dossier_item->info->dossier_date;
-				$dossier->user_type      = ""; // TODO
-				$dossier->user_id        = ""; // TODO
+				$dossier->user_type      = "";
+				$dossier->user_id        = "";
 				$dossier->nb_dossiers    = 0;
 				$dossier->nb_fichiers    = 0;
 				$dossier->taille         = 0;
@@ -297,23 +296,9 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			}
 		}
 		if( count($album_dossier->photo) ) {
-			// Import photos
 			foreach( $album_dossier->photo AS $album_photo_item ) {
-				// print_r($album_photo_item); die();
-				
-/*
-[photo_id] => 27
-[photo_id_album] => 1
-[photo_id_dossier] => 6
-[photo_nom] => Photo niveau 3
-[photo_commentaire] => 
-[photo_date] => 2011-09-01 16:00:51
-[photo_ext] => png
-[photo_cle] => 238eeea0a9
-[photo_public] => 
-*/
 
-				// module_classeur_fichier : id 	module_classeur_id 	module_classeur_dossier_id 	titre 	commentaire 	fichier 	taille 	type 	cle 	date_upload 	user_type 	user_id
+				$old_file = realpath('./static/album').'/'.$album_photo_item->photo_id_album.'_'.$album_photo_item->album_cle.'/'.$album_photo_item->photo_id.'_'.$album_photo_item->photo_cle.'.'.$album_photo_item->photo_ext;
 				
 				$fichierDAO = _ioDAO('classeur|classeurfichier');
 				$fichier = _record ('classeur|classeurfichier');
@@ -324,17 +309,15 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$fichier->commentaire    = $album_photo_item->photo_commentaire;
 				$fichier->cle            = $album_photo_item->photo_cle;
 				$fichier->date_upload    = $album_photo_item->photo_date;
-				$fichier->user_type      = ""; // TODO
-				$fichier->user_id        = ""; // TODO
+				$fichier->user_type      = "";
+				$fichier->user_id        = "";
 
-				$fichier->taille         = 0; // TODO
-				$fichier->type           = strtoupper($album_photo_item->photo_ext); // TODO
-				$fichier->fichier        = $album_photo_item->photo_nom.'.'.$album_photo_item->photo_ext; // 'image-'.$album_photo_item->photo_id.".".$album_photo_item->photo_ext; // TODO
+				$fichier->taille         = filesize($old_file); // TODO
+				$fichier->type           = strtoupper($album_photo_item->photo_ext);
+				$fichier->fichier        = $album_photo_item->photo_nom.'.'.$album_photo_item->photo_ext; // 'image-'.$album_photo_item->photo_id.".".$album_photo_item->photo_ext;
 				
 				$fichierDAO->insert ($fichier);
 				
-			
-				$old_file = realpath('./static/album').'/'.$album_photo_item->photo_id_album.'_'.$album_photo_item->album_cle.'/'.$album_photo_item->photo_id.'_'.$album_photo_item->photo_cle.'.'.$album_photo_item->photo_ext;
 				$new_file = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$fichier->id.'-'.$album_photo_item->photo_cle.'.'.$album_photo_item->photo_ext;
 				copy( $old_file, $new_file );
 				
