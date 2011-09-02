@@ -133,8 +133,10 @@ input.long-text {
     list-style-type: none;
 }
 #treeView li {line-height:2em;}
-#treeView li a {
-	padding:2px 4px;
+#treeView li a {padding:2px 4px;}
+#treeView li a.node {
+	border:2px solid #fff;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }
 #treeView li a.current {
 	background:#fff; color:#000;
