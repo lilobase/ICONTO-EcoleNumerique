@@ -1,15 +1,12 @@
-<div class="inner">
-
-<a class="close" href="javascript:ficheViewBlogs({$rEcole->numero},'close');">[ {i18n key="annuaire|annuaire.btn.close"} ]</a>
-
-
 {if $comboAnnees}
 	<div class="annee"><b>{i18n key="fichesecoles|fichesecoles.blogs.annee"}</b> : {$comboAnnees}</div>
 {/if}
+<div class="fiche">{i18n key="fichesecoles.fields.viewblogs"}</div>
 
+<img class="icon" alt="{i18n key="fichesecoles.fields.viewblogs"}" title="{i18n key="fichesecoles.fields.viewblogs"}" width="56" height="62" src="{copixresource path="img/fichesecoles/icon_blog.gif"}" />
 
 {if $rEcole->blog}
-<div><b><a href="{copixurl dest="blog||" blog=$rEcole->blog->url_blog}">{$rEcole->nom|escape}</a></b></div>
+<div><strong><a href="{copixurl dest="blog||" blog=$rEcole->blog->url_blog}">{$rEcole->nom|escape}</a></strong></div>
 {/if}
 
 {if $arClasses}
@@ -17,5 +14,4 @@
 		<div><a href="{copixurl dest="blog||" blog=$classe.url_blog}">{$classe.nom|escape}</a></div>
 	{/foreach}
 {/if}
-
-</div>	
+<p class="clearBoth"></p>
