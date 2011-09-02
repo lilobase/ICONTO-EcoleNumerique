@@ -121,7 +121,7 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			);
 			$mod_classeur = _doQuery( $sql, $param );
 			if( !isset($mod_classeur[0]) ) {
-                $node_infos = getNodeInfos($album_item->parent->node_type, $album_item->parent->node_id);
+                $node_infos = $this->getNodeInfos($album_item->parent->node_type, $album_item->parent->node_id);
 
 				$file     = & CopixSelectorFactory::create("classeur|classeur");
 				$filePath = $file->getPath() .COPIX_CLASSES_DIR."kernel".strtolower ($file->fileName).'.class.php' ;
@@ -503,7 +503,7 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
                 $sql = "SELECT nom FROM kernel_bu_ecole_classe WHERE id = :node_id";
                 break;
             case "BU_ECOLE":
-                $sql = "SELECT nom FROM kernel_bu_ecole WHERE numeo = :node_id";
+                $sql = "SELECT nom FROM kernel_bu_ecole WHERE numero = :node_id";
                 break;
             case "BU_VILLE":
                 $sql = "SELECT nom FROM kernel_bu_ville WHERE id_vi = :node_id";
