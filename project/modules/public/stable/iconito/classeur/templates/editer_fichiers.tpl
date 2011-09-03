@@ -65,9 +65,9 @@
   //<![CDATA[
   $(document).ready(function() {
     $('#fichiers').uploadify({
-      'uploader'        : '/js/uploadify/uploadify.swf',
-      'script'          : '/js/uploadify/module_classeur.php',
-      'cancelImg'       : '/js/uploadify/cancel.png',
+      'uploader'        : '../../../js/uploadify/uploadify.swf',
+      'script'          : '../../../js/uploadify/module_classeur.php',
+      'cancelImg'       : '../../../js/uploadify/cancel.png',
       'folder'          : '{/literal}{$ppo->dossierTmp}{literal}',
       'auto'            : true,
       'multi'           : true,
@@ -76,7 +76,7 @@
 	    'height'          : '27',
 	    'width'           : '122',
 	    'wmode'           : 'transparent',
-	    'buttonImg'       : '/js/uploadify/button-background.png',
+	    'buttonImg'       : '../../../js/uploadify/button-background.png',
 	    'onComplete'      : function (event, ID, fileObj, response, data) {
 	      <!-- Upload multiple, affichage de la note concernant le titre -->
 	      if (data.fileCount > 0 || $('#fichiersQueue div.completed').size() > 0) {
