@@ -240,6 +240,18 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			$classeurservice->updateFolderInfosWithDescendants($dossier);
 		}
 
+        $sql = "
+            UPDATE kernel_mod_available
+            SET node = CONCAT(node, '_OFF')
+            WHERE module = 'MOD_MALLE' OR module = 'MOD_ALBUM'";
+        _doQuery($sql);
+
+        $sql = "
+            UPDATE kernel_mod_enabled
+            SET node_type = CONCAT(node_type, '_OFF')
+            WHERE module_type = 'MOD_MALLE' OR module_type = 'MOD_ALBUM' AND node_type != 'MOD_TELEPROCEDURES'";
+        _doQuery($sql);
+
 		echo "<h1>Fin</h1>";
 		echo "<pre>"; print_r( $album_tree ); print_r( $malle_tree );
         die();
