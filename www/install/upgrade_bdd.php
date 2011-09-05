@@ -164,8 +164,8 @@ function get_upgrades ($iVersion) {
   if (is_dir($dir)) {
     if ($dh = opendir($dir)) {
       while (($file = readdir($dh)) !== false) {
-        if (preg_match('/^(([0-9]){3}.sql)$/', $file, $regs)) {
-          $numero = $regs[2];
+        if (preg_match('/^([0-9]{3}).sql$/', $file, $regs)) {
+          $numero = $regs[1]*1;
           //echo "fichier : $file : num : $num";
           $files[$numero] = array (
             'numero' => $numero,
