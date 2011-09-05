@@ -20,6 +20,9 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 	}
 
 	function processDefault () {
+		
+		ini_set('max_execution_time', 0);
+		
 		$classeurservice = & CopixClassesFactory::Create ('classeur|classeurservice');
 		
 				
@@ -119,6 +122,7 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		// IMPORT ALBUMS
 		if(1) foreach( $album_tree AS $album_item ) {
 			
+			if(!isset( $album_item->parent->node_type )) continue;
 			
 			//// RECHERCHE D'UN CLASSEUR EXISTANT
 			$sql = "
@@ -187,6 +191,8 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 		
 		// IMPORT MALLES
 		if(1) foreach( $malle_tree AS $malle_item ) {
+			
+			if(!isset( $malle_item->parent->node_type )) continue;
 			
 			//// RECHERCHE D'UN CLASSEUR EXISTANT
 			$sql = "
