@@ -426,8 +426,11 @@ class Kernel {
 					$parent = Kernel::filterNodeList( $parents, "BU_CLASSE" );
 
 					$nom_classe = '';
-					if(count($parent)) $nom_classe = $parent[0]['nom'];
-
+					if(count($parent)) {
+						if(!isset($parent[0]['nom'])) continue;
+						$nom_classe = $parent[0]['nom'];
+					}
+					
 					$return[]=array("type"=>"USER_ELE", "id"=>$val->res2ele_id_beneficiaire, "droit"=>($val->res2ele_auth_parentale?PROFILE_CCV_ADMIN:PROFILE_CCV_READ), "res2ele_type"=>$val->res2ele_type_beneficiaire, "res2ele_auth_parentale"=>$val->res2ele_auth_parentale, "nom_classe"=>$nom_classe);
 				}
 			}
