@@ -48,6 +48,12 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$album_tree[$album_item->album_id] = new CopixPPO();
 				$album_tree[$album_item->album_id]->info = $album_item;
 				$parent = Kernel::getModParent( "MOD_ALBUM", $album_item->album_id );
+				
+				if(!$parent) {
+					unset($album_tree[$album_item->album_id]);
+					continue;
+				}
+				
 				$album_tree[$album_item->album_id]->parent = $parent[0];
 				$album_tree[$album_item->album_id]->dossier = array();
 				$album_tree[$album_item->album_id]->photo = array();
@@ -80,6 +86,12 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 				$malle_tree[$malle_item->id]->info = $malle_item;
 				
 				$parent = Kernel::getModParent( "MOD_MALLE", $malle_item->id );
+				
+				if(!$parent) {
+					unset($malle_tree[$malle_item->id]);
+					continue;
+				}
+				
 				$malle_tree[$malle_item->id]->parent = $parent[0];
 				
 				$user_parents = Kernel::getNodeParents( $parent[0]->node_type, $parent[0]->node_id );
