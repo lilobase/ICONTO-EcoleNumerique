@@ -22,6 +22,7 @@
 			</parameters>
 			<conditions>
 				<condition property="affect_eleve" operator="=" value="$eleve" />
+				<condition property="affect_current" operator="=" value="1" />
 			</conditions>
 		</method>
 		<method name="getByClasse" type="select">
