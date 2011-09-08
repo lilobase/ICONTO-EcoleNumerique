@@ -280,7 +280,7 @@ div.dashboard div.content {
 }
 #cahierdetextes #submenu .studentMenu ul li a {
 	padding:2px 3px;
-	width:auto;
+	width:auto; max-width:110px;
 	background-image:none; color:#fff;
 	font-weight:bold;
 	text-align:center;

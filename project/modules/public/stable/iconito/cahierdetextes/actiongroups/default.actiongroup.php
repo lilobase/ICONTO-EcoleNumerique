@@ -11,8 +11,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	public function beforeAction ($actionName) {
 	  
 	  CopixHTMLHeader::addJSLink (_resource('js/iconito/module_cahierdetextes.js')); 
-	  CopixHTMLHeader::addCSSLink (_resource('themes/default/styles/module_cahierdetextes.css'));
-	
+	  
 	  // Contrôle d'accès au module
     if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
       

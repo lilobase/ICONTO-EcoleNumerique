@@ -57,3 +57,11 @@ li {
 	position:static;
 }
 /* End Classeur */
+
+
+/* Cahier de textes */
+#cahierdetextes #submenu .studentMenu ul li a {
+	display:block;
+	width:110px;
+}
+/* End Cahier de textes*/
