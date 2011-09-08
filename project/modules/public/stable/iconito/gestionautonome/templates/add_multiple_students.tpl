@@ -20,7 +20,7 @@
     <p>Les informations entre <span class="optionnal">[ ]</span> sont optionnelles. Un champ optionnel peut être vide mais n'oubliez pas le séparateur (virgule, point virgule ou tabulation).</p>
     
     <p>Voir des exemples de saisies : <a href="#" id="students-data">Quelques élèves</a> - <a href="#" id="students-and-persons-data">Quelques élèves et leurs parents</a> 
-    - <a href="/import_exemple.csv">Télécharger un fichier d'exemple</a></p>
+    - <a href="{copixurl}import_exemple.csv">Télécharger un fichier d'exemple</a></p>
 </div>
 
 <div id="import-dialog">
