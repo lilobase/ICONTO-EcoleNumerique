@@ -25,7 +25,7 @@ function ficheViewBlogs (ecoleId, annee) {
 		var pars = 'id='+ecoleId+'&annee='+annee;
 		$('#ficheblogs').load( url, pars, function () {
 			var h = $(this).height();
-			$(this).height(h);
+			$(this).css('min-height', h+'px');
 		});
 		
 	}
