@@ -24,8 +24,8 @@ function ficheViewBlogs (ecoleId, annee) {
 		var url = getActionURL('fichesecoles|default|blogs');
 		var pars = 'id='+ecoleId+'&annee='+annee;
 		$('#ficheblogs').load( url, pars, function () {
-			var h = $(this).height();
 			$(this).height('auto');
+			var h = $(this).height();
 			$(this).height(h);
 		});
 		
