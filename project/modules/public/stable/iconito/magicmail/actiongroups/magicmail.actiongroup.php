@@ -108,6 +108,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 								$blog_service = & CopixClassesFactory::Create ('blog|kernelblog');
 								$album_classes = & CopixClassesFactory::Create ('album|album');
 								$album_service = & CopixClassesFactory::Create ('album|kernelalbum');
+								$classeur_service = & CopixClassesFactory::Create ('classeur|kernelclasseur');
 								
 								/*
 								$groupe_service = & CopixClassesFactory::Create ('groupe|groupeservice');
@@ -121,6 +122,9 @@ class ActionGroupMagicmail extends CopixActionGroup {
 								$mods = Kernel::getModEnabled( $node_type, $node_id );
 								foreach( $mods AS $mod ) {
 									switch( $mod->module_type ) {
+										case 'MOD_CLASSEUR':
+											$classeur = $mod->module_id;
+											break;
 										case 'MOD_ALBUM':
 											$album = $mod->module_id;
 											break;
@@ -202,6 +206,13 @@ class ActionGroupMagicmail extends CopixActionGroup {
 									//////////////////////////
 									$images = array();
 									
+									if( $classeur != null ) {
+										if($album_photos) foreach( $album_photos AS $album_photo ) {
+											$album_photo_retour = $classeur_service->publish( $classeur, $album_photo );
+											$images[] = $album_photo_retour;
+										}
+									}
+									else
 									if( $album != null ) {
 									
 										if($album_photos) foreach( $album_photos AS $album_photo ) {
@@ -216,19 +227,27 @@ class ActionGroupMagicmail extends CopixActionGroup {
 											$blog_article['title'] = 'Article du '.$date;
 										}
 										
-										foreach( $audio_files AS $audio_file ) {
+										if(isset($audio_files)) foreach( $audio_files AS $audio_file ) {
 											$blog_article['body'] .= "\n".'[['.$audio_file['file']."|mp3]]\n";
 										}
 										
-										foreach( $video_flv_files AS $video_flv_file ) {
+										if(isset($video_flv_files)) foreach( $video_flv_files AS $video_flv_file ) {
 											$blog_article['body'] .= "\n".'[['.$video_flv_file['file'].".flv|flv]]\n";
 										}
 										
-										foreach( $images AS $image ) {
+										if(isset($images)) foreach( $images AS $image ) {
+// TODO
+											if( $classeur != null ) {
+											$blog_article['body'] .= "\n".'[(('.CopixUrl::get().'static/classeur/'.$image['album_id'].'-'.$image['album_key'].'/'.
+											$image['photo_id'].'-'.$image['photo_key'].'_240.'.$image['photo_ext'].'|'.
+											$image['title'].'|))|'.CopixUrl::get().'static/classeur/'.$image['album_id'].'-'.$image['album_key'].'/'.
+											$image['photo_id'].'-'.$image['photo_key'].'.'.$image['photo_ext'].']'."\n";
+											} else {
 											$blog_article['body'] .= "\n".'[(('.CopixUrl::get().'static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
 											$image['photo_id'].'_'.$image['photo_key'].'_240.'.$image['photo_ext'].'|'.
 											$image['title'].'|))|'.CopixUrl::get().'static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
 											$image['photo_id'].'_'.$image['photo_key'].'.'.$image['photo_ext'].']'."\n";
+											}
 										}
 
 										$blog_retour = $blog_service->publish( $blog, $blog_article );
