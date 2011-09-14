@@ -36,7 +36,7 @@
   );
   
   // Path de l'image demandée
-  $filepath         = str_replace ("//", "/", $_SERVER['DOCUMENT_ROOT'].'/static/'.$_GET['url']);
+  $filepath         = str_replace ("//", "/", realpath("static").'/'.$_GET['url']);
   
   // Paramètres de l'image
   $imageName        = substr(strrchr($filepath, '/'), 1);
@@ -51,6 +51,7 @@
     
     $originalPath   = $filepath;
   }
+  
   $originalName     = substr(strrchr($originalPath, '/'), 1);
   
   // Récupération des informations de l'image d'origine (taille / mime-type)
@@ -63,17 +64,51 @@
     $imgData = getimagesize($originalPath);
   }
   
-  // La taille demandée est t-elle correcte ?
-  $minWidth = (isset($size) && $size) ? strlen(substr($size, 2)): 0;
-  if ($minWidth && $minWidth > 1 && $minWidth < 4) {
+  // Format de l'image demandée ?
+  //  - s => square (format carré)
+  if (substr($size, 1, 1) == "s") {
     
-    $minWidth = substr($size, 2);
+    $mode = "square";
+    $size = substr($size, 2);
+    
+    $width = $size;
+    $height = $size;
+    
+    // Si la largeur est plus importante que la largeur
+    if ($imgData[0] > $imgData[1]) {
+      
+      $square_x = round($imgData[0]-$imgData[1])/2;
+      $square_y = 0;
+  		$square_size = $imgData[1];
+    }
+    else {
+      
+      $square_x = 0;
+			$square_y = round($imgData[1]-$imgData[0])/2;
+			$square_size = $imgData[0];
+    }
+    
+    $thumbnail_size = $size;
   }
-  // Taille incorrecte, on retourne l'image source
   else {
     
-    header('Content-type: '.$imgData['mime']);
-    readfile($originalPath);
+    $mode = "normal";
+    $size = substr($size, 1);
+    
+    $square_y = 0;
+    $square_x = 0;
+    
+    // Si la largeur est plus importante que la largeur
+    if ($imgData[0] > $imgData[1]) {
+      
+      $width = $size;
+      $height = $imgData[1] * $width / $imgData[0];
+    }
+    else {
+      
+      $height = $size;
+      $width = $imgData[0] * $height / $imgData[1];
+    }
   }
   
   if (in_array($imgData['mime'], $imgTypes)) {
@@ -85,18 +120,28 @@
     }
     
     $source       = $loader($originalPath);
-    $sourceWidth  = $imgData[0];
-    $sourceHeight = $imgData[1];
     $sourceMime   = $imgData['mime'];
-    $minHeight    = $sourceHeight * $minWidth / $sourceWidth;
-    $thumbnail    = imagecreatetruecolor($minWidth, $minHeight);
-    if ($imgData[0] == $minWidth && $imgData[1] == $minHeight) {
+    $thumbnail    = imagecreatetruecolor($width, $height);
+    if ($imgData[0] == $width && $imgData[1] == $height) {
       
       header('Content-type: '.$imgData['mime']);
       readfile($originalPath);
     }
     else {
-      imagecopyresampled($thumbnail, $source, 0, 0, 0, 0, $minWidth, $minHeight, $imgData[0], $imgData[1]);
+      
+      // Génération de la miniature pour le mode square (carré)
+      if ($mode == "square") {
+        
+        $thumbnail    = imagecreatetruecolor($thumbnail_size, $thumbnail_size);
+        imagecopyresampled($thumbnail, $source, 0, 0, $square_x, $square_y, $thumbnail_size, $thumbnail_size, $square_size, $square_size);
+      }
+      // Génération de la miniature normale (ratio largeur / hauteur conservé)
+      else {
+        
+        $thumbnail    = imagecreatetruecolor($width, $height);
+        imagecopyresampled($thumbnail, $source, 0, 0, $square_x, $square_y, $width, $height, $imgData[0], $imgData[1]);
+      }
+      
       $creator = $imgCreators[$imgData['mime']];
       $creator($thumbnail, $filepath);
       
