@@ -48,7 +48,8 @@
     $originalPath   = substr($filepath, 0, strpos($filepath, $size)).$extension;
   }
   else {
-    
+
+    $size           = null;
     $originalPath   = $filepath;
   }
   
@@ -100,13 +101,19 @@
     
     // Si la largeur est plus importante que la largeur
     if ($imgData[0] > $imgData[1]) {
-      
-      $width = $size;
+
+      if ($size)
+        $width = $size;
+      else
+        $width = $imgData[0];
       $height = $imgData[1] * $width / $imgData[0];
     }
     else {
-      
-      $height = $size;
+
+      if ($size)
+        $height = $size;
+      else
+        $height = $imgData[1];
       $width = $imgData[0] * $height / $imgData[1];
     }
   }
