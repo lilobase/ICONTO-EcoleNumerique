@@ -540,6 +540,7 @@ class ActionGroupDefault extends enicActionGroup {
           // Copie des fichiers provenant de l'archive ZIP
           $datas = array();
           $datas = classeurService::getFilesInTmpFolder($datas, $ppo->dossierTmp, $fichiersPhysiques);
+          
           $correspondanceDossiers = array();
 
           foreach ($datas as $dossierParent => $data) {
@@ -555,7 +556,7 @@ class ActionGroupDefault extends enicActionGroup {
                 $dossier->taille      = 0;
                 
                 $dossier->classeur_id    = $classeur->id;
-                $dossier->parent_id      = $dossierParent == $ppo->dossierTmp ? 0 : $correspondanceDossiers[$dossierParent]->id;
+                $dossier->parent_id      = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
                 $dossier->nom            = $folder;
                 $dossier->cle            = classeurService::createKey();
                 $dossier->date_creation  = date('Y-m-d H:i:s');
@@ -573,11 +574,11 @@ class ActionGroupDefault extends enicActionGroup {
             if (!empty($data['files'])) {
               
               foreach ($data['files'] as $file) {
-                var_dump($file);
+                
                 $fichier = _record('classeur|classeurfichier');
 
                 $fichier->classeur_id   = $classeur->id;
-                $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? 0 : $correspondanceDossiers[$dossierParent]->id;
+                $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
                 $fichier->titre         = substr($file, 0, 63);
                 $fichier->commentaire   = '';
                 $fichier->fichier       = $file;
