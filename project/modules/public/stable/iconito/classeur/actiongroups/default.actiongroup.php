@@ -1832,6 +1832,11 @@ class ActionGroupDefault extends enicActionGroup {
 		$ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeur->id, $ppo->dossierId)->fetchAll();
 		$ppo->fichiers = $fichierDAO->getParDossier($ppo->classeur->id, $ppo->dossierId)->fetchAll();
 		
+		foreach ($ppo->fichiers as $fichier) {
+		  
+		  $fichier->url = $fichier->getLienMiniature();
+		}
+		
 		// Ouverture du dossier courant dans l'arborescence
 		if ($ppo->dossierId != 0) {
 		  

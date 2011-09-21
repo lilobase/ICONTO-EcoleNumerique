@@ -61,14 +61,10 @@
     {foreach from=$ppo->fichiers item=fichier}
     
     {copixurl assign='copixurl'}
-    {assign var='positionCoupure' value=$fichier->fichier|strpos:'.'}
-    {assign var='extension' value=$fichier->fichier|substr:$positionCoupure}
-    
-    {assign var=file value=$copixurl|cat:"static/classeur/"|cat:$ppo->classeur->id|cat:"-"|cat:$ppo->classeur->cle|cat:"/"|cat:$fichier->id|cat:"-"|cat:$fichier->cle|cat:$extension}
 
   	{if $ppo->format eq "fckeditor" OR $ppo->format eq "html" OR $ppo->format eq "ckeditor"}
-  		{assign var=htmlDownload value="[["|cat:$file|cat:"|download]]"}
-  		{assign var=htmlView value="[["|cat:$file|cat:"|view]]"}
+  		{assign var=htmlDownload value="[["|cat:$fichier->url|cat:"|download]]"}
+  		{assign var=htmlView value="[["|cat:$fichier->url|cat:"|view]]"}
   	{/if}
 
   	{i18n key="malle|malle.error.unsupportedFormat" format=$ppo->format assign=i18n_unsupportedFormat}
@@ -77,7 +73,7 @@
       <td class="center check-file">
         <input type="hidden" name="item-id" value="{$fichier->id}"/>
     	  <input type="hidden" name="item-name" value="{$fichier|escape}"/>
-    		<input type="hidden" name="item-file" value="{$file}"/>
+    		<input type="hidden" name="item-file" value="{$fichier->url}"/>
     		<input type="hidden" name="item-field" value="{$ppo->field}"/>
     		<input type="hidden" name="item-format" value="{$ppo->format}"/>
     		<input type="hidden" name="item-durl" value="{$htmlDownload|wiki|urlencode}"/>
