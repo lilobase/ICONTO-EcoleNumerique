@@ -41,14 +41,37 @@
   // Paramètres de l'image
   $imageName        = substr(strrchr($filepath, '/'), 1);
   $extension        = strrchr($imageName, '.');
-  $sizeAndExtension = strrchr($filepath, '_');
+  
+  $sizeAndExtension = strrchr($imageName, '_');
+  $size             = substr($sizeAndExtension, 0, strpos($sizeAndExtension, '.'));
+  
+  // Si le nom de l'image contient un underscore, vérification s'il s'agit d'une indication de taille pour la miniature à générer
   if ($sizeAndExtension) {
     
-    $size           = substr($sizeAndExtension, 0, strpos($sizeAndExtension, '.'));
-    $originalPath   = substr($filepath, 0, strpos($filepath, $size)).$extension;
+    // Regex : mode square, size d'au moins 2 chiffres
+    if (ereg("^_s([0-9]{2,})$", $size, $regs)) {
+      
+      $mode           = "square";
+      $size           = $regs[1];
+      $originalPath   = substr($filepath, 0, strpos($filepath, $regs[0])).$extension;
+    }
+    // Regex : mode normal, size d'au moins 2 chiffres
+    elseif (ereg("^_([0-9]{2,})$", $size, $regs)) {
+      
+      $mode           = "normal";
+      $size           = $regs[1];
+      $originalPath   = substr($filepath, 0, strpos($filepath, $regs[0])).$extension;
+    }
+    else {
+      
+      $mode           = "normal";
+      $size           = null;
+      $originalPath   = $filepath;
+    }
   }
   else {
-
+    
+    $mode           = "normal";
     $size           = null;
     $originalPath   = $filepath;
   }
@@ -57,20 +80,22 @@
   
   // Récupération des informations de l'image d'origine (taille / mime-type)
   if (!file_exists($originalPath)) {
-
-    die (sprintf('Could not load image %s', $originalPath));
-  }
-  else {
     
-    $imgData = getimagesize($originalPath);
+    if (file_exists($filepath)) {
+      
+      $originalPath = $filepath;
+    }
+    else {
+      
+      die (sprintf('Could not load image %s', $originalPath));
+    }
   }
+    
+  $imgData = getimagesize($originalPath);
   
-  // Format de l'image demandée ?
+  // Format de l'image demandé ?
   //  - s => square (format carré)
-  if (substr($size, 1, 1) == "s") {
-    
-    $mode = "square";
-    $size = substr($size, 2);
+  if ($mode == "square") {
     
     $width = $size;
     $height = $size;
@@ -93,27 +118,34 @@
   }
   else {
     
-    $mode = "normal";
-    $size = substr($size, 1);
-    
     $square_y = 0;
     $square_x = 0;
     
     // Si la largeur est plus importante que la largeur
     if ($imgData[0] > $imgData[1]) {
 
-      if ($size)
+      if (!is_null($size)) {
+        
         $width = $size;
-      else
+      }  
+      else {
+        
         $width = $imgData[0];
+      }
+       
       $height = $imgData[1] * $width / $imgData[0];
     }
     else {
 
-      if ($size)
+      if (!is_null($size)) {
+        
         $height = $size;
-      else
+      }
+      else {
+        
         $height = $imgData[1];
+      }
+      
       $width = $imgData[0] * $height / $imgData[1];
     }
   }
