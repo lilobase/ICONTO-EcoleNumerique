@@ -84,15 +84,12 @@ class ActionGroupDefault extends enicActionGroup {
       header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
       header('Expires: '.gmdate('D, d M Y H:i:s',time()).' GMT');
       header('Cache-Control: must-revalidate, pre-check=0, post-check=0, max-age=0');
-      header('Content-Type: application/force-download');
-			header('Content-Type: application/octet-stream', true);
-			header('Content-Type: application/download', true);
-			header('Content-Type: text/csv', true);
+      header('Content-type: application/vnd.ms-excel; charset=UTF-16LE');
       header('Content-Disposition: attachment; filename="Comptes-'.date('YmdHi').'.csv"');
       header('Content-Transfer-Encoding: binary');
       header('Content-Length: '.strlen($csv));
       
-      echo $csv;
+      echo chr(255).chr(254).mb_convert_encoding( $csv, 'UTF-16LE', 'UTF-8');
       return _arNone();
 	  }
 	  
