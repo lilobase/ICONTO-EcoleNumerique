@@ -89,7 +89,7 @@ class ActionGroupDefault extends enicActionGroup {
       header('Content-Transfer-Encoding: binary');
       header('Content-Length: '.strlen($csv));
       
-      echo chr(255).chr(254).mb_convert_encoding( $csv, 'UTF-16LE', 'UTF-8');
+      echo chr(255).chr(254).mb_convert_encoding($csv, 'UTF-16LE', 'UTF-8');
       return _arNone();
 	  }
 	  

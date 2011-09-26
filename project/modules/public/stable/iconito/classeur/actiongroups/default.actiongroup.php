@@ -637,7 +637,7 @@ class ActionGroupDefault extends enicActionGroup {
           }
 
           // Suppression du dossier TMP
-          rmdir($ppo->dossierTmp);
+          classeurService::rmdir_recursive($ppo->dossierTmp);
 
           // Mise à jour des informations du dossier parent
           classeurService::updateFolderInfos($ppo->dossier);
