@@ -101,23 +101,21 @@ class DAORecordClasseurFichier {
   public function getLienMiniature($largeur = null) {
     
     $toReturn = null;
-    if ($this->estUneImage ()) {
       
-      $classeurDAO = _ioDAO('classeur|classeur');	 	
-      $classeur = $classeurDAO->get ($this->classeur_id);
+    $classeurDAO = _ioDAO('classeur|classeur');	 	
+    $classeur = $classeurDAO->get ($this->classeur_id);
+    
+    $nomClasseur = $classeur->id.'-'.$classeur->cle;
+    
+    $extension  = strrchr($this->fichier, '.');
+    if (!is_null($largeur)) {
       
-      $nomClasseur = $classeur->id.'-'.$classeur->cle;
-
-      $extension  = strrchr($this->fichier, '.');
-      if (!is_null($largeur)) {
-        
-        $largeur = '_s'.$largeur;
-      }
-      
-  		$nomFichier = $this->id.'-'.$this->cle.$largeur.$extension;
-
-  		$toReturn = CopixUrl::get ().'index.php/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/'.($nomFichier);
+      $largeur = '_s'.$largeur;
     }
+    
+  	$nomFichier = $this->id.'-'.$this->cle.$largeur.$extension;
+    
+  	$toReturn = CopixUrl::get ().'index.php/static/classeur/'.$classeur->id.'-'.$classeur->cle.'/'.($nomFichier);
     
     return $toReturn;
   }

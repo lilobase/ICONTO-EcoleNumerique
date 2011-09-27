@@ -218,11 +218,13 @@ jQuery(document).ready(function($){
   });
 });
 
-function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat, idFile, nomFile) {
+function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat, idFile, nomFile, extension, align, size) {
   
   var popup = false;
   var html = '';
   var typeFile = 'MOD_CLASSEUR';
+  var pictureTypes = ["PNG", "png", "JPG", "jpg"];
+  
   switch (format) {
     case 'wiki' :
       self.parent.current_url_doc = "[["+url+"|"+mode+"]]";
@@ -239,6 +241,16 @@ function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_
     case 'html' :
       if (mode == 'view') 					html = urldecode(htmlView);
       else if (mode == 'download')	html = urldecode(htmlDownload);
+      
+      if (jQuery.inArray(extension, pictureTypes) > -1 && mode == 'view') {
+        
+        var html = '<img alt="'+nomFile+'" border="0" src="'+url+size+'.'+extension+'"';
+  			  if 			(align == 'L')	html += ' align="left"';
+  			  else if (align == 'R')	html += ' align="right"';
+  			  else if (align == 'C')	html += ' align="center"';
+  			  html += '/>';
+      }
+      
       if (format == 'fckeditor')
         self.parent.add_photo_fckeditor (field, html);
       else if (format == 'ckeditor')

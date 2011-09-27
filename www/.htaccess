@@ -6,4 +6,4 @@ RewriteEngine On
 RewriteBase /
 RewriteRule ^index.php/blog/default/static/(.*)$ static/$1 [QSA,L,R=301]
 RewriteRule ^index.php/static/(.*)$ static/$1 [QSA,R=301]
-RewriteRule ^static/classeur/(.*)$ miniature.php?url=classeur/$1 [QSA,L,R=301]
+RewriteRule ^static/classeur/(.*\.(jpg|jpeg|png|gif))$ miniature.php?url=classeur/$1 [QSA,L,R=301]

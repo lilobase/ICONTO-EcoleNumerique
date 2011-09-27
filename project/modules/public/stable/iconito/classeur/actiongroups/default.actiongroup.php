@@ -1834,7 +1834,9 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		foreach ($ppo->fichiers as $fichier) {
 		  
-		  $fichier->url = $fichier->getLienMiniature();
+		  $fichier->fullUrl = $fichier->getLienMiniature();
+		  $fichier->url = substr($fichier->getLienMiniature(), 0, strlen($fichier->getLienMiniature()) - strlen(strrchr($fichier->getLienMiniature(), '.')));
+		  $fichier->extension = $fichier->getExtension();		  
 		}
 		
 		// Ouverture du dossier courant dans l'arborescence
@@ -1857,7 +1859,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     $dossierTmp = classeurService::getTmpFolder();
     $ppo->dossierTmp = $dossierTmp.classeurService::createKey();
-		
+    
 		CopixHTMLHeader::addJSLink (_resource('js/iconito/module_classeur.js')); 
  	  
  	  return _arPPO ($ppo, array ('template'=>'classeur_popup.tpl', 'mainTemplate'=>'main|main_popup.php'));

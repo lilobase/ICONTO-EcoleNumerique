@@ -5,122 +5,154 @@
 </div>
 
 <div class="content-view">
-<div class="overflow">
-<table id="folder-content" class="listView">
-  <thead>
-    <tr>
-      <th><input type="checkbox" id="check_all" /></th>
-      <th>{i18n key="classeur.message.title"}</th>
-      <th>{i18n key="classeur.message.type"}</th>
-      <th>{i18n key="classeur.message.date"}</th>
-      <th>{i18n key="classeur.message.size"}</th>
-    </tr>
-  </thead>
-  <tbody>
-    {assign var=index value=1}
-    {if $ppo->dossierParent}
-      <tr class="folder even">
-        <td>&nbsp;</td>
-        <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$ppo->dossierParent->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a></td>
-        <td colspan="4">&nbsp;</td>
+  <form name="styleForm" id="style-form" style="display: none;">
+    <span style="white-space: nowrap;">
+      <strong>{i18n key="classeur.popup.align"}</strong>
+  
+      <input id="align-none" type="radio" name="align" value="" checked />
+      <label for="align-none">{i18n key="classeur.popup.align_none"}</label>
+  
+      <input id="align-left" type="radio" name="align" value="left" />
+      <label for="align-left">{i18n key="classeur.popup.align_left"}</label>
+  
+      <input id="align-center" type="radio" name="align" value="center" />
+      <label for="align-center">{i18n key="classeur.popup.align_center"}</label>
+  
+      <input id="align-right" type="radio" name="align" value="right" />
+      <label for="align-right">{i18n key="classeur.popup.align_right"}</label>
+      &nbsp;&nbsp;|&nbsp;&nbsp;
+    </span>
+  
+    <span style="white-space: nowrap;">
+      <strong>{i18n key="classeur.popup.size"}</strong>
+      <input id="size-small" type="radio" name="size" value="small" checked />
+      <label for="size-small">{i18n key="classeur.popup.size_small"}</label>
+      <input id="size-medium" type="radio" name="size" value="medium" />
+      <label for="size-medium">{i18n key="classeur.popup.size_middle"}</label>
+      <input id="size-large" type="radio" name="size" value="large" />
+      <label for="size-large">{i18n key="classeur.popup.size_large"}</label>
+      <input id="size-original" type="radio" name="size" value="original" />
+      <label for="size-original">{i18n key="classeur.popup.size_original"}</label>
+    </span>
+  </form>
+  
+  <div class="overflow">
+  <table id="folder-content" class="listView">
+    <thead>
+      <tr>
+        <th><input type="checkbox" id="check_all" /></th>
+        <th>{i18n key="classeur.message.title"}</th>
+        <th>{i18n key="classeur.message.type"}</th>
+        <th>{i18n key="classeur.message.date"}</th>
+        <th>{i18n key="classeur.message.size"}</th>
       </tr>
-      {assign var=index value=2}
-    {elseif $ppo->classeurParent}
-      <tr class="folder even">
-        <td>&nbsp;</td>
-        <td>
-          {if $ppo->classeurParent->isPersonnel}
-            {i18n key="classeur.message.personnalFolder" assign=nom}
-          {else}
-            {assign var=nom value=$ppo->classeurParent->titre}
-          {/if}
-          <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
-        </td>
-        <td colspan="4">&nbsp;</td>
-      </tr>
-      {assign var=index value=2}
-    {/if}
-    {foreach from=$ppo->dossiers item=dossier}
-    <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
-      <td class="center"><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-16/icon-folder.png" alt="" /></a></td>
-      <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}">{$dossier->nom|escape}</a></td>
-      <td>---</td>
-      <td>{$dossier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
-      <td>
-        {if $dossier->nb_dossiers neq 0}
-          {$dossier->nb_dossiers} {if $dossier->nb_dossiers eq 1}dossier{else}dossiers{/if}
-        {/if}
-        {if $dossier->nb_fichiers neq 0}
-          {$dossier->nb_fichiers} {if $dossier->nb_fichiers eq 1}fichier{else}fichiers{/if}
-        {/if}
-        {$dossier->taille|human_file_size}
-      </td>
-    </tr>
-    {assign var=index value=$index+1}
-    {/foreach}
-    {foreach from=$ppo->fichiers item=fichier}
-    
-    {copixurl assign='copixurl'}
-
-  	{if $ppo->format eq "fckeditor" OR $ppo->format eq "html" OR $ppo->format eq "ckeditor"}
-  		{assign var=htmlDownload value="[["|cat:$fichier->url|cat:"|download]]"}
-  		{assign var=htmlView value="[["|cat:$fichier->url|cat:"|view]]"}
-  	{/if}
-
-  	{i18n key="malle|malle.error.unsupportedFormat" format=$ppo->format assign=i18n_unsupportedFormat}
-  	
-    <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
-      <td class="center check-file">
-        <input type="hidden" name="item-id" value="{$fichier->id}"/>
-    	  <input type="hidden" name="item-name" value="{$fichier|escape}"/>
-    		<input type="hidden" name="item-file" value="{$fichier->url}"/>
-    		<input type="hidden" name="item-field" value="{$ppo->field}"/>
-    		<input type="hidden" name="item-format" value="{$ppo->format}"/>
-    		<input type="hidden" name="item-durl" value="{$htmlDownload|wiki|urlencode}"/>
-    		<input type="hidden" name="item-vurl" value="{$htmlView|wiki|urlencode}"/>
-    		<input type="hidden" name="item-err" value="{$i18n_unsupportedFormat|addslashes}"/>
-        <input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" />
-      </td>
-      {if $fichier->estUnFavori()}
-        <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier}" target="_blank">{$fichier|escape}</a></td>
-        <td>{i18n key="classeur.message.favorite"}</td>
-      {else}
-        <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier noEscape=1}" target="_blank">{$fichier|escape}</a></td>
-        <td>{$fichier->type}</td>
+    </thead>
+    <tbody>
+      {assign var=index value=1}
+      {if $ppo->dossierParent}
+        <tr class="folder even">
+          <td>&nbsp;</td>
+          <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$ppo->dossierParent->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a></td>
+          <td colspan="4">&nbsp;</td>
+        </tr>
+        {assign var=index value=2}
+      {elseif $ppo->classeurParent}
+        <tr class="folder even">
+          <td>&nbsp;</td>
+          <td>
+            {if $ppo->classeurParent->isPersonnel}
+              {i18n key="classeur.message.personnalFolder" assign=nom}
+            {else}
+              {assign var=nom value=$ppo->classeurParent->titre}
+            {/if}
+            <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
+          </td>
+          <td colspan="4">&nbsp;</td>
+        </tr>
+        {assign var=index value=2}
       {/if}
-      <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
-      <td>{$fichier->taille|human_file_size}</td>
-    </tr>
-    {assign var=index value=$index+1}
-    {/foreach}
-  </tbody>
-</table>
-
-{if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER}
-  <a class="addfile button button-add">{i18n key="classeur.message.add"}</a>
-  <div class="addfile-form" style="display: none;">
-  	<form action="{copixurl dest="|envoieFichierPopup"}" method="post" enctype="multipart/form-data">
-  		<input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
-        <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
-        <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
-        <input type="hidden" name="field" value="{$ppo->field}"/>
-  		<input type="hidden" name="format" value="{$ppo->format}"/>
-        <input type="file" name="fichiers[]" id="fichiers" />
-  	    <a class="button button-cancel">{i18n key="classeur.message.cancel"}</a>
-        <input class="button button-confirm" type="submit" value="{i18n key="classeur.message.ok"}" />
-  	</form>
-  </div>
-{/if}
-</div><!-- End overflow -->
-
-
-{if $ppo->format neq "id"}
+      {foreach from=$ppo->dossiers item=dossier}
+      <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
+        <td class="center"><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-16/icon-folder.png" alt="" /></a></td>
+        <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}">{$dossier->nom|escape}</a></td>
+        <td>---</td>
+        <td>{$dossier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
+        <td>
+          {if $dossier->nb_dossiers neq 0}
+            {$dossier->nb_dossiers} {if $dossier->nb_dossiers eq 1}dossier{else}dossiers{/if}
+          {/if}
+          {if $dossier->nb_fichiers neq 0}
+            {$dossier->nb_fichiers} {if $dossier->nb_fichiers eq 1}fichier{else}fichiers{/if}
+          {/if}
+          {$dossier->taille|human_file_size}
+        </td>
+      </tr>
+      {assign var=index value=$index+1}
+      {/foreach}
+      {foreach from=$ppo->fichiers item=fichier}
+      
+      {copixurl assign='copixurl'}
+  
+    	{if $ppo->format eq "fckeditor" OR $ppo->format eq "html" OR $ppo->format eq "ckeditor"}
+    		{assign var=htmlDownload value="[["|cat:$fichier->fullUrl|cat:"|download]]"}
+    		{assign var=htmlView value="[["|cat:$fichier->fullUrl|cat:"|view]]"}
+    	{/if}
+  
+    	{i18n key="malle|malle.error.unsupportedFormat" format=$ppo->format assign=i18n_unsupportedFormat}
+    	
+      <tr class="{$fichier->type} {if $index%2 eq 0}odd{else}even{/if}">
+        <td class="center check-file">
+          <input type="hidden" name="item-id" value="{$fichier->id}"/>
+      	  <input type="hidden" name="item-name" value="{$fichier|escape}"/>
+      		<input type="hidden" name="item-file" value="{$fichier->url}"/>
+      		<input type="hidden" name="item-field" value="{$ppo->field}"/>
+      		<input type="hidden" name="item-format" value="{$ppo->format}"/>
+      		<input type="hidden" name="item-durl" value="{$htmlDownload|wiki|urlencode}"/>
+      		<input type="hidden" name="item-vurl" value="{$htmlView|wiki|urlencode}"/>
+      		<input type="hidden" name="item-err" value="{$i18n_unsupportedFormat|addslashes}"/>
+      		<input type="hidden" name="item-ext" value="{$fichier->extension}"/>
+          <input type="checkbox" class="check" name="fichiers[]" value="{$fichier->id}" />
+        </td>
+        {if $fichier->estUnFavori()}
+          <td><a href="{$fichier->getLienFavori()}" title="{i18n key="classeur.message.openFile" titre=$fichier}" target="_blank">{$fichier|escape}</a></td>
+          <td>{i18n key="classeur.message.favorite"}</td>
+        {else}
+          <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeur->id fichierId=$fichier->id}" title="{i18n key="classeur.message.openFile" titre=$fichier noEscape=1}" target="_blank">{$fichier|escape}</a></td>
+          <td>{$fichier->type}</td>
+        {/if}
+        <td>{$fichier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
+        <td>{$fichier->taille|human_file_size}</td>
+      </tr>
+      {assign var=index value=$index+1}
+      {/foreach}
+    </tbody>
+  </table>
+  
+  {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER}
+    <a class="addfile button button-add">{i18n key="classeur.message.add"}</a>
+    <div class="addfile-form" style="display: none;">
+    	<form action="{copixurl dest="|envoieFichierPopup"}" method="post" enctype="multipart/form-data">
+    		<input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
+          <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
+          <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
+          <input type="hidden" name="field" value="{$ppo->field}"/>
+    		<input type="hidden" name="format" value="{$ppo->format}"/>
+          <input type="file" name="fichiers[]" id="fichiers" />
+    	    <a class="button button-cancel">{i18n key="classeur.message.cancel"}</a>
+          <input class="button button-confirm" type="submit" value="{i18n key="classeur.message.ok"}" />
+    	</form>
+    </div>
+  {/if}
+  </div><!-- End overflow -->
+  
+  
+  {if $ppo->format neq "id"}
     <form name="form" id="options">
-        {i18n key="classeur.message.mode"}
-        <input id="mode-view" type="radio" name="mode" value="view" checked /><label for="mode-view">{i18n key="classeur.message.modeView"}</label>
-        <input id="mode-download" type="radio" name="mode" value="download" /><label for="mode-download">{i18n key="classeur.message.modeDownload"}</label>
+      {i18n key="classeur.message.mode"}
+      <input id="mode-view" type="radio" name="mode" value="view" checked /><label for="mode-view">{i18n key="classeur.message.modeView"}</label>
+      <input id="mode-download" type="radio" name="mode" value="download" /><label for="mode-download">{i18n key="classeur.message.modeDownload"}</label>
     </form>
-{/if}
+  {/if}
 </div> <!-- End content-view -->
 
 <div id="popup_actions" class="content-panel center">
@@ -137,7 +169,43 @@ jQuery(document).ready(function($){
 	var dodurl;
 	var dovurl;
 	var doerr;
+	var pictureTypes = ["PNG", "png", "JPG", "jpg"];
+
+	$('#folder-content input[type="checkbox"]').change (function() {
+	  
+	  var pictureChecked = 0;
+	  $('#folder-content input[type="checkbox"]:checked').each(function () {
+	    
+	    if (jQuery.inArray($(this).parent().parent().attr('class').substr(0, 3), pictureTypes) > -1) {
+	      
+	      pictureChecked = pictureChecked + 1;
+	    }
+	  });
+	  
+	  if (pictureChecked > 0) {
+	    
+	    $('#style-form').show();
+	  }
+	  else {
+	    
+	    $('#style-form').hide();
+	  }
+	});
+	
 	$('#doinsert').click (function() {
+	  
+	  <!-- Styles alignement et taille -->
+	  var styleForm = getRef('style-form');
+	  if( styleForm.align[0].checked ) align='';
+  	if( styleForm.align[1].checked ) align='L';
+  	if( styleForm.align[2].checked ) align='C';
+  	if( styleForm.align[3].checked ) align='R';
+
+  	if( styleForm.size[0].checked ) size='_s64';
+  	if( styleForm.size[1].checked ) size='_240';
+  	if( styleForm.size[2].checked ) size='_480';
+  	if( styleForm.size[3].checked ) size='';
+  	
 	  var domode = $('#options input[name="mode"]:checked').val();
 		$('#folder-content :checked').each( function() {
 		  
@@ -149,8 +217,11 @@ jQuery(document).ready(function($){
 			dodurl = $(this).parent('.check-file').children('input[name="item-durl"]').val();
 			dovurl = $(this).parent('.check-file').children('input[name="item-vurl"]').val();
 			doerr = $(this).parent('.check-file').children('input[name="item-err"]').val();
+			doextension = $(this).parent('.check-file').children('input[name="item-ext"]').val();
+			doalign = align;
+			dosize = size;
 			//console.log("---" + dofile + "," + dofield + "," + doformat + "," + dodurl + "," + dovurl + "," + doerr);
-			insertDocument (domode, dofile, dofield, doformat, dodurl, dovurl, doerr, doid, doname);
+			insertDocument (domode, dofile, dofield, doformat, dodurl, dovurl, doerr, doid, doname, doextension, doalign, dosize);
 		});
 		parent.jQuery.fancybox.close();
 	});
