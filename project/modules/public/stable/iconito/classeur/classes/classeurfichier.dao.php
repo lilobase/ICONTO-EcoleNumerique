@@ -139,7 +139,7 @@ class DAORecordClasseurFichier {
   */
   public function getExtension () {
     
-    return strtoupper(substr(strrchr($this->fichier, '.'), 1));
+    return strtolower(strtoupper(substr(strrchr($this->fichier, '.'), 1)));
   }
 }
 

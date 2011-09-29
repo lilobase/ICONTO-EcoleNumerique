@@ -1761,7 +1761,7 @@ class ActionGroupDefault extends enicActionGroup {
   		}
     }
       
-    $urlReturn = ($field && $format) ? CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossier->id, 'field'=>$field, 'format'=>$format)) : CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossier->id));
+    $urlReturn = ($field && $format) ? CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId, 'field'=>$field, 'format'=>$format)) : CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId));
       
     return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 	}
