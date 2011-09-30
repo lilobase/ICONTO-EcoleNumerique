@@ -247,9 +247,10 @@ function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_
         var html = '<img alt="'+nomFile+'" border="0" src="'+url+size+'.'+extension+'"';
   			  if 			(align == 'L')	html += ' align="left"';
   			  else if (align == 'R')	html += ' align="right"';
-  			  else if (align == 'C')	html += ' align="center"';
   			  html += '/>';
       }
+      
+      if (align == 'C') html = '<p style="text-align: center">'+html+'</p>';
       
       if (format == 'fckeditor')
         self.parent.add_photo_fckeditor (field, html);
