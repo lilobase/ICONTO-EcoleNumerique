@@ -182,12 +182,14 @@ class ActionGroupExport extends EnicActionGroup {
 		$linkElevesResponsablesList = array();
 		foreach( $eleveList AS $eleve ) {
 			
-			$new_linkElevesResponsablesList = new CopixPPO();
-			$new_linkElevesResponsablesList->id_eleve = $eleve->id_eleve;
-			$new_linkElevesResponsablesList->id_responsable = $eleve->id_resp;
-			$linkElevesResponsablesList[] = $new_linkElevesResponsablesList;
-
-			if(!isset($elevesList[$eleve->id_eleve])) {
+			if( $eleve->id_eleve && $eleve->id_resp ) {
+				$new_linkElevesResponsablesList = new CopixPPO();
+				$new_linkElevesResponsablesList->id_eleve = $eleve->id_eleve;
+				$new_linkElevesResponsablesList->id_responsable = $eleve->id_resp;
+				$linkElevesResponsablesList[] = $new_linkElevesResponsablesList;
+			}
+			
+			if($eleve->id_eleve && !isset($elevesList[$eleve->id_eleve])) {
 				$new_elevesList = new CopixPPO();
 				$new_elevesList->id = $eleve->id_eleve;
 				$new_elevesList->nom = $eleve->nom_eleve;
@@ -197,14 +199,14 @@ class ActionGroupExport extends EnicActionGroup {
 				$new_elevesList->user_login = $eleve->login_dbuser_eleve;
 				$elevesList[$eleve->id_eleve] = $new_elevesList;
 			}
-			if(!isset($responsablesList[$eleve->id_eleve])) {
+			if($eleve->id_resp && !isset($responsablesList[$eleve->id_resp])) {
 				$new_responsablesList = new CopixPPO();
 				$new_responsablesList->id = $eleve->id_resp;
 				$new_responsablesList->nom = $eleve->nom_resp;
 				$new_responsablesList->prenom = $eleve->prenom_resp;
 				$new_responsablesList->user_id = $eleve->id_dbuser_resp;
 				$new_responsablesList->user_login = $eleve->login_dbuser_resp;
-				$responsablesList[$eleve->id_eleve] = $new_responsablesList;
+				$responsablesList[$eleve->id_resp] = $new_responsablesList;
 			}
 		}
 		
