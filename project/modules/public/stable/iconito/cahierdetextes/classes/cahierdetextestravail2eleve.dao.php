@@ -32,6 +32,7 @@ class DAOCahierDeTextesTravail2eleve {
 		  . ' AND U.id_dbuser = LI.user_id'
 		  . ' AND A.niveau=CN.id_n'
 		  . ' AND T.module_cahierdetextes_travail_id = :idTravail'
+		  . ' GROUP BY E.idEleve'
 		  . ' ORDER BY E.nom, E.prenom1';
 	  
 	  return _doQuery ($sql, array(':idTravail' => $idTravail));
