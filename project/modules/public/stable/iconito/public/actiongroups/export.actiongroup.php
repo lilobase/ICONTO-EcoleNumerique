@@ -6,10 +6,13 @@
  * @package Iconito
  * @subpackage Public
  */
+
+_classInclude('sysutils|admin');
+
 class ActionGroupExport extends EnicActionGroup {
 
 	public function beforeAction() {
-		//_currentUser()->assertCredential ('group:[current_user]');
+		_currentUser()->assertCredential ('group:[current_user]');
 	}
 
 	function processDefault() {
@@ -17,6 +20,9 @@ class ActionGroupExport extends EnicActionGroup {
 	}
 
 	function processCerise() {
+		if (!Admin::canAdmin())
+			  return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
+		
 
 		// ECOLES
 		$sql = "
