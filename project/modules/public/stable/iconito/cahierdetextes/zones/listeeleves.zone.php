@@ -26,13 +26,14 @@ class ZoneListeEleves extends CopixZone {
     
     // Récupération des niveaux de la classe
     $classeNiveauDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-    $classLevelDAO   = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO   = _ioDAO ('kernel|kernel_bu_classe_niveau');
       
     $classeNiveaux = $classeNiveauDAO->getByClass ($cahierInfos[0]->node_id);
 
     $ppo->nomsNiveau = array();
     $ppo->idsNiveau  = array();      
     foreach ($classeNiveaux as $classeNiveau) {
+      
 
       $niveau = $classLevelDAO->get ($classeNiveau->niveau);
       $ppo->nomsNiveau[]  = $niveau->niveau_court;

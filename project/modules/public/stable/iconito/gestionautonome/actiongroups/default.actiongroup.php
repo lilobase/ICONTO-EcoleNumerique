@@ -1097,7 +1097,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  _currentUser()->assertCredential('module:school|'.$ppo->parentId.'|classroom|create@gestionautonome');
 
 	  // Récupération des niveaux de classe
-	  $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
+	  $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');     
 	  $criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
     $ppo->levels = $classLevelDAO->findBy ($criteres);
     $ppo->levelsSelected = array();
@@ -1201,7 +1201,7 @@ class ActionGroupDefault extends enicActionGroup {
     if (!empty ($ppo->errors)) {
       
       // Récupération des niveaux de classe
-      $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');     
+      $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');     
       $criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
       $ppo->levels = $classLevelDAO->findBy ($criteres);
       
@@ -1300,7 +1300,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Récupération des niveaux de classe
-    $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
 	$criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
     $ppo->levels = $classLevelDAO->findBy ($criteres);
     
@@ -1399,7 +1399,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
 
       // Récupération des niveaux de classe
-      $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
+      $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
   	  $levels = $classLevelDAO->findAll ();
 
       $ppo->levelNames = array ();
@@ -2233,7 +2233,7 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->levelNames = array ();
     $ppo->levelIds   = array ();
     
-    $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
     
     foreach ($classSchoolLevels as $classSchoolLevel) {
       
@@ -2340,7 +2340,7 @@ class ActionGroupDefault extends enicActionGroup {
       
       // Récupération des niveaux de la classe
       $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-      $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+      $classLevelDAO       = _ioDAO ('kernel|kernel_bu_classe_niveau');
       
       $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 
@@ -2801,7 +2801,7 @@ class ActionGroupDefault extends enicActionGroup {
       $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');      
       $classSchoolLevels = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 
-      $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
+      $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
       
       $ppo->levelNames = array ();
       $ppo->levelIds   = array ();      
@@ -4062,7 +4062,7 @@ class ActionGroupDefault extends enicActionGroup {
 
 	  // Récupération des niveaux de la classe
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-    $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO       = _ioDAO ('kernel|kernel_bu_classe_niveau');
     
 	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 	  
@@ -4147,7 +4147,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Récupération des niveaux de la classe
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-    $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO       = _ioDAO ('kernel|kernel_bu_classe_niveau');
     
 	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 	  
@@ -4296,7 +4296,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  // Récupération des niveaux de la classe
     $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-    $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO       = _ioDAO ('kernel|kernel_bu_classe_niveau');
     
 	  $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 	  
@@ -4896,7 +4896,7 @@ class ActionGroupDefault extends enicActionGroup {
 
       // Récupération des niveaux de la classe
       $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-      $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+      $classLevelDAO       = _ioDAO ('kernel|kernel_bu_classe_niveau');
 
       $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 
@@ -5180,7 +5180,7 @@ class ActionGroupDefault extends enicActionGroup {
       
       // Récupération des niveaux de la classe
       $classSchoolLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
-      $classLevelDAO       = _ioDAO ('kernel_bu_classe_niveau');
+      $classLevelDAO       = _ioDAO ('kernel|kernel_bu_classe_niveau');
 
       $classSchoolLevels   = $classSchoolLevelDAO->getByClass ($ppo->nodeId);
 
@@ -5391,7 +5391,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
     // DAO
-    $classLevelDAO = _ioDAO ('kernel_bu_classe_niveau');
+    $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
     $schoolClassDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
     $schoolClassLevelDAO = _ioDAO ('kernel|kernel_bu_ecole_classe_niveau');
     
