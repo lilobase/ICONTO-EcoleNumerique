@@ -43,11 +43,11 @@ class ZoneVueVignette extends CopixZone {
 		  }
 		}
 		
+		$imgTypes = array('PNG', 'GIF', 'JPG', 'JPEG');
 		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
-		
 		foreach ($ppo->contenus as $contenu) {
 		  
-		  if ($contenu->content_type == 'fichier') {
+		  if ($contenu->content_type == 'fichier' && in_array($contenu->type, $imgTypes)) {
 		    
 		    $fichier = $fichierDAO->get($contenu->id);
 		    $contenu->lienMiniature = $fichier->getLienMiniature (90);
