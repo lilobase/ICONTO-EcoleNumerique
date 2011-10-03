@@ -78,6 +78,8 @@ class ActionGroupExport extends EnicActionGroup {
 					kernel_bu_personnel.nom,
 					kernel_bu_personnel.nom_jf,
 					kernel_bu_personnel.prenom1 AS prenom,
+					kernel_bu_personnel.civilite,
+					kernel_bu_personnel.mel AS email,
 					kernel_bu_personnel_entite.reference AS id_classe,
 					dbuser.id_dbuser AS user_id,
 					dbuser.login_dbuser AS user_login
@@ -93,6 +95,8 @@ class ActionGroupExport extends EnicActionGroup {
 			";
 			$enseignantsRoleList = _doQuery ($sql);
 		}
+		
+		// echo "<pre>"; print_r($enseignantsRoleList);
 		
 		$enseignantsList = array();
 		$linkEnseignantsClasseList = array();
@@ -132,6 +136,10 @@ class ActionGroupExport extends EnicActionGroup {
 					kernel_bu_eleve.idEleve AS id_eleve,
 					kernel_bu_eleve.nom AS nom_eleve,
 					kernel_bu_eleve.prenom1 AS prenom_eleve,
+					kernel_bu_eleve.id_sexe AS id_sexe_eleve,
+					kernel_bu_eleve.date_nais AS date_nais_eleve,
+					
+					kernel_bu_sexe.sexe AS sexe_eleve,
 					
 					kernel_bu_eleve_affectation.classe AS id_classe_eleve,
 					
@@ -149,6 +157,9 @@ class ActionGroupExport extends EnicActionGroup {
 					dbuser_resp.password_dbuser AS password_dbuser_resp
 					
 				FROM kernel_bu_eleve
+				
+				JOIN kernel_bu_sexe
+				  ON kernel_bu_sexe.id_s=kernel_bu_eleve.id_sexe
 				
 				JOIN kernel_bu_eleve_affectation
 				  ON kernel_bu_eleve.idEleve=kernel_bu_eleve_affectation.eleve
@@ -210,7 +221,7 @@ class ActionGroupExport extends EnicActionGroup {
 			}
 		}
 		
-		// echo "<pre>"; print_r($elevesList);
+		echo "<pre>"; print_r($eleveList);
 		// echo "<pre>"; print_r($responsablesList);
 		// echo "<pre>"; print_r($linkElevesResponsablesList);
 		
@@ -246,6 +257,8 @@ class ActionGroupExport extends EnicActionGroup {
 			$xml_item->addChild('nom',$item->nom);
 			$xml_item->addChild('nom_jf',$item->nom_jf);
 			$xml_item->addChild('prenom',$item->prenom);
+			$xml_item->addChild('civilite',$item->civilite);
+			$xml_item->addChild('email',$item->email);
 			$xml_item->addChild('user_id',$item->user_id);
 			$xml_item->addChild('user_login',$item->user_login);
 		}
