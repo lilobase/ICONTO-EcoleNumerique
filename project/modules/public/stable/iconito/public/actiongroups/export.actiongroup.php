@@ -142,11 +142,14 @@ class ActionGroupExport extends EnicActionGroup {
 					kernel_bu_sexe.sexe AS sexe_eleve,
 					
 					kernel_bu_eleve_affectation.classe AS id_classe_eleve,
+					kernel_bu_eleve_affectation.niveau AS niveau_eleve,
+
+					kernel_bu_classe_niveau.niveau_court AS niveau_court_eleve,
+					kernel_bu_classe_niveau.niveau AS niveau_long_eleve,
 					
 					dbuser_eleve.id_dbuser AS id_dbuser_eleve,
 					dbuser_eleve.login_dbuser AS login_dbuser_eleve,
 					dbuser_eleve.password_dbuser AS password_dbuser_eleve,
-					
 					
 					kernel_bu_responsable.numero AS id_resp,
 					kernel_bu_responsable.nom AS nom_resp,
@@ -166,7 +169,10 @@ class ActionGroupExport extends EnicActionGroup {
 				  
 				JOIN kernel_bu_annee_scolaire
 				  ON kernel_bu_eleve_affectation.annee_scol=kernel_bu_annee_scolaire.id_as
-			
+				
+				JOIN kernel_bu_classe_niveau
+				  ON kernel_bu_classe_niveau.id_n=kernel_bu_eleve_affectation.niveau
+				
 				LEFT JOIN kernel_link_bu2user kernel_link_bu2user_eleve ON kernel_link_bu2user_eleve.bu_type='USER_ELE' AND kernel_link_bu2user_eleve.bu_id=kernel_bu_eleve.idEleve
 				LEFT JOIN dbuser dbuser_eleve ON kernel_link_bu2user_eleve.user_id=dbuser_eleve.id_dbuser
 				
@@ -205,7 +211,12 @@ class ActionGroupExport extends EnicActionGroup {
 				$new_elevesList->id = $eleve->id_eleve;
 				$new_elevesList->nom = $eleve->nom_eleve;
 				$new_elevesList->prenom = $eleve->prenom_eleve;
+				$new_elevesList->id_sexe = $eleve->id_sexe_eleve;
+				$new_elevesList->date_nais = $eleve->date_nais_eleve;
+				$new_elevesList->sexe = $eleve->sexe_eleve;
 				$new_elevesList->classe = $eleve->id_classe_eleve;
+				$new_elevesList->niveau_court = $eleve->niveau_court_eleve;
+				$new_elevesList->niveau_long = $eleve->niveau_long_eleve;
 				$new_elevesList->user_id = $eleve->id_dbuser_eleve;
 				$new_elevesList->user_login = $eleve->login_dbuser_eleve;
 				$elevesList[$eleve->id_eleve] = $new_elevesList;
@@ -221,7 +232,7 @@ class ActionGroupExport extends EnicActionGroup {
 			}
 		}
 		
-		echo "<pre>"; print_r($eleveList);
+		// echo "<pre>"; print_r($eleveList);
 		// echo "<pre>"; print_r($responsablesList);
 		// echo "<pre>"; print_r($linkElevesResponsablesList);
 		
@@ -277,7 +288,12 @@ class ActionGroupExport extends EnicActionGroup {
 			$xml_item->addChild('id',$item->id);
 			$xml_item->addChild('nom',$item->nom);
 			$xml_item->addChild('prenom',$item->prenom);
+			$xml_item->addChild('id_sexe',$item->id_sexe);
+			$xml_item->addChild('date_nais',$item->date_nais);
+			$xml_item->addChild('sexe',$item->sexe);
 			$xml_item->addChild('classe',$item->classe);
+			$xml_item->addChild('niveau_court',$item->niveau_court);
+			$xml_item->addChild('niveau_long',$item->niveau_long);
 			$xml_item->addChild('user_id',$item->user_id);
 			$xml_item->addChild('user_login',$item->user_login);
 		}
