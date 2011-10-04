@@ -49,7 +49,7 @@
 			
 			<parameter name="conf_Ceriseprim_actif" captioni18n="parameter.conf_Ceriseprim_actif"  default="0" />
 			<parameter name="conf_Ceriseprim_url" captioni18n="parameter.conf_Ceriseprim_url"  default="" />
-			<parameter name="conf_Ceriseprim_pass" captioni18n="parameter.conf_Ceriseprim_pass"  default="" />
+			<parameter name="conf_Ceriseprim_secret" captioni18n="parameter.conf_Ceriseprim_secret"  default="" />
 			
 		</group>
 	</parameters>
