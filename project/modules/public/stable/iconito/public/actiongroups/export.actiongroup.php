@@ -21,12 +21,14 @@ class ActionGroupExport extends EnicActionGroup {
 
 	function processCerise() {
 		$magic = $this->getRequest('hackme', '');
+		$rne = $this->getRequest('rne', '');
 		
 		if ($magic!='assurdiato' && !Admin::canAdmin())
 			  return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 		
 
 		// ECOLES
+		$params = array();
 		$sql = "
 			SELECT
 				kernel_bu_ecole.numero AS id,
@@ -36,12 +38,19 @@ class ActionGroupExport extends EnicActionGroup {
 				kernel_bu_ville.nom AS ville_nom
 			FROM kernel_bu_ecole
 			LEFT JOIN kernel_bu_ville
-				ON kernel_bu_ecole.id_ville=kernel_bu_ville.id_vi
-			ORDER BY id";
-		$ecolesList = _doQuery ($sql);
+				ON kernel_bu_ecole.id_ville=kernel_bu_ville.id_vi";
+		
+		if($rne) {
+			$sql.= " WHERE rne=:rne";
+			$params[':rne'] = $rne;
+		}
+		$sql.= " ORDER BY id";
+		$ecolesList = _doQuery ($sql, $params);
+		
 		// echo "<pre>"; print_r($ecolesList);
 		
 		// CLASSES
+		$params = array();
 		$sql = "
 			SELECT
 				kernel_bu_ecole_classe.id,
@@ -50,12 +59,18 @@ class ActionGroupExport extends EnicActionGroup {
 			FROM kernel_bu_ecole_classe
 			JOIN kernel_bu_annee_scolaire
 				ON kernel_bu_ecole_classe.annee_scol=kernel_bu_annee_scolaire.id_as
+			JOIN kernel_bu_ecole ON kernel_bu_ecole_classe.ecole=kernel_bu_ecole.numero
 			WHERE kernel_bu_annee_scolaire.current=1
 			  AND kernel_bu_ecole_classe.is_validee=1
-			  AND kernel_bu_ecole_classe.is_supprimee=0
-			ORDER BY id
-		";
-		$classesList = _doQuery ($sql);
+			  AND kernel_bu_ecole_classe.is_supprimee=0";
+		
+		if($rne) {
+			$sql.= " AND kernel_bu_ecole.rne=:rne";
+			$params[':rne'] = $rne;
+		}
+		
+		$sql .="	ORDER BY id";
+		$classesList = _doQuery ($sql, $params);
 		
 		// echo "<pre>"; print_r($classesList);
 		
@@ -192,6 +207,7 @@ class ActionGroupExport extends EnicActionGroup {
 				
 				WHERE kernel_bu_annee_scolaire.current=1
 				  AND kernel_bu_eleve_affectation.current=1
+				  AND kernel_bu_eleve_affectation.classe IN  (".$in_classe.")
 			";
 			$eleveList = _doQuery ($sql);
 		}
@@ -237,7 +253,6 @@ class ActionGroupExport extends EnicActionGroup {
 		// echo "<pre>"; print_r($eleveList);
 		// echo "<pre>"; print_r($responsablesList);
 		// echo "<pre>"; print_r($linkElevesResponsablesList);
-		
 		
 		$xmlstr = '<iconito></iconito>';
 		$export = new SimpleXMLElement($xmlstr);
