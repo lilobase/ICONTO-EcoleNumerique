@@ -22,7 +22,36 @@ class ZoneDashboardClasse extends enicZone {
         if($this->matrix->classe($idZone)->_right->eleve->voir){
             $annuaireService =& CopixClassesFactory::Create ('annuaire|AnnuaireService');
 
+            if( CopixConfig::exists('default|conf_Ceriseprim_actif') && CopixConfig::get ('default|conf_Ceriseprim_actif') ) {
+            	$user = _currentUser ();
+            	// print_r($idZone);
+            	if($user->getExtra('type')=='USER_ENS') {
+            		
+            		$sql = "
+            			SELECT *
+            			FROM kernel_bu_ecole
+            			JOIN kernel_bu_ecole_classe ON kernel_bu_ecole_classe.ecole=kernel_bu_ecole.numero
+            			WHERE kernel_bu_ecole_classe.id=:id
+            		";
+            		$params = array(':id'=>$this->getParam('idZone'));
+            		
+            		$ecoles_list = _doQuery ($sql, $params);
+            		
+            		// print_r($ecoles_list);
+            		
+            		if(count($ecoles_list)) {
+            			
+	            		$url = CopixConfig::get ('default|conf_Ceriseprim_url')."/".$ecoles_list[0]->RNE."/ico.php?user=personnel-".$user->getExtra('id')."&date=".date('Y-m-d')."&key=".md5($ecoles_list[0]->RNE."personnel-".$user->getExtra('id').date('Y-m-d').CopixConfig::get ('default|conf_Ceriseprim_secret'));
+	            		
+	            		// https://www.cerise-prim.fr/0400178B/ico.php?user=personnel-706&date=2011-10-04&key=0e757c8e973cbbee17c48dc1ad9bb5ba
 
+
+            			$tpl->assign('ceriseprim', $url);
+            		}
+            	}
+            }
+// die('stop');
+            
 
             $elevesDatas = $annuaireService->getElevesInClasse($idZone);
 
