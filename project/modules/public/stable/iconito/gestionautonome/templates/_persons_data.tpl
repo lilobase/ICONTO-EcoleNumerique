@@ -245,7 +245,6 @@
       {if $hasCredentialTeacherCreate}
         <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button button-add">Ajouter un enseignant</a>
         <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=1}" class="button button-next">Affecter une personne</a>
-        {assign var=hasCredential value=1}
       {/if}
       {if $hasCredentialStudentCreate}
         <a href="{copixurl dest="gestionautonome||createStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-add">Ajouter un élève</a>
@@ -254,7 +253,7 @@
       {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate || $hasCredentialPersonInChargeUpdate}
         <br /><a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button button-save">Gérer les mots de passe</a>
       {/if}
-      {if $hasCredential eq 1}
+      {if $hasCredentialStudentCreate}
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
       {if $hasCredentialStudentCreate || $hasCredentialStudentUpdate}
