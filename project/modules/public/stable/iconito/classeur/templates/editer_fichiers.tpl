@@ -77,6 +77,7 @@
 	    'width'           : '122',
 	    'wmode'           : 'transparent',
 	    'buttonImg'       : '../../../js/uploadify/button-background.png',
+	    'sizeLimit'       : {/literal}{$ppo->maxSizeLimit}{literal},
 	    'onComplete'      : function (event, ID, fileObj, response, data) {
 	      <!-- Upload multiple, affichage de la note concernant le titre -->
 	      if (data.fileCount > 0 || $('#fichiersQueue div.completed').size() > 0) {

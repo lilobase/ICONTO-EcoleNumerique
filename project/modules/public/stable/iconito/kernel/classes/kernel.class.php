@@ -2666,10 +2666,26 @@ class Kernel {
             $oIsSpam = true;
         return $oIsSpam;
     }
+    
+    /**
+  	 * Retourne la valeur en bytes (utilisé pour le calcul du upload_max_size dans le module classeur)
+  	 * 
+  	 * @author Jérémy FOURNAISE
+  	 * @return int $val Valeur en bytes
+  	 */
+    function return_bytes($val) {
+      
+        $val = trim($val);
+        $last = strtolower($val[strlen($val)-1]);
+        switch($last) {
+            case 'g':
+                $val *= 1024;
+            case 'm':
+                $val *= 1024;
+            case 'k':
+                $val *= 1024;
+        }
 
-
-
-
-
-
+        return $val;
+    }
 }

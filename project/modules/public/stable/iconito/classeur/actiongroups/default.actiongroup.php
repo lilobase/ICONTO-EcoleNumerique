@@ -428,6 +428,8 @@ class ActionGroupDefault extends enicActionGroup {
     $dossierTmp = classeurService::getTmpFolder();
     $ppo->dossierTmp = $dossierTmp.classeurService::createKey();
     
+    $ppo->maxSizeLimit = Kernel::return_bytes(ini_get('upload_max_filesize'));
+    
     // Soumission du formulaire
     if (CopixRequest::isMethod ('post')) {
       
