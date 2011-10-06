@@ -1523,8 +1523,9 @@ class ActionGroupDefault extends enicActionGroup {
       $personEntityDAO->delete ($personEntity->pers_entite_id_per, $personEntity->pers_entite_reference, $personEntity->pers_entite_type_ref);
     }
     
-	  // Suppression de la classe
-	  $classroomDAO->delete ($class->id);
+	  // Désactivation de la classe
+	  $class->is_supprimee = 1;
+	  $classroomDAO->update ($class);
 		
 		return _arRedirect (CopixUrl::get ('gestionautonome||showTree', array ('save' => 'classDeleted')));
 	}
