@@ -53,16 +53,44 @@ class ActionGroupCharte extends enicActionGroup{
         $ppo->success = (isset($this->flash->success)) ? $this->flash->success : null;
         $ppo->chartes = $this->service('CharteService')->getChartesTypes();
         $ppo->radio = array(1 => 'oui', 0 => 'non');
+        $ppo->idClasseur = $ppo->idMalle = null;
 
-        $mods = Kernel::getModEnabled ($this->user->type, $this->user->id);
-        $mal = Kernel::filterModuleList ($mods, 'MOD_MALLE');
-
-        //if malle is not initialized for root user
-        if(empty($mal))
+        $modsAvailable = Kernel::getModAvailable($this->user->type);
+        $malleAvailable = Kernel::filterModuleList ($modsAvailable, 'MOD_MALLE');
+        
+        // Malle activée
+        if (!empty($malleAvailable)) {
+          
+          $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->id);
+          $mal = Kernel::filterModuleList ($modsEnabled, 'MOD_MALLE');
+          
+          // Si la malle est bien initialisée
+          if (!empty($mal)) {
+            
+            $ppo->idMalle = $mal[0]->module_id;
+          }
+          else {
+            
             return $this->error ('charte.admin.noMalle', true, 'malle||');
+          }
+        }
+        else {
+          
+          $classeurAvailable = Kernel::filterModuleList ($modsAvailable, 'MOD_CLASSEUR');
+          
+          // Classeur activé
+          if (!empty($classeurAvailable)) {
+            
+            Kernel::createMissingModules($this->user->type, $this->user->id);
+            $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->id);
+            $classeur = Kernel::filterModuleList ($modsEnabled, 'MOD_CLASSEUR');
+            
+            if (!empty($classeur)) {
 
-        $ppo->idMalle = $mal[0]->module_id;
-		$ppo->url = CopixUrl::get ('GetFilePopup', array('id'=>$mal[0]->module_id, 'field'=>'ca-file_url', 'format'=>'text'));
+              $ppo->idClasseur = $classeur[0]->module_id;
+            }
+          }
+        }
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
 
