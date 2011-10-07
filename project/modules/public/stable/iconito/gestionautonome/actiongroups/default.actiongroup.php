@@ -5323,13 +5323,14 @@ class ActionGroupDefault extends enicActionGroup {
 	
 	public function processRefreshCityFilter () {
 	                                  
+	  $withLabel = _request ('with_label', true);
 	  $cityGroupId = _request ('city_group_id', null);
 	  if (!is_null ($cityGroupId)) {
 	    
 	    $groupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
 	    if ($group = $groupDAO->get($cityGroupId)) {
 	      
-	      echo CopixZone::process ('gestionautonome|filterCity', array('city_group_id' => $cityGroupId));
+	      echo CopixZone::process ('gestionautonome|filterCity', array('city_group_id' => $cityGroupId, 'with_label' => $withLabel));
 	    }
 	  }
     
@@ -5338,13 +5339,14 @@ class ActionGroupDefault extends enicActionGroup {
 	
 	public function processRefreshSchoolFilter () {
 
+    $withLabel = _request ('with_label', true);
 	  $cityId = _request ('city_id', null);
 	  if (!is_null ($cityId)) {
 	    
 	    $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
 	    if ($city = $cityDAO->get($cityId)) {
 	      
-	      echo CopixZone::process ('gestionautonome|filterSchool', array('city_id' => $cityId));
+	      echo CopixZone::process ('gestionautonome|filterSchool', array('city_id' => $cityId, 'with_label' => $withLabel));
 	    }
 	  }
 	  
@@ -5353,13 +5355,15 @@ class ActionGroupDefault extends enicActionGroup {
 	
 	public function processRefreshClassFilter () {
 	  
+	  $withLabel = _request ('with_label', true);
+	  $gradeId = _request ('grade_id', null);
 	  $schoolId = _request ('school_id', null);
 	  if (!is_null ($schoolId)) {
 	    
 	    $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
 	    if ($school = $schoolDAO->get($schoolId)) {
 	      
-	      echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId));
+	      echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId));
 	    }
 	  }
 
@@ -5795,7 +5799,7 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo = new CopixPPO ();
 
     // Récupération de la classe source
-    $ppo->nodeId = _request ('nodeId');  	
+    $ppo->nodeId = _request ('nodeId');
   	if (is_null ($ppo->nodeId)) {
 
       return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Vous n'avez pas défini de classe d'origine.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
@@ -5807,11 +5811,11 @@ class ActionGroupDefault extends enicActionGroup {
 
     // Contrôle des droits
   	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome'); 	
-
+  	
     // Si l'année de destination est précisée, on doit la prendre en compte
     $ppo->oldGrade = null;
     $ppo->nextGrade = null;
-    $oldGradeId = _request ('oldGradeId');
+    $oldGradeId = _request ('oldGradeId', $ppo->sourceClassroom->annee_scol);
     $nextGradeId = _request ('nextGradeId');
     if (!is_null ($oldGradeId)) {
 
@@ -5843,13 +5847,21 @@ class ActionGroupDefault extends enicActionGroup {
 
           $ppo->oldGrade = $grade;
         }
-        if (is_null ($ppo->nextGrade)) {
-
-          $ppo->nextGrade = isset ($ppo->grades[$key+1]) ? $ppo->grades[$key+1] : $grade;
-        }
       }
     }
-
+    
+    $cityDAO = _ioDAO('kernel|kernel_bu_ville');
+    
+    // Information sur la classe d'origine
+    $fromClassInfos = Kernel::getNodeInfo ('BU_CLASSE', $ppo->nodeId, true);
+    $fromCity       = $cityDAO->get($fromClassInfos['ALL']->eco_id_ville);
+    
+	  $ppo->fromClass = array ();                 
+    $ppo->fromClass['groupcity'] = $fromCity->id_grville;
+    $ppo->fromClass['city']      = $fromClassInfos['ALL']->eco_id_ville;
+    $ppo->fromClass['school']    = $fromClassInfos['ALL']->eco_numero;
+    $ppo->fromClass['class']     = $fromClassInfos['id'];
+    
     // Si la classe de destination est précisée
     $ppo->destinationClassroom = null;
     $destinationClassroomId = _request ('destinationClassroomId');
@@ -5867,22 +5879,22 @@ class ActionGroupDefault extends enicActionGroup {
   	    $ppo->destinationClassroom = null;
   	  }
     }
-
-    // Récupération des classes sources
-    $ppo->sourceClassrooms = $classroomDAO->getBySchool ($ppo->sourceClassroom->ecole, $ppo->oldGrade->id_as);
-
-    // Récupération des classes de destination
-    $ppo->destinationClassrooms = $classroomDAO->getBySchool ($ppo->sourceClassroom->ecole, $ppo->nextGrade->id_as);
     
     // Récupération des élèves sans affectation
+    $ppo->toClass = array ();  
     if (!is_null ($ppo->destinationClassroom)) {
-
+                     
+      $toClassInfos   = Kernel::getNodeInfo ('BU_CLASSE', $ppo->destinationClassroom->id, true);                                                                     
+      $toCity         = $cityDAO->get($toClassInfos['ALL']->eco_id_ville);
+      
+      $ppo->toClass['groupcity'] = $toCity->id_grville;
+      $ppo->toClass['city']      = $toClassInfos['ALL']->eco_id_ville;
+      $ppo->toClass['school']    = $toClassInfos['ALL']->eco_numero;
+      $ppo->toClass['class']     = $toClassInfos['id'];
+      
       // Récupération des niveaux
       $ppo->destinationLevels = $ppo->destinationClassroom->getLevels ();
       $ppo->sourceLevels = $ppo->sourceClassroom->getLevels ();
-
-      // Récupération des élèves sans affectation
-      $ppo->students = $studentDAO->getStudentsByClass ($ppo->sourceClassroom->id);
     }
 
     $ppo->error = null;
@@ -5897,24 +5909,9 @@ class ActionGroupDefault extends enicActionGroup {
       }
       foreach ($ids as $id) {
 
-        $exists = false;
-        foreach ($ppo->students as $student) {
-
-          if ($student->id == $id) {
-
-            $exists = true;
-            // Le niveau est-il précisé ?
-            if (is_null (_request ('level_'.$id))) {
-
-              $ppo->error = 'Une erreur est survenue.';
-            }
-            break;
-          }
-        }
-
-        // ERREUR
-        if (!$exists) {
-
+        // Le niveau est-il précisé ?
+        if (is_null (_request ('level_'.$id))) {
+        
           $ppo->error = 'Une erreur est survenue.';
           break;
         }
@@ -5965,20 +5962,18 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
 	public function processRefreshClassroomSelector () {
 	  
-	  $schoolId = _request ('schoolId');
-	  $gradeId = _request ('gradeId');
+	  $schoolId   = _request ('school_id');
+	  $gradeId    = _request ('grade_id');
+	  $withLabel  = _request ('with_label', true);
 	  
 	  if (is_null ($schoolId) || is_null ($gradeId)) {
 	    
 	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
 	  }
+	  
+	  echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId));
 
-	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
-	  $ppo->classrooms = $classroomDAO->getBySchool ($schoolId, $gradeId);
-	  
-	  $ppo->withEmpty = _request ('withEmpty', false);
-	  
-	  return _arPPO ($ppo, array ('template' => '_classrooms_selector_options.tpl', 'mainTemplate' => null));
+    return _arNone ();
 	}
 	
 	/**
@@ -5988,17 +5983,17 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
 	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    
+	  $sourceClassroomId = _request ('sourceClassroomId');
+	  if (!$sourceClassroom = $classroomDAO->get ($sourceClassroomId)) {
+
+	    $sourceClassroom = null;
+	  }
 	  
 	  $destinationClassroomId = _request ('destinationClassroomId');
 	  if (!$destinationClassroom = $classroomDAO->get ($destinationClassroomId)) {
 	    
 	    $destinationClassroom = null;
-	  }
-    
-	  $sourceClassroomId = _request ('sourceClassroomId');
-	  if (!$sourceClassroom = $classroomDAO->get ($sourceClassroomId)) {
-
-	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
 	  }
 	  
 	  $oldGradeId = _request ('oldGradeId');
@@ -6010,10 +6005,12 @@ class ActionGroupDefault extends enicActionGroup {
 	  $nextGradeId = _request ('nextGradeId');
 	  if (!$nextGrade = $gradesDAO->get ($nextGradeId)) {
 
-	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+	    $nextGrade = null;
 	  }
 	  
-	  return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixZone::process ('gestionautonome|studentsToAssign', array ('destinationClassroom' => $destinationClassroom, 'sourceClassroom' => $sourceClassroom, 'oldGrade' => $oldGrade, 'nextGrade' => $nextGrade)));
+	  $schoolId = _request('schoolId', null);
+	  
+	  return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixZone::process ('gestionautonome|studentsToAssign', array ('destinationClassroom' => $destinationClassroom, 'sourceClassroom' => $sourceClassroom, 'oldGrade' => $oldGrade, 'nextGrade' => $nextGrade, 'schoolId' => $schoolId)));
 	  
 	  return _arPPO ($ppo, array ('template' => '_students_for_assignment.tpl', 'mainTemplate' => null));
 	}

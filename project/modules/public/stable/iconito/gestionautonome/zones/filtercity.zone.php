@@ -12,11 +12,20 @@ class ZoneFilterCity extends CopixZone {
 	  
 	  // Récupérations des filtres en session
 	  $ppo->selected = $this->getParam ('selected', null);
+	  $ppo->withLabel = $this->getParam ('with_label', true);
     
 	  if (!is_null ($cityGroupId = $this->getParam('city_group_id', null))) {
 	    
 	    $cityDAO = _dao ('kernel|kernel_bu_ville');
-	    $cities = $cityDAO->getByIdGrville ($cityGroupId);
+  	  if (_currentUser ()->testCredential ('module:cities_group|'.$cityGroupId.'|city|create@gestionautonome')) {
+
+        $cities = $cityDAO->getByIdGrville ($cityGroupId);
+  	  }
+  	  else {
+
+        $groups = _currentUser ()->getGroups ();
+        $cities = $cityDAO->findByCitiesGroupIdAndUserGroups ($cityGroupId, $groups['gestionautonome|iconitogrouphandler']);
+      }
 	    
 	    $ppo->citiesIds   = array('');
 	    $ppo->citiesNames = array('');

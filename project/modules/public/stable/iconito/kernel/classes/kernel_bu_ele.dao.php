@@ -166,9 +166,9 @@ class DAOKernel_bu_ele {
 		  . ' AND LI.bu_type = "USER_ELE"'
 		  . ' AND LI.bu_id=E.idEleve'
 		  . ' AND U.id_dbuser = LI.user_id'
-		  . ' AND A.niveau=CN.id_n';
-		  
-		$sql .= ' ORDER BY E.nom, E.prenom1';  
+		  . ' AND A.niveau=CN.id_n'
+		  . ' GROUP BY E.idEleve'
+      . ' ORDER BY E.nom, E.prenom1';  
 
     return _doQuery ($sql, array (':id' => $classId));
   }
@@ -191,9 +191,9 @@ class DAOKernel_bu_ele {
 		  . ' AND LI.bu_type = "USER_ELE"'
 		  . ' AND LI.bu_id=E.idEleve'
 		  . ' AND U.id_dbuser = LI.user_id'
-		  . ' AND A.niveau=CN.id_n';
-		  
-		$sql .= ' ORDER BY E.nom, E.prenom1'; 
+		  . ' AND A.niveau=CN.id_n'
+		  . ' GROUP BY E.idEleve'
+		  . ' ORDER BY E.nom, E.prenom1'; 
 
     $results = _doQuery ($sql, array (':id' => $classId));
     
@@ -224,5 +224,30 @@ class DAOKernel_bu_ele {
 		  . ' ORDER BY kernel_bu_eleve.nom, kernel_bu_eleve.prenom1'; 
 
     return _doQuery ($sql, array (':personId' => $personId));
+  }
+  
+  /**
+	 * Retourne les élèves sans affectation d'une école donnée
+	 *
+	 * @param integer $schoolId   Identifiant de l'école
+	 */
+  function getStudentsWithoutAssignmentBySchool ($schoolId) {
+    
+    $sql = 'SELECT E.idEleve, E.idEleve as id, E.nom, E.prenom1, E.prenom1 as prenom, E.id_sexe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe' 
+      . ' FROM kernel_bu_eleve E, kernel_link_bu2user LI, dbuser U, kernel_bu_ecole EC'
+      . ' LEFT JOIN kernel_bu_ecole_classe CL ON EC.numero = CL.ecole'
+      . ' LEFT JOIN kernel_bu_eleve_affectation A ON A.classe = CL.id AND A.current = 0'
+		  . ' WHERE EC.numero = :schoolId'
+		  . ' AND E.idEleve = A.eleve'
+		  . ' AND A.classe = CL.id'
+		  . ' AND LI.bu_type = "USER_ELE"'
+		  . ' AND LI.bu_id=E.idEleve'
+		  . ' AND U.id_dbuser = LI.user_id'
+		  . ' GROUP BY E.idEleve'
+		  . ' HAVING SUM(A.current) = 0';
+		  
+		$sql .= ' ORDER BY E.nom, E.prenom1';  
+
+    return _doQuery ($sql, array (':schoolId' => $schoolId));
   }
 }

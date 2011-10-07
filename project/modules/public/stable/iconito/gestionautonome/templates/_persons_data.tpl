@@ -258,13 +258,9 @@
       {/if}
       {if $hasCredentialStudentCreate || $hasCredentialStudentUpdate}
         <h3>Affecter des élèves</h3>
-        {if $hasCredentialStudentUpdate}
-            <a href="{copixurl dest="gestionautonome||changeStudentsAffect" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-next">Vers une autre classe</a>
-        {/if}
         {if $hasCredentialStudentCreate}
-            <a href="{copixurl dest="gestionautonome||addExistingStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-next">Venant d'une autre classe</a>
-            <a href="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->parent.id}" class="button button-next">Pour la nouvelle année scolaire</a>
-            {assign var=hasCredential value=1}
+          <a href="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->parent.id}" class="button button-next">Pour la nouvelle année scolaire</a>
+          {assign var=hasCredential value=1}
         {/if}
       {/if}
   {/if}

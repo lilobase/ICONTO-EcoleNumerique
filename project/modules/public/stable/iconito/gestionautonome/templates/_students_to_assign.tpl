@@ -2,12 +2,18 @@
   {foreach from=$ppo->sourceLevels item=level}
     <input type="checkbox" value="{$level->id_n}" id="level_{$level->id_n}" class="check-students-by-levels" /><label for="level_{$level->id_n}">{$level}</label>
   {/foreach}
-  <form action="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->sourceClassroom->id destinationClassroomId=$ppo->destinationClassroom->id oldGradeId=$ppo->oldGrade->id_as nextGradeId=$ppo->nextGrade->id_as}" method="post" id="setting-form">
+  {if $ppo->sourceClassroom}
+    <form action="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->sourceClassroom->id destinationClassroomId=$ppo->destinationClassroom->id oldGradeId=$ppo->oldGrade->id_as nextGradeId=$ppo->nextGrade->id_as}" method="post" id="setting-form">
+  {else}
+    <form action="{copixurl dest="gestionautonome||setStudentsToClass" nodeId=$ppo->destinationClassroom->id destinationClassroomId=$ppo->destinationClassroom->id oldGradeId=$ppo->oldGrade->id_as nextGradeId=$ppo->nextGrade->id_as schoolId=$ppo->schoolId}" method="post" id="setting-form">
+  {/if}
     <table>
       <thead>
         <tr>
           <th><input type="checkbox" name="check_all" id="check-all" /></th>
-          <th>Ancien niveau</th>
+          {if $ppo->schoolId eq null}
+            <th>Ancien niveau</th>
+          {/if}
           <th>Nom</th>
           <th>Prénom</th>
           {if $ppo->destinationLevels neq null}
@@ -20,7 +26,9 @@
         {foreach from=$ppo->students item=student}
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
             <td class="center"><input type="checkbox" name="ids[]" id="id_{$student->id}" value="{$student->id}" class="level_{$student->niveauId}" /></td>
-            <td><label for="id_{$student->id}">{$student->niveau}</label></td>
+            {if $ppo->schoolId eq null}
+              <td><label for="id_{$student->id}">{$student->niveau}</label></td>
+            {/if}
             <td><label for="id_{$student->id}">{$student->nom}</label></td>
             <td><label for="id_{$student->id}">{$student->prenom}</label></td>
             {if $ppo->destinationLevels neq null}

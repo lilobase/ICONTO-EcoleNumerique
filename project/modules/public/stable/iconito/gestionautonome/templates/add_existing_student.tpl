@@ -124,11 +124,11 @@
       jQuery('#students-list-filter').toggleClass('hidden');
     });
     
-    jQuery('#school').live('change', function(){
+    jQuery('[name="school"]').live('change', function(){
 
       jQuery('#class-filter').empty();
       
-      var schoolId = jQuery('#school').val();
+      var schoolId = jQuery('[name="school"]').val();
       if (schoolId != '') {
         
         jQuery.ajax({
@@ -144,13 +144,13 @@
       }
     });
 
-    jQuery('#groupcity').live('change', function(){
+    jQuery('[name="groupcity"]').live('change', function(){
 
       jQuery('#city-filter').empty();
       jQuery('#school-filter').empty();
       jQuery('#class-filter').empty();
       
-      var cityGroupId = jQuery('#groupcity').val();
+      var cityGroupId = jQuery('[name="groupcity"]').val();
       if (cityGroupId != '') {
         
         jQuery.ajax({
@@ -166,12 +166,12 @@
       }
     });
 
-    jQuery('#city').live('change', function(){
+    jQuery('[name="city"]').live('change', function(){
       
       jQuery('#school-filter').empty();
       jQuery('#class-filter').empty();
       
-      var cityId = jQuery('#city').val();
+      var cityId = jQuery('[name="city"]').val();
       if (cityId != '') {
         
         jQuery.ajax({

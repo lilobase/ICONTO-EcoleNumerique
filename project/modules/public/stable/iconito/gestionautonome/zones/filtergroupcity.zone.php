@@ -11,12 +11,25 @@ class ZoneFilterGroupCity extends CopixZone {
 	  $ppo = new CopixPPO ();                               
     
 	  // Récupérations des filtres en session
-	  $ppo->selected = $this->getParam ('selected', null);
+	  $ppo->selected = $this->getParam ('selected', 0);
+	  $ppo->withLabel = $this->getParam ('with_label', true);
 	  
     $ppo->cityGroupsIds = array('');
 	  $ppo->cityGroupsNames = array('');
 	  
-	  $cityGroups = _ioDAO ('kernel|kernel_bu_groupe_villes')->findAllOrderByName ();
+	  $citiesGroupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
+	  if (_currentUser ()->testCredential ('module:*||cities_group|create@gestionautonome')) {
+      
+      $criteria = _daoSp ();
+      $criteria->orderBy ('nom_groupe');
+      $cityGroups = $citiesGroupDAO->findBy ($criteria);
+    }
+    else {
+      
+      $groups = _currentUser ()->getGroups ();
+      $cityGroups = $citiesGroupDAO->findByUserGroups ($groups['gestionautonome|iconitogrouphandler']);
+    }
+    
 	  foreach ($cityGroups as $cityGroup) {
 	    
 	    $ppo->cityGroupsIds[]   = $cityGroup->id_grv;
