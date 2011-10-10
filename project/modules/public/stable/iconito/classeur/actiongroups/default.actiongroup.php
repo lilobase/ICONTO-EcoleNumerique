@@ -13,11 +13,10 @@ class ActionGroupDefault extends enicActionGroup {
     // Contrôle d'accès au module
     if (!is_null($classeurId = _request ('classeurId', _request('id', null)))
       && ($actionName != 'sauvegardeEtatArbreClasseurs' && $actionName != 'sauvegardeEtatArbreDossiers')) {
-        
+            
       if (Kernel::getLevel('MOD_CLASSEUR', $classeurId) < PROFILE_CCV_READ) {
-
-        return CopixActionGroup::process ('genericTools|Messages::getError',
-   	     array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $classeurId))));
+    
+        return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $classeurId))));
       }
     }
     
@@ -578,12 +577,14 @@ class ActionGroupDefault extends enicActionGroup {
               foreach ($data['files'] as $file) {
                 
                 $fichier = _record('classeur|classeurfichier');
-
+                
+                $title = Kernel::stripText($file);
+                
                 $fichier->classeur_id   = $classeur->id;
                 $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
-                $fichier->titre         = substr($file, 0, 63);
+                $fichier->titre         = substr($title, 0, 63);
                 $fichier->commentaire   = '';
-                $fichier->fichier       = $file;
+                $fichier->fichier       = $title;
                 $fichier->taille        = file_exists($dossierParent.'/'.$file) ? filesize($dossierParent.'/'.$file) : 0;
                 $fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
                 $fichier->cle           = classeurService::createKey();

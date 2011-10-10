@@ -2648,44 +2648,84 @@ class Kernel {
 
 
 
-    /**
-     * Verification de spam, selon les parametres passes et le referer
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2011/04/08
-     * @return boolean True si le visiteur est un robot spammeur, true si c'est un humain
-     */
-
-    public function isSpam()
-    {
-        $oIsSpam = false;
-        if (!isset($_SERVER["HTTP_REFERER"]) || !$_SERVER["HTTP_REFERER"]) // Pas de referer
-            $oIsSpam = true;
-        elseif (CopixRequest::get('url1')) // Champ en commentaire rempli
-            $oIsSpam = true;
-        elseif (CopixRequest::get('url2') != 'Abracadabra') // Champ non visible modifie
-            $oIsSpam = true;
-        return $oIsSpam;
+  /**
+   * Verification de spam, selon les parametres passes et le referer
+   * @author Christophe Beyer <cbeyer@cap-tic.fr>
+   * @since 2011/04/08
+   * @return boolean True si le visiteur est un robot spammeur, true si c'est un humain
+   */
+  public function isSpam()
+  {
+    $oIsSpam = false;
+    if (!isset($_SERVER["HTTP_REFERER"]) || !$_SERVER["HTTP_REFERER"]) // Pas de referer
+      $oIsSpam = true;
+    elseif (CopixRequest::get('url1')) // Champ en commentaire rempli
+      $oIsSpam = true;
+    elseif (CopixRequest::get('url2') != 'Abracadabra') // Champ non visible modifie
+      $oIsSpam = true;
+    return $oIsSpam;
+  }
+    
+  /**
+   * Retourne la valeur en bytes (utilisé pour le calcul du upload_max_size dans le module classeur)
+   * 
+   * @author Jérémy FOURNAISE
+   * @return int $val Valeur en bytes
+   */
+  public static function return_bytes($val) {
+    
+    $val = trim($val);
+    $last = strtolower($val[strlen($val)-1]);
+    switch($last) {
+      case 'g':
+        $val *= 1024;
+        break;
+      case 'm':
+        $val *= 1024;
+        break;
+      case 'k':
+        $val *= 1024;
+        break;
     }
     
-    /**
-  	 * Retourne la valeur en bytes (utilisé pour le calcul du upload_max_size dans le module classeur)
-  	 * 
-  	 * @author Jérémy FOURNAISE
-  	 * @return int $val Valeur en bytes
-  	 */
-    function return_bytes($val) {
-      
-        $val = trim($val);
-        $last = strtolower($val[strlen($val)-1]);
-        switch($last) {
-            case 'g':
-                $val *= 1024;
-            case 'm':
-                $val *= 1024;
-            case 'k':
-                $val *= 1024;
-        }
-
-        return $val;
-    }
+    return $val;
+  }
+  
+  /**
+   * Supprime tous les caractères non conformes
+   *
+   * @author Jérémy FOURNAISE
+   *
+   * @param    string   $text
+   * @param    string   $encoding
+   * @return   string   stripped text
+   */
+  public static function stripText ($text, $encoding = 'UTF-8') {
+  
+    $text = mb_strtolower ($text, $encoding);
+  
+    $patterns = array ('/à/', '/á/', '/â/', '/ã/', '/ä/', '/å/', '/ò/', '/ó/',
+      '/ô/', '/õ/', '/ö/', '/ø/', '/è/', '/é/', '/ê/', '/ë/',
+      '/ç/', '/ì/', '/í/', '/î/', '/ï/', '/ù/', '/ú/', '/û/',
+      '/ü/', '/ÿ/', '/ñ/');
+  
+    $replace = array ('a', 'a', 'a', 'a', 'a', 'a', 'o', 'o',
+      'o', 'o', 'o', 'o', 'e', 'e', 'e', 'e',
+      'c', 'i', 'i', 'i', 'i', 'u', 'u', 'u',
+      'u', 'y', 'n');
+  
+    $text = preg_replace ($patterns, $replace, $text);
+  
+    // strip all non word chars
+    $text = preg_replace ('/[^a-z0-9.]/', ' ', $text);
+    
+    // replace all white space sections with a dash
+    $text = preg_replace ('/\ +/', '', $text);
+  
+    // trim dashes
+    $text = preg_replace ('/\-$/', '', $text);
+    $text = preg_replace ('/^\-/', '', $text);
+  
+    return $text;
+  }
 }
