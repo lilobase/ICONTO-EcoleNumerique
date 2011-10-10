@@ -67,7 +67,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  }
 	  
 	  $tplResult = & new CopixTpl ();
-	  $tplResult->assign ('sessionDatas', $passwords);
+	  $tplResult->assign ('accounts', $passwords);
 	  
 	  $format = _request ('format', 'html');
 	  if ($format == 'html') {
@@ -1828,7 +1828,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->isUpdated = _request ('isUpdated', 0);
 
 	  // Récupération des informations des comptes créés
-	  $ppo->sessionDatas = _sessionGet ('modules|gestionautonome|createAccount'); 
+	  $ppo->accounts = _sessionGet ('modules|gestionautonome|createAccount'); 
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     
@@ -1842,11 +1842,13 @@ class ActionGroupDefault extends enicActionGroup {
 			$format = _request('format');
 		} 
 		
-		$ppo->firstElement = reset ($ppo->sessionDatas);
+		$ppo->firstElement  = reset ($ppo->accounts);
+		$ppo->title         = ($ppo->isUpdated ? 'Modification d\'un' : 'Ajout d\'un').' '.$ppo->firstElement['type_nom'];
+		$ppo->msgSuccess    = $ppo->firstElement['type_nom'].' '.($ppo->isUpdated ? 'modifié' : 'ajouté');
 		
 		// Sortie suivant le format demandé
 		$tplResult = & new CopixTpl ();
-		$tplResult->assign ('sessionDatas', $ppo->sessionDatas);
+		$tplResult->assign ('accounts', $ppo->accounts);
 
 	  switch ($format) {
 			case 'default':
@@ -5262,7 +5264,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo = new CopixPPO (); 
 
 	  // Récupération des informations des comptes créés
-	  $ppo->students = _sessionGet ('gestionautonome|addMultipleStudents|success'); 
+	  $ppo->accounts = _sessionGet ('gestionautonome|addMultipleStudents|success'); 
 
     // Récupération du format de sortie demandé
 	  if( !_request ('format') || trim (_request ('format')) == '' ) {
@@ -5283,13 +5285,17 @@ class ActionGroupDefault extends enicActionGroup {
 
   	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	
+  	$ppo->title         = 'Importer des élèves';
+		$ppo->msgSuccess    = 'Elèves ajoutés !';
+		$ppo->subTitle      = 'Liste des élèves ajoutés';
+  	
 		// Sortie suivant le format demandé
 		$tplResult = & new CopixTpl ();
-		$tplResult->assign ('sessionDatas', $ppo->students);
+		$tplResult->assign ('accounts', $ppo->accounts);
 		
 	  switch ($format) {
 			case 'default':
-				return _arPPO ($ppo, 'multiple_accounts_listing.tpl');
+				return _arPPO ($ppo, 'account_listing.tpl');
 			case 'html':
 			  $result = $tplResult->fetch ('account_listing_html.tpl');
 			  return _arContent ($result, array ('filename'=>'Logins-'.date('YmdHi').'.html', 'content-disposition'=>'inline', 'content-type'=>CopixMIMETypes::getFromExtension ('.html')));
@@ -5781,10 +5787,14 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 	  
+	  $ppo->title         = 'Réinitialisation des mots de passe';
+		$ppo->msgSuccess    = 'Modification effectuée !';
+		$ppo->subTitle      = 'Liste des comptes modifiés';
+	  
 	  // Récupération des comptes modifiés
 	  $ppo->accounts = _sessionGet ('modules|gestionautonome|createAccount');
 	  
-	  return _arPPO ($ppo, 'show_new_classroom_passwords.tpl');
+	  return _arPPO ($ppo, 'account_listing.tpl');
 	}
 	
 	/**

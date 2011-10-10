@@ -1,20 +1,12 @@
-{if !$ppo->isUpdated}
-  <h2>Ajout d'un {$ppo->firstElement.type_nom|lower}</h2>
-  {assign var=verb value='ajouté'}
-{else}
-  <h2>Modification d'un {$ppo->firstElement.type_nom|lower}</h2>
-  {assign var=verb value='modifié'}
-{/if}
+<h2>{$ppo->title}</h2>
 
 {copixzone process=gestionautonome|AccountsInfo}
 
-<p class="mesgSuccess">
-  {if $k eq 0}
-      {$ppo->firstElement.type_nom} {$verb}
-  {else}
-      {$ppo->firstElement.type_nom}{$k} ajouté
-  {/if}
-</p>
+<p class="mesgSuccess">{$ppo->msgSuccess}</p>
+
+{if $ppo->subTitle}
+  <h3>{$ppo->subTitle}</h3>
+{/if}
 
 <table>
   <thead>
@@ -29,22 +21,34 @@
   </thead>
   <tbody>
   	{counter assign="i" name="i"}
-  	{foreach from=$ppo->sessionDatas key=k item=sessionData}
+  	{foreach from=$ppo->accounts key=k item=account}
   	  {counter name="i"}
   		<tr class="{if $i%2==0}even{else}odd{/if}">
   		  <td class="sexe">
-  		    {if $sessionData.gender eq 1}
+  		    {if $account.gender eq 1}
             <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Homme" alt="Homme" />
           {else}                                                                 
             <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
           {/if}
         </td>
-  		  <td>{$sessionData.lastname}</td>
-  			<td>{$sessionData.firstname}</td>
-  			<td >{$sessionData.login}</td>
-  			<td>{$sessionData.password}</td>
-  			<td>{$sessionData.type_nom}</td>
+  		  <td>{$account.lastname}</td>
+  			<td>{$account.firstname}</td>
+  			<td>{$account.login}</td>
+  			<td>{$account.password}</td>
+  			<td>{$account.type_nom}</td>
   		</tr>
+  		{if $account.person}
+    		{foreach from=$account.person key=j item=person}
+          <tr class="{if $i%2==0}even{else}odd{/if}">
+  		      <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
+            <td>{$person.lastname}</td>
+      			<td>{$person.firstname}</td>
+  			    <td>{$person.login}</td>
+      			<td>{$person.password}</td>
+      			<td>{$person.type_nom}</td>
+  		    </tr>
+        {/foreach}
+      {/if}
   	{/foreach}
   </tbody>
 </table>

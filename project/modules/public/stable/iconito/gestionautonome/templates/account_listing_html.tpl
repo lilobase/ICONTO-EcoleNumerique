@@ -16,19 +16,19 @@
   		<th class="liste_th">{i18n key="comptes|comptes.colonne.type"}</th>
   		<th class="liste_th">{i18n key="comptes|comptes.colonne.localisation"}</th>
   	</tr>
-  	{if $sessionDatas neq null}
+  	{if $accounts neq null}
   		{counter assign="i" name="i"}
-  		{foreach from=$sessionDatas item=sessionData}
+  		{foreach from=$accounts item=account}
   			{counter name="i"}
   			<tr class="list_line{math equation="x%2" x=$i}">
-  				<td align="LEFT">{$sessionData.lastname}</td>
-  				<td align="LEFT">{$sessionData.firstname}</td>
-  				<td align="LEFT">{$sessionData.login}</td>
-  				<td align="LEFT">{$sessionData.password}</td>
-  				<td align="LEFT">{$sessionData.type_nom}</td>
-  				<td align="LEFT">{$sessionData.node_nom}</td>
+  				<td align="LEFT">{$account.lastname}</td>
+  				<td align="LEFT">{$account.firstname}</td>
+  				<td align="LEFT">{$account.login}</td>
+  				<td align="LEFT">{$account.password}</td>
+  				<td align="LEFT">{$account.type_nom}</td>
+  				<td align="LEFT">{$account.node_nom}</td>
   			</tr>
-  			{foreach from=$sessionData.person item=person}
+  			{foreach from=$account.person item=person}
     			<tr>
     				<td align="LEFT">{$person.lastname}</td>
     				<td align="LEFT">{$person.firstname}</td>

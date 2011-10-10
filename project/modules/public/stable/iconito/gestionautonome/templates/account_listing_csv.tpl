@@ -1,9 +1,9 @@
 Nom;Prénom;Identifiant;Mot de passe;Type;Localisation
 
-{if $sessionDatas neq null}
-{foreach from=$sessionDatas item=sessionData}
-{$sessionData.lastname};{$sessionData.firstname};{$sessionData.login};{$sessionData.password};{$sessionData.type_nom};{$sessionData.node_nom}
-{foreach from=$sessionData.person item=person}
+{if $accounts neq null}
+{foreach from=$accounts item=account}
+{$account.lastname};{$account.firstname};{$account.login};{$account.password};{$account.type_nom};{$account.node_nom}
+{foreach from=$account.person item=person}
 {$person.lastname};{$person.firstname};{$person.login};{$person.password};{$person.nom_pa};{$person.node_nom}
 {/foreach}
 {/foreach}
