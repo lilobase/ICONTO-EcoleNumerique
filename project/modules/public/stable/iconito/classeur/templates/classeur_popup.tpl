@@ -13,26 +13,26 @@
       <label for="align-none">{i18n key="classeur.popup.align_none"}</label>
   
       <input id="align-left" type="radio" name="align" value="left" />
-      <label for="align-left">{i18n key="classeur.popup.align_left"}</label>
+      <label for="align-left"><img src="{copixurl}themes/default/images/icon-16/align-left.png" alt="{i18n key="classeur.popup.align_left"}" title="{i18n key="classeur.popup.align_left"}" /></label>
   
       <input id="align-center" type="radio" name="align" value="center" />
-      <label for="align-center">{i18n key="classeur.popup.align_center"}</label>
+      <label for="align-center"><img src="{copixurl}themes/default/images/icon-16/align-center.png" alt="{i18n key="classeur.popup.align_center"}" title="{i18n key="classeur.popup.align_center"}" /></label>
   
       <input id="align-right" type="radio" name="align" value="right" />
-      <label for="align-right">{i18n key="classeur.popup.align_right"}</label>
+      <label for="align-right"><img src="{copixurl}themes/default/images/icon-16/align-right.png" alt="{i18n key="classeur.popup.align_right"}" title="{i18n key="classeur.popup.align_right"}" /></label>
       &nbsp;&nbsp;|&nbsp;&nbsp;
     </span>
   
     <span style="white-space: nowrap;">
       <strong>{i18n key="classeur.popup.size"}</strong>
       <input id="size-small" type="radio" name="size" value="small" checked />
-      <label for="size-small">{i18n key="classeur.popup.size_small"}</label>
+      <label for="size-small"><img src="{copixurl}themes/default/images/icon-16/resize-small.png" alt="{i18n key="classeur.popup.size_small"}" title="{i18n key="classeur.popup.size_small"}" /></label>
       <input id="size-medium" type="radio" name="size" value="medium" />
-      <label for="size-medium">{i18n key="classeur.popup.size_middle"}</label>
+      <label for="size-medium"><img src="{copixurl}themes/default/images/icon-16/resize-middle.png" alt="{i18n key="classeur.popup.size_middle"}" title="{i18n key="classeur.popup.size_middle"}" /></label>
       <input id="size-large" type="radio" name="size" value="large" />
-      <label for="size-large">{i18n key="classeur.popup.size_large"}</label>
+      <label for="size-large"><img src="{copixurl}themes/default/images/icon-16/resize-big.png" alt="{i18n key="classeur.popup.size_large"}" title="{i18n key="classeur.popup.size_large"}" /></label>
       <input id="size-original" type="radio" name="size" value="original" />
-      <label for="size-original">{i18n key="classeur.popup.size_original"}</label>
+      <label for="size-original"><img src="{copixurl}themes/default/images/icon-16/resize-no.png" alt="{i18n key="classeur.popup.size_original"}" title="{i18n key="classeur.popup.size_original"}" /></label>
     </span>
   </form>
   

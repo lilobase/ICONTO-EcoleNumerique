@@ -244,6 +244,7 @@ div.dashboard div.content {
 }
 #classeur form div.submit input {margin:0 5px;}
 #classeur form input[readonly="readonly"] {background:#ddd;}
+#classeur #style-form {text-align:center;} /* Formulaire de redimensionnement des images */
 /* End forms */
 
 
