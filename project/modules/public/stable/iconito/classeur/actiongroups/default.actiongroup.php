@@ -593,8 +593,11 @@ class ActionGroupDefault extends enicActionGroup {
                 $fichier->user_id       = _currentUser()->getExtra('id');
 
                 $fichierDAO->insert($fichier);
-
-                classeurService::updateFolderInfos($correspondanceDossiers[$dossierParent]);
+                
+                if (isset($correspondanceDossiers[$dossierParent])) {
+                  
+                  classeurService::updateFolderInfos($correspondanceDossiers[$dossierParent]);
+                }
 
                 $nomClasseur = $classeur->id.'-'.$classeur->cle;
                 $nomFichier = $fichier->id.'-'.$fichier->cle;
@@ -1407,7 +1410,7 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
   public function processTelechargerFichier () {
     
-    $classeurDAO = _ioDAO('classeur|classeur');	 	
+    $classeurDAO = _ioDAO('classeur|classeur');
 	 	$fichierDAO = _ioDAO('classeur|classeurfichier');
 	 	
 	 	$classeur = $classeurDAO->get (_request ('classeurId', null));
