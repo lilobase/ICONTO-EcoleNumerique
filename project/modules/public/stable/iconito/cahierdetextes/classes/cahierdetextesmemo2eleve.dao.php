@@ -22,7 +22,7 @@ class DAOCahierDeTextesMemo2eleve {
 	  
 	  $toReturn = array();
 	  
-	  $sql = 'SELECT kernel_bu_eleve_idEleve as idEleve FROM module_cahierdetextes_memo2eleve WHERE module_cahierdetextes_memo_id = :idMemo';
+	  $sql = 'SELECT kernel_bu_eleve_idEleve as idEleve FROM module_cahierdetextes_memo2eleve WHERE module_cahierdetextes_memo_id = :idMemo GROUP BY idEleve';
 	  
 	  $resultats = _doQuery ($sql, array(':idMemo' => $idMemo));
 	  foreach($resultats as $resultat) {
@@ -53,6 +53,7 @@ class DAOCahierDeTextesMemo2eleve {
 		  . ' AND U.id_dbuser = LI.user_id'
 		  . ' AND A.niveau=CN.id_n'
 		  . ' AND M.module_cahierdetextes_memo_id = :idMemo'
+		  . ' GROUP BY E.idEleve'
 		  . ' ORDER BY E.nom, E.prenom1';
 	  
 	  return _doQuery ($sql, array(':idMemo' => $idMemo));
