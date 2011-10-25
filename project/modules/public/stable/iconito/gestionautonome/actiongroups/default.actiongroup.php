@@ -5364,12 +5364,13 @@ class ActionGroupDefault extends enicActionGroup {
 	  $withLabel = _request ('with_label', true);
 	  $gradeId = _request ('grade_id', null);
 	  $schoolId = _request ('school_id', null);
+	  $withEmptyLabel  = _request ('with_empty_label', false);
 	  if (!is_null ($schoolId)) {
 	    
 	    $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
 	    if ($school = $schoolDAO->get($schoolId)) {
 	      
-	      echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId));
+	      echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId, 'with_empty_label' => $withEmptyLabel));
 	    }
 	  }
 
@@ -5939,7 +5940,7 @@ class ActionGroupDefault extends enicActionGroup {
             $studentAssignmentDAO->update ($oldStudentAssignment);
           }
           
-          $studentAssignment = _record ('kernel_bu_eleve_affectation');
+          $studentAssignment = _record ('kernel|kernel_bu_ele_affect');
 
           $studentAssignment->affect_eleve           = $id;
           $studentAssignment->affect_annee_scol      = $ppo->nextGrade->id_as;
@@ -5972,9 +5973,9 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
 	public function processRefreshClassroomSelector () {
 	  
-	  $schoolId   = _request ('school_id');
-	  $gradeId    = _request ('grade_id');
-	  $withLabel  = _request ('with_label', true);
+	  $schoolId       = _request ('school_id');
+	  $gradeId        = _request ('grade_id');
+	  $withLabel      = _request ('with_label', true);
 	  
 	  if (is_null ($schoolId) || is_null ($gradeId)) {
 	    

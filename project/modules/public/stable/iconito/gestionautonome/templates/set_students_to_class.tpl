@@ -23,7 +23,7 @@
         <dt>Ecole :</dt>
           <dd id="from-school-filter">{if $ppo->fromClass.city}{copixzone process=gestionautonome|filterSchool selected=$ppo->fromClass.school city_id=$ppo->fromClass.city with_label=false}{/if}</dd>
         <dt>Classe (niveau) :</dt>
-          <dd id="from-class-filter">{if $ppo->fromClass.school}{copixzone process=gestionautonome|filterClass selected=$ppo->fromClass.class school_id=$ppo->fromClass.school with_label=false grade=$ppo->oldGrade->id_as}{/if}</dd>
+          <dd id="from-class-filter">{if $ppo->fromClass.school}{copixzone process=gestionautonome|filterClass selected=$ppo->fromClass.class school_id=$ppo->fromClass.school with_label=false grade=$ppo->oldGrade->id_as with_empty_label=true}{/if}</dd>
       </dl>
   </div>
   
@@ -77,8 +77,11 @@
 <script type="text/javascript">
 //<![CDATA[
   jQuery(document).ready(function(){
+    
+ 	  <!-- On cache le bouton de soumission du formulaire -->
  	  jQuery("#filter-form input[type='submit']").hide();
  	  
+ 	  <!-- Modification de l'année scolaire pour la classe d'origine, rafraichissement de la liste des classes -->
  	  jQuery("#old-grade-id").change(function(){
  	    
  	    jQuery('#from-class-filter').empty();
@@ -90,7 +93,7 @@
           url: {/literal}"{copixurl dest=gestionautonome|default|refreshClassroomSelector}"{literal},
           global: true,
           type: "GET",
-          data: ({grade_id: $(this).val(), school_id: jQuery('#fromClass select[name="school"]').val(), with_label: 0}),
+          data: ({grade_id: $(this).val(), school_id: jQuery('#fromClass select[name="school"]').val(), with_label: 0, with_empty_label: 1}),
           success: function(html){
             jQuery('#from-class-filter').append(html);
           }
@@ -100,6 +103,7 @@
       return false;
  	  });
  	  
+ 	  <!-- Modification de l'année scolaire pour la classe de destination, rafraichissement de la liste des classes -->
  	  jQuery("#next-grade-id").change(function(){
  	    
  	    jQuery('#to-class-filter').empty();
@@ -128,16 +132,19 @@
       return false;
  	  });
  	  
+ 	  <!-- Modification de la classe d'origine, soumission du formulaire -->
  	  jQuery('#fromClass select[name="classroom"]').live('change', function(){
  	    
  	    jQuery("#filter-form").submit();
  	  });
  	  
+ 	  <!-- Modification de la classe de destination, soumission du formulaire -->
  	  jQuery('#toClass select[name="classroom"]').live('change', function(){
  	    
  	    jQuery("#filter-form").submit();
  	  });
  	  
+ 	  <!-- Soumission du formulaire, mise à jour de la liste des élèves -->
  	  jQuery("#filter-form").submit(function(e){
  	    
  	    if (jQuery('#fromClass select[name="classroom"]').val()) {
@@ -171,6 +178,7 @@
  	    return false;
  	  });
  	  
+ 	  <!-- Modification du groupe de ville d'origine, rafraichissement de la liste des villes -->
  	  jQuery('#fromClass select[name="groupcity"]').live('change', function(){
 
       jQuery('#from-city-filter').empty();
@@ -193,7 +201,8 @@
         });
       }
     });
-
+    
+    <!-- Modification de la ville d'origine, rafraichissement de la liste des écoles -->
     jQuery('#fromClass select[name="city"]').live('change', function(){
       
       jQuery('#from-school-filter').empty();
@@ -216,6 +225,7 @@
       }
     });
     
+    <!-- Modification de l'école d'origine, rafraichissement de la liste des classes et des élèves -->
  	  jQuery('#fromClass select[name="school"]').live('change', function(){
 
       jQuery('#from-class-filter').empty();
@@ -239,7 +249,7 @@
           url: {/literal}'{copixurl dest=gestionautonome|default|refreshClassFilter}'{literal},
           global: true,
           type: "GET",
-          data: ({school_id: schoolId, with_label: 0, grade_id: jQuery('#fromClass select[name="oldGradeId"]').val()}),
+          data: ({school_id: schoolId, with_label: 0, grade_id: jQuery('#fromClass select[name="oldGradeId"]').val(), with_empty_label: true}),
           success: function(html){
 
             jQuery('#from-class-filter').append(html);
@@ -248,6 +258,7 @@
       }
     });
     
+    <!-- Modification du groupe de ville de destination, rafraichissement de la liste des villes -->
     jQuery('#toClass select[name="groupcity"]').live('change', function(){
 
       jQuery('#to-city-filter').empty();
@@ -270,6 +281,7 @@
       }
     });
 
+    <!-- Modification de la ville de destination, rafraichissement de la liste des écoles -->
     jQuery('#toClass select[name="city"]').live('change', function(){
       
       jQuery('#to-school-filter').empty();
@@ -291,6 +303,7 @@
       }
     });
     
+    <!-- Modification de l'école de destination, rafraichissement de la liste des classes -->
  	  jQuery('#toClass select[name="school"]').live('change', function(){
  	    
       jQuery('#to-class-filter').empty();

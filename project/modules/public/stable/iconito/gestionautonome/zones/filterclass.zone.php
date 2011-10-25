@@ -11,8 +11,11 @@ class ZoneFilterClass extends CopixZone {
 	  $ppo = new CopixPPO ();                               
     
     // Récupérations des filtres en session
-	  $ppo->selected = $this->getParam ('selected', null);
-	  $ppo->withLabel = $this->getParam ('with_label', true);
+	  $ppo->selected        = $this->getParam ('selected', null);
+	  $ppo->withLabel       = $this->getParam ('with_label', true);
+	  $ppo->withEmpty       = $this->getParam ('with_empty', true);
+	  $ppo->withEmptyLabel  = $this->getParam ('with_empty_label', false);
+	  
 	  $grade = $this->getParam ('grade', _sessionGet('grade', Kernel::getAnneeScolaireCourante ()->id_as));
 	  
 	  if (!is_null ($schoolId = $this->getParam('school_id', null))) {
@@ -29,9 +32,9 @@ class ZoneFilterClass extends CopixZone {
         $classes = $classroomDAO->findBySchoolIdAndUserGroups ($schoolId, $groups['gestionautonome|iconitogrouphandler'], $grade);
   	  }	    
     
-      $ppo->classesIds   = array('');
-      $ppo->classesNames = array('');
-    
+      $ppo->classesIds   = array();
+      $ppo->classesNames = array();
+
   	  foreach ($classes as $class) {
   	    
   	    $levels = $class->getLevels();
