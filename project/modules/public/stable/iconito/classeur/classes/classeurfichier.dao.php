@@ -125,9 +125,9 @@ class DAORecordClasseurFichier {
   *
   * @return string Lien de téléchargement
   */
-  public function getDownloadUrl () {
+  public function getDownloadUrl ($public = false) {
     
-    $url = CopixURL::get ('classeur||telechargerFichier', array('classeurId' => $this->classeur_id, 'fichierId' => $this->id));
+    $url = CopixURL::get ('classeur||telechargerFichier', array('classeurId' => $this->classeur_id, 'fichierId' => $this->id, 'public' => $public));
 
     return $url;
   }
