@@ -128,9 +128,70 @@ class ActionGroupExport extends EnicActionGroup {
 				$enseignantsList[$ensrole->id] = $ensrole;
 			}
 		}
+		
+		// LIEN ENSEIGNANTS-ECOLE (directeur)
+		
+		if($in_classe=="") {
+			$enseignantsRoleList = array();
+		} else {
+			$params = array();
+			$sql = "
+				SELECT
+					kernel_bu_personnel.numero AS id_enseignant,
+					kernel_bu_personnel.nom,
+					kernel_bu_personnel.nom_jf,
+					kernel_bu_personnel.prenom1 AS prenom,
+					kernel_bu_personnel.civilite,
+					kernel_bu_personnel.mel AS email,
+					kernel_bu_personnel_entite.reference AS id_ecole,
+					
+					kernel_bu_personnel_entite.role,
+					
+					dbuser.id_dbuser AS user_id,
+					dbuser.login_dbuser AS user_login
+					-- ,dbuser.password_dbuser
+					-- ,kernel_bu_personnel_entite.reference
+					
+				FROM kernel_bu_personnel
+				JOIN kernel_bu_personnel_entite
+					ON kernel_bu_personnel.numero=kernel_bu_personnel_entite.id_per
+				JOIN kernel_bu_ecole
+					ON kernel_bu_ecole.numero=kernel_bu_personnel_entite.reference AND kernel_bu_personnel_entite.type_ref='ECOLE' -- AND kernel_bu_personnel_entite.role=2
+					
+				LEFT JOIN kernel_link_bu2user ON kernel_link_bu2user.bu_type='USER_ENS' AND kernel_link_bu2user.bu_id=kernel_bu_personnel.numero
+				LEFT JOIN dbuser ON kernel_link_bu2user.user_id=dbuser.id_dbuser
+			";
 
-		// echo "<pre>"; print_r($enseignantsList);
-		// echo "<pre>"; print_r($linkEnseignantsClasseList);
+			if($rne) {
+				$sql .= " WHERE rne=:rne";
+				$params[':rne'] = $rne;
+			}
+
+			$directeursRoleList = _doQuery ($sql,$params);
+		}
+		
+		// id_per 	reference 	type_ref 	role
+				
+		$linkEnseignantsEcoleList = array();
+		foreach( $directeursRoleList AS $ensrole ) {
+			$new_role = new CopixPPO();
+			$new_role->id_enseignant = $ensrole->id_enseignant;
+			$new_role->id_ecole = $ensrole->id_ecole;
+			$new_role->role = $ensrole->role;
+			
+			$new_role->nom = $ensrole->nom;
+			$new_role->nom_jf = $ensrole->nom_jf;
+			$new_role->prenom = $ensrole->prenom;
+			$new_role->civilite = $ensrole->civilite;
+			$new_role->email = $ensrole->email;
+			$new_role->user_id = $ensrole->user_id;
+			$new_role->user_login = $ensrole->user_login;
+			
+			$linkEnseignantsEcoleList[] = $new_role;
+		}
+
+		// echo "<pre>"; print_r($directeursRoleList);
+		// echo "<pre>"; print_r($linkEnseignantsEcoleList);
 		
 		// kernel_bu_personnel : numero 	nom 	nom_jf 	prenom1 	civilite 	id_sexe 	date_nais 	cle_privee 	profession 	tel_dom 	tel_gsm 	tel_pro 	mel 	num_rue 	num_seq 	adresse1 	adresse2 	code_postal 	commune 	id_ville 	pays 	challenge 	dateChallenge
 		// kernel_bu_personnel_entite : id_per 	reference 	type_ref 	role (type_ref=ECOLE/CLASSE)
@@ -296,6 +357,21 @@ class ActionGroupExport extends EnicActionGroup {
 			$xml_item = $xml_items->addChild('lien_classe_enseignant');
 			$xml_item->addChild('id_enseignant',$item->id_enseignant);
 			$xml_item->addChild('id_classe',$item->id_classe);
+		}
+		
+		$xml_items = $export->addChild('liens_ecole_enseignant');
+		if(1) foreach( $linkEnseignantsEcoleList AS $item ) {
+			$xml_item = $xml_items->addChild('lien_ecole_enseignant');
+			$xml_item->addChild('id_enseignant',$item->id_enseignant);
+			$xml_item->addChild('id_ecole',$item->id_ecole);
+			$xml_item->addChild('directeur',($item->role==2?1:0));
+			$xml_item->addChild('nom',$item->nom);
+			$xml_item->addChild('nom_jf',$item->nom_jf);
+			$xml_item->addChild('prenom',$item->prenom);
+			$xml_item->addChild('civilite',$item->civilite);
+			$xml_item->addChild('email',$item->email);
+			$xml_item->addChild('user_id',$item->user_id);
+			$xml_item->addChild('user_login',$item->user_login);
 		}
 		
 		$xml_items = $export->addChild('eleves');
