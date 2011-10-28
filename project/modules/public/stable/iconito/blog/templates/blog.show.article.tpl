@@ -39,13 +39,14 @@
 			<table class="viewItems">
             	<tr>
                 	<th>{i18n key='dao.blogarticle.fields.name_bact'}</th>
+                    <th>{i18n key="dao.blogarticle.fields.is_online"}</th>
                     <th colspan="3">{i18n key="blog.list.actions"}</th>
                  </tr>   
                        {counter start=1 assign="cpt"}
                        {foreach from=$tabArticles item=article}
                   <tr class="list_line{$cpt%2}">
                   	<td>
-			   			<DIV CLASS="adminArticleList"><div class="is_online{$article->is_online}">
+			   			<div class="adminArticleList">
 			       		{if 0 && $article->expand}
 			       			<a href="#" onClick="JavaScript:submitForm(document.findArticle.selectCategory.options[document.findArticle.selectCategory.selectedIndex].value, 'document.findArticle.selectMonth.options[document.findArticle.selectMonth.selectedIndex].value', '')" title="{$article->name_bact}">[-] {$article->name_bact}</a>
 			       		{else}
@@ -64,7 +65,7 @@
                              {/foreach}
 							 {if !$article->categories|@count}{i18n key="blog.article.nocategory" assign="listCat"}{/if}
 							 {i18n key="blog.message.theAtIn" day=$article->date_bact|datei18n:text time=$article->time_bact|hour_format:"%H:%i" categ=$listCat noEscape=1}
-                        </div></DIV>
+                        </div>
                              <DIV ID="expand{$article->id_bact}" CLASS="displayNone">
 								<DIV CLASS="expand">
 			       		{if 1 || $article->expand}
@@ -74,6 +75,7 @@
 								</DIV>
 								</DIV>
 						</td>
+                        <td class="center">{if $article->is_online}<img src="{copixurl}themes/default/images/button-action/action_confirm.png" alt="{i18n key="blog.oui"}" />{else}<img src="{copixurl}themes/default/images/button-action/action_cancel.png" alt="{i18n key="blog.non"}" />{/if}</td>
                         <td class="action"><a class="button button-update" href="{copixurl dest="blog|admin|prepareEditArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind}" title="{i18n key="blog.messages.update"}">{i18n key="blog.messages.update"}</a></td>
                         {if $canDelete}<td class="action">
 			   				<a class="button button-delete" href="{copixurl dest="blog|admin|deleteArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind selectCategory=$selectCategory selectMonth=$selectMonth}" title="{i18n key="blog.messages.delete"}">{i18n key="blog.messages.delete"}</a>
