@@ -173,47 +173,6 @@ div.dashboard div.content {
 	display:block;
 	width:100%; height:100px;
 }
-#classeur .thumbView li a.icon span {
-	text-indent: -5000px;
-	display: block;
-	width: 128px;
-	height: 128px;
-	background-image: url(../../../themes/default/images/icon-128/icon-file.png);
-	background-repeat: none;
-}
-
-#classeur .thumbView li a.icon span.ai {background-image:url(../../../themes/default/images/icon-128/icon-ai.png);}
-#classeur .thumbView li a.icon span.avi {background-image:url(../../../themes/default/images/icon-128/icon-avi.png);}
-#classeur .thumbView li a.icon span.bmp {background-image:url(../../../themes/default/images/icon-128/icon-bmp.png);}
-#classeur .thumbView li a.icon span.css {background-image:url(../../../themes/default/images/icon-128/icon-css.png);}
-#classeur .thumbView li a.icon span.csv {background-image:url(../../../themes/default/images/icon-128/icon-csv.png);}
-#classeur .thumbView li a.icon span.doc, 
-#classeur .thumbView li a.icon span.docx {background-image:url(../../../themes/default/images/icon-128/icon-doc.png);}
-#classeur .thumbView li a.icon span.eps {background-image:url(../../../themes/default/images/icon-128/icon-eps.png);}
-#classeur .thumbView li a.icon span.gif {background-image:url(../../../themes/default/images/icon-128/icon-gif.png);}
-#classeur .thumbView li a.icon span.html {background-image:url(../../../themes/default/images/icon-128/icon-html.png);}
-#classeur .thumbView li a.icon span.ico {background-image:url(../../../themes/default/images/icon-128/icon-ico.png);}
-#classeur .thumbView li a.icon span.jpg,
-#classeur .thumbView li a.icon span.jpeg {background-image:url(../../../themes/default/images/icon-128/icon-jpg.png);}
-#classeur .thumbView li a.icon span.js {background-image:url(../../../themes/default/images/icon-128/icon-js.png);}
-#classeur .thumbView li a.icon span.json {background-image:url(../../../themes/default/images/icon-128/icon-json.png);}
-#classeur .thumbView li a.icon span.mov {background-image:url(../../../themes/default/images/icon-128/icon-mov.png);}
-#classeur .thumbView li a.icon span.mp3 {background-image:url(../../../themes/default/images/icon-128/icon-mp3.png);}
-#classeur .thumbView li a.icon span.pdf {background-image:url(../../../themes/default/images/icon-128/icon-pdf.png);}
-#classeur .thumbView li a.icon span.png {background-image:url(../../../themes/default/images/icon-128/icon-png.png);}
-#classeur .thumbView li a.icon span.ppt {background-image:url(../../../themes/default/images/icon-128/icon-ppt.png);}
-#classeur .thumbView li a.icon span.psd {background-image:url(../../../themes/default/images/icon-128/icon-psd.png);}
-#classeur .thumbView li a.icon span.svg {background-image:url(../../../themes/default/images/icon-128/icon-svg.png);}
-#classeur .thumbView li a.icon span.swf {background-image:url(../../../themes/default/images/icon-128/icon-swf.png);}
-#classeur .thumbView li a.icon span.tiff {background-image:url(../../../themes/default/images/icon-128/icon-tiff.png);}
-#classeur .thumbView li a.icon span.ttf {background-image:url(../../../themes/default/images/icon-128/icon-ttf.png);}
-#classeur .thumbView li a.icon span.txt {background-image:url(../../../themes/default/images/icon-128/icon-txt.png);}
-#classeur .thumbView li a.icon span.wav {background-image:url(../../../themes/default/images/icon-128/icon-wav.png);}
-#classeur .thumbView li a.icon span.xls,
-#classeur .thumbView li a.icon span.xlsx {background-image:url(../../../themes/default/images/icon-128/icon-xls.png);}
-#classeur .thumbView li a.icon span.xml {background-image:url(../../../themes/default/images/icon-128/icon-xml.png);}
-#classeur .thumbView li a.icon span.zip {background-image:url(../../../themes/default/images/icon-128/icon-zip.png);}
-
 #classeur .thumbView li .footerData {
 	position:absolute; bottom:0; left:0;
 	margin:0; padding:0 2px;

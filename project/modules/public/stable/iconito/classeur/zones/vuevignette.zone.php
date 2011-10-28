@@ -53,6 +53,7 @@ class ZoneVueVignette extends CopixZone {
 		    $contenu->lienMiniature = $fichier->getLienMiniature (90);
 		  }
 		}
+		$ppo->fileExtensionAllowed = array('ai', 'avi', 'bmp', 'css', 'csv', 'doc', 'docx', 'eps', 'gif', 'html', 'ico', 'jpg', 'jpeg', 'js', 'json', 'mov', 'mp3', 'pdf', 'png', 'ppt', 'pptx', 'psd', 'svg', 'swf', 'tiff', 'ttf', 'txt', 'wav', 'xls', 'xlsx', 'xml', 'zip');
 		
 	  $toReturn = $this->_usePPO ($ppo, '_vue_vignette.tpl');
   }
