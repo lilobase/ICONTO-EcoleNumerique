@@ -43,7 +43,7 @@ class ZoneVueVignette extends CopixZone {
 		  }
 		}
 		
-		$imgTypes = array('PNG', 'GIF', 'JPG', 'JPEG');
+		$imgTypes = array('PNG', 'GIF', 'JPG', 'JPEG', 'png', 'gif', 'jpg', 'jpeg');
 		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
 		foreach ($ppo->contenus as $contenu) {
 		  

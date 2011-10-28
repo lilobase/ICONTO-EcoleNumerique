@@ -99,9 +99,9 @@
             {if $contenu->lienMiniature neq null}
               <a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank"><img src="{$contenu->lienMiniature}" /></a>
             {elseif $contenu->fichier|substr:-4 eq ".web"}
-                <a class="icon" href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank"><img src="{copixurl}themes/default/images/icon-128/icon-favorite.png" /></a>
+              <a class="icon" href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank"><img src="{copixurl}themes/default/images/icon-128/icon-favorite.png" /></a>
             {else}
-                <a class="icon" href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank"><span class="{$contenu->type|lower}">{$contenu->titre}</span></a>
+              <a class="icon" href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank"><span class="{$contenu->type|lower}">{$contenu->titre}</span></a>
             {/if}
             <p class="footerData">
                 <input type="checkbox" class="check" name="fichiers[]" value="{$contenu->id}" />
