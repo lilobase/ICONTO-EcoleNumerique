@@ -104,7 +104,8 @@
         <td class="center check-file">
           <input type="hidden" name="item-id" value="{$fichier->id}"/>
       	  <input type="hidden" name="item-name" value="{$fichier|escape}"/>
-      		<input type="hidden" name="item-file" value="{$fichier->url}"/>
+      		<input type="hidden" name="item-file" value="{$fichier->fullUrl}"/>
+      		<input type="hidden" name="item-image" value="{$fichier->url}"/>
       		<input type="hidden" name="item-field" value="{$ppo->field}"/>
       		<input type="hidden" name="item-format" value="{$ppo->format}"/>
       		<input type="hidden" name="item-durl" value="{$htmlDownload|wiki|urlencode}"/>
@@ -212,6 +213,7 @@ jQuery(document).ready(function($){
 		  doid = $(this).parent('.check-file').children('input[name="item-id"]').val();
 		  doname = $(this).parent('.check-file').children('input[name="item-name"]').val();
 			dofile = $(this).parent('.check-file').children('input[name="item-file"]').val();
+			doimage = $(this).parent('.check-file').children('input[name="item-image"]').val();
 			dofield = $(this).parent('.check-file').children('input[name="item-field"]').val();
 			doformat = $(this).parent('.check-file').children('input[name="item-format"]').val();
 			dodurl = $(this).parent('.check-file').children('input[name="item-durl"]').val();
@@ -221,7 +223,7 @@ jQuery(document).ready(function($){
 			doalign = align;
 			dosize = size;
 			//console.log("---" + dofile + "," + dofield + "," + doformat + "," + dodurl + "," + dovurl + "," + doerr);
-			insertDocument (domode, dofile, dofield, doformat, dodurl, dovurl, doerr, doid, doname, doextension, doalign, dosize);
+			insertDocument (domode, dofile, doimage, dofield, doformat, dodurl, dovurl, doerr, doid, doname, doextension, doalign, dosize);
 		});
 		parent.jQuery.fancybox.close();
 	});

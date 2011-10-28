@@ -218,7 +218,7 @@ jQuery(document).ready(function($){
   });
 });
 
-function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_unsupportedFormat, idFile, nomFile, extension, align, size) {
+function insertDocument (mode, url, image, field, format, htmlDownload, htmlView, i18n_unsupportedFormat, idFile, nomFile, extension, align, size) {
   
   var popup = false;
   var html = '';
@@ -244,7 +244,7 @@ function insertDocument (mode, url, field, format, htmlDownload, htmlView, i18n_
       
       if (jQuery.inArray(extension, pictureTypes) > -1 && mode == 'view') {
         
-        var html = '<img alt="'+nomFile+'" border="0" src="'+url+size+'.'+extension+'"';
+        var html = '<img alt="'+nomFile+'" border="0" src="'+image+size+'.'+extension+'"';
   			  if 			(align == 'L')	html += ' align="left"';
   			  else if (align == 'R')	html += ' align="right"';
   			  html += '/>';
