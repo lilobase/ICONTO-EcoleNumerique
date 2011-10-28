@@ -52,6 +52,7 @@ class DAOCahierDeTextesMemo2eleve {
 		  . ' AND LI.bu_id=E.idEleve'
 		  . ' AND U.id_dbuser = LI.user_id'
 		  . ' AND A.niveau=CN.id_n'
+		  . ' AND A.current = 1'
 		  . ' AND M.module_cahierdetextes_memo_id = :idMemo'
 		  . ' GROUP BY E.idEleve'
 		  . ' ORDER BY E.nom, E.prenom1';
