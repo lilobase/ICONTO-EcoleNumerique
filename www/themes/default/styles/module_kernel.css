@@ -277,3 +277,7 @@ div.dashboard div.bu_ecole div.toolset 	{ background: #7cd54f; }
 div.dashboard div.club div.title	{ background: #ffb94e; }
 div.dashboard div.club div.content	{ border: 2px solid #ffb94e; }
 div.dashboard div.club div.toolset	{ background: #ffb94e; }
+
+div.dashboard div.user_ele div.title	{ background: #7fc3d2; }
+div.dashboard div.user_ele div.content	{ border: 2px solid #7fc3d2; }
+div.dashboard div.user_ele div.toolset	{ background: #7fc3d2; }
