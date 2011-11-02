@@ -17,7 +17,7 @@ class ZoneInfosEcole extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		

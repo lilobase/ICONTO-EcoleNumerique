@@ -31,7 +31,7 @@ class ZoneGetListBlogs2 extends CopixZone {
 		$pGrVille = $this->getParam('grville',null);
 		$pVille = $this->getParam('ville',null); // Tableau
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		if ($pVille) {
 			$villes = AnnuaireService::getVilles ($pVille);

@@ -71,7 +71,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processGetTree () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "getTree");
 		
 		$tpl->assign ('MAIN', '<pre>'.print_r(Kernel::getTree(),true).'</pre>' );
@@ -86,7 +86,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDebug () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Debug");
 		$return_str = "Debug...";
 		
@@ -128,7 +128,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @see getNodeChilds( $type, $id )
 	 */
 	function processWalk () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Walk");
 		
 		$return_left   ="";
@@ -204,7 +204,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @todo A faire...
 	 */
 	function processGetLink () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('kernel|kernel.message.profil'));
 		
 		$linkedin = Kernel::getMyParents();
@@ -224,7 +224,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	 * @todo A faire...
 	 */
 	function processDoLink () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Walk");
 		
 		$tpl->assign ('MAIN', "<pre>".$return_str."</pre>" );

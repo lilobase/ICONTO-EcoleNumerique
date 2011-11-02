@@ -23,8 +23,8 @@ class ActionGroupVilles extends CopixActionGroup {
    		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 			
-		$tpl = & new CopixTpl ();
-		$tplGrVilles = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplGrVilles = new CopixTpl ();
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_regroupements.css"));
 

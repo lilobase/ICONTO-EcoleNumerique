@@ -40,7 +40,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_bpge = $this->getRequest('id_bpge', null);
 		$page = null;		
@@ -110,7 +110,7 @@ class ActionGroupAdminPage extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$showErrors = false;
 
 		$pageDAO = CopixDAOFactory::create('blog|blogpage');

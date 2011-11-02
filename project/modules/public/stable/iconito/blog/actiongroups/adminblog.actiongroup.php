@@ -41,7 +41,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 		$kind = $this->getRequest('kind', '0');
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tabBlogFunctions = null;
 		$result = null;
 
@@ -193,7 +193,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tabFunctions = returnAllBlogFunctions();
 
@@ -252,7 +252,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		// Récupération de toutes les fonctions du blog
 		$tabFunctions = returnAllBlogFunctions();
@@ -412,7 +412,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 
 		if($id_blog!=null) {
@@ -456,7 +456,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 
 

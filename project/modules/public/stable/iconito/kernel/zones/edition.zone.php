@@ -22,7 +22,7 @@ class ZoneEdition extends CopixZone {
      * @param array $options (option) Options permettant de personnaliser la zone
      */
     function _createContent(&$toReturn) {
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
 
         $field = $this->getParam('field', NULL);
         $format = $this->getParam('format', NULL);

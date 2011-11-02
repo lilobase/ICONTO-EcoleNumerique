@@ -16,7 +16,7 @@ class ZoneNewMinimail extends CopixZone {
 	 * @since 2005/10/17
 	 */
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$idUser = _currentUser()->getId();
 

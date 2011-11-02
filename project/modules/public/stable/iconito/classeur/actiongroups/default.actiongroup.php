@@ -1591,7 +1591,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		// Création du fichier index.html nécessaire à l'affichage de l'album
 		$file_html = fopen($path2album.'/index.html', 'w');
-		$tplHtml = & new CopixTpl ();
+		$tplHtml = new CopixTpl ();
 		$tplHtml->assign ('path2public', $path2public);
 		$tplHtml->assign ('images', $images);
 		$tplHtml->assign ('album_id', $album->id);

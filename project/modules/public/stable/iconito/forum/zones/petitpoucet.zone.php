@@ -22,7 +22,7 @@ class ZonePetitPoucet extends CopixZone {
 	 * @param integer $modifyTopic Id de la discussion (formulaire de modification)
 	 */
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$forum = ($this->getParam('forum')) ? $this->getParam('forum') : NULL;
 		$topic = ($this->getParam('topic')) ? $this->getParam('topic') : NULL;

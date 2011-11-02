@@ -19,10 +19,10 @@ class ActionGroupAssistance extends CopixActionGroup {
 	
 	
 	function getAssistance () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Assistance");
 		
-		$tplAssistance = & new CopixTpl ();
+		$tplAssistance = new CopixTpl ();
 		// $tplAssistance->assign('users', $users);
 		$result = $tplAssistance->fetch("default.tpl");
 		$tpl->assign ('MAIN', $result );
@@ -32,8 +32,8 @@ class ActionGroupAssistance extends CopixActionGroup {
 
 	function getUsers () {
 		
-		$tpl = & new CopixTpl ();
-		$tplUsers = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplUsers = new CopixTpl ();
 		
 		$me_info = Kernel::getUserInfo( "ME", 0 );
 		

@@ -39,7 +39,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_blnk = $this->getRequest('id_blnk', null);
 		if($id_blnk!=null) {
@@ -87,7 +87,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$linkDAO = CopixDAOFactory::create('blog|bloglink');
 		$id_blnk = $this->getRequest('id_blnk', null); if(strlen($id_blnk)==0) $id_blnk=null;

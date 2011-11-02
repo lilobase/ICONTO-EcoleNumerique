@@ -19,7 +19,7 @@ class ZoneConcertoHome extends CopixZone {
 		
     $toReturn = '';
     
-    $tpl = & new CopixTpl ();
+    $tpl = new CopixTpl ();
     if( CopixConfig::exists('|conf_ModConcerto') && CopixConfig::get('|conf_ModConcerto') && _currentUser()->getExtra('type')=='USER_RES') {
       $new_module = null;
       $sql = 'SELECT id,login,password FROM kernel_bu_auth WHERE node_type=\'responsable\' AND node_id='._currentUser()->getExtra('id').' AND service=\'concerto\'';

@@ -39,7 +39,7 @@ class ZoneActualites extends CopixZone {
     $showdate = $this->getParam('showdate',true);
     $showcategorie = $this->getParam('showcategorie',true);
     
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('titre', $titre);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('nb', $nb);

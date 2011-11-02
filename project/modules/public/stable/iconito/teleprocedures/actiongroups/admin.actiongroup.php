@@ -63,7 +63,7 @@ class ActionGroupAdmin extends EnicActionGroup {
 		if (!TeleproceduresService::canMakeInTelep('VIEW_COMBO_ECOLES',$mondroit))
 			$ecole = null;
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('filtre', CopixZone::process('filtre',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'admin'=>true, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('list', CopixZone::process('list',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('types', CopixZone::process('types',array('rTelep'=>$rTelep, 'admin'=>true)));
@@ -93,7 +93,7 @@ class ActionGroupAdmin extends EnicActionGroup {
 		
 		$main = $tplListe->fetch('list.tpl');
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
 		$tpl->assign ("MAIN", $main);
@@ -118,7 +118,7 @@ class ActionGroupAdmin extends EnicActionGroup {
 		
 		$criticErrors = $errors = array();
 		
-		$tplForm = & new CopixTpl ();
+		$tplForm = new CopixTpl ();
 		$tplForm->assign ('is_online', array('values'=>array(1,0), 'output'=>array(CopixI18N::get('blog|blog.oui'), CopixI18N::get('blog|blog.non'))));
 		$formats = CopixConfig::get ('teleprocedures|formats_types');
 		$tabFormats = explode (',',$formats);
@@ -339,7 +339,7 @@ class ActionGroupAdmin extends EnicActionGroup {
 		
 		$main = $tplForm->fetch('form-type.tpl');
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
 		$tpl->assign ("MAIN", $main);

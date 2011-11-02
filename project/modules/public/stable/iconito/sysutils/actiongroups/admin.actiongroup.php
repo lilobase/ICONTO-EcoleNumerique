@@ -23,9 +23,9 @@ class ActionGroupAdmin extends CopixActionGroup {
     if (!Admin::canAdmin())
 		  return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
     
-		$tplHome = & new CopixTpl();
+		$tplHome = new CopixTpl();
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.moduleDescription'));
 		$tpl->assign ('MENU', Admin::getMenu('sysutils'));
 		

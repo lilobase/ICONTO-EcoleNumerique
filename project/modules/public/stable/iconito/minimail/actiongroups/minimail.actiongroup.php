@@ -27,7 +27,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $this->addJs('js/iconito/module_minimail.js');
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
         $tpl->assign('TITLE_PAGE', CopixI18N::get('minimail.mess_recv'));
 
         $menu = array();
@@ -36,7 +36,7 @@ class ActionGroupMinimail extends EnicActionGroup {
         $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
         $tpl->assign('MENU', $menu);
 
-        $tplListe = & new CopixTpl ();
+        $tplListe = new CopixTpl ();
 
         $messagesAll = _ioDAO("minimail_to")->getListRecvAll(_currentUser()->getId());
 
@@ -85,7 +85,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $this->addJs('js/iconito/module_minimail.js');
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
         $tpl->assign('TITLE_PAGE', CopixI18N::get('minimail.mess_send'));
 
         $menu = array();
@@ -94,7 +94,7 @@ class ActionGroupMinimail extends EnicActionGroup {
         $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
         $tpl->assign('MENU', $menu);
 
-        $tplListe = & new CopixTpl ();
+        $tplListe = new CopixTpl ();
 
         $messagesAll = _ioDAO("minimail_from")->getListSendAll(_currentUser()->getId());
 
@@ -207,7 +207,7 @@ class ActionGroupMinimail extends EnicActionGroup {
             $avatar = Prefs::get('prefs', 'avatar', $message->from_id);
             $message->avatar = ($avatar) ? CopixConfig::get('prefs|avatar_path') . $avatar : '';
 
-            $tpl = & new CopixTpl ();
+            $tpl = new CopixTpl ();
             $tpl->assign('TITLE_PAGE', $message->title);
 
             $menu = array();
@@ -224,7 +224,7 @@ class ActionGroupMinimail extends EnicActionGroup {
             $message->attachment3Name = $MinimailService->getAttachmentName($message->attachment3);
             //print_r($message);
 
-            $tplListe = & new CopixTpl ();
+            $tplListe = new CopixTpl ();
             $tplListe->assign('message', $message);
             $tplListe->assign('dest', $dest);
             $result = $tplListe->fetch('getmessage.tpl');
@@ -258,7 +258,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $this->addJs('js/iconito/module_minimail.js');
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
 
         $tpl->assign('TITLE_PAGE', CopixI18N::get('minimail.mess_write'));
 
@@ -282,7 +282,7 @@ class ActionGroupMinimail extends EnicActionGroup {
         $iReply = CopixRequest::getInt('reply');
         $iForward = CopixRequest::getInt('forward');
 
-        $tplForm = & new CopixTpl ();
+        $tplForm = new CopixTpl ();
 
         if ($iReply && !$message) { // Tentative de reponse a un message
             $message = _ioDAO('minimail_from')->getMessage($iReply);

@@ -61,7 +61,7 @@ class ZoneAgendaToday extends CopixZone {
 		$mois  = $serviceDate->moisNumericToMoisLitteral(substr($day, 4, 2));
 		$annee = substr($day,  0, 4);
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tpl->assign('jour' , $jour);
 		$tpl->assign('mois' , $mois);

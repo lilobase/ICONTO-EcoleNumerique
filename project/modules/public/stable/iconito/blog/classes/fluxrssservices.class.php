@@ -23,7 +23,7 @@ class FluxRSSServices {
 		$cacheTestFile = 'rss.txt';
 		if (!file_exists($cachePath . $cacheTestFile)) {
 			require_once (COPIX_UTILS_PATH . 'CopixFile.class.php');
-			$objectWriter = & new CopixFile();
+			$objectWriter = new CopixFile();
 			$objectWriter->write($cachePath . $cacheTestFile, date('Y/m/d H:i'));
 		}
 		

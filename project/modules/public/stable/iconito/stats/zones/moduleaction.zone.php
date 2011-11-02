@@ -23,7 +23,7 @@
 class ZoneModuleAction extends CopixZone {
 	function _createContent (&$toReturn) {
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$module_type = $this->getParam('module_type');
 		$module_id = $this->getParam('module_id');

@@ -21,7 +21,7 @@ class ZoneEditPage extends CopixZone {
 		
 	CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_blog.js');
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$id_blog = $this->getParam('id_blog', '');
 

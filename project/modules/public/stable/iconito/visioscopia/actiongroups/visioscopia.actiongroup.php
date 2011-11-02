@@ -23,9 +23,9 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 		$conf_result = $dao->get($id);
 		
 		$title = "Visioconf&eacute;rence";
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
-		$tplVisio = & new CopixTpl ();
+		$tplVisio = new CopixTpl ();
 		
 		$save = $this->getRequest ('save', 0);
 		if( $save == 1 ) {

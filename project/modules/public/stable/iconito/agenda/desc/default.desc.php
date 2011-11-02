@@ -1,6 +1,6 @@
 <?php
 
-$go 									= & new CopixAction ('Agenda', 'go');
+$go 									= new CopixAction ('Agenda', 'go');
 
 $default 							= & $go;
 

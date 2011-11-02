@@ -56,7 +56,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
     $toEdit->authoremail_bacc = $user->email;
     $toEdit->authorweb_bacc = $user->web;
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.list.comment.title'));
 
 		//creation of blog object for menu
@@ -138,7 +138,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		// On r�cup�re l'utilisateur connect�
 		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
@@ -201,7 +201,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		if (BlogAuth::canMakeInBlog('ADMIN_COMMENTS',create_blog_object($id_blog)))
 //			$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
@@ -248,7 +248,7 @@ class ActionGroupAdminComment extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
 		// EDITION D'UNE CATEGORIE

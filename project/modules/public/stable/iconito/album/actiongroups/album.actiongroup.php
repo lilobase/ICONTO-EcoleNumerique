@@ -31,7 +31,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @deprecated 2006
 	 */
 	function getList () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('album.title.main'));
 		$tpl->assign ('MAIN', CopixZone::process ('album|albumlist'));
@@ -52,7 +52,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
 		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js"));
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
 		if( !(_request("album_id") )   ||
@@ -75,7 +75,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		}
 		
 		
-		$tplAlbum = & new CopixTpl ();
+		$tplAlbum = new CopixTpl ();
 		
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
@@ -257,7 +257,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 */
 	function getDelAlbum () {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		if( Kernel::getLevel( "MOD_ALBUM", _request("album_id") ) < PROFILE_CCV_ADMIN ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -300,7 +300,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 */
 	function getPhoto () {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		if( !(_request("photo_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
@@ -308,7 +308,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$photo_id = _request("photo_id");
 		
-		$tplAlbum = & new CopixTpl ();
+		$tplAlbum = new CopixTpl ();
 		
 		
 		$service = & CopixClassesFactory::Create ('Album');
@@ -377,7 +377,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$ppo = new CopixPPO();
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		if( !(_request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
@@ -398,7 +398,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 		
-		$tplAddPhoto = & new CopixTpl ();
+		$tplAddPhoto = new CopixTpl ();
 
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
@@ -796,7 +796,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	 * @author Fr�d�ric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getPopup () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		
 		if( !(_request("album_id") )   ||
@@ -831,7 +831,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 
-		$tplAlbum = & new CopixTpl ();
+		$tplAlbum = new CopixTpl ();
 		
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
@@ -929,7 +929,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		}
 		
 		$finish = false;
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$vignettes = _sessionGet ('modules|album|vignettes|'._request("key"));
 		//print_r($vignettes);
@@ -1054,7 +1054,7 @@ class ActionGroupAlbum extends CopixActionGroup {
     $publ_size = (CopixConfig::exists ('album|photo_publ_size')) ? CopixConfig::get ('album|photo_publ_size') : 640;
 
 		$file_xml = fopen( $path2public.'/imageData.xml', 'w' );
-		$tplXml = & new CopixTpl ();
+		$tplXml = new CopixTpl ();
 		$tplXml->assign ("publ_size", $publ_size);
 		$tplXml->assign ("album_id", $album_id);
 		$tplXml->assign ("album_key", $album->album_cle);
@@ -1087,7 +1087,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		fclose( $file_xml );
 		
 		$file_html = fopen( $path2public.'/index.html', 'w' );
-		$tplHtml = & new CopixTpl ();
+		$tplHtml = new CopixTpl ();
 		$tplHtml->assign ("album_id", $album_id);
 		$tplHtml->assign ("album_key", $album->album_cle);
 		$tplHtml->assign ("album_titre", $parent['nom']);
@@ -1173,7 +1173,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$ppo = new CopixPPO();
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		if( !(_request("album_id") ) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||') );
@@ -1190,7 +1190,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
-		$tplAddPhoto = & new CopixTpl ();
+		$tplAddPhoto = new CopixTpl ();
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 
@@ -1472,7 +1472,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 	
 	function getEditPhotos() {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_album.css"));
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$menu = array();
 		$menu[] = array(

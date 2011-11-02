@@ -45,7 +45,7 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$rFiche = $ficheDAO->get($id);
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
 
 		$coords = null;
@@ -185,7 +185,7 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$rEcole->blog = getNodeBlog ('BU_ECOLE', $rEcole->numero, array('is_public'=>1));
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('rEcole', $rEcole);
 	  $tpl->assign ('arClasses', $arClasses);
 		

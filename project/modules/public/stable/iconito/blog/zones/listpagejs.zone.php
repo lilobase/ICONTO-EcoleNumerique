@@ -43,7 +43,7 @@ class ZoneListPageJs extends CopixZone {
     $showtitle = $this->getParam('showtitle',true);
     $truncate = $this->getParam('truncate',0);
     
-		$tpl  = & new CopixTpl ();
+		$tpl  = new CopixTpl ();
 
     $listPage = array();
     if ($page) { // Page precise

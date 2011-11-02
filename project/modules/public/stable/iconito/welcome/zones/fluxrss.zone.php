@@ -29,7 +29,7 @@ class ZoneFluxrss extends CopixZone {
         $blog = $this->getParam('blog');
         $nb = $this->getParam('nb');
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
         $tpl->assign('titre', $titre);
         $tpl->assign('blog', $blog);
         $tpl->assign('nb', $nb);

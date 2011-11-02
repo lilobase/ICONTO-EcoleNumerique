@@ -96,7 +96,7 @@ class ActionGroupDefault extends enicActionGroup {
             if ($record->from_login)
               $fromName .= ' ('.$record->from_login.')';
   					$cc = $cci = '';
-  				  $monMail = & new CopixTextEMail ($to, $cc, $cci, utf8_decode($subject), utf8_decode($message));
+  				  $monMail = new CopixTextEMail ($to, $cc, $cci, utf8_decode($subject), utf8_decode($message));
   				  $send = $monMail->send (utf8_decode($from), utf8_decode($fromName));
             if ($send)
               $ok = true;

@@ -17,8 +17,8 @@ class ActionGroupDefault extends enicActionGroup {
 
 	function processDefault() {
 
-		$tpl = & new CopixTpl ();
-		$tplModule = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplModule = new CopixTpl ();
 
 		//if user is not connected :
 		if (1) {

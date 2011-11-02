@@ -3,7 +3,7 @@
 class ZoneModMinimailPrefs extends CopixZone {
 
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$toReturn = $tpl->fetch ('minimail|modprefs.tpl');
 		

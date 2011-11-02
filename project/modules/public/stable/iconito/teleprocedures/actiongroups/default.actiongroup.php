@@ -82,7 +82,7 @@ class ActionGroupDefault extends EnicActionGroup {
 		if (!TeleproceduresService::canMakeInTelep('VIEW_COMBO_ECOLES',$mondroit))
 			$ecole = null;
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('filtre', CopixZone::process('filtre',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('list', CopixZone::process('list',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('types', CopixZone::process('types',array('rTelep'=>$rTelep, 'canInsert'=>$canInsert)));
@@ -110,7 +110,7 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$main = $tplListe->fetch('list.tpl');
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
     $MENU = array();
@@ -217,7 +217,7 @@ class ActionGroupDefault extends EnicActionGroup {
 			$rForm->detail = ($rType->texte_defaut) ? $rType->texte_defaut : html_entity_decode(CopixI18N::get ('teleprocedures.interv.default.detail'));
 		}
 
-		$tplForm = & new CopixTpl ();
+		$tplForm = new CopixTpl ();
 		
 		$tplForm->assign ('detail_edition', CopixZone::process ('kernel|edition', array('field'=>'detail', 'format'=>$rForm->format, 'content'=>$rForm->detail, 'height'=>450)));
 				
@@ -235,7 +235,7 @@ class ActionGroupDefault extends EnicActionGroup {
 
 		$main = $tplForm->fetch('insert.tpl');
 	
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('teleprocedures.title.newTelep'));
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -290,7 +290,7 @@ class ActionGroupDefault extends EnicActionGroup {
 		else
 			$main = $fiche.$comms.$actions;
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
 		$tpl->assign ("MAIN", $main);
@@ -357,7 +357,7 @@ class ActionGroupDefault extends EnicActionGroup {
 		$actions = CopixZone::process('ficheActionsDroits',array('rFiche'=>$rFiche, 'errors'=>$errors));
 		$main = $fiche.$actions;
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
 		$tpl->assign ("MAIN", $main);
@@ -593,7 +593,7 @@ class ActionGroupDefault extends EnicActionGroup {
 			//$from = CopixConfig::get('|mailFrom');
 			//$fromName = CopixConfig::get('|mailFromName');
 			
-			$mail = & new CopixHtmlEMail ($to, $cc, $cci, $subject, $message);
+			$mail = new CopixHtmlEMail ($to, $cc, $cci, $subject, $message);
 
 			$send = $mail->send ($from, $fromName);
 			

@@ -13,7 +13,7 @@ class ZoneReglettePages extends CopixZone {
 		
 		*/
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		//$service = & CopixClassesFactory::Create ('Album');
 		$nbPages = intval($this->getParam('nbPages'));

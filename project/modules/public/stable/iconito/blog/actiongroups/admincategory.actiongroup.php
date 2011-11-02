@@ -39,7 +39,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_bacg = $this->getRequest('id_bacg', null);
 		if($id_bacg!=null) {
@@ -87,7 +87,7 @@ class ActionGroupAdminCategory extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		
 		$categoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');

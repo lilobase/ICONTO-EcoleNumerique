@@ -32,13 +32,13 @@ class ActionGroupMagicmail extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('magicmail.message.title'));
 
 		$dao = CopixDAOFactory::create("magicmail|magicmail");
 		$magic_result = $dao->get($id);
 
-		$tplForm = & new CopixTpl ();
+		$tplForm = new CopixTpl ();
 		$tplForm->assign ('id', $id);
 		$tplForm->assign ('infos', $magic_result);
 		// $tplForm->assign ('magicmail_mail', CopixConfig::get ('magicmail|magicmail_mail'));

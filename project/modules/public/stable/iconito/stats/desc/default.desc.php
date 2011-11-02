@@ -1,8 +1,8 @@
 <?php
 
-$updateCron 				= & new CopixAction ('cron', 'updateCron');
+$updateCron 				= new CopixAction ('cron', 'updateCron');
 
-$viewModule 				= & new CopixAction ('stats', 'viewModule');
+$viewModule 				= new CopixAction ('stats', 'viewModule');
 
 $default						= & $viewModule;
 

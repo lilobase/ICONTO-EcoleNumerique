@@ -4,7 +4,7 @@
 class ZoneFooter extends CopixZone {
 
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
         $kernel = _class("kernel");
 
 		$toReturn = "";

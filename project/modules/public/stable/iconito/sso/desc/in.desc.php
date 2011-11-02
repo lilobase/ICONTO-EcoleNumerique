@@ -1,7 +1,7 @@
 <?php
 
-$challenge			= & new CopixAction ('in', 'challenge');
-$login			= & new CopixAction ('in', 'login');
+$challenge			= new CopixAction ('in', 'challenge');
+$login			= new CopixAction ('in', 'login');
 
 $default		= & $challenge;
 

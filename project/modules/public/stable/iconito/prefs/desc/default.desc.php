@@ -9,8 +9,8 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-$getprefs    = & new CopixAction ('Prefs', 'getPrefs');
-$setprefs    = & new CopixAction ('Prefs', 'setPrefs');
+$getprefs    = new CopixAction ('Prefs', 'getPrefs');
+$setprefs    = new CopixAction ('Prefs', 'setPrefs');
 
 $default    = & $getprefs;
 ?>

@@ -31,7 +31,7 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 		*/
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		// $tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.menu.cache'));
 		// $tpl->assign ('MENU', Admin::getMenu('cache'));
 		

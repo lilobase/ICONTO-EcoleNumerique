@@ -22,7 +22,7 @@ class ZoneFiche extends CopixZone {
 	 */
 
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$rFiche = $this->getParam('rFiche');
 		$errors = $this->getParam('errors');

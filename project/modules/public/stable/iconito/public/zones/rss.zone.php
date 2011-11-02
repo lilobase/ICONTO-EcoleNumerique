@@ -23,7 +23,7 @@ class ZoneRss extends CopixZone {
 		
 		$blog = $this->getParam('blog',null);
     
-		$tpl  = & new CopixTpl ();
+		$tpl  = new CopixTpl ();
 		
 	  //on r�cup�re l'ensemble des articles du blog
     //$dao = _dao('blog|blogarticle');

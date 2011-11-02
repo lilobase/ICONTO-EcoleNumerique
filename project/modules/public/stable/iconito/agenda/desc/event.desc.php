@@ -9,10 +9,10 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-$prepareEdit = & new CopixAction ('Event', 'doPrepareEdit');
-$create      = & new CopixAction ('Event', 'doCreate');
-$edit        = & new CopixAction ('Event', 'processGetEdit');
-$valid       = & new CopixAction ('Event', 'doValid');
-$delete      = & new CopixAction ('Event', 'doDelete');
+$prepareEdit = new CopixAction ('Event', 'doPrepareEdit');
+$create      = new CopixAction ('Event', 'doCreate');
+$edit        = new CopixAction ('Event', 'processGetEdit');
+$valid       = new CopixAction ('Event', 'doValid');
+$delete      = new CopixAction ('Event', 'doDelete');
 
 ?>

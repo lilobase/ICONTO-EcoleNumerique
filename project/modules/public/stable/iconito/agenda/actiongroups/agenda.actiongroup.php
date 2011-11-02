@@ -159,7 +159,7 @@ class ActionGroupAgenda extends CopixActionGroup {
     $listAgendasAffiches = $obj->getAgendaAffiches();
 
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendavuesemaine', array('elementsSemaineAffichee'=>$params,
 																								'arEventByDay'=>$arEventByDay,
 																								'heureDeb'=>$heureDeb,
@@ -173,7 +173,7 @@ class ActionGroupAgenda extends CopixActionGroup {
     $title = $obj->getCurrentTitle ();
 
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', $title['title']);
 		
 		$menu = $agendaService->getAgendaMenu('week');
@@ -207,12 +207,12 @@ class ActionGroupAgenda extends CopixActionGroup {
 		//on récupère en session les agendas à afficher
 		$arAgendasAffiches = $agendaService->getAgendaAffiches();
 
-		$tplZoneAujourdhui = & new CopixTpl();
+		$tplZoneAujourdhui = new CopixTpl();
 		$tplZoneAujourdhui->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendatoday', array('day'=>_request('day'),
 																								  'arAgendasAffiches'=>$arAgendasAffiches)));
 																								  
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.titlePage.titre'));
 		$tpl->assign ('MAIN', $tplZoneAujourdhui->fetch('agenda|main.agenda.tpl'));
 		
@@ -279,7 +279,7 @@ class ActionGroupAgenda extends CopixActionGroup {
 		$serviceType   = new AgendaType;
 		$serviceAgenda = new AgendaService;
     
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$agendaDispos = AgendaService::getAvailableAgenda();
 		$agendaAffiches = AgendaService::getAgendaAffiches();

@@ -69,7 +69,7 @@ class MinimailService {
 						  $from = CopixConfig::get ('default|mailFrom');
 						  $fromName = CopixConfig::get ('default|mailFromName');
 							$cc = $cci = '';
-						  $monMail = & new CopixTextEMail ($to, $cc, $cci, $subject, $message);
+						  $monMail = new CopixTextEMail ($to, $cc, $cci, $subject, $message);
 						  $send = $monMail->send ($from, $fromName);
             }
 					}

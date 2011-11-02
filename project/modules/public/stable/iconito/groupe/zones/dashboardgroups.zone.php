@@ -18,7 +18,7 @@ class ZoneDashboardGroups extends CopixZone {
 		
     $groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
     
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		//$tpl->assign ('list', $groupes);
 
 		$tpl->assign ('canCreate', ($groupeService->canMakeInGroupe('ADD_GROUP',NULL) ? 1 : 0));

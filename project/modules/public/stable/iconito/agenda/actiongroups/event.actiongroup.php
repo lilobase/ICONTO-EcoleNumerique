@@ -163,11 +163,11 @@ class ActionGroupEvent extends CopixActionGroup {
 		$arTitleAgendasAffiches = $serviceAgenda->getArTitleAgendaByArIdAgenda($arAgendasAffiches);
 		
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaeditevent', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'toEdit'=>$toEdit)));
 		
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
      $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#datedeb_event,#datefin_event,#dateendrepeat_event')");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.title.editEvent'));
 

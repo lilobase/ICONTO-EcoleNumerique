@@ -13,7 +13,7 @@
 class ZoneShowArticle extends CopixZone {
    function _createContent (&$toReturn) {
 
-      $tpl  = & new CopixTpl ();
+      $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
       $comment = $this->getParam('comment', NULL);

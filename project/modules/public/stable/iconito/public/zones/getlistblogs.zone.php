@@ -24,7 +24,7 @@ class ZoneGetListBlogs extends CopixZone {
 
 		$kw = $this->getParam('kw',null);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 	 	$dao = _dao("blog|blog");
 

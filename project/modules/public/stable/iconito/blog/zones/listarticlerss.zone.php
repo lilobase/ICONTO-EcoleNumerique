@@ -24,7 +24,7 @@ class ZoneListArticleRss extends CopixZone {
     
     $blog = $this->getParam('blog',null);
     
-		$tpl  = & new CopixTpl ();
+		$tpl  = new CopixTpl ();
 		
 	  //on récupère l'ensemble des articles du blog
     $dao = _dao('blog|blogarticle');

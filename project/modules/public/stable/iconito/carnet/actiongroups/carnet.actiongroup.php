@@ -130,10 +130,10 @@ class ActionGroupCarnet extends EnicActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('carnet|carnet.carnet').' - '.$title);
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('list', $list);
 		$tplListe->assign ('classe', $classe);
 		$tplListe->assign ('nb_eleves_classe', $nb_eleves_classe);
@@ -275,13 +275,13 @@ class ActionGroupCarnet extends EnicActionGroup {
 			if ($print)
 				CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet_print.css"), array('media'=>'print'));
 			
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $topic->titre);
 			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 
 			//print_r($list);
 			//print_r($topic);
-			$tplListe = & new CopixTpl ();
+			$tplListe = new CopixTpl ();
 			$tplListe->assign ('ppo', $ppo);
 			$tplListe->assign ('topic', $topic);
 			$tplListe->assign ('eleve', $eleve);
@@ -353,7 +353,7 @@ class ActionGroupCarnet extends EnicActionGroup {
 			$hisEleves = $carnet_service->getUserElevesInClasse($classe);
 			$canWriteClasse = $carnet_service->canMakeInCarnet('WRITE_CLASSE', NULL);
 
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$title_page = ($id) ? CopixI18N::get ('carnet|carnet.modifTopic') : CopixI18N::get ('carnet|carnet.newTopic');
 			$tpl->assign ('TITLE_PAGE', $title_page);
 			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
@@ -369,7 +369,7 @@ class ActionGroupCarnet extends EnicActionGroup {
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/iconito/module_carnet.js');
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			
 			$tplForm->assign ('id', $id);
 			$tplForm->assign ('classe', $classe);
@@ -511,7 +511,7 @@ class ActionGroupCarnet extends EnicActionGroup {
 		if ($criticErrors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('carnet||')));
 		} else {
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			//$titre = ($id) ? 'Modification du message' : 'Nouveau message';
 
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
@@ -519,7 +519,7 @@ class ActionGroupCarnet extends EnicActionGroup {
 
 			$tpl->assign ('TITLE_PAGE', $rTopic->topic_titre);
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			$tplForm->assign ('topic', $topic);
 			$tplForm->assign ('eleve', $eleve);
 			$tplForm->assign ('message', $message);

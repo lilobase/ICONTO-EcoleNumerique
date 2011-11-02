@@ -74,7 +74,7 @@ class ZonePhotos extends CopixZone {
 		}
 		//var_dump($arPhotos);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('mode', $mode);
 		$tpl->assign ('titre', $titre);
 		$tpl->assign ('width', $width);

@@ -8,7 +8,7 @@ class ZoneShowMail extends enicZone{
     function _createContent (&$toReturn) {
 
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
         $tpl->assign('content', $this->service('mailextService')->getConf());
         $tpl->assign('urlmail', $this->url('mailext|mailext|getMsg'));
         $toReturn = $tpl->fetch ('mailext|showmsg.tpl');

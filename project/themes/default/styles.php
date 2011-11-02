@@ -26,11 +26,11 @@
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_".$module.".css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_custom.css"); ?>" type="text/css" />
 
-<?php if (ereg("MSIE 6.0", $_SERVER["HTTP_USER_AGENT"])) { ?>
+<?php if (preg_match("/MSIE 6.0/i", $_SERVER["HTTP_USER_AGENT"])) { ?>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_iehacks.css"); ?>" type="text/css"/>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_ie6hacks.css"); ?>" type="text/css"/>
 <?php } ?>
-<?php if (ereg("MSIE 7.0", $_SERVER["HTTP_USER_AGENT"])) { ?>
+<?php if (preg_match("/MSIE 7.0/i", $_SERVER["HTTP_USER_AGENT"])) { ?>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_iehacks.css"); ?>" type="text/css"/>
 	<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_ie7hacks.css"); ?>" type="text/css"/>
 <?php } ?>

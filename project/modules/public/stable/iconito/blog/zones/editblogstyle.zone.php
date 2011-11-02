@@ -17,7 +17,7 @@ class ZoneEditBlogStyle extends CopixZone {
 	function _createContent (&$toReturn) {
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tpl->assign ('blog', $this->getParam('blog',null));
 		$tpl->assign ('kind', $this->getParam('kind',null));

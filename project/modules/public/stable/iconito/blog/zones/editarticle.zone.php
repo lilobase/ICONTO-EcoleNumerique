@@ -20,7 +20,7 @@ class ZoneEditArticle extends CopixZone {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog_admin.css"));	
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_blog.js');
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_blog = $this->getParam('id_blog', '');
 		

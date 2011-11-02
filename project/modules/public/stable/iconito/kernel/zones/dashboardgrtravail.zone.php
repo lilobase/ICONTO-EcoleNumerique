@@ -8,7 +8,7 @@ class ZoneDashboardGrTravail extends enicZone {
     public function _createContent(&$toReturn){
 
         //load TPL
-        $tpl = & new CopixTpl();
+        $tpl = new CopixTpl();
 
         //get the id for current (force int)
         $idZone = $this->getParam('idZone')*1;

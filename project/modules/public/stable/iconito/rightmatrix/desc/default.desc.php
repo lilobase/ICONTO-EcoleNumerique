@@ -1,6 +1,6 @@
 <?php
 
-$index = & new CopixAction ('rightmatrix', 'processDefault');
+$index = new CopixAction ('rightmatrix', 'processDefault');
 
 $default		= & $index;
 

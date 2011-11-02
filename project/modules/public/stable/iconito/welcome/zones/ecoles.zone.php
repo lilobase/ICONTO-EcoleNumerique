@@ -130,7 +130,7 @@ class ZoneEcoles extends enicZone {
             $displayVille = (count($listVille) > 1) ? true : false;
         }
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
         $tpl->assign('titre', $titre);
         $tpl->assign('ajaxpopup', $ajaxpopup);
         $tpl->assign('list', $list);

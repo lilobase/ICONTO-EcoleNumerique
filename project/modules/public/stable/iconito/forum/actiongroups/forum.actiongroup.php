@@ -27,10 +27,10 @@ class ActionGroupForum extends CopixActionGroup {
 	 	$dao = CopixDAOFactory::create("forum_forums");
 		$forums = $dao->getList();
 	 	
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('forum.title.lesforums'));
 
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ("list", $forums);
 		$result = $tplListe->fetch("getlistforums.tpl");
 
@@ -105,10 +105,10 @@ class ActionGroupForum extends CopixActionGroup {
 			
 			//print_r($list);
 
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $forum[0]->parent["nom"]);
 			
-			$tplForum = & new CopixTpl ();
+			$tplForum = new CopixTpl ();
 			$tplForum->assign ('forum', $forum[0]);
 			$tplForum->assign ('list', $list);
 			$tplForum->assign ('page', $page);
@@ -217,7 +217,7 @@ class ActionGroupForum extends CopixActionGroup {
 	  		$list[$k]->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
  			}
 			
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $rTopic->titre);
       
       $menu = array();
@@ -227,7 +227,7 @@ class ActionGroupForum extends CopixActionGroup {
         $menu[] = array('txt' => CopixI18N::get('forum|forum.btn.delete'), 'url' => CopixUrl::get('forum||getDeleteTopic', array("id"=>$id)), 'type'=>'delete');
 			$tpl->assign ('MENU', $menu);
 			
-			$tplForum = & new CopixTpl ();
+			$tplForum = new CopixTpl ();
 			$tplForum->assign ('topic', $rTopic);
 			$tplForum->assign ('list', $list);
 			$tplForum->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('forum||getTopic', array("id"=>$id)))));
@@ -339,11 +339,11 @@ class ActionGroupForum extends CopixActionGroup {
 		if ($criticErrors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('forum||')));
 		} else {
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$titre = ($id) ? CopixI18N::get ('forum|forum.modifMessage') : CopixI18N::get ('forum|forum.newMessage');
 			$tpl->assign ('TITLE_PAGE', $titre);
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			$tplForm->assign ('topic', $topic);
 			$tplForm->assign ('message', $message);
 			$tplForm->assign ('format', $format);
@@ -506,11 +506,11 @@ class ActionGroupForum extends CopixActionGroup {
 		if ($criticErrors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('forum||')));
 		} else {
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$title_page = ($id) ? CopixI18N::get ('forum|forum.modifTopic') : CopixI18N::get ('forum|forum.newTopic');
 			$tpl->assign ('TITLE_PAGE', $title_page);
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			$tplForm->assign ('forum', $forum);
 			$tplForm->assign ('titre', $titre);
 			$tplForm->assign ('message', $message);

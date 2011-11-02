@@ -47,8 +47,8 @@ class ActionGroupAnimateurs extends enicActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
-		$tpl = & new CopixTpl ();
-		$tplAnimateurs = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplAnimateurs = new CopixTpl ();
 		
 		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
 		$animateurs = $animateurs_dao->findAll();
@@ -122,8 +122,8 @@ class ActionGroupAnimateurs extends enicActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
-		$tpl = & new CopixTpl ();
-		$tplAnimateurs = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplAnimateurs = new CopixTpl ();
 
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
@@ -248,8 +248,8 @@ class ActionGroupAnimateurs extends enicActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
-		$tpl = & new CopixTpl ();
-		$tplAnimateurs = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplAnimateurs = new CopixTpl ();
 		
 		$animateurs_dao = _dao("kernel|kernel_animateurs");
 		$animateurs = $animateurs_dao->findAll();

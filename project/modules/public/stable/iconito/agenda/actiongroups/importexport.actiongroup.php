@@ -68,11 +68,11 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$listAgendas = $serviceAgenda->getAvailableAgenda();
 				
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaimport', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'importParams'=>$importParams)));
 		
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.import'));
 
 		$menu = $serviceAgenda->getAgendaMenu('import');
@@ -196,11 +196,11 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();		
 		
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaafterimport', array('nbInsertions'=>_request('nbInsertions'))));
 		
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.import'));
     
     $menu = $serviceAgenda->getAgendaMenu('import');
@@ -258,11 +258,11 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
 
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaexport', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'exportParams'=>$exportParams)));
 	
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('BODY_ON_LOAD', "setDatePicker('#datedeb_export,#datefin_export')");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.export'));
 		

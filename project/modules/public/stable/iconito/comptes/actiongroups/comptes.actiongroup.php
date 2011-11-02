@@ -61,8 +61,8 @@ class ActionGroupComptes extends enicActionGroup {
 		}
 		
 		
-		$tpl = & new CopixTpl ();
-		$tplGetNode = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplGetNode = new CopixTpl ();
 		
 		$pType = _request("type", 'ROOT');
 		$pId = _request("id");
@@ -250,7 +250,7 @@ class ActionGroupComptes extends enicActionGroup {
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$bu_dao = & CopixDAOFactory::create("kernel|kernel_bu2user");
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getloginform'));
 		
@@ -533,8 +533,8 @@ class ActionGroupComptes extends enicActionGroup {
 		
 		//print_r($inSession);
 		
-		$tpl = & new CopixTpl ();
-		$tplLoginResult = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplLoginResult = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getloginresult'));
 		$menu=array();
 		
@@ -610,11 +610,11 @@ class ActionGroupComptes extends enicActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 		}
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getpurgeresult'));
 		
-		$tplPurgeResult = & new CopixTpl ();
+		$tplPurgeResult = new CopixTpl ();
 		$tplPurgeResult->assign ('logins', $inSession );
 		$main = $tplPurgeResult->fetch ('getpurgeresult.tpl');
 		
@@ -723,14 +723,14 @@ class ActionGroupComptes extends enicActionGroup {
 		//print_r($classe);
 		
 
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('ecole', $ecole);
 		$tplListe->assign ('classes', $classes);
 		$tplListe->assign ('classe', $classe);
 		$tplListe->assign ('annu', "<pre>".$return_str."</pre>" );
 		$result = $tplListe->fetch("view.tpl");
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $ecole["nom"]." (".$ecole["desc"].")");
 		$tpl->assign ("MAIN", $result);
 		$tpl->assign ('MENU', $this->menu );
@@ -743,8 +743,8 @@ class ActionGroupComptes extends enicActionGroup {
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$userinfo = $comptes_service->checkLoginAccess( _request('login') );
 		
-		$tpl = & new CopixTpl ();
-		$tplGetUser = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplGetUser = new CopixTpl ();
 
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.strings.modpasswd_user', array(_request('login'))) );
 
@@ -814,8 +814,8 @@ class ActionGroupComptes extends enicActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		
-		$tpl = & new CopixTpl ();
-		$tplGetUserExt = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplGetUserExt = new CopixTpl ();
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.getuserext'));
 
@@ -853,7 +853,7 @@ class ActionGroupComptes extends enicActionGroup {
 		
 		
 		$errors=array();
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$userext_dao = & CopixDAOFactory::create("kernel|kernel_ext_user");
 		$copixuser_dao = & CopixDAOFactory::create("kernel|kernel_copixuser");

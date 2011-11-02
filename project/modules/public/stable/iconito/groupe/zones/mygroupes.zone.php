@@ -64,7 +64,7 @@ class ZoneMyGroupes extends CopixZone {
     
 		//print_r($where);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('list', $groupes);
 		
 		if ($where == 'groupes')

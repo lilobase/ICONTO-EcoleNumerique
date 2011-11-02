@@ -42,7 +42,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tabSelectCat = array();
 		$id_bact = $this->getRequest('id_bact', null);
@@ -146,7 +146,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       'back'=>CopixUrl::get ('blog|admin|listBlog')));
     }
 
-    $tpl = & new CopixTpl ();
+    $tpl = new CopixTpl ();
 
     // On r�cup�re l'utilisateur connect�
     $user = BlogAuth::getUserInfos();

@@ -30,13 +30,13 @@ class ActionGroupDefault extends EnicActionGroup {
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
 		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('public|public.blog.annuaire'));
 
         $kw = $this->getRequest('kw', null);
         $grville = 1;
 
-        $tplListe = & new CopixTpl ();
+        $tplListe = new CopixTpl ();
 
         if ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
 			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'ville'=>$ville_as_array)));

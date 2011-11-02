@@ -38,9 +38,9 @@ class ActionGroupDemo extends CopixActionGroup {
     if ($errors)
       return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get()));
     
-    $tpl = & new CopixTpl ();
+    $tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
-		$tplDemo = & new CopixTpl ();
+		$tplDemo = new CopixTpl ();
 		$tplDemo->assign ("installed", CopixConfig::get ('kernel|jeuEssaiInstalled'));
 		$tplDemo->assign ('demo_txt_install', CopixI18N::get ('sysutils|demo.txt.install'));
 		$tpl->assign ("MAIN", $tplDemo->fetch("demo_status.tpl"));
@@ -104,9 +104,9 @@ class ActionGroupDemo extends CopixActionGroup {
     CacheServices::clearCache ();
 		CacheServices::clearConfDB ();
     
-    $tpl = & new CopixTpl ();
+    $tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
-		$tplDemo = & new CopixTpl ();
+		$tplDemo = new CopixTpl ();
 		//$tplDemo->assign ("toto", 1);
 		$tplDemo->assign ('demo_txt_installed', CopixI18N::get ('sysutils|demo.txt.installed'));
 		$tplDemo->assign ('demo_txt_accounts', CopixI18N::get ('sysutils|demo.txt.accounts'));

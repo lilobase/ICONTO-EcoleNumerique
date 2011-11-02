@@ -8,7 +8,7 @@
 */
 class ZoneUserList extends CopixZone {
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tpl->assign('childs', $this->getParam('childs') );
 		$tpl->assign('type',   $this->getParam('type')   );

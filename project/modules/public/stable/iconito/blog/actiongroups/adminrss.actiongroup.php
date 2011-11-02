@@ -39,7 +39,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_bfrs = $this->getRequest('id_bfrs', null);
 		if($id_bfrs!=null) {
@@ -88,7 +88,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$fluxRssDAO = CopixDAOFactory::create('blog|blogfluxrss');
 		$id_bfrs = $this->getRequest('id_bfrs', null); if(strlen($id_bfrs) == 0) $id_bfrs = null;

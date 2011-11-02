@@ -1,18 +1,18 @@
 <?php
 
-$getList			= & new CopixAction ('ressource', 'getList');
-$getRessource		= & new CopixAction ('ressource', 'getRessource');
-$doRessourceSave	= & new CopixAction ('ressource', 'doRessourceSave');
+$getList			= new CopixAction ('ressource', 'getList');
+$getRessource		= new CopixAction ('ressource', 'getRessource');
+$doRessourceSave	= new CopixAction ('ressource', 'doRessourceSave');
 
-$getSearch			= & new CopixAction ('ressource', 'getSearch');
-$getSearchAdvanced			= & new CopixAction ('ressource', 'getSearchAdvanced');
+$getSearch			= new CopixAction ('ressource', 'getSearch');
+$getSearchAdvanced			= new CopixAction ('ressource', 'getSearchAdvanced');
 
-$getTag			= & new CopixAction ('ressource', 'getTag');
+$getTag			= new CopixAction ('ressource', 'getTag');
 
-// $add			= & new CopixAction ('ressource', 'getAdd');
-// $debug			= & new CopixAction ('ressource', 'getDebug');
+// $add			= new CopixAction ('ressource', 'getAdd');
+// $debug			= new CopixAction ('ressource', 'getDebug');
 
-$go				= & new CopixAction ('ressource', 'go');
+$go				= new CopixAction ('ressource', 'go');
 
 $default		= & $go;
 

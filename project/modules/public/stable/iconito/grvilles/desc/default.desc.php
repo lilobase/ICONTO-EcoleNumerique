@@ -1,6 +1,6 @@
 <?php
 
-$getGrvilles  = & new CopixAction ('grvilles', 'getGrvilles');
+$getGrvilles  = new CopixAction ('grvilles', 'getGrvilles');
 
 $go           = & $getGrvilles;
 $default      = & $getGrvilles;

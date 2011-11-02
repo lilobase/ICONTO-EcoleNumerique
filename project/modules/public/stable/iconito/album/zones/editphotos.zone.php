@@ -11,7 +11,7 @@
 */
 class ZoneEditPhotos extends CopixZone {
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$pAlbumId = $this->getParam('album_id');
 		$pDossierId = $this->getParam('dossier_id');

@@ -98,7 +98,7 @@ class ActionGroupFrontBlog extends EnicActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
 		CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
     
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
@@ -178,7 +178,7 @@ class ActionGroupFrontBlog extends EnicActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
     CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
 		$zoneArticle = CopixZone::process ('ShowArticle', array('blog'=>$blog, 'article'=>_request('article')));
@@ -261,7 +261,7 @@ class ActionGroupFrontBlog extends EnicActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
     CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
@@ -344,7 +344,7 @@ class ActionGroupFrontBlog extends EnicActionGroup {
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
     CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
@@ -421,7 +421,7 @@ class ActionGroupFrontBlog extends EnicActionGroup {
 			'back'=>CopixUrl::get ('', array('blog'=>_request('blog')))));
 		}
     
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
 		$comment = CopixDAOFactory::createRecord('blog|blogarticlecomment');

@@ -17,7 +17,7 @@ class ZoneEditLink extends CopixZone {
 	function _createContent (&$toReturn) {
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tpl->assign ('link', $this->getParam('link',null));
 		$tpl->assign ('id_blog', $this->getParam('id_blog', ''));

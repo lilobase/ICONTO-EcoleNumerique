@@ -32,7 +32,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$samedi   = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 6);
 		
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		//date du jour
 		$tpl->assign('dimanche'        , date('d', $dimanche));

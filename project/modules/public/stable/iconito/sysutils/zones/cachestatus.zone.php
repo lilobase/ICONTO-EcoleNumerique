@@ -15,7 +15,7 @@ _classInclude('sysutils|cacheservices');
 class ZoneCacheStatus extends CopixZone {
   function _createContent (& $toReturn){
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
     
     $size = CacheServices::getCacheSize ();
     // Cherche		

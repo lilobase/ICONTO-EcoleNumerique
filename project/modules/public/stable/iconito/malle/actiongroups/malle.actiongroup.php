@@ -104,7 +104,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			} else {
 				$title = (isset($parent["nom"])) ? $parent["nom"] : CopixI18N::get('malle.moduleDescription');
 			}
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $title);
 
 			$can = array(
@@ -144,7 +144,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		// FIN CONSTRUCTION DU MENU
 
 
-			$tplMalle = & new CopixTpl ();
+			$tplMalle = new CopixTpl ();
 			$tplMalle->assign ('id', $id);
 			$tplMalle->assign ('folder', $folder);
 			$tplMalle->assign ('folders', $folders);
@@ -756,7 +756,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		
 		if (move_uploaded_file($file['tmp_name'], $malleService->getTmpFolder().'/'.$file['name'])) {
 			
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('malle|malle.zip.title'));
 			$tpl->assign ('id', $id);
 			$tpl->assign ('folder', $folder);
@@ -1388,10 +1388,10 @@ class ActionGroupMalle extends CopixActionGroup {
 				$listFolders[] = $r;
 			}
 
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('malle|malle.btn.rename'));
 			
-			$tplList = & new CopixTpl ();
+			$tplList = new CopixTpl ();
 			$tplList->assign ('id', $id);
 			$tplList->assign ('folder', $folder);
 			$tplList->assign ('folders', $listFolders);

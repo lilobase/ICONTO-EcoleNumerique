@@ -41,7 +41,7 @@ class ActionGroupSso extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>'Problème', 'back'=>CopixUrl::get('||')));  
         
    
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sso.title.servext'));
 
@@ -122,10 +122,10 @@ class ActionGroupSso extends CopixActionGroup {
     if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('sso||')));  
 
-    $tpl = & new CopixTpl ();
+    $tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sso.string.newsso'));
 
-		$tplForm = & new CopixTpl ();
+		$tplForm = new CopixTpl ();
 		$tplForm->assign ('id', $id);
 		$tplForm->assign ('message', $message);
 		$tplForm->assign ('url', $url);

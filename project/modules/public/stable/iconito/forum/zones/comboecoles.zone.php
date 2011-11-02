@@ -20,7 +20,7 @@ class ZoneComboEcoles extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$ville = ($this->getParam('ville')) ? $this->getParam('ville') : NULL;
 		$value = ($this->getParam('value')) ? $this->getParam('value') : 0;
 		$fieldName = ($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;

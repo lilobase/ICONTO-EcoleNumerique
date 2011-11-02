@@ -20,10 +20,12 @@ class Welcome {
 	 */
 	function simplifyUrl( $url ) {
 		// Retrait du type de connexion
-		if( ereg( '^([a-zA-Z]+://)(.*)$', $url, $regs ) ) $url=$regs[2];
+		//if( ereg( '^([a-zA-Z]+://)(.*)$', $url, $regs ) ) $url=$regs[2];
+		if( preg_match( '#^([a-zA-Z]+://)(.*)$#', $url, $regs ) ) $url=$regs[2];
 		
 		// Retrait du slash final
-		if( ereg( '^(.*)/$', $url, $regs ) ) $url=$regs[1];
+		//if( ereg( '^(.*)/$', $url, $regs ) ) $url=$regs[1];
+		if( preg_match( '#^(.*)/$#', $url, $regs ) ) $url=$regs[1];
 		
 		return $url;
 	}

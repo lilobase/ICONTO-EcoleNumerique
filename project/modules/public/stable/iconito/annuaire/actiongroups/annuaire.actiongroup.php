@@ -113,7 +113,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$agents = $annuaireService->getAgentsInVille ($ville, array('droit'=>'voir'));
 		$agents = $annuaireService->checkVisibility ($agents);
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		
 		$canWrite_USER_VIL = $matrix->ville($ville)->_right->USER_VIL->communiquer;
 		$tplListe->assign ('canWrite_USER_VIL', $canWrite_USER_VIL);
@@ -139,7 +139,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$tplListe->assign ('kernel_ville_as_array', Kernel::getKernelLimits('ville_as_array'));
 		$result = $tplListe->fetch("getannuaireville.tpl");
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $rVille["nom"]);
     
     $menu = array();
@@ -187,7 +187,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		//$tplListe->assign ('ecoles', $ecoles);
 		
     // Blog de l'école
@@ -217,7 +217,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$result = $tplListe->fetch('getannuaireecole.tpl');
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $rEcole["nom"]." (".$rEcole["desc"].")");
 		$menu = array();
     $menu[] = array('txt' => CopixI18N::get('groupe|groupe.annuaire'), 'url' => CopixUrl::get ('groupe||getListPublic'), 'size'=>'110');
@@ -285,7 +285,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
     if ($blog)
       $rEcole['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
     
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		
 		$tplListe->assign ('infosecole', CopixZone::process ('annuaire|infosecole', array('rEcole'=>$rEcole)));
 		$tplListe->assign ('infosclasse', CopixZone::process ('annuaire|infosclasse', array('rClasse'=>$rClasse)));
@@ -295,7 +295,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		//print_r($rEcole);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $rClasse["nom"]);
     
     $menu = array();
@@ -329,7 +329,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$type = _request('type') ? _request('type') : NULL;
 		$id = _request('id') ? _request('id') : NULL;
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('zone', CopixZone::process ('annuaire|getUserProfil', array('type'=>$type, 'id'=>$id)));
 		$result = $tpl->fetch('getuser.tpl');
 
@@ -418,7 +418,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 			}
 		}
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$visib = array (
 			'USER_ELE' => false,
 			'USER_ENS' => false,

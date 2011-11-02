@@ -13,7 +13,7 @@ _classInclude('prefs|prefs');
 
 class ZonePrefs extends CopixZone {
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tpl->assign ("prefs", $this->getParam('prefs'));
 		

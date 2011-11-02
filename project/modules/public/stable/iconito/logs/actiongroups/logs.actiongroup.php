@@ -21,14 +21,14 @@ class ActionGroupLogs extends CopixActionGroup {
 
 
    function display () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Logs");
 		// $tpl->assign ('MENU', '');
 		
 		$dao = CopixDAOFactory::create("logs|logs");
 		
 		$data = $dao->getAll();
-		$tplData = & new CopixTpl ();
+		$tplData = new CopixTpl ();
 		$tplData->assign ('data', $data);
 		$result = $tplData->fetch('action_display.tpl');
 		$tpl->assign ('MAIN', $result);
@@ -37,7 +37,7 @@ class ActionGroupLogs extends CopixActionGroup {
 	}
 
 	function display_details () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Logs :: Détails");
 		$tpl->assign ('MENU', array(
 			array( 'url'=>'url', 'titre'=>'titre' ),
@@ -46,7 +46,7 @@ class ActionGroupLogs extends CopixActionGroup {
 		$dao = CopixDAOFactory::create("logs|logs");
 		
 		$data = $dao->get( _request('id') );
-		$tplData = & new CopixTpl ();
+		$tplData = new CopixTpl ();
 		$tplData->assign ('data', $data);
 		$result = $tplData->fetch('action_display_details.tpl');
 		$tpl->assign ('MAIN', $result);
@@ -55,7 +55,7 @@ class ActionGroupLogs extends CopixActionGroup {
 	}
 
    function test () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Logs");
 		
 		$dao = CopixDAOFactory::create("logs|logs");

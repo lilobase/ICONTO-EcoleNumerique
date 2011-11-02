@@ -1,6 +1,6 @@
 <?php
 
-$view = & new CopixAction ('uservisibility', 'view');
+$view = new CopixAction ('uservisibility', 'view');
 
 $default		= & $view;
 

@@ -35,7 +35,7 @@ class ZonePages extends CopixZone {
     $showtitle = $this->getParam('showtitle',true);
     $truncate = $this->getParam('truncate',0);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('titre', $titre);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('nb', $nb);

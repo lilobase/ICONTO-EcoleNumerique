@@ -19,7 +19,7 @@ class ZoneEditComment extends CopixZone {
 	function _createContent (&$toReturn) {
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tpl->assign ('comment', $this->getParam('comment',null));
 		$tpl->assign ('id_bact', $this->getParam('id_bact',''));

@@ -24,7 +24,7 @@ class ZoneComboFolders extends CopixZone {
 		//$daoFolders = _dao("malle|malle_folders");
 		$malleService = & CopixClassesFactory::Create ('malle|malleService');
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$res = array();
 		$malle = ($this->getParam('malle')) ? $this->getParam('malle') : NULL;
 		$folder = ($this->getParam('folder')) ? $this->getParam('folder') : 0;

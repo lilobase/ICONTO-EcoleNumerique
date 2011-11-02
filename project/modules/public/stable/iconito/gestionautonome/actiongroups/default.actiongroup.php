@@ -66,7 +66,7 @@ class ActionGroupDefault extends enicActionGroup {
 	    $passwords = $toDisplay;
 	  }
 	  
-	  $tplResult = & new CopixTpl ();
+	  $tplResult = new CopixTpl ();
 	  $tplResult->assign ('accounts', $passwords);
 	  
 	  $format = _request ('format', 'html');
@@ -1848,7 +1848,7 @@ class ActionGroupDefault extends enicActionGroup {
 		$ppo->msgSuccess    = $ppo->firstElement['type_nom'].' '.($ppo->isUpdated ? 'modifié' : 'ajouté');
 		
 		// Sortie suivant le format demandé
-		$tplResult = & new CopixTpl ();
+		$tplResult = new CopixTpl ();
 		$tplResult->assign ('accounts', $ppo->accounts);
 
 	  switch ($format) {
@@ -5289,7 +5289,7 @@ class ActionGroupDefault extends enicActionGroup {
 		$ppo->subTitle      = 'Liste des élèves ajoutés';
   	
 		// Sortie suivant le format demandé
-		$tplResult = & new CopixTpl ();
+		$tplResult = new CopixTpl ();
 		$tplResult->assign ('accounts', $ppo->accounts);
 		
 	  switch ($format) {

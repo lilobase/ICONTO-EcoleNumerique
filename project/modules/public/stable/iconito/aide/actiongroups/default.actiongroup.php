@@ -30,7 +30,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		$rubrique = $this->getRequest ('rubrique', null);
 		$page = $this->getRequest ('page', null);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('aide|aide.description'));
 		//$tpl->assign ('MENU', $menu);
 		
@@ -61,7 +61,7 @@ class ActionGroupDefault extends CopixActionGroup {
 							
 							//$tpl->assignStatic ('text', $rubrique.'|help_'.$page.'_'.$lg.'.html');
 							
-							$tpl2 = & new CopixTpl ();
+							$tpl2 = new CopixTpl ();
 							$text = $tpl2->fetch($rubrique.'|help_'.$page.'_'.$lg.'.html');
 							
 							$tpl->assign ('text', $text);

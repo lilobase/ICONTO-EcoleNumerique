@@ -47,9 +47,9 @@ class ActionGroupUservisibility extends CopixActionGroup {
 		}
 		
 		
-		$tplUserVisibility = & new CopixTpl();
+		$tplUserVisibility = new CopixTpl();
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.moduleDescription'));
 
 		$tplUserVisibility->assign ('visibility', $visibility_matrice);

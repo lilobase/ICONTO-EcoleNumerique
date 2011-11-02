@@ -24,8 +24,8 @@ class ActionGroupDashboard extends enicActionGroup {
 
 	function processDefault() {
 
-		$tpl = & new CopixTpl ();
-		$tplModule = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplModule = new CopixTpl ();
 
 		if (!$this->user->connected) {
   		return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('welcome|default|'));
@@ -133,7 +133,7 @@ class ActionGroupDashboard extends enicActionGroup {
 				$is_admin = ($contentNode['droit'] >= 60);
 
 				//build html content
-				$content_tpl = & new CopixTpl();
+				$content_tpl = new CopixTpl();
 				$content_tpl->assign('content', $content['content']);
 				$content_tpl->assign('picture', $content['picture']);
 				$content_tpl->assign('is_admin', $is_admin);

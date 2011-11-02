@@ -123,11 +123,11 @@ class ActionGroupLecon extends CopixActionGroup {
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
     
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaeditlecon', array('e'=>_request('e'), 'errors'=>_request('errors'), 'toEdit'=>$toEdit)));
 		
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.title.lecon', array('jour'=>CopixDateTime::yyyymmddToDate($toEdit->date_lecon))));
     
     $menu = $serviceAgenda->getAgendaMenu('');

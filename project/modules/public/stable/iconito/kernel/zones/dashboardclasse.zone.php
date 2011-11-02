@@ -13,7 +13,7 @@ class ZoneDashboardClasse extends enicZone {
     public function _createContent(&$toReturn){
 
         //load TPL
-        $tpl = & new CopixTpl();
+        $tpl = new CopixTpl();
 
         //get the id for current zone
         $idZone = $this->getParam('idZone');

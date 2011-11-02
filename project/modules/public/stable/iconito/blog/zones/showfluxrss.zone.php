@@ -15,7 +15,7 @@ _classInclude('blog|fluxrssservices');
 class ZoneShowFluxrss extends CopixZone {
    function _createContent (&$toReturn) {
 
-      $tpl  = & new CopixTpl ();
+      $tpl  = new CopixTpl ();
 	  
       $blog = $this->getParam('blog', '');
 	  $id_flux = $this->getParam('id_flux', '');

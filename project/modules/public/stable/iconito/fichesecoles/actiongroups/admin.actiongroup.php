@@ -215,7 +215,7 @@ class ActionGroupAdmin extends CopixActionGroup {
             }
         }
 
-        $tplForm = & new CopixTpl ();
+        $tplForm = new CopixTpl ();
         $tplForm->assign('rEcole', $rEcole);
         $tplForm->assign('rForm', $rForm);
         $tplForm->assign('form_horaires', CopixZone::process('kernel|edition', array('field' => 'horaires', 'format' => 'htmlnl2br', 'content' => $rForm->horaires, 'class' => 'zone_horaires')));
@@ -237,7 +237,7 @@ class ActionGroupAdmin extends CopixActionGroup {
         if ($rEcole->type)
             $title .= ' (' . $rEcole->type . ')';
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
         $tpl->assign('TITLE_PAGE', $title);
         if (strtolower($rEcole->type) == 'crèche')
             $tpl->assign ('TITLE_CONTEXT', CopixI18N::get ('kernel|kernel.codes.mod_fichesecoles_creche'));
