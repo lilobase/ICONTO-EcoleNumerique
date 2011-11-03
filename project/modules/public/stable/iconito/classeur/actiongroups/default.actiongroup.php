@@ -735,7 +735,7 @@ class ActionGroupDefault extends enicActionGroup {
       }
     }
     
-    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
+    $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeur->id);
   	$ppo->TITLE_PAGE = $modParentInfo['nom'];
   	
  	  return _arPPO ($ppo, array ('template' => 'deplacer_fichier.tpl'));
