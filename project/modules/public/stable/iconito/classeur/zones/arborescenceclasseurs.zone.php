@@ -17,6 +17,7 @@ class ZoneArborescenceClasseurs extends enicZone {
 	  // Paramètres pour la vue popup
 	  $ppo->field           = $this->getParam('field');
 	  $ppo->format          = $this->getParam('format');
+	  $ppo->withPersonal    = $this->getParam('withPersonal', true);
 	  
 	  // Récupération des classeurs accessibles à l'utilisateur
     $classeurIds = array();
@@ -31,8 +32,11 @@ class ZoneArborescenceClasseurs extends enicZone {
           if (strpos($module->node_type, 'USER_') !== false 
             && ($module->node_type == _currentUser()->getExtra('type') && $module->node_id == _currentUser()->getExtra('id'))) {
                 
-                $ppo->classeurPersonnel = $module->module_id;
-                $classeurIds[] = $module->module_id;
+                if ($ppo->withPersonal) {
+                  
+                  $ppo->classeurPersonnel = $module->module_id;
+                  $classeurIds[] = $module->module_id;
+                }
           }
           elseif (!strpos($module->node_type, 'USER_')
             && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) >= PROFILE_CCV_READ) {

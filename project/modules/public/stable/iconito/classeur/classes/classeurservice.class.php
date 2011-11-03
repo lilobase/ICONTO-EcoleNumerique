@@ -495,7 +495,10 @@ class ClasseurService {
     
     $pathfile = $dir.$file->id.'-'.$file->cle.$extension;
     
-    $zip->addFile($pathfile, $file->getPath().$file->id.'-'.$file->fichier);
+    if (file_exists($pathfile)) {
+      
+      $zip->addFile($pathfile, $file->getPath().$file->id.'-'.$file->fichier);
+    }
   }
   
   

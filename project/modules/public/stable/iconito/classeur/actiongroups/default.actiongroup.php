@@ -1395,7 +1395,7 @@ class ActionGroupDefault extends enicActionGroup {
    	  }
     }
     
-    $zip->close();
+    $zip->close();die();
     
     if ($cptFavori != 0 && $cptFavori == count($fichierIds)) {
       
@@ -1824,9 +1824,10 @@ class ActionGroupDefault extends enicActionGroup {
    		  array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
  	  }
  	  
- 	  $ppo->dossierId = _request('dossierId', 0);
- 	  $ppo->field     = _request('field', null);
-		$ppo->format    = _request('format', null);
+ 	  $ppo->dossierId     = _request('dossierId', 0);
+ 	  $ppo->field         = _request('field', null);
+		$ppo->format        = _request('format', null);
+		$ppo->withPersonal  = _request('withPersonal', true);
 		
 		$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id);
  	  

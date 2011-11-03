@@ -8,7 +8,7 @@
 {/if}
 
 <div id="sidebar">
-  {copixzone process=classeur|arborescenceClasseurs classeurId=$ppo->classeurId dossierCourant=$ppo->dossierId}
+  {copixzone process=classeur|arborescenceClasseurs classeurId=$ppo->classeurId dossierCourant=$ppo->dossierId withPersonal=true}
 </div>
 
 <div class="content-view">
