@@ -4265,7 +4265,7 @@ class ActionGroupDefault extends enicActionGroup {
         $studentAdmission->admission_previsionnel   = '';
 
         $studentAdmissionDAO->insert ($studentAdmission);
-
+        
         if (!$studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classId)) {
           
           // Affectation de l'élève dans les classes
@@ -4282,6 +4282,7 @@ class ActionGroupDefault extends enicActionGroup {
         }
         else {
           
+          $studentAssignment->affect_niveau = $level;
           $studentAssignment->affect_current = 1;
           $studentAssignmentDAO->update ($studentAssignment);
         }
