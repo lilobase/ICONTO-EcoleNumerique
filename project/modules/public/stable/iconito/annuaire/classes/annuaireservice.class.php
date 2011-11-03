@@ -862,34 +862,6 @@ class AnnuaireService extends enicService {
 
 
 
-  /**
-	 * Renvoie les coordonnes (latitude+longitude) d'une adresse. Renvoie un tableau avec [latitude] et [longitude] ou false si probleme
-	 *
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2008/09/04
-	 * @param string $adresse
-	 * @return array Tableau avec [latitude] et [longitude], ou false si probleme
-	 */
-  function googleMapsAdresseCoords ($adresse) {
-		$res = false;
-		if ($adresse && CopixConfig::get ('fichesecoles|googleMapsKey')) {
-		
-			$url = "http://maps.google.com/maps/geo?q=".urlencode($adresse)."&output=csv&key=".CopixConfig::get ('fichesecoles|googleMapsKey');
-			//var_dump($url);
-			if ($flush = @file_get_contents ($url)) {
-				//var_dump($flush);
-				list ($statut, $exactitude, $latitude, $longitude) = explode(",", $flush);
-				if ($statut == 200) {
-					$res = array (
-						'latitude' => $latitude,
-						'longitude' => $longitude,
-					)
-					;
-				}
-			}
-		}
-		return $res;
-  }
 
 }
 

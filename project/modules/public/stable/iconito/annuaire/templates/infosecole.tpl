@@ -15,7 +15,14 @@
 </div>
 
 <b>{$ecole.nom|escape}</b>{if $ecole.desc} ({$ecole.desc|escape}){/if}<br />
+
+    
+
 {if $ecole.ALL->eco_num_rue OR $ecole.ALL->eco_num_seq OR $ecole.ALL->eco_adresse1 OR $ecole.ALL->eco_code_postal OR $ecole.ALL->eco_commune}
+
+
+    
+
   {if $ecole.ALL->eco_num_rue OR $ecole.ALL->eco_num_seq}
     {$ecole.ALL->eco_num_rue}{$ecole.ALL->eco_num_seq}, 
   {/if}

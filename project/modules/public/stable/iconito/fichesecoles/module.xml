@@ -6,7 +6,6 @@
     </general>
 
     <parameters>
-        <parameter name="googleMapsKey" captioni18n="fichesecoles.parameter.googleMapsKey" default="" />
         <parameter name="photoPath" captioni18n="fichesecoles.parameter.photoPath" default="data/fichesecoles/photos/" />
         <parameter name="docPath" captioni18n="fichesecoles.parameter.docPath" default="data/fichesecoles/documents/" />
         <parameter name="photoMaxWidth" captioni18n="fichesecoles.parameter.photoMaxWidth" default="230" />

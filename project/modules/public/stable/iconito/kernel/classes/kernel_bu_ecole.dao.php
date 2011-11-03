@@ -31,6 +31,20 @@ class DAORecordKernel_bu_ecole {
         }
         return $oHas;
     }
+   
+    
+   /**
+    * L'adresse de l'ecole en une ligne
+    *
+    * @author Christophe Beyer <cbeyer@cap-tic.fr>
+    * @since 2011/11/02
+    * @return string L'adresse
+    */
+    public function getFullAddress() {
+        $address = AnnuaireService::googleMapsFormatAdresse('ecole', $this);
+        return $address;
+    }
+    
 
 
 
