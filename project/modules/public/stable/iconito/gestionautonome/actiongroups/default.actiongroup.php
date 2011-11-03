@@ -1829,7 +1829,27 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->isUpdated = _request ('isUpdated', 0);
 
 	  // Récupération des informations des comptes créés
-	  $ppo->accounts = _sessionGet ('modules|gestionautonome|createAccount'); 
+	  $ppo->accounts = _sessionGet ('modules|gestionautonome|createAccount');
+	  
+	  // Récupérations des informations des modifications apportées
+	  $accountsInSession = _sessionGet('modules|gestionautonome|passwordsList');
+	  
+	  if (!is_array ($accountsInSession)) {
+
+	    $accountsInSession = array();
+	  }
+	  else {
+	    
+	    $toDisplay = array();
+	    foreach ($accountsInSession as $lines) {
+	      
+	      foreach ($lines as $data) {
+	        
+	        $toDisplay[] = $data;
+	      }	      
+	    }
+	    $ppo->accountsInSession = $toDisplay;
+	  }
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     
@@ -5264,8 +5284,28 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo = new CopixPPO (); 
 
 	  // Récupération des informations des comptes créés
-	  $ppo->accounts = _sessionGet ('gestionautonome|addMultipleStudents|success'); 
+	  $ppo->accounts = _sessionGet ('gestionautonome|addMultipleStudents|success');
+	  
+	  // Récupérations des informations des modifications apportées
+	  $accountsInSession = _sessionGet('modules|gestionautonome|passwordsList');
+	  
+	  if (!is_array ($accountsInSession)) {
 
+	    $accountsInSession = array();
+	  }
+	  else {
+	    
+	    $toDisplay = array();
+	    foreach ($accountsInSession as $lines) {
+	      
+	      foreach ($lines as $data) {
+	        
+	        $toDisplay[] = $data;
+	      }	      
+	    }
+	    $ppo->accountsInSession = $toDisplay;
+	  }
+	  
     // Récupération du format de sortie demandé
 	  if( !_request ('format') || trim (_request ('format')) == '' ) {
 	    
@@ -5794,6 +5834,26 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  // Récupération des comptes modifiés
 	  $ppo->accounts = _sessionGet ('modules|gestionautonome|createAccount');
+	  
+	  // Récupérations des informations des modifications apportées
+	  $accountsInSession = _sessionGet('modules|gestionautonome|passwordsList');
+	  
+	  if (!is_array ($accountsInSession)) {
+
+	    $accountsInSession = array();
+	  }
+	  else {
+	    
+	    $toDisplay = array();
+	    foreach ($accountsInSession as $lines) {
+	      
+	      foreach ($lines as $data) {
+	        
+	        $toDisplay[] = $data;
+	      }	      
+	    }
+	    $ppo->accountsInSession = $toDisplay;
+	  }
 	  
 	  return _arPPO ($ppo, 'account_listing.tpl');
 	}
