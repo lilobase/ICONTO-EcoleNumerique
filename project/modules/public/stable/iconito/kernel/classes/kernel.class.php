@@ -98,7 +98,7 @@ class Kernel {
 
 
 
-		if( ereg( "^MOD_(.+)$", $node_type, $regs ) ) {
+		if( preg_match( "/^MOD_(.+)$/", $node_type ) ) {
 			$level = Kernel::getModRight( $node_type, $node_id, $user_type, $user_id );
 		} else {
 			$tmp = Kernel::getNodeParents( $user_type, $user_id );
@@ -435,7 +435,7 @@ class Kernel {
 				}
 			}
 
-			if( ereg( "^USER_(.+)$", $type, $regs ) ) {
+			if( preg_match( "/^USER_(.+)$/", $type ) ) {
 				$dao = _dao("kernel|kernel_link_user2node");
 				$res = $dao->getByUser($type,$id);
 				
@@ -768,7 +768,7 @@ class Kernel {
 	function filterNodeList( $node_list, $node_type ) {
 		$liste_filtree = array();
 
-		if( ereg('([^\*]+)\*',$node_type,$regs) && isset($regs[1]) && trim($regs[1])!='' ) {
+		if( preg_match('/([^\*]+)\*/',$node_type,$regs) && isset($regs[1]) && trim($regs[1])!='' ) {
 			foreach( $node_list AS $key=>$val ) {
 				if( 0==strncmp($val['type'],$regs[1],strlen($regs[1])) )
 				$liste_filtree[] = $val;
@@ -1354,7 +1354,7 @@ class Kernel {
 		foreach ($list as $r)
 		$result[] = $r;
 
-		if( ereg( "(.*)_(.*)", $type, $regs ) ) {
+		if( preg_match( "/(.*)_(.*)/", $type, $regs ) ) {
 			$list = $dao->getByNode( $regs[1]."_%" );
 			foreach ($list as $r)
 			$result[] = $r;
@@ -1900,7 +1900,7 @@ class Kernel {
 		foreach( $modavailable AS $module ) {
 			//var_dump($module);
 
-			if( ereg( "^MOD_(.+)$", $module->module_type, $modinfo ) ) {
+			if( preg_match( "/^MOD_(.+)$/", $module->module_type, $modinfo ) ) {
 				$modname = strtolower( $modinfo[1] );
 
 				if( array_search("mod_".$modname, $modinstalled)===false ) {

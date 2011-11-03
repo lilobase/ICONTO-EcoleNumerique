@@ -6,7 +6,7 @@
 {if $modules neq null}
 	<p>{i18n key="kernel|kernel.getmodules.listemodules"}</p>
 	{foreach from=$modules item=val_modules key=key_modules}
-		{assign var="module_type_array" value="_"|split:$val_modules->module_type|lower}
+		{assign var="module_type_array" value="_"|explode:$val_modules->module_type|lower}
 
 		<a
 		{if $val_modules->module_popup}target="_blank"{/if}

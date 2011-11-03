@@ -17,7 +17,7 @@
 		<div class="toolset">
 		<ul class="opacity50">
 		{foreach from=$node_data.modules item=val_modules key=key_modules}
-			{assign var="module_type_array" value="_"|split:$val_modules->module_type|lower}
+			{assign var="module_type_array" value="_"|explode:$val_modules->module_type|lower}
 			<li><a
 			{if $val_modules->module_popup}target="_blank"{/if}
 			class="{$val_modules->module_type}{if isset($this.info.selected) and $this.info.selected} selected{/if}"
