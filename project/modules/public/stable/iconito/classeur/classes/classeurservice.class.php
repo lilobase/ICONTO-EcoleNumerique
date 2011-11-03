@@ -229,7 +229,11 @@ class ClasseurService {
 		$filename   = $file->id.'-'.$file->cle;
 		$filepath   = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$file->id.'-'.$file->cle.$extension;
 		
-		unlink ($filepath);
+		if (file_exists($filepath)) {
+		  
+		  unlink ($filepath);
+		}
+		
 		$fileDAO->delete ($file->id);
 	}
 	
