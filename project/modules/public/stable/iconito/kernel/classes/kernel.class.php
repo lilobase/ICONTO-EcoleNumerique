@@ -1576,7 +1576,17 @@ class Kernel {
 			$modules[] = clone $comptes;
 		}
 
-
+		if( $user_type=="USER_ENS" && $node_type=="BU_ECOLE" && CopixConfig::exists('default|conf_Ceriseprim_actif') && CopixConfig::get ('default|conf_Ceriseprim_actif') ) {
+			$perso->node_type   = $node_type;
+			$perso->node_id     = $node_id;
+			
+			$perso->module_type = 'MOD_CERISEPRIM';
+			$perso->module_id   = $node_type."-".$node_id;
+			$perso->module_nom   = Kernel::Code2Name ('MOD_CERISEPRIM');
+			$modules[] = clone $perso;
+			
+		}
+		
 		// _dump($modules);
 
 		reset($modules);
