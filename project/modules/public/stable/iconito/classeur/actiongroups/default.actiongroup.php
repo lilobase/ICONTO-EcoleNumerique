@@ -1395,8 +1395,6 @@ class ActionGroupDefault extends enicActionGroup {
    	  }
     }
     
-    $zip->close();die();
-    
     if ($cptFavori != 0 && $cptFavori == count($fichierIds)) {
       
       return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $fichier->classeur_id, 'dossierId' => $fichier->dossier_id, 'errorMessage' => CopixI18N::get ('classeur|classeur.error.downloadFavorite'))));
