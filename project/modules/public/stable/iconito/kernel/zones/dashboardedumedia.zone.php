@@ -21,7 +21,7 @@ class ZoneDashboardEdumedia extends CopixZone {
 
 		$service = 'iconito';
 		$date = date('dmY');
-		$login = 'iconito-test'; // _currentUser()->getExtra('login');
+		$login = 'iconito-limoges'; // _currentUser()->getExtra('login');
 		$hash = '-EM_ICONITO-';
 		$url = 'http://www.edumedia-sciences.com/fr/?service='.$service.'&time='.$date.'&user='.$login.'&token='.md5($service.$date.$hash.$login);
 		
