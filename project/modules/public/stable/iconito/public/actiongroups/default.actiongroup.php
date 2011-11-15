@@ -256,6 +256,12 @@ EOT;
     return _arPPO($ppo, 'ecoles.tpl');
 	}
   
+	function processCache() {
+		_classInclude('sysutils|cacheservices');
+		CacheServices::clearCache ();
+		CacheServices::clearConfDB ();
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('welcome||', array('cache'=>'cleared') ));
+	}
 }
 
 ?>
