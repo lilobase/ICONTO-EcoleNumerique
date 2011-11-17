@@ -1458,6 +1458,17 @@ class Kernel {
 			$modules[] = $modKne;
 		}
 
+                //for Coreprim
+		if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_CLASSE' && CopixConfig::get('kernel|rssEtagereEnabled')){
+                    $modRssEtagere = new stdClass();
+			$modRssEtagere->node_type = $node_type;
+			$modRssEtagere->node_id = $node_id;
+			$modRssEtagere->module_type = 'MOD_RSS_ETAGERE';
+			$modRssEtagere->module_id = $node_id;
+			$modRssEtagere->module_nom = kernel::Code2Name('MOD_RSS_ETAGERE');
+			$modules[] = $modRssEtagere;
+		}
+
 		if( CopixConfig::exists('|conf_ModTeleprocedures') && CopixConfig::get('|conf_ModTeleprocedures')==0 )
 		{
 			// Pas de module de tÈlÈprocÈdures...

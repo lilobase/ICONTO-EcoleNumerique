@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moduledefinition>
+    <general>
+        <default name="rssEtagere" />
+    </general>
+    <parameters>
+        <parameter name="rss_url" captioni18n="rssetagere.url" default="http://ecolenumerique.local:8888/getRssEtagere.rss" />
+        <parameter name="rssEtagereEnabled" captioni18n="rssetagere.enable" default="true" />
+	   </parameters>
+</moduledefinition>
