@@ -33,17 +33,17 @@ class DAORecordClasseurFichier {
 	  if ($this->dossier_id != 0) {
 	    
 	    $dossier = $dossierDAO->get($this->dossier_id);
-	    $paths[] = $dossier->nom;
+	    $paths[] = str_replace('/', '-', $dossier->nom);
 
   	  while ($dossier->parent_id != 0) {
 
   	    $dossier = $dossierDAO->get($dossier->parent_id);
-  	    $paths[] = $dossier->nom;
+  	    $paths[] = str_replace('/', '-', $dossier->nom);
 	    }
 	  }
 	  
 	  $classeur = $classeurDAO->get($this->classeur_id);
-	  $paths[] = $classeur->titre;
+	  $paths[] = str_replace('/', '-', $classeur->titre);
 	  
 	  return '/'.implode('/', array_reverse($paths)).'/';
 	}

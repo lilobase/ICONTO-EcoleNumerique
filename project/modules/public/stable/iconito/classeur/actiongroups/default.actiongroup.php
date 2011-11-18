@@ -1358,11 +1358,11 @@ class ActionGroupDefault extends enicActionGroup {
     if ($ppo->dossierId != 0) {
       
       $dossier = $dossierDAO->get($ppo->dossierId);
-      $fichierZip = $dossier->nom.'.zip';
+      $fichierZip = str_replace('/', '-', $dossier->nom).'.zip';
     }
     else {
       
-      $fichierZip = $classeur->titre.'.zip';
+      $fichierZip = str_replace('/', '-', $classeur->titre).'.zip';
     }
     
 		if (file_exists($dossierTmp.$fichierZip)) {

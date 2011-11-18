@@ -23,17 +23,17 @@ class DAORecordClasseurDossier {
 	  $classeurDAO = _ioDAO('classeur|classeur');
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
 
-	  $paths[] = $this->nom;
+	  $paths[] = str_replace('/', '-', $this->nom);
 	  $dossier = $this;
 	  
 	  while ($dossier->parent_id != 0) {
 	    
 	    $dossier = $dossierDAO->get($dossier->parent_id);
-	    $paths[] = $dossier->nom;
+	    $paths[] = str_replace('/', '-', $dossier->nom);
 	  }
 	  
 	  $classeur = $classeurDAO->get($dossier->classeur_id);
-	  $paths[] = $classeur->titre;
+	  $paths[] = str_replace('/', '-', $classeur->titre);
 	  
 	  return '/'.implode('/', array_reverse($paths)).'/';
 	}
