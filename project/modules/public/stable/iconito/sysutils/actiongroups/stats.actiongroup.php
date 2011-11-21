@@ -43,11 +43,11 @@ class ActionGroupStats extends CopixActionGroup {
 		$tab = array();
 
 		foreach( $modules as $mod_val ) {
-		
-			$arModulesPath = CopixConfig::instance ()->arModulesPath;
-			foreach ($arModulesPath as $modulePath) {
+
+            $arModulesPath = CopixConfig::instance ()->arModulesPath;
+            foreach ($arModulesPath as $modulePath) {
 				$class_file = $modulePath.$mod_val.'/'.COPIX_CLASSES_DIR.'kernel'.$mod_val.'.class.php';
-				if( !file_exists( $class_file ) ) continue;
+                if( !file_exists( $class_file ) ) continue;
 				
 				$module_class = & CopixClassesFactory::Create ($mod_val.'|Kernel'.$mod_val);
 				//print_r($module_class);

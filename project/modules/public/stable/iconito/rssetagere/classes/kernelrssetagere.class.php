@@ -1,8 +1,9 @@
 <?php
 
-_classInclude('quiz|quizService');
+_classInclude('rssetagere|rssetagereService');
 
-class kernelQuiz {
+class kernelRssEtagere 
+{
 
     public function __construct(){
         $this->db =& enic::get('model');
@@ -16,7 +17,7 @@ class kernelQuiz {
         
     }
 
-    public function getStats(){
+    public function getStatsRoot(){
 
     }
 }
