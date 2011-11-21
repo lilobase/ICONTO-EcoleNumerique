@@ -17,7 +17,7 @@ body {background:#000; height:100%;}
 <body>
 	<div id="gallery">
 	  {foreach from=$images item=image}
-	    <img src="{$path2public}/images/{$image->web}" />
+	    <img src="{$path2public}/images/{$image}" />
 	  {/foreach}
   </div>
   <script>

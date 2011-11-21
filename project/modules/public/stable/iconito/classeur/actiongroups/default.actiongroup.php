@@ -1550,8 +1550,7 @@ class ActionGroupDefault extends enicActionGroup {
         
         $image = new CopixPPO();
         $extension = strtolower(strrchr($fichier->fichier, '.'));
-        $image->big = $fichier->id.'-'.$fichier->cle.$extension;
-        $image->web = $fichier->id.'-'.$fichier->cle.'_400'.$extension;
+        $image = $fichier->id.'-'.$fichier->cle.$extension;
         $images[] = $image;
       }
     }
@@ -1589,7 +1588,8 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		foreach ($images as $image) {
 		  
-			copy($path2classeur.'/'.$image->big, $path2album.'/images/'.$image->big);
+			$this->copyResized( $path2classeur.'/'.$image, $path2album.'/images/'.$image, 800 );
+			// copy($path2classeur.'/'.$image, $path2album.'/images/'.$image);
 		}
 		
 		// Création du fichier index.html nécessaire à l'affichage de l'album
@@ -1624,6 +1624,57 @@ class ActionGroupDefault extends enicActionGroup {
 		$confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmPublished');
 		
 		return _arRedirect (CopixUrl::get ('classeur||editerAlbumPublic', array('classeurId' => $classeur->id, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));	  
+  }
+  
+  private function copyResized( $from, $to, $size ) {
+  	  $imgTypes = array(
+    'image/jpeg',
+    'image/pjpeg',
+    'image/png',
+    'image/gif',
+  );
+  
+  $imgLoaders = array(
+    'image/jpeg'  => 'imagecreatefromjpeg',
+    'image/pjpeg' => 'imagecreatefromjpeg',
+    'image/png'   => 'imagecreatefrompng',
+    'image/gif'   => 'imagecreatefromgif',
+  );
+  
+  $imgCreators = array(
+    'image/jpeg'  => 'imagejpeg',
+    'image/pjpeg' => 'imagejpeg',
+    'image/png'   => 'imagepng',
+    'image/gif'   => 'imagegif',
+  );
+  	$imgData = getimagesize($from);
+  	
+  if ($imgData[0] > $imgData[1]) {
+      $width = $size;
+      $height = $imgData[1] * $width / $imgData[0];
+    }
+    else {
+      $height = $size;
+      $width = $imgData[0] * $height / $imgData[1];
+    }
+    
+    if (in_array($imgData['mime'], $imgTypes)) {
+    
+      $loader = $imgLoaders[$imgData['mime']];
+      if(!function_exists($loader)) {
+      
+        die (sprintf('Function %s not available. Please enable the GD extension.', $loader));
+      }
+    
+      $source       = $loader($from);
+      $thumbnail    = imagecreatetruecolor($width, $height);
+      imagecopyresampled($thumbnail, $source, 0, 0, 0, 0, $width, $height, $imgData[0], $imgData[1]);
+    
+      $creator = $imgCreators[$imgData['mime']];
+      $creator($thumbnail, $to);
+      
+    }
+  	
   }
   
   /**
