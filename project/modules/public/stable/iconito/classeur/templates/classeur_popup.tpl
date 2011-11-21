@@ -198,16 +198,15 @@ jQuery(document).ready(function($){
 	$('#doinsert').click (function() {
 	  
 	  <!-- Styles alignement et taille -->
-	  var styleForm = getRef('style-form');
-	  if( styleForm.align[0].checked ) align='';
-  	if( styleForm.align[1].checked ) align='L';
-  	if( styleForm.align[2].checked ) align='C';
-  	if( styleForm.align[3].checked ) align='R';
+	  var align='';
+  	if($('#align-left').is(':checked')) align='L';
+  	if($('#align-center').is(':checked')) align='C';
+  	if($('#align-right').is(':checked')) align='R';
 
-  	if( styleForm.size[0].checked ) size='_s64';
-  	if( styleForm.size[1].checked ) size='_240';
-  	if( styleForm.size[2].checked ) size='_480';
-  	if( styleForm.size[3].checked ) size='';
+  	var size='';
+  	if($('#size-small').is(':checked')) size='_s64';
+  	if($('#size-medium').is(':checked')) size='_240';
+  	if($('#size-large').is(':checked')) size='_480';
   	
 	  var domode = $('#options input[name="mode"]:checked').val();
 		$('#folder-content :checked').each( function() {
