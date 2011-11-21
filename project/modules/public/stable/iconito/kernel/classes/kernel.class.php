@@ -1459,7 +1459,7 @@ class Kernel {
 		}
 
                 //for Coreprim
-		if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_CLASSE' && CopixConfig::get('kernel|rssEtagereEnabled')){
+		if(in_array($user_type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')) && $node_type == 'BU_CLASSE' && CopixConfig::exists('kernel|rssEtagereEnabled') && CopixConfig::get('kernel|rssEtagereEnabled')){
                     $modRssEtagere = new stdClass();
 			$modRssEtagere->node_type = $node_type;
 			$modRssEtagere->node_id = $node_id;
