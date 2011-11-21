@@ -98,7 +98,15 @@ class DAORecordClasseurFichier {
     return false;
   }
   
-  public function getLienMiniature($largeur = null) {
+  /**
+   * Retourne une Url pour générer la miniature
+   *
+   * @param int    $largeur  Largeur
+   * @param string $mode     Mode
+   *
+   * @return string
+   */
+  public function getLienMiniature($largeur = null, $mode = 's') {
     
     $toReturn = null;
       
@@ -110,7 +118,7 @@ class DAORecordClasseurFichier {
     $extension  = strtolower(strrchr($this->fichier, '.'));
     if (!is_null($largeur)) {
       
-      $largeur = '_s'.$largeur;
+      $largeur = '_'.$mode.$largeur;
     }
     
   	$nomFichier = $this->id.'-'.$this->cle.$largeur.$extension;

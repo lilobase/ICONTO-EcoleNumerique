@@ -7,7 +7,7 @@
 	</div>
 </div>
 <div class="column2 ink_blue">
-	<div class="welcome_photos">{copixzone process=welcome|photos mode=dewslider titre='' album=1 dossier=1 width=380 height=220 legendes=true}</div>
+	<div class="welcome_photos">{copixzone process=welcome|photos mode=dewslider titre='' classeur=1 dossier=1 width=380 height=220 legendes=true}</div>
 	<div class="welcome_blogs">{copixzone process=welcome|blogs}</div>
 	<div class="welcome_ecoles">
 		<div class="ecoles_title">{i18n key="welcome|welcome.ecoles"}</div>

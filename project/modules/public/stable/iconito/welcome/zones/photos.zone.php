@@ -24,31 +24,24 @@ class ZonePhotos extends CopixZone {
 	function _createContent (&$toReturn) {
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
-		
+
 		$titre = $this->getParam('titre');
 		$mode = $this->getParam('mode');
-		$album = intval($this->getParam('album'));
+		$classeur = intval($this->getParam('classeur'));
 		$dossier = intval($this->getParam('dossier'));
 		$width = intval($this->getParam('width'));
 		$height = intval($this->getParam('height'));
 		$legendes = $this->getParam('legendes');
 		
-		$arPhotos = array();
-		$album_dao = _dao("album|album");
+		$classeur_dao = _dao('classeur|classeur');
 		$nbPhotos = 0;
-		if ($rAlbum = $album_dao->get($album)) {
-			//var_dump($rAlbum);
-			
-			$photo_dao = _dao("album|photo");
-			$photolist = $photo_dao->findAllByAlbumAndFolder($album,$dossier);
-			//var_dump($photolist);
+		if ($rClasseur = $classeur_dao->get($classeur)) {
+			$fichier_dao = _dao('classeur|classeurfichier');
+			$photolist = $fichier_dao->getParDossier($rClasseur->id, $dossier);
 			$nbPhotos = count($photolist);
-			
-			if ($nbPhotos) {
-				
+			if ($nbPhotos > 0) {
 				if ($mode == 'dewslider') {
-				
-					$tailles = explode(",",CopixConfig::get ('album|thumb_sizes'));
+					$tailles = explode(',', CopixConfig::get ('album|thumb_sizes'));
 					$trouve = null;
 					foreach( $tailles as $taille ) {
 						if ($trouve)
@@ -58,75 +51,62 @@ class ZonePhotos extends CopixZone {
 						if ($taille>=$width)
 							$trouve = $taille;
 					}
-					
-					foreach ($photolist as $key=>$photo) {
-						$photolist[$key]->folder = CopixUrl::getRequestedScriptPath ().'static/album/'.$photo->album_id.'_'.$photo->album_cle;
-						$photolist[$key]->file = $photo->photo_id.'_'.$photo->photo_cle.'_'.$trouve.'.'.$photo->photo_ext;
+					$arPhotos = array();
+					foreach ($photolist as $photo) {
+					  if ($photo->estUneImage()) {
+					    $arPhotos[] = $photo;
+					  }
 					}
-					
-					$arPhotos = $photolist;
-					generateDewsliderXml ($rAlbum, $photolist, $trouve, $legendes);
-				
+					generateDewsliderXml ($rClasseur, $arPhotos, $trouve, $legendes);
 				}
-						
 			}
-			
 		}
-		//var_dump($arPhotos);
-		
+
 		$tpl = new CopixTpl ();
 		$tpl->assign ('mode', $mode);
 		$tpl->assign ('titre', $titre);
 		$tpl->assign ('width', $width);
 		$tpl->assign ('height', $height);
-		$tpl->assign ('rAlbum', $rAlbum);
+		$tpl->assign ('rClasseur', $rClasseur);
 		$tpl->assign ('nbPhotos', $nbPhotos);
 		
-		if ($nbPhotos>0)
-			$toReturn = $tpl->fetch('zone_photos.tpl');
+		if ($nbPhotos > 0) {
+		    $toReturn = $tpl->fetch('zone_photos.tpl');
+		}			
 		
 		return true;
 		
 	}
 }
 
-
-// Voir http://www.alsacreations.fr/dewslider
-
-
-
-function generateDewsliderXml ($rAlbum, $photolist, $trouve, $legendes) {
-		
-		$folder = 'static/album/'.$rAlbum->album_id.'_'.$rAlbum->album_cle;
-		if ($file_xml = @fopen( $folder.'/dewslider.xml', 'w' )) {
-		
-			$showtitles = ($legendes) ? 'yes' : 'no';
-			
-			$flush = '<?xml version="1.0" ?>
-	<album
-	showbuttons="yes"
-	showtitles="'.$showtitles.'"
-	randomstart="yes"
-	timer="4"
-	aligntitles="bottom"
-	alignbuttons="bottom"
-	transition="blur"
-	speed="10"
-	>';
-			foreach( $photolist AS $photo ) {
-				$flush .= "\n";
-				$flush .= '<img src="'.$photo->folder.'/'.$photo->file.'" title="'.($photo->photo_comment).'" />';
-			}
-			
-			$flush .= '
-	</album>
-			';
-			
-			$result = $flush;
-			fwrite( $file_xml, $result );
-			fclose( $file_xml );
-
+function generateDewsliderXml ($rClasseur, $photolist, $trouve, $legendes) {
+	
+    $folder = 'static/classeur/'.$rClasseur->id.'-'.$rClasseur->cle;
+	if ($file_xml = @fopen( $folder.'/dewslider.xml', 'w' )) {
+	
+		$showtitles = ($legendes) ? 'yes' : 'no';	
+		$flush = '<?xml version="1.0" ?>
+<album
+showbuttons="yes"
+showtitles="'.$showtitles.'"
+randomstart="yes"
+timer="4"
+aligntitles="bottom"
+alignbuttons="bottom"
+transition="blur"
+speed="10"
+>';
+		foreach( $photolist AS $photo ) {
+			$flush .= "\n";
+			$flush .= '<img src="'.$photo->getLienMiniature($trouve, '').'" title="'.($photo->titre).'" />';
 		}
+		
+		$flush .= '
+</album>
+		';
+		
+		$result = $flush;
+		fwrite( $file_xml, $result );
+		fclose( $file_xml );
+	}
 }
-
-?>
