@@ -1463,9 +1463,9 @@ class Kernel {
                     $modRssEtagere = new stdClass();
 			$modRssEtagere->node_type = $node_type;
 			$modRssEtagere->node_id = $node_id;
-			$modRssEtagere->module_type = 'MOD_RSS_ETAGERE';
+			$modRssEtagere->module_type = 'MOD_RSSETAGERE';
 			$modRssEtagere->module_id = $node_id;
-			$modRssEtagere->module_nom = kernel::Code2Name('MOD_RSS_ETAGERE');
+			$modRssEtagere->module_nom = kernel::Code2Name('MOD_RSSETAGERE');
 			$modules[] = $modRssEtagere;
 		}
 

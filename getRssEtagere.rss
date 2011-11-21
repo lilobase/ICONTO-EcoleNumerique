@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Etagère Coreprim</title>
+    <link>http://www.dev.corree.net:8080/</link>
+    <description>Liste des ressources de l'étagère pour la classe demandée</description>
+    <item>
+      <title>A propos de...Cannes 2007</title>
+
+      <link>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:138</link>
+      <description>A propos de...</description>
+      <enclosure url="http://www.e2evolution.com/images/valider.png" length="3942" type="image/png" />
+      <guid>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:138</guid>
+    </item>
+    <item>
+      <title>lesite.tv</title>
+
+      <link>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:64</link>
+      <description>lesite.tv</description>
+      <enclosure url="http://www.dev.corree.net:8080/images/etagere/Histoire.png" length="5273" type="image/png" />
+      <guid>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:64</guid>
+    </item>
+    <item>
+      <title>Portail lexical du CNRTL</title>
+
+      <link>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:393</link>
+      <description>Portail lexica</description>
+      <enclosure url="http://www.dev.corree.net:8080/images/etagere/Usuels3.png" length="5465" type="image/png" />
+      <guid>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:393</guid>
+    </item>
+    <item>
+      <title>Universite de tous les savoirs au lycee</title>
+
+      <link>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:343</link>
+      <description>Université de</description>
+      <enclosure url="http://www.dev.corree.net:8080/images/etagere/Maths.png" length="5808" type="image/png" />
+      <guid>http://www.dev.corree.net:8080/resourceAccess.html?OAIIdentifier=oai:editors.corree.fr:343</guid>
+    </item>
+  </channel>
+</rss>
+
+
