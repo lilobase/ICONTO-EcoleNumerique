@@ -17,12 +17,14 @@ body {background:#000; height:100%;}
 <body>
 	<div id="gallery">
 	  {foreach from=$images item=image}
-	    <img src="{$path2public}/images/{$image}" />
+	    <img src="{$path2public}/images/{$image->web}" />
 	  {/foreach}
   </div>
   <script>
-    Galleria.loadTheme('{copixurl}galleria/themes/classic/galleria.classic.min.js');
-    {literal}$("#gallery").galleria({autoplay:true, maxScaleRatio:1, thumbCrop:true});{/literal}
+    $(document).ready(function() {ldelim}
+      Galleria.loadTheme('{copixurl}galleria/themes/classic/galleria.classic.min.js');
+      {literal}$("#gallery").galleria({autoplay:true, maxScaleRatio:1, thumbCrop:true});{/literal}
+    {rdelim});
   </script>
 </body>
 </html>

@@ -1548,8 +1548,11 @@ class ActionGroupDefault extends enicActionGroup {
       
       if ($fichier->estUneImage()) {
         
+        $image = new CopixPPO();
         $extension = strtolower(strrchr($fichier->fichier, '.'));
-        $images[] = $fichier->id.'-'.$fichier->cle.$extension;
+        $image->big = $fichier->id.'-'.$fichier->cle.$extension;
+        $image->web = $fichier->id.'-'.$fichier->cle.'_800'.$extension;
+        $images[] = $image;
       }
     }
     
@@ -1586,7 +1589,7 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		foreach ($images as $image) {
 		  
-			copy($path2classeur.'/'.$image, $path2album.'/images/'.$image);
+			copy($path2classeur.'/'.$image->big, $path2album.'/images/'.$image->big);
 		}
 		
 		// Création du fichier index.html nécessaire à l'affichage de l'album
