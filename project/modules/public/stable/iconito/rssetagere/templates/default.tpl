@@ -1,5 +1,7 @@
 
-<h2>{$ppo->title}</h2>
+<h2>{$ppo->title}
+<a href="" class="button button-update floatright">{i18n key="rssetagere.linkCoreprim"}</a>
+</h2>
 
 <p>
     {$ppo->desc}
