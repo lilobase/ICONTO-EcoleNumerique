@@ -21,10 +21,8 @@ body {background:#000; height:100%;}
 	  {/foreach}
   </div>
   <script>
-    $(document).ready(function() {ldelim}
-      Galleria.loadTheme('{copixurl}galleria/themes/classic/galleria.classic.min.js');
-      {literal}$("#gallery").galleria({autoplay:true, maxScaleRatio:1, thumbCrop:true});{/literal}
-    {rdelim});
+    Galleria.loadTheme('{copixurl}galleria/themes/classic/galleria.classic.min.js');
+    {literal}$("#gallery").galleria({autoplay:true, maxScaleRatio:1, thumbCrop:true});{/literal}
   </script>
 </body>
 </html>
