@@ -1,6 +1,8 @@
 
 <h2>{$ppo->title}
-<a href="" class="button button-update floatright">{i18n key="rssetagere.linkCoreprim"}</a>
+{if $ppo->isEns}
+<a href="https://www.coreprim.fr/viewClasses.html" class="button button-update floatright">{i18n key="rssetagere.linkCoreprim"}</a>
+{/if}
 </h2>
 
 <p>

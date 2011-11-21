@@ -8,6 +8,8 @@
         
         public function loadXml(){
             $this->rssUrl = $this->helpers->config('rssetagere|rss_url');
+
+            $this->rssUrl = $this->rssUrl.'?classe=CE2&siren=00000000000001';
             $this->xml = @simplexml_load_file($this->rssUrl);
 
             if($this->xml == false)

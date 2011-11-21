@@ -25,7 +25,7 @@
             $ppo->title = $this->service->getTitle();
             $ppo->desc = $this->service->getDescription();
             $ppo->items = $this->service->getItems();
-            
+            $ppo->isEns = ($this->user->type == 'USER_ENS');
             return _arPPO($ppo, 'default.tpl');
         }
 
