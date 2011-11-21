@@ -223,7 +223,7 @@ function insertDocument (mode, url, image, field, format, htmlDownload, htmlView
   var popup = false;
   var html = '';
   var typeFile = 'MOD_CLASSEUR';
-  var pictureTypes = ["PNG", "png", "JPG", "jpg"];
+  var pictureTypes = ["PNG", "png", "JPG", "jpg", "gif", "GIF"];
   
   switch (format) {
     case 'wiki' :
