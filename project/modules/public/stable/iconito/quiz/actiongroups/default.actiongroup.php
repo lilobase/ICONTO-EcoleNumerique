@@ -291,7 +291,7 @@ class ActionGroupDefault extends enicActionGroup {
 
         //build tpl
         CopixHTMLHeader::addCSSLink (_resource("styles/module_quiz.css"));
-        CopixHTMLHeader::addCSSLink (_resource("styles/jquery.fancybox-1.3.1.css"));
+        CopixHTMLHeader::addCSSLink (_resource("styles/jquery.fancybox-1.3.4.css"));
 //        $this->js->button('.button');
         $ppo = new CopixPPO();
         $ppo->error =  ($this->flash->has('error')) ? $this->flash->error : null;

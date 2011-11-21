@@ -18,9 +18,9 @@
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.4.min.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
 
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.1.pack.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.4.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.easing-1.3.pack.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.mousewheel-3.0.2.pack.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.mousewheel-3.0.4.pack.js"); ?>"></script>
 
 <script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.bgiframe.js" );  ?>" type="text/javascript"></script>
 <script src="<?php echo CopixUrl::getResource ("js/jquery/jquery.tooltip.min.js"  );  ?>" type="text/javascript"></script>
