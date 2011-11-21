@@ -13,12 +13,13 @@ h2 a {font-weight:normal;}
     list-style:none;
 }
 .resource li {
-    margin:0 0 2.5em;
+    float:left;
+    margin:0 1em 2.5em 0;
 }
 .resource .illustration {
     float:left;
     margin:0 10px 5px 0;
-    width:64px; height:64px;
+    width:72px; height:72px;
     overflow:hidden;
     border:1px solid #ddd;
     -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
