@@ -7,6 +7,5 @@
   	<parameter name="jeuEssaiInstalled" caption="kernel.parameter.jeuEssaiInstalled" default="0" />
 		<parameter name="gestionAutonomeEnabled" caption="Gestion autonome active" default="1" />
 		<parameter name="groupeAssistance" caption="Id du groupe d'assistance" default="0" />
-                <parameter name="rssEtagereEnabled" caption="Centre de ressource active" default="1" />
 	</parameters>
 </moduledefinition>
