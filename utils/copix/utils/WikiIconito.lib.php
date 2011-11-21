@@ -13,8 +13,8 @@ function iconito_multimedia ($contents, $attr){
 		default:
 			$file = rawurldecode($contents[0]);
 			if ($mode == 'download') {
-				if (file_exists ($file) || @fopen($file,'r')) {
-					$size = @filesize($file);
+				if (file_exists ($file) || fopen($file,'r')) {
+					$size = filesize($file);
 					$size = ($size) ? ' - '.KernelMalle::human_file_size($size) : '';
 					$point = strrpos ($file, ".");
 					if ($point !== false)
@@ -135,7 +135,7 @@ function iconito_multimedia ($contents, $attr){
 				if ($id)
 					$ret = '<div><object width="425" height="350" type="application/x-shockwave-flash" data="http://www.youtube.com/v/'.$id.'"><param name="movie" value="http://www.youtube.com/v/'.$id.'" /><param name="wmode" value="transparent" /></object></div>';
 				else
-					$ret = '<div>Problème de paramètre</div>';
+					$ret = '<div>ProblÃ¨me de paramÃ¨tre</div>';
 			} elseif ($mode == 'googlevideo') {
 				if (ereg("^([0-9-]+)$", $file))
 					$id = $contents[0];
@@ -144,9 +144,9 @@ function iconito_multimedia ($contents, $attr){
 				if ($id)
 					$ret = '<div><object width="400" height="326" type="application/x-shockwave-flash" data="http://video.google.com/googleplayer.swf?docId='.$id.'"><param name="movie" value="http://video.google.com/googleplayer.swf?docId='.$id.'" /><param name="allowScriptAccess" value="sameDomain" /><param name="quality" value="best" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="salign" value="TL" /><param name="FlashVars" value="playerMode=embedded" /></object></div>';
 				else
-					$ret = '<div>Problème de paramètre</div>';
+					$ret = '<div>ProblÃ¨me de paramÃ¨tre</div>';
 			} else {
-				//$ret = '<div>Mode indéfini</div>';
+				//$ret = '<div>Mode indÃ©fini</div>';
 			  $ret = iconito_multimedia (array($file,'download'),NULL);
 			}
 	}
