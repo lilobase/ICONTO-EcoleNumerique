@@ -13,8 +13,9 @@ function iconito_multimedia ($contents, $attr){
 		default:
 			$file = rawurldecode($contents[0]);
 			if ($mode == 'download') {
-				if (file_exists ($file) || fopen($file,'r')) {
-					$size = filesize($file);
+			  $path = COPIX_WWW_PATH.substr($file, strpos($file, 'static'));
+				if (file_exists ($path) || fopen($path,'r')) {
+					$size = @filesize($path);
 					$size = ($size) ? ' - '.KernelMalle::human_file_size($size) : '';
 					$point = strrpos ($file, ".");
 					if ($point !== false)
