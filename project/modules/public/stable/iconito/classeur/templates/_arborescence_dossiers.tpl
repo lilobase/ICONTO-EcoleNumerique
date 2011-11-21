@@ -14,13 +14,13 @@
       <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
     {/if}
     {if $ppo->field neq null && $ppo->format neq null}
-    <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeurId dossierId=$dossier->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal}">{$dossier->nom}</a>
+    <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeurId dossierId=$dossier->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}">{$dossier->nom}</a>
     {else}
     <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$dossier->id}">{$dossier->nom}</a>
     {/if}
     </p>
     <ul class="child {if !isset($ppo->dossiersOuverts[$dossierId])}closed{/if}">
-      {copixzone process=classeur|arborescenceDossiers classeurId=$ppo->classeurId dossierId=$dossier->id dossierCourant=$ppo->dossierCourant field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal}
+      {copixzone process=classeur|arborescenceDossiers classeurId=$ppo->classeurId dossierId=$dossier->id dossierCourant=$ppo->dossierCourant field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}
     </ul>
   </li>
 {/foreach}

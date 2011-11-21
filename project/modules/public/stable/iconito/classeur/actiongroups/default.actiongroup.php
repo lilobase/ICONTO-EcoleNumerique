@@ -1707,6 +1707,8 @@ class ActionGroupDefault extends enicActionGroup {
     
     $field     = _request('field', null);
 		$format    = _request('format', null);
+		$moduleType = _request('moduleType', null);
+		$moduleId   = _request('moduleId', null);
 		
     // Récupération du classeur
     $classeurDAO = _ioDAO('classeur|classeur');
@@ -1767,7 +1769,7 @@ class ActionGroupDefault extends enicActionGroup {
   		}
     }
       
-    $urlReturn = ($field && $format) ? CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId, 'field'=>$field, 'format'=>$format)) : CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId));
+    $urlReturn = ($field && $format) ? CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId, 'field'=>$field, 'format'=>$format, 'moduleType' => $moduleType, 'moduleId' => $moduleId)) : CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId));
       
     return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
 	}
@@ -1828,6 +1830,8 @@ class ActionGroupDefault extends enicActionGroup {
  	  $ppo->field         = _request('field', null);
 		$ppo->format        = _request('format', null);
 		$ppo->withPersonal  = _request('withPersonal', true);
+		$ppo->moduleType    = _request('moduleType', null);
+		$ppo->moduleId      = _request('moduleId', null);
 		
 		$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id);
  	  
@@ -1843,7 +1847,7 @@ class ActionGroupDefault extends enicActionGroup {
 		  
 		  $fichier->fullUrl = $fichier->getLienMiniature();
 		  $fichier->url = substr($fichier->getLienMiniature(), 0, strlen($fichier->getLienMiniature()) - strlen(strrchr($fichier->getLienMiniature(), '.')));
-		  $fichier->extension = $fichier->getExtension();		  
+		  $fichier->extension = $fichier->getExtension();
 		}
 		
 		// Ouverture du dossier courant dans l'arborescence

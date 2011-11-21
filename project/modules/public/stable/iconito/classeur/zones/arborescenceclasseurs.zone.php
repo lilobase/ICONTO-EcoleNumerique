@@ -18,30 +18,60 @@ class ZoneArborescenceClasseurs extends enicZone {
 	  $ppo->field           = $this->getParam('field');
 	  $ppo->format          = $this->getParam('format');
 	  $ppo->withPersonal    = $this->getParam('withPersonal', true);
+	  $ppo->moduleType      = $this->getParam('moduleType', null);
+	  $ppo->moduleId        = $this->getParam('moduleId', null);
 	  
 	  // Récupération des classeurs accessibles à l'utilisateur
     $classeurIds = array();
-    $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
-    foreach ($nodes as $node) {
+    if ($ppo->moduleType == 'MOD_CAHIERDETEXTES') {
       
-      $modules = Kernel::getModEnabled($node->type, $node->id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+      $node = Kernel::getModParentInfo($ppo->moduleType, $ppo->moduleId);
+      $modules = Kernel::getModEnabled($node['type'], $node['id'], _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
       foreach ($modules as $module) {
-        
+
         if ($module->module_type == "MOD_CLASSEUR") {
           // Identification du classeur personnel de l'utilisateur
           if (strpos($module->node_type, 'USER_') !== false 
             && ($module->node_type == _currentUser()->getExtra('type') && $module->node_id == _currentUser()->getExtra('id'))) {
-                
+
                 if ($ppo->withPersonal) {
-                  
+
                   $ppo->classeurPersonnel = $module->module_id;
                   $classeurIds[] = $module->module_id;
                 }
           }
           elseif (!strpos($module->node_type, 'USER_')
             && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) >= PROFILE_CCV_READ) {
-            
+
             $classeurIds[] = $module->module_id;
+          }
+        }
+      }
+    }
+    else {
+      
+      $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+      foreach ($nodes as $node) {
+
+        $modules = Kernel::getModEnabled($node->type, $node->id, _currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
+        foreach ($modules as $module) {
+
+          if ($module->module_type == "MOD_CLASSEUR") {
+            // Identification du classeur personnel de l'utilisateur
+            if (strpos($module->node_type, 'USER_') !== false 
+              && ($module->node_type == _currentUser()->getExtra('type') && $module->node_id == _currentUser()->getExtra('id'))) {
+
+                  if ($ppo->withPersonal) {
+
+                    $ppo->classeurPersonnel = $module->module_id;
+                    $classeurIds[] = $module->module_id;
+                  }
+            }
+            elseif (!strpos($module->node_type, 'USER_')
+              && Kernel::getLevel('MOD_CLASSEUR', $module->module_id) >= PROFILE_CCV_READ) {
+
+              $classeurIds[] = $module->module_id;
+            }
           }
         }
       }

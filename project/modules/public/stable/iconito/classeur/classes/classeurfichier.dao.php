@@ -120,6 +120,16 @@ class DAORecordClasseurFichier {
     return $toReturn;
   }
   
+  public function getLienPhysique() {
+    
+    $classeurDAO = _ioDAO('classeur|classeur');	 	
+    $classeur = $classeurDAO->get ($this->classeur_id);
+    
+    $extension = strrchr($this->fichier, '.');
+    
+    return realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$this->id.'-'.$this->cle.$extension;
+  }
+  
   /**
   * Retourne le lien de téléchargement du fichier
   *

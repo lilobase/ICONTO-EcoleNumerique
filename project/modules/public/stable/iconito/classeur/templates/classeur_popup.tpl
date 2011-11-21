@@ -1,7 +1,7 @@
 <h2>{i18n key="classeur.message.filesToAdd"}</h2>
 
 <div id="sidebar">
-  {copixzone process=classeur|arborescenceClasseurs classeurId=$ppo->classeur->id dossierCourant=$ppo->dossierId field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal}
+  {copixzone process=classeur|arborescenceClasseurs classeurId=$ppo->classeur->id dossierCourant=$ppo->dossierId field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}
 </div>
 
 <div class="content-view">
@@ -52,7 +52,7 @@
       {if $ppo->dossierParent}
         <tr class="folder even">
           <td>&nbsp;</td>
-          <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$ppo->dossierParent->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a></td>
+          <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$ppo->dossierParent->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a></td>
           <td colspan="4">&nbsp;</td>
         </tr>
         {assign var=index value=2}
@@ -65,7 +65,7 @@
             {else}
               {assign var=nom value=$ppo->classeurParent->titre}
             {/if}
-            <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
+            <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
           </td>
           <td colspan="4">&nbsp;</td>
         </tr>
@@ -73,8 +73,8 @@
       {/if}
       {foreach from=$ppo->dossiers item=dossier}
       <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
-        <td class="center"><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-16/icon-folder.png" alt="" /></a></td>
-        <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}">{$dossier->nom|escape}</a></td>
+        <td class="center"><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}"><img src="{copixurl}themes/default/images/icon-16/icon-folder.png" alt="" /></a></td>
+        <td><a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeur->id dossierId=$dossier->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}" title="{i18n key="classeur.message.openFolder" nom=$dossier->nom noEscape=1}">{$dossier->nom|escape}</a></td>
         <td>---</td>
         <td>{$dossier->date_creation|datei18n:"date_short_time"|substr:0:10}</td>
         <td>
@@ -137,7 +137,9 @@
           <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
           <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
           <input type="hidden" name="field" value="{$ppo->field}"/>
-    		<input type="hidden" name="format" value="{$ppo->format}"/>
+    		  <input type="hidden" name="format" value="{$ppo->format}"/>
+    		  <input type="hidden" name="moduleType" value="{$ppo->moduleType}"/>
+    		  <input type="hidden" name="moduleId" value="{$ppo->moduleId}"/>
           <input type="file" name="fichiers[]" id="fichiers" />
     	    <a class="button button-cancel">{i18n key="classeur.message.cancel"}</a>
           <input class="button button-confirm" type="submit" value="{i18n key="classeur.message.ok"}" />
