@@ -26,7 +26,6 @@
             $ppo->desc = $this->service->getDescription();
             $ppo->items = $this->service->getItems();
             
-            _dump($ppo->items);
             return _arPPO($ppo, 'default.tpl');
         }
 

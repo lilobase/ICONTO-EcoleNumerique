@@ -9,8 +9,9 @@
 {foreach from=$ppo->items item=itemR}
 
 <div class="content-panel">
-    {$itemR->title}
-    {$itemR->desc}
-    {$itemR->link}
+    <h4><a href="{$itemR->link}">{$itemR->title}</a></h4>
+    <p>{$itemR->desc}</p>
+    <p><a href="{$itemR->link}"><img src="{$itemR->pic.url}" /></a></p>
+    <a class="button button-continue" href="{$itemR->link}">Acceder à la ressource</a>
 </div>
 {/foreach}
