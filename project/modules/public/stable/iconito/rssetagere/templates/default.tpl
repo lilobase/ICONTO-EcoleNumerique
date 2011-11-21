@@ -1,17 +1,19 @@
-<div class="content-panel">
-    <h3>{$ppo->title}</h3>
-</div>
 
-<div class="content-panel">
+<h2>{$ppo->title}</h2>
+
+<p>
     {$ppo->desc}
-</div>
+</p>
 
+<ul class="resource">
 {foreach from=$ppo->items item=itemR}
-
-<div class="content-panel">
-    <h4><a href="{$itemR->link}">{$itemR->title}</a></h4>
-    <p>{$itemR->desc}</p>
-    <p><a href="{$itemR->link}"><img src="{$itemR->pic.url}" /></a></p>
-    <a class="button button-continue" href="{$itemR->link}">Acceder à la ressource</a>
-</div>
+<li class="">
+    <h3><a href="{$itemR->link}">{$itemR->title}</a></h3>
+    <div class="content-panel">
+        <a href="{$itemR->link}" class="illustration"><img src="{$itemR->pic.url}" alt="{$itemR->title}" /></a>
+        <p>{$itemR->desc}</p>
+        <a class="button button-continue" href="{$itemR->link}">{i18n key="rssetagere.link"}</a>
+    </div>
+</li>
 {/foreach}
+</ul>

@@ -1,0 +1,26 @@
+/**
+ * module_rssetagere.css
+  *
+ * @package    Iconito 2011
+ * @cdate 21.11.2011
+ * @mdate 21.11.2011
+ * @author    Philippe Roser <proser@cap-tic.fr>
+ */
+.resource {
+    margin:0; padding:0;
+    list-style:none;
+}
+.resource li {
+    margin:0 0 2.5em;
+}
+.resource .illustration {
+    float:left;
+    margin:0 10px 5px 0;
+    width:64px; height:64px;
+    overflow:hidden;
+    border:1px solid #ddd;
+    -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+}
+.resource .button {
+    clear:both; 
+}
