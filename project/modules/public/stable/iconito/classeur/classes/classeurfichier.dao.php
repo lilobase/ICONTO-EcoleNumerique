@@ -107,7 +107,7 @@ class DAORecordClasseurFichier {
     
     $nomClasseur = $classeur->id.'-'.$classeur->cle;
     
-    $extension  = strrchr($this->fichier, '.');
+    $extension  = strtolower(strrchr($this->fichier, '.'));
     if (!is_null($largeur)) {
       
       $largeur = '_s'.$largeur;

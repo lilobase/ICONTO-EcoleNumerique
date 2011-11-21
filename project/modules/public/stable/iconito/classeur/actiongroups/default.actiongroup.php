@@ -441,7 +441,7 @@ class ActionGroupDefault extends enicActionGroup {
         if (is_uploaded_file($_FILES['fichiers']['tmp_name'][0])) {
           
           $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
-          $extension = strrchr($ppo->fichier->fichier, '.');
+          $extension = strtolower(strrchr($ppo->fichier->fichier, '.'));
   				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
   				// Suppression de l'ancien fichier
   				if (file_exists($fichierPhysique)) {
@@ -453,7 +453,7 @@ class ActionGroupDefault extends enicActionGroup {
           $ppo->fichier->taille        = filesize($_FILES['fichiers']['tmp_name'][0]);
           $ppo->fichier->type          = strtoupper(substr(strrchr($fichierPhysique, '.'), 1));
           
-          $extension = strrchr($_FILES['fichiers']['name'][0], '.');
+          $extension = strtolower(strrchr($_FILES['fichiers']['name'][0], '.'));
   				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
   				move_uploaded_file ($_FILES['fichiers']['tmp_name'][0], $fichierPhysique);
   			}
@@ -485,7 +485,7 @@ class ActionGroupDefault extends enicActionGroup {
 
               if ($file != '.' && $file != '..') {
 
-                $extension = strrchr($file, '.');
+                $extension = strtolower(strrchr($file, '.'));
                 if ($extension == '.zip' && _request('with_decompress', false)) {
 
                   $fichiersZip[] = $file;
@@ -601,7 +601,7 @@ class ActionGroupDefault extends enicActionGroup {
 
                 $nomClasseur = $classeur->id.'-'.$classeur->cle;
                 $nomFichier = $fichier->id.'-'.$fichier->cle;
-                $extension = strrchr($file, '.');
+                $extension = strtolower(strrchr($file, '.'));
 
                 // Déplacement du fichier temporaire dans le classeur
                 copy($dossierParent.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
@@ -633,7 +633,7 @@ class ActionGroupDefault extends enicActionGroup {
 
             $nomClasseur = $classeur->id.'-'.$classeur->cle;
             $nomFichier = $fichier->id.'-'.$fichier->cle;
-            $extension = strrchr($fichierPhysique, '.');
+            $extension = strtolower(strrchr($fichierPhysique, '.'));
 
             // Déplacement du fichier temporaire dans le classeur
             copy($ppo->dossierTmp.'/'.$fichierPhysique, $dir.$fichier->id.'-'.$fichier->cle.$extension);
@@ -892,7 +892,7 @@ class ActionGroupDefault extends enicActionGroup {
       // Création du fichier
       $contenu = classeurService::generateWebFile($ppo->lien);
       
-      $extension  = strrchr($ppo->favori->fichier, '.');
+      $extension  = strtolower(strrchr($ppo->favori->fichier, '.'));
       $nomFichier = $ppo->favori->id.'-'.$ppo->favori->cle.$extension;
       $pathFichier = realpath('./static/classeur').'/'.$ppo->classeur->id.'-'.$ppo->classeur->cle.'/'.($nomFichier);
       
@@ -1346,7 +1346,7 @@ class ActionGroupDefault extends enicActionGroup {
 
       // Path du fichier
       $dir        = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
-      $extension  = strrchr($fichier->fichier, '.');
+      $extension  = strtolower(strrchr($fichier->fichier, '.'));
       $pathfile   = $dir.$fichier->id.'-'.$fichier->cle.$extension;
       
       return _arFile ($pathfile, array ('filename' => $fichier->fichier, 'content-type' => classeurService::getMimeType($fichier->fichier), 'content-disposition' => 'attachment'));
@@ -1426,7 +1426,7 @@ class ActionGroupDefault extends enicActionGroup {
     
 		$nomClasseur = $classeur->id.'-'.$classeur->cle;
     
-    $extension  = strrchr($fichier->fichier, '.');
+    $extension  = strtolower(strrchr($fichier->fichier, '.'));
 		$nomFichier = $fichier->id.'-'.$fichier->cle.$extension;
 		
 		$pathFichier = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.($nomFichier);
@@ -1548,7 +1548,7 @@ class ActionGroupDefault extends enicActionGroup {
       
       if ($fichier->estUneImage()) {
         
-        $extension = strrchr($fichier->fichier, '.');
+        $extension = strtolower(strrchr($fichier->fichier, '.'));
         $images[] = $fichier->id.'-'.$fichier->cle.$extension;
       }
     }
@@ -1761,7 +1761,7 @@ class ActionGroupDefault extends enicActionGroup {
           
         $fichierDAO->insert($ppo->fichier);
 
-        $extension = strrchr($_FILES['fichiers']['name'][0], '.');
+        $extension = strtolower(strrchr($_FILES['fichiers']['name'][0], '.'));
   			$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
   			move_uploaded_file ($_FILES['fichiers']['tmp_name'][0], $fichierPhysique);
   		}

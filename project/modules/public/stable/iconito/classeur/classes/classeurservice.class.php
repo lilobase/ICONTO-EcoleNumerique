@@ -225,7 +225,7 @@ class ClasseurService {
 		$classeur = $classeurDAO->get ($file->classeur_id);
 		
 		// On supprime le fichier
-		$extension  = strrchr($file->fichier, '.');
+		$extension  = strtolower(strrchr($file->fichier, '.'));
 		$filename   = $file->id.'-'.$file->cle;
 		$filepath   = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.$file->id.'-'.$file->cle.$extension;
 		
@@ -334,7 +334,7 @@ class ClasseurService {
         mkdir($new_dir, 0755, true);
       }
 
-      $extension = strrchr($file->fichier, '.');
+      $extension = strtolower(strrchr($file->fichier, '.'));
       copy($old_dir.$file->id.'-'.$file->cle.$extension, $new_dir.$file->id.'-'.$file->cle.$extension);
       unlink($old_dir.$file->id.'-'.$file->cle.$extension);
     }
@@ -406,7 +406,7 @@ class ClasseurService {
     // Récupération du classeur
     $oldClasseur  = $classeurDAO->get($file->classeur_id);
     $old_dir      = realpath('./static/classeur').'/'.$oldClasseur->id.'-'.$oldClasseur->cle.'/';
-    $extension    = strrchr($file->fichier, '.');
+    $extension    = strtolower(strrchr($file->fichier, '.'));
     
     // Copie du fichier uniquement s'il existe bien
     if (file_exists($old_dir.$file->id.'-'.$file->cle.$extension)) {
@@ -491,7 +491,7 @@ class ClasseurService {
     
     // Path du fichier
     $dir        = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
-    $extension  = strrchr($file->fichier, '.');
+    $extension  = strtolower(strrchr($file->fichier, '.'));
     
     $pathfile = $dir.$file->id.'-'.$file->cle.$extension;
     
@@ -709,7 +709,7 @@ class ClasseurService {
 	  $classeurDAO = _ioDAO('classeur|classeur');
 	  $classeur = $classeurDAO->get($file->classeur_id);
 	  
-	  $extension  = strrchr($file->fichier, '.');
+	  $extension  = strtolower(strrchr($file->fichier, '.'));
     $nomFichier = $file->id.'-'.$file->cle.$extension;
     
     $pathFichier = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/'.($nomFichier);
