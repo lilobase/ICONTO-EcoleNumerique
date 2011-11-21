@@ -1551,7 +1551,7 @@ class ActionGroupDefault extends enicActionGroup {
         $image = new CopixPPO();
         $extension = strtolower(strrchr($fichier->fichier, '.'));
         $image->big = $fichier->id.'-'.$fichier->cle.$extension;
-        $image->web = $fichier->id.'-'.$fichier->cle.'_640'.$extension;
+        $image->web = $fichier->id.'-'.$fichier->cle.'_400'.$extension;
         $images[] = $image;
       }
     }
