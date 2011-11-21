@@ -1376,6 +1376,7 @@ class Kernel {
 	function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0, $full=0 ) {
 		// echo "getModEnabled( $node_type, $node_id, $user_type, $user_id)";
 
+        $carnetDeLiaison = (CopixConfig::exists('kernel|carnetDeLiaison') && CopixConfig::get('kernel|carnetDeLiaison'));
 		$dao = _dao("kernel|kernel_mod_enabled");
 		$modules = array();
 
@@ -1416,7 +1417,8 @@ class Kernel {
 					$perso->module_type = 'MOD_CARNET';
 					$perso->module_id   = 'ELEVE_'.$node_id;
 					$perso->module_nom   = Kernel::Code2Name ('MOD_CARNET');
-					$modules[] = clone $perso;
+                    if ($carnetDeLiaison)
+                        $modules[] = clone $perso;
 
 				}
 			}
@@ -1444,7 +1446,8 @@ class Kernel {
 			$carnetcorresp->module_type = 'MOD_CARNET';
 			$carnetcorresp->module_id   = 'CLASSE_'.$node_id;
 			$carnetcorresp->module_nom	 = Kernel::Code2Name ('MOD_CARNET');
-			$modules[] = clone $carnetcorresp;
+			if ($carnetDeLiaison)
+                $modules[] = clone $carnetcorresp;
 		}
 
 		//for KNE

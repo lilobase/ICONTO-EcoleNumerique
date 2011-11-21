@@ -13,6 +13,7 @@ class ZoneModuleContext extends enicZone {
 
 	function _createContent (&$toReturn) {
 
+        $carnetDeLiaison = (CopixConfig::exists('kernel|carnetDeLiaison') && CopixConfig::get('kernel|carnetDeLiaison'));
 		//CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
 
 		$ppo = new CopixPPO ();		
@@ -43,7 +44,8 @@ class ZoneModuleContext extends enicZone {
 			$perso->module_type = 'MOD_CARNET';
 			$perso->module_id   = 'ELEVE_'.$myNode['id'];
 			$perso->module_nom   = Kernel::Code2Name ('MOD_CARNET');
-			$modules[] = clone $perso;
+			if ($carnetDeLiaison)
+                $modules[] = clone $perso;
 			
 			// _dump($modules);
 		}
