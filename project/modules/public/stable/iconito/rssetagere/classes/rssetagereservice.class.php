@@ -8,7 +8,7 @@
         
         public function loadXml(){
             $this->rssUrl = $this->helpers->config('rssetagere|rss_url');
-            $this->xml = simplexml_load_file($this->rssUrl);
+            $this->xml = @simplexml_load_file($this->rssUrl);
 
             if($this->xml == false)
                 return false;
