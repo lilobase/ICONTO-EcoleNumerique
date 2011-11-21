@@ -19,12 +19,14 @@
             $ppo = new CopixPPO();
             
             if(!$this->service->loadxml()){
-                $this->error('xml.notfound');
+                return $this->error('rssetagere.notfound', '||');
             }
             
             $ppo->title = $this->service->getTitle();
             $ppo->desc = $this->service->getDescription();
             $ppo->items = $this->service->getItems();
+            
+            _dump($ppo->items);
             return _arPPO($ppo, 'default.tpl');
         }
 

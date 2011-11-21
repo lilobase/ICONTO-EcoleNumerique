@@ -14,16 +14,27 @@
  * @package standard
  * @subpackage auth
  */
-class ActionGroupCas extends CopixActionGroup {
+class ActionGroupCas extends EnicActionGroup {
 	
 	public function processLogin (){
 		include_once (COPIX_UTILS_PATH.'../../CAS-1.2.2/CAS.php');
 		
+                $_SESSION['chartValid'] = false;
+                
 		$ppo = new CopixPPO ();
 		$ppo->user = _currentUser();
 		if($ppo->user->isConnected()){
 			$url_return = CopixUrl::get ('kernel||doSelectHome');
-			return new CopixActionReturn (COPIX_AR_REDIRECT, $url_return);
+                        /*
+                         * PATCH FOR CHARTE
+                         */
+                        $this->user->forceReload();
+                        if(!$this->service('charte|CharteService')->checkUserValidation()){
+                            $this->flash->redirect = $urlReturn;
+                            return $this->go('charte|charte|valid');
+                        }
+			return _arRedirect ($urlReturn);
+			//return new CopixActionReturn (COPIX_AR_REDIRECT, $url_return);
 		} else {
 			
 			$conf_Cas_host = CopixConfig::get ('default|conf_Cas_host');
@@ -42,6 +53,9 @@ class ActionGroupCas extends CopixActionGroup {
 					_currentUser()->login(array('login'=>$ppo->iconito_user['login'], 'assistance'=>true));
 					$url_return = CopixUrl::get ('kernel||doSelectHome');
 					// $url_return = CopixUrl::get ('assistance||users');
+                                        
+                                        
+
 					return new CopixActionReturn (COPIX_AR_REDIRECT, $url_return);
 				} else {
 					$ppo->cas_error = 'no-iconito-user';

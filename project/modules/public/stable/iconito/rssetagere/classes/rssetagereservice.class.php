@@ -7,9 +7,9 @@
         }
         
         public function loadXml(){
-            $this->rssUrl = $this->helpers->config('rssnotifier|rss_url');
+            $this->rssUrl = $this->helpers->config('rssetagere|rss_url');
             $this->xml = simplexml_load_file($this->rssUrl);
-            
+
             if($this->xml == false)
                 return false;
             
@@ -17,20 +17,21 @@
         }
         
         public function getTitle(){
-            return $this->xml->title;
+            
+            return $this->xml->channel->title;
         }
         
         public function getDescription(){
-            return $this->xml->description;
+            return $this->xml->channel->description;
         }
         
         public function getLink(){
-            return $this->xml->link;
+            return $this->xml->channel->link;
         }
         
         public function getItems(){
             $return = array();
-            foreach($this->xml->item as $item){
+            foreach($this->xml->channel->item as $item){
                 $itemObject = new stdClass();
                 $itemObject->title = $item->title;
                 $itemObject->desc = $item->description;
