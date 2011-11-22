@@ -160,7 +160,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     $id_bact = $this->getRequest('id_bact', null);
 	  if(strlen($id_bact)==0) $id_bact=null;
 		$showErrors = false;
-		
+
     if($id_bact!=null) {
       // EDITION D'UN ARTICLE
       $article = $articleDAO->get($id_bact);
@@ -261,13 +261,12 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   function _validFromPostProperties (& $toUpdate){
     $arMaj = array ('id_blog', 'name_bact', 'sumary_bact', 'content_bact', 'date_bact', 'time_bact', 'author_bact', 'url_bact', 'format_bact');
     foreach ($arMaj as $var){
-      if (_request($var)){
-				if ($var == 'date_bact')
-	        $toUpdate->$var = Kernel::_validDateProperties(_request($var));
-				else
-	        $toUpdate->$var = _request($var);
-      }
+			if ($var == 'date_bact')
+	      $toUpdate->$var = Kernel::_validDateProperties(_request($var));
+			else
+	      $toUpdate->$var = _request($var);
     }
+
     if(strlen($toUpdate->url_bact)==0 && strlen($toUpdate->name_bact)>0) {
     	$toUpdate->url_bact = killBadUrlChars($toUpdate->name_bact);
     }
