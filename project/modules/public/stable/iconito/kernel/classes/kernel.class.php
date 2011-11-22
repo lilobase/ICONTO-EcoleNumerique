@@ -2722,30 +2722,30 @@ class Kernel {
    */
   public static function stripText ($text, $encoding = 'UTF-8') {
   
-    $text = mb_strtolower ($text, $encoding);
-  
-    $patterns = array ('/à/', '/á/', '/â/', '/ã/', '/ä/', '/å/', '/ò/', '/ó/',
-      '/ô/', '/õ/', '/ö/', '/ø/', '/è/', '/é/', '/ê/', '/ë/',
-      '/ç/', '/ì/', '/í/', '/î/', '/ï/', '/ù/', '/ú/', '/û/',
-      '/ü/', '/ÿ/', '/ñ/');
-  
-    $replace = array ('a', 'a', 'a', 'a', 'a', 'a', 'o', 'o',
-      'o', 'o', 'o', 'o', 'e', 'e', 'e', 'e',
-      'c', 'i', 'i', 'i', 'i', 'u', 'u', 'u',
-      'u', 'y', 'n');
-  
-    $text = preg_replace ($patterns, $replace, $text);
-  
+    $text = mb_strtolower($text, $encoding);
+
+    $patterns = array('/à/', '/á/', '/â/', '/ã/', '/ä/', '/å/', '/ò/', '/ó/',
+                      '/ô/', '/õ/', '/ö/', '/ø/', '/è/', '/é/', '/ê/', '/ë/',
+                      '/ç/', '/ì/', '/í/', '/î/', '/ï/', '/ù/', '/ú/', '/û/',
+                      '/ü/', '/ÿ/', '/ñ/');
+
+    $replace = array('a', 'a', 'a', 'a', 'a', 'a', 'o', 'o',
+                     'o', 'o', 'o', 'o', 'e', 'e', 'e', 'e',
+                     'c', 'i', 'i', 'i', 'i', 'u', 'u', 'u',
+                     'u', 'y', 'n');
+    
+    $text = preg_replace($patterns, $replace, $text);
+    
     // strip all non word chars
-    $text = preg_replace ('/[^a-z0-9.]/', ' ', $text);
+    $text = preg_replace('/[^a-z0-9]/', ' ', $text);
     
     // replace all white space sections with a dash
-    $text = preg_replace ('/\ +/', '', $text);
-  
+    $text = preg_replace('/\ +/', '-', $text);
+ 
     // trim dashes
-    $text = preg_replace ('/\-$/', '', $text);
-    $text = preg_replace ('/^\-/', '', $text);
-  
+    $text = preg_replace('/\-$/', '', $text);
+    $text = preg_replace('/^\-/', '', $text);
+ 
     return $text;
   }
 }

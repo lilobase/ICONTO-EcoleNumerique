@@ -23,7 +23,7 @@ class DAORecordClasseurFichier {
    * Retourne le path complet du fichier
    * sous la forme : /Classeur/Dossier1/Dossier2/...
    */
-	public function getPath () {
+	public function getPath ($withStripText = true) {
 	  
 	  $paths = array();
 	  
@@ -33,17 +33,17 @@ class DAORecordClasseurFichier {
 	  if ($this->dossier_id != 0) {
 	    
 	    $dossier = $dossierDAO->get($this->dossier_id);
-	    $paths[] = str_replace('/', '-', $dossier->nom);
+	    $paths[] = $withStripText ? Kernel::stripText($dossier->nom) : $dossier->nom;
 
   	  while ($dossier->parent_id != 0) {
 
   	    $dossier = $dossierDAO->get($dossier->parent_id);
-  	    $paths[] = str_replace('/', '-', $dossier->nom);
+  	    $paths[] = $withStripText ? Kernel::stripText($dossier->nom) : $dossier->nom;
 	    }
 	  }
 	  
 	  $classeur = $classeurDAO->get($this->classeur_id);
-	  $paths[] = str_replace('/', '-', $classeur->titre);
+	  $paths[] = $withStripText ? Kernel::stripText($classeur->titre) : $classeur->titre;
 	  
 	  return '/'.implode('/', array_reverse($paths)).'/';
 	}

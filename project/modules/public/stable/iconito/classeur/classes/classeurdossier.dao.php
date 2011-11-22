@@ -16,24 +16,24 @@ class DAORecordClasseurDossier {
    * Retourne le path complet du dossier
    * sous la forme : /Classeur/Dossier1/Dossier2/...
    */
-	public function getPath () {
+	public function getPath ($withStripText = true) {
 	  
 	  $paths = array();
 	  
 	  $classeurDAO = _ioDAO('classeur|classeur');
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
 
-	  $paths[] = str_replace('/', '-', $this->nom);
+	  $paths[] = $withStripText ? Kernel::stripText($this->nom) : $this->nom;
 	  $dossier = $this;
 	  
 	  while ($dossier->parent_id != 0) {
 	    
 	    $dossier = $dossierDAO->get($dossier->parent_id);
-	    $paths[] = str_replace('/', '-', $dossier->nom);
+	    $paths[] = $withStripText ? Kernel::stripText($dossier->nom) : $dossier->nom;
 	  }
 	  
 	  $classeur = $classeurDAO->get($dossier->classeur_id);
-	  $paths[] = str_replace('/', '-', $classeur->titre);
+	  $paths[] = $withStripText ? Kernel::stripText($classeur->titre) : $classeur->titre;
 	  
 	  return '/'.implode('/', array_reverse($paths)).'/';
 	}
