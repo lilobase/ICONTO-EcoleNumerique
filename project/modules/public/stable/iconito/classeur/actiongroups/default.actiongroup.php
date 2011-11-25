@@ -1509,6 +1509,8 @@ class ActionGroupDefault extends enicActionGroup {
 	 * Publication d'un album public
 	 */
   public function processPublierAlbum () {
+
+    set_time_limit(0);
     
     $classeurDAO  = _ioDAO('classeur|classeur');
     $dossierDAO   = _ioDAO('classeur|classeurdossier');
