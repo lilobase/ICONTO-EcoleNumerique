@@ -32,7 +32,7 @@ function deleteMembres () {
 /* Vérification de la hauteur des blocs et modification de l'apparence si besoin */
 $(document).ready(function(){
 	
-	var sidebarHeight = $('#blog-sidebar').height();
+	var sidebarHeight = $('#blog-sidebar').height() + 250; // Si la sidebar contient une image, Safari n'a pas encore chargé l'image, donc la hauteur n'est pas bonne !
 	var contentHeight = $('#blog-content').height();
 	console.log ('sidebar : '+sidebarHeight + ' content : '+contentHeight);
 	if (sidebarHeight > contentHeight)
