@@ -139,6 +139,9 @@ class ActionGroupDashboard extends enicActionGroup {
 				$content_tpl->assign('is_admin', $is_admin);
 				$content_tpl->assign('id', $contentNode['id']);
 				$content_tpl->assign('type', $contentNode['type']);
+                if ($contentNode['type'] == "BU_ECOLE") {
+                    $content_tpl->assign('idZone', $contentNode['id']);
+                }
 				$content = $content_tpl->fetch('dashboard.nodes.tpl');
 
                                 //add css

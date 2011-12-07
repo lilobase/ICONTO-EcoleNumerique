@@ -1,5 +1,3 @@
-<a class="dashboard-list" title="{i18n key="kernel|dashboard.ficheEcole" noEscape="true"}" href="{copixurl dest="fichesecoles||fiche" id=$idZone}">{i18n key="kernel|dashboard.ficheEcole" noEscape="true"}</a>
-
 <h4 class="dashboard-zone-title">{i18n key="kernel|dashboard.listeEns" noEscape="true"}</h4>
 
 {if empty($pic)}

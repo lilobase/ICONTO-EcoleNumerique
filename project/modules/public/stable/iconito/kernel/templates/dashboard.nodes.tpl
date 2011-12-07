@@ -1,3 +1,6 @@
+{if $is_admin && $type == 'BU_ECOLE'}
+    <a class="dashboard-list" title="{i18n key="kernel|dashboard.ficheEcole" noEscape="true"}" href="{copixurl dest="fichesecoles||fiche" id=$idZone}">{i18n key="kernel|dashboard.ficheEcole" noEscape="true"}</a>
+{/if}
 
 <div class="admindash">
     {if !empty($picture)}
