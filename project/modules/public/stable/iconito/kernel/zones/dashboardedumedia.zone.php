@@ -23,7 +23,7 @@ class ZoneDashboardEdumedia extends CopixZone {
 		$date = date('dmY');
 		$login = 'iconito-limoges'; // _currentUser()->getExtra('login');
 		$hash = '-EM_ICONITO-';
-		$url = 'http://www.edumedia-sciences.com/fr/?service='.$service.'&time='.$date.'&user='.$login.'&token='.md5($service.$date.$hash.$login);
+		$url = 'http://junior.edumedia-sciences.com/fr/?service='.$service.'&time='.$date.'&user='.$login.'&token='.md5($service.$date.$hash.$login);
 		
 		$tpl->assign ('url', $url);
 		$toReturn = $tpl->fetch('dashboardedumedia.tpl');
