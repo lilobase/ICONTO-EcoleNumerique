@@ -131,6 +131,9 @@ div.dashboard div.content {
 #classeur .listView a.iconjson {background-image:url(../../../themes/default/images/icon-16/icon-json.png);}
 #classeur .listView a.iconmov {background-image:url(../../../themes/default/images/icon-16/icon-mov.png);}
 #classeur .listView a.iconmp3 {background-image:url(../../../themes/default/images/icon-16/icon-mp3.png);}
+#classeur .listView a.iconodp {background-image:url(../../../themes/default/images/icon-16/icon-odp.png);}
+#classeur .listView a.iconods {background-image:url(../../../themes/default/images/icon-16/icon-ods.png);}
+#classeur .listView a.iconodt {background-image:url(../../../themes/default/images/icon-16/icon-odt.png);}
 #classeur .listView a.iconpdf {background-image:url(../../../themes/default/images/icon-16/icon-pdf.png);}
 #classeur .listView a.iconpng {background-image:url(../../../themes/default/images/icon-16/icon-png.png);}
 #classeur .listView a.iconppt {background-image:url(../../../themes/default/images/icon-16/icon-ppt.png);}
