@@ -3,7 +3,7 @@
 * @package  Iconito
 * @subpackage Album
 * @version   $Id: kernelalbum.class.php,v 1.9 2009-01-23 17:34:11 cbeyer Exp $
-* @author   Frédéric Mossmann
+* @author   Frï¿½dï¿½ric Mossmann
 * @copyright 2005 CDC-TIC
 * @link      http://www.cdc-tic.fr
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -12,7 +12,7 @@
 
 class KernelAlbum {
 
-	/* Crée un album photos
+	/* Crï¿½e un album photos
 		 Renvoie son ID ou NULL si erreur
  * @param array $infos (option) Infos sur le module. [title], [subtitle], [node_type], [node_id]		 
 	*/
@@ -43,7 +43,7 @@ class KernelAlbum {
 	}
 
 	/*
-		Renvoie différentes infos chiffrées d'un album photos
+		Renvoie diffï¿½rentes infos chiffrï¿½es d'un album photos
 	*/
 	function getStats ($id_album) {
 		$dao = _dao("album|album");
@@ -61,13 +61,13 @@ class KernelAlbum {
 
 	/*
 	Publication distante (autre module).
-	id de l'album + données -> infos sur la nouvelle données dans l'album
+	id de l'album + donnï¿½es -> infos sur la nouvelle donnï¿½es dans l'album
 	*/
 	function publish ($id, $image) {
 		// $image['file']  -> nom de fichier
-		// $image['title'] -> titre (ou nom à défaut)
+		// $image['title'] -> titre (ou nom ï¿½ dï¿½faut)
 		// $image['body']  -> commentaire
-		// $image['data']  -> données
+		// $image['data']  -> donnï¿½es
 		
 		if( !isset($image['file']) || trim($image['file'])=='' 
 		||  !isset($image['data']) ||      $image['data'] =='' ) {
@@ -147,5 +147,39 @@ class KernelAlbum {
 		return false;
 		
 	}
+    
+    function getStatsRoot()
+    {
+        $res = array();
+        /*
+         * Nombre d'albums
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_album_albums';
+        $a = _doQuery($sql);
+        $res['nbAlbums'] = array('name' => CopixI18N::get('album|album.stats.nbAlbums', array($a[0]->nb)));
+
+        /*
+         * Nombre de dossiers
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_album_dossiers';
+        $a = _doQuery($sql);
+        $res['nbDossiers'] = array('name' => CopixI18N::get('album|album.stats.nbDossiers', array($a[0]->nb)));
+
+        /*
+         * Nombre de photos
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_album_photos';
+        $a = _doQuery($sql);
+        $res['nbPhotos'] = array('name' => CopixI18N::get('album|album.stats.nbPhotos', array($a[0]->nb)));
+
+        return $res;
+    }
+
 }
 

@@ -12,12 +12,12 @@ class KernelMalle {
 
 
 	/**
-	 * Création d'une malle
+	 * Crï¿½ation d'une malle
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/06
 	 * @param array $infos (option) informations permettant d'initialiser la malle. Index: title, node_type, node_id
-	 * @return integer l'Id de la malle créée ou NULL si erreur
+	 * @return integer l'Id de la malle crï¿½ï¿½e ou NULL si erreur
 	 */
 	function create ($infos=array()) {
 		$return = NULL;
@@ -48,14 +48,14 @@ class KernelMalle {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/09
 	 * @param integer $id Id de la malle
-	 * @return boolean true si la suppression s'est bien passée, false sinon
+	 * @return boolean true si la suppression s'est bien passï¿½e, false sinon
 	 */
 	function delete ($id) {
 		$daoMalles = _dao('malle|malle_malles');
 		$rMalle = $daoMalles->get($id);
 		$res = false;
 		if ($rMalle) {
-			// On vide le répertoire
+			// On vide le rï¿½pertoire
 			$path2data = realpath('./static/malle');
 			$folder = $path2data.'/'.$rMalle->id.'_'.$rMalle->cle;
       
@@ -74,12 +74,12 @@ class KernelMalle {
 	/**
 	 * Statistiques d'une malle
 	 *
-	 * Renvoie des éléments chiffrés relatifs à une malle : taille occupée (format "humain"), nombre de dossiers, nombre de fichiers
+	 * Renvoie des ï¿½lï¿½ments chiffrï¿½s relatifs ï¿½ une malle : taille occupï¿½e (format "humain"), nombre de dossiers, nombre de fichiers
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
 	 * @param integer $malle Id de la malle
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbFiles"] ["nbFolders"] ["size"]
+	 * @return array Tableau dont les clefs reprï¿½sentent les libellï¿½s des stats et les valeurs les stats chiffrï¿½es. Clefs utilisï¿½es : ["nbFiles"] ["nbFolders"] ["size"]
 	 */
 	function getStats ($malle) {
 		$daoMalles = _dao("malle|malle_malles");
@@ -95,54 +95,57 @@ class KernelMalle {
 	/**
 	 * Statistiques du module documents
 	 *
-	 * Renvoie des éléments chiffrés relatifs aux documents et dédiés à un utilisateur système : taille occupée (format "humain"), nombre de zones de documents, nombre de dossiers, nombre de fichiers
+	 * Renvoie des ï¿½lï¿½ments chiffrï¿½s relatifs aux documents et dï¿½diï¿½s ï¿½ un utilisateur systï¿½me : taille occupï¿½e (format "humain"), nombre de zones de documents, nombre de dossiers, nombre de fichiers
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2007/03/20
-	 * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbMalles"] ["nbFolders"] ["nbFiles"] ["size"]
+	 * @return array Tableau dont les clefs reprï¿½sentent les libellï¿½s des stats et les valeurs les stats chiffrï¿½es. Clefs utilisï¿½es : ["nbMalles"] ["nbFolders"] ["nbFiles"] ["size"]
 	 */
-	function getStatsRoot () {
-		$res = array();	
-		$sql = 'SELECT COUNT(id) AS nb FROM module_malle_malles';
-		$a = _doQuery($sql);
-		$res['nbMalles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbMalles', array($a[0]->nb)));
-		$sql = 'SELECT COUNT(id) AS nb FROM module_malle_folders';
-		$a = _doQuery($sql);
-		$res['nbFolders'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFolders', array($a[0]->nb)));
-		$sql = 'SELECT COUNT(id) AS nb FROM module_malle_files';
-		$a = _doQuery($sql);
-		$res['nbFiles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFiles', array($a[0]->nb)));
-		$sql = 'SELECT SUM(taille) AS nb FROM module_malle_files';
-		$a = _doQuery ($sql);
-		$res['size'] = array ('name'=>CopixI18N::get ('malle|malle.stats.size', array(KernelMalle::human_file_size($a[0]->nb))));
-		return $res;
-	}
+	function getStatsRoot()
+    {
+        _classInclude('systutils|StatsServices');
 
+        $res = array();
+        
+        /*
+         * Nombre de malles
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_malle_malles';
+        $a = _doQuery($sql);
+        $res['nbMalles'] = array('name' => CopixI18N::get('malle|malle.stats.nbMalles', array($a[0]->nb)));
 
+        /*
+         * Nombre de dossiers
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_malle_folders';
+        $a = _doQuery($sql);
+        $res['nbFolders'] = array('name' => CopixI18N::get('malle|malle.stats.nbFolders', array($a[0]->nb)));
+        
+        /*
+         * Nombre de fichiers
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_malle_files';
+        $a = _doQuery($sql);
+        $res['nbFiles'] = array('name' => CopixI18N::get('malle|malle.stats.nbFiles', array($a[0]->nb)));
+        
+        /*
+         * Taille
+         */
+        $sql = '
+            SELECT SUM(taille) AS nb 
+            FROM module_malle_files';
+        $a = _doQuery($sql);
+        $res['size'] = array('name' => CopixI18N::get('malle|malle.stats.size', array(StatsServices::human_file_size($a[0]->nb))));
 
+        return $res;
+    }
 
-
-
-
-	/**
-	 * Taille de fichier/dossier au format "humain"
-	 *
-	 * Convertit une taille de fichier/dossier passée en octets en format "humain" : selon la taille, renvoie "X Bytes", "X KB", "X MB", "X GB"... où X est la taille arrondie.
-	 *
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2005/12/07
-	 * @param integer $size Taille (en octets)
-	 * @return string Taille au format "humain"
-	 */
-	function human_file_size ($size)
-	{
-   $filesizename = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB",
-" ZB", " YB");
-   return ($size) ? round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) .
-$filesizename[$i] : "0";
-	}
-	
-	
 }
 
 ?>

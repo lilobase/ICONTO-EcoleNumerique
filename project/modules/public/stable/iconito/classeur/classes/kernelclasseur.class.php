@@ -124,5 +124,46 @@ class KernelClasseur {
 		return false;
 		
 	}
+    
+    function getStatsRoot()
+    {
+        _classInclude('systutils|StatsServices');
+        $res = array();
+
+        /*
+         * Nombre de classeurs
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_classeur';
+        $a = _doQuery($sql);
+        $res['nbClasseurs'] = array('name' => CopixI18N::get('classeur|classeur.stats.nbClasseurs', array($a[0]->nb)));
+
+        /*
+         * Nombre de dossiers
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_classeur_dossier';
+        $a = _doQuery($sql);
+        $res['nbDossiers'] = array('name' => CopixI18N::get('classeur|classeur.stats.nbDossiers', array($a[0]->nb)));
+
+        /*
+         * Nombre de documents
+         */
+        $sql = '
+            SELECT COUNT(id) AS nb 
+            FROM module_classeur_fichier';
+        $a = _doQuery($sql);
+        $res['nbFichiers'] = array('name' => CopixI18N::get('classeur|classeur.stats.nbFichiers', array($a[0]->nb)));
+
+        $sql = '
+            SELECT SUM(taille) AS taille 
+            FROM module_classeur_fichier';
+		$a = _doQuery ($sql);
+		$res['size'] = array ('name'=>CopixI18N::get ('classeur|classeur.stats.size', array(StatsServices::human_file_size($a[0]->taille))));
+
+        return $res;
+    }    
 
 }
