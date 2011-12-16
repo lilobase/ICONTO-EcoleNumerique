@@ -82,13 +82,15 @@ class KernelMalle {
 	 * @return array Tableau dont les clefs repr�sentent les libell�s des stats et les valeurs les stats chiffr�es. Clefs utilis�es : ["nbFiles"] ["nbFolders"] ["size"]
 	 */
 	function getStats ($malle) {
-		$daoMalles = _dao("malle|malle_malles");
+        _classInclude('systutils|StatsServices');
+
+        $daoMalles = _dao("malle|malle_malles");
 		$res = array();	
 		$infosFiles = $daoMalles->getNbsFilesInMalle($malle);
 		$infosFolders = $daoMalles->getNbsFoldersInMalle($malle);
 		$res['nbFiles'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFiles', array($infosFiles[0]->nbFiles)));
 		$res['nbFolders'] = array ('name'=>CopixI18N::get ('malle|malle.stats.nbFolders', array($infosFolders[0]->nbFolders)));
-		$res['size'] = array ('name'=>CopixI18N::get ('malle|malle.stats.size', array(KernelMalle::human_file_size($infosFiles[0]->taille))));
+		$res['size'] = array ('name'=>CopixI18N::get ('malle|malle.stats.size', array(StatsServices::human_file_size($infosFiles[0]->taille))));
 		return $res;
 	}
 	
