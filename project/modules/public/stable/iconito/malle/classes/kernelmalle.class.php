@@ -145,6 +145,22 @@ class KernelMalle {
 
         return $res;
     }
+    
+	/**
+	 * Taille de fichier/dossier au format "humain"
+	 *
+	 * Convertit une taille de fichier/dossier pass�e en octets en format "humain" : selon la taille, renvoie "X Bytes", "X KB", "X MB", "X GB"... o� X est la taille arrondie.
+	 *
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2005/12/07
+	 * @param integer $size Taille (en octets)
+	 * @return string Taille au format "humain"
+	 */
+	function human_file_size($size)
+    {
+        $filesizename = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
+        return ($size) ? round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) . $filesizename[$i] : "0";
+    }
 
 }
 
