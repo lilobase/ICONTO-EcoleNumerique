@@ -245,8 +245,7 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
     if ($ok) {
       $tools = new Demo_Tools();
       $folders = array (
-        'www/static/album/1_b3ce1d6dcb',
-        'www/static/malle/1_7cfbb3fbc2',
+        'www/static/classeur/1-49376fcb9d',
         'www/static/prefs/avatar',
       );
       foreach ($folders as $folder) {

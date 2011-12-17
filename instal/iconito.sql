@@ -1,6 +1,6 @@
--- 
+--
 -- Structure de la table `copixconfig`
--- 
+--
 
 DROP TABLE IF EXISTS `copixconfig`;
 CREATE TABLE `copixconfig` (
@@ -12,9 +12,9 @@ CREATE TABLE `copixconfig` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `copixlog`
--- 
+--
 
 DROP TABLE IF EXISTS `copixlog`;
 CREATE TABLE `copixlog` (
@@ -32,9 +32,9 @@ CREATE TABLE `copixlog` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `copixmodule`
--- 
+--
 
 DROP TABLE IF EXISTS `copixmodule`;
 CREATE TABLE `copixmodule` (
@@ -46,9 +46,9 @@ CREATE TABLE `copixmodule` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `dbgroup`
--- 
+--
 
 DROP TABLE IF EXISTS `dbgroup`;
 CREATE TABLE `dbgroup` (
@@ -59,13 +59,13 @@ CREATE TABLE `dbgroup` (
   `public_dbgroup` tinyint(4) NOT NULL,
   `registered_dbgroup` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id_dbgroup`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `dbgroup_users`
--- 
+--
 
 DROP TABLE IF EXISTS `dbgroup_users`;
 CREATE TABLE `dbgroup_users` (
@@ -76,9 +76,9 @@ CREATE TABLE `dbgroup_users` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `dbuser`
--- 
+--
 
 DROP TABLE IF EXISTS `dbuser`;
 CREATE TABLE `dbuser` (
@@ -89,26 +89,26 @@ CREATE TABLE `dbuser` (
   `enabled_dbuser` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id_dbuser`),
   UNIQUE KEY `login` (`login_dbuser`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `dynamiccredentials`
--- 
+--
 
 DROP TABLE IF EXISTS `dynamiccredentials`;
 CREATE TABLE `dynamiccredentials` (
   `id_dc` int(11) NOT NULL auto_increment,
   `name_dc` varchar(255) NOT NULL,
   PRIMARY KEY  (`id_dc`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `dynamiccredentialsgroups`
--- 
+--
 
 DROP TABLE IF EXISTS `dynamiccredentialsgroups`;
 CREATE TABLE `dynamiccredentialsgroups` (
@@ -118,13 +118,13 @@ CREATE TABLE `dynamiccredentialsgroups` (
   `handler_group` varchar(255) default NULL,
   `id_group` varchar(255) default NULL,
   PRIMARY KEY  (`id_dcg`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `dynamiccredentialsvalues`
--- 
+--
 
 DROP TABLE IF EXISTS `dynamiccredentialsvalues`;
 CREATE TABLE `dynamiccredentialsvalues` (
@@ -133,13 +133,13 @@ CREATE TABLE `dynamiccredentialsvalues` (
   `id_dc` int(11) NOT NULL,
   `level_dcv` int(11) default NULL,
   PRIMARY KEY  (`id_dcv`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_animateurs`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_animateurs`;
 CREATE TABLE `kernel_animateurs` (
@@ -157,24 +157,24 @@ CREATE TABLE `kernel_animateurs` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_animateurs2regroupements`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_animateurs2regroupements`;
 CREATE TABLE `kernel_animateurs2regroupements` (
   `user_type` varchar(10) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `regroupement_type` ENUM('villes', 'ecoles') NOT NULL,
+  `regroupement_type` enum('villes','ecoles') NOT NULL,
   `regroupement_id` int(11) NOT NULL,
-  PRIMARY KEY  (`user_type`,`user_id`,`regroupement_type`, `regroupement_id`)
+  PRIMARY KEY  (`user_type`,`user_id`,`regroupement_type`,`regroupement_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_annee_scolaire`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_annee_scolaire`;
 CREATE TABLE `kernel_bu_annee_scolaire` (
@@ -188,9 +188,9 @@ CREATE TABLE `kernel_bu_annee_scolaire` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_auth`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_auth`;
 CREATE TABLE `kernel_bu_auth` (
@@ -203,9 +203,9 @@ CREATE TABLE `kernel_bu_auth` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_civilite`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_civilite`;
 CREATE TABLE `kernel_bu_civilite` (
@@ -213,13 +213,13 @@ CREATE TABLE `kernel_bu_civilite` (
   `civilite` varchar(15) NOT NULL default '',
   `civ_court` varchar(5) NOT NULL default '',
   PRIMARY KEY  (`id_civ`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_classe_niveau`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_classe_niveau`;
 CREATE TABLE `kernel_bu_classe_niveau` (
@@ -229,88 +229,88 @@ CREATE TABLE `kernel_bu_classe_niveau` (
   `niveau_court` varchar(4) NOT NULL default '',
   PRIMARY KEY  (`id_n`),
   KEY `id_cycle` (`id_cycle`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_classe_type`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_classe_type`;
 CREATE TABLE `kernel_bu_classe_type` (
   `id_tycla` tinyint(4) NOT NULL auto_increment,
   `type_classe` varchar(30) NOT NULL default '',
   PRIMARY KEY  (`id_tycla`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_cycle`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_cycle`;
 CREATE TABLE `kernel_bu_cycle` (
   `id_c` tinyint(4) NOT NULL auto_increment,
   `cycle` varchar(10) NOT NULL default '',
   PRIMARY KEY  (`id_c`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_ecole`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_ecole`;
 CREATE TABLE `kernel_bu_ecole` (
   `numero` int(11) NOT NULL auto_increment,
-  `RNE` varchar(10) NOT NULL default '',
-  `code_ecole_vaccination` varchar(15) NOT NULL default '',
-  `type` varchar(25) NOT NULL default '',
-  `nom` varchar(50) NOT NULL default '',
-  `num_rue` varchar(5) NOT NULL default '',
+  `RNE` varchar(10) default NULL,
+  `code_ecole_vaccination` varchar(15) default NULL,
+  `type` varchar(32) default 'Primaire',
+  `nom` varchar(50) NOT NULL,
+  `num_rue` varchar(5) default NULL,
   `num_seq` varchar(10) default NULL,
-  `adresse1` varchar(100) NOT NULL default '',
-  `adresse2` varchar(100) NOT NULL default '',
-  `code_postal` varchar(8) NOT NULL default '',
-  `commune` varchar(100) NOT NULL default '',
-  `tel` varchar(15) NOT NULL default '',
+  `adresse1` varchar(100) default NULL,
+  `adresse2` varchar(100) default NULL,
+  `code_postal` varchar(8) default NULL,
+  `commune` varchar(100) default NULL,
+  `tel` varchar(15) default NULL,
   `web` varchar(80) default NULL,
   `mail` varchar(80) default NULL,
   `num_intranet` int(11) default NULL,
-  `numordre` int(11) NOT NULL default '0',
-  `num_plan_interactif` int(11) NOT NULL default '0',
-  `id_ville` int(11) NOT NULL default '0',
+  `numordre` int(11) default '0',
+  `num_plan_interactif` int(11) default '0',
+  `id_ville` int(11) default '0',
   PRIMARY KEY  (`numero`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_ecole_classe`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_ecole_classe`;
 CREATE TABLE `kernel_bu_ecole_classe` (
   `id` int(11) NOT NULL auto_increment,
   `ecole` int(11) NOT NULL default '0',
   `nom` varchar(50) NOT NULL default '',
-  `annee_scol` int(11) NOT NULL default '2006',
+  `annee_scol` int(11) NOT NULL default '0',
   `is_validee` tinyint(1) NOT NULL default '0',
   `is_supprimee` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `ecole` (`ecole`),
   KEY `is_validee` (`is_validee`),
   KEY `is_supprimee` (`is_supprimee`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_ecole_classe_niveau`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_ecole_classe_niveau`;
 CREATE TABLE `kernel_bu_ecole_classe_niveau` (
@@ -323,37 +323,37 @@ CREATE TABLE `kernel_bu_ecole_classe_niveau` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve`;
 CREATE TABLE `kernel_bu_eleve` (
   `idEleve` int(11) NOT NULL auto_increment,
-  `numero` varchar(22) NOT NULL default '',
+  `numero` varchar(22) default NULL,
   `INE` varchar(20) default NULL,
-  `nom` varchar(50) NOT NULL default '',
+  `nom` varchar(50) NOT NULL,
   `nom_jf` varchar(50) default NULL,
-  `prenom1` varchar(50) NOT NULL default '',
+  `prenom1` varchar(50) NOT NULL,
   `prenom2` varchar(50) default NULL,
   `prenom3` varchar(50) default NULL,
-  `civilite` varchar(15) NOT NULL default '',
-  `id_sexe` int(11) NOT NULL default '0',
+  `civilite` varchar(15) default NULL,
+  `id_sexe` int(11) default '0',
   `pays_nais` varchar(50) default NULL,
   `nationalite` int(11) default NULL,
   `dep_nais` varchar(10) default NULL,
   `com_nais` varchar(100) default NULL,
   `date_nais` date default NULL,
   `annee_france` int(11) default NULL,
-  `num_rue` varchar(5) NOT NULL default '',
+  `num_rue` varchar(5) default NULL,
   `num_seq` varchar(10) default NULL,
-  `adresse1` varchar(100) NOT NULL default '',
+  `adresse1` varchar(100) default NULL,
   `adresse2` varchar(100) default NULL,
-  `code_postal` varchar(8) NOT NULL default '',
-  `commune` varchar(100) NOT NULL default '',
-  `id_ville` int(11) NOT NULL default '0',
-  `pays` int(11) NOT NULL default '1',
-  `hors_scol` tinyint(4) NOT NULL default '0',
+  `code_postal` varchar(8) default NULL,
+  `commune` varchar(100) default NULL,
+  `id_ville` int(11) default '0',
+  `pays` int(11) default '1',
+  `hors_scol` tinyint(4) default '0',
   `id_directeur` varchar(10) default NULL,
   `observations` varchar(255) default NULL,
   `flag` int(11) NOT NULL default '0',
@@ -370,13 +370,13 @@ CREATE TABLE `kernel_bu_eleve` (
   KEY `adresse1` (`adresse1`),
   KEY `commune` (`commune`),
   KEY `flag` (`flag`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve_admission`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve_admission`;
 CREATE TABLE `kernel_bu_eleve_admission` (
@@ -396,13 +396,13 @@ CREATE TABLE `kernel_bu_eleve_admission` (
   KEY `annee_scol` (`annee_scol`),
   KEY `etat_eleve` (`etat_eleve`),
   KEY `code_radiation` (`code_radiation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve_affectation`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve_affectation`;
 CREATE TABLE `kernel_bu_eleve_affectation` (
@@ -419,13 +419,13 @@ CREATE TABLE `kernel_bu_eleve_affectation` (
   KEY `annee_scol` (`annee_scol`),
   KEY `classe` (`classe`),
   KEY `niveau` (`niveau`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve_classe_mvt`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve_classe_mvt`;
 CREATE TABLE `kernel_bu_eleve_classe_mvt` (
@@ -440,22 +440,22 @@ CREATE TABLE `kernel_bu_eleve_classe_mvt` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve_etat`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve_etat`;
 CREATE TABLE `kernel_bu_eleve_etat` (
   `id_ee` int(11) NOT NULL auto_increment,
   `lib_etat` varchar(20) NOT NULL default '',
   PRIMARY KEY  (`id_ee`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve_inscription`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve_inscription`;
 CREATE TABLE `kernel_bu_eleve_inscription` (
@@ -490,13 +490,13 @@ CREATE TABLE `kernel_bu_eleve_inscription` (
   KEY `id_typ_cla` (`id_typ_cla`),
   KEY `vaccins_aj` (`vaccins_aj`),
   KEY `temporaire` (`temporaire`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve_periscolaire`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve_periscolaire`;
 CREATE TABLE `kernel_bu_eleve_periscolaire` (
@@ -516,13 +516,13 @@ CREATE TABLE `kernel_bu_eleve_periscolaire` (
   KEY `eleve` (`eleve`),
   KEY `etablissement` (`etablissement`),
   KEY `annee_scol` (`annee_scol`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_eleve_vaccins`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_eleve_vaccins`;
 CREATE TABLE `kernel_bu_eleve_vaccins` (
@@ -564,9 +564,9 @@ CREATE TABLE `kernel_bu_eleve_vaccins` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_geo_departements`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_geo_departements`;
 CREATE TABLE `kernel_bu_geo_departements` (
@@ -589,9 +589,9 @@ CREATE TABLE `kernel_bu_geo_departements` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_groupe_villes`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_groupe_villes`;
 CREATE TABLE `kernel_bu_groupe_villes` (
@@ -599,26 +599,26 @@ CREATE TABLE `kernel_bu_groupe_villes` (
   `nom_groupe` varchar(150) NOT NULL default '',
   `date_creation` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id_grv`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_lien_parental`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_lien_parental`;
 CREATE TABLE `kernel_bu_lien_parental` (
   `id_pa` tinyint(4) NOT NULL auto_increment,
   `parente` varchar(30) NOT NULL default '',
   PRIMARY KEY  (`id_pa`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_nationalite`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_nationalite`;
 CREATE TABLE `kernel_bu_nationalite` (
@@ -626,13 +626,13 @@ CREATE TABLE `kernel_bu_nationalite` (
   `nationalite` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `nationalite` (`nationalite`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_organisme`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_organisme`;
 CREATE TABLE `kernel_bu_organisme` (
@@ -649,13 +649,13 @@ CREATE TABLE `kernel_bu_organisme` (
   PRIMARY KEY  (`numero`),
   KEY `commune` (`commune`),
   KEY `nom` (`nom`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_pays`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_pays`;
 CREATE TABLE `kernel_bu_pays` (
@@ -663,13 +663,13 @@ CREATE TABLE `kernel_bu_pays` (
   `pays` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id`),
   KEY `nationalite` (`pays`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_pcs`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_pcs`;
 CREATE TABLE `kernel_bu_pcs` (
@@ -680,18 +680,18 @@ CREATE TABLE `kernel_bu_pcs` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_personnel`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_personnel`;
 CREATE TABLE `kernel_bu_personnel` (
   `numero` int(11) NOT NULL auto_increment,
-  `nom` varchar(50) NOT NULL default '',
+  `nom` varchar(50) NOT NULL,
   `nom_jf` varchar(50) default NULL,
-  `prenom1` varchar(50) NOT NULL default '',
-  `civilite` varchar(15) NOT NULL default '',
-  `id_sexe` int(11) NOT NULL default '0',
+  `prenom1` varchar(50) default NULL,
+  `civilite` varchar(15) default NULL,
+  `id_sexe` int(11) default '0',
   `date_nais` date default NULL,
   `cle_privee` varchar(128) default NULL,
   `profession` varchar(80) default NULL,
@@ -699,14 +699,14 @@ CREATE TABLE `kernel_bu_personnel` (
   `tel_gsm` varchar(15) default NULL,
   `tel_pro` varchar(15) default NULL,
   `mel` varchar(80) default NULL,
-  `num_rue` varchar(5) NOT NULL default '',
+  `num_rue` varchar(5) default NULL,
   `num_seq` varchar(10) default NULL,
-  `adresse1` varchar(100) NOT NULL default '',
+  `adresse1` varchar(100) default NULL,
   `adresse2` varchar(100) default NULL,
-  `code_postal` varchar(8) NOT NULL default '',
-  `commune` varchar(100) NOT NULL default '',
-  `id_ville` int(11) NOT NULL default '0',
-  `pays` int(11) NOT NULL default '1',
+  `code_postal` varchar(8) default NULL,
+  `commune` varchar(100) default NULL,
+  `id_ville` int(11) default '0',
+  `pays` int(11) default '1',
   `challenge` varchar(128) default NULL,
   `dateChallenge` int(11) default NULL,
   PRIMARY KEY  (`numero`),
@@ -715,13 +715,13 @@ CREATE TABLE `kernel_bu_personnel` (
   KEY `adresse1` (`adresse1`),
   KEY `commune` (`commune`),
   KEY `pays` (`pays`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_personnel_entite`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_personnel_entite`;
 CREATE TABLE `kernel_bu_personnel_entite` (
@@ -734,9 +734,9 @@ CREATE TABLE `kernel_bu_personnel_entite` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_personnel_role`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_personnel_role`;
 CREATE TABLE `kernel_bu_personnel_role` (
@@ -747,13 +747,13 @@ CREATE TABLE `kernel_bu_personnel_role` (
   `priorite` int(11) NOT NULL default '1',
   PRIMARY KEY  (`id_role`),
   KEY `nom_role` (`nom_role`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_radiation`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_radiation`;
 CREATE TABLE `kernel_bu_radiation` (
@@ -764,18 +764,18 @@ CREATE TABLE `kernel_bu_radiation` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_responsable`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_responsable`;
 CREATE TABLE `kernel_bu_responsable` (
   `numero` int(11) NOT NULL auto_increment,
-  `nom` varchar(50) NOT NULL default '',
+  `nom` varchar(50) NOT NULL,
   `nom_jf` varchar(50) default NULL,
-  `prenom1` varchar(50) NOT NULL default '',
-  `civilite` varchar(15) NOT NULL default '',
-  `id_sexe` int(11) NOT NULL default '0',
+  `prenom1` varchar(50) NOT NULL,
+  `civilite` varchar(15) default NULL,
+  `id_sexe` int(11) default '0',
   `id_pcs` int(11) default NULL,
   `profession` varchar(80) default NULL,
   `id_fam` int(11) default NULL,
@@ -783,13 +783,13 @@ CREATE TABLE `kernel_bu_responsable` (
   `tel_gsm` varchar(15) default NULL,
   `tel_pro` varchar(15) default NULL,
   `mel` varchar(80) default NULL,
-  `num_rue` varchar(5) NOT NULL default '',
+  `num_rue` varchar(5) default NULL,
   `num_seq` varchar(10) default NULL,
-  `adresse1` varchar(100) NOT NULL default '',
+  `adresse1` varchar(100) default NULL,
   `adresse2` varchar(100) default NULL,
-  `code_postal` varchar(8) NOT NULL default '',
-  `commune` varchar(100) NOT NULL default '',
-  `id_ville` int(11) NOT NULL default '0',
+  `code_postal` varchar(8) default NULL,
+  `commune` varchar(100) default NULL,
+  `id_ville` int(11) default '0',
   PRIMARY KEY  (`numero`),
   KEY `nom` (`nom`),
   KEY `id_sexe` (`id_sexe`),
@@ -797,13 +797,13 @@ CREATE TABLE `kernel_bu_responsable` (
   KEY `id_fam` (`id_fam`),
   KEY `adresse1` (`adresse1`),
   KEY `commune` (`commune`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_responsables`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_responsables`;
 CREATE TABLE `kernel_bu_responsables` (
@@ -819,13 +819,13 @@ CREATE TABLE `kernel_bu_responsables` (
   KEY `id_responsable` (`id_responsable`),
   KEY `auth_parentale` (`auth_parentale`),
   KEY `id_par` (`id_par`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_rue`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_rue`;
 CREATE TABLE `kernel_bu_rue` (
@@ -838,13 +838,13 @@ CREATE TABLE `kernel_bu_rue` (
   PRIMARY KEY  (`id_voie`),
   KEY `commune` (`commune`),
   KEY `nom_voie` (`nom_voie`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_scolarite`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_scolarite`;
 CREATE TABLE `kernel_bu_scolarite` (
@@ -857,35 +857,35 @@ CREATE TABLE `kernel_bu_scolarite` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_sexe`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_sexe`;
 CREATE TABLE `kernel_bu_sexe` (
   `id_s` tinyint(4) NOT NULL auto_increment,
   `sexe` varchar(10) NOT NULL default '',
   PRIMARY KEY  (`id_s`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_situation_familiale`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_situation_familiale`;
 CREATE TABLE `kernel_bu_situation_familiale` (
   `id_sf` tinyint(4) NOT NULL auto_increment,
   `situation` varchar(20) NOT NULL default '',
   PRIMARY KEY  (`id_sf`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_utilisateurs_bu`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_utilisateurs_bu`;
 CREATE TABLE `kernel_bu_utilisateurs_bu` (
@@ -905,13 +905,13 @@ CREATE TABLE `kernel_bu_utilisateurs_bu` (
   UNIQUE KEY `login` (`login`),
   KEY `profil` (`profil`),
   KEY `login_2` (`login`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_utilisateurs_bu_entite`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_utilisateurs_bu_entite`;
 CREATE TABLE `kernel_bu_utilisateurs_bu_entite` (
@@ -923,22 +923,22 @@ CREATE TABLE `kernel_bu_utilisateurs_bu_entite` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_utilisateurs_bu_profils`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_utilisateurs_bu_profils`;
 CREATE TABLE `kernel_bu_utilisateurs_bu_profils` (
   `id` int(11) NOT NULL auto_increment,
   `profil_nom` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_bu_ville`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_bu_ville`;
 CREATE TABLE `kernel_bu_ville` (
@@ -950,13 +950,27 @@ CREATE TABLE `kernel_bu_ville` (
   PRIMARY KEY  (`id_vi`),
   UNIQUE KEY `canon` (`canon`),
   KEY `nom` (`nom`,`id_grville`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=0 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 PACK_KEYS=0;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `kernel_conf_user`
+--
+
+DROP TABLE IF EXISTS `kernel_conf_user`;
+CREATE TABLE `kernel_conf_user` (
+  `path` varchar(255) NOT NULL,
+  `id_dbuser` int(11) NOT NULL,
+  `value` varchar(255) NOT NULL,
+  PRIMARY KEY  (`path`,`id_dbuser`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `kernel_conf_uservisibility`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_conf_uservisibility`;
 CREATE TABLE `kernel_conf_uservisibility` (
@@ -968,9 +982,9 @@ CREATE TABLE `kernel_conf_uservisibility` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_ext_user`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_ext_user`;
 CREATE TABLE `kernel_ext_user` (
@@ -979,13 +993,13 @@ CREATE TABLE `kernel_ext_user` (
   `prenom` varchar(255) NOT NULL default '',
   `description` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_limits_urls`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_limits_urls`;
 CREATE TABLE `kernel_limits_urls` (
@@ -996,13 +1010,13 @@ CREATE TABLE `kernel_limits_urls` (
   `ville` varchar(50) default NULL,
   PRIMARY KEY  (`id`),
   KEY `url` (`url`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_link_bu2user`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_link_bu2user`;
 CREATE TABLE `kernel_link_bu2user` (
@@ -1014,9 +1028,9 @@ CREATE TABLE `kernel_link_bu2user` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_link_groupe2node`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_link_groupe2node`;
 CREATE TABLE `kernel_link_groupe2node` (
@@ -1028,9 +1042,9 @@ CREATE TABLE `kernel_link_groupe2node` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_link_user2node`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_link_user2node`;
 CREATE TABLE `kernel_link_user2node` (
@@ -1046,9 +1060,9 @@ CREATE TABLE `kernel_link_user2node` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_mod_available`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_mod_available`;
 CREATE TABLE `kernel_mod_available` (
@@ -1059,9 +1073,9 @@ CREATE TABLE `kernel_mod_available` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_mod_enabled`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_mod_enabled`;
 CREATE TABLE `kernel_mod_enabled` (
@@ -1074,9 +1088,9 @@ CREATE TABLE `kernel_mod_enabled` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_sso_challenges`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_sso_challenges`;
 CREATE TABLE `kernel_sso_challenges` (
@@ -1088,9 +1102,9 @@ CREATE TABLE `kernel_sso_challenges` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `kernel_sso_users`
--- 
+--
 
 DROP TABLE IF EXISTS `kernel_sso_users`;
 CREATE TABLE `kernel_sso_users` (
@@ -1099,7 +1113,7 @@ CREATE TABLE `kernel_sso_users` (
   `cle_privee` varchar(50) NOT NULL,
   PRIMARY KEY  (`id_sso`),
   KEY `login` (`login`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -1108,7 +1122,7 @@ CREATE TABLE `kernel_sso_users` (
 --
 
 DROP TABLE IF EXISTS `kernel_version_bdd`;
-CREATE TABLE IF NOT EXISTS `kernel_version_bdd` (
+CREATE TABLE `kernel_version_bdd` (
   `id` smallint(6) NOT NULL auto_increment,
   `version` smallint(6) NOT NULL,
   `date` varchar(14) NOT NULL,
@@ -1116,13 +1130,91 @@ CREATE TABLE IF NOT EXISTS `kernel_version_bdd` (
   PRIMARY KEY  (`id`),
   KEY `version` (`version`),
   KEY `date` (`date`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `modulecredentials`
+--
+
+DROP TABLE IF EXISTS `modulecredentials`;
+CREATE TABLE `modulecredentials` (
+  `id_mc` int(11) NOT NULL auto_increment,
+  `module_mc` varchar(255) default NULL,
+  `name_mc` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id_mc`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `modulecredentialsgroups`
+--
+
+DROP TABLE IF EXISTS `modulecredentialsgroups`;
+CREATE TABLE `modulecredentialsgroups` (
+  `id_mcg` int(11) NOT NULL auto_increment,
+  `id_mc` int(11) NOT NULL,
+  `id_mcv` int(11) default NULL,
+  `handler_group` varchar(255) default NULL,
+  `id_group` varchar(255) default NULL,
+  PRIMARY KEY  (`id_mcg`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `modulecredentialsoverpass`
+--
+
+DROP TABLE IF EXISTS `modulecredentialsoverpass`;
+CREATE TABLE `modulecredentialsoverpass` (
+  `id_mco` int(11) NOT NULL auto_increment,
+  `id_mc` int(11) default NULL,
+  `overpass_id_mc` int(11) default NULL,
+  `overpath_id_mc` int(11) default NULL,
+  PRIMARY KEY  (`id_mco`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `modulecredentialsvalues`
+--
+
+DROP TABLE IF EXISTS `modulecredentialsvalues`;
+CREATE TABLE `modulecredentialsvalues` (
+  `id_mcv` int(11) NOT NULL auto_increment,
+  `value_mcv` varchar(255) NOT NULL,
+  `id_mc` int(11) NOT NULL,
+  `level_mcv` int(11) default NULL,
+  PRIMARY KEY  (`id_mcv`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_admindash`
+--
+
+DROP TABLE IF EXISTS `module_admindash`;
+CREATE TABLE `module_admindash` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `content` text,
+  `picture` varchar(255) default NULL,
+  `id_zone` int(11) unsigned NOT NULL,
+  `type_zone` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `id_zone` (`id_zone`),
+  KEY `type_zone` (`type_zone`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_agenda_agenda`
--- 
+--
 
 DROP TABLE IF EXISTS `module_agenda_agenda`;
 CREATE TABLE `module_agenda_agenda` (
@@ -1131,13 +1223,13 @@ CREATE TABLE `module_agenda_agenda` (
   `desc_agenda` varchar(255) default '',
   `type_agenda` int(2) NOT NULL default '0',
   PRIMARY KEY  (`id_agenda`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_agenda_event`
--- 
+--
 
 DROP TABLE IF EXISTS `module_agenda_event`;
 CREATE TABLE `module_agenda_event` (
@@ -1157,13 +1249,13 @@ CREATE TABLE `module_agenda_event` (
   `everyyear_event` int(1) NOT NULL default '0',
   `endrepeatdate_event` varchar(8) default '',
   PRIMARY KEY  (`id_event`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_agenda_lecon`
--- 
+--
 
 DROP TABLE IF EXISTS `module_agenda_lecon`;
 CREATE TABLE `module_agenda_lecon` (
@@ -1172,13 +1264,28 @@ CREATE TABLE `module_agenda_lecon` (
   `desc_lecon` text,
   `date_lecon` varchar(8) default '',
   PRIMARY KEY  (`id_lecon`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_agenda_work`
+--
+
+DROP TABLE IF EXISTS `module_agenda_work`;
+CREATE TABLE `module_agenda_work` (
+  `module_cahierdetextes_travail_id` int(11) NOT NULL,
+  `module_agenda_agenda_id_agenda` int(11) NOT NULL,
+  PRIMARY KEY  (`module_cahierdetextes_travail_id`,`module_agenda_agenda_id_agenda`),
+  KEY `fk_travail` (`module_cahierdetextes_travail_id`),
+  KEY `fk_agenda` (`module_agenda_agenda_id_agenda`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_album_albums`
--- 
+--
 
 DROP TABLE IF EXISTS `module_album_albums`;
 CREATE TABLE `module_album_albums` (
@@ -1189,13 +1296,13 @@ CREATE TABLE `module_album_albums` (
   `cle` varchar(10) NOT NULL default '',
   `public` tinyint(4) default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_album_dossiers`
--- 
+--
 
 DROP TABLE IF EXISTS `module_album_dossiers`;
 CREATE TABLE `module_album_dossiers` (
@@ -1208,13 +1315,13 @@ CREATE TABLE `module_album_dossiers` (
   `cle` varchar(10) NOT NULL,
   `public` tinyint(4) NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_album_photos`
--- 
+--
 
 DROP TABLE IF EXISTS `module_album_photos`;
 CREATE TABLE `module_album_photos` (
@@ -1229,36 +1336,36 @@ CREATE TABLE `module_album_photos` (
   `public` tinyint(4) default '0',
   PRIMARY KEY  (`id`),
   KEY `id_album` (`id_album`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_blog`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog`;
 CREATE TABLE `module_blog` (
-  `id_blog` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name_blog` varchar(100) NOT NULL DEFAULT '',
-  `id_ctpt` bigint(20) NOT NULL DEFAULT '0',
-  `logo_blog` varchar(100) DEFAULT NULL,
-  `url_blog` varchar(100) DEFAULT NULL,
-  `style_blog_file` tinyint(4) NOT NULL DEFAULT '0',
-  `is_public` tinyint(4) NOT NULL DEFAULT '1',
-  `has_comments_activated` tinyint(1) NOT NULL DEFAULT '0',
-  `type_moderation_comments` varchar(5) NOT NULL DEFAULT 'POST',
-  `default_format_articles` varchar(10) NOT NULL DEFAULT 'wiki',
-  `template` varchar(30) DEFAULT NULL COMMENT 'Template a utiliser, si different de blog_main.tpl',
-  PRIMARY KEY (`id_blog`),
+  `id_blog` bigint(20) NOT NULL auto_increment,
+  `name_blog` varchar(100) NOT NULL default '',
+  `id_ctpt` bigint(20) NOT NULL default '0',
+  `logo_blog` varchar(100) default NULL,
+  `url_blog` varchar(100) default NULL,
+  `style_blog_file` tinyint(4) NOT NULL default '0',
+  `is_public` tinyint(4) NOT NULL default '1',
+  `has_comments_activated` tinyint(1) NOT NULL default '0',
+  `type_moderation_comments` varchar(5) NOT NULL default 'POST',
+  `default_format_articles` varchar(10) NOT NULL default 'wiki',
+  `template` varchar(30) default NULL COMMENT 'Template a utiliser, si different de blog_main.tpl',
+  PRIMARY KEY  (`id_blog`),
   KEY `url_blog` (`url_blog`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_blog_article`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog_article`;
 CREATE TABLE `module_blog_article` (
@@ -1279,26 +1386,13 @@ CREATE TABLE `module_blog_article` (
   PRIMARY KEY  (`id_bact`),
   KEY `is_online` (`is_online`),
   KEY `id_blog` (`id_blog`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
--- Structure de la table `module_blog_article_blogarticlecategory`
--- 
-
-DROP TABLE IF EXISTS `module_blog_article_blogarticlecategory`;
-CREATE TABLE `module_blog_article_blogarticlecategory` (
-  `id_bact` bigint(20) NOT NULL default '0',
-  `id_bacg` bigint(20) NOT NULL default '0',
-  PRIMARY KEY  (`id_bact`,`id_bacg`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
+--
 -- Structure de la table `module_blog_articlecategory`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog_articlecategory`;
 CREATE TABLE `module_blog_articlecategory` (
@@ -1310,19 +1404,19 @@ CREATE TABLE `module_blog_articlecategory` (
   PRIMARY KEY  (`id_bacg`),
   KEY `id_blog` (`id_blog`),
   KEY `order_bacg` (`order_bacg`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_blog_articlecomment`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog_articlecomment`;
 CREATE TABLE `module_blog_articlecomment` (
   `id_bacc` bigint(20) NOT NULL auto_increment,
   `id_bact` bigint(20) NOT NULL default '0',
-  `authorid_bacc` int(11) NULL default NULL,
+  `authorid_bacc` int(11) default NULL,
   `authorname_bacc` varchar(50) NOT NULL default '',
   `authoremail_bacc` varchar(50) default NULL,
   `authorweb_bacc` varchar(100) default NULL,
@@ -1335,13 +1429,26 @@ CREATE TABLE `module_blog_articlecomment` (
   KEY `authorid_bacc` (`authorid_bacc`),
   KEY `is_online` (`is_online`),
   KEY `id_bact` (`id_bact`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_blog_article_blogarticlecategory`
+--
+
+DROP TABLE IF EXISTS `module_blog_article_blogarticlecategory`;
+CREATE TABLE `module_blog_article_blogarticlecategory` (
+  `id_bact` bigint(20) NOT NULL default '0',
+  `id_bacg` bigint(20) NOT NULL default '0',
+  PRIMARY KEY  (`id_bact`,`id_bacg`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_blog_fluxrss`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog_fluxrss`;
 CREATE TABLE `module_blog_fluxrss` (
@@ -1353,13 +1460,13 @@ CREATE TABLE `module_blog_fluxrss` (
   PRIMARY KEY  (`id_bfrs`),
   KEY `id_blog` (`id_blog`),
   KEY `order_bfrs` (`order_bfrs`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_blog_functions`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog_functions`;
 CREATE TABLE `module_blog_functions` (
@@ -1376,9 +1483,9 @@ CREATE TABLE `module_blog_functions` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_blog_link`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog_link`;
 CREATE TABLE `module_blog_link` (
@@ -1390,13 +1497,13 @@ CREATE TABLE `module_blog_link` (
   PRIMARY KEY  (`id_blnk`),
   KEY `id_blog` (`id_blog`),
   KEY `order_blnk` (`order_blnk`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_blog_page`
--- 
+--
 
 DROP TABLE IF EXISTS `module_blog_page`;
 CREATE TABLE `module_blog_page` (
@@ -1415,13 +1522,143 @@ CREATE TABLE `module_blog_page` (
   KEY `id_blog` (`id_blog`),
   KEY `order_bpge` (`order_bpge`),
   KEY `is_online` (`is_online`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_cahierdetextes`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes`;
+CREATE TABLE `module_cahierdetextes` (
+  `id` int(11) NOT NULL auto_increment,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_domaine`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes_domaine`;
+CREATE TABLE `module_cahierdetextes_domaine` (
+  `id` int(11) NOT NULL auto_increment,
+  `kernel_bu_ecole_classe_id` int(11) NOT NULL,
+  `nom` varchar(64) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `fk_classe` (`kernel_bu_ecole_classe_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_memo`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes_memo`;
+CREATE TABLE `module_cahierdetextes_memo` (
+  `id` int(11) NOT NULL auto_increment,
+  `kernel_bu_ecole_classe_id` int(11) NOT NULL,
+  `date_creation` varchar(14) NOT NULL,
+  `date_validite` varchar(14) NOT NULL,
+  `message` text NOT NULL,
+  `avec_signature` tinyint(1) NOT NULL default '0',
+  `date_max_signature` varchar(14) default NULL,
+  `supprime` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `fk_classe` (`kernel_bu_ecole_classe_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_memo2eleve`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes_memo2eleve`;
+CREATE TABLE `module_cahierdetextes_memo2eleve` (
+  `module_cahierdetextes_memo_id` int(11) NOT NULL,
+  `kernel_bu_eleve_idEleve` int(11) NOT NULL,
+  `signe_le` varchar(14) default NULL,
+  `commentaire` varchar(255) default NULL,
+  PRIMARY KEY  (`module_cahierdetextes_memo_id`,`kernel_bu_eleve_idEleve`),
+  KEY `fk_memo` (`module_cahierdetextes_memo_id`),
+  KEY `fk_eleve` (`kernel_bu_eleve_idEleve`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_memo2files`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes_memo2files`;
+CREATE TABLE `module_cahierdetextes_memo2files` (
+  `module_cahierdetextes_memo_id` int(11) NOT NULL,
+  `module_files_type` varchar(64) NOT NULL,
+  `module_malle_files_id` int(11) NOT NULL,
+  PRIMARY KEY  (`module_cahierdetextes_memo_id`,`module_malle_files_id`),
+  KEY `fk_memo` (`module_cahierdetextes_memo_id`),
+  KEY `fk_files` (`module_malle_files_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_travail`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes_travail`;
+CREATE TABLE `module_cahierdetextes_travail` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_cahierdetextes_domaine_id` int(11) NOT NULL,
+  `a_faire` tinyint(1) NOT NULL default '0',
+  `date_creation` varchar(14) NOT NULL,
+  `date_realisation` varchar(14) default NULL,
+  `description` text NOT NULL,
+  `supprime` tinyint(1) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `fk_domaine` (`module_cahierdetextes_domaine_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_travail2eleve`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes_travail2eleve`;
+CREATE TABLE `module_cahierdetextes_travail2eleve` (
+  `module_cahierdetextes_travail_id` int(11) NOT NULL,
+  `kernel_bu_eleve_idEleve` int(11) NOT NULL,
+  PRIMARY KEY  (`module_cahierdetextes_travail_id`,`kernel_bu_eleve_idEleve`),
+  KEY `fk_travail` (`module_cahierdetextes_travail_id`),
+  KEY `fk_eleve` (`kernel_bu_eleve_idEleve`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_cahierdetextes_travail2files`
+--
+
+DROP TABLE IF EXISTS `module_cahierdetextes_travail2files`;
+CREATE TABLE `module_cahierdetextes_travail2files` (
+  `module_cahierdetextes_travail_id` int(11) NOT NULL,
+  `module_files_type` varchar(64) NOT NULL,
+  `module_malle_files_id` int(11) NOT NULL,
+  PRIMARY KEY  (`module_cahierdetextes_travail_id`,`module_malle_files_id`),
+  KEY `fk_travail` (`module_cahierdetextes_travail_id`),
+  KEY `fk_files` (`module_malle_files_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_carnet_messages`
--- 
+--
 
 DROP TABLE IF EXISTS `module_carnet_messages`;
 CREATE TABLE `module_carnet_messages` (
@@ -1436,13 +1673,13 @@ CREATE TABLE `module_carnet_messages` (
   KEY `topic` (`topic`),
   KEY `eleve` (`eleve`),
   KEY `date` (`date`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_carnet_topics`
--- 
+--
 
 DROP TABLE IF EXISTS `module_carnet_topics`;
 CREATE TABLE `module_carnet_topics` (
@@ -1457,13 +1694,13 @@ CREATE TABLE `module_carnet_topics` (
   KEY `createur` (`createur`),
   KEY `classe` (`classe`),
   KEY `date_creation` (`date_creation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_carnet_topics_to`
--- 
+--
 
 DROP TABLE IF EXISTS `module_carnet_topics_to`;
 CREATE TABLE `module_carnet_topics_to` (
@@ -1474,9 +1711,9 @@ CREATE TABLE `module_carnet_topics_to` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_carnet_tracking`
--- 
+--
 
 DROP TABLE IF EXISTS `module_carnet_tracking`;
 CREATE TABLE `module_carnet_tracking` (
@@ -1490,9 +1727,168 @@ CREATE TABLE `module_carnet_tracking` (
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_charte_chartes`
+--
+
+DROP TABLE IF EXISTS `module_charte_chartes`;
+CREATE TABLE `module_charte_chartes` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_type` varchar(75) NOT NULL,
+  `file_url` varchar(500) NOT NULL,
+  `file_id` int(11) unsigned default NULL,
+  `active` tinyint(2) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `user_type` (`user_type`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_charte_users_validation`
+--
+
+DROP TABLE IF EXISTS `module_charte_users_validation`;
+CREATE TABLE `module_charte_users_validation` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) unsigned NOT NULL,
+  `date` int(11) unsigned NOT NULL,
+  `charte_id` int(11) unsigned NOT NULL,
+  `user_type` varchar(75) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_classeur`
+--
+
+DROP TABLE IF EXISTS `module_classeur`;
+CREATE TABLE `module_classeur` (
+  `id` int(11) NOT NULL auto_increment,
+  `titre` varchar(255) default NULL,
+  `cle` varchar(10) NOT NULL,
+  `date_creation` datetime NOT NULL,
+  `date_publication` datetime default NULL,
+  `public` tinyint(4) default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_classeur_dossier`
+--
+
+DROP TABLE IF EXISTS `module_classeur_dossier`;
+CREATE TABLE `module_classeur_dossier` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_classeur_id` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL default '0',
+  `nom` varchar(255) NOT NULL,
+  `nb_dossiers` int(11) NOT NULL default '0',
+  `nb_fichiers` int(11) NOT NULL default '0',
+  `taille` int(11) NOT NULL default '0',
+  `cle` varchar(10) NOT NULL,
+  `date_creation` datetime NOT NULL,
+  `user_type` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `date_publication` datetime default NULL,
+  `public` tinyint(4) default '0',
+  PRIMARY KEY  (`id`),
+  KEY `fk_classeur` (`module_classeur_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_classeur_fichier`
+--
+
+DROP TABLE IF EXISTS `module_classeur_fichier`;
+CREATE TABLE `module_classeur_fichier` (
+  `id` int(11) NOT NULL auto_increment,
+  `module_classeur_id` int(11) NOT NULL,
+  `module_classeur_dossier_id` int(11) NOT NULL,
+  `titre` varchar(255) default NULL,
+  `commentaire` varchar(255) default NULL,
+  `fichier` varchar(255) NOT NULL,
+  `taille` int(11) NOT NULL,
+  `type` varchar(64) NOT NULL,
+  `cle` varchar(10) NOT NULL,
+  `date_upload` datetime NOT NULL,
+  `user_type` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `fk_dossier` (`module_classeur_dossier_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_contacts`
+--
+
+DROP TABLE IF EXISTS `module_contacts`;
+CREATE TABLE `module_contacts` (
+  `id` int(11) NOT NULL auto_increment,
+  `titre` varchar(100) NOT NULL,
+  `email` varchar(255) default NULL COMMENT 'Email du destinataire. Si plusieurs, separer par des virgules',
+  `date_creation` datetime NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_contacts_messages`
+--
+
+DROP TABLE IF EXISTS `module_contacts_messages`;
+CREATE TABLE `module_contacts_messages` (
+  `id` int(11) NOT NULL auto_increment,
+  `contact` int(11) NOT NULL,
+  `from_nom` varchar(150) NOT NULL,
+  `from_email` varchar(150) NOT NULL,
+  `from_login` varchar(32) default NULL,
+  `from_user_id` int(11) default NULL,
+  `to_email` varchar(255) default NULL,
+  `type` int(11) NOT NULL,
+  `message` text NOT NULL,
+  `ip` varchar(20) NOT NULL,
+  `date` datetime NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `contact` (`contact`),
+  KEY `type` (`type`),
+  KEY `from_user_id` (`from_user_id`),
+  KEY `date` (`date`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_contacts_types`
+--
+
+DROP TABLE IF EXISTS `module_contacts_types`;
+CREATE TABLE `module_contacts_types` (
+  `id` int(11) NOT NULL auto_increment,
+  `contact` int(11) NOT NULL,
+  `nom` varchar(50) NOT NULL,
+  `is_default` tinyint(4) default NULL,
+  `ordre` smallint(6) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `contact` (`contact`),
+  KEY `ordre` (`ordre`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_fiches_ecoles`
--- 
+--
 
 DROP TABLE IF EXISTS `module_fiches_ecoles`;
 CREATE TABLE `module_fiches_ecoles` (
@@ -1509,16 +1905,16 @@ CREATE TABLE `module_fiches_ecoles` (
   `zone4_titre` varchar(200) default NULL,
   `zone4_texte` text,
   `photo` varchar(200) default NULL,
-  `doc1_titre` VARCHAR( 200 ) NULL DEFAULT NULL,
-  `doc1_fichier` VARCHAR( 200 ) NULL DEFAULT NULL,
+  `doc1_titre` varchar(200) default NULL,
+  `doc1_fichier` varchar(200) default NULL,
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_forum_forums`
--- 
+--
 
 DROP TABLE IF EXISTS `module_forum_forums`;
 CREATE TABLE `module_forum_forums` (
@@ -1527,13 +1923,13 @@ CREATE TABLE `module_forum_forums` (
   `date_creation` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `date_creation` (`date_creation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_forum_messages`
--- 
+--
 
 DROP TABLE IF EXISTS `module_forum_messages`;
 CREATE TABLE `module_forum_messages` (
@@ -1552,13 +1948,13 @@ CREATE TABLE `module_forum_messages` (
   KEY `status` (`status`),
   KEY `nb_alertes` (`nb_alertes`),
   KEY `auteur` (`auteur`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_forum_topics`
--- 
+--
 
 DROP TABLE IF EXISTS `module_forum_topics`;
 CREATE TABLE `module_forum_topics` (
@@ -1578,13 +1974,13 @@ CREATE TABLE `module_forum_topics` (
   KEY `date_creation` (`date_creation`),
   KEY `status` (`status`),
   KEY `last_msg_date` (`last_msg_date`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_forum_tracking`
--- 
+--
 
 DROP TABLE IF EXISTS `module_forum_tracking`;
 CREATE TABLE `module_forum_tracking` (
@@ -1597,9 +1993,24 @@ CREATE TABLE `module_forum_tracking` (
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_getreq`
+--
+
+DROP TABLE IF EXISTS `module_getreq`;
+CREATE TABLE `module_getreq` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `parent` text NOT NULL,
+  `enfants` text NOT NULL,
+  `date` int(11) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_groupe_groupe`
--- 
+--
 
 DROP TABLE IF EXISTS `module_groupe_groupe`;
 CREATE TABLE `module_groupe_groupe` (
@@ -1610,43 +2021,13 @@ CREATE TABLE `module_groupe_groupe` (
   `createur` int(11) NOT NULL default '0',
   `date_creation` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
--- Structure de la table `module_regroupements_grvilles`
--- 
-
-DROP TABLE IF EXISTS `module_regroupements_grvilles`;
-CREATE TABLE `module_regroupements_grvilles` (
-  `id` int(11) NOT NULL auto_increment,
-  `nom` varchar(255) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_by` varchar(50) NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_regroupements_grvilles2villes`
--- 
-
-DROP TABLE IF EXISTS `module_regroupements_grvilles2villes`;
-CREATE TABLE `module_regroupements_grvilles2villes` (
-      `id_groupe` int(11) NOT NULL,
-      `id_ville` int(11) NOT NULL,
-      `updated_at` datetime NOT NULL,
-      `updated_by` varchar(50) NOT NULL,
-      PRIMARY KEY  (`id_groupe`,`id_ville`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
+--
 -- Structure de la table `module_grvilles_gr2ville`
--- 
+--
 
 DROP TABLE IF EXISTS `module_grvilles_gr2ville`;
 CREATE TABLE `module_grvilles_gr2ville` (
@@ -1660,38 +2041,8 @@ CREATE TABLE `module_grvilles_gr2ville` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `module_regroupements_grecoles`
---
-
-DROP TABLE IF EXISTS `module_regroupements_grecoles`;
-CREATE TABLE module_regroupements_grecoles (
-	id          int(11)      NOT NULL AUTO_INCREMENT,
-	nom         varchar(255) NOT NULL,
-	updated_at  datetime     NOT NULL,
-	updated_by  varchar(49)  NOT NULL,
-	PRIMARY KEY (id)
-) ENGINE=MYISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_regroupements_grecoles2ecoles`
---
-
-DROP TABLE IF EXISTS `module_regroupements_grecoles2ecoles`;
-CREATE TABLE module_regroupements_grecoles2ecoles (
-	id_groupe   int(11) NOT NULL,
-	id_ecole    int(11) NOT NULL,
-	updated_at  datetime NOT NULL,
-	updated_by  varchar(50) NOT NULL,
-	PRIMARY KEY (id_groupe,id_ecole)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
 -- Structure de la table `module_liste_listes`
--- 
+--
 
 DROP TABLE IF EXISTS `module_liste_listes`;
 CREATE TABLE `module_liste_listes` (
@@ -1700,13 +2051,13 @@ CREATE TABLE `module_liste_listes` (
   `date_creation` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `date_creation` (`date_creation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_liste_messages`
--- 
+--
 
 DROP TABLE IF EXISTS `module_liste_messages`;
 CREATE TABLE `module_liste_messages` (
@@ -1718,13 +2069,13 @@ CREATE TABLE `module_liste_messages` (
   `auteur` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`),
   KEY `liste` (`liste`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_logs_logs`
--- 
+--
 
 DROP TABLE IF EXISTS `module_logs_logs`;
 CREATE TABLE `module_logs_logs` (
@@ -1741,13 +2092,13 @@ CREATE TABLE `module_logs_logs` (
   `node_type` varchar(15) default NULL,
   `node_id` int(11) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_magicmail`
--- 
+--
 
 DROP TABLE IF EXISTS `module_magicmail`;
 CREATE TABLE `module_magicmail` (
@@ -1755,13 +2106,37 @@ CREATE TABLE `module_magicmail` (
   `login` varchar(32) NOT NULL default '',
   `domain` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_mailext`
+--
+
+DROP TABLE IF EXISTS `module_mailext`;
+CREATE TABLE `module_mailext` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_id` int(11) unsigned NOT NULL,
+  `protocol` varchar(255) NOT NULL,
+  `server` varchar(255) NOT NULL,
+  `port` int(2) unsigned NOT NULL,
+  `ssl` tinyint(2) unsigned NOT NULL,
+  `tls` tinyint(2) unsigned NOT NULL,
+  `login` varchar(150) NOT NULL,
+  `pass` varchar(150) NOT NULL,
+  `imap_path` varchar(150) default NULL,
+  `name` varchar(150) NOT NULL,
+  `webmail_url` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_id` (`user_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_malle_files`
--- 
+--
 
 DROP TABLE IF EXISTS `module_malle_files`;
 CREATE TABLE `module_malle_files` (
@@ -1778,13 +2153,13 @@ CREATE TABLE `module_malle_files` (
   KEY `malle` (`malle`),
   KEY `folder` (`folder`),
   KEY `nom` (`nom`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_malle_folders`
--- 
+--
 
 DROP TABLE IF EXISTS `module_malle_folders`;
 CREATE TABLE `module_malle_folders` (
@@ -1800,13 +2175,13 @@ CREATE TABLE `module_malle_folders` (
   KEY `malle` (`malle`),
   KEY `parent` (`parent`),
   KEY `nom` (`nom`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_malle_malles`
--- 
+--
 
 DROP TABLE IF EXISTS `module_malle_malles`;
 CREATE TABLE `module_malle_malles` (
@@ -1816,61 +2191,61 @@ CREATE TABLE `module_malle_malles` (
   `cle` varchar(10) NOT NULL,
   PRIMARY KEY  (`id`),
   KEY `date_creation` (`date_creation`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_minimail_from`
--- 
+--
 
-DROP TABLE IF EXISTS module_minimail_from;
-CREATE TABLE IF NOT EXISTS module_minimail_from (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  from_id int(11) NOT NULL DEFAULT '0',
-  title varchar(80) NOT NULL DEFAULT '',
-  message text NOT NULL,
-  format varchar(10) NOT NULL,
-  date_send datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  attachment1 varchar(100) DEFAULT NULL,
-  attachment2 varchar(100) DEFAULT NULL,
-  attachment3 varchar(100) DEFAULT NULL,
-  is_deleted tinyint(4) NOT NULL DEFAULT '0',
-  is_forwarded tinyint(4) DEFAULT NULL,
-  PRIMARY KEY (id),
-  KEY from_id (from_id),
-  KEY date_send (date_send),
-  KEY is_deleted (is_deleted)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `module_minimail_from`;
+CREATE TABLE `module_minimail_from` (
+  `id` int(11) NOT NULL auto_increment,
+  `from_id` int(11) NOT NULL default '0',
+  `title` varchar(80) NOT NULL default '',
+  `message` text NOT NULL,
+  `format` varchar(10) NOT NULL,
+  `date_send` datetime NOT NULL default '0000-00-00 00:00:00',
+  `attachment1` varchar(100) default NULL,
+  `attachment2` varchar(100) default NULL,
+  `attachment3` varchar(100) default NULL,
+  `is_deleted` tinyint(4) NOT NULL default '0',
+  `is_forwarded` tinyint(4) default NULL,
+  PRIMARY KEY  (`id`),
+  KEY `from_id` (`from_id`),
+  KEY `date_send` (`date_send`),
+  KEY `is_deleted` (`is_deleted`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_minimail_to`
--- 
+--
 
-DROP TABLE IF EXISTS module_minimail_to;
-CREATE TABLE IF NOT EXISTS module_minimail_to (
-  id int(11) NOT NULL AUTO_INCREMENT,
-  id_message int(11) NOT NULL DEFAULT '0',
-  to_id int(11) NOT NULL DEFAULT '0',
-  date_read datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
-  is_read tinyint(4) NOT NULL DEFAULT '0',
-  is_replied tinyint(4) NOT NULL DEFAULT '0',
-  is_forwarded tinyint(4) DEFAULT NULL,
-  is_deleted tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (id),
-  KEY id_message (id_message),
-  KEY to_id (to_id),
-  KEY is_read (is_read),
-  KEY is_deleted (is_deleted)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+DROP TABLE IF EXISTS `module_minimail_to`;
+CREATE TABLE `module_minimail_to` (
+  `id` int(11) NOT NULL auto_increment,
+  `id_message` int(11) NOT NULL default '0',
+  `to_id` int(11) NOT NULL default '0',
+  `date_read` datetime NOT NULL default '0000-00-00 00:00:00',
+  `is_read` tinyint(4) NOT NULL default '0',
+  `is_replied` tinyint(4) NOT NULL default '0',
+  `is_forwarded` tinyint(4) default NULL,
+  `is_deleted` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `id_message` (`id_message`),
+  KEY `to_id` (`to_id`),
+  KEY `is_read` (`is_read`),
+  KEY `is_deleted` (`is_deleted`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_prefs_preferences`
--- 
+--
 
 DROP TABLE IF EXISTS `module_prefs_preferences`;
 CREATE TABLE `module_prefs_preferences` (
@@ -1883,22 +2258,169 @@ CREATE TABLE `module_prefs_preferences` (
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_quiz_choices`
+--
+
+DROP TABLE IF EXISTS `module_quiz_choices`;
+CREATE TABLE `module_quiz_choices` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `id_question` int(11) unsigned NOT NULL,
+  `content` text,
+  `correct` tinyint(3) unsigned NOT NULL default '0',
+  `order` int(5) unsigned NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_quiz_groupes`
+--
+
+DROP TABLE IF EXISTS `module_quiz_groupes`;
+CREATE TABLE `module_quiz_groupes` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `title` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_quiz_questions`
+--
+
+DROP TABLE IF EXISTS `module_quiz_questions`;
+CREATE TABLE `module_quiz_questions` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(75) NOT NULL,
+  `id_quiz` int(11) unsigned NOT NULL,
+  `content` text,
+  `order` int(5) unsigned NOT NULL,
+  `opt_type` varchar(75) NOT NULL default 'choice',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_quiz_quiz`
+--
+
+DROP TABLE IF EXISTS `module_quiz_quiz`;
+CREATE TABLE `module_quiz_quiz` (
+  `id` int(4) unsigned NOT NULL auto_increment,
+  `id_owner` int(4) unsigned NOT NULL,
+  `date_start` int(5) unsigned NOT NULL default '0',
+  `date_end` int(5) unsigned NOT NULL default '0',
+  `name` varchar(128) NOT NULL,
+  `description` text,
+  `help` text,
+  `pic` varchar(255) default NULL,
+  `opt_save` varchar(75) NOT NULL,
+  `opt_show_results` varchar(75) NOT NULL,
+  `lock` tinyint(4) NOT NULL default '0',
+  `gr_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `gr_id` (`gr_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_quiz_responses`
+--
+
+DROP TABLE IF EXISTS `module_quiz_responses`;
+CREATE TABLE `module_quiz_responses` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `id_user` int(11) unsigned NOT NULL,
+  `id_choice` int(11) unsigned NOT NULL,
+  `id_question` int(11) unsigned NOT NULL,
+  `date` int(11) unsigned NOT NULL,
+  `txt` varchar(255) default NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_regroupements_grecoles`
+--
+
+DROP TABLE IF EXISTS `module_regroupements_grecoles`;
+CREATE TABLE `module_regroupements_grecoles` (
+  `id` int(11) NOT NULL auto_increment,
+  `nom` varchar(255) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_by` varchar(49) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_regroupements_grecoles2ecoles`
+--
+
+DROP TABLE IF EXISTS `module_regroupements_grecoles2ecoles`;
+CREATE TABLE `module_regroupements_grecoles2ecoles` (
+  `id_groupe` int(11) NOT NULL,
+  `id_ecole` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_by` varchar(50) NOT NULL,
+  PRIMARY KEY  (`id_groupe`,`id_ecole`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_regroupements_grvilles`
+--
+
+DROP TABLE IF EXISTS `module_regroupements_grvilles`;
+CREATE TABLE `module_regroupements_grvilles` (
+  `id` int(11) NOT NULL auto_increment,
+  `nom` varchar(255) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_by` varchar(50) NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_regroupements_grvilles2villes`
+--
+
+DROP TABLE IF EXISTS `module_regroupements_grvilles2villes`;
+CREATE TABLE `module_regroupements_grvilles2villes` (
+  `id_groupe` int(11) NOT NULL,
+  `id_ville` int(11) NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `updated_by` varchar(50) NOT NULL,
+  PRIMARY KEY  (`id_groupe`,`id_ville`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_ressource_annuaires`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_annuaires`;
 CREATE TABLE `module_ressource_annuaires` (
   `id` int(11) NOT NULL auto_increment,
   `date_crea` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_contenus`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_contenus`;
 CREATE TABLE `module_ressource_contenus` (
@@ -1906,13 +2428,13 @@ CREATE TABLE `module_ressource_contenus` (
   `nom` varchar(255) NOT NULL default '',
   `ordre` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=14 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_domaines`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_domaines`;
 CREATE TABLE `module_ressource_domaines` (
@@ -1922,13 +2444,13 @@ CREATE TABLE `module_ressource_domaines` (
   `parent` int(11) NOT NULL default '0',
   `ordre` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=27 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_fonctions`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_fonctions`;
 CREATE TABLE `module_ressource_fonctions` (
@@ -1936,13 +2458,13 @@ CREATE TABLE `module_ressource_fonctions` (
   `nom` varchar(255) NOT NULL default '',
   `ordre` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_licences`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_licences`;
 CREATE TABLE `module_ressource_licences` (
@@ -1950,13 +2472,13 @@ CREATE TABLE `module_ressource_licences` (
   `nom` varchar(255) NOT NULL default '',
   `ordre` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=13 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_niveaux`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_niveaux`;
 CREATE TABLE `module_ressource_niveaux` (
@@ -1967,13 +2489,13 @@ CREATE TABLE `module_ressource_niveaux` (
   `age_max` int(11) default NULL,
   `ordre` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_res2contenu`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_res2contenu`;
 CREATE TABLE `module_ressource_res2contenu` (
@@ -1984,9 +2506,9 @@ CREATE TABLE `module_ressource_res2contenu` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_res2domaine`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_res2domaine`;
 CREATE TABLE `module_ressource_res2domaine` (
@@ -1997,9 +2519,9 @@ CREATE TABLE `module_ressource_res2domaine` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_res2fonction`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_res2fonction`;
 CREATE TABLE `module_ressource_res2fonction` (
@@ -2010,9 +2532,9 @@ CREATE TABLE `module_ressource_res2fonction` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_ressources`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_ressources`;
 CREATE TABLE `module_ressource_ressources` (
@@ -2029,13 +2551,13 @@ CREATE TABLE `module_ressource_ressources` (
   `valid_date` datetime default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `id_annu` (`id_annu`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=977 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_ressource_tags`
--- 
+--
 
 DROP TABLE IF EXISTS `module_ressource_tags`;
 CREATE TABLE `module_ressource_tags` (
@@ -2047,9 +2569,26 @@ CREATE TABLE `module_ressource_tags` (
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_rightmatrix`
+--
+
+DROP TABLE IF EXISTS `module_rightmatrix`;
+CREATE TABLE `module_rightmatrix` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `user_type_in` varchar(75) NOT NULL,
+  `user_type_out` varchar(75) NOT NULL,
+  `right` varchar(5) NOT NULL,
+  `node_type` varchar(75) NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `user_type_in` (`user_type_in`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_stats_logs`
--- 
+--
 
 DROP TABLE IF EXISTS `module_stats_logs`;
 CREATE TABLE `module_stats_logs` (
@@ -2066,13 +2605,42 @@ CREATE TABLE `module_stats_logs` (
   PRIMARY KEY  (`id`),
   KEY `module_type` (`module_type`),
   KEY `module_id` (`module_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
+-- Structure de la table `module_tags`
+--
+
+DROP TABLE IF EXISTS `module_tags`;
+CREATE TABLE `module_tags` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `module_tags_groups`
+--
+
+DROP TABLE IF EXISTS `module_tags_groups`;
+CREATE TABLE `module_tags_groups` (
+  `id` int(11) unsigned NOT NULL auto_increment,
+  `id_group` int(11) unsigned NOT NULL,
+  `id_tag` int(11) unsigned NOT NULL,
+  PRIMARY KEY  (`id`),
+  KEY `id_group` (`id_group`,`id_tag`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `module_teleprocedure`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure`;
 CREATE TABLE `module_teleprocedure` (
@@ -2080,13 +2648,13 @@ CREATE TABLE `module_teleprocedure` (
   `titre` varchar(100) NOT NULL,
   `date_creation` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_teleprocedure_infosupp`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure_infosupp`;
 CREATE TABLE `module_teleprocedure_infosupp` (
@@ -2100,13 +2668,13 @@ CREATE TABLE `module_teleprocedure_infosupp` (
   KEY `idinter` (`idinter`),
   KEY `iduser` (`iduser`),
   KEY `dateinfo` (`dateinfo`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_teleprocedure_intervention`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure_intervention`;
 CREATE TABLE `module_teleprocedure_intervention` (
@@ -2131,13 +2699,13 @@ CREATE TABLE `module_teleprocedure_intervention` (
   KEY `idetabliss` (`idetabliss`),
   KEY `idtype` (`idtype`),
   KEY `idstatu` (`idstatu`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_teleprocedure_intervention_droit`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure_intervention_droit`;
 CREATE TABLE `module_teleprocedure_intervention_droit` (
@@ -2150,22 +2718,22 @@ CREATE TABLE `module_teleprocedure_intervention_droit` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_teleprocedure_statu`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure_statu`;
 CREATE TABLE `module_teleprocedure_statu` (
   `idstat` int(11) NOT NULL auto_increment,
   `nom` text NOT NULL,
   PRIMARY KEY  (`idstat`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_teleprocedure_tracking`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure_tracking`;
 CREATE TABLE `module_teleprocedure_tracking` (
@@ -2178,9 +2746,9 @@ CREATE TABLE `module_teleprocedure_tracking` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_teleprocedure_type`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure_type`;
 CREATE TABLE `module_teleprocedure_type` (
@@ -2198,13 +2766,13 @@ CREATE TABLE `module_teleprocedure_type` (
   `mail_message` text,
   PRIMARY KEY  (`idtype`),
   KEY `teleprocedure` (`teleprocedure`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_teleprocedure_type_droit`
--- 
+--
 
 DROP TABLE IF EXISTS `module_teleprocedure_type_droit`;
 CREATE TABLE `module_teleprocedure_type_droit` (
@@ -2217,22 +2785,22 @@ CREATE TABLE `module_teleprocedure_type_droit` (
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_visioscopia`
--- 
+--
 
 DROP TABLE IF EXISTS `module_visioscopia`;
 CREATE TABLE `module_visioscopia` (
   `id` int(11) NOT NULL auto_increment,
   `date_creation` datetime NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
+--
 -- Structure de la table `module_visioscopia_config`
--- 
+--
 
 DROP TABLE IF EXISTS `module_visioscopia_config`;
 CREATE TABLE `module_visioscopia_config` (
@@ -2241,340 +2809,16 @@ CREATE TABLE `module_visioscopia_config` (
   `conf_active` tinyint(4) NOT NULL default '0',
   `conf_msg` text NOT NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
--- 
--- Structure de la table `modulecredentials`
--- 
-
-DROP TABLE IF EXISTS `modulecredentials`;
-CREATE TABLE `modulecredentials` (
-  `id_mc` int(11) NOT NULL auto_increment,
-  `module_mc` varchar(255) default NULL,
-  `name_mc` varchar(255) NOT NULL,
-  PRIMARY KEY  (`id_mc`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `modulecredentialsgroups`
--- 
-
-DROP TABLE IF EXISTS `modulecredentialsgroups`;
-CREATE TABLE `modulecredentialsgroups` (
-  `id_mcg` int(11) NOT NULL auto_increment,
-  `id_mc` int(11) NOT NULL,
-  `id_mcv` int(11) default NULL,
-  `handler_group` varchar(255) default NULL,
-  `id_group` varchar(255) default NULL,
-  PRIMARY KEY  (`id_mcg`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `modulecredentialsoverpass`
--- 
-
-DROP TABLE IF EXISTS `modulecredentialsoverpass`;
-CREATE TABLE `modulecredentialsoverpass` (
-  `id_mco` int(11) NOT NULL auto_increment,
-  `id_mc` int(11) default NULL,
-  `overpass_id_mc` int(11) default NULL,
-  `overpath_id_mc` int(11) default NULL,
-  PRIMARY KEY  (`id_mco`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `modulecredentialsvalues`
--- 
-
-DROP TABLE IF EXISTS `modulecredentialsvalues`;
-CREATE TABLE `modulecredentialsvalues` (
-  `id_mcv` int(11) NOT NULL auto_increment,
-  `value_mcv` varchar(255) NOT NULL,
-  `id_mc` int(11) NOT NULL,
-  `level_mcv` int(11) default NULL,
-  PRIMARY KEY  (`id_mcv`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
--- --------------------------------------------------------
-
--- 
+--
 -- Structure de la table `version`
--- 
+--
 
 DROP TABLE IF EXISTS `version`;
 CREATE TABLE `version` (
   `version` varchar(10) NOT NULL,
   `date` datetime NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_rightmatrix`
---
-
-DROP TABLE IF EXISTS `module_rightmatrix`;
-CREATE TABLE IF NOT EXISTS `module_rightmatrix` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `user_type_in` varchar(75) NOT NULL,
-  `user_type_out` varchar(75) NOT NULL,
-  `right` varchar(5) NOT NULL,
-  `node_type` varchar(75) NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `user_type_in` (`user_type_in`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_quiz_groupes`
---
-
-DROP TABLE IF EXISTS `module_quiz_groupes`;
-CREATE TABLE `module_quiz_groupes` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_quiz_questions`
---
-
-DROP TABLE IF EXISTS `module_quiz_questions`;
-CREATE TABLE `module_quiz_questions` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(75) NOT NULL,
-  `id_quiz` int(11) unsigned NOT NULL,
-  `content` text,
-  `order` int(5) unsigned NOT NULL,
-  `opt_type` varchar(75) NOT NULL DEFAULT 'choice',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_quiz_quiz`
---
-
-DROP TABLE IF EXISTS `module_quiz_quiz`;
-CREATE TABLE `module_quiz_quiz` (
-  `id` int(4) unsigned NOT NULL AUTO_INCREMENT,
-  `id_owner` int(4) unsigned NOT NULL,
-  `date_start` int(5) unsigned NOT NULL DEFAULT '0',
-  `date_end` int(5) unsigned NOT NULL DEFAULT '0',
-  `name` varchar(128) NOT NULL,
-  `description` text,
-  `help` text,
-  `pic` varchar(255) DEFAULT NULL,
-  `opt_save` varchar(75) NOT NULL,
-  `opt_show_results` varchar(75) NOT NULL,
-  `lock` tinyint(4) NOT NULL DEFAULT '0',
-  `gr_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `gr_id` (`gr_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_quiz_responses`
---
-
-DROP TABLE IF EXISTS `module_quiz_responses`;
-CREATE TABLE `module_quiz_responses` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id_user` int(11) unsigned NOT NULL,
-  `id_choice` int(11) unsigned NOT NULL,
-  `id_question` int(11) unsigned NOT NULL,
-  `date` int(11) unsigned NOT NULL,
-  `txt` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
-DROP TABLE IF EXISTS `module_quiz_choices`;
-CREATE TABLE `module_quiz_choices` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id_question` int(11) unsigned NOT NULL,
-  `content` text,
-  `correct` tinyint(3) unsigned NOT NULL DEFAULT '0',
-  `order` int(5) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
-
---
--- Structure de la table `module_charte_chartes`
---
-
-DROP TABLE IF EXISTS `module_charte_chartes`;
-CREATE TABLE `module_charte_chartes` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_type` varchar(75) NOT NULL,
-  `file_url` varchar(500) NOT NULL,
-  `file_id` int(11) unsigned DEFAULT NULL,
-  `active` tinyint(2) unsigned NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `user_type` (`user_type`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `module_charte_users_validation`
---
-
-DROP TABLE IF EXISTS `module_charte_users_validation`;
-CREATE TABLE `module_charte_users_validation` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
-  `date` int(11) unsigned NOT NULL,
-  `charte_id` int(11) unsigned NOT NULL,
-  `user_type` varchar(75) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_mailext`
--- 
-
-DROP TABLE IF EXISTS `module_mailext`;
-CREATE TABLE `module_mailext` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) unsigned NOT NULL,
-  `protocol` varchar(255) NOT NULL,
-  `server` varchar(255) NOT NULL,
-  `port` int(2) unsigned NOT NULL,
-  `ssl` tinyint(2) unsigned NOT NULL,
-  `tls` tinyint(2) unsigned NOT NULL,
-  `login` varchar(150) NOT NULL,
-  `pass` varchar(150) NOT NULL,
-  `imap_path` varchar(150) DEFAULT NULL,
-  `name` varchar(150) NOT NULL,
-  `webmail_url` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_admindash`
--- 
-
-DROP TABLE IF EXISTS `module_admindash`;
-CREATE TABLE `module_admindash` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `content` text,
-  `picture` varchar(255) DEFAULT NULL,
-  `id_zone` int(11) unsigned NOT NULL,
-  `type_zone` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_zone` (`id_zone`),
-  KEY `type_zone` (`type_zone`)
-) ENGINE=MyISAM  DEFAULT CHARSET=UTF8;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_contacts`
--- 
-
-DROP TABLE IF EXISTS `module_contacts`;
-CREATE TABLE `module_contacts` (
-  `id` int(11) NOT NULL auto_increment,
-  `titre` varchar(100) NOT NULL,
-  `email` varchar(255) default NULL COMMENT 'Email du destinataire. Si plusieurs, separer par des virgules',
-  `date_creation` datetime NOT NULL,
-  PRIMARY KEY  (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_contacts_messages`
--- 
-
-DROP TABLE IF EXISTS `module_contacts_messages`;
-CREATE TABLE `module_contacts_messages` (
-  `id` int(11) NOT NULL auto_increment,
-  `contact` int(11) NOT NULL,
-  `from_nom` varchar(150) NOT NULL,
-  `from_email` varchar(150) NOT NULL,
-  `from_login` varchar(32) default NULL,
-  `from_user_id` int(11) default NULL,
-  `to_email` varchar(255) default NULL,
-  `type` int(11) NOT NULL,
-  `message` text NOT NULL,
-  `ip` varchar(20) NOT NULL,
-  `date` datetime NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `contact` (`contact`),
-  KEY `type` (`type`),
-  KEY `from_user_id` (`from_user_id`),
-  KEY `date` (`date`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
--- 
--- Structure de la table `module_contacts_types`
--- 
-
-DROP TABLE IF EXISTS `module_contacts_types`;
-CREATE TABLE `module_contacts_types` (
-  `id` int(11) NOT NULL auto_increment,
-  `contact` int(11) NOT NULL,
-  `nom` varchar(50) NOT NULL,
-  `is_default` tinyint(4) default NULL,
-  `ordre` smallint(6) NOT NULL,
-  PRIMARY KEY  (`id`),
-  KEY `contact` (`contact`),
-  KEY `ordre` (`ordre`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
-DROP TABLE IF EXISTS `module_tags`;
-CREATE TABLE IF NOT EXISTS `module_tags` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS `module_tags_groups`;
-CREATE TABLE IF NOT EXISTS `module_tags_groups` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `id_group` int(11) unsigned NOT NULL,
-  `id_tag` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `id_group` (`id_group`,`id_tag`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
-
-DROP TABLE IF EXISTS `module_getreq`;
-CREATE TABLE IF NOT EXISTS `module_getreq` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `parent` text NOT NULL,
-  `enfants` text NOT NULL,
-  `date` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-);
-
