@@ -179,9 +179,9 @@
           </td>
           <td>
             {if $person->nom_role == "Directeur"}
-              {customi18n key="kernel|kernel.usertypes.%%user_dir%%"}
+              {customi18n key="kernel|kernel.usertypes.%%user_dir%%" catalog=$ppo->vocabularyCatalog->id_vc}
             {else}
-              {customi18n key="kernel|kernel.usertypes.%%"|cat:$person->bu_type|lower|cat:"%%"}
+              {customi18n key="kernel|kernel.usertypes.%%"|cat:$person->bu_type|lower|cat:"%%" catalog=$ppo->vocabularyCatalog->id_vc}
             {/if}
           </td>
           <td>{$person->nom}</td>
