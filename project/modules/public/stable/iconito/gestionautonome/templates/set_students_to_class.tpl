@@ -1,11 +1,11 @@
 {assign var="school" value=$ppo->nodeInfos.parent.ALL}
 
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p>
-<h2>Affectation de classe</h2>
+<h2>Affectation de {customi18n key="gestionautonome|gestionautonome.message.%%structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}</h2>
 
 <form action="{copixurl dest="gestionautonome||setStudentsToClass"}" method="get" id="filter-form">
   <div id="fromClass" class="filterClass">
-      <h3>Classe d'origine</h3>
+      <h3>{customi18n key="gestionautonome|gestionautonome.message.%%structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} d'origine</h3>
       <dl>
         <dt>Année scolaire :</dt>
           <dd>
@@ -20,15 +20,15 @@
           <dd id="from-citygroup-filter">{copixzone process=gestionautonome|filterGroupCity selected=$ppo->fromClass.groupcity with_label=false}</dd>
         <dt>Ville :</dt>
           <dd id="from-city-filter">{if $ppo->fromClass.groupcity}{copixzone process=gestionautonome|filterCity selected=$ppo->fromClass.city city_group_id=$ppo->fromClass.groupcity with_label=false}{/if}</dd>
-        <dt>Ecole :</dt>
+        <dt>{customi18n key="gestionautonome|gestionautonome.message.%%structure%%" catalog=$ppo->vocabularyCatalog->id_vc} :</dt>
           <dd id="from-school-filter">{if $ppo->fromClass.city}{copixzone process=gestionautonome|filterSchool selected=$ppo->fromClass.school city_id=$ppo->fromClass.city with_label=false}{/if}</dd>
-        <dt>Classe (niveau) :</dt>
+        <dt>{customi18n key="gestionautonome|gestionautonome.message.%%structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} (niveau) :</dt>
           <dd id="from-class-filter">{if $ppo->fromClass.school}{copixzone process=gestionautonome|filterClass selected=$ppo->fromClass.class school_id=$ppo->fromClass.school with_label=false grade=$ppo->oldGrade->id_as with_empty_label=true}{/if}</dd>
       </dl>
   </div>
   
   <div id="toClass" class="filterClass">
-      <h3>Classe de destination</h3>
+      <h3>{customi18n key="gestionautonome|gestionautonome.message.%%structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} de destination</h3>
       <dl>
         <dt>Année scolaire :</dt>
           <dd>
@@ -52,9 +52,9 @@
           </dd>
         <dt>Ville :</dt>
           <dd id="to-city-filter">{if $ppo->toClass.groupcity}{copixzone process=gestionautonome|filterCity selected=$ppo->toClass.city city_group_id=$ppo->toClass.groupcity with_label=false}{/if}</dd>
-        <dt>Ecole :</dt>
+        <dt>{customi18n key="gestionautonome|gestionautonome.message.%%structure%%" catalog=$ppo->vocabularyCatalog->id_vc} :</dt>
           <dd id="to-school-filter">{if $ppo->toClass.city}{copixzone process=gestionautonome|filterSchool selected=$ppo->toClass.school city_id=$ppo->toClass.city with_label=false}{/if}</dd>
-        <dt>Classe (niveau) :</dt>
+        <dt>{customi18n key="gestionautonome|gestionautonome.message.%%structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} (niveau) :</dt>
           <dd id="to-class-filter">{if $ppo->toClass.school}{copixzone process=gestionautonome|filterClass selected=$ppo->toClass.class school_id=$ppo->toClass.school with_label=false}{/if}</dd>
       </dl>
    </div>

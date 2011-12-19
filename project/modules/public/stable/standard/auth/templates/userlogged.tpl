@@ -12,7 +12,7 @@
 	{else}
         <div class="userprofile">
             <span class="username">{$prenom} {$nom}</span><br/>
-            <span class="userrole">{$ppo->usertype}</span>
+            <span class="userrole">{customi18n key="kernel|kernel.usertypes.%%"|cat:$ppo->usertype|cat:"%%"}</span>
         </div>
 	{/if}
 

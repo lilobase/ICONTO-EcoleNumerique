@@ -164,6 +164,10 @@ class ActionGroupDefault extends enicActionGroup {
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     $ppo->MENU = $this->menu;
+    
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 
 		return _arPPO ($ppo, 'show_tree.tpl');
 	}
@@ -457,7 +461,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  // Breadcrumbs
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
-	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.create%%indefinite__city%%'));
 	  
 	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
     
@@ -521,7 +525,7 @@ class ActionGroupDefault extends enicActionGroup {
       // Breadcrumbs
   	  $breadcrumbs   = array();
   	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
-  	  $breadcrumbs[] = array('txt' => 'Création d\'une ville');
+  	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.create%%indefinite__city%%'));
 
   	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
   	  
@@ -580,6 +584,10 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
 		
+		// Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CITY', $ppo->nodeId);
+		
 		return _arPPO ($ppo, 'edit_city.tpl');
 	}
 	
@@ -637,6 +645,10 @@ class ActionGroupDefault extends enicActionGroup {
   	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	  
+  	  // Get vocabulary catalog to use
+  		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+  		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CITY', $ppo->nodeId);
   	  
       return _arPPO ($ppo, 'edit_city.tpl');
     }
@@ -781,7 +793,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $breadcrumbs   = array();
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $ppo->parentId)));
-	  $breadcrumbs[] = array('txt' => 'Création d\'une école');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.create%%indefinite__structure%%'));
 	  
 	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 		
@@ -846,7 +858,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  $breadcrumbs   = array();
   	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
   	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $ppo->parentId, 'nodeType' => $ppo->parentType)));
-  	  $breadcrumbs[] = array('txt' => 'Création d\'une école');
+  	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.create%%indefinite__structure%%'));
 
   	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
@@ -913,6 +925,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+		
+		// Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $ppo->nodeId);
 		
 		return _arPPO ($ppo, 'edit_school.tpl');
 	}
@@ -981,6 +997,10 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->types = array ('Maternelle', 'Elémentaire', 'Primaire');
       
       $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+      
+      // Get vocabulary catalog to use
+  		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+  		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $ppo->nodeId);
       
       return _arPPO ($ppo, 'edit_school.tpl');
     }
@@ -1124,7 +1144,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
 	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $city->id_vi)));
 	  $breadcrumbs[] = array('txt' => $school->nom, 'url' => CopixUrl::get('gestionautonome||updateSchool', array ('nodeId' => $school->numero)));
-	  $breadcrumbs[] = array('txt' => 'Création d\'une classe');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.create%%indefinite__structure_element%%'));
 
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 		
@@ -1227,7 +1247,7 @@ class ActionGroupDefault extends enicActionGroup {
   	  $breadcrumbs[] = array('txt' => 'Gestion de la structure scolaire', 'url' => CopixUrl::get('gestionautonome||showTree'));
   	  $breadcrumbs[] = array('txt' => $city->nom, 'url' => CopixUrl::get('gestionautonome||updateCity', array ('nodeId' => $city->id_vi)));
   	  $breadcrumbs[] = array('txt' => $school->nom, 'url' => CopixUrl::get('gestionautonome||updateSchool', array ('nodeId' => $school->numero)));
-  	  $breadcrumbs[] = array('txt' => 'Création d\'une classe');
+  	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.create%%indefinite__structure_element%%'));
 
   	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
@@ -1302,7 +1322,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Récupération des niveaux de classe
     $classLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
-	$criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
+	  $criteres = _daoSp ()->orderBy ('id_cycle', 'id_n');
     $ppo->levels = $classLevelDAO->findBy ($criteres);
     
     
@@ -1332,6 +1352,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 		
 		$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+		
+		// Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CLASSE', $ppo->nodeId);
 		
 		return _arPPO ($ppo, 'edit_class.tpl');
 	}
@@ -1438,6 +1462,10 @@ class ActionGroupDefault extends enicActionGroup {
   	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
   	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	  
+  	  // Get vocabulary catalog to use
+  		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+  		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CLASSE', $ppo->nodeId);
   	  
       return _arPPO ($ppo, 'edit_class.tpl');
     }
@@ -2270,11 +2298,15 @@ class ActionGroupDefault extends enicActionGroup {
     // Compteur responsable
     $ppo->cpt = 1;
     
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
+    
     // Breadcrumbs
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
 	  
 	  $breadcrumbs   = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[] = array('txt' => 'Création d\'un élève');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.creationof%%indefinite__structure_element_person%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
@@ -2381,11 +2413,15 @@ class ActionGroupDefault extends enicActionGroup {
   	   
       $ppo->student->date_nais = _request('student_birthdate', null);
       
+      // Get vocabulary catalog to use
+  		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+  		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
+      
       // Breadcrumbs
       $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
       
   	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-  	  $breadcrumbs[]    = array('txt' => 'Création d\'un élève');
+  	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.creationof%%indefinite__structure_element_person%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
   	  
   	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	  
@@ -4037,10 +4073,14 @@ class ActionGroupDefault extends enicActionGroup {
 	  _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome');
 
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+	  
+	  // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
     
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'un élève existant');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.addexisting%%indefinite__structure_element_person%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  // Récupération de l'année scolaire
@@ -4103,6 +4143,10 @@ class ActionGroupDefault extends enicActionGroup {
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
+    
 	  return _arPPO ($ppo, 'add_existing_student.tpl');
 	}
 	
@@ -4124,9 +4168,13 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);    
+    
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'un élève existant');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.addexisting%%indefinite__structure_element_person%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  // Récupération de l'année scolaire
@@ -4341,8 +4389,12 @@ class ActionGroupDefault extends enicActionGroup {
     // Breadcrumbs
     $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId);
     
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);    
+
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'un élève existant');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.addexisting%%indefinite__structure_element_person%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
@@ -4744,11 +4796,19 @@ class ActionGroupDefault extends enicActionGroup {
     // Breadcrumbs
     $ppo->nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);    
+    
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($ppo->nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.add%%structure_element_persons%%list', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	
   	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	
+  	// Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 
 	  return _arPPO ($ppo, 'add_multiple_students.tpl');
 	}
@@ -4937,11 +4997,19 @@ class ActionGroupDefault extends enicActionGroup {
     // Breadcrumbs
     $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
     
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);	  
+    
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.add%%structure_element_persons%%list', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
   	
   	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	
+  	// Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
   	
 	  return _arPPO ($ppo, 'add_multiple_students_listing.tpl');
 	}
@@ -5220,12 +5288,20 @@ class ActionGroupDefault extends enicActionGroup {
       // Flag pour affichage du message d'erreur
       $ppo->error = 1;
       
+      // Get vocabulary catalog to use
+  		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+  		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
+      
       // Breadcrumbs
   	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-  	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+  	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.add%%structure_element_persons%%list', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
   	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 
     	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+    	
+    	// Get vocabulary catalog to use
+  		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+  		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
     	
       return _arPPO ($ppo, 'add_multiple_students_listing.tpl');
     }
@@ -5318,16 +5394,20 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		// Breadcrumbs
     $nodeInfos = Kernel::getNodeInfo ($ppo->nodeType, $ppo->nodeId, true);
+    
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Ajout d\'une liste d\'élèves');
+	  $breadcrumbs[] = array('txt' => CopixCustomI18N::get('gestionautonome|gestionautonome.message.add%%structure_element_persons%%list', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 
   	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
   	
-  	$ppo->title         = 'Importer des élèves';
-		$ppo->msgSuccess    = 'Elèves ajoutés !';
-		$ppo->subTitle      = 'Liste des élèves ajoutés';
+  	$ppo->title         = 'Importer '.CopixCustomI18N::get('gestionautonome|gestionautonome.message.%%structure_element_persons%%', array('catalog' => $ppo->vocabularyCatalog->id_vc));
+		$ppo->msgSuccess    = CopixCustomI18N::get('gestionautonome|gestionautonome.message.%%structure_element_Persons%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)).' ajoutés !';
+		$ppo->subTitle      = 'Liste '.CopixCustomI18N::get('gestionautonome|gestionautonome.message.%%indefinite__structure_element_persons%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)).' ajoutés';
   	
 		// Sortie suivant le format demandé
 		$tplResult = new CopixTpl ();
@@ -5474,13 +5554,21 @@ class ActionGroupDefault extends enicActionGroup {
                     
 	  $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
 	  $ppo->students = $studentDAO->getStudentsByClass ($ppo->nodeId);
+	  
+	  // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
     
     // Breadcrumbs
 	  $breadcrumbs      = Kernel::generateBreadcrumbs ($nodeInfos);
-	  $breadcrumbs[]    = array('txt' => 'Changer d\'affectation plusieurs élèves');
+	  $breadcrumbs[]    = array('txt' => 'Changer d\'affectation plusieurs '.CopixCustomI18N::get('gestionautonome|gestionautonome.message.%%structure_element_persons%%', array('catalog' => $ppo->vocabularyCatalog->id_vc)));
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+	  
+	  // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 	  
 	  return _arPPO ($ppo, 'change_students_affect.tpl');
 	}
@@ -5664,6 +5752,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+	  
+	  // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 	  
     // Traitement du formulaire
     if (CopixRequest::isMethod('post')) {
@@ -6024,6 +6116,10 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo->breadcrumbs = Kernel::PetitPoucet($breadcrumbs,' &raquo; ');
 
   	$ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
+  	
+  	// Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 
     return _arPPO ($ppo, 'set_students_to_class.tpl');
   }

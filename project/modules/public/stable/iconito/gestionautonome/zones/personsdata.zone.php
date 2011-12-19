@@ -79,7 +79,11 @@ class ZonePersonsData extends CopixZone {
     	    break;
 	    }
     }
-
+    
+    // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->type, $id);
+    
     $toReturn = $this->_usePPO ($ppo, '_persons_data.tpl');
   }
 }

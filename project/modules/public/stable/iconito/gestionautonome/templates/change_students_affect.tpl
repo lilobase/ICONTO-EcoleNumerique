@@ -1,12 +1,12 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
 
-<h2>Liste des élèves</h2>
+<h2>Liste {customi18n key="gestionautonome|gestionautonome.message.%%indefinite__structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</h2>
 
 {if $ppo->students neq null}
 
 <form>
 	<fieldset>
-        <legend>Positionner une nouvelle affectation pour <strong>tous</strong> les élèves</legend>
+        <legend>Positionner une nouvelle affectation pour <strong>tous</strong> {customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</legend>
         <label for="allAffect">Nouvelle affectation :</label>
         <select name="allAffect" id="allAffect">
             <option value="">-- pas de changement --</option>
@@ -64,7 +64,7 @@
     </div>
   </form>
 {else}
-  <em>Aucun élève</em>
+  <em>{customi18n key="gestionautonome|gestionautonome.message.no%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</em>
   
   <div class="submit">
       <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>

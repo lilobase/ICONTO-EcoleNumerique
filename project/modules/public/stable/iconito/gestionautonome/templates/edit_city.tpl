@@ -2,9 +2,9 @@
 
 <h2>
   {if $ppo->nodeId neq null}
-    Modification d'une ville
+    {customi18n key="gestionautonome|gestionautonome.message.modify%%definite__city%%" catalog=$ppo->vocabularyCatalog->id_vc}
   {else}
-    Ajout d'une ville
+    {customi18n key="gestionautonome|gestionautonome.message.add%%indefinite__city%%"}
   {/if}
 </h2>
 

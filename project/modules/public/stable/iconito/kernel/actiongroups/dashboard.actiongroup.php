@@ -126,12 +126,16 @@ class ActionGroupDashboard extends enicActionGroup {
 					    }
 					}
 
-                                if(!empty($content['picture'])){
-                                    $content['picture'] = $this->url('kernel|dashboard|image', array('id' => $content['id'], 'pic' => $content['picture']));
-                                }
+        if(!empty($content['picture'])){
+            $content['picture'] = $this->url('kernel|dashboard|image', array('id' => $content['id'], 'pic' => $content['picture']));
+        }
 				//is admin :
-				$is_admin = ($contentNode['droit'] >= 60);
+				$is_admin = ($contentNode['droit'] >= 60);	
 
+        // Get vocabulary catalog to use
+				$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+				$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($contentNode['type'], $contentNode['id']);
+        
 				//build html content
 				$content_tpl = new CopixTpl();
 				$content_tpl->assign('content', $content['content']);
@@ -139,13 +143,15 @@ class ActionGroupDashboard extends enicActionGroup {
 				$content_tpl->assign('is_admin', $is_admin);
 				$content_tpl->assign('id', $contentNode['id']);
 				$content_tpl->assign('type', $contentNode['type']);
-                if ($contentNode['type'] == "BU_ECOLE") {
-                    $content_tpl->assign('idZone', $contentNode['id']);
-                }
+				$content_tpl->assign('catalog', $vocabularyCatalog->id_vc);
+        if ($contentNode['type'] == "BU_ECOLE") {
+            $content_tpl->assign('idZone', $contentNode['id']);
+        }             
+        
 				$content = $content_tpl->fetch('dashboard.nodes.tpl');
 
-                                //add css
-                                $this->addCss('styles/dashboard_zone.css');
+        //add css
+        $this->addCss('styles/dashboard_zone.css');
 				//free memory
 				unset($content_tpl);
 				/*

@@ -1,12 +1,12 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
 
-<h2>Importer des élèves</h2>
+<h2>Importer {customi18n key="gestionautonome|gestionautonome.message.%%indefinite__structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</h2>
 
 <div class="help">
-    <p>Vous disposez de deux méthodes pour ajouter une série d’élèves :</p>
+    <p>Vous disposez de deux méthodes pour ajouter {customi18n key="gestionautonome|gestionautonome.message.%%indefinite__structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc} :</p>
     <ul>
-      <li>ajouter uniquement des <strong>élèves</strong>. <em>Saisissez un élève par ligne.</em></li>
-      <li>ajouter des <strong>élèves et leurs parents</strong>. <em>Saisissez, sur la même ligne, les informations de l’élève suivies de celles des parents.</em></li>
+      <li>ajouter uniquement des <strong>{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</strong>. <em>Saisissez {customi18n key="gestionautonome|gestionautonome.message.%%indefinite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc} par ligne.</em></li>
+      <li>ajouter des <strong>{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc} et leurs {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_responsables%%" catalog=$ppo->vocabularyCatalog->id_vc}</strong>. <em>Saisissez, sur la même ligne, les informations de {customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc} suivies de celles {customi18n key="gestionautonome|gestionautonome.message.%%indefinite__structure_element_responsables%%" catalog=$ppo->vocabularyCatalog->id_vc}.</em></li>
       <li>importer un <strong>fichier</strong> (<em>au format CSV</em>) contenant les informations.</li>
     </ul>
     
@@ -19,7 +19,7 @@
     
     <p>Les informations entre <span class="optionnal">[ ]</span> sont optionnelles. Un champ optionnel peut être vide mais n'oubliez pas le séparateur (virgule, point virgule ou tabulation).</p>
     
-    <p>Voir des exemples de saisies : <a href="#" id="students-data">Quelques élèves</a> - <a href="#" id="students-and-persons-data">Quelques élèves et leurs parents</a> 
+    <p>Voir des exemples de saisies : <a href="#" id="students-data">Quelques {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</a> - <a href="#" id="students-and-persons-data">Quelques {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc} et leurs {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_responsables%%" catalog=$ppo->vocabularyCatalog->id_vc}</a> 
     - <a href="{copixurl}import_exemple.csv">Télécharger un fichier d'exemple</a></p>
 </div>
 
@@ -49,7 +49,7 @@
     <input type="hidden" name="type_parent" id="type-parent" value="{$ppo->nodeType}" />
     
     <div class="field">
-        <label for="liste">&Eacute;lèves à importer dans la classe {$ppo->nodeInfos.nom}</label>
+        <label for="liste">{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc} à importer dans la classe {$ppo->nodeInfos.nom}</label>
         <textarea name="liste" id="liste" placeholder="Nom, Prénom, M, 01/01/2000, Nom parent1, Prénom parent1, M, PERE, Nom parent2, Prénom parent2, F, MERE">{$ppo->import}</textarea>
     </div>
   

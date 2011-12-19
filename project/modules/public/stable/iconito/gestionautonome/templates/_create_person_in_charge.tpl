@@ -1,4 +1,4 @@
-<p>Ne remplissez ce bloc que si vous souhaitez créer des comptes parents associés à cet élève.</p>
+<p>{customi18n key="gestionautonome|gestionautonome.message.completeboxtocreate%%indefinite__structure_element_responsables%%for%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</p>
 
 {if $ppo->persons}
   {if $ppo->persons|@count > 0}
@@ -93,11 +93,11 @@
     <div id="person-method-add">
       <div class="field">
         <input id="add-new-person" type="radio" name="is-new-parent" value="1" {if isset($ppo->isNewParent) && $ppo->isNewParent}checked="checked"{/if} />
-        <label for="add-new-person">Créer un nouveau parent pour cet élève</label>
+        <label for="add-new-person">{customi18n key="gestionautonome|gestionautonome.message.create%%indefinite__structure_element_responsable%%for%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</label>
       </div>
       <div class="field">
         <input id="add-existing-person" type="radio" name="is-new-parent" value="0" {if isset($ppo->isNewParent) && !$ppo->isNewParent}checked="checked"{/if} />
-        <label for="add-existing-person">Associer un parent existant à cet élève</label>
+        <label for="add-existing-person">{customi18n key="gestionautonome|gestionautonome.message.affect%%indefinite__structure_element_responsable%%for%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</label>
       </div>
     </div>
   
@@ -152,7 +152,7 @@
     <div id="person-method-existing" class="{if !isset($ppo->isNewParent) || $ppo->isNewParent}hidden{/if}">
       <fieldset>
         <div class="field person-login">
-          <label for="login" class="form_libelle">Identifiant du parent à rattacher à cet élève</label>
+          <label for="login" class="form_libelle">{customi18n key="gestionautonome|gestionautonome.message.loginof%%structure_element_responsable%%toaffectto%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</label>
           <input class="form" type="text" name="login-search" id="login-search" value="{$ppo->login}" />
         </div>
 
@@ -163,7 +163,8 @@
             <input type="checkbox" id="agreement" name="agreement" />
           {/if}
           <span>
-            Je reconnais connaître l’identité du parent ayant l’identifiant ci-dessus, et m’être assuré qu’il s’agit bien d’un responsable légal de l’enfant ci-dessous. 
+            {customi18n key="gestionautonome|gestionautonome.message.termstoaffect%%structure_element_responsable%%" catalog=$ppo->vocabularyCatalog->id_vc}
+            
             Ce responsable aura accès à des données personnelles de l’enfant en question.
           </span>
         </div>

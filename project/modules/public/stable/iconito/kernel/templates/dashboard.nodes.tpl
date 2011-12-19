@@ -1,5 +1,5 @@
 {if $is_admin && $type == 'BU_ECOLE'}
-    <a class="dashboard-list" title="{i18n key="kernel|dashboard.ficheEcole" noEscape="true"}" href="{copixurl dest="fichesecoles||fiche" id=$idZone}">{i18n key="kernel|dashboard.ficheEcole" noEscape="true"}</a>
+    <a class="dashboard-list" title="{i18n key="kernel|dashboard.ficheEcole" noEscape="true"}" href="{copixurl dest="fichesecoles||fiche" id=$idZone}">{customi18n key="kernel|dashboard.fiche%%definite__structure%%" catalog=$catalog noEscape="true"}</a>
 {/if}
 
 <div class="admindash">

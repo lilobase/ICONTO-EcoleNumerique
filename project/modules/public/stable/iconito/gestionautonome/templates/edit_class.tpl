@@ -2,9 +2,9 @@
 
 <h2>
   {if $ppo->nodeId neq null}
-    Modification d'une classe
+    {customi18n key="gestionautonome|gestionautonome.message.modify%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}
   {else}
-    Ajout d'une classe
+    {customi18n key="gestionautonome|gestionautonome.message.add%%indefinite__structure_element%%"}
   {/if}
 </h2>
 

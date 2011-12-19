@@ -1,6 +1,6 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
 
-<h2>Importer des élèves</h2>
+<h2>Importer {customi18n key="gestionautonome|gestionautonome.message.%%indefinite__structure_element_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</h2>
 
 {if $ppo->studentsSuccess neq null}
   
@@ -128,7 +128,7 @@
       </div>
   </form>
 {else}
-  <p class="mesgError">Aucun élève à ajouter</p>
+  <p class="mesgError">Aucun {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc} à ajouter</p>
 
   <div class="center">
       <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>

@@ -10,7 +10,7 @@
 	</div>
 {/if}
 
-<p>Vous pouvez réinitialiser les mots de passe des personnes rattachées à cette classe : </p>
+<p>Vous pouvez réinitialiser les mots de passe des personnes rattachées à {customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} : </p>
 <form name="reset_classroom_passwords" action="{copixurl dest="gestionautonome||resetClassroomPasswords"}" method="post">
   <input type="hidden" name="nodeId" value="{$ppo->nodeId}" />
   <table>
@@ -18,15 +18,15 @@
       <tr>
         {if $ppo->hasCredentialStudentUpdate}
           <th><input type="checkbox" name="all_students" id="select-all-students" /></th>
-          <th><label for="select-all-students">Elèves</label></th>
+          <th><label for="select-all-students">{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</label></th>
         {/if}
         {if $ppo->hasCredentialPersonInChargeUpdate}
           <th><input type="checkbox" name="all_persons_in_charge" id="select-all-persons-in-charge" /></th>
-          <th><label for="select-all-persons-in-charge">Parents</label></th>
+          <th><label for="select-all-persons-in-charge">{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_Responsables%%" catalog=$ppo->vocabularyCatalog->id_vc}</label></th>
         {/if}
         {if $ppo->hasCredentialTeacherUpdate}
           <th><input type="checkbox" name="all_teachers" id="select-all-teachers" /></th>
-          <th><label for="select-all-teachers">Enseignants</label></th>
+          <th><label for="select-all-teachers">{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</label></th>
         {/if}
       </tr>
     </thead>
@@ -71,7 +71,7 @@
         </tr>
         {assign var=index value=$index+1}
       {sectionelse}
-      <tr><td colspan="{if $ppo->hasCredentialStudentUpdate}2{if $ppo->hasCredentialPersonInChargeUpdate}4{if $ppo->hasCredentialTeacherUpdate}6{/if}{/if}{/if}">Aucune personne n'est rattachée à cette classe</td></tr>
+      <tr><td colspan="{if $ppo->hasCredentialStudentUpdate}2{if $ppo->hasCredentialPersonInChargeUpdate}4{if $ppo->hasCredentialTeacherUpdate}6{/if}{/if}{/if}">Aucune personne n'est rattachée à {customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}</td></tr>
       {/section}
     </tbody>
   </table>

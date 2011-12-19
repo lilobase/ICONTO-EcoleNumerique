@@ -46,6 +46,10 @@ class ZoneCreatePersonInCharge extends CopixZone {
 	  
 	  $ppo->user = _currentUser ();
 	  
+	  // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
+	  
     $toReturn = $this->_usePPO ($ppo, '_create_person_in_charge.tpl');
   }
 }

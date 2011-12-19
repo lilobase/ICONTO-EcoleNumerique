@@ -1,9 +1,9 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
 
-<h2>Elèves disponibles</h2>
+<h2>{customi18n key="gestionautonome|gestionautonome.message.available%%structure_element_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</h2>
 
 {if $ppo->save neq null}
-  <p class="mesgSuccess">Elève ajouté</p>
+  <p class="mesgSuccess">{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_Person%%" catalog=$ppo->vocabularyCatalog->id_vc} ajouté</p>
 {/if}
 
 <a href="#" id="filter-displayer">Afficher / Masquer les filtres</a>
@@ -65,7 +65,7 @@
   <input type="hidden" name="role" id="role" value="0" />
   
   {if $ppo->students neq null}
-    <p class="items-count">{$ppo->students|@count} élèves</p> 
+    <p class="items-count">{$ppo->students|@count} {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</p> 
     <table>
       <tr>
         <th>Sexe</th>
@@ -105,7 +105,7 @@
     </div>
   {else} 
     <p class="items-count">
-      Pas d'élèves disponibles
+      {customi18n key="gestionautonome|gestionautonome.message.noavailable%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
     </p>
     
     <div class="submit">

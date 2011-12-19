@@ -27,6 +27,10 @@ class ZonePersonsInCharge extends CopixZone {
 	    
 	    $ppo->personInChargeLinkingEnabled = true;
 	  }
+	  
+	  // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 
     $toReturn = $this->_usePPO ($ppo, '_persons_in_charge.tpl');
   }

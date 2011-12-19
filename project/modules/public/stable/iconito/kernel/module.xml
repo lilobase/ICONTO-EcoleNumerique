@@ -7,6 +7,7 @@
   	<parameter name="jeuEssaiInstalled" caption="kernel.parameter.jeuEssaiInstalled" default="0" />
 		<parameter name="gestionAutonomeEnabled" caption="Gestion autonome active" default="1" />
 		<parameter name="groupeAssistance" caption="Id du groupe d'assistance" default="0" />
-        <parameter name="carnetDeLiaison" caption="Activation du carnet de liaison" default="0" />
+    <parameter name="carnetDeLiaison" caption="Activation du carnet de liaison" default="0" />
+    <parameter name="defaultVocabularyCatalog" caption="Catalogue de vocabulaire par défaut" default="1" />
 	</parameters>
 </moduledefinition>

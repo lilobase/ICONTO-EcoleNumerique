@@ -19,7 +19,7 @@ class ZoneUserLogged extends enicZone {
 			$ppo->animateur = (_sessionGet('user_animateur')) ? 1 : 0;
 			$type = $ppo->user->getExtra('type');
 			$sexe = ($ppo->user->getExtra('sexe')==2) ? 2 : '';
-			$ppo->usertype = _i18n('kernel|kernel.usertypes.'.strtolower($type).$sexe);
+			$ppo->usertype = strtolower($type).$sexe;
 		}
 		$this->addJs('js/iconito/module_auth.js');
 		$this->addCss('styles/module_auth.css');

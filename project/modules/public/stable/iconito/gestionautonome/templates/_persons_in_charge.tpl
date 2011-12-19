@@ -1,4 +1,4 @@
-<h4>Responsables de cet élève</h4>
+<h4>{customi18n key="gestionautonome|gestionautonome.message.responsableof%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</h4>
 
 {if count($ppo->persons) > 0}
   <table>
@@ -39,11 +39,11 @@
 
 <div class="submit">
   {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|create@gestionautonome")}
-    <a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button button-add">Créer un nouveau parent pour cet élève</a>
+    <a href="{copixurl dest="gestionautonome||createPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button button-add">{customi18n key="gestionautonome|gestionautonome.message.create%%indefinite__structure_element_responsable%%for%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</a>
   {/if}
   {if $ppo->personInChargeLinkingEnabled}
     {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|create@gestionautonome")}
-      <a href="{copixurl dest="gestionautonome||addExistingPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button button-next">Associer un parent existant à cet élève</a>
+      <a href="{copixurl dest="gestionautonome||addExistingPersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId}" class="button button-next">{customi18n key="gestionautonome|gestionautonome.message.affect%%indefinite__structure_element_responsable%%for%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</a>
     {/if}
   {/if}
 </div>

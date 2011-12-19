@@ -54,20 +54,31 @@ class ActionGroupDefault extends EnicActionGroup {
         $title = $rEcole->nom;
         if ($rEcole->type)
             $title .= ' (' . $rEcole->type . ')';
-
         $tpl->assign('TITLE_PAGE', $title);
-        if (strtolower($rEcole->type) == 'crèche')
-            $tpl->assign('TITLE_CONTEXT', CopixI18N::get('kernel|kernel.codes.mod_fichesecoles_creche'));
+        
+        // Get vocabulary catalog to use
+				$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+				$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $rEcole->numero);
+				
+        if (strtolower($rEcole->type) == 'crèche') {
+          $tpl->assign('TITLE_CONTEXT', CopixI18N::get('kernel|kernel.codes.mod_fichesecoles_creche'));
+        }
+        else {
+          $tpl->assign('TITLE_CONTEXT', CopixCustomI18N::get('kernel|kernel.codes.mod_fiche%%structure%%', array('catalog' => $vocabularyCatalog->id_vc)));
+        }
+        
         $menu = array();
         $menu[] = array(
-            'url' => CopixUrl::get('public||getListBlogs'),
-            'txt' => CopixI18N::get('public|public.blog.annuaire'),
+          'url' => CopixUrl::get('public||getListBlogs'),
+          'txt' => CopixCustomI18N::get('public|public.blog.annuaire.%%structures%%', array('catalog' => $vocabularyCatalog->id_vc)),
         );
-        if (Kernel::is_connected())
-            $menu[] = array(
-                'url' => CopixUrl::get('annuaire||getAnnuaireEcole', array('ecole' => $rEcole->numero)),
-                'txt' => CopixI18N::get('annuaire|annuaire.backEcole'),
-            );
+        
+        if (Kernel::is_connected()) {
+          $menu[] = array(
+            'url' => CopixUrl::get('annuaire||getAnnuaireEcole', array('ecole' => $rEcole->numero)),
+            'txt' => CopixCustomI18N::get('annuaire|annuaire.back%%structure%%', array('catalog' => $vocabularyCatalog->id_vc)),
+          );
+        }
 
         $tpl->assign('MENU', $menu);
         $tpl->assign("MAIN", $main);
@@ -166,9 +177,14 @@ class ActionGroupDefault extends EnicActionGroup {
 
         $rEcole->blog = getNodeBlog('BU_ECOLE', $rEcole->numero, array('is_public' => 1));
 
+        // Get vocabulary catalog to use
+				$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+				$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $id);
+        
         $tpl = new CopixTpl ();
         $tpl->assign('rEcole', $rEcole);
         $tpl->assign('arClasses', $arClasses);
+        $tpl->assign('catalog', $vocabularyCatalog->id_vc);
 
         if (($anneeDebutBlogs = CopixConfig::get('fichesecoles|anneeDebutBlogs'))) {
 
