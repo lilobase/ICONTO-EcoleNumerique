@@ -76,6 +76,7 @@
 	    'height'          : '27',
 	    'width'           : '122',
 	    'wmode'           : 'transparent',
+	    'scriptData'      : {'PHPSESSID':'{/literal}{php}echo session_id($_GET['session_name']);{/php}{literal}'},
 	    'buttonImg'       : '../../../js/uploadify/button-background.png',
 	    'sizeLimit'       : {/literal}{$ppo->maxSizeLimit}{literal},
 	    'onComplete'      : function (event, ID, fileObj, response, data) {

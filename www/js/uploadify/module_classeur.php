@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 if (!empty($_FILES)) {
   
 	$tempFile = $_FILES['Filedata']['tmp_name'];
