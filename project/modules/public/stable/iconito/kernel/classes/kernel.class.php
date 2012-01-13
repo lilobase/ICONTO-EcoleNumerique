@@ -1498,7 +1498,7 @@ class Kernel {
 		}
 
 		// Cas particuliers : modules personnels sans numÈros
-		if( 0 == strncmp($node_type,"USER_",5) && 0 != strncmp($user_type,"USER_RES",8) ) {
+		if( 0 == strncmp($node_type,"USER_",5) /* && 0 != strncmp($user_type,"USER_RES",8) */ ) {
 			$perso_list = array( 'MOD_ANNUAIRE', 'MOD_MINIMAIL', 'MOD_GROUPE', 'MOD_RESSOURCE' );
 			foreach( $perso_list AS $perso_module ) {
 				$perso->node_type   = $node_type;
