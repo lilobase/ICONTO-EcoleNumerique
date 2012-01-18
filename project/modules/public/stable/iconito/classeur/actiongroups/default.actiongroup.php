@@ -578,7 +578,10 @@ class ActionGroupDefault extends enicActionGroup {
                 
                 $fichier = _record('classeur|classeurfichier');
                 
-                $title = Kernel::stripText($file);
+                $extension  = strtolower(strrchr($file, '.'));
+                $filename   = substr($file, 0, strrpos($file, '.'));
+                
+                $title = Kernel::stripText($filename).$extension;
                 
                 $fichier->classeur_id   = $classeur->id;
                 $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
@@ -601,7 +604,6 @@ class ActionGroupDefault extends enicActionGroup {
 
                 $nomClasseur = $classeur->id.'-'.$classeur->cle;
                 $nomFichier = $fichier->id.'-'.$fichier->cle;
-                $extension = strtolower(strrchr($file, '.'));
 
                 // Déplacement du fichier temporaire dans le classeur
                 copy($dossierParent.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
