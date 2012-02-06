@@ -8,7 +8,7 @@ class enicMatrixCache extends enicCache{
     public function __construct(){
         $this->storage = 'file';
         $this->range = 'user';
-
+        
         //get the cached matrix
         $matrix = parent::__construct();
 
@@ -27,8 +27,8 @@ class enicMatrix extends enicList {
 
         $options =& enic::get('options');
         $options = $options->matrix;
-        $options->bypass = (bool)$this->bypass;
-
+        $this->bypass = (bool)$options->bypass;
+        //var_dump($this->bypass);
         //get user info
         $user =& enic::get('user');
 
@@ -42,15 +42,17 @@ class enicMatrix extends enicList {
         $this->groupes->load('nodeMatrix', '_other');
         $this->groupes->_other->kernelParent = 'other';
         $this->groupes->_other->kernelChildren[] = 'other';
-        
+
         //start the iteration to complete the nodes when the user is member
-        rightMatrixHelpers::completeUp($user->type, $user->idEn);
+        if(!$this->bypass && !$user->root) {
+            rightMatrixHelpers::completeUp($user->type, $user->idEn);
+        }
 
         //foreach GRVILL : complete tree :
         foreach($this->villes->_children as $child){
             if($this->bypass == true || $user->root == true){
                 rightMatrixHelpers::loadTrue();
-                continue;
+                break;
             }
             //if($this->villes->$child->nom == 'other')
             //    continue;
