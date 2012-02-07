@@ -21,6 +21,16 @@ class ZoneUserLogged extends enicZone {
 			$sexe = ($ppo->user->getExtra('sexe')==2) ? 2 : '';
 			$ppo->usertype = strtolower($type).$sexe;
 		}
+		
+		// Get vocabulary catalog to use
+		if ($myNode = CopixSession::get('myNode')) {
+		  
+		  $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+  		$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($myNode['type'], $myNode['id']);
+		}
+		
+	  $ppo->vocabularyCatalogId = isset($vocabularyCatalog) ? $vocabularyCatalog->id_vc : CopixConfig::get('kernel|defaultVocabularyCatalog');
+		
 		$this->addJs('js/iconito/module_auth.js');
 		$this->addCss('styles/module_auth.css');
 
