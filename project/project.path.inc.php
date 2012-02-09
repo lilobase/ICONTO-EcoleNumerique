@@ -11,12 +11,12 @@
 /**
  * @ignore
  */
-define ('COPIX_PROJECT_PATH', dirname (__FILE__) . '/');
-define ('COPIX_TEMP_PATH',    COPIX_PROJECT_PATH.'../temp/');
-define ('COPIX_CACHE_PATH',   COPIX_TEMP_PATH.'cache/');
-define ('COPIX_LOG_PATH',     COPIX_TEMP_PATH.'log/');
-define ('COPIX_VAR_PATH',     COPIX_PROJECT_PATH.'../var/');
-define ('COPIX_WWW_PATH',     COPIX_PROJECT_PATH.'../www/');
-
+define ('COPIX_PROJECT_PATH',    dirname (__FILE__) . '/');
+define ('COPIX_TEMP_PATH',       COPIX_PROJECT_PATH.'../temp/');
+define ('COPIX_CACHE_PATH',      COPIX_TEMP_PATH.'cache/');
+define ('COPIX_LOG_PATH',        COPIX_TEMP_PATH.'log/');
+define ('COPIX_VAR_PATH',        COPIX_PROJECT_PATH.'../var/');
+define ('COPIX_WWW_PATH',        COPIX_PROJECT_PATH.'../www/');
+define ('COPIX_ICALENDAR_PATH',  COPIX_PROJECT_PATH.'../utils/SG-iCalendar/');
 
 ?>
