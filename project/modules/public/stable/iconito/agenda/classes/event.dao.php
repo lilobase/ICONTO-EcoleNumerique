@@ -16,7 +16,7 @@ class DAORecordEvent {
 class DAOEvent {
   
   /**
-   * Retourne les documents attachés à un objet
+   * Retourne les événements d'un agenda pour un intervalle donné
    *
    * @param integer  $agendaId    Identifiant de l'agenda
    * @param string   $dateDebut   Date de début de l'intervalle (format Ymd)
