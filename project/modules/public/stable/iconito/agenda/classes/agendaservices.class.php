@@ -729,6 +729,143 @@ class AgendaService {
   		$workDAO->update($work);
     }
   }
+  
+  /**
+   * Purge les évènements d'un agenda sur une période donnée
+   *
+   * @author Jérémy FOURNAISE <jeremy.fournaise@isics.fr>
+   *
+   * @param integer  $pIdAgenda    Identifiant de l'agenda à purger
+   * @param string   $pDateDebut   Date de début de la période à purger (format Ymd)
+   * @param string   $pDateFin     Date de fin de la période à purger (format Ymd)
+   * @param string   $pHeureDebut  Heure pour la date de début de la période (format H:i)
+   * @param string   $pHeureFin    Heure pour la date de fin de la période (format H:i)
+   */	
+  public function purgeAgendaByDateInterval ($pIdAgenda, $pDateDebut, $pDateFin, $pHeureDebut = '00:00', $pHeureFin = '00:00') {
+
+    $dateServices = new DateService;
+
+    $eventDAO = _ioDAO('agenda|event');
+    $events = $eventDAO->findByAgendaAndDateInterval($pIdAgenda, $pDateDebut, $pDateFin);
+    foreach ($events as $event) {
+
+      // Cas d'un événement qui ne se répète pas
+      if (is_null($event->endrepeatdate_event)) {
+
+  			if (($event->datefin_event >= $pDateDebut && $event->datedeb_event <= $pDateFin)
+  			  || (($event->datedeb_event == $pDateDebut || $event->datefin_event == $pDateFin) && $event->heurefin_event >= $pHeureDebut && $event->heuredeb_event <= $pHeureFin) 
+  			  || (($event->datefin_event == $pDateFin || $event->datedeb_event == $pDateDebut) && $event->alldaylong_event == 1)) {
+
+  				$eventDAO->delete($event->id_event);
+  			}
+  		}
+      else {
+
+        $duplicateEvent = clone $event;
+
+  			// Création d'un autre événement qui commence après la période concernée s'il se poursuivait après l'intervalle donné
+  			if ($duplicateEvent->endrepeatdate_event > $pDateFin || ($duplicateEvent->endrepeatdate_event == $pDateFin && $duplicateEvent->heuredeb_event >= $pHeureFin)) {
+
+  		    $record = _record ('event');
+
+  		    // Evénement qui se répète tous les jours
+  		    if ($duplicateEvent->everyday_event == 1) {
+
+  		      if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
+
+  						$record->datedeb_event = $dateServices->addToDate($pDateFin, 1, 0, 0);
+  					}
+  					else {
+
+  					  $record->datedeb_event = $pDateFin;
+  					}
+  		    }
+  		    // Evénement qui se répète toutes les semaines
+  		    elseif ($duplicateEvent->everyweek_event == 1) {
+
+  		      if (date('w', $dateServices->dateAndHoureBdToTimestamp($duplicateEvent->datedeb_event, null)) == date('w', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null))) {
+
+  						if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
+
+  					    $record->datedeb_event = $dateServices->addToDate($pDateFin, 7, 0, 0);
+  					  }
+  					  else {
+
+  				      $record->datedeb_event = $pDateFin;
+  				    }
+  				  }
+  				  else {
+
+  						$record->datedeb_event = $dateServices->getDayOfWeekAfterDate($pDateFin, date('w', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null)));
+  				  }
+  		    }
+  		    // Evénement qui se répète tous les mois
+  		    elseif ($duplicateEvent->everymonth_event == 1) {
+
+  		      if (date('md', $dateServices->dateAndHoureBdToTimestamp($duplicateEvent->datedeb_event, null)) == date('md', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null))) {
+
+  						if ($duplicateEvent->heuredeb_event < $heureFin || $duplicateEvent->alldaylong_event == 1) {
+
+  						  $record->datedeb_event = $dateServices->addToDate($pDateFin, 0, 1, 0);
+  						}
+  						else {
+
+  							$record->datedeb_event = $pDateFin;
+  						}
+  					}
+  					else {
+
+  					  $record->datedeb_event = $dateServices->getDayOfMonthAfterDate($pDateFin, substr($duplicateEvent->datedeb_event, 6, 2)); 
+  					}
+  		    }
+  		    // Evénement qui se répète tous les ans
+  		    elseif ($duplicateEvent->everyyear_event == 1) {
+
+  		      if (date('Ymd', $dateServices->dateAndHoureBdToTimestamp($duplicateEvent->datedeb_event, null)) == date('Ymd', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null))) {
+
+  						if ($duplicateEvent->heuredeb_event < $heureFin || $duplicateEvent->alldaylong_event == 1) {
+
+  						  $record->datedeb_event = $serviceDate->addToDate($pDateFin, 0, 0, 1);
+  						}
+  						else {
+
+  						  $record->datedeb_event = $pDateFin;
+  						}
+  					}
+  					else {
+
+  						$record->datedeb_event = $dateServices->getDayOfYearAfterDate($pDateFin, substr($duplicateEvent->datedeb_event, 4, 4));
+  					}
+  		    }
+
+  				$nbJour = $dateServices->getNombreJoursEcoulesEntreDeuxDates($duplicateEvent->datefin_event, $duplicateEvent->datedeb_event);
+  				$record->datefin_event = $dateServices->dateFrToDateBdd($dateServices->addToDate($dateServices->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
+
+  				$record->id_agenda            = $duplicateEvent->id_agenda;
+  				$record->title_event          = $duplicateEvent->title_event;
+  				$record->desc_event           = $duplicateEvent->desc_event;
+  				$record->place_event          = $duplicateEvent->place_event;
+  				$record->heuredeb_event       = $duplicateEvent->heuredeb_event;
+  				$record->heurefin_event       = $duplicateEvent->heurefin_event;
+  				$record->alldaylong_event     = $duplicateEvent->alldaylong_event;
+  				$record->everyday_event       = $duplicateEvent->everyday_event;
+  				$record->everyweek_event      = $duplicateEvent->everyweek_event;
+  				$record->everymonth_event     = $duplicateEvent->everymonth_event;
+  				$record->everyyear_event      = $duplicateEvent->everyyear_event;
+  				$record->endrepeatdate_event  = $duplicateEvent->endrepeatdate_event;
+
+          $eventDAO->insert ($record);
+
+          // Modification de la date de fin de répétition de l'événement
+          if ($event->endrepeatdate_event >= $pDateFin) {
+
+            $event->endrepeatdate_event = $pDateDebut;
+          }
+  				$eventDAO->update ($event);
+  		  }
+  		}
+    }
+  }
 
 }
 ?>
