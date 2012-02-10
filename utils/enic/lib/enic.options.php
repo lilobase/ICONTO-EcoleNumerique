@@ -11,7 +11,7 @@
 class enicOptions extends enicTree{
 
     public function startExec(){
-        $this->add('matrix');
+        $this->matrix = new stdClass();
         $this->matrix->bypass = false;
         
     }

@@ -62,6 +62,7 @@ class loadRightMatrix{
         $this->count = new loadRightMatrixAction();
         $this->count->voir = 0;
         $this->count->communiquer = 0;
+        
     }
 
     public function __get($name){
@@ -109,14 +110,19 @@ class loadRightMatrixTypeUser{
     
     //build right tree
     public function __construct(){
-        $this->parent = false;
-        $this->eleve = false;
-        $this->enseignant = false;
-        $this->directeur = false;
-        $this->agent_ville = false;
-        $this->invite = false;
-        $this->administratif = false;
-	$this->animateur = false;
+        
+        $options =& enic::get('options');
+        $bool = ($options->matrix->bypass) ? true : false;
+
+        $this->parent = $bool;
+        $this->eleve = $bool;
+        $this->enseignant = $bool;
+        $this->directeur = $bool;
+        $this->agent_ville = $bool;
+        $this->invite = $bool;
+        $this->administratif = $bool;
+	$this->animateur = $bool;
+        
     }
     public function __get($name){
         switch ($name){
@@ -185,8 +191,11 @@ class loadRightMatrixAction{
     
     //build right tree
     public function __construct(){
-        $this->voir = false;
-        $this->communiquer = false;
+        
+        $options =& enic::get('options');
+        $bool = ($options->matrix->bypass) ? true : false;
+        $this->voir = $bool;
+        $this->communiquer = $bool;
     }
 
     public function __get($name){

@@ -28,7 +28,7 @@ class enicMatrix extends enicList {
         $options =& enic::get('options');
         $options = $options->matrix;
         $this->bypass = (bool)$options->bypass;
-        //var_dump($this->bypass);
+
         //get user info
         $user =& enic::get('user');
 
@@ -44,15 +44,15 @@ class enicMatrix extends enicList {
         $this->groupes->_other->kernelChildren[] = 'other';
 
         //start the iteration to complete the nodes when the user is member
-        if(!$this->bypass && !$user->root) {
-            rightMatrixHelpers::completeUp($user->type, $user->idEn);
-        }
+        
+        rightMatrixHelpers::completeUp($user->type, $user->idEn);
+    
 
         //foreach GRVILL : complete tree :
         foreach($this->villes->_children as $child){
             if($this->bypass == true || $user->root == true){
                 rightMatrixHelpers::loadTrue();
-                break;
+                continue;
             }
             //if($this->villes->$child->nom == 'other')
             //    continue;
