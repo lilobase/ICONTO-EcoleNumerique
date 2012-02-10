@@ -234,8 +234,8 @@
 
   {elseif $ppo->parent.type == 'BU_ECOLE'}
       {if $ppo->user->testCredential ("module:school|`$ppo->parent.id`|principal|create@gestionautonome")} 
-        <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button button-add">Créer un directeur</a>
-        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button button-next">Affecter un directeur</a>
+        <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button button-add">{customi18n key="gestionautonome|gestionautonome.message.create%%indefinite__structure_element_director_staff%%" catalog=$ppo->vocabularyCatalog->id_vc}</a>
+        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=2}" class="button button-next">{customi18n key="gestionautonome|gestionautonome.message.affect%%indefinite__structure_element_director_staff%%" catalog=$ppo->vocabularyCatalog->id_vc}</a>
         {assign var=hasCredential value=1}
       {/if}
       {if $ppo->user->testCredential ("module:school|`$ppo->parent.id`|administration_staff|create@gestionautonome")}

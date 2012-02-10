@@ -12,6 +12,7 @@ class ZoneDashboardEcole extends enicZone {
 
         //get the id for current zone (force int)
         $idZone = $this->getParam('idZone')*1;
+        $catalog = $this->getParam('catalog');
 
         $enseignants = array();
         $oEns        = array();
@@ -52,6 +53,7 @@ class ZoneDashboardEcole extends enicZone {
             $tpl->assign('ens', $oEns);
             $tpl->assign('pic', $pic);
             $tpl->assign('idZone', $idZone);
+            $tpl->assign('catalog', $catalog);
 
             //return the html content
             $toReturn = $tpl->fetch ('zone.dashboard.ecole.tpl');

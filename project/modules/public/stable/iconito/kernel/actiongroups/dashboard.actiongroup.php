@@ -87,25 +87,29 @@ class ActionGroupDashboard extends enicActionGroup {
 
 				//get content from db :
 				$content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $contentNode['id'].' AND type_zone = "'.$contentNode['type'].'"')->toArray1();
+
+                // Get vocabulary catalog to use
+				$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+				$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($contentNode['type'], $contentNode['id']);
 			
 				//if no content : get default content
 				if (empty($content['content'])) {
 					switch ($contentNode['type']) {
 						case 'BU_CLASSE':
 						case 'USER_ELE':
-							$content['content'] = CopixZone::process('kernel|dashboardClasse', array('idZone' => $contentNode['id']));
+							$content['content'] = CopixZone::process('kernel|dashboardClasse', array('idZone' => $contentNode['id'], 'catalog' => $vocabularyCatalog->id_vc));
 							$content['picture'] = null;
 							break;
 						case 'BU_ECOLE':
-							$content['content'] = CopixZone::process('kernel|dashboardEcole', array('idZone' => $contentNode['id']));
+							$content['content'] = CopixZone::process('kernel|dashboardEcole', array('idZone' => $contentNode['id'], 'catalog' => $vocabularyCatalog->id_vc));
 							$content['picture'] = null;
 							break;
 						case 'BU_VILLE':
-							$content['content'] = CopixZone::process('kernel|dashboardVille', array('idZone' => $contentNode['id']));
+							$content['content'] = CopixZone::process('kernel|dashboardVille', array('idZone' => $contentNode['id'], 'catalog' => $vocabularyCatalog->id_vc));
 							$content['picture'] = null;
 							break;
 						case 'CLUB':
-							$content['content'] = CopixZone::process('kernel|dashboardGrTravail', array('idZone' => $contentNode['id']));
+							$content['content'] = CopixZone::process('kernel|dashboardGrTravail', array('idZone' => $contentNode['id'], 'catalog' => $vocabularyCatalog->id_vc));
 							$content['picture'] = null;
 							break;
 						case 'ROOT':
@@ -132,10 +136,6 @@ class ActionGroupDashboard extends enicActionGroup {
 				//is admin :
 				$is_admin = ($contentNode['droit'] >= 60);	
 
-        // Get vocabulary catalog to use
-				$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
-				$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($contentNode['type'], $contentNode['id']);
-        
 				//build html content
 				$content_tpl = new CopixTpl();
 				$content_tpl->assign('content', $content['content']);
