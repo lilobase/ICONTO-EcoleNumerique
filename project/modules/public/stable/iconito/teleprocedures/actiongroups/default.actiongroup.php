@@ -255,8 +255,8 @@ class ActionGroupDefault extends EnicActionGroup {
 	function processFiche () {
 		
 		$id = $this->getRequest ('id', null);
-		$errors = $this->getRequest ('errors', array());
-		$ok = $this->getRequest ('ok', array());
+		$errors = urldecode($this->getRequest ('errors', array()));
+		$ok = urldecode($this->getRequest ('ok', array()));
 		$print = $this->getRequest ('print');
 		$send = $this->getRequest ('send');
 		$fiche = $this->getRequest ('rFiche', array());
@@ -593,7 +593,7 @@ class ActionGroupDefault extends EnicActionGroup {
 			//$from = CopixConfig::get('|mailFrom');
 			//$fromName = CopixConfig::get('|mailFromName');
 			
-			$mail = new CopixHtmlEMail ($to, $cc, $cci, $subject, $message);
+			$mail = new CopixHtmlEMail ($to, $cc, $cci, utf8_decode($subject), utf8_decode($message));
 
 			$send = $mail->send ($from, $fromName);
 			
