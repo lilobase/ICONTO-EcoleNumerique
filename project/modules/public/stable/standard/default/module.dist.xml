@@ -19,6 +19,7 @@
 			<parameter name="mailSmtpHost" captioni18n="parameter.mailSmtpHost" default="localhost"  />
 			<parameter name="mailSmtpAuth" captioni18n="parameter.mailAuth" default=""  />
 			<parameter name="mailSmtpPass" captioni18n="parameter.mailPass" default=""  />
+			<parameter name="mailSmtpPort" captioni18n="parameter.mailSmtpPort" default=""  />
 		</group>
 		<group captioni18n="parameter.group.proxy">
 			<parameter name="proxyEnabled" captioni18n="parameter.proxyEnabled" default="0" type="bool" />

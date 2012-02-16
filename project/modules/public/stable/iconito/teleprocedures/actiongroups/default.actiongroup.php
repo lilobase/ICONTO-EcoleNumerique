@@ -255,8 +255,8 @@ class ActionGroupDefault extends EnicActionGroup {
 	function processFiche () {
 		
 		$id = $this->getRequest ('id', null);
-		$errors = urldecode($this->getRequest ('errors', array()));
-		$ok = urldecode($this->getRequest ('ok', array()));
+		$errors = ($this->getRequest ('errors', array()));
+		$ok = ($this->getRequest ('ok', array()));
 		$print = $this->getRequest ('print');
 		$send = $this->getRequest ('send');
 		$fiche = $this->getRequest ('rFiche', array());
@@ -615,8 +615,8 @@ class ActionGroupDefault extends EnicActionGroup {
 		
 		//var_dump($send);
 		
-		if ($errors) $errors = urlencode(str_replace("\n","<br/>",trim($errors)));
-		if ($ok) $ok = urlencode($ok);
+		if ($errors) $errors = (str_replace("\n","<br/>",trim($errors)));
+		if ($ok) $ok = ($ok);
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('|fiche', array('id'=>$id, 'errors'=>$errors, 'ok'=>$ok)));
 		//return CopixActionGroup::process ('teleprocedures|default::fiche', array ('id'=>$id, 'errors'=>$errors));
