@@ -750,19 +750,20 @@ class AgendaService {
     foreach ($events as $event) {
 
       // Cas d'un événement qui ne se répète pas
-      if (is_null($event->endrepeatdate_event)) {
-
-  			if (($event->datefin_event >= $pDateDebut && $event->datedeb_event <= $pDateFin)
-  			  || (($event->datedeb_event == $pDateDebut || $event->datefin_event == $pDateFin) && $event->heurefin_event >= $pHeureDebut && $event->heuredeb_event <= $pHeureFin) 
+      if (is_null($event->endrepeatdate_event) || $event->endrepeatdate_event < $pDateFin || ($event->endrepeatdate_event == $pDateFin && $event->heuredeb_event >= $pHeureFin)) {
+  			if (($event->datefin_event > $pDateDebut && $event->datedeb_event < $pDateFin)
+  			  || ($event->datedeb_event == $pDateDebut && $event->heuredeb_event >= $pHeureDebut)
+  			  || ($event->datefin_event == $pDateFin && $event->heuredeb_event <= $pHeureFin)
   			  || (($event->datefin_event == $pDateFin || $event->datedeb_event == $pDateDebut) && $event->alldaylong_event == 1)) {
-
-  				$eventDAO->delete($event->id_event);
+          $eventDAO->delete($event->id_event);
   			}
   		}
       else {
 
         $duplicateEvent = clone $event;
-
+        $mkDateDebEvent = mktime(0, 0, 0, substr($duplicateEvent->datedeb_event, 4, 2), substr($duplicateEvent->datedeb_event, 6, 2), substr($duplicateEvent->datedeb_event, 0, 4));
+        $mkDateFin = mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2), substr($pDateFin, 0, 4));
+        
   			// Création d'un autre événement qui commence après la période concernée s'il se poursuivait après l'intervalle donné
   			if ($duplicateEvent->endrepeatdate_event > $pDateFin || ($duplicateEvent->endrepeatdate_event == $pDateFin && $duplicateEvent->heuredeb_event >= $pHeureFin)) {
 
@@ -773,9 +774,10 @@ class AgendaService {
 
   		      if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
 
-  						$record->datedeb_event = $dateServices->addToDate($pDateFin, 1, 0, 0);
-  					}
-  					else {
+              // La date de début devient la date de la fin de période + 1 jour
+              $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2) + 1, substr($pDateFin, 0, 4)));
+            }
+            else {
 
   					  $record->datedeb_event = $pDateFin;
   					}
@@ -783,11 +785,11 @@ class AgendaService {
   		    // Evénement qui se répète toutes les semaines
   		    elseif ($duplicateEvent->everyweek_event == 1) {
 
-  		      if (date('w', $dateServices->dateAndHoureBdToTimestamp($duplicateEvent->datedeb_event, null)) == date('w', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null))) {
+  		      if (date('w', $mkDateDebEvent) == date('w', $mkDateFin)) {
 
   						if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
 
-  					    $record->datedeb_event = $dateServices->addToDate($pDateFin, 7, 0, 0);
+  					    $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2) + 7, substr($pDateFin, 0, 4)));
   					  }
   					  else {
 
@@ -802,11 +804,11 @@ class AgendaService {
   		    // Evénement qui se répète tous les mois
   		    elseif ($duplicateEvent->everymonth_event == 1) {
 
-  		      if (date('md', $dateServices->dateAndHoureBdToTimestamp($duplicateEvent->datedeb_event, null)) == date('md', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null))) {
+  		      if (date('md', $mkDateDebEvent) == date('md', $mkDateFin)) {
 
-  						if ($duplicateEvent->heuredeb_event < $heureFin || $duplicateEvent->alldaylong_event == 1) {
+  						if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
 
-  						  $record->datedeb_event = $dateServices->addToDate($pDateFin, 0, 1, 0);
+  						  $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2) + 1, substr($pDateFin, 6, 2), substr($pDateFin, 0, 4)));
   						}
   						else {
 
@@ -821,11 +823,11 @@ class AgendaService {
   		    // Evénement qui se répète tous les ans
   		    elseif ($duplicateEvent->everyyear_event == 1) {
 
-  		      if (date('Ymd', $dateServices->dateAndHoureBdToTimestamp($duplicateEvent->datedeb_event, null)) == date('Ymd', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null))) {
+  		      if (date('Ymd', $mkDateDebEvent) == date('Ymd', $mkDateFin)) {
 
-  						if ($duplicateEvent->heuredeb_event < $heureFin || $duplicateEvent->alldaylong_event == 1) {
+  						if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
 
-  						  $record->datedeb_event = $serviceDate->addToDate($pDateFin, 0, 0, 1);
+  						  $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2), substr($pDateFin, 0, 4) + 1));
   						}
   						else {
 
@@ -840,7 +842,7 @@ class AgendaService {
 
   				$nbJour = $dateServices->getNombreJoursEcoulesEntreDeuxDates($duplicateEvent->datefin_event, $duplicateEvent->datedeb_event);
   				$record->datefin_event = $dateServices->dateFrToDateBdd($dateServices->addToDate($dateServices->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-
+          
   				$record->id_agenda            = $duplicateEvent->id_agenda;
   				$record->title_event          = $duplicateEvent->title_event;
   				$record->desc_event           = $duplicateEvent->desc_event;
@@ -861,7 +863,8 @@ class AgendaService {
 
             $event->endrepeatdate_event = $pDateDebut;
           }
-  				$eventDAO->update ($event);
+
+          $eventDAO->update ($event);
   		  }
   		}
     }

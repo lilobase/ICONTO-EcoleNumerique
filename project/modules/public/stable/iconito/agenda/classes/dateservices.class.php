@@ -500,8 +500,6 @@ class DateService {
 			$nb += $Tbl[1];
 		return ($nb);
 	}
-
-	
 } 
 
 ?>

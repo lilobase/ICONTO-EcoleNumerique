@@ -93,7 +93,6 @@ class ActionGroupImportExport extends CopixActionGroup {
 	*/
 	function doImport(){
 		$serviceAuth   = new AgendaAuth;
-		$serviceImport = new ImportService;
 
 		//demande de mettre l'objet à jour en fonction des valeurs saisies dans le formulaire
 		if (!$importParams = $this->_getSessionImport()){
@@ -121,7 +120,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		else{
 			if(is_uploaded_file ($_FILES['import_ordi']['tmp_name'])){
 					move_uploaded_file ($_FILES['import_ordi']['tmp_name'], CopixConfig::get ('agenda|tempfiles') . 'import.ics');
-					$file[] = CopixConfig::get ('agenda|tempfiles') . 'import.ics';					
+					$file = CopixConfig::get ('agenda|tempfiles') . 'import.ics';					
 			}
 			else{
 				if(_request('import_internet') != null){
@@ -134,7 +133,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 					}
 					$handleToWrite = fopen(CopixConfig::get ('agenda|tempfiles') . 'import.ics', 'w+');
 					fwrite($handleToWrite, $contents);
-					$file[] = CopixConfig::get ('agenda|tempfiles') . 'import.ics';
+					$file = CopixConfig::get ('agenda|tempfiles') . 'import.ics';
 				}
 				else{
 					return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -144,30 +143,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 				
 			}
 
-			$icalParser   = CopixClassesFactory::create('ical_parser');
-			$importEvents = $icalParser->parse($file);
-			
-			$importError = $icalParser->parse($file);
-			if( $importError == false){
-				return CopixActionGroup::process ('genericTools|Messages::getError',
-						array ('message'=>CopixI18N::get ('agenda.error.cannotFindFile'),
-								'back'=>CopixUrl::get ('agenda|importexport|prepareImport')));
-			}
-			if( $importError == -1){
-				return CopixActionGroup::process ('genericTools|Messages::getError',
-						array ('message'=>CopixI18N::get ('agenda.error.notIcsFile'),
-								'back'=>CopixUrl::get ('agenda|importexport|prepareImport')));
-			}
-			//echo "a";
-			// print_r($importEvents);
-			
-			if($importParams['option'] == 1){//cas où on réalise l'import sans vider
-				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams['id_agenda']);
-			}
-			else{
-				$serviceImport->viderBase($importEvents, $importParams['id_agenda']);
-				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams['id_agenda']);
-			}			
+			_classInclude('agenda|importServices');
+      $nbInsertions = ImportServices::import($file, $importParams['id_agenda'], $importParams['option'] == 1 ? false : true);
 		}
 		//on efface le fichier temporaire créé pour faire l'import
 		unlink(CopixConfig::get ('agenda|tempfiles') . 'import.ics');
@@ -175,7 +152,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		//on vide la session
 		//$this->_setSessionImport(null);
 		
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|importexport|afterImport', array('nbInsertions'=>$nbInsertions)));
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|importexport|afterImport', array('nbInsertions'=> $nbInsertions)));
 	}
 	
 	

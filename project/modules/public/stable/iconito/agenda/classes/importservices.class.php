@@ -1,310 +1,184 @@
 <?php
 /**
-* @package Iconito
+* @package    Iconito
 * @subpackage Agenda
-* @author Audrey Vassal 
-* @copyright 2001-2005 CopixTeam
-* @link http://copix.org
-* @licence http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
+* @author     JÃ©rÃ©my FOURNAISE <jeremy.fournaise@isics.fr> 
 */
 
-_classInclude('agenda|agendaservices');
-_classInclude('agenda|dateservices');
+require_once (COPIX_ICALENDAR_PATH.'SG_iCal.php');
 
-class ImportService {
-	
+class ImportServices {
 	
 	/**
-	* Fonction qui insère en base de données les évènements récupérés du fichier iCal
-	* @author Audrey Vassal <avassal@sqli.com> 
-	* @since 2006/08/11 
-	* @param array $pArEventsICal le tableau construit après parse du fichier iCal
-	* @param integer $pIdAgenda identifiant de l'agenda dans lequel doivent être insérés les évènements
-	* @return interger $nbEventsInseres nombre d'insertions effectuées
-	*/
-	function importSansVider($pArEventsICal, $pIdAgenda){
-		$serviceDate = new DateService;
-		$nbEventsInseres = 0;
-		foreach($pArEventsICal as $day=>$arEventsByDay){
-			if(is_numeric($day) && strlen($day) == 8){//on élimine les première case du tableau qui nous sont inutiles
-				foreach($arEventsByDay as $key=>$arEvents){
-					foreach($arEvents as $event){								
-						if($event['event_text'] != null && $event['start_unixtime'] != null && $event['end_unixtime'] != null && $event['event_start'] != null && $event['event_end'] != null){
-							$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
-							$record   = _record ('event');
-							//on regarde si l'évènement à insérer existe déjà dans l'agenda
-							$criteres = _daoSp();
-							$criteres->addCondition('id_agenda'     , '=', $pIdAgenda);
-							$criteres->addCondition('title_event'   , '=', $event['event_text']);
-							$criteres->addCondition('datedeb_event' , '=', date('Ymd', $event['start_unixtime']));
-							$criteres->addCondition('datefin_event' , '=', date('Ymd', $event['end_unixtime']));
-							$criteres->addCondition('heuredeb_event', '=', $serviceDate->heureWithoutSeparateurToheureWithSeparateur($event['event_start']));
-							$criteres->addCondition('heurefin_event', '=', $serviceDate->heureWithoutSeparateurToheureWithSeparateur($event['event_end']));	
-							$resultat = $daoEvent->findBy($criteres);
-							if (count($resultat) > 0){//l'évènement existe, on passe au suivant
-								break;								
-							}
-							
-							else{//l'évènement n'existe pas dans l'agenda, on l'insère	
-								$record->id_agenda        = $pIdAgenda;
-								$record->title_event      = $event['event_text'];
-								$record->desc_event       = $event['description'];
-								$record->place_event      = $event['location'];
-								$record->datedeb_event    = date('Ymd', $event['start_unixtime']);
-								$record->datefin_event    = date('Ymd', $event['end_unixtime']);
-								$record->heuredeb_event   = $serviceDate->heureWithoutSeparateurToheureWithSeparateur($event['event_start']);
-								$record->heurefin_event   = $serviceDate->heureWithoutSeparateurToheureWithSeparateur($event['event_end']);
-								$record->alldaylong_event = 0;
-								$record->everyday_event   = 0;
-								$record->everyweek_event  = 0;
-								$record->everymonth_event = 0;
-								$record->everyyear_event  = 0;
-								$record->endrepeatdate_event = null;
-								
-								$daoEvent->insert ($record);	
-								$nbEventsInseres = $nbEventsInseres + 1;//on incrémente le nombre d'insertions
-							}
-						}
-						else{ //cas des évènements qui ont lieu sur toute la journée
-							
-							if($event['event_text'] != null){
-								$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
-								$record   = _record ('event');
-								//on regarde si l'évènement à insérer existe déjà dans l'agenda
-								$criteres = _daoSp();
-								$criteres->addCondition('id_agenda'     , '=', $pIdAgenda);
-								$criteres->addCondition('title_event'   , '=', $event['event_text']);
-								$criteres->addCondition('datedeb_event' , '=', $day);
-								$resultat = $daoEvent->findBy($criteres);
-								if (count($resultat) > 0){//l'évènement existe, on passe au suivant
-									break;								
-								}							
-								else{
-									$record->id_agenda        = $pIdAgenda;
-									$record->title_event      = $event['event_text'];
-									$record->desc_event       = $event['description'];
-									$record->place_event      = $event['location'];
-									$record->datedeb_event    = $day;
-									$record->datefin_event    = $day;
-									$record->alldaylong_event = 1;
-									$record->everyday_event   = 0;
-									$record->everyweek_event  = 0;
-									$record->everymonth_event = 0;
-									$record->everyyear_event  = 0;
-									$record->endrepeatdate_event = null;
-									
-									$daoEvent->insert ($record);	
-									$nbEventsInseres = $nbEventsInseres + 1;//on incrémente le nombre d'insertions
-								}
-							}
-						}
-					}				
-				}
-			}
-		}
-		return $nbEventsInseres;
+	 * Fonction qui insÃ¨re en base de donnÃ©es les Ã©vÃ¨nements du fichier iCal
+	 *
+	 * @param file $iCalFile   Fichier iCalendar contenant des Ã©vÃ©nements Ã  importer
+	 * @param int  $agendaId   Identifiant de l'agenda dans lequel doivent Ãªtre insÃ©rÃ©s les Ã©vÃ¨nements
+	 * @param bool $withPurge  Purge le calendrier de l'agenda sur la pÃ©riode concernÃ©e
+	 *
+	 * @return int Nombre d'insertions effectuÃ©es
+	 */
+	public static function import($iCalFile, $agendaId, $withPurge = false) {
+	  
+	  $ical = new SG_iCal($iCalFile);
+	  $events = $ical->getEvents();
+	  
+	  $eventsCounter = 0;
+	  if (is_array($events) && !empty($events)) {
+	    
+	    // RÃ©cupÃ©ration de la premiÃ¨re et derniÃ¨re date du calendrier importÃ©
+      foreach ($events as $event) {
+        
+        if (!isset($startDate) && !isset($endDate)) {
+          
+          $startDate = $event->getStart();
+          $endDate   = $event->getEnd();
+        }
+
+        $startDate = min($event->getStart(), $startDate);
+        $endDate   = max($event->getEnd(), $endDate);
+      }
+	    // Si purge de l'agenda demandÃ©...
+	    if ($withPurge) {
+	      try {
+  	      _classInclude('agenda|AgendaService');
+  	      AgendaService::purgeAgendaByDateInterval($agendaId, date('Ymd', $startDate), date('Ymd', $endDate), date('H:i', $startDate), date('H:i', $endDate));
+  	    }
+  	    catch (Exception $e) {
+
+  	      throw new Exception('Error during agenda purge.');
+  	    }
+  	  }
+
+  	  $eventDAO = _ioDAO('event');
+
+  	  foreach($events as $event) {
+  	    
+        // Recherche si l'Ã©vÃ©nement existe dÃ©jÃ  en base
+        $criteres = _daoSp();
+        $criteres->addCondition('id_agenda'     , '=', $agendaId);
+        $criteres->addCondition('title_event'   , '=', $event->getSummary());
+        $criteres->addCondition('datedeb_event' , '=', date('Ymd', $event->getStart()));
+        $criteres->addCondition('datefin_event' , '=', date('Ymd', $event->getEnd()));
+        if ($event->isWholeDay()) {
+          
+          $criteres->addCondition('alldaylong_event', '=', 1);
+        }
+        else {
+          
+          $criteres->addCondition('heuredeb_event', '=', date('H:i', $event->getStart()));
+        }
+        
+        $resultat = $eventDAO->findBy($criteres);
+        
+        // Si l'Ã©venement n'est pas prÃ©sent en base on le sauvegarde tel qu'elle
+        if (count($resultat) < 1) {
+          $record = self::createEvent($agendaId, $event);
+          $eventDAO->insert($record);
+          $eventsCounter ++;
+        }
+        else {
+          // Sinon, on applique un traitement spÃ©cifique aux Ã©vÃ©nements rÃ©currents
+          if($event->getProperty('recurrence')) {
+            $findSame = false;
+            
+            // On cherche la date de fin de rÃ©currence
+            if($event->getProperty('freq')) {
+              $endRepeatdateEvent = date('Ymd', $event->getProperty('freq')->lastOccurrence());
+            }
+            else {
+            	$endRepeatdateEvent = 99999999;
+            }
+
+            // Si dans les rÃ©sultat, une date de fin de rÃ©currence est trouvÃ©, alors l'Ã©venements est dÃ©jÃ  en base
+            foreach($resultat as $eventSame) {
+              if ($eventSame->endrepeatdate_event == $endRepeatdateEvent || $eventSame->endrepeatdate_event == date('Ymd', $endDate)) {
+                $findSame = true;
+              }
+            }
+            
+            // Sinon, il a pus Ãªtre purger, on vÃ©rifie donc si sa date de fin de rÃ©currence est Ã©gale Ã  la date de dÃ©but de purge
+            if ($resultat[0]->endrepeatdate_event == date('Ymd', $startDate) && !($findSame)) {
+              $record = self::createEvent($agendaId, $event);
+              
+              // Dans se cas, la rÃ©currence prendra fin Ã  la date de fin de purge, car un nouvel Ã©vÃ©nement est entrÃ© en base pour la suite
+              $record->endrepeatdate_event = date('Ymd', $endDate);
+              $eventDAO->insert($record);
+            }
+          }
+        }
+	    }
+    }
+
+	  return $eventsCounter;
 	}
 	
-	
 	/**
-	* Fonction qui vide les évènements en base sur la période concernée
-	* En vidant l'agenda sur la période concernée
-	* @author Audrey Vassal <avassal@sqli.com> 
-	* @since 2006/08/11 
-	* @param array $pArEventsICal La date que l'on va incrémenter. Format Fr.
-	* @param integer $pIdAgenda identifiant de l'agenda dans lequel doivent être insérés les évènements
-	* @return interger $nbEventsInseres nombre d'insertions effectuées
-	*/
-	function viderBase ($pArEventsICal, $pIdAgenda){
-		//on récupère la date et heure de début
+	 * Fonction qui insÃ¨re en base de donnÃ©es les Ã©vÃ¨nements du fichier iCal
+	 *
+	 * @param int  $agendaId   Identifiant de l'agenda dans lequel doivent Ãªtre insÃ©rÃ©s les Ã©vÃ¨nements
+	 * @param SG_iCal_Freq $event Evenement Ã  enregistrer
+	 *
+	 * @return Recorde Evenement Ã  sauvegarder
+	 */
+	public static function createEvent($agendaId, $event) {
+    
+    $record = _record('event');
+    
+    $record->id_agenda            = $agendaId;
+    $record->title_event          = $event->getSummary();
+    $record->desc_event           = $event->getDescription();
+    $record->place_event          = $event->getLocation();
+    $record->datedeb_event        = date('Ymd', $event->getStart());
+    $record->datefin_event        = date('Ymd', $event->getEnd());
+    $record->heuredeb_event       = date('H:i', $event->getStart());
+    $record->heurefin_event       = date('H:i', $event->getEnd());
+    $record->alldaylong_event     = $event->isWholeDay() ? 1 : 0;
+    $record->everyday_event       = 0;
+    $record->everyweek_event      = 0;
+    $record->everymonth_event     = 0;
+    $record->everyyear_event      = 0;
+    $record->endrepeatdate_event  = null;
+    
+    // RÃ©cupÃ©ration de la frÃ©quence de l'Ã©vÃ©nement
+    if ($eventRecurrence = $event->getProperty('recurrence')) {
 
-		// print_r($pArEventsICal);
+      switch ($eventRecurrence->getFreq()) {
+        case 'DAILY':
+          $record->everyday_event = 1;
+          break;
+        case 'WEEKLY':
+          $record->everyweek_event = 1;
+          break;
+        case 'MONTHLY':
+          $record->everymonth_event = 1;
+          break;
+        case 'YEARLY':
+          $record->everyyear_event = 1;
+          break;
+      }
+      
+      // Si l'Ã©venement s'arrÃªte aprÃ¨s un certain nombre de fois, on rÃ©cupÃ¨re la derniÃ¨re date
+      if ($eventFrequence = $event->getProperty('freq')) {
 
-		foreach($pArEventsICal as $day=>$arEventsByDay){
-			
-			if(checkdate((int)substr($day, 4, 2), (int)substr($day, 6, 2), (int)substr($day, 0, 4))){
-				foreach($arEventsByDay as $key=>$arEvents){
-					foreach($arEvents as $event){
-							$dateDeb = $day;
-							$heureDeb = $event['event_start'];
-					}
-				}
-				break;
-			}
-		}
+        $record->endrepeatdate_event = date('Ymd', $eventFrequence->lastOccurrence());
+      }
+      elseif($eventRecurrence->getUntil())
+      {
+        // Sinon on rÃ©cupÃ©rÃ¨re la date de derniÃ¨re rÃ©currence, on vÃ©rifie que l'attribut rrule possÃ¨de la date
+        if (preg_match('/UNTIL/', $eventRecurrence->rrule) > 0) {
+          $record->endrepeatdate_event = date_create_from_format('Ymd\THisO', $eventRecurrence->getUntil())->format('Ymd');
+        }
+        else {
+          // Sinon on ne rÃ©cupÃ¨re pas la date donnÃ© par SG_iCal, car l'Ã©venement ne se termine pas et SG_iCal l'ajoute forcement Ã  3ans plus tard
+          $record->endrepeatdate_event = '99999999';
+        }
+      }
+      else {
+        $record->endrepeatdate_event = '99999999';
+      }
+    }
 
-		//on récupère la date et heure de fin
-		foreach($pArEventsICal as $day=>$arEventsByDay){			
-			if(checkdate((int)substr($day, 4, 2), (int)substr($day, 6, 2), (int)substr($day, 0, 4))){
-				foreach($arEventsByDay as $key=>$arEvents){
-					foreach($arEvents as $event){
-							$dateFin = $day;
-							$heureFin = $event['event_end'];
-					}
-				}
-			}
-		}		
-	
-		//on récupère tous les évènements de l'agenda sur la période concernée
-		$serviceAgenda = new AgendaService;
-		$serviceDate   = new DateService;
-		$arEventsInBdd = $serviceAgenda->checkEventOfAgendaInBdd($pIdAgenda, $dateDeb, $dateFin);
-		
-		//voir quels agendas on prend quand on vide sur la période
-		
-		//on vide l'agenda sur la période concernée
-		$daoEvent = & CopixDAOFactory::getInstanceOf ('event');
-		foreach((array)$arEventsInBdd as $event){
-			//cas d'un évènement qui ne se répète pas
-			if($event->endrepeatdate_event == null){				
-				if(($event->datefin_event > $dateDeb && $event->datedeb_event < $dateFin) || 
-				   ($event->datedeb_event == $dateDeb && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event) > $heureDeb && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $heureFin) || 
-				   ($event->datefin_event == $dateFin && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heuredeb_event) < $heureFin && $serviceDate->heureWithSeparateurToheureWithoutSeparateur($event->heurefin_event) > $heureDeb) || 
-				   ($event->datefin_event == $dateFin && $event->alldaylong_event == 1) || 
-				   ($event->datedeb_event == $dateDeb && $event->alldaylong_event == 1)){
-						$daoEvent->delete($event->id_event);
-				}
-			}
-			
-			//l'évènement à supprimer se répète, on découpe l'évènement en 2 parties :
-			//un évènement avant la période d'insertion, un évènement après le période d'insertion
-			else{
-				$eventDuplicate = $event;//duplication de l'évènement pour garder les infos de base			
-				$record = _record ('event');
-
-				$criteres = _daoSp();
-				$criteres->addCondition('id_event', '=', $event->id_event);	
-				$resultat = $daoEvent->findBy($criteres);
-				
-				//on modifie la date de fin de répétition de l'évènement
-				if (count($resultat) > 0){
-					$record = $resultat[0];
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($record->heurefin_event) < $heureDeb && $record->alldaylong_event == 0){
-						$record->endrepeatdate_event = $dateDeb;
-					}
-					if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($record->heurefin_event) > $heureDeb || $record->alldaylong_event == 1){
-						$record->endrepeatdate_event = $serviceDate->retireUnJour($dateDeb);
-					}
-					$daoEvent->update ($record);
-				}				
-								
-				//on crée un autre évènement qui commence après la période concernée
-				//si il se poursuivait après cette période
-				if($eventDuplicate->endrepeatdate_event > $dateFin || ($eventDuplicate->endrepeatdate_event == $dateFin && $eventDuplicate->heuredeb_event >= $heureFin)){				
-					$record = _record ('event');
-					if($eventDuplicate->everyday_event == 1){
-						if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
-							//les heures se chevauchent, on va au jour suivant
-							$datedebEvent = $dateFin;
-							$datedebEvent = $serviceDate->dateBddToDateFr($datedebEvent);
-							$datedebEvent = $serviceDate->addToDate($datedebEvent, 1, 0, 0);
-							$record->datedeb_event = $serviceDate->dateFrToDateBdd($datedebEvent);
-							$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-							$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-						}
-						if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) > $heureFin && $eventDuplicate->alldaylong_event == 0){
-							$datedebEvent = $dateFin;
-							$record->datedeb_event = $datedebEvent;
-							$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-							$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-						}
-					}
-					if($eventDuplicate->everyweek_event == 1){
-						//le jour de début d'évènement est le jour de fin de période
-						if(date('w', $serviceDate->dateAndHoureBdToTimestamp($eventDuplicate->datedeb_event, null)) == date('w', $serviceDate->dateAndHoureBdToTimestamp($dateFin, null))){
-							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
-								//les heures se chevauchent, on va au jour de la semaine suivante
-								$datedebEvent = $dateFin;
-								$datedebEvent = $serviceDate->dateBddToDateFr($datedebEvent);
-								$datedebEvent = $serviceDate->addToDate($datedebEvent, 7, 0, 0);
-								$record->datedeb_event = $serviceDate->dateFrToDateBdd($datedebEvent);
-								$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-								$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-							}
-							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) > $heureFin && $eventDuplicate->alldaylong_event == 0){
-								$datedebEvent = $dateFin;
-								$record->datedeb_event = $datedebEvent;
-								$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-								$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-							}
-						}
-						else{
-							$datedebEvent = $dateFin;
-							$record->datedeb_event = $serviceDate->getDayOfWeekAfterDate($datedebEvent, date('w', $serviceDate->dateAndHoureBdToTimestamp($eventDuplicate->datedeb_event, null)));
-							$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-							$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-						}
-						
-					}
-					if($eventDuplicate->everymonth_event == 1){
-						//le jour de début d'évènement est le jour de fin de période
-						if(date('md', $serviceDate->dateAndHoureBdToTimestamp($eventDuplicate->datedeb_event, null)) == date('md', $serviceDate->dateAndHoureBdToTimestamp($dateFin, null))){
-							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
-								//les heures se chevauchent, on va au jour du mois suivant
-								$datedebEvent = $dateFin;
-								$datedebEvent = $serviceDate->dateBddToDateFr($datedebEvent);
-								$datedebEvent = $serviceDate->addToDate($datedebEvent, 0, 1, 0);
-								$record->datedeb_event = $serviceDate->dateFrToDateBdd($datedebEvent);
-								$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-								$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-							}
-							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) > $heureFin && $eventDuplicate->alldaylong_event == 0){
-								$datedebEvent = $dateFin;
-								$record->datedeb_event = $datedebEvent;
-								$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-								$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-							}
-						}
-						else{
-							$datedebEvent = $dateFin;
-							$record->datedeb_event = $serviceDate->getDayOfMonthAfterDate($datedebEvent, substr($eventDuplicate->datedeb_event, 6, 2));
-							$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-							$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-						}
-					}
-					if($eventDuplicate->everyyear_event == 1){
-						//le jour de début d'évènement est le jour de fin de période
-						if(date('Ymd', $serviceDate->dateAndHoureBdToTimestamp($eventDuplicate->datedeb_event, null)) == date('Ymd', $serviceDate->dateAndHoureBdToTimestamp($dateFin, null))){
-							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) < $heureFin || $eventDuplicate->alldaylong_event == 1){
-								//les heures se chevauchent, on va au jour de l'année suivante
-								$datedebEvent = $dateFin;
-								$datedebEvent = $serviceDate->dateBddToDateFr($datedebEvent);
-								$datedebEvent = $serviceDate->addToDate($datedebEvent, 0, 0, 1);
-								$record->datedeb_event = $serviceDate->dateFrToDateBdd($dateFin);
-								$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-								$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-							}
-							if($serviceDate->heureWithSeparateurToheureWithoutSeparateur($eventDuplicate->heuredeb_event) > $heureFin && $eventDuplicate->alldaylong_event == 0){
-								$datedebEvent = $dateFin;
-								$record->datedeb_event = $datedebEvent;
-								$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-								$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-							}
-						}
-						else{
-							$datedebEvent = $dateFin;
-							$record->datedeb_event = $serviceDate->getDayOfYearAfterDate($datedebEvent, substr($eventDuplicate->datedeb_event, 4, 4));
-							$nbJour = $serviceDate->getNombreJoursEcoulesEntreDeuxDates($eventDuplicate->datedeb_event, $eventDuplicate->datedeb_event);
-							$record->datefin_event = $serviceDate->dateFrToDateBdd($serviceDate->addToDate($serviceDate->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
-						}
-					}				
-					$record->id_agenda            = $eventDuplicate->id_agenda;
-					$record->title_event          = $eventDuplicate->title_event;
-					$record->desc_event           = $eventDuplicate->desc_event;
-					$record->place_event          = $eventDuplicate->place_event;
-					$record->heuredeb_event       = $eventDuplicate->heuredeb_event;
-					$record->heurefin_event       = $eventDuplicate->heurefin_event;
-					$record->alldaylong_event     = $eventDuplicate->alldaylong_event;
-					$record->everyday_event       = $eventDuplicate->everyday_event;
-					$record->everyweek_event      = $eventDuplicate->everyweek_event;
-					$record->everymonth_event     = $eventDuplicate->everymonth_event;
-					$record->everyyear_event      = $eventDuplicate->everyyear_event;
-					$record->endrepeatdate_event  = $eventDuplicate->endrepeatdate_event;
-					
-					$daoEvent->insert ($record);
-				}
-			}
-		}
+    return $record;
 	}
 }
-?>
