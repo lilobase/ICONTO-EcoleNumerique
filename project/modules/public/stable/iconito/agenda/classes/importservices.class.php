@@ -124,13 +124,12 @@ class ImportServices {
 	public static function createEvent($agendaId, $event) {
     
     $record = _record('event');
-    
+
     $record->id_agenda            = $agendaId;
     $record->title_event          = $event->getSummary();
     $record->desc_event           = $event->getDescription();
     $record->place_event          = $event->getLocation();
     $record->datedeb_event        = date('Ymd', $event->getStart());
-    $record->datefin_event        = date('Ymd', $event->getEnd());
     $record->heuredeb_event       = date('H:i', $event->getStart());
     $record->heurefin_event       = date('H:i', $event->getEnd());
     $record->alldaylong_event     = $event->isWholeDay() ? 1 : 0;
@@ -139,6 +138,13 @@ class ImportServices {
     $record->everymonth_event     = 0;
     $record->everyyear_event      = 0;
     $record->endrepeatdate_event  = null;
+    
+    if ($event->isWholeDay()) {
+      $record->datefin_event = date('Ymd', strtotime('-1 day', $event->getEnd()));
+    }
+    else {
+      $record->datefin_event = date('Ymd', $event->getEnd());
+    }
     
     // Récupération de la fréquence de l'événement
     if ($eventRecurrence = $event->getProperty('recurrence')) {
