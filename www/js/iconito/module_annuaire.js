@@ -91,7 +91,7 @@ function add_destin (login, field) {
 			logins = dest.value.replace(/ /g,"");
 	    tab = logins.split(',');
 			//alert (tab.length);
-			if (tab.length>=limit)
+			if (0 && tab.length>=limit)
 				res = i18n_minimail_limit_dest+"\n";
 			else
 				dest.value += ', '+login;
