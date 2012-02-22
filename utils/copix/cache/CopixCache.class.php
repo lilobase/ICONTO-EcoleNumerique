@@ -181,14 +181,16 @@ class CopixCache {
 	 * @param string $pType Type de cache
 	 * @return boolean
 	 */
-	static public function exists ($pId, $pType = 'default') {
+	static public function exists ($pId, $pType = 'default', $pExtra = array()) {
 		// Type non activé, existe pas
 		if (!self::isEnabled(self::_getMain ($pType))) {
 			return false;
 		}
+        
+        $params = CopixConfig::instance()->copixcache_getType (self::_getMain ($pType));
 
-		return self::_getStrategy(self::_getStrategyNameFor (self::_getMain ($pType)))->exists (
-			serialize($pId), $pType, CopixConfig::instance()->copixcache_getType (self::_getMain ($pType))
+        return self::_getStrategy(self::_getStrategyNameFor (self::_getMain ($pType)))->exists (
+			serialize($pId), $pType, array_merge($params, $pExtra)
 		);
 	}
 
