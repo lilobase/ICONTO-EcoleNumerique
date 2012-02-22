@@ -32,7 +32,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$samedi   = $service->numweekToDate($this->getParam('elementsSemaineAffichee')->numSemaine, $this->getParam('elementsSemaineAffichee')->annee, 6);
 		
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		//date du jour
 		$tpl->assign('dimanche'        , date('d', $dimanche));
@@ -51,7 +51,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$tpl->assign('semaine'         , $this->getParam('elementsSemaineAffichee')->numSemaine);
 		$tpl->assign('annee'           , $this->getParam('elementsSemaineAffichee')->annee);
 		
-		//on vérifie si un agenda de classe est affiché
+		//on vÃ©rifie si un agenda de classe est affichÃ©
 		//$lecon = false;
 		$readLecon  = false;
 		$writeLecon = false;
@@ -59,14 +59,14 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$agendasAffiches = $this->getParam('agendasAffiches',null);
 		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
 			if($serviceAgenda->getTypeAgendaByIdAgenda($id_agenda) == $serviceType->getClassRoom()){
-				//on vérifie si l'utilisateur peut écrire des leçons
+				//on vÃ©rifie si l'utilisateur peut Ã©crire des leÃ§ons
 				if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getWriteLecon()){
 					$writeLecon = true;
 					//$lecon = true;
 					$idAgendaScolaire = $id_agenda;
 					break;
 				}
-				//on vérifie si l'utilisateur peut lire les leçons
+				//on vÃ©rifie si l'utilisateur peut lire les leÃ§ons
 				if($serviceAuth->getCapability($id_agenda) >= $serviceAuth->getRead()){
 					$readLecon = true;
 					//$lecon = true;
@@ -76,7 +76,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 			}
 		}
 		
-		//on vérifie si l'utilisateur a les droits d'écriture sur un des agendas affichés
+		//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture sur un des agendas affichÃ©s
 		$writeAgenda = false;
 		$agendasAffiches = $this->getParam('agendasAffiches',null);
 		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
@@ -86,7 +86,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 			}
 		}
 		
-		//on construit un tableau de droits pour chaque agenda affiché
+		//on construit un tableau de droits pour chaque agenda affichÃ©
 		$arDroits = array();
 		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
 			
@@ -111,7 +111,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		}
 		
 		
-		//on construit le tableau de couleurs associées au type d'agenda
+		//on construit le tableau de couleurs associÃ©es au type d'agenda
 		$arColorByIdAgenda = array();
 		foreach($this->getParam('elementsSemaineAffichee')->agendas as $id_agenda){
 			$arColor = $serviceType->getColors($serviceAgenda->getTypeAgendaByIdAgenda($id_agenda));
@@ -131,7 +131,7 @@ class ZoneAgendaVueSemaine extends CopixZone {
 
 		$tpl->assign('arColorByIdAgenda', $arColorByIdAgenda);		
 		
-		//on détermine l'heure de début et de fin pour l'affichage du calendrier
+		//on dÃ©termine l'heure de dÃ©but et de fin pour l'affichage du calendrier
 		$tpl->assign('heure_deb'       , $this->getParam('heureDeb'));
 		$tpl->assign('heure_fin'       , $this->getParam('heureFin'));
 
@@ -141,6 +141,9 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$tpl->assign('writeLecon'    , $writeLecon);
 		$tpl->assign('agendaScolaire', $idAgendaScolaire);
 		$tpl->assign('arLecons'      , $this->getParam('arLecons'));
+		$tpl->assign('arTravauxEnClasse', $this->getParam('arTravauxEnClasse'));
+		$tpl->assign('arTravauxAFaire', $this->getParam('arTravauxAFaire'));
+		$tpl->assign('agenda2cahier'  , $this->getParam('agenda2cahier'));
 		
 		$tpl->assign('writeAgenda' , $writeAgenda);
 		$tpl->assign('arDroits'    , $arDroits);
@@ -148,11 +151,14 @@ class ZoneAgendaVueSemaine extends CopixZone {
 		$tpl->assign('todaySemaine' , date('W'));
 		$tpl->assign('todayAnnee' , date('Y'));
 		
-		//paramètres pour passer d'une semaine à l'autre
+		//paramÃ¨tres pour passer d'une semaine Ã  l'autre
 		$tpl->assign('semaine_precedente', $service->dateToWeeknum(mktime(0, 0, 0, date('m', $lundi), date('d', $lundi)-7, date('Y', $lundi))));
 		$tpl->assign('semaine_suivante'  , $service->dateToWeeknum(mktime(0, 0, 0, date('m', $lundi), date('d', $lundi)+7, date('Y', $lundi))));
 		$tpl->assign('annee_precedente'  , date('Y', mktime(0, 0, 0, date('m', $lundi), date('d', $lundi)-4, date('Y', $lundi))));
 		$tpl->assign('annee_suivante'    , date('Y', mktime(0, 0, 0, date('m', $lundi), date('d', $lundi)+10, date('Y', $lundi))));
+		
+		$listAgendas = $this->getParam('listAgendas',null);
+		$tpl->assign('listAgendas',$listAgendas);
 
 		$toReturn = $tpl->fetch ('vuesemaine.agenda.ptpl');
 		return true;

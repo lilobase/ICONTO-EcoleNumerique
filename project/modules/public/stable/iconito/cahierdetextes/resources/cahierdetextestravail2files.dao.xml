@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="cahierdetextestravail2files" tablename="module_cahierdetextes_travail2files" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="travail_id" fieldname="module_cahierdetextes_travail_id" type="integer" required="yes" pk="yes"/>
+    <property name="module_file" fieldname="module_files_type" type="varchar" required="yes"/>
+    <property name="file_id" fieldname="module_malle_files_id" type="integer" required="yes" pk="yes"/>
+  </properties>
+  <methods>
+    <method name="retrieveByTravail" type="select">
+      <parameters>
+         <parameter name="travailId" />
+      </parameters>
+      <conditions>
+         <condition property="travail_id" operator="=" value="$travailId" />
+      </conditions>
+    </method>
+    <method name="deleteByTravail" type="delete">
+        <parameters>
+           <parameter name="travailId" />
+        </parameters>
+        <conditions>
+           <condition property="travail_id" operator="=" value="$travailId" />
+        </conditions>
+     </method>
+  </methods>
+</daodefinition>

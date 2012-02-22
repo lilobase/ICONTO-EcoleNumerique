@@ -18,6 +18,7 @@
 		<property name="commune"     fieldname="commune"     type="string"  table="kernel_bu_ecole" pk="no"/>
 		<property name="tel"     fieldname="tel"     type="string"  table="kernel_bu_ecole" pk="no"/>
 		<property name="id_ville"     fieldname="id_ville"     type="integer"  table="kernel_bu_ecole" pk="no"/>
+		<property name="num_plan_interactif"     fieldname="num_plan_interactif"     type="integer"  table="kernel_bu_ecole" pk="no"/>
 	</properties>
 	<methods>
 	</methods>

@@ -31,7 +31,66 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 		$links = $linkBu2UserDAO->findByUserId ($pUserId);
 		$grouped_links = array();
 		foreach ($links as $link) {
-		  
+		  // stdClass Object ( [user_id] => 12 [bu_type] => USER_ENS [bu_id] => 1 ) 
+			
+			
+			
+			// Recherche des droits de directeur (gestion des comptes) pour les animateurs
+		
+			// kernel_animateurs : user_type 	user_id 	can_connect 	can_tableaubord 	can_comptes 	is_visibleannuaire
+			// kernel_animateurs2regroupements : user_type 	user_id 	regroupement_type 	regroupement_id
+			// module_regroupements_grecoles2ecoles : id_groupe 	id_ecole
+			// module_regroupements_grvilles2villes : id_groupe 	id_ville
+			// kernel_bu_ecole : numero 	RNE 	code_ecole_vaccination 	type 	nom 	num_rue 	num_seq 	adresse1 	adresse2 	code_postal 	commune 	tel 	web 	mail 	num_intranet 	numordre 	num_plan_interactif 	id_ville
+			
+			// Groupe d'ecoles
+			$sql = "
+				SELECT MRE.id_ecole AS ecole
+				FROM kernel_animateurs KA
+				JOIN kernel_animateurs2regroupements KAR
+				  ON KA.user_type=KAR.user_type AND KA.user_id=KAR.user_id
+				JOIN module_regroupements_grecoles2ecoles MRE
+				  ON KAR.regroupement_type='ecoles' AND KAR.regroupement_id=MRE.id_groupe
+				WHERE KA.user_type   = :user_type
+				  AND KA.user_id     = :user_id
+				  AND KA.can_comptes = 1
+			";
+			$anim_infos = _doQuery ($sql, array(
+				':user_type' => $link->bu_type,
+				':user_id'   => $link->bu_id
+			) );
+			
+			foreach( $anim_infos AS $anim_ecoles ) {
+				$groups['schools_group_animator_'.$anim_ecoles->ecole] = 'Directeur';
+			}
+			
+			// Groupe de villes
+			$sql = "
+				SELECT KBE.numero AS ecole
+				FROM kernel_animateurs KA
+				JOIN kernel_animateurs2regroupements KAR
+				  ON KA.user_type=KAR.user_type AND KA.user_id=KAR.user_id
+				JOIN module_regroupements_grvilles2villes MRV
+				  ON KAR.regroupement_type='villes' AND KAR.regroupement_id=MRV.id_groupe
+				JOIN kernel_bu_ecole KBE
+				  ON MRV.id_ville=KBE.id_ville
+				WHERE KA.user_type   = :user_type
+				  AND KA.user_id     = :user_id
+				  AND KA.can_comptes = 1
+			";
+			$anim_infos = _doQuery ($sql, array(
+				':user_type' => $link->bu_type,
+				':user_id'   => $link->bu_id
+			) );
+
+			foreach( $anim_infos AS $anim_ecoles ) {
+				$groups['cities_group_animator_'.$anim_ecoles->ecole] = 'Directeur';
+			}
+			
+			
+			// echo "<pre>"; print_r($groups); die("</pre>");
+						
+			
 		  if (isset($grouped_links[$link->bu_type])) {
 		    
 		    $grouped_links[$link->bu_type][] = $link->bu_id;
@@ -59,7 +118,14 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 		        switch ($entity->role) {
 		          
 		          case 1:
-		            $groups['teacher_'.$entity->reference] = 'Enseignant';
+		            if ($entity->type_ref == "CLASSE") {
+		              
+		              $groups['teacher_'.$entity->reference] = 'Enseignant';
+		            }
+		            else {
+		              $groups['teacher_school_'.$entity->reference] = 'Enseignant';
+		            }
+		            
 		            break;
 		          case 2:
 		            $groups['principal_'.$entity->reference] = 'Directeur';
@@ -71,13 +137,13 @@ class IconitoGroupHandler implements ICopixGroupHandler {
 		            $groups['city_agent_'.$entity->reference] = 'Agent de ville';
 		            break;
 		          case 5:
-  		          $groups['cities_group_agent_'.$entity->reference] = 'Agent de groupe de villes';
+                $groups['cities_group_agent_'.$entity->reference] = 'Agent de groupe de villes';
   		          break;
 		        }
 		      }
 		  }
 		}
-	
+		
 		return $groups;
 	}
 

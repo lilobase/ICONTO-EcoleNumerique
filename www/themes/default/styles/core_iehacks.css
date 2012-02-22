@@ -1,0 +1,19 @@
+.opacity100 {
+	opacity : 1;
+	filter : alpha(opacity=100); 
+	}
+
+.opacity50 {
+	opacity : 1;
+	filter : alpha(opacity=100); 
+	}
+
+/* Menus des modules qui ne se place pas horizontalement mais verticalement sinon ! */
+#submenu .menuitems ul li {
+	float: left;
+}
+
+/* Définition de la largeur du bloc pour que les éléments soient alignés à droite comme souhaité */
+#loginBar {
+	width:255px;
+}

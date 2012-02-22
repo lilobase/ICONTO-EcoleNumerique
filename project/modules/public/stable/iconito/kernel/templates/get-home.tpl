@@ -1,3 +1,0 @@
-
-{copixzone process=welcome|welcome}
-

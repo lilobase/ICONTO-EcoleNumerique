@@ -3,14 +3,9 @@
 /* =================================
 	Liste des blogs
 	================================= */
-
-DIV.blog_colonne_titre {
-	font-size: 14px;
-	font-weight: bold;
-	text-align: left;
-	color: #33691F;
-}
-	
+.welcome_blogsloader {
+    display: none;
+    }
 
 #blogs {
 	float: right;
@@ -20,34 +15,26 @@ DIV.blog_colonne_titre {
 /* Corps */
 #blogs DIV.blogBody {
 	clear: both;
-	border-radius: 8px;
-	-moz-border-radius:8px;
-	-khtml-border-radius:8px;
-	color: #595949;
-	font-size: 11px;
-	margin: 5px 5px 6px 5px;
-	padding: 5px 5px 5px 5px;
-	background: #EDF5A9;
-	border: 1px solid #B9C554;
+	margin: 5px;
 }
 /* Titre */
 #blogs DIV.blogBody A.title {
 	font-size: 150%;
 	font-weight: bold;
 	text-decoration: none;
-	border-bottom: dotted 1px #B9C554;
+	border-bottom: dotted 1px #555;
 	color: #111;
 }
 #blogs DIV.blogBody A.title:hover {
 	text-decoration: none;
-	border-bottom: solid 2px #B9C554;
+	border-bottom: solid 2px #111;
 }
 #blogs DIV.blogBody IMG.logo {
-	background: #FFF;
-	padding: 3px;
-	border-radius: 4px;
-	-moz-border-radius:4px;
-	-khtml-border-radius:4px;
+	background: #eee;
+	padding: 2px;
+	border-radius: 2px;
+	-moz-border-radius:2px;
+	-khtml-border-radius:2px;
 }
 
 /* Type + parent */
@@ -76,7 +63,7 @@ DIV.blog_colonne_titre {
 #blogs_ecoles DIV.ville DIV.nom {
 	font-size: 1.25em;
 	font-weight: bold;
-	border-bottom: solid 1px #EDF5A9;
+	border-bottom: solid 1px #fff;
 	margin-bottom: 3px;
 }
 
@@ -84,26 +71,59 @@ DIV.blog_colonne_titre {
 /* =================================
 	Page A propos...
 	================================= */
-.apropos_tab {
-	font-size: 1em;
-	border-radius: 6px;
-	-moz-border-radius: 6px;
-	border-width: 1px;
-	border-color: #FFFFFF; /* #508957; */
-	border-style: solid;
-	padding: 1px;
+#apropos a {
+	font-weight: bold;
 }
-.apropos_ligne {
-	background-color: #FFFFFF;
-	padding: 2px;
+
+#apropos DIV.sig {
+	font-style: italic;
 }
-.apropos_case {
-	background-color: #FFFFFF;
-	vertical-align: top;
+
+#apropos DIV.legal {
+	font-size: 0.8em;
+	padding-top: 2em;
+	padding-bottom: 1em;
 }
-.apropos_caseg {
-	background-color: #FFFFFF;
-	width: 120px;
-	vertical-align: top;
+
+/* Liste des ecoles */
+
+.welcome_ecoles ul {
+  margin: 0;
+  padding-left: 12px;
+  list-style-type: disc;
+  list-style-position: outside;
 }
-	
+.welcome_ecoles ul li {
+	margin-bottom: 3px;
+}
+.welcome_ecoles ul li.type {
+	list-style-type: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #dd8210;
+  padding-top:5px;
+}
+
+.welcome_ecoles h3 {
+color:#DD8210;
+font-weight:bold;
+list-style-type:none;
+padding-top:5px;
+text-transform:uppercase;
+}
+
+.welcome_ecoles .listEcoles li{
+    float: left;
+    width: 155px;
+    font-size: 14px;
+    line-height: 22px;
+    
+}
+
+.welcome_ecoles hr{
+    width: 80%;
+    text-align: center;
+    border-color:#DD8210;
+    margin-bottom: 25px;
+    margin-top: 5px;
+}

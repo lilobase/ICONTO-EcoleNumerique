@@ -1,28 +1,33 @@
 <?php
-
+/*
+ * Cache Matrix
+ */
+//test the existence of enicCache
 enic::to_load('cache');
-
 class enicMatrixCache extends enicCache{
     public function __construct(){
         $this->storage = 'file';
         $this->range = 'user';
         
-        parent::__construct();
+        //get the cached matrix
+        $matrix = parent::__construct();
+
+        return $matrix;
     }
 }
 
 /*MATRIX MAIN CLASS*/
-
+/*
+ * test the existence of nodematrix
+ */
+enic::to_load('nodeMatrix');
 class enicMatrix extends enicList {
 
     public function startExec(){
 
         $options =& enic::get('options');
         $options = $options->matrix;
-        if($options->bypass)
-            $this->bypass = true;
-        else
-            $this->bypass = false;
+        $this->bypass = (bool)$options->bypass;
 
         //get user info
         $user =& enic::get('user');
@@ -37,9 +42,11 @@ class enicMatrix extends enicList {
         $this->groupes->load('nodeMatrix', '_other');
         $this->groupes->_other->kernelParent = 'other';
         $this->groupes->_other->kernelChildren[] = 'other';
-        
+
         //start the iteration to complete the nodes when the user is member
-        rightMatrixHelpers::completeUp($user->type, $user->id);
+        
+        rightMatrixHelpers::completeUp($user->type, $user->idEn);
+    
 
         //foreach GRVILL : complete tree :
         foreach($this->villes->_children as $child){
@@ -47,18 +54,20 @@ class enicMatrix extends enicList {
                 rightMatrixHelpers::loadTrue();
                 continue;
             }
-            if($this->villes->$child->nom == 'other')
-                continue;
+            //if($this->villes->$child->nom == 'other')
+            //    continue;
 
             rightMatrixHelpers::completeDown('BU_GRVILLE', $this->villes->$child->id);
         }
 
-        //fetch and apply right on node :
-        rightMatrixHelpers::loadRightOnTree();
+        if(!$this->bypass || !$user->root){
+            //fetch and apply right on node :
+            rightMatrixHelpers::loadRightOnTree();
 
-        //complet right tree :
-        foreach($this->villes->_children as $child){
-            rightMatrixHelpers::applyRightOnTree('ville');
+            //complet right tree :
+            foreach($this->villes->_children as $child){
+                rightMatrixHelpers::applyRightOnTree('ville');
+            }
         }
     }
 
@@ -67,7 +76,14 @@ class enicMatrix extends enicList {
         $this->load('nodeMatrix', '_other');
         $this->_other->kernelParent = 'other';
         $this->_other->kernelChildren[] = 'other';
-        
+    }
+
+    /*load the users informations in current user object */
+    public function  __wakeup() {
+        $user = &enic::get('user');
+        $user->root = $this->getDatas('userRoot');
+        $user->director = $this->getDatas('userDirector');
+	$user->animator = $this->getDatas('userAnimator');
     }
 
     public function __get($name){
@@ -197,8 +213,33 @@ class rightMatrixHelpers{
         //get kernel
         $kernel = new Kernel();
 
+        //get parent real node (not user node) special case for USER_RES
+        if($user->type == 'USER_RES'){
+            $userNodes = array();
+            $currentIdNode = array();
+            $parentNodes = $kernel->getNodeParents($type, $id);
+
+            //get childs parent node :
+            foreach($parentNodes as $parentNode){
+                $currentNodes = $kernel->getNodeParents($parentNode['type'], $parentNode['id']);
+
+                foreach($currentNodes as $currentNode){
+                    if(!in_array($currentNode['id'], $currentIdNode)){
+                        $userNodes[] = $currentNode;
+                        $currentIdNode[] = $currentNode['id'];
+                    }
+                    
+                }
+            }
+        }else{
+            $userNodes = $kernel->getNodeParents($type, $id);
+        }
+
+        //free memory space
+        unset($currentIdNode, $currentNode, $currentNodes, $parentNode, $parentNodes);
+
         //list parents and add each at the tree
-        foreach($kernel->getNodeParents($type, $id) as $userNode){
+        foreach($userNodes as $userNode){
             //get the node type :
             $nodeType = $userNode['type'];
             $node = $matrix->$nodeType();
@@ -217,15 +258,17 @@ class rightMatrixHelpers{
                 $node->$idNode->admin_of = true;
 
                 //if user is director
-                if($userNode['type'] === 'BU_ECOLE'){
+                if($userNode['type'] == 'BU_ECOLE'){
                     $node->$idNode->director_of = true;
-                    $user->director = $userNode['id'];
+                    $user->director[] = $userNode['id'];
+                    $node->setDatasArray('userDirector', $userNode['id']);
                 }
 
                 //SuperAdmin case :
-                if($userNode['type'] === 'ROOT'){
+                if($userNode['type'] == 'ROOT'){
                     $node->$idNode->root = true;
                     $user->root = true;
+                    $node->setDatas('userRoot', true);
                 }
             }            
 
@@ -257,7 +300,7 @@ class rightMatrixHelpers{
         $kernel = self::$kernel;
 
         //list type of user :
-        $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES');
+        $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES', 'USER_EXT', 'USER_ATI');
 
         //list child and add each at the Tree
         $children = $kernel->getNodeChilds($type, $id, true, array('skip_user' => true));
@@ -279,7 +322,7 @@ class rightMatrixHelpers{
             //load parent id :
             $node->$idNode->kernelParent = $id;
             
-            //add parent is kernelParent array, club is special case : is attached to root
+            //add parent in kernelParent array, club special case : attach node to root
             if($node->$idNode->type != 'CLUB'){
                 $parentNode =  '_'.$node->$idNode->kernelParent;
                 $node->_parentObject->$parentNode->kernelChildren[] = $userNode['id'];
@@ -308,17 +351,19 @@ class rightMatrixHelpers{
 
         //get the right for the type of user
         $datas = $db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \''.$user->type.'\'')->toArray();
-        $db->close();
 
         //if user is director :
         if($user->director !== false)
             $datas = array_merge($db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \'USER_DIR\'')->toArray(), $datas);
 
+	if($user->animator !== false)
+	    $datas = array_merge($db->query('SELECT * FROM module_rightmatrix WHERE user_type_in = \'USER_ATI\'')->toArray(), $datas);
+
         //load right only on descendant_of node :
         foreach($datas as $data){
             $node = $matrix->$data['node_type']();
             foreach($node->_children as $child){
-                if($node->$child->descendant_of !== true && $node->$child->descendant_of !== true)
+                if($node->$child->member_of !== true && $node->$child->descendant_of !== true && $user->type != 'USER_EXT')
                     continue;
                 $node->$child->_right->$data['right']->$data['user_type_out'] = true;
                 $node->$child->_right->$data['user_type_out']->$data['right'] = true;
@@ -388,4 +433,3 @@ class rightMatrixHelpers{
     }
 
 }
-?>

@@ -7,6 +7,6 @@
     <parameters>
  	    <parameter name="list_nbtopics" captioni18n="forum.parameter.list_nbtopics" default="20" />
  	    <parameter name="list_nbmessages" captioni18n="forum.parameter.list_nbmessages" default="20" />
-			<parameter name="default_format" captioni18n="forum.parameter.default_format" default="dokuwiki" />
+			<parameter name="default_format" captioni18n="forum.parameter.default_format" default="ckeditor" />
   	</parameters>
 </moduledefinition>

@@ -8,7 +8,7 @@
 	</datasource>
 	<properties>
 		<!-- TABLE TEST VERSION -->
-		<property name="ext_id"          fieldname="id"          type="integer" table="kernel_ext_user" pk="yes"/>
+		<property name="ext_id"          fieldname="id"          type="autoincrement" table="kernel_ext_user" pk="yes"/>
 		<property name="ext_nom"         fieldname="nom"         type="string"  table="kernel_ext_user" pk="no"/>
 		<property name="ext_prenom"      fieldname="prenom"      type="string"  table="kernel_ext_user" pk="no"/>
 		<property name="ext_description" fieldname="description" type="string"  table="kernel_ext_user" pk="no"/>

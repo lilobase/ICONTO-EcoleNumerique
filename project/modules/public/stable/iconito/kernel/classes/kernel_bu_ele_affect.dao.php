@@ -45,6 +45,23 @@ class DAOKernel_bu_ele_affect {
 	}
 	
 	/**
+	 * Retourne l'association courante d'un élève
+	 *
+	 * @param int $studentId Identifiant d'un élève
+	 * @return DAORecord
+	 */
+	public function getCurrentAffectByStudent ($studentId) {
+	  
+	  $criteria = _daoSp ();
+		$criteria->addCondition ('affect_eleve', '=', $studentId);
+		$criteria->addCondition ('affect_current', '=', 1);
+		
+		$results = $this->findBy ($criteria);
+		
+		return isset ($results[0]) ? $results[0] : false;
+	}
+	
+	/**
 	* Vérifie si un élève à des affectations dans une école donnée
 	*
 	* @param int $studentId Identifiant d'un élève
@@ -65,6 +82,28 @@ class DAOKernel_bu_ele_affect {
     $results = _doQuery ($sql);
 
     return $results[0]->count; 
+	}
+	
+	/**
+	 * Retourne l'affectation pour un élève et une année scolaire
+	 *
+	 * @param int $studentId Identifiant d'un élève
+	 * @param int $gradeId   Identifiant de l'année scolaire
+	 * @return DAORecord
+	 */
+	public function getByStudentAndGrade ($studentId, $gradeId, $current = null) {
+		
+		$criteria = _daoSp ();
+		$criteria->addCondition ('affect_eleve', '=', $studentId);
+		$criteria->addCondition ('affect_annee_scol', '=', $gradeId);
+		if (!is_null ($current)) {
+		  
+		   $criteria->addCondition ('affect_current', '=', $current);
+		}
+		
+		$results = $this->findBy ($criteria);
+		
+		return isset ($results[0]) ? $results[0] : false;
 	}
 
 }

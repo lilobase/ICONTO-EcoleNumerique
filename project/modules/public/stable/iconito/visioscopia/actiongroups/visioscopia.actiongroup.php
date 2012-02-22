@@ -10,7 +10,7 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-
+		CopixHTMLHeader::addCSSLink (_resource("styles/module_visioscopia.css"));
 	}
 
 	
@@ -21,10 +21,11 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 		$user_infos = Kernel::getUserInfo();
 		
 		$conf_result = $dao->get($id);
-
-		$tpl = & new CopixTpl ();
+		
+		$title = "Visioconf&eacute;rence";
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
-		$tplVisio = & new CopixTpl ();
+		$tplVisio = new CopixTpl ();
 		
 		$save = $this->getRequest ('save', 0);
 		if( $save == 1 ) {
@@ -33,25 +34,35 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 			$conf_active = $this->getRequest ('conf_active', 0 );
 			
 			if( 1 ) { // test de validité ?
+				
+				if(!$conf_result)
+					$conf_result = _record("visioscopia|visioscopia_config");
+				
+				
+				$conf_result->id = (int)$id;
 				$conf_result->conf_id     = $conf_id;
 				$conf_result->conf_msg    = $conf_msg;
 				$conf_result->conf_active = $conf_active;
+				//_dump($conf_result);
 				
-				$dao->update($conf_result);
+				$dao->delete($id);
+				$dao->insert($conf_result);
+					
 				$tplVisio->assign ('saved', 1);
 			}
 		}
 		
-		
 		if( $conf_result ) {
-			if( CopixConfig::exists('|conf_ModVisioScopia_url') ) {
+			
+			if( CopixConfig::exists('visioscopia|conf_ModVisioScopia_url') ) {
 				$tplVisio->assign ('config_ok', 1);
-				$url = CopixConfig::get('|conf_ModVisioScopia_url');
+				$url = CopixConfig::get('visioscopia|conf_ModVisioScopia_url');
+				
 			} else {
 				$tplVisio->assign ('config_ok', 0);
 			}
 			
-			$url = CopixConfig::get('visioscopia|url');
+			// $url = CopixConfig::get('visioscopia|url');
 			
 			$patterns[0] = '/%ROOM%/';
 			$patterns[1] = '/%NAME%/';
@@ -64,19 +75,20 @@ class ActionGroupVisioScopia extends CopixActionGroup {
 			$tplVisio->assign ('config_ok', 0);
 		}
 		
+		$tplVisio->assign ('visio_id', $id);
+		// _dump($conf_result);
 		$tplVisio->assign ('config', $conf_result);
 		
 		$result = $tplVisio->fetch('visioscopia-user.tpl');
 		
+		// echo Kernel::getLevel( "MOD_VISIOSCOPIA", $id );
+
 		if( Kernel::getLevel( "MOD_VISIOSCOPIA", $id ) >= PROFILE_CCV_ADMIN ) {
 			$result .= $tplVisio->fetch('visioscopia-admin.tpl');
 		} else {
 		}
 		
-		
 		$menu = array();
-		$returntoparent = Kernel::menuReturntoParent( "MOD_VISIOSCOPIA", $id );
-		if( $returntoparent ) $menu[] = $returntoparent;
 		$tpl->assign ('MENU', $menu );
 		
 		$tpl->assign ('MAIN', $result);

@@ -27,7 +27,7 @@ $config->default_country  = 'FR';
 $config->default_charset = 'UTF-8';
 
 //Template principal
-$config->mainTemplate   = 'default|main.php';
+$config->mainTemplate   = 'main|main.php';
 //---------------------------------------------
 //Configuration des répertoires de module
 //---------------------------------------------

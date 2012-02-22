@@ -9,8 +9,8 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-$vueSemaine = & new CopixAction ('Agenda', 'getVueSemaine');
-$zoneToday  = & new CopixAction ('Agenda', 'getZoneToday');
+$vueSemaine = new CopixAction ('Agenda', 'getVueSemaine');
+$zoneToday  = new CopixAction ('Agenda', 'getZoneToday');
 
 $default    = & $vueSemaine;
 ?>

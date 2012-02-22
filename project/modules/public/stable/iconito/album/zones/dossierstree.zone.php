@@ -11,7 +11,7 @@
  */
 class ZoneDossiersTree extends CopixZone {
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$dossiers_tree = $this->getParam('tree');
 		$dossiers_commands = Album::tree2commands( $dossiers_tree );

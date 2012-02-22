@@ -256,9 +256,11 @@ class Album {
 		if( $mode == "square" ) {
 			// Mode carr�...
 			$image_p = imagecreatetruecolor($square_thumbsize, $square_thumbsize);
+			imagealphablending($image_p, false);
+			imagesavealpha($image_p, true);
 			
-			$white = imagecolorallocate($image_p, 255, 255, 255);
-			imagefill($image_p, 0, 0, $white);
+			// $white = imagecolorallocate($image_p, 255, 255, 255);
+			// imagefill($image_p, 0, 0, $white);
 			
 			imagecopyresampled($image_p, $image, 0, 0,
 				$square_x, $square_y,
@@ -267,9 +269,11 @@ class Album {
 		} else {
 			// Mode standard...
 			$image_p = imagecreatetruecolor($new_width, $new_height);
+			imagealphablending($image_p, false);
+			imagesavealpha($image_p, true);
 			
-			$white = imagecolorallocate($image_p, 255, 255, 255);
-			imagefill($image_p, 0, 0, $white);
+			// $white = imagecolorallocate($image_p, 255, 255, 255);
+			// imagefill($image_p, 0, 0, $white);
 			
 			imagecopyresampled($image_p, $image, 0, 0,
 				0, 0,
@@ -412,6 +416,8 @@ class Album {
 	 */
 	function delAlbum( $album_id ) {
 		$photo_dao = _dao("album|photo");
+    _classInclude('malle|malleservice');
+    
 		$photos = $photo_dao->findAllByAlbum($album_id);
 		foreach( $photos AS $photo ) {
 			Album::delPhoto( $photo->photo_id );
@@ -422,13 +428,9 @@ class Album {
 		if( $album ) {
 			$path2data = realpath("static");
 			$pathfolder = $path2data.'/album/'.$album->album_id."_".$album->album_cle;
-		  if ($dh = opendir($pathfolder)) {
-				while (($obj = readdir($dh))) {
-					if($obj=='.' || $obj=='..') continue;
-					@unlink($pathfolder.'/'.$obj);
-				}
-			}
-			@rmdir( $pathfolder );
+      
+      MalleService::deleteDir ($pathfolder);
+
 			$album_dao->delete($album_id);
 		}
 		

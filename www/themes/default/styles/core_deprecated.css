@@ -1,0 +1,197 @@
+/**
+ * THEMES - core_deprecated.css
+ * Preservation eventuelle compatibilite - a nettoyer
+ *
+ * @package	Iconito 2010
+ * @cdate 22.01.2010
+ * @mdate 22.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+
+
+
+
+/* PUBLIC DASHBOARD */
+
+p.content{
+    margin: 15px;
+    font-size: 120%;
+}
+p.first-item{
+    margin-top: 55px;
+}
+p.content a{
+    color: blue;
+}
+
+.img-left{
+    float: left;
+    margin: 15px;
+}
+
+
+/* Aide */
+a.tooltip em {
+    display:none;
+}
+a.tooltip:hover {
+    border: 0;
+    position: relative;
+    z-index: 500;
+    text-decoration:none;
+}
+a.tooltip:hover em {
+    font-style: normal;
+    display: block;
+    position: absolute;
+    top: 20px;
+    left: -2px;
+    padding: 5px;
+    color: #000;
+    border: 1px solid #bbb;
+    background: #ffc;
+		text-align:left;
+    width:300px;
+		font-weight:normal;
+    white-space:normal;
+
+}
+a.tooltip:hover em span {
+    position: absolute;
+    top: -7px;
+    left: 5px;
+    height: 7px;
+    width: 11px;
+    background: transparent url(../img_styles/tooltip-arrow.gif);
+		background-repeat:no-repeat;
+    margin:0;
+    padding: 0;
+    border: 0;
+}
+a.tooltip70px:hover em {	width:70px; }
+a.tooltip80px:hover em {	width:80px; }
+a.tooltip90px:hover em {	width:90px; }
+a.tooltip100px:hover em {	width:100px; }
+
+/************************************************
+ * AUTRES MARQUEURS (a nettoyer)
+ ***********************************************/
+form {
+	padding: 0px;
+	margin: 0px;
+}
+/* LISTE GENERIQUE */
+table.liste {
+	width: 98%;
+	background-color: #FFFFFF;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+}
+tr.liste_footer {
+	background-color: #F8F8F8;
+	text-align: right;
+	font-size:90%;
+}
+th.liste_th {
+	background-color: #EEEEEE;
+	text-align: center;
+}
+tr.list_line1 { background-color: #F5F5F5; }
+tr.list_line0 { background-color: #FFFFFF; }
+
+
+
+div.block {
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+  background-color:#fff;
+  border:1px solid #999;
+  padding:6px;
+}
+div.block hr {
+  color: #999;
+  background-color: #999;
+  height: 1px;
+	border: 0;
+}
+
+/* Fiche utilisateur */
+#divUserProfil {
+	border-color:#555;
+	position: absolute;
+	background-color: #fff;
+  border-style: solid;
+  border-width: 1px;
+	padding: 4px;
+	display: none;
+	font-size: 80%;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	filter: alpha(opacity=97);
+	-moz-opacity: 0.97;
+	opacity: 0.97;
+	width: 150px;
+	z-index:22999;
+}
+
+/************************************************
+ * Tableaux
+ ***********************************************/
+table.std {
+	border-collapse: collapse;
+	border: none;
+	margin: 0px;
+	padding: 0px;
+	width: 100%;
+	}
+	
+table.std th {
+	font-weight: normal;
+	}	
+
+/************************************************
+ * A trier!
+ ***********************************************/
+
+
+div#carres {
+	text-align:center;
+}
+
+div#carres div.carres_menu {
+	margin-left:auto;
+	margin-right:auto;
+	position:relative;
+	text-align:center;
+	width:745px;
+}
+
+div#carres div.carres_menu .button-block {
+	background-color:#EEEEEE;
+	color:#999999;
+	display:block;
+	float:left;
+	font-size:200%;
+	height:55px;
+	margin:10px;
+	padding:30px 0;
+	text-decoration:none;
+	width:340px;
+}
+
+div#carres div.carres_menu a:hover {
+	background-color:#FFFFFF;
+	color:#666666;
+}
+
+div#carres div.carres_menu a span {
+	display:block;
+	font-size:0.4em;
+}
+
+div.block {
+}

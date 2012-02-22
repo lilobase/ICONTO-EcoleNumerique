@@ -36,7 +36,7 @@ class ZoneComboVilles extends CopixZone {
 		} else
 			$villes = $annuaireService->getVillesInGrville ($grville, array('droit'=>$pDroit));
 			
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign('items', $villes);
 		$tpl->assign('value', $value);
 		$tpl->assign('fieldName', $fieldName);

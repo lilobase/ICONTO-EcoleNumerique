@@ -23,11 +23,11 @@ class ActionGroupEcoles extends CopixActionGroup {
    		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 			
-		$tpl = & new CopixTpl ();
-		$tplGroupes = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplGroupes = new CopixTpl ();
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_regroupements.css"));
-
+		
 		$regroupements_service = & CopixClassesFactory::Create ('regroupements|regroupements');
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('regroupements|regroupements.ecoles.titre'));

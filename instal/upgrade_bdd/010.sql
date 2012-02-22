@@ -1,0 +1,1 @@
+ALTER TABLE `module_classeur_fichier` CHANGE `fichier` `fichier` VARCHAR( 255 ) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;

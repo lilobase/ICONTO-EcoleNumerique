@@ -1,75 +1,283 @@
+/**
+ * THEMES - module_kernel.css
+ * Mise en forme dashboard/kernel
+ *
+ * @package	Iconito 2010
+ * @cdate 25.01.2010
+ * @mdate 25.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
 
+a.dashclose {
+	display: block;
+	width: 25px;
+	height: 25px;
+	background: url(../../../themes/default/images/button_dashclose_off.png) no-repeat 100% 0;
+	}
+	
+a.dashclose_on {
+	background: url(../../../themes/default/images/button_dashclose_on.png) no-repeat 100% 0;
+	}
+	
+div.dashboard {
+	position: relative;
+	padding: 6px;
+	margin: 0px 20px;
+	}
 
-DIV.kernel div.boxes {
-	width:680px;
+div.dashpanel {
+	position: relative;
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px;
+	padding: 0px 0px 12px 0px;
+	background: url(../../../themes/default/images/dash_shadow.png) 50% 100% repeat-y;
+	}
+
+div.dashpanel div.title {
+	position: relative;
+	padding: 4px 4px 2px 8px;
+	margin: 0 0 0 16px;
+	background: #bad521;
+	}
+	
+div.dashpanel div.title span {
+	font-size: 160%;
+	text-transform:uppercase;
+	}
+	
+div.dashpanel div.content {
+	position: relative;
+	overflow: hidden;
+	font-size: 120%;
+	padding: 10px;
+	margin: 0px;
+	background: #f0f4f0;
+	border: 2px solid #bad521;
+	min-height: 160px;
+	}
+div.contentmain-fancybox {
+  font-size: 120%;
 }
 
-
-DIV.kernel A.box_M {
-	border: 5px solid #D3E15F;
+div.dashpanel div.toolset {
+	position: absolute;
+	margin: 0px;
 	padding: 0px;
-	margin: 7px;
-	width: 130px;
-	min-width: 130px;
-	height: 136px;
-	min-height: 136px;
-	float: left;
+	top: 0px;
+	background: #bad521;
+	z-index: 999;
+	width: 32px;
+	overflow: hidden;
+	}
+
+div.dashpanel div.toolset-expand {
+	margin: 0px;
+	padding: 0px;
+	width: 160px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	z-index: 999;
+	}
+
+div.dashpanel div.toolset ul {
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+	}
+
+div.dashpanel div.toolset ul li {
 	display: block;
-	text-decoration: none;
+	white-space: nowrap;
+	margin: 0px;
+	padding: 0px;
+	}
+	
+div.dashpanel div.toolset ul li.highlight {
+	background: #ffffe6;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	}
+	
+div.dashpanel div.toolset ul li.selected {
+	background: #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	}
+	
+div.dashpanel div.toolset ul li a {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	height: 32px;
+/*	min-height: 32px;*/
+	padding: 2px 0;
+	margin: 0px;
+	}
+
+div.dashpanel div.toolset ul li a span {
+	display: inline-block;
+	position: relative;
+	vertical-align: middle;
+	white-space: normal;
+	font-size: 110%;
+	}
+	
+div.dashpanel div.toolset ul li a span.label {
+	display: none;
+	}
+	
+div.dashpanel div.toolset-expand ul li a span.label {
+	display: inline-block;
+	}
+
+div.kernel_dash div.dashpanel div.toolset {
+	right: -34px;
+	}
+
+div.kernel_dash div.dashpanel div.toolset-expand {
+	right: -162px;
+	}
+
+div.module_dash div.dashpanel div.toolset {
+	top: 60px;
+	right: -34px;
+	}
+
+
+/* CASE DASHBOARD CONTEXT */
+div.tools_left {
+	}
+
+div.tools_left div.dashpanel {
+	width: 94%;
+	}
+
+div.tools_left div.dashpanel div.toolset {
+	padding: 2px 2px 2px 0px;
+	}
+
+div.tools_left div.dashpanel div.toolset-expand, div.tools_left div.toolset-expand ul li.highlight {
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	}
+
+div.tools_left div.dashpanel div.toolset ul li a {
+	background-position: 2px 50%;
+	background-repeat: no-repeat;
+	padding-left: 34px;
+	}
+	
+/* CASE MODULE CONTEXT */
+div.tools_right {
+	margin: 6px 20px;
+	}
+	
+div.tools_right div.dashpanel div.toolset-expand ul li {
+	text-align: left;
+	}
+
+div.tools_right div.dashpanel {
+	width: 96%;
+	}
+	
+div.tools_right div.dashpanel div.groupname {
+	float: left;
+	}
+
+div.tools_right div.dashpanel div.mcontrol {
+	float: right;
+	}
+
+div.tools_right div.dashpanel div.wcontrol {
+	float: right;
+	}
+
+div.tools_right div.dashpanel div.title {
+	height: 25px;
+	padding: 4px 4px;
+	margin: 0px;
 	text-align: center;
-}
+	}
 
-DIV.kernel A.box_M:hover {
-	border: 5px solid #B3C13F;
-}
-.box_M_border {
-	border: 5px solid #D3E15F;
-}
-.box_M_border:hover {
-	border-color:#B3C13F;
-}
+div.tools_right div.dashpanel div.content {
+	border-top: 0px;
+	}
 
-DIV.kernel A.box {
-	border: 5px solid #D3E15F;
-	padding: 0px;
-	margin: 7px;
-	width: 150px;
-	height: 150px;
-	float: left;
-	display: block;
-	text-decoration: none;
-}
+div.tools_right div.dashpanel div.title .groupname {
+	padding-top: 2px;
+	font-size: 110%;
+	line-height: 85%;
+	text-transform:uppercase;
+	width: 200px;
+	margin-right: -200px;
+	text-align: left;
+	}
 
-DIV.kernel A.box:hover {
-	border: 5px solid #04570F;
-}
+div.tools_right div.dashpanel div.title div.mcontrol {
+	width: 25px;
+	margin-right: 32px;
+	}
 
-DIV.kernel A.box P {
-	margin: 0px;
-	padding: 5px;
-	font-size: 80%;
-}
+div.tools_right div.dashpanel div.title div.wcontrol {
+	width: 25px;
+	margin-left: -25px;
+	}
 
-DIV.kernel A.box H3 {
-	margin: 0px;
-	padding: 5px;
-	font-size: 200%;
-	line-height: 1em;
-}
+div.tools_right div.dashpanel div.toolset {
+	padding: 2px 2px 2px 2px;
+	}
 
-DIV.kernel A.selected {
-	border: 5px solid #F66;
-}
+div.tools_right div.dashpanel div.toolset-expand {
+	-moz-border-radius-topright: 0px;
+	-moz-border-radius-bottomright: 0px;
+	-webkit-border-top-right-radius: 0px;
+	-webkit-border-bottom-right-radius: 0px;
+	}
 
-DIV.kernel div.enfant {
-  clear:left;
-  font-size: 1.4em;
-  font-weight: bolder;
-  border-bottom: solid 5px #D3E15F;
-  margin-bottom: 4px;
-  margin-top:5px;
-} 
-DIV.kernel div.enfant div.classe {
-  float:right;
-  color: #587314;
-}
+div.tools_right div.dashpanel div.toolset ul li {
+	text-align: right;
+	}
+
+div.tools_right div.dashpanel div.toolset ul li.selected {
+	margin-left: -2px;
+	-moz-border-radius-topleft: 0px;
+	-moz-border-radius-bottomleft: 0px;
+	-webkit-border-top-left-radius: 0px;
+	-webkit-border-bottom-left-radius: 0px;
+	}
+
+div.tools_right div.dashpanel div.toolset-expand ul li.selected {
+	margin-left: 0px;
+	-moz-border-radius-topleft: 6px;
+	-moz-border-radius-bottomleft: 6px;
+	-webkit-border-top-left-radius: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	}
+
+div.tools_right div.dashpanel div.toolset ul li a {
+	background-position: 100% 50%;
+	background-repeat: no-repeat;
+	padding-right: 32px;
+	}
+
+/* SET GROUPTYPES CONTEXT COLORS */
+div.dashboard div.bu_classe div.title	{ background: #7fc3d2; }
+div.dashboard div.bu_classe div.content	{ border: 2px solid #7fc3d2; }
+div.dashboard div.bu_classe div.toolset	{ background: #7fc3d2; }
+
+div.dashboard div.bu_ecole div.title 	{ background: #7cd54f; }
+div.dashboard div.bu_ecole div.content 	{ border: 2px solid #7cd54f; }
+div.dashboard div.bu_ecole div.toolset 	{ background: #7cd54f; }
+
+div.dashboard div.club div.title	{ background: #ffb94e; }
+div.dashboard div.club div.content	{ border: 2px solid #ffb94e; }
+div.dashboard div.club div.toolset	{ background: #ffb94e; }
+
+div.dashboard div.user_ele div.title	{ background: #7fc3d2; }
+div.dashboard div.user_ele div.content	{ border: 2px solid #7fc3d2; }
+div.dashboard div.user_ele div.toolset	{ background: #7fc3d2; }

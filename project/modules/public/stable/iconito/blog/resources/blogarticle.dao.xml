@@ -4,7 +4,7 @@
     <datasource>
        <tables>
           <table name="blogarticle" tablename="module_blog_article" primary="yes" />
-          <table name="blog" tablename="module_blog" join="left" />
+          <table name="blog" tablename="module_blog" join="inner" />
        </tables>
     </datasource>
  		<properties>

@@ -8,7 +8,7 @@
 */
 class ZoneNavigation extends CopixZone {
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tree = Kernel::getTree();
 		

@@ -19,17 +19,19 @@ class ZoneGetListBlogs2 extends CopixZone {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/03/23
-	 * @param string $kw Mot-clé pour la recherche (option)
+	 * @param string $kw Mot-clï¿½ pour la recherche (option)
 	 * @param integer grville Id de groupe de ville
 	 * @param array ville Tableau avec les ID des villes
 	 */
 	function _createContent (&$toReturn) {
 		
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+    
 		$kw = $this->getParam('kw',null);
 		$pGrVille = $this->getParam('grville',null);
 		$pVille = $this->getParam('ville',null); // Tableau
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		if ($pVille) {
 			$villes = AnnuaireService::getVilles ($pVille);
@@ -69,6 +71,7 @@ class ZoneGetListBlogs2 extends CopixZone {
 			$arTypes = explode(",", CopixConfig::get ('public|blogs.types'));
 		$arTypes[] = 'CLUB';
 		
+
 		//print_r($sql);
 		foreach ($sql as $blog) {
 			$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);

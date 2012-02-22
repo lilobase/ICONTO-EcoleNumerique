@@ -8,32 +8,32 @@
 
  <properties>
   <property name="id_bfrs"
-         captioni18n="blogfluxrss.fields.id_bfrs"
+         captioni18n="dao.blogfluxrss.fields.id_bfrs"
          pk="true"
          required="yes"
          type="autoincrement"
          />
          
    <property name="id_blog"
-         captioni18n="blogfluxrss.fields.id_blog"
+         captioni18n="dao.blogfluxrss.fields.id_blog"
          type="int"
          required="yes"
          />
 
   <property name="order_bfrs"
-         captioni18n="blogfluxrss.fields.order_bfrs"
+         captioni18n="dao.blogfluxrss.fields.order_bfrs"
          type="int"
          required="yes"
          />
 		 
    <property name="name_bfrs"
-         captioni18n="blogfluxrss.fields.name_bfrs"
+         captioni18n="dao.blogfluxrss.fields.name_bfrs"
          type="string"
          required="yes"
          />  
 		          
   <property name="url_bfrs"
-         captioni18n="blogfluxrss.fields.url_bfrs"
+         captioni18n="dao.blogfluxrss.fields.url_bfrs"
          type="string"
          required="yes"
          />  

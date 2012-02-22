@@ -1,6 +1,9 @@
 #php_value error_reporting 7
 #php_value memory_limit 512M
 php_value error_reporting 6143
+AddDefaultCharset utf-8
 RewriteEngine On
-RewriteRule ^index.php/static/(.*)$ /static/$1 [QSA,L,R=301]
-RewriteRule ^index.php/blog/default/static/(.*)$ /static/$1 [QSA,L,R=301]
+RewriteBase /
+RewriteRule ^index.php/blog/default/static/(.*)$ static/$1 [QSA,L,R=301]
+RewriteRule ^index.php/static/(.*)$ static/$1 [QSA,R=301]
+RewriteRule ^static/classeur/(.*\.(jpg|jpeg|png|gif))$ miniature.php?url=classeur/$1 [QSA,L,R=301]

@@ -17,7 +17,7 @@ class ZoneEditRss extends CopixZone {
 	
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tpl->assign ('rss', $this->getParam('fluxRss',null));
 		$tpl->assign ('id_blog', $this->getParam('id_blog', ''));

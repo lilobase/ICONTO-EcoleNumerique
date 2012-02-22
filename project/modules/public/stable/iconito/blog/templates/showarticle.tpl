@@ -3,7 +3,7 @@
 {else}
 <div id="article">
 
-<h1>{$article->name_bact}</h1>
+<h2>{$article->name_bact}</h2>
 <div class="postInfo">
 	{assign var=cptCat value=1}
 	{assign var=listCat value=""}
@@ -60,17 +60,19 @@
   <div>{i18n key="blog.add.comment.closed"}</div>
 {elseif $canComment}
 
-<h2>{i18n key="blog.add.comment.title"}</h2>
+<h2 id="commform">{i18n key="blog.add.comment.title"}</h2>
 
 {if $showErrors}
 <div class="errorMessage">
-<h1>{i18n key=copix:common.messages.error}</h1>
+<h2>{i18n key=copix:common.messages.error}</h2>
 {ulli values=$errors}
 </div>	
 {/if}
 
 
-<form name="commentEdit" action="{copixurl dest="blog||validComment" blog=$blog->url_blog article=$article->url_bact}" method="post" class="">
+<form name="commentEdit" action="{copixurl dest="blog||validComment" blog=$blog->url_blog article=$article->url_bact}#commform" method="post" class="">
+<!-- <input type="text" name="url1" maxlength="100" value="Abracadabra" /> -->
+
 <input type="hidden" name="id_bacc" value="{$toEdit->id_bacc}">
 <input type="hidden" name="id_bact" value="{$article->id_bact}">
 <input type="hidden" name="url_bact" value="{$article->url_bact}">
@@ -78,20 +80,25 @@
 <table class="" cellspacing=1 cellpadding=1 border="0">
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.authorname_bacc'}</td>
-	  	<td><input type="text" name="authorname_bacc" value="{$toEdit->authorname_bacc|escape}" class="text"></td>
+	  <td><input type="text" name="authorname_bacc" value="{$toEdit->authorname_bacc|escape}" class="text"></td>
    </tr>
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.authoremail_bacc'}</td>
-	  	<td><input type="text" name="authoremail_bacc" value="{$toEdit->authoremail_bacc|escape}" class="text"></td>
+	  <td><input type="text" name="authoremail_bacc" value="{$toEdit->authoremail_bacc|escape}" class="text"></td>
    </tr>
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.authorweb_bacc'}</td>
-	  	<td><input type="text" name="authorweb_bacc" value="{$toEdit->authorweb_bacc|escape}" class="text"></td>
+	  <td><input type="text" name="authorweb_bacc" value="{$toEdit->authorweb_bacc|escape}" class="text"></td>
+   </tr>
+   <tr class="hidden">
+      <td>{i18n key='dao.blogarticlecomment.fields.authorweb_bacc'}</td>
+	  <td><input type="text" name="url2" value="Abracadabra" class="text"></td>
    </tr>
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.content_bacc'}</td>
-	  	<td><textarea name="content_bacc" class="text">{$toEdit->content_bacc|escape}</textarea></td>
+	  <td><textarea name="content_bacc" class="text">{$toEdit->content_bacc|escape}</textarea></td>
    </tr>
+
 	 <tr>
 	 		<td></td>
 			<td>

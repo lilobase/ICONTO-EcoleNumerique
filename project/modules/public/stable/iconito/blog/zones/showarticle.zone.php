@@ -13,7 +13,7 @@
 class ZoneShowArticle extends CopixZone {
    function _createContent (&$toReturn) {
 
-      $tpl  = & new CopixTpl ();
+      $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
       $comment = $this->getParam('comment', NULL);
@@ -58,7 +58,7 @@ class ZoneShowArticle extends CopixZone {
 		    $toEdit->authoremail_bacc = $user->email;
 		    $toEdit->authorweb_bacc = $user->web;		
 		}
-      if($comment != null) $blog->has_comments_activated = false;
+
       $tpl->assign ('blog', $blog);
       $tpl->assign ('toEdit', $toEdit);
       $tpl->assign ('listComment', $listComment);

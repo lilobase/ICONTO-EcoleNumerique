@@ -10,7 +10,7 @@ _classInclude('teleprocedures|teleproceduresservice');
 
 require_once(COPIX_UTILS_PATH.'CopixUtils.lib.php');
 
-class ActionGroupAdmin extends CopixActionGroup {
+class ActionGroupAdmin extends EnicActionGroup {
 	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
@@ -63,7 +63,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 		if (!TeleproceduresService::canMakeInTelep('VIEW_COMBO_ECOLES',$mondroit))
 			$ecole = null;
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('filtre', CopixZone::process('filtre',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'admin'=>true, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('list', CopixZone::process('list',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('types', CopixZone::process('types',array('rTelep'=>$rTelep, 'admin'=>true)));
@@ -93,12 +93,9 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$main = $tplListe->fetch('list.tpl');
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|listTeleprocedures', array('id'=>$id)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -121,7 +118,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$criticErrors = $errors = array();
 		
-		$tplForm = & new CopixTpl ();
+		$tplForm = new CopixTpl ();
 		$tplForm->assign ('is_online', array('values'=>array(1,0), 'output'=>array(CopixI18N::get('blog|blog.oui'), CopixI18N::get('blog|blog.non'))));
 		$formats = CopixConfig::get ('teleprocedures|formats_types');
 		$tabFormats = explode (',',$formats);
@@ -342,12 +339,9 @@ class ActionGroupAdmin extends CopixActionGroup {
 		
 		$main = $tplForm->fetch('form-type.tpl');
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));	
-
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('admin|admin', array('id'=>$type->teleprocedure)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	

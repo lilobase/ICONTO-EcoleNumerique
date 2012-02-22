@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Zone qui affiche les infos d'une classe (enseignant et élèves)
+ * Zone qui affiche les infos d'une classe (enseignant et ï¿½lï¿½ves)
  * 
  * @package Iconito
  * @subpackage	Annuaire
@@ -9,7 +9,7 @@
 class ZoneInfosClasse extends CopixZone {
 
 	/**
-	 * Affiche les infos d'une classe (enseignant et élèves)
+	 * Affiche les infos d'une classe (enseignant et ï¿½lï¿½ves)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/18
@@ -17,7 +17,7 @@ class ZoneInfosClasse extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 		
@@ -27,24 +27,13 @@ class ZoneInfosClasse extends CopixZone {
 			$classe = $rClasse['id'];
 			
 			$enseignants = $annuaireService->getEnseignantInClasse ($classe);
-			//$enseignants = $annuaireService->checkVisibility( $enseignants );
 			$eleves = $annuaireService->getElevesInClasse ($classe);
-			// $eleves = $annuaireService->checkVisibility( $eleves );
 			
-			
-			if( Kernel::getUserTypeVisibility( 'USER_ELE' ) == 'NONE' )
-				$rClasse["eleves"] = 'NONE';
-			else
-				$rClasse["eleves"] = $eleves;
+			$rClasse["eleves"] = $eleves;
+			$rClasse["enseignants"] = $enseignants;
 
-			if( Kernel::getUserTypeVisibility( 'USER_ENS' ) == 'NONE' )
-				$rClasse["enseignants"] = 'NONE';
-			else
-				$rClasse["enseignants"] = $enseignants;
-			
-			
-			$matrix = & enic::get('matrix');
-
+			$matrix =& enic::get('matrixCache');
+                        $matrix->display();
 			$droit = $matrix->classe($classe)->_right->USER_ENS->voir;
 			if (!$droit) $rClasse["enseignants"] = 'NONE';
 			$canWrite = $matrix->classe($classe)->_right->USER_ENS->communiquer;

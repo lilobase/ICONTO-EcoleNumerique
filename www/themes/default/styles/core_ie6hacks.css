@@ -1,0 +1,417 @@
+/* reset */
+hr {
+	color: #c8c8c8;
+}
+
+/*
+ * layout
+ */
+
+div#menubar {
+	zoom: 1;  
+}
+
+div#menubar div.menubar-m {
+	overflow: hidden;
+}
+
+div#menubar div.menubar-l {
+	overflow: hidden;
+}
+
+div#menubar div.menubar-r {
+	overflow: hidden;
+}
+
+div#banner {
+	right: -135px;
+	width: 120px;
+}
+
+div#middle .background {
+	 
+	height: 200px;  
+}
+
+div#main div.main-container-t {
+	zoom: 1;  
+}
+
+div#main div.main-t {
+	overflow: hidden;
+}
+
+div#main div.main-tl {
+	overflow: hidden;
+}
+
+div#main div.main-tr {
+	overflow: hidden;
+}
+
+div#main div.main-m {
+	zoom: 1;
+}
+
+div#main div.main-container-b {
+	zoom: 1;  
+}
+
+div#main div.main-b {
+	overflow: hidden;
+}
+
+div#main div.main-bl {
+	overflow: hidden;
+}
+
+div#main div.main-br {
+	overflow: hidden;
+}
+
+div#footer {
+	height: 50px;  
+	zoom: 1;  
+}
+
+/*
+ * menus
+ */
+
+div#menu li.fancy {
+	width: 0px;
+}
+
+div#menu li.fancy div.fancy-container div.fancy-r {
+	right: -1px;
+	width: 51px;
+	height: 35px;
+	background: url(../images/menu/menu_fancy_r.png) 0 0 repeat-x;
+}
+
+div#menu ul.menu ul {
+	background: url(../images/menu/menu_dropdown_bg_ie6.png) 0 100% no-repeat;
+}
+
+/*
+ * modules
+ */
+
+div.module {
+	zoom: 1;  
+}
+
+ 
+#toolbar div.module {
+	width: 0px;
+}
+
+#headerbar div.module {
+	width: 0px;
+}
+
+#toolbar div.mod-blank div.module,
+#headerbar div.mod-blank div.module {
+	overflow: visible;
+}
+
+/* roundedtrans */
+div.mod-roundedtrans div.module,
+div.mod-roundedtrans div.box-container-t,
+div.mod-roundedtrans div.box-l,
+div.mod-roundedtrans div.box-container-b  {
+	zoom: 1;  
+}
+
+div.mod-roundedtrans div.box-t,
+div.mod-roundedtrans div.box-tl,
+div.mod-roundedtrans div.box-tr,
+div.mod-roundedtrans div.box-b,
+div.mod-roundedtrans div.box-bl,
+div.mod-roundedtrans div.box-br  {
+	overflow: hidden;  
+}
+
+div.mod-roundedtrans div.box-l {
+	padding: 0px 10px 0px 10px;
+	position: relative;
+	overflow: hidden;  
+	background: none;
+}
+
+div.mod-roundedtrans div.box-r {
+	padding: 0px;
+	background: none;
+}
+
+div.mod-roundedtrans div.box-l-ie6 {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 10px;
+	height: 99999px;
+	background: url(../images/module_roundedtrans_l.png) 0 0 repeat-y; /* ie6png:scale */
+}
+
+div.mod-roundedtrans div.box-r-ie6 {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 10px;
+	height: 99999px;
+	background: url(../images/module_roundedtrans_r.png) 0 0 repeat-y; /* ie6png:scale */
+}
+
+div.mod-roundedtrans div.box-m {
+	padding: 0px 5px 0px 5px;
+	background: url(../images/module_roundedtrans_bg.png) 0 0 repeat; /* ie6png:scale */
+	overflow: hidden;  
+	zoom: 1;  
+}
+
+div.mod-roundedtrans div.module div.ie6 {
+	position: relative;  
+}
+
+/* roundedtrans-header */
+div.mod-roundedtrans-header div.module,
+div.mod-roundedtrans-header div.box-l {
+	zoom: 1;  
+}
+
+div.mod-roundedtrans-header div.box-l {
+	padding: 0px 10px 0px 10px;
+	position: relative;
+	overflow: hidden;  
+	background: none;
+}
+
+div.mod-roundedtrans-header div.box-r {
+	padding: 0px;
+	background: none;
+}
+
+div.mod-roundedtrans-header div.box-l-ie6 {
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	width: 10px;
+	height: 99999px;
+	background: url(../images/module_headerposition_l.png) 0 0 no-repeat; /* ie6png:crop */
+}
+
+div.mod-roundedtrans-header div.box-r-ie6 {
+	display: block;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 10px;
+	height: 99999px;
+	background: url(../images/module_headerposition_r.png) 100% 0 no-repeat; /* ie6png:crop */
+}
+
+div.mod-roundedtrans-header div.box-m {
+	background: url(../images/module_headerposition_m.png) 0 0 repeat-x; /* ie6png:scale */
+	overflow: hidden;  
+	zoom: 1;  
+}
+
+div.mod-roundedtrans-header div.module div.ie6 {
+	position: relative;  
+}
+
+/* rounded */
+div.mod-rounded div.module,
+div.mod-rounded div.box-container-t,
+div.mod-rounded div.box-1,
+div.mod-rounded div.box-container-b  {
+	zoom: 1;  
+}
+
+div.mod-rounded div.box-t,
+div.mod-rounded div.box-tl,
+div.mod-rounded div.box-tr,
+div.mod-rounded div.box-b,
+div.mod-rounded div.box-bl,
+div.mod-rounded div.box-br  {
+	overflow: hidden;  
+}
+
+/* black */
+div.mod-black div.module,
+div.mod-black div.box-container-t,
+div.mod-black div.box-1,
+div.mod-black div.box-container-b  {
+	zoom: 1;  
+}
+
+div.mod-black div.box-t,
+div.mod-black div.box-tl,
+div.mod-black div.box-tr,
+div.mod-black div.box-b,
+div.mod-black div.box-bl,
+div.mod-black div.box-br  {
+	overflow: hidden;  
+}
+
+/* border */
+div.mod-border div.module,
+div.mod-border div.box-container-t,
+div.mod-border div.box-1,
+div.mod-border div.box-container-b  {
+	zoom: 1;  
+}
+
+div.mod-border div.box-t,
+div.mod-border div.box-tl,
+div.mod-border div.box-tr,
+div.mod-border div.box-b,
+div.mod-border div.box-bl,
+div.mod-border div.box-br  {
+	overflow: hidden;  
+}
+
+/* dotted */
+div.mod-dotted h3.header {
+	zoom: 1;  
+}
+
+/* polaroid */
+div.mod-polaroid div.module,
+div.mod-polaroid div.box-2,
+div.mod-polaroid div.box-container-b {
+	zoom: 1;  
+}
+
+div.mod-polaroid div.badge-tape {
+	top: 0px;
+}
+
+div.mod-polaroid div.box-b,
+div.mod-polaroid div.box-bl,
+div.mod-polaroid div.box-br {
+	overflow: hidden;
+}
+
+div.mod-polaroid div.badge-new { top: 13px; }
+div.mod-polaroid div.badge-top { top: 13px; }
+div.mod-polaroid div.badge-pick { top: 13px; }
+
+/* postit */
+div.mod-postit div.module,
+div.mod-postit div.box-2,
+div.mod-postit div.box-container-b {
+	zoom: 1;  
+}
+
+div.mod-postit div.box-b,
+div.mod-postit div.box-bl,
+div.mod-postit div.box-br {
+	overflow: hidden;
+}
+
+/* tab */
+div.mod-tab div.box-2,
+div.mod-tab div.box-3,
+div.mod-tab div.box-4 {
+	zoom: 1;
+}
+
+div.mod-tab div.header-container {
+	width: 0px;
+	display: inline;  
+	white-space: nowrap;
+}
+
+div.mod-tab h3.header,
+div.mod-tab div.header-l,
+div.mod-tab div.header-r {
+	overflow: hidden;
+}
+
+/*
+ * joomla
+ */
+
+div.joomla div.headline {
+	zoom: 1;
+}
+
+div.joomla div.item,
+div.joomla div.item-bg {
+	zoom: 1;
+}
+
+div.module-search input {
+	width: 88px;
+}
+
+a.readmore {
+	cursor: pointer;
+}
+
+/*
+ * typography
+ */
+
+ul.arrow li,
+ul.checkbox li,
+ul.check li,
+ul.star li {
+	zoom: 1;
+}
+
+ol.disc {
+	padding: 0px 0px 0px 50px;
+	background: url(../images/typography/list_disc_ie6.png) 20px 0px repeat-y;
+}
+
+ol.disc li {
+	padding-left: 5px;
+}
+
+blockquote.quotation {
+	background: url(../images/typography/blockquote_start_ie6.png) 0 0 no-repeat;
+}
+
+blockquote.quotation p {
+	background: url(../images/typography/blockquote_end_ie6.png) 100% 100% no-repeat;
+}
+
+hr.dotted {
+	background: none;
+	border: dotted 1px #c8c8c8;
+}
+
+p.dropcap:first-letter {
+	line-height: 100%;
+}
+
+/*
+ * extensions
+ */
+
+.ie6-zoom {
+	zoom: 1;
+}
+
+/* Marges et bordure droite qui n'apparait pas */
+#page .thm-MR, #page .thm-MTL, #page .thm-MTR, .marger {
+	width:926px;
+}
+/* Blocs qui disparaissent */
+div.welcome .column2, div.welcome .column1 {
+	display:block;
+	width:440px;	
+}
+
+/* Bouton de validation de connexion qui passe en-dessous sinon */
+#loginBar .loginPrompt input { margin-right:1px; padding-left:2px;}
+#loginBar .loginPrompt #submitUserLogin { margin:4px 0 0; }
+
+
+/* Hauteur du Blog (min-height pour iE7 et >) */
+#blog #blog-template {height:500px; overflow:visible;}

@@ -499,8 +499,10 @@ div.box {
  */
 .TableTools {
 	padding: 3px 0 3px 3px;
-	border: 1px solid #d0d0d0;
-	background-color: #f0f0f0;
+	border: 1px solid #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	background-color: #fff;
 	float: right;
 	margin-bottom: 1em;
 }
@@ -512,47 +514,43 @@ div.box {
 }
 
 .TableTools_csv {
-	background: url(../img/datatable/csv.png) no-repeat center center;
-	border: 1px solid #f0f0f0;
+	background: url(../images/file_csv_off.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_csv_hover {
-	background: url(../img/datatable/csv_hover.png) no-repeat center center;
-	border: 1px solid #d0d0d0;
-	background-color: #fdfdfd;
+	background: url(../images/file_csv_on.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_xls {
-	background: url(../img/datatable/xls.png) no-repeat center center;
-	border: 1px solid #f0f0f0;
+	background: url(../images/file_xls_off.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_xls_hover {
-	background: url(../img/datatable/xls_hover.png) no-repeat center center;
-	border: 1px solid #d0d0d0;
-	background-color: #fdfdfd;
+	background: url(../images/file_xls_on.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_clipboard {
-	background: url(../img/datatable/copy.png) no-repeat center center;
-	border: 1px solid #f0f0f0;
+	background: url(../images/file_clip_off.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_clipboard_hover {
-	background: url(../img/datatable/copy_hover.png) no-repeat center center;
-	border: 1px solid #d0d0d0;
-	background-color: #fdfdfd;
+	background: url(../images/file_clip_on.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_print {
-	background: url(../img/datatable/print.png) no-repeat center center;
-	border: 1px solid #f0f0f0;
+	background: url(../images/file_print_off.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_print_hover {
-	background: url(../img/datatable/print_hover.png) no-repeat center center;
-	border: 1px solid #d0d0d0;
-	background-color: #fdfdfd;
+	background: url(../images/file_print_on.png) no-repeat center center;
+	border: 1px solid #fff;
 }
 
 .TableTools_PrintInfo {

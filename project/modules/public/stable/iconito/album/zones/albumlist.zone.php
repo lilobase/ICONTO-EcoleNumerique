@@ -11,9 +11,10 @@
 */
 class ZoneAlbumList extends CopixZone {
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
-		
+		$albumlist = array();
+
 		$tpl->assign('albumlist', $albumlist );
 		
       // retour de la fonction :

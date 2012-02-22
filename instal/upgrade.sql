@@ -1,228 +1,100 @@
--- -------------------------------------------------------
+-------------------------------------------------------------------------
+---- NE PAS OUBLIER DE VIDER LE CACHE COPIX APRES LA MISE A JOUR !!! ----
+-------------------------------------------------------------------------
 
-
-
--- UPGRADED : FMossmann - Local/Trunk
-
---
--- creation table de matrice des droits
---
--- Ajout le 19/05/2010 par Arnaud LEMAIRE
+NE PLUS AJOUTER D'UPGRADE SQL DANS CE FICHIER.
+DESORMAIS ICONITO - ECOLE NUMERIQUE UTILISE UN GESTIONNAIRE DE VERSION
+POUR FAIRE LES UPGRADE DE BDD : http://<url>/install/upgrade_bdd.php
 
 --
--- Structure de la table `module_rightmatrix`
+--
+-- FINI
+--
 --
 
-DROP TABLE IF EXISTS `module_rightmatrix`;
-CREATE TABLE IF NOT EXISTS `module_rightmatrix` (
-  `id` int(11) unsigned NOT NULL auto_increment,
-  `user_type_in` varchar(75) NOT NULL,
-  `user_type_out` varchar(75) NOT NULL,
-  `right` varchar(5) NOT NULL,
-  `node_type` varchar(75) NOT NULL,
+CREATE TABLE IF NOT EXISTS `kernel_version_bdd` (
+  `id` smallint(6) NOT NULL auto_increment,
+  `version` smallint(6) NOT NULL,
+  `date` varchar(14) NOT NULL,
+  `ip` varchar(30) default NULL,
   PRIMARY KEY  (`id`),
-  KEY `user_type_in` (`user_type_in`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=54 ;
+  KEY `version` (`version`),
+  KEY `date` (`date`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
 
 --
--- Contenu de la table `module_rightmatrix`
+
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_ENS', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_ENS', 'COMM', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_DIR', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ADM', 'USER_DIR', 'COMM', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ENS', 'USER_ADM', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ENS', 'USER_ADM', 'COMM', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_DIR', 'USER_ADM', 'VOIR', 'BU_ECOLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_DIR', 'USER_ADM', 'COMM', 'BU_ECOLE'); 
+
+--  UPDATED : cbeyer
+
+ALTER TABLE `module_fiches_ecoles` ADD `doc1_titre` VARCHAR( 200 ) NULL DEFAULT NULL ,
+ADD `doc1_fichier` VARCHAR( 200 ) NULL DEFAULT NULL;
+
 --
 
-INSERT INTO `module_rightmatrix` (`id`, `user_type_in`, `user_type_out`, `right`, `node_type`) VALUES
-(14, 'USER_ENS', 'USER_VIL', 'VOIR', 'BU_VILLE'),
-(13, 'USER_ENS', 'USER_DIR', 'COMM', 'BU_VILLE'),
-(12, 'USER_ENS', 'USER_DIR', 'VOIR', 'BU_VILLE'),
-(6, 'USER_ENS', 'USER_RES', 'VOIR', 'BU_ECOLE'),
-(7, 'USER_ENS', 'USER_RES', 'COMM', 'BU_CLASSE'),
-(8, 'USER_ENS', 'USER_ELE', 'VOIR', 'BU_ECOLE'),
-(9, 'USER_ENS', 'USER_ELE', 'COMM', 'BU_CLASSE'),
-(10, 'USER_ENS', 'USER_ENS', 'VOIR', 'BU_VILLE'),
-(11, 'USER_ENS', 'USER_ENS', 'COMM', 'BU_VILLE'),
-(16, 'USER_DIR', 'USER_VIL', 'COMM', 'BU_VILLE'),
-(17, 'USER_DIR', 'USER_VIL', 'VOIR', 'BU_VILLE'),
-(18, 'USER_DIR', 'USER_DIR', 'COMM', 'BU_VILLE'),
-(19, 'USER_DIR', 'USER_DIR', 'VOIR', 'BU_VILLE'),
-(20, 'USER_DIR', 'USER_ENS', 'COMM', 'BU_VILLE'),
-(21, 'USER_DIR', 'USER_ENS', 'VOIR', 'BU_VILLE'),
-(22, 'USER_DIR', 'USER_ELE', 'COMM', 'BU_ECOLE'),
-(23, 'USER_DIR', 'USER_ELE', 'VOIR', 'BU_ECOLE'),
-(24, 'USER_DIR', 'USER_RES', 'COMM', 'BU_CLASSE'),
-(25, 'USER_DIR', 'USER_RES', 'VOIR', 'BU_CLASSE'),
-(26, 'USER_VIL', 'USER_VIL', 'COMM', 'BU_VILLE'),
-(27, 'USER_VIL', 'USER_VIL', 'VOIR', 'BU_VILLE'),
-(28, 'USER_VIL', 'USER_DIR', 'COMM', 'BU_VILLE'),
-(29, 'USER_VIL', 'USER_DIR', 'VOIR', 'BU_VILLE'),
-(30, 'USER_VIL', 'USER_ENS', 'VOIR', 'BU_VILLE'),
-(31, 'USER_VIL', 'USER_ELE', 'VOIR', 'BU_VILLE'),
-(32, 'USER_VIL', 'USER_RES', 'VOIR', 'BU_VILLE'),
-(33, 'USER_ELE', 'USER_DIR', 'COMM', 'BU_ECOLE'),
-(34, 'USER_ELE', 'USER_DIR', 'VOIR', 'BU_ECOLE'),
-(35, 'USER_ELE', 'USER_ENS', 'VOIR', 'BU_ECOLE'),
-(36, 'USER_ELE', 'USER_ELE', 'VOIR', 'BU_ECOLE'),
-(37, 'USER_ELE', 'USER_ENS', 'COMM', 'BU_CLASSE'),
-(38, 'USER_ELE', 'USER_ELE', 'COMM', 'BU_CLASSE'),
-(39, 'USER_ELE', 'USER_RES', 'VOIR', 'BU_CLASSE'),
-(40, 'USER_RES', 'USER_VIL', 'VOIR', 'BU_VILLE'),
-(41, 'USER_RES', 'USER_DIR', 'COMM', 'BU_ECOLE'),
-(42, 'USER_RES', 'USER_DIR', 'VOIR', 'BU_ECOLE'),
-(43, 'USER_RES', 'USER_ENS', 'VOIR', 'BU_ECOLE'),
-(44, 'USER_RES', 'USER_ENS', 'COMM', 'BU_CLASSE'),
-(45, 'USER_RES', 'USER_ELE', 'VOIR', 'BU_CLASSE'),
-(46, 'USER_RES', 'USER_RES', 'COMM', 'BU_CLASSE'),
-(47, 'USER_RES', 'USER_RES', 'VOIR', 'BU_CLASSE'),
-(48, 'USER_VIL', 'USER_EXT', 'VOIR', 'ROOT'),
-(49, 'USER_VIL', 'USER_EXT', 'COMM', 'ROOT'),
-(50, 'USER_DIR', 'USER_EXT', 'VOIR', 'ROOT'),
-(51, 'USER_DIR', 'USER_EXT', 'COMM', 'ROOT'),
-(52, 'USER_ENS', 'USER_EXT', 'VOIR', 'ROOT'),
-(53, 'USER_ENS', 'USER_EXT', 'COMM', 'ROOT');
-
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_ENS', 'VOIR', 'BU_GRVILLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_ENS', 'COMM', 'BU_GRVILLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_DIR', 'VOIR', 'BU_GRVILLE');
+INSERT INTO `module_rightmatrix` VALUES('', 'USER_ATI', 'USER_DIR', 'COMM', 'BU_GRVILLE');
 
 --
 
 INSERT INTO `dbgroup` (`id_dbgroup`, `caption_dbgroup`, `description_dbgroup`, `superadmin_dbgroup`, `public_dbgroup`, `registered_dbgroup`) VALUES
-(3, 'cities_group_agent', NULL, 0, 0, 0),
-(4, 'city_agent', NULL, 0, 0, 0),
-(5, 'administration_staff', NULL, 0, 0, 0),
-(6, 'principal', NULL, 0, 0, 0),
-(7, 'teacher', NULL, 0, 0, 0),
-(8, 'cities_group_animator', NULL, 0, 0, 0),
-(9, 'schools_group_animator', NULL, 0, 0, 0);
+(10, 'teacher_school', NULL, 0, 0, 0);
+
+INSERT INTO `modulecredentialsgroups` ( `id_mc`, `id_mcv`, `handler_group`, `id_group`) VALUES
+(10, 29, 'auth|dbgrouphandler', '10'),
+(11, 32, 'auth|dbgrouphandler', '10'),
+(12, NULL, 'auth|dbgrouphandler', '10');
 
 --
--- Contenu de la table `modulecredentials`
---
 
-INSERT INTO `modulecredentials` (`id_mc`, `module_mc`, `name_mc`) VALUES
-(1, 'gestionautonome', 'cities_group'),
-(2, 'gestionautonome', 'city'),
-(3, 'gestionautonome', 'school'),
-(4, 'gestionautonome', 'classroom'),
-(5, 'gestionautonome', 'cities_group_agent'),
-(6, 'gestionautonome', 'city_agent'),
-(7, 'gestionautonome', 'administration_staff'),
-(8, 'gestionautonome', 'principal'),
-(9, 'gestionautonome', 'teacher'),
-(10, 'gestionautonome', 'student'),
-(11, 'gestionautonome', 'person_in_charge'),
-(12, 'gestionautonome', 'access');
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_BLOG' AND `action`='showArticle' AND `objet_a` IS NULL;
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_BLOG' AND `action`='showPage' AND `objet_a` IS NULL;
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_MINIMAIL' AND `action`='readMinimail' AND `objet_a` IS NULL;
+DELETE FROM `module_stats_logs` WHERE `module_type`='MOD_MINIMAIL' AND `action`='sendMinimail' AND `objet_a` IS NULL;
 
---
--- Contenu de la table `modulecredentialsgroups`
---
+-- PACKAGE
 
-INSERT INTO `modulecredentialsgroups` (`id_mcg`, `id_mc`, `id_mcv`, `handler_group`, `id_group`) VALUES
-(1, 1, 3, 'auth|dbgrouphandler', '3'),
-(2, 2, 6, 'auth|dbgrouphandler', '3'),
-(3, 3, 9, 'auth|dbgrouphandler', '3'),
-(4, 5, 15, 'auth|dbgrouphandler', '3'),
-(5, 6, 18, 'auth|dbgrouphandler', '3'),
-(6, 7, 21, 'auth|dbgrouphandler', '3'),
-(7, 8, 24, 'auth|dbgrouphandler', '3'),
-(8, 9, 27, 'auth|dbgrouphandler', '3'),
-(9, 10, 30, 'auth|dbgrouphandler', '3'),
-(10, 11, 33, 'auth|dbgrouphandler', '3'),
-(11, 12, NULL, 'auth|dbgrouphandler', '3'),
-(12, 3, 9, 'auth|dbgrouphandler', '4'),
-(13, 4, 12, 'auth|dbgrouphandler', '4'),
-(23, 9, 27, 'auth|dbgrouphandler', '6'),
-(22, 4, 12, 'auth|dbgrouphandler', '6'),
-(16, 7, 21, 'auth|dbgrouphandler', '4'),
-(17, 8, 24, 'auth|dbgrouphandler', '4'),
-(18, 9, 27, 'auth|dbgrouphandler', '4'),
-(19, 10, 30, 'auth|dbgrouphandler', '4'),
-(20, 11, 33, 'auth|dbgrouphandler', '4'),
-(21, 12, NULL, 'auth|dbgrouphandler', '4'),
-(24, 10, 30, 'auth|dbgrouphandler', '6'),
-(25, 11, 33, 'auth|dbgrouphandler', '6'),
-(26, 12, NULL, 'auth|dbgrouphandler', '6'),
-(32, 11, 32, 'auth|dbgrouphandler', '7'),
-(33, 3, 8, 'auth|dbgrouphandler', '8'),
-(29, 12, NULL, 'auth|dbgrouphandler', '7'),
-(30, 4, 12, 'auth|dbgrouphandler', '3'),
-(31, 10, 29, 'auth|dbgrouphandler', '7'),
-(34, 4, 12, 'auth|dbgrouphandler', '8'),
-(35, 7, 21, 'auth|dbgrouphandler', '8'),
-(36, 8, 24, 'auth|dbgrouphandler', '8'),
-(37, 9, 27, 'auth|dbgrouphandler', '8'),
-(38, 10, 30, 'auth|dbgrouphandler', '8'),
-(39, 11, 33, 'auth|dbgrouphandler', '8'),
-(40, 12, NULL, 'auth|dbgrouphandler', '8'),
-(41, 4, 11, 'auth|dbgrouphandler', '9'),
-(42, 9, 27, 'auth|dbgrouphandler', '9'),
-(43, 10, 30, 'auth|dbgrouphandler', '9'),
-(44, 11, 33, 'auth|dbgrouphandler', '9'),
-(45, 12, NULL, 'auth|dbgrouphandler', '9');
+INSERT INTO  `kernel_mod_available` ( `node` , `module` ) VALUES ( 'BU_CLASSE',  'MOD_QUIZ');
+
+ALTER TABLE `module_blog_articlecomment` CHANGE `authorid_bacc` `authorid_bacc` INT( 11 ) NULL DEFAULT NULL;
+
+ALTER TABLE `module_minimail_from` ADD `is_forwarded` TINYINT NULL DEFAULT NULL; 
+ALTER TABLE `module_minimail_to` ADD `is_forwarded` TINYINT NULL DEFAULT NULL AFTER `is_replied`; 
+
+
+CREATE TABLE IF NOT EXISTS `module_tags` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `module_tags_groups` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `id_group` int(11) unsigned NOT NULL,
+  `id_tag` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_group` (`id_group`,`id_tag`)
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `module_getreq` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `parent` text NOT NULL,
+  `enfants` text NOT NULL,
+  `date` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+);
 
 --
--- Contenu de la table `modulecredentialsvalues`
---
 
-INSERT INTO `modulecredentialsvalues` (`id_mcv`, `value_mcv`, `id_mc`, `level_mcv`) VALUES
-(1, 'create', 1, 1),
-(2, 'update', 1, 2),
-(3, 'delete', 1, 3),
-(4, 'create', 2, 1),
-(5, 'update', 2, 2),
-(6, 'delete', 2, 3),
-(7, 'create', 3, 1),
-(8, 'update', 3, 2),
-(9, 'delete', 3, 3),
-(10, 'create', 4, 1),
-(11, 'update', 4, 2),
-(12, 'delete', 4, 3),
-(13, 'create', 5, 1),
-(14, 'update', 5, 2),
-(15, 'delete', 5, 3),
-(16, 'create', 6, 1),
-(17, 'update', 6, 2),
-(18, 'delete', 6, 3),
-(19, 'create', 7, 1),
-(20, 'update', 7, 2),
-(21, 'delete', 7, 3),
-(22, 'create', 8, 1),
-(23, 'update', 8, 2),
-(24, 'delete', 8, 3),
-(25, 'create', 9, 1),
-(26, 'update', 9, 2),
-(27, 'delete', 9, 3),
-(28, 'create', 10, 1),
-(29, 'update', 10, 2),
-(30, 'delete', 10, 3),
-(31, 'create', 11, 1),
-(32, 'update', 11, 2),
-(33, 'delete', 11, 3);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `kernel_animateurs`
---
-
-CREATE TABLE `kernel_animateurs` (
-  `user_type` varchar(10) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `can_connect` tinyint(4) NOT NULL,
-  `can_tableaubord` tinyint(4) NOT NULL,
-  `can_comptes` tinyint(4) NOT NULL,
-  `is_visibleannuaire` tinyint(4) NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `updated_by` varchar(50) NOT NULL,
-  PRIMARY KEY (`user_type`,`user_id`),
-  KEY `is_visibleannuaire` (`is_visibleannuaire`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `kernel_animateurs2regroupements`
---
-
-CREATE TABLE `kernel_animateurs2regroupements` (
-  `user_type` varchar(10) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `regroupement_type` enum('villes','ecoles') NOT NULL,
-  `regroupement_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_type`,`user_id`,`regroupement_type`,`regroupement_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
+DROP TABLE `module_welcome_homes`, `module_welcome_url`;

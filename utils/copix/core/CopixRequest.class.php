@@ -219,5 +219,15 @@ class CopixRequestException extends CopixException {
  	public static function exists ($pVarName){
  		return array_key_exists ($pVarName, self::$_vars);
  	}
+ 	
+ 	public static function isXmlHttpRequest () {
+ 	
+ 	  return isset ($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest';
+ 	}
+ 	
+ 	public static function isMethod ($method) {
+
+    return strtolower($_SERVER['REQUEST_METHOD']) == strtolower ($method);
+  }
  }
 ?>

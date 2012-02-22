@@ -41,14 +41,14 @@
 			</p>
 			
 			<p class="form_submit">
-				{if $grvilles_id}<a href="#delete_confirm" onclick="$('delete_confirm').style.display = 'block';" class="no_button_like">Supprimer ce groupement</a> - {/if}
+				{if $grvilles_id}<a href="#delete_confirm" onclick="$('#delete_confirm').show();" class="no_button_like">Supprimer ce groupement</a> - {/if}
 				<input class="form_button" type="submit" value="Enregistrer" style="width: 75px;"/>
 			</p>
 			
 			{if $grvilles_id}
 			<p id="delete_confirm" style="display: none;">
 				<a href="{copixurl dest="grvilles||" delete=$grvilles_infos->id}" class="confirm">Confirmez la suppression</a>
-				<a href="#" class="cancel" onclick="$('delete_confirm').style.display = 'none';">annuler</a>
+				<a href="#" class="cancel" onclick="$('#delete_confirm').hide();">annuler</a>
 			</p>
 			{/if}
 			

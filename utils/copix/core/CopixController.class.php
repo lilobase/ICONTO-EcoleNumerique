@@ -234,8 +234,6 @@ class CopixController {
 
                             $this->_processStandard ($toProcess->data);//appel de la méthode de préparation de la page standard.
                             $toProcess->data->assign ('HTML_HEAD', '<$HTML_HEAD />');
-                            $toProcess->data->assign ('HOME_TITLE1', _currentUser()->getExtraHome('titre1'));
-                            $toProcess->data->assign ('HOME_TITLE2', _currentUser()->getExtraHome('titre2'));
                             //Par ex, bandeaux de pub, menus dynamiques, ... (propres aux projets.)
                             CopixContext::clear ();
 
@@ -250,8 +248,6 @@ class CopixController {
 
                             $this->_processStandard ($toProcess->data);//appel de la méthode de préparation de la page standard.
                             $toProcess->data->assign ('HTML_HEAD', '<$HTML_HEAD />');
-                            $toProcess->data->assign ('HOME_TITLE1', _currentUser()->getExtraHome('titre1'));
-                            $toProcess->data->assign ('HOME_TITLE2', _currentUser()->getExtraHome('titre2'));
                             //Par ex, bandeaux de pub, menus dynamiques, ... (propres aux projets.)
                             $content = $toProcess->data->fetch ($toProcess->more);
                             $this->_beforeDisplay($content);

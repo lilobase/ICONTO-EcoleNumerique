@@ -1,9 +1,9 @@
-<p style="text-align: right;"><a class="button_like" href="{copixurl dest="comptes|animateurs|new"}">D&eacute;finir un nouvel animateur</a></p>
+<p class="right"><a href="{copixurl dest="comptes|animateurs|new"}" class="button button-add">{i18n key="comptes.menu.new_animateur" noEscape=1}</a></p>
 
 {if $ppo->animateurs}
 	<table width="100%" class="liste comptes_animateurs comptes_animateurs_list">
 	<tr>
-		<th class="liste_th">Login</th>
+		<th class="liste_th">Identifiant</th>
 		<th class="liste_th">Nom</th>
 		<th class="liste_th">Pr&eacute;nom</th>
 		<th class="liste_th" width="14"><img src="{copixresource path="img/comptes/comptes_animateurs_connexion.png"}"/></th>
@@ -33,7 +33,7 @@
 				{foreach from=$animateur->regroupements->grecoles item=grecole name=grecoles}{if ! $smarty.foreach.grecoles.first}, {/if}{$grecole->nom}{/foreach}
 			</td>
 			
-			<td><a href="{copixurl dest="comptes|animateurs|edit" user_type=$animateur->user_type user_id=$animateur->user_id}">modifier</a></td>
+			<td><a class="button button-update" href="{copixurl dest="comptes|animateurs|edit" user_type=$animateur->user_type user_id=$animateur->user_id}">modifier</a></td>
 		</tr>
 	{/foreach}
 	</table>

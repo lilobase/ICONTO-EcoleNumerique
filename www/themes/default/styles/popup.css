@@ -1,0 +1,16 @@
+body.thm {
+  background:#F0F4F0;
+  padding:5px;
+}
+
+
+/* Pop-up du Classeur */
+a.button-add {
+	margin:5px; border-color:#ddd;
+}
+.addfile-form {margin:5px 0; padding:20px 0;}
+.addfile-form .button {border-color:#ddd;}
+form#options {
+	clear:both;
+	margin:5px 0;
+}

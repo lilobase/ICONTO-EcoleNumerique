@@ -50,7 +50,7 @@
 	<form action="{copixurl dest="|insertInfoSupp"}" method="post">
 	 <input type="hidden" name="id" value="{$rFiche->idinter}"/>
 	<tr>
-		<td class="echange {if !$canCheckVisible}echangeDir{/if}">Saisisse votre message :<br/>
+		<td class="echange {if !$canCheckVisible}echangeDir{/if}">Saisissez votre message :<br/>
 		{$info_message_edition}</td>
 		{if $canCheckVisible}
 		<td class="milieu"></td>
@@ -65,11 +65,13 @@
 	</table>
 	
 {if $canAddComment}
+  <p align="center">
 	{if $canCheckVisible}
-		<input class="teleprocedures" type="submit" value="Valider le message et/ou la note interne" />
+		<input class="button button-continue" type="submit" value="Valider le message et/ou la note interne" />
 	{else}
-		<input class="teleprocedures" type="submit" value="Valider le message" />
+		<input class="button button-continue" type="submit" value="Valider le message" />
 	{/if}
+  </p>
 </form>
 {/if}
 	

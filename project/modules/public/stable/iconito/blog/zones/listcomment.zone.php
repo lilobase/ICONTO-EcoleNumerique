@@ -20,7 +20,7 @@ class ZoneListComment extends CopixZone {
 	function _createContent (&$toReturn) {
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$id_blog = $this->getParam('id_blog','');
 		

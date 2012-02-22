@@ -1,10 +1,14 @@
 <?php
-
 /**
- * Affichage des écoles
- */
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneSchool extends CopixZone {
-
+  
+  /**
+   * Affichage des écoles
+   */
 	function _createContent (& $toReturn) {
 	  
 	  $ppo = new CopixPPO ();                               

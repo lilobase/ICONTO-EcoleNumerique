@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
 {assign var=id value=$ppo->id}
 {assign var=folder value=$ppo->folder}
 {assign var=folders value=$ppo->folders}
@@ -8,119 +8,182 @@
 {assign var=format value=$ppo->format}
 {assign var=combofolders value=$ppo->combofolders}
 
+{literal}
+<script type="text/javascript">
+jQuery(document).ready(function($){
+	var dofile;
+	var dofield;
+	var doformat;
+	var dodurl;
+	var dovurl;
+	var doerr;
+	$('#doinsert').click (function() {
+		var domode = $('#options input[name="mode"]:checked').val();
+		$('#malle :checked').each( function() {
+		  doid = $(this).parent('.malle-table-action').children('input[name="item-id"]').val();
+		  doname = $(this).parent('.malle-table-action').children('input[name="item-name"]').val();
+			dofile = $(this).parent('.malle-table-action').children('input[name="item-file"]').val();
+			dofield = $(this).parent('.malle-table-action').children('input[name="item-field"]').val();
+			doformat = $(this).parent('.malle-table-action').children('input[name="item-format"]').val();
+			dodurl = $(this).parent('.malle-table-action').children('input[name="item-durl"]').val();
+			dovurl = $(this).parent('.malle-table-action').children('input[name="item-vurl"]').val();
+			doerr = $(this).parent('.malle-table-action').children('input[name="item-err"]').val();
+//			console.log("---" + dofile + "," + dofield + "," + doformat + "," + dodurl + "," + dovurl + "," + doerr);
+			insertDocument (domode, dofile, dofield, doformat, dodurl, dovurl, doerr, doid, doname);
+		});
+		parent.jQuery.fancybox.close();
+	});
 
+	$('.addfile').click (function() {
+		$('.addfile').toggle();
+		$('.addfile-form').toggle();
+	});
+	$('.addfile-form .button-cancel').click (function() {
+		$('.addfile').toggle();
+		$('.addfile-form').toggle();
+	});
+	$('#docancel').click (function() {
+		parent.jQuery.fancybox.close();
+	});
+});
+</script>
+{/literal}
+<div id="results"></div>
+<h1>{i18n key="malle.popup.title"}</h1>
 
-<div id="popup_actions">
-<form name="form" id="form">
-
-{* <h1>{i18n key="malle|malle.popup.options"}</h1> *}
-
-<div class="bloc">
-<h2>{i18n key="malle|malle.popup.mode"}</h2>
-<input id="mode-view" type="radio" name="mode" value="view" checked />
-<label for="mode-view">{i18n key="malle|malle.popup.mode.view"}<br/></label>
-<input id="mode-download" type="radio" name="mode" value="download" />
-<label for="mode-download">{i18n key="malle|malle.popup.mode.download"}<br/>
-</label>
-</div>
-
-<div class="bloc">
-<h2>{i18n key="malle|malle.popup.multi"}</h2>
-<label for="multi-yes">
-<input id="multi-yes" type="checkbox" name="multi" value="yes" />
-<img src="{copixresource path="img/album/album_popup_multi.gif"}" alt="{i18n key="album|album.popup.multi_yes"}" /></label>
-</div>
-
-</form>
-
-<div class="bloc">
-<h2>{i18n key="malle|malle.popup.add"}</h2>
-<form action="{copixurl dest="|doUploadFile"}" method="post" ENCTYPE="multipart/form-data">
-<input type="hidden" name="MAX_FILE_SIZE" value="{$uploadMaxSize}">
-<input type="hidden" name="id" value="{$id}" />
-<input type="hidden" name="folder" value="{$folder}" />
-<input type="hidden" name="field" value="{$field}" />
-<input type="hidden" name="format" value="{$format}" />
-<INPUT class="form" style="margin: 2px;" TYPE="file" NAME="fichier" ></INPUT> <input style="" class="form_button" type="submit" value="{i18n key="malle.btn.submitAddFile"}" />
-</form>
-
-</div>
-
-<br clear="all" />
-
-</div>
-
-
-<!-- DEBUT PAGE -->
-
-<DIV CLASS="malle_go_folder_form">
-{if $combofolders|trim}
-<form name="formGo" id="formGo" action="{copixurl dest="malle||getMallePopup"}" method="get">
-<input type="hidden" name="id" value="{$id}" />
-<input type="hidden" name="field" value="{$field}" />
-<input type="hidden" name="format" value="{$format}" />
-{$combofolders}
-<input type="submit" value="GO" class="form_button" /></form>
-{/if}
-</DIV>
-
+<div class="malle_poucet_combo">
 {copixzone process='malle|petitpoucet' malle=$ppo->id folder=$ppo->folder action=getMallePopup field=$ppo->field format=$ppo->format}
+</div>
 
-
-<DIV STYLE="min-height:275px;">
+<div class="popup-panel">
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL></DIV>
+	</ul>
+	</div>
 {/if}
-
 
 {assign var="tailleFolders" value=0}
 {assign var="tailleFiles" value=0}
 
+{if !$folders|@count and !$files|@count}
+	{i18n key="malle.emptyFolder"}
+{else}
+	
+<form>
+<table id="malle" class="malle-table">
 {if $folders neq null}
 	{foreach from=$folders item=item}
-	<DIV CLASS="malle_folder_line" style="width:90%;"><DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}</DIV>
-	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMallePopup" id=$id folder=$item->id field=$field format=$format}">{$item->nom|escape}</A>
-	</DIV>
+	<tr class="malle-table-folder">
+		<td class="malle-table-icon">
+			<img src="{copixresource path="img/malle/icon_folder.png"}" />
+		</td>
+		<td class="malle-table-name">
+			<a href="{copixurl dest="|getMallePopup" id=$id folder=$item->id field=$field format=$format}">{$item->nom|escape}</a>
+		</td>
+		<td class="malle-table-content">
+			{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}
+		</td>
+		<td class="malle-table-size">
+			{$item->taille|human_file_size}
+		</td>
+		<td class="malle-table-action">
+		</td>
+	</tr>
 	{math equation="x+y" x=$tailleFolders y=$item->taille assign="tailleFolders"}
 	{/foreach}
-{else}
 {/if}
 
 {if $files neq null}
 	{foreach from=$files item=item}
-	
 	{copixurl assign='copixurl'}
 	
 	{assign var=file value=$copixurl|cat:"static/malle/"|cat:$item->malle|cat:"_"|cat:$item->malle_cle|cat:"/"|cat:$item->id|cat:"_"|cat:$item->fichier}
 	
 	{if $format eq "fckeditor" OR $format eq "html" OR $format eq "ckeditor"}
-		{*{assign var=htmlDownload value="[["|cat:$abspath|cat:$file|cat:"|download]]"}*}
 		{assign var=htmlDownload value="[["|cat:$file|cat:"|download]]"}
-		{*{assign var=htmlView value="[["|cat:$abspath|cat:$file|cat:"|view]]"}*}
 		{assign var=htmlView value="[["|cat:$file|cat:"|view]]"}
 	{/if}
 	
 	{i18n key="malle|malle.error.unsupportedFormat" format=$format assign=i18n_unsupportedFormat}
-
-	<DIV CLASS="malle_file_line" style="width:90%;"><div style="float:right; margin-right:5px;"><a href="#" onClick="return sendDocument('{$file}', '{$field}', '{$format}', '{$htmlDownload|wiki|urlencode}', '{$htmlView|wiki|urlencode}', '{$i18n_unsupportedFormat|addslashes|escape}');">{i18n key="malle|malle.popup.select"}</a></div><DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{$item->type_text}</DIV>
-	<img class="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" /><a href="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</a>
-	</DIV>
+	<tr class="malle-table-file">
+		<td class="malle-table-icon">
+			<img src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" />
+		</td>
+		<td class="malle-table-name">
+			<a href="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</a>
+		</td>
+		<td class="malle-table-content">
+			{$item->type_text}
+		</td>
+		<td class="malle-table-size">
+			{$item->taille|human_file_size}
+		</td>
+		<td class="malle-table-action">
+		  <input type="hidden" name="item-id" value="{$item->id}"/>
+		  <input type="hidden" name="item-name" value="{$item->nom|escape}"/>
+			<input type="hidden" name="item-file" value="{$file}"/>
+			<input type="hidden" name="item-field" value="{$field}"/>
+			<input type="hidden" name="item-format" value="{$format}"/>
+			<input type="hidden" name="item-durl" value="{$htmlDownload|wiki|urlencode}"/>
+			<input type="hidden" name="item-vurl" value="{$htmlView|wiki|urlencode}"/>
+			<input type="hidden" name="item-err" value="{$i18n_unsupportedFormat|addslashes}"/>
+			<input type="checkbox" name="item-check" class="" value=""/>
+		</td>
+	</tr>
 	{math equation="x+y" x=$tailleFiles y=$item->taille assign="tailleFiles"}
 	{/foreach}
-{else}
+{/if}
+</table>
+</form>
 {/if}
 
-</form>
+<table class="malle-table">
+	<tr class="malle-table-add">
+		<td class="malle-table-icon">
+			<IMG src="{copixresource path="images/button-action/action_add.png"}" />
+		</td>
+		<td class="malle-table-name">
+			<a class="addfile" style="cursor: hand;">{i18n key="malle|malle.popup.add"}</a>
+			<div class="addfile-form" style="display: none;">
+				<form action="{copixurl dest="|doUploadFile"}" method="post" ENCTYPE="multipart/form-data">
+					<input type="hidden" name="MAX_FILE_SIZE" value="{$uploadMaxSize}">
+					<input type="hidden" name="id" value="{$id}" />
+					<input type="hidden" name="folder" value="{$folder}" />
+					<input type="hidden" name="field" value="{$field}" />
+					<input type="hidden" name="format" value="{$format}" />
+					<input class="form" style="margin: 2px;" TYPE="file" NAME="fichier" ></input>
+					<input class="button button-confirm" type="submit" value="{i18n key="malle.popup.add.ok"}" />
+					<input class="button button-cancel" type="button" value="{i18n key="malle.popup.add.cancel"}" />
+				</form>
+			</div>
+		</td>
+		<td class="malle-table-content"></td>
+		<td class="malle-table-size"></td>
+		<td class="malle-table-action"></td>
+	</tr>
+</table>
 
-{if !$folders|@count and !$files|@count}{i18n key="malle.emptyFolder"}{/if}
+</div>
 
+<div id="popup_actions" class="content-panel">
+	<div class="floatright">
+		<input id="doinsert" class="button button-confirm" type="button" value="{i18n key="malle.popup.doinsert"}" />
+		<input id="docancel" class="button button-cancel" type="button" value="{i18n key="malle.popup.cancel"}" />
+	</div>
+	{if $ppo->format neq "id"}
+	<div class="">
+		<form name="form" id="options">
+			{i18n key="malle|malle.popup.mode"}
+			<input id="mode-view" type="radio" name="mode" value="view" checked /><label for="mode-view">{i18n key="malle|malle.popup.mode.view"}</label>
+			<input id="mode-download" type="radio" name="mode" value="download" /><label for="mode-download">{i18n key="malle|malle.popup.mode.download"}</label>
+		</form>
+	</div>
+	{/if}
+</div>
 
-
-</DIV>
 

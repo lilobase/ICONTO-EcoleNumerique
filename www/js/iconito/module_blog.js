@@ -1,8 +1,6 @@
 
 function swapArticle (id) {
-	var obj = getRef ('expand'+id); 
-	if (obj)
-		obj.className = (obj.className=='SHOW') ? 'HIDDEN' : 'SHOW';
+  $('#expand'+id).toggle();
 }
 
 function goBlog (form, value) {
@@ -13,13 +11,6 @@ function goBlog (form, value) {
 function change_format (obj) {
 	var form = obj.form;
 	var sel = '';
-	/*	
-	for (var i=0; i<form.format_bact.length; i++) {
-   if (form.format_bact[i].checked)
-	 	sel=form.format_bact[i].value;
-	}
-	alert (sel);
-	*/
 	if ( (form.sumary_bact!='' || form.content_bact!='') ) {
 		return confirm (i18n_blog_change_format);
 	}
@@ -29,15 +20,22 @@ function change_format (obj) {
 
 // Suppression d'un droit sur un membre
 function deleteMembres () {
-	var form = $("form");
-		var trouve=false;
-		for (var i=0 ; i < form.length && trouve==false ; i++)
-			if (form[i].checked == true)
-				trouve=true;
-		if (trouve == false)
-			alert (i18n_blog_check_members);
-		else {
-			if(confirm(i18n_blog_delete_droits))
-				form.submit();
-		}
+  nb_checked = $('form#form input[type=checkbox]:checked').size();
+  if (!nb_checked)
+    alert (i18n_blog_check_members);
+  else {
+    $('form#form').submit();
+  }
 }
+
+
+/* Vérification de la hauteur des blocs et modification de l'apparence si besoin */
+$(document).ready(function(){
+	
+	var sidebarHeight = $('#blog-sidebar').height() + 250; // Si la sidebar contient une image, Safari n'a pas encore chargé l'image, donc la hauteur n'est pas bonne !
+	var contentHeight = $('#blog-content').height();
+	console.log ('sidebar : '+sidebarHeight + ' content : '+contentHeight);
+	if (sidebarHeight > contentHeight)
+		$('#blog-content').css('min-height', sidebarHeight);
+	
+});

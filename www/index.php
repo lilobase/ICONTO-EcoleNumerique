@@ -22,9 +22,20 @@ $GLOBALS['QueryCount'] = 0;
 
 setlocale(LC_TIME, 'fr_FR');
 
-if (!file_exists(COPIX_LOG_PATH.'.installed') || !file_exists('../project/config/copix.conf.php'))
-   die( "Votre Iconito n'est pas encore install&eacute;. <a href=\"install/index.php\">Cliquez ici</a>." );
-
+if (!file_exists(COPIX_LOG_PATH.'.installed') || !file_exists('../project/config/copix.conf.php')) {
+  $path2 = '';
+  $variables = array ('ORIG_SCRIPT_NAME', 'SCRIPT_NAME');
+  foreach ($variables as $variable) {
+    if ($path2)
+      continue;
+    if (array_key_exists ($variable, $_SERVER)){
+      $path2 = substr ($_SERVER[$variable], 0, strrpos ($_SERVER[$variable], '/')).'/';
+    }
+  }
+  if (!$path2)
+    $path2 = '/';
+  die( "<p>Votre Iconito n'est pas encore install&eacute; &mdash; <a href=\"".$path2."install/index.php\">Cliquez ici</a></p>" );
+}
 // tentative de création du controlleur
 try {	
 	$coord = new ProjectController ($path . '/../project/config/copix.conf.php');

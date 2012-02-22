@@ -2,7 +2,7 @@
   <form action="<?php echo _url("auth|log|in"); ?>" method="post" id="loginForm">
       <table>
        <tr>
-        <td><input type="text" name="login" id="login" size="9"
+        <td><input type="text" name="login" id="login" size="9" autofocus="autofocus"
 			value="<?php _etag ('escape', $ppo->login); ?>" /></td>
        </tr>
        <tr>

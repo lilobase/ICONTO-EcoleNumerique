@@ -20,7 +20,7 @@ class ZoneShowBlog extends CopixZone {
 	function _createContent (&$toReturn) {
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_blog = $this->getParam('id_blog', '');
 
@@ -31,6 +31,23 @@ class ZoneShowBlog extends CopixZone {
 
 		$tpl->assign ('RESULT', $this->getParam('RESULT', ''));
 
+		$parent = Kernel::getModParentInfo("MOD_BLOG", $id_blog);
+		if ($parent) {
+			$mods = Kernel::getModEnabled ($parent['type'], $parent['id'], '', 0, 1);
+			// _dump($mods);
+			$mods = Kernel::filterModuleList ($mods, 'MOD_MAGICMAIL');
+			if(count($mods)) {
+				$magicmail_infos = _dao('module_magicmail')->get($mods[0]->module_id);
+				$tpl->assign ('magicmail_infos', $magicmail_infos);
+				// _dump($magicmail_infos);
+				/*
+					'id' => '32',
+					'login' => 'cepapeti',
+					'domain' => 'magicmail.iconito.fr',
+				 */
+			}
+		}
+					
 		// retour de la fonction :
 		$toReturn = $tpl->fetch('blog.show.tpl');
 		return true;

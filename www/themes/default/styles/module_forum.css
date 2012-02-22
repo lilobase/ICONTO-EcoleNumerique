@@ -1,13 +1,8 @@
 
 
 A.forum_topic {
-	color: #134F14;
-	font-size: 14px;
+	font-size:110%;
 	font-weight: bold;
-}
-A.forum_topic:hover {
-	color: #FFFFFF;
-	background-color: #134F14;
 }
 
 

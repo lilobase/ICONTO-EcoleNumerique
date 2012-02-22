@@ -23,7 +23,7 @@
 		<property name="title_event"
 			captioni18n="dao.event.fields.title_event"
 			type="string"
-			maxlength="100"
+			maxlength="255"
 			required="yes"
 		/>
 		

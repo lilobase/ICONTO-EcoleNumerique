@@ -19,6 +19,10 @@ class ActionGroupRessource extends CopixActionGroup {
 		if( (_request("id")) ) {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>_request("id")) ));
 		} else {
+			
+			// Patch
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('ressource||getSearchAdvanced', array('id'=>2) ));
+			
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('ressource.error.numBiblioNonDef'),
 			'back'=>CopixUrl::get ('||')));
@@ -26,7 +30,7 @@ class ActionGroupRessource extends CopixActionGroup {
 	}
 	
 	function getList () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		if( !(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -44,15 +48,18 @@ class ActionGroupRessource extends CopixActionGroup {
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('ressource.title.module').' &raquo; '.CopixI18N::get ('ressource.title.liste'));
 
-		$menu = '<a href="'.CopixUrl::get('ressource||getSearchAdvanced', array('id'=>$id)).'">'.CopixI18N::get ('ressource.menu.parCriteres').'</a>';
-
-		if( Ressource::checkRight( "ANNU", $id, PROFILE_CCV_WRITE ) )
-			$menu .= ' :: <a href="'.CopixUrl::get('ressource||getRessource', array('id'=>$id,'mode'=>'new') ).'">'.CopixI18N::get ('ressource.menu.ajouterRessource').'</a>';
+		// $menu = '<a href="'.CopixUrl::get('ressource||getSearchAdvanced', array('id'=>$id)).'">'.CopixI18N::get ('ressource.menu.parCriteres').'</a>';
+		$menu[] = array('txt'=>CopixI18N::get ('ressource.menu.parCriteres'), 'size' => 130, 'url' => CopixUrl::get('ressource||getSearchAdvanced', array('id'=>$id)));
+		
+		if( Ressource::checkRight( "ANNU", $id, PROFILE_CCV_WRITE ) ) {
+			// $menu .= ' :: <a href="'.CopixUrl::get('ressource||getRessource', array('id'=>$id,'mode'=>'new') ).'">'.CopixI18N::get ('ressource.menu.ajouterRessource').'</a>';
+			$menu[] = array('txt'=>CopixI18N::get ('ressource.menu.ajouterRessource'), 'type'=>'create', 'size' => 130, 'url' => CopixUrl::get('ressource||getRessource', array('id'=>$id,'mode'=>'new') ));
+		}
 		$tpl->assign ('MENU', $menu);
 
 
 		
-		$tplList = & new CopixTpl ();
+		$tplList = new CopixTpl ();
 		
 		$ressource_dao = CopixDAOFactory::create("ressource_ressources");
 		$ressource_list = $ressource_dao->getByAnnu($id);
@@ -76,8 +83,8 @@ class ActionGroupRessource extends CopixActionGroup {
 	
 	
 	function getRessource () {
-		$tpl = & new CopixTpl ();
-		$tplMain = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplMain = new CopixTpl ();
 		
 		$mode = _request("mode", "view");
 		
@@ -333,8 +340,8 @@ class ActionGroupRessource extends CopixActionGroup {
 	
 	
 	function getSearch() {
-		$tpl = & new CopixTpl ();
-		$tplMain = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplMain = new CopixTpl ();
 		
 
 		
@@ -352,8 +359,8 @@ class ActionGroupRessource extends CopixActionGroup {
 
 
 	function getSearchAdvanced () {
-		$tpl = & new CopixTpl ();
-		$tplMain = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplMain = new CopixTpl ();
 		
 		if( 0 && !(_request("id")) ) 
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -487,14 +494,14 @@ class ActionGroupRessource extends CopixActionGroup {
 
 
 	function getTag () {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('ressource.title.module').' &raquo; '.CopixI18N::get ('ressource.title.tag').' : "'._request("tag").'"');
 
 		// Kernel::MyDebug( Ressource::alltags() );
 		
 		$ressource_list = Ressource::tag2ressources( _request("tag"), _request("id") );
 		
-		$tplList = & new CopixTpl ();
+		$tplList = new CopixTpl ();
 		
 		$tplList->assign ('ressource_list', $ressource_list);
 		

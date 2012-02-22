@@ -2,20 +2,20 @@
 
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
+	<div id="dialog-message" title="{i18n key=kernel|kernel.error.problem}">
 	<UL>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<LI>{$error}</LI>
 	{/foreach}
-	</UL></DIV>
+	</UL></div>
 {/if}
 
 {if $preview and !$errors}
 <H3>{i18n key="minimail.preview"}</H3>
 <DIV CLASS="minimail_message">
-<DIV><b>{$title}</b></DIV>
-<HR CLASS="minimail_hr" NOSHADE SIZE="1" />
-<DIV>{$message|render:$format}</DIV>
+  <DIV><b>{$title}</b></DIV>
+  <HR CLASS="minimail_hr" NOSHADE SIZE="1" />
+  <DIV>{$message|render:$format}</DIV>
 </DIV>
 {/if}
 
@@ -86,12 +86,10 @@
 
 	 <tr><td colspan="2" CLASS="form_submit">
 	 
-	 <i>{i18n key="kernel|kernel.fields.oblig"}</i>
-	 <br/>
+	 <p><i>{i18n key="kernel|kernel.fields.oblig" noEscape=1}</i></p>
 	 
-<input type="hidden" name="id_blog" value="{$blog->id_blog}">
-<input type="submit" class="form_button" value="{i18n key="copix:common.buttons.ok"}" />
-<input class="form_button" type="button" value="{i18n key="copix:common.buttons.cancel"}" onclick="javascript:window.location='{copixurl dest="admin|" ville=$type->ville}'" />
+<input type="submit" class="button button-save" value="{i18n key="kernel|kernel.btn.save"}" />
+<input class="button button-cancel" type="button" value="{i18n key="kernel|kernel.btn.cancel"}" onclick="javascript:window.location='{copixurl dest="admin|" id=$type->teleprocedure}'" />
 	 
 	</td>	 
 	 </tr>

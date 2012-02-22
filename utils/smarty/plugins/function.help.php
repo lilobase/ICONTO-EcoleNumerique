@@ -6,7 +6,6 @@
  * @subpackage plugins
  */
 
-
 /**
  * Smarty {help} function plugin
  *
@@ -24,12 +23,16 @@ function smarty_function_help ($params, &$smarty) {
   }
 
 	switch ($mode) {
-		case 'bulle' :
-			$res = '';
-			$code = 'help'.mt_rand();
-			$res .= '<span style="visibility: hidden; display: none;" ID="'.$code.'"><div align="RIGHT" style="font-size:80%;"><a href="#" onClick="return hideHelp();">'.CopixI18N::get ('kernel|kernel.popup.close').'</a></div>'.CopixI18N::get ($params['text']).'</span>';
-			$res .= '<a href="javascript:viewHelp(\''.$code.'\');"><img width="14" height="14" hspace="2" src="'.CopixUrl::getResource ("img/aide/bulle.gif").'" border="0" alt="'.htmlentities(CopixI18N::get ('kernel|kernel.help')).'" title="'.htmlentities(CopixI18N::get ('kernel|kernel.help')).'" /></a>';
+		case 'tooltip' :
+      include_once (COPIX_PROJECT_PATH.'../utils/copix/smarty_plugins/function.tooltip.php');
+      $res = '';
+      $text_tooltip = isset($params['text_i18n']) ? CopixI18N::get($params['text_i18n']) : $params['text'];
+      $res .= smarty_function_tooltip (array(
+        'text' => '<img width="14" height="14" hspace="2" src="'.CopixUrl::getResource ("img/aide/bulle.gif").'" border="0" alt="'.htmlentities(CopixI18N::get ('kernel|kernel.help')).'" title="'.htmlentities(CopixI18N::get ('kernel|kernel.help')).'" />',
+        'text_tooltip' => $text_tooltip,
+      ),$smarty);
 			break;
+
 	}
 
 	return $res;

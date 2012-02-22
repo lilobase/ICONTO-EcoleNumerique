@@ -9,13 +9,13 @@
 
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
 {if $preview and !$errors}
@@ -38,7 +38,7 @@
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="carnet.form.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
 	
-	<tr><td colspan="2" CLASS="form_submit"><input style="" class="form_button" onclick="self.location='{copixurl dest="carnet||getTopic" id=$topic eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.cancel"}" /> <input style="" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'save');" value="{i18n key="carnet.btn.save"}" /> <input style="" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="{i18n key="carnet.btn.preview"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="carnet||getTopic" id=$topic eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.cancel"}" /> <input class="button button-save" type="submit" onClick="submitTopicForm(this.form, 'save');" value="{i18n key="carnet.btn.save"}" /> <input class="button button-view" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="{i18n key="carnet.btn.preview"}" /></td></tr>
 	
 </table>
 

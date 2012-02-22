@@ -7,6 +7,10 @@ define('ENIC_PATH',dirname (__FILE__) . '/');
 
 //get enic Action Group
 require(ENIC_PATH.'enic.actiongroup.php');
+//get enic Zone
+require(ENIC_PATH.'enic.zone.php');
+//get enic Service
+require(ENIC_PATH.'enic.service.php');
 
 /*
  * FACTORY
@@ -32,10 +36,18 @@ class enic{
 
         //load class in local ref
         $className = 'enic'.ucfirst($type);
-        self::$l[$name] = new $className();
+        self::$l[$name] =& new $className();
+
+        //add name attribute
+        self::$l[$name]->_name = $name;
 
         //execute the startExec
         self::$l[$name]->startExec();
+
+        //test if the class is a containor class :
+        if(method_exists(self::$l[$name], 'getClass')){
+            self::$l[$name] =& self::$l[$name]->getClass();
+        }
 
         return self::$l[$name];
     }
@@ -469,7 +481,7 @@ class enicTree{
     }
 }
 
-class enicList{
+abstract class enicList{
     
     //child's name
     public $_child;
@@ -520,7 +532,7 @@ class enicList{
 
          //test if item has already a child :
          if(!empty($this->_child))
-            trigger_error('item <strong>'.$className.'</strong> is list : only one child', E_USER_WARNING);
+            trigger_error('item <strong>'.$className.'</strong> is list : only one child in '.get_class($this), E_USER_WARNING);
 
         //create computer readable name
         $nameStr = enic::sanitize($name);
@@ -685,6 +697,11 @@ class enicList{
       */
      public function setDatas($name, $value){
          $this->_root->_datas[$name] = $value;
+         return $this;
+     }
+
+     public function setDatasArray($key, $value){
+         $this->_root->_datas[$key][] = $value;
          return $this;
      }
 
@@ -872,7 +889,7 @@ class enicErrors{
 }
 
 
-class enicMod{
+abstract class enicMod{
 
     public function __construct(){
 
@@ -883,25 +900,3 @@ class enicMod{
     }
 
 }
-
-/*
-//enic load :
-$enic = new enic();
-$menu =& $enic->load('menu');
-
-
-$menu->add('player')->startGroup()
-                        ->add('framasoft', 'http://www.framasoft.net', 'link')
-                        ->startGroup()
-                            ->add('toto')
-                            ->add('tata')
-                        ->endGroup()
-                        ->add('tiya', 'blablabla')
-                    ->endGroup();
-                    
-
-
-
-//echo $menu->player->display();
-//var_dump($menu->go('tata')->display());
-echo $menu->player->display(3,3);*/

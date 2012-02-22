@@ -1,6 +1,6 @@
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />
+<!--<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_blog_admin.css"}" />-->
 
-<h1>{i18n key="blog.get.list.comment.title"}</h1>
+<h2>{i18n key="blog.get.list.comment.title"}</h2>
 
 
 <div id="comments">
@@ -15,22 +15,22 @@
 
 	       <b>{i18n key="blog.messages.comment2" 1=$comment->authorname_bacc|escape 2=$comment->date_bacc|datei18n 3=$comment->time_bacc|escape}
 		
-		{if $comment->authorweb_bacc!=null}<a rel="nofollow" href="{$comment->authorweb_bacc}" TITLE="" target="_blank">{i18n key="blog.comment.web"}</a>{/if}
+		{if $comment->authorweb_bacc!=null}<a rel="nofollow" href="{$comment->authorweb_bacc}" title="" target="_blank">{i18n key="blog.comment.web"}</a>{/if}
 
 		{if $comment->authoremail_bacc!=null}
-		<a href="MAILTO:{$comment->authoremail_bacc}" TITLE="">{i18n key="blog.comment.email"}</a>
+		<a href="MAILTO:{$comment->authoremail_bacc}" title="">{i18n key="blog.comment.email"}</a>
 		{/if}
 		
 		 </b> ({i18n key="blog.messages.ip"} : {$comment->authorip_bacc})
 		 	   {if $canManageComment}
-				 <a href="{copixurl dest="blog|admin|prepareEditComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="copix:common.buttons.update"}">{i18n key="copix:common.buttons.update"}</a> 
-				- <a href="{copixurl dest="blog|admin|deleteComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="copix:common.buttons.delete"}">{i18n key="copix:common.buttons.delete"}</a>
+				 <a class="button button-update" href="{copixurl dest="blog|admin|prepareEditComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="copix:common.buttons.update"}">{i18n key="copix:common.buttons.update"}</a> 
+				- <a class="button button-delete" href="{copixurl dest="blog|admin|deleteComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="copix:common.buttons.delete"}">{i18n key="copix:common.buttons.delete"}</a>
 
 				- 
 				{if $comment->is_online eq 0}
-				<a href="{copixurl dest="blog|admin|onlineComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="blog.action.comment.doOnline"}">{i18n key="blog.action.comment.doOnline"}</a>
+				<a class="button button-confirm" href="{copixurl dest="blog|admin|onlineComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="blog.action.comment.doOnline"}">{i18n key="blog.action.comment.doOnline"}</a>
 				{else}
-				<a href="{copixurl dest="blog|admin|offlineComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="blog.action.comment.doOffline"}">{i18n key="blog.action.comment.doOffline"}</a>
+				<a class="button button-cancel" href="{copixurl dest="blog|admin|offlineComment" id_blog=$id_blog id_bact=$comment->id_bact id_bacc=$comment->id_bacc }" title="{i18n key="blog.action.comment.doOffline"}">{i18n key="blog.action.comment.doOffline"}</a>
 				{/if}
 				
 				
@@ -52,9 +52,9 @@
    {/if}   
 
 
-<h1>{i18n key="blog.add.comment.title"}</h1>
+<h2>{i18n key="blog.add.comment.title"}</h2>
 {if $showErrors}
-	<ul>
+	<ul class="mesgErrors">
 	  {foreach from=$errors item=message}
 	    <li>{$message}</li>
 	  {/foreach}
@@ -66,7 +66,7 @@
 <input type="hidden" name="authorid_bacc" value="{$toEdit->authorid_bacc}">
 
 
-<table class="" cellspacing=1 cellpadding=1 border="0">
+<table class="editItems">
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.authorname_bacc'}</td>
 	  	<td><input type="text" name="authorname_bacc" value="{$toEdit->authorname_bacc|escape}" class="text"></td>
@@ -85,7 +85,7 @@
    </tr>
 	 <tr>
 	 		<td></td>
-			<td><input type="submit" class="submit" value="{i18n key="copix:common.buttons.ok"}" /></td>
+			<td><input type="submit" class="button button-confirm" value="{i18n key="copix:common.buttons.ok"}" /></td>
 	 </tr>
 </table>
 </form>

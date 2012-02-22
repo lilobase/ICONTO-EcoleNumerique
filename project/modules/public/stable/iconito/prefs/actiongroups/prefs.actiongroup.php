@@ -22,7 +22,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_prefs.css"));
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$main='';
 		$prefs=array();
@@ -70,7 +70,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="Expires" CONTENT="-1"/>' );
 		CopixHTMLHeader::addOthers( '<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE"/>' );
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		// Liste des modules qui peuvent avoir des préférences...
 		$modules = Prefs::getModules();
@@ -107,7 +107,7 @@ class ActionGroupPrefs extends CopixActionGroup {
 		if( sizeof( $errors ) ) {
 			
 			//print_r($errors);
-//			$tplPrefs = & new CopixTpl ();
+//			$tplPrefs = new CopixTpl ();
 
 			// Liste des modules disponibles...
 			reset( $modules );

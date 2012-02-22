@@ -1,0 +1,306 @@
+
+div.teleprocedures {
+}
+div.teleprocedures table.liste {
+	font-size:1em;
+}
+div.teleprocedures table.liste td.discret {
+	font-size:0.9em;
+}
+div.teleprocedures table.liste tr:hover {
+	background:#eee;
+}
+
+div.teleprocedures_titre {
+	font-weight:bolder;
+	font-size:1.2em;
+	color:#2B3390;
+	margin-bottom:2px;
+}
+div.teleprocedures div.titre_zone {
+	font-weight:bolder;
+	font-size:1.1em;
+	border-bottom:solid 1px #7D81BA;
+	margin-bottom:3px;
+	padding:2px;
+}
+
+div.teleprocedures div.types {
+	float:right;
+	width:200px;
+}
+div.teleprocedures div.list1 {
+	margin-right:200px;
+	border-right: solid 1px #ddd;
+}
+div.teleprocedures div.legende {
+	font-size:0.9em;
+	font-color:#666;
+	text-align:center;
+	margin:7px;
+}
+
+div.teleprocedures div.types ul, div.teleprocedures div.types li {
+	margin:0;
+	padding:0;
+}
+div.teleprocedures div.types li {
+	margin-left:20px;
+}
+div.teleprocedures div.types img {
+	margin:3px;
+}
+div.teleprocedures div.types a {
+	text-decoration:none;
+}
+div.teleprocedures div.types a:hover {
+	background:#fff;
+}
+div.teleprocedures div.types li a.is_online0 {
+	color:#828883;
+}
+div.teleprocedures div.types li a.is_online1 {
+}
+div.teleprocedures div.types a img {
+	border:0;
+}
+
+
+/* Blog */
+div.telep_infos_ville1 {
+	margin-right:200px;
+}
+div.telep_infos_ville2 {
+}
+div.telep_pages_ville {
+	float:right;
+	width:199px;
+}
+
+div.telep_pages_ville div.admin, div.telep_infos_ville1 div.admin, div.telep_infos_ville2 div.admin {
+	float:right;
+	font-size:0.8em;
+	font-weight:bold;
+}
+div.telep_pages_ville div.admin a, div.telep_infos_ville1 div.admin a, div.telep_infos_ville2 div.admin a {
+	color:#EA3820;
+}
+
+div#welcome_actualites {
+	background:#fff;
+	-moz-border-radius: 6px;
+	padding:7px;
+}
+div#welcome_actualites div.item div.chapo p { margin:0; }
+div#welcome_actualites div.item div.titre {
+	font-weight:bold;
+}
+div#welcome_actualites div.item div.date {
+	font-size:0.8em;
+	color:#444;
+}
+div#welcome_actualites div.item div.hr, div#welcome_pages div.item div.hr {
+	border-bottom: solid 1px #eee;
+	margin-top:4px;
+	margin-bottom:4px;
+}
+
+
+div#welcome_pages {
+	background:#fff;
+	-moz-border-radius: 6px;
+	padding:7px;
+}
+div#welcome_pages div.item div.contentWelcomePage {
+	padding:0;
+}
+div#welcome_pages div.item div.contentWelcomePage p { margin:0; }
+div#welcome_pages div.item div.file_dl {
+	width:190px;
+	font-size:0.85em;
+}
+div#welcome_pages div.item div.file_dl img {
+	margin-top:4px;
+	margin-right:2px;
+}
+
+
+
+
+/* DETAIL D UNE DEMANDE */
+div.demande {
+}
+
+div.demande div.entete {
+	padding:5px;
+	color:#000;
+	background:#fff;
+}
+div.demande div.entete a {
+	color:#555;
+}
+div.demande div.entete div.imprimer {
+	float:right;
+	margin-top:5px;
+}
+div.demande .lib {
+	color:#777;
+	font-size:0.9em;
+}
+
+div.demande .entete0 {
+	background:#D8D8D8;
+}
+div.demande .entete1 {
+	background:#C1CF4D;
+}
+div.demande .entete2 {
+	background:#FF9A1D;
+}
+div.demande .entete3 {
+	background:#FF3F1D;
+}
+
+div.demande div.entete td.left {
+	width:160px;
+	text-align:center;
+	color:#fff;
+}
+div.demande div.entete td.enteteLeft {
+  font-size:0.9em;
+}
+div.demande div.entete td.enteteDir {
+	color:#444;
+	border-right:solid 1px #eee;
+}
+
+
+div.demande div.entete td.left div.left {
+	padding-right:5px;
+	margin-right:5px;
+}
+div.demande div.entete td.left div.statu {
+	margin:10px;
+	text-transform:uppercase;
+	font-weight:bold;
+	font-size:1.5em;
+}
+div.demande div.entete td.left div.action {
+	margin:1px;
+	font-weight:bold;
+	font-size:1.1em;
+}
+div.demande div.entete td.ecole {
+	vertical-align:top;
+}
+div.demande div.entete td.ecole div.ecole {
+	margin-left:5px;
+	margin-right:5px;
+}
+div.demande div.entete td.ecole div.nom {
+	font-size:1.4em;
+	font-weight:normal;
+}
+div.demande div.entete td.right {
+	width:150px;
+	border-left:solid 1px #eee;
+	text-align:right;
+	font-size:0.9em;
+}
+div.demande div.entete td.right div.right {
+	padding-left:5px;
+	margin-left:5px;
+}
+
+div.demande div.details {
+	margin-top:5px;
+	background:#fff;
+	padding:1px;
+}
+div.demande div.details div.plier {
+	float:right;
+	margin:4px;
+	
+}
+
+div.comms {
+	margin-top:5px;
+}
+div.comms table.list {
+	width:100%;
+	font-size:0.9em;
+	border-collapse:collapse;
+}
+div.comms table.list td {
+	padding:3px;
+}
+
+div.comms table.list td.milieu {
+	width:1px;
+	padding:0;
+}
+div.comms table.list td.echange {
+	background:#fff;
+	width:50%;
+	border-bottom:solid 1px #fff;
+	margin-right:1px;
+}
+div.comms table.list td.echangeDir {
+	width:100%;
+}
+div.comms table.list td.note {
+	background:#fff;
+	width:49%;
+	border-bottom:solid 1px #fff;
+}
+
+div.actions {
+	margin-top:5px;
+}
+div.actions table {
+	width:100%;
+	font-size:0.9em;
+	border-collapse:collapse;
+}
+div.actions td.message {
+	padding-left:20px;
+}
+div.actions td.statuts {
+	text-transform:uppercase;
+	font-size:1.4em;
+}
+div.actions td.statuts input {
+	margin-left:20px;
+}
+div.actions td div.linkannuaire {
+	float:right;
+	margin-right:100px;
+}
+
+
+td.form_saisie div.telep {
+	float:left;
+	width:130px;
+	text-align:right;
+	margin-top:2px;
+}
+
+/* Filtrage */
+table.filtre {
+  font-size:0.7em;
+}
+table.filtre input, table.filtre select {
+  font-size:1em;
+}
+table.filtre input.motcle {
+	width:85px;
+}
+table.filtre select.ecoles {
+	width:205px;
+}
+table.filtre select.types {
+	width:160px;
+}
+
+
+

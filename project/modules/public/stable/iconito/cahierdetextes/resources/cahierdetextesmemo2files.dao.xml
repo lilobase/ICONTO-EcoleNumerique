@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="cahierdetextesmemo2files" tablename="module_cahierdetextes_memo2files" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="memo_id" fieldname="module_cahierdetextes_memo_id" type="integer" required="yes" pk="yes"/>
+    <property name="module_file" fieldname="module_files_type" type="varchar" required="yes"/>
+    <property name="file_id" fieldname="module_malle_files_id" type="integer" required="yes" pk="yes"/>
+  </properties>
+  <methods>
+    <method name="retrieveByMemo" type="select">
+      <parameters>
+         <parameter name="memoId" />
+      </parameters>
+      <conditions>
+         <condition property="memo_id" operator="=" value="$memoId" />
+      </conditions>
+    </method>
+    <method name="deleteByMemo" type="delete">
+        <parameters>
+           <parameter name="memoId" />
+        </parameters>
+        <conditions>
+           <condition property="memo_id" operator="=" value="$memoId" />
+        </conditions>
+     </method>
+  </methods>
+</daodefinition>

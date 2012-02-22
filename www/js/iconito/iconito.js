@@ -145,250 +145,69 @@ function getWindowWidth() {
     return windowWidth;
 }
 
-var lastMouseX;
-var lastMouseY;
-
-if(navigator.appName.substring(0,3) == "Net")
-	document.captureEvents(Event.MOUSEMOVE);
-document.onmousemove = mouseMoved;
-
-function getMouseX(e){
-	if (!e) var e = window.event;
-  if(window.opera)                                               //OP6
-  	return e.clientX;
-  else if(document.all) {                                           //IE4,IE5,IE6
-    //return document.documentElement.scrollLeft+e.clientX;
-		return e.clientX;
-	}
-  else if(document.layers||document.getElementById)               //N4,N6,Moz
-    return e.pageX;
-}
-
-function getMouseY(e){
-	if (!e) var e = window.event;
-  if(window.opera)                                                //OP6
-  	return e.clientY;
-  else if(document.all) {                                           //IE4,IE5,IE6
-    //return document.documentElement.scrollTop+e.clientY;
-		return e.clientY;
-	}
-  else if(document.layers||document.getElementById)               //N4,N6,Moz
-    return e.pageY;
-}
 
 
-function mouseMoved(e)
-{
-	lastMouseX = getMouseX(e);
-  lastMouseY = getMouseY(e);
-}
-
-
-
-/* =============================
-	Profils utilisateurs
-============================= */
-
-var gProfilElm = null;
-var	gProfilShowing = 0;
-
-/* Initialisation */
-function initUserProfil() {
-	gProfilElm = document.getElementById('divUserProfil');
-}
-
-/* Affichage d'un profil */
-function viewUser (type, id, i18nwaiting) {
-	if (!gProfilElm)
-		initUserProfil();
-
-	//if (gProfilShowing)
-	//	hideUser();
-
-	x = lastMouseX;
-	y = lastMouseY;
-	var w = gProfilElm.offsetWidth; // largeur
-	var windowWidth = getWindowWidth()-10;
-	//alert ("x="+x+" / w="+w+" / wW="+windowWidth);
-	if(x+w>windowWidth) x = windowWidth-w-7;
-	gProfilElm.style.left=x+"px";
-	gProfilElm.style.top=(y+16)+"px";
-	gProfilElm.innerHTML = '<DIV ALIGN="CENTER">'+i18nwaiting+'<br><IMG SRC="'+getRessourcePathImg+'annuaire/spinner.gif" WIDTH="16" HEIGHT="16" BORDER="0" VSPACE="3" /><br></DIV>';
-	gProfilElm.style.visibility = "visible";
-	
-	var url = getActionURL('annuaire|default|getUserProfil');
-	var pars = 'type='+type+'&id='+id+'';
-  var myAjax = new Ajax.Updater(
-		{success: 'divUserProfil'},
-    url,
-    {method: 'get', parameters: pars, onComplete: userProfilResponse, onFailure: userProfilError}
-  );
+function viewUserXY (type, id, i18nwaiting, x, y ) {
+  $('#divUserProfil').css('top', y+12);
+  $('#divUserProfil').css('left', x);
+  w = 150;
+  h = 100;
+  wWindow = ($.browser.msie) ? $(window).width() : window.innerWidth;
+  hWindow = ($.browser.msie) ? $(window).height() : window.innerHeight;
+  $('#divUserProfil').css('width', '50px');
+  $('#divUserProfil').html('<DIV ALIGN="CENTER"><IMG SRC="'+getRessourcePathImg+'annuaire/spinner.gif" WIDTH="16" HEIGHT="16" BORDER="0" /></DIV>');
+  $.ajax({
+    url: getActionURL('annuaire|default|getUserProfil'),
+    data: 'type='+type+'&id='+id,
+    success: function(data) {
+      $('#divUserProfil').hide();
+      $('#divUserProfil').css('width', 150+'px');
+      $('#divUserProfil').html(data);
+      h = $('#divUserProfil').height();
+      if (x+w+10 >= wWindow) {
+        $('#divUserProfil').css('left', wWindow-w-35);
+      }
+      if (y+h+10 >= hWindow) {
+        $('#divUserProfil').css('top', hWindow-h-35);
+      }
+      $('#divUserProfil').show();
+    }
+  });
+  $('#divUserProfil').show();
 }
 
 /* Masquage d'un profil */
 function hideUser () {
-	if(!gProfilElm)
-		return false;
-	gProfilShowing = 0;
-	gProfilElm.style.visibility = "hidden";
+  $('#divUserProfil').hide();
 	return false;
 }
 
-/* Résultat */
-function userProfilResponse(originalRequest) {
-	var h = gProfilElm.offsetHeight; // hauteur
-	var windowHeight = getWindowHeight()-10;
-	var scrollTop = (document.all) ? document.documentElement.scrollTop : 0;
-	//alert ("y="+y+" / h="+h+" / wH="+windowHeight+" / scrollTop="+scrollTop);
-	if (y>windowHeight) {	// On a scrollé
-		// Comment savoir si ça va déborder ? (todo)
-	} else {
-		if(y+h>windowHeight) y = windowHeight-h-7;
-	}
-	//gProfilElm.style.width=w+"px";
-	gProfilElm.style.top=(y+16+scrollTop)+"px";
-	
-	gProfilShowing = 1;
-}
-
-/* En cas d'erreur */
-function userProfilError(request) {
-	alert('Error userProfilError');
-}
-
-
-
-/* =============================
-	Aid
-============================= */
-
-var gHelpElm = null;
-var	gHelpShowing = 0;
-
-/* Initialisation */
-function initHelp() {
-	gHelpElm = document.getElementById('divHelp');
-}
-
-/* Affichage d'une bulle d'aide */
-function viewHelp (code) {
-	if (!gHelpElm)
-		initHelp();
-
-	//if (gProfilShowing)
-	//	hideUser();
-	var obj = $(code);
-	if (!obj) return;
-	
-	x = lastMouseX;
-	y = lastMouseY;
-	var w = gHelpElm.offsetWidth; // largeur
-	var windowWidth = getWindowWidth()-10;
-	//alert ("x="+x+" / w="+w+" / wW="+windowWidth);
-	if(x+w>windowWidth) x = windowWidth-w-7;
-	gHelpElm.style.left=x+"px";
-	gHelpElm.style.top=(y+16)+"px";
-	gHelpElm.style.visibility = "visible";
-	
-	gHelpElm.innerHTML = obj.innerHTML;
-	
-	var h = gHelpElm.offsetHeight; // hauteur
-	var windowHeight = getWindowHeight()-10;
-	var scrollTop = (document.all) ? document.documentElement.scrollTop : 0;
-	//alert ("y="+y+" / h="+h+" / wH="+windowHeight+" / scrollTop="+scrollTop);
-	if (y>windowHeight) {	// On a scrollé
-		// Comment savoir si ça va déborder ? (todo)
-	} else {
-		if(y+h>windowHeight) y = windowHeight-h-7;
-	}
-	//gProfilElm.style.width=w+"px";
-	gHelpElm.style.top=(y+16+scrollTop)+"px";
-	
-	gHelpShowing = 1;
-
-}
-
-/* Masquage d'un profil */
-function hideHelp () {
-	if(!gHelpElm)
-		return false;
-	gHelpShowing = 0;
-	gHelpElm.style.visibility = "hidden";
-	return false;
-}
 
 /* Masquage de ajaxDiv */
 function hideAjaxDiv () {
-	var div = $('ajaxDiv');
-	div.style.visibility = "hidden";
-	return false;
-}
-
-
-/* Fiche ecole */
-function ajaxFicheEcole (id_ecole) {
-	var div = $('ajaxDiv');
-	div.style.width = "170px";
-	x = lastMouseX;
-	x -= 30;
-	y = lastMouseY;
-	var w = div.offsetWidth; // largeur
-	var windowWidth = getWindowWidth()-10;
-	//alert ("x="+x+" / w="+w+" / wW="+windowWidth);
-	if(x+w>windowWidth) x = windowWidth-w-20;
-	div.style.left=x+"px";
-	div.style.top=(y+0)+"px";
-
-	div.innerHTML = '<div align="center"><img src="'+getRessourcePathImg+'ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>';
-	div.style.visibility = "visible";
-	var url = getActionURL('fichesecoles|default|ficheAjax');
-	var pars = 'id='+id_ecole;
-  var myAjax = new Ajax.Updater(
-		{success: 'ajaxDiv'},
-    url,
-    {method: 'get', parameters: pars, onFailure :
-				function (xmlHttp) {
-					alert ("ajaxError / ajaxFicheEcole");
-				}
-		}
-  );
+	$('ajaxDiv').hide();
 	return false;
 }
 
 var module = 'default';
 
 function getActionURL (action, data) {
-		var parts = action.split('|');
-		var url = urlBase + 'index.php/' + $pick(parts[0], module) + '/' + $pick(parts[1], 'default') + '/' + parts[2];
-		if(data) {
-			//url += (url.contains('?') ? '&' : '?') + Object.toQueryString(data);
-			url += (url.indexOf('?') > -1 ? '&' : '?') + data;
-		}
-		return url;
+  var parts = action.split('|');
+  var url = urlBase + 'index.php/' + $pick(parts[0], module) + '/' + $pick(parts[1], 'default') + '/' + parts[2];
+  if(data) {
+    //url += (url.contains('?') ? '&' : '?') + Object.toQueryString(data);
+    url += (url.indexOf('?') > -1 ? '&' : '?') + data;
+  }
+  return url;
 }
 
 function $defined(obj){return(obj!=undefined);};
 function $pick(obj,picked){return $defined(obj)?obj:picked;};
 
 
-function include(file) {
-  var oScript = document.createElement("script");
-  oScript.src = file;
-  oScript.type = "text/javascript";
-  document.body.appendChild(oScript);
-}
-function IncludeJavaScript(jsFile)
-{
-  document.write('<script type="text/javascript" src="'
-    + jsFile + '"></scr' + 'ipt>'); 
-}
-
-
-// On l'utilise :
-
-if (is_ie6) {
-	IncludeJavaScript(urlBase+"js/iconito/ie6png.js");
-	IncludeJavaScript(urlBase+"js/iconito/ie6fix.js");
+// Active le datepicker pour un div
+function setDatePicker (iDiv) {
+	jQuery(iDiv).datepicker({showOn: 'both', buttonImage: '../../../js/jquery/images/datepicker/calendar.gif', buttonImageOnly: true, numberOfMonths: 3, showButtonPanel: true, appendText: '(JJ/MM/AAAA)', constrainInput: true});
 }
 
 

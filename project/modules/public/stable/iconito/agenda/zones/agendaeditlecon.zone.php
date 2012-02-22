@@ -14,7 +14,7 @@ _classInclude('agenda|dateservices');
 class ZoneAgendaEditLecon extends CopixZone {
 	function _createContent (&$toReturn) {
 		
-		$tpl  = & new CopixTpl ();		
+		$tpl  = new CopixTpl ();		
 		$serviceDate   = new DateService();
 		
 		if ($this->getParam('e') == 1){

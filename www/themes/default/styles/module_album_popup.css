@@ -23,3 +23,6 @@ DIV#header FORM {
 	margin: 0px;
 }
 
+#contentmain DIV.album DIV.album {
+	padding-top: 50px;
+}

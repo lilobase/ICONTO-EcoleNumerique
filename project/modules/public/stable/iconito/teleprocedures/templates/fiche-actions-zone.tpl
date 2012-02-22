@@ -22,7 +22,7 @@ Changer le statut de la t&eacute;l&eacute;proc&eacute;dure
 </td>
 </tr>
 </table>
-<div align="center"><input class="teleprocedures" type="submit" value="Valider le changement" /></div>
+<p align="center"><input class="button button-save" type="submit" value="Valider le changement" /></p>
 </form>
 {/if}
 
@@ -57,7 +57,7 @@ Changer le statut de la t&eacute;l&eacute;proc&eacute;dure
 			<td align="right" colspan="2">Note : S&eacute;parez les adresses par des virgules</td>
 		</tr>
 	</table>
-<div align="center"><input class="teleprocedures" type="submit" value="Envoyer le message" /></div>
+<p align="center"><input class="button button-continue" type="submit" value="Envoyer le message" /></p>
 	</form>
 {/if}
 {/if}

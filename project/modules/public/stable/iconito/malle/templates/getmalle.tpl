@@ -1,136 +1,184 @@
-<link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_malle.css"}" />
-<SCRIPT LANGUAGE="Javascript1.2" SRC="{copixurl}js/iconito/module_malle.js"></SCRIPT>
 
+<script type="text/javascript">
+var id = {$id};
+var folder = {$folder};
+var noSelection = "{i18n key='malle.error.noSelection'}";
 
+</script>
 
-<DIV CLASS="malle_go_folder_form">
-{if $combofolders}
-<form name="formGo" id="formGo" action="{copixurl dest="malle||getMalle"}" method="get">
-<input type="hidden" name="id" value="{$id}" />
-{$combofolders}
-<input type="submit" value="GO" class="form_button" /></form>
-{/if}
-</DIV>
+{literal}
+<script type="text/javascript">
+jQuery(document).ready(function($){
+	$('#folder-checkall').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', true); });
+	$('#folder-checknone').click (function() { $('#remote-checker :checkbox[name="folders[]"]').attr('checked', false); });
+	$('#file-checkall').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', true); });
+	$('#file-checknone').click (function() { $('#remote-checker :checkbox[name="files[]"]').attr('checked', false); });
+	$('.item-rename').click (function() {
+    $('.item-link').eq($('.item-rename').index(this)).toggle();
+    $('.item-field').eq($('.item-rename').index(this)).toggle();
+  });
 
-{if $can.file_upload or $can.folder_create or $can.item_delete or $can.item_move or $can.item_copy or $can.item_rename or ($can.item_downloadZip and ($folders or $files))}
-<DIV CLASS="malle_actions_bloc">
-<DIV><IMG CLASS="coude" src="{copixresource path="img/groupe/lucien_coude.gif"}" /></DIV>
-<DIV CLASS="malle_actions">
+  $('a.download').click (function() { 
+		nb_checked = jQuery('#remote-checker :checked[name="files[]"]').size() + jQuery('#remote-checker :checked[name="folders[]"]').size();
+		if (nb_checked > 0) {
+			var pars = 'id='+id+'&folder='+folder+'';
+			pars += '&'+$('#remote-checker :checked[name="files[]"]').serialize();
+			pars += '&'+$('#remote-checker :checked[name="folders[]"]').serialize();
+			var url = getActionURL('malle|default|doActionDownloadZip', pars);
+			self.location = url;
+		} else {
+			alert (noSelection);
+		}
+		return false;
+  }); 
+  
+  
+  $('form#formAddWeb').live('submit', function() {
+    var nom = $('input[name=nom]').val();
+    var url = $('input[name=url]').val();
+    if (nom && url && url != 'http://') {
+      return true;
+    } else {
+      alert ('{/literal}{i18n key="malle.error.web.add" addslashes=true}{literal}');
+      return false;
+    }
+  });
 
-
-{if $can.file_upload}
-<HR />
-{i18n key="malle.addFile"} <SPAN STYLE="font-size:85%;">{i18n key="malle.addFileTxt" 1=$uploadMaxSize|human_file_size}</SPAN>
-
-<form action="{copixurl dest="|doUploadFile"}" method="post" ENCTYPE="multipart/form-data">
-<input type="hidden" name="MAX_FILE_SIZE" value="{$uploadMaxSize}">
-<input type="hidden" name="id" value="{$id}" />
-<input type="hidden" name="folder" value="{$folder}" />
-<input class="form" style="margin: 2px;" type="file" name="fichier" style="width:190px;" size="12"></input>
-
-
-<input style="" class="form_button" type="submit" value="{i18n key="malle.btn.submitAddFile"}" />
-</form>
-
-
-
-{/if}
-
-{if $can.folder_create}
-<HR />
-{i18n key="malle.addFolder"}
-<form action="{copixurl dest="|doAddFolder"}" method="post">
-<input type="hidden" name="id" value="{$id}" />
-<input type="hidden" name="folder" value="{$folder}" />
-<input type="text" name="new_folder" value="{$new_folder}" maxlength="200" />
-<input type="submit" value="{i18n key="malle.btn.submitAddFolder"}" class="form_button" />
-</FORM>
-{/if}
-
-{if ($can.item_delete or $can.item_move or $can.item_copy or $can.item_rename or $can.item_downloadZip) and ($folders or $files)}
-<HR />
-{i18n key="malle.doActions"}
-
-<form name="form" id="form" action="{copixurl dest="|doAction"}" method="post">
-<input type="hidden" name="id" value="{$id}" />
-<input type="hidden" name="folder" value="{$folder}" />
-{if $can.item_delete}
-<input type="submit" name="actionDelete" value="{i18n key="malle.btn.delete"}" class="form_button" onclick="return confirmDelete();" style="margin-top:2px;" />
-{/if}
-{if $can.item_rename}
-<input type="submit" name="actionRename" value="{i18n key="malle.btn.rename"}" class="form_button" onclick="return confirmRename();" style="margin-top:2px;" />
-{/if}
-{if $can.item_downloadZip}
-<input type="submit" name="actionDownloadZip" value="{i18n key="malle.btn.downloadZip"}" class="form_button" onclick="return confirmDownloadZip();" style="margin-top:2px;" />
-{/if}
-
-<br/><br/>
-
-
-{if ($can.item_move or $can.item_copy) and $combofolders neq null}
-	{if $can.item_move}<input type="submit" name="actionMove" value="{i18n key="malle.btn.move"}" class="form_button" />{/if} 
-	{if $can.item_copy}<input type="submit" name="actionCopy" value="{i18n key="malle.btn.copy"}" class="form_button" />{/if}
-	{$combofoldersdest}
-{/if}
-
-
-{/if}
-
-</DIV>
-</DIV>
-
-{/if}
-
+  $('a.addweb').fancybox({
+  	'onComplete'		: function () { $('input[name=nom]').focus(); }
+	});
+  
+  $('a.addfolder').fancybox({
+  	'onComplete'		: function () { $('input[name=new_folder]').focus(); }
+	});
+  
+});
+</script>
+{/literal}
 
 {$petitpoucet}
 
-<DIV STYLE="min-height:275px;">
-
+<div style="min-height:275px;">
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL></DIV>
+	</ul>
+	</div>
 {/if}
-
 
 {assign var="tailleFolders" value=0}
 {assign var="tailleFiles" value=0}
 
+<form id="remote-checker" name="renameitems" action="{copixurl dest="|doActionRename"}" method="post">
+	<input type="hidden" name="id" value="{$id}" />
+	<input type="hidden" name="folder" value="{$folder}" />
+
+{if !$folders|@count and !$files|@count}
+	{i18n key="malle.emptyFolder"}
+{else}
+	
+<table class="malle-table">
 {if $folders neq null}
 	{foreach from=$folders item=item}
-	<DIV CLASS="malle_folder_line">{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}<DIV CLASS="malle_file_line_checked"><INPUT TYPE="checkbox" NAME="folders[]" VALUE="{$item->id}"></DIV>{/if}<DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}</DIV>
-	<IMG CLASS="malle_folder_line_img" src="{copixresource path="img/malle/icon_folder.png"}" /><A HREF="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|escape}</A>
-	</DIV>
+	<tr class="malle-table-folder">
+		<td class="malle-table-icon">
+			<IMG src="{copixresource path="img/malle/icon_folder.png"}" />
+		</td>
+		<td class="malle-table-name">
+			<a class="item-link" href="{copixurl dest="|getMalle" id=$id folder=$item->id}">{$item->nom|escape}</a>
+			<div class="item-field" style="display: none;">
+				<input type="text" name="newFolders[{$item->id}]" value="{$item->nom}" style="width: 400px;" maxlength="200"/>
+				<input type="submit" class="button button-confirm" value=""/>
+			</div>
+		</td>
+		<td class="malle-table-edit">
+			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/button-action/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
+		</td>
+		<td class="malle-table-content">
+			{i18n key="malle.files" pNb=$item->nb_files}, {i18n key="malle.folders" pNb=$item->nb_folders}
+		</td>
+		<td class="malle-table-size">
+			{$item->taille|human_file_size}
+		</td>
+		<td class="malle-table-action">
+			{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}
+			<INPUT TYPE="checkbox" NAME="folders[]" VALUE="{$item->id}">
+			{/if}
+		</td>
+	</tr>
 	{math equation="x+y" x=$tailleFolders y=$item->taille assign="tailleFolders"}
 	{/foreach}
-{else}
 {/if}
 
 {if $files neq null}
 	{foreach from=$files item=item}
-	<DIV CLASS="malle_file_line">{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}<DIV CLASS="malle_file_line_checked"><INPUT TYPE="checkbox" NAME="files[]" VALUE="{$item->id}"></DIV>{/if}<DIV CLASS="malle_file_line_size">{$item->taille|human_file_size}</DIV><DIV CLASS="malle_file_line_type">{$item->type_text}</DIV>
-	<img class="malle_file_line_img" src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" />{if $can.file_download}<A HREF="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</A>{else}{$item->nom|escape}{/if}
-	</DIV>
+	<tr class="malle-table-file">
+    {if $item->isLink()}
+      {copixzone process=malle|link malle=$id folder=$folder file=$item can=$can}
+    {else}
+      
+		<td class="malle-table-icon">
+			<img src="{copixresource path="img/malle/`$item->type_icon`"}" alt="{$item->type_text|escape}" title="{$item->type_text|escape}" />
+		</td>
+		<td class="malle-table-name">
+        
+      
+			{if $can.file_download}
+				<a class="item-link" href="{copixurl dest="|doDownloadFile" id=$id file=$item->id}">{$item->nom|escape}</a>
+			{else}
+				<span class="item-link">{$item->nom|escape}</span>
+			{/if}
+			<div class="item-field" style="display: none;">
+				<input type="text" name="newFiles[{$item->id}]" value="{$item->nom}" style="width: 400px;" maxlength="200"/>
+				<input type="submit" class="button button-confirm" value=""/>
+			</div>
+		</td>
+		<td class="malle-table-edit">
+			{if $can.item_rename}<a class="item-rename"><img src="{copixresource path='images/button-action/action_update.png'}" alt="{i18n key='malle.btn.rename'}" title="{i18n key='malle.btn.rename'}" /></a>{/if}
+		</td>
+		<td class="malle-table-content">
+			{$item->type_text}
+		</td>
+		<td class="malle-table-size">
+			{$item->taille|human_file_size}
+		</td>
+    {/if}
+		<td class="malle-table-action">
+			{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}
+  			<INPUT TYPE="checkbox" NAME="files[]" VALUE="{$item->id}" />
+			{/if}
+		</td>
+	</tr>
 	{math equation="x+y" x=$tailleFiles y=$item->taille assign="tailleFiles"}
 	{/foreach}
-{else}
 {/if}
+</table>
 
+<div class="malle-footer">
+	{i18n key="malle.folders" pNb=$folders|@count}
+	{if $folders|@count}({$tailleFolders|human_file_size})
+		{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}
+			: {i18n key="malle.check"} 
+			<input type="button" class="button" id="folder-checkall" value="{i18n key="malle.checkAll"}">
+			<input type="button" class="button" id="folder-checknone" value="{i18n key="malle.checkNothing"}">
+		{/if}
+	{/if}
+	 |
+	{i18n key="malle.files" pNb=$files|@count}
+	{if $files|@count}({$tailleFiles|human_file_size})
+		{if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip}
+			: {i18n key="malle.check"}
+			<input type="button" class="button" id="file-checkall" value="{i18n key="malle.checkAll"}">
+			<input type="button" class="button" id="file-checknone" value="{i18n key="malle.checkNothing"}">
+		{/if}
+	{/if}
+</div>
+
+{/if}
 </form>
 
-{if !$folders|@count and !$files|@count}{i18n key="malle.emptyFolder"}{/if}
-
-<DIV CLASS="malle_actions_line">
-
-{i18n key="malle.folders" pNb=$folders|@count} {if $folders|@count}({$tailleFolders|human_file_size}){if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip} : {i18n key="malle.check"} <A HREF="javascript:cocherElements('form', 'folders[]', 1);">{i18n key="malle.checkAll"}</A> - <A HREF="javascript:cocherElements('form', 'folders[]', 0);">{i18n key="malle.checkNothing"}</A>{/if}{/if}
- | 
-{i18n key="malle.files" pNb=$files|@count} {if $files|@count}({$tailleFiles|human_file_size}){if $can.item_delete or $can.item_move or $can.item_copy or $can.item_downloadZip} : {i18n key="malle.check"} <A HREF="javascript:cocherElements('form', 'files[]', 1);">{i18n key="malle.checkAll"}</A> - <A HREF="javascript:cocherElements('form', 'files[]', 0);">{i18n key="malle.checkNothing"}</A>{/if}{/if}
- 
-
-</DIV>
-
-</DIV>
+</div>

@@ -6,7 +6,7 @@
 
 {if $dossierlist neq null}	
 	{foreach from=$dossierlist item=valeur}
-		<div class="photo"><a class="album" href="{copixurl dest="album||getpopup" album_id=$album->album_id dossier_id=$valeur->dossier_id field=$field format=$format}">{$valeur->dossier_nom}<br /><i style="font-size: 0.8em;">({if $valeur->photos|@count eq 0}album vide{else}{$valeur->photos|@count} photo{if $valeur->photos|@count gt 1}s{/if}{/if})</i></a></div>
+		<div class="photo"><a class="album" href="{copixurl dest="album||getpopup" album_id=$album->album_id dossier_id=$valeur->dossier_id field=$field format=$format}">{$valeur->dossier_nom|escape}<br /><i style="font-size: 0.8em;">({if $valeur->photos|@count eq 0}album vide{else}{$valeur->photos|@count} photo{if $valeur->photos|@count gt 1}s{/if}{/if})</i></a></div>
 	{/foreach}
 {/if}
 
@@ -16,3 +16,4 @@
 	{/foreach}
 {/if}
 </div>
+

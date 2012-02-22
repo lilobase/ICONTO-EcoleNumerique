@@ -138,7 +138,7 @@ class CopixConfig {
 	 * 
 	 * @var int
 	 */
-	public $copixdebug_maxDumpLevels = 2;
+	public $copixdebug_maxDumpLevels = 4;
 	
 	/**
 	 * Indique si on doit afficher la section Constantes par défaut

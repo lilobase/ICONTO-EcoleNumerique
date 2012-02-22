@@ -3,7 +3,7 @@
     <datasource>
        <tables>
           <table name="blogpage" tablename="module_blog_page" primary="yes" />
-          <table name="blog" tablename="module_blog" join="left" />
+          <table name="blog" tablename="module_blog" join="inner" />
        </tables>
     </datasource>
  		<properties>

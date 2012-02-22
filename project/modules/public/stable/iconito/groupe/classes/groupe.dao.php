@@ -15,7 +15,12 @@ class DAOGroupe {
 		
 		$criteres->addCondition ('is_open', '=', 1);
 		
-		// Découpage du pattern
+    if(CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+  		$criteres->addCondition ('id', '!=', $groupeAssistance);
+    }
+    
+    
+		// Dï¿½coupage du pattern
 		if ($kw) {
 	  	$testpattern=str_replace(array(" ","%20"), "%20", $kw);
 	  	$temp = split ("%20", $testpattern);
@@ -35,17 +40,30 @@ class DAOGroupe {
 	    $criteres->setCount ($count);
 		$criteres->orderBy (array ('date_creation', 'desc'));
 		$list = _ioDao ('groupe|groupe')->findBy ($criteres);
-		
-		
+
+                //search tags by Id or Name
+		$listTag = new CopixDAORecordIterator (_doQuery ('SELECT g.id AS id, g.titre AS titre, g.description AS description, g.is_open AS is_open, g.createur AS createur, g.date_creation AS date_creation FROM module_groupe_groupe AS g JOIN module_tags_groups AS tg ON tg.id_group = g.id JOIN module_tags AS t ON tg.id_tag = t.id WHERE g.is_open=1 AND t.name LIKE "%'.$kw.'%" OR t.id = '.(int)$kw), $this->getDAOId ());
+
+                //merge records
+                $listGroupFinal = array();
+                foreach($list as $l)
+                    $listGroupFinal[] = $l;
+                foreach($listTag as $l)
+                    $listGroupFinal[] = $l;
+                $list = $listGroupFinal;
+
 		$arGroupes = array();
+                $groupListId = array();
 		foreach ($list as $groupe) {
+                    if(in_array($groupe->id, $groupListId))
+                            continue;
+
+                    $groupListId[] = $groupe->id;
 			$parent = Kernel::getNodeParents ("CLUB", $groupe->id );
 			$ok = true;
-			
 			if (Kernel::getKernelLimits('ville')) {
 				if ($parent) {
-					$ville = GroupeService::getGroupeVille($parent[0]['id']);
-					//echo "id=".$groupe->id." / ville=$ville<br>";
+					$ville = GroupeService::getGroupeVille($groupe->id, $parent);
 					if (!in_array($ville, Kernel::getKernelLimits('ville_as_array')))
 						$ok = false;
 				} else

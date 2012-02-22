@@ -2,7 +2,7 @@
 /**
 * @package  copix
 * @version   $Id: adminarticle.actiongroup.php,v 1.21 2008-12-15 16:53:11 cbeyer Exp $
-* @author Vallat Cédric.
+* @author Vallat Cï¿½dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -20,10 +20,12 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 	}
 	
   /**
-    * Préparation à l'édition d'un article.
+    * Prï¿½paration ï¿½ l'ï¿½dition d'un article.
     */
   function doPrepareEditArticle() {
 		
+    CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js"));
+    
 		$id_blog = $this->getRequest('id_blog', null);
 		$blogDAO = CopixDAOFactory::create('blog|blog');
 		$blog = $blogDAO->get($id_blog);
@@ -40,13 +42,13 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$tabSelectCat = array();
 		$id_bact = $this->getRequest('id_bact', null);
 		$article = CopixDAOFactory::createRecord('blogarticle');
 
-		// Préparation du filtre CATEGORIES
+		// Prï¿½paration du filtre CATEGORIES
 		$blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
 		$resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
 
@@ -55,7 +57,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 			$articleDAO = CopixDAOFactory::create('blog|blogarticle');
 			$article = $articleDAO->get($id_bact);
 			$article->time_bact = BDToTime($article->time_bact);
-			// Recherche des catégories correspondantes à cet article
+			// Recherche des catï¿½gories correspondantes ï¿½ cet article
 			$artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
 			$tabSelectCat = $artctgDAO->findIdCategoryForArticle($article->id_bact);
 			//var_dump($tabSelectCat);
@@ -77,8 +79,10 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 			//$tabSelectCat = $article->tabSelectCat;
 		}
 		
+    $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#date_bact')");
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
+		$menu = getBlogAdminMenu($blog, 0);
 		
 		$tpl->assign ('MENU', $menu);
 		
@@ -107,7 +111,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   		$this->_validFromPostProperties($article);
 		
 
-		// Catégories cochées...
+		// Catï¿½gories cochï¿½es...
 	    $tabSelectCat = array();
 	    if(_request('tabSelectCat')) {
 	      $tabSelectCat = (array) _request('tabSelectCat');
@@ -123,6 +127,9 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     * Validation d'un article.
     */
   function doValidArticle() {
+    
+    CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js"));
+    
     $id_blog = $this->getRequest('id_blog', null);
 		$go = $this->getRequest('go', 'preview');
     //die ("go=$go");
@@ -139,13 +146,13 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       'back'=>CopixUrl::get ('blog|admin|listBlog')));
     }
 
-    $tpl = & new CopixTpl ();
+    $tpl = new CopixTpl ();
 
-    // On récupère l'utilisateur connecté
+    // On rï¿½cupï¿½re l'utilisateur connectï¿½
     $user = BlogAuth::getUserInfos();
 
     $articleDAO = CopixDAOFactory::create('blog|blogarticle');
-    // Catégories cochées...
+    // Catï¿½gories cochï¿½es...
     $tabSelectCat = array();
     if(_request('tabSelectCat')) {
       $tabSelectCat = (array) _request('tabSelectCat');
@@ -153,7 +160,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     $id_bact = $this->getRequest('id_bact', null);
 	  if(strlen($id_bact)==0) $id_bact=null;
 		$showErrors = false;
-		
+
     if($id_bact!=null) {
       // EDITION D'UN ARTICLE
       $article = $articleDAO->get($id_bact);
@@ -223,7 +230,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       }
     }
 
-    // Préparation du filtre CATEGORIES
+    // Prï¿½paration du filtre CATEGORIES
     $blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
     $resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
     $tabArticleCategory = array();
@@ -233,6 +240,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     }
     $article->time_bact = BDToTime($article->time_bact);
 
+    $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#date_bact')");
     $tpl->assign ('MAIN', CopixZone::process ('EditArticle', array('id_blog'=>$id_blog,
 																    'id_bact'=>$id_bact,
 																    'article'=>$article,
@@ -246,76 +254,19 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   }
 
 
-  /**
-    * Propose url
-    * @param 
-    */
-  function doSuggestArticleUrl() {
-    $id_blog = $this->getRequest('id_blog', null);
-    if ($id_blog==null){
-      return CopixActionGroup::process ('genericTools|Messages::getError',
-      array ('message'=>CopixI18N::get ('blog.error.param'),
-      'back'=>CopixUrl::get ('blog|admin|listBlog')));
-    }
-    if (!BlogAuth::canMakeInBlog('ADMIN_ARTICLES',create_blog_object($id_blog))){
-      return CopixActionGroup::process ('genericTools|Messages::getError',
-      array ('message'=>CopixI18N::get ('blog.error.cannotManageArticle'),
-      'back'=>CopixUrl::get ('blog|admin|listBlog')));
-    }
-
-    $tpl = & new CopixTpl ();
-
-    $id_bact = $this->getRequest('id_bact', null); if(strlen($id_bact)==0)$id_bact=null;
-    if($id_bact!=null) {
-      // EDITION D'UN ARTICLE
-      $articleDAO = CopixDAOFactory::create('blog|blogarticle');
-      $article = $articleDAO->get($id_bact);
-      $tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.article.title'));
-    } else {
-      // CREATION D'UN ARTICLE
-      $article = CopixDAOFactory::createRecord('blogarticle');
-      $tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.article.title'));
-    }
-    $this->_validFromPostProperties($article);
-    $article->url_bact = killBadUrlChars($article->name_bact);
-
-    // Catégories cochées...
-    $tabSelectCat = array();
-    if(_request('tabSelectCat')) {
-      $tabSelectCat = (array) _request('tabSelectCat');
-    }
-    // Préparation du filtre CATEGORIES
-    $blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
-    $resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
-    $tabArticleCategory = array();
-    foreach($resArticleCategory as $cat) {
-      if(in_array($cat->id_bacg, $tabSelectCat)) $cat->selected = true; else $cat->selected = false;
-      array_push($tabArticleCategory, $cat);
-    }
-
-    $tpl->assign ('MAIN', CopixZone::process ('EditArticle',
-    array('id_blog'=>$id_blog,
-    'id_bact'=>$id_bact,
-    'article'=>$article,
-    'kind'=>$this->getRequest('kind', '0'),
-    'tabArticleCategory'=>$tabArticleCategory
-    )));
-    return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-  }
-
+  
   /**
     * apply updates to the edited object
     */
   function _validFromPostProperties (& $toUpdate){
     $arMaj = array ('id_blog', 'name_bact', 'sumary_bact', 'content_bact', 'date_bact', 'time_bact', 'author_bact', 'url_bact', 'format_bact');
     foreach ($arMaj as $var){
-      if (_request($var)){
-				if ($var == 'date_bact')
-	        $toUpdate->$var = Kernel::_validDateProperties(_request($var));
-				else
-	        $toUpdate->$var = _request($var);
-      }
+			if ($var == 'date_bact')
+	      $toUpdate->$var = Kernel::_validDateProperties(_request($var));
+			else
+	      $toUpdate->$var = _request($var);
     }
+
     if(strlen($toUpdate->url_bact)==0 && strlen($toUpdate->name_bact)>0) {
     	$toUpdate->url_bact = killBadUrlChars($toUpdate->name_bact);
     }
@@ -376,7 +327,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   
   
   /**
-	* Mise en session des paramètres de l'article
+	* Mise en session des paramï¿½tres de l'article
 	* @access : private.
 	*/
 	function _setSessionArticle ($toSet){
@@ -384,7 +335,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 	
 	
 	/**
-	* Récupération en session des paramètres de l'article
+	* Rï¿½cupï¿½ration en session des paramï¿½tres de l'article
 	* @access : private.
 	*/
 	function _getSessionArticle () {

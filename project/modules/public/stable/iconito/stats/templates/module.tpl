@@ -10,7 +10,7 @@
 {/foreach}
 {select name="mois" values=$comboMois selected=$mois extra='class="form"'}
 {select name="annee" values=$comboAnnees selected=$annee extra='class="form"'}
-<input type="submit" value="{i18n key="genericTools|messages.action.go"}" class="form_button" />
+<input type="submit" value="{i18n key="genericTools|messages.action.go"}" class="button button-confirm" />
 </form>
 
 {i18n key="stats|stats.date.choix"}

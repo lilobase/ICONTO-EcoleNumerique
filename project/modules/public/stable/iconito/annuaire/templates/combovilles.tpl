@@ -1,13 +1,13 @@
 
 {if $items || $linesSup}
-	<SELECT NAME="{$fieldName}" {$attribs}>
+	<select name="{$fieldName}" {$attribs}>
 	
 	{foreach from=$linesSup item=item}
-		<OPTION VALUE="{$item.value}"{if $item.value == $value} SELECTED{/if}>{$item.libelle}</OPTION>
+		<option value="{$item.value}"{if $item.value == $value} selected="selected"{/if}>{$item.libelle}</option>
 	{/foreach}
 	
 	{foreach from=$items item=item}
-	<OPTION VALUE="{$item.id}"{if $item.id == $value} SELECTED{/if}>{$item.nom|escape}</OPTION>
+	<option value="{$item.id}"{if $item.id == $value} selected="selected"{/if}>{$item.nom|escape}</option>
 	{/foreach}
 
-	</SELECT>{/if}
+	</select>{/if}

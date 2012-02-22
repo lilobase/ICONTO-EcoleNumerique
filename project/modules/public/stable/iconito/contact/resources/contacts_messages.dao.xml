@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+  <datasource>
+    <tables>
+      <table name="contacts_messages" tablename="module_contacts_messages" primary="yes" />
+    </tables>
+  </datasource>
+  <properties>
+    <property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.contacts_messages.fields.id" />
+    <property name="contact" fieldname="contact" pk="no" type="integer" required="yes" captioni18n="dao.contacts_messages.fields.contact" />
+    <property name="from_nom" fieldname="from_nom" pk="no" type="string" required="yes" captioni18n="dao.contacts_messages.fields.from_nom" />
+    <property name="from_email" fieldname="from_email" pk="no" type="string" required="yes" captioni18n="dao.contacts_messages.fields.from_email" />
+    <property name="from_login" fieldname="from_login" pk="no" type="string" required="no" captioni18n="dao.contacts_messages.fields.from_login" />
+    <property name="from_user_id" fieldname="from_user_id" pk="no" type="integer" required="no" captioni18n="dao.contacts_messages.fields.from_user_id" />
+    <property name="to_email" fieldname="to_email" pk="no" type="string" required="no" captioni18n="dao.contacts_messages.fields.to_email" />
+    <property name="type" fieldname="type" pk="no" type="integer" required="yes" captioni18n="dao.contacts_messages.fields.type" />
+    <property name="message" fieldname="message" pk="no" type="string" required="yes" captioni18n="dao.contacts_messages.fields.message" />
+    <property name="ip" fieldname="ip" pk="no" type="string" required="yes" captioni18n="dao.contacts_messages.fields.ip" />
+    <property name="date" fieldname="date" pk="no" type="datetime" required="yes" captioni18n="dao.contacts_messages.fields.date" />
+  </properties>
+
+  <methods>
+  </methods>
+
+</daodefinition>

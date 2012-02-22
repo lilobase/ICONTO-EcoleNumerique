@@ -20,10 +20,12 @@ class Welcome {
 	 */
 	function simplifyUrl( $url ) {
 		// Retrait du type de connexion
-		if( ereg( '^([a-zA-Z]+://)(.*)$', $url, $regs ) ) $url=$regs[2];
+		//if( ereg( '^([a-zA-Z]+://)(.*)$', $url, $regs ) ) $url=$regs[2];
+		if( preg_match( '#^([a-zA-Z]+://)(.*)$#', $url, $regs ) ) $url=$regs[2];
 		
 		// Retrait du slash final
-		if( ereg( '^(.*)/$', $url, $regs ) ) $url=$regs[1];
+		//if( ereg( '^(.*)/$', $url, $regs ) ) $url=$regs[1];
+		if( preg_match( '#^(.*)/$#', $url, $regs ) ) $url=$regs[1];
 		
 		return $url;
 	}
@@ -88,53 +90,6 @@ class Welcome {
 		// Si vraiment rien ne colle, on ne retourne rien.
 		return null;
 	}
-	
-	function getWelcome( $id ) {
-		if( ! ereg('^[0-9]+$',$id) ) return false;
-		
-		$node = Kernel::getModParent( 'MOD_WELCOME', $id );
-		if( sizeof($node)==0 ) return false;
-		
-		$droit = Kernel::getModRight( 'MOD_WELCOME', $id );
-		
-		$toReturn = array(
-			'node'  => $node[0],
-			'droit' => $droit
-		);
-		
-		return $toReturn;
-	}
-	
-	function canAdmin( $welcome ) {
-		if( isset($welcome) && $welcome!=false && isset( $welcome['droit'] ) && $welcome['droit']>=70 )
-			return true;
-		else
-			return false;
-	}
-
-	function commonCheck( $vars ) {
-		if( ! isset($vars["homepage"]) ) {
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-				array ( 'message'=>CopixI18N::get ('welcome.error.noid'),
-				        'back'=>CopixUrl::get ('||') ));
-		}
-
-		$welcome = Welcome::getWelcome( $vars["homepage"] );
-		if( ! $welcome ) {
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-				array ( 'message'=>CopixI18N::get ('welcome.error.nonode'),
-				        'back'=>CopixUrl::get ('||') ));
-		}
-		
-		if( ! Welcome::canAdmin( $welcome ) ) {
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-				array ( 'message'=>CopixI18N::get ('welcome.error.noright'),
-				        'back'=>CopixUrl::get ('||') ));
-		}
-		
-		return $welcome;
-	}
-
 }
 
 ?>

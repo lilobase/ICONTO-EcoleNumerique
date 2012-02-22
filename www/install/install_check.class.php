@@ -58,27 +58,27 @@ function check_php () {
 	$ver = explode( '.', PHP_VERSION );
 	$ver_num = $ver[0] . $ver[1] . $ver[2];
 
-	if ( $ver_num < 420 )
+	if ( $ver_num < 500 )
 	{
 		$data['caninstall'] = false;
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'php_version',
-			'message' => 'Votre version de PHP est trop vieille. Installez PHP 4.2 minimum ou PHP 5.',
+			'message' => 'Votre version de PHP est trop vieille. Installez PHP 5.',
 		);
 	}
-	elseif ( $ver_num < 500 )
+	elseif ( $ver_num < 529 )
 	{
 		$data['errors'][] = array(
 			'level' => 'warning',
 			'code' => 'php_version',
-			'message' => 'Vous utilisez PHP '.PHP_VERSION.' !<br />Cette version, elle arrive en fin de vie et il n\'y aura plus de mise à jour à partir de 2008.<br />Même si Iconito fonctionne avec cette version, si vous le pouvez, passez en PHP 5.',
+			'message' => 'Vous utilisez PHP '.PHP_VERSION.' !<br />Il est conseill&eacute; d\'utiliser au moins la version 5.2.9 de PHP.',
 		);
 	} else {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_version',
-			'message' => 'Votre version de PHP ('.PHP_VERSION.') est supportée par Iconito.',
+			'message' => 'Votre version de PHP ('.PHP_VERSION.') est support&eacute;e par Iconito.',
 		);
 	}
 	
@@ -87,13 +87,13 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'session_autostart',
-			'message' => 'Vous devez désactiver la création de session automatique. Pour cela, modifiez la directive "session.auto_start" dans votre php.ini (pour tous vos sites), dans la configuration de votre virtualhost dans la configuration d\'Apache (pour ce site spécifiquement), ou dans le .htaccess d\'Iconito (dans le répertoire "Iconito/www").',
+			'message' => 'Vous devez d&eacute;sactiver la cr&eacute;ation de session automatique. Pour cela, modifiez la directive "session.auto_start" dans votre php.ini (pour tous vos sites), dans la configuration de votre virtualhost dans la configuration d\'Apache (pour ce site sp&eacute;cifiquement), ou dans le .htaccess d\'Iconito (dans le r&eacute;pertoire "Iconito/www").',
 		);
 	} else {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'session_autostart',
-			'message' => 'La création de session automatique est désactivée.',
+			'message' => 'La cr&eacute;ation de session automatique est d&eacute;sactiv&eacute;e.',
 		);
 	}
 	
@@ -110,7 +110,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_xml',
-			'message' => 'L\'extension "xml" est activée.',
+			'message' => 'L\'extension "xml" est activ&eacute;e.',
 		);
 	}
 
@@ -125,7 +125,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_session',
-			'message' => 'L\'extension "session" est activée.',
+			'message' => 'L\'extension "session" est activ&eacute;e.',
 		);
 	}
 
@@ -140,7 +140,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_mysql',
-			'message' => 'L\'extension "mysql" est activée.',
+			'message' => 'L\'extension "mysql" est activ&eacute;e.',
 		);
 	}
 
@@ -155,7 +155,7 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_gd',
-			'message' => 'L\'extension "gd" est activée.',
+			'message' => 'L\'extension "gd" est activ&eacute;e.',
 		);
 		
 		if( ! (imagetypes() & IMG_GIF) ) {
@@ -163,7 +163,7 @@ function check_php () {
 			$data['errors'][] = array(
 				'level' => 'warning',
 				'code' => 'php_gd_gif',
-				'message' => 'Votre version de "gd" ne supporte pas l\'écriture du format GIF. Il est préférable de mettre à jour cette extension.',
+				'message' => 'Votre version de "gd" ne supporte pas l\'&eacute;criture du format GIF. Il est pr&eacute;f&eacute;rable de mettre &agrave; jour cette extension.',
 			);
 		} else {
 			$data['errors'][] = array(
@@ -185,11 +185,31 @@ function check_php () {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'php_ext_zlib',
-			'message' => 'L\'extension "zlib" est activée.',
+			'message' => 'L\'extension "zlib" est activ&eacute;e.',
 		);
 	}
 
 	return $data;
+}
+
+/**
+ * Connexion a la base de donnees
+ *
+ * @author Christophe Beyer <cbeyer@cap-tic.fr>
+ * @since 2011/01/26
+ * @param string $iHost Serveur
+ * @param string $iLogin Utilisateur
+ * @param string $iPassword Mot de passe
+ * @return mixed Connexion si OK, false sinon
+ */
+function check_mysql_connect($iHost, $iLogin, $iPassword) {
+    $link = @mysql_connect($iHost, $iLogin, $iPassword);
+    if ($link) {
+
+    } else {
+        $link = false;
+    }
+    return $link;
 }
 
 function check_mysql_login() {
@@ -200,14 +220,14 @@ function check_mysql_login() {
 		$data['errors'][] = array(
 			'level' => 'good',
 			'code' => 'mysql_connect',
-			'message' => 'Connexion MySQL réussie.',
+			'message' => 'Connexion MySQL r&eacute;ussie.',
 		);
 		mysql_close($link);
 	} else {
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'mysql_connect',
-			'message' => 'Connexion MySQL impossible. Vérifiez vos identifiants.',
+			'message' => 'Connexion MySQL impossible. V&eacute;rifiez vos identifiants.',
 		);
 	}
 	
@@ -217,7 +237,7 @@ function check_mysql_login() {
 function check_mysql_databases() {
 	$data = array();
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 	$db_list = @mysql_list_dbs($link);
 	if( $db_list != false ) {
 		while ($row = mysql_fetch_object($db_list)) {
@@ -230,7 +250,7 @@ function check_mysql_databases() {
 function check_mysql_tables($database) {
 	$data = array();
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 
 	$db_selected = mysql_select_db($database, $link);
 	if (!$db_selected) {
@@ -249,7 +269,7 @@ function check_mysql_tables($database) {
 function check_mysql_createdatabase( $database ) {
 	if( -1 != check_mysql_tables( $database )) return false;
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 
 	$sql = "CREATE DATABASE $database";
 	if (mysql_query($sql, $link)) {
@@ -261,7 +281,7 @@ function check_mysql_createdatabase( $database ) {
 
 function check_mysql_importdump( $filename ) {
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 	if( !$link ) die( "Erreur de connexion MySQL" );
 	
 	mysql_select_db($_SESSION['install_iconito']['database']);
@@ -280,7 +300,20 @@ function do_mysql_importdump( $filename, $link ) {
 	}
 
 	$scriptfile = false;
-
+  
+  $path = '';
+  $variables = array ('ORIG_SCRIPT_NAME', 'SCRIPT_NAME');
+  foreach ($variables as $variable) {
+    if ($path)
+      continue;
+    if (array_key_exists ($variable, $_SERVER)){
+      $path = substr ($_SERVER[$variable], 0, strrpos ($_SERVER[$variable], '/install/')).'/';
+    }
+  }
+  if (!$path)
+    $path = '/';
+  
+  
 	/* Get rid of the comments and form one jumbo line */
 	foreach($lines as $line)
 	{
@@ -288,6 +321,7 @@ function do_mysql_importdump( $filename, $link ) {
 
 		if(!ereg('^--', $line) && !ereg('^#', $line) )
 		{
+      $line = str_replace ('<PATH>', $path, $line);
 			$scriptfile.="\n".$line;
 		}
 	}
@@ -327,7 +361,7 @@ function do_mysql_importdump( $filename, $link ) {
 // CB
 function check_mysql_runquery( $query ) {
 	//session_start();
-	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problème de base mysql");
+	$link = @mysql_connect($_SESSION['install_iconito']['host'], $_SESSION['install_iconito']['login'], $_SESSION['install_iconito']['password']) or die("Problï¿½me de base mysql");
 	if( !$link ) die( "Erreur de connexion MySQL" );
 	
 	mysql_select_db($_SESSION['install_iconito']['database']);
@@ -344,10 +378,16 @@ function do_mysql_runquery( $query, $link ) {
 	return true;
 }
 
+function do_mysql_runquery_list($query, $link) {
+    if (!($oList = mysql_query($query . ';', $link))) {
+        return false;
+    }
+    return $oList;
+}
 
-
-
-
+function do_mysql_move_next($result) {
+    return mysql_fetch_array($result, MYSQL_ASSOC);
+}
 
 function check_admin_password() {
 	$data['caninstall'] = false;
@@ -366,21 +406,21 @@ function check_admin_password() {
 			$data['errors'][] = array(
 				'level' => 'error',
 				'code' => 'passwd_tooshort',
-				'message' => '<b>Votre mot de passe est trop court</b> : 6 caractères minimum.',
+				'message' => '<b>Votre mot de passe est trop court</b> : 6 caractï¿½res minimum.',
 			);
 		}
 		if( ereg('^[a-z]*$',$_POST["passwd"]) || ereg('^[A-Z]*$',$_POST["passwd"]) || ereg('^[0-9]*$',$_POST["passwd"]) ) {
 			$data['errors'][] = array(
 				'level' => 'error',
 				'code' => 'passwd_tooeasy',
-				'message' => '<b>Votre mot de passe est trop simple</b> : Mélangez les minuscules et majuscules ou ajouter des chiffres ou des symboles.',
+				'message' => '<b>Votre mot de passe est trop simple</b> : M&eacute;langez les minuscules et majuscules ou ajouter des chiffres ou des symboles.',
 			);
 		}
 		if( $_POST["passwd"] != $_POST["passwd2"] ) {
 			$data['errors'][] = array(
 				'level' => 'error',
 				'code' => 'passwd_diff',
-				'message' => '<b>Merci de confirmer votre mot de passe</b> : Saisissez deux fois la même chose.',
+				'message' => '<b>Merci de confirmer votre mot de passe</b> : Saisissez deux fois la mï¿½me chose.',
 			);
 		}
 	}
@@ -417,7 +457,7 @@ function check_admin_config() {
 		$data['errors'][] = array(
 			'level' => 'error',
 			'code' => 'conf_quote',
-			'message' => 'Vous ne pouvez pas utiliser le caractère double-guillemet (")',
+			'message' => 'Vous ne pouvez pas utiliser le caractï¿½re double-guillemet (")',
 		);
 	}
 	

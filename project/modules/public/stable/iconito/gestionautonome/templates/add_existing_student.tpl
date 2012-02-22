@@ -1,12 +1,9 @@
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p> 
 
-<h2>Elèves disponibles</h2>
+<h2>{customi18n key="gestionautonome|gestionautonome.message.available%%structure_element_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</h2>
 
 {if $ppo->save neq null}
-  <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
-    <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-    <strong>Elève ajouté</strong>
-  </p>
+  <p class="mesgSuccess">{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_Person%%" catalog=$ppo->vocabularyCatalog->id_vc} ajouté</p>
 {/if}
 
 <a href="#" id="filter-displayer">Afficher / Masquer les filtres</a>
@@ -17,7 +14,7 @@
   <input type="hidden" name="parentType" id="parentType" value="{$ppo->nodeType}" />
   <input type="hidden" name="role" id="role" value="0" />
   
-  <fieldset class="filter">
+  <fieldset>
     <legend>Filtres</legend>
     
      <div class="field">
@@ -56,9 +53,9 @@
     </div>
   </fieldset>
 
-  <ul class="actions">
-    <input type="submit" value="Filtrer" class="button" />
-  </ul>
+  <div class="submit">
+    <input type="submit" value="Filtrer" class="button button-search" />
+  </div>
 </form>
 
 <form name="add_existing_students" id="add_existing_students" action="{copixurl dest="|validateExistingStudentsAdd"}" method="POST" enctype="multipart/form-data">
@@ -68,55 +65,52 @@
   <input type="hidden" name="role" id="role" value="0" />
   
   {if $ppo->students neq null}
-    <p class="items-count">{$ppo->students|@count} élèves</p> 
-    <table class="liste">
+    <p class="items-count">{$ppo->students|@count} {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</p> 
+    <table>
       <tr>
-        <th class="liste_th"></th>
-        <th class="liste_th">Nom</th>
-        <th class="liste_th">Prénom</th>
-        <th class="liste_th">Login</th>
-        <th class="liste_th">Niveau</th>
-        <th class="liste_th"></th>
+        <th>Sexe</th>
+        <th>Nom</th>
+        <th>Prénom</th>
+        <th>Identifiant</th>
+        <th>Niveau</th>
+        <th>Actions</th>
       </tr>
       {foreach from=$ppo->students key=k item=student}
-        <tr class="list_line{math equation="x%2" x=$k}">
-          <td>
-            {if $student->id_sexe eq 0}
-              <img src="{copixresource path="../gestionautonome/sexe-m.gif"}" title="Garçon" />
+        <tr class="{if $k%2 eq 0}even{else}odd{/if}">
+          <td class="sexe">
+            {if $student->id_sexe eq 1}
+                <img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />
             {else}                                                                 
-              <img src="{copixresource path="../gestionautonome/sexe-f.gif"}" title="Fille" />
+                <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />
             {/if}
           </td>
           <td>{$student->nom}</td>
           <td>{$student->prenom1}</td>
           <td>{$student->login_dbuser}</td>
-          <td>
+          <td class="center">
             <select class="form" name="level-{$student->idEleve}">
               {html_options values=$ppo->levelIds output=$ppo->levelNames}
         	  </select>
           </td>
-          <td>
+          <td class="actions">
             <input type="checkbox" class="form" name="studentIds[]" value="{$student->idEleve}" />
           </td>
         </tr>
       {/foreach}
-      <tr class="liste_footer">
-    		<td colspan="5"></td>
-    	</tr>
     </table>
     
-    <ul class="actions">
-      <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    	<li><input class="button" type="submit" name="save" id="save" value="Enregistrer" /></li>
-    </ul>
+    <div class="submit">
+        <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+    	<input class="button button-confirm" type="submit" name="save" id="save" value="Enregistrer" />
+    </div>
   {else} 
     <p class="items-count">
-      Pas d'élèves disponibles
+      {customi18n key="gestionautonome|gestionautonome.message.noavailable%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
     </p>
     
-    <ul class="actions">
-      <li><input class="button" type="button" value="Annuler" id="cancel" /></li>
-    </ul>
+    <div class="submit">
+        <a href="{copixurl dest=gestionautonome||showTree}" class="button button-cancel">Annuler</a>
+    </div>
   {/if}
 </form> 
 
@@ -124,27 +118,17 @@
 <script type="text/javascript">
 //<![CDATA[
   
-  jQuery.noConflict();
-  
-  jQuery(document).ready(function(){
- 	
- 	  jQuery('.button').button(); 
-
-    jQuery('#cancel').click(function() {
-
-      document.location.href={/literal}'{copixurl dest=gestionautonome||showTree}'{literal};
-    });
-
+  $(document).ready(function(){
     jQuery('#filter-displayer').click(function() {
 
       jQuery('#students-list-filter').toggleClass('hidden');
     });
     
-    jQuery('#school').live('change', function(){
+    jQuery('[name="school"]').live('change', function(){
 
       jQuery('#class-filter').empty();
       
-      var schoolId = jQuery('#school').val();
+      var schoolId = jQuery('[name="school"]').val();
       if (schoolId != '') {
         
         jQuery.ajax({
@@ -160,13 +144,13 @@
       }
     });
 
-    jQuery('#groupcity').live('change', function(){
+    jQuery('[name="groupcity"]').live('change', function(){
 
       jQuery('#city-filter').empty();
       jQuery('#school-filter').empty();
       jQuery('#class-filter').empty();
       
-      var cityGroupId = jQuery('#groupcity').val();
+      var cityGroupId = jQuery('[name="groupcity"]').val();
       if (cityGroupId != '') {
         
         jQuery.ajax({
@@ -182,12 +166,12 @@
       }
     });
 
-    jQuery('#city').live('change', function(){
+    jQuery('[name="city"]').live('change', function(){
       
       jQuery('#school-filter').empty();
       jQuery('#class-filter').empty();
       
-      var cityId = jQuery('#city').val();
+      var cityId = jQuery('[name="city"]').val();
       if (cityId != '') {
         
         jQuery.ajax({

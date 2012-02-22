@@ -3,11 +3,11 @@
 	{i18n key="kernel|kernel.error.noRights"}
 {else}
 
-<DIV>
-<DIV ALIGN="RIGHT" STYLE="font-size:80%;"><A HREF="#" ONCLICK="return hideUser();">{i18n key="annuaire.btn.close"}</A></DIV>
+<div>
+<div class="right"><a href="#" onClick="return hideUser();">{i18n key="annuaire.btn.close"}</a></div>
 <!--<DIV ALIGN="RIGHT">{$usr.civilite}</DIV>-->
 
-<DIV STYLE="font-weight:bold; font-size:140%; margin-top: 3px; margin-bottom: 3px;">{if $usr.avatar}<IMG SRC="{copixurl}{$usr.avatar}" ALIGN="RIGHT" />{/if}{if $usr.sexe}<IMG src="{copixresource path="img/annuaire/sexe`$usr.sexe`b.png"}" width="15" height="17" /> {/if}{$usr.prenom|escape} {$usr.nom|escape}</DIV>
+<div style="font-weight:bold; font-size:140%; margin-top: 3px; margin-bottom: 3px;">{if $usr.avatar}<img src="{copixurl}{$usr.avatar}" align="right" />{/if}{if $usr.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $usr.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if}{$usr.prenom|escape} {$usr.nom|escape}</div>
 
 <!-- 
 <DIV ALIGN="RIGHT">
@@ -23,28 +23,29 @@
 {if $canWrite && $usr.login}{i18n key="annuaire.minimail"} : {$usr.login} <A HREF="{copixurl dest="minimail||getNewForm" login=$usr.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="{i18n key="annuaire.writeMinimail"}" TITLE="{i18n key="annuaire.writeMinimail"}" BORDER="0" /></A>{/if}
 
 {if $parents}
-<HR NOSHADE SIZE="1" />
-<DIV STYLE="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisParents"}</DIV>
-<DIV ID="">
+<hr NOSHADE SIZE="1" />
+<div style="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisParents"}</div>
+<div id="">
 {foreach from=$parents item=item}
-<DIV>{if $item.sexe}<IMG src="{copixresource path="img/annuaire/sexe`$item.sexe`b.png"}" border="0" width="15" height="17" />{/if} {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
+<div>{if $item.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $item.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if}
+ {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
 
-</DIV>
+</div>
 {/foreach}
-</DIV>
+</div>
 {elseif $enfants}
-<HR NOSHADE SIZE="1" />
-<DIV STYLE="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisEnfants"}</DIV>
-<DIV ID="">
+<hr NOSHADE SIZE="1" />
+<div style="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisEnfants"}</div>
+<div id="">
 {foreach from=$enfants item=item}
-<DIV>{if $item.sexe}<IMG src="{copixresource path="img/annuaire/sexe`$item.sexe`b.png"}" border="0" width="15" height="17" />{/if} {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
+<div>{if $item.sexe == 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" />{elseif $item.sexe == 2}<img src="{copixurl}themes/default/images/icon-16/user-female.png" />{/if} {user label=$item.prenom|cat:" "|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=1}
 
-</DIV>
+</div>
 {/foreach}
-</DIV>
+</div>
 {/if}
 </div>
 
-</DIV>
+</div>
 
 {/if}

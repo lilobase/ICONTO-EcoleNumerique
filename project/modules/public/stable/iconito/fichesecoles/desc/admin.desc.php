@@ -1,6 +1,6 @@
 <?php
 
-$form 									= & new CopixAction ('admin', 'form');
+$form 									= new CopixAction ('admin', 'form');
 
 //$default 							= & $go;
 

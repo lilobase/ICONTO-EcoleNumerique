@@ -1,0 +1,61 @@
+#loginForm fieldset {
+	border: 1px solid #354E81;
+	border-bottom-left-radius: 8px 8px;
+	border-bottom-right-radius: 8px 8px;
+	border-top-left-radius: 8px 8px;
+	border-top-right-radius: 8px 8px;
+	margin-bottom: 12px;
+	padding: 8px;
+	}
+
+form input[type="password"]:hover {
+border: 1px solid #BAD521;
+border-bottom-left-radius: 6px 6px;
+border-bottom-right-radius: 6px 6px;
+border-top-left-radius: 6px 6px;
+border-top-right-radius: 6px 6px;
+}
+
+form input[type="password"] {
+border: 1px solid #F0F4F0;
+border-bottom-left-radius: 6px 6px;
+border-bottom-right-radius: 6px 6px;
+border-top-left-radius: 6px 6px;
+border-top-right-radius: 6px 6px;
+padding: 3px;
+}
+
+#loginForm input[type="text"], #loginForm input[type="password"]  {
+	width: 14em;	
+}
+
+#loginBar .loginPrompt {
+	float:right;
+}
+#loginBar .loginPrompt p {
+	float:left;
+	margin:0;
+	position:relative;
+}
+#loginBar p.loginMsg {
+	float:none;
+	margin-bottom:2px;
+	color:#111;
+	text-align:left;
+}
+#loginBar label {
+	display:block;
+	padding-left:2px;
+	text-align:left;
+	font-size:1.1em; font-weight:bold;
+}
+#loginBar #submitUserLogin {
+	float:right;
+}
+
+#loginLabelMask, #passwordLabelMask {
+	position:absolute; top:5px; left:4px;
+	width:105px; height:20px;
+	line-height:20px; text-align:left;
+	font-size:1.15em; font-weight:bold;
+}

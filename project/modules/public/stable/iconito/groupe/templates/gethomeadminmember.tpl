@@ -1,13 +1,13 @@
 <script language="Javascript1.2" src="{copixurl}js/iconito/module_groupe_admin.js"></script>
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
   <form name="form" action="{copixurl dest="|doModifyMember"}" method="POST">
@@ -24,11 +24,12 @@
 </td>
 	</tr>
 
-<tr><td class="form_libelle">{i18n key="groupe.adminMembers.addDates.debut"}</td><td>{calendar name="debut" value=$his->debut|datei18n} {i18n key="kernel|date.format"}</td></tr>
-<tr><td class="form_libelle">{i18n key="groupe.adminMembers.addDates.fin"}</td><td>{calendar name="fin" value=$his->fin|datei18n} {i18n key="kernel|date.format"}</td>
+<tr><td class="form_libelle">{i18n key="groupe.adminMembers.addDates.debut"}</td><td>
+{inputtext class="datepicker" name="debut" value=$his->debut|datei18n}</td></tr>
+<tr><td class="form_libelle">{i18n key="groupe.adminMembers.addDates.fin"}</td><td>{inputtext class="datepicker" name="fin" value=$his->fin|datei18n}</td>
 
 
-	<tr><td colspan="2" class="form_submit"><br/><input style="" class="form_button" onclick="self.location='{copixurl dest="|getHomeAdminMembers" id=$groupe->id}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input style="" class="form_button" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
+	<tr><td colspan="2" class="form_submit"><br/><input class="button button-cancel" onclick="self.location='{copixurl dest="|getHomeAdminMembers" id=$groupe->id}'" type="button" value="{i18n key="groupe.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="groupe.btn.save"}" /></td></tr>
 	
 </table>
 

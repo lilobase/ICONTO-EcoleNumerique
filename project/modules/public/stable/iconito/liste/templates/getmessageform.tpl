@@ -7,13 +7,13 @@
 <input type="hidden" name="go" value="preview" />
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
-	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
-	{/foreach}
-	</UL>
-	</DIV>
+	<div class="mesgErrors">
+        <ul>
+        {foreach from=$errors item=error}
+            <li>{$error}</li>
+        {/foreach}
+        </ul>
+	</div>
 {/if}
 
 {if $preview and !$errors}
@@ -30,12 +30,15 @@
 		<td CLASS="form_libelle" VALIGN="TOP"></td><td CLASS="form_saisie"><h3>{i18n key="liste.homeWriteMessage"}</h3></td>
 	</tr>
 	<tr>
-		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="liste.field.title"}</td><td CLASS="form_saisie"><input type="text" name="titre" value="{$titre}" maxlength="150" style="width: 500px;" class="form" /></td>
+		<td CLASS="form_libelle" VALIGN="TOP"><label for="titre">{i18n key="liste.field.title"}</label></td>
+        <td CLASS="form_saisie"><input type="text" name="titre" id="titre" value="{$titre}" maxlength="150" style="width:99%;" class="form" /></td>
 	</tr>
 	<tr>
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="liste.field.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
-	<tr><td colspan="2" CLASS="form_submit"><input style="" class="form_button" onclick="self.location='{copixurl dest="liste||getListe" id=$liste}'" type="button" value="{i18n key="liste.btn.cancel"}" /> <input style="" class="form_button" type="submit" onClick="goListe(this.form, 'save');" value="{i18n key="liste.btn.save"}" /> <input style="" class="form_button" type="submit" onClick="goListe(this.form, 'preview');" value="{i18n key="liste.btn.preview"}" /></td></tr>
-	
 </table>
+
+<div class="submit">
+	<input class="button button-cancel" onclick="self.location='{copixurl dest="liste||getListe" id=$liste}'" type="button" value="{i18n key="liste.btn.cancel"}" /> <input class="button button-view" type="submit" onClick="goListe(this.form, 'preview');" value="{i18n key="liste.btn.preview"}" /> <input class="button button-confirm" type="submit" onClick="goListe(this.form, 'save');" value="{i18n key="liste.btn.save"}" />
+</div>
 </form>

@@ -1,0 +1,556 @@
+/**
+ * THEMES - core_zones.css
+ * Mise en forme des Zones Copix
+ *
+ * @package	Iconito 2010
+ * @cdate 25.01.2010
+ * @mdate 25.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+/************************************************
+ * USER LOGIN
+ ***********************************************/
+div.zone-userlogged {
+	position: relative;
+	height: 22px;
+	}
+
+div.userprofile {
+	color: #fff;
+	text-shadow: 0px 1px 1px #111;
+	}
+
+div.userprofile .username {
+	font-size: 180%;
+	line-height: 100%;
+	}
+
+div.userprofile .userrole {
+	text-transform: uppercase;
+	font-size: 110%;
+	line-height: 100%;
+	}
+
+#loginBar {
+    float: right;
+    padding: 0;
+    margin: 0;
+    }
+input[type="password"] {
+	font-family:"Lucida grande", Arial, Helvetica, sans-serif;
+}
+#loginBar input.login {
+	border: solid 1px #0c92b1;
+	background: #f0f0f0;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	/*behavior: url(/htc/PIE.htc);*/
+	font-size: 11px;
+	line-height: 11px;
+	font-weight: bold;
+	padding: 4px 0 4px 3px;
+	margin: 3px 2px 0 0;
+	width:104px;
+    height: 14px;
+    vertical-align: top;
+	}
+
+#loginBar .button-confirm {
+	background-color:#f0f0f0;
+	border: solid 1px #0c92b1;
+	width: 30px;
+    height: 24px;
+	font-size: 11px;
+	line-height: 11px;
+	padding: 4px 0 4px 3px;
+	margin: 3px 2px 0 0;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	/*behavior: url(/htc/PIE.htc);*/
+	}
+
+#loginBar input:hover,#loginBar .button-confirm:hover, #loginBar input.filled {
+	color: #333;
+	background-color:#fff;
+	}
+	
+.loginPrompt {
+    display: block;
+    float: left;
+    font-size: 10px;
+    line-height: 9px;
+    color: #333;
+    height: 48px;
+    padding-top: 3px;
+    }
+    
+.loginNew {
+    display: block;
+    float: right;
+    height: 48px;
+    width: 48px;
+    padding-left: 2px;
+    }
+    
+/************************************************
+ * USERMENU
+ ***********************************************/
+div.usermenu {
+	float: right;
+	padding-top: 4px;
+}
+
+ul.usermenu {
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+	}
+
+ul.usermenu li {
+	float: left;
+	}
+	
+ul.usermenu li a.item {
+	display: block;
+	width: 32px;
+	margin: 1px;
+	padding-top: 32px;
+	text-align: center;
+	overflow: hidden;
+	}
+	
+ul.usermenu li.menu-minimail a#counter {
+	position: absolute;
+	display: block;
+	margin: 1px;
+	padding: 12px 0px 0px 12px;
+	width: 20px;
+	height: 20px;
+	background: url(../../../themes/default/images/mod_user_mail_badge.png) no-repeat;
+	}
+
+ul.usermenu li.menu-minimail a#counter span#counter-text {
+	display: block;
+	padding-top: 3px;
+	width: 18px;
+	font-size: 8.5px;
+	letter-spacing: -0.1em;
+	font-weight: bold;
+	text-align: center;
+	color:#333;
+	}
+
+ul.usermenu li a.logout {
+	display: block;
+	width: 20px;
+	padding-top: 20px;
+	margin-left: 6px;
+	background: url(../../../themes/default/images/button_logout_off.png) no-repeat 100% 0;
+	}
+	
+ul.usermenu li a.logout_on {
+	background: url(../../../themes/default/images/button_logout_on.png) no-repeat 100% 0;
+	}
+	
+/************************************************
+ * ???
+ ***********************************************/
+div.zone-mygroupes {
+	border: dotted 1px #333;
+	margin: 8px 0px;
+	}
+
+div.main-kernel {
+	}
+
+/************************************************
+ * DASHBOARD BLOCS TOOLBARS
+ ***********************************************/
+div.toolbar ul {
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	margin: 0px;
+	padding: 0px;
+	}
+	
+div.toolbar ul li {
+	float: left;
+	}
+	
+div.toolbar ul li a.action {
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	/*behavior: url(/htc/PIE.htc);*/
+	padding: 2px;
+	margin: 0px 1px;
+	line-height: 28px;
+	border: solid 1px #666666;
+	background: #F0F0F0;
+	font-size: 85%;
+	}
+	
+div.toolbar ul li a.action:hover {
+	background: #D9E575;
+	}
+
+	
+/************************************************
+ * SIDE COLUMNS
+ ***********************************************/
+#right div.kernel, #left div.kernel {
+	background: #f4f8f4;
+	margin-bottom: 12px;
+	padding: 6px;
+	border: 2px solid #fff;
+	font-size: 110%;
+	color: #444433;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+	border-radius: 8px;
+	/*behavior: url(/htc/PIE.htc);*/
+	}
+
+#right div.kernel a, #left div.kernel a {
+	color: #444433;
+}
+
+#right div.kernel a:hover, #left div.kernel a:hover {
+	text-decoration: underline;
+}
+
+#right div.kernel h1, #left div.kernel h1 {
+	font-size:120%;
+	text-transform: uppercase;
+	margin-top:0px;
+	color: #b28001;
+}
+	
+#right div.kernel ul, #left div.kernel ul {
+	list-style-position: outside;
+	padding-left: 15px;
+}
+#right div.kernel li, #left div.kernel li {
+}
+
+#right div.dashboardwelcome li, #left div.dashboardwelcome li {
+}
+	
+	
+/************************************************
+ * LEGALS
+ ***********************************************/
+div.legals {
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 80%;
+	}
+div.legals a {
+	color: #000;
+	font-weight: bold;
+	}
+	
+/************************************************
+ * STANDARD CONTENT PANEL
+ ***********************************************/
+.content-panel {
+	background: #fff;
+	padding: 6px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	/*behavior: url(/htc/PIE.htc);*/
+	margin-bottom: 6px;
+	}
+ 
+.content-panel-edit {
+	background: #fff url(../../../themes/default/images/menu/menu_update.png) 8px 8px no-repeat;
+	padding-left: 42px;
+	}
+
+.content-panel-button {
+	text-align: center;
+	padding: 3px;
+	}
+
+.content-info {
+	padding: 6px 0px;
+	margin-bottom: 6px;
+	font-style: italic;
+	}
+
+/************************************************
+ * JQueryUI HACKS
+ ***********************************************/
+img.ui-datepicker-trigger {
+	vertical-align: bottom;
+	}
+	
+p.ui-state-error {
+	padding: 0 6px;
+	border: solid 1px #ddd;
+	}
+
+.ui-widget-overlay {
+	background: #666;
+	}
+
+/************************************************
+ * POPUPS
+ ***********************************************/
+.popup-title {
+	display: block;
+	background: #0c92b1;
+	font-size: 150%;
+	color: #fff;
+	padding: 6px;
+	}
+
+.popup-subtitle {
+	display: block;
+	font-size: 120%;
+	padding: 0px;
+	margin: 6px 0;
+	border-bottom: solid 1px #ddd;
+	}
+
+/************************************************
+ * USER WARNINGS
+ ***********************************************/
+.warning {
+	position: relative;
+	display: inline-block;
+	font-size: 12px;
+	padding: 3px 6px 3px 6px;
+	min-width: 42px;
+	min-height: 42px;
+	background-color : #fff;
+	border: solid 1px #fff;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	/*behavior: url(/htc/PIE.htc);*/
+	font-size: 14px;
+}
+
+.warning-exclamation { padding-left: 60px; background: #fff url(../../../themes/default/images/warn_exclamation.png) 4px 50% no-repeat; }
+.warning-information { padding-left: 60px; background: #fff url(../../../themes/default/images/warn_information.png) 4px 50% no-repeat; }
+
+.error {
+    font-weight: bold;
+    font-style: italic;
+    color: red;
+    font-size: 0.9em;
+}
+
+p.mesgSuccess, ul.mesgErrors, div.mesgErrors ul, div.mesgSuccess ul, p.mesgError, p.mesgInfo {
+	margin:10px 0 15px; padding:5px 5px 5px 28px; border:1px solid #BAD521;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+	background:url(../../../themes/default/images/button-action/action_confirm.png) no-repeat 5px 50% #fff; color:#BAD521;
+	font-weight:bold;
+}
+ul.mesgErrors, div.mesgErrors ul, p.mesgError {
+	border-color:#f00;
+	background:url(../../../themes/default/images/button-action/action_warning.png) no-repeat 5px 50% #fff; color:#f00;
+	list-style:none;
+}
+p.mesgInfo {
+	border-color:#49BFCD;
+	background:url(../../../themes/default/images/button-action/action_info.png) no-repeat 5px 50% #fff; color:#49BFCD;
+}
+
+/************************************************
+ * MODAL MESSAGES
+ ***********************************************/
+#dialog-message {
+	padding: 12px;
+	font-size: 14px;
+	text-align: center;
+	}
+
+#dialog-message ul {
+	padding: 12px;
+	font-size: 14px;
+	list-style-type: none;
+	text-align: left;
+	}
+
+#dialog {
+	padding: 12px;
+	font-size: 14px;
+	}
+
+#dialog ul {
+	padding: 12px;
+	font-size: 14px;
+	list-style-type: none;
+	text-align: left;
+	}
+
+/************************************************
+ * PROGRESSION BADGES
+ ***********************************************/
+.badge {
+	display: inline-block;
+	width: 17px;
+	height: 16px;
+	padding: 1px 1px 1px 0;
+	-moz-border-radius: 12px;
+	-webkit-border-radius: 12px;
+	border-radius: 12px;
+	/*behavior: url(/htc/PIE.htc);*/
+	background: #bad521;
+	color: #fff;
+	font-size: 90%;
+	text-align: center;
+	letter-spacing: -0.1em;
+	}
+	
+.badge-off {
+	background: #999;
+	color: #fff;
+	}
+	
+.badge-on {
+	background: #bad521;
+	color: #fff;
+	}
+	
+.badge-current {
+	background: #f3a807;
+	color: #fff;
+	}
+
+/************************************************
+ * FORMS
+ ***********************************************/
+input.form_button {
+	border: solid 1px #333333;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	background: #F0F0F0;
+	color: #333333;
+}
+
+input.form_button:hover {
+	border: solid 1px #333333;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	/*behavior: url(/htc/PIE.htc);*/
+	background: #D9E575;
+	color: #333333;
+}
+
+form input[type="text"], form input[type="url"], form input[type="email"], form input[type="date"], form textarea {
+	border: solid 1px #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	/*behavior: url(/htc/PIE.htc);*/
+	padding: 3px;
+	}
+	
+input.label-overlayed {
+	color: #aaa;
+	}
+	
+form input[type="text"]:hover, form textarea:hover {
+	border: solid 1px #bad521;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	/*behavior: url(/htc/PIE.htc);*/
+	}
+
+form label {
+	display: inline-block;
+	}
+
+form label a {
+	display: inline-block;
+	}
+
+form select {
+	border:1px solid #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	padding: 3px;
+}
+
+form select:hover {
+	border:1px solid #bad521;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;*/
+	}
+
+input.file-attach {
+	width: 400px;
+}
+
+input.preFilled, textarea.preFilled {
+    color: #cccccc;
+}
+
+form select.multicombo {
+	height: 120px;
+}
+
+#content-popup .option-bar {
+	border-top: solid 1px #f0f4f0;
+	border-bottom: solid 1px #f0f4f0;
+	padding: 3px;	
+	}
+
+#content-popup .option-bar .option1 {
+	float: left;
+	width: 50%;
+	margin-right: 30px;	
+	}
+
+#content-popup .popup-panel {
+	background-color: #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	/*behavior: url(/htc/PIE.htc);*/
+	padding: 6px;	
+	}
+
+/************************************************
+ * Prise de controle
+ ***********************************************/
+
+div.prise_controle {
+	width: 30%;
+	margin: 0px;
+	margin: auto;
+	background-color: red;
+	padding: 2px;
+	padding-left: 20px;
+	padding-right: 20px;
+	font-weight: bold;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	/*behavior: url(/htc/PIE.htc);*/
+}
+
+div.prise_controle div.message {
+	line-height: 90%;
+}
+
+div.prise_controle a.stopper {
+	color: #000;
+	text-shadow: none;
+}
+
+

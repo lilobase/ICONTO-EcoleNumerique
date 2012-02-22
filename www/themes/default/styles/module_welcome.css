@@ -1,155 +1,188 @@
+/**
+ * module_welcome.css
+  *
+ * @package	Iconito 2010
+ * @cdate 15.09.2010
+ * @mdate 15.09.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
 
-
-/* DEMO */
-DIV.welcome_demo {
-	-moz-border-radius: 4px;
-	margin: 4px 20px 0px 20px;
-	background: #EEE;
-	font-size: 75%;
-	padding: 2px;
-	text-align:center;
-}
-DIV.welcome_demo TD.account {
-	/*font-style: italic;*/
-	text-align: center;
-}
-DIV.welcome_demo TD.account A {
-	font-style: normal;
+div.welcome {
+	}
 	
-}
-
-
-
-table.welcome {
-	font-size:0.8em;
-}
-table.welcome td {
-	vertical-align:top;
-}
-table.welcome td.ecoles {
-
-}
-
-#welcome_ecoles {
-	width:220px;
-}
-#welcome_ecoles div.titre {
-	font-weight:bold;
-	font-size:1.3em;
-}
-#welcome_ecoles div.type {
-	background:#fff;
-	padding:4px;
-	margin-top:5px;
-	margin-bottom:5px;
-	text-transform:uppercase;
-	font-weight:bolder;
-}
-
-
-#welcome_photos {
-	margin-bottom:10px;
-}
-#welcome_photos div.titre {
-	font-weight:bold;
-	font-size:1.3em;
-}
-#welcome_photos div.object {
-	background:#fff;
-	padding:0px;
-	border:solid 3px #000;
-	height:230px;
-}
-
-#welcome_actualites {
-}
-#welcome_actualites div.titre {
-	font-weight:bold;
-	font-size:1.3em;
-}
-#welcome_actualites div.item {
-}
-#welcome_actualites div.item div.date {
-	font-size:0.9em;
-	color:#777;
-}
-#welcome_actualites div.item div.titre {
-	font-size:1.2em;
-}
-#welcome_actualites div.item div.titre a {
-}
-#welcome_actualites div.item div.chapo {
-	font-size:1.2em;
-}
-#welcome_actualites div.item div.chapo p {
-	margin:0;
-}
-#welcome_actualites div.item div.hreflib {
-}
-#welcome_actualites div.item div.hreflib a {
-}
-
-
-.cartouche {
-	background: #EDF5A9;
-	padding: 0.6em;
-	padding-top: 0;
-	padding-bottom: 1.5em;
-	margin-top: 1em;
-	margin-right: 0;
-	margin-bottom: 0.5em;
-	border: 1px solid #508957; 
-	margin: auto;
-	width:450px;
-	-moz-border-radius: 7px;
-}
-.cartouche h4 {
-	padding: 0;
-	margin: 0;
-	padding-top: 0.5em;
-}
-.cartouche p {
-	padding: 0;
-	padding-top: 0.5em;
-	padding-bottom: 0.5em;
-	margin: 0;
-}
-.cartouche button_like {
-	padding-top: 1em;
-}
-.cartouche IMG.logo {
+div.welcome p {
+	margin-top: 0px;
+	}
+	
+div.welcome .column1 {
+    position: relative;
+	display: inline-block;
+	float: left;
+	width: 48%;
+	padding: 12px;
+	}
+	
+div.welcome .column2 {
+    position: relative;
+	display: inline-block;
 	float: right;
-	margin-top: 0.4em;
-}
-.cartouche span.rss {
-	font-size:1.3em;
-	font-weight:bold;
-}
-.cartouche span.rss a {
-	color: #508957; 
-}
+	width: 48%;
+	padding: 6px;
+	}
+	
+div.welcome .welcome_hr {
+	background: url('../../../themes/default/images/thm_welcome_hr.png') no-repeat center center;
+	height: 30px;
+	}
+	
+/* PAGES STATIQUES BLOG */
+.welcome_pages {
+	margin-bottom: 12px;
+	}
 
-.astuce {
-	font-size: 0.9em;
-	padding: 0.5em;
-	padding-top: 0.2em;
-	padding-bottom: 0.2em;
-	margin-top: 1em;
-	margin-right: 0;
-	margin-bottom: 0.5em;
-	border: 2px solid #EDF5A9; 
-	margin: auto;
-	width:450px;
-	-moz-border-radius: 4px;
-	color:#333;
+.welcome_pages .bpage_item {
+	margin-bottom: 16px;
+	}
+		
+.welcome_pages .bpage_title {
+	font-size: 180%;
+	font-weight: bold;
+	margin-bottom: 6px;
+	}
+
+.welcome_pages .bpage_content {
+	font-size: 120%;
+	}
+.welcome_pages .bpage_item p.suite {
 }
-HR {
-	height: 1px;
-	background: #508957;
-	color: #508957;
-	border: 0;
-}
-.butab {
-	padding-bottom: 1em;
-	vertical-align: center;
-}
+.welcome_pages .bpage_item p.suite a {
+	padding-left: 20px;
+	background: transparent url(../images/suite.gif) no-repeat left top;
+	}
+
+/* ARTICLES BLOG */
+.welcome_articles {
+	margin-bottom: 12px;
+/*	background: #f0f4f0;
+	border: solid 1px #ddd;*/
+	padding: 8px;
+/*	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	behavior: url(/htc/PIE.htc);*/
+	}
+
+.articles_title {
+	font-size: 160%;
+/*	text-transform: uppercase;*/
+	font-weight: bold;
+	margin-bottom: 12px;
+	color: #dd8210;
+	}
+
+.welcome_articles .bart_item {
+	margin-bottom: 16px;
+	}
+		
+.welcome_articles .bart_title {
+	font-size: 140%;
+	line-height: 110%;
+	margin-bottom: 8px;
+	font-weight: bold;
+	color: #354e81;
+	}
+		
+.welcome_articles .bart_title a {
+	color: #354e81;
+	}
+		
+.welcome_articles .bart_date {
+	font-size: 90%;
+	color:#777;
+	}
+	
+.welcome_articles .bart_chapo {
+	font-size: 110%;
+	}
+
+
+
+/* BLOC PHOTO */
+.welcome_photos {
+	margin-top: 22px;
+	margin-bottom: 12px;
+	}
+	
+.welcome_photos .titre {
+	}
+	
+.welcome_photos .slider {
+    position: relative;
+/*	display: inline-block;*/
+	background: #dd8210 url('../../../themes/default/images/thm_photoslider_title.png') center right no-repeat;
+	padding:0px;
+	border: solid 6px #dd8210;
+	border-left: solid 12px #dd8210;
+	height: 220px;
+	width: 420px;
+	overflow: visible;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+	border-radius: 8px;
+        z-index:1;
+	}
+	
+/* BOUTON BLOGS */
+.welcome_blogs a {
+	width: 438px;
+	height: 52px;
+	background: url('../../../themes/default/images/thm_welcome_blogs.png') top left no-repeat;
+	margin-bottom: 24px;
+	font-size: 180%;
+	text-align: center;
+	line-height: 240%;
+	}
+	
+.welcome_blogsloader {
+	display: block;
+    }
+
+
+/* LISTE DES ECOLES */
+.welcome_ecoles {
+	width: 420px;
+	margin-bottom: 12px;
+/*	background: #fcfdf1;*/
+	border: solid 1px #9dd3e0;
+	padding: 8px;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+	/*behavior: url(/htc/PIE.htc);*/
+	}
+
+.welcome_ecoles ul {
+	margin: 0;
+	padding-left: 12px;
+	list-style-type: disc;
+	list-style-position: outside;
+	}
+
+.welcome_ecoles ul li {
+	font-size: 110%;
+	margin-bottom: 4px;
+	}
+
+.welcome_ecoles ul li.type {
+	list-style-type: none;
+	text-transform: uppercase;
+	font-weight: bold;
+	color: #dd8210;
+	}
+
+.ecoles_title {
+	font-size: 120%;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-bottom: 12px;
+	}

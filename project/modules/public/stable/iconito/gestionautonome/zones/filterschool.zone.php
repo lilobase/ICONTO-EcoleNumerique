@@ -1,13 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneFilterSchool extends CopixZone {
 
 	function _createContent (& $toReturn) {
@@ -16,13 +12,22 @@ class ZoneFilterSchool extends CopixZone {
 
     // Récupérations des filtres en session
 	  $ppo->selected = $this->getParam ('selected', null);
+	  $ppo->withLabel = $this->getParam ('with_label', true);
 	  
 	  if (!is_null ($cityId = $this->getParam('city_id', null))) {
 	    
 	    // Récupération des écoles de la ville sélectionnée pour liste déroulante
 	    $schoolDAO = _dao ('kernel|kernel_bu_ecole');
-	    $schools = $schoolDAO->getByCity ($cityId);
-    
+	    if (_currentUser ()->testCredential ('module:city|'.$cityId.'|school|create@gestionautonome')) {
+
+  	    $schools = $schoolDAO->getByCity ($cityId);
+  	  }
+  	  else {
+
+        $groups = _currentUser ()->getGroups ();
+        $schools = $schoolDAO->findByCityIdAndUserGroups ($cityId, $groups['gestionautonome|iconitogrouphandler']);
+      }
+      
       $ppo->schoolsIds = array('');
       $ppo->schoolsNames = array('');
     

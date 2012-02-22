@@ -1,12 +1,14 @@
 <?php
-/**
- * @package petiteenfance
- * @subpackage kernel
- * @version   $Id: menu.zone.php 38 2009-08-10 15:22:15Z cbeyer $
- * @author   Christophe Beyer <cbeyer@cap-tic.fr>
- * @copyright CAP-TIC
- * @link      http://www.cap-tic.fr
- */
+/*
+	EN2010
+	-------
+	@file 		menu.zone.php
+	@version 	1.0.0b
+	@date 		2010-09-01 09:09:02 +0200 (Wed, 1 Sep 2010)
+	@author 	S.HOLTZ <sholtz@cap-tic.fr>
+
+	Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
+*/
 
 /**
  * Zone affichant le menu
@@ -21,26 +23,37 @@ class ZoneMenu extends CopixZone {
 		$pCanClose = $this->getParam ('canClose', true); // Seulement si popup, true par defaut
 		
 		if ($pCanClose===null) $pCanClose = true;
-		// Si le menu est défini à partir d'un tableau, création du HTML pour affichage.
+		// Si le menu est defini a partir d'un tableau, creation du HTML pour affichage.
 		if( is_array($pMenu) ) {
-			$out = '';
+			$html = '';
 			$sep = '';
-			foreach( $pMenu AS $key=>$val ) {
-				$out .= $sep; $sep=' :: ';
+			$html .= '<ul>';
+			foreach( $pMenu as $key=>$val ) {
+				$url = (isset($val['url']) && trim($val['url'])!="") ? $val['url'] : '';
 				
-				$color = '';
-				if( isset($val['color'])) $color=' style="color: '.$val['color'].'"';
-
-				$target = '';
-				if( isset($val['target'])) $color=' target="'.$val['target'].'"';
+				$class = 'class="';
+				$class .= (isset($val['behavior'])) ? $val['behavior'].' ':'';
+				$class .= (isset($val['type'])) ? $val['type'].' ':'';
+				$class .= (isset($val['current']) && $val['current']) ? 'current ':'';
+				$class .= '"';
 				
-				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '<a'.$color.' href="'.$val['url'].'">';
-				$out .= $val['txt'];
-				if( isset($val['url']) && trim($val['url'])!="" ) $out .= '</a>';
+				$style = 'style="';
+				$style .= (isset($val['size'])) ? 'width: '.$val['size'].'px;':'';
+				$style .= '"';
+				
+				$html .= '<li>';
+				$html .= '<a '.$class.' '.$style.' href="'.$url.'"';
+				if( isset($val['target']) ) $html .= ' target="'.$val['target'].'"';
+				$html .= '>';
+				$html .= '<span class="valign"></span>';
+				$html .= '<span>'.$val['txt'].'</span>';
+				$html .= '</a>';
+				$html .= '</li>';
 			}
-			$ppo->menu = $out;
+			$html .= '</ul>';
+			$ppo->menu = $html;
 		} else {
-			$ppo->menu = $pMenu;
+			$ppo->menu = '<ul><li>'.$pMenu.'</li></ul>';
 		}
 		
 		if ($pPopup && $pCanClose) {
@@ -48,6 +61,7 @@ class ZoneMenu extends CopixZone {
 			$ppo->menu .= '<a href="javascript:self.close();">'.CopixI18N::get('kernel|kernel.popup.close').'</a>';
 		}
 		
+		if (!isset($ppo->menu)) $ppo->menu = 'submenu is empty';
 		
 		$toReturn = $this->_usePPO ($ppo, 'menu.tpl');
 		

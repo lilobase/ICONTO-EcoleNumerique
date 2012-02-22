@@ -1,7 +1,7 @@
 <?php
 
-$admin 			= & new CopixAction ('admin', 'admin');
-$formtype		= & new CopixAction ('admin', 'formtype');
+$admin 			= new CopixAction ('admin', 'admin');
+$formtype		= new CopixAction ('admin', 'formtype');
 
 $default 		= & $admin;
 

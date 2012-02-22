@@ -138,41 +138,27 @@ class DAOBlogarticlecategory {
 
       return $this->findBy ($sp);
     }
-}
 
-class DAORecordblogarticlecategory {
-		function check ($record){
+
+    function check ($record){
 			$result = $this->_compiled_check ($record);
+
+            if (isset($result['url_bacg'])) {
+                unset($result['url_bacg']);
+            }
 
 			if ($result === true){
 				$result = array ();
 			}
 
-			if( (!empty($record->url_bacg)) && (!empty($record->id_blog))) {
-				if(empty($record->id_bacg)) {
-					// Création 
-					$sqlRequest = 'SELECT id_bacg FROM module_blog_articlecategory WHERE '.
-														' id_blog=' . $record->id_blog.
-														' AND url_bacg=\'' . $record->url_bacg.'\'';
-				} else {
-					// Edition
-					$sqlRequest = 'SELECT id_bacg FROM module_blog_articlecategory WHERE '.
-														' id_blog=' . $record->id_blog.
-														' AND id_bacg!=' . $record->id_bacg.
-														' AND url_bacg=\'' . $record->url_bacg.'\'';
-				}
-				// Vérification de l'unicité de l'url
-      	$DBresult = _doQuery($sqlRequest);
-				if(count($DBresult)>0) {
-					require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
-					$errorObject = new CopixErrorObject ();
-					$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog.dao.url.exist'));
-					$result = array_merge ($errorObject->asArray(), $result);
-				}
-			}			
-
+            
 			return (count ($result)>0) ? $result : true;
-		} 
+		}
+        
+}
+
+class DAORecordblogarticlecategory {
+		
 
 }
 ?>

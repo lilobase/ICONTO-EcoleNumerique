@@ -1,14 +1,21 @@
 
-DIV.minimail_message {
-	width: 730px;
+div.minimail_message {
+	width:100%; /* 730px;*/
 	background-color: #FFFFFF;
 	font-size: 12px;
 	border-radius: 6px;
 	-moz-border-radius: 6px;
 	padding: 2px;
 }
+div.minimail_message div.render a {
+  text-decoration:underline;
+}
+div.minimail_message div.render a:hover {
+  color:#000;
+}
 
-TR.minimail_navig {
+
+tr.minimail_navig {
 	background-color: #EEEEEE;
 	font-size: 10px;
 	border-radius: 6px;
@@ -18,13 +25,11 @@ TR.minimail_navig {
 }
 
 
-HR.minimail_hr {
-	background: #D9E575;
-	color: #D9E575;
+hr.minimail_hr {
 	margin: 5px;
 }
 
-DIV.minimail_attachment {
+div.minimail_attachment {
 	float: left;
 	width: 220px;
 	background-color: #FFF;
@@ -35,4 +40,14 @@ DIV.minimail_attachment {
 	padding: 5px;
 	margin: 5px;
 	text-align: center;
+}
+#minimail form .form_saisie em.legendDescription {font-size:0.9em;}
+
+textarea#dest {
+    height:3em;
+}
+#minimail table {
+	border:0;
+	width:100%;
+	border-collapse:collapse;
 }

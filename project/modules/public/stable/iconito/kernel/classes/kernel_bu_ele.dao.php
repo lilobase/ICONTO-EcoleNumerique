@@ -17,7 +17,7 @@ class DAOKernel_bu_ele {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInClasse ($classe) {
-		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND E.id_sexe=S.id_s AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EC.id=".$classe." ORDER BY nom, prenom1";
+		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND E.id_sexe=S.id_s AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EA.current=1 AND EC.id=".$classe." ORDER BY nom, prenom1";
 		return _doQuery($query);
 	}
 	
@@ -30,7 +30,7 @@ class DAOKernel_bu_ele {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInEcole ($ecole) {
-		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EC.ecole=".$ecole." ORDER BY nom, prenom1";
+		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EA.current=1 AND EC.ecole=".$ecole." ORDER BY nom, prenom1";
 		//print_r($query);
 		return _doQuery($query);
 	}
@@ -44,7 +44,7 @@ class DAOKernel_bu_ele {
 	 * @return mixed Objet DAO
 	 */
 	function getElevesInVille ($ville) {
-		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND EC.ecole=ECO.numero AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND ECO.id_ville=".$ville." ORDER BY nom, prenom1";
+		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND EC.ecole=ECO.numero AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EA.current=1 AND ECO.id_ville=".$ville." ORDER BY nom, prenom1";
 		//print_r($query);
 		return _doQuery($query);
 	}
@@ -62,9 +62,34 @@ class DAOKernel_bu_ele {
 		$sqlPlus = '';
 		if ( Kernel::getKernelLimits('ville') )
 			$sqlPlus .= ' AND VIL.id_vi IN ('.Kernel::getKernelLimits('ville').')';
-		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_bu_ville VIL, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND EC.ecole=ECO.numero AND ECO.id_ville=VIL.id_vi AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND VIL.id_grville=".$grville.$sqlPlus." ORDER BY nom, prenom1";
+		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_bu_ville VIL, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND EC.ecole=ECO.numero AND ECO.id_ville=VIL.id_vi AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EA.current=1 AND VIL.id_grville=".$grville.$sqlPlus." ORDER BY nom, prenom1";
 		//print_r($query);
 		return _doQuery($query);
+	}
+	
+	/**
+	 * Retourne les élèves non affectés l'année A1 mais affecté l'année A2
+	 *
+	 * @param int $classroomId  ID de la classe
+	 * @param int $a1           ID de l'année de l'ancienne affectation
+	 * @param int $a2           ID de l'année de la nouvelle affectation
+	 *
+	 * @return array
+	 */
+	function findOldStudentsAssignmentsForNewAssignement ($classroomId, $a1, $a2) {
+	
+	  $sql = 'SELECT eleve.idEleve AS id, eleve.nom AS nom, eleve.prenom1 AS prenom, niveau.niveau_court AS niveau, niveau.id_n AS niveauId '
+	    .'FROM kernel_bu_eleve AS eleve '
+	    .'JOIN kernel_bu_eleve_affectation AS affectation ON (eleve.idEleve=affectation.eleve) '
+	    .'JOIN kernel_bu_classe_niveau AS niveau ON (niveau.id_n=affectation.niveau) '
+	    .'LEFT JOIN kernel_bu_eleve_affectation AS affectation2 ON (eleve.idEleve=affectation2.eleve AND affectation2.annee_scol=:a2 AND affectation2.current=1) '
+	    .'WHERE affectation.classe=:classroomId '
+	    .'AND affectation.annee_scol=:a1 '
+	    .'AND affectation2.id IS NULL '
+	    .'GROUP BY eleve.idEleve '
+	    .'ORDER BY eleve.nom, eleve.prenom1';
+    
+	  return _doQuery($sql, array(':classroomId' => $classroomId, ':a1' => $a1, ':a2' => $a2));
 	}
 	
 	function findStudentsForAssignment ($reference, $typeRef, $filters = array ()) {
@@ -97,7 +122,7 @@ class DAOKernel_bu_ele {
     }
     elseif (isset ($filters['city'])) {
       
-      $sql .= ' AND ECO.id_ville='.$filters['city'];
+      $sql .= ' AND V.id_vi='.$filters['city'];
     }
     elseif (isset ($filters['groupcity'])) {
       
@@ -132,7 +157,7 @@ class DAOKernel_bu_ele {
 	 */
   function getStudentsByClass ($classId) {
     
-    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe' 
+    $sql = 'SELECT E.idEleve, E.idEleve as id, E.nom, E.prenom1, E.prenom1 as prenom, E.id_sexe, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe, CN.niveau_court AS niveau, CN.id_n AS niveauId' 
       . ' FROM kernel_bu_eleve E, kernel_bu_eleve_affectation A, kernel_link_bu2user LI, dbuser U, kernel_bu_classe_niveau CN, kernel_bu_ecole_classe CL'
 		  . ' WHERE E.idEleve = A.eleve'
 		  . ' AND A.classe = CL.id'
@@ -141,13 +166,88 @@ class DAOKernel_bu_ele {
 		  . ' AND LI.bu_type = "USER_ELE"'
 		  . ' AND LI.bu_id=E.idEleve'
 		  . ' AND U.id_dbuser = LI.user_id'
-		  . ' AND A.niveau=CN.id_n';
-		  
-		$sql .= ' ORDER BY E.nom, E.prenom1';  
+		  . ' AND A.niveau=CN.id_n'
+		  . ' GROUP BY E.idEleve'
+      . ' ORDER BY E.nom, E.prenom1';  
 
     return _doQuery ($sql, array (':id' => $classId));
   }
+  
+  /**
+	 * Retourne les identifiants des élèves d'une classe donnée
+	 *
+	 * @param integer $classId   Identifiant de la classe
+	 */
+  function getStudentIdsByClass ($classId) {
+    
+    $toReturn = array();
+    
+    $sql = 'SELECT E.idEleve' 
+      . ' FROM kernel_bu_eleve E, kernel_bu_eleve_affectation A, kernel_link_bu2user LI, dbuser U, kernel_bu_classe_niveau CN, kernel_bu_ecole_classe CL'
+		  . ' WHERE E.idEleve = A.eleve'
+		  . ' AND A.classe = CL.id'
+		  . ' AND A.classe=:id'
+		  . ' AND A.current=1'
+		  . ' AND LI.bu_type = "USER_ELE"'
+		  . ' AND LI.bu_id=E.idEleve'
+		  . ' AND U.id_dbuser = LI.user_id'
+		  . ' AND A.niveau=CN.id_n'
+		  . ' GROUP BY E.idEleve'
+		  . ' ORDER BY E.nom, E.prenom1'; 
+
+    $results = _doQuery ($sql, array (':id' => $classId));
+    
+    foreach ($results as $result) {
+      
+      $toReturn[] = $result->idEleve;
+    }
+    
+    return $toReturn;
+  }
+  
+  /**
+	 * Retourne les élèves sous la responsabilité d'une personne
+	 *
+	 * @param integer $personId   Identifiant du responsable
+	 */
+  function getStudentsByPersonInChargeId ($personId) {
+    
+    $sql = 'SELECT kernel_bu_eleve.*, u.login_dbuser AS login, kernel_bu_lien_parental.parente as link' 
+      . ' FROM kernel_bu_eleve, kernel_bu_responsables, kernel_link_bu2user li, dbuser u, kernel_bu_lien_parental'
+		  . ' WHERE kernel_bu_responsables.id_responsable=:personId'
+		  . ' AND kernel_bu_responsables.id_par=kernel_bu_lien_parental.id_pa'
+		  . ' AND kernel_bu_responsables.type_beneficiaire="eleve"'
+		  . ' AND kernel_bu_responsables.id_beneficiaire=kernel_bu_eleve.idEleve'
+		  . ' AND li.bu_type="USER_ELE"'
+		  . ' AND li.bu_id=kernel_bu_eleve.idEleve'
+		  . ' AND u.id_dbuser = li.user_id'
+		  . ' ORDER BY kernel_bu_eleve.nom, kernel_bu_eleve.prenom1'; 
+
+    return _doQuery ($sql, array (':personId' => $personId));
+  }
+  
+  /**
+	 * Retourne les élèves sans affectation d'une école donnée
+	 *
+	 * @param integer $schoolId   Identifiant de l'école
+	 */
+  function getStudentsWithoutAssignmentBySchool ($schoolId) {
+    
+    $sql = 'SELECT E.idEleve, E.idEleve as id, E.nom, E.prenom1, E.prenom1 as prenom, E.id_sexe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe' 
+      . ' FROM kernel_bu_eleve E, kernel_link_bu2user LI, dbuser U, kernel_bu_ecole EC'
+      . ' LEFT JOIN kernel_bu_ecole_classe CL ON EC.numero = CL.ecole'
+      . ' LEFT JOIN kernel_bu_eleve_affectation A ON A.classe = CL.id AND A.current = 0'
+		  . ' WHERE EC.numero = :schoolId'
+		  . ' AND E.idEleve = A.eleve'
+		  . ' AND A.classe = CL.id'
+		  . ' AND LI.bu_type = "USER_ELE"'
+		  . ' AND LI.bu_id=E.idEleve'
+		  . ' AND U.id_dbuser = LI.user_id'
+		  . ' GROUP BY E.idEleve'
+		  . ' HAVING SUM(A.current) = 0';
+		  
+		$sql .= ' ORDER BY E.nom, E.prenom1';  
+
+    return _doQuery ($sql, array (':schoolId' => $schoolId));
+  }
 }
-
-
-?>

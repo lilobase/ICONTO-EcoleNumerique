@@ -32,13 +32,13 @@ class ActionGroupMagicmail extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('magicmail.message.title'));
 
 		$dao = CopixDAOFactory::create("magicmail|magicmail");
 		$magic_result = $dao->get($id);
 
-		$tplForm = & new CopixTpl ();
+		$tplForm = new CopixTpl ();
 		$tplForm->assign ('id', $id);
 		$tplForm->assign ('infos', $magic_result);
 		// $tplForm->assign ('magicmail_mail', CopixConfig::get ('magicmail|magicmail_mail'));
@@ -59,9 +59,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 		$result = $tplForm->fetch("login_form.tpl");
 		$tpl->assign ("MAIN", $result);
 
-		$nemu = array();
-		$returntoparent = Kernel::menuReturntoParent( "MOD_MAGICMAIL", $id );
-		if( $returntoparent ) $menu[] = $returntoparent;
+		$menu = array();
 		$tpl->assign ('MENU', $menu );
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -110,6 +108,7 @@ class ActionGroupMagicmail extends CopixActionGroup {
 								$blog_service = & CopixClassesFactory::Create ('blog|kernelblog');
 								$album_classes = & CopixClassesFactory::Create ('album|album');
 								$album_service = & CopixClassesFactory::Create ('album|kernelalbum');
+								$classeur_service = & CopixClassesFactory::Create ('classeur|kernelclasseur');
 								
 								/*
 								$groupe_service = & CopixClassesFactory::Create ('groupe|groupeservice');
@@ -123,6 +122,9 @@ class ActionGroupMagicmail extends CopixActionGroup {
 								$mods = Kernel::getModEnabled( $node_type, $node_id );
 								foreach( $mods AS $mod ) {
 									switch( $mod->module_type ) {
+										case 'MOD_CLASSEUR':
+											$classeur = $mod->module_id;
+											break;
 										case 'MOD_ALBUM':
 											$album = $mod->module_id;
 											break;
@@ -204,6 +206,13 @@ class ActionGroupMagicmail extends CopixActionGroup {
 									//////////////////////////
 									$images = array();
 									
+									if( $classeur != null ) {
+										if($album_photos) foreach( $album_photos AS $album_photo ) {
+											$album_photo_retour = $classeur_service->publish( $classeur, $album_photo );
+											$images[] = $album_photo_retour;
+										}
+									}
+									else
 									if( $album != null ) {
 									
 										if($album_photos) foreach( $album_photos AS $album_photo ) {
@@ -214,23 +223,31 @@ class ActionGroupMagicmail extends CopixActionGroup {
 									
 									if( $blog != null ) {
 										if( ! $blog_article['title'] || trim($blog_article['title'])=='' ) {
-											$date = date('d/m/Y \à H\hi');
+											$date = date('d/m/Y \ï¿½ H\hi');
 											$blog_article['title'] = 'Article du '.$date;
 										}
 										
-										foreach( $audio_files AS $audio_file ) {
+										if(isset($audio_files)) foreach( $audio_files AS $audio_file ) {
 											$blog_article['body'] .= "\n".'[['.$audio_file['file']."|mp3]]\n";
 										}
 										
-										foreach( $video_flv_files AS $video_flv_file ) {
+										if(isset($video_flv_files)) foreach( $video_flv_files AS $video_flv_file ) {
 											$blog_article['body'] .= "\n".'[['.$video_flv_file['file'].".flv|flv]]\n";
 										}
 										
-										foreach( $images AS $image ) {
+										if(isset($images)) foreach( $images AS $image ) {
+// TODO
+											if( $classeur != null ) {
+											$blog_article['body'] .= "\n".'[(('.CopixUrl::get().'static/classeur/'.$image['album_id'].'-'.$image['album_key'].'/'.
+											$image['photo_id'].'-'.$image['photo_key'].'_240.'.$image['photo_ext'].'|'.
+											$image['title'].'|))|'.CopixUrl::get().'static/classeur/'.$image['album_id'].'-'.$image['album_key'].'/'.
+											$image['photo_id'].'-'.$image['photo_key'].'.'.$image['photo_ext'].']'."\n";
+											} else {
 											$blog_article['body'] .= "\n".'[(('.CopixUrl::get().'static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
 											$image['photo_id'].'_'.$image['photo_key'].'_240.'.$image['photo_ext'].'|'.
 											$image['title'].'|))|'.CopixUrl::get().'static/album/'.$image['album_id'].'_'.$image['album_key'].'/'.
 											$image['photo_id'].'_'.$image['photo_key'].'.'.$image['photo_ext'].']'."\n";
+											}
 										}
 
 										$blog_retour = $blog_service->publish( $blog, $blog_article );

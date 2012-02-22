@@ -11,8 +11,7 @@
          {assign var=date value=$article->date_bact}
          <div class="day">{$article->date_bact|datei18n:text}</div>
       {/if}
-		<!--Modification vboniface 06.11.2006 bug mantis 54
-			ancienne version:<div class="postTitle"><a href="{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}">{$article->name_bact}</a></div>-->
+
         <div class="postTitle"><a href="{copixurl dest="blog||showArticle" blog=$blog->url_blog article=$article->url_bact}">{$article->name_bact}</a></div>
          <div class="postInfo">
 

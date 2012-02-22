@@ -1,67 +1,16 @@
-
-<table class="welcome">
-<tbody>
-<tr>
-<td class="ecoles">
-
-{if 0}
-	{copixzone process='welcome|ecoles' titre='Les &eacute;coles :' colonnes=1 grville=1 ville=1}
-{else}
-	<img src="{copixresource path="img/iconito-home2.gif"}" width="209" height="234" alt="Iconito vous souhaite la bienvenue" style="margin-right:20px;" />
-{/if}
-
-
-</td>
-<td>
-
-{if 0}
-
-	{copixzone process='welcome|photos' mode=dewslider titre='Test photos Dewslider :' album=1 dossier=0 width=640 height=230 legendes=true}
-
-	{copixzone process='welcome|actualites' titre='A la Une' blog='Ecole_du_bois_fleuri' nb=2 colonnes=2 chapo=false hreflib=''}
-
-{else}
-	<h3>Bienvenue sur Iconito, le portail numérique scolaire libre.</h3>
-	
-	<p>Iconito est un portail éducatif comprenant un ensemble d'outils et de ressources à destination des enseignants et des élèves, mais aussi des parents et des autres intervenants du système scolaire. Il est développé sous licence libre (GNU GPL).</p>
-	
-	<a class="button_like" href="{copixurl dest="auth||"}">Connexion &agrave; Iconito</a>
-	
-	<br/>
-	
+<div class="column1 ink_blue">
+	<div class="welcome_pages ink_blue">{copixzone process=welcome|pages titre='' blog=edito page=1 colonnes=1 content=true}</div>
+	<div class="welcome_articles">
+		<div class="articles_title">{i18n key="welcome|welcome.articles"}</div>
+		<div>{copixzone process=welcome|actualites blog=edito colonnes=1 chapo=1 nb=2}
+    </div>
 	</div>
-	
-	<br/>
-	<div class="cartouche">
-	<a href="{copixurl dest="public||"}"><img class="logo" src="{copixresource path="img/welcome/welcome-blog.gif"}" alt="Logo Blogs" border="0"/></a>
-	<h4>Consultez les publications</h4>
-	<p>
-	Ecoles, classes, villes ou groupes de travail, ils peuvent tous publier des blogs.</p> 
-	<br/>
-	<a class="button_like" href="{copixurl dest="public||"}">{i18n key=public|public.blog.annuaire}</a>
-	<span class="rss"><a title="RSS" href="{copixurl dest="public||rss"}"><img src="{copixresource path="img/blog/feed-icon-16x16.png"}" width="16" height="16" border="0" alt="RSS" title="RSS" /> Flux RSS</a></span>
+</div>
+<div class="column2 ink_blue">
+	<div class="welcome_photos">{copixzone process=welcome|photos mode=dewslider titre='' classeur=1 dossier=1 width=380 height=220 legendes=true}</div>
+	<div class="welcome_blogs">{copixzone process=welcome|blogs}</div>
+	<div class="welcome_ecoles">
+		<div class="ecoles_title">{i18n key="welcome|welcome.ecoles"}</div>
+		<div>{copixzone process=welcome|ecoles titre='' ajaxpopup=true colonnes=1 groupBy=ville grville=1 ville=0 kernellimiturl=1 dispFilter=1 dispHeader=1}</div>
 	</div>
-	
-	<br/>
-	<div class="astuce"><b>Astuce</b> - Vous pouvez télécharger un logo pour votre blog. Allez dans Administration du blog, Options, Modifier, puis télécharger le logo. Une bonne taille de logo est 150 x 150 pixels par exemple!
-	</div>
-
-{/if}
-	
-
-</td>
-</tr>
-</tbody>
-</table>
-
-<div class="small" style="clear:both;">
-<hr/>
-
-{copixconf parameter='default|isDemo' assign=isDemo}
-
-{if $isDemo}
-Ceci est un site de démonstration. Nous ne sommes pas responsables des contenus que les internautes peuvent publier sur ce site dans le cadre de leurs tests. Pour toute information, n'hésitez pas à nous contacter: <a href="mailto:dev@iconito.org">dev@iconito.org</a><p>
-{else}
-Les dernières informations sur le développement d'Iconito sont consultables sur <a href="http://www.iconito.org">iconito.org</a>. Pour toute information, n'hésitez pas à contacter directement l'équipe des développeurs: <a href="mailto:dev@iconito.org">dev@iconito.org</a>
-{/if}
 </div>

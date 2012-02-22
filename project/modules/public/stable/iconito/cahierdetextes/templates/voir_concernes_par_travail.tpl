@@ -1,0 +1,24 @@
+<div id="students-data">      
+  {if $ppo->eleves neq null}
+    <table class="liste">
+      <thead>
+        <tr>
+          <th class="liste_th">{i18n key="cahierdetextes.message.account"}</th>
+          <th class="liste_th">{i18n key="cahierdetextes.message.name"}</th>
+          <th class="liste_th">{i18n key="cahierdetextes.message.firstname"}</th>
+          <th class="liste_th">{i18n key="cahierdetextes.message.level"}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {foreach from=$ppo->eleves item=eleve}
+          <tr class="{$eleve->niveau_court}">
+            <td>{$eleve->login}</td>
+            <td>{$eleve->nom}</td>
+            <td>{$eleve->prenom1}</td>
+            <td>{$eleve->niveau_court}</td>
+          </tr>
+        {/foreach}
+      </tbody>
+    </table>
+  {/if} 
+</div>

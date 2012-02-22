@@ -254,7 +254,8 @@ class CopixEMailer {
 			$auth = (CopixConfig::get ('|mailSmtpAuth') == '') ? null : CopixConfig::get ('|mailSmtpAuth');
 			$pass = (CopixConfig::get ('|mailSmtpPass') == '') ? null : CopixConfig::get ('|mailSmtpPass');
 			$hasAuth = ($auth != null);
-			$mail->setSMTPParams(CopixConfig::get ('|mailSmtpHost'), null, null, $hasAuth, $auth, $pass);
+            $port = (CopixConfig::exists('|mailSmtpPort') && CopixConfig::get('|mailSmtpPort')) ? CopixConfig::get('|mailSmtpPort') : null;
+			$mail->setSMTPParams(CopixConfig::get ('|mailSmtpHost'), $port, null, $hasAuth, $auth, $pass);
 		}
 		return $mail;		
 	}

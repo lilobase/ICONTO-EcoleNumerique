@@ -20,7 +20,7 @@ class ZonePetitPoucet extends CopixZone {
 	 * @param string $format (option) Format de la zone de saisie (wiki, html, fckeditor...), utilisé en mode Popup
 	 */
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$daoFolders = _dao("malle|malle_folders");
 		$res = array();
 		$malle = ($this->getParam('malle')) ? $this->getParam('malle') : NULL;

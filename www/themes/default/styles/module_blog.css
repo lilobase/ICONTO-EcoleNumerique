@@ -1,53 +1,133 @@
 
-/* =================================
-	Général
-	================================= */
-#mainBlog {
-	REMbackground: #D9E575; /* vert de fond */
-	-moz-border-radius:6px;	
-	background: #FFF;
-	font-size: 11px;
-	font-family: "Trebuchet MS", verdana, lucida, arial, helvetica, sans-serif;
-	padding: 1em;
-	height: 90%;
+#blog-template {
+	position:relative;
+	min-height:500px;
+    overflow: hidden;
 }
 
-/* Partie centrale */
-#mainContent {
-	background: #FFF;
-	float: right;
-	width: 640px;
+#blog-template #blog-sidebar{
+	position:absolute; top:0; left:0;
+/*    float:left;*/
+    width: 180px;
+/*    margin-right: -210px;*/
+    background: #f0f4f0;
+	padding: 10px;
+	font-size: 90%;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
 }
-/* Barre latérale */
+
+#blog-template #blog-content{
+    margin-left: 210px;
+    background: #fff;
+	padding: 10px;
+	font-size: 90%;
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+	border-radius: 8px;
+}
+
+#blog-template #blog-sidebar .blog-rss {
+    display: block;
+    float: right;
+    background: url(../../../themes/default/images/blog_rss.png) no-repeat 0 0;
+    width: 16px;
+    height: 16px;
+    padding: 0;
+	-moz-border-radius: 0;
+	-webkit-border-radius: 0;
+	border-radius: 0;    
+    }
+
+#blog-template #blog-sidebar #blog-logo {
+    display: block;
+    background: url(../../../themes/default/images/blog_defaultlogo.gif) no-repeat center 6px;
+    width: 180px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+    padding-top: 155px;
+    margin-bottom: 18px;
+    }
+
+#blog-template #blog-sidebar a {
+    display: block;
+    padding: 4px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;    
+}
+
+#blog-template #blog-sidebar a:hover {
+    background-color: #fff;    
+}
+
+#blog-template #blog-sidebar h2 {
+    font-size: 80%;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+#blog-template #blog-sidebar ul {
+    margin: 0px;
+    padding: 0px;
+    list-style-type: none;
+}
+
+
+
+
+
+
+
+
+/* =================================
+	Gï¿½nï¿½ral
+	================================= */
+
+
+
+
+#mainBlog {
+}
+
+/* Barre latï¿½rale */
 #mainSideBar {
-	background: #FFF;
-	float: right;
+	float:left;
 	width: 210px;
 	border-right: dotted 2px #CCC;
-	margin-right: 1em;
-	padding-right: 1em;
-}
-/* Barre latérale - Logo */
-#mainSideBar .bloglogo {
-	text-align: center;
-	padding-top: 1em;
-	padding-bottom: 1em;
+  margin-right:-210px;
 }
 
-/* Barre latérale - Titre */
+#blog2 {
+	float:left;
+	width: 210px;
+	border-right: dotted 2px #CCC;
+  margin-right:-210px;
+}
+/* Partie centrale */
+#mainContent {
+  margin-left:230px;
+}
+/* Barre latï¿½rale - Logo */
+#mainSideBar .bloglogo {
+	text-align: center;
+	padding: 1em;
+}
+
+/* Barre latï¿½rale - Titre */
 #mainSideBar H2 {
-	color: #337E5A;
-	font-size: 140%;
 	margin: 10px 0px 3px 0px;
 	border-top: dotted 2px #CCC;
 	padding-top: 3px;
 }
-/* Barre latérale - Liste d'éléments */
+/* Barre latï¿½rale - Liste d'ï¿½lï¿½ments */
 #mainSideBar UL {
 	padding: 0;
 	margin: 0;
 }
-/* Barre latérale - Eléments */
+/* Barre latï¿½rale - Elï¿½ments */
 #mainSideBar LI {
 	list-style-type: square;
 	margin-left:16px;
@@ -77,41 +157,36 @@
 	margin: 1px;
 	padding: 1px;
 	font-size: 100%;
-	color: #337E5A;
 	margin-top: 6px;
 	text-align: right;
 }
 /* Titre de l'article */
 #listArticles DIV.postTitle {
+	clear:both;
 	margin: 5px 0px 8px 0px;
 	font-size: 170%;
 	font-weight: bold;
-	font-family: Georgia;
-	clear: both;
 }
 #listArticles DIV.postTitle A {
-	color: #337E5A;
 }
-/* Infos de l'article (date, catégories...) */
+/* Infos de l'article (date, catï¿½gories...) */
 #listArticles DIV.postInfo {
 	margin: 0px 0px 3px 0px;
-	color: #B58106;
+	color: #888;
 	font-weight: normal;
 	font-size: 100%;
 }
 #listArticles DIV.postInfo A {
-	color: #B58106;
+	color: #888;
 }
 /* Article (chapo ou entier) */
 #listArticles DIV.postContent {
 	margin-left: 0px;
 	margin-bottom: 2em;
-	font-size: 105%;
 }
 #listArticles DIV.postContent .suite {
-	clear: both;
 	padding-left: 20px;
-	background: transparent url(../img_styles/blog/suite.gif) no-repeat left top;
+	background: transparent url(../images/suite.gif) no-repeat left top;
 }
 /* Liste des pages */
 #listArticles P.pager {
@@ -119,61 +194,32 @@
 
 
 /* =================================
-	Détail d'un article
+	Dï¿½tail d'un article
 	================================= */
 #article {
+    position: relative;
 	margin-bottom: 4em;
-	border-bottom: solid 1px #D9E575;
-}
-/* Titre */
-#article H1 {
-	margin: 0;
-	color: #337E5A;
-	font-family: Georgia;
-}
-#article H2 {
-	margin: 0;
-	color: #337E5A;
-	font-family: Georgia;
-	font-size: 2em;
-}
-#article H3 {
-	color: #337E5A;
-	font-family: Georgia;
-	font-size: 1.6em;
-	border-bottom: solid 1px #D9E575;
-	margin: 0;
-	margin-top: 0.3em;
-	margin-bottom: 0.6em;
-}
-#article H4 {
-	color: #337E5A;
-	font-family: Georgia;
-	font-size: 1.4em;
-	margin: 0;
-	margin-top: 0.3em;
-	margin-bottom: 0.6em;
+	border-bottom: solid 1px #ddd;
 }
 #article img, #listArticles img, div.adminArticleList img {
 	background: transparent;
 	border: 0;
-	padding:0;
+	padding:0; margin:0 5px 3px 0;
 }
-/* Infos de l'article (date, catégories...) */
+/* Infos de l'article (date, catï¿½gories...) */
 #article DIV.postInfo {
 	margin: 0px 0px 3px 0px;
-	color: #B58106;
+	color: #888;
 	font-weight: normal;
 	font-size: 100%;
 }
 #article DIV.postInfo A {
-	color: #B58106;
+	color: #888;
 }
 /* Chapo */
 #article DIV.postSummary {
 	text-align: left;
 	font-size: 1.3em;
-	font-family: Georgia, Trebuchet;
 	font-style: italic;
 	line-height: 1.3em;
 	border-left: solid 6px #D9E575;
@@ -182,15 +228,11 @@
 /* Article */
 #article DIV.postContent { /* Article */
 	text-align: justify;
-	font-size: 105%;
-	clear: both;
 }
 #article DIV.postContent TABLE,  #article DIV.postSummary TABLE,  #listArticles DIV.postContent TABLE {
-	border: solid 1px #D9E575;
 }
 #article DIV.postContent TR, #article DIV.postSummary TR, #listArticles DIV.postContent TR  {
-	border: solid 1px #D9E575;
-	background: #D9E575;
+	border: solid 1px #f0f0f0;
 }
 #article DIV.postContent TD, #article DIV.postSummary TD, #listArticles DIV.postContent TD {
 	border: 0;
@@ -207,15 +249,12 @@
 	margin: 0;
 	margin-top: 1em;
 	margin-bottom: 0.5em;
-	color: #337E5A;
-	font-family: Georgia;
-	clear: both;
 }
 /* Corps */
 #comments DIV.commentBody {
-	border-radius: 4px;
-	-moz-border-radius:4px;
-	-khtml-border-radius:4px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
 	color: #595949;
 	font-size: 11px;
 	margin: 0px 30px 6px 30px;
@@ -232,13 +271,12 @@
 	font-size: 80%;
 	font-weight: normal;
 }
-/* Numéro */
+/* Numï¿½ro */
 #comments DIV.commentCount a {
 	position: relative;
 	float: right;
 	right: 0px;
 	top: 0px;
-	font-family: Georgia;
 	font-size: 14px;
 	font-weight: bold;
 	color: #CFC097;
@@ -256,15 +294,29 @@
 	font-family: inherit;
 	font-size: 90%;
 }
-/* Formulaire d'ajout de commentaires - bouton de validation */
-#comments INPUT.submit {
-	background-color: #FF2966;
-	border: 0;
-	color: #FFF;
-	font-family: Verdana,Arial;
-	font-weight: bold;
-	padding: 0.3em;
+
+/* Affichage des tableaux */
+table.viewItems {
+	margin:3px 0; padding:2px; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px;
+	width:100%;
+	background:#FFFFFF;
 }
-
-
-
+table.viewItems th {
+	background:#eee;
+	text-align:center;
+}
+table.viewItems td.action {width:90px; text-align:center;}
+table.viewItems tr.list_line1 td.action {padding:4px 0;}
+table.viewItems td.comment {width:120px; text-align:center;}
+table.editItems {
+	margin:0 auto;
+}
+table.editItems td input[type="text"] {width:250px;}
+table.editItems td input#time_bact,
+table.editItems td input#date_bact {width:auto;}
+table.editItems th { 
+	padding:0 5px 0 0;
+	text-align:right;
+}
+table.editItems tr.editCss th, table.editItems tr.editCss td {padding:60px 5px 0 0;}
+table.editItems th.alignTop { padding-top:5px; vertical-align:text-top;}

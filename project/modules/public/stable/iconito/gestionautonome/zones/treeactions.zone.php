@@ -1,13 +1,9 @@
 <?php
 /**
- * @package     
- * @subpackage
- * @author      
- */
-
-/**
- *
- */
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneTreeActions extends CopixZone {
 
 	function _createContent (& $toReturn) {
@@ -19,6 +15,10 @@ class ZoneTreeActions extends CopixZone {
 	  $ppo->nodeType = $this->getParam ('node_type');
 	  
 	  $ppo->user = _currentUser ();
+	  
+	  // Get vocabulary catalog to use
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 	  
     $toReturn = $this->_usePPO ($ppo, '_tree_actions.tpl');
   }

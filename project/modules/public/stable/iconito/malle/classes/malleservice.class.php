@@ -13,12 +13,12 @@ class MalleService {
 	/**
 	 * Retourne des infos sur un type MIME en clair
 	 *
-	 * A partir d'un type MIME ou d'une extension de fichier, retourne des infos en clair dans un tableau indexé : type_txt = nom en clair en Français (ex: Document Word), type_icon = nom de l'image icone à utiliser (dans /www/img/malle/)
+	 * A partir d'un type MIME ou d'une extension de fichier, retourne des infos en clair dans un tableau indexï¿½ : type_txt = nom en clair en Franï¿½ais (ex: Document Word), type_icon = nom de l'image icone ï¿½ utiliser (dans /www/img/malle/)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/06
 	 * @param string $mime_type Type MIME
-	 * @return array Tableau indexé
+	 * @return array Tableau indexï¿½
 	 */
 	function getTypeInfos ($mime_type, $file_name='') {
 		//print_r("getTypeInfos ($mime_type)");
@@ -43,9 +43,10 @@ class MalleService {
 				
 			case "application/msword" :
 			case "doc" :
+			case "docx" :
 			case "application/vnd.oasis.opendocument.text" :
-			case "ods" :
-				if (strtolower($mime_type)=='application/msword' || strtolower($mime_type)=='doc')
+			case "odt" :
+				if (strtolower($mime_type)=='application/msword' || strtolower($mime_type)=='doc' || strtolower($mime_type)=='docx')
 					$type_mime = 'application/msword';
 				else
 					$type_mime = 'application/vnd.oasis.opendocument.text';
@@ -54,8 +55,13 @@ class MalleService {
 			
 			case "application/vnd.ms-powerpoint" :
 			case "ppt" :
+			case "pptx" :
 			case "pps" :
-				$type_mime = 'application/vnd.ms-powerpoint';		
+			case "odg" :
+				if (strtolower($mime_type)=='odg')
+  				$type_mime = 'application/vnd.oasis.opendocument.graphics';		
+				else
+					$type_mime = 'application/vnd.ms-powerpoint';
 				$res = array('type_text'=>CopixI18N::get ('malle|mime.presentation'), 'type_icon'=>'icon_file_presentation.png', 'type_icon32'=>'icon_file_presentation32.png', 'type_mime'=>$type_mime);
 				break;
 			
@@ -98,9 +104,14 @@ class MalleService {
 				
 			case "application/vnd.ms-excel" :
 			case "xls" :
+			case "xlsx" :
 			case "application/vnd.oasis.opendocument.spreadsheet" :
 			case "ods" :
-				$res = array('type_text'=>CopixI18N::get ('malle|mime.xls'), 'type_icon'=>'icon_file_spreadsheet.png', 'type_icon32'=>'icon_file_spreadsheet32.png');
+        if (strtolower($mime_type)=='application/vnd.ms-excel' || strtolower($mime_type)=='xls' || strtolower($mime_type)=='xlsx')
+  				$type_mime = 'application/vnd.ms-excel';		
+				else
+					$type_mime = 'application/vnd.oasis.opendocument.spreadsheet';
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.xls'), 'type_icon'=>'icon_file_spreadsheet.png', 'type_icon32'=>'icon_file_spreadsheet32.png', 'type_mime'=>$type_mime);
 				break;
 				
 			case "video/mpeg" :
@@ -126,6 +137,17 @@ class MalleService {
 				$res = array('type_text'=>CopixI18N::get ('malle|mime.zip'), 'type_icon'=>'icon_file_zip.png', 'type_icon32'=>'icon_file_zip32.png', 'type_mime'=>'application/zip');
 				break;
 			
+            case "text/xml" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.xml'), 'type_icon'=>'icon_file_xml.png', 'type_icon32'=>'icon_file_xml32.png', 'type_mime'=>'text/xml');
+				break;
+
+            case "application/x-smarttech-notebook" :
+            case "nbk" :
+            case "xbk" :
+            case "notebook" :
+				$res = array('type_text'=>CopixI18N::get ('malle|mime.notebook'), 'type_icon'=>'icon_file_presentation.png', 'type_icon32'=>'icon_file_presentation32.png', 'type_mime'=>'application/x-smarttech-notebook');
+				break;
+
 			
 			default :
 				if ($point !== false) {
@@ -145,12 +167,13 @@ class MalleService {
 				break;
 				
 		}
+    //print_r($res);
 		return $res;
 	}
 	
 
 	/**
-	 * Met à jour les infos d'un répertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "haut" jusqu'à la racine
+	 * Met ï¿½ jour les infos d'un rï¿½pertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "haut" jusqu'ï¿½ la racine
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
@@ -175,7 +198,7 @@ class MalleService {
 
 
 	/**
-	 * Met à jour les infos d'un répertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "bas" dans ses sous-répertoires (fonction récursive)
+	 * Met ï¿½ jour les infos d'un rï¿½pertoire (nb de fichiers, de dossiers, taille), et se  propage vers le "bas" dans ses sous-rï¿½pertoires (fonction rï¿½cursive)
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
@@ -199,7 +222,7 @@ class MalleService {
 		//$res["date_maj"] = $infos[0]->date_maj;
 		$res["nb_folders"] = $infos2[0]->nb;
 
-		// Les répertoires en-dessous"
+		// Les rï¿½pertoires en-dessous"
 		$folders = $daoFolders->getFoldersInFolder($malle, $folder);
 		foreach ($folders as $rep) {
 			//print_r($rep);
@@ -233,7 +256,7 @@ class MalleService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
-	 * @param object rFile recordset du fichier (récupéré par DAO)
+	 * @param object rFile recordset du fichier (rï¿½cupï¿½rï¿½ par DAO)
 	 */
 	function deleteFile ($rFile) {
 		$daoFiles = _dao("malle|malle_files");
@@ -246,11 +269,11 @@ class MalleService {
 	}
 
 	/**
-	 * Suppression d'un répertoire. Supprime aussi ses sous-répertoires
+	 * Suppression d'un rï¿½pertoire. Supprime aussi ses sous-rï¿½pertoires
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
-	 * @param object $rFile recordset du dossier (récupéré par DAO)
+	 * @param object $rFile recordset du dossier (rï¿½cupï¿½rï¿½ par DAO)
 	 */
 	function deleteFolder ($rFolder) {
 		
@@ -278,9 +301,9 @@ class MalleService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
 	 * @param integer $malle	Id de la malle
-	 * @param integer $folder (option, 0 par défaut) Id du dossier (ou 0 si racine)
-	 * @param integer $niveau (option, 1 par défaut)	Profondeur dans l'arbre
-	 * @return array Tableau avec l'arborescence. Chaque dossier correspond à une entrée dans le tableau, comprenant un tableau indexé comme suit : id (id du dossier), nom (son nom), niveau (profondeur par rapport à la racine)
+	 * @param integer $folder (option, 0 par dï¿½faut) Id du dossier (ou 0 si racine)
+	 * @param integer $niveau (option, 1 par dï¿½faut)	Profondeur dans l'arbre
+	 * @return array Tableau avec l'arborescence. Chaque dossier correspond ï¿½ une entrï¿½e dans le tableau, comprenant un tableau indexï¿½ comme suit : id (id du dossier), nom (son nom), niveau (profondeur par rapport ï¿½ la racine)
 	 */
 	function buildComboFolders ($malle, $folder=0, $niveau=1) {
 		//print_r("buildComboFolders ($malle, $folder, $res)");
@@ -298,14 +321,14 @@ class MalleService {
 	}
 
 	/**
-	 * Teste si un dossier est situé "plus bas" qu'un autre dossier (cad figure dans son arborescence)
+	 * Teste si un dossier est situï¿½ "plus bas" qu'un autre dossier (cad figure dans son arborescence)
 	 *
-	 * Sert notamment de vérification avant de déplacer/copier un dossier
+	 * Sert notamment de vï¿½rification avant de dï¿½placer/copier un dossier
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/06
 	 * @param integer $folder1	Id du premier dossier
-	 * @param integer $folder2	Id du deuxième dossier
+	 * @param integer $folder2	Id du deuxiï¿½me dossier
 	 * @return bool true si $folder1 est dans l'arborescence descendante partant de $folder2, false sinon
 	 */
 	function isFolderUnderFolder ($folder1, $folder2) {
@@ -316,7 +339,7 @@ class MalleService {
 
 		$rFolder = $daoFolders->get($folder1);
 		$fusible = 99;
-		// On remonte de $folder1 jusqu'à la racine ou jusqu'à trouver $folder2
+		// On remonte de $folder1 jusqu'ï¿½ la racine ou jusqu'ï¿½ trouver $folder2
 		while (!$fini && $fusible) {
 			
 			if ($rFolder->parent==0 || $rFolder->parent==$folder2)
@@ -342,16 +365,16 @@ class MalleService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
-	 * @param object $rFile recordset du fichier "source" à copier (obtenu par DAO)
-	 * @param integer $folderDest Id du répertoire destination
-	 * @return true si l'opération s'est bien passée, false sinon
+	 * @param object $rFile recordset du fichier "source" ï¿½ copier (obtenu par DAO)
+	 * @param integer $folderDest Id du rï¿½pertoire destination
+	 * @return true si l'opï¿½ration s'est bien passï¿½e, false sinon
 	 */
 	function copyFile ($rFile, $folderDest) {
 		//print_r($rFile);
 		$res = false;
 		$daoFiles = _dao("malle|malle_files");
 		
-		// On insère d'abord dans la base
+		// On insï¿½re d'abord dans la base
 		$new = _record("malle|malle_files");
 		$new->malle = $rFile->malle;
 		$new->folder = $folderDest;
@@ -383,9 +406,9 @@ class MalleService {
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/07
-	 * @param object $rFolder recordset du dossier "source" à copier (obtenu par DAO)
-	 * @param integer $folderDest Id du répertoire destination
-	 * @return mixed id du dossier crée, ou NULL si problème
+	 * @param object $rFolder recordset du dossier "source" ï¿½ copier (obtenu par DAO)
+	 * @param integer $folderDest Id du rï¿½pertoire destination
+	 * @return mixed id du dossier crï¿½e, ou NULL si problï¿½me
 	 */
 	function copyFolder ($rFolder, $folderDest) {
 		//print_r($rFolder);
@@ -393,7 +416,7 @@ class MalleService {
 		$daoFolders = _dao("malle|malle_folders");
 		$daoFiles = _dao("malle|malle_files");
 		
-		// On insère d'abord dans la base
+		// On insï¿½re d'abord dans la base
 		$new = _record("malle|malle_folders");
 		$new->malle = $rFolder->malle;
 		$new->parent = $folderDest;
@@ -406,7 +429,7 @@ class MalleService {
 				
 		if ($new->id!==NULL) {
 			
-			// On cherche ses fichiers, à copier aussi
+			// On cherche ses fichiers, ï¿½ copier aussi
 			$files = $daoFiles->getFilesInFolder($rFolder->malle, $rFolder->id);
 			foreach ($files as $file) {
 				malleService::copyFile ($file, $new->id);
@@ -431,7 +454,7 @@ class MalleService {
 	/**
 	 * Gestion des droits dans une malle
 	 *
-	 * Teste si l'usager peut effectuer une certaine opération par rapport à son droit. Le droit sur la malle nécessite d'être connu, renvoyé par le kernel avant l'entrée dans cette fonction.
+	 * Teste si l'usager peut effectuer une certaine opï¿½ration par rapport ï¿½ son droit. Le droit sur la malle nï¿½cessite d'ï¿½tre connu, renvoyï¿½ par le kernel avant l'entrï¿½e dans cette fonction.
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/12/08
@@ -452,7 +475,7 @@ class MalleService {
 				break;
 			case "FOLDER_CREATE" :
 			case "ITEM_DELETE" : // Supprimer fichier/dossier
-			case "ITEM_MOVE" : // Déplacer fichier/dossier
+			case "ITEM_MOVE" : // Dï¿½placer fichier/dossier
 			case "ITEM_COPY" : // Copier fichier/dossier
 			case "ITEM_RENAME" : // Renommer fichier/dossier
 				$can = ($droit >= PROFILE_CCV_MODERATE);
@@ -464,7 +487,7 @@ class MalleService {
 
 
 	/**
-	 * Renvoie le chemin vers le répertoire temporaire du serveur, dans lequel Apache a les droits d'écriture
+	 * Renvoie le chemin vers le rï¿½pertoire temporaire du serveur, dans lequel Apache a les droits d'ï¿½criture
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/20
@@ -485,7 +508,7 @@ class MalleService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/21
 	 * @param string $dir Chemin complet
-	 * @return boolean True si suppression bien passée, false sinon
+	 * @return boolean True si suppression bien passï¿½e, false sinon
 	 */
 
 	function deleteDir($dir)
@@ -530,9 +553,9 @@ class MalleService {
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/09
 	 * @param integer $malle Id de la malle
-	 * @param integer $folder Id du dossier de départ
-	 * @param integer $files Fichiers trouvés. Tableau passé par référence et complété au fur et à mesure, contenant donc les résultats à exploiter 
-	 * @param string $path Chemin (type x/dossier/photos), utilisé pour parcourir les sous-dossiers, uniquement utilisé pour info
+	 * @param integer $folder Id du dossier de dï¿½part
+	 * @param integer $files Fichiers trouvï¿½s. Tableau passï¿½ par rï¿½fï¿½rence et complï¿½tï¿½ au fur et ï¿½ mesure, contenant donc les rï¿½sultats ï¿½ exploiter 
+	 * @param string $path Chemin (type x/dossier/photos), utilisï¿½ pour parcourir les sous-dossiers, uniquement utilisï¿½ pour info
 	 */
 	function getFilesInFolder ($malle, $folder, &$files, $path='') {
 		
@@ -566,15 +589,61 @@ class MalleService {
 	}
 
 	/**
-	 * Génération d'une clé hexa de 10 caractères aléatoires
+	 * Gï¿½nï¿½ration d'une clï¿½ hexa de 10 caractï¿½res alï¿½atoires
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/11/23
-	 * @return string Clé hexa de 10 caractères aléatoires
+	 * @return string Clï¿½ hexa de 10 caractï¿½res alï¿½atoires
 	 */
 	function createKey () {
 		return substr( md5(microtime()), 0, 10 );
 	}
+
+  /**
+  * Genere le contenu d'un ficher type .web, contenant un raccourci vers un site
+  *
+  * @author Christophe Beyer <cbeyer@cap-tic.fr>
+  * @since 2010/09/16
+  * @param string $iTitre Titre du lien
+  * @param string $iUrl URL du lien
+  * @link http://www.cyanwerks.com/file-format-url.html
+  */
+  function generateWebFile ($iTitre, $iUrl) {
+    $oRes = 
+     "[DEFAULT]\n"
+    ."BASEURL=".$iUrl."\n"
+    ."[InternetShortcut]\n"
+    ."URL=".$iUrl."\n"
+    ."Modified=";
+    return $oRes;
+  }
+
+  /**
+  * A partir d'un nom de fichier, renvoie son type MIME
+  *
+  * @author Christophe Beyer <cbeyer@cap-tic.fr>
+  * @since 2010/09/24
+  * @param string $iFilename Nom (ou chemin) du fichier
+  * @return 
+  */
+  function getMimeType ($iFilename) {
+    $point = strrpos ($iFilename, ".");
+    if ($point !== false) {
+      $ext = substr($iFilename,$point+1);
+      $ext = strtolower($ext);
+    } else
+      $ext = $iFilename;
+    
+    $oMimeType = CopixMIMETypes::getFromExtension ($ext);
+    // On regarde si on veut pas ecraser le type mime
+    if ($oMimeType == 'application/octet-stream') {
+      $tmp = MalleService::getTypeInfos ($ext);
+      if ($tmp && isset($tmp['type_mime'])) {
+        $oMimeType = $tmp['type_mime'];
+      }
+    }
+    return $oMimeType;
+  }
 
 
 

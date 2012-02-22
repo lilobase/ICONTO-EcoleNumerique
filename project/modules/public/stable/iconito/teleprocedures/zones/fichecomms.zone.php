@@ -21,7 +21,7 @@ class ZoneFicheComms extends CopixZone {
 	 */
 
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$rFiche = $this->getParam('rFiche');
 		$mondroit = $this->getParam('mondroit');
@@ -50,9 +50,8 @@ class ZoneFicheComms extends CopixZone {
 			$list[] = $r;
 		}
 		//print_r($rFiche);
-		$tpl->assign ('info_message_edition', CopixZone::process ('kernel|edition', array('field'=>'info_message', 'format'=>$rFiche->type_format, 'content'=>'', 'width'=>350, 'height'=>135, 'options'=>array('ToolbarSet'=>'Basic', 'EnterMode'=>'br', 'ToolbarStartExpanded'=>false))));
-		$tpl->assign ('info_commentaire_edition', CopixZone::process ('kernel|edition', array('field'=>'info_commentaire', 'format'=>$rFiche->type_format, 'content'=>'', 'width'=>350, 'height'=>135, 'options'=>array('ToolbarSet'=>'Basic', 'EnterMode'=>'br', 'ToolbarStartExpanded'=>false))));
-		// TODO : ToolbarSet => IconitoBasic
+		$tpl->assign ('info_message_edition', CopixZone::process ('kernel|edition', array('field'=>'info_message', 'format'=>$rFiche->type_format, 'content'=>'', 'width'=>350, 'height'=>135, 'options'=>array('toolbarSet'=>'IconitoBasic', 'enterMode'=>'br', 'toolbarStartupExpanded'=>'false'))));
+		$tpl->assign ('info_commentaire_edition', CopixZone::process ('kernel|edition', array('field'=>'info_commentaire', 'format'=>$rFiche->type_format, 'content'=>'', 'width'=>350, 'height'=>135, 'options'=>array('toolbarSet'=>'IconitoBasic', 'enterMode'=>'br', 'toolbarStartupExpanded'=>'false'))));
 		
 		$tpl->assign ('canCheckVisible', $canCheckVisible);
 		$tpl->assign ('canAddComment', $canAddComment);

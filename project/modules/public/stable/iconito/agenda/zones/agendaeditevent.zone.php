@@ -15,7 +15,7 @@ class ZoneAgendaEditEvent extends CopixZone {
 	function _createContent (&$toReturn) {
 	
 		$serviceAuth   = new AgendaAuth;
-		$tpl = & new CopixTpl ();		
+		$tpl = new CopixTpl ();		
 		
 		$toEdit = $this->getParam('toEdit');
 		//var_dump($toEdit);

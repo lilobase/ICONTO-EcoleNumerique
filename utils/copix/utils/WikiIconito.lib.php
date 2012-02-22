@@ -13,8 +13,9 @@ function iconito_multimedia ($contents, $attr){
 		default:
 			$file = rawurldecode($contents[0]);
 			if ($mode == 'download') {
-				if (file_exists ($file) || @fopen($file,'r')) {
-					$size = @filesize($file);
+			  $path = COPIX_WWW_PATH.substr($file, strpos($file, 'static'));
+				if (file_exists ($path) || fopen($path,'r')) {
+					$size = @filesize($path);
 					$size = ($size) ? ' - '.KernelMalle::human_file_size($size) : '';
 					$point = strrpos ($file, ".");
 					if ($point !== false)
@@ -77,15 +78,7 @@ function iconito_multimedia ($contents, $attr){
 			} elseif ($mode == 'mp3') {
 				$width = 200;
 				$height = 20;
-                $ret = '<div>
-                        <object type="application/x-shockwave-flash" 
-                            data="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer2.swf" 
-                            width="'.$width.'" 
-                            height="'.$height.'"> 
-                            <param name="movie" value="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer2.swf" />
-                            <param name="flashvars" value="mp3='.$file.'" />
-                        </object>
-                        </div>';
+				$ret = '<div><object type="application/x-shockwave-flash" data="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf?son='.$file.'" width="'.$width.'" height="'.$height.'"> <param name="movie" value="'.CopixUrl::getRequestedScriptPath().'dewplayer/dewplayer.swf?son='.$file.'" /><img src="'._resource ('images/music.png').'" width="16" height="16" border="0" title="MP3" alt="MP3" /></object></div>';
 			} elseif ($mode == 'wmv') {
 				$id = "media-Player".md5(mt_rand());
 				$width = 480;
@@ -107,6 +100,7 @@ function iconito_multimedia ($contents, $attr){
         showdisplay="0" showstatusbar="-1" videoborder3d="-1" width="'.$width.'" height="'.$height.'"
         src="'.$file.'" autostart="0" designtimesp="5311" loop="false">
       </embed>
+      <img src="'._resource ('images/film.png').'" width="16" height="16" border="0" title="vidéo" alt="vidéo" />
       </object></div>';
 			} elseif ($mode == 'mov' || $mode == 'amr' || $mode == 'mp4' || $mode == 'm4a') {
 				$width = 480;
@@ -121,6 +115,7 @@ function iconito_multimedia ($contents, $attr){
         <embed src="'.$file.'" width="'.$width.'" height="'.$height.'" autoplay="false" 
         controller="true" loop="false" pluginspage="http://www.apple.com/quicktime/download/">
         </embed>
+        <img src="'._resource ('images/film.png').'" width="16" height="16" border="0" title="vidéo" alt="vidéo" />
         </object></div>';
 			} elseif ($mode == 'image') {
 				$ret = '<div><img src="'.$file.'" alt="'.htmlentities($file).'" title="" /></div>';
@@ -141,20 +136,20 @@ function iconito_multimedia ($contents, $attr){
 				elseif (ereg("v=([a-zA-Z0-9_-]+)", $file, $regs))
 					$id = $regs[1];
 				if ($id)
-					$ret = '<div><object width="425" height="350" type="application/x-shockwave-flash" data="http://www.youtube.com/v/'.$id.'"><param name="movie" value="http://www.youtube.com/v/'.$id.'" /><param name="wmode" value="transparent" /></object></div>';
+					$ret = '<div><object width="425" height="350" type="application/x-shockwave-flash" data="http://www.youtube.com/v/'.$id.'"><param name="movie" value="http://www.youtube.com/v/'.$id.'" /><param name="wmode" value="transparent" /><img src="'._resource ('images/film.png').'" width="16" height="16" border="0" title="vidéo" alt="vidéo" /></object></div>';
 				else
-					$ret = '<div>Probl�me de param�tre</div>';
+					$ret = '<div>Problème de paramètre</div>';
 			} elseif ($mode == 'googlevideo') {
 				if (ereg("^([0-9-]+)$", $file))
 					$id = $contents[0];
 				elseif (ereg("docid=([0-9-]+)", $file, $regs))
 					$id = $regs[1];
 				if ($id)
-					$ret = '<div><object width="400" height="326" type="application/x-shockwave-flash" data="http://video.google.com/googleplayer.swf?docId='.$id.'"><param name="movie" value="http://video.google.com/googleplayer.swf?docId='.$id.'" /><param name="allowScriptAccess" value="sameDomain" /><param name="quality" value="best" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="salign" value="TL" /><param name="FlashVars" value="playerMode=embedded" /></object></div>';
+					$ret = '<div><object width="400" height="326" type="application/x-shockwave-flash" data="http://video.google.com/googleplayer.swf?docId='.$id.'"><param name="movie" value="http://video.google.com/googleplayer.swf?docId='.$id.'" /><param name="allowScriptAccess" value="sameDomain" /><param name="quality" value="best" /><param name="scale" value="noScale" /><param name="wmode" value="transparent" /><param name="salign" value="TL" /><param name="FlashVars" value="playerMode=embedded" /><img src="'._resource ('images/film.png').'" width="16" height="16" border="0" title="vidéo" alt="vidéo" /></object></div>';
 				else
-					$ret = '<div>Probl�me de param�tre</div>';
+					$ret = '<div>Problème de paramètre</div>';
 			} else {
-				//$ret = '<div>Mode ind�fini</div>';
+				//$ret = '<div>Mode indéfini</div>';
 			  $ret = iconito_multimedia (array($file,'download'),NULL);
 			}
 	}

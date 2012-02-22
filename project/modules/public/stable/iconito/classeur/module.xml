@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="classeur" descriptioni18n="classeur.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <parameters>
+      <parameter name="elements_par_page" default="1" />
+  	</parameters>
+</moduledefinition>

@@ -15,7 +15,7 @@ class ZoneSsoAuthList extends CopixZone {
 
     function _createContent (& $toReturn){
 
-        $tpl = & new CopixTpl ();
+        $tpl = new CopixTpl ();
 
 		$auth_list = $this->getParam('list', NULL);
 		$id = $this->getParam('id', NULL);

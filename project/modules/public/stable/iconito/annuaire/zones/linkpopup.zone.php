@@ -23,7 +23,7 @@ class ZoneLinkPopup extends CopixZone {
 		$field = ($this->getParam('field')) ? $this->getParam('field') : NULL;
 		$profil = $this->getParam('profil');
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('field', $field);
 		$tpl->assign ('profil', $profil);
     $toReturn = $tpl->fetch ('linkpopup.tpl');

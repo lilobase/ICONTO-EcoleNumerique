@@ -23,7 +23,7 @@ class ZoneComboEmpty extends CopixZone {
 		$fieldName = ($this->getParam('fieldName')) ? $this->getParam('fieldName') : NULL;
 		$attribs = ($this->getParam('attribs')) ? $this->getParam('attribs') : NULL;
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign('value', $value);
 		$tpl->assign('fieldName', $fieldName);
 		$tpl->assign('attribs', $attribs);

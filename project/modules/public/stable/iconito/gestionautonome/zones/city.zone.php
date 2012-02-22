@@ -1,10 +1,14 @@
 <?php
-
 /**
- * Affichage des villes
- */
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneCity extends CopixZone {
-
+  
+  /**
+   * Affichage des villes
+   */
 	function _createContent (& $toReturn) {
 	  
 	  $ppo = new CopixPPO ();

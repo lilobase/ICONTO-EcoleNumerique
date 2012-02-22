@@ -7,9 +7,9 @@
 	</datasource>
 	<properties>
 		<property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.module_quiz_questions.fields.id" />
+                <property name="name" fieldname="name" pk="no" type="string" required="yes" captioni18n="dao.module_quiz_questions.fields.name" />
 		<property name="id_quiz" fieldname="id_quiz" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_questions.fields.id_quiz" />
-		<property name="content_txt" fieldname="content_txt" pk="no" type="string" required="no" captioni18n="dao.module_quiz_questions.fields.content_txt" />
-		<property name="content_pic" fieldname="content_pic" pk="no" type="string" required="no" captioni18n="dao.module_quiz_questions.fields.content_pic" />
+		<property name="content" fieldname="content" pk="no" type="string" required="no" captioni18n="dao.module_quiz_questions.fields.content" />
 		<property name="order" fieldname="order" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_questions.fields.order" />
                 <property name="opt_type" fieldname="opt_type" pk="no" type="string" required="yes" captioni18n="dao.module_quiz_questions.fields.opt_show_type" />
 

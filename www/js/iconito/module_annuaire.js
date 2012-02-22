@@ -6,9 +6,8 @@ function change_classe (obj,form) {
 
 function change_ecole (obj,form) {
 	if (obj.value=="" || obj.value=="0") return;
-	var classe = getRef ("classe");
-	if (classe && classe.selectedIndex>1) 
-		classe.selectedIndex=0;
+  if ($('select[name=classe]').val())
+    $('select[name=classe]').val('');
 	form.submit();
 }
 
@@ -16,22 +15,25 @@ function change_ville (obj,form) {
 	if (obj.value=="" || obj.value=="0") return;
 	var ecole = getRef ("ecole");
 	var classe = getRef ("classe");
-	if (ecole && ecole.selectedIndex>1)
-		ecole.selectedIndex=0;
-	if (classe && classe.selectedIndex>1)
-		classe.selectedIndex=0;
+  if ($('select[name=classe]').val())
+    $('select[name=classe]').val('');
+  if ($('select[name=ecole]').val())
+    $('select[name=ecole]').val('');
 	form.submit();
 }
 
 function click_all (field, tab) {
 	var logins = eval("tab_"+tab);
 	for (var i=0, add=true, res="" ; i < logins.length; i++) {
-		res = window.opener.add_destin (logins[i], field);
-		if (res) add=false;
+		if (window.opener) {
+            res = window.opener.add_destin (logins[i], field);
+            if (res) add=false;
+            else $('input[type=checkbox][value='+logins[i]+']').attr('checked','checked');
+        }
 	}
 	if (res)
 		alert (res);
-	self.close();
+	//self.close();
 }
 
 function open_annuaire (field) {
@@ -89,7 +91,7 @@ function add_destin (login, field) {
 			logins = dest.value.replace(/ /g,"");
 	    tab = logins.split(',');
 			//alert (tab.length);
-			if (tab.length>=limit)
+			if (0 && tab.length>=limit)
 				res = i18n_minimail_limit_dest+"\n";
 			else
 				dest.value += ', '+login;
@@ -114,39 +116,27 @@ function del_destin (login, field) {
 }
 
 
-/* Carte Google Map */
-function loadGoogleMapsEcole (latitude, longitude, isAjax) {
-	if (GBrowserIsCompatible()) {
-		var map = new GMap2(document.getElementById('googleMap'));
-		map.setCenter(new GLatLng(latitude,longitude),14);
-		//if (!isAjax) map.addControl(new GMapTypeControl()); // Map/sat/hybrid
-		if (!isAjax) map.addControl(new GSmallMapControl());
-		map.addOverlay(new GMarker(new GLatLng(latitude,longitude)));
-	} else {
-		alert('Probleme : votre navigateur n\'est pas compatible avec Google Maps');
-	}
-}
+jQuery(document).ready(function($){
+
+    $.get(getActionURL('kernel|default|i18n'), { key: 'annuaire|annuaire.popup.close' }, function(data){
+        if (data) {
+            $.get(getActionURL('kernel|default|i18n'), { key: 'annuaire|annuaire.popup.explain2js' }, function(data2){
+                $('p.endForm').html('<a href="#" class="button button-confirm">'+data+'</a>');
+                $('p.explain span').html(data2);
+                $('p.endForm a.button-confirm').click(function(){
+                    self.close();
+                    return false;
+                });
+            });
+        }
+    });
 
 
-function ficheViewBlogs (ecoleId, annee) {
-	if ($('ficheblogs').innerHTML == '' || annee!='close') {
-		//Element.toggle('ficheblogs');
-		$('ficheblogs').style.display = 'block';
-		//$('ficheblogs').style.display
-		$('ficheblogs').innerHTML = '<div align="center"><img src="'+getRessourcePathImg+'ajax-loader.gif" width="24" height="24" border="0" vspace="3" alt="loading" /></div>';
-		var url = getActionURL('fichesecoles|default|blogs');
-		var pars = 'id='+ecoleId+'&annee='+annee;
-	  var myAjax = new Ajax.Updater(
-			{success: 'ficheblogs'},
-	    url,
-	    {method: 'get', parameters: pars }
-	  );
-		
-	} else if (annee == 'close') {
-		//alert ('a');
-		Element.toggle('ficheblogs');
-	}
-}
+    
+});
+
+
+
 
 
 

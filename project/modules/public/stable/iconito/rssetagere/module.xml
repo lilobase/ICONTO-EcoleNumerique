@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moduledefinition>
+    <general>
+        <default name="rssEtagere" />
+    </general>
+    <parameters>
+        <parameter name="rss_url" captioni18n="rssetagere.url" default="https://www.coreprim.fr/getRssEtagere.html" />
+	   </parameters>
+</moduledefinition>

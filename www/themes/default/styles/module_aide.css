@@ -21,18 +21,18 @@ DIV.helpLinksBloc {
 }
 /* Voir aussi */
 DIV.helpLinks {
-	background-color: #E2ED8A;
+	background-color: #fff;
+	border: solid 1px #000;
 	border-radius: 15px;
 	-moz-border-radius: 15px;
 	khtml-border-radius: 15px;
 	padding: 6px;
-	border: solid 2px #B2BC60;
 	width: 160px;
 	margin-top: 50px;
 }
 DIV.helpLinks IMG.lucien {
 	position: absolute;
-	margin-top: -71px;
+	margin-top: -70px;
 	margin-left: 95px;
 }
 DIV.helpLinks UL {

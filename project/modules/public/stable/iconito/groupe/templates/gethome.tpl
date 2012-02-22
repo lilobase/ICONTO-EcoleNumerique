@@ -3,7 +3,7 @@
 
 <DIV CLASS="groupe_actu_bloc">
 
-<DIV CLASS="groupe_actu"><img class="lucien" src="{copixresource path="img/groupe/lucien_coude.gif"}" alt="lucien_coude.gif" width="62" height="63" border="0" />
+<DIV CLASS="groupe_actu block">
 
 
 
@@ -20,6 +20,10 @@
 </DIV>
 
 </DIV>
+
+
+
+
 
 {if $his_modules neq null}
 	{foreach from=$his_modules item=val_modules key=key_modules}

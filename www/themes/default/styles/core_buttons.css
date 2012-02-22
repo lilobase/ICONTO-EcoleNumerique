@@ -1,0 +1,426 @@
+/**
+ * THEMES - core_buttons.css
+ * Mise en forme des boutons
+ *
+ * @package	Iconito 2010
+ * @cdate 22.01.2010
+ * @mdate 22.01.2010
+ * @author	Stephane Holtz <sholtz@cap-tic.fr>
+ */
+
+/************************************************
+ * STANDARD BUTTONS
+ ***********************************************/
+.loading-button {
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+	width: 48%;
+	margin: auto;
+	}
+
+.loading-button a {
+	position: relative;
+    display: block;
+    width: 80%;
+    min-height: 140px;
+    font-size: 100%;
+    text-align: center;
+    margin: 5% 10%;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+	border-radius: 10px;
+	/*behavior: url(/htc/PIE.htc);*/
+    background-color: #f0f4f0;
+    padding: 6px;
+	}
+
+.loading-button a:hover {
+    background-color: #ffffff;
+	}
+
+.loading-button a div.button-title {
+	font-size: 220%;
+	color: #999;
+	margin: 40px 0;
+	}
+
+.loading-button a div.button-subline {
+    font-size: 90%;
+    line-height: 90%;
+	}
+
+.button {
+	position: relative;
+	display: inline-block;
+	font-size: 12px;
+	padding: 3px 6px 3px 6px;
+	overflow: visible;
+	min-width: 26px;
+	background-color : #fff;
+	border: solid 1px #fff;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	/*behavior: url(/htc/PIE.htc);*/
+	}
+	
+.button:hover {
+	background-color: #f0f4f0;
+	border: solid 1px #bad521;
+	cursor: pointer;
+	}
+
+.button-view		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_read.png) 4px 50% no-repeat; }
+.button-update		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_update.png) 4px 50% no-repeat; }
+.button-results		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_results.png) 4px 50% no-repeat; }
+.button-save		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_save.png) 4px 50% no-repeat; }
+.button-add			{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_add.png) 4px 50% no-repeat; }
+.button-delete		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_delete.png) 4px 50% no-repeat; }
+.button-cancel		{ padding-left: 26px; background: #f9f9f9 url(../../../themes/default/images/button-action/action_cancel.png) 4px 50% no-repeat; }
+.button-continue	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_continue.png) 4px 50% no-repeat; }
+.button-back		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_back.png) 4px 50% no-repeat; }
+.button-next		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_next.png) 4px 50% no-repeat; }
+.button-previous	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_previous.png) 4px 50% no-repeat; }
+.button-continue	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_continue.png) 4px 50% no-repeat; }
+.button-info		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_info.png) 4px 50% no-repeat; }
+.button-attach		{ display:inline; margin-top:5px; padding-left:26px; background: #fff url(../../../themes/default/images/button-action/action_attach.png) 4px 50% no-repeat; }
+.button-file		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_attach.png) 4px 50% no-repeat; }
+.button-confirm		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_confirm.png) 4px 50% no-repeat; }
+.button-print		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_print.png) 4px 50% no-repeat; }
+.button-reload		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_reload.png) 4px 50% no-repeat; }
+.button-up			{ padding-left: 24px; background: #fff url(../../../themes/default/images/button-action/action_up.png) 4px 50% no-repeat; }
+.button-down		{ padding-left: 24px; background: #fff url(../../../themes/default/images/button-action/action_down.png) 4px 50% no-repeat; }
+.button-download	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_download.png) 3px 50% no-repeat; }
+.button-upload		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_upload.png) 3px 50% no-repeat; }
+.button-move		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_move.png) 3px 50% no-repeat; }
+.button-copy		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_copy.png) 3px 50% no-repeat; }
+.button-image		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_image.png) 4px 50% no-repeat; }
+.button-imagevalid	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_imagevalid.png) 4px 50% no-repeat; }
+.button-imagedelete	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_imagedelete.png) 4px 50% no-repeat; }
+.button-directory	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_directory.png) 4px 50% no-repeat; }
+.button-search		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_search.png) 4px 50% no-repeat; }
+
+.button-p-first		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_first.png) 4px 50% no-repeat; }
+.button-p-previous	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_previous.png) 4px 50% no-repeat; }
+.button-p-play		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_play.png) 4px 50% no-repeat; }
+.button-p-pause		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_pause.png) 4px 50% no-repeat; }
+.button-p-stop		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_stop.png) 4px 50% no-repeat; }
+.button-p-open		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_open.png) 4px 50% no-repeat; }
+.button-p-next		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_next.png) 4px 50% no-repeat; }
+.button-p-last		{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_last.png) 4px 50% no-repeat; }
+.button-p-record	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_record.png) 4px 50% no-repeat; }
+.button-p-replay	{ padding-left: 26px; background: #fff url(../../../themes/default/images/button-action/action_p_replay.png) 4px 50% no-repeat; }
+
+.button-sortup, .button-sortdown {
+	padding-left:26px;
+	background:#fff 4px 50% no-repeat;
+}
+
+.button-sortup { background-image:url(../../../themes/default/images/sort_up_off.png);}
+.button-sortdown { background-image:url(../../../themes/default/images/sort_down_off.png);}
+
+.button-sortup:hover { background-image:url(../../../themes/default/images/sort_up_on.png);}
+.button-sortdown:hover { background-image:url(../../../themes/default/images/sort_down_on.png);}
+	
+.button-drag {
+	position: relative;
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	height: 36px;
+	width: 11px;
+	vertical-align: middle;
+	}
+	
+/************************************************
+ * MODULES SUBMENU BUTTONS
+ ***********************************************/
+#submenu {
+	position: absolute;
+	overflow: hidden;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 999;
+	filter: alpha(opacity=95);
+	-moz-opacity: 0.95;
+	opacity: 0.95;
+	border-bottom: solid 1px #fff;
+	}
+
+.submenu-marger {
+	margin-top: 42px;
+	}
+
+#submenu .menuitems {
+	position: relative;
+/*	display: none;*/
+	display: block;
+	background:#e0e0e0;
+	border-bottom: solid 1px #ccc;
+	font-size:90%;
+	line-height: 90%;
+	}
+
+#submenu .menuitems ul {
+	position: relative;
+	list-style-type: none;
+	list-style-position: outside;
+	list-style-image: none;
+	overflow:auto;
+	margin: 0px;
+	padding: 2px;
+	text-align: center;
+/*	height:38px; overflow:hidden;*/
+	}
+
+#submenu .menuitems ul li {
+	position: relative;
+	display:inline-block;
+	overflow: hidden;
+	vertical-align: middle;
+	text-align: left;
+	padding: 2px;
+	}
+	
+#submenu .menuitems ul li a {
+	position: relative;
+	display: inline-block;
+	white-space:nowrap;
+	overflow: hidden;
+	vertical-align: middle;
+	padding: 2px 2px 2px 28px;
+	width: 84px;
+	height: 28px;
+	background-color : #f0f4f0;
+	background-position: 2px 50%;
+	background-repeat: no-repeat;
+	border: solid 1px #f0f4f0;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	/*behavior: url(/htc/PIE.htc);*/
+	}
+
+#submenu .menuitems a.current {
+	background-color: #ccc;
+	border: solid 1px #bbb;
+	color: #fff;
+	}
+
+#submenu .menuitems ul li a span {
+	position: relative;
+	vertical-align: middle;
+	display: inline-block;
+	white-space: normal;
+	overflow: visible;
+	}
+
+span.valign {
+	height: 100%;
+	}
+
+#submenu .menuitems a 				{ background-image: url(../../../themes/default/images/menu/menu_default.png); }
+#submenu .menuitems a.create 		{ background-image: url(../../../themes/default/images/menu/menu_create.png); }
+#submenu .menuitems a.read			{ background-image: url(../../../themes/default/images/menu/menu_read.png); }
+#submenu .menuitems a.update		{ background-image: url(../../../themes/default/images/menu/menu_update.png); }
+#submenu .menuitems a.delete		{ background-image: url(../../../themes/default/images/menu/menu_delete.png); }
+#submenu .menuitems a.list			{ background-image: url(../../../themes/default/images/menu/menu_list.png); }
+#submenu .menuitems a.list-active	{ background-image: url(../../../themes/default/images/menu/menu_list_active.png); }
+#submenu .menuitems a.list-inactive	{ background-image: url(../../../themes/default/images/menu/menu_list_inactive.png); }
+#submenu .menuitems a.viewList		{ background-image: url(../../../themes/default/images/menu/menu_viewList.png); }
+#submenu .menuitems a.viewThumbs	{ background-image: url(../../../themes/default/images/menu/menu_viewThumbs.png); }
+#submenu .menuitems a.results		{ background-image: url(../../../themes/default/images/menu/menu_results.png); }
+#submenu .menuitems a.article		{ background-image: url(../../../themes/default/images/menu/menu_article.png); }
+#submenu .menuitems a.link			{ background-image: url(../../../themes/default/images/menu/menu_link.png); }
+#submenu .menuitems a.tag			{ background-image: url(../../../themes/default/images/menu/menu_tag.png); }
+#submenu .menuitems a.image			{ background-image: url(../../../themes/default/images/menu/menu_image.png); }
+#submenu .menuitems a.page			{ background-image: url(../../../themes/default/images/menu/menu_page.png); }
+#submenu .menuitems a.rss			{ background-image: url(../../../themes/default/images/menu/menu_rss.png); }
+#submenu .menuitems a.acl			{ background-image: url(../../../themes/default/images/menu/menu_acl.png); }
+#submenu .menuitems a.users			{ background-image: url(../../../themes/default/images/menu/menu_users.png); }
+#submenu .menuitems a.document		{ background-image: url(../../../themes/default/images/menu/menu_attach.png); }
+#submenu .menuitems a.options		{ background-image: url(../../../themes/default/images/menu/menu_options.png); }
+#submenu .menuitems a.agendalist	{ background-image: url(../../../themes/default/images/menu/menu_agendalist.png); }
+#submenu .menuitems a.week			{ background-image: url(../../../themes/default/images/menu/menu_week.png); }
+#submenu .menuitems a.download		{ background-image: url(../../../themes/default/images/menu/menu_download.png); }
+#submenu .menuitems a.export		{ background-image: url(../../../themes/default/images/menu/menu_export.png); }
+#submenu .menuitems a.import		{ background-image: url(../../../themes/default/images/menu/menu_import.png); }
+#submenu .menuitems a.addfile		{ background-image: url(../../../themes/default/images/menu/menu_addfile.png); }
+#submenu .menuitems a.addfolder		{ background-image: url(../../../themes/default/images/menu/menu_addfolder.png); }
+#submenu .menuitems a.write			{ background-image: url(../../../themes/default/images/menu/menu_write.png); }
+#submenu .menuitems a.move			{ background-image: url(../../../themes/default/images/menu/menu_move.png); }
+#submenu .menuitems a.copy			{ background-image: url(../../../themes/default/images/menu/menu_copy.png); }
+#submenu .menuitems a.todo			{ background-image: url(../../../themes/default/images/menu/menu_todo.png); }
+#submenu .menuitems a.classroom		{ background-image: url(../../../themes/default/images/menu/menu_classroom.png); }
+#submenu .menuitems a.chart			{ background-image: url(../../../themes/default/images/menu/menu_chart.png); }
+#submenu .menuitems a.page			{ background-image: url(../../../themes/default/images/menu/menu_full_page.png); }
+#submenu .menuitems a.event			{ background-image: url(../../../themes/default/images/menu/menu_event.png); }
+#submenu .menuitems a.back			{ background-image: url(../../../themes/default/images/menu/menu_back.png); }
+#submenu .menuitems a.print			{ background-image: url(../../../themes/default/images/menu/menu_print.png); }
+
+#submenu .menuitems a:hover			{ background-color: #fff; border: solid 1px #bad521; color:#999; }
+
+/************************************************
+ * DASHBOARD MODULES BUTTONS
+ ***********************************************/
+div.dashpanel ul li a.MOD_CHARTE 			{ background-image: url(../../../themes/default/images/mod_charte.png); }
+div.dashpanel ul li a.MOD_SYSUTILS 			{ background-image: url(../../../themes/default/images/mod_sysutils.png); }
+div.dashpanel ul li a.MOD_ADMIN 			{ background-image: url(../../../themes/default/images/mod_preferences.png); }
+div.dashpanel ul li a.MOD_AGENDA 			{ background-image: url(../../../themes/default/images/mod_agenda.png); }
+div.dashpanel ul li a.MOD_ALBUM 			{ background-image: url(../../../themes/default/images/mod_album.png); }
+div.dashpanel ul li a.MOD_BLOG 				{ background-image: url(../../../themes/default/images/mod_blog.png); }
+div.dashpanel ul li a.MOD_MALLE,
+div.dashpanel ul li a.MOD_CLASSEUR 			{ background-image: url(../../../themes/default/images/mod_malle.png); }
+div.dashpanel ul li a.MOD_CARNET 			{ background-image: url(../../../themes/default/images/mod_carnet.png); }
+div.dashpanel ul li a.MOD_COMPTES			{ background-image: url(../../../themes/default/images/mod_comptes.png); }
+div.dashpanel ul li a.MOD_FORUM				{ background-image: url(../../../themes/default/images/mod_forum.png); }
+div.dashpanel ul li a.MOD_QUIZ				{ background-image: url(../../../themes/default/images/mod_quiz.png); }
+div.dashpanel ul li a.MOD_REGROUPEMENTS		{ background-image: url(../../../themes/default/images/mod_grvilles.png); }
+div.dashpanel ul li a.MOD_LISTE				{ background-image: url(../../../themes/default/images/mod_liste.png); }
+div.dashpanel ul li a.MOD_RESSOURCE			{ background-image: url(../../../themes/default/images/mod_ressources.png); }
+div.dashpanel ul li a.MOD_SSOGAEL			{ background-image: url(../../../themes/default/images/mod_fake.png); }
+div.dashpanel ul li a.MOD_TELEPROCEDURES	{ background-image: url(../../../themes/default/images/mod_teleprocedures.png); }
+div.dashpanel ul li a.MOD_VISIOSCOPIA		{ background-image: url(../../../themes/default/images/mod_visio.png); }
+div.dashpanel ul li a.MOD_MAGICMAIL			{ background-image: url(../../../themes/default/images/mod_magicmail.png); }
+div.dashpanel ul li a.MOD_GESTIONAUTONOME	{ background-image: url(../../../themes/default/images/mod_comptes.png); }
+div.dashpanel ul li a.MOD_CONTACT           { background-image: url(../../../themes/default/images/mod_liste.png); }
+div.dashpanel ul li a.MOD_KNE               { background-image: url(../../../themes/default/images/mod_kne.png); }
+div.dashpanel ul li a.MOD_CAHIERDETEXTES    { background-image: url(../../../themes/default/images/mod_cahierdetextes.png);}
+div.dashpanel ul li a.MOD_CERISEPRIM        { background-image: url(../../../themes/default/images/mod_ceriseprim.png);}
+div.dashpanel ul li a.MOD_RSSETAGERE        { background-image: url(../../../themes/default/images/mod_ressources.png);}
+
+/************************************************
+ * USER MENU BUTTONS
+ ***********************************************/
+ul.usermenu li a.menu-accueil		{ background: url(../../../themes/default/images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-groupe		{ background: url(../../../themes/default/images/mod_fake_28.png) no-repeat center top; }
+ul.usermenu li a.menu-ressource		{ background: url(../../../themes/default/images/mod_user_ressources.png) no-repeat center top; }
+ul.usermenu li a.menu-annuaire		{ background: url(../../../themes/default/images/mod_user_annuaire.png) no-repeat center top; }
+ul.usermenu li a.menu-minimail		{ background: url(../../../themes/default/images/mod_user_mail.png) no-repeat center top; }
+ul.usermenu li a.menu-malle,
+ul.usermenu li a.menu-classeur		{ background: url(../../../themes/default/images/mod_user_malle.png) no-repeat center top; }
+ul.usermenu li a.menu-agenda		{ background: url(../../../themes/default/images/mod_user_agenda.png) no-repeat center top; }
+ul.usermenu li a.menu-prefs			{ background: url(../../../themes/default/images/mod_user_preferences.png) no-repeat center top; }
+ul.usermenu li a.menu-aide			{ background: url(../../../themes/default/images/mod_user_aide.png) no-repeat center top; }
+ul.usermenu li a.menu-assistance	{ background: url(../../../themes/default/images/mod_user_assistance.png) no-repeat center top; }
+ul.usermenu li a.menu-visio			{ background: url(../../../themes/default/images/mod_user_visio.png) no-repeat center top; }
+
+/************************************************
+ * ASK FOR NEW ACCOUNT BUTTON
+ ***********************************************/
+a.usr-newaccount {
+    position: relative;
+    display: block;
+    width: 48px;
+    height: 48px;
+    background: url(../../../themes/default/images/usr_newaccount.png) no-repeat center center;
+    }
+
+/************************************************
+ * CONTEXTUAL PROGRESS BAR
+ ***********************************************/
+#stepbar {
+	position: absolute;
+	display: inline;
+	padding: 0px;
+	margin: 0px;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 50px;
+	background: #f0f4f0 url(../../../themes/default/images/thm_stepbar_bg.png) repeat-x 0 0;
+	}
+ 
+#stepbar-restore {
+	position: relative;
+	margin-top: 50px;
+	}
+ 
+#stepbar .sb-step {
+	position: relative;
+	float: left;
+	display: block;
+	height: 30px;
+	margin: 0px;
+	padding: 14px 14px 6px 6px;
+	background: url(../../../themes/default/images/thm_stepbar_arrow.png) no-repeat 100% 0;
+	color: #666;
+	font-size: 16px;
+	letter-spacing: -0.02em;
+	z-index: 999;
+	}
+ 
+#stepbar .sb-step-active {
+	position: relative;
+	float: left;
+	display: block;
+	height: 30px;
+	margin: 0px;
+	margin-left: -16px;
+	padding: 14px 14px 6px 22px;
+	background: url(../../../themes/default/images/thm_stepbar_arrow_active.png) no-repeat 100% 0;
+	color: #444;
+	font-size: 16px;
+	letter-spacing: -0.02em;
+	}
+ 
+#stepbar .sb-step-first {
+	position: relative;
+	float: left;
+	display: block;
+	height: 42px;
+	margin: 0px;
+	padding: 4px 16px 4px 4px;
+	background: url(../../../themes/default/images/thm_stepbar_arrow.png) no-repeat 100% 0;
+	z-index: 999;
+	}
+ 
+#stepbar .sb-message {
+	position: relative;
+	float: left;
+	display: block;
+	padding: 14px 6px 6px 6px;
+	font-style: italic;
+	color: #444;
+	}
+ 
+a.sb-list {
+	position: relative;
+	display: inline-block;
+	background: url(../../../themes/default/images/button_list_off.png) no-repeat 100% 0;
+	top: 0px;
+	left: 0px;
+	height: 42px;
+	width: 42px;
+	margin: 0px;
+	padding: 0px;
+	}
+ 
+a.sb-list:hover {
+	background: url(../../../themes/default/images/button_list_on.png) no-repeat 100% 0;
+	}
+
+
+/************************************************
+ * MULTI-PAGE LINKS
+ ***********************************************/
+.pagerContainer {
+	position:relative;
+	clear:both;
+	margin:15px 0 5px; 
+	text-align:center;
+}
+.pagerContainer .totalPages {
+	position:absolute; top:0; right:2px;
+	color:#777;
+	font-size:0.9em; font-style:italic;
+}
+.pagerContainer p {margin:0 0 4px;}
+.pagerContainer strong {
+	border-bottom:1px dotted;
+}
+.pagerContainer a img {
+	margin-bottom:-2px; border:none;
+}

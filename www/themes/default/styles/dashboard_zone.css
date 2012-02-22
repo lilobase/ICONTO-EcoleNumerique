@@ -1,0 +1,68 @@
+/* 
+    Document   : dashboard_zone
+    Created on : 8 juin 2010, 14:55:34
+    Author     : arnox
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+.dashboard-zone-title{
+    text-align: center;
+}
+
+.dashboard-item{
+    margin: 0px;
+    margin-left: 25px;
+    list-style: none;
+    padding: 5px;
+}
+
+.dashboard-item li {
+	display: inline-block;
+	margin-right: 20px;
+	width: 160px;
+}
+
+.dashboard-big-item li {
+	display: inline-block;
+	margin-right: 20px;
+	width: 240px;
+	line-height: 1.2em;
+	margin-bottom: 0.4em;
+}
+
+.dashboard-list {
+	text-decoration: none;	
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #AAA;
+}
+
+.dashboard-zone-img{
+    margin: 5px 85px 5px 25px;
+    float:left;
+}
+
+.admindash img{
+    margin: 5px;
+    margin-right: 20px;
+    float: left;
+}
+
+#admindash_lower {
+font-size: 0.8em;
+padding: 0.5em;
+padding-left: 30px;
+padding-right: 90px;
+}
+
+a.modif_dash{;
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}

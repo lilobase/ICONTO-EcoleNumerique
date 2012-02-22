@@ -7,8 +7,9 @@
 
 	<parameters>
 		<parameter name="photo_size" captioni18n="album.parameter.photo_size" default="640" />
+		<parameter name="photo_publ_size" captioni18n="album.parameter.photo_publ_size" default="1024" />
 		<parameter name="thumb_sizes_off" captioni18n="album.parameter.thumb_sizes_off" default="s16,s32,s64,s128,64,128,160,240,320,480,640,800" />
-		<parameter name="thumb_sizes" captioni18n="album.parameter.thumb_sizes" default="s64,s128,240,480,640" />
+		<parameter name="thumb_sizes" captioni18n="album.parameter.thumb_sizes" default="s64,s128,240,480,640,800,1024" />
 		<parameter name="file_size_photo" captioni18n="album.parameter.file_size_photo" default="2097152" />
 		<parameter name="file_size_zip" captioni18n="album.parameter.file_size_zip" default="20971520" />
 	</parameters>

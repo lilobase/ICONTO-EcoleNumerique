@@ -6,7 +6,7 @@
  * @subpackage	Malle
  */
 
-require_once (COPIX_UTILS_PATH.'pclzip.lib.php');
+require_once (COPIX_UTILS_PATH.'pclzip-2-8-2.lib.php');
  
 class ActionGroupMalle extends CopixActionGroup {
 
@@ -104,15 +104,9 @@ class ActionGroupMalle extends CopixActionGroup {
 			} else {
 				$title = (isset($parent["nom"])) ? $parent["nom"] : CopixI18N::get('malle.moduleDescription');
 			}
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $title);
-			if ($dispMenu) {
-				//$tpl->assign ('MENU', '<a href="'.CopixUrl::get (''.$parent["module"].'||go', array("id"=>$parent["id"])).'">'.CopixI18N::get ('malle|malle.backMalle').'</a>');
-				$returntoparent = Kernel::menuReturntoParent( "MOD_MALLE", $id, array('parent'=>$parent) );
-				if ($returntoparent) $menu = array($returntoparent);
-				$tpl->assign ('MENU', $menu);
-			}
-			
+
 			$can = array(
 				'file_download'=>$malleService->canMakeInMalle("FILE_DOWNLOAD",$mondroit),
 				'file_upload'=>$malleService->canMakeInMalle("FILE_UPLOAD",$mondroit),
@@ -124,7 +118,33 @@ class ActionGroupMalle extends CopixActionGroup {
 				'item_downloadZip'=>$malleService->canMakeInMalle("ITEM_DOWNLOAD_ZIP",$mondroit),
 			);
 			//print_r($can);
-			$tplMalle = & new CopixTpl ();
+
+    $nbFiles = count($files);
+    $nbFolders = count($folders);
+    
+		// CONSTRUCTION DU MENU
+		// S.Holtz 2010.09
+		$menu = array();
+		$size = 64;
+		if ($can['file_upload'])
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.addfile'),'type' => 'addfile', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddFile', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['file_upload'])
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.addweb'),'type' => 'addfile addweb', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddWeb', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['folder_create'])
+			$menu[] = array('txt'=>CopixI18N::get ('malle.menu.addfolder'),'type' => 'addfolder', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptAddFolder', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['item_copy'] && ($nbFiles>0 || $nbFolders>0))
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.copy'),'type' => 'copy', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptCopyItems', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['item_move'] && ($nbFiles>0 || $nbFolders>0))
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.move'),'type' => 'move', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptMoveItems', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['item_delete'] && ($nbFiles>0 || $nbFolders>0))
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.delete'),'type' => 'delete', 'size' => $size, 'behavior' => 'fancybox', 'url' => CopixUrl::get ('malle|malle|promptDeleteItems', array('id'=>$id, 'folder'=>$folder)));
+		if ($can['item_downloadZip'] && ($nbFiles>0 || $nbFolders>0))
+			$menu[] = array('txt'=>CopixI18N::get('malle.menu.download'),'type' => 'download', 'size' => $size+10, 'url' => CopixUrl::get ('malle|malle|promptDownloadZip', array('id'=>$id, 'folder'=>$folder)));
+		$tpl->assign ('MENU', $menu);
+		// FIN CONSTRUCTION DU MENU
+
+
+			$tplMalle = new CopixTpl ();
 			$tplMalle->assign ('id', $id);
 			$tplMalle->assign ('folder', $folder);
 			$tplMalle->assign ('folders', $folders);
@@ -135,7 +155,9 @@ class ActionGroupMalle extends CopixActionGroup {
 			$tplMalle->assign ('combofoldersdest', CopixZone::process ('malle|combofolders', array('malle'=>$id, 'folder'=>$folder, 'fieldName'=>'folderDest', 'attribs'=>'style="width:100%;"')));
 			$tplMalle->assign ('combofolders', CopixZone::process ('malle|combofolders', array('malle'=>$id, 'folder'=>$folder, 'fieldName'=>'folder', 'attribs'=>'ONCHANGE="this.form.submit();"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>CopixI18N::get ('malle|malle.comboDirectAccess'))))));
 			$tplMalle->assign ("uploadMaxSize", CopixConfig::get ('malle|uploadMaxSize') );
-
+        
+      //Kernel::myDebug($files);
+      
 			//if ($mondroit>=PROFILE_CCV_PUBLISH)	$tplForum->assign ('canPublish', 1);
 			//else																$tplForum->assign ('canPublish', 0);
 
@@ -145,6 +167,74 @@ class ActionGroupMalle extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		}
 	}
+
+
+	// POPUP D'AJOUT DE FICHIER SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptAddFile() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		$ppo->uploadMaxSize = CopixConfig::get ('malle|uploadMaxSize');
+		return _arPPO ($ppo, array ('template'=>'popup_addfile.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+	}
+	
+	// POPUP D'AJOUT DE DOSSIER SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptAddFolder() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		return _arPPO ($ppo, array ('template'=>'popup_addfolder.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+	}
+   
+	// POPUP DE COPIE SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptCopyItems() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
+		return _arPPO ($ppo, array ('template'=>'popup_copyitems.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+	}
+   
+	// POPUP DE DEPLACEMENT SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptMoveItems() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		$ppo->combofoldersdest = CopixZone::process ('malle|combofolders', array('malle'=>$ppo->id, 'folder'=>$ppo->folder, 'fieldName'=>'folderDest', 'attribs'=>'multiple size="6" style="width: 100%;"'));
+		return _arPPO ($ppo, array ('template'=>'popup_moveitems.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+	}
+   
+	// POPUP DE SUPPRESSION SUR BOUTON DE MENU
+	// S.Holtz 2010.09
+	function processPromptDeleteItems() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		return _arPPO ($ppo, array ('template'=>'popup_deleteitems.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+	}
+   
+   /**
+	 * Affichage d'une malle en popup, permettant de sélectionner un ou plusieurs fichiers à insérer dans une zone de saisie formaté wiki (blog, forum...)
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2006/11/23
+	 * @param integer $id Id de la malle
+	 * @param integer $folder Id du répertoire
+	 * @param array $errors (option) Erreurs rencontrées
+	 * @param string $field Champ utilisé dans la fenêtre "en-dessous"
+	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
+   */
+	function processPromptDownloadZip() {
+		$ppo = new CopixPPO ();
+		$ppo->id = $this->getRequest ('id', null);
+		$ppo->folder = $this->getRequest ('folder', 0);
+		return _arPPO ($ppo, array ('template'=>'popup_deleteitems.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+	}
+   
 
 
    /**
@@ -244,16 +334,110 @@ class ActionGroupMalle extends CopixActionGroup {
 			$ppo->abspath = $abspath;
 			*/
 			
-			CopixHTMLHeader::addCSSLink (_resource("styles/module_malle.css")); 
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_malle_popup.css")); 
 			CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js")); 
 
 
-			return _arPPO ($ppo, array ('template'=>'getmallepopup.tpl', 'mainTemplate'=>'default|main_popup.php'));
+			return _arPPO ($ppo, array ('template'=>'getmallepopup.tpl', 'mainTemplate'=>'main|main_popup.php'));
 			
 		}
 	}
 
+
+
+   /**
+	 * POPUP de selection ou d'upload d'un fichier unique
+	 * 
+	 * @author Stephane Holtz <sholtz@cap-tic.fr>
+	 * @since 2010/07/29
+	 * @param integer $id Id de la malle
+	 * @param integer $folder Id du répertoire
+	 * @param array $errors (option) Erreurs rencontrées
+	 * @param string $field Champ utilisé dans la fenêtre "en-dessous"
+	 * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
+   */
+   function processGetFilePopup () {
+	 	
+		$ppo = new CopixPPO ();
+		
+		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
+		$malleService = & CopixClassesFactory::Create ('malle|malleService');
+	 	$daoMalles = CopixDAOFactory::create("malle|malle_malles");
+	 	$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+	 	$daoFiles = CopixDAOFactory::create("malle|malle_files");
+		
+		$id = $this->getRequest ('id', null);
+		$folder = $this->getRequest ('folder', 0);
+		$errors = $this->getRequest ('errors', array());
+		$field = $this->getRequest ('field', null);
+		$format = $this->getRequest ('format', null);
+    
+		$criticErrors = array();
+		
+		if ($folder) {
+			$rFolder = $daoFolders->get($folder);
+			if (!$rFolder)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
+			elseif ($rFolder->malle != $id)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
+		} else {
+			$rMalle = $daoMalles->get($id);
+			if (!$rMalle)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
+		}
+		if (!$criticErrors) {
+			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
+			//print_r($mondroit);
+			if (!$malleService->canMakeInMalle("READ",$mondroit))
+				$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+			else {
+				$parent = $kernelService->getModParentInfo( "MOD_MALLE", $id);
+				//print_r($parent);
+			}
+		}
+		
+		if ($criticErrors) {
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('malle||')));
+		} else {
+		
+		
+			// On récupère les dossiers de ce répertoire
+			$folders = $daoFolders->getFoldersInFolder($id, $folder);
+			
+			// On récupère les fichiers de ce répertoire
+			$files = $daoFiles->getFilesInFolder($id, $folder);
+			foreach ($files as $k=>$file) {	// Ajout des infos sur le type du fichier
+				$mime = $malleService->getTypeInfos ($file->type, $file->fichier);
+				$files[$k]->type_text = $mime['type_text'];
+				$files[$k]->type_icon = $mime['type_icon'];
+			}
+			
+			$dispMenu = true;
+			if (substr($parent['type'],0,5)=='USER_')		{
+				$title = CopixI18N::get ('malle|malle.perso'); $dispMenu = false;
+			} else {
+				$title = (isset($parent["nom"])) ? $parent["nom"] : CopixI18N::get('malle.moduleDescription');
+			}
+				
+			
+			$ppo->TITLE_PAGE = CopixI18N::get ('malle|malle.popup.title');
+			$ppo->id = $id;
+			$ppo->folder = $folder;
+			$ppo->folders = $folders;
+			$ppo->files = $files;
+			$ppo->errors = $errors;
+			$ppo->field = $field;
+			$ppo->format = $format;
+
+			$ppo->combofolders = CopixZone::process ('malle|combofolders', array('malle'=>$id, 'folder'=>$folder, 'fieldName'=>'folder', 'attribs'=>'ONCHANGE="this.form.submit();"', 'linesSup'=>array(0=>array('value'=>'', 'libelle'=>CopixI18N::get ('malle|malle.comboDirectAccess')))));
+			$ppo->uploadMaxSize = CopixConfig::get ('malle|uploadMaxSize');
+			
+			CopixHTMLHeader::addJSLink (_resource("js/iconito/module_malle.js")); 
+
+			return _arPPO ($ppo, array ('template'=>'getfilepopup.tpl', 'mainTemplate'=>'main|main_popup.php'));
+			
+		}
+	}
 
 
    /**
@@ -341,18 +525,26 @@ class ActionGroupMalle extends CopixActionGroup {
 
     if (!$errors && $_FILES['fichier']['name']) {
   		
-			// On ne permet pas le dézippage en mode popup
-  		if (!$field && !$format && in_array($_FILES['fichier']['type'], array('application/zip', 'application/x-zip-compressed', 'application/forcedownload', 'multipart/x-zip')))
+      $ext = '';
+      $point = strrpos ($_FILES['fichier']['name'], ".");
+      if ($point !== false) {
+        $ext = substr($_FILES['fichier']['name'],$point+1);
+        $ext = strtolower($ext);
+      } 
+      
+			// On ne permet pas le dezippage en mode popup
+  		if (!$field && !$format && $ext!='docx' && $ext!='pptx' && $ext!='xlsx' && in_array($_FILES['fichier']['type'], array('application/zip', 'application/x-zip-compressed', 'application/forcedownload', 'multipart/x-zip')))
   			return CopixActionGroup::process ('malle|malle::getUploadFileZip', array ('id'=>$id, 'folder'=>$folder, 'file'=>$_FILES['fichier']));
   		
-  		// On insère d'abord dans la base
+  		// On insere d'abord dans la base
   		$new = CopixDAOFactory::createRecord("malle|malle_files");
   		$new->malle = $id;
   		$new->folder = $folder;
   		$new->nom = $_FILES['fichier']['name'];
   		$new->fichier = Kernel::simpleName($_FILES['fichier']['name']);
   		$new->taille = $_FILES['fichier']['size'];
-  		$new->type = $_FILES['fichier']['type'];
+  		//$new->type = $_FILES['fichier']['type'];
+      $new->type = $malleService->getMimeType($new->fichier);
   		$new->cle = $malleService->createKey();
   		$new->date_upload = date("Y-m-d H:i:s");
   		$daoFiles->insert ($new);
@@ -378,14 +570,145 @@ class ActionGroupMalle extends CopixActionGroup {
 	}
 
 
+  
    /**
-	 * Ajout d'un zip : on détaille son contenu et on demande s'il doit être dézippé ou pas
+   * Soumission du formulaire d'ajout d'un favori
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2010/09/16
+	 * @param integer $id Id de la malle
+	 * @param integer $folder Id du répertoire destination
+   */
+	function processDoAddWeb () {
+	
+		$kernelService = & CopixClassesFactory::Create ('kernel|kernel');
+		$malleService = & CopixClassesFactory::Create ('malle|malleService');
+	 	$daoMalles = CopixDAOFactory::create("malle|malle_malles");
+	 	$daoFolders = CopixDAOFactory::create("malle|malle_folders");
+	 	$daoFiles = CopixDAOFactory::create("malle|malle_files");
+		
+		$id = $this->getRequest ('id', null);
+		$folder = $this->getRequest ('folder', 0);
+		$field = $this->getRequest ('field', null);
+		$format = $this->getRequest ('format', null);
+		
+    $iNom = CopixRequest::get('nom');
+    $iUrl = CopixRequest::get('url');
+    
+		$criticErrors = $errors = array();	
+		
+		if ($folder) {
+			$rFolder = $daoFolders->get($folder);
+			if (!$rFolder)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
+			elseif ($rFolder->malle != $id)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
+      $malle_cle = $rFolder->malle_cle;
+		} else {
+			$rMalle = $daoMalles->get($id);
+			if (!$rMalle)
+				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
+			else
+	      $malle_cle = $rMalle->cle;
+		}
+		if (!$criticErrors) {
+			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
+			//print_r($mondroit);
+			if (!$malleService->canMakeInMalle("FILE_UPLOAD",$mondroit))
+				$criticErrors[] = CopixI18N::get ('kernel|kernel.error.noRights');
+			else {
+				$parent = $kernelService->getModParentInfo( "MOD_MALLE", $id);
+			}
+		}
+  
+    
+		if ($criticErrors)
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('malle||getMalle', array('id'=>$id, 'folder'=>$folder))));
+
+  	$urlReturn = ($field && $format) ? CopixUrl::get ('malle||getMallePopup', array('id'=>$id, 'folder'=>$folder, 'field'=>$field, 'format'=>$format)) : CopixUrl::get ('malle||getMalle', array('id'=>$id, 'folder'=>$folder));
+    $processReturn = ($field) ? 'malle|malle::getMallePopup' : 'malle|malle::getMalle';
+  
+    
+    // On insere d'abord dans la base
+    $new = CopixDAOFactory::createRecord("malle|malle_files");
+    $new->malle = $id;
+    $new->folder = $folder;
+    $new->nom = $iNom;
+    $new->fichier = Kernel::simpleName($iNom).'.web';
+    $new->taille = 0;
+    $new->type = 'application/octet-stream';
+    $new->cle = $malleService->createKey();
+    $new->date_upload = date("Y-m-d H:i:s");
+    $daoFiles->insert ($new);
+    
+    //kernel::myDebug($new);
+    
+    if ($new->id) {
+      
+      $content = $malleService->generateWebFile($iNom, $iUrl);
+      
+      $fichier = $new->id.'_'.$new->fichier;
+      $fullFile = realpath('./static/malle').'/'.$id.'_'.$malle_cle.'/'.($fichier);
+      
+      if ($handler = @fopen($fullFile, 'w+')) {
+        if (fwrite($handler, $content)) {
+          $new->taille = filesize ($fullFile);
+          $daoFiles->update ($new);
+        } else {
+          $errors[] = CopixI18N::get ('malle|malle.error.web.fopen');
+        }
+        fclose($handler);
+      } else {
+        $errors[] = CopixI18N::get ('malle|malle.error.web.fwrite');
+      }
+      
+      if (!$errors)
+        $malleService->update_infos_for_folder ($id, $folder);
+      else {
+        $daoFiles->delete ($new->id);
+        $errors[] = CopixI18N::get ('malle|malle.error.uploadFile');
+      }
+    } else {	// Prob d'insertion dans la base
+      $errors[] = CopixI18N::get ('malle|malle.error.uploadFileDB');
+    }
+
+    if ($errors)
+  		return CopixActionGroup::process ($processReturn, array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors, 'field'=>$field));
+  	
+    return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);	
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  /**
+	 * Ajout d'un zip : on detaille son contenu et on demande s'il doit etre dezippe ou pas
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/04/20
 	 * @param integer $id Id de la malle
-	 * @param integer $folder Id du répertoire
-	 * @param array $file Toutes les infos du fichier ajouté (issues de $_FILES)
+	 * @param integer $folder Id du repertoire
+	 * @param array $file Toutes les infos du fichier ajoute (issues de $_FILES)
    */
 	function processGetUploadFileZip () {
 
@@ -428,12 +751,12 @@ class ActionGroupMalle extends CopixActionGroup {
 		$archive = new PclZip($file['tmp_name']);
 		
 		$files = $archive->listContent();
-		//print_r($files);
+		//print_r(($files));
 		//print_r($file);
 		
 		if (move_uploaded_file($file['tmp_name'], $malleService->getTmpFolder().'/'.$file['name'])) {
 			
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('malle|malle.zip.title'));
 			$tpl->assign ('id', $id);
 			$tpl->assign ('folder', $folder);
@@ -593,17 +916,7 @@ class ActionGroupMalle extends CopixActionGroup {
 						$newf->fichier = $name;
 						$newf->taille = $f['size'];
 						$newf->cle = $malleService->createKey();
-						
-						if (function_exists('mime_content_type'))
-							$newf->type = mime_content_type ($unzipFolder.'/'.$name);
-						else {
-							$point = strrpos ($name, ".");
-							if ($point !== false) {
-								$ext = substr($name,$point+1);
-								$newf->type = strtolower($ext);
-							} else
-								$newf->type = '';
-						}
+						$newf->type = $malleService->getMimeType($newf->fichier);
 
 						$newf->date_upload = date("Y-m-d H:i:s");
 						$daoFiles->insert ($newf);
@@ -808,12 +1121,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		if (!file_exists($fullFile))
 			$errors[] = CopixI18N::get ('malle|malle.error.noFile');
 		
-		//print_r($rFile);
-		//print_r($errors);
-		
-		//Kernel::deb($fullFile);
-		
-		//die();
+    //kernel::myDebug();
 		
 		if ($errors) {
 			//$urlReturn = CopixUrl::get ('malle||getMalle', array('id'=>$id, 'folder'=>$rFile->folder));
@@ -821,7 +1129,7 @@ class ActionGroupMalle extends CopixActionGroup {
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$rFile->folder, 'errors'=>$errors));
 		}
 
-		return _arFile ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>CopixMIMETypes::getFromExtension ($fullFile)));
+		return _arFile ($fullFile, array ('filename'=>$rFile->nom, 'content-type'=>$malleService->getMimeType($fullFile), 'content-disposition'=>'attachement'));
 		
 	}
 
@@ -1080,10 +1388,10 @@ class ActionGroupMalle extends CopixActionGroup {
 				$listFolders[] = $r;
 			}
 
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get ('malle|malle.btn.rename'));
 			
-			$tplList = & new CopixTpl ();
+			$tplList = new CopixTpl ();
 			$tplList->assign ('id', $id);
 			$tplList->assign ('folder', $folder);
 			$tplList->assign ('folders', $listFolders);
@@ -1124,7 +1432,10 @@ class ActionGroupMalle extends CopixActionGroup {
 		$newFiles = $this->getRequest('newFiles', array());
 		$newFolders = $this->getRequest('newFolders', array());
 
-                $field = $this->getRequest ('field', null);
+		$newFilesWeb = $this->getRequest('newFilesWeb', array());
+		$newFilesWebUrl = $this->getRequest('newFilesWebUrl', array());
+
+    $field = $this->getRequest ('field', null);
 
 		$criticErrors = array();
 
@@ -1134,11 +1445,11 @@ class ActionGroupMalle extends CopixActionGroup {
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
 			elseif ($rFolder->malle != $id)
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noFolder');
-		} else {
+		}
 			$rMalle = $daoMalles->get($id);
 			if (!$rMalle)
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
-		}
+		
 		if (!$criticErrors) {
 			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
 			//print_r($mondroit);
@@ -1153,34 +1464,64 @@ class ActionGroupMalle extends CopixActionGroup {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('malle||')));
 		}
 		
-                $processReturn = ($field) ? 'malle|malle::getMallePopup' : 'malle|malle::getMalle';
+    $processReturn = ($field) ? 'malle|malle::getMallePopup' : 'malle|malle::getMalle';
 
 		foreach ($newFiles as $k=>$name) {
 			$r = $daoFiles->get($k);
-			if ($r && $r->malle==$id && $r->folder==$folder) {
-                                if(preg_match('#["/\\\*\?<>\|:]#', $name)){
-                                    $errors[] = CopixI18N::get ('malle|malle.error.charError');
-                                    continue;
-                                }
+			if ($r && $r->malle==$id && $r->folder==$folder && !$r->isLink()) {
+        if(preg_match('#["/\\\*\?<>\|:]#', $name)){
+          $errors[] = CopixI18N::get ('malle|malle.error.charError');
+          continue;
+        }
 				$r->nom = $name;
-                                
 				$daoFiles->update ($r);
 			}
 		}
 		foreach ($newFolders as $k=>$name) {
 			$r = $daoFolders->get($k);
 			if ($r && $r->malle==$id && $r->parent==$folder) {
-                                if(preg_match('#["/\\\*\?<>\|:]#', $name)){
-                                    $errors[] = CopixI18N::get ('malle|malle.error.charError');
-                                    continue;
-                                }
+        if(preg_match('#["/\\\*\?<>\|:]#', $name)) {
+          $errors[] = CopixI18N::get ('malle|malle.error.charError');
+          continue;
+        }
 				$r->nom = $name;
 				$daoFolders->update ($r);
 			}
 		}
+    
+    foreach ($newFilesWeb as $k=>$name) {
+			$r = $daoFiles->get($k);
+			if ($r && $r->malle==$id && $r->folder==$folder && $r->isLink()) {
+        if(preg_match('#["/\\\*\?<>\|:]#', $name)){
+          $errors[] = CopixI18N::get ('malle|malle.error.charError');
+          continue;
+        }
+				$r->nom = $name;
+        $url = (isset($newFilesWebUrl[$k])) ? $newFilesWebUrl[$k] : '';
+        $content = $malleService->generateWebFile($name, $url);
+        
+        $fichier = $r->id.'_'.$r->fichier;
+    		$fullFile = realpath('./static/malle').'/'.$rMalle->id.'_'.$rMalle->cle.'/'.($fichier);
 
-                if (!empty($errors))
-                    return CopixActionGroup::process ($processReturn, array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors, 'field'=>$field));
+        if ($handler = @fopen($fullFile, 'w+')) {
+          if (@fwrite($handler, $content)) {
+            $daoFiles->update ($r);
+            $r->taille = filesize ($fullFile);
+          } else {
+            $errors[] = CopixI18N::get ('malle|malle.error.web.fopen');
+          }
+          fclose($handler);
+        } else {
+          $errors[] = CopixI18N::get ('malle|malle.error.web.fwrite');
+        }
+        
+				$daoFiles->update ($r);
+			}
+		}
+    
+
+    if (!empty($errors))
+      return CopixActionGroup::process ($processReturn, array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors, 'field'=>$field));
 
 
 		$urlReturn = CopixUrl::get ('malle||getMalle', array('id'=>$id, 'folder'=>$folder));
@@ -1228,6 +1569,9 @@ class ActionGroupMalle extends CopixActionGroup {
 				$criticErrors[] = CopixI18N::get ('malle|malle.error.noMalle');
       $malle_cle = $rMalle->cle;
 		}
+    if (!count($files) && !count($folders))
+      $criticErrors[] = CopixI18N::get ('malle|malle.error.noSelection');
+
 		if (!$criticErrors) {
 			$mondroit = $kernelService->getLevel( "MOD_MALLE", $id );
 			//print_r($mondroit);
@@ -1252,7 +1596,7 @@ class ActionGroupMalle extends CopixActionGroup {
 		$archive = new PclZip($malleService->getTmpFolder().'/'.$zipFile);
 		
 		//print_r($files);
-		
+
 		$zipFiles = array();
 		foreach ($files as $k) {
 			$r = $daoFiles->get($k);
@@ -1271,8 +1615,6 @@ class ActionGroupMalle extends CopixActionGroup {
 			}
 		}
 		//print_r($zipFiles2);
-		
-		
 		if ($zipFiles) {	// Fichiers
 			foreach ($zipFiles as $f) {
 				//print_r($f);
@@ -1319,10 +1661,34 @@ class ActionGroupMalle extends CopixActionGroup {
 			return CopixActionGroup::process ('malle|malle::getMalle', array ('id'=>$id, 'folder'=>$folder, 'errors'=>$errors));
 		} else {
 			
-			return _arFile ($malleService->getTmpFolder().'/'.$zipFile, array ('filename'=>$zipFile, 'content-type'=>CopixMIMETypes::getFromExtension ($zipFile)));
+			return _arFile ($malleService->getTmpFolder().'/'.$zipFile, array ('filename'=>$zipFile, 'content-type'=>$malleService->getMimeType($zipFile)));
 			
 		}
 	}
+
+
+
+
+   /**
+	 * Formulaire de saisie/modif d'un lien web
+	 * 
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2010/09/15
+   */
+  function processPromptAddWeb () {
+    $ppo = new CopixPPO ();
+    $ppo->id = CopixRequest::getInt('id');
+    $ppo->folder = CopixRequest::getInt('folder');
+    
+    $ppo->rForm = new CopixPPO ();
+    $ppo->rForm->url = 'http://';
+    return _arPPO ($ppo, array ('template'=>'popup_addweb.tpl', 'mainTemplate'=>'main|main_fancy.php'));	
+  }
+	
+
+
+
+
 
 }
 

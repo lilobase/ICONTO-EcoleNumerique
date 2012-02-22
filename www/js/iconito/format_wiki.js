@@ -65,15 +65,11 @@ function add_photo (field, current_url, popup) {
 		objectValueDeb = objectValue.substring( 0 , txtarea.selectionStart );
 		objectValueFin = objectValue.substring( txtarea.selectionEnd , txtarea.textLength );
 	} 
-	
-	if ((clientVer >= 4) && is_ie && is_win)
-  	theSelection = document.selection.createRange().text; // Get text selection
 
 	final_image = '((' + current_url + '))';
 	if( popup ) {
 		final_image = '['+final_image+'|'+popup+'|||_blank]';
 	}	
-	
 
 	bblink_add (txtarea, objectValue, objectValueDeb, objectValueFin, final_image+'\n');
 

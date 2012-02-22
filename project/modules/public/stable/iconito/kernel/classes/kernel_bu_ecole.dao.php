@@ -15,6 +15,39 @@ class DAORecordKernel_bu_ecole {
     
     return $this->_city;
   }
+
+
+   /**
+    * Determine si l'ecole a une adresse renseignee ou non
+    *
+    * @author Christophe Beyer <cbeyer@cap-tic.fr>
+    * @since 2011/01/31
+    * @return boolean True si au moins un champ de l'adresse est renseigne, false sinon
+    */
+    public function hasAdresse() {
+        $oHas = false;
+        if ($this->num_rue || $this->num_seq || $this->adresse1 || $this->adresse2 || $this->code_postal || $this->commune) {
+            $oHas = true;
+        }
+        return $oHas;
+    }
+   
+    
+   /**
+    * L'adresse de l'ecole en une ligne
+    *
+    * @author Christophe Beyer <cbeyer@cap-tic.fr>
+    * @since 2011/11/02
+    * @return string L'adresse
+    */
+    public function getFullAddress() {
+        $address = AnnuaireService::googleMapsFormatAdresse('ecole', $this);
+        return $address;
+    }
+    
+
+
+
 }
   
 class DAOKernel_bu_ecole {
@@ -61,9 +94,21 @@ class DAOKernel_bu_ecole {
         
         $groupsIds['schoolsIds'][] = $id;
       }
+      elseif (preg_match('/^teacher_school/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
       elseif (preg_match('/^teacher/', $key)) {
         
         $groupsIds['classroomsIds'][] = $id;
+      }
+      elseif (preg_match('/^schools_group_animator/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
+      elseif (preg_match('/^cities_group_animator/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
       }
     }
     
@@ -72,10 +117,9 @@ class DAOKernel_bu_ecole {
       return array();
     }
     
-		$sql = $this->_selectQuery
-		  . ', kernel_bu_ecole_classe '
-		  . 'WHERE kernel_bu_ecole.numero=kernel_bu_ecole_classe.ecole '
-		  . 'AND kernel_bu_ecole.id_ville='.$cityId;
+		$sql = $this->_selectQuery.' '
+		  . 'LEFT JOIN kernel_bu_ecole_classe ON kernel_bu_ecole_classe.ecole = kernel_bu_ecole.numero '
+		  . 'WHERE kernel_bu_ecole.id_ville='.$cityId;
 		
 		$conditions = array();
 		if (!empty ($groupsIds['schoolsIds'])) {

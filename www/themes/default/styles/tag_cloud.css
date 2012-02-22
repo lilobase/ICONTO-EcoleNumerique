@@ -1,0 +1,123 @@
+/* 
+    Document   : tag_cloud
+    Created on : 12 janv. 2011, 17:52:20
+    Author     : alemaire
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+#contentmain a.tagGroup:link {text-decoration:none;}
+#contentmain a.tagGroup:visited, #contentmain a:focus {text-decoration:none;}
+#contentmain a.tagGroup:hover {text-decoration:underline;}
+#contentmain a.tagGroup:active {text-decoration:underline;}
+.content-panel {
+	font-size:1.4em;
+}
+.tagGroup{
+    margin:2px;
+}
+
+.tagWeight1{
+	color:#B9CD2D;
+    font-size:0.5em; font-weight:bold;
+}
+
+.tagWeight2{
+	color:#AEC849;
+    font-size:0.6em; font-weight:normal;
+}
+
+.tagWeight3{
+    color:#A3C35D;
+    font-size:0.6em; font-weight:bold;
+}
+
+.tagWeight4{
+    color:#98BF6F;
+    font-size:0.7em; font-weight:normal;
+}
+
+.tagWeight5{
+    color:#8BBB7F;
+    font-size:0.7em; font-weight:bold;
+}
+
+.tagWeight6{
+    color:#7EB68E;
+    font-size:0.8em; font-weight:normal;
+}
+
+.tagWeight7{
+    color:#6FB29C;
+    font-size:0.8em; font-weight:bold;
+}
+
+.tagWeight8{
+    color:#60AEA8;
+    font-size:0.9em; font-weight:normal;
+}
+
+.tagWeight9{
+    color:#4DAAB4;
+    font-size:0.9em; font-weight:bold;
+}
+
+.tagWeight10{
+    color:#35A5BE;
+    font-size:1em; font-weight:normal;
+}
+
+.tagWeight11{
+    color:#51A1B6;
+    font-size:1em; font-weight:bold;
+}
+
+.tagWeight12{
+    color:#609CAE;
+    font-size:1.1em; font-weight:normal;
+}
+
+.tagWeight13{
+    color:#6996A4;
+    font-size:1.1em; font-weight:bold;
+}
+
+.tagWeight14{
+    color:#6C8D98;
+    font-size:1.2em; font-weight:normal;
+}
+
+.tagWeight15{
+    color:#6B828B;
+    font-size:1.2em; font-weight:bold;
+}
+
+.tagWeight16{
+    color:#65757B;
+    font-size:1.3em; font-weight:normal;
+}
+
+.tagWeight17{
+    color:#5B656A;
+    font-size:1.3em; font-weight:bold;
+}
+
+.tagWeight18{
+    color:#4D5256;
+    font-size:1.4em; font-weight:normal;
+}
+
+.tagWeight19{
+    color:#3A3B3E;
+    font-size:1.4em; font-weight:bold;
+}
+
+.tagWeight20{
+    color:#1A171B;
+    font-size:1.5em; font-weight:normal;
+}

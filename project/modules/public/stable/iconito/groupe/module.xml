@@ -6,5 +6,6 @@
     </general>
     <parameters>
  	    <parameter name="list_nbgroupes" captioni18n="groupe.parameter.list_nbgroupes" default="10" />
+	    <parameter name="ponderation" captioni18n="groupe.ponderation" default="5" />
   	</parameters>
 </moduledefinition>

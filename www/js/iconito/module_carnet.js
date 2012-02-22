@@ -6,19 +6,14 @@ function submitTopicForm (form, value) {
 }
 
 function checkAllClasse () {
-	var form = $('form');
-	for (var i=0, trouve=false, allChecked=true ; allChecked && i < form.length ; i++) {
-		if (form[i].name == 'eleves[]') {
-			if (!form[i].checked)
-				allChecked=false;
-		}
-	}
 
-	for (var i=0 ; i < form.length ; i++) {
-		if (form[i].name == 'eleves[]') {
-			form[i].checked = !allChecked;
-		}
-	}
-
+  nb = $('form#form input[type=checkbox]').size();
+  nb_checked = $('form#form input[type=checkbox]:checked').size();
+  
+  if (nb_checked == nb)
+    $('form#form input[type=checkbox]').attr('checked','');
+  else
+    $('form#form input[type=checkbox]').attr('checked','checked');
+  
 }
 

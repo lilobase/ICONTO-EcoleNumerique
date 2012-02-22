@@ -4,6 +4,7 @@ require_once ("install_check.class.php");
 require_once ("install_design.class.php");
 require_once ('../../utils/copix/copix.inc.php');
 require_once ('../../project/project.inc.php');
+require_once ('../../project/modules/public/stable/iconito/sysutils/classes/demo_tools.class.php');
 
 define( '_LOGO_GOOD', '<img src="images/accept.png" align="baseline" />&nbsp;&nbsp;' );
 define( '_LOGO_WARNING', '<img src="images/error.png" align="baseline" />&nbsp;&nbsp;' );
@@ -15,11 +16,11 @@ else $step=0+$_GET['step'];
 $titles = array(
 	1 => "Bienvenue",
 	2 => "Droits des fichiers",
-	3 => "Vérification de PHP",
+	3 => "V&eacute;rification de PHP",
 	4 => "Configuration Mysql",
 	5 => "Choix de la base",
-	6 => "Création des tables",
-	7 => "Import des données",
+	6 => "Cr&eacute;ation des tables",
+	7 => "Import des donn&eacute;es",
 	8 => "Mot de passe",
 	9 => "Configuration",
 	10 => "Fini !",
@@ -28,8 +29,9 @@ $titles = array(
 if( file_exists(COPIX_LOG_PATH.'.installed') && file_exists('../../project/config/copix.conf.php') ) {
 	// display_menu();
 	display_title();
-	display_message( "ICONITO EcoleNumerique est d&eacute;j&agrave; install&eacute;. Pour y acc&eacute;der, <a href=\"..\">cliquez ici</a> !" );
+	display_message( "ICONITO Ecole Num&eacute;rique est d&eacute;j&agrave; install&eacute;. Pour y acc&eacute;der, <a href=\"..\">cliquez ici</a> !" );
 	display_message( "Si vous souhaitez refaire une installation, vous devez supprimer manuellement le fichier \".installed\" qui se trouve dans \"temp/log\" et recharger cette page." );
+  close_page ();
 	ob_flush();
 	die();
 }
@@ -39,7 +41,7 @@ switch( $step ) {
 	case 1:
 		display_menu();
 		display_title();
-		display_message( "Vous souhaitez installer ICONITO EcoleNumerique ? <a href=\"index.php?step=".($step+1)."\">Cliquez ici</a> !" );
+		display_message( "Vous souhaitez installer ICONITO Ecole Num&eacute;rique ? <a href=\"index.php?step=".($step+1)."\">Cliquez ici</a> !" );
 		break;
 
 	case 2:
@@ -54,6 +56,12 @@ switch( $step ) {
 			display_link( "Corrigez et cliquez ici pour r&eacute;essayer", 'index.php?step='.($step) );
 		} else {
 			display_message( _LOGO_GOOD."Les droits sur les fichiers et r&eacute;pertoires sont corrects" );
+      
+      // On vide le cache, si jamais il y en a :
+      $tools = new Demo_Tools();
+      $folder = COPIX_TEMP_PATH.'cache';
+  		$tools->dirempty ($folder);
+      
 			display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		}
 		break;
@@ -100,12 +108,12 @@ switch( $step ) {
 				display_message( _LOGO_ERROR.$data['errors'][0]['message']);
 			}
 		} else {
-			display_message( "Afin de configurer votre base de donn&eacute;es, merci de renseigner les information de connexion." );
+			display_message( "Afin de configurer votre base de donn&eacute;es, merci de renseigner les informations de connexion." );
 		}
 ?>
 <form method="post">
 <table border="0">
-<tr><td align="right">Serveur :</td><td><input name="host" value="<?php if(isset($_SESSION['install_iconito']['host'])) echo $_SESSION['install_iconito']['host']; else echo "localhost"; ?>" /> (vous pouvez pr&eacute;ciser le port. Exemple : <tt>serveur:3306</tt>)</td></tr>
+<tr><td align="right">Serveur :</td><td><input name="host" value="<?php if(isset($_SESSION['install_iconito']['host'])) echo $_SESSION['install_iconito']['host']; else echo "localhost"; ?>" /> Vous pouvez pr&eacute;ciser le port. Exemple: <i>serveur:1512</i></td></tr>
 <tr><td align="right">Login :</td><td><input name="login" value="<?php if(isset($_SESSION['install_iconito']['login'])) echo $_SESSION['install_iconito']['login']; ?>" /></td></tr>
 <tr><td align="right">Mot de passe :</td><td><input name="password" type="password" value="<?php if(isset($_SESSION['install_iconito']['password'])) echo $_SESSION['install_iconito']['password']; ?>" /></td></tr>
 <!--  <tr><td align="right">Base de donn&eacute;es :</td><td><input name="database" /></td></tr> -->
@@ -142,6 +150,7 @@ switch( $step ) {
 					echo " ou ";
 					display_link( "choisir une autre base", 'index.php?step='.($step) );
 				}
+				echo " (cette op&eacute;ration peut prendre quelques secondes...).";
 
 				break;
 			} elseif( count($tables) ) {
@@ -149,10 +158,12 @@ switch( $step ) {
 				display_link( "Cliquez ici pour choisir une autre base", 'index.php?step='.($step) );
 				echo " ou ";
 				display_link( "cliquez ici pour &eacute;craser les tables existantes", 'index.php?step='.($step+1) );
+				echo " (cette op&eacute;ration peut prendre quelques secondes...).";
 				break;
 			} else {
 				display_message( _LOGO_GOOD."Cette base est vide." );
 				display_link( "Cliquez ici pour cr&eacute;er les tables", 'index.php?step='.($step+1) );
+				echo " (cette op&eacute;ration peut prendre quelques secondes...).";
 				break;
 			}
 		}
@@ -181,7 +192,6 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		if( $result ) {
 			display_message( _LOGO_GOOD."Les tables ont &eacute;t&eacute; cr&eacute;&eacute;es." );
 			display_link( "Cliquez ici pour importer les donn&eacute;es", 'index.php?step='.($step+1) );
-			echo " (cette op&eacute;ration peut prendre du temps...).";
 		} else {
 			display_message( _LOGO_ERROR."Erreur lors de la cr&eacute;ation des tables." );
 			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-2) );
@@ -205,20 +215,63 @@ display_message( '<input type="radio" name="database" value="new_database" id="n
 		if($ok) {
 			$result = check_mysql_importdump( '../../instal/ressources.sql' );
 			if( $result ) {
-				check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
 				display_message( _LOGO_GOOD."Les ressources ont &eacute;t&eacute; import&eacute;es." );
 			} else {
 				display_message( _LOGO_ERROR."Erreur lors de l'importation des ressources." );
 				$ok=false;
 			}
 		}
-			
+
+		if($ok) {
+			$result = check_mysql_importdump( '../../instal/gestionautonome_droits.sql' );
+			if( $result ) {
+				display_message( _LOGO_GOOD."Les droits d'acc&egrave;s pour la gestion autonome ont &eacute;t&eacute; import&eacute;s." );
+			} else {
+				display_message( _LOGO_ERROR."Erreur lors de l'importation des droits." );
+				$ok=false;
+			}
+		}
+		
+		if($ok) {
+			$result = check_mysql_importdump( '../../instal/gestionautonome_nullable.sql' );
+			if( $result ) {
+				display_message( _LOGO_GOOD."Les modifications des tables scolaires ont &eacute;t&eacute; import&eacute;es." );
+			} else {
+				display_message( _LOGO_ERROR."Erreur lors des modifications des tables scolaires." );
+				$ok=false;
+			}
+		}
+    
+    if ($ok) {
+      $tools = new Demo_Tools();
+      $folders = array (
+        'www/static/classeur/1-49376fcb9d',
+        'www/static/prefs/avatar',
+      );
+      foreach ($folders as $folder) {
+        $installFolder = $tools->installFolder ($folder, false);
+        if (!$installFolder) {
+          display_message( _LOGO_ERROR."Probl&egrave;me de mise en place du dossier ".$folder."." );
+          $ok=false;
+        }
+      }
+      if ($ok) {
+        display_message( _LOGO_GOOD."Les dossiers et fichiers de l'&eacute;dito ont bien &eacute;t&eacute; mis en place." );
+      }
+    }
+    
+    if ($ok) {
+  		check_mysql_runquery("INSERT INTO version SET version='".$version."', date=NOW()");
+    }
+    
+		
 		if($ok) display_link( "Cliquez ici pour continuer", 'index.php?step='.($step+1) );
 		else {
 			display_link( "V&eacute;rifiez vos identifiants", 'index.php?step='.($step-3) );
 			echo " ou ";
-			display_link( "recr&eacute;ez vos tables", 'index.php?step='.($step-1) );
+			display_link( "Recr&eacute;ez vos tables", 'index.php?step='.($step-1) );
 		}
+		
 		break;
 	
 	case 8:
@@ -367,10 +420,11 @@ TABLE.conftable TD {
 				display_message( $msg );
 			}
 		} else {
-			display_message( _LOGO_GOOD."F&eacute;licitations, ICONITO EcoleNumerique est install&eacute; !" );
+			display_message( _LOGO_GOOD."F&eacute;licitations, ICONITO Ecole Num&eacute;rique est install&eacute; !" );
 			display_message( "Pour vous connecter, utilisez le login <b>admin</b> et le mot de passe d'administration choisi pr&eacute;c&eacute;dement." );
 			display_link( "Cliquez ici pour y acc&eacute;der", ".." );
-			display_message( "Afin de d&eacute;couvrir Iconito, vous pouvez utiliser le \"jeu d'essai\", un ensemble de comptes d'acc&egrave;s et de contenus de d&eacute;monstration. Pour l'installer, connectez-vous en administrateur et allez dans le module d'administration." );
+			display_message( "Afin de d&eacute;couvrir Iconito, vous pouvez utiliser le \"jeu d'essai\", un ensemble de comptes d'acc&egrave;s et de contenus de d&eacute;monstration. Pour l'installer, connectez-vous en administrateur et allez dans le module d'utilitaires syst&egrave;me." );
+			// display_link( "Guide utilisateur Ecole Num&eacute;rique", "http://www.iconito.fr/telechargement/documentation/62-utilisation-ecole-numerique");
 		}
 		
 		break;
@@ -383,4 +437,7 @@ TABLE.conftable TD {
 
 global $display_header;
 if( $display_header ) echo "</div>";
+
+close_page ();
+
 ?>

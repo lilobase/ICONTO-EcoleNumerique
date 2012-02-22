@@ -13,7 +13,7 @@
  * @package standard
  * @subpackage auth
  */
-class ActionGroupLog extends CopixActionGroup {
+class ActionGroupLog extends enicActionGroup {
 	/**
 	 * Action par défaut.... logique
 	 */
@@ -25,6 +25,12 @@ class ActionGroupLog extends CopixActionGroup {
 	 * Login
 	 */
 	public function processIn (){
+            //delete chartValid;
+            /*
+             * PATCH FOR CHARTE
+             */
+            $_SESSION['chartValid'] = false;
+
 		CopixRequest::assert ('login', 'password');
 		$noCredential = _request ('noCredential', false);
 		$ssoIn = _request ('sso_in', false);
@@ -56,7 +62,15 @@ class ActionGroupLog extends CopixActionGroup {
 			}
 			Logs::set( array('type'=>'LOG', 'message'=>'Login ok: '.CopixRequest::get ('login')) );
 			//die ($urlReturn);
-			
+
+                        /*
+                         * PATCH FOR CHARTE
+                         */
+                        $this->user->forceReload();
+                        if(!$this->service('charte|CharteService')->checkUserValidation()){
+                            $this->flash->redirect = $urlReturn;
+                            return $this->go('charte|charte|valid');
+                        }
 			return _arRedirect ($urlReturn);
 		}
 		if (CopixConfig::get('auth|authorizeRedirectIfNoK')) {
@@ -79,7 +93,6 @@ class ActionGroupLog extends CopixActionGroup {
 		CopixEventNotifier::notify ('logout', array ('login'=>CopixAuth::getCurrentUser()->getLogin ()));
 		CopixAuth::destroyCurrentUser ();
 		CopixSession::destroyNamespace('default');
-		//CopixSession::destroy();
 		return _arRedirect (CopixRequest::get ('auth_url_return', _url ('||')));
 	}
 

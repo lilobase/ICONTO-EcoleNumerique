@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_i18n_vocabulary_catalog" tablename="kernel_i18n_vocabulary_catalog" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="id_vc"     fieldname="id_vc"   type="integer" pk="yes"/>
+		<property name="name_vc"   fieldname="name_vc" type="varchar" maxlength="64" required="yes" />
+ 	</properties>
+</daodefinition>

@@ -1,0 +1,51 @@
+{
+"description": "ICONITO 2010 - Theme par défaut",
+"author": "Stéphane HOLTZ @ CAP-TIC",
+"licence": "© 2010 CAP-TIC",
+"version": "May 2010",
+"positions":
+	{
+	"header":"",
+	"top":"",
+	"menuleft":"",
+	"menuright":"",
+	"breadcrumb":"",
+	"left":"",
+	"contenttop":"",
+	"contentmain":"",
+	"contentbottom":"",
+	"right":"",
+	"bottom":"",
+	"footer":"",
+	"debug":""
+	},
+"layout":
+	{
+	"STD":
+		{
+		"visitor":
+			{
+			"default":
+				{
+				"menuright":	{"LOGIN":{"supplier":"auth","zone":"userlogged","params":""}},
+				"breadcrumb":	{"BREADCRUMB":{"supplier":"kernel","zone":"breadcrumb","params":""}},
+				"footer":		{"LEGALS":{"supplier":"kernel","zone":"legals","params":""}}
+				}
+			},
+		"connected":
+			{
+			"default":
+				{
+				"menucenter":	{"LOGIN":{"supplier":"auth","zone":"userlogged","params":""}},
+				"menuright":	{"USERMENU":{"supplier":"kernel","zone":"usermenu","params":""}},
+				"breadcrumb":	{"BREADCRUMB":{"supplier":"kernel","zone":"breadcrumb","params":""}},
+				"footer":		{"LEGALS":{"supplier":"kernel","zone":"legals","params":""}}
+				},
+			"kernel":
+				{
+				"right":		{"WELCOME":{"supplier":"aide","zone":"dashboardwelcome","params":""}, "MAILEXT":{"supplier":"mailext", "zone":"showmail", "params":""}, "GROUPS":{"supplier":"groupe","zone":"dashboardgroups","params":""}, "HELP":{"supplier":"aide","zone":"dashboardhelp","params":""}}
+				}
+			}
+		}
+	}
+}

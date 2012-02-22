@@ -1,202 +1,190 @@
-/* Hack pour Firefox supprimant les pointillés lors des clics
-------------------------------------------------------------------------------*/
-a,
-input.button {
-  outline: none;
-}
+/**
+ * module_gestionautonome.css
+ * Module de Gestion des usagers
+ *
+ * @package		EN2011
+ * @cdate 		21.12.2010
+ * @mdate		16.08.2011
+ * @author		Philippe Roser <proser@cap-tic.fr>
+ */
 
-a:focus,
-input.button:focus {
-  -moz-outline-style: none;
-}
 
-a img {
-	border: none;
+/******************************************************************************/
+/* Global */
+p.items-count {font-weight:bold;}
+.hidden {display:none;}
+a img {border:0;}
+.contentLinked{
+	float:right;
+	margin:10px; padding:10px; border:2px solid #fff;
+	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+	width:45%; min-height:187px;
+	font-size:0.9em;
 }
- 
-/* Général
-------------------------------------------------------------------------------*/ 
-h4 {
-  color: grey;
-  border-bottom: 1px solid grey;
-}
+.contentLinked h3 {margin-top:0;}
+#gestionautonome #submenu .menuitems ul li a {width:125px;}
+/* End Global */
+/******************************************************************************/
 
-p.success {
-  margin: 10px 1px;
-  padding: 2px;
+
+
+fieldset.leftfield {
+  margin-right: 3em;
+  border:1px solid #DDD;
   -moz-border-radius:6px 6px 6px 6px;
-  background-color:#B9C55B;
-  font-size:10px;
 }
 
-.notice-light {
-  width: 400px;
-} 
-
-.error-light {
-  width: 400px;
-}
-
-p.items-count {
-  font-style:italic;
-}
-
-.hidden {
-  display:none;
-}
-
-fieldset.filter {
-  border:1px dashed #A0A0A0;
-  margin-bottom:10px;
-}
-
-fieldset.filter legend {
-  font-style:italic;
-  font-weight:bold;
-}
-
-table.liste td {
-  text-align: center;
-}
-
+/*
 p.breadcrumbs {
   font-size:0.8em;
 } 
+*/
 
-/* Form
-------------------------------------------------------------------------------*/
+
+/******************************************************************************/
+/* Forms */
+div.submit {
+	clear:both;
+	margin:10px 0;
+	text-align:center;
+}
+div.submit input, div.submit a.button {margin:0 5px 0 0;}
+input.short-text {width:30px;}
+input.long-text {width:240px;}
+form .formExample {
+	padding:0 0 0 5px;
+	font-size:0.8em; font-style:italic;
+}
+form fieldset {
+	margin:5px 0; border:2px solid #fff;
+	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+}
+
+/* New styles */
+#edit_class .field {
+	clear:both;
+	margin:0 0 2px;
+}
+#edit_class .field label, .contentLinked .field .label {
+	display:block;
+	float:left;
+	margin:0;
+	width:29%;
+}
+#edit_class .field label {width:19%;}
+#edit_class .field p.input, .contentLinked .field .input {margin:0 0 0 19%;}
+#edit_class .field p.input label, 
+#edit_class .field p.input label {
+	display:inline;
+	float:none;
+	padding:0 10px 0 0;
+	width:auto;
+}
+#new-password-link {margin:5px 0 5px 150px;}
+/* Old styles */
 label.form_libelle {
   font-size:12px;
   font-weight:bold;
   vertical-align:top;
   float: left;
-  width: 150px;
+  width: 145px;
 }
 
 div.field {
+	clear:both;
   padding-bottom: 2px;
 }
 
-input[type=radio],
-input[type=checkbox] {
-  margin-right: 2px;
+input.short-text {
+  width: 30px;
 }
 
-/* Tree
-------------------------------------------------------------------------------*/ 
+input.text {
+  width: 200px;
+}
+
+input.long-text {
+  width: 240px;
+}
+#withPersonInCharge +label {font-weight:bold;}
+/* End Forms */
+/******************************************************************************/
+
+
+
+/******************************************************************************/
+/* Tree */
 #tree {
-  float: left;
-  width: 45%;
-  margin: 1px;
-  padding: 5px;
-  -moz-border-radius:6px 6px 6px 6px;
-  /*background-color:#E2ED8A;*/
-  font-size:12px;
+  float:left;
+  width:43%;
+  margin:1px; padding:5px;
 }
-
-#tree ul,
-ul.actions {
-  list-style-type: none;
-  padding-left: 20px;
+#tree #treeView {
+    margin:10px 0; padding:5px; border:3px solid #ddd;
+    -moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+    background:#fff;
+	font-size:0.9em;
 }
-
-li.collapsed ul {
-  display: none;
+#tree #treeView > ul {
+	margin:0; padding:0;
 }
-
-ul.tree li {
-  line-height: 23px;
-}                  
-
+#tree ul {
+    padding-left:20px;
+    list-style-type: none;
+}
+#treeView li {line-height:2em;}
+#treeView li a {padding:2px 4px;}
+#treeView li a.node {
+	border:2px solid #fff;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+}
+#treeView li a.current {
+	background:#fff; color:#000;
+	border:2px solid #BAD521;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+}
+#treeView li a.node:hover {
+	border:2px solid #ddd;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+}
+#tree li.collapsed ul {
+  display:none;
+}
 ul.tree a.toggle-node span {
   left:-5000px;
   position:absolute;
 }
-
 ul.tree a.toggle-node { 
   position: absolute;
   display:block;
   float:left;
   height:20px;
-  width:11px;
-  background:url("/themes/default/img/collapsed.gif") no-repeat scroll left center transparent; 
+  width:14px;
+  background:url(../../../themes/default/images/sort_right_off.png) no-repeat scroll left center transparent; 
 }
-
 ul.tree a.expand{
-  background:url("/themes/default/img/expanded.gif") no-repeat scroll left center transparent;
+  background:url(../../../themes/default/images/sort_down_off.png) no-repeat scroll left center transparent;
 }
-
 ul.tree a.after-expand {
-  margin-left: 15px;
+  margin-left: 18px;
 }
-
 ul.tree a.classroom {
-  margin-left: 7px;
+  margin-left:10px;
 }
+/* End Tree */
+/******************************************************************************/
 
-li a.current {
-  background-color:#327E04 !important;
-  color:white !important;
-  padding:2px;
-}
 
-#student_creation_data {
-  float: left;
-}                                                                                
-
+/******************************************************************************/
+/* Data */
 #column-data {
-  float: right;
-  width: 50%;
-  padding:6px;
-  -moz-border-radius:15px 15px 15px 15px;
-  border:2px solid #FFFFFF;
-  background-color:#E2ED8A;
-  font-size:11px;
+	float:right;
+	padding:6px;
+	width:52%;
 }
 
-#tree-actions {
-  margin:1px;
-  padding:2px 2px 2px 4px;
-  -moz-border-radius:6px 6px 6px 6px;
-  background-color:#B9C55B;
-  font-size:11px;
-}
 
-#tree-actions a {
-  width: 350px;
-  margin-bottom: 2px;
-}
 
-ul.actions li {
-  float: left;
-  margin-right: 5px;
-}    
-
-ul.actions li a.button {
-  width: 410px;
-  margin-bottom: 2px;
-}
-
-#persons-in-charge {
-  float: right;
-  width: 50%;
-  padding:6px;
-  -moz-border-radius:15px 15px 15px 15px;
-  border:2px solid #FFFFFF;
-  background-color:#E2ED8A;
-  font-size:11px;
-}
-
-#accounts-info {
-  float: right;
-  height: 250px;
-  width: 50%;
-  padding:6px;
-  -moz-border-radius:15px 15px 15px 15px;
-  border:2px solid #FFFFFF;
-  background-color:#E2ED8A;
-  font-size:11px;
-}
 
 .column-left {
   float: left;
@@ -207,3 +195,185 @@ ul.actions li a.button {
   float: right;
   width: 50%; 
 }
+/*
+#person-link div.field {
+  clear: both;
+}
+
+#person-link div.person-login label {
+  width: 300px;
+}
+
+#person-link div.agreement-check {
+  margin: 0 50px 0 300px;
+}
+
+#person-link div.agreement-check input {
+  margin-right: 10px;
+}
+
+#person-link div.student-datas {
+  margin: 20px 0;
+}
+
+#person-link div.student-datas label.form_libelle {
+  font-weight: normal;
+}
+
+#person-link div.student-datas div.label {
+  float: left;
+  width: 300px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#person-link div.student-datas div.datas {
+  float: left;
+}
+
+#person-link div.student-datas hr.clear {
+  visibility: hidden;
+  clear: both;
+  margin: 0;
+  padding: 0;
+}
+/* End Data */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Tabs */
+#tabs .ui-tabs-nav li {font-size:1em;}
+#tabs .ui-tabs-nav li.ui-tabs-selected {
+	border:5px solid #fff;
+	font-weight:bold;
+	line-height:0.9;
+}
+#tabs .ui-tabs-nav li.ui-tabs-selected span {color:#333;}
+#column-data .ui-tabs {margin:0 0 10px 0;}
+#column-data .ui-tabs .ui-tabs-panel {
+	padding:1em 0.4em 0.5em;
+	background:#fff;
+}
+/* End tabs */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Persons Data */
+#gestionautonome table {
+	border:1px solid #ddd;
+	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+	width:100%;
+	background:#fff; color:#333;
+}
+#gestionautonome #column-data > table {
+	margin:0 0 10px;
+	font-size:0.9em;
+}
+#gestionautonome table th {
+	padding:2px;
+	background:#eee;
+	text-align:center;
+}
+#gestionautonome table td {padding:2px;}
+#gestionautonome table tr.odd { background:#efefef;}
+#gestionautonome table .sexe {width:35px; text-align:center;}
+#gestionautonome table td.actions {text-align:center;}
+/* End Persons Data */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Actions */
+#treeActions a, #personsActions a {
+	margin:0 5px 5px 0;
+}
+#personsActions h3 {
+	margin:1em 0 0.5em;
+	font-size:1em;
+}
+/* End Actions */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Affect */
+#filter-form {
+	height:160px;
+	background:url(../../../themes/default/images/icon-128/action-next.png) no-repeat 50% 100%;
+}
+.filterClass {
+    float:left;
+    margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
+    -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+    width:40%;
+    background:#fff;
+}
+#toClass {float:right;}
+.filterClass h3 {margin:0;}
+.filterClass dl {margin:10px 0 5px;}
+.filterClass dl dt {
+	clear:both; float:left;
+	color:#333;
+}
+.filterClass dl dd {margin:0 0 0px 35%;}
+.filterClass dl dd, .filterClass dl dt {line-height:1.6em;}
+#students-selector {
+	clear:both;
+}
+/* End Affect */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Import */
+#student_creation_data textarea {
+	width:99%; height:300px;
+	line-height:1.4;
+}
+#import-csv {
+	float:right;
+	margin:-5px 0 5px;
+}
+#gestionautonome .submit .button-previous {background-color:#f9f9f9;}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+	font-size:1.22em;
+}
+/* End Import */
+/******************************************************************************/
+
+
+/******************************************************************************/
+/* Help */
+#gestionautonome .help {
+	margin:0 0 25px; padding:5px 5px 5px 28px; border:2px solid #49BFCD;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+	background:#fff url(../../../themes/default/images/button-action/action_info.png) no-repeat 5px 5%; color:#444;
+	font-size:0.95em;
+}
+#gestionautonome .help pre {
+	margin:10px; padding:4px 8px; border:1px solid #ddd;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+}
+#gestionautonome .help code {
+	color:#111;
+	font-family:"Lucida Console", Monaco, monospace; font-size:0.9em;
+}
+#gestionautonome .help .optionnal {
+	color:#09C;
+	font-weight:bold; font-size:1.4em;
+}
+#gestionautonome .help a:link {border-bottom:1px dotted;}
+#gestionautonome .help a:visited {border-bottom:1px dotted #ddd;}
+#gestionautonome .help a:hover {border-bottom:1px solid #49BFCD;}
+#gestionautonome .help a:active {border-bottom:1px dotted;}
+#gestionautonome #accounts-info .help a:link {border:1px solid #49BFCD;}
+#gestionautonome #accounts-info .help a:visited {border:1px solid #ddd;}
+#gestionautonome #accounts-info .help a:hover {border:1px solid #BAD521;}
+#gestionautonome #accounts-info .help a:active {border:1px solid #BAD521;}
+/* End help */
+/******************************************************************************/

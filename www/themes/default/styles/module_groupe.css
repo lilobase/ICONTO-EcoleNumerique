@@ -2,25 +2,12 @@
 .groupe_actu_bloc {
 	height: 282px;
 	float: right;
-	width: 420px;
+	width: 350px;
 }
 
 .groupe_actu {
-	background-color: #E2ED8A;
-	font-size: 11px;
-	border-radius: 15px;
-	-moz-border-radius: 15px;
-	khtml-border-radius: 15px;
-	padding: 6px;
-	border: solid 2px #FFFFFF;
-	margin-top: 60px;
 }
 
-.groupe_actu IMG.lucien {
-	position: absolute;
-	margin-top: -71px;
-	margin-left: 340px;
-}
 
 
 
@@ -28,15 +15,15 @@
 	padding: 0px;
 	margin: 5px 40px 5px 5px;
 	font-size: 12px;
-	width: 405px;
-	float: left;
+	width:43%;
+	float:left;
 }
 
 .groupe_bloc_admin {
 	padding: 0px;
 	margin: 5px 40px 5px 5px;
 	font-size: 12px;
-	width: 405px;
+	width:43%;
 	float: left;
 }
 .groupe_thumb_autour {
@@ -63,22 +50,21 @@
 	 vertical-align: middle;
 }
 .groupe_thumb img:hover {
-	background-color: #3A6D25;
+	background-color: #888;
 }
 
 DIV.groupe_title {
-	color: #260;
 	border-bottom: 1px dashed #FFF;
 	margin-top: 1px;
 	font-weight: bold;
 	font-size: 18px;
 }
 DIV.groupe_title a {
-	color: #3A6D25;
+	color: #444;
 	text-decoration: none;
 }
 DIV.groupe_title a:hover {
-	color: #FFF;
+	color: #888;
 	text-decoration: none;
 }
 
@@ -87,14 +73,6 @@ DIV.groupe_title a:hover {
 	font-size: 12px;
 	color: #2B2B2B;
 	text-align: right;
-}
-.groupe_desc {
-	margin-top: 2px;
-	margin-left: 95px;
-	width: 190px;
-	text-align: left;
-	padding: 0px;
-	color: #2B2B2B;
 }
 
 
@@ -114,8 +92,8 @@ DIV.groupe_title a:hover {
 	font-size: 11px;
 	margin: 5px 0px 5px 10px;
 	padding: 3px 3px 3px 3px;
-	background: #EDF5A9;
-	border: 1px solid #B9C554;
+	background: #fff;
+	border: 1px solid #eee;
 	width: 345px;
 	float: left;
 }
@@ -132,7 +110,7 @@ DIV.groupe_title a:hover {
 }
 #groups DIV.body DIV.titleb a:hover {
 	text-decoration: none;
-	border-bottom: solid 2px #B9C554;
+	border-bottom: solid 2px #555;
 }
 /* Infos */
 #groups DIV.infos {
@@ -156,12 +134,13 @@ DIV.groupe_title a:hover {
 	text-decoration: none;
 }
 /* Actions */
-#groups DIV.actions A.home { background: #D9E575 url(../img_styles/groupe/puce_home.gif) no-repeat left center; }
-#groups DIV.actions A.subscribe { background: #D9E575 url(../img_styles/groupe/puce_subscribe.gif) no-repeat left center; }
-#groups DIV.actions A.admin { background: #D9E575 url(../img_styles/groupe/puce_admin.gif) no-repeat left center; }
-#groups DIV.actions A.blog { background: #D9E575 url(../img_styles/groupe/puce_blog.gif) no-repeat left center; }
+#groups DIV.actions a { background:#eee; background-repeat:no-repeat; background-position: left center; }
+#groups DIV.actions A.home { background-image:url(../images/puce_home.gif); }
+#groups DIV.actions A.subscribe { background-image:url(../images/puce_subscribe.gif); }
+#groups DIV.actions A.admin { background-image:url(../images/puce_admin.gif); }
+#groups DIV.actions A.blog { background-image:url(../images/puce_blog.gif); }
 #groups DIV.actions A:hover {
-	background-color: #B9C554;
+	background-color: #ccc;
 	color: #000;
 	text-decoration: none;
 }
@@ -222,10 +201,10 @@ DIV.groupe_title a:hover {
 	text-decoration: none;
 }
 /* Actions */
-#groups-home DIV.actions A.home { background: #D9E575 url(../img_styles/groupe/puce_home.gif) no-repeat left center; }
-#groups-home DIV.actions A.subscribe { background: #D9E575 url(../img_styles/groupe/puce_subscribe.gif) no-repeat left center; }
-#groups-home DIV.actions A.admin { background: #D9E575 url(../img_styles/groupe/puce_admin.gif) no-repeat left center; }
-#groups-home DIV.actions A.blog { background: #D9E575 url(../img_styles/groupe/puce_blog.gif) no-repeat left center; }
+#groups-home DIV.actions A.home { background: #D9E575 url(../images/puce_home.gif) no-repeat left center; }
+#groups-home DIV.actions A.subscribe { background: #D9E575 url(../images/puce_subscribe.gif) no-repeat left center; }
+#groups-home DIV.actions A.admin { background: #D9E575 url(../images/puce_admin.gif) no-repeat left center; }
+#groups-home DIV.actions A.blog { background: #D9E575 url(../images/puce_blog.gif) no-repeat left center; }
 #groups-home DIV.actions A:hover {
 	background-color: #B9C554;
 	color: #000;

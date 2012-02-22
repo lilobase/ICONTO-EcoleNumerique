@@ -7,13 +7,13 @@
 <input type="hidden" name="format" value="{$format}" />
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL>
-	</DIV>
+	</ul>
+	</div>
 {/if}
 
 {if $preview and !$errors}
@@ -29,13 +29,17 @@
 <table border="0" CELLSPACING="1" CELLPADDING="1" ALIGN="CENTER">
 	<tr>
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="carnet.form.concern"}</td><td CLASS="form_saisie">
-	<DIV STYLE="width:600px;">
-	{if $canWriteClasse}{i18n key="carnet.list.allClasseTxt"}<br/><A HREF="javascript:checkAllClasse();">{i18n key="carnet.list.allClasse"}</A>{/if}
+	<DIV>
+	{if $canWriteClasse}{i18n key="carnet.list.allClasseTxt"}<br clear="all" />{/if}
 	{foreach from=$hisEleves item=item}
 		{assign var="itemid" value=$item.id}
-		<DIV STYLE="float:left; width:150px;">{*<LABEL FOR="eleves_{$item.id}">*}<input type="checkbox" id="eleves_{$item.id}" name="eleves[]" value="{$item.id}"{if !$eleves or $eleves.$itemid === 0 or $eleves.$itemid>0}CHECKED{/if}> {user label=$item.prenom|cat:' '|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=0}{*</LABEL>*}
-		</DIV>
+		<div class="checkEleve">{*<LABEL FOR="eleves_{$item.id}">*}<input type="checkbox" id="eleves_{$item.id}" name="eleves[]" value="{$item.id}"{if !$eleves or $eleves.$itemid === 0 or $eleves.$itemid>0}CHECKED{/if}> {user label=$item.prenom|cat:' '|cat:$item.nom userType=$item.type userId=$item.id linkAttribs='STYLE="text-decoration:none;"' login=$item.login dispMail=0}{*</LABEL>*}
+		</div>
 	{/foreach}
+  
+  {if $canWriteClasse}<div class="checkEleve"><A HREF="javascript:checkAllClasse();"><b>{i18n key="carnet.list.allClasse"}</b></A></div>{/if}
+  
+  
 	</DIV>
 		</td>
 	</tr>
@@ -51,7 +55,7 @@
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="carnet.form.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
 
-	<tr><td colspan="2" CLASS="form_submit"><input style="" class="form_button" onclick="self.location='{copixurl dest="carnet||getCarnet" classe=$classe eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.cancel"}" /> <input style="" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'save');" value="{i18n key="carnet.btn.save"}" /> <input style="" class="form_button" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="{i18n key="carnet.btn.preview"}" /></td></tr>
+	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="carnet||getCarnet" classe=$classe eleve=$eleve}'" type="button" value="{i18n key="carnet.btn.cancel"}" /> <input class="button button-save" type="submit" onClick="submitTopicForm(this.form, 'save');" value="{i18n key="carnet.btn.save"}" /> <input class="button button-view" type="submit" onClick="submitTopicForm(this.form, 'preview');" value="{i18n key="carnet.btn.preview"}" /></td></tr>
 	
 </table>
 

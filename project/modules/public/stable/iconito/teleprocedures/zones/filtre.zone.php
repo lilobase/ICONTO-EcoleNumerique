@@ -9,7 +9,7 @@
 
 class ZoneFiltre extends CopixZone {
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		$motcle= $this->getParam('motcle');
 		$clos = $this->getParam('clos');

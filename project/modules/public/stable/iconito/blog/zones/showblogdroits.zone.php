@@ -24,7 +24,7 @@ class ZoneShowBlogDroits extends CopixZone {
 	function _createContent (&$toReturn) {
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$blog = $this->getParam('blog', null);
 		$kind = $this->getParam('kind', null);
@@ -53,7 +53,7 @@ class ZoneShowBlogDroits extends CopixZone {
 		}
 		//print_r($childs);
 
-		$tplHome = & new CopixTpl ();
+		$tplHome = new CopixTpl ();
 		//$tplHome->assign ('groupe', $groupe[0]);
 		$tpl->assign ('kind', $kind);
 		$tpl->assign ('droit', $droit);

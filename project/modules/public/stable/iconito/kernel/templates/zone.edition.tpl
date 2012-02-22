@@ -14,27 +14,39 @@
 
 {elseif $format eq "html"}
 
-<div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+<div><textarea{if !$class} style="width:{$width}px; height:{$height}px;"{/if} name="{$field}" id="{$field}" class="form {$class}">{$content}</textarea></div>
 <div>{$wikibuttons}</div>
 
 {elseif $format eq "htmlnl2br"}
-
-<div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+<div><textarea{if !$class} style="width:{$width}px; height:{$height}px;"{/if} name="{$field}" id="{$field}" class="form {$class}">{$content}</textarea></div>
 <div>{$wikibuttons}</div>
 
-{*{elseif $format eq "fckeditor"}
-
-<div>{$fckeditor}</div>
-<div>{$wikibuttons}</div>
-*}
 {elseif $format eq "ckeditor" || $format eq "fckeditor"}
 
-<div><textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+<div>
+
+
+<textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
+
 
 <script type="text/javascript">
 CKEDITOR.replace( '{$field}',
 {literal}{{/literal}
-	customConfig : '{copixresource path="js/ckeditor.js"}'
+	customConfig : '{copixresource path="js/ckeditor.js"}',
+  width: '{$width}',
+  height: '{$height}',
+  on:
+  {literal}{{/literal}
+    {if $options.focus}
+    'instanceReady': function(evt) {literal}{{/literal}
+      //Set the focus to your editor
+      CKEDITOR.instances.{$field}.focus();
+    {literal}}{/literal}
+    {/if}
+  {literal}}{/literal}
+  {if $options.enterMode == 'br'}, enterMode: CKEDITOR.ENTER_BR{/if}
+  {if $options.toolbarSet}, toolbar: '{$options.toolbarSet}'{/if}
+  {if $options.toolbarStartupExpanded}, toolbarStartupExpanded: {$options.toolbarStartupExpanded}{/if}
 {literal}}{/literal});
 </script>
 

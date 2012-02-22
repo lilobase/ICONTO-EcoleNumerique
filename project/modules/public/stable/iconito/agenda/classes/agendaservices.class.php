@@ -16,7 +16,7 @@ _classInclude('agenda|agendatype');
 class AgendaService {
 	
 	/**
-	* Récupération de tous les agendas en base de données 
+	* RÃ©cupÃ©ration de tous les agendas en base de donnÃ©es 
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/24
 	* @return array tableau d'objet agenda
@@ -35,9 +35,9 @@ class AgendaService {
 				
 				// 1. Son agenda perso
 				$userInfo = Kernel::getUserInfo();
-				// Création des modules inexistants.
+				// CrÃ©ation des modules inexistants.
 				Kernel::createMissingModules( $userInfo["type"], $userInfo["id"] );
-				// Liste des modules activés.
+				// Liste des modules activÃ©s.
 				$modsList = Kernel::getModEnabled( $userInfo["type"], $userInfo["id"] );
 				foreach ($modsList AS $modInfo) {
 					if( $modInfo->module_type == "MOD_AGENDA" && $modInfo->module_id) {
@@ -45,7 +45,7 @@ class AgendaService {
 					}
 				}
 			
-				// 2. Ceux de sa classe, son école, ses groupes...
+				// 2. Ceux de sa classe, son Ã©cole, ses groupes...
 				$mynodes = Kernel::getNodes();
 				foreach ($mynodes as $nodes) {
 					foreach ($nodes as $node) {
@@ -87,10 +87,10 @@ class AgendaService {
 	
 	
 	/**
-	* Stock en session la liste des identifiants des agendas à afficher
+	* Stock en session la liste des identifiants des agendas Ã  afficher
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/28
-	* @param array $pArIdAgenda tableau d'identifiant des éléments à afficher
+	* @param array $pArIdAgenda tableau d'identifiant des Ã©lÃ©ments Ã  afficher
 	*/
 	function setAgendaAffiches ($pArIdAgenda){
 		_sessionSet ('modules|agenda|affiches', $pArIdAgenda);
@@ -98,11 +98,11 @@ class AgendaService {
 	
 	
 	/**
-	* Récupère de la session la liste des agendas à afficher
+	* RÃ©cupÃ¨re de la session la liste des agendas Ã  afficher
 	* Si rien en session, revoie l'agenda personnel
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/28
-	* @return array $arAgendaAffiches agendas à afficher
+	* @return array $arAgendaAffiches agendas Ã  afficher
 	*/
 	function getAgendaAffiches (){
 
@@ -147,13 +147,13 @@ class AgendaService {
 	
 		
 	/**
-	* Indique la date fin de fin de répétition quand l'utilisateur demande à répéter un certain nbe de fois
+	* Indique la date fin de fin de rÃ©pÃ©tition quand l'utilisateur demande Ã  rÃ©pÃ©ter un certain nbe de fois
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/07/26
-	* @param integer $pNbFois nombre de fois que l'évènement est répété
-	* @param integer $pFrequence fréquence à laquelle l'évènement est répété (jour, semaine, mois, annee)
-	* @param date $pDateDebutEvent $pDateDebutEvent date du début de l'évènement, format JJ/MM/AAAA
-	* @return date (au format yyyymmdd) $dateFinEvent date à laquelle se termine l'évènement
+	* @param integer $pNbFois nombre de fois que l'Ã©vÃ¨nement est rÃ©pÃ©tÃ©
+	* @param integer $pFrequence frÃ©quence Ã  laquelle l'Ã©vÃ¨nement est rÃ©pÃ©tÃ© (jour, semaine, mois, annee)
+	* @param date $pDateDebutEvent $pDateDebutEvent date du dÃ©but de l'Ã©vÃ¨nement, format JJ/MM/AAAA
+	* @return date (au format yyyymmdd) $dateFinEvent date Ã  laquelle se termine l'Ã©vÃ¨nement
 	*/
     function getDateEndRepeatByNbFois ($pNbFois, $pFrequence, $pDateDebutEvent){ 
 			//var_dump($pDateDebutEvent);
@@ -170,19 +170,19 @@ class AgendaService {
 			//var_dump($dateI18N);
 			//var_dump($date2);
 		
-				// Evènement se répète tous les jours
+				// EvÃ¨nement se rÃ©pÃ¨te tous les jours
         if ($pFrequence == 'everyday_event') {
             $dateFinEvent = $serviceDate->addToDate ($date2, $pNbFois, 0, 0, '/');
         } 
-        // Evènement se répète toutes les semaines
+        // EvÃ¨nement se rÃ©pÃ¨te toutes les semaines
         if ($pFrequence == 'everyweek_event') {
             $dateFinEvent = $serviceDate->addToDate ($date2, $pNbFois * 7, 0, 0, '/');
         } 
-        // Evènement se répète tous les mois
+        // EvÃ¨nement se rÃ©pÃ¨te tous les mois
         if ($pFrequence == 'everymonth_event') {
             $dateFinEvent = $serviceDate->addToDate ($date2, 0, $pNbFois, 0, '/');
         } 
-        // Evènement se répète toutes les années
+        // EvÃ¨nement se rÃ©pÃ¨te toutes les annÃ©es
         if ($pFrequence == 'everyyear_event') {
             $dateFinEvent = $serviceDate->addToDate ($date2, 0, 0, $pNbFois, '/');
         } 
@@ -193,11 +193,11 @@ class AgendaService {
 
 	
 	/*
-	* Fonction qui récupère tous les évènements de l'agenda affiché, à la semaine affichée
-	* @param  integer $pIdAgenda identifiant de l'agenda concerné
-	* @param  integer $pDateDeb date de début de la semaine affichée au format yyyymmdd
-	* @param  integer $pDateFin date de fin de la semaine affichée au format yyyymmdd
-	* @return array $arResultat tableau d'évènements
+	* Fonction qui rÃ©cupÃ¨re tous les Ã©vÃ¨nements de l'agenda affichÃ©, Ã  la semaine affichÃ©e
+	* @param  integer $pIdAgenda identifiant de l'agenda concernÃ©
+	* @param  integer $pDateDeb date de dÃ©but de la semaine affichÃ©e au format yyyymmdd
+	* @param  integer $pDateFin date de fin de la semaine affichÃ©e au format yyyymmdd
+	* @return array $arResultat tableau d'Ã©vÃ¨nements
 	*/
     function checkEventOfAgendaInBdd ($pIdAgenda, $pDateDeb, $pDateFin){
 	
@@ -215,11 +215,11 @@ class AgendaService {
 
 	
 	/**
-	* Fonction qui récupère les leçons en base pour une période donnée et les classe par jour
+	* Fonction qui rÃ©cupÃ¨re les leÃ§ons en base pour une pÃ©riode donnÃ©e et les classe par jour
 	* @param array $pArAgendas Tableau des agendas concernes
-	* @param date $pDateDeb date de début de la période au format yyyymmdd
-	* @param date $pDateFin date de fin de la période au format yyyymmdd
-	* @return array $arLeconsByDays les leçons de la période classées par jour
+	* @param date $pDateDeb date de dÃ©but de la pÃ©riode au format yyyymmdd
+	* @param date $pDateFin date de fin de la pÃ©riode au format yyyymmdd
+	* @return array $arLeconsByDays les leÃ§ons de la pÃ©riode classÃ©es par jour
 	*/
 	function getLeconsByDay($pArAgendas, $pDateDeb, $pDateFin){
 		$dateService  = new DateService;		
@@ -238,7 +238,7 @@ class AgendaService {
 				$arLeconsByDays[$dateCourante] = null;
 			}
 			
-			//on incrémente le nombre de jours de 1 à chaque passage
+			//on incrÃ©mente le nombre de jours de 1 Ã  chaque passage
 			$dateCourante = $dateService->addToDate($dateService->dateBddToDateFr($dateCourante), 1, 0, 0, '/');
 			$dateCourante = $dateService->dateFrToDateBdd($dateCourante);			
 		}		
@@ -247,33 +247,33 @@ class AgendaService {
 	
 	
 	/**
-	* Fonction qui organise par jour, les élèments ayant lieu dans période donnée
+	* Fonction qui organise par jour, les Ã©lÃ¨ments ayant lieu dans pÃ©riode donnÃ©e
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/03
-	* @param array $arEventsSemaine tous les évènements ayant lieu dans la semaine
-	* @param array $dateDebutSemaine date de début de la semaine au format yyyymmdd
+	* @param array $arEventsSemaine tous les Ã©vÃ¨nements ayant lieu dans la semaine
+	* @param array $dateDebutSemaine date de dÃ©but de la semaine au format yyyymmdd
 	* @param array $dateFinSemaine date de fin de la semaine au format yyyymmdd
-	* @return array $arEventByDay les évènement de la semaine classés par jour
+	* @return array $arEventByDay les Ã©vÃ¨nement de la semaine classÃ©s par jour
 	*/
 	function getEventsByDay($arEventsSemaine, $dateDebutSemaine, $dateFinSemaine){
 		$dateCourante = $dateDebutSemaine;
 		$dateService = new DateService;
-		$noEvent = true;//variable à true s'il n'y a pas d'évènements dans la semaine
+		$noEvent = true;//variable Ã  true s'il n'y a pas d'Ã©vÃ¨nements dans la semaine
 		$arEventByDay = array();
 		
 		while($dateCourante <= $dateFinSemaine){
 			foreach($arEventsSemaine as $idAgenda=>$arEvents){
 				foreach((array)$arEvents as $event){
 				$noEvent = false;
-						if($event->endrepeatdate_event == null){//cas des évènements qui ne se répètent pas
-							if($event->datedeb_event == $event->datefin_event){//l'évènement se déroule entièrement dans la même journée
+						if($event->endrepeatdate_event == null){//cas des Ã©vÃ¨nements qui ne se rÃ©pÃ¨tent pas
+							if($event->datedeb_event == $event->datefin_event){//l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme journÃ©e
 								if(($dateCourante >= $event->datedeb_event) && ($event->datefin_event >= $dateCourante)){
 									$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 								}
 							}
-							else{//l'évènement se déroule sur plusieurs jours
-								$eventDuplicate = $event;//on copie l'évènement pour travailler dessus
-								if($dateCourante == $event->datedeb_event && $dateCourante < $event->datefin_event){//premier jour de l'évènement
+							else{//l'Ã©vÃ¨nement se dÃ©roule sur plusieurs jours
+								$eventDuplicate = $event;//on copie l'Ã©vÃ¨nement pour travailler dessus
+								if($dateCourante == $event->datedeb_event && $dateCourante < $event->datefin_event){//premier jour de l'Ã©vÃ¨nement
 									$eventDuplicate->heurefin_event = '24:00';
 									$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 								}
@@ -282,39 +282,39 @@ class AgendaService {
 									$eventDuplicate->heurefin_event = '24:00';
 									$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 								}
-								if($dateCourante > $event->datedeb_event && $dateCourante == $event->datefin_event){//dernier jour de l'évènement
+								if($dateCourante > $event->datedeb_event && $dateCourante == $event->datefin_event){//dernier jour de l'Ã©vÃ¨nement
 									$eventDuplicate->heuredeb_event = '00:00';
 									$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 								}
 							}
 						}
-						else{//cas des évènements qui se répètent
-							//si la date de fin de répétition se situe en plein dans l'évènement, on ne commence pas l'évènement
+						else{//cas des Ã©vÃ¨nements qui se rÃ©pÃ¨tent
+							//si la date de fin de rÃ©pÃ©tition se situe en plein dans l'Ã©vÃ¨nement, on ne commence pas l'Ã©vÃ¨nement
 							$nbJours = $dateService->getNombreJoursEcoulesEntreDeuxDates($event->datefin_event, $event->datedeb_event);			
 							$dateCourantePlusNbJours = $dateService->dateBddToDateFr($dateCourante);
 							$dateCourantePlusNbJours = $dateService->addToDate($dateCourantePlusNbJours, $nbJours, 0, 0);
 							$dateCourantePlusNbJours = $dateService->dateFrToDateBdd($dateCourantePlusNbJours);							
-							//évènement qui se répète tous les jours
+							//Ã©vÃ¨nement qui se rÃ©pÃ¨te tous les jours
 							if($event->everyday_event == 1 && $dateCourantePlusNbJours <= $event->endrepeatdate_event && $event->datedeb_event <= $dateCourante){
-								if($event->datedeb_event == $event->datefin_event){//l'évènement se déroule entièrement dans la même journée
+								if($event->datedeb_event == $event->datefin_event){//l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme journÃ©e
 									$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 								}
-								else{//l'évènement se déroule sur plusieurs jours
-									$eventDuplicate = $event;//on copie l'évènement pour travailler dessus
-									if($dateCourante == $event->datedeb_event && $dateCourante < $event->datefin_event && $dateCourante < $event->endrepeatdate_event){//premier jour de l'évènement
+								else{//l'Ã©vÃ¨nement se dÃ©roule sur plusieurs jours
+									$eventDuplicate = $event;//on copie l'Ã©vÃ¨nement pour travailler dessus
+									if($dateCourante == $event->datedeb_event && $dateCourante < $event->datefin_event && $dateCourante < $event->endrepeatdate_event){//premier jour de l'Ã©vÃ¨nement
 										$eventDuplicate->heurefin_event = '24:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}
-									else if($dateCourante > $event->datedeb_event && $dateCourante == $event->endrepeatdate_event){//dernier jour de l'évènement
+									else if($dateCourante > $event->datedeb_event && $dateCourante == $event->endrepeatdate_event){//dernier jour de l'Ã©vÃ¨nement
 										$eventDuplicate->heuredeb_event = '00:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}
 									else{
-										//fin de l'évènement de la journée précédente
+										//fin de l'Ã©vÃ¨nement de la journÃ©e prÃ©cÃ©dente
 										$eventDuplicate->heuredeb_event = '00:00';
 										$eventDuplicate->heurefin_event = $event->heurefin_event;
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
-										//début de l'évènement
+										//dÃ©but de l'Ã©vÃ¨nement
 										$eventDuplicate->heuredeb_event = $event->heuredeb_event;
 										$eventDuplicate->heurefin_event = '24:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
@@ -326,30 +326,30 @@ class AgendaService {
 								$jourCourant           = date('w', $dateCouranteTimestamp);
 								$jourDebutEvent        = date('w', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null));
 								$jourFinEvent          = date('w', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null));
-								if($event->datedeb_event == $event->datefin_event){//l'évènement se déroule entièrement dans la même journée
-									//si l'évènement se déroule entièrement dans la même semaine
+								if($event->datedeb_event == $event->datefin_event){//l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme journÃ©e
+									//si l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme semaine
 									if($dateService->dateToWeeknum($dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) == $dateService->dateToWeeknum($dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){
 										if(($jourDebutEvent-1 <= $jourCourant-1) && ($jourCourant-1 <= $jourFinEvent-1)){
 											$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 										}
 									}
-									else{//l'évènement commence en fin de semaine et se termine en début de semaine suivante
+									else{//l'Ã©vÃ¨nement commence en fin de semaine et se termine en dÃ©but de semaine suivante
 										if(($jourCourant <= $jourFinEvent) || ($jourCourant == $jourDebutEvent)){
 											$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 										}
 									}
 								}
-								else{//l'évènement se déroule sur plusieurs jours
-									$eventDuplicate = $event;//on copie l'évènement pour travailler dessus
-									if($jourCourant == $jourDebutEvent){//premier jour de l'évènement
+								else{//l'Ã©vÃ¨nement se dÃ©roule sur plusieurs jours
+									$eventDuplicate = $event;//on copie l'Ã©vÃ¨nement pour travailler dessus
+									if($jourCourant == $jourDebutEvent){//premier jour de l'Ã©vÃ¨nement
 										$eventDuplicate->heurefin_event = '24:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}
-									else if($jourCourant == $jourFinEvent){//dernier jour de l'évènement
+									else if($jourCourant == $jourFinEvent){//dernier jour de l'Ã©vÃ¨nement
 										$eventDuplicate->heuredeb_event = '00:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}
-									//l'évènement se déroule tout dans la même semaine
+									//l'Ã©vÃ¨nement se dÃ©roule tout dans la mÃªme semaine
 									else if($dateService->dateToWeeknum($dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) == $dateService->dateToWeeknum($dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){
 										if($jourDebutEvent < $jourCourant && $jourCourant < $jourFinEvent){
 											$eventDuplicate->heuredeb_event = '00:00';
@@ -357,7 +357,7 @@ class AgendaService {
 											$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 										}
 									}
-									//l'évènement commence en fin de semaine et se termine en début de semaine suivante
+									//l'Ã©vÃ¨nement commence en fin de semaine et se termine en dÃ©but de semaine suivante
 									else if($dateService->dateToWeeknum($dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) != $dateService->dateToWeeknum($dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){
 										if ($jourCourant < $jourFinEvent){
 										$eventDuplicate->heuredeb_event = '00:00';
@@ -367,39 +367,39 @@ class AgendaService {
 									}									
 								}							
 							}
-							//on ne compare que les jours pour un évènement qui se répète tous les mois
+							//on ne compare que les jours pour un Ã©vÃ¨nement qui se rÃ©pÃ¨te tous les mois
 							if($event->everymonth_event == 1 && $dateCourantePlusNbJours <= $event->endrepeatdate_event && $event->datedeb_event <= $dateCourante){
-								if($event->datedeb_event == $event->datefin_event){//l'évènement se déroule entièrement dans la même journée
-									//si l'évènement se déroule entièrement dans le même mois
+								if($event->datedeb_event == $event->datefin_event){//l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme journÃ©e
+									//si l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans le mÃªme mois
 									if(date('m', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) == date('m', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){
 										if((substr($event->datedeb_event, 6, 2) <= substr($dateCourante, 6, 2)) && (substr($dateCourante, 6, 2) <= substr($event->datefin_event, 6, 2))){
 											$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 										}
 									}
-									else{//l'évènement commence à la fin d'un mois et se termine au début du mois suivant
+									else{//l'Ã©vÃ¨nement commence Ã  la fin d'un mois et se termine au dÃ©but du mois suivant
 										if(( (substr($event->datedeb_event, 6, 2) <= substr($dateCourante, 6, 2)) &&  (substr($dateCourante, 6, 2) <= 31) ) || ( (1 <= substr($dateCourante, 6, 2)) && (substr($dateCourante, 6, 2) <= substr($event->datefin_event, 6, 2)) )){
 											$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 										}
 									}
 								}
-								else{//l'évènement se déroule sur plusieurs jours
-									$eventDuplicate = $event;//on copie l'évènement pour travailler dessus
-									if(substr($event->datedeb_event, 6, 2) == substr($dateCourante, 6, 2)){//premier jour de l'évènement									
+								else{//l'Ã©vÃ¨nement se dÃ©roule sur plusieurs jours
+									$eventDuplicate = $event;//on copie l'Ã©vÃ¨nement pour travailler dessus
+									if(substr($event->datedeb_event, 6, 2) == substr($dateCourante, 6, 2)){//premier jour de l'Ã©vÃ¨nement									
 										$eventDuplicate->heurefin_event = '24:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}
-									else if(substr($event->datefin_event, 6, 2) == substr($dateCourante, 6, 2)){//dernier jour de l'évènement
+									else if(substr($event->datefin_event, 6, 2) == substr($dateCourante, 6, 2)){//dernier jour de l'Ã©vÃ¨nement
 										$eventDuplicate->heuredeb_event = '00:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}									
-									else if(date('m', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) == date('m', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){//l'évènement se déroule entièrement dans le même mois
+									else if(date('m', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) == date('m', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){//l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans le mÃªme mois
 										if((substr($event->datedeb_event, 6, 2) < substr($dateCourante, 6, 2)) && (substr($event->datefin_event, 6, 2) > substr($dateCourante, 6, 2))){
 											$eventDuplicate->heuredeb_event = '00:00';
 											$eventDuplicate->heurefin_event = '24:00';
 											$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 										}
 									}
-									else if(date('m', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) != date('m', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){//l'évènement commence à la fin d'un mois et se termine au début du mois suivant
+									else if(date('m', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) != date('m', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){//l'Ã©vÃ¨nement commence Ã  la fin d'un mois et se termine au dÃ©but du mois suivant
 										if(( (substr($event->datedeb_event, 6, 2) < substr($dateCourante, 6, 2)) &&  (substr($dateCourante, 6, 2) <= 31) ) || ( (1 <= substr($dateCourante, 6, 2)) && (substr($dateCourante, 6, 2) < substr($event->datefin_event, 6, 2)))){
 											$eventDuplicate->heuredeb_event = '00:00';
 											$eventDuplicate->heurefin_event = '24:00';
@@ -408,32 +408,32 @@ class AgendaService {
 									}
 								}
 							}
-							//on ne compare que les jours et mois pour un évènement qui se répète toutes les années
+							//on ne compare que les jours et mois pour un Ã©vÃ¨nement qui se rÃ©pÃ¨te toutes les annÃ©es
 							if($event->everyyear_event == 1 && $dateCourantePlusNbJours <= $event->endrepeatdate_event && $event->datedeb_event <= $dateCourante){
-								if($event->datedeb_event == $event->datefin_event){//l'évènement se déroule entièrement dans la même journée
-									//si l'évènement se déroule entièrement dans la même année
+								if($event->datedeb_event == $event->datefin_event){//l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme journÃ©e
+									//si l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme annÃ©e
 									if(date('Y', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) == date('Y', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){
 										if((substr($event->datedeb_event, 4, 4) <= substr($dateCourante, 4, 4)) && (substr($dateCourante, 4, 4) <= substr($event->datefin_event, 4, 4))){
 											$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 										}
 									}
-									else{//l'évènement commence à la fin d'une année et se termine au début de l'année suivante
+									else{//l'Ã©vÃ¨nement commence Ã  la fin d'une annÃ©e et se termine au dÃ©but de l'annÃ©e suivante
 										if(( (substr($event->datedeb_event, 4, 4) <= substr($dateCourante, 4, 4)) &&  (substr($dateCourante, 4, 4) <= 1231) ) || ( (101 <= substr($dateCourante, 4, 4)) && (substr($dateCourante, 4, 4) <= substr($event->datefin_event, 4, 4)) )){
 											$arEventByDay[$dateCourante]->events[$event->heuredeb_event.$event->id_event] = $event;
 										}
 									}
 								}
-								else{//l'évènement se déroule sur plusieurs jours
-									$eventDuplicate = $event;//on copie l'évènement pour travailler dessus
-									if(substr($event->datedeb_event, 4, 4) == substr($dateCourante, 4, 4)){//premier jour de l'évènement									
+								else{//l'Ã©vÃ¨nement se dÃ©roule sur plusieurs jours
+									$eventDuplicate = $event;//on copie l'Ã©vÃ¨nement pour travailler dessus
+									if(substr($event->datedeb_event, 4, 4) == substr($dateCourante, 4, 4)){//premier jour de l'Ã©vÃ¨nement									
 										$eventDuplicate->heurefin_event = '24:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}
-									else if(substr($event->datefin_event, 4, 4) == substr($dateCourante, 4, 4)){//dernier jour de l'évènement
+									else if(substr($event->datefin_event, 4, 4) == substr($dateCourante, 4, 4)){//dernier jour de l'Ã©vÃ¨nement
 										$eventDuplicate->heuredeb_event = '00:00';
 										$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 									}
-									//si l'évènement se déroule entièrement dans la même année
+									//si l'Ã©vÃ¨nement se dÃ©roule entiÃ¨rement dans la mÃªme annÃ©e
 									else if(date('Y', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) == date('Y', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){
 										if((substr($event->datedeb_event, 4, 4) < substr($dateCourante, 4, 4)) && (substr($event->datefin_event, 4, 4) > substr($dateCourante, 4, 4))){
 											$eventDuplicate->heuredeb_event = '00:00';
@@ -441,7 +441,7 @@ class AgendaService {
 											$arEventByDay[$dateCourante]->events[$eventDuplicate->heuredeb_event.$event->id_event] = $eventDuplicate;
 										}							
 									}
-									else if(date('Y', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) != date('Y', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){//l'évènement commence à la fin d'une année et se termine au début de l'année suivante
+									else if(date('Y', $dateService->dateAndHoureBdToTimestamp($event->datedeb_event, null)) != date('Y', $dateService->dateAndHoureBdToTimestamp($event->datefin_event, null))){//l'Ã©vÃ¨nement commence Ã  la fin d'une annÃ©e et se termine au dÃ©but de l'annÃ©e suivante
 										if(((substr($event->datedeb_event, 4, 4) < substr($dateCourante, 4, 4)) &&  (substr($dateCourante, 4, 4) <= 1231) ) || ( (101 <= substr($dateCourante, 4, 4)) && (substr($dateCourante, 4, 4) < substr($event->datefin_event, 4, 4)))){
 											$eventDuplicate->heuredeb_event = '00:00';
 											$eventDuplicate->heurefin_event = '24:00';
@@ -451,25 +451,25 @@ class AgendaService {
 								}
 							}
 						}
-					//si pas d'évènement ce jour là
+					//si pas d'Ã©vÃ¨nement ce jour lÃ 
 					if(!isset($arEventByDay[$dateCourante]) || count($arEventByDay[$dateCourante]) == 0){
 						$arEventByDay[$dateCourante] = null;						
 					}
 				}
 			}
 			
-			//on incrémente le nombre de jours de 1 à chaque passage
+			//on incrÃ©mente le nombre de jours de 1 Ã  chaque passage
 			$dateCourante = $dateService->addToDate($dateService->dateBddToDateFr($dateCourante), 1, 0, 0, '/');
 			$dateCourante = $dateService->dateFrToDateBdd($dateCourante);
 		}
 		
-		//si pas d'évènements de la semaine, ne passe pas dans le foreach
-		//donc on construit un tableau vide pour pouvoir insérer les cases transparentes par la suite		
+		//si pas d'Ã©vÃ¨nements de la semaine, ne passe pas dans le foreach
+		//donc on construit un tableau vide pour pouvoir insÃ©rer les cases transparentes par la suite		
 		if($noEvent == true){
 			$dateCourante = $dateDebutSemaine;
 			while($dateCourante <= $dateFinSemaine){			
 				$arEventByDay[$dateCourante] = null;			
-				//on incrémente le nombre de jours de 1 à chaque passage
+				//on incrÃ©mente le nombre de jours de 1 Ã  chaque passage
 				$dateCourante = $dateService->addToDate($dateService->dateBddToDateFr($dateCourante), 1, 0, 0, '/');
 				$dateCourante = $dateService->dateFrToDateBdd($dateCourante);
 			}
@@ -478,11 +478,11 @@ class AgendaService {
 	}
 	
 	/**
-	* Fonction qui ordonne les évènements par heure de début
+	* Fonction qui ordonne les Ã©vÃ¨nements par heure de dÃ©but
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/03
-	* @param array $pArEventByDay tableau d'évènements classés par jour
-	* @return array $pArEventByDay tableau des évènements ordonnés par heure de début
+	* @param array $pArEventByDay tableau d'Ã©vÃ¨nements classÃ©s par jour
+	* @return array $pArEventByDay tableau des Ã©vÃ¨nements ordonnÃ©s par heure de dÃ©but
 	*/	
 	function getEventsInOrderByDay($pArEventByDay){
 		foreach((array)$pArEventByDay as $date=>$jour){		
@@ -517,7 +517,7 @@ class AgendaService {
 	}
 	
 	/**
-	* Fonction qui retourne un tableau associant l'identifiant de l'évènement et sa couleur d'affichage
+	* Fonction qui retourne un tableau associant l'identifiant de l'Ã©vÃ¨nement et sa couleur d'affichage
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/08
 	* @param integer $pIdAgenda l'identifiant de l'agenda
@@ -534,11 +534,11 @@ class AgendaService {
 	
 	
 	/**
-	* Fonction qui retourne un tableau associant l'identifiant de l'évènement et sa couleur d'affichage
+	* Fonction qui retourne un tableau associant l'identifiant de l'Ã©vÃ¨nement et sa couleur d'affichage
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/08
-	* @param array $pArEvent le tableau d'évènements
-	* @return array $arColorEvent tableau associant la couleur d'affichage à un évènement
+	* @param array $pArEvent le tableau d'Ã©vÃ¨nements
+	* @return array $arColorEvent tableau associant la couleur d'affichage Ã  un Ã©vÃ¨nement
 	*/	
 	function getColorByIdEvent ($pArEvent){
 		$arColorEvent = array();
@@ -550,11 +550,11 @@ class AgendaService {
 	
 	
 	/**
-	* Fonction qui retourne un tableau associant l'identifiant de l'évènement et sa couleur d'affichage
+	* Fonction qui retourne un tableau associant l'identifiant de l'Ã©vÃ¨nement et sa couleur d'affichage
 	* @author Audrey Vassal <avassal@sqli.com> 
 	* @since 2006/08/08
 	* @param array $pArIdAgenda tableau d'identifiant d'agenda
-	* @return array $arTitleAgenda tableau associant l'identifiant de l'agenda à son titre
+	* @return array $arTitleAgenda tableau associant l'identifiant de l'agenda Ã  son titre
 	*/	
 	function getTilteAgendaByIdAgenda ($pArIdAgenda){
 				
@@ -572,9 +572,9 @@ class AgendaService {
 	}
 
 	/**
-	* Renvoie le titre à afficher et le parent de l'agenda. Se base sur la session. Deux cas :
-    1. On affiche 1 seul agenda : on va chercher le parent, notamment pour en déduire le titre
-    2. On affiche plusieurs agendas : le titre devient générique ("Agendas"), et il n'y a pas de parent direct
+	* Renvoie le titre Ã  afficher et le parent de l'agenda. Se base sur la session. Deux cas :
+    1. On affiche 1 seul agenda : on va chercher le parent, notamment pour en dÃ©duire le titre
+    2. On affiche plusieurs agendas : le titre devient gÃ©nÃ©rique ("Agendas"), et il n'y a pas de parent direct
 	* @author Christophe Beyer <cbeyer@cap-tic.fr>
 	* @since 2006/11/23
 	* @return array Tableau avec ['title'] (le titre) et ['parent'] (tout le parent, si on n'affiche un seul agenda)
@@ -583,16 +583,291 @@ class AgendaService {
     $res = array();
     $listAgendasAffiches = $this->getAgendaAffiches();
     if (count($listAgendasAffiches)==1) {
-      $keys = array_keys($listAgendasAffiches);
-      $parent = Kernel::menuReturntoParent( "MOD_AGENDA", $keys[0]);
-      $res['title'] = $parent['node_name'];
-			$txt = (isset($parent['txt'])) ? $parent['txt'] : '';
-			$url = (isset($parent['url'])) ? $parent['url'] : '';
-      $res['parent'] = array('txt'=>$txt, 'url'=>$url);
+      if ($record = _ioDAO('agenda|agenda')->get(array_shift($listAgendasAffiches)))
+        $res['title'] = $record->title_agenda;
+      else
+        $res['title'] = CopixI18N::get ('agenda|agenda.moduleDescription');
     } else {
       $res['title'] = CopixI18N::get ('agenda|agenda.titlePage.agendas');
     }
     return $res;
+  }
+
+
+  
+	/**
+	 * Renvoie le menu des agendas
+	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
+	 * @since 2010/10/20
+	 * @param string $iCurrent Onglet a allumer
+	 * @return array Tableau du menu a afficher
+	 */  
+  function getAgendaMenu ($iCurrent) {
+    $menu = array();
+    
+    // Affichage hebdomadaire
+		$menu_txt = CopixI18N::get('agenda.menu.back');
+		$menu_type = 'week';
+		$menu_url = CopixUrl::get ('agenda|agenda|vueSemaine');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+    
+    // Liste des agendas (popup)
+		$menu_txt = CopixI18N::get ('agenda|agenda.menu.agendalist');
+		$menu_type = 'agendalist';
+		$menu_behavior = 'fancybox';
+		$menu_url = CopixUrl::get ('agenda|agenda|agendaList');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'behavior' => $menu_behavior, 'url' => $menu_url);
+    
+    // Nouvel evenement
+    $listAgendasAffiches = AgendaService::getAgendaAffiches();
+    $ableToWrite = false;
+    $ableToModerate = false;
+		//on vÃ©rifie les droits des utilisateurs sur la liste des agendas affichÃ©s
+		foreach((array)$listAgendasAffiches as $id_agenda){
+			//on vÃ©rifie si l'utilisateur a les droits d'Ã©criture sur un des agendas affichÃ©
+			if(AgendaAuth::getCapability($id_agenda) >= AgendaAuth::getWriteAgenda()){
+				$ableToWrite = true;
+			}
+			if(AgendaAuth::getCapability($id_agenda) >= AgendaAuth::getModerate()){
+				$ableToModerate = true;
+			}
+		}		
+		if($ableToWrite) {
+  		$menu_txt = CopixI18N::get('agenda.menu.ajoutEvent');
+      $menu_type = 'create';
+  		$menu_url = CopixUrl::get ('agenda|event|create');
+  		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+		}
+		if($ableToModerate) {
+  		$menu_txt = CopixI18N::get('agenda.menu.import');
+      $menu_type = 'import';
+  		$menu_url = CopixUrl::get ('agenda|importexport|prepareImport');
+  		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+		}
+    
+    // Export
+		$menu_txt = CopixI18N::get('agenda.menu.export');
+		$menu_type = 'export';
+		$menu_url = CopixUrl::get ('agenda|importexport|prepareExport');
+		$menu[] = array('txt'=>$menu_txt,'type' => $menu_type, 'current' => ($iCurrent==$menu_type), 'url' => $menu_url);
+    
+     
+    return $menu;
+  
+  }
+  
+  /**
+	 * Ajoute/Modifie un Ã©vÃ©nement Ã  un agenda Ã  partir d'un travail issue du module cahierdetextes
+	 *
+	 * @author JÃ©rÃ©my FOURNAISE
+	 *
+	 * @param int $agendaId Identifiant de l'agenda dans lequel ajouter l'Ã©vÃ©nement
+	 * @param obj $work     Travail Ã  ajouter sur l'agenda
+	 */
+  function editEventToAgendaWithWork ($agendaId, $work) {
+
+    // S'il s'agit d'un travail Ã  faire : crÃ©ation d'un lien travail-agenda dans module_agenda_work
+    if ($work->a_faire) {
+      
+      $agendaWorkDAO = _ioDAO ('agenda|work');
+      
+      if (!$agendaWorkDAO->get($work->id, $agendaId)) {
+        
+        $agenda2work = _record ('agenda|work');
+        
+        $agenda2work->travail_id  = $work->id;
+        $agenda2work->agenda_id   = $agendaId;
+
+        $agendaWorkDAO->insert ($agenda2work);
+      }
+    }
+    // S'il s'agit d'un travail en classe : crÃ©ation d'un Ã©vÃ©nement dans module_agenda_event
+    else {
+      
+      $eventDAO  = _ioDAO ('agenda|event');
+      $workDAO   = _ioDAO ('cahierdetextes|cahierdetextestravail');
+      
+      // RÃ©cupÃ©ration de l'event si dÃ©jÃ  disponible
+      if (!($event = $eventDAO->get($work->event_id))) {
+
+        $event = _record ('agenda|event');
+      }
+
+      // RÃ©cupÃ©ration du domaine (nÃ©cessaire pour dÃ©finir le titre de l'Ã©vÃ©nement)
+      $domainDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
+      if (!is_null($domain = $domainDAO->get($work->domaine_id))) {
+
+        $event->title_event = $domain->nom;
+      }
+
+      $event->id_agenda           = $agendaId;
+  		$event->title_event         = !is_null($event->title_event) ? $event->title_event : '';
+  		$event->desc_event          = strip_tags($work->description);
+  		$event->place_event         = null;
+  		$event->datedeb_event       = $work->date_creation;
+  		$event->datefin_event       = $work->date_creation;		
+  		$event->alldaylong_event    = 1;
+  		$event->everyday_event      = 0;
+  		$event->everyweek_event     = 0;
+  		$event->everymonth_event    = 0;
+  		$event->everyyear_event     = 0;
+  		$event->endrepeatdate_event = null;
+
+  		if (is_null($event->id_event)) {
+
+  		  // Sauvegarde de l'Ã©vÃ©nement
+    		$eventDAO->insert($event);
+  		}
+  		else {
+
+  		  // Mise Ã  jour de l'Ã©vÃ©nement
+  		  $eventDAO->update($event);
+  		}
+  		
+  		// Mise Ã  jour du travail (sauvegarde de l'identifiant de l'Ã©vÃ©nement)
+  		$work->event_id = $event->id_event;
+  		$workDAO->update($work);
+    }
+  }
+  
+  /**
+   * Purge les Ã©vÃ¨nements d'un agenda sur une pÃ©riode donnÃ©e
+   *
+   * @author JÃ©rÃ©my FOURNAISE <jeremy.fournaise@isics.fr>
+   *
+   * @param integer  $pIdAgenda    Identifiant de l'agenda Ã  purger
+   * @param string   $pDateDebut   Date de dÃ©but de la pÃ©riode Ã  purger (format Ymd)
+   * @param string   $pDateFin     Date de fin de la pÃ©riode Ã  purger (format Ymd)
+   * @param string   $pHeureDebut  Heure pour la date de dÃ©but de la pÃ©riode (format H:i)
+   * @param string   $pHeureFin    Heure pour la date de fin de la pÃ©riode (format H:i)
+   */	
+  public function purgeAgendaByDateInterval ($pIdAgenda, $pDateDebut, $pDateFin, $pHeureDebut = '00:00', $pHeureFin = '00:00') {
+
+    $dateServices = new DateService;
+
+    $eventDAO = _ioDAO('agenda|event');
+    $events = $eventDAO->findByAgendaAndDateInterval($pIdAgenda, $pDateDebut, $pDateFin);
+    foreach ($events as $event) {
+
+      // Cas d'un Ã©vÃ©nement qui ne se rÃ©pÃ¨te pas
+      if (is_null($event->endrepeatdate_event) || $event->endrepeatdate_event < $pDateFin || ($event->endrepeatdate_event == $pDateFin && $event->heuredeb_event >= $pHeureFin)) {
+  			if (($event->datefin_event > $pDateDebut && $event->datedeb_event < $pDateFin)
+  			  || ($event->datedeb_event == $pDateDebut && $event->heuredeb_event >= $pHeureDebut)
+  			  || ($event->datefin_event == $pDateFin && $event->heuredeb_event <= $pHeureFin)
+  			  || (($event->datefin_event == $pDateFin || $event->datedeb_event == $pDateDebut) && $event->alldaylong_event == 1)) {
+          $eventDAO->delete($event->id_event);
+  			}
+  		}
+      else {
+
+        $duplicateEvent = clone $event;
+        $mkDateDebEvent = mktime(0, 0, 0, substr($duplicateEvent->datedeb_event, 4, 2), substr($duplicateEvent->datedeb_event, 6, 2), substr($duplicateEvent->datedeb_event, 0, 4));
+        $mkDateFin = mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2), substr($pDateFin, 0, 4));
+        
+  			// CrÃ©ation d'un autre Ã©vÃ©nement qui commence aprÃ¨s la pÃ©riode concernÃ©e s'il se poursuivait aprÃ¨s l'intervalle donnÃ©
+  			if ($duplicateEvent->endrepeatdate_event > $pDateFin || ($duplicateEvent->endrepeatdate_event == $pDateFin && $duplicateEvent->heuredeb_event >= $pHeureFin)) {
+
+  		    $record = _record ('event');
+
+  		    // EvÃ©nement qui se rÃ©pÃ¨te tous les jours
+  		    if ($duplicateEvent->everyday_event == 1) {
+
+  		      if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
+
+              // La date de dÃ©but devient la date de la fin de pÃ©riode + 1 jour
+              $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2) + 1, substr($pDateFin, 0, 4)));
+            }
+            else {
+
+  					  $record->datedeb_event = $pDateFin;
+  					}
+  		    }
+  		    // EvÃ©nement qui se rÃ©pÃ¨te toutes les semaines
+  		    elseif ($duplicateEvent->everyweek_event == 1) {
+
+  		      if (date('w', $mkDateDebEvent) == date('w', $mkDateFin)) {
+
+  						if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
+
+  					    $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2) + 7, substr($pDateFin, 0, 4)));
+  					  }
+  					  else {
+
+  				      $record->datedeb_event = $pDateFin;
+  				    }
+  				  }
+  				  else {
+
+  						$record->datedeb_event = $dateServices->getDayOfWeekAfterDate($pDateFin, date('w', $dateServices->dateAndHoureBdToTimestamp($pDateFin, null)));
+  				  }
+  		    }
+  		    // EvÃ©nement qui se rÃ©pÃ¨te tous les mois
+  		    elseif ($duplicateEvent->everymonth_event == 1) {
+
+  		      if (date('md', $mkDateDebEvent) == date('md', $mkDateFin)) {
+
+  						if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
+
+  						  $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2) + 1, substr($pDateFin, 6, 2), substr($pDateFin, 0, 4)));
+  						}
+  						else {
+
+  							$record->datedeb_event = $pDateFin;
+  						}
+  					}
+  					else {
+
+  					  $record->datedeb_event = $dateServices->getDayOfMonthAfterDate($pDateFin, substr($duplicateEvent->datedeb_event, 6, 2)); 
+  					}
+  		    }
+  		    // EvÃ©nement qui se rÃ©pÃ¨te tous les ans
+  		    elseif ($duplicateEvent->everyyear_event == 1) {
+
+  		      if (date('Ymd', $mkDateDebEvent) == date('Ymd', $mkDateFin)) {
+
+  						if ($duplicateEvent->heuredeb_event < $pHeureFin || $duplicateEvent->alldaylong_event == 1) {
+
+  						  $record->datedeb_event = date('Ymd', mktime(0, 0, 0, substr($pDateFin, 4, 2), substr($pDateFin, 6, 2), substr($pDateFin, 0, 4) + 1));
+  						}
+  						else {
+
+  						  $record->datedeb_event = $pDateFin;
+  						}
+  					}
+  					else {
+
+  						$record->datedeb_event = $dateServices->getDayOfYearAfterDate($pDateFin, substr($duplicateEvent->datedeb_event, 4, 4));
+  					}
+  		    }
+
+  				$nbJour = $dateServices->getNombreJoursEcoulesEntreDeuxDates($duplicateEvent->datefin_event, $duplicateEvent->datedeb_event);
+  				$record->datefin_event = $dateServices->dateFrToDateBdd($dateServices->addToDate($dateServices->dateBddToDateFr($record->datedeb_event), $nbJour, 0, 0));
+          
+  				$record->id_agenda            = $duplicateEvent->id_agenda;
+  				$record->title_event          = $duplicateEvent->title_event;
+  				$record->desc_event           = $duplicateEvent->desc_event;
+  				$record->place_event          = $duplicateEvent->place_event;
+  				$record->heuredeb_event       = $duplicateEvent->heuredeb_event;
+  				$record->heurefin_event       = $duplicateEvent->heurefin_event;
+  				$record->alldaylong_event     = $duplicateEvent->alldaylong_event;
+  				$record->everyday_event       = $duplicateEvent->everyday_event;
+  				$record->everyweek_event      = $duplicateEvent->everyweek_event;
+  				$record->everymonth_event     = $duplicateEvent->everymonth_event;
+  				$record->everyyear_event      = $duplicateEvent->everyyear_event;
+  				$record->endrepeatdate_event  = $duplicateEvent->endrepeatdate_event;
+
+          $eventDAO->insert ($record);
+
+          // Modification de la date de fin de rÃ©pÃ©tition de l'Ã©vÃ©nement
+          if ($event->endrepeatdate_event >= $pDateFin) {
+
+            $event->endrepeatdate_event = $pDateDebut;
+          }
+
+          $eventDAO->update ($event);
+  		  }
+  		}
+    }
   }
 
 }

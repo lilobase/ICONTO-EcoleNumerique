@@ -1,9 +1,9 @@
 
 <DIV CLASS="" ALIGN="RIGHT">
 {if !$eleve && $hisEleves|@count>0}
-<div style="text-align:right;"><a class="button_like" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
+<div style="text-align:right;"><a class="button button-add" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
 {elseif ($eleve)}
-<div style="text-align:right;"><a class="button_like" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
+<div style="text-align:right;"><a class="button button-add" href="{copixurl dest="|getTopicForm" classe=$classe eleve=$eleve}" type="button" value="{i18n key="carnet.newTopic"}">{i18n key="carnet.newTopic"}</a></div>
 {/if}
 </DIV>
 <br/>
@@ -11,7 +11,7 @@
 	{if $list neq null}
 	
 	{if $canWriteClasse || $hisEleves|@count>0}
-	<DIV CLASS="carnet_filtrage_col">
+	<DIV CLASS="carnet_filtrage_col block">
 	<DIV>{i18n key="carnet.list.filtrageIntro"} :</DIV>
 	
 	{if $canWriteClasse}<p></p>&gt; <A HREF="{copixurl dest="|getCarnet" classe=$classe}">{if !$eleve}<b>{/if}{i18n key="carnet.list.filtrageAll"}{if !$eleve}</b>{/if}</A>{/if}

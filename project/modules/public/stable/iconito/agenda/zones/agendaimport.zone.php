@@ -16,7 +16,7 @@ class ZoneAgendaImport extends CopixZone {
 	function _createContent (&$toReturn) {
 		
 		$serviceAuth   = new AgendaAuth;
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		
 		//gestion des erreurs
 		if ($this->getParam('e') == 1){

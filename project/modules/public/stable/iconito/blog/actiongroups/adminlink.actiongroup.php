@@ -39,7 +39,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_blnk = $this->getRequest('id_blnk', null);
 		if($id_blnk!=null) {
@@ -56,7 +56,8 @@ class ActionGroupAdminLink extends CopixActionGroup {
 		
 		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>2)).'">'.CopixI18N::get('blog|blog.nav.links').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>2)).'">'.CopixI18N::get('blog|blog.nav.links').'</a>';
+		$menu = getBlogAdminMenu($blog, 2);
 		$tpl->assign ('MENU', $menu);
 		$tpl->assign ('MAIN', CopixZone::process ('EditLink',
 		array('id_blog'=>$id_blog,
@@ -86,7 +87,7 @@ class ActionGroupAdminLink extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$linkDAO = CopixDAOFactory::create('blog|bloglink');
 		$id_blnk = $this->getRequest('id_blnk', null); if(strlen($id_blnk)==0) $id_blnk=null;

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="cahierdetextestravail2eleve" tablename="module_cahierdetextes_travail2eleve" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="travail_id" fieldname="module_cahierdetextes_travail_id" type="integer" required="yes" tablename="module_cahierdetextes_travail2eleve" pk="yes"/>
+    <property name="eleve_id" fieldname="kernel_bu_eleve_idEleve" type="integer" required="yes" tablename="module_cahierdetextes_travail2eleve" pk="yes"/>
+  </properties>
+  <methods>
+     <method name="deleteByTravail" type="delete">
+        <parameters>
+           <parameter name="travailId" />
+        </parameters>
+        <conditions>
+           <condition property="travail_id" operator="=" value="$travailId" />
+        </conditions>
+     </method>
+  </methods>
+</daodefinition>

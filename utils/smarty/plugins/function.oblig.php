@@ -15,7 +15,7 @@
  */
 
 function smarty_function_oblig ($params, &$smarty) {
-	$res = '&nbsp;(*)';
+	$res = '<span class="asterisque">*</span>';
 	return $res;
 }
 

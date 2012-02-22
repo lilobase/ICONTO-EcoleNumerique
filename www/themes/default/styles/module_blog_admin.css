@@ -1,24 +1,12 @@
 
-DIV.blog H1, .blog H1 {
-	color: #508957;
-	margin: 0 0 5 0;
-	padding: 0;
-	line-height: 1em;
-	font-size: 155%;
-	vertical-align: top;
-}
-
-
 /* Liste des articles */
 
 DIV.adminArticleForm {
-	background: #CCD865;
 	padding: 2px;
 	font-size: 11px
 }
 
 DIV.adminArticleList {
-	background: #DBE77A;
 	margin-top: 10px;
 	margin-bottom: 5px;
 	border-bottom: solid 1px #FFF;
@@ -50,9 +38,10 @@ DIV.adminArticleList div.is_online1 a {
 }
 /* Corps */
 #comments DIV.commentBody {
-	border-radius: 4px;
-	-moz-border-radius:4px;
-	-khtml-border-radius:4px;
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	behavior: url(/htc/PIE.htc);
 	color: #595949;
 	font-size: 11px;
 	margin: 0px 30px 6px 30px;

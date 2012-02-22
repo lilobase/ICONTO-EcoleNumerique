@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+  <datasource>
+    <tables>
+      <table name="cahierdetextesmemo" tablename="module_cahierdetextes_memo" primary="yes"/>
+    </tables>
+  </datasource>
+  <properties>
+    <property name="id" fieldname="id" type="autoincrement" pk="yes"/>
+    <property name="classe_id" fieldname="kernel_bu_ecole_classe_id" type="integer" required="yes"/>
+    <property name="date_creation" fieldname="date_creation" type="string" maxlength="14" required="yes"/>
+    <property name="date_validite" fieldname="date_validite" type="string" maxlength="14" required="yes"/>
+    <property name="message" fieldname="message" type="string" required="yes"/>
+    <property name="avec_signature" fieldname="avec_signature" type="string" required="yes" default="0"/>
+    <property name="date_max_signature" fieldname="date_max_signature" type="string" required="no" maxlength="14"/>
+    <property name="supprime" fieldname="supprime" type="integer" required="yes" default="0"/>
+  </properties>
+  <methods>
+  </methods>
+</daodefinition>

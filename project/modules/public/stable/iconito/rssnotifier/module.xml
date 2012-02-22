@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moduledefinition>
+    <general>
+        <default name="rssnotifier" />
+    </general>
+    <parameters>
+        <parameter name="rss_url" captioni18n="rssnotifier.url" default="http://feeds.feedburner.com/viedemerde" />
+        <parameter name="rss_type" captioni18n="rssnotifier.type" default="Atom" />
+        <parameter name="enable" captioni18n="rssnotifier.enable" default="false" />
+
+	   </parameters>
+</moduledefinition>

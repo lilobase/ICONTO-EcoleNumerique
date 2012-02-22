@@ -1,35 +1,74 @@
 
-table.head,
-div.icons,
+.noPrint,
+div.submenu,
+#left,
+#right,
 #footer,
-div.page div.content div.options,
-.noPrint
-{
+#page-header,
+#page-bottom,
+#contenttop,
+#contentbottom,
+#breadcrumb,
+#submenu,
+div.tools_right div.dashpanel div.toolset,
+.button,
+.mesgSuccess, 
+.mesgErrors, 
+.mesgError
+ {
 	display:none;
+
 }
 
+div.dashpanel div.content {
+  padding:0;
+}
+div.dashboard div.bu_classe div.content {
+  border:0;
+}
 
-div.page {
-	border:0;
-	margin:0;
-	width:100%;
-	background-image:none;
+#content {
+  margin:0;
+  left:0;
 }
-div.page div.content div.title {
-	background-image:none;
+
+#absolute {
+  position:relative;
 }
-div.page div.content {
-	padding:0;
+
+#absolute, #popup, #page, #page-header, #page-middle, #header, #top, #menuleft, #menuright, #breadcrumb, #left, #right, .padder, .marger {
+  overflow:visible;
 }
-div.page div.content div.main {
-	background:none;
-	
+
+#main-wrapper {
+  width:100%;
+  background:red;
 }
-/* BLOGS */
-#mainBlog #mainSideBar {
-	display:none;
+.wrapper {
+  margin:0;
 }
-#mainBlog #mainContent {
-	float:none;
-	width:auto;
+
+.marger {
+  margin:0;
+  overflow:hidden;
 }
+.wrapper-expander {
+  width:auto;
+}
+.wrapper-shifter {
+  float:none;
+  left:0;
+  width:auto;
+}
+div.tools_right div.dashpanel {
+  width:auto;
+}
+div.dashpanel div.content {
+  border:0;
+}
+
+div.dashboard {
+  margin:0;
+  padding:0;
+}
+

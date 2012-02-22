@@ -4,7 +4,9 @@
 class ZoneFooter extends CopixZone {
 
 	function _createContent (&$toReturn) {
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+        $kernel = _class("kernel");
+
 		$toReturn = "";
 		
 		$arModulesPath = CopixConfig::instance ()->arModulesPath;
@@ -13,7 +15,10 @@ class ZoneFooter extends CopixZone {
 		
 		foreach ($arModulesPath as $modulePath) {
 		
-			$tpl_file = $modulePath.'kernel/templates/footer.tpl';
+            if (file_exists( COPIX_PROJECT_PATH."themes/".$kernel->getTheme()."/kernel/footer.tpl" )) 
+                $tpl_file = COPIX_PROJECT_PATH."themes/".$kernel->getTheme()."/kernel/footer.tpl";
+            else
+			    $tpl_file = $modulePath.'kernel/templates/footer.tpl';
 
 			if( !file_exists( $tpl_file ) ) continue;
 			

@@ -1,10 +1,14 @@
 <?php
-
 /**
- * Affichage des groupes de villes
- */
+* @package    Iconito
+* @subpackage Gestionautonome
+* @author     Jérémy FOURNAISE
+*/
 class ZoneCitiesGroup extends CopixZone {
-
+  
+  /**
+   * Affichage des groupes de villes
+   */
 	function _createContent (& $toReturn) {
 	  
 	  $ppo = new CopixPPO ();                               

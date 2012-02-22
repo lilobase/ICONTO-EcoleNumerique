@@ -9,5 +9,6 @@
 	    <parameter name="statutNouveau" captioni18n="teleprocedures.parameter.statutNouveau" default="1" />
 			<parameter name="default_format" captioni18n="teleprocedures.parameter.default_format" default="ckeditor" />
 			<parameter name="formats_types" captioni18n="teleprocedures.parameter.formats_types" default="wiki,dokuwiki,html,fckeditor,ckeditor" />
+			<parameter name="USER_ADM_as_USER_ENS" captioni18n="teleprocedures.parameter.USER_ADM_as_USER_ENS" default="0" />
     </parameters>
 </moduledefinition>

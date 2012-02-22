@@ -1,0 +1,18 @@
+#visio {
+	text-align: center;
+}
+
+#visio p {
+	text-align: left;
+}
+
+#visio a.raccrocher {
+	display: block;
+	padding: 5px;
+	border: 2px solid #CCC;
+	background-color: #EEE;
+}
+#visio a.raccrocher:hover {
+	border: 2px solid #F66;
+	background-color: #FCC;
+}

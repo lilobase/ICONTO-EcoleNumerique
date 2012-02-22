@@ -1,0 +1,1 @@
+<p>{i18n key="kernel|dashboard.noRight"}</p>

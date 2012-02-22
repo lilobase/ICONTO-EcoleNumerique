@@ -1,0 +1,403 @@
+/* Global */
+div.dashboard div.content {
+	padding:43px 10px 10px;
+}
+#cahierdetextes a:link {text-decoration:none;}
+#cahierdetextes a:visited {text-decoration:none;}
+#cahierdetextes a:hover, #cahierdetextes a:focus {text-decoration:underline;}
+#cahierdetextes a:active {text-decoration:underline;}
+#cahierdetextes .works a.button, 
+#cahierdetextes #dayView a.button {
+	float:right;
+	margin
+	font-weight:normal;
+	text-transform:none;
+}
+#cahierdetextes h2 {
+	clear:both;
+	margin:1em 0 0.5em; /*border:none;
+	font-size:1.3rem; font-weight:bold;*/
+}
+#cahierdetextes h3 {
+	margin:10px 0 0; padding:0 0 0 5px;
+	font-size:1.2rem; font-weight:normal;
+	text-transform:uppercase;
+	line-height:1;
+}
+#cahierdetextes h3 a.button, #cahierdetextes h2 a.button {
+	float:right;
+	margin:-5px 0 0;
+	font-weight:normal;
+}
+#cahierdetextes h4 {
+	margin:0;
+	font-size:1.2rem;
+}
+#cahierdetextes a img {
+	border:0;
+}
+#cahierdetextes .memos-list .memo p.right {margin-bottom:10px;}
+#cahierdetextes a.openTextEnd, #cahierdetextes a.closeTextEnd { 
+	padding:5px 5px 5px 28px; border:1px solid #ddd;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:none no-repeat 3px 50% #fff;
+}
+#cahierdetextes a.openTextEnd { background-image:url(../../../themes/default/images/button-action/action_down.png);}
+#cahierdetextes a.closeTextEnd { background-image:url(../../../themes/default/images/button-action/action_up.png);}
+/* End global */
+
+
+/* Content */
+#cahierdetextes .classroom-works-list,
+#cahierdetextes .todo-works-list,
+#cahierdetextes .sidebar .memos-list {
+	margin:3px 0 20px; padding:10px 10px 1px;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
+}
+#cahierdetextes .classroom-works-list p,
+#cahierdetextes .todo-works-list p {
+	margin:0 0 0.5em;
+}
+#cahierdetextes .work {
+	margin:0 0 10px; padding:3px 5px; border:1px solid #eee;
+}
+
+#cahierdetextes .classroom-works-list p.no-work, 
+#cahierdetextes .todo-works-list p.no-work {margin-bottom:10px;}
+#cahierdetextes h4 span {
+	float:right;
+	font-size:0.75rem; font-weight:normal;
+}
+/* End Content */
+
+
+/* dayView */
+#cahierdetextes #dayView {
+  float:left;
+  margin-right:2%;
+  width:73%;
+}
+#cahierdetextes #dayView h2 {
+	margin:0.5em 0 1em; border:none;
+	font-size:1.5rem; font-weight:bold;
+	text-align:center;
+}
+#cahierdetextes #dayView h3 {
+	margin:10px 0 0;
+	color:#333;
+	font-size:1.5rem; font-weight:normal;
+	text-transform:uppercase;
+	line-height:1;
+}
+@media only screen {
+	#cahierdetextes #dayView h3 a.button {margin:0;}
+}
+/* End dayView */
+
+
+/* Sidebar */
+#cahierdetextes .sidebar {
+    margin:0 1% 0 75%;
+}
+#cahierdetextes .sidebar h3 {
+	margin:20px 0 0.7em 10px;
+	font-size:0.9rem; font-weight:bold;
+	text-transform:none;
+}
+#cahierdetextes .sidebar .today-button {
+	margin:10px 0 8px;
+	text-align:center;
+}
+#cahierdetextes .sidebar .button {
+	float:none;
+	margin:0; padding:4px 10px;
+}
+#cahierdetextes .sidebar table {
+	border-collapse:collapse;
+}
+#cahierdetextes .sidebar table td, #cahierdetextes .sidebar table th {
+	border:1px solid #ddd;
+	text-align:center;
+}
+#cahierdetextes .sidebar table a {
+	display:block;
+	width:100%; height:20px;
+	line-height:20px;
+}
+#cahierdetextes .sidebar table a:hover {background-color:#f8c56d;}
+#cahierdetextes .sidebar table .empty {background-color:#f7f7f7;}
+#cahierdetextes .sidebar table .with-work, 
+#cahierdetextes .sidebar .caption span.with-work {font-weight:bold; background-color:#fef1d9;}
+#cahierdetextes .sidebar table .selected,
+#cahierdetextes .sidebar .caption span.selected {font-weight:bold; background-color:#F8C56D;}
+#cahierdetextes .sidebar .next-works ul {
+	padding:0;
+	list-style:none;
+}
+#cahierdetextes .sidebar .next-works ul li {
+	margin-bottom:5px; padding:3px 10px;
+	background:#fff;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+}
+#cahierdetextes .sidebar .next-works ul .dateToDo {
+	display:block;
+	font-size:0.75rem; font-weight:bold;
+	color:#354E81;
+}
+/* Sidebar */
+
+
+/* Sidebar Caption */
+#cahierdetextes .sidebar .caption {
+	margin:0.4em 0;
+	color:#333;
+	font-size:0.65em;
+	line-height:1.5;
+}
+#cahierdetextes .sidebar .caption span {
+	padding:1px 2px; border:1px solid #ddd;
+	background-color:#fff; color:#000;
+}
+
+/* End Sidebar Caption */
+
+
+/* Memos */
+#cahierdetextes .memos-list {
+	clear:both;
+	padding:10px 0;
+}
+#cahierdetextes .memos-list .memo {
+	margin:3px 0 20px; padding:10px; 
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
+	overflow:hidden;
+}
+#cahierdetextes .memos-list .memo .memoDate {
+	margin:0 0 5px;
+	color:#999;
+	font-style:italic; font-size:0.75rem;
+	text-align:right;
+}
+#cahierdetextes .memos-list .memo .memoDate span.actions {
+	padding:0 10px 0;
+}
+#cahierdetextes .memos-list .memo p {margin:0.5em 0 0;}
+#cahierdetextes .memos-list .memo .signature {
+	float:right; position:relative;
+	padding:5px; border:1px solid #ddd;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+	background:#fff;
+}
+#cahierdetextes .memos-list .memo .signature p {
+	margin:0.2em 0;
+	text-align:right;
+	font-size:0.9em;
+}
+#cahierdetextes .memos-list .memo .signature .warningSign span {
+	padding:1px 0 2px 25px;
+	background:url(../../../themes/default/images/button-action/action_warning.png) no-repeat 0 50%;
+}
+#cahierdetextes .memos-list .memo .signature .confirmSign span {
+	padding:1px 0 2px 25px;
+	background:url(../../../themes/default/images/button-action/action_confirm.png) no-repeat 0 50%;
+}
+#cahierdetextes .memos-list .memo .signature input {width:300px;}
+#cahierdetextes .memos-list .memo .signature input.button {border:1px solid #ddd; width:auto;}
+#cahierdetextes .memos-list .memo .signature label.comment {
+	color:#666;
+	font-size:0.7rem;
+}
+#cahierdetextes .memos-list hr {
+	clear:both;
+	margin:0 auto 20px;
+	width:50%;
+}
+/* Fin Memos */
+
+
+/* Sidebar - Memos */
+#cahierdetextes .sidebar #memos-list {
+	position:relative;
+	clear:none;
+	overflow:hidden;
+	padding:10px 5px 0;
+}
+#cahierdetextes .sidebar #memos-list ul {
+	position:relative;
+	margin:0; padding:0;
+	list-style:none;
+}
+#cahierdetextes .sidebar #memos-list ul li {float:left;}
+#cahierdetextes .sidebar #memos-list #seeAllMemos {
+	display:block;
+	clear:both;
+	padding:10px 0 5px;
+	font-size:11px; font-size:0.7rem;
+	text-align:right;
+}
+#cahierdetextes .sidebar #memos-list ul.memo li {
+    margin:0 10px; padding:0;
+}
+#cahierdetextes .sidebar #memosSteps {
+    position:absolute; top:-5px; left:43%;
+    margin:0; padding:0;
+    height:15px;
+    list-style:none;
+}
+#cahierdetextes .sidebar #memosSteps li {
+    float:left;
+    margin-right:3px;
+}
+#cahierdetextes .sidebar #memosSteps li a {
+    display:block;
+    width:11px; height:11px;
+    background:url(../img/rssnotifier/puce_inactive_bleue.png) no-repeat top left;
+}
+#cahierdetextes .sidebar #memosSteps li a.active {
+    font-weight:bold;
+    text-decoration:underline;
+    background:url(../img/rssnotifier/puce_active_bleue.png) no-repeat top left;
+}
+#cahierdetextes .sidebar #memosSteps li a:hover {
+    background:url(../img/rssnotifier/puce_hover_bleue.png) no-repeat top left;
+}
+#cahierdetextes .sidebar #memosSteps li a span {position:absolute; top:-1000px; left:-1000px;}
+/* End Sidebar - Memos */
+
+
+/* Navigation */
+#cahierdetextes #submenu .menuitems ul li a {width:65px;}
+#cahierdetextes #submenu .menuitems ul li.newGroupItems {margin-left:50px;}
+#cahierdetextes #submenu .menuitems ul li a:hover {text-decoration:none;}
+#cahierdetextes #submenu .menuitems ul li a span.memos-count {
+	position:absolute; top:3px; left:-27px;
+	padding:4px 5px;
+	width:14px; height:14px;
+	background:url(../../../themes/default/images/mod_user_mail_badge.png) no-repeat scroll -13px -12px transparent;
+	font-size:0.6rem; font-weight:bold;
+}
+#cahierdetextes #submenu .studentMenu ul li a {
+	padding:2px 3px;
+	width:auto; max-width:110px;
+	background-image:none; color:#fff;
+	font-weight:bold;
+	text-align:center;
+}
+#cahierdetextes #submenu .studentMenu ul li.prev-week, 
+#cahierdetextes #submenu .studentMenu ul li.next-week { padding:2px 0;}
+#cahierdetextes #submenu .studentMenu ul li.prev-week a, 
+#cahierdetextes #submenu .studentMenu ul li.next-week a { width:25px;
+}
+#cahierdetextes #submenu .studentMenu ul li a.article {
+	padding:2px 2px 2px 28px;
+	width:65px;
+	background:url(../../../themes/default/images/menu/menu_article.png) no-repeat 2px 50%;
+}
+#cahierdetextes #submenu .studentMenu ul li a.monday {background-color:#EE8F00;}
+#cahierdetextes #submenu .studentMenu ul li a.tuesday {background-color:#69CA3F;}
+#cahierdetextes #submenu .studentMenu ul li a.wednesday {background-color:#47A398;}
+#cahierdetextes #submenu .studentMenu ul li a.thursday {background-color:#A13C0A;}
+#cahierdetextes #submenu .studentMenu ul li a.friday {background-color:#813384;}
+#cahierdetextes #submenu .studentMenu ul li a.saturday {background-color:#0967CC;}
+#cahierdetextes #submenu .studentMenu ul li a.current {border-color:#000; color:#eee;}
+/* End Navigation */
+
+
+/* Forms */
+#cahierdetextes form fieldset {
+	float:left;
+	margin:0 0 15px 0; padding:0; border:none;
+	max-width:450px;
+}
+#cahierdetextes form fieldset.concernedList {
+	margin:0 0 0 15px;
+	width:310px;
+}
+#cahierdetextes form fieldset.concernedList h3 {
+	margin:0 0 5px;
+	font-size:1rem;
+	text-transform:none;
+}
+#cahierdetextes form fieldset.concernedList h3 span {
+	float:right;
+	font-weight:normal; font-size:0.8rem;
+}
+#cahierdetextes form .field, #cahierdetextes form .textarea {
+	clear:both;
+	margin-bottom:5px;
+}
+#cahierdetextes form .field > label, #cahierdetextes form .field > p.label {
+	float:left;
+	margin:0;
+	width:160px;
+}
+#cahierdetextes form .field .input {margin:0 0 0 170px;}
+#cahierdetextes form .field input.datepicker {width:65px;}
+#cahierdetextes form .redirectionField {
+	margin:10px 0; padding:5px; border:1px solid #fff;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+}
+#cahierdetextes form .redirectionField > label {width:20%;}
+#cahierdetextes form .redirectionField p.input {margin:0 0 0 20%;}
+#cahierdetextes form #fieldSignature span {display:block;}
+#cahierdetextes form div.submit {
+	clear:both;
+	padding:10px 0;
+	text-align:center;
+}
+#cahierdetextes form div.submit input#save {
+	margin-left:8px;
+}
+#cahierdetextes #addDomain {margin:0 0 5px;}
+#cahierdetextes #domain_creation {margin:0 0 10px 0;}
+#cahierdetextes #domain_creation label {
+	display:block;
+	padding:0 0 0 3px;
+	line-height:0.8;
+}
+#cahierdetextes #domain_creation #nom {width:65%;}
+#cahierdetextes #domain_creation input {margin:0 5px 0 0;}
+#cahierdetextes #domain_creation input.updateDomain {border-color:#bad521;}
+#cahierdetextes #list_filter {
+	margin:10px 0; padding:5px; border:1px solid #fff;
+	-webkit-border-radius:10px; -moz-border-radius:10px; border-radius:10px;
+}
+#cahierdetextes #list_filter .field {
+	clear:none; float:left;
+	margin:0 10px 0 0;
+}
+#cahierdetextes #list_filter .field label {float:none; display:inline;}
+/* End forms */
+
+
+/* Table */
+#cahierdetextes .sidebar table, #cahierdetextes table.classic {
+	width:100%;
+	margin:0; border:1px solid #ccc;
+	background-color:#fff;
+}
+#cahierdetextes table thead {
+	background-color:#eee;
+}
+#cahierdetextes table td, #cahierdetextes table th {
+	padding:1px 2px;
+}
+#cahierdetextes table tr.odd td, #cahierdetextes table tr.odd th {
+	background-color:#f7f7f7;
+}
+#cahierdetextes .works table {
+	-webkit-border-radius:6px;-moz-border-radius:6px; border-radius:6px;
+	width:100%;
+	background-color:#fff;
+}
+#cahierdetextes .works table td.actions {width:80px;}
+#cahierdetextes .works table th {width:120px;}
+/* End table */
+
+
+/* Upload File */
+#textButtonDelete { display:none;}
+#travail_fichiers {margin:0; padding:0;}
+/* End Uplaod File */

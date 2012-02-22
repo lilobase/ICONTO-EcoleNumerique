@@ -2,7 +2,7 @@
 /**
 * @package	copix
 * @version   $Id: frontblog.actiongroup.php,v 1.30 2009-03-11 13:32:52 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat Cï¿½dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
@@ -11,12 +11,13 @@ _classInclude('blog|blogauth');
 _classInclude('blog|blogutils');
 _classInclude('groupe|groupeservice');
 
-class ActionGroupFrontBlog extends CopixActionGroup {
+class ActionGroupFrontBlog extends EnicActionGroup {
 	
 	public function beforeAction (){
 		//_currentUser()->assertCredential ('group:[current_user]');
-
+		$this->addJs('js/iconito/module_blog.js');
 	}
+
 
 	/**
     * Afficage de la liste des articles d'un blog.
@@ -24,29 +25,53 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	function processGetListArticle() {
 		
 		//var_dump($this);
-		
-		if (!_request('blog')){
+	    	
+		if (!_request('blog') && !_request('ecole')){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('blog.error.missingParameters'),
 			'back'=>CopixUrl::get('||')));
 		}
 
-		//On verifie que le blog existe (on récupère le blog avec son nom)
-		$dao = CopixDAOFactory::create('blog|blog');
-		if (!$blog = $dao->getBlogByName (_request('blog'))){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
-			'back'=>CopixUrl::get('||')));
-		}
-		
-		// On vérifie que le droit de lecture est présent		
+		//On verifie que le blog existe (on rï¿½cupï¿½re le blog avec son nom )
+        if (_request('blog')) {
+            $dao = CopixDAOFactory::create('blog|blog');
+            if (!$blog = $dao->getBlogByName (_request('blog'))){
+                return CopixActionGroup::process ('genericTools|Messages::getError',
+                    array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
+                    'back'=>CopixUrl::get('||')));
+            }
+        }
+
+        
+		//On verifie que le blog existe (on rï¿½cupï¿½re le blog l'id de l'ï¿½cole )
+        if (CopixRequest::getInt('ecole')) {
+            $blog = false;
+
+            $mod = Kernel::getModEnabled ('BU_ECOLE', CopixRequest::getInt('ecole'), 'MOD_BLOG');
+            if ($mod) {
+                $mod = Kernel::filterModuleList ($mod, 'MOD_BLOG');
+                if ($mod) {
+                    if ($blog = _ioDAO('blog|blog')->getBlogById ($mod[0]->module_id)) {
+                        //print_r($blog);
+
+                    }
+                }
+            }
+            if (!$blog)
+                return CopixActionGroup::process ('genericTools|Messages::getError',
+                    array ('message'=>CopixI18N::get ('blog.error.unableToFindBlog'),
+                    'back'=>CopixUrl::get('||')));
+        }
+        
+
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
 			'back'=>CopixUrl::get('||')));
 		}
 
-		//si la catégorie est fournie on vérifie qu'elle existe
+		//si la catï¿½gorie est fournie on vï¿½rifie qu'elle existe
 		if (null != ($cat = ($this->getRequest ('cat', null)))){
 			$daoCat = CopixDAOFactory::create('blog|blogarticlecategory');
 			if (!$cat = $daoCat->getCategoryByName ($blog->id_blog, $cat)){
@@ -56,20 +81,24 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			}
 		}
 	
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo("MOD_BLOG", $blog->id_blog);
 		$blog->parent = $parent;
-		if ($parent['type']=='CLUB') {
+/*		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			if (GroupeService::canMakeInGroupe('VIEW_HOME', $droit))
 				$menu[] = array('url'=>CopixUrl::get ('groupe||getHome', array("id"=>$parent['id'])), 'txt'=>CopixI18N::get ('blog.menuToGroup'));
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
-		
+*/		
+		$menu=array();
+		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
+
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
-							
-		$tpl = & new CopixTpl ();
+		CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
+    
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
@@ -82,7 +111,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListFluxRss' , CopixZone::process ('ListFluxRss' , array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+    
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 		
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
@@ -90,14 +123,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$plugStats = CopixPluginRegistry::get ("stats|stats");
 		$plugStats->setParams(array('module_id'=>$blog->id_blog, 'parent_type'=>$parent['type'], 'parent_id'=>$parent['id']));
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
 	/**
-    * Affichage de l'article demandé pour le blog.
+    * Affichage de l'article demandï¿½ pour le blog.
     */
 	function getArticle() {		
 		
@@ -107,7 +137,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -115,7 +145,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
@@ -128,11 +158,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
 		}
 		
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
-		if ($parent['type']=='CLUB') {
+/*		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
 			if (GroupeService::canMakeInGroupe('VIEW_HOME', $droit))
@@ -140,10 +170,15 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
+*/
+		$menu=array();
+		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
+
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
 		$zoneArticle = CopixZone::process ('ShowArticle', array('blog'=>$blog, 'article'=>_request('article')));
@@ -157,7 +192,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListSearch', CopixZone::process ('ListSearch', array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
@@ -165,16 +204,13 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$plugStats = CopixPluginRegistry::get ("stats|stats");
 		$plugStats->setParams(array('module_id'=>$blog->id_blog, 'parent_type'=>$parent['type'], 'parent_id'=>$parent['id']));
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
 
 
 	/**
-    * Affichage de LA PAGE demandé pour le blog.
+    * Affichage de LA PAGE demandï¿½ pour le blog.
     */
 	function getPage() {
 
@@ -184,7 +220,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -192,7 +228,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
@@ -205,10 +241,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
 		}
 
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
+/*
 		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
@@ -217,10 +254,14 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
+*/
+		$menu=array();
+		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
@@ -233,7 +274,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListFluxRss' , CopixZone::process ('ListFluxRss' , array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
@@ -241,15 +286,12 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$plugStats = CopixPluginRegistry::get ("stats|stats");
 		$plugStats->setParams(array('module_id'=>$blog->id_blog, 'parent_type'=>$parent['type'], 'parent_id'=>$parent['id']));
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 
 	
 	/**
-    * Affichage de LA PAGE demandé pour le blog.
+    * Affichage de LA PAGE demandï¿½ pour le blog.
     */
 	function getFluxRss() {
 
@@ -259,7 +301,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 
 		if (!$blog = $dao->getBlogById (_request('blog'))){
@@ -268,7 +310,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
@@ -281,10 +323,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('blog||', array('blog'=>_request('blog')))));
 		}
 
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
+/*
 		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
@@ -294,9 +337,14 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
 	
+*/
+		$menu=array();
+		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
+
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+    CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('blog', $blog);
 		$tpl->assign ('MENU', $menu);
@@ -309,15 +357,16 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$tpl->assign ('ListFluxRss' , CopixZone::process ('ListFluxRss' , array('blog'=>$blog)));
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
 
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	} 
 	 
 	 
@@ -339,9 +388,12 @@ class ActionGroupFrontBlog extends CopixActionGroup {
     */
 	function doValidComment() {
 
+        if (Kernel::isSpam())
+            return new CopixActionReturn (CopixActionReturn::HTTPCODE, CopixHTTPHeader::get404 (), "Page introuvable");
+
 		$url_bact = _request('url_bact');
 				
-		//On verifit que le blog existe (on récupère le blog avec son nom)
+		//On verifit que le blog existe (on rï¿½cupï¿½re le blog avec son nom)
 		$dao = CopixDAOFactory::create('blog|blog');
 		if (!$blog = $dao->getBlogByName (_request('blog'))){
 			return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -349,7 +401,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get('')));
 		}
 
-		// On vérifie que le droit de lecture est présent		
+		// On vï¿½rifie que le droit de lecture est prï¿½sent		
 		if (!BlogAuth::canMakeInBlog('READ',$blog)) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 			array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
@@ -369,7 +421,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get ('', array('blog'=>_request('blog')))));
 		}
     
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$commentDAO = CopixDAOFactory::create('blog|blogarticlecomment');
 		$comment = CopixDAOFactory::createRecord('blog|blogarticlecomment');
@@ -380,6 +432,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$comment->authorip_bacc = $_SERVER["REMOTE_ADDR"];
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
+        CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
 		$tpl->assign ('blog', $blog);
 		
@@ -417,10 +470,11 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 					
 		}
 		
-		$menu = array();
+//		$menu = array();
 		$parent = Kernel::getModParentInfo( "MOD_BLOG", $blog->id_blog);
 		//print_r($parent);
 		$blog->parent = $parent;
+/*
 		if ($parent['type']=='CLUB') {
 			$droit = Kernel::getLevel($parent['type'], $parent['id']);
 			//print_r($droit);
@@ -429,19 +483,24 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		}
 		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog))
 			$menu[] = array('url'=>CopixUrl::get ('admin|showBlog', array("id_blog"=>$blog->id_blog)), 'txt'=>CopixI18N::get ('blog.menuAdmin'));
+*/
 		//print_r($menu);
+		$menu=array();
+		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
+
 		$tpl->assign ('MENU', $menu);
 		
 		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('blog||rss', array("blog"=>$blog->url_blog)).'" type="application/rss+xml" title="'.htmlentities($blog->name_blog).'" />');
-		$MAIN = $tpl->fetch('blog_main.tpl');
+		
+    if ($blog->template)
+  		$MAIN = $tpl->fetch($blog->template);
+    else
+  		$MAIN = $tpl->fetch('blog_main.tpl');
 		
 		$tpl->assign ('MAIN', $MAIN);
 		$tpl->assign ('HEADER_MODE', 'compact');
 		
-		if (1)
-			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-		else
-			return new CopixActionReturn (COPIX_AR_DISPLAY_IN, $tpl, '|main_public.tpl');
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}   
 
 
@@ -508,6 +567,7 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @since 2006/12/19
 	 * @param string $blog Url_blog du blog
 	 * @param integer $nb (option) Nombre d'articles a afficher. Si null, prend nbJsArticles dans la conf
+	 * @param integer $article (option) Id d'un article precis a afficher
    * @param integer $colonnes (option) Nb de colonnes. Par defaut : 1
 	 * @param integer $chapo (option) Si on veut afficher les chapos. Par defaut : 0
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des articles. Par defaut : 0
@@ -518,10 +578,14 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$colonnes = $this->getRequest('colonnes', null);
 		$chapo = $this->getRequest('chapo', null);
 		$hr = $this->getRequest('hr', null);
+    $article = $this->getRequest('article', null);
+    $showtitle = $this->getRequest('showtitle');
+    $showdate = $this->getRequest('showdate');
+    $showcategorie = $this->getRequest('showcategorie');
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr));
+				$rss = CopixZone::process ('ListArticleJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'chapo'=>$chapo, 'hr'=>$hr, 'article'=>$article, 'showtitle'=>$showtitle, 'showdate'=>$showdate, 'showcategorie'=>$showcategorie));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);
@@ -540,9 +604,12 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 	 * @since 2009/01/23
 	 * @param string $blog Url_blog du blog
 	 * @param integer $nb (option) Nombre de pages a afficher. Si null, prend nbJsArticles dans la conf
+	 * @param integer $page (option) Id d'une page precise a afficher
    * @param integer $colonnes (option) Nb de colonnes. Par defaut : 1
 	 * @param integer $content (option) Si on veut afficher les contenus des pages. Par defaut : 0
 	 * @param integer $hr (option) Si on veut afficher un HR entre les des pages. Par defaut : 0
+	 * @param boolean $showtitle (option) Si on veut afficher le titre des articles. Par defaut : true
+	 * @param integer $truncate (option) Limit de cesure du texte. Par defaut : 0 (pas de cesure)
    */
   function getBlogJsPages () {
     $blog = $this->getRequest('blog', null);
@@ -550,10 +617,13 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		$colonnes = $this->getRequest('colonnes', null);
 		$content = $this->getRequest('content', null);
 		$hr = $this->getRequest('hr', null);
+		$page = $this->getRequest('page', null);
+    $showtitle = $this->getRequest('showtitle');
+    $truncate = $this->getRequest('truncate');
 		if($blog!=null) {
 			$blogDAO = & CopixDAOFactory::create ('blog|blog');
       if ($blog = $blogDAO->getBlogByName ($blog)) {
-				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr));
+				$rss = CopixZone::process ('ListPageJs', array('blog'=>$blog, 'nb'=>$nb, 'colonnes'=>$colonnes, 'content'=>$content, 'hr'=>$hr, 'page'=>$page, 'showtitle'=>$showtitle, 'truncate'=>$truncate));
 				header("Content-Type: text/html");
 				echo trim($rss);
 				return new CopixActionReturn (COPIX_AR_NONE, 0);
@@ -585,9 +655,6 @@ class ActionGroupFrontBlog extends CopixActionGroup {
 		header("HTTP/1.0 404 Not Found");
 		return new CopixActionReturn (COPIX_AR_NONE, 0);
 	}
-
-
-
-
+	
 }
 ?>

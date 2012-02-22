@@ -38,9 +38,21 @@ class DAOKernel_bu_groupe_villes {
         
         $groupsIds['schoolsIds'][] = $id;
       }
+      elseif (preg_match('/^teacher_school/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
       elseif (preg_match('/^teacher/', $key)) {
         
         $groupsIds['classroomsIds'][] = $id;
+      }
+      elseif (preg_match('/^cities_group_animator/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
+      elseif (preg_match('/^schools_group_animator/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
       }
     }
     
@@ -51,10 +63,10 @@ class DAOKernel_bu_groupe_villes {
     }
     
 		$sql = $this->_selectQuery
-		  . ', kernel_bu_ville, kernel_bu_ecole, kernel_bu_ecole_classe '
-		  . 'WHERE kernel_bu_groupe_villes.id_grv=kernel_bu_ville.id_grville '
-		  . 'AND kernel_bu_ville.id_vi=kernel_bu_ecole.id_ville '
-		  . 'AND kernel_bu_ecole.numero=kernel_bu_ecole_classe.ecole';
+		  . ', kernel_bu_ville '
+		  . 'LEFT JOIN kernel_bu_ecole ON kernel_bu_ecole.id_ville = kernel_bu_ville.id_vi '
+		  . 'LEFT JOIN kernel_bu_ecole_classe ON kernel_bu_ecole_classe.ecole = kernel_bu_ecole.numero '
+		  . 'WHERE kernel_bu_groupe_villes.id_grv=kernel_bu_ville.id_grville';
 		
 		$conditions = array();
 		if (!empty ($groupsIds['citiesGroupsIds'])) {

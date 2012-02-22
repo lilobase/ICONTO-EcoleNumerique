@@ -1,30 +1,46 @@
 
 div#fichesecoles {
-	background-color:#fff;
 	padding:2px;
+	min-height:350px;
 }
-
+div#fichesecoles > p.right {margin:0;}
+div#fichesecoles table {
+  width:100%;
+}
+div#fichesecoles > table {width:98%;}
 div#fichesecoles td.pratique {
 	vertical-align:top;
 	width:240px;
 	border-right:dotted 2px #ddd;
 	padding:5px;
 }
-div#fichesecoles td.texte {
+div#fichesecoles td.texte, 
+div#fichesecoles td.horairesCol, 
+div#fichesecoles td.voirBlogs {
 	vertical-align:top;
 	padding:5px;
-	font-size:0.9em;
+	/*font-size:0.9em;*/
+}
+div#fichesecoles td.pratique a.fichier {
+    padding-left:26px;
+    line-height:24px;
+    height:24px;
+    display:inline-block;
+    background: transparent url(../images/menu/menu_download.png) left center no-repeat;
+}
+div#fichesecoles td.pratique a:hover {
+    text-decoration:underline;
 }
 
-div#fichesecoles div.photo {
-	text-align:center;
+div#fichesecoles div.photo img {
+	max-width:100%; height:auto;
 }
-
-div#fichesecoles div.ecole_classe_enseignant {
-	display: inline;
-	float: right;
-	text-align: right;
-	font-size:0.9em;
+div#fichesecoles div.ecole_classe_enseignant table td {
+	vertical-align:top;
+}
+div#fichesecoles a.viewuser:hover, 
+div#fichesecoles #ficheblogs a:hover {
+	border-bottom:1px dotted;
 }
 
 div#fichesecoles div.fiche {
@@ -32,99 +48,62 @@ div#fichesecoles div.fiche {
 	font-weight:bold;
 	border-bottom:solid 1px #ccc;
 	padding:0;
-	margin:10px 0 3px 0;
+	margin:10px 0 7px 0;
 }
 div#fichesecoles div.ficheVille {
 	background:#F9F7DF;
 	padding:5px;
-	-moz-border-radius:8px;
+	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
 	margin-bottom:10px;
 }
 div#fichesecoles div.ficheVille div.fiche {
 	margin-top:0;
 }
 
-div#fichesecoles div.classes {
-	background:#f3f3f3;
-	padding:3px;
-	-moz-border-radius:8px;
-	float:left;
-	width:350px;
+div#fichesecoles .contentBox {
+	background:#f9f9f9;
+	padding:5px;
+	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
 }
-div#fichesecoles div.classes div.fiche {
-	margin-top:0;
-}
-div#fichesecoles div.classes img.icon {
-	float:right;
-}
-
+div#fichesecoles div.classes, 
 div#fichesecoles div.horaires {
-	background:#f3f3f3;
-	padding:3px;
-	-moz-border-radius:8px;
-	float:right;
-	width:250px;
-	font-size:0.9em;
+	width:260px;
 }
+div#fichesecoles div.classes div.fiche,
 div#fichesecoles div.horaires div.fiche {
 	margin-top:0;
 }
-div#fichesecoles div.horaires img.icon {
+div#fichesecoles div.classes img.icon,
+div#fichesecoles div.horaires img.icon,
+div#fichesecoles .voirBlogs img.icon {
 	float:right;
 }
+div#fichesecoles table td.voirBlogs {
+	position:relative;
+	width:240px;
+	text-align:center;
+	vertical-align:top;
+}
+div#fichesecoles table td.voirBlogs div.fiche {text-align:left;}
+div#fichesecoles table td.voirBlogs .contentBox {
+	margin:15px auto 0; padding:8px 10px 10px; border:2px solid #bad521;
+	width:50%;
+	background:#fff;
+	text-align:left;
+}
+#fancybox-inner div#fichesecoles table td.voirBlogs .contentBox {
+	background:#f9f9f9;
+}
+div#fichesecoles td.voirBlogs div.fiche {
+	margin:0 0 7px;
 
-div#fichesecoles div.blog {
-	background:#E0E9E4;
-	padding:12px;
-	-moz-border-radius:8px;
+}
+div#fichesecoles div#ficheblogs div.annee {
 	float:right;
-	right:5px;
-	width:130px;
-	font-weight:bolder;
-	margin-top:3px;
-	font-size:1.1em;
-}
-div#fichesecoles div.blog a {
-	color:#000;
-}
-div#fichesecoles div.blog a:hover {
+	font-size:0.85em;
 	color:#444;
 }
-div#fichesecoles div.blog img.icon {
-	float:left;
-	margin-right:12px;
-}
-div#fichesecoles div.blog div#ficheblogs {
-	background:#E0E9E4;
-	-moz-border-radius:8px;
-	width:230px;
-	font-weight:normal;
-	position:absolute;
-	margin-left:-120px;
-	margin-top:60px;
-	border:solid 4px #fff;
-	font-size:0.9em;
-}
-div#fichesecoles div.blog div#ficheblogs div.inner {
-	padding:6px;
-}
-div#fichesecoles div.blog div#ficheblogs div.inner div.close {
-	float:right;
-	font-size:0.8em;
-	color:#A5A5A5;
-}
-div#fichesecoles div.blog div#ficheblogs div.inner div.close a {
-	color:#A5A5A5;
-}
-
-div#fichesecoles div.blog div#ficheblogs div.inner div.annee {
-	font-size:0.9em;
-	color:#444;
-	padding-bottom:5px;
-	margin-bottom:5px;
-	border-bottom:solid 4px #fff;
-}
-div#fichesecoles div.blog div#ficheblogs div.inner div.annee select {
+div#fichesecoles div#ficheblogs div.annee select {
 	background:#E0E9E4;
 	font-size:0.9em;
 	color:#444;
@@ -132,5 +111,30 @@ div#fichesecoles div.blog div#ficheblogs div.inner div.annee select {
 }
 
 
-
+/* ADMIN */
+input.zone_ville_titre, input.zone_titre {
+  width:300px;
+}
+textarea.zone_texte {
+  height:80px;
+  width:320px;
+}
+textarea.zone_horaires {
+  height:100px;
+  width:310px;
+}
+td.form_libelle, td.form_saisie {
+    vertical-align:top;
+    
+}
+td.form_libelle {
+  white-space:nowrap;
+}
+form.ficheEcoleForm label {
+    color:inherit;
+    display:inline;
+}
+form.ficheEcoleForm input.doc_titre {
+    width:520px;
+}
 

@@ -52,11 +52,14 @@ class ActionGroupListe extends CopixActionGroup {
       
      	CopixHTMLHeader::addCSSLink (_resource("styles/module_liste.css")); 
 
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $liste->parent["nom"]);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('minimail||getListSend').'">'.CopixI18N::get ('liste|liste.homeLinkMsgSend').'</a> :: <a href="'.CopixUrl::get (''.$liste->parent["module"].'||go', array("id"=>$liste->parent["id"])).'">'.CopixI18N::get ('liste|liste.backParent').'</a>');
+      
+      $menu = array();
+      $menu[] = array('txt' => CopixI18N::get('liste|liste.homeLinkMsgSend'), 'url' => CopixUrl::get ('minimail||getListSend'));
+  		$tpl->assign ('MENU', $menu);
 			
-			$tplListe = & new CopixTpl ();
+			$tplListe = new CopixTpl ();
 			$tplListe->assign ('liste', $liste);
       $tplListe->assign ('canWrite', ListeService::canMakeInListe('WRITE',$mondroit));
 
@@ -116,13 +119,13 @@ class ActionGroupListe extends CopixActionGroup {
 			$id = _request("liste") ? _request("liste") : NULL;
 			$parent = $kernel_service->getModParentInfo( "MOD_LISTE", $id);
 		
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$title_page = $parent["nom"];
 			$tpl->assign ('TITLE_PAGE', $title_page);
 			
 			$format = CopixConfig::get ('minimail|default_format');
 			
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			$tplForm->assign ('liste', $liste);
 			$tplForm->assign ('titre', $titre);
 			$tplForm->assign ('message', $message);

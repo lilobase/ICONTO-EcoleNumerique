@@ -11,4 +11,11 @@
 		<property name="nom_groupe"   fieldname="nom_groupe"   type="string" table="kernel_bu_groupe_villes" pk="no"/>
 		<property name="date_creation" fieldname="date_creation" type="date"    table="kernel_bu_groupe_villes" pk="no"/>
  	</properties>
+ 	<methods>
+		<method name="findAllOrderByName" type="select">
+			<order>
+				<orderitem property="nom_groupe" way="asc" />
+			</order>
+		</method>
+	</methods>
 </daodefinition>

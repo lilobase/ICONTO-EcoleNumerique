@@ -4,6 +4,7 @@
  * 
  * La classe se base sur le nom de la class appelante pour appeler le cache : enicMatricCache => class enicMatrix
  */
+enic::to_load('storage');
 class enicCache extends enicMod{
 
     public $storage;
@@ -12,9 +13,6 @@ class enicCache extends enicMod{
 
     public function __construct(){
         parent::__construct();
-
-        //load storage :
-        enic::to_load('storage');
 
         //define storage :
         if(empty($this->storage))
@@ -25,21 +23,27 @@ class enicCache extends enicMod{
         if(empty($this->validity))
             $this->validity = 3600;
 
-        //get className (remove 'Cache') :
-        $className = substr(get_class($this),0 , -5);
-
-        //if enicCache is extends : continue to object cache manager
-        if($className != 'enic'){  
-            return $this->setEnic($className);
-        }
-
         return true;
 
     }
 
+    //if enicCache is extended : return the extended Cache :
+    public function getClass(){
+        //get className (remove 'Cache') :
+        $className = substr(get_class($this),0 , -5);
+
+        //if enicCache is extends : continue to object cache manager
+        if($className != 'enic'){
+            return $this->setEnic($className);
+        }else{
+            return $this;
+        }
+    }
+
     protected function buildId($iName){
         $oName = $iName;
-
+        $oName = strtolower($iName);
+        
         //if is by user :
         if($this->range == 'user'){
             $user   =& enic::get('user');
@@ -110,21 +114,31 @@ class enicCache extends enicMod{
      * storage => 'file' | 'session'
      */
     public function get($iName, $opt = array()){
+
+        //check if the class is already in enicCache
+        if(isset(enic::$l[$iName]))
+            return enic::$l[$iName];
+
+
+        //set storage from options
         $storage = (isset($iOpt['storage'])) ? $iOpt['storage'].'Cache' : $this->storage;
+
+        //buildId
+        $name = $this->buildId($iName);
 
         if(!$this->exists($iName) || !$this->valid($iName))
             return null;
 
+        //get the ObjectStorage
         $storageObject = enic::get($storage);
-        $datas = $storageObject->get($iName);
+        $datas = $storageObject->get($name);
 
-        $type = $storageObject->type($iName);
+        $type = $storageObject->type($name);
 
         //refactoring datas :
         switch ($type){
             case 'array':
             case 'object':
-                var_dump($datas);
                 $oDatas = enicSerializeCache::after($datas);
             break;
             default:
@@ -132,19 +146,22 @@ class enicCache extends enicMod{
             break;
         }
 
-        return $oDatas;
+        enic::$l[$iName] =& $oDatas;
+        return enic::$l[$iName];
     }
 
     protected function setEnic($iClassName){
         //get the class :
         $className = strtolower(substr($iClassName, 4));
+        $oReturn = $this->get($className);
 
+        if($oReturn !== null){
+            return $oReturn;
+        }
+        
         //execute class
         $datas = enic::get($className);
 
-        if(($oReturn = $this->get($iClassName)) !== null)
-            return $oReturn;
-        
         //caching result
         return $this->set($className, $datas);
 
@@ -156,7 +173,7 @@ class enicCache extends enicMod{
 
         $name = $this->buildId($iName);
 
-        return $storageObject->valid($iName);
+        return $storageObject->valid($name);
     }
 
     public function exists($iName){

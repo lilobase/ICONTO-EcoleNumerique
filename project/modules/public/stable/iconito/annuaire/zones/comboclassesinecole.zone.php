@@ -33,7 +33,7 @@ class ZoneComboClassesInEcole extends CopixZone {
 
 		$classes = $annuaireService->getClassesInEcole ($ecole, array('getNodeInfo_light'=>1, 'droit'=>$pDroit) );
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign('items', $classes);
 		$tpl->assign('value', $value);
 		$tpl->assign('fieldName', $fieldName);

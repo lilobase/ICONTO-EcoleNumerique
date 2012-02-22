@@ -81,6 +81,9 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 	 	
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
+    
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+    CopixHTMLHeader::addCSSLink(_resource("styles/module_fichesecoles.css"));
 
 		$ville = _request("ville") ? _request("ville") : NULL;
 	  $grville = 1;
@@ -89,7 +92,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$rVille = Kernel::getNodeInfo ('BU_VILLE', $ville, false);
 		
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 
 		if (!$rVille)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noVille');
@@ -110,7 +113,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$agents = $annuaireService->getAgentsInVille ($ville, array('droit'=>'voir'));
 		$agents = $annuaireService->checkVisibility ($agents);
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		
 		$canWrite_USER_VIL = $matrix->ville($ville)->_right->USER_VIL->communiquer;
 		$tplListe->assign ('canWrite_USER_VIL', $canWrite_USER_VIL);
@@ -136,9 +139,14 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$tplListe->assign ('kernel_ville_as_array', Kernel::getKernelLimits('ville_as_array'));
 		$result = $tplListe->fetch("getannuaireville.tpl");
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $rVille["nom"]);
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('public||getListBlogs').'">'.CopixI18N::get ('public|public.blog.annuaire').'</a>');
+    
+    $menu = array();
+    $menu[] = array('txt' => CopixI18N::get('groupe|groupe.annuaire'), 'url' => CopixUrl::get ('groupe||getListPublic'), 'size'=>'110');
+    $menu[] = array('txt' => CopixI18N::get('public|public.blog.annuaire'), 'url' => CopixUrl::get ('public||getListBlogs'));
+		$tpl->assign ('MENU', $menu);
+
 		$tpl->assign ("MAIN", $result);
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -157,6 +165,9 @@ class ActionGroupAnnuaire extends EnicActionGroup {
     if (!Kernel::is_connected())
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('annuaire|annuaire.error.noLogged'), 'back'=>CopixUrl::get('||')));
 
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+    CopixHTMLHeader::addCSSLink(_resource("styles/module_fichesecoles.css"));
+      
 		$ecole = _request("ecole") ? _request("ecole") : NULL;
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
@@ -166,7 +177,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$rEcole = Kernel::getNodeInfo ('BU_ECOLE', $ecole, false);
 		//print_r($rEcole);
 
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 
 		if (!$rEcole)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noEcole');
@@ -176,7 +187,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		//$tplListe->assign ('ecoles', $ecoles);
 		
     // Blog de l'école
@@ -206,9 +217,10 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$result = $tplListe->fetch('getannuaireecole.tpl');
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $rEcole["nom"]." (".$rEcole["desc"].")");
 		$menu = array();
+    $menu[] = array('txt' => CopixI18N::get('groupe|groupe.annuaire'), 'url' => CopixUrl::get ('groupe||getListPublic'), 'size'=>'110');
 		$menu[] = array (
 			'url' => CopixUrl::get ('public||getListBlogs'),
 			'txt' => CopixI18N::get ('public|public.blog.annuaire'),
@@ -249,7 +261,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		$rClasse = Kernel::getNodeInfo ('BU_CLASSE', $classe, false);
 		
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 
 		if (!$rClasse)
 			$criticErrors[] = CopixI18N::get ('annuaire|annuaire.error.noClasse');
@@ -259,6 +271,8 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		if ($criticErrors)
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('annuaire||')));
 		
+    CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_fichesecoles.js');
+
 		// Si c'est le détail d'une classe, on en déduit l'école
 		$parent = Kernel::getNodeParents ('BU_CLASSE', $classe);
 		if ($parent[0]['type']=='BU_ECOLE')
@@ -271,7 +285,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
     if ($blog)
       $rEcole['blog'] = CopixUrl::get('blog||', array('blog'=>$blog->url_blog));
     
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		
 		$tplListe->assign ('infosecole', CopixZone::process ('annuaire|infosecole', array('rEcole'=>$rEcole)));
 		$tplListe->assign ('infosclasse', CopixZone::process ('annuaire|infosclasse', array('rClasse'=>$rClasse)));
@@ -281,9 +295,16 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		
 		//print_r($rEcole);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $rClasse["nom"]);
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('public||getListBlogs').'">'.CopixI18N::get ('public|public.blog.annuaire').'</a> :: <a href="'.CopixUrl::get ('|getAnnuaireEcole', array('ecole'=>$ecole)).'">'.CopixI18N::get ('annuaire|annuaire.backEcole').'</a> :: <a href="'.CopixUrl::get ('|getAnnuaireVille', array('ville'=>$rEcole['ALL']->vil_id_vi)).'">'.CopixI18N::get ('annuaire|annuaire.backVille').'</a>');
+    
+    $menu = array();
+    $menu[] = array('txt' => CopixI18N::get('groupe|groupe.annuaire'), 'url' => CopixUrl::get ('groupe||getListPublic'), 'size'=>'110');
+    $menu[] = array('txt' => CopixI18N::get('public|public.blog.annuaire'), 'url' => CopixUrl::get ('public||getListBlogs'));
+    $menu[] = array('txt' => CopixI18N::get('annuaire|annuaire.backEcole'), 'url' => CopixUrl::get ('|getAnnuaireEcole', array('ecole'=>$ecole)));
+    $menu[] = array('txt' => CopixI18N::get('annuaire|annuaire.backVille'), 'url' => CopixUrl::get ('|getAnnuaireVille', array('ville'=>$rEcole['ALL']->vil_id_vi)));
+
+		$tpl->assign ('MENU', $menu);
 		$tpl->assign ('MAIN', $result);
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
@@ -308,7 +329,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 		$type = _request('type') ? _request('type') : NULL;
 		$id = _request('id') ? _request('id') : NULL;
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('zone', CopixZone::process ('annuaire|getUserProfil', array('type'=>$type, 'id'=>$id)));
 		$result = $tpl->fetch('getuser.tpl');
 
@@ -397,7 +418,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 			}
 		}
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$visib = array (
 			'USER_ELE' => false,
 			'USER_ENS' => false,
@@ -406,7 +427,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 			'USER_ADM' => false,
 			'USER_VIL' => false,
 		);
-		$matrix = & enic::get('matrix');
+		$matrix = & enic::get('matrixCache');
 		
 		$debug = false;
 		
@@ -438,51 +459,6 @@ if($debug) echo "comboclassesinecole ".date("H:i:s")." ".(microtime(true)-$start
 if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />";
 		}
 		
-		/*
-		$visib = array (
-			'USER_ELE' => Kernel::getUserTypeVisibility ('USER_ELE'),
-			'USER_ENS' => Kernel::getUserTypeVisibility ('USER_ENS'),
-			'USER_RES' => Kernel::getUserTypeVisibility ('USER_RES'),
-			'USER_EXT' => Kernel::getUserTypeVisibility ('USER_EXT'),
-			'USER_ADM' => Kernel::getUserTypeVisibility ('USER_ADM'),
-			'USER_VIL' => Kernel::getUserTypeVisibility ('USER_VIL'),
-		);
-		*/
-		//print_r($visib);
-		//print_r($profils);
-    
-		//$e = $matrix->display();
-		//echo $e;
-		/*
-		if (!$profils && $visib['USER_ELE']) $profils['ELE']=1;
-		if (!$profils && $visib['USER_ENS']) $profils['PEC']=1;
-		if (!$profils && $visib['USER_RES']) $profils['PAR']=1;
-		if (!$profils && $visib['USER_EXT']) $profils['EXT']=1;
-		if (!$profils && $visib['USER_ADM']) $profils['ADM']=1;
-		if (!$profils && $visib['USER_VIL']) $profils['VIL']=1;
-		
-		*/
-		
-		if (!$profils && 1) $profils['ELE']=1;
-		if (!$profils && 1) $profils['PEC']=1;
-		if (!$profils && 1) $profils['PAR']=1;
-		if (!$profils && 1) $profils['EXT']=1;
-		if (!$profils && 1) $profils['ADM']=1;
-		if (!$profils && 1) $profils['VIL']=1;
-		
-		
-		
-		//print_r($profils);
-    
-		// Si on restreint a un profil
-		if ($profil && $visib[$profil]) {
-			switch ($profil) {
-				case 'USER_VIL':
-					$profils = array();
-					$profils['VIL']=1;
-					break;
-			}
-		}
 
 		if ( ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) ) { // Limitation par URL, on verifie les parametres
 			if ($ville && $ville != $ALL && !in_array($ville,$ville_as_array)) {
@@ -496,41 +472,63 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 			}
 		}
 		
+    
 		//kernel::myDebug ("grville=$grville / ville=$ville / ecole=$ecole / classe=$classe");
 		//kernel::myDebug ($profils);
 		
-		if ($grville && $ville && $ecole && $classe) {
-			if ($classe != $ALL)	{ // Une classe précise
+		//if ($grville && $ville && $ecole && $classe) {
+		if (1) {
+			if ($classe && $classe != $ALL)	{ // Une classe précise
 				$visib['USER_ELE'] = ($matrix->classe($classe)->_right->USER_ELE->communiquer);
-				$visib['USER_ENS'] = ($matrix->classe($classe)->_right->USER_ENS->communiquer);
+				$visib['USER_ENS'] = ($matrix->classe($classe)->_right->USER_ENS->communiquer || $matrix->classe($classe)->_right->USER_DIR->communiquer);
 				$visib['USER_RES'] = ($matrix->classe($classe)->_right->USER_RES->communiquer);
 				//$visib['USER_ADM'] = ($matrix->classe($classe)->_right->USER_ADM->communiquer);
 				//$visib['USER_EXT'] = ($matrix->classe($classe)->_right->USER_EXT->communiquer);
 				$visib['USER_VIL'] = ($matrix->classe($classe)->_right->USER_VIL->communiquer);
-			} elseif ($classe == $ALL && $ecole != $ALL) { // Une école
+			} elseif ($ecole && $classe == $ALL && $ecole != $ALL) { // Une école
 				$visib['USER_ELE'] = ($matrix->ecole($ecole)->_right->USER_ELE->communiquer);
-				$visib['USER_ENS'] = ($matrix->ecole($ecole)->_right->USER_ENS->communiquer);
+				$visib['USER_ENS'] = ($matrix->ecole($ecole)->_right->USER_ENS->communiquer || $matrix->ecole($ecole)->_right->USER_DIR->communiquer);
 				$visib['USER_RES'] = ($matrix->ecole($ecole)->_right->USER_RES->communiquer);
 				//$visib['USER_ADM'] = ($matrix->ecole($ecole)->_right->USER_ADM->communiquer);
 				//$visib['USER_EXT'] = ($matrix->ecole($ecole)->_right->USER_EXT->communiquer);
 				$visib['USER_VIL'] = ($matrix->ecole($ecole)->_right->USER_VIL->communiquer);
-			} elseif ($classe == $ALL && $ecole == $ALL && $ville != $ALL) { // Une ville
+			} elseif ($ville && $classe == $ALL && $ecole == $ALL && $ville != $ALL) { // Une ville
 				$visib['USER_ELE'] = ($matrix->ville($ville)->_right->USER_ELE->communiquer);
-				$visib['USER_ENS'] = ($matrix->ville($ville)->_right->USER_ENS->communiquer);
+				$visib['USER_ENS'] = ($matrix->ville($ville)->_right->USER_ENS->communiquer || $matrix->ville($ville)->_right->USER_DIR->communiquer);
 				$visib['USER_RES'] = ($matrix->ville($ville)->_right->USER_RES->communiquer);
 				//$visib['USER_ADM'] = ($matrix->ville($ville)->_right->USER_ADM->communiquer);
 				//$visib['USER_EXT'] = ($matrix->ville($ville)->_right->USER_EXT->communiquer);
 				$visib['USER_VIL'] = ($matrix->ville($ville)->_right->USER_VIL->communiquer);
-			} elseif ($classe == $ALL && $ecole == $ALL && $ville == $ALL) { // Un groupe de villes
+			} elseif ($grville && $classe == $ALL && $ecole == $ALL && $ville == $ALL) { // Un groupe de villes
 				$visib['USER_ELE'] = ($matrix->grville($grville)->_right->USER_ELE->communiquer);
-				$visib['USER_ENS'] = ($matrix->grville($grville)->_right->USER_ENS->communiquer);
+				$visib['USER_ENS'] = ($matrix->grville($grville)->_right->USER_ENS->communiquer || $matrix->grville($grville)->_right->USER_DIR->communiquer);
 				$visib['USER_RES'] = ($matrix->grville($grville)->_right->USER_RES->communiquer);
 				//$visib['USER_ADM'] = ($matrix->grville($grville)->_right->USER_ADM->communiquer);
 				//$visib['USER_EXT'] = ($matrix->grville($grville)->_right->USER_EXT->communiquer);
 				$visib['USER_VIL'] = ($matrix->grville($grville)->_right->USER_VIL->communiquer);
 			}
 		}
+    
+    
+
+		// Si on restreint a un profil
+		if ($profil && $visib[$profil]) {
+			switch ($profil) {
+				case 'USER_VIL':
+					$profils = array();
+					$profils['VIL']=1;
+					break;
+			}
+		}
+    
+    if (!$profils && $visib['USER_ELE']) $profils['ELE']=1;
+		if (!$profils && $visib['USER_ENS']) $profils['PEC']=1;
+		if (!$profils && $visib['USER_RES']) $profils['PAR']=1;
+		if (!$profils && $visib['USER_EXT']) $profils['EXT']=1;
+		if (!$profils && $visib['USER_ADM']) $profils['ADM']=1;
+		if (!$profils && $visib['USER_VIL']) $profils['VIL']=1;
 		
+    //kernel::myDebug($visib);
 		
 		// =============== ELEVES =========================
 		$eleves = array();
@@ -556,7 +554,7 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 				$personnel = $annuaireService->getPersonnel ('BU_VILLE', $ville);
 			elseif ($classe == $ALL && $ecole == $ALL && $ville == $ALL) // Les classes d'un groupe de villes
 				$personnel = $annuaireService->getPersonnel ('BU_GRVILLE', $grville);
-		}
+  	}
 		
 		// =============== PARENTS =========================
 		$parents = array();
@@ -604,8 +602,6 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 				$vil = $annuaireService->getPersonnelVil ('BU_GRVILLE', $grville);
 		}
 		
-		//Kernel::myDebug($visib);
-	
 		$droits = array(
 			'checkEleves'=>$annuaireService->canMakeInAnnuaire('POPUP_CHECK_ALL_ELEVES'),
 			'checkParents'=>$annuaireService->canMakeInAnnuaire('POPUP_CHECK_ALL_PARENTS'),
@@ -635,8 +631,6 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		$ppo = new CopixPPO ();
 		$ppo->result = $result;
 		$ppo->TITLE_PAGE = CopixI18N::get ('annuaire|annuaire.moduleDescription');
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_annuaire.css")); 
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_annuaire_popup.css")); 
 		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_annuaire.js")); 
 		
 		return _arPPO ($ppo, array ('template'=>'getpopup_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));

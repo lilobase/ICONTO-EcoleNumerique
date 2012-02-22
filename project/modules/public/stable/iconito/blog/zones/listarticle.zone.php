@@ -15,7 +15,7 @@ require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
 class ZoneListArticle extends CopixZone {
    function _createContent (&$toReturn) {
 
-		$tpl  = & new CopixTpl ();
+		$tpl  = new CopixTpl ();
 		$blog    = $this->getParam('blog', '');
 		$cat     = $this->getParam('cat' , null);
 		$critere = $this->getParam('critere' , null);

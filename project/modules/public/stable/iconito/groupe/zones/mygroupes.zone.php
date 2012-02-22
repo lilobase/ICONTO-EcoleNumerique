@@ -17,7 +17,7 @@ class ZoneMyGroupes extends CopixZone {
 	 */
 	function _createContent (&$toReturn) {
 		
-		$where = $this->getParam('where',null);
+		$where = $this->getParam('where','home');
 		
 		$dao = _dao("groupe");
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
@@ -25,11 +25,17 @@ class ZoneMyGroupes extends CopixZone {
 
 		$groupesAll = $dao->getListAll();
 		
+		//print_r($groupesAll);
+		
 		// Parcours de chaque groupe
 		$groupes = array();
 		
 		foreach ($groupesAll as $k=>$gr) {
-
+      
+      if(CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance')) && $gr->id==$groupeAssistance) {
+  		  continue;
+      }
+      
 			$mondroit = $kernel_service->getLevel( "CLUB", $groupesAll[$k]->id);
 			//print_r($mondroit."-".PROFILE_CCV_READ);
 			// Affichage sur la page d'accueil limité aux groupes dont on est admin.
@@ -58,7 +64,7 @@ class ZoneMyGroupes extends CopixZone {
     
 		//print_r($where);
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('list', $groupes);
 		
 		if ($where == 'groupes')

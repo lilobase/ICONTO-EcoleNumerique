@@ -1,6 +1,7 @@
+<h2>{if $toEdit->id_event}{i18n key="agenda.menu.modifEvent"}{else}{i18n key="agenda.menu.ajoutEvent"}{/if}</h2>
+
 {if $showError}
-	<div class="errorMessage">
-		<h1>{i18n key=copix:common.messages.error}</h1>
+	<div class="mesgErrors">
 		{foreach from=$arError item=errors key=index}
 		{ulli values=$errors}
 		{/foreach}
@@ -55,7 +56,7 @@ function inactivechamprepetition(obj){
 
 <form action="{copixurl dest="agenda|event|valid"}" method="post" class="copixForm" name="saisieEvent">
 
-<table border="0" CELLSPACING="1" CELLPADDING="1" class="saisieEvent">
+<table class="saisieEvent">
 
 	<tr>
 		<td class="form_libelle"><label for="{i18n key="agenda.message.agenda"}">{i18n key="agenda.message.agenda"}</label></td>
@@ -82,14 +83,14 @@ function inactivechamprepetition(obj){
 	<tr>
 		<td class="form_libelle"><label for="{i18n key="agenda.message.begin"}">{i18n key="agenda.message.begin"} *</label></td>		
 		{assign var=myDate value=$toEdit->datedeb_event|datei18n}
-		<td class="form_saisie">{calendar name="datedeb_event" value=$myDate} {i18n key="kernel|date.format"}</td>
+		<td class="form_saisie">{inputtext class="datepicker" name="datedeb_event" value=$myDate}</td>
 		<td class="form_saisie"><input type="text" class="form" style="width:70px;" name="heuredeb_event" value="{$toEdit->heuredeb_event}" id="heuredeb_event" {if "1" eq $toEdit->alldaylong_event}disabled="disabled"{/if} /> (hh:mm)</td>
 		<td class="form_saisie"><input type="checkbox" value="1" name="alldaylong_event" id="alldaylong_event" onchange="inactivechampheure(this)" {if "1" eq $toEdit->alldaylong_event}checked="checked"{/if} /><label for="alldaylong_event">{i18n key="agenda.message.allday"}</label></td>
 	</tr>
 	<tr>
 		<td class="form_libelle"><label for="{i18n key="agenda.message.end"}">{i18n key="agenda.message.end"} *</label></td>
 		{assign var=myDate value=$toEdit->datefin_event|datei18n}
-        <td class="form_saisie">{calendar name="datefin_event" value=$myDate} {i18n key="kernel|date.format"}</td>
+        <td class="form_saisie">{inputtext class="datepicker" name="datefin_event" value=$myDate}</td>
 		<td class="form_saisie"><input type="text" class="form" style="width:70px;" name="heurefin_event" value="{$toEdit->heurefin_event}" id="heurefin_event" {if "1" eq $toEdit->alldaylong_event}disabled="disabled"{/if} /> (hh:mm)</td>
 	</tr>
 	<tr>
@@ -130,10 +131,11 @@ function inactivechamprepetition(obj){
                   		{/if}
 					{/if}
 		        	<!--Si la case de répétition n'est pas cochée, on grise le champ-->			
-					{if $toEdit->repeat eq "0" || $toEdit->repeat eq null}
-						{calendar name="dateendrepeat_event" value=$myDate disabled=true}
+					
+          {if $toEdit->repeat eq "0" || $toEdit->repeat eq null}
+            {inputtext class="datepicker" name="dateendrepeat_event" value=$myDate disabled="true"}
 					{else}
-					   {calendar name="dateendrepeat_event" value=$myDate}
+             {inputtext class="datepicker" name="dateendrepeat_event" value=$myDate} 
 					{/if}
 					</td>
 				</tr>
@@ -142,10 +144,11 @@ function inactivechamprepetition(obj){
 		</td>
 	</tr>
   <tr>
-  <td colspan="4" CLASS="form_submit">
-	<input type="button" class="form_button" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
-	<input type="submit" class="form_button" value="{i18n key=copix:common.buttons.save}" />
-  </td></tr>  
+  <td colspan="4" class="center form_submit">
+	<input type="button" class="button button-cancel" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
+	{if $toEdit->id_event}<a class="button button-delete" href="{copixurl dest="agenda|event|delete" id_event=$toEdit->id_event}">{i18n key="agenda|agenda.message.delete"}</a>{/if}
+    <input type="submit" class="button button-confirm" value="{i18n key=copix:common.buttons.save}" />
+  </td></tr>
 </table>
 
 

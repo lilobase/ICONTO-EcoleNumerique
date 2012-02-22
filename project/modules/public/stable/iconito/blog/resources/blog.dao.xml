@@ -69,10 +69,17 @@
 	            />
 	     <property name="default_format_articles"
 	            fieldName="default_format_articles"
-	            captioni18n="dao.blog.fields.type_moderation_comments"
+	            captioni18n="dao.blog.fields.default_format_articles"
 	            type="string"
 	            maxlength="10"
 	            required="yes"
+	            />
+	     <property name="template"
+	            fieldName="template"
+	            captioni18n="dao.blog.fields.template"
+	            type="string"
+	            maxlength="30"
+	            required="no"
 	            />
   	</properties>
 </daodefinition>

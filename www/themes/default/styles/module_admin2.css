@@ -1,0 +1,14 @@
+table.visibility TH.left {
+	text-align: right;
+	height: 30px;
+}
+
+table.visibility TH.top {
+	text-align: center;
+	width: 100px;
+}
+
+table.visibility TD {
+	text-align: center;
+	border: 1px solid black;
+}

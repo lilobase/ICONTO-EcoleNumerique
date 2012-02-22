@@ -76,6 +76,8 @@
 			type="string"
 			table="fiches_ecoles"
 			pk="no"/>
+		<property name="doc1_titre" fieldname="doc1_titre" type="string" table="fiches_ecoles" />
+		<property name="doc1_fichier" fieldname="doc1_fichier" type="string" table="fiches_ecoles" />
 
 		<property name="ecole_numero"		fieldname="numero"		type="autoincrement"	table="kernel_bu_ecole" pk="yes" />
 		<property name="ecole_id_ville"	fieldname="id_ville"	type="integer"	table="kernel_bu_ecole" />

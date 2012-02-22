@@ -16,9 +16,9 @@ class ActionGroupForum extends CopixActionGroup {
    /**
    * Affiche la liste de tous les forums de la base
 	 * 
-	 * Affiche l'ensemble des forums présents dans la base, avec  un lien pour accéder à chacun d'entre eux. Utilisée à des fins de tests, est désactivée dans le DESC.
+	 * Affiche l'ensemble des forums presents dans la base, avec  un lien pour acceder a chacun d'entre eux. Utilisee a des fins de tests, est desactivee dans le DESC.
 	 * 
-	 * @deprecated Ne sert qu'à des fins de tests
+	 * @deprecated Ne sert qu'a des fins de tests
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/08
    */
@@ -27,10 +27,10 @@ class ActionGroupForum extends CopixActionGroup {
 	 	$dao = CopixDAOFactory::create("forum_forums");
 		$forums = $dao->getList();
 	 	
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('forum.title.lesforums'));
 
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ("list", $forums);
 		$result = $tplListe->fetch("getlistforums.tpl");
 
@@ -91,9 +91,9 @@ class ActionGroupForum extends CopixActionGroup {
 			$user = _currentUser ()->getId();
 			$list = $dao_topics->getListTopicsInForum($id,$offset,CopixConfig::get ('forum|list_nbtopics'),$orderby, $user);
 		
-			// Pour chaque message on cherche les infos de son créateur et du dernier message
+			// Pour chaque message on cherche les infos de son createur et du dernier message
 			//print_r($list);
-			while (list($k,$topic) = each($list)) {
+      foreach ($list as $k=>$topic) {
 				$userInfo = Kernel::getUserInfo("ID", $list[$k]->createur);
 				$list[$k]->createur_infos = $userInfo["prenom"]." ".$userInfo["nom"];
 				if ($list[$k]->last_msg_auteur) {
@@ -105,11 +105,10 @@ class ActionGroupForum extends CopixActionGroup {
 			
 			//print_r($list);
 
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $forum[0]->parent["nom"]);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get (''.$forum[0]->parent["module"].'||go', array("id"=>$forum[0]->parent["id"])).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 			
-			$tplForum = & new CopixTpl ();
+			$tplForum = new CopixTpl ();
 			$tplForum->assign ('forum', $forum[0]);
 			$tplForum->assign ('list', $list);
 			$tplForum->assign ('page', $page);
@@ -117,7 +116,7 @@ class ActionGroupForum extends CopixActionGroup {
 			$tplForum->assign ('petitpoucet', CopixZone::process ('forum|petitpoucet', array('forum'=>$forum[0])));
 
 			$tplForum->assign ('canAddTopic', ($forumService->canMakeinForum('ADD_TOPIC',$mondroit)) ? 1 : 0);
-			$tplForum->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('forum||getForum', array("id"=>$id, "orderby"=>$orderby)))));
+			$tplForum->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'separator' => '&', 'url'=>CopixUrl::get('forum||getForum', array("id"=>$id, "orderby"=>$orderby)))));
 
 			$result = $tplForum->fetch('getforum.tpl');
 			$tpl->assign ('MAIN', $result);
@@ -136,7 +135,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * @param integer $id Id de la discussion
 	 * @param integer $page (option) Page courante. Si null, vaut 1.
 	 * @param string $go (option) Si vaut "new", redirige sur le premier message non lu de la discussion
-	 * @param integer $message (option) Si positionné, redirige sur le message (à la bonne page)
+	 * @param integer $message (option) Si positionne, redirige sur le message (a la bonne page)
    */
    function getTopic () {
 	 	
@@ -157,9 +156,9 @@ class ActionGroupForum extends CopixActionGroup {
 			$daoTracking = CopixDAOFactory::create("forum|forum_tracking2");
 			$unread = $daoTracking->getFirstUnreadMessage($id, _currentUser ()->getId());
 			//print_r($unread);
-			if ($unread[0]->id) {	// Il est déjà passé dans le topic
+			if ($unread[0]->id) {	// Il est deja passe dans le topic
 				$urlReturn = CopixUrl::get ('forum||getTopic', array("message"=>$unread[0]->id))."#".$unread[0]->id;
-			} else { // Jamais passé, on le renvoie au début du topic
+			} else { // Jamais passe, on le renvoie au debut du topic
 				$urlReturn = CopixUrl::get ('forum||getTopic', array("id"=>$id));
 			}
 			return new CopixActionReturn (COPIX_AR_REDIRECT, $urlReturn);
@@ -170,7 +169,7 @@ class ActionGroupForum extends CopixActionGroup {
 			$rMessage = $dao_messages->get($message);
 			if ($rMessage) {
 				$id = $rMessage->topic_id;
-		  	// On cherche ensuite à quelle page il faut aller pour trouver ce message
+		  	// On cherche ensuite a quelle page il faut aller pour trouver ce message
 				$before = $dao_messages->getListMessagesInTopicBefore($id, $message, $rMessage->date);
 				$page = ceil((count($before)+1) / CopixConfig::get ('forum|list_nbmessages'));
 				//print_r($before);
@@ -213,22 +212,22 @@ class ActionGroupForum extends CopixActionGroup {
 				$userInfo = Kernel::getUserInfo("ID", $list[$k]->auteur);
 				$list[$k]->auteur_infos = $userInfo["prenom"]." ".$userInfo["nom"];
 
-        // Avatar de l'expéditeur
+        // Avatar de l'expediteur
   			$avatar = Prefs::get('prefs', 'avatar', $list[$k]->auteur);
 	  		$list[$k]->avatar = ($avatar) ? CopixConfig::get ('prefs|avatar_path').$avatar : '';
  			}
 			
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $rTopic->titre);
-			$menu = CopixI18N::get ('forum|forum.nbReads', array($rTopic->nb_lectures));
-			if ($forumService->canMakeInForum('MODIFY_TOPIC',$mondroit))
-				$menu .= ' :: <A HREF="'.CopixUrl::get('forum||getTopicForm', array("id"=>$id)).'">'.CopixI18N::get ('forum|forum.btn.modify').'</A>';
-			if ($forumService->canMakeInForum('DELETE_TOPIC',$mondroit))
-				$menu .= ' :: <A HREF="'.CopixUrl::get('forum||getDeleteTopic', array("id"=>$id)).'">'.CopixI18N::get ('forum|forum.btn.delete').'</A>';
-			$menu .= ' :: <A HREF="'.CopixUrl::get('forum||getForum', array("id"=>$rTopic->forum)).'">'.CopixI18N::get ('forum|forum.backForum').'</A>';
+      
+      $menu = array();
+      if ($forumService->canMakeInForum('MODIFY_TOPIC',$mondroit))
+        $menu[] = array('txt' => CopixI18N::get('forum|forum.btn.modify'), 'url' => CopixUrl::get('forum||getTopicForm', array("id"=>$id)), 'type'=>'update');
+      if ($forumService->canMakeInForum('DELETE_TOPIC',$mondroit))
+        $menu[] = array('txt' => CopixI18N::get('forum|forum.btn.delete'), 'url' => CopixUrl::get('forum||getDeleteTopic', array("id"=>$id)), 'type'=>'delete');
 			$tpl->assign ('MENU', $menu);
 			
-			$tplForum = & new CopixTpl ();
+			$tplForum = new CopixTpl ();
 			$tplForum->assign ('topic', $rTopic);
 			$tplForum->assign ('list', $list);
 			$tplForum->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('forum||getTopic', array("id"=>$id)))));
@@ -247,15 +246,15 @@ class ActionGroupForum extends CopixActionGroup {
 
 
    /**
-   * Affichage du formulaire d'écriture d'un message
+   * Affichage du formulaire d'ecriture d'un message
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @see doMessageForm()
-	 * @param integer $topic Id de la discussion (si réponse dans cette discussion)
-	 * @param integer $id Id d'un message (si édition de ce message)
-	 * @param integer $quote (option) Numéro du message cité
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param integer $topic Id de la discussion (si reponse dans cette discussion)
+	 * @param integer $id Id d'un message (si edition de ce message)
+	 * @param integer $quote (option) Numero du message cite
+	 * @param array $errors (option) Erreurs rencontrees
 	 * @param string $message Texte du message (si formulaire soumis)
 	 * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
    */
@@ -287,9 +286,10 @@ class ActionGroupForum extends CopixActionGroup {
 					$message = ($message) ? $message : $rMessage->message;
 					$format = $rMessage->format;
 					$topic = $rMessage->topic;
+                    $forum = $rMessage->topic_forum;
 				}
 			}
-		} elseif ($topic) {		// Réponse dans un topic
+		} elseif ($topic) {		// Reponse dans un topic
 			$rTopic = $dao_topics->get($topic);
 			if (!$rTopic)
 				$criticErrors[] = CopixI18N::get ('forum|forum.error.noTopic');
@@ -315,12 +315,18 @@ class ActionGroupForum extends CopixActionGroup {
 								$message =  "\n\n\n> ".CopixI18N::get ('forum|forum.quote', array($userInfo["prenom"].' '.$userInfo["nom"]))." :\n> " . str_replace("\n", "\n>", $rMessage->message);
 							
 								break;
+                            case 'ckeditor' :
+                                $message =  "<p></p><blockquote><b>--------- ".CopixI18N::get ('forum|forum.quote', array($userInfo["prenom"].' '.$userInfo["nom"]))." ---------</b><br/>" . $rMessage->message."</blockquote><br/>";
+				break;
+
 						}
 						$format = $rMessage->format;
 						
 						//$message = ">".." : \n> ".str_replace("\n", "\n> ", $rMessage->message)."\n";
 					}
 				}
+
+                $forum = $rTopic->forum;
 
 			}
 		} else {
@@ -333,11 +339,11 @@ class ActionGroupForum extends CopixActionGroup {
 		if ($criticErrors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('forum||')));
 		} else {
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$titre = ($id) ? CopixI18N::get ('forum|forum.modifMessage') : CopixI18N::get ('forum|forum.newMessage');
 			$tpl->assign ('TITLE_PAGE', $titre);
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			$tplForm->assign ('topic', $topic);
 			$tplForm->assign ('message', $message);
 			$tplForm->assign ('format', $format);
@@ -351,7 +357,7 @@ class ActionGroupForum extends CopixActionGroup {
 				$tplForm->assign ('petitpoucet', CopixZone::process ('forum|petitpoucet', array('topic'=>$rTopic)));
 			
 			//$tplForm->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>'message')));
-			$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'height'=>200)));
+			$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'object'=>array('type'=>'MOD_FORUM', 'id'=>$forum), 'height'=>200)));
 
 			$result = $tplForm->fetch('getmessageform.tpl');
 			$tpl->assign ('MAIN', $result);
@@ -363,14 +369,14 @@ class ActionGroupForum extends CopixActionGroup {
 
 
    /**
-   * Soumission du formulaire d'écriture d'un message
+   * Soumission du formulaire d'ecriture d'un message
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @see getMessageForm()
-	 * @param integer $topic Id de la discussion (si réponse dans cette discussion)
-	 * @param integer $id Id d'un message (si édition de ce message)
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param integer $topic Id de la discussion (si reponse dans cette discussion)
+	 * @param integer $id Id d'un message (si edition de ce message)
+	 * @param string $go Forme de soumission : preview (previsualiser) ou send (enregistrer)
 	 * @param string $message Champ message saisi
 	 * @param string $format Format du message
    */
@@ -398,7 +404,7 @@ class ActionGroupForum extends CopixActionGroup {
 					$forum = $rMessage->forum_id;
 			}
 		
-		} elseif ($topic) {		// Réponse dans un topic
+		} elseif ($topic) {		// Reponse dans un topic
 			$dao_topics = CopixDAOFactory::create("forum_topics");
 			$rTopic = $dao_topics->get($topic);
 			if (!$rTopic)
@@ -442,16 +448,16 @@ class ActionGroupForum extends CopixActionGroup {
 	
 
    /**
-   * Affichage du formulaire d'écriture d'une discussion
+   * Affichage du formulaire d'ecriture d'une discussion
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/09
 	 * @see doTopicForm()
 	 * @param integer $forum Id du forum (si nouvelle discussion dans ce forum)
-	 * @param integer $id Id d'une discussion (si édition de cette discussion)
+	 * @param integer $id Id d'une discussion (si edition de cette discussion)
 	 * @param string $titre Valeur du champ "titre" (si formulaire soumis)
 	 * @param string $message Valeur du champ "message" (si formulaire soumis)
-	 * @param array $errors (option) Erreurs rencontrées
+	 * @param array $errors (option) Erreurs rencontrees
 	 * @param integer $preview (option) Si 1, affichera la preview de la discussion soumise, si 0 validera le formulaire
    */
 	function processGetTopicForm () {
@@ -500,11 +506,11 @@ class ActionGroupForum extends CopixActionGroup {
 		if ($criticErrors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('forum||')));
 		} else {
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$title_page = ($id) ? CopixI18N::get ('forum|forum.modifTopic') : CopixI18N::get ('forum|forum.newTopic');
 			$tpl->assign ('TITLE_PAGE', $title_page);
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			$tplForm->assign ('forum', $forum);
 			$tplForm->assign ('titre', $titre);
 			$tplForm->assign ('message', $message);
@@ -518,7 +524,7 @@ class ActionGroupForum extends CopixActionGroup {
 			else
 				$tplForm->assign ('petitpoucet', CopixZone::process ('forum|petitpoucet', array('forum'=>$rForum)));
 
-			$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'height'=>200)));
+			$tplForm->assign ('message_edition', CopixZone::process ('kernel|edition', array('field'=>'message', 'format'=>$format, 'content'=>$message, 'object'=>array('type'=>'MOD_FORUM', 'id'=>$forum), 'height'=>200)));
 
 			$result = $tplForm->fetch('gettopicform.tpl');
 			$tpl->assign ('MAIN', $result);
@@ -529,17 +535,17 @@ class ActionGroupForum extends CopixActionGroup {
 	
 	
    /**
-   * Soumission du formulaire d'écriture d'une discussion
+   * Soumission du formulaire d'ecriture d'une discussion
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
 	 * @see getTopicForm()
 	 * @param integer $forum Id du forum (si nouvelle discussion dans ce forum)
-	 * @param integer $id Id d'une discussion (si édition de cette discussion)
+	 * @param integer $id Id d'une discussion (si edition de cette discussion)
 	 * @param string $titre Valeur saisie pour le champ "titre"
 	 * @param string $message Valeur saisie pour le champ "message"
 	 * @param string $format Format du message
-	 * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+	 * @param string $go Forme de soumission : preview (previsualiser) ou send (enregistrer)
    */
 	function doTopicForm () {
 	
@@ -588,7 +594,7 @@ class ActionGroupForum extends CopixActionGroup {
 
 			$auteur = _currentUser ()->getId();
 			
-			if ($id && !$errors && $go=='save') { // Mise à jour			
+			if ($id && !$errors && $go=='save') { // Mise a jour
 				$rTopic->titre = $titre;
 				$dao_topics->update($rTopic);
 				$urlReturn = CopixUrl::get ('forum||getTopic', array("id"=>$id));
@@ -615,7 +621,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id du message à supprimer
+	 * @param integer $id Id du message a supprimer
    */
 	function getDeleteMessage () {
 	 	
@@ -657,11 +663,11 @@ class ActionGroupForum extends CopixActionGroup {
    /**
    * Suppression d'un message
 	 *
-	 * La suppression d'un message change son statut dans la base, afin d'en conserver une trace tout en le rendant inaccessible à la lecture.
+	 * La suppression d'un message change son statut dans la base, afin d'en conserver une trace tout en le rendant inaccessible a la lecture.
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id du message à supprimer
+	 * @param integer $id Id du message a supprimer
    */
 	function doDeleteMessage () {
 	 	
@@ -699,12 +705,12 @@ class ActionGroupForum extends CopixActionGroup {
    /**
    * Alerte un message
 	 *
-	 * L'alerte sur un message permet de signaler un message comme non conforme ou illicite. L'alerte incrémente un compteur (un compteur par message).
+	 * L'alerte sur un message permet de signaler un message comme non conforme ou illicite. L'alerte incremente un compteur (un compteur par message).
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id du message à alerter
-	 * @todo A implémenter (en commentaires dans le template)
+	 * @param integer $id Id du message a alerter
+	 * @todo A implementer (en commentaires dans le template)
    */
 	function doAlertMessage () {
 	 	
@@ -742,7 +748,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id de la discussion à supprimer
+	 * @param integer $id Id de la discussion a supprimer
    */
 	function getDeleteTopic () {
 
@@ -782,7 +788,7 @@ class ActionGroupForum extends CopixActionGroup {
 	 * 
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2005/11/10
-	 * @param integer $id Id de la discussion à supprimer
+	 * @param integer $id Id de la discussion a supprimer
    */
 	function doDeleteTopic () {
 	 	

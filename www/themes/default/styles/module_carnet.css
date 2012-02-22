@@ -8,7 +8,6 @@ A.new {
 /* Détail d'un message */
 DIV.carnet_message, TD.carnet_message {
 	margin-top: 15px;
-	width: 730px;
 	background-color: #FFFFFF;
 	font-size: 12px;
 	border-radius: 6px;
@@ -19,7 +18,7 @@ DIV.carnet_message_message {
 	margin: 2px;
 }
 DIV.carnet_message_infos {
-	background-color: #C8B383;
+	background-color: #bbb;
 	text-align: left;
 	font-size: 13px;
 	border-radius: 6px;
@@ -52,13 +51,11 @@ DIV.carnet_message_actions {
 }
 DIV.carnet_message_eleve {
 	float: right;
-	color: #F04F0F;
 	padding: 0px;
 	margin: -4px 0px 0px 0px;
 	font-weight: bold;
 }
 DIV.carnet_message_eleve A {
-	color: #F04F0F;
 }
 DIV.carnet_message_eleve A:hover {
 	text-decoration: underline;
@@ -68,14 +65,6 @@ DIV.carnet_message_eleve A:hover {
 DIV.carnet_filtrage_col {
 	float: left;
 	width: 100px;
-	font-size: 11px;
-	background-color: #EDF5A9;
-	border: solid 2px #FFF;
-	border-radius: 6px;
-	-moz-border-radius: 6px;
-	-khtml-border-radius: 6px;
-	color: #000;
-	padding: 3px;
 }
 DIV.carnet_filtrage_col A, DIV.carnet_filtrage_col A:visited {
 	text-decoration: none;
@@ -84,3 +73,10 @@ DIV.carnet_filtrage_col A:hover {
 	text-decoration: underline;
 }
 
+
+
+div.checkEleve {
+  float:left;
+  width:190px;
+  font-size:0.8em;
+}

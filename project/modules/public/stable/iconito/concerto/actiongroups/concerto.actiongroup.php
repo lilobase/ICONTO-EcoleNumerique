@@ -46,11 +46,11 @@ class ActionGroupConcerto extends CopixActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('kernel||getNodes'));
 		}
 		
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('concerto|concerto.title'));
 		// $tpl->assign ('MENU', '<a href="'.CopixUrl::get ('groupe||getListPublic').'">'.CopixI18N::get ('groupe|groupe.annuaire').'</a> :: <a href="'.CopixUrl::get ('groupe||getListMy').'">'.CopixI18N::get ('groupe|groupe.my').'</a>');
 	
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('login', $concerto[0]->login);
 		$tplListe->assign ('password', $concerto[0]->password );
 		$result = $tplListe->fetch("concerto-form.tpl");
@@ -146,7 +146,7 @@ class ActionGroupConcerto extends CopixActionGroup {
 		}
 		
 		/*
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('data', $a);
 		$result = $tplListe->fetch("concerto-init.tpl");
 		*/

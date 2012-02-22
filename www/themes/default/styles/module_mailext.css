@@ -1,0 +1,32 @@
+/* 
+    Document   : module_mailext
+    Created on : 2 août 2010, 16:16:21
+    Author     : alemaire
+    Description:
+        Purpose of the stylesheet follows.
+*/
+.mailext-title{
+    margin: 4px;
+    text-align: center;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+.mailext-webmail{
+    text-align: center;
+}
+
+label{
+    width: 200px;
+    font-weight: bold;
+    font-size: 0.8em;
+}
+
+.m-right{
+    float: right;
+    margin-right: 5px;
+}
+.mailext-hr{
+    border: none;
+    border-bottom: solid 1px #B28001;
+}

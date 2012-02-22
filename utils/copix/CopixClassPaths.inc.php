@@ -2,7 +2,7 @@
 /** Chemins des classes.
   * Ce fichier est généré par CopixClassPathBuilder, ne pas le modifier !
   * NE JAMAIS LE SUPPRIMER NON PLUS !
-  * Dernière génération le 2009-02-11 10:57:43
+  * Dernière génération le 2011-12-19 11:58:24
 */
  return array(
 	'copixajax' => COPIX_UTILS_PATH.'CopixAJAX.class.php',
@@ -16,6 +16,7 @@
 	'copixactionreturn' => COPIX_CORE_PATH.'CopixActionGroup.class.php',
 	'copixactionstatic' => COPIX_CORE_PATH.'CopixAction.class.php',
 	'copixactionzone' => COPIX_CORE_PATH.'CopixAction.class.php',
+	'copixarraypager' => COPIX_UTILS_PATH.'CopixArrayPager.class.php',
 	'copixarrayvalidator' => COPIX_PATH.'validator/CopixComplexTypeValidator.class.php',
 	'copixauth' => COPIX_PATH.'auth/CopixAuth.class.php',
 	'copixauthexception' => COPIX_PATH.'auth/CopixAuth.class.php',
@@ -44,6 +45,8 @@
 	'copixcredentialhandlerfactory' => COPIX_PATH.'auth/CopixCredentialHandlerFactory.class.php',
 	'copixcsv' => COPIX_UTILS_PATH.'CopixCsv.class.php',
 	'copixcsviterator' => COPIX_UTILS_PATH.'CopixCsv.class.php',
+	'copixcustomi18n' => COPIX_UTILS_PATH.'CopixCustomI18N.class.php',
+	'copixcustomi18nbundle' => COPIX_UTILS_PATH.'CopixCustomI18NBundle.class.php',
 	'copixdaocheckexception' => COPIX_PATH.'dao/CopixDAOFactory.class.php',
 	'copixdaodefinition' => COPIX_PATH.'dao/CopixDAODefinition.class.php',
 	'copixdaodefinitionbuilder' => COPIX_PATH.'dao/CopixDAODefinitionBuilder.class.php',
@@ -154,6 +157,7 @@
 	'copixphpdocexception' => COPIX_PATH.'coding/CopixPHPDoc.class.php',
 	'copixphpgenerator' => COPIX_UTILS_PATH.'CopixPHPGenerator.class.php',
 	'copixppo' => COPIX_CORE_PATH.'CopixActionGroup.class.php',
+	'copixpager' => COPIX_UTILS_PATH.'CopixPager.class.php',
 	'copixparameterhandler' => COPIX_UTILS_PATH.'CopixParameterHandler.class.php',
 	'copixplugin' => COPIX_UTILS_PATH.'CopixPluginRegistry.class.php',
 	'copixpluginfileselector' => COPIX_UTILS_PATH.'CopixFileSelector.class.php',

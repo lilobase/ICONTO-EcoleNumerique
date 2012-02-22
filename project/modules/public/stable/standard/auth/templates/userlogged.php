@@ -22,7 +22,7 @@
 
 {if $showRememberMe}{i18n key=auth|auth.rememberMe} : <input type="checkbox" name="rememberMe" id="rememberMe" value="1" />{/if}
 
-		 <input type="submit" class="submit" value="{i18n key="auth.buttons.login"}" />
+		 <input type="submit" class="submit button" value="{i18n key="auth.buttons.login"}" />
    </form>
 
 

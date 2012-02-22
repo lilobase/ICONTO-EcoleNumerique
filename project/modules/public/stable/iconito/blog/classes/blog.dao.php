@@ -16,10 +16,11 @@ class DAOBlog {
 	function getBlogByName ($url_blog){
 		$sp = _daoSp ();
 		$sp->addCondition ('url_blog', '=', $url_blog);
-
-		if (count($arBlog = $this->findBy ($sp)) > 0)  {
-			return $arBlog[0];
-		}else{
+    $arBlog = $this->findBy ($sp);
+		if (count($arBlog) > 0)  {
+			foreach ($arBlog as $blog)
+        return $blog;
+		} else {
 			return false;
 		}
 	}
@@ -33,9 +34,11 @@ class DAOBlog {
 	function getBlogById ($id_blog){
 		$sp = _daoSp ();
 		$sp->addCondition ('id_blog', '=', $id_blog);
-		if (count($arBlog = $this->findBy ($sp)) > 0)  {
-			return $arBlog[0];
-		}else{
+    $arBlog = $this->findBy ($sp);
+		if (count($arBlog) > 0)  {
+			foreach ($arBlog as $blog)
+        return $blog;
+		} else {
 			return false;
 		}
 	}	
@@ -60,31 +63,5 @@ class DAOBlog {
 
 
 class DAORecordBlog {
-	function check ($record){
-		$result = $this->_compiled_check ($record);
-
-		if ($result === true){
-			$result = array ();
-		}
-		if(!empty($record->url_blog)) {
-			if(empty($record->id_blog)) {
-				// Création
-				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE url_blog=\'' . $record->url_blog.'\'';
-			} else {
-				// Edition
-				$sqlRequest = 'SELECT id_blog FROM module_blog WHERE id_blog!=' . $record->id_blog.' AND url_blog=\'' . $record->url_blog.'\'';
-			}
-			// Vérification de l'unicité de l'url
-			$DBresult = _doQuery($sqlRequest);
-			if(count($DBresult)>0) {
-				require_once (COPIX_CORE_PATH . 'CopixErrorObject.class.php');
-				$errorObject = new CopixErrorObject ();
-				$errorObject->addError ('blog.edit.tpl', CopixI18N::get('blog|blog.dao.url.exist'));
-				$result = array_merge ($errorObject->asArray(), $result);
-			}
-		}
-
-		return (count ($result)>0) ? $result : true;
-	}
 }
 ?>

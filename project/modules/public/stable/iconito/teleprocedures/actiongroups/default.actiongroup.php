@@ -8,7 +8,7 @@
 
 _classInclude('teleprocedures|teleproceduresservice');
 
-class ActionGroupDefault extends CopixActionGroup {
+class ActionGroupDefault extends EnicActionGroup {
 	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
@@ -26,7 +26,10 @@ class ActionGroupDefault extends CopixActionGroup {
 					if ($module->module_type == 'MOD_TELEPROCEDURES')
 						return CopixActionGroup::process ('teleprocedures|default::listTeleprocedures', array ('id'=>$module->module_id));
 				}
-			}
+        return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('teleprocedures|teleprocedures.error.noModule'), 'back'=>CopixUrl::get('||')));
+			} else {
+        return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('teleprocedures|teleprocedures.error.noEcole'), 'back'=>CopixUrl::get('||')));
+      }
 		}
 		return CopixActionGroup::process ('teleprocedures|default::listTeleprocedures', array ('id'=>$id));
 	}
@@ -66,7 +69,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		//print_r($rTelep);
 		
 		if ($criticErrors)
-			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('teleprocedures||')));
+			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('||')));
 		
 		$title = $rTelep->parent["nom"];
 		$ville = $rTelep->parent["id"];
@@ -79,7 +82,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		if (!TeleproceduresService::canMakeInTelep('VIEW_COMBO_ECOLES',$mondroit))
 			$ecole = null;
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('filtre', CopixZone::process('filtre',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('list', CopixZone::process('list',array('rTelep'=>$rTelep, 'motcle'=>$motcle, 'clos'=>$clos, 'type'=>$type, 'ecole'=>$ecole, 'mondroit'=>$mondroit)));
 		$tplListe->assign ('types', CopixZone::process('types',array('rTelep'=>$rTelep, 'canInsert'=>$canInsert)));
@@ -107,15 +110,14 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		$main = $tplListe->fetch('list.tpl');
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
+    $MENU = array();
 		if (TeleproceduresService::canMakeInTelep('ADMIN',$mondroit))
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('admin|admin', array('id'=>$rTelep->id)).'">'.CopixI18N::get ('teleprocedures|teleprocedures.admin').'</a>');
+      $MENU[] = array('txt' => CopixI18N::get('teleprocedures|teleprocedures.admin'), 'type' => '', 'url' => CopixUrl::get ('admin|admin', array('id'=>$rTelep->id)));
 		
-		//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('teleprocedures||go', array('id'=>$go)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
+    $tpl->assign ("MENU", $MENU);
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -215,9 +217,9 @@ class ActionGroupDefault extends CopixActionGroup {
 			$rForm->detail = ($rType->texte_defaut) ? $rType->texte_defaut : html_entity_decode(CopixI18N::get ('teleprocedures.interv.default.detail'));
 		}
 
-		$tplForm = & new CopixTpl ();
+		$tplForm = new CopixTpl ();
 		
-		$tplForm->assign ('detail_edition', CopixZone::process ('kernel|edition', array('field'=>'detail', 'format'=>$rForm->format, 'content'=>$rForm->detail, 'height'=>450, 'width'=>800)));
+		$tplForm->assign ('detail_edition', CopixZone::process ('kernel|edition', array('field'=>'detail', 'format'=>$rForm->format, 'content'=>$rForm->detail, 'height'=>450)));
 				
 		$tplForm->assign ('date',date("Y-m-d"));
 		$tplForm->assign ('rEcole',$rEcole);
@@ -233,11 +235,8 @@ class ActionGroupDefault extends CopixActionGroup {
 
 		$main = $tplForm->fetch('insert.tpl');
 	
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('teleprocedures.title.newTelep'));
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|go', array('id'=>$rType->teleprocedure)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 
@@ -256,8 +255,8 @@ class ActionGroupDefault extends CopixActionGroup {
 	function processFiche () {
 		
 		$id = $this->getRequest ('id', null);
-		$errors = $this->getRequest ('errors', array());
-		$ok = $this->getRequest ('ok', array());
+		$errors = ($this->getRequest ('errors', array()));
+		$ok = ($this->getRequest ('ok', array()));
 		$print = $this->getRequest ('print');
 		$send = $this->getRequest ('send');
 		$fiche = $this->getRequest ('rFiche', array());
@@ -283,7 +282,7 @@ class ActionGroupDefault extends CopixActionGroup {
 		if (isset($fiche['mail_message'])) $rFiche->mail_message = $fiche['mail_message'];
 		
 			
-		$fiche = CopixZone::process('fiche',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit, 'errors'=>$errors, 'ok'=>$ok));
+		$fiche = CopixZone::process('fiche',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit, 'errors'=>$errors, 'ok'=>$ok, 'print'=>$print));
 		$comms = CopixZone::process('ficheComms',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit));
 		$actions = CopixZone::process('ficheActions',array('rFiche'=>$rFiche, 'mondroit'=>$mondroit));
 		if ($print)
@@ -291,12 +290,9 @@ class ActionGroupDefault extends CopixActionGroup {
 		else
 			$main = $fiche.$comms.$actions;
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|listTeleprocedures', array('id'=>$rFiche->type_teleprocedure)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		
 		if (!$print) {
@@ -306,12 +302,10 @@ class ActionGroupDefault extends CopixActionGroup {
 		}
 		
 		
-		if ($print) {
+		if (0 && $print) {
 			$ppo = new CopixPPO ();
 			$ppo->result = $main;
 			$ppo->TITLE_PAGE = $title;
-		
-		
 			return _arPPO ($ppo, array ('template'=>'print_ppo.tpl', 'mainTemplate'=>'default|main_print.php'));
 		} else
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);		
@@ -363,12 +357,9 @@ class ActionGroupDefault extends CopixActionGroup {
 		$actions = CopixZone::process('ficheActionsDroits',array('rFiche'=>$rFiche, 'errors'=>$errors));
 		$main = $fiche.$actions;
 		
-		CopixHTMLHeader::addCSSLink (_resource("styles/module_teleprocedure.css"));
-
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', $title);
 		
-		$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('|fiche', array('id'=>$rFiche->idinter)).'">'.CopixI18N::get ('kernel|kernel.back').'</a>');
 		$tpl->assign ("MAIN", $main);
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);		
@@ -602,7 +593,7 @@ class ActionGroupDefault extends CopixActionGroup {
 			//$from = CopixConfig::get('|mailFrom');
 			//$fromName = CopixConfig::get('|mailFromName');
 			
-			$mail = & new CopixHtmlEMail ($to, $cc, $cci, $subject, $message);
+			$mail = new CopixHtmlEMail ($to, $cc, $cci, utf8_decode($subject), utf8_decode($message));
 
 			$send = $mail->send ($from, $fromName);
 			
@@ -624,8 +615,8 @@ class ActionGroupDefault extends CopixActionGroup {
 		
 		//var_dump($send);
 		
-		if ($errors) $errors = urlencode(str_replace("\n","<br/>",trim($errors)));
-		if ($ok) $ok = urlencode($ok);
+		if ($errors) $errors = (str_replace("\n","<br/>",trim($errors)));
+		if ($ok) $ok = ($ok);
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('|fiche', array('id'=>$id, 'errors'=>$errors, 'ok'=>$ok)));
 		//return CopixActionGroup::process ('teleprocedures|default::fiche', array ('id'=>$id, 'errors'=>$errors));

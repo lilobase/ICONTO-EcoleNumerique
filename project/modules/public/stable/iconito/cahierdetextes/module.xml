@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<moduledefinition>
+    <general>
+        <default name="cahierdetextes" descriptioni18n="cahierdetextes.moduleDescription"/>
+        <package name="copixdivers" version="2.2" />
+    </general>
+    <parameters>
+      <parameter name="format_par_defaut" default="ckeditor" />
+      <parameter name="nombre_max_vue_radio" default="5" />
+      <parameter name="nombre_max_memos" default="5" />
+  	</parameters>
+</moduledefinition>

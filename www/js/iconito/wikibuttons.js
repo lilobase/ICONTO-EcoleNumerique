@@ -1,10 +1,6 @@
 
-
 var clientPC = navigator.userAgent.toLowerCase(); // Get client info
 var clientVer = parseInt(navigator.appVersion); // Get browser version
-
-// b2 quick tags
-// - authorized adaptation of the 'bbCode control code' by subBlue design ( www.subBlue.com )
 
 imageTag = false;
 
@@ -130,7 +126,7 @@ function bbstyle(formObj, field, bbnumber) {
       return;
     }
   }
-  else if (txtarea.selectionEnd && (txtarea.selectionEnd - txtarea.selectionStart > 0))	// Si sélection
+  else if (txtarea.selectionEnd && (txtarea.selectionEnd - txtarea.selectionStart > 0))	// Si sÃ©lection
 	{
   	pos = mozWrap(txtarea, bbtags[bbnumber], bbtags[bbnumber+1]);
 		txtarea.selectionStart = pos;
@@ -188,7 +184,7 @@ function bbstyle(formObj, field, bbnumber) {
 		}
 		
 		// Open tag
-		// Ouverture d'un tag sans sélection, on insère à l'emplacement courant
+		// Ouverture d'un tag sans sÃ©lection, on insÃ¨re Ã  l'emplacement courant
 		
 		text = bbtags[bbnumber];
 
@@ -263,7 +259,7 @@ function mozWrap(txtarea, open, close)
 } 
 
 
-// Remplace la sélection par un autre texte
+// Remplace la sÃ©lection par un autre texte
 function mozWrapReplace(txtarea, txt)
 {
    var selLength = txtarea.textLength;
@@ -280,13 +276,13 @@ function mozWrapReplace(txtarea, txt)
 } 
 
 
-// S'occupe d'insérer
+// S'occupe d'insÃ©rer
 function bblink_add (txtarea, objectValue, objectValueDeb, objectValueFin, final_link) {
 
-			if ((clientVer >= 4) && is_ie && is_win && theSelection) {	// Sélection IE
+			if ((clientVer >= 4) && is_ie && is_win && theSelection) {	// SÃ©lection IE
 				document.selection.createRange().text = final_link;
    		  theSelection = '';
-			} else if (txtarea.selectionEnd && (txtarea.selectionEnd - txtarea.selectionStart > 0))	{ // Sélection autre
+			} else if (txtarea.selectionEnd && (txtarea.selectionEnd - txtarea.selectionStart > 0))	{ // SÃ©lection autre
   			mozWrapReplace(txtarea, final_link);
   		} else if (txtarea.selectionStart == txtarea.selectionEnd && txtarea.selectionEnd != undefined) { // Insertion
         txtarea.value = objectValueDeb+final_link+objectValueFin;
@@ -313,7 +309,7 @@ function bblink(formObj, field, bbnumber) {
 
 	if (bbnumber==10) 	    current_url = prompt("Saisissez l'adresse email","");
 	else if (bbnumber==14)   current_url = prompt("Saisissez le nom d'utilisateur (login)","");
-	else if (bbnumber==18)   current_url = prompt("Saisissez la couleur (en hexadécimal)","");
+	else if (bbnumber==18)   current_url = prompt("Saisissez la couleur (en hexadÃ©cimal)","");
 	else if (bbnumber==20)   current_url = prompt(i18n_wiki_h1,"");
 	else if (bbnumber==22)   current_url = prompt(i18n_wiki_h2,"");
 	else if (bbnumber==24)   current_url = prompt(i18n_wiki_h3,"");
@@ -329,7 +325,7 @@ function bblink(formObj, field, bbnumber) {
 	}
 	
 	
-  if (0 && txtarea.createTextRange) {	// Sélection IE
+  if (0 && txtarea.createTextRange) {	// SÃ©lection IE
   } else {
     objectValue = txtarea.value;
     objectValueDeb = objectValue.substring( 0 , txtarea.selectionStart );
@@ -362,7 +358,7 @@ function bblink(formObj, field, bbnumber) {
     }*/
 
 	/*else if(bbnumber == 18) {	// Couleur
-		current_link_text = unescape(prompt("Texte à écrire en couleur",""));
+		current_link_text = unescape(prompt("Texte Ã  Ã©crire en couleur",""));
 		if((current_link_text == null) || (current_link_text == "") || (current_link_text==current_url)) {
 		} else {
 			final_link = '[couleur=' + current_url + ']' + current_link_text + '[/couleur]';
@@ -382,7 +378,7 @@ function bblink(formObj, field, bbnumber) {
 		final_link = construct_h3 (current_url);
 		bblink_add (txtarea, objectValue, objectValueDeb, objectValueFin, final_link);
 	}
-  else if(bbnumber == 80) {	// Lien téléchargeable
+  else if(bbnumber == 80) {	// Lien tÃ©lÃ©chargeable
 		final_link = '\n' + current_url + '';
 		bblink_add (txtarea, objectValue, objectValueDeb, objectValueFin, final_link);
 	}
@@ -431,7 +427,7 @@ function add_html (field, txt) {
 
 	if (txt==null) return;
 	
-	if (0 && txtarea.createTextRange) {	// Sélection IE
+	if (0 && txtarea.createTextRange) {	// SÃ©lection IE
 	} else {
 		objectValue = txtarea.value;
 		objectValueDeb = objectValue.substring( 0 , txtarea.selectionStart );
@@ -445,3 +441,7 @@ function add_html (field, txt) {
 
 }
 
+function add_node (field, typeFile, idFile, nomFile) {
+  
+  jQuery('.'+field).append('<li><input type="hidden" name="'+field+'[]" value="'+typeFile+'-'+idFile+'" /><span>'+nomFile+'</span> <a href="#" class="delete-node button button-delete">'+jQuery('#textButtonDelete').html()+'</a></li>');
+}

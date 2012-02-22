@@ -24,6 +24,7 @@ class KernelMagicmail {
 	}
 
 	function delete ($id_magicmail) {
+    Kernel::unregisterModule("MOD_MAGICMAIL", $id_magicmail);
 		return true;
 	}
 

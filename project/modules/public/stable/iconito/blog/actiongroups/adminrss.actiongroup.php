@@ -39,7 +39,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$id_bfrs = $this->getRequest('id_bfrs', null);
 		if($id_bfrs!=null) {
@@ -57,7 +57,8 @@ class ActionGroupAdminRss extends CopixActionGroup {
 		
 		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
-		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>6)).'">'.CopixI18N::get('blog|blog.nav.rss').'</a>';
+//		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>6)).'">'.CopixI18N::get('blog|blog.nav.rss').'</a>';
+		$menu = getBlogAdminMenu($blog, 6);
 		$tpl->assign ('MENU', $menu);
 		$tpl->assign ('MAIN', CopixZone::process ('EditRss',
 		array('id_blog'=>$id_blog,
@@ -87,7 +88,7 @@ class ActionGroupAdminRss extends CopixActionGroup {
 			'back'=>CopixUrl::get ('blog|admin|listBlog')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$fluxRssDAO = CopixDAOFactory::create('blog|blogfluxrss');
 		$id_bfrs = $this->getRequest('id_bfrs', null); if(strlen($id_bfrs) == 0) $id_bfrs = null;

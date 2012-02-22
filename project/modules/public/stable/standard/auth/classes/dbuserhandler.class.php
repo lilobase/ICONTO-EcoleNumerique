@@ -131,6 +131,26 @@ class DBUserHandler implements ICopixUserHandler {
 			// Si en SSO, mot de passe deja crypte
 			$password_test = (isset($pParams['ssoIn']) && $pParams['ssoIn']) ? $pParams['password'] : ($this->_cryptPassword (isset ($pParams['password']) ? $pParams['password'] : ''));
 			
+			if ( !( (isset($pParams['assistance']) && $pParams['assistance']) || $results[0]->password_dbuser == $password_test ) ) {
+				// Si le mot de passe crypté commence par "$1$"
+				if(0==strncmp($results[0]->password_dbuser,'$1$',3)) {
+					// Si la fonction "crypt" supporte le MD5 (hachage MD5 à 12 caractères commençant par $1$)
+					if (CRYPT_MD5 == 1) {
+						// Si le mot de passe est le bon
+						if( $results[0]->password_dbuser == crypt($pParams['password'],$results[0]->password_dbuser) ) {
+
+							// Changement de mot de passe...
+							$user_tmp = _ioDAO ('dbuser')->get($results[0]->id_dbuser);
+							$user_tmp->password_dbuser = $this->_cryptPassword($pParams['password']);
+							_ioDAO ('dbuser')->update($user_tmp);
+							//_dump($user_tmp);
+              
+              $password_test = $results[0]->password_dbuser = $user_tmp->password_dbuser;
+						}
+					}
+				}
+			}
+      
 			if ( (isset($pParams['assistance']) && $pParams['assistance']) || $results[0]->password_dbuser == $password_test){
 			
 				$extra = array();
@@ -138,34 +158,6 @@ class DBUserHandler implements ICopixUserHandler {
 				$getUserInfo = Kernel::getUserInfo( "LOGIN", $results[0]->login_dbuser );
 				//var_dump($getUserInfo);
 				$extra = $getUserInfo;
-				
-				// Extrait de l'ancien plugin kernel|kernel
-				
-				if ( $getUserInfo["type"] == "USER_RES") { // Cas du parent d'élève
-				} else {
-				
-					$mynodes = Kernel::getMyNodes($getUserInfo['type'],$getUserInfo['id']);
-					
-					foreach( $mynodes AS $key=>$val ) {
-						if( !ereg( "^BU_", $val->type) && !ereg( "^ROOT$", $val->type) ) unset( $mynodes[$key] );
-					}
-					reset($mynodes);
-					
-					if( count($mynodes) == 0 ) {
-					} elseif( count($mynodes) == 1 ) {
-						
-						$home = current($mynodes);
-						Kernel::setMyNode( $home->type, $home->id, $extra );
-					} else {
-						if( ($home_prefs=Prefs::get('kernel','home')) && (ereg('^([^-]+)-(.+)$', $home_prefs, $regs)) ) {
-							$home->type = $regs[1];
-							$home->id   = $regs[2];
-						} else {
-							$home = current($mynodes);
-						}
-						Kernel::setMyNode( $home->type, $home->id, $extra );
-					}
-				}
 				
 				return new CopixUserLogResponse (true, 'auth|dbuserhandler', $results[0]->id_dbuser, $results[0]->login_dbuser, $extra);
 			}

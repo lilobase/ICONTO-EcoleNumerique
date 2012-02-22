@@ -53,8 +53,8 @@ class CopixUser implements ICopixUser {
     public function login ($pParams = array ()) {
 		
 			//var_dump($pParams);
-		
-    	$this->_asserted = array ();
+	
+    	$this->_asserted = array();
     	$this->_groups = false;
     	$responses = array();
     	$isConnected = false;
@@ -80,7 +80,7 @@ class CopixUser implements ICopixUser {
 	   	} else {
 	   		$this->_logged = $isConnected ? $responses : array();
 	   	}
-			
+
 	   	return $isConnected;
     }
     
@@ -91,9 +91,9 @@ class CopixUser implements ICopixUser {
      */
     public function logout ($pParams = array ()) {
     	foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $handler) {
-    		CopixUserHandlerFactory::create ($handler['name'])->logout ($pParams);
-	   	}
-	   	$this->_logged = array ();
+            CopixUserHandlerFactory::create ($handler['name'])->logout ($pParams);
+        }
+        $this->_logged = array ();
     	$this->_asserted = array ();
     	$this->_groups = false;
     }
@@ -103,10 +103,15 @@ class CopixUser implements ICopixUser {
 	 * 
 	 * @return array
      */
+    /*
+     * PATCH ARNAUD LEMAIRE
+     * AJOUT DE !empty($this->_groups) EN PLACE DE $this->_groups !== false
+     */
     public function getGroups () {
-		if ($this->_groups !== false && (CopixConfig::instance ()->copixauth_cache == true)) {
+        if (!empty($this->_groups) && (CopixConfig::instance ()->copixauth_cache == true)) {
     		return $this->_groups;
     	}
+
 	   	$results = array ();
 
 		//On parcours la liste des gestionnaires de groupes enregistrés.
@@ -152,10 +157,9 @@ class CopixUser implements ICopixUser {
 	 * @return bool
 	 */
 	public function testCredential ($pString) {
-    	if (isset ($this->_asserted[$pString]) && (CopixConfig::instance ()->copixauth_cache == true)) {
-    		return $this->_asserted[$pString]; 
-    	}
-
+            if (isset ($this->_asserted[$pString]) && (CopixConfig::instance ()->copixauth_cache == true)) {
+                    return $this->_asserted[$pString];
+            }
     	$pStringType   = substr ($pString, 0, strpos ($pString, ':'));
     	$pStringString = substr ($pString, strpos ($pString, ':')+1);
 
@@ -214,10 +218,32 @@ class CopixUser implements ICopixUser {
       return !is_null($response = $this->_getFirstLogged ()) ? $response->isSsoIn () : null;
     }
 		
-		public function hasAssistance () {
+		public function hasAssistance ( $check='' ) {
 			$animateur_dao = _dao("kernel|kernel_animateurs");
 			$animateur = $animateur_dao->get($this->getExtra('type'), $this->getExtra('id'));
-			return ($animateur) ? true : false;
+			
+			if(!$animateur) return false;
+			
+			switch( $check ) {
+				case 'all':
+					return $animateur;
+					break;
+				case 'can_connect':
+					return ($animateur->can_connect) ? true : false;
+					break;
+				case 'can_tableaubord':
+					return ($animateur->can_tableaubord) ? true : false;
+					break;
+				case 'can_comptes':
+					return ($animateur->can_comptes) ? true : false;
+					break;
+				case 'is_visibleannuaire':
+					return ($animateur->is_visibleannuaire) ? true : false;
+					break;
+				default:
+					return true;
+					break;
+			}
 		}
 	
     
@@ -391,20 +417,6 @@ class CopixUser implements ICopixUser {
 			}
 	}
 	
-	// Les infos sur le home
-	// Si $pInformationId est vide, on renvoie tout le tableau home
-	// CB 16/09/2009
-	public function getExtraHome ($pInformationId) {
-		foreach ($this->_logged as $userHandler=>$userResponse){
-				$extra = $userResponse->getExtra ();
-				if ($pInformationId && isset ($extra['home'][$pInformationId])){
-					return $extra['home'][$pInformationId];
-				} elseif (!$pInformationId && isset ($extra['home']))
-					return $extra['home'];
-			}
-	}
-	
-	
 	
 	/**
 	* Définition d'information supplémentaire pour les gestionnaires d'authentification
@@ -433,12 +445,6 @@ class CopixUser implements ICopixUser {
 
 	   	//l'information n'a pas pu être ajoutée, pas de réponse valide.
 		return false;
-	}
-	
-	// CB - 17/09/2009
-	public function setExtraHome ($pInformationId, $pInformationValue){
-		$userHandlerResponse = $this->_getFirstLogged ();
- 		return $userHandlerResponse->addExtraHome ($pInformationId, $pInformationValue);
 	}
 	
 	
@@ -572,12 +578,7 @@ class CopixUserLogResponse {
 	   return true;
 	}
 	
-	// CB - 17/09/2009
-	public function addExtraHome ($pInformationName, $pInformationValue){
-	   $this->_data['extra']['home'][$pInformationName] = $pInformationValue;
-	   return true;
-	}
-	
+
 	
 	
 	

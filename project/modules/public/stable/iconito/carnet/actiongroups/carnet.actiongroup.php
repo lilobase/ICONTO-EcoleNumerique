@@ -6,7 +6,7 @@
  * @package Iconito
  * @subpackage	Carnet
  */
-class ActionGroupCarnet extends CopixActionGroup {
+class ActionGroupCarnet extends EnicActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
@@ -130,10 +130,10 @@ class ActionGroupCarnet extends CopixActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('carnet|carnet.carnet').' - '.$title);
 		
-		$tplListe = & new CopixTpl ();
+		$tplListe = new CopixTpl ();
 		$tplListe->assign ('list', $list);
 		$tplListe->assign ('classe', $classe);
 		$tplListe->assign ('nb_eleves_classe', $nb_eleves_classe);
@@ -186,9 +186,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			//die();
 			
 			$unread = $daoTracking->getFirstUnreadMessage($id, $session['user_id'], $idEleves);
-
-			print_r($unread);
-			die('ici');
+      //_dump($unread[0]);
 			if ($unread[0]->id) {	// Il est déjà passé dans le topic
 				$urlReturn = CopixUrl::get ('|getTopic', array('id'=>$id, 'eleve'=>$eleve)).'#m'.$unread[0]->id;
 			} else { // Jamais passé, on le renvoie au début du topic
@@ -200,10 +198,18 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 		$topic = $dao->get ($id);
 		$classe = $topic->classe;
-		
+		$ppo = new CopixPPO ();
+    
 		if (!$topic)
 			$criticErrors[] = CopixI18N::get ('carnet|carnet.error.noTopic');
-
+    
+    $matrix = & enic::get('matrixCache');
+    
+    $ppo->canView_USER_RES = $matrix->classe($classe)->_right->USER_RES->voir;
+    $ppo->canView_USER_ENS = $matrix->classe($classe)->_right->USER_ENS->voir;
+    $ppo->canView_USER_ELE = $matrix->classe($classe)->_right->USER_ELE->voir;
+    //_dump($canWrite_USER_RES);
+    
 		$mondroit = $carnet_service->getUserDroitInCarnet (array("classe"=>$classe, "eleve"=>$eleve));
 		//print_r("mondroit=$mondroit");
 		if (!$mondroit)
@@ -269,13 +275,14 @@ class ActionGroupCarnet extends CopixActionGroup {
 			if ($print)
 				CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet_print.css"), array('media'=>'print'));
 			
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign ('TITLE_PAGE', $topic->titre);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
+			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 
 			//print_r($list);
 			//print_r($topic);
-			$tplListe = & new CopixTpl ();
+			$tplListe = new CopixTpl ();
+			$tplListe->assign ('ppo', $ppo);
 			$tplListe->assign ('topic', $topic);
 			$tplListe->assign ('eleve', $eleve);
 			$tplListe->assign ('canWriteClasse', $canWriteClasse);
@@ -346,10 +353,10 @@ class ActionGroupCarnet extends CopixActionGroup {
 			$hisEleves = $carnet_service->getUserElevesInClasse($classe);
 			$canWriteClasse = $carnet_service->canMakeInCarnet('WRITE_CLASSE', NULL);
 
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$title_page = ($id) ? CopixI18N::get ('carnet|carnet.modifTopic') : CopixI18N::get ('carnet|carnet.newTopic');
 			$tpl->assign ('TITLE_PAGE', $title_page);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
+			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getCarnet', array("classe"=>$classe, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 			
 			// On coche éventuellement l'élève par défaut à la première arrivée
 			if (!$eleves) {
@@ -362,7 +369,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
 			CopixHtmlHeader::addJSLink (CopixUrl::get().'js/iconito/module_carnet.js');
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			
 			$tplForm->assign ('id', $id);
 			$tplForm->assign ('classe', $classe);
@@ -504,7 +511,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 		if ($criticErrors) {
 			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$criticErrors), 'back'=>CopixUrl::get('carnet||')));
 		} else {
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			//$titre = ($id) ? 'Modification du message' : 'Nouveau message';
 
 			CopixHTMLHeader::addCSSLink (_resource("styles/module_carnet.css"));
@@ -512,7 +519,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 			$tpl->assign ('TITLE_PAGE', $rTopic->topic_titre);
 
-			$tplForm = & new CopixTpl ();
+			$tplForm = new CopixTpl ();
 			$tplForm->assign ('topic', $topic);
 			$tplForm->assign ('eleve', $eleve);
 			$tplForm->assign ('message', $message);
@@ -524,7 +531,7 @@ class ActionGroupCarnet extends CopixActionGroup {
 
 			$result = $tplForm->fetch('getmessageform.tpl');
 			$tpl->assign ('MAIN', $result);
-			$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getTopic', array("id"=>$topic, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backTopic').'</a> :: <a href="'.CopixUrl::get ('carnet||getCarnet', array("eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
+			//$tpl->assign ('MENU', '<a href="'.CopixUrl::get ('carnet||getTopic', array("id"=>$topic, "eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backTopic').'</a> :: <a href="'.CopixUrl::get ('carnet||getCarnet', array("eleve"=>$eleve)).'">'.CopixI18N::get ('carnet|carnet.backCarnet').'</a>');
 			
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		}

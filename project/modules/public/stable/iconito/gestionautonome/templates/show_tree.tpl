@@ -1,14 +1,33 @@
-<p>Ce module vous permet de gérer les villes, écoles, classes et les personnes associées (agents, personnel de l’education nationale, etc.)</p>
-
 {if $ppo->save neq null}
-  <p class="ui-state-highlight ui-corner-all" style="margin-top: 20px; padding: 0pt 0.7em;">
-    <span style="float: left; margin-right: 0.3em;" class="ui-icon ui-icon-info"></span>
-    <strong>Structure mise à jour</strong>
+  <p class="mesgSuccess">
+    {if $ppo->save eq 'cityCreated'}La ville a bien été créée.
+    {elseif $ppo->save eq 'cityUpdated'}La ville a bien été mise à jour.
+    {elseif $ppo->save eq 'cityDeleted'}La ville a bien été supprimée.
+    {elseif $ppo->save eq 'schoolCreated'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__Structure%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été créée.
+    {elseif $ppo->save eq 'schoolUpdated'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__Structure%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été mise à jour.
+    {elseif $ppo->save eq 'schoolDeleted'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__Structure%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été supprimée.
+    {elseif $ppo->save eq 'classCreated'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__Structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été créée.
+    {elseif $ppo->save eq 'classUpdated'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__Structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été mise à jour.
+    {elseif $ppo->save eq 'classDeleted'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__Structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été supprimée.
+    {elseif $ppo->save eq 'gradeCreated'}L'année scolaire a bien été créée.
+    {elseif $ppo->save eq 'gradeUpdated'}L'année scolaire a bien été mise à jour.
+    {elseif $ppo->save eq 'gradeDeleted'}L'année scolaire a bien été supprimée.
+    {elseif $ppo->save eq 'studentRemoved'}L'affectation de {customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été supprimée.
+    {elseif $ppo->save eq 'studentDeleted'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element_Person%%" catalog=$ppo->vocabularyCatalog->id_vc} a bien été supprimé.
+    {elseif $ppo->save eq 'personnelDeleted'}Le personnel a bien été supprimé.
+    {elseif $ppo->save eq 'personnelRemoved'}L'affectation du personnel a bien été supprimée.
+    {elseif $ppo->save eq 'principalRemoved'}Le personnel n'est plus directeur.
+    {elseif $ppo->save eq 'personInChargeDeleted'}Le responsable a bien été supprimé.
+    {elseif $ppo->save eq 'personInChargeRemoved'}Le lien avec le responsable a bien été supprimé.
+    {elseif $ppo->save eq 'studentsNewClassAffected'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc} ont bien été affectés à {customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} de destination.
+    {elseif $ppo->save eq 'studentsListAffected'}{customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element_Persons%%" catalog=$ppo->vocabularyCatalog->id_vc} ont bien été affectés.
+    {else}Structure mise à jour
+    {/if}
   </p>
 {/if}
 
 <div id="tree">
-  <h4>POSITIONNEZ-VOUS DANS LA STRUCTURE</h4>
+  <h2>Sélectionnez une structure</h2>
   
   <div class="field">
     <label for="grade" class="form_libelle"> Année scolaire :</label>
@@ -19,15 +38,17 @@
     <form name="search_form" id="search-form">
       <label for="search-input" class="form_libelle">Recherche par nom :</label>
       <input type="text" class="form" name="search" value="" id="search-input" />
-      <input type="submit" class="form" value="Ok" id="search-button" />
+      <input type="submit" class="button button-search" value="Voir" id="search-button" />
     </form>
   </div>
   
-  <ul class="tree">
-    {copixzone process=gestionautonome|citiesGroup}
-  </ul>
+  <div id="treeView">
+      <ul class="tree">
+          {copixzone process=gestionautonome|citiesGroup}
+      </ul>
+  </div>
    
-   <div id="tree-actions">
+   <div id="treeActions">
      {copixzone process=gestionautonome|TreeActions node_id=$ppo->targetId node_type=$ppo->targetType}
    </div>
 </div>
@@ -40,7 +61,6 @@
   <script type="text/javascript">
   //<![CDATA[
   
-    jQuery.noConflict();
     jQuery(document).ready(function(){
       
       jQuery('#search-form').submit(function(){
@@ -61,7 +81,7 @@
             data:    { value: value },
             success: function(html){
 
-              jQuery('#tree-actions').html('<h4>ACTIONS SUR LA STRUCTURE</h4><p>Sélectionnez un élément dans la structure.</p>');
+              jQuery('#treeActions').html('<p>Sélectionnez un élément dans la structure.</p>');
               jQuery('#column-data').html('<p>Aucun élément sélectionné dans la structure.</p>');
               jQuery('ul.tree').empty();
               jQuery('ul.tree').append(html);
@@ -106,8 +126,8 @@
         if (show_forced){
           
           // Affichage du loader ajax
-          jQuery('#tree-actions').empty();
-          jQuery('#tree-actions').html('<p align="center">Chargement en cours...</p>');
+          jQuery('#treeActions').empty();
+          jQuery('#treeActions').html('<p class="center">Chargement en cours...</p>');
           
           // Chargement de la zone "Actions"
           jQuery.ajax({
@@ -118,14 +138,14 @@
             data:    { node_type: node_type, node_id: node_id },
             success: function(html){
 
-             jQuery('#tree-actions').empty();
-             jQuery('#tree-actions').append(html);
+             jQuery('#treeActions').empty();
+             jQuery('#treeActions').append(html);
             }
           });
           
           // Affichage du loader ajax
           jQuery('#column-data').empty();
-          jQuery('#column-data').html('<p align="center">Chargement en cours...</p>');
+          jQuery('#column-data').html('<p class="center">Chargement en cours...</p>');
           
           // Chargement de la zone "Personnes infos"
           jQuery.ajax({
@@ -144,32 +164,30 @@
         
         // Si le noeud est déplié => chargement des fils
         if (a_expand.length > 0) {
-           
-          jQuery('<img class="load-img" src="/themes/default/img/ajax-loader-mini.gif" />').insertAfter(a_node); 
-          
           if (a_expand.hasClass('expand')) {
-
             jQuery(this).parent().find('ul').first().show();
           }
           else {
-
             jQuery(this).parent().find('ul').first().hide();
           }
-
-          jQuery.ajax({
-            url:     '{/literal}{copixurl dest=gestionautonome|default|toggleNode}{literal}',
-            global:  true,
-            type:    'GET',
-            context: a_expand.parent(),
-            data:    { node_type: node_type, node_id: node_id, show_forced: show_forced },
-            success: function(html){
-
-              var ul = jQuery(this).find('ul').first();
-              ul.empty();
-              ul.append(html);
-              jQuery('img.load-img').remove();  
-            }
-          });
+          
+          if ($(this).parent().find('li').size() == 0) {
+            jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').insertAfter(a_node); 
+            
+            jQuery.ajax({
+              url:     '{/literal}{copixurl dest=gestionautonome|default|toggleNode}{literal}',
+              global:  true,
+              type:    'GET',
+              context: a_expand.parent(),
+              data:    { node_type: node_type, node_id: node_id, show_forced: show_forced },
+              success: function(html){
+                var ul = jQuery(this).find('ul').first();
+                ul.empty();
+                ul.append(html);
+                jQuery('img.load-img').remove();  
+              }
+            });
+          }
         }
         return false;      
       });
@@ -184,7 +202,7 @@
           data:    { grade: jQuery('#grade').val() },
           success: function(html){
 
-            jQuery('#tree-actions').html('<h4>ACTIONS SUR LA STRUCTURE</h4><p>Sélectionnez un élément dans la structure.</p>');
+            jQuery('#treeActions').html('<p>Sélectionnez un élément dans la structure.</p>');
             jQuery('#column-data').html('<p>Aucun élément sélectionné dans la structure.</p>');
             jQuery('ul.tree').empty();
             jQuery('ul.tree').append(html);

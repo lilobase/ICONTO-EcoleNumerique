@@ -51,7 +51,7 @@ class ZoneGetUserProfil extends CopixZone {
 			} else
 				$usr = $parents = $enfants = false;
 			
-			$tpl = & new CopixTpl ();
+			$tpl = new CopixTpl ();
 			$tpl->assign('usr', $usr);
 			$tpl->assign('canWrite', $canWrite);
 			$tpl->assign('parents', $parents);

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<daodefinition>
+  <datasource>
+    <tables>
+      <table name="contacts" tablename="module_contacts" primary="yes" />
+    </tables>
+  </datasource>
+  <properties>
+    <property name="id" fieldname="id" pk="yes" type="autoincrement" required="yes" captioni18n="dao.contacts.fields.id" />
+    <property name="titre" fieldname="titre" pk="no" type="string" required="yes" captioni18n="dao.contacts.fields.titre" />
+    <property name="email" fieldname="email" pk="no" type="string" required="yes" captioni18n="dao.contacts.fields.email" />
+    <property name="date_creation" fieldname="date_creation" pk="no" type="datetime" required="yes" captioni18n="dao.contacts.fields.date_creation" />
+  </properties>
+
+  <methods>
+  </methods>
+
+</daodefinition>

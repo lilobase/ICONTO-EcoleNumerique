@@ -3,7 +3,7 @@
 * @package Iconito
 * @subpackage	Blog
 * @version   $Id: listpage.zone.php,v 1.8 2007-09-04 09:59:54 cbeyer Exp $
-* @author	Vallat Cédric.
+* @author	Vallat CÃ©dric.
 * @copyright 2001-2005 CopixTeam
 * @link      http://copix.aston.fr
 * @link      http://copix.org
@@ -13,7 +13,7 @@
 class ZoneListPage extends CopixZone {
    function _createContent (&$toReturn) {
 
-      $tpl  = & new CopixTpl ();
+      $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
      

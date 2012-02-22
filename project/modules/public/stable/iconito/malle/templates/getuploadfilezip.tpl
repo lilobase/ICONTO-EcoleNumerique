@@ -8,7 +8,7 @@
 <input type="hidden" name="file" value="{$file.name}" />
 
 <p></p>
-{html_radios name="unzip" values=1 checked=1} {i18n key="malle.zip.unzip" 1=$file.name 2=$uploadMaxSize|human_file_size} 
+{html_radios name="unzip" values=1 checked=1} {i18n key="malle.zip.unzip" 1=$file.name 2=$uploadMaxSize|human_file_size noEscape=1} 
 
 {if $files neq null}
 <UL STYLE="font-size:80%;">
@@ -27,7 +27,7 @@
 
 <p></p>
 
-<input style="" class="form_button" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" type="button" value="{i18n key="malle.btn.cancel"}" /> <input style="" class="form_button" type="submit" value="{i18n key="malle.btn.valid"}" />
+<input class="button button-cancel" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" type="button" value="{i18n key="malle.btn.cancel"}" /> <input class="button button-save" type="submit" value="{i18n key="malle.btn.valid"}" />
 
 
 </FORM>

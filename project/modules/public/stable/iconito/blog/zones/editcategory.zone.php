@@ -16,7 +16,7 @@ class ZoneEditCategory extends CopixZone {
 	function _createContent (&$toReturn) {
 		//Getting the user.
 		//Create Services, and DAO
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tpl->assign ('category', $this->getParam('category',null));
 		$tpl->assign ('id_blog', $this->getParam('id_blog', ''));

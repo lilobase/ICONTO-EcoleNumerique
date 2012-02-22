@@ -1,0 +1,89 @@
+<?php
+  $html .=  '<table><thead><tr>';
+  
+  // Bouton mois précédent
+  $html .=    '<th class="prev-mois">';
+  if(!is_null($ppo->eleve)) {
+    
+    $html .=    '<a title="Voir le mois précédent" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent), 'eleve' => $ppo->eleve)).'">';
+  }
+  else {
+    
+    $html .=    '<a title="Voir le mois précédent" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisPrecedent), 'mois' => date('m', $ppo->moisPrecedent), 'annee' => date('Y', $ppo->moisPrecedent))).'">';
+  }
+  $html .=    '<img src="'._resource('images/button-action/action_back.png').'" alt="<" /></a></th>';
+  
+  // Affichage du mois en cours
+  $html .=    '<th colspan="5" class="mois">'.$ppo->nomMois.' '.$ppo->annee.'</th>';
+  
+  // Bouton mois suivant
+  $html .=    '<th class="next-mois">';
+  if (!is_null($ppo->eleve)) {
+    
+    $html .=    '<a title="Voir le mois suivant" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant), 'eleve' => $ppo->eleve)).'">';
+  }
+  else {
+    
+    $html .=    '<a title="Voir le mois suivant" href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => date('d', $ppo->moisSuivant), 'mois' => date('m', $ppo->moisSuivant), 'annee' => date('Y', $ppo->moisSuivant))).'">';
+  }
+  $html .=    '<img src="'._resource('images/button-action/action_next.png').'" alt=">" /></a></th>
+  				</tr>
+				<tr>';
+  $html .=      '<th>L</th>';
+  $html .=      '<th>M</th>';
+  $html .=      '<th>M</th>';
+  $html .=      '<th>J</th>';
+  $html .=      '<th>V</th>';
+  $html .=      '<th>S</th>';
+  $html .=      '<th>D</th>';
+  $html .=    '</tr>
+  				</thead>
+				<tbody>';
+  $html .=    '<tr>';
+
+  // Cases vides avant premier jour du mois
+  while ($ppo->codePremierJourSemaine < $ppo->codePremierJourDeLaSemaine) {
+    
+    $html .= '<td class="empty">&nbsp;</td>';
+    $ppo->codePremierJourSemaine++;
+  }
+
+  // Boucle sur la liste des jours du mois
+  for ($numjour = 1; $numjour <= $ppo->nombreDeJoursDansLeMois; $numjour++, $ppo->codePremierJourSemaine++) {
+    
+    // lundi : ouverture d'une nouvelle ligne
+    if ($ppo->codePremierJourSemaine%7 == 1 && $numjour != 1) {
+      $html .= '</tr><tr>';
+    }
+    
+    $html .= '<td class="';
+    ($numjour == $ppo->jour and $html .= 'selected ');
+    $html .= count($ppo->travaux[sprintf("%02d", $numjour)]) == 0 ? 'no-work' : 'with-work';
+    
+    // Lien sur le jour
+    if (!is_null($ppo->eleve)) {
+      
+      $html .= '"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => sprintf("%02d", $numjour), 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'eleve' => $ppo->eleve)).'">'.$numjour.'</a></td>';
+    }
+    else {
+      
+      $html .= '"><a href="'.CopixUrl::get('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'jour' => sprintf("%02d", $numjour), 'mois' => $ppo->mois, 'annee' => $ppo->annee)).'">'.$numjour.'</a></td>';
+    }
+  }
+  
+  // Cases vides après dernier jour du mois
+  while ($ppo->codePremierJourSemaine%7 != 1) {
+    
+    $html .= '<td class="empty">&nbsp;</td>';
+    $ppo->codePremierJourSemaine++;
+  }
+
+  $html .=     '</tr>
+  				</tbody>';
+  $html .=   '</table>';
+  
+  // Légende
+  $html .= '<p class="caption"><strong>'.CopixI18N::get ('cahierdetextes|cahierdetextes.message.caption').'</strong> : <span class="no-work">17</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.noWork').' - <span class="with-work">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.atLeastOneWork').' - <span class="selected">13</span> '.CopixI18N::get ('cahierdetextes|cahierdetextes.message.selectedDate').'</p>';
+
+  echo $html;
+?>

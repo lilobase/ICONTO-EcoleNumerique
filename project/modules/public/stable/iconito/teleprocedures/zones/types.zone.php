@@ -19,7 +19,7 @@ class ZoneTypes extends CopixZone {
 	 */
 
 	function _createContent (&$toReturn){
-	  $tpl = & new CopixTpl ();
+	  $tpl = new CopixTpl ();
 
 		$rTelep = $this->getParam('rTelep');
 		$admin = $this->getParam('admin');

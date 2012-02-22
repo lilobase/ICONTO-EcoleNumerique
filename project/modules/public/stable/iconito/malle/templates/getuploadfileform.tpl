@@ -3,12 +3,13 @@
 {$petitpoucet}
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div class="mesgErrors">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL></DIV>
+	</ul>
+	</div>
 {/if}
 
 
@@ -24,6 +25,6 @@ Choisissez le fichier sur votre disque dur en faisant "Parcourir", puis cliquez 
 <p></p>
 
 
-	<input style="" class="form_button" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" type="button" value="Annuler" /> <input style="" class="form_button" type="submit" value="Envoyer" />
+	<input style="" class="button button-cancel" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" type="button" value="Annuler" /> <input class="button button-save" type="submit" value="Envoyer" />
 
 </form>

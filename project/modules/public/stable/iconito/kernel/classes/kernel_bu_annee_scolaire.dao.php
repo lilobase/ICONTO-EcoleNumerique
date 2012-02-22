@@ -42,6 +42,10 @@ class DAOKernel_bu_annee_scolaire {
         
         $groupsIds['schoolsIds'][] = $id;
       }
+      elseif (preg_match('/^teacher_school/', $key)) {
+        
+        $groupsIds['schoolsIds'][] = $id;
+      }
       elseif (preg_match('/^teacher/', $key)) {
         
         $groupsIds['classroomsIds'][] = $id;

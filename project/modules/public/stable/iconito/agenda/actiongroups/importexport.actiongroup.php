@@ -68,13 +68,16 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$listAgendas = $serviceAgenda->getAvailableAgenda();
 				
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaimport', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'importParams'=>$importParams)));
 		
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.import'));
-    $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
+
+		$menu = $serviceAgenda->getAgendaMenu('import');
+		$tpl->assign ('MENU', $menu);
+
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);	
@@ -90,7 +93,6 @@ class ActionGroupImportExport extends CopixActionGroup {
 	*/
 	function doImport(){
 		$serviceAuth   = new AgendaAuth;
-		$serviceImport = new ImportService;
 
 		//demande de mettre l'objet à jour en fonction des valeurs saisies dans le formulaire
 		if (!$importParams = $this->_getSessionImport()){
@@ -118,7 +120,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		else{
 			if(is_uploaded_file ($_FILES['import_ordi']['tmp_name'])){
 					move_uploaded_file ($_FILES['import_ordi']['tmp_name'], CopixConfig::get ('agenda|tempfiles') . 'import.ics');
-					$file[] = CopixConfig::get ('agenda|tempfiles') . 'import.ics';					
+					$file = CopixConfig::get ('agenda|tempfiles') . 'import.ics';					
 			}
 			else{
 				if(_request('import_internet') != null){
@@ -131,7 +133,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 					}
 					$handleToWrite = fopen(CopixConfig::get ('agenda|tempfiles') . 'import.ics', 'w+');
 					fwrite($handleToWrite, $contents);
-					$file[] = CopixConfig::get ('agenda|tempfiles') . 'import.ics';
+					$file = CopixConfig::get ('agenda|tempfiles') . 'import.ics';
 				}
 				else{
 					return CopixActionGroup::process ('genericTools|Messages::getError',
@@ -141,23 +143,8 @@ class ActionGroupImportExport extends CopixActionGroup {
 				
 			}
 
-			$icalParser   = CopixClassesFactory::create('ical_parser');
-			$importEvents = $icalParser->parse($file);
-			if($icalParser->parse($file) == false){
-				return CopixActionGroup::process ('genericTools|Messages::getError',
-						array ('message'=>CopixI18N::get ('agenda.error.cannotFindFile'),
-								'back'=>CopixUrl::get ('agenda|importexport|prepareImport')));
-			}
-			//echo "a";
-			print_r($importEvents);
-			
-			if($importParams['option'] == 1){//cas où on réalise l'import sans vider
-				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams['id_agenda']);
-			}
-			else{
-				$serviceImport->viderBase($importEvents, $importParams['id_agenda']);
-				$nbInsertions = $serviceImport->importSansVider($importEvents, $importParams['id_agenda']);
-			}			
+			_classInclude('agenda|importServices');
+      $nbInsertions = ImportServices::import($file, $importParams['id_agenda'], $importParams['option'] == 1 ? false : true);
 		}
 		//on efface le fichier temporaire créé pour faire l'import
 		unlink(CopixConfig::get ('agenda|tempfiles') . 'import.ics');
@@ -165,7 +152,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 		//on vide la session
 		//$this->_setSessionImport(null);
 		
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|importexport|afterImport', array('nbInsertions'=>$nbInsertions)));
+		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('agenda|importexport|afterImport', array('nbInsertions'=> $nbInsertions)));
 	}
 	
 	
@@ -176,7 +163,6 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @author Audrey Vassal <avassal@sqli.com> 
 	*/
 	function getAfterImport(){
-	
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
 	
 		//récupération de la liste des agendas en bdd (pour l'affichage du menu)
@@ -187,15 +173,17 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();		
 		
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaafterimport', array('nbInsertions'=>_request('nbInsertions'))));
 		
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.import'));
-    $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
+    
+    $menu = $serviceAgenda->getAgendaMenu('import');
+		$tpl->assign ('MENU', $menu);
+
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
-		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 	
@@ -211,7 +199,9 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function processGetPrepareExport(){	
 
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_agenda.css"));
-		
+
+		CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js")); 
+
 		$serviceAuth   = new AgendaAuth;		
 		$serviceAgenda = new AgendaService;
 		
@@ -245,13 +235,17 @@ class ActionGroupImportExport extends CopixActionGroup {
 		$listAgendasAffiches = $serviceAgenda->getAgendaAffiches();
 
 		//template pour agenda
-		$tplAgenda = & new CopixTpl();
+		$tplAgenda = new CopixTpl();
 		$tplAgenda->assign ('MAIN_AGENDA', CopixZone::process('agenda|agendaexport', array('arTitleAgendasAffiches'=>$arTitleAgendasAffiches, 'e'=>$this->getRequest('e'), 'errors'=>$this->getRequest('errors'), 'exportParams'=>$exportParams)));
 	
 		//template principal
-		$tpl = & new CopixTpl();
+		$tpl = new CopixTpl();
+		$tpl->assign ('BODY_ON_LOAD', "setDatePicker('#datedeb_export,#datefin_export')");
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('agenda|agenda.message.export'));
-    $tpl->assign ('MENU', CopixZone::process('agenda|agendamenu', array('listAgendas'=>$listAgendas, 'listAgendasAffiches'=>$listAgendasAffiches)));
+		
+		$menu = $serviceAgenda->getAgendaMenu('export');
+		$tpl->assign ('MENU', $menu);
+
 		$tpl->assign ('MAIN'      , $tplAgenda->fetch('agenda|main.agenda.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);	
@@ -353,7 +347,7 @@ class ActionGroupImportExport extends CopixActionGroup {
 	* @access: private.
 	*/
 	function _setSessionImport ($toSet){
-		var_dump($toSet);
+		//var_dump($toSet);
 		$toSession = ($toSet !== null) ? serialize($toSet) : null;
 		_sessionSet('modules|agenda|import_agenda', $toSession);
 	}
@@ -391,11 +385,18 @@ class ActionGroupImportExport extends CopixActionGroup {
 	function _checkExport ($obj) {
 		$toReturn = array();
 		
-		$datedeb 		 = $obj->datedeb_export;
-		$datefin 		 = $obj->datefin_export;
+    $datedeb = $datedebTs = null;
+    $datefin = $datefinTs = null;
+    
+    if (isset($obj->datedeb_export)) {
+      $datedeb 		 = $obj->datedeb_export;
+      $datedebTs 		 = CopixDateTime::dateToTimestamp($datedeb);
+    }
+    if (isset($obj->datefin_export)) {
+      $datefin 		 = $obj->datefin_export;
+		  $datefinTs 		 = CopixDateTime::dateToTimestamp($datefin);
+    }
 		
-		$datedebTs 		 = CopixDateTime::dateToTimestamp($datedeb);
-		$datefinTs 		 = CopixDateTime::dateToTimestamp($datefin);
 		
 		//vérification si les champs sont bien remplis
 		if (!$datedeb) {

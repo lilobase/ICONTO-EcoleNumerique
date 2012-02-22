@@ -13,7 +13,7 @@ class ZoneAgendaAfterImport extends CopixZone {
 
 	function _createContent (&$toReturn) {
 		
-		$tpl = & new CopixTpl ();		
+		$tpl = new CopixTpl ();		
 		
 		$tpl->assign('nbInsertions', $this->getParam('nbInsertions'));
 		

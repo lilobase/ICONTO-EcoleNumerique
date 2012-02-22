@@ -5,6 +5,7 @@ class enicNodeMatrix extends enicTree{
     public $member_of;
     public $descendant_of;
     public $admin_of;
+    public $animator;
     public $kernelChildren;
     public $kernelParent;
     public $type;
@@ -20,6 +21,7 @@ class enicNodeMatrix extends enicTree{
         $this->member_of = false;
         $this->descendant_of = false;
         $this->admin_of = false;
+	$this->animator = false;
         $this->kernelChildren = array();
         $this->kernelParent = null;
         $this->director_of = false;
@@ -37,6 +39,8 @@ class loadRightMatrix{
     public $enseignant;
     public $directeur;
     public $agent_ville;
+    public $administratif;
+    public $invite;
     public $voir;
     public $communiquer;
     public $count;
@@ -48,13 +52,17 @@ class loadRightMatrix{
         $this->enseignant = new loadRightMatrixAction();
         $this->directeur = new loadRightMatrixAction();
         $this->agent_ville = new loadRightMatrixAction();
+        $this->administratif = new loadRightMatrixAction();
+        $this->invite = new loadRightMatrixAction();
         $this->voir = new loadRightMatrixTypeUser();
         $this->communiquer = new loadRightMatrixTypeUser();
+
 
         //add count info
         $this->count = new loadRightMatrixAction();
         $this->count->voir = 0;
         $this->count->communiquer = 0;
+        
     }
 
     public function __get($name){
@@ -73,6 +81,12 @@ class loadRightMatrix{
             break;
             case 'USER_VIL':
                 return $this->agent_ville;
+            break;
+            case 'USER_ADM':
+                return $this->administratif;
+            break;
+            case 'USER_EXT':
+                return $this->invite;
             break;
             case 'VOIR':
                 return $this->voir;
@@ -92,14 +106,23 @@ class loadRightMatrixTypeUser{
     public $enseignant;
     public $directeur;
     public $agent_ville;
+    public $invite;
     
     //build right tree
     public function __construct(){
-        $this->parent = false;
-        $this->eleve = false;
-        $this->enseignant = false;
-        $this->directeur = false;
-        $this->agent_ville = false;
+        
+        $options =& enic::get('options');
+        $bool = ($options->matrix->bypass) ? true : false;
+
+        $this->parent = $bool;
+        $this->eleve = $bool;
+        $this->enseignant = $bool;
+        $this->directeur = $bool;
+        $this->agent_ville = $bool;
+        $this->invite = $bool;
+        $this->administratif = $bool;
+	$this->animateur = $bool;
+        
     }
     public function __get($name){
         switch ($name){
@@ -118,6 +141,15 @@ class loadRightMatrixTypeUser{
             case 'USER_VIL':
                 return $this->agent_ville;
             break;
+            case 'USER_ADM':
+                return $this->administratif;
+            break;
+            case 'USER_EXT':
+                return $this->invite;
+            break;
+	    case 'USER_ATI':
+		return $this->animateur;
+	    break;
         }
     }
 
@@ -138,6 +170,15 @@ class loadRightMatrixTypeUser{
             case 'USER_VIL':
                 return $this->agent_ville = $value;
             break;
+            case 'USER_ADM':
+                return $this->administratif = $value;
+            break;
+            case 'USER_EXT':
+                return $this->invite = $value;
+            break;
+	    case 'USER_ATI':
+		return $this->animateur = $value;
+	    break;
         }
     }
 }
@@ -150,8 +191,11 @@ class loadRightMatrixAction{
     
     //build right tree
     public function __construct(){
-        $this->voir = false;
-        $this->communiquer = false;
+        
+        $options =& enic::get('options');
+        $bool = ($options->matrix->bypass) ? true : false;
+        $this->voir = $bool;
+        $this->communiquer = $bool;
     }
 
     public function __get($name){

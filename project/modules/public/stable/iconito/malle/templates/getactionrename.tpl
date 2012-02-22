@@ -31,7 +31,7 @@
 {/if}
 
 <DIV style="text-align: right; width:485px; padding:4px;">
-<input type="button" value="{i18n key="malle.btn.cancel"}" class="form_button" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" /> <input type="submit" value="{i18n key="malle.btn.valid"}" class="form_button" />
+<input type="button" value="{i18n key="malle.btn.cancel"}" class="button button-cancel" onclick="self.location='{copixurl dest="|getMalle" id=$id folder=$folder}'" /> <input type="submit" value="{i18n key="malle.btn.valid"}" class="button button-save" />
 </DIV>
 
 

@@ -1,15 +1,13 @@
 
-{i18n key="album.folder.title"}
+{* {i18n key="album.folder.title"} *}
 
 {if $dossiermenu neq null}
-[
 {assign var=level value=0}
 {foreach from=$dossiermenu item=valeur}
-	{if $level > 0} :: {/if}
-	<a href="{$valeur.url}"{if $valeur.onclick} onclick="{$valeur.onclick}"{/if}>{$valeur.txt}</a>
+	{* {if $level > 0} :: {/if} *}
+	<a class="button{if $valeur.type} button-{$valeur.type}{/if}" href="{$valeur.url}"{if $valeur.onclick} onclick="{$valeur.onclick}"{/if}>{$valeur.txt}</a>
 	{assign var=level value=`$level+1`}
 {/foreach}
-]
 {/if}
 
 {if $dossiermenu neq null}
@@ -18,30 +16,18 @@
 {literal}
 <!--
 function openbox( name ) {
-	if( name != 'folder_new' ) Element.hide('folder_new');
-	if( name != 'folder_move' ) Element.hide('folder_move');
-	if( name != 'folder_rename' ) Element.hide('folder_rename');
-	if( name != 'folder_delete' ) Element.hide('folder_delete');
-	Element.toggle(name);
+	if( name != 'folder_new' ) $('#folder_new').hide();
+	if( name != 'folder_move' ) $('#folder_move').hide();
+	if( name != 'folder_rename' ) $('#folder_rename').hide();
+	if( name != 'folder_delete' ) $('#folder_delete').hide();
+	$('#'+name).toggle();
 }
 //-->
 {/literal}
 </script>
 
-<style>
-{literal}
-<!--
-DIV.folder_action {
-	margin: 10px;
-	padding: 10px;
-	border: 1px solid black;
-	background-color: #EEE;
-}
--->
-{/literal}
-</style>
-
-<div id="folder_new" class="folder_action" style="display: none;">
+<div class="album">
+<div id="folder_new" class="folder_action displayNone">
 
 	<form name="folder_new" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="new" />
@@ -50,12 +36,12 @@ DIV.folder_action {
 
 	{i18n key="album.folder.action.newfolder"}
 	<input name="folder_new" value="" />
-	<input type="submit" value="{i18n key="album.folder.action.newfolder.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.newfolder.submit"}" />
 	</form>
 
 </div>
 
-<div id="folder_move" class="folder_action" style="display: none;">
+<div id="folder_move" class="folder_action displayNone">
 
 	<form name="folder_move" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="move" />
@@ -76,12 +62,12 @@ DIV.folder_action {
 		{/if}
 	{/foreach}
 	</select>
-	<input type="submit" value="{i18n key="album.folder.action.move.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.move.submit"}" />
 	</form>
 	
 </div>
 
-<div id="folder_rename" class="folder_action" style="display: none;">
+<div id="folder_rename" class="folder_action displayNone">
 
 	<form name="folder_rename" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="rename" />
@@ -90,12 +76,12 @@ DIV.folder_action {
 
 	{i18n key="album.folder.action.rename"}
 	<input name="folder_rename" value="{$dossier->dossier_nom|escape}" />
-	<input type="submit" value="{i18n key="album.folder.action.rename.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.rename.submit"}" />
 	</form>
 	
 </div>
 
-<div id="folder_delete" class="folder_action" style="display: none;">
+<div id="folder_delete" class="folder_action displayNone">
 
 	<form name="folder_delete" action="{copixurl dest="album||dofolder"}" method="get">
 	<input type="hidden" name="subaction" value="delete" />
@@ -109,9 +95,10 @@ DIV.folder_action {
 		<option value="deleteall">{i18n key="album.folder.action.delete.deleteall"}</option>
 	</select>
 
-	<input type="submit" value="{i18n key="album.folder.action.delete.submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album.folder.action.delete.submit"}" />
 	</form>
 	
+</div>
 </div>
 
 {/if}

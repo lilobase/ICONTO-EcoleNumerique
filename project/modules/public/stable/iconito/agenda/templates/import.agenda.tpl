@@ -1,6 +1,7 @@
+<h2>{i18n key="agenda.menu.import"}</h2>
+
 {if $showError}
-	<div class="errorMessage">
-		<h1>{i18n key=copix:common.messages.error}</h1>
+	<div class="mesgErrors">
 		{foreach from=$arError item=errors key=index}
 		{ulli values=$errors}
 		{/foreach}
@@ -10,10 +11,10 @@
 <form action="{copixurl dest="agenda|importexport|import"}" method="post" class="copixForm" name="importiCal" enctype="multipart/form-data">
 	<table border="0" CELLSPACING="1" CELLPADDING="1" class="saisieEvent">
 		<tr>
-			<td class="form_libelle">{i18n key="agenda.message.agenda"}</td>
+			<td class="form_libelle"><label for="id_agenda">{i18n key="agenda.message.agenda"}</label></td>
 			<td class="input_import">
 				<!--{select name="id_agenda" values=$arTitleAgendasAffiches selected=$toEdit->id_agenda emptyShow=false}-->
-				<select name="id_agenda">
+				<select name="id_agenda" id="id_agenda">
 	   				{foreach from=$arTitleAgendasAffiches item=title key=idAgenda}
 						<option value="{$idAgenda}" {if $idAgenda eq $importParams->id_agenda}selected="selected"{/if}>{$title}</option>
 					{/foreach}
@@ -32,16 +33,16 @@
 		</tr>
 		<tr>
 			<td class="form_libelle">{i18n key="agenda.message.option"}</td>
-			<td class="desc_import">{i18n key="agenda.message.define"}
+			<td class="desc_import">{i18n key="agenda.message.define" noEscape=1}
       <br/>
-      <input type="radio" name="option" value="0" size="65" {if "0" eq $importParams->option}checked="checked"{/if} /> {i18n key="agenda.message.vider"}<br />
-									<input type="radio" name="option" value="1" size="65" {if "1" eq $importParams->option}checked="checked"{/if} /> {i18n key="agenda.message.importer"}
+      <input type="radio" id="optionVider" name="option" value="0" size="65" {if "0" eq $importParams->option}checked="checked"{/if} /> <label for="optionVider">{i18n key="agenda.message.vider"}</label><br />
+		<input type="radio" id="optionImporter" name="option" value="1" size="65" {if "1" eq $importParams->option}checked="checked"{/if} /> <label for="optionImporter">{i18n key="agenda.message.importer"}</label>
 			</td>
 		</tr>
     <tr>
-    <td colspan="4" CLASS="form_submit">
-		<input type="button" class="form_button" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
-		<input type="submit" class="form_button" value="{i18n key="agenda.message.importation"}" />
+    <td colspan="4" class="center form_submit">
+		<input type="button" class="button button-cancel" value="{i18n key=copix:common.buttons.cancel}" onclick="javascript:document.location='{copixurl dest="agenda|agenda|vueSemaine"}'" />
+		<input type="submit" class="button button-continue" value="{i18n key="agenda.message.importation"}" />
     </td>
     </tr>
 	</table>

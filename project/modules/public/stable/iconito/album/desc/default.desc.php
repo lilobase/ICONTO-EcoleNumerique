@@ -10,38 +10,38 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-$list = & new CopixAction ('Album', 'getList');
-$album = & new CopixAction ('Album', 'getAlbum');
-$modalbum = & new CopixAction ('Album', 'getModAlbum');
-$addalbum = & new CopixAction ('Album', 'getAddAlbum');
-$delalbum = & new CopixAction ('Album', 'getDelAlbum');
-$photo = & new CopixAction ('Album', 'getPhoto');
-$modphoto = & new CopixAction ('Album', 'getModPhoto');
-$addphoto = & new CopixAction ('Album', 'getAddPhoto');
-$doaddphoto = & new CopixAction ('Album', 'doAddPhoto');
-$delphoto = & new CopixAction ('Album', 'getDelPhoto');
-$dodelphoto = & new CopixAction ('Album', 'doDelPhoto');
-$file = & new CopixAction ('Album', 'getFile');
-$vignettes = & new CopixAction ('Album', 'vignettes');
+$list = new CopixAction ('Album', 'getList');
+$album = new CopixAction ('Album', 'getAlbum');
+$modalbum = new CopixAction ('Album', 'getModAlbum');
+$addalbum = new CopixAction ('Album', 'getAddAlbum');
+$delalbum = new CopixAction ('Album', 'getDelAlbum');
+$photo = new CopixAction ('Album', 'getPhoto');
+$modphoto = new CopixAction ('Album', 'getModPhoto');
+$addphoto = new CopixAction ('Album', 'getAddPhoto');
+$doaddphoto = new CopixAction ('Album', 'doAddPhoto');
+$delphoto = new CopixAction ('Album', 'getDelPhoto');
+$dodelphoto = new CopixAction ('Album', 'doDelPhoto');
+$file = new CopixAction ('Album', 'getFile');
+$vignettes = new CopixAction ('Album', 'vignettes');
 
-$publier = & new CopixAction ('Album', 'doPublier');
-$depublier = & new CopixAction ('Album', 'doDepublier');
+$publier = new CopixAction ('Album', 'doPublier');
+$depublier = new CopixAction ('Album', 'doDepublier');
 
-$editphotos = & new CopixAction ('Album', 'getEditPhotos');
-$doeditphotos = & new CopixAction ('Album', 'doEditPhotos');
+$editphotos = new CopixAction ('Album', 'getEditPhotos');
+$doeditphotos = new CopixAction ('Album', 'doEditPhotos');
 
-$dofolder = & new CopixAction ('Album', 'doFolder');
+$dofolder = new CopixAction ('Album', 'doFolder');
 
-$addzip = & new CopixAction ('Album', 'getAddZip');
-$doaddzip = & new CopixAction ('Album', 'processDoAddZip');
+$addzip = new CopixAction ('Album', 'getAddZip');
+$doaddzip = new CopixAction ('Album', 'processDoAddZip');
 
 
-$debug = & new CopixAction ('Album', 'debug');
+$debug = new CopixAction ('Album', 'debug');
 
-$go = & new CopixAction ('Album', 'go');
+$go = new CopixAction ('Album', 'go');
 
-$popup = & new CopixAction ('Album', 'popup');
-$getpopup = & new CopixAction ('Album', 'getPopup');
+$popup = new CopixAction ('Album', 'popup');
+$getpopup = new CopixAction ('Album', 'getPopup');
 
 $default    = & $list;
 ?>

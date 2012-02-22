@@ -31,7 +31,7 @@ class ZoneComboClassesInVille extends CopixZone {
 		
 		$classes = $annuaireService->getClassesInVille ($ville, array('getNodeInfo_light'=>1));
  		//echo "<pre>"; print_r($classes); die();
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tpl->assign('items', $classes);
 		$tpl->assign('value', $value);
 		$tpl->assign('fieldName', $fieldName);

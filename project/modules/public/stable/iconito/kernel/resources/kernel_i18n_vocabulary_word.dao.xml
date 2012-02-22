@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_i18n_vocabulary_word" tablename="kernel_i18n_vocabulary_word" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="id_word"                  fieldname="id_word"     type="integer" pk="yes"/>
+		<property name="vocabulary_catalog_id"    fieldname="vocabulary_catalog_id" type="integer" required="yes" />
+		<property name="key_word"                 fieldname="key_word"    type="varchar" maxlength="255" required="yes" />
+		<property name="value_word"               fieldname="value_word"  type="varchar" maxlength="255" required="yes" />
+		<property name="definite_word"            fieldname="definite_word"     type="varchar" maxlength="255" />
+		<property name="indefinite_word"          fieldname="indefinite_word"   type="varchar" maxlength="255" />
+		<property name="lang_word"                fieldname="lang_word"   type="varchar" maxlength="255" required="yes" />
+ 	</properties>
+</daodefinition>

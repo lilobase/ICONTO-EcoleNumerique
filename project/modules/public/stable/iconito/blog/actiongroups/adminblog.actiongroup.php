@@ -41,7 +41,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 		$kind = $this->getRequest('kind', '0');
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 		$tabBlogFunctions = null;
 		$result = null;
 
@@ -158,46 +158,12 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 				}
 			}
 		}
-		
-		$menu = array();
-		
-		$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.blog'), 'url'=>CopixUrl::get ('|', array("blog"=>$blog->url_blog)));
 
-		if (BlogAuth::canMakeInBlog('ADMIN_ARTICLES', $blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.articles'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog,  "kind"=>0)));
-			
-		if (BlogAuth::canMakeInBlog('ADMIN_CATEGORIES', $blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.categories'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>1)));
+		$menu = getBlogAdminMenu($blog, $kind);
 
-		if (BlogAuth::canMakeInBlog('ADMIN_LIENS', $blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.links'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>2)));
-
-		if (BlogAuth::canMakeInBlog('ADMIN_PHOTOS',$blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.photos'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>3)));
-			
-		if (BlogAuth::canMakeInBlog('ADMIN_DOCUMENTS',$blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.documents'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>7)));
-
-		if (BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.options'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>4)));
-			
-		if (BlogAuth::canMakeInBlog('ADMIN_PAGES',$blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.pages'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>5)));
-			
-		if (BlogAuth::canMakeInBlog('ADMIN_RSS',$blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.rss'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>6)));
-			
-		if (BlogAuth::canMakeInBlog("ADMIN_DROITS", $blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.droits'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>8)));
-
-		if (BlogAuth::canMakeInBlog("ADMIN_STATS", $blog))
-			$menu[] = array('txt'=>CopixI18N::get('blog|blog.nav.stats'), 'url'=>CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>9)));
-
-		$returntoparent = Kernel::menuReturntoParent( "MOD_BLOG", $id_blog );
-		if( $returntoparent ) $menu[] = $returntoparent;
-		
 		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
 		$tpl->assign ('MENU', $menu);
+		// _dump($blog);
 		$tpl->assign ('MAIN', CopixZone::process ('ShowBlog',
 													array('id_blog'=>$id_blog,
 															'blog'=>$blog,
@@ -227,7 +193,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		$tabFunctions = returnAllBlogFunctions();
 
@@ -247,8 +213,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.blog.title'));
 		}
 		
-		if (BlogAuth::canMakeInBlog('ADMIN_OPTIONS',$blog))
-			$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>4)).'">'.CopixI18N::get('blog|blog.nav.options').'</a>';
+		$menu = getBlogAdminMenu($blog, 4);
 		$tpl->assign ('MENU', $menu);
 		
 		$tabBlogFunctions = array();
@@ -287,7 +252,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 		// Récupération de toutes les fonctions du blog
 		$tabFunctions = returnAllBlogFunctions();
@@ -447,7 +412,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 
 		if($id_blog!=null) {
@@ -491,7 +456,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			'back'=>($blog) ? CopixUrl::get('|', array('blog'=>$blog->url_blog)) : CopixUrl::get ('||')));
 		}
 
-		$tpl = & new CopixTpl ();
+		$tpl = new CopixTpl ();
 
 
 

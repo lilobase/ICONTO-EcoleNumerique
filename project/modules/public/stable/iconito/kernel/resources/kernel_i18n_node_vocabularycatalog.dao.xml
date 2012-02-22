@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_i18n_node_vocabularycatalog" tablename="kernel_i18n_node_vocabularycatalog" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<!-- TABLE TEST VERSION -->
+		<property name="node_type"              fieldname="node_type"             type="string"  table="kernel_i18n_node_vocabularycatalog" pk="yes"/>
+		<property name="node_id"                fieldname="node_id"               type="integer" table="kernel_i18n_node_vocabularycatalog" pk="yes"/>
+		<property name="vocabulary_catalog_id"  fieldname="vocabulary_catalog_id" type="integer" table="kernel_i18n_node_vocabularycatalog" />
+ 	</properties>
+</daodefinition>

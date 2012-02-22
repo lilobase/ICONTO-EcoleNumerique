@@ -1,19 +1,19 @@
 
 
 {if not $errors eq null}
-	<DIV CLASS="message_erreur">
-	<UL>
+	<div id="dialog-message" class="mesgErrors" title="{i18n key=kernel|kernel.error.problem}">
+	<ul>
 	{foreach from=$errors item=error}
-		<LI>{$error}</LI><br/>
+		<li>{$error}</li>
 	{/foreach}
-	</UL></DIV>
+	</ul></div>
 {elseif not $ok eq null}
-	<DIV CLASS="message_ok">
-	<UL>
+	<div class="mesgSuccess">
+	<ul>
 	{foreach from=$ok item=item}
-		<LI>{$item}</LI><br/>
+		<li>{$item}</li>
 	{/foreach}
-	</UL></DIV>
+	</ul></div>
 {/if}
 
 <div class="teleprocedures_titre">D&eacute;tail de la t&eacute;l&eacute;proc&eacute;dure</div>
@@ -32,9 +32,9 @@
 	<table width="100%">
 	<tr>
 	
-	<td class="left{if $canViewDelai} entete{$puce}{else} enteteDir{/if}">
+	<td class="left enteteLeft{if $canViewDelai} entete{$puce}{else} enteteDir{/if}">
 		<div class="left">
-		T&eacute;l&eacute;proc&eacute;dure initi&eacute;e le<br/>{$rFiche->dateinter|datei18n:"date_short"}
+		T&eacute;l&eacute;proc&eacute;dure initi&eacute;e le<br/>{$rFiche->dateinter|datei18n}<br/>par {user_id id=$rFiche->iduser}
 		<div class="statu">{$rFiche->idstatu_nom|escape}</div>
 		{if $canViewDelai && $puceLib && $rFiche->depuis>0}Action attendue depuis
 		<div class="action">{$puceLib}</div>{/if}
@@ -46,7 +46,7 @@
 	<td class="ecole">
 	<div class="ecole">
 		
-		<div class="imprimer noPrint"><a title="{i18n key="kernel|kernel.btn.print"}" class="button_like" target="_blank" href="{copixurl dest="|fiche" id=$rFiche->idinter print=1}">{i18n key="kernel|kernel.btn.print"}</a></div>
+		{if !$print}<div class="imprimer noPrint"><a title="{i18n key="kernel|kernel.btn.print"}" class="button button-print" target="_blank" href="{copixurl dest="|fiche" id=$rFiche->idinter print=1}">{i18n key="kernel|kernel.btn.print"}</a></div>{/if}
 
 
 		<div class="nom">{$rFiche->ecole_nom|escape}{if $rFiche->ecole_type} ({$rFiche->ecole_type|escape}){/if}</div>
@@ -62,7 +62,9 @@
 		<br/>
 		<span class="lib">{i18n key="teleprocedures|teleprocedures.intervention.field.type"}&nbsp;:</span>  {$rFiche->idtype_nom|escape}<br/>
 		<span class="lib">{i18n key="teleprocedures|teleprocedures.intervention.field.objet"}&nbsp;:</span>  {$rFiche->objet|escape}<br/>
-		<span class="lib noPrint">Description d&eacute;taill&eacute;e :</span> Voir ci-dessous - <a href="#" onClick="Element.toggle('telep-details');">afficher / masquer</a><br/>
+    {if !$print}
+		<span class="lib noPrint">Description d&eacute;taill&eacute;e :</span> Voir ci-dessous - <a href="#" onClick="$('#telep-details').toggle();">afficher / masquer</a><br/>
+    {/if}
 	</div>
 	</td>
 	
@@ -93,7 +95,16 @@
 
 </div> <!-- fin entete -->
 
-<div class="details" id="telep-details">{$rFiche->detail|render:$rFiche->type_format}</div>
+<div class="details" id="telep-details">{$rFiche->detail|render:$rFiche->type_format}<div class="fixed"></div></div>
 
 </div> <!-- fin demande -->
 
+{if $print}
+  {literal}
+  <script type="text/javascript">
+  jQuery(document).ready(function(){
+    window.print();
+  });
+  </script>
+  {/literal}
+{/if}

@@ -1,0 +1,271 @@
+/* Global */
+div.dashboard div.content {
+    padding:43px 10px 10px;
+}
+.content-view {
+  float:right;
+  width:72%;
+}
+#classeur a img {border:none;}
+#submenu .menuitems ul li a.viewList, 
+#submenu .menuitems ul li a.viewThumbs { width:5px; background-position:50% 50%;}
+#submenu .menuitems ul li.newGroupItems {margin-left:125px;}
+#select-choice {
+	float:left;
+	margin:13px 20px 0 0;
+}
+#select-choice input {margin-right:5px;}
+/* End global */
+
+
+ /* Sidebar */
+#sidebar, .selectFolder {
+  float:left;
+  margin:10px 0; padding:5px; border:3px solid #ddd;
+  -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+  width:25%;
+  background:#fff;
+}
+.selectFolder {
+	float:none;
+	width:350px;
+}
+#sidebar ul, .selectFolder ul {
+  margin:0; padding:0;
+  list-style:none;
+}
+#sidebar ul ul, .selectFolder ul ul {
+  padding-left:15px;
+}
+#sidebar p, .selectFolder p {
+	margin:0; padding:0px 4px;
+	border:2px solid #fff;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+	line-height:1.6;
+}
+#sidebar p:hover, .selectFolder p:hover {
+	border:2px solid #ddd;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+}
+#sidebar .current, .selectFolder .current {
+	border:2px solid #BAD521;
+	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
+}
+#sidebar a.expand img, .selectFolder a.expand im {margin:0 0 -1px 0;}
+.selectFolder label:hover {cursor:pointer;}
+/* End Sidebar */
+
+
+/* File View */
+#classeur .content-view .overflow {
+	clear:both;
+	margin:12px 0 10px; 
+	max-height:350px;
+	overflow:auto;
+}
+@media screen and (min-height: 600px) {
+	#classeur .content-view .overflow {max-height:450px;}
+}
+@media screen and (min-height: 700px) {
+	#classeur .content-view .overflow {max-height:550px;}
+}
+#classeur #folder-content, #content-popup #folder-content {
+	border-radius:8px;
+	width:100%;
+	background:#fff fixed;
+	border-collapse:collapse;
+}
+#classeur p#folder-content, #content-popup p#folder-content {padding:5px 0;}
+#classeur p#folder-content span, #content-popup p#folder-content span {padding:10px;}
+/* End File View */
+
+
+/* List view */
+#classeur .listView tr.even,
+#content-popup .listView tr.even {
+	background:#F5F5F5;
+}
+#classeur .listView th,
+#content-popup .listView th {color:#000;}
+#classeur .listView thead th a,
+#content-popup .listView thead th a {
+	padding:0 20px;
+	background:0 3px no-repeat;
+}
+
+#classeur .listView thead th a:hover,
+#content-popup .listView thead th a:hover {text-decoration:underline;}
+#classeur .listView thead th a.ASC,
+#content-popup .listView thead th a.ASC {background-image:url(../../../themes/default/images/sort_up_off.png);}
+#classeur .listView thead th a.ASC:hover,
+#classeur .listView thead th a:hover,
+#content-popup .listView thead th a.ASC:hover,
+#content-popup .listView thead th a:hover {background-image:url(../../../themes/default/images/sort_down_on.png);}
+#classeur .listView thead th a.DESC,
+#content-popup .listView thead th a.DESC {background-image:url(../../../themes/default/images/sort_down_off.png);}
+#classeur .listView thead th a.DESC:hover,
+#content-popup .listView thead th a.DESC:hover {background-image:url(../../../themes/default/images/sort_up_on.png);}
+#classeur .listView tbody a:hover,
+#content-popup .listView tbody a:hover {border-bottom:1px dotted;}
+#classeur .listView td.actions {width:80px;}
+#classeur .listView a.icon {
+	padding:0 0 0 20px;
+	background:none no-repeat 0% 50%;
+}
+#classeur .listView a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
+#classeur .listView a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
+#classeur .listView a.iconFolderUp {background-image:url(../../../themes/default/images/icon-16/icon-folder-up.png);}
+#classeur .listView a.iconai {background-image:url(../../../themes/default/images/icon-16/icon-ai.png);}
+#classeur .listView a.iconavi {background-image:url(../../../themes/default/images/icon-16/icon-avi.png);}
+#classeur .listView a.iconbmp {background-image:url(../../../themes/default/images/icon-16/icon-bmp.png);}
+#classeur .listView a.iconcss {background-image:url(../../../themes/default/images/icon-16/icon-css.png);}
+#classeur .listView a.iconcsv {background-image:url(../../../themes/default/images/icon-16/icon-csv.png);}
+#classeur .listView a.icondoc, 
+#classeur .listView a.icondocx {background-image:url(../../../themes/default/images/icon-16/icon-doc.png);}
+#classeur .listView a.iconeps {background-image:url(../../../themes/default/images/icon-16/icon-eps.png);}
+#classeur .listView a.icongif {background-image:url(../../../themes/default/images/icon-16/icon-gif.png);}
+#classeur .listView a.iconhtml {background-image:url(../../../themes/default/images/icon-16/icon-html.png);}
+#classeur .listView a.iconico {background-image:url(../../../themes/default/images/icon-16/icon-ico.png);}
+#classeur .listView a.iconjpg {background-image:url(../../../themes/default/images/icon-16/icon-jpg.png);}
+#classeur .listView a.iconjs {background-image:url(../../../themes/default/images/icon-16/icon-js.png);}
+#classeur .listView a.iconjson {background-image:url(../../../themes/default/images/icon-16/icon-json.png);}
+#classeur .listView a.iconmov {background-image:url(../../../themes/default/images/icon-16/icon-mov.png);}
+#classeur .listView a.iconmp3 {background-image:url(../../../themes/default/images/icon-16/icon-mp3.png);}
+#classeur .listView a.iconodp {background-image:url(../../../themes/default/images/icon-16/icon-odp.png);}
+#classeur .listView a.iconods {background-image:url(../../../themes/default/images/icon-16/icon-ods.png);}
+#classeur .listView a.iconodt {background-image:url(../../../themes/default/images/icon-16/icon-odt.png);}
+#classeur .listView a.iconpdf {background-image:url(../../../themes/default/images/icon-16/icon-pdf.png);}
+#classeur .listView a.iconpng {background-image:url(../../../themes/default/images/icon-16/icon-png.png);}
+#classeur .listView a.iconppt {background-image:url(../../../themes/default/images/icon-16/icon-ppt.png);}
+#classeur .listView a.iconpsd {background-image:url(../../../themes/default/images/icon-16/icon-psd.png);}
+#classeur .listView a.iconsvg {background-image:url(../../../themes/default/images/icon-16/icon-svg.png);}
+#classeur .listView a.iconswf {background-image:url(../../../themes/default/images/icon-16/icon-swf.png);}
+#classeur .listView a.icontiff {background-image:url(../../../themes/default/images/icon-16/icon-tiff.png);}
+#classeur .listView a.iconttf {background-image:url(../../../themes/default/images/icon-16/icon-ttf.png);}
+#classeur .listView a.icontxt {background-image:url(../../../themes/default/images/icon-16/icon-txt.png);}
+#classeur .listView a.iconwav {background-image:url(../../../themes/default/images/icon-16/icon-wav.png);}
+#classeur .listView a.iconxls,
+#classeur .listView a.iconxlsx {background-image:url(../../../themes/default/images/icon-16/icon-xls.png);}
+#classeur .listView a.iconxml {background-image:url(../../../themes/default/images/icon-16/icon-xml.png);}
+#classeur .listView a.iconzip {background-image:url(../../../themes/default/images/icon-16/icon-zip.png);}
+/* End list view */
+
+
+/* Thumb View */
+#classeur .thumbView {overflow:auto;}
+#classeur .thumbView ul {margin:0; padding:0;}
+#classeur .thumbView li {
+	float:left;
+	margin:10px 0 0 7px; 
+	width:135px; height:165px;
+	list-style:none;
+}
+#classeur .thumbView li .datas { 
+	position:relative;
+	margin:0 0 3px 0; border:1px solid #ddd;
+	height:135px;
+	/*background:no-repeat 50% 5px;*/
+}
+#classeur .thumbView li .datas img {
+	display:block;
+	margin:10px auto;
+	max-width:90px; max-height:90px;
+	overflow:hidden;
+}
+#classeur .thumbView li a.icon {
+	display:block;
+	width:100%; height:100px;
+}
+#classeur .thumbView li .footerData {
+	position:absolute; bottom:0; left:0;
+	margin:0; padding:0 2px;
+	width:100%;
+	overflow:hidden;
+}
+#classeur .thumbView li .name {
+	background:#fff;
+	font-size:0.9em;
+}
+#classeur .thumbView li .name .date {
+	color:#aaa;
+	font-style:italic; font-size:0.9em;
+}
+#classeur .thumbView li .footerFolderUp {
+	padding:0 2px 1.4em;
+	text-align:center;
+}
+#classeur .thumbView li p.actions {margin:0;}
+#classeur .thumbView li p.actions .size {
+	display:block; float:right;
+	margin:5px 0 0;
+	color:#bbb;
+	font-size:0.8em;
+	text-align:right;
+}
+/*#classeur .thumbView li.folder .datas {background-image:url(../../../themes/default/images/icon-64/icon-folder.png);}*/
+/* End Thumb View */
+
+
+/* Mass Actions */
+#classeur .mass-actions {
+  clear:both;
+  margin:0; padding:0;
+  list-style:none;
+}
+#classeur .mass-actions li {
+	float:left;
+	margin-right:10px;
+}
+/* End mass actions */
+
+
+/* Forms */
+#classeur form {margin:20px 0;}
+#classeur form#order-content {float:right; margin:10px 0;}
+#classeur form div.row {
+	position:relative;
+	margin:0 0 6px 0;
+}
+#classeur form div.row > label, form div.row p.label {
+	position:absolute; top:0; left:0;
+	width:39%;
+	margin:0;
+	text-align:right;
+}
+#classeur form div.row .field {
+	margin:0 0 0 40%;
+}
+#classeur form .row input[type="text"], #classeur form .row input[type="url"], #classeur form .row input[type="email"], #classeur form .row textarea {
+	width:350px;
+}
+#classeur form div.submit {
+	margin:15px 0 0 40%;
+}
+#classeur form div.submit input {margin:0 5px;}
+#classeur form input[readonly="readonly"] {background:#ddd;}
+#classeur #style-form {text-align:center;} /* Formulaire de redimensionnement des images */
+/* End forms */
+
+
+/* Public album */
+#classeur ul.actions {padding:0;}
+#classeur ul.actions li {
+	float:left;
+	margin:0 5px 30px;
+	list-style:none;
+}
+/* End public album */
+
+
+/* Popup */
+#content-popup #docancel, 
+#content-popup #doinsert {
+	border:1px solid #BAD521;
+}
+#content-popup #popup_actions {clear:both;}
+/* End Popup */
+
+
+/* Uploadify */
+#fichiersQueue .cancel {display:none;}
+/* End Uploadify */

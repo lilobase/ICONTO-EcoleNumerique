@@ -19,4 +19,14 @@
     'duration' => '0',
   ),
 
+  'welcome' => 
+  array (
+    'name' => 'welcome',
+    'enabled' => true,
+    'strategy' => 'file',
+    'dir' => 'default',
+    'link' => '',
+    'duration' => 60, // En secondes
+  ),
+
 ); ?>

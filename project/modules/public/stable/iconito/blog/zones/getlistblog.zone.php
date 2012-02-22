@@ -21,7 +21,7 @@ class ZoneGetListBlog extends CopixZone {
    function _createContent (&$toReturn) {
       //Getting the user.
       //Create Services, and DAO
-      $tpl = & new CopixTpl ();
+      $tpl = new CopixTpl ();
 
       $res = $this->getParam('resultats',null);
       

@@ -12,11 +12,25 @@
 /**
  * @author	Frédéric Mossmann
  */
-class ActionGroupAnimateurs extends CopixActionGroup {
+class ActionGroupAnimateurs extends enicActionGroup {
 
+	private $menu;
+	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-
+		
+		$this->menu = array();
+		
+		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl');
+		}
+		if($this->user->root) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl', 'current'=>'current');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
+		}
 	}
 
 	/**
@@ -33,8 +47,8 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
-		$tpl = & new CopixTpl ();
-		$tplAnimateurs = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplAnimateurs = new CopixTpl ();
 		
 		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
 		$animateurs = $animateurs_dao->findAll();
@@ -93,9 +107,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_list'));
 		$tpl->assign ('MAIN', $result );
 		
-		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
-		$tpl->assign ('MENU', $menu );
+		$tpl->assign ('MENU', $this->menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -110,8 +122,8 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
-		$tpl = & new CopixTpl ();
-		$tplAnimateurs = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplAnimateurs = new CopixTpl ();
 
 		$comptes_service = & CopixClassesFactory::Create ('comptes|ComptesService');
 		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
@@ -222,10 +234,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_edit'));
 		$tpl->assign ('MAIN', $result );
 		
-		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
-		$menu[] = array( 'txt' => 'Liste des animateurs', 'url' => CopixUrl::get ('comptes|animateurs|list') );
-		$tpl->assign ('MENU', $menu );
+		$tpl->assign ('MENU', $this->menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 		
@@ -239,8 +248,8 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 
-		$tpl = & new CopixTpl ();
-		$tplAnimateurs = & new CopixTpl ();
+		$tpl = new CopixTpl ();
+		$tplAnimateurs = new CopixTpl ();
 		
 		$animateurs_dao = _dao("kernel|kernel_animateurs");
 		$animateurs = $animateurs_dao->findAll();
@@ -250,6 +259,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			$ppo->animateurs[$animateur->user_type."-".$animateur->user_id] = $animateur;
 		}
 		
+		//// Personnes externes ///////////////////////////////////////
 		$userext_dao = _dao("kernel|kernel_ext_user");
 		$list = $userext_dao->listUsers();
 		$user_key = 0;
@@ -270,29 +280,27 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 			}
 		}
 		
-		$userens_dao = _dao("kernel|kernel_bu_personnel");
-		$list = $userens_dao->listUsers();
-		$user_key = 0;
-		$ppo->userens = array();
-		foreach( $list AS $user_val ) {
-			$ppo->userens[$user_key] = $user_val;
-			$user_key++;
+
+		
+		$sql = "
+			SELECT PER.nom AS nom, PER.prenom1 AS prenom,
+			       B2U.bu_type AS bu_type, B2U.bu_id AS bu_id,
+			       USR.login_dbuser
+			FROM kernel_bu_personnel PER
+			JOIN kernel_bu_personnel_entite ENT ON PER.numero=ENT.id_per
+			JOIN kernel_link_bu2user B2U ON PER.numero=B2U.bu_id AND B2U.bu_type IN ('USER_VIL','USER_ENS','USER_ADM')
+			JOIN dbuser USR ON B2U.user_id=USR.id_dbuser
+			-- WHERE PER.deleted=0
+			GROUP BY bu_type,bu_id
+		";
+		$pers = _doQuery ($sql);
+		$ppo->pers = array();
+		
+		foreach($pers AS $pers_item) {
+			$ppo->pers[$pers_item->bu_type][$pers_item->bu_id] = $pers_item;
 		}
-		foreach( $ppo->userens AS $user_key => $user_val ) {
-			if( isset($ppo->animateurs["USER_ENS-".$user_val->pers_numero]) ) {
-				// Si la personne est déjà animateur
-				unset($ppo->userens[$user_key]);
-			} else {
-				$ppo->userens[$user_key]->user_infos = Kernel::getUserInfo( 'USER_ENS', $user_val->pers_numero );
-				if( !isset($ppo->userens[$user_key]->user_infos['login']) ) {
-					// Si la personne n'a pas de login de type enseignant
-					unset($ppo->userens[$user_key]);
-				}
-			}
-		}
 		
-		
-		
+
 		/*
 		echo "<pre>";
 		// print_r($ppo->animateurs);
@@ -307,10 +315,7 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.animateur_list'));
 		$tpl->assign ('MAIN', $result );
 		
-		$menu=array();
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.return_getnode'), 'url' => CopixUrl::get ('comptes||getNode') );
-		$menu[] = array( 'txt' => "Liste des animateurs", 'url' => CopixUrl::get ('comptes|animateurs|list') );
-		$tpl->assign ('MENU', $menu );
+		$tpl->assign ('MENU', $this->menu );
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
@@ -327,11 +332,12 @@ class ActionGroupAnimateurs extends CopixActionGroup {
 		}
 
 		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
-		$animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
-
+		// $animateurs2grville_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2grville");
+		$animateurs2regroupements_dao = & CopixDAOFactory::create("kernel|kernel_animateurs2regroupements");
 		
 		$animateurs_dao->delete($pUserType, $pUserId);
-		$animateurs2grville_dao->deleteByUser($pUserType, $pUserId);
+		// $animateurs2grville_dao->deleteByUser($pUserType, $pUserId);
+		$animateurs2regroupements_dao->deleteByUser($pUserType, $pUserId);
 		
 		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes|animateurs|list'));
 	}	

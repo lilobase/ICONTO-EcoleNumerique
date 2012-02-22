@@ -61,7 +61,7 @@ function photo_all ( mode ) {
 		{/if}
 	{/foreach}
 	</select>
-	<input type="submit" value="{i18n key="album|album.editphotos.moveto_submit"}" />
+	<input class="button button-confirm" type="submit" value="{i18n key="album|album.editphotos.moveto_submit"}" />
 
 </form>
 

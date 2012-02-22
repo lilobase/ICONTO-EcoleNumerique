@@ -6,5 +6,5 @@
 <div class="nbinsertions">{i18n key="agenda.message.eventsimportes" pNb=$nbInsertions}.</div>
 {/if}
 <br /><br />
-<a href="{copixurl dest="agenda|agenda|vueSemaine"}">{i18n key="agenda.message.back"}</a>
+<a class="button button-back" href="{copixurl dest="agenda|agenda|vueSemaine"}">{i18n key="agenda.message.back"}</a>
 
