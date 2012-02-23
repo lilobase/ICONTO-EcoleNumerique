@@ -46,6 +46,8 @@ class ActionGroupDefault extends enicActionGroup {
     // Gestion des droits
 	  $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId);
     
+    $ppo->conf_ModClasseur_upload = (CopixConfig::exists ('default|conf_ModClasseur_upload')) ? CopixConfig::get ('default|conf_ModClasseur_upload') : 0;
+
     // Récupération de l'identifiant du classeur personnel si non disponible en session
 		if (is_null($ppo->idClasseurPersonnel = _sessionGet('classeur|idClasseurPersonnel'))) {
 		  
@@ -134,6 +136,63 @@ class ActionGroupDefault extends enicActionGroup {
 		
 		$modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
   	$ppo->TITLE_PAGE = $modParentInfo['nom'];
+
+	if( $ppo->conf_ModClasseur_upload ) {
+		$classeurDAO = _ioDAO('classeur|classeur');
+		$folderDAO   = _ioDAO('classeur|classeurdossier');
+		$fichierDAO  = _ioDAO('classeur|classeurfichier');
+		$classeur    = $classeurDAO->get($ppo->classeurId);
+		$folder      = $folderDAO->get ($classeur->upload_db);
+
+		$nomClasseur = $classeur->id.'-'.$classeur->cle;
+		// $extension  = strtolower(strrchr($fichier->fichier, '.'));
+		// $nomFichier = $fichier->id.'-'.$fichier->cle.$extension;
+		$path = realpath('./upload').'/'.$classeur->upload_fs;
+
+		if (($handle = opendir($path))) {
+			while ($file = readdir($handle)) {
+				if (is_file($path . '/' . $file)) {
+					// echo "<li>".$path . '/' . $file."</li>";
+
+					$fichier = _record('classeur|classeurfichier');
+
+					$title = Kernel::stripText($file);
+
+					$fichier->classeur_id   = $classeur->id;
+					$fichier->dossier_id    = $classeur->upload_db; // TODO : Verifier existance
+					$fichier->titre         = substr($file, 0, 63);
+					$fichier->commentaire   = '';
+					$fichier->fichier       = $file;
+					$fichier->taille        = file_exists($path.'/'.$file) ? filesize($path.'/'.$file) : 0;
+					$fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
+					$fichier->cle           = classeurService::createKey();
+					$fichier->date_upload   = date('Y-m-d H:i:s');
+					$fichier->user_type     = _currentUser()->getExtra('type');
+					$fichier->user_id       = _currentUser()->getExtra('id');
+
+					$fichierDAO->insert($fichier);
+
+					$nomClasseur = $classeur->id.'-'.$classeur->cle;
+					$nomFichier = $fichier->id.'-'.$fichier->cle;
+					$extension = strtolower(strrchr($file, '.'));
+
+					$dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+
+					// Déplacement du fichier temporaire dans le classeur
+					copy($path.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
+
+					// Suppression du fichier temporaire
+					unlink($path.'/'.$file);
+				}
+			}
+
+			classeurService::updateFolderInfos($folder);
+			closedir($handle);
+		}
+
+// print_r($classeur);
+// upload_fs
+	}
 
     return _arPPO ($ppo, 'voir_contenu.tpl');
   }

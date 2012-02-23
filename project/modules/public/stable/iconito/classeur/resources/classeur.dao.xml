@@ -14,6 +14,9 @@
 		<property name="date_creation" fieldname="date_creation" type="datetime" required="yes"/>
 		<property name="date_publication" fieldname="date_publication" type="datetime" pk="no"/>
 		<property name="public" fieldname="public" type="integer" pk="no"/>
+
+		<property name="upload_fs" fieldname="upload_fs" type="string" pk="no"/>
+		<property name="upload_db" fieldname="upload_db" type="integer" pk="no"/>
 	</properties>
 	<methods>
 	</methods>
