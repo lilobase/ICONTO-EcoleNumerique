@@ -20,12 +20,12 @@ class enicUser extends enicTree {
         if(_currentUser()->isConnected()){
             $userId = _currentUser()->getId();
             $userInfos = Kernel::getUserInfo('ID', $userId);
-
+//var_dump($userInfos);
             $this->director = false;
 	    $this->animator = Kernel::isAnimateur();
-            $this->idEn = $userInfos['id'];
+            $this->idEn = (isset($userInfos['id']))?$userInfos['id']:null;
             $this->id = $userId*1;
-            $this->type = $userInfos['type'];
+            $this->type = (isset($userInfos['type']))?$userInfos['type']:null;
             $this->root = false;
             $this->login = $userInfos['login'];
             $this->nom = $userInfos['nom'];
