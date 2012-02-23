@@ -39,7 +39,7 @@
  </target>
 
  <target name="lint">
-  <apply executable="php" failonerror="true">
+  <apply executable="php" failonerror="false">
    <arg value="-l" />
 
    <fileset dir="${basedir}/../..">
@@ -47,10 +47,6 @@
     <modified />
    </fileset>
 
-   <fileset dir="${basedir}/../..">
-    <include name="**/*.php" />
-    <modified />
-   </fileset>
   </apply>
  </target>
 
@@ -129,7 +125,7 @@
  </target>
 
  <target name="phpunit" description="Run unit tests with PHPUnit">
-  <exec executable="phpunit" failonerror="true"/>
+  <exec executable="phpunit" failonerror="false"/>
  </target>
 
  <target name="phpcb"
