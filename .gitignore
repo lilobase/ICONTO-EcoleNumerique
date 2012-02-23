@@ -1,0 +1,8 @@
+/temp/*
+/project/config/copix.conf.php
+/project/modules/public/stable/standard/default/module.xml
+/var/config/db_profiles.conf.php
+/var/config/plugins/default/configure.plugin.conf.php
+/var/config/plugins/default/i18n.plugin.conf.php
+/www/static/classeur/*
+/www/static/prefs/*
