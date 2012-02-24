@@ -4,5 +4,8 @@
 /var/config/db_profiles.conf.php
 /var/config/plugins/default/configure.plugin.conf.php
 /var/config/plugins/default/i18n.plugin.conf.php
+/www/static/album/*
 /www/static/classeur/*
+/www/static/malle/*
 /www/static/prefs/*
+/var/data/blog/*
