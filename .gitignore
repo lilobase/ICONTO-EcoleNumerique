@@ -4,5 +4,12 @@
 /var/config/db_profiles.conf.php
 /var/config/plugins/default/configure.plugin.conf.php
 /var/config/plugins/default/i18n.plugin.conf.php
+/var/data/fichesecoles/*
+/var/data/admindash/*
+/var/data/blog/*
+/var/data/concerto/*
+/var/data/minimail/*
 /www/static/classeur/*
+/www/static/malle/*
+/www/static/album/*
 /www/static/prefs/*
