@@ -3,12 +3,12 @@
 {if count($listArticle)}
 
     <ul>
+        {assign var=i value=1}
         {foreach from=$articles item=article}
-        <li>
-            <article>
+        <li rel="{$i}">
 
                 {if $showtitle}
-                    <div><a title="{$article->name_bact|escape}" href="{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}">{$article->name_bact|escape}</a></div>
+                    <a class="title" title="{$article->name_bact|escape}" href="{copixurl dest="blog||showArticle" blog=$article->url_blog article=$article->url_bact}">{$article->name_bact|escape}</a>
                 {/if}
                 
                 {if $showdate OR $showtime OR $showcategorie OR $showparent}
@@ -37,12 +37,12 @@
                         {/if}
                         
                         {if $showparent}
-                            &bull; {$article->parent.nom}
+                            &bull; <a class="parent" href="{copixurl dest="blog||" blog=$article->url_blog}">{$article->parent.nom}
                             
                             {if $article->parent.type eq 'BU_CLASSE'}
                                 ({$article->parent.parent.nom})
                             {/if}
-                            
+                            </a>
                         {/if}
 
                     </div>
@@ -50,16 +50,14 @@
                 {/if}
                 
                 {if $chapo}
-                    <div class="">{$article->sumary_html_bact}</div>
+                    <div class="summary">{$article->sumary_html_bact}</div>
                 {/if}
 
                 {if $hr}
                     <hr />
                 {/if}
-
-            </article>
         </li>
-
+		{assign var=i value=$i+1}
         {/foreach}
     </ul>
 {else}
