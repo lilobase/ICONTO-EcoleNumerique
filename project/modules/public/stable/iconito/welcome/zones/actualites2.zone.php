@@ -1,6 +1,6 @@
 <?php
 
-class ZoneActualites2 extends CopixZone {
+class ZoneActualites2 extends enicZone {
 
     /**
      * Affiche la liste des dernieres actualites des blogs publics
@@ -23,6 +23,7 @@ class ZoneActualites2 extends CopixZone {
      */
     function _createContent(&$toReturn)
     {
+        $this->addJs('js/iconito/module_welcome.js');
 
         $titre          = $this->getParam('titre');
         $nb             = (int)$this->getParam('nb');
