@@ -13,10 +13,10 @@ require_once (COPIX_UTILS_PATH . 'CopixDateTime.class.php');
 class DAOBlogArticle {
 
     /**
-      ÔøΩ ÔøΩ * findListMonthForArticle
-      ÔøΩ ÔøΩ * @param
-      ÔøΩ ÔøΩ * @return
-      ÔøΩ ÔøΩ */
+      * findListMonthForArticle
+      * @param
+      * @return
+      */
     function findListMonthForArticle($id_blog) {
         $critere = 'SELECT art.date_bact as date_bact
     FROM module_blog_article as art WHERE art.id_blog = ' . $id_blog . ' ORDER BY art.date_bact DESC, art.id_bact DESC';
@@ -64,7 +64,6 @@ class DAOBlogArticle {
 
         if ($arArticle = $this->findBy($sp)) {
 
-            //on rÔøΩcupÔøΩre les catÔøΩgories liÔøΩes
             $dao = _dao('blog|blogarticlecategory');
             $daoLink = _dao('blog|blogarticle_blogarticlecategory');
             $article = $arArticle[0];
@@ -93,7 +92,6 @@ class DAOBlogArticle {
 
         if ($article && $article->id_blog == $id_blog && $article->is_online) {
 
-            //on rÔøΩcupÔøΩre les catÔøΩgories liÔøΩes
             $dao = _dao('blog|blogarticlecategory');
             $daoLink = _dao('blog|blogarticle_blogarticlecategory');
 
@@ -125,7 +123,6 @@ class DAOBlogArticle {
 
         $arArticle = $this->findBy($sp);
 
-        //on rÔøΩcupÔøΩre les catÔøΩgories liÔøΩes
         $dao = _dao('blog|blogarticlecategory');
         $daoLink = _dao('blog|blogarticle_blogarticlecategory');
         foreach ($arArticle as $key => $article) {
@@ -153,7 +150,7 @@ class DAOBlogArticle {
      */
     function getAllArticlesFromBlogByCat($id_blog, $id_bacg) {
 
-        //on rÔøΩcupÔøΩre les identifiants d'article correspondant ÔøΩ la catÔøΩgorie
+        //on r√©cup√®re les identifiants d'article correspondant √† la cat√©gorie
         $daoLink = _dao('blog|blogarticle_blogarticlecategory');
         $sp = _daoSp();
         $sp->addCondition('id_bacg', '=', $id_bacg);
@@ -175,7 +172,6 @@ class DAOBlogArticle {
 
         $arArticle = $this->findBy($sp);
 
-        //on rÔøΩcupÔøΩre les catÔøΩgories liÔøΩes
         $dao = _dao('blog|blogarticlecategory');
         foreach ($arArticle as $key => $article) {
             $sp = _daoSp();
@@ -305,15 +301,16 @@ class DAOBlogArticle {
     }
 
     /**
-     * RÈcupËre la liste des derniers articles publiÈs dans des blogs publics. A utiliser pour des flux RSS ou des zones de la Une
+     * R√©cup√®re la liste des derniers articles publi√©s dans des blogs publics. A utiliser pour des flux RSS ou des zones de la Une
      *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2012/02/21
      * @param array $options
-     *      [nb] Nombre d'ÈlÈments ‡ afficher
-     *      [categories] Pour ajouter les catÈgories de chaque article
-     *      [parent] Pour rÈcupÈrer les infos sur le parent du blog
-     *      [blogId] Pour limiter ‡ un blog prÈcis
+     *      [nb] Nombre d'√©l√©ments √† afficher
+     *      [categories] Pour ajouter les cat√©gories de chaque article
+     *      [parent] Pour r√©cup√©rer les infos sur le parent du blog
+     *      [blogId] Pour limiter √† un blog pr√©cis
+     *      [future] Pour afficher ou non les articles post-dat√©s (true par d√©faut)
      * 
      */
     public function findPublic($options = array())
@@ -331,6 +328,7 @@ class DAOBlogArticle {
         $critere = 'SELECT ART.id_bact, ART.name_bact, ART.url_bact, ART.date_bact, ART.time_bact, ART.sumary_bact, ART.sumary_html_bact, BLOG.url_blog, KME.node_type AS parent_type, KME.node_id AS parent_id FROM module_blog BLOG, module_blog_article ART, kernel_mod_enabled KME WHERE ART.id_blog=BLOG.id_blog AND KME.module_id=BLOG.id_blog AND KME.module_type=\'MOD_BLOG\' AND BLOG.is_public=1 AND ART.is_online=1';
         
         $blogId = (isset($options['blogId']) && $options['blogId']) ? (int)$options['blogId'] : 0;
+        $future = (isset($options['future'])) ? $options['future'] : true;
         
         if ($blogId)
         {
@@ -342,6 +340,13 @@ class DAOBlogArticle {
             $critere .= ' AND KME.node_type IN (\'' . implode('\',\'', $arTypes) . '\')';
         }
         
+        if (!$future)
+        {
+            $critere .= ' AND (ART.date_bact < :today1 OR (ART.date_bact = :today2 AND ART.time_bact <= :now))';
+            $params['today1'] = $params['today2'] = date('Ymd');
+            $params['now'] = date('Hi');
+        }
+
         $critere .= ' ORDER BY ART.date_bact DESC, ART.time_bact DESC, ART.id_bact ASC';
 
         if (!$blogId && Kernel::getKernelLimits('ville'))
