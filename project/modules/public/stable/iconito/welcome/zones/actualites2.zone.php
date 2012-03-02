@@ -13,13 +13,15 @@ class ZoneActualites2 extends enicZone {
      * @param boolean $hr Affiche un HR entre chaque article. Par defaut : false
      * @param boolean $showtitle Si on veut afficher le titre des articles. Par defaut : true
      * @param boolean $showdate Si on veut afficher la date des articles. Par defaut : true
-     * @param boolean $dateformat Format de la date (si autre que i18n), envoyé dans strftime
-     * @param boolean $showtime Si on veut afficher l'heure, sera formaté par |time (HH:MM). Par défaut : false
+     * @param boolean $dateformat Format de la date (si autre que i18n), envoyÃ© dans strftime
+     * @param boolean $showtime Si on veut afficher l'heure, sera formatÃ© par |time (HH:MM). Par dÃ©faut : false
      * @param boolean $showcategorie Si on veut afficher les categories des articles. Par defaut : true
      * @param boolean $showparent Si on veut afficher l'origine de l'article. Par defaut : false
-     * @param integer $blogId Pour limiter à un blog dont on connait l'ID
-     * @param boolean $cache Si on veut mettre les données en cache, selon les paramètres du cache welcome. Par défaut : true
-     * @param integer $cacheDuration Durée du cache, en secondes, pour écraser la valeur par défaut du cache welcome
+     * @param integer $blogId Pour limiter Ã  un blog dont on connait l'ID
+     * @param boolean $cache Si on veut mettre les donnÃ©es en cache, selon les paramÃ¨tres du cache welcome. Par dÃ©faut : true
+     * @param integer $cacheDuration DurÃ©e du cache, en secondes, pour Ã©craser la valeur par dÃ©faut du cache welcome
+     * @param boolean $future Pour afficher les articles post-datÃ©s ayant une date de publication dans le futur. Par dÃ©faut : true
+     * @param boolean $dateutf8encode Pour encoder en UTF8 la date (si $dateformat passÃ©). Par dÃ©faut : false
      */
     function _createContent(&$toReturn)
     {
@@ -38,6 +40,8 @@ class ZoneActualites2 extends enicZone {
         $blogId         = (int)$this->getParam('blogId');
         $cache          = $this->getParam('cache', true);
         $cacheDuration  = (int)$this->getParam('cacheDuration');
+        $future         = $this->getParam('future', true);
+        $dateutf8encode = $this->getParam('dateutf8encode', false);
         
         if ($cache)
         {
@@ -52,6 +56,7 @@ class ZoneActualites2 extends enicZone {
             $cacheId .= '|'.$showcategorie;
             $cacheId .= '|'.$showparent;
             $cacheId .= '|'.$blogId;
+            $cacheId .= '|'.$future;
 
             $existsParams = array();
             if ($cacheDuration > 0)
@@ -63,9 +68,7 @@ class ZoneActualites2 extends enicZone {
                 $toReturn = CopixCache::read($cacheId, 'welcome', array(''));
                 return true;
             }
-            
         }
-        
         
         $tpl = new CopixTpl ();
         $tpl->assign('titre',           $titre);
@@ -79,12 +82,15 @@ class ZoneActualites2 extends enicZone {
         $tpl->assign('showparent',      $showparent);
         $tpl->assign('blogId',          $blogId);
         $tpl->assign('cache',           $cache);
+        $tpl->assign('future',          $future);
+        $tpl->assign('dateutf8encode',  $dateutf8encode);
 
         $articles = _ioDAO('blog|blogarticle')->findPublic(array(
             'categories'    => true,
             'nb'            => $nb,
             'parent'        => $showparent,
             'blogId'        => $blogId,
+            'future'        => $future,
         ));
         
         $tpl->assign('articles', $articles);

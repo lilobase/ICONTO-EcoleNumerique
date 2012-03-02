@@ -15,7 +15,11 @@
                     <div>
                         {if $showdate}
                             {if $dateformat}
-                                {$article->date_bact|strftime:$dateformat}
+                                {if $dateutf8encode}
+                                    {$article->date_bact|strftime:$dateformat|utf8_encode}
+                                {else}
+                                    {$article->date_bact|strftime:$dateformat}
+                                {/if}
                             {else}
                                 {i18n key="blog|blog.article.date" 1=$article->date_bact|datei18n}
                             {/if}
