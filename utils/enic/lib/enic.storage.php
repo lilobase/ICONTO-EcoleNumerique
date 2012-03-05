@@ -72,9 +72,9 @@ class enicFiles implements enicStorage {
                 $this->rootPath = COPIX_CACHE_PATH.'enic/';
 
         $this->path = (empty($this->path)) ? $this->rootPath : $this->rootPath.$this->path;
-
-        if(!is_dir($this->path))
-            trigger_error('enicFile -Storage- construct() : directory not found in : '.$this->path, E_USER_ERROR);
+        if(!is_dir($this->path)) {
+            mkdir($this->path);
+        }
     }
 
     //enic mod compatibility
