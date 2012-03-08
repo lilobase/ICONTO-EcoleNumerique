@@ -115,7 +115,7 @@ class ActionGroupForum extends CopixActionGroup {
 
 			$tplForum->assign ('petitpoucet', CopixZone::process ('forum|petitpoucet', array('forum'=>$forum[0])));
 
-			$tplForum->assign ('canAddTopic', ($forumService->canMakeinForum('ADD_TOPIC',$mondroit)) ? 1 : 0);
+			$tplForum->assign ('canAddTopic', ($forumService->canMakeInForum('ADD_TOPIC',$mondroit)) ? 1 : 0);
 			$tplForum->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'separator' => '&', 'url'=>CopixUrl::get('forum||getForum', array("id"=>$id, "orderby"=>$orderby)))));
 
 			$result = $tplForum->fetch('getforum.tpl');
