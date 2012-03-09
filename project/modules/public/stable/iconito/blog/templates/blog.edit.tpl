@@ -32,7 +32,16 @@
       <th>{i18n key='dao.blog.fields.is_public'}</th>
 	  	<td>{html_radios name="is_public" values=$is_public.values output=$is_public.output checked=$blog->is_public}</td>
    </tr>
-
+   <tr>
+       <th>{i18n key='dao.blog.fields.privacy'}</th>
+       <td>
+          <select name="privacy" id="privacy">
+               <option value="0" {if $blog->privacy eq 0}selected{/if}>{i18n key="blog.privacy.0"}</option>
+               <option value="10" {if $blog->privacy eq 10}selected{/if}>{i18n key="blog.privacy.10"}</option>
+               <option value="20" {if $blog->privacy eq 20}selected{/if}>{i18n key="blog.privacy.20"}</option>
+           </select>
+       </td>
+   </tr>
    <tr>
       <th>{i18n key='dao.blog.fields.has_comments_activated'}</th>
 	  	<td>{html_radios name="has_comments_activated" values=$has_comments_activated.values output=$has_comments_activated.output checked=$blog->has_comments_activated}</td>

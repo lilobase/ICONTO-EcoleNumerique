@@ -35,6 +35,7 @@ class KernelBlog {
 		$blog->has_comments_activated = 0;
 		$blog->type_moderation_comments = CopixConfig::get ('blog|blog.default.type_moderation_comments');
 		$blog->default_format_articles = CopixConfig::get ('blog|blog.default.default_format_articles');
+		$blog->privacy = 0;
 		
 		$blogDAO->insert($blog);
 		

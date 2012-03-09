@@ -96,10 +96,11 @@ class BlogAuth {
 		$userInfos = BlogAuth::getUserInfos ($r->id_blog);
 		//print_r($userInfos);
 		$droit = $userInfos->right;
-		//Kernel::deb("action=$action / droit=$droit");
+		// Kernel::deb("action=$action / droit=$droit / privacy=".$r->privacy);
 		switch ($action) {
 			case "READ" :
-				$can = ($droit >= PROFILE_CCV_NONE);
+				$can = ($droit >= $r->privacy);
+				if( $r->privacy == 10 && Kernel::is_connected() ) $can = true;
 				break;
 			case "ACCESS_ADMIN" :
 			case "ADMIN_ARTICLES" :

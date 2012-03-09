@@ -54,6 +54,13 @@
 	            type="integer"
 	            required="yes"
 	            />
+         <property name="privacy"
+                fieldName="privacy"
+                captioni18n="dao.blog.fields.privacy"
+                type="integer"
+                required="yes"
+                />
+                
 	     <property name="has_comments_activated"
 	            fieldName="has_comments_activated"
 	            captioni18n="dao.blog.fields.has_comments_activated"

@@ -268,6 +268,7 @@ class ActionGroupAdminBlog extends CopixActionGroup {
 			
 			$blog->name_blog = $this->getRequest('name_blog', '');
 			$blog->is_public = $this->getRequest('is_public', 1);
+            $blog->privacy = $this->getRequest('privacy');
 			$blog->has_comments_activated = $this->getRequest('has_comments_activated', 1);
 			$blog->type_moderation_comments = $this->getRequest('type_moderation_comments', 'POST');
 			$blog->default_format_articles = $this->getRequest('default_format_articles', 'wiki');

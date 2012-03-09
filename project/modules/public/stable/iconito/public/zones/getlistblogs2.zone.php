@@ -2,6 +2,7 @@
 
 _classInclude ('blog|kernelblog');
 _classInclude ('blog|blogutils');
+_classInclude ('blog|blogauth');
 _classInclude ('public|publicutils');
 _classInclude ('annuaire|annuaireservice');
 _classInclude ('groupe|groupeservice');
@@ -110,6 +111,9 @@ class ZoneGetListBlogs2 extends CopixZone {
 				$blog->stats = KernelBlog::getStats ($blog->id_blog);
 				//print_r($blog);
 			
+				/* Activer pour cacher les blogs non lisibles */
+				// if( !blogauth::canMakeInBlog('READ', $blog) ) continue;
+
 				if ($blog->stats['nbArticles']['value']>0)
 					$list[] = $blog;
 			}

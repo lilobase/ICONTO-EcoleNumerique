@@ -22,6 +22,10 @@
 		      <th>{i18n key='dao.blog.fields.is_public'}</th>
 			  	<td>{if $blog->is_public}{i18n key="blog.oui"}{else}{i18n key="blog.non"}{/if}</td>
 		   </tr>
+           <tr>
+               <th>{i18n key='dao.blog.fields.privacy'}</th>
+               <td>{i18n key="blog.privacy."|cat:$blog->privacy}</td>
+           </tr>
 		   <tr>
 		      <th>{i18n key='dao.blog.fields.has_comments_activated'}</th>
 			  	<td>{if $blog->has_comments_activated}{i18n key="blog.oui"}{else}{i18n key="blog.non"}{/if}</td>
