@@ -218,11 +218,16 @@ class rightMatrixHelpers{
             $userNodes = array();
             $currentIdNode = array();
             $parentNodes = $kernel->getNodeParents($type, $id);
-
+            
             //get childs parent node :
             foreach($parentNodes as $parentNode){
+                if($parentNode['type'] != 'USER_ELE'){
+                    $userNodes[] = $parentNode;
+                    continue;
+                }
+                
                 $currentNodes = $kernel->getNodeParents($parentNode['type'], $parentNode['id']);
-
+                
                 foreach($currentNodes as $currentNode){
                     if(!in_array($currentNode['id'], $currentIdNode)){
                         $userNodes[] = $currentNode;
