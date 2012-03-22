@@ -37,17 +37,6 @@ class ZonePhotos extends CopixZone {
 		$height = intval($this->getParam('height'));
 		$legendes = $this->getParam('legendes');
 		
-		// Calcul de la bonne taille
-		$tailles = explode(',', CopixConfig::get ('album|thumb_sizes'));
-		$trouve = null;
-		foreach( $tailles as $taille ) {
-			if ($trouve)
-				break;
-			if (substr($taille,0,1)=='s')
-				continue;
-			if ($taille>=$width)
-				$trouve = $taille;
-		}
 		
     // Classeur
     if ($classeur != 0) {
@@ -64,7 +53,7 @@ class ZonePhotos extends CopixZone {
   				    $arPhotos[] = $photo;
   				  }
   				}
-  				generateClasseurDewsliderXml ($rClasseur, $arPhotos, $trouve, $legendes);
+  				generateClasseurDewsliderXml ($rClasseur, $arPhotos, $width, $legendes);
   				
   				$tpl->assign ('rClasseur', $rClasseur);
   			}
@@ -80,10 +69,10 @@ class ZonePhotos extends CopixZone {
         if ($nbPhotos > 0 && $mode == 'dewslider') {
           foreach ($photolist as $key=>$photo) {
             $photolist[$key]->folder = CopixUrl::getRequestedScriptPath ().'static/album/'.$photo->album_id.'_'.$photo->album_cle;
-            $photolist[$key]->file = $photo->photo_id.'_'.$photo->photo_cle.'_'.$trouve.'.'.$photo->photo_ext;
+            $photolist[$key]->file = $photo->photo_id.'_'.$photo->photo_cle.'_'.$width.'.'.$photo->photo_ext;
           }
           
-          generateAlbumDewsliderXml ($rAlbum, $photolist, $trouve, $legendes);
+          generateAlbumDewsliderXml ($rAlbum, $photolist, $width, $legendes);
           
           $tpl->assign ('rAlbum', $rAlbum);
         }
@@ -104,7 +93,7 @@ class ZonePhotos extends CopixZone {
 	}
 }
 
-function generateAlbumDewsliderXml ($rAlbum, $photolist, $trouve, $legendes) {
+function generateAlbumDewsliderXml ($rAlbum, $photolist, $width, $legendes) {
   	
   $folder = 'static/album/'.$rAlbum->album_id.'_'.$rAlbum->album_cle;
   if ($file_xml = @fopen( $folder.'/dewslider.xml', 'w' )) {
@@ -133,7 +122,7 @@ speed="10"
   }
 }
 
-function generateClasseurDewsliderXml ($rClasseur, $photolist, $trouve, $legendes) {
+function generateClasseurDewsliderXml ($rClasseur, $photolist, $width, $legendes) {
 	
     $folder = 'static/classeur/'.$rClasseur->id.'-'.$rClasseur->cle;
 	if ($file_xml = @fopen( $folder.'/dewslider.xml', 'w' )) {
@@ -152,7 +141,7 @@ speed="10"
 >';
 		foreach( $photolist AS $photo ) {
 			$flush .= "\n";
-			$flush .= '<img src="'.$photo->getLienMiniature($trouve, '').'" title="'.($photo->titre).'" />';
+			$flush .= '<img src="'.$photo->getLienMiniature($width, '').'" title="'.($photo->titre).'" />';
 		}
 		
 		$flush .= '
