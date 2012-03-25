@@ -1076,236 +1076,242 @@ class Kernel {
 
     /*
      * $options[strict] = true -> Si le user n'existe pas, renvoie false
-     *
      */
-	function getUserInfo( $type="ME", $id=0, $options=array() ) {
-		//Kernel::deb("getUserInfo / type=$type / id=$id");
-		$user = $users = array();
+    function getUserInfo( $type = "ME", $id = 0, $options = array( ) )
+    {
+        //Kernel::deb("getUserInfo / type=$type / id=$id");
+        $user = $users = array( );
 
-		switch( $type ) {
-			case "ID":
-				$user_dao = _dao("kernel|kernel_bu2user");
-				$users = $user_dao->getByUserID($id);
-				break;
-			case "LOGIN":
-				$user_dao = _dao("kernel|kernel_bu2user");
-				$users = $user_dao->getByLogin($id);
-				break;
-			case "ME":
-				if( Kernel::is_connected() )
-				return( Kernel::getUserInfo( _currentUser()->getExtra('type'), _currentUser()->getExtra('id') ) );
-			default:
-				$user_dao = _dao("kernel|kernel_bu2user");
-				$users = $user_dao->getByBUID($type,$id);
+        switch ( $type ) {
+            case "ID":
+                $user_dao = _dao( "kernel|kernel_bu2user" );
+                $users = $user_dao->getByUserID( $id );
+                break;
+            case "LOGIN":
+                $user_dao = _dao( "kernel|kernel_bu2user" );
+                $users = $user_dao->getByLogin( $id );
+                break;
+            case "ME":
+                if ( Kernel::is_connected() ) {
+                    return( Kernel::getUserInfo( _currentUser()->getExtra( 'type' ), _currentUser()->getExtra( 'id' ) ) );
+                }
+            default:
+                $user_dao = _dao( "kernel|kernel_bu2user" );
+                $users = $user_dao->getByBUID( $type, $id );
 
-				if (count($users)) {
-					$users[0]->bu_type = $type;
-					$users[0]->bu_id   = $id;
-				} else {
-                    if (!isset($options['strict']) || $options['strict']) { // Si pas strict
-                        $record = _record("kernel|kernel_bu2user");
+                if ( count( $users ) ) {
+                    $users[0]->bu_type = $type;
+                    $users[0]->bu_id = $id;
+                } else {
+                    if ( !isset( $options['strict'] ) || $options['strict'] ) { // Si pas strict
+                        $record = _record( "kernel|kernel_bu2user" );
                         $record->bu_type = $type;
-                        $record->bu_id   = $id;
+                        $record->bu_id = $id;
                         $record->user_id = '';
                         $record->user_login = '';
-                        $users = array();
+                        $users = array( );
                         $users[0] = $record;
                     }
-				}
-				break;
-		}
+                }
+                break;
+        }
 
-    if( !sizeof( $users ) ) {
-      if (isset($options['strict']) && $options['strict'])
-        return false;
-      return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$type.' '.$id, 'login'=>'', 'ALL'=>null));
-    } else {
+        if ( !sizeof( $users ) ) {
+            if ( isset( $options['strict'] ) && $options['strict'] ) {
+                return false;
+            }
+            return array_merge( $user, array( 'nom' => 'Utilisateur inconnu', 'prenom' => $type . ' ' . $id, 'login' => '', 'ALL' => null ) );
+        } else {
+            $userval = $users[0];
+            $user["type"] = $users[0]->bu_type;
+            $user["id"] = $users[0]->bu_id;
+            if ( isset( $users[0]->user_id ) ) {
+                $user["user_id"] = $users[0]->user_id;
+            }
+            if ( isset( $users[0]->user_login ) ) {
+                $user["login"] = $users[0]->user_login;
+            }
 
-			// foreach( $users as $key => $userval ) {
-			$userval = $users[0];
-			$user["type"]     = $users[0]->bu_type;
-			$user["id"]       = $users[0]->bu_id;
-			if(isset($users[0]->user_id)) $user["user_id"]       = $users[0]->user_id;
-			if(isset($users[0]->user_login)) $user["login"]       = $users[0]->user_login;
-				
-			switch( $userval->bu_type ) {
-				case "USER_VIL" :
-				case "USER_ENS" :
-				case "USER_ADM" :
-					$pers_dao = _dao("kernel|kernel_bu_personnel");
-					$personne = $pers_dao->get($userval->bu_id);
-          
-          if (!$personne)
-            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
+            switch ( $userval->bu_type ) {
+                case "USER_VIL" :
+                case "USER_ENS" :
+                case "USER_ADM" :
+                    $pers_dao = _dao( "kernel|kernel_bu_personnel" );
+                    $personne = $pers_dao->get( $userval->bu_id );
 
-					$user["nom"]      = $personne->pers_nom;
-					$user["prenom"]   = $personne->pers_prenom1;
-					$user["civilite"] = $personne->pers_civilite;
-					$user["sexe"]     = $personne->pers_id_sexe;
-					$user["cle_privee"]     = $personne->pers_cle_privee;
-					$user["ALL"]      = $personne;
+                    if ( !$personne ) {
+                        return array_merge( $user, array( 'nom' => 'Utilisateur inconnu', 'prenom' => $userval->bu_type . ' ' . $userval->bu_id, 'ALL' => null ) );
+                    }
 
-					$pers_entite_dao = _dao("kernel|kernel_bu_personnel_entite");
-					$pers_entites = $pers_entite_dao->getById($userval->bu_id);
-					foreach ($pers_entites AS $key=>$value) {
-						switch( $value->pers_entite_type_ref ) {
-							case "VILLE":
-								$user["link"]->ville[$value->pers_entite_reference] = $value->pers_entite_role;
-								break;
-							case "ECOLE":
-								$user["link"]->ecole[$value->pers_entite_reference] = $value->pers_entite_role;
-								break;
-							case "CLASSE":
-								$user["link"]->classe[$value->pers_entite_reference] = $value->pers_entite_role;
-								break;
-						}
-					}
-					break;
+                    $user["nom"] = $personne->pers_nom;
+                    $user["prenom"] = $personne->pers_prenom1;
+                    $user["civilite"] = $personne->pers_civilite;
+                    $user["sexe"] = $personne->pers_id_sexe;
+                    $user["cle_privee"] = $personne->pers_cle_privee;
+                    $user["ALL"] = $personne;
 
-				case "USER_ELE" :
-					$ele_dao = _dao("kernel|kernel_bu_ele");
-					$eleve = $ele_dao->get($userval->bu_id);
-          if (!$eleve)
-            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
-					// $user["type"]     = "USER_ELE";
-					// $user["id"]       = $eleve->ele_idEleve;
-					$user["nom"]      = $eleve->ele_nom;
-					$user["prenom"]   = $eleve->ele_prenom1;
-					$user["civilite"] = $eleve->ele_civilite;
-					$user["sexe"]     = $eleve->ele_id_sexe;
-					$user["ALL"]      = $eleve;
+                    $pers_entite_dao = _dao( "kernel|kernel_bu_personnel_entite" );
+                    $pers_entites = $pers_entite_dao->getById( $userval->bu_id );
+                    foreach ( $pers_entites AS $key => $value ) {
+                        switch ( $value->pers_entite_type_ref ) {
+                            case "VILLE":
+                                $user["link"]->ville[$value->pers_entite_reference] = $value->pers_entite_role;
+                                break;
+                            case "ECOLE":
+                                $user["link"]->ecole[$value->pers_entite_reference] = $value->pers_entite_role;
+                                break;
+                            case "CLASSE":
+                                $user["link"]->classe[$value->pers_entite_reference] = $value->pers_entite_role;
+                                break;
+                        }
+                    }
+                    break;
 
-					$parents = Kernel::getNodeParents("USER_ELE", $userval->bu_id);
-					foreach ($parents AS $key=>$value) {
-						switch( $value['type'] ) {
-							case "BU_CLASSE":
-								$user["link"]->classe[$value['id']] = 1;
-								$user["link"]->ecole[$value['ALL']->cla_ecole] = 1;
-								$user["link"]->ville[$value['ALL']->eco_id_ville] = 1;
+                case "USER_ELE" :
+                    $ele_dao = _dao( "kernel|kernel_bu_ele" );
+                    $eleve = $ele_dao->get( $userval->bu_id );
+                    if ( !$eleve ) {
+                        return array_merge( $user, array( 'nom' => 'Utilisateur inconnu', 'prenom' => $userval->bu_type . ' ' . $userval->bu_id, 'ALL' => null ) );
+                    }
+                    $user["nom"] = $eleve->ele_nom;
+                    $user["prenom"] = $eleve->ele_prenom1;
+                    $user["civilite"] = $eleve->ele_civilite;
+                    $user["sexe"] = $eleve->ele_id_sexe;
+                    $user["ALL"] = $eleve;
 
-								if(isset($options['link_data'])&&$options['link_data'])
-								$user["link_data"]->classe[$value['id']] = Kernel::getNodeInfo( "BU_CLASSE",$value['id'], true );
-									
-								break;
-						}
-					}
+                    $parents = Kernel::getNodeParents( "USER_ELE", $userval->bu_id );
+                    foreach ( $parents AS $key => $value ) {
+                        switch ( $value['type'] ) {
+                            case "BU_CLASSE":
+                                $user["link"]->classe[$value['id']] = 1;
+                                $user["link"]->ecole[$value['ALL']->cla_ecole] = 1;
+                                $user["link"]->ville[$value['ALL']->eco_id_ville] = 1;
 
-					break;
+                                if ( isset( $options['link_data'] ) && $options['link_data'] ) {
+                                    $user["link_data"]->classe[$value['id']] = Kernel::getNodeInfo( "BU_CLASSE", $value['id'], true );
+                                }
+                                break;
+                        }
+                    }
+                    break;
 
-				case "USER_RES" :
-					$res_dao = _dao("kernel|kernel_bu_res");
-					$reponsable = $res_dao->get($userval->bu_id);
-          if (!$reponsable)
-            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
-					// $user["type"]     = "USER_RES";
-					// $user["id"]       = $reponsable->res_numero;
-					$user["nom"]      = $reponsable->res_nom;
-					$user["prenom"]   = $reponsable->res_prenom1;
-					$user["civilite"] = $reponsable->res_civilite;
-					$user["sexe"]     = $reponsable->res_id_sexe;
-					$user["ALL"]      = $reponsable;
-					break;
+                case "USER_RES" :
+                    $res_dao = _dao( "kernel|kernel_bu_res" );
+                    $reponsable = $res_dao->get( $userval->bu_id );
+                    if ( !$reponsable ) {
+                        return array_merge( $user, array( 'nom' => 'Utilisateur inconnu', 'prenom' => $userval->bu_type . ' ' . $userval->bu_id, 'ALL' => null ) );
+                    }
+                    $user["nom"] = $reponsable->res_nom;
+                    $user["prenom"] = $reponsable->res_prenom1;
+                    $user["civilite"] = $reponsable->res_civilite;
+                    $user["sexe"] = $reponsable->res_id_sexe;
+                    $user["ALL"] = $reponsable;
+                    $user['link'] = array();
+                    
+                    $parents = Kernel::getNodeParents ("USER_RES", $userval->bu_id);
 
-				case "USER_EXT" :
-					$ext_dao = _dao("kernel|kernel_ext_user");
-					$extuser = $ext_dao->get($userval->bu_id);
-          if (!$extuser)
-            return array_merge($user, array('nom'=>'Utilisateur inconnu', 'prenom'=>$userval->bu_type.' '.$userval->bu_id, 'ALL'=>null));
-  				// attention id user = celui de la basu
-  				// $user["type"]     = "USER_EXT";
-  				// $user["id"]       = $extuser->ext_id;
-  				$user["nom"]      = $extuser->ext_nom;
-  				$user["prenom"]   = $extuser->ext_prenom;
-  				$user["ALL"]      = $extuser;
-					break;
+                    foreach ( $parents AS $parent ) {
+                        switch ( $parent['type'] ) {
+                            case "USER_ELE":
+                                foreach ($parent['link'] as $nodeType => $nodeValue) {
+                                    if (!isset($user['link'][$nodeType])) {
+                                        $user['link'][$nodeType] = array();
+                                    }
+                                    foreach ($nodeValue as $id => $value) {
+                                        $user['link'][$nodeType][$id]= $value;
+                                    }
+                                }
+                                break;
+                        }
+                    }
+                    break;
 
-				default :
-					break;
-			} // switch( $userval->bu_type )
-			// } // foreach( $users as $key => $userval )
-		} // if( sizeof( $users ) )
-		return( $user );
-	}
+                case "USER_EXT" :
+                    $ext_dao = _dao( "kernel|kernel_ext_user" );
+                    $extuser = $ext_dao->get( $userval->bu_id );
+                    if ( !$extuser ) {
+                        return array_merge( $user, array( 'nom' => 'Utilisateur inconnu', 'prenom' => $userval->bu_type . ' ' . $userval->bu_id, 'ALL' => null ) );
+                    }
+                    $user["nom"] = $extuser->ext_nom;
+                    $user["prenom"] = $extuser->ext_prenom;
+                    $user["ALL"] = $extuser;
+                    $user['link'] = array();
 
-	// CB 01/06/2010
-	// Renvoie un tableau avec les droits de l'usager courant sur un noeud renvoye par getUserInfo
-	function getUserInfoMatrix ($userInfo) {
+                    $parents = Kernel::getNodeParents ("USER_EXT", $userval->bu_id);
+                    foreach( $parents AS $parent) {
+                        if (!isset($user['link'][$parent['type']])) {
+                            $user['link'][$parent['type']] = array();
+                        }
+                        $user['link'][$parent['type']][$parent['id']] = $parent['droit'];
+                    }
+                    break;
+                default :
+                    break;
+            } // switch( $userval->bu_type )
+            // } // foreach( $users as $key => $userval )
+        } // if( sizeof( $users ) )
+        return( $user );
+    }
 
+    /**
+     * CB 01/06/2010
+     * Renvoie un tableau avec les droits de l'usager courant sur un noeud renvoye par getUserInfo
+     */
+	function getUserInfoMatrix ($userInfoCible) 
+    {
 		$matrix = & enic::get('matrixCache');
-		$arTypes = array('classe','ecole','ville','grville');
 		$res = array('voir'=>false, 'communiquer'=>false);
+        $userCible = array();
+        
+        /*
+         * Déterminer les noeuds de rattachement du userCible
+         * et ses profils sur chaque noeud
+         * si USER_ENS, vérifier s'il s'agit d'un directeur ou non
+         * $userCible['ecole'] = array (1 => 'USER_DIR')
+         * $userCible['ecole'] = array (1 => 'USER_ENS')
+         * $userCible['classe'] = array (1 => 'USER_ELE')
+         * $userCible['classe'] = array (1 => 'USER_RES')
+         * ...
+         */
+        foreach ($userInfoCible['link'] as $nodeType => $userInfo) {
+            // ecole | classe | ville | ...
+            if (!isset($userCible[$nodeType])) {
+                $userCible[$nodeType] = array();
+            }
+            foreach ($userInfo as $nodeId => $role) {
+                switch ($userInfoCible['type']) {
+                    case 'USER_ENS':
+                        if ($role == 2 && $nodeType = 'ecole') {
+                            $userCible[$nodeType][$nodeId] = 'USER_DIR';
+                        } else {
+                            $userCible[$nodeType][$nodeId] = 'USER_ENS';
+                        }
+                        break;
+                    case 'USER_EXT':
+                    case 'USER_VIL':
+                    case 'USER_ELE':
+                    case 'USER_ADM':
+                    case 'USER_RES':
+                    default:
+                        $userCible[$nodeType][$nodeId] = $userInfoCible['type'];
+                        break;
+                }
+            }
+        }
 
-		if ($userInfo['type']=='USER_RES') { // Parent : relie a rien, il faut voir pour ses enfants
-			$dao = _dao("kernel|kernel_bu_res2ele");
-			$resp = $dao->getByResponsable('responsable', $userInfo['id']);
-			foreach( $resp AS $key=>$val ) {
-				if( $val->res2ele_type_beneficiaire != "eleve" ) continue;
-				$getUserInfo = Kernel::getUserInfo('USER_ELE', $val->res2ele_id_beneficiaire);
-				$droits = Kernel::getUserInfoMatrix($getUserInfo);
-				//_dump($droits);
-				if ($droits['voir']) $res['voir'] = true;
-				if ($droits['communiquer']) $res['communiquer'] = true;
-			}
+        /*
+         * Pour chaque noeud de rattachement / profil du user cible, 
+         * vérifie ses droits.
+         */
+        foreach ($userCible as $nodeType => $userInfo) {
+            foreach ($userInfo as $nodeId => $role) {
+                    $res['communiquer'] = ($matrix->$nodeType($nodeId)->_right->$role->communiquer) ? true : $res['communiquer'];
+                    $res['voir'] = ($matrix->$nodeType($nodeId)->_right->$role->voir) ? true : $res['voir'];
+            }
+        }
 
-		}
-
-		//kernel::myDebug(_currentUser());
-		//kernel::myDebug($userInfo);
-
-		// Compte exterieur rattache a rien
-		if ($userInfo['type']=='USER_EXT' && !isset($userInfo['link'])) {
-
-			// Si l'usager courant a des liens, on les parcourt pour chercher les droits
-			if ($links = _currentUser()->getExtra('link')) {
-				foreach ($arTypes as $vType) {
-					if (!isset($links->$vType))
-					continue;
-					foreach ($links->$vType as $jId=>$jRole) {
-						$droit = $matrix->$vType($jId)->_right->invite->communiquer;
-						if ($droit>0)
-						$res['communiquer'] = true;
-						$droit = $matrix->$vType($jId)->_right->invite->voir;
-						if ($droit>0)
-						$res['voir'] = true;
-					}
-				}
-			}
-			// Sinon, c'est certainement un USER_EXT, on va chercher sur (0)
-			else {
-				foreach ($arTypes as $vType) {
-					$droit = $matrix->$vType(0)->_right->invite->communiquer;
-					if ($droit>0)
-					$res['communiquer'] = true;
-					$droit = $matrix->$vType(0)->_right->invite->voir;
-					if ($droit>0)
-					$res['voir'] = true;
-				}
-			}
-			return $res;
-		}
-
-		if (!isset($userInfo['link']))
-		return $res;
-
-		foreach ($arTypes as $vType) {
-			if (!isset($userInfo['link']->$vType))
-			continue;
-			//Kernel::MyDebug($userInfo['link']->$vType);
-			foreach ($userInfo['link']->$vType as $jId=>$jRole) {
-				//echo $matrix->$vType()->display();
-				$droit = $matrix->$vType($jId)->_right->$userInfo['type']->voir;
-				//Kernel::MyDebug($droit);
-				if ($droit>0)
-				$res['voir'] = true;
-				$droit = $matrix->$vType($jId)->_right->$userInfo['type']->communiquer;
-				//Kernel::MyDebug($droit);
-				if ($droit>0)
-				$res['communiquer'] = true;
-			}
-		}
-		return $res;
-
-	}
+        return $res;
+    }
 
 
 	function getMyParents( $racine_type="USER", $racine_node=0, $options=array() ) {

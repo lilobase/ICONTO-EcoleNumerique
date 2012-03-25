@@ -339,7 +339,9 @@ class ActionGroupMinimail extends EnicActionGroup {
      * @param string $message Corps du minimail
      * @param string $go Forme de soumission : preview (pr�visualiser) ou send (enregistrer)
      */
-    function doSend() {
+    function doSend()
+    {
+        
         if (!Kernel::is_connected())
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
 
@@ -384,10 +386,11 @@ class ActionGroupMinimail extends EnicActionGroup {
                 $errors[] = CopixI18N::get('minimail.error.writeHimself');
             else {
                 $droits = Kernel::getUserInfoMatrix($userInfo);
-                if (!$droits['communiquer'])
-                    $errors[] = CopixI18N::get('minimail.error.cannotWrite', array($login));
-                else
+                if ($droits['communiquer']) {
                     $tabDest[$userInfo["user_id"]] = $userInfo["user_id"];
+                } else {
+                    $errors[] = CopixI18N::get('minimail.error.cannotWrite', array($login));
+                }
             }
         }
 
