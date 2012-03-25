@@ -127,6 +127,7 @@ class enicMatrix extends enicList {
                 $node = $this->_root->groupes;
             break;
             case 'ROOT':
+            case 'root':
                 $node = $this->_root;
             break;
 
