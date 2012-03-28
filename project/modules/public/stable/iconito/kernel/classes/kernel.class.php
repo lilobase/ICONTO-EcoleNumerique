@@ -1213,7 +1213,7 @@ class Kernel {
                     foreach ( $parents AS $parent ) {
                         switch ( $parent['type'] ) {
                             case "USER_ELE":
-                                foreach ($parent['link'] as $nodeType => $nodeValue) {
+                                if(isset($parent['link'])) foreach ($parent['link'] as $nodeType => $nodeValue) {
                                     if (!isset($user['link'][$nodeType])) {
                                         $user['link'][$nodeType] = array();
                                     }
