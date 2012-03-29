@@ -508,7 +508,7 @@ class ClasseurService {
       
       while (($file = readdir($handle)) !== false) {
         
-        if ($file != '.' && $file != '..' 
+        if ($file != '.' && $file != '..'
           && !in_array($file, $excluded) && !strstr($file, '_MACOSX')) {
             
           if (is_dir($folder.'/'.$file)) {
