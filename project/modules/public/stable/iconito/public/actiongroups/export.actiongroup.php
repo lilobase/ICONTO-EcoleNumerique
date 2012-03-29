@@ -132,7 +132,7 @@ class ActionGroupExport extends EnicActionGroup {
 		// LIEN ENSEIGNANTS-ECOLE (directeur)
 		
 		if($in_classe=="") {
-			$enseignantsRoleList = array();
+			$directeursRoleList = array();
 		} else {
 			$params = array();
 			$sql = "
