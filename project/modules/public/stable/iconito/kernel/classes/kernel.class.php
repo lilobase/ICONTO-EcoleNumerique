@@ -1473,7 +1473,7 @@ class Kernel {
 			$modRssEtagere->node_type = $node_type;
 			$modRssEtagere->node_id = $node_id;
 			$modRssEtagere->module_type = 'MOD_RSSETAGERE';
-			$modRssEtagere->module_id = $node_id;
+			$modRssEtagere->module_id = $node_type."-".$node_id;
 			$modRssEtagere->module_nom = kernel::Code2Name('MOD_RSSETAGERE');
 			$modules[] = $modRssEtagere;
 		}
