@@ -1184,9 +1184,10 @@ class Kernel {
                         switch ( $value['type'] ) {
                             case "BU_CLASSE":
                                 $user["link"]->classe[$value['id']] = 1;
-                                $user["link"]->ecole[$value['ALL']->cla_ecole] = 1;
-                                $user["link"]->ville[$value['ALL']->eco_id_ville] = 1;
-
+                                if (isset($value['ALL'])) {
+                                    $user["link"]->ecole[$value['ALL']->cla_ecole] = 1;
+                                    $user["link"]->ville[$value['ALL']->eco_id_ville] = 1;
+                                }
                                 if ( isset( $options['link_data'] ) && $options['link_data'] ) {
                                     $user["link_data"]->classe[$value['id']] = Kernel::getNodeInfo( "BU_CLASSE", $value['id'], true );
                                 }
