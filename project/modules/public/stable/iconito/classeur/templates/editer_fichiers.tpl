@@ -27,7 +27,7 @@
   <div class="row">
     <label for="fichiers" class="form_libelle">{i18n key="classeur.message.files"}</label>
     <p class="field">{if $ppo->fichier->id neq null}{if $ppo->fichier->estUneImage()}<img src="{$ppo->fichier->getLienMiniature(45)}" />{else}{$ppo->fichier}{/if}<br />{/if}
-    <input id="fichiers" name="fichiers[]" type="file" /></p>
+    <input id="fichier" name="fichier[]" type="file" /></p>
   </div>
   
   <div class="row">
@@ -63,31 +63,7 @@
   {literal}
   <script type="text/javascript">
   //<![CDATA[
-  $(document).ready(function() {
-    $('#fichiers').uploadify({
-      'uploader'        : '../../../js/uploadify/uploadify.swf',
-      'script'          : '../../../js/uploadify/module_classeur.php',
-      'cancelImg'       : '../../../js/uploadify/cancel.png',
-      'folder'          : '{/literal}{$ppo->dossierTmp}{literal}',
-      'auto'            : true,
-      'multi'           : true,
-      'removeCompleted' : false,
-      'buttonText'      : 'Parcourir',
-	    'height'          : '27',
-	    'width'           : '122',
-	    'wmode'           : 'transparent',
-	    'buttonImg'       : '../../../js/uploadify/button-background.png',
-	    'sizeLimit'       : {/literal}{$ppo->maxSizeLimit}{literal},
-	    'onComplete'      : function (event, ID, fileObj, response, data) {
-	      <!-- Upload multiple, affichage de la note concernant le titre -->
-	      if (data.fileCount > 0 || $('#fichiersQueue div.completed').size() > 0) {
-	        
-	        $('#title_note').show();
-          $('#fichier_titre').attr('disabled', 'disabled');
-	      }
-	    }
-    });
-    
+  $(document).ready(function() {    
     $('#with_decompress').change(function() {
       
       if ($('#with_decompress').is(':checked')) {
