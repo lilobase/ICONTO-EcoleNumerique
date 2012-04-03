@@ -502,7 +502,7 @@ class ClasseurService {
   }
   
   
-  public static function getFilesInTmpFolder ($datas, $folder, $excluded) {
+  public static function getFilesInTmpFolder ($datas, $folder, $excluded = array()) {
     
     if ($handle = opendir($folder)) {
       
@@ -766,26 +766,29 @@ class ClasseurService {
    */
 	public static function rmdir_recursive($dir)
   {
-  	$dir_content = scandir($dir);
-  	
-  	if ($dir_content !== false) {
-  	  
-  		foreach ($dir_content as $entry)
-  		{
-  			if (!in_array($entry, array('.','..'))) {
-  				$entry = $dir . '/' . $entry;
-  				if (!is_dir($entry)) {
-  				  
-  					unlink($entry);
-  				}
-  				else {
-  					self::rmdir_recursive($entry);
-  				}
-  			}
-  		}
-  	}
-  	
-  	rmdir($dir);
+  	if (file_exists($dir)) {
+
+      $dir_content = scandir($dir);
+    
+      if ($dir_content !== false) {
+        
+        foreach ($dir_content as $entry)
+        {
+          if (!in_array($entry, array('.','..'))) {
+            $entry = $dir . '/' . $entry;
+            if (!is_dir($entry)) {
+              
+              unlink($entry);
+            }
+            else {
+              self::rmdir_recursive($entry);
+            }
+          }
+        }
+      }
+      
+      rmdir($dir);
+    }
   }
 	
 	//////////////////////////////////////////////

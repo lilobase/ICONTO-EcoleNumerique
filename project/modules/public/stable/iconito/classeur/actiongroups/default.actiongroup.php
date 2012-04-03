@@ -573,7 +573,7 @@ class ActionGroupDefault extends enicActionGroup {
               $correspondanceDossiers = array();
               
               $datas = array();
-              $datas = classeurService::getFilesInTmpFolder($datas, $ppo->dossierTmp, $fichiersPhysiques);
+              $datas = classeurService::getFilesInTmpFolder($datas, $ppo->dossierTmp);
               foreach ($datas as $dossierParent => $data) {
 
                 if (!empty($data['folders'])) {
