@@ -497,7 +497,7 @@ class ActionGroupDefault extends enicActionGroup {
       if (!is_null(_request('fichierId', null))) {
         
         // Contrôle upload du fichier
-        if (is_uploaded_file($_FILES['fichiers']['tmp_name'][0])) {
+        if (is_uploaded_file($_FILES['fichier']['tmp_name'][0])) {
           
           $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
           $extension = strtolower(strrchr($ppo->fichier->fichier, '.'));
@@ -508,13 +508,13 @@ class ActionGroupDefault extends enicActionGroup {
   					unlink($fichierPhysique);
   				}
   				
-  				$ppo->fichier->fichier       = $_FILES['fichiers']['name'][0];
-          $ppo->fichier->taille        = filesize($_FILES['fichiers']['tmp_name'][0]);
-          $ppo->fichier->type          = strtoupper(substr(strrchr($fichierPhysique, '.'), 1));
+  				$ppo->fichier->fichier       = $_FILES['fichier']['name'][0];
+          $ppo->fichier->taille        = filesize($_FILES['fichier']['tmp_name'][0]);
+          $ppo->fichier->type          = strtoupper(substr(strrchr($_FILES['fichier']['name'][0], '.'), 1));
           
-          $extension = strtolower(strrchr($_FILES['fichiers']['name'][0], '.'));
+          $extension = strtolower(strrchr($_FILES['fichier']['name'][0], '.'));
   				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
-  				move_uploaded_file ($_FILES['fichiers']['tmp_name'][0], $fichierPhysique);
+  				move_uploaded_file ($_FILES['fichier']['tmp_name'][0], $fichierPhysique);
   			}
   			
   			$ppo->fichier->titre         = _request('fichier_titre', null);
@@ -525,36 +525,15 @@ class ActionGroupDefault extends enicActionGroup {
         
         $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUpdate');
       }
-      // Sinon, upload multiple
       else {
-        
+          
           // Récupération du dossier temporaire
           $ppo->dossierTmp = _request('dossierTmp', null);
-
-          // Contrôle : upload effectué / dossier temporaire créé ?
-          $fichiersPhysiques = array();
-          $fichiersZip       = array();
-          if (!is_dir($ppo->dossierTmp)) {
-
+          
+          // Récupération du fichier
+          if (!is_uploaded_file($_FILES['fichier']['tmp_name'][0])) {
+            
             $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noFiles');
-          }
-          elseif ($handle = opendir($ppo->dossierTmp)) {
-
-            while (($file = readdir($handle)) !== false) {
-
-              if ($file != '.' && $file != '..') {
-
-                $extension = strtolower(strrchr($file, '.'));
-                if ($extension == '.zip' && _request('with_decompress', false)) {
-
-                  $fichiersZip[] = $file;
-                }
-                else {
-
-                  $fichiersPhysiques[] = $file;
-                }
-              }
-            }
           }
 
           // Traitement des erreurs
@@ -562,10 +541,6 @@ class ActionGroupDefault extends enicActionGroup {
           if (!is_null(_request('fichier_titre', null)) && strlen(_request('fichier_titre')) > 64) {
 
             $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.titleTooLong', array('size' => 64));
-          }
-          if (empty($fichiersPhysiques) && empty($fichiersZip)) {
-
-            $ppo->erreurs[] = CopixI18N::get ('classeur|classeur.error.noFiles');
           }
 
           if (!empty ($ppo->erreurs)) {
@@ -583,124 +558,120 @@ class ActionGroupDefault extends enicActionGroup {
             mkdir($dir, 0755, true);
           }
           
-          // Décompression des archives ZIP
-          foreach ($fichiersZip as $fichierZip) {
-
+          // S'il s'agit d'une archive ZIP
+          if (strtolower(strrchr($_FILES['fichier']['name'][0], '.')) == '.zip' 
+            && _request('with_decompress', false)) {
+            
             $zip = new ZipArchive;
-            if ($zip->open($ppo->dossierTmp.'/'.$fichierZip) === true) {
+            if ($zip->open($_FILES['fichier']['tmp_name'][0]) === true) {
 
               // Décompression de l'archive dans le dossier temporaire
               $zip->extractTo($ppo->dossierTmp);
-
               $zip->close();
-              unlink($ppo->dossierTmp.'/'.$fichierZip);
-            }
-          }
-
-          // Copie des fichiers provenant de l'archive ZIP
-          $datas = array();
-          $datas = classeurService::getFilesInTmpFolder($datas, $ppo->dossierTmp, $fichiersPhysiques);
-          
-          $correspondanceDossiers = array();
-
-          foreach ($datas as $dossierParent => $data) {
-
-            if (!empty($data['folders'])) {
               
-              foreach($data['folders'] as $folder) {
-
-                $dossier = _record ('classeur|classeurdossier');
-
-                $dossier->nb_dossiers = 0;
-                $dossier->nb_fichiers = 0;
-                $dossier->taille      = 0;
-                
-                $dossier->classeur_id    = $classeur->id;
-                $dossier->parent_id      = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
-                $dossier->nom            = $folder;
-                $dossier->cle            = classeurService::createKey();
-                $dossier->date_creation  = date('Y-m-d H:i:s');
-                $dossier->user_type      = _currentUser()->getExtra('type');
-                $dossier->user_id        = _currentUser()->getExtra('id');
-
-                $dossierDAO->insert($dossier);
-
-                classeurService::updateFolderInfos($dossier);
-
-                $correspondanceDossiers[$dossierParent.'/'.$folder] = $dossier;
-              }
-            }
-            
-            if (!empty($data['files'])) {
+              // Copie des fichiers provenant de l'archive ZIP
+              $correspondanceDossiers = array();
               
-              foreach ($data['files'] as $file) {
-                
-                $fichier = _record('classeur|classeurfichier');
-                
-                $extension  = strtolower(strrchr($file, '.'));
-                $filename   = substr($file, 0, strrpos($file, '.'));
-                
-                $title = Kernel::stripText($filename).$extension;
-                
-                $fichier->classeur_id   = $classeur->id;
-                $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
-                $fichier->titre         = substr($title, 0, 63);
-                $fichier->commentaire   = '';
-                $fichier->fichier       = $title;
-                $fichier->taille        = file_exists($dossierParent.'/'.$file) ? filesize($dossierParent.'/'.$file) : 0;
-                $fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
-                $fichier->cle           = classeurService::createKey();
-                $fichier->date_upload   = date('Y-m-d H:i:s');
-                $fichier->user_type     = _currentUser()->getExtra('type');
-                $fichier->user_id       = _currentUser()->getExtra('id');
+              $datas = array();
+              $datas = classeurService::getFilesInTmpFolder($datas, $ppo->dossierTmp);
+              foreach ($datas as $dossierParent => $data) {
 
-                $fichierDAO->insert($fichier);
-                
-                if (isset($correspondanceDossiers[$dossierParent])) {
-                  
-                  classeurService::updateFolderInfos($correspondanceDossiers[$dossierParent]);
+                if (!empty($data['folders'])) {
+
+                  foreach($data['folders'] as $folder) {
+
+                    $dossier = _record ('classeur|classeurdossier');
+
+                    $dossier->nb_dossiers = 0;
+                    $dossier->nb_fichiers = 0;
+                    $dossier->taille      = 0;
+
+                    $dossier->classeur_id    = $classeur->id;
+                    $dossier->parent_id      = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
+                    $dossier->nom            = $folder;
+                    $dossier->cle            = classeurService::createKey();
+                    $dossier->date_creation  = date('Y-m-d H:i:s');
+                    $dossier->user_type      = _currentUser()->getExtra('type');
+                    $dossier->user_id        = _currentUser()->getExtra('id');
+
+                    $dossierDAO->insert($dossier);
+
+                    classeurService::updateFolderInfos($dossier);
+
+                    $correspondanceDossiers[$dossierParent.'/'.$folder] = $dossier;
+                  }
                 }
+                
+                if (!empty($data['files'])) {
 
-                $nomClasseur = $classeur->id.'-'.$classeur->cle;
-                $nomFichier = $fichier->id.'-'.$fichier->cle;
+                  foreach ($data['files'] as $file) {
 
-                // Déplacement du fichier temporaire dans le classeur
-                copy($dossierParent.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
+                    $fichier = _record('classeur|classeurfichier');
 
-                // Suppression du fichier temporaire
-                unlink($dossierParent.'/'.$file);
+                    $extension  = strtolower(strrchr($file, '.'));
+                    $filename   = substr($file, 0, strrpos($file, '.'));
+
+                    $title = Kernel::stripText($filename).$extension;
+
+                    $fichier->classeur_id   = $classeur->id;
+                    $fichier->dossier_id    = $dossierParent == $ppo->dossierTmp ? $ppo->dossierId : $correspondanceDossiers[$dossierParent]->id;
+                    $fichier->titre         = substr($title, 0, 63);
+                    $fichier->commentaire   = '';
+                    $fichier->fichier       = $title;
+                    $fichier->taille        = file_exists($dossierParent.'/'.$file) ? filesize($dossierParent.'/'.$file) : 0;
+                    $fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
+                    $fichier->cle           = classeurService::createKey();
+                    $fichier->date_upload   = date('Y-m-d H:i:s');
+                    $fichier->user_type     = _currentUser()->getExtra('type');
+                    $fichier->user_id       = _currentUser()->getExtra('id');
+
+                    $fichierDAO->insert($fichier);
+
+                    if (isset($correspondanceDossiers[$dossierParent])) {
+
+                      classeurService::updateFolderInfos($correspondanceDossiers[$dossierParent]);
+                    }
+
+                    $nomClasseur = $classeur->id.'-'.$classeur->cle;
+                    $nomFichier = $fichier->id.'-'.$fichier->cle;
+
+                    // Déplacement du fichier temporaire dans le classeur
+                    copy($dossierParent.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
+
+                    // Suppression du fichier temporaire
+                    unlink($dossierParent.'/'.$file);
+                  }
+                }
               }
             }
           }
-          
-          // Copie des fichiers dans le rep classeur et suppression des fichiers TMP
-          foreach ($fichiersPhysiques as $fichierPhysique) {
-
+          else {
+            
+            $fichierPhysique = $_FILES['fichier']['tmp_name'][0];
+            $nomFichierPhysique = $_FILES['fichier']['name'][0];
+            
             $fichier = _record('classeur|classeurfichier');
-
+            
             $fichier->classeur_id   = $classeur->id;
             $fichier->dossier_id    = isset($ppo->dossierId) ? $ppo->dossierId : 0;
-            $fichier->titre         = (!is_null(_request('fichier_titre', null)) && count($fichiersPhysiques) == 1) ? _request('fichier_titre') : substr($fichierPhysique, 0, 63);
+            $fichier->titre         = _request('fichier_titre', substr($nomFichierPhysique, 0, 63));
             $fichier->commentaire   = _request('fichier_commentaire', null);
-            $fichier->fichier       = $fichierPhysique;
-            $fichier->taille        = file_exists($ppo->dossierTmp.'/'.$fichierPhysique) ? filesize($ppo->dossierTmp.'/'.$fichierPhysique) : 0;
-            $fichier->type          = strtoupper(substr(strrchr($fichierPhysique, '.'), 1));
+            $fichier->fichier       = $nomFichierPhysique;
+            $fichier->taille        = $_FILES['fichier']['size'][0];
+            $fichier->type          = strtoupper(substr(strrchr($nomFichierPhysique, '.'), 1));
             $fichier->cle           = classeurService::createKey();
             $fichier->date_upload   = date('Y-m-d H:i:s');
             $fichier->user_type     = _currentUser()->getExtra('type');
             $fichier->user_id       = _currentUser()->getExtra('id');
-
+            
             $fichierDAO->insert($fichier);
-
-            $nomClasseur = $classeur->id.'-'.$classeur->cle;
-            $nomFichier = $fichier->id.'-'.$fichier->cle;
-            $extension = strtolower(strrchr($fichierPhysique, '.'));
-
+            
+            $nomClasseur  = $classeur->id.'-'.$classeur->cle;
+            $nomFichier   = $fichier->id.'-'.$fichier->cle;
+            $extension    = strtolower(strrchr($nomFichierPhysique, '.'));
+            
             // Déplacement du fichier temporaire dans le classeur
-            copy($ppo->dossierTmp.'/'.$fichierPhysique, $dir.$fichier->id.'-'.$fichier->cle.$extension);
-
-            // Suppression du fichier temporaire
-            unlink($ppo->dossierTmp.'/'.$fichierPhysique);
+            copy($fichierPhysique, $dir.$fichier->id.'-'.$fichier->cle.$extension);
           }
 
           // Suppression du dossier TMP
