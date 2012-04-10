@@ -17,5 +17,6 @@
         <parameter name="blog.default.default_is_online_page" captioni18n="blog.default.default_is_online_page" default="1" />
         <parameter name="blog.default.logo_max_width" captioni18n="blog.default.logo_max_width" default="200" />
         <parameter name="blog.default.is_public" captioni18n="blog.default.is_public" default="1" />
-	   </parameters>
+        <parameter name="blog.default.privacy" captioni18n="blog.default.privacy" default="0" />
+   </parameters>
 </moduledefinition>
