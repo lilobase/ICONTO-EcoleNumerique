@@ -42,8 +42,8 @@
                 {/if}
 
                 <div class="classes contentBox">
-                    <img class="icon" alt="{i18n key="fichesecoles.fields.classes"}" title="{i18n key="fichesecoles.fields.classes"}" border="0" width="32" height="32" src="{copixresource path="img/fichesecoles/icon_classes.gif"}" />
-                         <div class="fiche">{i18n key="fichesecoles.fields.classes"}</div>
+                    <img class="icon" alt="{customi18n key="fichesecoles|fichesecoles.fields.%%Structure_element_fiche%%" catalog=$id_vc}" title="{customi18n key="fichesecoles|fichesecoles.fields.%%Structure_element_fiche%%" catalog=$id_vc}" border="0" width="32" height="32" src="{copixresource path="img/fichesecoles/icon_classes.gif"}" />
+                         <div class="fiche">{customi18n key="fichesecoles|fichesecoles.fields.%%Structure_element_fiche%%" catalog=$id_vc}</div>
 
                     <div class="ecole_classe_enseignant">
 
