@@ -232,6 +232,7 @@ class ActionGroupExport extends EnicActionGroup {
 					kernel_bu_responsable.numero AS id_resp,
 					kernel_bu_responsable.nom AS nom_resp,
 					kernel_bu_responsable.prenom1 AS prenom_resp,
+					kernel_bu_responsable.mel AS email_resp,
 					
 					dbuser_resp.id_dbuser AS id_dbuser_resp,
 					dbuser_resp.login_dbuser AS login_dbuser_resp,
@@ -307,6 +308,7 @@ class ActionGroupExport extends EnicActionGroup {
 				$new_responsablesList->prenom = $eleve->prenom_resp;
 				$new_responsablesList->user_id = $eleve->id_dbuser_resp;
 				$new_responsablesList->user_login = $eleve->login_dbuser_resp;
+				$new_responsablesList->email = $eleve->email_resp;
 				$responsablesList[$eleve->id_resp] = $new_responsablesList;
 			}
 		}
@@ -399,6 +401,7 @@ class ActionGroupExport extends EnicActionGroup {
 			$xml_item->addChild('nom',$item->nom);
 			$xml_item->addChild('nom_jf',$item->nom_jf);
 			$xml_item->addChild('prenom',$item->prenom);
+			$xml_item->addChild('email',$item->email);
 			$xml_item->addChild('user_id',$item->user_id);
 			$xml_item->addChild('user_login',$item->user_login);
 		}
