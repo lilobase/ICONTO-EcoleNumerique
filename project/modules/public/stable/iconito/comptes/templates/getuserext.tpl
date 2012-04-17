@@ -1,14 +1,14 @@
 <p class="right"><a href="{copixurl dest="comptes||getUserExtMod" id=0}" class="button button-add">{i18n key="comptes|comptes.strings.add" noEscape=1}</a></p>
 {i18n key="comptes|comptes.expl.getuserext" noEscape=1}
 
-<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
-	<tr>
-		<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.nom"}</th>
-		<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.prenom"}</th>
-		<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.login"}</th>
-		<th CLASS="liste_th" width="1">{i18n key="comptes|comptes.colonne.action"}</th>
-	</tr>
-	{if $userlist neq null}
+{if $userlist neq null}
+	<table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
+		<tr>
+			<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.nom"}</th>
+			<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.prenom"}</th>
+			<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.login"}</th>
+			<th CLASS="liste_th" width="1">{i18n key="comptes|comptes.colonne.action"}</th>
+		</tr>
 		{counter assign="i" name="i" start="1"}
 		{foreach from=$userlist item=user}
 			{counter name="i"}
@@ -25,5 +25,7 @@
 				</td>
 			</tr>
 		{/foreach}
-	{/if}
-</table>
+	</table>
+{else}
+	<p class="error">{i18n key="comptes|comptes.alert.nouserext"}</p>
+{/if}

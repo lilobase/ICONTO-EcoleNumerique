@@ -20,6 +20,7 @@ class ZoneFiche extends CopixZone {
      * @param object $rFiche Recordset de la fiche ecole
      */
     function _createContent(&$toReturn) {
+
         $tpl = new CopixTpl ();
 
         $rEcole = $this->getParam('rEcole');
@@ -47,6 +48,9 @@ class ZoneFiche extends CopixZone {
 
         $matrix = & enic::get('matrixCache');
 
+        $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+        $vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $rEcole->numero);
+
         $tpl->assign('rEcole', $rEcole);
         $tpl->assign('rFiche', $rFiche);
         $tpl->assign('arClasses', $arClasses);
@@ -58,6 +62,7 @@ class ZoneFiche extends CopixZone {
         $tpl->assign('canWriteDir', $_right->USER_DIR->communiquer);
         $tpl->assign('canViewEns', $_right->USER_ENS->voir);
         $tpl->assign('canWriteEns', $_right->USER_ENS->communiquer);
+        $tpl->assign('id_vc', $vocabularyCatalog->id_vc);
 
         $toReturn = $tpl->fetch('fiche.tpl');
         return true;
