@@ -1437,7 +1437,7 @@ class Kernel {
 		$list = $dao->getByNode($node_type,$node_id);
 
 		foreach ($list as $v) {
-			if(!$full) if($v->node_type=='CLUB' && $v->module_type=='MOD_MAGICMAIL') continue;
+			if(!$full) if($v->module_type=='MOD_MAGICMAIL') continue;
 			$v->module_nom	 = Kernel::Code2Name ($v->module_type);
 			$modules[] = clone $v;
 		}
