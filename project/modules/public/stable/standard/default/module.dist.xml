@@ -52,6 +52,9 @@
 			<parameter name="conf_Ceriseprim_url" captioni18n="parameter.conf_Ceriseprim_url"  default="" />
 			<parameter name="conf_Ceriseprim_secret" captioni18n="parameter.conf_Ceriseprim_secret"  default="" />
 			
+			<parameter name="conf_ModClasseur_options" caption="Options du classeur" default="0" />
+			<parameter name="conf_ModClasseur_upload" caption="Upload dans le classeur" default="0" />
+
 			<parameter name="rssEtagereEnabled" caption="Centre de ressource active" default="0" />
 		</group>
 	</parameters>

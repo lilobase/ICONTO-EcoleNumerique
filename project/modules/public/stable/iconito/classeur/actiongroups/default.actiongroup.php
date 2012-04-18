@@ -149,45 +149,41 @@ class ActionGroupDefault extends enicActionGroup {
 		// $nomFichier = $fichier->id.'-'.$fichier->cle.$extension;
 		$path = realpath('./upload').'/'.$classeur->upload_fs;
 
-		if (($handle = opendir($path))) {
-			while ($file = readdir($handle)) {
-				if (is_file($path . '/' . $file)) {
-					// echo "<li>".$path . '/' . $file."</li>";
+		if($classeur->upload_fs && glob($path . '/*')) foreach(glob($path . '/*') as $file) {
+			if (is_file($file)) {
 
-					$fichier = _record('classeur|classeurfichier');
+				$fichier = _record('classeur|classeurfichier');
 
-					$title = Kernel::stripText($file);
+				$title = Kernel::stripText($file);
 
-					$fichier->classeur_id   = $classeur->id;
-					$fichier->dossier_id    = $classeur->upload_db; // TODO : Verifier existance
-					$fichier->titre         = substr($file, 0, 63);
-					$fichier->commentaire   = '';
-					$fichier->fichier       = $file;
-					$fichier->taille        = file_exists($path.'/'.$file) ? filesize($path.'/'.$file) : 0;
-					$fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
-					$fichier->cle           = classeurService::createKey();
-					$fichier->date_upload   = date('Y-m-d H:i:s');
-					$fichier->user_type     = _currentUser()->getExtra('type');
-					$fichier->user_id       = _currentUser()->getExtra('id');
+				$fichier->classeur_id   = $classeur->id;
+				$fichier->dossier_id    = $classeur->upload_db; // TODO : Verifier existance
+				$fichier->titre         = substr(basename($file), 0, 63);
+				$fichier->commentaire   = '';
+				$fichier->fichier       = basename($file);
+				$fichier->taille        = file_exists($file) ? filesize($file) : 0;
+				$fichier->type          = strtoupper(substr(strrchr($file, '.'), 1));
+				$fichier->cle           = classeurService::createKey();
+				$fichier->date_upload   = date('Y-m-d H:i:s');
+				$fichier->user_type     = _currentUser()->getExtra('type');
+				$fichier->user_id       = _currentUser()->getExtra('id');
 
-					$fichierDAO->insert($fichier);
+				$fichierDAO->insert($fichier);
 
-					$nomClasseur = $classeur->id.'-'.$classeur->cle;
-					$nomFichier = $fichier->id.'-'.$fichier->cle;
-					$extension = strtolower(strrchr($file, '.'));
+				$nomClasseur = $classeur->id.'-'.$classeur->cle;
+				$nomFichier = $fichier->id.'-'.$fichier->cle;
+				$extension = strtolower(strrchr($file, '.'));
 
-					$dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+				$dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
 
-					// Déplacement du fichier temporaire dans le classeur
-					copy($path.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
+				// Déplacement du fichier temporaire dans le classeur
+				copy($file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
 
-					// Suppression du fichier temporaire
-					unlink($path.'/'.$file);
-				}
+				// Suppression du fichier temporaire
+				unlink($file);
 			}
 
 			classeurService::updateFolderInfos($folder);
-			closedir($handle);
 		}
 
 // print_r($classeur);

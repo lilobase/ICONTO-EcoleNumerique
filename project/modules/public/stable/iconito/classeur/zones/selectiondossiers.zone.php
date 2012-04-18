@@ -15,6 +15,7 @@ class ZoneSelectionDossiers extends CopixZone {
 	  $ppo->dossierId       = $this->getParam('dossierId');
 	  $ppo->targetType      = $this->getParam('targetType');
 	  $ppo->targetId        = $this->getParam('targetId');
+	  $ppo->alwaysOpen      = $this->getParam('alwaysOpen');
 	  
 	  // Récupération des dossiers
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
