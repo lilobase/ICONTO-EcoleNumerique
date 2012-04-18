@@ -20,6 +20,8 @@ class ZoneAffichageMenu extends CopixZone {
 	  $ppo->typeUtilisateur   = _currentUser()->getExtra('type');
 	  
 	  $ppo->vue = !is_null(_sessionGet('classeur|typeVue')) ? _sessionGet('classeur|typeVue') : 'liste';
+
+      $ppo->conf_ModClasseur_upload = (CopixConfig::exists ('default|conf_ModClasseur_upload')) ? CopixConfig::get ('default|conf_ModClasseur_upload') : 0;
 	  
 	  // L'album public est t-il publié ?
 	  $ppo->estPublic = false;

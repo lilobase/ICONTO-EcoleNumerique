@@ -17,6 +17,7 @@
 
 		<property name="upload_fs" fieldname="upload_fs" type="string" pk="no"/>
 		<property name="upload_db" fieldname="upload_db" type="integer" pk="no"/>
+		<property name="upload_pw" fieldname="upload_pw" type="string" pk="no"/>
 	</properties>
 	<methods>
 	</methods>
