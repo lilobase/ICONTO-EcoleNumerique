@@ -38,7 +38,7 @@
 	            fieldName="url_blnk"
 	            captioni18n="dao.bloglink.fields.url_blnk"
 	            type="string"
-	            maxlength="100"
+	            maxlength="1024"
 	            required="yes"
 	            />
   	</properties>
