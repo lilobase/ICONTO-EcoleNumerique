@@ -21,7 +21,7 @@ class ZoneAffichageMenu extends CopixZone {
 	  
 	  $ppo->vue = !is_null(_sessionGet('classeur|typeVue')) ? _sessionGet('classeur|typeVue') : 'liste';
 
-      $ppo->conf_ModClasseur_upload = (CopixConfig::exists ('default|conf_ModClasseur_upload')) ? CopixConfig::get ('default|conf_ModClasseur_upload') : 0;
+      $ppo->conf_ModClasseur_options = (CopixConfig::exists ('default|conf_ModClasseur_options')) ? CopixConfig::get ('default|conf_ModClasseur_options') : 0;
 	  
 	  // L'album public est t-il publié ?
 	  $ppo->estPublic = false;

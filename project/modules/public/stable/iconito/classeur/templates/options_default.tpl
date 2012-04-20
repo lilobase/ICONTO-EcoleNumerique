@@ -2,6 +2,7 @@
 
 <h2>{i18n key="classeur.message.options"}</h2>
 
+{if $ppo->conf_ModClasseur_upload}
 <fieldset>
 <legend>{i18n key="classeur.message.editUpload"}</legend>
 
@@ -63,3 +64,4 @@
 </div>
 
 </fieldset>
+{/if}
