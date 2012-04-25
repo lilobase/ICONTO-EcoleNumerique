@@ -85,7 +85,6 @@ class ActionGroupOptions extends enicActionGroup {
 					fwrite( $out, $htpasswd_output );
 					fclose( $out );
 
-					// die ("<pre>".print_r(CopixUrl::get()."upload/".$ppo->classeur->upload_fs."/",true)."</pre>");
 
 					break;
 				case 'upload-delete':
