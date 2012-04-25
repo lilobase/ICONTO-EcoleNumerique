@@ -137,7 +137,7 @@ class ActionGroupOptions extends enicActionGroup {
 		$objects = scandir($dir);
 		foreach ($objects as $file) {
 			if ($file != "." && $file != "..") {
-				if (filetype($dir."/".$file) == "dir") rrmdir($dir."/".$file); else unlink($dir."/".$file);
+				if (filetype($dir."/".$file) == "dir") $this->rrmdir($dir."/".$file); else unlink($dir."/".$file);
 			}
 		}
 		reset($objects);
