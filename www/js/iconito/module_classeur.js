@@ -1,4 +1,15 @@
 jQuery(document).ready(function($){
+	/* Options */
+	if ($('#save-mode-disabled').is(':checked'))
+		$('#selectDestFolder').hide();
+	$('input[name="save-mode"]').change(function(){
+		if ($('#save-mode-disabled').is(':checked'))
+			$('#selectDestFolder').hide();
+		else
+			$('#selectDestFolder').show();
+	});
+	
+	
 	/**********************************************************************/
 	/*  Arborescence classeurs / dossiers                                 */
 	/**********************************************************************/

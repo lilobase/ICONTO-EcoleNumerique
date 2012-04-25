@@ -269,3 +269,34 @@ div.dashboard div.content {
 /* Uploadify */
 #fichiersQueue .cancel {display:none;}
 /* End Uploadify */
+
+
+/* Options */
+#form_upload_config {
+	width:60%;
+}
+#form_upload_config .selectFolder {
+	width:300px;
+}
+#form_upload_config #save-mode-enabled {
+	margin-left:1em;
+}
+#classeur .help {
+	float:right;
+	margin:0 0 25px; padding:5px 5px 5px 28px; border:2px solid #49BFCD;
+	width:30%;
+	-webkit-border-radius:10px; -moz-border-radius:10px; -o-border-radius:10px; border-radius:10px;
+	background:#fff url(../../../themes/default/images/button-action/action_info.png) no-repeat 5px 5%; color:#444;
+	font-size:0.95em;
+}
+#classeur .help p {
+	margin:0.5em 0;
+}
+#classeur .help label {
+	display:block;
+	font-weight:bold;
+}
+#classeur .help input {
+	width:90%;
+}
+/* End options */
