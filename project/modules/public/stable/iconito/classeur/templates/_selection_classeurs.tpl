@@ -12,7 +12,7 @@
         {if $ppo->classeurPersonnel eq $classeur->id}
           {i18n key="classeur.message.personnalFolder"}
         {else}
-          {$classeur->titre}
+          {$classeur->titre|escape}
         {/if}
       </label>
       </p>

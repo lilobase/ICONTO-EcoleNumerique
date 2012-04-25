@@ -21,7 +21,7 @@
 {if ! $ppo->classeur->upload_db|is_null}
 <div style="bordel: 2px solid #F00;">
 <h3>La réception de fichier est activé pour ce classeur</h3>
-<p>Les documents seront déposés dans le dossier {if $ppo->classeur->folder_infos}"{$ppo->classeur->folder_infos->nom}"{else}principal{/if} de ce classeur.</p>
+<p>Les documents seront déposés dans le dossier {if $ppo->classeur->folder_infos}"{$ppo->classeur->folder_infos->nom|escape}"{else}principal{/if} de ce classeur.</p>
 <fieldset>
 <legend>Paramètres techniques</legend>
 <table width="100%">

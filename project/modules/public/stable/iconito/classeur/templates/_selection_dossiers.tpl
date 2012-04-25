@@ -8,7 +8,7 @@
         <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
       {/if}
       <input type="radio" id="dossier-{$dossier->id}" name="destination" value="dossier-{$dossier->id}" {if $ppo->targetType eq "dossier" && $ppo->targetId eq $dossier->id}checked="checked"{/if} />
-      <label for="dossier-{$dossier->id}">{$dossier->nom}</label>
+      <label for="dossier-{$dossier->id}">{$dossier->nom|escape}</label>
     </p>
     <ul class="child{if $ppo->alwaysOpen} open{else} closed{/if}">
       {copixzone process=classeur|selectionDossiers classeurId=$ppo->classeurId dossierId=$dossier->id targetType=$ppo->targetType targetId=$ppo->targetId alwaysOpen=$ppo->alwaysOpen}

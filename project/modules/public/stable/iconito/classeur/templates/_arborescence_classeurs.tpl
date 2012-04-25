@@ -22,7 +22,7 @@
         {if $ppo->withPersonal && $classeur->id eq $ppo->classeurPersonnel}
           {i18n key="classeur.message.personnalFolder"}
         {else}
-          {$classeur->titre}
+          {$classeur->titre|escape}
         {/if}
       </a></p>
       <ul class="child {if !isset($ppo->classeursOuverts[$classeurId])}closed{/if}">
