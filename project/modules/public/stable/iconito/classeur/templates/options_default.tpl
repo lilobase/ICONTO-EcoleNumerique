@@ -11,11 +11,8 @@
 <p>Pour configurer votre TBI :
 <ul>
 	<li>Notez les paramètres techniques qui vous sont présentés ci-contre.</li>
-	<li>Sur l'ordinateur connecté à votre TBI, installez un logiciel qui permet de synchroniser un dossier avec un serveur WebDav (consultez <a href="">cette aide</a> pour plus de détails).</li>
+	<li>Sur l'ordinateur connecté à votre TBI, installez un logiciel qui permet de synchroniser un dossier avec un serveur WebDav <!-- (consultez <a href="">cette aide</a> pour plus de détails). --></li>
 </ul>
-<pre>
-{$ppo->classeur|print_r}
-</pre>
 </div>
 
 <div class="colgauche" style="margin-right: 42%;">
@@ -24,7 +21,7 @@
 {if ! $ppo->classeur->upload_db|is_null}
 <div style="bordel: 2px solid #F00;">
 <h3>La réception de fichier est activé pour ce classeur</h3>
-<p>Les documents seront déposés dans le dossier XXX de ce classeur.</p>
+<p>Les documents seront déposés dans le dossier {if $ppo->classeur->folder_infos}"{$ppo->classeur->folder_infos->nom}"{else}principal{/if} de ce classeur.</p>
 <fieldset>
 <legend>Paramètres techniques</legend>
 <table width="100%">

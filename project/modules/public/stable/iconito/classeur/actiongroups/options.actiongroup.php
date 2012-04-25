@@ -123,6 +123,10 @@ class ActionGroupOptions extends enicActionGroup {
 		}
 		$ppo->classeur->upload_url = CopixUrl::get()."upload/".$ppo->classeur->upload_fs."/";
 
+		$dossierDAO = _ioDAO('classeur|classeurdossier');
+		if($ppo->classeur->upload_db) $ppo->classeur->folder_infos = $dossierDAO->get($ppo->classeur->upload_db);
+		else $ppo->classeur->folder_infos = NULL;
+
 
 		$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id);
 
