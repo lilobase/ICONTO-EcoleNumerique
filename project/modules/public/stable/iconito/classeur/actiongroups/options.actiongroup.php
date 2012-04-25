@@ -50,10 +50,8 @@ class ActionGroupOptions extends enicActionGroup {
 					}
 
 					$ppo->classeur->upload_db = $ppo->save->folder_id;
-					// $ppo->classeur->upload_fs = 'classeur-'.$ppo->classeur->id.'-'.substr(md5($ppo->classeur->id.$ppo->save->folder_id.$ppo->classeur->cle.date('YmdHis')),0,8);
-					// $ppo->classeur->upload_pw = substr(md5($ppo->classeur->upload_fs.$ppo->classeur->cle),0,8);
 					$ppo->classeur->upload_fs = 'classeur-'.$ppo->classeur->id;
-					$ppo->classeur->upload_pw = substr(md5($ppo->classeur->id.$ppo->save->folder_id.$ppo->classeur->cle.date('YmdHis')),0,8);
+					if(!$ppo->classeur->upload_pw) $ppo->classeur->upload_pw = substr(md5($ppo->classeur->id.$ppo->save->folder_id.$ppo->classeur->cle.date('YmdHis')),0,8);
 					$classeurDAO->update( $ppo->classeur );
 					
 					// Création du répertoire
@@ -94,6 +92,7 @@ class ActionGroupOptions extends enicActionGroup {
 					}
 					$ppo->classeur->upload_db = null;
 					$ppo->classeur->upload_fs = null;
+					$ppo->classeur->upload_pw = null;
 					$classeurDAO->update( $ppo->classeur );
 
 					$htpasswd_file = realpath('./upload').'/.htpasswd';
