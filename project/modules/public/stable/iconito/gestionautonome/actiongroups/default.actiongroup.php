@@ -4911,7 +4911,7 @@ class ActionGroupDefault extends enicActionGroup {
                  	$formatedParentalLinks[strtoupper(Kernel::stripText($parentalLink->parente))] = $parentalLink->id_pa;
                  }
 
-                 $ppo->students[$key]['person'][$keyPerson]['id_par'] = isset($formatedParentalLinks[strip_tags(trim($datas[$cpt]))]) ? $formatedParentalLinks[strip_tags(trim($datas[$cpt]))] : $formatedParentalLinks[11];
+                 $ppo->students[$key]['person'][$keyPerson]['id_par'] = isset($formatedParentalLinks[strip_tags(trim($datas[$cpt]))]) ? $formatedParentalLinks[strip_tags(trim($datas[$cpt]))] : $formatedParentalLinks['INCONNU'];
                  break;
                }
            }
