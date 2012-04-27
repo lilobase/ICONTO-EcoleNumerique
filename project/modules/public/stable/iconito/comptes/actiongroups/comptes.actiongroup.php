@@ -296,7 +296,7 @@ class ActionGroupComptes extends enicActionGroup {
                 $users_dump = array();
                 $eleves = Kernel::filterNodeList( $childs, 'USER_ELE' );
                 foreach( $eleves AS $eleve ) {
-                    $parent = Kernel::getNodeChilds( $eleve['type'], $eleve['id'] );
+                    $parents = Kernel::getNodeChilds( $eleve['type'], $eleve['id'] );
                     $parents = Kernel::filterNodeList( $parents, 'USER_RES' );
                     foreach( $parents AS $parent ) {
                         $users_dump[] = $parent;
