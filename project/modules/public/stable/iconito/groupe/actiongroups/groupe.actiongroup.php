@@ -199,7 +199,7 @@ class ActionGroupGroupe extends enicActionGroup {
 		$kernel_service = & CopixClassesFactory::Create ('kernel|kernel');
 		$groupeService = & CopixClassesFactory::Create ('groupe|groupeService');
 		$dao = CopixDAOFactory::create("groupe");
-                $tagService = $this->service('tagService');
+		$tagService = $this->service('tagService');
 		$tpl = new CopixTpl ();
 
 		$id = $this->getRequest ('id', null);
@@ -208,7 +208,7 @@ class ActionGroupGroupe extends enicActionGroup {
 		$is_open = 1;
 		$errors = array();
 		$nodes = array();
-                $tags = '';
+		$tags = '';
 
 		if ($id) {	// Modification
 			$tplTitle = CopixI18N::get ('groupe|groupe.modify');
@@ -219,7 +219,7 @@ class ActionGroupGroupe extends enicActionGroup {
 				if (!$groupeService->canMakeInGroupe('ADMIN',$mondroit))
 				$errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 				else {
-                                        $tags = $tagService->createTagsString($tagService->getTagsByGroup($id));
+					$tags = $tagService->createTagsString($tagService->getTagsByGroup($id));
 					$titre = $groupe[0]->titre;
 					$description = $groupe[0]->description;
 					$is_open = $groupe[0]->is_open;
@@ -262,7 +262,7 @@ class ActionGroupGroupe extends enicActionGroup {
 		} else {
 
 			$titre = $this->getRequest ('titre', $titre);
-      $tags = $this->getRequest('tags', $tags);
+			$tags = $this->getRequest('tags', $tags);
 			$description = $this->getRequest ('description', $description);
 			$is_open = $this->getRequest ('is_open', $is_open);
 			$membres = $this->getRequest ('membres', $membres);
@@ -282,18 +282,19 @@ class ActionGroupGroupe extends enicActionGroup {
 			$kernel_service = CopixClassesFactory::create("kernel|Kernel");
 			$modules = $kernel_service->getModAvailable ("club");
 			foreach ($modules as $k=>$tmp) {
+				if($tmp->module_type=='MOD_MAGICMAIL') { unset($modules[$k]); continue; }
 				$modules[$k]->module_name = Kernel::Code2Name ($tmp->module_type);
 				$modules[$k]->module_desc = Kernel::Code2Desc ($tmp->module_type);
 			}
 
 			$tpl->assign ('TITLE_PAGE', $tplTitle);
       
-      $menu = array();
-      if (0 && !$id) {
-    		if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create', 'current'=>true);
-        $menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'));
-      }
-  		$tpl->assign ('MENU', $menu);
+			$menu = array();
+			if (0 && !$id) {
+				if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create', 'current'=>true);
+				$menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'));
+			}
+			$tpl->assign ('MENU', $menu);
 			$tplForm = new CopixTpl ();
 			$tplForm->assign ("id", $id);
 			$tplForm->assign ("titre", $titre);
@@ -308,7 +309,7 @@ class ActionGroupGroupe extends enicActionGroup {
 			$tplForm->assign ("errors", $errors);
 			$tplForm->assign ("nodes", $nodes);
 			$tplForm->assign ("parent", $parent);
-      $tplForm->assign ("tags", $tags);
+			$tplForm->assign ("tags", $tags);
 			$result = $tplForm->fetch("formedit.tpl");
 
 			$tpl->assign ("MAIN", $result);
@@ -339,7 +340,7 @@ class ActionGroupGroupe extends enicActionGroup {
 		$dao = CopixDAOFactory::create("groupe");
 		$kernel_service = CopixClassesFactory::create("kernel|Kernel");
 		$groupeService = CopixClassesFactory::create("groupe|groupeService");
-                $tagService = $this->service('tagService');
+		$tagService = $this->service('tagService');
 
 		$errors = array();
 
@@ -370,13 +371,13 @@ class ActionGroupGroupe extends enicActionGroup {
 		$is_open = $this->getRequest ('is_open', 1);
 		$membres = $this->getRequest ('membres', null);
 		$his_modules = $this->getRequest ('his_modules', array());
-                $tags = $this->request('tags');
+		$tags = $this->request('tags');
 
 
 		if (!$titre)
-		$errors[] = CopixI18N::get ('groupe|groupe.error.typeTitle');
+			$errors[] = CopixI18N::get ('groupe|groupe.error.typeTitle');
 		if (!$description)
-		$errors[] = CopixI18N::get ('groupe|groupe.error.typeDesc');
+			$errors[] = CopixI18N::get ('groupe|groupe.error.typeDesc');
 
 		$createurId = _currentUser ()->getId();
 
@@ -418,18 +419,18 @@ class ActionGroupGroupe extends enicActionGroup {
 				$serv = CopixClassesFactory::create("GroupeService");
 				$create = $serv->createGroupe ($titre, $description, $is_open, $createurId, $tabInscrits, $his_modules, $parentClass, $parentRef);
 				if (!$create)
-                                    $errors[] = CopixI18N::get ('groupe|groupe.error.create');
-                                else
-                                    $id = $create;
+					$errors[] = CopixI18N::get ('groupe|groupe.error.create');
+				else
+					$id = $create;
 			}
 		}
 
-                if ($errors)
-                    return CopixActionGroup::process('groupe|groupe::getEdit', array('id' => $id, 'titre' => $titre, 'description' => $description, 'is_open' => $is_open, 'membres' => $membres, 'his_modules' => $his_modules, 'errors' => $errors, 'parent' => $parent));
-                else{
-                    $tagService->deleteTagsOgGroup($id);
-                    $tagService->addTagsToGroup($id, $tagService->extractTags($tags));
-                }
+		if ($errors)
+			return CopixActionGroup::process('groupe|groupe::getEdit', array('id' => $id, 'titre' => $titre, 'description' => $description, 'is_open' => $is_open, 'membres' => $membres, 'his_modules' => $his_modules, 'errors' => $errors, 'parent' => $parent));
+		else{
+			$tagService->deleteTagsOgGroup($id);
+			$tagService->addTagsToGroup($id, $tagService->extractTags($tags));
+		}
         return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('groupe||getHomeAdmin', array("id"=>$id)));
 	}
 
