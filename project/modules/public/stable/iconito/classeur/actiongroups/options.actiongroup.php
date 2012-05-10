@@ -63,6 +63,7 @@ class ActionGroupOptions extends enicActionGroup {
 						fclose( $htaccess );
 					}
 
+					// Génération du fichier .htpasswd
 					$htpasswd_file = realpath('./upload').'/.htpasswd';
 					$htpasswd_output = '';
 					$in = fopen( $htpasswd_file, 'r' );
@@ -83,6 +84,26 @@ class ActionGroupOptions extends enicActionGroup {
 					fwrite( $out, $htpasswd_output );
 					fclose( $out );
 
+					// Génération du fichier .htdigest
+					$htpasswd_file = realpath('./upload').'/.htdigest';
+					$htpasswd_output = '';
+					$in = fopen( $htpasswd_file, 'r' );
+					$htpasswd_updated = false;
+					if($in) while ( preg_match("/:/", $line = fgets($in) ) )
+					{
+						$line = rtrim( $line );
+						$a = explode( ':', $line );
+						if( $a[0] != 'classeur-'.$ppo->classeur->id) {
+							$htpasswd_output .= $line."\n";
+						}
+					}
+					$htpasswd_output .= $ppo->classeur->upload_fs.":Classeur:".md5($ppo->classeur->upload_fs.":Classeur:".$ppo->classeur->upload_pw)."\n";
+					fclose($in);
+
+					$out = fopen( $htpasswd_file, 'w' );
+					fwrite( $out, $htpasswd_output );
+					fclose( $out );
+
 
 					break;
 				case 'upload-delete':
@@ -95,7 +116,27 @@ class ActionGroupOptions extends enicActionGroup {
 					$ppo->classeur->upload_pw = null;
 					$classeurDAO->update( $ppo->classeur );
 
+					// Suppression de l'utilisateur dans le .htpasswd
 					$htpasswd_file = realpath('./upload').'/.htpasswd';
+					$htpasswd_output = '';
+					$in = fopen( $htpasswd_file, 'r' );
+					$htpasswd_updated = false;
+					if($in) while ( preg_match("/:/", $line = fgets($in) ) )
+					{
+						$line = rtrim( $line );
+						$a = explode( ':', $line );
+						if( $a[0] != 'classeur-'.$ppo->classeur->id) {
+							$htpasswd_output .= $line."\n";
+						}
+					}
+					fclose($in);
+
+					$out = fopen( $htpasswd_file, 'w' );
+					fwrite( $out, $htpasswd_output );
+					fclose( $out );
+
+					// Suppression de l'utilisateur dans le .htdigest
+					$htpasswd_file = realpath('./upload').'/.htdigest';
 					$htpasswd_output = '';
 					$in = fopen( $htpasswd_file, 'r' );
 					$htpasswd_updated = false;
