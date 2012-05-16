@@ -525,6 +525,17 @@ form select.multicombo {
 	padding: 6px;	
 	}
 
+input[required] {
+	-moz-box-shadow:0 0 3px #f00; -webkit-box-shadow:0 0 3px #f00; -o-box-shadow:0 0 3px #f00; box-shadow:0 0 3px #f00;
+}
+.asterisque {
+	display:inline-block;
+	width:10px; height:16px;
+	background:url(../img/red-star.png) no-repeat 0 0;
+	font-size:0px;
+	vertical-align:top;
+}
+
 /************************************************
  * Prise de controle
  ***********************************************/
