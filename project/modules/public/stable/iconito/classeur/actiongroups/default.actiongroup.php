@@ -137,12 +137,12 @@ class ActionGroupDefault extends enicActionGroup {
 		$modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
   	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 
-	if( $ppo->conf_ModClasseur_upload ) {
-		$classeurDAO = _ioDAO('classeur|classeur');
-		$folderDAO   = _ioDAO('classeur|classeurdossier');
-		$fichierDAO  = _ioDAO('classeur|classeurfichier');
-		$classeur    = $classeurDAO->get($ppo->classeurId);
-		$folder      = $folderDAO->get ($classeur->upload_db);
+	$classeurDAO = _ioDAO('classeur|classeur');
+	$folderDAO   = _ioDAO('classeur|classeurdossier');
+	$fichierDAO  = _ioDAO('classeur|classeurfichier');
+	$classeur    = $classeurDAO->get($ppo->classeurId);
+	$folder      = $folderDAO->get ($classeur->upload_db);
+	if( $ppo->conf_ModClasseur_upload && $classeur->upload_fs ) {
 
 		$nomClasseur = $classeur->id.'-'.$classeur->cle;
 		// $extension  = strtolower(strrchr($fichier->fichier, '.'));

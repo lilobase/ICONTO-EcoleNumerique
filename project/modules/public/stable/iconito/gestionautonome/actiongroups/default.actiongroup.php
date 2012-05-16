@@ -4905,44 +4905,13 @@ class ActionGroupDefault extends enicActionGroup {
                  break;
                case 3: 
                  $ppo->students[$key]['person'][$keyPerson]['nom_pa'] = strip_tags(trim($datas[$cpt]));
+                 $parentalLinks = _ioDAO('kernel_bu_lien_parental')->findAll();
+                 foreach($parentalLinks as $parentalLink) {
 
-                 switch (strip_tags(trim($datas[$cpt]))) {
-                   case 'MERE':
-                     $id_par = 1;
-                     break;
-                   case 'PERE':
-                     $id_par = 2;
-                     break;
-                   case 'FRERE':
-                     $id_par = 3;
-                     break;
-                   case 'SOEUR':
-                     $id_par = 4;
-                     break;
-                   case 'GRAND-PERE':
-                     $id_par = 5;
-                     break;
-                   case 'GRAND-MERE':
-                     $id_par = 6;
-                     break;
-                   case 'ONCLE':
-                     $id_par = 7;
-                     break;
-                   case 'TANTE':
-                     $id_par = 8;
-                     break;
-                   case 'COLLATERAUX':
-                     $id_par = 9;
-                     break;
-                   case 'TUTEUR':
-                     $id_par = 10;
-                     break;
-                   case 'INCONNU':
-                     $id_par = 11;
-                     break;
+                 	$formatedParentalLinks[strtoupper(Kernel::stripText($parentalLink->parente))] = $parentalLink->id_pa;
                  }
 
-                 $ppo->students[$key]['person'][$keyPerson]['id_par'] = $id_par;
+                 $ppo->students[$key]['person'][$keyPerson]['id_par'] = isset($formatedParentalLinks[strip_tags(trim($datas[$cpt]))]) ? $formatedParentalLinks[strip_tags(trim($datas[$cpt]))] : $formatedParentalLinks['INCONNU'];
                  break;
                }
            }
