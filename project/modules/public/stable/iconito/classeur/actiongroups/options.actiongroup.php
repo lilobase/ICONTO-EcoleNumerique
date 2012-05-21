@@ -26,6 +26,7 @@ class ActionGroupOptions extends enicActionGroup {
   public function processDefault() {
 		_classInclude('classeur|classeurService');
 		$classeurDAO = _ioDAO('classeur|classeur');
+		$dossierDAO = _ioDAO('classeur|classeurdossier');
 		$ppo->conf_ModClasseur_upload = (CopixConfig::exists ('default|conf_ModClasseur_upload')) ? CopixConfig::get ('default|conf_ModClasseur_upload') : 0;
 
 		if (is_null($ppo->classeur = $classeurDAO->get(_request ('classeurId', null)))) {
@@ -59,7 +60,7 @@ class ActionGroupOptions extends enicActionGroup {
 					if (!file_exists($dir)) {
 						mkdir($dir, 0755, true);
 						$htaccess = fopen( $dir.'.htaccess', 'w' );
-						fwrite( $htaccess, "<Limit GET HEAD OPTIONS POST>\nrequire user ".$ppo->classeur->upload_fs."\n</Limit>" );
+						fwrite( $htaccess, "<Limit GET HEAD OPTIONS POST>\n\trequire user ".$ppo->classeur->upload_fs."\n</Limit>\n<Files .htaccess>\n\torder allow,deny\n\tdeny from all\n</Files>\n" );
 						fclose( $htaccess );
 					}
 
@@ -160,10 +161,32 @@ class ActionGroupOptions extends enicActionGroup {
 					break;
 			}
 			$ppo->classeur = $classeurDAO->get($ppo->classeur->id);
+
+			$classeurs2htaccess_list = $classeurDAO->findBy( _daoSp()->addCondition('upload_fs','!=',null) );
+			$classeurs2htaccess_string = '';
+
+			/*
+			$classeurs2htaccess_string .= "<Directory ".realpath('./upload').">\n";
+			$classeurs2htaccess_string .= "\t<Limit GET HEAD OPTIONS POST>\n";
+			$classeurs2htaccess_string .= "\t\trequire user admin\n";
+			$classeurs2htaccess_string .= "\t</Limit>\n";
+			$classeurs2htaccess_string .= "</Directory>\n";
+			if($classeurs2htaccess_list) foreach( $classeurs2htaccess_list AS $classeurs2htaccess_item ) {
+				$classeurs2htaccess_string .= "<Directory ".realpath('./upload/'.$classeurs2htaccess_item->upload_fs).">\n";
+				$classeurs2htaccess_string .= "\t<Limit GET HEAD OPTIONS POST>\n";
+				$classeurs2htaccess_string .= "\t\trequire user ".$classeurs2htaccess_item->upload_fs."\n";
+				$classeurs2htaccess_string .= "\t</Limit>\n";
+				$classeurs2htaccess_string .= "</Directory>\n";
+			}
+
+			$htaccess_file = realpath('./upload').'/.htaccess';
+			$out = fopen( $htaccess_file, 'w' );
+			fwrite( $out, $classeurs2htaccess_string );
+			fclose( $out );
+			*/
 		}
 		$ppo->classeur->upload_url = CopixUrl::get()."upload/".$ppo->classeur->upload_fs."/";
 
-		$dossierDAO = _ioDAO('classeur|classeurdossier');
 		if($ppo->classeur->upload_db) $ppo->classeur->folder_infos = $dossierDAO->get($ppo->classeur->upload_db);
 		else $ppo->classeur->folder_infos = NULL;
 
