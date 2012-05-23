@@ -79,7 +79,7 @@ class ActionGroupDefault extends enicActionGroup {
 	    
 	    $csv = $tplResult->fetch ('account_listing_csv.tpl');
 	    
-	    header('Pragma: public');
+	  header('Pragma: public');
       header('Date: '.gmdate('D, d M Y H:i:s', time()).' GMT');
       header('Last-Modified: '.gmdate('D, d M Y H:i:s', time()).' GMT');
       header('Expires: '.gmdate('D, d M Y H:i:s',time()).' GMT');
@@ -88,9 +88,11 @@ class ActionGroupDefault extends enicActionGroup {
       header("Content-type: application/x-msexcel");
       header('Content-Disposition: attachment; filename="Comptes-'.date('YmdHi').'.csv"');
       header('Content-Transfer-Encoding: none');
-      header('Content-Length: '.strlen($csv));
+
+      $csv_utf16le = chr(255).chr(254).mb_convert_encoding($csv, 'UTF-16LE', 'UTF-8');
+      header('Content-Length: '.strlen($csv_utf16le));
       
-      echo chr(255).chr(254).mb_convert_encoding($csv, 'UTF-16LE', 'UTF-8');
+      echo $csv_utf16le;
       return _arNone();
 	  }
 	  
@@ -4851,12 +4853,12 @@ class ActionGroupDefault extends enicActionGroup {
          // Données de l'élève : nom - prénom - sexe - DDN
          if (isset ($datas[0])) {
 
-           $ppo->students[$key]['lastname'] = $datas[0];
+           $ppo->students[$key]['lastname'] = trim($datas[0]);
          }
 
          if (isset ($datas[1])) {
 
-           $ppo->students[$key]['firstname'] = $datas[1];
+           $ppo->students[$key]['firstname'] = trim($datas[1]);
          }
 
          if (isset ($datas[2])) {
@@ -4888,10 +4890,10 @@ class ActionGroupDefault extends enicActionGroup {
              switch ($cpt - (4*($keyPerson+1))) {
 
                case 0:
-                 $ppo->students[$key]['person'][$keyPerson]['lastname'] = $datas[$cpt];
+                 $ppo->students[$key]['person'][$keyPerson]['lastname'] = trim($datas[$cpt]);
                  break;
                case 1:       
-                 $ppo->students[$key]['person'][$keyPerson]['firstname'] = $datas[$cpt];
+                 $ppo->students[$key]['person'][$keyPerson]['firstname'] = trim($datas[$cpt]);
                  break; 
                case 2:
                  if (substr(trim($datas[$cpt]), 0, 1) == 'M') {
