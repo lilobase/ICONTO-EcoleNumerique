@@ -20,7 +20,11 @@ class ActionGroupComptes extends enicActionGroup {
 		
 		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
 		{
+			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
+			} else {
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('comptes||'), 'type'=>'users');
+			}
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl', 'current'=>'current');
 		}
 		if($this->user->root) 
@@ -541,11 +545,11 @@ class ActionGroupComptes extends enicActionGroup {
 		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_html'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'html')) );
 		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_txt'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'text')) );
 		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_cvs'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'csv')) );
-		 $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_xml'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'xml')) );
+		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_xml'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'xml')) );
 		// $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_pdf'), 'url' => CopixUrl::get ('comptes||getLoginResult', array('type'=>_request('type'),'id'=>_request('id'),'format'=>'pdf')) );
 		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_purge'), 'url' => CopixUrl::get ('comptes||getPurgeResult', array('type'=>_request('type'),'id'=>_request('id'))), 'color'=>'red' );
-		$menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_return'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
-		$tpl->assign ('MENU', $menu );
+		// $menu[] = array( 'txt' => CopixI18N::get ('comptes.menu.export_return'), 'url' => CopixUrl::get ('comptes||getNode', array('type'=>_request('type'),'id'=>_request('id'))) );
+		$tplLoginResult->assign ('MENU', $menu );
 		
 		
 		$logins = $inSession;
