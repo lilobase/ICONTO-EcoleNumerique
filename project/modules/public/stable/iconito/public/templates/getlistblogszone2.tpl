@@ -29,12 +29,6 @@
 			<td></td></tr></table>
 			</div>
 		
-		
-		
-		
-	{else}
-		
-		{i18n key="public.blog.noBlogs"}
 	
 	{/if}
 
