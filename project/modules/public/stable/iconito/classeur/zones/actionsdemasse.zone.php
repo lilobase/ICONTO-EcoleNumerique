@@ -17,6 +17,10 @@ class ZoneActionsDeMasse extends CopixZone {
 	  
 	  // Gestion des droits
 	  $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId);
+	  
+	  // Récupération du dossier courant
+	  $dossierDAO = _ioDAO('classeur|classeurdossier');
+	  $ppo->dossier = $dossierDAO->get($ppo->dossierId);
     
 	  $toReturn = $this->_usePPO ($ppo, '_actions_de_masse.tpl');
   }

@@ -19,9 +19,13 @@ class DAORecordClasseurFichier {
 		return !is_null($this->titre) ? $this->titre : $this->fichier;
 	}
 	
-	/**
+  /**
    * Retourne le path complet du fichier
    * sous la forme : /Classeur/Dossier1/Dossier2/...
+   *
+   * @param bool  $withStripText  StripText du path
+   *
+   * @return string
    */
 	public function getPath ($withStripText = true) {
 	  
@@ -128,6 +132,11 @@ class DAORecordClasseurFichier {
     return $toReturn;
   }
   
+  /**
+   * Retourne le chemin physique du fichier
+   *
+   * @return string Path du fichier
+   */
   public function getLienPhysique() {
     
     $classeurDAO = _ioDAO('classeur|classeur');	 	
@@ -168,6 +177,7 @@ class DAOClasseurFichier {
    *
    * @param int   $idClasseur
    * @param int   $idDossier
+   * @param array $tri          Tableau spécifiant la colonne et la direction à utiliser pour le tri
    *
    * @return CopixDAORecordIterator
    */

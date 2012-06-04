@@ -30,7 +30,7 @@
   
   <div class="row">
     <p class="label">{i18n key="classeur.message.destinationLocation"}</p>
-    <div class="field selectFolder">{copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeurId targetType=$ppo->destinationType targetId=$ppo->destinationId}</div>
+    <div class="field selectFolder">{copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeurId targetType=$ppo->destinationType targetId=$ppo->destinationId withLocker=0}</div>
   </div>
   
   <div class="submit">

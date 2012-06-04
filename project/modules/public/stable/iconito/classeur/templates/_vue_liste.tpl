@@ -11,6 +11,16 @@
           {/if}
           <a class="{if $ppo->tri.colonne eq "titre"}{$direction}{/if}" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId triColonne='nom' triDirection=$direction}">{i18n key="classeur.message.title"}</a>
         </th>
+        {if $ppo->dossier->casier}
+          <th>
+            {if $ppo->tri.colonne eq "origine" && $ppo->tri.direction eq "ASC"}
+              {assign var=direction value='DESC'}
+            {else}
+              {assign var=direction value='ASC'}
+            {/if}
+            <a class="{if $ppo->tri.colonne eq "origine"}{$direction}{/if}" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierId triColonne='origine' triDirection=$direction}">{i18n key="classeur.message.origine"}</a>
+          </th>
+        {/if}
         <th>
           {if $ppo->tri.colonne eq "type" && $ppo->tri.direction eq "ASC"}
             {assign var=direction value='DESC'}
@@ -44,7 +54,7 @@
         <tr class="folder even">
           <td>&nbsp;</td>
           <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$ppo->dossierParent->id}" title="{i18n key="classeur.message.openFolder" nom=$ppo->dossierParent->nom noEscape=1}" class="icon iconFolderUp">{i18n key="classeur.message.parentFolder"}</a></td>
-          <td colspan="4">&nbsp;</td>
+          <td colspan="{if $ppo->dossier->casier}5{else}4{/if}">&nbsp;</td>
         </tr>
         {assign var=index value=2}
       {elseif $ppo->classeurParent}
@@ -58,7 +68,7 @@
             {/if}
             <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}" class="icon iconFolderUp">{i18n key="classeur.message.parentFolder"}</a>
           </td>
-          <td colspan="4">&nbsp;</td>
+          <td colspan="{if $ppo->dossier->casier}5{else}4{/if}">&nbsp;</td>
         </tr>
         {assign var=index value=2}
       {/if}
@@ -71,6 +81,7 @@
         <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
           <td><input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" /></td>
           <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}" class="icon iconFolder">{$contenu->titre|escape}</a></td>
+          {if $ppo->dossier->casier}<td class="center">&nbsp;</td>{/if}
           <td class="center">{$contenu->type}</td>
           <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
           <td class="right">
@@ -105,6 +116,7 @@
           <tr class="{$contenu->type} {if $index%2 eq 0}odd{else}even{/if}">
             <td><input type="checkbox" class="check" name="fichiers[]" value="{$contenu->id}" /></td>
             <td><a href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$contenu->nom noEscape=1}" class="icon iconFavorite" target="_blank">{$contenu->titre|escape}</a></td>
+            {if $ppo->dossier->casier}<td class="center">&nbsp;</td>{/if}
             <td class="center">{$contenu->type}</td>
             <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>
@@ -136,6 +148,7 @@
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
             <td><input type="checkbox" class="check" name="fichiers[]" value="{$contenu->id}" /></td>
             <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" class="icon icon{$contenu->type|lower}" target="_blank">{$titre}</a></td>
+            {if $ppo->dossier->casier}<td class="center">{$contenu->user}</td>{/if}
             <td class="center">{$contenu->type}</td>
             <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>

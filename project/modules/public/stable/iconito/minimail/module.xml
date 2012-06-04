@@ -8,5 +8,6 @@
  	    <parameter name="list_nblines" captioni18n="minimail.parameter.list_nblines" default="10" />
 			<parameter name="attachment_size" captioni18n="minimail.parameter.attachment_size" default="2097152" />
 			<parameter name="default_format" captioni18n="minimail.parameter.default_format" default="ckeditor" />
+			<parameter name="system_sender_id" captioni18n="minimail.parameter.system_sender_id" default="1" />
   	</parameters>
 </moduledefinition>

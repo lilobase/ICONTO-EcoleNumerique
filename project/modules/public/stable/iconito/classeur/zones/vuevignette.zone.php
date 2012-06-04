@@ -28,11 +28,11 @@ class ZoneVueVignette extends CopixZone {
 		$fichierDAO = _ioDAO('classeur|classeurfichier');
 		$dossierDAO = _ioDAO('classeur|classeurdossier');
 		
-		if ($dossier = $dossierDAO->get($ppo->dossierId)) {
+		if ($ppo->dossier = $dossierDAO->get($ppo->dossierId)) {
 		  
-		  if ($dossier->parent_id != 0) {
+		  if ($ppo->dossier->parent_id != 0) {
 		   
-		    $ppo->dossierParent = $dossierDAO->get($dossier->parent_id); 
+		    $ppo->dossierParent = $dossierDAO->get($ppo->dossier->parent_id); 
 		  }
 		  else {
 		    
@@ -43,17 +43,25 @@ class ZoneVueVignette extends CopixZone {
 		  }
 		}
 		
-		$imgTypes = array('PNG', 'GIF', 'JPG', 'JPEG', 'png', 'gif', 'jpg', 'jpeg');
-		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
-		foreach ($ppo->contenus as $contenu) {
+		if (!$ppo->dossier->casier || $ppo->niveauUtilisateur >= PROFILE_CCV_MODERATE) {
 		  
-		  if ($contenu->content_type == 'fichier' && in_array($contenu->type, $imgTypes)) {
-		    
-		    $fichier = $fichierDAO->get($contenu->id);
-		    $contenu->lienMiniature = $fichier->getLienMiniature (90);
-		  }
+		  $imgTypes = array('PNG', 'GIF', 'JPG', 'JPEG', 'png', 'gif', 'jpg', 'jpeg');
+  		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
+  		foreach ($ppo->contenus as $contenu) {
+
+  		  if ($contenu->content_type == 'fichier' && in_array($contenu->type, $imgTypes)) {
+
+  		    $fichier = $fichierDAO->get($contenu->id);
+  		    $contenu->lienMiniature = $fichier->getLienMiniature (90);
+  		  }
+  		  if ($ppo->dossier->casier) {
+  		    
+  		    $user = Kernel::getUserInfo($contenu->user_type, $contenu->user_id);
+  		    $contenu->user = $user['prenom'].' '.$user['nom'];
+  		  }
+  		}
+  		$ppo->fileExtensionAllowed = array('ai', 'avi', 'bmp', 'css', 'csv', 'doc', 'docx', 'eps', 'gif', 'html', 'ico', 'jpg', 'jpeg', 'js', 'json', 'mov', 'mp3', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'pptx', 'psd', 'svg', 'swf', 'tiff', 'ttf', 'txt', 'wav', 'xls', 'xlsx', 'xml', 'zip');
 		}
-		$ppo->fileExtensionAllowed = array('ai', 'avi', 'bmp', 'css', 'csv', 'doc', 'docx', 'eps', 'gif', 'html', 'ico', 'jpg', 'jpeg', 'js', 'json', 'mov', 'mp3', 'odp', 'ods', 'odt', 'pdf', 'png', 'ppt', 'pptx', 'psd', 'svg', 'swf', 'tiff', 'ttf', 'txt', 'wav', 'xls', 'xlsx', 'xml', 'zip');
 		
 	  $toReturn = $this->_usePPO ($ppo, '_vue_vignette.tpl');
   }

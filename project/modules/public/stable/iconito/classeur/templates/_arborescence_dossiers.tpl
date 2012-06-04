@@ -16,7 +16,7 @@
     {if $ppo->field neq null && $ppo->format neq null}
     <a href="{copixurl dest="classeur||getClasseurPopup" classeurId=$ppo->classeurId dossierId=$dossier->id field=$ppo->field format=$ppo->format withPersonal=$ppo->withPersonal moduleType=$ppo->moduleType moduleId=$ppo->moduleId}">{$dossier->nom}</a>
     {else}
-    <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$dossier->id}">{$dossier->nom}</a>
+    <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$dossier->id}"{if $dossier->casier} class="locker"{/if}>{$dossier->nom}</a>
     {/if}
     </p>
     <ul class="child {if !isset($ppo->dossiersOuverts[$dossierId])}closed{/if}">

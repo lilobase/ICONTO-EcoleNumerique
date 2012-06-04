@@ -14,13 +14,16 @@ class DAORecordClasseur {
 	
 	/**
    * Indique si le classeur a des dossiers
-   * Retourne true s'il y a des dossiers, false sinon
+   *
+   * @param bool  $withLocker Prendre en compte les dossiers du type "casier"
+   *
+   * @return bool
    */
-	public function hasDossiers () {
+	public function hasDossiers ($withLocker = true) {
 	  
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
 	  
-	  return count($dossierDAO->getEnfantsDirects($this->id)->fetchAll()) > 0 ? true : false;
+	  return count($dossierDAO->getEnfantsDirects($this->id, null, $withLocker)->fetchAll()) > 0 ? true : false;
 	}
 }
 

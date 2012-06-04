@@ -15,6 +15,10 @@ class DAORecordClasseurDossier {
 	/**
    * Retourne le path complet du dossier
    * sous la forme : /Classeur/Dossier1/Dossier2/...
+   *
+   * @param bool  $withStripText  StripText du path
+   *
+   * @return string
    */
 	public function getPath ($withStripText = true) {
 	  
@@ -38,11 +42,18 @@ class DAORecordClasseurDossier {
 	  return '/'.implode('/', array_reverse($paths)).'/';
 	}
 	
-	public function hasSousDossiers () {
+	/**
+   * Indique si le dossier a des sous-dossiers
+   *
+   * @param bool  $withLocker Prendre en compte les dossiers du type "casier"
+   *
+   * @return bool
+   */
+	public function hasSousDossiers ($withLocker = true) {
 	  
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
 	  
-	  return count($dossierDAO->getEnfantsDirects($this->classeur_id, $this->id)->fetchAll()) > 0 ? true : false;
+	  return count($dossierDAO->getEnfantsDirects($this->classeur_id, $this->id, $withLocker)->fetchAll()) > 0 ? true : false;
 	}
 }
 
@@ -53,10 +64,12 @@ class DAOClasseurDossier {
    *
    * @param int   $idClasseur   Identifiant du classeur
    * @param int   $idDossier    Identifiant du dossier
+   * @param bool  $withLocker   Récupère également les dossiers de type "casier"
+   * @param array $tri          Tableau spécifiant la colonne et la direction à utiliser pour le tri
    *
    * @return CopixDAORecordIterator
    */
-  public function getEnfantsDirects($idClasseur, $idDossier = null, $tri = array()) {
+  public function getEnfantsDirects($idClasseur, $idDossier = null, $withLocker = true, $tri = array()) {
     
     $criteria = _daoSp ();
 		$criteria->addCondition ('classeur_id', '=', $idClasseur);
@@ -67,6 +80,11 @@ class DAOClasseurDossier {
 		else {
 		  
 		  $criteria->addCondition ('parent_id', '=', 0);
+		}
+		
+		if (!$withLocker) {
+		  
+		  $criteria->addCondition ('casier', '=', 0);
 		}
 		
 		if (!empty($tri)) {
@@ -94,7 +112,7 @@ class DAOClasseurDossier {
     
     $toReturn = array();
     
-    $sql = 'SELECT id, id AS dossier_id, parent_id AS parent_id, nom AS titre, nom AS fichier, nb_dossiers, nb_fichiers, taille, "---" AS type, date_creation AS date, user_type, user_id, "dossier" AS content_type'
+    $sql = 'SELECT id, id AS dossier_id, parent_id AS parent_id, nom AS titre, nom AS fichier, nb_dossiers, nb_fichiers, taille, "---" AS type, casier, date_creation AS date, user_type, user_id, "dossier" AS content_type'
         . ' FROM module_classeur_dossier'
         . ' WHERE module_classeur_id = :idClasseur';
     if (!is_null($idDossier)) {
@@ -104,7 +122,7 @@ class DAOClasseurDossier {
     
     $sql .= ' UNION';
     
-    $sql .= ' SELECT id, module_classeur_dossier_id AS dossier_id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, date_upload AS date, user_type, user_id, "fichier" AS content_type'
+    $sql .= ' SELECT id, module_classeur_dossier_id AS dossier_id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, "" AS casier, date_upload AS date, user_type, user_id, "fichier" AS content_type'
         . ' FROM module_classeur_fichier'
         . ' WHERE module_classeur_id = :idClasseur';
     if (!is_null($idDossier)) {

@@ -45,7 +45,7 @@
     <p class="field"><textarea name="fichier_commentaire" id="fichier_commentaire">{$ppo->fichier->commentaire}</textarea></p>
   </div>
   
-  {if $ppo->fichier->id eq null}
+  {if $ppo->fichier->id eq null && !$ppo->dossier->casier}
   <div class="row">
     <label for="with_decompress">{i18n key="classeur.message.zipFile"}</label>
     <p class="field"><input type="checkbox" id="with_decompress" name="with_decompress" value="1" /> <label for="with_decompress">{i18n key="classeur.message.withDecompress"}</label></p>

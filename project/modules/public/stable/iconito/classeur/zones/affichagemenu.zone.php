@@ -26,8 +26,8 @@ class ZoneAffichageMenu extends CopixZone {
 	  if (!is_null($ppo->dossierId) && $ppo->dossierId != 0) {
 	    
 	    $dossierDAO = _ioDAO('classeur|classeurdossier');
-	    $dossier = $dossierDAO->get($ppo->dossierId);
-	    if ($dossier->public) {
+	    $ppo->dossier = $dossierDAO->get($ppo->dossierId);
+	    if ($ppo->dossier->public) {
 	      
 	      $ppo->estPublic = true;
 	    }
