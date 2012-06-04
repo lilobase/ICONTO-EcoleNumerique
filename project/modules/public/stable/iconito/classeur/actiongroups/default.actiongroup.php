@@ -423,7 +423,11 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
   public function processEditerFichiers () {
     
+    _classInclude('sysutils|StatsServices');
+
     $ppo = new CopixPPO ();
+    $ppo->conf = new CopixPPO();
+    $ppo->conf->max_file_size = StatsServices::human2octets(ini_get('upload_max_filesize'));
     
     if (is_null($ppo->classeurId = _request ('classeurId'))) {
 	    

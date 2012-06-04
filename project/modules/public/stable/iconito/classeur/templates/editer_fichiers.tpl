@@ -23,17 +23,21 @@
   <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
   <input type="hidden" name="fichierId" id="fichierId" value="{$ppo->fichier->id}" />
   <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
+  <input type="hidden" name="MAX_FILE_SIZE" value="{$ppo->conf->max_file_size}">
   
   <div class="row">
-    <label for="fichiers" class="form_libelle">{i18n key="classeur.message.files"}</label>
+    <label for="fichiers" class="form_libelle">{i18n key="classeur.message.file"}</label>
     <p class="field">{if $ppo->fichier->id neq null}{if $ppo->fichier->estUneImage()}<img src="{$ppo->fichier->getLienMiniature(45)}" />{else}{$ppo->fichier}{/if}<br />{/if}
     <input id="fichier" name="fichier[]" type="file" /></p>
+    {if $ppo->fichier->id eq null}
+    <p class="field info">{i18n key="classeur.message.maxfilesize} {$ppo->conf->max_file_size|human_file_size}</p>
+    {/if}
   </div>
   
   <div class="row">
     <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
     <p class="field"><input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" /></p>
-    <span id="title_note" style="display: none;">{i18n key="classeur.message.titleNote"}</span>
+    <p class="field info" id="title_note" style="display: none;">{i18n key="classeur.message.titleNote"}</p>
   </div>
   
   <div class="row">
