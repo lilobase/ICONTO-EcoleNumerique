@@ -30,6 +30,10 @@ div.dashboard div.content {
 	float:none;
 	width:350px;
 }
+#sidebar .locked {
+	padding:0 0 0 20px;
+	background:url(../../../themes/default/images/icon-16/icon-folder-locked.png) no-repeat 0% 50%;
+}
 #sidebar ul, .selectFolder ul {
   margin:0; padding:0;
   list-style:none;
@@ -117,6 +121,7 @@ div.dashboard div.content {
 #classeur .listView a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
 #classeur .listView a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
 #classeur .listView a.iconFolderUp {background-image:url(../../../themes/default/images/icon-16/icon-folder-up.png);}
+#classeur .listView a.iconFolderLocked {background-image:url(../../../themes/default/images/icon-16/icon-folder-locked.png);}
 #classeur .listView a.iconai {background-image:url(../../../themes/default/images/icon-16/icon-ai.png);}
 #classeur .listView a.iconavi {background-image:url(../../../themes/default/images/icon-16/icon-avi.png);}
 #classeur .listView a.iconbmp {background-image:url(../../../themes/default/images/icon-16/icon-bmp.png);}

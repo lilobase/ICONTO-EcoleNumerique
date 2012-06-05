@@ -56,7 +56,7 @@
       {if $contenu->content_type eq "dossier"}
         <li class="folder">
           <div class="datas">
-            <a class="icon{if $contenu->casier} locker{/if}" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder.png" /></a>
+            <a class="icon" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder{if $contenu->casier}-locked{/if}.png" /></a>
             <p class="footerData">
                 <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" />
                 <span class="name">
