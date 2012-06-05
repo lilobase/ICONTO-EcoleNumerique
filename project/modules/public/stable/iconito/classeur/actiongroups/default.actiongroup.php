@@ -510,30 +510,52 @@ class ActionGroupDefault extends enicActionGroup {
       // S'il s'agit d'une modification de fichier
       if (!is_null(_request('fichierId', null))) {
         
+        $ppo->fichier->titre         = _request('fichier_titre', null);
+        $ppo->fichier->commentaire   = _request('fichier_commentaire', null);
+
         // Contrôle upload du fichier
         if (is_uploaded_file($_FILES['fichier']['tmp_name'][0])) {
           
           $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
-          $extension = strtolower(strrchr($ppo->fichier->fichier, '.'));
-  				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
-  				// Suppression de l'ancien fichier
-  				if (file_exists($fichierPhysique)) {
-  				  
-  					unlink($fichierPhysique);
-  				}
-  				
-  				$ppo->fichier->fichier       = $_FILES['fichier']['name'][0];
+          $oldExtension = strtolower(strrchr($ppo->fichier->fichier, '.'));
+          $fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$oldExtension;
+          // Suppression de l'ancien fichier
+          if (file_exists($fichierPhysique)) {
+            
+            unlink($fichierPhysique);
+          }
+
+          $extension = strtolower(strrchr($_FILES['fichier']['name'][0], '.'));
+          // Nom particulier dans le cas d'un casier (nom de l'élève présent dans le nom du fichier)
+          if (isset($ppo->dossier) && $ppo->dossier->casier) {
+            
+            $user = Kernel::getUserInfo($ppo->fichier->user_type, $ppo->fichier->user_id);
+            $ppo->fichier->fichier = $ppo->fichier->titre.'_'.$user['prenom'].'_'.$user['nom'].$extension;
+          }
+          else {
+            
+            $ppo->fichier->fichier = $_FILES['fichier']['name'][0];
+          }
+
           $ppo->fichier->taille        = filesize($_FILES['fichier']['tmp_name'][0]);
           $ppo->fichier->type          = strtoupper(substr(strrchr($_FILES['fichier']['name'][0], '.'), 1));
-          
-          $extension = strtolower(strrchr($_FILES['fichier']['name'][0], '.'));
-  				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
-  				move_uploaded_file ($_FILES['fichier']['tmp_name'][0], $fichierPhysique);
-  			}
-  			
-  			$ppo->fichier->titre         = _request('fichier_titre', null);
-        $ppo->fichier->commentaire   = _request('fichier_commentaire', null);
-        
+
+          $fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
+          move_uploaded_file ($_FILES['fichier']['tmp_name'][0], $fichierPhysique);
+        }
+        else {
+
+          // Nom particulier dans le cas d'un casier (nom de l'élève présent dans le nom du fichier)
+          if (isset($ppo->dossier) && $ppo->dossier->casier) {
+            
+            $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+            $extension = strtolower(strrchr($ppo->fichier->fichier, '.'));
+
+            $user = Kernel::getUserInfo($ppo->fichier->user_type, $ppo->fichier->user_id);
+            $ppo->fichier->fichier = $ppo->fichier->titre.'_'.$user['prenom'].'_'.$user['nom'].$extension;
+          }
+        }
+
         // Mise à jour de l'enregistrement fichier
         $fichierDAO->update($ppo->fichier);
         
@@ -703,29 +725,29 @@ class ActionGroupDefault extends enicActionGroup {
           // Suppression du dossier TMP
           classeurService::rmdir_recursive($ppo->dossierTmp);
 
+          $confirmMessage = CopixI18N::get ('classeur|classeur.message.success');
+
           // Mise à jour des informations du dossier parent
           if ($ppo->dossier) {
             
             classeurService::updateFolderInfos($ppo->dossier);
+
+            // Minimail de confirmation dans le cas de l'upload d'un fichier dans un casier
+            if ($ppo->dossier->casier) {
+
+              _classInclude('minimail|minimailService');
+            
+              $msg_title    = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerTitle', date('d/m/Y'));
+              $msg_body     = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerBody', array(date('d/m/Y'), $nomFichierPhysique));
+              
+              MinimailService::sendMinimail ($msg_title, $msg_body, CopixConfig::get('minimail|system_sender_id'), array(_currentUser ()->getId() => 1), CopixConfig::get ('minimail|default_format'));
+              
+              $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerMessage', array($nomFichierPhysique));
+            }
           }
-
-          $confirmMessage = CopixI18N::get ('classeur|classeur.message.success');
-        }
-        
-        // Minimail de confirmation dans le cas de l'upload d'un fichier dans un casier
-        if ($ppo->dossier->casier) {
-          
-          _classInclude('minimail|minimailService');
-          
-          $msg_title    = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerTitle', date('d/m/Y'));
-          $msg_body     = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerBody', array(date('d/m/Y'), $nomFichierPhysique));
-          
-          MinimailService::sendMinimail ($msg_title, $msg_body, CopixConfig::get('minimail|system_sender_id'), array(_currentUser ()->getId() => 1), CopixConfig::get ('minimail|default_format'));
-          
-          $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerMessage', array($nomFichierPhysique));
-        }
-
-        return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->dossierId, 'confirmMessage' => $confirmMessage)));
+      }
+      
+      return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->dossierId, 'confirmMessage' => $confirmMessage)));
     }
     
     $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
