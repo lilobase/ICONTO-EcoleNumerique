@@ -565,3 +565,10 @@ div.prise_controle a.stopper {
 }
 
 
+/************************************************
+ * FANCYBOX LINK
+ ***********************************************/
+ a.fancyframe {
+	 display:inline-block;
+	 margin:0.5em 0;
+ }
