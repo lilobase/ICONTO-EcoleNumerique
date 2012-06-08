@@ -7,7 +7,9 @@ div#fichesecoles > p.right {margin:0;}
 div#fichesecoles table {
   width:100%;
 }
-div#fichesecoles > table {width:98%;}
+div#fichesecoles > table {width:100%;
+	table-layout:fixed;
+}
 div#fichesecoles td.pratique {
 	vertical-align:top;
 	width:240px;
@@ -65,10 +67,18 @@ div#fichesecoles .contentBox {
 	padding:5px;
 	-webkit-border-radius:8px; -moz-border-radius:8px; border-radius:8px;
 }
-div#fichesecoles div.classes, 
-div#fichesecoles div.horaires {
-	width:260px;
+div#fichesecoles .contentBox * {
+	padding:0; margin:0; border:0;
 }
+div#fichesecoles .contentBox p {
+	margin:0.5em 0;
+}
+div#fichesecoles .contentBox ul,
+div#fichesecoles .contentBox ol {
+	margin:0.5em 1.5em;
+}
+div#fichesecoles .contentBox a {text-decoration:underline;}
+div#fichesecoles .contentBox a:hover {text-decoration:none;}
 div#fichesecoles div.classes div.fiche,
 div#fichesecoles div.horaires div.fiche {
 	margin-top:0;
@@ -112,29 +122,19 @@ div#fichesecoles div#ficheblogs div.annee select {
 
 
 /* ADMIN */
-input.zone_ville_titre, input.zone_titre {
-  width:300px;
+table.editItems {
+	margin:0 auto;
 }
-textarea.zone_texte {
-  height:80px;
-  width:320px;
+table.editItems td input[type="text"] {width:98%;}
+table.editItems td input#time_bact,
+table.editItems td input#date_bact {width:auto;}
+table.editItems th { 
+	padding:0.5em 5px 0 0;
+	text-align:right;
+	vertical-align:top;
 }
-textarea.zone_horaires {
-  height:100px;
-  width:310px;
+table.editItems tr.editCss th, table.editItems tr.editCss td {padding:60px 5px 0 0;}
+table.editItems th.alignTop { padding-top:5px; vertical-align:text-top;}
+table.editItems textarea {
+	width:98%; min-height:120px;
 }
-td.form_libelle, td.form_saisie {
-    vertical-align:top;
-    
-}
-td.form_libelle {
-  white-space:nowrap;
-}
-form.ficheEcoleForm label {
-    color:inherit;
-    display:inline;
-}
-form.ficheEcoleForm input.doc_titre {
-    width:520px;
-}
-

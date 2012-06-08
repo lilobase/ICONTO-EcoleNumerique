@@ -17,6 +17,7 @@ class ZoneEdition extends CopixZone {
      * @param string $format Format à utiliser (html, wiki...)
      * @param string $content Contenu "brut" saisi
      * @param array $objet (option) Module dans lequel se trouve la zone d'édition, dans un tableau indexé avec TYPE et ID (exemple: type=>MOD_BLOG, id=>4). Si positionné, on va vérifier si le parent de cet objet a un album photos, et si oui on affiche le lien vers l'album photos en mode popup
+     * @param array $object_parent Identique à $object, mais on reçoit directement le parent
      * @param integer $width (option) Largeur de la zone de saisie
      * @param integer $height (option) Hauteur de la zone de saisie
      * @param array $options (option) Options permettant de personnaliser la zone
@@ -28,6 +29,7 @@ class ZoneEdition extends CopixZone {
         $format = $this->getParam('format', NULL);
         $content = $this->getParam('content', NULL);
         $object = $this->getParam('object', array());
+        $object_parent = $this->getParam('object_parent', array());
         $width = $this->getParam('width', 650);
         $height = $this->getParam('height', 300);
         $class = $this->getParam('class');
@@ -49,22 +51,22 @@ class ZoneEdition extends CopixZone {
 
             switch ($format) {
                 case "wiki" :
-                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object)));
+                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object, 'object_parent' => $object_parent)));
                     break;
                 case "html" :
-                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object)));
+                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object, 'object_parent' => $object_parent)));
                     break;
                 case "htmlnl2br" :
-                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object)));
+                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object, 'object_parent' => $object_parent)));
                     break;
                 case "dokuwiki" :
-                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object)));
+                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => $format, 'object' => $object, 'object_parent' => $object_parent)));
                     break;
                 case "fckeditor" :
                 case "ckeditor" :
                     CopixHTMLHeader::addJSLink(_resource('js/ckeditor/ckeditor.js'));
                     CopixHTMLHeader::addJSLink(_resource('js/ckeditor/config.js'));
-                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => 'ckeditor', 'object' => $object)));
+                    $tpl->assign('wikibuttons', CopixZone::process('kernel|wikibuttons', array('field' => $field, 'format' => 'ckeditor', 'object' => $object, 'object_parent' => $object_parent)));
                     break;
             }
 

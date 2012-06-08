@@ -105,7 +105,7 @@
                 <div class="horaires contentBox">
                     <img class="icon" alt="{i18n key="dao.fiches_ecoles.fields.horaires"}" title="{i18n key="dao.fiches_ecoles.fields.horaires"}" border="0" width="32" height="32" src="{copixresource path="img/fichesecoles/icon_horaires.gif"}" />
                          <div class="fiche">{i18n key="dao.fiches_ecoles.fields.horaires"}</div>
-                    <div>{$rFiche->horaires|escape|nl2br}</div>
+                    <div>{$rFiche->horaires}</div>
                 </div>
                 {/if}
             </td>
@@ -123,22 +123,22 @@
             <td class="texte" colspan="2">
                 {if $rFiche->zone1_titre && $rFiche->zone1_texte}
                 <div class="fiche">{$rFiche->zone1_titre|escape}</div>
-                <div class="contentBox">{$rFiche->zone1_texte|escape|nl2br}</div>
+                <div class="contentBox">{$rFiche->zone1_texte}</div>
                 {/if}
 
                 {if $rFiche->zone2_titre && $rFiche->zone2_texte}
                 <div class="fiche">{$rFiche->zone2_titre|escape}</div>
-                <div class="contentBox">{$rFiche->zone2_texte|escape|nl2br}</div>
+                <div class="contentBox">{$rFiche->zone2_texte}</div>
                 {/if}
 
                 {if $rFiche->zone3_titre && $rFiche->zone3_texte}
                 <div class="fiche">{$rFiche->zone3_titre|escape}</div>
-                <div class="contentBox">{$rFiche->zone3_texte|escape|nl2br}</div>
+                <div class="contentBox">{$rFiche->zone3_texte}</div>
                 {/if}
 
                 {if $rFiche->zone4_titre && $rFiche->zone4_texte}
                 <div class="fiche">{$rFiche->zone4_titre|escape}</div>
-                <div class="contentBox">{$rFiche->zone4_texte|escape|nl2br}</div>
+                <div class="contentBox">{$rFiche->zone4_texte}</div>
                 {/if}
             </td>
         </tr>
