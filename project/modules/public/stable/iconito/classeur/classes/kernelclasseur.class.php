@@ -64,9 +64,11 @@ class KernelClasseur {
 		$ext='';
 		switch( strtolower(strrchr($image['file'], ".")) ) {
 			case '.jpg':
-			case '.jpeg':
 			case '.jpe':
 				$ext="jpg";
+				break;
+			case '.jpeg':
+				$ext="jpeg";
 				break;
 			case '.gif':
 				$ext="gif";

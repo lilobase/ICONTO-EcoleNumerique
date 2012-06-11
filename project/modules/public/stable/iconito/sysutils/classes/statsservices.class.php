@@ -20,4 +20,26 @@ class StatsServices
             $filesizename[$i] : "0";
     }
 
+    function human2octets($chaine)
+    {
+        $ok = preg_match('/^(\d+)([K|k|M|m|G|g])/', $chaine, $size);
+        if ($ok) {
+            switch($size[2]) {
+                case "k":
+                case "K":
+                    return (int)($size[1]*1024);
+                case "m":
+                case "M":
+                    return (int)($size[1]*1024*1024);
+                case "g":
+                case "G":
+                    return (int)($size[1]*1024*1024*1024);
+                default :
+                    return $chaine;
+            }
+        } else {
+            return $chaine;
+        }
+    }
+
 }

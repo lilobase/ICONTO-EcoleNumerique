@@ -235,6 +235,10 @@ div.dashboard div.content {
 #classeur form div.row .field {
 	margin:0 0 0 40%;
 }
+#classeur form div.row .field.info{
+	font-style:italic;
+}
+
 #classeur form .row input[type="text"], #classeur form .row input[type="url"], #classeur form .row input[type="email"], #classeur form .row textarea {
 	width:350px;
 }

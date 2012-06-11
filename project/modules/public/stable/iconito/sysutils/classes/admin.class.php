@@ -21,7 +21,8 @@ class Admin {
 	 * @return boolean True s'il peut, false sinon
 	 */
   function canAdmin () {
-    return (_currentUser()->getExtra('type') == 'USER_EXT' && _currentUser()->getExtra('id')==1);
+    return (Kernel::isAdmin());
+    // return (_currentUser()->getExtra('type') == 'USER_EXT' && _currentUser()->getExtra('id')==1);
   }
 
 	

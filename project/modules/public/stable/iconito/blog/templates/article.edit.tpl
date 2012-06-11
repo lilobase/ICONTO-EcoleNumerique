@@ -41,15 +41,15 @@ function doUrl (pUrl) {
 	{/if}
 	<form name="articleEdit" action="{copixurl dest="blog|admin|validArticle" kind=$kind}" method="post" class="copixForm">
 <input type="hidden" name="go" value="preview" />
-	
+	<p class="center">{i18n key='kernel|kernel.fields.oblig' noEscape=1}</p>
 	<table class="editItems">
 	
 	   <tr>
-	      <td>{i18n key='dao.blogarticle.fields.name_bact'}</td>
-		  	<td><input type="text" name="name_bact" value="{$article->name_bact|escape}" class="form" style="width:300px;" /></td>
+	      <td>{i18n key='dao.blogarticle.fields.name_bact'} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /></td>
+		  	<td><input type="text" name="name_bact" value="{$article->name_bact|escape}" class="form" style="width:300px;" required /></td>
 	   </tr>
 	   <tr>
-	      <td>{i18n key='blog.nav.categories'}</td>
+	      <td>{i18n key='blog.nav.categories'} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /></td>
 		  	<td>
 		  		{foreach from=$tabArticleCategory item=cat}
 		  			 <input type="checkbox" id="tabSelectCat_{$cat->id_bacg}" name="tabSelectCat[]" value="{$cat->id_bacg}" {if $cat->selected}checked{/if} /><label for="tabSelectCat_{$cat->id_bacg}"> {$cat->name_bacg}</label><br />

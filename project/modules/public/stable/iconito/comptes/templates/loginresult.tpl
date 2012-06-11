@@ -1,3 +1,12 @@
+{if $MENU}
+	<p>
+	Export :
+	{foreach from=$MENU item=menu_item name=menu}
+		{if ! $smarty.foreach.menu.first} | {/if}
+		<a href="{$menu_item.url}">{$menu_item.txt|escape}</a>
+	{/foreach}
+	</p>
+{/if}
 <table border="0" CLASS="liste" ALIGN="CENTER" CELLSPACING=2 CELLPADDING=2>
 	<tr>
 		<th CLASS="liste_th">{i18n key="comptes|comptes.colonne.nom"}</th>

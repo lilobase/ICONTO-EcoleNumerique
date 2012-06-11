@@ -137,12 +137,12 @@ class ActionGroupDefault extends enicActionGroup {
 		$modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
   	$ppo->TITLE_PAGE = $modParentInfo['nom'];
 
-	if( $ppo->conf_ModClasseur_upload ) {
-		$classeurDAO = _ioDAO('classeur|classeur');
-		$folderDAO   = _ioDAO('classeur|classeurdossier');
-		$fichierDAO  = _ioDAO('classeur|classeurfichier');
-		$classeur    = $classeurDAO->get($ppo->classeurId);
-		$folder      = $folderDAO->get ($classeur->upload_db);
+	$classeurDAO = _ioDAO('classeur|classeur');
+	$folderDAO   = _ioDAO('classeur|classeurdossier');
+	$fichierDAO  = _ioDAO('classeur|classeurfichier');
+	$classeur    = $classeurDAO->get($ppo->classeurId);
+	$folder      = $folderDAO->get ($classeur->upload_db);
+	if( $ppo->conf_ModClasseur_upload && $classeur->upload_fs ) {
 
 		$nomClasseur = $classeur->id.'-'.$classeur->cle;
 		// $extension  = strtolower(strrchr($fichier->fichier, '.'));
@@ -423,7 +423,11 @@ class ActionGroupDefault extends enicActionGroup {
 	 */
   public function processEditerFichiers () {
     
+    _classInclude('sysutils|StatsServices');
+
     $ppo = new CopixPPO ();
+    $ppo->conf = new CopixPPO();
+    $ppo->conf->max_file_size = StatsServices::human2octets(ini_get('upload_max_filesize'));
     
     if (is_null($ppo->classeurId = _request ('classeurId'))) {
 	    
