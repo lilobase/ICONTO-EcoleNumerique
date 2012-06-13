@@ -61,7 +61,7 @@ class ActionGroupCharte extends enicActionGroup{
         // Malle activée
         if (!empty($malleAvailable)) {
           
-          $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->id);
+          $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->idEn);
           $mal = Kernel::filterModuleList ($modsEnabled, 'MOD_MALLE');
           
           // Si la malle est bien initialisée
@@ -81,8 +81,8 @@ class ActionGroupCharte extends enicActionGroup{
           // Classeur activé
           if (!empty($classeurAvailable)) {
             
-            Kernel::createMissingModules($this->user->type, $this->user->id);
-            $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->id);
+            Kernel::createMissingModules($this->user->type, $this->user->idEn);
+            $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->idEn);
             $classeur = Kernel::filterModuleList ($modsEnabled, 'MOD_CLASSEUR');
             
             if (!empty($classeur)) {
