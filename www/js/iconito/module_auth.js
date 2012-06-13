@@ -4,6 +4,10 @@ $(document).ready(function(){
 	$('#passwordLabel').after('<div id="passwordLabelMask">'+$('#passwordLabel').html()+'</div>').hide();
 	/* Si la valeur est automatiquement inséré par le navigateur (enregistrement des accès), on vire les styles */
 	
+	// Chargement initial (le navigateur peut avoir rempli les champs
+	checkInputStatus('login');
+	checkInputStatus('password');
+	
 	/* Gestion des interactions de l'utilisateur */
 	$('#login').change(function() {checkInputStatus('login');});
 	$('#login').focusin(function(){$('#loginLabelMask').hide();});
