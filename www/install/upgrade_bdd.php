@@ -41,7 +41,7 @@ if (preg_match('/dbname=([0-9A-Za-z-_\.]+);?(host=)?([0-9A-Za-z-_\.]+)?/', $dbOp
   //echo '<pre>'; print_r($regs); echo '</pre>';
 }
 
-$_SESSION['install_iconito']['host'] = 'localhost';
+$_SESSION['install_iconito']['host'] = $host;
 $_SESSION['install_iconito']['database'] = $database;
 $_SESSION['install_iconito']['login'] = $dbOpt['user'];
 $_SESSION['install_iconito']['password'] = $dbOpt['password'];

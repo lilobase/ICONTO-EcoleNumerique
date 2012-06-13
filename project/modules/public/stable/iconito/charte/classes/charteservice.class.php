@@ -17,7 +17,7 @@ class CharteService {
     }
 
     public function checkUserValidation(){
-        if($this->db->query('SELECT COUNT(id) FROM module_charte_users_validation WHERE user_id = '.$this->user->id)->count() != 0){
+        if($this->db->query('SELECT COUNT(id) FROM module_charte_users_validation WHERE user_id = '.$this->user->id)->count() != 0){ // id_copix !!!
             $_SESSION['chartValid'] = true;
             return  true;
         }elseif($this->db->query('SELECT COUNT(id) FROM module_charte_chartes WHERE user_type = "'.$this->user->type.'" AND active = 1')->count() != 0){
@@ -39,7 +39,7 @@ class CharteService {
 
     public function addUserValidation($iUserType){
         $datas['date'] = time();
-        $datas['user_id'] = $this->user->id;
+        $datas['user_id'] = $this->user->id; // id_copix !!!
         $datas['charte_id'] = 1;
         $datas['user_type'] = '"'.$iUserType.'"';
         $this->db->create('module_charte_users_validation', $datas);
