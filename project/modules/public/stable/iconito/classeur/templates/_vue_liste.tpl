@@ -80,7 +80,7 @@
       {if $contenu->content_type eq "dossier"}
         <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
           <td><input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" /></td>
-          <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}" class="icon iconFolder">{$contenu->titre|escape}</a></td>
+          <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}" class="icon iconFolder {if $contenu->casier}iconFolderLocked{/if}">{$contenu->titre|escape}</a></td>
           {if $ppo->dossier->casier}<td class="center">&nbsp;</td>{/if}
           <td class="center">{$contenu->type}</td>
           <td>{$contenu->date|datei18n:"date_short_time"}</td>
