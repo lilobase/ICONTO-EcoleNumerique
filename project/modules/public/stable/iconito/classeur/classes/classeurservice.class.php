@@ -375,6 +375,10 @@ class ClasseurService {
 		// Pour chaque sous dossiers on rappelle la méthode
 		$subfolders = $folderDAO->getEnfantsDirects ($folder->classeur_id, $folder->id);
 		foreach ($subfolders as $subfolder) {
+
+      // En cas de copie, le copieur devient le propriétaire de la copie
+      $subfolder->user_type = $folder->user_type;
+      $subfolder->user_id   = $folder->user_id;
 		  
 		  self::copyFolder ($subfolder, 'dossier', $clone->id);
 		}
@@ -384,6 +388,10 @@ class ClasseurService {
       
   		$files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
   		foreach($files as $file) {
+
+        // En cas de copie, le copieur devient le propriétaire de la copie
+        $file->user_type = $folder->user_type;
+        $file->user_id   = $folder->user_id;
 
   		  self::copyFile ($file, 'dossier', $clone->id);
   		}

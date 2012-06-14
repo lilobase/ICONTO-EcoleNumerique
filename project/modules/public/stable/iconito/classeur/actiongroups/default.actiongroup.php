@@ -1400,9 +1400,13 @@ class ActionGroupDefault extends enicActionGroup {
           if (($destinationType == 'dossier' && !classeurService::isDescendantOf($dossierDestination, $dossier)) 
             || $destinationType == 'classeur') {
             
-            // On ne déplace que les dossiers pouvant l'être
+            // On ne copie que les dossiers pouvant l'être
             if ($dossier = $dossierDAO->get($arDossierId) && !$dossier->casier) {
               
+              // En cas de copie, le copieur devient le propriétaire de la copie
+              $dossier->user_type = _currentUser()->getExtra('type');
+              $dossier->user_id   = _currentUser()->getExtra('id');
+
               classeurService::copyFolder($dossier, $destinationType, $destinationId);
             }
           }
@@ -1414,6 +1418,11 @@ class ActionGroupDefault extends enicActionGroup {
         foreach ($arFichierIds as $arFichierId) {
           
           $fichier = $fichierDAO->get($arFichierId);
+
+          // En cas de copie, le copieur devient le propriétaire de la copie
+          $fichier->user_type = _currentUser()->getExtra('type');
+          $fichier->user_id   = _currentUser()->getExtra('id');
+
           classeurService::copyFile($fichier, $destinationType, $destinationId);
         }
       }
@@ -1746,7 +1755,6 @@ class ActionGroupDefault extends enicActionGroup {
 		foreach ($images as $image) {
 		  
 			$this->copyResized( $path2classeur.'/'.$image, $path2album.'/images/'.$image, 800 );
-			// copy($path2classeur.'/'.$image, $path2album.'/images/'.$image);
 		}
 		
 		// Création du fichier index.html nécessaire à l'affichage de l'album

@@ -83,7 +83,7 @@
           <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}" class="icon iconFolder">{$contenu->titre|escape}</a></td>
           {if $ppo->dossier->casier}<td class="center">&nbsp;</td>{/if}
           <td class="center">{$contenu->type}</td>
-          <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
+          <td>{$contenu->date|datei18n:"date_short_time"}</td>
           <td class="right">
             {if $contenu->nb_dossiers neq 0}
               {$contenu->nb_dossiers} {if $contenu->nb_dossiers eq 1}{i18n key="classeur.message.folder"}{else}{i18n key="classeur.message.folders"}{/if}
@@ -118,7 +118,7 @@
             <td><a href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$contenu->nom noEscape=1}" class="icon iconFavorite" target="_blank">{$contenu->titre|escape}</a></td>
             {if $ppo->dossier->casier}<td class="center">&nbsp;</td>{/if}
             <td class="center">{$contenu->type}</td>
-            <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
+            <td>{$contenu->date|datei18n:"date_short_time"}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>
             <td class="center actions">
               {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
@@ -150,7 +150,7 @@
             <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" class="icon icon{$contenu->type|lower}" target="_blank">{$titre}</a></td>
             {if $ppo->dossier->casier}<td class="center">{$contenu->user}</td>{/if}
             <td class="center">{$contenu->type}</td>
-            <td>{$contenu->date|datei18n:"date_short_time"|substr:0:10}</td>
+            <td>{$contenu->date|datei18n:"date_short_time"}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>
             <td class="center actions">
               {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
