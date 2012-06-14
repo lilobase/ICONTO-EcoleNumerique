@@ -79,7 +79,7 @@
         <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
           <td><input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" /></td>
           <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}" class="icon iconFolder {if $contenu->casier}iconFolderLocked{/if}">{$contenu->titre|escape}</a></td>
-          <td class="center">{$contenu->prenom} {$contenu->nom}</td>
+          <td class="center">{$contenu->origine}</td>
           <td class="center">{$contenu->type}</td>
           <td>{$contenu->date|datei18n:"date_short_time"}</td>
           <td class="right">
@@ -114,7 +114,7 @@
           <tr class="{$contenu->type} {if $index%2 eq 0}odd{else}even{/if}">
             <td><input type="checkbox" class="check" name="fichiers[]" value="{$contenu->id}" /></td>
             <td><a href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$contenu->nom noEscape=1}" class="icon iconFavorite" target="_blank">{$contenu->titre|escape}</a></td>
-            <td class="center">{$contenu->prenom} {$contenu->nom}</td>
+            <td class="center">{$contenu->origine}</td>
             <td class="center">{$contenu->type}</td>
             <td>{$contenu->date|datei18n:"date_short_time"}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>
@@ -146,7 +146,7 @@
           <tr class="{if $index%2 eq 0}odd{else}even{/if}">
             <td><input type="checkbox" class="check" name="fichiers[]" value="{$contenu->id}" /></td>
             <td><a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" class="icon icon{$contenu->type|lower}" target="_blank">{$titre}</a></td>
-            <td class="center">{$contenu->prenom} {$contenu->nom}</td>
+            <td class="center">{$contenu->origine}</td>
             <td class="center">{$contenu->type}</td>
             <td>{$contenu->date|datei18n:"date_short_time"}</td>
             <td class="right">{$contenu->taille|human_file_size}</td>

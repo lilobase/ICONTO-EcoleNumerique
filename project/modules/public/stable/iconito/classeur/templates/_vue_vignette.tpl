@@ -7,6 +7,7 @@
   {i18n key="classeur.message.orderBy"}
   <select name="triColonne" id="order-column">
     <option value="nom" {if $ppo->tri.colonne eq "nom"}selected="selected"{/if}>{i18n key="classeur.message.title"}</option>
+		<option value="origine" {if $ppo->tri.colonne eq "origine"}selected="selected"{/if}>{i18n key="classeur.message.origine"}</option>
     <option value="type" {if $ppo->tri.colonne eq "type"}selected="selected"{/if}>{i18n key="classeur.message.type"}</option>
     <option value="date" {if $ppo->tri.colonne eq "date"}selected="selected"{/if}>{i18n key="classeur.message.date"}</option>
     <option value="taille" {if $ppo->tri.colonne eq "taille"}selected="selected"{/if}>{i18n key="classeur.message.size"}</option>
@@ -45,7 +46,7 @@
             <span class="name">
               <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
             </span>
-						{$contenu->prenom} {$contenu->nom}
+						{$contenu->origine}
           </p>
         </div>
       </li>
@@ -62,7 +63,7 @@
                 <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" />
                 <span class="name">
                   <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}">{$contenu->titre|escape}</a><br />
-									{$contenu->prenom} {$contenu->nom}<br />
+									{$contenu->origine}<br />
                   <span class="date">{$contenu->date|datei18n:"date_short_time"}</span>
                 </span>
             </p>
@@ -113,7 +114,7 @@
                   {else}
                     <a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre|substr:0:50}</a>
                   {/if}
-                  <br />{$contenu->prenom} {$contenu->nom}
+                  <br />{$contenu->origine}
                   <br /><span class="date">{$contenu->type} - {$contenu->date|datei18n:"date_short_time"}</span>
                 </span>
             </p>

@@ -675,7 +675,7 @@ class ClasseurService {
    */
 	public static function setContentSort ($column, $direction) {
         
-    $validSorts = array ('titre', 'type', 'date', 'taille');
+    $validSorts = array ('titre', 'origine', 'type', 'date', 'taille');
 
     if (!in_array($column, $validSorts)) {
       
