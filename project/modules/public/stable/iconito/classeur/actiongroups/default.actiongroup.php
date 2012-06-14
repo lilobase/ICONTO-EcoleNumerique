@@ -1511,32 +1511,35 @@ class ActionGroupDefault extends enicActionGroup {
     $zip = new ZipArchive();
     if ($zip->open($dossierTmp.$fichierZip, ZIPARCHIVE::CREATE) === true) {
       
-      $ppo->dossierIds = implode($dossierIds, ',');
-      if (count($ppo->dossierIds) == 1) {
+      if (!empty($dossierIds)) {
         
-        $dossier = $dossierDAO->get($dossierIds[0]);
-        
-        // Seul l'enseignant peut télécharger un casier
- 	      if ($dossier->casier && Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH) {
- 	        
- 	        return CopixActionGroup::process ('generictools|Messages::getError',
-       		  array ('message' => CopixI18N::get ('classeur|classeur.error.downloadLocker'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
- 	      }
- 	      else {
- 	        
- 	        classeurService::addFolderToZip($dossier, $zip);
- 	      }
-      }
-      else {
-        
-        foreach ($dossierIds as $dossierId) {
+        $ppo->dossierIds = implode($dossierIds, ',');
+        if (count($ppo->dossierIds) == 1) {
 
-     	    $dossier = $dossierDAO->get ($dossierId);
-     	    if (!$dossier->casier || ($dossier->casier && Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) >= PROFILE_CCV_PUBLISH)) {
+          $dossier = $dossierDAO->get($dossierIds[0]);
 
-     	        classeurService::addFolderToZip($dossier, $zip);
+          // Seul l'enseignant peut télécharger un casier
+   	      if ($dossier->casier && Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH) {
+
+   	        return CopixActionGroup::process ('generictools|Messages::getError',
+         		  array ('message' => CopixI18N::get ('classeur|classeur.error.downloadLocker'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
    	      }
-     	  }
+   	      else {
+
+   	        classeurService::addFolderToZip($dossier, $zip);
+   	      }
+        }
+        else {
+
+          foreach ($dossierIds as $dossierId) {
+
+       	    $dossier = $dossierDAO->get ($dossierId);
+       	    if (!$dossier->casier || ($dossier->casier && Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) >= PROFILE_CCV_PUBLISH)) {
+
+       	        classeurService::addFolderToZip($dossier, $zip);
+     	      }
+       	  }
+        }
       }
    	  
    	  $ppo->fichierIds = implode($fichierIds, ',');
