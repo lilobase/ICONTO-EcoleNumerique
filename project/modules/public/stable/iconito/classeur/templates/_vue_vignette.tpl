@@ -46,7 +46,6 @@
             <span class="name">
               <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
             </span>
-						{$contenu->origine}
           </p>
         </div>
       </li>
@@ -63,7 +62,6 @@
                 <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" />
                 <span class="name">
                   <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}">{$contenu->titre|escape}</a><br />
-									{$contenu->origine}<br />
                   <span class="date">{$contenu->date|datei18n:"date_short_time"}</span>
                 </span>
             </p>
