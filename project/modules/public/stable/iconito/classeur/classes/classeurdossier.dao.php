@@ -112,8 +112,9 @@ class DAOClasseurDossier {
     
     $toReturn = array();
     
-    $sql = 'SELECT id, id AS dossier_id, parent_id AS parent_id, nom AS titre, nom AS fichier, nb_dossiers, nb_fichiers, taille, "---" AS type, casier, date_creation AS date, user_type, user_id, "dossier" AS content_type'
-        . ' FROM module_classeur_dossier'
+    $sql = 'SELECT id, id AS dossier_id, parent_id AS parent_id, D.nom AS titre, D.nom AS fichier, nb_dossiers, nb_fichiers, taille, "---" AS type, casier, date_creation AS date, D.user_type, D.user_id, U.nom, U.prenom, "dossier" AS content_type'
+        . ' FROM module_classeur_dossier D'
+				. ' LEFT JOIN kernel_info_users U ON (D.user_type = U.user_type AND D.user_id = U.user_id)'
         . ' WHERE module_classeur_id = :idClasseur';
     if (!is_null($idDossier)) {
       
@@ -122,8 +123,9 @@ class DAOClasseurDossier {
     
     $sql .= ' UNION';
     
-    $sql .= ' SELECT id, module_classeur_dossier_id AS dossier_id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, "" AS casier, date_upload AS date, user_type, user_id, "fichier" AS content_type'
-        . ' FROM module_classeur_fichier'
+    $sql .= ' SELECT id, module_classeur_dossier_id AS dossier_id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, "" AS casier, date_upload AS date, F.user_type, F.user_id, U.nom, U.prenom, "fichier" AS content_type'
+        . ' FROM module_classeur_fichier F'
+				. ' LEFT JOIN kernel_info_users U ON (F.user_type = U.user_type AND F.user_id = U.user_id)'
         . ' WHERE module_classeur_id = :idClasseur';
     if (!is_null($idDossier)) {
       

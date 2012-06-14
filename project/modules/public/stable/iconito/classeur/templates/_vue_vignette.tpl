@@ -45,6 +45,7 @@
             <span class="name">
               <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$nom noEscape=1}">{i18n key="classeur.message.parentFolder"}</a>
             </span>
+						{$contenu->prenom} {$contenu->nom}
           </p>
         </div>
       </li>
@@ -61,7 +62,8 @@
                 <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" />
                 <span class="name">
                   <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}">{$contenu->titre|escape}</a><br />
-                  <span class="date">{$contenu->date|datei18n:"date_short_time"|substr:0:10}</span>
+									{$contenu->prenom} {$contenu->nom}<br />
+                  <span class="date">{$contenu->date|datei18n:"date_short_time"}</span>
                 </span>
             </p>
           </div>
@@ -111,8 +113,8 @@
                   {else}
                     <a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre|substr:0:50}</a>
                   {/if}
-                  {if $ppo->dossier->casier}<br />{$contenu->user}{/if}
-                  <br /><span class="date">{$contenu->type} - {$contenu->date|datei18n:"date_short_time"|substr:0:10}</span>
+                  <br />{$contenu->prenom} {$contenu->nom}
+                  <br /><span class="date">{$contenu->type} - {$contenu->date|datei18n:"date_short_time"}</span>
                 </span>
             </p>
           </div>
