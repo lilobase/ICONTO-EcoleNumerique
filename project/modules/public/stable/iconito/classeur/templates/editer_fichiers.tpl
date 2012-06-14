@@ -36,7 +36,7 @@
   
   <div class="row">
     <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
-    <p class="field"><input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" /></p>
+    <p class="field"><input class="form" type="text" name="fichier_titre" id="fichier_titre" value="{$ppo->fichier->titre}" maxlength="64" /></p>
     <p class="field info" id="title_note" style="display: none;">{i18n key="classeur.message.titleNote"}</p>
   </div>
   
