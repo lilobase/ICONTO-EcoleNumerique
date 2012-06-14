@@ -133,8 +133,8 @@ class DAOClasseurDossier {
     }
 		
     if (!empty($tri)) {
-	
-			$sql .= ' ORDER BY '.$tri['colonne'].' '.$tri['direction'];
+      
+      $sql .= ' ORDER BY '.$tri['colonne'].' '.$tri['direction'];
     }
     else {
       
