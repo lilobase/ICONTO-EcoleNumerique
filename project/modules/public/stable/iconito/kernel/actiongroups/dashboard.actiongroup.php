@@ -12,6 +12,7 @@
 
 
 _classInclude('welcome|welcome');
+_classInclude('logs|logs');
 
 class ActionGroupDashboard extends enicActionGroup {
 
@@ -192,6 +193,15 @@ class ActionGroupDashboard extends enicActionGroup {
 	 * @author Stephane Holtz <sholtz@cap-tic.fr>
 	 */
 	function go() {
+		// NOTIFICATIONS : Préparation de l'enregistrement de la visite. Le module_id est à completer avant enregistrement.
+		$lastvisit = _record("kernel|kernel_notifications_lastvisit");
+		$lastvisit->user_id = $this->user->id; // id Copix
+		$lastvisit->date = date('Y-m-d H:i:s');
+		$lastvisit->node_type = _request("ntype");
+		$lastvisit->node_id = _request("nid");
+		$lastvisit->module_type = _request("mtype");
+		$lastvisit->module_id = null;
+
 		$mid = _request("mid", 0);
 		if (!is_null(_request("ntype")) && !is_null(_request("nid")) && !is_null(_request("mtype"))) {
 			CopixSession::set('myNode', array('type' => _request("ntype"), 'id' => _request("nid")));
@@ -219,6 +229,25 @@ class ActionGroupDashboard extends enicActionGroup {
 				else
 					$loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get(_request("mtype") . '||'));
 			}
+
+			// NOTIFICATIONS : Enregistrement de la visite de l'utilisateur (avec suppression de doublons)
+			if($mid) $lastvisit->module_id = $mid;
+			_dao ('kernel|kernel_notifications_lastvisit')->deleteBy( _daoSp ()
+				->addCondition ('user_id', '=', $lastvisit->user_id)
+				->addCondition ('node_type', '=', $lastvisit->node_type)
+				->addCondition ('node_id', '=', $lastvisit->node_id)
+				->addCondition ('module_type', '=', $lastvisit->module_type)
+				->addCondition ('module_id', '=', $lastvisit->module_id)
+			);
+			_dao("kernel|kernel_notifications_lastvisit")->insert( $lastvisit );
+
+			// LOGS : Logs d'usage
+			Logs::set (array(
+				'type'=>'GO',
+				'node_type'=>_request("ntype"), 'node_id'=>_request("nid"),
+				'module_type'=>_request("mtype"), 'module_id'=>($mid?$mid:null)
+			));
+
 			return $loadModule;
 		}
 		$loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('||'));

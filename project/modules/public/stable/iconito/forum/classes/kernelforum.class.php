@@ -102,6 +102,11 @@ class KernelForum {
 		return $res;
 	}
 
+	function getNotifications(&$module, &$lastvisit) {
+		$module->notification_number = date('s');
+		$module->notification_message = "From forum at ".date('Y-m-d H:i:s');
+		return true;
+	}
 
 }
 

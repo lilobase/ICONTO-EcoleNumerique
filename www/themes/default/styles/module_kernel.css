@@ -281,3 +281,26 @@ div.dashboard div.club div.toolset	{ background: #ffb94e; }
 div.dashboard div.user_ele div.title	{ background: #7fc3d2; }
 div.dashboard div.user_ele div.content	{ border: 2px solid #7fc3d2; }
 div.dashboard div.user_ele div.toolset	{ background: #7fc3d2; }
+
+div#kernel div.dashpanel div.toolset a.counter span.counter-text {
+    color: #333333;
+    display: block;
+    font-size: 8.5px;
+    font-weight: bold;
+    letter-spacing: -0.1em;
+    padding-top: 3px;
+    text-align: center;
+    width: 18px;
+}
+
+
+div#kernel div.dashpanel div.toolset a.counter {
+    background: url("../../../themes/default/images/mod_user_mail_badge.png") no-repeat scroll 0 0 transparent;
+    display: block;
+    height: 20px;
+    margin: 1px;
+    padding: 12px 0 0 12px;
+    position: absolute;
+    width: 20px;
+}
+

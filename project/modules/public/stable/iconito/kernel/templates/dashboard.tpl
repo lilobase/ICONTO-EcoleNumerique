@@ -18,7 +18,13 @@
 		<ul class="opacity50">
 		{foreach from=$node_data.modules item=val_modules key=key_modules}
 			{assign var="module_type_array" value="_"|explode:$val_modules->module_type|lower}
-			<li><a
+			<li>
+				{if $val_modules->notification_number gt 0}
+				<a class="counter" href="{copixurl dest="kernel||go" ntype=$val_modules->node_type nid=$val_modules->node_id mtype=$module_type_array[1] mid=$val_modules->module_id}" title="{$val_modules->notification_message}">
+				<span class="counter-text">{$val_modules->notification_number}</span>
+				</a>
+				{/if}
+				<a
 			{if $val_modules->module_popup}target="_blank"{/if}
 			class="{$val_modules->module_type}{if isset($this.info.selected) and $this.info.selected} selected{/if}"
 			href="{copixurl dest="kernel||go" ntype=$val_modules->node_type nid=$val_modules->node_id mtype=$module_type_array[1] mid=$val_modules->module_id}"
