@@ -3,65 +3,60 @@
 <h2>{i18n key="classeur.message.options"}</h2>
 
 {if $ppo->conf_ModClasseur_upload}
-<fieldset>
-<legend>{i18n key="classeur.message.editUpload"}</legend>
-
-<div class="coldroite" style="float: right; width: 48%;">
-<h3>Aide</h3>
-<p>Pour configurer votre TBI :
-<ul>
-	<li>Notez les paramètres techniques qui vous sont présentés ci-contre.</li>
-	<li>Sur l'ordinateur connecté à votre TBI, installez un logiciel qui permet de synchroniser un dossier avec un serveur WebDav (consultez <a href="">cette aide</a> pour plus de détails).</li>
-</ul>
-<pre>
-{$ppo->classeur|print_r}
-</pre>
-</div>
-
-<div class="colgauche" style="margin-right: 52%;">
-<p>Cette option vous permet d'envoyer des fichiers dans ce Classeur depuis un dispositif externe, comme un <abbr title="Tableau Blanc Interactif">TBI</abbr>.</p>
+<h3>{i18n key="classeur.message.editUpload"}</h3>
 
 {if ! $ppo->classeur->upload_db|is_null}
-<div style="bordel: 2px solid #F00;">
-<h3>La réception de fichier est activé pour ce classeur</h3>
-<p>Les documents seront déposés dans le dossier XXX de ce classeur.</p>
-<fieldset>
-<legend>Paramètres techniques</legend>
-<table>
-	<tr><th align="right">Serveur WebDav</th><td>http://...</td></tr>
-	<tr><th align="right">Identifiant</th><td>{$ppo->classeur->upload_fs}</td></tr>
-	<tr><th align="right">Mot de passe</th><td>{$ppo->classeur->upload_pw}</td></tr>
-</table>
-</fieldset>
-
-</div>
-{else}
-<h3>La réception de fichier n'est pas activée.</h3>
+<aside class="help">
+    <h3>{i18n key="classeur.message.option.tbi.configwebdav_title"}</h3>
+    <p>{i18n key="classeur.message.option.tbi.configwebdav_mesg"}</p>
+    <p>{i18n key="classeur.message.option.tbi.configwebdav_params"}&nbsp;:</p>
+       
+       <p>
+       <label for="server_name">{i18n key="classeur.message.option.tbi.configwebdav_server"}</label>
+       <input name="server_name" id="server_name" readonly="readonly" value="{$ppo->classeur->upload_url|escape}"/>
+       </p>
+       <p>
+            <label for="server_user">{i18n key="classeur.message.option.tbi.configwebdav_login"}</label>
+            <input id="server_user" name="server_user" readonly="readonly" value="{$ppo->classeur->upload_fs|escape}"/>
+       </p>
+       <p>
+            <label for="server_password">{i18n key="classeur.message.option.tbi.configwebdav_passwd"}</label>
+            <input id="server_password" id="server_password" readonly="readonly" value="{$ppo->classeur->upload_pw|escape}"/>
+       </p>
+       
+</aside>
 {/if}
 
-<form id="form_upload_config" action="{copixurl dest="classeur|options|" classeurId=$ppo->classeur->id}" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
-	<input type="hidden" name="save-mode" value="upload" />
-	<div class="selectFolder">
-	<ul class="child">
-		<li class="folder"><p class="{if ! $ppo->classeur->upload_db}current{/if}"><input id="dossier-0" type="radio" value="dossier-0" name="destination"{if ! $ppo->classeur->upload_db} checked="checked"{/if}><label for="dossier-0">Dossier principal du classeur</label></p></li>
-		{copixzone process=classeur|selectionDossiers classeurId=$ppo->classeur->id targetType="dossier" targetId=$ppo->classeur->upload_db alwaysOpen=$ppo->classeur->upload_db}
-	</ul>
-	</div>
-	{if ! $ppo->classeur->upload_db|is_null}
-	<input class="button button-update" type="submit" name="save" id="save" value="{i18n key="classeur.message.upload-modify"}" />
-	{else}
-	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="classeur.message.upload-active"}" />
-	{/if}
+<div>
+<p>{i18n key="classeur.message.option.tbi.configclasseur_mesg"}</p>
+
+    <form id="form_upload_config" action="{copixurl dest="classeur|options|" classeurId=$ppo->classeur->id}" method="post" enctype="multipart/form-data">
+    <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
+        <div class="row">
+            <p class="label">{i18n key="classeur.message.option.tbi.configclasseur_status"}</p>
+            <div class="field">
+                <input id="save-mode-disabled" type="radio" name="save-mode" value="upload-delete" {if $ppo->classeur->upload_db|is_null}checked="checked" {/if}/><label for="save-mode-disabled">{i18n key="classeur.message.upload-disabled"}</label>
+                <input id="save-mode-enabled" type="radio" name="save-mode" value="upload" {if ! $ppo->classeur->upload_db|is_null}checked="checked" {/if}/><label for="save-mode-enabled">{i18n key="classeur.message.upload-enabled"}</label>
+            </div>
+        </div>
+    <!--<p>Les documents seront déposés dans le dossier {if $ppo->classeur->folder_infos}"{$ppo->classeur->folder_infos->nom|escape}"{else}principal{/if} de ce classeur.</p>-->
+    
+	<div class="row" id="selectDestFolder">
+        <p class="label">{i18n key="classeur.message.option.tbi.configclasseur_where"}&nbsp;:</p>
+        <div class="field">
+            <div class="selectFolder">
+                <ul class="child">
+                    <li class="folder"><p class="{if ! $ppo->classeur->upload_db}current{/if}"><input id="dossier-0" type="radio" value="dossier-0" name="destination"{if ! $ppo->classeur->upload_db} checked="checked"{/if}><label for="dossier-0">{i18n key="classeur.message.option.tbi.configclasseur_homefolder"}</label></p></li>
+                    {copixzone process=classeur|selectionDossiers classeurId=$ppo->classeur->id targetType="dossier" targetId=$ppo->classeur->upload_db alwaysOpen=$ppo->classeur->upload_db}
+                </ul>
+            </div>
+        </div>
+    </div>
+	
+    <div class="submit">
+<input class="button button-save" type="submit" name="save" value="{i18n key="classeur.message.save"}" />
+</div>
 </form>
-{if ! $ppo->classeur->upload_db|is_null}
-<form id="form_upload_config" action="{copixurl dest="classeur|options|" classeurId=$ppo->classeur->id}" method="post" enctype="multipart/form-data">
-	<input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
-	<input type="hidden" name="save-mode" value="upload-delete" />
-	<input class="button button-cancel" type="submit" name="save" value="{i18n key="classeur.message.upload-delete"}" />
-</form>
-{/if}
 </div>
 
-</fieldset>
 {/if}

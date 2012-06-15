@@ -149,7 +149,7 @@ class ActionGroupDefault extends enicActionGroup {
 		// $nomFichier = $fichier->id.'-'.$fichier->cle.$extension;
 		$path = realpath('./upload').'/'.$classeur->upload_fs;
 
-		if($classeur->upload_fs) foreach(glob($path . '/*') as $file) {
+		if($classeur->upload_fs && glob($path . '/*')) foreach(glob($path . '/*') as $file) {
 			if (is_file($file)) {
 
 				$fichier = _record('classeur|classeurfichier');
@@ -184,7 +184,6 @@ class ActionGroupDefault extends enicActionGroup {
 			}
 
 			classeurService::updateFolderInfos($folder);
-			closedir($handle);
 		}
 
 // print_r($classeur);
