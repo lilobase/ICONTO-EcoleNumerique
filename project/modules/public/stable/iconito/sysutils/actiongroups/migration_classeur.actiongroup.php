@@ -175,6 +175,7 @@ class ActionGroupMigration_Classeur extends CopixActionGroup {
 			$dossier->nb_dossiers    = 0;
 			$dossier->nb_fichiers    = 0;
 			$dossier->taille         = 0;
+			$dossier->casier         = 0;
 			
 			$dossierDAO->insert ($dossier);
 

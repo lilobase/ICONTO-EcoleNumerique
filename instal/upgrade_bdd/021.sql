@@ -1,0 +1,2 @@
+ALTER TABLE `module_classeur_dossier` ADD `casier` TINYINT NULL DEFAULT '0' AFTER `cle`;
+ALTER TABLE `module_classeur_dossier` CHANGE `user_type` `user_type` VARCHAR( 64 ) NULL, CHANGE `user_id` `user_id` INT( 11 ) NULL;

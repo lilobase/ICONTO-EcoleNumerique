@@ -8,34 +8,63 @@
 
 class KernelClasseur {
 
-  /* 
-	 * Crée un classeur
-	 * Renvoie son ID ou NULL si erreur
-	*/
+	/**
+   * Crée un classeur
+   *
+   * @param array  $infos (option) Infos sur le module. [title], [subtitle], [node_type], [node_id]		
+   *
+   * @return ID du classeur ou NULL si erreur 
+   */
 	function create ($infos = array()) {
 		
 		$return = null;
 		
 		_classInclude('classeur|classeurservice');
-		$dao = _dao('classeur|classeur');
-		$new = _record('classeur|classeur');
-		$new->titre = ($infos['title']) ? $infos['title'] : CopixI18N::get ('classeur|classeur.moduleDescription');
-		$new->cle   = ClasseurService::createKey();
-		$new->date_creation = date('Y-m-d H:i:s');
-		$dao->insert ($new);
-		if (!is_null($new->id)) {
+		
+		$classeurDAO = _dao('classeur|classeur');
+		
+		$classeur = _record('classeur|classeur');
+		$classeur->titre          = ($infos['title']) ? $infos['title'] : CopixI18N::get ('classeur|classeur.moduleDescription');
+		$classeur->cle            = ClasseurService::createKey();
+		$classeur->date_creation  = date('Y-m-d H:i:s');
+		
+		$classeurDAO->insert ($classeur);
+		
+		// Si l'insertion en base du classeur s'est bien passée, création du dossier physique
+		if (!is_null($classeur->id)) {
       
       $path2data = realpath('./static/classeur');
-      $folder = $path2data.'/'.$new->id.'-'.$new->cle;
+      $folder = $path2data.'/'.$classeur->id.'-'.$classeur->cle;
       if ($mkdir = mkdir($folder, 0777)) {
         
         chmod($folder, 0777);
-        $return = $new->id;
+        
+        // Création d'un casier s'il s'agit d'un classeur de classe
+        if ('BU_CLASSE' == $infos['node_type']) {
+          
+          $dossierDAO = _ioDAO('classeur|classeurdossier');
+          
+          $casier = _record ('classeur|classeurdossier');
+
+          $casier->classeur_id    = $classeur->id;
+          $casier->parent_id      = 0;
+          $casier->nom            = CopixI18N::get ('classeur|classeur.casierNom');
+          $casier->nb_dossiers    = 0;
+          $casier->nb_fichiers    = 0;
+          $casier->taille         = 0;
+          $casier->cle            = classeurService::createKey();
+          $casier->casier         = 1;
+          $casier->date_creation  = date('Y-m-d H:i:s');
+
+          $dossierDAO->insert($casier);
+        }
+        
+        $return = $classeur->id;
       }
       
       if (!$return) {
         
-        $dao->delete ($new->id);
+        $classeurDAO->delete ($classeur->id);
       }
 		}
 		

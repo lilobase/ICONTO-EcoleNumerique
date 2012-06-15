@@ -27,11 +27,11 @@ class ZoneVueListe extends CopixZone {
 		// Récupération des dossiers & des fichiers / favoris
 		$dossierDAO = _ioDAO('classeur|classeurdossier');
 
-		if ($dossier = $dossierDAO->get($ppo->dossierId)) {
+		if ($ppo->dossier = $dossierDAO->get($ppo->dossierId)) {
 		  
-		  if ($dossier->parent_id != 0) {
+		  if ($ppo->dossier->parent_id != 0) {
 		   
-		    $ppo->dossierParent = $dossierDAO->get($dossier->parent_id); 
+		    $ppo->dossierParent = $dossierDAO->get($ppo->dossier->parent_id); 
 		  }
 		  else {
 		    
@@ -42,7 +42,18 @@ class ZoneVueListe extends CopixZone {
 		  }
 		}
 		
-		$ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
+		if (!$ppo->dossier->casier || $ppo->niveauUtilisateur >= PROFILE_CCV_MODERATE) {
+	    
+	    $ppo->contenus = $dossierDAO->getContenus($ppo->classeurId, $ppo->dossierId, $ppo->tri);
+	    foreach ($ppo->contenus as $contenu) {
+	      
+  		  if ($ppo->dossier->casier) {
+  		    
+  		    $user = Kernel::getUserInfo($contenu->user_type, $contenu->user_id);
+  		    $contenu->user = $user['prenom'].' '.$user['nom'];
+  		  }
+  		}
+	  }
 		
 	  $toReturn = $this->_usePPO ($ppo, '_vue_liste.tpl');
   }

@@ -14,6 +14,7 @@ class ZoneSelectionClasseurs extends CopixZone {
 	  $ppo->classeurId      = $this->getParam('classeurId');
 	  $ppo->targetType      = $this->getParam('targetType');
 	  $ppo->targetId        = $this->getParam('targetId');
+	  $ppo->withLocker      = $this->getParam('withLocker', true);
 	  
 	  // Récupération des classeurs accessibles à l'utilisateur pour les actions de masse (copie / déplacement)
     $classeurIds = array();

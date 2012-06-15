@@ -14,10 +14,11 @@
     <property name="nb_dossiers" fieldname="nb_dossiers" type="integer"/>
     <property name="nb_fichiers" fieldname="nb_fichiers" type="integer"/>
     <property name="cle" fieldname="cle" type="string" maxlength="10" required="yes"/>
+    <property name="casier" fieldname="casier" type="integer" required="yes" default="0"/>
     <property name="taille" fieldname="taille" type="integer"/>
     <property name="date_creation" fieldname="date_creation" type="datetime" required="yes"/>
-    <property name="user_type" fieldname="user_type" type="string" maxlength="64" required="yes"/>
-    <property name="user_id" fieldname="user_id" type="integer" required="yes"/>
+    <property name="user_type" fieldname="user_type" type="string" maxlength="64"/>
+    <property name="user_id" fieldname="user_id" type="integer"/>
     <property name="date_publication" fieldname="date_publication" type="datetime" pk="no"/>
     <property name="public" fieldname="public" type="integer" pk="no"/>
   </properties>

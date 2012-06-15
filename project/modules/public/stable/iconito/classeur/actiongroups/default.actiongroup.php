@@ -15,7 +15,7 @@ class ActionGroupDefault extends enicActionGroup {
       && ($actionName != 'sauvegardeEtatArbreClasseurs' && $actionName != 'sauvegardeEtatArbreDossiers')) {
             
       if (Kernel::getLevel('MOD_CLASSEUR', $classeurId) < PROFILE_CCV_READ) {
-    
+        
         return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $classeurId))));
       }
     }
@@ -120,7 +120,6 @@ class ActionGroupDefault extends enicActionGroup {
   	    $kernelConfUserDAO->insert ($kernelConfUser);
 	    }
 	  }
-	  
 		
 		// Si tri spécifié, mise en session
 		if (!is_null ($triColonne)) {
@@ -236,6 +235,14 @@ class ActionGroupDefault extends enicActionGroup {
     if (!is_null($parentId  = _request('parentId', null)) && $parentId != 0) {
       
       $ppo->parent  = $dossierDAO->get($parentId);
+      
+      // Création dans un casier non autorisé
+      if ($ppo->parent->casier) {
+        
+        return CopixActionGroup::process ('generictools|Messages::getError',
+    			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $parentId))));
+      }
+      
       $ppo->path    = $ppo->parent->getPath();
     }
     else {
@@ -254,6 +261,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->dossier->date_creation  = date('Y-m-d H:i:s');
       $ppo->dossier->user_type      = _currentUser()->getExtra('type');
       $ppo->dossier->user_id        = _currentUser()->getExtra('id');
+      $ppo->dossier->casier         = 0;
       
       // Traitement des erreurs
       $ppo->erreurs = array ();
@@ -433,7 +441,16 @@ class ActionGroupDefault extends enicActionGroup {
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
-	  elseif (Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER) {
+	  
+	  // Récupération du dossier courant
+	  $dossierDAO = _ioDAO('classeur|classeurdossier');
+    if (!is_null($ppo->dossierId  = _request('dossierId', null)) && $ppo->dossierId != 0) {
+    
+      $ppo->dossier = $dossierDAO->get($ppo->dossierId);
+    }
+    
+    // Contrôle des droits d'accès
+	  if ((Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER) && isset($ppo->dossier) && !$ppo->dossier->casier) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
@@ -468,11 +485,9 @@ class ActionGroupDefault extends enicActionGroup {
     $classeurDAO = _ioDAO('classeur|classeur');
     $classeur = $classeurDAO->get($ppo->classeurId);
     
-    // Récupération du dossier pour définition du path
-    $dossierDAO = _ioDAO('classeur|classeurdossier');
-    if (!is_null($ppo->dossierId  = _request('dossierId', null)) && $ppo->dossierId != 0) {
+    // Récupération du path
+    if (!is_null($ppo->dossier)) {
       
-      $ppo->dossier = $dossierDAO->get($ppo->dossierId);
       $ppo->path = $ppo->dossier->getPath();
     }
     else {
@@ -496,30 +511,52 @@ class ActionGroupDefault extends enicActionGroup {
       // S'il s'agit d'une modification de fichier
       if (!is_null(_request('fichierId', null))) {
         
+        $ppo->fichier->titre         = _request('fichier_titre', null);
+        $ppo->fichier->commentaire   = _request('fichier_commentaire', null);
+
         // Contrôle upload du fichier
         if (is_uploaded_file($_FILES['fichier']['tmp_name'][0])) {
           
           $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
-          $extension = strtolower(strrchr($ppo->fichier->fichier, '.'));
-  				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
-  				// Suppression de l'ancien fichier
-  				if (file_exists($fichierPhysique)) {
-  				  
-  					unlink($fichierPhysique);
-  				}
-  				
-  				$ppo->fichier->fichier       = $_FILES['fichier']['name'][0];
+          $oldExtension = strtolower(strrchr($ppo->fichier->fichier, '.'));
+          $fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$oldExtension;
+          // Suppression de l'ancien fichier
+          if (file_exists($fichierPhysique)) {
+            
+            unlink($fichierPhysique);
+          }
+
+          $extension = strtolower(strrchr($_FILES['fichier']['name'][0], '.'));
+          // Nom particulier dans le cas d'un casier (nom de l'élève présent dans le nom du fichier)
+          if (isset($ppo->dossier) && $ppo->dossier->casier) {
+            
+            $user = Kernel::getUserInfo($ppo->fichier->user_type, $ppo->fichier->user_id);
+            $ppo->fichier->fichier = $ppo->fichier->titre.'_'.$user['prenom'].'_'.$user['nom'].$extension;
+          }
+          else {
+            
+            $ppo->fichier->fichier = $_FILES['fichier']['name'][0];
+          }
+
           $ppo->fichier->taille        = filesize($_FILES['fichier']['tmp_name'][0]);
           $ppo->fichier->type          = strtoupper(substr(strrchr($_FILES['fichier']['name'][0], '.'), 1));
-          
-          $extension = strtolower(strrchr($_FILES['fichier']['name'][0], '.'));
-  				$fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
-  				move_uploaded_file ($_FILES['fichier']['tmp_name'][0], $fichierPhysique);
-  			}
-  			
-  			$ppo->fichier->titre         = _request('fichier_titre', null);
-        $ppo->fichier->commentaire   = _request('fichier_commentaire', null);
-        
+
+          $fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
+          move_uploaded_file ($_FILES['fichier']['tmp_name'][0], $fichierPhysique);
+        }
+        else {
+
+          // Nom particulier dans le cas d'un casier (nom de l'élève présent dans le nom du fichier)
+          if (isset($ppo->dossier) && $ppo->dossier->casier) {
+            
+            $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+            $extension = strtolower(strrchr($ppo->fichier->fichier, '.'));
+
+            $user = Kernel::getUserInfo($ppo->fichier->user_type, $ppo->fichier->user_id);
+            $ppo->fichier->fichier = $ppo->fichier->titre.'_'.$user['prenom'].'_'.$user['nom'].$extension;
+          }
+        }
+
         // Mise à jour de l'enregistrement fichier
         $fichierDAO->update($ppo->fichier);
         
@@ -593,6 +630,7 @@ class ActionGroupDefault extends enicActionGroup {
                     $dossier->date_creation  = date('Y-m-d H:i:s');
                     $dossier->user_type      = _currentUser()->getExtra('type');
                     $dossier->user_id        = _currentUser()->getExtra('id');
+                    $dossier->casier         = 0;
 
                     $dossierDAO->insert($dossier);
 
@@ -649,14 +687,13 @@ class ActionGroupDefault extends enicActionGroup {
             
             $fichierPhysique = $_FILES['fichier']['tmp_name'][0];
             $nomFichierPhysique = $_FILES['fichier']['name'][0];
-            
+                        
             $fichier = _record('classeur|classeurfichier');
             
             $fichier->classeur_id   = $classeur->id;
             $fichier->dossier_id    = isset($ppo->dossierId) ? $ppo->dossierId : 0;
-            $fichier->titre         = _request('fichier_titre', substr($nomFichierPhysique, 0, 63));
-            $fichier->commentaire   = _request('fichier_commentaire', null);
-            $fichier->fichier       = $nomFichierPhysique;
+            $fichier->titre         = _request('fichier_titre', substr($nomFichierPhysique, 0, strrpos($nomFichierPhysique, '.')));
+            $fichier->commentaire   = _request('fichier_commentaire', null);            
             $fichier->taille        = $_FILES['fichier']['size'][0];
             $fichier->type          = strtoupper(substr(strrchr($nomFichierPhysique, '.'), 1));
             $fichier->cle           = classeurService::createKey();
@@ -664,11 +701,23 @@ class ActionGroupDefault extends enicActionGroup {
             $fichier->user_type     = _currentUser()->getExtra('type');
             $fichier->user_id       = _currentUser()->getExtra('id');
             
+            $extension    = strtolower(strrchr($nomFichierPhysique, '.'));
+            
+            // Nom particulier dans le cas d'un casier (nom de l'élève présent dans le nom du fichier)
+            if (isset($ppo->dossier) && $ppo->dossier->casier) {
+              
+              $user = Kernel::getUserInfo($fichier->user_type, $fichier->user_id);
+              $fichier->fichier = $fichier->titre.'_'.$user['prenom'].'_'.$user['nom'].$extension;
+            }
+            else {
+              
+              $fichier->fichier = $nomFichierPhysique;
+            }
+            
             $fichierDAO->insert($fichier);
             
             $nomClasseur  = $classeur->id.'-'.$classeur->cle;
             $nomFichier   = $fichier->id.'-'.$fichier->cle;
-            $extension    = strtolower(strrchr($nomFichierPhysique, '.'));
             
             // Déplacement du fichier temporaire dans le classeur
             copy($fichierPhysique, $dir.$fichier->id.'-'.$fichier->cle.$extension);
@@ -677,13 +726,29 @@ class ActionGroupDefault extends enicActionGroup {
           // Suppression du dossier TMP
           classeurService::rmdir_recursive($ppo->dossierTmp);
 
-          // Mise à jour des informations du dossier parent
-          classeurService::updateFolderInfos($ppo->dossier);
-
           $confirmMessage = CopixI18N::get ('classeur|classeur.message.success');
-        }
 
-        return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->dossierId, 'confirmMessage' => $confirmMessage)));
+          // Mise à jour des informations du dossier parent
+          if ($ppo->dossier) {
+            
+            classeurService::updateFolderInfos($ppo->dossier);
+
+            // Minimail de confirmation dans le cas de l'upload d'un fichier dans un casier
+            if ($ppo->dossier->casier) {
+
+              _classInclude('minimail|minimailService');
+            
+              $msg_title    = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerTitle', date('d/m/Y'));
+              $msg_body     = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerBody', array(date('d/m/Y'), $nomFichierPhysique));
+              
+              MinimailService::sendMinimail ($msg_title, $msg_body, CopixConfig::get('minimail|system_sender_id'), array(_currentUser ()->getId() => 1), CopixConfig::get ('minimail|default_format'));
+              
+              $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerMessage', array($nomFichierPhysique));
+            }
+          }
+      }
+      
+      return _arRedirect (CopixUrl::get ('classeur||voirContenu', array('classeurId' => $ppo->classeurId, 'dossierId' => $ppo->dossierId, 'confirmMessage' => $confirmMessage)));
     }
     
     $modParentInfo = Kernel::getModParentInfo('MOD_CLASSEUR', $ppo->classeurId);
@@ -834,6 +899,14 @@ class ActionGroupDefault extends enicActionGroup {
     if (!is_null($ppo->dossierId  = _request('dossierId', null)) && $ppo->dossierId != 0) {
       
       $ppo->dossier = $dossierDAO->get($ppo->dossierId);
+      
+      // Ajout d'un favori dans un casier non autorisé
+      if ($ppo->dossier->casier) {
+        
+        return CopixActionGroup::process ('generictools|Messages::getError',
+    			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+      }
+      
       $ppo->path = $ppo->dossier->getPath();
     }
     else {
@@ -982,7 +1055,10 @@ class ActionGroupDefault extends enicActionGroup {
  	  foreach ($dossierIds as $dossierId) {
  	    
  	    $dossier = $dossierDAO->get ($dossierId);
- 	    classeurService::deleteFolder($dossier);
+ 	    if (!$dossier->casier) {
+ 	      
+ 	      classeurService::deleteFolder($dossier);
+ 	    }
  	  }
  	  
  	  $fichierDAO = _ioDAO('classeur|classeurfichier');
@@ -1045,11 +1121,17 @@ class ActionGroupDefault extends enicActionGroup {
  	    }
    	  foreach ($dossierIds as $dossierId) {
 
-   	    $dossier = $dossierDAO->get ($dossierId);
-   	    if ($dossier) {
+        if ($dossier = $dossierDAO->get ($dossierId)) {
+          
+          if ($dossier->casier) {
 
-   	      $nomsContenus[] = $dossier->nom;
-   	    }
+            unset($dossierIds[$dossierId]);
+     	    }
+     	    else {
+
+     	      $nomsContenus[] = $dossier->nom;
+     	    }
+        }
    	  }
  	  }
  	  
@@ -1136,9 +1218,8 @@ class ActionGroupDefault extends enicActionGroup {
           if (($ppo->destinationType == 'dossier' && !classeurService::isDescendantOf($dossierDestination, $dossier)) 
             || $ppo->destinationType == 'classeur') {
             
-            $dossier = $dossierDAO->get($arDossierId);
             // On ne déplace que les dossiers pouvant l'être
-            if ($dossier) {
+            if ($dossier = $dossierDAO->get($arDossierId) && !$dossier->casier) {
               
               classeurService::moveFolder($dossier, $ppo->destinationType, $ppo->destinationId);
             }
@@ -1157,7 +1238,10 @@ class ActionGroupDefault extends enicActionGroup {
       }
       
       // Maj des informations de dossier
-      classeurService::updateFolderInfos($ppo->dossierParent);
+      if ($ppo->dossierParent) {
+
+        classeurService::updateFolderInfos($ppo->dossierParent); 
+      }
       
       // Redirection
       $confirmMessage = CopixI18N::get ('classeur|classeur.message.confirmMove');
@@ -1197,27 +1281,42 @@ class ActionGroupDefault extends enicActionGroup {
   
     $nomsContenus = array();
  	  
- 	  // Récupération des identifiants de dossier à déplacer
+ 	  // Récupération des identifiants de dossier à copier
  	  $dossierIds = _request ('dossiers', array());
  	  if (!is_null($dossierIds)) {
  	    
- 	    if (is_array($dossierIds)) {
- 	      
- 	      $ppo->dossierIds = implode($dossierIds, ',');
- 	    }
+ 	    // Si copie d'un seul dossier, on vérifie s'il s'agit d'un casier et que l'utilisateur à la permission de le copier
+ 	    if (count($dossierIds) == 1) {
+        $dossier = $dossierDAO->get($dossierIds[0]);
+        
+        // Seul l'enseignant peut copier un casier
+ 	      if ($dossier->casier && Kernel::getLevel('MOD_CLASSEUR', $ppo->classeur->id) < PROFILE_CCV_PUBLISH) {
+ 	        
+ 	        return CopixActionGroup::process ('generictools|Messages::getError',
+       		  array ('message' => CopixI18N::get ('classeur|classeur.error.copyLocker'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeur->id))));
+ 	      }
+ 	      else {
+ 	        
+ 	        $nomsContenus[] = $dossier->nom;
+ 	      }
+      }
  	    else {
  	      
- 	      $ppo->dossierIds = $dossierIds;
- 	      $dossierIds = explode ($ppo->dossierIds, ',');
+ 	      $ppo->dossierIds = implode($dossierIds, ',');
+ 	      
+ 	      foreach ($dossierIds as $dossierId) {
+
+          $dossier = $dossierDAO->get ($dossierId);
+     	    if (!$dossier->casier) {
+
+     	      $nomsContenus[] = $dossier->nom;
+     	    }
+     	    else {
+     	      
+     	      unset($ppo->dossiers[$dossierId]);
+     	    }
+     	  }
  	    }
-   	  foreach ($dossierIds as $dossierId) {
-
-   	    $dossier = $dossierDAO->get ($dossierId);
-   	    if ($dossier) {
-
-   	      $nomsContenus[] = $dossier->nom;
-   	    }
-   	  }
  	  }
  	  
  	  // Récupération des identifiants de fichier à déplacer
@@ -1302,10 +1401,13 @@ class ActionGroupDefault extends enicActionGroup {
           if (($destinationType == 'dossier' && !classeurService::isDescendantOf($dossierDestination, $dossier)) 
             || $destinationType == 'classeur') {
             
-            $dossier = $dossierDAO->get($arDossierId);
-            // On ne déplace que les dossiers pouvant l'être
-            if ($dossier) {
+            // On ne copie que les dossiers pouvant l'être
+            if ($dossier = $dossierDAO->get($arDossierId) && !$dossier->casier) {
               
+              // En cas de copie, le copieur devient le propriétaire de la copie
+              $dossier->user_type = _currentUser()->getExtra('type');
+              $dossier->user_id   = _currentUser()->getExtra('id');
+
               classeurService::copyFolder($dossier, $destinationType, $destinationId);
             }
           }
@@ -1317,6 +1419,11 @@ class ActionGroupDefault extends enicActionGroup {
         foreach ($arFichierIds as $arFichierId) {
           
           $fichier = $fichierDAO->get($arFichierId);
+
+          // En cas de copie, le copieur devient le propriétaire de la copie
+          $fichier->user_type = _currentUser()->getExtra('type');
+          $fichier->user_id   = _currentUser()->getExtra('id');
+
           classeurService::copyFile($fichier, $destinationType, $destinationId);
         }
       }
@@ -1405,12 +1512,36 @@ class ActionGroupDefault extends enicActionGroup {
     $zip = new ZipArchive();
     if ($zip->open($dossierTmp.$fichierZip, ZIPARCHIVE::CREATE) === true) {
       
-      $ppo->dossierIds = implode($dossierIds, ',');
-   	  foreach ($dossierIds as $dossierId) {
-   	    
-   	    $dossier = $dossierDAO->get ($dossierId);
-   	    classeurService::addFolderToZip($dossier, $zip);
-   	  }
+      if (!empty($dossierIds)) {
+        
+        $ppo->dossierIds = implode($dossierIds, ',');
+        if (count($ppo->dossierIds) == 1) {
+
+          $dossier = $dossierDAO->get($dossierIds[0]);
+
+          // Seul l'enseignant peut télécharger un casier
+   	      if ($dossier->casier && Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_PUBLISH) {
+
+   	        return CopixActionGroup::process ('generictools|Messages::getError',
+         		  array ('message' => CopixI18N::get ('classeur|classeur.error.downloadLocker'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
+   	      }
+   	      else {
+
+   	        classeurService::addFolderToZip($dossier, $zip);
+   	      }
+        }
+        else {
+
+          foreach ($dossierIds as $dossierId) {
+
+       	    $dossier = $dossierDAO->get ($dossierId);
+       	    if (!$dossier->casier || ($dossier->casier && Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) >= PROFILE_CCV_PUBLISH)) {
+
+       	        classeurService::addFolderToZip($dossier, $zip);
+     	      }
+       	  }
+        }
+      }
    	  
    	  $ppo->fichierIds = implode($fichierIds, ',');
    	  foreach ($fichierIds as $fichierId) {
@@ -1500,6 +1631,11 @@ class ActionGroupDefault extends enicActionGroup {
     if (($ppo->dossierId = _request('dossierId', 0)) != 0) {
       
       $ppo->dossier = $dossierDAO->get($ppo->dossierId);
+      if ($ppo->dossier->casier) {
+        
+        return CopixActionGroup::process ('genericTools|Messages::getError', 
+  	      array ('message'=> CopixI18N::get ('classeur|classeur.error.albumLocker'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeur->id, 'dossierId' => $ppo->dossier->id))));
+      }
       $ppo->album = $ppo->dossier;
       if ($ppo->album->public == 1) {
         
@@ -1623,7 +1759,6 @@ class ActionGroupDefault extends enicActionGroup {
 		foreach ($images as $image) {
 		  
 			$this->copyResized( $path2classeur.'/'.$image, $path2album.'/images/'.$image, 800 );
-			// copy($path2classeur.'/'.$image, $path2album.'/images/'.$image);
 		}
 		
 		// Création du fichier index.html nécessaire à l'affichage de l'album
@@ -1660,34 +1795,37 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arRedirect (CopixUrl::get ('classeur||editerAlbumPublic', array('classeurId' => $classeur->id, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));	  
   }
   
-  private function copyResized( $from, $to, $size ) {
-  	  $imgTypes = array(
-    'image/jpeg',
-    'image/pjpeg',
-    'image/png',
-    'image/gif',
-  );
-  
-  $imgLoaders = array(
-    'image/jpeg'  => 'imagecreatefromjpeg',
-    'image/pjpeg' => 'imagecreatefromjpeg',
-    'image/png'   => 'imagecreatefrompng',
-    'image/gif'   => 'imagecreatefromgif',
-  );
-  
-  $imgCreators = array(
-    'image/jpeg'  => 'imagejpeg',
-    'image/pjpeg' => 'imagejpeg',
-    'image/png'   => 'imagepng',
-    'image/gif'   => 'imagegif',
-  );
-  	$imgData = getimagesize($from);
+  private function copyResized ($from, $to, $size) {
   	
-  if ($imgData[0] > $imgData[1]) {
+  	$imgTypes = array(
+      'image/jpeg',
+      'image/pjpeg',
+      'image/png',
+      'image/gif',
+    );
+    
+    $imgLoaders = array(
+      'image/jpeg'  => 'imagecreatefromjpeg',
+      'image/pjpeg' => 'imagecreatefromjpeg',
+      'image/png'   => 'imagecreatefrompng',
+      'image/gif'   => 'imagecreatefromgif',
+    );
+    
+    $imgCreators = array(
+      'image/jpeg'  => 'imagejpeg',
+      'image/pjpeg' => 'imagejpeg',
+      'image/png'   => 'imagepng',
+      'image/gif'   => 'imagegif',
+    );
+    	$imgData = getimagesize($from);
+    	
+    if ($imgData[0] > $imgData[1]) {
+      
       $width = $size;
       $height = $imgData[1] * $width / $imgData[0];
     }
     else {
+      
       $height = $size;
       $width = $imgData[0] * $height / $imgData[1];
     }
@@ -1706,9 +1844,7 @@ class ActionGroupDefault extends enicActionGroup {
     
       $creator = $imgCreators[$imgData['mime']];
       $creator($thumbnail, $to);
-      
     }
-  	
   }
   
   /**
@@ -1778,7 +1914,7 @@ class ActionGroupDefault extends enicActionGroup {
 		return _arRedirect (CopixUrl::get ('classeur||editerAlbumPublic', array('classeurId' => $classeur->id, 'dossierId' => $dossierId, 'confirmMessage' => $confirmMessage)));
   }
   
-  function processEnvoieFichierPopup () {
+  public function processEnvoieFichierPopup () {
 	
 		$ppo = new CopixPPO ();
     

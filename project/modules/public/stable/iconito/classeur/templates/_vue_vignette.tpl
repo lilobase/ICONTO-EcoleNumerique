@@ -7,6 +7,7 @@
   {i18n key="classeur.message.orderBy"}
   <select name="triColonne" id="order-column">
     <option value="nom" {if $ppo->tri.colonne eq "nom"}selected="selected"{/if}>{i18n key="classeur.message.title"}</option>
+		<option value="origine" {if $ppo->tri.colonne eq "origine"}selected="selected"{/if}>{i18n key="classeur.message.origine"}</option>
     <option value="type" {if $ppo->tri.colonne eq "type"}selected="selected"{/if}>{i18n key="classeur.message.type"}</option>
     <option value="date" {if $ppo->tri.colonne eq "date"}selected="selected"{/if}>{i18n key="classeur.message.date"}</option>
     <option value="taille" {if $ppo->tri.colonne eq "taille"}selected="selected"{/if}>{i18n key="classeur.message.size"}</option>
@@ -56,12 +57,12 @@
       {if $contenu->content_type eq "dossier"}
         <li class="folder">
           <div class="datas">
-            <a class="icon" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder.png" /></a>
+            <a class="icon" href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}"><img src="{copixurl}themes/default/images/icon-128/icon-folder{if $contenu->casier}-locked{/if}.png" /></a>
             <p class="footerData">
                 <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" />
                 <span class="name">
                   <a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}">{$contenu->titre|escape}</a><br />
-                  <span class="date">{$contenu->date|datei18n:"date_short_time"|substr:0:10}</span>
+                  <span class="date">{$contenu->date|datei18n:"date_short_time"}</span>
                 </span>
             </p>
           </div>
@@ -81,18 +82,18 @@
               <img src="{copixurl}themes/default/images/icon-16/action-delete.png" alt="{i18n key="classeur.message.delete"}" />
             </a>
             {/if}
-        
+      
           </p>
         </li>
-    
+  
       {elseif $contenu->content_type eq "fichier"}
-    
+  
         {if $contenu->titre neq null}
           {assign var=titre value=$contenu->titre}
         {else}
           {assign var=titre value=$contenu->fichier}
         {/if}
-    
+  
         <!-- Affichage des fichiers -->
         <li class="file">
           <div class="datas">
@@ -109,9 +110,10 @@
                   {if $contenu->fichier|substr:-4 eq ".web"}
                     <a href="{$contenu->lien}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre|escape}</a>
                   {else}
-                    <a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre}</a>
+                    <a href="{copixurl dest="classeur||telechargerFichier" classeurId=$ppo->classeurId fichierId=$contenu->id}" title="{i18n key="classeur.message.openFile" titre=$titre noEscape=1}" target="_blank">{$titre|substr:0:50}</a>
                   {/if}
-                  <br /><span class="date">{$contenu->type} - {$contenu->date|datei18n:"date_short_time"|substr:0:10}</span>
+                  <br />{$contenu->origine}
+                  <br /><span class="date">{$contenu->type} - {$contenu->date|datei18n:"date_short_time"}</span>
                 </span>
             </p>
           </div>

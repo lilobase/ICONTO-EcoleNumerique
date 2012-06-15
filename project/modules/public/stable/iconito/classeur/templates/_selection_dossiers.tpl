@@ -1,8 +1,8 @@
 {foreach from=$ppo->dossiers item=dossier}
   {assign var=dossierId value=$dossier->id}
   <li class="folder">
-    <p class="{if $dossier->id eq $ppo->targetId}current{/if}">
-      {if $dossier->hasSousDossiers()}
+    <p class="{if $dossier->id eq $ppo->dossierCourant}current{/if}">
+      {if $dossier->hasSousDossiers($ppo->withLocker)}
         <a href="#" class="expand-folder {$dossier->id}"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
       {else}
         <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
@@ -11,7 +11,7 @@
       <label for="dossier-{$dossier->id}">{$dossier->nom|escape}</label>
     </p>
     <ul class="child{if $ppo->alwaysOpen} open{else} closed{/if}">
-      {copixzone process=classeur|selectionDossiers classeurId=$ppo->classeurId dossierId=$dossier->id targetType=$ppo->targetType targetId=$ppo->targetId alwaysOpen=$ppo->alwaysOpen}
+      {copixzone process=classeur|selectionDossiers classeurId=$ppo->classeurId dossierId=$dossier->id targetType=$ppo->targetType targetId=$ppo->targetId alwaysOpen=$ppo->alwaysOpen withLocker=$ppo->withLocker}
     </ul>
   </li>
 {/foreach}

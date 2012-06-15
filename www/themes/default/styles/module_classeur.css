@@ -30,6 +30,10 @@ div.dashboard div.content {
 	float:none;
 	width:350px;
 }
+#sidebar .locked {
+	padding:0 0 0 20px;
+	background:url(../../../themes/default/images/icon-16/icon-folder-locked.png) no-repeat 0% 50%;
+}
 #sidebar ul, .selectFolder ul {
   margin:0; padding:0;
   list-style:none;
@@ -60,7 +64,7 @@ div.dashboard div.content {
 #classeur .content-view .overflow {
 	clear:both;
 	margin:12px 0 10px; 
-	max-height:350px;
+	max-height:380px;
 	overflow:auto;
 }
 @media screen and (min-height: 600px) {
@@ -92,6 +96,7 @@ div.dashboard div.content {
 	padding:0 20px;
 	background:0 3px no-repeat;
 }
+#classeur .listView td {font-size:0.85em;}
 
 #classeur .listView thead th a:hover,
 #content-popup .listView thead th a:hover {text-decoration:underline;}
@@ -111,10 +116,12 @@ div.dashboard div.content {
 #classeur .listView a.icon {
 	padding:0 0 0 20px;
 	background:none no-repeat 0% 50%;
+	font-size:1.15em;
 }
 #classeur .listView a.iconFavorite {background-image:url(../../../themes/default/images/icon-16/icon-favorite.png);}
 #classeur .listView a.iconFolder {background-image:url(../../../themes/default/images/icon-16/icon-folder.png);}
 #classeur .listView a.iconFolderUp {background-image:url(../../../themes/default/images/icon-16/icon-folder-up.png);}
+#classeur .listView a.iconFolderLocked {background-image:url(../../../themes/default/images/icon-16/icon-folder-locked.png);}
 #classeur .listView a.iconai {background-image:url(../../../themes/default/images/icon-16/icon-ai.png);}
 #classeur .listView a.iconavi {background-image:url(../../../themes/default/images/icon-16/icon-avi.png);}
 #classeur .listView a.iconbmp {background-image:url(../../../themes/default/images/icon-16/icon-bmp.png);}
@@ -157,13 +164,13 @@ div.dashboard div.content {
 #classeur .thumbView li {
 	float:left;
 	margin:10px 0 0 7px; 
-	width:135px; height:165px;
+	width:135px; height:180px;
 	list-style:none;
 }
 #classeur .thumbView li .datas { 
 	position:relative;
 	margin:0 0 3px 0; border:1px solid #ddd;
-	height:135px;
+	height:150px;
 	/*background:no-repeat 50% 5px;*/
 }
 #classeur .thumbView li .datas img {
@@ -188,7 +195,7 @@ div.dashboard div.content {
 }
 #classeur .thumbView li .name .date {
 	color:#aaa;
-	font-style:italic; font-size:0.9em;
+	font-style:italic; font-size:0.85em;
 }
 #classeur .thumbView li .footerFolderUp {
 	padding:0 2px 1.4em;

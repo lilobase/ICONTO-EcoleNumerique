@@ -11,7 +11,7 @@ class ClasseurService {
   /**
    * Retourne l'ID du classeur personnel
    *
-   * @return int
+   * @return int ou false si classeur perso non récupéré
    */
   public static function getClasseurPersonnelId () {
     
@@ -180,7 +180,7 @@ class ClasseurService {
 	 * @param DAORecordClasseurDossier $folder      Dossier à supprimer
 	 * @param bool                     $withFiles   Supprimer les fichiers du dossier ?
 	 */
-	public static function deleteFolder ($folder, $withFiles = true) {
+	public static function deleteFolder (DAORecordClasseurDossier $folder, $withFiles = true) {
 		
 		$folderDAO    = _ioDAO('classeur|classeurdossier');
 		$classeurDAO  = _ioDAO('classeur|classeur');
@@ -216,7 +216,7 @@ class ClasseurService {
 	 *
 	 * @param DAORecordClasseurFichier $file  Fichier à supprimer
 	 */
-	public static function deleteFile ($file) {
+	public static function deleteFile (DAORecordClasseurFichier $file) {
 		
 		$fileDAO      = _ioDAO('classeur|classeurfichier');
 		$classeurDAO  = _ioDAO('classeur|classeur');
@@ -245,7 +245,7 @@ class ClasseurService {
 	 * @param int                      $targetId    Identifiant du noeud destination
 	 * @param bool                     $withFiles   Déplacer les fichiers contenus ?
 	 */
-	public static function moveFolder ($folder, $targetType, $targetId, $withFiles = true) {
+	public static function moveFolder (DAORecordClasseurDossier $folder, $targetType, $targetId, $withFiles = true) {
 	  
 	  $folderDAO    = _ioDAO('classeur|classeurdossier');
     $fileDAO      = _ioDAO('classeur|classeurfichier');
@@ -297,7 +297,7 @@ class ClasseurService {
 	 * @param string                   $targetType  Type du noeud destination
 	 * @param int                      $targetId    Identifiant du noeud destination
 	 */
-	public static function moveFile ($file, $targetType, $targetId) {
+	public static function moveFile (DAORecordClasseurFichier $file, $targetType, $targetId) {
 	  
 	  $classeurDAO  = _ioDAO('classeur|classeur');
 	  $folderDAO    = _ioDAO('classeur|classeurdossier');
@@ -348,7 +348,7 @@ class ClasseurService {
 	 * @param int                      $targetId    Identifiant du noeud destination
 	 * @param bool                     $withFiles   Déplacer les fichiers contenus ?
 	 */
-	public static function copyFolder ($folder, $targetType, $targetId, $withFiles = true) {
+	public static function copyFolder (DAORecordClasseurDossier $folder, $targetType, $targetId, $withFiles = true) {
 	  
 	  $folderDAO    = _ioDAO('classeur|classeurdossier');
     $fileDAO      = _ioDAO('classeur|classeurfichier');
@@ -371,10 +371,14 @@ class ClasseurService {
     
     // Insertion du nouveau dossier
     $folderDAO->insert($clone);
-		
+
 		// Pour chaque sous dossiers on rappelle la méthode
 		$subfolders = $folderDAO->getEnfantsDirects ($folder->classeur_id, $folder->id);
 		foreach ($subfolders as $subfolder) {
+		  
+		  // En cas de copie, le copieur devient le propriétaire de la copie
+		  $subfolder->user_type = $folder->user_type;
+		  $subfolder->user_id   = $folder->user_id;
 		  
 		  self::copyFolder ($subfolder, 'dossier', $clone->id);
 		}
@@ -384,7 +388,11 @@ class ClasseurService {
       
   		$files = $fileDAO->getParDossier ($folder->classeur_id, $folder->id);
   		foreach($files as $file) {
-
+  		  
+  		  // En cas de copie, le copieur devient le propriétaire de la copie
+  		  $file->user_type = $folder->user_type;
+  		  $file->user_id   = $folder->user_id;
+  		  
   		  self::copyFile ($file, 'dossier', $clone->id);
   		}
     }
@@ -397,7 +405,7 @@ class ClasseurService {
 	 * @param string                   $targetType  Type du noeud destination
 	 * @param int                      $targetId    Identifiant du noeud destination
 	 */
-	public static function copyFile ($file, $targetType, $targetId) {
+	public static function copyFile (DAORecordClasseurFichier $file, $targetType, $targetId) {
 	  
 	  $classeurDAO  = _ioDAO('classeur|classeur');
 	  $folderDAO    = _ioDAO('classeur|classeurdossier');
@@ -453,7 +461,7 @@ class ClasseurService {
 	 * @param DAORecordClasseurDossier $folder      Dossier à ajouter
 	 * @param ZipArchive               $zip         Archive ZIP à laquelle ajouter le contenu du dossier
 	 */
-	public static function addFolderToZip ($folder, $zip) {
+	public static function addFolderToZip (DAORecordClasseurDossier $folder, $zip) {
   
     $folderDAO = _ioDAO('classeur|classeurdossier');
     $fileDAO   = _ioDAO('classeur|classeurfichier');
@@ -482,7 +490,7 @@ class ClasseurService {
 	 * @param DAORecordClasseurFichier $file        Fichier à ajouter
 	 * @param ZipArchive               $zip         Archive ZIP à laquelle ajouter le contenu du dossier
 	 */
-	public static function addFileToZip ($file, $zip) {
+	public static function addFileToZip (DAORecordClasseurFichier $file, $zip) {
     
     // Récupération du classeur nécessaire pour déterminer le chemin du fichier
     $classeurDAO = _ioDAO('classeur|classeur');
@@ -497,11 +505,19 @@ class ClasseurService {
     if (file_exists($pathfile)) {
       
       $filename = substr($file->fichier, 0, strrpos($file->fichier, '.'));
-      $zip->addFile($pathfile, substr($file->getPath(true), 1).$file->id.'-'.Kernel::stripText($filename).$extension);
+      $zip->addFile($pathfile, substr($file->getPath(true), 1).$file->id.'-'.$file->fichier);
     }
   }
   
-  
+  /**
+	 * Récupération du contenu du dossier temporaire (utilisé pour les archives ZIP)
+	 *
+	 * @param array   $datas      Liste des fichiers / dossiers récupérés dans le dossier TMP
+	 * @param string  $folder     Dossier temporaire
+	 * @param array   $excluded   Fichiers / dossiers à exclude
+	 *
+	 * @return array
+	 */
   public static function getFilesInTmpFolder ($datas, $folder, $excluded = array()) {
     
     if ($handle = opendir($folder)) {
@@ -562,11 +578,11 @@ class ClasseurService {
 	 *
 	 * @param DAORecordClasseurDossier $folder      Dossier à mettre à jour
 	 */
-	public static function updateFolderInfos ($folder) {
+	public static function updateFolderInfos (DAORecordClasseurDossier $folder) {
 		
 		$folderDAO = _ioDAO('classeur|classeurdossier');
 		
-		if ($folder) {
+		if ($folder->parent_id != 0) {
 		  
 	    while ($folder->parent_id != 0) {
 	      
@@ -583,8 +599,10 @@ class ClasseurService {
 	 * et de ses descendants
 	 *
 	 * @param DAORecordClasseurDossier $folder      Dossier à mettre à jour
+	 *
+	 * @return array
 	 */
-	public static function updateFolderInfosWithDescendants ($folder) {
+	public static function updateFolderInfosWithDescendants (DAORecordClasseurDossier $folder) {
 	  
 		$fileDAO = _ioDAO('classeur|classeurfichier');
 		$folderDAO = _ioDAO('classeur|classeurdossier');
@@ -621,6 +639,8 @@ class ClasseurService {
 	 * @param int     $folderId           Identifiant du dossier
 	 * @param Array   $files              Fichiers trouvés
 	 * @param Bool    $withSubfolders     Rechercher également dans les sous dossiers du dossier indiqué ?
+	 *
+	 * @return array
 	 */
 	public static function getFilesInFolder($classeurId, $folderId = null, $files = array(), $withSubfolders = true) {
 	  
@@ -655,7 +675,7 @@ class ClasseurService {
    */
 	public static function setContentSort ($column, $direction) {
         
-    $validSorts = array ('titre', 'type', 'date', 'taille');
+    $validSorts = array ('titre', 'origine', 'type', 'date', 'taille');
 
     if (!in_array($column, $validSorts)) {
       
@@ -702,9 +722,11 @@ class ClasseurService {
 	/**
    * Récupère l'adresse web d'un favori
    *
+   * @param DAORecordClasseurFichier $file
+   *
    * @return string 
    */
-	public static function getUrlOfFavorite ($file) {
+	public static function getUrlOfFavorite (DAORecordClasseurFichier $file) {
 	  
 	  $classeurDAO = _ioDAO('classeur|classeur');
 	  $classeur = $classeurDAO->get($file->classeur_id);
@@ -763,6 +785,8 @@ class ClasseurService {
 	
 	/**
    * Fonction récursive de suppression d'un répertoire
+   *
+   * @param string  $dir  Dossier à vider
    */
 	public static function rmdir_recursive($dir)
   {
