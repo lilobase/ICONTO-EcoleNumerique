@@ -13,7 +13,6 @@ abstract class enicZone extends CopixZone {
     //enic attributes
     protected $user;
     protected $matrix;
-    protected $menu;
     protected $options;
     protected $model;
     protected $js;
@@ -36,7 +35,6 @@ abstract class enicZone extends CopixZone {
         $this->user         =& enic::get('user');
         $this->options      =& enic::get('options');
         $this->matrix       =& enic::get('matrixCache');
-        $this->menu         =& enic::get('menu');
         $this->model        =& enic::get('model');
         $this->db           =& enic::get('model');
         $this->js           =& enic::get('javascript');
