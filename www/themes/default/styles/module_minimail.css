@@ -55,8 +55,7 @@ textarea#dest {
 /* Téléchargement des PJ vers un classeur */
 
 ul.attachmentsToClasseur {
-    float:left;
-    margin-left:370px;
+    float:right;
     list-style:none;
 }
 ul.attachmentsToClasseur li {

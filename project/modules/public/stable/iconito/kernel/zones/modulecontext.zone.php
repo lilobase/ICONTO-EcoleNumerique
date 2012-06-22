@@ -57,17 +57,17 @@ class ZoneModuleContext extends enicZone {
             
             if (Kernel::getFlashMessage('success'))
             {
-                $toReturn .= 'OK ! ' . Kernel::getFlashMessage('success');
+                $toReturn .= '<p class="mesgSuccess">' . Kernel::getFlashMessage('success').'</p>';
                 Kernel::setFlashMessage('success', '');
             }
             if (Kernel::getFlashMessage('warning'))
             {
-                $toReturn .= 'Attention ! ' . Kernel::getFlashMessage('warning');
+                $toReturn .= '<p class="mesgError"> ' . Kernel::getFlashMessage('warning').'</p>';
                 Kernel::setFlashMessage('warning', '');
             }
             if (Kernel::getFlashMessage('error'))
             {
-                $toReturn .= 'Problème ! ' . Kernel::getFlashMessage('error');
+                $toReturn .= '<p class="mesgError">' . Kernel::getFlashMessage('error').'</p>';
                 Kernel::setFlashMessage('error', '');
             }
             

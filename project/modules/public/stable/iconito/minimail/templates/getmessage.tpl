@@ -56,7 +56,7 @@
 <br clear="all" />
 </div>
 
-<p class="right">
+<span class="floatleft">
     
     
 {if $message->getNbAttachments() > 0}
@@ -64,9 +64,9 @@
         <a href="{copixurl dest="|attachmentToClasseur" id=$message->id}" class="button button-move fancyframe" id="buttonAttachmentToClasseur">{i18n key="minimail.attachmentToClasseur.action" pNb=$message->getNbAttachments()}</a>
       
 {/if}
+</span>
 
-
-    
+<p class="right">
 {if $message->type eq "recv"}
   <input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" reply=$message->id}'" type="button" value="{i18n key="minimail.btn.reply}" />
 
