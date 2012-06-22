@@ -211,3 +211,14 @@ function setDatePicker (iDiv) {
 }
 
 
+
+$(document).ready(function($){
+    
+    $('a.fancyboxClose').live('click',function(e){
+        e.preventDefault();
+        parent.jQuery.fancybox.close();
+    });
+    
+});
+
+

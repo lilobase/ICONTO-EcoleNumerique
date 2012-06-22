@@ -12,10 +12,28 @@ function deleteMsgs () {
 }
 
 
-// Aper�u ou envoyer ?
+// Apercu ou envoyer ?
 function goMinimail (form, value) {
   if (form.go)
     form.go.value = value;
 }
+
+
+$(document).ready(function($){
+    
+    /**
+     * Si aucun répertoire n'est sélectionné, on auto-sélectionne le premier
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2012/06/21
+     */
+    if (!$('.selectFolder input[type="radio"]:selected').length)
+    {
+        $('.selectFolder label').first().click();
+    }
+    
+    
+        
+});
+
 
 

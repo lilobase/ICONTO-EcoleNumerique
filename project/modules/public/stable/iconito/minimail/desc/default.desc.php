@@ -8,6 +8,7 @@ $doSend   					= new CopixAction ('Minimail', 'doSend');
 $downloadAttachment	= new CopixAction ('Minimail', 'downloadAttachment');
 $previewAttachment	= new CopixAction ('Minimail', 'previewAttachment');
 $doDelete   				= new CopixAction ('Minimail', 'doDelete');
+$attachmentToClasseur   				= new CopixAction ('Minimail', 'attachmentToClasseur');
 
 $default 						= & $getListRecv;
 
