@@ -364,6 +364,10 @@ p.mesgInfo {
 	border-color:#49BFCD;
 	background:url(../../../themes/default/images/button-action/action_info.png) no-repeat 5px 50% #fff; color:#49BFCD;
 }
+#contentmain > p.mesgSuccess, #contentmain > p.mesgInfo, #contentmain > p.mesgError {
+	margin:25px 25px 15px;
+	font-size:1.1em;
+}
 
 /************************************************
  * MODAL MESSAGES
@@ -504,6 +508,10 @@ form select.multicombo {
 	height: 120px;
 }
 
+form fieldset {
+	border-color:#ddd;
+	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
+}
 #content-popup .option-bar {
 	border-top: solid 1px #f0f4f0;
 	border-bottom: solid 1px #f0f4f0;
