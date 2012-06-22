@@ -673,7 +673,7 @@ class ActionGroupMinimail extends EnicActionGroup {
 
                 $fichier->classeur_id   = $rClasseur->id;
                 $fichier->dossier_id    = (isset($rDossier) && $rDossier) ? $rDossier->id : 0;
-                $fichier->titre         = $file;
+                $fichier->titre         = MinimailService::getAttachmentName($file);
                 $fichier->fichier       = $nomFichierPhysique;
                 $fichier->taille        = filesize($fichierPhysique);
                 $fichier->type          = strtoupper(substr(strrchr($nomFichierPhysique, '.'), 1));
