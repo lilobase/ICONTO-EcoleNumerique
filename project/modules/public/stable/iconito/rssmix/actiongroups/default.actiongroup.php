@@ -9,6 +9,11 @@
 
         public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
+                
+                //security : check if admin
+                if(!$this->user->root){
+                    return $this->error('rssmix.noRight');
+                }
         }
 
         public function processDefault(){
@@ -62,9 +67,7 @@
         public function processTest(){            
             
             $item = $this->service->getRssFeeds();
-            
-            _dump($item);
-            
+                        
             return _arNone();
         }
         
@@ -127,6 +130,23 @@
         
         public function processGetRssFeedAjax(){
             
+            $feeds = $this->service->getRssFeeds();
+            
+            if(empty($feeds)){
+                echo '<p class="mesgInfo">'.$this->i18n('rssmix.noUrl').'</p>';
+            }else{
+                echo '<div id="rssmix-cycle"><ul>';
+                foreach($feeds as $feed){
+                    echo '<li style="height:125px;"class="content-panel" >
+                        <h4 >'.$feed['title'].'</h4>
+                        <a href="'.$feed['link'].'" class="button button-continue">'.$this->i18n('rssmix.url').'</a>
+                        </li>';
+                }
+                echo '</ul></div>';
+                
+            }
+            
+            return _arNone();
         }
 
     }
