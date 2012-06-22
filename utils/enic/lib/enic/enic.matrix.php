@@ -309,7 +309,7 @@ class rightMatrixHelpers{
         $kernel = self::$kernel;
 
         //list type of user :
-        $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES', 'USER_EXT', 'USER_ATI');
+        $userType = array('USER_ENS', 'USER_EXT', 'USER_VIL', 'USER_ELE', 'USER_RES', 'USER_ATI');
 
         //list child and add each at the Tree
         $children = $kernel->getNodeChilds($type, $id, true, array('skip_user' => true));

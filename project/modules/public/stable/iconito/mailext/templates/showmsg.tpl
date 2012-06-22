@@ -3,6 +3,7 @@
 
 
 {if empty($content)}
+    <p class="mesgInfo">{i18n key="mailext.noConfigured" noEscape=1}</p>
 {else}
     {foreach item=mail from=$content}
 <h4 class="mailext-title">{i18n key="mailext.box" noEscape=1} <em>{$mail.name}</em></h4>

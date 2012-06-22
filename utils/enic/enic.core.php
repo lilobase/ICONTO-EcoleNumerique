@@ -101,6 +101,12 @@ class enic{
 //        $str = preg_replace('#^_#','',$str);
 	return $str;
     }
+    
+    public static function zend_load($name){
+        $classPath = ENIC_PATH.'/lib/Zend/'.$name.'.php';
+        
+        require_once $classPath;
+    }
 
 }
 

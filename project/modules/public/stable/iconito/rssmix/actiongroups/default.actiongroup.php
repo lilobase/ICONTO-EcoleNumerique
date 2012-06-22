@@ -59,8 +59,13 @@
             }
         }
         
-        public function processTest(){
+        public function processTest(){            
             
+            $item = $this->service->getRssFeeds();
+            
+            _dump($item);
+            
+            return _arNone();
         }
         
         public function processDelete(){
@@ -117,6 +122,10 @@
                 
                 return $this->redirect('rssmix|default|update', array('id' => $this->request('id')));
             }
+            
+        }
+        
+        public function processGetRssFeedAjax(){
             
         }
 
