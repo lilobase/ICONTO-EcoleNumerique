@@ -4,6 +4,11 @@ class DAORecordKernel_bu_ecole {
   
   protected $_city = null;
   
+  public function __toString () {
+    
+    return $this->nom;
+  }
+  
   public function getCity () {
     
     if (is_null($this->_city)) {
@@ -17,37 +22,33 @@ class DAORecordKernel_bu_ecole {
   }
 
 
-   /**
-    * Determine si l'ecole a une adresse renseignee ou non
-    *
-    * @author Christophe Beyer <cbeyer@cap-tic.fr>
-    * @since 2011/01/31
-    * @return boolean True si au moins un champ de l'adresse est renseigne, false sinon
-    */
-    public function hasAdresse() {
-        $oHas = false;
-        if ($this->num_rue || $this->num_seq || $this->adresse1 || $this->adresse2 || $this->code_postal || $this->commune) {
-            $oHas = true;
-        }
-        return $oHas;
-    }
+  /**
+   * Determine si l'ecole a une adresse renseignee ou non
+   *
+   * @author Christophe Beyer <cbeyer@cap-tic.fr>
+   * @since 2011/01/31
+   * @return boolean True si au moins un champ de l'adresse est renseigne, false sinon
+   */
+  public function hasAdresse() {
+      $oHas = false;
+      if ($this->num_rue || $this->num_seq || $this->adresse1 || $this->adresse2 || $this->code_postal || $this->commune) {
+          $oHas = true;
+      }
+      return $oHas;
+  }
    
     
-   /**
-    * L'adresse de l'ecole en une ligne
-    *
-    * @author Christophe Beyer <cbeyer@cap-tic.fr>
-    * @since 2011/11/02
-    * @return string L'adresse
-    */
-    public function getFullAddress() {
-        $address = AnnuaireService::googleMapsFormatAdresse('ecole', $this);
-        return $address;
-    }
-    
-
-
-
+  /**
+   * L'adresse de l'ecole en une ligne
+   *
+   * @author Christophe Beyer <cbeyer@cap-tic.fr>
+   * @since 2011/11/02
+   * @return string L'adresse
+   */
+  public function getFullAddress() {
+      $address = AnnuaireService::googleMapsFormatAdresse('ecole', $this);
+      return $address;
+  }
 }
   
 class DAOKernel_bu_ecole {
@@ -56,6 +57,7 @@ class DAOKernel_bu_ecole {
 	 * Retourne les classes pour une ville donnée
 	 *
 	 * @param int $idVille Identifiant d'une ville
+	 *
 	 * @return CopixDAORecordIterator
 	 */
 	public function getByCity ($idVille) {

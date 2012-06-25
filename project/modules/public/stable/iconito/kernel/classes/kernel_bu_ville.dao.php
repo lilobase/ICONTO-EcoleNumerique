@@ -22,7 +22,8 @@ class DAOKernel_bu_ville {
 	/**
 	 * Retourne une ville par son canon
 	 *
-	 * @param int $canon Canon d'une ville
+	 * @param string $canon Canon d'une ville
+	 *
 	 * @return CopixDAORecordIterator
 	 */
 	public function getByCanon ($canon) {
@@ -33,10 +34,17 @@ class DAOKernel_bu_ville {
 		return $this->findBy ($criteria);
 	}
 	
-	public function getByIdGrville ($id_grville) {
+	/**
+	 * Retourne les villes faisant partie d'un même groupe de villes
+	 *
+	 * @param int $idGrville ID du groupe de villes
+	 *
+	 * @return CopixDAORecordIterator
+	 */
+	public function getByIdGrville ($idGrville) {
 	  
 	  $criteria = _daoSp ();
-		$criteria->addCondition ('id_grville', '=', $id_grville);
+		$criteria->addCondition ('id_grville', '=', $idGrville);
 		$criteria->orderBy ('nom');
 		
 		return $this->findBy ($criteria);

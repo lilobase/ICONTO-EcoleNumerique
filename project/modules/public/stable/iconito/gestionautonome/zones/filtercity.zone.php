@@ -11,8 +11,11 @@ class ZoneFilterCity extends CopixZone {
 	  $ppo = new CopixPPO ();
 	  
 	  // Récupérations des filtres en session
-	  $ppo->selected = $this->getParam ('selected', null);
-	  $ppo->withLabel = $this->getParam ('with_label', true);
+	  $ppo->selected    = $this->getParam ('selected', null);
+	  $ppo->withLabel   = $this->getParam ('with_label', true);
+	  $ppo->withEmpty   = $this->getParam ('with_empty', true);
+	  $ppo->labelEmpty  = $this->getParam ('label_empty', null);
+	  $ppo->name        = $this->getParam ('name', null);
     
 	  if (!is_null ($cityGroupId = $this->getParam('city_group_id', null))) {
 	    
@@ -27,8 +30,8 @@ class ZoneFilterCity extends CopixZone {
         $cities = $cityDAO->findByCitiesGroupIdAndUserGroups ($cityGroupId, $groups['gestionautonome|iconitogrouphandler']);
       }
 	    
-	    $ppo->citiesIds   = array('');
-	    $ppo->citiesNames = array('');
+	    $ppo->citiesIds   = array();
+	    $ppo->citiesNames = array();
 	    
 	    foreach ($cities as $city) {
 	      

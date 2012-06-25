@@ -304,13 +304,13 @@ ul.tree a.classroom {
 	background:url(../../../themes/default/images/icon-128/action-next.png) no-repeat 50% 100%;
 }
 .filterClass {
-    float:left;
-    margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
-    -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
-    width:40%;
-    background:#fff;
+  float:left;
+  margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
+  -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+  width:40%;
+  background:#fff;
 }
-#toClass {float:right;}
+#destination {float:right;}
 .filterClass h3 {margin:0;}
 .filterClass dl {margin:10px 0 5px;}
 .filterClass dl dt {
@@ -319,9 +319,29 @@ ul.tree a.classroom {
 }
 .filterClass dl dd {margin:0 0 0px 35%;}
 .filterClass dl dd, .filterClass dl dt {line-height:1.6em;}
-#students-selector {
+
+#assignments {
+  margin-bottom: 20px;
+  overflow: hidden;
 	clear:both;
 }
+
+#assignments h3 {
+  padding: 0 30px; 
+}
+
+#persons-to-assign {
+  float: left;
+}
+
+#assigned-persons {
+  margin-left: 50%;
+}
+
+.class-box {
+  margin-bottom: 10px;
+}
+
 /* End Affect */
 /******************************************************************************/
 

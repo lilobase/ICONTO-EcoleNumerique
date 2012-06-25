@@ -350,7 +350,7 @@ class DAOKernel_bu_personnel {
 	/**
 	 * Retourne les enseignants d'une classe
 	 *
-	 * @param integer $classroomId   Identifiant de la classer
+	 * @param integer $classroomId   Identifiant de la classe
 	 */
 	function findTeachersByClassroomId ($classroomId) {
 	  
@@ -387,7 +387,105 @@ class DAOKernel_bu_personnel {
 
 		return isset ($results[0]) ? $results[0] : false;
 	}
+	
+	/**
+	 * Retourne les enseignants pouvant être assignés (manageAssignments)
+	 *                                             
+	 * @param array   $filters   Filtres de récupération des enseignants
+	 *
+	 * return CopixDAORecordIterator
+	 */
+	public function findTeachersForManageAssignments ($filters = array ()) {
+	  
+	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
+	  
+	  $sql = 'SELECT P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect'
+	    . ' FROM kernel_bu_personnel P'
+	    . ' LEFT JOIN kernel_bu_personnel_entite PE ON (P.numero=PE.id_per)'
+	    . ' JOIN kernel_bu_personnel_role PR ON (PE.role=PR.id_role)'
+	    . ' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id)'
+	    . ' JOIN dbuser U ON (LI.user_id=U.id_dbuser)';
+	    
+	    if (isset($filters['originClassroom'])) {
+	      
+	      $sql .= ' JOIN kernel_bu_ecole_classe EC ON (EC.id='.$filters['originClassroom'].')';
+	    }
+	    elseif (isset($filters['originSchool'])) {
+	      
+	      $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['originSchool'].')'
+	        . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
+	    }
+	    
+	    $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
+        . ' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
+        . ' WHERE PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER 
+        . ' AND PE.type_ref="CLASSE"'
+        . ' AND PE.reference=EC.id'
+        . ' AND EC.annee_scol='.$filters['originGrade'];
+        
+      if (isset ($filters['originLevel'])) {
+
+  	    $sql .= ' AND ECN.niveau='.$filters['originLevel'];
+  	  }
+  	  if (isset ($filters['originLastname'])) {
+
+  	    $sql .= ' AND P.nom LIKE \'' . $filters['originLastname'] . '%\''; 
+  	  }
+  	  if (isset ($filters['originFirstname'])) {
+
+  	    $sql .= ' AND P.prenom1 LIKE \'' . $filters['originFirstname'] . '%\''; 
+  	  }
+        
+      $sql .= ' GROUP BY PE.id_per,PE.reference'
+        . ' ORDER BY P.nom, P.prenom1';
+        
+    return _doQuery($sql);
+	}
+	
+	/**
+	 * Retourne les enseignants assignés (manageAssignments)
+	 *                                             
+	 * @param array   $filters   Filtres de récupération des enseignants
+	 *
+	 * return CopixDAORecordIterator
+	 */
+	public function findAssignedTeachers ($filters = array ()) {
+	  
+	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
+	  
+	  $sql = 'SELECT P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect'
+	    . ' FROM kernel_bu_personnel P'
+	    . ' LEFT JOIN kernel_bu_personnel_entite PE ON (P.numero=PE.id_per)'
+	    . ' JOIN kernel_bu_personnel_role PR ON (PE.role=PR.id_role)'
+	    . ' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id)'
+	    . ' JOIN dbuser U ON (LI.user_id=U.id_dbuser)';
+	    
+	    if (isset($filters['destinationClassroom'])) {
+	      
+	      $sql .= ' JOIN kernel_bu_ecole_classe EC ON (EC.id='.$filters['destinationClassroom'].')';
+	    }
+	    elseif (isset($filters['destinationSchool'])) {
+	      
+	      $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['destinationSchool'].')'
+	        . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
+	    }
+	    
+	    $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
+        . ' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
+        . ' WHERE PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER 
+        . ' AND PE.type_ref="CLASSE"'
+        . ' AND PE.reference=EC.id'
+        . ' AND EC.annee_scol='.$filters['destinationGrade'];
+        
+      if (isset ($filters['destinationLevel'])) {
+
+  	    $sql .= ' AND ECN.niveau='.$filters['destinationLevel'];
+  	  }
+      
+      $sql .= ' GROUP BY PE.id_per,PE.reference'
+        . ' ORDER BY P.nom, P.prenom1';
+        
+    return _doQuery($sql);
+	}
 
 }
-
-?>

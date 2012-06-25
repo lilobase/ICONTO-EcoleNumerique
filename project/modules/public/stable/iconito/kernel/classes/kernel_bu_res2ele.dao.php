@@ -13,6 +13,7 @@ class DAOKernel_bu_res2ele {
 	 *
 	 * @param int $personId   Identifiant du responsable
 	 * @param int $studentId  Identifiant de l'élève
+	 *
 	 * @return DAORecord
 	 */
 	public function getByPersonAndStudent ($personId, $studentId) {
@@ -30,6 +31,7 @@ class DAOKernel_bu_res2ele {
 	 * Retourne l'affectation pour un responsable
 	 *
 	 * @param int $personId   Identifiant du responsable
+	 *
 	 * @return DAORecord
 	 */
 	public function getByPerson ($personId) {
@@ -40,6 +42,3 @@ class DAOKernel_bu_res2ele {
 		return $this->findBy ($criteria);
 	}
 }
-
-
-?>

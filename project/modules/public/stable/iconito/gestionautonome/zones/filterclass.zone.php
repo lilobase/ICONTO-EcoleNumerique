@@ -14,7 +14,8 @@ class ZoneFilterClass extends CopixZone {
 	  $ppo->selected        = $this->getParam ('selected', null);
 	  $ppo->withLabel       = $this->getParam ('with_label', true);
 	  $ppo->withEmpty       = $this->getParam ('with_empty', true);
-	  $ppo->withEmptyLabel  = $this->getParam ('with_empty_label', false);
+	  $ppo->labelEmpty      = $this->getParam ('label_empty', null);
+	  $ppo->name            = $this->getParam ('name', null);
 	  
 	  $grade = $this->getParam ('grade', _sessionGet('grade', Kernel::getAnneeScolaireCourante ()->id_as));
 	  
@@ -37,14 +38,8 @@ class ZoneFilterClass extends CopixZone {
 
   	  foreach ($classes as $class) {
   	    
-  	    $levels = $class->getLevels();
-  	    $classLevels = array();
-  	    foreach ($levels as $level) {
-  	      
-  	      $classLevels[] = $level->niveau_court;
-  	    }
   	    $ppo->classesIds[]   = $class->id;
-  	    $ppo->classesNames[] = $class->nom.' ('.implode(', ', $classLevels).')';
+  	    $ppo->classesNames[] = $class->nom;
   	  }
     }
     

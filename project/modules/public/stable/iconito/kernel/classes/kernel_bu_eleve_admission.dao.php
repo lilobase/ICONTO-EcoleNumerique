@@ -11,8 +11,9 @@ class DAOKernel_bu_eleve_admission {
 	/**
 	 * Retourne l'admission pour un élève et une école
 	 *
-	 * @param int $studentId Identifiant d'un élève
+	 * @param int $studentId  Identifiant d'un élève
 	 * @param int $schoolId   Identifiant d'une école
+	 *
 	 * @return DAORecord
 	 */
 	public function getByStudentAndSchool ($studentId, $schoolId, $state = null) {
@@ -32,6 +33,3 @@ class DAOKernel_bu_eleve_admission {
 	}
 
 }
-
-
-?>

@@ -13,6 +13,7 @@ class DAOKernel_bu_eleve_inscription {
 	 *
 	 * @param int $studentId Identifiant d'un élève
 	 * @param int $schoolid  Identifiant d'un école
+	 *
 	 * @return CopixDAORecordIterator
 	 */
 	public function getByStudentAndSchool ($studentId, $schoolId) {
@@ -30,6 +31,7 @@ class DAOKernel_bu_eleve_inscription {
 	 * Retourne les enregistrements d'un élève
 	 *
 	 * @param int $studentId Identifiant d'un élève
+	 *
 	 * @return CopixDAORecordIterator
 	 */
 	public function getByStudent ($studentId) {
@@ -40,6 +42,12 @@ class DAOKernel_bu_eleve_inscription {
 		return $this->findBy ($criteria);
 	}
 	
+	/**
+	 * Met à jour le flag d'une inscription
+	 *
+	 * @param int $numero ID de l'inscription
+	 * @param int $flag   Statut de l'inscription (1- inscription courante)
+	 */
 	public function updateCurrentFlag ($numero, $flag) {
 	  
 	  $sql = 'UPDATE kernel_bu_eleve_inscription SET kernel_bu_eleve_inscription.current_inscr=:flag '
