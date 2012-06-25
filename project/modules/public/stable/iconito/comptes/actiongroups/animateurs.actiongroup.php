@@ -28,7 +28,7 @@ class ActionGroupAnimateurs extends enicActionGroup {
 		}
 		if($this->user->root) 
 		{
-			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl', 'current'=>'current');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getRoles'), 'url' => CopixUrl::get ('comptes||getRoles'), 'type'=> 'acl', 'current'=>'current');
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
 		}
 	}
