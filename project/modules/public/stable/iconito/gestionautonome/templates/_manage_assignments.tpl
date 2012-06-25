@@ -21,7 +21,7 @@
         {if $ppo->filters.originUserType eq "USER_ELE"}
           {customi18n key="gestionautonome|gestionautonome.message.no%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
         {else}
-          {customi18n key="gestionautonome|gestionautonome.message.add%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
+          {customi18n key="gestionautonome|gestionautonome.message.no%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
         {/if}
     </h3>
   {/if}
@@ -55,7 +55,7 @@
         {if $ppo->filters.originUserType eq "USER_ELE"}
           {customi18n key="gestionautonome|gestionautonome.message.no%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
         {else}
-          {customi18n key="gestionautonome|gestionautonome.message.add%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
+          {customi18n key="gestionautonome|gestionautonome.message.no%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}
         {/if}
     </h3>
   {/if}
