@@ -1,0 +1,8 @@
+
+.widget-rssmix .rm-title{
+    overflow:hidden; max-height: 71px;
+}
+
+.widget-rssmix li{
+    height:125px;
+}

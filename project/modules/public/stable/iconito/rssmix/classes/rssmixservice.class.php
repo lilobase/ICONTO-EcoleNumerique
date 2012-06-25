@@ -30,6 +30,9 @@ class rssmixService extends enicService {
         
         $urls = $this->getRssUrl();
         
+        if(empty($urls))
+            return null;
+        
         $item = array();
         
         $globalLimit = $this->helpers->config('rssmix|itemsLimit');
