@@ -159,7 +159,7 @@ class ActionGroupDefault extends enicActionGroup {
             foreach ($feeds as $feed) {
                 echo '<li class="content-panel" >
                         <h4 class="rm-title">' . $feed['title'] . '</h4>
-                        <a href="' . $feed['link'] . '" class="button button-continue">' . $this->i18n('rssmix.url') . '</a>
+                        <a href="' . $feed['link'] . '" class="button button-continue floatright">' . $this->i18n('rssmix.url') . '</a>
                         </li>';
             }
             echo '</ul></div>';

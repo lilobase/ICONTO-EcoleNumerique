@@ -1,4 +1,5 @@
-<h2>{i18n key="rssmix.title" noEscape=1}</h2>
+<h2>{i18n key="rssmix.title" noEscape=1} </h2>
+<a href="{copixurl dest="rssmix|default|create"}" class="floatright button button-add" >{i18n key="rssmix.add" noEscape=1}</a>
 <p class="content-info">{i18n key="rssmix.description" noEscape=1}</p>
 
 {if !empty($ppo->success)}
@@ -12,17 +13,21 @@
     {i18n key="rssmix.noUrl" noEscape=1}
     </div>
     {else}
-{foreach from=$ppo->rss item=rssItem}
+    <table class="viewItems">
+        	<thead>
+            	<tr>
+                	<th>Flux</th>
+                    <th class="actions">Actions</th>
+                 </tr>
+            </thead>
+        	<tbody>
+{foreach from=$ppo->rss item=rssItem key=k}
+    {if ($k%2)==0}<tr>{else}<tr class="even">{/if}
+                <td>{$rssItem.url}</td>
+                <td class="center"><a href="{copixurl dest="rssmix|default|update" id=$rssItem.id}" class="button button-update " >{i18n key="rssmix.update" noEscape=1} </a> &nbsp; <a href="{copixurl dest="rssmix|default|delete" id=$rssItem.id}" class="button button-delete delete" >{i18n key="rssmix.delete" noEscape=1}</a></td>
+            </tr>
     
-    <div class="content-panel rm-item">
-        
-        {$rssItem.url}  <a href="{copixurl dest="rssmix|default|delete" id=$rssItem.id}" class="button button-delete floatright delete" >{i18n key="rssmix.delete" noEscape=1}</a>
-        <a href="{copixurl dest="rssmix|default|update" id=$rssItem.id}" class="button button-update floatright" >{i18n key="rssmix.update" noEscape=1} </a>
-    <br /><br />
-    </div>
-
 {/foreach}
+ </tbody>
+        </table>
 {/if}
-<div class="content-panel content-panel-button">
-    <a href="{copixurl dest="rssmix|default|create"}" class="button button-add" >{i18n key="rssmix.add" noEscape=1}</a>
-</div>
