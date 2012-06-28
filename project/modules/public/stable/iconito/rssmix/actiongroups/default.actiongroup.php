@@ -78,7 +78,17 @@ class ActionGroupDefault extends enicActionGroup {
                 echo '<hr />';
             }
         } catch (Exception $e) {
+            $config = CopixConfig::instance();
             echo '<p class="mesgError">'.$this->i18n('rssmix.feedNoValid').'</p>';
+            if($config->getMode() == CopixConfig::DEVEL){
+                echo '<div class="content-panel"><h3>Debug informations (only in devel)</h3>
+                    <p> url : '.$this->request('url').'</p>
+                    <p>'.$e->getMessage().'</p>
+                    <p><pre>'.$e->getFile().' : '.$e->getLine().'</pre></p>
+                    <p><pre>'.$e->getTraceAsString().'</pre></p>   
+                        </div>';
+            }
+
         }
 
 

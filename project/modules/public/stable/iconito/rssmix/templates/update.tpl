@@ -2,7 +2,7 @@
     <script type="text/javascript">
     jQuery(document).ready(function($){
        $('.rm-test').click(function(e){
-            $.get('{/literal}{$ppo->urlTest}{literal}?url='+encodeURI($('#rm-i-url').val()), function(data){
+            $.get('{/literal}{$ppo->urlTest}{literal}?url='+encodeURIComponent($('#rm-i-url').val()), function(data){
                 $('.test-panel').html('<h3>{/literal}{i18n key="rssmix.test.title" noEscape=1}{literal}</h3><p>'+data+'</p>').addClass('content-panel');
             });
             return false;
