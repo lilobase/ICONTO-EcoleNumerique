@@ -21,16 +21,16 @@
 
 <form action="{copixurl dest="rssmix|default|createp"}" method="post" id="rm-form">
     
-    <div class="content-panel">
+    <div class="field">
         <label for="rm-i-url">{i18n key="rssmix.label.new" noEscape=1}</label> : 
-        <input type="url" name="rm-url" id="rm-i-url" size="50"/> <a href="" class="button button-confirm rm-test" >{i18n key="rssmix.test" noEscape=1}</a>
+        <input type="url" name="rm-url" id="rm-i-url" size="50" /> <a href="" class="button button-confirm rm-test" >{i18n key="rssmix.test" noEscape=1}</a>
     </div>
     
     <div class="test-panel">
     </div>
 
 
-    <div class="content-panel">
-        <a href="{copixurl dest="rssmix|default|default"}" class="button button-cancel" >{i18n key="rssmix.cancel" noEscape=1}</a> <input type="submit" value="{i18n key="rssmix.submit" noEscape=1}" class="button button-save "/>
-    </div>
+    <p class="center">
+        <a href="{copixurl dest="rssmix|default|default"}" class="button button-cancel" >{i18n key="rssmix.cancel" noEscape=1}</a> <input type="submit" value="{i18n key="rssmix.submit" noEscape=1}" class="button button-confirm "/>
+    </p>
 </form>
