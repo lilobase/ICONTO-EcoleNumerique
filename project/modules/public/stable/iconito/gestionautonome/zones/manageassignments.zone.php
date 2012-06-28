@@ -52,24 +52,27 @@ class ZoneManageAssignments extends CopixZone {
 	    }
 	  }
 	  
-    $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
-	  foreach ($destinationClassrooms as $destinationClassroom) {
+	  if (!isset($ppo->filters['destinationClassroom'])) {
 	    
-	    if ($ppo->filters['originUserType'] == 'USER_ELE') {
-	      
-	      $levels = $destinationClassroom->getLevels();
-	      foreach ($levels as $level) {
-	        
-	        $ppo->destinationAssignments[$destinationClassroom->id][$level->id_n] = array();
-	        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
-	        $ppo->classroomLevels[$level->id_n] = $level->niveau_court;
-	      }
-	    }
-	    else {
-	      
-	      $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
-	      $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
-	    }
+	    $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
+  	  foreach ($destinationClassrooms as $destinationClassroom) {
+
+  	    if ($ppo->filters['originUserType'] == 'USER_ELE') {
+
+  	      $levels = $destinationClassroom->getLevels();
+  	      foreach ($levels as $level) {
+
+  	        $ppo->destinationAssignments[$destinationClassroom->id][$level->id_n] = array();
+  	        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
+  	        $ppo->classroomLevels[$level->id_n] = $level->niveau_court;
+  	      }
+  	    }
+  	    else {
+
+  	      $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
+  	      $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
+  	    }
+  	  }
 	  }
 	  
 	  foreach ($destinationAssignments as $destinationAssignment) {

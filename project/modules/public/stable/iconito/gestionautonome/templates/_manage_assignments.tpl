@@ -78,34 +78,36 @@
       drop: function (event, ui) {
         
         var item = jQuery(ui.draggable);
-        var parent = item.parent().parent();
-        var target = jQuery(event.target);
         
-        if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
-        
-          var classroomId    = target.data('classroom-id');
-          var classroomLevel = target.data('classroom-level');
-          var userId         = item.data('user-id');
-          var userType       = item.data('user-type');
+        if (item.is('li')) {
           
-          jQuery.ajax({
-            url: {/literal}"{copixurl dest=gestionautonome|default|updateAssignment}"{literal},
-            global: true,
-            type: "GET",
-            data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType },
-            success: function(list){
-              reassignePersonAndRefreshBox(ui.draggable, event.target, userType);
-            }
-          });
+          var target = jQuery(event.target);
+
+          reassignePerson(item, target, true);
         }
         else {
           
-          alert ('L\'enseignant est déjà assigné à cette classe');
+          var target = jQuery(event.target);
+          var allLi = item.next('.class-box').find('li');
+          
+          jQuery.each(allLi, function(index) {
+            
+            var item = jQuery(this);
+            var reload = index == (allLi.length - 1);
+            
+            reassignePerson(item, target, reload);
+          });
         }
       }
     });
     
     jQuery('#persons-to-assign .class-box li').draggable({
+      revert: "invalid",
+      helper: "clone",
+      cursor: "move"
+    });
+    
+    jQuery('#persons-to-assign h3').draggable({
       revert: "invalid",
       helper: "clone",
       cursor: "move"
@@ -131,9 +133,29 @@
       });
     });
     
-    function reassignePersonAndRefreshBox(item, target, userType) {
+    function reassignePerson(item, target, reload) {
       
-      jQuery('#filter-form').submit();
+      if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
+
+        var classroomId    = target.data('classroom-id');
+        var classroomLevel = target.data('classroom-level');
+        var userId         = item.data('user-id');
+        var userType       = item.data('user-type');
+
+        jQuery.ajax({
+          url: {/literal}"{copixurl dest=gestionautonome|default|updateAssignment}"{literal},
+          global: true,
+          type: "GET",
+          data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType },
+          success: function() {
+            
+            if (reload) {
+              
+              jQuery('#filter-form').submit();
+            }
+          }
+        });
+      }
     };
   });
 //]]> 
