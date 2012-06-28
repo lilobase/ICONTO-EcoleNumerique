@@ -8,7 +8,7 @@
   <div id="origin" class="filterClass">
     <h3>{i18n key="gestionautonome|gestionautonome.message.origin}</h3>
     <div class="field" id="origin-grade">
-      <label>{i18n key="gestionautonome|gestionautonome.message.schoolyear} :</label>
+      <label>{i18n key="gestionautonome|gestionautonome.message.schoolyear}</label>
       <select name="origin_grade">
         {foreach from=$ppo->grades item=grade}
           <option value="{$grade->id_as}"{if $ppo->filters.originGrade == $grade->id_as} selected="selected"{/if}>{$grade->anneeScolaire}</option>
@@ -29,7 +29,7 @@
       </div>
     {else}
       <div class="field" id="origin-school">
-        {customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc} :
+        {customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc}
         {$ppo->filters.schoolName}
         <input type="hidden" name="origin_school" value="{$ppo->filters.originSchool}" />
       </div>
@@ -82,7 +82,7 @@
       </div>
     {else}
       <div class="field" id="destination-school">
-        {customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc} :
+        {customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc}
         {$ppo->filters.schoolName}
         <input type="hidden" name="destination_school" value="{$ppo->filters.destinationSchool}" />
       </div>

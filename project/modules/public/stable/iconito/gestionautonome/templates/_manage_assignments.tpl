@@ -1,8 +1,10 @@
 <div id="persons-to-assign">
   {if count($ppo->originAssignments) > 0}
+  <ul>
     {foreach from=$ppo->originAssignments item=assignments key=classroomId}
       {foreach from=$assignments item=persons key=levelId}
-        <h3>{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</h3>
+        <li class="classroom">
+        <h3><a href="#" class="classroomClosed">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
         <div class="class-box" data-classroom-id={$classroomId}>
           {if count($persons) > 0}
             <ul>
@@ -14,8 +16,10 @@
             </ul>
           {/if}
         </div>
+        </li>
       {/foreach}
     {/foreach}
+  </ul>
   {else}
     <h3>
         {if $ppo->filters.originUserType eq "USER_ELE"}
@@ -29,27 +33,31 @@
 
 <div id="assigned-persons">
   {if count($ppo->destinationAssignments) > 0}
+    <ul>
     {foreach from=$ppo->destinationAssignments item=assignments key=classroomId}
       {foreach from=$assignments item=persons key=levelId}
-        <h3>{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</h3>
-        <div class="class-box" data-classroom-id={$classroomId}{if $levelId} data-classroom-level={$levelId}{/if}>
+        <li class="classroom" data-classroom-id={$classroomId}{if $levelId} data-classroom-level={$levelId}{/if}>
+        <h3><a href="#" class="classroomClosed">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
+        <div class="class-box">
           {if count($persons) > 0}
             <ul>
               {foreach from=$persons item=person}
                 <li data-user-id={$person->user_id} data-user-type={$person->user_type}>
                   {$person->nom} {$person->prenom}
                   {if $ppo->filters.originUserType eq "USER_ELE"}
-                    <img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" class="remove-person" />
+                    <a href=""  class="remove-person"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" /></a>
                   {else}
-                    <img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_staff_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" class="remove-person" />
+                    <a href=""  class="remove-person"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_staff_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" /></a>
                   {/if}
                 </li>
               {/foreach}
             </ul>
           {/if}
         </div>
+        </li>
       {/foreach}
     {/foreach}
+    </ul>
   {else}
     <h3>
         {if $ppo->filters.originUserType eq "USER_ELE"}
@@ -66,12 +74,26 @@
 //<![CDATA[
   jQuery(document).ready(function(){
     
-    jQuery('#persons-to-assign, #assigned-persons').accordion({
-      autoHeight: false,
-      navigation: true
+    // Masquer Groupes de villes inutiles
+    if (jQuery('#origin-citygroup select option').size() < 2)
+        jQuery('#origin-citygroup').hide();
+    if (jQuery('#destination-citygroup select option').size() < 2)
+        jQuery('#destination-citygroup').hide();
+
+    jQuery('#persons-to-assign a.classroomClosed, #assigned-persons a.classroomClosed').each(function(){
+        $(this).parent('h3').next('div.class-box').hide();
+    });
+    jQuery('#persons-to-assign h3 a, #assigned-persons h3 a').click(function(e){
+        if ($(this).hasClass('classroomClosed'))
+            $(this).removeClass('classroomClosed').addClass('classroomOpen');
+        else
+            $(this).removeClass('classroomOpen').addClass('classroomClosed');
+        $(this).parent('h3').next('div.class-box').slideToggle();
+        e.stopPropagation();
+        return false;
     });
     
-    jQuery('#assigned-persons .class-box').droppable({
+    jQuery('#assigned-persons .classroom').droppable({
       activeClass: "ui-state-default",
       hoverClass: "ui-state-hover",
       accept: ":not(.ui-sortable-helper)",
@@ -113,10 +135,10 @@
       cursor: "move"
     });
     
-    jQuery('#assigned-persons').delegate('.remove-person', 'click', function() {
+    jQuery('#assigned-persons').delegate('.remove-person', 'click', function(e) {
       
       var item          = jQuery(this);
-      var classroomId   = item.closest('.class-box').data('classroom-id');
+      var classroomId   = item.closest('.classroom').data('classroom-id');
       var userId        = item.parent('li').data('user-id');
       var userType      = item.parent('li').data('user-type');
       var grade         = jQuery('#destination select[name="destination_grade"]').val();
@@ -131,6 +153,8 @@
           jQuery('#filter-form').submit();
         }
       });
+        e.stopPropagation();
+        return false;
     });
     
     function reassignePerson(item, target, reload) {
