@@ -48,6 +48,8 @@ class ActionGroupAdmins extends enicActionGroup {
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		$roles = _request('role');
+		$new_admin = _request('new_admins');
+		
 		if($roles) {
 			$sql = "
 				SELECT dbuser.*, kernel_link_bu2user.*
@@ -84,19 +86,35 @@ class ActionGroupAdmins extends enicActionGroup {
 			}
 		}
 		
+		if($new_admin) {
+			$new_admin_array = split(',', $new_admin);
+			$new_admin_array_clean = array_map( 'trim', $new_admin_array );
+			
+			$sql_newadmins = "OR dbuser.login_dbuser IN (";
+			$first = true;
+			foreach( $new_admin_array_clean AS $new_admin_array_item ) { $sql_newadmins.= (!$first?", ":"")."'".addslashes($new_admin_array_item)."'"; $first=false; }
+			$sql_newadmins.= ")";
+			
+			// echo $sql_newadmins;
+		} else {
+			$sql_newadmins = '';
+		}
+		
 		$sql = "
-			SELECT dbuser.*, kernel_link_user2node.*
+			SELECT dbuser.*, kernel_link_bu2user.*, kernel_link_user2node.*
 			FROM dbuser
 			JOIN kernel_link_bu2user ON dbuser.id_dbuser=kernel_link_bu2user.user_id
-			JOIN kernel_link_user2node ON kernel_link_bu2user.bu_type=kernel_link_user2node.user_type AND kernel_link_bu2user.bu_id=kernel_link_user2node.user_id
+			LEFT JOIN kernel_link_user2node ON kernel_link_bu2user.bu_type=kernel_link_user2node.user_type AND kernel_link_bu2user.bu_id=kernel_link_user2node.user_id
 			WHERE node_type='ROOT' AND node_id=0
+			".$sql_newadmins."
 			ORDER BY kernel_link_user2node.droit DESC,dbuser.login_dbuser
 		";
 		$admins = _doQuery ($sql);
 		
+		// echo "<pre>"; print_r($admins); echo "</pre>";
 		
 		foreach( $admins AS &$admin ) {
-			$admin->user_infos = Kernel::getUserInfo( $admin->user_type, $admin->user_id );
+			$admin->user_infos = Kernel::getUserInfo( $admin->bu_type, $admin->bu_id );
 		}
 		/*
 		dbuser : id_dbuser 	login_dbuser 	password_dbuser 	email_dbuser 	enabled_dbuser
@@ -119,5 +137,33 @@ class ActionGroupAdmins extends enicActionGroup {
 
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
+
+
+	/**
+	 * Admins : ajouter des admins
+	 * 
+	 * Propose l'ajout de personnes comme animateur
+	 * 
+	 * @package	Comptes
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 */
+	function processNew() {
+		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_MODERATE )
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
+		
+		$tpl = new CopixTpl ();
+		
+		$tplListe = new CopixTpl ();
+		$main = $tplListe->fetch("admins-new.tpl");
+
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.admins'));
+		$tpl->assign ('MAIN', $main );
+
+		$tpl->assign ('MENU', $this->menu );
+
+
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+	}
+
 	
 }

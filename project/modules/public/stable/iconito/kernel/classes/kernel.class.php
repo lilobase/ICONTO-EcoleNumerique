@@ -2139,6 +2139,12 @@ class Kernel {
 	function isAdmin () {
 		return ( Kernel::getLevel("ROOT",0) >= 70 );
 	}
+	function isAdminFonctionnel () {
+		return ( Kernel::getLevel("ROOT",0) == 60 );
+	}
+	function isSuperAdmin () {
+		return ( Kernel::getLevel("ROOT",0) == 70 );
+	}
 
 	/**
 	 * Détermine si l'usager courant est du personnel administratif

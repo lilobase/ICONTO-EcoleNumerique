@@ -20,7 +20,7 @@ class ActionGroupAdmin extends CopixActionGroup {
 	
    function home () {
     
-    if (!Admin::canAdmin())
+    if (!Kernel::isSuperAdmin() && !Kernel::isAdminFonctionnel())
 		  return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
     
 		$tplHome = new CopixTpl();
@@ -29,6 +29,8 @@ class ActionGroupAdmin extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.moduleDescription'));
 		$tpl->assign ('MENU', Admin::getMenu('sysutils'));
 		
+		$tplHome->assign('superadmin', Kernel::isSuperAdmin());
+		$tplHome->assign('adminfonctionnel', Kernel::isAdminFonctionnel());
 		$tpl->assign ('MAIN', $tplHome->fetch('sysutils|home.tpl'));
 		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

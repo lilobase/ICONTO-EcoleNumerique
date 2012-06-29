@@ -1,4 +1,4 @@
-<p class="right"><a href="{copixurl dest="comptes|animateurs|new"}" class="button button-add">{i18n key="comptes.menu.new_animateur" noEscape=1}</a></p>
+<p class="right"><a href="{copixurl dest="comptes|admins|new"}" class="button button-add">{i18n key="comptes.menu.new_animateur" noEscape=1}</a></p>
 
 {if $admins}
 <form method="post">
@@ -15,13 +15,14 @@
 			<td>{$admin->user_infos.login}</td>
 			<td>{$admin->user_infos.nom}</td>
 			<td>{$admin->user_infos.prenom}</td>
-			<td>{$admin->user_type} / {$admin->user_id}</td>
+			<td>{$admin->bu_type} / {$admin->bu_id}</td>
 			<td>
 				<select name="role[{$admin->id_dbuser}]"{if $admin->id_dbuser eq $user_id} disabled="disabled"{/if}>
 					<option value="70"{if $admin->droit eq 70} selected="selected"{/if}>{i18n key="comptes.roles.table.super_admin"}</option>
 					<option value="60"{if $admin->droit eq 60} selected="selected"{/if}>{i18n key="comptes.roles.table.fonct_admin"}</option>
-					<option value="0">Supprimer les droits d'admin</option>
+					<option value="0" {if $admin->droit eq  0} selected="selected"{/if}>Aucun droits d'admin</option>
 				</select>
+				{if $admin->droit eq  0}A définir !{/if}
 			</td>
 		</tr>
 	{/foreach}
