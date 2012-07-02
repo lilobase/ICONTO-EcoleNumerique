@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_notifications_lastvisit" tablename="kernel_notifications_lastvisit" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="id"           fieldname="id"           type="autoincrement" table="kernel_notifications_lastvisit" pk="yes"/>
+		<property name="user_id"      fieldname="user_id"      type="integer"       table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="date"         fieldname="date"         type="datetime"      table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="node_type"    fieldname="node_type"    type="string"        table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="node_id"      fieldname="node_id"      type="integer"       table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="module_type"  fieldname="module_type"  type="string"        table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="module_id"    fieldname="module_id"    type="string"        table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="last_check"   fieldname="last_check"   type="datetime"      table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="last_number"  fieldname="last_number"  type="integer"       table="kernel_notifications_lastvisit" pk="no"/>
+		<property name="last_message" fieldname="last_message" type="string"        table="kernel_notifications_lastvisit" pk="no"/>
+ 	</properties>
+	<methods>
+		<method name="getByNode" type="select">
+			<parameters>
+				<parameter name="node_type" />
+				<parameter name="node_id" />
+			</parameters>
+			<conditions>
+				<condition property="node_type" operator="=" value="$node_type" />
+				<condition property="node_id"   operator="=" value="$node_id" />
+			</conditions>
+		</method>
+		<method name="getByModule" type="select">
+			<parameters>
+				<parameter name="module_type" />
+				<parameter name="module_id" />
+			</parameters>
+			<conditions>
+				<condition property="module_type" operator="=" value="$module_type" />
+				<condition property="module_id"   operator="=" value="$module_id" />
+			</conditions>
+		</method>
+	</methods>
+</daodefinition>

@@ -240,6 +240,55 @@ class KernelBlog
         return $res;
     }
 
+	function getNotifications(&$module, &$lastvisit) {
+		
+		$lastvisit_date = substr($lastvisit->date, 0, 8);
+		$lastvisit_time = substr($lastvisit->date, 8, 4);
+		
+		
+		$blog = _dao('blog|blog')->get($module->module_id);
+		
+		
+		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)){ // Si on est admin, recherche des nouveaux commentaires
+			$new_comments = _dao('blog|blogarticlecomment')->findBy(
+				_daoSp()
+					->addCondition('id_blog', '=', $module->module_id)
+					->addCondition('is_online', '=', 1)
+					->addCondition('authorid_bacc', '!=', _currentUser()->getExtra("user_id"))
+					->startGroup ('AND')
+						->addCondition('date_bacc', '>', $lastvisit_date)
+						->startGroup ('OR')
+							->addCondition('date_bacc', '=', $lastvisit_date)
+							->addCondition('time_bacc', '>=', $lastvisit_time, 'AND')
+						->endGroup ()
+					->endGroup ()
+			);
+			
+			$module->notification_number = count($new_comments);
+			$module->notification_message = count($new_comments)." commentaire".(count($new_comments)>1?"s":"");
+		} else { // Si on n'est pas admin, recherche des nouveaux articles
+			$new_posts = _dao('blog|blogarticle')->findBy(
+				_daoSp()
+					->addCondition('id_blog', '=', $module->module_id)
+					->addCondition('is_online', '=', 1)
+					->addCondition('author_bact', '!=', _currentUser()->getExtra("user_id"))
+					->startGroup ('AND')
+						->addCondition('date_bact', '>', $lastvisit_date)
+						->startGroup ('OR')
+							->addCondition('date_bact', '=', $lastvisit_date)
+							->addCondition('time_bact', '>=', $lastvisit_time, 'AND')
+						->endGroup ()
+					->endGroup ()
+			);
+			
+			$module->notification_number = count($new_posts);
+			$module->notification_message = count($new_posts)." article".(count($new_posts)>1?"s":"");
+		}
+			
+		
+		return true;
+	}
+
 }
 
 ?>

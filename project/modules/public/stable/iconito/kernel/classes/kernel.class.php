@@ -1430,6 +1430,9 @@ class Kernel {
 				}
 			}
 			// _dump($modules);
+			
+			Kernel::getModlistNotifications($modules);
+			
 			reset($modules);
 			return $modules;
 		}
@@ -1608,6 +1611,8 @@ class Kernel {
 		}
 		
 		// _dump($modules);
+
+		Kernel::getModlistNotifications($modules);
 
 		reset($modules);
 		return $modules;
@@ -2755,4 +2760,75 @@ class Kernel {
  
     return $text;
   }
+
+	public static function getModlistNotifications( &$module_list ) {
+// echo('+');
+		foreach( $module_list AS &$module_item ) {
+			Kernel::getModNotifications( $module_item );
+		}
+		
+		// echo "<pre>"; print_r($module_list);
+		
+		return($module_list);
+	}
+
+	public static function getModNotifications( &$module ) {
+// echo('-');
+		
+		$module_name = preg_replace( '/^MOD_/', '', $module->module_type);
+		
+		$lastvisit = _dao ('kernel|kernel_notifications_lastvisit')->findBy( _daoSp ()
+			->addCondition ('user_id', '=', _currentUser()->getExtra("user_id"))
+			->addCondition ('node_type', '=', $module->node_type)
+			->addCondition ('node_id', '=', $module->node_id)
+			->addCondition ('module_type', '=', $module_name)
+			->addCondition ('module_id', '=', $module->module_id)
+		);
+		
+		if(count($lastvisit)) { // Déjà une visite -> On vérifie le cache
+// echo "XXX";
+			if( $lastvisit[0]->last_check && $lastvisit[0]->last_check >= date('YmdHis', strtotime("-10 sec")) ) { // Si le cache est encore valide -> On retourne les infos du cache
+// echo "cached($module_name/$module->module_id) ";
+				$module->notification_number = $lastvisit[0]->last_number;
+				$module->notification_message = $lastvisit[0]->last_message;
+			} else { // S'il n'y a pas de cache ou qu'il est invalide -> On demande les infos au module
+// echo "not-cached($module_name/$module->module_id) ";
+
+
+				$arModulesPath = CopixConfig::instance ()->arModulesPath;
+				foreach( $arModulesPath AS $modulePath ) {
+					$class_file = $modulePath.$module_name.'/'.COPIX_CLASSES_DIR.'Kernel'.$module_name.'.class.php';
+					if( !file_exists( $class_file ) ) continue;
+					
+					$module_class = & CopixClassesFactory::Create ($module_name.'|Kernel'.$module_name);
+					if (is_callable(array($module_class, 'getNotifications'))) {
+						$module_class->getNotifications($module, $lastvisit[0]);
+						
+						$lastvisit[0]->last_check = date('Y-m-d H:i:s');
+						$lastvisit[0]->last_number = $module->notification_number;
+						$lastvisit[0]->last_message = $module->notification_message;
+						
+						_dao ('kernel|kernel_notifications_lastvisit')->update($lastvisit[0]);
+						
+						/*
+						echo "<pre>";
+						print_r($module);
+						print_r($lastvisit[0]);
+						die();
+						*/
+					}
+				}
+			}
+		} else { // Pas encore de visite -> Pas de notif pour l'instant
+// echo "NOT_visited ";
+			$module->notification_number = 0;
+			$module->notification_message = '';
+		}
+		
+		// [module_nom] => Agenda
+		
+		// echo "<pre>"; print_r($module); die();
+		
+		return($module);
+	}
 }

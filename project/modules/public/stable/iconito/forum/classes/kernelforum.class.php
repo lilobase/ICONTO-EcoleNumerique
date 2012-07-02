@@ -102,6 +102,26 @@ class KernelForum {
 		return $res;
 	}
 
+	function getNotifications(&$module, &$lastvisit) {
+		/*
+		$new_topics = _dao('forum|forum_topics')->findBy(
+			_daoSp()->addCondition('forum', '=', $module->module_id)->addCondition('date_creation', '>', $lastvisit->date)
+		);
+		*/
+		
+		$new_replies = _dao('forum|forum_messages_topics')->findBy(
+			_daoSp()->addCondition('forum', '=', $module->module_id)->addCondition('date', '>', $lastvisit->date)->addCondition('auteur', '!=', _currentUser()->getExtra("user_id"))
+		);
+		
+		/*
+		$module->notification_number = count($new_topics)+count($new_replies);
+		$module->notification_message = (count($new_topics)?count($new_topics)." sujets":"").((count($new_topics)&&count($new_replies))?" et ":"").(count($new_replies)?count($new_replies)." messages":"");
+		*/
+		
+		$module->notification_number = count($new_replies);
+		$module->notification_message = count($new_replies).(count($new_replies)>1?" nouveaux messages":" nouveau message");
+		return true;
+	}
 
 }
 

@@ -3,6 +3,7 @@
     <datasource>
        <tables>
           <table name="blogarticlecomment" tablename="module_blog_articlecomment" primary="yes" />
+          <table name="blogarticle" tablename="module_blog_article" join="inner" />
        </tables>
     </datasource>
  		<properties>
@@ -19,6 +20,9 @@
 	            type="int"
 	            maxlength="20"
 	            required="yes"
+	            fkTable="blogarticle"
+	            fkFieldName="id_bact"
+	
 	            />
 	     <property name="authorid_bacc"
 	            fieldName="authorid_bacc"
@@ -79,6 +83,14 @@
 	            captioni18n="dao.blogarticlecomment.fields.is_online"
 	            type="integer"
 	            required="yes"
+	            />
+	     <property name="id_blog"
+	            fieldName="id_blog"
+	            captioni18n="dao.blog.fields.id_blog"
+	            type="int"
+	            maxlength="20"
+	            required="yes"
+	            table="blogarticle"
 	            />
   	</properties>
 </daodefinition>

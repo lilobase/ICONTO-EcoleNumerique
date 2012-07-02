@@ -7,18 +7,20 @@
 		</tables>
 	</datasource>
 	<properties>
-		<property name="logs_id"         fieldname="id"         type="autoincrement" table="logs" pk="yes"/>
-		<property name="logs_date"       fieldname="date"       type="string"          table="logs" pk="no"/>
-		<property name="logs_type"       fieldname="type"       type="string"        table="logs" pk="no"/>
-		<property name="logs_message"    fieldname="message"    type="string"        table="logs" pk="no"/>
-		<property name="logs_mod_name"   fieldname="mod_name"   type="string"        table="logs" pk="no"/>
-		<property name="logs_mod_action" fieldname="mod_action" type="string"        table="logs" pk="no"/>
-		<property name="logs_user_id"    fieldname="user_id"    type="integer"       table="logs" pk="no"/>
-		<property name="logs_user_login" fieldname="user_login" type="string"        table="logs" pk="no"/>
-		<property name="logs_user_ip"    fieldname="user_ip"    type="string"        table="logs" pk="no"/>
-		<property name="logs_url"        fieldname="url"        type="string"        table="logs" pk="no"/>
-		<property name="logs_node_type"  fieldname="node_type"  type="string"        table="logs" pk="no"/>
-		<property name="logs_node_id"    fieldname="node_id"    type="integer"       table="logs" pk="no"/>
+		<property name="logs_id"          fieldname="id"          type="autoincrement" table="logs" pk="yes"/>
+		<property name="logs_date"        fieldname="date"        type="string"        table="logs" pk="no"/>
+		<property name="logs_type"        fieldname="type"        type="string"        table="logs" pk="no"/>
+		<property name="logs_message"     fieldname="message"     type="string"        table="logs" pk="no"/>
+		<property name="logs_mod_name"    fieldname="mod_name"    type="string"        table="logs" pk="no"/>
+		<property name="logs_mod_action"  fieldname="mod_action"  type="string"        table="logs" pk="no"/>
+		<property name="logs_user_id"     fieldname="user_id"     type="integer"       table="logs" pk="no"/>
+		<property name="logs_user_login"  fieldname="user_login"  type="string"        table="logs" pk="no"/>
+		<property name="logs_user_ip"     fieldname="user_ip"     type="string"        table="logs" pk="no"/>
+		<property name="logs_url"         fieldname="url"         type="string"        table="logs" pk="no"/>
+		<property name="logs_node_type"   fieldname="node_type"   type="string"        table="logs" pk="no"/>
+		<property name="logs_node_id"     fieldname="node_id"     type="integer"       table="logs" pk="no"/>
+		<property name="logs_module_type" fieldname="module_type" type="string"        table="logs" pk="no"/>
+		<property name="logs_module_id"   fieldname="module_id"   type="string"        table="logs" pk="no"/>
  	</properties>
 	<methods>
 		<method name="getAll" type="select">
