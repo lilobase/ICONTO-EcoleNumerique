@@ -1,0 +1,14 @@
+#rssmix-content h4 {
+	margin:0.2em 0 0.5em;
+}
+#rssmix-content a:link, 
+#rssmix-content a:visited {
+	border:1px solid #ddd;
+}
+.widget-rssmix .rm-title{
+    overflow:hidden; max-height: 71px;
+}
+
+.widget-rssmix li{
+    height:125px;
+}

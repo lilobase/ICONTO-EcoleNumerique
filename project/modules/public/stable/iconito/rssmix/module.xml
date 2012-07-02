@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<moduledefinition>
+    <general>
+        <default name="rssmix" />
+    </general>
+    <parameters>
+                <parameter name="enable" captioni18n="rssmix.options" default="false" />
+                <parameter name="itemsLimit" captioni18n="rssmix.options" default="20" />
+	   </parameters>
+</moduledefinition>

@@ -238,3 +238,31 @@ body.thm		{ background: #bad521 url(../../../themes/default/images/thm_body_BG.g
 div.fixed {
   clear:both;
 }
+
+
+
+/* Affichage des tableaux */
+table.viewItems {
+	margin:3px 0; padding:2px; -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px;
+	width:100%;
+	background:#FFFFFF;
+        table-layout:fixed;
+}
+table.viewItems tr.even {
+	background:#F5F5F5;
+}
+table.viewItems th {
+	background:#eee;
+	text-align:center;
+}
+table.viewItems th.actions {
+	width:200px;
+}
+table.viewItems td {
+    max-width:50%;
+    overflow:hidden;
+}
+table.viewItems td a.button:link, 
+table.viewItems td a.button:visited {
+	border:1px solid #ddd;
+}

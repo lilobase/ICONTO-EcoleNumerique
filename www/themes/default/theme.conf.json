@@ -43,7 +43,7 @@
 				},
 			"kernel":
 				{
-				"right":		{"WELCOME":{"supplier":"aide","zone":"dashboardwelcome","params":""}, "MAILEXT":{"supplier":"mailext", "zone":"showmail", "params":""}, "GROUPS":{"supplier":"groupe","zone":"dashboardgroups","params":""}, "HELP":{"supplier":"aide","zone":"dashboardhelp","params":""}}
+				"right":		{"WELCOME":{"supplier":"rssmix","zone":"rssmix","params":""}, "MAILEXT":{"supplier":"mailext", "zone":"showmail", "params":""}, "GROUPS":{"supplier":"groupe","zone":"dashboardgroups","params":""}, "HELP":{"supplier":"aide","zone":"dashboardhelp","params":""}}
 				}
 			}
 		}

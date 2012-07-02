@@ -78,7 +78,7 @@ class mailExtService extends enicService{
     }
 
     public function checkMailConf($iIdMailConf){
-        $mail = $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toArray1();
+        $mail = $this->getConfById($iIdMailConf);
         
         $test = $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']);
         
@@ -87,11 +87,16 @@ class mailExtService extends enicService{
 
     //return all conf data's linked to the current user
     public function getConf(){
-        return $this->model->query('SELECT * FROM module_mailext WHERE user_id = '.$this->user->id)->toArray();
+        if(!isset($this->conf))
+            $this->conf = $this->model->query('SELECT * FROM module_mailext WHERE user_id = '.$this->user->id)->toArray();
+        return $this->conf;
     }
 
     public function getConfById($id){
-        return $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$id)->toArray1();
+        if(!isset($this->confById))
+            $this->confById = $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$id)->toArray1();
+        
+        return $this->confById;
     }
 
     public function checkUserMailConf($iIdMailConf){
