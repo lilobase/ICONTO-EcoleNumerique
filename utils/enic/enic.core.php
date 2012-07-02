@@ -103,7 +103,7 @@ class enic{
     }
     
     public static function zend_load($name){
-        $classPath = ENIC_PATH.'/lib/Zend/'.$name.'.php';
+        $classPath = ENIC_PATH.'/lib/zend/'.$name.'.php';
         
         require_once $classPath;
     }
