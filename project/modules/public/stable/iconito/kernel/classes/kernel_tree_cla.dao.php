@@ -22,8 +22,3 @@ class DAORecordKernel_tree_cla {
 	}
 
 }
-
-
-
-
-?>

@@ -83,6 +83,11 @@ class DAOKernel_bu_res {
 		return _doQuery($query);
 	}	
 	
+	/**
+	 * Retourne les responsables d'un élève
+	 *
+	 * @param int $studentId Id de l'élève
+	 */
 	function getByStudent ($studentId) {
 	  
 	  $sql = str_replace('FROM', ', dbuser.login_dbuser AS login, kernel_bu_lien_parental.parente as link FROM', $this->_selectQuery) . ', kernel_bu_responsables, kernel_link_bu2user, dbuser, kernel_bu_lien_parental'
@@ -96,6 +101,11 @@ class DAOKernel_bu_res {
 		return _doQuery ($sql, array (':id' => $studentId));
 	}
 	
+	/**
+	 * Retourne un responsable à partir du login de son compte
+	 *
+	 * @param string $login
+	 */
 	function getByLogin ($login) {
 	  
 	  $sql = $this->_selectQuery . ', kernel_link_bu2user, dbuser'
@@ -129,4 +139,3 @@ class DAOKernel_bu_res {
    	return isset ($results[0]) ? true : false;
 	}
 }
-?>

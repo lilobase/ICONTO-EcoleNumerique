@@ -10,6 +10,7 @@ class DAOKernel_copixuser {
 	 * Retourne un user selon un identifiant
 	 *
 	 * @param string $login
+	 *
 	 * @return DAORecordDBUser or false
 	 */
 	public function getByUserLogin ($login) {
@@ -28,6 +29,7 @@ class DAOKernel_copixuser {
 	 *
 	 * @param int $id  
 	 * @param string $type
+	 *
 	 * @return DAORecordDBUser or false
 	 */
   public function getUserByBuIdAndBuType ($id, $type) {
@@ -43,5 +45,3 @@ class DAOKernel_copixuser {
     return isset ($results[0]) ? $results[0] : false;
   }
 }
-
-?>

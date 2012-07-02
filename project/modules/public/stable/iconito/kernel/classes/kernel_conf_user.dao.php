@@ -11,6 +11,7 @@ class DAOKernel_conf_user {
 	 *
 	 * @param string $path    Path de l'élément de configuration à récuperer  
 	 * @param int    $userId  Identifiant du dbuser
+	 *
 	 * @return string or false
 	 */
   public function getByPathAndUserId ($path, $userId) {
@@ -24,5 +25,3 @@ class DAOKernel_conf_user {
     return isset ($results[0]) ? $results[0] : false;
   }
 }
-
-?>

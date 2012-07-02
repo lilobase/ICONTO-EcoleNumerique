@@ -3,7 +3,9 @@
 class DAOKernel_bu_annee_scolaire {
 
 	/**
-	 * Retourne l'année scolaire courrante
+	 * Retourne l'année scolaire courante
+	 *
+	 * @return DAORecordKernel_bu_annee_scolaire
 	 */
 	public function getCurrent () {
 		

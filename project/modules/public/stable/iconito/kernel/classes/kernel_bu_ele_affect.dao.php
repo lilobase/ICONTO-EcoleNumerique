@@ -13,6 +13,7 @@ class DAOKernel_bu_ele_affect {
 	 *
 	 * @param int $studentId Identifiant d'un élève
 	 * @param int $classId   Identifiant d'une classe
+	 *
 	 * @return DAORecord
 	 */
 	public function getByStudentAndClass ($studentId, $classId, $current = null) {
@@ -34,6 +35,7 @@ class DAOKernel_bu_ele_affect {
 	 * Retourne les associations d'un élève
 	 *
 	 * @param int $studentId Identifiant d'un élève
+	 *
 	 * @return CopixDAORecordIterator
 	 */
 	public function getByStudent ($studentId) {
@@ -48,6 +50,7 @@ class DAOKernel_bu_ele_affect {
 	 * Retourne l'association courante d'un élève
 	 *
 	 * @param int $studentId Identifiant d'un élève
+	 *
 	 * @return DAORecord
 	 */
 	public function getCurrentAffectByStudent ($studentId) {
@@ -89,6 +92,7 @@ class DAOKernel_bu_ele_affect {
 	 *
 	 * @param int $studentId Identifiant d'un élève
 	 * @param int $gradeId   Identifiant de l'année scolaire
+	 *
 	 * @return DAORecord
 	 */
 	public function getByStudentAndGrade ($studentId, $gradeId, $current = null) {
@@ -107,6 +111,3 @@ class DAOKernel_bu_ele_affect {
 	}
 
 }
-
-
-?>

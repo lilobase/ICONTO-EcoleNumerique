@@ -2,10 +2,6 @@
 
 class DAORecordKernel_bu_ecole_classe_niveau {
   
-  public function __toString() {
-    
-    return $this->nom;
-  }
 }
 
 /**
@@ -20,6 +16,7 @@ class DAOKernel_bu_ecole_classe_niveau {
 	 * Retourne les associations classe-niveau pour une classe donnée
 	 *
 	 * @param int $classId Identifiant d'une classe
+	 *
 	 * @return CopixDAORecordIterator
 	 */
 	public function getByClass ($classId) {

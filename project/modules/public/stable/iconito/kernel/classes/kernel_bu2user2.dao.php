@@ -16,6 +16,6 @@ class DAOKernel_bu2user2 {
   
     $sql = $this->_selectQuery.' WHERE user_id=:user_id';
     
-    return $results = _doQuery ($sql, array(':user_id' => $user_id));
+    return _doQuery ($sql, array(':user_id' => $user_id));
   }
 }

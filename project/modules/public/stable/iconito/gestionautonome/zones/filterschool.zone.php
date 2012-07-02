@@ -11,9 +11,10 @@ class ZoneFilterSchool extends CopixZone {
 	  $ppo = new CopixPPO ();                               
 
     // Récupérations des filtres en session
-	  $ppo->selected = $this->getParam ('selected', null);
-	  $ppo->withLabel = $this->getParam ('with_label', true);
-	  
+	  $ppo->selected    = $this->getParam ('selected', null);
+	  $ppo->withLabel   = $this->getParam ('with_label', true);
+	  $ppo->withEmpty   = $this->getParam ('with_empty', true);
+	  $ppo->name        = $this->getParam ('name', null);
 	  if (!is_null ($cityId = $this->getParam('city_id', null))) {
 	    
 	    // Récupération des écoles de la ville sélectionnée pour liste déroulante
@@ -28,8 +29,8 @@ class ZoneFilterSchool extends CopixZone {
         $schools = $schoolDAO->findByCityIdAndUserGroups ($cityId, $groups['gestionautonome|iconitogrouphandler']);
       }
       
-      $ppo->schoolsIds = array('');
-      $ppo->schoolsNames = array('');
+      $ppo->schoolsIds = array();
+      $ppo->schoolsNames = array();
     
   	  foreach ($schools as $school) {
 	    

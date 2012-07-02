@@ -24,6 +24,3 @@ class DAOKernel_tree_claniv {
 	}
 
 }
-
-
-?>

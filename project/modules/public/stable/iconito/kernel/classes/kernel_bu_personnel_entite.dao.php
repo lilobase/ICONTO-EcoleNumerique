@@ -81,7 +81,8 @@ class DAOKernel_bu_personnel_entite {
    * Retourne si une entité à un rôle d'enseignant dans les classes d'une école donnée
    *
    * @param int   $id
-   * @param int   $school
+   * @param int   $schoolId
+   * @param bool  $forCurrentGrade
    *
    * @return bool
    */
@@ -117,7 +118,8 @@ class DAOKernel_bu_personnel_entite {
    * Retourne si une entité à un rôle d'enseignant dans les classes d'une école donnée
    *
    * @param int   $id
-   * @param int   $school
+   * @param int   $schoolId
+   * @param bool  $forCurrentGrade
    *
    * @return bool
    */
@@ -154,6 +156,10 @@ class DAOKernel_bu_personnel_entite {
   /**
    * Met à jour le rôle d'une entité
    *
+   * @param int     $id_per
+   * @param int     $id_ref
+   * @param string  $type_ref
+   * @param int     $role
    */
   public function updateRole ($id_per, $id_ref, $type_ref, $role) {
     

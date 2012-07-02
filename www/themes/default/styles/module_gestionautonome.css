@@ -304,13 +304,16 @@ ul.tree a.classroom {
 	background:url(../../../themes/default/images/icon-128/action-next.png) no-repeat 50% 100%;
 }
 .filterClass {
-    float:left;
-    margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
-    -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
-    width:40%;
-    background:#fff;
+  float:left;
+  margin:0 0 10px 0; padding:5px; border:3px solid #ddd;
+  -moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+  width:40%;
+  background:#fff;
 }
-#toClass {float:right;}
+#destination {float:right;}
+.filterClass .field label {
+	width:30%;
+}
 .filterClass h3 {margin:0;}
 .filterClass dl {margin:10px 0 5px;}
 .filterClass dl dt {
@@ -319,9 +322,54 @@ ul.tree a.classroom {
 }
 .filterClass dl dd {margin:0 0 0px 35%;}
 .filterClass dl dd, .filterClass dl dt {line-height:1.6em;}
-#students-selector {
+
+#assignments {
 	clear:both;
 }
+#persons-to-assign {
+  float: left;
+  width: 45%;
+}
+#persons-to-assign ul, #assigned-persons ul {
+	padding:0; margin:0;
+	list-style:none;
+}
+#assigned-persons {
+	width:45%;
+  margin-left: 55%;
+}
+.classroom {
+	margin:0 0 1em 0; padding:5px; border:3px solid #ddd;
+	-moz-border-radius:8px;-webkit-border-radius:8px; border-radius:8px;
+	background:#fff;
+}
+.classroom h3 {
+	margin:0; padding:0;
+	font-size:1em;
+}
+.classroom h3 a {
+	padding:0 0 0 18px;
+	background:url(../images/sort_right_off.png) no-repeat 0 50%;
+}
+.classroom a.classroomOpen {
+	background-image:url(../images/sort_down_off.png);
+}
+.class-box {
+    margin:0 0 10px 10px;
+}
+.class-box li {
+	margin:3px 0 0; padding:2px 5px;
+	background:#fff;
+	list-style:inside circle;
+}
+#persons-to-assign .class-box li {
+	border:1px solid #ddd;
+	-moz-border-radius:8px;-webkit-border-radius:8px; border-radius:8px;
+}
+#persons-to-assign .class-box li:hover {
+	cursor:pointer;
+}
+
 /* End Affect */
 /******************************************************************************/
 
