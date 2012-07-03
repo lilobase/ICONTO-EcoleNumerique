@@ -8,11 +8,12 @@
             $('#rssmix-cycle').jCarouselLite({ 
                 vertical: true,
                 auto: true,
-                speed: 4000,
+                speed: 6000,
                 circular: true,
                 visible: 2,
                 scroll: 1,
-                mouseWheel: true
+                mouseWheel: true,
+                pauseOnMouseOver: true
             });
         });
 
