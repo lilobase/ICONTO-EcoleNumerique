@@ -54,6 +54,8 @@ class rssmixService extends enicService {
         $iterator = 1;
         $item = array();
         
+        $img = $feed->getImage();
+        
         foreach ($feed as $entry) {
             
             if($iterator > $limit)
@@ -62,6 +64,7 @@ class rssmixService extends enicService {
             $item[$iterator]['title'] = $entry->getTitle();
             $item[$iterator]['link'] = $entry->getLink();
             $item[$iterator]['content'] = $entry->getContent();
+            $item[$iterator]['img'] = $img;
             
             $iterator++;
         }
