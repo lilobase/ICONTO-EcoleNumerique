@@ -14,6 +14,7 @@
     <property name="date_realisation" fieldname="date_realisation" type="string" maxlength="14" required="no"/>
     <property name="description" fieldname="description" type="string" required="yes"/>
     <property name="supprime" fieldname="supprime" type="integer" required="yes" default="0"/>
+    <property name="timestamp" fieldname="timestamp" type="datetime"/>
   </properties>
   <methods>
   </methods>
