@@ -1,21 +1,21 @@
-<p class="right"><a href="{copixurl dest="comptes|admins|new"}" class="button button-add">{i18n key="comptes.menu.new_animateur" noEscape=1}</a></p>
+<p class="right"><a href="{copixurl dest="comptes|admins|new"}" class="button button-add">{i18n key="comptes.menu.new_role" noEscape=1}</a></p>
 
 {if $admins}
 <form method="post">
-	<table width="100%" class="liste comptes_animateurs comptes_animateurs_list">
+	<table width="100%" class="viewItems">
 	<tr>
-		<th class="liste_th">{i18n key="comptes.roles.table.login"}</th>
 		<th class="liste_th">{i18n key="comptes.roles.table.nom"}</th>
 		<th class="liste_th">{i18n key="comptes.roles.table.prenom"}</th>
-		<th class="liste_th">{i18n key="comptes.roles.table.idtech"}</th>
+		<th class="liste_th">{i18n key="comptes.roles.table.login"}</th>
+		<th class="liste_th hidden">{i18n key="comptes.roles.table.idtech"}</th>
 		<th class="liste_th">{i18n key="comptes.roles.table.role"}</th>
 	</tr>
 	{foreach from=$admins item=admin name=admin}
-		<tr class="{if $smarty.foreach.animateurs.first}first{/if}{if $smarty.foreach.animateurs.last} last{/if}">
-			<td>{$admin->user_infos.login}</td>
+		<tr class="{if $smarty.foreach.admin.index % 2 == 0}odd{else}even{/if}">
 			<td>{$admin->user_infos.nom}</td>
 			<td>{$admin->user_infos.prenom}</td>
-			<td>{$admin->bu_type} / {$admin->bu_id}</td>
+			<td>{$admin->user_infos.login}</td>
+			<td class="hidden">{$admin->bu_type} / {$admin->bu_id}</td>
 			<td>
 				<select name="role[{$admin->id_dbuser}]"{if $admin->id_dbuser eq $user_id} disabled="disabled"{/if}>
 					<option value="70"{if $admin->droit eq 70} selected="selected"{/if}>{i18n key="comptes.roles.table.super_admin"}</option>

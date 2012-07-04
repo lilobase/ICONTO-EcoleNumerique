@@ -5,9 +5,9 @@
 <script src="/js/iconito/module_annuaire.js" type="text/javascript"></script>
 <a class="button button-directory" href="javascript:open_annuaire('new_admins');">Chercher dans l'annuaire</a>
 
-<p class="right">
+<p class="center">
 <a class="button button-cancel" href="{copixurl dest="comptes|admins|"}">Annuler</a>
-<input class="button button-save" type="submit" value="Valider">
+<input class="button button-confirm" type="submit" value="Valider">
 </p>
 
 </form>
