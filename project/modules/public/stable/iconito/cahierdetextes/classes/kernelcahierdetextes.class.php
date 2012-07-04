@@ -89,23 +89,15 @@ class KernelCahierDeTextes
 		$module->notification_number = 0;
 		$module->notification_message = "";
 		
+		// echo "<pre>"; print_r($module); die();
+		
 		// Le module CahierDetextes ne fonctionne actuellement que pour les classes.
-		if( $module->node_type != 'BU_CLASSE' ) return true;
+		if( $module->node_type == 'BU_CLASSE' ) $id_eleve = _currentUser()->getExtra('id');
+		elseif( $module->node_type == 'USER_ELE' ) $id_eleve = $module->node_id;
+		else return true;
 		
 		// Les notifications sont pour les élèves uniquement.
 		if( _currentUser()->getExtra("type") == 'USER_ENS' ) return true;
-		
-		/*
-		$news = _dao('cahierdetextes|cahierdetextestravail')->findBy(
-			_daoSp()->addCondition('classe_id', '=', $module->node_id)->addCondition('timestamp', '>', $lastvisit->date)->addCondition('a_faire', '=', 1)
-		);
-		*/
-		
-		/*
-		$news = _dao('cahierdetextes|cahierdetextestravail2eleve')->findBy(
-			_daoSp()->addCondition('eleve_id', '=', _currentUser()->getExtra('user_id'))->addCondition('timestamp', '>', $lastvisit->date)->addCondition('a_faire', '=', 1)->addCondition('supprime', '=', 0)
-		);
-		*/
 		
 		$news_travaux = _doQuery('SELECT * 
 			FROM module_cahierdetextes_travail2eleve T2E
@@ -132,14 +124,6 @@ class KernelCahierDeTextes
 				':lastvisit'=>$lastvisit->date
 			));
 			
-		/*
-		$news = _dao('cahierdetextes|cahierdetextestravail2eleve')->findBy(
-			_daoSp()->addCondition('eleve_id', '=', _currentUser()->getExtra('user_id'))->addCondition('timestamp', '>', $lastvisit->date)->addCondition('a_faire', '=', 1)->addCondition('supprime', '=', 0)
-		);
-		*/
-		
-		// echo "<pre>"; print_r($news_memos); die();
-		
 		$module->notification_number = count($news_travaux)+count($news_memos);
 		$module->notification_message = '';
 		if(count($news_travaux)) $module->notification_message.= (count($news_travaux)>1?CopixI18N::get('cahierdetextes|cahierdetextes.notification.travaux_n', array(count($news_travaux))):CopixI18N::get('cahierdetextes|cahierdetextes.notification.travaux_1', array(count($news_travaux))));
