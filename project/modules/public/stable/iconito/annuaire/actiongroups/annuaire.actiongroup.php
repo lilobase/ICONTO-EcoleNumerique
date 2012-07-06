@@ -376,6 +376,7 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
 			$ppo = new CopixPPO ();
 			$ppo->result = $result;
+			$ppo->field = $field;
 			$ppo->TITLE_PAGE = CopixI18N::get ('annuaire|annuaire.moduleDescription');
 			CopixHTMLHeader::addJSLink (_resource("js/iconito/module_annuaire.js")); 
 
@@ -648,6 +649,7 @@ if($debug) echo "comboempty ".date("H:i:s")." ".(microtime(true)-$start)."<br />
 		$ppo = new CopixPPO ();
 		$ppo->result = $result;
 		$ppo->TITLE_PAGE = CopixI18N::get ('annuaire|annuaire.moduleDescription');
+		$ppo->field = $field;
 		CopixHTMLHeader::addJSLink (_resource("js/iconito/module_annuaire.js")); 
 		
 		return _arPPO ($ppo, array ('template'=>'getpopup_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));

@@ -30,6 +30,7 @@ body.thm {
 
 <body class="thm nodebug"<?php if (isset($BODY_ON_LOAD) && $BODY_ON_LOAD) echo ' onLoad="'.$BODY_ON_LOAD.'"'; if (isset($BODY_ON_UNLOAD) && $BODY_ON_UNLOAD) echo ' onUnLoad="'.$BODY_ON_UNLOAD.'"'; ?>>
 
+<?php if($ppo->field == 'new_admins') { ?>
 <div id="submenu" style="position: relative; margin-bottom: 5px;"><div class="menuitems">
 	<ul style="font-size: 120%;">
 		<li><a class="users" href="<?php echo CopixURL::get('annuaire||getPopup', array('field'=>_request('field'))); ?>">
@@ -42,7 +43,7 @@ body.thm {
 		</a></li>
 	</ul>
 </div></div>
-
+<?php } ?>
 
 
 <div id="divUserProfil" onclick="hideUser();"></div>
