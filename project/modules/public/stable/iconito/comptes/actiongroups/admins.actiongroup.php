@@ -104,11 +104,13 @@ class ActionGroupAdmins extends enicActionGroup {
 			SELECT dbuser.*, kernel_link_bu2user.*, kernel_link_user2node.*
 			FROM dbuser
 			JOIN kernel_link_bu2user ON dbuser.id_dbuser=kernel_link_bu2user.user_id
-			LEFT JOIN kernel_link_user2node ON kernel_link_bu2user.bu_type=kernel_link_user2node.user_type AND kernel_link_bu2user.bu_id=kernel_link_user2node.user_id
-			WHERE node_type='ROOT' AND node_id=0
+			LEFT JOIN kernel_link_user2node ON kernel_link_bu2user.bu_type=kernel_link_user2node.user_type AND kernel_link_bu2user.bu_id=kernel_link_user2node.user_id AND kernel_link_user2node.node_type='ROOT' AND kernel_link_user2node.node_id=0
+			WHERE (node_type='ROOT' AND node_id=0)
 			".$sql_newadmins."
 			ORDER BY kernel_link_user2node.droit DESC,dbuser.login_dbuser
 		";
+		// die($sql);
+		
 		$admins = _doQuery ($sql);
 		
 		// echo "<pre>"; print_r($admins); echo "</pre>";
