@@ -14,11 +14,11 @@ class ZoneSelectionClasseurs extends CopixZone {
 	  $ppo->classeurId      = $this->getParam('classeurId');
 	  $ppo->targetType      = $this->getParam('targetType');
 	  $ppo->targetId        = $this->getParam('targetId');
-	  $ppo->withLocker      = $this->getParam('withLocker', true);
+	  $ppo->withMainLocker  = $this->getParam('withMainLocker', true);
+	  $ppo->withSubLockers  = $this->getParam('withSubLockers', Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) >= PROFILE_CCV_PUBLISH ? true : false);
 	  
 	  // Récupération des classeurs accessibles à l'utilisateur pour les actions de masse (copie / déplacement)
     $classeurIds = array();
-    
 
 	  $nodes = Kernel::getMyNodes (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
     foreach ($nodes as $node) {

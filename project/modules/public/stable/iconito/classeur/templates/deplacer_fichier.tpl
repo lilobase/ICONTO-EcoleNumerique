@@ -14,7 +14,7 @@
 
 <form id="move_file" action="{copixurl dest="classeur||deplacerFichier"}" method="post" enctype="multipart/form-data">
   <input type="hidden" name="classeurId" id="classeurId" value="{$ppo->classeur->id}" />
-  <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossier->id}" />
+  <input type="hidden" name="dossierId" id="dossierId" value="{$ppo->dossierId}" />
   <input type="hidden" name="fichierId" id="fichierId" value="{$ppo->fichier->id}" />
   
   <div class="row">
@@ -29,11 +29,11 @@
   
   <div class="row">
     <p class="label">{i18n key="classeur.message.destinationLocation"}</p>
-    <div class="field selectFolder">{copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeurId targetType=$ppo->destinationType targetId=$ppo->destinationId withLocker=0}</div>
+    <div class="field selectFolder">{copixzone process=classeur|selectionClasseurs classeurId=$ppo->classeurId targetType=$ppo->destinationType targetId=$ppo->destinationId withMainLocker=true withSubLockers=$ppo->withSubLockers}</div>
   </div>
   
   <div class="submit">
-    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeur->id dossierId=$ppo->dossier->id}" class="button button-cancel" id="cancel">{i18n key="classeur.message.cancel"}</a>
+    <a href="{copixurl dest=classeur||voirContenu classeurId=$ppo->classeur->id dossierId=$ppo->dossierId}" class="button button-cancel" id="cancel">{i18n key="classeur.message.cancel"}</a>
   	<input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="classeur.message.save"}" />
   </div>
 </form>

@@ -28,7 +28,7 @@
   <div class="row">
     <label for="fichiers" class="form_libelle">{i18n key="classeur.message.file"}</label>
     <p class="field">{if $ppo->fichier->id neq null}{if $ppo->fichier->estUneImage()}<img src="{$ppo->fichier->getLienMiniature(45)}" />{else}{$ppo->fichier}{/if}<br />{/if}
-    <input id="fichier" name="fichier[]" type="file" /></p>
+    <input id="fichier" name="fichier" type="file" /></p>
     {if $ppo->fichier->id eq null}
     <p class="field info">{i18n key="classeur.message.maxfilesize} {$ppo->conf->max_file_size|human_file_size}</p>
     {/if}

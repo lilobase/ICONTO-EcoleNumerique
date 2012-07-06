@@ -15,11 +15,13 @@ class ZoneSelectionDossiers extends CopixZone {
 	  $ppo->dossierId       = $this->getParam('dossierId');
 	  $ppo->targetType      = $this->getParam('targetType');
 	  $ppo->targetId        = $this->getParam('targetId');
-	  $ppo->withLocker      = $this->getParam('withLocker', true);
+	  
+	  $ppo->estAdmin = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) >= PROFILE_CCV_PUBLISH;
+	  $ppo->withLockers = $ppo->estAdmin || is_null ($ppo->dossierId);
 	  
 	  // Récupération des dossiers
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
-	  $ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId, $ppo->withLocker);
+	  $ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId, $ppo->withLockers);
 
     _classInclude('classeurservice');
     $ppo->dossiersOuverts = ClasseurService::getFoldersTreeState ();

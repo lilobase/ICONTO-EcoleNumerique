@@ -12,7 +12,7 @@ class ZoneArborescenceDossiers extends CopixZone {
 	  
 	  // Récupération des paramètres
 	  $ppo->classeurId      = $this->getParam('classeurId');
-	  $ppo->dossierId       = $this->getParam('dossierId');
+	  $ppo->dossierId       = $this->getParam('dossierId', null);
 	  $ppo->dossierCourant  = $this->getParam('dossierCourant');
 	  
 	  // Paramètres pour la vue popup
@@ -22,9 +22,12 @@ class ZoneArborescenceDossiers extends CopixZone {
 	  $ppo->moduleType      = $this->getParam('moduleType', null);
 	  $ppo->moduleId        = $this->getParam('moduleId', null);
 	  
+	  $ppo->estAdmin = Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) >= PROFILE_CCV_PUBLISH;
+	  $ppo->withLockers = $ppo->estAdmin || is_null ($ppo->dossierId);
+	  
 	  // Récupération des dossiers
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
-	  $ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId);
+	  $ppo->dossiers = $dossierDAO->getEnfantsDirects($ppo->classeurId, $ppo->dossierId, $ppo->withLockers);
 
     _classInclude('classeurservice');
     $ppo->dossiersOuverts = ClasseurService::getFoldersTreeState ();

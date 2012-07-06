@@ -77,7 +77,11 @@
       <!-- Affichage des dossiers -->
       {if $contenu->content_type eq "dossier"}
         <tr class="folder {if $index%2 eq 0}odd{else}even{/if}">
-          <td><input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}" /></td>
+          <td>
+            {if ($ppo->dossierId eq 0 && !$contenu->casier) || $ppo->dossierId neq 0}
+              <input type="checkbox" class="check" name="dossiers[]" value="{$contenu->id}"{if $contenu->casier} data-locker=1{/if} />
+            {/if}
+          </td>
           <td><a href="{copixurl dest="classeur||voirContenu" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.openFolder" nom=$contenu->titre noEscape=1}" class="icon iconFolder {if $contenu->casier}iconFolderLocked{/if}">{$contenu->titre|escape}</a></td>
           <td class="center">&nbsp;</td>
           <td class="center">{$contenu->type}</td>
@@ -92,18 +96,20 @@
             {$contenu->taille|human_file_size}
           </td>
           <td class="center actions">
-            {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
-            <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
-              <img src="{copixurl}themes/default/images/button-action/action_update.png" alt="{i18n key="classeur.message.modify"}" />
-            </a>
-            {/if}
-            {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
-            <a href="{copixurl dest="classeur||deplacerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId dossierId=$contenu->id}" title="{i18n key="classeur.message.move"}">
-              <img src="{copixurl}themes/default/images/button-action/action_move.png" alt="{i18n key="classeur.message.move"}" />
-            </a>
-            <a href="{copixurl dest="classeur||supprimerDossier" classeurId=$ppo->classeurId dossierId=$contenu->id}" onclick="return confirm('{i18n key="classeur.message.deleteFolderConfirm"}')" title="{i18n key="classeur.message.delete"}">
-              <img src="{copixurl}themes/default/images/button-action/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
-            </a>
+            {if ($ppo->dossierId eq 0 && !$contenu->casier) || $ppo->dossierId neq 0}
+              {if $ppo->niveauUtilisateur >= PROFILE_CCV_MEMBER || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
+                <a href="{copixurl dest="classeur||editerDossier" classeurId=$ppo->classeurId dossierId=$contenu->id}" title="{i18n key="classeur.message.modify"}">
+                  <img src="{copixurl}themes/default/images/button-action/action_update.png" alt="{i18n key="classeur.message.modify"}" />
+                </a>
+              {/if}
+              {if $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH || ($contenu->user_id eq $ppo->idUtilisateur && $contenu->user_type eq $ppo->typeUtilisateur)}
+                <a href="{copixurl dest="classeur||deplacerDossier" classeurId=$ppo->classeurId parentId=$ppo->dossierId dossierId=$contenu->id}" title="{i18n key="classeur.message.move"}"{if $contenu->casier} onclick="return confirm('{i18n key="classeur.message.moveLockerConfirm"}')"{/if}>
+                  <img src="{copixurl}themes/default/images/button-action/action_move.png" alt="{i18n key="classeur.message.move"}" />
+                </a>
+                <a href="{copixurl dest="classeur||supprimerDossier" classeurId=$ppo->classeurId dossierId=$contenu->id}" onclick="return confirm('{if $contenu->casier}{i18n key="classeur.message.deleteLockerConfirm"}{else}{i18n key="classeur.message.deleteFolderConfirm"}{/if}')" title="{i18n key="classeur.message.delete"}">
+                  <img src="{copixurl}themes/default/images/button-action/action_delete.png" alt="{i18n key="classeur.message.delete"}" />
+                </a>
+              {/if}
             {/if}
           </td>
         </tr>

@@ -18,9 +18,8 @@ class ActionGroupDefault extends CopixActionGroup {
       return CopixActionGroup::process ('genericTools|Messages::getError',
  	     array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
     }
-    
     // Le responsable doit disposer de l'ID de l'élève
-    if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ) {
+    elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ) {
       
       if ($actionName == "processVoirTravaux" && is_null($eleve = _request('eleve', null))) {
         
@@ -57,11 +56,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $myNode = CopixSession::get('myNode');
 
     // Récupération des paramètres
-    $ppo->jour    = _request ('jour', date('d'));
-  	$ppo->mois    = _request ('mois', date('m'));
-  	$ppo->annee   = _request ('annee', date('Y'));
-  	$ppo->success = _request ('success', false);
-  	$ppo->eleve   = _request ('eleve', $myNode['type'] == "USER_ELE" ? $myNode['id'] : null);
+    $ppo->jour        = _request ('jour', date('d'));
+  	$ppo->mois        = _request ('mois', date('m'));
+  	$ppo->annee       = _request ('annee', date('Y'));
+  	$ppo->msgSuccess  = _request ('msgSuccess', false);
+  	$ppo->eleve       = _request ('eleve', $myNode['type'] == "USER_ELE" ? $myNode['id'] : null);
   	
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
   	$ppo->dateSelectionnee  = $ppo->annee.$ppo->mois.$ppo->jour;
@@ -204,7 +203,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  $ppo = new CopixPPO ();
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
 	  
-	  if (is_null($cahierId = _request('cahierId', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
+	  if (is_null($cahierId = _request('cahierId', null)) || !$ppo->travail = $travailDAO->get (_request('travailId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
   			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
@@ -217,9 +216,91 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  // Récupération des élèves liés au travail
 	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
-	  $ppo->eleves = $travail2eleveDAO->findElevesParTravail($travail->id);
+	  $ppo->eleves = $travail2eleveDAO->findElevesParTravail($ppo->travail->id);
 
 	  return _arPPO ($ppo, array ('template' => 'voir_concernes_par_travail.tpl', 'mainTemplate' => 'main|main_fancy.php'));
+	}
+	
+	/**
+	 * Affichage des élèves concernés par un travail - * Enseignant *
+	 */
+	public function processRendreTravail () {
+	  
+	  $ppo = new CopixPPO ();
+    
+    if (is_null ($ppo->travailId = _request ('travailId'))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+	  
+	  $ppo->cahierId = _request ('cahierId');
+	  $ppo->error    = _request ('error');
+	  
+	  // Récupération du travail à rendre
+	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
+	  $travail = $travailDAO->get ($ppo->travailId);
+	  
+	  // Récupération du classeur
+	  $cahierInfos = Kernel::getModParent ('MOD_CAHIERDETEXTES', $ppo->cahierId);
+	  $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+    if ($modClasseur = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
+
+      $classeurId = $modClasseur[0]->module_id;
+    }
+	  
+	  $classeurDAO = _ioDAO ('classeur|classeur');
+	  $classeur = $classeurDAO->get ($classeurId);
+	  
+	  // Récupération du dossier où rendre le travail
+	  $dossierDAO = _ioDAO ('classeur|classeurdossier');
+	  if (!$dossier = $dossierDAO->get ($travail->dossier_id)) {
+	    
+	    $dossier = $dossierDAO->getCasier ($classeurId);
+	  }
+    
+    if (CopixRequest::isMethod ('post')) {
+      
+      // Contrôle upload du fichier
+      if (is_uploaded_file ($_FILES['fichier']['tmp_name'])) {
+        
+        $file = $_FILES['fichier']['tmp_name'];
+        $name = $_FILES['fichier']['name'];
+        
+        _classInclude ('classeur|classeurService');
+        classeurService::uploadFile ($file, $name, $classeur, $dossier);
+        classeurService::sendLockerUploadConfirmation ($name);
+        
+        // Sauvegarde de la date de rendu du travail
+        $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
+        if ($suivi = $travail2eleveDAO->getByTravailAndEleve ($ppo->travailId, _currentUser()->getExtra('id'))) {
+        
+          $suivi->rendu_le = date('Y-m-d H:i:s');
+          
+          $travail2eleveDAO->update ($suivi);
+        }
+        else {
+          
+          $suivi = _record ('cahierdetextes|cahierdetextestravail2eleve');
+          
+          $suivi->travail_id = $ppo->travailId;
+          $suivi->eleve_id = _currentUser()->getExtra('id');
+          $suivi->rendu_le = date('Y-m-d H:i:s');
+          
+          $travail2eleveDAO->insert ($suivi);
+        }
+        
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'msgSuccess' => CopixI18N::get ('classeur|classeur.message.confirmUploadLockerMessage', array($name)))));
+      }
+      else {
+        
+        $ppo->erreur = CopixI18N::get ('classeur|classeur.error.noFiles');
+        
+        return _arPPO ($ppo, array ('template' => 'rendre_travail.tpl'));
+      }
+    }
+    
+    return _arPPO ($ppo, array ('template' => 'rendre_travail.tpl', 'mainTemplate' => 'main|main_fancy.php'));
 	}
 	
 	/**
@@ -242,11 +323,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 
     // Récupération des paramètres
-    $nomDomaine   = _request ('nom', null);
-	  $ppo->jour    = _request ('jour', date('d'));
-  	$ppo->mois    = _request ('mois', date('m'));
-  	$ppo->annee   = _request ('annee', date('Y'));
-    $ppo->success = false;
+    $nomDomaine       = _request ('nom', null);
+	  $ppo->jour        = _request ('jour', date('d'));
+  	$ppo->mois        = _request ('mois', date('m'));
+  	$ppo->annee       = _request ('annee', date('Y'));
+    $ppo->msgSuccess  = false;
     
     // Mode edition ?
   	$domaineDAO = _ioDAO ('cahierdetextes|cahierdetextesdomaine');
@@ -299,9 +380,9 @@ class ActionGroupDefault extends CopixActionGroup {
         $domaineDAO->update($ppo->domaine);
       }
 
-      $ppo->success = true;
+      $ppo->msgSuccess = CopixI18N::get ('cahierdetextes|cahierdetextes.message.success');
       
-      return _arRedirect (CopixUrl::get ('cahierdetextes||gererDomaines', array('cahierId' => $ppo->cahierId, 'jour' => $ppo->jour, 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'success' => $ppo->success)));
+      return _arRedirect (CopixUrl::get ('cahierdetextes||gererDomaines', array('cahierId' => $ppo->cahierId, 'jour' => $ppo->jour, 'mois' => $ppo->mois, 'annee' => $ppo->annee, 'msgSuccess' => $ppo->msgSuccess)));
     }
     
     $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
@@ -343,7 +424,7 @@ class ActionGroupDefault extends CopixActionGroup {
     else {
       
       $domaineDAO->delete ($domaine->id);
-      $ppo->success = true;
+      $ppo->msgSuccess = CopixI18N::get ('cahierdetextes|cahierdetextes.message.success');
     }
     
     return _arPPO ($ppo, 'gerer_domaines.tpl');
@@ -368,11 +449,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }   
 	  
 	  // Récupération des paramètres
-	  $ppo->jour    = _request ('jour', date('d'));
-  	$ppo->mois    = _request ('mois', date('m'));
-  	$ppo->annee   = _request ('annee', date('Y'));
-  	$ppo->success = _request ('success', null);
-  	$ppo->vue     = _request ('vue', null);
+	  $ppo->jour        = _request ('jour', date('d'));
+  	$ppo->mois        = _request ('mois', date('m'));
+  	$ppo->annee       = _request ('annee', date('Y'));
+  	$ppo->msgSuccess  = _request ('msgSuccess', false);
+  	$ppo->vue         = _request ('vue', null);
   	
   	$ppo->dateSelectionnee  = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
@@ -472,10 +553,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	  if (CopixRequest::isMethod ('post')) {
       
       $ppo->travail->domaine_id        = _request ('travail_domaine_id', null);
-      $ppo->travail->a_faire           = _request ('a_faire', null);
+      $ppo->travail->a_faire           = _request ('a_faire', 0);
       $ppo->travail->date_creation     = CopixDateTime::dateToyyyymmdd(_request ('travail_date_creation', null));
       $ppo->travail->date_realisation  = CopixDateTime::dateToyyyymmdd(_request ('travail_date_realisation', null));
       $ppo->travail->description       = _request ('travail_description', null);
+      $ppo->travail->a_rendre          = _request ('travail_a_rendre', 0);
       $ppo->travail->supprime          = 0;
       $ppo->elevesSelectionnes         = _request ('eleves', array());
       $ppo->fichiers                   = _request ('travail_fichiers', array());
@@ -587,6 +669,60 @@ class ActionGroupDefault extends CopixActionGroup {
         return _arPPO ($ppo, 'editer_travail.tpl');
       }
       
+      // Récupération de la liste des modules activés
+      $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+      
+      // Création du classeur pour permettre aux élèves de rendre leur travail (si mod activé)
+  	  if ($ppo->travail->a_rendre && is_null ($ppo->travail->dossier_id)) {
+  	    
+  	    $classeur = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR');
+    	  if ($classeur) {
+          
+          // Récupération du casier de la classe
+          $dossierDAO = _ioDAO ('classeur|classeurdossier');
+          $casier = $dossierDAO->getCasier($classeur[0]->module_id);
+          if ($casier) {
+            
+            _classInclude('classeur|classeurService');
+            $dossier = _record ('classeur|classeurdossier');
+
+            $dossier->nb_dossiers     = 0;
+            $dossier->nb_fichiers     = 0;
+            $dossier->taille          = 0;
+            $dossier->classeur_id     = $classeur[0]->module_id;
+            $dossier->parent_id       = $casier->id;
+            $dossier->cle             = classeurService::createKey ();
+            $dossier->date_creation   = date('Y-m-d H:i:s');
+            $dossier->user_type       = _currentUser()->getExtra('type');
+            $dossier->user_id         = _currentUser()->getExtra('id');
+            $dossier->casier          = 1;
+
+            // Le nom du casier pour un travail à rendre doit être unique
+            $dossier->nom = CopixDateTime::yyyymmddToDate ($ppo->travail->date_realisation).' '.$ppo->nomsDomaine[array_search ($ppo->travail->domaine_id, $ppo->idsDomaine)];
+
+            $cpt = '';
+            $nomDossier = $dossier->nom;
+            while (count($dossierDAO->getByNom ($dossier->nom)) > 0) {
+
+              if ($cpt == '') {
+
+                $cpt = 2;
+              }
+              else {
+
+                $cpt++;
+              }
+
+              $dossier->nom = $nomDossier.' '.$cpt;
+            }
+
+            $dossierDAO->insert ($dossier);
+
+            $ppo->travail->dossier_id = $dossier->id;
+          }
+    	  }
+    	}
+      
       // Création
       if ($ppo->travail->id == '') {
 
@@ -634,12 +770,10 @@ class ActionGroupDefault extends CopixActionGroup {
 
           $travail2fichierDAO->insert($travail2fichier);
         }
-      } 
+      }
       
       // Insertion de l'événement dans l'agenda (si mod activé)
-      $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
   	  $agenda = Kernel::filterModuleList ($mods, 'MOD_AGENDA');
-  	  
   	  if ($agenda) {
   	    
   	    $agendaWorkDAO = _ioDAO ('agenda|work');
@@ -655,34 +789,34 @@ class ActionGroupDefault extends CopixActionGroup {
         }
   	  }
       
-      $ppo->success = true;
+      $ppo->msgSuccess = CopixI18N::get ('cahierdetextes|cahierdetextes.message.success');
       
       // Redirection
-      switch($ppo->travail_redirection) {
+      switch ($ppo->travail_redirection) {
         case 0:
-          switch($ppo->vue) {
+          switch ($ppo->vue) {
             case "jour":
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'msgSuccess' => $ppo->msgSuccess)));
               break;
             case "liste":
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('cahierId' => $ppo->cahierId, 'msgSuccess' => $ppo->msgSuccess)));
               break;
             case "domaine":
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('cahierId' => $ppo->cahierId, 'msgSuccess' => $ppo->msgSuccess)));
               break;
             default:
-              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success)));
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'msgSuccess' => $ppo->msgSuccess)));
               break;
           }
           break;
         case 1:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'vue' => $ppo->vue)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'msgSuccess' => $ppo->msgSuccess, 'vue' => $ppo->vue)));
           break;
         case 2:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'vue' => $ppo->vue, 'a_faire' => 1)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||editerTravail', array('cahierId' => $ppo->cahierId, 'msgSuccess' => $ppo->msgSuccess, 'vue' => $ppo->vue, 'a_faire' => 1)));
           break;
         default:
-          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'success' => $ppo->success, 'vue' => $ppo->vue)));
+          return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'msgSuccess' => $ppo->msgSuccess, 'vue' => $ppo->vue)));
           break;
       }
     }
@@ -731,16 +865,16 @@ class ActionGroupDefault extends CopixActionGroup {
     $vue = _request('vue', null);
     switch($vue) {
       case "jour":
-        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId, 'success' => true)));
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
         break;
       case "liste":
-        return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('cahierId' => $cahierId, 'success' => true)));
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirListeTravaux', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
         break;
       case "domaine":
-        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('cahierId' => $cahierId, 'success' => true)));
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravauxParDomaine', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
         break;
       default:
-        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId, 'success' => true)));
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
         break;
     }
 	}
@@ -759,11 +893,11 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 
     // Récupération des paramètres
-    $ppo->jour    = _request ('jour', date('d'));
-  	$ppo->mois    = _request ('mois', date('m'));
-  	$ppo->annee   = _request ('annee', date('Y'));
-  	$ppo->success = _request ('success', null);
-  	$ppo->eleve   = _request ('eleve', null);
+    $ppo->jour        = _request ('jour', date('d'));
+  	$ppo->mois        = _request ('mois', date('m'));
+  	$ppo->annee       = _request ('annee', date('Y'));
+  	$ppo->msgSuccess  = _request ('msgSuccess', false);
+  	$ppo->eleve       = _request ('eleve', null);
   	
   	$time                   = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
     $cahierInfos            = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
@@ -858,10 +992,10 @@ class ActionGroupDefault extends CopixActionGroup {
 	  }
 	  
 	  // Récupération des paramètres
-	  $ppo->jour    = _request ('jour', date('d'));
-  	$ppo->mois    = _request ('mois', date('m'));
-  	$ppo->annee   = _request ('annee', date('Y'));
-  	$ppo->success = _request ('success', null);
+	  $ppo->jour        = _request ('jour', date('d'));
+  	$ppo->mois        = _request ('mois', date('m'));
+  	$ppo->annee       = _request ('annee', date('Y'));
+  	$ppo->msgSuccess  = _request ('msgSuccess', false);
   	
   	$ppo->dateSelectionnee  = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
   	$ppo->format            = CopixConfig::get('cahierdetextes|format_par_defaut');
@@ -1088,7 +1222,7 @@ class ActionGroupDefault extends CopixActionGroup {
         }
       }
 
-      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'success' => true)));
+      return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
 	  }
 	  
 	  $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
@@ -1127,7 +1261,7 @@ class ActionGroupDefault extends CopixActionGroup {
     // Suppression du mémos
     $memoDAO->delete($memo->id);
     
-    return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $cahierId, 'success' => true)));
+    return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
 	}
 	
 	/**

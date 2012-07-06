@@ -57,6 +57,12 @@
           {html_options name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
       {/if}</p>
     </div>
+    {if $ppo->travail->a_faire}
+      <div class="field">
+        <label for="travail_a_rendre" class="form_libelle">{i18n key="cahierdetextes.message.return"} :</label>
+        <p class="input"><input class="form" type="checkbox" name="travail_a_rendre" id="travail_a_rendre" value="1"{if $ppo->travail->a_rendre} checked="checked"{/if} /> Travail à rendre dans le casier</p>
+      </div>
+    {/if}
     <div class="textarea">
       <label for="travail_description" class="form_libelle">{i18n key="cahierdetextes.message.description"} :</label>
       {copixzone process=kernel|edition field='travail_description' format=$ppo->format content=$ppo->travail->description height=200 width=450}

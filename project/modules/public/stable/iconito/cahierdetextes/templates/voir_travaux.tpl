@@ -6,8 +6,8 @@
       {copixzone process=cahierdetextes|lienMinimail cahierId=$ppo->cahierId}
     {/if}
     
-    {if $ppo->success}
-      <p class="mesgSuccess">{i18n key="cahierdetextes.message.success"}</p>
+    {if $ppo->msgSuccess}
+      <p class="mesgSuccess">{$ppo->msgSuccess}</p>
     {/if}
     
     <div class="works">

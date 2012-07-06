@@ -22,7 +22,7 @@ class DAOCahierDeTextesTravail2eleve {
 	  
 	  $toReturn = array();
 	  
-	  $sql = 'SELECT E.idEleve, E.nom, E.prenom1, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe' 
+	  $sql = 'SELECT E.idEleve, E.nom, E.prenom1, CN.niveau_court, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CL.nom as nom_classe, T.rendu_le' 
       . ' FROM kernel_bu_eleve E, kernel_bu_eleve_affectation A, kernel_link_bu2user LI, dbuser U, kernel_bu_classe_niveau CN, kernel_bu_ecole_classe CL, module_cahierdetextes_travail2eleve AS T, module_cahierdetextes_travail as travail, module_cahierdetextes_domaine D'
 		  . ' WHERE E.idEleve = A.eleve'
 		  . ' AND E.idEleve = T.kernel_bu_eleve_idEleve'
@@ -40,5 +40,24 @@ class DAOCahierDeTextesTravail2eleve {
 		  . ' ORDER BY E.nom, E.prenom1';
 		  
 	  return _doQuery ($sql, array(':idTravail' => $idTravail));
+	}
+	
+	/**
+	 * Retourne le lien d'un travail avec un élève
+	 *
+	 * @param int $travailId Identifiant du travail
+	 * @param int $eleveId   Identifiant de l'élève
+	 *
+	 * @return DAORecordCahierDeTextesTravail2eleve or false
+	 */
+	public function getByTravailAndEleve ($travailId, $eleveId) {
+		
+		$criteria = _daoSp ();
+		$criteria->addCondition ('travail_id', '=', $travailId);
+		$criteria->addCondition ('eleve_id', '=', $eleveId);
+		
+		$results = $this->findBy ($criteria);
+		
+		return isset ($results[0]) ? $results[0] : false;
 	}
 }

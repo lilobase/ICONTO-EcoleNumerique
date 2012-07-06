@@ -25,7 +25,9 @@ class DAOCahierDeTextesTravail {
 	public function findByEleveEtTypeDeTravail ($eleveId, $typeDeTravail = self::TYPE_EN_CLASSE, $date) {
 	  
 	  $sql = 'SELECT module_cahierdetextes_travail.id, module_cahierdetextes_travail.date_creation, module_cahierdetextes_travail.date_realisation, '
-	    . ' module_cahierdetextes_travail.description, module_cahierdetextes_domaine.id as domaine_id, module_cahierdetextes_domaine.nom '
+	    . ' module_cahierdetextes_travail.description, module_cahierdetextes_travail.a_rendre, '
+	    . ' module_cahierdetextes_travail.module_classeur_dossier_id as dossierId, module_cahierdetextes_domaine.id as domaine_id, '
+	    . ' module_cahierdetextes_domaine.nom '
 	    . ' FROM module_cahierdetextes_travail'
   	  . ' LEFT JOIN module_cahierdetextes_travail2eleve ON (module_cahierdetextes_travail.id = module_cahierdetextes_travail2eleve.module_cahierdetextes_travail_id)'
   	  . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
@@ -59,7 +61,9 @@ class DAOCahierDeTextesTravail {
 	public function findByClasseEtTypeDeTravail ($classeId, $typeDeTravail = self::TYPE_EN_CLASSE, $date) {
 	  
 	  $sql = 'SELECT module_cahierdetextes_travail.id, module_cahierdetextes_travail.date_creation, module_cahierdetextes_travail.date_realisation, '
-	    . ' module_cahierdetextes_travail.description, module_cahierdetextes_domaine.id as domaine_id, module_cahierdetextes_domaine.nom '
+	    . ' module_cahierdetextes_travail.description, module_cahierdetextes_travail.a_rendre, '
+	    . ' module_cahierdetextes_travail.module_classeur_dossier_id as dossierId, module_cahierdetextes_domaine.id as domaine_id, '
+	    . ' module_cahierdetextes_domaine.nom '
 	    . ' FROM module_cahierdetextes_travail'
   	  . ' LEFT JOIN module_cahierdetextes_domaine ON (module_cahierdetextes_domaine.id = module_cahierdetextes_travail.module_cahierdetextes_domaine_id)'
   	  . ' WHERE module_cahierdetextes_domaine.kernel_bu_ecole_classe_id=:classeId'
@@ -641,5 +645,22 @@ class DAOCahierDeTextesTravail {
   	}
   	
   	return $arTravauxParJour;
+	}
+	
+	/**
+   * Retourne les travaux à rendre à partir du casier où ils doivent être rendu
+   *
+   * @param int $casierId Identifiant du casier où les travaux doivent être rendu
+   *
+   * @return DAORecordCahierDeTextesTravail or false
+   */
+	public function findTravailARendreByCasier ($casierId) {
+	  
+	  $criteria = _daoSp ();
+	  $criteria->addCondition ('a_rendre', '=', 1);
+	  $criteria->addCondition ('dossier_id', '=', $casierId);
+    $results = $this->findBy ($criteria);
+    
+    return isset ($results[0]) ? $results[0] : false;
 	}
 }

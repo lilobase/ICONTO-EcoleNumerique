@@ -2,7 +2,7 @@
   {assign var=dossierId value=$dossier->id}
   <li class="folder">
     <p class="{if $dossier->id eq $ppo->dossierCourant}current{/if}">
-      {if $dossier->hasSousDossiers($ppo->withLocker)}
+      {if $dossier->hasSousDossiers(!$dossier->casier || ($dossier->casier && $ppo->estAdmin))}
         <a href="#" class="expand-folder {$dossier->id}"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
       {else}
         <img src="{copixurl}themes/default/images/sort_right_inactive.png" alt=">" />
@@ -11,7 +11,7 @@
       <label for="dossier-{$dossier->id}">{$dossier->nom}</label>
     </p>
     <ul class="child closed">
-      {copixzone process=classeur|selectionDossiers classeurId=$ppo->classeurId dossierId=$dossier->id targetType=$ppo->targetType targetId=$ppo->targetId withLocker=$ppo->withLocker}
+      {copixzone process=classeur|selectionDossiers classeurId=$ppo->classeurId dossierId=$dossier->id targetType=$ppo->targetType targetId=$ppo->targetId}
     </ul>
   </li>
 {/foreach}

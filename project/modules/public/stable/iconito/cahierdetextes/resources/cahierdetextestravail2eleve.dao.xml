@@ -9,6 +9,7 @@
   <properties>
     <property name="travail_id" fieldname="module_cahierdetextes_travail_id" type="integer" required="yes" tablename="module_cahierdetextes_travail2eleve" pk="yes"/>
     <property name="eleve_id" fieldname="kernel_bu_eleve_idEleve" type="integer" required="yes" tablename="module_cahierdetextes_travail2eleve" pk="yes"/>
+    <property name="rendu_le" fieldname="rendu_le" type="datetime" required="no"/>
   </properties>
   <methods>
      <method name="deleteByTravail" type="delete">

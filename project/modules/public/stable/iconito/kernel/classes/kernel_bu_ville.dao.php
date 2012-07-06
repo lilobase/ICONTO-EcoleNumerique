@@ -23,6 +23,7 @@ class DAOKernel_bu_ville {
 	 * Retourne une ville par son canon
 	 *
 	 * @param int $canon Canon d'une ville
+	 *
 	 * @return CopixDAORecordIterator
 	 */
 	public function getByCanon ($canon) {
@@ -33,6 +34,13 @@ class DAOKernel_bu_ville {
 		return $this->findBy ($criteria);
 	}
 	
+	/**
+	 * Retourne les villes associées à un groupe de ville
+	 *
+	 * @param int $id_grville Identifiant du groupe de ville
+	 *
+	 * @return CopixDAORecordIterator
+	 */
 	public function getByIdGrville ($id_grville) {
 	  
 	  $criteria = _daoSp ();
