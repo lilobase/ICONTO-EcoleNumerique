@@ -222,24 +222,35 @@ class ActionGroupDefault extends CopixActionGroup {
 	}
 	
 	/**
-	 * Affichage des élèves concernés par un travail - * Enseignant *
+	 * Action permettant à un élève de rendre un travail
 	 */
 	public function processRendreTravail () {
 	  
 	  $ppo = new CopixPPO ();
-    
-    if (is_null ($ppo->travailId = _request ('travailId'))) {
+	  
+    if (is_null($ppo->cahierId = _request ('cahierId', null))) {
 	    
 	    return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	      array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
 	  }
 	  
-	  $ppo->cahierId = _request ('cahierId');
-	  $ppo->error    = _request ('error');
-	  
-	  // Récupération du travail à rendre
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
-	  $travail = $travailDAO->get ($ppo->travailId);
+	  if (!$ppo->travail = $travailDAO->get (_request ('travailId', null))) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+	      array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+	  
+	  $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
+	  $studentIds = $travail2eleveDAO->findEleveIdsParTravail ($ppo->travail->id);
+	  if (!$ppo->travail->a_rendre 
+	    || _currentUser()->getExtra('type') != 'USER_ELE' || !in_array (_currentUser()->getExtra('id'), $studentIds)) {
+	    
+	    return CopixActionGroup::process ('generictools|Messages::getError',
+	      array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+	  }
+	  
+	  $ppo->error    = _request ('error');
 	  
 	  // Récupération du classeur
 	  $cahierInfos = Kernel::getModParent ('MOD_CAHIERDETEXTES', $ppo->cahierId);
@@ -254,7 +265,7 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  // Récupération du dossier où rendre le travail
 	  $dossierDAO = _ioDAO ('classeur|classeurdossier');
-	  if (!$dossier = $dossierDAO->get ($travail->dossier_id)) {
+	  if (!$dossier = $dossierDAO->get ($ppo->travail->dossier_id)) {
 	    
 	    $dossier = $dossierDAO->getCasier ($classeurId);
 	  }
@@ -273,7 +284,7 @@ class ActionGroupDefault extends CopixActionGroup {
         
         // Sauvegarde de la date de rendu du travail
         $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
-        if ($suivi = $travail2eleveDAO->getByTravailAndEleve ($ppo->travailId, _currentUser()->getExtra('id'))) {
+        if ($suivi = $travail2eleveDAO->getByTravailAndEleve ($ppo->travail->id, _currentUser()->getExtra('id'))) {
         
           $suivi->rendu_le = date('Y-m-d H:i:s');
           
@@ -283,7 +294,7 @@ class ActionGroupDefault extends CopixActionGroup {
           
           $suivi = _record ('cahierdetextes|cahierdetextestravail2eleve');
           
-          $suivi->travail_id = $ppo->travailId;
+          $suivi->travail_id = $ppo->travail->id;
           $suivi->eleve_id = _currentUser()->getExtra('id');
           $suivi->rendu_le = date('Y-m-d H:i:s');
           
@@ -673,54 +684,57 @@ class ActionGroupDefault extends CopixActionGroup {
       $mods   = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
       
       // Création du classeur pour permettre aux élèves de rendre leur travail (si mod activé)
-  	  if ($ppo->travail->a_rendre && is_null ($ppo->travail->dossier_id)) {
+  	  if ($ppo->travail->a_rendre) {
   	    
-  	    $classeur = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR');
-    	  if ($classeur) {
-          
-          // Récupération du casier de la classe
-          $dossierDAO = _ioDAO ('classeur|classeurdossier');
-          $casier = $dossierDAO->getCasier($classeur[0]->module_id);
-          if ($casier) {
-            
-            _classInclude('classeur|classeurService');
-            $dossier = _record ('classeur|classeurdossier');
+  	    $dossierDAO = _ioDAO ('classeur|classeurdossier');
+  	    if (is_null ($ppo->travail->dossier_id) || !$dossierDAO->get ($ppo->travail->dossier_id)) {
+  	      
+  	      $classeur = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR');
+      	  if ($classeur) {
 
-            $dossier->nb_dossiers     = 0;
-            $dossier->nb_fichiers     = 0;
-            $dossier->taille          = 0;
-            $dossier->classeur_id     = $classeur[0]->module_id;
-            $dossier->parent_id       = $casier->id;
-            $dossier->cle             = classeurService::createKey ();
-            $dossier->date_creation   = date('Y-m-d H:i:s');
-            $dossier->user_type       = _currentUser()->getExtra('type');
-            $dossier->user_id         = _currentUser()->getExtra('id');
-            $dossier->casier          = 1;
+            // Récupération du casier de la classe
+            $casier = $dossierDAO->getCasier($classeur[0]->module_id);
+            if ($casier) {
 
-            // Le nom du casier pour un travail à rendre doit être unique
-            $dossier->nom = CopixDateTime::yyyymmddToDate ($ppo->travail->date_realisation).' '.$ppo->nomsDomaine[array_search ($ppo->travail->domaine_id, $ppo->idsDomaine)];
+              _classInclude('classeur|classeurService');
+              $dossier = _record ('classeur|classeurdossier');
 
-            $cpt = '';
-            $nomDossier = $dossier->nom;
-            while (count($dossierDAO->getByNom ($dossier->nom)) > 0) {
+              $dossier->nb_dossiers     = 0;
+              $dossier->nb_fichiers     = 0;
+              $dossier->taille          = 0;
+              $dossier->classeur_id     = $classeur[0]->module_id;
+              $dossier->parent_id       = $casier->id;
+              $dossier->cle             = classeurService::createKey ();
+              $dossier->date_creation   = date('Y-m-d H:i:s');
+              $dossier->user_type       = _currentUser()->getExtra('type');
+              $dossier->user_id         = _currentUser()->getExtra('id');
+              $dossier->casier          = 1;
 
-              if ($cpt == '') {
+              // Le nom du casier pour un travail à rendre doit être unique
+              $dossier->nom = CopixDateTime::yyyymmddToDate ($ppo->travail->date_realisation).' '.$ppo->nomsDomaine[array_search ($ppo->travail->domaine_id, $ppo->idsDomaine)];
 
-                $cpt = 2;
+              $cpt = '';
+              $nomDossier = $dossier->nom;
+              while (count($dossierDAO->getByNom ($dossier->nom)) > 0) {
+
+                if ($cpt == '') {
+
+                  $cpt = 2;
+                }
+                else {
+
+                  $cpt++;
+                }
+
+                $dossier->nom = $nomDossier.' '.$cpt;
               }
-              else {
 
-                $cpt++;
-              }
+              $dossierDAO->insert ($dossier);
 
-              $dossier->nom = $nomDossier.' '.$cpt;
+              $ppo->travail->dossier_id = $dossier->id;
             }
-
-            $dossierDAO->insert ($dossier);
-
-            $ppo->travail->dossier_id = $dossier->id;
-          }
-    	  }
+      	  }
+  	    }
     	}
       
       // Création

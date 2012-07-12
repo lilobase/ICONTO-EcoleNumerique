@@ -270,11 +270,13 @@ class ClasseurService {
       
       $folder->classeur_id = $targetFolder->classeur_id;
       $folder->parent_id   = $targetId;
+      $folder->casier      = $targetFolder->casier;
     }
     else {
       
       $folder->classeur_id  = $targetId;
       $folder->parent_id    = 0;
+      $folder->casier       = 0;
     }
     
     // Mise à jour du dossier après déplacement

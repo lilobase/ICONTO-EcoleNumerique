@@ -450,7 +450,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Contrôle des droits d'accès
-	  if ((Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER) && isset($ppo->dossier) && !$ppo->dossier->casier) {
+	  if ((Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER) && isset($ppo->dossier) && $ppo->dossier->casier) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
