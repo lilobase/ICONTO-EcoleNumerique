@@ -1,4 +1,4 @@
-CREATE TABLE kernel_notifications_lastvisit (
+CREATE TABLE IF NOT EXISTS kernel_notifications_lastvisit (
 	id int(11) NOT NULL AUTO_INCREMENT,
 	user_id int(11) NOT NULL,
 	`date` datetime NOT NULL,
