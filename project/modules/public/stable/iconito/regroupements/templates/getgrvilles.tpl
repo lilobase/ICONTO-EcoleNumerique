@@ -1,7 +1,7 @@
 <table border="0" cellpadding="10" cellspacing="10" width="100%" class="regroupements">
 <tr height="100">
 	<td width="30%" bgcolor="white" valign="top">
-		<div class="button_like"><a href="{copixurl dest="regroupements|villes|" groupe="0"}" class="button_like">Nouveau regroupement</a></div>
+		<div class="button_like"><a href="{copixurl dest="regroupements|villes|" groupe="0"}" class="button button-add">Nouveau regroupement</a></div>
 		<div>
 			<h2>Regroupements existants</h2>
 			{if $grvilles_list|@count gt 0}
@@ -41,14 +41,14 @@
 			</p>
 			
 			<p class="form_submit">
-				{if $grvilles_id}<a href="#delete_confirm" onclick="$('#delete_confirm').show();" class="no_button_like">Supprimer ce groupement</a> - {/if}
-				<input class="form_button" type="submit" value="Enregistrer" style="width: 75px;"/>
+				{if $grvilles_id}<a href="#delete_confirm" onclick="$('#delete_confirm').show();" class="button button-delete">Supprimer ce groupement</a> {/if}
+				<input class="button button-save" type="submit" value="Enregistrer" />
 			</p>
 			
 			{if $grvilles_id}
 			<p id="delete_confirm" style="display: none;">
-				<a href="{copixurl dest="regroupements|villes|" delete=$grvilles_infos->id}" class="confirm">Confirmez la suppression</a>
-				<a href="#" class="cancel" onclick="$('#delete_confirm').hide();">annuler</a>
+				<a href="{copixurl dest="regroupements|villes|" delete=$grvilles_infos->id}" class="button button-confirm">Confirmez la suppression</a>
+				<a href="#" class="button button-cancel" onclick="$('#delete_confirm').hide();">annuler</a>
 			</p>
 			{/if}
 			

@@ -45,7 +45,7 @@ class ActionGroupCharte extends enicActionGroup{
 
     public function processAdmin(){
         //check if the user is admin :
-        if(!$this->user->root)
+        if(!Kernel::isAdmin() && !Kernel::isAdminFonctionnel())
             return $this->error('charte.noRight', true, '||');
 
         $ppo = new CopixPPO();
@@ -101,7 +101,7 @@ class ActionGroupCharte extends enicActionGroup{
     public function processAdminAction(){
 
         //check if the user is admin :
-        if(!$this->user->root)
+        if(!Kernel::isAdmin() && !Kernel::isAdminFonctionnel())
             return $this->error ('charte.noRight');
 
         //get action
