@@ -252,23 +252,26 @@ class ActionGroupDefault extends CopixActionGroup {
 	  
 	  $ppo->error    = _request ('error');
 	  
-	  // Récupération du classeur
-	  $cahierInfos = Kernel::getModParent ('MOD_CAHIERDETEXTES', $ppo->cahierId);
-	  $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
-    if ($modClasseur = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
-
-      $classeurId = $modClasseur[0]->module_id;
-    }
-	  
-	  $classeurDAO = _ioDAO ('classeur|classeur');
-	  $classeur = $classeurDAO->get ($classeurId);
-	  
 	  // Récupération du dossier où rendre le travail
-	  $dossierDAO = _ioDAO ('classeur|classeurdossier');
-	  if (!$dossier = $dossierDAO->get ($ppo->travail->dossier_id)) {
+	  $classeurDAO  = _ioDAO ('classeur|classeur');
+	  $dossierDAO   = _ioDAO ('classeur|classeurdossier');
+	  
+	  if ($dossier = $dossierDAO->get ($ppo->travail->dossier_id)) {
 	    
-	    $dossier = $dossierDAO->getCasier ($classeurId);
+	    $classeur = $classeurDAO->get ($dossier->classeur_id);
 	  }
+	  
+	  if (is_null ($ppo->travail->dossier_id) || !$dossier->casier) {
+	    
+	    // Récupération du classeur
+	    $cahierInfos = Kernel::getModParent ('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    	$mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+      $modClasseur = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR');
+      $classeurId = $modClasseur[0]->module_id;
+      
+      $classeur = $classeurDAO->get ($classeurId);
+      $dossier = $dossierDAO->getCasier ($classeurId);
+    }
     
     if (CopixRequest::isMethod ('post')) {
       
