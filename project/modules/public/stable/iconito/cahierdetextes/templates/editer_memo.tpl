@@ -27,17 +27,17 @@
     <input type="hidden" name="annee" id="annee" value="{$ppo->annee}" />
         
     <div class="field">
-      <label for="memo_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.date"}</label>
-      <p class="input"><input class="form datepicker" type="text" name="memo_date_creation" id="memo_date_creation" value="{if $ppo->memo->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->memo->date_creation}{/if}" /></p>
+      <label for="memo_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.date"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /></label>
+      <p class="input"><input class="form datepicker" type="text" name="memo_date_creation" id="memo_date_creation" value="{if $ppo->memo->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->memo->date_creation}{/if}" required /></p>
     </div>
       
     <div class="field">
-      <label for="memo_date_validite" class="form_libelle">{i18n key="cahierdetextes.message.validityDate"}</label>
-      <p class="input"><input class="form datepicker" type="text" name="memo_date_validite" id="memo_date_validite" value="{$ppo->memo->date_validite}" /></p>
+      <label for="memo_date_validite" class="form_libelle">{i18n key="cahierdetextes.message.validityDate"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /></label>
+      <p class="input"><input class="form datepicker" type="text" name="memo_date_validite" id="memo_date_validite" value="{$ppo->memo->date_validite}" required /></p>
     </div>
 
     <div class="textarea">
-      <label for="memo_message" class="form_libelle">{i18n key="cahierdetextes.message.memo"}</label>
+      <label for="memo_message" class="form_libelle">{i18n key="cahierdetextes.message.memo"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /></label>
       {copixzone process=kernel|edition field='memo_message' format=$ppo->format content=$ppo->memo->message height=200 width=450}
     </div>
     

@@ -8,7 +8,7 @@
 	<input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
   <input type="hidden" name="travailId" id="travailId" value="{$ppo->travail->id}" />
   <input type="file" name="fichier" id="fichier" />
-  <p class="actions">
+  <div class="actions submit">
     <input class="button button-confirm" type="submit" value="{i18n key="cahierdetextes.message.send"}" />
-  </p>
+  </div>
 </form>

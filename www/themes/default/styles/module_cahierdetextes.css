@@ -9,7 +9,7 @@ div.dashboard div.content {
 #cahierdetextes .works a.button, 
 #cahierdetextes #dayView a.button {
 	float:right;
-	margin
+	margin:0;
 	font-weight:normal;
 	text-transform:none;
 }
@@ -44,6 +44,11 @@ div.dashboard div.content {
 }
 #cahierdetextes a.openTextEnd { background-image:url(../../../themes/default/images/button-action/action_down.png);}
 #cahierdetextes a.closeTextEnd { background-image:url(../../../themes/default/images/button-action/action_up.png);}
+.actions {
+	clear:both;
+	min-height:1.5em;
+}
+.actions a.button {border:1px solid #BAD521;}
 /* End global */
 
 
