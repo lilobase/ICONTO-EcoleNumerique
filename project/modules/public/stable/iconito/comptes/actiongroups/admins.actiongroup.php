@@ -150,7 +150,7 @@ class ActionGroupAdmins extends enicActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processNew() {
-		if( Kernel::isAdmin() || Kernel::isAdminFonctionnel() )
+		if( !Kernel::isAdmin() && !Kernel::isAdminFonctionnel() )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		$tpl = new CopixTpl ();
