@@ -62,6 +62,11 @@ class ActionGroupDefault extends CopixActionGroup {
   	$ppo->msgSuccess  = _request ('msgSuccess', false);
   	$ppo->eleve       = _request ('eleve', $myNode['type'] == "USER_ELE" ? $myNode['id'] : null);
   	
+  	if (_request ('save', false) && !$ppo->msgSuccess) {
+  	  
+  	  $ppo->msgSuccess = CopixI18N::get ('classeur|classeur.message.confirmUploadLocker');
+  	}
+  	
   	$ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
   	$ppo->dateSelectionnee  = $ppo->annee.$ppo->mois.$ppo->jour;
   	
@@ -303,8 +308,8 @@ class ActionGroupDefault extends CopixActionGroup {
           
           $travail2eleveDAO->insert ($suivi);
         }
-        
-        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'msgSuccess' => CopixI18N::get ('classeur|classeur.message.confirmUploadLockerMessage', array($name)))));
+      	
+        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $ppo->cahierId, 'annee' => substr($ppo->travail->date_realisation, 0, 4), 'mois' => substr($ppo->travail->date_realisation, 4, 2), 'jour' => substr($ppo->travail->date_realisation, 6, 2), 'save' => 1)));
       }
       else {
         

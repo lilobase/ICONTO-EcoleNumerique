@@ -449,11 +449,16 @@ class ActionGroupDefault extends enicActionGroup {
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
     if (!is_null($ppo->dossierId  = _request('dossierId', null)) && $ppo->dossierId != 0) {
     
-      $ppo->dossier = $dossierDAO->get($ppo->dossierId);
+      if (!$ppo->dossier = $dossierDAO->get($ppo->dossierId)) {
+
+  	    return CopixActionGroup::process ('generictools|Messages::getError',
+    			array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+  	  }
     }
     
     // Contrôle des droits d'accès
-	  if ((Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER) && isset($ppo->dossier) && $ppo->dossier->casier) {
+	  if ((Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER && $ppo->dossier->casier && $ppo->dossier->parent_id != 0)
+	    || Kernel::getLevel('MOD_CLASSEUR', $ppo->classeurId) < PROFILE_CCV_MEMBER && !$ppo->dossier->casier) {
 	    
 	    return CopixActionGroup::process ('genericTools|Messages::getError', 
 	      array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('classeur||voirContenu', array('classeurId' => $ppo->classeurId))));
