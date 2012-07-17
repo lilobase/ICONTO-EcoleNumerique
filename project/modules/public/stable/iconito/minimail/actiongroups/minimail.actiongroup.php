@@ -12,6 +12,9 @@ class ActionGroupMinimail extends EnicActionGroup {
 
     public function beforeAction() {
         _currentUser()->assertCredential('group:[current_user]');
+        if (!Kernel::is_connected()) {
+            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
+        }
     }
 
     /**
@@ -21,9 +24,6 @@ class ActionGroupMinimail extends EnicActionGroup {
      * @since 2005/10/18
      */
     function getListRecv() {
-
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
 
         $this->addJs('js/iconito/module_minimail.js');
 
@@ -40,17 +40,16 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $messagesAll = _ioDAO("minimail_to")->getListRecvAll(_currentUser()->getId());
 
-        if (count($messagesAll))
-        {
+        if (count($messagesAll)) {
 
             $params = Array(
-               'perPage'    => intval(CopixConfig::get('minimail|list_nblines')),
-               'delta'      => 5,
-               'recordSet'  => $messagesAll,
-               'template'   => '|pager.tpl'
+                'perPage' => intval(CopixConfig::get('minimail|list_nblines')),
+                'delta' => 5,
+                'recordSet' => $messagesAll,
+                'template' => '|pager.tpl'
             );
             $Pager = CopixPager::Load($params);
-            $tplListe->assign ('pager', $Pager->GetMultipage());
+            $tplListe->assign('pager', $Pager->GetMultipage());
 
             $list = $Pager->data;
             // Infos des utilisateurs sur les messages a afficher
@@ -62,7 +61,7 @@ class ActionGroupMinimail extends EnicActionGroup {
                     $list[$k]->from_id_infos = $userInfo["prenom"] . " " . $userInfo["nom"] . " (" . $userInfo["login"] . ")";
                 }
             }
-            $tplListe->assign ('list', $list);
+            $tplListe->assign('list', $list);
         }
 
         $result = $tplListe->fetch("getlistrecv.tpl");
@@ -80,9 +79,6 @@ class ActionGroupMinimail extends EnicActionGroup {
      */
     function getListSend() {
 
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
-
         $this->addJs('js/iconito/module_minimail.js');
 
         $tpl = new CopixTpl ();
@@ -98,16 +94,15 @@ class ActionGroupMinimail extends EnicActionGroup {
 
         $messagesAll = _ioDAO("minimail_from")->getListSendAll(_currentUser()->getId());
 
-        if (count($messagesAll))
-        {
+        if (count($messagesAll)) {
             $params = Array(
-               'perPage'    => intval(CopixConfig::get('minimail|list_nblines')),
-               'delta'      => 5,
-               'recordSet'  => $messagesAll,
-               'template'   => '|pager.tpl'
+                'perPage' => intval(CopixConfig::get('minimail|list_nblines')),
+                'delta' => 5,
+                'recordSet' => $messagesAll,
+                'template' => '|pager.tpl'
             );
             $Pager = CopixPager::Load($params);
-            $tplListe->assign ('pager', $Pager->GetMultipage());
+            $tplListe->assign('pager', $Pager->GetMultipage());
 
             $list = $Pager->data;
             // Infos des utilisateurs sur les messages a afficher
@@ -121,7 +116,7 @@ class ActionGroupMinimail extends EnicActionGroup {
                 }
                 $list[$k]->destin = $dest;
             }
-            $tplListe->assign ('list', $list);
+            $tplListe->assign('list', $list);
         }
 
         $result = $tplListe->fetch("getlistsend.tpl");
@@ -140,9 +135,9 @@ class ActionGroupMinimail extends EnicActionGroup {
      */
     function getMessage() {
 
+        $this->addJs('js/iconito/module_minimail.js');
+        
         $MinimailService = & CopixClassesFactory::Create('minimail|MinimailService');
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
 
         // 2 DAO -> 2 assign
 
@@ -253,9 +248,6 @@ class ActionGroupMinimail extends EnicActionGroup {
      */
     function processGetNewForm() {
 
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
-
         $this->addJs('js/iconito/module_minimail.js');
 
         $tpl = new CopixTpl ();
@@ -339,11 +331,7 @@ class ActionGroupMinimail extends EnicActionGroup {
      * @param string $message Corps du minimail
      * @param string $go Forme de soumission : preview (pr�visualiser) ou send (enregistrer)
      */
-    function doSend()
-    {
-        
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
+    function doSend() {
 
         $dest = _request("dest") ? _request("dest") : "";
         $title = _request("title") ? _request("title") : "";
@@ -501,9 +489,6 @@ class ActionGroupMinimail extends EnicActionGroup {
      */
     function doDelete() {
 
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
-
         $messages = _request("messages") ? _request("messages") : NULL;
         $mode = _request("mode") ? _request("mode") : NULL;
         //print_r2($messages);
@@ -538,9 +523,6 @@ class ActionGroupMinimail extends EnicActionGroup {
         $minimailService = & CopixClassesFactory::Create('minimail|minimailService');
         $malleService = & CopixClassesFactory::Create('malle|malleService');
 
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
-
         $file = _request("file") ? _request("file") : NULL;
         $fullFile = realpath("../var/data") . "/minimail/" . ($file);
         $errors = array();
@@ -565,9 +547,6 @@ class ActionGroupMinimail extends EnicActionGroup {
      */
     function previewAttachment() {
 
-        if (!Kernel::is_connected())
-            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.nologin'), 'back' => CopixUrl::get('auth|default|login')));
-
         $file = _request("file") ? _request("file") : "";
         $fullFile = realpath("../var/data") . "/minimail/" . ($file);
         $errors = array();
@@ -582,6 +561,196 @@ class ActionGroupMinimail extends EnicActionGroup {
         }
 
         return new CopixActionReturn(COPIX_AR_NONE, 0);
+    }
+
+    /**
+     * Téléchargement d'une pièce jointe dans un classeur
+     * 
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2012/06/21
+     * @param integer $id Id du minimail de départ
+     */
+    function attachmentToClasseur() {
+
+        //_dump($_POST);
+        
+        $this->addJs('js/iconito/module_classeur.js');
+        $this->addJs('js/iconito/module_minimail.js');
+        $this->addCss('styles/module_classeur.css');
+
+        _classInclude('classeur|classeurService');
+        _classInclude('kernel|Request');
+
+        $idUser = _currentUser()->getId();
+        $idMessage = _request("id");
+        $files = _request('files', array());
+        $destination = _request('destination');
+        $errors = array();
+
+        $daoFrom = _ioDAO("minimail|minimail_from");
+        $daoTo = CopixDAOFactory::create("minimail_to");
+
+        $message = $daoFrom->getMessage($idMessage);
+
+        $canMake = $isRecv = $isSend = false;
+
+        if ($message && $message->from_id == $idUser) { // Message qu'il a envoyé
+            $canMake = $isSend = true;
+        } else { // Il en est peut-être destinataire
+            $canMake = $isRecv = $daoTo->selectDestFromIdAndToUser($idMessage, $idUser); // Test s'il est dans les destin
+        }
+
+        if (!$canMake) {
+            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('minimail.error.cantDisplay'), 'back' => CopixUrl::get('minimail||')));
+        }
+
+        $menu = array();
+        $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get('minimail||getListRecv'), 'current' => $isRecv);
+        $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'), 'current' => $isSend);
+        $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
+            
+        $ppo = new CopixPPO ();
+        
+        $ppo->TITLE_PAGE = $message;
+        $ppo->MENU = $menu;
+        $ppo->message = $message;
+
+        //_dump(Request::isXmlHttpRequest());
+                
+        if (Request::isPostMethod())
+        {
+            
+            $error = $success = array();
+            
+            if (!$files)
+            {
+                $error[] = CopixI18N::get('minimail.attachmentToClasseur.error.noFiles');
+            }
+            
+            if ($destination)
+            {
+                list($ppo->destinationType, $ppo->destinationId) = explode('-', $destination);
+                if ('classeur' == $ppo->destinationType)
+                {
+                    $rClasseur = _ioDAO('classeur|classeur')->get($ppo->destinationId);
+                }
+                if ('dossier' == $ppo->destinationType)
+                {
+                    if ($rDossier = _ioDAO('classeur|classeurdossier')->get($ppo->destinationId))
+                    {
+                        $rClasseur = _ioDAO('classeur|classeur')->get($rDossier->classeur_id);
+                    }
+                }
+            }
+
+            if (!$destination || !$rClasseur)
+            {
+                $error[] = CopixI18N::get('classeur|classeur.error.noDestination');
+            }
+
+
+            if ($error)
+            {
+                $ppo->error = $error;
+                return _arPPO ($ppo, array ('template'=>'attachmentToClasseur.tpl', 'mainTemplate'=>'main|main_popup.php'));
+            }
+        
+            //_dump($destination);
+            //_dump($rClasseur);
+
+            $dir = realpath('./static/classeur').'/'.$rClasseur->id.'-'.$rClasseur->cle.'/';
+            if (!file_exists($dir)) {
+                mkdir($dir, 0755, true);
+            }
+
+            foreach ($files as $file)
+            {
+
+                $fichierPhysique = realpath("../var/data") . "/minimail/" . $file;
+                $nomFichierPhysique = $file;
+
+                $fichier = _record('classeur|classeurfichier');
+
+                $fichier->classeur_id   = $rClasseur->id;
+                $fichier->dossier_id    = (isset($rDossier) && $rDossier) ? $rDossier->id : 0;
+                $fichier->titre         = MinimailService::getAttachmentName($file);
+                $fichier->fichier       = $nomFichierPhysique;
+                $fichier->taille        = filesize($fichierPhysique);
+                $fichier->type          = strtoupper(substr(strrchr($nomFichierPhysique, '.'), 1));
+                $fichier->cle           = classeurService::createKey();
+                $fichier->date_upload   = date('Y-m-d H:i:s');
+                $fichier->user_type     = _currentUser()->getExtra('type');
+                $fichier->user_id       = _currentUser()->getExtra('id');
+
+                _ioDAO('classeur|classeurfichier')->insert($fichier);
+
+                if ($fichier->id > 0)
+                {
+                    $nomClasseur  = $rClasseur->id.'-'.$rClasseur->cle;
+                    $nomFichier   = $fichier->id.'-'.$fichier->cle;
+                    $extension    = strtolower(strrchr($nomFichierPhysique, '.'));
+
+                    if (copy($fichierPhysique, $dir.$fichier->id.'-'.$fichier->cle.$extension))
+                    {
+                        $success[] = MinimailService::getAttachmentName($file);
+                    }
+                    else
+                    {
+                        $error[] = CopixI18N::get('minimail.attachmentToClasseur.error.moved', array(MinimailService::getAttachmentName($file)));
+                    }
+                }
+                else
+                {
+                    $error[] = CopixI18N::get('minimail.attachmentToClasseur.error.creation', array(MinimailService::getAttachmentName($file)));
+                }
+
+            }
+
+            if (count($success) > 0)
+            {
+                $dest = $rClasseur;
+                if (isset($rDossier) && $rDossier)
+                {
+                    $dest .= ' / '.$rDossier;
+                }
+                if (1 == count($success))
+                {
+                    Kernel::setFlashMessage('success', CopixI18N::get('minimail.attachmentToClasseur.moved_1', array(
+                        implode(', ', $success),
+                        $dest,
+                    )));
+                }
+                else
+                {
+                    Kernel::setFlashMessage('success', CopixI18N::get('minimail.attachmentToClasseur.moved_N', array(
+                        implode(', ', $success),
+                        $dest,
+                    )));
+                }
+            }
+            if ($error)
+            {
+                Kernel::setFlashMessage('error', implode('<br />', $error));
+            }
+
+            $ppo->ok = 1;
+            //echo 'OK';
+            //return _arNone();
+            
+            //return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('minimail||getMessage', array('id' => $idMessage)));
+
+
+        }
+        
+        
+        return _arPPO ($ppo, array ('template'=>'attachmentToClasseur.tpl', 'mainTemplate'=>'main|main_popup.php'));
+        
+        
+        
+        
+        
+        
+        
     }
 
 }

@@ -2760,6 +2760,7 @@ class Kernel {
  
     return $text;
   }
+<<<<<<< HEAD
 
 	public static function getModlistNotifications( &$module_list ) {
 // echo('+');
@@ -2831,4 +2832,36 @@ class Kernel {
 		
 		return($module);
 	}
+=======
+  
+    /**
+     * Remplissage d'un flash message
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2012/06/21
+     * @param string $type : warning, success, error
+     * @param string $message Contenu du message
+     */
+    function setFlashMessage($type, $message)
+    {
+        CopixSession::set('flash|'.$type, $message);
+        
+    }
+    
+    
+    /**
+     * Récupération d'un flash message
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2012/06/21
+     * @param string $type : warning, success, error
+     * @return string Contenu du flash message
+     */
+    function getFlashMessage($type)
+    {
+        return CopixSession::get('flash|'.$type);
+    }
+  
+  
+>>>>>>> feature-minimail
 }

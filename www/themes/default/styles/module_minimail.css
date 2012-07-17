@@ -51,3 +51,28 @@ textarea#dest {
 	width:100%;
 	border-collapse:collapse;
 }
+
+/* Téléchargement des PJ vers un classeur */
+
+ul.attachmentsToClasseur {
+    float:right;
+    list-style:none;
+	min-width:50%;
+}
+ul.attachmentsToClasseur li {
+    padding:5px;
+}
+
+ul.attachmentsToClasseur li + li {
+    border-top:1px solid #ddd;
+}
+
+ul.attachmentsToClasseur label {
+    display:inline;
+}
+ul.attachmentsToClasseur img {
+    margin-left:20px;
+}
+
+/* Fin téléchargement des PJ vers un classeur */
+
