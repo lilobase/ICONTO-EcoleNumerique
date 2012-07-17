@@ -2760,7 +2760,7 @@ class Kernel {
  
     return $text;
   }
-<<<<<<< HEAD
+
 
 	public static function getModlistNotifications( &$module_list ) {
 // echo('+');
@@ -2832,7 +2832,6 @@ class Kernel {
 		
 		return($module);
 	}
-=======
   
     /**
      * Remplissage d'un flash message
@@ -2863,5 +2862,4 @@ class Kernel {
     }
   
   
->>>>>>> feature-minimail
 }
