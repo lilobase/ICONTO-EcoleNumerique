@@ -13,7 +13,7 @@
 	</div>
 	</a>
 </div>
-
+<!--
 <div class="loading-button">
 	<a href="{copixurl dest=""}" class="button">
 	<div class="button-title">
@@ -21,3 +21,4 @@
 	</div>
 	</a>
 </div>
+-->
