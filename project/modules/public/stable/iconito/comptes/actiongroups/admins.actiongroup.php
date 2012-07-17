@@ -18,7 +18,7 @@ class ActionGroupAdmins extends enicActionGroup {
 		_currentUser()->assertCredential ('group:[current_user]');
 		$this->menu = array();
 		
-		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
+		if(Kernel::isAdmin() || Kernel::isAdminFonctionnel() || _currentUser()->hasAssistance('can_comptes') ) 
 		{
 			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 				$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
@@ -44,7 +44,7 @@ class ActionGroupAdmins extends enicActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processDefault() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_MODERATE )
+		if(!Kernel::isAdmin() && !Kernel::isAdminFonctionnel())
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		$roles = _request('role');
@@ -150,7 +150,7 @@ class ActionGroupAdmins extends enicActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function processNew() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_MODERATE )
+		if( Kernel::isAdmin() || Kernel::isAdminFonctionnel() )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		$tpl = new CopixTpl ();
