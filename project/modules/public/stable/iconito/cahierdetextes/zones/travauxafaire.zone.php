@@ -22,7 +22,8 @@ class ZoneTravauxAFaire extends CopixZone {
     
     $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
     $nodeId = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
-    $ppo->estAdmin = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) >= PROFILE_CCV_PUBLISH ? true : false;
+    $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId);
+    $ppo->estAdmin = $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH ? true : false;
 	  
 	  // Récupération des travaux suivant les accès de l'utilisateur courant (enseignant / eleve - responsable)
 	  $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
@@ -30,7 +31,7 @@ class ZoneTravauxAFaire extends CopixZone {
 	    
 	    $ppo->travaux = $travailDAO->findByClasseEtTypeDeTravail($nodeId, DAOCahierDeTextesTravail::TYPE_A_FAIRE, $time);
 	  }
-	  elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) == PROFILE_CCV_READ) {
+	  elseif ($ppo->niveauUtilisateur == PROFILE_CCV_READ) {
 	    
 	    $ppo->travaux = $travailDAO->findByEleveEtTypeDeTravail($ppo->eleve, DAOCahierDeTextesTravail::TYPE_A_FAIRE, $time);
 	  }

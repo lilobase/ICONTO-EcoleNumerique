@@ -45,35 +45,78 @@ class DAORecordClasseurDossier {
 	/**
    * Indique si le dossier a des sous-dossiers
    *
-   * @param bool  $withLocker Prendre en compte les dossiers du type "casier"
+   * @param bool  $withLockers Prendre en compte les dossiers du type "casier"
    *
    * @return bool
    */
-	public function hasSousDossiers ($withLocker = true) {
+	public function hasSousDossiers ($withLockers = true) {
 	  
 	  $dossierDAO = _ioDAO('classeur|classeurdossier');
 	  
-	  return count($dossierDAO->getEnfantsDirects($this->classeur_id, $this->id, $withLocker)->fetchAll()) > 0 ? true : false;
+	  return count($dossierDAO->getEnfantsDirects($this->classeur_id, $this->id, $withLockers)->fetchAll()) > 0 ? true : false;
+	}
+	
+	/**
+   * Indique s'il s'agit du casier principal du classeur
+   *
+   * @return bool
+   */
+	public function isCasierPrincipal () {
+	  
+	  return $this->casier && $this->parent_id == 0;
 	}
 }
 
 class DAOClasseurDossier {
+	
+	/**
+   * Retourne le casier principal d'un classeur
+   *
+   * @param string   $nom   Nom du classeur
+   *
+   * @return CopixDAORecordIterator
+   */
+	public function getByNom ($nom) {
+	  
+	  $criteria = _daoSp ();
+		$criteria->addCondition ('nom', '=', $nom);
+		
+		return $this->findBy ($criteria);
+	}
+	
+	/**
+   * Retourne le casier principal d'un classeur
+   *
+   * @param int   $idClasseur   Identifiant du classeur
+   *
+   * @return DAORecordClasseur_dossier or false
+   */
+	public function getCasier ($idClasseur) {
+	  
+	  $criteria = _daoSp ();
+	  $criteria->addCondition ('classeur_id', '=', $idClasseur);
+	  $criteria->addCondition ('parent_id', '=', 0);
+    $results = $this->findBy ($criteria);
+    
+    return isset ($results[0]) ? $results[0] : false;
+	}
+	
 	
   /**
    * Retourne les dossiers directs du classeur ou dossier donné
    *
    * @param int   $idClasseur   Identifiant du classeur
    * @param int   $idDossier    Identifiant du dossier
-   * @param bool  $withLocker   Récupère également les dossiers de type "casier"
+   * @param bool  $withLockers  Récupère également les dossiers de type "casier"
    * @param array $tri          Tableau spécifiant la colonne et la direction à utiliser pour le tri
    *
    * @return CopixDAORecordIterator
    */
-  public function getEnfantsDirects($idClasseur, $idDossier = null, $withLocker = true, $tri = array()) {
+  public function getEnfantsDirects ($idClasseur, $idDossier = null, $withLockers = true, $tri = array()) {
     
     $criteria = _daoSp ();
 		$criteria->addCondition ('classeur_id', '=', $idClasseur);
-		if (!is_null($idDossier)) {
+		if (!is_null ($idDossier)) {
 		  
 		  $criteria->addCondition ('parent_id', '=', $idDossier);
 		}
@@ -82,7 +125,7 @@ class DAOClasseurDossier {
 		  $criteria->addCondition ('parent_id', '=', 0);
 		}
 		
-		if (!$withLocker) {
+		if (!$withLockers) {
 		  
 		  $criteria->addCondition ('casier', '=', 0);
 		}

@@ -270,11 +270,13 @@ class ClasseurService {
       
       $folder->classeur_id = $targetFolder->classeur_id;
       $folder->parent_id   = $targetId;
+      $folder->casier      = $targetFolder->casier;
     }
     else {
       
       $folder->classeur_id  = $targetId;
       $folder->parent_id    = 0;
+      $folder->casier       = 0;
     }
     
     // Mise à jour du dossier après déplacement
@@ -337,6 +339,34 @@ class ClasseurService {
       $extension = strtolower(strrchr($file->fichier, '.'));
       copy($old_dir.$file->id.'-'.$file->cle.$extension, $new_dir.$file->id.'-'.$file->cle.$extension);
       unlink($old_dir.$file->id.'-'.$file->cle.$extension);
+    }
+    
+    // Déplacement d'un document d'un élève dans un casier par un enseignant    
+    if ($targetType == 'dossier' && $targetFolder->casier && !$targetFolder->isCasierPrincipal () && $file->user_type == 'USER_ELE') {
+      
+      // On vérifie si un travail à rendre correspondant à ce casier existe
+      $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
+      if ($travail = $travailDAO->findTravailARendreByCasier ($targetFolder->id)) {
+        
+        // Sauvegarde de la date de rendu du travail
+        $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
+        if ($suivi = $travail2eleveDAO->getByTravailAndEleve ($travail->id, $file->user_id)) {
+        
+          $suivi->rendu_le = date('Y-m-d H:i:s');
+          
+          $travail2eleveDAO->update ($suivi);
+        }
+        else {
+          
+          $suivi = _record ('cahierdetextes|cahierdetextestravail2eleve');
+          
+          $suivi->travail_id = $travail->id;
+          $suivi->eleve_id = $file->user_id;
+          $suivi->rendu_le = date('Y-m-d H:i:s');
+          
+          $travail2eleveDAO->insert ($suivi);
+        }
+      }
     }
 	}
 	
@@ -541,6 +571,67 @@ class ClasseurService {
     }
     
     return $datas;
+  }
+  
+  /**
+	 * Upload d'un fichier dans un classeur
+	 *
+	 * @param string                    $file       Path du fichier uploadé
+	 * @param string                    $name       Nom du fichier uploadé
+	 * @param DAORecordClasseur         $classeur   Classeur ou envoyer le fichier
+	 * @param DAORecordClasseurDossier  $dossier    Dossier ou envoyer le fichier
+	 *
+	 * @return DAORecordClasseurFichier
+	 */
+  public function uploadFile ($file, $name, DAORecordClasseur $classeur, $dossier = null) {
+    
+    $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+    $extension = strtolower(strrchr($name, '.'));
+
+    $fichierDAO = _ioDAO ('classeur|classeurfichier');
+    $fichier    = _record ('classeur|classeurfichier');
+     
+    $fichier->classeur_id   = $classeur->id;
+    $fichier->dossier_id    = $dossier ? $dossier->id : 0;
+    $fichier->titre         = substr(substr($name, 0, strrpos($name, '.')), 0, 63);
+    $fichier->commentaire   = '';
+    $fichier->taille        = filesize($file);
+    $fichier->type          = strtoupper(substr(strrchr($name, '.'), 1));
+    $fichier->cle           = self::createKey();
+    $fichier->date_upload   = date('Y-m-d H:i:s');
+    $fichier->user_type     = _currentUser()->getExtra('type');
+    $fichier->user_id       = _currentUser()->getExtra('id');
+    
+    if (isset($dossier) && $dossier->casier) {
+      
+      $fichier->fichier = $fichier->titre.'_'._currentUser()->getExtra('prenom').'_'._currentUser()->getExtra('nom').$extension;
+    }
+    else {
+      
+      $fichier->fichier = $name;
+    }
+
+    $fichierDAO->insert($fichier);
+
+		$fichierPhysique = $dir.$fichier->id.'-'.$fichier->cle.$extension;
+		move_uploaded_file ($file, $fichierPhysique);
+		
+		return $fichier;
+  }
+  
+  /**
+	 * Minimail de confirmation de l'upload dans le cas d'un envoie dans un casier
+	 *
+	 * @param string  $filename   Nom du fichier
+	 */
+  public static function sendLockerUploadConfirmation ($fileName) {
+    
+    _classInclude('minimail|minimailService');
+  
+    $msg_title    = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerTitle', date('d/m/Y'));
+    $msg_body     = CopixI18N::get ('classeur|classeur.message.confirmUploadLockerBody', array(date('d/m/Y'), $fileName));
+    
+    MinimailService::sendMinimail ($msg_title, $msg_body, CopixConfig::get('minimail|system_sender_id'), array(_currentUser ()->getId() => 1), CopixConfig::get ('minimail|default_format'));
   }
   
   /**

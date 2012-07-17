@@ -32,22 +32,22 @@
     
     {if $ppo->travail->a_faire}  
       <div class="field">
-        <label for="travail_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.dateGiven"} :</label>
-        <p class="input"><input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" /></p>
+        <label for="travail_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.dateGiven"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /> :</label>
+        <p class="input"><input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" required /></p>
       </div>
       
       <div class="field">
-        <label for="travail_date_realisation" class="form_libelle">{i18n key="cahierdetextes.message.dateFor"} :</label>
-        <p class="input"><input class="form datepicker" type="text" name="travail_date_realisation" id="travail_date_realisation" value="{$ppo->travail->date_realisation}" /></p>
+        <label for="travail_date_realisation" class="form_libelle">{i18n key="cahierdetextes.message.dateFor"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /> :</label>
+        <p class="input"><input class="form datepicker" type="text" name="travail_date_realisation" id="travail_date_realisation" value="{$ppo->travail->date_realisation}" required /></p>
       </div>
     {else}
       <div class="field">
-        <label for="travail_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.date"} :</label>
-        <p class="input"><input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" /></p>
+        <label for="travail_date_creation" class="form_libelle">{i18n key="cahierdetextes.message.date"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /> :</label>
+        <p class="input"><input class="form datepicker" type="text" name="travail_date_creation" id="travail_date_creation" value="{if $ppo->travail->date_creation eq null}{$ppo->dateSelectionnee|date_format:"%d/%m/%Y"}{else}{$ppo->travail->date_creation}{/if}" required /></p>
       </div>
     {/if}
     <div class="field">
-      <label for="travail_domaine_id" class="form_libelle">{i18n key="cahierdetextes.message.domain"} :</label>
+      <label for="travail_domaine_id" class="form_libelle">{i18n key="cahierdetextes.message.domain"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /> :</label>
       <p class="input">
         {if $ppo->idsDomaine|@count eq 0}
           <a href="{copixurl dest="cahierdetextes||gererDomaines" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">{i18n key="cahierdetextes.message.noDomainCreateOne"}</a>
@@ -57,8 +57,14 @@
           {html_options name='travail_domaine_id' values=$ppo->idsDomaine output=$ppo->nomsDomaine selected=$ppo->travail->domaine_id}
       {/if}</p>
     </div>
+    {if $ppo->travail->a_faire}
+      <div class="field">
+        <label for="travail_a_rendre" class="form_libelle">{i18n key="cahierdetextes.message.return"} :</label>
+        <p class="input"><input class="form" type="checkbox" name="travail_a_rendre" id="travail_a_rendre" value="1"{if $ppo->travail->a_rendre} checked="checked"{/if} /> <label for="travail_a_rendre">Travail à rendre dans le casier</label></p>
+      </div>
+    {/if}
     <div class="textarea">
-      <label for="travail_description" class="form_libelle">{i18n key="cahierdetextes.message.description"} :</label>
+      <label for="travail_description" class="form_libelle">{i18n key="cahierdetextes.message.description"} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /> :</label>
       {copixzone process=kernel|edition field='travail_description' format=$ppo->format content=$ppo->travail->description height=200 width=450}
     </div>
     <div class="field">

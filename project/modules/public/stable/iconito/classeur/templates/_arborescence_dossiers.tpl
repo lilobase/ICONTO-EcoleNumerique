@@ -2,7 +2,7 @@
   {assign var=dossierId value=$dossier->id}
   <li class="folder {if !isset($ppo->dossiersOuverts[$dossierId])}collapsed{else}open{/if}">
     <p class="{if $dossier->id eq $ppo->dossierCourant}current{/if}">
-    {if $dossier->hasSousDossiers()}
+    {if $dossier->hasSousDossiers(!$dossier->casier || ($dossier->casier && $ppo->estAdmin))}
       <a href="#" class="expand-folder {$dossier->id}">
         {if !isset($ppo->dossiersOuverts[$dossierId])}
           <img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" />

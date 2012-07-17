@@ -111,7 +111,7 @@ jQuery(document).ready(function($){
     }
   };
   
-  	/**********************************************************************/
+  /**********************************************************************/
 	/*  Vue vignette - Tri                                                */
 	/**********************************************************************/
 	$('#order-column').live('change', function() {
@@ -144,18 +144,43 @@ jQuery(document).ready(function($){
   
   /**********************************************************************/
 	/*  Actions de masse : suppression / déplacement / copie et download  */
-	/**********************************************************************/
+  /**********************************************************************/
   $('.mass-actions .button-move').click (function() {
     
 		nb_checked = $('#folder-content :checked[name="dossiers[]"]').size() + $('#folder-content :checked[name="fichiers[]"]').size();
 		
 		if (nb_checked > 0) {
-		  
-			var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
-			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
-			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
-			var url = getActionURL('classeur|default|deplacerContenu', data);
-			self.location = url;
+		    
+		  // La sélection contient-elle des casiers ?
+		  var withLockers = false;
+		  $('#folder-content :checked[name="dossiers[]"]').each(function(){
+		    
+		    if ($(this).data('locker')) {
+		      
+		      withLockers = true;
+		      return false;
+		    }
+		  });
+		    
+		  if (withLockers) {
+		        
+		    if (confirm('Au moins un des dossiers sélectionnés correspond à un travail à rendre du cahier de texte, êtes-vous sûr de vouloir le déplacer ?')) {
+		            
+		      var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
+      		data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+      		data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
+      		var url = getActionURL('classeur|default|deplacerContenu', data);
+      		self.location = url;
+		    }
+		  }
+		  else {
+		        
+		    var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
+    		data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+    		data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
+    		var url = getActionURL('classeur|default|deplacerContenu', data);
+    		self.location = url;
+		  }
 		} 
 		else {
 		  
@@ -171,7 +196,29 @@ jQuery(document).ready(function($){
 		
 		if (nb_checked > 0) {
 		  
-		  if (confirm('Etes-vous sûr de vouloir supprimer ces éléments ?')) {
+		  // La sélection contient-elle des casiers ?
+		  var withLockers = false;
+		  $('#folder-content :checked[name="dossiers[]"]').each(function(){
+		        
+		    if ($(this).data('locker')) {
+		            
+		      withLockers = true;
+		      return false;
+		    }
+		  });
+		  
+		  if (withLockers) {
+		    
+		    if (confirm('Au moins un des dossiers sélectionnés correspond à un travail à rendre du cahier de texte, êtes-vous sûr de vouloir le supprimer ?')) {
+
+  		    var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
+    			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
+    			data += '&'+$('#folder-content :checked[name="fichiers[]"]').serialize();
+    			var url = getActionURL('classeur|default|supprimerContenu', data);
+    			self.location = url;
+  		  }
+		  }
+		  else if (confirm('Etes-vous sûr de vouloir supprimer ces éléments ?')) {
 		    
 		    var data = 'classeurId='+classeurId+'&dossierId='+dossierId;
   			data += '&'+$('#folder-content :checked[name="dossiers[]"]').serialize();
