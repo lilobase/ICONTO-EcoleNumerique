@@ -16,6 +16,7 @@
     <property name="a_rendre" fieldname="a_rendre" type="integer" required="yes" default="0"/>
     <property name="dossier_id" fieldname="module_classeur_dossier_id" type="integer"/>
     <property name="supprime" fieldname="supprime" type="integer" required="yes" default="0"/>
+    <property name="timestamp" fieldname="timestamp" type="datetime"/>
   </properties>
   <methods>
   </methods>
