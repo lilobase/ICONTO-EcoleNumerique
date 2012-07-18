@@ -96,10 +96,8 @@ DIV.annu_popup_zone {
 	display: block;
 	margin: 0px 6px -1em 6px;
 }
-DIV.annu_write_all {
-	text-align: right;
-	font-size: 11px;
-	margin-right: 5px;
+p.annu_write_all {
+    text-align: center;
 }
 p.explain {
     text-align:center;

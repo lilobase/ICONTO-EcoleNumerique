@@ -22,22 +22,9 @@ function change_ville (obj,form) {
 	form.submit();
 }
 
-function click_all (field, tab) {
-	var logins = eval("tab_"+tab);
-	for (var i=0, add=true, res="" ; i < logins.length; i++) {
-		if (window.opener) {
-            res = window.opener.add_destin (logins[i], field);
-            if (res) add=false;
-            else $('input[type=checkbox][value='+logins[i]+']').attr('checked','checked');
-        }
-	}
-	if (res)
-		alert (res);
-	//self.close();
-}
-
-function open_annuaire (field) {
-		var url = getActionURL('annuaire|default|getPopup', 'field='+field);
+// right = le droit qu'il faudra vérifier à l'affichage des users
+function open_annuaire (field, right) {
+		var url = getActionURL('annuaire|default|getPopup', 'field='+field+'&right='+right);
     var name = "messagerie";
     var options = "height=500,width=540,toolbar=no,menubar=no,scrollbars=yes,resizable=yes,location=no,directories=no,status=no";
     var a = window.open (url, name, options);
@@ -54,86 +41,6 @@ function open_annuaire_profil (field, profil) {
 }
 
 
-// Regarde si un login est dans les destinataires
-function is_login_in_destin (login, field) {
-		//alert ("login="+login+" / field="+field);
-    var dest = getRef (field);
-		logins = dest.value.replace(/ /g,"");
-    logins = logins.split(',');
-    for (var i=0, trouve=false; !trouve && i < logins.length; i++) {
-        if (login==logins[i])   trouve = true;
-    }
-    return trouve;
-}
-
-function click_destin (login, field) {
-  //alert ("login="+login+" / field="+field);
-    is =     is_login_in_destin (login, field);
-		//alert ("is="+is);
-    if (!is)    click = add_destin (login, field);
-    else        click = del_destin (login, field);
-		if (click) {
-			alert (click);
-			return false;
-		}
-}
-
-
-// Ajoute un destinataire d'un MP. Renvoie une erreur ou claire ou rien si OK.
-function add_destin (login, field) {
-	limit = conf_minimail_limit_dest;
-	var res = "";
-  var dest = getRef (field);
-	is =     is_login_in_destin (login, field);
-	if (!is) {
-    if (dest.value=="")     dest.value = login;
-    else {
-			logins = dest.value.replace(/ /g,"");
-	    tab = logins.split(',');
-			//alert (tab.length);
-			if (0 && tab.length>=limit)
-				res = i18n_minimail_limit_dest+"\n";
-			else
-				dest.value += ', '+login;
-		}                    
-	}
-	return res;
-}
-
-
-function del_destin (login, field) {
-    var dest = getRef (field);
-		logins = dest.value.replace(/ /g,"");
-    logins = logins.split(',');
-    var res = "";
-    for (var i=0; i < logins.length; i++) {
-        if (login != logins[i]) {
-            if (res != "") res += ', ';
-            res += logins[i];
-        }
-        dest.value = res;        
-    }
-}
-
-
-jQuery(document).ready(function($){
-
-    $.get(getActionURL('kernel|default|i18n'), { key: 'annuaire|annuaire.popup.close' }, function(data){
-        if (data) {
-            $.get(getActionURL('kernel|default|i18n'), { key: 'annuaire|annuaire.popup.explain2js' }, function(data2){
-                $('p.endForm').html('<a href="#" class="button button-confirm">'+data+'</a>');
-                $('p.explain span').html(data2);
-                $('p.endForm a.button-confirm').click(function(){
-                    self.close();
-                    return false;
-                });
-            });
-        }
-    });
-
-
-    
-});
 
 
 

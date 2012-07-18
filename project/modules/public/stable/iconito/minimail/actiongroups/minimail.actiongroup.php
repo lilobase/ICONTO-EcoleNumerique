@@ -319,7 +319,7 @@ class ActionGroupMinimail extends EnicActionGroup {
         $tplForm->assign("errors", (_request("errors") ? _request("errors") : ""));
         $tplForm->assign('message_edition', CopixZone::process('kernel|edition', array('field' => 'message', 'format' => $format, 'content' => $message, 'height' => 200, 'object' => 'USER', 'options' => array('focus' => 1))));
 
-        $tplForm->assign('linkpopup', CopixZone::process('annuaire|linkpopup', array('field' => 'dest')));
+        $tplForm->assign('linkpopup', CopixZone::process('annuaire|linkpopup', array('field' => 'dest', 'right' => 'communiquer')));
         $tplForm->assign("attachment_size", CopixConfig::get('minimail|attachment_size'));
         $result = $tplForm->fetch("writeform.tpl");
 

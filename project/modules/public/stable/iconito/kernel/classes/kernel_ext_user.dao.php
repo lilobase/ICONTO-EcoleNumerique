@@ -9,7 +9,7 @@
 class DAOKernel_ext_user {
 
 	/**
-	 * Renvoie la liste des personnes extÈrieures rattachÈes ‡ une classe et ayant un compte utilisateur
+	 * Renvoie la liste des personnes ext√©rieures rattach√©es √† une classe et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -23,11 +23,11 @@ class DAOKernel_ext_user {
 	}
 	
 	/**
-	 * Renvoie la liste des personnes extÈrieures rattachÈes ‡ une Ècole et ayant un compte utilisateur
+	 * Renvoie la liste des personnes ext√©rieures rattach√©es √† une √©cole et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
-	 * @param integer $ecole Id de l'Ècole
+	 * @param integer $ecole Id de l'√©cole
 	 * @return mixed Objet DAO
 	 */
 	function getPersonnelExtInEcole ($ecole) {
@@ -37,7 +37,7 @@ class DAOKernel_ext_user {
 	}
 	
 	/**
-	 * Renvoie la liste des personnes extÈrieures rattachÈes ‡ une ville et ayant un compte utilisateur
+	 * Renvoie la liste des personnes ext√©rieures rattach√©es √† une ville et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -55,7 +55,7 @@ class DAOKernel_ext_user {
 	
 
 	/**
-	 * Renvoie la liste des personnes extÈrieures rattachÈes ‡ un groupe de villes et ayant un compte utilisateur
+	 * Renvoie la liste des personnes ext√©rieures rattach√©es √† un groupe de villes et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -67,6 +67,23 @@ class DAOKernel_ext_user {
 		//print_r($query);
 		return _doQuery($query);
 	}	
+        
+        
+        
+        /**
+	 * Renvoie la liste des personnes ext√©rieures rattach√©es n'importe o√π
+	 *
+	 * @author Fr√©d√©ric Mossmann <fmossmann@cap-tic.fr>
+	 * @since 06/07/2012
+	 * @return mixed Objet DAO
+	 */
+	function getPersonnelExtInAll () {
+		$query = "SELECT E.id, E.nom, E.prenom, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_ext_user E, kernel_link_bu2user LI, dbuser U WHERE LI.user_id=U.id_dbuser AND LI.bu_type='USER_EXT' AND LI.bu_id=E.id ORDER BY nom, prenom";
+		//print_r($query);
+		return _doQuery($query);
+	}
+        
+        
 
 }
 
