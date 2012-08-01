@@ -2823,6 +2823,16 @@ class Kernel {
 // echo "NOT_visited ";
 			$module->notification_number = 0;
 			$module->notification_message = '';
+			
+			// Initialisation, même sans entrer dans le module
+			$lastvisit = _record("kernel|kernel_notifications_lastvisit");
+			$lastvisit->user_id = _currentUser()->getExtra("user_id"); // id Copix
+			$lastvisit->date = date('Y-m-d H:i:s');
+			$lastvisit->node_type = $module->node_type;
+			$lastvisit->node_id = $module->node_id;
+			$lastvisit->module_type = $module_name;
+			$lastvisit->module_id = $module->module_id;
+			_dao("kernel|kernel_notifications_lastvisit")->insert( $lastvisit );
 		}
 		
 		// [module_nom] => Agenda
