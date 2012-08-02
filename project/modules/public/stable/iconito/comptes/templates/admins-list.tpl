@@ -17,8 +17,8 @@
 			<td>{$admin->user_infos.login}</td>
 			<td class="hidden">{$admin->bu_type} / {$admin->bu_id}</td>
 			<td>
-				<select name="role[{$admin->id_dbuser}]"{if $admin->id_dbuser eq $user_id} disabled="disabled"{/if}>
-					<option value="70"{if $admin->droit eq 70} selected="selected"{/if}>{i18n key="comptes.roles.table.super_admin"}</option>
+				<select name="role[{$admin->id_dbuser}]"{if $admin->id_dbuser eq $user_id} disabled="disabled"{/if}{if $admin_fonctionnel && $admin->droit eq 70} disabled="disabled"{/if}>
+					{if ! $admin_fonctionnel || $admin->droit eq 70}<option value="70"{if $admin->droit eq 70} selected="selected"{/if}>{i18n key="comptes.roles.table.super_admin"}</option>{/if}
 					<option value="60"{if $admin->droit eq 60} selected="selected"{/if}>{i18n key="comptes.roles.table.fonct_admin"}</option>
 					<option value="0" {if $admin->droit eq  0} selected="selected"{/if}>Aucun droits d'admin</option>
 				</select>

@@ -149,6 +149,8 @@ class ActionGroupAdmins extends enicActionGroup {
 		$tplListe = new CopixTpl ();
 		$tplListe->assign ("admins", $admins);
 		$tplListe->assign ("user_id", _currentUser()->getExtra('user_id'));
+		$tplListe->assign ("admin_fonctionnel", Kernel::isAdminFonctionnel());
+		
 		$main = $tplListe->fetch("admins-list.tpl");
 
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.admins'));
