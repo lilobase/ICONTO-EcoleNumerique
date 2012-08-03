@@ -23,7 +23,6 @@ class ActionGroupDashboard extends enicActionGroup {
     }
 
 	function processDefault() {
-
 		$tpl = new CopixTpl ();
 		$tplModule = new CopixTpl ();
 

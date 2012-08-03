@@ -23,8 +23,6 @@ class Admin {
     function canAdmin () {
 		if (Kernel::isAdmin())
 			return true;
-		elseif (Kernel::isAdminFonctionnel())
-			return true;
 		else
 			return false;
     // return (_currentUser()->getExtra('type') == 'USER_EXT' && _currentUser()->getExtra('id')==1);
