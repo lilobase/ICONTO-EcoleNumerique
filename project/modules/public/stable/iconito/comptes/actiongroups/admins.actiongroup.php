@@ -67,15 +67,6 @@ class ActionGroupAdmins extends enicActionGroup {
 				";
 				_doQuery ($sql, array(':bu_type'=>$admins_mod_item->bu_type, ':bu_id'=>$admins_mod_item->bu_id));
 				
-				// Groupe de travail Edito
-				$sql = "
-					DELETE FROM kernel_link_user2node
-					WHERE node_type='CLUB' AND node_id=1
-					AND   user_type=:bu_type AND user_id=:bu_id
-				";
-				_doQuery ($sql, array(':bu_type'=>$admins_mod_item->bu_type, ':bu_id'=>$admins_mod_item->bu_id));
-				
-				
 				if($roles[$admins_mod_item->id_dbuser]) {
 					$sql = "
 						INSERT INTO kernel_link_user2node
@@ -88,16 +79,6 @@ class ActionGroupAdmins extends enicActionGroup {
 						':user_id'   => $admins_mod_item->bu_id,
 						':node_type' => 'ROOT',
 						':node_id'   => 0,
-						':droit'     => $roles[$admins_mod_item->id_dbuser]
-					);
-					_doQuery ($sql, $params);
-					
-					// Groupe de travail Edito
-					$params = array(
-						':user_type' => $admins_mod_item->bu_type,
-						':user_id'   => $admins_mod_item->bu_id,
-						':node_type' => 'CLUB',
-						':node_id'   => 1,
 						':droit'     => $roles[$admins_mod_item->id_dbuser]
 					);
 					_doQuery ($sql, $params);
