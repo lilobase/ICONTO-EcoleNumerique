@@ -18,7 +18,7 @@ class ActionGroupComptes extends enicActionGroup {
 		_currentUser()->assertCredential ('group:[current_user]');
 		$this->menu = array();
 		
-		if(Kernel::isAdmin() || Kernel::isAdminFonctionnel() || _currentUser()->hasAssistance('can_comptes') ) 
+		if(Kernel::isAdmin() || _currentUser()->hasAssistance('can_comptes') ) 
 		{
 			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
@@ -27,7 +27,7 @@ class ActionGroupComptes extends enicActionGroup {
 			}
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl', 'current'=>'current');
 		}
-		if(Kernel::isAdmin() || Kernel::isAdminFonctionnel()) 
+		if(Kernel::isAdmin()) 
 		{
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getRoles'), 'url' => CopixUrl::get ('comptes||getRoles'), 'type'=> 'acl');
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
@@ -1039,12 +1039,12 @@ class ActionGroupComptes extends enicActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getRoles() {
-   		if( !Kernel::isAdmin() && !Kernel::isAdminFonctionnel() )
+   		if( !Kernel::isAdmin() )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		$this->menu = array();
 		
-		if(Kernel::isAdmin() || Kernel::isAdminFonctionnel() || _currentUser()->hasAssistance('can_comptes') ) 
+		if(Kernel::isAdmin() || _currentUser()->hasAssistance('can_comptes') ) 
 		{
 			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 				$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
@@ -1053,7 +1053,7 @@ class ActionGroupComptes extends enicActionGroup {
 			}
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl');
 		}
-		if(Kernel::isAdmin() || Kernel::isAdminFonctionnel()) 
+		if(Kernel::isAdmin()) 
 		{
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getRoles'), 'url' => CopixUrl::get ('comptes||getRoles'), 'type'=> 'acl', 'current'=>'current');
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');

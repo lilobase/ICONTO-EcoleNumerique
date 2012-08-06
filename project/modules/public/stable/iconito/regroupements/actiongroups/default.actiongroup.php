@@ -20,7 +20,7 @@ class ActionGroupDefault extends CopixActionGroup {
 
 
    function getHomePage () {
-   		if(!Kernel::isAdmin() && !Kernel::isAdminFonctionnel())
+   		if(!Kernel::isAdmin())
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 			
 		$tpl = new CopixTpl ();
