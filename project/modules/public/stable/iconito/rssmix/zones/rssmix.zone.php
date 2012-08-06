@@ -11,7 +11,7 @@ class ZoneRssMix extends enicZone{
         $tpl = new CopixTpl ();
 
         $tpl->assign('urladmin', $this->url('rssmix|default|default'));
-        $tpl->assign('userIsAdmin', $this->user->root);
+        $tpl->assign('userIsAdmin', Kernel::isAdmin());
         $tpl->assign('urlRssMix', $this->url('rssmix|default|GetRssFeedAjax'));
         $toReturn = $tpl->fetch('rssmix|zone.tpl');
         $this->addJs('js/jcarousellite/jcarousellite.js');

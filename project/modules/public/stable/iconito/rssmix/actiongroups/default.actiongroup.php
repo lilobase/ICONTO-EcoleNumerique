@@ -13,7 +13,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
 
     public function processDefault() {
-        if (!$this->user->root) { return $this->error('rssmix.noRight', true, '||'); }
+        if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
         
         $ppo = new CopixPPO();
 
@@ -31,7 +31,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
 
     public function processCreate() {
-        if (!$this->user->root) { return $this->error('rssmix.noRight', true, '||'); }
+        if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
 
         $ppo = new CopixPPO();
 
@@ -47,7 +47,7 @@ class ActionGroupDefault extends enicActionGroup {
 
     public function processCreateP() {
         
-        if (!$this->user->root) { return $this->error('rssmix.noRight', true, '||'); }
+        if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
 
 
         if ($this->istyreq('rm-url') || filter_var($this->request('rm-url'), FILTER_VALIDATE_URL) === TRUE) {
@@ -67,7 +67,7 @@ class ActionGroupDefault extends enicActionGroup {
 
     public function processTest() {
         
-        if (!$this->user->root) { return $this->error('rssmix.noRight', true, '||'); }
+        if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
 
         try {
             $feed = $this->service->getRssFeed($this->request('url'), 2);
@@ -98,7 +98,7 @@ class ActionGroupDefault extends enicActionGroup {
 
     public function processDelete() {
         
-        if (!$this->user->root) { return $this->error('rssmix.noRight', true, '||'); }
+        if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
 
         $this->service->deleteRssUrl($this->request('id'));
 
@@ -109,7 +109,7 @@ class ActionGroupDefault extends enicActionGroup {
 
     public function processUpdate() {
         
-        if (!$this->user->root) { return $this->error('rssmix.noRight', true, '||'); }
+        if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
 
         $ppo = new CopixPPO();
 
@@ -136,7 +136,7 @@ class ActionGroupDefault extends enicActionGroup {
 
     public function processUpdatep() {
         
-        if (!$this->user->root) { return $this->error('rssmix.noRight', true, '||'); }
+        if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
 
 
         if (!$this->istyreq('id'))
