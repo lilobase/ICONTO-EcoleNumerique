@@ -1448,12 +1448,12 @@ class ActionGroupGroupe extends enicActionGroup {
 			if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
 			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			else {
-				// On v�rifie que le membre demand� fait bien partie du groupe et qu'il n'est pas le propri�taire
+				// On v�rifie que le membre demand� fait bien partie du groupe /* et qu'il n'est pas le propri�taire */
 				$dao = CopixDAOFactory::create("kernel|kernel_link_user2node");
 				$his = $dao->get($user_type, $user_id, "CLUB", $id);
 				//print_r($his);
 				//$level = Kernel::getLevel ('CLUB', $id, $user_type, $user_id);
-				if ($his->droit <= PROFILE_CCV_SHOW || $his->droit >= PROFILE_CCV_ADMIN)
+				if ($his->droit <= PROFILE_CCV_SHOW /* || $his->droit >= PROFILE_CCV_ADMIN */ )
 				$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			}
 		}
@@ -1495,6 +1495,7 @@ class ActionGroupGroupe extends enicActionGroup {
 			PROFILE_CCV_READ=>$groupeService->getRightName(PROFILE_CCV_READ),
 			PROFILE_CCV_MEMBER=>$groupeService->getRightName(PROFILE_CCV_MEMBER),
 			PROFILE_CCV_MODERATE=>$groupeService->getRightName(PROFILE_CCV_MODERATE),
+			PROFILE_CCV_ADMIN=>$groupeService->getRightName(PROFILE_CCV_ADMIN),
 			));
 
 
@@ -1549,9 +1550,9 @@ class ActionGroupGroupe extends enicActionGroup {
 			if (!$groupeService->canMakeInGroupe('ADMIN', $mondroit))
 			$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			else {
-				// On v�rifie que le membre demand� fait bien partie du groupe et qu'il n'est pas le propri�taire
+				// On v�rifie que le membre demand� fait bien partie du groupe /* et qu'il n'est pas le propri�taire */
 				$level = Kernel::getLevel ('CLUB', $id, $user_type, $user_id);
-				if ($level <= PROFILE_CCV_SHOW || $level >= PROFILE_CCV_ADMIN)
+				if ($level <= PROFILE_CCV_SHOW /* || $level >= PROFILE_CCV_ADMIN */)
 				$critical_errors[] = CopixI18N::get ('kernel|kernel.error.noRights');
 			}
 		}

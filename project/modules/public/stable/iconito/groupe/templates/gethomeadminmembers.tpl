@@ -51,7 +51,7 @@
         {/if}
         {if ($user.debut && $user.debut>$today) || ($user.fin && $user.fin<$today)}</div>{/if}
         </td>
-        <td align="center">{if $user.droit<70}<a class="button button-update" href="{copixurl dest="|getHomeAdminMember" id=$groupe->id user_type=$user.type user_id=$user.id}">{i18n key="groupe.adminMembers.list.modif"}</a>{/if}</td>
+        <td align="center">{* if $user.droit<70 *}{assign var=lui value=$user.type|cat:"|"|cat:$user.id}{if $his neq $lui}<a class="button button-update" href="{copixurl dest="|getHomeAdminMember" id=$groupe->id user_type=$user.type user_id=$user.id}">{i18n key="groupe.adminMembers.list.modif"}</a>{/if}{* /if *}</td>
 				<td ALIGN="CENTER">{assign var=lui value=$user.type|cat:"|"|cat:$user.id}{if $his neq $lui}<input type="checkbox" name="membres[]" value="{$user.type}|{$user.id}" class="noBorder">{/if}</td>
 				{counter}
 			</tr>
