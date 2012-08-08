@@ -74,6 +74,13 @@ class Admin {
 			'current' => ($iCurrentTab == 'phpinfo'),
 		);
 		}
+		
+		$menu[] = array(
+			'txt' => CopixI18N::get ('sysutils|admin.menu.groupes'),
+			'url' => CopixUrl::get ('sysutils|groupes|'),
+			'current' => ($iCurrentTab == 'groupes'),
+		);
+		
     return $menu;
   }
 

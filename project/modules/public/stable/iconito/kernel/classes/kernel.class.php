@@ -488,7 +488,7 @@ if(DEBUG) {
 				}
 
 				// Rustine CB 25/08/2010 On ajoute un droit de lecture sur le groupe d'assistance
-				if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+				if( $type==_currentUser()->getExtra('type') && $id==_currentUser()->getExtra('id') && CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
 					$return[]=array("type"=>'CLUB', "id"=>$groupeAssistance,"droit"=>PROFILE_CCV_READ);
 					//print_r($return);
 				}
@@ -496,7 +496,7 @@ if(DEBUG) {
 				//// Ajoute le club Edito aux admins et admins fonctionnels
 				//
 				// Si on est admin (fonctionnel ou super-admin)
-				if( Kernel::isAdmin() ) {
+				if( $type==_currentUser()->getExtra('type') && $id==_currentUser()->getExtra('id') && Kernel::isAdmin() ) {
 					
 					$conf_Edito_type = null;
 					if( CopixConfig::exists('default|conf_Edito_type') ) $conf_Edito_type = CopixConfig::get('default|conf_Edito_type');
