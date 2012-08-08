@@ -16,3 +16,6 @@
     float: left;
     margin-right: 20px;
 }
+.row label {width:auto;}
+.row em {font-size:0.9em;}
+.submit {margin-top:1em;}

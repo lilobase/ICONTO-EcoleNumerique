@@ -2,24 +2,22 @@
 <div id="dash-ct">
 
 <form id="dash-form-ct" action="{copixurl dest="kernel|dashboard|ereg"}" method="post">
-    <div class="">
-        <h3>{i18n key="kernel|dashboard.admin.desc"}</h3>
+        <p>{i18n key="kernel|dashboard.admin.desc"}</p>
         {$ppo->editor}
-    </div>
-    <div class="">
-        <h3>{i18n key="kernel|dashboard.admin.twitter"}</h3>
+    <p></p>
+        <h2>{i18n key="kernel|dashboard.admin.twitter"}</h2>
         <p>{i18n key="kernel|dashboard.admin.twitterDesc"}</p>
-        <p>
-            <label for="social_stream">{i18n key="kernel|dashboard.admin.twitterLabel"} : </label>
+        <div class="row">
+            <label for="social_stream">{i18n key="kernel|dashboard.admin.twitterLabel"} </label>
             <input type="text" name="social_stream" value="{$ppo->content.social_stream}"/>
-            <em>( {i18n key="kernel|dashboard.admin.twitterExample"} )</em>
-        </p>
-    </div>
+            <em>({i18n key="kernel|dashboard.admin.twitterExample"})</em>
+        </div>
+    
 
-<div class="center">    
+<div class="submit center">    
     <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-reload" >{i18n key="kernel|dashboard.admin.default" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;
     <a class="button button-cancel" href="{copixurl dest="||"}" class="button button-cancel" >{i18n key="kernel|dashboard.admin.cancel" noEscape="true"}</a>&nbsp;
     <input class="button button-confirm" type="submit" class="button button-update" value="{i18n key="kernel|dashboard.admin.save" noEscape="true"}" />
 </div>
 </form>
-    
+</div>    
