@@ -121,6 +121,16 @@ class ActionGroupDashboard extends enicActionGroup {
                             break;
                     }
                 }
+                
+                //twitter integration
+                $twitterSrc = '';
+                if(!empty($content['social_stream'])){
+                    enic::to_load('social');
+                    $twitter = new enicSocialTwitter();
+                    $twitter->setUserName($content['social_stream']);
+                    $twitterSrc = $twitter->printSource();
+                }
+                    
 
                 //is admin :
                 $is_admin = ($contentNode['droit'] >= 60);
@@ -128,6 +138,7 @@ class ActionGroupDashboard extends enicActionGroup {
                 //build html content
                 $content_tpl = new CopixTpl();
                 $content_tpl->assign('content', $content['content']);
+                $content_tpl->assign('twitter', $twitterSrc);
                 $content_tpl->assign('is_admin', $is_admin);
                 $content_tpl->assign('id', $contentNode['id']);
                 $content_tpl->assign('type', $contentNode['type']);

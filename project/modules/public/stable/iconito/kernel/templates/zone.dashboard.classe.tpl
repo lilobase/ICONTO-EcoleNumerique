@@ -5,6 +5,8 @@
 {/if}
 
 <h4 class="dashboard-zone-title">{i18n key="kernel|dashboard.listeEleve" noEscape=true}</h4>
+
+    <img title="Photo de l'école" alt="Photo de l'école" src="http://ecolenumerique.alemaire.cap:8888/www/themes/default/img/fichesecoles/no_photo.gif" class="dashboard-zone-img"/>
 <ul class="dashboard-item">
     {foreach from=$eleves item=eleve}
         <li>

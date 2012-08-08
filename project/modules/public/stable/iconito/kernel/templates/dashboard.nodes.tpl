@@ -8,6 +8,14 @@
 
     {/if}
 {$content}
+    
+    {if !empty($twitter)}
+    <div class="socialMedia">
+        {$twitter}
+    </div>
+    {/if}
+
+    <p class="clear"></p>
 </div>
 {if $is_admin && $type != 'ROOT'}
 

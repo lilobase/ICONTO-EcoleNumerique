@@ -35,7 +35,7 @@ class enicSocialTwitter {
     public $source = 'http://widgets.twimg.com/j/2/widget.js';
     public $numberOfTweets = 4;
     public $version = 2;
-    public $type = 'profil';
+    public $type = 'profile';
     public $interval = 3000;
     public $width = 'auto';
     public $height = 150;   
@@ -139,12 +139,12 @@ class enicSocialTwitter {
     }
     
     private function buildJavascript(){
-        $this->javascript = 'new TWTR.Widget('.$this->options.').render().setUser('.$this->userName.').start()';
+        $this->javascript = 'new TWTR.Widget('.$this->options.').render().setUser(\''.$this->userName.'\').start()';
     }
     
     private function buildHtml(){
         $this->html = '<script charset="utf-8" src="'.$this->source.'"></script>';
-        $this->html = '<script type="text/javascript">'.$this->javascript.'</script>';   
+        $this->html .= '<script type="text/javascript">'.$this->javascript.'</script>';   
     }
     
     public function printSource(){

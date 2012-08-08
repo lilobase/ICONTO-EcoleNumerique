@@ -19,7 +19,7 @@
 <div class="content-panel center">    
     <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-reload" >{i18n key="kernel|dashboard.admin.default" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;
     <a class="button button-cancel" href="{copixurl dest="||"}" class="button button-cancel" >{i18n key="kernel|dashboard.admin.cancel" noEscape="true"}</a>&nbsp;
-    <input class="button button-confirm" type="submit" class="button button-confirm" value="{i18n key="kernel|dashboard.admin.save" noEscape="true"}" />
+    <input class="button button-confirm" type="submit" class="button button-update" value="{i18n key="kernel|dashboard.admin.save" noEscape="true"}" />
 </div>
 </form>
     
