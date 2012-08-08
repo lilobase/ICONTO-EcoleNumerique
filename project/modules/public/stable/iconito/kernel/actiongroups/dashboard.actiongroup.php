@@ -128,6 +128,7 @@ class ActionGroupDashboard extends enicActionGroup {
                     enic::to_load('social');
                     $twitter = new enicSocialTwitter();
                     $twitter->setUserName($content['social_stream']);
+                    $twitter->setThemeByContext($contentNode['type']);
                     $twitterSrc = $twitter->printSource();
                 }
                     
