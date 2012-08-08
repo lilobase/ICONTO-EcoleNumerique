@@ -102,7 +102,7 @@ class enicSocialTwitter {
 
     public function setThemeByContext($context) {
 
-        $theme = array();
+        $theme = $this->theme;
         switch ($context) {
             case 'BU_ECOLE':
 
