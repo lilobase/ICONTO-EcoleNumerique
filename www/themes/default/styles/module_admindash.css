@@ -16,3 +16,9 @@
     float: left;
     margin-right: 20px;
 }
+
+.socialMedia {
+	float:right;
+	width:45%;
+	border-radius:5px;
+}
