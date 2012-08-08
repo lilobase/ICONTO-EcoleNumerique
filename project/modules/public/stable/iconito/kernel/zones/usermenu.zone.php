@@ -38,6 +38,8 @@ class ZoneUserMenu extends CopixZone {
 
 			$menuitems = array();
 			
+			if( !_sessionGet('user_animateur') ) { // Prise de controle a distance
+
 			if( CopixConfig::exists('default|conf_ModVisio') && (1==CopixConfig::get('default|conf_ModVisio'))) {
 				$menuitem["title"] = _i18n('kernel|kernel.codes.mod_visio');
 				$menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'visio','mid'=>''));
@@ -93,6 +95,8 @@ class ZoneUserMenu extends CopixZone {
 				array_push($menuitems, $menuitem);
 			}
 				
+			} // Prise de controle a distance
+
 			if (_sessionGet('user_animateur')) {
 				$logout["title"] = _i18n('auth|auth.buttons.ctrlout');
 				$logout["url"] = CopixUrl::get ('assistance||switch');
