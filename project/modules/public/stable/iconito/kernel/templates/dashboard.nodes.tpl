@@ -4,7 +4,8 @@
 
 <div class="admindash">
     {if !empty($picture)}
-    <img src="{$picture}" />
+        <img  src="{copixurl dest="fichesecoles||photo" photo=$pic|urlencode}" alt="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" title="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" />
+
     {/if}
 {$content}
 </div>
