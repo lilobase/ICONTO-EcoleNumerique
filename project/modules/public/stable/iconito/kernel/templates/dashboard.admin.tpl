@@ -2,11 +2,11 @@
 <div id="dash-ct">
 
 <form id="dash-form-ct" action="{copixurl dest="kernel|dashboard|ereg"}" method="post">
-    <div class="content-panel content-panel-edit">
+    <div class="">
         <h3>{i18n key="kernel|dashboard.admin.desc"}</h3>
         {$ppo->editor}
     </div>
-    <div class="content-panel content-panel-edit">
+    <div class="">
         <h3>{i18n key="kernel|dashboard.admin.twitter"}</h3>
         <p>{i18n key="kernel|dashboard.admin.twitterDesc"}</p>
         <p>
@@ -16,7 +16,7 @@
         </p>
     </div>
 
-<div class="content-panel center">    
+<div class="center">    
     <a href="{copixurl dest="kernel|dashboard|delete" id=$ppo->content.id}" class="button button-reload" >{i18n key="kernel|dashboard.admin.default" noEscape="true"}</a>&nbsp;&nbsp;&nbsp;
     <a class="button button-cancel" href="{copixurl dest="||"}" class="button button-cancel" >{i18n key="kernel|dashboard.admin.cancel" noEscape="true"}</a>&nbsp;
     <input class="button button-confirm" type="submit" class="button button-update" value="{i18n key="kernel|dashboard.admin.save" noEscape="true"}" />
