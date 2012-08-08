@@ -76,7 +76,7 @@
 								</DIV>
 						</td>
                         <td class="center">{if $article->is_online}<img src="{copixurl}themes/default/images/button-action/action_confirm.png" alt="{i18n key="blog.oui"}" />{else}<img src="{copixurl}themes/default/images/button-action/action_cancel.png" alt="{i18n key="blog.non"}" />{/if}</td>
-                        <td class="action"><a class="button button-update" href="{copixurl dest="blog|admin|prepareEditArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind}" title="{i18n key="blog.messages.update"}">{i18n key="blog.messages.update"}</a></td>
+                        <td class="action">{if $canDelete || ! $article->is_online}<a class="button button-update" href="{copixurl dest="blog|admin|prepareEditArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind}" title="{i18n key="blog.messages.update"}">{i18n key="blog.messages.update"}</a>{/if}</td>
                         {if $canDelete}<td class="action">
 			   				<a class="button button-delete" href="{copixurl dest="blog|admin|deleteArticle" id_bact=$article->id_bact id_blog=$id_blog kind=$kind selectCategory=$selectCategory selectMonth=$selectMonth}" title="{i18n key="blog.messages.delete"}">{i18n key="blog.messages.delete"}</a>
 						 </td>
