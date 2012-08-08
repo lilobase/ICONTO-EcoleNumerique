@@ -3,19 +3,16 @@
 {/if}
 
 <div class="admindash">
-    {if !empty($picture)}
-        <img  src="{copixurl dest="fichesecoles||photo" photo=$pic|urlencode}" alt="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" title="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" />
-
-    {/if}
-{$content}
-    
     {if !empty($twitter)}
     <div class="socialMedia">
         {$twitter}
     </div>
     {/if}
-
-    <p class="clear"></p>
+    
+    {if !empty($picture)}
+        <img  src="{copixurl dest="fichesecoles||photo" photo=$pic|urlencode}" alt="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" title="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" />
+    {/if}
+    {$content}
 </div>
 {if $is_admin && $type != 'ROOT'}
 
@@ -25,8 +22,7 @@
 </div>
 {/if}
 
-    <a href="{copixurl dest="kernel|dashboard|modif" node_id=$id node_type=$type}"
-    class="modif_dash button button-update">{i18n key="kernel|dashboard.admin.link"}</a>
+    <p class="modif_dash"><a href="{copixurl dest="kernel|dashboard|modif" node_id=$id node_type=$type}" class="button button-update">{i18n key="kernel|dashboard.admin.link"}</a></p>
     
 
 {/if}

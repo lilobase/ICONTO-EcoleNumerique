@@ -104,24 +104,38 @@ class enicSocialTwitter {
 
         $theme = $this->theme;
         switch ($context) {
-            case 'BU_ECOLE':
-
-
-                break;
             case 'BU_VILLE':
-                
-                break;
-            case 'BU_CLASSE':
-            case 'BU_ELE':
-                
-                break;
-            case 'CLUB':
-                
-                break;
+            case 'BU_ECOLE':
             case 'ROOT':
-                
-                break;
+                $theme = array(
+                    'shell' => array(
+                        'background' => '#7CD54F',
+                        'color' => '#434343'
+                    ),
+                    'tweets' => array(
+                        'background' => '#fff',
+                        'color' => '#434343',
+                        'links' => '#354E81'
+                    )
+                ); 
+                 break;
 
+            case 'CLUB':
+                $theme = array(
+                    'shell' => array(
+                        'background' => '#FFB94E',
+                        'color' => '#434343'
+                    ),
+                    'tweets' => array(
+                        'background' => '#fff',
+                        'color' => '#434343',
+                        'links' => '#354E81'
+                    )
+                ); 
+                 break;
+
+            case 'BU_CLASSE' :
+            case 'BU_ELE':
             default:
                 $theme = array(
                     'shell' => array(
@@ -134,8 +148,6 @@ class enicSocialTwitter {
                         'links' => '#354E81'
                     )
                 );
-
-
                 break;
         }
 

@@ -57,8 +57,14 @@ padding-left: 30px;
 padding-right: 90px;
 }
 
-a.modif_dash{;
-    position: absolute;
-    bottom: 5px;
-    right: 5px;
+.modif_dash{
+    clear:both;
+    float:right;
+	margin:.8em 0 0;
+}
+
+.socialMedia {
+	float:right;
+	width:45%;
+	border-radius:5px;
 }
