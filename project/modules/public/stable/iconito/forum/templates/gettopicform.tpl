@@ -39,7 +39,7 @@
 		<td CLASS="form_libelle" VALIGN="TOP">{i18n key="forum.form.message"}</td><td CLASS="form_saisie">{$message_edition}</td>
 	</tr>
 	{/if}
-	<tr><td colspan="2" CLASS="form_submit"><input class="button button-cancel" onclick="self.location='{copixurl dest="forum||getForum" id=$forum}'" type="button" value="{i18n key="forum.btn.cancel"}" /> <input class="button button-confirm" type="submit" onClick="goForum(this.form, 'save');" value="{i18n key="forum.btn.save"}" />{if $id eq null} <input class="button button-view" type="submit" onClick="goForum(this.form, 'preview');" value="{i18n key="forum.btn.preview"}" />{/if}</td></tr>
+	<tr><td colspan="2" CLASS="form_submit">{if $id eq null} <input class="button button-view" type="submit" onClick="goForum(this.form, 'preview');" value="{i18n key="forum.btn.preview"}" />{/if}<input class="button button-cancel" onclick="self.location='{copixurl dest="forum||getForum" id=$forum}'" type="button" value="{i18n key="forum.btn.cancel"}" /> <input class="button button-confirm" type="submit" onClick="goForum(this.form, 'save');" value="{i18n key="forum.btn.save"}" /></td></tr>
 
 </table>
 

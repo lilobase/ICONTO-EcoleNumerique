@@ -70,7 +70,7 @@ jQuery(document).ready(function($){
 	}
 	
 	// Sélection de la destination
-	$('.selectFolder input[type="radio"]').hide();
+	$('.selectFolder input[type="radio"]').css({'position':'absolute','top':'-10000px','left':'-10000px'});
 	$('.selectFolder label').click(function() {
 		$('.selectFolder p').removeClass('current');
 		$(this).parent('p').addClass('current');

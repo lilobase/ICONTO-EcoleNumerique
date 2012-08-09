@@ -112,7 +112,7 @@ class enicModel extends enicMod {
         if(isset($iDatas['id']) && !empty($iDatas['id'])){
             $id = $iDatas['id']*1;
             unset($iDatas['id']);
-        }else{
+        }elseif(empty($cond)){
             trigger_error('Enic Internal Error : Wrong dataType "id" in model::update', E_USER_ERROR);
             return false;
         }
@@ -127,6 +127,18 @@ class enicModel extends enicMod {
         //make query
         $query = 'UPDATE '.$iTable.' SET '.implode(', ', $update).' WHERE '.$cond;
         return $this->query($query)->close();
+    }
+    
+    public function createOrUpdate($iTable, $iDatas){
+        
+         //fetch & prepare datas
+        foreach($iDatas as $field => $data)
+            $update[] = '`'.$field.'` = '.$data;
+
+        //make query
+        $query = 'REPLACE '.$iTable.' SET '.implode(', ', $update);
+        return $this->query($query)->close();
+        
     }
 
     public function create($iTable, $iDatas, $iForceId = false){

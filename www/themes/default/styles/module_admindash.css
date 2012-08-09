@@ -16,25 +16,6 @@
     float: left;
     margin-right: 20px;
 }
-#dash-ct .button-save{
-    margin-top: 15px;
-    margin-right: 10px;
-}
-label{
-    font-weight: bold;
-    font-size: 0.9em;
-    margin-top: 10px;
-}
-
-fieldset{
-    background-color: white;
-}
-
-legend{
-    font-size: 0.8em;
-    color: black;
-    font-weight: bold;
-}
-
-#dash-ereg .button{
-}
+.row label {width:auto;}
+.row em {font-size:0.9em;}
+.submit {margin-top:1em;}

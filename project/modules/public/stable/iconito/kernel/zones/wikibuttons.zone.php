@@ -68,18 +68,15 @@ class ZoneWikiButtons extends CopixZone {
                 $user_type=_currentUser()->getExtra('type');
                 $user_id=_currentUser()->getExtra('id');
 
-                if ('USER' === $object)
-                {
+                if ('USER' === $object) {
                     Kernel::createMissingModules($user_type, $user_id);
                     $parent = array('type'=>$user_type, 'id'=>$user_id);
-                }
-                elseif ($object_parent)
-				{
-					$parent = Kernel::getNodeInfo($object_parent['type'], $object_parent['id'], false);
-				}
-				else
-                {
+                } elseif ($object_parent) {
+                    $parent = Kernel::getNodeInfo($object_parent['type'], $object_parent['id'], false);
+                } elseif(preg_match('/^MOD_/', $object['type'])) {
                     $parent = Kernel::getModParentInfo($object['type'], $object['id']);
+                } else {
+                    $parent = Kernel::getNodeInfo($object['type'], $object['id']);
                 }
 
                 if ($parent) {
