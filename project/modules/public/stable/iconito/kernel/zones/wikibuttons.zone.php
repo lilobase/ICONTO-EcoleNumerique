@@ -16,7 +16,6 @@ class ZoneWikiButtons extends CopixZone {
      * @param string $field Nom du champ dans le formulaire. Correspond à l'attribut "name" et "id" dans le template (les deux doivent être positionnés)
      * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
      * @param array $objet (option) Module dans lequel se trouve la barre wiki, dans un tableau indexé avec TYPE et ID (exemple: type=>MOD_BLOG, ID=>4). Si positionné, on va vérifier si le parent de cet objet a un album photos, une malle et un classeur, et si oui on affiche les liens vers l'album photos, la malle et le classeur en mode popup
-     * @param array $object_parent Identique à $object, mais on reçoit directement le parent
      */
     function _createContent(&$toReturn) {
         $tpl = new CopixTpl ();
@@ -24,7 +23,6 @@ class ZoneWikiButtons extends CopixZone {
         $field = $this->getParam('field', NULL);
         $format = $this->getParam('format', NULL);
         $object = $this->getParam('object', NULL);
-        $object_parent = $this->getParam('object_parent', NULL);
         $withAlbum = $this->getParam('withAlbum', true);
         
         CopixHtmlHeader::addJSLink(CopixUrl::get() . 'js/iconito/wikibuttons.js');
@@ -71,8 +69,6 @@ class ZoneWikiButtons extends CopixZone {
                 if ('USER' === $object) {
                     Kernel::createMissingModules($user_type, $user_id);
                     $parent = array('type'=>$user_type, 'id'=>$user_id);
-                } elseif ($object_parent) {
-                    $parent = Kernel::getNodeInfo($object_parent['type'], $object_parent['id'], false);
                 } elseif(preg_match('/^MOD_/', $object['type'])) {
                     $parent = Kernel::getModParentInfo($object['type'], $object['id']);
                 } else {
