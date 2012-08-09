@@ -5373,6 +5373,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Récupération de l'utilisateur connecté
 	  $ppo->user = _currentUser ();
+	  $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
 
     // Récupération de la classe source
     $ppo->nodeId = _request ('nodeId');
