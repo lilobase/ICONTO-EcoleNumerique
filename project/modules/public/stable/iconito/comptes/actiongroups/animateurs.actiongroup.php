@@ -18,18 +18,26 @@ class ActionGroupAnimateurs extends enicActionGroup {
 	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
-		
 		$this->menu = array();
 		
 		if(Kernel::isAdmin() || _currentUser()->hasAssistance('can_comptes') ) 
 		{
+			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
+			} else {
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('comptes||'), 'type'=>'users');
+			}
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl');
 		}
 		if(Kernel::isAdmin()) 
 		{
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getRoles'), 'url' => CopixUrl::get ('comptes||getRoles'), 'type'=> 'acl', 'current'=>'current');
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
+		}
+
+		$session = _sessionGet ('modules|comptes|doLoginCreate|success');
+		if( $session && is_array($session) && sizeof($session) ) {
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes.strings.showloginresult', sizeof($session) ), 'url' => CopixUrl::get ('comptes||getLoginResult'), 'size'=>145 );
 		}
 	}
 
