@@ -4676,6 +4676,11 @@ class ActionGroupDefault extends enicActionGroup {
           // Mise à jour de l'affectation enseignant à l'école pour passage en directeur
           $personEntityDAO->updateRole ($personId, $nodeInfos['ALL']->eco_numero, 'ECOLE', $ppo->role);
         }
+
+        $user_infos = Kernel::getUserInfo('USER_ENS', $personId);
+        if($user_infos) {
+          @unlink(COPIX_TEMP_PATH.'cache/enic/matrix'.($user_infos['user_id']).'.cache');
+        }
   	  }
 	  }
 	  
