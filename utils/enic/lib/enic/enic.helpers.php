@@ -41,6 +41,12 @@ class enicHelpers extends enicMod{
             break;
         }
     }
+    
+    public function uniqueId(){
+        
+        return sha1(microtime().mt_rand(0, 10000));
+        
+    }
 
     public function i18n($iKey){
         return CopixI18N::get($iKey);
