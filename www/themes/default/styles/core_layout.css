@@ -266,3 +266,6 @@ table.viewItems td a.button:link,
 table.viewItems td a.button:visited {
 	border:1px solid #ddd;
 }
+table.viewItems ul {
+	margin:0; padding:.3em 0 .3em 2em;
+}
