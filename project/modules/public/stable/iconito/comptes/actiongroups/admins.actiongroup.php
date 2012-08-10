@@ -67,6 +67,16 @@ class ActionGroupAdmins extends enicActionGroup {
 				";
 				_doQuery ($sql, array(':bu_type'=>$admins_mod_item->bu_type, ':bu_id'=>$admins_mod_item->bu_id));
 				
+				$sql = "
+					DELETE FROM dbgroup_users
+					WHERE id_dbgroup=:id_dbgroup AND userhandler_dbgroup=:userhandler_dbgroup AND user_dbgroup=:user_dbgroup";
+				$params = array(
+					':id_dbgroup' => 1,
+					':userhandler_dbgroup' => 'auth|dbuserhandler',
+					':user_dbgroup' => $admins_mod_item->id_dbuser
+				);
+				_doQuery ($sql, $params);
+				
 				if($roles[$admins_mod_item->id_dbuser]) {
 					$sql = "
 						INSERT INTO kernel_link_user2node
@@ -83,6 +93,18 @@ class ActionGroupAdmins extends enicActionGroup {
 					);
 					_doQuery ($sql, $params);
 					
+					$sql = "
+						INSERT INTO dbgroup_users
+							( id_dbgroup,  userhandler_dbgroup,  user_dbgroup)
+						VALUES
+							(:id_dbgroup, :userhandler_dbgroup, :user_dbgroup)
+						";
+					$params = array(
+						':id_dbgroup' => 1,
+						':userhandler_dbgroup' => 'auth|dbuserhandler',
+						':user_dbgroup' => $admins_mod_item->id_dbuser
+					);
+					_doQuery ($sql, $params);
 				}
 			}
 		}
@@ -95,8 +117,6 @@ class ActionGroupAdmins extends enicActionGroup {
 			$first = true;
 			foreach( $new_admin_array_clean AS $new_admin_array_item ) { $sql_newadmins.= (!$first?", ":"")."'".addslashes($new_admin_array_item)."'"; $first=false; }
 			$sql_newadmins.= ")";
-			
-			// echo $sql_newadmins;
 		} else {
 			$sql_newadmins = '';
 		}
@@ -110,11 +130,8 @@ class ActionGroupAdmins extends enicActionGroup {
 			".$sql_newadmins."
 			ORDER BY kernel_link_user2node.droit DESC,dbuser.login_dbuser
 		";
-		// die($sql);
 		
 		$admins = _doQuery ($sql);
-		
-		// echo "<pre>"; print_r($admins); echo "</pre>";
 		
 		foreach( $admins AS &$admin ) {
 			$admin->user_infos = Kernel::getUserInfo( $admin->bu_type, $admin->bu_id );

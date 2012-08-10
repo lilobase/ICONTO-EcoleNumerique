@@ -9,7 +9,7 @@
  * @author	FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
  */
 
-define('DEBUG',1);
+define('DEBUG',0);
 
 class Kernel {
 

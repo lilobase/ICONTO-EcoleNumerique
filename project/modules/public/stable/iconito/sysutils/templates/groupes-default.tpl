@@ -1,15 +1,13 @@
 {if $groupes_array|@count}
-	<table width="100%">
+	<table class="viewItems">
 		<tr>
-			<th>Id</th>
 			<th>Nom du groupe</th>
-			<th>Admins</th>
+			<th>Propriétaires</th>
 			<th>Actions</th>
 		</tr>
 		{foreach from=$groupes_array item=groupes_item}
-		<tr>
-			<td>{$groupes_item->groupe_id}</td>
-			<td><b>{$groupes_item->groupe_titre}</b></td>
+		<tr class="{cycle values="odd,even"}">
+			<td><strong>{$groupes_item->groupe_titre}</strong></td>
 			<td>
 				{if $groupes_item->admins|@count}
 					<ul>
@@ -18,15 +16,15 @@
 					{/foreach}
 					</ul>
 				{else}
-					<i>Aucun admin</i>
+					<em>Aucun propriétaire</em>
 				{/if}
 			</td>
 			<td>
-				<a href="{copixurl dest="sysutils|groupes|add_admin" groupe=$groupes_item->groupe_id}">Ajouter un administrateur</a>
+				<a class="button button-add" href="{copixurl dest="sysutils|groupes|add_admin" groupe=$groupes_item->groupe_id}">Ajouter un propriétaire</a>
 			</td>
 		</tr>
 		{/foreach}
 	</table>
 {else}
-	<i>Aucun groupe...</i>
+	<em>Aucun groupe</em>
 {/if}

@@ -81,6 +81,8 @@ class ActionGroupGroupes extends CopixActionGroup {
 			LEFT JOIN kernel_bu_responsable ON kernel_bu_responsable.numero=kernel_link_bu2user.bu_id
 			LEFT JOIN kernel_bu_personnel ON kernel_bu_personnel.numero=kernel_link_bu2user.bu_id
 			LEFT JOIN kernel_ext_user ON kernel_ext_user.id=kernel_link_bu2user.bu_id
+			
+			ORDER BY kernel_link_bu2user.user_id IS NOT NULL, module_groupe_groupe.titre
 		';
 		
 		$groupes_list = _doQuery( $sql );
