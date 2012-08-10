@@ -12,7 +12,7 @@
 
 _classInclude('sysutils|admin');
 
-class ActionGroupGroupes extends CopixActionGroup {
+class ActionGroupGroupes extends EnicActionGroup {
 
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
@@ -112,6 +112,11 @@ class ActionGroupGroupes extends CopixActionGroup {
 		
 		$tplHome->assign('groupes_array', $groupes_array);
 		
+		if( isset($this->flash->new_admin_check) ) {
+			$tplHome->assign('new_admin_check', $this->flash->new_admin_check);
+		} else {
+			$tplHome->assign('new_admin_check', false);
+		}
 		// module_groupe_groupe : id 	titre 	description 	is_open 	createur 	date_creation
 		// kernel_link_user2node : user_type 	user_id 	node_type=CLUB 	node_id 	droit 	debut 	fin
 		// kernel_link_bu2user : user_id 	bu_type 	bu_id
@@ -135,12 +140,15 @@ class ActionGroupGroupes extends CopixActionGroup {
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.moduleDescription'));
 		$tpl->assign ('MENU', Admin::getMenu('groupes'));
 		
+		$tplHome->assign('groupe_id', $groupe_id);
+		
+		$new_admin_check = array();
 		if( _request('save',0) ) {
 			$new_admins = _request('new_admins');
 			$new_admins = preg_split("/[\s,]+/", $new_admins);
 			
-			$new_admin_check = array();
 			foreach( $new_admins AS $new_admin ) {
+				if( trim($new_admin)=='' ) continue;
 				$sql = "
 					SELECT
 						dbuser.id_dbuser, dbuser.login_dbuser,
@@ -195,12 +203,14 @@ class ActionGroupGroupes extends CopixActionGroup {
 					
 				}
 			}
+			$this->flash->new_admin_check = $new_admin_check;
 			
-			
-			$tplHome->assign('groupe_id', $groupe_id);
 			$tplHome->assign('new_admin_check', $new_admin_check);
 			
 			// echo "<pre>"; print_r($new_admin_check); echo "</pre>";
+			
+			
+			return _arRedirect (_url ('sysutils|groupes|'));
 			
 			$tpl->assign ('MAIN', $tplHome->fetch('sysutils|groupes-addadmin-do.tpl'));
 			return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);

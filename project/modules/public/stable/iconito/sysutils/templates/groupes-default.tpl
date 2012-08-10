@@ -1,3 +1,19 @@
+{if $new_admin_check}
+{foreach from=$new_admin_check item=admin key=login}
+	{if ! $admin|@count }
+		<p class="mesgError">{i18n key="sysutils|groupes.err.nologin" val=$login noEscape=1}</p>
+	{elseif ! $admin[0]->bu_type}
+		<p class="mesgError">{i18n key="sysutils|groupes.err.nobu" val=$login noEscape=1}</p>
+	{elseif $admin[0]->droit eq 70 }
+		<p class="mesgInfo">{i18n key="sysutils|groupes.err.admin" val=$login noEscape=1}</p>
+	{elseif $admin[0]->droit }
+		<p class="mesgSuccess">{i18n key="sysutils|groupes.err.modright" val=$login noEscape=1}</p>
+	{else}
+		<p class="mesgSuccess">{i18n key="sysutils|groupes.err.addright" val=$login noEscape=1}</p>
+	{/if}
+{/foreach}
+{/if}
+
 {if $groupes_array|@count}
 	<table class="viewItems">
 		<tr>
