@@ -258,6 +258,7 @@ table.viewItems th {
 table.viewItems th.actions {
 	width:200px;
 }
+table.viewItems th.extraSmall {width:30px;}
 table.viewItems td {
     max-width:50%;
     overflow:hidden;
@@ -269,3 +270,14 @@ table.viewItems td a.button:visited {
 table.viewItems ul {
 	margin:0; padding:.3em 0 .3em 2em;
 }
+
+table.editItems {
+	margin:3px 0; padding:2px;
+	width:100%;
+	table-layout:fixed;
+}
+table.editItems th {
+	text-align:right;
+	width:40%;
+}
+table.editItems .submit input {margin:5px 10px;}
