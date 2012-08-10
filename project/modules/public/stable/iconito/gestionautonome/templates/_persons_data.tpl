@@ -198,7 +198,7 @@
                 <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero userId=$person->id_dbuser type=$person->bu_type}" onclick="return confirm('&Ecirc;tes-vous sûr de vouloir retirer le rôle de directeur à cette personne ?')"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="Supprimer le rôle de directeur de cette personne" /></a>
               {else}
                 {if $person->hasTeacherRoleInSchool eq 1}
-                  <img src="{copixurl}themes/default/images/icon-16/action-exit-off.png" title="{customi18n key="gestionautonome|%%definite__structure_element_staff_person%%stillaffectto%%indefinite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} ({$person->classrooms})" />
+                  <img src="{copixurl}themes/default/images/icon-16/action-exit-off.png" title="{customi18n key="gestionautonome|gestionautonome.message.%%definite__structure_element_staff_person%%stillaffectto%%indefinite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc} ({$person->classrooms})" />
                 {else}
                   <a href="{copixurl dest="gestionautonome||removePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero userId=$person->id_dbuser type=$person->bu_type}" onclick="return confirm('{customi18n key="gestionautonome|gestionautonome.message.confirmremovepersonfrom%%definite__structure%%" catalog=$ppo->vocabularyCatalog->id_vc}')"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="Supprimer le rôle de cette personne" /></a>
                 {/if}
