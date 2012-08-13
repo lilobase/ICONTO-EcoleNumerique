@@ -16,5 +16,3 @@ ALTER TABLE module_logs_logs
 	ADD module_type VARCHAR(20) NULL,
 	ADD module_id   VARCHAR(20) NULL;
 	
-ALTER TABLE `module_cahierdetextes_travail`  ADD `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
-ALTER TABLE `module_cahierdetextes_memo`     ADD `timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
