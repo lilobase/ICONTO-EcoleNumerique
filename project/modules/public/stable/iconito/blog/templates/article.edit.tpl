@@ -82,10 +82,12 @@ function doUrl (pUrl) {
 	      <td><label for="is_online">{i18n key="dao.blogarticle.fields.is_online"}</label></td>
 	      <td>{if $canWriteOnline}<input type="checkbox" id="is_online" name="is_online" value="1" {if $article->is_online}checked{/if} />{else}{i18n key="blog.article.offline.info"}<input type="hidden" name="is_online" value="0" />{/if}</td>
 	   </tr>
-		<tr>
-      <td>{i18n key='dao.blogarticle.fields.format_bact'}</td>
-	  	<td>{html_radios name="format_bact" values=$format_bact.values output=$format_bact.output checked=$article->format_bact onClick="return change_format(this);"}</td>
-   	</tr>		 
+    {if $can_format_articles}
+        <tr>
+            <td>{i18n key='dao.blogarticle.fields.format_bact'}</td>
+            <td>{html_radios name="format_bact" values=$format_bact.values output=$format_bact.output checked=$article->format_bact onClick="return change_format(this);"}</td>
+        </tr>
+    {/if}
 		 
 	
 	

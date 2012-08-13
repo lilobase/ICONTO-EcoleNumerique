@@ -63,10 +63,12 @@ function doUrl (pUrl) {
 	      <td>{i18n key="dao.blogpage.fields.is_online"}</td>
 	      <td>{if $canWriteOnline}<input type="checkbox" name="is_online" value="1" {if $page->is_online}checked{/if} />{else}{i18n key="blog.page.offline.info"}<input type="hidden" name="is_online" value="0" />{/if}</td>
 	   </tr>
-		<tr>
-      <td>{i18n key='dao.blogpage.fields.format_bpge'}</td>
-	  	<td>{html_radios name="format_bpge" values=$format_bpge.values output=$format_bpge.output checked=$page->format_bpge onClick="return change_format(this);"}</td>
-   	</tr>
+{if $can_format_articles}
+    <tr>
+        <td>{i18n key='dao.blogpage.fields.format_bpge'}</td>
+        <td>{html_radios name="format_bpge" values=$format_bpge.values output=$format_bpge.output checked=$page->format_bpge onClick="return change_format(this);"}</td>
+    </tr>
+{/if}
 	 <tr>
      	<td></td>
 	    <td>

@@ -26,6 +26,7 @@ class ZoneEditBlog extends CopixZone {
 		$tpl->assign ('showErrors', $this->getParam('showErrors', ''));
 		$tpl->assign ('logoPath', $this->getParam('logoPath', null));
 		$tpl->assign ('tabBlogFunctions', $this->getParam('tabBlogFunctions', null));
+		$tpl->assign ('can_format_articles', CopixConfig::get ('blog|blog.default.can_format_articles'));
 
 		$tpl->assign ('is_public', array('values'=>array(1,0), 'output'=>array(CopixI18N::get('blog|blog.oui'), CopixI18N::get('blog|blog.non'))));
 		$tpl->assign ('has_comments_activated', array('values'=>array(1,0), 'output'=>array(CopixI18N::get('blog|blog.oui'), CopixI18N::get('blog|blog.non'))));

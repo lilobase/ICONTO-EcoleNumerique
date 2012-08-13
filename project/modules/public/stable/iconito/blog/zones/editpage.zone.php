@@ -32,6 +32,7 @@ class ZoneEditPage extends CopixZone {
 		$tpl->assign ('showErrors', $this->getParam('showErrors', ''));
 		$tpl->assign ('preview', $this->getParam('preview', '0'));
 		$tpl->assign ('kind', $this->getParam('kind', '0'));
+		$tpl->assign ('can_format_articles', CopixConfig::get ('blog|blog.default.can_format_articles'));
 		
 		//$tpl->assign ('wikibuttons', CopixZone::process ('kernel|wikibuttons', array('field'=>'content_bpge', 'object'=>array('type'=>'MOD_BLOG', 'id'=>$this->getParam('id_blog')))));
 		

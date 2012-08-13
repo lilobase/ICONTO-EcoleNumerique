@@ -32,6 +32,7 @@ class ZoneEditArticle extends CopixZone {
 		$tpl->assign ('showErrors'        , $this->getParam('showErrors', false));
 		$tpl->assign ('preview'						, $this->getParam('preview', '0'));
 		$tpl->assign ('tabArticleCategory', $this->getParam('tabArticleCategory', null));
+		$tpl->assign ('can_format_articles', CopixConfig::get ('blog|blog.default.can_format_articles'));
 
 		$formats = CopixConfig::get ('blog|blog.formats_articles');
 		$tabFormats = explode (',',$formats);

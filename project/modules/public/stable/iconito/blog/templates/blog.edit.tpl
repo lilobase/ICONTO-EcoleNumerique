@@ -51,12 +51,12 @@
       <th>{i18n key='dao.blog.fields.type_moderation_comments'}</th>
 	  	<td>{html_radios name="type_moderation_comments" values=$type_moderation_comments.values output=$type_moderation_comments.output checked=$blog->type_moderation_comments}</td>
    </tr>
-
-   <tr>
-      <th>{i18n key='dao.blog.fields.default_format_articles'}</th>
-	  	<td>{html_radios name="default_format_articles" values=$default_format_articles.values output=$default_format_articles.output checked=$blog->default_format_articles}</td>
-   </tr>
-
+{if $can_format_articles}
+    <tr>
+        <th>{i18n key='dao.blog.fields.default_format_articles'}</th>
+        <td>{html_radios name="default_format_articles" values=$default_format_articles.values output=$default_format_articles.output checked=$blog->default_format_articles}</td>
+    </tr>
+{/if}
 	 <tr><td></td>
      <td>
 <input type="hidden" name="id_blog" value="{$blog->id_blog}" />
