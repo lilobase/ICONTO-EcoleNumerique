@@ -108,14 +108,14 @@ function killBadUrlChars ($url) {
 	$result = strtolower($url); 
 	$result = killFrenchChars($result); 
 	$result	 = strtr($result,'&~#"\'\\/{}[]`@%&:| .?!','_____________________');
-	$result = eregi_replace("[^a-zA-Z0-9]", "_", $result);
-	$result = eregi_replace("_{2,}", "_", $result);
+	$result = preg_replace("/[^a-zA-Z0-9]/i", "_", $result);
+	$result = preg_replace("/_{2,}/i", "_", $result);
 
 	// On ne peut pas commencer ni finir par autre chose qu'un chiffre ou une lettre
-	while (!ereg("^([A-Za-z0-9])$", substr($result,0,1), $regs)) {
+	while (!preg_match("/^([A-Za-z0-9])$/", substr($result,0,1), $regs)) {
 		$result = substr($result,1);
 	}
-	while (!ereg("^([A-Za-z0-9])$", substr($result,-1,1), $regs)) {
+	while (!preg_match("/^([A-Za-z0-9])$/", substr($result,-1,1), $regs)) {
 		$result = substr($result,0,strlen($result)-1);
 	}
 
