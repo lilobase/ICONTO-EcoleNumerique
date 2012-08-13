@@ -274,7 +274,6 @@ table.viewItems ul {
 table.editItems {
 	margin:3px 0; padding:2px;
 	width:100%;
-	table-layout:fixed;
 }
 table.editItems th {
 	text-align:right;
