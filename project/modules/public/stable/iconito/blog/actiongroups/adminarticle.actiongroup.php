@@ -62,6 +62,13 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 			$tabSelectCat = $artctgDAO->findIdCategoryForArticle($article->id_bact);
 			//var_dump($tabSelectCat);
 			//$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.article.title'));
+			
+			// Si l'article est en ligne, il faut les droits de modération pour le modifier.
+			if ($article->is_online && !BlogAuth::canMakeInBlog('ADMIN_ARTICLE_DELETE',$blog)){
+				return CopixActionGroup::process ('genericTools|Messages::getError',
+				array ('message'=>CopixI18N::get ('blog.error.cannotManageArticle'),
+				'back'=>CopixUrl::get ('blog|admin|listBlog')));
+			}
 		}
 		else{
 			// CREATION D'UN BILLET

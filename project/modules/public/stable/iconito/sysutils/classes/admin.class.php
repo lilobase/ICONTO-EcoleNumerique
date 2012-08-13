@@ -20,10 +20,13 @@ class Admin {
 	 * @since 2006/12/05
 	 * @return boolean True s'il peut, false sinon
 	 */
-  function canAdmin () {
-    return (Kernel::isAdmin());
+    function canAdmin () {
+		if (Kernel::isAdmin())
+			return true;
+		else
+			return false;
     // return (_currentUser()->getExtra('type') == 'USER_EXT' && _currentUser()->getExtra('id')==1);
-  }
+    }
 
 	
 	/**
@@ -51,11 +54,14 @@ class Admin {
 			'url' => CopixUrl::get ('sysutils|stats|'),
 			'current' => ($iCurrentTab == 'stats'),
 		);
+		if (Kernel::isSuperAdmin())
+		{
 		$menu[] = array(
 			'txt' => CopixI18N::get ('sysutils|admin.menu.demo'),
 			'url' => CopixUrl::get ('sysutils|demo|'),
 			'current' => ($iCurrentTab == 'demo'),
 		);
+		
 		/*
 		$menu[] = array(
 			'txt' => CopixI18N::get ('sysutils|admin.menu.grvilles'),
@@ -67,6 +73,14 @@ class Admin {
 			'url' => CopixUrl::get ('sysutils|admin|phpinfo'),
 			'current' => ($iCurrentTab == 'phpinfo'),
 		);
+		}
+		
+		$menu[] = array(
+			'txt' => CopixI18N::get ('sysutils|admin.menu.groupes'),
+			'url' => CopixUrl::get ('sysutils|groupes|'),
+			'current' => ($iCurrentTab == 'groupes'),
+		);
+		
     return $menu;
   }
 

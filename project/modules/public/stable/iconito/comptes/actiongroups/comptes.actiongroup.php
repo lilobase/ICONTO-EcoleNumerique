@@ -20,7 +20,7 @@ class ActionGroupComptes extends enicActionGroup {
 		_currentUser()->assertCredential ('group:[current_user]');
 		$this->menu = array();
 		
-		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
+		if(Kernel::isAdmin() || _currentUser()->hasAssistance('can_comptes') ) 
 		{
 			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users', 'current'=>(_request('action')==''?'current':'') );
@@ -29,9 +29,9 @@ class ActionGroupComptes extends enicActionGroup {
 			}
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl', 'current'=>(_request('action')=='getUserExt'?'current':'') );
 		}
-		if($this->user->root) 
+		if(Kernel::isAdmin()) 
 		{
-			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getRoles'), 'url' => CopixUrl::get ('comptes||getRoles'), 'type'=> 'acl');
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
 		}
 
@@ -1035,6 +1035,62 @@ class ActionGroupComptes extends enicActionGroup {
 		$tpl->assign ('MAIN', $result );
 		$tpl->assign ('MENU', $this->menu );
 
+		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+	}
+
+	/**
+	 * getRoles
+	 * 
+	 * Affiche le menu des rôles d'utilisateurs
+	 * 
+	 * @package	Comptes
+	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 */
+	function getRoles() {
+   		if( !Kernel::isAdmin() )
+			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
+		
+		$this->menu = array();
+		
+		if(Kernel::isAdmin() || _currentUser()->hasAssistance('can_comptes') ) 
+		{
+			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
+				$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
+			} else {
+				$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('comptes||'), 'type'=>'users');
+			}
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl');
+		}
+		if(Kernel::isAdmin()) 
+		{
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getRoles'), 'url' => CopixUrl::get ('comptes||getRoles'), 'type'=> 'acl', 'current'=>'current');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
+		}
+		
+		
+		$tpl = new CopixTpl ();
+		$tplRegroupements = new CopixTpl ();
+		
+		// CopixHTMLHeader::addCSSLink (_resource("styles/module_grvilles.css"));
+
+		// $tpl->assign ('TITLE_PAGE', CopixI18N::get ('grvilles|grvilles.module.titre'));
+		
+		$dao_grvilles = CopixDAOFactory::create("regroupements|grvilles");
+		$grvilles = $dao_grvilles->findAll();
+		$tplRegroupements->assign ( 'GRVILLES', count($grvilles) );
+
+		$dao_grecoles = CopixDAOFactory::create("regroupements|grecoles");
+		$grecoles = $dao_grecoles->findAll();
+		$tplRegroupements->assign ( 'GRECOLES', count($grecoles) );
+		
+		$main = $tplRegroupements->fetch ('roles-default.tpl');
+		
+		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.roles'));
+		$tpl->assign ('MAIN', $main );
+		
+		$tpl->assign ('MENU', $this->menu );
+		
+		
 		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 	}
 

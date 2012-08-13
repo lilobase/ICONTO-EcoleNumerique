@@ -20,7 +20,7 @@ class ActionGroupAnimateurs extends enicActionGroup {
 		_currentUser()->assertCredential ('group:[current_user]');
 		$this->menu = array();
 		
-		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
+		if(Kernel::isAdmin() || _currentUser()->hasAssistance('can_comptes') ) 
 		{
 			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
@@ -29,9 +29,9 @@ class ActionGroupAnimateurs extends enicActionGroup {
 			}
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl');
 		}
-		if($this->user->root) 
+		if(Kernel::isAdmin()) 
 		{
-			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl', 'current'=>'current');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getRoles'), 'url' => CopixUrl::get ('comptes||getRoles'), 'type'=> 'acl', 'current'=>'current');
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
 		}
 
@@ -50,7 +50,7 @@ class ActionGroupAnimateurs extends enicActionGroup {
 	 * @author	Frédéric Mossmann <fmossmann@cap-tic.fr>
 	 */
 	function getList() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+		if( !Kernel::isAdmin() )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
@@ -125,7 +125,7 @@ class ActionGroupAnimateurs extends enicActionGroup {
 
 
 	function getEdit() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+		if( !Kernel::isAdmin() )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
@@ -251,7 +251,7 @@ class ActionGroupAnimateurs extends enicActionGroup {
 	
 	
 	function getNew() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+		if( !Kernel::isAdmin() )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
@@ -329,7 +329,7 @@ class ActionGroupAnimateurs extends enicActionGroup {
 	}
 	
 	function getDelete() {
-		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+		if( !Kernel::isAdmin() )
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 		
 		$pUserType = _request('user_type');

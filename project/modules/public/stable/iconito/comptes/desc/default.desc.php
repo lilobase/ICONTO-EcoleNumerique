@@ -3,6 +3,7 @@
 $getNode		= new CopixAction ('Comptes', 'getNode');  // Affichage d'un noeud avec les utilisateurs attachés.
 $getUser		= new CopixAction ('Comptes', 'getUser');  // Infos sur un utilisateur particulier (changement de pass, etc.)
 $setUserPasswd		= new CopixAction ('Comptes', 'setUserPasswd');  // Enregistrement de mot de passe
+$getRoles		= new CopixAction ('Comptes', 'getRoles');  // Liste des rôles
 
 $go				= new CopixAction ('Comptes', 'go');       // Appel par défaut. Détermine la racine d'administration et appelle getNode.
 

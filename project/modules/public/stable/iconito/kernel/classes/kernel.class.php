@@ -9,6 +9,8 @@
  * @author	FrÈdÈric Mossmann <fmossmann@cap-tic.fr>
  */
 
+define('DEBUG',0);
+
 class Kernel {
 
 	private $cache_getNodeChilds_ville = array();
@@ -293,6 +295,17 @@ class Kernel {
 	 * OUTPUT : noeuds (array type+id)
 	 */
 	function getNodeParents ( $type, $id ) {
+if(DEBUG) {
+	$backtrace = debug_backtrace();
+	$backtrace_array = array();
+	$continue = true;
+	foreach( $backtrace AS $backtrace_item ) {
+		$backtrace_array[] = $backtrace_item['class']."::".$backtrace_item['function'];
+		if( $backtrace_item['class'] != 'Kernel' ) break;
+	}
+	file_put_contents('/tmp/iconito.log', date("Y-m-d H:i:s -- ").implode(" >> ", array_reverse($backtrace_array))." ($type, $id)"."\n", FILE_APPEND );
+}
+// if(DEBUG) file_put_contents('/tmp/iconito.log', "getNodeParents($type, $id)\n", FILE_APPEND );
 		//print_r ("getNodeParents( $type, $id )<br>");
 		//die();
 
@@ -475,13 +488,40 @@ class Kernel {
 				}
 
 				// Rustine CB 25/08/2010 On ajoute un droit de lecture sur le groupe d'assistance
-				if( CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
+				if( $type==_currentUser()->getExtra('type') && $id==_currentUser()->getExtra('id') && CopixConfig::exists('kernel|groupeAssistance') && ($groupeAssistance=CopixConfig::get('kernel|groupeAssistance'))) {
 					$return[]=array("type"=>'CLUB', "id"=>$groupeAssistance,"droit"=>PROFILE_CCV_READ);
 					//print_r($return);
 				}
 
+				//// Ajoute le club Edito aux admins et admins fonctionnels
+				//
+				// Si on est admin (fonctionnel ou super-admin)
+				if( $type==_currentUser()->getExtra('type') && $id==_currentUser()->getExtra('id') && Kernel::isAdmin() ) {
+					
+					$conf_Edito_type = null;
+					if( CopixConfig::exists('default|conf_Edito_type') ) $conf_Edito_type = CopixConfig::get('default|conf_Edito_type');
+					$conf_Edito_id = null;
+					if( CopixConfig::exists('default|conf_Edito_id') ) $conf_Edito_id = CopixConfig::get('default|conf_Edito_id');
+					
+					// Si l'édito est configuré dans le module.xml
+					if( $conf_Edito_type && $conf_Edito_id ) {
+						$edito_found=false;
+						
+						// On vérifie si l'édito est déjà dans la liste...
+						foreach( $return AS $key=>$val ) {
+							if($val['type']==$conf_Edito_type && $val['id']==$conf_Edito_id) {
+								// ...si oui, on garde le droit le plus élevé
+								$return[$key]['droit']=max(PROFILE_CCV_ADMIN,$val['droit']);
+								$edito_found=true;
+							}
+						}
+						// ...sinon on l'ajoute
+						if(!$edito_found) $return[]=array("type"=>$conf_Edito_type, "id"=>$conf_Edito_id,"droit"=>PROFILE_CCV_ADMIN);
+					}
+				}
+				// echo "<pre>"; print_r($return); die();
 			}
-
+			
 			// Ajoute les infos aux donnÈes sur les enfants
 			foreach( $return AS $key=>$val ) {
 				$infos = Kernel::getNodeInfo( $val['type'], $val['id'], false );
@@ -503,6 +543,7 @@ class Kernel {
 				) unset($return[$key]);
 			}
 		}
+		
 		// _dump($return);
 
 		reset($return);
@@ -2142,7 +2183,24 @@ class Kernel {
 	 * @return bool True si c'est un administrateur, false sinon
 	 */
 	function isAdmin () {
-		return ( Kernel::getLevel("ROOT",0) >= 70 );
+		$dao = _dao("kernel|kernel_link_user2node");
+		$res = $dao->getByUserAndNode(_currentUser()->getExtra('type'),_currentUser()->getExtra('id'), 'ROOT', 0);
+		if( count($res)>0 && $res[0]->droit >= 60 ) return true;
+		else                                        return false;
+		
+		// return ( Kernel::getLevel("ROOT",0) >= 70 );
+	}
+	function isAdminFonctionnel () {
+		$dao = _dao("kernel|kernel_link_user2node");
+		$res = $dao->getByUserAndNode(_currentUser()->getExtra('type'),_currentUser()->getExtra('id'), 'ROOT', 0);
+		if( count($res)>0 && $res[0]->droit == 60 ) return true;
+		else                                        return false;
+	}
+	function isSuperAdmin () {
+		$dao = _dao("kernel|kernel_link_user2node");
+		$res = $dao->getByUserAndNode(_currentUser()->getExtra('type'),_currentUser()->getExtra('id'), 'ROOT', 0);
+		if( count($res)>0 && $res[0]->droit == 70 ) return true;
+		else                                        return false;
 	}
 
 	/**

@@ -38,7 +38,6 @@ TABLE.comptes_animateurs TR TH {
 TABLE.comptes_animateurs_list TR TD {
 	padding-left: 5px;
 	padding-right: 5px;
-	border-bottom: 1px solid #DDD;
 }
 
 TABLE.comptes_animateurs_list TR.last TD {

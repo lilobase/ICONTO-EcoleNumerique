@@ -9,7 +9,7 @@
 class DAOKernel_ext_user {
 
 	/**
-	 * Renvoie la liste des personnes extérieures rattachées à une classe et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  une classe et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -23,11 +23,11 @@ class DAOKernel_ext_user {
 	}
 	
 	/**
-	 * Renvoie la liste des personnes extérieures rattachées à une école et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  une Ã©cole et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
-	 * @param integer $ecole Id de l'école
+	 * @param integer $ecole Id de l'Ã©cole
 	 * @return mixed Objet DAO
 	 */
 	function getPersonnelExtInEcole ($ecole) {
@@ -37,7 +37,7 @@ class DAOKernel_ext_user {
 	}
 	
 	/**
-	 * Renvoie la liste des personnes extérieures rattachées à une ville et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  une ville et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -55,7 +55,7 @@ class DAOKernel_ext_user {
 	
 
 	/**
-	 * Renvoie la liste des personnes extérieures rattachées à un groupe de villes et ayant un compte utilisateur
+	 * Renvoie la liste des personnes extÃ©rieures rattachÃ©es Ã  un groupe de villes et ayant un compte utilisateur
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/05/15
@@ -68,4 +68,22 @@ class DAOKernel_ext_user {
 		return _doQuery($query);
 	}	
 
+
+	/**
+	 * Renvoie la liste des personnes extérieures rattachées n'importe où
+	 *
+	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
+	 * @since 06/07/2012
+	 * @return mixed Objet DAO
+	 */
+	function getPersonnelExtInAll () {
+		$query = "SELECT E.id, E.nom, E.prenom, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_ext_user E, kernel_link_bu2user LI, dbuser U WHERE LI.user_id=U.id_dbuser AND LI.bu_type='USER_EXT' AND LI.bu_id=E.id ORDER BY nom, prenom";
+		//print_r($query);
+		return _doQuery($query);
+	}	
+
 }
+
+
+
+?>

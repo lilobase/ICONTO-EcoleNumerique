@@ -56,6 +56,9 @@
 			<parameter name="conf_ModClasseur_upload" caption="Upload dans le classeur" default="0" />
 
 			<parameter name="rssEtagereEnabled" caption="Centre de ressource active" default="0" />
+
+			<parameter name="conf_Edito_type" caption="Type du noeud servant d'edito" default="" />
+			<parameter name="conf_Edito_id" caption="Id du noeud servant d'edito" default="" />
 		</group>
 	</parameters>
 </moduledefinition>

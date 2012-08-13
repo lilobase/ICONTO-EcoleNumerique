@@ -44,26 +44,6 @@ TABLE.regroupements P#delete_confirm {
 	text-align: center;
 }
 
-TABLE.regroupements P#delete_confirm A {
-	display: block;
-}
-
-TABLE.regroupements P#delete_confirm A.confirm {
-	border: 3px solid #F66;
-	background-color: #FCC;
-	padding: 10px;
-	color: black;
-	text-decoration: none;
-	width: 200px;
-	margin: auto;
-	margin-bottom: 10px;
-}
-
-TABLE.regroupements P#delete_confirm A.confirm:hover {
-	border: 3px solid red;
-	background-color: #F99;
-}
-
 DIV.ecolesByVille UL.villes {
 	list-style-type: none;
 	padding:0;

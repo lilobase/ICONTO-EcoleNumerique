@@ -20,7 +20,7 @@ class ActionGroupDefault extends CopixActionGroup {
 
 
    function getHomePage () {
-   		if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN )
+   		if(!Kernel::isAdmin())
 			return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 			
 		$tpl = new CopixTpl ();

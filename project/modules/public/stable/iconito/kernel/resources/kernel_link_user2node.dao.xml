@@ -36,6 +36,20 @@
 				<condition property="node_id"   operator="=" value="$node_id"   />
 			</conditions>
 		</method>
+		<method name="getByUserAndNode" type="select">
+			<parameters>
+				<parameter name="user_type" />
+				<parameter name="user_id"   />
+				<parameter name="node_type" />
+				<parameter name="node_id" />
+			</parameters>
+			<conditions>
+				<condition property="user_type" operator="=" value="$user_type" />
+				<condition property="user_id"   operator="=" value="$user_id"   />
+				<condition property="node_type" operator="=" value="$node_type" />
+				<condition property="node_id"   operator="=" value="$node_id"   />
+			</conditions>
+		</method>
 		<method name="getByUserAndNodeType" type="select">
 			<parameters>
 				<parameter name="user_type" />
