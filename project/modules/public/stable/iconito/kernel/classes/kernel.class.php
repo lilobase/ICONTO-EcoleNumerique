@@ -2856,7 +2856,7 @@ if(DEBUG) {
 
 				$arModulesPath = CopixConfig::instance ()->arModulesPath;
 				foreach( $arModulesPath AS $modulePath ) {
-					$class_file = $modulePath.$module_name.'/'.COPIX_CLASSES_DIR.'Kernel'.$module_name.'.class.php';
+					$class_file = $modulePath.strtolower($module_name).'/'.COPIX_CLASSES_DIR.'kernel'.strtolower($module_name).'.class.php';
 					if( !file_exists( $class_file ) ) continue;
 					
 					$module_class = & CopixClassesFactory::Create ($module_name.'|Kernel'.$module_name);
