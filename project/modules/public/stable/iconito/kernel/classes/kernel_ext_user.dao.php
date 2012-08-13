@@ -68,20 +68,6 @@ class DAOKernel_ext_user {
 		return _doQuery($query);
 	}	
 
-
-	/**
-	 * Renvoie la liste des personnes extérieures rattachées n'importe où
-	 *
-	 * @author Frédéric Mossmann <fmossmann@cap-tic.fr>
-	 * @since 06/07/2012
-	 * @return mixed Objet DAO
-	 */
-	function getPersonnelExtInAll () {
-		$query = "SELECT E.id, E.nom, E.prenom, U.login_dbuser AS login, LI.bu_type, LI.bu_id FROM kernel_ext_user E, kernel_link_bu2user LI, dbuser U WHERE LI.user_id=U.id_dbuser AND LI.bu_type='USER_EXT' AND LI.bu_id=E.id ORDER BY nom, prenom";
-		//print_r($query);
-		return _doQuery($query);
-	}	
-
 }
 
 

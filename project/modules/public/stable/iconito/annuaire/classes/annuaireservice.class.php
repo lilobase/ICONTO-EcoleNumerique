@@ -638,7 +638,7 @@ class AnnuaireService extends enicService {
 	 * @param integer $id Id du parent
 	 * @return array Tableau contenant les personnes, tri�es alphab�tiquement
 	 */
-	function getPersonnelExt ($type='ROOT', $id='0') {
+	function getPersonnelExt ($type, $id) {
 	
 		$dao = _dao("kernel|kernel_ext_user");
 		
@@ -650,8 +650,6 @@ class AnnuaireService extends enicService {
 			$res = $dao->getPersonnelExtInVille($id);
 		elseif ($type == 'BU_GRVILLE')
 			$res = $dao->getPersonnelExtInGrville($id);
-		elseif ($type == 'ROOT')
-			$res = $dao->getPersonnelExtInAll();
 		//print_r($res);
 		return $res;
 	}
