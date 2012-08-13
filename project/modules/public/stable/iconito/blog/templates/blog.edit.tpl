@@ -56,6 +56,8 @@
         <th>{i18n key='dao.blog.fields.default_format_articles'}</th>
         <td>{html_radios name="default_format_articles" values=$default_format_articles.values output=$default_format_articles.output checked=$blog->default_format_articles}</td>
     </tr>
+{else}
+    <input type="hidden" name="default_format_articles" value="{$default_format_articles}" />
 {/if}
 	 <tr><td></td>
      <td>

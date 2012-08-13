@@ -32,16 +32,23 @@ class ZoneEditBlog extends CopixZone {
 		$tpl->assign ('has_comments_activated', array('values'=>array(1,0), 'output'=>array(CopixI18N::get('blog|blog.oui'), CopixI18N::get('blog|blog.non'))));
 		$tpl->assign ('type_moderation_comments', array('values'=>array('POST','PRE'), 'output'=>array(CopixI18N::get('blog|blog.type_moderation_comments.post'), CopixI18N::get('blog|blog.type_moderation_comments.pre'))));
 
-		$formats = CopixConfig::get ('blog|blog.formats_articles');
-		$tabFormats = explode (',',$formats);
-		$values = $output = array();
-		foreach ($tabFormats as $k) {
-			$values[] = $k;
-			$output[] = CopixI18N::get('blog|blog.default_format_articles.'.$k);
+		if (CopixConfig::get ('blog|blog.default.can_format_articles'))
+		{
+			$formats = CopixConfig::get ('blog|blog.formats_articles');
+			$tabFormats = explode (',',$formats);
+			$values = $output = array();
+			foreach ($tabFormats as $k) {
+				$values[] = $k;
+				$output[] = CopixI18N::get('blog|blog.default_format_articles.'.$k);
+			}
+			$tpl->assign ('default_format_articles', array('values'=>$values, 'output'=>$output));
 		}
-		$tpl->assign ('default_format_articles', array('values'=>$values, 'output'=>$output));
+		else
+			$tpl->assign ('default_format_articles', CopixConfig::get ('blog|blog.default.default_format_articles'));
+
 		$tpl->assign ('logo_max_width', CopixConfig::get ('blog|blog.default.logo_max_width'));
-  
+		
+		
 		// retour de la fonction :
 		$toReturn = $tpl->fetch('blog.edit.tpl');
 		return true;

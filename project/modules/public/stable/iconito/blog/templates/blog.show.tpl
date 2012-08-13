@@ -34,12 +34,14 @@
 		      <th>{i18n key='dao.blog.fields.type_moderation_comments'}</th>
 			  	<td>{if $blog->type_moderation_comments eq 'POST'}{i18n key="blog.type_moderation_comments.post"}{else}{i18n key="blog.type_moderation_comments.pre"}{/if}</td>
 		   </tr>
+        {if $can_format_articles}
 		   <tr>
 		      <th>{i18n key='dao.blog.fields.default_format_articles'}</th>
 			  	<td>
 					{assign var="key" value="blog.default_format_articles."|cat:$blog->default_format_articles}
 					{i18n key="$key"}</td>
 		   </tr>
+        {/if}
 		   {if $magicmail_infos}
 		   <tr>
 		      <th>{i18n key='dao.blog.fields.magicmail'}</th>

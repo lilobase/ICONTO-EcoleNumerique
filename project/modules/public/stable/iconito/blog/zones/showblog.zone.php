@@ -28,6 +28,7 @@ class ZoneShowBlog extends CopixZone {
 		$tpl->assign ('id_blog', $id_blog);
 		$tpl->assign ('kind', $this->getParam('kind', ''));
 		$tpl->assign ('tabBlogFunctions', $this->getParam('tabBlogFunctions', null));
+		$tpl->assign ('can_format_articles', CopixConfig::get ('blog|blog.default.can_format_articles'));
 
 		$tpl->assign ('RESULT', $this->getParam('RESULT', ''));
 

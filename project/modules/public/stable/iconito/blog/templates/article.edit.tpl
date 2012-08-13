@@ -87,6 +87,8 @@ function doUrl (pUrl) {
             <td>{i18n key='dao.blogarticle.fields.format_bact'}</td>
             <td>{html_radios name="format_bact" values=$format_bact.values output=$format_bact.output checked=$article->format_bact onClick="return change_format(this);"}</td>
         </tr>
+    {else}
+        <input type="hidden" name="format_bact" value="{$default_format_articles}" />
     {/if}
 		 
 	

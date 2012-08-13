@@ -45,17 +45,17 @@ function doUrl (pUrl) {
 
 <table class="editItems">
    <tr>
-		<td>{i18n key='dao.blogpage.fields.name_bpge'}</td>
-		<td><input type="text" name="name_bpge" value="{$page->name_bpge|escape}"/></td>
+		<td>{i18n key='dao.blogpage.fields.name_bpge'} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /></td>
+		<td><input type="text" name="name_bpge" value="{$page->name_bpge|escape}" required /></td>
    </tr>
 	 {*
    <tr>
-		<td>{i18n key='dao.blogpage.fields.content_bpge'}</td>
+		<td>{i18n key='dao.blogpage.fields.content_bpge'} </td>
 		<td><textarea style="width:500px; height: 150px;" name="content_bpge" id="content_bpge">{$page->content_bpge|escape}</textarea>{$wikibuttons}</td>
    </tr>
 		*}
    <tr>
-		<td>{i18n key='dao.blogpage.fields.content_bpge'}</td>
+		<td>{i18n key='dao.blogpage.fields.content_bpge'} <img src="{copixresource path="img/red-star.png"}" alt="{i18n key='kernel|kernel.required'}" /></td>
 		<td>{$edition_content}</td>
    </tr>
 		
@@ -68,6 +68,8 @@ function doUrl (pUrl) {
         <td>{i18n key='dao.blogpage.fields.format_bpge'}</td>
         <td>{html_radios name="format_bpge" values=$format_bpge.values output=$format_bpge.output checked=$page->format_bpge onClick="return change_format(this);"}</td>
     </tr>
+{else}
+    <input type="hidden" name="format_bpge" value="{$default_format_articles}" />
 {/if}
 	 <tr>
      	<td></td>
