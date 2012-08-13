@@ -16,34 +16,7 @@ $ENpopup = 1;
 </head>
 
 
-<style>
-<!--
-body.thm {
-	padding: 0;
-}
-
-#page {
-	padding: 5px;
-}
--->
-</style>
-
 <body class="thm nodebug"<?php if (isset($BODY_ON_LOAD) && $BODY_ON_LOAD) echo ' onLoad="'.$BODY_ON_LOAD.'"'; if (isset($BODY_ON_UNLOAD) && $BODY_ON_UNLOAD) echo ' onUnLoad="'.$BODY_ON_UNLOAD.'"'; ?>>
-
-<?php if($ppo->field == 'new_admins') { ?>
-<div id="submenu" style="position: relative; margin-bottom: 5px;"><div class="menuitems">
-	<ul style="font-size: 120%;">
-		<li><a class="users" href="<?php echo CopixURL::get('annuaire||getPopup', array('field'=>_request('field'))); ?>">
-			<span class="valign"></span>
-			<span><?php echo _i18n('annuaire|annuaire.users') ?></span>
-		</a></li>
-		<li><a class="users" href="<?php echo CopixURL::get('annuaire||getPopup', array('field'=>_request('field'), 'mode'=>'ext')); ?>">
-			<span class="valign"></span>
-			<span><?php echo _i18n('annuaire|annuaire.ext') ?></span>
-		</a></li>
-	</ul>
-</div></div>
-<?php } ?>
 
 
 <div id="divUserProfil" onclick="hideUser();"></div>

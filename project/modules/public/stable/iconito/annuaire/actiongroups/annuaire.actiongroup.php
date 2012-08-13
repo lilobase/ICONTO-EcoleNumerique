@@ -366,24 +366,6 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
 		$annuaireService = & CopixClassesFactory::Create ('annuaire|AnnuaireService');
 			
-		if( _request('mode')=='ext' ) {
-			$tplListe = new CopixTpl ();
-			$ext = $annuaireService->getPersonnelExt ();
-			// echo "<pre>"; print_r($ext); die();
-			$tplListe->assign ('ext', $ext);
-			$tplListe->assign ('field', $field);
-			$result = $tplListe->fetch('getpopup_ext.tpl');
-
-			$ppo = new CopixPPO ();
-			$ppo->result = $result;
-			$ppo->field = $field;
-			$ppo->TITLE_PAGE = CopixI18N::get ('annuaire|annuaire.moduleDescription');
-			CopixHTMLHeader::addJSLink (_resource("js/iconito/module_annuaire.js")); 
-
-			return _arPPO ($ppo, array ('template'=>'getpopup_ppo.tpl', 'mainTemplate'=>'default|main_popup.php'));
-		}
-		
-		
 		// Annuaire par défaut, on regarde sa session
 		if (!$classe && !$ecole && !$ville) {
 			$home = $annuaireService->getAnnuaireHome ();
