@@ -232,14 +232,16 @@ class ActionGroupDashboard extends enicActionGroup {
 
 			// NOTIFICATIONS : Enregistrement de la visite de l'utilisateur (avec suppression de doublons)
 			if($mid) $lastvisit->module_id = $mid;
-			_dao ('kernel|kernel_notifications_lastvisit')->deleteBy( _daoSp ()
-				->addCondition ('user_id', '=', $lastvisit->user_id)
-				->addCondition ('node_type', '=', $lastvisit->node_type)
-				->addCondition ('node_id', '=', $lastvisit->node_id)
-				->addCondition ('module_type', '=', $lastvisit->module_type)
-				->addCondition ('module_id', '=', $lastvisit->module_id)
-			);
-			_dao("kernel|kernel_notifications_lastvisit")->insert( $lastvisit );
+			if($lastvisit->user_id) {
+				_dao ('kernel|kernel_notifications_lastvisit')->deleteBy( _daoSp ()
+					->addCondition ('user_id', '=', $lastvisit->user_id)
+					->addCondition ('node_type', '=', $lastvisit->node_type)
+					->addCondition ('node_id', '=', $lastvisit->node_id)
+					->addCondition ('module_type', '=', $lastvisit->module_type)
+					->addCondition ('module_id', '=', $lastvisit->module_id)
+				);
+				_dao("kernel|kernel_notifications_lastvisit")->insert( $lastvisit );
+			}
 
 			// LOGS : Logs d'usage
 			Logs::set (array(
