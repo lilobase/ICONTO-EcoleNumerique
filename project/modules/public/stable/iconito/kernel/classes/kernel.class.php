@@ -2832,6 +2832,7 @@ if(DEBUG) {
 	}
 
 	public static function getModNotifications( &$module ) {
+		if( ! _currentUser()->getExtra("user_id") ) return $module;
 // echo('-');
 		
 		$module_name = preg_replace( '/^MOD_/', '', $module->module_type);
