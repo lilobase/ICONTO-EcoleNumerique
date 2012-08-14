@@ -13,12 +13,11 @@
 	</div>
 	</a>
 </div>
-<!--
+
 <div class="loading-button">
-	<a href="{copixurl dest=""}" class="button">
+	<a href="{copixurl dest="comptes|ien|"}" class="button">
 	<div class="button-title">
 	{i18n key="comptes|comptes.roles.menu.ien"}
 	</div>
 	</a>
 </div>
--->

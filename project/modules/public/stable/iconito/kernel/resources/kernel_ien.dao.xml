@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="kernel_ien" tablename="kernel_ien" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="user_type"          fieldname="user_type"          type="string"  table="kernel_ien" pk="yes"/>
+		<property name="user_id"            fieldname="user_id"            type="integer" table="kernel_ien" pk="yes"/>
+		<property name="can_connect"        fieldname="can_connect"        type="integer" table="kernel_ien" pk="no"/>
+		<property name="can_tableaubord"    fieldname="can_tableaubord"    type="integer" table="kernel_ien" pk="no"/>
+		<property name="can_comptes"        fieldname="can_comptes"        type="integer" table="kernel_ien" pk="no"/>
+		<property name="is_visibleannuaire" fieldname="is_visibleannuaire" type="integer" table="kernel_ien" pk="no"/>
+		<property name="updated_at"         fieldname="updated_at"         type="datetime"    table="kernel_ien" pk="no"/>
+		<property name="updated_by"         fieldname="updated_by"         type="string"  table="kernel_ien" pk="no"/>
+	</properties>
+</daodefinition>
