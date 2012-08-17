@@ -2476,6 +2476,10 @@ class externalImageUpload {
         );
 
     }
+    
+    function __construct($file) {
+        $this->upload($file);
+    }
 
     /**
      * Constructor. Checks if the file has been uploaded
@@ -2599,7 +2603,6 @@ class externalImageUpload {
                 $this->lang = 'en_GB';
             }
         }
-
 
         // determines the supported MIME types, and matching image format
         $this->image_supported = array();

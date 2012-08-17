@@ -5,6 +5,8 @@ class ActionGroupDefault extends enicActionGroup {
     public function __construct() {
         parent::__construct();
         $this->service = & $this->service('rssmixService');
+        
+        enic::to_load('image');
     }
 
     public function beforeAction() {
@@ -52,7 +54,9 @@ class ActionGroupDefault extends enicActionGroup {
 
         if ($this->istyreq('rm-url') || filter_var($this->request('rm-url'), FILTER_VALIDATE_URL) === TRUE) {
 
-            $this->service->addRssUrl($this->request('rm-url'));
+            $image = (isset($_FILES['rm-file'])) ? $_FILES['rm-file'] : '';
+            
+            $this->service->addRssUrl($this->request('rm-url'), $this->request('rm-title'), $image);
 
             $this->flash->success = $this->i18n('rssmix.new.success');
 
@@ -129,6 +133,11 @@ class ActionGroupDefault extends enicActionGroup {
 
         $ppo->urlTest = $this->url('rssmix|default|test');
         $ppo->url = $url[0]['url'];
+        $ppo->title = $url[0]['title'];
+        if(!empty($url[0]['image'])){
+            $imageClass = new enicImage();
+            $ppo->image = $imageClass->get($url[0]['image'], 30, 30, 'crop');
+        }
         $ppo->id = $id;
 
         return _arPPO($ppo, 'update.tpl');
@@ -138,13 +147,14 @@ class ActionGroupDefault extends enicActionGroup {
         
         if (!Kernel::isAdmin()) { return $this->error('rssmix.noRight', true, '||'); }
 
-
         if (!$this->istyreq('id'))
             return $this->error('rssmix.error');
 
         if ($this->istyreq('rm-url') || filter_var($this->request('rm-url'), FILTER_VALIDATE_URL) === TRUE) {
 
-            $this->service->updateRssUrl($this->request('id'), $this->request('rm-url'));
+            $image = (isset($_FILES['rm-file'])) ? $_FILES['rm-file'] : '';
+
+            $this->service->updateRssUrl($this->request('id'), $this->request('rm-url'), $this->request('rm-title'), $image);
 
             $this->flash->success = $this->i18n('rssmix.update.success');
 

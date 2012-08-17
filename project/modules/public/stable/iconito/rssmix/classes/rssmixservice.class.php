@@ -2,8 +2,17 @@
 
 class rssmixService extends enicService {
 
-    public function addRssUrl($url) {
-        return $this->db->create('module_rssmix', array('url' => $this->db->quote($url)));
+    public function addRssUrl($url, $title, $image) {
+        
+        $imageName = '';
+        
+        if(!empty($image)){
+            enic::to_load('image');
+            $imageClass = new enicImage();
+            $imageName = $imageClass->upload($image);
+        }
+        
+        return $this->db->create('module_rssmix', array('url' => $this->db->quote($url), 'title' => $this->db->quote($title), 'image' => $this->db->quote($imageName)));
     }
 
     public function deleteRssUrl($id) {
@@ -17,10 +26,21 @@ class rssmixService extends enicService {
         return $this->db->query('SELECT * FROM module_rssmix' . $where)->toArray();
     }
 
-    public function updateRssUrl($id, $url) {
-        return $this->db->update('module_rssmix', array('url' => $this->db->quote($url), 'id' => (int) $id));
-    }
+    public function updateRssUrl($id, $url, $title, $image) {
+         
+        $imageName = '';
+                
+        if(!empty($image)){
+            enic::to_load('image');
+            $imageClass = new enicImage();
+            $imageName = $imageClass->upload($image);
+        }
+        
+        
+        return $this->db->update('module_rssmix', array('url' => $this->db->quote($url), 'id' => (int) $id, 'title' => $this->db->quote($title), 'image' => $this->db->quote($imageName)));
 
+    }
+    
     public function __construct() {
         $this->feed = & enic::get('zend');
         parent::__construct();

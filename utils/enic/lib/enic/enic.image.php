@@ -3,97 +3,135 @@
 //load dependencies
 enic::externals_load('upload');
 
+//alias for DIRECTORY_SEPARATOR
+define('DS', DIRECTORY_SEPARATOR);
 /*
  * @TDODO : setType = jpg, gif, etc.
  */
 
 class enicImage {
 
-    private $uploadFile;
-    private $imageClass;
-    public $imageId;
-    public $imageExt;
-    public $imagePath;
-    public $dirPath;
-    public $rootPath;
-    public $filePath;
-    public $height;
-    public $imageURI;
-    public $width;
-    public $resize;
-    public $convert;
-    public $crop = false;
-    public $fill = false;
-    public $allowedImageTypes = array('png', 'jpeg', 'gif', 'bmp');
+    public  $imageRootPath;
+    private $height = 250;
+    private $width = 250;
+    private $resize = false;
+    private $crop = false;
+    private $fill = false;
 
     public function __construct() {
         
-        $this->rootPath = COPIX_WWW_PATH.'static/enic/images/';
+        /*
+         * CONFIG :
+         */
+        $this->imageRootPath = COPIX_WWW_PATH . 'static' . DS . 'images' . DS;
+        $this->imageRootURI = CopixUrl::get() . '/static/images/';
         
-        if (!file_exists($this->rootPath)){
-            mkdir($this->rootPath, 0770, true);
+        //initialization : make root directory
+        if (!file_exists($this->imageRootPath)) {
+            mkdir($this->imageRootPath, 0770, true);
         }
     }
 
-    public function upload($uploadFile) {
-        
-        $this->uploadFile = new externalImageUpload($uploadFile);
+    //alias for upload. Warning : argument must be a path and not an uri.
+    public function add($pathToFile, $keep_original_image = true) {
 
-        $this->fire();
+        $imageClass = new externalImageUpload($pathToFile);
 
-        return $this->imageId;
-    }
-    
-    public function getURI($idImage, $image_x, $image_y, $options = 'auto'){
-        
-        $imageArray = explode('|', $idImage);
-        
-        //set Type
-        if(isset($imageArray[1])){
-            
-            throw new Exception('missing type argument in image ID');
-            
+        $imageClass->file_new_name_body = enic::get('helpers')->uniqueId();
+
+        $imageClass->process($this->getImageDirectory($imageClass->file_new_name_body));
+
+        if (!$imageClass->processed) {
+            throw new Exception('Error occured in upload process');
         }
-        
-        $type = strtolower($imageArray[1]);
-        
-        if(!in_array($type, $this->allowedImageTypes)){
-            
-            throw new Exception('Invalid Type');
-            
-        }
-            
-        $this->imageExt = $type;
-        $this->convert = true;
-        
-        $this->setId($imageArray[0]);
-        $this->setSize($image_x, $image_y, $options);
-        
-        $this->makeImagePath();
-        
-        if(!file_exists($this->imagePath)){
-            $this->fire();
-            $this->uploadFile = $this->imagePath;
-        }
-        
-        $this->makeURI();
-        
-        return $this->imageURI;
+
+        if (!$keep_original_image)
+            $imageClass->clean();
+
+        return $imageClass->file_dst_name_body . '|' . $imageClass->file_dst_name_ext;
     }
 
-    public function add($imageToAdd) {
-        $this->uploadFile = $imageToAdd;
+    //argument is $_FILES['input name']
+    public function upload($pathToFile) {
 
-        $this->fire();
+        return $this->add($pathToFile, false);
+    }
 
-        return $this->imageId;
+    private function getImageDirectory($imageName) {
+
+        $subDirectory = mb_substr($imageName, 0, 2);
+
+        $path = $this->imageRootPath . $subDirectory . DS;
+
+        if (!file_exists($path)) {
+            mkdir($path, 0770, true);
+        }
+
+        return $path;
+    }
+
+    public function get($imageOriginalName, $size_x = 0, $size_y = 0, $options = array()) {
+
+        $this->setSize($size_x, $size_y, $options);
+
+        $imageName = $this->getImageFileName($imageOriginalName);
+
+        $imageFilePath = $this->getImageDirectory($imageName);
+
+        //image already exist
+        if (file_exists($imageFilePath . $imageName)) {
+            return $this->getURI($imageName);
+        }
+
+        //image not exist
+        $originalFileName = str_replace('|', '.', $imageOriginalName);
+
+        if (!file_exists($imageFilePath . $originalFileName)) {
+            throw new Exception('Original image not found');
+        }
+
+        $imageClass = new externalImageUpload($imageFilePath . $originalFileName);
+        
+        $imageClass->file_new_name_body = $this->getImageFileName($imageOriginalName, false);
+        
+        //if resize
+        if ($this->resize) {
+
+            $imageClass->image_resize = true;
+            $imageClass->image_ratio = true;
+
+            if ($this->width == 'auto') {
+                $imageClass->image_y = $this->height;
+                $imageClass->image_ratio_x = true;
+            } elseif ($this->height == 'auto') {
+                $imageClass->image_x = $this->width;
+                $imageClass->image_ratio_y = true;
+            } else {
+                $imageClass->image_x = $this->width;
+                $imageClass->image_y = $this->height;
+            }
+
+            if (!empty($this->crop))
+                $imageClass->image_ratio_crop = $this->crop;
+
+            if (!empty($this->fill))
+                $imageClass->image_ratio_fill = $this->fill;
+        }
+
+        $imageClass->Process($imageFilePath);
+
+        if (!$imageClass->processed) {
+            throw new Exception('Error occured in upload process');
+        }
+
+        return $this->getURI($imageClass->file_dst_name);
     }
 
     private function setSize($size_x, $size_y, $options = 'auto') {
 
         //check arguments' integrity
         $check_args = function($arg) {
-                    return (is_int($arg) || $args != 'auto' );
+                    return (is_int($arg) || $args == 'auto' );
                 };
 
         if (!$check_args($size_x) || !$check_args($size_y))
@@ -104,8 +142,8 @@ class enicImage {
 
         //set size
         $this->resize = true;
-        $this->width = $size_x;
-        $this->height = $size_y;
+        $this->width = (!$size_x) ?: $size_x;
+        $this->height = (!$size_y) ?: $size_y;
 
         //options is a string
         if (!is_array($options))
@@ -118,156 +156,46 @@ class enicImage {
                 $option = $value;
                 $value = true;
             }
-            
-            if(!in_array($option, array('crop', 'fill')))
+
+            if (!in_array($option, array('crop', 'fill')))
                 throw new Exception('value\'s options argument is invalid, correct value is "crop" or "fill" ');
-            
+
             //set options
             $this->$option = $value;
         }
     }
 
-    public function fire() {
+    private function getURI($imageName) {
 
-        $imageClass = $this->getImageClass($this->uploadFile);
-
-        if(empty($this->imageId))
-            $this->makeImageName();
-        
-        if(empty($this->imageExt))
-            $this->imageExt = $imageClass->file_src_ext;
-        
-        $this->makeImagePath();
-        
-        
-        $imageClass->file_new_name_body = $this->getId();
-        
-        //if resize
-        if($this->resize){
-            if (!file_exists($this->imagePath)){
-                $imageClass->resize = true;
-                $imageClass->image_ratio = true;
-                
-                if($this->width == 'auto'){
-                    $imageClass->image_y = $this->height;
-                    $imageClass->image_ratio_x = true;
-                }elseif($this->height == 'auto'){
-                    $imageClass->image_x = $this->width;
-                    $imageClass->image_ratio_y = true;    
-                }else{
-                    $imageClass->image_x = $this->width;
-                    $imageClass->image_y = $this->height;
-                }
-                
-                if(!empty($this->crop))
-                    $imageClass->image_ratio_crop = $this->crop;
-                
-                if(!empty($this->fill))
-                    $imageClass->image_ratio_fill = $this->fill;
-            }
-        }
-        
-        if($this->convert){
-            
-            if (!file_exists($this->imagePath)){
-                $imageClass->image_convert = $this->imageExt;
-            }
-            
-        }
-        
-
-        $imageClass->Process($this->dirPath);
-
-
-        if (!$imageClass->processed) {
-            throw new Exception('Error occured in upload process');
-        }
-
-        $imageClass->clean();
-
-        
-        return $this->getId();
-        
-    }
-
-    private function makeImageName() {
-        
-        
-        $image_name = enic::get('helpers')->uniqueId();
-                
-        if(!empty($this->height))
-            $image_name .= $this->height;
-                
-        if(!empty($this->width))
-            $image_name .= $this->width;
-        
-        if(!empty($this->crop))
-            $image_name .= ($this->crop === true) ? $this->crop : 'crop';
-        
-        if(!empty($this->fill))
-            $image_name .= ($this->fill === true) ? $this->fill : 'fill';
-        
-        $this->imageId = $image_name;
-        
-        return $image_name;
-    }
-
-//return singleton
-    public function getImageClass($file) {
-        if (empty($this->imageClass))
-            $this->imageClass = new externalImageUpload ($file);
-
-        return $this->imageClass;
-    }
-
-    public function getId() {
-        
-        return $this->imageId;
-    }
-    
-    public function getImageExt() {
-        
-        return $this->imageExt;
-    }
-
-    public function setId($id) {
-        $this->imageId = $id;
-    }
-
-    private function makeBasePath() {
-        $imageName = $this->getId();
-        
-        $path = $this->rootPath;
-        
         $subPath = substr($imageName, 0, 2);
-        
-        //check : remove for production
-        var_dump($subPath);
-        
-        $path .= $subPath.DIRECTORY_SEPARATOR;
-        
-        if(file_exists($path)){
-            mkdir($path, 0770, true);
-        }
-            
-        return $path;
+
+        $enicImageURI = $this->imageRootURI . $subPath . '/';
+
+        return $enicImageURI . $imageName;
     }
-    
-    private function makeImagePath(){
-        
-        $this->imagePath = $this->makeBasePath().$this->getId().$this->getImageExt();
-        
-    }
-    
-    private function makeImageURI(){
-        
-        $subPath = substr($this->getId(), 0, 2);
-        
-        $enicImageURI = 'static/enic/image/'.$subPath.'/';
-        
-        $this->imageURI = CopixUrl::get().$enicImageURI.$this->getId().$this->getImageExt();
-                
-        return $this->imageURI;
+
+    private function getImageFileName($image_name_body, $ext = true) {
+
+        $image_file = explode('|', $image_name_body);
+
+        $image_name = $image_file[0];
+
+        if (!empty($this->height))
+            $image_name .= $this->height;
+
+        if (!empty($this->width))
+            $image_name .= $this->width;
+
+        if (!empty($this->crop))
+            $image_name .= ($this->crop !== true) ? $this->crop : 'crop';
+
+        if (!empty($this->fill))
+            $image_name .= ($this->fill !== true) ? $this->fill : 'fill';
+
+        if ($ext)
+            $image_name .= '.'.$image_file[1];
+
+        return $image_name;
     }
 
 }

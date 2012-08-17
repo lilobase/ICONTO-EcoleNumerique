@@ -20,8 +20,16 @@
     </p>
 {/if}
 
-<form action="{copixurl dest="rssmix|default|createp"}" method="post" id="rm-form">
+<form action="{copixurl dest="rssmix|default|createp"}" method="post" id="rm-form" enctype="multipart/form-data">
     
+    <div class="field">
+        <label for="rm-i-title">{i18n key="rssmix.label.streamTitle" noEscape=1}</label> : 
+        <input type="text" name="rm-title" id="rm-i-title" size="50" />
+    </div>    
+    <div class="field">
+        <label for="rm-i-image">{i18n key="rssmix.label.image" noEscape=1}</label> : 
+        <input type="file" name="rm-file" id="rm-i-file" size="15" />
+    </div>    
     <div class="field">
         <label for="rm-i-url">{i18n key="rssmix.label.new" noEscape=1}</label> : 
         <input type="url" name="rm-url" id="rm-i-url" size="50" /> <a href="" class="button button-confirm rm-test" >{i18n key="rssmix.test" noEscape=1}</a>
