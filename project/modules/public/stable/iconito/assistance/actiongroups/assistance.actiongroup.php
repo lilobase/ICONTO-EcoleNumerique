@@ -41,13 +41,15 @@ class ActionGroupAssistance extends CopixActionGroup {
 		$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
 		$tplUsers->assign('animateur', $animateur);
 		
+		$ien_dao = & CopixDAOFactory::create("kernel|kernel_ien");
+		$ien = $ien_dao->get( $me_info['type'], $me_info['id'] );
+		$tplUsers->assign('ien', $ien);
+		
 		$assistance_service = & CopixClassesFactory::Create ('assistance|assistance');
 		$users=$assistance_service->getAssistanceUsers();
 
 		$tplUsers->assign('users', $users);
 		$result = $tplUsers->fetch("users-list.tpl");
-		
-		// echo "<pre>"; print_r($users); die("</pre>");
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('assistance.moduleDescription')." &raquo; ".CopixI18N::get ('assistance.title.users'));
 		$tpl->assign ('MAIN', $result );
