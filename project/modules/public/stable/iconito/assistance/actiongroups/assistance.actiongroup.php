@@ -22,8 +22,12 @@ class ActionGroupAssistance extends CopixActionGroup {
 		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Assistance");
 		
+		$me_info = Kernel::getUserInfo( "ME", 0 );
+		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+		$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
+		
 		$tplAssistance = new CopixTpl ();
-		// $tplAssistance->assign('users', $users);
+		$tplAssistance->assign('animateur', $animateur);
 		$result = $tplAssistance->fetch("default.tpl");
 		$tpl->assign ('MAIN', $result );
 		
