@@ -84,11 +84,11 @@
    </tr>
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.authoremail_bacc'}</td>
-	  <td><input type="text" name="authoremail_bacc" value="{$toEdit->authoremail_bacc|escape}" class="text"></td>
+	  <td><input type="email" name="authoremail_bacc" value="{$toEdit->authoremail_bacc|escape}" class="text" ></td>
    </tr>
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.authorweb_bacc'}</td>
-	  <td><input type="text" name="authorweb_bacc" value="{$toEdit->authorweb_bacc|escape}" class="text"></td>
+	  <td><input type="url" name="authorweb_bacc" value="{$toEdit->authorweb_bacc|escape}" class="text" placeholder="http://www.iconito.fr"></td>
    </tr>
    <tr class="hidden">
       <td>{i18n key='dao.blogarticlecomment.fields.authorweb_bacc'}</td>

@@ -1,6 +1,7 @@
-#php_value error_reporting 7
-#php_value memory_limit 512M
-php_value error_reporting 6143
+php_value memory_limit 128M
+php_value upload_max_filesize 100M
+php_value post_max_size 100M
+
 AddDefaultCharset utf-8
 RewriteEngine On
 RewriteBase /

@@ -14,6 +14,8 @@
  */
 class ActionGroupComptes extends enicActionGroup {
 
+	private $menu;
+	
 	public function beforeAction (){
 		_currentUser()->assertCredential ('group:[current_user]');
 		$this->menu = array();
@@ -21,16 +23,21 @@ class ActionGroupComptes extends enicActionGroup {
 		if($this->user->root || _currentUser()->hasAssistance('can_comptes') ) 
 		{
 			if( CopixConfig::exists('kernel|gestionAutonomeEnabled') && CopixConfig::get('kernel|gestionAutonomeEnabled') ) {
-			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('gestionautonome||showTree'), 'type'=>'users', 'current'=>(_request('action')==''?'current':'') );
 			} else {
-			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('comptes||'), 'type'=>'users');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getUsers'), 'url' => CopixUrl::get ('comptes||'), 'type'=>'users', 'current'=>(_request('action')=='getNode'?'current':'') );
 			}
-			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl', 'current'=>'current');
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getExt'), 'url' => CopixUrl::get ('comptes||getUserExt'), 'type'=>'acl', 'current'=>(_request('action')=='getUserExt'?'current':'') );
 		}
 		if($this->user->root) 
 		{
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.getAnim'), 'url' => CopixUrl::get ('comptes|animateurs|list'), 'type'=> 'acl');
 			$this->menu[] = array( 'txt' => CopixI18N::get('comptes|comptes.menu.manageGrades'), 'url' => CopixUrl::get ('gestionautonome||manageGrades'), 'type'=>'agendalist');
+		}
+
+		$session = _sessionGet ('modules|comptes|doLoginCreate|success');
+		if( $session && is_array($session) && sizeof($session) ) {
+			$this->menu[] = array( 'txt' => CopixI18N::get('comptes.strings.showloginresult', sizeof($session) ), 'url' => CopixUrl::get ('comptes||getLoginResult'), 'size'=>145, 'current'=>(_request('action')=='getLoginResult'?'current':'') );
 		}
 		//CopixHTMLHeader::addCSSLink (_resource("styles/module_comptes.css"));
 	}
