@@ -35,10 +35,16 @@ class ModPrefsPrefs {
 			'type'=>'checkbox',
 			'text'=>CopixI18N::get ('prefs.config.assistance'),
 			'value'=>(isset($data['assistance'])&&$data['assistance'])?true:false );
+		
+		$toReturn['form'][] = array(
+			'type'=>'titre',
+			'text'=>CopixI18N::get ('prefs.config.ien.title'),
+			'expl'=>CopixI18N::get ('prefs.config.ien.expl'),
+		);
 		$toReturn['form'][] = array(
 			'code'=>'assistance_ien',
 			'type'=>'checkbox',
-			'text'=>CopixI18N::get ('prefs.config.assistance_ien'),
+			'text'=>CopixI18N::get ('prefs.config.ien'),
 			'value'=>(isset($data['assistance_ien'])&&$data['assistance_ien'])?true:false );
 		
 		$toReturn['form'][] = array(
