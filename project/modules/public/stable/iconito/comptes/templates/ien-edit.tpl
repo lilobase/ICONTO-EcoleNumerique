@@ -38,18 +38,6 @@
 		</tr>
 
 		<tr>
-			<td class="form_libelle">Pouvoirs : <div class="help">Autoriser les actions suivantes, restreintes aux regroupements de villes s&eacute;lectionn&eacute;s ci-dessus.</div></td>
-			<td class="form_saisie">
-				{foreach from=$ppo->pouvoirs item=pouvoir}
-				{assign var=id_pouvoir value=$pouvoir.id}
-				<div>
-					<input type="checkbox" name="pouvoir_{$pouvoir.id}" id="pouvoir_{$pouvoir.id}" value="1" {if $ppo->ien->$id_pouvoir}checked{/if} /> <label for="pouvoir_{$pouvoir.id}">{$pouvoir.nom}</label>
-				</div>
-				{/foreach}
-			</td>
-		</tr>
-
-		<tr>
 			<td class="form_libelle">Annuaire : </td>
 			<td class="form_saisie">
 				<div>

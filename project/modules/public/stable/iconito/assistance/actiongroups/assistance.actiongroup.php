@@ -79,9 +79,12 @@ class ActionGroupAssistance extends CopixActionGroup {
 			$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
 			$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
 			
+			$ien_dao = & CopixDAOFactory::create("kernel|kernel_ien");
+			$ien = $ien_dao->get( $me_info['type'], $me_info['id'] );
+			
 			// echo "<pre>"; print_r($animateur); die("</pre>");
 			
-			if( ! $animateur || !isset($animateur->can_connect) || !$animateur->can_connect )
+			if( ! $ien && (! $animateur || !isset($animateur->can_connect) || !$animateur->can_connect) )
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
 			
 			$user_info = Kernel::getUserInfo( "LOGIN", $login );

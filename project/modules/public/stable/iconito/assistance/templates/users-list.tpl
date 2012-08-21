@@ -13,7 +13,7 @@
 	{foreach from=$users item=ville name=villes}
 		{foreach from=$ville item=ecole name=ecoles}
 			{foreach from=$ecole->personnels item=personnel name=personnels}
-		
+				{if $animateur->can_comptes || ( $personnel->assistance && ( $animateur->can_connect || $ien ) ) }
 		
 				<tr class="{if $smarty.foreach.personnels.first}first{/if}{if $smarty.foreach.personnels.last} last{/if}">
 					<td>{$personnel->login|escape}</td>
@@ -27,16 +27,16 @@
 					
 					<td width="1" style="text-align: right; white-space: nowrap;">
 					
-						{if $animateur->can_connect}
+						{if $animateur->can_connect || $ien}
 							{if $personnel->assistance}<a href="{copixurl dest="assistance||switch" login=$personnel->login}">Connexion</a>{else}<span style="visibility: hidden;">Connexion</span>{/if}
 						{/if}
-						{if $personnel->assistance && $animateur->can_connect && $animateur->can_comptes} :: {/if}
+						{if ( $ien || ( $personnel->assistance && $animateur->can_connect ) ) && $animateur->can_comptes} :: {/if}
 						{if $animateur->can_comptes}
 							<a href="{copixurl dest="comptes||getUser" login=$personnel->login from="assistance"}">Mot de passe</a>
 						{/if}
 					</td>
 				</tr>
-		
+				{/if}
 		
 			{/foreach}
 		{/foreach}

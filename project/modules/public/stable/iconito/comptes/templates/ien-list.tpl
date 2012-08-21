@@ -7,8 +7,6 @@
 		<th class="liste_th">Nom</th>
 		<th class="liste_th">Pr&eacute;nom</th>
 		<th class="liste_th" width="14"><img src="{copixresource path="img/comptes/comptes_animateurs_connexion.png"}"/></th>
-		<th class="liste_th" width="14"><img src="{copixresource path="img/comptes/comptes_animateurs_tableaubord.png"}"/></th>
-		<th class="liste_th" width="14"><img src="{copixresource path="img/comptes/comptes_animateurs_gestioncomptes.png"}"/></th>
 		<th class="liste_th" width="14"><img src="{copixresource path="img/comptes/comptes_animateurs_visibleannuaire.png"}"/></th>
 		
 		<th class="liste_th">Groupes de villes</th>
@@ -23,8 +21,6 @@
 			<td>{$ien->user_infos.prenom}</td>
 			
 			<td align="center">{if $ien->can_connect}X{/if}</td>
-			<td align="center">{if $ien->can_tableaubord}X{/if}</td>
-			<td align="center">{if $ien->can_comptes}X{/if}</td>
 			<td align="center">{if $ien->is_visibleannuaire}X{/if}</td>
 			<td>
 				{foreach from=$ien->regroupements->grvilles item=grville name=grvilles}{if ! $smarty.foreach.grvilles.first}, {/if}{$grville->nom}{/foreach}
