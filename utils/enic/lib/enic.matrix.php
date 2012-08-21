@@ -8,12 +8,44 @@ class enicMatrixCache extends enicCache{
     public function __construct(){
         $this->storage = 'file';
         $this->range = 'user';
-        
+
         //get the cached matrix
         $matrix = parent::__construct();
-
+        
         return $matrix;
     }
+}
+
+class enicMatrixHelpers{
+    
+public  function __construct(){
+        $this->db = & enic::get('model');
+        $this->user = & enic::get('user');
+}
+   public function iCanTalkToThisType($user_type_out){
+       
+       $result = $this->db->query('SELECT user_type_out FROM module_rightmatrix WHERE user_type_in ='.$this->db->quote($this->user->type).' AND `right` = \'COMM\'')->toArray();
+     
+       return $this->iCanDoToThisType($result, $user_type_out);
+   }
+   
+   public function startExec(){}
+   
+   public function iCanSeeThisType(){
+       $result = $this->db->query('SELECT user_type_out FROM module_rightmatrix WHERE user_type_in ='.$this->db->quote($this->user->type).' AND `right` = \'VOIR\'')->toArray();
+     
+       return $this->iCanDoToThisType($result, $user_type_out);
+   }
+   
+   private function iCanDoToThisType($list, $user_type_out){
+       $userList = array();
+       foreach($list as $type){
+           $userList[] = $type['user_type_out'];
+       }
+       return in_array($user_type_out, $userList);
+   }
+        
+       
 }
 
 /*MATRIX MAIN CLASS*/
