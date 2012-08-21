@@ -410,47 +410,56 @@ class ActionGroupAnnuaire extends EnicActionGroup {
             }
         }
 
+        $matrix = & enic::get('matrixCache');
+        $helper = & enic::get('matrixHelpers');
+        
+        
+        $right = _request('right', 'voir'); // voir ou communiquer
+        
+        $iCan = ('communiquer' == $right) ? 'iCanTalkToThisType' : 'iCanSeeThisType';
+        
         $tplListe = new CopixTpl ();
         $visib = array(
-            'USER_ELE' => false,
-            'USER_ENS' => false,
-            'USER_RES' => false,
-            'USER_EXT' => true,
-            'USER_ADM' => true,
-            'USER_VIL' => false,
+            'USER_ELE' => $helper->$iCan('USER_ELE'),
+            'USER_ENS' => $helper->$iCan('USER_ENS') || $helper->$iCan('USER_DIR'),
+            'USER_RES' => $helper->$iCan('USER_RES'),
+            'USER_EXT' => $helper->$iCan('USER_EXT'),
+            'USER_ADM' => $helper->$iCan('USER_ADM'),
+            'USER_VIL' => $helper->$iCan('USER_VIL'),
         );
-        $matrix = & enic::get('matrixCache');
+        //_dump($visib);
+        
         
 
         $debug = false;
 
         $start = microtime(true);
-        $tplListe->assign('combovilles', CopixZone::process('annuaire|combovilles', array('droit' => 'communiquer', 'grville' => $grville, 'value' => $ville, 'fieldName' => 'ville', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_ville(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllVilles'))))));
+        $tplListe->assign('combovilles', CopixZone::process('annuaire|combovilles', array('droit' => $right, 'grville' => $grville, 'value' => $ville, 'fieldName' => 'ville', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_ville(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllVilles'))))));
         if ($debug)
             echo "combovilles " . date("H:i:s") . " " . (microtime(true) - $start) . "<br />";
 
         $start = microtime(true);
         if ($ville == $ALL && $comboEcoles) {
-            $tplListe->assign('comboecoles', CopixZone::process('annuaire|comboecolesingrville', array('droit' => 'communiquer', 'grville' => $grville, 'value' => $ecole, 'fieldName' => 'ecole', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_ecole(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllEcoles'))))));
+            $tplListe->assign('comboecoles', CopixZone::process('annuaire|comboecolesingrville', array('droit' => $right, 'grville' => $grville, 'value' => $ecole, 'fieldName' => 'ecole', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_ecole(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllEcoles'))))));
             if ($debug)
                 echo "comboecolesingrville " . date("H:i:s") . " " . (microtime(true) - $start) . "<br />";
         } elseif ($comboEcoles) {
-            $tplListe->assign('comboecoles', CopixZone::process('annuaire|comboecolesinville', array('droit' => 'communiquer', 'ville' => $ville, 'value' => $ecole, 'fieldName' => 'ecole', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_ecole(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllEcoles'))))));
+            $tplListe->assign('comboecoles', CopixZone::process('annuaire|comboecolesinville', array('droit' => $right, 'ville' => $ville, 'value' => $ecole, 'fieldName' => 'ecole', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_ecole(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllEcoles'))))));
             if ($debug)
                 echo "comboecolesinville " . date("H:i:s") . " " . (microtime(true) - $start) . "<br />";
         }
 
         $start = microtime(true);
         if ($ville == $ALL && $ecole == $ALL && $comboClasses) {
-            $tplListe->assign('comboclasses', CopixZone::process('annuaire|comboclassesingrville', array('droit' => 'communiquer', 'grville' => $grville, 'value' => $classe, 'fieldName' => 'classe', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllClasses'))))));
+            $tplListe->assign('comboclasses', CopixZone::process('annuaire|comboclassesingrville', array('droit' => $right, 'grville' => $grville, 'value' => $classe, 'fieldName' => 'classe', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllClasses'))))));
             if ($debug)
                 echo "comboclassesingrville " . date("H:i:s") . " " . (microtime(true) - $start) . "<br />";
         } elseif ($ecole == $ALL && $comboClasses) {
-            $tplListe->assign('comboclasses', CopixZone::process('annuaire|comboclassesinville', array('droit' => 'communiquer', 'ville' => $ville, 'value' => $classe, 'fieldName' => 'classe', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllClasses'))))));
+            $tplListe->assign('comboclasses', CopixZone::process('annuaire|comboclassesinville', array('droit' => $right, 'ville' => $ville, 'value' => $classe, 'fieldName' => 'classe', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllClasses'))))));
             if ($debug)
                 echo "comboclassesinville " . date("H:i:s") . " " . (microtime(true) - $start) . "<br />";
         } elseif ($ecole && $comboClasses) {
-            $tplListe->assign('comboclasses', CopixZone::process('annuaire|comboclassesinecole', array('droit' => 'communiquer', 'ecole' => $ecole, 'value' => $classe, 'fieldName' => 'classe', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllClasses'))))));
+            $tplListe->assign('comboclasses', CopixZone::process('annuaire|comboclassesinecole', array('droit' => $right, 'ecole' => $ecole, 'value' => $classe, 'fieldName' => 'classe', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_classe(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllClasses'))))));
             if ($debug)
                 echo "comboclassesinecole " . date("H:i:s") . " " . (microtime(true) - $start) . "<br />";
         } elseif ($comboClasses) {
@@ -475,34 +484,37 @@ class ActionGroupAnnuaire extends EnicActionGroup {
         //kernel::myDebug ("grville=$grville / ville=$ville / ecole=$ecole / classe=$classe");
         //kernel::myDebug ($profils);
 
+        
+        
+        
         if ($classe && $classe !== $ALL) { // Une classe précise
-            $visib['USER_ELE'] = ($matrix->classe($classe)->_right->USER_ELE->communiquer);
-            $visib['USER_ENS'] = ($matrix->classe($classe)->_right->USER_ENS->communiquer || $matrix->classe($classe)->_right->USER_DIR->communiquer);
-            $visib['USER_RES'] = ($matrix->classe($classe)->_right->USER_RES->communiquer);
-            $visib['USER_ADM'] = true;
-            $visib['USER_EXT'] = true;
-            $visib['USER_VIL'] = ($matrix->classe($classe)->_right->USER_VIL->communiquer);
+            $visib['USER_ELE'] = ($matrix->classe($classe)->_right->USER_ELE->$right);
+            $visib['USER_ENS'] = ($matrix->classe($classe)->_right->USER_ENS->$right || $matrix->classe($classe)->_right->USER_DIR->$right);
+            $visib['USER_RES'] = ($matrix->classe($classe)->_right->USER_RES->$right);
+            $visib['USER_ADM'] = ($matrix->classe($classe)->_right->USER_ADM->$right);
+            $visib['USER_EXT'] = ($matrix->classe($classe)->_right->USER_EXT->$right);;
+            $visib['USER_VIL'] = ($matrix->classe($classe)->_right->USER_VIL->$right);
         } elseif ($ecole && $classe == $ALL && $ecole !== $ALL) { // Une école
-            $visib['USER_ELE'] = ($matrix->ecole($ecole)->_right->USER_ELE->communiquer);
-            $visib['USER_ENS'] = ($matrix->ecole($ecole)->_right->USER_ENS->communiquer || $matrix->ecole($ecole)->_right->USER_DIR->communiquer);
-            $visib['USER_RES'] = ($matrix->ecole($ecole)->_right->USER_RES->communiquer);
-            $visib['USER_ADM'] = true;
-            $visib['USER_EXT'] = true;
-            $visib['USER_VIL'] = ($matrix->ecole($ecole)->_right->USER_VIL->communiquer);
+            $visib['USER_ELE'] = ($matrix->ecole($ecole)->_right->USER_ELE->$right);
+            $visib['USER_ENS'] = ($matrix->ecole($ecole)->_right->USER_ENS->$right || $matrix->ecole($ecole)->_right->USER_DIR->$right);
+            $visib['USER_RES'] = ($matrix->ecole($ecole)->_right->USER_RES->$right);
+            $visib['USER_ADM'] = ($matrix->ecole($ecole)->_right->USER_ADM->$right);
+            $visib['USER_EXT'] = ($matrix->ecole($ecole)->_right->USER_EXT->$right);
+            $visib['USER_VIL'] = ($matrix->ecole($ecole)->_right->USER_VIL->$right);
         } elseif ($ville && $classe == $ALL && $ecole == $ALL && $ville !== $ALL) { // Une ville
-            $visib['USER_ELE'] = ($matrix->ville($ville)->_right->USER_ELE->communiquer);
-            $visib['USER_ENS'] = ($matrix->ville($ville)->_right->USER_ENS->communiquer || $matrix->ville($ville)->_right->USER_DIR->communiquer);
-            $visib['USER_RES'] = ($matrix->ville($ville)->_right->USER_RES->communiquer);
-            $visib['USER_ADM'] = true;
-            $visib['USER_EXT'] = true;
-            $visib['USER_VIL'] = ($matrix->ville($ville)->_right->USER_VIL->communiquer);
+            $visib['USER_ELE'] = ($matrix->ville($ville)->_right->USER_ELE->$right);
+            $visib['USER_ENS'] = ($matrix->ville($ville)->_right->USER_ENS->$right || $matrix->ville($ville)->_right->USER_DIR->$right);
+            $visib['USER_RES'] = ($matrix->ville($ville)->_right->USER_RES->$right);
+            $visib['USER_ADM'] = ($matrix->ville($ville)->_right->USER_ADM->$right);
+            $visib['USER_EXT'] = ($matrix->ville($ville)->_right->USER_EXT->$right);
+            $visib['USER_VIL'] = ($matrix->ville($ville)->_right->USER_VIL->$right);
         } elseif ($grville && $classe == $ALL && $ecole == $ALL && $ville == $ALL) { // Un groupe de villes
-            $visib['USER_ELE'] = ($matrix->grville($grville)->_right->USER_ELE->communiquer);
-            $visib['USER_ENS'] = ($matrix->grville($grville)->_right->USER_ENS->communiquer || $matrix->grville($grville)->_right->USER_DIR->communiquer);
-            $visib['USER_RES'] = ($matrix->grville($grville)->_right->USER_RES->communiquer);
-            $visib['USER_ADM'] = true;
-            $visib['USER_EXT'] = true;
-            $visib['USER_VIL'] = ($matrix->grville($grville)->_right->USER_VIL->communiquer);
+            $visib['USER_ELE'] = ($matrix->grville($grville)->_right->USER_ELE->$right);
+            $visib['USER_ENS'] = ($matrix->grville($grville)->_right->USER_ENS->$right || $matrix->grville($grville)->_right->USER_DIR->$right);
+            $visib['USER_RES'] = ($matrix->grville($grville)->_right->USER_RES->$right);
+            $visib['USER_ADM'] = ($matrix->grville($grville)->_right->USER_ADM->$right);
+            $visib['USER_EXT'] = ($matrix->grville($grville)->_right->USER_EXT->$right);
+            $visib['USER_VIL'] = ($matrix->grville($grville)->_right->USER_VIL->$right);
         }
 
         //_dump($visib);
@@ -630,15 +642,16 @@ class ActionGroupAnnuaire extends EnicActionGroup {
         }
         //_dump($eleves);
         
-        $right = _request('right');
-        // @todo tester les droits
-        if ($right === 'communiquer')
+        /*
+        if ('communiquer' === $right)
         {
             foreach ($users as $k => $user)
             {
+                //print_r($user);
                 //$matrix->communiquer();
             }
         }
+        */
         
         usort($users, array('ActionGroupAnnuaire', '_usortPopup'));
 
