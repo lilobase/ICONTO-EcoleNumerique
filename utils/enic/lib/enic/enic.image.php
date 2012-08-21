@@ -11,7 +11,8 @@ define('DS', DIRECTORY_SEPARATOR);
 
 class enicImage {
 
-    public  $imageRootPath;
+    protected $imageRootPath;
+    protected $imageRootURI;
     private $height = 250;
     private $width = 250;
     private $resize = false;
@@ -19,13 +20,13 @@ class enicImage {
     private $fill = false;
 
     public function __construct() {
-        
+
         /*
          * CONFIG :
          */
         $this->imageRootPath = COPIX_WWW_PATH . 'static' . DS . 'images' . DS;
         $this->imageRootURI = CopixUrl::get() . '/static/images/';
-        
+
         //initialization : make root directory
         if (!file_exists($this->imageRootPath)) {
             mkdir($this->imageRootPath, 0770, true);
@@ -70,6 +71,36 @@ class enicImage {
         return $path;
     }
 
+    public function getOriginal($imageOriginalName) {
+
+        $originalFileName = str_replace('|', '.', $imageOriginalName);
+        
+        $imageFilePath = $this->getImageDirectory($originalFileName);
+        
+        if (!file_exists($imageFilePath . $originalFileName)) {
+            throw new Exception('Original image not found');
+        }
+        
+        return $this->getURI($originalFileName);
+       
+    }
+    
+    public function delete($imageOriginalName){
+        
+        $originalFileName = explode('|', $imageOriginalName);
+        
+        $imageFilePath = $this->getImageDirectory($originalFileName[0]);
+        
+        $images = glob($imageFilePath.$originalFileName[0].'*');
+        
+        foreach($images as $image){
+            unlink($image);
+        }
+        
+        return true;
+        
+    }
+
     public function get($imageOriginalName, $size_x = 0, $size_y = 0, $options = array()) {
 
         $this->setSize($size_x, $size_y, $options);
@@ -91,16 +122,18 @@ class enicImage {
         }
 
         $imageClass = new externalImageUpload($imageFilePath . $originalFileName);
-        
+
         $imageClass->file_new_name_body = $this->getImageFileName($imageOriginalName, false);
-        
+
         //if resize
         if ($this->resize) {
 
             $imageClass->image_resize = true;
             $imageClass->image_ratio = true;
 
-            if ($this->width == 'auto') {
+            if ($this->width == 'auto' && $this->height == 'auto') {
+                
+            } elseif ($this->width == 'auto') {
                 $imageClass->image_y = $this->height;
                 $imageClass->image_ratio_x = true;
             } elseif ($this->height == 'auto') {
@@ -131,19 +164,17 @@ class enicImage {
 
         //check arguments' integrity
         $check_args = function($arg) {
-                    return (is_int($arg) || $args == 'auto' );
+                    return (is_int($arg) || $arg == 'auto' );
                 };
 
         if (!$check_args($size_x) || !$check_args($size_y))
             throw new Exception('Arguments are invalids');
 
-        if ($size_x == 'auto' && $size_y == 'auto')
-            throw new Exception('Both arguments cannot be "auto"');
 
         //set size
         $this->resize = true;
-        $this->width = (!$size_x) ?: $size_x;
-        $this->height = (!$size_y) ?: $size_y;
+        $this->width = (!$size_x) ? $this->width : $size_x;
+        $this->height = (!$size_y) ? $this->height : $size_y;
 
         //options is a string
         if (!is_array($options))
@@ -193,11 +224,12 @@ class enicImage {
             $image_name .= ($this->fill !== true) ? $this->fill : 'fill';
 
         if ($ext)
-            $image_name .= '.'.$image_file[1];
+            $image_name .= '.' . $image_file[1];
 
         return $image_name;
     }
 
 }
+
 
 ?>

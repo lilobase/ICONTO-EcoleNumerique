@@ -136,7 +136,7 @@ class ActionGroupDefault extends enicActionGroup {
         $ppo->title = $url[0]['title'];
         if(!empty($url[0]['image'])){
             $imageClass = new enicImage();
-            $ppo->image = $imageClass->get($url[0]['image'], 30, 30, 'crop');
+            $ppo->image = $imageClass->get($url[0]['image'], 50, 50, 'crop');
         }
         $ppo->id = $id;
 
@@ -151,8 +151,11 @@ class ActionGroupDefault extends enicActionGroup {
             return $this->error('rssmix.error');
 
         if ($this->istyreq('rm-url') || filter_var($this->request('rm-url'), FILTER_VALIDATE_URL) === TRUE) {
-
-            $image = (isset($_FILES['rm-file'])) ? $_FILES['rm-file'] : '';
+            
+            $image = '';
+            if(isset($_FILES['rm-file'])){
+                $image = $_FILES['rm-file'];
+            }
 
             $this->service->updateRssUrl($this->request('id'), $this->request('rm-url'), $this->request('rm-title'), $image);
 
