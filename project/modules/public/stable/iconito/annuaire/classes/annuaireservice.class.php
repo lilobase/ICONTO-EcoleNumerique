@@ -650,6 +650,8 @@ class AnnuaireService extends enicService {
 			$res = $dao->getPersonnelExtInVille($id);
 		elseif ($type == 'BU_GRVILLE')
 			$res = $dao->getPersonnelExtInGrville($id);
+		elseif ($type == 'ROOT')
+			$res = $dao->getPersonnelExtInAll();
 		//print_r($res);
 		return $res;
 	}
@@ -740,36 +742,31 @@ class AnnuaireService extends enicService {
 		//print_r($res);
 		return $res;
 	}
-  
-  /**
-	 * Teste si l'usager courant peut effectuer une certaine op�ration dans l'annuaire
+        
+        /**
+	 * Teste si l'usager courant peut effectuer une certaine opération dans l'annuaire
 	 *
 	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
 	 * @since 2006/01/25
 	 * @param string $action Action pour laquelle on veut tester le droit
 	 * @return bool true s'il a le droit d'effectuer l'action, false sinon
-	 * @todo Tester si adulte plut�t que USER_ENS (utiliser fonction du kernel)
+	 * @todo Tester si adulte plutôt que USER_ENS (utiliser fonction du kernel)
 	 */
 	function canMakeInAnnuaire ($action) {
 		$can = false;
 		switch ($action) {
-			case "POPUP_CHECK_ALL_ELEVES" : // Cocher tous les �l�ves affich�s (version popup)
-			case "POPUP_CHECK_ALL_PARENTS" : // Cocher tous les parents (version popup)
-			case "POPUP_CHECK_ALL_PERSONNEL" : // Cocher tous le personnel (version popup)
-				$can = (_currentUser()->getExtra('type') == "USER_ENS");
-				break;
-			case "POPUP_CHECK_ALL_PERSONNEL_VIL" : // Cocher tous les agents de ville (version popup)
-				$can = (_currentUser()->getExtra('type') == "USER_ENS" || _currentUser()->getExtra('type') == "USER_VIL");
-				break;
-			case "POPUP_CHECK_ALL_PERSONNEL_ADM" : // Cocher tous le personnel administratif (version popup)
-				$can = (_currentUser()->getExtra('type') == "USER_ENS" || _currentUser()->getExtra('type') == "USER_ADM");
-				break;
-			case "POPUP_CHECK_ALL_PERSONNEL_EXT" : // Cocher tous le personnel administratif (version popup)
-				$can = (_currentUser()->getExtra('type') == "USER_ENS" || _currentUser()->getExtra('type') == "USER_EXT");
-				break;
+			case "POPUP_CHECK_ALL" : // Cocher tous/aucun (version popup)
+                            $can = (_currentUser()->getExtra('type') == "USER_ENS"
+                                 || _currentUser()->getExtra('type') == "USER_VIL"
+                                 || _currentUser()->getExtra('type') == "USER_ADM"
+                                 || _currentUser()->getExtra('type') == "USER_EXT"
+                                );
+                            break;
 		}
 		return $can;
 	}
+        
+        
 
 	function checkVisibility ($list) {
 		reset($list);
