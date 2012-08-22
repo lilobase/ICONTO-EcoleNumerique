@@ -6,7 +6,7 @@
 	
 	{if $ppo->animateur eq 1}
 		<div class="prise_controle">
-			<div class="message">Vous consultez le compte de {$login}</div>
+			<div class="message">Vous consultez le compte de {$prenom} {$nom}</div>
 			<a class="button button-cancel" href="{copixurl dest="assistance||switch"}">Revenir à mon compte</a>
 		</div> 
 	{else}
