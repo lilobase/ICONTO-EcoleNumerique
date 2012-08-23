@@ -82,7 +82,7 @@ class ActionGroupAssistance extends CopixActionGroup {
 			$ien_dao = & CopixDAOFactory::create("kernel|kernel_ien");
 			$ien = $ien_dao->get( $me_info['type'], $me_info['id'] );
 			
-			// echo "<pre>"; print_r($animateur); die("</pre>");
+			// echo "<pre>"; print_r($ien); die("</pre>");
 			
 			if( ! $ien && (! $animateur || !isset($animateur->can_connect) || !$animateur->can_connect) )
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
@@ -109,6 +109,7 @@ class ActionGroupAssistance extends CopixActionGroup {
 			$currentUserLogin = _currentUser()->getLogin();
 			CopixSession::destroyNamespace('default');
 			_sessionSet('user_animateur', $currentUserLogin);
+			_sessionSet('prisedecontrole_ien', ($ien?true:false));
 			_currentUser()->login(array('login'=>$login, 'assistance'=>true));
 			$url_return = CopixUrl::get ('kernel||doSelectHome');
 		} else {
