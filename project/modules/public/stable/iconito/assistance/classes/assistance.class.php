@@ -110,6 +110,7 @@ class Assistance {
 						$ecoles = $ecoles_dao->getByVille($ville->id_ville);
 						// On traite la sortie du DAO pour avoir un array propre
 						foreach( $ecoles AS $ecole ) {
+							$users_ien[$ville->id_ville][$ecole->eco_numero] = $ecole;
 							
 							$tmp_personnels = $personnels_dao->getPersonnelInEcole($ecole->eco_numero);
 							$users_ien[$ville->id_ville][$ecole->eco_numero]->personnels = array();
