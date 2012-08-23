@@ -406,7 +406,7 @@ if(DEBUG) {
 					$dao = _dao("kernel|kernel_link_user2node");
 					$res = $dao->getByUser($type,$id);
 					foreach( $res AS $key=>$val ) {
-						if( ereg( "^BU_(.+)$", $val->node_type, $regs ) )
+						if( preg_match("/^BU_(.+)$/", $val->node_type, $regs ) )
 						$return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$val->droit);
 						/*
 						 if( ereg( "^ROOT$", $val->node_type ) ){
