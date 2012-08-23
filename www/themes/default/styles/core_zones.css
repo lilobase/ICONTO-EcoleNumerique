@@ -548,29 +548,24 @@ input[required] {
  * Prise de controle
  ***********************************************/
 
-div.prise_controle {
-	width: 30%;
-	margin: 0px;
-	margin: auto;
-	background-color: red;
-	padding: 2px;
-	padding-left: 20px;
-	padding-right: 20px;
-	font-weight: bold;
-	-moz-border-radius: 8px;
-	-webkit-border-radius: 8px;
-	border-radius: 8px;
-	/*behavior: url(/htc/PIE.htc);*/
+.prise_controle {
+	width:40%;
+	margin:0 auto;
 }
-
-div.prise_controle div.message {
-	line-height: 90%;
+.prise_controle .message {
+	padding:5px 5px 5px 28px;
+	border:1px solid #f00;
+	background:url(../../../themes/default/images/button-action/action_warning.png) no-repeat 5px 50% #fff; color:#f00;
+	-moz-border-radius:8px; -webkit-border-radius:8px; border-radius:8px;
+	box-shadow:0 0 5px rgba(255,255,255,0.7);
+	font-weight:bold;
 }
-
-div.prise_controle a.stopper {
-	color: #000;
-	text-shadow: none;
+.prise_controle a {
+	margin-top:0.4em;
+	font-size:1em;
 }
+.prise_controle a:link {color:#000;}
+.prise_controle a:hover {color:#f00; text-decoration:underline;}
 
 
 /************************************************

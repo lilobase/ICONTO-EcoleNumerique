@@ -40,6 +40,7 @@
 			<parameter name="statsEnabled"  captioni18n="parameter.statsEnabled"  default="1" />
 			<parameter name="conf_ModConcerto" captioni18n="parameter.conf_ModConcerto"  default="0" />
 			<parameter name="conf_assistance_default" captioni18n="parameter.conf_assistance_default"  default="0" />
+			<parameter name="conf_assistance_ien_default" captioni18n="parameter.conf_assistance_ien_default"  default="0" />
 			<parameter name="conf_ModVisio" captioni18n="parameter.conf_ModVisio"  default="0" />
 			<parameter name="conf_ModVisio_url" captioni18n="parameter.conf_ModVisio_url"  default="" />
 

@@ -22,8 +22,12 @@ class ActionGroupAssistance extends CopixActionGroup {
 		$tpl = new CopixTpl ();
 		$tpl->assign ('TITLE_PAGE', "Assistance");
 		
+		$me_info = Kernel::getUserInfo( "ME", 0 );
+		$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
+		$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
+		
 		$tplAssistance = new CopixTpl ();
-		// $tplAssistance->assign('users', $users);
+		$tplAssistance->assign('animateur', $animateur);
 		$result = $tplAssistance->fetch("default.tpl");
 		$tpl->assign ('MAIN', $result );
 		
@@ -41,13 +45,15 @@ class ActionGroupAssistance extends CopixActionGroup {
 		$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
 		$tplUsers->assign('animateur', $animateur);
 		
+		$ien_dao = & CopixDAOFactory::create("kernel|kernel_ien");
+		$ien = $ien_dao->get( $me_info['type'], $me_info['id'] );
+		$tplUsers->assign('ien', $ien);
+		
 		$assistance_service = & CopixClassesFactory::Create ('assistance|assistance');
 		$users=$assistance_service->getAssistanceUsers();
 
 		$tplUsers->assign('users', $users);
 		$result = $tplUsers->fetch("users-list.tpl");
-		
-		// echo "<pre>"; print_r($users); die("</pre>");
 		
 		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('assistance.moduleDescription')." &raquo; ".CopixI18N::get ('assistance.title.users'));
 		$tpl->assign ('MAIN', $result );
@@ -73,9 +79,12 @@ class ActionGroupAssistance extends CopixActionGroup {
 			$animateurs_dao = & CopixDAOFactory::create("kernel|kernel_animateurs");
 			$animateur = $animateurs_dao->get( $me_info['type'], $me_info['id'] );
 			
-			// echo "<pre>"; print_r($animateur); die("</pre>");
+			$ien_dao = & CopixDAOFactory::create("kernel|kernel_ien");
+			$ien = $ien_dao->get( $me_info['type'], $me_info['id'] );
 			
-			if( ! $animateur || !isset($animateur->can_connect) || !$animateur->can_connect )
+			// echo "<pre>"; print_r($ien); die("</pre>");
+			
+			if( ! $ien && (! $animateur || !isset($animateur->can_connect) || !$animateur->can_connect) )
 				return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('assistance||users', array('error'=>'forbidden') ));
 			
 			$user_info = Kernel::getUserInfo( "LOGIN", $login );
@@ -100,6 +109,7 @@ class ActionGroupAssistance extends CopixActionGroup {
 			$currentUserLogin = _currentUser()->getLogin();
 			CopixSession::destroyNamespace('default');
 			_sessionSet('user_animateur', $currentUserLogin);
+			_sessionSet('prisedecontrole_ien', ($ien?true:false));
 			_currentUser()->login(array('login'=>$login, 'assistance'=>true));
 			$url_return = CopixUrl::get ('kernel||doSelectHome');
 		} else {

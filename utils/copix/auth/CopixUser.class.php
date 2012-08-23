@@ -222,27 +222,53 @@ class CopixUser implements ICopixUser {
 			$animateur_dao = _dao("kernel|kernel_animateurs");
 			$animateur = $animateur_dao->get($this->getExtra('type'), $this->getExtra('id'));
 			
-			if(!$animateur) return false;
+			$ien_dao = _dao("kernel|kernel_ien");
+			$ien = $ien_dao->get($this->getExtra('type'), $this->getExtra('id'));
 			
-			switch( $check ) {
-				case 'all':
-					return $animateur;
-					break;
-				case 'can_connect':
-					return ($animateur->can_connect) ? true : false;
-					break;
-				case 'can_tableaubord':
-					return ($animateur->can_tableaubord) ? true : false;
-					break;
-				case 'can_comptes':
-					return ($animateur->can_comptes) ? true : false;
-					break;
-				case 'is_visibleannuaire':
-					return ($animateur->is_visibleannuaire) ? true : false;
-					break;
-				default:
-					return true;
-					break;
+			if($animateur) {
+				switch( $check ) {
+					case 'all':
+						return $animateur;
+						break;
+					case 'can_connect':
+						return ($animateur->can_connect) ? true : false;
+						break;
+					case 'can_tableaubord':
+						return ($animateur->can_tableaubord) ? true : false;
+						break;
+					case 'can_comptes':
+						return ($animateur->can_comptes) ? true : false;
+						break;
+					case 'is_visibleannuaire':
+						return ($animateur->is_visibleannuaire) ? true : false;
+						break;
+					default:
+						return true;
+						break;
+				}
+			} elseif($ien) {
+				switch( $check ) {
+					case 'all':
+						return $ien;
+						break;
+					case 'can_connect':
+						return ($ien->can_connect) ? true : false;
+						break;
+					case 'can_tableaubord':
+						return ($ien->can_tableaubord) ? true : false;
+						break;
+					case 'can_comptes':
+						return ($ien->can_comptes) ? true : false;
+						break;
+					case 'is_visibleannuaire':
+						return ($ien->is_visibleannuaire) ? true : false;
+						break;
+					default:
+						return true;
+						break;
+				}
+			} else {
+				return false;
 			}
 		}
 	

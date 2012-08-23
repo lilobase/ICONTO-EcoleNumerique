@@ -6,8 +6,8 @@
 	
 	{if $ppo->animateur eq 1}
 		<div class="prise_controle">
-			<div class="message">Vous avez pris le contr&ocirc;le<br/>du compte de {$login}</div>
-			<a class="stopper" href="{copixurl dest="assistance||switch"}">Stopper la prise de contr&ocirc;le</a>
+			<div class="message">Vous consultez le compte de {$prenom} {$nom}</div>
+			<a class="button button-cancel" href="{copixurl dest="assistance||switch"}">Revenir à mon compte</a>
 		</div> 
 	{else}
         <div class="userprofile">

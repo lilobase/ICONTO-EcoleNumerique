@@ -33,8 +33,23 @@ class ModPrefsPrefs {
 		$toReturn['form'][] = array(
 			'code'=>'assistance',
 			'type'=>'checkbox',
-			'text'=>CopixI18N::get ('prefs.config.assistance'), // 'Si oui, saisissez votre email',
+			'text'=>CopixI18N::get ('prefs.config.assistance'),
 			'value'=>(isset($data['assistance'])&&$data['assistance'])?true:false );
+		
+		$user_infos = Kernel::getUserInfo();
+		if($user_infos['type']=='USER_ENS') {
+			$toReturn['form'][] = array(
+				'type'=>'titre',
+				'text'=>CopixI18N::get ('prefs.config.ien.title'),
+				'expl'=>CopixI18N::get ('prefs.config.ien.expl'),
+			);
+			$toReturn['form'][] = array(
+				'code'=>'assistance_ien',
+				'type'=>'checkbox',
+				'text'=>CopixI18N::get ('prefs.config.ien'),
+				'value'=>(isset($data['assistance_ien'])&&$data['assistance_ien'])?true:false
+			);
+		}
 		
 		$toReturn['form'][] = array(
 			'type'=>'titre',
@@ -179,6 +194,7 @@ class ModPrefsPrefs {
 		}
 		
 		if( !isset($data['assistance']) ) $data['assistance']=0;
+		if( !isset($data['assistance_ien']) ) $data['assistance_ien']=0;
 		
 		/*
 		if( !isset($data['alerte_mail_active']) ) $data['alerte_mail_active']=0;
