@@ -85,8 +85,20 @@ class rssmixService extends enicService {
         $limit = round($globalLimit / count($urls));
 
         foreach ($urls as $url) {
-
-            $item = array_merge($this->getRssFeed($url['url'], $limit), $item);
+            $title = $url['title'];
+			
+			$imagePath = '';
+			if(!empty($url['image'])){
+				$iC = new enicImage();
+				$imagePath = $iC->get($url['image'], 25, 25, 'crop');
+			}
+			$rss = $this->getRssFeed($url['url']
+			foreach ($rss as $key => $currentRss){
+				$rss[$key]['img'] = $imagePath;
+				$rss[$key]['fluxTitle'] = $title;
+			}
+			
+            $item = array_merge($rss, $limit), $item);
         }
 
         return $item;
