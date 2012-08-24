@@ -11,7 +11,7 @@
     });
     </script>
 {/literal}
-<h2>{i18n key="rssmix.title.update" noEscape=1}</h2>
+<h2>{if empty($ppo->url)}{i18n key="rssmix.title.create" noEscape=1}{else}{i18n key="rssmix.title.update" noEscape=1}{/if}</h2>
 <p class="content-info">{i18n key="rssmix.description" noEscape=1}</p>
 
 {if isset($ppo->error)}
@@ -26,10 +26,10 @@
     </p>
 {/if}
 
-<form action="{$ppo->formAction}" method="post" id="rm-form" enctype="multipart/form-data">
+<form action="{$ppo->formAction}" method="post" id="rm-form" enctype="multipart/form-data" class="edit">
     
     <div class="field">
-        <label for="rm-i-title">{i18n key="rssmix.label.streamTitle" noEscape=1}</label> : 
+        <label for="rm-i-title">{i18n key="rssmix.label.streamTitle" noEscape=1}</label>
         <input type="text" name="rm-title" id="rm-i-title" size="50" value="{$ppo->title}" />
     </div>    
     <div class="field">
@@ -37,18 +37,18 @@
         <img src="{$ppo->image}" />
         <a href="{copixurl dest="rssmix|default|deleteImage" id=$ppo->id}" class="button button-delete">{i18n key="rssmix.image.delete" noEscape=1}</a>
         {/if}
-        <label for="rm-i-image">{i18n key="rssmix.label.image" noEscape=1}</label> : 
+        <label for="rm-i-image">{i18n key="rssmix.label.image" noEscape=1}</label>
         <input type="file" name="rm-file" id="rm-i-file" size="15" />
     </div>    
-    <div class="field">
-        <label for="rm-i-url">{i18n key="rssmix.label.update" noEscape=1}</label> : 
-        <input type="url" name="rm-url" id="rm-i-url" size="50" value="{$ppo->url}"/> <a href="" class="button button-confirm rm-test" >{i18n key="rssmix.test" noEscape=1}</a>
+    <div class="field required">
+        <label for="rm-i-url">{i18n key="rssmix.label.url" noEscape=1}</label>
+        <input type="url" name="rm-url" id="rm-i-url" size="50" value="{$ppo->url}" required /> <a href="" class="button button-confirm rm-test" >{i18n key="rssmix.test" noEscape=1}</a>
     </div>
 
     <div class="test-panel">
     </div>
 
-    <p class="center">
+    <p class="submit">
         <a href="{copixurl dest="rssmix|default|default"}" class="button button-cancel" >{i18n key="rssmix.cancel" noEscape=1}</a> <input type="submit" value="{i18n key="rssmix.submit" noEscape=1}" class="button button-confirm "/>
     </p>
 </form>
