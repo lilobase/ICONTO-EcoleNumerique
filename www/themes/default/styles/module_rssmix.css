@@ -1,6 +1,11 @@
 #rssmix-content h4 {
 	margin:0.2em 0 0.5em;
 }
+#rssmix-content h4 span {
+	display:block;
+	color:#999;
+	font-style:italic; font-weight:normal; font-size:.9em;
+}
 #rssmix-content a:link, 
 #rssmix-content a:visited {
 	border:1px solid #ddd;
@@ -10,7 +15,7 @@
 }
 
 .widget-rssmix li{
-    height:125px;
+    height:80px;
 }
 
 #rm-i-file {margin-top:5px;}
