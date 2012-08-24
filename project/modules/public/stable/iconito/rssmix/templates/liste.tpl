@@ -17,7 +17,7 @@
         	<thead>
             	<tr>
                     <th>{i18n key="rssmix.label.title}</th>
-                	<th>{i18n key="rssmix.label.url}</th>
+                	<th>{i18n key="rssmix.label.url noEscape=1}</th>
                     <th class="actions">{i18n key="rssmix.label.actions}</th>
                  </tr>
             </thead>

@@ -33,12 +33,15 @@
         <input type="text" name="rm-title" id="rm-i-title" size="50" value="{$ppo->title}" />
     </div>    
     <div class="field">
-        {if !empty($ppo->image)}
-        <img src="{$ppo->image}" />
-        <a href="{copixurl dest="rssmix|default|deleteImage" id=$ppo->id}" class="button button-delete">{i18n key="rssmix.image.delete" noEscape=1}</a>
-        {/if}
+        
         <label for="rm-i-image">{i18n key="rssmix.label.image" noEscape=1}</label>
-        <input type="file" name="rm-file" id="rm-i-file" size="15" />
+        <p class="input">
+            {if !empty($ppo->image)}
+                <img src="{$ppo->image}" alt="" />
+                <a href="{copixurl dest="rssmix|default|deleteImage" id=$ppo->id}" class="button button-delete">{i18n key="rssmix.image.delete" noEscape=1}</a><br />
+            {/if}
+            <input type="file" name="rm-file" id="rm-i-file" size="15" />
+        </p>
     </div>    
     <div class="field required">
         <label for="rm-i-url">{i18n key="rssmix.label.url" noEscape=1}</label>
