@@ -13,6 +13,7 @@
 /www/static/malle/*
 /www/static/album/*
 /www/static/prefs/*
+/www/static/images/*
 /project/themes/*
 /www/themes/*
 !/project/themes/default
