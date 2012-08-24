@@ -452,6 +452,9 @@ form.edit .submit {
 form.edit .submit input {
 	margin-left:5px;
 }
+form.edit .input {
+	margin:0 0 0 41%;
+}
 
 input.form_button {
 	border: solid 1px #333333;
