@@ -434,6 +434,25 @@ p.mesgInfo {
 /************************************************
  * FORMS
  ***********************************************/
+form.edit p {margin:0;}
+form.edit .field {
+	clear:both;
+	margin-bottom:5px;
+}
+form.edit .field > label, form.edit .field > p.label {
+	float:left;
+	margin:0 1% 0 0;
+	width:40%;
+	text-align:right;
+	line-height:1.8em;
+}
+form.edit .submit {
+	margin:15px 0 0 41%;
+}
+form.edit .submit input {
+	margin-left:5px;
+}
+
 input.form_button {
 	border: solid 1px #333333;
 	border-radius: 4px;
