@@ -216,11 +216,11 @@ class ActionGroupDefault extends enicActionGroup {
                 foreach ($feeds as $feed) {
                     echo '<li class="content-panel" >
                         <h4 class="rm-title">' . $feed['title'];
-                    if ($feed['fluxTitle'] != '')
+                    if (empty($feed['fluxTitle']))
                     {
                         echo '<span>('.$feed['fluxTitle'].')</span></h4>';
                     }
-                    if ($feed['img']!= '')
+                    if (empty($feed['img']))
                     {
                         echo '<img src="'.$feed['img'].'" alt="" />';
                     }
