@@ -87,10 +87,15 @@ class rssmixService extends enicService {
         foreach ($urls as $url) {
             $title = $url['title'];
 			
+			try {
 			$imagePath = '';
 			if(!empty($url['image'])){
 				$iC = new enicImage();
 				$imagePath = $iC->get($url['image'], 25, 25, 'crop');
+			}}
+			catch (Exception $e)
+			{
+				// Au cas où l'image n'existe plus
 			}
 			$rss = $this->getRssFeed($url['url']);
 			foreach ($rss as $key => $currentRss){

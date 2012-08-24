@@ -215,7 +215,7 @@ class ActionGroupDefault extends enicActionGroup {
                 echo '<div id="rssmix-cycle" class="widget-rssmix"><ul>';
                 foreach ($feeds as $feed) {
                     echo '<li class="content-panel" >
-                        <h4 class="rm-title">' . $feed['title'] . '('.$feed['fluxTitle'].')</h4>
+                        <h4 class="rm-title">' . $feed['title'] . ' <span>('.$feed['fluxTitle'].')</span></h4>
 						<img src="'.$feed['img'].'" alt="" />
                         <a href="' . $feed['link'] . '" class="button button-continue floatright" target="_blank">' . $this->i18n('rssmix.url') . '</a>
                         </li>';
