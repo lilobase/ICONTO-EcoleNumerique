@@ -92,13 +92,13 @@ class rssmixService extends enicService {
 				$iC = new enicImage();
 				$imagePath = $iC->get($url['image'], 25, 25, 'crop');
 			}
-			$rss = $this->getRssFeed($url['url']
+			$rss = $this->getRssFeed($url['url']);
 			foreach ($rss as $key => $currentRss){
 				$rss[$key]['img'] = $imagePath;
 				$rss[$key]['fluxTitle'] = $title;
 			}
 			
-            $item = array_merge($rss, $limit), $item);
+            $item = array_merge($rss, $item);
         }
 
         return $item;
