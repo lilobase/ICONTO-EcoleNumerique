@@ -107,6 +107,12 @@ class enic{
         
         require_once $classPath;
     }
+    
+    public static function externals_load($name){
+        $classPath = ENIC_PATH.'/lib/externals/class.'.$name.'.php';
+        
+        require_once $classPath;
+    }
 
 }
 
