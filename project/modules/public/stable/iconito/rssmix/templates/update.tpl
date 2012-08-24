@@ -3,7 +3,7 @@
     jQuery(document).ready(function($){
        $('.rm-test').click(function(e){
             $('.test-panel').html('<p class="mesgInfo">{/literal}{i18n key="rssmix.loading" noEscape=1}{literal}</p>');
-            $.get('{/literal}{$ppo->urlTest}{literal}?url='+encodeURIComponent($('#rm-i-url').val()), function(data){
+            $.get('{/literal}{copixurl dest="rssmix|default|test"}{literal}?url='+encodeURIComponent($('#rm-i-url').val()), function(data){
                 $('.test-panel').html('<h3>{/literal}{i18n key="rssmix.test.title" noEscape=1}{literal}</h3><p>'+data+'</p>').addClass('content-panel');
             });
             return false;
@@ -20,7 +20,13 @@
     </p>
 {/if}
 
-<form action="{copixurl dest="rssmix|default|updatep" id=$ppo->id}" method="post" id="rm-form" enctype="multipart/form-data">
+{if isset($ppo->success)}
+    <p class="mesgSuccess" >
+        {$ppo->success}
+    </p>
+{/if}
+
+<form action="{$ppo->formAction}" method="post" id="rm-form" enctype="multipart/form-data">
     
     <div class="field">
         <label for="rm-i-title">{i18n key="rssmix.label.streamTitle" noEscape=1}</label> : 
@@ -29,6 +35,7 @@
     <div class="field">
         {if !empty($ppo->image)}
         <img src="{$ppo->image}" />
+        <a href="{copixurl dest="rssmix|default|deleteImage" id=$ppo->id}" class="button button-delete">{i18n key="rssmix.image.delete" noEscape=1}</a>
         {/if}
         <label for="rm-i-image">{i18n key="rssmix.label.image" noEscape=1}</label> : 
         <input type="file" name="rm-file" id="rm-i-file" size="15" />

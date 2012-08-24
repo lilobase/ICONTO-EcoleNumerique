@@ -94,7 +94,8 @@ class enicImage {
         $images = glob($imageFilePath.$originalFileName[0].'*');
         
         foreach($images as $image){
-            unlink($image);
+            if(is_file($image))
+                unlink($image);
         }
         
         return true;

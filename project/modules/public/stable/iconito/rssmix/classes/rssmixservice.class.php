@@ -18,8 +18,10 @@ class rssmixService extends enicService {
     public function deleteRssUrl($id) {
         $originaImageId = $this->db->query('SELECT image FROM module_rssmix WHERE id = ' . (int) $id)->toArray1();
 
-        $imageClass = new enicImage();
-        $imageClass->delete($originaImageId['image']);
+        if (!empty($originaImageId['image'])) {
+            $imageClass = new enicImage();
+            $imageClass->delete($originaImageId['image']);
+        }
 
         return $this->db->delete('module_rssmix', (int) $id);
     }
@@ -33,20 +35,33 @@ class rssmixService extends enicService {
 
     public function updateRssUrl($id, $url, $title, $image) {
 
-        $imageName = '';
-
+        $imageName = $this->db->query('SELECT image FROM module_rssmix WHERE id = ' . (int) $id)->toArray1();
+        $imageName = $imageName['image'];
+        
         if (!empty($image)) {
-            
-            $originaImageId = $this->db->query('SELECT image FROM module_rssmix WHERE id = ' . (int) $id)->toArray1();
 
             $imageClass = new enicImage();
-            $imageClass->delete($originaImageId['image']);
+            if (!empty($imageName)) {
+                $imageClass->delete($imageName);
+            }
 
             $imageName = $imageClass->upload($image);
         }
 
 
         return $this->db->update('module_rssmix', array('url' => $this->db->quote($url), 'id' => (int) $id, 'title' => $this->db->quote($title), 'image' => $this->db->quote($imageName)));
+    }
+    
+    public function deleteImage($id){
+         $imageName = $this->db->query('SELECT image FROM module_rssmix WHERE id = ' . (int) $id)->toArray1();
+         $imageName = $imageName['image'];
+         
+            $imageClass = new enicImage();
+            if (!empty($imageName)) {
+                $imageClass->delete($imageName);
+            }
+
+        return $this->db->update('module_rssmix', array('id' => $id, 'image' => '\'\''));
     }
 
     public function __construct() {
