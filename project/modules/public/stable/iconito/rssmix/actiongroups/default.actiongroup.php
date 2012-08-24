@@ -218,8 +218,9 @@ class ActionGroupDefault extends enicActionGroup {
                         <h4 class="rm-title">' . $feed['title'];
                     if (empty($feed['fluxTitle']))
                     {
-                        echo '<span>('.$feed['fluxTitle'].')</span></h4>';
+                        echo '<span>('.$feed['fluxTitle'].')</span>';
                     }
+                    echo '</h4>';
                     if (empty($feed['img']))
                     {
                         echo '<img src="'.$feed['img'].'" alt="" />';
