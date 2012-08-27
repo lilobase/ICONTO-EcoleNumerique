@@ -44,7 +44,7 @@ class enicMatrixHelpers {
         
     }
 
-    public function iCanSeeThisType() {
+    public function iCanSeeThisType($user_type_out) {
         
         if(empty($this->listTypeVoir))
             $this->listTypeVoir = $this->db->query('SELECT user_type_out FROM module_rightmatrix WHERE user_type_in =' . $this->db->quote($this->user->type) . ' AND `right` = \'VOIR\'')->toArray();
