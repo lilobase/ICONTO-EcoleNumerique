@@ -10,7 +10,7 @@
                 auto: true,
                 speed: 6000,
                 circular: true,
-                visible: 2,
+                visible: 4,
                 scroll: 1,
                 mouseWheel: true,
                 pauseOnMouseOver: true

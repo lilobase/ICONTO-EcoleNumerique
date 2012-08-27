@@ -208,20 +208,21 @@ class ActionGroupDefault extends enicActionGroup {
 
         try {
             $feeds = $this->service->getRssFeeds();
-
+            
             if (empty($feeds)) {
                 echo '<p class="mesgInfo">' . $this->i18n('rssmix.noUrl') . '</p>';
             } else {
                 echo '<div id="rssmix-cycle" class="widget-rssmix"><ul>';
                 foreach ($feeds as $feed) {
+                    
                     echo '<li class="content-panel" >
                         <h4 class="rm-title">' . $feed['title'];
-                    if (empty($feed['fluxTitle']))
+                    if (!empty($feed['fluxTitle']))
                     {
                         echo '<span>('.$feed['fluxTitle'].')</span>';
                     }
                     echo '</h4>';
-                    if (empty($feed['img']))
+                    if (!empty($feed['img']))
                     {
                         echo '<img src="'.$feed['img'].'" alt="" />';
                     }

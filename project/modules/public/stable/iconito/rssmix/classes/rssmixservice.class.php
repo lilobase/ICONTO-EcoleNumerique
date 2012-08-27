@@ -73,6 +73,7 @@ class rssmixService extends enicService {
 
     public function getRssFeeds() {
 
+        
         $urls = $this->getRssUrl();
 
         if (empty($urls))
@@ -97,7 +98,7 @@ class rssmixService extends enicService {
 			{
 				// Au cas où l'image n'existe plus
 			}
-			$rss = $this->getRssFeed($url['url']);
+			$rss = $this->getRssFeed($url['url'], $limit);
 			foreach ($rss as $key => $currentRss){
 				$rss[$key]['img'] = $imagePath;
 				$rss[$key]['fluxTitle'] = $title;
