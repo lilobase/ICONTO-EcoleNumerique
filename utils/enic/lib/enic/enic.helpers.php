@@ -87,5 +87,14 @@ class enicHelpers extends enicMod{
         return CopixConfig::get($iVar);
     }
 
+    public function word_cut($string,$length,$cutString = '...'){
+	if(strlen($string) <= $length)
+	{
+		return $string;
+	}
+	$str = substr($string,0,$length-strlen($cutString)+1);
+	return substr($str,0,strrpos($str,' ')).$cutString;
+    }
+
 
 }
