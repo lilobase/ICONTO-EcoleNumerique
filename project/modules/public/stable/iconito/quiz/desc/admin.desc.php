@@ -1,6 +1,6 @@
 <?php
 
-$index = &new CopixAction('admin', 'processList');
-$quiz = &new CopixAction('admin', 'processQuiz');
+$index = new CopixAction('admin', 'processList');
+$quiz = new CopixAction('admin', 'processQuiz');
 $default = & $index;
 ?>
