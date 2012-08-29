@@ -64,7 +64,7 @@ class enicSocialTwitter {
             'months' => array('Janvier', 'Février', 'Mars', 'Avril', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'),
             'right-now' => 'Maintenant',
             'x-seconds-ago' => 'Il y a %s secondes',
-            'about-1-minute-ago' => 'Il y a environs une minutes',
+            'about-1-minute-ago' => 'Il y a environ 1 minute',
             'x-minutes-ago' => 'Il y a %s minutes',
             'about-1-hour-ago' => 'Il y a environ 1 heure',
             'x-hours-ago' => 'Il y a environ %s heures',
