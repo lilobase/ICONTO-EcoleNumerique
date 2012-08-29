@@ -21,9 +21,8 @@
 		<td CLASS="form_libelle"></td><td CLASS="form_saisie">{i18n key="groupe.adminModules.info"}<br/>
 {if $modules neq null}
 	{foreach from=$modules item=val_modules key=key_modules}
-		{assign var="module_type_array" value="_"|split:$val_modules->module_type|lower}
 		
-		{ assign var="a" value=$val_modules->module_type }
+		{assign var="a" value=$val_modules->module_type}
 		{if $his_modules.$a eq 1}{assign var="checked" value="checked"}{else}{assign var="checked" value=""}{/if}
      
       <div style="margin-top:3px;">
