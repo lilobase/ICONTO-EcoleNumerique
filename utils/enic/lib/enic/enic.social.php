@@ -55,11 +55,34 @@ class enicSocialTwitter {
         'live' => 'false',
         'behavior' => 'default'
     );
+    public $i18n = array(
+        'fr-FR' => array(
+            'lang' => 'fr-FR',
+            'dir' => 'ltr',
+            'join-the-conversation' => 'Rejoignez la conversation',
+            'reply' => 'Répondre',
+            'months' => array('Janvier', 'Février', 'Mars', 'Avril', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'),
+            'right-now' => 'Maintenant',
+            'x-seconds-ago' => 'Il y a %s secondes',
+            'about-1-minute-ago' => 'Il y a environ 1 minute',
+            'x-minutes-ago' => 'Il y a %s minutes',
+            'about-1-hour-ago' => 'Il y a environ 1 heure',
+            'x-hours-ago' => 'Il y a environ %s heures',
+            'yesterday' => 'hier',
+            'x-days-ago' => 'Il y a %s jours',
+            'over-a-year' => 'Il y a plus d\'un an'
+        )
+    );
     public $userName;
+    public $language = 'fr-FR';
     private $options = array();
     private $html;
     private $javascript;
 
+    public function __construct() {
+        $this->source = 'js/twitter/widget.min.js';
+    }
+    
     public function setSource($source) {
         if (!filter_var($source, FILTER_VALIDATE_URL)) {
             throw new Exception('Is not an Url');
@@ -99,6 +122,10 @@ class enicSocialTwitter {
     public function setType($type) {
         $this->type = $type;
     }
+    
+    public function setLanguage($lang) {
+        $this->language = $lang;
+    }
 
     public function setThemeByContext($context) {
 
@@ -110,100 +137,124 @@ class enicSocialTwitter {
                 $theme = array(
                     'shell' => array(
                         'background' => '#7CD54F',
-                        'color' => '#434343'
-                    ),
-                    'tweets' => array(
-                        'background' => '#fff',
-                        'color' => '#434343',
-                        'links' => '#354E81'
-                    )
-                ); 
-                 break;
+            'color' => '#434343'
+            ),
+            'tweets' => 
 
-            case 'CLUB':
-                $theme = array(
-                    'shell' => array(
-                        'background' => '#FFB94E',
-                        'color' => '#434343'
-                    ),
-                    'tweets' => array(
-                        'background' => '#fff',
-                        'color' => '#434343',
-                        'links' => '#354E81'
-                    )
-                ); 
-                 break;
+    array(
 
-            case 'BU_CLASSE' :
-            case 'BU_ELE':
-            default:
-                $theme = array(
-                    'shell' => array(
-                        'background' => '#7FC3D2',
-                        'color' => '#434343'
-                    ),
-                    'tweets' => array(
-                        'background' => '#fff',
-                        'color' => '#434343',
-                        'links' => '#354E81'
-                    )
+     'background'
+
+     =>
+
+    '#fff',
+
+    'color'
+
+     =>
+
+    '#434343',
+
+    'links'
+
+     =>
+
+    '#354E81'
+                )
                 );
                 break;
-        }
 
-        $this->setTheme($theme);
-    }
+                case 'CLUB':
+                $theme = array(
+                'shell' => array(
+        'background' => '#FFB94E',
+        'color' => '#434343'
+            ),
+            'tweets' => array(
+                'background' => '#fff',
+                'color' => '#434343',
+                'links' => '#354E81'
+            )
+        );
+        break;
 
-    public function setTheme($theme) {
-        if (!is_array($theme)) {
-            throw new Exception('Is not an array');
-        }if (empty($theme)) {
-            throw new Exception('array is empty');
-        } else {
-            $this->theme = $theme;
-        }
-    }
+    case 'BU_CLASSE' :
+    case 'BU_ELE':
+    default:
+        $theme = array(
+            'shell' => array(
+                'background' => '#7FC3D2',
+                'color' => '#434343'
+            ),
+            'tweets' => array(
+                'background' => '#fff',
+                'color' => '#434343',
+                'links' => '#354E81'
+            )
+        );
+        break;
+}
 
-    public function setFeatures($features) {
-        if (!is_array($features)) {
-            throw new Exception('Is not an array');
-        }if (empty($features)) {
-            throw new Exception('array is empty');
-        } else {
-            $this->features = $features;
-        }
-    }
+$this->setTheme($theme);
+}
 
-    private function builOptions() {
+public function setTheme($theme) {
+if (!is_array($theme)) {
+    throw new Exception('Is not an array');
+}if (empty($theme)) {
+    throw new Exception('array is empty');
+} else {
+    $this->theme = $theme;
+}
+}
 
-        $this->options['version'] = $this->version;
-        $this->options['type'] = $this->type;
-        $this->options['rpp'] = $this->numberOfTweets;
-        $this->options['interval'] = $this->interval;
-        $this->options['width'] = $this->width;
-        $this->options['height'] = $this->height;
-        $this->options['theme'] = $this->theme;
-        $this->options['features'] = $this->features;
+public function setFeatures($features) {
+if (!is_array($features)) {
+    throw new Exception('Is not an array');
+}if (empty($features)) {
+    throw new Exception('array is empty');
+} else {
+    $this->features = $features;
+}
+}
 
-        $this->options = json_encode($this->options);
-    }
+private function buildOptions() {
 
-    private function buildJavascript() {
-        $this->javascript = 'new TWTR.Widget(' . $this->options . ').render().setUser(\'' . $this->userName . '\').start()';
-    }
+$this->options['version'] = $this->version;
+$this->options['type'] = $this->type;
+$this->options['rpp'] = $this->numberOfTweets;
+$this->options['interval'] = $this->interval;
+$this->options['width'] = $this->width;
+$this->options['height'] = $this->height;
+$this->options['theme'] = $this->theme;
+$this->options['features'] = $this->features;
 
-    private function buildHtml() {
-        $this->html = '<script charset="utf-8" src="' . $this->source . '"></script>';
-        $this->html .= '<script type="text/javascript">' . $this->javascript . '</script>';
-    }
+return json_encode($this->options);
+}
 
-    public function printSource() {
-        $this->builOptions();
-        $this->buildJavascript();
-        $this->buildHtml();
+private function buildLanguage(){
+    return json_encode($this->i18n[$this->language]);
+}
 
-        return $this->html;
-    }
+private function buildJavascript() {
+    $this->javascript = 'TWTR.i18n.init('.$this->buildLanguage().');'.PHP_EOL;
+    $this->javascript .= 'new TWTR.Widget(' . $this->buildOptions() . ').render().setUser(\'' . $this->userName . '\').start();';
+}
+
+private function buildHtml() {
+//$this->html = '<script charset="utf-8" src="' . $this->source . '"></script>';
+
+$js = enic::get('javascript');
+$js->addFile($this->source);
+$this->html .= '<script type="text/javascript">' .PHP_EOL . $this->javascript . PHP_EOL. '</script>';
+}
+
+public function printSource() {
+$this->buildJavascript();
+$this->buildHtml();
+
+return $this->html;
+}
 
 }
 
