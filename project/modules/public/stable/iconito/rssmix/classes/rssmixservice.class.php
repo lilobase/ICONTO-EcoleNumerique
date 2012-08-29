@@ -122,7 +122,7 @@ class rssmixService extends enicService {
             if ($iterator > $limit)
                 break;
 
-            $item[$iterator]['title'] = $entry->getTitle();
+            $item[$iterator]['title'] = $this->helpers->word_cut($entry->getTitle(), 100);
             $item[$iterator]['link'] = $entry->getLink();
             $item[$iterator]['content'] = $entry->getContent();
             $item[$iterator]['img'] = $img;
