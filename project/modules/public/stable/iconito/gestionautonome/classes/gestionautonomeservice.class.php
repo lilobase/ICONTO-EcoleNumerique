@@ -17,8 +17,8 @@ class GestionAutonomeService {
   public static function removeStudentAssignment ($studentId, $classroom) {
     
     // Ajout d'un enregistrement de radiation
-	  $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_eleve_admission');
-	  $studentAdmission = _record ('kernel|kernel_bu_eleve_admission');
+    $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_eleve_admission');
+    $studentAdmission = _record ('kernel|kernel_bu_eleve_admission');
     
     $studentAdmission->admission_eleve          = $studentId;
     $studentAdmission->admission_etablissement  = $classroom->ecole;
@@ -111,9 +111,9 @@ class GestionAutonomeService {
   public static function addStudentAssignment ($studentId, $classroom, $level) {
     
     $studentAssignmentDAO   = _ioDAO ('kernel|kernel_bu_ele_affect');
-	  $studentAdmissionDAO    = _ioDAO ('kernel|kernel_bu_eleve_admission');
-	  $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
-	  
+    $studentAdmissionDAO    = _ioDAO ('kernel|kernel_bu_eleve_admission');
+    $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
+     
     if (!$studentRegistration = $studentRegistrationDAO->getByStudentAndSchool ($studentId, $classroom->ecole)) {
       
       $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');

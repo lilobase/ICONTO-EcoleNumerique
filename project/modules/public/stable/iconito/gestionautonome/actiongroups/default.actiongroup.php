@@ -154,25 +154,25 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Récupération de la liste des années scolaires disponibles pour select
-	  $gradesDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
-	  $c = _daoSp ();
+    $gradesDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
+    $c = _daoSp ();
     $c->orderBy ('id_as');
-	  $grades = $gradesDAO->findBy ($c);
-	  foreach ($grades as $grade) {
-
-	    $ppo->gradesIds[]   = $grade->id_as;
-	    $ppo->gradesNames[] = $grade->anneeScolaire;
-	  }
+    $grades = $gradesDAO->findBy ($c);
+    foreach ($grades as $grade) {
+      
+      $ppo->gradesIds[]   = $grade->id_as;
+      $ppo->gradesNames[] = $grade->anneeScolaire;
+    }
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
     $ppo->MENU = $this->menu;
     
     // Get vocabulary catalog to use
-		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
-		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
+    $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+    $ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->nodeType, $ppo->nodeId);
 
-		return _arPPO ($ppo, 'show_tree.tpl');
-	}
+    return _arPPO ($ppo, 'show_tree.tpl');
+    }
 	
 	public function processRefreshTree () {
 	  
@@ -5469,9 +5469,9 @@ class ActionGroupDefault extends enicActionGroup {
   }
   
   /**
-	 * Changement de classe des élèves
-	 */
-	public function processChangeClassroom () {
+  * Changement de classe des élèves
+  */
+  public function processChangeClassroom () {
     
     $gradesDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
     $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
@@ -5480,12 +5480,12 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo = new CopixPPO ();
     
     // Récupération de l'utilisateur connecté
-	  $ppo->user = _currentUser ();
-	  $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
+    $ppo->user = _currentUser ();
+    $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
 
     // Récupération de la classe source
     $ppo->nodeId = _request ('nodeId');
-  	if (is_null ($ppo->nodeId)) {
+    if (is_null ($ppo->nodeId)) {
 
       return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Vous n'avez pas défini de classe d'origine.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
     }
@@ -5495,14 +5495,14 @@ class ActionGroupDefault extends enicActionGroup {
     }
 
     // Contrôle des droits
-  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome'); 	
-  	
-  	// Récupération des filtres
-  	$ppo->filters = _sessionGet ('gestionautonome|change_classroom_filters_'.$ppo->nodeId);
-  	if (is_null($ppo->filters)) {
-  	  
-  	  $originClassInfos = Kernel::getNodeInfo ('BU_CLASSE', $ppo->nodeId, true);
-  	  $cityDAO          = _ioDAO('kernel|kernel_bu_ville');
+    _currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome'); 	
+    
+    // Récupération des filtres
+    $ppo->filters = _sessionGet ('gestionautonome|change_classroom_filters_'.$ppo->nodeId);
+    if (is_null($ppo->filters)) {
+      
+      $originClassInfos = Kernel::getNodeInfo ('BU_CLASSE', $ppo->nodeId, true);
+      $cityDAO          = _ioDAO('kernel|kernel_bu_ville');
       $originCity       = $cityDAO->get($originClassInfos['ALL']->eco_id_ville);
       
       $ppo->filters['schoolName']       = $originClassInfos['ALL']->eco_nom;
@@ -5519,17 +5519,17 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->filters['destinationSchool']     = $originClassInfos['ALL']->eco_numero;
       
       _sessionSet ('gestionautonome|change_classroom_filters_'.$ppo->nodeId, $ppo->filters);
-  	}
-  	elseif (!$ppo->user->testCredential ('basic:admin')) {
-  	  
-  	  $schoolDAO = _ioDAO('kernel|kernel_bu_ecole');
-  	  $school = $schoolDAO->get($originClassroom->ecole);
-  	  
-  	  $ppo->filters['schoolName'] = $school->nom;
-  	}
+    }
+    elseif (!$ppo->user->testCredential ('basic:admin')) {
+      
+      $schoolDAO = _ioDAO('kernel|kernel_bu_ecole');
+      $school = $schoolDAO->get($originClassroom->ecole);
+      
+      $ppo->filters['schoolName'] = $school->nom;
+    }
     
-		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
-		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CLASSE', $ppo->nodeId);
+    $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+    $ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CLASSE', $ppo->nodeId);
     
     return _arPPO ($ppo, 'change_classroom.tpl');
   }
