@@ -7,7 +7,10 @@
  * @subpackage Kernel
  */
 class DAOKernel_bu_eleve_admission {
-
+  
+  const STATE_NEW = 1;
+  const STATE_CANCELED = 3;
+  
 	/**
 	 * Retourne l'admission pour un élève et une école
 	 *

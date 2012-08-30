@@ -136,11 +136,16 @@ class DAOKernel_bu_ele {
 	}
 	
 	/**
-	 * (25/06/2012 - plus utilisé)
+	 * Retourne les élèves avec et sans affectation pour une année donnée
+	 *
+	 * @param array   $filters  Filtres de récupération des élèves
+	 * @param string  $grade    Année scolaire
+	 *
+	 * @return array
 	 */
-	function findStudentsForAssignment ($reference, $typeRef, $filters = array ()) {
+	function findStudentsForAssignment ($filters = array (), $grade) {
     
-    $sql = 'SELECT E.idEleve, E.nom, E.prenom1, E.id_sexe, E.date_nais, EC.nom as eco_nom, U.login_dbuser, LI.bu_type, LI.bu_id, SUM(EA.current)
+    $sql = 'SELECT E.idEleve as user_id, "USER_ELE" as user_type, E.nom, E.prenom1 as prenom, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, SUM(EA.current) AS is_affect, EA.*
       FROM kernel_bu_eleve E
       JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve) 
       JOIN dbuser U ON (U.id_dbuser=LI.user_id)
@@ -149,30 +154,35 @@ class DAOKernel_bu_ele {
       JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville)
       JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville)
       JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)
-      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id)
-      WHERE LI.bu_type="USER_ELE"';
+      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id AND EA.annee_scol = '.$grade.')
+      JOIN kernel_bu_classe_niveau CN ON (EA.niveau=CN.id_n)
+      WHERE LI.bu_type="USER_ELE"
+      AND EA.current = (SELECT MAX(EA2.current) FROM kernel_bu_eleve_affectation EA2 WHERE EA2.eleve=E.idEleve AND EA2.annee_scol = '.$grade.')';
 
-    // Eleves sans affectation
-    if (isset ($filters['withAssignment'])) {
+    if (isset ($filters['grade'])) {
       
-      $sql .= ' AND EA.current = 1';
+      $sql .= ' AND EC.annee_scol='.$filters['grade'];
     }
     
-	  if (isset ($filters['class'])) {
+    if (isset ($filters['level'])) {
+	    
+	    $sql .= ' AND EA.niveau='.$filters['level'];
+	  }
+	  if (isset ($filters['classroom'])) {
     
-      $sql .= ' AND EC.id='.$filters['class']; 
+      $sql .= ' AND EC.id='.$filters['classroom'];
     }
-    elseif (isset ($filters['school'])) {
+    if (isset ($filters['school'])) {
       
       $sql .= ' AND ECO.numero='.$filters['school'];
     }
-    elseif (isset ($filters['city'])) {
+    if (isset ($filters['city'])) {
       
       $sql .= ' AND V.id_vi='.$filters['city'];
     }
-    elseif (isset ($filters['groupcity'])) {
+    if (isset ($filters['cityGroup'])) {
       
-      $sql .= ' AND GV.id_grv='.$filters['groupcity'];
+      $sql .= ' AND GV.id_grv='.$filters['cityGroup'];
     }
     
     if (isset ($filters['lastname'])) {
@@ -184,15 +194,9 @@ class DAOKernel_bu_ele {
 	    $sql .= ' AND E.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
 	  }
     
-    $sql .= ' GROUP BY E.idEleve';
-
-    if (!isset ($filters['withAssignment'])) {
-    
-      $sql .= ' HAVING SUM(EA.current) = 0';
-    }
-    
+    $sql .= ' GROUP BY E.idEleve';    
     $sql .= ' ORDER BY E.nom, E.prenom1';
-
+    
     return _doQuery($sql);
   }
   
@@ -396,32 +400,32 @@ class DAOKernel_bu_ele {
       
     $sql .= ' WHERE LI.bu_type="USER_ELE"';
     
-    if (isset ($filters['destinationGrade'])) {
+    if (isset ($filters['grade'])) {
       
-      $sql .= ' AND EA.annee_scol='.$filters['destinationGrade'];
+      $sql .= ' AND EA.annee_scol='.$filters['grade'];
     }
     
-	  if (isset ($filters['destinationClassroom'])) {
+	  if (isset ($filters['classroom'])) {
     
-      $sql .= ' AND EC.id='.$filters['destinationClassroom'];
+      $sql .= ' AND EC.id='.$filters['classroom'];
       $sql .= ' AND EA.current = 1';
     }
-    elseif (isset ($filters['destinationSchool'])) {
+    elseif (isset ($filters['school'])) {
       
-      $sql .= ' AND ECO.numero='.$filters['destinationSchool'];
+      $sql .= ' AND ECO.numero='.$filters['school'];
     }
-    elseif (isset ($filters['destinationCity'])) {
+    elseif (isset ($filters['city'])) {
       
-      $sql .= ' AND V.id_vi='.$filters['destinationCity'];
+      $sql .= ' AND V.id_vi='.$filters['city'];
     }
-    elseif (isset ($filters['destinationCityGroup'])) {
+    elseif (isset ($filters['cityGroup'])) {
       
-      $sql .= ' AND GV.id_grv='.$filters['destinationCityGroup'];
+      $sql .= ' AND GV.id_grv='.$filters['cityGroup'];
     }
     
-    if (isset ($filters['destinationLevel'])) {
+    if (isset ($filters['level'])) {
 	    
-	    $sql .= ' AND EA.niveau='.$filters['destinationLevel'];
+	    $sql .= ' AND EA.niveau='.$filters['level'];
 	  }
     
     $sql .= ' GROUP BY E.idEleve'

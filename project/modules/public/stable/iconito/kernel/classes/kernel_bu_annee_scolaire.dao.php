@@ -18,6 +18,34 @@ class DAOKernel_bu_annee_scolaire {
 	}
 	
 	/**
+	 * Retourne l'année scolaire suivante
+	 *
+	 * @return DAORecordKernel_bu_annee_scolaire
+	 */
+	public function getNextGrade ($grade = null) {
+	  
+	  $sql = $this->_selectQuery
+	    . ', kernel_bu_annee_scolaire AS2'
+	    . ' WHERE kernel_bu_annee_scolaire.id_as > AS2.id_as';
+	  
+	  if (is_null ($grade)) {
+	    
+	    $sql .= ' AND AS2.current = 1';
+	  }
+	  else {
+	    
+	    $sql .= ' AND AS2.id_as = '.$grade;
+	  }
+	  
+	  $sql .= ' ORDER BY kernel_bu_annee_scolaire.id_as'
+	    . ' LIMIT 1';
+	  
+	  $results = _doQuery ($sql);
+
+    return isset ($results[0]) ? $results[0] : false;
+	}
+	
+	/**
 	 * Retourne les écoles d'une ville accessibles pour un utilisateur
 	 *
 	 * @param int   $cityId  Identifiant de la ville

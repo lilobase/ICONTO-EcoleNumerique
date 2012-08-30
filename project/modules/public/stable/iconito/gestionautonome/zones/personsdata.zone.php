@@ -13,7 +13,7 @@ class ZonePersonsData extends CopixZone {
 	  // Récupération des paramètres
 	  $id        = $this->getParam ('node_id');
 	  $ppo->type = $this->getParam ('node_type');
-	  $ppo->tab  = ($this->getParam('tab')) ? $this->getParam('tab') : 0;                                 
+	  $ppo->tab  = $this->getParam('tab') ? $this->getParam('tab') : 0;
     
     // Récupération de l'utilisateur connecté
 	  $ppo->user = _currentUser ();
@@ -80,9 +80,12 @@ class ZonePersonsData extends CopixZone {
 	    }
     }
     
-    // Get vocabulary catalog to use
-		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
-		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->type, $id);
+    // Récupération du catalogue de vocabulaire à utiliser
+    $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+    $ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode($ppo->type, $id);
+    
+    // Récupération de l'année scolaire suivante
+    $ppo->nextGrade = _ioDAO ('kernel|kernel_bu_annee_scolaire')->getNextGrade (_sessionGet('grade'));
     
     $toReturn = $this->_usePPO ($ppo, '_persons_data.tpl');
   }

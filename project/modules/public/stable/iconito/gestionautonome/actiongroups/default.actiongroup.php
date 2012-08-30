@@ -154,14 +154,14 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Récupération de la liste des années scolaires disponibles pour select
-	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $gradesDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
 	  $c = _daoSp ();
     $c->orderBy ('id_as');
 	  $grades = $gradesDAO->findBy ($c);
 	  foreach ($grades as $grade) {
 
 	    $ppo->gradesIds[]   = $grade->id_as;
-	    $ppo->gradesNames[] = $grade->annee_scolaire;
+	    $ppo->gradesNames[] = $grade->anneeScolaire;
 	  }
     
     $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|moduleTitle');
@@ -2476,32 +2476,32 @@ class ActionGroupDefault extends enicActionGroup {
     $studentRegistrationDAO->insert ($studentRegistration);
 
     // Admission de l'élève dans l'école
-    $studentAdmissionDAO = _ioDAO ('kernel_bu_eleve_admission');
-    $studentAdmission = _record ('kernel_bu_eleve_admission');
+    $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_eleve_admission');
+    $studentAdmission = _record ('kernel|kernel_bu_eleve_admission');
     
-    $studentAdmission->eleve          = $ppo->student->idEleve;
-    $studentAdmission->etablissement  = $schoolId;
-    $studentAdmission->annee_scol     = $grade;
-    $studentAdmission->id_niveau      = $ppo->level;
-    $studentAdmission->etat_eleve     = 1;
-    $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentAdmission->date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentAdmission->code_radiation = '';
-    $studentAdmission->previsionnel   = '';
+    $studentAdmission->admission_eleve          = $ppo->student->idEleve;
+    $studentAdmission->admission_etablissement  = $schoolId;
+    $studentAdmission->admission_annee_scol     = $grade;
+    $studentAdmission->admission_id_niveau      = $ppo->level;
+    $studentAdmission->admission_etat_eleve     = 1;
+    $studentAdmission->admission_date           = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAdmission->admission_date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAdmission->admission_code_radiation = '';
+    $studentAdmission->admission_previsionnel   = '';
     
     $studentAdmissionDAO->insert ($studentAdmission);
     
     // Affectation de l'élève dans les classes  
-    $studentAssignmentDAO = _ioDAO ('kernel_bu_eleve_affectation');
-    $studentAssignment = _record ('kernel_bu_eleve_affectation');
+    $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
+    $studentAssignment = _record ('kernel|kernel_bu_ele_affect');
     
-    $studentAssignment->eleve           = $ppo->student->idEleve;
-    $studentAssignment->annee_scol      = $grade;
-    $studentAssignment->classe          = $ppo->nodeId;
-    $studentAssignment->niveau          = $ppo->level;
-    $studentAssignment->dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentAssignment->current         = 1;
-    $studentAssignment->previsionnel_cl = 0;
+    $studentAssignment->affect_eleve           = $ppo->student->idEleve;
+    $studentAssignment->affect_annee_scol      = $grade;
+    $studentAssignment->affect_classe          = $ppo->nodeId;
+    $studentAssignment->affect_niveau          = $ppo->level;
+    $studentAssignment->affect_dateDebut       = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAssignment->affect_current         = 1;
+    $studentAssignment->affect_previsionnel_cl = 0;
 
     $studentAssignmentDAO->insert ($studentAssignment);
     
@@ -3848,7 +3848,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 	  
 	  // Récupérations des années scolaires
-    $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+    $gradesDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
 	  $ppo->grades = $gradesDAO->findBy (_daoSp ()->orderBy ('id_as'));
 	  
 	  $ppo->TITLE_PAGE = CopixConfig::get('gestionautonome|gradesManagementTitle');
@@ -4006,7 +4006,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  
 	  $gradeId = _request ('gradeId', null);
 	  
-	  $gradesDAO = _ioDAO ('kernel_bu_annee_scolaire');
+	  $gradesDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
 	  $gradesDAO->delete ($gradeId);
 
 	  return _arRedirect (CopixUrl::get ('gestionautonome||manageGrades', array ('save' => 'gradeDeleted')));
@@ -5385,6 +5385,13 @@ class ActionGroupDefault extends enicActionGroup {
 
       return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "La classe d'origine que vous avez défini n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
     }
+    
+    // Récupération de l'année scolaire suivante
+    $gradeDAO = _ioDAO('kernel|kernel_bu_annee_scolaire');
+    if (!$nextGrade = $gradeDAO->getNextGrade ($originClassroom->annee_scol)) {
+      
+      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Il n'existe pas d'année scolaire suivante.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+    }
 
     // Contrôle des droits
   	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome'); 	
@@ -5405,7 +5412,7 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->filters['originClassroom']  = $ppo->nodeId;
       $ppo->filters['originUserType']   = 'USER_ELE';
       
-      $ppo->filters['destinationGrade']      = $originClassroom->annee_scol;
+      $ppo->filters['destinationGrade']      = $nextGrade->id_as;
       $ppo->filters['destinationCityGroup']  = $originCity->id_grville;
       $ppo->filters['destinationCity']       = $originClassInfos['ALL']->eco_id_ville;
       $ppo->filters['destinationSchool']     = $originClassInfos['ALL']->eco_numero;
@@ -5460,6 +5467,103 @@ class ActionGroupDefault extends enicActionGroup {
     
     return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixZone::process ('gestionautonome|manageAssignments', array('nodeId' => $nodeId)));
   }
+  
+  /**
+	 * Changement de classe des élèves
+	 */
+	public function processChangeClassroom () {
+    
+    $gradesDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
+    $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
+
+    $ppo = new CopixPPO ();
+    
+    // Récupération de l'utilisateur connecté
+	  $ppo->user = _currentUser ();
+	  $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
+
+    // Récupération de la classe source
+    $ppo->nodeId = _request ('nodeId');
+  	if (is_null ($ppo->nodeId)) {
+
+      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Vous n'avez pas défini de classe d'origine.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+    }
+    if (!$originClassroom = $classroomDAO->get ($ppo->nodeId)) {
+
+      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "La classe d'origine que vous avez défini n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+    }
+
+    // Contrôle des droits
+  	_currentUser()->assertCredential('module:classroom|'.$ppo->nodeId.'|student|create@gestionautonome'); 	
+  	
+  	// Récupération des filtres
+  	$ppo->filters = _sessionGet ('gestionautonome|change_classroom_filters_'.$ppo->nodeId);
+  	if (is_null($ppo->filters)) {
+  	  
+  	  $originClassInfos = Kernel::getNodeInfo ('BU_CLASSE', $ppo->nodeId, true);
+  	  $cityDAO          = _ioDAO('kernel|kernel_bu_ville');
+      $originCity       = $cityDAO->get($originClassInfos['ALL']->eco_id_ville);
+      
+      $ppo->filters['schoolName']       = $originClassInfos['ALL']->eco_nom;
+      $ppo->filters['originGrade']      = $originClassroom->annee_scol;
+      $ppo->filters['originCityGroup']  = $originCity->id_grville;
+      $ppo->filters['originCity']       = $originClassInfos['ALL']->eco_id_ville;
+      $ppo->filters['originSchool']     = $originClassInfos['ALL']->eco_numero;
+      $ppo->filters['originClassroom']  = $ppo->nodeId;
+      $ppo->filters['originUserType']   = 'USER_ELE';
+      
+      $ppo->filters['destinationGrade']      = $originClassroom->annee_scol;
+      $ppo->filters['destinationCityGroup']  = $originCity->id_grville;
+      $ppo->filters['destinationCity']       = $originClassInfos['ALL']->eco_id_ville;
+      $ppo->filters['destinationSchool']     = $originClassInfos['ALL']->eco_numero;
+      
+      _sessionSet ('gestionautonome|change_classroom_filters_'.$ppo->nodeId, $ppo->filters);
+  	}
+  	elseif (!$ppo->user->testCredential ('basic:admin')) {
+  	  
+  	  $schoolDAO = _ioDAO('kernel|kernel_bu_ecole');
+  	  $school = $schoolDAO->get($originClassroom->ecole);
+  	  
+  	  $ppo->filters['schoolName'] = $school->nom;
+  	}
+    
+		$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CLASSE', $ppo->nodeId);
+    
+    return _arPPO ($ppo, 'change_classroom.tpl');
+  }
+  
+  public function processFilterAndDisplayAssignmentsToChangeClassroom () {
+    
+    // Récupération de la classe source
+    $nodeId = _request ('node_id');
+  	if (is_null ($nodeId)) {
+
+      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+    }
+    
+    // Mise en session des filtres
+    _sessionSet ('gestionautonome|change_classroom_filters_'.$nodeId, array (
+      'originGrade'           => _request ('origin_grade', null),
+      'originCityGroup'       => _request ('origin_citygroup', null),
+      'originCity'            => _request ('origin_city', null),
+      'originSchool'          => _request ('origin_school', null),
+      'originClassroom'       => _request ('origin_classroom', null),
+      'originLevel'           => _request ('origin_level', null),
+      'originUserType'        => _request ('origin_usertype', null),
+      'originLastname'        => _request ('origin_lastname', null),
+      'originFirstname'       => _request ('origin_firstname', null),
+      'destinationGrade'      => _request ('destination_grade', null),
+      'destinationCityGroup'  => _request ('destination_citygroup', null),
+      'destinationCity'       => _request ('destination_city', null),
+      'destinationSchool'     => _request ('destination_school', null),
+      'destinationClassroom'  => _request ('destination_classroom', null),
+      'destinationLevel'      => _request ('destination_level', null),
+    ));
+    
+    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixZone::process ('gestionautonome|changeClassroom', array('nodeId' => $nodeId)));
+  }
 	
 	/**
 	 * AJAX ONLY ! - Rafraichi un sélecteur de classe
@@ -5488,10 +5592,11 @@ class ActionGroupDefault extends enicActionGroup {
 	public function processUpdateAssignment () {
 	  
 	  // Récupération des paramètres
-	  $userType           = _request('user_type', null);
-	  $userId             = _request('user_id', null);
-	  $classroomId        = _request('classroom_id', null);
-	  $classroomLevel     = _request('classroom_level', null);
+	  $userType             = _request('user_type', null);
+	  $userId               = _request('user_id', null);
+	  $classroomId          = _request('classroom_id', null);
+	  $classroomLevel       = _request('classroom_level', null);
+	  $removeOldAssignment  = _request('remove_old_assignment', false);
 	  
 	  if (is_null ($userType) || is_null ($userId) || is_null ($classroomId)) {
 
@@ -5509,6 +5614,12 @@ class ActionGroupDefault extends enicActionGroup {
 	    _currentUser()->assertCredential('module:classroom|'.$classroomId.'|student|update@gestionautonome');
 	    
 	    _classInclude('gestionautonome|GestionAutonomeService');
+	    
+	    if ($removeOldAssignment) {
+	      
+	      GestionAutonomeService::removeStudentAssignments ($userId, $classroom->annee_scol);
+	    }
+	    
 	    GestionAutonomeService::addStudentAssignment ($userId, $classroom, $classroomLevel);
 	  }
 	  // Affectation d'un enseignant
@@ -5535,9 +5646,8 @@ class ActionGroupDefault extends enicActionGroup {
 	  $userType     = _request('user_type', null);
 	  $userId       = _request('user_id', null);
 	  $classroomId  = _request('classroom_id', null);
-	  $grade        = _request('grade', null);
 	  
-	  if (is_null ($userType) || is_null ($userId) || is_null ($classroomId) || is_null ($grade)) {
+	  if (is_null ($userType) || is_null ($userId) || is_null ($classroomId)) {
 
 	    return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
 	  }
@@ -5552,7 +5662,7 @@ class ActionGroupDefault extends enicActionGroup {
 	    $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
   	  $classroom = $classroomDAO->get ($classroomId);
   	  
-	    GestionAutonomeService::removeStudentAssignment ($userId, $classroom->ecole, $classroomId, $grade);
+	    GestionAutonomeService::removeStudentAssignment ($userId, $classroom);
 	  }
 	  else {
 	    

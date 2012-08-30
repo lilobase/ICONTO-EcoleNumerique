@@ -11,43 +11,60 @@ class GestionAutonomeService {
   /**
    * Supprime l'affectation d'un élève au sein d'une classe
    *
-   * @param int     $studentId      Identifiant de l'élève
-   * @param int     $schoolId       Identifiant de l'école
-   * @param int     $classroomid    Identifiant de la classe
-   * @param string  $grade          Année scolaire
+   * @param int                         $studentId      Identifiant de l'élève
+   * @param DAOKernel_bu_ecole_classe   $classroom      Classe
    */
-  public static function removeStudentAssignment ($studentId, $schoolId, $classroomId, $grade) {
+  public static function removeStudentAssignment ($studentId, $classroom) {
     
     // Ajout d'un enregistrement de radiation
-	  $studentAdmissionDAO = _ioDAO ('kernel_bu_eleve_admission');
-	  $studentAdmission = _record ('kernel_bu_eleve_admission');
+	  $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_eleve_admission');
+	  $studentAdmission = _record ('kernel|kernel_bu_eleve_admission');
     
-    $studentAdmission->eleve          = $studentId;
-    $studentAdmission->etablissement  = $schoolId;
-    $studentAdmission->annee_scol     = $grade;
-    $studentAdmission->id_niveau      = '';
-    $studentAdmission->etat_eleve     = 3;
-    $studentAdmission->date           = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentAdmission->date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentAdmission->code_radiation = '';
-    $studentAdmission->previsionnel   = '';
+    $studentAdmission->admission_eleve          = $studentId;
+    $studentAdmission->admission_etablissement  = $classroom->ecole;
+    $studentAdmission->admission_annee_scol     = $classroom->annee_scol;
+    $studentAdmission->admission_id_niveau      = '';
+    $studentAdmission->admission_etat_eleve     = 3;
+    $studentAdmission->admission_date           = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAdmission->admission_date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
+    $studentAdmission->admission_code_radiation = '';
+    $studentAdmission->admission_previsionnel   = '';
     
     $studentAdmissionDAO->insert ($studentAdmission);
     
     // Récupération de l'affectation de l'élève à la classe pour passage du flag current à 0
     $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
-    $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroomId);
+    $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id);
     $studentAssignment->affect_current = 0;
     
     $studentAssignmentDAO->update ($studentAssignment);
     
     // Si l'utilisateur n'a pas d'autres affectations dans cette école : passage du flag inscr_current à 0
-    if (!$studentAssignmentDAO->countCurrentAffectInSchool ($studentId, $schoolId) > 0) {
+    if (!$studentAssignmentDAO->countCurrentAffectInSchool ($studentId, $classroom->ecole) > 0) {
 
       $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
-      $studentRegistration = $studentRegistrationDAO->getByStudentAndSchool ($studentId, $schoolId);
+      $studentRegistration = $studentRegistrationDAO->getByStudentAndSchool ($studentId, $classroom->ecole);
       
       $studentRegistrationDAO->updateCurrentFlag ($studentRegistration->numero, 0);
+    }
+  }
+  
+  /**
+   * Supprime les affectations d'un élève
+   *
+   * @param int   $studentId  Identifiant de l'élève
+   * @param int   $grade      Année scolaire
+   */
+  public static function removeStudentAssignments ($studentId, $grade = null) {
+    
+    $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
+    
+    // Récupération des affectations de l'élève pour passage du flag current à 0
+    $studentAssignments = $studentAssignmentDAO->getByStudent ($studentId, $grade);
+    foreach ($studentAssignments as $studentAssignment) {
+      
+      $studentAssignment->affect_current = 0;
+      $studentAssignmentDAO->update ($studentAssignment);
     }
   }
   
@@ -97,7 +114,7 @@ class GestionAutonomeService {
 	  $studentAdmissionDAO    = _ioDAO ('kernel|kernel_bu_eleve_admission');
 	  $studentRegistrationDAO = _ioDAO ('kernel|kernel_bu_eleve_inscription');
 	  
-    if (!$studentRegistrationDAO->getByStudentAndSchool ($userId, $classroom->id)) {
+    if (!$studentRegistration = $studentRegistrationDAO->getByStudentAndSchool ($studentId, $classroom->ecole)) {
       
       $studentRegistration = _record ('kernel|kernel_bu_eleve_inscription');
 
@@ -115,25 +132,28 @@ class GestionAutonomeService {
       $studentRegistration->attente                 = 0;
       $studentRegistration->derogation_dem          = 0; 
       $studentRegistration->temporaire              = 0;
-      $studentRegistration->current_inscr           = 1; 
+      $studentRegistration->current_inscr           = 1;
 
       $studentRegistrationDAO->insert ($studentRegistration);
     }
 
     // Admission de l'élève dans l'école
-    $studentAdmission = _record ('kernel|kernel_bu_eleve_admission');
+    if (!$studentAdmission = $studentAdmissionDAO->getByStudentAndSchool ($studentId, $classroom->ecole, DAOKernel_bu_eleve_admission::STATE_NEW)) {
+      
+      $studentAdmission = _record ('kernel|kernel_bu_eleve_admission');
 
-    $studentAdmission->admission_eleve          = $studentId;
-    $studentAdmission->admission_etablissement  = $classroom->ecole;
-    $studentAdmission->admission_annee_scol     = $classroom->annee_scol;
-    $studentAdmission->admission_id_niveau      = $level;
-    $studentAdmission->admission_etat_eleve     = 1;
-    $studentAdmission->admission_date           = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentAdmission->admission_date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
-    $studentAdmission->admission_code_radiation = '';
-    $studentAdmission->admission_previsionnel   = '';
+      $studentAdmission->admission_eleve          = $studentId;
+      $studentAdmission->admission_etablissement  = $classroom->ecole;
+      $studentAdmission->admission_annee_scol     = $classroom->annee_scol;
+      $studentAdmission->admission_id_niveau      = $level;
+      $studentAdmission->admission_etat_eleve     = DAOKernel_bu_eleve_admission::STATE_NEW;
+      $studentAdmission->admission_date           = CopixDateTime::timestampToYYYYMMDD (time ());
+      $studentAdmission->admission_date_effet     = CopixDateTime::timestampToYYYYMMDD (time ());
+      $studentAdmission->admission_code_radiation = '';
+      $studentAdmission->admission_previsionnel   = '';
 
-    $studentAdmissionDAO->insert ($studentAdmission);
+      $studentAdmissionDAO->insert ($studentAdmission);
+    }
     
     if (!$studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id)) {
       

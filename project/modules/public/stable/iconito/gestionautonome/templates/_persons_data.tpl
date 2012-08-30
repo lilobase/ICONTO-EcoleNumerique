@@ -221,14 +221,14 @@
   {if $ppo->parent.type == 'BU_GRVILLE'}
       {if $ppo->user->testCredential ("module:cities_group|`$ppo->parent.id`|cities_group_agent|create@gestionautonome")}
           <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button button-add">Créer un agent de groupes de villes</a>
-          <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button button-next">Affecter</a>
+          <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.affect"}</a>
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
 
   {elseif $ppo->parent.type == 'BU_VILLE'}
       {if $ppo->user->testCredential ("module:city|`$ppo->parent.id`|city_agent|create@gestionautonome")}
         <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button button-add">Créer un agent de ville</a>
-        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button button-next">Affecter</a>
+        <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=4}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.affect"}</a>
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
 
@@ -255,7 +255,10 @@
         <a href="{copixurl dest="gestionautonome||createStudent" parentId=$ppo->parent.id parentType=$ppo->parent.type}" class="button button-add">{customi18n key="gestionautonome|gestionautonome.message.add%%indefinite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</a>
       {/if}
       {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate}
-      <br /><a href="{copixurl dest="gestionautonome||manageAssignments" nodeId=$ppo->parent.id}" class="button button-next">Affecter</a>
+        {if $ppo->nextGrade}
+          <br /><a href="{copixurl dest="gestionautonome||manageAssignments" nodeId=$ppo->parent.id}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.preparenextgrade"}</a>
+        {/if}
+      <br /><a href="{copixurl dest="gestionautonome||changeClassroom" nodeId=$ppo->parent.id}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.changeClassroom"}</a>
       {/if}
       {if $hasCredentialStudentCreate}
         <h3>Gestion</h3>
@@ -263,7 +266,7 @@
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
       {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate || $hasCredentialPersonInChargeUpdate}
-        <a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button button-save">Gérer les mots de passe</a>
+        <a href="{copixurl dest="gestionautonome||resetClassroomPasswords" nodeId=$ppo->parent.id}" class="button button-save">{i18n key="gestionautonome|gestionautonome.message.managepasswords"}</a>
       {/if}
   {/if}
 {else}

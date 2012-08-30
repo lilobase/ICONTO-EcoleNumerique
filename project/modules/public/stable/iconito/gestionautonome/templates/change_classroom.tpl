@@ -1,21 +1,15 @@
 {assign var="school" value=$ppo->nodeInfos.parent.ALL}
 
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p>
-<h2>{i18n key="gestionautonome|gestionautonome.message.preparenextgrade}</h2>
+<h2>{i18n key="gestionautonome|gestionautonome.message.assignementchange}</h2>
 
-<form action="{copixurl dest="gestionautonome||filterAndDisplayAssignments"}" method="post" id="filter-form">
+<form action="{copixurl dest="gestionautonome||filterAndDisplayAssignmentsToChangeClassroom"}" method="post" id="filter-form">
   <input type="hidden" name="node_id" value="{$ppo->nodeId}" />
+  <input type="hidden" name="origin_grade" value="{$ppo->filters.originGrade}" />
+  <input type="hidden" name="destination_grade" value="{$ppo->filters.destinationGrade}" />
+  
   <div id="origin" class="filterClass">
     <h3>{i18n key="gestionautonome|gestionautonome.message.origin}</h3>
-    <div class="field" id="origin-grade">
-      <label>{i18n key="gestionautonome|gestionautonome.message.schoolyear}</label>
-      <select name="origin_grade">
-        {foreach from=$ppo->grades item=grade}
-          <option value="{$grade->id_as}"{if $ppo->filters.originGrade == $grade->id_as} selected="selected"{/if}>{$grade->anneeScolaire}</option>
-        {/foreach}
-      </select>
-      <input type="submit" value="Rafaîchir" />
-    </div>
     
     {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector}
       <div class="field" id="origin-citygroup">
@@ -59,17 +53,7 @@
   
   <div id="destination" class="filterClass">
     <h3>{i18n key="gestionautonome|gestionautonome.message.destination}</h3>
-    <div class="field" id="destination-grade">
-      <label>{i18n key="gestionautonome|gestionautonome.message.schoolyear} :</label>
-      <select name="destination_grade">
-        {foreach from=$ppo->grades item=grade}
-          {if $grade->id_as >= $ppo->currentGrade->id_as}
-            <option value="{$grade->id_as}"{if $ppo->filters.destinationGrade == $grade->id_as} selected="selected"{/if}>{$grade->anneeScolaire}</option>
-          {/if}
-        {/foreach}
-      </select>
-      <input type="submit" value="Rafaîchir" />
-    </div>
+    
     {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector}
       <div class="field" id="destination-citygroup">
         {copixzone process=gestionautonome|filterGroupCity selected=$ppo->filters.destinationCityGroup with_label=true name=destination_citygroup with_empty=false}
@@ -97,7 +81,7 @@
 </form>
 
 <div id="assignments">
-  {copixzone process=gestionautonome|manageAssignments nodeId=$ppo->nodeId}
+  {copixzone process=gestionautonome|changeClassroom nodeId=$ppo->nodeId}
 </div>
 
 <a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
@@ -109,60 +93,6 @@
     
  	  <!-- On cache le bouton de soumission du formulaire -->
  	  jQuery('#filter-form input[type="submit"]').hide();
- 	  
- 	  <!-- Modification de l'année scolaire pour la classe d'origine, rafraichissement de la liste des classes -->
- 	  jQuery('#origin select[name="origin_grade"]').change(function(){
- 	    
- 	    jQuery('#origin-class').empty();
-      jQuery('#assignments').empty();
-      
-      if (jQuery('#origin [name="origin_school"]').val()) {
-        
-        jQuery.ajax({
-          url: {/literal}"{copixurl dest=gestionautonome|default|refreshClassFilter}"{literal},
-          global: true,
-          type: "GET",
-          data: ({grade: $(this).val(), school_id: jQuery('#origin [name="origin_school"]').val(), with_label: 1, with_empty: 1, label_empty: "Toutes", name: "origin_classroom"}),
-          success: function(html){
-            jQuery('#origin-class').append(html);
-            jQuery('#origin select[name="origin_classroom"]').trigger('change');
-          }
-        });
-      }
-      else {
-        
-        jQuery('#filter-form').submit();
-      }
-      
-      return false;
- 	  });
- 	  
- 	  <!-- Modification de l'année scolaire pour la classe de destination, rafraichissement de la liste des classes -->
- 	  jQuery('#destination select[name="destination_grade"]').change(function(){
- 	    
- 	    jQuery('#destination-class').empty();
- 	    jQuery('#assignments').empty();
- 	      
- 	    if (jQuery('#destination [name="destination_school"]').val()) {
-      
-        jQuery.ajax({
-          url: {/literal}"{copixurl dest=gestionautonome|default|refreshClassFilter}"{literal},
-          global: true,
-          type: "GET",
-          data: ({grade: $(this).val(), school_id: jQuery('#destination [name="destination_school"]').val(), with_label: 1, with_empty: 1, label_empty: "Toutes", name: "destination_classroom"}),
-          success: function(html){
-            jQuery('#destination-class').append(html);
-            jQuery('#destination select[name="destination_classroom"]').trigger('change');
-          }
-        });
-      }
-      else {
-        
-        jQuery('#filter-form').submit();
-      }
-      
-      return false;
- 	  });
  	  
  	  <!-- Soumission du formulaire -->
  	  jQuery('#origin select[name="origin_level"], #destination select[name="destination_level"], #origin select[name="origin_usertype"], #origin input[name="origin_lastname"], #origin input[name="origin_firstname"]').live('change', function(){
@@ -177,7 +107,7 @@
       jQuery('#assignments').html('<p class="center">Chargement en cours...</p>');
       
  	    jQuery.ajax({
-        url: {/literal}"{copixurl dest=gestionautonome|default|filterAndDisplayAssignments}"{literal},
+        url: {/literal}"{copixurl dest=gestionautonome|default|filterAndDisplayAssignmentsToChangeClassroom}"{literal},
         global: true,
         type: "GET",
         data: jQuery('#filter-form').serialize(),
@@ -260,7 +190,7 @@
           url: {/literal}'{copixurl dest=gestionautonome|default|refreshClassFilter}'{literal},
           global: true,
           type: "GET",
-          data: ({school_id: schoolId, with_label: 1, grade: jQuery('#origin select[name="originGrade"]').val(), with_empty: 1, label_empty: "Toutes", name: "origin_classroom"}),
+          data: ({school_id: schoolId, with_label: 1, grade: jQuery('input[name="origin_grade"]').val(), with_empty: 1, label_empty: "Toutes", name: "origin_classroom"}),
           success: function(html){
 
             jQuery('#origin-class').append(html);
@@ -288,7 +218,7 @@
           url: {/literal}'{copixurl dest=gestionautonome|default|refreshClassLevelFilter}'{literal},
           global: true,
           type: "GET",
-          data: ({classroom_id: classroomId, school_id: schoolId, with_label: 1, grade: jQuery('#origin select[name="originGrade"]').val(), with_empty: 1, label_empty: "Tous", name: "origin_level"}),
+          data: ({classroom_id: classroomId, school_id: schoolId, with_label: 1, grade: jQuery('input[name="origin_grade"]').val(), with_empty: 1, label_empty: "Tous", name: "origin_level"}),
           success: function(html){
 
             jQuery('#origin-level').append(html);
@@ -370,7 +300,7 @@
           url: {/literal}'{copixurl dest=gestionautonome|default|refreshClassFilter}'{literal},
           global: true,
           type: "GET",
-          data: ({school_id: schoolId, with_label: 1, grade: jQuery('#destination select[name="destination_grade"]').val(), with_empty: 1, label_empty: "Toutes", name: "destination_classroom"}),
+          data: ({school_id: schoolId, with_label: 1, grade: jQuery('input[name="destination_grade"]').val(), with_empty: 1, label_empty: "Toutes", name: "destination_classroom"}),
           success: function(html){
 
             jQuery('#destination-class').append(html);
@@ -398,7 +328,7 @@
           url: {/literal}'{copixurl dest=gestionautonome|default|refreshClassLevelFilter}'{literal},
           global: true,
           type: "GET",
-          data: ({classroom_id: classroomId, school_id: schoolId, grade: jQuery('#destination select[name="destination_grade"]').val(), with_label: 1, with_empty: 1, label_empty: "Tous", name: "destination_level"}),
+          data: ({classroom_id: classroomId, school_id: schoolId, grade: jQuery('input[name="destination_grade"]').val(), with_label: 1, with_empty: 1, label_empty: "Tous", name: "destination_level"}),
           success: function(html){
 
             jQuery('#destination-level').append(html);

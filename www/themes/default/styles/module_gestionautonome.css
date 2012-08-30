@@ -325,6 +325,7 @@ ul.tree a.classroom {
 
 #assignments {
 	clear:both;
+	overflow:hidden;
 }
 #persons-to-assign {
   float: left;

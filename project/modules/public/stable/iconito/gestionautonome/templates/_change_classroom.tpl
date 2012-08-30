@@ -160,7 +160,7 @@
           url: {/literal}"{copixurl dest=gestionautonome|default|updateAssignment}"{literal},
           global: true,
           type: "GET",
-          data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType },
+          data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType, remove_old_assignment: 1 },
           success: function() {
             
             if (reload) {
