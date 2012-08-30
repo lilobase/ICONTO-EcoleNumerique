@@ -501,7 +501,7 @@ class CopixTabActionGroup extends CopixActionGroup {
         $arObjectMethods = get_class_methods (get_class ($this));
         // Préinitiatilise les actions
         foreach ($arObjectMethods as $method) {
-            if (ereg ("^process", $method) && $method != "process") {
+            if (preg_match ("/^process/", $method) && $method != "process") {
                 $objTab = new stdClass ();
                 $objTab->url = _url (substr ($method, 7));
                 $objTab->caption = isset ($this->_arLibelle[$method]) ? $this->_arLibelle[$method] : $method;

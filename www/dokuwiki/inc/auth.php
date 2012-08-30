@@ -790,7 +790,7 @@ function act_resendpwd(){
  * @return  bool          true if address is valid
  */
 function isvalidemail($email){
-  return eregi("^[0-9a-z]([-_.]?[0-9a-z])*@[0-9a-z]([-.]?[0-9a-z])*\\.[a-z]{2,4}$", $email);
+    return (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
 /**
