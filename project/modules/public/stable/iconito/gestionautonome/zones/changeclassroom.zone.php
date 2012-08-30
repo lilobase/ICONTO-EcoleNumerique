@@ -4,20 +4,32 @@
 * @subpackage Gestionautonome
 * @author     Jérémy FOURNAISE
 */
-class ZoneManageAssignments extends CopixZone {
+class ZoneChangeClassroom extends CopixZone {
 
 	function _createContent (& $toReturn) {
 	  
 	  $ppo = new CopixPPO ();                               
 	  
 	  // Récupération des paramètres
-	  $nodeId  = $this->getParam ('nodeId');
-	  $ppo->filters = _sessionGet ('gestionautonome|manage_assignments_filters_'.$nodeId);
+	  $nodeId       = $this->getParam ('nodeId');
+	  $ppo->filters = _sessionGet ('gestionautonome|change_classroom_filters_'.$nodeId);
 	  
-	  $originAssignments = array();
+	  $originAssignments      = array();
 	  $destinationAssignments = array();
 	  
+	  // Récupération des affectations
 	  if ($ppo->filters['originUserType'] == 'USER_ELE') {
+	    
+	    $originFilters = array (
+	      'grade'     => $ppo->filters['originGrade'],
+	      'cityGroup' => $ppo->filters['originCityGroup'],
+	      'city'      => $ppo->filters['originCity'],
+	      'school'    => $ppo->filters['originSchool'],
+	      'classroom' => $ppo->filters['originClassroom'],
+	      'level'     => $ppo->filters['originLevel'],
+	      'firstname' => $ppo->filters['originFirstname'],
+	      'lastname'  => $ppo->filters['originLastname']
+	    );
 	    
 	    $destinationFilters = array (
 	      'grade'     => $ppo->filters['destinationGrade'],
@@ -30,8 +42,7 @@ class ZoneManageAssignments extends CopixZone {
 	    
 	    // Récupération des élèves
 	    $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
-	    
-	    $originAssignments        = $studentDAO->findForManageAssignments ($ppo->filters);
+	    $originAssignments        = $studentDAO->findStudentsForAssignment ($originFilters, $ppo->filters['originGrade']);
 	    $destinationAssignments   = $studentDAO->findAssigned ($destinationFilters);
 	  }
 	  else {
@@ -46,6 +57,7 @@ class ZoneManageAssignments extends CopixZone {
   	  }
 	  }
     
+    // Construction du tableau des affectations d'origine pour l'affichage
 	  foreach ($originAssignments as $originAssignment) {
 	    
 	    if ($originAssignment->nom_classe && $originAssignment->is_affect) {
@@ -61,75 +73,26 @@ class ZoneManageAssignments extends CopixZone {
 	    }
 	  }
 	  
-	  // Construction du tableau des affectations de destination pour l'affichage
-	  if (!isset($ppo->filters['destinationClassroom'])) {
-	    
-	    if ($ppo->filters['originUserType'] == 'USER_ELE') {
-        
-        if (isset ($ppo->filters['destinationLevel'])) {
-          
-          // On récupère toutes les classes disponibles pour l'école et le niveau de classe sélectionnés
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
-          foreach ($destinationClassrooms as $destinationClassroom) {
-            
-            $classroomLevel = _ioDAO('kernel|kernel_bu_classe_niveau')->get ($ppo->filters['destinationLevel']);
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  
+	  // Construction du tableau des affectations de destination pour l'affichage (Elèves)
+	  if ($ppo->filters['originUserType'] == 'USER_ELE') {
 
-            $ppo->destinationAssignments[$destinationClassroom->id][$ppo->filters['destinationLevel']] = array();
-  	        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
-  	        $ppo->classroomLevels[$ppo->filters['destinationLevel']] = $classroomLevel->niveau_court;
-          }
-        }
-        else {
-          
-          // On récupère toutes les classes disponibles pour l'école
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
-          foreach ($destinationClassrooms as $destinationClassroom) {
-            
-            $levels = $destinationClassroom->getLevels();
-    	      foreach ($levels as $level) {
+      if (isset($ppo->filters['destinationClassroom'])) {
 
-    	        $ppo->destinationAssignments[$destinationClassroom->id][$level->id_n] = array();
-    	        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
-    	        $ppo->classroomLevels[$level->id_n] = $level->niveau_court;
-    	      }
-          }
-        }
-	    }
-	    else {
-	      
-	      if (isset ($ppo->filters['destinationLevel'])) {
-          
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
-        }
-        else {
-          
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
-        }
-        
-        foreach ($destinationClassrooms as $destinationClassroom) {
-          
-          $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
-  	      $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
-        }
-	    }
-	  }
-	  else {
-	    
-	    // Récupération de la classe sélectionnée par les filtres
-	    $destinationClassroom = _ioDAO('kernel|kernel_bu_ecole_classe')->get ($ppo->filters['destinationClassroom']);
-	    
-	    if ($ppo->filters['originUserType'] == 'USER_ELE') {
-        
+        // Récupération de la classe sélectionnée par les filtres
+        $destinationClassroom = $classroomDAO->get ($ppo->filters['destinationClassroom']);
+
         if (isset ($ppo->filters['destinationLevel'])) {
-          
+
           $classroomLevel = _ioDAO('kernel|kernel_bu_classe_niveau')->get ($ppo->filters['destinationLevel']);
-          
+
           $ppo->destinationAssignments[$destinationClassroom->id][$classroomLevel->id_n] = array();
           $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
           $ppo->classroomLevels[$classroomLevel->id_n] = $classroomLevel->niveau_court;
         }
         else {
-          
+
           $levels = $destinationClassroom->getLevels();
           foreach ($levels as $level) {
 
@@ -139,12 +102,62 @@ class ZoneManageAssignments extends CopixZone {
           }
         }
       }
-	    else {
-	      
-	      $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
-	      $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
-	    }
-	  }
+      else {
+
+        if (isset ($ppo->filters['destinationLevel'])) {
+
+          // On récupère toutes les classes disponibles pour l'école et le niveau de classe sélectionnés
+          $destinationClassrooms = $classroomDAO->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
+          foreach ($destinationClassrooms as $destinationClassroom) {
+
+            $classroomLevel = _ioDAO('kernel|kernel_bu_classe_niveau')->get ($ppo->filters['destinationLevel']);
+
+            $ppo->destinationAssignments[$destinationClassroom->id][$ppo->filters['destinationLevel']] = array();
+            $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
+            $ppo->classroomLevels[$ppo->filters['destinationLevel']] = $classroomLevel->niveau_court;
+          }
+        }
+        else {
+
+          // On récupère toutes les classes disponibles pour l'école
+          $destinationClassrooms = $classroomDAO->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
+          foreach ($destinationClassrooms as $destinationClassroom) {
+
+            $levels = $destinationClassroom->getLevels();
+    	      foreach ($levels as $level) {
+
+    	        $ppo->destinationAssignments[$destinationClassroom->id][$level->id_n] = array();
+    	        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
+    	        $ppo->classroomLevels[$level->id_n] = $level->niveau_court;
+    	      }
+          }
+        } 
+      }
+    }
+    // Construction du tableau des affectations de destination pour l'affichage (Enseignants)
+    else {
+
+      if (isset($ppo->filters['destinationClassroom'])) {
+
+        $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
+        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
+      }
+      else {
+        
+        if (isset ($ppo->filters['destinationLevel'])) {
+          $destinationClassrooms = $classroomDAO->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
+        }
+        else {
+          $destinationClassrooms = $classroomDAO->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
+        }
+
+        foreach ($destinationClassrooms as $destinationClassroom) {
+
+          $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
+          $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
+        }
+      }
+    }
 	  
 	  // Ajout des affectations au tableau des affectations de destination destiné à l'affichage
 	  foreach ($destinationAssignments as $destinationAssignment) {
@@ -154,6 +167,6 @@ class ZoneManageAssignments extends CopixZone {
 	    $ppo->classroomLevels[$destinationAssignment->id_niveau] = $destinationAssignment->nom_niveau;
 	  }
 	  
-    $toReturn = $this->_usePPO ($ppo, '_manage_assignments.tpl');
+    $toReturn = $this->_usePPO ($ppo, '_change_classroom.tpl');
   }
 }
