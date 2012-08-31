@@ -5714,8 +5714,12 @@ class ActionGroupDefault extends enicActionGroup {
       
       return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
     }
+    if (is_null ($type = _request ('type', null))) {
+      
+      return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+    }
     
-    $state = _sessionGet ('gestionautonome|change_classroom_state');
+    $state = _sessionGet ('gestionautonome|change_classroom_state_'.$type);
     
     if (isset ($state[$id])) {
       
@@ -5726,7 +5730,7 @@ class ActionGroupDefault extends enicActionGroup {
       $state[$id] = 1;
     }
 
-    _sessionSet ('gestionautonome|change_classroom_state', $state);
+    _sessionSet ('gestionautonome|change_classroom_state_'.$type, $state);
     
     return _arNone ();
   }

@@ -169,7 +169,8 @@ class ZoneChangeClassroom extends CopixZone {
 	    $ppo->classroomLevels[$destinationAssignment->id_niveau] = $destinationAssignment->nom_niveau;
 	  }
 	  
-	  $ppo->openedClassrooms = _sessionGet ('gestionautonome|change_classroom_state');
+	  $ppo->openedClassroomsOrigine = _sessionGet ('gestionautonome|change_classroom_state_origine');
+	  $ppo->openedClassroomsDestination = _sessionGet ('gestionautonome|change_classroom_state_destination');
 	  
     $toReturn = $this->_usePPO ($ppo, '_change_classroom.tpl');
   }
