@@ -154,6 +154,8 @@ class ZoneManageAssignments extends CopixZone {
 	    $ppo->classroomLevels[$destinationAssignment->id_niveau] = $destinationAssignment->nom_niveau;
 	  }
 	  
+	  $ppo->openedClassrooms = _sessionGet ('gestionautonome|manage_assignment_classroom_state');
+	  
     $toReturn = $this->_usePPO ($ppo, '_manage_assignments.tpl');
   }
 }
