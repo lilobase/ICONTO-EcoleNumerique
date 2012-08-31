@@ -1,8 +1,8 @@
 <div id="persons-to-assign">
   {if count($ppo->originAssignments) > 0}
   <ul>
-    {foreach from=$ppo->originAssignments item=assignments key=classroomId}
-      {foreach from=$assignments item=persons key=levelId}
+    {foreach from=$ppo->originAssignments item=assignments key=levelId}
+      {foreach from=$assignments item=persons key=classroomId}
         <li class="classroom" data-classroom-id={$classroomId}{if $levelId} data-classroom-level={$levelId}{/if}>
         {if $levelId}
           {assign var='classroomKey' value=$classroomId|cat:'-'|cat:$levelId}
@@ -38,8 +38,8 @@
 
 <div id="assigned-persons">
   <ul>
-  {foreach from=$ppo->destinationAssignments item=assignments key=classroomId}
-    {foreach from=$assignments item=persons key=levelId}
+  {foreach from=$ppo->destinationAssignments item=assignments key=levelId}
+    {foreach from=$assignments item=persons key=classroomId}
       <li class="classroom" data-classroom-id={$classroomId}{if $levelId} data-classroom-level={$levelId}{/if}>
       {if $levelId}
         {assign var='classroomKey' value=$classroomId|cat:'-'|cat:$levelId}
@@ -141,25 +141,36 @@
       drop: function (event, ui) {
         
         var item = jQuery(ui.draggable);
+        var target = jQuery(event.target);
         
         if (item.is('li')) {
           
-          var target = jQuery(event.target);
-
-          reassignePerson(item, target, true);
-          target.find('h3 a').toggle('click');
+          if (item.parents('.classroom:first').data('classroom-id') != target.data('classroom-id') 
+            || item.parents('.classroom:first').data('classroom-level') != target.data('classroom-level')) {
+            
+            jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').appendTo(target.find('h3 a')); 
+            
+            reassignePerson(item, target, true);
+            target.find('h3 a').toggle('click');
+          }
         }
         else {
           
-          var target = jQuery(event.target);
-          var allLi = item.next('.class-box').find('li');
-          
+          var allLi = item.next('.class-box').find('li');          
           jQuery.each(allLi, function(index) {
             
             var item = jQuery(this);
-            var reload = index == (allLi.length - 1);
             
-            reassignePerson(item, target, reload);
+            if (item.parents('.classroom:first').data('classroom-id') != target.data('classroom-id') 
+              || item.parents('.classroom:first').data('classroom-level') != target.data('classroom-level')) {
+                
+                if (target.find('.load-img').size() == 0) {
+                  jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').appendTo(target.find('h3 a'));
+                }
+                
+                var reload = index == (allLi.length - 1);
+                reassignePerson(item, target, reload);
+            }
           });
         }
       }
@@ -195,14 +206,20 @@
           location.reload();
         }
       });
-        e.stopPropagation();
-        return false;
+      
+      e.stopPropagation();
+      return false;
     });
     
     function reassignePerson(item, target, reload) {
       
       if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
-
+        
+        if (target.find('h3 a').hasClass('classroomClosed')) {
+          
+          target.find('h3 a').trigger('click');
+        }
+        
         var classroomId    = target.data('classroom-id');
         var classroomLevel = target.data('classroom-level');
         var userId         = item.data('user-id');
@@ -216,9 +233,10 @@
           success: function() {
             
             if (reload) {
-              
               location.reload();
             }
+            
+            jQuery('img.load-img').remove();
           }
         });
       }

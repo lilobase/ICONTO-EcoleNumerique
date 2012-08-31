@@ -14,8 +14,9 @@ class ZoneManageAssignments extends CopixZone {
 	  $nodeId  = $this->getParam ('nodeId');
 	  $ppo->filters = _sessionGet ('gestionautonome|manage_assignments_filters_'.$nodeId);
 	  
-	  $originAssignments = array();
+	  $originAssignments      = array();
 	  $destinationAssignments = array();
+	  $withoutAssignments     = array();
 	  
 	  if ($ppo->filters['originUserType'] == 'USER_ELE') {
 	    
@@ -50,15 +51,20 @@ class ZoneManageAssignments extends CopixZone {
 	    
 	    if ($originAssignment->nom_classe && $originAssignment->is_affect) {
 	      
-	      $ppo->originAssignments[$originAssignment->id_classe][$originAssignment->id_niveau][] = $originAssignment;
+	      $ppo->originAssignments[$originAssignment->id_niveau][$originAssignment->id_classe][] = $originAssignment;
 	      $ppo->classrooms[$originAssignment->id_classe] = $originAssignment->nom_classe;
 	      $ppo->classroomLevels[$originAssignment->id_niveau] = $originAssignment->nom_niveau;
 	    }
 	    else {
 	      
 	      $ppo->classrooms[0] = 'Sans affectation';
-	      $ppo->originAssignments[0][''][] = $originAssignment;
+	      $withoutAssignments[] = $originAssignment;
 	    }
+	  }
+	  
+	  foreach($withoutAssignments as $withoutAssignment) {
+	    
+	    $ppo->originAssignments[''][0][] = $withoutAssignment;
 	  }
 	  
 	  // Construction du tableau des affectations de destination pour l'affichage
@@ -74,7 +80,7 @@ class ZoneManageAssignments extends CopixZone {
             
             $classroomLevel = _ioDAO('kernel|kernel_bu_classe_niveau')->get ($ppo->filters['destinationLevel']);
 
-            $ppo->destinationAssignments[$destinationClassroom->id][$ppo->filters['destinationLevel']] = array();
+            $ppo->destinationAssignments[$ppo->filters['destinationLevel']][$destinationClassroom->id] = array();
   	        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
   	        $ppo->classroomLevels[$ppo->filters['destinationLevel']] = $classroomLevel->niveau_court;
           }
@@ -88,7 +94,7 @@ class ZoneManageAssignments extends CopixZone {
             $levels = $destinationClassroom->getLevels();
     	      foreach ($levels as $level) {
 
-    	        $ppo->destinationAssignments[$destinationClassroom->id][$level->id_n] = array();
+    	        $ppo->destinationAssignments[$level->id_n][$destinationClassroom->id] = array();
     	        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
     	        $ppo->classroomLevels[$level->id_n] = $level->niveau_court;
     	      }
@@ -108,7 +114,7 @@ class ZoneManageAssignments extends CopixZone {
         
         foreach ($destinationClassrooms as $destinationClassroom) {
           
-          $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
+          $ppo->destinationAssignments[''][$destinationClassroom->id] = array();
   	      $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
         }
 	    }
@@ -124,7 +130,7 @@ class ZoneManageAssignments extends CopixZone {
           
           $classroomLevel = _ioDAO('kernel|kernel_bu_classe_niveau')->get ($ppo->filters['destinationLevel']);
           
-          $ppo->destinationAssignments[$destinationClassroom->id][$classroomLevel->id_n] = array();
+          $ppo->destinationAssignments[$classroomLevel->id_n][$destinationClassroom->id] = array();
           $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
           $ppo->classroomLevels[$classroomLevel->id_n] = $classroomLevel->niveau_court;
         }
@@ -133,7 +139,7 @@ class ZoneManageAssignments extends CopixZone {
           $levels = $destinationClassroom->getLevels();
           foreach ($levels as $level) {
 
-            $ppo->destinationAssignments[$destinationClassroom->id][$level->id_n] = array();
+            $ppo->destinationAssignments[$level->id_n][$destinationClassroom->id] = array();
             $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
             $ppo->classroomLevels[$level->id_n] = $level->niveau_court;
           }
@@ -141,7 +147,7 @@ class ZoneManageAssignments extends CopixZone {
       }
 	    else {
 	      
-	      $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
+	      $ppo->destinationAssignments[''][$destinationClassroom->id] = array();
 	      $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
 	    }
 	  }
@@ -149,7 +155,7 @@ class ZoneManageAssignments extends CopixZone {
 	  // Ajout des affectations au tableau des affectations de destination destiné à l'affichage
 	  foreach ($destinationAssignments as $destinationAssignment) {
 	    
-	    $ppo->destinationAssignments[$destinationAssignment->id_classe][$destinationAssignment->id_niveau][] = $destinationAssignment;
+	    $ppo->destinationAssignments[$destinationAssignment->id_niveau][$destinationAssignment->id_classe][] = $destinationAssignment;
 	    $ppo->classrooms[$destinationAssignment->id_classe] = $destinationAssignment->nom_classe;
 	    $ppo->classroomLevels[$destinationAssignment->id_niveau] = $destinationAssignment->nom_niveau;
 	  }
