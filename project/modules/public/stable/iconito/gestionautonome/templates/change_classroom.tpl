@@ -84,7 +84,7 @@
   {copixzone process=gestionautonome|changeClassroom nodeId=$ppo->nodeId}
 </div>
 
-<a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
+<a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">{i18n key="gestionautonome|gestionautonome.message.back}</a>
 
 {literal}
 <script type="text/javascript">

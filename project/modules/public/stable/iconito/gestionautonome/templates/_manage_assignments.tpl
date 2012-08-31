@@ -236,10 +236,12 @@
             if (reload) {
               location.reload();
             }
-            
-            jQuery('img.load-img').remove();
           }
         });
+      }
+      else {
+        
+        jQuery('img.load-img').remove();
       }
     };
   });
