@@ -14,7 +14,7 @@
           <option value="{$grade->id_as}"{if $ppo->filters.originGrade == $grade->id_as} selected="selected"{/if}>{$grade->anneeScolaire}</option>
         {/foreach}
       </select>
-      <input type="submit" value="Rafaîchir" />
+      <input type="submit" value="{i18n key="gestionautonome|gestionautonome.message.back"}" />
     </div>
     
     {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector}
@@ -68,7 +68,7 @@
           {/if}
         {/foreach}
       </select>
-      <input type="submit" value="Rafaîchir" />
+      <input type="submit" value="{i18n key="gestionautonome|gestionautonome.message.refresh"}" />
     </div>
     {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector}
       <div class="field" id="destination-citygroup">
@@ -100,7 +100,7 @@
   {copixzone process=gestionautonome|manageAssignments nodeId=$ppo->nodeId}
 </div>
 
-<a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">Retour</a>
+<a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">{i18n key="gestionautonome|gestionautonome.message.back}</a>
 
 {literal}
 <script type="text/javascript">
