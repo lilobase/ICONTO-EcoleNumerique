@@ -1,15 +1,15 @@
 <div id="persons-to-assign">
   {if count($ppo->originAssignments) > 0}
   <ul>
-    {foreach from=$ppo->originAssignments item=assignments key=classroomId}
-      {foreach from=$assignments item=persons key=levelId}
+    {foreach from=$ppo->originAssignments item=assignments key=levelId}
+      {foreach from=$assignments item=persons key=classroomId}
         <li class="classroom" data-classroom-id={$classroomId}{if $levelId} data-classroom-level={$levelId}{/if}>
         {if $levelId}
           {assign var='classroomKey' value=$classroomId|cat:'-'|cat:$levelId}
         {else}
           {assign var='classroomKey' value=$classroomId}
         {/if}
-        <h3><a href="#" class="{if !isset($ppo->openedClassroomsOrigine.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
+        <h3><a href="#" class="{if !isset($ppo->openedClassrooms.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
         <div class="class-box" data-classroom-id={$classroomId}>
           {if count($persons) > 0}
             <ul>
@@ -38,15 +38,15 @@
 
 <div id="assigned-persons">
   <ul>
-  {foreach from=$ppo->destinationAssignments item=assignments key=classroomId}
-    {foreach from=$assignments item=persons key=levelId}
+  {foreach from=$ppo->destinationAssignments item=assignments key=levelId}
+    {foreach from=$assignments item=persons key=classroomId}
       <li class="classroom" data-classroom-id={$classroomId}{if $levelId} data-classroom-level={$levelId}{/if}>
       {if $levelId}
         {assign var='classroomKey' value=$classroomId|cat:'-'|cat:$levelId}
       {else}
         {assign var='classroomKey' value=$classroomId}
       {/if}
-      <h3><a href="#" class="{if !isset($ppo->openedClassroomsDestination.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
+      <h3><a href="#" class="{if !isset($ppo->openedClassrooms.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
       <div class="class-box">
         {if count($persons) > 0}
           <ul>
@@ -140,24 +140,36 @@
       drop: function (event, ui) {
         
         var item = jQuery(ui.draggable);
+        var target = jQuery(event.target);
         
         if (item.is('li')) {
           
-          var target = jQuery(event.target);
-
-          reassignePerson(item, target, true);
+          if (item.parents('.classroom:first').data('classroom-id') != target.data('classroom-id') 
+            || item.parents('.classroom:first').data('classroom-level') != target.data('classroom-level')) {
+            
+            jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').appendTo(target.find('h3 a')); 
+            
+            reassignePerson(item, target, true);
+            target.find('h3 a').toggle('click');
+          }
         }
         else {
           
-          var target = jQuery(event.target);
-          var allLi = item.next('.class-box').find('li');
-          
+          var allLi = item.next('.class-box').find('li');          
           jQuery.each(allLi, function(index) {
             
             var item = jQuery(this);
-            var reload = index == (allLi.length - 1);
             
-            reassignePerson(item, target, reload);
+            if (item.parents('.classroom:first').data('classroom-id') != target.data('classroom-id') 
+              || item.parents('.classroom:first').data('classroom-level') != target.data('classroom-level')) {
+                
+                if (target.find('.load-img').size() == 0) {
+                  jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').appendTo(target.find('h3 a'));
+                }
+                
+                var reload = index == (allLi.length - 1);
+                reassignePerson(item, target, reload);
+            }
           });
         }
       }
@@ -183,6 +195,9 @@
       var userType      = item.parent('li').data('user-type');
       var grade         = jQuery('#destination select[name="destination_grade"]').val();
       
+      // Ajout d'un loader ajax
+      jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').appendTo(item.parents('.classroom:first').find('h3 a'));
+      
       jQuery.ajax({
         url: {/literal}"{copixurl dest=gestionautonome|default|removeAssignment}"{literal},
         global: true,
@@ -200,7 +215,12 @@
     function reassignePerson(item, target, reload) {
       
       if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
-
+        
+        if (target.find('h3 a').hasClass('classroomClosed')) {
+          
+          target.find('h3 a').trigger('click');
+        }
+        
         var classroomId    = target.data('classroom-id');
         var classroomLevel = target.data('classroom-level');
         var userId         = item.data('user-id');
@@ -213,7 +233,11 @@
           data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType },
           success: function() {
             
-            location.reload();
+            if (reload) {
+              location.reload();
+            }
+            
+            jQuery('img.load-img').remove();
           }
         });
       }
