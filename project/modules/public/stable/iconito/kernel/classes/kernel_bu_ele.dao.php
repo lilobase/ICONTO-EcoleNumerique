@@ -195,7 +195,7 @@ class DAOKernel_bu_ele {
 	  }
     
     $sql .= ' GROUP BY E.idEleve';    
-    $sql .= ' ORDER BY E.nom, E.prenom1';
+    $sql .= ' ORDER BY CN.id_cycle, CN.niveau_court, E.nom, E.prenom1';
     
     return _doQuery($sql);
   }
@@ -372,7 +372,7 @@ class DAOKernel_bu_ele {
 	  }
     
     $sql .= ' GROUP BY E.idEleve'
-      . ' ORDER BY E.nom, E.prenom1';
+      . ' ORDER BY CN.id_cycle, CN.niveau_court, E.nom, E.prenom1';
     
     return _doQuery($sql);
   }
@@ -429,7 +429,7 @@ class DAOKernel_bu_ele {
 	  }
     
     $sql .= ' GROUP BY E.idEleve'
-      . ' ORDER BY E.nom, E.prenom1';
+      . ' ORDER BY CN.id_cycle, CN.niveau_court, E.nom, E.prenom1';
 
     return _doQuery($sql);
 	}

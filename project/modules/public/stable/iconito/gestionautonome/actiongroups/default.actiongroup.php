@@ -5478,6 +5478,8 @@ class ActionGroupDefault extends enicActionGroup {
       'destinationLevel'      => _request ('destination_level', null),
     ));
     
+    _sessionSet ('gestionautonome|manage_assignment_classroom_state', null);
+    
     return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixZone::process ('gestionautonome|manageAssignments', array('nodeId' => $nodeId)));
   }
   
@@ -5574,6 +5576,8 @@ class ActionGroupDefault extends enicActionGroup {
       'destinationClassroom'  => _request ('destination_classroom', null),
       'destinationLevel'      => _request ('destination_level', null),
     ));
+    
+    _sessionSet ('gestionautonome|change_classroom_state', null);
     
     return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/html; charset=utf-8', 'HTTP/1.1 200 OK'), CopixZone::process ('gestionautonome|changeClassroom', array('nodeId' => $nodeId)));
   }
@@ -5685,6 +5689,58 @@ class ActionGroupDefault extends enicActionGroup {
 	    GestionAutonomeService::removePersonnelAssignment ($userId, $classroomId, 'CLASSE');
 	  }
 	  
+    return _arNone ();
+  }
+  
+  /**
+   * AJAX ONLY ! - Met à jour l'état d'ouverture des classes sur l'écran de gestion des affectations (ouvert / fermé)
+   */
+  public function processChangeManageAssignmentClassroomState () {
+    
+    if (is_null ($id = _request ('id', null))) {
+      
+      return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+    }
+    
+    $state = _sessionGet ('gestionautonome|manage_assignment_classroom_state');
+    
+    if (isset ($state[$id])) {
+      
+      unset ($state[$id]);
+    }
+    else {
+      
+      $state[$id] = 1;
+    }
+
+    _sessionSet ('gestionautonome|manage_assignment_classroom_state', $state);
+    
+    return _arNone ();
+  }
+  
+  /**
+   * AJAX ONLY ! - Met à jour l'état d'ouverture des classes sur l'écran de changement de classe (ouvert / fermé)
+   */
+  public function processChangeClassroomState () {
+    
+    if (is_null ($id = _request ('id', null))) {
+      
+      return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 404 Not found'), 'Une erreur est survenue');
+    }
+    
+    $state = _sessionGet ('gestionautonome|change_classroom_state');
+    
+    if (isset ($state[$id])) {
+      
+      unset ($state[$id]);
+    }
+    else {
+      
+      $state[$id] = 1;
+    }
+
+    _sessionSet ('gestionautonome|change_classroom_state', $state);
+    
     return _arNone ();
   }
 }

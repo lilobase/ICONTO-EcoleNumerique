@@ -138,9 +138,11 @@ class ZoneChangeClassroom extends CopixZone {
     else {
 
       if (isset($ppo->filters['destinationClassroom'])) {
-
-        $ppo->destinationAssignments[$destinationClassroom->id][''] = array();
-        $ppo->classrooms[$destinationClassroom->id] = $destinationClassroom->nom;
+        
+        $destinationClassroom = _ioDAO('kernel|kernel_bu_ecole_classe')->get ($ppo->filters['destinationClassroom']);
+        
+        $ppo->destinationAssignments[$ppo->filters['destinationClassroom']][''] = array();
+        $ppo->classrooms[$ppo->filters['destinationClassroom']] = $destinationClassroom->nom;
       }
       else {
         
@@ -166,6 +168,8 @@ class ZoneChangeClassroom extends CopixZone {
 	    $ppo->classrooms[$destinationAssignment->id_classe] = $destinationAssignment->nom_classe;
 	    $ppo->classroomLevels[$destinationAssignment->id_niveau] = $destinationAssignment->nom_niveau;
 	  }
+	  
+	  $ppo->openedClassrooms = _sessionGet ('gestionautonome|change_classroom_state');
 	  
     $toReturn = $this->_usePPO ($ppo, '_change_classroom.tpl');
   }
