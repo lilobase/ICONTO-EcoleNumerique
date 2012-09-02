@@ -88,7 +88,7 @@ class DAOKernel_bu_ele {
 	 */
 	function getElevesInVille ($ville) {
 		$query = "SELECT E.idEleve AS id, E.nom, E.prenom1 as prenom, S.sexe, E.date_nais AS date_naissance, EC.nom AS nom_classe, U.login_dbuser AS login, LI.bu_type, LI.bu_id, CN.niveau_court FROM kernel_bu_eleve_affectation EA, kernel_bu_eleve E, kernel_bu_sexe S, kernel_bu_ecole_classe EC, kernel_bu_classe_niveau CN, kernel_bu_ecole ECO, kernel_link_bu2user LI, dbuser U WHERE EC.id=EA.classe AND EA.eleve=E.idEleve AND EA.niveau=CN.id_n AND E.id_sexe=S.id_s AND EC.ecole=ECO.numero AND LI.user_id=U.id_dbuser AND LI.bu_type='USER_ELE' AND LI.bu_id=E.idEleve AND EA.current=1 AND ECO.id_ville=".$ville." ORDER BY nom, prenom1";
-		//print_r($query);
+
 		return _doQuery($query);
 	}
 	
@@ -110,96 +110,6 @@ class DAOKernel_bu_ele {
 		return _doQuery($query);
 	}
 	
-	/**
-	 * Retourne les élèves non affectés l'année A1 mais affecté l'année A2 (25/06/2012 - plus utilisé)
-	 *
-	 * @param int $classroomId  ID de la classe
-	 * @param int $a1           ID de l'année de l'ancienne affectation
-	 * @param int $a2           ID de l'année de la nouvelle affectation
-	 *
-	 * @return array
-	 */
-	function findOldStudentsAssignmentsForNewAssignement ($classroomId, $a1, $a2) {
-	
-	  $sql = 'SELECT eleve.idEleve AS id, eleve.nom AS nom, eleve.prenom1 AS prenom, niveau.niveau_court AS niveau, niveau.id_n AS niveauId '
-	    .'FROM kernel_bu_eleve AS eleve '
-	    .'JOIN kernel_bu_eleve_affectation AS affectation ON (eleve.idEleve=affectation.eleve) '
-	    .'JOIN kernel_bu_classe_niveau AS niveau ON (niveau.id_n=affectation.niveau) '
-	    .'LEFT JOIN kernel_bu_eleve_affectation AS affectation2 ON (eleve.idEleve=affectation2.eleve AND affectation2.annee_scol=:a2 AND affectation2.current=1) '
-	    .'WHERE affectation.classe=:classroomId '
-	    .'AND affectation.annee_scol=:a1 '
-	    .'AND affectation2.id IS NULL '
-	    .'GROUP BY eleve.idEleve '
-	    .'ORDER BY eleve.nom, eleve.prenom1';
-    
-	  return _doQuery($sql, array(':classroomId' => $classroomId, ':a1' => $a1, ':a2' => $a2));
-	}
-	
-	/**
-	 * Retourne les élèves avec et sans affectation pour une année donnée
-	 *
-	 * @param array   $filters  Filtres de récupération des élèves
-	 * @param string  $grade    Année scolaire
-	 *
-	 * @return array
-	 */
-	function findStudentsForAssignment ($filters = array (), $grade) {
-    
-    $sql = 'SELECT E.idEleve as user_id, "USER_ELE" as user_type, E.nom, E.prenom1 as prenom, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, SUM(EA.current) AS is_affect, EA.*
-      FROM kernel_bu_eleve E
-      JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve) 
-      JOIN dbuser U ON (U.id_dbuser=LI.user_id)
-      JOIN kernel_bu_eleve_admission EAD ON (EAD.eleve=E.idEleve)
-      JOIN kernel_bu_ecole ECO ON (ECO.numero=EAD.etablissement)
-      JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville)
-      JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville)
-      JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)
-      JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id AND EA.annee_scol = '.$grade.')
-      JOIN kernel_bu_classe_niveau CN ON (EA.niveau=CN.id_n)
-      WHERE LI.bu_type="USER_ELE"
-      AND EA.current = (SELECT MAX(EA2.current) FROM kernel_bu_eleve_affectation EA2 WHERE EA2.eleve=E.idEleve AND EA2.annee_scol = '.$grade.')';
-
-    if (isset ($filters['grade'])) {
-      
-      $sql .= ' AND EC.annee_scol='.$filters['grade'];
-    }
-    
-    if (isset ($filters['level'])) {
-	    
-	    $sql .= ' AND EA.niveau='.$filters['level'];
-	  }
-	  if (isset ($filters['classroom'])) {
-    
-      $sql .= ' AND EC.id='.$filters['classroom'];
-    }
-    if (isset ($filters['school'])) {
-      
-      $sql .= ' AND ECO.numero='.$filters['school'];
-    }
-    if (isset ($filters['city'])) {
-      
-      $sql .= ' AND V.id_vi='.$filters['city'];
-    }
-    if (isset ($filters['cityGroup'])) {
-      
-      $sql .= ' AND GV.id_grv='.$filters['cityGroup'];
-    }
-    
-    if (isset ($filters['lastname'])) {
-	    
-	    $sql .= ' AND E.nom LIKE \'' . $filters['lastname'] . '%\''; 
-	  }
-	  if (isset ($filters['firstname'])) {
-	    
-	    $sql .= ' AND E.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
-	  }
-    
-    $sql .= ' GROUP BY E.idEleve';    
-    $sql .= ' ORDER BY CN.id_n, EC.nom, E.nom, E.prenom1';
-    
-    return _doQuery($sql);
-  }
-  
   /**
 	 * Retourne les élèves d'une classe donnée
 	 *
@@ -304,6 +214,85 @@ class DAOKernel_bu_ele {
   }
   
   /**
+	 * Retourne les élèves avec ou sans affectation pour une année donnée
+	 *
+	 * @param array $filters  Filtres de récupération des élèves
+	 *
+	 * @return array
+	 */
+	function findStudentsForAssignment ($grade, $filters = array ()) {
+ 
+    // Récupération des identifiants correspondants aux dernières affectations des élèves
+    $groupSql = 'SELECT MAX(EA.id) '
+      // Récupération des élèves
+      .'FROM kernel_bu_eleve E ' 
+      // qui ont leur dernière affectation pour l'année demandée
+      .'JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.annee_scol = '.$grade.') '
+      // pour un niveau donné
+      .'JOIN kernel_bu_classe_niveau CN ON (CN.id_n=EA.niveau) '
+      // dans une classe
+      .'JOIN kernel_bu_ecole_classe EC ON (EC.id=EA.classe) '
+      // dans une école
+      .'JOIN kernel_bu_ecole ECO ON (ECO.numero=EC.ecole) '
+      // dans une ville
+      .'JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville) '
+      // dans un groupe de ville
+      .'JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville) '
+      . 'GROUP BY E.idEleve';
+
+    // Récupération des élèves qui ont leur dernière affectation qui correspond aux critères demandés
+    $sql = 'SELECT E.idEleve as id, E.nom as nom, E.prenom1 as prenom, LI.bu_type as user_type, LI.bu_id as user_id, EC.id as id_classe, EC.nom as nom_classe, '
+      .'CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, ECO.numero as id_ecole, ECO.nom as nom_ecole, '
+      .'V.id_vi as id_ville, V.nom as nom_ville, GV.id_grv as id_groupevilles, GV.nom_groupe as nom_groupevilles, EA.* '
+      .'FROM kernel_bu_eleve E, kernel_link_bu2user LI, dbuser U, kernel_bu_eleve_affectation EA, kernel_bu_classe_niveau CN, ' 
+      .'kernel_bu_ecole_classe EC, kernel_bu_ecole ECO, kernel_bu_ville V, kernel_bu_groupe_villes GV '
+      .'WHERE LI.bu_id=E.idEleve '
+      .'AND LI.bu_type="USER_ELE" '
+      .'AND U.id_dbuser=LI.user_id '
+      .'AND EA.eleve=E.idEleve '
+      .'AND EA.niveau=CN.id_n '
+      .'AND EC.id=EA.classe '
+      .'AND ECO.numero=EC.ecole '
+      .'AND V.id_vi=ECO.id_ville '
+      .'AND GV.id_grv=V.id_grville '
+      .'AND EA.id IN ('.$groupSql.') ';
+      
+    if (isset ($filters['level']) && !is_null ($filters['level'])) {
+    
+      $sql .= ' AND EA.niveau='.$filters['level'];
+    }
+    if (isset ($filters['classroom']) && !is_null ($filters['classroom'])) {
+    
+      $sql .= ' AND EC.id='.$filters['classroom'];
+    }
+    if (isset ($filters['school']) && !is_null ($filters['school'])) {
+    
+      $sql .= ' AND ECO.numero='.$filters['school'];
+    }
+    if (isset ($filters['city']) && !is_null ($filters['city'])) {
+    
+      $sql .= ' AND V.id_vi='.$filters['city'];
+    }
+    if (isset ($filters['cityGroup']) && !is_null ($filters['cityGroup'])) {
+    
+      $sql .= ' AND GV.id_grv='.$filters['cityGroup'];
+    }
+    if (isset ($filters['lastname']) && !is_null ($filters['lastname'])) {
+    
+      $sql .= ' AND E.nom LIKE \'' . $filters['lastname'] . '%\''; 
+    }
+    if (isset ($filters['firstname']) && !is_null ($filters['firstname'])) {
+    
+      $sql .= ' AND E.prenom1 LIKE \'' . $filters['firstname'] . '%\''; 
+    }
+      
+    $sql .= ' ORDER BY CN.id_n, EC.nom, E.nom, E.prenom1';
+
+    echo $sql;
+    return _doQuery($sql);
+  }
+  
+  /**
 	 * Retourne les élèves à assigner (manageAssignments)
 	 *                                             
 	 * @param array   $filters   Filtres de récupération des élèves
@@ -311,6 +300,8 @@ class DAOKernel_bu_ele {
 	 * return CopixDAORecordIterator
 	 */
   public function findForManageAssignments ($filters = array ()) {
+    
+    die('TODO refacto');
     
     $sql = 'SELECT E.idEleve as user_id, "USER_ELE" as user_type, E.nom, E.prenom1 as prenom, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, SUM(EA.current) AS is_affect'
       . ' FROM kernel_bu_eleve E'
@@ -378,14 +369,14 @@ class DAOKernel_bu_ele {
   }
   
   /**
-	 * Retourne les élèves assignés (manageAssignments)
-	 *                                             
-	 * @param array   $filters   Filtres de récupération des élèves
+	 * Retourne les élèves assignés
+	 *                       
+	 * @param array $filters Filtres de récupération des élèves
 	 *
-	 * return CopixDAORecordIterator
+	 * @return CopixDAORecordIterator
 	 */
   function findAssigned ($filters = array ()) {
-	  
+
 	  $sql = 'SELECT E.idEleve as user_id, "USER_ELE" as user_type, E.nom, E.prenom1 as prenom, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, SUM(EA.current) AS is_affect'
       . ' FROM kernel_bu_eleve E'
       . ' JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve)'
@@ -396,19 +387,16 @@ class DAOKernel_bu_ele {
       . ' JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville)'
       . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)'
       . ' JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id AND EA.current=1)'
-      . ' JOIN kernel_bu_classe_niveau CN ON (EA.niveau=CN.id_n)';
-      
-    $sql .= ' WHERE LI.bu_type="USER_ELE"';
+      . ' JOIN kernel_bu_classe_niveau CN ON (EA.niveau=CN.id_n)'
+      . ' WHERE LI.bu_type="USER_ELE"';
     
     if (isset ($filters['grade'])) {
       
       $sql .= ' AND EA.annee_scol='.$filters['grade'];
     }
-    
 	  if (isset ($filters['classroom'])) {
     
       $sql .= ' AND EC.id='.$filters['classroom'];
-      $sql .= ' AND EA.current = 1';
     }
     elseif (isset ($filters['school'])) {
       
@@ -422,14 +410,12 @@ class DAOKernel_bu_ele {
       
       $sql .= ' AND GV.id_grv='.$filters['cityGroup'];
     }
-    
     if (isset ($filters['level'])) {
 	    
 	    $sql .= ' AND EA.niveau='.$filters['level'];
 	  }
     
-    $sql .= ' GROUP BY E.idEleve'
-      . ' ORDER BY CN.id_n, EC.nom, E.nom, E.prenom1';
+    $sql .= ' GROUP BY E.idEleve ORDER BY CN.id_n, EC.nom, E.nom, E.prenom1';
 
     return _doQuery($sql);
 	}

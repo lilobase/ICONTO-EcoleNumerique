@@ -9,7 +9,7 @@
         {else}
           {assign var='classroomKey' value=$classroomId}
         {/if}
-        <h3><a href="#" class="{if !isset($ppo->openedClassroomsOrigine.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
+        <h3><a href="#" class="{if !isset($ppo->openedClassrooms.origine.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
         <div class="class-box" data-classroom-id={$classroomId}>
           {if count($persons) > 0}
             <ul>
@@ -46,7 +46,7 @@
       {else}
         {assign var='classroomKey' value=$classroomId}
       {/if}
-      <h3><a href="#" class="{if !isset($ppo->openedClassroomsDestination.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
+      <h3><a href="#" class="{if !isset($ppo->openedClassrooms.destination.$classroomKey)}classroomClosed{else}classroomOpen{/if}">{$ppo->classrooms.$classroomId} {if $levelId}({$ppo->classroomLevels.$levelId}){/if} - {$persons|@count} {if $ppo->filters.originUserType eq "USER_ELE"}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{else}{if $persons|@count > 1}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}{else}{customi18n key="gestionautonome|gestionautonome.message.%%structure_element_staff_person%%" catalog=$ppo->vocabularyCatalog->id_vc}{/if}{/if}</a></h3>
       <div class="class-box">
         {if count($persons) > 0}
           <ul>
@@ -54,9 +54,9 @@
               <li data-user-id={$person->user_id} data-user-type={$person->user_type}>
                 {$person->nom} {$person->prenom}
                 {if $ppo->filters.originUserType eq "USER_ELE"}
-                  <a href=""  class="remove-person"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" /></a>
+                  <a href="" class="remove-person"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" /></a>
                 {else}
-                  <a href=""  class="remove-person"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_staff_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" /></a>
+                  <a href="" class="remove-person"><img src="{copixurl}themes/default/images/icon-16/action-exit.png" title="{customi18n key="gestionautonome|gestionautonome.message.remove%%definite__structure_element_staff_person%%to%%definite__structure_element%%" catalog=$ppo->vocabularyCatalog->id_vc}" /></a>
                 {/if}
               </li>
             {/foreach}
@@ -94,7 +94,7 @@
           var id = $(this).parent().parent().data('classroom-id');
         }
         jQuery.ajax({
-            url: {/literal}"{copixurl dest=gestionautonome|default|changeClassroomState}"{literal},
+            url: {/literal}"{copixurl dest=gestionautonome|default|changeManageAssignmentClassroomState}"{literal},
             global: true,
             type: "GET",
             data: { id: id, type: 'origine' }
@@ -119,7 +119,7 @@
           var id = $(this).parent().parent().data('classroom-id');
         }
         jQuery.ajax({
-            url: {/literal}"{copixurl dest=gestionautonome|default|changeClassroomState}"{literal},
+            url: {/literal}"{copixurl dest=gestionautonome|default|changeManageAssignmentClassroomState}"{literal},
             global: true,
             type: "GET",
             data: { id: id, type: 'destination' }
@@ -150,7 +150,7 @@
             
             jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').appendTo(target.find('h3 a')); 
             
-            reassignePerson(item, target, true);
+            reassignePerson(item, target);
             target.find('h3 a').toggle('click');
           }
         }
@@ -168,8 +168,7 @@
                   jQuery('<img class="load-img" src="{/literal}{copixresource path="img/ajax-loader-mini.gif"}{literal}" />').appendTo(target.find('h3 a'));
                 }
                 
-                var reload = index == (allLi.length - 1);
-                reassignePerson(item, target, reload);
+                reassignePerson(item, target);
             }
           });
         }
@@ -201,9 +200,9 @@
         global: true,
         type: "GET",
         data: { classroom_id: classroomId, user_id: userId, user_type: userType, grade: grade },
-        success: function(){
+        success: function(data){
           
-          location.reload();
+          jQuery('#assignments').html(data);
         }
       });
       
@@ -211,7 +210,7 @@
       return false;
     });
     
-    function reassignePerson(item, target, reload) {
+    function reassignePerson(item, target) {
       
       if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
         
@@ -230,13 +229,9 @@
           global: true,
           type: "GET",
           data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType, remove_old_assignment: 1 },
-          success: function() {
+          success: function(data) {
             
-            if (reload) {
-              location.reload();
-            }
-            
-            jQuery('img.load-img').remove();
+            jQuery('#assignments').html(data);
           }
         });
       }

@@ -11,8 +11,8 @@ class ZoneChangeClassroom extends CopixZone {
 	  $ppo = new CopixPPO ();                               
 	  
 	  // Récupération des paramètres
-	  $nodeId       = $this->getParam ('nodeId');
-	  $ppo->filters = _sessionGet ('gestionautonome|change_classroom_filters_'.$nodeId);
+	  $ppo->mode = $this->getParam ('mode');
+	  $ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
 	  
 	  $originAssignments      = array();
 	  $destinationAssignments = array();
@@ -26,10 +26,10 @@ class ZoneChangeClassroom extends CopixZone {
 	      'cityGroup' => $ppo->filters['originCityGroup'],
 	      'city'      => $ppo->filters['originCity'],
 	      'school'    => $ppo->filters['originSchool'],
-	      'classroom' => $ppo->filters['originClassroom'],
-	      'level'     => $ppo->filters['originLevel'],
-	      'firstname' => $ppo->filters['originFirstname'],
-	      'lastname'  => $ppo->filters['originLastname']
+	      'classroom' => isset ($ppo->filters['originClassroom']) ? $ppo->filters['originClassroom'] : null,
+	      'level'     => isset ($ppo->filters['originLevel']) ? $ppo->filters['originLevel'] : null,
+	      'lastname'  => isset ($ppo->filters['originLastname']) ? $ppo->filters['originLastname'] : null,
+	      'firstname' => isset ($ppo->filters['originFirstname']) ? $ppo->filters['originFirstname'] : null,
 	    );
 	    
 	    $destinationFilters = array (
@@ -37,24 +37,24 @@ class ZoneChangeClassroom extends CopixZone {
 	      'cityGroup' => $ppo->filters['destinationCityGroup'],
 	      'city'      => $ppo->filters['destinationCity'],
 	      'school'    => $ppo->filters['destinationSchool'],
-	      'classroom' => $ppo->filters['destinationClassroom'],
-	      'level'     => $ppo->filters['destinationLevel']
+	      'classroom' => isset ($ppo->filters['destinationClassroom']) ? $ppo->filters['destinationClassroom'] : null,
+	      'level'     => isset ($ppo->filters['destinationLevel']) ? $ppo->filters['destinationLevel'] : null,
 	    );
 	    
 	    // Récupération des élèves
 	    $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
-	    $originAssignments        = $studentDAO->findStudentsForAssignment ($originFilters, $ppo->filters['originGrade']);
-	    $destinationAssignments   = $studentDAO->findAssigned ($destinationFilters);
+	    $originAssignments      = $ppo->mode == 'changeClassroom' ? $studentDAO->findStudentsForAssignment ($originFilters, $ppo->filters['originGrade']) : $studentDAO->findForManageAssignments ($ppo->filters);
+	    $destinationAssignments = $studentDAO->findAssigned ($destinationFilters);
 	  }
 	  else {
 	    
 	    // Récupération des enseignants
   	  $personnelDAO = _ioDAO ('kernel|kernel_bu_personnel');
-  	  $originAssignments        = $personnelDAO->findTeachersForManageAssignments ($ppo->filters);
+  	  $originAssignments = $personnelDAO->findTeachersForManageAssignments ($ppo->filters);
   	  
   	  if (isset($ppo->filters['destinationSchool']) || isset($ppo->filters['destinationClassroom'])) {
   	    
-  	    $destinationAssignments   = $personnelDAO->findAssignedTeachers ($ppo->filters);
+  	    $destinationAssignments = $personnelDAO->findAssignedTeachers ($ppo->filters);
   	  }
 	  }
     
@@ -175,8 +175,7 @@ class ZoneChangeClassroom extends CopixZone {
 	    $ppo->classroomLevels[$destinationAssignment->id_niveau] = $destinationAssignment->nom_niveau;
 	  }
 	  
-	  $ppo->openedClassroomsOrigine = _sessionGet ('gestionautonome|change_classroom_state_origine');
-	  $ppo->openedClassroomsDestination = _sessionGet ('gestionautonome|change_classroom_state_destination');
+	  $ppo->openedClassrooms = _sessionGet ('gestionautonome|assignments_management_classroom_state');
 	  
     $toReturn = $this->_usePPO ($ppo, '_change_classroom.tpl');
   }

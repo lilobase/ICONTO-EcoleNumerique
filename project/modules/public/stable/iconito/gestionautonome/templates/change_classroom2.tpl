@@ -1,10 +1,16 @@
 {assign var="school" value=$ppo->nodeInfos.parent.ALL}
 
 <p class="breadcrumbs">{$ppo->breadcrumbs}</p>
-<h2>{i18n key="gestionautonome|gestionautonome.message.assignementchange}</h2>
+<h2>
+  {if $ppo->mode == 'changeClassroom'}
+    {i18n key="gestionautonome|gestionautonome.message.assignementchange}
+  {else}
+  {/if}
+</h2>
 
-<form action="{copixurl dest="gestionautonome||filterAndDisplayAssignmentsToChangeClassroom"}" method="post" id="filter-form">
-  <input type="hidden" name="node_id" value="{$ppo->nodeId}" />
+<form action="{copixurl dest="gestionautonome||filterAndDisplayAssignments"}" method="post" id="filter-form">
+  <input type="hidden" name="node_id" value="{$ppo->classroom->id}" />
+  <input type="hidden" name="mode" value="{$ppo->mode}" />
   <input type="hidden" name="origin_grade" value="{$ppo->filters.originGrade}" />
   <input type="hidden" name="destination_grade" value="{$ppo->filters.destinationGrade}" />
   
@@ -81,7 +87,7 @@
 </form>
 
 <div id="assignments">
-  {copixzone process=gestionautonome|changeClassroom nodeId=$ppo->nodeId}
+  {copixzone process=gestionautonome|manageAssignments mode=$ppo->mode}
 </div>
 
 <a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">{i18n key="gestionautonome|gestionautonome.message.back}</a>
@@ -107,7 +113,7 @@
       jQuery('#assignments').html('<p class="center">Chargement en cours...</p>');
       
  	    jQuery.ajax({
-        url: {/literal}"{copixurl dest=gestionautonome|default|filterAndDisplayAssignmentsToChangeClassroom}"{literal},
+        url: {/literal}"{copixurl dest=gestionautonome|default|filterAndDisplayAssignments}"{literal},
         global: true,
         type: "GET",
         data: jQuery('#filter-form').serialize(),
