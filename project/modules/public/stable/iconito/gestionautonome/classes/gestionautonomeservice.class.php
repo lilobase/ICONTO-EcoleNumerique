@@ -34,10 +34,11 @@ class GestionAutonomeService {
     
     // Récupération de l'affectation de l'élève à la classe pour passage du flag current à 0
     $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
-    $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id, 1);
-    $studentAssignment->affect_current = 0;
-    
-    $studentAssignmentDAO->update ($studentAssignment);
+    if ($studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id, 1)) {
+      
+      $studentAssignment->affect_current = 0;
+      $studentAssignmentDAO->update ($studentAssignment);
+    }
     
     // Si l'utilisateur n'a pas d'autres affectations dans cette école : passage du flag inscr_current à 0
     if (!$studentAssignmentDAO->countCurrentAffectInSchool ($studentId, $classroom->ecole) > 0) {
