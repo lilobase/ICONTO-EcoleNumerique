@@ -405,25 +405,12 @@ if(DEBUG) {
 					$alreadyOnRoot = false;
 					$dao = _dao("kernel|kernel_link_user2node");
 					$res = $dao->getByUser($type,$id);
-					foreach( $res AS $key=>$val ) {
-						if( preg_match("/^BU_(.+)$/", $val->node_type, $regs ) )
-						$return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$val->droit);
-						/*
-						 if( ereg( "^ROOT$", $val->node_type ) ){
-						 $return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
-						 $alreadyOnRoot = true;
-						 }
-						 */
+					foreach( $res AS $key=>$val ) {           
+                                            if( preg_match("/^BU_(.+)$/", $val->node_type, $regs ) ) {
+                                                $return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$val->droit);
+                                            }
 					}
-					// PNL - en dur, chef de Grandville (id1)
-					// en rÈalitÈ il faut balayer tout ce qui est attachÈ ‡ ce user EXT
-					// $return[]=array("type"=>"BU_VILLE", "id"=>1,"droit"=>99);
-
-					// Les USER_EXT sont attaches par defaut a ROOT/0 sans droits
-					// if(!$alreadyOnRoot) $return[]=array("type"=>"ROOT", "id"=>0,"droit"=>0);
-
 					break;
-
 				default:
 					break;
 			}

@@ -57,7 +57,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
-		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
+		    ! preg_match ("/^[0-9]+$/", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
@@ -65,7 +65,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$album_id = _request("album_id");
 		
-		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && preg_match("/^[0-9]+$/", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 		
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_READ ) {
@@ -389,7 +389,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		$album_id = _request("album_id");
 		
-		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && preg_match("/^[0-9]+$/", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		if( Kernel::getLevel( "MOD_ALBUM", $album_id ) < PROFILE_CCV_PUBLISH ) {
@@ -641,7 +641,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		if( !(_request("photo_id") ) ) die();
 		$photo_id = _request("photo_id");
 		if( (_request("size") ) ) {
-			if( ereg("^s([0-9]+)$", _request("size"), $regs) ) {
+			if( preg_match("/^s([0-9]+)$/", _request("size"), $regs) ) {
 				$size = $regs[1];
 				$mode = "square";
 			} else {
@@ -801,7 +801,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
-		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
+		    ! preg_match ("/^[0-9]+$/", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
@@ -810,7 +810,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$album_id = _request("album_id");
 		
 		
-		if( (_request("dossier_id")===null || !ereg ("^[0-9]+$", _request("dossier_id")))) {
+		if( (_request("dossier_id")===null || !preg_match ("/^[0-9]+$/", _request("dossier_id")))) {
 
                     //correction de bug : 0 &&
 			if( $get = _sessionGet ('modules|album|vignettes|lastfolder|'.$album_id) ) {
@@ -1009,7 +1009,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
-		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
+		    ! preg_match ("/^[0-9]+$/", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
@@ -1026,7 +1026,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 		
-		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && preg_match ("/^[0-9]+$/", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 
 		$dossier_dao = CopixDAOFactory::create("dossier");
@@ -1116,7 +1116,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
-		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
+		    ! preg_match ("/^[0-9]+$/", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));
@@ -1133,7 +1133,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		$album_dao = CopixDAOFactory::create("album");
 		$album = $album_dao->get($album_id);
 		
-		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && preg_match ("/^[0-9]+$/", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 
 		$dossier_dao = CopixDAOFactory::create("dossier");
@@ -1187,7 +1187,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 			'back'=>CopixUrl::get ('||')));
 		}
 		
-		if( _request("dossier_id") && ereg ("^[0-9]+$", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
+		if( _request("dossier_id") && preg_match ("/^[0-9]+$/", _request("dossier_id")) ) $dossier_id = _request("dossier_id");
 		else $dossier_id = 0;
 				
 		$tplAddPhoto = new CopixTpl ();
@@ -1366,7 +1366,7 @@ class ActionGroupAlbum extends CopixActionGroup {
 		
 		if( !(_request("album_id") )   ||
 		    trim(_request("album_id"))==""   ||
-		    ! ereg ("^[0-9]+$", _request("album_id")) ) {
+		    ! preg_match ("/^[0-9]+$/", _request("album_id")) ) {
 			return CopixActionGroup::process ('genericTools|Messages::getError',
 				array (	'message'=>CopixI18N::get ('album.error.noalbumnumber'),
 						'back'=>CopixUrl::get('||')));

@@ -397,7 +397,7 @@ class Album {
 		if(!$dh = @opendir($pathfolder)) return;
 		while (($obj = readdir($dh))) {
 			// Recherche des fichiers li�s � l'image (vignettes)
-			if( ereg( $photo->photo_id.'_'.$photo->photo_cle.'(_s?[0-9]+)?\.'.$photo->photo_ext, $obj ) ) {
+			if( preg_match( '/'.$photo->photo_id.'_'.$photo->photo_cle.'(_s?[0-9]+)?\.'.$photo->photo_ext.'/', $obj ) ) {
 				unlink($pathfolder.'/'.$obj);
 			}
 		}
