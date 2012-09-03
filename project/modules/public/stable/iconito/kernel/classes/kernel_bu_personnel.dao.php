@@ -399,7 +399,7 @@ class DAOKernel_bu_personnel {
 	  
 	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
 	  
-	  $sql = 'SELECT PE.*, P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect'
+	  $sql = 'SELECT P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect, PE.*'
 	    . ' FROM kernel_bu_personnel P'
 	    . ' LEFT JOIN kernel_bu_personnel_entite PE ON (P.numero=PE.id_per)'
 	    . ' JOIN kernel_bu_personnel_role PR ON (PE.role=PR.id_role)'
@@ -413,7 +413,8 @@ class DAOKernel_bu_personnel {
 	    elseif (isset($filters['originSchool']) && !is_null ($filters['originSchool'])) {
 	      
 	      $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['originSchool'].')'
-	        . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
+	        . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole = ECO.numero)'
+	        . ' LEFT JOIN kernel_bu_personnel_entite PE2 ON (P.numero=PE2.id_per AND PE2.type_ref = "CLASSE" AND PE2.reference IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole = '.$filters['originSchool'].'))';
 	    }
 	    
 	    $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
@@ -423,12 +424,11 @@ class DAOKernel_bu_personnel {
       
       if (isset($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
         
-        $sql .= ' AND ((PE.reference = EC.id AND PE.type_ref = "CLASSE")'
-          . ' OR (PE.reference = EC.ecole AND PE.type_ref = "ECOLE"))';
+        $sql .= ' AND PE.reference = EC.id AND PE.type_ref = "CLASSE"';
       }
       elseif (isset($filters['originSchool']) && !is_null ($filters['originSchool'])) {
         
-        $sql .= ' AND ((PE.reference = ECO.numero AND PE.type_ref = "ECOLE")'
+        $sql .= ' AND ((PE.reference = ECO.numero AND PE.type_ref = "ECOLE" AND PE2.reference IS NULL)'
           . ' OR (PE.reference = EC.id AND PE.type_ref = "CLASSE"))';
       }
       
@@ -447,7 +447,7 @@ class DAOKernel_bu_personnel {
         
       $sql .= ' GROUP BY PE.id_per,PE.reference'
         . ' ORDER BY EC.nom, P.nom, P.prenom1';
-        
+      
     return _doQuery($sql);
 	}
 	
