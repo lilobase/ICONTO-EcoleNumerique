@@ -58,13 +58,14 @@ class GestionAutonomeService {
   public static function removeStudentAssignments ($studentId, $grade = null) {
     
     $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
+    $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
     
     // Récupération des affectations de l'élève pour passage du flag current à 0
     $studentAssignments = $studentAssignmentDAO->getByStudent ($studentId, $grade);
     foreach ($studentAssignments as $studentAssignment) {
       
-      $studentAssignment->affect_current = 0;
-      $studentAssignmentDAO->update ($studentAssignment);
+      $classroom = $classroomDAO->get ($studentAssignment->affect_classe);
+      self::removeStudentAssignment ($studentId, $classroom);
     }
   }
   
