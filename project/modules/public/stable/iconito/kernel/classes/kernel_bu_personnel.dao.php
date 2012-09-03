@@ -399,18 +399,18 @@ class DAOKernel_bu_personnel {
 	  
 	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
 	  
-	  $sql = 'SELECT P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect'
+	  $sql = 'SELECT PE.*, P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect'
 	    . ' FROM kernel_bu_personnel P'
 	    . ' LEFT JOIN kernel_bu_personnel_entite PE ON (P.numero=PE.id_per)'
 	    . ' JOIN kernel_bu_personnel_role PR ON (PE.role=PR.id_role)'
-	    . ' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id)'
+	    . ' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id AND LI.bu_type = "USER_ENS")'
 	    . ' JOIN dbuser U ON (LI.user_id=U.id_dbuser)';
 	    
-	    if (isset($filters['originClassroom'])) {
+	    if (isset($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
 	      
 	      $sql .= ' JOIN kernel_bu_ecole_classe EC ON (EC.id='.$filters['originClassroom'].')';
 	    }
-	    elseif (isset($filters['originSchool'])) {
+	    elseif (isset($filters['originSchool']) && !is_null ($filters['originSchool'])) {
 	      
 	      $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['originSchool'].')'
 	        . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
@@ -418,26 +418,35 @@ class DAOKernel_bu_personnel {
 	    
 	    $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
         . ' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
-        . ' WHERE PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER 
-        . ' AND PE.type_ref="CLASSE"'
-        . ' AND PE.reference=EC.id'
+        . ' WHERE PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
         . ' AND EC.annee_scol='.$filters['originGrade'];
+      
+      if (isset($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
         
-      if (isset ($filters['originLevel'])) {
+        $sql .= ' AND ((PE.reference = EC.id AND PE.type_ref = "CLASSE")'
+          . ' OR (PE.reference = EC.ecole AND PE.type_ref = "ECOLE"))';
+      }
+      elseif (isset($filters['originSchool']) && !is_null ($filters['originSchool'])) {
+        
+        $sql .= ' AND ((PE.reference = ECO.numero AND PE.type_ref = "ECOLE")'
+          . ' OR (PE.reference = EC.id AND PE.type_ref = "CLASSE"))';
+      }
+      
+      if (isset ($filters['originLevel']) && !is_null ($filters['originLevel'])) {
 
   	    $sql .= ' AND ECN.niveau='.$filters['originLevel'];
   	  }
-  	  if (isset ($filters['originLastname'])) {
+  	  if (isset ($filters['originLastname']) && !is_null ($filters['originLastname'])) {
 
   	    $sql .= ' AND P.nom LIKE \'' . $filters['originLastname'] . '%\''; 
   	  }
-  	  if (isset ($filters['originFirstname'])) {
+  	  if (isset ($filters['originFirstname']) && !is_null ($filters['originFirstname'])) {
 
   	    $sql .= ' AND P.prenom1 LIKE \'' . $filters['originFirstname'] . '%\''; 
   	  }
         
       $sql .= ' GROUP BY PE.id_per,PE.reference'
-        . ' ORDER BY P.nom, P.prenom1';
+        . ' ORDER BY EC.nom, P.nom, P.prenom1';
         
     return _doQuery($sql);
 	}

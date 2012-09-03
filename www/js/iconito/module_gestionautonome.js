@@ -488,5 +488,9 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
         }
       });
     }
+    else {
+      
+      $('.load-img').remove();
+    }
   };
 }

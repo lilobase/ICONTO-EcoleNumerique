@@ -37,7 +37,7 @@ class ZoneManageAssignments extends CopixZone {
   	    ));
 	    }
 	    else {
-	      $originAssignments = $studentDAO->findForManageAssignments ($ppo->filters);
+	      $originAssignments = $studentDAO->findForManageAssignments ($ppo->filters['originGrade'], $ppo->filters);
 	    }  
 
 	    $destinationAssignments = $studentDAO->findAssigned (array(
@@ -63,7 +63,8 @@ class ZoneManageAssignments extends CopixZone {
 
 	  foreach ($originAssignments as $originAssignment) {
 	    
-	    if ($originAssignment->current) {
+	    if (($ppo->filters['originUserType'] == 'USER_ELE' && $originAssignment->current)
+	      || $ppo->filters['originUserType'] == 'USER_ENS' && $originAssignment->type_ref == "CLASSE") {
 	      
 	      $ppo->originAssignments[$originAssignment->id_niveau][$originAssignment->id_classe][] = $originAssignment;
 	      $ppo->classrooms[$originAssignment->id_classe] = $originAssignment->nom_classe;
@@ -72,9 +73,14 @@ class ZoneManageAssignments extends CopixZone {
 	    elseif (is_null($ppo->filters['originClassroom'])) {
 	      
 	      $ppo->classrooms[0] = 'Sans affectation';
-	      $ppo->originAssignments[''][0][] = $originAssignment;
+	      $withoutAssignments[] = $originAssignment;
 	    }
 	  }
+	  
+	  foreach($withoutAssignments as $withoutAssignment) {
+      
+      $ppo->originAssignments[''][0][] = $withoutAssignment;
+    }
 	  	  
 	  // Construction du tableau des affectations de destination pour l'affichage
 	  if (!isset($ppo->filters['destinationClassroom'])) {

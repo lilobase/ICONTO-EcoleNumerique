@@ -5633,25 +5633,48 @@ class ActionGroupDefault extends enicActionGroup {
   */
   public function processFilterAndDisplayAssignments () {
     
-    // TODO tous les contrôles garantissant l'intégrité des filtres doivent être faits.
-
-    // Récupération des filtres existants
+    $gradeDAO = _ioDAO ('kernel|kernel_bu_annee_scolaire');
+    $cityGroupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
+    $cityDAO = _ioDAO ('kernel|kernel_bu_ville');
+    $schoolDAO = _ioDAO ('kernel|kernel_bu_ecole');
+    $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    $classroomLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
+    
+    // Contrôles garantissant l'intégrité des filtres
+    if ( is_null ($originGrade = _request ('origin_grade', null)) || !$gradeDAO->get ($originGrade)
+      || is_null ($originCityGroup = _request ('origin_citygroup', null)) || !$cityGroupDAO->get ($originCityGroup)
+      || is_null ($originCity = _request ('origin_city', null)) || !$cityDAO->get ($originCity)
+      || (!is_null ($originSchool = _request ('origin_school', null)) && !$schoolDAO->get ($originSchool))
+      || (!is_null ($originClassroom = _request ('origin_classroom', null)) && !$classroomDAO->get ($originClassroom))
+      || (!is_null ($originLevel = _request ('origin_level', null)) && !$classroomLevelDAO->get ($originLevel))
+      || is_null ($destinationGrade = _request ('destination_grade', null)) || !$gradeDAO->get ($destinationGrade)
+      || is_null ($destinationCityGroup = _request ('destination_citygroup', null)) || !$cityGroupDAO->get ($destinationCityGroup)
+      || is_null ($destinationCity = _request ('destination_city', null)) || !$cityDAO->get ($destinationCity)
+      || (!is_null ($destinationSchool = _request ('destination_school', null)) && !$schoolDAO->get ($destinationSchool))
+      || (!is_null ($destinationClassroom = _request ('destination_classroom', null)) && !$classroomDAO->get ($destinationClassroom))
+      || (!is_null ($destinationLevel = _request ('destination_level', null)) && !$classroomLevelDAO->get ($destinationLevel))
+      || is_null ($originUserType = _request ('origin_usertype', null)) || ($originUserType != 'USER_ELE' && $originUserType != 'USER_ENS')) {
+      
+      return new CopixActionReturn (CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 400 Bad Request'), 'Une erreur est survenue');
+    }
+    
     $filters = _sessionGet ('gestionautonome|assignments_management_filters');
-    $filters['originGrade']          = _request ('origin_grade', null);
-    $filters['originCityGroup']      = _request ('origin_citygroup', null);
-    $filters['originCity']           = _request ('origin_city', null);
-    $filters['originSchool']         = _request ('origin_school', null);
-    $filters['originClassroom']      = _request ('origin_classroom', null);
-    $filters['originLevel']          = _request ('origin_level', null);
-    $filters['originUserType']       = _request ('origin_usertype', null);
+    
+    $filters['originGrade']          = $originGrade;
+    $filters['originCityGroup']      = $originCityGroup;
+    $filters['originCity']           = $originCity;
+    $filters['originSchool']         = $originSchool;
+    $filters['originClassroom']      = $originClassroom;
+    $filters['originLevel']          = $originLevel;
+    $filters['originUserType']       = $originUserType;
     $filters['originLastname']       = _request ('origin_lastname', null);
     $filters['originFirstname']      = _request ('origin_firstname', null);
-    $filters['destinationGrade']     = _request ('destination_grade', null);
-    $filters['destinationCityGroup'] = _request ('destination_citygroup', null);
-    $filters['destinationCity']      = _request ('destination_city', null);
-    $filters['destinationSchool']    = _request ('destination_school', null);
-    $filters['destinationClassroom'] = _request ('destination_classroom', null);
-    $filters['destinationLevel']     = _request ('destination_level', null);
+    $filters['destinationGrade']     = $destinationGrade;
+    $filters['destinationCityGroup'] = $destinationCityGroup;
+    $filters['destinationCity']      = $destinationCity;
+    $filters['destinationSchool']    = $destinationSchool;
+    $filters['destinationClassroom'] = $destinationClassroom;
+    $filters['destinationLevel']     = $destinationLevel;
     
     // Mise en session des filtres
     _sessionSet ('gestionautonome|assignments_management_filters', $filters);
@@ -5675,7 +5698,7 @@ class ActionGroupDefault extends enicActionGroup {
     }
     
     // Changement d'état
-    $state = _sessionGet ('gestionautonome|assignments_management_classroom_state', array());
+    $state = _sessionGet ('gestionautonome|assignments_management_classroom_state');
     if (isset ($state[$type][$id])) {
       
       unset ($state[$type][$id]);

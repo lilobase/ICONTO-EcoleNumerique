@@ -34,7 +34,7 @@ class GestionAutonomeService {
     
     // Récupération de l'affectation de l'élève à la classe pour passage du flag current à 0
     $studentAssignmentDAO = _ioDAO ('kernel|kernel_bu_ele_affect');
-    $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id);
+    $studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id, 1);
     $studentAssignment->affect_current = 0;
     
     $studentAssignmentDAO->update ($studentAssignment);
@@ -155,26 +155,23 @@ class GestionAutonomeService {
       $studentAdmissionDAO->insert ($studentAdmission);
     }
     
-    if (!$studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id)) {
+    if ($studentAssignment = $studentAssignmentDAO->getByStudentAndClass ($studentId, $classroom->id, 1)) {
       
-      // Affectation de l'élève dans la classe
-      $studentAssignment = _record ('kernel|kernel_bu_ele_affect');
-
-      $studentAssignment->affect_eleve           = $studentId;
-      $studentAssignment->affect_annee_scol      = $classroom->annee_scol;
-      $studentAssignment->affect_classe          = $classroom->id;
-      $studentAssignment->affect_niveau          = $level;
-      $studentAssignment->affect_current         = 1;
-      $studentAssignment->affect_previsionnel_cl = 0;
-
-      $studentAssignmentDAO->insert ($studentAssignment);
-    }
-    else {
-      
-      $studentAssignment->affect_niveau = $level;
-      $studentAssignment->affect_current = 1;
+      $studentAssignment->affect_current = 0;
       $studentAssignmentDAO->update ($studentAssignment);
     }
+    
+    // Affectation de l'élève dans la classe
+    $studentAssignment = _record ('kernel|kernel_bu_ele_affect');
+    
+    $studentAssignment->affect_eleve           = $studentId;
+    $studentAssignment->affect_annee_scol      = $classroom->annee_scol;
+    $studentAssignment->affect_classe          = $classroom->id;
+    $studentAssignment->affect_niveau          = $level;
+    $studentAssignment->affect_current         = 1;
+    $studentAssignment->affect_previsionnel_cl = 0;
+    
+    $studentAssignmentDAO->insert ($studentAssignment);
   }
   
   /**

@@ -216,7 +216,8 @@ class DAOKernel_bu_ele {
   /**
 	 * Retourne les élèves avec ou sans affectation pour une année donnée
 	 *
-	 * @param array $filters  Filtres de récupération des élèves
+	 * @param string  $grade    Année scolaire
+	 * @param array   $filters  Filtres de récupération des élèves
 	 *
 	 * @return array
 	 */
@@ -225,20 +226,10 @@ class DAOKernel_bu_ele {
     // Récupération des identifiants correspondants aux dernières affectations des élèves
     $groupSql = 'SELECT MAX(EA.id) '
       // Récupération des élèves
-      .'FROM kernel_bu_eleve E ' 
+      .'FROM kernel_bu_eleve E '
       // qui ont leur dernière affectation pour l'année demandée
       .'JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.annee_scol = '.$grade.') '
-      // pour un niveau donné
-      .'JOIN kernel_bu_classe_niveau CN ON (CN.id_n=EA.niveau) '
-      // dans une classe
-      .'JOIN kernel_bu_ecole_classe EC ON (EC.id=EA.classe) '
-      // dans une école
-      .'JOIN kernel_bu_ecole ECO ON (ECO.numero=EC.ecole) '
-      // dans une ville
-      .'JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville) '
-      // dans un groupe de ville
-      .'JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville) '
-      . 'GROUP BY E.idEleve';
+      .'GROUP BY E.idEleve';
 
     // Récupération des élèves qui ont leur dernière affectation qui correspond aux critères demandés
     $sql = 'SELECT E.idEleve as id, E.nom as nom, E.prenom1 as prenom, LI.bu_type as user_type, LI.bu_id as user_id, EC.id as id_classe, EC.nom as nom_classe, '
@@ -255,7 +246,7 @@ class DAOKernel_bu_ele {
       .'AND ECO.numero=EC.ecole '
       .'AND V.id_vi=ECO.id_ville '
       .'AND GV.id_grv=V.id_grville '
-      .'AND EA.id IN ('.$groupSql.') ';
+      .'AND EA.id IN ('.$groupSql.')';
       
     if (isset ($filters['level']) && !is_null ($filters['level'])) {
     
@@ -287,8 +278,7 @@ class DAOKernel_bu_ele {
     }
       
     $sql .= ' ORDER BY CN.id_n, EC.nom, E.nom, E.prenom1';
-
-    echo $sql;
+    
     return _doQuery($sql);
   }
   
@@ -299,67 +289,78 @@ class DAOKernel_bu_ele {
 	 *
 	 * return CopixDAORecordIterator
 	 */
-  public function findForManageAssignments ($filters = array ()) {
+  public function findForManageAssignments ($grade, $filters = array ()) {
     
-    die('TODO refacto');
-    
-    $sql = 'SELECT E.idEleve as user_id, "USER_ELE" as user_type, E.nom, E.prenom1 as prenom, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, SUM(EA.current) AS is_affect'
-      . ' FROM kernel_bu_eleve E'
-      . ' JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve)'
-      . ' JOIN dbuser U ON (U.id_dbuser=LI.user_id)'
-      . ' JOIN kernel_bu_eleve_admission EAD ON (EAD.eleve=E.idEleve)'
-      . ' JOIN kernel_bu_ecole ECO ON (ECO.numero=EAD.etablissement)'
-      . ' JOIN kernel_bu_ville V ON (V.id_vi=ECO.id_ville)'
-      . ' JOIN kernel_bu_groupe_villes GV ON (GV.id_grv=V.id_grville)'
-      . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)'
-      . ' JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.classe=EC.id)'
-      . ' JOIN kernel_bu_classe_niveau CN ON (EA.niveau=CN.id_n)';
+    // Récupération des identifiants correspondants aux dernières affectations des élèves
+    $groupSql = 'SELECT MAX(EA.id) '
+      // Récupération des élèves
+      .'FROM kernel_bu_eleve E '
+      // qui ont leur dernière affectation pour l'année demandée
+      .'JOIN kernel_bu_eleve_affectation EA ON (EA.eleve=E.idEleve AND EA.annee_scol = '.$grade.') '
+      .'GROUP BY E.idEleve';
+      
+    $sql = 'SELECT E.idEleve as id, E.nom as nom, E.prenom1 as prenom, LI.bu_type as user_type, LI.bu_id as user_id, EC.id as id_classe, EC.nom as nom_classe,'
+      . 'CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, ECO.numero as id_ecole, ECO.nom as nom_ecole, '
+      . 'V.id_vi as id_ville, V.nom as nom_ville, GV.id_grv as id_groupevilles, GV.nom_groupe as nom_groupevilles, EA.* '
+      . 'FROM kernel_link_bu2user LI, dbuser U, kernel_bu_eleve_affectation EA, kernel_bu_classe_niveau CN, ' 
+      . 'kernel_bu_ecole_classe EC, kernel_bu_ecole ECO, kernel_bu_ville V, kernel_bu_groupe_villes GV, kernel_bu_eleve E';
       
     if (isset ($filters['destinationGrade'])) {
       
       $sql .= ' LEFT JOIN kernel_bu_eleve_affectation EA2 ON (EA2.eleve=E.idEleve AND EA2.current = 1 AND EA2.annee_scol='.$filters['destinationGrade'].')';
     }
-      
-    $sql .= ' WHERE LI.bu_type="USER_ELE"';
     
-    if (isset ($filters['destinationGrade'])) {
+    $sql .= ' WHERE LI.bu_id=E.idEleve '
+      . 'AND LI.bu_type="USER_ELE" '
+      . 'AND U.id_dbuser=LI.user_id '
+      . 'AND EA.eleve=E.idEleve '
+      . 'AND EA.niveau=CN.id_n '
+      . 'AND EC.id=EA.classe '
+      . 'AND ECO.numero=EC.ecole '
+      . 'AND V.id_vi=ECO.id_ville '
+      . 'AND GV.id_grv=V.id_grville '
+      . 'AND LI.bu_type="USER_ELE" '
+      . 'AND EA.id IN ('.$groupSql.')';
+    
+    if (isset ($filters['destinationGrade']) && !is_null ($filters['destinationGrade'])) {
       
       $sql .= ' AND EA2.eleve IS NULL';
     }
     
-	  if (isset ($filters['originClassroom'])) {
+	  if (isset ($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
     
       $sql .= ' AND EC.id='.$filters['originClassroom'];
       $sql .= ' AND EA.current = 1';
     }
-    elseif (isset ($filters['originSchool'])) {
+    elseif (isset ($filters['originSchool']) && !is_null ($filters['originSchool'])) {
       
       $sql .= ' AND ECO.numero='.$filters['originSchool'];
     }
-    elseif (isset ($filters['originCity'])) {
+    elseif (isset ($filters['originCity']) && !is_null ($filters['originCity'])) {
       
       $sql .= ' AND V.id_vi='.$filters['originCity'];
     }
-    elseif (isset ($filters['originCityGroup'])) {
+    elseif (isset ($filters['originCityGroup']) && !is_null ($filters['originCityGroup'])) {
       
       $sql .= ' AND GV.id_grv='.$filters['originCityGroup'];
     }
     
-    if (isset ($filters['originLastname'])) {
+    if (isset ($filters['originLastname']) && !is_null ($filters['originLastname'])) {
 	    
 	    $sql .= ' AND E.nom LIKE \'' . $filters['originLastname'] . '%\''; 
 	  }
-	  if (isset ($filters['originFirstname'])) {
+	  if (isset ($filters['originFirstname']) && !is_null ($filters['originFirstname'])) {
 	    
 	    $sql .= ' AND E.prenom1 LIKE \'' . $filters['originFirstname'] . '%\''; 
 	  }
-	  if (isset ($filters['originGrade'])) {
+	  if (isset ($filters['originGrade']) && !is_null ($filters['originGrade'])) {
 	    
 	    $sql .= ' AND EA.annee_scol='.$filters['originGrade'];
 	  }
-	  if (isset ($filters['originLevel'])) {
+	  if (isset ($filters['originLevel']) && !is_null ($filters['originLevel'])) {
 	    
 	    $sql .= ' AND EA.niveau='.$filters['originLevel'];
+	    $sql .= ' AND EA.current = 1';
 	  }
     
     $sql .= ' GROUP BY E.idEleve'
