@@ -330,7 +330,6 @@ class DAOKernel_bu_ele {
 	  if (isset ($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
     
       $sql .= ' AND EC.id='.$filters['originClassroom'];
-      $sql .= ' AND EA.current = 1';
     }
     elseif (isset ($filters['originSchool']) && !is_null ($filters['originSchool'])) {
       
@@ -360,7 +359,6 @@ class DAOKernel_bu_ele {
 	  if (isset ($filters['originLevel']) && !is_null ($filters['originLevel'])) {
 	    
 	    $sql .= ' AND EA.niveau='.$filters['originLevel'];
-	    $sql .= ' AND EA.current = 1';
 	  }
     
     $sql .= ' GROUP BY E.idEleve'

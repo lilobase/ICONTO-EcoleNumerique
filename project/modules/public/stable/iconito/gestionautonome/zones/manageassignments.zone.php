@@ -80,7 +80,7 @@ class ZoneManageAssignments extends CopixZone {
 	      $ppo->classrooms[$originAssignment->id_classe] = $originAssignment->nom_classe;
 	      $ppo->classroomLevels[$originAssignment->id_niveau] = $originAssignment->nom_niveau;
 	    }
-	    elseif (is_null($ppo->filters['originClassroom']) && $ppo->filters['mode'] == 'changeClassroom') {
+	    elseif (is_null($ppo->filters['originClassroom']) || $ppo->filters['mode'] != 'changeClassroom') {
 	      
 	      $ppo->classrooms[0] = 'Sans affectation';
 	      $withoutAssignments[] = $originAssignment;
