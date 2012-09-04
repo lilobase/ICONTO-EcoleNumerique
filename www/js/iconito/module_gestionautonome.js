@@ -338,6 +338,9 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
       $(this).parent('h3').next('div.class-box').hide();
   });
   
+  /**
+   * Déplacement des affectations d'une personne (élève / enseignant) / classe
+   */
   $('#assigned-persons .classroom').droppable({
     activeClass: "ui-state-default",
     hoverClass: "ui-state-hover",
@@ -390,6 +393,9 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     cursor: "move"
   });
   
+  /**
+   * Suppression d'une affectation
+   */
   $('#assigned-persons').delegate('.remove-person', 'click', function(e) {
     
     var item          = $(this);
@@ -412,6 +418,9 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     return false;
   });
   
+  /**
+   * Assigne une personne (enseignant / élève) à une classe
+   */
   function reassignePerson(item, target, changeManageAssignmentClassroomStateUrl) {
     
     if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
@@ -445,6 +454,9 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
   };
 }
 
+/**
+ * Ouverture / fermeture d'une classe et stockage en session
+ */
 function toggleClassroomState (changeManageAssignmentClassroomState, item, type) {
   
   var changeManageAssignmentClassroomStateUrl = changeManageAssignmentClassroomState;
