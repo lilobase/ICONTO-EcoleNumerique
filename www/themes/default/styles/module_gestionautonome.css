@@ -300,8 +300,13 @@ ul.tree a.classroom {
 /******************************************************************************/
 /* Affect */
 #filter-form {
+	margin-top:5px;
 	height:160px;
 	background:url(../../../themes/default/images/icon-128/action-next.png) no-repeat 50% 100%;
+}
+#filter-form .mesgInfo {
+	float:right;
+	width:306px;
 }
 .filterClass {
   float:left;
@@ -325,6 +330,7 @@ ul.tree a.classroom {
 
 #assignments {
 	clear:both;
+	overflow:hidden;
 }
 #persons-to-assign {
   float: left;
@@ -350,6 +356,14 @@ ul.tree a.classroom {
 .classroom h3 a {
 	padding:0 0 0 18px;
 	background:url(../images/sort_right_off.png) no-repeat 0 50%;
+	cursor:move;
+}
+.classroom h3 a span.level {
+	color:#354E81;
+}
+.classroom h3 a span.count {
+	color:#777;
+	font-weight:normal; font-size:0.85em;
 }
 .classroom a.classroomOpen {
 	background-image:url(../images/sort_down_off.png);
@@ -367,7 +381,7 @@ ul.tree a.classroom {
 	-moz-border-radius:8px;-webkit-border-radius:8px; border-radius:8px;
 }
 #persons-to-assign .class-box li:hover {
-	cursor:pointer;
+	cursor:move;
 }
 
 /* End Affect */

@@ -34,14 +34,20 @@ class DAOKernel_bu_ele_affect {
 	/**
 	 * Retourne les associations d'un élève
 	 *
-	 * @param int $studentId Identifiant d'un élève
+	 * @param int     $studentId  Identifiant d'un élève
+	 * @param string  $grade      Année scolaire
 	 *
 	 * @return CopixDAORecordIterator
 	 */
-	public function getByStudent ($studentId) {
+	public function getByStudent ($studentId, $grade = null) {
 		
 		$criteria = _daoSp ();
 		$criteria->addCondition ('affect_eleve', '=', $studentId);
+		
+		if (!is_null ($grade)) {
+		  
+		  $criteria->addCondition ('affect_annee_scol', '=', $grade);
+		}
 		
 		return $this->findBy ($criteria);
 	}

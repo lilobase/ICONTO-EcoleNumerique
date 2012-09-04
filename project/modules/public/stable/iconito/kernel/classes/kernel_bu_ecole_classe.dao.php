@@ -63,15 +63,44 @@ class DAOKernel_bu_ecole_classe {
 	}
 	
 	/**
+	 * Retourne les classes pour une école et un niveau donnés
+	 *
+	 * @param int $idEcole  Identifiant d'une école
+	 * @param int $idNiveau Niveau
+	 * @param int $grade
+	 *
+	 * @return CopixDAORecordIterator
+	 */
+	public function getBySchoolAndLevel ($idEcole, $idNiveau, $grade = null) {
+		
+		$sql = $this->_selectQuery
+		  . ', kernel_bu_ecole_classe_niveau '
+		  . 'WHERE kernel_bu_ecole_classe.id=kernel_bu_ecole_classe_niveau.classe '
+		  . 'AND kernel_bu_ecole_classe.ecole=:idEcole '
+		  . 'AND kernel_bu_ecole_classe_niveau.niveau=:idNiveau';
+
+		if (!is_null($grade)) {
+		  
+		  $sql .= ' AND kernel_bu_ecole_classe.annee_scol='.$grade;
+		}
+		
+		$sql .= ' GROUP BY kernel_bu_ecole_classe.id '
+		  . 'ORDER BY kernel_bu_ecole_classe_niveau.niveau, kernel_bu_ecole_classe.nom';
+		
+		return new CopixDAORecordIterator (_doQuery ($sql, array(':idEcole' => $idEcole, ':idNiveau' => $idNiveau)), $this->getDAOId ());
+	}
+	
+	/**
 	 * Retourne les classes d'une école accessibles pour un utilisateur
 	 *
 	 * @param int   $schoolId Identifiant de l'école
 	 * @param array $groups   Groupes
 	 * @param int   $grade    Année scolaire
+	 * @param int   $levelId  Niveau
    *
 	 * @return CopixDAORecordIterator
 	 */
-	public function findBySchoolIdAndUserGroups ($schoolId, $groups, $grade = null) {
+	public function findBySchoolIdAndUserGroups ($schoolId, $groups, $grade = null, $levelId = null) {
 		
 		$groupsIds = array();
     
@@ -106,6 +135,10 @@ class DAOKernel_bu_ecole_classe {
 		if (!is_null($grade)) {
 		  
 		  $sql .= ' AND kernel_bu_ecole_classe.annee_scol='.$grade;
+		}
+		if (!is_null($levelId)) {
+		  
+		  $sql .= ' AND kernel_bu_ecole_classe_niveau.niveau='.$levelId;
 		}
 
 		$sql .= ' AND kernel_bu_ecole_classe.id IN ('.implode(',', $groupsIds).')';
