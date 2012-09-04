@@ -46,7 +46,7 @@
       {copixzone process=gestionautonome|filterClass selected=$ppo->filters.originClassroom school_id=$ppo->filters.originSchool with_label=true grade=$ppo->filters.originGrade name=origin_classroom with_empty=true label_empty="Toutes" all=true}
     </div>
     <div class="field" id="origin-level">
-      {copixzone process=gestionautonome|filterClassLevel selected=$ppo->filters.originLevel school_id=$ppo->filters.originSchool classroom_id=$ppo->filters.originClassroom with_label=true grade=$ppo->filters.originGrade name=origin_level with_empty=true label_empty="Tous"}
+      {copixzone process=gestionautonome|filterClassLevel selected=$ppo->filters.originLevel school_id=$ppo->filters.originSchool classroom_id=$ppo->filters.originClassroom with_label=true grade=$ppo->filters.originGrade name=origin_level with_empty=true label_empty="Tous" all=true}
     </div>
     <div class="field" id="origin-usertype">
       <label>{i18n key="gestionautonome|gestionautonome.message.type"}</label>

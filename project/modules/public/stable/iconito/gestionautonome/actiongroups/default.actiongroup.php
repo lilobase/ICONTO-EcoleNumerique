@@ -5077,9 +5077,10 @@ class ActionGroupDefault extends enicActionGroup {
 	  $withEmptyLabel = _request ('with_empty_label', false);
 	  $labelEmpty     = _request ('label_empty', null);
 	  $name           = _request ('name', null);
+	  $all            = _request ('all', false);
 	  if (!is_null ($schoolId)) {
 	      
-	    echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId, 'with_empty' => $withEmpty, 'with_empty_label' => $withEmptyLabel, 'label_empty' => $labelEmpty, 'name' => $name));
+	    echo CopixZone::process ('gestionautonome|filterClass', array('school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId, 'with_empty' => $withEmpty, 'with_empty_label' => $withEmptyLabel, 'label_empty' => $labelEmpty, 'name' => $name, 'all' => $all));
 	  }
 
     return _arNone ();
@@ -5095,8 +5096,9 @@ class ActionGroupDefault extends enicActionGroup {
 	  $withEmptyLabel = _request ('with_empty_label', false);
 	  $labelEmpty     = _request ('label_empty', null);
 	  $name           = _request ('name', null);
+	  $all            = _request ('all', false);
 	  
-	  echo CopixZone::process ('gestionautonome|filterClassLevel', array('classroom_id' => $classroomId, 'school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId, 'with_empty' => $withEmpty, 'with_empty_label' => $withEmptyLabel, 'label_empty' => $labelEmpty, 'name' => $name));
+	  echo CopixZone::process ('gestionautonome|filterClassLevel', array('classroom_id' => $classroomId, 'school_id' => $schoolId, 'with_label' => $withLabel, 'grade' => $gradeId, 'with_empty' => $withEmpty, 'with_empty_label' => $withEmptyLabel, 'label_empty' => $labelEmpty, 'name' => $name, 'all' => $all));
 
     return _arNone ();
 	}

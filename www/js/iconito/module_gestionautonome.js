@@ -176,7 +176,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: classLevelFilterUrl,
-        data: ({classroom_id: classroomId, school_id: schoolId, with_label: 1, grade: $('[name="origin_grade"]').val(), with_empty: 1, label_empty: "Tous", name: "origin_level"}),
+        data: ({classroom_id: classroomId, school_id: schoolId, with_label: 1, grade: $('[name="origin_grade"]').val(), with_empty: 1, label_empty: "Tous", name: "origin_level", all: 1}),
         success: function(html){
 
           $('#origin-level').append(html);
