@@ -5408,10 +5408,11 @@ class ActionGroupDefault extends enicActionGroup {
     
     $nodeId = _request ('nodeId', null);
     $nodeType = _request ('nodeType', null);
-  	if (is_null ($nodeId) || is_null ($nodeType)) {
+    
+    if (is_null ($nodeId) || is_null ($nodeType)) {
 
       return CopixActionGroup::process ('generictools|Messages::getError',
-  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
+        array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
     }
     
     // Contrôle des droits
@@ -5421,16 +5422,16 @@ class ActionGroupDefault extends enicActionGroup {
       
       // Récupération de la classe
       $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
-    	if (!$ppo->classroom = $classroomDAO->get ($nodeId)) {
+      if (!$ppo->classroom = $classroomDAO->get ($nodeId)) {
 
         return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "La classe d'origine que vous avez défini n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
       }
       
       // Définition des filtres par défaut
-    	$ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
+      $ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
 
-    	$classroomDatas = Kernel::getNodeInfo ('BU_CLASSE', $ppo->classroom->id, true);
-  	  $cityDAO = _ioDAO('kernel|kernel_bu_ville');
+      $classroomDatas = Kernel::getNodeInfo ('BU_CLASSE', $ppo->classroom->id, true);
+      $cityDAO = _ioDAO('kernel|kernel_bu_ville');
       $originCity = $cityDAO->get($classroomDatas['ALL']->eco_id_ville);
 
       $ppo->filters['schoolName']            = $classroomDatas['ALL']->eco_nom;  
@@ -5449,12 +5450,12 @@ class ActionGroupDefault extends enicActionGroup {
       _currentUser()->assertCredential('module:school|'.$nodeId.'|student|update@gestionautonome');
       
       // Définition des filtres par défaut
-    	$ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
+      $ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
 
-    	$schoolDatas = Kernel::getNodeInfo ('BU_ECOLE', $nodeId, true);
-    	
+      $schoolDatas = Kernel::getNodeInfo ('BU_ECOLE', $nodeId, true);
+      
       $ppo->filters['schoolName']            = $schoolDatas['ALL']->eco_nom;  
-  	  $ppo->filters['originGrade']           = is_null (_sessionGet('grade')) ? Kernel::getAnneeScolaireCourante ()->id_as : _sessionGet ('grade');
+      $ppo->filters['originGrade']           = is_null (_sessionGet('grade')) ? Kernel::getAnneeScolaireCourante ()->id_as : _sessionGet ('grade');
       $ppo->filters['originCityGroup']       = $schoolDatas['ALL']->vil_id_grville;
       $ppo->filters['originCity']            = $schoolDatas['ALL']->vil_id_vi;
       $ppo->filters['originSchool']          = $schoolDatas['ALL']->eco_numero;
