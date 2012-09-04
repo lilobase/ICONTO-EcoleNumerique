@@ -64,7 +64,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
 
   // Soumission du formulaire
   $('#origin select[name="origin_level"], #destination select[name="destination_level"], #origin select[name="origin_usertype"], #origin input[name="origin_lastname"], #origin input[name="origin_firstname"]').live('change', function(){
-  
+    
     $('#filter-form').submit();
   });
 
@@ -363,12 +363,16 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     revert: "invalid",
     helper: "clone",
     cursor: "move"
-  });
-  
+  });  
   $('#persons-to-assign h3').draggable({
     revert: "invalid",
     helper: "clone",
     cursor: "move"
+  });
+  
+  // Stopper la sélection du texte lors du drag & drop
+  $('#persons-to-assign .class-box li, #persons-to-assign h3').each(function(){
+	  this.onselectstart = function () { return false; }
   });
   
   /**
@@ -413,9 +417,15 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
         success: function(data) {
           
           $('#assignments').html(data);
-          var newTarget = $('#assigned-persons').find("li[data-classroom-level='"+classroomLevel+"'][data-classroom-id='"+classroomId+"']:first");
-          if (newTarget.size()) {
+          if (classroomLevel) {
             
+            var newTarget = $('#assigned-persons').find("li[data-classroom-level='"+classroomLevel+"'][data-classroom-id='"+classroomId+"']:first");
+          }
+          else {
+            
+            var newTarget = $('#assigned-persons').find("li[data-classroom-id='"+classroomId+"']:first");
+          }
+          if (newTarget.size()) {
             var targetLink = newTarget.find('h3 a');
             if (targetLink.hasClass('classroomClosed')) {
               
