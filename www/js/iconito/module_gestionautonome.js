@@ -363,12 +363,16 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     revert: "invalid",
     helper: "clone",
     cursor: "move"
-  });
-  
+  });  
   $('#persons-to-assign h3').draggable({
     revert: "invalid",
     helper: "clone",
     cursor: "move"
+  });
+  
+  // Stopper la sélection du texte lors du drag & drop
+  $('#persons-to-assign .class-box li, #persons-to-assign h3').each(function(){
+	  this.onselectstart = function () { return false; }
   });
   
   /**
