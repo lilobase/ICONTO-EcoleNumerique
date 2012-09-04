@@ -52,7 +52,12 @@
       <label>{i18n key="gestionautonome|gestionautonome.message.type"}</label>
       <select class="form" name="origin_usertype">
         <option value="USER_ELE" label="Elève"{if $ppo->filters.originUserType eq "USER_ELE"} selected="selected"{/if}>Elève</option>
-        <option value="USER_ENS" label="Enseignant"{if $ppo->filters.originUserType eq "USER_ENS"} selected="selected"{/if}>Enseignant</option>
+        {if isset($ppo->filters.originSchool)}
+          {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:school|`$ppo->filters.originSchool`|teacher|update@gestionautonome")}          
+          {if $hasCredentialTeacherUpdate}
+            <option value="USER_ENS" label="Enseignant"{if $ppo->filters.originUserType eq "USER_ENS"} selected="selected"{/if}>Enseignant</option>
+          {/if}
+        {/if}
       </select>
     </div>
     <div class="field" id="origin-lastname">

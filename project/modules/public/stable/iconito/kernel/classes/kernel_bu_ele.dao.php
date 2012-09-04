@@ -371,31 +371,34 @@ class DAOKernel_bu_ele {
   
   /**
 	 * Retourne les élèves assignés
-	 *                       
+	 *    
+	 * @param array $groups   Groupes                   
 	 * @param array $filters  Filtres de récupération des élèves
-	 * @param array $groups   Groupes
 	 *
 	 * @return CopixDAORecordIterator
 	 */
-  function findAssigned ($filters = array (), $groups) {
-
-    $groupsIds = array();
+  function findAssigned ($filters = array (), $groups = null) {
     
-    foreach ($groups as $key => $group) {
+    if (!is_null ($groups)) {
       
-      $id = substr($key, strrpos($key, '_')+1);
+      $groupsIds = array();
 
-      if (preg_match('/^teacher/', $key)) {
-        
-        $groupsIds[] = $id;
-      }
-      elseif (preg_match('/^schools_group_animator/', $key)) {
-        
-        $groupsIds[] = $id;
-      }
-      elseif (preg_match('/^cities_group_animator/', $key)) {
-        
-        $groupsIds[] = $id;
+      foreach ($groups as $key => $group) {
+
+        $id = substr($key, strrpos($key, '_')+1);
+
+        if (preg_match('/^teacher/', $key)) {
+
+          $groupsIds[] = $id;
+        }
+        elseif (preg_match('/^schools_group_animator/', $key)) {
+
+          $groupsIds[] = $id;
+        }
+        elseif (preg_match('/^cities_group_animator/', $key)) {
+
+          $groupsIds[] = $id;
+        }
       }
     }
     
@@ -420,7 +423,7 @@ class DAOKernel_bu_ele {
     
       $sql .= ' AND EC.id='.$filters['classroom'];
     }
-    else {
+    elseif (!is_null ($groups)) {
       
       $sql .= ' AND EC.id IN ('.implode(',', $groupsIds).')';
     }

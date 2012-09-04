@@ -22,8 +22,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: classFilterUrl,
-        global: true,
-        type: "GET",
         data: ({grade: $(this).val(), school_id: $('#origin [name="origin_school"]').val(), with_label: 1, with_empty: 1, label_empty: "Toutes", name: "origin_classroom", all: 1}),
         success: function(html){
           $('#origin-class').append(html);
@@ -49,8 +47,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
   
       $.ajax({
         url: classFilterUrl,
-        global: true,
-        type: "GET",
         data: ({grade: $(this).val(), school_id: $('#destination [name="destination_school"]').val(), with_label: 1, with_empty: 1, label_empty: "Toutes", name: "destination_classroom"}),
         success: function(html){
           $('#destination-class').append(html);
@@ -80,8 +76,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
   
     $.ajax({
       url: filterAndDisplayUrl,
-      global: true,
-      type: "GET",
       data: $('#filter-form').serialize(),
       success: function(list){
         $('#assignments').empty();
@@ -105,8 +99,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: cityFilterUrl,
-        global: true,
-        type: "GET",
         data: ({city_group_id: cityGroupId, with_label: 1, name: "origin_city", with_empty: 0}),
         success: function(html){
 
@@ -132,8 +124,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: schoolFilterUrl,
-        global: true,
-        type: "GET",
         data: ({city_id: cityId, with_label: 1, with_empty: 0, name: "origin_school"}),
         success: function(html){
 
@@ -160,8 +150,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: classFilterUrl,
-        global: true,
-        type: "GET",
         data: ({school_id: schoolId, with_label: 1, grade: $('[name="origin_grade"]').val(), with_empty: 1, label_empty: "Toutes", name: "origin_classroom", all: 1}),
         success: function(html){
 
@@ -188,8 +176,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: classLevelFilterUrl,
-        global: true,
-        type: "GET",
         data: ({classroom_id: classroomId, school_id: schoolId, with_label: 1, grade: $('[name="origin_grade"]').val(), with_empty: 1, label_empty: "Tous", name: "origin_level"}),
         success: function(html){
 
@@ -216,8 +202,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: cityFilterUrl,
-        global: true,
-        type: "GET",
         data: ({city_group_id: cityGroupId, with_label: 1, name: "destination_city", with_empty: 0}),
         success: function(html){
 
@@ -243,8 +227,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: schoolFilterUrl,
-        global: true,
-        type: "GET",
         data: ({city_id: cityId, with_label: 1, with_empty: 0, name: "destination_school"}),
         success: function(html){
 
@@ -270,8 +252,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: classFilterUrl,
-        global: true,
-        type: "GET",
         data: ({school_id: schoolId, with_label: 1, grade: $('[name="destination_grade"]').val(), with_empty: 1, label_empty: "Toutes", name: "destination_classroom"}),
         success: function(html){
 
@@ -298,8 +278,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
     
       $.ajax({
         url: classLevelFilterUrl,
-        global: true,
-        type: "GET",
         data: ({classroom_id: classroomId, school_id: schoolId, grade: $('[name="destination_grade"]').val(), with_label: 1, with_empty: 1, label_empty: "Tous", name: "destination_level"}),
         success: function(html){
 
@@ -357,7 +335,7 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
           
           $('<img class="load-img" src="../../../themes/default/img/ajax-loader-mini.gif" />').appendTo(target.find('h3 a')); 
           
-          reassignePerson(item, target, changeManageAssignmentClassroomStateUrl);
+          reassignPerson(item, target, changeManageAssignmentClassroomStateUrl);
         }
       }
       else {
@@ -374,7 +352,7 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
                 $('<img class="load-img" src="../../../themes/default/img/ajax-loader-mini.gif" />').appendTo(target.find('h3 a'));
               }
               
-              reassignePerson(item, target, changeManageAssignmentClassroomStateUrl);
+              reassignPerson(item, target, changeManageAssignmentClassroomStateUrl);
           }
         });
       }
@@ -405,8 +383,6 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     
     $.ajax({
       url: removeAssignmentUrl,
-      global: true,
-      type: "GET",
       data: { classroom_id: classroomId, user_id: userId, user_type: userType },
       success: function(data){
         
@@ -421,7 +397,7 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
   /**
    * Assigne une personne (enseignant / élève) à une classe
    */
-  function reassignePerson(item, target, changeManageAssignmentClassroomStateUrl) {
+  function reassignPerson(item, target, changeManageAssignmentClassroomStateUrl) {
     
     if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
       
@@ -481,6 +457,4 @@ function toggleClassroomState (changeManageAssignmentClassroomState, item, type)
   else
       $(item).removeClass('classroomOpen').addClass('classroomClosed');
   $(item).parent('h3').next('div.class-box').slideToggle();
-  
-  return true;
 }

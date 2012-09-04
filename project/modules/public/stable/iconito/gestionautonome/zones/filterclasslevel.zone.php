@@ -25,7 +25,16 @@ class ZoneFilterClassLevel extends CopixZone {
 	    $classroomId = $this->getParam('classroom_id', null);
 	    if (is_null($classroomId)) {
 	      
-	      $niveaux = $classroomLevelDAO->findBySchoolId ($schoolId, $this->getParam ('grade', null));
+	      
+    	  if (_currentUser ()->testCredential ('module:school|'.$schoolId.'|classroom|create@gestionautonome')) {
+    	    
+    	    $niveaux = $classroomLevelDAO->findBySchoolId ($schoolId, $this->getParam ('grade', null));
+  	    }
+  	    else {
+  	      
+  	      $groups = _currentUser ()->getGroups ();
+  	      $niveaux = $classroomLevelDAO->findBySchoolIdAndUserGroups ($schoolId, $groups['gestionautonome|iconitogrouphandler'], $this->getParam ('grade', null));
+  	    }
 	    }
 	    else {
 	      
