@@ -5519,6 +5519,7 @@ class ActionGroupDefault extends enicActionGroup {
 	  $userId         = _request('user_id', null);
 	  $classroomId    = _request('classroom_id', null);
 	  $classroomLevel = _request('classroom_level', null);
+	  $oldClassroomId = _request('old_classroom_id', null);
 	  
 	  // Paramètres obligatoires
 	  if (is_null ($userType) || is_null ($userId) || is_null ($classroomId)) {
@@ -5566,9 +5567,9 @@ class ActionGroupDefault extends enicActionGroup {
 	    
 	    $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
 	    
-	    if ($filters['mode'] == 'changeClassroom') {
+	    if ($filters['mode'] == 'changeClassroom' && !is_null ($oldClassroomId)) {
 	      
-	      GestionAutonomeService::removePersonnelAssignment ($userId, $classroomId, 'CLASSE');
+	      GestionAutonomeService::removePersonnelAssignment ($userId, $oldClassroomId, 'CLASSE');
 	    }
 	    
       GestionAutonomeService::addPersonAssignmentOnClassroom ($userId, $classroom, DAOKernel_bu_personnel_entite::ROLE_TEACHER);
@@ -5642,14 +5643,10 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Contrôles garantissant l'intégrité des filtres
     if ( is_null ($originGrade = _request ('origin_grade', null)) || !$gradeDAO->get ($originGrade)
-      || is_null ($originCityGroup = _request ('origin_citygroup', null)) || !$cityGroupDAO->get ($originCityGroup)
-      || is_null ($originCity = _request ('origin_city', null)) || !$cityDAO->get ($originCity)
       || (!is_null ($originSchool = _request ('origin_school', null)) && !$schoolDAO->get ($originSchool))
       || (!is_null ($originClassroom = _request ('origin_classroom', null)) && !$classroomDAO->get ($originClassroom))
       || (!is_null ($originLevel = _request ('origin_level', null)) && !$classroomLevelDAO->get ($originLevel))
       || is_null ($destinationGrade = _request ('destination_grade', null)) || !$gradeDAO->get ($destinationGrade)
-      || is_null ($destinationCityGroup = _request ('destination_citygroup', null)) || !$cityGroupDAO->get ($destinationCityGroup)
-      || is_null ($destinationCity = _request ('destination_city', null)) || !$cityDAO->get ($destinationCity)
       || (!is_null ($destinationSchool = _request ('destination_school', null)) && !$schoolDAO->get ($destinationSchool))
       || (!is_null ($destinationClassroom = _request ('destination_classroom', null)) && !$classroomDAO->get ($destinationClassroom))
       || (!is_null ($destinationLevel = _request ('destination_level', null)) && !$classroomLevelDAO->get ($destinationLevel))
@@ -5661,8 +5658,8 @@ class ActionGroupDefault extends enicActionGroup {
     $filters = _sessionGet ('gestionautonome|assignments_management_filters');
     
     $filters['originGrade']          = $originGrade;
-    $filters['originCityGroup']      = $originCityGroup;
-    $filters['originCity']           = $originCity;
+    $filters['originCityGroup']      = _request ('origin_citygroup', null);
+    $filters['originCity']           = _request ('origin_city', null);
     $filters['originSchool']         = $originSchool;
     $filters['originClassroom']      = $originClassroom;
     $filters['originLevel']          = $originLevel;
@@ -5670,8 +5667,8 @@ class ActionGroupDefault extends enicActionGroup {
     $filters['originLastname']       = _request ('origin_lastname', null);
     $filters['originFirstname']      = _request ('origin_firstname', null);
     $filters['destinationGrade']     = $destinationGrade;
-    $filters['destinationCityGroup'] = $destinationCityGroup;
-    $filters['destinationCity']      = $destinationCity;
+    $filters['destinationCityGroup'] = _request ('destination_citygroup', null);
+    $filters['destinationCity']      = _request ('destination_city', null);
     $filters['destinationSchool']    = $destinationSchool;
     $filters['destinationClassroom'] = $destinationClassroom;
     $filters['destinationLevel']     = $destinationLevel;

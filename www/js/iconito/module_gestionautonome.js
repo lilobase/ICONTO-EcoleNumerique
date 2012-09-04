@@ -337,55 +337,6 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
   $('#persons-to-assign a.classroomClosed, #assigned-persons a.classroomClosed').each(function(){
       $(this).parent('h3').next('div.class-box').hide();
   });
-  $('#persons-to-assign h3 a').click(function(e){
-      
-      // Mise en session de l'ouverture / fermeture d'une classe
-      if ($(this).parent().parent().data('classroom-level') != undefined) {
-        var id = $(this).parent().parent().data('classroom-id')+"-"+$(this).parent().parent().data('classroom-level')
-      }
-      else {
-        var id = $(this).parent().parent().data('classroom-id');
-      }
-      $.ajax({
-          url: changeManageAssignmentClassroomStateUrl,
-          global: true,
-          type: "GET",
-          data: { id: id, type: 'origine' }
-      });
-        
-      if ($(this).hasClass('classroomClosed'))
-          $(this).removeClass('classroomClosed').addClass('classroomOpen');
-      else
-          $(this).removeClass('classroomOpen').addClass('classroomClosed');
-      $(this).parent('h3').next('div.class-box').slideToggle();
-      e.stopPropagation();
-      return false;
-  });
-  
-  $('#assigned-persons h3 a').click(function(e){
-      
-      // Mise en session de l'ouverture / fermeture d'une classe
-      if ($(this).parent().parent().data('classroom-level') != undefined) {
-        var id = $(this).parent().parent().data('classroom-id')+"-"+$(this).parent().parent().data('classroom-level')
-      }
-      else {
-        var id = $(this).parent().parent().data('classroom-id');
-      }
-      $.ajax({
-          url: changeManageAssignmentClassroomStateUrl,
-          global: true,
-          type: "GET",
-          data: { id: id, type: 'destination' }
-      });
-        
-      if ($(this).hasClass('classroomClosed'))
-          $(this).removeClass('classroomClosed').addClass('classroomOpen');
-      else
-          $(this).removeClass('classroomOpen').addClass('classroomClosed');
-      $(this).parent('h3').next('div.class-box').slideToggle();
-      e.stopPropagation();
-      return false;
-  });
   
   $('#assigned-persons .classroom').droppable({
     activeClass: "ui-state-default",
@@ -403,8 +354,7 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
           
           $('<img class="load-img" src="../../../themes/default/img/ajax-loader-mini.gif" />').appendTo(target.find('h3 a')); 
           
-          reassignePerson(item, target, true);
-          target.find('h3 a').toggle('click');
+          reassignePerson(item, target, changeManageAssignmentClassroomStateUrl);
         }
       }
       else {
@@ -421,8 +371,7 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
                 $('<img class="load-img" src="../../../themes/default/img/ajax-loader-mini.gif" />').appendTo(target.find('h3 a'));
               }
               
-              var reload = index == (allLi.length - 1);
-              reassignePerson(item, target, reload);
+              reassignePerson(item, target, changeManageAssignmentClassroomStateUrl);
           }
         });
       }
@@ -449,7 +398,7 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     var userType      = item.parent('li').data('user-type');
     
     $.ajax({
-      url: removeAssignment,
+      url: removeAssignmentUrl,
       global: true,
       type: "GET",
       data: { classroom_id: classroomId, user_id: userId, user_type: userType },
@@ -463,25 +412,26 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     return false;
   });
   
-  function reassignePerson(item, target) {
+  function reassignePerson(item, target, changeManageAssignmentClassroomStateUrl) {
     
     if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
       
       if (target.find('h3 a').hasClass('classroomClosed')) {
         
-        target.find('h3 a').trigger('click');
+        toggleClassroomState (changeManageAssignmentClassroomStateUrl, target.find('h3 a'), 'destination');
       }
       
       var classroomId    = target.data('classroom-id');
       var classroomLevel = target.data('classroom-level');
       var userId         = item.data('user-id');
       var userType       = item.data('user-type');
+      var oldClassroomId = item.closest('.classroom').data('classroom-id');
 
       $.ajax({
-        url: updateAssignment,
+        url: updateAssignmentUrl,
         global: true,
         type: "GET",
-        data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType },
+        data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType, old_classroom_id: oldClassroomId },
         success: function(data) {
           
           $('#assignments').html(data);
@@ -493,4 +443,30 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
       $('.load-img').remove();
     }
   };
+}
+
+function toggleClassroomState (changeManageAssignmentClassroomState, item, type) {
+  
+  var changeManageAssignmentClassroomStateUrl = changeManageAssignmentClassroomState;
+  
+  // Mise en session de l'ouverture / fermeture d'une classe
+  if ($(item).parents('.classroom:first').data('classroom-level') != undefined) {
+    var id = $(item).parents('.classroom:first').data('classroom-id')+"-"+$(item).parents('.classroom:first').data('classroom-level')
+  }
+  else {
+    var id = $(item).parents('.classroom:first').data('classroom-id');
+  }
+  
+  $.ajax({
+      url: changeManageAssignmentClassroomStateUrl,
+      global: true,
+      type: "GET",
+      data: { id: id, type: type }
+  });
+    
+  if ($(item).hasClass('classroomClosed'))
+      $(item).removeClass('classroomClosed').addClass('classroomOpen');
+  else
+      $(item).removeClass('classroomOpen').addClass('classroomClosed');
+  $(item).parent('h3').next('div.class-box').slideToggle();
 }

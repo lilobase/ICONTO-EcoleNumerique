@@ -80,6 +80,7 @@ class GestionAutonomeService {
   public static function removePersonnelAssignment ($personId, $reference, $type_ref) {
     
     $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
+    
     if ($personEntity = $personEntityDAO->getByIdReferenceAndType ($personId, $reference, $type_ref)) {
       
       // Si on se trouve sur une ecole et que la personne (directeur) a une affectation dans une des classes
