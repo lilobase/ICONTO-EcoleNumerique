@@ -36,7 +36,7 @@ class enic{
 
         //load class in local ref
         $className = 'enic'.ucfirst($type);
-        self::$l[$name] =& new $className();
+        self::$l[$name] = new $className();
 
         //add name attribute
         self::$l[$name]->_name = $name;
