@@ -5461,11 +5461,16 @@ class ActionGroupDefault extends enicActionGroup {
       $ppo->filters['originCityGroup']       = $schoolDatas['ALL']->vil_id_grville;
       $ppo->filters['originCity']            = $schoolDatas['ALL']->vil_id_vi;
       $ppo->filters['originSchool']          = $schoolDatas['ALL']->eco_numero;
+      $ppo->filters['originClassroom']       = null;
       $ppo->filters['originUserType']        = 'USER_ELE';
       $ppo->filters['destinationCityGroup']  = $schoolDatas['ALL']->vil_id_grville;
       $ppo->filters['destinationCity']       = $schoolDatas['ALL']->vil_id_vi;
       $ppo->filters['destinationSchool']     = $schoolDatas['ALL']->eco_numero;
     }
+    
+    $ppo->filters['originLevel'] = null;
+    $ppo->filters['destinationCLassroom'] = null;
+    $ppo->filters['destinationLevel'] = null;
     
     // Récupération de l'utilisateur
     $ppo->user = _currentUser ();
