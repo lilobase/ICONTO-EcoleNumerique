@@ -7,6 +7,9 @@
   {/if}
 </h2>
 
+<a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">{i18n key="gestionautonome|gestionautonome.message.back}</a>
+
+
 <form action="{copixurl dest="gestionautonome||filterAndDisplayAssignments"}" method="post" id="filter-form">
   <div id="origin" class="filterClass">
     <h3>{i18n key="gestionautonome|gestionautonome.message.origin}</h3>
@@ -112,13 +115,13 @@
       {copixzone process=gestionautonome|filterClassLevel selected=$ppo->filters.destinationLevel school_id=$ppo->filters.destinationSchool classroom_id=$ppo->filters.destinationClassroom with_label=true grade=$ppo->filters.destinationGrade name=destination_level with_empty=true label_empty="Tous"}
     </div>
    </div>
+   <p class="mesgInfo">Pour changer d'affectation, glissez-déposez une personne ou une classe entière de la classe d'origine vers la classe de destination.</p>
 </form>
 
 <div id="assignments">
   {copixzone process=gestionautonome|manageAssignments}
 </div>
 
-<a href="{copixurl dest=gestionautonome||showTree}" class="button button-back">{i18n key="gestionautonome|gestionautonome.message.back}</a>
 
 {literal}
 <script type="text/javascript">
