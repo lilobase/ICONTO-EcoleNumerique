@@ -1,7 +1,7 @@
 {foreach from=$ppo->dossiers item=dossier}
   {assign var=dossierId value=$dossier->id}
   <li class="folder">
-    <p class="{if $dossier->id eq $ppo->dossierCourant}current{/if}">
+    <p class="{if $dossier->id eq $ppo->targetId}current{/if}">
       {if $dossier->hasSousDossiers(!$dossier->casier || ($dossier->casier && $ppo->estAdmin))}
         <a href="#" class="expand-folder {$dossier->id}"><img src="{copixurl}themes/default/images/sort_right_off.png" alt="+" /></a>
       {else}
