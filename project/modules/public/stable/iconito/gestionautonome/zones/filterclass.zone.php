@@ -16,6 +16,7 @@ class ZoneFilterClass extends CopixZone {
 	  $ppo->withEmpty       = $this->getParam ('with_empty', true);
 	  $ppo->labelEmpty      = $this->getParam ('label_empty', null);
 	  $ppo->name            = $this->getParam ('name', null);
+	  $ppo->all             = $this->getParam ('all', false);
 	  
 	  $grade = $this->getParam ('grade', _sessionGet('grade', Kernel::getAnneeScolaireCourante ()->id_as));
 	  
@@ -23,7 +24,7 @@ class ZoneFilterClass extends CopixZone {
       
 	    // Récupération des écoles de la ville sélectionnée pour liste déroulante
 	    $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
-	    if (_currentUser ()->testCredential ('module:school|'.$schoolId.'|classroom|create@gestionautonome')) {
+	    if (_currentUser ()->testCredential ('module:school|'.$schoolId.'|classroom|create@gestionautonome') || $ppo->all) {
 
         $classes = $classroomDAO->getBySchool ($schoolId, $grade);
   	  }

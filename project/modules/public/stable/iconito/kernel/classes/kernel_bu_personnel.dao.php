@@ -454,12 +454,25 @@ class DAOKernel_bu_personnel {
 	/**
 	 * Retourne les enseignants assignés (manageAssignments)
 	 *                                             
-	 * @param array   $filters   Filtres de récupération des enseignants
+	 * @param array   $filters    Filtres de récupération des enseignants
+	 * @param array   $groups     Groupes
 	 *
 	 * return CopixDAORecordIterator
 	 */
-	public function findAssignedTeachers ($filters = array ()) {
+	public function findAssignedTeachers ($filters = array (), $groups) {
 	  
+	  $groupsIds = array();
+    
+    foreach ($groups as $key => $group) {
+      
+      $id = substr($key, strrpos($key, '_')+1);
+      
+      if (preg_match('/^teacher/', $key)) {
+        
+        $groupsIds[] = $id;
+      }
+    }
+    
 	  $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
 	  
 	  $sql = 'SELECT P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect'
@@ -476,7 +489,7 @@ class DAOKernel_bu_personnel {
 	    elseif (isset($filters['destinationSchool'])) {
 	      
 	      $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['destinationSchool'].')'
-	        . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
+	        . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero AND EC.id IN ('.implode(',', $groupsIds).'))';
 	    }
 	    
 	    $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'

@@ -222,7 +222,7 @@ class DAOKernel_bu_ele {
 	 * @return array
 	 */
 	function findStudentsForAssignment ($grade, $filters = array ()) {
- 
+	  
     // Récupération des identifiants correspondants aux dernières affectations des élèves
     $groupSql = 'SELECT MAX(EA.id) '
       // Récupération des élèves
@@ -372,12 +372,33 @@ class DAOKernel_bu_ele {
   /**
 	 * Retourne les élèves assignés
 	 *                       
-	 * @param array $filters Filtres de récupération des élèves
+	 * @param array $filters  Filtres de récupération des élèves
+	 * @param array $groups   Groupes
 	 *
 	 * @return CopixDAORecordIterator
 	 */
-  function findAssigned ($filters = array ()) {
+  function findAssigned ($filters = array (), $groups) {
 
+    $groupsIds = array();
+    
+    foreach ($groups as $key => $group) {
+      
+      $id = substr($key, strrpos($key, '_')+1);
+
+      if (preg_match('/^teacher/', $key)) {
+        
+        $groupsIds[] = $id;
+      }
+      elseif (preg_match('/^schools_group_animator/', $key)) {
+        
+        $groupsIds[] = $id;
+      }
+      elseif (preg_match('/^cities_group_animator/', $key)) {
+        
+        $groupsIds[] = $id;
+      }
+    }
+    
 	  $sql = 'SELECT E.idEleve as user_id, "USER_ELE" as user_type, E.nom, E.prenom1 as prenom, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, SUM(EA.current) AS is_affect'
       . ' FROM kernel_bu_eleve E'
       . ' JOIN kernel_link_bu2user LI ON (LI.bu_id=E.idEleve)'
@@ -399,7 +420,12 @@ class DAOKernel_bu_ele {
     
       $sql .= ' AND EC.id='.$filters['classroom'];
     }
-    elseif (isset ($filters['school'])) {
+    else {
+      
+      $sql .= ' AND EC.id IN ('.implode(',', $groupsIds).')';
+    }
+    
+    if (isset ($filters['school'])) {
       
       $sql .= ' AND ECO.numero='.$filters['school'];
     }

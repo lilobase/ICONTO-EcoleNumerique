@@ -24,7 +24,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
         url: classFilterUrl,
         global: true,
         type: "GET",
-        data: ({grade: $(this).val(), school_id: $('#origin [name="origin_school"]').val(), with_label: 1, with_empty: 1, label_empty: "Toutes", name: "origin_classroom"}),
+        data: ({grade: $(this).val(), school_id: $('#origin [name="origin_school"]').val(), with_label: 1, with_empty: 1, label_empty: "Toutes", name: "origin_classroom", all: 1}),
         success: function(html){
           $('#origin-class').append(html);
           $('#origin select[name="origin_classroom"]').trigger('change');
@@ -162,7 +162,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
         url: classFilterUrl,
         global: true,
         type: "GET",
-        data: ({school_id: schoolId, with_label: 1, grade: $('[name="origin_grade"]').val(), with_empty: 1, label_empty: "Toutes", name: "origin_classroom"}),
+        data: ({school_id: schoolId, with_label: 1, grade: $('[name="origin_grade"]').val(), with_empty: 1, label_empty: "Toutes", name: "origin_classroom", all: 1}),
         success: function(html){
 
           $('#origin-class').append(html);
@@ -425,11 +425,6 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
     
     if (target.find("li[data-user-id='"+item.data('user-id')+"'][data-user-type='"+item.data('user-type')+"']").length == 0) {
       
-      if (target.find('h3 a').hasClass('classroomClosed')) {
-        
-        toggleClassroomState (changeManageAssignmentClassroomStateUrl, target.find('h3 a'), 'destination');
-      }
-      
       var classroomId    = target.data('classroom-id');
       var classroomLevel = target.data('classroom-level');
       var userId         = item.data('user-id');
@@ -438,12 +433,19 @@ function prepareAssignmentsManagementActions(changeManageAssignmentClassroomStat
 
       $.ajax({
         url: updateAssignmentUrl,
-        global: true,
-        type: "GET",
         data: { classroom_id: classroomId, classroom_level: classroomLevel, user_id: userId, user_type: userType, old_classroom_id: oldClassroomId },
         success: function(data) {
           
           $('#assignments').html(data);
+          var newTarget = $('#assigned-persons').find("li[data-classroom-level='"+classroomLevel+"'][data-classroom-id='"+classroomId+"']:first");
+          if (newTarget.size()) {
+            
+            var targetLink = newTarget.find('h3 a');
+            if (targetLink.hasClass('classroomClosed')) {
+              
+              toggleClassroomState (changeManageAssignmentClassroomStateUrl, targetLink, 'destination');
+            }
+          }
         }
       });
     }
@@ -471,8 +473,6 @@ function toggleClassroomState (changeManageAssignmentClassroomState, item, type)
   
   $.ajax({
       url: changeManageAssignmentClassroomStateUrl,
-      global: true,
-      type: "GET",
       data: { id: id, type: type }
   });
     
@@ -481,4 +481,6 @@ function toggleClassroomState (changeManageAssignmentClassroomState, item, type)
   else
       $(item).removeClass('classroomOpen').addClass('classroomClosed');
   $(item).parent('h3').next('div.class-box').slideToggle();
+  
+  return true;
 }

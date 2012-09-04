@@ -1,6 +1,10 @@
 {if $ppo->parent.nom}
   <h2>{$ppo->parent.nom}</h2>
 
+  {if $ppo->type eq 'BU_ECOLE'}
+    {assign var='hasCredentialStudentUpdate' value=$ppo->user->testCredential("module:school|`$ppo->parent.id`|student|update@gestionautonome")}
+    {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:school|`$ppo->parent.id`|teacher|update@gestionautonome")}
+  {/if}
   {if $ppo->type eq 'BU_CLASSE'}
     {assign var='hasCredentialStudentCreate' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|student|create@gestionautonome")}
     {assign var='hasCredentialStudentUpdate' value=$ppo->user->testCredential("module:classroom|`$ppo->parent.id`|student|update@gestionautonome")}
@@ -243,6 +247,12 @@
         <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=3}" class="button button-next">{customi18n key="gestionautonome.message.affect%%indefinite__structure_element_administration_staff%%" catalog=$ppo->vocabularyCatalog->id_vc}</a>
         {assign var=hasCredential value=1}
       {/if}
+      {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate}
+        {if $ppo->nextGrade}
+          <br /><a href="{copixurl dest="gestionautonome||manageAssignments" nodeId=$ppo->parent.id nodeType=BU_ECOLE}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.preparenextgrade"}</a>
+        {/if}
+      <br /><a href="{copixurl dest="gestionautonome||changeClassroom" nodeId=$ppo->parent.id nodeType=BU_ECOLE}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.changeClassroom"}</a>
+      {/if}
       {if $hasCredential eq 1}
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
@@ -256,9 +266,9 @@
       {/if}
       {if $hasCredentialTeacherUpdate || $hasCredentialStudentUpdate}
         {if $ppo->nextGrade}
-          <br /><a href="{copixurl dest="gestionautonome||manageAssignments" nodeId=$ppo->parent.id}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.preparenextgrade"}</a>
+          <br /><a href="{copixurl dest="gestionautonome||manageAssignments" nodeId=$ppo->parent.id nodeType=BU_CLASSE}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.preparenextgrade"}</a>
         {/if}
-      <br /><a href="{copixurl dest="gestionautonome||changeClassroom" nodeId=$ppo->parent.id}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.changeClassroom"}</a>
+      <br /><a href="{copixurl dest="gestionautonome||changeClassroom" nodeId=$ppo->parent.id nodeType=BU_CLASSE}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.changeClassroom"}</a>
       {/if}
       {if $hasCredentialStudentCreate}
         <h3>Gestion</h3>

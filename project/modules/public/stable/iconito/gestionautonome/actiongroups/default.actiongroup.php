@@ -5406,57 +5406,73 @@ class ActionGroupDefault extends enicActionGroup {
     
     $ppo = new CopixPPO ();
     
-    $nodeId = _request ('nodeId');
-  	if (is_null ($nodeId)) {
+    $nodeId = _request ('nodeId', null);
+    $nodeType = _request ('nodeType', null);
+  	if (is_null ($nodeId) || is_null ($nodeType)) {
 
-      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Vous n'avez pas défini de classe d'origine.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+      return CopixActionGroup::process ('generictools|Messages::getError',
+  			array ('message'=> "Une erreur est survenue.", 'back'=> CopixUrl::get('gestionautonome||showTree')));
     }
     
     // Contrôle des droits
-  	_currentUser()->assertCredential('module:classroom|'.$nodeId.'|student|create@gestionautonome');
-  	
-  	// Récupération de la classe
-  	$classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
-  	if (!$ppo->classroom = $classroomDAO->get ($nodeId)) {
+    if ($nodeType == 'BU_CLASSE') {
+      
+      _currentUser()->assertCredential('module:classroom|'.$nodeId.'|student|update@gestionautonome');
+      
+      // Récupération de la classe
+      $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    	if (!$ppo->classroom = $classroomDAO->get ($nodeId)) {
 
-      return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "La classe d'origine que vous avez défini n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+        return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "La classe d'origine que vous avez défini n'existe pas.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
+      }
+      
+      // Définition des filtres par défaut
+    	$ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
+
+    	$classroomDatas = Kernel::getNodeInfo ('BU_CLASSE', $ppo->classroom->id, true);
+  	  $cityDAO = _ioDAO('kernel|kernel_bu_ville');
+      $originCity = $cityDAO->get($classroomDatas['ALL']->eco_id_ville);
+
+      $ppo->filters['schoolName']            = $classroomDatas['ALL']->eco_nom;  
+  	  $ppo->filters['originGrade']           = $ppo->classroom->annee_scol;
+      $ppo->filters['originCityGroup']       = $originCity->id_grville;
+      $ppo->filters['originCity']            = $classroomDatas['ALL']->eco_id_ville;
+      $ppo->filters['originSchool']          = $classroomDatas['ALL']->eco_numero;
+      $ppo->filters['originClassroom']       = $ppo->classroom->id;
+      $ppo->filters['originUserType']        = 'USER_ELE';
+      $ppo->filters['destinationCityGroup']  = $originCity->id_grville;
+      $ppo->filters['destinationCity']       = $classroomDatas['ALL']->eco_id_ville;
+      $ppo->filters['destinationSchool']     = $classroomDatas['ALL']->eco_numero;
     }
-  	
-  	// Récupération de l'utilisateur
-	  $ppo->user = _currentUser ();
-	  $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
+    else {
+      
+      _currentUser()->assertCredential('module:school|'.$nodeId.'|student|update@gestionautonome');
+      
+      // Définition des filtres par défaut
+    	$ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
+
+    	$schoolDatas = Kernel::getNodeInfo ('BU_ECOLE', $nodeId, true);
+    	
+      $ppo->filters['schoolName']            = $schoolDatas['ALL']->eco_nom;  
+  	  $ppo->filters['originGrade']           = is_null (_sessionGet('grade')) ? Kernel::getAnneeScolaireCourante ()->id_as : _sessionGet ('grade');
+      $ppo->filters['originCityGroup']       = $schoolDatas['ALL']->vil_id_grville;
+      $ppo->filters['originCity']            = $schoolDatas['ALL']->vil_id_vi;
+      $ppo->filters['originSchool']          = $schoolDatas['ALL']->eco_numero;
+      $ppo->filters['originUserType']        = 'USER_ELE';
+      $ppo->filters['destinationCityGroup']  = $schoolDatas['ALL']->vil_id_grville;
+      $ppo->filters['destinationCity']       = $schoolDatas['ALL']->vil_id_vi;
+      $ppo->filters['destinationSchool']     = $schoolDatas['ALL']->eco_numero;
+    }
+    
+    // Récupération de l'utilisateur
+    $ppo->user = _currentUser ();
+    $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
 
     // Récupération du catalogue de vocab. à utiliser
     $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
-		$ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CLASSE', $nodeId);
-		
-		// Définition des filtres par défaut
-  	$ppo->filters = _sessionGet ('gestionautonome|assignments_management_filters');
-  	
-  	$classroomDatas = Kernel::getNodeInfo ('BU_CLASSE', $ppo->classroom->id, true);
-	  $cityDAO = _ioDAO('kernel|kernel_bu_ville');
-    $originCity = $cityDAO->get($classroomDatas['ALL']->eco_id_ville);
+    $ppo->vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_CLASSE', $nodeId);
     
-    $ppo->filters['schoolName']            = $classroomDatas['ALL']->eco_nom;  
-	  $ppo->filters['originGrade']           = $ppo->classroom->annee_scol;
-    $ppo->filters['originCityGroup']       = $originCity->id_grville;
-    $ppo->filters['originCity']            = $classroomDatas['ALL']->eco_id_ville;
-    $ppo->filters['originSchool']          = $classroomDatas['ALL']->eco_numero;
-    $ppo->filters['originClassroom']       = $ppo->classroom->id;
-    $ppo->filters['originUserType']        = 'USER_ELE';
-    $ppo->filters['destinationCityGroup']  = $originCity->id_grville;
-    $ppo->filters['destinationCity']       = $classroomDatas['ALL']->eco_id_ville;
-    $ppo->filters['destinationSchool']     = $classroomDatas['ALL']->eco_numero;
-    
-    if (!$ppo->user->testCredential ('basic:admin')) {
-  	  
-  	  $schoolDAO = _ioDAO('kernel|kernel_bu_ecole');
-  	  $school = $schoolDAO->get($ppo->classroom->ecole);
-  	  
-  	  $ppo->filters['schoolName'] = $school->nom;
-  	}
-
-		return $ppo;
+    return $ppo;
   }
   
   /**
@@ -5473,7 +5489,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Récupération des années scolaires
     $gradeDAO = _ioDAO('kernel|kernel_bu_annee_scolaire');
-    if (!$nextGrade = $gradeDAO->getNextGrade ($ppo->classroom->annee_scol)) {
+    if (!$nextGrade = $gradeDAO->getNextGrade (is_null (_sessionGet('grade')) ? Kernel::getAnneeScolaireCourante ()->id_as : _sessionGet ('grade'))) {
       
       return CopixActionGroup::process ('generictools|Messages::getError', array ('message'=> "Il n'existe pas d'année scolaire suivante.", 'back'=> CopixUrl::get ('gestionautonome||showTree')));
     }
@@ -5502,8 +5518,9 @@ class ActionGroupDefault extends enicActionGroup {
     $ppo = $this->_prepareAssignmentsManagement();
     
     // Mise en session de l'année scolaire de destination
-    $ppo->filters['destinationGrade'] = $ppo->classroom->annee_scol;
+    $ppo->filters['destinationGrade'] = isset ($ppo->classroom) ? $ppo->classroom->annee_scol : (is_null (_sessionGet('grade')) ? Kernel::getAnneeScolaireCourante ()->id_as : _sessionGet ('grade'));
     $ppo->filters['mode'] = 'changeClassroom';
+    
     _sessionSet ('gestionautonome|assignments_management_filters', $ppo->filters);
     
     return _arPPO ($ppo, 'manage_assignments.tpl');

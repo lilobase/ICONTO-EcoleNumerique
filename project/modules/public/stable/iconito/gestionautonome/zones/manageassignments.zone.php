@@ -19,12 +19,15 @@ class ZoneManageAssignments extends CopixZone {
 	  $destinationAssignments = array();
 	  $withoutAssignments     = array();
 	  
+	  $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+	  $groups = _currentUser ()->getGroups ();
+	  
 	  // Récupération des éléves ou des enseignants
 	  if ($ppo->filters['originUserType'] == 'USER_ELE') {
 
 	    // Récupération des élèves
 	    $studentDAO = _ioDAO ('kernel|kernel_bu_ele');
-	    $originAssignments = array();
+	    
 	    if ($ppo->filters['mode'] == 'changeClassroom') {
 	      $originAssignments = $studentDAO->findStudentsForAssignment ($ppo->filters['originGrade'], array (
   	      'cityGroup' => $ppo->filters['originCityGroup'],
@@ -40,14 +43,17 @@ class ZoneManageAssignments extends CopixZone {
 	      $originAssignments = $studentDAO->findForManageAssignments ($ppo->filters['originGrade'], $ppo->filters);
 	    }  
 
-	    $destinationAssignments = $studentDAO->findAssigned (array(
-	      'grade'     => $ppo->filters['destinationGrade'],
-  	    'cityGroup' => $ppo->filters['destinationCityGroup'],
-  	    'city'      => $ppo->filters['destinationCity'],
-  	    'school'    => $ppo->filters['destinationSchool'],
-  	    'classroom' => $ppo->filters['destinationClassroom'],
-  	    'level'     => $ppo->filters['destinationLevel'],
-	    ));
+	    $destinationAssignments = $studentDAO->findAssigned (
+	      array(
+	        'grade'     => $ppo->filters['destinationGrade'],
+  	      'cityGroup' => $ppo->filters['destinationCityGroup'],
+  	      'city'      => $ppo->filters['destinationCity'],
+  	      'school'    => $ppo->filters['destinationSchool'],
+  	      'classroom' => $ppo->filters['destinationClassroom'],
+  	      'level'     => $ppo->filters['destinationLevel'],
+	      ),
+	      $groups['gestionautonome|iconitogrouphandler']
+	    );
 	  }
 	  else {
 
@@ -57,7 +63,7 @@ class ZoneManageAssignments extends CopixZone {
       
       if (isset($ppo->filters['destinationSchool']) || isset($ppo->filters['destinationClassroom'])) {
         
-        $destinationAssignments = $personnelDAO->findAssignedTeachers ($ppo->filters);
+        $destinationAssignments = $personnelDAO->findAssignedTeachers ($ppo->filters, $groups['gestionautonome|iconitogrouphandler']);
       }
 	  }
 
@@ -70,7 +76,7 @@ class ZoneManageAssignments extends CopixZone {
 	      $ppo->classrooms[$originAssignment->id_classe] = $originAssignment->nom_classe;
 	      $ppo->classroomLevels[$originAssignment->id_niveau] = $originAssignment->nom_niveau;
 	    }
-	    elseif (is_null($ppo->filters['originClassroom'])) {
+	    elseif (is_null($ppo->filters['originClassroom']) && $ppo->filters['mode'] == 'changeClassroom') {
 	      
 	      $ppo->classrooms[0] = 'Sans affectation';
 	      $withoutAssignments[] = $originAssignment;
@@ -81,7 +87,7 @@ class ZoneManageAssignments extends CopixZone {
       
       $ppo->originAssignments[''][0][] = $withoutAssignment;
     }
-	  	  
+    
 	  // Construction du tableau des affectations de destination pour l'affichage
 	  if (!isset($ppo->filters['destinationClassroom'])) {
 	    
@@ -90,7 +96,15 @@ class ZoneManageAssignments extends CopixZone {
         if (isset ($ppo->filters['destinationLevel'])) {
           
           // On récupère toutes les classes disponibles pour l'école et le niveau de classe sélectionnés
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
+          if (_currentUser ()->testCredential ('module:school|'.$ppo->filters['destinationSchool'].'|classroom|create@gestionautonome')) {
+            
+            $destinationClassrooms = $classroomDAO->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
+          }
+          else {
+            
+            $destinationClassrooms = $classroomDAO->findBySchoolIdAndUserGroups ($ppo->filters['destinationSchool'], $groups['gestionautonome|iconitogrouphandler'], $ppo->filters['destinationGrade'], $ppo->filters['destinationLevel']);
+          }
+          
           foreach ($destinationClassrooms as $destinationClassroom) {
             
             $classroomLevel = _ioDAO('kernel|kernel_bu_classe_niveau')->get ($ppo->filters['destinationLevel']);
@@ -103,7 +117,15 @@ class ZoneManageAssignments extends CopixZone {
         else {
           
           // On récupère toutes les classes disponibles pour l'école
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
+          if (_currentUser ()->testCredential ('module:school|'.$ppo->filters['destinationSchool'].'|classroom|create@gestionautonome')) {
+            
+            $destinationClassrooms = $classroomDAO->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
+          }
+          else {
+            
+            $destinationClassrooms = $classroomDAO->findBySchoolIdAndUserGroups ($ppo->filters['destinationSchool'], $groups['gestionautonome|iconitogrouphandler'], $ppo->filters['destinationGrade']);
+          }
+          
           foreach ($destinationClassrooms as $destinationClassroom) {
             
             $levels = $destinationClassroom->getLevels();
@@ -120,11 +142,25 @@ class ZoneManageAssignments extends CopixZone {
 	      
 	      if (isset ($ppo->filters['destinationLevel'])) {
           
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
+          if (_currentUser ()->testCredential ('module:school|'.$ppo->filters['destinationSchool'].'|classroom|create@gestionautonome')) {
+            
+            $destinationClassrooms = $classroomDAO->getBySchoolAndLevel ($ppo->filters['destinationSchool'], $ppo->filters['destinationLevel'], $ppo->filters['destinationGrade']);
+          }
+          else {
+            
+            $destinationClassrooms = $classroomDAO->findBySchoolIdAndUserGroups ($ppo->filters['destinationSchool'], $groups['gestionautonome|iconitogrouphandler'], $ppo->filters['destinationGrade'], $ppo->filters['destinationLevel']);
+          }
         }
         else {
           
-          $destinationClassrooms = _ioDAO('kernel|kernel_bu_ecole_classe')->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
+          if (_currentUser ()->testCredential ('module:school|'.$ppo->filters['destinationSchool'].'|classroom|create@gestionautonome')) {
+            
+            $destinationClassrooms = $classroomDAO->getBySchool ($ppo->filters['destinationSchool'], $ppo->filters['destinationGrade']);
+          }
+          else {
+            
+            $destinationClassrooms = $classroomDAO->findBySchoolIdAndUserGroups ($ppo->filters['destinationSchool'], $groups['gestionautonome|iconitogrouphandler'], $ppo->filters['destinationGrade']);
+          }
         }
         
         foreach ($destinationClassrooms as $destinationClassroom) {
@@ -137,7 +173,7 @@ class ZoneManageAssignments extends CopixZone {
 	  else {
 	    
 	    // Récupération de la classe sélectionnée par les filtres
-	    $destinationClassroom = _ioDAO('kernel|kernel_bu_ecole_classe')->get ($ppo->filters['destinationClassroom']);
+	    $destinationClassroom = $classroomDAO->get ($ppo->filters['destinationClassroom']);
 	    if ($ppo->filters['originUserType'] == 'USER_ELE') {
         
         if (isset ($ppo->filters['destinationLevel'])) {
