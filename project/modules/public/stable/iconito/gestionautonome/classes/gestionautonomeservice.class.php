@@ -11,10 +11,14 @@ class GestionAutonomeService {
   /**
    * Supprime l'affectation d'un élève au sein d'une classe
    *
-   * @param int                         $studentId      Identifiant de l'élève
-   * @param DAOKernel_bu_ecole_classe   $classroom      Classe
+   * @param int $studentId    Identifiant de l'élève
+   * @param int $classroomID  Classe
    */
-  public static function removeStudentAssignment ($studentId, $classroom) {
+  public static function removeStudentAssignment ($studentId, $classroomId) {
+    
+    // Récupération de la classe
+    $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
+    $classroom = $classroomDAO->get ($classroomId);
     
     // Ajout d'un enregistrement de radiation
     $studentAdmissionDAO = _ioDAO ('kernel|kernel_bu_eleve_admission');
@@ -65,8 +69,7 @@ class GestionAutonomeService {
     $studentAssignments = $studentAssignmentDAO->getByStudent ($studentId, $grade);
     foreach ($studentAssignments as $studentAssignment) {
       
-      $classroom = $classroomDAO->get ($studentAssignment->affect_classe);
-      self::removeStudentAssignment ($studentId, $classroom);
+      self::removeStudentAssignment ($studentId, $studentAssignment->affect_classe);
     }
   }
   

@@ -3017,7 +3017,7 @@ class ActionGroupDefault extends enicActionGroup {
     
     // Suppression de l'affectation de l'élève
     _classInclude('gestionautonome|GestionAutonomeService');
-    GestionAutonomeService::removeStudentAssignment ($studentId, $nodeInfos['ALL']->cla_ecole, $nodeInfos['ALL']->cla_id, $grade);
+    GestionAutonomeService::removeStudentAssignment ($studentId, $nodeInfos['ALL']->cla_id);
     
     // Mise en session du noeud courant
 		_sessionSet ('current', array('node_type' => $ppo->nodeType, 'node_id' => $ppo->nodeId));
@@ -5636,7 +5636,7 @@ class ActionGroupDefault extends enicActionGroup {
 	    // Contrôle des droits
 	    _currentUser()->assertCredential('module:classroom|'.$classroomId.'|student|update@gestionautonome');
   	  
-	    GestionAutonomeService::removeStudentAssignment ($userId, $classroom);
+	    GestionAutonomeService::removeStudentAssignment ($userId, $classroomId);
 	  }
 	  else {
 	    
