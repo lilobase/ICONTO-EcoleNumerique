@@ -1,5 +1,5 @@
 {if $ppo->withLabel}
-  <label>Groupe de ville :</label>
+  <label>Groupe de ville</label>
 {/if}
 <select class="form" name="{if $ppo->name neq null}{$ppo->name}{else}groupcity{/if}">
   {if $ppo->withEmpty}

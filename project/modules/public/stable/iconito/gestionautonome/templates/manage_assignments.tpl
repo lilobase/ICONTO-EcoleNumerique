@@ -40,7 +40,7 @@
       </div>
     {else}
       <div class="field" id="origin-school">
-        {customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc}
+        <label>{customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc}</label>
         {$ppo->filters.schoolName}
         <input type="hidden" name="origin_school" value="{$ppo->filters.originSchool}" />
       </div>
@@ -56,7 +56,7 @@
       <select class="form" name="origin_usertype">
         <option value="USER_ELE" label="Elève"{if $ppo->filters.originUserType eq "USER_ELE"} selected="selected"{/if}>Elève</option>
         {if isset($ppo->filters.originSchool)}
-          {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:school|`$ppo->filters.originSchool`|teacher|update@gestionautonome")}          
+          {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:school|`$ppo->filters.originSchool`|teacher|update@gestionautonome")}
           {if $hasCredentialTeacherUpdate}
             <option value="USER_ENS" label="Enseignant"{if $ppo->filters.originUserType eq "USER_ENS"} selected="selected"{/if}>Enseignant</option>
           {/if}
@@ -79,7 +79,7 @@
       <input type="hidden" name="destination_grade" value="{$ppo->filters.destinationGrade}" />
     {else}
       <div class="field" id="destination-grade">
-        <label>{i18n key="gestionautonome|gestionautonome.message.schoolyear} :</label>
+        <label>{i18n key="gestionautonome|gestionautonome.message.schoolyear}</label>
         <select name="destination_grade">
           {foreach from=$ppo->grades item=grade}
             {if $grade->id_as >= $ppo->currentGrade->id_as}
@@ -103,7 +103,7 @@
       </div>
     {else}
       <div class="field" id="destination-school">
-        {customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc}
+        <label>{customi18n key="gestionautonome|gestionautonome.message.%%Structure%%" catalog=$ppo->vocabularyCatalog->id_vc}</label>
         {$ppo->filters.schoolName}
         <input type="hidden" name="destination_school" value="{$ppo->filters.destinationSchool}" />
       </div>

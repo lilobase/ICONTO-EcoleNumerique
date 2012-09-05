@@ -1,5 +1,5 @@
 {if $ppo->withLabel}
-  <label>Classe :</label>
+  <label>Classe</label>
 {/if}
 
 <select class="form" name="{if $ppo->name neq null}{$ppo->name}{else}classroom{/if}">

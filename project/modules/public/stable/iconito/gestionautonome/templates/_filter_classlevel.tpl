@@ -1,6 +1,6 @@
 {if !empty($ppo->niveauxIds)}
   {if $ppo->withLabel}
-    <label>Niveau :</label>
+    <label>Niveau</label>
   {/if}
   <select class="form" name="{if $ppo->name neq null}{$ppo->name}{else}level{/if}">
     {if $ppo->withEmpty}

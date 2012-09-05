@@ -1,5 +1,5 @@
 {if $ppo->withLabel}
-  <label>Ecole :</label>
+  <label>Ecole</label>
 {/if}
 <select class="form" name="{if $ppo->name neq null}{$ppo->name}{else}school{/if}">
   {if $ppo->schoolsIds|@count > 0}
