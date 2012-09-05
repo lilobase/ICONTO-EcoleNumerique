@@ -16,13 +16,15 @@
 
 _classInclude('blog|blogauth');
 
-class ZoneShowBlogCategory extends CopixZone {
-   function _createContent (&$toReturn) {
+class ZoneShowBlogCategory extends CopixZone
+{
+   public function _createContent (&$toReturn)
+   {
       //Getting the user.
       //Create Services, and DAO
       $tpl = new CopixTpl ();
 
-			$id_blog = $this->getParam('id_blog', '');
+            $id_blog = $this->getParam('id_blog', '');
       //capability
       //$tpl->assign ('canManageCategory' , BlogAuth::canMakeInBlog('ADMIN_CATEGORIES',create_blog_object($id_blog)));
 
@@ -31,7 +33,7 @@ class ZoneShowBlogCategory extends CopixZone {
 
       // Recherche de toutes les catégories de la base
       $blogArticleCategoryDAO = _dao('blog|blogarticlecategory');
-			$tabArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
+            $tabArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
 
       $tpl->assign ('tabArticleCategory', $tabArticleCategory);
 
@@ -40,4 +42,3 @@ class ZoneShowBlogCategory extends CopixZone {
       return true;
    }
 }
-?>

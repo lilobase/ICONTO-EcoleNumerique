@@ -7,4 +7,3 @@ $delete     = new CopixAction ('Animateurs', 'getDelete');
 
 $default		= & $list;
 
-?>

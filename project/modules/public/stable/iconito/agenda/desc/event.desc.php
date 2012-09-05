@@ -15,4 +15,3 @@ $edit        = new CopixAction ('Event', 'processGetEdit');
 $valid       = new CopixAction ('Event', 'doValid');
 $delete      = new CopixAction ('Event', 'doDelete');
 
-?>

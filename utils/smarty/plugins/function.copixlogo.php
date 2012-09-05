@@ -37,4 +37,3 @@ function smarty_function_copixlogo($params, &$smarty)
     }
     return $out;
 }
-?>

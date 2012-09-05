@@ -381,7 +381,7 @@ class Zend_Locale
             if ($language !== 'C') {
                 if (strpos($language, '.') !== false) {
                     $language = substr($language, 0, strpos($language, '.'));
-                } else if (strpos($language, '@') !== false) {
+                } elseif (strpos($language, '@') !== false) {
                     $language = substr($language, 0, strpos($language, '@'));
                 }
 
@@ -830,7 +830,7 @@ class Zend_Locale
             trigger_error('You are running Zend_Locale in compatibility mode... please migrate your scripts', E_USER_NOTICE);
             if (isset(self::$_localeData[$locale]) === true) {
                 return $locale;
-            } else if (!$strict) {
+            } elseif (!$strict) {
                 $locale = explode('_', $locale);
                 if (isset(self::$_localeData[$locale[0]]) === true) {
                     return $locale[0];
@@ -839,7 +839,7 @@ class Zend_Locale
         } else {
             if (isset(self::$_localeData[$locale]) === true) {
                 return true;
-            } else if (!$strict) {
+            } elseif (!$strict) {
                 $locale = explode('_', $locale);
                 if (isset(self::$_localeData[$locale[0]]) === true) {
                     return true;

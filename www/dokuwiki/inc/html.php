@@ -16,8 +16,9 @@ require_once(DOKU_INC.'inc/form.php');
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_wikilink($id,$name=NULL,$search=''){
-  static $xhtml_renderer = NULL;
+function html_wikilink($id,$name=NULL,$search='')
+{
+  public static $xhtml_renderer = NULL;
   if(is_null($xhtml_renderer)){
     require_once(DOKU_INC.'inc/parser/xhtml.php');
     $xhtml_renderer = new Doku_Renderer_xhtml();
@@ -31,7 +32,8 @@ function html_wikilink($id,$name=NULL,$search=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_attbuild($attributes){
+function html_attbuild($attributes)
+{
   $ret = '';
   foreach ( $attributes as $key => $value ) {
     $ret .= $key.'="'.formtext($value).'" ';
@@ -44,7 +46,8 @@ function html_attbuild($attributes){
  *
  * @author   Andreas Gohr <andi@splitbrain.org>
  */
-function html_login(){
+function html_login()
+{
   global $lang;
   global $conf;
   global $ID;
@@ -85,7 +88,8 @@ function html_login(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_secedit_button($matches){
+function html_secedit_button($matches)
+{
   global $ID;
   global $INFO;
 
@@ -108,7 +112,8 @@ function html_secedit_button($matches){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_secedit($text,$show=true){
+function html_secedit($text,$show=true)
+{
   global $INFO;
 
   if($INFO['writable'] && $show && !$INFO['rev']){
@@ -126,7 +131,8 @@ function html_secedit($text,$show=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_topbtn(){
+function html_topbtn()
+{
   global $lang;
 
   $ret  = '';
@@ -141,7 +147,8 @@ function html_topbtn(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_btn($name,$id,$akey,$params,$method='get',$tooltip=''){
+function html_btn($name,$id,$akey,$params,$method='get',$tooltip='')
+{
   global $conf;
   global $lang;
 
@@ -196,7 +203,8 @@ function html_btn($name,$id,$akey,$params,$method='get',$tooltip=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_show($txt=''){
+function html_show($txt='')
+{
   global $ID;
   global $REV;
   global $HIGH;
@@ -234,7 +242,8 @@ function html_show($txt=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_draft(){
+function html_draft()
+{
   global $INFO;
   global $ID;
   global $lang;
@@ -262,7 +271,8 @@ function html_draft(){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Harry Fuecks <hfuecks@gmail.com>
  */
-function html_hilight($html,$phrases){
+function html_hilight($html,$phrases)
+{
   $regex = join('|',array_map('preg_quote_cb',array_filter((array) $phrases)));
 
   if ($regex === '') return $html;
@@ -275,7 +285,8 @@ function html_hilight($html,$phrases){
  *
  * @author Harry Fuecks <hfuecks@gmail.com>
  */
-function html_hilight_callback($m) {
+function html_hilight_callback($m)
+{
   $hlight = unslash($m[0]);
   if ( !isset($m[2])) {
     $hlight = '<span class="search_hit">'.$hlight.'</span>';
@@ -288,7 +299,8 @@ function html_hilight_callback($m) {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_search(){
+function html_search()
+{
   require_once(DOKU_INC.'inc/search.php');
   require_once(DOKU_INC.'inc/fulltext.php');
   global $conf;
@@ -371,7 +383,8 @@ function html_search(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_locked(){
+function html_locked()
+{
   global $ID;
   global $conf;
   global $lang;
@@ -394,7 +407,8 @@ function html_locked(){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function html_revisions($first=0){
+function html_revisions($first=0)
+{
   global $ID;
   global $INFO;
   global $conf;
@@ -515,7 +529,8 @@ function html_revisions($first=0){
  * @author Matthias Grimm <matthiasgrimm@users.sourceforge.net>
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function html_recent($first=0){
+function html_recent($first=0)
+{
   global $conf;
   global $lang;
   global $ID;
@@ -604,7 +619,8 @@ function html_recent($first=0){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_index($ns){
+function html_index($ns)
+{
   require_once(DOKU_INC.'inc/search.php');
   global $conf;
   global $ID;
@@ -634,7 +650,8 @@ function html_index($ns){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_list_index($item){
+function html_list_index($item)
+{
   global $ID;
   $ret = '';
   $base = ':'.$item['id'];
@@ -658,7 +675,8 @@ function html_list_index($item){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_li_index($item){
+function html_li_index($item)
+{
   if($item['type'] == "f"){
     return '<li class="level'.$item['level'].'">';
   }elseif($item['open']){
@@ -673,7 +691,8 @@ function html_li_index($item){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_li_default($item){
+function html_li_default($item)
+{
   return '<li class="level'.$item['level'].'">';
 }
 
@@ -692,7 +711,8 @@ function html_li_default($item){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_buildlist($data,$class,$func,$lifunc='html_li_default'){
+function html_buildlist($data,$class,$func,$lifunc='html_li_default')
+{
   $level = 0;
   $opens = 0;
   $ret   = '';
@@ -742,7 +762,8 @@ function html_buildlist($data,$class,$func,$lifunc='html_li_default'){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Michael Klier <chi@chimeric.de>
  */
-function html_backlinks(){
+function html_backlinks()
+{
   require_once(DOKU_INC.'inc/fulltext.php');
   global $ID;
   global $conf;
@@ -770,7 +791,8 @@ function html_backlinks(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_diff($text='',$intro=true){
+function html_diff($text='',$intro=true)
+{
   require_once(DOKU_INC.'inc/DifferenceEngine.php');
   global $ID;
   global $REV;
@@ -876,7 +898,8 @@ function html_diff($text='',$intro=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_conflict($text,$summary){
+function html_conflict($text,$summary)
+{
   global $ID;
   global $lang;
 
@@ -896,7 +919,8 @@ function html_conflict($text,$summary){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_msgarea(){
+function html_msgarea()
+{
   global $MSG;
 
   if(!isset($MSG)) return;
@@ -913,7 +937,8 @@ function html_msgarea(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_register(){
+function html_register()
+{
   global $lang;
   global $conf;
   global $ID;
@@ -944,7 +969,8 @@ function html_register(){
  * @author Christopher Smith <chris@jalakai.co.uk>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_updateprofile(){
+function html_updateprofile()
+{
   global $lang;
   global $conf;
   global $ID;
@@ -1111,7 +1137,8 @@ function html_edit($text=null,$include='edit'){ //FIXME: include needed?
  *
  * @author Andrea Gohr <andi@splitbrain.org>
  */
-function html_minoredit(){
+function html_minoredit()
+{
   global $conf;
   global $lang;
   // minor edits are for logged in users only
@@ -1130,7 +1157,8 @@ function html_minoredit(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_debug(){
+function html_debug()
+{
   global $conf;
   global $lang;
   global $auth;
@@ -1210,7 +1238,8 @@ function html_debug(){
   print '</body></html>';
 }
 
-function html_admin(){
+function html_admin()
+{
   global $ID;
   global $INFO;
   global $lang;
@@ -1251,7 +1280,8 @@ function html_admin(){
  *
  * @author Benoit Chesneau <benoit@bchesneau.info>
  */
-function html_resendpwd() {
+function html_resendpwd()
+{
   global $lang;
   global $conf;
   global $ID;
@@ -1277,7 +1307,8 @@ function html_resendpwd() {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function html_TOC($toc){
+function html_TOC($toc)
+{
     if(!count($toc)) return '';
     global $lang;
     $out  = '<!-- TOC START -->'.DOKU_LF;
@@ -1294,7 +1325,8 @@ function html_TOC($toc){
 /**
  * Callback for html_buildlist
  */
-function html_list_toc($item){
+function html_list_toc($item)
+{
     if($item['hid']){
         $link = '#'.$item['hid'];
     }else{
@@ -1315,7 +1347,8 @@ function html_list_toc($item){
  * @param int    $level - nesting level
  * @param string $hash  - is prepended to the given $link, set blank if you want full links
  */
-function html_mktocitem($link, $text, $level, $hash='#'){
+function html_mktocitem($link, $text, $level, $hash='#')
+{
     global $conf;
     return  array( 'link'  => $hash.$link,
                    'title' => $text,
@@ -1329,7 +1362,8 @@ function html_mktocitem($link, $text, $level, $hash='#'){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function html_form($name, &$form) {
+function html_form($name, &$form)
+{
   // Safety check in case the caller forgets.
   $form->endFieldset();
   trigger_event('HTML_'.strtoupper($name).'FORM_OUTPUT', $form, 'html_form_output', false);
@@ -1339,7 +1373,8 @@ function html_form($name, &$form) {
  * Form print function.
  * Just calls printForm() on the data object.
  */
-function html_form_output($data) {
+function html_form_output($data)
+{
   $data->printForm();
 }
 

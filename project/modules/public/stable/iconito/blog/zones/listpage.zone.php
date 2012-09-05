@@ -10,17 +10,18 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class ZoneListPage extends CopixZone {
-   function _createContent (&$toReturn) {
-
+class ZoneListPage extends CopixZone
+{
+   public function _createContent (&$toReturn)
+   {
       $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
-     
+
       $dao = _dao('blog|blogpage');
       $arPage = $dao->getAllPagesFromBlog($blog->id_blog);
       foreach($arPage as $key=>$page) {
-	   		$arPage[$key]->url_bpge = urlencode($page->url_bpge);
+               $arPage[$key]->url_bpge = urlencode($page->url_bpge);
       }
       $tpl->assign ('listPage' , $arPage);
 
@@ -28,4 +29,3 @@ class ZoneListPage extends CopixZone {
       return true;
    }
 }
-?>

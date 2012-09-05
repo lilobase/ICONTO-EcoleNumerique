@@ -3,10 +3,10 @@
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-class ZoneDashboardGrTravail extends enicZone {
-
-    public function _createContent(&$toReturn){
-
+class ZoneDashboardGrTravail extends enicZone
+{
+    public function _createContent(&$toReturn)
+    {
         //load TPL
         $tpl = new CopixTpl();
 
@@ -14,7 +14,7 @@ class ZoneDashboardGrTravail extends enicZone {
         $idZone = $this->getParam('idZone')*1;
 
         $descDatas = $this->model->query('SELECT description FROM module_groupe_groupe WHERE id = '.$idZone)->toString();
-        
+
         //transform in UTF8
         $descDatas = utf8_encode($descDatas);
 
@@ -30,4 +30,3 @@ class ZoneDashboardGrTravail extends enicZone {
     }
 
 }
-?>

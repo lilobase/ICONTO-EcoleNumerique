@@ -11,7 +11,7 @@
 /**
  * Vérifie les données saisies dans un formulaire, et le soumet si tout est ok
  */
-function smarty_function_ajax_submitform ($params, &$smarty) {
-	return _tag ('ajax_submitform', $params);
+function smarty_function_ajax_submitform ($params, &$smarty)
+{
+    return _tag ('ajax_submitform', $params);
 }
-?>

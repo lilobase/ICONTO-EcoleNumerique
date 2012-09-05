@@ -13,7 +13,8 @@
 * @package		copix
 * @subpackage	event
 */
-class CopixEvent {
+class CopixEvent
+{
    /**
    * Nom de l'événement
    * @var string name
@@ -31,7 +32,8 @@ class CopixEvent {
    * @param	string	$pName		le nom de l'événement
    * @param	array	$pParams	les paramètres passés à l'événement
    */
-   public function __construct ($pName, $pParams = array()){
+   public function __construct ($pName, $pParams = array())
+   {
       $this->_name   = $pName;
       $this->_params = $pParams;
    }
@@ -40,7 +42,8 @@ class CopixEvent {
    * Retourne le nom de l'événement
    * @return string
    */
-   public function getName (){
+   public function getName ()
+   {
       return $this->_name;
    }
 
@@ -49,8 +52,9 @@ class CopixEvent {
    * @param	string $pName	le nom du paramètre dont on souhaites récupérer le paramètre.
    * @return mixed	la valeur du paramètre
    */
-   public function getParam ($pName){
-      return isset ($this->_params[$pName]) ? $this->_params[$pName] : null; 
+   public function getParam ($pName)
+   {
+      return isset ($this->_params[$pName]) ? $this->_params[$pName] : null;
    }
 }
 
@@ -59,12 +63,13 @@ class CopixEvent {
 * @package		copix
 * @subpackage	event
 */
-class CopixEventResponse {
+class CopixEventResponse
+{
    /**
     * Liste des réponses reçues
     * @var array
     */
-	var $_responses = array ();
+    public $_responses = array ();
 
    /**
    * Ajoute une réponse à la liste
@@ -74,7 +79,8 @@ class CopixEventResponse {
    * </code>
    * @param	array $response un élément de réponse
    */
-   public function add ($response) {
+   public function add ($response)
+   {
       $this->_responses[] = $response;
    }
 
@@ -91,14 +97,15 @@ class CopixEventResponse {
     *    }else{
     *       //tout c'est bien passé
     *       CopixDB::commit ();
-    *    } 
+    *    }
     * </code>
     * @param	string	$pResponseName	l'élément que l'on recherche dans les réponses
     * @param	mixed	$pValue			la valeur de l'élément que l'on veut tester
     * @param 	array	$pResponse		liste des réponses ou l'on a trouvé la correspondance
     * @return boolean si l'on a trouvé l'élément ou non
     */
-   public function inResponse ($pResponseName, $pValue, & $pResponse){
+   public function inResponse ($pResponseName, $pValue, & $pResponse)
+   {
       $founded  = false;
       $pResponse = array ();
       foreach ($this->_responses as $key=>$listenerResponse){
@@ -114,7 +121,8 @@ class CopixEventResponse {
    * Récupère la liste des réponses retournées
    * @return	array	 la liste des réponses
    */
-   public function getResponse () {
+   public function getResponse ()
+   {
       return $this->_responses;
    }
 }
@@ -124,13 +132,14 @@ class CopixEventResponse {
  * @package		copix
  * @subpackage	core
  */
-class CopixEventNotifier {
+class CopixEventNotifier
+{
    /**
    * Liste des listener chargés
    * @var array
    */
    private $_listeners = array ();
-   
+
    /**
     * Singleton
     * @var CopixEventNotifier
@@ -146,13 +155,14 @@ class CopixEventNotifier {
    *    //ou
    *    CopixEventNotifier::notify (new CopixEvent ('eventName', array ('param1'=>'value1')));
    *    //ou
-   *    _notify ('eventName', array ('param1'=>'value1')); 
+   *    _notify ('eventName', array ('param1'=>'value1'));
    * </code>
    * @param		CopixEvent/string	$event 		l'événement lancé (ou le nom de l'événement)
    * @param		array				$pParams	les paramètres passés à l'événement
    * @return 	CopixEventResponse	la réponse de l'événement
    */
-   public static function notify ($pEvent, $pParams=array()) {
+   public static function notify ($pEvent, $pParams=array())
+   {
       //si on a passé une chaine de caractère, création de l'événement
       if (is_string ($pEvent)){
           $pEvent = new CopixEvent($pEvent, $pParams);
@@ -164,7 +174,8 @@ class CopixEventNotifier {
    * Singleton
    * @return CopixEventNotifier
    */
-   public static function instance () {
+   public static function instance ()
+   {
       if (self::$_instance === false) {
          self::$_instance = new CopixEventNotifier ();
       }
@@ -172,12 +183,13 @@ class CopixEventNotifier {
    }
 
    /**
-   * 
+   *
    * Dispatch l'événement à tous les listeners concernés
    * @param		CopixEvent	l'événement à traiter
    * @return	CopixEventResponse
    */
-   private function _dispatch ($event) {
+   private function _dispatch ($event)
+   {
       $response = new CopixEventResponse ();
       $this->_load ($event);
       $name = $event->getName ();
@@ -193,8 +205,8 @@ class CopixEventNotifier {
    * Chargement des listeners qui réagissent à un événement donné
    * @param	CopixEvent	$event	l'événement pour lequel on souhaites charger les listener
    */
-   private function _load ($event) {
+   private function _load ($event)
+   {
       $this->_listeners[$event->getName ()] = CopixListenerFactory::createFor ($event->getName ());
    }
 }
-?>

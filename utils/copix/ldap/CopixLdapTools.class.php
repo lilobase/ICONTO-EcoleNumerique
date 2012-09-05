@@ -15,7 +15,8 @@
 * @package copix
 * @subpackage ldap
 */
-class CopixLDAPTools {
+class CopixLDAPTools
+{
    /**
     * Explode a DN into an array of its RDN parts. This function is UTF-8 safe
     * and replaces the buggy PHP ldap_explode_dn() which does not properly
@@ -35,7 +36,8 @@ class CopixLDAPTools {
     *    )
     * </code>
     */
-    public function explodeDn ($dn, $with_attributes=0) {
+    public function explodeDn ($dn, $with_attributes=0)
+    {
       // replace "\," with the hexadecimal value for safe split
       $var = preg_replace("/\\\,/","\\\\\\\\2C",$dn);
 
@@ -67,19 +69,20 @@ class CopixLDAPTools {
      *
      * @see pla_compare_dns
      */
-    public function reverseDn($dn) {
-    	foreach ($this->explodeDn ($dn) as $key => $branch) {
+    public function reverseDn($dn)
+    {
+        foreach ($this->explodeDn ($dn) as $key => $branch) {
 
-    		// pla_expode_dn returns the array with an extra count attribute, we can ignore that.
-    		if ( $key === "count" ) continue;
+            // pla_expode_dn returns the array with an extra count attribute, we can ignore that.
+            if ( $key === "count" ) continue;
 
-    		if (isset($rev)) {
-    			$rev = $branch.",".$rev;
-    		} else {
-    			$rev = $branch;
-    		}
-    	}
-    	return $rev;
+            if (isset($rev)) {
+                $rev = $branch.",".$rev;
+            } else {
+                $rev = $branch;
+            }
+        }
+        return $rev;
     }
 
     /**
@@ -113,10 +116,11 @@ class CopixLDAPTools {
      * @param string $dn2 The second of two DNs to compare
      * @return int
      */
-    public function compareDn ( $dn1, $dn2 ){
+    public function compareDn ( $dn1, $dn2 )
+    {
         // If they are obviously the same, return immediately
         if( 0 === strcasecmp( $dn1, $dn2 ) )
-        	return 0;
+            return 0;
 
         $dn1_parts = $this->explodeDn ( $this->reverseDn($dn1) );
         $dn2_parts = $this->explodeDn ( $this->reverseDn($dn2) );
@@ -125,26 +129,26 @@ class CopixLDAPTools {
 
         // Foreach of the "parts" of the smaller DN
         for( $i=0; $i<count( $dn1_parts ) && $i<count( $dn2_parts ); $i++ ) {
-        	// dnX_part is of the form: "cn=joe" or "cn = joe" or "dc=example"
-        	// ie, one part of a multi-part DN.
-        	$dn1_part = $dn1_parts[$i];
-        	$dn2_part = $dn2_parts[$i];
+            // dnX_part is of the form: "cn=joe" or "cn = joe" or "dc=example"
+            // ie, one part of a multi-part DN.
+            $dn1_part = $dn1_parts[$i];
+            $dn2_part = $dn2_parts[$i];
 
-        	// Each "part" consists of two sub-parts:
-        	//   1. the attribute (ie, "cn" or "o")
-        	//   2. the value (ie, "joe" or "example")
-        	$dn1_sub_parts = explode( '=', $dn1_part, 2 );
-        	$dn2_sub_parts = explode( '=', $dn2_part, 2 );
+            // Each "part" consists of two sub-parts:
+            //   1. the attribute (ie, "cn" or "o")
+            //   2. the value (ie, "joe" or "example")
+            $dn1_sub_parts = explode( '=', $dn1_part, 2 );
+            $dn2_sub_parts = explode( '=', $dn2_part, 2 );
 
-        	$dn1_sub_part_attr = trim( $dn1_sub_parts[0] );
-        	$dn2_sub_part_attr = trim( $dn2_sub_parts[0] );
-        	if( 0 != ( $cmp = strcasecmp( $dn1_sub_part_attr, $dn2_sub_part_attr ) ) )
-        		return $cmp;
+            $dn1_sub_part_attr = trim( $dn1_sub_parts[0] );
+            $dn2_sub_part_attr = trim( $dn2_sub_parts[0] );
+            if( 0 != ( $cmp = strcasecmp( $dn1_sub_part_attr, $dn2_sub_part_attr ) ) )
+                return $cmp;
 
-        	$dn1_sub_part_val = trim( $dn1_sub_parts[1] );
-        	$dn2_sub_part_val = trim( $dn2_sub_parts[1] );
-        	if( 0 != ( $cmp = strcasecmp( $dn1_sub_part_val, $dn2_sub_part_val ) ) )
-        		return $cmp;
+            $dn1_sub_part_val = trim( $dn1_sub_parts[1] );
+            $dn2_sub_part_val = trim( $dn2_sub_parts[1] );
+            if( 0 != ( $cmp = strcasecmp( $dn1_sub_part_val, $dn2_sub_part_val ) ) )
+                return $cmp;
         }
 
         // If we iterated through all entries in the smaller of the two DNs
@@ -158,19 +162,20 @@ class CopixLDAPTools {
             return 0;
         }
     }
-    
+
     /**
     * Says if the given dn belongs to the other dn
     */
-    public function dnBelongsTo ($dn, $dnFather){
+    public function dnBelongsTo ($dn, $dnFather)
+    {
         $dn_parts = $this->explodeDn ( $this->reverseDn($dn) );
         $dnFather_parts = $this->explodeDn ( $this->reverseDn($dnFather) );
-        
+
         //the child must have more elements than its father
         if (count ($dn_parts) < count ($dnFather_parts)){
            return false;
         }
-        
+
         //hashTable for dnParts attributes
         $hashDn = array ();
         foreach ($dn_parts as $parts){
@@ -185,7 +190,7 @@ class CopixLDAPTools {
            if (!isset ($hashDn[$elem[0]])){
               return false;
            }
-           
+
            //if the curent attribute value does not exists in the child, return false
            if (!in_array ($elem[1], $hashDn[$elem[0]])){
               return false;
@@ -196,4 +201,3 @@ class CopixLDAPTools {
         return true;
     }
 }
-?>

@@ -24,7 +24,7 @@
 				<condition property="user_id"   operator="=" value="$user_id"   />
 			</conditions>
 		</method>
-		
+
 		<method name="deleteByUser" type="delete">
 			<parameters>
 				<parameter name="user_type" />

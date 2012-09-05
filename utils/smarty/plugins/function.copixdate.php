@@ -13,7 +13,8 @@
  * Simply output the made with Copix Logo
  * -------------------------------------------------------------
  */
-function smarty_function_copixdate($params, &$smarty) {
+function smarty_function_copixdate($params, &$smarty)
+{
     extract($params);
 
     //checking required params.
@@ -25,7 +26,7 @@ function smarty_function_copixdate($params, &$smarty) {
     if (empty ($timestamp)){
        $timestamp = time ();
     }
-    
+
     //check if the language is supported.
     if (!in_array ($lang, array ('fr', 'it', 'pg', 'en', 'pl', 'nl'))){
      $smarty->_trigger_fatal_error("[plugin copixdate] unsuported language: $lang");
@@ -74,4 +75,3 @@ function smarty_function_copixdate($params, &$smarty) {
                                array ($converter['day'][$dayNum], $dayNum, $converter['month'][date ("n", $timestamp)], date ("Y", $timestamp)),
                                $converter['format']);
 }
-?>

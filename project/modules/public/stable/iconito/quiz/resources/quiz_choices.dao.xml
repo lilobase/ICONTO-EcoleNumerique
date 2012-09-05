@@ -10,7 +10,7 @@
 		<property name="id_question" table="quiz_choices" fieldname="id_question" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_choices.fields.id_question"/>
 		<property name="content" table="quiz_choices" fieldname="content" pk="no" type="string" required="yes" captioni18n="dao.module_quiz_choices.fields.content_txt" />
 		<property name="correct" table="quiz_choices" fieldname="correct" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_choices.fields.correct" />
-		<property name="order" table="quiz_choices" fieldname="order" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_choices.fields.order" />         
+		<property name="order" table="quiz_choices" fieldname="order" pk="no" type="integer" required="yes" captioni18n="dao.module_quiz_choices.fields.order" />
         </properties>
         <methods>
             <method name="getChoices" type="select">

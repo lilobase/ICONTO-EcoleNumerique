@@ -10,16 +10,16 @@
 
 /**
  * Just focus the form element of the given id
- * 
+ *
  * <code>
  *   {formfocus id="field_id"}
  * </code>
  */
-function smarty_function_formfocus($params, $smarty) {
+function smarty_function_formfocus($params, $smarty)
+{
    if (isset ($params['assign'])) {
       $smarty->assign($params['assign'], _tag ('formfocus', $params));
    }else {
       return _tag ('formfocus', $params);
    }
 }
-?>

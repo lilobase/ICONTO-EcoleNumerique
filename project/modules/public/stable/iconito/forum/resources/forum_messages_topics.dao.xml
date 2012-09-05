@@ -58,7 +58,7 @@
 			</order>
 			<limit offset="$offset" count="$count" />
 		</method>
-		
+
 		<!-- La liste des messages précédents un autre message dans un topic
 		Sert à déterminer la page du message -->
 		<method name="getListMessagesInTopicBefore" type="select">

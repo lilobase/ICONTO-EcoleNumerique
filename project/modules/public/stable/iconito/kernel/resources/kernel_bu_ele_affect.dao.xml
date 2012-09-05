@@ -31,7 +31,7 @@
 			</parameters>
 			<conditions>
 				<condition property="affect_classe" operator="=" value="$classe" />
-				<condition property="affect_current" operator="=" value="1" /> 
+				<condition property="affect_current" operator="=" value="1" />
 			</conditions>
 		</method>
 	</methods>

@@ -1,13 +1,12 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-class ZoneRssMix extends enicZone{
-
-    function _createContent (&$toReturn) {
-
-
+class ZoneRssMix extends enicZone
+{
+    public function _createContent (&$toReturn)
+    {
         $tpl = new CopixTpl ();
 
         $tpl->assign('urladmin', $this->url('rssmix|default|default'));
@@ -21,4 +20,3 @@ class ZoneRssMix extends enicZone{
 
 
 }
-?>

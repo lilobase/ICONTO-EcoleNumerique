@@ -13,11 +13,12 @@
  * @package		tools
  * @subpackage	themechooser
  */
-class PluginThemeChooser extends CopixPlugin {
-	public function beforeProcess (){
-		if (in_array (CopixSession::get ('themechooser|theme'), $this->config->getThemeList ())) {
-			CopixTpl::setTheme (CopixSession::get ('themechooser|theme'));
-		}
-	}
+class PluginThemeChooser extends CopixPlugin
+{
+    public function beforeProcess ()
+    {
+        if (in_array (CopixSession::get ('themechooser|theme'), $this->config->getThemeList ())) {
+            CopixTpl::setTheme (CopixSession::get ('themechooser|theme'));
+        }
+    }
 }
-?>

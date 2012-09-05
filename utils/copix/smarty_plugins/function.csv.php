@@ -19,12 +19,12 @@
 * Examples:
 * {csv values=$arObjects displayHeaders=false order=$array displayHeaders=false}
 */
-function smarty_function_csv($params, $me) {
+function smarty_function_csv($params, $me)
+{
    if (isset ($params['assign'])) {
       $me->assign($params['assign'], _tag ('csv', $params));
    }else {
       return _tag ('csv', $params);
    }
-    
+
 }
-?>

@@ -2,12 +2,12 @@
 
 /**
  * Zone WikiButtons, qui affiche les boutons permettant de facilement mettre en forme selon la syntaxe wiki dans une zone de saisie libre.
- * 
+ *
  * @package Iconito
  * @subpackage	Kernel
  */
-class ZoneWikiButtons extends CopixZone {
-
+class ZoneWikiButtons extends CopixZone
+{
     /**
      * Affiche la série de boutons permettant à l'utilisateur de mettre en forme simplement le texte qu'il saisit dans une zone de texte libre.
      *
@@ -17,14 +17,15 @@ class ZoneWikiButtons extends CopixZone {
      * @param string $format Format de la zone de saisie (wiki, html, fckeditor...)
      * @param array $objet (option) Module dans lequel se trouve la barre wiki, dans un tableau indexé avec TYPE et ID (exemple: type=>MOD_BLOG, ID=>4). Si positionné, on va vérifier si le parent de cet objet a un album photos, une malle et un classeur, et si oui on affiche les liens vers l'album photos, la malle et le classeur en mode popup
      */
-    function _createContent(&$toReturn) {
+    public function _createContent(&$toReturn)
+    {
         $tpl = new CopixTpl ();
 
         $field = $this->getParam('field', NULL);
         $format = $this->getParam('format', NULL);
         $object = $this->getParam('object', NULL);
         $withAlbum = $this->getParam('withAlbum', true);
-        
+
         CopixHtmlHeader::addJSLink(CopixUrl::get() . 'js/iconito/wikibuttons.js');
 
         if ($field && $format) {
@@ -109,4 +110,3 @@ class ZoneWikiButtons extends CopixZone {
 
 }
 
-?>

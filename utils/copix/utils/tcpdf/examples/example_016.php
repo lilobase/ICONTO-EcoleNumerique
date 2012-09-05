@@ -3,12 +3,12 @@
 // File name   : example_016.php
 // Begin       : 2008-03-04
 // Last Update : 2009-03-18
-// 
+//
 // Description : Example 016 for TCPDF class
 //               Document Encryption / Security
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -34,7 +34,7 @@ require_once('../config/lang/eng.php');
 require_once('../tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // Set PDF protection (RSA 40bit encryption)
 /*
@@ -42,13 +42,13 @@ $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 * - copy: copy text and images to the clipboard
 * - print: print the document
 * - modify: modify it (except for annotations and forms)
-* - annot-forms: add annotations and forms 
-* If you don't set any password, the document will open as usual. 
-* If you set a user password, the PDF viewer will ask for it before 
-* displaying the document. The master password, if different from 
+* - annot-forms: add annotations and forms
+* If you don't set any password, the document will open as usual.
+* If you set a user password, the PDF viewer will ask for it before
+* displaying the document. The master password, if different from
 * the user one, can be used to get full access.
-* Note: protecting a document requires to encrypt it, which increases the 
-* processing time a lot. This can cause a PHP time-out in some cases, 
+* Note: protecting a document requires to encrypt it, which increases the
+* processing time a lot. This can cause a PHP time-out in some cases,
 * especially if the document contains images or fonts.
 */
 $pdf->SetProtection(array('print'));
@@ -79,10 +79,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -101,6 +101,5 @@ $pdf->Cell(0, 10, 'Encryption Example', 1, 1, 'C');
 $pdf->Output('example_016.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

@@ -11,28 +11,28 @@
 
 require_once (COPIX_UTILS_PATH.'CopixPager.class.php');
 
-class ZoneListArticleRss extends CopixZone {
-
+class ZoneListArticleRss extends CopixZone
+{
    /**
-	 * Affichage du flux RSS d'un blog (flux sortant)
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2006/11/28
-	 * @param mixed $blog Recordset du blog
+     * Affichage du flux RSS d'un blog (flux sortant)
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2006/11/28
+     * @param mixed $blog Recordset du blog
    */
-   function _createContent (&$toReturn) {
-    
+   public function _createContent (&$toReturn)
+   {
     $blog = $this->getParam('blog',null);
-    
-		$tpl  = new CopixTpl ();
-		
-	  //on récupère l'ensemble des articles du blog
+
+        $tpl  = new CopixTpl ();
+
+      //on récupère l'ensemble des articles du blog
     $dao = _dao('blog|blogarticle');
-      
+
     $arData = $dao->getAllArticlesFromBlog($blog->id_blog, NULL);
-    //print_r($arData); 
+    //print_r($arData);
     //$arData = $dao->getAllArticlesFromBlogByCritere($blog->id_blog, NULL);
-    
+
     if (count($arData) <= intval(CopixConfig::get('blog|nbRssArticles'))) {
       $tpl->assign ('listArticle'          , $arData);
     } else {
@@ -46,7 +46,7 @@ class ZoneListArticleRss extends CopixZone {
       $tpl->assign ('pager'                , $Pager->GetMultipage());
       $tpl->assign ('listArticle'          , $Pager->data);
     }
-    
+
     //print_r($blog);
     $rss = array (
       'title' => $blog->name_blog,
@@ -58,13 +58,12 @@ class ZoneListArticleRss extends CopixZone {
       'generator' => "Iconito",
       'logo' => ($blog->logo_blog) ? 1 : 0,
     );
-		$tpl->assign ('rss' , $rss);	
-		$tpl->assign ('blog' , $blog);	
+        $tpl->assign ('rss' , $rss);
+        $tpl->assign ('blog' , $blog);
 
     $toReturn = $tpl->fetch('listarticlerss.tpl');
     return true;
-  
+
   }
 
 }
-?>

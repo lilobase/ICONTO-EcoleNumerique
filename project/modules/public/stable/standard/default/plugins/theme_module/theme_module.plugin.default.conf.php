@@ -13,20 +13,22 @@
  * @package   standard
  * @subpackage plugin_theme_module
  */
-class PluginDefaultConfigTheme_Module {
-	protected $_themeForModule = array ();
-	
-	public function __construct (){
-		$this->_themeForModule['bench_news'] = 'bench';
-		$this->_themeForModule['simpletest'] = 'ete';
-	}
-	
-	/**
-	 * Récupération du thème configuré pour le module donné
-	 */
-	public function getThemeFor ($pModule){
-		$pModule = strtolower ($pModule);
-		return isset ($this->_themeForModule[$pModule]) ? $this->_themeForModule[$pModule] : null;
-	}
+class PluginDefaultConfigTheme_Module
+{
+    protected $_themeForModule = array ();
+
+    public function __construct ()
+    {
+        $this->_themeForModule['bench_news'] = 'bench';
+        $this->_themeForModule['simpletest'] = 'ete';
+    }
+
+    /**
+     * Récupération du thème configuré pour le module donné
+     */
+    public function getThemeFor ($pModule)
+    {
+        $pModule = strtolower ($pModule);
+        return isset ($this->_themeForModule[$pModule]) ? $this->_themeForModule[$pModule] : null;
+    }
 }
-?>

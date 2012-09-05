@@ -1,6 +1,6 @@
 <?php
 /**
-* @package		tools 
+* @package		tools
  * @subpackage	chart
 * @author    Landry Benguigui
 * @copyright CopixTeam
@@ -9,10 +9,10 @@
 
 /**
 * AbstractFactory qui gère l'ensemble des factory de graphes.
-* 
+*
 * Utilisera le paramètre chart|chartfactory pour savoir quelle fabrique concrète utiliser
 * @todo réaliser les implémentation des factory jpg classiques sans passer par swf
-* @package		tools 
+* @package		tools
  * @subpackage	chart
 * <code>
 * //exemple d'utilisation
@@ -21,61 +21,63 @@
 * $pie = $factory->createPie ();
 * </code>
 */
-abstract class ChartFactory {	
+abstract class ChartFactory
+{
     /**
-	 * ici on retourne la factory en fonction des parametres dans module.xml
-	 */	
-	public static function getChartFactory(){
-		switch(CopixConfig::get ('Chart|chartfactory')){			
-			case 'SwfChart':			
-				return CopixClassesFactory::getInstanceOf('chart_swf|SwfChartFactory');
-			break;			
-		}		
-	}
-	/**
-	 * Création d'un graphique de type Pie
-	 * @return Pie
-	 */
-	abstract public function createPie ();
-	/**
-	 * Création d'un graphique de type Column
-	 * @return Column
-	 */
-	abstract public function createColumn ();
-	/**
-	 * Création d'un graphique de type Bar
-	 * @return Bar
-	 */
-	abstract public function createBar ();
+     * ici on retourne la factory en fonction des parametres dans module.xml
+     */
+    public static function getChartFactory()
+    {
+        switch(CopixConfig::get ('Chart|chartfactory')){
+            case 'SwfChart':
+                return CopixClassesFactory::getInstanceOf('chart_swf|SwfChartFactory');
+            break;
+        }
+    }
+    /**
+     * Création d'un graphique de type Pie
+     * @return Pie
+     */
+    abstract public function createPie ();
+    /**
+     * Création d'un graphique de type Column
+     * @return Column
+     */
+    abstract public function createColumn ();
+    /**
+     * Création d'un graphique de type Bar
+     * @return Bar
+     */
+    abstract public function createBar ();
 }
 
 /**
  * Interface principale pour la génération de graphes
-* @package		tools 
+* @package		tools
  * @subpackage	chart
  */
 interface chart {}
 
 /**
  * Interfaces des PieCharts
-* @package		tools 
+* @package		tools
  * @subpackage	chart
  */
-interface pie extends chart {
-	public function splitPart($pDissocier);
+interface pie extends chart
+{
+    public function splitPart($pDissocier);
 }
 
 /**
  * Interfaces des ColumnCharts
-* @package		tools 
+* @package		tools
  * @subpackage	chart
  */
 interface column  extends chart {}
 
 /**
  * Interfaces des BarCharts
-* @package		tools 
+* @package		tools
  * @subpackage	chart
  */
 interface bar extends chart {}
-?>

@@ -9,48 +9,52 @@
  * @author Morten Fangel (C) 2008
  * @license http://creativecommons.org/licenses/by-sa/2.5/dk/deed.en_GB CC-BY-SA-DK
  */
-class SG_iCal_VCalendar implements IteratorAggregate {
-	protected $data;
+class SG_iCal_VCalendar implements IteratorAggregate
+{
+    protected $data;
 
-	/**
-	 * Creates a new SG_iCal_VCalendar.
-	 */
-	public function __construct($data) {
-		$this->data = $data;
-	}
+    /**
+     * Creates a new SG_iCal_VCalendar.
+     */
+    public function __construct($data)
+    {
+        $this->data = $data;
+    }
 
-	/**
-	 * Returns the title of the calendar. If no title is known, NULL
-	 * will be returned
-	 * @return string
-	 */
-	public function getTitle() {
-		if( isset($this->data['x-wr-calname']) ) {
-			return $this->data['x-wr-calname'];
-		} else {
-			return null;
-		}
-	}
+    /**
+     * Returns the title of the calendar. If no title is known, NULL
+     * will be returned
+     * @return string
+     */
+    public function getTitle()
+    {
+        if( isset($this->data['x-wr-calname']) ) {
+            return $this->data['x-wr-calname'];
+        } else {
+            return null;
+        }
+    }
 
-	/**
-	 * Returns the description of the calendar. If no description is
-	 * known, NULL will be returned.
-	 * @return string
-	 */
-	public function getDescription() {
-		if( isset($this->data['x-wr-caldesc']) ) {
-			return $this->data['x-wr-caldesc'];
-		} else {
-			return null;
-		}
-	}
+    /**
+     * Returns the description of the calendar. If no description is
+     * known, NULL will be returned.
+     * @return string
+     */
+    public function getDescription()
+    {
+        if( isset($this->data['x-wr-caldesc']) ) {
+            return $this->data['x-wr-caldesc'];
+        } else {
+            return null;
+        }
+    }
 
-	/**
-	 * @see IteratorAggregate.getIterator()
-	 */
-	public function getIterator() {
-		return new ArrayIterator($this->data);
-	}
+    /**
+     * @see IteratorAggregate.getIterator()
+     */
+    public function getIterator()
+    {
+        return new ArrayIterator($this->data);
+    }
 }
 
-?>

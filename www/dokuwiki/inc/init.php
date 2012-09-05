@@ -4,7 +4,8 @@
  */
 
   // start timing Dokuwiki execution
-  function delta_time($start=0) {
+  function delta_time($start=0)
+  {
     list($usec, $sec) = explode(" ", microtime());
     return ((float)$usec+(float)$sec)-((float)$start);
   }
@@ -20,8 +21,7 @@
   if (!defined('DOKU_E_LEVEL') && @file_exists(DOKU_CONF.'report_e_all')) {
     define('DOKU_E_LEVEL', E_ALL);
   }
-  if (!defined('DOKU_E_LEVEL')) { error_reporting(E_ALL ^ E_NOTICE); }
-  else { error_reporting(DOKU_E_LEVEL); }
+  if (!defined('DOKU_E_LEVEL')) { error_reporting(E_ALL ^ E_NOTICE); } else { error_reporting(DOKU_E_LEVEL); }
 
   // init memory caches
   global $cache_revinfo;  $cache_revinfo = array();
@@ -151,7 +151,8 @@
 /**
  * Checks paths from config file
  */
-function init_paths(){
+function init_paths()
+{
   global $conf;
 
   $paths = array('datadir'   => 'pages',
@@ -182,7 +183,8 @@ function init_paths(){
 /**
  * Checks the existance of certain files and creates them if missing.
  */
-function init_files(){
+function init_files()
+{
   global $conf;
 
   $files = array( $conf['indexdir'].'/page.idx');
@@ -208,7 +210,8 @@ function init_files(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function init_path($path){
+function init_path($path)
+{
   // check existance
   $p = fullpath($path);
   if(!@file_exists($p)){
@@ -237,7 +240,8 @@ function init_path($path){
  * file with chmod. Considers the influence of the system's umask
  * setting the values only if needed.
  */
-function init_creationmodes(){
+function init_creationmodes()
+{
   global $conf;
 
   // Legacy support for old umask/dmask scheme
@@ -267,7 +271,8 @@ function init_creationmodes(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function remove_magic_quotes(&$array) {
+function remove_magic_quotes(&$array)
+{
   foreach (array_keys($array) as $key) {
       // handle magic quotes in keynames (breaks order)
       $sk = stripslashes($key);
@@ -292,7 +297,8 @@ function remove_magic_quotes(&$array) {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function getBaseURL($abs=null){
+function getBaseURL($abs=null)
+{
   global $conf;
   //if canonical url enabled always return absolute
   if(is_null($abs)) $abs = $conf['canonical'];
@@ -359,7 +365,8 @@ function getBaseURL($abs=null){
  *
  * @author Jan Decaluwe <jan@jandecaluwe.com>
  */
-function scriptify($file) {
+function scriptify($file)
+{
   // checks
   if (!is_readable($file)) {
     return;
@@ -390,7 +397,8 @@ function scriptify($file) {
 /**
  * print a nice message even if no styles are loaded yet.
  */
-function nice_die($msg){
+function nice_die($msg)
+{
   echo<<<EOT
   <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
    "http://www.w3.org/TR/html4/loose.dtd">
@@ -418,7 +426,8 @@ EOT;
  * @author <richpageau at yahoo dot co dot uk>
  * @link   http://de3.php.net/manual/en/function.realpath.php#75992
  */
-function fullpath($path){
+function fullpath($path)
+{
     $iswin = (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN');
     if($iswin) $path = str_replace('\\','/',$path); // windows compatibility
 
@@ -447,8 +456,7 @@ function fullpath($path){
     // check then return valid path or filename
     if (file_exists($finalpath)) {
         return ($finalpath);
-    }
-    else return false;
+    } else return false;
 }
 
 

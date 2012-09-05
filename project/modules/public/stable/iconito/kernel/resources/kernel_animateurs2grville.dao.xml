@@ -11,10 +11,10 @@
 		<property name="user_type"  fieldname="user_type"  type="string"   table="kernel_animateurs2grville" pk="yes"/>
 		<property name="user_id"    fieldname="user_id"    type="integer"  table="kernel_animateurs2grville" pk="yes"/>
 		<property name="grville_id" fieldname="grville_id" type="integer"  table="kernel_animateurs2grville" pk="no"  fktable="module_grvilles_gr2ville" fkfieldname="id_groupe" />
-		
+
 		<property name="id_ville"   fieldname="id_ville"   type="integer" table="module_grvilles_gr2ville" pk="yes"/>
 	</properties>
-	
+
 	<methods>
 		<method name="findByUser" type="select">
 			<parameters>
@@ -26,7 +26,7 @@
 				<condition property="user_id"   operator="=" value="$user_id"   />
 			</conditions>
 		</method>
-		
+
 		<method name="deleteByUser" type="delete">
 			<parameters>
 				<parameter name="user_type" />
@@ -38,5 +38,5 @@
 			</conditions>
 		</method>
 	</methods>
-	
+
 </daodefinition>

@@ -8,4 +8,3 @@ $doDeleteMail				= new CopixAction ('Magicmail', 'doDeleteMail');
 $go							= new CopixAction ('Magicmail', 'getMagicMail');
 $default				= & $go;
 
-?>

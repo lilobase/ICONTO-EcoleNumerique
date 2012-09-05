@@ -13,40 +13,40 @@
  * @package copix
  * @subpackage db
  */
-class CopixDBQueryParam {
-	/**
-	 * Automatique, rien de défini
-	 */
-	const DB_AUTO = 0;
+class CopixDBQueryParam
+{
+    /**
+     * Automatique, rien de défini
+     */
+    const DB_AUTO = 0;
 
-	/**
-	 * Chaine de caractère
-	 */
-	const DB_STRING = 1;
+    /**
+     * Chaine de caractère
+     */
+    const DB_STRING = 1;
 
-	/**
-	 * Entier
-	 */
-	const DB_INT = 2;
+    /**
+     * Entier
+     */
+    const DB_INT = 2;
 
-	/**
-	 * Curseur
-	 */
-	const DB_CURSOR = 3;
-	
-	/**
-	 * BLOB
-	 */
-	const DB_BLOB = 4;
-	
-	/**
-	 * LOB
-	 */
-	const DB_LOB = 5;
+    /**
+     * Curseur
+     */
+    const DB_CURSOR = 3;
 
-	/**
-	 * CLOB
-	 */
-	const DB_CLOB = 5;	
-} 
-?>
+    /**
+     * BLOB
+     */
+    const DB_BLOB = 4;
+
+    /**
+     * LOB
+     */
+    const DB_LOB = 5;
+
+    /**
+     * CLOB
+     */
+    const DB_CLOB = 5;
+}

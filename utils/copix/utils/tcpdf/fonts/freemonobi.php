@@ -150,4 +150,3 @@ $diff='';
 $file='freemonobi.z';
 $ctg='freemonobi.ctg.z';
 $originalsize=145080;
-?>

@@ -1,8 +1,8 @@
 <?php
 /**
  * @package standard
- * @subpackage admin 
-* 
+ * @subpackage admin
+*
 * @author		Bertrand Yan, Croes Gérald
 * @copyright	2001-2005 CopixTeam
 * @link			http://copix.org
@@ -12,15 +12,16 @@
 /**
 * Permet la sélection de la page d'accueil
  * @package standard
- * @subpackage admin 
-* 
+ * @subpackage admin
+*
 */
-class ZoneSelectHomePage extends CopixZone {
-	function _createContent (& $toReturn){
-		$tpl = new CopixTpl ();
-		$tpl->assign ('homepageUrl', CopixConfig::get ('|homePage'));
-		$toReturn = $tpl->fetch ('selecthomepage.form.tpl');
-		return true;
-	}
+class ZoneSelectHomePage extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
+        $tpl = new CopixTpl ();
+        $tpl->assign ('homepageUrl', CopixConfig::get ('|homePage'));
+        $toReturn = $tpl->fetch ('selecthomepage.form.tpl');
+        return true;
+    }
 }
-?>

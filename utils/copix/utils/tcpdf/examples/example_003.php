@@ -3,12 +3,12 @@
 // File name   : example_003.php
 // Begin       : 2008-03-04
 // Last Update : 2009-03-18
-// 
+//
 // Description : Example 003 for TCPDF class
 //               Custom Header and Footer
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -35,30 +35,33 @@ require_once('../tcpdf.php');
 
 
 // Extend the TCPDF class to create custom Header and Footer
-class MYPDF extends TCPDF {
-	//Page header
-	public function Header() {
-		// Logo
-		$this->Image(K_PATH_IMAGES.'logo_example.jpg', 10, 8, 15);
-		// Set font
-		$this->SetFont('helvetica', 'B', 20);
-		// Move to the right
-		$this->Cell(80);
-		// Title
-		$this->Cell(30, 10, 'Title', 0, 0, 'C');
-		// Line break
-		$this->Ln(20);
-	}
-	
-	// Page footer
-	public function Footer() {
-		// Position at 1.5 cm from bottom
-		$this->SetY(-15);
-		// Set font
-		$this->SetFont('helvetica', 'I', 8);
-		// Page number
-		$this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, 0, 'C');
-	}
+class MYPDF extends TCPDF
+{
+    //Page header
+    public function Header()
+    {
+        // Logo
+        $this->Image(K_PATH_IMAGES.'logo_example.jpg', 10, 8, 15);
+        // Set font
+        $this->SetFont('helvetica', 'B', 20);
+        // Move to the right
+        $this->Cell(80);
+        // Title
+        $this->Cell(30, 10, 'Title', 0, 0, 'C');
+        // Line break
+        $this->Ln(20);
+    }
+
+    // Page footer
+    public function Footer()
+    {
+        // Position at 1.5 cm from bottom
+        $this->SetY(-15);
+        // Set font
+        $this->SetFont('helvetica', 'I', 8);
+        // Page number
+        $this->Cell(0, 10, 'Page '.$this->getAliasNumPage().'/'.$this->getAliasNbPages(), 0, 0, 'C');
+    }
 }
 
 // create new PDF document
@@ -90,10 +93,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -112,6 +115,5 @@ $pdf->Cell(0, 10, 'Example 003', 0, 1, 'C');
 $pdf->Output('example_003.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

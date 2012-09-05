@@ -26,25 +26,25 @@ require_once 'PHPUnit/TestCase.php';
 class Numbers_Words_spanish_TestCase extends PHPUnit_TestCase
 {
     //contains the MDB object of the db once we have connected
-    var $db;
+    public $db;
 
-    function Numbers_Words_spanish_TestCase($name)
+    public function Numbers_Words_spanish_TestCase($name)
     {
         $this->PHPUnit_TestCase($name);
     }
 
-    function setUp()
+    public function setUp()
     {
     }
 
-    function tearDown()
+    public function tearDown()
     {
     }
 
     /**
     * Testing numbers between 0 and 9
     */
-    function testDigits()
+    public function testDigits()
     {
         $digits = array('cero',
                         'uno',
@@ -57,8 +57,7 @@ class Numbers_Words_spanish_TestCase extends PHPUnit_TestCase
                         'ocho',
                         'nueve'
                        );
-        for ($i = 0; $i < 10; $i++)
-        {
+        for ($i = 0; $i < 10; $i++) {
             $number = Numbers_Words::toWords($i, 'es');
             $this->assertEquals($digits[$i], $number);
         }
@@ -67,7 +66,7 @@ class Numbers_Words_spanish_TestCase extends PHPUnit_TestCase
     /**
     * Testing numbers between 10 and 99
     */
-    function testTens()
+    public function testTens()
     {
         $tens = array(11 => 'once',
                       12 => 'doce',
@@ -95,7 +94,7 @@ class Numbers_Words_spanish_TestCase extends PHPUnit_TestCase
     /**
     * Testing numbers between 100 and 999
     */
-    function testHundreds()
+    public function testHundreds()
     {
         $hundreds = array(100 => 'cien',
                           101 => 'ciento uno',
@@ -120,7 +119,7 @@ class Numbers_Words_spanish_TestCase extends PHPUnit_TestCase
     /**
     * Testing numbers between 1000 and 9999
     */
-    function testThousands()
+    public function testThousands()
     {
         $thousands = array(1000 => 'mil',
                            1001 => 'mil uno',
@@ -142,4 +141,3 @@ class Numbers_Words_spanish_TestCase extends PHPUnit_TestCase
     }
 }
 
-?>

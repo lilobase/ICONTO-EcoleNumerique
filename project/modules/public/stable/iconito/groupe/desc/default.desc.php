@@ -29,4 +29,3 @@ $default 							= & $getListMy;
 $example    = new CopixAction ('Exemple', 'getExemple');
 $default    = & $example;
 */
-?>

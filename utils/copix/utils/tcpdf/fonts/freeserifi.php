@@ -256,4 +256,3 @@ $diff='';
 $file='freeserifi.z';
 $ctg='freeserifi.ctg.z';
 $originalsize=629968;
-?>

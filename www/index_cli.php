@@ -1,4 +1,4 @@
-#!/usr/bin/php -q 
+#!/usr/bin/php -q
 <?php
 /**
 * @package  copix
@@ -20,16 +20,16 @@ require_once (COPIX_UTILS_PATH  .'CopixCLI.class.php');
 $cli =   new  CopixCLI();
 $is = $cli->prepare();
 if($is){
-    try {	
+    try {
        $coord = new ProjectController ($path.'/../project/config/copix.conf.php');
        $coord->process ();
     }catch (CopixCredentialException $e){
-    	echo "You're not authorized to do that, please try to auth";
-    	exit;
+        echo "You're not authorized to do that, please try to auth";
+        exit;
     }catch (Exception $e){
-    	$coord->showException ($e);
+        $coord->showException ($e);
     }
 }else {
-	echo($cli->message);
+    echo($cli->message);
 }
 ?>

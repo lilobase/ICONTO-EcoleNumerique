@@ -11,11 +11,11 @@
 /**
  * Création d'une liste déroulante
  */
-function smarty_function_select ($params, $me) {
-	if (isset ($params['assign'])){
-		$me->assign ($params['assign'], _tag ('select', $params));
-	} else {
-		return _tag ('select', $params);
-	}
+function smarty_function_select ($params, $me)
+{
+    if (isset ($params['assign'])){
+        $me->assign ($params['assign'], _tag ('select', $params));
+    } else {
+        return _tag ('select', $params);
+    }
 }
-?>

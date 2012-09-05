@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -8,9 +8,10 @@
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-class ZoneAdminList extends enicZone{
-
-    function _createContent (&$toReturn) {
+class ZoneAdminList extends enicZone
+{
+    public function _createContent (&$toReturn)
+    {
         $id_gr_quiz = $this->session->load('id_gr_quiz');
 
         //get the active quiz liste
@@ -27,9 +28,8 @@ class ZoneAdminList extends enicZone{
         $tpl = new CopixTpl();
         $tpl->assign('ppo', $ppo);
         $toReturn = $tpl->fetch('zone.admin.list.tpl');
-        
+
         return true;
     }
 
 }
-?>

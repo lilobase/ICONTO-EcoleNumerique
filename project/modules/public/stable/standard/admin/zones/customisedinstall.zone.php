@@ -1,8 +1,8 @@
 <?php
 /**
  * @package standard
- * @subpackage admin 
-* 
+ * @subpackage admin
+*
 * @author		Bertrand Yan, Croes Gérald
 * @copyright	2001-2005 CopixTeam
 * @link			http://copix.org
@@ -12,26 +12,28 @@
 /**
  * Affichage de la liste des modules disponibles pour installation
  * @package standard
- * @subpackage admin 
- * 
+ * @subpackage admin
+ *
  */
-class ZoneCustomisedInstall extends CopixZone {
+class ZoneCustomisedInstall extends CopixZone
+{
     /**
      * Création du contenu de la page
      */
-	function _createContent (&$toReturn) {
-		$tpl = new CopixTpl ();
-		$tpl->assign ('arModulesPath', CopixConfig::instance ()->arModulesPath);
-		$tpl->assign ('arModules', $this->_getModuleOrderByDescription ());
-		$toReturn = $tpl->fetch ('modules.list.tpl');
-	}
-    
+    public function _createContent (&$toReturn)
+    {
+        $tpl = new CopixTpl ();
+        $tpl->assign ('arModulesPath', CopixConfig::instance ()->arModulesPath);
+        $tpl->assign ('arModules', $this->_getModuleOrderByDescription ());
+        $toReturn = $tpl->fetch ('modules.list.tpl');
+    }
+
     /**
     * Récupération des modules dans l'ordre de leur description
     * @todo a trier comme avant
     */
-    function _getModuleOrderByDescription ($pGroupId = null){
-		return _class ('InstallService')->getModules ($pGroupId);
+    public function _getModuleOrderByDescription ($pGroupId = null)
+    {
+        return _class ('InstallService')->getModules ($pGroupId);
     }
 }
-?>

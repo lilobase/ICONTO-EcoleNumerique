@@ -24,40 +24,40 @@
 *           * = any extra params will be used to generate the url
 *
 */
-function smarty_function_copixurl($params, &$me) {
-	if(isset($params['notxml'])){
-		$isxml = ($params['notxml']=='true'?false:true);
-		unset($params['notxml']);
-	}else{
-		$isxml = true;
-	}
+function smarty_function_copixurl($params, &$me)
+{
+    if(isset($params['notxml'])){
+        $isxml = ($params['notxml']=='true'?false:true);
+        unset($params['notxml']);
+    }else{
+        $isxml = true;
+    }
 
-	$assign = '';
-	if(isset($params['assign'])){
-		$assign = $params['assign'];
-		unset($params['assign']);
-	}
+    $assign = '';
+    if(isset($params['assign'])){
+        $assign = $params['assign'];
+        unset($params['assign']);
+    }
 
-	if (!isset ($params['dest']) && !isset ($params['appendFrom'])){
-		$toReturn = _url (null,array(),$isxml);
-	}
+    if (!isset ($params['dest']) && !isset ($params['appendFrom'])){
+        $toReturn = _url (null,array(),$isxml);
+    }
 
-	if (isset ($params['appendFrom'])){
-		$appendFrom = $params['appendFrom'];
-		unset ($params['appendFrom']);
-		$toReturn = CopixUrl::appendToUrl ($appendFrom, $params, $isxml);
-	}
-	if (isset ($params['dest'])){
-		$dest = $params['dest'];
-		unset ($params['dest']);
-		$toReturn = _url ($dest, $params,$isxml);
-	}
+    if (isset ($params['appendFrom'])){
+        $appendFrom = $params['appendFrom'];
+        unset ($params['appendFrom']);
+        $toReturn = CopixUrl::appendToUrl ($appendFrom, $params, $isxml);
+    }
+    if (isset ($params['dest'])){
+        $dest = $params['dest'];
+        unset ($params['dest']);
+        $toReturn = _url ($dest, $params,$isxml);
+    }
 
-	if (strlen($assign) > 0){
-		$me->assign($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+    if (strlen($assign) > 0){
+        $me->assign($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

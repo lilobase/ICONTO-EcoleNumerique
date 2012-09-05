@@ -29,4 +29,3 @@ function smarty_modifier_default($string, $default = '')
 
 /* vim: set expandtab: */
 
-?>

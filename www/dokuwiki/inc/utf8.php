@@ -33,7 +33,8 @@ if(UTF8_MBSTRING){ mb_internal_encoding('UTF-8'); }
  * @author Andreas Gohr <andi@splitbrain.org>
  * @see    urlencode
  */
-function utf8_encodeFN($file,$safe=true){
+function utf8_encodeFN($file,$safe=true)
+{
   if($safe && preg_match('#^[a-zA-Z0-9/_\-.%]+$#',$file)){
     return $file;
   }
@@ -50,7 +51,8 @@ function utf8_encodeFN($file,$safe=true){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @see    urldecode
  */
-function utf8_decodeFN($file){
+function utf8_decodeFN($file)
+{
   $file = urldecode($file);
   return $file;
 }
@@ -60,7 +62,8 @@ function utf8_decodeFN($file){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function utf8_isASCII($str){
+function utf8_isASCII($str)
+{
   for($i=0; $i<strlen($str); $i++){
     if(ord($str{$i}) >127) return false;
   }
@@ -74,7 +77,8 @@ function utf8_isASCII($str){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function utf8_strip($str){
+function utf8_strip($str)
+{
   $ascii = '';
   for($i=0; $i<strlen($str); $i++){
     if(ord($str{$i}) <128){
@@ -90,7 +94,8 @@ function utf8_strip($str){
  * @author <bmorel@ssi.fr>
  * @link   http://www.php.net/manual/en/function.utf8-encode.php
  */
-function utf8_check($Str) {
+function utf8_check($Str)
+{
  for ($i=0; $i<strlen($Str); $i++) {
   $b = ord($Str[$i]);
   if ($b < 0x80) continue; # 0bbbbbbb
@@ -119,7 +124,8 @@ function utf8_check($Str) {
  * @see    strlen()
  * @see    utf8_decode()
  */
-function utf8_strlen($string){
+function utf8_strlen($string)
+{
   return strlen(utf8_decode($string));
 }
 
@@ -135,7 +141,8 @@ function utf8_strlen($string){
  * @param integer (optional) length in UTF-8 characters from offset
  * @return mixed string or false if failure
  */
-function utf8_substr($str, $offset, $length = null) {
+function utf8_substr($str, $offset, $length = null)
+{
     if(UTF8_MBSTRING){
         if( $length === null ){
             return mb_substr($str, $offset);
@@ -207,7 +214,7 @@ function utf8_substr($str, $offset, $length = null) {
         if ($Lx) $length_pattern = '(?:.{65535}){'.$Lx.'}';
         $length_pattern = '('.$length_pattern.'.{'.$Ly.'})';
 
-      } else if ($length < 0) {
+      } elseif ($length < 0) {
 
         if ($length < ($offset - $strlen)) return '';
 
@@ -231,7 +238,8 @@ function utf8_substr($str, $offset, $length = null) {
  * @author Andreas Gohr <andi@splitbrain.org>
  * @see    substr_replace()
  */
-function utf8_substr_replace($string, $replacement, $start , $length=0 ){
+function utf8_substr_replace($string, $replacement, $start , $length=0 )
+{
   $ret = '';
   if($start>0) $ret .= utf8_substr($string, 0, $start);
   $ret .= $replacement;
@@ -246,7 +254,8 @@ function utf8_substr_replace($string, $replacement, $start , $length=0 ){
  * @see    ltrim()
  * @return string
  */
-function utf8_ltrim($str,$charlist=''){
+function utf8_ltrim($str,$charlist='')
+{
   if($charlist == '') return ltrim($str);
 
   //quote charlist for use in a characterclass
@@ -262,7 +271,8 @@ function utf8_ltrim($str,$charlist=''){
  * @see    rtrim()
  * @return string
  */
-function  utf8_rtrim($str,$charlist=''){
+function  utf8_rtrim($str,$charlist='')
+{
   if($charlist == '') return rtrim($str);
 
   //quote charlist for use in a characterclass
@@ -278,7 +288,8 @@ function  utf8_rtrim($str,$charlist=''){
  * @see    trim()
  * @return string
  */
-function  utf8_trim($str,$charlist='') {
+function  utf8_trim($str,$charlist='')
+{
   if($charlist == '') return trim($str);
 
   return utf8_ltrim(utf8_rtrim($str,$charlist),$charlist);
@@ -294,7 +305,8 @@ function  utf8_trim($str,$charlist='') {
  * @see    strtolower()
  * @see    utf8_strtoupper()
  */
-function utf8_strtolower($string){
+function utf8_strtolower($string)
+{
   if(UTF8_MBSTRING) return mb_strtolower($string,'utf-8');
 
   global $UTF8_UPPER_TO_LOWER;
@@ -310,7 +322,8 @@ function utf8_strtolower($string){
  * @see    strtoupper()
  * @see    utf8_strtoupper()
  */
-function utf8_strtoupper($string){
+function utf8_strtoupper($string)
+{
   if(UTF8_MBSTRING) return mb_strtoupper($string,'utf-8');
 
   global $UTF8_LOWER_TO_UPPER;
@@ -325,7 +338,8 @@ function utf8_strtoupper($string){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function utf8_deaccent($string,$case=0){
+function utf8_deaccent($string,$case=0)
+{
   if($case <= 0){
     global $UTF8_LOWER_ACCENTS;
     $string = strtr($string,$UTF8_LOWER_ACCENTS);
@@ -342,7 +356,8 @@ function utf8_deaccent($string,$case=0){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function utf8_romanize($string){
+function utf8_romanize($string)
+{
   if(utf8_isASCII($string)) return $string; //nothing to do
 
   global $UTF8_ROMANIZATION;
@@ -360,11 +375,12 @@ function utf8_romanize($string){
  * @param  string $repl       Replace special with this string
  * @param  string $additional Additional chars to strip (used in regexp char class)
  */
-function utf8_stripspecials($string,$repl='',$additional=''){
+function utf8_stripspecials($string,$repl='',$additional='')
+{
   global $UTF8_SPECIAL_CHARS;
   global $UTF8_SPECIAL_CHARS2;
 
-  static $specials = null;
+  public static $specials = null;
   if(is_null($specials)){
 #    $specials = preg_quote(unicode_to_utf8($UTF8_SPECIAL_CHARS), '/');
     $specials = preg_quote($UTF8_SPECIAL_CHARS2, '/');
@@ -383,7 +399,8 @@ function utf8_stripspecials($string,$repl='',$additional=''){
  * @param  integer
  * @return integer
  */
-function utf8_strpos($haystack, $needle, $offset=0){
+function utf8_strpos($haystack, $needle, $offset=0)
+{
     $comp = 0;
     $length = null;
 
@@ -410,7 +427,8 @@ function utf8_strpos($haystack, $needle, $offset=0){
  * @author <vpribish at shopping dot com>
  * @link   http://www.php.net/manual/en/function.utf8-decode.php
  */
-function utf8_tohtml ($str) {
+function utf8_tohtml ($str)
+{
     $ret = '';
     foreach (utf8_to_unicode($str) as $cp) {
         if ($cp < 0x80)
@@ -441,8 +459,9 @@ function utf8_tohtml ($str) {
  * @param  boolean $entities Flag controlling decoding of named entities.
  * @return UTF-8 encoded string with numeric (and named) entities replaced.
  */
-function utf8_unhtml($str, $entities=null) {
-    static $decoder = null;
+function utf8_unhtml($str, $entities=null)
+{
+    public static $decoder = null;
     if (is_null($decoder))
       $decoder = new utf8_entity_decoder();
     if (is_null($entities))
@@ -452,7 +471,8 @@ function utf8_unhtml($str, $entities=null) {
         return preg_replace_callback('/&(#)?([Xx])?([0-9A-Za-z]+);/m',
                                      array(&$decoder, 'decode'), $str);
 }
-function utf8_decode_numeric($ent) {
+function utf8_decode_numeric($ent)
+{
     switch ($ent[2]) {
       case 'X':
       case 'x':
@@ -464,17 +484,21 @@ function utf8_decode_numeric($ent) {
     }
     return unicode_to_utf8(array($cp));
 }
-class utf8_entity_decoder {
-    var $table;
-    function utf8_entity_decoder() {
+class utf8_entity_decoder
+{
+    public $table;
+    public function utf8_entity_decoder()
+    {
         $table = get_html_translation_table(HTML_ENTITIES);
         $table = array_flip($table);
         $this->table = array_map(array(&$this,'makeutf8'), $table);
     }
-    function makeutf8($c) {
+    public function makeutf8($c)
+    {
         return unicode_to_utf8(array(ord($c)));
     }
-    function decode($ent) {
+    public function decode($ent)
+    {
         if ($ent[1] == '#') {
             return utf8_decode_numeric($ent);
         } elseif (array_key_exists($ent[0],$this->table)) {
@@ -507,7 +531,8 @@ class utf8_entity_decoder {
  * @link   http://hsivonen.iki.fi/php-utf8/
  * @link   http://sourceforge.net/projects/phputf8/
  */
-function utf8_to_unicode($str,$strict=false) {
+function utf8_to_unicode($str,$strict=false)
+{
     $mState = 0;     // cached expected number of octets after the current octet
                      // until the beginning of the next UTF8 character sequence
     $mUcs4  = 0;     // cached Unicode character
@@ -530,28 +555,28 @@ function utf8_to_unicode($str,$strict=false) {
                 $out[] = $in;
                 $mBytes = 1;
 
-            } else if (0xC0 == (0xE0 & ($in))) {
+            } elseif (0xC0 == (0xE0 & ($in))) {
                 // First octet of 2 octet sequence
                 $mUcs4 = ($in);
                 $mUcs4 = ($mUcs4 & 0x1F) << 6;
                 $mState = 1;
                 $mBytes = 2;
 
-            } else if (0xE0 == (0xF0 & ($in))) {
+            } elseif (0xE0 == (0xF0 & ($in))) {
                 // First octet of 3 octet sequence
                 $mUcs4 = ($in);
                 $mUcs4 = ($mUcs4 & 0x0F) << 12;
                 $mState = 2;
                 $mBytes = 3;
 
-            } else if (0xF0 == (0xF8 & ($in))) {
+            } elseif (0xF0 == (0xF8 & ($in))) {
                 // First octet of 4 octet sequence
                 $mUcs4 = ($in);
                 $mUcs4 = ($mUcs4 & 0x07) << 18;
                 $mState = 3;
                 $mBytes = 4;
 
-            } else if (0xF8 == (0xFC & ($in))) {
+            } elseif (0xF8 == (0xFC & ($in))) {
                 /* First octet of 5 octet sequence.
                  *
                  * This is illegal because the encoded codepoint must be either
@@ -565,7 +590,7 @@ function utf8_to_unicode($str,$strict=false) {
                 $mState = 4;
                 $mBytes = 5;
 
-            } else if (0xFC == (0xFE & ($in))) {
+            } elseif (0xFC == (0xFE & ($in))) {
                 // First octet of 6 octet sequence, see comments for 5 octet sequence.
                 $mUcs4 = ($in);
                 $mUcs4 = ($mUcs4 & 1) << 30;
@@ -680,7 +705,8 @@ function utf8_to_unicode($str,$strict=false) {
  * @link   http://hsivonen.iki.fi/php-utf8/
  * @link   http://sourceforge.net/projects/phputf8/
  */
-function unicode_to_utf8($arr,$strict=false) {
+function unicode_to_utf8($arr,$strict=false)
+{
     if (!is_array($arr)) return '';
     ob_start();
 
@@ -692,7 +718,7 @@ function unicode_to_utf8($arr,$strict=false) {
             echo chr($arr[$k]);
 
         # 2 byte sequence
-        } else if ($arr[$k] <= 0x07ff) {
+        } elseif ($arr[$k] <= 0x07ff) {
 
             echo chr(0xc0 | ($arr[$k] >> 6));
             echo chr(0x80 | ($arr[$k] & 0x003f));
@@ -703,7 +729,7 @@ function unicode_to_utf8($arr,$strict=false) {
             // nop -- zap the BOM
 
         # Test for illegal surrogates
-        } else if ($arr[$k] >= 0xD800 && $arr[$k] <= 0xDFFF) {
+        } elseif ($arr[$k] >= 0xD800 && $arr[$k] <= 0xDFFF) {
 
             // found a surrogate
             if($strict){
@@ -716,14 +742,14 @@ function unicode_to_utf8($arr,$strict=false) {
             }
 
         # 3 byte sequence
-        } else if ($arr[$k] <= 0xffff) {
+        } elseif ($arr[$k] <= 0xffff) {
 
             echo chr(0xe0 | ($arr[$k] >> 12));
             echo chr(0x80 | (($arr[$k] >> 6) & 0x003f));
             echo chr(0x80 | ($arr[$k] & 0x003f));
 
         # 4 byte sequence
-        } else if ($arr[$k] <= 0x10ffff) {
+        } elseif ($arr[$k] <= 0x10ffff) {
 
             echo chr(0xf0 | ($arr[$k] >> 18));
             echo chr(0x80 | (($arr[$k] >> 12) & 0x3f));
@@ -753,7 +779,8 @@ function unicode_to_utf8($arr,$strict=false) {
  *
  * Maybe really UCS-2 without mb_string due to utf8_to_unicode limits
  */
-function utf8_to_utf16be(&$str, $bom = false) {
+function utf8_to_utf16be(&$str, $bom = false)
+{
   $out = $bom ? "\xFE\xFF" : '';
   if(UTF8_MBSTRING) return $out.mb_convert_encoding($str,'UTF-16BE','UTF-8');
 
@@ -769,7 +796,8 @@ function utf8_to_utf16be(&$str, $bom = false) {
  *
  * Maybe really UCS-2 without mb_string due to utf8_to_unicode limits
  */
-function utf16be_to_utf8(&$str) {
+function utf16be_to_utf8(&$str)
+{
   $uni = unpack('n*',$str);
   return unicode_to_utf8($uni);
 }
@@ -789,7 +817,8 @@ function utf16be_to_utf8(&$str) {
  * @param string to replace bad bytes with (defaults to '?') - use ASCII
  * @return string
  */
-function utf8_bad_replace($str, $replace = '') {
+function utf8_bad_replace($str, $replace = '')
+{
     $UTF8_BAD =
      '([\x00-\x7F]'.                          # ASCII (including control chars)
      '|[\xC2-\xDF][\x80-\xBF]'.               # non-overlong 2-byte
@@ -827,8 +856,8 @@ function utf8_bad_replace($str, $replace = '') {
  *
  * @author       chris smith <chris@jalakai.co.uk>
  */
-function utf8_correctIdx(&$str,$i,$next=false) {
-
+function utf8_correctIdx(&$str,$i,$next=false)
+{
   if ($i <= 0) return 0;
 
   $limit = strlen($str);
@@ -1234,7 +1263,7 @@ $UTF8_ROMANIZATION = array(
   'っにゃ'=>'nya','っにぇ'=>'nye','っにぃ'=>'nyi','っにょ'=>'nyo','っにゅ'=>'nyu',
   'っりゃ'=>'rya','っりぇ'=>'rye','っりぃ'=>'ryi','っりょ'=>'ryo','っりゅ'=>'ryu',
   'っしゃ'=>'sha','っしぇ'=>'she','っし'=>'shi','っしょ'=>'sho','っしゅ'=>'shu',
-  
+
    // 2 character syllables - normal
   'ふぁ'=>'fa','ふぇ'=>'fe','ふぃ'=>'fi','ふぉ'=>'fo','ふ'=>'fu',
   'ヴぁ'=>'va','ヴぇ'=>'ve','ヴぃ'=>'vi','ヴぉ'=>'vo','ヴ'=>'vu',
@@ -1261,7 +1290,7 @@ $UTF8_ROMANIZATION = array(
   'っら'=>'rra','っれ'=>'rre','っり'=>'rri','っろ'=>'rro','っる'=>'rru',
   'っさ'=>'ssa','っせ'=>'sse','っし'=>'sshi','っそ'=>'sso','っす'=>'ssu',
   'っざ'=>'zza','っぜ'=>'zze','っじ'=>'zzi','っぞ'=>'zzo','っず'=>'zzu',
-  
+
   // 1 character syllabels
   'あ'=>'a','え'=>'e','い'=>'i','お'=>'o','う'=>'u','ん'=>'n',
   'は'=>'ha','へ'=>'he','ひ'=>'hi','ほ'=>'ho','ふ'=>'hu',
@@ -1490,8 +1519,8 @@ $UTF8_ROMANIZATION = array(
   'ิว'=>'io','็ว'=>'eo','ียว'=>'iao',
   '่'=>'','้'=>'','๊'=>'','๋'=>'','็'=>'',
   '์'=>'','๎'=>'','ํ'=>'','ฺ'=>'',
-  'ๆ'=>'2','๏'=>'o','ฯ'=>'-','๚'=>'-','๛'=>'-', 
-	'๐'=>'0','๑'=>'1','๒'=>'2','๓'=>'3','๔'=>'4',
+  'ๆ'=>'2','๏'=>'o','ฯ'=>'-','๚'=>'-','๛'=>'-',
+    '๐'=>'0','๑'=>'1','๒'=>'2','๓'=>'3','๔'=>'4',
   '๕'=>'5','๖'=>'6','๗'=>'7','๘'=>'8','๙'=>'9',
 
   // Korean

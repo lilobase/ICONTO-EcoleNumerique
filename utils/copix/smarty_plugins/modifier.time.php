@@ -17,7 +17,7 @@
  * Example:  {$time|time}
  * @return string
  */
-function smarty_modifier_time($string) {
+function smarty_modifier_time($string)
+{
     return (($time = CopixDateTime::hhmmssToTime ($string)) !== false) ? $time : $string;
 }
-?>

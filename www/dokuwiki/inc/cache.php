@@ -12,16 +12,18 @@ require_once(DOKU_INC.'inc/io.php');
 require_once(DOKU_INC.'inc/pageutils.php');
 require_once(DOKU_INC.'inc/parserutils.php');
 
-class cache {
-  var $key = '';          // primary identifier for this item
-  var $ext = '';          // file ext for cache data, secondary identifier for this item
-  var $cache = '';        // cache file name
-  var $depends = array(); // array containing cache dependency information,
+class cache
+{
+  public $key = '';          // primary identifier for this item
+  public $ext = '';          // file ext for cache data, secondary identifier for this item
+  public $cache = '';        // cache file name
+  public $depends = array(); // array containing cache dependency information,
                           //   used by _useCache to determine cache validity
 
-  var $_event = '';       // event to be triggered during useCache
+  public $_event = '';       // event to be triggered during useCache
 
-  function cache($key,$ext) {
+  public function cache($key,$ext)
+  {
     $this->key = $key;
     $this->ext = $ext;
     $this->cache = getCacheName($key,$ext);
@@ -30,7 +32,7 @@ class cache {
   /**
    * public method to determine whether the cache can be used
    *
-   * to assist in cetralisation of event triggering and calculation of cache statistics, 
+   * to assist in cetralisation of event triggering and calculation of cache statistics,
    * don't override this function override _useCache()
    *
    * @param  array   $depends   array of cache dependencies, support dependecies:
@@ -40,7 +42,8 @@ class cache {
    *
    * @return bool    true if cache can be used, false otherwise
    */
-  function useCache($depends=array()) {
+  public function useCache($depends=array())
+  {
     $this->depends = $depends;
     $this->_addDependencies();
 
@@ -63,8 +66,8 @@ class cache {
    *
    * @return bool               see useCache()
    */
-  function _useCache() {
-
+  public function _useCache()
+  {
     if (!empty($this->depends['purge'])) return false;              // purge requested?
     if (!($this->_time = @filemtime($this->cache))) return false;   // cache exists?
 
@@ -87,7 +90,8 @@ class cache {
    * it should not remove any existing dependencies and
    * it should only overwrite a dependency when the new value is more stringent than the old
    */
-  function _addDependencies() {
+  public function _addDependencies()
+  {
     if (isset($_REQUEST['purge'])) $this->depends['purge'] = true;   // purge requested
   }
 
@@ -97,7 +101,8 @@ class cache {
    * @param   bool   $clean   true to clean line endings, false to leave line endings alone
    * @return  string          cache contents
    */
-  function retrieveCache($clean=true) {
+  public function retrieveCache($clean=true)
+  {
     return io_readFile($this->cache, $clean);
   }
 
@@ -107,14 +112,16 @@ class cache {
    * @param   string $data   the data to be cached
    * @return  bool           true on success, false otherwise
    */
-  function storeCache($data) {
+  public function storeCache($data)
+  {
     return io_savefile($this->cache, $data);
   }
 
   /**
    * remove any cached data associated with this cache instance
    */
-  function removeCache() {
+  public function removeCache()
+  {
     @unlink($this->cache);
   }
 
@@ -125,10 +132,11 @@ class cache {
    * @param    bool   $success   result of this cache use attempt
    * @return   bool              pass-thru $success value
    */
-  function _stats($success) {
+  public function _stats($success)
+  {
     global $conf;
-    static $stats = NULL;
-    static $file;
+    public static $stats = NULL;
+    public static $file;
 
     if (!$conf['allowdebug']) { return $success; }
 
@@ -160,14 +168,15 @@ class cache {
   }
 }
 
-class cache_parser extends cache {
+class cache_parser extends cache
+{
+  public $file = '';       // source file for cache
+  public $mode = '';       // input mode (represents the processing the input file will undergo)
 
-  var $file = '';       // source file for cache
-  var $mode = '';       // input mode (represents the processing the input file will undergo)
+  public $_event = 'PARSER_CACHE_USE';
 
-  var $_event = 'PARSER_CACHE_USE';
-
-  function cache_parser($id, $file, $mode) {
+  public function cache_parser($id, $file, $mode)
+  {
     if ($id) $this->page = $id;
     $this->file = $file;
     $this->mode = $mode;
@@ -175,16 +184,17 @@ class cache_parser extends cache {
     parent::cache($file.$_SERVER['HTTP_HOST'].$_SERVER['SERVER_PORT'],'.'.$mode);
   }
 
-  function _useCache() {
-
+  public function _useCache()
+  {
     if (!@file_exists($this->file)) return false;                   // source exists?
     return parent::_useCache();
   }
 
-  function _addDependencies() {
+  public function _addDependencies()
+  {
     global $conf;
 
-    $this->depends['age'] = isset($this->depends['age']) ? 
+    $this->depends['age'] = isset($this->depends['age']) ?
                    min($this->depends['age'],$conf['cachetime']) : $conf['cachetime'];
 
     // parser cache file dependencies ...
@@ -201,9 +211,10 @@ class cache_parser extends cache {
 
 }
 
-class cache_renderer extends cache_parser {
-
-  function useCache($depends=array()) {
+class cache_renderer extends cache_parser
+{
+  public function useCache($depends=array())
+  {
     $use = parent::useCache($depends);
 
     // meta data needs to be kept in step with the cache
@@ -214,7 +225,8 @@ class cache_renderer extends cache_parser {
     return $use;
   }
 
-  function _useCache() {
+  public function _useCache()
+  {
     global $conf;
 
     if (!parent::_useCache()) return false;
@@ -242,8 +254,8 @@ class cache_renderer extends cache_parser {
     return true;
   }
 
-  function _addDependencies() {
-
+  public function _addDependencies()
+  {
     // renderer cache file dependencies ...
     $files = array(
                    DOKU_INC.'inc/parser/'.$this->mode.'.php',       // ... the renderer
@@ -274,18 +286,21 @@ class cache_renderer extends cache_parser {
   }
 }
 
-class cache_instructions extends cache_parser {
-
-  function cache_instructions($id, $file) {
+class cache_instructions extends cache_parser
+{
+  public function cache_instructions($id, $file)
+  {
     parent::cache_parser($id, $file, 'i');
   }
 
-  function retrieveCache() {
+  public function retrieveCache()
+  {
     $contents = io_readFile($this->cache, false);
     return !empty($contents) ? unserialize($contents) : array();
   }
 
-  function storeCache($instructions) {
+  public function storeCache($instructions)
+  {
     return io_savefile($this->cache,serialize($instructions));
   }
 }

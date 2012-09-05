@@ -10,7 +10,7 @@
 
 /**
  * Permet d'afficher un logo 'copix' dans les sources HTML sous la forme d'un commentaire
- * 
+ *
  * input: type : big   -> the big one
  *               small -> simply made with Copix, http://copix.org
  *        default is small
@@ -18,11 +18,11 @@
  * Simply output the made with Copix Logo
  * -------------------------------------------------------------
  */
-function smarty_function_copixlogo($params, &$smarty) {
+function smarty_function_copixlogo($params, &$smarty)
+{
    if (isset ($params['assign'])) {
-   	$smarty->assign($params['assign'], _tag ('copixlogo', $params));
+       $smarty->assign($params['assign'], _tag ('copixlogo', $params));
    }else {
-   	return _tag ('copixlogo', $params);
+       return _tag ('copixlogo', $params);
    }
 }
-?>

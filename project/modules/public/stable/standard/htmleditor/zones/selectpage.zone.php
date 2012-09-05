@@ -1,6 +1,6 @@
 <?php
 /**
-* @package		standard 
+* @package		standard
  * @subpackage	htmleditor
 * @author		Bertrand Yan
 * @copyright	CopixTeam
@@ -10,11 +10,13 @@
 
 /**
 * Permet de sélectionner une page du CMS
-* @package		standard 
+* @package		standard
  * @subpackage	htmleditor
 */
-class ZoneSelectPage extends CopixZone {
-    function _createContent (&$toReturn) {
+class ZoneSelectPage extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
       //Création du sous template.
       $tpl = new CopixTpl ();
 
@@ -37,7 +39,7 @@ class ZoneSelectPage extends CopixZone {
 
       $tpl->assign ('arPublished', $arPages);
       $tpl->assign ('arHeadings', $headings);
-      
+
       $tpl->assign ('select'     , $this->getParam ('select'));
       $tpl->assign ('back'       , $this->getParam ('back'));
       $tpl->assign ('popup'      , $this->getParam ('popup'));
@@ -47,12 +49,13 @@ class ZoneSelectPage extends CopixZone {
       $tpl->assign ('editorName' , $this->getParam ('editorName'));
       $toReturn = $tpl->fetch ('page.select.ptpl');
       return true;
-	}
+    }
 
    /**
    * Filtrage sur les derniers version seulement.
    */
-   function _filterLastVersion ($arPublished){
+   public function _filterLastVersion ($arPublished)
+   {
       $toReturn = array ();
       foreach ($arPublished as $key=>$page){
          if (!isset ($toReturn[$page->id_cmsp])){
@@ -64,6 +67,5 @@ class ZoneSelectPage extends CopixZone {
          }
       }
       return $toReturn;
-	}
+    }
 }
-?>

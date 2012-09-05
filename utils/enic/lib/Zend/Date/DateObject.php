@@ -26,12 +26,12 @@
  * @copyright  Copyright (c) 2005-2011 Zend Technologies USA Inc. (http://www.zend.com)
  * @license    http://framework.zend.com/license/new-bsd     New BSD License
  */
-abstract class Zend_Date_DateObject {
-
+abstract class Zend_Date_DateObject
+{
     /**
      * UNIX Timestamp
      */
-    private   $_unixTimestamp;
+    private $_unixTimestamp;
     protected static $_cache         = null;
     protected static $_cacheTags     = false;
     protected static $_defaultOffset = 0;
@@ -39,9 +39,9 @@ abstract class Zend_Date_DateObject {
     /**
      * active timezone
      */
-    private   $_timezone    = 'UTC';
-    private   $_offset      = 0;
-    private   $_syncronised = 0;
+    private $_timezone    = 'UTC';
+    private $_offset      = 0;
+    private $_syncronised = 0;
 
     // turn off DST correction if UTC or GMT
     protected $_dst         = true;
@@ -82,7 +82,7 @@ abstract class Zend_Date_DateObject {
 
         if (is_numeric($timestamp)) {
             $this->_unixTimestamp = $timestamp;
-        } else if ($timestamp === null) {
+        } elseif ($timestamp === null) {
             $this->_unixTimestamp = time();
         } else {
             require_once 'Zend/Date/Exception.php';
@@ -226,8 +226,7 @@ abstract class Zend_Date_DateObject {
             for ($count = 1969; $count >= $year; $count--) {
 
                 $leapyear = self::isYearLeapYear($count);
-                if ($count > $year)
-                {
+                if ($count > $year) {
                     $date += 365;
                     if ($leapyear === true)
                         $date++;
@@ -249,7 +248,7 @@ abstract class Zend_Date_DateObject {
             // gregorian correction for 5.Oct.1582
             if ($date < -12220185600) {
                 $date += 864000;
-            } else if ($date < -12219321600) {
+            } elseif ($date < -12219321600) {
                 $date  = -12219321600;
             }
         }
@@ -281,7 +280,7 @@ abstract class Zend_Date_DateObject {
         // all leapyears can be divided through 400
         if ($year % 400 == 0) {
             return true;
-        } else if (($year > 1582) and ($year % 100 == 0)) {
+        } elseif (($year > 1582) and ($year % 100 == 0)) {
             return false;
         }
 
@@ -392,9 +391,9 @@ abstract class Zend_Date_DateObject {
                 case 'S':  // english suffix for day of month, st nd rd th
                     if (($date['mday'] % 10) == 1) {
                         $output .= 'st';
-                    } else if ((($date['mday'] % 10) == 2) and ($date['mday'] != 12)) {
+                    } elseif ((($date['mday'] % 10) == 2) and ($date['mday'] != 12)) {
                         $output .= 'nd';
-                    } else if (($date['mday'] % 10) == 3) {
+                    } elseif (($date['mday'] % 10) == 3) {
                         $output .= 'rd';
                     } else {
                         $output .= 'th';
@@ -870,7 +869,7 @@ abstract class Zend_Date_DateObject {
             $month     = 12;
             $day       = 31;
 
-        } else if (($month == 12) and ((self::dayOfWeek($year + 1, 1, 1) < 5) and
+        } elseif (($month == 12) and ((self::dayOfWeek($year + 1, 1, 1) < 5) and
                    (self::dayOfWeek($year + 1, 1, 1) > 0))) {
             return 1;
         }
@@ -886,11 +885,11 @@ abstract class Zend_Date_DateObject {
      * @param float $a - value to correct
      * @param float $b - maximum range to set
      */
-    private function _range($a, $b) {
+    private function _range($a, $b)
+    {
         while ($a < 0) {
             $a += $b;
-        }
-        while ($a >= $b) {
+        } while ($a >= $b) {
             $a -= $b;
         }
         return $a;
@@ -949,7 +948,7 @@ abstract class Zend_Date_DateObject {
         // adjust quadrant
         if ($solLongitude > $threeQuarterCircle) {
             $solAscension += $fullCircle;
-        } else if ($solLongitude > $quarterCircle) {
+        } elseif ($solLongitude > $quarterCircle) {
             $solAscension += $halfCircle;
         }
 

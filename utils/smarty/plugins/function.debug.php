@@ -32,4 +32,3 @@ function smarty_function_debug($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>

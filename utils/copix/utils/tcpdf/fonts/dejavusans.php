@@ -514,4 +514,3 @@ $diff='';
 $file='dejavusans.z';
 $ctg='dejavusans.ctg.z';
 $originalsize=622020;
-?>

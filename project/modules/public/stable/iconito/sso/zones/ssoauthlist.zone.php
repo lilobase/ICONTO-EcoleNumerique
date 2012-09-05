@@ -11,18 +11,18 @@
  * @link        http://www.cap-tic.fr
  */
 
-class ZoneSsoAuthList extends CopixZone {
-
-    function _createContent (& $toReturn){
-
+class ZoneSsoAuthList extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
         $tpl = new CopixTpl ();
 
-		$auth_list = $this->getParam('list', NULL);
-		$id = $this->getParam('id', NULL);
-    
-		$tpl->assign('auth_list', $auth_list);
-		$tpl->assign('id', $id);
-		
+        $auth_list = $this->getParam('list', NULL);
+        $id = $this->getParam('id', NULL);
+
+        $tpl->assign('auth_list', $auth_list);
+        $tpl->assign('id', $id);
+
 
         $toReturn = $tpl->fetch ('ssoauthlist_zone.tpl');
 
@@ -32,4 +32,3 @@ class ZoneSsoAuthList extends CopixZone {
 
 }
 
-?>

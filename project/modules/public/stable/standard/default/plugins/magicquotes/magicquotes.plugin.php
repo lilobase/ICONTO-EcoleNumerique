@@ -16,52 +16,55 @@
  * @package standard
  * @subpackage plugin_magicquotes
  */
-class PluginMagicQuotes extends CopixPlugin {
-	/**
+class PluginMagicQuotes extends CopixPlugin
+{
+    /**
     * magic_quotes are on or off... ?*
     * @var boolean   $magic_quotes
     */
-	var $magic_quotes;
-	
-	/**
+    public $magic_quotes;
+
+    /**
     * @var  CopixController  $app
     * @param   class   $config      objet de configuration du plugin
     */
-	public function __construct ($config){
-		parent::__construct ($config);
-		$this->magic_quotes = get_magic_quotes_gpc();
-	}
+    public function __construct ($config)
+    {
+        parent::__construct ($config);
+        $this->magic_quotes = get_magic_quotes_gpc();
+    }
 
-	/**
+    /**
     * surchargez cette methode si vous avez des traitements à faire, des classes à declarer avant
     * la recuperation de la session
     */
-	public function beforeSessionStart(){
-		foreach (CopixRequest::asArray () as $key=>$elem){
-			CopixRequest::set ($key, $this->_stripSlashes ($elem));
-		}
-	}
+    public function beforeSessionStart()
+    {
+        foreach (CopixRequest::asArray () as $key=>$elem){
+            CopixRequest::set ($key, $this->_stripSlashes ($elem));
+        }
+    }
 
-	/**
+    /**
     * enleve tout les slashes d'une chaine ou d'un tableau de chaine
     * @param string/array   $string
     * @return string/array   l'objet transformé
     */
-	private function _stripSlashes ($string){
-		if ($this->magic_quotes){
-			if (is_array ($string)){
-				$toReturn = array ();
-				// c'est un tableau, on traite un à un tout les elements du tableau
-				foreach ($string as $key=>$elem){
-					$toReturn[$key] = $this->_stripSlashes ($elem);
-				}
-				return $toReturn;
-			}else{
-				return stripSlashes ($string);
-			}
-		}else{
-			return $string;
-		}
-	}
+    private function _stripSlashes ($string)
+    {
+        if ($this->magic_quotes){
+            if (is_array ($string)){
+                $toReturn = array ();
+                // c'est un tableau, on traite un à un tout les elements du tableau
+                foreach ($string as $key=>$elem){
+                    $toReturn[$key] = $this->_stripSlashes ($elem);
+                }
+                return $toReturn;
+            }else{
+                return stripSlashes ($string);
+            }
+        }else{
+            return $string;
+        }
+    }
 }
-?>

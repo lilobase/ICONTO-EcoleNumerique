@@ -22,4 +22,3 @@ $i18n_languages = array(
 );
 
 $i18n_alternate_languages_code=array('french'=>'fr', 'english'=>'en');
-?>

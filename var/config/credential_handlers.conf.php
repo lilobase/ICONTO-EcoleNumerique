@@ -3,4 +3,4 @@
   1 => 'admin|installcredentialhandler',
   2 => 'auth|dbcredentialhandler',
   3 => 'auth|dbmodulecredentialhandler',
-); ?>
+);

@@ -34,8 +34,8 @@ PHPUnit_Util_Filter::addFileToFilter(__FILE__, 'PHPUNIT');
  * @license    LGPL
  * @link       http://www.copix.org
  */
-class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
-
+class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner
+{
     const SUCCESS_EXIT   = 0;
     const FAILURE_EXIT   = 1;
     const EXCEPTION_EXIT = 2;
@@ -66,18 +66,19 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @access public
      * @static
      */
-    public static function run($test, array $parameters = array()) {
+    public static function run($test, array $parameters = array())
+    {
         if ($test instanceof ReflectionClass) {
             $test = new PHPUnit_Framework_TestSuite($test);
         }
 
         if ($test instanceof PHPUnit_Framework_Test) {
-        	$aTestRunner = new CopixTestRunner ();
+            $aTestRunner = new CopixTestRunner ();
             return $aTestRunner->doRun(
               $test,
               $parameters
             );
-            
+
         }
     }
 
@@ -88,7 +89,8 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @access public
      * @static
      */
-    public static function runAndWait(PHPUnit_Framework_Test $suite)  {
+    public static function runAndWait(PHPUnit_Framework_Test $suite)
+    {
         $aTestRunner = new PHPUnit_TextUI_TestRunner;
 
         $aTestRunner->doRun(
@@ -101,7 +103,8 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @return PHPUnit_Framework_TestResult
      * @access protected
      */
-    protected function createTestResult() {
+    protected function createTestResult()
+    {
         return new PHPUnit_Framework_TestResult;
     }
 
@@ -111,7 +114,8 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @return PHPUnit_Framework_TestResult
      * @access public
      */
-    public function doRun(PHPUnit_Framework_Test $suite, array $parameters = array()) {
+    public function doRun(PHPUnit_Framework_Test $suite, array $parameters = array())
+    {
         $parameters['repeat']  = isset($parameters['repeat'])  ? $parameters['repeat']  : FALSE;
         $parameters['filter']  = isset($parameters['filter'])  ? $parameters['filter']  : FALSE;
         $parameters['verbose'] = isset($parameters['verbose']) ? $parameters['verbose'] : FALSE;
@@ -193,14 +197,14 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
 
         if (isset ($parameters['reportDirectory']) &&
             extension_loaded('xdebug')) {
-            	$this->printer->codeCoverage ($parameters['reportDirectory']);
+                $this->printer->codeCoverage ($parameters['reportDirectory']);
             PHPUnit_Util_Report::render($result, $parameters['reportDirectory']);
         }else{
-        	$this->printer->codeCoverage (false);
+            $this->printer->codeCoverage (false);
         }
 
         if ($this->printer) {
-        	$this->printer->printResult($result);
+            $this->printer->printResult($result);
         }
 
         return $result;
@@ -210,7 +214,8 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @param  PHPUnit_TextUI_ResultPrinter $resultPrinter
      * @access public
      */
-    public function setPrinter(PHPUnit_TextUI_ResultPrinter $resultPrinter) {
+    public function setPrinter(PHPUnit_TextUI_ResultPrinter $resultPrinter)
+    {
         $this->printer = $resultPrinter;
     }
 
@@ -247,7 +252,8 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @param  string  $message
      * @access protected
      */
-    protected function runFailed($message) {
+    protected function runFailed($message)
+    {
         self::printVersionString();
         print $message;
         exit(self::FAILURE_EXIT);
@@ -260,7 +266,8 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @access private
      * @since  Method available since Release 3.0.0
      */
-    private function getDirectory($directory) {
+    private function getDirectory($directory)
+    {
         if (substr($directory, -1, 1) != DIRECTORY_SEPARATOR) {
             $directory .= DIRECTORY_SEPARATOR;
         }
@@ -284,7 +291,8 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @access public
      * @since  Method available since Release 2.2.0
      */
-    public function getLoader(){
+    public function getLoader()
+    {
         if (self::$loader === NULL) {
             self::$loader = new PHPUnit_Runner_StandardTestSuiteLoader;
         }
@@ -300,14 +308,16 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @static
      * @since  Method available since Release 3.0.0
      */
-    public static function setLoader(PHPUnit_Runner_TestSuiteLoader $loader) {
+    public static function setLoader(PHPUnit_Runner_TestSuiteLoader $loader)
+    {
         self::$loader = $loader;
     }
 
     /**
      * @access public
      */
-    public static function showError($message) {
+    public static function showError($message)
+    {
         self::printVersionString();
         print $message . "\n";
 
@@ -319,11 +329,11 @@ class CopixTestRunner extends PHPUnit_Runner_BaseTestRunner {
      * @access public
      * @static
      */
-    public static function printVersionString() {
+    public static function printVersionString()
+    {
         if (!self::$versionStringPrinted) {
             print PHPUnit_Runner_Version::getVersionString() . "\n\n";
             self::$versionStringPrinted = TRUE;
         }
     }
 }
-?>

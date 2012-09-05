@@ -13,34 +13,35 @@
 * @package   standard
 * @subpackage plugin_copixlog
 */
-class PluginCopix_Log extends CopixPlugin {
-	public function beforeProcess (){
-	    CopixHTMLHeader::addJsCode("
+class PluginCopix_Log extends CopixPlugin
+{
+    public function beforeProcess ()
+    {
+        CopixHTMLHeader::addJsCode("
 window.addEvent('domready',
-	function () {
-		var divlog = new Element('div');
-		divlog.injectInside(document.body);
-		divlog.setStyles({
-				'background-color':'white',
-				'width':'500px',
-				'height':'200px',
-				'overflow':'auto'
-			});
+    function () {
+        var divlog = new Element('div');
+        divlog.injectInside(document.body);
+        divlog.setStyles({
+                'background-color':'white',
+                'width':'500px',
+                'height':'200px',
+                'overflow':'auto'
+            });
 //		divlog.setOpacity('0.5');
-		divlog.makeDraggable();
+        divlog.makeDraggable();
 
-		var ajax = new Ajax('".CopixUrl::get('generictools|ajax|getZone')."',
-		{
-			method: 'post',
-			update: divlog,
-			evalScripts : true,
-			data : {'zone':'admin|showlog','profil':'test'},
-			onComplete: function () {
-			}
-		}).request()	
-	}
-);    
-	    ");
-	}
+        var ajax = new Ajax('".CopixUrl::get('generictools|ajax|getZone')."',
+        {
+            method: 'post',
+            update: divlog,
+            evalScripts : true,
+            data : {'zone':'admin|showlog','profil':'test'},
+            onComplete: function () {
+            }
+        }).request()
+    }
+);
+        ");
+    }
 }
-?>

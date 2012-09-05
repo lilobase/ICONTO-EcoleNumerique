@@ -23,24 +23,23 @@
 /**
 
  * Plugin smarty type modifier
- * Purpose: Convertit une chaine de caractères à afficher dans un fichier XML pour un flux RSS sortant. Peut s'ajouter avec |wiki 
+ * Purpose: Convertit une chaine de caractères à afficher dans un fichier XML pour un flux RSS sortant. Peut s'ajouter avec |wiki
  * Input: Chaine de caractères
  * Output: Chaine de caractères
  * Example:  {$text|rss} {$text|wiki|rss}
  * @return string
  */
 
-function smarty_modifier_rss ($string) {
+function smarty_modifier_rss ($string)
+{
+    $txt = (trim($string));
+    $txt = str_replace("<BR>",'<BR/>',$txt);
+    $txt = str_replace("&",'&amp;',$txt);
+    $txt = str_replace("<","&lt;",$txt);
+    $txt = str_replace(">","&gt;",$txt);
+    $txt = str_replace (chr(146), "'", $txt);
 
-	$txt = (trim($string));
-	$txt = str_replace("<BR>",'<BR/>',$txt);
-	$txt = str_replace("&",'&amp;',$txt);
-	$txt = str_replace("<","&lt;",$txt);
-	$txt = str_replace(">","&gt;",$txt);
-	$txt = str_replace (chr(146), "'", $txt);
-	
-	return $txt;
+    return $txt;
 
 }
 
-?>

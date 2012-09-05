@@ -50,17 +50,18 @@ $PARSER_MODES = array(
 * Sets up the Lexer with modes and points it to the Handler
 * For an intro to the Lexer see: wiki:parser
 */
-class Doku_Parser {
+class Doku_Parser
+{
+    public $Handler;
 
-    var $Handler;
+    public $Lexer;
 
-    var $Lexer;
+    public $modes = array();
 
-    var $modes = array();
+    public $connected = false;
 
-    var $connected = false;
-
-    function addBaseMode(& $BaseMode) {
+    public function addBaseMode(& $BaseMode)
+    {
         $this->modes['base'] = & $BaseMode;
         if ( !$this->Lexer ) {
             $this->Lexer = new Doku_Lexer($this->Handler,'base', true);
@@ -72,7 +73,8 @@ class Doku_Parser {
     * PHP preserves order of associative elements
     * Mode sequence is important
     */
-    function addMode($name, & $Mode) {
+    public function addMode($name, & $Mode)
+    {
         if ( !isset($this->modes['base']) ) {
             $this->addBaseMode(new Doku_Parser_Mode_base());
         }
@@ -80,8 +82,8 @@ class Doku_Parser {
         $this->modes[$name] = & $Mode;
     }
 
-    function connectModes() {
-
+    public function connectModes()
+    {
         if ( $this->connected ) {
             return;
         }
@@ -109,7 +111,8 @@ class Doku_Parser {
         $this->connected = true;
     }
 
-    function parse($doc) {
+    public function parse($doc)
+    {
         if ( $this->Lexer ) {
             $this->connectModes();
             // Normalize CRs and pad doc
@@ -135,36 +138,39 @@ class Doku_Parser {
  *
  * @author Harry Fuecks <hfuecks@gmail.com>
 */
-class Doku_Parser_Mode {
+class Doku_Parser_Mode
+{
+    public $Lexer;
 
-    var $Lexer;
-
-    var $allowedModes = array();
+    public $allowedModes = array();
 
     // returns a number used to determine in which order modes are added
-    function getSort() {
+    public function getSort()
+    {
         trigger_error('getSort() not implemented in '.get_class($this), E_USER_WARNING);
     }
 
     // Called before any calls to connectTo
-    function preConnect() {}
+    public function preConnect() {}
 
     // Connects the mode
-    function connectTo($mode) {}
+    public function connectTo($mode) {}
 
     // Called after all calls to connectTo
-    function postConnect() {}
+    public function postConnect() {}
 
-    function accepts($mode) {
+    public function accepts($mode)
+    {
         return in_array($mode, (array) $this->allowedModes );
     }
 
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_base extends Doku_Parser_Mode {
-
-    function Doku_Parser_Mode_base() {
+class Doku_Parser_Mode_base extends Doku_Parser_Mode
+{
+    public function Doku_Parser_Mode_base()
+    {
         global $PARSER_MODES;
 
         $this->allowedModes = array_merge (
@@ -178,15 +184,17 @@ class Doku_Parser_Mode_base extends Doku_Parser_Mode {
             );
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 0;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_footnote extends Doku_Parser_Mode {
-
-    function Doku_Parser_Mode_footnote() {
+class Doku_Parser_Mode_footnote extends Doku_Parser_Mode
+{
+    public function Doku_Parser_Mode_footnote()
+    {
         global $PARSER_MODES;
 
         $this->allowedModes = array_merge (
@@ -200,27 +208,31 @@ class Doku_Parser_Mode_footnote extends Doku_Parser_Mode {
         unset($this->allowedModes[array_search('footnote', $this->allowedModes)]);
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern(
             '\x28\x28(?=.*\x29\x29)',$mode,'footnote'
             );
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern(
             '\x29\x29','footnote'
             );
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 150;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_header extends Doku_Parser_Mode {
-
-    function preConnect() {
+class Doku_Parser_Mode_header extends Doku_Parser_Mode
+{
+    public function preConnect()
+    {
         //we're not picky about the closing ones, two are enough
         $this->Lexer->addSpecialPattern(
                             '[ \t]*={2,}[^\n]+={2,}[ \t]*(?=\n)',
@@ -229,51 +241,59 @@ class Doku_Parser_Mode_header extends Doku_Parser_Mode {
                         );
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 50;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_notoc extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_notoc extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern('~~NOTOC~~',$mode,'notoc');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 30;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_nocache extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_nocache extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern('~~NOCACHE~~',$mode,'nocache');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 40;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_linebreak extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_linebreak extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern('\x5C{2}(?=\s)',$mode,'linebreak');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 140;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_eol extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_eol extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $badModes = array('listblock','table');
         if ( in_array($mode, $badModes) ) {
             return;
@@ -281,28 +301,32 @@ class Doku_Parser_Mode_eol extends Doku_Parser_Mode {
         $this->Lexer->addSpecialPattern('\n',$mode,'eol');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 370;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_hr extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_hr extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern('\n[ \t]*-{4,}[ \t]*(?=\n)',$mode,'hr');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 160;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_formatting extends Doku_Parser_Mode {
-    var $type;
+class Doku_Parser_Mode_formatting extends Doku_Parser_Mode
+{
+    public $type;
 
-    var $formatting = array (
+    public $formatting = array (
         'strong' => array (
             'entry'=>'\*\*(?=.*\*\*)',
             'exit'=>'\*\*',
@@ -346,7 +370,8 @@ class Doku_Parser_Mode_formatting extends Doku_Parser_Mode {
             ),
         );
 
-    function Doku_Parser_Mode_formatting($type) {
+    public function Doku_Parser_Mode_formatting($type)
+    {
         global $PARSER_MODES;
 
         if ( !array_key_exists($type, $this->formatting) ) {
@@ -369,8 +394,8 @@ class Doku_Parser_Mode_formatting extends Doku_Parser_Mode {
             );
     }
 
-    function connectTo($mode) {
-
+    public function connectTo($mode)
+    {
         // Can't nest formatting in itself
         if ( $mode == $this->type ) {
             return;
@@ -383,8 +408,8 @@ class Doku_Parser_Mode_formatting extends Doku_Parser_Mode {
             );
     }
 
-    function postConnect() {
-
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern(
             $this->formatting[$this->type]['exit'],
             $this->type
@@ -392,15 +417,17 @@ class Doku_Parser_Mode_formatting extends Doku_Parser_Mode {
 
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return $this->formatting[$this->type]['sort'];
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_listblock extends Doku_Parser_Mode {
-
-    function Doku_Parser_Mode_listblock() {
+class Doku_Parser_Mode_listblock extends Doku_Parser_Mode
+{
+    public function Doku_Parser_Mode_listblock()
+    {
         global $PARSER_MODES;
 
         $this->allowedModes = array_merge (
@@ -413,7 +440,8 @@ class Doku_Parser_Mode_listblock extends Doku_Parser_Mode {
     //    $this->allowedModes[] = 'footnote';
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('\n {2,}[\-\*]',$mode,'listblock');
         $this->Lexer->addEntryPattern('\n\t{1,}[\-\*]',$mode,'listblock');
 
@@ -422,19 +450,22 @@ class Doku_Parser_Mode_listblock extends Doku_Parser_Mode {
 
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern('\n','listblock');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 10;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_table extends Doku_Parser_Mode {
-
-    function Doku_Parser_Mode_table() {
+class Doku_Parser_Mode_table extends Doku_Parser_Mode
+{
+    public function Doku_Parser_Mode_table()
+    {
         global $PARSER_MODES;
 
         $this->allowedModes = array_merge (
@@ -445,12 +476,14 @@ class Doku_Parser_Mode_table extends Doku_Parser_Mode {
             );
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('\n\^',$mode,'table');
         $this->Lexer->addEntryPattern('\n\|',$mode,'table');
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addPattern('\n\^','table');
         $this->Lexer->addPattern('\n\|','table');
         #$this->Lexer->addPattern(' {2,}','table');
@@ -460,70 +493,81 @@ class Doku_Parser_Mode_table extends Doku_Parser_Mode {
         $this->Lexer->addExitPattern('\n','table');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 60;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_unformatted extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_unformatted extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('<nowiki>(?=.*</nowiki>)',$mode,'unformatted');
         $this->Lexer->addEntryPattern('%%(?=.*%%)',$mode,'unformattedalt');
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern('</nowiki>','unformatted');
         $this->Lexer->addExitPattern('%%','unformattedalt');
         $this->Lexer->mapHandler('unformattedalt','unformatted');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 170;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_php extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_php extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('<php>(?=.*</php>)',$mode,'php');
         $this->Lexer->addEntryPattern('<PHP>(?=.*</PHP>)',$mode,'phpblock');
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern('</php>','php');
         $this->Lexer->addExitPattern('</PHP>','phpblock');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 180;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_html extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_html extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('<html>(?=.*</html>)',$mode,'html');
         $this->Lexer->addEntryPattern('<HTML>(?=.*</HTML>)',$mode,'htmlblock');
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern('</html>','html');
         $this->Lexer->addExitPattern('</HTML>','htmlblock');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 190;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_preformatted extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_preformatted extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         // Has hard coded awareness of lists...
         $this->Lexer->addEntryPattern('\n  (?![\*\-])',$mode,'preformatted');
         $this->Lexer->addEntryPattern('\n\t(?![\*\-])',$mode,'preformatted');
@@ -534,51 +578,60 @@ class Doku_Parser_Mode_preformatted extends Doku_Parser_Mode {
 
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern('\n','preformatted');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 20;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_code extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_code extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('<code(?=.*</code>)',$mode,'code');
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern('</code>','code');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 200;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_file extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_file extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('<file>(?=.*</file>)',$mode,'file');
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addExitPattern('</file>','file');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 210;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_quote extends Doku_Parser_Mode {
-
-    function Doku_Parser_Mode_quote() {
+class Doku_Parser_Mode_quote extends Doku_Parser_Mode
+{
+    public function Doku_Parser_Mode_quote()
+    {
         global $PARSER_MODES;
 
         $this->allowedModes = array_merge (
@@ -592,31 +645,37 @@ class Doku_Parser_Mode_quote extends Doku_Parser_Mode {
             #$this->allowedModes[] = 'unformatted';
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         $this->Lexer->addEntryPattern('\n>{1,}',$mode,'quote');
     }
 
-    function postConnect() {
+    public function postConnect()
+    {
         $this->Lexer->addPattern('\n>{1,}','quote');
         $this->Lexer->addExitPattern('\n','quote');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 220;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_acronym extends Doku_Parser_Mode {
+class Doku_Parser_Mode_acronym extends Doku_Parser_Mode
+{
     // A list
-    var $acronyms = array();
-    var $pattern = '';
+    public $acronyms = array();
+    public $pattern = '';
 
-    function Doku_Parser_Mode_acronym($acronyms) {
+    public function Doku_Parser_Mode_acronym($acronyms)
+    {
         $this->acronyms = $acronyms;
     }
 
-    function preConnect() {
+    public function preConnect()
+    {
         if(!count($this->acronyms)) return;
 
         $bound = '[\x00-\x2f\x3a-\x40\x5b-\x60\x7b-\x7f]';
@@ -624,7 +683,8 @@ class Doku_Parser_Mode_acronym extends Doku_Parser_Mode {
         $this->pattern = '(?<=^|'.$bound.')(?:'.join('|',$acronyms).')(?='.$bound.')';
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         if(!count($this->acronyms)) return;
 
         if ( strlen($this->pattern) > 0 ) {
@@ -632,22 +692,26 @@ class Doku_Parser_Mode_acronym extends Doku_Parser_Mode {
         }
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 240;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_smiley extends Doku_Parser_Mode {
+class Doku_Parser_Mode_smiley extends Doku_Parser_Mode
+{
     // A list
-    var $smileys = array();
-    var $pattern = '';
+    public $smileys = array();
+    public $pattern = '';
 
-    function Doku_Parser_Mode_smiley($smileys) {
+    public function Doku_Parser_Mode_smiley($smileys)
+    {
         $this->smileys = $smileys;
     }
 
-    function preConnect() {
+    public function preConnect()
+    {
         if(!count($this->smileys) || $this->pattern != '') return;
 
         $sep = '';
@@ -657,7 +721,8 @@ class Doku_Parser_Mode_smiley extends Doku_Parser_Mode {
         }
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         if(!count($this->smileys)) return;
 
         if ( strlen($this->pattern) > 0 ) {
@@ -665,23 +730,26 @@ class Doku_Parser_Mode_smiley extends Doku_Parser_Mode {
         }
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 230;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_wordblock extends Doku_Parser_Mode {
+class Doku_Parser_Mode_wordblock extends Doku_Parser_Mode
+{
     // A list
-    var $badwords = array();
-    var $pattern = '';
+    public $badwords = array();
+    public $pattern = '';
 
-    function Doku_Parser_Mode_wordblock($badwords) {
+    public function Doku_Parser_Mode_wordblock($badwords)
+    {
         $this->badwords = $badwords;
     }
 
-    function preConnect() {
-
+    public function preConnect()
+    {
         if ( count($this->badwords) == 0 || $this->pattern != '') {
             return;
         }
@@ -694,28 +762,33 @@ class Doku_Parser_Mode_wordblock extends Doku_Parser_Mode {
 
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         if ( strlen($this->pattern) > 0 ) {
             $this->Lexer->addSpecialPattern($this->pattern,$mode,'wordblock');
         }
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 250;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_entity extends Doku_Parser_Mode {
+class Doku_Parser_Mode_entity extends Doku_Parser_Mode
+{
     // A list
-    var $entities = array();
-    var $pattern = '';
+    public $entities = array();
+    public $pattern = '';
 
-    function Doku_Parser_Mode_entity($entities) {
+    public function Doku_Parser_Mode_entity($entities)
+    {
         $this->entities = $entities;
     }
 
-    function preConnect() {
+    public function preConnect()
+    {
         if(!count($this->entities) || $this->pattern != '') return;
 
         $sep = '';
@@ -725,7 +798,8 @@ class Doku_Parser_Mode_entity extends Doku_Parser_Mode {
         }
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         if(!count($this->entities)) return;
 
         if ( strlen($this->pattern) > 0 ) {
@@ -733,32 +807,35 @@ class Doku_Parser_Mode_entity extends Doku_Parser_Mode {
         }
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 260;
     }
 }
 
 //-------------------------------------------------------------------
 // Implements the 640x480 replacement
-class Doku_Parser_Mode_multiplyentity extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
-
+class Doku_Parser_Mode_multiplyentity extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern(
                     '(?<=\b)\d+[xX]\d+(?=\b)',$mode,'multiplyentity'
                 );
 
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 270;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_quotes extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_quotes extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         global $conf;
 
         $ws   =  '\s/\#~:+=&%@\-\x28\x29\]\[{}><"\'';   // whitespace
@@ -786,69 +863,80 @@ class Doku_Parser_Mode_quotes extends Doku_Parser_Mode {
 
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 280;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_camelcaselink extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_camelcaselink extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern(
                 '\b[A-Z]+[a-z]+[A-Z][A-Za-z]*\b',$mode,'camelcaselink'
             );
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 290;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_internallink extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_internallink extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         // Word boundaries?
         $this->Lexer->addSpecialPattern("\[\[.+?\]\]",$mode,'internallink');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 300;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_media extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_media extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         // Word boundaries?
         $this->Lexer->addSpecialPattern("\{\{[^\}]+\}\}",$mode,'media');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 320;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_rss extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_rss extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern("\{\{rss>[^\}]+\}\}",$mode,'rss');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 310;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_externallink extends Doku_Parser_Mode {
-    var $schemes = array('http','https','telnet','gopher','wais','ftp','ed2k','irc','ldap');
-    var $patterns = array();
+class Doku_Parser_Mode_externallink extends Doku_Parser_Mode
+{
+    public $schemes = array('http','https','telnet','gopher','wais','ftp','ed2k','irc','ldap');
+    public $patterns = array();
 
-    function preConnect() {
+    public function preConnect()
+    {
         if(count($this->patterns)) return;
 
         $ltrs = '\w';
@@ -866,25 +954,26 @@ class Doku_Parser_Mode_externallink extends Doku_Parser_Mode {
 
     }
 
-    function connectTo($mode) {
-
+    public function connectTo($mode)
+    {
         foreach ( $this->patterns as $pattern ) {
             $this->Lexer->addSpecialPattern($pattern,$mode,'externallink');
         }
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 330;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_filelink extends Doku_Parser_Mode {
+class Doku_Parser_Mode_filelink extends Doku_Parser_Mode
+{
+    public $pattern;
 
-    var $pattern;
-
-    function preConnect() {
-
+    public function preConnect()
+    {
         $ltrs = '\w';
         $gunk = '/\#~:.?+=&%@!\-';
         $punc = '.:?\-;,';
@@ -895,44 +984,51 @@ class Doku_Parser_Mode_filelink extends Doku_Parser_Mode {
             $punc.']*[^'.$any.']';
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern(
             $this->pattern,$mode,'filelink');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 360;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_windowssharelink extends Doku_Parser_Mode {
+class Doku_Parser_Mode_windowssharelink extends Doku_Parser_Mode
+{
+    public $pattern;
 
-    var $pattern;
-
-    function preConnect() {
+    public function preConnect()
+    {
         $this->pattern = "\\\\\\\\\w+?(?:\\\\[\w$]+)+";
     }
 
-    function connectTo($mode) {
+    public function connectTo($mode)
+    {
         $this->Lexer->addSpecialPattern(
             $this->pattern,$mode,'windowssharelink');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 350;
     }
 }
 
 //-------------------------------------------------------------------
-class Doku_Parser_Mode_emaillink extends Doku_Parser_Mode {
-
-    function connectTo($mode) {
+class Doku_Parser_Mode_emaillink extends Doku_Parser_Mode
+{
+    public function connectTo($mode)
+    {
         // pattern below is defined in inc/mail.php
         $this->Lexer->addSpecialPattern('<'.PREG_PATTERN_VALID_EMAIL.'>',$mode,'emaillink');
     }
 
-    function getSort() {
+    public function getSort()
+    {
         return 340;
     }
 }

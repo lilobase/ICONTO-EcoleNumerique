@@ -196,5 +196,5 @@ abstract class Zend_Feed_Reader_Extension_EntryAbstract
      *
      * @return void
      */
-    protected abstract function _registerNamespaces();
+    abstract protected function _registerNamespaces();
 }

@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * @package standard
  * @subpackage auth
@@ -13,17 +13,18 @@
  * @package standard
  * @subpackage auth
  */
-class ZoneLoginForm extends CopixZone {
-	/**
-	 * Création de la zone de login
-	 */
-	function _createContent (& $toReturn) {
-		$ppo = new CopixPPO ();
-		$ppo->user = CopixAuth::getCurrentUser ()->isConnected () ? CopixAuth::getCurrentUser () : null;
-		$ppo->auth_url_return = $this->getParam ('auth_url_return', _url ('#'));
-		$ppo->createUser = CopixConfig::get ('auth|createUser');
-		$ppo->ask_remember = false;
-		$toReturn = $this->_usePPO ($ppo, $this->getParam ('template', 'login.form.php'));
-	}
+class ZoneLoginForm extends CopixZone
+{
+    /**
+     * Création de la zone de login
+     */
+    public function _createContent (& $toReturn)
+    {
+        $ppo = new CopixPPO ();
+        $ppo->user = CopixAuth::getCurrentUser ()->isConnected () ? CopixAuth::getCurrentUser () : null;
+        $ppo->auth_url_return = $this->getParam ('auth_url_return', _url ('#'));
+        $ppo->createUser = CopixConfig::get ('auth|createUser');
+        $ppo->ask_remember = false;
+        $toReturn = $this->_usePPO ($ppo, $this->getParam ('template', 'login.form.php'));
+    }
 }
-?>

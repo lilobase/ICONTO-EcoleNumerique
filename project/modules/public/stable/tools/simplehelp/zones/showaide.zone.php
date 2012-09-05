@@ -11,43 +11,43 @@
  * @package		tools
  * @subpackage	simplehelp
  */
-class ZoneShowAide extends CopixZone {
-	
-	/**
-	 * Visualisation de l'aide
-	 *
-	 * @param string $toReturn
-	 * @return string
-	 */
-	function _createContent (&$toReturn) {
-		$tpl = new CopixTpl ();
-		$displayAide = true;
-		$daoAide = _ioDao ('simplehelp');
-		$sp = _daoSp() -> addCondition('page_sh', '=', $this->getParam('page_sh', null, null))
-		               -> addCondition('key_sh' , '=', $this->getParam('key_sh', null, null));
+class ZoneShowAide extends CopixZone
+{
+    /**
+     * Visualisation de l'aide
+     *
+     * @param string $toReturn
+     * @return string
+     */
+    public function _createContent (&$toReturn)
+    {
+        $tpl = new CopixTpl ();
+        $displayAide = true;
+        $daoAide = _ioDao ('simplehelp');
+        $sp = _daoSp() -> addCondition('page_sh', '=', $this->getParam('page_sh', null, null))
+                       -> addCondition('key_sh' , '=', $this->getParam('key_sh', null, null));
 
-		$arAide = $daoAide->findBy($sp);
+        $arAide = $daoAide->findBy($sp);
 
-		if(count($arAide) > 0){
-			$aide = $arAide[0];
-		}else{
-			$displayAide = false;
-			$aide = null;
-		}
-		 
-		// cette variable est crée pour différencier si l'aide doit être afficher dans un popup classique ou un popuinformation
-		$popup = false;
-		if ($this->getParam('popup', null, true) === "true"){
-			$popup = true;
-		}
+        if(count($arAide) > 0){
+            $aide = $arAide[0];
+        }else{
+            $displayAide = false;
+            $aide = null;
+        }
 
-		$tpl->assign ('aide'        , $aide);
-		$tpl->assign ('displayAide'	, $displayAide);
-		$tpl->assign ('popup'       , $popup);
-		// $tpl->assign ('nofloat', $this->getParam ('nofloat', false));
+        // cette variable est crée pour différencier si l'aide doit être afficher dans un popup classique ou un popuinformation
+        $popup = false;
+        if ($this->getParam('popup', null, true) === "true"){
+            $popup = true;
+        }
 
-		$toReturn = $tpl->fetch ('showaide.tpl');
-		return true;
-	}
+        $tpl->assign ('aide'        , $aide);
+        $tpl->assign ('displayAide'	, $displayAide);
+        $tpl->assign ('popup'       , $popup);
+        // $tpl->assign ('nofloat', $this->getParam ('nofloat', false));
+
+        $toReturn = $tpl->fetch ('showaide.tpl');
+        return true;
+    }
 }
-?>

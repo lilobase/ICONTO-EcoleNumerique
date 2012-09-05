@@ -6,7 +6,7 @@
 			<table name="kernel_bu_groupe_villes" tablename="kernel_bu_groupe_villes" primary="yes"/>
 		</tables>
 	</datasource>
-	<properties>  
+	<properties>
 		<property name="id_grv"  fieldname="id_grv"  type="autoincrement" table="kernel_bu_groupe_villes" pk="yes"/>
 		<property name="nom_groupe"   fieldname="nom_groupe"   type="string" table="kernel_bu_groupe_villes" pk="no"/>
 		<property name="date_creation" fieldname="date_creation" type="date"    table="kernel_bu_groupe_villes" pk="no"/>

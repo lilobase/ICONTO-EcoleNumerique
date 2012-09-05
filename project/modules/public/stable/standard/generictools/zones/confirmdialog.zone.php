@@ -13,8 +13,10 @@
  * @package		standard
  * @subpackage	generictools
  */
-class ZoneConfirmDialog extends CopixZone {
-    function _createContent (& $toReturn){
+class ZoneConfirmDialog extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
         $tpl = new CopixTpl ();
         $tpl->assign ('title', isset ($this->_params['title']) ? $this->_params['title'] : CopixI18N::get ('messages.titlePage.confirm'));
 
@@ -29,4 +31,3 @@ class ZoneConfirmDialog extends CopixZone {
         return true;
     }
 }
-?>

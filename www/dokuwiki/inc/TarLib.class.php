@@ -61,12 +61,12 @@ define('COMPRESS_DETECT',-1);
 
 class TarLib
 {
-  var $_comptype;
-  var $_compzlevel;
-  var $_fp;
-  var $_memdat;
-  var $_nomf;
-  var $_result;
+  public $_comptype;
+  public $_compzlevel;
+  public $_fp;
+  public $_memdat;
+  public $_nomf;
+  public $_result;
 
   /**
    * constructor, initialize the class
@@ -98,7 +98,7 @@ class TarLib
    * represent the GZIP or BZIP compression level.  1 produce fast compression,
    * and 9 produce smaller files. See the RFC 1952 for more infos.
    */
-  function tarlib($p_filen = ARCHIVE_DYNAMIC , $p_comptype = COMPRESS_AUTO, $p_complevel = 9)
+  public function tarlib($p_filen = ARCHIVE_DYNAMIC , $p_comptype = COMPRESS_AUTO, $p_complevel = 9)
   {
     $this->_nomf = $p_filen; $flag=0;
     if($p_comptype && $p_comptype % 5 == 0){$p_comptype /= ARCHIVE_RENAMECOMP; $flag=1;}
@@ -106,15 +106,13 @@ class TarLib
     if($p_complevel > 0 && $p_complevel <= 9) $this->_compzlevel = $p_complevel;
     else $p_complevel = 9;
 
-    if($p_comptype == COMPRESS_DETECT)
-    {
+    if($p_comptype == COMPRESS_DETECT) {
       if(strtolower(substr($p_filen,-3)) == '.gz') $p_comptype = COMPRESS_GZIP;
       elseif(strtolower(substr($p_filen,-4)) == '.bz2') $p_comptype = COMPRESS_BZIP;
       else $p_comptype = COMPRESS_NONE;
     }
 
-    switch($p_comptype)
-    {
+    switch($p_comptype) {
       case COMPRESS_GZIP:
         if(!extension_loaded('zlib')) $this->_result = -1;
         $this->_comptype = COMPRESS_GZIP;
@@ -150,7 +148,7 @@ class TarLib
    * This function does exactly the same as TarLib (constructor), except it
    * returns a status code.
    */
-  function setArchive($p_name='', $p_comp = COMPRESS_AUTO, $p_level=9)
+  public function setArchive($p_name='', $p_comp = COMPRESS_AUTO, $p_level=9)
   {
     $this->_CompTar();
     $this->TarLib($p_name, $p_comp, $p_level);
@@ -174,7 +172,7 @@ class TarLib
    * NOTE: This can be done with the flag ARCHIVE_RENAMECOMP, see the
    * MaxgTar Constants
    */
-  function getCompression($ext = false)
+  public function getCompression($ext = false)
   {
     $exts = Array('tar','tar.gz','tar.bz2');
     if($ext) return $exts[$this->_comptype];
@@ -188,7 +186,7 @@ class TarLib
    * the archive. See the MaxgTar Constants to see which constants you can use.
    * It may look strange, but it returns the GZIP compression level.
    */
-  function setCompression($p_comp = COMPRESS_AUTO)
+  public function setCompression($p_comp = COMPRESS_AUTO)
   {
     $this->setArchive($this->_nomf, $p_comp, $this->_compzlevel);
     return $this->_compzlevel;
@@ -201,7 +199,7 @@ class TarLib
    * the final compressed archive in a string ready to be put in a SQL table or
    * in a file.
    */
-  function getDynamicArchive()
+  public function getDynamicArchive()
   {
     return $this->_encode($this->_memdat);
   }
@@ -216,7 +214,8 @@ class TarLib
    * To know the extension to add to the file if you're using AUTO_DETECT
    * compression, you can use getCompression().
    */
-  function writeArchive($p_archive) {
+  public function writeArchive($p_archive)
+  {
     if(!$this->_memdat) return -7;
     $fp = @fopen($p_archive, 'wb');
     if(!$fp) return -6;
@@ -250,32 +249,27 @@ class TarLib
    * Another note : for AUTO_DETECT dynamical archives you can know the
    * extension to add to the name with getCompression()
    */
-  function sendClient($name = '', $archive = '', $headers = true)
+  public function sendClient($name = '', $archive = '', $headers = true)
   {
     if(!$name && !$this->_nomf) return -9;
     if(!$archive && !$this->_memdat) return -10;
     if(!$name) $name = basename($this->_nomf);
 
-    if($archive){ if(!file_exists($archive)) return -11; }
-    else $decoded = $this->getDynamicArchive();
+    if($archive){ if(!file_exists($archive)) return -11; } else $decoded = $this->getDynamicArchive();
 
-    if($headers)
-    {
+    if($headers) {
       header('Content-Type: application/x-gtar');
       header('Content-Disposition: attachment; filename='.basename($name));
       header('Accept-Ranges: bytes');
       header('Content-Length: '.($archive ? filesize($archive) : strlen($decoded)));
     }
 
-    if($archive)
-    {
+    if($archive) {
       $fp = @fopen($archive,'rb');
       if(!$fp) return -4;
 
       while(!foef($fp)) echo fread($fp,2048);
-    }
-    else
-    {
+    } else {
       echo $decoded;
     }
 
@@ -308,7 +302,7 @@ class TarLib
    * permission in octal mode (prefixed with a 0) that will be given on each
    * extracted file.
    */
-  function Extract($p_what = FULL_ARCHIVE, $p_to = '.', $p_remdir='', $p_mode = 0755)
+  public function Extract($p_what = FULL_ARCHIVE, $p_to = '.', $p_remdir='', $p_mode = 0755)
   {
     if(!$this->_OpenRead()) return -4;
 //  if(!@is_dir($p_to)) if(!@mkdir($p_to, 0777)) return -8;   --CS
@@ -355,7 +349,7 @@ class TarLib
    * to the file you store. Note also that the RemovePath is applied before the
    * AddPath is added, so it HAS a sense to use both parameters together.
    */
-  function Create($p_filelist,$p_add='',$p_rem='')
+  public function Create($p_filelist,$p_add='',$p_rem='')
   {
     if(!$fl = $this->_fetchFilelist($p_filelist)) return -5;
     if(!$this->_OpenWrite()) return -6;
@@ -379,7 +373,7 @@ class TarLib
    * This function returns a status code, you can use TarErrorStr() on
    * it to get the human-readable description of the error.
    */
-  function Add($p_filelist, $p_add = '', $p_rem = '') { if (($this->_nomf
+  public function Add($p_filelist, $p_add = '', $p_rem = '') { if (($this->_nomf
 != ARCHIVE_DYNAMIC && @is_file($this->_nomf)) || ($this->_nomf ==
 ARCHIVE_DYNAMIC && !$this->_memdat)) return $this->Create($p_filelist,
 $p_add, $p_rem);
@@ -407,15 +401,14 @@ $p_add, $p_rem);
    * uname       Owner name
    * gname       Group name
    */
-  function ListContents()
+  public function ListContents()
   {
     if(!$this->_nomf) return -3;
     if(!$this->_OpenRead()) return -4;
 
     $result = Array();
 
-    while ($dat = $this->_read(512))
-    {
+    while ($dat = $this->_read(512)) {
       $dat = $this->_readHeader($dat);
       if(!is_array($dat)) continue;
 
@@ -433,7 +426,7 @@ $p_add, $p_rem);
    * status code.  You can pass them to this function to grab their english
    * equivalent.
    */
-  function TarErrorStr($i)
+  public function TarErrorStr($i)
   {
     $ecodes = Array(
          1 => true,
@@ -465,10 +458,9 @@ $p_add, $p_rem);
    * (FALSE).  Note that the HTML page generated is verified compatible XHTML
    * 1.0, but not HTML 4.0 compatible.
    */
-  function TarInfo($headers = true)
+  public function TarInfo($headers = true)
   {
-    if($headers)
-    {
+    if($headers) {
     ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -532,7 +524,7 @@ $p_add, $p_rem);
     if($headers) echo '</body></html>';
   }
 
-  function _seek($p_flen, $tell=0)
+  public function _seek($p_flen, $tell=0)
   {
     if($this->_nomf === ARCHIVE_DYNAMIC)
       $this->_memdat=substr($this->_memdat,0,($tell ? strlen($this->_memdat) : 0) + $p_flen);
@@ -544,7 +536,7 @@ $p_add, $p_rem);
       @fseek($this->_fp, ($tell ? @ftell($this->_fp) : 0)+$p_flen);
   }
 
-  function _OpenRead()
+  public function _OpenRead()
   {
     if($this->_comptype == COMPRESS_GZIP)
       $this->_fp = @gzopen($this->_nomf, 'rb');
@@ -556,7 +548,7 @@ $p_add, $p_rem);
     return ($this->_fp ? true : false);
   }
 
-  function _OpenWrite($add = 'w')
+  public function _OpenWrite($add = 'w')
   {
     if($this->_nomf === ARCHIVE_DYNAMIC) return true;
 
@@ -570,7 +562,7 @@ $p_add, $p_rem);
     return ($this->_fp ? true : false);
   }
 
-  function _CompTar()
+  public function _CompTar()
   {
     if($this->_nomf === ARCHIVE_DYNAMIC || !$this->_fp) return;
 
@@ -579,7 +571,7 @@ $p_add, $p_rem);
     else @fclose($this->_fp);
   }
 
-  function _read($p_len)
+  public function _read($p_len)
   {
     if($this->_comptype == COMPRESS_GZIP)
       return @gzread($this->_fp,$p_len);
@@ -589,7 +581,7 @@ $p_add, $p_rem);
       return @fread($this->_fp,$p_len);
   }
 
-  function _write($p_data)
+  public function _write($p_data)
   {
     if($this->_nomf === ARCHIVE_DYNAMIC) $this->_memdat .= $p_data;
     elseif($this->_comptype == COMPRESS_GZIP)
@@ -602,7 +594,7 @@ $p_add, $p_rem);
       return @fwrite($this->_fp,$p_data);
   }
 
-  function _encode($p_dat)
+  public function _encode($p_dat)
   {
     if($this->_comptype == COMPRESS_GZIP)
       return gzencode($p_dat, $this->_compzlevel);
@@ -611,7 +603,7 @@ $p_add, $p_rem);
     else return $p_dat;
   }
 
-  function _readHeader($p_dat)
+  public function _readHeader($p_dat)
   {
     if (!$p_dat || strlen($p_dat) != 512) return false;
 
@@ -641,12 +633,11 @@ $p_add, $p_rem);
     return $return;
   }
 
-  function _fetchFilelist($p_filelist)
+  public function _fetchFilelist($p_filelist)
   {
     if(!$p_filelist || (is_array($p_filelist) && !@count($p_filelist))) return false;
 
-    if(is_string($p_filelist))
-    {
+    if(is_string($p_filelist)) {
         $p_filelist = explode('|',$p_filelist);
         if(!is_array($p_filelist)) $p_filelist = Array($p_filelist);
     }
@@ -654,25 +645,22 @@ $p_add, $p_rem);
     return $p_filelist;
   }
 
-  function _addFileList($p_fl, $p_addir, $p_remdir)
+  public function _addFileList($p_fl, $p_addir, $p_remdir)
   {
-    foreach($p_fl as $file)
-    {
+    foreach($p_fl as $file) {
       if(($file == $this->_nomf && $this->_nomf != ARCHIVE_DYNAMIC) || !$file || (!file_exists($file) && !is_array($file)))
         continue;
 
       if (!$this->_addFile($file, $p_addir, $p_remdir))
         continue;
 
-      if (@is_dir($file))
-      {
+      if (@is_dir($file)) {
         $d = @opendir($file);
 
         if(!$d) continue;
         readdir($d); readdir($d);
 
-        while($f = readdir($d))
-        {
+        while($f = readdir($d)) {
           if($file != ".") $tmplist[0] = "$file/$f";
           else $tmplist[0] = $d;
 
@@ -685,13 +673,12 @@ $p_add, $p_rem);
     return true;
   }
 
-  function _addFile($p_fn, $p_addir = '', $p_remdir = '')
+  public function _addFile($p_fn, $p_addir = '', $p_remdir = '')
   {
     if(is_array($p_fn)) list($p_fn, $data) = $p_fn;
     $sname = $p_fn;
 
-    if($p_remdir)
-    {
+    if($p_remdir) {
         if(substr($p_remdir,-1) != '/') $p_remdir .= "/";
 
         if(substr($sname, 0, strlen($p_remdir)) == $p_remdir)
@@ -702,31 +689,23 @@ $p_add, $p_rem);
 
     if(strlen($sname) > 99) return;
 
-    if(@is_dir($p_fn))
-    {
+    if(@is_dir($p_fn)) {
       if(!$this->_writeFileHeader($p_fn, $sname)) return false;
-    }
-    else
-    {
-     if(!$data)
-     {
+    } else {
+     if(!$data) {
       $fp = fopen($p_fn, 'rb');
       if(!$fp) return false;
      }
 
      if(!$this->_writeFileHeader($p_fn, $sname, ($data ? strlen($data) : false))) return false;
 
-     if(!$data)
-     {
-      while(!feof($fp))
-      {
+     if(!$data) {
+      while(!feof($fp)) {
         $packed = pack("a512", fread($fp,512));
         $this->_write($packed);
       }
       fclose($fp);
-     }
-     else
-     {
+     } else {
       for($s = 0; $s < strlen($data); $s += 512)
         $this->_write(pack("a512",substr($data,$s,512)));
      }
@@ -735,10 +714,9 @@ $p_add, $p_rem);
     return true;
   }
 
-  function _writeFileHeader($p_file, $p_sname, $p_data=false)
+  public function _writeFileHeader($p_file, $p_sname, $p_data=false)
   {
-   if(!$p_data)
-   {
+   if(!$p_data) {
     if (!$p_sname) $p_sname = $p_file;
     $p_sname = $this->_pathTrans($p_sname);
 
@@ -751,9 +729,7 @@ $p_add, $p_rem);
     $h[] = sprintf("%11s", DecOct(filemtime($p_file)));
 
     $dir = @is_dir($p_file) ? '5' : '';
-   }
-   else
-   {
+   } else {
     $dir = '';
     $p_data = sprintf("%11s ", DecOct($p_data));
     $time = sprintf("%11s ", DecOct(time()));
@@ -777,17 +753,14 @@ $p_add, $p_rem);
      return true;
   }
 
-  function _append($p_filelist, $p_addir="", $p_remdir="")
+  public function _append($p_filelist, $p_addir="", $p_remdir="")
   {
     if(!$this->_fp) if(!$this->_OpenWrite('a')) return -6;
 
-    if($this->_nomf == ARCHIVE_DYNAMIC)
-    {
+    if($this->_nomf == ARCHIVE_DYNAMIC) {
       $s = strlen($this->_memdat);
       $this->_memdat = substr($this->_memdat,0,-512);
-    }
-    else
-    {
+    } else {
       $s = filesize($this->_nomf);
       $this->_seek($s-512);
     }
@@ -798,68 +771,58 @@ $p_add, $p_rem);
     return $ok;
   }
 
-  function _pathTrans($p_dir)
+  public function _pathTrans($p_dir)
   {
-    if ($p_dir)
-    {
+    if ($p_dir) {
       $subf = explode("/", $p_dir); $r='';
 
-      for ($i=count($subf)-1; $i>=0; $i--)
-      {
-        if ($subf[$i] == ".") {}
-        else if ($subf[$i] == "..") $i--;
-        else if (!$subf[$i] && $i!=count($subf)-1 && $i) {}
-        else $r = $subf[$i].($i!=(count($subf)-1) ? "/".$r : "");
+      for ($i=count($subf)-1; $i>=0; $i--) {
+        if ($subf[$i] == ".") {} elseif ($subf[$i] == "..") $i--;
+        else if (!$subf[$i] && $i!=count($subf)-1 && $i) {} else $r = $subf[$i].($i!=(count($subf)-1) ? "/".$r : "");
       }
     }
     return $r;
   }
 
-  function _writeFooter()
+  public function _writeFooter()
   {
     $this->_write(pack("a512", ""));
   }
 
-  function _extractList($p_to, $p_files, $p_remdir, $p_mode = 0755)
+  public function _extractList($p_to, $p_files, $p_remdir, $p_mode = 0755)
   {
     if (!$p_to || ($p_to[0]!="/"&&substr($p_to,0,3)!="../"&&substr($p_to,1,3)!=":\\")) /*" // <- PHP Coder bug */
       $p_to = "./$p_to";
 
     if ($p_remdir && substr($p_remdir,-1)!='/') $p_remdir .= '/';
     $p_remdirs = strlen($p_remdir);
-    while($dat = $this->_read(512))
-    {
+    while($dat = $this->_read(512)) {
       $headers = $this->_readHeader($dat);
       if(!$headers['filename']) continue;
 
       if($p_files == -1 || $p_files[0] == -1) $extract = true;
-      else
-      {
+      else {
         $extract = false;
 
-        foreach($p_files as $f)
-        {
+        foreach($p_files as $f) {
           if(substr($f,-1) == "/") {
             if((strlen($headers['filename']) > strlen($f)) && (substr($headers['filename'],0,strlen($f))==$f)) {
               $extract = true; break;
             }
-          }
-          elseif($f == $headers['filename']) {
+          } elseif($f == $headers['filename']) {
             $extract = true; break;
           }
         }
       }
 
-      if ($extract)
-      {
+      if ($extract) {
         $det[] = $headers;
         if ($p_remdir && substr($headers['filename'],0,$p_remdirs)==$p_remdir)
           $headers['filename'] = substr($headers['filename'],$p_remdirs);
 
         if($headers['filename'].'/' == $p_remdir && $headers['typeflag']=='5') continue;
 
-        if ($p_to != "./" && $p_to != "/")
-        {
+        if ($p_to != "./" && $p_to != "/") {
           while($p_to{-1}=="/") $p_to = substr($p_to,0,-1);
 
           if($headers['filename']{0} == "/")
@@ -871,8 +834,7 @@ $p_add, $p_rem);
         $ok = $this->_dirApp($headers['typeflag']=="5" ? $headers['filename'] : dirname($headers['filename']));
         if($ok < 0) return $ok;
 
-        if (!$headers['typeflag'])
-        {
+        if (!$headers['typeflag']) {
           if (!$fp = @fopen($headers['filename'], "wb")) return -6;
           $n = floor($headers['size']/512);
 
@@ -882,9 +844,7 @@ $p_add, $p_rem);
           fclose($fp);
           touch($headers['filename'], $headers['mtime']);
           chmod($headers['filename'], $p_mode);
-        }
-       else
-       {
+        } else {
          $this->_seek(ceil($headers['size']/512)*512,1);
        }
       }else $this->_seek(ceil($headers['size']/512)*512,1);
@@ -900,10 +860,8 @@ function _dirApp($d)
     $d = explode('/', $d);
     $base = '';
 
-    foreach($d as $f)
-    {
-      if(!is_dir($base.$f))
-      {
+    foreach($d as $f) {
+      if(!is_dir($base.$f)) {
         $ok = @mkdir($base.$f, 0777);
         if(!$ok) return false;
       }

@@ -22,26 +22,29 @@ require_once DOKU_INC . 'inc/parser/renderer.php';
 /**
  * The Renderer
  */
-class Doku_Renderer_metadata extends Doku_Renderer {
+class Doku_Renderer_metadata extends Doku_Renderer
+{
+  public $doc  = '';
+  public $meta = array();
+  public $persistent = array();
 
-  var $doc  = '';
-  var $meta = array();
-  var $persistent = array();
+  public $headers = array();
+  public $capture = true;
+  public $store   = '';
 
-  var $headers = array();
-  var $capture = true;
-  var $store   = '';
-
-  function getFormat(){
+  public function getFormat()
+  {
     return 'metadata';
   }
 
-  function document_start(){
+  public function document_start()
+  {
     // reset metadata to persistent values
     $this->meta = $this->persistent;
   }
 
-  function document_end(){
+  public function document_end()
+  {
     // store internal info in metadata (notoc,nocache)
     $this->meta['internal'] = $this->info;
 
@@ -54,7 +57,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     }
   }
 
-  function toc_additem($id, $text, $level) {
+  public function toc_additem($id, $text, $level)
+  {
     global $conf;
 
     //only add items within configured levels
@@ -70,8 +74,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
 
   }
 
-  function header($text, $level, $pos) {
-
+  public function header($text, $level, $pos)
+  {
     if (!$this->meta['title']) $this->meta['title'] = $text;
 
     // add the header to the TOC
@@ -82,55 +86,60 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     if ($this->capture && ($level > 1)) $this->doc .= DOKU_LF.$text.DOKU_LF;
   }
 
-  function section_open($level){}
-  function section_close(){}
+  public function section_open($level){}
+  public function section_close(){}
 
-  function cdata($text){
+  public function cdata($text)
+  {
     if ($this->capture) $this->doc .= $text;
   }
 
-  function p_open(){
+  public function p_open()
+  {
     if ($this->capture) $this->doc .= DOKU_LF;
   }
 
-  function p_close(){
+  public function p_close()
+  {
     if ($this->capture){
       if (strlen($this->doc) > 250) $this->capture = false;
       else $this->doc .= DOKU_LF;
     }
   }
 
-  function linebreak(){
+  public function linebreak()
+  {
     if ($this->capture) $this->doc .= DOKU_LF;
   }
 
-  function hr(){
+  public function hr()
+  {
     if ($this->capture){
       if (strlen($this->doc) > 250) $this->capture = false;
       else $this->doc .= DOKU_LF.'----------'.DOKU_LF;
     }
   }
 
-  function strong_open(){}
-  function strong_close(){}
+  public function strong_open(){}
+  public function strong_close(){}
 
-  function emphasis_open(){}
-  function emphasis_close(){}
+  public function emphasis_open(){}
+  public function emphasis_close(){}
 
-  function underline_open(){}
-  function underline_close(){}
+  public function underline_open(){}
+  public function underline_close(){}
 
-  function monospace_open(){}
-  function monospace_close(){}
+  public function monospace_open(){}
+  public function monospace_close(){}
 
-  function subscript_open(){}
-  function subscript_close(){}
+  public function subscript_open(){}
+  public function subscript_close(){}
 
-  function superscript_open(){}
-  function superscript_close(){}
+  public function superscript_open(){}
+  public function superscript_close(){}
 
-  function deleted_open(){}
-  function deleted_close(){}
+  public function deleted_open(){}
+  public function deleted_close(){}
 
   /**
    * Callback for footnote start syntax
@@ -141,7 +150,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
    *
    * @author Andreas Gohr <andi@splitbrain.org>
    */
-  function footnote_open() {
+  public function footnote_open()
+  {
     if ($this->capture){
       // move current content to store and record footnote
       $this->store = $this->doc;
@@ -157,7 +167,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
    *
    * @author Andreas Gohr
    */
-  function footnote_close() {
+  public function footnote_close()
+  {
     if ($this->capture){
       // restore old content
       $this->doc = $this->store;
@@ -165,50 +176,59 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     }
   }
 
-  function listu_open(){
+  public function listu_open()
+  {
     if ($this->capture) $this->doc .= DOKU_LF;
   }
 
-  function listu_close(){
+  public function listu_close()
+  {
     if ($this->capture && (strlen($this->doc) > 250)) $this->capture = false;
   }
 
-  function listo_open(){
+  public function listo_open()
+  {
     if ($this->capture) $this->doc .= DOKU_LF;
   }
 
-  function listo_close(){
+  public function listo_close()
+  {
     if ($this->capture && (strlen($this->doc) > 250)) $this->capture = false;
   }
 
-  function listitem_open($level){
+  public function listitem_open($level)
+  {
     if ($this->capture) $this->doc .= str_repeat(DOKU_TAB, $level).'* ';
   }
 
-  function listitem_close(){
+  public function listitem_close()
+  {
     if ($this->capture) $this->doc .= DOKU_LF;
   }
 
-  function listcontent_open(){}
-  function listcontent_close(){}
+  public function listcontent_open(){}
+  public function listcontent_close(){}
 
-  function unformatted($text){
+  public function unformatted($text)
+  {
     if ($this->capture) $this->doc .= $text;
   }
 
-  function php($text){}
+  public function php($text){}
 
-  function phpblock($text){}
+  public function phpblock($text){}
 
-  function html($text){}
+  public function html($text){}
 
-  function htmlblock($text){}
+  public function htmlblock($text){}
 
-  function preformatted($text){
+  public function preformatted($text)
+  {
     if ($this->capture) $this->doc .= $text;
   }
 
-  function file($text){
+  public function file($text)
+  {
     if ($this->capture){
       $this->doc .= DOKU_LF.$text;
       if (strlen($this->doc) > 250) $this->capture = false;
@@ -216,11 +236,13 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     }
   }
 
-  function quote_open(){
+  public function quote_open()
+  {
     if ($this->capture) $this->doc .= DOKU_LF.DOKU_TAB.'"';
   }
 
-  function quote_close(){
+  public function quote_close()
+  {
     if ($this->capture){
       $this->doc .= '"';
       if (strlen($this->doc) > 250) $this->capture = false;
@@ -228,7 +250,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     }
   }
 
-  function code($text, $language = NULL){
+  public function code($text, $language = NULL)
+  {
     if ($this->capture){
       $this->doc .= DOKU_LF.$text;
       if (strlen($this->doc) > 250) $this->capture = false;
@@ -236,57 +259,68 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     }
   }
 
-  function acronym($acronym){
+  public function acronym($acronym)
+  {
     if ($this->capture) $this->doc .= $acronym;
   }
 
-  function smiley($smiley){
+  public function smiley($smiley)
+  {
     if ($this->capture) $this->doc .= $smiley;
   }
 
-  function entity($entity){
+  public function entity($entity)
+  {
     if ($this->capture) $this->doc .= $entity;
   }
 
-  function multiplyentity($x, $y){
+  public function multiplyentity($x, $y)
+  {
     if ($this->capture) $this->doc .= $x.'×'.$y;
   }
 
-  function singlequoteopening(){
+  public function singlequoteopening()
+  {
     global $lang;
     if ($this->capture) $this->doc .= $lang['singlequoteopening'];
   }
 
-  function singlequoteclosing(){
+  public function singlequoteclosing()
+  {
     global $lang;
     if ($this->capture) $this->doc .= $lang['singlequoteclosing'];
   }
 
-  function apostrophe() {
+  public function apostrophe()
+  {
     global $lang;
     if ($this->capture) $this->doc .= $lang['apostrophe'];
   }
 
-  function doublequoteopening(){
+  public function doublequoteopening()
+  {
     global $lang;
     if ($this->capture) $this->doc .= $lang['doublequoteopening'];
   }
 
-  function doublequoteclosing(){
+  public function doublequoteclosing()
+  {
     global $lang;
     if ($this->capture) $this->doc .= $lang['doublequoteclosing'];
   }
 
-  function camelcaselink($link) {
+  public function camelcaselink($link)
+  {
     $this->internallink($link, $link);
   }
 
-  function locallink($hash, $name = NULL){}
+  public function locallink($hash, $name = NULL){}
 
   /**
    * keep track of internal links in $this->meta['relation']['references']
    */
-  function internallink($id, $name = NULL){
+  public function internallink($id, $name = NULL)
+  {
     global $ID;
 
     $default = $this->_simpleTitle($id);
@@ -307,14 +341,16 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     }
   }
 
-  function externallink($url, $name = NULL){
+  public function externallink($url, $name = NULL)
+  {
     if ($this->capture){
       if ($name) $this->doc .= $name;
       else $this->doc .= '<'.$url.'>';
     }
   }
 
-  function interwikilink($match, $name = NULL, $wikiName, $wikiUri){
+  public function interwikilink($match, $name = NULL, $wikiName, $wikiUri)
+  {
     if ($this->capture){
       list($wikiUri, $hash) = explode('#', $wikiUri, 2);
       $name = $this->_getLinkTitle($name, $wikiName.'>'.$wikiUri);
@@ -322,31 +358,34 @@ class Doku_Renderer_metadata extends Doku_Renderer {
     }
   }
 
-  function windowssharelink($url, $name = NULL){
+  public function windowssharelink($url, $name = NULL)
+  {
     if ($this->capture){
       if ($name) $this->doc .= $name;
       else $this->doc .= '<'.$url.'>';
     }
   }
 
-  function emaillink($address, $name = NULL){
+  public function emaillink($address, $name = NULL)
+  {
     if ($this->capture){
       if ($name) $this->doc .= $name;
       else $this->doc .= '<'.$address.'>';
     }
   }
 
-  function internalmedia($src, $title=NULL, $align=NULL, $width=NULL,
+  public function internalmedia($src, $title=NULL, $align=NULL, $width=NULL,
                          $height=NULL, $cache=NULL, $linking=NULL){
     if ($this->capture && $title) $this->doc .= '['.$title.']';
   }
 
-  function externalmedia($src, $title=NULL, $align=NULL, $width=NULL,
+  public function externalmedia($src, $title=NULL, $align=NULL, $width=NULL,
                          $height=NULL, $cache=NULL, $linking=NULL){
     if ($this->capture && $title) $this->doc .= '['.$title.']';
   }
 
-  function rss($url,$params) {
+  public function rss($url,$params)
+  {
     $this->meta['relation']['haspart'][$url] = true;
 
     $this->meta['date']['valid']['age'] =
@@ -355,17 +394,17 @@ class Doku_Renderer_metadata extends Doku_Renderer {
                 $params['refresh'];
   }
 
-  function table_open($maxcols = NULL, $numrows = NULL){}
-  function table_close(){}
+  public function table_open($maxcols = NULL, $numrows = NULL){}
+  public function table_close(){}
 
-  function tablerow_open(){}
-  function tablerow_close(){}
+  public function tablerow_open(){}
+  public function tablerow_close(){}
 
-  function tableheader_open($colspan = 1, $align = NULL){}
-  function tableheader_close(){}
+  public function tableheader_open($colspan = 1, $align = NULL){}
+  public function tableheader_close(){}
 
-  function tablecell_open($colspan = 1, $align = NULL){}
-  function tablecell_close(){}
+  public function tablecell_open($colspan = 1, $align = NULL){}
+  public function tablecell_close(){}
 
   //----------------------------------------------------------
   // Utils
@@ -376,7 +415,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
    *
    * @author Andreas Gohr <andi@splitbrain.org>
    */
-  function _simpleTitle($name){
+  public function _simpleTitle($name)
+  {
     global $conf;
 
     if(is_array($name)) return '';
@@ -399,7 +439,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
    * @param boolean $create  Create a new unique ID?
    * @author Andreas Gohr <andi@splitbrain.org>
    */
-  function _headerToLink($title, $create=false) {
+  public function _headerToLink($title, $create=false)
+  {
     $title = str_replace(':','',cleanID($title));
     $title = ltrim($title,'0123456789._-');
     if(empty($title)) $title='section';
@@ -422,7 +463,8 @@ class Doku_Renderer_metadata extends Doku_Renderer {
    *
    * @author Harry Fuecks <hfuecks@gmail.com>
    */
-  function _getLinkTitle($title, $default, $id=NULL) {
+  public function _getLinkTitle($title, $default, $id=NULL)
+  {
     global $conf;
 
     $isImage = false;
@@ -432,9 +474,9 @@ class Doku_Renderer_metadata extends Doku_Renderer {
         if ($heading) return $heading;
       }
       return $default;
-    } else if (is_string($title)){
+    } elseif (is_string($title)){
       return $title;
-    } else if (is_array($title)){
+    } elseif (is_array($title)){
       return '['.$title.']';
     }
   }

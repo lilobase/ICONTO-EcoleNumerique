@@ -12,11 +12,12 @@
  * @package		standard
  * @subpackage	copixtest
  */
-class CopixTest_CopixListenerFactoryTest extends CopixTest {
-	public function testSingleton (){
-		$singleton  = CopixListenerFactory::instance ();
-		$singleton2 = CopixListenerFactory::instance ();
-		$this->assertSame ($singleton, $singleton2);
-	} 
+class CopixTest_CopixListenerFactoryTest extends CopixTest
+{
+    public function testSingleton ()
+    {
+        $singleton  = CopixListenerFactory::instance ();
+        $singleton2 = CopixListenerFactory::instance ();
+        $this->assertSame ($singleton, $singleton2);
+    }
 }
-?>

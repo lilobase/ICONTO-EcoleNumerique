@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE daodefinition SYSTEM "dao.dtd">
-<daodefinition version="1">
-	<datasource>
-		<tables>
-			<table name="module_ressource_fonctions" tablename="module_ressource_fonctions" primary="yes"/>
-		</tables>
-	</datasource>
-	<properties>
-		<property name="fonctions_id" fieldname="id" type="integer" table="module_ressource_fonctions" pk="yes"/>
-		<property name="fonctions_nom" fieldname="nom" type="string" table="module_ressource_fonctions" pk="no"/>
-		<property name="fonctions_ordre" fieldname="ordre" type="integer" table="module_ressource_fonctions" pk="no"/>
-	</properties>
-	<methods>
-		<method name="getOrdre" type="select">
-			<order>
-				<orderitem property="fonctions_ordre" way="asc" />
-			</order>
-		</method>
-	</methods>
-</daodefinition>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_fonctions" tablename="module_ressource_fonctions" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="fonctions_id" fieldname="id" type="integer" table="module_ressource_fonctions" pk="yes"/>
+		<property name="fonctions_nom" fieldname="nom" type="string" table="module_ressource_fonctions" pk="no"/>
+		<property name="fonctions_ordre" fieldname="ordre" type="integer" table="module_ressource_fonctions" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getOrdre" type="select">
+			<order>
+				<orderitem property="fonctions_ordre" way="asc" />
+			</order>
+		</method>
+	</methods>
+</daodefinition>

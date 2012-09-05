@@ -24,7 +24,8 @@ un fichier .dao.driver.php qui contient l'objet spécifique au driver et porte c
  * @package copix
  * @subpackage dao
  */
-interface ICopixDAO {
+interface ICopixDAO
+{
     //on ne met pas get ni delete car les paramètres varient en fonction du nombre de clef
     public function findBy ($pSp, $leftjoin=array());
     public function countBy ($pSp);
@@ -37,192 +38,209 @@ interface ICopixDAO {
 /**
  * Définition de l'interface CopixDAORecord
  * @package copix
- * @subpackage dao 
+ * @subpackage dao
  */
 interface ICopixDAORecord {}
 
 /**
  * Classe qui permet de parcourir un ensemble de résultat "standards" sous la forme d'un tableau de DAORecord
  */
-class CopixDAORecordIterator implements Iterator, ArrayAccess, Countable {
-	/**
-	 * Type de record que l'on décide de parcourir
-	 * 
-	 * @var string
-	 */
-	private $_recordId = null;
-	
-	/**
-	 * Résultats de la requête
-	 *
-	 * @var CopixDBResultSet
-	 */
-	private $_resultSet;
-	
-	/**
-	 * Offset courant
-	 *
-	 * @var int
-	 */
-	private $_currentOffset = 0;
-	
-	/**
-	 * Construction en indiquant le type de DAO en paramètre
-	 * 
-	 * @param array $pArray Résultats de la requête
-	 * @param string $pRecordId Type de record que l'on décide de parcourir
-	 */
-	public function __construct ($pArray, $pRecordId) {
-		$this->_resultSet = $pArray;
-		$this->_recordId = $pRecordId;
-	}
+class CopixDAORecordIterator implements Iterator, ArrayAccess, Countable
+{
+    /**
+     * Type de record que l'on décide de parcourir
+     *
+     * @var string
+     */
+    private $_recordId = null;
 
-	/**
-	 * Retourne l'élément d'indice donné
-	 * 
-	 * @param string $pOffset
-	 * @return object
-	 */
-	public function offsetGet ($pOffset) {
-		return $this->_makeRecordIfNot ($pOffset);
-	}
+    /**
+     * Résultats de la requête
+     *
+     * @var CopixDBResultSet
+     */
+    private $_resultSet;
 
-	/**
-	 * Retourne l'élément courant
-	 * 
-	 * @return object 
-	 */
-	public function current () {
-		return $this->_makeRecordIfNot ($this->_currentOffset);
-	}
-	
-	/**
-	 * Création d'un enregistrement a partir d'un élément
-	 * 
-	 * @param	mixed	offset (integer)	
-	 * @return ICopixDAORecord 
-	 */
-	private function _makeRecordIfNot ($pOffset){
-		if (isset ($this->_resultSet[$pOffset])){
-			if ($this->_resultSet[$pOffset] instanceof ICopixDAORecord){
-				return $this->_resultSet[$pOffset];
-			}else{
-				return $this->_resultSet[$pOffset] = _record ($this->_recordId)->initFromDBObject ($this->_resultSet[$pOffset]);				
-			}
-		}else{
-			return null;
-		}
-	}
+    /**
+     * Offset courant
+     *
+     * @var int
+     */
+    private $_currentOffset = 0;
 
-	/**
-	 * Passe à l'enregistrement suivant
-	 */
-	public function next () {
-		$this->_currentOffset++;
-	}
+    /**
+     * Construction en indiquant le type de DAO en paramètre
+     *
+     * @param array $pArray Résultats de la requête
+     * @param string $pRecordId Type de record que l'on décide de parcourir
+     */
+    public function __construct ($pArray, $pRecordId)
+    {
+        $this->_resultSet = $pArray;
+        $this->_recordId = $pRecordId;
+    }
 
-	/**
-	 * Retourne la clef courante
-	 * 
-	 * @return int
-	 */
-	public function key () {
-		return $this->_currentOffset;
-	}
-	
-	/**
-	 * Indique si l'élément courant est valide
-	 * 
-	 * @return boolean 
-	 */
-	public function valid () {
-		return isset ($this->_resultSet[$this->_currentOffset]);
-	}
-	
-	/**
-	 * Réinitialisation du parcours des éléments au premier indice
-	 */
-	public function rewind () {
-		$this->_currentOffset = 0;
-	}
-	
-	/**
-	 * Blocage de la possibilité de définir un enregistrement. Déclenche une exception.
-	 * 
-	 * @param mixed $pKey Clef à modifier, type string ou int
-	 * @param mixed $pValue Nouvelle valeur pour la clef $pKey
-	 * @throws Exception 
-	 */
-	public function offsetSet ($pKey, $pValue) {
-		throw new Exception (_i18n ('copix:dao.error.offsetSet'));
-	}
-	
-	/**
-	 * Blocage de la possibilité de supprimer un enregistrement. Déclenche une exception.
-	 * 
-	 * @param mixed $pKey Clef à supprimer, type string ou int
-	 * @throws Exception
-	 */
-	public function offsetUnset ($pKey) {
-		throw new Exception (_i18n ('copix:dao.error.offsetUnset'));
-	}
-	
-	/**
-	 * Indique si $pOffset existe
-	 * 
-	 * @param mixed $pOffset Clef dont on veut vérifier l'existance
-	 * @return boolean
-	 */
-	public function offsetExists ($pOffset) {
-		return isset ($this->_resultSet[$pOffset]);
-	}
-	 
-	/**
-	 * Retourne le nombre d'éléments qui existent dans le résulat
-	 * 
-	 * @return int
-	 */
-	public function count () {
-		return count ($this->_resultSet);
-	}
-	 
-	/**
-	 * Récupère l'ensemble des enregistrements dans un tableau
-	 * 
-	 * @return array
-	 */
-	public function fetchAll () {
-		$results = array ();
-		foreach ($this->_resultSet as $key => $element) {
-			$results[$key] = _record ($this->_recordId)->initFromDBObject ($element); 
-		}
-		return $results;
-	}
+    /**
+     * Retourne l'élément d'indice donné
+     *
+     * @param string $pOffset
+     * @return object
+     */
+    public function offsetGet ($pOffset)
+    {
+        return $this->_makeRecordIfNot ($pOffset);
+    }
+
+    /**
+     * Retourne l'élément courant
+     *
+     * @return object
+     */
+    public function current ()
+    {
+        return $this->_makeRecordIfNot ($this->_currentOffset);
+    }
+
+    /**
+     * Création d'un enregistrement a partir d'un élément
+     *
+     * @param	mixed	offset (integer)
+     * @return ICopixDAORecord
+     */
+    private function _makeRecordIfNot ($pOffset)
+    {
+        if (isset ($this->_resultSet[$pOffset])){
+            if ($this->_resultSet[$pOffset] instanceof ICopixDAORecord){
+                return $this->_resultSet[$pOffset];
+            }else{
+                return $this->_resultSet[$pOffset] = _record ($this->_recordId)->initFromDBObject ($this->_resultSet[$pOffset]);
+            }
+        }else{
+            return null;
+        }
+    }
+
+    /**
+     * Passe à l'enregistrement suivant
+     */
+    public function next ()
+    {
+        $this->_currentOffset++;
+    }
+
+    /**
+     * Retourne la clef courante
+     *
+     * @return int
+     */
+    public function key ()
+    {
+        return $this->_currentOffset;
+    }
+
+    /**
+     * Indique si l'élément courant est valide
+     *
+     * @return boolean
+     */
+    public function valid ()
+    {
+        return isset ($this->_resultSet[$this->_currentOffset]);
+    }
+
+    /**
+     * Réinitialisation du parcours des éléments au premier indice
+     */
+    public function rewind ()
+    {
+        $this->_currentOffset = 0;
+    }
+
+    /**
+     * Blocage de la possibilité de définir un enregistrement. Déclenche une exception.
+     *
+     * @param mixed $pKey Clef à modifier, type string ou int
+     * @param mixed $pValue Nouvelle valeur pour la clef $pKey
+     * @throws Exception
+     */
+    public function offsetSet ($pKey, $pValue)
+    {
+        throw new Exception (_i18n ('copix:dao.error.offsetSet'));
+    }
+
+    /**
+     * Blocage de la possibilité de supprimer un enregistrement. Déclenche une exception.
+     *
+     * @param mixed $pKey Clef à supprimer, type string ou int
+     * @throws Exception
+     */
+    public function offsetUnset ($pKey)
+    {
+        throw new Exception (_i18n ('copix:dao.error.offsetUnset'));
+    }
+
+    /**
+     * Indique si $pOffset existe
+     *
+     * @param mixed $pOffset Clef dont on veut vérifier l'existance
+     * @return boolean
+     */
+    public function offsetExists ($pOffset)
+    {
+        return isset ($this->_resultSet[$pOffset]);
+    }
+
+    /**
+     * Retourne le nombre d'éléments qui existent dans le résulat
+     *
+     * @return int
+     */
+    public function count ()
+    {
+        return count ($this->_resultSet);
+    }
+
+    /**
+     * Récupère l'ensemble des enregistrements dans un tableau
+     *
+     * @return array
+     */
+    public function fetchAll ()
+    {
+        $results = array ();
+        foreach ($this->_resultSet as $key => $element) {
+            $results[$key] = _record ($this->_recordId)->initFromDBObject ($element);
+        }
+        return $results;
+    }
 }
 
 /**
- * Classe de base lorsqu'une mise à jour est demandée alors que le record a été modifié entre temps.  
+ * Classe de base lorsqu'une mise à jour est demandée alors que le record a été modifié entre temps.
  */
-class CopixDAOVersionException extends CopixException{
-	/**
-	 * L'élément qui n'est pas à jour.
-	 */
-	protected $_record = null;
-	
-	/**
-	 * Retourne l'enregistrement dont la mise à jour à échouée.
-	 * @return CopixDAORecord 
-	 */
-	public function getRecord (){
-		return $this->_record;
-	}
-	
-	/**
-	 * Constructeur
-	 */
-	public function __construct ($pRecord){
-		$this->_record = $pRecord;
-	}
+class CopixDAOVersionException extends CopixException
+{
+    /**
+     * L'élément qui n'est pas à jour.
+     */
+    protected $_record = null;
+
+    /**
+     * Retourne l'enregistrement dont la mise à jour à échouée.
+     * @return CopixDAORecord
+     */
+    public function getRecord ()
+    {
+        return $this->_record;
+    }
+
+    /**
+     * Constructeur
+     */
+    public function __construct ($pRecord)
+    {
+        $this->_record = $pRecord;
+    }
 }
 
 /**
@@ -230,49 +248,54 @@ class CopixDAOVersionException extends CopixException{
  * @package copix
  * @subpackage dao
  */
-class CopixDAOCheckException extends CopixException {
-	/** 
-	 * tableau des erreurs de validation
-	 * @var array
-	 */
-	protected $_errors = array ();
-	
-	/**
-	 * L'élément de données sur lequel l'erreur est survenue
-	 */
-	protected $_record = null;
-	
-	/**
-	 * Constructeur
-	 */
-	public function __construct ($arrayOfErrors = array (), $record = null){
-		$this->_errors = $arrayOfErrors;
-		$this->_record = $record;
-		parent::__construct ($this->getErrorMessage ());
-	}
-	
-	/**
-	 * Retourne les messages d'erreurs sous la forme d'une chaine de caractère
-	 */
-	public function getErrorMessage (){
-		return implode ("\n\r *", $this->_errors);
-	}
-	
-	/**
-	 * Récupération du tableau d'erreur utilisé lors de l'exception
-	 * @return array
-	 */
-	public function getErrors (){
-		return $this->_errors;
-	}
-	
-	/**
-	 * Récupération du record
-	 * @return DAORecordAdapter
-	 */
-	public function getRecord (){
-		return $this->_record;
-	}
+class CopixDAOCheckException extends CopixException
+{
+    /**
+     * tableau des erreurs de validation
+     * @var array
+     */
+    protected $_errors = array ();
+
+    /**
+     * L'élément de données sur lequel l'erreur est survenue
+     */
+    protected $_record = null;
+
+    /**
+     * Constructeur
+     */
+    public function __construct ($arrayOfErrors = array (), $record = null)
+    {
+        $this->_errors = $arrayOfErrors;
+        $this->_record = $record;
+        parent::__construct ($this->getErrorMessage ());
+    }
+
+    /**
+     * Retourne les messages d'erreurs sous la forme d'une chaine de caractère
+     */
+    public function getErrorMessage ()
+    {
+        return implode ("\n\r *", $this->_errors);
+    }
+
+    /**
+     * Récupération du tableau d'erreur utilisé lors de l'exception
+     * @return array
+     */
+    public function getErrors ()
+    {
+        return $this->_errors;
+    }
+
+    /**
+     * Récupération du record
+     * @return DAORecordAdapter
+     */
+    public function getRecord ()
+    {
+        return $this->_record;
+    }
 }
 
 /**
@@ -280,27 +303,29 @@ class CopixDAOCheckException extends CopixException {
 * @package copix
 * @subpackage dao
 */
-class CopixDAOFactory {
-	/**
-	 * Instances uniques des DAO
-	 * @var array
-	 */
-	private static $_daoSingleton = array ();
-	
-	/**
-	 * Tableau qui nous sert à nous souvenir des vérifications déja effectuées sur 
-	 * la compilation de certaines classes
-	 */
-	private static $_compilationChecked = array ();
+class CopixDAOFactory
+{
+    /**
+     * Instances uniques des DAO
+     * @var array
+     */
+    private static $_daoSingleton = array ();
+
+    /**
+     * Tableau qui nous sert à nous souvenir des vérifications déja effectuées sur
+     * la compilation de certaines classes
+     */
+    private static $_compilationChecked = array ();
 
     /**
     * Création du DAO à partir de son identifiant.
-    * 
+    *
     * @param string $DAOid l'identifiant Copix du DAO
     * @param string $pConnectionName le nom de la connexion à utiliser pour la DAO
     * @return DAO
     */
-    public static function create ($DAOid, $pConnectionName = null){
+    public static function create ($DAOid, $pConnectionName = null)
+    {
         $DAOid    = self::_fullQualifier ($DAOid);
         self::_fileInclude ($DAOid, $pConnectionName);
         $className = self::getDAOName ($DAOid);
@@ -309,12 +334,13 @@ class CopixDAOFactory {
 
     /**
     * Création ou récupération d'une instance unique de DAO
-    * 
+    *
     * @param string $DAOid l'identifiant Copix du DAO
     * @param string $pConnectionName le nom de la connection que l'on souhaites utiliser pour la DAO
     * @return DAO
     */
-    public static function getInstanceOf ($DAOid, $pConnectionName = null) {
+    public static function getInstanceOf ($DAOid, $pConnectionName = null)
+    {
         $DAOid    = self::_fullQualifier ($DAOid);
         if (! isset (self::$_daoSingleton[$DAOid][$pConnectionName])){
             self::$_daoSingleton[$DAOid][$pConnectionName === null ? '' : $pConnectionName] = self::create ($DAOid, $pConnectionName);
@@ -324,10 +350,11 @@ class CopixDAOFactory {
 
     /**
     * Création d'un objet enregistrement
-    * 
+    *
     * @param string $DAOId l'identifiant du DAO à créer
     */
-    public static function createRecord ($DAOid, $pConnectionName = null){
+    public static function createRecord ($DAOid, $pConnectionName = null)
+    {
         $DAOid    = self::_fullQualifier ($DAOid);
         self::_fileInclude ($DAOid, $pConnectionName);
         $className = self::getDAORecordName ($DAOid);
@@ -335,32 +362,35 @@ class CopixDAOFactory {
     }
 
     /**
-    * Demande l'inclusion du fichier de définition du DAO 
+    * Demande l'inclusion du fichier de définition du DAO
     * @param string $pDAOid identifiant Copix du DAO
     */
-    public static function fileInclude ($pDAOid, $pConnectionName=null){
+    public static function fileInclude ($pDAOid, $pConnectionName=null)
+    {
         self::_fileInclude (self::_fullQualifier ($pDAOid), $pConnectionName);
     }
-    
+
     /**
     * Inclusion de la définition du DAO
     * @param string $pFullQualifiedDAOId l'identifiant Copix complet (avec le module) du DAO
     */
-    private static function _fileInclude ($pFullQualifiedDAOId, $pConnectionName){
+    private static function _fileInclude ($pFullQualifiedDAOId, $pConnectionName)
+    {
         if (self::_needsCompilation ($pFullQualifiedDAOId, $pConnectionName)){
-        	self::_generateDAO ($pFullQualifiedDAOId, $pConnectionName);
+            self::_generateDAO ($pFullQualifiedDAOId, $pConnectionName);
         }
         Copix::RequireOnce (self::_getCompiledPath ($pFullQualifiedDAOId));
     }
 
     /**
-    * Création d'un objet de type CopixDAOSearchParams pour effectuer des requêtes type 
-    *  findby avec les dao. 
+    * Création d'un objet de type CopixDAOSearchParams pour effectuer des requêtes type
+    *  findby avec les dao.
     * @param string $kind le type par défaut des conditions de l'objet (AND ou OR)
     *   par défaut AND
     * @return object
     */
-    public static function createSearchParams ($kind = 'AND'){
+    public static function createSearchParams ($kind = 'AND')
+    {
         return new CopixDAOSearchParams ($kind);
     }
 
@@ -369,36 +399,39 @@ class CopixDAOFactory {
     * @param string $DAOid l'identifiant complètement qualifié du DAO
     * @todo ne pas avoir cette méthode public ici.
     */
-    public static function _getCompiledPath ($pFullQualifiedDAOid){
-    	return COPIX_CACHE_PATH.'php/dao/'.str_replace (array ('|', ':'), array ('_', '_S_'), $pFullQualifiedDAOid).'.dao.php';
+    public static function _getCompiledPath ($pFullQualifiedDAOid)
+    {
+        return COPIX_CACHE_PATH.'php/dao/'.str_replace (array ('|', ':'), array ('_', '_S_'), $pFullQualifiedDAOid).'.dao.php';
     }
 
     /**
     * Récupération du qualificateur complet du DAO
-    * @param string $DAOId identifiant du DAO 
+    * @param string $DAOId identifiant du DAO
     */
-    private static function _fullQualifier ($pDAOid){
+    private static function _fullQualifier ($pDAOid)
+    {
         $selector = CopixSelectorFactory::create ($pDAOid);
         $fileName = $selector->getPath (COPIX_RESOURCES_DIR).strtolower ($selector->fileName.'.dao.xml');
         $fileClassName = $selector->getPath (COPIX_CLASSES_DIR).strtolower ($selector->fileName.'.dao.php');
         if (is_readable ($fileName) || (count (explode ('|', $pDAOid)) > 1) || (count (explode (':', $pDAOid)) > 1)){
-        	return $selector->getSelector (); 
+            return $selector->getSelector ();
         }else{
-        	return $pDAOid;//peut être une DAO automatique ?
+            return $pDAOid;//peut être une DAO automatique ?
         }
     }
 
     /**
     * Indique si le DAO à besoin d'être regénéré
-    * @param string $DAOid l'identifiant (complet) du DAO à tester 
+    * @param string $DAOid l'identifiant (complet) du DAO à tester
     */
-    private static function _needsCompilation ($pFullQualifiedDAOid, $pConnectionName){
+    private static function _needsCompilation ($pFullQualifiedDAOid, $pConnectionName)
+    {
         if (isset (self::$_compilationChecked[$pFullQualifiedDAOid])){
-        	return false;
+            return false;
         }
 
-    	$config = CopixConfig::instance ();
-    	if ($config->force_compile){
+        $config = CopixConfig::instance ();
+        if ($config->force_compile){
             return true;
         }
 
@@ -415,7 +448,7 @@ class CopixDAOFactory {
             foreach (self::_getUsersFilesPath ($pFullQualifiedDAOid) as $name){
                 //Regarde la date de dernière modification du fichier
                 if ( file_exists($name) === true && ($fileTime = filemtime ($name)) !== false){
-                	//Si les fichiers "sources" n'existent pas, ce n'est pas important
+                    //Si les fichiers "sources" n'existent pas, ce n'est pas important
                         if ($compiledTime < $fileTime){
                         //Le fichier à été modifié depuis la date de génération, il faut recompiler
                         return true;
@@ -433,22 +466,24 @@ class CopixDAOFactory {
     * Récupération des fichiers de définition de DAO (classe surchargée et xml)
     * @param tring $DAOid l'identifiant du DAO
     */
-    private static function _getUsersFilesPath ($DAOid){
+    private static function _getUsersFilesPath ($DAOid)
+    {
         try {
            $selector = CopixSelectorFactory::create ($DAOid);
            $fileName = strtolower($selector->fileName);
            return array ($selector->getPath (COPIX_CLASSES_DIR).$fileName.'.dao.php',
                       $selector->getPath (COPIX_RESOURCES_DIR).$fileName.'.dao.xml');
         }catch (Exception $e){
-        	return array ();
+            return array ();
         }
     }
-    
+
     /**
      * Génération du DAO
-     * @param string $pFullyQualifiedDAO l'identifiant du DAO complet 
+     * @param string $pFullyQualifiedDAO l'identifiant du DAO complet
      */
-    private static function _generateDAO ($pFullyQualifiedDAO, $pConnectionName){
+    private static function _generateDAO ($pFullyQualifiedDAO, $pConnectionName)
+    {
         Copix::RequireOnce (COPIX_PATH.'dao/CopixDAOGenerator.class.php');
         $generator = new CopixDAOGenerator (self::_getDAODefinitionBuilder ($pFullyQualifiedDAO, $pConnectionName)->getDefinition ());
 
@@ -458,26 +493,27 @@ class CopixDAOFactory {
 
     /**
      * Création d'un objet capable de créer la définition d'une DAO en fonction de son identifiant.
-     * 
+     *
      * @param string $pFullyQualifiedDAO l'identifiant du DAO dont on souhaites récupérer la définition
      * @param string $pConnectionName le nom de la connexion à utiliser pour créer le DAO
      */
-    private static function _getDAODefinitionBuilder ($pFullyQualifiedDAO, $pConnectionName){
-    	Copix::RequireOnce (COPIX_PATH.'dao/CopixDAODefinitionBuilder.class.php');
+    private static function _getDAODefinitionBuilder ($pFullyQualifiedDAO, $pConnectionName)
+    {
+        Copix::RequireOnce (COPIX_PATH.'dao/CopixDAODefinitionBuilder.class.php');
         $selector = CopixSelectorFactory::create ($pFullyQualifiedDAO);
         $fileName = $selector->getPath (COPIX_RESOURCES_DIR).strtolower ($selector->fileName.'.dao.xml');
         $fileClassName = $selector->getPath (COPIX_CLASSES_DIR).strtolower ($selector->fileName.'.dao.php');
         if (is_readable ($fileName)  || (count (explode ('|', $pFullyQualifiedDAO)) > 1) || (count (explode (':', $pFullyQualifiedDAO)) > 1)){
-    		//On lit si il existe un element parameterdans la definition du xml
-        	if (! ($parsedFile = simplexml_load_file ($fileName))){
-				throw new Exception ('Impossible d\'analyser (1) le fichier XML pour le DAO '.$fileName);    			
-    		}
-	    	if (isset ($parsedFile->parameter) && ($parsedFile->parameter['value'] == 'auto') ){
-	    		return new CopixDAODefinitionXmlAutoBuilder ($pFullyQualifiedDAO, array ('xmlFilePath'=>$fileName, 'phpClassFilePath'=>$fileClassName, 'connection'=>$pConnectionName));
-	    	}
-        	return new CopixDAODefinitionXmlBuilder ($pFullyQualifiedDAO, array ('xmlFilePath'=>$fileName, 'phpClassFilePath'=>$fileClassName, 'connection'=>$pConnectionName));
+            //On lit si il existe un element parameterdans la definition du xml
+            if (! ($parsedFile = simplexml_load_file ($fileName))){
+                throw new Exception ('Impossible d\'analyser (1) le fichier XML pour le DAO '.$fileName);
+            }
+            if (isset ($parsedFile->parameter) && ($parsedFile->parameter['value'] == 'auto') ){
+                return new CopixDAODefinitionXmlAutoBuilder ($pFullyQualifiedDAO, array ('xmlFilePath'=>$fileName, 'phpClassFilePath'=>$fileClassName, 'connection'=>$pConnectionName));
+            }
+            return new CopixDAODefinitionXmlBuilder ($pFullyQualifiedDAO, array ('xmlFilePath'=>$fileName, 'phpClassFilePath'=>$fileClassName, 'connection'=>$pConnectionName));
         }else{
-        	return new CopixDAODefinitionDBBuilder ($pFullyQualifiedDAO, array ('tableName'=>$pFullyQualifiedDAO, 'phpClassFilePath'=>$fileClassName, 'connection'=>$pConnectionName));
+            return new CopixDAODefinitionDBBuilder ($pFullyQualifiedDAO, array ('tableName'=>$pFullyQualifiedDAO, 'phpClassFilePath'=>$fileClassName, 'connection'=>$pConnectionName));
         }
     }
 
@@ -486,7 +522,8 @@ class CopixDAOFactory {
     * @param string $DAOid l'identifiant du DAO
     * @return string
     */
-    public static function getDAOName ($DAOid, $pGenerated = true){
+    public static function getDAOName ($DAOid, $pGenerated = true)
+    {
         return ($pGenerated === true ? 'Compiled' : '').'DAO'.CopixSelectorFactory::create ($DAOid)->fileName;
     }
 
@@ -495,8 +532,8 @@ class CopixDAOFactory {
     * @param string $DAOid l'identifiant du DAO
     * @return string
     */
-    public static function getDAORecordName ($DAOid, $pGenerated = true){
+    public static function getDAORecordName ($DAOid, $pGenerated = true)
+    {
         return ($pGenerated === true ? 'Compiled' : '').'DAORecord'.CopixSelectorFactory::create ($DAOid)->fileName;
     }
 }
-?>

@@ -13,9 +13,10 @@
  * @package		standard
  * @subpackage	copixtest
  */
-class CopixTest_CopixUserTest extends CopixTest {
-	function testConnexionUser() {
-		$this->markTestIncomplete ('Faire les tests sur CopixUser');
-	}
+class CopixTest_CopixUserTest extends CopixTest
+{
+    public function testConnexionUser()
+    {
+        $this->markTestIncomplete ('Faire les tests sur CopixUser');
+    }
 }
-?>

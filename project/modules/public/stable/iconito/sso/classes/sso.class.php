@@ -11,16 +11,15 @@
  */
 
 
-class Sso {
+class Sso
+{
+    public function getChallengeFromHost()
+    {
+    }
 
-	function getChallengeFromHost() {
-		
-	}
-	
-	function cryptChallenge() {
-		
-	}
+    public function cryptChallenge()
+    {
+    }
 
 }
 
-?>

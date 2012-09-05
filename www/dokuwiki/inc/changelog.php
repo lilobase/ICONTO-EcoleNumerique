@@ -19,7 +19,8 @@ define('DOKU_CHANGE_TYPE_REVERT',       'R');
  *
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function parseChangelogLine($line) {
+function parseChangelogLine($line)
+{
   $tmp = explode("\t", $line);
     if ($tmp!==false && count($tmp)>1) {
       $info = array();
@@ -41,7 +42,8 @@ function parseChangelogLine($line) {
  * @author Esther Brunner <wikidesign@gmail.com>
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function addLogEntry($date, $id, $type=DOKU_CHANGE_TYPE_EDIT, $summary='', $extra='', $flags=null){
+function addLogEntry($date, $id, $type=DOKU_CHANGE_TYPE_EDIT, $summary='', $extra='', $flags=null)
+{
   global $conf, $INFO;
 
   // check for special flags as keys
@@ -113,7 +115,8 @@ function addLogEntry($date, $id, $type=DOKU_CHANGE_TYPE_EDIT, $summary='', $extr
  *
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function getRecents($first,$num,$ns='',$flags=0){
+function getRecents($first,$num,$ns='',$flags=0)
+{
   global $conf;
   $recent = array();
   $count  = 0;
@@ -149,7 +152,8 @@ function getRecents($first,$num,$ns='',$flags=0){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function _handleRecent($line,$ns,$flags){
+function _handleRecent($line,$ns,$flags)
+{
   static $seen  = array();         //caches seen pages and skip them
   if(empty($line)) return false;   //skip empty lines
 
@@ -194,7 +198,8 @@ function _handleRecent($line,$ns,$flags){
  *
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function getRevisionInfo($id, $rev, $chunk_size=8192) {
+function getRevisionInfo($id, $rev, $chunk_size=8192)
+{
   global $cache_revinfo;
   $cache =& $cache_revinfo;
   if (!isset($cache[$id])) { $cache[$id] = array(); }
@@ -291,7 +296,8 @@ function getRevisionInfo($id, $rev, $chunk_size=8192) {
  *
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function getRevisions($id, $first, $num, $chunk_size=8192) {
+function getRevisions($id, $first, $num, $chunk_size=8192)
+{
   global $cache_revinfo;
   $cache =& $cache_revinfo;
   if (!isset($cache[$id])) { $cache[$id] = array(); }
@@ -302,8 +308,7 @@ function getRevisions($id, $first, $num, $chunk_size=8192) {
   $file = metaFN($id, '.changes');
   $num = max($num, 0);
   $chunk_size = max($chunk_size, 0);
-  if ($first<0) { $first = 0; }
-  else if (@file_exists(wikiFN($id))) {
+  if ($first<0) { $first = 0; } elseif (@file_exists(wikiFN($id))) {
      // skip current revision if the page exists
     $first = max($first+1, 0);
   }
@@ -359,9 +364,7 @@ function getRevisions($id, $first, $num, $chunk_size=8192) {
 
   // skip parsing extra lines
   $num = max(min(count($lines)-$first, $num), 0);
-  if      ($first>0 && $num>0)  { $lines = array_slice($lines, max(count($lines)-$first-$num, 0), $num); }
-  else if ($first>0 && $num==0) { $lines = array_slice($lines, 0, max(count($lines)-$first, 0)); }
-  else if ($first==0 && $num>0) { $lines = array_slice($lines, max(count($lines)-$num, 0)); }
+  if      ($first>0 && $num>0)  { $lines = array_slice($lines, max(count($lines)-$first-$num, 0), $num); } elseif ($first>0 && $num==0) { $lines = array_slice($lines, 0, max(count($lines)-$first, 0)); } elseif ($first==0 && $num>0) { $lines = array_slice($lines, max(count($lines)-$num, 0)); }
 
   // handle lines in reverse order
   for ($i = count($lines)-1; $i >= 0; $i--) {

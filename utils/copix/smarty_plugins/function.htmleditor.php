@@ -19,11 +19,11 @@
 * you can find this library at http://www.fckeditor.net
 * -------------------------------------------------------------
 */
-function smarty_function_htmleditor($params, $smarty) {
-	if (isset ($params['assign'])) {
-    	$smarty->assign($params['assign'], _tag ('htmleditor', $params));
-	}else {
-		return _tag ('htmleditor', $params);
-	}
+function smarty_function_htmleditor($params, $smarty)
+{
+    if (isset ($params['assign'])) {
+        $smarty->assign($params['assign'], _tag ('htmleditor', $params));
+    }else {
+        return _tag ('htmleditor', $params);
+    }
 }
-?>

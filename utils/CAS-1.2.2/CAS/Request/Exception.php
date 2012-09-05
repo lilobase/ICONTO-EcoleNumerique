@@ -34,8 +34,8 @@ require_once(dirname(__FILE__).'/../Exception.php');
  * An Exception for problems performing requests
  */
 class CAS_Request_Exception
-	extends Exception
-	implements CAS_Exception
+    extends Exception
+    implements CAS_Exception
 {
 
 }

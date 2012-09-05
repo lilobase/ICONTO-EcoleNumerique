@@ -11,23 +11,23 @@
 
 _classInclude('agenda|dateservices');
 
-class ZoneAgendaEditLecon extends CopixZone {
-	function _createContent (&$toReturn) {
-		
-		$tpl  = new CopixTpl ();		
-		$serviceDate   = new DateService();
-		
-		if ($this->getParam('e') == 1){
-			$tpl->assign('showError', $this->getParam('e'));
-		}
-		
-		$tpl->assign('listAgendas', $this->getParam('listAgendas'));
-		$tpl->assign('arError'    , $this->getParam('errors'));
-		$tpl->assign('toEdit'     , $this->getParam('toEdit'));
-		
-		
-		$toReturn = $tpl->fetch ('editlecon.agenda.tpl');
-		return true;
-	}
+class ZoneAgendaEditLecon extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        $tpl  = new CopixTpl ();
+        $serviceDate   = new DateService();
+
+        if ($this->getParam('e') == 1){
+            $tpl->assign('showError', $this->getParam('e'));
+        }
+
+        $tpl->assign('listAgendas', $this->getParam('listAgendas'));
+        $tpl->assign('arError'    , $this->getParam('errors'));
+        $tpl->assign('toEdit'     , $this->getParam('toEdit'));
+
+
+        $toReturn = $tpl->fetch ('editlecon.agenda.tpl');
+        return true;
+    }
 }
-?>

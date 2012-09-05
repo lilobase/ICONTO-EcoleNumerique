@@ -3,10 +3,10 @@
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-class ZoneDashboardEcole extends enicZone {
-
-    public function _createContent(&$toReturn){
-
+class ZoneDashboardEcole extends enicZone
+{
+    public function _createContent(&$toReturn)
+    {
         //load TPL
         $tpl = new CopixTpl();
 
@@ -28,7 +28,7 @@ class ZoneDashboardEcole extends enicZone {
             foreach($childNodeDatas as $child)
                 if($child['type'] == 'BU_CLASSE')
                     $enseignants[] = $annuaireService->getEnseignantInClasse($child['id']);
-            
+
             /*
              * delete the multiple ereg
              */
@@ -66,4 +66,3 @@ class ZoneDashboardEcole extends enicZone {
     }
 
 }
-?>

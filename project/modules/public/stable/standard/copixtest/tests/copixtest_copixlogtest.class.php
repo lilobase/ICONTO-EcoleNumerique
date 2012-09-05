@@ -13,9 +13,10 @@
  * @package		standard
  * @subpackage	copixtest
  */
-class CopixTest_CopixLogTest extends CopixTest {
-    function testLog() {
-		$this->markTestIncomplete ('Faire les tests sur CopixLog');
+class CopixTest_CopixLogTest extends CopixTest
+{
+    public function testLog()
+    {
+        $this->markTestIncomplete ('Faire les tests sur CopixLog');
     }
 }
-?>

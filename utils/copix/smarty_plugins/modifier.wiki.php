@@ -44,24 +44,23 @@
 
  */
 
-function smarty_modifier_wiki ($string, $config_file_selector = ''){
-		
-		$php_version = explode('.', PHP_VERSION);
-		if ((int)$php_version[0]>=5) {
-	    require_once(COPIX_UTILS_PATH.'CopixWikiRendererPhp5.lib.php');
-	    if($config_file_selector == '' )
-	      $wiki= new WikiRenderer();
-	    else
-	      $wiki= new WikiRenderer($config_file_selector);
-		} else {
-	    require_once(COPIX_UTILS_PATH.'CopixWikiRenderer.lib.php');
-	    if($config_file_selector == '' )
-	      $wiki= new CopixWikiRenderer();
-	    else
-	      $wiki= new CopixWikiRenderer($config_file_selector);
-		}
+function smarty_modifier_wiki ($string, $config_file_selector = '')
+{
+        $php_version = explode('.', PHP_VERSION);
+        if ((int)$php_version[0]>=5) {
+        require_once(COPIX_UTILS_PATH.'CopixWikiRendererPhp5.lib.php');
+        if($config_file_selector == '' )
+          $wiki= new WikiRenderer();
+        else
+          $wiki= new WikiRenderer($config_file_selector);
+        } else {
+        require_once(COPIX_UTILS_PATH.'CopixWikiRenderer.lib.php');
+        if($config_file_selector == '' )
+          $wiki= new CopixWikiRenderer();
+        else
+          $wiki= new CopixWikiRenderer($config_file_selector);
+        }
     return $wiki->render($string);
 
 }
 
-?>

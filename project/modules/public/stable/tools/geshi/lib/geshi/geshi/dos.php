@@ -61,119 +61,118 @@
  ************************************************************************************/
 
 $language_data = array (
-	'LANG_NAME' => 'DOS',
-	'COMMENT_SINGLE' => array(1 =>'REM', 2 => '@REM'),
-	'COMMENT_MULTI' => array(),
-	'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-	'QUOTEMARKS' => array(),
-	'ESCAPE_CHAR' => '',
-	'KEYWORDS' => array(
-	    /* Flow control keywords */
-		1 => array(
-			'IF', 'ELSE', 'GOTO',
-			'FOR', 'IN', 'DO',
-			'CALL', 'EXIT'
-			),
-	    /* IF statement keywords */
-		2 => array(
-			'NOT', 'EXIST', 'ERRORLEVEL',
-			'DEFINED',
-			'EQU', 'NEQ', 'LSS', 'LEQ', 'GTR', 'GEQ'
-			),
-	    /* Internal commands */
-		3 => array(
-			'SHIFT',
-			'CD', 'DIR', 'ECHO',
-			'SETLOCAL', 'ENDLOCAL', 'SET',
-			'PAUSE'
-			),
-	    /* Special files */
+    'LANG_NAME' => 'DOS',
+    'COMMENT_SINGLE' => array(1 =>'REM', 2 => '@REM'),
+    'COMMENT_MULTI' => array(),
+    'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
+    'QUOTEMARKS' => array(),
+    'ESCAPE_CHAR' => '',
+    'KEYWORDS' => array(
+        /* Flow control keywords */
+        1 => array(
+            'IF', 'ELSE', 'GOTO',
+            'FOR', 'IN', 'DO',
+            'CALL', 'EXIT'
+            ),
+        /* IF statement keywords */
+        2 => array(
+            'NOT', 'EXIST', 'ERRORLEVEL',
+            'DEFINED',
+            'EQU', 'NEQ', 'LSS', 'LEQ', 'GTR', 'GEQ'
+            ),
+        /* Internal commands */
+        3 => array(
+            'SHIFT',
+            'CD', 'DIR', 'ECHO',
+            'SETLOCAL', 'ENDLOCAL', 'SET',
+            'PAUSE'
+            ),
+        /* Special files */
 
-		4 => array(
-			'PRN', 'NUL', 'LPT3', 'LPT2', 'LPT1', 'CON',
-			'COM4', 'COM3', 'COM2', 'COM1', 'AUX'
-			)
-		),
-	'SYMBOLS' => array(
-		'(', ')'
-		),
-	'CASE_SENSITIVE' => array(
-		GESHI_COMMENTS => false,
-		1 => false
-		),
-	'STYLES' => array(
-		'KEYWORDS' => array(
-			1 => 'color: #00b100; font-weight: bold;',
-			2 => 'color: #000000; font-weight: bold;',
-			3 => 'color: #b1b100; font-weight: bold;',
-			4 => 'color: #0000ff; font-weight: bold;'
-			),
-		'COMMENTS' => array(
-			1 => 'color: #808080; font-style: italic;',
-			2 => 'color: #808080; font-style: italic;'
-			),
-		'ESCAPE_CHAR' => array(
-			),
-		'BRACKETS' => array(
-			0 => 'color: #66cc66;'
-			),
-		'STRINGS' => array(
-			0 => 'color: #ff0000;'
-			),
-		'NUMBERS' => array(
+        4 => array(
+            'PRN', 'NUL', 'LPT3', 'LPT2', 'LPT1', 'CON',
+            'COM4', 'COM3', 'COM2', 'COM1', 'AUX'
+            )
+        ),
+    'SYMBOLS' => array(
+        '(', ')'
+        ),
+    'CASE_SENSITIVE' => array(
+        GESHI_COMMENTS => false,
+        1 => false
+        ),
+    'STYLES' => array(
+        'KEYWORDS' => array(
+            1 => 'color: #00b100; font-weight: bold;',
+            2 => 'color: #000000; font-weight: bold;',
+            3 => 'color: #b1b100; font-weight: bold;',
+            4 => 'color: #0000ff; font-weight: bold;'
+            ),
+        'COMMENTS' => array(
+            1 => 'color: #808080; font-style: italic;',
+            2 => 'color: #808080; font-style: italic;'
+            ),
+        'ESCAPE_CHAR' => array(
+            ),
+        'BRACKETS' => array(
+            0 => 'color: #66cc66;'
+            ),
+        'STRINGS' => array(
+            0 => 'color: #ff0000;'
+            ),
+        'NUMBERS' => array(
 /*			0 => 'color: #cc66cc;' */
-			),
-		'METHODS' => array(
-			),
-		'SYMBOLS' => array(
-			0 => 'color: #33cc33;',
-			1 => 'color: #33cc33;'
-			),
-		'SCRIPT' => array(
-			),
-		'REGEXPS' => array(
-			0 => 'color: #b100b1; font-weight: bold;',
-			1 => 'color: #448844;',
-			2 => 'color: #448888;'
-			)
-		),
-	'OOLANG' => false,
-	'OBJECT_SPLITTERS' => array(
-		),
-	'REGEXPS' => array(
-	/* Label */
-	    0 => array(
+            ),
+        'METHODS' => array(
+            ),
+        'SYMBOLS' => array(
+            0 => 'color: #33cc33;',
+            1 => 'color: #33cc33;'
+            ),
+        'SCRIPT' => array(
+            ),
+        'REGEXPS' => array(
+            0 => 'color: #b100b1; font-weight: bold;',
+            1 => 'color: #448844;',
+            2 => 'color: #448888;'
+            )
+        ),
+    'OOLANG' => false,
+    'OBJECT_SPLITTERS' => array(
+        ),
+    'REGEXPS' => array(
+    /* Label */
+        0 => array(
 /*		GESHI_SEARCH => '((?si:[@\s]+GOTO\s+|\s+:)[\s]*)((?<!\n)[^\s\n]*)',*/
-		GESHI_SEARCH => '((?si:[@\s]+GOTO\s+|\s+:)[\s]*)((?<!\n)[^\n]*)',
-		GESHI_REPLACE => '\\2',
-		GESHI_MODIFIERS => 'si',
-		GESHI_BEFORE => '\\1',
-		GESHI_AFTER => ''
-		),
-	/* Variable assignement */
-	    1 => array(
+        GESHI_SEARCH => '((?si:[@\s]+GOTO\s+|\s+:)[\s]*)((?<!\n)[^\n]*)',
+        GESHI_REPLACE => '\\2',
+        GESHI_MODIFIERS => 'si',
+        GESHI_BEFORE => '\\1',
+        GESHI_AFTER => ''
+        ),
+    /* Variable assignement */
+        1 => array(
 /*		GESHI_SEARCH => '(SET[\s]+(?si:/A[\s]+|/P[\s]+|))([^=\s\n]+)([\s]*=)',*/
-		GESHI_SEARCH => '(SET[\s]+(?si:/A[\s]+|/P[\s]+|))([^=\n]+)([\s]*=)',
-		GESHI_REPLACE => '\\2',
-		GESHI_MODIFIERS => 'si',
-		GESHI_BEFORE => '\\1',
-		GESHI_AFTER => '\\3'
-		),
-	/* Arguments or variable evaluation */
-	    2 => array(
+        GESHI_SEARCH => '(SET[\s]+(?si:/A[\s]+|/P[\s]+|))([^=\n]+)([\s]*=)',
+        GESHI_REPLACE => '\\2',
+        GESHI_MODIFIERS => 'si',
+        GESHI_BEFORE => '\\1',
+        GESHI_AFTER => '\\3'
+        ),
+    /* Arguments or variable evaluation */
+        2 => array(
 /*		GESHI_SEARCH => '(%)([\d*]|[^%\s]*(?=%))((?<!%\d)%|)',*/
-		GESHI_SEARCH => '(%)([\d*]|[^%]*(?=%))((?<!%\d)%|)',
-		GESHI_REPLACE => '\\2',
-		GESHI_MODIFIERS => 'si',
-		GESHI_BEFORE => '\\1',
-		GESHI_AFTER => '\\3'
-		)
-		),
-	'STRICT_MODE_APPLIES' => GESHI_NEVER,
-	'SCRIPT_DELIMITERS' => array(
-		),
-	'HIGHLIGHT_STRICT_BLOCK' => array(
-		)
+        GESHI_SEARCH => '(%)([\d*]|[^%]*(?=%))((?<!%\d)%|)',
+        GESHI_REPLACE => '\\2',
+        GESHI_MODIFIERS => 'si',
+        GESHI_BEFORE => '\\1',
+        GESHI_AFTER => '\\3'
+        )
+        ),
+    'STRICT_MODE_APPLIES' => GESHI_NEVER,
+    'SCRIPT_DELIMITERS' => array(
+        ),
+    'HIGHLIGHT_STRICT_BLOCK' => array(
+        )
 );
 
-?>

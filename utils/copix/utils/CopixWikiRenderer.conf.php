@@ -18,12 +18,12 @@ require_once (COPIX_MODULE_PATH.'malle/'.COPIX_CLASSES_DIR.'malleservice.class.p
 require_once (COPIX_MODULE_PATH.'malle/'.COPIX_CLASSES_DIR.'kernelmalle.class.php');
 require_once (COPIX_UTILS_PATH.'WikiIconito.lib.php');
 
-class CopixWikiRendererConfig {
-
-	/**
+class CopixWikiRendererConfig
+{
+    /**
     * @var array   liste des tags inline
     */
-    var $inlinetags= array(
+    public $inlinetags= array(
     'multimedia'   =>array('[[',']]', array('src','type'),'iconito_multimedia'),
     'strong' =>array('__','__',      null,null),
     'em'     =>array('\'\'','\'\'',  null,null),
@@ -41,35 +41,36 @@ class CopixWikiRendererConfig {
     * liste des balises de type bloc autorisées.
     * Attention, ordre important (p en dernier, car c'est le bloc par defaut..)
     */
-    var $bloctags = array('title'=>true, 'list'=>true,
+    public $bloctags = array('title'=>true, 'list'=>true,
     'pre'=>true,'hr'=>true, 'blockquote'=>true,'definition'=>true,'table'=>true, 'p'=>true);
 
 
-    var $simpletags = array('%%%'=>'<br />', ':-)'=>'<img src="laugh.png" alt=":-)" />');
+    public $simpletags = array('%%%'=>'<br />', ':-)'=>'<img src="laugh.png" alt=":-)" />');
 
     /**
     * @var   integer   niveau minimum pour les balises titres
     */
-    var $minHeaderLevel=3;
+    public $minHeaderLevel=3;
 
     /**
     * indique le sens dans lequel il faut interpreter le nombre de signe de titre
     * true -> ! = titre , !! = sous titre, !!! = sous-sous-titre
     * false-> !!! = titre , !! = sous titre, ! = sous-sous-titre
     */
-    var $headerOrder=false;
-    var $escapeSpecialChars=true;
-    var $inlineTagSeparator='|';
-    var $blocAttributeTag='°°';
+    public $headerOrder=false;
+    public $escapeSpecialChars=true;
+    public $inlineTagSeparator='|';
+    public $blocAttributeTag='°°';
 
-    var $checkWikiWord = false;
-    var $checkWikiWordFunction = null;
+    public $checkWikiWord = false;
+    public $checkWikiWordFunction = null;
 
 }
 
 // ===================================== fonctions de générateur de code HTML spécifiques à certaines balises inlines
 
-function wikibuildlink($contents, $attr){
+function wikibuildlink($contents, $attr)
+{
     $cnt=count($contents);
     $attribut='';
 
@@ -93,15 +94,18 @@ function wikibuildlink($contents, $attr){
 
 }
 
-function wikibuildanchor($contents, $attr){
+function wikibuildanchor($contents, $attr)
+{
     return '<a name="'.$contents[0].'"></a>';
 }
 
-function wikibuilddummie($contents, $attr){
+function wikibuilddummie($contents, $attr)
+{
     return (isset($contents[0])?$contents[0]:'');
 }
 
-function wikibuildimage($contents, $attr){
+function wikibuildimage($contents, $attr)
+{
     $cnt=count($contents);
     $attribut='';
     if($cnt > 4) $cnt=4;
@@ -131,15 +135,16 @@ function wikibuildimage($contents, $attr){
 /**
 * traite les signes de types liste
 */
-class WRB_list extends CopixWikiRendererBloc {
+class WRB_list extends CopixWikiRendererBloc
+{
+    public $_previousTag;
+    public $_firstItem;
+    public $_firstTagLen;
+    public $type='list';
+    public $regexp="/^([\*#-]+)(.*)/";
 
-    var $_previousTag;
-    var $_firstItem;
-    var $_firstTagLen;
-    var $type='list';
-    var $regexp="/^([\*#-]+)(.*)/";
-
-    function open(){
+    public function open()
+    {
         $this->_previousTag = $this->_detectMatch[1];
         $this->_firstTagLen = strlen($this->_previousTag);
         $this->_firstItem=true;
@@ -149,7 +154,8 @@ class WRB_list extends CopixWikiRendererBloc {
         else
         return "<ul>\n";
     }
-    function close(){
+    public function close()
+    {
         $t=$this->_previousTag;
         $str='';
 
@@ -159,7 +165,8 @@ class WRB_list extends CopixWikiRendererBloc {
         return $str;
     }
 
-    function getRenderedLine(){
+    public function getRenderedLine()
+    {
         $d=strlen($this->_previousTag) - strlen($this->_detectMatch[1]);
         $str='';
 
@@ -187,22 +194,24 @@ class WRB_list extends CopixWikiRendererBloc {
 /**
 * traite les signes de types table
 */
-class WRB_table extends CopixWikiRendererBloc {
-    var $type='table';
-    var $regexp="/^\| ?(.*)/";
-    var $_openTag='<table border="1">';
-    var $_closeTag='</table>';
+class WRB_table extends CopixWikiRendererBloc
+{
+    public $type='table';
+    public $regexp="/^\| ?(.*)/";
+    public $_openTag='<table border="1">';
+    public $_closeTag='</table>';
 
-    var $_colcount=0;
+    public $_colcount=0;
 
-    function open(){
+    public function open()
+    {
         $this->_colcount=0;
         return $this->_openTag;
     }
 
 
-    function getRenderedLine(){
-
+    public function getRenderedLine()
+    {
         $result=explode(' | ',trim($this->_detectMatch[1]));
         $str='';
         $t='';
@@ -224,13 +233,14 @@ class WRB_table extends CopixWikiRendererBloc {
 /**
 * traite les signes de types hr
 */
-class WRB_hr extends CopixWikiRendererBloc {
+class WRB_hr extends CopixWikiRendererBloc
+{
+    public $type='hr';
+    public $regexp='/^={4,} *$/';
+    public $_closeNow=true;
 
-    var $type='hr';
-    var $regexp='/^={4,} *$/';
-    var $_closeNow=true;
-
-    function getRenderedLine(){
+    public function getRenderedLine()
+    {
         return '<hr />';
     }
 
@@ -239,20 +249,23 @@ class WRB_hr extends CopixWikiRendererBloc {
 /**
 * traite les signes de types titre
 */
-class WRB_title extends CopixWikiRendererBloc {
-    var $type='title';
-    var $regexp="/^(\!{1,3})(.*)/";
-    var $_closeNow=true;
-    var $_minlevel=1;
-    var $_order=false;
+class WRB_title extends CopixWikiRendererBloc
+{
+    public $type='title';
+    public $regexp="/^(\!{1,3})(.*)/";
+    public $_closeNow=true;
+    public $_minlevel=1;
+    public $_order=false;
 
-    function WRB_title(&$wr){
+    public function WRB_title(&$wr)
+    {
         $this->_minlevel = $wr->config->minHeaderLevel;
         $this->_order = $wr->config->headerOrder;
         parent::CopixWikiRendererBloc($wr);
     }
 
-    function getRenderedLine(){
+    public function getRenderedLine()
+    {
         if($this->_order)
         $hx= $this->_minlevel + strlen($this->_detectMatch[1])-1;
         else
@@ -264,24 +277,26 @@ class WRB_title extends CopixWikiRendererBloc {
 /**
 * traite les signes de type paragraphe
 */
-class WRB_p extends CopixWikiRendererBloc {
-    var $type='p';
-    var $regexp="/(.*)/";
-    var $_openTag='<p>';
-    var $_closeTag='</p>';
+class WRB_p extends CopixWikiRendererBloc
+{
+    public $type='p';
+    public $regexp="/(.*)/";
+    public $_openTag='<p>';
+    public $_closeTag='</p>';
 }
 
 /**
 * traite les signes de types pre (pour afficher du code..)
 */
-class WRB_pre extends CopixWikiRendererBloc {
+class WRB_pre extends CopixWikiRendererBloc
+{
+    public $type='pre';
+    public $regexp="/^ (.*)/";
+    public $_openTag='<pre>';
+    public $_closeTag='</pre>';
 
-    var $type='pre';
-    var $regexp="/^ (.*)/";
-    var $_openTag='<pre>';
-    var $_closeTag='</pre>';
-
-    function getRenderedLine(){
+    public function getRenderedLine()
+    {
         return $this->_renderInlineTag($this->_detectMatch[1]);
     }
 
@@ -291,24 +306,27 @@ class WRB_pre extends CopixWikiRendererBloc {
 /**
 * traite les signes de type blockquote
 */
-class WRB_blockquote extends CopixWikiRendererBloc {
-    var $type='bq';
-    var $regexp="/^(\>+)(.*)/";
+class WRB_blockquote extends CopixWikiRendererBloc
+{
+    public $type='bq';
+    public $regexp="/^(\>+)(.*)/";
 
-    function open(){
+    public function open()
+    {
         $this->_previousTag = $this->_detectMatch[1];
         $this->_firstTagLen = strlen($this->_previousTag);
         $this->_firstLine = true;
         return str_repeat('<blockquote>',$this->_firstTagLen).'<p>';
     }
 
-    function close(){
+    public function close()
+    {
         return '</p>'.str_repeat('</blockquote>',strlen($this->_previousTag));
     }
 
 
-    function getRenderedLine(){
-
+    public function getRenderedLine()
+    {
         $d=strlen($this->_previousTag) - strlen($this->_detectMatch[1]);
         $str='';
 
@@ -331,18 +349,18 @@ class WRB_blockquote extends CopixWikiRendererBloc {
 /**
 * traite les signes de type blockquote
 */
-class WRB_definition extends CopixWikiRendererBloc {
+class WRB_definition extends CopixWikiRendererBloc
+{
+    public $type='dfn';
+    public $regexp="/^;(.*) : (.*)/i";
+    public $_openTag='<dl>';
+    public $_closeTag='</dl>';
 
-    var $type='dfn';
-    var $regexp="/^;(.*) : (.*)/i";
-    var $_openTag='<dl>';
-    var $_closeTag='</dl>';
-
-    function getRenderedLine(){
+    public function getRenderedLine()
+    {
         $dt=$this->_renderInlineTag($this->_detectMatch[1]);
         $dd=$this->_renderInlineTag($this->_detectMatch[2]);
         return "<dt>$dt</dt>\n<dd>$dd</dd>\n";
     }
 }
 
-?>

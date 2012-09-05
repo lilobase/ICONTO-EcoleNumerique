@@ -12,8 +12,10 @@
  * @package		copix
  * @subpackage	taglib
  */
-class TemplateTagUlLi extends CopixTemplateTag {
-    public function process ($pParams) {
+class TemplateTagUlLi extends CopixTemplateTag
+{
+    public function process ($pParams)
+    {
         extract ($pParams);
         if (!isset ($values)) {
             throw new CopixTemplateTagException('le paramètre values doit être renseigné');
@@ -21,13 +23,14 @@ class TemplateTagUlLi extends CopixTemplateTag {
         }
         return $this->ulli_internal_li (is_array ($values) ? $values : array ($values));
     }
-    
+
     /**
      * Génération des listes
      * @param	mixed 	$values	éléments que l'on souhaite mettre dans la liste.
-     * @return string	le code HTML correspondant au UL / LI	
+     * @return string	le code HTML correspondant au UL / LI
      */
-    private function ulli_internal_li ($values) {
+    private function ulli_internal_li ($values)
+    {
         $toReturn = '';
         if (is_array ($values)){
             if (count ($values)){
@@ -43,4 +46,3 @@ class TemplateTagUlLi extends CopixTemplateTag {
         return $toReturn;
     }
 }
-?>

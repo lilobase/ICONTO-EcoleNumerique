@@ -4,25 +4,26 @@ _classInclude('blog|blogutils');
 
 /**
  * Actiongroup du module Annuaire
- * 
+ *
  * @package Iconito
  * @subpackage Annuaire
  */
-class ActionGroupAnnuaire extends EnicActionGroup {
-
-    public function beforeAction() {
+class ActionGroupAnnuaire extends EnicActionGroup
+{
+    public function beforeAction()
+    {
         _currentUser()->assertCredential('group:[current_user]');
     }
 
     /**
      * Redirection vers un annuaire. On peut demander à afficher un annuaire de ville ($id vaut alors "VILLE_XX"), d'école ("ECOLE_XX") ou de classe ("CLASSE_XX")
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/01/17
      * @param string $id Annuaire demandé
      */
-    function go() {
-
+    public function go()
+    {
         if (!Kernel::is_connected())
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('annuaire|annuaire.error.noLogged'), 'back' => CopixUrl::get('||')));
 
@@ -67,14 +68,14 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
     /**
      * Affichage d'un annuaire de ville
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/01/17
      * @param integer $ville Id de la ville
      * @todo Positionner grville selon $rVille
      */
-    function getAnnuaireVille() {
-
+    public function getAnnuaireVille()
+    {
         if (!Kernel::is_connected())
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('annuaire|annuaire.error.noLogged'), 'back' => CopixUrl::get('||')));
 
@@ -149,12 +150,13 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
     /**
      * Affichage d'un annuaire d'école
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/01/18
      * @param integer $ecole Id de l'école
      */
-    function getAnnuaireEcole() {
+    public function getAnnuaireEcole()
+    {
         if (!Kernel::is_connected())
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('annuaire|annuaire.error.noLogged'), 'back' => CopixUrl::get('||')));
 
@@ -233,13 +235,13 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
     /**
      * Affichage d'un annuaire de classe
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/01/18
      * @param integer $classe Id de la classe
      */
-    function getAnnuaireClasse() {
-
+    public function getAnnuaireClasse()
+    {
         if (!Kernel::is_connected())
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('annuaire|annuaire.error.noLogged'), 'back' => CopixUrl::get('||')));
 
@@ -301,14 +303,14 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
     /**
      * Affichage d'une fiche détaillée d'un utilisateur. Appellé en Ajax
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/04/06
      * @param string $type Type de personne (USER_ELE, USER_ELE...)
      * @param integer $id Id de la personne
      */
-    function getUserProfil() {
-
+    public function getUserProfil()
+    {
         if (!Kernel::is_connected())
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('annuaire|annuaire.error.noLogged'), 'back' => CopixUrl::get('||')));
 
@@ -329,14 +331,14 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
     /**
      * Affichage de l'annuaire en version popup
-     * 
+     *
      * Affiche les discussions d'un forum et les informations sur les discussions (titre, dernier message...), avec un lien pour lire chaque discussion.
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/01/18
      */
-    function getPopup() {
-
+    public function getPopup()
+    {
         if (!Kernel::is_connected())
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('annuaire|annuaire.error.noLogged'), 'back' => CopixUrl::get('||')));
 
@@ -412,12 +414,12 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
         $matrix = & enic::get('matrixCache');
         $helper = & enic::get('matrixHelpers');
-        
-        
+
+
         $right = _request('right', 'voir'); // voir ou communiquer
-        
+
         $iCan = ('communiquer' == $right) ? 'iCanTalkToThisType' : 'iCanSeeThisType';
-        
+
         $tplListe = new CopixTpl ();
         $visib = array(
             'USER_ELE' => $helper->$iCan('USER_ELE'),
@@ -428,8 +430,8 @@ class ActionGroupAnnuaire extends EnicActionGroup {
             'USER_VIL' => $helper->$iCan('USER_VIL'),
         );
         //_dump($visib);
-        
-        
+
+
 
         $debug = false;
 
@@ -484,9 +486,9 @@ class ActionGroupAnnuaire extends EnicActionGroup {
         //kernel::myDebug ("grville=$grville / ville=$ville / ecole=$ecole / classe=$classe");
         //kernel::myDebug ($profils);
 
-        
-        
-        
+
+
+
         if ($classe && $classe !== $ALL) { // Une classe précise
             $visib['USER_ELE'] = ($matrix->classe($classe)->_right->USER_ELE->$right);
             $visib['USER_ENS'] = ($matrix->classe($classe)->_right->USER_ENS->$right || $matrix->classe($classe)->_right->USER_DIR->$right);
@@ -612,47 +614,39 @@ class ActionGroupAnnuaire extends EnicActionGroup {
         $droits = array(
             'checkAll' => $annuaireService->canMakeInAnnuaire('POPUP_CHECK_ALL'),
         );
-        
-        
+
+
         $users = array();
-        
-        foreach ($eleves as $user)
-        {
+
+        foreach ($eleves as $user) {
             $users[] = $user;
         }
-        foreach ($parents as $user)
-        {
+        foreach ($parents as $user) {
             $users[] = $user;
         }
-        foreach ($personnel as $user)
-        {
+        foreach ($personnel as $user) {
             $users[] = $user;
         }
-        foreach ($adm as $user)
-        {
+        foreach ($adm as $user) {
             $users[] = $user;
         }
-        foreach ($vil as $user)
-        {
+        foreach ($vil as $user) {
             $users[] = $user;
         }
-        foreach ($ext as $user)
-        {
+        foreach ($ext as $user) {
             $users[] = $user;
         }
         //_dump($eleves);
-        
+
         /*
-        if ('communiquer' === $right)
-        {
-            foreach ($users as $k => $user)
-            {
+        if ('communiquer' === $right) {
+            foreach ($users as $k => $user) {
                 //print_r($user);
                 //$matrix->communiquer();
             }
         }
         */
-        
+
         usort($users, array('ActionGroupAnnuaire', '_usortPopup'));
 
         $tplListe->assign('field', $field);
@@ -681,10 +675,10 @@ class ActionGroupAnnuaire extends EnicActionGroup {
 
         return _arPPO($ppo, array('template' => 'getpopup_ppo.tpl', 'mainTemplate' => 'default|main_popup.php'));
     }
-    
+
     /**
      * Tri des users dans la vue popup
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2012/07/17
      * @see http://php.net/manual/fr/function.usort.php
@@ -694,13 +688,11 @@ class ActionGroupAnnuaire extends EnicActionGroup {
      */
     private function _usortPopup($a, $b)
     {
-        if ($a->nom === $b->nom)
-        {
+        if ($a->nom === $b->nom) {
             return strcmp($a->prenom, $b->prenom);
         }
         return strcmp($a->nom, $b->nom);
     }
-    
+
 }
 
-?>

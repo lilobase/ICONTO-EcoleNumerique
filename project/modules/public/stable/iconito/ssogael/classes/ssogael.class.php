@@ -11,18 +11,18 @@
  */
 
 
-class Ssogael {
+class Ssogael
+{
+    public function canSsoGael()
+    {
+        if( !Kernel::isEnseignant() && !Kernel::isAgentVille() ) return false;
 
-	function canSsoGael() {
-		if( !Kernel::isEnseignant() && !Kernel::isAgentVille() ) return false;
+        if( !CopixConfig::exists('|urlGael') || trim(CopixConfig::get('|urlGael'))=='' ) return false;
 
-		if( !CopixConfig::exists('|urlGael') || trim(CopixConfig::get('|urlGael'))=='' ) return false;
-		
-		$mysession = Kernel::getSessionBU();
-		if( trim($mysession['cle_privee'])=='' ) return false;
+        $mysession = Kernel::getSessionBU();
+        if( trim($mysession['cle_privee'])=='' ) return false;
 
-		return true;
-	}
+        return true;
+    }
 }
 
-?>

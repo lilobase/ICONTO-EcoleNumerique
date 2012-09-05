@@ -5,16 +5,16 @@
  * @subpackage  agenda
  * @author      Jérémy FOURNAISE <jeremy.fournaise@isics.fr>
  */
-class DAORecordEvent {
-  
-  public function __toString() {
-    
+class DAORecordEvent
+{
+  public function __toString()
+  {
     return $this->getTitleEvent();
   }
 }
 
-class DAOEvent {
-  
+class DAOEvent
+{
   /**
    * Retourne les événements d'un agenda pour un intervalle donné
    *
@@ -24,16 +24,16 @@ class DAOEvent {
    *
    * @return CopixDAORecordIterator
    */
-  public function findByAgendaAndDateInterval($agendaId, $dateDebut, $dateFin) {
-    
+  public function findByAgendaAndDateInterval($agendaId, $dateDebut, $dateFin)
+  {
     $c = _daoSp ();
     $c->addCondition ('id_agenda', '=', $agendaId);
     $c->addCondition ('datedeb_event', '<=', $dateFin);
     $c->startGroup ();
     $c->addCondition ('datefin_event', '>=', $dateDebut);
     $c->addCondition ('endrepeatdate_event', '>=', $dateDebut, 'or');
-		$c->endGroup ();
-    
+        $c->endGroup ();
+
     return $this->findBy ($c);
   }
 }

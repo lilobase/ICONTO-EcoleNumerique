@@ -22,7 +22,7 @@
         <parameter name="multipleConnectionHandler" captioni18n="auth.multipleConnectionHandler" default="1" type="bool" />
   		<parameter name="timetolive" captioni18n="auth.remember_time" default="2678400" type="int" />
   		<parameter name="cryptPassword" captioni18n="auth.cryptPassword" type="select" default="md5" listValues="md5=>MD5;sha1=>SHA1;SHA256=>SHA256" />
-  	</group>  
+  	</group>
   	<group captioni18n="auth.group.redirect">
   		<parameter name="authorizeRedirectIfOK" captioni18n="auth.authorizeRedirectIfOK" default="1" type="bool" />
   		<parameter name="authorizeRedirectIfNoK" captioni18n="auth.authorizeRedirectIfNoK" default="1" type="bool" />
@@ -36,12 +36,12 @@
  <grouphandlers>
  	<grouphandler name='dbgrouphandler' />
  </grouphandlers>
- 
+
  <credentialhandlers>
  	<credentialhandler name='dbcredentialhandler' stopOnSuccess='true' stopOnFailure='false' />
  	<credentialhandler name='dbmodulecredentialhandler' stopOnSuccess='true' stopOnFailure='false'>
  		<handle name='module' />
  	</credentialhandler>
  </credentialhandlers>
- 
+
 </moduledefinition>

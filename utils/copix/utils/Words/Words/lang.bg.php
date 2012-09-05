@@ -26,7 +26,7 @@ require_once("Numbers/Words.php");
 /**
  * Class for translating numbers into Bulgarian.
  *
- * @author Kouber Saparev <kouber@php.net> 
+ * @author Kouber Saparev <kouber@php.net>
  * @package Numbers_Words
  */
 class Numbers_Words_bg extends Numbers_Words
@@ -39,28 +39,28 @@ class Numbers_Words_bg extends Numbers_Words
      * @var string
      * @access public
      */
-    var $locale      = 'bg';
+    public $locale      = 'bg';
 
     /**
      * Language name in English.
      * @var string
      * @access public
      */
-    var $lang        = 'Bulgarian';
+    public $lang        = 'Bulgarian';
 
     /**
      * Native language name.
      * @var string
      * @access public
      */
-    var $lang_native = 'Ѕългарски';
+    public $lang_native = 'Ѕългарски';
 
     /**
      * Some miscellaneous words and language constructs.
      * @var string
      * @access private
      */
-    var $_misc_strings = array(
+    public $_misc_strings = array(
         'deset'=>'десет',           // "ten"
         'edinadeset'=>'единадесет', // "eleven"
         'na'=>'на',                 // liaison particle for 12 to 19
@@ -78,7 +78,7 @@ class Numbers_Words_bg extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_digits = array(
+    public $_digits = array(
         0=>array(1=>"едно", "две", "три", "четири", "пет", "шест", "седем", "осем", "девет"), // neuter
         1=>array(1=>'един', 'два'),                                                           // masculine
        -1=>array(1=>'една')                                                                   // feminine
@@ -89,63 +89,63 @@ class Numbers_Words_bg extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_digits_initialized = false;
+    public $_digits_initialized = false;
 
     /**
      * A flag, that determines if the "and" word is placed already before the last non-empty group of digits.
      * @var string
      * @access private
      */
-    var $_last_and = false;
+    public $_last_and = false;
 
     /**
      * The word for zero.
      * @var string
      * @access private
      */
-    var $_zero = 'нула';
+    public $_zero = 'нула';
 
     /**
      * The word for infinity.
      * @var string
      * @access private
      */
-    var $_infinity = 'безкрайност';
+    public $_infinity = 'безкрайност';
 
     /**
      * The word for the "and" language construct.
      * @var string
      * @access private
      */
-    var $_and = 'и';
-    
+    public $_and = 'и';
+
     /**
      * The word separator.
      * @var string
      * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     /**
      * The word for the minus sign.
      * @var string
      * @access private
      */
-    var $_minus = 'минус'; // minus sign
+    public $_minus = 'минус'; // minus sign
 
     /**
      * The plural suffix (except for thousand).
      * @var string
      * @access private
      */
-    var $_plural = 'а'; // plural suffix
+    public $_plural = 'а'; // plural suffix
 
     /**
      * The suffixes for exponents (singular).
      * @var array
      * @access private
      */
-    var $_exponent = array(
+    public $_exponent = array(
           0 => '',
           3 => 'хил€да',
           6 => 'милион',
@@ -262,7 +262,8 @@ class Numbers_Words_bg extends Numbers_Words
      * @author Kouber Saparev <kouber@php.net>
      * @see function _initDigits
      */
-    function Numbers_Words_bg() {
+    public function Numbers_Words_bg()
+    {
         $this->_initDigits();
     }
     // }}}
@@ -278,7 +279,8 @@ class Numbers_Words_bg extends Numbers_Words
      * @access private
      * @author Kouber Saparev <kouber@php.net>
      */
-    function _initDigits() {
+    public function _initDigits()
+    {
         if (!$this->_digits_initialized) {
             for ($i=3; $i<=9; $i++) {
                 $this->_digits[1][$i] =& $this->_digits[0][$i];
@@ -306,7 +308,7 @@ class Numbers_Words_bg extends Numbers_Words
      * @since  PHP 4.2.3
      */
 
-    function _splitNumber($num)
+    public function _splitNumber($num)
     {
         if (is_string($num)) {
             $ret = array();
@@ -316,8 +318,7 @@ class Numbers_Words_bg extends Numbers_Words
             $ret =& $m[0];
             if ($first) array_unshift($ret, $first);
             return $ret;
-        }
-        else
+        } else
             return explode(' ', number_format($num, 0, '', ' ')); // a faster version for integers
     }
     // }}}
@@ -344,7 +345,7 @@ class Numbers_Words_bg extends Numbers_Words
      * @access private
      * @author Kouber Saparev <kouber@php.net>
      */
-    function _showDigitsGroup($num, $gender = 0, $last = false)
+    public function _showDigitsGroup($num, $gender = 0, $last = false)
     {
         /* A storage array for the return string.
              Positions 1, 3, 5 are intended for digit words
@@ -353,12 +354,12 @@ class Numbers_Words_bg extends Numbers_Words
              the array may vary.
         */
         $ret = array();
-        
+
         // extract the value of each digit from the three-digit number
         $e = $num%10;                  // ones
         $d = ($num-$e)%100/10;         // tens
         $s = ($num-$d*10-$e)%1000/100; // hundreds
-        
+
         // process the "hundreds" digit.
         if ($s) {
             switch ($s) {
@@ -437,7 +438,7 @@ class Numbers_Words_bg extends Numbers_Words
      * @access public
      * @author Kouber Saparev <kouber@php.net>
      */
-    function toWords($num = 0)
+    public function toWords($num = 0)
     {
         $ret = array();
         $ret_minus = '';
@@ -502,4 +503,3 @@ class Numbers_Words_bg extends Numbers_Words
     }
     // }}}
 }
-?>

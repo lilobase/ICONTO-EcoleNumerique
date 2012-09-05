@@ -1,8 +1,8 @@
 <?php
 /**
  * @package standard
- * @subpackage admin 
-* 
+ * @subpackage admin
+*
 * @author   Bertrand Yan, Croes Gérald
 * @copyright 2001-2006 CopixTeam
 * @link      http://copix.org
@@ -16,22 +16,24 @@
 * Crée le fichier de conf XML de CopixDB
 * Execute les scripts dans la base courante
 * @package standard
-* @subpackage admin 
+* @subpackage admin
 */
-class InstallService {
+class InstallService
+{
     /**
     * Install
     *
     * Install the database, execute all the module SQL script
     */
-    function installAll () {
+    public function installAll ()
+    {
         $arTemp = $this->getModules ();
         //build an array
         $arModules = array ();
         foreach ($arTemp as $module){
             CopixModule::install($module->name);
         }
-        
+
 //        return $arError;
     }
 
@@ -40,7 +42,8 @@ class InstallService {
     *  @return array of object
     *  @access private
     */
-    function getModules ($pGroupId = null) {
+    public function getModules ($pGroupId = null)
+    {
         $toReturn    = array ();
         $arInstalledModule = CopixModule::getList (true);
 
@@ -56,40 +59,41 @@ class InstallService {
                 $toReturn[] = $temp;
             }
         }
-        
+
         // tri des modules par ordre alphabétique sur la description
         $tri = true;
         $nbrModule = count ($toReturn);
         while ($tri) {
-        	$tri = false;
-        	for ($boucle = 1; $boucle < $nbrModule; $boucle++) {
-        		$moduleDesc1 = ($toReturn[$boucle - 1]->description <> '') ? $toReturn[$boucle - 1]->description : $toReturn[$boucle - 1]->name;
-        		$moduleDesc2 = ($toReturn[$boucle]->description <> '') ? $toReturn[$boucle]->description : $toReturn[$boucle]->name;
-        		
-        		//echo '[<b>' . $moduleDesc1 . '</b>] [<font color="red">' . $moduleDesc2 . '</font>]<br />';
-        		
-        		$comp = strcasecmp ($moduleDesc1, $moduleDesc2);
-        		if ($comp > 0) {
-        			$temp = $toReturn[$boucle - 1];
-        			$toReturn[$boucle - 1] = $toReturn[$boucle];
-        			$toReturn[$boucle] = $temp;
-        			$tri = true;
-        		}
-        	}
+            $tri = false;
+            for ($boucle = 1; $boucle < $nbrModule; $boucle++) {
+                $moduleDesc1 = ($toReturn[$boucle - 1]->description <> '') ? $toReturn[$boucle - 1]->description : $toReturn[$boucle - 1]->name;
+                $moduleDesc2 = ($toReturn[$boucle]->description <> '') ? $toReturn[$boucle]->description : $toReturn[$boucle]->name;
+
+                //echo '[<b>' . $moduleDesc1 . '</b>] [<font color="red">' . $moduleDesc2 . '</font>]<br />';
+
+                $comp = strcasecmp ($moduleDesc1, $moduleDesc2);
+                if ($comp > 0) {
+                    $temp = $toReturn[$boucle - 1];
+                    $toReturn[$boucle - 1] = $toReturn[$boucle];
+                    $toReturn[$boucle] = $temp;
+                    $tri = true;
+                }
+            }
         }
-        
+
         return $toReturn;
     }
-	
+
 
     /**
      * Prepare installation, launch sql script needed during installation
      */
-    function installFramework () {
+    public function installFramework ()
+    {
         // find the current connection type (defined in /plugins/copixDB/profils.definition.xml)
-    	$config = CopixConfig::instance ();
-    	$driver = $config->copixdb_getProfile ();
-    	$typeDB = $driver->getDriverName ();
+        $config = CopixConfig::instance ();
+        $driver = $config->copixdb_getProfile ();
+        $typeDB = $driver->getDriverName ();
 
         // Search each module install file
         $scriptName = 'prepareinstall.'.$typeDB.'.sql';
@@ -104,12 +108,13 @@ class InstallService {
         }
         return $this->_generatePassword ();
     }
-    
-    function afterInstall (){
+
+    public function afterInstall ()
+    {
         // find the current connection type (defined in /plugins/copixDB/profils.definition.xml)
-    	$config = CopixConfig::instance ();
-    	$driver = $config->copixdb_getProfile ();
-    	$typeDB = $driver->getDriverName ();
+        $config = CopixConfig::instance ();
+        $driver = $config->copixdb_getProfile ();
+        $typeDB = $driver->getDriverName ();
 
         // Search each module install file
         $scriptName = 'afterinstall.'.$typeDB.'.sql';
@@ -120,8 +125,8 @@ class InstallService {
     /**
     * Paramètres de la base de données
     */
-    function getCurrentParameters (){
-    	return CopixConfig::instance ()->copixdb_getProfile ();
+    public function getCurrentParameters ()
+    {
+        return CopixConfig::instance ()->copixdb_getProfile ();
     }
 }
-?>

@@ -7,9 +7,9 @@ class ActionGroupIconito extends CopixActionGroup
         //_currentUser()->assertCredential ('group:[current_user]');
     }
 
-    function processDefault()
+    public function processDefault()
     {
-		$serv = CopixClassesFactory::create("stats|IconitoService");
+        $serv = CopixClassesFactory::create("stats|IconitoService");
         //$send = $serv->updateCron ();
         echo "<pre>";
         echo "Date d'installation : ".$serv->getInstallationDate()."\n";
@@ -72,9 +72,9 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processStatus ()
+    public function processStatus ()
     {
-		$serv = CopixClassesFactory::create("stats|IconitoService");
+        $serv = CopixClassesFactory::create("stats|IconitoService");
         echo "Ecole Numérique\n";
         echo $serv->getInstallationDate("TS")."\n";
         echo $serv->getLastUpdateDate("TS")."\n";
@@ -82,7 +82,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninCore ()
+    public function processMuninCore ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -102,7 +102,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninBu ()
+    public function processMuninBu ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -136,7 +136,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninBlogs ()
+    public function processMuninBlogs ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -162,7 +162,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninMalles ()
+    public function processMuninMalles ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -182,7 +182,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninAlbums ()
+    public function processMuninAlbums ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -202,7 +202,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninMinimails ()
+    public function processMuninMinimails ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -222,7 +222,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninAgendas ()
+    public function processMuninAgendas ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -244,7 +244,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninForums ()
+    public function processMuninForums ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -266,7 +266,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninCarnets ()
+    public function processMuninCarnets ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -286,7 +286,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninQuiz ()
+    public function processMuninQuiz ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {
@@ -308,7 +308,7 @@ class ActionGroupIconito extends CopixActionGroup
         return new CopixActionReturn (COPIX_AR_NONE, 0);
     }
 
-    function processMuninTeleprocedures ()
+    public function processMuninTeleprocedures ()
     {
         $serv = CopixClassesFactory::create("stats|IconitoService");
         if (_request('config', 0)) {

@@ -13,19 +13,22 @@
  * @package standard
  * @subpackage copixtest
  */
-class CopixTest_CopixSession extends CopixTest {
-	public function setUp (){
-		CopixContext::push ('copixtest');
-	}
-	public function tearDown (){
-		CopixContext::pop ();
-	}
-	
-	public function testShortcut (){
-		_sessionSet ('copixtest|key', 'value');
-		$this->assertEquals (_sessionGet ('copixtest|key'), 'value');
-		_sessionSet ('copixtest|key', null);
-		$this->assertEquals (_sessionGet ('copixtest|key'), null);
-	}
+class CopixTest_CopixSession extends CopixTest
+{
+    public function setUp ()
+    {
+        CopixContext::push ('copixtest');
+    }
+    public function tearDown ()
+    {
+        CopixContext::pop ();
+    }
+
+    public function testShortcut ()
+    {
+        _sessionSet ('copixtest|key', 'value');
+        $this->assertEquals (_sessionGet ('copixtest|key'), 'value');
+        _sessionSet ('copixtest|key', null);
+        $this->assertEquals (_sessionGet ('copixtest|key'), null);
+    }
 }
-?>

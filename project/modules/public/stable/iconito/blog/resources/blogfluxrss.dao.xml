@@ -13,7 +13,7 @@
          required="yes"
          type="autoincrement"
          />
-         
+
    <property name="id_blog"
          captioni18n="dao.blogfluxrss.fields.id_blog"
          type="int"
@@ -25,18 +25,18 @@
          type="int"
          required="yes"
          />
-		 
+
    <property name="name_bfrs"
          captioni18n="dao.blogfluxrss.fields.name_bfrs"
          type="string"
          required="yes"
-         />  
-		          
+         />
+
   <property name="url_bfrs"
          captioni18n="dao.blogfluxrss.fields.url_bfrs"
          type="string"
          required="yes"
-         />  
+         />
 
- </properties> 	
+ </properties>
 </daodefinition>

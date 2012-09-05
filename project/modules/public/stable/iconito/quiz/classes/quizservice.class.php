@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -9,26 +9,29 @@
  *
  * @author arnox
  */
-class QuizService {
-
+class QuizService
+{
     public $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         //get connection to db
         $this->db =& enic::get('model');
     }
 
-    public function start($id){
+    public function start($id)
+    {
         return true;
     }
 
-    public function getHelp($iIdQuiz){
+    public function getHelp($iIdQuiz)
+    {
         $id = $iIdQuiz*1;
         return $this->query('SELECT help FROM module_quiz_quiz WHERE id = '.$id)->toString();
     }
 
-    public function getCurrentQuiz(){
-        
+    public function getCurrentQuiz()
+    {
         return $this->db->query('SELECT DISTINCT (quiz.id), quiz . *
                                     FROM module_quiz_quiz AS quiz
                                     INNER JOIN module_quiz_questions AS answ ON quiz.id = answ.id_quiz
@@ -40,7 +43,8 @@ class QuizService {
                                     ->toArray();
     }
 
-    public function getQuizByGroupe($idGroupe){
+    public function getQuizByGroupe($idGroupe)
+    {
         //secure $iIdAuthor
         $id = $idGroupe*1;
 
@@ -53,7 +57,7 @@ LEFT JOIN module_quiz_responses AS resp ON resp.id_question = question.id
 WHERE quiz.gr_id = '.$id.'
 GROUP BY quiz.id
                         ')->toArray();
-        
+
         //format date and check lock from date
         foreach($oReturn as $k => $v){
             $oReturn[$k]['lock'] = ($v['lock'] != 1
@@ -67,14 +71,16 @@ GROUP BY quiz.id
         return $oReturn;
     }
 
-    public function getQuizDatas($iQuizId){
+    public function getQuizDatas($iQuizId)
+    {
         //secure $iQuizId
         $qId = $iQuizId*1;
 
         return $this->db->query('SELECT * FROM module_quiz_quiz WHERE id = '.$qId)->toArray1();
     }
 
-    public function getQuestionsByQuiz($iQuizId){
+    public function getQuestionsByQuiz($iQuizId)
+    {
         //secure $iQuizId
         $qId = $iQuizId*1;
         return $this->db->query('SELECT question .  * , COUNT( choice.id ) AS respNum
@@ -85,8 +91,8 @@ GROUP BY quiz.id
                                 ORDER BY `order` ASC')->toArray();
     }
 
-    public function dateToTime($iDate){
-
+    public function dateToTime($iDate)
+    {
         if($iDate == 0 || empty($iDate))
             return 0;
 
@@ -101,14 +107,16 @@ GROUP BY quiz.id
 
     }
 
-    public function timeToDate($iTime, $separator = false){
+    public function timeToDate($iTime, $separator = false)
+    {
         if($iTime == 0)
             return ($separator) ? '-' : 0;
 
         return date('d/m/Y', $iTime);
     }
 
-    public function updateForm($iDatas){
+    public function updateForm($iDatas)
+    {
         //protect datas
         $datas = $this->formatFormDatas($iDatas);
 
@@ -133,7 +141,8 @@ GROUP BY quiz.id
         return true;
     }
 
-    public function newForm($iDatas){
+    public function newForm($iDatas)
+    {
         $datas = $this->formatFormDatas($iDatas);
 
         $this->db->create('module_quiz_quiz', $datas);
@@ -141,8 +150,8 @@ GROUP BY quiz.id
         return true;
     }
 
-    public function formatFormDatas($iDatas){
-        
+    public function formatFormDatas($iDatas)
+    {
         //get user's object
         $user = enic::get('user');
         $session = enic::get('session');
@@ -179,7 +188,8 @@ GROUP BY quiz.id
         return $datas;
     }
 
-    public function isOwner($iIdQuiz){
+    public function isOwner($iIdQuiz)
+    {
         //get users infos :
         $user =& enic::get('user');
 
@@ -192,15 +202,17 @@ GROUP BY quiz.id
         return ($idUser == $id_owner);
     }
 
-    public function getAnswerDatas($iId){
+    public function getAnswerDatas($iId)
+    {
         //secure quiz Id
         $id = $iId*1;
-        
+
         return $this->db->query('SELECT * FROM module_quiz_questions WHERE id = '.$id)->toArray1();
 
     }
 
-    public function prepareAnsw($iDatas){
+    public function prepareAnsw($iDatas)
+    {
         $oReturn['name'] = $this->db->quote($iDatas['name']);
         $oReturn['content'] = $this->db->quote($iDatas['content']);
         $oReturn['opt_type'] = '"choice"';
@@ -211,7 +223,8 @@ GROUP BY quiz.id
         return $oReturn;
     }
 
-    public function prepareResp($iDatas){
+    public function prepareResp($iDatas)
+    {
         foreach($iDatas as $key => $datas){
             $oReturn[$key]['id'] = (isset($datas['id'])) ? $datas['id']*1 : null;
             $oReturn[$key]['id_question'] = $datas['id_question']*1;
@@ -223,7 +236,8 @@ GROUP BY quiz.id
         return $oReturn;
     }
 
-    public function validAnsw($iDatas){
+    public function validAnsw($iDatas)
+    {
         $errors = array();
 
         if(empty($iDatas['name']))
@@ -235,7 +249,8 @@ GROUP BY quiz.id
         return $oReturn;
     }
 
-    public function validResp($iDatas){
+    public function validResp($iDatas)
+    {
         $errors = array();
 
         //check if almost one choice is the good response
@@ -260,27 +275,32 @@ GROUP BY quiz.id
         return $oReturn;
     }
 
-    public function delResp($iIdAnsw){
+    public function delResp($iIdAnsw)
+    {
         $id = $iIdAnsw;
         $this->db->delete('module_quiz_choices', 'id_question = '.$id);
     }
 
-    public function delAnsw($iIdAnsw){
+    public function delAnsw($iIdAnsw)
+    {
         $this->db->delete('module_quiz_questions', (int)$iIdAnsw);
         $this->delResp($iIdAnsw);
     }
 
-    public function updateAnsw($iDatas){
+    public function updateAnsw($iDatas)
+    {
         $datas = $this->prepareAnsw($iDatas);
         $this->db->update('module_quiz_questions', $datas);
     }
 
-    public function newAnsw($iDatas){
+    public function newAnsw($iDatas)
+    {
         $data = $this->prepareAnsw($iDatas);
         $this->db->create('module_quiz_questions', $data);
     }
 
-    public function newResp($iDatas){
+    public function newResp($iDatas)
+    {
         $datas = $this->prepareResp($iDatas);
         foreach($datas as $data){
             $this->db->create('module_quiz_choices', $data);
@@ -288,7 +308,8 @@ GROUP BY quiz.id
         return true;
     }
 
-    public function delQuiz($iIdQuiz){
+    public function delQuiz($iIdQuiz)
+    {
         $id = $iIdQuiz*1;
 
         $this->db->delete('module_quiz_quiz', $id);
@@ -302,31 +323,35 @@ GROUP BY quiz.id
         return true;
     }
 
-    public function existsQuiz($iId){
+    public function existsQuiz($iId)
+    {
         //security
         $id = $iId*1;
 
         return !is_null($this->db->query('SELECT id FROM module_quiz_quiz WHERE id = '.$id)->toString());
     }
 
-    public function existsAnsw($iId){
+    public function existsAnsw($iId)
+    {
         //security
         $id = $iId*1;
-        
+
         return !is_null($this->db->query('SELECT id FROM module_quiz_questions WHERE id = '.$id)->toString());
     }
 
-    public function getQuestion($iQid){
+    public function getQuestion($iQid)
+    {
         return $this->db->query('SELECT * FROM module_quiz_questions WHERE id = '.$iQid)->toArray1();
     }
 
-    public function getResponses($iQid, $iUid){
+    public function getResponses($iQid, $iUid)
+    {
         return $this->db->query('SELECT * FROM module_quiz_responses WHERE id_question = '.$iQid.' AND id_user = '.$iUid)->toArray();
     }
 
-    public function getChoices($iQid){
+    public function getChoices($iQid)
+    {
         return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$iQid.' ORDER BY `order`')->toArray();
     }
-    
+
 }
-?>

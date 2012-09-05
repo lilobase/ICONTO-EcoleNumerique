@@ -32,11 +32,12 @@ define("DOKU_LEXER_SPECIAL", 5);
  *    @package Doku
  *    @subpackage Lexer
  */
-class Doku_LexerParallelRegex {
-    var $_patterns;
-    var $_labels;
-    var $_regex;
-    var $_case;
+class Doku_LexerParallelRegex
+{
+    public $_patterns;
+    public $_labels;
+    public $_regex;
+    public $_case;
 
     /**
      *    Constructor. Starts with no patterns.
@@ -44,7 +45,8 @@ class Doku_LexerParallelRegex {
      *                            for insensitive.
      *    @access public
      */
-    function Doku_LexerParallelRegex($case) {
+    public function Doku_LexerParallelRegex($case)
+    {
         $this->_case = $case;
         $this->_patterns = array();
         $this->_labels = array();
@@ -62,7 +64,8 @@ class Doku_LexerParallelRegex {
      *                                on a match. Label must be ASCII
      *    @access public
      */
-    function addPattern($pattern, $label = true) {
+    public function addPattern($pattern, $label = true)
+    {
         $count = count($this->_patterns);
         $this->_patterns[$count] = $pattern;
         $this->_labels[$count] = $label;
@@ -78,7 +81,8 @@ class Doku_LexerParallelRegex {
      *    @return boolean             True on success.
      *    @access public
      */
-    function match($subject, &$match) {
+    public function match($subject, &$match)
+    {
         if (count($this->_patterns) == 0) {
             return false;
         }
@@ -107,7 +111,8 @@ class Doku_LexerParallelRegex {
      *
      *    @author Christopher Smith <chris@jalakai.co.uk>
      */
-    function split($subject, &$split) {
+    public function split($subject, &$split)
+    {
         if (count($this->_patterns) == 0) {
             return false;
         }
@@ -151,17 +156,18 @@ class Doku_LexerParallelRegex {
      *    @param array $patterns    List of patterns in order.
      *    @access private
      */
-    function _getCompoundedRegex() {
+    public function _getCompoundedRegex()
+    {
         if ($this->_regex == null) {
             $cnt = count($this->_patterns);
             for ($i = 0; $i < $cnt; $i++) {
 
                 /*
-                 * decompose the input pattern into "(", "(?", ")", 
-                 * "[...]", "[]..]", "[^]..]", "[...[:...:]..]", "\x"... 
+                 * decompose the input pattern into "(", "(?", ")",
+                 * "[...]", "[]..]", "[^]..]", "[...[:...:]..]", "\x"...
                  * elements.
-                 */ 
-                preg_match_all('/\\\\.|' . 
+                 */
+                preg_match_all('/\\\\.|' .
                                '\(\?|' .
                                '[()]|' .
                                '\[\^?\]?(?:\\\\.|\[:[^]]*:\]|[^]\\\\])*\]|' .
@@ -172,7 +178,7 @@ class Doku_LexerParallelRegex {
 
                 foreach ($elts[0] as $elt) {
                     /*
-                     * for "(", ")" remember the nesting level, add "\" 
+                     * for "(", ")" remember the nesting level, add "\"
                      * only to the non-"(?" ones.
                      */
 
@@ -210,7 +216,8 @@ class Doku_LexerParallelRegex {
      *    @return string       Perl regex flags.
      *    @access private
      */
-    function _getPerlMatchingFlags() {
+    public function _getPerlMatchingFlags()
+    {
         return ($this->_case ? "msS" : "msSi");
     }
 }
@@ -220,15 +227,17 @@ class Doku_LexerParallelRegex {
  *    @package Lexer
  *    @subpackage Lexer
  */
-class Doku_LexerStateStack {
-    var $_stack;
+class Doku_LexerStateStack
+{
+    public $_stack;
 
     /**
      *    Constructor. Starts in named state.
      *    @param string $start        Starting state name.
      *    @access public
      */
-    function Doku_LexerStateStack($start) {
+    public function Doku_LexerStateStack($start)
+    {
         $this->_stack = array($start);
     }
 
@@ -237,7 +246,8 @@ class Doku_LexerStateStack {
      *    @return string       State.
      *    @access public
      */
-    function getCurrent() {
+    public function getCurrent()
+    {
         return $this->_stack[count($this->_stack) - 1];
     }
 
@@ -247,7 +257,8 @@ class Doku_LexerStateStack {
      *    @param string $state        New state.
      *    @access public
      */
-    function enter($state) {
+    public function enter($state)
+    {
         array_push($this->_stack, $state);
     }
 
@@ -258,7 +269,8 @@ class Doku_LexerStateStack {
      *                       the bottom of the list.
      *    @access public
      */
-    function leave() {
+    public function leave()
+    {
         if (count($this->_stack) == 1) {
             return false;
         }
@@ -276,12 +288,13 @@ class Doku_LexerStateStack {
  *    @package Doku
  *    @subpackage Lexer
  */
-class Doku_Lexer {
-    var $_regexes;
-    var $_parser;
-    var $_mode;
-    var $_mode_handlers;
-    var $_case;
+class Doku_Lexer
+{
+    public $_regexes;
+    public $_parser;
+    public $_mode;
+    public $_mode_handlers;
+    public $_case;
 
     /**
      *    Sets up the lexer in case insensitive matching
@@ -292,7 +305,8 @@ class Doku_Lexer {
      *    @param boolean $case            True for case sensitive.
      *    @access public
      */
-    function Doku_Lexer(&$parser, $start = "accept", $case = false) {
+    public function Doku_Lexer(&$parser, $start = "accept", $case = false)
+    {
         $this->_case = $case;
         $this->_regexes = array();
         $this->_parser = &$parser;
@@ -311,7 +325,8 @@ class Doku_Lexer {
      *                                this type of input.
      *    @access public
      */
-    function addPattern($pattern, $mode = "accept") {
+    public function addPattern($pattern, $mode = "accept")
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new Doku_LexerParallelRegex($this->_case);
         }
@@ -331,7 +346,8 @@ class Doku_Lexer {
      *                                nested mode.
      *    @access public
      */
-    function addEntryPattern($pattern, $mode, $new_mode) {
+    public function addEntryPattern($pattern, $mode, $new_mode)
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new Doku_LexerParallelRegex($this->_case);
         }
@@ -346,7 +362,8 @@ class Doku_Lexer {
      *    @param string $mode         Mode to leave.
      *    @access public
      */
-    function addExitPattern($pattern, $mode) {
+    public function addExitPattern($pattern, $mode)
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new Doku_LexerParallelRegex($this->_case);
         }
@@ -365,7 +382,8 @@ class Doku_Lexer {
      *    @param string $special      Use this mode for this one token.
      *    @access public
      */
-    function addSpecialPattern($pattern, $mode, $special) {
+    public function addSpecialPattern($pattern, $mode, $special)
+    {
         if (! isset($this->_regexes[$mode])) {
             $this->_regexes[$mode] = new Doku_LexerParallelRegex($this->_case);
         }
@@ -378,7 +396,8 @@ class Doku_Lexer {
      *    @param string $handler     New target handler.
      *    @access public
      */
-    function mapHandler($mode, $handler) {
+    public function mapHandler($mode, $handler)
+    {
         $this->_mode_handlers[$mode] = $handler;
     }
 
@@ -392,7 +411,8 @@ class Doku_Lexer {
      *    @return boolean           True on success, else false.
      *    @access public
      */
-    function parse($raw) {
+    public function parse($raw)
+    {
         if (! isset($this->_parser)) {
             return false;
         }
@@ -432,7 +452,8 @@ class Doku_Lexer {
      *                                from the parser.
      *    @access private
      */
-    function _dispatchTokens($unmatched, $matched, $mode = false, $initialPos, $matchPos) {
+    public function _dispatchTokens($unmatched, $matched, $mode = false, $initialPos, $matchPos)
+    {
         if (! $this->_invokeParser($unmatched, DOKU_LEXER_UNMATCHED, $initialPos) ){
             return false;
         }
@@ -464,7 +485,8 @@ class Doku_Lexer {
      *    @return boolean        True if this is the exit mode.
      *    @access private
      */
-    function _isModeEnd($mode) {
+    public function _isModeEnd($mode)
+    {
         return ($mode === "__exit");
     }
 
@@ -476,7 +498,8 @@ class Doku_Lexer {
      *    @return boolean        True if this is the exit mode.
      *    @access private
      */
-    function _isSpecialMode($mode) {
+    public function _isSpecialMode($mode)
+    {
         return (strncmp($mode, "_", 1) == 0);
     }
 
@@ -487,7 +510,8 @@ class Doku_Lexer {
      *    @return string         Underlying mode name.
      *    @access private
      */
-    function _decodeSpecial($mode) {
+    public function _decodeSpecial($mode)
+    {
         return substr($mode, 1);
     }
 
@@ -502,7 +526,8 @@ class Doku_Lexer {
      *                                thats being parsed
      *    @access private
      */
-    function _invokeParser($content, $is_match, $pos) {
+    public function _invokeParser($content, $is_match, $pos)
+    {
         if (($content === "") || ($content === false)) {
             return true;
         }
@@ -535,7 +560,8 @@ class Doku_Lexer {
      *                               is a parsing error.
      *    @access private
      */
-    function _reduce(&$raw) {
+    public function _reduce(&$raw)
+    {
         if (! isset($this->_regexes[$this->_mode->getCurrent()])) {
             return false;
         }
@@ -554,7 +580,8 @@ class Doku_Lexer {
 * Escapes regex characters other than (, ) and /
 * @TODO
 */
-function Doku_Lexer_Escape($str) {
+function Doku_Lexer_Escape($str)
+{
     //$str = addslashes($str);
     $chars = array(
         '/\\\\/',

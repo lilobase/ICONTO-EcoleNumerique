@@ -1,12 +1,14 @@
 <?php
-class Plugincharte extends CopixPlugin {
+class Plugincharte extends CopixPlugin
+{
     public function beforeSessionStart (){}
-    public function beforeProcess (& $action){
+    public function beforeProcess (& $action)
+    {
         $user =& enic::get('user');
         //if user not connected : return true
         if($user->chartValid)
             return true;
-        
+
         //array of authorized module
         $authMod = array('charte', 'auth', 'kernel');
         if(in_array($action->file->module, $authMod))

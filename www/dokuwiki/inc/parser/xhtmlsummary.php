@@ -18,36 +18,41 @@ require_once DOKU_INC . 'inc/parser/xhtml.php';
  * @author Harry Fuecks <hfuecks@gmail.com>
  * @todo   Is this currently used anywhere? Should it?
  */
-class Doku_Renderer_xhtmlsummary extends Doku_Renderer_xhtml {
-
+class Doku_Renderer_xhtmlsummary extends Doku_Renderer_xhtml
+{
     // Namespace these variables to
     // avoid clashes with parent classes
-    var $sum_paragraphs = 0;
-    var $sum_capture = true;
-    var $sum_inSection = false;
-    var $sum_summary = '';
-    var $sum_pageTitle = false;
+    public $sum_paragraphs = 0;
+    public $sum_capture = true;
+    public $sum_inSection = false;
+    public $sum_summary = '';
+    public $sum_pageTitle = false;
 
-    function document_start() {
+    public function document_start()
+    {
         $this->doc .= DOKU_LF.'<div>'.DOKU_LF;
     }
 
-    function document_end() {
+    public function document_end()
+    {
         $this->doc = $this->sum_summary;
         $this->doc .= DOKU_LF.'</div>'.DOKU_LF;
     }
 
     // FIXME not supported anymore
-    function toc_open() {
+    public function toc_open()
+    {
         $this->sum_summary .= $this->doc;
     }
 
     // FIXME not supported anymore
-    function toc_close() {
+    public function toc_close()
+    {
         $this->doc = '';
     }
 
-    function header($text, $level, $pos) {
+    public function header($text, $level, $pos)
+    {
         if ( !$this->sum_pageTitle ) {
             $this->info['sum_pagetitle'] = $text;
             $this->sum_pageTitle = true;
@@ -57,27 +62,31 @@ class Doku_Renderer_xhtmlsummary extends Doku_Renderer_xhtml {
         $this->doc .= "</h$level>".DOKU_LF;
     }
 
-    function section_open($level) {
+    public function section_open($level)
+    {
         if ( $this->sum_capture ) {
             $this->sum_inSection = true;
         }
     }
 
-    function section_close() {
+    public function section_close()
+    {
         if ( $this->sum_capture && $this->sum_inSection ) {
             $this->sum_summary .= $this->doc;
             $this->sum_capture = false;
         }
     }
 
-    function p_open() {
+    public function p_open()
+    {
         if ( $this->sum_capture && $this->sum_paragraphs < 2 ) {
             $this->sum_paragraphs++;
         }
         parent :: p_open();
     }
 
-    function p_close() {
+    public function p_close()
+    {
         parent :: p_close();
         if ( $this->sum_capture && $this->sum_paragraphs >= 2 ) {
             $this->sum_summary .= $this->doc;

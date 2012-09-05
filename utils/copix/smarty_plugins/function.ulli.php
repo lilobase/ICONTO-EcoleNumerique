@@ -23,7 +23,8 @@
  *  <li>third</li>
  * </ul>
  */
-function smarty_function_ulli($params, $me) {
+function smarty_function_ulli($params, $me)
+{
    if (isset ($params['assign'])) {
       $me->assign($params['assign'], _tag ('ulli', $params));
    }else {
@@ -31,4 +32,3 @@ function smarty_function_ulli($params, $me) {
    }
 }
 
-?>

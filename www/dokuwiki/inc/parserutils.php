@@ -22,10 +22,10 @@
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_wiki_xhtml($id, $rev='', $excuse=true){
-
-	$ret = p_render('xhtml',p_get_instructions($id),$info); // CB
-	return $ret; // CB
+function p_wiki_xhtml($id, $rev='', $excuse=true)
+{
+    $ret = p_render('xhtml',p_get_instructions($id),$info); // CB
+    return $ret; // CB
 
   $file = wikiFN($id,$rev);
   $ret  = '';
@@ -67,7 +67,8 @@ function p_wiki_xhtml($id, $rev='', $excuse=true){
  * @deprecated
  * @author Harry Fuecks <hfuecks@gmail.com>
  */
-function p_wiki_xhtml_summary($id, &$title, $rev='', $excuse=true){
+function p_wiki_xhtml_summary($id, &$title, $rev='', $excuse=true)
+{
   $file = wikiFN($id,$rev);
   $ret  = '';
 
@@ -117,7 +118,8 @@ function p_wiki_xhtml_summary($id, &$title, $rev='', $excuse=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_locale_xhtml($id){
+function p_locale_xhtml($id)
+{
   //fetch parsed locale
   $html = p_cached_output(localeFN($id));
   return $html;
@@ -136,7 +138,8 @@ function p_locale_xhtml($id){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @todo   rewrite to use mode instead of hardcoded XHTML
  */
-function p_cached_xhtml($file){
+function p_cached_xhtml($file)
+{
   return p_cached_output($file);
 }
 
@@ -146,7 +149,8 @@ function p_cached_xhtml($file){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Chris Smith <chris@jalakai.co.uk>
  */
-function p_cached_output($file, $format='xhtml', $id='') {
+function p_cached_output($file, $format='xhtml', $id='')
+{
   global $conf;
 
   $cache = new cache_renderer($id, $file, $format);
@@ -175,16 +179,17 @@ function p_cached_output($file, $format='xhtml', $id='') {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_cached_instructions($file,$cacheonly=false,$id='') {
+function p_cached_instructions($file,$cacheonly=false,$id='')
+{
   global $conf;
-  static $run = null;
+  public static $run = null;
   if(is_null($run)) $run = array();
 
   $cache = new cache_instructions($id, $file);
 
   if ($cacheonly || $cache->useCache() || isset($run[$file])) {
     return $cache->retrieveCache();
-  } else if (@file_exists($file)) {
+  } elseif (@file_exists($file)) {
     // no cache - do some work
     $ins = p_get_instructions(io_readWikiPage($file,$id));
     if ($cache->storeCache($ins)) {
@@ -204,8 +209,8 @@ function p_cached_instructions($file,$cacheonly=false,$id='') {
  * @author Harry Fuecks <hfuecks@gmail.com>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_get_instructions($text){
-
+function p_get_instructions($text)
+{
   $modes = p_get_parsermodes();
 
   // Create the parser
@@ -231,7 +236,8 @@ function p_get_instructions($text){
  *
  * @author Esther Brunner <esther@kaffeehaus.ch>
  */
-function p_get_metadata($id, $key=false, $render=false){
+function p_get_metadata($id, $key=false, $render=false)
+{
   global $ID, $INFO, $cache_metadata;
 
   // cache the current page
@@ -270,7 +276,8 @@ function p_get_metadata($id, $key=false, $render=false){
  *
  * @author Esther Brunner <esther@kaffeehaus.ch>
  */
-function p_set_metadata($id, $data, $render=false, $persistent=true){
+function p_set_metadata($id, $data, $render=false, $persistent=true)
+{
   if (!is_array($data)) return false;
 
   global $ID;
@@ -332,7 +339,8 @@ function p_set_metadata($id, $data, $render=false, $persistent=true){
  *
  * @author Michael Klier <chi@chimeric.de>
  */
-function p_purge_metadata($id) {
+function p_purge_metadata($id)
+{
     $metafn = metaFN('id', '.meta');
     $meta   = p_read_metadata($id);
     foreach($meta['current'] as $key => $value) {
@@ -360,7 +368,8 @@ function p_purge_metadata($id) {
  *
  * @return   array             metadata
  */
-function p_read_metadata($id,$cache=false) {
+function p_read_metadata($id,$cache=false)
+{
   global $cache_metadata;
 
   if (isset($cache_metadata[$id])) return $cache_metadata[$id];
@@ -400,7 +409,8 @@ function p_read_metadata($id,$cache=false) {
  *
  * @author Esther Brunner <esther@kaffeehaus.ch>
  */
-function p_render_metadata($id, $orig){
+function p_render_metadata($id, $orig)
+{
   // make sure the correct ID is in global ID
   global $ID;
   $keep = $ID;
@@ -445,11 +455,12 @@ function p_render_metadata($id, $orig){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_get_parsermodes(){
+function p_get_parsermodes()
+{
   global $conf;
 
   //reuse old data
-  static $modes = null;
+  public static $modes = null;
   if($modes != null){
     return $modes;
   }
@@ -537,7 +548,8 @@ function p_get_parsermodes(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_sort_modes($a, $b){
+function p_sort_modes($a, $b)
+{
   if($a['sort'] == $b['sort']) return 0;
   return ($a['sort'] < $b['sort']) ? -1 : 1;
 }
@@ -550,7 +562,8 @@ function p_sort_modes($a, $b){
  * @author Harry Fuecks <hfuecks@gmail.com>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_render($mode,$instructions,&$info){
+function p_render($mode,$instructions,&$info)
+{
   if(is_null($instructions)) return '';
 
   $Renderer =& p_get_renderer($mode);
@@ -614,14 +627,15 @@ function & p_get_renderer($mode) {
  * @param   string   $id       dokuwiki page id
  * @param   bool     $render   rerender if first heading not known
  *                             default: true  -- must be set to false for calls from the metadata renderer to
- *                                               protects against loops and excessive resource usage when pages 
+ *                                               protects against loops and excessive resource usage when pages
  *                                               for which only a first heading is required will attempt to
  *                                               render metadata for all the pages for which they require first
  *                                               headings ... and so on.
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_get_first_heading($id, $render=true){
+function p_get_first_heading($id, $render=true)
+{
   global $conf;
   return $conf['useheading'] ? p_get_metadata($id,'title',$render) : null;
 }
@@ -636,7 +650,8 @@ function p_get_first_heading($id, $render=true){
  * @author Christopher Smith <chris@jalakai.co.uk>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function p_xhtml_cached_geshi($code, $language, $wrapper='pre') {
+function p_xhtml_cached_geshi($code, $language, $wrapper='pre')
+{
   global $conf;
   $language = strtolower($language);
 

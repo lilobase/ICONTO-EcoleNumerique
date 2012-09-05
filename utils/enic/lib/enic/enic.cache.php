@@ -1,24 +1,25 @@
 <?php
 /*
  * Class de cache automatisé
- * 
+ *
  * La classe se base sur le nom de la class appelante pour appeler le cache : enicMatricCache => class enicMatrix
  */
 enic::to_load('storage');
-class enicCache extends enicMod{
-
+class enicCache extends enicMod
+{
     public $storage;
     public $validity;
     public $range;
 
-    public function __construct(){
+    public function __construct()
+    {
         parent::__construct();
 
         //define storage :
         if(empty($this->storage))
             $this->storage = 'session';
         $this->storage = $this->storage.'Cache';
-        
+
         //define validity :
         if(empty($this->validity))
             $this->validity = 3600;
@@ -28,7 +29,8 @@ class enicCache extends enicMod{
     }
 
     //if enicCache is extended : return the extended Cache :
-    public function getClass(){
+    public function getClass()
+    {
         //get className (remove 'Cache') :
         $className = substr(get_class($this),0 , -5);
 
@@ -40,10 +42,11 @@ class enicCache extends enicMod{
         }
     }
 
-    protected function buildId($iName){
+    protected function buildId($iName)
+    {
         $oName = $iName;
         $oName = strtolower($iName);
-        
+
         //if is by user :
         if($this->range == 'user'){
             $user   =& enic::get('user');
@@ -59,8 +62,8 @@ class enicCache extends enicMod{
      * type => object | array | int | string
      * storage => file | session
      */
-    public function set($iName, $iDatas, $iOpt = array()){
-        
+    public function set($iName, $iDatas, $iOpt = array())
+    {
         //get options
         $storage    = (isset($iOpt['storage'])) ? $iOpt['storage'].'Cache' : $this->storage;
         $type       = (isset($iOpt['type'])) ? $iOpt['type'] : false;
@@ -87,7 +90,7 @@ class enicCache extends enicMod{
 
         //get storage
         $storageObject = enic::get($storage);
-        
+
         //refactoring datas :
         switch ($type){
             case 'array':
@@ -101,7 +104,7 @@ class enicCache extends enicMod{
 
         //set the name :
         $name = $this->buildId($iName);
-        
+
         //push datas :
         $storageObject->set($name, $oDatas, $validity, $type);
 
@@ -113,8 +116,8 @@ class enicCache extends enicMod{
      * $options :
      * storage => 'file' | 'session'
      */
-    public function get($iName, $opt = array()){
-
+    public function get($iName, $opt = array())
+    {
         //check if the class is already in enicCache
         if(isset(enic::$l[$iName]))
             return enic::$l[$iName];
@@ -150,7 +153,8 @@ class enicCache extends enicMod{
         return enic::$l[$iName];
     }
 
-    protected function setEnic($iClassName){
+    protected function setEnic($iClassName)
+    {
         //get the class :
         $className = strtolower(substr($iClassName, 4));
         $oReturn = $this->get($className);
@@ -158,7 +162,7 @@ class enicCache extends enicMod{
         if($oReturn !== null){
             return $oReturn;
         }
-        
+
         //execute class
         $datas = enic::get($className);
 
@@ -167,7 +171,8 @@ class enicCache extends enicMod{
 
     }
 
-    public function valid($iName){
+    public function valid($iName)
+    {
         //get storage
         $storageObject = enic::get($this->storage);
 
@@ -176,7 +181,8 @@ class enicCache extends enicMod{
         return $storageObject->valid($name);
     }
 
-    public function exists($iName){
+    public function exists($iName)
+    {
         //get storage
         $storageObject = enic::get($this->storage);
 
@@ -186,8 +192,8 @@ class enicCache extends enicMod{
     }
 }
 
-interface enicCacheInterface {
-
+interface enicCacheInterface
+{
     /*
      * before caching
      */
@@ -202,17 +208,18 @@ interface enicCacheInterface {
 /*
  * caching system for object
  */
-class enicSerializeCache implements enicCacheInterface {
-    
-    public static function before($iDatas){
+class enicSerializeCache implements enicCacheInterface
+{
+    public static function before($iDatas)
+    {
         return serialize($iDatas);
     }
-    
-    public static function after($iDatas){
+
+    public static function after($iDatas)
+    {
         return unserialize($iDatas);
     }
 
 }
 
 
-?>

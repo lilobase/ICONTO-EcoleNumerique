@@ -13,4 +13,3 @@ $vueSemaine = new CopixAction ('Agenda', 'getVueSemaine');
 $zoneToday  = new CopixAction ('Agenda', 'getZoneToday');
 
 $default    = & $vueSemaine;
-?>

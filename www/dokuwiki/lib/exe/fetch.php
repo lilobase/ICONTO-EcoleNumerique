@@ -32,7 +32,7 @@
 
   //media to local file
   if(preg_match('#^(https?)://#i',$MEDIA)){
-    //handle external images 
+    //handle external images
     if(strncmp($MIME,'image/',6) == 0) $FILE = get_from_URL($MEDIA,$EXT,$CACHE);
     if(!$FILE){
       //download failed - redirect to original URL
@@ -81,7 +81,8 @@
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function sendFile($file,$mime,$cache){
+function sendFile($file,$mime,$cache)
+{
   global $conf;
   $fmtime = filemtime($file);
   // send headers
@@ -93,13 +94,13 @@ function sendFile($file,$mime,$cache){
     header('Expires: '.gmdate("D, d M Y H:i:s", time()+max($conf['cachetime'], 3600)).' GMT');
     header('Cache-Control: public, proxy-revalidate, no-transform, max-age='.max($conf['cachetime'], 3600));
     header('Pragma: public');
-  } else if ($cache>0) {
+  } elseif ($cache>0) {
     // recache
     // remaining cachetime + 10 seconds so the newly recached media is used
     header('Expires: '.gmdate("D, d M Y H:i:s", $fmtime+$conf['cachetime']+10).' GMT');
     header('Cache-Control: public, proxy-revalidate, no-transform, max-age='.max($fmtime-time()+$conf['cachetime']+10, 0));
     header('Pragma: public');
-  } else if ($cache==0) {
+  } elseif ($cache==0) {
     // nocache
     header('Cache-Control: must-revalidate, no-transform, post-check=0, pre-check=0');
     header('Pragma: public');
@@ -155,7 +156,8 @@ function sendFile($file,$mime,$cache){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @returns array The start byte and the amount of bytes to send
  */
-function http_rangeRequest($size){
+function http_rangeRequest($size)
+{
   if(!isset($_SERVER['HTTP_RANGE'])){
     // no range requested - send the whole file
     header("Content-Length: $size");
@@ -192,7 +194,8 @@ function http_rangeRequest($size){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function get_resized($file, $ext, $w, $h=0){
+function get_resized($file, $ext, $w, $h=0)
+{
   global $conf;
 
   $info  = getimagesize($file);
@@ -222,7 +225,8 @@ function get_resized($file, $ext, $w, $h=0){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function calc_cache($cache){
+function calc_cache($cache)
+{
   global $conf;
 
   if(strtolower($cache) == 'nocache') return 0; //never cache
@@ -239,7 +243,8 @@ function calc_cache($cache){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @author  Pavel Vitis <Pavel.Vitis@seznam.cz>
  */
-function get_from_URL($url,$ext,$cache){
+function get_from_URL($url,$ext,$cache)
+{
   global $conf;
 
   // if no cache or fetchsize just redirect
@@ -272,7 +277,8 @@ function get_from_URL($url,$ext,$cache){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function image_download($url,$file){
+function image_download($url,$file)
+{
   global $conf;
   $http = new DokuHTTPClient();
   $http->max_bodysize = $conf['fetchsize'];
@@ -305,7 +311,8 @@ function image_download($url,$file){
  * @author Pavel Vitis <Pavel.Vitis@seznam.cz>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function resize_imageIM($ext,$from,$from_w,$from_h,$to,$to_w,$to_h){
+function resize_imageIM($ext,$from,$from_w,$from_h,$to,$to_w,$to_h)
+{
   global $conf;
 
   // check if convert is configured
@@ -330,7 +337,8 @@ function resize_imageIM($ext,$from,$from_w,$from_h,$to,$to_w,$to_h){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Sebastian Wienecke <s_wienecke@web.de>
  */
-function resize_imageGD($ext,$from,$from_w,$from_h,$to,$to_w,$to_h){
+function resize_imageGD($ext,$from,$from_w,$from_h,$to,$to_w,$to_h)
+{
   global $conf;
 
   if($conf['gdlib'] < 1) return false; //no GDlib available or wanted
@@ -436,7 +444,8 @@ function resize_imageGD($ext,$from,$from_w,$from_h,$to,$to_w,$to_h){
  * @author Filip Oscadal <webmaster@illusionsoftworks.cz>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function is_mem_available($mem,$bytes=1048576){
+function is_mem_available($mem,$bytes=1048576)
+{
   $limit = trim(ini_get('memory_limit'));
   if(empty($limit)) return true; // no limit set!
 
@@ -456,4 +465,3 @@ function is_mem_available($mem,$bytes=1048576){
 }
 
 //Setup VIM: ex: et ts=2 enc=utf-8 :
-?>

@@ -3,12 +3,12 @@
 // File name   : example_051.php
 // Begin       : 2009-04-16
 // Last Update : 2009-04-16
-// 
+//
 // Description : Example 051 for TCPDF class
 //               Full page background
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -35,16 +35,18 @@ require_once('../tcpdf.php');
 
 
 // Extend the TCPDF class to create custom Header and Footer
-class MYPDF extends TCPDF {
-	//Page header
-	public function Header() {
-		// Full background image
-		$auto_page_break = $this->AutoPageBreak;
-		$this->SetAutoPageBreak(false, 0);
-		$img_file = K_PATH_IMAGES.'image_demo.jpg';
-		$this->Image($img_file, $x=0, $y=0, $w=210, $h=297, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0);
-		$this->SetAutoPageBreak($auto_page_break);
-	}
+class MYPDF extends TCPDF
+{
+    //Page header
+    public function Header()
+    {
+        // Full background image
+        $auto_page_break = $this->AutoPageBreak;
+        $this->SetAutoPageBreak(false, 0);
+        $img_file = K_PATH_IMAGES.'image_demo.jpg';
+        $this->Image($img_file, $x=0, $y=0, $w=210, $h=297, $type='', $link='', $align='', $resize=false, $dpi=300, $palign='', $ismask=false, $imgmask=false, $border=0);
+        $this->SetAutoPageBreak($auto_page_break);
+    }
 }
 
 // create new PDF document
@@ -75,10 +77,10 @@ $pdf->setPrintFooter(false);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -103,6 +105,5 @@ $pdf->writeHTML('<span style="background-color:yellow;color:blue">PAGE 2</span>'
 $pdf->Output('example_051.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

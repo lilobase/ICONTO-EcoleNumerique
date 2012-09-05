@@ -22,11 +22,11 @@
  *           objectMap   = (optional) if given idProperty;captionProperty
  *           extra       = (optionnal) extra parameters we may give to the radio elements
  */
-function smarty_function_radiobutton($params, &$me) {
+function smarty_function_radiobutton($params, &$me)
+{
    if (isset ($params['assign'])) {
       $me->assign($params['assign'], _tag ('radiobutton', $params));
    }else {
       return _tag ('radiobutton', $params);
    }
 }
-?>

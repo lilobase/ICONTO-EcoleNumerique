@@ -4,23 +4,23 @@
 		<default name="gestionautonome" description="Iconito : gestion autonome"/>
 		<package name="copixdivers" version="2.2" />
 	</general>
-	
+
 	<parameters>
 		<parameter name="moduleTitle" caption="Titre des pages du module" default="Gestion de la structure scolaire" />
 		<parameter name="gradesManagementTitle" caption="Titre des pages de la gestion des années" default="Gestion des années scolaires" />
 		<parameter name="personInChargeLinkingEnabled" caption="Fonctionnalité de rattachement des parents à un élève activée" default="0" />
 	</parameters>
-	
+
 	<grouphandlers>
 		<grouphandler name='iconitogrouphandler' />
 	</grouphandlers>
-	
+
 	<credentialhandlers>
 	 	<credentialhandler name='iconitomodulecredentialhandler' stopOnSuccess='true' stopOnFailure='false'>
 	 		<handle name='module' />
 		</credentialhandler>
 	</credentialhandlers>
-	
+
 	<credentials>
 		<credential name="cities_group">
 			<value name="create" level="1" />

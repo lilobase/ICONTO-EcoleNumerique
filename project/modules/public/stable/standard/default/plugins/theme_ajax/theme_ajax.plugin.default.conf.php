@@ -13,9 +13,10 @@
  * @package   standard
  * @subpackage plugin_theme_ajax
  */
-class PluginDefaultConfigTheme_Ajax {
-	public function __construct (){
-	}
-	
+class PluginDefaultConfigTheme_Ajax
+{
+    public function __construct ()
+    {
+    }
+
 }
-?>

@@ -27,4 +27,3 @@ function smarty_modifier_replace($string, $search, $replace)
 
 /* vim: set expandtab: */
 
-?>

@@ -31,134 +31,134 @@
 /**
  * This interface defines a class library for performing web requests.
  */
-interface CAS_RequestInterface {
+interface CAS_RequestInterface
+{
+    /*********************************************************
+     * Configure the Request
+     *********************************************************/
 
-	/*********************************************************
-	 * Configure the Request
-	 *********************************************************/
+    /**
+     * Set the URL of the Request
+     *
+     * @param string $url
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function setUrl ($url);
 
-	/**
-	 * Set the URL of the Request
-	 *
-	 * @param string $url
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function setUrl ($url);
+    /**
+     * Add a cookie to the request.
+     *
+     * @param string $name
+     * @param string $value
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function addCookie ($name, $value);
 
-	/**
-	 * Add a cookie to the request.
-	 *
-	 * @param string $name
-	 * @param string $value
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function addCookie ($name, $value);
+    /**
+     * Add an array of cookies to the request.
+     * The cookie array is of the form
+     *     array('cookie_name' => 'cookie_value', 'cookie_name2' => cookie_value2')
+     *
+     * @param array $cookies
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function addCookies (array $cookies);
 
-	/**
-	 * Add an array of cookies to the request.
-	 * The cookie array is of the form
-	 *     array('cookie_name' => 'cookie_value', 'cookie_name2' => cookie_value2')
-	 *
-	 * @param array $cookies
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function addCookies (array $cookies);
+    /**
+     * Add a header string to the request.
+     *
+     * @param string $header
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function addHeader ($header);
 
-	/**
-	 * Add a header string to the request.
-	 *
-	 * @param string $header
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function addHeader ($header);
+    /**
+     * Add an array of header strings to the request.
+     *
+     * @param array $headers
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function addHeaders (array $headers);
 
-	/**
-	 * Add an array of header strings to the request.
-	 *
-	 * @param array $headers
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function addHeaders (array $headers);
+    /**
+     * Make the request a POST request rather than the default GET request.
+     *
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function makePost ();
 
-	/**
-	 * Make the request a POST request rather than the default GET request.
-	 *
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function makePost ();
-
-	/**
-	 * Add a POST body to the request
-	 *
-	 * @param string $body
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function setPostBody ($body);
-
-
-	/**
-	 * Specify the path to an SSL CA certificate to validate the server with.
-	 *
-	 * @param string $sslCertPath
-	 * @return void
-	 * @throws CAS_OutOfSequenceException If called after the Request has been sent.
-	 */
-	public function setSslCaCert ($caCertPath);
+    /**
+     * Add a POST body to the request
+     *
+     * @param string $body
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function setPostBody ($body);
 
 
+    /**
+     * Specify the path to an SSL CA certificate to validate the server with.
+     *
+     * @param string $sslCertPath
+     * @return void
+     * @throws CAS_OutOfSequenceException If called after the Request has been sent.
+     */
+    public function setSslCaCert ($caCertPath);
 
-	/*********************************************************
-	 * 2. Send the Request
-	 *********************************************************/
 
-	/**
-	 * Perform the request.
-	 *
-	 * @return boolean TRUE on success, FALSE on failure.
-	 * @throws CAS_OutOfSequenceException If called multiple times.
-	 */
-	public function send ();
 
-	/*********************************************************
-	 * 3. Access the response
-	 *********************************************************/
+    /*********************************************************
+     * 2. Send the Request
+     *********************************************************/
 
-	/**
-	 * Answer the headers of the response.
-	 *
-	 * @return array An array of header strings.
-	 * @throws CAS_OutOfSequenceException If called before the Request has been sent.
-	 */
-	public function getResponseHeaders ();
-	
-	/**
-	 * Answer HTTP status code of the response
-	 *
-	 * @return integer
-	 * @throws CAS_OutOfSequenceException If called before the Request has been sent.
-	 */
-	public function getResponseStatusCode ();
-	
-	/**
-	 * Answer the body of response.
-	 *
-	 * @return string
-	 * @throws CAS_OutOfSequenceException If called before the Request has been sent.
-	 */
-	public function getResponseBody ();
+    /**
+     * Perform the request.
+     *
+     * @return boolean TRUE on success, FALSE on failure.
+     * @throws CAS_OutOfSequenceException If called multiple times.
+     */
+    public function send ();
 
-	/**
-	 * Answer a message describing any errors if the request failed.
-	 *
-	 * @return string
-	 * @throws CAS_OutOfSequenceException If called before the Request has been sent.
-	 */
-	public function getErrorMessage ();
+    /*********************************************************
+     * 3. Access the response
+     *********************************************************/
+
+    /**
+     * Answer the headers of the response.
+     *
+     * @return array An array of header strings.
+     * @throws CAS_OutOfSequenceException If called before the Request has been sent.
+     */
+    public function getResponseHeaders ();
+
+    /**
+     * Answer HTTP status code of the response
+     *
+     * @return integer
+     * @throws CAS_OutOfSequenceException If called before the Request has been sent.
+     */
+    public function getResponseStatusCode ();
+
+    /**
+     * Answer the body of response.
+     *
+     * @return string
+     * @throws CAS_OutOfSequenceException If called before the Request has been sent.
+     */
+    public function getResponseBody ();
+
+    /**
+     * Answer a message describing any errors if the request failed.
+     *
+     * @return string
+     * @throws CAS_OutOfSequenceException If called before the Request has been sent.
+     */
+    public function getErrorMessage ();
 }

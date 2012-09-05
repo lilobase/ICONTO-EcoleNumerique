@@ -24,108 +24,116 @@ define('SG_ICALREADER_VERSION', '0.7.0');
  * @author Tanguy Pruvot (C) 2010
  * @license http://creativecommons.org/licenses/by-sa/2.5/dk/deed.en_GB CC-BY-SA-DK
  */
-class SG_iCal {
+class SG_iCal
+{
+    //objects
+    public $information; //SG_iCal_VCalendar
+    public $timezones;   //SG_iCal_VTimeZone
 
-	//objects
-	public $information; //SG_iCal_VCalendar
-	public $timezones;   //SG_iCal_VTimeZone
+    protected $events; //SG_iCal_VEvent[]
 
-	protected $events; //SG_iCal_VEvent[]
+    /**
+     * Constructs a new iCalReader. You can supply the url now, or later using setUrl
+     * @param $url string
+     */
+    public function __construct($url = false)
+    {
+        require_once dirname(__FILE__) . '/helpers/SG_iCal_Line.php'; // BUILD: Remove line
+        require_once dirname(__FILE__) . '/helpers/SG_iCal_Duration.php'; // BUILD: Remove line
+        require_once dirname(__FILE__) . '/helpers/SG_iCal_Freq.php'; // BUILD: Remove line
+        require_once dirname(__FILE__) . '/helpers/SG_iCal_Recurrence.php'; // BUILD: Remove line
+        require_once dirname(__FILE__) . '/helpers/SG_iCal_Parser.php'; // BUILD: Remove line
+        require_once dirname(__FILE__) . '/helpers/SG_iCal_Query.php'; // BUILD: Remove line
+        require_once dirname(__FILE__) . '/helpers/SG_iCal_Factory.php'; // BUILD: Remove line
 
-	/**
-	 * Constructs a new iCalReader. You can supply the url now, or later using setUrl
-	 * @param $url string
-	 */
-	public function __construct($url = false) {
-		require_once dirname(__FILE__) . '/helpers/SG_iCal_Line.php'; // BUILD: Remove line
-		require_once dirname(__FILE__) . '/helpers/SG_iCal_Duration.php'; // BUILD: Remove line
-		require_once dirname(__FILE__) . '/helpers/SG_iCal_Freq.php'; // BUILD: Remove line
-		require_once dirname(__FILE__) . '/helpers/SG_iCal_Recurrence.php'; // BUILD: Remove line
-		require_once dirname(__FILE__) . '/helpers/SG_iCal_Parser.php'; // BUILD: Remove line
-		require_once dirname(__FILE__) . '/helpers/SG_iCal_Query.php'; // BUILD: Remove line
-		require_once dirname(__FILE__) . '/helpers/SG_iCal_Factory.php'; // BUILD: Remove line
+        $this->setUrl($url);
+    }
 
-		$this->setUrl($url);
-	}
+    /**
+     * Sets (or resets) the url this reader reads from.
+     * @param $url string
+     */
+    public function setUrl( $url = false )
+    {
+        if( $url !== false ) {
+            SG_iCal_Parser::Parse($url, $this);
+        }
+    }
 
-	/**
-	 * Sets (or resets) the url this reader reads from.
-	 * @param $url string
-	 */
-	public function setUrl( $url = false ) {
-		if( $url !== false ) {
-			SG_iCal_Parser::Parse($url, $this);
-		}
-	}
+    /**
+     * Returns the main calendar info. You can then query the returned
+     * object with ie getTitle().
+     * @return SG_iCal_VCalendar
+     */
+    public function getCalendarInfo()
+    {
+        return $this->information;
+    }
 
-	/**
-	 * Returns the main calendar info. You can then query the returned
-	 * object with ie getTitle().
-	 * @return SG_iCal_VCalendar
-	 */
-	public function getCalendarInfo() {
-		return $this->information;
-	}
-
-	/**
-	 * Sets the calendar info for this calendar
-	 * @param SG_iCal_VCalendar $info
-	 */
-	public function setCalendarInfo( SG_iCal_VCalendar $info ) {
-		$this->information = $info;
-	}
+    /**
+     * Sets the calendar info for this calendar
+     * @param SG_iCal_VCalendar $info
+     */
+    public function setCalendarInfo( SG_iCal_VCalendar $info )
+    {
+        $this->information = $info;
+    }
 
 
-	/**
-	 * Returns a given timezone for the calendar. This is mainly used
-	 * by VEvents to adjust their date-times if they have specified a
-	 * timezone.
-	 *
-	 * If no timezone is given, all timezones in the calendar is
-	 * returned.
-	 *
-	 * @param $tzid string
-	 * @return SG_iCal_VTimeZone
-	 */
-	public function getTimeZoneInfo( $tzid = null ) {
-		if( $tzid == null ) {
-			return $this->timezones;
-		} else {
-			if ( !isset($this->timezones)) {
-				return null;
-			}
-			foreach( $this->timezones AS $tz ) {
-				if( $tz->getTimeZoneId() == $tzid ) {
-					return $tz;
-				}
-			}
-			return null;
-		}
-	}
+    /**
+     * Returns a given timezone for the calendar. This is mainly used
+     * by VEvents to adjust their date-times if they have specified a
+     * timezone.
+     *
+     * If no timezone is given, all timezones in the calendar is
+     * returned.
+     *
+     * @param $tzid string
+     * @return SG_iCal_VTimeZone
+     */
+    public function getTimeZoneInfo( $tzid = null )
+    {
+        if( $tzid == null ) {
+            return $this->timezones;
+        } else {
+            if ( !isset($this->timezones)) {
+                return null;
+            }
+            foreach( $this->timezones AS $tz ) {
+                if( $tz->getTimeZoneId() == $tzid ) {
+                    return $tz;
+                }
+            }
+            return null;
+        }
+    }
 
-	/**
-	 * Adds a new timezone to this calendar
-	 * @param SG_iCal_VTimeZone $tz
-	 */
-	public function addTimeZone( SG_iCal_VTimeZone $tz ) {
-		$this->timezones[] = $tz;
-	}
+    /**
+     * Adds a new timezone to this calendar
+     * @param SG_iCal_VTimeZone $tz
+     */
+    public function addTimeZone( SG_iCal_VTimeZone $tz )
+    {
+        $this->timezones[] = $tz;
+    }
 
-	/**
-	 * Returns the events found
-	 * @return array
-	 */
-	public function getEvents() {
-		return $this->events;
-	}
+    /**
+     * Returns the events found
+     * @return array
+     */
+    public function getEvents()
+    {
+        return $this->events;
+    }
 
-	/**
-	 * Adds a event to this calendar
-	 * @param SG_iCal_VEvent $event
-	 */
-	public function addEvent( SG_iCal_VEvent $event ) {
-		$this->events[] = $event;
-	}
+    /**
+     * Adds a event to this calendar
+     * @param SG_iCal_VEvent $event
+     */
+    public function addEvent( SG_iCal_VEvent $event )
+    {
+        $this->events[] = $event;
+    }
 }
 
 /**

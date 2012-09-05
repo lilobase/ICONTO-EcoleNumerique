@@ -10,7 +10,7 @@
 
 /**
 * Classe qui permet d'inclure dans l'en tête HTML la fonction getHTTPObject ()
-* 
+*
 * La fonction getHttpObject () à pour objectif de crééer un "XmlHTTPRequest" Javascript sous
 * Mozilla et IE pour réaliser des processus Ajax
 *
@@ -18,15 +18,17 @@
 * @package		copix
 * @subpackage	taglib
 */
-class TemplateTagAjax_gethttpobject extends CopixTemplateTag {
-	/**
-	* Déclare la fonction getHTTPObject () dans l'en tête HTML.
-	* @param mixed $pParams aucun paramètre attendu ici.
-	*/
-	public function process ($pParams, $pContent=null){
-		static $called = false;
-		if (!$called){
-			CopixHTMLHeader::addJSCode('function getHTTPObject()
+class TemplateTagAjax_gethttpobject extends CopixTemplateTag
+{
+    /**
+    * Déclare la fonction getHTTPObject () dans l'en tête HTML.
+    * @param mixed $pParams aucun paramètre attendu ici.
+    */
+    public function process ($pParams, $pContent=null)
+    {
+        static $called = false;
+        if (!$called){
+            CopixHTMLHeader::addJSCode('function getHTTPObject()
 {
   var xmlhttp = false;
   /*@cc_on
@@ -52,8 +54,7 @@ class TemplateTagAjax_gethttpobject extends CopixTemplateTag {
   }
   return xmlhttp;
 }', 'getHTTPObject');
-			$called = true;
-		}
-	}
+            $called = true;
+        }
+    }
 }
-?>

@@ -106,7 +106,7 @@ abstract class Zend_Validate_Db_Abstract extends Zend_Validate_Abstract
         }
         if ($options instanceof Zend_Config) {
             $options = $options->toArray();
-        } else if (func_num_args() > 1) {
+        } elseif (func_num_args() > 1) {
             $options       = func_get_args();
             $temp['table'] = array_shift($options);
             $temp['field'] = array_shift($options);

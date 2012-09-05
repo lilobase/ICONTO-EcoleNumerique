@@ -2,7 +2,7 @@
 
 class IconitoService
 {
-    function getInstallationDate($display = "Human")
+    public function getInstallationDate($display = "Human")
     {
         switch ($display) {
         case "Human":
@@ -12,7 +12,7 @@ class IconitoService
         }
     }
 
-    function getLastUpdateDate($display = "Human")
+    public function getLastUpdateDate($display = "Human")
     {
         switch ($display) {
         case "Human":
@@ -22,20 +22,20 @@ class IconitoService
         }
     }
 
-    function getSvnRev ()
+    public function getSvnRev ()
     {
         if (file_exists($file = COPIX_PROJECT_PATH."../.svn/entries")) {
             $svn = file($file);
-        }        
+        }
         return isset($svn[3]) ? (int) $svn[3]:'Error';
     }
 
-    function getBytes()
+    public function getBytes()
     {
         return round(disk_total_space(COPIX_PROJECT_PATH."/..") / (1024*1024*1024),2);
     }
 
-    function getNbObject ($object)
+    public function getNbObject ($object)
     {
         switch($object) {
             case "villes":
@@ -64,7 +64,7 @@ class IconitoService
                 break;;
             case "externes":
                 $sql = "SELECT count(*) as nb FROM  kernel_ext_user";
-                break;;                
+                break;;
             case "blogs":
                 $sql = "SELECT count(*) as nb FROM  module_blog";
                 break;;

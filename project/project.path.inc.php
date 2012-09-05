@@ -19,4 +19,3 @@ define ('COPIX_VAR_PATH',        COPIX_PROJECT_PATH.'../var/');
 define ('COPIX_WWW_PATH',        COPIX_PROJECT_PATH.'../www/');
 define ('COPIX_ICALENDAR_PATH',  COPIX_PROJECT_PATH.'../utils/SG-iCalendar/');
 
-?>

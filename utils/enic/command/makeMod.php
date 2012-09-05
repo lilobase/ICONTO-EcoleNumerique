@@ -8,18 +8,21 @@ $nomModule = $argv[1];
 $default_actiongroup = <<<EOT
 <?php
 
-    class ActionGroupDefault extends enicActionGroup {
-
-        public function __construct(){
+    class ActionGroupDefault extends enicActionGroup
+    {
+        public function __construct()
+        {
             parent::__construct();
             \$this->service =& \$this->service('${nomModule}Service');
         }
 
-        public function beforeAction (){
-		_currentUser()->assertCredential ('group:[current_user]');
+        public function beforeAction ()
+        {
+        _currentUser()->assertCredential ('group:[current_user]');
         }
 
-        public function processDefault(){
+        public function processDefault()
+        {
             \$ppo = new CopixPPO();
 
             return _arPPO(\$ppo, 'default.tpl');
@@ -51,7 +54,7 @@ $default_modulexml = <<<EOT
         <default name="${nomModule}" />
     </general>
     <parameters>
-	   </parameters>
+       </parameters>
 </moduledefinition>
 EOT;
 
@@ -80,4 +83,3 @@ file_put_contents($projectDir.'module.xml', $default_modulexml);
 echo 'opération réussi, il vous reste à ajouter la ligne "kernel.codes.mod_'.$nomModule.'" dans le fichier kernel_fr.properties '.PHP_EOL;
 
 
-?>

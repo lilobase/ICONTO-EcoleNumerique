@@ -1,7 +1,7 @@
 <?php
 
-abstract class enicTree{
-
+abstract class enicTree
+{
     //array of children's name
     public $_children;
 
@@ -22,11 +22,11 @@ abstract class enicTree{
 
     //level of current item
     public $_level;
-    
+
     //using in start/end group
     protected $_jump;
     protected $_lock;
-    
+
     //global datas storage
     protected $_datas;
 
@@ -35,7 +35,8 @@ abstract class enicTree{
     /*
      * set default value
      */
-    public function __construct(){
+    public function __construct()
+    {
         $this->_jump = false;
         $this->_parent = false;
         $this->_children = array();
@@ -51,17 +52,18 @@ abstract class enicTree{
      * add new item
      * linkable
      */
-    public function add($name, $content=null, $opt=null, $type = false){
+    public function add($name, $content=null, $opt=null, $type = false)
+    {
         //create computer readable name
         $nameStr = enic::sanitize($name);
 
         //load type if defined else get current type
         $className = ($type !== false) ? 'enic'.ucfirst($type) : get_class($this);
-                
+
         //test if object already exists
         if(isset($this->$nameStr))
             trigger_error('item <em>'.$nameStr.'</em> in <strong>'.$className.'</strong> already exists', E_USER_WARNING);
-        
+
         //load object
         $this->$nameStr = new $className();
         $this->_children[] = $nameStr;
@@ -81,11 +83,11 @@ abstract class enicTree{
 
         //exec the addExec methode
         $this->$nameStr->addExec();
-        
+
         //if jump : lock the child
         if($this->_jump === true)
             $this->$nameStr->_lock = true;
-        
+
         //return child or current object to link methods
         if($this->_lock){
             return $this;
@@ -98,8 +100,8 @@ abstract class enicTree{
     /*
      * function call at each add action
      */
-    public function addExec(){
-
+    public function addExec()
+    {
         return true;
     }
 
@@ -107,7 +109,8 @@ abstract class enicTree{
      * modify existing item
      * linkable
      */
-    public function set($name, $content=false, $opt=false){
+    public function set($name, $content=false, $opt=false)
+    {
         //create computer readable name
         $object = $this->get($name);
 
@@ -131,7 +134,8 @@ abstract class enicTree{
     /*
      * delete item
      */
-    public function del($name){
+    public function del($name)
+    {
          //create computer readable name
         $nameStr = enic::sanitize($name);
 
@@ -154,13 +158,15 @@ abstract class enicTree{
     /*
      * ***
      */
-    public function action(){
+    public function action()
+    {
     }
 
     /*
      * method called in the display process
      */
-    public function display($topLimit = 0, $bottomLimit = 0){
+    public function display($topLimit = 0, $bottomLimit = 0)
+    {
         //call display functions :
         $html = '';
         //if root item : no display and check the level of current item
@@ -188,24 +194,24 @@ abstract class enicTree{
     /*
      * main Display
      */
-    public function displayMain(){
-
+    public function displayMain()
+    {
         return '';
     }
 
     /*
      * display in the forward chain
      */
-    public function displayHeader(){
-
+    public function displayHeader()
+    {
         return '';
     }
 
     /*
      * display at the return chain
      */
-     public function displayFooter(){
-
+     public function displayFooter()
+     {
          return '';
      }
 
@@ -213,7 +219,8 @@ abstract class enicTree{
      * freeze node level
      * linkable
      */
-    public function startGroup(){
+    public function startGroup()
+    {
         $this->_jump = true;
         return $this;
     }
@@ -222,14 +229,15 @@ abstract class enicTree{
      * stop level freezing
      * linkable
      */
-    public function endGroup(){
+    public function endGroup()
+    {
         //unlock current object
         $this->_lock = false;
-        
+
         //if no parents : return current object
         if($this->_level === 0)
             return $this;
-        
+
         return $this->_parentObject;
     }
 
@@ -237,7 +245,8 @@ abstract class enicTree{
      * go forward to item in object tree
      * return object
      */
-    public function go($name, $first = true){
+    public function go($name, $first = true)
+    {
         //create computer readable name
         $nameStr = enic::sanitize($name);
 
@@ -247,7 +256,7 @@ abstract class enicTree{
         foreach($this->_children as $children){
             //search if the searched item is in direct children
             if($nameStr == $children){
-                
+
                 if($first)
                     return $this->$children;
                 else
@@ -272,7 +281,8 @@ abstract class enicTree{
     /*
      * search array of matched item
      */
-    public function search($name){
+    public function search($name)
+    {
         return $this->go($name, false);
     }
 
@@ -281,8 +291,8 @@ abstract class enicTree{
      * use ':first' to go at the root
      * return object
      */
-    public function back($name = false){
-
+    public function back($name = false)
+    {
          //if name = :first : go to root
          if($name == ':first')
             return $this->_root;
@@ -306,7 +316,8 @@ abstract class enicTree{
      * load new type of item in object tree
      * linkable
      */
-    public function load($type, $name, $content=null, $opt=null){
+    public function load($type, $name, $content=null, $opt=null)
+    {
         //test if class already loaded by enic core
         $className = 'enic'.ucfirst($type);
         if(!class_exists($className))
@@ -318,7 +329,8 @@ abstract class enicTree{
     /*
      * load_once
      */
-    public function loadOnce($type, $name, $content=null, $opt=null){
+    public function loadOnce($type, $name, $content=null, $opt=null)
+    {
         //create computer readable name
         $nameStr = enic::sanitize($name);
 
@@ -332,21 +344,24 @@ abstract class enicTree{
      * get specific named object
      * linkable
      */
-    public function get($name){
+    public function get($name)
+    {
         return $this->_root->go($name);
     }
-    
+
     /*
      * function executed only once at start
      */
-    public function startExec(){
+    public function startExec()
+    {
         return true;
     }
 
     /*
      * set data to entire tree
      */
-    public function setDatas($name, $value){
+    public function setDatas($name, $value)
+    {
         $this->_root->_datas[$name] = $value;
         return $this;
     }
@@ -354,7 +369,8 @@ abstract class enicTree{
     /*
      * get data from global container
      */
-    public function getDatas($name){
+    public function getDatas($name)
+    {
         if(isset($this->_root->_datas[$name]))
             return $this->_root->_datas[$name];
         else
@@ -363,7 +379,8 @@ abstract class enicTree{
     /*
      * debug function
      */
-    public function debug(){
+    public function debug()
+    {
         echo '=======<br />';
         echo 'NAME : '.$this->_name.'<br />'.PHP_EOL;
         echo 'CONTENT '.var_dump($this->_content).'<br />'.PHP_EOL;

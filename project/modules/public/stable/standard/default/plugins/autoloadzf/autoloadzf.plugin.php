@@ -12,16 +12,16 @@
 * @package		standard
 * @subpackage	plugin_autoloadZF
 */
-class PluginAutoloadZf extends CopixPlugin {
-	
-	/**
-	 * Inclusion de la fonction d'autoload ZF avant le démarrage de la session
-	 */
-	public function beforeSessionStart () {
-		if (@include_once('Zend/Loader.php')){
-		   spl_autoload_register(array('Zend_Loader', 'loadClass'));
-		}
-	}
-	
+class PluginAutoloadZf extends CopixPlugin
+{
+    /**
+     * Inclusion de la fonction d'autoload ZF avant le démarrage de la session
+     */
+    public function beforeSessionStart ()
+    {
+        if (@include_once('Zend/Loader.php')){
+           spl_autoload_register(array('Zend_Loader', 'loadClass'));
+        }
+    }
+
 }
-?>

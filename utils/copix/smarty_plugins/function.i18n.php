@@ -21,17 +21,17 @@
  *
  * Examples:
  */
-function smarty_function_i18n($params, & $me) {
-	if (isset ($params['assign'])){
-		$assignVar = $params['assign'];
-		unset ($params['assign']);
-		$me->assign ($assignVar, _tag ('i18n', $params));
-		return;
-	}else{
+function smarty_function_i18n($params, & $me)
+{
+    if (isset ($params['assign'])){
+        $assignVar = $params['assign'];
+        unset ($params['assign']);
+        $me->assign ($assignVar, _tag ('i18n', $params));
+        return;
+    }else{
     $res = _tag ('i18n', $params);
     if (isset ($params['addslashes']) && $params['addslashes'])
       $res = addslashes($res);
-		return $res;
-	}
+        return $res;
+    }
 }
-?>

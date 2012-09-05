@@ -13,18 +13,19 @@
 * @package   standard
 * @subpackage plugin_theme_module
 */
-class PluginTheme_Module extends CopixPlugin {
-	public function beforeProcess (& $pExecParams){
-		if ($theme = $this->config->getThemeFor (CopixRequest::get ('module'))){
-			CopixTpl::setTheme ($theme);
-		}
-		//Ajout d'une gestion de tpl par thème
-		$config=CopixConfig::instance();
-		$theme=CopixTpl::getThemeInformations (CopixTpl::getTheme ());
-		if ($theme->tpl!=null) {
-    		$config->mainTemplate   = $theme->tpl;
-		}
-		
-	}
+class PluginTheme_Module extends CopixPlugin
+{
+    public function beforeProcess (& $pExecParams)
+    {
+        if ($theme = $this->config->getThemeFor (CopixRequest::get ('module'))){
+            CopixTpl::setTheme ($theme);
+        }
+        //Ajout d'une gestion de tpl par thème
+        $config=CopixConfig::instance();
+        $theme=CopixTpl::getThemeInformations (CopixTpl::getTheme ());
+        if ($theme->tpl!=null) {
+            $config->mainTemplate   = $theme->tpl;
+        }
+
+    }
 }
-?>

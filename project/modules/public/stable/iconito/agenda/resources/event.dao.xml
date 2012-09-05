@@ -5,7 +5,7 @@
 			<table name="module_agenda_event" primary="yes" />
 		</tables>
 	</datasource>
-	
+
 	<properties>
 		<property name="id_event"
 			captioni18n="dao.event.fields.id_event"
@@ -13,99 +13,99 @@
 			required="yes"
 			type="autoincrement"
 		/>
-		
+
 		<property name="id_agenda"
 			captioni18n="dao.agenda.fields.id_agenda"
 			required="no"
 			type="int"
 		/>
-		
+
 		<property name="title_event"
 			captioni18n="dao.event.fields.title_event"
 			type="string"
 			maxlength="255"
 			required="yes"
 		/>
-		
+
 		<property name="desc_event"
 			captioni18n="dao.event.fields.desc_event"
 			type="string"
 			required="no"
 		/>
-		
+
 		<property name="place_event"
 			captioni18n="dao.event.fields.place_event"
 			type="string"
 			maxlength="100"
 		/>
-		
+
 		<property name="datedeb_event"
 			captioni18n="dao.event.fields.datedeb_event"
 			type="string"
 			required="yes"
 		/>
-		
+
 		<property name="heuredeb_event"
 			captioni18n="dao.event.fields.heuredeb_event"
 			type="string"
 			maxlength="5"
 			required="no"
 		/>
-		
+
 		<property name="datefin_event"
 			captioni18n="dao.event.fields.datefin_event"
 			type="string"
 			required="yes"
 		/>
-		
+
 		<property name="heurefin_event"
 			captioni18n="dao.event.fields.heurefin_event"
 			type="string"
 			maxlength="5"
 			required="no"
 		/>
-		
+
 		<property name="alldaylong_event"
 			captioni18n="dao.event.fields.alldaylong_event"
 			type="int"
 			maxlength="1"
 			required="yes"
 		/>
-		
+
 		<property name="everyday_event"
 			captioni18n="dao.event.fields.everyday_event"
 			type="int"
 			maxlength="1"
 			required="yes"
 		/>
-		
+
 		<property name="everyweek_event"
 			captioni18n="dao.event.fields.everyweek_event"
 			type="int"
 			maxlength="1"
 			required="yes"
 		/>
-		
+
 		<property name="everymonth_event"
 			captioni18n="dao.event.fields.everymonth_event"
 			type="int"
 			maxlength="1"
 			required="yes"
 		/>
-		
+
 		<property name="everyyear_event"
 			captioni18n="dao.event.fields.everyyear_event"
 			type="int"
 			maxlength="1"
 			required="yes"
 		/>
-		
+
 		<property name="endrepeatdate_event"
 			captioni18n="dao.event.fields.endrepeatdate_event"
 			type="string"
 			maxlength="8"
 			required="no"
 		/>
-		
+
 	</properties>
 </daodefinition>

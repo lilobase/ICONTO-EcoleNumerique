@@ -15,4 +15,3 @@ $go 									= new CopixAction ('default', 'go');
 
 $default 							= & $go;
 
-?>

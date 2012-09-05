@@ -18,7 +18,8 @@
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function getID($param='id',$clean=true){
+function getID($param='id',$clean=true)
+{
   global $conf;
 
   $id = isset($_REQUEST[$param]) ? $_REQUEST[$param] : null;
@@ -87,7 +88,8 @@ function getID($param='id',$clean=true){
  * @param  string  $raw_id    The pageid to clean
  * @param  boolean $ascii     Force ASCII
  */
-function cleanID($raw_id,$ascii=false){
+function cleanID($raw_id,$ascii=false)
+{
   global $conf;
   global $lang;
   static $sepcharpat = null;
@@ -138,7 +140,8 @@ function cleanID($raw_id,$ascii=false){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function getNS($id){
+function getNS($id)
+{
   $pos = strrpos($id,':');
   if($pos!==false){
     return substr($id,0,$pos);
@@ -151,7 +154,8 @@ function getNS($id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function noNS($id) {
+function noNS($id)
+{
   $pos = strrpos($id, ':');
   if ($pos!==false) {
     return substr($id, $pos+1);
@@ -165,7 +169,8 @@ function noNS($id) {
 *
 * @author Nathan Fritz <fritzn@crown.edu>
 */
-function curNS($id) {
+function curNS($id)
+{
     return noNS(getNS($id));
 }
 
@@ -174,7 +179,8 @@ function curNS($id) {
 *
 * @author Nathan Fritz <fritzn@crown.edu>
 */
-function noNSorNS($id) {
+function noNSorNS($id)
+{
     global $conf;
 
     $p = noNS($id);
@@ -194,7 +200,8 @@ function noNSorNS($id) {
  *
  *  @author Chris Smith <chris@jalakai.co.uk>
  */
-function page_exists($id,$rev='',$clean=true) {
+function page_exists($id,$rev='',$clean=true)
+{
   return @file_exists(wikiFN($id,$rev,$clean));
 }
 
@@ -210,7 +217,8 @@ function page_exists($id,$rev='',$clean=true) {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function wikiFN($raw_id,$rev='',$clean=true){
+function wikiFN($raw_id,$rev='',$clean=true)
+{
   global $conf;
 
   global $cache_wikifn;
@@ -251,7 +259,8 @@ function wikiFN($raw_id,$rev='',$clean=true){
  *
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function wikiLockFN($id) {
+function wikiLockFN($id)
+{
   global $conf;
   return $conf['lockdir'].'/'.md5(cleanID($id)).'.lock';
 }
@@ -264,7 +273,8 @@ function wikiLockFN($id) {
  *
  * @author Steven Danz <steven-danz@kc.rr.com>
  */
-function metaFN($id,$ext){
+function metaFN($id,$ext)
+{
   global $conf;
   $id = cleanID($id);
   $id = str_replace(':','/',$id);
@@ -277,7 +287,8 @@ function metaFN($id,$ext){
  *
  * @author Esther Brunner <esther@kaffeehaus.ch>
  */
-function metaFiles($id){
+function metaFiles($id)
+{
    $name   = noNS($id);
    $ns     = getNS($id);
    $dir    = ($ns) ? metaFN($ns,'').'/' : metaFN($ns,'');
@@ -301,7 +312,8 @@ function metaFiles($id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function mediaFN($id){
+function mediaFN($id)
+{
   global $conf;
   $id = cleanID($id);
   $id = str_replace(':','/',$id);
@@ -315,7 +327,8 @@ function mediaFN($id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function localeFN($id){
+function localeFN($id)
+{
   global $conf;
   $file = DOKU_INC.'inc/lang/'.$conf['lang'].'/'.$id.'.txt';
   if(!@file_exists($file)){
@@ -336,7 +349,8 @@ function localeFN($id){
  *
  * @author <bart at mediawave dot nl>
  */
-function resolve_id($ns,$id,$clean=true){
+function resolve_id($ns,$id,$clean=true)
+{
   global $conf;
 
   // some pre cleaning for useslash:
@@ -381,7 +395,8 @@ function resolve_id($ns,$id,$clean=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function resolve_mediaid($ns,&$page,&$exists){
+function resolve_mediaid($ns,&$page,&$exists)
+{
   $page   = resolve_id($ns,$page);
   $file   = mediaFN($page);
   $exists = @file_exists($file);
@@ -392,7 +407,8 @@ function resolve_mediaid($ns,&$page,&$exists){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function resolve_pageid($ns,&$page,&$exists){
+function resolve_pageid($ns,&$page,&$exists)
+{
   global $conf;
   $exists = false;
 
@@ -463,7 +479,8 @@ function resolve_pageid($ns,&$page,&$exists){
  * @param string $ext   This is appended to the filename if given
  * @return string       The filename of the cachefile
  */
-function getCacheName($data,$ext=''){
+function getCacheName($data,$ext='')
+{
   global $conf;
   $md5  = md5($data);
   $file = $conf['cachedir'].'/'.$md5{0}.'/'.$md5.$ext;
@@ -476,7 +493,8 @@ function getCacheName($data,$ext=''){
  *
  * @author Andreas Gohr <gohr@cosmocode.de>
  */
-function isHiddenPage($id){
+function isHiddenPage($id)
+{
   global $conf;
   if(empty($conf['hidepages'])) return false;
 
@@ -491,7 +509,8 @@ function isHiddenPage($id){
  *
  * @author Andreas Gohr <gohr@cosmocode.de>
  */
-function isVisiblePage($id){
+function isVisiblePage($id)
+{
   return !isHiddenPage($id);
 }
 
@@ -503,7 +522,8 @@ function isVisiblePage($id){
  * @param    timestamp $timestamp lastmodified time of the cache file
  * @returns  void or void with previously header() commands executed
  */
-function http_conditionalRequest($timestamp){
+function http_conditionalRequest($timestamp)
+{
   // A PHP implementation of conditional get, see
   //   http://fishbowl.pastiche.org/archives/001132.html
   $last_modified = substr(gmdate('r', $timestamp), 0, -5).'GMT';

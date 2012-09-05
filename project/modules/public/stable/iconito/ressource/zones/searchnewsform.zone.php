@@ -1,11 +1,12 @@
-<?php
-
-class ZoneSearchNewsForm extends CopixZone {
-	function _createContent (&$toReturn) {
-		$tpl = new CopixTpl ();
-		$toReturn = $tpl->fetch ('searchnewsform.tpl');
-		return true;
-	}
-}
-
-?>
+<?php
+
+class ZoneSearchNewsForm extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        $tpl = new CopixTpl ();
+        $toReturn = $tpl->fetch ('searchnewsform.tpl');
+        return true;
+    }
+}
+

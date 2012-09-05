@@ -8,4 +8,4 @@
 		<parameter name="sitemap_url" captioni18n="404.parameter.sitemap_url" default="" />
 		<parameter name="search_url" captioni18n="404.parameter.search_url" default="" />
 	</parameters>
-</moduledefinition>	
+</moduledefinition>

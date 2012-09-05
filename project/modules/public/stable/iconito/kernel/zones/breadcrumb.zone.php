@@ -11,19 +11,18 @@
 /**
  * Zone affichant le menu
  */
-class ZoneBreadcrumb extends CopixZone {
+class ZoneBreadcrumb extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
+        $ppo = new CopixPPO ();
+        $user = _currentUser ();
 
-	function _createContent (& $toReturn) {
-			
-		$ppo = new CopixPPO ();		
-		$user = _currentUser ();
-		
-		if ($user->isConnected()) {
-			$ppo->breadcrumb = _i18n('kernel|kernel.breadcrumb.fake');
-			}
-		else $ppo->breadcrumb = _i18n('kernel|kernel.breadcrumb.home');;
-		
-		$toReturn = $this->_usePPO ($ppo, 'breadcrumb.tpl');
-		return true;
-	}
-} ?>
+        if ($user->isConnected()) {
+            $ppo->breadcrumb = _i18n('kernel|kernel.breadcrumb.fake');
+            } else $ppo->breadcrumb = _i18n('kernel|kernel.breadcrumb.home');;
+
+        $toReturn = $this->_usePPO ($ppo, 'breadcrumb.tpl');
+        return true;
+    }
+}

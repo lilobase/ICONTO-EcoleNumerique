@@ -34,30 +34,30 @@ class Numbers_Words_id extends Numbers_Words
 {
 
     // {{{ properties
-    
+
     /**
     * Locale name
     * @var string
     */
-    var $locale      = 'id';
+    public $locale      = 'id';
 
     /**
     * Language name in English
     * @var string
     */
-    var $lang        = 'Indonesia Language';
+    public $lang        = 'Indonesia Language';
 
     /**
     * Native language name
     * @var string
     */
-    var $lang_native = 'Bahasa Indonesia';
-    
+    public $lang_native = 'Bahasa Indonesia';
+
     /**
     * The word for the minus sign
     * @var string
     */
-    var $_minus = 'minus'; // minus sign
+    public $_minus = 'minus'; // minus sign
 
     /**
     * The sufixes for exponents (singular and plural)
@@ -65,7 +65,7 @@ class Numbers_Words_id extends Numbers_Words
     * http://www.users.dircon.co.uk/~shaunf/shaun/numbers/millions.htm
     * @var array
     */
-    var $_exponent = array(
+    public $_exponent = array(
         0 => array(''),
         3 => array('ribu'),
         6 => array('juta'),
@@ -96,7 +96,7 @@ class Numbers_Words_id extends Numbers_Words
     * The array containing the digits (indexed by the digits themselves).
     * @var array
     */
-    var $_digits = array(
+    public $_digits = array(
         0 => 'nol', 'satu', 'dua', 'tiga', 'empat',
         'lima', 'enam', 'tujuh', 'delapan', 'sembilan'
     );
@@ -105,7 +105,7 @@ class Numbers_Words_id extends Numbers_Words
     * The word separator
     * @var string
     */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     // }}}
     // {{{ toWords()
@@ -127,24 +127,25 @@ class Numbers_Words_id extends Numbers_Words
      * @author Ernas M. Jamil
      * @since  PHP 4.2.3
      */
-    function toWords($num, $power = 0, $powsuffix = '') {
-      $ret = '';        
-        
+    public function toWords($num, $power = 0, $powsuffix = '')
+    {
+      $ret = '';
+
       // add a minus sign
       if (substr($num, 0, 1) == '-') {
         $ret = $this->_sep . $this->_minus;
         $num = substr($num, 1);
       }
-        
+
       // strip excessive zero signs and spaces
       $num = trim($num);
       $num = preg_replace('/^0+/','',$num);
-        
+
       if (strlen($num) > 4) {
           $maxp = strlen($num)-1;
           $curp = $maxp;
           for ($p = $maxp; $p > 0; --$p) { // power
-            
+
             // check for highest power
             if (isset($this->_exponent[$p])) {
               // send substr from $curp to $p
@@ -167,9 +168,9 @@ class Numbers_Words_id extends Numbers_Words
       } elseif ($num == 0 || $num == '') {
         return $this->_sep . $this->_digits[0];
       }
-    
+
       $h = $t = $d = $th = 0;
-      
+
       switch(strlen($num)) {
         case 4:
           $th = (int)substr($num,-4,1);
@@ -201,7 +202,7 @@ class Numbers_Words_id extends Numbers_Words
             $ret .= $this->_sep . 'seratus';
         else
             $ret .= $this->_sep . $this->_digits[$h] . $this->_sep . 'ratus';
-        
+
         // in English only - add ' and' for [1-9]01..[1-9]99
         // (also for 1001..1099, 10001..10099 but it is harder)
         // for now it is switched off, maybe some language purists
@@ -222,17 +223,17 @@ class Numbers_Words_id extends Numbers_Words
       case 2:
           $ret .= $this->_sep . $this->_digits[$t] . ' puluh';
           break;
-    
+
       case 1:
           switch ($d) {
           case 0:
               $ret .= $this->_sep . 'sepuluh';
               break;
-    
+
           case 1:
               $ret .= $this->_sep . 'sebelas';
               break;
-    
+
           case 2:
           case 3:
           case 4:
@@ -244,7 +245,7 @@ class Numbers_Words_id extends Numbers_Words
               $ret .= $this->_sep . $this->_digits[$d] . ' belas';
               break;
           }
-          break; 
+          break;
       }
 
       if ($t != 1 && $d > 0) { // add digits only in <0>,<1,9> and <21,inf>
@@ -255,23 +256,22 @@ class Numbers_Words_id extends Numbers_Words
           $ret .= $this->_sep . $this->_digits[$d];
         }
       }
-  
+
       if ($power > 0) {
         if (isset($this->_exponent[$power]))
           $lev = $this->_exponent[$power];
-    
+
         if (!isset($lev) || !is_array($lev))
           return null;
-     
+
         $ret .= $this->_sep . $lev[0];
       }
-    
+
       if ($powsuffix != '')
         $ret .= $this->_sep . $powsuffix;
-    
+
       return $ret;
     }
     // }}}
 }
 
-?>

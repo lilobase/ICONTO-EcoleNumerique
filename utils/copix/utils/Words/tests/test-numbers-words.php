@@ -66,7 +66,7 @@ if ($html_on) {
   <th width="100">Number system</th>
   <th width="100%">String</th>
 </tr>
-<?
+<?php
 }
 
 foreach ($lang as $loc_symbol) {
@@ -95,7 +95,7 @@ foreach ($lang as $loc_symbol) {
         <td align="center"><?php echo $loc_symbol; ?></td>
         <td><nobr><i><?php echo $loc_name; ?></i></nobr></td>
         <td><b><?php echo $ret; ?></b></td>
-      </tr><?
+      </tr><?php
     } else {
       echo sprintf("%30s: '", $loc_name . ' (' . $loc_symbol . ')') . $ret . "'\n";
     }
@@ -122,7 +122,7 @@ while (list ($loc_symbol, $loc_name) = each ($langs)) {
         <td align="center"><?php echo $loc_symbol; ?></td>
         <td><nobr><i><?php echo $loc_name; ?></i></nobr></td>
         <td><b><?php echo $ret; ?></b></td>
-      </tr><?
+      </tr><?php
     } else {
       echo sprintf("%30s: ", $loc_name . ' (' . $loc_symbol . ')') . $ret . "\n";
     }
@@ -133,7 +133,6 @@ if ($html_on) {
 ?>
 </table>
 </center>
-<?
+<?php
 }
 
-?>

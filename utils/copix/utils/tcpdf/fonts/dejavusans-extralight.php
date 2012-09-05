@@ -186,4 +186,3 @@ $diff='';
 $file='dejavusans-extralight.z';
 $ctg='dejavusans-extralight.ctg.z';
 $originalsize=325936;
-?>

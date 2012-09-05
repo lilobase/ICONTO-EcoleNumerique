@@ -4,16 +4,16 @@
         <default name="agenda" descriptioni18n="agenda.moduleDescription"/>
         <package name="copixdivers" version="2.2" />
     </general>
-    
+
 	<dependencies>
     	<dependency name="parameters" kind="module"/>
     </dependencies>
- 	
+
 	<parameters>
       <parameter name="heuredebcal" captioni18n="agenda.parameter.heuredebcal" default="08:00" />
 	  <parameter name="heurefincal" captioni18n="agenda.parameter.heurefincal" default="19:00" />
 	  <parameter name="tempfiles" captioni18n="agenda.parameter.tempfiles" default="../var/ical/" />
 	  <parameter name="timeZone" captioni18n="agenda.parameter.timeZone" default="Europe/Paris" />
 	</parameters>
-	
+
 </moduledefinition>

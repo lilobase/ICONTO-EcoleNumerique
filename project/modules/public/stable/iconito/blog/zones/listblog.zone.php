@@ -16,27 +16,28 @@
 
 _classInclude('blog|blogauth');
 
-class ZoneListBlog extends CopixZone {
-	function _createContent (&$toReturn) {
-		//Getting the user.
-		//Create Services, and DAO
-		$tpl = new CopixTpl ();
+class ZoneListBlog extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        //Getting the user.
+        //Create Services, and DAO
+        $tpl = new CopixTpl ();
 
-		$res = $this->getParam('resultats',null);
+        $res = $this->getParam('resultats',null);
 
-		//capability
-		$tpl->assign ('canCreate' , BlogAuth::canCreate());
-		$resultats = array();
-		foreach($res as $r) {
-			$r->canWrite = BlogAuth::canWrite($r->id_blog);
-			$r->canRead = BlogAuth::canRead($r->id_blog);
-			array_push($resultats, $r);
-		}
+        //capability
+        $tpl->assign ('canCreate' , BlogAuth::canCreate());
+        $resultats = array();
+        foreach($res as $r) {
+            $r->canWrite = BlogAuth::canWrite($r->id_blog);
+            $r->canRead = BlogAuth::canRead($r->id_blog);
+            array_push($resultats, $r);
+        }
 
-		$tpl->assign ('resultats', $resultats);
-		// retour de la fonction :
-		$toReturn = $tpl->fetch('blog.list.tpl');
-		return true;
-	}
+        $tpl->assign ('resultats', $resultats);
+        // retour de la fonction :
+        $toReturn = $tpl->fetch('blog.list.tpl');
+        return true;
+    }
 }
-?>

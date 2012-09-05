@@ -12,7 +12,7 @@
 		<property name="id_ecole"   fieldname="id_ecole"   type="integer" table="gr2ecole" pk="yes" fktable="ecole" fkfieldname="numero"/>
 		<property name="updated_at" fieldname="updated_at" type="datetime"    table="gr2ecole" pk="no"/>
 		<property name="updated_by" fieldname="updated_by" type="string"  table="gr2ecole" pk="no"/>
-		
+
  	</properties>
 	<methods>
 		<method name="findByGroupe" type="select">
@@ -23,7 +23,7 @@
 				<condition property="id_groupe" operator="=" value="$groupe" />
 			</conditions>
 		</method>
-		
+
 		<method name="deleteByGroupe" type="delete">
 			<parameters>
 				<parameter name="groupe" />
@@ -32,6 +32,6 @@
 				<condition property="id_groupe" operator="=" value="$groupe" />
 			</conditions>
 		</method>
-		
+
 	</methods>
 </daodefinition>

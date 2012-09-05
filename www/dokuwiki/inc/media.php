@@ -21,7 +21,8 @@ require_once(DOKU_INC.'inc/JpegMeta.php');
  *
  * @author Matthias Grimm <matthiasgrimm@users.sourceforge.net>
  */
-function media_filesinuse($data,$id){
+function media_filesinuse($data,$id)
+{
     global $lang;
     echo '<h1>'.$lang['reference'].' <code>'.hsc(noNS($id)).'</code></h1>';
     echo '<p>'.hsc($lang['ref_inuse']).'</p>';
@@ -45,7 +46,8 @@ function media_filesinuse($data,$id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function media_metasave($id,$auth,$data){
+function media_metasave($id,$auth,$data)
+{
     if($auth < AUTH_UPLOAD) return false;
     if(!checkSecurityToken()) return false;
     global $lang;
@@ -79,12 +81,13 @@ function media_metasave($id,$auth,$data){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function media_metaform($id,$auth){
+function media_metaform($id,$auth)
+{
     if($auth < AUTH_UPLOAD) return false;
     global $lang;
 
     // load the field descriptions
-    static $fields = null;
+    public static $fields = null;
     if(is_null($fields)){
         include(DOKU_CONF.'mediameta.php');
         if(@file_exists(DOKU_CONF.'mediameta.local.php')){
@@ -148,7 +151,8 @@ function media_metaform($id,$auth){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @return mixed false on error, true on delete or array with refs
  */
-function media_delete($id,$auth){
+function media_delete($id,$auth)
+{
     if($auth < AUTH_DELETE) return false;
     if(!checkSecurityToken()) return false;
     global $conf;
@@ -189,7 +193,7 @@ function media_delete($id,$auth){
  * Handles media file uploads
  *
  * This generates an action event and delegates to _media_upload_action().
- * Action plugins are allowed to pre/postprocess the uploaded file. 
+ * Action plugins are allowed to pre/postprocess the uploaded file.
  * (The triggered event is preventable.)
  *
  * Event data:
@@ -203,7 +207,8 @@ function media_delete($id,$auth){
  * @author Michael Klier <chi@chimeric.de>
  * @return mixed false on error, id of the new file on success
  */
-function media_upload($ns,$auth){
+function media_upload($ns,$auth)
+{
     if($auth < AUTH_UPLOAD) return false;
     if(!checkSecurityToken()) return false;
     require_once(DOKU_INC.'inc/confutils.php');
@@ -275,7 +280,8 @@ function media_upload($ns,$auth){
  * Callback adapter for media_upload_finish()
  * @author Michael Klier <chi@chimeric.de>
  */
-function _media_upload_action($data) {
+function _media_upload_action($data)
+{
     // fixme do further sanity tests of given data?
     if(is_array($data) && count($data)===4) {
         return media_upload_finish($data[0], $data[1], $data[2], $data[3]);
@@ -290,7 +296,8 @@ function _media_upload_action($data) {
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Michael Klier <chi@chimeric.de>
  */
-function media_upload_finish($fn_tmp, $fn, $id, $imime) {
+function media_upload_finish($fn_tmp, $fn, $id, $imime)
+{
     global $conf;
     global $lang;
 
@@ -321,7 +328,8 @@ function media_upload_finish($fn_tmp, $fn, $id, $imime) {
  * @link   http://www.splitbrain.org/blog/2007-02/12-internet_explorer_facilitates_cross_site_scripting
  * @fixme  check all 26 magic IE filetypes here?
  */
-function media_contentcheck($file,$mime){
+function media_contentcheck($file,$mime)
+{
 die ('a');
     global $conf;
     if($conf['iexssprotect']){
@@ -359,7 +367,8 @@ die ('a');
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function media_notify($id,$file,$mime){
+function media_notify($id,$file,$mime)
+{
     global $lang;
     global $conf;
     if(empty($conf['notify'])) return; //notify enabled?
@@ -388,7 +397,8 @@ function media_notify($id,$file,$mime){
 /**
  * List all files in a given Media namespace
  */
-function media_filelist($ns,$auth=null,$jump=''){
+function media_filelist($ns,$auth=null,$jump='')
+{
     global $conf;
     global $lang;
     $ns = cleanID($ns);
@@ -426,7 +436,8 @@ function media_filelist($ns,$auth=null,$jump=''){
  *
  * @todo contains inline javascript
  */
-function media_fileactions($item,$auth){
+function media_fileactions($item,$auth)
+{
     global $lang;
 
     // view button
@@ -462,13 +473,14 @@ function media_fileactions($item,$auth){
 /**
  * Formats and prints one file in the list
  */
-function media_printfile($item,$auth,$jump){
+function media_printfile($item,$auth,$jump)
+{
     global $lang;
     global $conf;
 
     // Prepare zebra coloring
     // I always wanted to use this variable name :-D
-    static $twibble = 1;
+    public static $twibble = 1;
     $twibble *= -1;
     $zebra = ($twibble == -1) ? 'odd' : 'even';
 
@@ -515,7 +527,8 @@ function media_printfile($item,$auth,$jump){
 /**
  * Prints a thumbnail and metainfos
  */
-function media_printimgdetail($item){
+function media_printimgdetail($item)
+{
     // prepare thumbnail
     $w = (int) $item['meta']->getField('File.Width');
     $h = (int) $item['meta']->getField('File.Height');
@@ -564,7 +577,8 @@ function media_printimgdetail($item){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function media_uploadform($ns, $auth){
+function media_uploadform($ns, $auth)
+{
     global $lang;
 
     if($auth < AUTH_UPLOAD) return; //fixme print info on missing permissions?
@@ -595,7 +609,8 @@ function media_uploadform($ns, $auth){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function media_nstree($ns){
+function media_nstree($ns)
+{
     global $conf;
     global $lang;
 
@@ -629,7 +644,8 @@ function media_nstree($ns){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function media_nstree_item($item){
+function media_nstree_item($item)
+{
     $pos   = strrpos($item['id'], ':');
     $label = substr($item['id'], $pos > 0 ? $pos + 1 : 0);
     if(!$item['label']) $item['label'] = $label;
@@ -648,7 +664,8 @@ function media_nstree_item($item){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function media_nstree_li($item){
+function media_nstree_li($item)
+{
     $class='media level'.$item['level'];
     if($item['open']){
         $class .= ' open';

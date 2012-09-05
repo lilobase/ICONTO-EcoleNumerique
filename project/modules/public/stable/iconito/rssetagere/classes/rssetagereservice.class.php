@@ -1,22 +1,23 @@
 <?php
 
-    class rssEtagereService extends enicService{
-        
-        public function startExec(){
-            
+    class rssEtagereService extends enicService
+    {
+        public function startExec()
+        {
         }
-        
-        public function loadXml(){
-		if (!is_null($myNode = _sessionGet('myNode'))) {
-			$ppo->targetId   = $myNode['id'];
-			$ppo->targetType = $myNode['type'];
-			$ppo->myNodeInfos = Kernel::getNodeInfo ($myNode['type'], $myNode['id']);
 
-			if( $ppo->targetType == "BU_CLASSE" ) {
-				$ppo->url_classe = urlencode($ppo->myNodeInfos['nom']);
-				$ppo->url_ecole = $ppo->myNodeInfos['ALL']->eco_numero;
-			}
-		}
+        public function loadXml()
+        {
+        if (!is_null($myNode = _sessionGet('myNode'))) {
+            $ppo->targetId   = $myNode['id'];
+            $ppo->targetType = $myNode['type'];
+            $ppo->myNodeInfos = Kernel::getNodeInfo ($myNode['type'], $myNode['id']);
+
+            if( $ppo->targetType == "BU_CLASSE" ) {
+                $ppo->url_classe = urlencode($ppo->myNodeInfos['nom']);
+                $ppo->url_ecole = $ppo->myNodeInfos['ALL']->eco_numero;
+            }
+        }
 
             $this->rssUrl = $this->helpers->config('rssetagere|rss_url');
 
@@ -25,24 +26,27 @@
 
             if($this->xml == false)
                 return false;
-            
+
             return true;
         }
-        
-        public function getTitle(){
-            
+
+        public function getTitle()
+        {
             return $this->xml->channel->title;
         }
-        
-        public function getDescription(){
+
+        public function getDescription()
+        {
             return $this->xml->channel->description;
         }
-        
-        public function getLink(){
+
+        public function getLink()
+        {
             return $this->xml->channel->link;
         }
-        
-        public function getItems(){
+
+        public function getItems()
+        {
             $return = array();
             foreach($this->xml->channel->item as $item){
                 $itemObject = new stdClass();
@@ -53,8 +57,8 @@
                 $itemObject->quid = $item->quid;
                 $return[] = $itemObject;
             }
-            
+
             return $return;
         }
-        
+
     }

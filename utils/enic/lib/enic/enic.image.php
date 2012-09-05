@@ -9,8 +9,8 @@ define('DS', DIRECTORY_SEPARATOR);
  * @TDODO : setType = jpg, gif, etc.
  */
 
-class enicImage {
-
+class enicImage
+{
     protected $imageRootPath;
     protected $imageRootURI;
     private $height = 250;
@@ -19,8 +19,8 @@ class enicImage {
     private $crop = false;
     private $fill = false;
 
-    public function __construct() {
-
+    public function __construct()
+    {
         /*
          * CONFIG :
          */
@@ -34,8 +34,8 @@ class enicImage {
     }
 
     //alias for upload. Warning : argument must be a path and not an uri.
-    public function add($pathToFile, $keep_original_image = true) {
-
+    public function add($pathToFile, $keep_original_image = true)
+    {
         $imageClass = new externalImageUpload($pathToFile);
 
         $imageClass->file_new_name_body = enic::get('helpers')->uniqueId();
@@ -53,13 +53,13 @@ class enicImage {
     }
 
     //argument is $_FILES['input name']
-    public function upload($pathToFile) {
-
+    public function upload($pathToFile)
+    {
         return $this->add($pathToFile, false);
     }
 
-    private function getImageDirectory($imageName) {
-
+    private function getImageDirectory($imageName)
+    {
         $subDirectory = mb_substr($imageName, 0, 2);
 
         $path = $this->imageRootPath . $subDirectory . DS;
@@ -71,39 +71,39 @@ class enicImage {
         return $path;
     }
 
-    public function getOriginal($imageOriginalName) {
-
+    public function getOriginal($imageOriginalName)
+    {
         $originalFileName = str_replace('|', '.', $imageOriginalName);
-        
+
         $imageFilePath = $this->getImageDirectory($originalFileName);
-        
+
         if (!file_exists($imageFilePath . $originalFileName)) {
             throw new Exception('Original image not found');
         }
-        
+
         return $this->getURI($originalFileName);
-       
+
     }
-    
-    public function delete($imageOriginalName){
-        
+
+    public function delete($imageOriginalName)
+    {
         $originalFileName = explode('|', $imageOriginalName);
-        
+
         $imageFilePath = $this->getImageDirectory($originalFileName[0]);
-        
+
         $images = glob($imageFilePath.$originalFileName[0].'*');
-        
+
         foreach($images as $image){
             if(is_file($image))
                 unlink($image);
         }
-        
+
         return true;
-        
+
     }
 
-    public function get($imageOriginalName, $size_x = 0, $size_y = 0, $options = array()) {
-
+    public function get($imageOriginalName, $size_x = 0, $size_y = 0, $options = array())
+    {
         $this->setSize($size_x, $size_y, $options);
 
         $imageName = $this->getImageFileName($imageOriginalName);
@@ -133,7 +133,7 @@ class enicImage {
             $imageClass->image_ratio = true;
 
             if ($this->width == 'auto' && $this->height == 'auto') {
-                
+
             } elseif ($this->width == 'auto') {
                 $imageClass->image_y = $this->height;
                 $imageClass->image_ratio_x = true;
@@ -161,8 +161,8 @@ class enicImage {
         return $this->getURI($imageClass->file_dst_name);
     }
 
-    private function setSize($size_x, $size_y, $options = 'auto') {
-
+    private function setSize($size_x, $size_y, $options = 'auto')
+    {
         //check arguments' integrity
         $check_args = function($arg) {
                     return (is_int($arg) || $arg == 'auto' );
@@ -197,8 +197,8 @@ class enicImage {
         }
     }
 
-    private function getURI($imageName) {
-
+    private function getURI($imageName)
+    {
         $subPath = substr($imageName, 0, 2);
 
         $enicImageURI = $this->imageRootURI . $subPath . '/';
@@ -206,8 +206,8 @@ class enicImage {
         return $enicImageURI . $imageName;
     }
 
-    private function getImageFileName($image_name_body, $ext = true) {
-
+    private function getImageFileName($image_name_body, $ext = true)
+    {
         $image_file = explode('|', $image_name_body);
 
         $image_name = $image_file[0];
@@ -233,4 +233,3 @@ class enicImage {
 }
 
 
-?>

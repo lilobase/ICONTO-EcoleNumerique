@@ -1,8 +1,8 @@
 <?php
 /**
  * @package standard
- * @subpackage auth 
- * 
+ * @subpackage auth
+ *
  * @author		Salleyron Julien
  * @copyright	CopixTeam
  * @link		http://copix.org
@@ -14,23 +14,26 @@
  * @package standard
  * @subpackage auth
  */
-class ActionGroupDynamic extends CopixActionGroup {
+class ActionGroupDynamic extends CopixActionGroup
+{
     /**
-	 * On s'assure que pour ces tâche ce soit bien un administrateur
-	 */
-	public function beforeAction (){
-		CopixAuth::getCurrentUser()->assertCredential ('basic:admin');
-		if (!CopixConfig::instance()->copixauth_isRegisteredCredentialHandler ('auth|dbdynamiccredentialhandler')) {
-		    throw new CopixException (_i18n('auth.dynamicHandlerNotRegister'));
-		}
-		
-	}
-	
-    public function processList () {
+     * On s'assure que pour ces tâche ce soit bien un administrateur
+     */
+    public function beforeAction ()
+    {
+        CopixAuth::getCurrentUser()->assertCredential ('basic:admin');
+        if (!CopixConfig::instance()->copixauth_isRegisteredCredentialHandler ('auth|dbdynamiccredentialhandler')) {
+            throw new CopixException (_i18n('auth.dynamicHandlerNotRegister'));
+        }
+
+    }
+
+    public function processList ()
+    {
         CopixRequest::assert('id_group','handler_group');
         $id_group = _request('id_group');
         $handler_group = _request('handler_group');
-        
+
         $arData = array();
 
         $arDc = _dao('dynamiccredentials')->findAll();
@@ -46,7 +49,7 @@ class ActionGroupDynamic extends CopixActionGroup {
                 $value->checked = (count(_dao('dynamiccredentialsgroups')->findBy(_daoSP()->addCondition('id_dc','=',$dc->id_dc)->addCondition('id_dcv', '=', $value->id_dcv)->addCondition('id_group','=',$id_group)->addCondition('handler_group','=',$handler_group)))>0) ? 'checked' : '';
                 $arValues[] = $value;
             }
-            
+
             $arDroitDCTemp->data = $arValues;
             $arDroitDc[] = $arDroitDCTemp;
         }
@@ -54,11 +57,12 @@ class ActionGroupDynamic extends CopixActionGroup {
 
         return _arPpo (new CopixPpo(array('id_group'=>$id_group,'handler_group'=>$handler_group,'list'=>$arDroitDc,'url_return'=>_request('url_return',_url('#')))), 'dynamics.list.php');
     }
-    
+
     /**
      * Enregistre les droits séléctionné
      */
-    public function processRecord () {
+    public function processRecord ()
+    {
         CopixRequest::assert('id_group','handler_group');
         $bool = _request('bool',array());
         foreach (_request('value',array()) as $value) {
@@ -78,11 +82,12 @@ class ActionGroupDynamic extends CopixActionGroup {
         return _arRedirect (_url('auth|dynamic|list',array('id_group'=>_request('id_group'), 'handler_group'=>_request('handler_group'),'url_return'=>_request('url_return'))));
     }
 
-    
+
     /**
      * Efface tous les droits associés a un id_dc ou un id_dcv
      */
-    public function processDelete () {
+    public function processDelete ()
+    {
         $id_dc = _request('id_dc');
         if ($id_dc !== null) {
             _dao('dynamiccredentials')->delete($id_dc);
@@ -96,6 +101,5 @@ class ActionGroupDynamic extends CopixActionGroup {
         }
         return _arRedirect (_url('auth|dynamic|list',array('id_group'=>_request('id_group'),'handler_group'=>_request('handler_group'),'url_return'=>_request('url_return'))));
     }
-    
+
 }
-?>

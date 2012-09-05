@@ -12,121 +12,128 @@
  * Class de gestion des droits utilisateur
  */
 
-class BlogOptions {
-	
-	/**
-	* fonction articleIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function articleIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->article_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
+class BlogOptions
+{
+    /**
+    * fonction articleIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function articleIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->article_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
 
-	/**
-	* fonction articleIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function pageIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->article_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
+    /**
+    * fonction articleIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function pageIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->article_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
 
-	/**
-	* fonction ArchiveIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function archiveIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->archive_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
+    /**
+    * fonction ArchiveIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function archiveIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->archive_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
 
-	/**
-	* fonction findIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function findIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->find_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
+    /**
+    * fonction findIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function findIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->find_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
 
-	/**
-	* fonction linkIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function linkIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->link_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
+    /**
+    * fonction linkIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function linkIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->link_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
 
-	/**
-	* fonction rssIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function rssIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->rss_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
-
-
-	/**
-	* fonction photoIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function photoIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->photo_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
+    /**
+    * fonction rssIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function rssIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->rss_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
 
 
-	/**
-	* fonction optionIsActive
-	* param : Id du blog courant
-	* return : vrai si authorisé à afficher
-	*/
-	function optionIsActive($id_blog) {
-		$blogFunctionsDAO = _dao('blog|blogfunctions');
-		$result = true;
-		if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->option_bfct=='0') ) {
-			$result = false;
-		}
-		return $result;
-	}
+    /**
+    * fonction photoIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function photoIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->photo_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
+
+
+    /**
+    * fonction optionIsActive
+    * param : Id du blog courant
+    * return : vrai si authorisé à afficher
+    */
+    public function optionIsActive($id_blog)
+    {
+        $blogFunctionsDAO = _dao('blog|blogfunctions');
+        $result = true;
+        if( ($blogFunctions = $blogFunctionsDAO->get($id_blog)) && ($blogFunctions->option_bfct=='0') ) {
+            $result = false;
+        }
+        return $result;
+    }
 
 }
-?>

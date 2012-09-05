@@ -308,4 +308,3 @@ $diff='';
 $file='dejavuserifi.z';
 $ctg='dejavuserifi.ctg.z';
 $originalsize=301144;
-?>

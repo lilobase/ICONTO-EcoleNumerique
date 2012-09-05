@@ -13,31 +13,33 @@
  * @package standard
  * @subpackage default
  */
-class ActionGroupDefault extends CopixActionGroup {
-	/**
+class ActionGroupDefault extends CopixActionGroup
+{
+    /**
     * Par défaut, on redirige vers l'url d'accueil définie dans les paramètres
     */
-	public function processDefault () {
-		$home = CopixConfig::get ('|homePage');
-		if (strpos ($home, 'http://')!==0){
-			$home = _url ().$home;
-		}
-		return _arRedirect ($home);
-	}
+    public function processDefault ()
+    {
+        $home = CopixConfig::get ('|homePage');
+        if (strpos ($home, 'http://')!==0){
+            $home = _url ().$home;
+        }
+        return _arRedirect ($home);
+    }
 
-	/**
-	 * Page d'accueil du framework
-	 */
-	public function processWelcome (){
-		$ppo = new CopixPPO ();
-		$ppo->TITLE_PAGE = _i18n ('default.welcome2Copix3');
-		try {
-			CopixDB::getConnection ();
-			$ppo->dbOK = true;
-		}catch (Exception $e){
-			$ppo->dbOK = false;
-		}
-		return _arPPO ($ppo, 'welcome.php');
-	}
+    /**
+     * Page d'accueil du framework
+     */
+    public function processWelcome ()
+    {
+        $ppo = new CopixPPO ();
+        $ppo->TITLE_PAGE = _i18n ('default.welcome2Copix3');
+        try {
+            CopixDB::getConnection ();
+            $ppo->dbOK = true;
+        }catch (Exception $e){
+            $ppo->dbOK = false;
+        }
+        return _arPPO ($ppo, 'welcome.php');
+    }
 }
-?>

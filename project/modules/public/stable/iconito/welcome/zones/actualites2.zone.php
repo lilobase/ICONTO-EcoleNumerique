@@ -1,7 +1,7 @@
 <?php
 
-class ZoneActualites2 extends enicZone {
-
+class ZoneActualites2 extends enicZone
+{
     /**
      * Affiche la liste des dernieres actualites des blogs publics
      *
@@ -23,7 +23,7 @@ class ZoneActualites2 extends enicZone {
      * @param boolean $future Pour afficher les articles post-datés ayant une date de publication dans le futur. Par défaut : true
      * @param boolean $dateutf8encode Pour encoder en UTF8 la date (si $dateformat passé). Par défaut : false
      */
-    function _createContent(&$toReturn)
+    public function _createContent(&$toReturn)
     {
         $this->addJs('js/iconito/module_welcome.js');
 
@@ -42,9 +42,8 @@ class ZoneActualites2 extends enicZone {
         $cacheDuration  = (int)$this->getParam('cacheDuration');
         $future         = $this->getParam('future', true);
         $dateutf8encode = $this->getParam('dateutf8encode', false);
-        
-        if ($cache)
-        {
+
+        if ($cache) {
             $cacheId = 'zoneActualites2';
             $cacheId .= '|'.$nb;
             $cacheId .= '|'.$chapo;
@@ -59,17 +58,15 @@ class ZoneActualites2 extends enicZone {
             $cacheId .= '|'.$future;
 
             $existsParams = array();
-            if ($cacheDuration > 0)
-            {
+            if ($cacheDuration > 0) {
                 $existsParams['duration'] = $cacheDuration;
             }
-            if (CopixCache::exists($cacheId, 'welcome', $existsParams))
-            {
+            if (CopixCache::exists($cacheId, 'welcome', $existsParams)) {
                 $toReturn = CopixCache::read($cacheId, 'welcome', array(''));
                 return true;
             }
         }
-        
+
         $tpl = new CopixTpl ();
         $tpl->assign('titre',           $titre);
         $tpl->assign('chapo',           $chapo);
@@ -92,21 +89,19 @@ class ZoneActualites2 extends enicZone {
             'blogId'        => $blogId,
             'future'        => $future,
         ));
-        
+
         $tpl->assign('articles', $articles);
         $tpl->assign('listArticle', $articles);
-        
+
         $toReturn = $tpl->fetch('zone_actualites2.tpl');
 
-        if ($cache)
-        {
+        if ($cache) {
             //_dump('CopixCache::write');
             CopixCache::write($cacheId, $toReturn, 'welcome');
         }
-        
+
         return true;
     }
 
 }
 
-?>

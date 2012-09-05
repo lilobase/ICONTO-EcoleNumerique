@@ -12,27 +12,27 @@ phpCAS::setDebug();
 // Initialize phpCAS
 phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
 
-// For production use set the CA certificate that is the issuer of the cert 
+// For production use set the CA certificate that is the issuer of the cert
 // on the CAS server and uncomment the line below
 // phpCAS::setCasServerCACert($cas_server_ca_cert_path);
 
-// For quick testing you can disable SSL validation of the CAS server. 
-// THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION. 
-// VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL! 
+// For quick testing you can disable SSL validation of the CAS server.
+// THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION.
+// VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL!
 phpCAS::setNoCasServerValidation();
 
 // force CAS authentication
 phpCAS::forceAuthentication();
 
 if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-	header('HTTP/1.1 400 Bad Request');
-	print "<h1>I only respond to POST requests. This is a ".$_SERVER['REQUEST_METHOD']." request.</h1>";
-	exit;
+    header('HTTP/1.1 400 Bad Request');
+    print "<h1>I only respond to POST requests. This is a ".$_SERVER['REQUEST_METHOD']." request.</h1>";
+    exit;
 }
 if (empty($_POST['favorite_color'])) {
-	header('HTTP/1.1 400 Bad Request');
-	print '<h1>You must post a <strong>favorite_color</strong>.</h1>';
-	exit;
+    header('HTTP/1.1 400 Bad Request');
+    print '<h1>You must post a <strong>favorite_color</strong>.</h1>';
+    exit;
 }
 
 print '<h1>I am a service that responds to POST requests.</h1>';
@@ -48,6 +48,6 @@ print '<h1>Your favorite color is '.htmlentities($_POST['favorite_color']).'</h1
 
 // increment the number of requests of the session and print it
 if (!isset($_SESSION['n']))
-	$_SESSION['n'] = 0;
+    $_SESSION['n'] = 0;
 echo '<p>request #'.(++$_SESSION['n']).'</p>';
 

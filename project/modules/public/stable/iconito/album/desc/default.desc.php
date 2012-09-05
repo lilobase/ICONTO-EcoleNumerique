@@ -44,4 +44,3 @@ $popup = new CopixAction ('Album', 'popup');
 $getpopup = new CopixAction ('Album', 'getPopup');
 
 $default    = & $list;
-?>

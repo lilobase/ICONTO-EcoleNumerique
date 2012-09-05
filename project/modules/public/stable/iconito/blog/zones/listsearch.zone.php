@@ -10,17 +10,17 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class ZoneListSearch extends CopixZone {
-   function _createContent (&$toReturn) {
-
+class ZoneListSearch extends CopixZone
+{
+   public function _createContent (&$toReturn)
+   {
       $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
-      
+
       $tpl->assign ('blog' , $blog);
 
       $toReturn = $tpl->fetch('listsearch.tpl');
       return true;
    }
 }
-?>

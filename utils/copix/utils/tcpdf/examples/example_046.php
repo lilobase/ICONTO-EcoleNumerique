@@ -3,12 +3,12 @@
 // File name   : example_046.php
 // Begin       : 2009-02-28
 // Last Update : 2009-03-18
-// 
+//
 // Description : Example 046 for TCPDF class
 //               Text Hyphenation
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -34,7 +34,7 @@ require_once('../config/lang/eng.php');
 require_once('../tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -62,10 +62,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -79,12 +79,12 @@ $pdf->AddPage();
 You can use an external class to automatically hyphens the text by adding the SHY characters;
 
 Unicode Data for SHY:
-	Name : SOFT HYPHEN, commonly abbreviated as SHY
-	HTML Entity (decimal): &#173;
-	HTML Entity (hex): &#xad;
-	HTML Entity (named): &shy;
-	How to type in Microsoft Windows: [Alt +00AD] or [Alt 0173]
-	UTF-8 (hex): 0xC2 0xAD (c2ad)
+    Name : SOFT HYPHEN, commonly abbreviated as SHY
+    HTML Entity (decimal): &#173;
+    HTML Entity (hex): &#xad;
+    HTML Entity (named): &shy;
+    How to type in Microsoft Windows: [Alt +00AD] or [Alt 0173]
+    UTF-8 (hex): 0xC2 0xAD (c2ad)
 */
 
 // html text with soft hyphens (&shy;)
@@ -99,6 +99,5 @@ $pdf->writeHTMLCell(50, 0, '', '', $html, 1, 1, 0, true, 'J');
 $pdf->Output('example_046.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

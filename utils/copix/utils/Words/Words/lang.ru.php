@@ -51,29 +51,29 @@ class Numbers_Words_ru extends Numbers_Words
      * @var string
      * @access public
      */
-    var $locale      = 'ru';
+    public $locale      = 'ru';
 
     /**
      * Language name in English
      * @var string
      * @access public
      */
-    var $lang        = 'Russian';
+    public $lang        = 'Russian';
 
     /**
      * Native language name
      * @var string
      * @access public
      */
-    var $lang_native = 'Русский';
-    
+    public $lang_native = 'Русский';
+
     /**
      * The word for the minus sign
      * @var string
      * @access private
      */
-    var $_minus = 'минус'; // minus sign
-    
+    public $_minus = 'минус'; // minus sign
+
     /**
      * The sufixes for exponents (singular)
      * Names partly based on:
@@ -83,7 +83,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_exponent = array(
+    public $_exponent = array(
         0 => '',
         6 => 'миллион',
         9 => 'миллиард',
@@ -192,7 +192,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_teens = array(
+    public $_teens = array(
         11=>'одиннадцать',
         12=>'двенадцать',
         13=>'тринадцать',
@@ -209,7 +209,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_tens = array(
+    public $_tens = array(
         2=>'двадцать',
         3=>'тридцать',
         4=>'сорок',
@@ -225,7 +225,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_hundreds = array(
+    public $_hundreds = array(
         1=>'сто',
         2=>'двести',
         3=>'триста',
@@ -238,12 +238,12 @@ class Numbers_Words_ru extends Numbers_Words
         );
 
     /**
-     * The array containing the digits 
+     * The array containing the digits
      * for neutral, male and female
      * @var array
      * @access private
      */
-    var $_digits = array(
+    public $_digits = array(
         array('ноль', 'одно', 'два', 'три', 'четыре','пять', 'шесть', 'семь', 'восемь', 'девять'),
         array('ноль', 'один', 'два', 'три', 'четыре','пять', 'шесть', 'семь', 'восемь', 'девять'),
         array('ноль', 'одна', 'две', 'три', 'четыре','пять', 'шесть', 'семь', 'восемь', 'девять')
@@ -254,7 +254,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     /**
      * The currency names (based on the below links,
@@ -266,9 +266,9 @@ class Numbers_Words_ru extends Numbers_Words
      * @link http://www.cofe.ru/Finance/money.asp Currencies names
      * @access private
      */
-    var $_currency_names = array(
+    public $_currency_names = array(
       'ALL' => array(
-                array(1,'лек','лека','леков'), 
+                array(1,'лек','лека','леков'),
                 array(2,'киндарка','киндарки','киндарок')
                ),
       'AUD' => array(
@@ -276,15 +276,15 @@ class Numbers_Words_ru extends Numbers_Words
                 array(1,'цент','цента','центов')
                ),
       'BGN' => array(
-                array(1,'лев','лева','левов'), 
+                array(1,'лев','лева','левов'),
                 array(2,'стотинка','стотинки','стотинок')
                ),
       'BRL' => array(
-                array(1,'бразильский реал','бразильских реала','бразильских реалов'), 
+                array(1,'бразильский реал','бразильских реала','бразильских реалов'),
                 array(1,'сентаво','сентаво','сентаво')
                ),
       'BYR' => array(
-                array(1,'белорусский рубль','белорусских рубля','белорусских рублей'), 
+                array(1,'белорусский рубль','белорусских рубля','белорусских рублей'),
                 array(2,'копейка','копейки','копеек')
                ),
       'CAD' => array(
@@ -415,7 +415,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @var string
      * @access public
      */
-    var $def_currency = 'RUB'; // Russian rouble
+    public $def_currency = 'RUB'; // Russian rouble
 
     // }}}
     // {{{ toWords()
@@ -434,7 +434,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @access private
      * @author Andrey Demenev <demenev@on-line.jar.ru>
      */
-    function toWords($num, $gender = 1) 
+    public function toWords($num, $gender = 1)
     {
         return $this->_toWordsWithCase($num, $dummy, $gender);
     }
@@ -455,13 +455,13 @@ class Numbers_Words_ru extends Numbers_Words
      * @access private
      * @author Andrey Demenev <demenev@on-line.jar.ru>
      */
-    function _toWordsWithCase($num, &$case, $gender = 1)
+    public function _toWordsWithCase($num, &$case, $gender = 1)
     {
       $ret = '';
       $case = 3;
-      
+
       $num = trim($num);
-      
+
       $sign = "";
       if (substr($num, 0, 1) == '-') {
         $sign = $this->_minus . $this->_sep;
@@ -471,9 +471,7 @@ class Numbers_Words_ru extends Numbers_Words
       while (strlen($num) % 3) $num = '0' . $num;
       if ($num == 0 || $num == '') {
         $ret .= $this->_digits[$gender][0];
-      }
-      
-      else {
+      } else {
         $power = 0;
         while ($power < strlen($num)) {
             if (!$power) {
@@ -531,9 +529,9 @@ class Numbers_Words_ru extends Numbers_Words
      * @access private
      * @author Andrey Demenev <demenev@on-line.jar.ru>
      */
-    function _groupToWords($num, $gender, &$case)
+    public function _groupToWords($num, $gender, &$case)
     {
-      $ret = '';        
+      $ret = '';
       $case = 3;
       if ((int)$num == 0) {
           $ret = '';
@@ -597,7 +595,7 @@ class Numbers_Words_ru extends Numbers_Words
      * @access public
      * @author Andrey Demenev <demenev@on-line.jar.ru>
      */
-    function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
+    public function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
     {
         $int_curr = strtoupper($int_curr);
         if (!isset($this->_currency_names[$int_curr])) {
@@ -621,4 +619,3 @@ class Numbers_Words_ru extends Numbers_Words
 
 }
 
-?>

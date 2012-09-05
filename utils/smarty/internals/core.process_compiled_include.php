@@ -34,4 +34,3 @@ function smarty_core_process_compiled_include($params, &$smarty)
     return $_return;
 }
 
-?>

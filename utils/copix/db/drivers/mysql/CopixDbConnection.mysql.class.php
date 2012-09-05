@@ -10,40 +10,43 @@
 
 /**
  * Classe de connexion à oracle en utilisant drivers MySQl
- * 
+ *
  * @package     copix
  * @subpackage  db
  */
-class CopixDBConnectionMySQL extends CopixDBConnection {
+class CopixDBConnectionMySQL extends CopixDBConnection
+{
     /**
      * Identifiant de connexion à la base MySQL.
      */
     private $_ct = false;
-    
+
     /**
      * Construction de la connexion
      * @todo prendre en charge les options spécifiques au driver
      * @param   CopixDBProfile  $pProfil    le profil de connexion à utiliser pour se connecter à la base de donées.
      */
-    public function __construct ($pProfil){
+    public function __construct ($pProfil)
+    {
         parent::__construct ($pProfil);
-        
+
         $parts = $this->_profil->getConnectionStringParts ();
-        
-        $parts['host'] = isset($parts['host']) ? $parts['host'] : "localhost";  
-       
+
+        $parts['host'] = isset($parts['host']) ? $parts['host'] : "localhost";
+
         if (!($this->_ct = mysql_connect ($parts['host'], $this->_profil->getUser (), $this->_profil->getPassword (), true))) {
-        	throw new CopixDBException (mysql_error ());    
+            throw new CopixDBException (mysql_error ());
         }
         if(!mysql_select_db ($parts['dbname'], $this->_ct)) {
             throw new CopixDBException (mysql_error ($this->_ct));
         }
     }
-    
+
     /**
      * Analyse la requète pour qu'elle passe sans encombre dans le driver MySQL
      */
-    protected function _parseQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null){
+    protected function _parseQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null)
+    {
        $toReturn = parent::_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
         //only for select query
         if ($toReturn['isSelect'] && ($pOffset !== null || $pCount !== null)){
@@ -52,9 +55,9 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
             if ($pCount === null){
                 $pCount = $this->_getMaxCount ();
             }
-            
+
             $pOffset = intval ($pOffset);
-            $pCount  = intval ($pCount);            
+            $pCount  = intval ($pCount);
 
             $toReturn['query'] = $toReturn['query']." LIMIT $pOffset, $pCount";;
             $toReturn['offset'] = true;
@@ -64,14 +67,15 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
         if (! $toReturn ['isSelect']){
             $toReturn['isSelect'] = (stripos (trim ($pQueryString), 'SHOW') === 0) || (stripos (trim ($pQueryString), 'DESCRIBE') === 0);
         }
-        
+
         return $toReturn;
     }
-    
+
     /**
      * La liste des tables
      */
-    public function getTableList () {
+    public function getTableList ()
+    {
         $results   = $this->doQuery ('SHOW TABLES');
         if (count ($results) == 0) {
             return array();
@@ -84,11 +88,12 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
         }
         return $toReturn;
     }
-    
+
     /**
      * Description d'une table
      */
-    public function getFieldList ($pTableName) {
+    public function getFieldList ($pTableName)
+    {
         $sql = "DESCRIBE $pTableName";
         $result = $this->doQuery ($sql);
         $toReturn = array();
@@ -117,7 +122,7 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
                     } else {
                         $length = eregi_replace("^$type\(", '', $length);
                         $length = eregi_replace('\)$', '', trim ($length));
-                    }                    
+                    }
                 }
                 if ($length == $type) {
                     $length = '';
@@ -156,7 +161,7 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
         }
         return $toReturn;
     }
-    
+
     /**
      * Exécution d'une requête de base de données
      * @param   string  $pQueryString   la requête à exécuter
@@ -165,15 +170,16 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
      * @param   int     $pCount         le nombre d'enregistrements que l'on souhaite récupérer à partir de l'offset
      * @return  array
      */
-    public function doQuery ($pQueryString, $pParams = array (), $pOffset = null, $pCount = null){
+    public function doQuery ($pQueryString, $pParams = array (), $pOffset = null, $pCount = null)
+    {
         $resultsOfQueryParsing = $this->_parseQuery ($pQueryString, $pParams, $pOffset, $pCount);
         $pQueryString = $resultsOfQueryParsing['query'];
-        
+
         _log ($pQueryString.var_export ($pParams, true), 'query', CopixLog::INFORMATION);
-        
+
         // Création du statement
         $stmt = $this->_prepareStatement ($pQueryString);
-        
+
         //On trie le tableau de paramètre en fonction de la taille (workaround pour éviter les conflits de binds)
         $pParams = $this->_sortParams ($pParams);
 
@@ -183,10 +189,10 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
                 $param = isset ($param['value']) ? $param['value'] : null;
             }
             if (($this->_bindByName ($stmt, $name, $param)) == false ){
-	            throw new CopixDBException ("Cannot bind ['$name'] in Query ['".$stmt->query."']");
+                throw new CopixDBException ("Cannot bind ['$name'] in Query ['".$stmt->query."']");
             }
         }
-        
+
         //on exécute la requête
         $result = mysql_query ($stmt->query, $this->_ct);
         if (!$result) {
@@ -204,7 +210,7 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
         }
         return $results;
     }
-    
+
     /**
      * Exécution d'une requête de base de données
      * @param   string  $pQueryString   la requête à exécuter
@@ -214,36 +220,39 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
      * @return  array
      * @TODO implémenter les iterateurs avec ce driver mysql
      */
-    public function iDoQuery ($pQueryString, $pParams = array (), $pOffset = null, $pCount = null){
+    public function iDoQuery ($pQueryString, $pParams = array (), $pOffset = null, $pCount = null)
+    {
         return $this->doQuery ($pQueryString, $pParams, $pOffset, $pCount);
-    }    
-    
+    }
+
     /**
      * Prépare la requête pour execution
-     * 
+     *
      * @param string La requête
-     * 
-     * @return stdClass 
+     *
+     * @return stdClass
      */
-    private function _prepareStatement ($query) {
+    private function _prepareStatement ($query)
+    {
         $statement   = new stdClass ();
         $statement->query = $query;
         return $statement;
     }
-    
+
     /**
      * Remplace les parametres de la requète par le nom
      */
-    private function _bindByName ($stmt, $name, $value) {
+    private function _bindByName ($stmt, $name, $value)
+    {
         $oldquery = $stmt->query;
         if($name[0] !== ':') {
             $name = ':' . $name;
         }
 
         if ($value === null){
-			$stmt->query = str_replace($name, ' NULL ', $stmt->query);        	
+            $stmt->query = str_replace($name, ' NULL ', $stmt->query);
         }else{
-        	$stmt->query = str_replace($name, '\''. mysql_real_escape_string($value) . '\'', $stmt->query);
+            $stmt->query = str_replace($name, '\''. mysql_real_escape_string($value) . '\'', $stmt->query);
         }
 
         if($oldquery == $stmt->query) {
@@ -251,12 +260,13 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
         }
         return true;
     }
-    
+
     /**
      * Indique si le driver est disponible
      * @return bool
      */
-    public static function isAvailable (){
+    public static function isAvailable ()
+    {
         if (!function_exists ('mysql_connect')){
             return false;
         }
@@ -266,38 +276,42 @@ class CopixDBConnectionMySQL extends CopixDBConnection {
     /**
      * Valide une transaction en cours sur la connection
      */
-    public function commit (){
+    public function commit ()
+    {
         mysql_query ("COMMIT", $this->_ct);
     }
-    
+
     /**
-     * Annule une transaction sur la connection 
+     * Annule une transaction sur la connection
      */
-    public function rollback (){
+    public function rollback ()
+    {
         mysql_query ("ROLLBACK", $this->_ct);
     }
-    
+
     /**
      * Demarre une transaction sur la connection donnée
      */
-    public function begin (){
+    public function begin ()
+    {
         mysql_query ("BEGIN", $this->_ct);
     }
 
     /**
      * retourne le dernier identifiant généré (à partir d'une séquence)
-     * @return int 
+     * @return int
      */
-    public function lastId ($pFromSequence = null){
+    public function lastId ($pFromSequence = null)
+    {
         return mysql_insert_id ($this->_ct);
     }
-    
+
     /**
-	* Tri les paramètres 
-	*/
-    private function _sortParams ($pParams){
-    	ksort ($pParams);
-    	return array_reverse ($pParams);
+    * Tri les paramètres
+    */
+    private function _sortParams ($pParams)
+    {
+        ksort ($pParams);
+        return array_reverse ($pParams);
     }
 }
-?>

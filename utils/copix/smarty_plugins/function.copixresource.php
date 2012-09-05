@@ -14,15 +14,15 @@
 *
 * Input:    path=le/chemin/de/la/ressource.ext
 */
-function smarty_function_copixresource($params, &$me) {
-	$toReturn = _resource ($params['path']);
-	
-	$assign = isset ($params['assign']) ? $params['assign'] : null;
-	if (strlen($assign) > 0){
-		$me->assign($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+function smarty_function_copixresource($params, &$me)
+{
+    $toReturn = _resource ($params['path']);
+
+    $assign = isset ($params['assign']) ? $params['assign'] : null;
+    if (strlen($assign) > 0){
+        $me->assign($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

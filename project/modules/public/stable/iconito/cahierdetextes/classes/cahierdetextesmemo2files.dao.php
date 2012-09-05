@@ -5,10 +5,10 @@
 * @subpackage Cahierdetextes
 */
 
-class DAORecordCahierDeTextesMemo2files {
-  
+class DAORecordCahierDeTextesMemo2files
+{
 }
 
-class DAOCahierDeTextesMemo2files {
-  
+class DAOCahierDeTextesMemo2files
+{
 }

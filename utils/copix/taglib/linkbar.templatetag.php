@@ -12,14 +12,16 @@
  * @package		copix
  * @subpackage	taglib
  */
-class TemplateTagLinkBar extends CopixTemplateTag {
-    public function process($pParams) {
+class TemplateTagLinkBar extends CopixTemplateTag
+{
+    public function process($pParams)
+    {
         extract($pParams);
         if (empty ($pageNum)){
-        	$pageNum = 1;
+            $pageNum = 1;
         }
         if (empty ($nbTotalPage)){
-        	$nbTotalPage = 1;
+            $nbTotalPage = 1;
         }
 
         if (empty ($url)){
@@ -87,4 +89,3 @@ class TemplateTagLinkBar extends CopixTemplateTag {
         return $toReturn;
     }
 }
-?>

@@ -30,7 +30,7 @@
          />
 
   <property name="title_test"
-         fieldName = "titre_test"  
+         fieldName = "titre_test"
          captioni18n="dao.copixtestmain.fields.title_test"
          type="string"
          maxlength="255"
@@ -46,15 +46,15 @@
   <property name="date_test"
          captioni18n="dao.copixtestmain.fields.date_test"
          type="varchardate"
-         />         
+         />
 
   <property name="version_test"
          caption="version"
          type="version"
-         />         
+         />
 
    </properties>
-   <methods> 
+   <methods>
       <method name="findByTitleOrderById" type="select">
          <parameters>
             <parameter name="title" />
@@ -78,5 +78,5 @@
             <orderitem property="title_test" way="asc" />
          </order>
       </method>
-   </methods>    
+   </methods>
 </daodefinition>

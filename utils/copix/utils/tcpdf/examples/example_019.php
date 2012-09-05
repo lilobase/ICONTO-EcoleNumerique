@@ -3,12 +3,12 @@
 // File name   : example_019.php
 // Begin       : 2008-03-07
 // Last Update : 2009-04-16
-// 
+//
 // Description : Example 019 for TCPDF class
 //               Non unicode with alternative config file
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -67,7 +67,7 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 // set some language dependent data:
 $lg = Array();
@@ -77,7 +77,7 @@ $lg['a_meta_language'] = 'en';
 $lg['w_page'] = 'page';
 
 //set some language-dependent strings
-$pdf->setLanguageArray($lg);  
+$pdf->setLanguageArray($lg);
 
 // ---------------------------------------------------------
 
@@ -101,6 +101,5 @@ $pdf->MultiCell(80, 0, 'Cras eros leo, porttitor porta, accumsan fermentum, orna
 $pdf->Output('example_019.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

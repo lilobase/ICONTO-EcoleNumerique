@@ -11,8 +11,7 @@
  */
 
 
-class Grvilles {
-
+class Grvilles
+{
 }
 
-?>

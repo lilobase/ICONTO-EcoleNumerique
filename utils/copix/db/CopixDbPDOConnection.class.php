@@ -13,202 +13,210 @@
  * @package copix
  * @subpackage db
  */
-abstract class CopixDBPDOConnection extends CopixDBConnection {
-	/**
-	 * L'objet PDO associé à la connexion
-	 * @var PDO
-	 */
-	protected $_pdo = null;
+abstract class CopixDBPDOConnection extends CopixDBConnection
+{
+    /**
+     * L'objet PDO associé à la connexion
+     * @var PDO
+     */
+    protected $_pdo = null;
 
-	/**
-	 * Constructeur
-	 * @param	CopixDBProfil	$pProfil	le profil de connexion à utiliser
-	 */
-	public function __construct ($pProfil){
-		parent::__construct ($pProfil);
-		try {
-			$this->_pdo = new PDO (substr ($pProfil->getConnectionString (), 4), $pProfil->getUser (), $pProfil->getPassword (), $pProfil->getOptions ());
-		}catch (PDOException $e){
-			throw new CopixDBException ($e->getMessage ());
-		}
-	}
+    /**
+     * Constructeur
+     * @param	CopixDBProfil	$pProfil	le profil de connexion à utiliser
+     */
+    public function __construct ($pProfil)
+    {
+        parent::__construct ($pProfil);
+        try {
+            $this->_pdo = new PDO (substr ($pProfil->getConnectionString (), 4), $pProfil->getUser (), $pProfil->getPassword (), $pProfil->getOptions ());
+        }catch (PDOException $e){
+            throw new CopixDBException ($e->getMessage ());
+        }
+    }
 
-	/**
-	 * Lancement d'une requête SQL
-	 * @param	string	$pQueryString	la requête à lancer
-	 * @param	array	$pParameters	tableau de paramètres
-	 * @param	int		$pOffset		l'offset à partir duquel nous allons lire les résultats => Si null, pas d'offset 
-	 * @param	int		$pCount			le nombre d'élément que l'on souhaites récupérer depuis la base. Si null => le maximum
-	 */
-	public function doQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null){
-		$resultsOfQueryParsing = $this->_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
-		CopixLog::log ($resultsOfQueryParsing['query'].var_export ($pParameters, true), "query", CopixLog::INFORMATION);
-		$GLOBALS['QueryCount']++;
-		if ($resultsOfQueryParsing['isSelect'] && ($resultsOfQueryParsing['offset'] === false || $resultsOfQueryParsing['count'] === false)){
-			//Si nous sommes dans un select et que l'offset et le count ne sont pas gérés autoamtiquement, alors il nous faut un curseur "movable"
-			//TODO: lorsque les curseurs movable seront supportés, mettre ça
-			//         $stmt = $this->_pdo->prepare ($resultsOfQueryParsing['query'], array(PDO::ATTR_CURSOR, PDO::CURSOR_SCROLL));
-			$stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
-		}else{
-			$stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
-		}
+    /**
+     * Lancement d'une requête SQL
+     * @param	string	$pQueryString	la requête à lancer
+     * @param	array	$pParameters	tableau de paramètres
+     * @param	int		$pOffset		l'offset à partir duquel nous allons lire les résultats => Si null, pas d'offset
+     * @param	int		$pCount			le nombre d'élément que l'on souhaites récupérer depuis la base. Si null => le maximum
+     */
+    public function doQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null)
+    {
+        $resultsOfQueryParsing = $this->_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
+        CopixLog::log ($resultsOfQueryParsing['query'].var_export ($pParameters, true), "query", CopixLog::INFORMATION);
+        $GLOBALS['QueryCount']++;
+        if ($resultsOfQueryParsing['isSelect'] && ($resultsOfQueryParsing['offset'] === false || $resultsOfQueryParsing['count'] === false)){
+            //Si nous sommes dans un select et que l'offset et le count ne sont pas gérés autoamtiquement, alors il nous faut un curseur "movable"
+            //TODO: lorsque les curseurs movable seront supportés, mettre ça
+            //         $stmt = $this->_pdo->prepare ($resultsOfQueryParsing['query'], array(PDO::ATTR_CURSOR, PDO::CURSOR_SCROLL));
+            $stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
+        }else{
+            $stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
+        }
 
-		if (! $stmt){
-			throw new CopixDBException ('Impossible de préparer la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $this->_pdo->errorInfo ()));
-		}
+        if (! $stmt){
+            throw new CopixDBException ('Impossible de préparer la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $this->_pdo->errorInfo ()));
+        }
 
-		if (! $stmt->execute ($pParameters)){
-			throw new CopixDBException ('Impossible d\'exécuter la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $stmt->errorInfo ()));
-		}
-		if (! $resultsOfQueryParsing['isSelect']){
-			return $stmt->rowCount ();
-		}
+        if (! $stmt->execute ($pParameters)){
+            throw new CopixDBException ('Impossible d\'exécuter la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $stmt->errorInfo ()));
+        }
+        if (! $resultsOfQueryParsing['isSelect']){
+            return $stmt->rowCount ();
+        }
 
-		@$stmt->setFetchMode(PDO::FETCH_CLASS, 'StdClass');
-		if ($resultsOfQueryParsing['offset'] && $resultsOfQueryParsing['count']){
-			return $stmt->fetchAll ();
-		}else{
-			$results = array ();
+        @$stmt->setFetchMode(PDO::FETCH_CLASS, 'StdClass');
+        if ($resultsOfQueryParsing['offset'] && $resultsOfQueryParsing['count']){
+            return $stmt->fetchAll ();
+        }else{
+            $results = array ();
 
-			//hack pour déplacer à l'offset donné.
-			$row = true;
-			$pLeft = $pCount;
-				
-			while (($pLeft > 0 || $pLeft === null) && ($row !== false)){
-				if ($row = $stmt->fetch ()){
-					if ($pOffset == 0){
-						$results[] = $row;
-						if ($pLeft !== null){
-							$pLeft--;
-						}
-					}else{
-						$pOffset--;
-					}
-				}
-			}
-			/*
+            //hack pour déplacer à l'offset donné.
+            $row = true;
+            $pLeft = $pCount;
 
-			for ($toFetch = $pCount, $row = $stmt->fetch(PDO::FETCH_CLASS, PDO::FETCH_ORI_REL, $pOffset === null ? 0 : $pOffset);
-			$row !== false && ($toFetch-- > 0 || $toFetch === null);
-			$row = $stmt->fetch()){
-			$results[] = $row;
-			}
-			*
-			*/
-			$stmt->closeCursor ();
-			return $results;
-		}
-	}
-	
-	/**
-	 * Lancement d'une requête SQL
-	 * @param	string	$pQueryString	la requête à lancer
-	 * @param	array	$pParameters	tableau de paramètres
-	 * @param	int		$pOffset		l'offset à partir duquel nous allons lire les résultats => Si null, pas d'offset 
-	 * @param	int		$pCount			le nombre d'élément que l'on souhaites récupérer depuis la base. Si null => le maximum
-	 */
-	public function iDoQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null){
-			$resultsOfQueryParsing = $this->_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
-		CopixLog::log ($resultsOfQueryParsing['query'].var_export ($pParameters, true), "query", CopixLog::INFORMATION);
+            while (($pLeft > 0 || $pLeft === null) && ($row !== false)){
+                if ($row = $stmt->fetch ()){
+                    if ($pOffset == 0){
+                        $results[] = $row;
+                        if ($pLeft !== null){
+                            $pLeft--;
+                        }
+                    }else{
+                        $pOffset--;
+                    }
+                }
+            }
+            /*
 
-		if ($resultsOfQueryParsing['isSelect'] && ($resultsOfQueryParsing['offset'] === false || $resultsOfQueryParsing['count'] === false)){
-			//Si nous sommes dans un select et que l'offset et le count ne sont pas gérés autoamtiquement, alors il nous faut un curseur "movable"
-			//TODO: lorsque les curseurs movable seront supportés, mettre ça
-			//         $stmt = $this->_pdo->prepare ($resultsOfQueryParsing['query'], array(PDO::ATTR_CURSOR, PDO::CURSOR_SCROLL));
-			$stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
-		}else{
-			$stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
-		}
+            for ($toFetch = $pCount, $row = $stmt->fetch(PDO::FETCH_CLASS, PDO::FETCH_ORI_REL, $pOffset === null ? 0 : $pOffset);
+            $row !== false && ($toFetch-- > 0 || $toFetch === null);
+            $row = $stmt->fetch()){
+            $results[] = $row;
+            }
+            *
+            */
+            $stmt->closeCursor ();
+            return $results;
+        }
+    }
 
-		if (! $stmt){
-			throw new CopixDBException ('Impossible de préparer la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $this->_pdo->errorInfo ()));
-		}
+    /**
+     * Lancement d'une requête SQL
+     * @param	string	$pQueryString	la requête à lancer
+     * @param	array	$pParameters	tableau de paramètres
+     * @param	int		$pOffset		l'offset à partir duquel nous allons lire les résultats => Si null, pas d'offset
+     * @param	int		$pCount			le nombre d'élément que l'on souhaites récupérer depuis la base. Si null => le maximum
+     */
+    public function iDoQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null)
+    {
+            $resultsOfQueryParsing = $this->_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
+        CopixLog::log ($resultsOfQueryParsing['query'].var_export ($pParameters, true), "query", CopixLog::INFORMATION);
 
-		if (! $stmt->execute ($pParameters)){
-			throw new CopixDBException ('Impossible d\'exécuter la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $stmt->errorInfo ()));
-		}
-		if (! $resultsOfQueryParsing['isSelect']){
-			return $stmt->rowCount ();
-		}
+        if ($resultsOfQueryParsing['isSelect'] && ($resultsOfQueryParsing['offset'] === false || $resultsOfQueryParsing['count'] === false)){
+            //Si nous sommes dans un select et que l'offset et le count ne sont pas gérés autoamtiquement, alors il nous faut un curseur "movable"
+            //TODO: lorsque les curseurs movable seront supportés, mettre ça
+            //         $stmt = $this->_pdo->prepare ($resultsOfQueryParsing['query'], array(PDO::ATTR_CURSOR, PDO::CURSOR_SCROLL));
+            $stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
+        }else{
+            $stmt = $this->_pdo->prepare($resultsOfQueryParsing['query']);
+        }
 
-		@$stmt->setFetchMode(PDO::FETCH_CLASS, 'StdClass');
-		if ($resultsOfQueryParsing['offset'] && $resultsOfQueryParsing['count']){
-			return new CopixDBPDOResultSetIterator ($stmt);
-		}else{
-			$results = array ();
+        if (! $stmt){
+            throw new CopixDBException ('Impossible de préparer la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $this->_pdo->errorInfo ()));
+        }
 
-			//hack pour déplacer à l'offset donné.
-			$row = true;
-			$pLeft = $pCount;
-				
-			while (($pLeft > 0 || $pLeft === null) && ($row !== false)){
-				if ($row = $stmt->fetch ()){
-					if ($pOffset == 0){
-						$results[] = $row;
-						if ($pLeft !== null){
-							$pLeft--;
-						}
-					}else{
-						$pOffset--;
-					}
-				}
-			}
-			/*
+        if (! $stmt->execute ($pParameters)){
+            throw new CopixDBException ('Impossible d\'exécuter la requête ['.$resultsOfQueryParsing['query'].']'.serialize ($pParameters).implode ('-', $stmt->errorInfo ()));
+        }
+        if (! $resultsOfQueryParsing['isSelect']){
+            return $stmt->rowCount ();
+        }
 
-			for ($toFetch = $pCount, $row = $stmt->fetch(PDO::FETCH_CLASS, PDO::FETCH_ORI_REL, $pOffset === null ? 0 : $pOffset);
-			$row !== false && ($toFetch-- > 0 || $toFetch === null);
-			$row = $stmt->fetch()){
-			$results[] = $row;
-			}
-			*
-			*/
-			$stmt->closeCursor ();
-			return $results;
-		}
-	}
-	
-	/**
-	 * Dernier identifiant automatique affecté
-	 * @param	string	$pFromSequence	le nom de la séquence à utiliser pour récupérer l'identifiant
-	 * @return	int
-	 */
-	public function lastId ($pFromSequence = null){
-		if ($pFromSequence !== null){
-			return $this->_pdo->lastInsertId ($pFromSequence);
-		}
-		return $this->_pdo->lastInsertId ();
-	}
+        @$stmt->setFetchMode(PDO::FETCH_CLASS, 'StdClass');
+        if ($resultsOfQueryParsing['offset'] && $resultsOfQueryParsing['count']){
+            return new CopixDBPDOResultSetIterator ($stmt);
+        }else{
+            $results = array ();
 
-	/**
-	 * quote un élément 
-	 */
-	public function quote ($pString, $pCheckNull = true){
-		if ($pCheckNull){
-			return (is_null ($pString) ? 'NULL' : $this->_pdo->quote ($pString));
-		}else{
-			return $this->_pdo->quote ($pString);
-		}
-	}
+            //hack pour déplacer à l'offset donné.
+            $row = true;
+            $pLeft = $pCount;
 
-	/**
-	 * Valide une transaction en cours sur la connection
-	 */
-	public function commit (){
-		$this->_pdo->commit ();
-	}
+            while (($pLeft > 0 || $pLeft === null) && ($row !== false)){
+                if ($row = $stmt->fetch ()){
+                    if ($pOffset == 0){
+                        $results[] = $row;
+                        if ($pLeft !== null){
+                            $pLeft--;
+                        }
+                    }else{
+                        $pOffset--;
+                    }
+                }
+            }
+            /*
 
-	/**
-	 * Annule une transcation sur la connection
-	 */
-	public function rollback (){
-		$this->_pdo->rollback ();
-	}
+            for ($toFetch = $pCount, $row = $stmt->fetch(PDO::FETCH_CLASS, PDO::FETCH_ORI_REL, $pOffset === null ? 0 : $pOffset);
+            $row !== false && ($toFetch-- > 0 || $toFetch === null);
+            $row = $stmt->fetch()){
+            $results[] = $row;
+            }
+            *
+            */
+            $stmt->closeCursor ();
+            return $results;
+        }
+    }
 
-	/**
-	 * Demarre une transaction sur la connection donnée
-	 */
-	public function begin (){
-		$this->_pdo->beginTransaction ();
-	}
+    /**
+     * Dernier identifiant automatique affecté
+     * @param	string	$pFromSequence	le nom de la séquence à utiliser pour récupérer l'identifiant
+     * @return	int
+     */
+    public function lastId ($pFromSequence = null)
+    {
+        if ($pFromSequence !== null){
+            return $this->_pdo->lastInsertId ($pFromSequence);
+        }
+        return $this->_pdo->lastInsertId ();
+    }
+
+    /**
+     * quote un élément
+     */
+    public function quote ($pString, $pCheckNull = true)
+    {
+        if ($pCheckNull){
+            return (is_null ($pString) ? 'NULL' : $this->_pdo->quote ($pString));
+        }else{
+            return $this->_pdo->quote ($pString);
+        }
+    }
+
+    /**
+     * Valide une transaction en cours sur la connection
+     */
+    public function commit ()
+    {
+        $this->_pdo->commit ();
+    }
+
+    /**
+     * Annule une transcation sur la connection
+     */
+    public function rollback ()
+    {
+        $this->_pdo->rollback ();
+    }
+
+    /**
+     * Demarre une transaction sur la connection donnée
+     */
+    public function begin ()
+    {
+        $this->_pdo->beginTransaction ();
+    }
 }
-?>

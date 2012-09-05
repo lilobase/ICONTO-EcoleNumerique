@@ -139,7 +139,7 @@ class Zend_Validate_File_ImageSize extends Zend_Validate_Abstract
                     $options['maxheight'] = array_shift($argv);
                 }
             }
-        } else if (!is_array($options)) {
+        } elseif (!is_array($options)) {
             require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception ('Invalid options to validator provided');
         }

@@ -13,7 +13,8 @@
  * Generation d'un textarea
  *
  */
-function smarty_function_textarea($params, $me) {
+function smarty_function_textarea($params, $me)
+{
     if (isset ($params['assign'])) {
         $me->assign($params['assign'], _tag ('textarea', $params));
     }else {
@@ -21,4 +22,3 @@ function smarty_function_textarea($params, $me) {
     }
 }
 
-?>

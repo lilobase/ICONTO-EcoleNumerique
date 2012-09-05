@@ -14,71 +14,73 @@ _classInclude('sysutils|demo_tools');
 _classInclude('sysutils|admin');
 _classInclude('sysutils|cacheservices');
 
-class ActionGroupDemo extends CopixActionGroup {
+class ActionGroupDemo extends CopixActionGroup
+{
+    public function beforeAction ()
+    {
+        _currentUser()->assertCredential ('group:[current_user]');
 
-	public function beforeAction (){
-		_currentUser()->assertCredential ('group:[current_user]');
-    
     if (!Admin::canAdmin())
-			return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
+            return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 
-	}
-	
-	
+    }
+
+
   /**
    * Regarde si la démo est déjà installé
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2006/10/26
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2006/10/26
    */
-  function processDefault () {
-    
+  public function processDefault ()
+  {
     $errors = array();
 
     if ($errors)
       return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get()));
-    
-    $tpl = new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
-		$tplDemo = new CopixTpl ();
-		$tplDemo->assign ("installed", CopixConfig::get ('kernel|jeuEssaiInstalled'));
-		$tplDemo->assign ('demo_txt_install', CopixI18N::get ('sysutils|demo.txt.install'));
-		$tpl->assign ("MAIN", $tplDemo->fetch("demo_status.tpl"));
-		$tpl->assign ('MENU', Admin::getMenu('demo'));
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
 
-	}
-  
+    $tpl = new CopixTpl ();
+        $tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
+        $tplDemo = new CopixTpl ();
+        $tplDemo->assign ("installed", CopixConfig::get ('kernel|jeuEssaiInstalled'));
+        $tplDemo->assign ('demo_txt_install', CopixI18N::get ('sysutils|demo.txt.install'));
+        $tpl->assign ("MAIN", $tplDemo->fetch("demo_status.tpl"));
+        $tpl->assign ('MENU', Admin::getMenu('demo'));
+        return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+
+    }
+
   /**
    * Installe le jeu d'essai
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2006/10/26
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2006/10/26
    */
-  function processInstall () {
+  public function processInstall ()
+  {
     global $params;
     $db = new Demo_DB();
     $tools = new Demo_Tools();
     $db->extract_db_infos ();
     $db->db_connect ();
     $fileSQL = '../instal/demo/jeu_essai.sql';
-    
+
     $errors = array();
-    
+
     if (CopixConfig::get ('kernel|jeuEssaiInstalled') == 1)
       $errors[] = CopixI18N::get ('sysutils|demo.error.alreadyInstalled');
     elseif (!is_file($fileSQL))
       $errors[] = CopixI18N::get ('sysutils|demo.error.noFileSql');
-    
+
     if ($errors)
       return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get()));
 
-      
+
     $contents = file_get_contents ($fileSQL);
     $lines = explode (";\n", $contents);
-    
+
     $path = CopixUrl::getRequestedScriptPath ();
-    
+
     foreach ($lines as $line) {
       $line = trim($line);
       if ($line) {
@@ -96,24 +98,23 @@ class ActionGroupDemo extends CopixActionGroup {
     $tools->installFolder ('www/static/album/3_cf057489c9');
     $tools->installFolder ('www/static/album/4_c996b6cf13');
     $tools->installFolder ('www/static/prefs/avatar');
-    
+
     // Fin
     CopixConfig::set ('kernel|jeuEssaiInstalled', 1);
-    
+
     // Vidage de cache
     CacheServices::clearCache ();
-		CacheServices::clearConfDB ();
-    
+        CacheServices::clearConfDB ();
+
     $tpl = new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
-		$tplDemo = new CopixTpl ();
-		//$tplDemo->assign ("toto", 1);
-		$tplDemo->assign ('demo_txt_installed', CopixI18N::get ('sysutils|demo.txt.installed'));
-		$tplDemo->assign ('demo_txt_accounts', CopixI18N::get ('sysutils|demo.txt.accounts'));
-		
-		$tpl->assign ("MAIN", $tplDemo->fetch("demo_install.tpl"));
-		$tpl->assign ('MENU', Admin::getMenu('demo'));
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+        $tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|demo.titlePage'));
+        $tplDemo = new CopixTpl ();
+        //$tplDemo->assign ("toto", 1);
+        $tplDemo->assign ('demo_txt_installed', CopixI18N::get ('sysutils|demo.txt.installed'));
+        $tplDemo->assign ('demo_txt_accounts', CopixI18N::get ('sysutils|demo.txt.accounts'));
+
+        $tpl->assign ("MAIN", $tplDemo->fetch("demo_install.tpl"));
+        $tpl->assign ('MENU', Admin::getMenu('demo'));
+        return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
   }
 }
-?>

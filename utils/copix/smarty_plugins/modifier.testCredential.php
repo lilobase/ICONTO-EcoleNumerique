@@ -10,11 +10,11 @@
 
 /**
  * Plugin smarty type modifier
- * Purpose: test credential   
+ * Purpose: test credential
  * Input: var
- * Output : CopixAuth::getCurrentUser()->testCredential (var)  
+ * Output : CopixAuth::getCurrentUser()->testCredential (var)
  */
-function smarty_modifier_testCredential ($string) {
+function smarty_modifier_testCredential ($string)
+{
     return CopixAuth::getCurrentUser()->testCredential ($string);
 }
-?>

@@ -12,28 +12,30 @@
  * @package copix
  * @subpackage ldap
  */
-class CopixLDAPEntry {
+class CopixLDAPEntry
+{
     /**
     * the properties list
     */
-    var $_properties = array ();
+    public $_properties = array ();
 
     /**
     * The result set identifier
     * @var resource
     */
-    var $_rsID = null;
+    public $_rsID = null;
 
     /**
     * the entry ID
     * @var resource
     */
-    var $_entryID = null;
+    public $_entryID = null;
 
     /**
     * Initialize attributes values of the given entry
     */
-    private function _initValues ($array){
+    private function _initValues ($array)
+    {
         foreach ($array as $key=>$value){
             if ((! is_numeric ($key)) && ($key != 'count')){
                 if (isset ($value['count']) && ($value['count'] > 1)){
@@ -57,7 +59,8 @@ class CopixLDAPEntry {
     * @param mixed  $value the value to append. If an array is given, adds each attribute
     * @return int the number of values added to the attribute
     */
-    public function addAttributeValue ($attribute, $value){
+    public function addAttributeValue ($attribute, $value)
+    {
         $added = 0;
         if (is_array ($value)){
             foreach ($value as $key=>$valueToSet){
@@ -74,7 +77,8 @@ class CopixLDAPEntry {
     * @param string $attribute le nom de l'attribute
     * @param int $index l'index à supprimer
     */
-    public function deleteAttributeValue ($attribute ,$index){
+    public function deleteAttributeValue ($attribute ,$index)
+    {
         if (isset ($this->$attribute)){
             if (is_array ($this->$attribute)) {
                 array_splice ($this->$attribute, $index, 1);
@@ -94,7 +98,8 @@ class CopixLDAPEntry {
     * @param mixed but array the value to add
     * @return booleans added or not
     */
-    private function _addSingleAttributeValue ($attribute, $value){
+    private function _addSingleAttributeValue ($attribute, $value)
+    {
         if (isset ($this->$attribute)){
             if (!is_array($this->$attribute)) {
                 $this->$attribute   = array ($this->$attribute);
@@ -109,7 +114,8 @@ class CopixLDAPEntry {
     /**
     * Initialize an entry, from an array
     */
-    public function CopixLDAPEntry ($_connectionID = null, $entryID = null) {
+    public function CopixLDAPEntry ($_connectionID = null, $entryID = null)
+    {
         if ($_connectionID !== null && $entryID !== null){
             $this->_rsID    = $_connectionID;
             $this->_entryID = $entryID;
@@ -124,21 +130,24 @@ class CopixLDAPEntry {
     * @return binary
     * @access public
     */
-    public function getBinary ($name) {
+    public function getBinary ($name)
+    {
         return ldap_get_values_len($this->_rsID, $this->_entryID, $name);
     }
 
     /**
     * gets the entry properties.
     */
-    public function getProperties (){
+    public function getProperties ()
+    {
         return $this->_properties;
     }
 
     /**
     * gets the first value of the given object
     */
-    public function first ($propertyName) {
+    public function first ($propertyName)
+    {
         if (isset ($this->$propertyName)){
             $value = & $this->$propertyName;
             if (is_array ($value)){
@@ -152,7 +161,8 @@ class CopixLDAPEntry {
     /**
     * tests purposes.
     */
-    private function _copix_ldap_decode_string (& $value, $key) {
+    private function _copix_ldap_decode_string (& $value, $key)
+    {
         $value = utf8_decode ($value);
     }
 
@@ -160,7 +170,8 @@ class CopixLDAPEntry {
     * gets the entry as an array
     * @return array
     */
-    public function asArray () {
+    public function asArray ()
+    {
         $toReturn = array ();
         foreach (get_object_vars ($this) as $attr=>$value) {
             if ($attr !== '_properties' && $attr !== '_entryID' && $attr != '_rsID' && $attr != 'dn'){
@@ -183,14 +194,15 @@ class CopixLDAPEntry {
 /**
 * Fonction de décodage des éléments chaine de caractère
 */
-function _copix_ldap_decode_string (& $value, $key) {
+function _copix_ldap_decode_string (& $value, $key)
+{
     $value = utf8_decode ($value);
 }
 
 /**
 * Fonction d'encodage des éléments chaine de caractère
 */
-function _copix_ldap_encode_string (& $value) {
+function _copix_ldap_encode_string (& $value)
+{
     return utf8_encode ($value);
 }
-?>

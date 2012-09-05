@@ -17,7 +17,8 @@
  *           {errormsg message="Please give an adress" class="redText"}
  *           {errormsg message=$Message assign=$errorMessage}
  */
-function smarty_function_errormsg($params, &$this) {
+function smarty_function_errormsg($params, &$this)
+{
    extract($params);
 
    if ($message === null || strlen (trim ($message)) == 0){
@@ -42,4 +43,3 @@ function smarty_function_errormsg($params, &$this) {
       return $output;
    }
 }
-?>

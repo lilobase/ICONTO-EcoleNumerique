@@ -17,7 +17,8 @@
  * @triggers ACTION_ACT_PREPROCESS
  * @triggers ACTION_HEADERS_SEND
  */
-function act_dispatch(){
+function act_dispatch()
+{
   global $INFO;
   global $ACT;
   global $ID;
@@ -132,13 +133,14 @@ function act_dispatch(){
   $headers[] = 'Content-Type: text/html; charset=utf-8';
   trigger_event('ACTION_HEADERS_SEND',$headers,'act_sendheaders');
 
-	echo template('main.php');
+    echo template('main.php');
   include(template('main.php'));
   // output for the commands is now handled in inc/templates.php
   // in function tpl_content()
 }
 
-function act_sendheaders($headers) {
+function act_sendheaders($headers)
+{
   foreach ($headers as $hdr) header($hdr);
 }
 
@@ -149,7 +151,8 @@ function act_sendheaders($headers) {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function act_clean($act){
+function act_clean($act)
+{
   global $lang;
   global $conf;
 
@@ -195,7 +198,8 @@ function act_clean($act){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function act_permcheck($act){
+function act_permcheck($act)
+{
   global $INFO;
   global $conf;
 
@@ -238,7 +242,8 @@ function act_permcheck($act){
  *
  * Deletes the draft for the current page and user
  */
-function act_draftdel($act){
+function act_draftdel($act)
+{
   global $INFO;
   @unlink($INFO['draft']);
   $INFO['draft'] = null;
@@ -250,7 +255,8 @@ function act_draftdel($act){
  *
  * @todo this currently duplicates code from ajax.php :-/
  */
-function act_draftsave($act){
+function act_draftsave($act)
+{
   global $INFO;
   global $ID;
   global $conf;
@@ -279,7 +285,8 @@ function act_draftsave($act){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function act_save($act){
+function act_save($act)
+{
   global $ID;
   global $DATE;
   global $PRE;
@@ -313,7 +320,8 @@ function act_save($act){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function act_auth($act){
+function act_auth($act)
+{
   global $ID;
   global $INFO;
 
@@ -346,7 +354,8 @@ function act_auth($act){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function act_edit($act){
+function act_edit($act)
+{
   global $ID;
   global $INFO;
 
@@ -363,7 +372,8 @@ function act_edit($act){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function act_export($act){
+function act_export($act)
+{
   global $ID;
   global $REV;
 
@@ -431,7 +441,8 @@ function act_export($act){
  * @author Steven Danz <steven-danz@kc.rr.com>
  * @todo   localize
  */
-function act_subscription($act){
+function act_subscription($act)
+{
   global $ID;
   global $INFO;
   global $lang;
@@ -464,7 +475,8 @@ function act_subscription($act){
  * Handle namespace 'subscribe', 'unsubscribe'
  *
  */
-function act_subscriptionns($act){
+function act_subscriptionns($act)
+{
   global $ID;
   global $INFO;
   global $lang;

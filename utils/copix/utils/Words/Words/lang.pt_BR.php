@@ -49,42 +49,42 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @var string
      * @access public
      */
-    var $locale      = 'pt_BR';
+    public $locale      = 'pt_BR';
 
     /**
      * Language name in English
      * @var string
      * @access public
      */
-    var $lang        = 'Brazilian Portuguese';
+    public $lang        = 'Brazilian Portuguese';
 
     /**
      * Native language name
      * @var string
      * @access public
      */
-    var $lang_native = 'Português Brasileiro';
+    public $lang_native = 'Português Brasileiro';
 
     /**
      * The word for the minus sign
      * @var string
      * @access private
      */
-    var $_minus = 'menos';
+    public $_minus = 'menos';
 
     /**
      * The word separator
      * @var string
      * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     /**
      * The array containing the digits (indexed by the digits themselves).
      * @var array
      * @access private
      */
-    var $_unidade = array(
+    public $_unidade = array(
         '',
         'um',
         'dois',
@@ -102,7 +102,7 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_dezena10 = array(
+    public $_dezena10 = array(
         'dez',
         'onze',
         'doze',
@@ -120,7 +120,7 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_dezena = array(
+    public $_dezena = array(
         '',
         'dez',
         'vinte',
@@ -138,7 +138,7 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_centena = array(
+    public $_centena = array(
         '',
         'cem',
         'duzentos',
@@ -156,7 +156,7 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_expoente = array(
+    public $_expoente = array(
         '',
         'mil',
         'milhão',
@@ -188,7 +188,7 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @link http://www.shoestring.co.kr/world/p.visa/change.htm Currency names in English
      * @access private
      */
-    var $_currency_names = array(
+    public $_currency_names = array(
         'BRL' => array(array('rea'), array('centavo')) );
 
     /**
@@ -196,7 +196,7 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @var string
      * @access public
      */
-    var $def_currency = 'BRL'; // Real
+    public $def_currency = 'BRL'; // Real
 
     // {{{ toWords()
 
@@ -213,8 +213,8 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @author Marcelo Subtil Marcal <jason@conectiva.com.br>
      * @since  PHP 4.2.3
      */
-    function toWords($num) {
-
+    public function toWords($num)
+    {
         $ret = '';
 
         $num = trim($num);
@@ -268,7 +268,7 @@ class Numbers_Words_pt_BR extends Numbers_Words
      *                 as defined by the ISO 4217 standard (three characters)
      * @param  integer $decimal A money total amount without fraction part (e.g. amount of dollars)
      * @param  integer $fraction Fractional part of the money amount (e.g.  amount of cents)
-     *                 Optional. Defaults to false. 
+     *                 Optional. Defaults to false.
      * @param  integer $convert_fraction Convert fraction to words (left as numeric if set to false).
      *                 Optional. Defaults to true.
      *
@@ -278,7 +278,8 @@ class Numbers_Words_pt_BR extends Numbers_Words
      * @author Mario H.C.T. <mariolinux@mitus.com.br>
      * @since  Numbers_Words 0.10.1
      */
-    function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true) {
+    public function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
+    {
         $int_curr = strtoupper($int_curr);
         if (!isset($this->_currency_name[$int_curr])){
             $int_curr = $this->def_currency;
@@ -301,11 +302,11 @@ class Numbers_Words_pt_BR extends Numbers_Words
             else
                 $ret .= $this->_sep . $curr_names[0][0];
         }
-                  
+
         if ($fraction !== false) {
             if ($int_curr == "BRL")
                 $ret .= $this->_sep . 'e';
-               
+
             if ($convert_fraction) {
                 $ret .= $this->_sep . trim($this->toWords($fraction));
             } else {
@@ -328,4 +329,3 @@ class Numbers_Words_pt_BR extends Numbers_Words
     // }}}
 }
 
-?>

@@ -12,7 +12,8 @@
  * Plugin smarty type fonction
  * Génération d'input text
  */
-function smarty_function_copixpicture($params, $me) {
+function smarty_function_copixpicture($params, $me)
+{
     if (isset ($params['assign'])) {
         $me->assign ($params['assign'], _tag ('copixpicture', $params));
     }else {
@@ -20,4 +21,3 @@ function smarty_function_copixpicture($params, $me) {
     }
 }
 
-?>

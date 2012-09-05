@@ -20,7 +20,7 @@
 		<property name="ressources_submit_date" fieldname="submit_date" type="datetime" table="module_ressource_ressources" pk="no"/>
 		<property name="ressources_valid_user" fieldname="valid_user" type="string" table="module_ressource_ressources" pk="no"/>
 		<property name="ressources_valid_date" fieldname="valid_date" type="datetime" table="module_ressource_ressources" pk="no"/>
-		
+
 		<property name="annuaires_id" fieldname="id" type="integer" table="module_ressource_annuaires" pk="yes"/>
 	</properties>
 	<methods>

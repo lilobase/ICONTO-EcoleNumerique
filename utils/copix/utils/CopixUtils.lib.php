@@ -15,7 +15,8 @@
 * @param chaine - la chaine à valider.
 * @return si oui ou non la chaine est un email valide.
 */
-function validateEMail($chaine) {
+function validateEMail($chaine)
+{
     return ereg('^[-!#$%&\'*+\\./0-9=?A-Z^_`a-z{|}~]+'.
     '@'.
     '[-!#$%&\'*+\\/0-9=?A-Z^_`a-z{|}~]+\.'.
@@ -28,7 +29,8 @@ function validateEMail($chaine) {
 * @param array $Params tableau associatif contenant les noms des paramètres et leurs valeurs. de la forme Tab[NomParametre]=valeurParam.
 * @return string la chaine de paramètres.
 */
-function urlParams ($params, $forhtml=true){
+function urlParams ($params, $forhtml=true)
+{
     $stringparam = "";
     $first = true;//Premier paramètre ?
     if (!is_array ($params)){
@@ -53,7 +55,8 @@ function urlParams ($params, $forhtml=true){
 * @param  string $param    chaine representant un boolean
 * @return boolean
 */
-function getTxtBool ($param) {
+function getTxtBool ($param)
+{
     if (is_null ($param) || ($param == '') || ($param == 'false') || ($param == 'f') || ($param == 'n') || ($param == '0') || ($param==false)){
         return 'false';
     }
@@ -66,20 +69,22 @@ function getTxtBool ($param) {
 * retour de l'url actuelle sous forme de tableau associatif.
 * @return array
 */
-function getUrlTab () {
-	$UrlNew = array ();
-	//$params = $_GET;
-	$params = CopixRequest::asArray ();
-	foreach ($params as $param=>$valeur){
-	  $UrlNew[$param] = $valeur;
-	}
-	return $UrlNew;
+function getUrlTab ()
+{
+    $UrlNew = array ();
+    //$params = $_GET;
+    $params = CopixRequest::asArray ();
+    foreach ($params as $param=>$valeur){
+      $UrlNew[$param] = $valeur;
+    }
+    return $UrlNew;
 }
 /**
 * Retour de la partie get de l'url..... il y a surement moyen de faire plus simple.
 * @return   array   parametre url
 */
-function getUrlParams (){
+function getUrlParams ()
+{
     return urlParams (getUrlTab ());
 }
 /**
@@ -87,7 +92,8 @@ function getUrlParams (){
 * @param string $string  la chaine a capitaliser.
 * @return string la chaine transformée.
 */
-function capitalizeString ($string){
+function capitalizeString ($string)
+{
     if (strlen ($string) < 1 )   return $string;
     return strtoupper ($string{0}) . strtolower (substr ($string, 1));
 }
@@ -100,7 +106,8 @@ function capitalizeString ($string){
 * @param    string    $sortByField le nom du champ parlequel on souhaite trier les infos.
 * @return   array   tableau filtré
 */
-function tabOfObjectFilter ($tab, $tabCriteres, $sortByField = null){
+function tabOfObjectFilter ($tab, $tabCriteres, $sortByField = null)
+{
     reset ($tabCriteres);
 
     $toReturn  = array ();
@@ -108,29 +115,29 @@ function tabOfObjectFilter ($tab, $tabCriteres, $sortByField = null){
 
     foreach ($tab as $key=>$obj){
         $include = true;
-       	foreach ($tabCriteres as $fieldToCheck => $whatToCheck){
-        		if ($whatToCheck[0] == 'exact'){
-        			//test le match exact.
-        			if ($obj->$fieldToCheck != $whatToCheck[1]){
-        				$include = false;
-        			}
-        		}else if ($whatToCheck[0] == 'approx'){
-        			//test le match approximatif.
-        			if (strpos ($obj->$fieldToCheck, $whatToCheck[1]) === false){
-        				$include = false;
-        			}
-        		}else if ($whatToCheck[0] == 'sup_eg'){
-        			//doit être supérieur..... donc échec si inférieur
-        			if ($obj->$fieldToCheck <= $whatToCheck[1]){
-        				$include = false;
-        			}
-        		}else if ($whatToCheck[0] == 'inf_eg'){
-        			//doit être supérieur à fournit, donc échec si sup.
-        			if ($obj->$fieldToCheck >= $whatToCheck[1]){
-        				$include = false;
-        			}
-        		}
-        	}
+           foreach ($tabCriteres as $fieldToCheck => $whatToCheck){
+                if ($whatToCheck[0] == 'exact'){
+                    //test le match exact.
+                    if ($obj->$fieldToCheck != $whatToCheck[1]){
+                        $include = false;
+                    }
+                }else if ($whatToCheck[0] == 'approx'){
+                    //test le match approximatif.
+                    if (strpos ($obj->$fieldToCheck, $whatToCheck[1]) === false){
+                        $include = false;
+                    }
+                }else if ($whatToCheck[0] == 'sup_eg'){
+                    //doit être supérieur..... donc échec si inférieur
+                    if ($obj->$fieldToCheck <= $whatToCheck[1]){
+                        $include = false;
+                    }
+                }else if ($whatToCheck[0] == 'inf_eg'){
+                    //doit être supérieur à fournit, donc échec si sup.
+                    if ($obj->$fieldToCheck >= $whatToCheck[1]){
+                        $include = false;
+                    }
+                }
+            }
         //si tout est ok au niveau des filtres, on ajoute au tableau de retour.
         if ($include){
             $tmpFilter[$key] = $obj;
@@ -162,7 +169,7 @@ function tabOfObjectFilter ($tab, $tabCriteres, $sortByField = null){
 * @param string $string the string to kill french chars from
 * @return   string    la chaine filtrée
 */
-function killFrenchChars ($string){
+function killFrenchChars ($string)
+{
     return strtr($string,'àâäéèêëîïÿôöùüçñn','aaaeeeeiiyoouucnn');
 }
-?>

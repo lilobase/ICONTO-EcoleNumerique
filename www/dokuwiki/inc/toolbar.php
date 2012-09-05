@@ -18,7 +18,8 @@ require_once(DOKU_INC.'inc/JSON.php');
  * @param  string $varname Name of the JS variable to fill
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function toolbar_JSdefines($varname){
+function toolbar_JSdefines($varname)
+{
     global $ID;
     global $conf;
     global $lang;
@@ -188,7 +189,8 @@ function toolbar_JSdefines($varname){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function toolbar_signature(){
+function toolbar_signature()
+{
   global $conf;
   global $INFO;
 

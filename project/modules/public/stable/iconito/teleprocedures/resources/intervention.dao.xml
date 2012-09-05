@@ -25,7 +25,7 @@
          captioni18n="teleprocedures.intervention.field.date"
          type="date"
          required="yes"
-         /> 
+         />
 
 	<property name="idetabliss"
          captioni18n="teleprocedures.intervention.field.ecole"
@@ -41,7 +41,7 @@
          maxlength="255"
          required="yes"
          />
-		 
+
 	<property name="idtype"
          captioni18n="teleprocedures.intervention.field.type"
          type="integer"
@@ -49,31 +49,31 @@
 				 fkTable="type"
          fkFieldName="idtype"
          />
-		 
+
   <property name="idstatu"
          captioni18n="teleprocedures.intervention.field.statut"
          type="integer"
          required="yes"
-         /> 
+         />
 
 	<property name="datederniere"
          captioni18n="teleprocedures.intervention.field.dern.action"
          type="datetime"
          required="yes"
-         /> 
-		 
+         />
+
 	<property name="detail"
          captioni18n="teleprocedures.intervention.field.detail"
          type="string"
          required="yes"
          />
-   	 
+
 	<property name="responsables"
 		type="string"
-		required="yes"		
+		required="yes"
 		captioni18n="teleprocedures.type.field.responsables"
 		/>
-	
+
 	<property name="lecteurs"
 		type="string"
 		captioni18n="teleprocedures.type.field.lecteurs"
@@ -100,36 +100,36 @@
         fieldName="teleprocedure"
         captioni18n="teleprocedures.type.fields.teleprocedure"
         type="integer"
-        table="type" 
+        table="type"
         />
 	<property name="type_nom"
         fieldName="nom"
         captioni18n="teleprocedures.type.fields.nom"
         type="string"
-        table="type" 
+        table="type"
         />
 
 	<property name="type_format"
         fieldName="format"
         captioni18n="teleprocedures.type.fields.format"
         type="string"
-        table="type" 
+        table="type"
         />
 
 	<property name="ecole_type"
         fieldName="type"
         type="string"
-        table="ecole" 
+        table="ecole"
         />
 	<property name="ecole_nom"
         fieldName="nom"
         type="string"
-        table="ecole" 
+        table="ecole"
         />
 	<property name="ecole_id_ville"
         fieldName="id_ville"
         type="integer"
-        table="ecole" 
+        table="ecole"
         />
 
  </properties>

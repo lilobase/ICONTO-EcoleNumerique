@@ -12,13 +12,13 @@ phpCAS::setDebug();
 // Initialize phpCAS
 phpCAS::client(CAS_VERSION_2_0, $cas_host, $cas_port, $cas_context);
 
-// For production use set the CA certificate that is the issuer of the cert 
+// For production use set the CA certificate that is the issuer of the cert
 // on the CAS server and uncomment the line below
 // phpCAS::setCasServerCACert($cas_server_ca_cert_path);
 
-// For quick testing you can disable SSL validation of the CAS server. 
-// THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION. 
-// VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL! 
+// For quick testing you can disable SSL validation of the CAS server.
+// THIS SETTING IS NOT RECOMMENDED FOR PRODUCTION.
+// VALIDATING THE CAS SERVER IS CRUCIAL TO THE SECURITY OF THE CAS PROTOCOL!
 phpCAS::setNoCasServerValidation();
 
 // force CAS authentication
@@ -35,7 +35,6 @@ echo '<p>The user\'s login is <b>'.phpCAS::getUser().'</b>.</p>';
 
 // increment the number of requests of the session and print it
 if (!isset($_SESSION['n']))
-	$_SESSION['n'] = 0;
+    $_SESSION['n'] = 0;
 echo '<p>request #'.(++$_SESSION['n']).'</p>';
 
-?>

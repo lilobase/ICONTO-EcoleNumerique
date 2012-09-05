@@ -12,23 +12,23 @@
 * Administration pannel
 * @param id_head // the current copixheading indice can be null if racine
 */
-class ZoneEditRss extends CopixZone {
-	function _createContent (&$toReturn) {
-	
-		//Getting the user.
-		//Create Services, and DAO
-		$tpl = new CopixTpl ();
+class ZoneEditRss extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        //Getting the user.
+        //Create Services, and DAO
+        $tpl = new CopixTpl ();
 
-		$tpl->assign ('rss', $this->getParam('fluxRss',null));
-		$tpl->assign ('id_blog', $this->getParam('id_blog', ''));
-		$tpl->assign ('id_bfrs', $this->getParam('id_bfrs', ''));
-		$tpl->assign ('errors', $this->getParam('errors', ''));
-		$tpl->assign ('showErrors', $this->getParam('showErrors', ''));
-		$tpl->assign ('kind', $this->getParam('kind', ''));
+        $tpl->assign ('rss', $this->getParam('fluxRss',null));
+        $tpl->assign ('id_blog', $this->getParam('id_blog', ''));
+        $tpl->assign ('id_bfrs', $this->getParam('id_bfrs', ''));
+        $tpl->assign ('errors', $this->getParam('errors', ''));
+        $tpl->assign ('showErrors', $this->getParam('showErrors', ''));
+        $tpl->assign ('kind', $this->getParam('kind', ''));
 
-		// retour de la fonction :
-		$toReturn = $tpl->fetch('rss.edit.tpl');
-		return true;
-	}
+        // retour de la fonction :
+        $toReturn = $tpl->fetch('rss.edit.tpl');
+        return true;
+    }
 }
-?>

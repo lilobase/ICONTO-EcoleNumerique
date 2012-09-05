@@ -75,37 +75,37 @@
 * @package Mail
 */
 
-class Mail_mimePart {
-
+class Mail_mimePart
+{
    /**
     * The encoding type of this part
     * @var string
     */
-    var $_encoding;
+    public $_encoding;
 
    /**
     * An array of subparts
     * @var array
     */
-    var $_subparts;
+    public $_subparts;
 
    /**
     * The output of this part after being built
     * @var string
     */
-    var $_encoded;
+    public $_encoded;
 
    /**
     * Headers for this part
     * @var array
     */
-    var $_headers;
+    public $_headers;
 
    /**
     * The body of this part (not encoded)
     * @var string
     */
-    var $_body;
+    public $_body;
 
     /**
      * Constructor.
@@ -123,7 +123,7 @@ class Mail_mimePart {
      *                  charset      - Character set to use
      * @access public
      */
-    function Mail_mimePart($body = '', $params = array())
+    public function Mail_mimePart($body = '', $params = array())
     {
         if (!defined('MAIL_MIMEPART_CRLF')) {
             define('MAIL_MIMEPART_CRLF', defined('MAIL_MIME_CRLF') ? MAIL_MIME_CRLF : "\r\n", TRUE);
@@ -197,7 +197,7 @@ class Mail_mimePart {
      *         an indexed array.
      * @access public
      */
-    function encode()
+    public function encode()
     {
         $encoded =& $this->_encoded;
 
@@ -261,7 +261,7 @@ class Mail_mimePart {
      *                  or quoted-printable.
      * @access private
      */
-    function _getEncodedData($data, $encoding)
+    public function _getEncodedData($data, $encoding)
     {
         switch ($encoding) {
             case '8bit':
@@ -293,7 +293,7 @@ class Mail_mimePart {
      *
      * @access private
      */
-    function _quotedPrintableEncode($input , $line_max = 76)
+    public function _quotedPrintableEncode($input , $line_max = 76)
     {
         $lines  = preg_split("/\r?\n/", $input);
         $eol    = MAIL_MIMEPART_CRLF;
@@ -330,4 +330,3 @@ class Mail_mimePart {
         return $output;
     }
 } // End of class
-?>

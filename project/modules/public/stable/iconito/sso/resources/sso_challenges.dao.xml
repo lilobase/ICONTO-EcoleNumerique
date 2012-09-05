@@ -5,7 +5,7 @@
           <table name="sso_challenges" tablename="kernel_sso_challenges" primary="yes" />
        </tables>
     </datasource>
-    
+
  		<properties>
 	    <property name="id_sso"
 	            fieldName="id_sso"

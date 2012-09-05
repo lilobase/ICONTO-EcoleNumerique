@@ -20,11 +20,11 @@
  *           {errormsg message="Please give an adress" class="redText"}
  *           {errormsg message=$Message assign=$errorMessage}
  */
-function smarty_function_errormsg($params, $me) {
-	if (isset ($params['assign'])) {
-		$me->assign($params['assign'], _tag ('errormsg', $params));
-	} else {
-		return _tag ('errormsg', $params);
-	}
+function smarty_function_errormsg($params, $me)
+{
+    if (isset ($params['assign'])) {
+        $me->assign($params['assign'], _tag ('errormsg', $params));
+    } else {
+        return _tag ('errormsg', $params);
+    }
 }
-?>

@@ -13,4 +13,3 @@ $default       = & $getAssistance;
 $users         = & $getUsers;
 $switch        = & $getSwitchUser;
 
-?>

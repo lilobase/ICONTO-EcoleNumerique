@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -9,10 +9,10 @@
  *
  * @author alemaire
  */
-class mailExtService extends enicService{
-
-    public function connect($server, $port, $protocol, $ssl, $tls, $user, $pass){
-        
+class mailExtService extends enicService
+{
+    public function connect($server, $port, $protocol, $ssl, $tls, $user, $pass)
+    {
         //build connection string
         $server = $server.':'.$port;
         $protocol = '/'.$protocol;
@@ -27,13 +27,14 @@ class mailExtService extends enicService{
      * check new messages
      * return array('name' => (bool)false|(int)nb of new msg);
      */
-    public function check(){
+    public function check()
+    {
         $confs = $this->getConf();
-        
+
         //test if conf exists
         if(empty($confs))
                 return false;
-        
+
         foreach($confs as $mail){
             $connect =& $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']);
 
@@ -51,8 +52,8 @@ class mailExtService extends enicService{
         return $oReturn;
     }
 
-    public function checkById($id){
-
+    public function checkById($id)
+    {
         if($this->session->exists('time'.$id, 'mailext')){
             if($this->session->load('time'.$id, 'mailext') > time()){
                 return $this->session->load('datas'.$id, 'mailext');
@@ -70,52 +71,59 @@ class mailExtService extends enicService{
             return false;
 
         $nbMail = @imap_num_recent($connect);
-        
+
         $this->session->save('time'.$id, time()+(10*60), 'mailext');
         $this->session->save('datas'.$id, $nbMail, 'mailext');
 
         return $nbMail;
     }
 
-    public function checkMailConf($iIdMailConf){
+    public function checkMailConf($iIdMailConf)
+    {
         $mail = $this->getConfById($iIdMailConf);
-        
+
         $test = $this->connect($mail['server'], $mail['port'], $mail['protocol'], $mail['ssl'], $mail['tls'], $mail['login'], $mail['pass']);
-        
+
         return  ($test === false) ? false : true;
     }
 
     //return all conf data's linked to the current user
-    public function getConf(){
+    public function getConf()
+    {
         if(!isset($this->conf))
             $this->conf = $this->model->query('SELECT * FROM module_mailext WHERE user_id = '.$this->user->id)->toArray();
         return $this->conf;
     }
 
-    public function getConfById($id){
+    public function getConfById($id)
+    {
         if(!isset($this->confById))
             $this->confById = $this->model->query('SELECT * FROM module_mailext WHERE id = '.(int)$id)->toArray1();
-        
+
         return $this->confById;
     }
 
-    public function checkUserMailConf($iIdMailConf){
+    public function checkUserMailConf($iIdMailConf)
+    {
         $userIdFromDb = $this->model->query('SELECT user_id FROM module_mailext WHERE id = '.(int)$iIdMailConf)->toString();
 
         return ($this->user->id == $userIdFromDb);
     }
 
-    public function updateMailConf($iDatas){
+    public function updateMailConf($iDatas)
+    {
         $datas = $this->prepareMailConf($iDatas);
         $this->model->update('module_mailext',$datas);
     }
 
-    public function createMailConf($iDatas){
+    public function createMailConf($iDatas)
+    {
         $datas = $this->prepareMailConf($iDatas);
         $this->model->create('module_mailext', $datas);
     }
 
-    public function prepareMailConf($iDatas){
+    public function prepareMailConf($iDatas)
+    {
         $oDatas['id'] = (!empty($iDatas['id'])) ? $iDatas['id']*1 : null;
         $oDatas['user_id'] = $this->user->id;
         $oDatas['protocol'] = (!empty($iDatas['protocol'])) ? $this->model->quote($iDatas['protocol']) : 'imap' ;
@@ -144,7 +152,8 @@ class mailExtService extends enicService{
         return $oDatas;
     }
 
-    public function validMailConf($iDatas){
+    public function validMailConf($iDatas)
+    {
         $errors = array();
 
         $required = array('server', 'login', 'pass');
@@ -160,6 +169,5 @@ class mailExtService extends enicService{
 
         return $oReturn;
     }
-    
+
 }
-?>

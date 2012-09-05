@@ -36,19 +36,21 @@ define('COPIXWIKIRENDERER_PATH', dirname(__FILE__).'/');
 * Implémente les propriétés d'un tag inline wiki et le fonctionnement pour la génération
 * du code html correspondant
 */
-class CopixWikiTag {
-    var $name;
-    var $beginTag;
-    var $endTag;
-    var $useSeparator=true;
-    var $attribute=array();
-    var $builderFunction=null;
+class CopixWikiTag
+{
+    public $name;
+    public $beginTag;
+    public $endTag;
+    public $useSeparator=true;
+    public $attribute=array();
+    public $builderFunction=null;
 
-    var $contents=array();
-    var $separatorCount=0;
-    var $isDummy=false;
+    public $contents=array();
+    public $separatorCount=0;
+    public $isDummy=false;
 
-    function CopixWikiTag($name, $properties){
+    public function CopixWikiTag($name, $properties)
+    {
         $this->name=$name;
         $this->beginTag=$properties[0];
         $this->endTag=$properties[1];
@@ -66,7 +68,8 @@ class CopixWikiTag {
         $this->builderFunction=$properties[3];
     }
 
-    function addContent($string, $escape=true){
+    public function addContent($string, $escape=true)
+    {
         if(!isset($this->contents[$this->separatorCount]))
         $this->contents[$this->separatorCount]='';
 
@@ -76,11 +79,13 @@ class CopixWikiTag {
         $this->contents[$this->separatorCount] .= $string;
     }
 
-    function addseparator(){
+    public function addseparator()
+    {
         $this->separatorCount++;
     }
 
-    function getHtmlContent(){
+    public function getHtmlContent()
+    {
         if(is_null($this->builderFunction)){
             $attr='';
             if($this->useSeparator){
@@ -101,23 +106,23 @@ class CopixWikiTag {
 /**
 * Moteur permettant de transformer les tags wiki inline d'une chaine en équivalent HTML
 */
-class CopixWikiInlineParser {
-
-    var $resultline='';
-    var $error=false;
-    var $listTag=array();
-    var $str=array();
-    var $splitPattern='';
-    var $checkWikiWord=false;
-    var $checkWikiWordFunction=null;
-    var $_separator;
-    var $escapeHtml=true;
+class CopixWikiInlineParser
+{
+    public $resultline='';
+    public $error=false;
+    public $listTag=array();
+    public $str=array();
+    public $splitPattern='';
+    public $checkWikiWord=false;
+    public $checkWikiWordFunction=null;
+    public $_separator;
+    public $escapeHtml=true;
     /**
     * constructeur
     * @param   array    $inlinetags liste des tags permis
     *   @param   string   caractère séparateur des différents composants d'un tag wiki
     */
-    function CopixWikiInlineParser($inlinetags, $simpletags, $separator='|', $checkWikiWord=false,
+    public function CopixWikiInlineParser($inlinetags, $simpletags, $separator='|', $checkWikiWord=false,
     $funcCheckWikiWord=null, $escapeHtml=true  ){
 
         foreach($inlinetags as $name=>$prop){
@@ -143,7 +148,8 @@ class CopixWikiInlineParser {
     * @param   string   $line avec des eventuels tag wiki
     * @return  string   chaine $line avec les tags wiki transformé en HTML
     */
-    function parse($line){
+    public function parse($line)
+    {
         $this->error=false;
 
         $this->str=preg_split('/('.$this->splitPattern.'\\'.$this->_separator.')|(\\\\)/',$line, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -170,8 +176,8 @@ class CopixWikiInlineParser {
     /**
     * coeur du parseur. Appelé récursivement
     */
-    function _parse($tag, &$posstart){
-
+    public function _parse($tag, &$posstart)
+    {
         $checkNextTag=true;
         $checkBeginTag=true;
 
@@ -239,7 +245,8 @@ class CopixWikiInlineParser {
         return $tag->getHtmlContent();
     }
 
-    function _doCheckWikiWord($string){
+    public function _doCheckWikiWord($string)
+    {
         if(preg_match_all("/(?<=\b)[A-Z][a-z]+[A-Z0-9]\w*/", $string, $matches)){
             $fct=$this->checkWikiWordFunction;
             $match = array_unique($matches[0]); // il faut avoir une liste sans doublon, à cause du str_replace plus loin...
@@ -257,51 +264,52 @@ class CopixWikiInlineParser {
 * classe de base pour la transformation des élements de type bloc
 * @abstract
 */
-class CopixWikiRendererBloc {
-
+class CopixWikiRendererBloc
+{
     /**
     * @var string  code identifiant le type de bloc
     */
-    var $type='';
+    public $type='';
 
     /**
     * @var string  chaine contenant le tag XHTML d'ouverture du bloc
     * @access private
     */
-    var $_openTag='';
+    public $_openTag='';
 
     /**
     * @var string  chaine contenant le tag XHTML de fermeture du bloc
     * @access private
     */
-    var $_closeTag='';
+    public $_closeTag='';
     /**
     * @var boolean    indique si le bloc doit être immediatement fermé aprés détection
     * @access private
     */
-    var $_closeNow=false;
+    public $_closeNow=false;
 
     /**
     * @var WikiRenderer      référence à la classe principale
     */
-    var $engine=null;
+    public $engine=null;
 
     /**
     * @var   array      liste des élements trouvés par l'expression régulière regexp
     */
-    var $_detectMatch=null;
+    public $_detectMatch=null;
 
     /**
     * @var string      expression régulière permettant de reconnaitre le bloc
     */
-    var $regexp='';
+    public $regexp='';
 
     /**
     * constructeur à surcharger pour définir les valeurs des différentes proprietés
     * @param WikiRender    $wr   l'objet moteur wiki
     * @abstract
     */
-    function CopixWikiRendererBloc(&$wr){
+    public function CopixWikiRendererBloc(&$wr)
+    {
         $this->engine = &$wr;
     }
 
@@ -309,7 +317,8 @@ class CopixWikiRendererBloc {
     * renvoi une chaine correspondant à l'ouverture du bloc
     * @return string
     */
-    function open(){
+    public function open()
+    {
         return $this->_openTag;
     }
 
@@ -317,7 +326,8 @@ class CopixWikiRendererBloc {
     * renvoi une chaine correspondant à la fermeture du bloc
     * @return string
     */
-    function close(){
+    public function close()
+    {
         return $this->_closeTag;
     }
 
@@ -325,7 +335,8 @@ class CopixWikiRendererBloc {
     * indique si le bloc doit etre immédiatement fermé
     * @return string
     */
-    function closeNow(){
+    public function closeNow()
+    {
         return $this->_closeNow;
     }
 
@@ -334,7 +345,8 @@ class CopixWikiRendererBloc {
     * @param string   $string
     * @return boolean   true: appartient au bloc
     */
-    function detect($string){
+    public function detect($string)
+    {
         return preg_match($this->regexp, $string, $this->_detectMatch);
     }
 
@@ -343,7 +355,8 @@ class CopixWikiRendererBloc {
     * @return string
     * @abstract
     */
-    function getRenderedLine(){
+    public function getRenderedLine()
+    {
         return $this->_renderInlineTag($this->_detectMatch[1]);
     }
 
@@ -353,7 +366,8 @@ class CopixWikiRendererBloc {
     * @return  string  la chaine transformée en XHTML
     * @see WikiRendererInline
     */
-    function _renderInlineTag($string){
+    public function _renderInlineTag($string)
+    {
         return $this->engine->inlineParser->parse($string);
     }
 
@@ -361,7 +375,8 @@ class CopixWikiRendererBloc {
     * détection d'attributs de bloc (ex:  >°°attr1|attr2|attr3°° la citation )
     * @todo à terminer pour une version ulterieure
     */
-    function _checkAttributes(&$string){
+    public function _checkAttributes(&$string)
+    {
         $bat=$this->engine->config->blocAttributeTag;
         if(preg_match("/^$bat(.*)$bat(.*)$/",$string,$result)){
             $string=$result[2];
@@ -382,54 +397,55 @@ require(COPIXWIKIRENDERER_PATH . 'CopixWikiRenderer.conf.php');
 *      $ctr = new WikiRenderer();
 *      $monTexteXHTML = $ctr->render($montexte);
 */
-class CopixWikiRenderer {
-
+class CopixWikiRenderer
+{
     /**
     * @var   string   contient la version HTML du texte analysé
     * @access private
     */
-    var $_newtext;
+    public $_newtext;
 
     /**
     * @var   boolean
     * @access private
     */
-    var $_isBlocOpen=false;
+    public $_isBlocOpen=false;
 
     /**
     * @var WikiRendererBloc element bloc ouvert en cours
     * @access private
     */
-    var $_currentBloc;
+    public $_currentBloc;
 
     /**
     * @var array       liste des differents types de blocs disponibles
     * @access private
     */
-    var $_blocList= array();
+    public $_blocList= array();
 
     /**
     * @var   array      liste de paramètres pour le moteur
     */
-    var $params=array();
+    public $params=array();
 
     /**
     * @var WikiInlineParser   analyseur pour les tags wiki inline
     */
-    var $inlineParser=null;
+    public $inlineParser=null;
 
     /**
     * liste des lignes où il y a une erreur wiki
     */
-    var $errors;
+    public $errors;
 
 
-    var $config=null;
+    public $config=null;
 
     /**
     * instancie les différents objets pour le rendu des elements inline et bloc.
     */
-    function CopixWikiRenderer( $config=null){
+    public function CopixWikiRenderer( $config=null)
+    {
         if(is_null($config))
         $this->config= & new CopixWikiRendererConfig;
         else{
@@ -465,7 +481,8 @@ class CopixWikiRenderer {
     * @param   string  $texte le texte à convertir
     * @return  string  le texte converti en XHTML
     */
-    function render ($texte){
+    public function render ($texte)
+    {
         $lignes=preg_split("/\015\012|\015|\012/",$texte); // on remplace les \r (mac), les \n (unix) et les \r\n (windows) par un autre caractère pour découper proprement
 
         $this->_newtext=array();
@@ -513,7 +530,8 @@ class CopixWikiRenderer {
     * ferme un bloc
     * @access private
     */
-    function _closeBloc(){
+    public function _closeBloc()
+    {
         if($this->_isBlocOpen){
             $this->_isBlocOpen=false;
             $this->_newtext[]=$this->_currentBloc->close();
@@ -526,7 +544,8 @@ class CopixWikiRenderer {
     * @return boolean  indique si le bloc reste ouvert ou pas
     * @access private
     */
-    function _openBloc(){
+    public function _openBloc()
+    {
         if(!$this->_isBlocOpen){
             $this->_newtext[]=$this->_currentBloc->open();
             $this->_isBlocOpen=true;
@@ -536,4 +555,3 @@ class CopixWikiRenderer {
     }
 
 }
-?>

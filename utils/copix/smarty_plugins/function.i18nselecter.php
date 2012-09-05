@@ -15,9 +15,9 @@
  * Input:    name    = (required)  name of the image must be uniq
  * Input:    id      = (required)  id of the image must be uniq
  * Input:    caption = caption of input text
- * 
+ *
  */
-function smarty_function_i18nselecter($params, & $me) {
+function smarty_function_i18nselecter($params, & $me)
+{
     return _tag ('i18nselecter', $params);
 }
-?>

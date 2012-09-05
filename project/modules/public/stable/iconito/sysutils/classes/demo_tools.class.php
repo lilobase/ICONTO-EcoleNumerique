@@ -9,16 +9,17 @@
  */
 
 
-class Demo_Tools {
-
-	/**
-	 * Met en place un dossier contenant des fichiers du jeu d'essai
-	 *
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2006/10/26
+class Demo_Tools
+{
+    /**
+     * Met en place un dossier contenant des fichiers du jeu d'essai
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2006/10/26
    * @param string $name Nom du dossier
-	 */
-	function installFolder ($name, $demo=true) {
+     */
+    public function installFolder ($name, $demo=true)
+    {
     $src = '../instal/demo/'.$name; // Source
     $dst = '../'.$name; // Destination
     if (!$demo) { // Installation de depart, depuis /www/install
@@ -32,7 +33,7 @@ class Demo_Tools {
       $oRes = false;
     }
     return $oRes;
-	}
+    }
 
 
   // A function to copy files from one directory to another one, including subdirectories and
@@ -41,8 +42,9 @@ class Demo_Tools {
   // Syntaxis: [$number =] dircopy($sourcedirectory, $destinationdirectory [, $verbose]);
   // Example: $num = dircopy('A:\dir1', 'B:\dir2', 1);
   // http://fr.php.net/manual/fr/function.copy.php
-  
-  function dircopy($srcdir, $dstdir, $verbose = false) {
+
+  public function dircopy($srcdir, $dstdir, $verbose = false)
+  {
     $num = 0;
     if(!is_dir($dstdir)) { mkdir($dstdir); chmod($dstdir, 0777); }
     if($curdir = opendir($srcdir)) {
@@ -57,11 +59,9 @@ class Demo_Tools {
              if(copy($srcfile, $dstfile)) {
                touch($dstfile, filemtime($srcfile)); $num++;
                if($verbose) echo "OK\n";
-             }
-             else echo "Error: File '$srcfile' could not be copied!\n";
+             } else echo "Error: File '$srcfile' could not be copied!\n";
            /*}*/
-         }
-         else if(is_dir($srcfile) && $file != 'CVS' && $file != '.svn') {
+         } else if(is_dir($srcfile) && $file != 'CVS' && $file != '.svn') {
            $num += Demo_Tools::dircopy($srcfile, $dstfile, $verbose);
          }
        }
@@ -71,7 +71,8 @@ class Demo_Tools {
     return $num;
   }
 
-  function dirmove($srcdir, $dstdir, $verbose = false) {
+  public function dirmove($srcdir, $dstdir, $verbose = false)
+  {
     $num = 0;
     if(!is_dir($dstdir)) { mkdir($dstdir); chmod($dstdir, 0777); }
     if($curdir = opendir($srcdir)) {
@@ -86,11 +87,9 @@ class Demo_Tools {
              if(rename($srcfile, $dstfile)) {
                /*touch($dstfile, filemtime($srcfile));*/ $num++;
                if($verbose) echo "OK\n";
-             }
-             else echo "Error: File '$srcfile' could not be moved!\n";
+             } else echo "Error: File '$srcfile' could not be moved!\n";
            /*}*/
-         }
-         else if(is_dir($srcfile) && $file != 'CVS' && $file != '.svn') {
+         } else if(is_dir($srcfile) && $file != 'CVS' && $file != '.svn') {
            $num += Demo_Tools::dirmove($srcfile, $dstfile, $verbose);
          }
        }
@@ -103,7 +102,8 @@ class Demo_Tools {
 
   // Suppression d'un dossier et de ses sous-dossiers
   // $dir = dossier à supprimer, sans / à la fin
-  function dirdelete ($dir) {
+  public function dirdelete ($dir)
+  {
     if ($handle = opendir("$dir")) {
      while (false !== ($item = readdir($handle))) {
        if ($item != "." && $item != "..") {
@@ -120,18 +120,19 @@ class Demo_Tools {
      //echo "removing $dir<br>\n";
     }
   }
-  
+
   // Vidage d'un dossier et de ses sous-dossiers : tous les fichiers situés sous ce dossier et en-dessous sont supprimés. On ne parcourt pas les dossiers CVS, ni SVN, et les fichiers .dummy_file et .cvsignore ne sont pas supprimés
   // $dir = dossier à vider, sans / à la fin
   // $options['delete'] = permet de supprimer les sous-dossiers mais pas le dossier de depart
-  function dirempty ($dir, $options=array()) {
+  public function dirempty ($dir, $options=array())
+  {
     $niveau = isset($options['niveau']) ? $options['niveau'] : 0;
     if ($handle = opendir("$dir")) {
      while (false !== ($item = readdir($handle))) {
        if ($item != "." && $item != "..") {
          if (is_dir("$dir/$item")) {
            if ($niveau>0 && isset($options['delete']) && $options['delete'])
-             Demo_Tools::dirdelete ("$dir/$item"); 
+             Demo_Tools::dirdelete ("$dir/$item");
            elseif ($item != "CVS" && $item != ".svn")
              Demo_Tools::dirempty ("$dir/$item", array('niveau'=>$niveau+1));
          } elseif (is_file("$dir/$item")) {
@@ -147,24 +148,24 @@ class Demo_Tools {
   }
 
 
-  // Retourne la taille d'un répertoire 
-  function dirSize($path, $recursive=true) {
+  // Retourne la taille d'un répertoire
+  public function dirSize($path, $recursive=true)
+  {
     $result = 0;
-    if(!is_dir($path) || !is_readable($path)) 
-      return 0; 
-    $fd = dir($path); 
+    if(!is_dir($path) || !is_readable($path))
+      return 0;
+    $fd = dir($path);
     while($file = $fd->read()) {
       if(($file != ".") && ($file != "..")) {
         if(is_dir($path.'/'.$file))
-          $result += $recursive ? Demo_Tools::dirSize($path.'/'.$file) : 0; 
+          $result += $recursive ? Demo_Tools::dirSize($path.'/'.$file) : 0;
         else
           $result += filesize($path.'/'.$file);
-      } 
-    } 
-    $fd->close(); 
-    return $result; 
+      }
+    }
+    $fd->close();
+    return $result;
   }
 
 }
 
-?>

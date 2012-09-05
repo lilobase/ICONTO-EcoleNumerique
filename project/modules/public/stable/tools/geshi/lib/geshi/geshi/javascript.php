@@ -117,14 +117,14 @@ $language_data = array (
       )
     ),
   'URLS' => array(
-		1 => '',
-		2 => '',
-		3 => ''
-  	),
+        1 => '',
+        2 => '',
+        3 => ''
+      ),
   'OOLANG' => true,
   'OBJECT_SPLITTERS' => array(
-  	1 => '.'
-	),
+      1 => '.'
+    ),
   'REGEXPS' => array(
     0 => "/.*/([igm]*)?"         // matches js reg exps
     ),
@@ -143,4 +143,3 @@ $language_data = array (
   )
 );
 
-?>

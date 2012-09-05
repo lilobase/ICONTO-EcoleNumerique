@@ -12,11 +12,11 @@
  * Div d'une zone chargé en ajax
 
  */
-function smarty_function_ajax_popupinformation ($params, &$smarty) {
+function smarty_function_ajax_popupinformation ($params, &$smarty)
+{
     if (isset ($params['assign'])) {
         $me->assign($params['assign'], _tag ('ajax_popupinformation', $params));
     }else {
         return _tag ('ajax_popupinformation', $params);
     }
 }
-?>

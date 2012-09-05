@@ -50,28 +50,28 @@ class Numbers_Words_dk extends Numbers_Words
      * @var string
      * @access public
      */
-    var $locale      = 'dk';
+    public $locale      = 'dk';
 
     /**
      * Language name in English
      * @var string
      * @access public
      */
-    var $lang        = 'Danish';
+    public $lang        = 'Danish';
 
     /**
      * Native language name
      * @var string
      * @access public
      */
-    var $lang_native = 'Dansk';
+    public $lang_native = 'Dansk';
 
     /**
      * The word for the minus sign
      * @var string
      * @access private
      */
-    var $_minus = 'minus'; // minus sign
+    public $_minus = 'minus'; // minus sign
 
     /**
      * The sufixes for exponents (singular and plural).
@@ -79,7 +79,7 @@ class Numbers_Words_dk extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_exponent = array(
+    public $_exponent = array(
         0 => array(''),
         3 => array('tusind','tusinde'),
         6 => array('million','millioner'),
@@ -104,7 +104,7 @@ class Numbers_Words_dk extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_digits = array(
+    public $_digits = array(
         0 => 'nul', 'en', 'to', 'tre', 'fire',
         'fem', 'seks', 'syv', 'otte', 'ni'
     );
@@ -114,7 +114,7 @@ class Numbers_Words_dk extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_sep  = ' ';
+    public $_sep  = ' ';
 
     /**
      * The currency names (based on the below links,
@@ -124,7 +124,7 @@ class Numbers_Words_dk extends Numbers_Words
      * @link http://da.wikipedia.org/wiki/Valuta
      * @access private
      */
-    var $_currency_names = array(
+    public $_currency_names = array(
       'AUD' => array(array('australsk dollar', 'australske dollars'), array('cent')),
       'CAD' => array(array('canadisk dollar', 'canadisk dollars'), array('cent')),
       'CHF' => array(array('schweitzer franc'), array('rappen')),
@@ -146,7 +146,7 @@ class Numbers_Words_dk extends Numbers_Words
      * @var string
      * @access public
      */
-    var $def_currency = 'DKK'; // Danish krone
+    public $def_currency = 'DKK'; // Danish krone
 
     // }}}
     // {{{ toWords()
@@ -168,7 +168,8 @@ class Numbers_Words_dk extends Numbers_Words
      * @author Jesper Veggerby <pear.nosey@veggerby.dk>
      * @since  PHP 4.2.3
      */
-    function toWords($num, $power = 0, $powsuffix = '') {
+    public function toWords($num, $power = 0, $powsuffix = '')
+    {
       $ret = '';
 
       // add a minus sign
@@ -367,7 +368,8 @@ class Numbers_Words_dk extends Numbers_Words
      * @author Jesper Veggerby <pear.nosey@veggerby.dk>
      * @since  Numbers_Words 0.4
      */
-    function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true) {
+    public function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
+    {
         $int_curr = strtoupper($int_curr);
         if (!isset($this->_currency_names[$int_curr])) {
             $int_curr = $this->def_currency;
@@ -414,4 +416,3 @@ class Numbers_Words_dk extends Numbers_Words
     // }}}
  }
 
-?>

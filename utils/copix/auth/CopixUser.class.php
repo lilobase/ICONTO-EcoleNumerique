@@ -10,7 +10,7 @@
 
 /**
  * Exceptions utilisateurs
- * 
+ *
  * @package		copix
  * @subpackage	auth
  */
@@ -18,596 +18,633 @@ class CopixUserException extends CopixException {}
 
 /**
  * Authentification et gestion des droits
- * 
+ *
  * @package		copix
  * @subpackage	auth
  */
-class CopixUser implements ICopixUser {
-	/**
-	 * Tableau des sources où l'utilisateur est connecté
-	 * 
-	 * @var array
-	 */
-	private $_logged = array ();
-	
-	/**
-	 * Cache des éléments déja testés
-	 * 
-	 * @var array
-	 */
-	private $_asserted = array ();
-	
-	/**
-	 * Liste des groupes de l'utilisateur
-	 * 
-	 * @var array False veut dire qu'on n'a pas encore listé les groupes
-	 */
-	private $_groups = false;
-
-    /** 
-	 * Demande de connexion
-	 * 
-	 * @param array $pParams Paramètres envoyés à la demande de login
-	 * @return bool
-     */
-    public function login ($pParams = array ()) {
-		
-			//var_dump($pParams);
-	
-    	$this->_asserted = array();
-    	$this->_groups = false;
-    	$responses = array();
-    	$isConnected = false;
-    	// N.B: les gestionnaires étant triés par rang croissant, les réponses le seront aussi...
-    	foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $handler) {
-    		//Si on est en mode append on ne fait rien si le handler est déjà validé
-    		if (isset ($pParams['append']) && $pParams['append'] && isset ($this->_logged[$handler['name']]) && $this->_logged[$handler['name']] && $this->_logged[$handler['name']]->getResult ()) {
-    			continue;
-    		}
-    		$result = CopixUserHandlerFactory::create ($handler['name'])->login ($pParams);
-    		if( $result->getResult () ) {
-    			$isConnected = true;
-    		} elseif ($handler['required'] === true && (!isset ($pParams['append']) || !$pParams['append'])) {
-    			//On ne passe pas dans le required si on est en mode append
-   				$isConnected = false;
-   				break;
-    		} 
-    		$responses[$handler['name']] = $result;
-	   	}
-	   	//Si on est en mode  append on fait un merge
-	   	if (isset ($pParams['append']) && $pParams['append']) {
-	   		$this->_logged = $isConnected ? array_merge($this->_logged, $responses) : $this->_logged;
-	   	} else {
-	   		$this->_logged = $isConnected ? $responses : array();
-	   	}
-
-	   	return $isConnected;
-    }
-    
+class CopixUser implements ICopixUser
+{
     /**
-	 * Demande de déconnexion
-	 * 
-	 * @param array $pParams Paramètres envoyés à la demande de logout 
+     * Tableau des sources où l'utilisateur est connecté
+     *
+     * @var array
      */
-    public function logout ($pParams = array ()) {
-    	foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $handler) {
+    private $_logged = array ();
+
+    /**
+     * Cache des éléments déja testés
+     *
+     * @var array
+     */
+    private $_asserted = array ();
+
+    /**
+     * Liste des groupes de l'utilisateur
+     *
+     * @var array False veut dire qu'on n'a pas encore listé les groupes
+     */
+    private $_groups = false;
+
+    /**
+     * Demande de connexion
+     *
+     * @param array $pParams Paramètres envoyés à la demande de login
+     * @return bool
+     */
+    public function login ($pParams = array ())
+    {
+            //var_dump($pParams);
+
+        $this->_asserted = array();
+        $this->_groups = false;
+        $responses = array();
+        $isConnected = false;
+        // N.B: les gestionnaires étant triés par rang croissant, les réponses le seront aussi...
+        foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $handler) {
+            //Si on est en mode append on ne fait rien si le handler est déjà validé
+            if (isset ($pParams['append']) && $pParams['append'] && isset ($this->_logged[$handler['name']]) && $this->_logged[$handler['name']] && $this->_logged[$handler['name']]->getResult ()) {
+                continue;
+            }
+            $result = CopixUserHandlerFactory::create ($handler['name'])->login ($pParams);
+            if( $result->getResult () ) {
+                $isConnected = true;
+            } elseif ($handler['required'] === true && (!isset ($pParams['append']) || !$pParams['append'])) {
+                //On ne passe pas dans le required si on est en mode append
+                   $isConnected = false;
+                   break;
+            }
+            $responses[$handler['name']] = $result;
+           }
+           //Si on est en mode  append on fait un merge
+           if (isset ($pParams['append']) && $pParams['append']) {
+               $this->_logged = $isConnected ? array_merge($this->_logged, $responses) : $this->_logged;
+           } else {
+               $this->_logged = $isConnected ? $responses : array();
+           }
+
+           return $isConnected;
+    }
+
+    /**
+     * Demande de déconnexion
+     *
+     * @param array $pParams Paramètres envoyés à la demande de logout
+     */
+    public function logout ($pParams = array ())
+    {
+        foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $handler) {
             CopixUserHandlerFactory::create ($handler['name'])->logout ($pParams);
         }
         $this->_logged = array ();
-    	$this->_asserted = array ();
-    	$this->_groups = false;
+        $this->_asserted = array ();
+        $this->_groups = false;
     }
 
     /**
-	 * Retourne la liste des groupes de l'utilisateur, sous la forme d'un tableau (id => caption)
-	 * 
-	 * @return array
+     * Retourne la liste des groupes de l'utilisateur, sous la forme d'un tableau (id => caption)
+     *
+     * @return array
      */
     /*
      * PATCH ARNAUD LEMAIRE
      * AJOUT DE !empty($this->_groups) EN PLACE DE $this->_groups !== false
      */
-    public function getGroups () {
+    public function getGroups ()
+    {
         if (!empty($this->_groups) && (CopixConfig::instance ()->copixauth_cache == true)) {
-    		return $this->_groups;
-    	}
+            return $this->_groups;
+        }
 
-	   	$results = array ();
+           $results = array ();
 
-		//On parcours la liste des gestionnaires de groupes enregistrés.
-    	foreach (CopixConfig::instance ()->copixauth_getRegisteredGroupHandlers () as $handlerDefinition) {
-    		$handler = CopixGroupHandlerFactory::create ($handlerDefinition['name']);
-    		$arGroupHandler = array ();
-			//Pour chaque utilisateur testé lors du processus de login, on demande la liste de ses groupes  
-    		foreach ($this->getResponses(true) as $logResult) {
-				foreach ($handler->getUserGroups ($logResult->getId (), $logResult->getHandler()) as $id => $group) {
-	    			$arGroupHandler[$id] = $group;
-	    		}
-			}
-			//on rajoute également les groupes pour les "non authentifiés" (groupes anonymes par exemple)
-			foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $userHandler => $userHandlerInformations) {
-				foreach ($handler->getUserGroups (null, $userHandler) as $id => $group) {
-					$arGroupHandler[$id] = $group;
-    			}
-    		}
-    		if (count ($arGroupHandler)) {
-    			$results[$handlerDefinition['name']] = $arGroupHandler;
-    		}
-	   	}
-	   	return $this->_groups = $results;
+        //On parcours la liste des gestionnaires de groupes enregistrés.
+        foreach (CopixConfig::instance ()->copixauth_getRegisteredGroupHandlers () as $handlerDefinition) {
+            $handler = CopixGroupHandlerFactory::create ($handlerDefinition['name']);
+            $arGroupHandler = array ();
+            //Pour chaque utilisateur testé lors du processus de login, on demande la liste de ses groupes
+            foreach ($this->getResponses(true) as $logResult) {
+                foreach ($handler->getUserGroups ($logResult->getId (), $logResult->getHandler()) as $id => $group) {
+                    $arGroupHandler[$id] = $group;
+                }
+            }
+            //on rajoute également les groupes pour les "non authentifiés" (groupes anonymes par exemple)
+            foreach (CopixConfig::instance ()->copixauth_getRegisteredUserHandlers () as $userHandler => $userHandlerInformations) {
+                foreach ($handler->getUserGroups (null, $userHandler) as $id => $group) {
+                    $arGroupHandler[$id] = $group;
+                }
+            }
+            if (count ($arGroupHandler)) {
+                $results[$handlerDefinition['name']] = $arGroupHandler;
+            }
+           }
+           return $this->_groups = $results;
     }
 
-	/**
-	 * Vérifie les droits sur un élément de l'utilisateur courant. Génère une CopixCredentialException si le droit n'est pas accordé.
-	 *
-	 * @param string $pString Chaine de droit à tester (ex : basic:admin@news)
-	 * @throws CopixCredentialException 
+    /**
+     * Vérifie les droits sur un élément de l'utilisateur courant. Génère une CopixCredentialException si le droit n'est pas accordé.
+     *
+     * @param string $pString Chaine de droit à tester (ex : basic:admin@news)
+     * @throws CopixCredentialException
      */
-    public function assertCredential ($pString) {
-    	if (!$this->testCredential ($pString)) {
-	   		throw new CopixCredentialException ($pString);
-    	}
+    public function assertCredential ($pString)
+    {
+        if (!$this->testCredential ($pString)) {
+               throw new CopixCredentialException ($pString);
+        }
     }
 
 
-	/**
-	 * Test les droits en retournant true / false
-	 * 
-	 * @param string $pString Chaine de droit à tester (ex : basic:admin@news)
-	 * @return bool
-	 */
-	public function testCredential ($pString) {
+    /**
+     * Test les droits en retournant true / false
+     *
+     * @param string $pString Chaine de droit à tester (ex : basic:admin@news)
+     * @return bool
+     */
+    public function testCredential ($pString)
+    {
             if (isset ($this->_asserted[$pString]) && (CopixConfig::instance ()->copixauth_cache == true)) {
                     return $this->_asserted[$pString];
             }
-    	$pStringType   = substr ($pString, 0, strpos ($pString, ':'));
-    	$pStringString = substr ($pString, strpos ($pString, ':')+1);
+        $pStringType   = substr ($pString, 0, strpos ($pString, ':'));
+        $pStringString = substr ($pString, strpos ($pString, ':')+1);
 
-    	$success = false;
-    	foreach (CopixConfig::instance ()->copixauth_getRegisteredCredentialHandlers() as $handler) {
-    		if ((is_array ($handler['handle']) && in_array ($pStringType, $handler['handle'])) || $handler['handle'] === 'all') {
-				if (!((is_array ($handler['handleExcept']) && in_array ($pStringType, $handler['handleExcept'])) || $handler['handleExcept'] === $pStringType)) {
-		    		$result = CopixCredentialHandlerFactory::create ($handler['name'])->assert ($pStringType, $pStringString, $this);
-		    		if ($result === false) {
-		    			if ($handler['stopOnFailure']) {
-		    				return $this->_asserted[$pString] = false;
-		    			}
-		    			$success = $success || false;
-		    		}elseif ($result === true) {
-		    			if ($handler['stopOnSuccess']) {
-		    				return $this->_asserted[$pString] = true;
-		    			}
-		    			$success = true;
-		    		}
-    			}
-	   		}
-   		}
-   		
-   		$this->_asserted[$pString] = $success;
-   		return $success;
+        $success = false;
+        foreach (CopixConfig::instance ()->copixauth_getRegisteredCredentialHandlers() as $handler) {
+            if ((is_array ($handler['handle']) && in_array ($pStringType, $handler['handle'])) || $handler['handle'] === 'all') {
+                if (!((is_array ($handler['handleExcept']) && in_array ($pStringType, $handler['handleExcept'])) || $handler['handleExcept'] === $pStringType)) {
+                    $result = CopixCredentialHandlerFactory::create ($handler['name'])->assert ($pStringType, $pStringString, $this);
+                    if ($result === false) {
+                        if ($handler['stopOnFailure']) {
+                            return $this->_asserted[$pString] = false;
+                        }
+                        $success = $success || false;
+                    }elseif ($result === true) {
+                        if ($handler['stopOnSuccess']) {
+                            return $this->_asserted[$pString] = true;
+                        }
+                        $success = true;
+                    }
+                }
+               }
+           }
+
+           $this->_asserted[$pString] = $success;
+           return $success;
     }
-    
+
     /**
      * Indique si l'utilisateur courant est connecté
-     * 
+     *
      * @return boolean
      */
-    public function isConnected () {
-    	return (count ($this->_logged) > 0);
+    public function isConnected ()
+    {
+        return (count ($this->_logged) > 0);
     }
 
     /**
      * Retourne l'identifiant de l'utilisteur courant
-	 * 
+     *
      * @return string ou null si non trouvé
      */
-    public function getId () {
-    	return !is_null($response = $this->_getFirstLogged ()) ? $response->getId () : null;
+    public function getId ()
+    {
+        return !is_null($response = $this->_getFirstLogged ()) ? $response->getId () : null;
     }
-		
-		public function getIdPersonnel () {
-			//var_dump($this);
-    	return !is_null($response = $this->_getFirstLogged ()) ? $response->getIdPersonnel () : null;
+
+        public function getIdPersonnel ()
+        {
+            //var_dump($this);
+        return !is_null($response = $this->_getFirstLogged ()) ? $response->getIdPersonnel () : null;
     }
-    
-		public function getPrivateKey () {
+
+        public function getPrivateKey ()
+        {
       return !is_null($response = $this->_getFirstLogged ()) ? $response->getPrivateKey () : null;
     }
-	
-		public function isSsoIn () {
+
+        public function isSsoIn ()
+        {
       return !is_null($response = $this->_getFirstLogged ()) ? $response->isSsoIn () : null;
     }
-		
-		public function hasAssistance ( $check='' ) {
-			$animateur_dao = _dao("kernel|kernel_animateurs");
-			$animateur = $animateur_dao->get($this->getExtra('type'), $this->getExtra('id'));
-			
-			$ien_dao = _dao("kernel|kernel_ien");
-			$ien = $ien_dao->get($this->getExtra('type'), $this->getExtra('id'));
-			
-			if($animateur) {
-				switch( $check ) {
-					case 'all':
-						return $animateur;
-						break;
-					case 'can_connect':
-						return ($animateur->can_connect) ? true : false;
-						break;
-					case 'can_tableaubord':
-						return ($animateur->can_tableaubord) ? true : false;
-						break;
-					case 'can_comptes':
-						return ($animateur->can_comptes) ? true : false;
-						break;
-					case 'is_visibleannuaire':
-						return ($animateur->is_visibleannuaire) ? true : false;
-						break;
-					default:
-						return true;
-						break;
-				}
-			} elseif($ien) {
-				switch( $check ) {
-					case 'all':
-						return $ien;
-						break;
-					case 'can_connect':
-						return ($ien->can_connect) ? true : false;
-						break;
-					case 'can_tableaubord':
-						return ($ien->can_tableaubord) ? true : false;
-						break;
-					case 'can_comptes':
-						return ($ien->can_comptes) ? true : false;
-						break;
-					case 'is_visibleannuaire':
-						return ($ien->is_visibleannuaire) ? true : false;
-						break;
-					default:
-						return true;
-						break;
-				}
-			} else {
-				return false;
-			}
-		}
-	
-    
+
+        public function hasAssistance ( $check='' )
+        {
+            $animateur_dao = _dao("kernel|kernel_animateurs");
+            $animateur = $animateur_dao->get($this->getExtra('type'), $this->getExtra('id'));
+
+            $ien_dao = _dao("kernel|kernel_ien");
+            $ien = $ien_dao->get($this->getExtra('type'), $this->getExtra('id'));
+
+            if($animateur) {
+                switch( $check ) {
+                    case 'all':
+                        return $animateur;
+                        break;
+                    case 'can_connect':
+                        return ($animateur->can_connect) ? true : false;
+                        break;
+                    case 'can_tableaubord':
+                        return ($animateur->can_tableaubord) ? true : false;
+                        break;
+                    case 'can_comptes':
+                        return ($animateur->can_comptes) ? true : false;
+                        break;
+                    case 'is_visibleannuaire':
+                        return ($animateur->is_visibleannuaire) ? true : false;
+                        break;
+                    default:
+                        return true;
+                        break;
+                }
+            } elseif($ien) {
+                switch( $check ) {
+                    case 'all':
+                        return $ien;
+                        break;
+                    case 'can_connect':
+                        return ($ien->can_connect) ? true : false;
+                        break;
+                    case 'can_tableaubord':
+                        return ($ien->can_tableaubord) ? true : false;
+                        break;
+                    case 'can_comptes':
+                        return ($ien->can_comptes) ? true : false;
+                        break;
+                    case 'is_visibleannuaire':
+                        return ($ien->is_visibleannuaire) ? true : false;
+                        break;
+                    default:
+                        return true;
+                        break;
+                }
+            } else {
+                return false;
+            }
+        }
+
+
     /**
      * Retourne le libellé de l'utilisteur courant
-	 * 
-	 * @return string ou nul si non trouvé
+     *
+     * @return string ou nul si non trouvé
      */
-    public function getCaption () {
-    	return !is_null($response = $this->_getFirstLogged ()) ? $response->getCaption () : null;
+    public function getCaption ()
+    {
+        return !is_null($response = $this->_getFirstLogged ()) ? $response->getCaption () : null;
     }
-    
+
     /**
      * Retourne le login de l'utilisateur courant
-	 * 
+     *
      * @return string ou null si non trouvé
      */
-    public function getLogin () {
-    	return !is_null($response = $this->_getFirstLogged ()) ? $response->getLogin () : null;
+    public function getLogin ()
+    {
+        return !is_null($response = $this->_getFirstLogged ()) ? $response->getLogin () : null;
     }
-    
+
     /**
      * Retourne le nom du gestion de l'utilisateur courant.
-     * 
+     *
      * @return string ou null si non trouvé
      */
-    public function getHandler () {
-    	return !is_null($response = $this->_getFirstLogged ()) ? $response->getHandler () : null;    	
+    public function getHandler ()
+    {
+        return !is_null($response = $this->_getFirstLogged ()) ? $response->getHandler () : null;
     }
-    
+
     /**
      * Retourne l'identité principale de l'utilisateur (couple )
      *
      * @return array Tableau de la forme ("nom_du_gestionnaire", "id_utilisateur") ou null
      */
-    public function getIdentity() {
-    	return !is_null($response = $this->_getFirstLogged ()) ? $response->getIdentity() : null;    	
+    public function getIdentity()
+    {
+        return !is_null($response = $this->_getFirstLogged ()) ? $response->getIdentity() : null;
     }
-    
+
     /**
-     * Retourne la liste des identités de l'utilisateur, i.e. des réponses poi 
+     * Retourne la liste des identités de l'utilisateur, i.e. des réponses poi
      *
      * @return array Tableau de la forme ("nom_du_gestionnaire", "id_utilisateur"), potentiellement vide
      */
-    public function getIdentities() {
-    	$toReturn = array();
-    	foreach($this->_logged as $response) {
-    		if($response->getResult()) {
-   				$toReturn[] = $response->getIdentity();
-    		}
-    	}    	
-    	return $toReturn;
+    public function getIdentities()
+    {
+        $toReturn = array();
+        foreach($this->_logged as $response) {
+            if($response->getResult()) {
+                   $toReturn[] = $response->getIdentity();
+            }
+        }
+        return $toReturn;
     }
-    
-	/**
-	 * Retourne la première réponse positive.
-	 * 
-	 * @return CopixUserLogResponse 
-	 */
-	private function _getFirstLogged () {
-		// Rappelez vous : les réponses sont classées par rang
-		foreach($this->_logged as $response) {
-			if($response->getResult()) {
-				return $response;
-			}
-		}
-		return null;
-	}
 
-	/**
-	 * Indique si l'utisateur à été correctement identifié via un handler donné
-	 * 
-	 * @param string $pHandlerName Nom du handler
-	 * @return bool
-	 * @deprecated
-	 * @see CopixUser::isConnectedWith
-	 */
-	public function isLoggedWith ($pHandlerName) {
-		return $this->isConnectedWith ($pHandlerName);
-	}
+    /**
+     * Retourne la première réponse positive.
+     *
+     * @return CopixUserLogResponse
+     */
+    private function _getFirstLogged ()
+    {
+        // Rappelez vous : les réponses sont classées par rang
+        foreach($this->_logged as $response) {
+            if($response->getResult()) {
+                return $response;
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * Indique si l'utilisateur est connecté avec un handler donné.
-	 * 
-	 * @param string $pHandlerName Nom du handler
-	 * @return bool
-	 */
-	public function isConnectedWith ($pHandlerName) {
-		foreach($this->_logged as $response) {
-			if($response->getResult() && $response->getHandler() == $pHandlerName) {
-				return true;
-			}
-		}
-		return false;
-	}
+    /**
+     * Indique si l'utisateur à été correctement identifié via un handler donné
+     *
+     * @param string $pHandlerName Nom du handler
+     * @return bool
+     * @deprecated
+     * @see CopixUser::isConnectedWith
+     */
+    public function isLoggedWith ($pHandlerName)
+    {
+        return $this->isConnectedWith ($pHandlerName);
+    }
+
+    /**
+     * Indique si l'utilisateur est connecté avec un handler donné.
+     *
+     * @param string $pHandlerName Nom du handler
+     * @return bool
+     */
+    public function isConnectedWith ($pHandlerName)
+    {
+        foreach($this->_logged as $response) {
+            if($response->getResult() && $response->getHandler() == $pHandlerName) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Vérifie si l'utilisateur est connecté avec le gestionnaire et l'identifiant indiqué.
      *
      * @param string $$pHandlerName Nom du gestionnaire.
      * @param mixed $pUserId Identifiant de l'utilisateur.
-     * @return boolean Vrai si l'utilisateur est reconnu. 
+     * @return boolean Vrai si l'utilisateur est reconnu.
      */
-    public function isConnectedAs($pHandlerName, $pUserId) {
-    	foreach($this->_logged as $response) {
-			if($response->getResult() && $response->getHandler() == $pHandlerName && $response->getId() == $pUserId) {
-				return true;
-			}
-		}    	
-    	return false;
+    public function isConnectedAs($pHandlerName, $pUserId)
+    {
+        foreach($this->_logged as $response) {
+            if($response->getResult() && $response->getHandler() == $pHandlerName && $response->getId() == $pUserId) {
+                return true;
+            }
+        }
+        return false;
     }
-	
-	/**
-	 * Indique la réponse qu'a apporté le handler donné lors de la demande de connexion
-	 * 
-	 * @param string $pHandlerName Nom du handler
-	 * @return array of CopixUserResponse  / false si aucune réponse
-	 */
-	public function getHandlerResponse ($pHandlerName) {
-		$toReturn = array();
-		foreach($this->_logged as $response) {
-			if($response->getHandler() == $pHandlerName) {
-				$toReturn[] = $response;
-			}
-		}		
-		switch(count($toReturn)) {
-			case 0: return false;
-			case 1: return $toReturn[0];
-			default: return $toReturn;
-		}
-	}
 
-	/**
-	 * Retourne les réponses qu'ont apportées les handlers lors des tentatives de connexion
-	 * 
-	 * @return array of CopixUserLogResponse
-	 */
-	public function getResponses () {
-		return $this->_logged;
-	}
-	
-	/**
-	 * recherche l'information $pInformationId dans les réponses apportées durant le processus de login.
-	 *
-	 * @param string $pInformationId	Le nom de l'information que l'on recherche
-	 * @param string $pUserHandler    Dans quelle réponse on cherche. Si rien n'est donné, on prend la première information qui porte le nom demandé
-	 */
-	public function getExtra ($pInformationId, $pUserHandler = null){
-		if ($pUserHandler === null){
-			foreach ($this->_logged as $userHandler=>$userResponse){
-				$extra = $userResponse->getExtra ();
-				if (isset ($extra[$pInformationId])){
-					return $extra[$pInformationId];
-				}
-			}
-		}else{
-			if (isset ($this->_logged[$pUserHandler])){
-				$extra = $this->_logged[$pUserHandler]->getExtra ();
-				return isset ($extra[$pInformationId]) ? $extra[$pInformationId] : null; 
-			}
-		}
-		return null;
-	}
-	
-	// Tous les extras du user
-	// CB 16/09/2009
-	public function getExtras () {
-		foreach ($this->_logged as $userHandler=>$userResponse){
-				$extra = $userResponse->getExtra ();
-				return $extra;
-			}
-	}
-	
-	
-	/**
-	* Définition d'information supplémentaire pour les gestionnaires d'authentification
-	* 
-	* @param string $pInformationId    le nom de l'information a définir
-	* @param string $pInformationValue la valeur de l'information a placer
-	* @param string $pUserHandler   pour quel userhandler on va défnir l'information supplémentaire.
-	*                               Si null est donné, on placera l'information dans le premier gestionnaire
-	*                               connecté.
-	* @return boolean si l'information a bien été ajoutée
-	*/
-	public function setExtra ($pInformationId, $pInformationValue, $pUserHandler = null){
-	   if ($pUserHandler === null){
-			//Si le handler n'est pas spécifié, on prend le premier loggué
-	   		$userHandlerResponse = $this->_getFirstLogged ();
-	   }else{
-			//Si le handler est spécifié, on prend la réponse apportée par ce dernier      
-			$userHandlerResponse = $this->getHandlerResponse ($pUserHandler);
-	   }
+    /**
+     * Indique la réponse qu'a apporté le handler donné lors de la demande de connexion
+     *
+     * @param string $pHandlerName Nom du handler
+     * @return array of CopixUserResponse  / false si aucune réponse
+     */
+    public function getHandlerResponse ($pHandlerName)
+    {
+        $toReturn = array();
+        foreach($this->_logged as $response) {
+            if($response->getHandler() == $pHandlerName) {
+                $toReturn[] = $response;
+            }
+        }
+        switch(count($toReturn)) {
+            case 0: return false;
+            case 1: return $toReturn[0];
+            default: return $toReturn;
+        }
+    }
 
-	   if ($userHandlerResponse !== null){
-	   		//Si on est bien connecté avec au moins un utilisateur, il est possible de 
-	   		//définir l'information supplémentaire
-	   		return $userHandlerResponse->addExtra ($pInformationId, $pInformationValue);
-	   }
+    /**
+     * Retourne les réponses qu'ont apportées les handlers lors des tentatives de connexion
+     *
+     * @return array of CopixUserLogResponse
+     */
+    public function getResponses ()
+    {
+        return $this->_logged;
+    }
 
-	   	//l'information n'a pas pu être ajoutée, pas de réponse valide.
-		return false;
-	}
-	
-	
-	
+    /**
+     * recherche l'information $pInformationId dans les réponses apportées durant le processus de login.
+     *
+     * @param string $pInformationId	Le nom de l'information que l'on recherche
+     * @param string $pUserHandler    Dans quelle réponse on cherche. Si rien n'est donné, on prend la première information qui porte le nom demandé
+     */
+    public function getExtra ($pInformationId, $pUserHandler = null)
+    {
+        if ($pUserHandler === null){
+            foreach ($this->_logged as $userHandler=>$userResponse){
+                $extra = $userResponse->getExtra ();
+                if (isset ($extra[$pInformationId])){
+                    return $extra[$pInformationId];
+                }
+            }
+        }else{
+            if (isset ($this->_logged[$pUserHandler])){
+                $extra = $this->_logged[$pUserHandler]->getExtra ();
+                return isset ($extra[$pInformationId]) ? $extra[$pInformationId] : null;
+            }
+        }
+        return null;
+    }
+
+    // Tous les extras du user
+    // CB 16/09/2009
+    public function getExtras ()
+    {
+        foreach ($this->_logged as $userHandler=>$userResponse){
+                $extra = $userResponse->getExtra ();
+                return $extra;
+            }
+    }
+
+
+    /**
+    * Définition d'information supplémentaire pour les gestionnaires d'authentification
+    *
+    * @param string $pInformationId    le nom de l'information a définir
+    * @param string $pInformationValue la valeur de l'information a placer
+    * @param string $pUserHandler   pour quel userhandler on va défnir l'information supplémentaire.
+    *                               Si null est donné, on placera l'information dans le premier gestionnaire
+    *                               connecté.
+    * @return boolean si l'information a bien été ajoutée
+    */
+    public function setExtra ($pInformationId, $pInformationValue, $pUserHandler = null)
+    {
+       if ($pUserHandler === null){
+            //Si le handler n'est pas spécifié, on prend le premier loggué
+               $userHandlerResponse = $this->_getFirstLogged ();
+       }else{
+            //Si le handler est spécifié, on prend la réponse apportée par ce dernier
+            $userHandlerResponse = $this->getHandlerResponse ($pUserHandler);
+       }
+
+       if ($userHandlerResponse !== null){
+               //Si on est bien connecté avec au moins un utilisateur, il est possible de
+               //définir l'information supplémentaire
+               return $userHandlerResponse->addExtra ($pInformationId, $pInformationValue);
+       }
+
+           //l'information n'a pas pu être ajoutée, pas de réponse valide.
+        return false;
+    }
+
+
+
 }
 
 /**
  * Enregistrement des réponses des handlers
- * 
+ *
  * @package		copix
  * @subpackage	auth
  */
-class CopixUserLogResponse {
-	/**
-	 * Résultats de l'authentification
-	 * 
-	 * @var array
-	 */
-	private $_data = array ();
+class CopixUserLogResponse
+{
+    /**
+     * Résultats de l'authentification
+     *
+     * @var array
+     */
+    private $_data = array ();
 
-	/**
-	 * Construction
-	 * 
-	 * @param bool $pOk Résultat de la demande de connexion
-	 * @param string $pHandler Nom du handler
-	 * @param mixed $pId Identifiant de l'utilisateur
-	 * @param string $pLogin Login de l'utilisateur
-	 * @param array $pExtra Informations supplémentaires
-	 */
-	public function __construct ($pOk, $pHandler, $pId, $pLogin, $pExtra = array ()) {
-		$this->_data['result'] = $pOk;
-		$this->_data['handler'] = $pHandler;
-		$this->_data['id'] = $pId;
-		$this->_data['login'] = $pLogin;
-		$this->_data['extra'] = $pExtra;
-	}
+    /**
+     * Construction
+     *
+     * @param bool $pOk Résultat de la demande de connexion
+     * @param string $pHandler Nom du handler
+     * @param mixed $pId Identifiant de l'utilisateur
+     * @param string $pLogin Login de l'utilisateur
+     * @param array $pExtra Informations supplémentaires
+     */
+    public function __construct ($pOk, $pHandler, $pId, $pLogin, $pExtra = array ())
+    {
+        $this->_data['result'] = $pOk;
+        $this->_data['handler'] = $pHandler;
+        $this->_data['id'] = $pId;
+        $this->_data['login'] = $pLogin;
+        $this->_data['extra'] = $pExtra;
+    }
 
-	/**
-	 * Récupère le résultat de la connexion
-	 *
-	 * @return boolean
-	 */
-	public function getResult () {
-		return $this->_data['result'];
-	}
+    /**
+     * Récupère le résultat de la connexion
+     *
+     * @return boolean
+     */
+    public function getResult ()
+    {
+        return $this->_data['result'];
+    }
 
-	/**
-	 * Récupère l'identifiant unique de la personne connectée
-	 *
-	 * @return string
-	 */
-	public function getId () {
-		return $this->_data['id'];
-	}
+    /**
+     * Récupère l'identifiant unique de la personne connectée
+     *
+     * @return string
+     */
+    public function getId ()
+    {
+        return $this->_data['id'];
+    }
 
-	/**
-	 * Récupère le login de la personne
-	 *
-	 * @return string
-	 */
-	public function getLogin () {
-		return $this->_data['login'];
-	}
+    /**
+     * Récupère le login de la personne
+     *
+     * @return string
+     */
+    public function getLogin ()
+    {
+        return $this->_data['login'];
+    }
 
-	/**
-	 * Récupère le libellé à appliquer à l'utilisateur
-	 *
-	 * @return string
-	 */
-	public function getCaption () {
-		if (isset ($this->_data['extra']['caption'])) {
-			return $this->_data['extra']['caption'];
-		}
-		return $this->getLogin ();
-	}
+    /**
+     * Récupère le libellé à appliquer à l'utilisateur
+     *
+     * @return string
+     */
+    public function getCaption ()
+    {
+        if (isset ($this->_data['extra']['caption'])) {
+            return $this->_data['extra']['caption'];
+        }
+        return $this->getLogin ();
+    }
 
-	/**
-	 * Récupère le handler capable de gérer l'utilisateur
-	 * 
-	 * @return string
-	 */
-	public function getHandler () {
-		return $this->_data['handler'];
-	}
-	
-	public function getIdPersonnel () {
-		return isset ($this->_data['extra']['id_personnel']) ? $this->_data['extra']['id_personnel'] : null;
-	}
-	
-	public function getPrivateKey () {
-	  return isset ($this->_data['extra']['cle_privee']) ? $this->_data['extra']['cle_privee'] : null;
-	}
-	
-	/* Si connecte en mode SSO (entrant) */
-	public function isSsoIn () {
-	  return ($this->_data['extra']['sso_in']);
-	}
-		
-		
-	/**
-	 * Récupération des données supplémentaires qui ont put être fournies par le système d'authentification
-	 *
-	 * @return array
-	 */
-	public function getExtra () {
-		return $this->_data['extra'];
-	}
-	
-	/**
-	 * Retourne le couple (handlerName, userId) qui identifie l'utilisateur 
-	 *
-	 * @return array(handlerName, userId)
-	 */
-	public function getIdentity () {
-		return array($this->_data['handler'], $this->_data['id']);		
-	}
-	
-	/**
-	 * Ajoute une information dans le gestionnaire d'utilisateur
-	 * 
-	 * @return boolean si l'information a été mise à jour ou non
-	 */
-	public function addExtra ($pInformationName, $pInformationValue, $pOverwrite = true){
-	   if (! $pOverwrite){
-	      if (array_key_exists ($pInformationName, $this->_data['extra'])){
-	         return false;
-	      }
-	   }
-	   
-	   $this->_data['extra'][$pInformationName] = $pInformationValue;
-	   return true;
-	}
-	
+    /**
+     * Récupère le handler capable de gérer l'utilisateur
+     *
+     * @return string
+     */
+    public function getHandler ()
+    {
+        return $this->_data['handler'];
+    }
 
-	
-	
-	
-	
+    public function getIdPersonnel ()
+    {
+        return isset ($this->_data['extra']['id_personnel']) ? $this->_data['extra']['id_personnel'] : null;
+    }
+
+    public function getPrivateKey ()
+    {
+      return isset ($this->_data['extra']['cle_privee']) ? $this->_data['extra']['cle_privee'] : null;
+    }
+
+    /* Si connecte en mode SSO (entrant) */
+    public function isSsoIn ()
+    {
+      return ($this->_data['extra']['sso_in']);
+    }
+
+
+    /**
+     * Récupération des données supplémentaires qui ont put être fournies par le système d'authentification
+     *
+     * @return array
+     */
+    public function getExtra ()
+    {
+        return $this->_data['extra'];
+    }
+
+    /**
+     * Retourne le couple (handlerName, userId) qui identifie l'utilisateur
+     *
+     * @return array(handlerName, userId)
+     */
+    public function getIdentity ()
+    {
+        return array($this->_data['handler'], $this->_data['id']);
+    }
+
+    /**
+     * Ajoute une information dans le gestionnaire d'utilisateur
+     *
+     * @return boolean si l'information a été mise à jour ou non
+     */
+    public function addExtra ($pInformationName, $pInformationValue, $pOverwrite = true)
+    {
+       if (! $pOverwrite){
+          if (array_key_exists ($pInformationName, $this->_data['extra'])){
+             return false;
+          }
+       }
+
+       $this->_data['extra'][$pInformationName] = $pInformationValue;
+       return true;
+    }
+
+
+
+
+
+
 }
-?>

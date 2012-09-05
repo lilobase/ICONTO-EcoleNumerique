@@ -1,16 +1,13 @@
 <?php
 
 
-class DAOFiches_ecoles {
-
-
-
-
+class DAOFiches_ecoles
+{
 }
 
-class DAORecordFiches_ecoles {
-
-	/**
+class DAORecordFiches_ecoles
+{
+    /**
      * Le nom en clair d'un document joint a une fiche ecole. Correspond au nom physique du fichier, en enlevant l'Id et l'underscore du debut
      *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
@@ -19,7 +16,8 @@ class DAORecordFiches_ecoles {
      * @return string Nom du fichier
      *
      */
-     public function getDocumentNom($iIndex) {
+     public function getDocumentNom($iIndex)
+     {
          $oNom = '';
          $field = 'doc'.$iIndex.'_fichier';
          if ($this->$field && preg_match('/^([0-9]+)_(.+)$/', $this->$field, $regs)) {
@@ -29,4 +27,3 @@ class DAORecordFiches_ecoles {
      }
 
 }
-?>

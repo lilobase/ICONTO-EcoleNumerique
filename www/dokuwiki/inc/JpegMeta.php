@@ -30,12 +30,12 @@
 
 class JpegMeta
 {
-    var $_fileName;
-    var $_fp = null;
-    var $_type = 'unknown';
+    public $_fileName;
+    public $_fp = null;
+    public $_type = 'unknown';
 
-    var $_markers;
-    var $_info;
+    public $_markers;
+    public $_info;
 
 
     /**
@@ -43,7 +43,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function JpegMeta($fileName)
+    public function JpegMeta($fileName)
     {
 
         $this->_fileName = $fileName;
@@ -90,16 +90,14 @@ class JpegMeta
         if (isset($this->_info['file']['Url'])) {
             $info['Url'] = $this->_info['file']['Url'];
             $info['NiceSize'] = "???KB";
-        }
-        else {
+        } else {
             $info['Size'] = $this->_info['file']['Size'];
             $info['NiceSize'] = $this->_info['file']['NiceSize'];
         }
 
         if (@isset($this->_info['sof']['Format'])) {
             $info['Format'] = $this->_info['sof']['Format'] . " JPEG";
-        }
-        else {
+        } else {
             $info['Format'] = $this->_info['sof']['Format'] . " JPEG";
         }
 
@@ -128,7 +126,7 @@ class JpegMeta
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function getField($fields)
+    public function getField($fields)
     {
         if(!is_array($fields)) $fields = array($fields);
         $info = false;
@@ -172,7 +170,7 @@ class JpegMeta
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function setField($field, $value)
+    public function setField($field, $value)
     {
         if(strtolower(substr($field,0,5)) == 'iptc.'){
             return $this->setIPTCField(substr($field,5),$value);
@@ -189,7 +187,7 @@ class JpegMeta
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function deleteField($field)
+    public function deleteField($field)
     {
         if(strtolower(substr($field,0,5)) == 'iptc.'){
             return $this->deleteIPTCField(substr($field,5));
@@ -205,7 +203,7 @@ class JpegMeta
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function getDateField($field)
+    public function getDateField($field)
     {
         if (!isset($this->_info['dates'])) {
             $this->_info['dates'] = $this->getDates();
@@ -223,7 +221,7 @@ class JpegMeta
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function getFileField($field)
+    public function getFileField($field)
     {
         if (!isset($this->_info['file'])) {
             $this->_parseFileInfo();
@@ -242,7 +240,8 @@ class JpegMeta
      * @author Andreas Gohr <andi@splitbrain.org>
      * @todo   handle makernotes
      */
-    function getCamera(){
+    public function getCamera()
+    {
         $make  = $this->getField(array('Exif.Make','Exif.TIFFMake'));
         $model = $this->getField(array('Exif.Model','Exif.TIFFModel'));
         $cam = trim("$make $model");
@@ -255,7 +254,7 @@ class JpegMeta
      *
      * @author Joe Lapp <joe.lapp@pobox.com>
      */
-    function getShutterSpeed()
+    public function getShutterSpeed()
     {
         if (!isset($this->_info['exif'])) {
             $this->_parseMarkerExif();
@@ -274,7 +273,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function getExifField($field)
+    public function getExifField($field)
     {
         if (!isset($this->_info['exif'])) {
             $this->_parseMarkerExif();
@@ -296,7 +295,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function getAdobeField($field)
+    public function getAdobeField($field)
     {
         if (!isset($this->_info['adobe'])) {
             $this->_parseMarkerAdobe();
@@ -318,7 +317,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function getIPTCField($field)
+    public function getIPTCField($field)
     {
         if (!isset($this->_info['iptc'])) {
             $this->_parseMarkerAdobe();
@@ -341,7 +340,7 @@ class JpegMeta
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      * @author Joe Lapp <joe.lapp@pobox.com>
      */
-    function setExifField($field, $value)
+    public function setExifField($field, $value)
     {
         if (!isset($this->_info['exif'])) {
             $this->_parseMarkerExif();
@@ -372,7 +371,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function setAdobeField($field, $value)
+    public function setAdobeField($field, $value)
     {
         if (!isset($this->_info['adobe'])) {
             $this->_parseMarkerAdobe();
@@ -397,7 +396,8 @@ class JpegMeta
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function getResizeRatio($maxwidth,$maxheight=0){
+    public function getResizeRatio($maxwidth,$maxheight=0)
+    {
         if(!$maxheight) $maxheight = $maxwidth;
 
         $w = $this->getField('File.Width');
@@ -426,7 +426,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function setIPTCField($field, $value)
+    public function setIPTCField($field, $value)
     {
         if (!isset($this->_info['iptc'])) {
             $this->_parseMarkerAdobe();
@@ -450,7 +450,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function deleteExifField($field)
+    public function deleteExifField($field)
     {
         if (!isset($this->_info['exif'])) {
             $this->_parseMarkerAdobe();
@@ -472,7 +472,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function deleteAdobeField($field)
+    public function deleteAdobeField($field)
     {
         if (!isset($this->_info['adobe'])) {
             $this->_parseMarkerAdobe();
@@ -494,7 +494,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function deleteIPTCField($field)
+    public function deleteIPTCField($field)
     {
         if (!isset($this->_info['iptc'])) {
             $this->_parseMarkerAdobe();
@@ -517,7 +517,8 @@ class JpegMeta
      * @param int $max  maximum number chars (keeps words)
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function getTitle($max=80){
+    public function getTitle($max=80)
+    {
         $cap = '';
 
         // try various fields
@@ -542,7 +543,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function getDates()
+    public function getDates()
     {
         $this->_parseAll();
 
@@ -666,7 +667,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function getWidth()
+    public function getWidth()
     {
         if (!isset($this->_info['sof'])) {
             $this->_parseMarkerSOF();
@@ -696,7 +697,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function getHeight()
+    public function getHeight()
     {
         if (!isset($this->_info['sof'])) {
             $this->_parseMarkerSOF();
@@ -726,7 +727,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function getDimStr()
+    public function getDimStr()
     {
         if ($this->_markers == null) {
             return false;
@@ -743,7 +744,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function hasThumbnail($which = 'any')
+    public function hasThumbnail($which = 'any')
     {
         if (($which == 'any') || ($which == 'exif')) {
             if (!isset($this->_info['exif'])) {
@@ -785,7 +786,7 @@ class JpegMeta
      *
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      */
-    function sendThumbnail($which = 'any')
+    public function sendThumbnail($which = 'any')
     {
         $data = null;
 
@@ -836,7 +837,8 @@ class JpegMeta
      * @author Sebastian Delmont <sdelmont@zonageek.com>
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function save($fileName = "") {
+    public function save($fileName = "")
+    {
         if ($fileName == "") {
             $tmpName = tempnam(dirname($this->_fileName),'_metatemp_');
             $this->_writeJPEG($tmpName);
@@ -854,7 +856,7 @@ class JpegMeta
     /*************************************************************/
 
     /*************************************************************/
-    function _dispose()
+    public function _dispose()
     {
         $this->_fileName = $fileName;
 
@@ -866,7 +868,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _readJPEG()
+    public function _readJPEG()
     {
         unset($this->_markers);
         unset($this->_info);
@@ -877,12 +879,10 @@ class JpegMeta
         if ($this->_fp) {
             if (file_exists($this->_fileName)) {
                 $this->_type = 'file';
-            }
-            else {
+            } else {
                 $this->_type = 'url';
             }
-        }
-        else {
+        } else {
             $this->_fp = null;
             return false;  // ERROR: Can't open file
         }
@@ -958,8 +958,7 @@ class JpegMeta
 
             if ($capture) {
                 $this->_markers[$count]['data'] =& fread($this->_fp, $length);
-            }
-            elseif (!$done) {
+            } elseif (!$done) {
                 $result = @fseek($this->_fp, $length, SEEK_CUR);
               // fseek doesn't seem to like HTTP 'files', but fgetc has no problem
                 if (!($result === 0)) {
@@ -980,7 +979,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _parseAll()
+    public function _parseAll()
     {
         if (!isset($this->_markers)) {
             $this->_readJPEG();
@@ -1008,7 +1007,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _writeJPEG($outputName)
+    public function _writeJPEG($outputName)
     {
         $this->_parseAll();
 
@@ -1019,20 +1018,17 @@ class JpegMeta
         if ($this->_fp) {
             if (file_exists($this->_fileName)) {
                 $this->_type = 'file';
-            }
-            else {
+            } else {
                 $this->_type = 'url';
             }
-        }
-        else {
+        } else {
             $this->_fp = null;
             return false;  // ERROR: Can't open file
         }
 
         $this->_fpout = fopen($outputName, 'wb');
         if ($this->_fpout) {
-        }
-        else {
+        } else {
             $this->_fpout = null;
             fclose($this->_fp);
             $this->_fp = null;
@@ -1092,12 +1088,10 @@ class JpegMeta
             if ($marker == 0xE1) { // APP1: EXIF data
                 $data =& $this->_createMarkerEXIF();
                 $wroteEXIF = true;
-            }
-            elseif ($marker == 0xED) { // APP13: IPTC / Photoshop data
+            } elseif ($marker == 0xED) { // APP13: IPTC / Photoshop data
                 $data =& $this->_createMarkerAdobe();
                 $wroteAdobe = true;
-            }
-            elseif ($marker == 0xDA) { // SOS: Start of scan... the image itself and the last block on the file
+            } elseif ($marker == 0xDA) { // SOS: Start of scan... the image itself and the last block on the file
                 $done = true;
             }
 
@@ -1144,7 +1138,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _writeJPEGMarker($marker, $length, &$data, $origLength)
+    public function _writeJPEGMarker($marker, $length, &$data, $origLength)
     {
         if ($length <= 0) {
             return false;
@@ -1168,15 +1162,13 @@ class JpegMeta
                     }
                 }
             }
-        }
-        else {
+        } else {
             if ($marker == 0xDA) {  // Copy until EOF
                 while (!feof($this->_fp)) {
                     $data =& fread($this->_fp, 1024 * 16);
                     fputs($this->_fpout, $data, strlen($data));
                 }
-            }
-            else { // Copy only $length bytes
+            } else { // Copy only $length bytes
                 $data =& fread($this->_fp, $length);
                 fputs($this->_fpout, $data, $length);
             }
@@ -1191,7 +1183,7 @@ class JpegMeta
      * @author  Sebastian Delmont <sdelmont@zonageek.com>
      * @author  Andreas Gohr <andi@splitbrain.org>
      */
-    function _parseFileInfo()
+    public function _parseFileInfo()
     {
         if (file_exists($this->_fileName)) {
             $this->_info['file'] = array();
@@ -1200,14 +1192,11 @@ class JpegMeta
             $this->_info['file']['Size'] = filesize($this->_fileName);
             if ($this->_info['file']['Size'] < 1024) {
                 $this->_info['file']['NiceSize'] = $this->_info['file']['Size'] . 'B';
-            }
-            elseif ($this->_info['file']['Size'] < (1024 * 1024)) {
+            } elseif ($this->_info['file']['Size'] < (1024 * 1024)) {
                 $this->_info['file']['NiceSize'] = round($this->_info['file']['Size'] / 1024) . 'KB';
-            }
-            elseif ($this->_info['file']['Size'] < (1024 * 1024 * 1024)) {
+            } elseif ($this->_info['file']['Size'] < (1024 * 1024 * 1024)) {
                 $this->_info['file']['NiceSize'] = round($this->_info['file']['Size'] / (1024*1024)) . 'MB';
-            }
-            else {
+            } else {
                 $this->_info['file']['NiceSize'] = $this->_info['file']['Size'] . 'B';
             }
             $this->_info['file']['UnixTime'] = filemtime($this->_fileName);
@@ -1287,8 +1276,7 @@ class JpegMeta
                 default:
                     $this->_info['file']['Mime']   = 'image/unknown';
             }
-        }
-        else {
+        } else {
             $this->_info['file'] = array();
             $this->_info['file']['Name'] = basename($this->_fileName);
             $this->_info['file']['Url'] = $this->_fileName;
@@ -1298,7 +1286,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _parseMarkerJFIF()
+    public function _parseMarkerJFIF()
     {
         if (!isset($this->_markers)) {
             $this->_readJPEG();
@@ -1366,7 +1354,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _parseMarkerSOF()
+    public function _parseMarkerSOF()
     {
         if (!isset($this->_markers)) {
             $this->_readJPEG();
@@ -1429,7 +1417,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _parseMarkerExif()
+    public function _parseMarkerExif()
     {
         if (!isset($this->_markers)) {
             $this->_readJPEG();
@@ -1464,11 +1452,9 @@ class JpegMeta
 
         if ($byteAlign == 0x4949) { // "II"
             $isBigEndian = false;
-        }
-        elseif ($byteAlign == 0x4D4D) { // "MM"
+        } elseif ($byteAlign == 0x4D4D) { // "MM"
             $isBigEndian = true;
-        }
-        else {
+        } else {
             return false; // Unexpected data
         }
 
@@ -1478,8 +1464,7 @@ class JpegMeta
 
         if ($isBigEndian) {
             $this->_info['exif']['ByteAlign'] = "Big Endian";
-        }
-        else {
+        } else {
             $this->_info['exif']['ByteAlign'] = "Little Endian";
         }
 
@@ -1495,7 +1480,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _readIFD($data, $base, $offset, $isBigEndian, $mode)
+    public function _readIFD($data, $base, $offset, $isBigEndian, $mode)
     {
         $EXIFTags = $this->_exifTagNames($mode);
 
@@ -1524,8 +1509,7 @@ class JpegMeta
             if ($dataLength > 4) {
                 $dataOffset = $this->_getLong($data, $base + $offset, $isBigEndian);
                 $rawValue = $this->_getFixedString($data, $base + $dataOffset, $dataLength);
-            }
-            else {
+            } else {
                 $rawValue = $this->_getFixedString($data, $base + $offset, $dataLength);
             }
             $offset += 4;
@@ -1534,8 +1518,7 @@ class JpegMeta
             case 1:    // UBYTE
                 if ($count == 1) {
                     $value = $this->_getByte($rawValue, 0);
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++)
                         $value[$j] = $this->_getByte($rawValue, $j);
@@ -1547,8 +1530,7 @@ class JpegMeta
             case 3:    // USHORT
                 if ($count == 1) {
                     $value = $this->_getShort($rawValue, 0, $isBigEndian);
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++)
                         $value[$j] = $this->_getShort($rawValue, $j * 2, $isBigEndian);
@@ -1557,8 +1539,7 @@ class JpegMeta
             case 4:    // ULONG
                 if ($count == 1) {
                     $value = $this->_getLong($rawValue, 0, $isBigEndian);
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++)
                         $value[$j] = $this->_getLong($rawValue, $j * 4, $isBigEndian);
@@ -1575,8 +1556,7 @@ class JpegMeta
                     if (($a != 0) && ($b != 0)) {
                         $value['val'] = $a / $b;
                     }
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++) {
                         $a = $this->_getLong($rawValue, $j * 8, $isBigEndian);
@@ -1593,8 +1573,7 @@ class JpegMeta
             case 6:    // SBYTE
                 if ($count == 1) {
                     $value = $this->_getByte($rawValue, 0);
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++)
                         $value[$j] = $this->_getByte($rawValue, $j);
@@ -1606,8 +1585,7 @@ class JpegMeta
             case 8:    // SSHORT
                 if ($count == 1) {
                     $value = $this->_getShort($rawValue, 0, $isBigEndian);
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++)
                         $value[$j] = $this->_getShort($rawValue, $j * 2, $isBigEndian);
@@ -1616,8 +1594,7 @@ class JpegMeta
             case 9:    // SLONG
                 if ($count == 1) {
                     $value = $this->_getLong($rawValue, 0, $isBigEndian);
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++)
                         $value[$j] = $this->_getLong($rawValue, $j * 4, $isBigEndian);
@@ -1633,8 +1610,7 @@ class JpegMeta
                     $value['den'] = $b;
                     if (($a != 0) && ($b != 0))
                         $value['val'] = $a / $b;
-                }
-                else {
+                } else {
                     $value = array();
                     for ($j = 0; $j < $count; $j++) {
                         $a = $this->_getLong($rawValue, $j * 8, $isBigEndian);
@@ -1662,28 +1638,21 @@ class JpegMeta
             $tagName = '';
             if (($mode == 'ifd0') && ($tag == 0x8769)) {  // ExifIFDOffset
                 $this->_readIFD($data, $base, $value, $isBigEndian, 'exif');
-            }
-            elseif (($mode == 'ifd0') && ($tag == 0x8825)) {  // GPSIFDOffset
+            } elseif (($mode == 'ifd0') && ($tag == 0x8825)) {  // GPSIFDOffset
                 $this->_readIFD($data, $base, $value, $isBigEndian, 'gps');
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0111)) {  // TIFFStripOffsets
+            } elseif (($mode == 'ifd1') && ($tag == 0x0111)) {  // TIFFStripOffsets
                 $exifTIFFOffset = $value;
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0117)) {  // TIFFStripByteCounts
+            } elseif (($mode == 'ifd1') && ($tag == 0x0117)) {  // TIFFStripByteCounts
                 $exifTIFFLength = $value;
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0201)) {  // TIFFJFIFOffset
+            } elseif (($mode == 'ifd1') && ($tag == 0x0201)) {  // TIFFJFIFOffset
                 $exifThumbnailOffset = $value;
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0202)) {  // TIFFJFIFLength
+            } elseif (($mode == 'ifd1') && ($tag == 0x0202)) {  // TIFFJFIFLength
                 $exifThumbnailLength = $value;
-            }
-            elseif (($mode == 'exif') && ($tag == 0xA005)) {  // InteropIFDOffset
+            } elseif (($mode == 'exif') && ($tag == 0xA005)) {  // InteropIFDOffset
                 $this->_readIFD($data, $base, $value, $isBigEndian, 'interop');
             }
             // elseif (($mode == 'exif') && ($tag == 0x927C)) {  // MakerNote
-            // }
-            else {
+            // } else {
                 if (isset($EXIFTags[$tag])) {
                     $tagName = $EXIFTags[$tag];
                     if (isset($this->_info['exif'][$tagName])) {
@@ -1694,12 +1663,10 @@ class JpegMeta
                         }
 
                         $this->_info['exif'][$tagName][count($this->_info['exif'][$tagName])] = $value;
-                    }
-                    else {
+                    } else {
                         $this->_info['exif'][$tagName] = $value;
                     }
-                }
-                else {
+                } else {
 #echo sprintf("<h1>Unknown tag %02x (t: %d l: %d) %s in %s</h1>", $tag, $type, $count, $mode, $this->_fileName);
                     // Unknown Tags will be ignored!!!
                     // That's because the tag might be a pointer (like the Exif tag)
@@ -1748,8 +1715,7 @@ class JpegMeta
             $isBigEndian = true;
             $aux = "MM";
             $pos = $this->_putString($data, $pos, $aux);
-        }
-        else {
+        } else {
             $isBigEndian = false;
             $aux = "II";
             $pos = $this->_putString($data, $pos, $aux);
@@ -1767,7 +1733,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _writeIFD(&$data, $pos, $offsetBase, &$entries, $isBigEndian, $hasNext)
+    public function _writeIFD(&$data, $pos, $offsetBase, &$entries, $isBigEndian, $hasNext)
     {
         $tiffData = null;
         $tiffDataOffsetPos = -1;
@@ -1788,24 +1754,21 @@ class JpegMeta
                 $pos = $this->_putLong($data, $pos, $dataPos - $offsetBase, $isBigEndian);
 
                 $dataPos = $this->_writeIFD($data, $dataPos, $offsetBase, $entries[$i]['value'], $isBigEndian, false);
-            }
-            elseif ($type == -98) { // TIFF Data
+            } elseif ($type == -98) { // TIFF Data
                 $pos = $this->_putShort($data, $pos, $tag, $isBigEndian);
                 $pos = $this->_putShort($data, $pos, 0x04, $isBigEndian); // LONG
                 $pos = $this->_putLong($data, $pos, 0x01, $isBigEndian); // Count = 1
                 $tiffDataOffsetPos = $pos;
                 $pos = $this->_putLong($data, $pos, 0x00, $isBigEndian); // For Now
                 $tiffData =& $entries[$i]['value'] ;
-            }
-            else { // Regular Entry
+            } else { // Regular Entry
                 $pos = $this->_putShort($data, $pos, $tag, $isBigEndian);
                 $pos = $this->_putShort($data, $pos, $type, $isBigEndian);
                 $pos = $this->_putLong($data, $pos, $entries[$i]['count'], $isBigEndian);
                 if (strlen($entries[$i]['value']) > 4) {
                     $pos = $this->_putLong($data, $pos, $dataPos - $offsetBase, $isBigEndian);
                     $dataPos = $this->_putString($data, $dataPos, $entries[$i]['value']);
-                }
-                else {
+                } else {
                     $val = str_pad($entries[$i]['value'], 4, "\0");
                     $pos = $this->_putString($data, $pos, $val);
                 }
@@ -1819,8 +1782,7 @@ class JpegMeta
 
         if ($hasNext) {
             $pos = $this->_putLong($data, $pos, $dataPos - $offsetBase, $isBigEndian);
-        }
-        else {
+        } else {
             $pos = $this->_putLong($data, $pos, 0, $isBigEndian);
         }
 
@@ -1847,64 +1809,50 @@ class JpegMeta
                 if (isset($this->_info['exif']['EXIFVersion'])) {
                     $value =& $this->_getIFDEntries($isBigEndian, "exif");
                     $type = -99;
-                }
-                else {
+                } else {
                     $value = null;
                 }
-            }
-            elseif (($mode == 'ifd0') && ($tag == 0x8825)) {  // GPSIFDOffset
+            } elseif (($mode == 'ifd0') && ($tag == 0x8825)) {  // GPSIFDOffset
                 if (isset($this->_info['exif']['GPSVersionID'])) {
                     $value =& $this->_getIFDEntries($isBigEndian, "gps");
                     $type = -99;
-                }
-                else {
+                } else {
                     $value = null;
                 }
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0111)) {  // TIFFStripOffsets
+            } elseif (($mode == 'ifd1') && ($tag == 0x0111)) {  // TIFFStripOffsets
                 if (isset($this->_info['exif']['TIFFStrips'])) {
                     $value =& $this->_info['exif']['TIFFStrips'];
                     $type = -98;
-                }
-                else {
+                } else {
                     $value = null;
                 }
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0117)) {  // TIFFStripByteCounts
+            } elseif (($mode == 'ifd1') && ($tag == 0x0117)) {  // TIFFStripByteCounts
                 if (isset($this->_info['exif']['TIFFStrips'])) {
                     $value = strlen($this->_info['exif']['TIFFStrips']);
-                }
-                else {
+                } else {
                     $value = null;
                 }
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0201)) {  // TIFFJFIFOffset
+            } elseif (($mode == 'ifd1') && ($tag == 0x0201)) {  // TIFFJFIFOffset
                 if (isset($this->_info['exif']['JFIFThumbnail'])) {
                     $value =& $this->_info['exif']['JFIFThumbnail'];
                     $type = -98;
-                }
-                else {
+                } else {
                     $value = null;
                 }
-            }
-            elseif (($mode == 'ifd1') && ($tag == 0x0202)) {  // TIFFJFIFLength
+            } elseif (($mode == 'ifd1') && ($tag == 0x0202)) {  // TIFFJFIFLength
                 if (isset($this->_info['exif']['JFIFThumbnail'])) {
                     $value = strlen($this->_info['exif']['JFIFThumbnail']);
-                }
-                else {
+                } else {
                     $value = null;
                 }
-            }
-            elseif (($mode == 'exif') && ($tag == 0xA005)) {  // InteropIFDOffset
+            } elseif (($mode == 'exif') && ($tag == 0xA005)) {  // InteropIFDOffset
                 if (isset($this->_info['exif']['InteroperabilityIndex'])) {
                     $value =& $this->_getIFDEntries($isBigEndian, "interop");
                     $type = -99;
-                }
-                else {
+                } else {
                     $value = null;
                 }
-            }
-            elseif (isset($this->_info['exif'][$name])) {
+            } elseif (isset($this->_info['exif'][$name])) {
                 $origValue =& $this->_info['exif'][$name];
 
                 // This makes it easier to process variable size elements
@@ -1942,8 +1890,7 @@ class JpegMeta
                     $v = strval($origValue[0]);
                     if (($count != 0) && (strlen($v) > $count)) {
                         $v = substr($v, 0, $count);
-                    }
-                    elseif (($count > 0) && (strlen($v) < $count)) {
+                    } elseif (($count > 0) && (strlen($v) < $count)) {
                         $v = str_pad($v, $count, "\0");
                     }
 
@@ -1994,8 +1941,7 @@ class JpegMeta
                         if (is_array($v)) {
                             $a = $v['num'];
                             $b = $v['den'];
-                        }
-                        else {
+                        } else {
                             $a = 0;
                             $b = 0;
                             // TODO: Allow other types and convert them
@@ -2031,8 +1977,7 @@ class JpegMeta
                     $v = strval($origValue[0]);
                     if (($count != 0) && (strlen($v) > $count)) {
                         $v = substr($v, 0, $count);
-                    }
-                    elseif (($count > 0) && (strlen($v) < $count)) {
+                    } elseif (($count > 0) && (strlen($v) < $count)) {
                         $v = str_pad($v, $count, "\0");
                     }
 
@@ -2083,8 +2028,7 @@ class JpegMeta
                         if (is_array($v)) {
                             $a = $v['num'];
                             $b = $v['den'];
-                        }
-                        else {
+                        } else {
                             $a = 0;
                             $b = 0;
                             // TODO: Allow other types and convert them
@@ -2111,8 +2055,7 @@ class JpegMeta
                         $v = strval($origValue[$j]);
                         if (strlen($v) > 4) {
                             $v = substr($v, 0, 4);
-                        }
-                        elseif (strlen($v) < 4) {
+                        } elseif (strlen($v) < 4) {
                             $v = str_pad($v, 4, "\0");
                         }
                         $this->_putString($value, $j * 4, $v);
@@ -2134,15 +2077,12 @@ class JpegMeta
                         $v = strval($origValue[$j]);
                         if (strlen($v) > 8) {
                             $v = substr($v, 0, 8);
-                        }
-                        elseif (strlen($v) < 8) {
+                        } elseif (strlen($v) < 8) {
                             $v = str_pad($v, 8, "\0");
                         }
                         $this->_putString($value, $j * 8, $v);
                         $j++;
-                    }
-
-                    while ($j < $count) {
+                    } while ($j < $count) {
                         $this->_putString($value, $j * 8, "\0\0\0\0\0\0\0\0");
                         $j++;
                     }
@@ -2168,7 +2108,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _parseMarkerAdobe()
+    public function _parseMarkerAdobe()
     {
         if (!isset($this->_markers)) {
             $this->_readJPEG();
@@ -2270,7 +2210,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _readIPTC(&$data, $pos = 0)
+    public function _readIPTC(&$data, $pos = 0)
     {
         $totalLength = strlen($data);
 
@@ -2292,8 +2232,7 @@ class JpegMeta
 
             if (isset($IPTCTags[$type])) {
                 $label = $IPTCTags[$type];
-            }
-            else {
+            } else {
                 $label = sprintf('IPTC_0x%02x', $type);
             }
 
@@ -2305,8 +2244,7 @@ class JpegMeta
                         $this->_info['iptc'][$label] = $aux;
                     }
                     $this->_info['iptc'][$label][ count($this->_info['iptc'][$label]) ] = $this->_getFixedString($data, $pos, $length);
-                }
-                else {
+                } else {
                     $this->_info['iptc'][$label] = $this->_getFixedString($data, $pos, $length);
                 }
             }
@@ -2353,7 +2291,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _write8BIM(&$data, $pos, $type, $header, &$value)
+    public function _write8BIM(&$data, $pos, $type, $header, &$value)
     {
         $signature = "8BIM";
 
@@ -2394,8 +2332,7 @@ class JpegMeta
 
             if (isset($IPTCNames[$label])) {
                 $type = $IPTCNames[$label];
-            }
-            elseif (substr($label, 0, 7) == "IPTC_0x") {
+            } elseif (substr($label, 0, 7) == "IPTC_0x") {
                 $type = hexdec(substr($label, 7, 2));
             }
 
@@ -2404,8 +2341,7 @@ class JpegMeta
                     for ($i = 0; $i < count($value); $i++) {
                         $pos = $this->_writeIPTCEntry($data, $pos, $type, $value[$i]);
                     }
-                }
-                else {
+                } else {
                     $pos = $this->_writeIPTCEntry($data, $pos, $type, $value);
                 }
             }
@@ -2415,7 +2351,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _writeIPTCEntry(&$data, $pos, $type, &$value)
+    public function _writeIPTCEntry(&$data, $pos, $type, &$value)
     {
         $pos = $this->_putShort($data, $pos, 0x1C02);
         $pos = $this->_putByte($data, $pos, $type);
@@ -2426,7 +2362,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _exifTagNames($mode)
+    public function _exifTagNames($mode)
     {
         $tags = array();
 
@@ -2493,8 +2429,7 @@ class JpegMeta
             $tags[0x0214] = 'TIFFReferenceBlackWhite';
             $tags[0x8298] = 'TIFFCopyright';
             $tags[0x9286] = 'TIFFUserComment';
-        }
-        elseif ($mode == 'exif') {
+        } elseif ($mode == 'exif') {
             $tags[0x829A] = 'ExposureTime';
             $tags[0x829D] = 'FNumber';
             $tags[0x8822] = 'ExposureProgram';
@@ -2538,15 +2473,13 @@ class JpegMeta
             $tags[0xA300] = 'FileSource';
             $tags[0xA301] = 'SceneType';
             $tags[0xA302] = 'CFAPattern';
-        }
-        elseif ($mode == 'interop') {
+        } elseif ($mode == 'interop') {
             $tags[0x0001] = 'InteroperabilityIndex';
             $tags[0x0002] = 'InteroperabilityVersion';
             $tags[0x1000] = 'RelatedImageFileFormat';
             $tags[0x1001] = 'RelatedImageWidth';
             $tags[0x1002] = 'RelatedImageLength';
-        }
-        elseif ($mode == 'gps') {
+        } elseif ($mode == 'gps') {
             $tags[0x0000] = 'GPSVersionID';
             $tags[0x0001] = 'GPSLatitudeRef';
             $tags[0x0002] = 'GPSLatitude';
@@ -2580,7 +2513,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _exifTagTypes($mode)
+    public function _exifTagTypes($mode)
     {
         $tags = array();
 
@@ -2647,8 +2580,7 @@ class JpegMeta
             $tags[0x0214] = array(5, 6); // TIFFReferenceBlackWhite -> RATIONAL, 6
             $tags[0x8298] = array(2, 0); // TIFFCopyright -> ASCII, Any
             $tags[0x9286] = array(2, 0); // TIFFUserComment -> ASCII, Any
-        }
-        elseif ($mode == 'exif') {
+        } elseif ($mode == 'exif') {
             $tags[0x829A] = array(5, 1); // ExposureTime -> RATIONAL, 1
             $tags[0x829D] = array(5, 1); // FNumber -> RATIONAL, 1
             $tags[0x8822] = array(3, 1); // ExposureProgram -> SHORT, 1
@@ -2692,15 +2624,13 @@ class JpegMeta
             $tags[0xA300] = array(7, 1); // FileSource -> UNDEFINED, 1
             $tags[0xA301] = array(7, 1); // SceneType -> UNDEFINED, 1
             $tags[0xA302] = array(7, 0); // CFAPattern -> UNDEFINED, Any
-        }
-        elseif ($mode == 'interop') {
+        } elseif ($mode == 'interop') {
             $tags[0x0001] = array(2, 0); // InteroperabilityIndex -> ASCII, Any
             $tags[0x0002] = array(7, 4); // InteroperabilityVersion -> UNKNOWN, 4
             $tags[0x1000] = array(2, 0); // RelatedImageFileFormat -> ASCII, Any
             $tags[0x1001] = array(4, 1); // RelatedImageWidth -> LONG (or SHORT), 1
             $tags[0x1002] = array(4, 1); // RelatedImageLength -> LONG (or SHORT), 1
-        }
-        elseif ($mode == 'gps') {
+        } elseif ($mode == 'gps') {
             $tags[0x0000] = array(1, 4); // GPSVersionID -> BYTE, 4
             $tags[0x0001] = array(2, 2); // GPSLatitudeRef -> ASCII, 2
             $tags[0x0002] = array(5, 3); // GPSLatitude -> RATIONAL, 3
@@ -2734,14 +2664,14 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _exifNameTags($mode)
+    public function _exifNameTags($mode)
     {
         $tags = $this->_exifTagNames($mode);
         return $this->_names2Tags($tags);
     }
 
     /*************************************************************/
-    function _iptcTagNames()
+    public function _iptcTagNames()
     {
         $tags = array();
         $tags[0x14] = 'SuplementalCategories';
@@ -2776,7 +2706,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _names2Tags($tags2Names)
+    public function _names2Tags($tags2Names)
     {
         $names2Tags = array();
         reset($tags2Names);
@@ -2788,13 +2718,13 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _getByte(&$data, $pos)
+    public function _getByte(&$data, $pos)
     {
         return ord($data{$pos});
     }
 
     /*************************************************************/
-    function _putByte(&$data, $pos, $val)
+    public function _putByte(&$data, $pos, $val)
     {
         $val = intval($val);
 
@@ -2804,28 +2734,26 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _getShort(&$data, $pos, $bigEndian = true)
+    public function _getShort(&$data, $pos, $bigEndian = true)
     {
         if ($bigEndian) {
             return (ord($data{$pos}) << 8)
                    + ord($data{$pos + 1});
-        }
-        else {
+        } else {
             return ord($data{$pos})
                    + (ord($data{$pos + 1}) << 8);
         }
     }
 
     /*************************************************************/
-    function _putShort(&$data, $pos = 0, $val, $bigEndian = true)
+    public function _putShort(&$data, $pos = 0, $val, $bigEndian = true)
     {
         $val = intval($val);
 
         if ($bigEndian) {
             $data{$pos + 0} = chr(($val & 0x0000FF00) >> 8);
             $data{$pos + 1} = chr(($val & 0x000000FF) >> 0);
-        }
-        else {
+        } else {
             $data{$pos + 0} = chr(($val & 0x00FF) >> 0);
             $data{$pos + 1} = chr(($val & 0xFF00) >> 8);
         }
@@ -2834,15 +2762,14 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _getLong(&$data, $pos, $bigEndian = true)
+    public function _getLong(&$data, $pos, $bigEndian = true)
     {
         if ($bigEndian) {
             return (ord($data{$pos}) << 24)
                    + (ord($data{$pos + 1}) << 16)
                    + (ord($data{$pos + 2}) << 8)
                    + ord($data{$pos + 3});
-        }
-        else {
+        } else {
             return ord($data{$pos})
                    + (ord($data{$pos + 1}) << 8)
                    + (ord($data{$pos + 2}) << 16)
@@ -2851,7 +2778,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _putLong(&$data, $pos, $val, $bigEndian = true)
+    public function _putLong(&$data, $pos, $val, $bigEndian = true)
     {
         $val = intval($val);
 
@@ -2860,8 +2787,7 @@ class JpegMeta
             $data{$pos + 1} = chr(($val & 0x00FF0000) >> 16);
             $data{$pos + 2} = chr(($val & 0x0000FF00) >> 8);
             $data{$pos + 3} = chr(($val & 0x000000FF) >> 0);
-        }
-        else {
+        } else {
             $data{$pos + 0} = chr(($val & 0x000000FF) >> 0);
             $data{$pos + 1} = chr(($val & 0x0000FF00) >> 8);
             $data{$pos + 2} = chr(($val & 0x00FF0000) >> 16);
@@ -2880,8 +2806,7 @@ class JpegMeta
         while ($pos < $max) {
             if (ord($data{$pos}) == 0) {
                 return $str;
-            }
-            else {
+            } else {
                 $str .= $data{$pos};
             }
             $pos++;
@@ -2901,7 +2826,7 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _putString(&$data, $pos, &$str)
+    public function _putString(&$data, $pos, &$str)
     {
         $len = strlen($str);
         for ($i = 0; $i < $len; $i++) {
@@ -2912,12 +2837,11 @@ class JpegMeta
     }
 
     /*************************************************************/
-    function _hexDump(&$data, $start = 0, $length = -1)
+    public function _hexDump(&$data, $start = 0, $length = -1)
     {
         if (($length == -1) || (($length + $start) > strlen($data))) {
             $end = strlen($data);
-        }
-        else {
+        } else {
             $end = $start + $length;
         }
 

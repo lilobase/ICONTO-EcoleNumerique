@@ -17,4 +17,3 @@ $default		= & $getSso;
 $doSso			= new CopixAction ('sso', 'doSso');
 
 
-?>

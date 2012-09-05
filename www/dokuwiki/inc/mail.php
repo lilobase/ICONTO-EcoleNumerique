@@ -33,14 +33,14 @@
  * @author Andreas Gohr <andi@splitbrain.org>
  * @see    mail()
  */
-function mail_send($to, $subject, $body, $from='', $cc='', $bcc='', $headers=null, $params=null){
-
+function mail_send($to, $subject, $body, $from='', $cc='', $bcc='', $headers=null, $params=null)
+{
   $message = compact('to','subject','body','from','cc','bcc','headers','params');
   return trigger_event('MAIL_MESSAGE_SEND',$message,'_mail_send_action');
 }
 
-function _mail_send_action($data) {
-
+function _mail_send_action($data)
+{
   // retrieve parameters from event data, $to, $subject, $body, $from, $cc, $bcc, $headers, $params
   $to = $data['to'];
   $subject = $data['subject'];
@@ -104,7 +104,8 @@ function _mail_send_action($data) {
  * @param string  $header Name of the header (To,Bcc,Cc,...)
  * @param boolean $names  Allow named Recipients?
  */
-function mail_encode_address($string,$header='',$names=true){
+function mail_encode_address($string,$header='',$names=true)
+{
   $headers = '';
   $parts = split(',',$string);
   foreach ($parts as $part){
@@ -183,7 +184,8 @@ function mail_encode_address($string,$header='',$names=true){
 if (!defined('RFC2822_ATEXT')) define('RFC2822_ATEXT',"0-9a-zA-Z!#$%&'*+/=?^_`{|}~-");
 if (!defined('PREG_PATTERN_VALID_EMAIL')) define('PREG_PATTERN_VALID_EMAIL', '['.RFC2822_ATEXT.']+(?:\.['.RFC2822_ATEXT.']+)*@(?i:[0-9a-z][0-9a-z-]*\.)+(?i:[a-z]{2,4}|museum|travel)');
 
-function mail_isvalid($email){
+function mail_isvalid($email)
+{
   return preg_match('<^'.PREG_PATTERN_VALID_EMAIL.'$>i', $email);
 }
 
@@ -193,7 +195,8 @@ function mail_isvalid($email){
  * @author umu <umuAThrz.tu-chemnitz.de>
  * @link   http://www.php.net/manual/en/function.imap-8bit.php#61216
  */
-function mail_quotedprintable_encode($sText,$maxlen=74,$bEmulate_imap_8bit=true) {
+function mail_quotedprintable_encode($sText,$maxlen=74,$bEmulate_imap_8bit=true)
+{
   // split text into lines
   $aLines= preg_split("/(?:\r\n|\r|\n)/", $sText);
 

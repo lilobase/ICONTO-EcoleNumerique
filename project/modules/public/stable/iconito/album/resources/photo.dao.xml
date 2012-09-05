@@ -19,7 +19,7 @@
 		<property name="photo_ext" fieldname="ext" type="string" table="module_album_photos" pk="no"/>
 		<property name="photo_cle" fieldname="cle" type="string" table="module_album_photos" pk="no"/>
 		<property name="photo_public" fieldname="public" type="integer" table="module_album_photos" pk="no"/>
-		
+
 		<property name="dossier_id" fieldname="id" type="integer" table="module_album_dossiers" pk="yes"/>
 		<property name="dossier_album" fieldname="id_album" type="string" table="module_album_dossiers" pk="no"/>
 		<property name="dossier_parent" fieldname="id_parent" type="string" table="module_album_dossiers" pk="no"/>

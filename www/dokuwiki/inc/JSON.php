@@ -126,7 +126,7 @@ class JSON
     *                               JSON_LOOSE_TYPE - loose typing
     *                                                 "{...}" syntax creates associative arrays in decode.
     */
-    function JSON($use=JSON_STRICT_TYPE)
+    public function JSON($use=JSON_STRICT_TYPE)
     {
         $this->use = $use;
     }
@@ -142,7 +142,7 @@ class JSON
     * @return   string  JSON string representation of input var
     * @access   public
     */
-    function encode($var)
+    public function encode($var)
     {
         switch (gettype($var)) {
             case 'boolean':
@@ -301,7 +301,7 @@ class JSON
    /**
     * encodes an arbitrary variable into JSON format, alias for encode()
     */
-    function enc($var)
+    public function enc($var)
     {
         return $this->encode($var);
     }
@@ -315,7 +315,7 @@ class JSON
     * @return   string  JSON-formatted name-value pair, like '"name":value'
     * @access   private
     */
-    function name_value($name, $value)
+    public function name_value($name, $value)
     {
         return (sprintf("%s:%s", $this->encode(strval($name)), $this->encode($value)));
     }
@@ -328,7 +328,7 @@ class JSON
     * @return   string  string value stripped of comments and whitespace
     * @access   private
     */
-    function reduce_string($str)
+    public function reduce_string($str)
     {
         $str = preg_replace(array(
 
@@ -359,7 +359,7 @@ class JSON
     *                   in ASCII or UTF-8 format!
     * @access   public
     */
-    function decode($str)
+    public function decode($str)
     {
         $str = $this->reduce_string($str);
 
@@ -615,11 +615,10 @@ class JSON
    /**
     * decodes a JSON string into appropriate variable; alias for decode()
     */
-    function dec($var)
+    public function dec($var)
     {
         return $this->decode($var);
     }
 
 }
 
-?>

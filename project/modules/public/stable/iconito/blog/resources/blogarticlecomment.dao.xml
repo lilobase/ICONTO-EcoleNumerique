@@ -22,7 +22,7 @@
 	            required="yes"
 	            fkTable="blogarticle"
 	            fkFieldName="id_bact"
-	
+
 	            />
 	     <property name="authorid_bacc"
 	            fieldName="authorid_bacc"
@@ -71,7 +71,7 @@
 	            type="string"
 	            maxlength="5"
 	            required="yes"
-	            />	            
+	            />
 	     <property name="content_bacc"
 	            fieldName="content_bacc"
 	            captioni18n="dao.blogarticlecomment.fields.content_bacc"

@@ -14,7 +14,7 @@ class KernelBlog
       $author = Auteur du premier article (id user). Si non positionné, prend la session. Sinon, valeur par défaut (voir conf du module)
      */
 
-    function create($infos = array())
+    public function create($infos = array())
     {
         $blogDAO = _dao('blog|blog');
 
@@ -63,7 +63,7 @@ class KernelBlog
     /**
       Renvoie différentes infos chiffrées d'un blog, dans un tableau
      */
-    function getStats($id_blog)
+    public function getStats($id_blog)
     {
         $dao = _dao('blog|blogarticle');
         $res = array();
@@ -96,7 +96,7 @@ class KernelBlog
      * @since 2007/03/20
      * @return array Tableau dont les clefs représentent les libellés des stats et les valeurs les stats chiffrées. Clefs utilisées : ["nbForums"] ["nbTopics"] ["nbMessages"]
      */
-    function getStatsRoot()
+    public function getStatsRoot()
     {
         $res = array();
         $sql = 'SELECT COUNT(id_blog) AS nb FROM module_blog';
@@ -111,7 +111,7 @@ class KernelBlog
         return $res;
     }
 
-    function delete($id_blog)
+    public function delete($id_blog)
     {
 
         //suppression du blog
@@ -177,7 +177,7 @@ class KernelBlog
       id du blog + données -> infos sur la nouvelle données dans le blog
      */
 
-    function publish($id, $data)
+    public function publish($id, $data)
     {
 
         $articleDAO = _dao('blog|blogarticle');
@@ -206,16 +206,16 @@ class KernelBlog
 
     /**
      * Détermine l' "url_blog" unique d'un blog, à partir de son titre
-     * 
+     *
      * A partir du titre d'un blog, en déduit son "url_blog". Regarde dans la BDD si un blog de même titre n'existe pas déjà pour rendre cette valeur unique (au besoin, ajoute un numéro à la fin pour le rendre unique). Ne doit être appellé qu'à la création d'un blog.
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/10/23
      * @param integer $id Id du blog
      * @param string $titre Titre du blog
      * @return string url_blog à stocker dans la BDD. Chaine vide si problème
      */
-    function calcule_url_blog($id, $titre)
+    public function calcule_url_blog($id, $titre)
     {
         if (strlen($titre) > 97)
             $titre = substr($titre, 0, 97);
@@ -240,55 +240,54 @@ class KernelBlog
         return $res;
     }
 
-	function getNotifications(&$module, &$lastvisit) {
-		
-		$lastvisit_date = substr($lastvisit->date, 0, 8);
-		$lastvisit_time = substr($lastvisit->date, 8, 4);
-		
-		
-		$blog = _dao('blog|blog')->get($module->module_id);
-		
-		
-		if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)){ // Si on est admin, recherche des nouveaux commentaires
-			$new_comments = _dao('blog|blogarticlecomment')->findBy(
-				_daoSp()
-					->addCondition('id_blog', '=', $module->module_id)
-					->addCondition('is_online', '=', 1)
-					->addCondition('authorid_bacc', '!=', _currentUser()->getExtra("user_id"))
-					->startGroup ('AND')
-						->addCondition('date_bacc', '>', $lastvisit_date)
-						->startGroup ('OR')
-							->addCondition('date_bacc', '=', $lastvisit_date)
-							->addCondition('time_bacc', '>=', $lastvisit_time, 'AND')
-						->endGroup ()
-					->endGroup ()
-			);
-			
-			$module->notification_number = count($new_comments);
-			$module->notification_message = count($new_comments)." commentaire".(count($new_comments)>1?"s":"");
-		} else { // Si on n'est pas admin, recherche des nouveaux articles
-			$new_posts = _dao('blog|blogarticle')->findBy(
-				_daoSp()
-					->addCondition('id_blog', '=', $module->module_id)
-					->addCondition('is_online', '=', 1)
-					->addCondition('author_bact', '!=', _currentUser()->getExtra("user_id"))
-					->startGroup ('AND')
-						->addCondition('date_bact', '>', $lastvisit_date)
-						->startGroup ('OR')
-							->addCondition('date_bact', '=', $lastvisit_date)
-							->addCondition('time_bact', '>=', $lastvisit_time, 'AND')
-						->endGroup ()
-					->endGroup ()
-			);
-			
-			$module->notification_number = count($new_posts);
-			$module->notification_message = count($new_posts)." article".(count($new_posts)>1?"s":"");
-		}
-			
-		
-		return true;
-	}
+    public function getNotifications(&$module, &$lastvisit)
+    {
+        $lastvisit_date = substr($lastvisit->date, 0, 8);
+        $lastvisit_time = substr($lastvisit->date, 8, 4);
+
+
+        $blog = _dao('blog|blog')->get($module->module_id);
+
+
+        if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)){ // Si on est admin, recherche des nouveaux commentaires
+            $new_comments = _dao('blog|blogarticlecomment')->findBy(
+                _daoSp()
+                    ->addCondition('id_blog', '=', $module->module_id)
+                    ->addCondition('is_online', '=', 1)
+                    ->addCondition('authorid_bacc', '!=', _currentUser()->getExtra("user_id"))
+                    ->startGroup ('AND')
+                        ->addCondition('date_bacc', '>', $lastvisit_date)
+                        ->startGroup ('OR')
+                            ->addCondition('date_bacc', '=', $lastvisit_date)
+                            ->addCondition('time_bacc', '>=', $lastvisit_time, 'AND')
+                        ->endGroup ()
+                    ->endGroup ()
+            );
+
+            $module->notification_number = count($new_comments);
+            $module->notification_message = count($new_comments)." commentaire".(count($new_comments)>1?"s":"");
+        } else { // Si on n'est pas admin, recherche des nouveaux articles
+            $new_posts = _dao('blog|blogarticle')->findBy(
+                _daoSp()
+                    ->addCondition('id_blog', '=', $module->module_id)
+                    ->addCondition('is_online', '=', 1)
+                    ->addCondition('author_bact', '!=', _currentUser()->getExtra("user_id"))
+                    ->startGroup ('AND')
+                        ->addCondition('date_bact', '>', $lastvisit_date)
+                        ->startGroup ('OR')
+                            ->addCondition('date_bact', '=', $lastvisit_date)
+                            ->addCondition('time_bact', '>=', $lastvisit_time, 'AND')
+                        ->endGroup ()
+                    ->endGroup ()
+            );
+
+            $module->notification_number = count($new_posts);
+            $module->notification_message = count($new_posts)." article".(count($new_posts)>1?"s":"");
+        }
+
+
+        return true;
+    }
 
 }
 
-?>

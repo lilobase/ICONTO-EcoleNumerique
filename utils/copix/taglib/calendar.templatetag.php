@@ -28,144 +28,145 @@
  * 		beforeyear : nombre d'année précédant l'année courante (ou l'année contenue dans value) et disponible dans la liste déroulante (par défaut 10)
  *  	afteryear : nombre d'année suivant l'année courante (ou l'année contenue dans value) et disponible dans la liste déroulante (par défaut 10)
  *		duration : Temps en ms mis pour afficher le calendier lors du clic sur l'image de celui-ci
- * 		tabindex : La position du champ dans l'ordre des tabulations. 
+ * 		tabindex : La position du champ dans l'ordre des tabulations.
  * 		classe : Class a attribuer aux éléments du calendrier : la table, le header, le jour courant, le jour de la valeur, les autres jours, les cases vides
  * 			(voir le tutorial de création de tags : tags_demos)
  * 		extra : valeur ou autre option a lié à l'input
  */
-class TemplateTagCalendar extends CopixTemplateTag {
+class TemplateTagCalendar extends CopixTemplateTag
+{
    /**
     * Construction du code HTML
-    * On utilise également les modifications d'en tête HTML  
+    * On utilise également les modifications d'en tête HTML
     */
-   public function process ($pParams, $pContent=null){
-	    extract ($pParams);
-	    if (empty ($name)){
-	      throw new CopixTemplateTagException ('[calendar] missing name parameter');
-	    }
-	    
-   		if (empty ($image)){
-   			$image = '"'._resource ("img/tools/calendar.png").'"';  
-	    }else{
-	    	$image = '"'.$image.'"';
-	    }
-	    
-		if (empty ($extra)){
-           $extra = '';	    	
-	    }
+   public function process ($pParams, $pContent=null)
+   {
+        extract ($pParams);
+        if (empty ($name)){
+          throw new CopixTemplateTagException ('[calendar] missing name parameter');
+        }
 
-	    if (empty ($size)){
-           $size = 8;	    	
-	    }
-	    
-	    if (!isset ($mask)) {
-	        $mask = true;
-	    }
-		_tag ('mootools', array ('plugin'=>array ('datepicker')));	    
-        
+           if (empty ($image)){
+               $image = '"'._resource ("img/tools/calendar.png").'"';
+        }else{
+            $image = '"'.$image.'"';
+        }
+
+        if (empty ($extra)){
+           $extra = '';
+        }
+
+        if (empty ($size)){
+           $size = 8;
+        }
+
+        if (!isset ($mask)) {
+            $mask = true;
+        }
+        _tag ('mootools', array ('plugin'=>array ('datepicker')));
+
         if ($mask) {
-			_tag ('mootools', array ('plugin'=>array ('imask')));	    
+            _tag ('mootools', array ('plugin'=>array ('imask')));
              CopixHTMLHeader::addJsCode ("
              window.addEvent('domready', function () {
-                    new iMask({  
-                         onFocus: function(obj) {  
-                         },  
-                       
-                         onBlur: function(obj) {  
-                         },  
-                       
-                         onValid: function(event, obj) {  
-                         },  
-                       
-                         onInvalid: function(event, obj) {  
-                             if(!event.shift) {  
-                             }  
-                         }  
-                     }); 
+                    new iMask({
+                         onFocus: function(obj) {
+                         },
+
+                         onBlur: function(obj) {
+                         },
+
+                         onValid: function(event, obj) {
+                         },
+
+                         onInvalid: function(event, obj) {
+                             if(!event.shift) {
+                             }
+                         }
+                     });
              });
              ",'calendarmask');
         }
-        
-        if (empty ($lang)){
-	       $lang = CopixI18N::getLang ();
-	    }
-	    
-		if (empty ($format)){
-	       $format = str_replace (array ('d', 'm', 'Y'), array ('dd', 'mm', 'yyyy'), CopixI18N::getDateFormat ('/'));
-	    }else{
-	    	$format = strtolower($format);
-	    }
-	    $maskFormat = str_replace (array ('d', 'm', 'y'), array ('9', '9', '9'), $format);
-   		
-   		
-	    if (!empty ($yyyymmdd)){
-	    	
-			$value = date (str_replace (array ('dd', 'mm', 'yyyy'), array ('d', 'm', 'Y'), $format), CopixDateTime::yyyymmddToTimestamp ($yyyymmdd));
-		}
 
-		if (!empty ($timestamp)){
-			$value = date (str_replace (array ('dd', 'mm', 'yyyy'), array ('d', 'm', 'Y'), $format), $timestamp);
-		}
-	    
-	    
-	    if (empty ($sizeday)){
-	       $sizeday = 3;
-	    }
-	    
-   		if (!isset ($beforeyear)){
-	       $beforeyear = 10;
-	    }
-	    
-		if (!isset ($afteryear)){
-			$afteryear = 10;
-	    }
-	    
-   		if (!isset ($duration)){
-			$duration = 500;
-	    }
-	    
-	    if (!isset ($closebuttonsrc)) {
-	    	$closebuttonsrc = null;
-	    } else {
-	    	$closebuttonsrc = _resource ($closebuttonsrc);
-	    }
-	    
-	    if (!isset ($draggable)) {
-	    	$draggable = true;
-	    }
-	    $draggable = ($draggable) ? 'true' : 'false';
-	    
-	    if (!isset ($title)) {
-	    	$title = null;
-	    }
-	    
+        if (empty ($lang)){
+           $lang = CopixI18N::getLang ();
+        }
+
+        if (empty ($format)){
+           $format = str_replace (array ('d', 'm', 'Y'), array ('dd', 'mm', 'yyyy'), CopixI18N::getDateFormat ('/'));
+        }else{
+            $format = strtolower($format);
+        }
+        $maskFormat = str_replace (array ('d', 'm', 'y'), array ('9', '9', '9'), $format);
+
+
+        if (!empty ($yyyymmdd)){
+
+            $value = date (str_replace (array ('dd', 'mm', 'yyyy'), array ('d', 'm', 'Y'), $format), CopixDateTime::yyyymmddToTimestamp ($yyyymmdd));
+        }
+
+        if (!empty ($timestamp)){
+            $value = date (str_replace (array ('dd', 'mm', 'yyyy'), array ('d', 'm', 'Y'), $format), $timestamp);
+        }
+
+
+        if (empty ($sizeday)){
+           $sizeday = 3;
+        }
+
+           if (!isset ($beforeyear)){
+           $beforeyear = 10;
+        }
+
+        if (!isset ($afteryear)){
+            $afteryear = 10;
+        }
+
+           if (!isset ($duration)){
+            $duration = 500;
+        }
+
+        if (!isset ($closebuttonsrc)) {
+            $closebuttonsrc = null;
+        } else {
+            $closebuttonsrc = _resource ($closebuttonsrc);
+        }
+
+        if (!isset ($draggable)) {
+            $draggable = true;
+        }
+        $draggable = ($draggable) ? 'true' : 'false';
+
+        if (!isset ($title)) {
+            $title = null;
+        }
+
         if (empty ($value)){
            if ($mask) {
-	           $value = str_replace('9','_',$maskFormat);
+               $value = str_replace('9','_',$maskFormat);
            } else {
-               $value = null;	
+               $value = null;
            }
-	    }
-	    
-	    $strMask = '';
-	    if ($mask) {
-	        $strMask = 'style="text-align:center" class="iMask" alt="{  type:\'fixed\', mask:\''.$maskFormat.'\', stripMask: false }"'; 
-	    }
-	    
-	    $out = '<input type="text" id="'.$name.'" name="'.$name.'" value="'._copix_utf8_htmlentities ($value).'" '.$extra.' size="'.$size.'" ';
-	    //name of the input.
-   		if (!empty ($tabindex)){
-			$out .= ' tabindex="'.$tabindex.'" ';
-   		} 
-   		$out .= $strMask.' />'."\n\r";
-   		$out.= '<script type="text/javascript">'."\n\r";
-   		$out.= "$('".$name."').makeDatePicker({draggable:$draggable, title: '" . str_replace ("'", "\'", $title) . "', closebuttonsrc: '" . $closebuttonsrc . "', value: '" .$value . "', format: '".$format."', language: '".$lang."', sizeday:".$sizeday.", beforeyear:".$beforeyear.", afteryear:".$afteryear.", duration:".$duration.", imageCalendar:".$image;
-    	//class du calendrier.
-   		if (!empty ($classe)){
-			$out .= ', classe:"'.$classe.'"';
-   		}
-   		$out.="});"."\n\r";
-   		return $out.= '</script>';
-   } 
+        }
+
+        $strMask = '';
+        if ($mask) {
+            $strMask = 'style="text-align:center" class="iMask" alt="{  type:\'fixed\', mask:\''.$maskFormat.'\', stripMask: false }"';
+        }
+
+        $out = '<input type="text" id="'.$name.'" name="'.$name.'" value="'._copix_utf8_htmlentities ($value).'" '.$extra.' size="'.$size.'" ';
+        //name of the input.
+           if (!empty ($tabindex)){
+            $out .= ' tabindex="'.$tabindex.'" ';
+           }
+           $out .= $strMask.' />'."\n\r";
+           $out.= '<script type="text/javascript">'."\n\r";
+           $out.= "$('".$name."').makeDatePicker({draggable:$draggable, title: '" . str_replace ("'", "\'", $title) . "', closebuttonsrc: '" . $closebuttonsrc . "', value: '" .$value . "', format: '".$format."', language: '".$lang."', sizeday:".$sizeday.", beforeyear:".$beforeyear.", afteryear:".$afteryear.", duration:".$duration.", imageCalendar:".$image;
+        //class du calendrier.
+           if (!empty ($classe)){
+            $out .= ', classe:"'.$classe.'"';
+           }
+           $out.="});"."\n\r";
+           return $out.= '</script>';
+   }
 }
-?>

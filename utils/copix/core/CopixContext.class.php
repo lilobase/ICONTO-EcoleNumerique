@@ -15,9 +15,10 @@
 * @package copix
 * @subpackage core
 */
-class CopixContext {
+class CopixContext
+{
     /**
-    * Pile de gestion des contextes. Cette propriété n'est plus utilisée 
+    * Pile de gestion des contextes. Cette propriété n'est plus utilisée
     * @var array
     */
     private static $_contextStack = array ();
@@ -33,12 +34,13 @@ class CopixContext {
     *    CopixContext::push ('moduleY');
     *    $object->doStuff ();
     *    //On rétabli le contexte d'exécution
-    *    CopixContext::pop (); 
+    *    CopixContext::pop ();
     * </code>
-    * 
+    *
     * @param	string	$pModule  le nom du module dont on empile le contexte
     */
-    public static function push ($pModule){
+    public static function push ($pModule)
+    {
         CopixContext::$_contextStack[] = $pModule;
     }
 
@@ -46,7 +48,8 @@ class CopixContext {
     * Dépilement d'un contexte.
     * @return	string	élement dépilé. (le contexte qui n'est plus d'atualité.)
     */
-    public static function pop (){
+    public static function pop ()
+    {
        return ($value = array_pop (CopixContext::$_contextStack)) === null ? 'default' : $value;
     }
 
@@ -55,22 +58,23 @@ class CopixContext {
     * <code>
     *    echo "Le code suivant s'exécute dans le module ".CopixContext::get ();
     * </code>
-    * 
+    *
     * @return string le nom du contexte actuel si défini, si pas de contexte retourne default
     */
-    public static function get (){
+    public static function get ()
+    {
         return (($last = (count (CopixContext::$_contextStack)-1)) >= 0) ? CopixContext::$_contextStack[$last] : "default";
     }
 
     /**
     * Réinitialise le contexte.
-    * 
+    *
     * Il existe très peu de cas ou vous devrez vous même appeler cette méthode.
     * Cette méthode existe principalement pour permettre à CopixController de manipuler
     * la pile de contexte complète
     */
-    public static function clear (){
+    public static function clear ()
+    {
         CopixContext::$_contextStack = array ();
     }
 }
-?>

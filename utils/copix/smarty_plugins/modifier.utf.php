@@ -7,7 +7,7 @@
 * @link			http://copix.org
 * @license		http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
- 
+
 /**
  * Plugin smarty type modifier
  * Purpose:  encode a string (a href)
@@ -16,7 +16,7 @@
  * Example:  {$url|url}
  * @return string
  */
-function smarty_modifier_utf ($string) {
+function smarty_modifier_utf ($string)
+{
    return utf8_encode($string);
 }
-?>

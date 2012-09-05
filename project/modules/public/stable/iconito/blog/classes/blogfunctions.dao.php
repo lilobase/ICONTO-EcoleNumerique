@@ -7,38 +7,39 @@
 * @link		http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.htmlGNU Leser General Public Licence, see LICENCE file
 */
-class DAOBlogfunctions {
-  
+class DAOBlogfunctions
+{
    /**
-    * @param 
+    * @param
     * createBlogFunctions
     * @return
     */
-   function createBlogFunctions ($id_blog, $tabBlogFunctions) { 
-			 $blogFunctions = _record('blog|blogfunctions');
+   public function createBlogFunctions ($id_blog, $tabBlogFunctions)
+   {
+             $blogFunctions = _record('blog|blogfunctions');
        foreach($tabBlogFunctions as $fct) {
-       		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
+               eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }
        $blogFunctions->id_blog = $id_blog;
-			 $this->insert($blogFunctions);     
+             $this->insert($blogFunctions);
    }
-  
-  
+
+
    /**
-    * @param 
+    * @param
     * updateBlogFunctions
     * @return
     */
-   function updateBlogFunctions ($id_blog, $tabBlogFunctions) {
-			 $blogFunctions = _record('blogfunctions');
+   public function updateBlogFunctions ($id_blog, $tabBlogFunctions)
+   {
+             $blogFunctions = _record('blogfunctions');
        foreach($tabBlogFunctions as $fct) {
-       		eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
+               eval('$blogFunctions->'.$fct->value.'='.$fct->selected.';');
        }
        $blogFunctions->id_blog = $id_blog;
-			 $this->update($blogFunctions);     
+             $this->update($blogFunctions);
    }
-  
+
 }
 
 
-?>

@@ -10,18 +10,18 @@
 
 /**
 * Plugin smarty type fonction pour encapsuler tous les appels aux tag copix
-* 
+*
 * <code>
 *  {copixtag type="select" selected=$value values=$values}
 * </code>
-* 
+*
 * @see CopixTpl::tag
 */
-function smarty_function_copixtag($params, &$me) {
-	$toReturn = '';
-	if (file_exists (COPIX_PATH.'taglib/'.strtolower ($params['type']).'.templatetag.php')) {	
-	    $toReturn = _tag ( $params['type'], $params);
-	}
-	return $toReturn;
+function smarty_function_copixtag($params, &$me)
+{
+    $toReturn = '';
+    if (file_exists (COPIX_PATH.'taglib/'.strtolower ($params['type']).'.templatetag.php')) {
+        $toReturn = _tag ( $params['type'], $params);
+    }
+    return $toReturn;
 }
-?>

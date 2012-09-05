@@ -14,20 +14,20 @@
 		required="yes"
 		type="integer"
 		/>
-	
+
 	<property name="user_type"
 		pk="true"
 		type="string"
 		maxlength="15"
 		required="yes"
 		/>
-	
+
 	<property name="user_id"
 		pk="true"
 		type="integer"
 		required="yes"
 		/>
-	
+
 	<property name="droit"
 		type="integer"
 		required="yes"

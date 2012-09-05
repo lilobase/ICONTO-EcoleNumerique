@@ -17,4 +17,3 @@ $go				= new CopixAction ('ressource', 'go');
 $default		= & $go;
 
 
-?>

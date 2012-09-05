@@ -10,13 +10,14 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class ZoneListFluxRss extends CopixZone {
-   function _createContent (&$toReturn) {
-
+class ZoneListFluxRss extends CopixZone
+{
+   public function _createContent (&$toReturn)
+   {
       $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
-      
+
       $dao = _dao('blog|blogfluxrss');
       $tpl->assign ('listFluxRss' , $dao->getAllFluxRssFromBlog($blog->id_blog));
 
@@ -24,4 +25,3 @@ class ZoneListFluxRss extends CopixZone {
       return true;
    }
 }
-?>

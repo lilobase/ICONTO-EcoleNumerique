@@ -12,16 +12,17 @@
  * @package		standard
  * @subpackage	copixtest
  */
-class CopixTest_CopixDAOFactoryTest extends CopixTest {
-	public function testFoo (){
-		$dao1 = _ioDAO ('copix:copixmodule');
-		$dao2 = _ioDAO ('copix:copixmodule');
-		$dao3 = _dao ('copix:copixmodule');
-		
-		$this->assertSame ($dao1, $dao2);
-		$this->assertNotSame ($dao1, $dao3);
-		
-		_daoInclude ('copix:copixmodule');
-	}
+class CopixTest_CopixDAOFactoryTest extends CopixTest
+{
+    public function testFoo ()
+    {
+        $dao1 = _ioDAO ('copix:copixmodule');
+        $dao2 = _ioDAO ('copix:copixmodule');
+        $dao3 = _dao ('copix:copixmodule');
+
+        $this->assertSame ($dao1, $dao2);
+        $this->assertNotSame ($dao1, $dao3);
+
+        _daoInclude ('copix:copixmodule');
+    }
 }
-?>

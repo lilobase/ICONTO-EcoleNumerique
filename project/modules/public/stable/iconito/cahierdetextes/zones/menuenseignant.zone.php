@@ -4,12 +4,12 @@
 * @subpackage Cahierdetextes
 * @author     Jérémy FOURNAISE
 */
-class ZoneMenuEnseignant extends CopixZone {
+class ZoneMenuEnseignant extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
+      $ppo = new CopixPPO ();
 
-	function _createContent (& $toReturn) {
-
-	  $ppo = new CopixPPO ();
-	  
     // Récupération des paramètres
     $ppo->cahierId  = $this->getParam('cahierId');
     $ppo->jour      = $this->getParam('date_jour');

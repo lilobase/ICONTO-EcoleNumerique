@@ -13,7 +13,8 @@
  * Génération d'input text
  *
  */
-function smarty_block_wikieditor($params,$content, $me) {
+function smarty_block_wikieditor($params,$content, $me)
+{
     if (isset ($params['assign'])) {
         $me->assign($params['assign'], _tag ('inputtext', $params,$content));
     }else {
@@ -21,4 +22,3 @@ function smarty_block_wikieditor($params,$content, $me) {
     }
 }
 
-?>

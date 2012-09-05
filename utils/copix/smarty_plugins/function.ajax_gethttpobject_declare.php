@@ -10,14 +10,14 @@
 
 /**
 * Plugin smarty type fonction
-* Fonction pour déclarer en JS une méthode pour récupérer un element "Ajax" 
+* Fonction pour déclarer en JS une méthode pour récupérer un element "Ajax"
 * <code>
 *  {ajax_gethttpobject_declare}
 * </code>
 * @see CopixTagLibAjaxGetHttpObject
 */
-function smarty_function_ajax_gethttpobject_declare($params, &$me) {
-	Copix::RequireOnce (COPIX_PATH.'taglib/CopixTagLibAjaxGetHttpObject.class.php');
+function smarty_function_ajax_gethttpobject_declare($params, &$me)
+{
+    Copix::RequireOnce (COPIX_PATH.'taglib/CopixTagLibAjaxGetHttpObject.class.php');
     CopixTagLibAjaxGetHttpObject::doDeclare ();
 }
-?>

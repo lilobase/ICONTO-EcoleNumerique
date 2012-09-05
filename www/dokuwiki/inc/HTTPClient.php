@@ -17,14 +17,15 @@ define('HTTP_NL',"\r\n");
  *
  * @author Andreas Goetz <cpuidle@gmx.de>
  */
-class DokuHTTPClient extends HTTPClient {
-
+class DokuHTTPClient extends HTTPClient
+{
     /**
      * Constructor.
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function DokuHTTPClient(){
+    public function DokuHTTPClient()
+    {
         global $conf;
 
         // call parent constructor
@@ -50,46 +51,48 @@ class DokuHTTPClient extends HTTPClient {
  * @author Andreas Goetz <cpuidle@gmx.de>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-class HTTPClient {
+class HTTPClient
+{
     //set these if you like
-    var $agent;         // User agent
-    var $http;          // HTTP version defaults to 1.0
-    var $timeout;       // read timeout (seconds)
-    var $cookies;
-    var $referer;
-    var $max_redirect;
-    var $max_bodysize;  // abort if the response body is bigger than this
-    var $header_regexp; // if set this RE must match against the headers, else abort
-    var $headers;
-    var $debug;
-    var $start = 0; // for timings
+    public $agent;         // User agent
+    public $http;          // HTTP version defaults to 1.0
+    public $timeout;       // read timeout (seconds)
+    public $cookies;
+    public $referer;
+    public $max_redirect;
+    public $max_bodysize;  // abort if the response body is bigger than this
+    public $header_regexp; // if set this RE must match against the headers, else abort
+    public $headers;
+    public $debug;
+    public $start = 0; // for timings
 
     // don't set these, read on error
-    var $error;
-    var $redirect_count;
+    public $error;
+    public $redirect_count;
 
     // read these after a successful request
-    var $resp_status;
-    var $resp_body;
-    var $resp_headers;
+    public $resp_status;
+    public $resp_body;
+    public $resp_headers;
 
     // set these to do basic authentication
-    var $user;
-    var $pass;
+    public $user;
+    public $pass;
 
     // set these if you need to use a proxy
-    var $proxy_host;
-    var $proxy_port;
-    var $proxy_user;
-    var $proxy_pass;
-    var $proxy_ssl; //boolean set to true if your proxy needs SSL
+    public $proxy_host;
+    public $proxy_port;
+    public $proxy_user;
+    public $proxy_pass;
+    public $proxy_ssl; //boolean set to true if your proxy needs SSL
 
     /**
      * Constructor.
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function HTTPClient(){
+    public function HTTPClient()
+    {
         $this->agent        = 'Mozilla/4.0 (compatible; DokuWiki HTTP Client; '.PHP_OS.')';
         $this->timeout      = 15;
         $this->cookies      = array();
@@ -118,7 +121,8 @@ class HTTPClient {
      * @param  bool   $sloppy304 Return body on 304 not modified
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function get($url,$sloppy304=false){
+    public function get($url,$sloppy304=false)
+    {
         if(!$this->sendRequest($url)) return false;
         if($this->status == 304 && $sloppy304) return $this->resp_body;
         if($this->status != 200) return false;
@@ -132,7 +136,8 @@ class HTTPClient {
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function post($url,$data){
+    public function post($url,$data)
+    {
         if(!$this->sendRequest($url,$data,'POST')) return false;
         if($this->status != 200) return false;
         return $this->resp_body;
@@ -154,7 +159,8 @@ class HTTPClient {
      * @author Andreas Goetz <cpuidle@gmx.de>
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function sendRequest($url,$data='',$method='GET'){
+    public function sendRequest($url,$data='',$method='GET')
+    {
         $this->start  = $this->_time();
         $this->error  = '';
         $this->status = 0;
@@ -373,7 +379,8 @@ class HTTPClient {
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function _debug($info,$var=null){
+    public function _debug($info,$var=null)
+    {
         if(!$this->debug) return;
         print '<b>'.$info.'</b> '.($this->_time() - $this->start).'s<br />';
         if(!is_null($var)){
@@ -388,7 +395,8 @@ class HTTPClient {
     /**
      * Return current timestamp in microsecond resolution
      */
-    function _time(){
+    public function _time()
+    {
         list($usec, $sec) = explode(" ", microtime());
         return ((float)$usec + (float)$sec);
     }
@@ -400,7 +408,8 @@ class HTTPClient {
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function _parseHeaders($string){
+    public function _parseHeaders($string)
+    {
         $headers = array();
         $lines = explode("\n",$string);
         foreach($lines as $line){
@@ -426,7 +435,8 @@ class HTTPClient {
      *
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function _buildHeaders($headers){
+    public function _buildHeaders($headers)
+    {
         $string = '';
         foreach($headers as $key => $value){
             if(empty($value)) continue;
@@ -440,7 +450,8 @@ class HTTPClient {
      *
      * @author Andreas Goetz <cpuidle@gmx.de>
      */
-    function _getCookies(){
+    public function _getCookies()
+    {
         foreach ($this->cookies as $key => $val){
             if ($headers) $headers .= '; ';
             $headers .= $key.'='.$val;
@@ -456,7 +467,8 @@ class HTTPClient {
      * @todo handle mixed encoding for file upoads
      * @author Andreas Gohr <andi@splitbrain.org>
      */
-    function _postEncode($data){
+    public function _postEncode($data)
+    {
         foreach($data as $key => $val){
             if($url) $url .= '&';
             $url .= $key.'='.urlencode($val);

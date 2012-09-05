@@ -72,4 +72,3 @@ $doUnsubscribe   = new CopixAction ('AdminBlog', 'doUnsubscribe');
 $updateUrl          = new CopixAction ('AdminArticle', 'doUpdateUrl');
 
 $default       = & $listBlog;
-?>

@@ -44,34 +44,34 @@ class Numbers_Words_en_GB extends Numbers_Words
 {
 
     // {{{ properties
-    
+
     /**
      * Locale name
      * @var string
      * @access public
      */
-    var $locale      = 'en_GB';
+    public $locale      = 'en_GB';
 
     /**
      * Language name in English
      * @var string
      * @access public
      */
-    var $lang        = 'British English';
+    public $lang        = 'British English';
 
     /**
      * Native language name
      * @var string
      * @access public
      */
-    var $lang_native = 'British English';
-    
+    public $lang_native = 'British English';
+
     /**
      * The word for the minus sign
      * @var string
      * @access private
      */
-    var $_minus = 'minus'; // minus sign
+    public $_minus = 'minus'; // minus sign
 
     /**
      * The sufixes for exponents (singular and plural)
@@ -80,7 +80,7 @@ class Numbers_Words_en_GB extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_exponent = array(
+    public $_exponent = array(
         0 => array(''),
         3 => array('thousand'),
         6 => array('million'),
@@ -112,7 +112,7 @@ class Numbers_Words_en_GB extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_digits = array(
+    public $_digits = array(
         0 => 'zero', 'one', 'two', 'three', 'four',
         'five', 'six', 'seven', 'eight', 'nine'
     );
@@ -122,7 +122,7 @@ class Numbers_Words_en_GB extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     /**
      * The currency names (based on the below links,
@@ -134,7 +134,7 @@ class Numbers_Words_en_GB extends Numbers_Words
      * @link http://www.shoestring.co.kr/world/p.visa/change.htm Currency names in English
      * @access private
      */
-    var $_currency_names = array(
+    public $_currency_names = array(
       'ALL' => array(array('lek'), array('qindarka')),
       'AUD' => array(array('Australian dollar'), array('cent')),
       'BAM' => array(array('convertible marka'), array('fenig')),
@@ -178,7 +178,7 @@ class Numbers_Words_en_GB extends Numbers_Words
      * @var string
      * @access public
      */
-    var $def_currency = 'GBP'; // English pound
+    public $def_currency = 'GBP'; // English pound
 
     // }}}
     // {{{ toWords()
@@ -200,24 +200,25 @@ class Numbers_Words_en_GB extends Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  PHP 4.2.3
      */
-    function toWords($num, $power = 0, $powsuffix = '') {
-      $ret = '';        
-        
+    public function toWords($num, $power = 0, $powsuffix = '')
+    {
+      $ret = '';
+
       // add a minus sign
       if (substr($num, 0, 1) == '-') {
         $ret = $this->_sep . $this->_minus;
         $num = substr($num, 1);
       }
-        
+
       // strip excessive zero signs and spaces
       $num = trim($num);
       $num = preg_replace('/^0+/','',$num);
-        
+
       if (strlen($num) > 3) {
           $maxp = strlen($num)-1;
           $curp = $maxp;
           for ($p = $maxp; $p > 0; --$p) { // power
-            
+
             // check for highest power
             if (isset($this->_exponent[$p])) {
               // send substr from $curp to $p
@@ -240,9 +241,9 @@ class Numbers_Words_en_GB extends Numbers_Words
       } elseif ($num == 0 || $num == '') {
         return $this->_sep . $this->_digits[0];
       }
-    
+
       $h = $t = $d = 0;
-      
+
       switch(strlen($num)) {
         case 3:
           $h = (int)substr($num,-3,1);
@@ -277,61 +278,61 @@ class Numbers_Words_en_GB extends Numbers_Words
       case 6:
           $ret .= $this->_sep . $this->_digits[$t] . 'ty';
           break;
-    
+
       case 8:
           $ret .= $this->_sep . 'eighty';
           break;
-    
+
       case 5:
           $ret .= $this->_sep . 'fifty';
           break;
-    
+
       case 4:
           $ret .= $this->_sep . 'forty';
           break;
-    
+
       case 3:
           $ret .= $this->_sep . 'thirty';
           break;
-    
+
       case 2:
           $ret .= $this->_sep . 'twenty';
           break;
-    
+
       case 1:
           switch ($d) {
           case 0:
               $ret .= $this->_sep . 'ten';
               break;
-    
+
           case 1:
               $ret .= $this->_sep . 'eleven';
               break;
-    
+
           case 2:
               $ret .= $this->_sep . 'twelve';
               break;
-    
+
           case 3:
               $ret .= $this->_sep . 'thirteen';
               break;
-    
+
           case 4:
           case 6:
           case 7:
           case 9:
               $ret .= $this->_sep . $this->_digits[$d] . 'teen';
               break;
-    
+
           case 5:
               $ret .= $this->_sep . 'fifteen';
               break;
-    
+
           case 8:
               $ret .= $this->_sep . 'eighteen';
               break;
           }
-          break; 
+          break;
       }
 
       if ($t != 1 && $d > 0) { // add digits only in <0>,<1,9> and <21,inf>
@@ -342,20 +343,20 @@ class Numbers_Words_en_GB extends Numbers_Words
           $ret .= $this->_sep . $this->_digits[$d];
         }
       }
-  
+
       if ($power > 0) {
         if (isset($this->_exponent[$power]))
           $lev = $this->_exponent[$power];
-    
+
         if (!isset($lev) || !is_array($lev))
           return null;
-     
+
         $ret .= $this->_sep . $lev[0];
       }
-    
+
       if ($powsuffix != '')
         $ret .= $this->_sep . $powsuffix;
-    
+
       return $ret;
     }
     // }}}
@@ -379,7 +380,8 @@ class Numbers_Words_en_GB extends Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  Numbers_Words 0.13.1
      */
-    function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true) {
+    public function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
+    {
         $int_curr = strtoupper($int_curr);
         if (!isset($this->_currency_names[$int_curr])) {
             $int_curr = $this->def_currency;
@@ -396,7 +398,7 @@ class Numbers_Words_en_GB extends Numbers_Words
         } else {
             $ret .= $this->_sep . $curr_names[0][0];
         }
-      
+
         if ($fraction !== false) {
             if ($convert_fraction) {
                 $ret .= $this->_sep . trim($this->toWords($fraction));
@@ -421,4 +423,3 @@ class Numbers_Words_en_GB extends Numbers_Words
 
 }
 
-?>

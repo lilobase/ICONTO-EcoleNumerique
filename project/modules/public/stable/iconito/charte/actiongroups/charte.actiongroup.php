@@ -1,13 +1,12 @@
 <?php
-class ActionGroupCharte extends enicActionGroup{
-
-    public function processShowChart(){
-
+class ActionGroupCharte extends enicActionGroup
+{
+    public function processShowChart()
+    {
     }
 
-    public function processValid(){
-
-
+    public function processValid()
+    {
         $this->flash->redirect = (isset($this->flash->redirect)) ? $this->flash->redirect : $this->url('||');
 
 //        $this->js->button('.button');
@@ -18,15 +17,15 @@ class ActionGroupCharte extends enicActionGroup{
 
         $ppo->url = $charte['file_url'];
         if(empty($ppo->url))
-        	return $this->go('auth|log|out');
+            return $this->go('auth|log|out');
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
 
         return _arPPO($ppo, 'charte.tpl');
     }
 
-    public function processRedirect(){
-
+    public function processRedirect()
+    {
         $accept = ($this->request('typeAction') == 'accept') ? true : false ;
 
         CopixHTMLHeader::addCSSLink (_resource("styles/module_charte.css"));
@@ -43,7 +42,8 @@ class ActionGroupCharte extends enicActionGroup{
 
     }
 
-    public function processAdmin(){
+    public function processAdmin()
+    {
         //check if the user is admin :
         if(!Kernel::isAdmin())
             return $this->error('charte.noRight', true, '||');
@@ -57,34 +57,32 @@ class ActionGroupCharte extends enicActionGroup{
 
         $modsAvailable = Kernel::getModAvailable($this->user->type);
         $malleAvailable = Kernel::filterModuleList ($modsAvailable, 'MOD_MALLE');
-        
+
         // Malle activée
         if (!empty($malleAvailable)) {
-          
+
           $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->idEn);
           $mal = Kernel::filterModuleList ($modsEnabled, 'MOD_MALLE');
-          
+
           // Si la malle est bien initialisée
           if (!empty($mal)) {
-            
+
             $ppo->idMalle = $mal[0]->module_id;
-          }
-          else {
-            
+          } else {
+
             return $this->error ('charte.admin.noMalle', true, 'malle||');
           }
-        }
-        else {
-          
+        } else {
+
           $classeurAvailable = Kernel::filterModuleList ($modsAvailable, 'MOD_CLASSEUR');
-          
+
           // Classeur activé
           if (!empty($classeurAvailable)) {
-            
+
             Kernel::createMissingModules($this->user->type, $this->user->idEn);
             $modsEnabled = Kernel::getModEnabled ($this->user->type, $this->user->idEn);
             $classeur = Kernel::filterModuleList ($modsEnabled, 'MOD_CLASSEUR');
-            
+
             if (!empty($classeur)) {
 
               $ppo->idClasseur = $classeur[0]->module_id;
@@ -98,8 +96,8 @@ class ActionGroupCharte extends enicActionGroup{
 
     }
 
-    public function processAdminAction(){
-
+    public function processAdminAction()
+    {
         //check if the user is admin :
         if(!Kernel::isAdmin())
             return $this->error ('charte.noRight');
@@ -138,7 +136,7 @@ class ActionGroupCharte extends enicActionGroup{
             case 'new_charte':
                 $url = $this->request('ca-file_url');
                 $active = $this->request('ca-activate');
-                
+
                 if(empty($url)){
                     $this->flash->errors = array($target => $this->i18n('charte.noUrl'));
                     break;
@@ -154,7 +152,7 @@ class ActionGroupCharte extends enicActionGroup{
         }
 
         return $this->go('charte|charte|admin');
-        
+
     }
 
 }

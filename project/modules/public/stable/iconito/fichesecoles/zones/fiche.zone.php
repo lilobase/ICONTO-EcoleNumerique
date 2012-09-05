@@ -2,15 +2,15 @@
 
 /**
  * Fiche d'une ecole
- * 
+ *
  * @package Iconito
  * @subpackage Fichesecoles
  */
 _classInclude('annuaire|annuaireservice');
 _classInclude('blog|blogutils');
 
-class ZoneFiche extends CopixZone {
-
+class ZoneFiche extends CopixZone
+{
     /**
      * Detail d'une ecole
      *
@@ -19,8 +19,8 @@ class ZoneFiche extends CopixZone {
      * @param object $rEcole Recordset de l'ecole
      * @param object $rFiche Recordset de la fiche ecole
      */
-    function _createContent(&$toReturn) {
-
+    public function _createContent(&$toReturn)
+    {
         $tpl = new CopixTpl ();
 
         $rEcole = $this->getParam('rEcole');
@@ -68,7 +68,8 @@ class ZoneFiche extends CopixZone {
         return true;
     }
 
-    function _usortClasses($a, $b) {
+    public function _usortClasses($a, $b)
+    {
         //var_dump($a);
         $aNiv1 = isset($a['niveaux'][0]) ? $a['niveaux'][0]->id_n : '';
         $bNiv1 = isset($b['niveaux'][0]) ? $b['niveaux'][0]->id_n : '';
@@ -90,4 +91,3 @@ class ZoneFiche extends CopixZone {
 
 }
 
-?>

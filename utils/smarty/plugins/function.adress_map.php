@@ -16,22 +16,21 @@
  */
 function smarty_function_adress_map ($params, &$smarty)
 {
-    
+
     $address = (isset($params['address'])) ? $params['address'] : null;
-    
+
     if (!$address)
         return '';
-    
+
     $size = (isset($params['size'])) ? $params['size'] : '200x200';
 
     $url = 'http://maps.googleapis.com/maps/api/staticmap?size='.$size.'&markers=color:blue|'.urlencode($address).'&maptype=roadmap&zoom=13&sensor=false';
-    
+
     $res = '';
     //$res .= '<a href="'.$url.'">'.$url.'</a> ';
     $res .= '<img src="'.$url.'" alt="Google Map" />';
     return $res;
-		
+
 }
 
 
-?>

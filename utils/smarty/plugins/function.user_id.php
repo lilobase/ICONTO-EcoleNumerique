@@ -20,26 +20,25 @@ function smarty_function_user_id ($params, &$smarty)
     $smarty->trigger_error("mailto: missing 'id' parameter");
     return;
   }
-  
+
   $res = '';
-  
+
   if ($userInfo = Kernel::getUserInfo ("ID", $params['id'])) {
     $label = trim($userInfo['prenom'].' '.$userInfo['nom']);
     $res = '<a '.$params['linkAttribs'].' class="viewuser" user_type="'.$userInfo['type'].'" user_id="'.$userInfo['id'].'">'.$label.'</a>';
   }
-  
-  
+
+
   if (isset ($params['assign'])) {
     $smarty->assign($params['assign'], $res);
     return '';
   } else {
     return $res;
   }
-  
-  
-  
-    
+
+
+
+
 }
 
 
-?>

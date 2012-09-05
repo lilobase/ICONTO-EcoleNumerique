@@ -22,7 +22,8 @@
  * @param   int       $lvl  Recursion Level
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function search(&$data,$base,$func,$opts,$dir='',$lvl=1){
+function search(&$data,$base,$func,$opts,$dir='',$lvl=1)
+{
   $dirs   = array();
   $files  = array();
 
@@ -62,7 +63,8 @@ function search(&$data,$base,$func,$opts,$dir='',$lvl=1){
  * @todo If this can be generalized it may be useful elsewhere in the code
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function search_callback($func,&$data,$base,$file,$type,$lvl,$opts){
+function search_callback($func,&$data,$base,$file,$type,$lvl,$opts)
+{
   if(is_array($func)){
     if(is_object($func[0])){
       // instanciated object
@@ -105,7 +107,8 @@ function search_callback($func,&$data,$base,$file,$type,$lvl,$opts){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function search_qsearch(&$data,$base,$file,$type,$lvl,$opts){
+function search_qsearch(&$data,$base,$file,$type,$lvl,$opts)
+{
   $item = array();
 
   if($type == 'd'){
@@ -142,7 +145,8 @@ function search_qsearch(&$data,$base,$file,$type,$lvl,$opts){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function search_index(&$data,$base,$file,$type,$lvl,$opts){
+function search_index(&$data,$base,$file,$type,$lvl,$opts)
+{
   global $conf;
   $return = true;
 
@@ -184,7 +188,8 @@ function search_index(&$data,$base,$file,$type,$lvl,$opts){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function search_namespaces(&$data,$base,$file,$type,$lvl,$opts){
+function search_namespaces(&$data,$base,$file,$type,$lvl,$opts)
+{
   if($type == 'f') return true; //nothing to do on files
 
   $id = pathID($file);
@@ -199,7 +204,8 @@ function search_namespaces(&$data,$base,$file,$type,$lvl,$opts){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function search_media(&$data,$base,$file,$type,$lvl,$opts){
+function search_media(&$data,$base,$file,$type,$lvl,$opts)
+{
   //we do nothing with directories
   if($type == 'd') return false;
 
@@ -237,7 +243,8 @@ function search_media(&$data,$base,$file,$type,$lvl,$opts){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function search_list(&$data,$base,$file,$type,$lvl,$opts){
+function search_list(&$data,$base,$file,$type,$lvl,$opts)
+{
   //we do nothing with directories
   if($type == 'd') return false;
   //only search txt files
@@ -259,7 +266,8 @@ function search_list(&$data,$base,$file,$type,$lvl,$opts){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function search_pagename(&$data,$base,$file,$type,$lvl,$opts){
+function search_pagename(&$data,$base,$file,$type,$lvl,$opts)
+{
   //we do nothing with directories
   if($type == 'd') return true;
   //only search txt files
@@ -284,7 +292,8 @@ function search_pagename(&$data,$base,$file,$type,$lvl,$opts){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function search_allpages(&$data,$base,$file,$type,$lvl,$opts){
+function search_allpages(&$data,$base,$file,$type,$lvl,$opts)
+{
   //we do nothing with directories
   if($type == 'd') return true;
   //only search txt files
@@ -303,7 +312,8 @@ function search_allpages(&$data,$base,$file,$type,$lvl,$opts){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @deprecated Replaced by ft_backlinks()
  */
-function search_backlinks(&$data,$base,$file,$type,$lvl,$opts){
+function search_backlinks(&$data,$base,$file,$type,$lvl,$opts)
+{
   //we do nothing with directories
   if($type == 'd') return true;
   //only search txt files
@@ -350,7 +360,8 @@ function search_backlinks(&$data,$base,$file,$type,$lvl,$opts){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @deprecated - fulltext indexer is used instead
  */
-function search_fulltext(&$data,$base,$file,$type,$lvl,$opts){
+function search_fulltext(&$data,$base,$file,$type,$lvl,$opts)
+{
   //we do nothing with directories
   if($type == 'd') return true;
   //only search txt files
@@ -414,7 +425,8 @@ function search_fulltext(&$data,$base,$file,$type,$lvl,$opts){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @author  Matthias Grimm <matthiasgrimm@users.sourceforge.net>
  */
-function search_reference(&$data,$base,$file,$type,$lvl,$opts){
+function search_reference(&$data,$base,$file,$type,$lvl,$opts)
+{
   global $conf;
 
   //we do nothing with directories
@@ -452,8 +464,8 @@ function search_reference(&$data,$base,$file,$type,$lvl,$opts){
  *
  * @deprecated - fulltext indexer is used instead
  */
-function search_regex(&$data,$base,$file,$reg,$words){
-
+function search_regex(&$data,$base,$file,$reg,$words)
+{
   //get text
   $text = io_readfile($base.'/'.$file);
   //lowercase text (u modifier does not help with case)
@@ -494,7 +506,8 @@ function search_regex(&$data,$base,$file,$reg,$words){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function sort_search_fulltext($a,$b){
+function sort_search_fulltext($a,$b)
+{
   if($a['count'] > $b['count']){
     return -1;
   }elseif($a['count'] < $b['count']){
@@ -510,7 +523,8 @@ function sort_search_fulltext($a,$b){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @todo    move to pageutils
  */
-function pathID($path,$keeptxt=false){
+function pathID($path,$keeptxt=false)
+{
   $id = utf8_decodeFN($path);
   $id = str_replace('/',':',$id);
   if(!$keeptxt) $id = preg_replace('#\.txt$#','',$id);

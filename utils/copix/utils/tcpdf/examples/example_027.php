@@ -3,12 +3,12 @@
 // File name   : example_027.php
 // Begin       : 2008-03-04
 // Last Update : 2009-04-15
-// 
+//
 // Description : Example 027 for TCPDF class
 //               1D Barcodes
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -34,7 +34,7 @@ require_once('../config/lang/eng.php');
 require_once('../tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -62,10 +62,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -79,15 +79,15 @@ $pdf->SetFont('helvetica', '', 10);
 $pdf->AddPage();
 
 $style = array(
-	'position' => 'S',
-	'border' => true,
-	'padding' => 4,
-	'fgcolor' => array(0,0,0),
-	'bgcolor' => false, //array(255,255,255),
-	'text' => true,
-	'font' => 'helvetica',
-	'fontsize' => 8,
-	'stretchtext' => 4
+    'position' => 'S',
+    'border' => true,
+    'padding' => 4,
+    'fgcolor' => array(0,0,0),
+    'bgcolor' => false, //array(255,255,255),
+    'text' => true,
+    'font' => 'helvetica',
+    'fontsize' => 8,
+    'stretchtext' => 4
 );
 
 // PRINT VARIOUS 1D BARCODES
@@ -296,6 +296,5 @@ $pdf->write1DBarcode('RIGHT', 'C128A', '', '', 180, 30, 0.4, $style, 'N');
 $pdf->Output('example_027.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

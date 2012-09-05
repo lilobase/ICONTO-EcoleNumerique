@@ -15,31 +15,33 @@ require_once(dirname (__FILE__).'/project.path.inc.php');
  * @package		copix
  * @subpackage 	core
  */
-class ProjectController extends CopixController {
-	/**
-	 * Actions communes à toutes les pages
-	 */
-	function _processStandard ($tplObject) {
-		$tplVars = $tplObject->getTemplateVars ();
-				
-		if (! isset ($tplVars['TITLE_PAGE'])) {
-			$tplVars['TITLE_PAGE'] = CopixConfig::get ('|titlePage');
-			$tplObject->assign ('TITLE_PAGE', $tplVars['TITLE_PAGE']);
-		}
+class ProjectController extends CopixController
+{
+    /**
+     * Actions communes à toutes les pages
+     */
+    public function _processStandard ($tplObject)
+    {
+        $tplVars = $tplObject->getTemplateVars ();
 
-		if (! isset ($tplVars['TITLE_BAR'])) {
-			$tplVars['TITLE_BAR'] = str_replace ('{$TITLE_PAGE}', $tplVars['TITLE_PAGE'], CopixConfig::get ('|titleBar'));
-			$tplObject->assign ('TITLE_BAR', $tplVars['TITLE_BAR']);
-		}
-		
-		$tplObject->assign ('menuItems', array ('Accueil'=>_url ('default|default|default'),
-												'Présentation'=>'http://www.copix.org/index.php/wiki/Presentation',
-												'Tutoriaux'=>'http://www.copix.org/index.php/wiki/Tutoriaux',
-												'Documentation'=>'http://www.copix.org/index.php/wiki/Documentation',
-												'Forum'=>'http://forum.copix.org',
-												'Téléchargement'=>'http://forum.copix.org',
-												'Site officiel'=>'http://www.copix.org')
-							);
+        if (! isset ($tplVars['TITLE_PAGE'])) {
+            $tplVars['TITLE_PAGE'] = CopixConfig::get ('|titlePage');
+            $tplObject->assign ('TITLE_PAGE', $tplVars['TITLE_PAGE']);
+        }
+
+        if (! isset ($tplVars['TITLE_BAR'])) {
+            $tplVars['TITLE_BAR'] = str_replace ('{$TITLE_PAGE}', $tplVars['TITLE_PAGE'], CopixConfig::get ('|titleBar'));
+            $tplObject->assign ('TITLE_BAR', $tplVars['TITLE_BAR']);
+        }
+
+        $tplObject->assign ('menuItems', array ('Accueil'=>_url ('default|default|default'),
+                                                'Présentation'=>'http://www.copix.org/index.php/wiki/Presentation',
+                                                'Tutoriaux'=>'http://www.copix.org/index.php/wiki/Tutoriaux',
+                                                'Documentation'=>'http://www.copix.org/index.php/wiki/Documentation',
+                                                'Forum'=>'http://forum.copix.org',
+                                                'Téléchargement'=>'http://forum.copix.org',
+                                                'Site officiel'=>'http://www.copix.org')
+                            );
 
     }
 }
@@ -76,4 +78,3 @@ define ('PROFILE_CCV_ADMIN',    70);
 
 // Fin compatibilite
 
-?>

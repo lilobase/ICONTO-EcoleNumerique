@@ -13,24 +13,25 @@
  * @package standard
  * @subpackage copixtest
  */
-class UrlHandlerCopixTest extends CopixUrlHandler {
-	/**
-	 * Simple fonction de get pour tester les URL significatives
-	 */
-	function get ($dest, $parameters, $mode) {
-		$toReturn = new CopixUrlHandlerGetResponse ();
+class UrlHandlerCopixTest extends CopixUrlHandler
+{
+    /**
+     * Simple fonction de get pour tester les URL significatives
+     */
+    public function get ($dest, $parameters, $mode)
+    {
+        $toReturn = new CopixUrlHandlerGetResponse ();
 
-		if ($dest['module'] == 'copixtest' && $dest['group']=='google'){
-	    	$toReturn->externUrl = 'http://www.google.fr';
-	    	return $toReturn;	
-	    }
-	    
-		if (isset ($parameters['var'])) {
-			$toReturn->path = array_merge ($dest, array ('var' => CopixUrl::escapeSpecialChars ($parameters['var'])));
-			unset ($parameters['var']);
-		}
-		$toReturn->vars = $parameters;
-		return $toReturn;
-	}
+        if ($dest['module'] == 'copixtest' && $dest['group']=='google'){
+            $toReturn->externUrl = 'http://www.google.fr';
+            return $toReturn;
+        }
+
+        if (isset ($parameters['var'])) {
+            $toReturn->path = array_merge ($dest, array ('var' => CopixUrl::escapeSpecialChars ($parameters['var'])));
+            unset ($parameters['var']);
+        }
+        $toReturn->vars = $parameters;
+        return $toReturn;
+    }
 }
-?>

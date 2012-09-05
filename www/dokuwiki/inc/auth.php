@@ -114,7 +114,8 @@
  * @param   bool    $silent  Don't show error on bad auth
  * @return  bool             true on successful auth
 */
-function auth_login($user,$pass,$sticky=false,$silent=false){
+function auth_login($user,$pass,$sticky=false,$silent=false)
+{
   global $USERINFO;
   global $conf;
   global $lang;
@@ -188,7 +189,8 @@ function auth_login($user,$pass,$sticky=false,$silent=false){
  *
  * @return  string  a MD5 sum of various browser headers
  */
-function auth_browseruid(){
+function auth_browseruid()
+{
   $uid  = '';
   $uid .= $_SERVER['HTTP_USER_AGENT'];
   $uid .= $_SERVER['HTTP_ACCEPT_ENCODING'];
@@ -210,7 +212,8 @@ function auth_browseruid(){
  *
  * @return  string
  */
-function auth_cookiesalt(){
+function auth_cookiesalt()
+{
   global $conf;
   $file = $conf['metadir'].'/_htcookiesalt';
   $salt = io_readFile($file);
@@ -227,7 +230,8 @@ function auth_cookiesalt(){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function auth_logoff(){
+function auth_logoff()
+{
   global $conf;
   global $USERINFO;
   global $INFO, $ID;
@@ -263,7 +267,8 @@ function auth_logoff(){
  * @param  array  groups    - List of groups the user is in
  * @param  bool   adminonly - when true checks if user is admin
  */
-function auth_ismanager($user=null,$groups=null,$adminonly=false){
+function auth_ismanager($user=null,$groups=null,$adminonly=false)
+{
   global $conf;
   global $USERINFO;
 
@@ -322,7 +327,8 @@ function auth_ismanager($user=null,$groups=null,$adminonly=false){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @see auth_ismanager
  */
-function auth_isadmin($user=null,$groups=null){
+function auth_isadmin($user=null,$groups=null)
+{
   return auth_ismanager($user,$groups,true);
 }
 
@@ -336,7 +342,8 @@ function auth_isadmin($user=null,$groups=null){
  * @param  string  $id  page ID
  * @return int          permission level
  */
-function auth_quickaclcheck($id){
+function auth_quickaclcheck($id)
+{
   global $conf;
   global $USERINFO;
   # if no ACL is used always return upload rights
@@ -355,7 +362,8 @@ function auth_quickaclcheck($id){
  * @param  array   $groups Array of groups the user is in
  * @return int             permission level
  */
-function auth_aclcheck($id,$user,$groups){
+function auth_aclcheck($id,$user,$groups)
+{
   global $conf;
   global $AUTH_ACL;
 
@@ -461,7 +469,8 @@ function auth_aclcheck($id,$user,$groups){
  * @author Andreas Gohr <gohr@cosmocode.de>
  * @see rawurldecode()
  */
-function auth_nameencode($name,$skip_group=false){
+function auth_nameencode($name,$skip_group=false)
+{
   global $cache_authname;
   $cache =& $cache_authname;
   $name  = (string) $name;
@@ -487,7 +496,8 @@ function auth_nameencode($name,$skip_group=false){
  *
  * @return string  pronouncable password
  */
-function auth_pwgen(){
+function auth_pwgen()
+{
   $pw = '';
   $c  = 'bcdfghjklmnprstvwz'; //consonants except hard to speak ones
   $v  = 'aeiou';              //vowels
@@ -512,7 +522,8 @@ function auth_pwgen(){
  *
  * @return bool  true on success
  */
-function auth_sendPassword($user,$password){
+function auth_sendPassword($user,$password)
+{
   global $conf;
   global $lang;
   global $auth;
@@ -544,7 +555,8 @@ function auth_sendPassword($user,$password){
  *
  * @return bool  true on success, false on any error
  */
-function register(){
+function register()
+{
   global $lang;
   global $conf;
   global $auth;
@@ -620,7 +632,8 @@ function register(){
  *
  * @author    Christopher Smith <chris@jalakai.co.uk>
  */
-function updateprofile() {
+function updateprofile()
+{
   global $conf;
   global $INFO;
   global $lang;
@@ -688,7 +701,8 @@ function updateprofile() {
  *
  * @return bool true on success, false on any error
 */
-function act_resendpwd(){
+function act_resendpwd()
+{
     global $lang;
     global $conf;
     global $auth;
@@ -789,7 +803,8 @@ function act_resendpwd(){
  * @param   string $email the address to check
  * @return  bool          true if address is valid
  */
-function isvalidemail($email){
+function isvalidemail($email)
+{
     return (bool)filter_var($email, FILTER_VALIDATE_EMAIL);
 }
 
@@ -812,7 +827,8 @@ function isvalidemail($email){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @return  string  The crypted password
  */
-function auth_cryptPassword($clear,$method='',$salt=''){
+function auth_cryptPassword($clear,$method='',$salt='')
+{
   global $conf;
   if(empty($method)) $method = $conf['passcrypt'];
 
@@ -862,7 +878,8 @@ function auth_cryptPassword($clear,$method='',$salt=''){
  * @author  Andreas Gohr <andi@splitbrain.org>
  * @return  bool
  */
-function auth_verifyPassword($clear,$crypt){
+function auth_verifyPassword($clear,$crypt)
+{
   $method='';
   $salt='';
 

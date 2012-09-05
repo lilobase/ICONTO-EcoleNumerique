@@ -25,42 +25,42 @@
  * {/copixhtmlheader}
  * </code>
  */
-function smarty_block_copixhtmlheader ($params, $content, &$smarty) {
-	if (is_null ($content)) {
-		return;
-	}
+function smarty_block_copixhtmlheader ($params, $content, &$smarty)
+{
+    if (is_null ($content)) {
+        return;
+    }
 
-	//Si aucun type n'a été demandé, on utilise others par défaut.
-	$kind = isset ($params['kind']) ? strtolower($params['kind']) : 'others';
-	$key = isset ($params['key']) ? $params['key'] : null;
-	$funcName = 'add'.$kind;
+    //Si aucun type n'a été demandé, on utilise others par défaut.
+    $kind = isset ($params['kind']) ? strtolower($params['kind']) : 'others';
+    $key = isset ($params['key']) ? $params['key'] : null;
+    $funcName = 'add'.$kind;
 
-	switch($kind) {
-		case 'jscode':
-		case 'jsdomreadycode':
-		case 'others':
-			CopixHTMLHeader::$funcName ($content, $key);
-			break;
-				
-		case 'jslink':
-		case 'csslink':
-			foreach (array_filter (array_map ('trim', explode ("\n", $content))) as $line){
-				if (strlen (trim ($line)) > 0) {
-					CopixHTMLHeader::$funcName ($line);
-				}
-			}
-			break;
+    switch($kind) {
+        case 'jscode':
+        case 'jsdomreadycode':
+        case 'others':
+            CopixHTMLHeader::$funcName ($content, $key);
+            break;
 
-		case 'style':
-		case 'others':
-			CopixHTMLHeader::$funcName ($content);
-			break;
-				
-		default:
-			$smarty->_trigger_fatal_error ("[plugin copixhtmlheader] unknow kind ".$params['kind'].", only jsLink, cssLink, style, others, jsCode are available");
-				
-	}
+        case 'jslink':
+        case 'csslink':
+            foreach (array_filter (array_map ('trim', explode ("\n", $content))) as $line){
+                if (strlen (trim ($line)) > 0) {
+                    CopixHTMLHeader::$funcName ($line);
+                }
+            }
+            break;
 
-	return '';
+        case 'style':
+        case 'others':
+            CopixHTMLHeader::$funcName ($content);
+            break;
+
+        default:
+            $smarty->_trigger_fatal_error ("[plugin copixhtmlheader] unknow kind ".$params['kind'].", only jsLink, cssLink, style, others, jsCode are available");
+
+    }
+
+    return '';
 }
-?>

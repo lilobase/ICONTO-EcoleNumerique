@@ -10,14 +10,15 @@ require_once (COPIX_UTILS_PATH . 'CopixDateTime.class.php');
  * @link		http://copix.org
  * @licence  http://www.gnu.org/licenses/lgpl.htmlGNU Leser General Public Licence, see LICENCE file
  */
-class DAOBlogArticle {
-
+class DAOBlogArticle
+{
     /**
       * findListMonthForArticle
       * @param
       * @return
       */
-    function findListMonthForArticle($id_blog) {
+    public function findListMonthForArticle($id_blog)
+    {
         $critere = 'SELECT art.date_bact as date_bact
     FROM module_blog_article as art WHERE art.id_blog = ' . $id_blog . ' ORDER BY art.date_bact DESC, art.id_bact DESC';
         return _doQuery($critere);
@@ -25,10 +26,11 @@ class DAOBlogArticle {
 
     /**
      * getAllArchivesFromBlog
-     * @param 
+     * @param
      * @return
      */
-    function getAllArchivesFromBlog($id_blog) {
+    public function getAllArchivesFromBlog($id_blog)
+    {
         $sp = _daoSp();
         $sp->addCondition('id_blog', '=', $id_blog);
         $sp->addCondition('is_online', '=', 1);
@@ -56,7 +58,8 @@ class DAOBlogArticle {
      * @param  name
      * @return
      */
-    function getArticleByUrl($id_blog, $url_bact) {
+    public function getArticleByUrl($id_blog, $url_bact)
+    {
         $sp = _daoSp();
         $sp->addCondition('url_bact', '=', urlencode($url_bact));
         $sp->addCondition('id_blog', '=', $id_blog);
@@ -87,7 +90,8 @@ class DAOBlogArticle {
      * @param  name
      * @return
      */
-    function getArticleById($id_blog, $id_bact) {
+    public function getArticleById($id_blog, $id_bact)
+    {
         $article = $this->get($id_bact);
 
         if ($article && $article->id_blog == $id_blog && $article->is_online) {
@@ -110,7 +114,8 @@ class DAOBlogArticle {
     /**
      * Get all article from a blog
      */
-    function getAllArticlesFromBlog($id_blog, $date = null) {
+    public function getAllArticlesFromBlog($id_blog, $date = null)
+    {
         $sp = _daoSp();
         $sp->addCondition('id_blog', '=', $id_blog);
         $sp->addCondition('is_online', '=', 1);
@@ -148,8 +153,8 @@ class DAOBlogArticle {
     /**
      * Get all article from a blog bu cat
      */
-    function getAllArticlesFromBlogByCat($id_blog, $id_bacg) {
-
+    public function getAllArticlesFromBlogByCat($id_blog, $id_bacg)
+    {
         //on récupère les identifiants d'article correspondant à la catégorie
         $daoLink = _dao('blog|blogarticle_blogarticlecategory');
         $sp = _daoSp();
@@ -189,7 +194,8 @@ class DAOBlogArticle {
      * @param string $critere mot du critere de recherche des articles
      * @return array $arArticle articles
      */
-    function getAllArticlesFromBlogByCritere($id_blog, $critere) {
+    public function getAllArticlesFromBlogByCritere($id_blog, $critere)
+    {
         $arResultat = array();
         $arCritere = explode(" ", $critere);
         $daoLink = _dao('blog|blogarticle_blogarticlecategory');
@@ -222,10 +228,11 @@ class DAOBlogArticle {
 
     /**
      * findAllOrder
-     * @param 
+     * @param
      * @return
      */
-    function findArticles($id_blog, $id_bacg, $query, $orderby = ' art.date_bact DESC, art.time_bact DESC, art.id_bact DESC') {
+    public function findArticles($id_blog, $id_bacg, $query, $orderby = ' art.date_bact DESC, art.time_bact DESC, art.id_bact DESC')
+    {
         $critere = ' SELECT DISTINCT art.id_bact as id_bact, ' .
                 'art.id_blog as id_blog, ' .
                 'art.name_bact as name_bact, ' .
@@ -253,7 +260,8 @@ class DAOBlogArticle {
         return _doQuery($critere);
     }
 
-    function findCategoriesForArticle($id_bact) {
+    public function findCategoriesForArticle($id_bact)
+    {
         $critere = ' SELECT ctg.id_bacg as id_bacg, ' .
                 'ctg.name_bacg as name_bacg, ' .
                 'ctg.url_bacg as url_bacg ' .
@@ -264,14 +272,15 @@ class DAOBlogArticle {
 
     /**
      * find old article
-     * @param 
+     * @param
      * @return
      */
-    function findOldArticle($id_blog) {
+    public function findOldArticle($id_blog)
+    {
         $critere = ' SELECT MIN(art.date_bact) as min ' .
                 ' FROM module_blog_article as art ' .
                 ' WHERE art.id_blog = ' . $id_blog . '
-			AND is_online=1';
+            AND is_online=1';
         $result = _doQuery($critere);
         if ($result && $result[0]->min > 0) {
             return $result[0]->min;
@@ -282,11 +291,11 @@ class DAOBlogArticle {
 
     /**
      * delete article and comments
-     * @param 
+     * @param
      * @return
      */
-    function delete($item) {
-
+    public function delete($item)
+    {
         // Delete link with category table
         $sqlDelete = 'DELETE FROM module_blog_article_blogarticlecategory WHERE id_bact=' . $item->id_bact;
         _doQuery($sqlDelete);
@@ -311,37 +320,33 @@ class DAOBlogArticle {
      *      [parent] Pour récupérer les infos sur le parent du blog
      *      [blogId] Pour limiter à un blog précis
      *      [future] Pour afficher ou non les articles post-datés (true par défaut)
-     * 
+     *
      */
     public function findPublic($options = array())
     {
 
         $limit = (isset($options['nb']) && $options['nb']) ? $options['nb'] : 10;
-        
+
         $arTypes = array();
         if (CopixConfig::exists('public|blogs.types') && CopixConfig::get('public|blogs.types'))
             $arTypes = explode(",", CopixConfig::get('public|blogs.types'));
         $arTypes[] = 'CLUB';
 
         $params = array();
-        
+
         $critere = 'SELECT ART.id_bact, ART.name_bact, ART.url_bact, ART.date_bact, ART.time_bact, ART.sumary_bact, ART.sumary_html_bact, BLOG.url_blog, KME.node_type AS parent_type, KME.node_id AS parent_id FROM module_blog BLOG, module_blog_article ART, kernel_mod_enabled KME WHERE ART.id_blog=BLOG.id_blog AND KME.module_id=BLOG.id_blog AND KME.module_type=\'MOD_BLOG\' AND BLOG.is_public=1 AND ART.is_online=1';
-        
+
         $blogId = (isset($options['blogId']) && $options['blogId']) ? (int)$options['blogId'] : 0;
         $future = (isset($options['future'])) ? $options['future'] : true;
-        
-        if ($blogId)
-        {
+
+        if ($blogId) {
             $critere .= ' AND ART.id_blog = :blogId';
             $params['blogId'] = $blogId;
-        }
-        else
-        {
+        } else {
             $critere .= ' AND KME.node_type IN (\'' . implode('\',\'', $arTypes) . '\')';
         }
-        
-        if (!$future)
-        {
+
+        if (!$future) {
             $critere .= ' AND (ART.date_bact < :today1 OR (ART.date_bact = :today2 AND ART.time_bact <= :now))';
             $params['today1'] = $params['today2'] = date('Ymd');
             $params['now'] = date('Hi');
@@ -358,13 +363,11 @@ class DAOBlogArticle {
 
         $arArticle = array();
 
-        foreach ($list as $article)
-        {
+        foreach ($list as $article) {
 
             $add = true;
 
-            if (!$blogId)
-            {
+            if (!$blogId) {
                 switch ($article->parent_type) {
                     case 'CLUB' :
                         if (Kernel::getKernelLimits('ville')) {
@@ -375,10 +378,9 @@ class DAOBlogArticle {
                         break;
                 }
             }
-            
 
-            if (isset($options['categories']) && $options['categories'])
-            {
+
+            if (isset($options['categories']) && $options['categories']) {
                 $sp = _daoSp();
                 $sp->addCondition('id_bact', '=', $article->id_bact);
                 $article->categories = array();
@@ -386,7 +388,7 @@ class DAOBlogArticle {
                     $article->categories[] = _ioDAO('blog|blogarticlecategory')->get($object->id_bacg);
                 }
             }
-            
+
             $date = array();
             $date['Y'] = substr($article->date_bact, 0, 4);
             $date['m'] = substr($article->date_bact, 4, 2);
@@ -396,12 +398,11 @@ class DAOBlogArticle {
             $article->dateRFC822 = gmdate('D, d M Y H:i:s', mktime($date['H'], $date['i'], 0, $date['m'], $date['d'], $date['Y'])) . ' GMT';
 
             if ($add) {
-                
-                if (!isset($options['parent']) || $options['parent'])
-                {
+
+                if (!isset($options['parent']) || $options['parent']) {
                     $article->parent = Kernel::getNodeInfo($article->parent_type, $article->parent_id);
                 }
-                
+
                 $arArticle[] = $article;
             }
         }
@@ -409,15 +410,14 @@ class DAOBlogArticle {
         if (!$blogId && Kernel::getKernelLimits('ville')) {
             $arArticle = array_slice($arArticle, 0, $limit);
         }
-        
+
         return $arArticle;
-        
+
     }
 
 }
 
-class DAORecordblogarticle {
-    
+class DAORecordblogarticle
+{
 }
 
-?>

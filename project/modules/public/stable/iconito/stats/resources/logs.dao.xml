@@ -5,7 +5,7 @@
           <table name="logs" tablename="module_stats_logs" primary="yes" />
        </tables>
     </datasource>
-    
+
  		<properties>
 	    <property name="id"
 	            fieldName="id"

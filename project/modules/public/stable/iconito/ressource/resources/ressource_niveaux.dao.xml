@@ -1,24 +1,24 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE daodefinition SYSTEM "dao.dtd">
-<daodefinition version="1">
-	<datasource>
-		<tables>
-			<table name="module_ressource_niveaux" tablename="module_ressource_niveaux" primary="yes"/>
-		</tables>
-	</datasource>
-	<properties>
-		<property name="niveaux_id"          fieldname="id"          type="integer" table="module_ressource_niveaux" pk="yes"/>
-		<property name="niveaux_nom"         fieldname="nom"         type="string"  table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_description" fieldname="description" type="string"  table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_age_min"     fieldname="age_min"     type="integer" table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_age_max"     fieldname="age_max"     type="integer" table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_ordre"       fieldname="ordre"       type="integer" table="module_ressource_niveaux" pk="no"/>
-	</properties>
-	<methods>
-		<method name="getOrdre" type="select">
-			<order>
-				<orderitem property="niveaux_ordre" way="asc" />
-			</order>
-		</method>
-	</methods>
-</daodefinition>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_niveaux" tablename="module_ressource_niveaux" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="niveaux_id"          fieldname="id"          type="integer" table="module_ressource_niveaux" pk="yes"/>
+		<property name="niveaux_nom"         fieldname="nom"         type="string"  table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_description" fieldname="description" type="string"  table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_age_min"     fieldname="age_min"     type="integer" table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_age_max"     fieldname="age_max"     type="integer" table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_ordre"       fieldname="ordre"       type="integer" table="module_ressource_niveaux" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getOrdre" type="select">
+			<order>
+				<orderitem property="niveaux_ordre" way="asc" />
+			</order>
+		</method>
+	</methods>
+</daodefinition>

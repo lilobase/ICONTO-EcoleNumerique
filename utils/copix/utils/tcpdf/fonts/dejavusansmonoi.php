@@ -259,4 +259,3 @@ $diff='';
 $file='dejavusansmonoi.z';
 $ctg='dejavusansmonoi.ctg.z';
 $originalsize=228624;
-?>

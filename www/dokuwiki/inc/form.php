@@ -27,29 +27,29 @@ require_once(DOKU_INC.'inc/html.php');
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-class Doku_Form {
-
+class Doku_Form
+{
   // Usually either DOKU_SCRIPT or wl($ID)
-  var $action = '';
+  public $action = '';
 
   // Most likely no need to change this
-  var $method = 'post';
+  public $method = 'post';
 
   // Change for special forms only
-  var $enctype = '';
+  public $enctype = '';
 
   // Form id attribute
-  var $id = '';
+  public $id = '';
 
   // Draw a border around form fields.
   // Adds <fieldset></fieldset> around the elements
-  var $_infieldset = false;
+  public $_infieldset = false;
 
   // Hidden form fields.
-  var $_hidden = array();
+  public $_hidden = array();
 
   // Array of pseudo-tags
-  var $_content = array();
+  public $_content = array();
 
   /**
    * Constructor
@@ -61,7 +61,8 @@ class Doku_Form {
    * @param   string  $method (optional) 'POST' or 'GET', default is post
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function Doku_Form($id, $action=false, $method=false, $enctype=false) {
+  public function Doku_Form($id, $action=false, $method=false, $enctype=false)
+  {
     $this->id = $id;
     $this->action = ($action) ? $action : script();
     if ($method) $this->method = $method;
@@ -79,7 +80,8 @@ class Doku_Form {
    * @param   string  $legend Label that will be printed with the border.
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function startFieldset($legend) {
+  public function startFieldset($legend)
+  {
     if ($this->_infieldset) {
       $this->addElement(array('_elem'=>'closefieldset'));
     }
@@ -92,7 +94,8 @@ class Doku_Form {
    *
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function endFieldset() {
+  public function endFieldset()
+  {
     if ($this->_infieldset) {
       $this->addElement(array('_elem'=>'closefieldset'));
     }
@@ -110,7 +113,8 @@ class Doku_Form {
    * @param   string  $value  Field value. If null, remove a previously added field.
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function addHidden($name, $value) {
+  public function addHidden($name, $value)
+  {
     if (is_null($value))
       unset($this->_hidden[$name]);
     else
@@ -127,7 +131,8 @@ class Doku_Form {
    * @param   string  $elem   Pseudo-tag or string to add to the form.
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function addElement($elem) {
+  public function addElement($elem)
+  {
     $this->_content[] = $elem;
   }
 
@@ -140,7 +145,8 @@ class Doku_Form {
    * @param   string  $elem   Pseudo-tag or string to add to the form.
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function insertElement($pos, $elem) {
+  public function insertElement($pos, $elem)
+  {
     array_splice($this->_content, $pos, 0, array($elem));
   }
 
@@ -153,7 +159,8 @@ class Doku_Form {
    * @param   string  $elem   Pseudo-tag or string to add to the form.
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function replaceElement($pos, $elem) {
+  public function replaceElement($pos, $elem)
+  {
     $rep = array();
     if (!is_null($elem)) $rep[] = $elem;
     array_splice($this->_content, $pos, 1, $rep);
@@ -168,7 +175,8 @@ class Doku_Form {
    * @return  array   pseudo-element if found, false otherwise
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function findElementByType($type) {
+  public function findElementByType($type)
+  {
     foreach ($this->_content as $pos=>$elem) {
       if (is_array($elem) && $elem['_elem'] == $type)
         return $pos;
@@ -185,7 +193,8 @@ class Doku_Form {
    * @return  array   pseudo-element if found, false otherwise
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function findElementById($id) {
+  public function findElementById($id)
+  {
     foreach ($this->_content as $pos=>$elem) {
       if (is_array($elem) && isset($elem['id']) && $elem['id'] == $id)
         return $pos;
@@ -203,7 +212,8 @@ class Doku_Form {
    * @return  array   pseudo-element if found, false otherwise
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function findElementByAttribute($name, $value) {
+  public function findElementByAttribute($name, $value)
+  {
     foreach ($this->_content as $pos=>$elem) {
       if (is_array($elem) && isset($elem[$name]) && $elem[$name] == $value)
         return $pos;
@@ -238,7 +248,8 @@ class Doku_Form {
    *
    * @author  Tom N Harris <tnharris@whoopdedo.org>
    */
-  function printForm() {
+  public function printForm()
+  {
     global $lang;
     print '<form action="'.$this->action.'" method="'.$this->method.'" accept-charset="'.$lang['encoding'].'"';
     if (!empty($this->id)) print ' id="'.$this->id.'"';
@@ -276,7 +287,8 @@ class Doku_Form {
  * @return  array   pseudo-tag
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeTag($tag, $attrs=array()) {
+function form_makeTag($tag, $attrs=array())
+{
   $elem = array('_elem'=>'tag', '_tag'=>$tag);
   return array_merge($elem, $attrs);
 }
@@ -292,7 +304,8 @@ function form_makeTag($tag, $attrs=array()) {
  * @return  array   pseudo-tag
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeOpenTag($tag, $attrs=array()) {
+function form_makeOpenTag($tag, $attrs=array())
+{
   $elem = array('_elem'=>'opentag', '_tag'=>$tag);
   return array_merge($elem, $attrs);
 }
@@ -307,7 +320,8 @@ function form_makeOpenTag($tag, $attrs=array()) {
  * @return  array   pseudo-tag
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeCloseTag($tag) {
+function form_makeCloseTag($tag)
+{
   return array('_elem'=>'closetag', '_tag'=>$tag);
 }
 
@@ -324,7 +338,8 @@ function form_makeCloseTag($tag) {
  * @return  array   pseudo-tag
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeWikiText($text, $attrs=array()) {
+function form_makeWikiText($text, $attrs=array())
+{
   $elem = array('_elem'=>'wikitext', '_text'=>$text,
                 'class'=>'edit', 'cols'=>'80', 'rows'=>'10');
   return array_merge($elem, $attrs);
@@ -344,10 +359,11 @@ function form_makeWikiText($text, $attrs=array()) {
  * @return  array   pseudo-tag
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeButton($type, $act, $value='', $attrs=array()) {
+function form_makeButton($type, $act, $value='', $attrs=array())
+{
   if ($value == '') $value = $act;
   //$name = (!empty($act)) ? 'do[$act]' : null;
-  $elem = array('_elem'=>'button', 'type'=>$type, '_action'=>$act, 
+  $elem = array('_elem'=>'button', 'type'=>$type, '_action'=>$act,
                 'value'=>$value, 'class'=>'button');
   if (!empty($attrs['accesskey']) && empty($attrs['title'])) {
     $attrs['title'] = $value . ' [ALT+'.strtoupper($attrs['accesskey']).']';
@@ -373,7 +389,8 @@ function form_makeButton($type, $act, $value='', $attrs=array()) {
  * @return  array   pseudo-tag
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeField($type, $name, $value='', $label=null, $id='', $class='', $attrs=array()) {
+function form_makeField($type, $name, $value='', $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   $elem = array('_elem'=>'field', '_text'=>$label, '_class'=>$class,
                 'type'=>$type, 'id'=>$id, 'name'=>$name, 'value'=>$value);
@@ -389,7 +406,8 @@ function form_makeField($type, $name, $value='', $label=null, $id='', $class='',
  * @see     form_makeField
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeFieldRight($type, $name, $value='', $label=null, $id='', $class='', $attrs=array()) {
+function form_makeFieldRight($type, $name, $value='', $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   $elem = array('_elem'=>'fieldright', '_text'=>$label, '_class'=>$class,
                 'type'=>$type, 'id'=>$id, 'name'=>$name, 'value'=>$value);
@@ -404,7 +422,8 @@ function form_makeFieldRight($type, $name, $value='', $label=null, $id='', $clas
  * @see     form_makeField
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeTextField($name, $value='', $label=null, $id='', $class='', $attrs=array()) {
+function form_makeTextField($name, $value='', $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   $elem = array('_elem'=>'textfield', '_text'=>$label, '_class'=>$class,
                 'id'=>$id, 'name'=>$name, 'value'=>$value, 'class'=>'edit');
@@ -420,7 +439,8 @@ function form_makeTextField($name, $value='', $label=null, $id='', $class='', $a
  * @see     form_makeField
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makePasswordField($name, $label=null, $id='', $class='', $attrs=array()) {
+function form_makePasswordField($name, $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   $elem = array('_elem'=>'passwordfield', '_text'=>$label, '_class'=>$class,
                 'id'=>$id, 'name'=>$name, 'class'=>'edit');
@@ -431,11 +451,12 @@ function form_makePasswordField($name, $label=null, $id='', $class='', $attrs=ar
  * form_makeFileField
  *
  * Create a form element for a file input element with label
- * 
+ *
  * @see     form_makeField
  * @author  Michael Klier <chi@chimeric.de>
  */
-function form_makeFileField($name, $label=null, $id='', $class='', $attrs=array()) {
+function form_makeFileField($name, $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   $elem = array('_elem'=>'filefield', '_text'=>$label, '_class'=>$class,
                 'id'=>$id, 'name'=>$name, 'class'=>'edit');
@@ -450,7 +471,8 @@ function form_makeFileField($name, $label=null, $id='', $class='', $attrs=array(
  * @see     form_makeFieldRight
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeCheckboxField($name, $value='1', $label=null, $id='', $class='', $attrs=array()) {
+function form_makeCheckboxField($name, $value='1', $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   if (is_null($value) || $value=='') $value='0';
   $elem = array('_elem'=>'checkboxfield', '_text'=>$label, '_class'=>$class,
@@ -466,7 +488,8 @@ function form_makeCheckboxField($name, $value='1', $label=null, $id='', $class='
  * @see     form_makeFieldRight
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeRadioField($name, $value='1', $label=null, $id='', $class='', $attrs=array()) {
+function form_makeRadioField($name, $value='1', $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   if (is_null($value) || $value=='') $value='0';
   $elem = array('_elem'=>'radiofield', '_text'=>$label, '_class'=>$class,
@@ -486,7 +509,8 @@ function form_makeRadioField($name, $value='1', $label=null, $id='', $class='', 
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeMenuField($name, $values, $selected='', $label=null, $id='', $class='', $attrs=array()) {
+function form_makeMenuField($name, $values, $selected='', $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   $options = array();
   reset($values);
@@ -520,7 +544,8 @@ function form_makeMenuField($name, $values, $selected='', $label=null, $id='', $
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_makeListboxField($name, $values, $selected='', $label=null, $id='', $class='', $attrs=array()) {
+function form_makeListboxField($name, $values, $selected='', $label=null, $id='', $class='', $attrs=array())
+{
   if (is_null($label)) $label = $name;
   $options = array();
   reset($values);
@@ -556,7 +581,8 @@ function form_makeListboxField($name, $values, $selected='', $label=null, $id=''
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_tag($attrs) {
+function form_tag($attrs)
+{
   return '<'.$attrs['_tag'].' '.buildAttributes($attrs,true).'/>';
 }
 
@@ -569,7 +595,8 @@ function form_tag($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_opentag($attrs) {
+function form_opentag($attrs)
+{
   return '<'.$attrs['_tag'].' '.buildAttributes($attrs,true).'>';
 }
 
@@ -582,7 +609,8 @@ function form_opentag($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_closetag($attrs) {
+function form_closetag($attrs)
+{
   return '</'.$attrs['_tag'].'>';
 }
 
@@ -595,7 +623,8 @@ function form_closetag($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_openfieldset($attrs) {
+function form_openfieldset($attrs)
+{
   $s = '<fieldset '.buildAttributes($attrs,true).'>';
   if (!is_null($attrs['_legend'])) $s .= '<legend>'.$attrs['_legend'].'</legend>';
   return $s;
@@ -609,7 +638,8 @@ function form_openfieldset($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_closefieldset() {
+function form_closefieldset()
+{
   return '</fieldset>';
 }
 
@@ -622,7 +652,8 @@ function form_closefieldset() {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_hidden($attrs) {
+function form_hidden($attrs)
+{
   return '<input type="hidden" name="'.$attrs['name'].'" value="'.formText($attrs['value']).'" />';
 }
 
@@ -635,7 +666,8 @@ function form_hidden($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_wikitext($attrs) {
+function form_wikitext($attrs)
+{
   // mandatory attributes
   unset($attrs['name']);
   unset($attrs['id']);
@@ -654,7 +686,8 @@ function form_wikitext($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_button($attrs) {
+function form_button($attrs)
+{
   $p = (!empty($attrs['_action'])) ? 'name="do['.$attrs['_action'].']" ' : '';
   return '<input '.$p.buildAttributes($attrs,true).'/>';
 }
@@ -669,7 +702,8 @@ function form_button($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_field($attrs) {
+function form_field($attrs)
+{
   $s = '<label class="'.$attrs['_class'].'"';
   if (!empty($attrs['id'])) $s .= ' for="'.$attrs['id'].'"';
   $s .= '><span>'.$attrs['_text'].'</span>';
@@ -689,7 +723,8 @@ function form_field($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_fieldright($attrs) {
+function form_fieldright($attrs)
+{
   $s = '<label class="'.$attrs['_class'].'"';
   if (!empty($attrs['id'])) $s .= ' for="'.$attrs['id'].'"';
   $s .= '><input '.buildAttributes($attrs,true).'/>';
@@ -709,7 +744,8 @@ function form_fieldright($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_textfield($attrs) {
+function form_textfield($attrs)
+{
   // mandatory attributes
   unset($attrs['type']);
   $s = '<label class="'.$attrs['_class'].'"';
@@ -731,7 +767,8 @@ function form_textfield($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_passwordfield($attrs) {
+function form_passwordfield($attrs)
+{
   // mandatory attributes
   unset($attrs['type']);
   $s = '<label class="'.$attrs['_class'].'"';
@@ -755,7 +792,8 @@ function form_passwordfield($attrs) {
  *
  * @author  Michael Klier <chi@chimeric.de>
  */
-function form_filefield($attrs) {
+function form_filefield($attrs)
+{
   $s = '<label class="'.$attrs['_class'].'"';
   if (!empty($attrs['id'])) $s .= ' for="'.$attrs['id'].'"';
   $s .= '><span>'.$attrs['_text'].'</span> ';
@@ -778,7 +816,8 @@ function form_filefield($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_checkboxfield($attrs) {
+function form_checkboxfield($attrs)
+{
   // mandatory attributes
   unset($attrs['type']);
   $s = '<label class="'.$attrs['_class'].'"';
@@ -800,7 +839,8 @@ function form_checkboxfield($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_radiofield($attrs) {
+function form_radiofield($attrs)
+{
   // mandatory attributes
   unset($attrs['type']);
   $s = '<label class="'.$attrs['_class'].'"';
@@ -825,7 +865,8 @@ function form_radiofield($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_menufield($attrs) {
+function form_menufield($attrs)
+{
   $attrs['size'] = '1';
   $s = '<label class="'.$attrs['_class'].'"';
   if (!empty($attrs['id'])) $s .= ' for="'.$attrs['id'].'"';
@@ -867,7 +908,8 @@ function form_menufield($attrs) {
  *
  * @author  Tom N Harris <tnharris@whoopdedo.org>
  */
-function form_listboxfield($attrs) {
+function form_listboxfield($attrs)
+{
   $s = '<label class="'.$attrs['_class'].'"';
   if (!empty($attrs['id'])) $s .= ' for="'.$attrs['id'].'"';
   $s .= '><span>'.$attrs['_text'].'</span> ';

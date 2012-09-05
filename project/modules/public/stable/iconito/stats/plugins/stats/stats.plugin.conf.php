@@ -10,13 +10,13 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class PluginConfigStats {
-	/*
-		Détermine si l'on active le cache.
-		Si true, un seul passage dans une action précise n'est enregistrée par session
-		Si false, chaque passage est enregistré (y compris les rafraîchissements successifs)
-	*/
-	var $cache = true;
+class PluginConfigStats
+{
+    /*
+        Détermine si l'on active le cache.
+        Si true, un seul passage dans une action précise n'est enregistrée par session
+        Si false, chaque passage est enregistré (y compris les rafraîchissements successifs)
+    */
+    public $cache = true;
 }
 
-?>

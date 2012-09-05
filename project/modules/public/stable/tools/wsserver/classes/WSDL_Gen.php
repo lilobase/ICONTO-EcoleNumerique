@@ -3,15 +3,16 @@
  * WSDL_Gen: A WSDL Generator for PHP5
  *
  * This class generates WSDL from a PHP5 class.
-* @package		tools 
+* @package		tools
  * @subpackage	wsserver
  */
 
 /**
-* @package		tools 
+* @package		tools
  * @subpackage	wsserver
  */
-class WSDL_Gen {
+class WSDL_Gen
+{
   const SOAP_XML_SCHEMA_VERSION = 'http://www.w3.org/2001/XMLSchema';
   const SOAP_XML_SCHEMA_INSTANCE = 'http://www.w3.org/2001/XMLSchema-instance';
   const SOAP_SCHEMA_ENCODING = 'http://schemas.xmlsoap.org/soap/encoding/';
@@ -20,16 +21,16 @@ class WSDL_Gen {
   const SCHEMA_SOAP = 'http://schemas.xmlsoap.org/wsdl/soap/';
   const SCHEMA_WSDL = 'http://schemas.xmlsoap.org/wsdl/';
 
-  static public $baseTypes = array(
+  public static $baseTypes = array(
     'int'    => array('ns'   => self::SOAP_XML_SCHEMA_VERSION,
                       'name' => 'int'),
     'float'  => array('ns'   => self::SOAP_XML_SCHEMA_VERSION,
                       'name' => 'float'),
     'string' => array('ns'   => self::SOAP_XML_SCHEMA_VERSION,
                       'name' => 'string'),
-	'boolean' => array('ns'   => self::SOAP_XML_SCHEMA_VERSION,
+    'boolean' => array('ns'   => self::SOAP_XML_SCHEMA_VERSION,
                       'name' => 'boolean'));
-                      
+
   public $types;
   public $operations = array();
   public $className;
@@ -43,7 +44,8 @@ class WSDL_Gen {
    * @param string $endpoint  The endpoint for the service
    * @param string $ns optional The namespace you want for your service.
    */
-  function __construct($className, $endpoint, $ns=false) {
+  public function __construct($className, $endpoint, $ns=false)
+  {
     $this->types = self::$baseTypes;
     $this->className = $className;
     if(!$ns) { $ns = $endpoint; }
@@ -57,7 +59,8 @@ class WSDL_Gen {
     $this->discoverTypes();
   }
 
-  protected function discoverOperations($methods) {
+  protected function discoverOperations($methods)
+  {
     foreach($methods as $method) {
       $this->operations[$method->getName()]['input'] = array();
       $this->operations[$method->getName()]['output'] = array();
@@ -65,26 +68,28 @@ class WSDL_Gen {
       if(preg_match_all('|@param\s+(?:object\s+)?(\w+)\s+\$(\w+)|', $doc, $matches, PREG_SET_ORDER)) {
         foreach($matches as $match) {
           $this->mytypes[$match[1]] = 1;
-          $this->operations[$method->getName()]['input'][] = 
+          $this->operations[$method->getName()]['input'][] =
                 array('name' => $match[2], 'type' => $match[1]);
         }
       }
       if(preg_match('|@return\s+(?:object\s+)?(\w+)|', $doc, $match)) {
         $this->mytypes[$match[1]] = 1;
-        $this->operations[$method->getName()]['output'][] = 
+        $this->operations[$method->getName()]['output'][] =
               array('name' => 'return', 'type' => $match[1]);
       }
     }
   }
-  protected function discoverTypes() {
+  protected function discoverTypes()
+  {
     foreach(array_keys($this->mytypes) as $type) {
       if(!isset($this->types[$type])) {
         $this->addComplexType($type);
       }
     }
   }
-  
-  protected function createPHPTypes() {
+
+  protected function createPHPTypes()
+  {
     $this->complexTypes['mixed'] = array(
                                      array('name' => 'varString',
                                            'type' => 'string'),
@@ -97,8 +102,9 @@ class WSDL_Gen {
     $this->types['mixed'] = array('name' => 'mixed', 'ns' => $this->ns);
     $this->types['array'] = array('name' => 'array', 'ns' => $this->ns);
   }
-  
-  protected function addComplexType($className) {
+
+  protected function addComplexType($className)
+  {
     $class = new ReflectionClass($className);
     $this->complexTypes[$className] = array();
     $this->types[$className] = array('name' => $className, 'ns' => $this->ns);
@@ -114,8 +120,9 @@ class WSDL_Gen {
       }
     }
   }
-  
-  protected function addMessages(DomDocument $doc, DomElement $root) {
+
+  protected function addMessages(DomDocument $doc, DomElement $root)
+  {
     foreach(array('input', 'output') as $type) {
       foreach($this->operations as $name => $params) {
         $el = $doc->createElementNS(self::SCHEMA_WSDL, 'message');
@@ -126,13 +133,14 @@ class WSDL_Gen {
           $prefix = $root->lookupPrefix($this->types[$param['type']]['ns']);
           $part->setAttribute('type', "$prefix:".$this->types[$param['type']]['name']);
           $el->appendChild($part);
-        } 
+        }
         $root->appendChild($el);
       }
     }
   }
-  
-  protected function addPortType(DomDocument $doc, DomElement $root) {
+
+  protected function addPortType(DomDocument $doc, DomElement $root)
+  {
     $el = $doc->createElementNS(self::SCHEMA_WSDL, 'portType');
     $el->setAttribute('name', $this->className."PortType");
     foreach($this->operations as $name => $params) {
@@ -148,7 +156,8 @@ class WSDL_Gen {
     $root->appendChild($el);
   }
 
-  protected function addBinding(DomDocument $doc, DomElement $root) {
+  protected function addBinding(DomDocument $doc, DomElement $root)
+  {
     $el = $doc->createElementNS(self::SCHEMA_WSDL, 'binding');
     $el->setAttribute('name', $this->className."Binding");
     $el->setAttribute('type', "tns:{$this->className}PortType");
@@ -164,7 +173,7 @@ class WSDL_Gen {
       /*$s_action = $doc->createElementNS(self::SCHEMA_SOAP,'operation');
       $s_action->setAttribute('soapAction', 'http://localhost/Copix/Copix_3/www/index.php/wsserver/default/wsdl/');
       $op->appendChild($s_action);*/
-      
+
       foreach(array('input', 'output') as $type) {
         $sel = $doc->createElementNS(self::SCHEMA_WSDL, $type);
         $s_body = $doc->createElementNS(self::SCHEMA_SOAP, 'body');
@@ -177,7 +186,8 @@ class WSDL_Gen {
     }
     $root->appendChild($el);
   }
-  protected function addService(DomDocument $doc, DomElement $root) {
+  protected function addService(DomDocument $doc, DomElement $root)
+  {
     $el = $doc->createElementNS(self::SCHEMA_WSDL, 'service');
     $el->setAttribute('name', $this->className."Service");
 
@@ -192,8 +202,9 @@ class WSDL_Gen {
     $el->appendChild($port);
     $root->appendChild($el);
   }
-  
-  protected function addTypes(DomDocument $doc, DomElement $root) {
+
+  protected function addTypes(DomDocument $doc, DomElement $root)
+  {
     $types = $doc->createElementNS(self::SCHEMA_WSDL, 'types');
     $root->appendChild($types);
     $el = $doc->createElementNS(self::SOAP_XML_SCHEMA_VERSION, 'schema');
@@ -214,7 +225,7 @@ class WSDL_Gen {
     $attribute->setAttributeNS(self::SCHEMA_WSDL, 'arrayType', 'tns:mixed[]');
 
     /* END: crutch */
-    
+
     foreach($this->complexTypes as $name => $data) {
       $ct = $doc->createElementNS(self::SCHEMA_WSDL, 'complexType');
       $ct->setAttribute('name', $name);
@@ -233,11 +244,12 @@ class WSDL_Gen {
       $el->appendChild($ct);
     }
   }
- 
+
   /**
    * Return an XML representation of the WSDL file
    */
-  public function toXML() {
+  public function toXML()
+  {
     $wsdl = new DomDocument("1.0");
     $root = $wsdl->createElementNS('http://schemas.xmlsoap.org/wsdl/', 'definitions');
     $root->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:xsd','http://www.w3.org/2001/XMLSchema');
@@ -256,4 +268,3 @@ class WSDL_Gen {
     return $wsdl->saveXML();
   }
 }
-?>

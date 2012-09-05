@@ -13,14 +13,15 @@
  * @package standard
  * @subpackage copixtest
  */
- class ActionGroupDefault extends CopixActionGroup {
- 	/**
- 	 * On retourne sur la page de choix des tests unitaires à lancer
- 	 */
- 	public function processDefault (){
- 		return _arRedirect (_url ('unittest|'));
- 	}
- 	
- 	
+ class ActionGroupDefault extends CopixActionGroup
+ {
+     /**
+      * On retourne sur la page de choix des tests unitaires à lancer
+      */
+     public function processDefault ()
+     {
+         return _arRedirect (_url ('unittest|'));
+     }
+
+
  }
-?>

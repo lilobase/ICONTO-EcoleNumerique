@@ -1,37 +1,37 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE daodefinition SYSTEM "dao.dtd">
-<daodefinition version="1">
-	<datasource>
-		<tables>
-			<table name="module_ressource_domaines" tablename="module_ressource_domaines" primary="yes"/>
-			<table name="module_ressource_niveaux"  tablename="module_ressource_niveaux"  join="LEFT"/>
-		</tables>
-	</datasource>
-	<properties>
-		<property name="domaines_id"         fieldname="id"          type="integer" table="module_ressource_domaines" pk="yes"/>
-		<property name="domaines_id_niveau"  fieldname="id_niveau"   type="integer" table="module_ressource_domaines" pk="no" fktable="module_ressource_niveaux" fkfieldname="id"/>
-		<property name="domaines_nom"        fieldname="nom"         type="string"  table="module_ressource_domaines" pk="no"/>
-		<property name="domaines_parent"     fieldname="parent"      type="integer" table="module_ressource_domaines" pk="no"/>
-		<property name="domaines_ordre"      fieldname="ordre"       type="integer" table="module_ressource_domaines" pk="no"/>
-
-		<property name="niveaux_id"          fieldname="id"          type="integer" table="module_ressource_niveaux" pk="yes"/>
-		<property name="niveaux_nom"         fieldname="nom"         type="string"  table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_description" fieldname="description" type="string"  table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_age_min"     fieldname="age_min"     type="integer" table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_age_max"     fieldname="age_max"     type="integer" table="module_ressource_niveaux" pk="no"/>
-		<property name="niveaux_ordre"       fieldname="ordre"       type="integer" table="module_ressource_niveaux" pk="no"/>
-	</properties>
-	<methods>
-		<method name="getByNiveau" type="select">
-			<parameters>
-				<parameter name="niveau" />
-			</parameters>
-			<conditions>
-				<condition property="domaines_id_niveau" operator="=" value="$niveau" />
-			</conditions>
-			<order>
-				<orderitem property="domaines_ordre" way="asc" />
-			</order>
-		</method>
-	</methods>
-</daodefinition>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_domaines" tablename="module_ressource_domaines" primary="yes"/>
+			<table name="module_ressource_niveaux"  tablename="module_ressource_niveaux"  join="LEFT"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="domaines_id"         fieldname="id"          type="integer" table="module_ressource_domaines" pk="yes"/>
+		<property name="domaines_id_niveau"  fieldname="id_niveau"   type="integer" table="module_ressource_domaines" pk="no" fktable="module_ressource_niveaux" fkfieldname="id"/>
+		<property name="domaines_nom"        fieldname="nom"         type="string"  table="module_ressource_domaines" pk="no"/>
+		<property name="domaines_parent"     fieldname="parent"      type="integer" table="module_ressource_domaines" pk="no"/>
+		<property name="domaines_ordre"      fieldname="ordre"       type="integer" table="module_ressource_domaines" pk="no"/>
+
+		<property name="niveaux_id"          fieldname="id"          type="integer" table="module_ressource_niveaux" pk="yes"/>
+		<property name="niveaux_nom"         fieldname="nom"         type="string"  table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_description" fieldname="description" type="string"  table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_age_min"     fieldname="age_min"     type="integer" table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_age_max"     fieldname="age_max"     type="integer" table="module_ressource_niveaux" pk="no"/>
+		<property name="niveaux_ordre"       fieldname="ordre"       type="integer" table="module_ressource_niveaux" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getByNiveau" type="select">
+			<parameters>
+				<parameter name="niveau" />
+			</parameters>
+			<conditions>
+				<condition property="domaines_id_niveau" operator="=" value="$niveau" />
+			</conditions>
+			<order>
+				<orderitem property="domaines_ordre" way="asc" />
+			</order>
+		</method>
+	</methods>
+</daodefinition>

@@ -13,13 +13,15 @@
  * @package		standard
  * @subpackage	copixtest
  */
-class CopixTest_CopixUrlTest extends CopixTest {
+class CopixTest_CopixUrlTest extends CopixTest
+{
+    public function setUp ()
+    {
+        CopixContext::push('default');
+    }
 
-	function setUp (){
-		CopixContext::push('default');	
-	}
-	
-	function testValues () {
+    public function testValues ()
+    {
         CopixConfig::instance ()->url_requestedscript_variable = 'PHP_SELF';
         // Verifions que l'on retourne le bon hote
         $this->assertEquals ($_SERVER ['HTTP_HOST'], CopixUrl::getRequestedDomain());
@@ -29,7 +31,8 @@ class CopixTest_CopixUrlTest extends CopixTest {
         $currentUrl = CopixUrl::getCurrentUrl ();
     }
 
-    function testConstructUrl () {
+    public function testConstructUrl ()
+    {
         $baseUrl = "test.php?var=value";
 
         // Tests de construction d'une url en mode default
@@ -44,7 +47,8 @@ class CopixTest_CopixUrlTest extends CopixTest {
         $this->assertEquals("test.php?var=value",CopixUrl::appendToUrl($baseUrl));
     }
 
-    function testGet () {
+    public function testGet ()
+    {
         // Test si on récupère une adresse par défault
         $this->assertRegexp ('/^http:\/\/.*www\/$/', CopixUrl::get());
         $this->assertRegexp ('/^http:\/\/.*www/', CopixUrl::get("#"));
@@ -60,7 +64,7 @@ class CopixTest_CopixUrlTest extends CopixTest {
 
         $this->assertRegexp ('/^http:\/\/.*\/default\/copixtest/', _url('copixtest|'));
         $this->assertRegexp ('/^http:\/\/.*\/copixtest/', _url('copixtest||'));
-        // On cherche l'URL d'un module avec une variable définie dans une fichier significanturl	
+        // On cherche l'URL d'un module avec une variable définie dans une fichier significanturl
         $this->assertRegexp ('/^http:\/\/.*?test=value$/', _url('copixtest||',array('test'=>'value')));
         $params = new StdClass ();
         $params->test = 'value';
@@ -69,7 +73,7 @@ class CopixTest_CopixUrlTest extends CopixTest {
         // On cherche l'URL d'un module avec une variable non définie dans une fichier significanturl
         $this->assertRegexp ('/^http:\/\/.*\/value$/', _url('copixtest||',array('var'=>'value')));
         // On cherche l'URL d'un module inexistant dans le site
-        // @todo : Changer le test quand on voudra enlever le deuxième default 
+        // @todo : Changer le test quand on voudra enlever le deuxième default
         $this->assertRegexp ('/^http:\/\/.*\/test$/', _url('test||'));
 
         // Test des URL récupérées en mode default
@@ -87,7 +91,8 @@ class CopixTest_CopixUrlTest extends CopixTest {
         $this->assertEquals ('http://www.google.fr', _url ('copixtest|google|'));
     }
 
-    function testParse () {
+    public function testParse ()
+    {
         $testUrl = "test.php?var=value";
         CopixConfig::instance ()->significant_url_mode = 'default';
         $this->assertContains ("value",CopixUrl::parse ($testUrl, true));
@@ -95,7 +100,8 @@ class CopixTest_CopixUrlTest extends CopixTest {
         $this->assertContains ("value", CopixUrl::parse ($testUrl, true));
     }
 
-    function testValueToUrl (){
+    public function testValueToUrl ()
+    {
         $this->assertEquals (CopixUrl::valueToUrl ('test', array (1, 2, 3, 4)), 'test[0]=1&test[1]=2&test[2]=3&test[3]=4');
         $this->assertEquals (CopixUrl::valueToUrl (null, array ('test'=>array (1, 2, 3, 4))), 'test[0]=1&test[1]=2&test[2]=3&test[3]=4');
         $this->assertEquals (CopixUrl::valueToUrl ('test', array (1, 2, 3, 4), true), '&test[0]=1&test[1]=2&test[2]=3&test[3]=4');
@@ -104,17 +110,18 @@ class CopixTest_CopixUrlTest extends CopixTest {
         $this->assertEquals (CopixUrl::valueToUrl (null, array ('test'=>array (1, 2, 3, 4)),true, true), '&amp;test[0]=1&amp;test[1]=2&amp;test[2]=3&amp;test[3]=4');
     }
 
-    function testEscapeSpecialChars (){
+    public function testEscapeSpecialChars ()
+    {
         $pString = 'àéïöùy';
         $this->assertEquals (CopixUrl::escapeSpecialChars($pString), 'aeiouy');
-        
+
         $this->assertEquals (CopixUrl::escapeSpecialChars('Une ville du sud'), 'Une_ville_du_sud');
-		$this->assertEquals (CopixUrl::escapeSpecialChars('Une ville / Un Village'), 'Une_ville__Un_Village');
-		$this->assertEquals (CopixUrl::escapeSpecialChars('Une ville / Un Village', true), 'Une_ville_Un_Village');		
+        $this->assertEquals (CopixUrl::escapeSpecialChars('Une ville / Un Village'), 'Une_ville__Un_Village');
+        $this->assertEquals (CopixUrl::escapeSpecialChars('Une ville / Un Village', true), 'Une_ville_Un_Village');
     }
 
-    function testParams (){
-
+    public function testParams ()
+    {
         $pUrl = 'test.php';
         $pUrlParam = 'test.php?param=value';
         $pUrlParams = 'test.php?param1=1&param2=2&param3=3';
@@ -143,9 +150,9 @@ class CopixTest_CopixUrlTest extends CopixTest {
         $this->assertEquals (CopixUrl::appendToUrl ($pUrl, array('param1'=>'1','param2'=>'2','param3'=>'3')), $pUrlParams);
         $this->assertEquals (CopixUrl::appendToUrl ($pUrl, array('param1'=>'1','param2'=>'2','param3'=>'3'), true), $pUrlParamsXml);
     }
-    
-    function tearDown (){
-    	CopixContext::pop ();
+
+    public function tearDown ()
+    {
+        CopixContext::pop ();
     }
 }
-?>

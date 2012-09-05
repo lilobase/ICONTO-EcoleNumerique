@@ -2,12 +2,12 @@
 
 /**
  * Affichage de la liste des actualites d'un blog
- * 
+ *
  * @package Iconito
  * @subpackage Welcome
  */
-class ZonePages2 extends CopixZone {
-
+class ZonePages2 extends CopixZone
+{
     /**
      * Affiche la liste des pages d'un blog
      *
@@ -19,12 +19,12 @@ class ZonePages2 extends CopixZone {
      * @param integer $page Id d'une page precise a afficher
      * @param integer $colonnes Nb de colonnes. Par defaut : 1
      * @param integer $content Si on veut afficher le contenu des pages. Par defaut : 0
-     * @param boolean $hr Affiche un HR entre chaque page. Par defaut : 0		
+     * @param boolean $hr Affiche un HR entre chaque page. Par defaut : 0
      * @param boolean $showtitle (option) Si on veut afficher le titre des articles. Par defaut : true
      * @param integer $truncate (option) Limit de cesure du texte. Par defaut : 0 (pas de cesure)
      */
-    function _createContent(&$toReturn) {
-
+    public function _createContent(&$toReturn)
+    {
         $titre = $this->getParam('titre');
         $blog = $this->getParam('blog');
         $nb = $this->getParam('nb');
@@ -36,7 +36,7 @@ class ZonePages2 extends CopixZone {
 
         $dao = _dao('blog|blogpage');
         $tpl->assign ('listPages', $dao->getAllPagesFromBlog($blog));
-      
+
         $toReturn = $tpl->fetch('zone_pages2.tpl');
 
         return true;
@@ -44,4 +44,3 @@ class ZonePages2 extends CopixZone {
 
 }
 
-?>

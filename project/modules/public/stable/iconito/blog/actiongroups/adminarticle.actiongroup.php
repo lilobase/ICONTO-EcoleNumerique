@@ -12,133 +12,134 @@ _classInclude('blog|blogauth');
 _classInclude('blog|blogutils');
 require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.blog_format_article.php');
 
-class ActionGroupAdminArticle extends CopixActionGroup {
+class ActionGroupAdminArticle extends CopixActionGroup
+{
+    public function beforeAction ()
+    {
+        _currentUser()->assertCredential ('group:[current_user]');
 
-	public function beforeAction (){
-		_currentUser()->assertCredential ('group:[current_user]');
+    }
 
-	}
-	
   /**
     * Pr�paration � l'�dition d'un article.
     */
-  function doPrepareEditArticle() {
-		
+  public function doPrepareEditArticle()
+  {
     CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js"));
-    
-		$id_blog = $this->getRequest('id_blog', null);
-		$blogDAO = CopixDAOFactory::create('blog|blog');
-		$blog = $blogDAO->get($id_blog);
-		
-		if ($id_blog == null) {
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.param'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
-		}
-		
-		if (!BlogAuth::canMakeInBlog('ADMIN_ARTICLES',$blog)){
-			return CopixActionGroup::process ('genericTools|Messages::getError',
-			array ('message'=>CopixI18N::get ('blog.error.cannotManageArticle'),
-			'back'=>CopixUrl::get ('blog|admin|listBlog')));
-		}
-		
-		$tpl = new CopixTpl ();
-		
-		$tabSelectCat = array();
-		$id_bact = $this->getRequest('id_bact', null);
-		$article = CopixDAOFactory::createRecord('blogarticle');
 
-		// Pr�paration du filtre CATEGORIES
-		$blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
-		$resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
+        $id_blog = $this->getRequest('id_blog', null);
+        $blogDAO = CopixDAOFactory::create('blog|blog');
+        $blog = $blogDAO->get($id_blog);
 
-		if($id_bact!=null) {
-			// EDITION D'UN BILLET
-			$articleDAO = CopixDAOFactory::create('blog|blogarticle');
-			$article = $articleDAO->get($id_bact);
-			$article->time_bact = BDToTime($article->time_bact);
-			// Recherche des cat�gories correspondantes � cet article
-			$artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
-			$tabSelectCat = $artctgDAO->findIdCategoryForArticle($article->id_bact);
-			//var_dump($tabSelectCat);
-			//$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.article.title'));
-			
-			// Si l'article est en ligne, il faut les droits de modération pour le modifier.
-			if ($article->is_online && !BlogAuth::canMakeInBlog('ADMIN_ARTICLE_DELETE',$blog)){
-				return CopixActionGroup::process ('genericTools|Messages::getError',
-				array ('message'=>CopixI18N::get ('blog.error.cannotManageArticle'),
-				'back'=>CopixUrl::get ('blog|admin|listBlog')));
-			}
-		}
-		else{
-			// CREATION D'UN BILLET
-			//$article->date_bact = date('Ymd');
-			//$article->time_bact = date('H:i');
-			//$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.article.title'));
-			//$article = $this->_getSessionArticle();			
-			$article->is_online = CopixConfig::get ('blog|blog.default.default_is_online_article');
-			$article->format_bact = $blog->default_format_articles;
-			if (count($resArticleCategory)==1) {
-				$tabSelectCat[] = $resArticleCategory[0]->id_bacg;
-			}
-			//print_r($article);
-			//die();
-			//$tabSelectCat = $article->tabSelectCat;
-		}
-		
+        if ($id_blog == null) {
+            return CopixActionGroup::process ('genericTools|Messages::getError',
+            array ('message'=>CopixI18N::get ('blog.error.param'),
+            'back'=>CopixUrl::get ('blog|admin|listBlog')));
+        }
+
+        if (!BlogAuth::canMakeInBlog('ADMIN_ARTICLES',$blog)){
+            return CopixActionGroup::process ('genericTools|Messages::getError',
+            array ('message'=>CopixI18N::get ('blog.error.cannotManageArticle'),
+            'back'=>CopixUrl::get ('blog|admin|listBlog')));
+        }
+
+        $tpl = new CopixTpl ();
+
+        $tabSelectCat = array();
+        $id_bact = $this->getRequest('id_bact', null);
+        $article = CopixDAOFactory::createRecord('blogarticle');
+
+        // Pr�paration du filtre CATEGORIES
+        $blogArticleCategoryDAO = CopixDAOFactory::create('blog|blogarticlecategory');
+        $resArticleCategory = $blogArticleCategoryDAO->findAllOrder($id_blog);
+
+        if($id_bact!=null) {
+            // EDITION D'UN BILLET
+            $articleDAO = CopixDAOFactory::create('blog|blogarticle');
+            $article = $articleDAO->get($id_bact);
+            $article->time_bact = BDToTime($article->time_bact);
+            // Recherche des cat�gories correspondantes � cet article
+            $artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
+            $tabSelectCat = $artctgDAO->findIdCategoryForArticle($article->id_bact);
+            //var_dump($tabSelectCat);
+            //$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.article.title'));
+
+            // Si l'article est en ligne, il faut les droits de modération pour le modifier.
+            if ($article->is_online && !BlogAuth::canMakeInBlog('ADMIN_ARTICLE_DELETE',$blog)){
+                return CopixActionGroup::process ('genericTools|Messages::getError',
+                array ('message'=>CopixI18N::get ('blog.error.cannotManageArticle'),
+                'back'=>CopixUrl::get ('blog|admin|listBlog')));
+            }
+        } else{
+            // CREATION D'UN BILLET
+            //$article->date_bact = date('Ymd');
+            //$article->time_bact = date('H:i');
+            //$tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.create.article.title'));
+            //$article = $this->_getSessionArticle();
+            $article->is_online = CopixConfig::get ('blog|blog.default.default_is_online_article');
+            $article->format_bact = $blog->default_format_articles;
+            if (count($resArticleCategory)==1) {
+                $tabSelectCat[] = $resArticleCategory[0]->id_bacg;
+            }
+            //print_r($article);
+            //die();
+            //$tabSelectCat = $article->tabSelectCat;
+        }
+
     $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#date_bact')");
-		$tpl->assign ('TITLE_PAGE', $blog->name_blog);
+        $tpl->assign ('TITLE_PAGE', $blog->name_blog);
 //		$menu = '<a href="'.CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>0)).'">'.CopixI18N::get('blog|blog.nav.articles').'</a>';
-		$menu = getBlogAdminMenu($blog, 0);
-		
-		$tpl->assign ('MENU', $menu);
-		
-		
-		
-		$tabArticleCategory = array();
-		foreach($resArticleCategory as $cat) {
-			if(in_array($cat->id_bacg, $tabSelectCat)) $cat->selected = true;
-				else $cat->selected = false;
-			array_push($tabArticleCategory, $cat);
-		}	
-		
-		$kind = $this->getRequest('kind', '0');
-		
-		$tpl->assign ('MAIN', CopixZone::process ('EditArticle', array('id_blog'=>$id_blog,
-												    'id_bact'=>$id_bact,
-												    'article'=>$article,
-												    'kind'=>$kind,
-												    'tabArticleCategory'=>$tabArticleCategory,
-												    )));
-		
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-  }
-  
-  function doValidEditArticle() {
-  		$this->_validFromPostProperties($article);
-		
+        $menu = getBlogAdminMenu($blog, 0);
 
-		// Cat�gories coch�es...
-	    $tabSelectCat = array();
-	    if(_request('tabSelectCat')) {
-	      $tabSelectCat = (array) _request('tabSelectCat');
-	    }
-		
-		$article->tabSelectCat = $tabSelectCat;
-		//$this->_setSessionArticle($article);
-	    
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('blog|admin|prepareEditArticle', array('kind'=>_request('kind'), 'id_blog'=>_request('id_blog'))));
+        $tpl->assign ('MENU', $menu);
+
+
+
+        $tabArticleCategory = array();
+        foreach($resArticleCategory as $cat) {
+            if(in_array($cat->id_bacg, $tabSelectCat)) $cat->selected = true;
+                else $cat->selected = false;
+            array_push($tabArticleCategory, $cat);
+        }
+
+        $kind = $this->getRequest('kind', '0');
+
+        $tpl->assign ('MAIN', CopixZone::process ('EditArticle', array('id_blog'=>$id_blog,
+                                                    'id_bact'=>$id_bact,
+                                                    'article'=>$article,
+                                                    'kind'=>$kind,
+                                                    'tabArticleCategory'=>$tabArticleCategory,
+                                                    )));
+
+        return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+  }
+
+  public function doValidEditArticle()
+  {
+          $this->_validFromPostProperties($article);
+
+
+        // Cat�gories coch�es...
+        $tabSelectCat = array();
+        if(_request('tabSelectCat')) {
+          $tabSelectCat = (array) _request('tabSelectCat');
+        }
+
+        $article->tabSelectCat = $tabSelectCat;
+        //$this->_setSessionArticle($article);
+
+        return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get('blog|admin|prepareEditArticle', array('kind'=>_request('kind'), 'id_blog'=>_request('id_blog'))));
   }
 
   /**
     * Validation d'un article.
     */
-  function doValidArticle() {
-    
+  public function doValidArticle()
+  {
     CopixHTMLHeader::addJSLink (_resource("js/jquery/jquery.ui.datepicker-fr.js"));
-    
+
     $id_blog = $this->getRequest('id_blog', null);
-		$go = $this->getRequest('go', 'preview');
+        $go = $this->getRequest('go', 'preview');
     //die ("go=$go");
 
     if ($id_blog==null){
@@ -146,7 +147,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       array ('message'=>CopixI18N::get ('blog.error.param'),
       'back'=>CopixUrl::get ('blog|admin|listBlog')));
     }
-		
+
     if (!BlogAuth::canMakeInBlog('ADMIN_ARTICLES',create_blog_object($id_blog))){
       return CopixActionGroup::process ('genericTools|Messages::getError',
       array ('message'=>CopixI18N::get ('blog.error.cannotManageCategory'),
@@ -165,8 +166,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       $tabSelectCat = (array) _request('tabSelectCat');
     }
     $id_bact = $this->getRequest('id_bact', null);
-	  if(strlen($id_bact)==0) $id_bact=null;
-		$showErrors = false;
+      if(strlen($id_bact)==0) $id_bact=null;
+        $showErrors = false;
 
     if($id_bact!=null) {
       // EDITION D'UN ARTICLE
@@ -178,7 +179,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       $article->time_bact = timeToBD($article->time_bact);
       $article->author_bact = $user->userId;
       $tpl->assign ('TITLE_PAGE', CopixI18N::get('blog.get.edit.article.title'));
-			//print_r($article);
+            //print_r($article);
       $errors = $articleDAO->check($article);
       if(count($tabSelectCat)==0) {
         $errors = array();
@@ -187,12 +188,11 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       if($errors!=1) {
         // Traitement des erreurs
         $showErrors =  true;
-      }
-	    elseif ($go=='save') {
+      } elseif ($go=='save') {
         // Modification dans la base
-				$article->url_bact = killBadUrlChars($article->id_bact.'-'.$article->name_bact);
-				$article->sumary_html_bact = smarty_modifier_blog_format_article ($article->sumary_bact, $article->format_bact);
-				$article->content_html_bact = smarty_modifier_blog_format_article ($article->content_bact, $article->format_bact);
+                $article->url_bact = killBadUrlChars($article->id_bact.'-'.$article->name_bact);
+                $article->sumary_html_bact = smarty_modifier_blog_format_article ($article->sumary_bact, $article->format_bact);
+                $article->content_html_bact = smarty_modifier_blog_format_article ($article->content_bact, $article->format_bact);
         $articleDAO->update($article);
         // Insertion dans la base blogarticle_blogarticlecategory
         $artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
@@ -200,8 +200,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
         return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog|admin|showBlog', array("id_blog"=>$id_blog, "kind"=>$this->getRequest('kind', '0'))));
       }
-    } 
-	else {
+    } else {
       // CREATION D'UN ARTICLE
       $article = CopixDAOFactory::createRecord('blogarticle');
       $this->_validFromPostProperties($article);
@@ -223,11 +222,11 @@ class ActionGroupAdminArticle extends CopixActionGroup {
         $showErrors =  true;
       } elseif ($go=='save') {
         // Insertion dans la base
-				$article->sumary_html_bact = smarty_modifier_blog_format_article ($article->sumary_bact, $article->format_bact);
-				$article->content_html_bact = smarty_modifier_blog_format_article ($article->content_bact, $article->format_bact);
+                $article->sumary_html_bact = smarty_modifier_blog_format_article ($article->sumary_bact, $article->format_bact);
+                $article->content_html_bact = smarty_modifier_blog_format_article ($article->content_bact, $article->format_bact);
         $articleDAO->insert($article);
-				$article->url_bact = killBadUrlChars($article->id_bact.'-'.$article->name_bact);
-				$articleDAO->update($article);
+                $article->url_bact = killBadUrlChars($article->id_bact.'-'.$article->name_bact);
+                $articleDAO->update($article);
         // Insertion dans la base blogarticle_blogarticlecategory
         $artctgDAO = CopixDAOFactory::create('blog|blogarticle_blogarticlecategory');
         $artctgDAO->deleteAndInsert($article->id_bact, $tabSelectCat);
@@ -249,33 +248,34 @@ class ActionGroupAdminArticle extends CopixActionGroup {
 
     $tpl->assign ('BODY_ON_LOAD', "setDatePicker('#date_bact')");
     $tpl->assign ('MAIN', CopixZone::process ('EditArticle', array('id_blog'=>$id_blog,
-																    'id_bact'=>$id_bact,
-																    'article'=>$article,
-																    'kind'=>$this->getRequest('kind', '0'),
-																    'errors'=>$errors,
-																    'showErrors'=>$showErrors,
-																    'tabArticleCategory'=>$tabArticleCategory,
+                                                                    'id_bact'=>$id_bact,
+                                                                    'article'=>$article,
+                                                                    'kind'=>$this->getRequest('kind', '0'),
+                                                                    'errors'=>$errors,
+                                                                    'showErrors'=>$showErrors,
+                                                                    'tabArticleCategory'=>$tabArticleCategory,
                                     'preview'=>(($go=='preview') ? 1 : 0),
-																    )));
+                                                                    )));
     return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
   }
 
 
-  
+
   /**
     * apply updates to the edited object
     */
-  function _validFromPostProperties (& $toUpdate){
+  public function _validFromPostProperties (& $toUpdate)
+  {
     $arMaj = array ('id_blog', 'name_bact', 'sumary_bact', 'content_bact', 'date_bact', 'time_bact', 'author_bact', 'url_bact', 'format_bact');
     foreach ($arMaj as $var){
-			if ($var == 'date_bact')
-	      $toUpdate->$var = Kernel::_validDateProperties(_request($var));
-			else
-	      $toUpdate->$var = _request($var);
+            if ($var == 'date_bact')
+          $toUpdate->$var = Kernel::_validDateProperties(_request($var));
+            else
+          $toUpdate->$var = _request($var);
     }
 
     if(strlen($toUpdate->url_bact)==0 && strlen($toUpdate->name_bact)>0) {
-    	$toUpdate->url_bact = killBadUrlChars($toUpdate->name_bact);
+        $toUpdate->url_bact = killBadUrlChars($toUpdate->name_bact);
     }
     if(_request('sticky_bact')) $toUpdate->sticky_bact = _request('sticky_bact'); else $toUpdate->sticky_bact = 0;
     if(_request('is_online')) $toUpdate->is_online = _request('is_online'); else $toUpdate->is_online = 0;
@@ -284,7 +284,8 @@ class ActionGroupAdminArticle extends CopixActionGroup {
   /**
     * Suppression d'un article.
     */
-  function doDeleteArticle (){
+  public function doDeleteArticle ()
+  {
     $id_bact = $this->getRequest('id_bact', null);
     $id_blog = $this->getRequest('id_blog', null);
 
@@ -301,7 +302,7 @@ class ActionGroupAdminArticle extends CopixActionGroup {
       'back'=>CopixUrl::get ('blog|admin|listBlog')));
     }
 
-		if (!BlogAuth::canMakeInBlog('ADMIN_ARTICLE_DELETE',create_blog_object($id_blog))) {
+        if (!BlogAuth::canMakeInBlog('ADMIN_ARTICLE_DELETE',create_blog_object($id_blog))) {
       return CopixActionGroup::process ('genericTools|Messages::getError',
       array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'),
       'back'=>CopixUrl::get ('blog||')));
@@ -331,21 +332,22 @@ class ActionGroupAdminArticle extends CopixActionGroup {
     'title'=>CopixI18N::get ('blog.get.delete.article.title')));
 
   }
-  
-  
+
+
   /**
-	* Mise en session des param�tres de l'article
-	* @access : private.
-	*/
-	function _setSessionArticle ($toSet){
-	}
-	
-	
-	/**
-	* R�cup�ration en session des param�tres de l'article
-	* @access : private.
-	*/
-	function _getSessionArticle () {
-	}
+    * Mise en session des param�tres de l'article
+    * @access : private.
+    */
+    public function _setSessionArticle ($toSet)
+    {
+    }
+
+
+    /**
+    * R�cup�ration en session des param�tres de l'article
+    * @access : private.
+    */
+    public function _getSessionArticle ()
+    {
+    }
 }
-?>

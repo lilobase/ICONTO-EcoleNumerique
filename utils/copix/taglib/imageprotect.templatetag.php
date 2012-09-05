@@ -12,20 +12,20 @@
  * @package     copix
  * @subpackage  taglib
  */
-class TemplateTagImageProtect extends CopixTemplateTag {
+class TemplateTagImageProtect extends CopixTemplateTag
+{
     /**
      * Construction du message
      * @param    mixed   $pParams    tableau de paramètre ou clef
      * @param    mixed   $pContent   null (ImageProtect n'est pas censé recevoir de contenu)
      * @return   string  balise html contenant l'image
      */
-    public function process ($pParams, $pContent=null){
-    
+    public function process ($pParams, $pContent=null)
+    {
         if (!isset ($pParams['id'])){
             throw new CopixTagException ("[ImageProtect] Missing id parameter");
         }
-        
+
         return '<img src="'. _url('antispam|default|getimage') .'?id='. $pParams['id'] .'" />';
     }
 }
-?>

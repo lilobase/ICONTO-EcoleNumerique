@@ -24,30 +24,29 @@
 *           * = any extra params will be used to generate the url
 *
 */
-function smarty_function_copixform_field($params, &$me) {
-
-	$assign = '';
-	if(isset($params['assign'])){
-		$assign = $params['assign'];
-		unset($params['assign']);
-	}
+function smarty_function_copixform_field($params, &$me)
+{
+    $assign = '';
+    if(isset($params['assign'])){
+        $assign = $params['assign'];
+        unset($params['assign']);
+    }
 
     if (!isset($params['form'])) {
-		$params['form'] = null;
-	}
-	$form = CopixFormFactory::get ($params['form']);
-	
-	if (!isset($params['name'])) {
-		throw new Exception("You must specify a name");
-	}
-	$type = (isset ($params['type']) ? $params['type'] : 'varchar');
-	$toReturn = $form->getFieldHTML ($type, $params);
-		
-	if (strlen($assign) > 0){
-		$me->assign($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+        $params['form'] = null;
+    }
+    $form = CopixFormFactory::get ($params['form']);
+
+    if (!isset($params['name'])) {
+        throw new Exception("You must specify a name");
+    }
+    $type = (isset ($params['type']) ? $params['type'] : 'varchar');
+    $toReturn = $form->getFieldHTML ($type, $params);
+
+    if (strlen($assign) > 0){
+        $me->assign($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

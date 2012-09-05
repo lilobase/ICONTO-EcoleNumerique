@@ -11,36 +11,36 @@
 /**
  * Plugin smarty type fonction
  */
-function smarty_function_copixlist_list($params, &$me) {
-	$assign = '';
-	if(isset($params['assign'])){
-		$assign = $params['assign'];
-		unset($params['assign']);
-	}
+function smarty_function_copixlist_list($params, &$me)
+{
+    $assign = '';
+    if(isset($params['assign'])){
+        $assign = $params['assign'];
+        unset($params['assign']);
+    }
 
-	if (!isset($params['tplvars'])) {
-		$params['tplvars'] = array ();
-	}
+    if (!isset($params['tplvars'])) {
+        $params['tplvars'] = array ();
+    }
 
-	$params['tplvars'] = array_merge ($params['tplvars'],$me->_tpl_vars);
+    $params['tplvars'] = array_merge ($params['tplvars'],$me->_tpl_vars);
 
-	if (!isset($params['list'])) {
-		$params['list'] = null;
-	}
+    if (!isset($params['list'])) {
+        $params['list'] = null;
+    }
 
-	$list = CopixListFactory::get ($params['list']);
+    $list = CopixListFactory::get ($params['list']);
 
-	if (!isset($params['datasource'])) {
-		$params['datasource'] = 'dao';
-	}
+    if (!isset($params['datasource'])) {
+        $params['datasource'] = 'dao';
+    }
 
-	$toReturn = $list->getList ($params['datasource'],$params);
+    $toReturn = $list->getList ($params['datasource'],$params);
 
-	if (strlen($assign) > 0){
-		$me->assign($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+    if (strlen($assign) > 0){
+        $me->assign($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

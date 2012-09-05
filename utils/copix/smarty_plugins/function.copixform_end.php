@@ -24,26 +24,25 @@
 *           * = any extra params will be used to generate the url
 *
 */
-function smarty_function_copixform_end($params, &$me) {
+function smarty_function_copixform_end($params, &$me)
+{
+    $assign = '';
+    if(isset($params['assign'])){
+        $assign = $params['assign'];
+        unset($params['assign']);
+    }
 
-	$assign = '';
-	if(isset($params['assign'])){
-		$assign = $params['assign'];
-		unset($params['assign']);
-	}
+    if (!isset($params['form'])) {
+        $params['form'] = null;
+    }
+    $form = CopixFormFactory::get ($params['form']);
 
-	if (!isset($params['form'])) {
-		$params['form'] = null;
-	}
-	$form = CopixFormFactory::get ($params['form']);
-	
-	$toReturn = $form->end();
-	
-	if (strlen($assign) > 0){
-		$me->assign($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+    $toReturn = $form->end();
+
+    if (strlen($assign) > 0){
+        $me->assign($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

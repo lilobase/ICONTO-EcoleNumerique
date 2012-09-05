@@ -1,6 +1,6 @@
 <?php
 /**
-* @package		standard 
+* @package		standard
  * @subpackage	generictools
 * @author	Croes Gérald
 * @copyright CopixTeam
@@ -10,19 +10,21 @@
 
 /**
  * Zone vide qui se contente de passer ses paramètres à un template.
-* @package		standard 
+* @package		standard
  * @subpackage	generictools
  */
-class ZonePassThrough extends CopixZone {
+class ZonePassThrough extends CopixZone
+{
    /**
    * Zone that passes all its parameters to the given template
    * @param: * abstract
    * @param: template string the template name where the datas will be assigned to.
    */
-   function _createContent (&$toReturn){
+   public function _createContent (&$toReturn)
+   {
       //we wants to go back to the current context.
       $context = CopixContext::pop ();
-      
+
       $tpl = new CopixTpl ();
       //assign the template variables
       foreach ($this->_params as $var=>$value){
@@ -37,4 +39,3 @@ class ZonePassThrough extends CopixZone {
       return true;
    }
 }
-?>

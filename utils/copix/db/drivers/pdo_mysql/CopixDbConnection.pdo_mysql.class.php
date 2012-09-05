@@ -12,15 +12,17 @@
  * @package		copix
  * @subpackage	db
  */
-class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
+class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection
+{
     /**
      * Constructeur
      * @param	CopixDBProfile	$pProfil	le profil de connexion à utiliser pour se connecter à la base de donées.
      */
-    public function __construct ($pProfil) {
+    public function __construct ($pProfil)
+    {
         parent::__construct ($pProfil);
-		$parts['charset'] = $this->_convertCharset (isset ($parts['charset']) ? $parts['charset'] : CopixI18N::getCharset ());
-		$this->doQuery ('SET CHARACTER SET '.$parts['charset']);
+        $parts['charset'] = $this->_convertCharset (isset ($parts['charset']) ? $parts['charset'] : CopixI18N::getCharset ());
+        $this->doQuery ('SET CHARACTER SET '.$parts['charset']);
     }
 
     /**
@@ -30,7 +32,8 @@ class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
      * @param 	int		$pOffset		l'offset à partir duquel on veut récupérer les résultats
      * @param 	int 	$pCount			le nombre de lignes que l'on souhaites récupérer depuis cette requête
      */
-    protected function _parseQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null) {
+    protected function _parseQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null)
+    {
         $toReturn = parent::_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
         //only for select query
         if ($toReturn['isSelect'] && ($pOffset !== null || $pCount !== null)){
@@ -39,9 +42,9 @@ class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
             if ($pCount === null){
                 $pCount = $this->_getMaxCount ();
             }
-            
+
             $pOffset = intval ($pOffset);
-			$pCount  = intval ($pCount);            
+            $pCount  = intval ($pCount);
 
             $toReturn['query'] = $toReturn['query']." LIMIT $pOffset, $pCount";;
             $toReturn['offset'] = true;
@@ -53,13 +56,14 @@ class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
         }
 
         return $toReturn;
-   	}
-   	 
-   	/**
-   	 * Retourne la liste des tables (en minuscule) connues de la base (en fonction de l'utilisateur)
-   	 * @return   array	liste des noms de table
-   	 */
-    function getTableList () {
+       }
+
+       /**
+        * Retourne la liste des tables (en minuscule) connues de la base (en fonction de l'utilisateur)
+        * @return   array	liste des noms de table
+        */
+    public function getTableList ()
+    {
         $results   = $this->doQuery ('SHOW TABLES');
         if (count ($results) == 0) {
             return array();
@@ -78,7 +82,8 @@ class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
      * @param		string	$pTableName	le nom de la table dont on veut récupérer les champs
      * @return	array	$tab[NomDuChamp] = obj avec prop (tye, length, lengthVar, notnull)
      */
-    public function getFieldList ($pTableName) {
+    public function getFieldList ($pTableName)
+    {
         $sql = "DESCRIBE $pTableName";
         $result = $this->doQuery ($sql);
         $toReturn = array();
@@ -102,12 +107,12 @@ class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
                 $type   = chop(eregi_replace('\\(.*\\)', '', $type));
                 if (!empty($type)) {
                     if (strpos($length, 'unsigned') !== false) {
-                    	$length = substr($length, strpos($length, '(') + 1);
-                    	$length = str_replace(') unsigned', '', trim ($length));
+                        $length = substr($length, strpos($length, '(') + 1);
+                        $length = str_replace(') unsigned', '', trim ($length));
                     } else {
-                    	$length = eregi_replace("^$type\(", '', $length);
-                    	$length = eregi_replace('\)$', '', trim ($length));
-                    }                    
+                        $length = eregi_replace("^$type\(", '', $length);
+                        $length = eregi_replace('\)$', '', trim ($length));
+                    }
                 }
                 if ($length == $type) {
                     $length = '';
@@ -149,14 +154,16 @@ class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
     /**
      * Valide une transaction en cours sur la connection
      */
-    public function commit () {
+    public function commit ()
+    {
         $this->doQuery ("COMMIT ");
     }
 
     /**
      * Annule une transcation sur la connection
      */
-    public function rollback () {
+    public function rollback ()
+    {
         $this->doQuery ("ROLLBACK ");
     }
 
@@ -164,23 +171,25 @@ class CopixDBConnectionPDO_MySQL extends CopixDBPDOConnection {
      * Indique si le driver est disponible
      * @return bool
      */
-   	public static function isAvailable () {
-   	    if (!class_exists ('PDO')){
-   	        return false;
-   	    }
-   	    return in_array ('mysql', PDO::getAvailableDrivers ());
-   	}
-   	
-	/**
-	 * Converti un charset "standard" en charset supporté par MySql
-	 * @param string $pCharset le nom du charset à utiliser
-	 * @return string 
-	 */
-	private function _convertCharset ($pCharset){
-		switch (strtolower ($pCharset)){
-			case 'utf-8':
-				return 'utf8';
-		}
-		return addslashes ($pCharset);
-	}
+       public static function isAvailable ()
+       {
+           if (!class_exists ('PDO')){
+               return false;
+           }
+           return in_array ('mysql', PDO::getAvailableDrivers ());
+       }
+
+    /**
+     * Converti un charset "standard" en charset supporté par MySql
+     * @param string $pCharset le nom du charset à utiliser
+     * @return string
+     */
+    private function _convertCharset ($pCharset)
+    {
+        switch (strtolower ($pCharset)){
+            case 'utf-8':
+                return 'utf8';
+        }
+        return addslashes ($pCharset);
+    }
 }

@@ -1,6 +1,6 @@
 <?php
 /**
-* @package		tools 
+* @package		tools
  * @subpackage	wsserver
 * @author		Favre Brice
 * @copyright	2001-2007 CopixTeam
@@ -9,52 +9,53 @@
 */
 
 /**
-* @package		tools 
+* @package		tools
  * @subpackage	wsserver
  */
-class ZoneCustomizedInstall extends CopixZone {
-    
-	/**
+class ZoneCustomizedInstall extends CopixZone
+{
+    /**
      * Création du contenu de la page
-     * 
+     *
      */
-    function _createContent (&$toReturn) {
+    public function _createContent (&$toReturn)
+    {
       $tpl = new CopixTpl ();
       $tpl->assign ('arModulesPath', CopixConfig::instance ()->arModulesPath);
       $arModules = $this->_getModuleOrderByDescription ();
       $tpl->assign ('arModules', $arModules );
       $toReturn = $tpl->fetch ('classes.list.tpl');
     }
-    
+
     /**
     * Récupération des modules dans l'ordre de leur description
-    * 
+    *
     */
-    function _getModuleOrderByDescription (){
-    	$arReturn = array();
-    	foreach (CopixModule::getList(true) as $module) {
-    		$temp = CopixModule::getInformations ($module);
-    		$modulePath  = CopixModule::getPath ($module);		
-    		
-    		if (is_dir ( $modulePath . COPIX_CLASSES_DIR )) {
-    			$servicesDir = opendir ( $modulePath . COPIX_CLASSES_DIR );
-    			
-    			while ($file = readdir ($servicesDir)) {
-    					
-    				if (preg_match ("/class.php$/", $file)) {
-    					
-	    				$temp->services[] = $file;
-    				}
-    			}
-    		}
-    		if (isset($temp->services )){
-    			$arReturn[] = $temp;
-    		}
-    		
-    	}
-    	return $arReturn;
- 
+    public function _getModuleOrderByDescription ()
+    {
+        $arReturn = array();
+        foreach (CopixModule::getList(true) as $module) {
+            $temp = CopixModule::getInformations ($module);
+            $modulePath  = CopixModule::getPath ($module);
+
+            if (is_dir ( $modulePath . COPIX_CLASSES_DIR )) {
+                $servicesDir = opendir ( $modulePath . COPIX_CLASSES_DIR );
+
+                while ($file = readdir ($servicesDir)) {
+
+                    if (preg_match ("/class.php$/", $file)) {
+
+                        $temp->services[] = $file;
+                    }
+                }
+            }
+            if (isset($temp->services )){
+                $arReturn[] = $temp;
+            }
+
+        }
+        return $arReturn;
+
     }
-    
+
 }
-?>

@@ -44,35 +44,35 @@ class Numbers_Words_pl extends Numbers_Words
 {
 
     // {{{ properties
-    
+
     /**
      * Locale name
      * @var string
      * @access public
      */
-    var $locale      = 'pl';
+    public $locale      = 'pl';
 
     /**
      * Language name in English
      * @var string
      * @access public
      */
-    var $lang        = 'Polish';
+    public $lang        = 'Polish';
 
     /**
      * Native language name
      * @var string
      * @access public
      */
-    var $lang_native = 'polski';
+    public $lang_native = 'polski';
 
     /**
      * The word for the minus sign
      * @var string
      * @access private
      */
-    var $_minus = 'minus'; // minus sign
-    
+    public $_minus = 'minus'; // minus sign
+
     /**
      * The sufixes for exponents (singular and plural)
      * Names based on:
@@ -81,7 +81,7 @@ class Numbers_Words_pl extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_exponent = array(
+    public $_exponent = array(
        // potêga dziesi±tki => liczba pojedyncza, podwójna, mnoga
         0 => array('','',''),
         3 => array('tysi±c','tysi±ce','tysiêcy'),
@@ -133,7 +133,7 @@ class Numbers_Words_pl extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_digits = array(
+    public $_digits = array(
         0 => 'zero', 'jeden', 'dwa', 'trzy', 'cztery',
         'piêæ', 'sze¶æ', 'siedem', 'osiem', 'dziewiêæ'
     );
@@ -143,7 +143,7 @@ class Numbers_Words_pl extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     /**
      * The currency names (based on the below links,
@@ -155,7 +155,7 @@ class Numbers_Words_pl extends Numbers_Words
      * @link http://pieniadz.hoga.pl/waluty_objasnienia.asp Currency service
      * @access private
      */
-    var $_currency_names = array(
+    public $_currency_names = array(
       'ALL' => array(array('lek','leki','leków'), array('quindarka','quindarki','quindarek')),
       'AUD' => array(array('dolar australijski', 'dolary australijskie', 'dolarów australijskich'), array('cent', 'centy', 'centów')),
       'BAM' => array(array('marka','marki','marek'), array('fenig','fenigi','fenigów')),
@@ -199,7 +199,7 @@ class Numbers_Words_pl extends Numbers_Words
      * @var string
      * @access public
      */
-    var $def_currency = 'PLN'; // Polish zloty
+    public $def_currency = 'PLN'; // Polish zloty
 
     // }}}
     // {{{ toWords()
@@ -221,24 +221,25 @@ class Numbers_Words_pl extends Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  PHP 4.2.3
      */
-    function toWords($num, $power = 0, $powsuffix = '') {
-      $ret = '';        
+    public function toWords($num, $power = 0, $powsuffix = '')
+    {
+      $ret = '';
 
       // add a minus sign
       if (substr($num, 0, 1) == '-') {
         $ret = $this->_sep . $this->_minus;
         $num = substr($num, 1);
       }
-        
+
       // strip excessive zero signs and spaces
       $num = trim($num);
       $num = preg_replace('/^0+/','',$num);
-        
+
       if (strlen($num) > 3) {
           $maxp = strlen($num)-1;
           $curp = $maxp;
           for ($p = $maxp; $p > 0; --$p) { // power
-            
+
             // check for highest power
             if (isset($this->_exponent[$p])) {
               // send substr from $curp to $p
@@ -261,9 +262,9 @@ class Numbers_Words_pl extends Numbers_Words
       } elseif ($num == 0 || $num == '') {
         return $this->_sep . $this->_digits[0];
       }
-    
+
       $h = $t = $d = 0;
-      
+
       switch(strlen($num)) {
         case 3:
           $h = (int)substr($num,-3,1);
@@ -372,12 +373,12 @@ class Numbers_Words_pl extends Numbers_Words
               $ret .= $this->_sep . 'dziewiêtna¶cie';
               break;
           }
-          break; 
+          break;
       }
 
       if ($t != 1 && $d > 0)
         $ret .= $this->_sep . $this->_digits[$d];
-  
+
       if ($t == 1)
         $d = 0;
 
@@ -390,7 +391,7 @@ class Numbers_Words_pl extends Numbers_Words
 
         if (!isset($lev) || !is_array($lev))
           return null;
- 
+
         switch ($d) {
           case 1:
             $suf = $lev[0];
@@ -411,7 +412,7 @@ class Numbers_Words_pl extends Numbers_Words
         }
         $ret .= $this->_sep . $suf;
       }
-  
+
       if ($powsuffix != '')
         $ret .= $this->_sep . $powsuffix;
 
@@ -438,7 +439,8 @@ class Numbers_Words_pl extends Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  Numbers_Words 0.4
      */
-    function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true) {
+    public function toCurrencyWords($int_curr, $decimal, $fraction = false, $convert_fraction = true)
+    {
         $int_curr = strtoupper($int_curr);
         if (!isset($this->_currency_names[$int_curr])) {
             $int_curr = $this->def_currency;
@@ -447,21 +449,21 @@ class Numbers_Words_pl extends Numbers_Words
         $ret  = trim($this->toWords($decimal));
         $lev  = $this->_get_numlevel($decimal);
         $ret .= $this->_sep . $curr_names[0][$lev];
-      
+
         if ($fraction !== false) {
             if ($convert_fraction) {
                 $ret .= $this->_sep . trim($this->toWords($fraction));
             } else {
                 $ret .= $this->_sep . $fraction;
             }
-            $lev  = $this->_get_numlevel($fraction);    
+            $lev  = $this->_get_numlevel($fraction);
             $ret .= $this->_sep . $curr_names[1][$lev];
         }
         return $ret;
     }
     // }}}
     // {{{ _get_numlevel()
-    
+
     /**
      * Returns grammatical "level" of the number - this is necessary
      * for choosing the right suffix for exponents and currency names.
@@ -475,10 +477,11 @@ class Numbers_Words_pl extends Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  Numbers_Words 0.4
      */
-    function _get_numlevel($num) {
+    public function _get_numlevel($num)
+    {
         $num = (int)substr($num,-3);
         $h = $t = $d = $lev = 0;
-        
+
         switch(strlen($num)) {
             case 3:
                 $h = (int)substr($num,-3,1);
@@ -517,4 +520,3 @@ class Numbers_Words_pl extends Numbers_Words
     // }}}
 }
 
-?>

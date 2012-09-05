@@ -5,7 +5,7 @@
           <table name="blog" tablename="module_blog" primary="yes" />
        </tables>
     </datasource>
-    
+
  		<properties>
 	    <property name="id_blog"
 	            fieldName="id_blog"
@@ -60,7 +60,7 @@
                 type="integer"
                 required="yes"
                 />
-                
+
 	     <property name="has_comments_activated"
 	            fieldName="has_comments_activated"
 	            captioni18n="dao.blog.fields.has_comments_activated"

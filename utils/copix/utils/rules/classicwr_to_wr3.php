@@ -23,7 +23,8 @@
  *
  */
 
-class classicwr_to_wr3  extends WikiRendererConfig {
+class classicwr_to_wr3  extends WikiRendererConfig
+{
   /**
     * @var array   liste des tags inline
    */
@@ -45,30 +46,35 @@ class classicwr_to_wr3  extends WikiRendererConfig {
 
 // ===================================== déclarations des tags inlines
 
-class cwrwr3_strong extends WikiTag {
+class cwrwr3_strong extends WikiTag
+{
     public $beginTag='__';
     public $endTag='__';
     public function getContent(){ return '__'.$this->contents[0].'__';}
 }
 
-class cwrwr3_em extends WikiTag {
+class cwrwr3_em extends WikiTag
+{
     public $beginTag='\'\'';
     public $endTag='\'\'';
     public function getContent(){ return '\'\''.$this->contents[0].'\'\'';}
 }
 
-class cwrwr3_code extends WikiTag {
+class cwrwr3_code extends WikiTag
+{
     public $beginTag='@@';
     public $endTag='@@';
     public function getContent(){ return '@@'.$this->contents[0].'@@';}
 }
 
-class cwrwr3_q extends WikiTag {
+class cwrwr3_q extends WikiTag
+{
     public $beginTag='^^';
     public $endTag='^^';
     protected $attribute=array('$$','lang','cite');
     public $separators=array('|');
-    public function getContent(){
+    public function getContent()
+    {
         if($this->separatorCount == 0)
             return '^^'.$this->contents[0].'^^';
         elseif($this->separatorCount == 1)
@@ -78,13 +84,15 @@ class cwrwr3_q extends WikiTag {
     }
 }
 
-class cwrwr3_cite extends WikiTag {
+class cwrwr3_cite extends WikiTag
+{
     public $beginTag='{{';
     public $endTag='}}';
     protected $attribute=array('$$','title');
     public $separators=array('|');
 
-    public function getContent(){
+    public function getContent()
+    {
         if($this->separatorCount == 0)
             return '{{'.$this->contents[0].'}}';
         else
@@ -93,12 +101,14 @@ class cwrwr3_cite extends WikiTag {
 
 }
 
-class cwrwr3_acronym extends WikiTag {
+class cwrwr3_acronym extends WikiTag
+{
     public $beginTag='??';
     public $endTag='??';
     protected $attribute=array('$$','title');
     public $separators=array('|');
-    public function getContent(){
+    public function getContent()
+    {
         if($this->separatorCount == 0)
             return '??'.$this->contents[0].'??';
         else
@@ -106,7 +116,8 @@ class cwrwr3_acronym extends WikiTag {
     }
 }
 
-class cwrwr3_anchor extends WikiTag {
+class cwrwr3_anchor extends WikiTag
+{
     public $beginTag='~~';
     public $endTag='~~';
     protected $attribute=array('name');
@@ -115,12 +126,14 @@ class cwrwr3_anchor extends WikiTag {
 }
 
 
-class cwrwr3_link extends WikiTag {
-	  public $beginTag='[';
+class cwrwr3_link extends WikiTag
+{
+      public $beginTag='[';
     public $endTag=']';
     protected $attribute=array('$$','href','hreflang','title','target');
     public $separators=array('|');
-    public function getContent(){
+    public function getContent()
+    {
         if($this->separatorCount == 0)
             return '[['.$this->contents[0].']]';
         elseif($this->separatorCount == 1)
@@ -135,13 +148,15 @@ class cwrwr3_link extends WikiTag {
 
 
 
-class cwrwr3_image extends WikiTag {
+class cwrwr3_image extends WikiTag
+{
     public $beginTag='((';
     public $endTag='))';
     protected $attribute=array('src','alt','align','longdesc');
     public $separators=array('|');
 
-    public function getContent(){
+    public function getContent()
+    {
         if($this->separatorCount == 0)
             return '(('.$this->wikiContentArr[0].'))';
         elseif($this->separatorCount == 1)
@@ -157,8 +172,10 @@ class cwrwr3_image extends WikiTag {
 
 // ===================================== déclaration des différents bloc wiki
 
-class WrWr3Bloc extends WikiRendererBloc {
-   public function getRenderedLine(){
+class WrWr3Bloc extends WikiRendererBloc
+{
+   public function getRenderedLine()
+   {
       return $this->_detectMatch[1];
    }
 }
@@ -166,7 +183,8 @@ class WrWr3Bloc extends WikiRendererBloc {
 /**
  * traite les signes de types liste
  */
-class cwrwr3_list extends WrWr3Bloc {
+class cwrwr3_list extends WrWr3Bloc
+{
    public $type='list';
    protected $regexp="/^([\*#-]+.*)/";
 }
@@ -175,7 +193,8 @@ class cwrwr3_list extends WrWr3Bloc {
 /**
  * traite les signes de types table
  */
-class cwrwr3_table extends WrWr3Bloc {
+class cwrwr3_table extends WrWr3Bloc
+{
    public $type='table';
    protected $regexp="/^(\| ?.*)/";
 }
@@ -183,8 +202,8 @@ class cwrwr3_table extends WrWr3Bloc {
 /**
  * traite les signes de types hr
  */
-class cwrwr3_hr extends WrWr3Bloc {
-
+class cwrwr3_hr extends WrWr3Bloc
+{
    public $type='hr';
    protected $regexp='/^(={4,}) *$/';
    protected $_closeNow=true;
@@ -193,7 +212,8 @@ class cwrwr3_hr extends WrWr3Bloc {
 /**
  * traite les signes de types titre
  */
-class cwrwr3_title extends WrWr3Bloc {
+class cwrwr3_title extends WrWr3Bloc
+{
    public $type='title';
    protected $regexp="/^(\!{1,3}.*)/";
    protected $_closeNow=true;
@@ -202,10 +222,12 @@ class cwrwr3_title extends WrWr3Bloc {
 /**
  * traite les signes de type paragraphe
  */
-class cwrwr3_p extends WrWr3Bloc {
+class cwrwr3_p extends WrWr3Bloc
+{
    public $type='p';
 
-   public function detect($string){
+   public function detect($string)
+   {
       if($string=='') return false;
       if(preg_match('/^={4,} *$/',$string)) return false;
       $c=$string{0};
@@ -221,8 +243,8 @@ class cwrwr3_p extends WrWr3Bloc {
 /**
  * traite les signes de types pre (pour afficher du code..)
  */
-class cwrwr3_pre extends WrWr3Bloc {
-
+class cwrwr3_pre extends WrWr3Bloc
+{
    public $type='pre';
    protected $regexp="/^(\s.*)/";
    protected $_openTag="<code>";
@@ -233,7 +255,8 @@ class cwrwr3_pre extends WrWr3Bloc {
 /**
  * traite les signes de type blockquote
  */
-class cwrwr3_blockquote extends WrWr3Bloc {
+class cwrwr3_blockquote extends WrWr3Bloc
+{
    public $type='bq';
    protected $regexp="/^(\>+.*)/";
 }
@@ -241,10 +264,9 @@ class cwrwr3_blockquote extends WrWr3Bloc {
 /**
  * traite les signes de type définitions
  */
-class cwrwr3_definition extends WrWr3Bloc {
-
+class cwrwr3_definition extends WrWr3Bloc
+{
    public $type='dfn';
    protected $regexp="/^(;.* : .*)/i";
 }
 
-?>

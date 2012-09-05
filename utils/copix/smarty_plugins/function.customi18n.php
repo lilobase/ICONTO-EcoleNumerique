@@ -20,17 +20,17 @@
  *
  * Examples:
  */
-function smarty_function_customi18n($params, & $me) {
-	if (isset ($params['assign'])){
-		$assignVar = $params['assign'];
-		unset ($params['assign']);
-		$me->assign ($assignVar, _tag ('customi18n', $params));
-		return;
-	}else{
+function smarty_function_customi18n($params, & $me)
+{
+    if (isset ($params['assign'])){
+        $assignVar = $params['assign'];
+        unset ($params['assign']);
+        $me->assign ($assignVar, _tag ('customi18n', $params));
+        return;
+    }else{
     $res = _tag ('customi18n', $params);
     if (isset ($params['addslashes']) && $params['addslashes'])
       $res = addslashes($res);
-		return $res;
-	}
+        return $res;
+    }
 }
-?>

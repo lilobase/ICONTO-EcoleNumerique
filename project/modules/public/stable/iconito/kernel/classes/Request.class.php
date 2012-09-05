@@ -8,8 +8,8 @@
  * @link http://api.symfony.com/2.0/Symfony/Component/HttpFoundation/Request.html
  */
 
-class Request {
-    
+class Request
+{
     /**
      * Teste si la requête est de type Ajax
      *
@@ -21,8 +21,8 @@ class Request {
     {
         return (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH']));
     }
-    
-    
+
+
     /**
      * Teste si la requête est de type Ajax
      *
@@ -40,4 +40,3 @@ class Request {
 }
 
 
-?>

@@ -12,45 +12,46 @@
 
 _classInclude('sysutils|admin');
 
-class ActionGroupAdmin extends CopixActionGroup {
+class ActionGroupAdmin extends CopixActionGroup
+{
+    public function beforeAction ()
+    {
+        _currentUser()->assertCredential ('group:[current_user]');
+    }
 
-	public function beforeAction (){
-		_currentUser()->assertCredential ('group:[current_user]');
-	}
-	
-   function home () {
-    
+   public function home ()
+   {
     if (!Kernel::isAdmin())
-		  return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
-    
-		$tplHome = new CopixTpl();
+          return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('kernel|kernel.error.noRights'), 'back'=>CopixUrl::get ()));
 
-		$tpl = new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.moduleDescription'));
-		$tpl->assign ('MENU', Admin::getMenu('sysutils'));
-		
-		$tplHome->assign('superadmin', Kernel::isSuperAdmin());
-		$tplHome->assign('adminfonctionnel', Kernel::isAdminFonctionnel());
-		$tpl->assign ('MAIN', $tplHome->fetch('sysutils|home.tpl'));
-		
-		return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
-	}
-	
-	function processPhpinfo (){
-		$ppo = new CopixPPO ();
-		$ppo->TITLE_PAGE = 'PHPInfo';
-		$ppo->MENU = Admin::getMenu('phpinfo');
-		$ppo->CopixVersion = COPIX_VERSION;
+        $tplHome = new CopixTpl();
 
-		ob_start();                                                                                                       
-		phpinfo();                                                                                                        
-		$info = ob_get_contents();                                                                                        
-		ob_end_clean();                                                                                                   
-		$ppo->phpinfo = preg_replace('%^.*<body>(.*)</body>.*$%ms', '$1', $info);
+        $tpl = new CopixTpl ();
+        $tpl->assign ('TITLE_PAGE', CopixI18N::get ('sysutils|admin.moduleDescription'));
+        $tpl->assign ('MENU', Admin::getMenu('sysutils'));
 
-		return _arPpo ($ppo, 'phpinfo.tpl');
-	}
-	
-	
+        $tplHome->assign('superadmin', Kernel::isSuperAdmin());
+        $tplHome->assign('adminfonctionnel', Kernel::isAdminFonctionnel());
+        $tpl->assign ('MAIN', $tplHome->fetch('sysutils|home.tpl'));
+
+        return new CopixActionReturn (COPIX_AR_DISPLAY, $tpl);
+    }
+
+    public function processPhpinfo ()
+    {
+        $ppo = new CopixPPO ();
+        $ppo->TITLE_PAGE = 'PHPInfo';
+        $ppo->MENU = Admin::getMenu('phpinfo');
+        $ppo->CopixVersion = COPIX_VERSION;
+
+        ob_start();
+        phpinfo();
+        $info = ob_get_contents();
+        ob_end_clean();
+        $ppo->phpinfo = preg_replace('%^.*<body>(.*)</body>.*$%ms', '$1', $info);
+
+        return _arPpo ($ppo, 'phpinfo.tpl');
+    }
+
+
 }
-?>

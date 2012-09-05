@@ -3,12 +3,12 @@
 // File name   : example_043.php
 // Begin       : 2009-01-02
 // Last Update : 2009-04-16
-// 
+//
 // Description : Example 043 for TCPDF class
 //               Disk caching
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -62,10 +62,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -84,6 +84,5 @@ $pdf->MultiCell(0, 0, "DISK CACHING TEST: check the parameters on class construc
 $pdf->Output('example_043.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

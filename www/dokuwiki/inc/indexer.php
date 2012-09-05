@@ -49,7 +49,8 @@ define('IDX_ASIAN', '(?:'.IDX_ASIAN1.'|'.IDX_ASIAN2.'|'.IDX_ASIAN3.')');
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function wordlen($w){
+function wordlen($w)
+{
     $l = strlen($w);
     // If left alone, all chinese "words" will get put into w3.idx
     // So the "length" of a "word" is faked
@@ -63,7 +64,8 @@ function wordlen($w){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_saveIndex($pre, $wlen, &$idx){
+function idx_saveIndex($pre, $wlen, &$idx)
+{
     global $conf;
     $fn = $conf['indexdir'].'/'.$pre.$wlen;
     $fh = @fopen($fn.'.tmp','w');
@@ -82,7 +84,8 @@ function idx_saveIndex($pre, $wlen, &$idx){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_getIndex($pre, $wlen){
+function idx_getIndex($pre, $wlen)
+{
     global $conf;
     $fn = $conf['indexdir'].'/'.$pre.$wlen.'.idx';
     if(!@file_exists($fn)) return array();
@@ -96,7 +99,8 @@ function idx_getIndex($pre, $wlen){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_touchIndex($pre, $wlen){
+function idx_touchIndex($pre, $wlen)
+{
     global $conf;
     $fn = $conf['indexdir'].'/'.$pre.$wlen.'.idx';
     if(!@file_exists($fn)){
@@ -111,7 +115,8 @@ function idx_touchIndex($pre, $wlen){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function _freadline($fh) {
+function _freadline($fh)
+{
     if (feof($fh)) return false;
     $ln = '';
     while (($buf = fgets($fh,4096)) !== false) {
@@ -128,7 +133,8 @@ function _freadline($fh) {
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_saveIndexLine($pre, $wlen, $idx, $line){
+function idx_saveIndexLine($pre, $wlen, $idx, $line)
+{
     global $conf;
     if(substr($line,-1) != "\n") $line .= "\n";
     $fn = $conf['indexdir'].'/'.$pre.$wlen;
@@ -162,7 +168,8 @@ function idx_saveIndexLine($pre, $wlen, $idx, $line){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_getIndexLine($pre, $wlen, $idx){
+function idx_getIndexLine($pre, $wlen, $idx)
+{
     global $conf;
     $fn = $conf['indexdir'].'/'.$pre.$wlen.'.idx';
     if(!@file_exists($fn)) return '';
@@ -185,7 +192,8 @@ function idx_getIndexLine($pre, $wlen, $idx){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Christopher Smith <chris@jalakai.co.uk>
  */
-function idx_getPageWords($page){
+function idx_getPageWords($page)
+{
     global $conf;
     $swfile   = DOKU_INC.'inc/lang/'.$conf['lang'].'/stopwords.txt';
     if(@file_exists($swfile)){
@@ -202,7 +210,7 @@ function idx_getPageWords($page){
     unset($evt);
 
     list($page,$body) = $data;
-    
+
     $body   = strtr($body, "\r\n\t", '   ');
     $tokens = explode(' ', $body);
     $tokens = array_count_values($tokens);   // count the frequency of each token
@@ -273,7 +281,8 @@ function idx_getPageWords($page){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function idx_addPage($page){
+function idx_addPage($page)
+{
     global $conf;
 
     // load known documents
@@ -318,7 +327,7 @@ function idx_addPage($page){
             }
         }
     }
-    
+
     // Remove obsolete index entries
     $pageword_idx = trim(idx_getIndexLine('pageword','',$pid));
     if ($pageword_idx !== '') {
@@ -359,7 +368,8 @@ function idx_addPage($page){
  * @deprecated - see idx_updateIndexLine
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function idx_writeIndexLine($fh,$line,$pid,$count){
+function idx_writeIndexLine($fh,$line,$pid,$count)
+{
     fwrite($fh,idx_updateIndexLine($line,$pid,$count));
 }
 
@@ -373,7 +383,8 @@ function idx_writeIndexLine($fh,$line,$pid,$count){
  * @author Tom N Harris <tnharris@whoopdedo.org>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function idx_updateIndexLine($line,$pid,$count){
+function idx_updateIndexLine($line,$pid,$count)
+{
     $line = trim($line);
     $updated = array();
     if($line != ''){
@@ -404,7 +415,8 @@ function idx_updateIndexLine($line,$pid,$count){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_indexLengths(&$filter){
+function idx_indexLengths(&$filter)
+{
     global $conf;
     $dir = @opendir($conf['indexdir']);
     if($dir===false)
@@ -450,7 +462,8 @@ function idx_indexLengths(&$filter){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_getIndexWordsSorted($words,&$result){
+function idx_getIndexWordsSorted($words,&$result)
+{
     // parse and sort tokens
     $tokens = array();
     $tokenlength = array();
@@ -534,7 +547,8 @@ function idx_getIndexWordsSorted($words,&$result){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function idx_lookup($words){
+function idx_lookup($words)
+{
     global $conf;
 
     $result = array();
@@ -579,7 +593,8 @@ function idx_lookup($words){
  * @param  string $line     A line from the main index
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function idx_parseIndexLine(&$page_idx,$line){
+function idx_parseIndexLine(&$page_idx,$line)
+{
     $result = array();
 
     $line = trim($line);
@@ -609,7 +624,8 @@ function idx_parseIndexLine(&$page_idx,$line){
  * @param arrayref $stopwords  array of stopwords
  * @param boolean  $wc         are wildcards allowed?
  */
-function idx_tokenizer($string,&$stopwords,$wc=false){
+function idx_tokenizer($string,&$stopwords,$wc=false)
+{
     $words = array();
     $wc = ($wc) ? '' : $wc = '\*';
 
@@ -641,7 +657,8 @@ function idx_tokenizer($string,&$stopwords,$wc=false){
  *
  * @author Tom N Harris <tnharris@whoopdedo.org>
  */
-function idx_upgradePageWords(){
+function idx_upgradePageWords()
+{
     global $conf;
     $page_idx = idx_getIndex('page','');
     if (empty($page_idx)) return;

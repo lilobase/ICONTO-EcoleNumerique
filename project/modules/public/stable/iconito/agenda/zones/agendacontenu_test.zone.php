@@ -8,12 +8,13 @@
 * @link      http://copix.org
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
-class ZoneAgendaContenu extends CopixZone {
-	function _createContent (&$toReturn) {
-		$tpl = new CopixTpl ();
-		
-		$toReturn = $tpl->fetch ('contenu.agenda.tpl');
-		return true;
-	}
+class ZoneAgendaContenu extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        $tpl = new CopixTpl ();
+
+        $toReturn = $tpl->fetch ('contenu.agenda.tpl');
+        return true;
+    }
 }
-?>

@@ -13,13 +13,14 @@
 * @package copix
 * @subpackage core
 */
-abstract class CopixZone {
+abstract class CopixZone
+{
     /**
     * Si le cache est actif
     * @var boolean
     */
     protected $_useCache = false;
-    
+
     /**
     * nom des parametres de la zone permettant de l'identifiant de façon unique
     * @var array
@@ -34,76 +35,80 @@ abstract class CopixZone {
     /**
     * Nettoie le cache de la zone $name avec pour paramètres $params
     * @param string $pName l'identifiant de la zone à effacer.
-    * @param array $pParams tableau des paramètres de la zone. 
+    * @param array $pParams tableau des paramètres de la zone.
     * @static
     */
-    public static function clear ($pName, $pParams = array ()){
+    public static function clear ($pName, $pParams = array ())
+    {
        $zoneObject = self::_create ($pName);
        $zoneObject->_clear ($pParams);
        //On sait que createZone place le contexte d'exécution de la zone.
-       CopixContext::pop ();    	
+       CopixContext::pop ();
     }
-    
+
     /**
      * Demande l'exécution d'une zone d'identifiant $name avec ses paramètres $params
      * @param string $pName l'identifiant de la zone à afficher
-     * @param array $pParams les paramètres d'exécution de la zone.  
+     * @param array $pParams les paramètres d'exécution de la zone.
      * @return string le contenu de la zone
      */
-    public static function process ($pName, $pParams = array ()){
+    public static function process ($pName, $pParams = array ())
+    {
        $zoneObject = self::_create ($pName);
        if($zoneObject === false ){
-       		trigger_error('CopixZone ['.$pName.'] not found', E_USER_WARNING);
-       		return false;
+               trigger_error('CopixZone ['.$pName.'] not found', E_USER_WARNING);
+               return false;
        }
        $content = $zoneObject->_process ($pParams);
        //On sait que createZone place le contexte d'exécution de la zone.
        CopixContext::pop ();
-       return $content;    	
+       return $content;
     }
 
-	/**
+    /**
     * Creation d'un objet zone d'identifiant $pName
     * @param string $name le nom de la zone à instancier.
     * @private
     */
-	private static function _create ($pName){
-		//Récupération des éléments critiques.
-		$fileInfo = new CopixModuleFileSelector ($pName);
-		CopixContext::push ($fileInfo->module);
+    private static function _create ($pName)
+    {
+        //Récupération des éléments critiques.
+        $fileInfo = new CopixModuleFileSelector ($pName);
+        CopixContext::push ($fileInfo->module);
 
-		//Récupère le nom du fichier en fonction du module courant.
-		$fileName = $fileInfo->getPath(COPIX_ZONES_DIR). strtolower($fileInfo->fileName) . '.zone.php';
+        //Récupère le nom du fichier en fonction du module courant.
+        $fileName = $fileInfo->getPath(COPIX_ZONES_DIR). strtolower($fileInfo->fileName) . '.zone.php';
 
-		if(!file_exists($fileName)) return false;
-		
-		//inclusion du fichier.
-		Copix::RequireOnce ($fileName);
-		$objName = 'Zone'.$fileInfo->fileName;
-		return new $objName ();
-	}
+        if(!file_exists($fileName)) return false;
+
+        //inclusion du fichier.
+        Copix::RequireOnce ($fileName);
+        $objName = 'Zone'.$fileInfo->fileName;
+        return new $objName ();
+    }
 
     /**
     * Méthode qui calcul le contenu de la zone en fonction de ses paramètres.
     *  Choisi entre le cache et la génération du contenu
-    * 
+    *
     * @param array  $pParams les paramètres de contexte pour la zone. (généralement le contenu de l'url)
     * @return   string  le contenu de la zone
     * @access private
     */
-    protected function _process ($pParams){
+    protected function _process ($pParams)
+    {
         $this->_params = $pParams;
         $contents = '';
 
         if ($this->_useCache){
             $module = CopixContext::get ();
             if (CopixCache::exists ($this->_makeId (), 'zones|'.$module.get_class($this))) {
-            	$contents = CopixCache::read ($this->_makeId (), 'zones|'.$module.get_class($this));
+                $contents = CopixCache::read ($this->_makeId (), 'zones|'.$module.get_class($this));
             } else {
                 if ($this->_createContent ($contents)){
-                	CopixCache::write ($this->_makeId (), 'zones|'.$module.get_class($this), $contents);
+                    CopixCache::write ($this->_makeId (), 'zones|'.$module.get_class($this), $contents);
                 }
-            }             
+            }
         }else{
             $this->_createContent ($contents);
         }
@@ -116,7 +121,8 @@ abstract class CopixZone {
     * @return   boolean  si tout s'est bien passé
     * @access private
     */
-    protected function _clear ($pParams){
+    protected function _clear ($pParams)
+    {
         $this->_params = $pParams;
         if ($this->_useCache){
             $module = CopixContext::get ();
@@ -142,7 +148,8 @@ abstract class CopixZone {
     * @return mixed un ensemble d'éléments constituant l'identifiant unique de cache pour la zone
     * @access private
     */
-    protected function _makeId (){
+    protected function _makeId ()
+    {
         $toReturn = array ();
         foreach ($this->_cacheParams as $key){
             $toReturn[$key] = isset ($this->_params[$key]) ? $this->_params[$key] : null;
@@ -156,7 +163,8 @@ abstract class CopixZone {
     * @param mixed $pParamDefaultValue La valeur par défaut à retourner si le paramètre n'existe pas
     * @return mixed the param value
     */
-    public function getParam ($pParamName, $pParamDefaultValue=null){
+    public function getParam ($pParamName, $pParamDefaultValue=null)
+    {
        return array_key_exists ($pParamName, $this->_params) ? $this->_params[$pParamName] : $pParamDefaultValue;
     }
 
@@ -164,20 +172,21 @@ abstract class CopixZone {
      * Retourne le tableau entier de paramètre de la zone
      * @return array le tableau _params
      */
-    public function asArray () {
+    public function asArray ()
+    {
         return $this->_params;
     }
-    
+
     /**
      * Création d'un contenu à partir d'un PPO
      * @param 	CopixPPO	$pPPO	le PPO à utiliser
      * @param	string		$pTemplatename	Le template ou rapprocher le PPO
-     * @return string	le contenu rapproché 
+     * @return string	le contenu rapproché
      */
-    protected function _usePPO ($pPPO, $pTemplateName){
-    	$tpl = new CopixTpl ();
-    	$tpl->assign ('ppo', $pPPO);
-    	return $tpl->fetch ($pTemplateName);
+    protected function _usePPO ($pPPO, $pTemplateName)
+    {
+        $tpl = new CopixTpl ();
+        $tpl->assign ('ppo', $pPPO);
+        return $tpl->fetch ($pTemplateName);
     }
 }
-?>

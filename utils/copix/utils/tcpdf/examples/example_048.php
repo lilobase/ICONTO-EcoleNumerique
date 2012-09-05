@@ -3,12 +3,12 @@
 // File name   : example_048.php
 // Begin       : 2009-03-20
 // Last Update : 2009-03-27
-// 
+//
 // Description : Example 048 for TCPDF class
 //               HTML tables and table headers
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -34,7 +34,7 @@ require_once('../config/lang/eng.php');
 require_once('../tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -62,10 +62,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -85,13 +85,13 @@ $tbl = <<<EOD
         <td>COL 3 - ROW 1</td>
     </tr>
     <tr>
-    	<td rowspan="2">COL 2 - ROW 2 - COLSPAN 2<br />text line<br />text line<br />text line<br />text line</td>
-    	<td>COL 3 - ROW 2</td>
+        <td rowspan="2">COL 2 - ROW 2 - COLSPAN 2<br />text line<br />text line<br />text line<br />text line</td>
+        <td>COL 3 - ROW 2</td>
     </tr>
     <tr>
        <td>COL 3 - ROW 3</td>
     </tr>
-   
+
 </table>
 EOD;
 
@@ -107,13 +107,13 @@ $tbl = <<<EOD
         <td>COL 3 - ROW 1</td>
     </tr>
     <tr>
-    	<td rowspan="2">COL 2 - ROW 2 - COLSPAN 2<br />text line<br />text line<br />text line<br />text line</td>
-    	 <td>COL 3 - ROW 2</td>
+        <td rowspan="2">COL 2 - ROW 2 - COLSPAN 2<br />text line<br />text line<br />text line<br />text line</td>
+         <td>COL 3 - ROW 2</td>
     </tr>
     <tr>
        <td>COL 3 - ROW 3</td>
     </tr>
-   
+
 </table>
 EOD;
 
@@ -129,13 +129,13 @@ $tbl = <<<EOD
         <td>COL 3 - ROW 1</td>
     </tr>
     <tr>
-    	<td rowspan="2">COL 2 - ROW 2 - COLSPAN 2<br />text line<br />text line<br />text line<br />text line</td>
-    	 <td>COL 3 - ROW 2<br />text line<br />text line</td>
+        <td rowspan="2">COL 2 - ROW 2 - COLSPAN 2<br />text line<br />text line<br />text line<br />text line</td>
+         <td>COL 3 - ROW 2<br />text line<br />text line</td>
     </tr>
     <tr>
        <td>COL 3 - ROW 3</td>
     </tr>
-   
+
 </table>
 EOD;
 
@@ -250,6 +250,5 @@ $pdf->writeHTML($tbl, true, false, false, false, '');
 $pdf->Output('example_048.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

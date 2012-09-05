@@ -16,4 +16,3 @@ $default 						= & $getListRecv;
 $example    = new CopixAction ('Exemple', 'getExemple');
 $default    = & $example;
 */
-?>

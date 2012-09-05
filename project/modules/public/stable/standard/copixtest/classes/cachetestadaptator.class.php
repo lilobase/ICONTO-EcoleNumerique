@@ -13,31 +13,35 @@
  * @package standard
  * @subpackage copixtest
  */
-class CacheTestAdaptator implements ICopixCacheStrategy  {
-    
+class CacheTestAdaptator implements ICopixCacheStrategy
+{
     private $_test=null;
 
-    public function isEnabled($pExtra) {
+    public function isEnabled($pExtra)
+    {
         return true;
     }
 
-    public function write ($pId, $pContent, $pType, $pExtra){
+    public function write ($pId, $pContent, $pType, $pExtra)
+    {
         $this->_test=$pContent;
     }
 
-    public function read ($pId, $pType, $pExtra){
+    public function read ($pId, $pType, $pExtra)
+    {
         return $this->_test;
     }
 
-    public function clear ($pId, $pType, $pExtra){
+    public function clear ($pId, $pType, $pExtra)
+    {
         $this->_test=null;
     }
 
-    public function exists($pId, $pType, $pExtra) {
+    public function exists($pId, $pType, $pExtra)
+    {
         if ($this->_test==null) {
             return false;
         }
         return true;
     }
 }
-?>

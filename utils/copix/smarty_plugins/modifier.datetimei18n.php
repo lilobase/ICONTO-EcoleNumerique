@@ -18,10 +18,10 @@
  * Example:  {$date|datetimei18n}
  * @return string
  */
-function smarty_modifier_datetimei18n ($string, $format="") {
+function smarty_modifier_datetimei18n ($string, $format="")
+{
    if ($format == ""){
       return (($date = CopixDateTime::yyyymmddhhiissToDateTime ($string)) !== false) ? $date : $string;
    }
    return (($date = CopixDateTime::yyyymmddhhiissToText ($string)) !== false) ? $date : $string;
 }
-?>

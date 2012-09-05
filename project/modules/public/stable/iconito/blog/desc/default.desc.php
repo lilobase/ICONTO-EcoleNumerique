@@ -30,4 +30,3 @@ $go           = new CopixAction ('FrontBlog', 'go');
 $default      = & $listArticle;
 
 
-?>

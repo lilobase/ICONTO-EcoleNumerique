@@ -13,7 +13,8 @@
  * Génération d'input text
  *
  */
-function smarty_function_inputtext($params, $me) {
+function smarty_function_inputtext($params, $me)
+{
     if (isset ($params['assign'])) {
         $me->assign($params['assign'], _tag ('inputtext', $params));
     }else {
@@ -21,4 +22,3 @@ function smarty_function_inputtext($params, $me) {
     }
 }
 
-?>

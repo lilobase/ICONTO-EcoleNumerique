@@ -6,20 +6,20 @@
 // License     : GNU LGPL (http://www.gnu.org/copyleft/lesser.html)
 // 	----------------------------------------------------------------------------
 //  Copyright (C) 2002-2009  Nicola Asuni - Tecnick.com S.r.l.
-// 	
+//
 // 	This program is free software: you can redistribute it and/or modify
 // 	it under the terms of the GNU Lesser General Public License as published by
 // 	the Free Software Foundation, either version 2.1 of the License, or
 // 	(at your option) any later version.
-// 	
+//
 // 	This program is distributed in the hope that it will be useful,
 // 	but WITHOUT ANY WARRANTY; without even the implied warranty of
 // 	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // 	GNU Lesser General Public License for more details.
-// 	
+//
 // 	You should have received a copy of the GNU Lesser General Public License
 // 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
-// 	
+//
 // 	See LICENSE.TXT file for more information.
 //  ----------------------------------------------------------------------------
 //
@@ -83,44 +83,44 @@ define('K_RLO', 8238);
  * Pattern to test RTL (Righ-To-Left) strings using regular expressions.
  */
 define('K_RE_PATTERN_RTL', "/(
-	  \xD6\xBE                                             # R
-	| \xD7[\x80\x83\x86\x90-\xAA\xB0-\xB4]                 # R
-	| \xDF[\x80-\xAA\xB4\xB5\xBA]                          # R
-	| \xE2\x80\x8F                                         # R
-	| \xEF\xAC[\x9D\x9F\xA0-\xA8\xAA-\xB6\xB8-\xBC\xBE]    # R
-	| \xEF\xAD[\x80\x81\x83\x84\x86-\x8F]                  # R
-	| \xF0\x90\xA0[\x80-\x85\x88\x8A-\xB5\xB7\xB8\xBC\xBF] # R
-	| \xF0\x90\xA4[\x80-\x99]                              # R
-	| \xF0\x90\xA8[\x80\x90-\x93\x95-\x97\x99-\xB3]        # R
-	| \xF0\x90\xA9[\x80-\x87\x90-\x98]                     # R
-	| \xE2\x80[\xAB\xAE]                                   # RLE & RLO
-	)/x");
+      \xD6\xBE                                             # R
+    | \xD7[\x80\x83\x86\x90-\xAA\xB0-\xB4]                 # R
+    | \xDF[\x80-\xAA\xB4\xB5\xBA]                          # R
+    | \xE2\x80\x8F                                         # R
+    | \xEF\xAC[\x9D\x9F\xA0-\xA8\xAA-\xB6\xB8-\xBC\xBE]    # R
+    | \xEF\xAD[\x80\x81\x83\x84\x86-\x8F]                  # R
+    | \xF0\x90\xA0[\x80-\x85\x88\x8A-\xB5\xB7\xB8\xBC\xBF] # R
+    | \xF0\x90\xA4[\x80-\x99]                              # R
+    | \xF0\x90\xA8[\x80\x90-\x93\x95-\x97\x99-\xB3]        # R
+    | \xF0\x90\xA9[\x80-\x87\x90-\x98]                     # R
+    | \xE2\x80[\xAB\xAE]                                   # RLE & RLO
+    )/x");
 
 /*
  * Pattern to test Arabic strings using regular expressions.
  * source: http://www.w3.org/International/questions/qa-forms-utf-8
  */
 define("K_RE_PATTERN_ARABIC", "/(
-		  \xD8[\x80-\x83\x8B\x8D\x9B\x9E\x9F\xA1-\xBA]  # AL
-		| \xD9[\x80-\x8A\xAD-\xAF\xB1-\xBF]             # AL
-		| \xDA[\x80-\xBF]                               # AL
-		| \xDB[\x80-\x95\x9D\xA5\xA6\xAE\xAF\xBA-\xBF]  # AL
-		| \xDC[\x80-\x8D\x90\x92-\xAF]                  # AL
-		| \xDD[\x8D-\xAD]                               # AL
-		| \xDE[\x80-\xA5\xB1]                           # AL
-		| \xEF\xAD[\x90-\xBF]                           # AL
-		| \xEF\xAE[\x80-\xB1]                           # AL
-		| \xEF\xAF[\x93-\xBF]                           # AL
-		| \xEF[\xB0-\xB3][\x80-\xBF]                    # AL
-		| \xEF\xB4[\x80-\xBD]                           # AL
-		| \xEF\xB5[\x90-\xBF]                           # AL
-		| \xEF\xB6[\x80-\x8F\x92-\xBF]                  # AL
-		| \xEF\xB7[\x80-\x87\xB0-\xBC]                  # AL
-		| \xEF\xB9[\xB0-\xB4\xB6-\xBF]                  # AL
-		| \xEF\xBA[\x80-\xBF]                           # AL
-		| \xEF\xBB[\x80-\xBC]                           # AL
-		| \xD9[\xA0-\xA9\xAB\xAC]                       # AN
-		)/x");
+          \xD8[\x80-\x83\x8B\x8D\x9B\x9E\x9F\xA1-\xBA]  # AL
+        | \xD9[\x80-\x8A\xAD-\xAF\xB1-\xBF]             # AL
+        | \xDA[\x80-\xBF]                               # AL
+        | \xDB[\x80-\x95\x9D\xA5\xA6\xAE\xAF\xBA-\xBF]  # AL
+        | \xDC[\x80-\x8D\x90\x92-\xAF]                  # AL
+        | \xDD[\x8D-\xAD]                               # AL
+        | \xDE[\x80-\xA5\xB1]                           # AL
+        | \xEF\xAD[\x90-\xBF]                           # AL
+        | \xEF\xAE[\x80-\xB1]                           # AL
+        | \xEF\xAF[\x93-\xBF]                           # AL
+        | \xEF[\xB0-\xB3][\x80-\xBF]                    # AL
+        | \xEF\xB4[\x80-\xBD]                           # AL
+        | \xEF\xB5[\x90-\xBF]                           # AL
+        | \xEF\xB6[\x80-\x8F\x92-\xBF]                  # AL
+        | \xEF\xB7[\x80-\x87\xB0-\xBC]                  # AL
+        | \xEF\xB9[\xB0-\xB4\xB6-\xBF]                  # AL
+        | \xEF\xBA[\x80-\xBF]                           # AL
+        | \xEF\xBB[\x80-\xBC]                           # AL
+        | \xD9[\xA0-\xA9\xAB\xAC]                       # AN
+        )/x");
 
 /**
  * Array of unicode types
@@ -17851,7 +17851,7 @@ $unicode = array(
 
 /**
  * Mirror unicode characters.
- * For information on bidi mirroring, see UAX #9: Bidirectional Algorithm, 
+ * For information on bidi mirroring, see UAX #9: Bidirectional Algorithm,
  * at http://www.unicode.org/unicode/reports/tr9/
  */
 global $unicode_mirror;
@@ -18307,7 +18307,7 @@ $laa_array = array (
 
 /**
  * Array of character substitutions for sequences of two diacritics symbols starting with SHADDA (0651 HEX, 1617 DEC).
- * Combining characters that can occur with Shadda (U0651) are placed in UE586-UE594. 
+ * Combining characters that can occur with Shadda (U0651) are placed in UE586-UE594.
  * Putting the combining mark and shadda in the same glyph allows us to avoid the two marks overlapping each other in an illegible manner.
  * second NSM char code=>substitution char
  */
@@ -18357,4 +18357,3 @@ $utf8tolatin = array (
 //============================================================+
 // END OF FILE
 //============================================================+
-?>

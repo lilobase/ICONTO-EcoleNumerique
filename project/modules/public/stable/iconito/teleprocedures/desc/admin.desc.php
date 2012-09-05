@@ -5,4 +5,3 @@ $formtype		= new CopixAction ('admin', 'formtype');
 
 $default 		= & $admin;
 
-?>

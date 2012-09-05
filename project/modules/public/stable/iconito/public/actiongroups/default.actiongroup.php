@@ -2,36 +2,37 @@
 
 /**
  * Actiongroup frontoffice du module Public
- * 
+ *
  * @package Iconito
  * @subpackage Public
  */
-class ActionGroupDefault extends EnicActionGroup {
-
-    public function beforeAction() {
+class ActionGroupDefault extends EnicActionGroup
+{
+    public function beforeAction()
+    {
         //_currentUser()->assertCredential ('group:[current_user]');
     }
 
-    function processDefault() {
+    public function processDefault()
+    {
         //return _arRedirect (_url ('|getListBlogs'));
         return CopixActionGroup::process('public|default::getListBlogs');
     }
 
     /**
      * Affiche la liste des blogs
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/03/09
      * @todo Positionner $grville
      */
-    function processGetListBlogs() {
-
-
-		CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
-		CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
+    public function processGetListBlogs()
+    {
+        CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
+        CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
 
         $tpl = new CopixTpl ();
-		$tpl->assign ('TITLE_PAGE', CopixI18N::get ('public|public.blog.annuaire'));
+        $tpl->assign ('TITLE_PAGE', CopixI18N::get ('public|public.blog.annuaire'));
 
         $kw = $this->getRequest('kw', null);
         $grville = 1;
@@ -39,10 +40,10 @@ class ActionGroupDefault extends EnicActionGroup {
         $tplListe = new CopixTpl ();
 
         if ($ville_as_array = Kernel::getKernelLimits('ville_as_array')) {
-			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'ville'=>$ville_as_array)));
+            $tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'ville'=>$ville_as_array)));
         } else
-			$tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'grville'=>$grville)));
-		$tplListe->assign ('kw', $kw);
+            $tplListe->assign ('list', CopixZone::process ('GetListBlogs2', array('kw'=>$kw, 'grville'=>$grville)));
+        $tplListe->assign ('kw', $kw);
 
         $result = $tplListe->fetch("getlistblogs.tpl");
 
@@ -57,14 +58,14 @@ class ActionGroupDefault extends EnicActionGroup {
      * @author Pierre-Nicolas Lapointe <pnlapointe@cap-tic.fr>
      * @since 2007/01/22
      */
-    function processAPropos() {
-
+    public function processAPropos()
+    {
         $ppo = new CopixPPO ();
         $ppo->TITLE_PAGE = CopixI18N::get('public|public.apropos');
 
         $nametpl = 'apropos_' . CopixI18N::getLang() . '.html';
 
-		return _arPPO ($ppo, $nametpl);
+        return _arPPO ($ppo, $nametpl);
 
     }
 
@@ -72,8 +73,8 @@ class ActionGroupDefault extends EnicActionGroup {
      * demande d'inscription
      */
 
-    function processGetreq() {
-
+    public function processGetreq()
+    {
         $ecoleList = $this->db->query('SELECT * FROM kernel_bu_ecole ORDER BY `type`,nom')->toArray();
 
         $ppo = new CopixPPO();
@@ -87,11 +88,12 @@ class ActionGroupDefault extends EnicActionGroup {
         $ppo->actionUrl = $this->url('public|default|getreqereg');
 
         $ppo->ecoles = $ecoleList;
-        
+
         return _arPPO($ppo, 'getreq.tpl');
     }
 
-    function processGetreqlistclasses() {
+    public function processGetreqlistclasses()
+    {
         $id_ecole = (int) $this->request('ecole_id');
 
         $classes = $this->db->query('SELECT * FROM kernel_bu_ecole_classe AS cl JOIN kernel_bu_annee_scolaire AS an ON cl.annee_scol = an.id_as WHERE an.current = 1 AND cl.is_validee = 1 AND cl.is_supprimee = 0 AND cl.ecole = ' . $id_ecole)->toArray();
@@ -110,8 +112,8 @@ class ActionGroupDefault extends EnicActionGroup {
         return _arNone();
     }
 
-    function processGetreqereg() {
-
+    public function processGetreqereg()
+    {
         //check parent informations :
         $sub = 'parent';
 
@@ -131,7 +133,7 @@ class ActionGroupDefault extends EnicActionGroup {
         $sub = 'child';
         $required = array('nom', 'prenom', 'ecole', 'classe');
         $children = array();
-        
+
         for ($i = 1; $i <= 4; $i++) {
             $valuei = $this->request($sub . $i . 'nom');
             $valueii = $this->request($sub . $i . 'prenom');
@@ -147,15 +149,15 @@ class ActionGroupDefault extends EnicActionGroup {
                     $children[$i][$require] = $this->request ($sub.$i.$require);
             }
         }
-        
+
         //if errors : go back
         if(!empty($errors)){
             $this->flash->errors = $errors;
             $this->flash->content = $_POST;
-            
+
             return $this->go('public|default|getreq');
         }
-        
+
         //compose informations
 
         //children Infos :
@@ -167,8 +169,8 @@ class ActionGroupDefault extends EnicActionGroup {
             $childText .= 'Ecole    : '.$this->db->query('SELECT nom FROM kernel_bu_ecole WHERE numero = '.(int)$child['ecole'])->toString().PHP_EOL;
             $childText .= 'Classe   : '.$this->db->query('SELECT nom FROM kernel_bu_ecole_classe WHERE id = '.(int)$child['classe'])->toString().PHP_EOL.' ---------------- '.PHP_EOL;
         }
-        
-        
+
+
        //adult infos :
        $adult = array(
             'nom' => $this->request('parentnom'),
@@ -212,7 +214,7 @@ EOT;
     //send Mail
     $mail = new CopixTextEMail('pnlabo@cap-tic.fr', '', '', utf8_decode('Nouvelle demande d\'inscription à iconito'), utf8_decode($mailContent));
     $mail->send();
-    
+
     //ereg data in DB
     $dbEreg = array(
         'parent' => $this->db->quote(serialize($adult)),
@@ -225,43 +227,44 @@ EOT;
 
     return _arPPO($ppo, 'getreq.success.tpl');
 }
-	
-	/**
-	 * Flux RSS des blogs de tout Iconito
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2007/11/27
-	 */
-  function processRss () {
-    
-		$rss = CopixZone::process ('Rss');
-		//echo "rss=$rss<p></p>";
-		
-		return _arContent ($rss, array ('content-type'=>CopixMIMETypes::getFromExtension ('xml')));
+
+    /**
+     * Flux RSS des blogs de tout Iconito
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2007/11/27
+     */
+  public function processRss ()
+  {
+        $rss = CopixZone::process ('Rss');
+        //echo "rss=$rss<p></p>";
+
+        return _arContent ($rss, array ('content-type'=>CopixMIMETypes::getFromExtension ('xml')));
   }
-  
-  
+
+
   /**
    * Affiche la liste des ecoles
-	 * 
-	 * @author Christophe Beyer <cbeyer@cap-tic.fr>
-	 * @since 2010/09/24
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2010/09/24
    */
-   function processEcoles () {
+   public function processEcoles ()
+   {
     CopixHTMLHeader::addCSSLink(_resource("styles/module_fichesecoles.css"));
     $ppo = new CopixPPO();
     $ppo->ville = (int)$this->request('ville');
     $ppo->search = $this->request('search');
     $ppo->TITLE_PAGE = CopixI18N::get ('public|public.listEcoles');
     return _arPPO($ppo, 'ecoles.tpl');
-	}
-  
-	function processCache() {
-		_classInclude('sysutils|cacheservices');
-		CacheServices::clearCache ();
-		CacheServices::clearConfDB ();
-		return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('welcome||', array('cache'=>'cleared') ));
-	}
+    }
+
+    public function processCache()
+    {
+        _classInclude('sysutils|cacheservices');
+        CacheServices::clearCache ();
+        CacheServices::clearConfDB ();
+        return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('welcome||', array('cache'=>'cleared') ));
+    }
 }
 
-?>

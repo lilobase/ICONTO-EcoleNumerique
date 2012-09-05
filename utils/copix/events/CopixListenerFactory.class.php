@@ -13,13 +13,15 @@
 * @package		copix
 * @subpackage 	event
 */
-abstract class CopixListener {
+abstract class CopixListener
+{
    /**
    * Demande de traitement d'un événement donné
    * @param CopixEvent			$pEvent			l'événement à traiter
    * @param CopixEventResponse	$pEventResponse	la réponse à renseigner
    */
-   public function perform ($pEvent, $pEventResponse) {
+   public function perform ($pEvent, $pEventResponse)
+   {
       $methodName = 'process'.$pEvent->getName ();
       $this->$methodName ($pEvent, $pEventResponse);
    }
@@ -30,7 +32,8 @@ abstract class CopixListener {
 * @package		copix
 * @subpackage	event
 */
-class CopixListenerFactory {
+class CopixListenerFactory
+{
     /**
     * Liste des listeners chargés en mémoire
     * @var array of CopixListener
@@ -60,7 +63,8 @@ class CopixListenerFactory {
     * singleton
     * @return CopixListenerFactory.
     */
-    public static function instance () {
+    public static function instance ()
+    {
         if (self::$_instance === false) {
             self::$_instance = new CopixListenerFactory ();
         }
@@ -71,9 +75,10 @@ class CopixListenerFactory {
     * Création d'un listener donné
     * @param 	string	$pModule		le nom du module auquel appartient le listener
     * @param 	string 	$pListenerName	le nom du listener à charger
-    * @return 	CopixListener 
+    * @return 	CopixListener
     */
-    public function create ($pModule, $pListenerName){
+    public function create ($pModule, $pListenerName)
+    {
         CopixListenerFactory::instance ()->_create ($pModule, $pListenerName);
     }
 
@@ -82,7 +87,8 @@ class CopixListenerFactory {
     * @param	string $pEventName	le nom de l'événement pour lequel on veut créer les listeners
     * @return	array of CopixListeners
     */
-    public static function createFor ($pEventName) {
+    public static function createFor ($pEventName)
+    {
         $me = CopixListenerFactory::instance ();
         $me->_loadListeners ();
         $me->_createForEvent ($pEventName);
@@ -90,12 +96,13 @@ class CopixListenerFactory {
     }
 
     /**
-    * Indique s'il est nécessaire de rechercher les listeners existants ou si l'on peut 
+    * Indique s'il est nécessaire de rechercher les listeners existants ou si l'on peut
     * réutiliser le fichier de cache créée.
     * @return boolean
     */
-    private function _mustCompile (){
-        $config = CopixConfig::instance ();    	
+    private function _mustCompile ()
+    {
+        $config = CopixConfig::instance ();
         if ($config->force_compile){
             return true;
         }
@@ -123,7 +130,8 @@ class CopixListenerFactory {
     /**
     * Lecture des informations sur les listeners (qui écoute quel événement)
     */
-    private function _loadListeners () {
+    private function _loadListeners ()
+    {
         //have we compiled or load this before ?
         if ($this->_eventInfos === null) {
             //we have to compile, then go trhougth the modules.
@@ -134,7 +142,7 @@ class CopixListenerFactory {
                 foreach ($modulesList as $dir) {
                     $xmlFilename = CopixModule::getPath ($dir).'module.xml';
                     if (is_readable ($xmlFilename)){
-                        $xml = simplexml_load_file ($xmlFilename); 
+                        $xml = simplexml_load_file ($xmlFilename);
                         if (@isset ($xml->events->listeners->listener)){
                             foreach (is_array ($xml->events->listeners->listener) ? $xml->events->listeners->listener : array ($xml->events->listeners->listener) as $listener){
                                 //$listenTo = array ();
@@ -166,10 +174,11 @@ class CopixListenerFactory {
     * Ecriture du code PHP pour les listeners.
     * @param	array	$pEventsInfo	Tableau des informations sur les événements (qui écoute quoi)
     */
-    private function _writePHPCode ($pEventsInfos){
+    private function _writePHPCode ($pEventsInfos)
+    {
         $generator = new CopixPHPGenerator ();
         $_resources = $generator->getPHPTags ($generator->getVariableDeclaration ('$eventList', $pEventsInfos));
-        
+
         //writing the PHP code to the disk
         CopixFile::write ($this->_compiledFileName (), $_resources);
     }
@@ -178,24 +187,27 @@ class CopixListenerFactory {
     * Indique le nom du fichier cache à utiliser
     * @return string
     */
-    private static function _compiledFileName (){
+    private static function _compiledFileName ()
+    {
         return COPIX_CACHE_PATH.'php/listeners.instance.php';
     }
 
     /**
     * Supprime le fichier de cache
     */
-    public static function clearCompiledFile (){
+    public static function clearCompiledFile ()
+    {
         if (is_file (CopixListenerFactory::_compiledFileName())){
             unlink (CopixListenerFactory::_compiledFileName());
         }
     }
-    
+
     /**
     * Création des objets d'écoute pour un événement de nom donné
     * @param	string	$pEventName Le nom de l'événement pour lequel on crée les listeners
     */
-    private function _createForEvent ($pEventName) {
+    private function _createForEvent ($pEventName)
+    {
         if (! isset ($this->_hashListened[$pEventName])){
             $this->_hashListened[$pEventName] = array();
             if(isset($this->_eventInfos[$pEventName])){
@@ -212,7 +224,8 @@ class CopixListenerFactory {
     * @param 	string 	$pListenerName	le nom du listener
     * @return 	CopixListener
     */
-    private function _create ($pModule, $pListenerName){
+    private function _create ($pModule, $pListenerName)
+    {
         if (! isset ($this->_listenersSingleton[$pModule][$pListenerName])){
             Copix::RequireOnce (CopixModule::getPath ($pModule).'/'.COPIX_CLASSES_DIR.strtolower ($pListenerName).'.listener.php');
             $className = 'Listener'.$pListenerName;
@@ -221,4 +234,3 @@ class CopixListenerFactory {
         return $this->_listenersSingleton[$pModule][$pListenerName];
     }
 }
-?>

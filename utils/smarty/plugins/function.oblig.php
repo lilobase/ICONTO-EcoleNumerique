@@ -14,10 +14,9 @@
  * Name:     help<br>
  */
 
-function smarty_function_oblig ($params, &$smarty) {
-	$res = '<span class="asterisque">*</span>';
-	return $res;
+function smarty_function_oblig ($params, &$smarty)
+{
+    $res = '<span class="asterisque">*</span>';
+    return $res;
 }
-
-?>
 

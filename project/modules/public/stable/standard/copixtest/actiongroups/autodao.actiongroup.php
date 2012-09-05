@@ -13,21 +13,24 @@
  * @package standard
  * @subpackage copixtest
  */
-class ActionGroupAutoDAO extends CopixActionGroup {
-	/**
-	 * Affichage de la liste des éléments en base de données
-	 */
-	function getList (){
-		$ppo = new CopixPPO ();
-		$ppo->arData = _ioDAO ('copixtestautodao')->findAll ();
-		return _arPpo ($ppo, 'autodao.list.tpl');
-	}
+class ActionGroupAutoDAO extends CopixActionGroup
+{
+    /**
+     * Affichage de la liste des éléments en base de données
+     */
+    public function getList ()
+    {
+        $ppo = new CopixPPO ();
+        $ppo->arData = _ioDAO ('copixtestautodao')->findAll ();
+        return _arPpo ($ppo, 'autodao.list.tpl');
+    }
 
-	/**
-	 * Formulaire de modification ou de création d'un élément en base de données
-	 * On édite soit a partir de données passées en paramètre
-	 */
-	function getEdit (){
+    /**
+     * Formulaire de modification ou de création d'un élément en base de données
+     * On édite soit a partir de données passées en paramètre
+     */
+    public function getEdit ()
+    {
        $ppo = new CopixPPO ();
        $ppo->TITLE_PAGE = "Modification d'un élément";
        if (! ($ppo->toEdit = _ioDAO ('copixtestautodao')->get (CopixRequest::get ('id_test', null, true)))){
@@ -35,17 +38,17 @@ class ActionGroupAutoDAO extends CopixActionGroup {
        }
        $ppo->errors = CopixRequest::get ('errors', array (), true);
        return _arPpo ($ppo, 'autodao.form.tpl');
-	}
+    }
 
-	/**
-	 * Validation des éléments en base de données
-	 */
-	function doValid (){
-		try {
-			$record = _record ('copixtestautodao');
-		}catch (Exception $e){
-			return CopixActionGroup::process ();
-		}
-	} 
+    /**
+     * Validation des éléments en base de données
+     */
+    public function doValid ()
+    {
+        try {
+            $record = _record ('copixtestautodao');
+        }catch (Exception $e){
+            return CopixActionGroup::process ();
+        }
+    }
 }
-?>

@@ -12,5 +12,5 @@
 		<property name="updated_at" fieldname="updated_at" type="datetime"    table="gr2ville" pk="no"/>
 		<property name="updated_by" fieldname="updated_by" type="string"  table="gr2ville" pk="no"/>
  	</properties>
-	
+
 </daodefinition>

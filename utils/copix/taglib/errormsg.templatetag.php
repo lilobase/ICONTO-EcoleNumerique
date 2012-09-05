@@ -12,8 +12,10 @@
 * @package		copix
 * @subpackage	taglib
 */
-class TemplateTagErrorMsg extends CopixTemplateTag {
-    public function process($pParams) {
+class TemplateTagErrorMsg extends CopixTemplateTag
+{
+    public function process($pParams)
+    {
         extract($pParams);
 
         if (empty ($message)){
@@ -33,4 +35,3 @@ class TemplateTagErrorMsg extends CopixTemplateTag {
     }
 }
 
-?>

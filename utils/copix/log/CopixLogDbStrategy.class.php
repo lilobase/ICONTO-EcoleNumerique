@@ -14,70 +14,73 @@
  * @package   copix
  * @subpackage log
  */
-class CopixLogDbStrategy implements ICopixLogStrategy {
-	/**
-	 * Sauvegarde les logs dans le fichier
-	 *
-	 * @param String $pMessage log à sauvegarder
-	 * @param String $tab tableau d'option
-	 */
-	public function log ($pProfil, $pType, $pLevel, $pDate, $pMessage, $pArExtra){
-		$dao     = _ioDAO ('copixlog');
-		$newLogs = _record ('copixlog');
-		$newLogs->type	  = $pType;
-		$newLogs->date    = $pDate;
-		$newLogs->profile  = $pProfil;
-		$newLogs->level   = $pLevel;
-		$newLogs->message = $pMessage;
-		if(isset ($pArExtra['classname'])){
-			$newLogs->classname = $pArExtra['classname'];
-		}
-		if(isset ($pArExtra['line'])){
-			$newLogs->line = $pArExtra['line'];
-		}
-		if(isset ($pArExtra['file'])){
-			$newLogs->file = $pArExtra['file'];
-		}
-		if(isset ($pArExtra['functionname'])){
-			$newLogs->functionname = $pArExtra['functionname'];
-		}
-		if(isset ($pArExtra['user'])){
-			$newLogs->user = $pArExtra['user'];
-		}
-		$dao->insert ($newLogs);		
-	}
-	
-	/**
-	 * Supprimer tous les log de ce profil
-	 * @param	string	$pProfil	Le nom du profil dont on souhaite supprimer les contenus
-	 * @return int	nombre de logs supprimés 
-	 */
-	public function deleteProfile ($pProfil){		
-		return _ioDAO ('copixlog')->deleteBy (_daoSP ()->addCondition ('profile', '=', $pProfil));
-	}
-	
-	/**
-	 * Retourne les logs sous forme d'idérateur
-	 *
-	 * @param 	string	$pProfil	Nom du profil dont on souhaite afficher le contenu
-	 * @param 	int 	$pNbItems	Nombres d'items à afficher
-	 * @return 	Iterator
-	 */
-	public function getLog ($pProfil, $pNbItems = 20){
-		// Mise en place des limites
-		$page = CopixSession::get('log|numpage')-1;
-		$start = $page * $pNbItems;
+class CopixLogDbStrategy implements ICopixLogStrategy
+{
+    /**
+     * Sauvegarde les logs dans le fichier
+     *
+     * @param String $pMessage log à sauvegarder
+     * @param String $tab tableau d'option
+     */
+    public function log ($pProfil, $pType, $pLevel, $pDate, $pMessage, $pArExtra)
+    {
+        $dao     = _ioDAO ('copixlog');
+        $newLogs = _record ('copixlog');
+        $newLogs->type	  = $pType;
+        $newLogs->date    = $pDate;
+        $newLogs->profile  = $pProfil;
+        $newLogs->level   = $pLevel;
+        $newLogs->message = $pMessage;
+        if(isset ($pArExtra['classname'])){
+            $newLogs->classname = $pArExtra['classname'];
+        }
+        if(isset ($pArExtra['line'])){
+            $newLogs->line = $pArExtra['line'];
+        }
+        if(isset ($pArExtra['file'])){
+            $newLogs->file = $pArExtra['file'];
+        }
+        if(isset ($pArExtra['functionname'])){
+            $newLogs->functionname = $pArExtra['functionname'];
+        }
+        if(isset ($pArExtra['user'])){
+            $newLogs->user = $pArExtra['user'];
+        }
+        $dao->insert ($newLogs);
+    }
 
-		// Création du Search Params
-		$sp = _daoSP ()->addCondition ('profile', '=', $pProfil)
-		               ->orderBy (array ('date', 'DESC'));
+    /**
+     * Supprimer tous les log de ce profil
+     * @param	string	$pProfil	Le nom du profil dont on souhaite supprimer les contenus
+     * @return int	nombre de logs supprimés
+     */
+    public function deleteProfile ($pProfil)
+    {
+        return _ioDAO ('copixlog')->deleteBy (_daoSP ()->addCondition ('profile', '=', $pProfil));
+    }
 
-		$dbNbLines = _ioDAO ('copixlog')->countBy ($sp);
-		CopixSession::set ('log|nbpage', ceil ($dbNbLines/$pNbItems));
-		$sp = $sp ->setLimit ($start, $pNbItems);
+    /**
+     * Retourne les logs sous forme d'idérateur
+     *
+     * @param 	string	$pProfil	Nom du profil dont on souhaite afficher le contenu
+     * @param 	int 	$pNbItems	Nombres d'items à afficher
+     * @return 	Iterator
+     */
+    public function getLog ($pProfil, $pNbItems = 20)
+    {
+        // Mise en place des limites
+        $page = CopixSession::get('log|numpage')-1;
+        $start = $page * $pNbItems;
 
-		return _ioDAO ('copixlog')->findBy ($sp);
-	}
-    
+        // Création du Search Params
+        $sp = _daoSP ()->addCondition ('profile', '=', $pProfil)
+                       ->orderBy (array ('date', 'DESC'));
+
+        $dbNbLines = _ioDAO ('copixlog')->countBy ($sp);
+        CopixSession::set ('log|nbpage', ceil ($dbNbLines/$pNbItems));
+        $sp = $sp ->setLimit ($start, $pNbItems);
+
+        return _ioDAO ('copixlog')->findBy ($sp);
+    }
+
 }
-?>

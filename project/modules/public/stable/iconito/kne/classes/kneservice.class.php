@@ -1,8 +1,9 @@
 <?php
 
-class kneService extends enicService {
-
-    public function __construct() {
+class kneService extends enicService
+{
+    public function __construct()
+    {
         parent::__construct();
 
         //add to url
@@ -12,12 +13,14 @@ class kneService extends enicService {
         $this->active = FALSE;
     }
 
-    public function testAccess() {
+    public function testAccess()
+    {
         return ($this->active && in_array($this->user->type, array('USER_ELE', 'USER_ENS', 'USER_DIR', 'USER_DID')));
     }
 
-    function getRessources($id) {
-    		// $id = id de l'école
+    public function getRessources($id)
+    {
+            // $id = id de l'école
 
         if(!$this->testAccess())
             return '';
@@ -30,7 +33,7 @@ class kneService extends enicService {
 
         if (empty($school) || empty($school['RNE']))
             return '';
-        
+
         $params->RNE = $school['RNE'];
         $params->Profil = utf8_encode(($this->user->type == 'USER_ELE') ? 'Elève' :
                                 ($this->user->type == 'USER_DIR') ? 'Direction' :
@@ -38,7 +41,7 @@ class kneService extends enicService {
                                                 'Demo');
         // DEBUG: on force à élève
         // $params->Profil = utf8_encode('Elève');
-                                        
+
         //get all user parent's nodes (for classe)
         $userNode = Kernel::getNodeParents($this->user->type, $this->user->idEn);
         $classId = null;
@@ -50,15 +53,15 @@ class kneService extends enicService {
         }
         if (empty($classId))
             return '';
-        
+
         $params->Classe = $classId;
         $params->IDUser = $this->user->idEn . '@' . $params->RNE;
         $params->hash = md5($params->IDUser . $params->RNE . 'ENT');
-        
+
         $result = $client->AccesENT($params);
 
         // _dump($result);
-        
+
         if(is_a($result, 'SoapFault'))
             return 'confError';
 
@@ -68,13 +71,13 @@ class kneService extends enicService {
         $ressources = array();
 
         if( isset($result->AccesENTResult->InfoRessource) ) {
-	        if (is_object($result->AccesENTResult->InfoRessource)) {
-	            $ressources[] = $result->AccesENTResult->InfoRessource;
-	        } else {
-	            foreach ($result->AccesENTResult->InfoRessource AS $ressource) {
-	                $ressources[] = $ressource;
-	            }
-	        }
+            if (is_object($result->AccesENTResult->InfoRessource)) {
+                $ressources[] = $result->AccesENTResult->InfoRessource;
+            } else {
+                foreach ($result->AccesENTResult->InfoRessource AS $ressource) {
+                    $ressources[] = $ressource;
+                }
+            }
         }
         return $ressources;
     }

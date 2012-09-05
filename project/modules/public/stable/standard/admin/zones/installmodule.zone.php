@@ -1,7 +1,9 @@
 <?php
 
-class ZoneInstallModule extends CopixZone {
-	function _createContent (& $toReturn){
+class ZoneInstallModule extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
         $arModuleToInstall = CopixSession::get('arModuleToInstall','copix');
         $arInstalledModule = CopixSession::get('arInstalledModule','copix');
         $moduleName = array_pop($arModuleToInstall);
@@ -11,13 +13,13 @@ class ZoneInstallModule extends CopixZone {
             if (count($arModuleToInstall)>0) {
                 $toReturn .= _tag('copixzone',array ('id'=>uniqid(),'process'=>'admin|installmodule','url'=>$url,'auto'=>true,'ajax'=>true));
             } elseif($url) {
-            	$toReturn .= sprintf(
-            		'<form action="%s" method="post"><input type="submit" value="%s"/></form>',
-            		htmlspecialchars($url),
-            		_i18n('copix:common.buttons.next')
-            	);
+                $toReturn .= sprintf(
+                    '<form action="%s" method="post"><input type="submit" value="%s"/></form>',
+                    htmlspecialchars($url),
+                    _i18n('copix:common.buttons.next')
+                );
             } else {
-            	$toReturn .= "<script>$('back').setStyle('display','');</script>";
+                $toReturn .= "<script>$('back').setStyle('display','');</script>";
             }
             array_push($arInstalledModule,$moduleName);
         } else {
@@ -32,8 +34,7 @@ class ZoneInstallModule extends CopixZone {
             }
         }
         CopixSession::set('arModuleToInstall',$arModuleToInstall,'copix');
-        CopixSession::set('arInstalledModule',$arInstalledModule,'copix');        
+        CopixSession::set('arInstalledModule',$arInstalledModule,'copix');
         return true;
-	}
+    }
 }
-?>

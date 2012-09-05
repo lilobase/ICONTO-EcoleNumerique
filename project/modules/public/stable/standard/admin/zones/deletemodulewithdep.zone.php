@@ -1,7 +1,9 @@
 <?php
 
-class ZoneDeleteModuleWithDep extends CopixZone {
-	function _createContent (& $toReturn){
+class ZoneDeleteModuleWithDep extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
         $moduleName = CopixZone::getParam('moduleName');
         $arDependency = CopixModule::getDependenciesForDelete($moduleName);
         $tpl = new CopixTpl();
@@ -12,6 +14,5 @@ class ZoneDeleteModuleWithDep extends CopixZone {
         $tpl->assign('arModuleToDelete',$arDependency);
         $toReturn = $tpl->fetch('delete.script.tpl');
         return true;
-	}
+    }
 }
-?>

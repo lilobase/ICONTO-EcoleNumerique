@@ -1,16 +1,16 @@
 <div id="user_logged">
 
-	<?php if ($ppo->user->isConnected ()): ?>
+    <?php if ($ppo->user->isConnected ()): ?>
 
-		<p>		
-			Utilisateur : <strong><?php echo $ppo->user->getLogin ();
-			
-			 ?></strong> <?php if ($ppo->user->getIdPersonnel()) echo '('.trim($ppo->user->getExtra('prenom').' '.$ppo->user->getExtra('nom')).')'; ?> - <a href="<?php echo CopixUrl::get ('auth|log|out') ?>">Se d&eacute;connecter</a>
-		</p>
-		
-	<?php else: ?>
+        <p>
+            Utilisateur : <strong><?php echo $ppo->user->getLogin ();
 
-		<div style="font-size:90%">
+             ?></strong> <?php if ($ppo->user->getIdPersonnel()) echo '('.trim($ppo->user->getExtra('prenom').' '.$ppo->user->getExtra('nom')).')'; ?> - <a href="<?php echo CopixUrl::get ('auth|log|out') ?>">Se d&eacute;connecter</a>
+        </p>
+
+    <?php else: ?>
+
+        <div style="font-size:90%">
 <form action="{copixurl dest="auth||in"}" method="post" id="loginBar">
 
 <input type="hidden" name="auth_url_return" id="auth_url_return" value="{$url}" />
@@ -22,7 +22,7 @@
 
 {if $showRememberMe}{i18n key=auth|auth.rememberMe} : <input type="checkbox" name="rememberMe" id="rememberMe" value="1" />{/if}
 
-		 <input type="submit" class="submit button" value="{i18n key="auth.buttons.login"}" />
+         <input type="submit" class="submit button" value="{i18n key="auth.buttons.login"}" />
    </form>
 
 
@@ -32,6 +32,6 @@
 {/if}
 </div>
 
-	<?php endif ?>
+    <?php endif ?>
 
 </div>

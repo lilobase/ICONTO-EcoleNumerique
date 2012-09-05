@@ -13,8 +13,8 @@
  * Génération d'input text
  *
  */
-function smarty_function_autocomplete($params, $me) {
-    
+function smarty_function_autocomplete($params, $me)
+{
     if (!isset ($params['datasource'])) {
         $params['datasource'] = 'dao';
     }
@@ -22,7 +22,7 @@ function smarty_function_autocomplete($params, $me) {
     if (!isset ($params['field'])) {
         throw new Exception ('Vous devez remplir le champ "field"');
     }
-    
+
     if (isset ($params['assign'])) {
         $me->assign($params['assign'], _tag ('autocomplete', $params));
     }else {
@@ -30,4 +30,3 @@ function smarty_function_autocomplete($params, $me) {
     }
 }
 
-?>

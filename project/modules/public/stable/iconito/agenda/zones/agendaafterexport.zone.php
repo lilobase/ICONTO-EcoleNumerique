@@ -9,13 +9,12 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class ZoneAgendaAfterExport extends CopixZone {
+class ZoneAgendaAfterExport extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        $tpl = new CopixTpl ();
 
-	function _createContent (&$toReturn) {
-		
-		$tpl = new CopixTpl ();
-		
-		return true;
-	}
+        return true;
+    }
 }
-?>

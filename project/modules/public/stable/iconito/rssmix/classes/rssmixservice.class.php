@@ -1,9 +1,9 @@
 <?php
 
-class rssmixService extends enicService {
-
-    public function addRssUrl($url, $title, $image) {
-
+class rssmixService extends enicService
+{
+    public function addRssUrl($url, $title, $image)
+    {
         $imageName = '';
 
         if (!empty($image)) {
@@ -15,7 +15,8 @@ class rssmixService extends enicService {
         return $this->db->create('module_rssmix', array('url' => $this->db->quote($url), 'title' => $this->db->quote($title), 'image' => $this->db->quote($imageName)));
     }
 
-    public function deleteRssUrl($id) {
+    public function deleteRssUrl($id)
+    {
         $originaImageId = $this->db->query('SELECT image FROM module_rssmix WHERE id = ' . (int) $id)->toArray1();
 
         if (!empty($originaImageId['image'])) {
@@ -26,18 +27,18 @@ class rssmixService extends enicService {
         return $this->db->delete('module_rssmix', (int) $id);
     }
 
-    public function getRssUrl($id = null) {
-
+    public function getRssUrl($id = null)
+    {
         $where = (is_null($id)) ? '' : ' WHERE id = ' . (int) $id;
 
         return $this->db->query('SELECT * FROM module_rssmix' . $where)->toArray();
     }
 
-    public function updateRssUrl($id, $url, $title, $image) {
-
+    public function updateRssUrl($id, $url, $title, $image)
+    {
         $imageName = $this->db->query('SELECT image FROM module_rssmix WHERE id = ' . (int) $id)->toArray1();
         $imageName = $imageName['image'];
-        
+
         if (!empty($image)) {
 
             $imageClass = new enicImage();
@@ -51,11 +52,12 @@ class rssmixService extends enicService {
 
         return $this->db->update('module_rssmix', array('url' => $this->db->quote($url), 'id' => (int) $id, 'title' => $this->db->quote($title), 'image' => $this->db->quote($imageName)));
     }
-    
-    public function deleteImage($id){
+
+    public function deleteImage($id)
+    {
          $imageName = $this->db->query('SELECT image FROM module_rssmix WHERE id = ' . (int) $id)->toArray1();
          $imageName = $imageName['image'];
-         
+
             $imageClass = new enicImage();
             if (!empty($imageName)) {
                 $imageClass->delete($imageName);
@@ -64,16 +66,16 @@ class rssmixService extends enicService {
         return $this->db->update('module_rssmix', array('id' => $id, 'image' => '\'\''));
     }
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->feed = & enic::get('zend');
         enic::to_load('image');
 
         parent::__construct();
     }
 
-    public function getRssFeeds() {
-
-        
+    public function getRssFeeds()
+    {
         $urls = $this->getRssUrl();
 
         if (empty($urls))
@@ -87,30 +89,29 @@ class rssmixService extends enicService {
 
         foreach ($urls as $url) {
             $title = $url['title'];
-			
-			try {
-			$imagePath = '';
-			if(!empty($url['image'])){
-				$iC = new enicImage();
-				$imagePath = $iC->get($url['image'], 25, 25, 'crop');
-			}}
-			catch (Exception $e)
-			{
-				// Au cas où l'image n'existe plus
-			}
-			$rss = $this->getRssFeed($url['url'], $limit);
-			foreach ($rss as $key => $currentRss){
-				$rss[$key]['img'] = $imagePath;
-				$rss[$key]['fluxTitle'] = $title;
-			}
-			
+
+            try {
+            $imagePath = '';
+            if(!empty($url['image'])){
+                $iC = new enicImage();
+                $imagePath = $iC->get($url['image'], 25, 25, 'crop');
+            }} catch (Exception $e) {
+                // Au cas où l'image n'existe plus
+            }
+            $rss = $this->getRssFeed($url['url'], $limit);
+            foreach ($rss as $key => $currentRss){
+                $rss[$key]['img'] = $imagePath;
+                $rss[$key]['fluxTitle'] = $title;
+            }
+
             $item = array_merge($rss, $item);
         }
 
         return $item;
     }
 
-    public function getRssFeed($url, $limit = 3) {
+    public function getRssFeed($url, $limit = 3)
+    {
         $feed = Zend_Feed_Reader::import($url);
 
         $iterator = 1;

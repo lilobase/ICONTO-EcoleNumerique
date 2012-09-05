@@ -7,11 +7,11 @@
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/theme.css"); ?>" type="text/css"/>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css"/>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
-	<script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
+    <script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/iconito.js"></script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/prototype-1.6.0.3.js"></script>
   <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/lang_<?php echo CopixI18N::getLang(); ?>.js"></script>
-	<script type="text/javascript" src="<?php echo CopixUrl::get () ?>flvplayer/ufo.js"></script>
+    <script type="text/javascript" src="<?php echo CopixUrl::get () ?>flvplayer/ufo.js"></script>
   <link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
   <?php echo $HTML_HEAD; ?>
 </head>
@@ -32,8 +32,8 @@
 <?php if (1 || isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:null))); } ?>
 
 <div class="main <?php $module = CopixRequest::get ('module'); if ($module) echo $module; ?>">
-	<?php echo $MAIN; ?>
-	<br clear="all" /><br clear="all" />
+    <?php echo $MAIN; ?>
+    <br clear="all" /><br clear="all" />
 </div> <!-- fin main -->
 
 

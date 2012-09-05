@@ -1,17 +1,17 @@
 <?php
 
 
-class ZoneDashboardHelp extends CopixZone {
+class ZoneDashboardHelp extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        $ppo = new CopixPPO ();
+        $toReturn = "";
 
-	function _createContent (&$toReturn) {
-		$ppo = new CopixPPO ();		
-		$toReturn = "";
-		
-		$toReturn = $this->_usePPO ($ppo, 'dashboardhelp.tpl');
-		return true;
-	}
+        $toReturn = $this->_usePPO ($ppo, 'dashboardhelp.tpl');
+        return true;
+    }
 
 
 
 }
-?>

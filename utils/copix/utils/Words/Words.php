@@ -56,10 +56,10 @@ class Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  PHP 4.2.3
      */
-    function toWords($num, $locale = 'en_US') {
-
+    public function toWords($num, $locale = 'en_US')
+    {
         //include_once("Numbers/Words/lang.${locale}.php");
-				require_once(COPIX_UTILS_PATH.'Words/Words/lang.'.$locale.'.php');
+                require_once(COPIX_UTILS_PATH.'Words/Words/lang.'.$locale.'.php');
 
         $classname = "Numbers_Words_${locale}";
 
@@ -81,7 +81,7 @@ class Numbers_Words
     // {{{ toCurrency()
     /**
      * Converts a currency value to word representation (1.02 => one dollar two cents)
-     * If the number has not any fraction part, the "cents" number is omitted. 
+     * If the number has not any fraction part, the "cents" number is omitted.
      *
      * @param  float   $num   A float/integer/string number representing currency value
      *
@@ -98,7 +98,8 @@ class Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  PHP 4.2.3
      */
-    function toCurrency($num, $locale = 'en_US', $int_curr = '') {
+    public function toCurrency($num, $locale = 'en_US', $int_curr = '')
+    {
         $ret = $num;
 
         @include_once("Numbers/Words/lang.${locale}.php");
@@ -117,8 +118,7 @@ class Numbers_Words
 
         @$obj =& new $classname;
 
-        if (strpos($num, '.') === false)
-        {
+        if (strpos($num, '.') === false) {
           $ret      = trim($obj->toCurrencyWords($int_curr, $num));
         } else {
             $currency = explode('.', $num, 2);
@@ -147,10 +147,11 @@ class Numbers_Words
      * @access public
      * @static
      */
-    function getLocales($locale = null) {
+    public function getLocales($locale = null)
+    {
         $ret = array();
-       	if (isset($locale) && is_string($locale)) {
-       	    $locale = array($locale);
+           if (isset($locale) && is_string($locale)) {
+               $locale = array($locale);
         }
         $dname = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Words' . DIRECTORY_SEPARATOR;
         $dh=opendir($dname);
@@ -177,7 +178,7 @@ class Numbers_Words
     *
     * @param string error message
     */
-    function raiseError($msg)
+    public function raiseError($msg)
     {
         include_once('PEAR.php');
         return PEAR::raiseError($msg);
@@ -186,4 +187,3 @@ class Numbers_Words
 }
 
 // }}}
-?>

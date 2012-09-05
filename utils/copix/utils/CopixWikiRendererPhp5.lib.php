@@ -30,8 +30,8 @@ define('WIKIRENDERER_VERSION', '3.0-php5');
  * @package WikiRenderer
  * @see WikiInlineParser
  */
-abstract class WikiTag {
-
+abstract class WikiTag
+{
     public $beginTag='';
     public $endTag='';
     public $isTextLineTag=false;
@@ -50,7 +50,8 @@ abstract class WikiTag {
     /**
     * @param WikiRendererConfig $config
     */
-    function __construct($config){
+    public function __construct($config)
+    {
         $this->config = $config;
         $this->checkWikiWordFunction=$config->checkWikiWordFunction;
         if($config->checkWikiWordFunction === null) $this->checkWikiWordIn=array();
@@ -62,7 +63,8 @@ abstract class WikiTag {
     * @param string $wikiContent   the original content in wiki syntax if $parsedContent is given, or a simple string if not
     * @param string $parsedContent the content already parsed (by an other wikitag object), when this wikitag contents other wikitags
     */
-    public final function addContent($wikiContent, $parsedContent=false){
+    final public function addContent($wikiContent, $parsedContent=false)
+    {
         if($parsedContent === false){
             $parsedContent =$this->_doEscape($wikiContent);
             if(count( $this->checkWikiWordIn)
@@ -78,7 +80,8 @@ abstract class WikiTag {
     /**
     * called by the inline parser, when it found a separator
     */
-    public final function addseparator(){
+    final public function addseparator()
+    {
         $this->wikiContent.= $this->wikiContentArr[$this->separatorCount];
         $this->separatorCount++;
         if($this->separatorCount> count($this->separators))
@@ -96,7 +99,8 @@ abstract class WikiTag {
     * The tag can support many separator
     * @return string the separator
     */
-    public final function getCurrentSeparator(){
+    final public function getCurrentSeparator()
+    {
             return $this->separator;
     }
 
@@ -104,7 +108,8 @@ abstract class WikiTag {
     * return the wiki content of the tag
     * @return string the content
     */
-    public function getWikiContent(){
+    public function getWikiContent()
+    {
         return $this->beginTag.$this->wikiContent.$this->wikiContentArr[$this->separatorCount].$this->endTag;
     }
 
@@ -118,7 +123,8 @@ abstract class WikiTag {
     * return the generated content of the tag
     * @return string the content
     */
-    public function getBogusContent(){
+    public function getBogusContent()
+    {
         $c=$this->beginTag;
         $m= count($this->contents)-1;
         $s= count($this->separators);
@@ -138,11 +144,13 @@ abstract class WikiTag {
     /**
     * escape a simple string.
     */
-    protected function _doEscape($string){
+    protected function _doEscape($string)
+    {
         return $string;
     }
 
-    protected function _findWikiWord($string){
+    protected function _findWikiWord($string)
+    {
         if($this->checkWikiWordFunction !== null && preg_match_all("/(?<=\b)[A-Z][a-z]+[A-Z0-9]\w*/", $string, $matches)){
             $fct=$this->checkWikiWordFunction;
             $match = array_unique($matches[0]); // il faut avoir une liste sans doublon, à cause du str_replace suivant...
@@ -156,7 +164,8 @@ abstract class WikiTag {
 /**
  *
  */
-class WikiTextLine extends WikiTag {
+class WikiTextLine extends WikiTag
+{
     public $isTextLineTag=true;
 }
 
@@ -164,12 +173,14 @@ class WikiTextLine extends WikiTag {
 /**
  *
  */
-class WikiHtmlTextLine extends WikiTag {
+class WikiHtmlTextLine extends WikiTag
+{
     public $isTextLineTag=true;
     protected $attribute=array('$$');
     protected $checkWikiWordIn=array('$$');
 
-    protected function _doEscape($string){
+    protected function _doEscape($string)
+    {
         return htmlspecialchars($string);
     }
 }
@@ -179,12 +190,14 @@ class WikiHtmlTextLine extends WikiTag {
  * a base class for wiki inline tag, to generate XHTML element.
  * @package WikiRenderer
  */
-abstract class WikiTagXhtml extends WikiTag {
+abstract class WikiTagXhtml extends WikiTag
+{
    protected $name;
    protected $attribute=array('$$');
    protected $checkWikiWordIn=array('$$');
 
-   public function getContent(){
+   public function getContent()
+   {
         $attr='';
         $cntattr=count($this->attribute);
         $count=($this->separatorCount >= $cntattr?$cntattr-1:$this->separatorCount);
@@ -199,7 +212,8 @@ abstract class WikiTagXhtml extends WikiTag {
         return '<'.$this->name.$attr.'>'.$content.'</'.$this->name.'>';
    }
 
-   protected function _doEscape($string){
+   protected function _doEscape($string)
+   {
        return htmlspecialchars($string);
    }
 }
@@ -210,8 +224,8 @@ abstract class WikiTagXhtml extends WikiTag {
  * @package WikiRenderer
  * @abstract
  */
-class WikiInlineParser {
-
+class WikiInlineParser
+{
     public $error=false;
 
     protected $listTag=array();
@@ -227,7 +241,8 @@ class WikiInlineParser {
     * @param   array    $inlinetags liste des tags permis
     * @param   string   caractère séparateur des différents composants d'un tag wiki
     */
-    function __construct($config ){
+    public function __construct($config )
+    {
         $separators = array();
         $this->escapeChar = '\\';
         $this->config = $config;
@@ -258,7 +273,8 @@ class WikiInlineParser {
     * @param   string   $line avec des eventuels tag wiki
     * @return  string   chaine $line avec les tags wiki transformé en HTML
     */
-    public function parse($line){
+    public function parse($line)
+    {
         $this->error=false;
 
         $this->str = preg_split($this->splitPattern,$line, -1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
@@ -281,8 +297,8 @@ class WikiInlineParser {
     * coeur du parseur. Appelé récursivement
     * @return integer new position
     */
-    protected function _parse($tag, $posstart){
-
+    protected function _parse($tag, $posstart)
+    {
       $checkNextTag=true;
       $brutContent = '';
       // on parcours la chaine,  morceau aprés morceau
@@ -350,8 +366,8 @@ class WikiInlineParser {
  * classe de base pour la transformation des élements de type bloc
  * @abstract
  */
-abstract class WikiRendererBloc {
-
+abstract class WikiRendererBloc
+{
     /**
     * @var string  code identifiant le type de bloc
     */
@@ -390,7 +406,8 @@ abstract class WikiRendererBloc {
    /**
     * @param WikiRenderer    $wr   l'objet moteur wiki
     */
-   function __construct($wr){
+   public function __construct($wr)
+   {
       $this->engine = $wr;
    }
 
@@ -398,7 +415,8 @@ abstract class WikiRendererBloc {
     * renvoi une chaine correspondant à l'ouverture du bloc
     * @return string
     */
-   public function open(){
+   public function open()
+   {
       return $this->_openTag;
    }
 
@@ -406,7 +424,8 @@ abstract class WikiRendererBloc {
     * renvoi une chaine correspondant à la fermeture du bloc
     * @return string
     */
-   public function close(){
+   public function close()
+   {
       return $this->_closeTag;
    }
 
@@ -414,7 +433,8 @@ abstract class WikiRendererBloc {
     * indique si le bloc doit etre immédiatement fermé
     * @return string
     */
-   public function closeNow(){
+   public function closeNow()
+   {
       return $this->_closeNow;
    }
 
@@ -423,7 +443,8 @@ abstract class WikiRendererBloc {
     * @param string   $string
     * @return boolean   true: appartient au bloc
     */
-   public function detect($string){
+   public function detect($string)
+   {
       return preg_match($this->regexp, $string, $this->_detectMatch);
    }
 
@@ -432,7 +453,8 @@ abstract class WikiRendererBloc {
     * @return string
     * @abstract
     */
-   public function getRenderedLine(){
+   public function getRenderedLine()
+   {
       return $this->_renderInlineTag($this->_detectMatch[1]);
    }
 
@@ -442,7 +464,8 @@ abstract class WikiRendererBloc {
     * @return  string  la chaine transformée en XHTML
     * @see WikiRendererInline
     */
-   protected function _renderInlineTag($string){
+   protected function _renderInlineTag($string)
+   {
       return $this->engine->inlineParser->parse($string);
    }
 }
@@ -451,8 +474,8 @@ abstract class WikiRendererBloc {
 /**
  * classe de base pour la configuration
  */
-abstract class WikiRendererConfig {
-
+abstract class WikiRendererConfig
+{
    /**
     * @var array   liste des tags inline
    */
@@ -474,7 +497,8 @@ abstract class WikiRendererConfig {
     * methode invoquée avant le parsing
     * Peut être utilisée selon les besoins des rêgles
     */
-   public function onStart($texte){
+   public function onStart($texte)
+   {
         return $texte;
     }
 
@@ -482,7 +506,8 @@ abstract class WikiRendererConfig {
     * methode invoquée aprés le parsing
     * Peut être utilisée selon les besoins des rêgles
     */
-    public function onParse($finalTexte){
+    public function onParse($finalTexte)
+    {
         return $finalTexte;
     }
 
@@ -494,8 +519,8 @@ abstract class WikiRendererConfig {
  *      $ctr = new WikiRenderer();
  *      $monTexteXHTML = $ctr->render($montexte);
  */
-class WikiRenderer {
-
+class WikiRenderer
+{
    /**
     * @var   string   contient la version HTML du texte analysé
     */
@@ -526,8 +551,8 @@ class WikiRenderer {
    /**
     * instancie les différents objets pour le rendu des elements inline et bloc.
     */
-   function __construct( $config=null){
-
+   public function __construct( $config=null)
+   {
       if(is_string($config)){
           $f = WIKIRENDERER_PATH.'rules/'.basename($config).'.php';
           if(file_exists($f)){
@@ -554,7 +579,8 @@ class WikiRenderer {
     * @param   string  $texte le texte à convertir
      * @return  string  le texte converti en XHTML
     */
-   public function render($texte){
+   public function render($texte)
+   {
       $texte = $this->config->onStart($texte);
 
       $lignes=preg_split("/\015\012|\015|\012/",$texte); // on remplace les \r (mac), les \n (unix) et les \r\n (windows) par un autre caractère pour découper proprement
@@ -631,14 +657,15 @@ class WikiRenderer {
      * @access public
      * @return string   version
      */
-    public function getVersion(){
+    public function getVersion()
+    {
        return WIKIRENDERER_VERSION;
     }
 
-    public function getConfig(){
+    public function getConfig()
+    {
         return $this->config;
     }
 
 }
 
-?>

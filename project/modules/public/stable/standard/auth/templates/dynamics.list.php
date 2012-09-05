@@ -4,7 +4,7 @@
 <input type="hidden" name="url_return" value="<?php echo $ppo->url_return; ?>" />
 <ul>
 <?php
-    
+
     foreach ($ppo->list as $dc) {
         echo '<li>';
         echo $dc->record->name_dc;
@@ -17,7 +17,7 @@
                 echo '<li>'.$value->value_dcv.'('.$value->level_dcv.')';
                 echo '<a href="'._url('auth|dynamic|delete',array('id_dcv'=>$value->id_dcv,"id_group"=>$ppo->id_group,'handler_group'=>$ppo->handler_group,'url_return'=>$ppo->url_return)).'"><img src="'._resource('img/tools/delete.png').'" /></a>';
                 echo '<input type="checkbox" name="bool['.$dc->record->id_dc.'|'.$value->id_dcv.']" value="1" '.$value->checked.' /><input type="hidden" name="value[]" value="'.$dc->record->id_dc.'|'.$value->id_dcv.'" />';
-    			echo '</li>';
+                echo '</li>';
             }
             echo '</ul>';
         }

@@ -21,4 +21,3 @@ $getUserExtMod	= new CopixAction ('Comptes', 'getUserExtMod'); // Formulaire de 
 
 $default		= & $go;
 
-?>

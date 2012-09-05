@@ -2,12 +2,12 @@
 
 /**
  * Zone Edition, qui affiche une zone de saisie selon le format choisi (wiki, html, fckeditor...)
- * 
+ *
  * @package Iconito
  * @subpackage	Kernel
  */
-class ZoneEdition extends CopixZone {
-
+class ZoneEdition extends CopixZone
+{
     /**
      * Affiche la série de boutons permettant à l'utilisateur de mettre en forme simplement le texte qu'il saisit dans une zone de texte libre.
      *
@@ -21,7 +21,8 @@ class ZoneEdition extends CopixZone {
      * @param integer $height (option) Hauteur de la zone de saisie
      * @param array $options (option) Options permettant de personnaliser la zone
      */
-    function _createContent(&$toReturn) {
+    public function _createContent(&$toReturn)
+    {
         $tpl = new CopixTpl ();
 
         $field = $this->getParam('field', NULL);
@@ -37,11 +38,8 @@ class ZoneEdition extends CopixZone {
 
         if ($field && $format) {
 
-            if ('USER' === $object)
-            {
-            }
-            else
-            {
+            if ('USER' === $object) {
+            } else {
                 $object_type = (isset($object['type'])) ? $object['type'] : null;
                 $object_id = (isset($object['id'])) ? $object['id'] : null;
                 $object = ($object_type && $object_id) ? array('type' => $object_type, 'id' => $object_id) : null;
@@ -85,4 +83,3 @@ class ZoneEdition extends CopixZone {
 
 }
 
-?>

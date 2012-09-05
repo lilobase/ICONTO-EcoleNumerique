@@ -19,21 +19,21 @@
 * @param array $params les paramètres passés au tag
 * @param Smarty $me l'objet Smarty en cours d'exécution
 */
-function smarty_function_copixzone ($params, &$me) {
-	//On regarde si l'on assigne la sortie à un élément
-	if (isset ($params['assign'])){
-		$assign = $params['assign'];
-		unset ($params['assign']);
-	}else{
-		$assign = null;
-	}
+function smarty_function_copixzone ($params, &$me)
+{
+    //On regarde si l'on assigne la sortie à un élément
+    if (isset ($params['assign'])){
+        $assign = $params['assign'];
+        unset ($params['assign']);
+    }else{
+        $assign = null;
+    }
 
-	$toReturn = _tag ('copixzone', $params);
-	if (strlen ($assign) > 0) {
-		$me->assign ($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+    $toReturn = _tag ('copixzone', $params);
+    if (strlen ($assign) > 0) {
+        $me->assign ($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

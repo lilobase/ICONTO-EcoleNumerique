@@ -13,14 +13,14 @@
 class StatsServices
 {
 
-    function human_file_size($size)
+    public function human_file_size($size)
     {
         $filesizename = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB", " ZB", " YB");
         return ($size) ? round($size / pow(1024, ($i = floor(log($size, 1024)))), 2) .
             $filesizename[$i] : "0";
     }
 
-    function human2octets($chaine)
+    public function human2octets($chaine)
     {
         $ok = preg_match('/^(\d+)([K|k|M|m|G|g])/', $chaine, $size);
         if ($ok) {

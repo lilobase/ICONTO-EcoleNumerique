@@ -333,7 +333,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
     {
         if ($options instanceof Zend_Config) {
             $options = $options->toArray();
-        } else if (!is_array($options)) {
+        } elseif (!is_array($options)) {
             $options = func_get_args();
             $temp['allow'] = array_shift($options);
             if (!empty($options)) {
@@ -513,14 +513,14 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
         }
 
         // RFC3986 3.2.2 states:
-        // 
+        //
         //     The rightmost domain label of a fully qualified domain name
-        //     in DNS may be followed by a single "." and should be if it is 
+        //     in DNS may be followed by a single "." and should be if it is
         //     necessary to distinguish between the complete domain name and
         //     some local domain.
-        //     
+        //
         // (see ZF-6363)
-        
+
         // Local hostnames are allowed to be partitial (ending '.')
         if ($this->_options['allow'] & self::ALLOW_LOCAL) {
             if (substr($value, -1) === '.') {
@@ -648,7 +648,7 @@ class Zend_Validate_Hostname extends Zend_Validate_Abstract
             if ($status && ($this->_options['allow'] & self::ALLOW_DNS)) {
                 return true;
             }
-        } else if ($this->_options['allow'] & self::ALLOW_DNS) {
+        } elseif ($this->_options['allow'] & self::ALLOW_DNS) {
             $this->_error(self::INVALID_HOSTNAME);
         }
 

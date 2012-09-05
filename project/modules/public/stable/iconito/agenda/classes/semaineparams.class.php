@@ -8,11 +8,10 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class SemaineParams {
-	
-	var $agendas = array();
-	var $numSemaine;
-	var $annee;
+class SemaineParams
+{
+    public $agendas = array();
+    public $numSemaine;
+    public $annee;
 
 }
-?>

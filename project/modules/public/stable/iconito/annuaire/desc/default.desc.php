@@ -11,4 +11,3 @@ $getPopup						= new CopixAction ('Annuaire', 'getPopup');
 
 $default						= & $go;
 
-?>

@@ -20,16 +20,15 @@
  */
 function smarty_block_strip($params, $content, &$smarty)
 {
-	/* Reformat data between 'strip' and '/strip' tags, removing spaces, tabs and newlines. */
-	$_strip_search = array(
-		"![\t ]+$|^[\t ]+!m", // remove leading/trailing space chars
-		'%[\r\n]+%m'); // remove CRs and newlines
-	$_strip_replace = array(
-		'',
-		'');
-	return preg_replace($_strip_search, $_strip_replace, $content);
+    /* Reformat data between 'strip' and '/strip' tags, removing spaces, tabs and newlines. */
+    $_strip_search = array(
+        "![\t ]+$|^[\t ]+!m", // remove leading/trailing space chars
+        '%[\r\n]+%m'); // remove CRs and newlines
+    $_strip_replace = array(
+        '',
+        '');
+    return preg_replace($_strip_search, $_strip_replace, $content);
 }
 
 /* vim: set expandtab: */
 
-?>

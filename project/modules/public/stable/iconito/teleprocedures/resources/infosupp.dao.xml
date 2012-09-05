@@ -25,7 +25,7 @@
          type="int"
          required="yes"
          />
--->		 
+-->
   <property name="iduser"
          captioni18n="copix:exemple.dao.intervention.fields.iduser"
          type="int"
@@ -35,8 +35,8 @@
          captioni18n="copix:exemple.dao.intervention.fields.dateinter"
          type="datetime"
          required="yes"
-         /> 
-	 
+         />
+
 <property name="info_message"
          captioni18n="copix:exemple.dao.intervention.fields.detail"
          type="string"

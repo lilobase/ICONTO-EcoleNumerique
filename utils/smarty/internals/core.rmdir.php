@@ -33,8 +33,7 @@ function smarty_core_rmdir($params, &$smarty)
                         'exp_time' => $params['exp_time']
                     );
                     smarty_core_rmdir($_params, $smarty);
-                }
-                else {
+                } else {
                     $smarty->_unlink($params['dirname'] . DIRECTORY_SEPARATOR . $_entry, $params['exp_time']);
                 }
             }
@@ -51,4 +50,3 @@ function smarty_core_rmdir($params, &$smarty)
 
 /* vim: set expandtab: */
 
-?>

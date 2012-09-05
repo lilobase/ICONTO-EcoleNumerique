@@ -7,4 +7,3 @@ $delete     = new CopixAction ('Ien', 'getDelete');
 
 $default		= & $list;
 
-?>

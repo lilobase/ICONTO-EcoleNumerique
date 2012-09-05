@@ -44,35 +44,35 @@ class Numbers_Words_et extends Numbers_Words
 {
 
     // {{{ properties
-    
+
     /**
      * Locale name
      * @var string
      * @access public
      */
-    var $locale      = 'et';
+    public $locale      = 'et';
 
     /**
      * Language name in English
      * @var string
      * @access public
      */
-    var $lang        = 'Estonian';
+    public $lang        = 'Estonian';
 
     /**
      * Native language name
      * @var string
      * @access public
      */
-    var $lang_native = 'eesti keel';
-    
+    public $lang_native = 'eesti keel';
+
     /**
      * The word for the minus sign
      * @var string
      * @access private
      */
-    var $_minus = 'miinus'; // minus sign
-    
+    public $_minus = 'miinus'; // minus sign
+
     /**
      * The sufixes for exponents (singular and plural)
      * Names partly based on:
@@ -82,7 +82,7 @@ class Numbers_Words_et extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_exponent = array(
+    public $_exponent = array(
         0 => array(''),
         3 => array('tuhat'),
         6 => array('miljon'),
@@ -201,7 +201,7 @@ class Numbers_Words_et extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_digits = array(
+    public $_digits = array(
         0 => 'null', 'üks', 'kaks', 'kolm', 'neli',
         'viis', 'kuus', 'seitse', 'kaheksa', 'üheksa'
     );
@@ -211,7 +211,7 @@ class Numbers_Words_et extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_sep = ' ';
+    public $_sep = ' ';
 
     // }}}
     // {{{ toWords()
@@ -232,17 +232,18 @@ class Numbers_Words_et extends Numbers_Words
      * @access public
      * @since  PHP 4.2.3
      */
-    function toWords($num, $power = 0, $powsuffix = '') {
-      $ret = '';        
-      
+    public function toWords($num, $power = 0, $powsuffix = '')
+    {
+      $ret = '';
+
       if (substr($num, 0, 1) == '-') {
         $ret = $this->_sep . $this->_minus;
         $num = substr($num, 1);
       }
-        
+
       $num = trim($num);
       $num = preg_replace('/^0+/','',$num);
-        
+
       if (strlen($num) > 3) {
           $maxp = strlen($num)-1;
           $curp = $maxp;
@@ -267,9 +268,9 @@ class Numbers_Words_et extends Numbers_Words
       } elseif ($num == 0 || $num == '') {
         return $this->_sep . $this->_digits[0];
       }
-    
+
       $h = $t = $d = 0;
-      
+
       switch(strlen($num)) {
         case 3:
           $h = (int)substr($num,-3,1);
@@ -285,7 +286,7 @@ class Numbers_Words_et extends Numbers_Words
           return;
           break;
       }
-    
+
       if ($h) {
         $ret .= $this->_sep . $this->_digits[$h] . 'sada';
 
@@ -302,13 +303,13 @@ class Numbers_Words_et extends Numbers_Words
       case 2:
           $ret .= $this->_sep . $this->_digits[$t] . 'kümmend';
           break;
-    
+
       case 1:
           switch ($d) {
           case 0:
               $ret .= $this->_sep . 'kümme';
               break;
-    
+
           case 1:
           case 2:
           case 3:
@@ -321,7 +322,7 @@ class Numbers_Words_et extends Numbers_Words
               $ret .= $this->_sep . $this->_digits[$d] . 'teist';
               break;
           }
-          break; 
+          break;
       }
       if ($t != 1 && $d > 0) {
         if ($t > 1) {
@@ -333,17 +334,16 @@ class Numbers_Words_et extends Numbers_Words
       if ($power > 0) {
         if (isset($this->_exponent[$power]))
           $lev = $this->_exponent[$power];
-    
+
         if (!isset($lev) || !is_array($lev))
           return null;
         $ret .= $this->_sep . $lev[0].($num != 1 && $power!= 3 ? 'it' : '');
       }
       if ($powsuffix != '')
         $ret .= $this->_sep . $powsuffix;
-    
+
       return $ret;
     }
     // }}}
 }
 
-?>

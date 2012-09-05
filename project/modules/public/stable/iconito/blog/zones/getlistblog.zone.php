@@ -17,22 +17,24 @@
 
 _classInclude('blog|blogauth');
 
-class ZoneGetListBlog extends CopixZone {
-   function _createContent (&$toReturn) {
+class ZoneGetListBlog extends CopixZone
+{
+   public function _createContent (&$toReturn)
+   {
       //Getting the user.
       //Create Services, and DAO
       $tpl = new CopixTpl ();
 
       $res = $this->getParam('resultats',null);
-      
+
       //capability
       $tpl->assign ('canCreate' , BlogAuth::canCreate());
-			$resultats = array();
-			foreach($res as $r) {
-	      $r->canWrite = BlogAuth::canWrite($r->id_blog);
-	      $r->canRead = BlogAuth::canRead($r->id_blog);
-				array_push($resultats, $r);
-			}
+            $resultats = array();
+            foreach($res as $r) {
+          $r->canWrite = BlogAuth::canWrite($r->id_blog);
+          $r->canRead = BlogAuth::canRead($r->id_blog);
+                array_push($resultats, $r);
+            }
 
       $tpl->assign ('resultats', $resultats);
       // retour de la fonction :
@@ -40,4 +42,3 @@ class ZoneGetListBlog extends CopixZone {
       return true;
    }
 }
-?>

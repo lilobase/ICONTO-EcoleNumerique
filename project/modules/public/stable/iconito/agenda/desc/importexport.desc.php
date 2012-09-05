@@ -16,4 +16,3 @@ $prepareExport  = new CopixAction ('ImportExport', 'processGetPrepareExport');
 $export         = new CopixAction ('ImportExport', 'doExport');
 $afterExport    = new CopixAction ('ImportExport', 'getAfterExport');
 
-?>

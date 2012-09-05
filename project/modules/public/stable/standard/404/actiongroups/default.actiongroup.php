@@ -8,29 +8,29 @@
  */
 
 /**
- * @package		standard 
- * @subpackage	404 
+ * @package		standard
+ * @subpackage	404
  */
-class ActionGroupDefault extends CopixActionGroup {
+class ActionGroupDefault extends CopixActionGroup
+{
+    /**
+     * Action par défaut
+     *
+     * @return CopixPPO
+     */
+    public function processDefault ()
+    {
+        $ppo = new CopixPPO ();
+        $ppo->home_url = CopixConfig::get ('default|homePage');
+        if (strpos ($ppo->home_url , 'http://')!==0){
+            $ppo->home_url  = _url ().$ppo->home_url;
+        }
+        $ppo->search_url = CopixConfig::get ('404|search_url');
+        $ppo->sitemap_url = CopixConfig::get ('404|sitemap_url');
 
-	/**
-	 * Action par défaut
-	 *
-	 * @return CopixPPO
-	 */
-	function processDefault (){
-		$ppo = new CopixPPO ();
-		$ppo->home_url = CopixConfig::get ('default|homePage');
-		if (strpos ($ppo->home_url , 'http://')!==0){
-			$ppo->home_url  = _url ().$ppo->home_url;
-		}
-		$ppo->search_url = CopixConfig::get ('404|search_url');
-		$ppo->sitemap_url = CopixConfig::get ('404|sitemap_url');
-
-		// Mise en place des en-têtes 404
-		header ("HTTP/1.0 404 Not Found");	
-		header ("Status: 404 Not found");
-		return _arPPO ($ppo, 'default.tpl');
-	}
+        // Mise en place des en-têtes 404
+        header ("HTTP/1.0 404 Not Found");
+        header ("Status: 404 Not found");
+        return _arPPO ($ppo, 'default.tpl');
+    }
 }
-?>

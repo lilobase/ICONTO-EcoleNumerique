@@ -16,28 +16,29 @@
 
 _classInclude('blog|blogauth');
 
-class ZoneShowBlogFluxRss extends CopixZone {
-	function _createContent (&$toReturn) {
-		//Getting the user.
-		//Create Services, and DAO
-		$tpl = new CopixTpl ();
+class ZoneShowBlogFluxRss extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        //Getting the user.
+        //Create Services, and DAO
+        $tpl = new CopixTpl ();
 
-		$id_blog = $this->getParam('id_blog', '');
-		//capability
-		//$tpl->assign ('canManageRss' , BlogAuth::canMakeInBlog('ADMIN_RSS',create_blog_object($id_blog)));
+        $id_blog = $this->getParam('id_blog', '');
+        //capability
+        //$tpl->assign ('canManageRss' , BlogAuth::canMakeInBlog('ADMIN_RSS',create_blog_object($id_blog)));
 
-		$tpl->assign ('id_blog', $id_blog);
-		$tpl->assign ('kind', $this->getParam('kind', ''));
+        $tpl->assign ('id_blog', $id_blog);
+        $tpl->assign ('kind', $this->getParam('kind', ''));
 
-		// Recherche de tous les liens RSS de la base
-		$blogRssDAO = _dao('blog|blogfluxrss');
-		$tabRss = $blogRssDAO->findAllOrder($id_blog);
+        // Recherche de tous les liens RSS de la base
+        $blogRssDAO = _dao('blog|blogfluxrss');
+        $tabRss = $blogRssDAO->findAllOrder($id_blog);
 
-		$tpl->assign ('tabRss', $tabRss);
+        $tpl->assign ('tabRss', $tabRss);
 
-		// retour de la fonction :
-		$toReturn = $tpl->fetch('blog.show.fluxrss.tpl');
-		return true;
-	}
+        // retour de la fonction :
+        $toReturn = $tpl->fetch('blog.show.fluxrss.tpl');
+        return true;
+    }
 }
-?>

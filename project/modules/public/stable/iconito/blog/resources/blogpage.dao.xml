@@ -74,7 +74,7 @@
 	            type="string"
 	            maxlength="8"
 	            required="yes"
-	            />	            
+	            />
 	     <property name="url_bpge"
 	            fieldName="url_bpge"
 	            captioni18n="dao.blogpage.fields.url_bpge"

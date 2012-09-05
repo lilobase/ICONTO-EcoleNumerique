@@ -17,19 +17,19 @@
  *
  * Examples:
  */
-function smarty_function_currenturl($params, &$me) {
-	if (isset($params['notxml'])){
-		$isxml = ($params['notxml'] == 'true' ? false : true);
-	}else{
-		$isxml = true;
-	}
+function smarty_function_currenturl($params, &$me)
+{
+    if (isset($params['notxml'])){
+        $isxml = ($params['notxml'] == 'true' ? false : true);
+    }else{
+        $isxml = true;
+    }
 
-	$assign = CopixUrl::getCurrentUrl ($isxml);
-	if (isset ($params['assign'])){
-		$me->assign($params['assign'], $assign);
-		return '';
-	}else{
-		return $assign;
-	}
+    $assign = CopixUrl::getCurrentUrl ($isxml);
+    if (isset ($params['assign'])){
+        $me->assign($params['assign'], $assign);
+        return '';
+    }else{
+        return $assign;
+    }
 }
-?>

@@ -13,22 +13,23 @@
  * @package standard
  * @subpackage	plugin_print
  */
-class PluginDefaultConfigPrint {
-	/**
+class PluginDefaultConfigPrint
+{
+    /**
     * Template we're gonna use to print with
     */
-	public $templatePrint;
+    public $templatePrint;
 
-	/**
+    /**
     * says the command needed to activate the print plugin.
     * format: _runPrintUrl['name']=Value
     * will activate the print plugin on index.php?name=value
     */
-	public $runPrintUrl;
+    public $runPrintUrl;
 
-	public function __construct(){
-		$this->templatePrint = 'default|main.print.tpl';
-		$this->runPrintUrl = array ('toPrint'=>'1');
-	}
+    public function __construct()
+    {
+        $this->templatePrint = 'default|main.print.tpl';
+        $this->runPrintUrl = array ('toPrint'=>'1');
+    }
 }
-?>

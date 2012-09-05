@@ -12,13 +12,13 @@
 /**
  * Tag permettant de générer rapidement une image et un lien sur une image dans img/tools/
  */
-function smarty_function_copixicon ($params, $me) {
-	if (isset ($params['assign'])) {
-		$assignVar = $params['assign'];
-		unset ($params['assign']);
+function smarty_function_copixicon ($params, $me)
+{
+    if (isset ($params['assign'])) {
+        $assignVar = $params['assign'];
+        unset ($params['assign']);
         $me->assign ($assignVar, _tag ('copixicon', $params));
     }else {
         return _tag ('copixicon', $params);
     }
 }
-?>

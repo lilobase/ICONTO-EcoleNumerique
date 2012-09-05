@@ -5,7 +5,7 @@
  * @author Croës Gérald
  * @copyright	CopixTeam
  * @link		http://copix.org
- * @license		http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file 
+ * @license		http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
  */
 
 /**
@@ -13,9 +13,10 @@
  * @package copix
  * @subpackage validator
  */
-class CopixValidatorInArray extends CopixAbstractValidator {
-	protected function _validate ($pValue) {
-		return in_array ($pValue, $this->getParam ('values'));
-	}
+class CopixValidatorInArray extends CopixAbstractValidator
+{
+    protected function _validate ($pValue)
+    {
+        return in_array ($pValue, $this->getParam ('values'));
+    }
 }
-?>

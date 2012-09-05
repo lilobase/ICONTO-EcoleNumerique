@@ -12,7 +12,7 @@
 /**
  * Inclusion des librairies mootools
  */
-function smarty_function_mootools ($pParams, &$smarty) {
+function smarty_function_mootools ($pParams, &$smarty)
+{
    _tag ('mootools', $pParams);
 }
-?>

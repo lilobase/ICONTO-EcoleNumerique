@@ -14,7 +14,8 @@ require_once(DOKU_INC.'inc/HTTPClient.php');
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function checkUpdateMessages(){
+function checkUpdateMessages()
+{
     global $conf;
     global $INFO;
     if(!$conf['updatecheck']) return;
@@ -48,7 +49,8 @@ function checkUpdateMessages(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function getVersion(){
+function getVersion()
+{
   //import version string
   if(@file_exists(DOKU_INC.'VERSION')){
     //official release
@@ -75,7 +77,8 @@ function getVersion(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function check(){
+function check()
+{
   global $conf;
   global $INFO;
 
@@ -117,9 +120,9 @@ function check(){
 
   if (@file_exists($conf['changelog'].'_failed')) {
     msg('Importing old changelog failed', -1);
-  } else if (@file_exists($conf['changelog'].'_importing')) {
+  } elseif (@file_exists($conf['changelog'].'_importing')) {
     msg('Importing old changelog now.', 0);
-  } else if (@file_exists($conf['changelog'].'_import_ok')) {
+  } elseif (@file_exists($conf['changelog'].'_import_ok')) {
     msg('Old changelog imported', 1);
     if (!plugin_isdisabled('importoldchangelog')) {
       msg('Importoldchangelog plugin not disabled after import', -1);
@@ -219,7 +222,8 @@ function check(){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @see    html_msgarea
  */
-function msg($message,$lvl=0,$line='',$file=''){
+function msg($message,$lvl=0,$line='',$file='')
+{
   global $MSG;
   $errors[-1] = 'error';
   $errors[0]  = 'info';
@@ -249,7 +253,8 @@ function msg($message,$lvl=0,$line='',$file=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function dbg($msg,$hidden=false){
+function dbg($msg,$hidden=false)
+{
   (!$hidden) ? print '<pre class="dbg">' : print "<!--\n";
   print_r($msg);
   (!$hidden) ? print '</pre>' : print "\n-->";
@@ -260,7 +265,8 @@ function dbg($msg,$hidden=false){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function dbglog($msg){
+function dbglog($msg)
+{
   global $conf;
   $file = $conf['cachedir'].'/debug.log';
   $fh = fopen($file,'a');
@@ -275,7 +281,8 @@ function dbglog($msg){
  *
  * @author Gary Owen <gary_owen@bigfoot.com>
  */
-function dbg_backtrace(){
+function dbg_backtrace()
+{
   // Get backtrace
   $backtrace = debug_backtrace();
 

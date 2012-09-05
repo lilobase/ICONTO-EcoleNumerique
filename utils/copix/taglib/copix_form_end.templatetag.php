@@ -13,14 +13,15 @@
  * @package		copix
  * @subpackage	taglib
  */
- class TemplateTagCopix_Form_End extends CopixTemplateTag {
+ class TemplateTagCopix_Form_End extends CopixTemplateTag
+ {
     /**
      * Demande d'exécution du tag
      */
-    public function process ($pParams, $pContent=null) {
-    	//récupération du formulaire, création d'un nouveau formulaire si besoin
-    	$form = CopixFormFactory::get (isset ($pParams['id']) ? $pParams['id'] : null);
-    	return '</form>';
- 	} 	
- } 
-?>
+    public function process ($pParams, $pContent=null)
+    {
+        //récupération du formulaire, création d'un nouveau formulaire si besoin
+        $form = CopixFormFactory::get (isset ($pParams['id']) ? $pParams['id'] : null);
+        return '</form>';
+     }
+ }

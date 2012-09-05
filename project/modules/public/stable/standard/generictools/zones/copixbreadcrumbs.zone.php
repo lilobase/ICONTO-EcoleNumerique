@@ -1,6 +1,6 @@
 <?php
 /**
-* @package		standard 
+* @package		standard
  * @subpackage	generictools
 * @version    1.0
 * @author     Nicolas CHARLOT, nicolas.charlot@isics.fr
@@ -17,38 +17,39 @@
 * - rootLink      : url du lien racine (ne sert à rien si le texte du lien n'est pas précisé)
 * - rootText      : texte du lien racine
 * - template      : template à utiliser (si non précisé, 'breadcrumbs.tpl' est pris par défaut)
-* @package		standard 
+* @package		standard
  * @subpackage	generictools
 */
-class ZoneCopixBreadcrumbs extends CopixZone {
-	function  _createContent (& $toReturn){
-		$tpl = new CopixTpl ();
+class ZoneCopixBreadcrumbs extends CopixZone
+{
+    public function  _createContent (& $toReturn)
+    {
+        $tpl = new CopixTpl ();
 
-		// ID du fil à afficher (Si non précisé, on prend 'main' par défaut)
-		$breadcrumbsId = $this->getParam ('breadcrumbsId', 'main');
+        // ID du fil à afficher (Si non précisé, on prend 'main' par défaut)
+        $breadcrumbsId = $this->getParam ('breadcrumbsId', 'main');
 
-		$cBc = CopixClassesFactory::getInstanceOf ('generictools|CopixBreadcrumbs', $breadcrumbsId);
+        $cBc = CopixClassesFactory::getInstanceOf ('generictools|CopixBreadcrumbs', $breadcrumbsId);
 
-		// Niveau de départ (Si non précisé, on prend 0 par défaut, c'est à dire la racine)
-		$from = $this->getParam ('from', 0);
+        // Niveau de départ (Si non précisé, on prend 0 par défaut, c'est à dire la racine)
+        $from = $this->getParam ('from', 0);
 
-		// Titre éventuel du fil d'ariane (ex. : "Vous êtes ici :")
-		$tpl->assign ('title', $this->getParam ('title', null));
+        // Titre éventuel du fil d'ariane (ex. : "Vous êtes ici :")
+        $tpl->assign ('title', $this->getParam ('title', null));
 
-		// Récupération du fil d'ariane (tableau de liens)
-		$arCBcItems = $cBc->getItems ($from);
+        // Récupération du fil d'ariane (tableau de liens)
+        $arCBcItems = $cBc->getItems ($from);
 
-		// Racine du chemin (si l'url n'est pas précisée, on prend celle de la page par défaut)
-		if (isset ($this->_params['rootText']) && $from == 0){
-			$link = $this->getParam ('rootLink', CopixUrl::get ().CopixConfig::get ('|homePage'));
-			array_unshift ($arCBcItems, new CopixBreadcrumbsItem ($link, $this->_params['rootText']));// Ajout de l'élément racine en DEBUT de fil (d'où le dernier paramètre à vrai)
-		}
-		$tpl->assign ('arBreadcrumbsItems', $arCBcItems);
+        // Racine du chemin (si l'url n'est pas précisée, on prend celle de la page par défaut)
+        if (isset ($this->_params['rootText']) && $from == 0){
+            $link = $this->getParam ('rootLink', CopixUrl::get ().CopixConfig::get ('|homePage'));
+            array_unshift ($arCBcItems, new CopixBreadcrumbsItem ($link, $this->_params['rootText']));// Ajout de l'élément racine en DEBUT de fil (d'où le dernier paramètre à vrai)
+        }
+        $tpl->assign ('arBreadcrumbsItems', $arCBcItems);
 
-		// Template à utiliser (Si non précisé, on prend 'breadcrumbs.tpl' par défaut)
-		$toReturn = $tpl->fetch ($this->getParam ('template', 'breadcrumbs.tpl'));
-		return true;
+        // Template à utiliser (Si non précisé, on prend 'breadcrumbs.tpl' par défaut)
+        $toReturn = $tpl->fetch ($this->getParam ('template', 'breadcrumbs.tpl'));
+        return true;
 
-	}
+    }
 }
-?>

@@ -10,8 +10,8 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class CopixPager {
-
+class CopixPager
+{
     /**
      * Nombre de résultat par page souhaité
      *
@@ -19,7 +19,7 @@ class CopixPager {
      * @var int $perPage
      * @see calcul()
      */
-   var $perPage;
+   public $perPage;
 
 
 
@@ -31,7 +31,7 @@ class CopixPager {
      * @var int $delta
      * @see calcul(), parseLoop()
      */
-   var $delta;
+   public $delta;
 
 
 
@@ -43,7 +43,7 @@ class CopixPager {
      * @var string $template
      * @see parsetemplate()
      */
-   var $template;
+   public $template;
 
 
 
@@ -57,7 +57,7 @@ class CopixPager {
      * @var string $tplUri
      * @see getLink()
      */
-    var $tplUri;
+    public $tplUri;
 
 
 
@@ -68,7 +68,7 @@ class CopixPager {
      * @var int $addToColspan
      * @see parseColspan()
      */
-   var $addToColspan;
+   public $addToColspan;
 
 
 
@@ -80,7 +80,7 @@ class CopixPager {
      * @var string $nextPage
      * @see parseNextPage()
      */
-   var $nextPage;
+   public $nextPage;
 
 
 
@@ -92,7 +92,7 @@ class CopixPager {
      * @var string $previousPage
      * @see parsePreviousPage()
      */
-   var $previousPage;
+   public $previousPage;
 
 
 
@@ -104,7 +104,7 @@ class CopixPager {
      * @var string $lastPage
      * @see parseLastPage()
      */
-   var $lastPage;
+   public $lastPage;
 
 
 
@@ -116,7 +116,7 @@ class CopixPager {
      * @var string $firstPage
      * @see parseFirstPage()
      */
-   var $firstPage;
+   public $firstPage;
 
 
 
@@ -129,7 +129,7 @@ class CopixPager {
      * @var bool $alwaysShow
      * @see setup()
      */
-   var $alwaysShow;
+   public $alwaysShow;
 
 
 
@@ -142,7 +142,7 @@ class CopixPager {
      * @var string $separator
      * @see parseLoop()
      */
-   var $separator;
+   public $separator;
 
 
 
@@ -155,7 +155,7 @@ class CopixPager {
      * @var string $alphaColumn
      * @see createSQL(), buildAlphaLikeClause(), calcul(), parseLoop()
      */
-    var $alphaColumn;
+    public $alphaColumn;
 
 
 
@@ -167,7 +167,7 @@ class CopixPager {
      * @var int $alphaEncaps
      * @see buildAlphaLikeClause(), calcul(), getAlphaLinkValue()
      */
-    var $alphaEncaps;
+    public $alphaEncaps;
 
 
 
@@ -180,7 +180,7 @@ class CopixPager {
      * Se référer au fichier de configuration pour la valeur par défaut
      * @var string $varUrl
      */
-    var $varUrl;
+    public $varUrl;
 
 
 
@@ -193,7 +193,7 @@ class CopixPager {
      * Se référer au fichier de configuration pour la valeur par défaut
      * @var string $tplVarBegin
      */
-    var $tplVarBegin;
+    public $tplVarBegin;
 
 
 
@@ -206,7 +206,7 @@ class CopixPager {
      * Se référer au fichier de configuration pour la valeur par défaut
      * @var string $tplVarBegin
      */
-    var $tplVarEnd;
+    public $tplVarEnd;
 
 
 
@@ -219,7 +219,7 @@ class CopixPager {
      * Se référer au fichier de configuration pour la valeur par défaut
      * @var string $curPageSpanPre
      */
-    var $curPageSpanPre;
+    public $curPageSpanPre;
 
 
 
@@ -231,7 +231,7 @@ class CopixPager {
      * Se référer au fichier de configuration pour la valeur par défaut
      * @var string $curPageSpanPost
      */
-    var $curPageSpanPost;
+    public $curPageSpanPost;
 
 
 
@@ -242,7 +242,7 @@ class CopixPager {
      * Se référer au fichier de configuration pour la valeur par défaut
      * @var string $linkClass
      */
-    var $linkClass;
+    public $linkClass;
 
 
 
@@ -253,7 +253,7 @@ class CopixPager {
      * @var string $linkClass
      * @since 3.1a
      */
-    var $tplDir;
+    public $tplDir;
 
 
 
@@ -264,7 +264,7 @@ class CopixPager {
      * @access private
      * @var string $multipage_mode
      */
-    var $multipage_mode;
+    public $multipage_mode;
 
 
 
@@ -275,7 +275,7 @@ class CopixPager {
      * @access private
      * @var bool $_initialized
      */
-    var $_initialized;
+    public $_initialized;
 
 
 
@@ -286,7 +286,7 @@ class CopixPager {
      * @access public
      * @var bool $urlEncode
      */
-    var $encodeVarUrl;
+    public $encodeVarUrl;
 
 
 
@@ -296,7 +296,7 @@ class CopixPager {
      * @access public
      * @var bool $toHtmlEntities
      */
-    var $toHtmlEntities;
+    public $toHtmlEntities;
 
 
 
@@ -306,7 +306,7 @@ class CopixPager {
      * @access public;
      * @var string $display
      */
-    var $display;
+    public $display;
 
 
 
@@ -337,7 +337,8 @@ class CopixPager {
      * @return void
      * @since 1.0
      */
-   function CopixPager ($options = array()) {
+   public function CopixPager ($options = array())
+   {
         $this-> template       = '|pager.tpl';
         $this-> tplDir         = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'templates' . DIRECTORY_SEPARATOR;
         $this-> addToColspan   = 0;
@@ -365,7 +366,8 @@ class CopixPager {
      * @return array 0 => index du début, 1 => index de fin
      * @since 3.1
      */
-    function getAlphaIndex($page = '') {
+    public function getAlphaIndex($page = '')
+    {
         if (empty($page)) $page = $this-> currentPage;
 
         $IndexStart = ($page * $this-> alphaEncaps) - $this-> alphaEncaps;
@@ -389,8 +391,8 @@ class CopixPager {
      * @see linkCount()
      * @since 1.0
      */
-   function calcul() {
-
+   public function calcul()
+   {
         // Nombre total d'enregistrements
         $this-> nbRecord = $this-> getNbRecord();
 
@@ -450,7 +452,8 @@ class CopixPager {
      * @return int nombre de liens
      * @since 3.0
      */
-    function linkCount() {
+    public function linkCount()
+    {
         if (!empty($this-> alphaColumn))             return ceil(count($this-> aAlpha) / $this-> alphaEncaps);
       else if ($this-> perPage < $this-> nbRecord) return ceil($this-> nbRecord / $this-> perPage);
         else return 1;
@@ -465,7 +468,8 @@ class CopixPager {
      * @return int
      * @since 2.0
      */
-    function getColspan() {
+    public function getColspan()
+    {
         return count($this-> aPage) + $this-> addToColspan;
     } // end func getColspan
 
@@ -476,7 +480,8 @@ class CopixPager {
      * @return string
      * @since 2.0
      */
-    function getNextPage() {
+    public function getNextPage()
+    {
         ($this-> currentPage < $this-> nbLinks) ? $link = '<a href="' . $this-> getLink($this-> currentPage + 1) . '" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.nextPage').'">'. $this-> nextPage .'</a>' : $link = '';
         return $link;
     } // end func getNextPage
@@ -491,7 +496,8 @@ class CopixPager {
      * @return string
      * @since 3.1.a
      */
-    function getPreviousPage() {
+    public function getPreviousPage()
+    {
         ($this-> currentPage != 1) ? $link = '<a href="' . $this-> getLink($this-> currentPage - 1) . '" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.previousPage').'">'. $this-> previousPage .'</a>' : $link = '';
         return $link;
     } // end func getPreviousPage
@@ -501,7 +507,8 @@ class CopixPager {
     /**
      * Retourne le lien html d'accès à la première page du template
      */
-    function getFirstPage() {
+    public function getFirstPage()
+    {
         return ($this-> currentPage != 1) ? $link = '<a href="' . $this-> getLink(1) . '" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.firstPage').'">'. $this-> firstPage .'</a>' : $link = '';
     } // end func getFirstPage
 
@@ -513,7 +520,8 @@ class CopixPager {
      * access private
      * return string
      */
-    function getLastPage() {
+    public function getLastPage()
+    {
         return ($this-> currentPage != $this-> nbLinks) ? $link = '<a href="' . $this-> getLink($this-> nbLinks) .'" ' . $this-> linkClass . ' title="'.CopixI18N::get('copix:pager.messages.lastPage').'">'. $this-> lastPage .'</a>' : $link = '';
     } // end func getLastPage
 
@@ -524,7 +532,8 @@ class CopixPager {
      * access private
      * return int
      */
-    function getFrom() {
+    public function getFrom()
+    {
         if ($this-> currentPage == 1) return 1;
 
         $reste = $this-> perPage * $this-> currentPage - $this-> nbRecord;
@@ -540,7 +549,8 @@ class CopixPager {
      * access private
      * return int
      */
-    function getTo() {
+    public function getTo()
+    {
         if ($this-> currentPage == $this-> nbLinks) return $this-> nbRecord;
 
         return $this-> currentPage * $this-> perPage;
@@ -555,7 +565,8 @@ class CopixPager {
      * @access private
      * @return string
      */
-    function getCurSpanPage($link_name) {
+    public function getCurSpanPage($link_name)
+    {
         return $this-> curPageSpanPre . $link_name . $this-> curPageSpanPost;
     } // end func getCurSpanPage
 
@@ -569,7 +580,8 @@ class CopixPager {
      * @param string $repeat Morceau du template contenant la zone à répéter
      * @return string
      */
-    function getAllPage() {
+    public function getAllPage()
+    {
         $z     = 0;
         $page  = '';
         $liens = '';
@@ -615,8 +627,8 @@ class CopixPager {
      * @return string nom du lien
      * @since 3.1
      */
-    function getAlphaLinkValue($index) {
-
+    public function getAlphaLinkValue($index)
+    {
         if ($this-> alphaEncaps == 1) return $this-> aAlpha[$index-1];
 
         $return     = '[';
@@ -652,7 +664,8 @@ class CopixPager {
      * @return string URI d'accès à la page
      * @since 2.0
      */
-    function getLink($num_page) {
+    public function getLink($num_page)
+    {
         if (!empty($this-> tplUri)) return preg_replace($this-> getTplPattern('PAGE'), $num_page, $this-> tplUri);
         else                        return $this-> page_file . $this-> varUrl . '=' . $num_page;
     } // end func getLink
@@ -668,7 +681,8 @@ class CopixPager {
      * @exception bool false
      * @since 1.0
      */
-   function getFile($file) {
+   public function getFile($file)
+   {
       if (!Is_File($file)) return false;
 
       $fp   = @fopen($file, 'r');
@@ -689,7 +703,8 @@ class CopixPager {
      * @return string pattern
      * @since 3.1a
      */
-    function getTplPattern($var_name) {
+    public function getTplPattern($var_name)
+    {
         return '/' . str_replace('/', '\/', preg_quote($this-> tplVarBegin)) . '(' . $this-> tplVarName[$var_name] .')' . str_replace('/', '\/', preg_quote($this-> tplVarEnd)) . '/';
     } // end func getTplPattern
 
@@ -703,7 +718,8 @@ class CopixPager {
      * @return string pattern
      * @since 3.1a
      */
-    function getTplLoopPat() {
+    public function getTplLoopPat()
+    {
         return '/' . str_replace('/', '\/', preg_quote($this-> tplVarLoopBegin)) . '(.*)' . str_replace('/', '\/', preg_quote($this-> tplVarLoopEnd)) . '/';
     } // end func getTplLoopPat
 
@@ -718,7 +734,8 @@ class CopixPager {
      * @return int nombre d'occurence de $search dans $tpl_data
      * @see getTplPattern()
      */
-    function PregMatch($search) {
+    public function PregMatch($search)
+    {
         return preg_match($this-> getTplPattern($search), $this-> tpl_data);
     } // end func PregMatch
 
@@ -732,7 +749,8 @@ class CopixPager {
      * @return int nombre d'occurence de la zone à répeter dans $tpl_data
      * @see getTplLoopPat()
      */
-    function PregMatchLoop() {
+    public function PregMatchLoop()
+    {
         return preg_match($this-> getTplLoopPat(), $this-> tpl_data, $test);
     } // end func PregMatchLoop
 
@@ -745,7 +763,8 @@ class CopixPager {
      * @return array
      * @access public
      */
-    function getAll() {
+    public function getAll()
+    {
         $this-> setup();
 
         $array = Array(
@@ -784,7 +803,8 @@ class CopixPager {
      * @see getFile(), parseLoop(), parseColspan(), parseNbRecord(), parseNextPage(), parsePreviousPage(), parseFirstPage(), parseLastPage(), parseCurrentPage(), parseTotalPage()
      * @since 2.0
      */
-   function parsetemplate() {
+   public function parsetemplate()
+   {
       $tpl = & new CopixTpl ();
       $tpl->assign ('LOOP'          , $this-> getAllPage());
       $tpl->assign ('COLSPAN'       , $this-> getColspan());
@@ -811,7 +831,8 @@ class CopixPager {
      * @return void
      * @since 1.0
      */
-   function pMultipage() {
+   public function pMultipage()
+   {
         $this-> setup();
       echo $this-> tpl_data;
    } // end func pMultipage
@@ -825,8 +846,8 @@ class CopixPager {
      * @return string le template une fois parsé
      * @since 1.0
      */
-   function getMultipage(){				
-
+   public function getMultipage()
+   {
         // On balance les traitements
         $this-> setup();
       return $this-> tpl_data;
@@ -840,7 +861,8 @@ class CopixPager {
      * @access private
      * @return string URL
      */
-   function buildUrl() {
+   public function buildUrl()
+   {
       $params = $_GET;
         $uri    = basename($_SERVER['PHP_SELF']);
 
@@ -868,7 +890,7 @@ class CopixPager {
      */
    function &config() {
         // Lecture du fichier de configuration
-        $file = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'CopixPager.config.php'; 
+        $file = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'CopixPager.config.php';
 
         require ($file);
 
@@ -891,7 +913,7 @@ class CopixPager {
       $this-> nbLinks = 1;
 
         if (!IsSet($_GET[$this-> varUrl]) || $_GET[$this-> varUrl] == 0){
-        	$_GET[$this-> varUrl] = 1;
+            $_GET[$this-> varUrl] = 1;
         }
 
         return $options;
@@ -907,9 +929,10 @@ class CopixPager {
      * @return void
      * @since 3.2a
      */
-    function encodeHtml() {
-
-        function easyEncode(&$var) {
+    public function encodeHtml()
+    {
+        function easyEncode(&$var)
+        {
             $var = htmlentities($var);
         }
 
@@ -929,8 +952,8 @@ class CopixPager {
      * @param string $put_in_array Permet d'ajouter les données dans une propriété de type tableau qui prendra le contenu de cette variable comme nom du tableau
      * @return void
      */
-    function setConfig($array, $put_in_array = '') {
-
+    public function setConfig($array, $put_in_array = '')
+    {
         if (!Empty($put_in_array) && !isSet($this-> $put_in_array)) $this-> $put_in_array = Array();
 
         foreach ((array)$array as $option => $value) {
@@ -938,8 +961,7 @@ class CopixPager {
             if (isSet($this-> $put_in_array)) {
                 $test =& $this-> $put_in_array;
                 if (Empty($test[$option])) $test[$option] = $value;
-            }
-            else if (!IsSet($this-> $option)) $this-> $option = $value;
+            } elseif (!IsSet($this-> $option)) $this-> $option = $value;
         }
 
         if (isSet($test)) unset($test);
@@ -954,7 +976,8 @@ class CopixPager {
      * @access private
      * @return void
      */
-    function testParams() {
+    public function testParams()
+    {
         if (!is_int($this-> perPage) || $this-> perPage <= 0) trigger_error('Propriété <b>perPage</b> mal configurée <br>', E_USER_ERROR);
         if ((!is_int($this-> delta) || $this-> delta < 0)) trigger_error('Propriété <b>delta</b> mal configurée <br>', E_USER_ERROR);
         //if (!empty($this-> template) && !is_file($this-> tplDir . $this-> template)) trigger_error('template <b>' . $this-> tplDir . $this-> template .'</b> introuvable <br>', E_USER_ERROR);
@@ -979,7 +1002,8 @@ class CopixPager {
      * @since 3.2
      * @return void
      */
-    function setRestriction() {
+    public function setRestriction()
+    {
         ($_GET[$this-> varUrl] == '' || (int) $_GET[$this-> varUrl] < 0) ? $this-> currentPage = 1 : $this-> currentPage = $_GET[$this-> varUrl];
 
       if (($_GET[$this-> varUrl] == 1) || (!$_GET[$this-> varUrl])) $this-> firstline = 0;
@@ -998,8 +1022,8 @@ class CopixPager {
      * @return void
      * @since 1.0
      */
-   function setup() {
-
+   public function setup()
+   {
         if ( FALSE === $this-> _initialized ) {
             $this-> config();
             $this-> testParams();
@@ -1031,11 +1055,11 @@ class CopixPager {
      * @access private
      * @return void
      */
-    function viewObject() {
+    public function viewObject()
+    {
         print '<xmp>';
         print_r($this);
         print '</xmp>';
     } // end func viewObject
 
 } // end class Multipage
-?>

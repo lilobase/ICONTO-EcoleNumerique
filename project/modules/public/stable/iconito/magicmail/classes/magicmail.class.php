@@ -11,8 +11,7 @@
  */
 
 
-class Magicmail {
-
+class Magicmail
+{
 }
 
-?>

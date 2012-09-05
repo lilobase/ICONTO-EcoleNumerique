@@ -15,7 +15,7 @@
  * Name:     popupinformation<br>
  * Purpose:  Add div wich display when mouse is over img<br>
  * @param array
- * 
+ *
  * <pre>
  * Params:   img: string
  * Params:   text: string
@@ -25,18 +25,18 @@
  * Params:   assign :(optional) name of the template variable we'll assign
  *                      the output to instead of displaying it directly
  * </pre>
- * 
+ *
  * @param string contents of the block
  * @param Smarty clever simulation of a method
  * @return string string $content re-formatted
  */
-function smarty_block_popupinformation($params, $content, &$me, $first) {
+function smarty_block_popupinformation($params, $content, &$me, $first)
+{
     if (is_null ($pContent) && $first === true) {
-		return ;
-	}
-	if (isset ($params['assign'])){
-		$me->assign ($params['assign'], _tag ('popupinformation', $params, $content));
-	}
-	return _tag ('popupinformation', $params, $content);
+        return ;
+    }
+    if (isset ($params['assign'])){
+        $me->assign ($params['assign'], _tag ('popupinformation', $params, $content));
+    }
+    return _tag ('popupinformation', $params, $content);
 }
-?>

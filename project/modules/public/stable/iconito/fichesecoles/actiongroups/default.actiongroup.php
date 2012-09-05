@@ -2,7 +2,7 @@
 
 /**
  * Actiongroup du module Fichesecoles - Front office
- * 
+ *
  * @package	Iconito
  * @subpackage fichesecole
  */
@@ -10,22 +10,23 @@ _classInclude('fichesecoles|fichesecolesservice');
 _classInclude('annuaire|annuaireservice');
 _classInclude('blog|blogutils');
 
-class ActionGroupDefault extends EnicActionGroup {
-
-    public function beforeAction() {
+class ActionGroupDefault extends EnicActionGroup
+{
+    public function beforeAction()
+    {
         //_currentUser()->assertCredential ('group:[current_user]');
     }
 
     /**
      * Affichage de la fiche d'une ecole
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2008/09/03
      * @param integer $id Id de l'ecole
      * @param integer $popup 1 pour afficher la fiche en popup Fancybox
      */
-    function fiche() {
-
+    public function fiche()
+    {
         $id = $this->getRequest('id', null);
         $iPopup = CopixRequest::getInt('popup');
 
@@ -55,24 +56,23 @@ class ActionGroupDefault extends EnicActionGroup {
         if ($rEcole->type)
             $title .= ' (' . $rEcole->type . ')';
         $tpl->assign('TITLE_PAGE', $title);
-        
+
         // Get vocabulary catalog to use
-				$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
-				$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $rEcole->numero);
-				
+                $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+                $vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $rEcole->numero);
+
         if (strtolower($rEcole->type) == 'crèche') {
           $tpl->assign('TITLE_CONTEXT', CopixI18N::get('kernel|kernel.codes.mod_fichesecoles_creche'));
-        }
-        else {
+        } else {
           $tpl->assign('TITLE_CONTEXT', CopixCustomI18N::get('kernel|kernel.codes.mod_fiche%%structure%%', array('catalog' => $vocabularyCatalog->id_vc)));
         }
-        
+
         $menu = array();
         $menu[] = array(
           'url' => CopixUrl::get('public||getListBlogs'),
           'txt' => CopixCustomI18N::get('public|public.blog.annuaire.%%structures%%', array('catalog' => $vocabularyCatalog->id_vc)),
         );
-        
+
         if (Kernel::is_connected()) {
           $menu[] = array(
             'url' => CopixUrl::get('annuaire||getAnnuaireEcole', array('ecole' => $rEcole->numero)),
@@ -101,8 +101,8 @@ class ActionGroupDefault extends EnicActionGroup {
      * @since 2008/09/09
      * @param string $photo Fichier de la photo
      */
-    function photo() {
-
+    public function photo()
+    {
         $photo = $this->getRequest('photo', null);
 
         if ($photo != null) {
@@ -134,7 +134,8 @@ class ActionGroupDefault extends EnicActionGroup {
      * @param string $fichier Nom du fichier
      *
      */
-    function processDoc() {
+    public function processDoc()
+    {
         $iFichier = CopixRequest::get('fichier');
         $malleService = & CopixClassesFactory::Create('malle|malleService');
         preg_match('/^([0-9]+)_(.+)$/', $iFichier, $regs);
@@ -149,13 +150,13 @@ class ActionGroupDefault extends EnicActionGroup {
 
     /**
      * Affichage de la fiche d'une ecole
-     * 
+     *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2008/09/03
      * @param integer $id Id de l'ecole
      */
-    function blogs() {
-
+    public function blogs()
+    {
         $id = $this->getRequest('id', null);
         $pAnnee = $this->getRequest('annee', null);
 
@@ -178,9 +179,9 @@ class ActionGroupDefault extends EnicActionGroup {
         $rEcole->blog = getNodeBlog('BU_ECOLE', $rEcole->numero, array('is_public' => 1));
 
         // Get vocabulary catalog to use
-				$nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
-				$vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $id);
-        
+                $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
+                $vocabularyCatalog = $nodeVocabularyCatalogDAO->getCatalogForNode('BU_ECOLE', $id);
+
         $tpl = new CopixTpl ();
         $tpl->assign('rEcole', $rEcole);
         $tpl->assign('arClasses', $arClasses);
@@ -214,4 +215,3 @@ class ActionGroupDefault extends EnicActionGroup {
 
 }
 
-?>

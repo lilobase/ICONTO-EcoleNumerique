@@ -7,4 +7,3 @@ $init           = new CopixAction ('Concerto', 'init');     // Création des comp
 
 $default        = & $go;
 
-?>

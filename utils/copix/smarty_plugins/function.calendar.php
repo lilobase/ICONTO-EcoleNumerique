@@ -14,7 +14,7 @@
  *  {calendar name="test_date"}
  * </code>
  */
-function smarty_function_calendar ($params, &$smarty) {
-	return _tag ('calendar', $params);
+function smarty_function_calendar ($params, &$smarty)
+{
+    return _tag ('calendar', $params);
 }
-?>

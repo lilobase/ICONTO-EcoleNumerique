@@ -5,4 +5,3 @@ $info = new CopixAction ('cache', 'info');
 
 $default		= & $info;
 
-?>

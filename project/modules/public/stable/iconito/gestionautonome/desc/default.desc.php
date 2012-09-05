@@ -41,7 +41,7 @@ $validatePersonnelCreation = new CopixAction ('default', 'processValidatePersonn
 $updatePersonnel = new CopixAction ('default', 'processUpdatePersonnel');
 $validatePersonnelUpdate = new CopixAction ('default', 'processValidatePersonnelUpdate');
 
-$deletePersonnel = new CopixAction ('default', 'processDeletePersonnel');   
+$deletePersonnel = new CopixAction ('default', 'processDeletePersonnel');
 
 $addExistingPersonnel = new CopixAction ('default', 'processAddExistingPersonnel');
 $validateExistingPersonsAdd = new CopixAction ('default', 'processValidateExistingPersonsAdd');

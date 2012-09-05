@@ -24,11 +24,11 @@
  * Examples:
  * {linkbar url="index.php?showPage=" nbLink=2 pageNum=1 nbTotalPage=100}
  */
-function smarty_function_linkbar($params, $this) {
+function smarty_function_linkbar($params, $this)
+{
    if (isset ($params['assign'])) {
       $this->assign($params['assign'], _tag ('linkbar', $params));
    }else {
       return _tag ('linkbar', $params);
    }
 }
-?>

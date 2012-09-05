@@ -12,14 +12,15 @@
  * @package standard
  * @subpackage	plugin_autoloadEZ
  */
-class PluginAutoloadEz extends CopixPlugin {
-	/**
-	 * Inclusion du package EZ avant le démarrage de la session
-	 */
-	public function beforeSessionStart () {
-		if (@include_once ('ezc/Base/base.php')){
-		   spl_autoload_register(array('ezcBase', 'autoload'));
-		}
-	}
+class PluginAutoloadEz extends CopixPlugin
+{
+    /**
+     * Inclusion du package EZ avant le démarrage de la session
+     */
+    public function beforeSessionStart ()
+    {
+        if (@include_once ('ezc/Base/base.php')){
+           spl_autoload_register(array('ezcBase', 'autoload'));
+        }
+    }
 }
-?>

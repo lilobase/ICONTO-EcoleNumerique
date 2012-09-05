@@ -37,8 +37,8 @@ require_once(dirname(__FILE__).'/Exception.php');
  *		- Changing the URL of a request after executing the request.
  */
 class CAS_OutOfSequenceException
-	extends BadMethodCallException
-	implements CAS_Exception
+    extends BadMethodCallException
+    implements CAS_Exception
 {
 
 }

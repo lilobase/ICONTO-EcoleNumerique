@@ -11,28 +11,28 @@
  */
 
 
-class Regroupements {
-	
-	function getMenu() {
-		$menu = array();
-		
-		$menu[] = array(
-			'txt' => 'Regroupements',
-			'url' => CopixUrl::get ('regroupements||')
-		);
-		
-		$menu[] = array(
-			'txt' => 'Groupes de villes',
-			'url' => CopixUrl::get ('regroupements|villes|')
-		);
+class Regroupements
+{
+    public function getMenu()
+    {
+        $menu = array();
 
-		$menu[] = array(
-			'txt' => 'Groupes d\'&eacute;coles',
-			'url' => CopixUrl::get ('regroupements|ecoles|')
-		);
-		
-		return($menu);
-	}
+        $menu[] = array(
+            'txt' => 'Regroupements',
+            'url' => CopixUrl::get ('regroupements||')
+        );
+
+        $menu[] = array(
+            'txt' => 'Groupes de villes',
+            'url' => CopixUrl::get ('regroupements|villes|')
+        );
+
+        $menu[] = array(
+            'txt' => 'Groupes d\'&eacute;coles',
+            'url' => CopixUrl::get ('regroupements|ecoles|')
+        );
+
+        return($menu);
+    }
 }
 
-?>

@@ -1,6 +1,6 @@
 <?php
 /**
-* @package		tools 
+* @package		tools
  * @subpackage	wikirender
  * @author	Patrice Ferlet
  * @copyright 2001-2006 CopixTeam
@@ -9,18 +9,20 @@
  */
 
 /**
-* @package		tools 
+* @package		tools
  * @subpackage	wikirender
  */
-class MathRender{
-
+class MathRender
+{
     public $mathcode ="";
 
-    public function __construct ($code){
+    public function __construct ($code)
+    {
         $this->mathcode=$code;
     }
 
-    function wrap () {
+    public function wrap ()
+    {
         $code = str_replace("\n","",$this->mathcode);
         $code = str_replace("\r","",$code);
         return <<< EOF
@@ -40,7 +42,8 @@ $code
 EOF;
     }
 
-    function render(){
+    public function render()
+    {
         $path = COPIX_CACHE_PATH."/math/";
         @mkdir($path);
         $md5 = md5($this->mathcode);
@@ -51,7 +54,8 @@ EOF;
         return $file;
     }
 
-    function _render($file){
+    public function _render($file)
+    {
         $thunk=$this->mathcode;
         $unik = uniqid("hash");
         $tex = $unik.".tex";
@@ -80,4 +84,3 @@ EOF;
     }
 
 }
-?>

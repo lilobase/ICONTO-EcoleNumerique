@@ -17,16 +17,15 @@
 * @param array $params les paramètres passés au tag
 * @param Smarty $me l'objet Smarty en cours d'exécution
 */
-function smarty_function_swfobject ($params, &$me) {
-	
-	if(isset($params['assign'])) {
-		$name = $params['assign'];
-		unset($params['assign']);
-		$me->assign($name, _tag('swfobject', $params));
-	} else {
-		return _tag('swfobject', $params);
-	}
-	
+function smarty_function_swfobject ($params, &$me)
+{
+    if(isset($params['assign'])) {
+        $name = $params['assign'];
+        unset($params['assign']);
+        $me->assign($name, _tag('swfobject', $params));
+    } else {
+        return _tag('swfobject', $params);
+    }
+
 }
 
-?>

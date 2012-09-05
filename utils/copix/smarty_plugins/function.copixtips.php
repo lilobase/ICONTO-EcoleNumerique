@@ -17,7 +17,8 @@
  * 		  title titre a mettre pour les astuces
  * 		  titilei18n titre a mettre en i18n
  */
-function smarty_function_copixtips($params, $me) {
+function smarty_function_copixtips($params, $me)
+{
     if (isset ($params['assign'])) {
         $me->assign($params['assign'], _tag ('copixtips', $params));
     }else {
@@ -25,4 +26,3 @@ function smarty_function_copixtips($params, $me) {
     }
 }
 
-?>

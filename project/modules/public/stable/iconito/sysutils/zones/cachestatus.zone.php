@@ -12,20 +12,20 @@
 
 _classInclude('sysutils|cacheservices');
 
-class ZoneCacheStatus extends CopixZone {
-  function _createContent (& $toReturn){
+class ZoneCacheStatus extends CopixZone
+{
+  public function _createContent (& $toReturn)
+  {
+        $tpl = new CopixTpl ();
 
-		$tpl = new CopixTpl ();
-    
     $size = CacheServices::getCacheSize ();
-    // Cherche		
-		
-		$tpl->assign ('size', $size);
-		$toReturn = $tpl->fetch ('cache.status.tpl');
-		return true;
+    // Cherche
+
+        $tpl->assign ('size', $size);
+        $toReturn = $tpl->fetch ('cache.status.tpl');
+        return true;
 
   }
 
 
 }
-?>

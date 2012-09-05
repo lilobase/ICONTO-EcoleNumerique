@@ -9,8 +9,10 @@ enic::to_load('tree');
 enic::to_load('list');
 enic::to_load('nodeMatrix');
 
-class enicMatrixCache extends enicCache{
-    public function __construct(){
+class enicMatrixCache extends enicCache
+{
+    public function __construct()
+    {
         $this->storage = 'file';
         $this->range = 'user';
 
@@ -22,37 +24,39 @@ class enicMatrixCache extends enicCache{
 
 }
 
-class enicMatrixHelpers {
-    
+class enicMatrixHelpers
+{
     private $listTypeComm;
     private $listTypeVoir;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->db = & enic::get('model');
         $this->user = & enic::get('user');
     }
 
-    public function iCanTalkToThisType($user_type_out) {
-
+    public function iCanTalkToThisType($user_type_out)
+    {
         if(empty($this->listTypeComm))
             $this->listTypeComm = $this->db->query('SELECT user_type_out FROM module_rightmatrix WHERE user_type_in =' . $this->db->quote($this->user->type) . ' AND `right` = \'COMM\'')->toArray();
 
         return $this->iCanDoToThisType($this->listTypeComm, $user_type_out);
     }
 
-    public function startExec() {
-        
+    public function startExec()
+    {
     }
 
-    public function iCanSeeThisType($user_type_out) {
-        
+    public function iCanSeeThisType($user_type_out)
+    {
         if(empty($this->listTypeVoir))
             $this->listTypeVoir = $this->db->query('SELECT user_type_out FROM module_rightmatrix WHERE user_type_in =' . $this->db->quote($this->user->type) . ' AND `right` = \'VOIR\'')->toArray();
 
         return $this->iCanDoToThisType($this->listTypeVoir, $user_type_out);
     }
 
-    private function iCanDoToThisType($list, $user_type_out) {
+    private function iCanDoToThisType($list, $user_type_out)
+    {
         $userList = array();
         foreach ($list as $type) {
             $userList[] = $type['user_type_out'];
@@ -69,10 +73,10 @@ class enicMatrixHelpers {
  */
 enic::to_load('nodeMatrix');
 
-class enicMatrix extends enicList {
-
-    public function startExec() {
-
+class enicMatrix extends enicList
+{
+    public function startExec()
+    {
         $options = & enic::get('options');
         $options = $options->matrix;
         $this->bypass = (bool) $options->bypass;
@@ -119,7 +123,8 @@ class enicMatrix extends enicList {
         }
     }
 
-    public function addExec() {
+    public function addExec()
+    {
         //load others
         $this->load('nodeMatrix', '_other');
         $this->_other->kernelParent = 'other';
@@ -128,19 +133,21 @@ class enicMatrix extends enicList {
 
     /* load the users informations in current user object */
 
-    public function __wakeup() {
+    public function __wakeup()
+    {
         $user = &enic::get('user');
         $user->root = $this->getDatas('userRoot');
         $user->director = $this->getDatas('userDirector');
         $user->animator = $this->getDatas('userAnimator');
     }
 
-    public function __get($name) {
+    public function __get($name)
+    {
         return false;
     }
 
-    public function __call($name, $arguments = null) {
-
+    public function __call($name, $arguments = null)
+    {
         //make _id node
         if (!empty($arguments))
             $idNode = '_' . $arguments[0];
@@ -201,7 +208,8 @@ class enicMatrix extends enicList {
      * DISPLAY THE WHOLE TREE WITH RIGHT
      */
 
-    public function displayMain() {
+    public function displayMain()
+    {
         $html = '<li>' . $this->_name . '</li>';
         $html .= '<ul>';
         foreach ($this->_children as $child) {
@@ -244,14 +252,16 @@ class enicMatrix extends enicList {
 
 }
 
-class rightMatrixHelpers {
+class rightMatrixHelpers
+{
     /*
      * get and push the member's parent nodes and parent's of parents (reccursive)
      */
 
     protected static $kernel;
 
-    public static function completeUp($type, $id, $first = true) {
+    public static function completeUp($type, $id, $first = true)
+    {
         //get the actual matrix:
         $matrix = & enic::get('matrix');
 
@@ -341,7 +351,8 @@ class rightMatrixHelpers {
      * reccursive to create the complet tree
      */
 
-    public static function completeDown($type, $id) {
+    public static function completeDown($type, $id)
+    {
         //load matrix ref object
         $matrix = & enic::get('matrix');
 
@@ -388,7 +399,8 @@ class rightMatrixHelpers {
      * finish the tree with additionnal infos from anothers nodes
      */
 
-    public static function loadRightOnTree() {
+    public static function loadRightOnTree()
+    {
         //get enic Model library
         $db = & enic::get('model');
 
@@ -425,7 +437,8 @@ class rightMatrixHelpers {
      * final treatment
      */
 
-    public static function applyRightOnTree($name) {
+    public static function applyRightOnTree($name)
+    {
         //get user infos
         $user = enic::get('user');
 
@@ -472,7 +485,8 @@ class rightMatrixHelpers {
      * load true in matrix
      */
 
-    public function loadTrue() {
+    public function loadTrue()
+    {
         //matrix :
         $matrix = & enic::get('matrix');
         foreach ($matrix->villes->_other->_right as $key => $right) {

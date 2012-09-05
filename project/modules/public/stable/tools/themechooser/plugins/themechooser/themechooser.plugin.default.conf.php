@@ -13,27 +13,29 @@
  * @package		tools
  * @subpackage	themechooser
  */
-class PluginDefaultConfigThemeChooser {
-	/**
-	 * Liste des thèmes disponibles
-	 *
-	 * @var array
-	 */
-	private $arTheme = array ();
+class PluginDefaultConfigThemeChooser
+{
+    /**
+     * Liste des thèmes disponibles
+     *
+     * @var array
+     */
+    private $arTheme = array ();
 
-	/**
-	 * Initialisation des thèmes disponibles au choix.
-	 */
-	public function __construct (){
-		$this->arTheme = array ('generation','bigtoukan');
-	}
+    /**
+     * Initialisation des thèmes disponibles au choix.
+     */
+    public function __construct ()
+    {
+        $this->arTheme = array ('generation','bigtoukan');
+    }
 
-	/**
-	 * Récupère la liste des thèmes préconfigurés.
-	 * @return array
-	 */
-	public function getThemeList () {
-		return $this->arTheme;
-	}
+    /**
+     * Récupère la liste des thèmes préconfigurés.
+     * @return array
+     */
+    public function getThemeList ()
+    {
+        return $this->arTheme;
+    }
 }
-?>

@@ -24,7 +24,7 @@
 		<property name="eco_type"     fieldname="type"     type="string"  table="kernel_bu_ecole" pk="no"/>
 		<property name="eco_nom"      fieldname="nom"      type="string"  table="kernel_bu_ecole" pk="no"/>
 		<property name="eco_id_ville" fieldname="id_ville" type="integer" table="kernel_bu_ecole" pk="no"/>
-		
+
 		<!-- Annees scolaires -->
 		<property name="annee_id_as"   fieldname="id_as"   type="integer" table="kernel_bu_annee_scolaire" pk="yes"/>
 		<property name="annee_current"     fieldname="current"     type="integer"  table="kernel_bu_annee_scolaire" pk="no"/>

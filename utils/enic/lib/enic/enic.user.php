@@ -3,8 +3,8 @@
  * Enic class with user informations
  */
 
-class enicUser {
-
+class enicUser
+{
     public $director;
     public $id;
     public $type;
@@ -16,13 +16,14 @@ class enicUser {
     public $chartValid;
     public $animator;
 
-    public function startExec(){
+    public function startExec()
+    {
         if(_currentUser()->isConnected()){
             $userId = _currentUser()->getId();
             $userInfos = Kernel::getUserInfo('ID', $userId);
 //var_dump($userInfos);
             $this->director = false;
-	    $this->animator = Kernel::isAnimateur();
+        $this->animator = Kernel::isAnimateur();
             $this->idEn = (isset($userInfos['id']))?$userInfos['id']:null;
             $this->id = $userId*1;
             $this->type = (isset($userInfos['type']))?$userInfos['type']:null;
@@ -34,7 +35,7 @@ class enicUser {
             $this->chartValid = $_SESSION['chartValid'];
         }else{
             $this->director = false;
-	    $this->animator = false;
+        $this->animator = false;
             $this->id = 0;
             $this->type = 'USER_ANON';
             $this->root = false;
@@ -47,13 +48,13 @@ class enicUser {
         }
     }
 
-    public function forceReload(){
+    public function forceReload()
+    {
         $this->startExec();
     }
 
-    public function addExec(){
-
+    public function addExec()
+    {
     }
 
 }
-?>

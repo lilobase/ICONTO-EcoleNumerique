@@ -1,8 +1,9 @@
 <?php
 
-class rssnotifierService extends enicService {
-
-    public function __construct() {
+class rssnotifierService extends enicService
+{
+    public function __construct()
+    {
         parent::__construct();
         $this->rssType = $this->helpers->config('rssnotifier|rss_type');
         $class = $this->rssType.'Rss';
@@ -11,19 +12,23 @@ class rssnotifierService extends enicService {
     }
 
     //0 = all items
-    public function GetItems($limitItems = 0) {
+    public function GetItems($limitItems = 0)
+    {
         return $this->rss->getItems($limitItems);
     }
 
-    public function getTitle(){
+    public function getTitle()
+    {
         return $this->rss->getTitle();
     }
 
-    public function getSummary(){
+    public function getSummary()
+    {
         return $this->rss->getSummary();
     }
 
-    public function getSource(){
+    public function getSource()
+    {
         return $this->rss->getSource();
     }
 }
@@ -41,19 +46,21 @@ Interface RSS {
     public function setRssStream($rssUrl);
 }
 
-abstract class RssAbstract {
-
+abstract class RssAbstract
+{
     protected $rssStream;
     protected $rss;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->rssStream = null;
         $this->rss = null;
         //disable XML error
         libxml_use_internal_errors(true);
     }
 
-    public function setRssStream($rssUrl) {
+    public function setRssStream($rssUrl)
+    {
         if (empty($this->rssStream)) {
             //get RSS Stream
             $this->rssStream = file_get_contents($rssUrl);
@@ -63,7 +70,8 @@ abstract class RssAbstract {
         }
     }
 
-    protected function getRss() {
+    protected function getRss()
+    {
         if (empty($this->rss)) {
             $this->rss = new SimpleXMLElement($this->getRssStream());
 
@@ -73,22 +81,25 @@ abstract class RssAbstract {
         return $this->rss;
     }
 
-    protected function getRssStream() {
+    protected function getRssStream()
+    {
         return $this->rssStream;
     }
 
 }
 
-class AtomRss extends RssAbstract implements RSS {
-
+class AtomRss extends RssAbstract implements RSS
+{
     public $rss;
 
-    public function __construct() {
+    public function __construct()
+    {
         parent::__construct();
     }
 
     //0 = all items
-    public function getItems($limitItems = 0) {
+    public function getItems($limitItems = 0)
+    {
         $ItemsIterator = 1;
 
         foreach ($this->getRss()->entry as $entry) {
@@ -99,7 +110,7 @@ class AtomRss extends RssAbstract implements RSS {
             $currentClass->title = strip_tags($entry->title);
             $currentClass->content = strip_tags($entry->content);
             $currentClass->link = (string)$entry->link['href'][0];
-            
+
             $output[] = $currentClass;
 
             $ItemsIterator++;
@@ -108,15 +119,18 @@ class AtomRss extends RssAbstract implements RSS {
         return $output;
     }
 
-    public function getTitle() {
+    public function getTitle()
+    {
         return $this->getRss()->title;
     }
 
-    public function getSummary() {
+    public function getSummary()
+    {
         return $this->getRss()->subtitle;
     }
 
-    public function getSource() {
+    public function getSource()
+    {
         return (string) $this->rss->link['href'][0];
     }
 

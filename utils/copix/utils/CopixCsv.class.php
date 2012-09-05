@@ -14,25 +14,25 @@
  * @package copix
  * @subpackage utils
  */
-class CopixCsv {
-
+class CopixCsv
+{
     /**
-     * Constante définissant un iterateur ave entête 
+     * Constante définissant un iterateur ave entête
      */
     const HEADED = true;
 
     /**
-     * Constante définissant un iterateur sans entête 
+     * Constante définissant un iterateur sans entête
      */
     const NUMBERED = false;
-    
+
     /**
      * Nom du fichier CSV
      */
     private $_filename;
 
     /**
-     * Délimiteur de champs 
+     * Délimiteur de champs
      */
     private $_delimiter = ',';
 
@@ -59,7 +59,8 @@ class CopixCsv {
      * @param string $pDelimiter
      * @param string $pEnclosure
      */
-    public function __construct ($pFileName, $pDelimiter=',', $pEnclosure = '"', $pArrayHead = false){
+    public function __construct ($pFileName, $pDelimiter=',', $pEnclosure = '"', $pArrayHead = false)
+    {
         $this->_filename = $pFileName;
         $this->_delimiter = $pDelimiter;
         $this->_enclosure = $pEnclosure;
@@ -69,7 +70,8 @@ class CopixCsv {
      * Récupération de l'iterateur CSV sur le fichier
      *
      */
-    public function getIterator ($pIsHeaded = self::NUMBERED){
+    public function getIterator ($pIsHeaded = self::NUMBERED)
+    {
         return new CopixCsvIterator($this->_filename, $this->_delimiter, $this->_enclosure, $pIsHeaded);
     }
 
@@ -77,7 +79,8 @@ class CopixCsv {
      * Fonction d'ajout de ligne à un fichier CSV
      * @param array $arParams
      */
-    function addLine ($arParams){
+    public function addLine ($arParams)
+    {
         $_dirname = dirname($this->_filename);
         // On teste l'existence du répertoire contenant le fichier
         if (Copixfile::createDir($_dirname)) {
@@ -99,8 +102,8 @@ class CopixCsv {
 /**
  * Classe Iterateur de parcours de fichiers CSV
  */
-class CopixCsvIterator extends LimitIterator implements Countable {
-
+class CopixCsvIterator extends LimitIterator implements Countable
+{
     protected $_data;
     protected $_current;
     protected $_filehandler;
@@ -109,12 +112,13 @@ class CopixCsvIterator extends LimitIterator implements Countable {
     protected $_enclosure;
     protected $_keys = null;
     const ROW_SIZE = 4096;
-    
+
     protected $_filename = null;
 
 
-    function __construct ($pFile, $pDelimiter, $pEnclosure, $pIsHeaded){
-    	$this->_filename = $pFile;
+    public function __construct ($pFile, $pDelimiter, $pEnclosure, $pIsHeaded)
+    {
+        $this->_filename = $pFile;
         $this->_filehandler = fopen ($pFile,'r');
         $this->_delimiter = $pDelimiter;
         $this->_enclosure = $pEnclosure;
@@ -127,15 +131,18 @@ class CopixCsvIterator extends LimitIterator implements Countable {
         $this->_counter = 0;
     }
 
-    function current (){
+    public function current ()
+    {
         return $this->_current;
     }
 
-    function key (){
+    public function key ()
+    {
         return $this->_counter;
     }
 
-    function next (){
+    public function next ()
+    {
         $this->_current = fgetcsv($this->_filehandler, self::ROW_SIZE, $this->_delimiter, $this->_enclosure);
         if ($this->_current !== false) {
             $this->_counter++;
@@ -146,20 +153,23 @@ class CopixCsvIterator extends LimitIterator implements Countable {
         return $this->_current;
     }
 
-    function rewind (){
+    public function rewind ()
+    {
         $this->_counter = 0;
         rewind ($this->_filehandler);
         $this->_current = fgetcsv($this->_filehandler, self::ROW_SIZE, $this->_delimiter, $this->_enclosure);
     }
 
-    function valid (){
+    public function valid ()
+    {
         if ( ! $this->current() ) {
             return FALSE;
         }
         return TRUE;
     }
 
-    function seek ($position){
+    public function seek ($position)
+    {
         if ($position == 0) {
             $this->rewind();
         } else {
@@ -174,22 +184,23 @@ class CopixCsvIterator extends LimitIterator implements Countable {
         }
     }
 
-    function count() {
-    	//@todo pour les fichiers peu volumineux, un return count (file ($this->_filename)); est plus rapide
-    	$file = fopen ($this->_filename,'r');
-    	$count = 0;
-		while (fgets ($file)){
-			$count++;
-		}
-		fclose ($file);
-		return $count;
+    public function count()
+    {
+        //@todo pour les fichiers peu volumineux, un return count (file ($this->_filename)); est plus rapide
+        $file = fopen ($this->_filename,'r');
+        $count = 0;
+        while (fgets ($file)){
+            $count++;
+        }
+        fclose ($file);
+        return $count;
     }
 
-    function __destruct (){
+    public function __destruct ()
+    {
         fclose ($this->_filehandler);
     }
 
 }
 
 
-?>

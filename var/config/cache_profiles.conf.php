@@ -1,5 +1,5 @@
 <?php $_cache_types = array (
-  'default' => 
+  'default' =>
   array (
     'name' => 'default',
     'enabled' => true,
@@ -9,7 +9,7 @@
     'duration' => '0',
   ),
 
-  'kernel_limits_urls' => 
+  'kernel_limits_urls' =>
   array (
     'name' => 'kernel_limits_urls',
     'enabled' => true,
@@ -19,7 +19,7 @@
     'duration' => '0',
   ),
 
-  'welcome' => 
+  'welcome' =>
   array (
     'name' => 'welcome',
     'enabled' => true,
@@ -29,4 +29,4 @@
     'duration' => 60, // En secondes
   ),
 
-); ?>
+);

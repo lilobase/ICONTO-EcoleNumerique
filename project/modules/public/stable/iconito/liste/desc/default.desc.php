@@ -7,4 +7,3 @@ $doMessageForm 			= new CopixAction ('liste', 'doMessageForm');
 $go 								= & $getListe;
 $default 						= & $go;
 
-?>

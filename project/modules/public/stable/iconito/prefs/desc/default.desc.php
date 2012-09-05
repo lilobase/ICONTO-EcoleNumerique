@@ -13,4 +13,3 @@ $getprefs    = new CopixAction ('Prefs', 'getPrefs');
 $setprefs    = new CopixAction ('Prefs', 'setPrefs');
 
 $default    = & $getprefs;
-?>

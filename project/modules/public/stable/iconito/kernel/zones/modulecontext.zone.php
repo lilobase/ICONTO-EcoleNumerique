@@ -10,10 +10,10 @@
   Copyright (c) 2010 CAP-TIC <http://www.cap-tic.fr>
  */
 
-class ZoneModuleContext extends enicZone {
-
-    function _createContent(&$toReturn) {
-
+class ZoneModuleContext extends enicZone
+{
+    public function _createContent(&$toReturn)
+    {
         $carnetDeLiaison = (CopixConfig::exists('kernel|carnetDeLiaison') && CopixConfig::get('kernel|carnetDeLiaison'));
         //CopixHTMLHeader::addCSSLink (_resource("styles/module_kernel.css"));
 
@@ -52,28 +52,25 @@ class ZoneModuleContext extends enicZone {
         }
 
         if ($step == 'open') {
-            
+
             $toReturn = '';
-            
-            if (Kernel::getFlashMessage('success'))
-            {
+
+            if (Kernel::getFlashMessage('success')) {
                 $toReturn .= '<p class="mesgSuccess">' . Kernel::getFlashMessage('success').'</p>';
                 Kernel::setFlashMessage('success', '');
             }
-            if (Kernel::getFlashMessage('warning'))
-            {
+            if (Kernel::getFlashMessage('warning')) {
                 $toReturn .= '<p class="mesgError"> ' . Kernel::getFlashMessage('warning').'</p>';
                 Kernel::setFlashMessage('warning', '');
             }
-            if (Kernel::getFlashMessage('error'))
-            {
+            if (Kernel::getFlashMessage('error')) {
                 $toReturn .= '<p class="mesgError">' . Kernel::getFlashMessage('error').'</p>';
                 Kernel::setFlashMessage('error', '');
             }
-            
-                
-                                                            
-            
+
+
+
+
             $toReturn .= '<div class="dashboard module_dash tools_right ink_blue font_dash">';
             $toReturn .= '<div class="dashpanel ' . $panelClass . '">';
             $toReturn .= '	<div class="title">';
@@ -93,9 +90,9 @@ class ZoneModuleContext extends enicZone {
             $toReturn .= $title . '</span>';
             $toReturn .= '	</div>';
             $toReturn .= '	<div class="content content-'.$this->module.'">';
-            
-            
-            
+
+
+
         } else {
             $toReturn = '	</div>';
 
@@ -177,4 +174,3 @@ class ZoneModuleContext extends enicZone {
 
 }
 
-?>

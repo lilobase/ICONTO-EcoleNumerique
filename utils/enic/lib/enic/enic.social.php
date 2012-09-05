@@ -10,27 +10,29 @@
  *
  * @author alemaire
  */
-class enicSocial {
-
+class enicSocial
+{
     public $twitter;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->twitter = new enicSocialTwitter;
     }
 
-    public function startExec() {
-        
+    public function startExec()
+    {
     }
 
-    public function twitter($userName) {
+    public function twitter($userName)
+    {
         $this->twitter->setUserName($userName);
         return $this->twitter->printSource();
     }
 
 }
 
-class enicSocialTwitter {
-
+class enicSocialTwitter
+{
     public $source = 'http://widgets.twimg.com/j/2/widget.js';
     public $numberOfTweets = 4;
     public $version = 2;
@@ -79,11 +81,13 @@ class enicSocialTwitter {
     private $html;
     private $javascript;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->source = 'js/twitter/widget.min.js';
     }
-    
-    public function setSource($source) {
+
+    public function setSource($source)
+    {
         if (!filter_var($source, FILTER_VALIDATE_URL)) {
             throw new Exception('Is not an Url');
         } else {
@@ -91,11 +95,13 @@ class enicSocialTwitter {
         }
     }
 
-    public function setUserName($user) {
+    public function setUserName($user)
+    {
         $this->userName = $user;
     }
 
-    public function setNumberOfTweets($number) {
+    public function setNumberOfTweets($number)
+    {
         if (!is_int($number)) {
             throw new Exception('Is not an integer');
         } else {
@@ -103,7 +109,8 @@ class enicSocialTwitter {
         }
     }
 
-    public function setInterval($interval) {
+    public function setInterval($interval)
+    {
         if (!is_int($interval)) {
             throw new Exception('Is not an integer');
         } else {
@@ -111,24 +118,28 @@ class enicSocialTwitter {
         }
     }
 
-    public function setHeight($height) {
+    public function setHeight($height)
+    {
         $this->height = $height;
     }
 
-    public function setWidth($width) {
+    public function setWidth($width)
+    {
         $this->width = $width;
     }
 
-    public function setType($type) {
+    public function setType($type)
+    {
         $this->type = $type;
     }
-    
-    public function setLanguage($lang) {
+
+    public function setLanguage($lang)
+    {
         $this->language = $lang;
     }
 
-    public function setThemeByContext($context) {
-
+    public function setThemeByContext($context)
+    {
         $theme = $this->theme;
         switch ($context) {
             case 'BU_VILLE':
@@ -139,7 +150,7 @@ class enicSocialTwitter {
                         'background' => '#7CD54F',
             'color' => '#434343'
             ),
-            'tweets' => 
+            'tweets' =>
 
     array(
 
@@ -198,7 +209,8 @@ class enicSocialTwitter {
 $this->setTheme($theme);
 }
 
-public function setTheme($theme) {
+public function setTheme($theme)
+{
 if (!is_array($theme)) {
     throw new Exception('Is not an array');
 }if (empty($theme)) {
@@ -208,7 +220,8 @@ if (!is_array($theme)) {
 }
 }
 
-public function setFeatures($features) {
+public function setFeatures($features)
+{
 if (!is_array($features)) {
     throw new Exception('Is not an array');
 }if (empty($features)) {
@@ -218,8 +231,8 @@ if (!is_array($features)) {
 }
 }
 
-private function buildOptions() {
-
+private function buildOptions()
+{
 $this->options['version'] = $this->version;
 $this->options['type'] = $this->type;
 $this->options['rpp'] = $this->numberOfTweets;
@@ -232,16 +245,19 @@ $this->options['features'] = $this->features;
 return json_encode($this->options);
 }
 
-private function buildLanguage(){
+private function buildLanguage()
+{
     return json_encode($this->i18n[$this->language]);
 }
 
-private function buildJavascript() {
+private function buildJavascript()
+{
     $this->javascript = 'TWTR.i18n.init('.$this->buildLanguage().');'.PHP_EOL;
     $this->javascript .= 'new TWTR.Widget(' . $this->buildOptions() . ').render().setUser(\'' . $this->userName . '\').start();';
 }
 
-private function buildHtml() {
+private function buildHtml()
+{
 //$this->html = '<script charset="utf-8" src="' . $this->source . '"></script>';
 
 $js = enic::get('javascript');
@@ -249,7 +265,8 @@ $js->addFile($this->source);
 $this->html .= '<script type="text/javascript">' .PHP_EOL . $this->javascript . PHP_EOL. '</script>';
 }
 
-public function printSource() {
+public function printSource()
+{
 $this->buildJavascript();
 $this->buildHtml();
 
@@ -258,4 +275,3 @@ return $this->html;
 
 }
 
-?>

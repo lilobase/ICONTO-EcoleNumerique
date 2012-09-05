@@ -13,15 +13,15 @@
  * @package		copix
  * @subpackage	validator
  */
-class CopixValidatorEmail extends CopixAbstractValidator {
-
-	/**
-	 * Attribut privé contenant toutes les extensions par pays
-	 *
-	 * @var array
-	 */
-	private static $_countryCodeTLD = array(        // 252 countries @ Thu May 15 09:01:43 CEST 2008
-	'ac' => "Ascension Island"
+class CopixValidatorEmail extends CopixAbstractValidator
+{
+    /**
+     * Attribut privé contenant toutes les extensions par pays
+     *
+     * @var array
+     */
+    private static $_countryCodeTLD = array(        // 252 countries @ Thu May 15 09:01:43 CEST 2008
+    'ac' => "Ascension Island"
         , 'ad' => "Andorra"
         , 'ae' => "United Arab Emirates"
         , 'af' => "Afghanistan"
@@ -275,13 +275,13 @@ class CopixValidatorEmail extends CopixAbstractValidator {
         , 'zw' => "Zimbabwe"
     );
 
-	/**
-	 * Attribut privé contenant toutes les extensions génériques
-	 *
-	 * @var array
-	 */
-	private static $_genericTLD = array (	// 21 gtld @ Thu May 15 09:01:43 CEST 2008
-	'aero' => "Air-transport industry"
+    /**
+     * Attribut privé contenant toutes les extensions génériques
+     *
+     * @var array
+     */
+    private static $_genericTLD = array (	// 21 gtld @ Thu May 15 09:01:43 CEST 2008
+    'aero' => "Air-transport industry"
         ,'arpa' => "Internet Architecture Board"
         ,'asia' => "Pan-Asia and Asia Pacific community"
         ,'biz' => "Business"
@@ -303,39 +303,41 @@ class CopixValidatorEmail extends CopixAbstractValidator {
         ,'tel' => "Businesses and individuals contact data"
         ,'travel' => "Travel industry");
 
-	/**
-	 * Methode qui fait les tests sur la $pValue
-	 *
-	 * @param mixed $pValue La valeur
-	 */
-	protected function _validate ($pValue) {
-		try {
-			CopixFormatter::getMail ($pValue);
-		} catch (CopixException $e) {
-			return $e->getMessage ();
-		}
-		if ($this->getParam ('tld')) {
-			$arValue = explode ('.', $pValue);
-			$pExt = $arValue [count ($arValue)-1];
-			if (! $this->_isTldValid ($pExt)) {
-				return _i18n ('copix:copixformatter.error.badmail', $pValue);
-			}
+    /**
+     * Methode qui fait les tests sur la $pValue
+     *
+     * @param mixed $pValue La valeur
+     */
+    protected function _validate ($pValue)
+    {
+        try {
+            CopixFormatter::getMail ($pValue);
+        } catch (CopixException $e) {
+            return $e->getMessage ();
+        }
+        if ($this->getParam ('tld')) {
+            $arValue = explode ('.', $pValue);
+            $pExt = $arValue [count ($arValue)-1];
+            if (! $this->_isTldValid ($pExt)) {
+                return _i18n ('copix:copixformatter.error.badmail', $pValue);
+            }
 
-		}
-		return true;
-	}
+        }
+        return true;
+    }
 
-	/**
-	 * Vérification de l'extension
-	 *
-	 * @param string $pExt
-	 * @return boolean
-	 */
-	private function _isTldValid ($pExt) {
-		if (isset (self::$_countryCodeTLD[$pExt]) || isset (self::$_genericTLD[$pExt])) {
-			return true;
-		}
-		return false;
-	}
+    /**
+     * Vérification de l'extension
+     *
+     * @param string $pExt
+     * @return boolean
+     */
+    private function _isTldValid ($pExt)
+    {
+        if (isset (self::$_countryCodeTLD[$pExt]) || isset (self::$_genericTLD[$pExt])) {
+            return true;
+        }
+        return false;
+    }
 
 }

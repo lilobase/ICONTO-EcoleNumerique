@@ -29,9 +29,7 @@
     $result = PHPUnit::run($suite);
 
     $failures = $result->failures();
-    foreach($failures as $failure)
-    {
+    foreach($failures as $failure) {
       echo $failure->toString();
     }
   }
-?>

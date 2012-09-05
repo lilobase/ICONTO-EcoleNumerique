@@ -12,21 +12,23 @@
  * @package		copix
  * @subpackage	db
  */
-class CopixDBConnectionPDO_SQLite extends CopixDBPDOConnection {
+class CopixDBConnectionPDO_SQLite extends CopixDBPDOConnection
+{
    /**
     * Analyse la requête pour qu'elle passe sans encombre dans le driver MSSQL
     */
-   protected function _parseQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null){
-   	  $toReturn = parent::_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
+   protected function _parseQuery ($pQueryString, $pParameters = array (), $pOffset = null, $pCount = null)
+   {
+         $toReturn = parent::_parseQuery ($pQueryString, $pParameters, $pOffset, $pCount);
 
       //only for select query
       if ($toReturn['isSelect'] && ($pOffset !== null || $pCount !== null)){
          $pos = stripos($toReturn['query'], "select");
 
          if ($pCount === null){
-         	$pCount = $this->_getMaxCount ();
+             $pCount = $this->_getMaxCount ();
          }
-        
+
         if ($pCount > 0) {
             $toReturn['query'] .= " LIMIT $pCount";
             if ($pOffset > 0) {
@@ -37,23 +39,24 @@ class CopixDBConnectionPDO_SQLite extends CopixDBPDOConnection {
          $toReturn['offset'] = true;
          $toReturn['count']  = true;
       }
-      
+
       if (! $toReturn ['isSelect']){
-      	$toReturn['isSelect'] = (stripos (trim ($pQueryString), 'PRAGMA') === 0);       	
+          $toReturn['isSelect'] = (stripos (trim ($pQueryString), 'PRAGMA') === 0);
       }
       return $toReturn;
    }
-   
-   
+
+
     /**
      * Retourne la liste des noms de table existantes (visibles de l'utilisateur)
      * @return array
      */
-    public function getTableList () {
+    public function getTableList ()
+    {
         $sql = "SELECT name FROM sqlite_master WHERE type='table' UNION ALL SELECT name FROM sqlite_temp_master WHERE type='table' ORDER BY name";
         $toReturn = array ();
         foreach ($this->doQuery ($sql) as $fields){
-        	$toReturn[] = $fields->name;
+            $toReturn[] = $fields->name;
         }
         return $toReturn;
     }
@@ -63,7 +66,8 @@ class CopixDBConnectionPDO_SQLite extends CopixDBPDOConnection {
      * @param	string	$pTable	le nom de la table dont on veut récupérer les champs
      * @return	array
      */
-    public function getFieldList ($pTable) {
+    public function getFieldList ($pTable)
+    {
         $sql = "PRAGMA table_info($pTable)";
         $result = $this->doQuery ($sql);
         $toReturn = array ();
@@ -81,15 +85,15 @@ class CopixDBConnectionPDO_SQLite extends CopixDBPDOConnection {
             $field->required=($val->notnull != '0') ? 'yes' : 'no';
             $arType = array('int'=>'int','tinyint'=>'int','smallint'=>'int','mediumint'=>'int','bigint'=>'numeric','integer'=>'int','double'=>'float','decimal'=>'float','float'=>'float','numeric'=>'float','real'=>'float','char'=>'varchar','tinyblob'=>'varchar','blob'=>'varchar','tinytext'=>'varchar','text'=>'string','mediumblob'=>'varchar','mediumtext'=>'varchar','longblob'=>'varchar','longtext'=>'varchar','date'=>'date','datetime'=>'datetime', 'time'=>'time', 'varchar'=>'varchar');
             if (isset($arType[strtolower($field->type)])) {
-            	  $field->type= $arType[$field->type];
+                  $field->type= $arType[$field->type];
             } else {
-            	  throw new CopixDBException ("Le type $field->type n'est pas reconnu");
+                  throw new CopixDBException ("Le type $field->type n'est pas reconnu");
             }
             if ($field->type == 'int' && $field->isAutoIncrement){
-            	$field->type = 'autoincrement';
+                $field->type = 'autoincrement';
             }
             if (isset($temp_type[1])){
-            	 $field->maxlength = substr($temp_type[1],0,-1);
+                 $field->maxlength = substr($temp_type[1],0,-1);
             }
             $field->sequence='';
             $field->pk=$field->primary;
@@ -97,16 +101,16 @@ class CopixDBConnectionPDO_SQLite extends CopixDBPDOConnection {
         }
         return $toReturn;
     }
-    
+
     /**
      * Indique si le driver est disponible
      * @return bool
      */
-    static public function isAvailable (){
-		if (!class_exists ('PDO')){
-			return false;
-		}
-		return in_array ('sqlite', PDO::getAvailableDrivers ());
-    } 
+    public static function isAvailable ()
+    {
+        if (!class_exists ('PDO')){
+            return false;
+        }
+        return in_array ('sqlite', PDO::getAvailableDrivers ());
+    }
 }
-?>

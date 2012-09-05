@@ -86,14 +86,14 @@
 	            type="string"
 	            maxlength="8"
 	            required="yes"
-	            />	            
+	            />
 	     <property name="time_bact"
 	            fieldName="time_bact"
 	            captioni18n="dao.blogarticle.fields.time_bact"
 	            type="string"
 	            maxlength="5"
 	            required="yes"
-	            />	            
+	            />
 	     <property name="url_bact"
 	            fieldName="url_bact"
 	            captioni18n="dao.blogarticle.fields.url_bacg"

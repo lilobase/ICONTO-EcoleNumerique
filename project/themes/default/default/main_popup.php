@@ -7,12 +7,12 @@ $ENpopup = 1;
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr" lang="fr">
 
 <head>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-	<title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
-	<link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
-	<?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
-	<?php include_once COPIX_PROJECT_PATH."themes/default/styles.php"; ?>
-	<?php echo $HTML_HEAD; ?>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
+    <?php include_once COPIX_PROJECT_PATH."themes/default/scripts.php"; ?>
+    <?php include_once COPIX_PROJECT_PATH."themes/default/styles.php"; ?>
+    <?php echo $HTML_HEAD; ?>
 </head>
 
 
@@ -23,12 +23,12 @@ $ENpopup = 1;
 <div id="ajaxDiv"></div>
 
 <div id="page">
-						<div id="contentmain">
-							<div class="<?php echo $module; ?>">
-							<?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:false))); } ?>
-							<?php echo $MAIN; ?>
-							</div>
-						</div>
+                        <div id="contentmain">
+                            <div class="<?php echo $module; ?>">
+                            <?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU, 'popup'=>true, 'canClose'=>(isset($CAN_CLOSE)?$CAN_CLOSE:false))); } ?>
+                            <?php echo $MAIN; ?>
+                            </div>
+                        </div>
 </div><!-- page -->
 
 </body>

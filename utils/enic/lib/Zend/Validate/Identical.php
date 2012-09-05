@@ -79,7 +79,7 @@ class Zend_Validate_Identical extends Zend_Validate_Abstract
             }
 
             $this->setToken($token['token']);
-        } else if (null !== $token) {
+        } elseif (null !== $token) {
             $this->setToken($token);
         }
     }

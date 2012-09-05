@@ -2,4 +2,4 @@
 <?php if ($currentPage>1) { ?><a href="<?php echo _url('#', array('page_'.$idlist=>($currentPage-1))); ?>" ><img src="<?php echo _resource('images/icon-16/pager-previous.png'); ?>" alt="&lt;" /></a><?php } ?>
 <?php echo $currentPage.'/'.$nbpages; ?>
 <?php if ($currentPage < $nbpages) { ?><a href="<?php echo _url('#', array('page_'.$idlist=>($currentPage+1))); ?>"><img src="<?php echo _resource('images/icon-16/pager-next.png'); ?>" alt="&gt;" /></a><?php } ?>
-<?php if ($currentPage < $nbpages) { ?><a href="<?php echo _url('#', array('page_'.$idlist=>($nbpages))); ?>"><img src="<?php echo _resource('images/icon-16/pager-last.png'); ?>" alt="&raquo;" /></a><?php } ?>
+<?php if ($currentPage < $nbpages) { ?><a href="<?php echo _url('#', array('page_'.$idlist=>($nbpages))); ?>"><img src="<?php echo _resource('images/icon-16/pager-last.png'); ?>" alt="&raquo;" /></a><?php }

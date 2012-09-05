@@ -10,12 +10,12 @@
  * Do not inherit directly from this class, instead inherit from the specialized
  * ones in lib/plugin
  */
-class DokuWiki_Plugin {
-
-  var $localised = false;        // set to true by setupLocale() after loading language dependent strings
-  var $lang = array();           // array to hold language dependent strings, best accessed via ->getLang()
-  var $configloaded = false;     // set to true by loadConfig() after loading plugin configuration variables
-  var $conf = array();           // array to hold plugin settings, best accessed via ->getConf()
+class DokuWiki_Plugin
+{
+  public $localised = false;        // set to true by setupLocale() after loading language dependent strings
+  public $lang = array();           // array to hold language dependent strings, best accessed via ->getLang()
+  public $configloaded = false;     // set to true by loadConfig() after loading plugin configuration variables
+  public $conf = array();           // array to hold plugin settings, best accessed via ->getConf()
 
   /**
    * General Info
@@ -29,15 +29,16 @@ class DokuWiki_Plugin {
    * desc   - Short description of the plugin (Text only)
    * url    - Website with more information on the plugin (eg. syntax description)
    */
-  function getInfo(){
+  public function getInfo()
+  {
     trigger_error('getInfo() not implemented in '.get_class($this), E_USER_WARNING);
   }
 
   // plugin introspection methods
   // extract from class name, format = <plugin type>_plugin_<name>[_<component name>]
-  function getPluginType() { list($t) = explode('_', get_class($this), 2); return $t;  }
-  function getPluginName() { list($t, $p, $n) = explode('_', get_class($this), 4); return $n; }
-  function getPluginComponent() { list($t, $p, $n, $c) = explode('_', get_class($this), 4); return (isset($c)?$c:''); }
+  public function getPluginType() { list($t) = explode('_', get_class($this), 2); return $t;  }
+  public function getPluginName() { list($t, $p, $n) = explode('_', get_class($this), 4); return $n; }
+  public function getPluginComponent() { list($t, $p, $n, $c) = explode('_', get_class($this), 4); return (isset($c)?$c:''); }
 
   // localisation methods
   /**
@@ -49,7 +50,8 @@ class DokuWiki_Plugin {
    * @param   $id     id of the string to be retrieved
    * @return  string  string in appropriate language or english if not available
    */
-  function getLang($id) {
+  public function getLang($id)
+  {
     if (!$this->localised) $this->setupLocale();
 
     return (isset($this->lang[$id]) ? $this->lang[$id] : '');
@@ -64,7 +66,8 @@ class DokuWiki_Plugin {
    * @param   $id     id of language dependent wiki page
    * @return  string  parsed contents of the wiki page in xhtml format
    */
-  function locale_xhtml($id) {
+  public function locale_xhtml($id)
+  {
     return p_cached_output($this->localFN($id));
   }
 
@@ -73,7 +76,8 @@ class DokuWiki_Plugin {
    * prepends appropriate path for a language dependent filename
    * plugin equivalent of localFN()
    */
-  function localFN($id) {
+  public function localFN($id)
+  {
     global $conf;
     $plugin = $this->getPluginName();
     $file = DOKU_PLUGIN.$plugin.'/lang/'.$conf['lang'].'/'.$id.'.txt';
@@ -89,7 +93,8 @@ class DokuWiki_Plugin {
    *  reads all the plugins language dependent strings into $this->lang
    *  this function is automatically called by getLang()
    */
-  function setupLocale() {
+  public function setupLocale()
+  {
     if ($this->localised) return;
 
     global $conf;            // definitely don't invoke "global $lang"
@@ -111,8 +116,8 @@ class DokuWiki_Plugin {
    *
    * use this function to access plugin configuration variables
    */
-  function getConf($setting){
-
+  public function getConf($setting)
+  {
     if (!$this->configloaded){ $this->loadConfig(); }
 
     return $this->conf[$setting];
@@ -123,7 +128,8 @@ class DokuWiki_Plugin {
    * merges the plugin's default settings with any local settings
    * this function is automatically called through getConf()
    */
-  function loadConfig(){
+  public function loadConfig()
+  {
     global $conf;
 
     $defaults = $this->readDefaultSettings();
@@ -144,8 +150,8 @@ class DokuWiki_Plugin {
    *
    * @return    array    setting => value
    */
-  function readDefaultSettings() {
-
+  public function readDefaultSettings()
+  {
     $path = DOKU_PLUGIN.$this->getPluginName().'/conf/';
     $conf = array();
 
@@ -166,7 +172,8 @@ class DokuWiki_Plugin {
    *
    * @return  object  helper plugin object
    */
-  function loadHelper($name, $msg){
+  public function loadHelper($name, $msg)
+  {
     if (!plugin_isdisabled($name)) $obj =& plugin_load('helper',$name);
     else $obj = NULL;
     if (is_null($obj) && $msg) msg("Helper plugin $name is not available or invalid.",-1);
@@ -180,7 +187,8 @@ class DokuWiki_Plugin {
    * email
    * standardised function to generate an email link according to obfuscation settings
    */
-  function email($email, $name='', $class='', $more='') {
+  public function email($email, $name='', $class='', $more='')
+  {
     if (!$email) return $name;
     $email = obfuscate($email);
     if (!$name) $name = $email;
@@ -192,7 +200,8 @@ class DokuWiki_Plugin {
    * external_link
    * standardised function to generate an external link according to conf settings
    */
-  function external_link($link, $title='', $class='', $target='', $more='') {
+  public function external_link($link, $title='', $class='', $target='', $more='')
+  {
     global $conf;
 
     $link = htmlentities($link);
@@ -211,14 +220,15 @@ class DokuWiki_Plugin {
    * output text string through the parser, allows dokuwiki markup to be used
    * very ineffecient for small pieces of data - try not to use
    */
-  function render($text, $format='xhtml') {
+  public function render($text, $format='xhtml')
+  {
     return p_render($format, p_get_instructions($text),$info);
   }
 
   // deprecated functions
-  function plugin_localFN($id) { return $this->localFN($id); }
-  function plugin_locale_xhtml($id) { return $this->locale_xhtml($id); }
-  function plugin_email($e, $n='', $c='', $m='') { return $this->email($e, $n, $c, $m); }
-  function plugin_link($l, $t='', $c='', $to='', $m='') { return $this->external_link($l, $t, $c, $to, $m); }
-  function plugin_render($t, $f='xhtml') { return $this->render($t, $f); }
+  public function plugin_localFN($id) { return $this->localFN($id); }
+  public function plugin_locale_xhtml($id) { return $this->locale_xhtml($id); }
+  public function plugin_email($e, $n='', $c='', $m='') { return $this->email($e, $n, $c, $m); }
+  public function plugin_link($l, $t='', $c='', $to='', $m='') { return $this->external_link($l, $t, $c, $to, $m); }
+  public function plugin_render($t, $f='xhtml') { return $this->render($t, $f); }
 }

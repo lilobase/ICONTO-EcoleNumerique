@@ -24,30 +24,30 @@
 *           * = any extra params will be used to generate the url
 *
 */
-function smarty_function_copixlist_start($params, &$me) {
-	$assign = '';
-	if(isset($params['assign'])){
-		$assign = $params['assign'];
-		unset($params['assign']);
-	}
+function smarty_function_copixlist_start($params, &$me)
+{
+    $assign = '';
+    if(isset($params['assign'])){
+        $assign = $params['assign'];
+        unset($params['assign']);
+    }
 
-	if (!isset($params['list'])) {
+    if (!isset($params['list'])) {
         $params['list'] = null;
-	}
-	
-	$list = CopixListFactory::get ($params['list']);
-	
-	if (!isset($params['action'])) {
-	    $params['action'] = null;
-	}
+    }
 
-	$toReturn = $list->start ($params['action']);
-	
-	if (strlen($assign) > 0){
-		$me->assign($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+    $list = CopixListFactory::get ($params['list']);
+
+    if (!isset($params['action'])) {
+        $params['action'] = null;
+    }
+
+    $toReturn = $list->start ($params['action']);
+
+    if (strlen($assign) > 0){
+        $me->assign($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

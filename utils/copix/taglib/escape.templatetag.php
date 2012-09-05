@@ -11,12 +11,13 @@
 * @package		copix
 * @subpackage	taglib
 */
-class TemplateTagEscape extends CopixTemplateTag {
-	public function process ($pParams, $pContent=null){
-		if (is_array ($pParams)){
-			return _copix_utf8_htmlentities (isset ($pParams['value']) ? $pParams['value'] : '');
-		}
-		return _copix_utf8_htmlentities ($pParams);
-	}
+class TemplateTagEscape extends CopixTemplateTag
+{
+    public function process ($pParams, $pContent=null)
+    {
+        if (is_array ($pParams)){
+            return _copix_utf8_htmlentities (isset ($pParams['value']) ? $pParams['value'] : '');
+        }
+        return _copix_utf8_htmlentities ($pParams);
+    }
 }
-?>

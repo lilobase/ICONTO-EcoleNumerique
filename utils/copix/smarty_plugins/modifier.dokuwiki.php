@@ -41,8 +41,8 @@ require_once (COPIX_UTILS_PATH.'WikiIconito.lib.php');
 _classInclude('malle|malleservice');
 _classInclude('malle|kernelmalle');
 
-function smarty_modifier_dokuwiki ($string){
-	return utf8_decode(p_wiki_xhtml (utf8_encode($string)));	
+function smarty_modifier_dokuwiki ($string)
+{
+    return utf8_decode(p_wiki_xhtml (utf8_encode($string)));
 }
 
-?>

@@ -15,11 +15,11 @@ function smarty_resource_copix_source ($tpl_name, &$tpl_source, &$smarty)
 {
     // do database call here to fetch your template,
     // populating $tpl_source
-	$file = copix_extract_file_path ($tpl_name, COPIX_TEMPLATES_DIR) ;
-	if ($file && $fp = fopen($file, 'r')) {
-		$tpl_source = fread($fp, filesize($file)) ;
-		return true;
-	} else {
+    $file = copix_extract_file_path ($tpl_name, COPIX_TEMPLATES_DIR) ;
+    if ($file && $fp = fopen($file, 'r')) {
+        $tpl_source = fread($fp, filesize($file)) ;
+        return true;
+    } else {
         return false;
     }
 }
@@ -27,9 +27,9 @@ function smarty_resource_copix_source ($tpl_name, &$tpl_source, &$smarty)
 function smarty_resource_copix_timestamp($tpl_name, &$tpl_timestamp, &$smarty)
 {
     // do database call here to populate $tpl_timestamp.
-	$file = copix_extract_file_path ($tpl_name, COPIX_TEMPLATES_DIR) ;
-	$tpl_timestamp = filemtime($file) ;
-	return true ;
+    $file = copix_extract_file_path ($tpl_name, COPIX_TEMPLATES_DIR) ;
+    $tpl_timestamp = filemtime($file) ;
+    return true ;
 }
 
 function smarty_resource_copix_secure($tpl_name, &$smarty)
@@ -51,23 +51,23 @@ function smarty_resource_copix_trusted($tpl_name, &$smarty)
 * @param    string  $extension
 * @return   string  chemin du fichier indiqué ou false si inconnu
 */
- function copix_extract_file_path ($fileId, $subDir , $extension = '') {
-	$fileInfo = CopixSelectorFactory::create ($fileId);
-	$fileName = $fileInfo->fileName;
-	if($extension != ''){
-		$fileName = strtolower($fileName).$extension;
-	}
-	$moduleFile = $fileInfo ->getPath($subDir) . $fileName;
-	$projectOverloadedFilePath = $fileInfo->getOverloadedPath($subDir);
-	if($projectOverloadedFilePath !== null){
-		$projectOverloadedFilePath.=$fileName;
-		if(is_readable($projectOverloadedFilePath))
-		return $projectOverloadedFilePath;
-	}
-	if(is_readable($moduleFile)){
-		return $moduleFile;
-	}else{
-		return false;
-	}
+ function copix_extract_file_path ($fileId, $subDir , $extension = '')
+ {
+    $fileInfo = CopixSelectorFactory::create ($fileId);
+    $fileName = $fileInfo->fileName;
+    if($extension != ''){
+        $fileName = strtolower($fileName).$extension;
+    }
+    $moduleFile = $fileInfo ->getPath($subDir) . $fileName;
+    $projectOverloadedFilePath = $fileInfo->getOverloadedPath($subDir);
+    if($projectOverloadedFilePath !== null){
+        $projectOverloadedFilePath.=$fileName;
+        if(is_readable($projectOverloadedFilePath))
+        return $projectOverloadedFilePath;
+    }
+    if(is_readable($moduleFile)){
+        return $moduleFile;
+    }else{
+        return false;
+    }
 }
-?>

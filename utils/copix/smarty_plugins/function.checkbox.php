@@ -22,11 +22,11 @@
  *           objectMap   = (optional) if given idProperty;captionProperty
  *           extra       = (optionnal) extra parameters we may give to the radio elements
  */
-function smarty_function_checkbox($params, &$me) {
+function smarty_function_checkbox($params, &$me)
+{
    if (isset ($params['assign'])) {
       $me->assign($params['assign'], _tag ('checkbox', $params));
    }else {
       return _tag ('checkbox', $params);
    }
 }
-?>

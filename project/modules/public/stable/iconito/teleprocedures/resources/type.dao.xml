@@ -15,48 +15,48 @@
 		type="autoincrement"
 		captioni18n="teleprocedures.type.field.idtype"
 		/>
-	
+
 	<property name="nom"
 		type="string"
 		maxlength="50"
 		required="yes"
 		captioni18n="teleprocedures.type.field.nom"
 		/>
-	
+
 	<property name="is_online"
 		type="integer"
 		required="yes"
 		captioni18n="teleprocedures.type.field.is_online"
 		/>
-	
+
 	<property name="teleprocedure"
 		type="integer"
 		required="yes"
 		captioni18n="teleprocedures.type.field.teleprocedure"
 		/>
-	
+
 	<property name="format"
 		type="string"
 		required="yes"
 		captioni18n="teleprocedures.type.field.format"
 		/>
-	
+
 	<property name="texte_defaut"
 		type="string"
 		captioni18n="teleprocedures.type.field.texte_defaut"
 		/>
-	
+
 	<property name="responsables"
 		type="string"
 		required="yes"
 		captioni18n="teleprocedures.type.field.responsables"
 		/>
-	
+
 	<property name="lecteurs"
 		type="string"
 		captioni18n="teleprocedures.type.field.lecteurs"
 		/>
-	
+
 	<property name="mail_from"
 		type="string"
 		captioni18n="teleprocedures.type.field.mail_from"
@@ -73,7 +73,7 @@
 		type="string"
 		captioni18n="teleprocedures.type.field.mail_message"
 		/>
-	
+
 </properties>
 <methods>
 
@@ -103,7 +103,7 @@
 			<orderitem property="idtype" way="asc" />
 		</order>
 	</method>
-	
+
 </methods>
 
 </daodefinition>

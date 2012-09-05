@@ -3,12 +3,12 @@
 // File name   : example_014.php
 // Begin       : 2008-03-04
 // Last Update : 2009-05-07
-// 
+//
 // Description : Example 014 for TCPDF class
 //               Javascript Form and user rights (only works on Adobe Acrobat)
-// 
+//
 // Author: Nicola Asuni
-// 
+//
 // (c) Copyright:
 //               Nicola Asuni
 //               Tecnick.com s.r.l.
@@ -34,7 +34,7 @@ require_once('../config/lang/eng.php');
 require_once('../tcpdf.php');
 
 // create new PDF document
-$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false); 
+$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
@@ -62,10 +62,10 @@ $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
 
 //set image scale factor
-$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO); 
+$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 
 //set some language-dependent strings
-$pdf->setLanguageArray($l); 
+$pdf->setLanguageArray($l);
 
 // ---------------------------------------------------------
 
@@ -83,37 +83,37 @@ $pdf->setUserRights();
 Caution: the generated PDF works only with Acrobat Reader 5.1.
 It is possible to create text fields, combo boxes, check boxes and buttons. Fields are created at the current position and are given a name. This name allows to manipulate them via JavaScript in order to perform some validation for instance.
 Upon field creation, an associative array can be passed to set a number of properties, among which:
-	rect: Position and size of field on page.
-	borderStyle: Rectangle border appearance.
-	strokeColor: Color of bounding rectangle.
-	lineWidth: Width of the edge of the surrounding rectangle.
-	rotation: Rotation of field in 90-degree increments.
-	fillColor: Background color of field (gray, transparent, RGB, or CMYK).
-	userName: Short description of field that appears on mouse-over.
-	readonly: Whether the user may change the field contents.
-	doNotScroll: Whether text fields may scroll.
-	display: Whether visible or hidden on screen or in print.
-	textFont: Text font.
-	textColor: Text color.
-	textSize: Text size.
-	richText: Rich text.
-	richValue: Text.
-	comb: Text comb format.
-	multiline: Text multiline.
-	charLimit: Text limit to number of characters.
-	fileSelect: Text file selection format.
-	password: Text password format.
-	alignment: Text layout in text fields.
-	buttonAlignX: X alignment of icon on button face.
-	buttonAlignY: Y alignment of icon on button face.
-	buttonFitBounds: Relative scaling of an icon to fit inside a button face.
-	buttonScaleHow: Relative scaling of an icon to fit inside a button face.
-	buttonScaleWhen: Relative scaling of an icon to fit inside a button face.
-	highlight: Appearance of a button when pushed.
-	style: Glyph style for checkbox and radio buttons.
-	numItems: Number of items in a combo box or list box.
-	editable: Whether the user can type in a combo box.
-	multipleSelection: Whether multiple list box items may be selected.
+    rect: Position and size of field on page.
+    borderStyle: Rectangle border appearance.
+    strokeColor: Color of bounding rectangle.
+    lineWidth: Width of the edge of the surrounding rectangle.
+    rotation: Rotation of field in 90-degree increments.
+    fillColor: Background color of field (gray, transparent, RGB, or CMYK).
+    userName: Short description of field that appears on mouse-over.
+    readonly: Whether the user may change the field contents.
+    doNotScroll: Whether text fields may scroll.
+    display: Whether visible or hidden on screen or in print.
+    textFont: Text font.
+    textColor: Text color.
+    textSize: Text size.
+    richText: Rich text.
+    richValue: Text.
+    comb: Text comb format.
+    multiline: Text multiline.
+    charLimit: Text limit to number of characters.
+    fileSelect: Text file selection format.
+    password: Text password format.
+    alignment: Text layout in text fields.
+    buttonAlignX: X alignment of icon on button face.
+    buttonAlignY: Y alignment of icon on button face.
+    buttonFitBounds: Relative scaling of an icon to fit inside a button face.
+    buttonScaleHow: Relative scaling of an icon to fit inside a button face.
+    buttonScaleWhen: Relative scaling of an icon to fit inside a button face.
+    highlight: Appearance of a button when pushed.
+    style: Glyph style for checkbox and radio buttons.
+    numItems: Number of items in a combo box or list box.
+    editable: Whether the user can type in a combo box.
+    multipleSelection: Whether multiple list box items may be selected.
 Colors can be chosen in the following list (case sensitive): black white red green blue cyan magenta yellow dkGray gray ltGray or be in the form #RRGGBB.
 */
 
@@ -192,28 +192,30 @@ $pdf->Button('print', 20, 8, 'Print', 'Print()', array('textColor'=>'yellow', 'f
 
 //Form validation functions
 $pdf->IncludeJS("
-function CheckField(name,message) {
-	var f = getField(name);
-	if(f.value == '') {
-	    app.alert(message);
-	    f.setFocus();
-	    return false;
-	}
-	return true;
+function CheckField(name,message)
+{
+    var f = getField(name);
+    if(f.value == '') {
+        app.alert(message);
+        f.setFocus();
+        return false;
+    }
+    return true;
 }
 
-function Print() {
-	//Validation
-	if(!CheckField('firstname','First name is mandatory'))
-		return;
-	if(!CheckField('lastname','Last name is mandatory'))
-		return;
-	if(!CheckField('gender','Gender is mandatory'))
-		return;
-	if(!CheckField('address','Address is mandatory'))
-		return;
-	//Print
-	print();
+function Print()
+{
+    //Validation
+    if(!CheckField('firstname','First name is mandatory'))
+        return;
+    if(!CheckField('lastname','Last name is mandatory'))
+        return;
+    if(!CheckField('gender','Gender is mandatory'))
+        return;
+    if(!CheckField('address','Address is mandatory'))
+        return;
+    //Print
+    print();
 }
 ");
 
@@ -223,6 +225,5 @@ function Print() {
 $pdf->Output('example_014.pdf', 'I');
 
 //============================================================+
-// END OF FILE                                                 
+// END OF FILE
 //============================================================+
-?>

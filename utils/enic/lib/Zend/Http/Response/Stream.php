@@ -83,7 +83,8 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
      *
      * @return boolean
      */
-    public function getCleanup() {
+    public function getCleanup()
+    {
         return $this->_cleanup;
     }
 
@@ -92,7 +93,8 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
      *
      * @param bool $cleanup Set cleanup trigger
      */
-    public function setCleanup($cleanup = true) {
+    public function setCleanup($cleanup = true)
+    {
         $this->_cleanup = $cleanup;
     }
 
@@ -101,7 +103,8 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
      *
      * @return string
      */
-    public function getStreamName() {
+    public function getStreamName()
+    {
         return $this->stream_name;
     }
 
@@ -111,7 +114,8 @@ class Zend_Http_Response_Stream extends Zend_Http_Response
      * @param string $stream_name Name to set
      * @return Zend_Http_Response_Stream
      */
-    public function setStreamName($stream_name) {
+    public function setStreamName($stream_name)
+    {
         $this->stream_name = $stream_name;
         return $this;
     }

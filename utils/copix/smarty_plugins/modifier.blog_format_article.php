@@ -24,27 +24,28 @@
  * @return string
  */
 
-function smarty_modifier_blog_format_article ($txt, $format) {
-	$res = '';
-	switch ($format) {
-		case 'wiki' :
-			require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.wiki.php');
-			$res = smarty_modifier_wiki ($txt);
-			break;
-		case 'dokuwiki' :
-			require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.dokuwiki.php');
-			$res = smarty_modifier_dokuwiki ($txt);
-			break;
-		case 'html' :
-		case 'fckeditor' :
-		case 'ckeditor' :
-			$res = $txt;
-			break;
-		default :
-			$res = "Format $format non géré dans smarty_modifier_blog_format_article";
-	}
-	return $res;
-	/*
+function smarty_modifier_blog_format_article ($txt, $format)
+{
+    $res = '';
+    switch ($format) {
+        case 'wiki' :
+            require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.wiki.php');
+            $res = smarty_modifier_wiki ($txt);
+            break;
+        case 'dokuwiki' :
+            require_once (COPIX_UTILS_PATH.'../smarty_plugins/modifier.dokuwiki.php');
+            $res = smarty_modifier_dokuwiki ($txt);
+            break;
+        case 'html' :
+        case 'fckeditor' :
+        case 'ckeditor' :
+            $res = $txt;
+            break;
+        default :
+            $res = "Format $format non géré dans smarty_modifier_blog_format_article";
+    }
+    return $res;
+    /*
     require_once(COPIX_UTILS_PATH.'CopixWikiRenderer.lib.php');
 
     if($config_file_selector == '' )
@@ -56,7 +57,6 @@ function smarty_modifier_blog_format_article ($txt, $format) {
       $wiki= new CopixWikiRenderer($config_file_selector);
 
     return $wiki->render($string);
-	*/
+    */
 }
 
-?>

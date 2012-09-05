@@ -1,6 +1,6 @@
 <?php
-class enicNodeMatrix extends enicTree{
-
+class enicNodeMatrix extends enicTree
+{
     public $right;
     public $member_of;
     public $descendant_of;
@@ -12,16 +12,17 @@ class enicNodeMatrix extends enicTree{
     public $id;
     public $director_of;
 
-    public function startExec(){
-        
+    public function startExec()
+    {
     }
 
-    public function addExec(){
+    public function addExec()
+    {
         $this->_right = new loadRightMatrix();
         $this->member_of = false;
         $this->descendant_of = false;
         $this->admin_of = false;
-	$this->animator = false;
+    $this->animator = false;
         $this->kernelChildren = array();
         $this->kernelParent = null;
         $this->director_of = false;
@@ -31,8 +32,8 @@ class enicNodeMatrix extends enicTree{
 
 }
 
-class loadRightMatrix{
-    
+class loadRightMatrix
+{
     //right on users type
     public $parent;
     public $eleve;
@@ -46,7 +47,8 @@ class loadRightMatrix{
     public $count;
 
     //build right tree
-    public function __construct(){
+    public function __construct()
+    {
         $this->parent = new loadRightMatrixAction();
         $this->eleve = new loadRightMatrixAction();
         $this->enseignant = new loadRightMatrixAction();
@@ -62,10 +64,11 @@ class loadRightMatrix{
         $this->count = new loadRightMatrixAction();
         $this->count->voir = 0;
         $this->count->communiquer = 0;
-        
+
     }
 
-    public function __get($name){
+    public function __get($name)
+    {
         switch ($name){
             case 'USER_RES':
                 return $this->parent;
@@ -96,10 +99,11 @@ class loadRightMatrix{
             break;
         }
     }
-    
+
 }
 
-class loadRightMatrixTypeUser{
+class loadRightMatrixTypeUser
+{
     //right on users type
     public $parent;
     public $eleve;
@@ -107,10 +111,10 @@ class loadRightMatrixTypeUser{
     public $directeur;
     public $agent_ville;
     public $invite;
-    
+
     //build right tree
-    public function __construct(){
-        
+    public function __construct()
+    {
         $options =& enic::get('options');
         $bool = ($options->matrix->bypass) ? true : false;
 
@@ -121,10 +125,11 @@ class loadRightMatrixTypeUser{
         $this->agent_ville = $bool;
         $this->invite = $bool;
         $this->administratif = $bool;
-	$this->animateur = $bool;
-        
+    $this->animateur = $bool;
+
     }
-    public function __get($name){
+    public function __get($name)
+    {
         switch ($name){
             case 'USER_RES':
                 return $this->parent;
@@ -147,13 +152,14 @@ class loadRightMatrixTypeUser{
             case 'USER_EXT':
                 return $this->invite;
             break;
-	    case 'USER_ATI':
-		return $this->animateur;
-	    break;
+        case 'USER_ATI':
+        return $this->animateur;
+        break;
         }
     }
 
-    public function __set($name, $value){
+    public function __set($name, $value)
+    {
         switch ($name){
             case 'USER_RES':
                 return $this->parent = $value;
@@ -176,29 +182,30 @@ class loadRightMatrixTypeUser{
             case 'USER_EXT':
                 return $this->invite = $value;
             break;
-	    case 'USER_ATI':
-		return $this->animateur = $value;
-	    break;
+        case 'USER_ATI':
+        return $this->animateur = $value;
+        break;
         }
     }
 }
 
-class loadRightMatrixAction{
-    
+class loadRightMatrixAction
+{
      //right on action
     public $voir;
     public $communiquer;
-    
+
     //build right tree
-    public function __construct(){
-        
+    public function __construct()
+    {
         $options =& enic::get('options');
         $bool = ($options->matrix->bypass) ? true : false;
         $this->voir = $bool;
         $this->communiquer = $bool;
     }
 
-    public function __get($name){
+    public function __get($name)
+    {
         switch ($name){
             case 'VOIR':
                 return $this->voir;
@@ -209,7 +216,8 @@ class loadRightMatrixAction{
         }
     }
 
-    public function __set($name, $value){
+    public function __set($name, $value)
+    {
         switch ($name){
             case 'VOIR':
                 return $this->voir = $value;
@@ -219,6 +227,5 @@ class loadRightMatrixAction{
             break;
         }
     }
-    
+
 }
-?>

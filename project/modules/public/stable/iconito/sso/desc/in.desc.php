@@ -6,4 +6,3 @@ $login			= new CopixAction ('in', 'login');
 $default		= & $challenge;
 
 
-?>

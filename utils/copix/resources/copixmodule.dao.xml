@@ -28,6 +28,6 @@
          type="string"
          maxlength="255"
          />
-         
+
  </properties>
 </daodefinition>

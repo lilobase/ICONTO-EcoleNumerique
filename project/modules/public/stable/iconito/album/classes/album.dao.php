@@ -11,13 +11,14 @@
 
 
 
-class DAOAlbum {
-	
-	// Le nb de photos d'un album photos
-	function getNbPhotosInAlbum ($id_album) {
-		$critere = 'SELECT COUNT(PHO.id) AS nb FROM module_album_photos PHO WHERE PHO.id_album='.$id_album.'';
-		return _doQuery($critere);
-	}
+class DAOAlbum
+{
+    // Le nb de photos d'un album photos
+    public function getNbPhotosInAlbum ($id_album)
+    {
+        $critere = 'SELECT COUNT(PHO.id) AS nb FROM module_album_photos PHO WHERE PHO.id_album='.$id_album.'';
+        return _doQuery($critere);
+    }
 
 
 }
@@ -25,4 +26,3 @@ class DAOAlbum {
 
 
 
-?>

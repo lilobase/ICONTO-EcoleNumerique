@@ -8,22 +8,22 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class AgendaAuth {
+class AgendaAuth
+{
+    /**
+    * Retourne le niveau de droit de la personne connectée
+    * @param integer $idAgenda l'identifiant de l'agenda
+    */
+    public function getCapability($idAgenda)
+    {
+        if (!$idAgenda) return 0;
 
-	/**
-	* Retourne le niveau de droit de la personne connectée
-	* @param integer $idAgenda l'identifiant de l'agenda
-	*/
-	function getCapability($idAgenda){
-		
-		if (!$idAgenda) return 0;
-		
-		
-		if (!($d=_sessionGet ('modules|agenda|rights|'.$idAgenda))) {
-			$d = Kernel::getModRight('MOD_AGENDA', $idAgenda);
-			_sessionSet ('modules|agenda|rights|'.$idAgenda, $d);
-		}
-		
+
+        if (!($d=_sessionGet ('modules|agenda|rights|'.$idAgenda))) {
+            $d = Kernel::getModRight('MOD_AGENDA', $idAgenda);
+            _sessionSet ('modules|agenda|rights|'.$idAgenda, $d);
+        }
+
     if ($d >= PROFILE_CCV_MEMBER)
       $res = AgendaAuth::getModerate();
     //elseif ($d >= PROFILE_CCV_VALID)
@@ -32,44 +32,48 @@ class AgendaAuth {
       $res = AgendaAuth::getRead();
     else
       $res = AgendaAuth::getNone();
-		
+
     //print_r ("idAgenda=$idAgenda / res=$res<br>");
-		return $res;
-	}
-	
-	/*
-	* @access : static
-	*/
-	function getNone(){
-		return 0;	
-	}
-	
-	/*
-	* @access : static
-	*/
-	function getRead(){
-		return 10;	
-	}
-	
-	/*
-	* @access : static
-	*/
-	function getWriteAgenda(){
-		return 20;	
-	}
-	
-	/*
-	* @access : static
-	*/
-	function getWriteLecon(){
-		return 30;	
-	}
-	
-	/*
-	* @access : static
-	*/
-	function getModerate(){
-		return 40;	
-	}
+        return $res;
+    }
+
+    /*
+    * @access : static
+    */
+    public function getNone()
+    {
+        return 0;
+    }
+
+    /*
+    * @access : static
+    */
+    public function getRead()
+    {
+        return 10;
+    }
+
+    /*
+    * @access : static
+    */
+    public function getWriteAgenda()
+    {
+        return 20;
+    }
+
+    /*
+    * @access : static
+    */
+    public function getWriteLecon()
+    {
+        return 30;
+    }
+
+    /*
+    * @access : static
+    */
+    public function getModerate()
+    {
+        return 40;
+    }
 }
-?>

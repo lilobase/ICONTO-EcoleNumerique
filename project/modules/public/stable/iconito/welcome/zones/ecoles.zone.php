@@ -2,13 +2,14 @@
 
 /**
  * Affichage de la liste des ecoles
- * 
+ *
  * @package Iconito
  * @subpackage Welcome
  */
-class ZoneEcoles extends enicZone {
-
-    public function __construct() {
+class ZoneEcoles extends enicZone
+{
+    public function __construct()
+    {
         parent::__construct();
 
         $this->defaultVille = null;
@@ -27,8 +28,8 @@ class ZoneEcoles extends enicZone {
      * @param string $groupBy Si regroupement. Peut valoir "type"
      * @param integer $dispType 1 pour afficher le type des ecoles, 0 pour n'afficher que leur nom. Par defaut : 1
      */
-    function _createContent(&$toReturn) {
-
+    public function _createContent(&$toReturn)
+    {
         //params exclusion list
         $IdExclusionList = array();
 
@@ -152,7 +153,8 @@ class ZoneEcoles extends enicZone {
     }
 
     // Tri des ecoles selon leur type - CB 20/10/2009
-    function usort_ecoles_type($a, $b) {
+    public function usort_ecoles_type($a, $b)
+    {
         if ($a['type'] == $b['type']) {
             if ($a['nom'] == $b['nom'])
                 return 0;
@@ -162,7 +164,8 @@ class ZoneEcoles extends enicZone {
     }
 
     // Tri des ecoles selon leur type - CB 20/10/2009
-    function usort_ecoles_ville($a, $b) {
+    public function usort_ecoles_ville($a, $b)
+    {
         if ($a['ville_nom'] == $b['ville_nom']) {
             if ($a['nom'] == $b['nom'])
                 return strcmp($a['type'], $b['type']);
@@ -173,4 +176,3 @@ class ZoneEcoles extends enicZone {
 
 }
 
-?>

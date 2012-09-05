@@ -6,4 +6,3 @@ $blogs								= new CopixAction ('default', 'blogs');
 
 $default 							= & $fiche;
 
-?>

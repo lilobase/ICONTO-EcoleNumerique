@@ -10,26 +10,27 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class ZoneShowPage extends CopixZone {
-   function _createContent (&$toReturn) {
-
+class ZoneShowPage extends CopixZone
+{
+   public function _createContent (&$toReturn)
+   {
       $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
-      
+
       //on récupère l'ensemble des articles du blog
       $dao = _dao('blog|blogpage');
-			$page = $dao->getPageByUrl($blog->id_blog, $this->getParam('page', ''));	
+            $page = $dao->getPageByUrl($blog->id_blog, $this->getParam('page', ''));
 
-			if (!$page) {
-				$toReturn = $tpl->fetch('showpage.tpl');
-      	return true;
-	  	}
-		
+            if (!$page) {
+                $toReturn = $tpl->fetch('showpage.tpl');
+          return true;
+          }
+
       $tpl->assign ('page', $page);
-			
-			$plugStats = CopixPluginRegistry::get ("stats|stats");
-			$plugStats->setParams(array('objet_a'=>$page->id_bpge));
+
+            $plugStats = CopixPluginRegistry::get ("stats|stats");
+            $plugStats->setParams(array('objet_a'=>$page->id_bpge));
 
 
       // retour de la fonction :
@@ -37,4 +38,3 @@ class ZoneShowPage extends CopixZone {
       return true;
    }
 }
-?>

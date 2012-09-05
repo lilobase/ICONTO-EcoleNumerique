@@ -24,4 +24,3 @@ CAS_STR_SERVICE_UNAVAILABLE
 => 'The service `<b>%s</b>\' is not available (<b>%s</b>).'
 );
 
-?>

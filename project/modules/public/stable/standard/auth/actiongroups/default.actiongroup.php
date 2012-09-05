@@ -1,8 +1,8 @@
 <?php
 /**
  * @package standard
- * @subpackage auth 
- * 
+ * @subpackage auth
+ *
  * @author		Gérald Croës
  * @copyright	CopixTeam
  * @link		http://copix.org
@@ -14,9 +14,10 @@
  * @package standard
  * @subpackage auth
  */
-class ActionGroupDefault extends CopixActionGroup {
-	function processDefault (){
-		return CopixActionGroup::process ('log::form');
-	}
+class ActionGroupDefault extends CopixActionGroup
+{
+    public function processDefault ()
+    {
+        return CopixActionGroup::process ('log::form');
+    }
 }
-?>

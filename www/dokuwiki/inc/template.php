@@ -15,7 +15,8 @@
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function template($tpl){
+function template($tpl)
+{
   global $conf;
 
   if(@is_readable(DOKU_INC.'lib/tpl/'.$conf['template'].'/'.$tpl))
@@ -36,7 +37,8 @@ function template($tpl){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_content($prependTOC=true) {
+function tpl_content($prependTOC=true)
+{
     global $ACT;
     global $INFO;
     $INFO['prependTOC'] = $prependTOC;
@@ -49,7 +51,8 @@ function tpl_content($prependTOC=true) {
     return !empty($html_output);
 }
 
-function tpl_content_core(){
+function tpl_content_core()
+{
   global $ACT;
   global $TEXT;
   global $PRE;
@@ -141,7 +144,8 @@ function tpl_content_core(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_toc($return=false){
+function tpl_toc($return=false)
+{
     global $TOC;
     global $ACT;
     global $ID;
@@ -191,7 +195,8 @@ function tpl_toc($return=false){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_admin(){
+function tpl_admin()
+{
     global $INFO;
     global $TOC;
 
@@ -230,7 +235,8 @@ function tpl_admin(){
  * @param  boolean $alt Should feeds and alternative format links be added?
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_metaheaders($alt=true){
+function tpl_metaheaders($alt=true)
+{
   global $ID;
   global $REV;
   global $INFO;
@@ -354,7 +360,8 @@ function tpl_metaheaders($alt=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function _tpl_metaheaders_action($data){
+function _tpl_metaheaders_action($data)
+{
   foreach($data as $tag => $inst){
     foreach($inst as $attr){
       echo '<',$tag,' ',buildAttributes($attr);
@@ -380,7 +387,8 @@ function _tpl_metaheaders_action($data){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_link($url,$name,$more=''){
+function tpl_link($url,$name,$more='')
+{
   print '<a href="'.$url.'" ';
   if ($more) print ' '.$more;
   print ">$name</a>";
@@ -394,7 +402,8 @@ function tpl_link($url,$name,$more=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_pagelink($id,$name=NULL){
+function tpl_pagelink($id,$name=NULL)
+{
   print html_wikilink($id,$name);
   return true;
 }
@@ -407,7 +416,8 @@ function tpl_pagelink($id,$name=NULL){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_getparent($id){
+function tpl_getparent($id)
+{
   global $conf;
   $parent = getNS($id).':';
   resolve_pageid('',$parent,$exists);
@@ -440,7 +450,8 @@ function tpl_getparent($id){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Matthias Grimm <matthiasgrimm@users.sourceforge.net>
  */
-function tpl_button($type){
+function tpl_button($type)
+{
   global $ACT;
   global $ID;
   global $REV;
@@ -564,7 +575,8 @@ function tpl_button($type){
  * @author Matthias Grimm <matthiasgrimm@users.sourceforge.net>
  * @see    tpl_button
  */
-function tpl_actionlink($type,$pre='',$suf='',$inner=''){
+function tpl_actionlink($type,$pre='',$suf='',$inner='')
+{
   global $ID;
   global $INFO;
   global $REV;
@@ -724,7 +736,8 @@ function tpl_actionlink($type,$pre='',$suf='',$inner=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_searchform($ajax=true,$autocomplete=true){
+function tpl_searchform($ajax=true,$autocomplete=true)
+{
   global $lang;
   global $ACT;
 
@@ -748,7 +761,8 @@ function tpl_searchform($ajax=true,$autocomplete=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_breadcrumbs($sep='&raquo;'){
+function tpl_breadcrumbs($sep='&raquo;')
+{
   global $lang;
   global $conf;
 
@@ -791,7 +805,8 @@ function tpl_breadcrumbs($sep='&raquo;'){
  * @link   http://wiki.splitbrain.org/wiki:tipsandtricks:hierarchicalbreadcrumbs
  * @todo   May behave strangely in RTL languages
  */
-function tpl_youarehere($sep=' &raquo; '){
+function tpl_youarehere($sep=' &raquo; ')
+{
   global $conf;
   global $ID;
   global $lang;
@@ -815,7 +830,7 @@ function tpl_youarehere($sep=' &raquo; '){
     $part .= $parts[$i].':';
     $page = $part;
     resolve_pageid('',$page,$exists);
-    if ($page == $conf['start']) continue; // Skip startpage 
+    if ($page == $conf['start']) continue; // Skip startpage
 
     // output
     echo $sep;
@@ -851,7 +866,8 @@ function tpl_youarehere($sep=' &raquo; '){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_userinfo(){
+function tpl_userinfo()
+{
   global $lang;
   global $INFO;
   if($_SERVER['REMOTE_USER']){
@@ -866,16 +882,17 @@ function tpl_userinfo(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_pageinfo(){
+function tpl_pageinfo()
+{
   global $conf;
   global $lang;
   global $INFO;
   global $REV;
   global $ID;
-  
+
   // return if we are not allowed to view the page
   if (!auth_quickaclcheck($ID)) { return; }
-  
+
   // prepare date and path
   $fn = $INFO['filepath'];
   if(!$conf['fullpath']){
@@ -920,7 +937,8 @@ function tpl_pageinfo(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_pagetitle($id=null, $ret=false){
+function tpl_pagetitle($id=null, $ret=false)
+{
   global $conf;
   if(is_null($id)){
     global $ID;
@@ -955,13 +973,14 @@ function tpl_pagetitle($id=null, $ret=false){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_img_getTag($tags,$alt='',$src=null){
+function tpl_img_getTag($tags,$alt='',$src=null)
+{
   // Init Exif Reader
   global $SRC;
 
   if(is_null($src)) $src = $SRC;
 
-  static $meta = null;
+  public static $meta = null;
   if(is_null($meta)) $meta = new JpegMeta($src);
   if($meta === false) return $alt;
   $info = $meta->getField($tags);
@@ -974,9 +993,10 @@ function tpl_img_getTag($tags,$alt='',$src=null){
  *
  * Only allowed in: detail.php
  */
-function tpl_img($maxwidth=0,$maxheight=0){
+function tpl_img($maxwidth=0,$maxheight=0)
+{
   global $IMG;
-	//echo 'tpl_img<br>';
+    //echo 'tpl_img<br>';
   $w = tpl_img_getTag('File.Width');
   $h = tpl_img_getTag('File.Height');
 
@@ -1031,7 +1051,8 @@ function tpl_img($maxwidth=0,$maxheight=0){
  * Should be called somewhere at the very end of the main.php
  * template
  */
-function tpl_indexerWebBug(){
+function tpl_indexerWebBug()
+{
   global $ID;
   global $INFO;
   if(!$INFO['exists']) return false;
@@ -1055,7 +1076,8 @@ function tpl_indexerWebBug(){
  *
  * use this function to access template configuration variables
  */
-function tpl_getConf($id){
+function tpl_getConf($id)
+{
   global $conf;
   global $tpl_configloaded;
 
@@ -1080,8 +1102,8 @@ function tpl_getConf($id){
  * reads all template configuration variables
  * this function is automatically called by tpl_getConf()
  */
-function tpl_loadConfig(){
-
+function tpl_loadConfig()
+{
   $file = DOKU_TPLINC.'/conf/default.php';
   $conf = array();
 
@@ -1104,7 +1126,8 @@ function tpl_loadConfig(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_mediaContent(){
+function tpl_mediaContent()
+{
   global $IMG;
   global $AUTH;
   global $INUSE;
@@ -1129,7 +1152,8 @@ function tpl_mediaContent(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function tpl_mediaTree(){
+function tpl_mediaTree()
+{
   global $NS;
 
   ptln('<div id="media__tree">');

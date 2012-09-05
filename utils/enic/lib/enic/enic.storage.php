@@ -3,7 +3,8 @@
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-interface enicStorage {
+interface enicStorage
+{
     /*
      * set new or modify existing value
      * @params $iName : Item's Key
@@ -33,8 +34,8 @@ interface enicStorage {
 /*
  * add valid methode : check the validity of data
  */
-interface enicCacheStorage extends enicStorage {
-
+interface enicCacheStorage extends enicStorage
+{
     /*
      * valid : return boolean in functin of validity
      */
@@ -57,8 +58,8 @@ interface enicCacheStorage extends enicStorage {
  * @TODO : implémenter NameSpace
  * @TODO : transformer l'interface en classe abstraite
  */
-class enicFiles implements enicStorage {
-
+class enicFiles implements enicStorage
+{
     //paths definitions
     public $path;
     public $rootPath;
@@ -67,7 +68,8 @@ class enicFiles implements enicStorage {
      * CONSTRUCTOR
      * @TODOS : REFACTOR
      */
-    public function __construct(){
+    public function __construct()
+    {
         if(empty($this->rootPath))
                 $this->rootPath = COPIX_CACHE_PATH.'enic/';
 
@@ -83,7 +85,8 @@ class enicFiles implements enicStorage {
     /*
      * get existing value
      */
-    public function load($iName, $iNameSpace = 'dflt'){
+    public function load($iName, $iNameSpace = 'dflt')
+    {
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- load() : file not found for : '.$iName, E_USER_ERROR);
 
@@ -93,21 +96,24 @@ class enicFiles implements enicStorage {
     /*
      * return boolean in function of existing data
      */
-    public function exists($iName, $iNameSpace = 'dflt'){
+    public function exists($iName, $iNameSpace = 'dflt')
+    {
         return file_exists($this->path.$iName.'.cache');
     }
 
      /*
      * set new or modify existing value
      */
-    public function save($iName, $iData, $iNameSpace = 'dflt'){
+    public function save($iName, $iData, $iNameSpace = 'dflt')
+    {
         return file_put_contents($this->path.$iName.'.cache', $iData);
     }
 
     /*
      * delete existing value
      */
-    public function del($iName, $iNameSpace = 'dflt'){
+    public function del($iName, $iNameSpace = 'dflt')
+    {
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- del() : file not found for : '.$iName, E_USER_ERROR);
 
@@ -119,16 +125,18 @@ class enicFiles implements enicStorage {
  * storage file for Cache
  * @TODOS : implémenter le NameSpace "cache"
  */
-class enicFileCache extends enicFiles implements enicCacheStorage {
-
-    public function __construct(){
+class enicFileCache extends enicFiles implements enicCacheStorage
+{
+    public function __construct()
+    {
         parent::__construct();
     }
 
     /*
      * valid : return boolean in functin of validity
      */
-    public function valid($iName){
+    public function valid($iName)
+    {
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- valid() : file not found for : '.$iName, E_USER_ERROR);
 
@@ -139,7 +147,8 @@ class enicFileCache extends enicFiles implements enicCacheStorage {
         return ($validityLimit >= time());
     }
 
-    public function type($iName){
+    public function type($iName)
+    {
         if(!$this->exists($iName))
             trigger_error('enicFile -Storage- type() : file not found for : '.$iName, E_USER_ERROR);
 
@@ -150,12 +159,14 @@ class enicFileCache extends enicFiles implements enicCacheStorage {
         return $oType;
     }
 
-    public function set($iName, $iData, $iValidity, $iType){
+    public function set($iName, $iData, $iValidity, $iType)
+    {
         $content = $iValidity.'||'.$iType.PHP_EOL.'##'.$iData;
         parent::save($iName, $content);
     }
 
-    public function get($iName){
+    public function get($iName)
+    {
         $content = parent::load($iName);
 
         return trim(substr($content, strpos($content, '##')+2));
@@ -166,10 +177,11 @@ class enicFileCache extends enicFiles implements enicCacheStorage {
 /*
  * storage in session
  */
-class enicSession implements enicStorage {
-
+class enicSession implements enicStorage
+{
     //enic mod compatibility
-    public function startExec(){
+    public function startExec()
+    {
         //BUILD SESSION ARRAY
         if(!isset($_SESSION['eS']))
             $_SESSION['eS'] = array();
@@ -178,7 +190,8 @@ class enicSession implements enicStorage {
     /*
      * set new or modify existing value
      */
-    public function save($iName, $iData, $iNameSpace = 'dflt'){
+    public function save($iName, $iData, $iNameSpace = 'dflt')
+    {
         $_SESSION['eS'][$iNameSpace][$iName] = $iData;
         return true;
     }
@@ -186,7 +199,8 @@ class enicSession implements enicStorage {
     /*
      * delete existing value
      */
-    public function del($iName, $iNameSpace = 'dflt'){
+    public function del($iName, $iNameSpace = 'dflt')
+    {
         if(!isset($_SESSION['eS'][$iNameSpace][$iName]))
             trigger_error('enicSession -Storage- del() : file not found for : '.$iName, E_USER_ERROR);
 
@@ -196,7 +210,8 @@ class enicSession implements enicStorage {
     /*
      * return datas
      */
-    public function load($iName, $iNameSpace = 'dflt'){
+    public function load($iName, $iNameSpace = 'dflt')
+    {
         if(!isset($_SESSION['eS'][$iNameSpace][$iName]))
             trigger_error('enicSession -Storage- load() : file not found for : '.$iName, E_USER_ERROR);
 
@@ -206,16 +221,18 @@ class enicSession implements enicStorage {
     /*
      * return boolean in function of existing data
      */
-    public function exists($iName, $iNameSpace = 'dflt'){
+    public function exists($iName, $iNameSpace = 'dflt')
+    {
         return isset($_SESSION['eS'][$iNameSpace][$iName]);
     }
 }
 
-class enicFlash extends enicSession{
-
+class enicFlash extends enicSession
+{
     public $history;
 
-    public function startExec(){
+    public function startExec()
+    {
         parent::startExec();
 
         //destroy previous history
@@ -232,7 +249,8 @@ class enicFlash extends enicSession{
     /*
      * flash set
      */
-    public function set($iName, $iDatas, $iIter = 1){
+    public function set($iName, $iDatas, $iIter = 1)
+    {
         $this->save($iName, $iIter, 'flashRegistry');
         $this->save($iName, $iDatas, 'flashDatas');
     }
@@ -240,8 +258,8 @@ class enicFlash extends enicSession{
     /*
      * flash garbage collector
      */
-    public function flashGC(){
-
+    public function flashGC()
+    {
         foreach($_SESSION['eS']['flashRegistry'] as $key => $value){
 
             //check validity
@@ -257,23 +275,23 @@ class enicFlash extends enicSession{
             }
         }
     }
-    
+
     /**
      * extends flash vars lifetime
      */
-    public function addCycle(){
-      
+    public function addCycle()
+    {
         foreach($_SESSION['eS']['flashRegistry'] as $key => $value){
 
             $_SESSION['eS']['flashRegistry'][$key]++;
         }
     }
-    
+
     /*
      * cancel previous GC cycle
      */
-    public function cancel(){
-      
+    public function cancel()
+    {
         foreach($this->history as $key => $data)
             $this->set($key, $data);
     }
@@ -281,35 +299,40 @@ class enicFlash extends enicSession{
     /*
      * flash test value exists
      */
-    public function has($iName){
+    public function has($iName)
+    {
         return $this->exists($iName, 'flashDatas');
     }
 
     /*
      * flash getter
      */
-    public function get($iName){
+    public function get($iName)
+    {
         return $this->load($iName, 'flashDatas');
     }
 
     /*
      * magic getter
      */
-    public function  __get($iName) {
+    public function  __get($iName)
+    {
         return $this->get($iName);
     }
 
     /*
      * magic setter
      */
-    public function __set($iName, $iDatas){
+    public function __set($iName, $iDatas)
+    {
         return $this->set($iName, $iDatas);
     }
 
     /*
      * magic isset
      */
-    public function  __isset($iName) {
+    public function  __isset($iName)
+    {
         return $this->has($iName);
     }
 }

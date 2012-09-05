@@ -24,4 +24,3 @@ CAS_STR_SERVICE_UNAVAILABLE
 => '�����ӥ� `<b>%s</b>\' �����ѤǤ��ޤ��� (<b>%s</b>).'
 );
 
-?>

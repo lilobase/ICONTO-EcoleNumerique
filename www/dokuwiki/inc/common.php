@@ -28,7 +28,8 @@ define('RECENTS_SKIP_SUBSPACES',8);
  * @author Andreas Gohr <andi@splitbrain.org>
  * @see    htmlspecialchars()
  */
-function hsc($string){
+function hsc($string)
+{
   return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
 
@@ -39,7 +40,8 @@ function hsc($string){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function ptln($string,$indent=0){
+function ptln($string,$indent=0)
+{
   echo str_repeat(' ', $indent)."$string\n";
 }
 
@@ -48,7 +50,8 @@ function ptln($string,$indent=0){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function stripctl($string){
+function stripctl($string)
+{
   return preg_replace('/[\x00-\x1F]+/s','',$string);
 }
 
@@ -60,14 +63,16 @@ function stripctl($string){
  * @link    http://christ1an.blogspot.com/2007/04/preventing-csrf-efficiently.html
  * @return  string
  */
-function getSecurityToken(){
+function getSecurityToken()
+{
   return md5(auth_cookiesalt().session_id());
 }
 
 /**
  * Check the secret CSRF token
  */
-function checkSecurityToken($token=null){
+function checkSecurityToken($token=null)
+{
   if(is_null($token)) $token = $_REQUEST['sectok'];
   if(getSecurityToken() != $token){
     msg('Security Token did not match. Possible CSRF attack.',-1);
@@ -81,7 +86,8 @@ function checkSecurityToken($token=null){
  *
  * @author  Andreas Gohr <andi@splitbrain.org>
  */
-function formSecurityToken($print=true){
+function formSecurityToken($print=true)
+{
   $ret = '<div class="no"><input type="hidden" name="sectok" value="'.getSecurityToken().'" /></div>'."\n";
   if($print){
     echo $ret;
@@ -96,7 +102,8 @@ function formSecurityToken($print=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function pageinfo(){
+function pageinfo()
+{
   global $ID;
   global $REV;
   global $USERINFO;
@@ -216,7 +223,8 @@ function pageinfo(){
  *
  * @author Andreas Gohr
  */
-function buildURLparams($params, $sep='&amp;'){
+function buildURLparams($params, $sep='&amp;')
+{
   $url = '';
   $amp = false;
   foreach($params as $key => $val){
@@ -236,7 +244,8 @@ function buildURLparams($params, $sep='&amp;'){
  *
  * @author Andreas Gohr
  */
-function buildAttributes($params,$skipempty=false){
+function buildAttributes($params,$skipempty=false)
+{
   $url = '';
   foreach($params as $key => $val){
     if($key{0} == '_') continue;
@@ -255,9 +264,10 @@ function buildAttributes($params,$skipempty=false){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function breadcrumbs(){
+function breadcrumbs()
+{
   // we prepare the breadcrumbs early for quick session closing
-  static $crumbs = null;
+  public static $crumbs = null;
   if($crumbs != null) return $crumbs;
 
   global $ID;
@@ -313,7 +323,8 @@ function breadcrumbs(){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function idfilter($id,$ue=true){
+function idfilter($id,$ue=true)
+{
   global $conf;
   if ($conf['useslash'] && $conf['userewrite']){
     $id = strtr($id,':','/');
@@ -337,7 +348,8 @@ function idfilter($id,$ue=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function wl($id='',$more='',$abs=false,$sep='&amp;'){
+function wl($id='',$more='',$abs=false,$sep='&amp;')
+{
   global $conf;
   if(is_array($more)){
     $more = buildURLparams($more,$sep);
@@ -376,7 +388,8 @@ function wl($id='',$more='',$abs=false,$sep='&amp;'){
  *
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function exportlink($id='',$format='raw',$more='',$abs=false,$sep='&amp;'){
+function exportlink($id='',$format='raw',$more='',$abs=false,$sep='&amp;')
+{
   global $conf;
   if(is_array($more)){
     $more = buildURLparams($more,$sep);
@@ -411,12 +424,13 @@ function exportlink($id='',$format='raw',$more='',$abs=false,$sep='&amp;'){
  *
  * Will return a link to the detail page if $direct is false
  */
-function ml($id='',$more='',$direct=true,$sep='&amp;',$abs=false){
-	//echo '(ml) id='.$id.'<br>';
-	
-	$xlink = $id; // CB
-	return $xlink; // CB
-	
+function ml($id='',$more='',$direct=true,$sep='&amp;',$abs=false)
+{
+    //echo '(ml) id='.$id.'<br>';
+
+    $xlink = $id; // CB
+    return $xlink; // CB
+
   global $conf;
   if(is_array($more)){
     $more = buildURLparams($more,$sep);
@@ -429,7 +443,7 @@ function ml($id='',$more='',$direct=true,$sep='&amp;',$abs=false){
   }else{
     $xlink = DOKU_BASE.'dokuwiki/';
   }
-	
+
   // external URLs are always direct without rewriting
   if(preg_match('#^(https?|ftp)://#i',$id)){
     $xlink .= 'lib/exe/fetch.php';
@@ -483,7 +497,8 @@ function ml($id='',$more='',$direct=true,$sep='&amp;',$abs=false){
  * @todo   maybe obsolete
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function script($script='doku.php'){
+function script($script='doku.php')
+{
 #  $link = getBaseURL();
 #  $link .= $script;
 #  return $link;
@@ -498,7 +513,8 @@ function script($script='doku.php'){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function checkwordblock(){
+function checkwordblock()
+{
   global $TEXT;
   global $conf;
 
@@ -548,7 +564,8 @@ function checkwordblock(){
  * @param  boolean $single If set only a single IP is returned
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function clientIP($single=false){
+function clientIP($single=false)
+{
   $ip = array();
   $ip[] = $_SERVER['REMOTE_ADDR'];
   if(!empty($_SERVER['HTTP_X_FORWARDED_FOR']))
@@ -591,7 +608,8 @@ function clientIP($single=false){
  * @author Glen Harris <astfgl@iamnota.org>
  * @returns a comma separated list of hostnames
  */
-function gethostsbyaddrs($ips){
+function gethostsbyaddrs($ips)
+{
   $hosts = array();
   $ips = explode(',',$ips);
 
@@ -612,7 +630,8 @@ function gethostsbyaddrs($ips){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function checklock($id){
+function checklock($id)
+{
   global $conf;
   $lock = wikiLockFN($id);
 
@@ -639,7 +658,8 @@ function checklock($id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function lock($id){
+function lock($id)
+{
   $lock = wikiLockFN($id);
   if($_SERVER['REMOTE_USER']){
     io_saveFile($lock,$_SERVER['REMOTE_USER']);
@@ -654,7 +674,8 @@ function lock($id){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @return bool true if a lock was removed
  */
-function unlock($id){
+function unlock($id)
+{
   $lock = wikiLockFN($id);
   if(@file_exists($lock)){
     $ip = io_readFile($lock);
@@ -672,7 +693,8 @@ function unlock($id){
  * @see    formText() for 2crlf conversion
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function cleanText($text){
+function cleanText($text)
+{
   $text = preg_replace("/(\015\012)|(\015)/","\012",$text);
   return $text;
 }
@@ -685,7 +707,8 @@ function cleanText($text){
  * @see    cleanText() for 2unix conversion
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function formText($text){
+function formText($text)
+{
   $text = str_replace("\012","\015\012",$text);
   return htmlspecialchars($text);
 }
@@ -695,7 +718,8 @@ function formText($text){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function rawLocale($id){
+function rawLocale($id)
+{
   return io_readFile(localeFN($id));
 }
 
@@ -704,7 +728,8 @@ function rawLocale($id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function rawWiki($id,$rev=''){
+function rawWiki($id,$rev='')
+{
   return io_readWikiPage(wikiFN($id, $rev), $id, $rev);
 }
 
@@ -713,7 +738,8 @@ function rawWiki($id,$rev=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function pageTemplate($data){
+function pageTemplate($data)
+{
   $id = $data[0];
   global $conf;
   global $INFO;
@@ -760,7 +786,8 @@ function pageTemplate($data){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function rawWikiSlices($range,$id,$rev=''){
+function rawWikiSlices($range,$id,$rev='')
+{
   list($from,$to) = split('-',$range,2);
   $text = io_readWikiPage(wikiFN($id, $rev), $id, $rev);
   if(!$from) $from = 0;
@@ -782,8 +809,8 @@ function rawWikiSlices($range,$id,$rev=''){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function con($pre,$text,$suf,$pretty=false){
-
+function con($pre,$text,$suf,$pretty=false)
+{
   if($pretty){
     if($pre && substr($pre,-1) != "\n") $pre .= "\n";
     if($suf && substr($text,-1) != "\n") $text .= "\n";
@@ -802,7 +829,8 @@ function con($pre,$text,$suf,$pretty=false){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Ben Coburn <btcoburn@silicodon.net>
  */
-function saveWikiText($id,$text,$summary,$minor=false){
+function saveWikiText($id,$text,$summary,$minor=false)
+{
   /* Note to developers:
      This code is subtle and delicate. Test the behavior of
      the attic and changelog with dokuwiki and external edits
@@ -877,10 +905,7 @@ function saveWikiText($id,$text,$summary,$minor=false){
   if ($wasReverted) {
     $type = DOKU_CHANGE_TYPE_REVERT;
     $extra = $REV;
-  }
-  else if ($wasCreated) { $type = DOKU_CHANGE_TYPE_CREATE; }
-  else if ($wasRemoved) { $type = DOKU_CHANGE_TYPE_DELETE; }
-  else if ($minor && $conf['useacl'] && $_SERVER['REMOTE_USER']) { $type = DOKU_CHANGE_TYPE_MINOR_EDIT; } //minor edits only for logged in users
+  } elseif ($wasCreated) { $type = DOKU_CHANGE_TYPE_CREATE; } elseif ($wasRemoved) { $type = DOKU_CHANGE_TYPE_DELETE; } elseif ($minor && $conf['useacl'] && $_SERVER['REMOTE_USER']) { $type = DOKU_CHANGE_TYPE_MINOR_EDIT; } //minor edits only for logged in users
 
   addLogEntry($newRev, $id, $type, $summary, $extra);
   // send notify mails
@@ -897,7 +922,8 @@ function saveWikiText($id,$text,$summary,$minor=false){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function saveOldRevision($id){
+function saveOldRevision($id)
+{
   global $conf;
   $oldf = wikiFN($id);
   if(!@file_exists($oldf)) return '';
@@ -919,7 +945,8 @@ function saveOldRevision($id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function notify($id,$who,$rev='',$summary='',$minor=false,$replace=array()){
+function notify($id,$who,$rev='',$summary='',$minor=false,$replace=array())
+{
   global $lang;
   global $conf;
   global $INFO;
@@ -994,7 +1021,8 @@ function notify($id,$who,$rev='',$summary='',$minor=false,$replace=array()){
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Todd Augsburger <todd@rollerorgans.com>
  */
-function getGoogleQuery(){
+function getGoogleQuery()
+{
   $url = parse_url($_SERVER['HTTP_REFERER']);
   if(!$url) return '';
 
@@ -1020,7 +1048,8 @@ function getGoogleQuery(){
  * @deprecated No longer used
  * @author     Andreas Gohr <andi@splitbrain.org>
  */
-function setCorrectLocale(){
+function setCorrectLocale()
+{
   global $conf;
   global $lang;
 
@@ -1044,7 +1073,8 @@ function setCorrectLocale(){
  * @author      Aidan Lister <aidan@php.net>
  * @version     1.0.0
  */
-function filesize_h($size, $dec = 1){
+function filesize_h($size, $dec = 1)
+{
   $sizes = array('B', 'KB', 'MB', 'GB');
   $count = count($sizes);
   $i = 0;
@@ -1063,7 +1093,8 @@ function filesize_h($size, $dec = 1){
  * @author Harry Fuecks <hfuecks@gmail.com>
  * @author Christopher Smith <chris@jalakai.co.uk>
  */
-function obfuscate($email) {
+function obfuscate($email)
+{
   global $conf;
 
   switch ($conf['mailguard']) {
@@ -1087,7 +1118,8 @@ function obfuscate($email) {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function is_subscribed($id,$uid,$ns=false){
+function is_subscribed($id,$uid,$ns=false)
+{
   if(!$ns) {
     $file=metaFN($id,'.mlist');
   } else {
@@ -1112,7 +1144,8 @@ function is_subscribed($id,$uid,$ns=false){
  *
  * @author Steven Danz <steven-danz@kc.rr.com>
  */
-function subscriber_addresslist($id){
+function subscriber_addresslist($id)
+{
   global $conf;
   global $auth;
 
@@ -1175,7 +1208,8 @@ function subscriber_addresslist($id){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function unslash($string,$char="'"){
+function unslash($string,$char="'")
+{
   return str_replace('\\'.$char,$char,$string);
 }
 
@@ -1185,7 +1219,8 @@ function unslash($string,$char="'"){
  * @author <gilthans dot NO dot SPAM at gmail dot com>
  * @link   http://de3.php.net/manual/en/ini.core.php#79564
  */
-function php_to_byte($v){
+function php_to_byte($v)
+{
     $l = substr($v, -1);
     $ret = substr($v, 0, -1);
     switch(strtoupper($l)){
@@ -1207,7 +1242,8 @@ function php_to_byte($v){
 /**
  * Wrapper around preg_quote adding the default delimiter
  */
-function preg_quote_cb($string){
+function preg_quote_cb($string)
+{
     return preg_quote($string,'/');
 }
 

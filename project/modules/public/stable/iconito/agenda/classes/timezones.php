@@ -486,4 +486,3 @@ $tz_array['US/Pacific'] = array('-0800', '-0700');
 $tz_array['US/Samoa'] = array('-1100', '-1100');
 $tz_array['W-SU'] = array('+0300', '+0400');
 $tz_array['WET'] = array('+0000', '+0100');
-?>

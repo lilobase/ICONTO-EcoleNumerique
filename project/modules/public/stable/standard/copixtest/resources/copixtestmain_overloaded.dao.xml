@@ -33,7 +33,7 @@
          />
 
   <property name="titre"
-         fieldName = "titre_test"  
+         fieldName = "titre_test"
          captioni18n="dao.copixtestmain.fields.title_test"
          type="string"
          maxlength="255"
@@ -51,12 +51,12 @@
             fieldName="date_test"
          captioni18n="dao.copixtestmain.fields.date_test"
          type="varchardate"
-         />         
+         />
 
   <property name="version"
             fieldName="version_test"
          caption="version"
          type="version"
-         />         
+         />
    </properties>
 </daodefinition>

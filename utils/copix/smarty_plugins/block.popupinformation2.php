@@ -66,9 +66,9 @@
 
  */
 
-function smarty_block_popupinformation2 ($params, $content, &$smarty) {
-
-   static $_init = false;
+function smarty_block_popupinformation2 ($params, $content, &$smarty)
+{
+   public static $_init = false;
 
    if (! $_init){
 
@@ -78,14 +78,14 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
                }
 
-               function hidePopupInformation2(id) {
-
+               function hidePopupInformation2(id)
+               {
                   document.getElementById(id).style.visibility = \'hidden\';
 
                }
 
-               function toggleDisplayPopupInformation2(id) {
-
+               function toggleDisplayPopupInformation2(id)
+               {
                   if (document.getElementById(id).style.visibility==\'hidden\') {
 
                      document.getElementById(id).style.visibility=\'visible\';
@@ -112,14 +112,14 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
                ';
 
-         
+
     CopixHtmlHeader::addJsCode ($jsCode);
 
     $_init = true;
 
    }
 
-   
+
 
    if (is_null($content)) {
 
@@ -127,7 +127,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (!isset ($params['text'])){
 
@@ -135,7 +135,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (!isset ($params['displaytext'])){
 
@@ -143,7 +143,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (!isset ($params['alternativlink'])){
 
@@ -151,7 +151,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (!isset($params['displayimg'])) {
 
@@ -159,7 +159,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (!isset ($params['img'])){
 
@@ -167,7 +167,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (!isset ($params['divclass'])){
 
@@ -175,7 +175,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (!isset($params['handler'])) {
 
@@ -183,7 +183,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    $id        = uniqid('popupInformation2');
 
@@ -207,7 +207,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
          break;
 
-      
+
 
       case 'overEvent' :
 
@@ -217,7 +217,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
          break;
 
-      
+
 
       default:
 
@@ -229,7 +229,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    $toReturn .= $params['displayimg']  === true ? '<img src="'.$params['img'].'" alt="'.$params['text'].'" />' : '';
 
@@ -255,7 +255,7 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
    }
 
-   
+
 
    if (isset ($params['assign'])){
 
@@ -271,4 +271,3 @@ function smarty_block_popupinformation2 ($params, $content, &$smarty) {
 
 }
 
-?>

@@ -25,27 +25,27 @@ require_once 'PHPUnit/TestCase.php';
 
 class Numbers_Words_Polish_TestCase extends PHPUnit_TestCase
 {
-    var $db;
-    var $handle;
+    public $db;
+    public $handle;
 
-    function Numbers_Words_Polish_TestCase($name)
+    public function Numbers_Words_Polish_TestCase($name)
     {
         $this->handle = new Numbers_Words();
         $this->PHPUnit_TestCase($name);
     }
 
-    function setUp()
+    public function setUp()
     {
     }
 
-    function tearDown()
+    public function tearDown()
     {
     }
 
     /**
     * Testing numbers between 0 and 9
     */
-    function testDigits()
+    public function testDigits()
     {
         $digits = array('zero',
                         'jeden',
@@ -58,8 +58,7 @@ class Numbers_Words_Polish_TestCase extends PHPUnit_TestCase
                         'osiem',
                         'dziewiêæ'
                        );
-        for ($i = 0; $i < 10; $i++)
-        {
+        for ($i = 0; $i < 10; $i++) {
             $number = $this->handle->toWords($i, 'pl');
             $this->assertEquals($digits[$i], $number);
         }
@@ -68,7 +67,7 @@ class Numbers_Words_Polish_TestCase extends PHPUnit_TestCase
     /**
     * Testing numbers between 10 and 99
     */
-    function testTens()
+    public function testTens()
     {
         $tens = array(11 => 'jedena¶cie',
                       12 => 'dwana¶cie',
@@ -96,7 +95,7 @@ class Numbers_Words_Polish_TestCase extends PHPUnit_TestCase
     /**
     * Testing numbers between 100 and 999
     */
-    function testHundreds()
+    public function testHundreds()
     {
         $hundreds = array(100 => 'sto',
                           101 => 'sto jeden',
@@ -121,7 +120,7 @@ class Numbers_Words_Polish_TestCase extends PHPUnit_TestCase
     /**
     * Testing numbers between 1000 and 9999
     */
-    function testThousands()
+    public function testThousands()
     {
         $thousands = array(1000 => 'jeden tysi±c',
                            1001 => 'jeden tysi±c jeden',
@@ -143,4 +142,3 @@ class Numbers_Words_Polish_TestCase extends PHPUnit_TestCase
     }
 }
 
-?>

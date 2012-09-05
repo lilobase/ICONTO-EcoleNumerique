@@ -16,4 +16,3 @@ $default 							= & $getCarnet;
 $example    = new CopixAction ('Exemple', 'getExemple');
 $default    = & $example;
 */
-?>

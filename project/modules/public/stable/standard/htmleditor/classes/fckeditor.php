@@ -1,25 +1,25 @@
-<?php 
+<?php
 /**
-* @package		standard 
+* @package		standard
  * @subpackage	htmleditor
- * 
+ *
  * FCKeditor - The text editor for internet
  * Copyright (C) 2003-2005 Frederico Caldeira Knabben
- * 
+ *
  * Licensed under the terms of the GNU Lesser General Public License:
  * 		http://www.opensource.org/licenses/lgpl-license.php
- * 
+ *
  * For further information visit:
  * 		http://www.fckeditor.net/
- * 
+ *
  * "Support Open Source software. What about a donation today?"
- * 
+ *
  * File Name: fckeditor.php
  * 	This is the integration file for PHP.
- * 	
+ *
  * 	It defines the FCKeditor class that can be used to create editor
  * 	instances in PHP pages on server side.
- * 
+ *
  * File Authors:
  * 		Frederico Caldeira Knabben (fredck@fckeditor.net)
  */
@@ -27,143 +27,134 @@
 /**
  * It defines the FCKeditor class that can be used to create editor
  * 	instances in PHP pages on server side.
-* @package		standard 
+* @package		standard
  * @subpackage	htmleditor
  */
-class FCKeditor
+class fckeditor
 {
-	var $InstanceName ;
-	var $BasePath ;
-	var $Width ;
-	var $Height ;
-	var $ToolbarSet ;
-	var $Value ;
-	var $Config ;
+    public $InstanceName ;
+    public $BasePath ;
+    public $Width ;
+    public $Height ;
+    public $ToolbarSet ;
+    public $Value ;
+    public $Config ;
 
-	// PHP 5 Constructor (by Marcus Bointon <coolbru@users.sourceforge.net>)
-	function __construct( $instanceName )
- 	{
-		$this->InstanceName	= $instanceName ;
-		$this->BasePath		= '/FCKeditor/' ;
-		$this->Width		= '100%' ;
-		$this->Height		= '200' ;
-		$this->ToolbarSet	= 'Default' ;
-		$this->Value		= '' ;
+    // PHP 5 Constructor (by Marcus Bointon <coolbru@users.sourceforge.net>)
+    public function __construct( $instanceName )
+     {
+        $this->InstanceName	= $instanceName ;
+        $this->BasePath		= '/FCKeditor/' ;
+        $this->Width		= '100%' ;
+        $this->Height		= '200' ;
+        $this->ToolbarSet	= 'Default' ;
+        $this->Value		= '' ;
 
-		$this->Config		= array() ;
-	}
-	
-	// PHP 4 Contructor
-	function FCKeditor( $instanceName )
-	{
-		$this->__construct( $instanceName ) ;
-	}
+        $this->Config		= array() ;
+    }
 
-	function Create()
-	{
-		echo $this->CreateHtml() ;
-	}
-	
-	function CreateHtml()
-	{
-		$HtmlValue = htmlspecialchars( $this->Value ) ;
+    // PHP 4 Contructor
+    public function FCKeditor( $instanceName )
+    {
+        $this->__construct( $instanceName ) ;
+    }
 
-		$Html = '<div>' ;
-		
-		if ( $this->IsCompatible() )
-		{
-			if ( isset( $_GET['fcksource'] ) && $_GET['fcksource'] == "true" )
-				$File = 'fckeditor.original.html' ;
-			else
-				$File = 'fckeditor.html' ;
+    public function Create()
+    {
+        echo $this->CreateHtml() ;
+    }
 
-			$Link = "{$this->BasePath}editor/{$File}?InstanceName={$this->InstanceName}" ;
-			
-			if ( $this->ToolbarSet != '' )
-				$Link .= "&amp;Toolbar={$this->ToolbarSet}" ;
+    public function CreateHtml()
+    {
+        $HtmlValue = htmlspecialchars( $this->Value ) ;
 
-			// Render the linked hidden field.
-			$Html .= "<input type=\"hidden\" id=\"{$this->InstanceName}\" name=\"{$this->InstanceName}\" value=\"{$HtmlValue}\" style=\"display:none\" />" ;
+        $Html = '<div>' ;
 
-			// Render the configurations hidden field.
-			$Html .= "<input type=\"hidden\" id=\"{$this->InstanceName}___Config\" value=\"" . $this->GetConfigFieldString() . "\" style=\"display:none\" />" ;
+        if ( $this->IsCompatible() ) {
+            if ( isset( $_GET['fcksource'] ) && $_GET['fcksource'] == "true" )
+                $File = 'fckeditor.original.html' ;
+            else
+                $File = 'fckeditor.html' ;
 
-			// Render the editor IFRAME.
-			$Html .= "<iframe id=\"{$this->InstanceName}___Frame\" src=\"{$Link}\" width=\"{$this->Width}\" height=\"{$this->Height}\" frameborder=\"no\" scrolling=\"no\"></iframe>" ;
-		}
-		else
-		{
-			if ( strpos( $this->Width, '%' ) === false )
-				$WidthCSS = $this->Width . 'px' ;
-			else
-				$WidthCSS = $this->Width ;
+            $Link = "{$this->BasePath}editor/{$File}?InstanceName={$this->InstanceName}" ;
 
-			if ( strpos( $this->Height, '%' ) === false )
-				$HeightCSS = $this->Height . 'px' ;
-			else
-				$HeightCSS = $this->Height ;
+            if ( $this->ToolbarSet != '' )
+                $Link .= "&amp;Toolbar={$this->ToolbarSet}" ;
 
-			$Html .= "<textarea name=\"{$this->InstanceName}\" rows=\"4\" cols=\"40\" style=\"width: {$WidthCSS}; height: {$HeightCSS}\">{$HtmlValue}</textarea>" ;
-		}
+            // Render the linked hidden field.
+            $Html .= "<input type=\"hidden\" id=\"{$this->InstanceName}\" name=\"{$this->InstanceName}\" value=\"{$HtmlValue}\" style=\"display:none\" />" ;
 
-		$Html .= '</div>' ;
-		
-		return $Html ;
-	}
+            // Render the configurations hidden field.
+            $Html .= "<input type=\"hidden\" id=\"{$this->InstanceName}___Config\" value=\"" . $this->GetConfigFieldString() . "\" style=\"display:none\" />" ;
 
-	function IsCompatible()
-	{
-		global $HTTP_USER_AGENT ;
+            // Render the editor IFRAME.
+            $Html .= "<iframe id=\"{$this->InstanceName}___Frame\" src=\"{$Link}\" width=\"{$this->Width}\" height=\"{$this->Height}\" frameborder=\"no\" scrolling=\"no\"></iframe>" ;
+        } else {
+            if ( strpos( $this->Width, '%' ) === false )
+                $WidthCSS = $this->Width . 'px' ;
+            else
+                $WidthCSS = $this->Width ;
 
-		if ( isset( $HTTP_USER_AGENT ) )
-			$sAgent = $HTTP_USER_AGENT ;
-		else
-			$sAgent = $_SERVER['HTTP_USER_AGENT'] ;
+            if ( strpos( $this->Height, '%' ) === false )
+                $HeightCSS = $this->Height . 'px' ;
+            else
+                $HeightCSS = $this->Height ;
 
-		if ( strpos($sAgent, 'MSIE') !== false && strpos($sAgent, 'mac') === false && strpos($sAgent, 'Opera') === false )
-		{
-			$iVersion = (float)substr($sAgent, strpos($sAgent, 'MSIE') + 5, 3) ;
-			return ($iVersion >= 5.5) ;
-		}
-		else if ( strpos($sAgent, 'Gecko/') !== false )
-		{
-			$iVersion = (int)substr($sAgent, strpos($sAgent, 'Gecko/') + 6, 8) ;
-			return ($iVersion >= 20030210) ;
-		}
-		else
-			return false ;
-	}
+            $Html .= "<textarea name=\"{$this->InstanceName}\" rows=\"4\" cols=\"40\" style=\"width: {$WidthCSS}; height: {$HeightCSS}\">{$HtmlValue}</textarea>" ;
+        }
 
-	function GetConfigFieldString()
-	{
-		$sParams = '' ;
-		$bFirst = true ;
+        $Html .= '</div>' ;
 
-		foreach ( $this->Config as $sKey => $sValue )
-		{
-			if ( $bFirst == false )
-				$sParams .= '&amp;' ;
-			else
-				$bFirst = false ;
-			
-			if ( $sValue === true )
-				$sParams .= $this->EncodeConfig( $sKey ) . '=true' ;
-			else if ( $sValue === false )
-				$sParams .= $this->EncodeConfig( $sKey ) . '=false' ;
-			else
-				$sParams .= $this->EncodeConfig( $sKey ) . '=' . $this->EncodeConfig( $sValue ) ;
-		}
-		
-		return $sParams ;
-	}
+        return $Html ;
+    }
 
-	function EncodeConfig( $valueToEncode )
-	{
-		$chars = array( 
-			'&' => '%26', 
-			'=' => '%3D', 
-			'"' => '%22' ) ;
-		return strtr( $valueToEncode,  $chars ) ;
-	}
+    public function IsCompatible()
+    {
+        global $HTTP_USER_AGENT ;
+
+        if ( isset( $HTTP_USER_AGENT ) )
+            $sAgent = $HTTP_USER_AGENT ;
+        else
+            $sAgent = $_SERVER['HTTP_USER_AGENT'] ;
+
+        if ( strpos($sAgent, 'MSIE') !== false && strpos($sAgent, 'mac') === false && strpos($sAgent, 'Opera') === false ) {
+            $iVersion = (float)substr($sAgent, strpos($sAgent, 'MSIE') + 5, 3) ;
+            return ($iVersion >= 5.5) ;
+        } elseif ( strpos($sAgent, 'Gecko/') !== false ) {
+            $iVersion = (int)substr($sAgent, strpos($sAgent, 'Gecko/') + 6, 8) ;
+            return ($iVersion >= 20030210) ;
+        } else
+            return false ;
+    }
+
+    public function GetConfigFieldString()
+    {
+        $sParams = '' ;
+        $bFirst = true ;
+
+        foreach ( $this->Config as $sKey => $sValue ) {
+            if ( $bFirst == false )
+                $sParams .= '&amp;' ;
+            else
+                $bFirst = false ;
+
+            if ( $sValue === true )
+                $sParams .= $this->EncodeConfig( $sKey ) . '=true' ;
+            else if ( $sValue === false )
+                $sParams .= $this->EncodeConfig( $sKey ) . '=false' ;
+            else
+                $sParams .= $this->EncodeConfig( $sKey ) . '=' . $this->EncodeConfig( $sValue ) ;
+        }
+
+        return $sParams ;
+    }
+
+    public function EncodeConfig( $valueToEncode )
+    {
+        $chars = array(
+            '&' => '%26',
+            '=' => '%3D',
+            '"' => '%22' ) ;
+        return strtr( $valueToEncode,  $chars ) ;
+    }
 }
-?>

@@ -6,4 +6,3 @@ $viewModule 				= new CopixAction ('stats', 'viewModule');
 
 $default						= & $viewModule;
 
-?>

@@ -9,18 +9,19 @@
 */
 
 /**
-* SoapClient 
+* SoapClient
 * @package copix
 * @subpackage core
 */
-class CopixSoapClient {
+class CopixSoapClient
+{
     /**
-     * renvoi un client soap 
+     * renvoi un client soap
      * @param string Le serveur soap
      * @return object SoapObject
      */
-    public static function get($pSoapServer) {
-        
+    public static function get($pSoapServer)
+    {
         if (CopixConfig::get('default|proxyEnabled')) {
             //proxy_host, proxy_port, proxy_login  et proxy_password
             $params = array();
@@ -38,9 +39,8 @@ class CopixSoapClient {
             }
         }
         $params['compression'] = SOAP_COMPRESSION_ACCEPT | SOAP_COMPRESSION_GZIP;
-        
+
         $soap = new SoapClient($pSoapServer,$params);
         return $soap;
     }
 }
-?>

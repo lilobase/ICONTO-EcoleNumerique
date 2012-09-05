@@ -20,10 +20,9 @@ _classInclude ('Kernel|Tools');
  * @return string
  */
 function smarty_modifier_number_format ($number, $format='number')
-{	
-	return Tools::format_somme ($number, $format);
+{
+    return Tools::format_somme ($number, $format);
 }
 
 /* vim: set expandtab: */
 
-?>

@@ -16,7 +16,8 @@
 * Examples:
 * {favicon src='./img/copix/favicon.ico' }
 */
-function smarty_function_favicon ($params, &$me) {
+function smarty_function_favicon ($params, &$me)
+{
     extract ($params);
 
     //are there any values given ?
@@ -26,4 +27,3 @@ function smarty_function_favicon ($params, &$me) {
     }
     CopixHTMLHeader::addFavIcon ($src);
 }
-?>

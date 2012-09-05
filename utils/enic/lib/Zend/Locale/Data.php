@@ -114,12 +114,12 @@ class Zend_Locale_Data
                         if (empty($attribute)) {
                             // Case 1
                             $temp[] = (string) $found;
-                        } else if (empty($temp[(string) $found[$attribute]])){
+                        } elseif (empty($temp[(string) $found[$attribute]])){
                             // Case 2
                             $temp[(string) $found[$attribute]] = (string) $found;
                         }
 
-                    } else if (empty ($temp[$value])) {
+                    } elseif (empty ($temp[$value])) {
 
                         if (empty($attribute)) {
                             // Case 3
@@ -343,7 +343,7 @@ class Zend_Locale_Data
                             unset($temp[$key]);
                         }
                     }
-                } else if ($value === 2) {
+                } elseif ($value === 2) {
                     foreach($temp as $key => $value) {
                         if (is_numeric($key) or ($key == 'QO') or ($key == 'QU')) {
                             unset($temp[$key]);

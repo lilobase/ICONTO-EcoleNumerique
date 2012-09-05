@@ -309,4 +309,3 @@ $diff='';
 $file='dejavuserif.z';
 $ctg='dejavuserif.ctg.z';
 $originalsize=328224;
-?>

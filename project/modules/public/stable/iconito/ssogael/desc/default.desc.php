@@ -5,4 +5,3 @@ $error = new CopixAction ('ssogael', 'getError');
 
 $go				= & $doSsoGael;
 $default		= & $doSsoGael;
-?>

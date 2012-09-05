@@ -24,30 +24,29 @@
 *           * = any extra params will be used to generate the url
 *
 */
-function smarty_function_copixform_start($params, &$me) {
+function smarty_function_copixform_start($params, &$me)
+{
+    $assign = '';
+    if(isset($params['assign'])){
+        $assign = $params['assign'];
+        unset($params['assign']);
+    }
 
-	$assign = '';
-	if(isset($params['assign'])){
-		$assign = $params['assign'];
-		unset($params['assign']);
-	}
+    if (!isset($params['form'])) {
+        $params['form'] = null;
+    }
+    $form = CopixFormFactory::get ($params['form'], $params);
 
-	if (!isset($params['form'])) {
-		$params['form'] = null;
-	}
-	$form = CopixFormFactory::get ($params['form'], $params);
-	
-	if (!isset($params['datasource']) && isset($params['dao'])) {
-	    $params['datasource'] = 'dao';
-	}
-	
-	$toReturn = $form->getHTMLHeader ();
-	
-	if (strlen($assign) > 0){
-		$me->assign($assign, $toReturn);
-		return '';
-	}else{
-		return $toReturn;
-	}
+    if (!isset($params['datasource']) && isset($params['dao'])) {
+        $params['datasource'] = 'dao';
+    }
+
+    $toReturn = $form->getHTMLHeader ();
+
+    if (strlen($assign) > 0){
+        $me->assign($assign, $toReturn);
+        return '';
+    }else{
+        return $toReturn;
+    }
 }
-?>

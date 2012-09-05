@@ -8,4 +8,3 @@ $go					= & $display;
 
 $default			= & $display;
 
-?>

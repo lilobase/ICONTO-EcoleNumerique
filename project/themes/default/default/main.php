@@ -6,13 +6,13 @@
   <title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/theme.css"); ?>" type="text/css"/>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
-	
-	<?php if (_request ('module') != 'admin'): ?>
-	  <script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
-	  <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/iconito.js"></script>
-  	<script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/lang_<?php echo CopixI18N::getLang(); ?>.js"></script>
-  	<script type="text/javascript" src="<?php echo CopixUrl::get () ?>flvplayer/ufo.js"></script> 
-	  <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/prototype-1.6.0.3.js"></script>
+
+    <?php if (_request ('module') != 'admin'): ?>
+      <script type="text/javascript">var urlBase = '<?php echo CopixUrl::getRequestedScriptPath (); ?>'; getRessourcePathImg = urlBase+'<?php echo CopixURL::getResourcePath ('img/'); ?>/';</script>
+      <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/iconito.js"></script>
+      <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/iconito/lang_<?php echo CopixI18N::getLang(); ?>.js"></script>
+      <script type="text/javascript" src="<?php echo CopixUrl::get () ?>flvplayer/ufo.js"></script>
+      <script type="text/javascript" src="<?php echo CopixUrl::get () ?>js/prototype-1.6.0.3.js"></script>
   <?php endif ?>
   <link rel="shortcut icon" type="image/x-icon" href="<?php echo CopixUrl::get () ?>favicon.ico" />
   <?php echo $HTML_HEAD; ?>
@@ -79,11 +79,12 @@
 
 
 <script type="text/javascript">
-function login( nom, pass ) {
-	monform = getRef('loginBar');
-	monform.login.value = nom;
-	monform.password.value = pass;
-	monform.submit();
+function login( nom, pass )
+{
+    monform = getRef('loginBar');
+    monform.login.value = nom;
+    monform.password.value = pass;
+    monform.submit();
 }
 </script>
 </div>
@@ -137,8 +138,8 @@ function login( nom, pass ) {
 <?php if (isset($MENU) && $MENU) { echo CopixZone::process ('kernel|menu', array('MENU'=>$MENU)); } ?>
 
 <div class="main <?php $module = CopixRequest::get ('module'); if ($module) echo $module; ?>">
-	<?php echo $MAIN; ?>
-	<br clear="all" /><br clear="all" />
+    <?php echo $MAIN; ?>
+    <br clear="all" /><br clear="all" />
 </div> <!-- fin main -->
 
 

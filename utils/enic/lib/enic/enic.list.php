@@ -1,6 +1,6 @@
 <?php
-abstract class enicList{
-    
+abstract class enicList
+{
     //child's name
     public $_child;
 
@@ -28,8 +28,8 @@ abstract class enicList{
     //children (not in reccursive function)
     public $_children;
 
-    public function __construct(){
-
+    public function __construct()
+    {
         //init var :
         $this->_level = 0;
         $this->_parent = false;
@@ -46,8 +46,8 @@ abstract class enicList{
      * add item
      * linkable
      */
-     public function add($name, $content = null, $opt = null, $type = false){
-
+     public function add($name, $content = null, $opt = null, $type = false)
+     {
          //test if item has already a child :
          if(!empty($this->_child))
             trigger_error('item <strong>'.$className.'</strong> is list : only one child in '.get_class($this), E_USER_WARNING);
@@ -93,7 +93,8 @@ abstract class enicList{
       * exec when item added
       * overloading
       */
-     public function addExec(){
+     public function addExec()
+     {
         return true;
      }
 
@@ -101,7 +102,8 @@ abstract class enicList{
       * exec at the list initiate
       * overloading
       */
-     public function startExec(){
+     public function startExec()
+     {
          return true;
      }
 
@@ -109,7 +111,8 @@ abstract class enicList{
       * exec in reccursivity
       * overloading
       */
-     public function action(){
+     public function action()
+     {
          return true;
      }
 
@@ -117,8 +120,8 @@ abstract class enicList{
       * go back in list
       * linkable
       */
-     public function back($name = ':first'){
-
+     public function back($name = ':first')
+     {
          //if name = :first : go to root
          if($name == ':first')
             return $this->_root;
@@ -141,7 +144,8 @@ abstract class enicList{
      /*
       * go forward in list
       */
-     public function go($name){
+     public function go($name)
+     {
          //test if is the current object :
          if($this->_name == $name)
             return $this;
@@ -162,7 +166,8 @@ abstract class enicList{
      /*
       * get an item
       */
-     public function get($name){
+     public function get($name)
+     {
          return $this->_root->go($name);
      }
 
@@ -170,7 +175,8 @@ abstract class enicList{
      /*
       * set new data in existing object
       */
-    public function set($name, $content=false, $opt=false){
+    public function set($name, $content=false, $opt=false)
+    {
         //create computer readable name
         $object = $this->get($name);
 
@@ -194,7 +200,8 @@ abstract class enicList{
     /*
      * del an item
      */
-    public function del($name){
+    public function del($name)
+    {
         //get object
         $object = $this->get($name);
 
@@ -213,12 +220,14 @@ abstract class enicList{
      /*
       * set data in the global container
       */
-     public function setDatas($name, $value){
+     public function setDatas($name, $value)
+     {
          $this->_root->_datas[$name] = $value;
          return $this;
      }
 
-     public function setDatasArray($key, $value){
+     public function setDatasArray($key, $value)
+     {
          $this->_root->_datas[$key][] = $value;
          return $this;
      }
@@ -226,7 +235,8 @@ abstract class enicList{
      /*
       * get data from the global container
       */
-    public function getDatas($name){
+    public function getDatas($name)
+    {
         if(isset($this->_root->_datas[$name]))
             return $this->_root->_datas[$name];
         else
@@ -237,28 +247,32 @@ abstract class enicList{
      * display before main & child
      * overloading
      */
-    public function displayHeader(){
+    public function displayHeader()
+    {
         return '';
     }
 
     /*
      * display after header 'nd before child's display
      */
-    public function displayMain(){
+    public function displayMain()
+    {
         return '';
     }
 
     /*
      * display at the end of the display process
      */
-    public function displayFooter(){
+    public function displayFooter()
+    {
         return '';
     }
 
     /*
      * display process
      */
-     public function display($topLimit = 0, $bottomLimit = 0){
+     public function display($topLimit = 0, $bottomLimit = 0)
+     {
         //call display functions :
         $html = '';
         //if root item : no display and check the level of current item
@@ -285,7 +299,8 @@ abstract class enicList{
     /*
      * attache childrens to a node list
      */
-    public function load($type, $name, $content=null, $opt=null){
+    public function load($type, $name, $content=null, $opt=null)
+    {
         //test if class already loaded by enic core
         $className = 'enic'.ucfirst($type);
         if(!class_exists($className))
@@ -328,7 +343,8 @@ abstract class enicList{
     /*
      * load_once
      */
-    public function loadOnce($type, $name, $content=null, $opt=null){
+    public function loadOnce($type, $name, $content=null, $opt=null)
+    {
         //create computer readable name
         $nameStr = enic::sanitize($name);
 
@@ -341,7 +357,8 @@ abstract class enicList{
     /*
      * test if item exists
      */
-    public function exists($name){
+    public function exists($name)
+    {
          //test if is the current object :
          if($this->_name == $name)
             return true;
@@ -363,11 +380,12 @@ abstract class enicList{
 /*
  * Error CLASS
  */
-//desactivated 
+//desactivated
 //set_error_handler("enicErrors::errorHandler", E_ALL);
-class enicErrors{
-
-    public static function errorHandler($errno, $errstr, $errfile, $errline){
+class enicErrors
+{
+    public static function errorHandler($errno, $errstr, $errfile, $errline)
+    {
         switch($errno){
 
             case E_ERROR:

@@ -10,24 +10,26 @@
 
 /**
  * Affiche les informations connues sur un module (dépendances, chemins, ....)
- * 
+ *
  * @package standard
  * @subpackage admin
  */
-class ZoneDetailModule extends CopixZone {
-	function _createContent (& $toReturn){
-    	$moduleName = CopixZone::getParam('moduleName');
-    	
-    	$infos = CopixModule::getInformations ($moduleName);
-        
+class ZoneDetailModule extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
+        $moduleName = CopixZone::getParam('moduleName');
+
+        $infos = CopixModule::getInformations ($moduleName);
+
         $tpl = new CopixTpl ();
-    	
-    	if (in_array($moduleName,CopixModule::getList())) {
+
+        if (in_array($moduleName,CopixModule::getList())) {
             $arModule = CopixModule::getDependenciesForDelete($moduleName);
-    	    $template = 'detailmoduledelete.tpl';
-    	    $record = _dao('Copix:copixmodule')->get($moduleName);
-    	    $tpl->assign ('version',$record->version_cpm);
-    	} else {
+            $template = 'detailmoduledelete.tpl';
+            $record = _dao('Copix:copixmodule')->get($moduleName);
+            $tpl->assign ('version',$record->version_cpm);
+        } else {
             $arDependencies = CopixModule::getDependenciesForInstall($moduleName);
             $arModule = array();
             $arExtension = array();
@@ -57,14 +59,13 @@ class ZoneDetailModule extends CopixZone {
             $tpl->assign('arExtension', $arExtension);
             $tpl->assign('install',$install);
             $template = 'detailmoduleinstall.tpl';
-    	}
-    	
-    	$tpl->assign ('path', CopixModule::getPath ($moduleName));
+        }
+
+        $tpl->assign ('path', CopixModule::getPath ($moduleName));
         $tpl->assign('arModule', $arModule);
         $tpl->assign('info',$infos);
         $tpl->assign('moduleName',$moduleName);
         $toReturn = $tpl->fetch($template);
         return true;
-	}
+    }
 }
-?>

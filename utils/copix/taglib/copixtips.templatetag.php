@@ -12,8 +12,10 @@
  * @package		copix
  * @subpackage	taglib
  */
-class TemplateTagCopixTips extends CopixTemplateTag {
-    public function process ($pParams) {
+class TemplateTagCopixTips extends CopixTemplateTag
+{
+    public function process ($pParams)
+    {
         extract ($pParams);
         if ((!isset ($tips)) && (!isset ($warning))) {
             return '';
@@ -32,14 +34,13 @@ class TemplateTagCopixTips extends CopixTemplateTag {
         }
 
         if (strlen ($toReturn)){
-        	$toReturn = '<ul>'.$toReturn.'</ul>';        	
-        	if (isset ($title) ){
-            	$toReturn = '<h2><img src="' . _resource ('img/icons/help.gif') . '" /> ' . $title.'</h2>'.$toReturn;
-        	}elseif (isset ($titlei18n)){
-        		$toReturn = '<h2><img src="' . _resource ('img/icons/help.gif') . '" /> ' . _i18n($titlei18n).'</h2>'.$toReturn;
-        	}
-		}
+            $toReturn = '<ul>'.$toReturn.'</ul>';
+            if (isset ($title) ){
+                $toReturn = '<h2><img src="' . _resource ('img/icons/help.gif') . '" /> ' . $title.'</h2>'.$toReturn;
+            }elseif (isset ($titlei18n)){
+                $toReturn = '<h2><img src="' . _resource ('img/icons/help.gif') . '" /> ' . _i18n($titlei18n).'</h2>'.$toReturn;
+            }
+        }
         return $toReturn;
     }
 }
-?>

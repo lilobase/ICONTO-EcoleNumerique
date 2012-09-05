@@ -304,4 +304,3 @@ $diff='';
 $file='dejavusansmonob.z';
 $ctg='dejavusansmonob.ctg.z';
 $originalsize=301280;
-?>

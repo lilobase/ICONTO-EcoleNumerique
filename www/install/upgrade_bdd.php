@@ -78,7 +78,7 @@ if (!$connexion) {
     $upgradesInv = $upgrades;
     $last = array_pop($upgradesInv);
     $lastVersion = $last['numero'];
-    
+
     display_message(_LOGO_INFO . "Version &agrave; installer : <b>$lastVersion</b>");
 
     if (isset($_GET['go']) && $_GET['go']) {
@@ -87,7 +87,7 @@ if (!$connexion) {
       //print_r($_SESSION);
 
       $stop = false;
-      
+
       foreach ($upgrades as $upgrade) {
         //print_r($upgrade);
         if ($stop)
@@ -95,12 +95,11 @@ if (!$connexion) {
         $run = do_mysql_importdump('../../instal/upgrade_bdd/'.$upgrade['file'], $connexion);
         if ($run) {
           display_message(_LOGO_GOOD . "Passage &agrave; la version ".$upgrade['numero']." r&eacute;ussi");
-          
+
           $ip = $_SERVER['REMOTE_ADDR'];
           $sqlVersion = "INSERT INTO kernel_version_bdd SET date=DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'), version=".$upgrade['numero'].", ip='".$ip."'";
           do_mysql_runquery ($sqlVersion, $connexion);
-        }
-        else {
+        } else {
           display_message(_LOGO_ERROR . "Probl&egrave;me de passage &agrave; la version ".$upgrade['numero']."");
           $stop = true;
         }
@@ -122,21 +121,21 @@ if (!$connexion) {
     }
 
 
-    
+
 
   } else {
 
     display_message(_LOGO_WARNING . "Votre base de donn&eacute;es est &agrave; jour !");
   }
-  
-
-  
 
 
-  
-  
-  
-  
+
+
+
+
+
+
+
 }
 
 
@@ -154,12 +153,12 @@ if ($display_header)
  * @author Christophe Beyer <cbeyer@cap-tic.fr>
  * @since 2011/01/26
  * @param integer $iVersion Numero de version courante
- * @return 
+ * @return
  */
-function get_upgrades ($iVersion) {
-
+function get_upgrades ($iVersion)
+{
   $files = array();
-  
+
   $dir = "../../instal/upgrade_bdd";
   if (is_dir($dir)) {
     if ($dh = opendir($dir)) {
@@ -197,4 +196,3 @@ function get_upgrades ($iVersion) {
 
 
 
-?>

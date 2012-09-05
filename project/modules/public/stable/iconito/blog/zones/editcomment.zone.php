@@ -15,22 +15,23 @@
 
 _classInclude('blog|blogauth');
 
-class ZoneEditComment extends CopixZone {
-	function _createContent (&$toReturn) {
-		//Getting the user.
-		//Create Services, and DAO
-		$tpl = new CopixTpl ();
+class ZoneEditComment extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        //Getting the user.
+        //Create Services, and DAO
+        $tpl = new CopixTpl ();
 
-		$tpl->assign ('comment', $this->getParam('comment',null));
-		$tpl->assign ('id_bact', $this->getParam('id_bact',''));
-		$tpl->assign ('id_blog', $this->getParam('id_blog',''));
-		$tpl->assign ('errors', $this->getParam('errors',null));
-		$tpl->assign ('showErrors', $this->getParam('showErrors',false));
-		$tpl->assign ('id_bacc', $this->getParam('id_bacc',false));
+        $tpl->assign ('comment', $this->getParam('comment',null));
+        $tpl->assign ('id_bact', $this->getParam('id_bact',''));
+        $tpl->assign ('id_blog', $this->getParam('id_blog',''));
+        $tpl->assign ('errors', $this->getParam('errors',null));
+        $tpl->assign ('showErrors', $this->getParam('showErrors',false));
+        $tpl->assign ('id_bacc', $this->getParam('id_bacc',false));
 
-		// retour de la fonction :
-		$toReturn = $tpl->fetch('comment.edit.tpl');
-		return true;
-	}
+        // retour de la fonction :
+        $toReturn = $tpl->fetch('comment.edit.tpl');
+        return true;
+    }
 }
-?>

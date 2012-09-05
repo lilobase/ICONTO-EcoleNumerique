@@ -12,38 +12,40 @@
  * @package	copix
  * @subpackage	core
  */
-class CopixException extends Exception {
+class CopixException extends Exception
+{
    /**
     * Utilise le système de log pour tracer les exceptions
     * @param 	string	$pMsg	le message d'erreur qui viens avec l'exception
     */
-   function __construct ($pMsg, $pCode = 0){
-   	   parent::__construct ($pMsg, $pCode);
-   }   
+   public function __construct ($pMsg, $pCode = 0)
+   {
+          parent::__construct ($pMsg, $pCode);
+   }
 }
 
 /**
  * Interface d'un gestionnaire d'erreur.
  *
  */
-interface ICopixErrorHandler {
-	
-	/**
-	 * Indique au gestionnaire d'erreur qu'il peut gérer les E_STRICT.
-	 */
-	public function processStricts();
-	
-	/**
-	 * Reçoit une erreur.
-	 *
-	 * @param integer $pErrNo Code d'erreur.
-	 * @param string $pErrMsg Message d'erreur.
-	 * @param string $pFilename Nom du fichier ayant provoqué l'erreur.
-	 * @param integer $pLinenum Ligne du fichier ayant provoquée l'erreur.
-	 * @param array $pVars Variables locales.
-	 */
-	public function handle($pErrNo, $pErrMsg, $pFilename, $pLinenum, $pVars);
-	
+interface ICopixErrorHandler
+{
+    /**
+     * Indique au gestionnaire d'erreur qu'il peut gérer les E_STRICT.
+     */
+    public function processStricts();
+
+    /**
+     * Reçoit une erreur.
+     *
+     * @param integer $pErrNo Code d'erreur.
+     * @param string $pErrMsg Message d'erreur.
+     * @param string $pFilename Nom du fichier ayant provoqué l'erreur.
+     * @param integer $pLinenum Ligne du fichier ayant provoquée l'erreur.
+     * @param array $pVars Variables locales.
+     */
+    public function handle($pErrNo, $pErrMsg, $pFilename, $pLinenum, $pVars);
+
 }
 
 /**
@@ -51,69 +53,72 @@ interface ICopixErrorHandler {
  * @package copix
  * @subpackage	core
  */
-class Copix {
+class Copix
+{
+    /**
+     * Fichiers déjà inclus
+     * @var	array
+     */
+    private static $_included = array ();
 
-	/**
-	 * Fichiers déjà inclus
-	 * @var	array 
-	 */
-	static private $_included = array ();
+    /**
+     * Gestionnaire d'erreur en cours.
+     *
+     * @var ICopixErrorHandler
+     */
+    private static $_errorHandler = null;
 
-	/**
-	 * Gestionnaire d'erreur en cours.
-	 *
-	 * @var ICopixErrorHandler
-	 */
-	static private $_errorHandler = null;
-	
-	/**
-	 * Met en place un nouveau gestionnaire d'erreur.
-	 *
-	 * @param ICopixErrorHandler $pErrorHandler Nouveau gestionnaire d'erreur.
-	 */
-	static public function setErrorHandler(ICopixErrorHandler $pErrorHandler) {
-		self::$_errorHandler = $pErrorHandler;
-		set_error_handler(array($pErrorHandler, 'handle'));
-	}
- 
-	/**
-	 * Inclusion unique d'un fichier
-	 * @param	string	$pPath le chemin du fichier que l'on souhaites inclure.
-	 * @return	boolean	le fichier est ou non connu 
-	 */
-	public static function RequireOnce ($pPath){
-		$path = strtolower($pPath);
-		if (! isset (self::$_included[$path])){
-			if (file_exists ($pPath)) {
-				self::$_included[$path] = true;
-				self::$_included[$path] = include_once($pPath);
-				if(self::$_errorHandler !== null) {
-					self::$_errorHandler->processStricts();
-				}
-			} else {
-				self::$_included[$path] = false;
-			}
-		}
+    /**
+     * Met en place un nouveau gestionnaire d'erreur.
+     *
+     * @param ICopixErrorHandler $pErrorHandler Nouveau gestionnaire d'erreur.
+     */
+    public static function setErrorHandler(ICopixErrorHandler $pErrorHandler)
+    {
+        self::$_errorHandler = $pErrorHandler;
+        set_error_handler(array($pErrorHandler, 'handle'));
+    }
+
+    /**
+     * Inclusion unique d'un fichier
+     * @param	string	$pPath le chemin du fichier que l'on souhaites inclure.
+     * @return	boolean	le fichier est ou non connu
+     */
+    public static function RequireOnce ($pPath)
+    {
+        $path = strtolower($pPath);
+        if (! isset (self::$_included[$path])){
+            if (file_exists ($pPath)) {
+                self::$_included[$path] = true;
+                self::$_included[$path] = include_once($pPath);
+                if(self::$_errorHandler !== null) {
+                    self::$_errorHandler->processStricts();
+                }
+            } else {
+                self::$_included[$path] = false;
+            }
+        }
         return self::$_included[$path];
-	}
-	
-	/**
-	 * Inclusion de librairies Copix
-	 * @param	string	$pClassName le nom de la classe que l'on souhaites inclure
-	 * @return	boolean	le fichier est ou non connu
-	 * @see CopixAutoloader
-	 * @todo Zone, Services, HTMLHeader, Cache, ClassesFactory, I18N, EventNotifier, Db, DBQueryParam, DAOFactory, Auth, User, Log
-	 */
-	public static function RequireClass ($pClassName){
-		// Tente d'abord de déclencher un autoloading 
-		if(!class_exists($pClassName, true)) { 
-			// Essaie quand même de charger la classe
-			// au cas où CopixAutoloader ne soit plus enregistré comme autoloader
-			if(!CopixAutoloader::getInstance()->load($pClassName)) {  
-				throw new Exception("Class $pClassName not found");
-			}
-		}
-	}
+    }
+
+    /**
+     * Inclusion de librairies Copix
+     * @param	string	$pClassName le nom de la classe que l'on souhaites inclure
+     * @return	boolean	le fichier est ou non connu
+     * @see CopixAutoloader
+     * @todo Zone, Services, HTMLHeader, Cache, ClassesFactory, I18N, EventNotifier, Db, DBQueryParam, DAOFactory, Auth, User, Log
+     */
+    public static function RequireClass ($pClassName)
+    {
+        // Tente d'abord de déclencher un autoloading
+        if(!class_exists($pClassName, true)) {
+            // Essaie quand même de charger la classe
+            // au cas où CopixAutoloader ne soit plus enregistré comme autoloader
+            if(!CopixAutoloader::getInstance()->load($pClassName)) {
+                throw new Exception("Class $pClassName not found");
+            }
+        }
+    }
 }
 
 //Définition de constantes.
@@ -128,13 +133,13 @@ define ('COPIX_VERSION_DEV', null);
 
 $copixVersion = COPIX_VERSION_MAJOR . '.' . COPIX_VERSION_MINOR . '.' . COPIX_VERSION_FIX;
 if (!is_null (COPIX_VERSION_RC)) {
-	$copixVersion .= ' RC ' . COPIX_VERSION_RC;
+    $copixVersion .= ' RC ' . COPIX_VERSION_RC;
 }
 if (!is_null (COPIX_VERSION_BETA)) {
-	$copixVersion .= ' BETA ' . COPIX_VERSION_BETA;
+    $copixVersion .= ' BETA ' . COPIX_VERSION_BETA;
 }
 if (!is_null (COPIX_VERSION_DEV)) {
-	$copixVersion .= ' DEV ';
+    $copixVersion .= ' DEV ';
 }
 define ('COPIX_VERSION', trim ($copixVersion));
 
@@ -163,7 +168,7 @@ Copix::RequireOnce (COPIX_CORE_PATH . 'shortcuts.lib.php');
 
 Copix::RequireOnce(COPIX_PATH.'../enic/enic.core.php');
 //Copix::RequireOnce (COPIX_CORE_PATH . 'CopixErrorHandler.class.php');
-/* N'est plus nécessaire avec l'autoloader 
+/* N'est plus nécessaire avec l'autoloader
 Copix::RequireOnce (COPIX_CORE_PATH . 'CopixRequest.class.php');
 Copix::RequireOnce (COPIX_CORE_PATH . 'CopixConfig.class.php');
 Copix::RequireOnce (COPIX_CORE_PATH . 'CopixAction.class.php');
@@ -172,4 +177,3 @@ Copix::RequireOnce (COPIX_CORE_PATH . 'CopixActionGroup.class.php');
 Copix::RequireOnce (COPIX_CORE_PATH . 'CopixUrl.class.php');
 Copix::RequireOnce (COPIX_CORE_PATH . 'CopixContext.class.php');
 */
-?>

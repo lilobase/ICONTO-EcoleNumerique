@@ -1,21 +1,21 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE daodefinition SYSTEM "dao.dtd">
-<daodefinition version="1">
-	<datasource>
-		<tables>
-			<table name="module_ressource_contenus" tablename="module_ressource_contenus" primary="yes"/>
-		</tables>
-	</datasource>
-	<properties>
-		<property name="contenus_id" fieldname="id" type="integer" table="module_ressource_contenus" pk="yes"/>
-		<property name="contenus_nom" fieldname="nom" type="string" table="module_ressource_contenus" pk="no"/>
-		<property name="contenus_ordre" fieldname="ordre" type="integer" table="module_ressource_contenus" pk="no"/>
-	</properties>
-	<methods>
-		<method name="getOrdre" type="select">
-			<order>
-				<orderitem property="contenus_ordre" way="asc" />
-			</order>
-		</method>
-	</methods>
-</daodefinition>
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE daodefinition SYSTEM "dao.dtd">
+<daodefinition version="1">
+	<datasource>
+		<tables>
+			<table name="module_ressource_contenus" tablename="module_ressource_contenus" primary="yes"/>
+		</tables>
+	</datasource>
+	<properties>
+		<property name="contenus_id" fieldname="id" type="integer" table="module_ressource_contenus" pk="yes"/>
+		<property name="contenus_nom" fieldname="nom" type="string" table="module_ressource_contenus" pk="no"/>
+		<property name="contenus_ordre" fieldname="ordre" type="integer" table="module_ressource_contenus" pk="no"/>
+	</properties>
+	<methods>
+		<method name="getOrdre" type="select">
+			<order>
+				<orderitem property="contenus_ordre" way="asc" />
+			</order>
+		</method>
+	</methods>
+</daodefinition>

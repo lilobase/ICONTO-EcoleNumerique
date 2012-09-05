@@ -18,7 +18,7 @@
                 echo $mc->record->name_mc;
                 if (isset($mc->delete) && $mc->delete) {
                     echo '<a href="'._url('auth|module|delete',array('id_mc'=>$mc->record->id_mc,"id_group"=>$ppo->id_group,'handler_group'=>$ppo->handler_group,'url_return'=>$ppo->url_return)).'"><img src="'._resource('img/tools/delete.png').'" /></a>';
-                }                
+                }
                 if (count($mc->data) <= 0) {
                     echo '<input type="checkbox" name="bool['.$mc->record->id_mc.']" value="1" '.$mc->checked.' /><input type="hidden" name="value[]" value="'.$mc->record->id_mc.'" />';
                 } else {
@@ -29,7 +29,7 @@
                             echo '<a href="'._url('auth|module|delete',array('id_mcv'=>$value->id_mcv,"id_group"=>$ppo->id_group,'handler_group'=>$ppo->handler_group,'url_return'=>$ppo->url_return)).'"><img src="'._resource('img/tools/delete.png').'" /></a>';
                         }
                         echo '<input type="checkbox" name="bool['.$mc->record->id_mc.'|'.$value->id_mcv.']" value="1" '.$value->checked.' /><input type="hidden" name="value[]" value="'.$mc->record->id_mc.'|'.$value->id_mcv.'" />';
-        				echo '</li>';
+                        echo '</li>';
                     }
                     echo '</ul>';
                 }

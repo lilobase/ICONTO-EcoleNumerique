@@ -5,34 +5,34 @@
 			<table name="module_agenda_agenda" primary="yes" />
 		</tables>
 	</datasource>
-	
+
 	<properties>
 		<property name="id_agenda"
 			captioni18n="dao.agenda.fields.id_agenda"
 			pk="true"
 			required="yes"
 			type="autoincrement"
-		/>	
-			
+		/>
+
 		<property name="title_agenda"
 			captioni18n="dao.agenda.fields.title_agenda"
 			type="string"
 			maxlength="255"
 			required="yes"
-		/>	
-			
+		/>
+
 		<property name="desc_agenda"
 			captioni18n="dao.agenda.fields.desc_agenda"
 			type="string"
 			maxlength="255"
 			required="no"
-		/>	
-			
+		/>
+
 		<property name="type_agenda"
 			captioni18n="dao.agenda.fields.type_agenda"
 			type="int"
 			required="yes"
 		/>
-		
+
 	</properties>
 </daodefinition>

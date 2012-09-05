@@ -1,13 +1,11 @@
 <?php
 
-class enicHelpers extends enicMod{
-
+class enicHelpers extends enicMod
+{
     protected $shared;
 
-    public function  __construct() {
-        
-        
-
+    public function  __construct()
+    {
         parent::__construct();
 
         //define properties :
@@ -16,7 +14,8 @@ class enicHelpers extends enicMod{
         $this->action   = $this->request('action');
     }
 
-    public function service($iService){
+    public function service($iService)
+    {
         if(!is_string($iService))
             trigger_error('Enic failed to load Service : invalid name', E_USER_WARNING);
 
@@ -26,7 +25,8 @@ class enicHelpers extends enicMod{
         return $this->shared['s'.$iService];
     }
 
-    public function request($iName, $iType = 'other', $default = null){
+    public function request($iName, $iType = 'other', $default = null)
+    {
         $oReturn = CopixRequest::get($iName, $default);
 
         switch($iType){
@@ -41,23 +41,25 @@ class enicHelpers extends enicMod{
             break;
         }
     }
-    
-    public function uniqueId(){
-        
+
+    public function uniqueId()
+    {
         return sha1(microtime().mt_rand(0, 10000));
-        
+
     }
 
-    public function i18n($iKey){
+    public function i18n($iKey)
+    {
         return CopixI18N::get($iKey);
     }
 
-    public function url($iUrl, $iParams = array()){
+    public function url($iUrl, $iParams = array())
+    {
          return CopixUrl::get ($iUrl, $iParams);
     }
 
-    public function error($iMsg, $i18n = true, $iBack = null){
-
+    public function error($iMsg, $i18n = true, $iBack = null)
+    {
         //build msg
         $msg = ($i18n) ? $this->i18n($iMsg) : $iMsg;
 
@@ -68,32 +70,36 @@ class enicHelpers extends enicMod{
         return CopixActionGroup::process('genericTools|Messages::getError', array ('message' => $msg, 'back' => $back));
     }
 
-    public function go($iUrl = 'default', $iParams = array()){
+    public function go($iUrl = 'default', $iParams = array())
+    {
         //build url :
         $back = ($iUrl == 'default') ? $this->module.'||' : $iUrl;
 
         return _arRedirect($this->url($iUrl, $iParams));
     }
 
-    public function isty($iVar){
+    public function isty($iVar)
+    {
         return (isset($iVar) && !empty($iVar));
     }
 
-    public function istyReq($iVar){
+    public function istyReq($iVar)
+    {
         return $this->isty($this->request($iVar));
     }
 
-    public function config($iVar){
+    public function config($iVar)
+    {
         return CopixConfig::get($iVar);
     }
-    
-    public function word_cut($string,$length,$cutString = '...'){
-	if(strlen($string) <= $length)
-	{
-		return $string;
-	}
-	$str = substr($string,0,$length-strlen($cutString)+1);
-	return substr($str,0,strrpos($str,' ')).$cutString;
+
+    public function word_cut($string,$length,$cutString = '...')
+    {
+    if(strlen($string) <= $length) {
+        return $string;
+    }
+    $str = substr($string,0,$length-strlen($cutString)+1);
+    return substr($str,0,strrpos($str,' ')).$cutString;
     }
 
 }

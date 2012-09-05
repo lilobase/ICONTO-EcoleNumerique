@@ -21,7 +21,8 @@
  * @param selected: string -> url de l'onglet selectionne
  * @return string -> html du ul / li
  */
-function smarty_block_tabs($params, $content, &$me) {
+function smarty_block_tabs($params, $content, &$me)
+{
     if (is_null ($content)){
         return;
     }
@@ -30,4 +31,3 @@ function smarty_block_tabs($params, $content, &$me) {
     }
     return _tag ('tabs', $params, $content);
 }
-?>

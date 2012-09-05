@@ -13,7 +13,8 @@
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function mimetype($file){
+function mimetype($file)
+{
   $ret    = array(false,false); // return array
   $mtypes = getMimeTypes();     // known mimetypes
   $exts   = join('|',array_keys($mtypes));  // known extensions (regexp)
@@ -33,7 +34,8 @@ function mimetype($file){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function getMimeTypes() {
+function getMimeTypes()
+{
   static $mime = NULL;
   if ( !$mime ) {
     $mime = confToHash(DOKU_CONF.'mime.conf');
@@ -50,7 +52,8 @@ function getMimeTypes() {
  *
  * @author Harry Fuecks <hfuecks@gmail.com>
  */
-function getAcronyms() {
+function getAcronyms()
+{
   static $acronyms = NULL;
   if ( !$acronyms ) {
     $acronyms = confToHash(DOKU_CONF.'acronyms.conf');
@@ -67,7 +70,8 @@ function getAcronyms() {
  *
  * @author Harry Fuecks <hfuecks@gmail.com>
  */
-function getSmileys() {
+function getSmileys()
+{
   static $smileys = NULL;
   if ( !$smileys ) {
     $smileys = confToHash(DOKU_CONF.'smileys.conf');
@@ -84,7 +88,8 @@ function getSmileys() {
  *
  * @author Harry Fuecks <hfuecks@gmail.com>
  */
-function getEntities() {
+function getEntities()
+{
   static $entities = NULL;
   if ( !$entities ) {
     $entities = confToHash(DOKU_CONF.'entities.conf');
@@ -101,7 +106,8 @@ function getEntities() {
  *
  * @author Harry Fuecks <hfuecks@gmail.com>
  */
-function getInterwiki() {
+function getInterwiki()
+{
   static $wikis = NULL;
   if ( !$wikis ) {
     $wikis = confToHash(DOKU_CONF.'interwiki.conf',true);
@@ -119,7 +125,8 @@ function getInterwiki() {
  * returns array of wordblock patterns
  *
  */
-function getWordblocks() {
+function getWordblocks()
+{
   static $wordblocks = NULL;
   if ( !$wordblocks ) {
     $wordblocks = file(DOKU_CONF.'wordblock.conf');
@@ -141,7 +148,8 @@ function getWordblocks() {
  * @author Harry Fuecks <hfuecks@gmail.com>
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function confToHash($file,$lower=false) {
+function confToHash($file,$lower=false)
+{
   $conf = array();
   $lines = @file( $file );
   if ( !$lines ) return $conf;
@@ -170,7 +178,8 @@ function confToHash($file,$lower=false) {
  * @author Andreas Gohr <andi@splitbrain.org>
  * @returns boolean true if enabled, false if disabled
  */
-function actionOK($action){
+function actionOK($action)
+{
   static $disabled = null;
   if(is_null($disabled)){
     global $conf;

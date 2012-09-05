@@ -16,7 +16,8 @@
  * Returns a list of matching documents for the given query
  *
  */
-function ft_pageSearch($query,&$highlight){
+function ft_pageSearch($query,&$highlight)
+{
     $q = ft_queryParser($query);
 
     $highlight = array();
@@ -112,7 +113,8 @@ function ft_pageSearch($query,&$highlight){
  * Does a quick lookup with the fulltext index, then
  * evaluates the instructions of the found pages
  */
-function ft_backlinks($id){
+function ft_backlinks($id)
+{
     global $conf;
     $swfile   = DOKU_INC.'inc/lang/'.$conf['lang'].'/stopwords.txt';
     $stopwords = @file_exists($swfile) ? file($swfile) : array();
@@ -155,7 +157,8 @@ function ft_backlinks($id){
  *
  * Aborts after $max found results
  */
-function ft_mediause($id,$max){
+function ft_mediause($id,$max)
+{
     global $conf;
     $swfile   = DOKU_INC.'inc/lang/'.$conf['lang'].'/stopwords.txt';
     $stopwords = @file_exists($swfile) ? file($swfile) : array();
@@ -205,7 +208,8 @@ function ft_mediause($id,$max){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function ft_pageLookup($id,$pageonly=true){
+function ft_pageLookup($id,$pageonly=true)
+{
     global $conf;
     $id    = preg_quote($id,'/');
     $pages = file($conf['indexdir'].'/page.idx');
@@ -245,7 +249,8 @@ function ft_pageLookup($id,$pageonly=true){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function ft_snippet($id,$highlight){
+function ft_snippet($id,$highlight)
+{
     $text     = rawWiki($id);
     $match = array();
     $snippets = array();
@@ -272,9 +277,9 @@ function ft_snippet($id,$highlight){
 
       if ($pre>50 && $post>50) {
         $pre = $post = 50;
-      } else if ($pre>50) {
+      } elseif ($pre>50) {
         $pre = min($pre,100-$post);
-      } else if ($post>50) {
+      } elseif ($post>50) {
         $post = min($post, 100-$pre);
       } else {
         // both are less than 50, means the context is the whole string
@@ -323,7 +328,8 @@ function ft_snippet($id,$highlight){
  *
  * @param array $args An array of page arrays
  */
-function ft_resultCombine($args){
+function ft_resultCombine($args)
+{
     $array_count = count($args);
     if($array_count == 1){
         return $args[0];
@@ -350,7 +356,8 @@ function ft_resultCombine($args){
  *
  * @todo support OR and parenthesises?
  */
-function ft_queryParser($query){
+function ft_queryParser($query)
+{
     global $conf;
     $swfile   = DOKU_INC.'inc/lang/'.$conf['lang'].'/stopwords.txt';
     if(@file_exists($swfile)){

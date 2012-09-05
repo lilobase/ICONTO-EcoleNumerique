@@ -21,4 +21,3 @@ $default 									= & $go;
 $example    = new CopixAction ('Exemple', 'getExemple');
 $default    = & $example;
 */
-?>

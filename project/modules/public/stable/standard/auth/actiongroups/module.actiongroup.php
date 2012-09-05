@@ -1,8 +1,8 @@
 <?php
 /**
  * @package standard
- * @subpackage auth 
- * 
+ * @subpackage auth
+ *
  * @author		Salleyron Julien
  * @copyright	CopixTeam
  * @link		http://copix.org
@@ -14,34 +14,37 @@
  * @package standard
  * @subpackage auth
  */
-class ActionGroupModule extends CopixActionGroup {
+class ActionGroupModule extends CopixActionGroup
+{
     /**
-	 * On s'assure que pour ces tâche ce soit bien un administrateur
-	 */
-	public function beforeAction (){
-		CopixAuth::getCurrentUser()->assertCredential ('basic:admin');
-		if (!CopixConfig::instance()->copixauth_isRegisteredCredentialHandler ('auth|dbmodulecredentialhandler')) {
-		    throw new CopixException (_i18n('auth.moduleHandlerNotRegister'));
-		}
-	}
-	
-    public function processList () {
+     * On s'assure que pour ces tâche ce soit bien un administrateur
+     */
+    public function beforeAction ()
+    {
+        CopixAuth::getCurrentUser()->assertCredential ('basic:admin');
+        if (!CopixConfig::instance()->copixauth_isRegisteredCredentialHandler ('auth|dbmodulecredentialhandler')) {
+            throw new CopixException (_i18n('auth.moduleHandlerNotRegister'));
+        }
+    }
+
+    public function processList ()
+    {
         CopixRequest::assert('id_group','handler_group');
         $id_group = _request('id_group');
         $handler_group = _request('handler_group');
-        
+
         $arDroit = array();
         $arDroitSansModule = array();
         foreach (CopixModule::getList() as $module) {
             $arDroitSansModule = array_merge($arDroitSansModule,CopixModule::getInformations($module)->credential_notspecific);
             $arDroit[$module] = CopixModule::getInformations($module)->credential;
-            
+
             //Creation des droits si ils n'existent pas
             foreach ($arDroit[$module] as $name=>$values) {
                  $results = _dao('modulecredentials')->findBy(_daoSP()->addCondition('name_mc','=',$name)
                                                                       ->addCondition('module_mc','=',$module)
                                                              );
-                                                             
+
                 $id_mc = null;
                 if (count($results) == 0) {
                     $record = _record('modulecredentials');
@@ -52,7 +55,7 @@ class ActionGroupModule extends CopixActionGroup {
                 } else {
                     $id_mc = $results[0]->id_mc;
                 }
-                
+
                 foreach ($values as $value) {
                     $results = _dao('modulecredentialsvalues')->findBy(_daoSP()->addCondition('id_mc','=',$id_mc)
                                                                          ->addCondition('value_mcv','=',$value->name)
@@ -69,13 +72,13 @@ class ActionGroupModule extends CopixActionGroup {
             }
             //Fin de création des droits
         }
-        
+
         $arData = array();
         $arModuleCredential = _dao('modulecredentials')->findBy(_daoSP()->groupBy('module_mc'));
-        
+
         foreach ($arModuleCredential as $module) {
             $module = $module->module_mc;
-            
+
             $droits = new StdClass ();
             $droits->name = $module;
             $droits->delete = false;
@@ -84,9 +87,9 @@ class ActionGroupModule extends CopixActionGroup {
                     $droits->delete = true;
                 }
             }
-            
+
             $arMc = _dao('modulecredentials')->findBy(_daoSP()->addCondition('module_mc', '=', $module));
-            
+
             $arDroitMc = array ();
             foreach ($arMc as $mc) {
                 $arDroitMCTemp = new stdClass();
@@ -124,11 +127,11 @@ class ActionGroupModule extends CopixActionGroup {
                                 }
                             }
                         }
-                        
+
                     }
                     $arValues[] = $value;
                 }
-                
+
                 $arDroitMCTemp->data = $arValues;
                 $arDroitMc[] = $arDroitMCTemp;
             }
@@ -140,19 +143,20 @@ class ActionGroupModule extends CopixActionGroup {
 
         //Le groupe en cours de modification est en session, on peut le récupérer.
         if ($group = CopixSession::get ('auth|group')){
-        	$groupName = $group->id_dbgroup  === null ? _i18n ('auth.newGroup') : $group->caption_dbgroup;
+            $groupName = $group->id_dbgroup  === null ? _i18n ('auth.newGroup') : $group->caption_dbgroup;
         }else{
-        	$groupName = _i18n ('auth.newGroup'); 
+            $groupName = _i18n ('auth.newGroup');
         }
-        return _arPpo (new CopixPpo(array('TITLE_PAGE'=>_i18n ('auth.editModuleCredentials', $groupName), 'id_group'=>$id_group, 
-        								'handler_group'=>$handler_group, 'list'=>$arData, 
-        								'url_return'=>_request('url_return',_url('#')))), 'modules.list.php');
+        return _arPpo (new CopixPpo(array('TITLE_PAGE'=>_i18n ('auth.editModuleCredentials', $groupName), 'id_group'=>$id_group,
+                                        'handler_group'=>$handler_group, 'list'=>$arData,
+                                        'url_return'=>_request('url_return',_url('#')))), 'modules.list.php');
     }
-    
+
     /**
      * Enregistre les droits séléctionné
      */
-    public function processRecord () {
+    public function processRecord ()
+    {
         CopixRequest::assert('id_group','handler_group');
         $bool = _request('bool',array());
         foreach (_request('value',array()) as $value) {
@@ -171,26 +175,28 @@ class ActionGroupModule extends CopixActionGroup {
         }
         return _arRedirect (_url('auth|module|list',array('id_group'=>_request('id_group'), 'handler_group'=>_request('handler_group'),'url_return'=>_request('url_return'))));
     }
-    
+
     /**
      * Efface tous les droits associés à un module
      */
-    public function processDeleteModule () {
+    public function processDeleteModule ()
+    {
         if (CopixRequest::exists('moduleToDelete')) {
             $module = _request('moduleToDelete');
             foreach (_dao('modulecredentials')->findBy(_daoSP()->addCondition('module_mc','=',$module)) as $mc) {
                 _dao('modulecredentials')->delete($mc->id_mc);
                 _dao('modulecredentialsgroups')->deleteBy(_daoSP()->addCondition('id_mc','=',$mc->id_mc));
             }
-            
+
         }
         return _arRedirect (_url('auth|module|list',array('id_group'=>_request('id_group'),'handler_group'=>_request('handler_group'),'url_return'=>_request('url_return'))));
     }
-    
+
     /**
      * Efface tous les droits associés a un id_mc ou un id_mcv
      */
-    public function processDelete () {
+    public function processDelete ()
+    {
         $id_mc = _request('id_mc');
         if ($id_mc !== null) {
             _dao('modulecredentials')->delete($id_mc);
@@ -204,6 +210,5 @@ class ActionGroupModule extends CopixActionGroup {
         }
         return _arRedirect (_url('auth|module|list',array('id_group'=>_request('id_group'),'handler_group'=>_request('handler_group'),'url_return'=>_request('url_return'))));
     }
-    
+
 }
-?>

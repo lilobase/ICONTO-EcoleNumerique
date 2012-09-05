@@ -1,19 +1,22 @@
 <?php
 
-class ActionGroupDefault extends enicActionGroup {
-
-    public function __construct() {
+class ActionGroupDefault extends enicActionGroup
+{
+    public function __construct()
+    {
         parent::__construct();
         $this->service = & $this->service('rssmixService');
 
         enic::to_load('image');
     }
 
-    public function beforeAction() {
+    public function beforeAction()
+    {
         _currentUser()->assertCredential('group:[current_user]');
     }
 
-    public function processDefault() {
+    public function processDefault()
+    {
         if (!Kernel::isAdmin()) {
             return $this->error('rssmix.noRight', true, '||');
         }
@@ -33,7 +36,8 @@ class ActionGroupDefault extends enicActionGroup {
         return _arPPO($ppo, 'liste.tpl');
     }
 
-    public function processCreate() {
+    public function processCreate()
+    {
         if (!Kernel::isAdmin()) {
             return $this->error('rssmix.noRight', true, '||');
         }
@@ -45,17 +49,17 @@ class ActionGroupDefault extends enicActionGroup {
             $ppo->error = $this->flash->error;
 
         $this->js->inputPreFilled('#rm-i-url', 'rssmix.create');
-        
+
         $ppo->formAction = $this->url('rssmix|default|createp');
         $ppo->title = '';
         $ppo->url = '';
         $ppo->image = '';
-        
+
         return _arPPO($ppo, 'update.tpl');
     }
 
-    public function processCreateP() {
-
+    public function processCreateP()
+    {
         if (!Kernel::isAdmin()) {
             return $this->error('rssmix.noRight', true, '||');
         }
@@ -78,8 +82,8 @@ class ActionGroupDefault extends enicActionGroup {
         }
     }
 
-    public function processTest() {
-
+    public function processTest()
+    {
         if (!Kernel::isAdmin()) {
             return $this->error('rssmix.noRight', true, '||');
         }
@@ -100,7 +104,7 @@ class ActionGroupDefault extends enicActionGroup {
                     <p> url : ' . $this->request('url') . '</p>
                     <p>' . $e->getMessage() . '</p>
                     <p><pre>' . $e->getFile() . ' : ' . $e->getLine() . '</pre></p>
-                    <p><pre>' . $e->getTraceAsString() . '</pre></p>   
+                    <p><pre>' . $e->getTraceAsString() . '</pre></p>
                         </div>';
             }
         }
@@ -110,8 +114,8 @@ class ActionGroupDefault extends enicActionGroup {
         return _arNone();
     }
 
-    public function processDelete() {
-
+    public function processDelete()
+    {
         if (!Kernel::isAdmin()) {
             return $this->error('rssmix.noRight', true, '||');
         }
@@ -123,8 +127,8 @@ class ActionGroupDefault extends enicActionGroup {
         return $this->redirect('rssmix|default|default');
     }
 
-    public function processUpdate() {
-
+    public function processUpdate()
+    {
         if (!Kernel::isAdmin()) {
             return $this->error('rssmix.noRight', true, '||');
         }
@@ -134,7 +138,7 @@ class ActionGroupDefault extends enicActionGroup {
         //check errors :
         if (isset($this->flash->error))
             $ppo->error = $this->flash->error;
-        
+
         if (isset($this->flash->success))
             $ppo->success = $this->flash->success;
 
@@ -163,8 +167,8 @@ class ActionGroupDefault extends enicActionGroup {
         return _arPPO($ppo, 'update.tpl');
     }
 
-    public function processUpdatep() {
-
+    public function processUpdatep()
+    {
         if (!Kernel::isAdmin()) {
             return $this->error('rssmix.noRight', true, '||');
         }
@@ -188,42 +192,41 @@ class ActionGroupDefault extends enicActionGroup {
             return $this->redirect('rssmix|default|update', array('id' => $this->request('id')));
         }
     }
-    
-    public function processDeleteImage(){
+
+    public function processDeleteImage()
+    {
         if (!Kernel::isAdmin())
             return $this->error('rssmix.noRight', true, '||');
 
         if (!$this->istyreq('id'))
             return $this->error('rssmix.error');
-        
+
         $id = (int)$this->request('id');
-        
+
         $this->service->deleteImage($id);
-        
+
         $this->flash->success = $this->i18n('rssmix.image.success');
         return $this->redirect('rssmix|default|update', array('id' => $this->request('id')));
     }
 
-    public function processGetRssFeedAjax() {
-
+    public function processGetRssFeedAjax()
+    {
         try {
             $feeds = $this->service->getRssFeeds();
-            
+
             if (empty($feeds)) {
                 echo '<p class="mesgInfo">' . $this->i18n('rssmix.noUrl') . '</p>';
             } else {
                 echo '<div id="rssmix-cycle" class="widget-rssmix"><ul>';
                 foreach ($feeds as $feed) {
-                    
+
                     echo '<li class="content-panel" >
                         <h4 class="rm-title">' . $feed['title'];
-                    if (!empty($feed['fluxTitle']))
-                    {
+                    if (!empty($feed['fluxTitle'])) {
                         echo '<span>('.$feed['fluxTitle'].')</span>';
                     }
                     echo '</h4>';
-                    if (!empty($feed['img']))
-                    {
+                    if (!empty($feed['img'])) {
                         echo '<img src="'.$feed['img'].'" alt="" />';
                     }
                     echo '<a href="' . $feed['link'] . '" class="button button-continue floatright" target="_blank">' . $this->i18n('rssmix.url') . '</a>

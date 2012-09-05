@@ -10,11 +10,11 @@
 
 /**
  * Plugin smarty type modifier
- * Purpose: Format a var_dump   
+ * Purpose: Format a var_dump
  * Input: var
- * Output : <pre>var_dump(var)</pre> if xdebug is not present  
+ * Output : <pre>var_dump(var)</pre> if xdebug is not present
  */
-function smarty_modifier_var_dump ($string) {
+function smarty_modifier_var_dump ($string)
+{
     return CopixDebug::var_dump ($string, true);
 }
-?>

@@ -21,4 +21,3 @@ define("CAS_STR_YOU_WERE_NOT_AUTHENTICATED",  6);
 define("CAS_STR_SERVICE_UNAVAILABLE",         7);
 //@}
 
-?>

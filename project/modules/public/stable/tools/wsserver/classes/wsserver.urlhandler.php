@@ -1,6 +1,6 @@
 <?php
 /**
-* @package		tools 
+* @package		tools
  * @subpackage	wsserver
  * @author		Brice Favre
  * @copyright 	2001-2007 CopixTeam
@@ -11,11 +11,11 @@
 
 /**
  * Gestionnaire d'url
-* @package		tools 
+* @package		tools
  * @subpackage	wsserver
  */
-class UrlHandlerWSServer extends CopixUrlHandler {
-    
+class UrlHandlerWSServer extends CopixUrlHandler
+{
     /**
      * Parse l'url du wsserver
      *
@@ -23,7 +23,8 @@ class UrlHandlerWSServer extends CopixUrlHandler {
      * @param $mode
      * @return array
      */
-     function parse ($path, $mode) {
+     function parse ($path, $mode)
+     {
         if ($mode!='prepend'){
             return false;
         }
@@ -36,12 +37,12 @@ class UrlHandlerWSServer extends CopixUrlHandler {
             $toReturn['module']  = 'wsserver';
             $toReturn['desc']    = 'default';
             $toreturn['action'] = $path[1];
-        } else if (count ($path) == 2) {
+        } elseif (count ($path) == 2) {
             $toReturn['module']  = 'wsserver';
             $toReturn['desc']    = 'default';
             $toReturn['action']  = 'default';
             $toReturn['wsname']  = $path[1];
-        } else if (count ($path) == 3 && $path[1] != 'admin') {
+        } elseif (count ($path) == 3 && $path[1] != 'admin') {
             $toReturn['module']  = 'wsserver';
             $toReturn['desc']    = 'default';
             if ($path [2] == 'wsdl') {
@@ -52,7 +53,7 @@ class UrlHandlerWSServer extends CopixUrlHandler {
                 $toReturn['wsname']  = $path[2];
             }
 
-        } else if ( count ($path) == 4 ) {
+        } elseif ( count ($path) == 4 ) {
             $toReturn['module']  = $path[0];
             $toReturn['desc']    = $path[1];
             $toReturn['action']  = $path[2];
@@ -62,31 +63,30 @@ class UrlHandlerWSServer extends CopixUrlHandler {
         }
         return $toReturn;
      }
-	
-	/**
-	 * Recupère les éléments de l'URL
-	 *
-	 * @param $dest
-	 * @param $parameters
-	 * @param $mode
-	 * @return StdClass object
-	 */
-	function get ($dest, $parameters, $mode) {
-		
-		if ($mode == 'none') {
-			return false;
-		} else {
-			$toReturn = new stdClass ();
-			if (isset ($parameters['wsname'])) {
-				$toReturn->path = array_merge($dest,array ('wsname' => CopixUrl::escapeSpecialChars ($parameters['wsname'])));
-				unset ($parameters['wsname']);				
-			} else {
-				$toReturn->path = $dest;
-			}
-			$toReturn->vars = $parameters;
-			return $toReturn;
-		}
-		
-	}
+
+    /**
+     * Recupère les éléments de l'URL
+     *
+     * @param $dest
+     * @param $parameters
+     * @param $mode
+     * @return StdClass object
+     */
+    public function get ($dest, $parameters, $mode)
+    {
+        if ($mode == 'none') {
+            return false;
+        } else {
+            $toReturn = new stdClass ();
+            if (isset ($parameters['wsname'])) {
+                $toReturn->path = array_merge($dest,array ('wsname' => CopixUrl::escapeSpecialChars ($parameters['wsname'])));
+                unset ($parameters['wsname']);
+            } else {
+                $toReturn->path = $dest;
+            }
+            $toReturn->vars = $parameters;
+            return $toReturn;
+        }
+
+    }
 }
-?>

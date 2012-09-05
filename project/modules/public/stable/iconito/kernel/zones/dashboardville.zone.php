@@ -3,10 +3,10 @@
  * @author Arnaud LEMAIRE <alemaire@cap-tic.fr>
  * @copyright (c) 2010 CAP-TIC
  */
-class ZoneDashboardVille extends enicZone {
-
-    public function _createContent(&$toReturn){
-
+class ZoneDashboardVille extends enicZone
+{
+    public function _createContent(&$toReturn)
+    {
         //load TPL
         $tpl = new CopixTpl();
 
@@ -16,7 +16,7 @@ class ZoneDashboardVille extends enicZone {
         $annuaireService =& CopixClassesFactory::Create ('annuaire|AnnuaireService');
 
         $ecolesDatas = $annuaireService->getEcolesInVille($idZone);
-        
+
         $tpl->assign('ecoles', $ecolesDatas);
 
         //return the html content
@@ -25,4 +25,3 @@ class ZoneDashboardVille extends enicZone {
     }
 
 }
-?>

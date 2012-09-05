@@ -2,19 +2,19 @@
 
 /**
  * Zone qui affiche le RSS de tous les blogs du site
- * 
+ *
  * @package Iconito
  * @subpackage	Public
  */
 
-class ZoneRss extends CopixZone {
-
+class ZoneRss extends CopixZone
+{
     /**
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2006/03/23
      */
-    function _createContent(&$toReturn) {
-
+    public function _createContent(&$toReturn)
+    {
         $blog = $this->getParam('blog', null);
 
         $tpl = new CopixTpl ();
@@ -43,4 +43,3 @@ class ZoneRss extends CopixZone {
 
 }
 
-?>

@@ -218,4 +218,3 @@ $diff='';
 $file='freemonoi.z';
 $ctg='freemonoi.ctg.z';
 $originalsize=196732;
-?>

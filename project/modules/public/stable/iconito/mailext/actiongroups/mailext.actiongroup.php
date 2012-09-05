@@ -1,14 +1,15 @@
 <?php
 
-class ActionGroupMailExt extends EnicActionGroup {
-
-    public function beforeAction (){
-		_currentUser()->assertCredential ('group:[current_user]');
+class ActionGroupMailExt extends EnicActionGroup
+{
+    public function beforeAction ()
+    {
+        _currentUser()->assertCredential ('group:[current_user]');
 
     }
 
-    public function processUpdate(){
-        
+    public function processUpdate()
+    {
         $idMailConf = $this->request('id');
 
         if(empty($idMailConf))
@@ -61,8 +62,8 @@ class ActionGroupMailExt extends EnicActionGroup {
 
     }
 
-    public function processAdmin(){
-
+    public function processAdmin()
+    {
         $mailConf = $this->service('mailExtService')->getConf();
 
         //test if error occured
@@ -103,8 +104,8 @@ class ActionGroupMailExt extends EnicActionGroup {
 
     }
 
-    public function processValidMailConf(){
-
+    public function processValidMailConf()
+    {
         if(!isset($this->flash->mailConfId))
             $this->error ('mailext.badOperation');
 
@@ -116,8 +117,8 @@ class ActionGroupMailExt extends EnicActionGroup {
         return $this->go('mailext|mailext|admin');
     }
 
-    public function processDeleteMailConf(){
-
+    public function processDeleteMailConf()
+    {
         $id = (int)$this->request('id');
 
         //check security
@@ -131,8 +132,8 @@ class ActionGroupMailExt extends EnicActionGroup {
 
     }
 
-    public function processGetMsg(){
-
+    public function processGetMsg()
+    {
         $id = (int)$this->request('id_mail');
 
         $dataMail = $this->service('mailextService')->checkById($id);

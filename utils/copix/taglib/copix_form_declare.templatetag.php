@@ -13,30 +13,31 @@
  * @package		copix
  * @subpackage	taglib
  */
- class TemplateTagCopix_Form_Declare extends CopixTemplateTag {
+ class TemplateTagCopix_Form_Declare extends CopixTemplateTag
+ {
     /**
      * Demande d'exécution du tag
      */
-    public function process ($pParams, $pContent=null) {
-    	//récupération du formulaire, création d'un nouveau formulaire si besoin
-    	$form = CopixFormFactory::get (isset ($pParams['id']) ? $pParams['id'] : null);
+    public function process ($pParams, $pContent=null)
+    {
+        //récupération du formulaire, création d'un nouveau formulaire si besoin
+        $form = CopixFormFactory::get (isset ($pParams['id']) ? $pParams['id'] : null);
 
-    	//ajout d'un DAO au formulaire
-    	if (isset ($pParams['dao'])){
-    		$form->setDAOId ($pParams['dao']);
-    	}
-    	
-    	//ajout de l'enregistrement à éditer
-    	if (isset ($pParams['record'])){
-    		$form->setRecord ($pParams['record']);
-    	}
+        //ajout d'un DAO au formulaire
+        if (isset ($pParams['dao'])){
+            $form->setDAOId ($pParams['dao']);
+        }
 
-    	if (isset ($pParams['action'])){
-    		$form->setAction ($pParams['action']);
-    	}
+        //ajout de l'enregistrement à éditer
+        if (isset ($pParams['record'])){
+            $form->setRecord ($pParams['record']);
+        }
 
-    	//retour du code HTML attendu
-    	return '<form id="'.$form->getId ().'" method="'.$form->getMethod ().'" action="'.$form->getAction ().'">'."\n";
- 	} 	
- } 
-?>
+        if (isset ($pParams['action'])){
+            $form->setAction ($pParams['action']);
+        }
+
+        //retour du code HTML attendu
+        return '<form id="'.$form->getId ().'" method="'.$form->getMethod ().'" action="'.$form->getAction ().'">'."\n";
+     }
+ }

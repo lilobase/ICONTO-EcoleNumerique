@@ -2,12 +2,12 @@
 
 /**
  * Zone qui affiche un lien permettant d'ouvrir l'annuaire avec les utilisateurs
- * 
+ *
  * @package Iconito
  * @subpackage	Annuaire
  */
-class ZoneLinkPopup extends CopixZone {
-
+class ZoneLinkPopup extends CopixZone
+{
     /**
      * Zone qui affiche un lien permettant d'ouvrir l'annuaire avec les utilisateurs
      *
@@ -17,8 +17,8 @@ class ZoneLinkPopup extends CopixZone {
      * @param string $profil (option) Profil qu'on veut afficher par defaut
      * @param string $right (option) Droit à vérifier
      */
-    function _createContent(&$toReturn) {
-
+    public function _createContent(&$toReturn)
+    {
         $annuaireService = & CopixClassesFactory::Create('annuaire|AnnuaireService');
 
         $field = ($this->getParam('field')) ? $this->getParam('field') : NULL;
@@ -35,4 +35,3 @@ class ZoneLinkPopup extends CopixZone {
 
 }
 
-?>

@@ -6,4 +6,3 @@ $go                    = new CopixAction ('visioscopia', 'getVisioScopia');
 
 $default               = & $go;
 
-?>

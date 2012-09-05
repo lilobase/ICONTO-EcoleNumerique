@@ -187,11 +187,11 @@ class Zend_Validate_File_MimeType extends Zend_Validate_Abstract
     {
         if (empty($file)) {
             $this->_magicfile = null;
-        } else if (!(class_exists('finfo', false))) {
+        } elseif (!(class_exists('finfo', false))) {
             $this->_magicfile = null;
             require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('Magicfile can not be set. There is no finfo extension installed');
-        } else if (!is_file($file) || !is_readable($file)) {
+        } elseif (!is_file($file) || !is_readable($file)) {
             require_once 'Zend/Validate/Exception.php';
             throw new Zend_Validate_Exception('The given magicfile can not be read');
         } else {

@@ -2,7 +2,7 @@
 <moduledefinition>
  <general>
   <default name="chart_swf" description="Chart (SWF)" longdescription="Chart avec la bibliothèque SWFChart"  icon="chart.png"  />
- </general> 
+ </general>
  <dependencies>
   <dependency name="chart" kind="module"/>
  </dependencies>

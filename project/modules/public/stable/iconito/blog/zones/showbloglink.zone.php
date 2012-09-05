@@ -16,28 +16,29 @@
 
 _classInclude('blog|blogauth');
 
-class ZoneShowBlogLink extends CopixZone {
-	function _createContent (&$toReturn) {
-		//Getting the user.
-		//Create Services, and DAO
-		$tpl = new CopixTpl ();
+class ZoneShowBlogLink extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        //Getting the user.
+        //Create Services, and DAO
+        $tpl = new CopixTpl ();
 
-		$id_blog = $this->getParam('id_blog', '');
-		//capability
-		//$tpl->assign ('canManageLink' , BlogAuth::canMakeInBlog('ADMIN_LIENS',create_blog_object($id_blog)));
+        $id_blog = $this->getParam('id_blog', '');
+        //capability
+        //$tpl->assign ('canManageLink' , BlogAuth::canMakeInBlog('ADMIN_LIENS',create_blog_object($id_blog)));
 
-		$tpl->assign ('id_blog', $id_blog);
-		$tpl->assign ('kind', $this->getParam('kind', ''));
+        $tpl->assign ('id_blog', $id_blog);
+        $tpl->assign ('kind', $this->getParam('kind', ''));
 
-		// Recherche de tous les liens de la base
-		$blogLinkDAO = _dao('blog|bloglink');
-		$tabLinks = $blogLinkDAO->findAllOrder($id_blog);
+        // Recherche de tous les liens de la base
+        $blogLinkDAO = _dao('blog|bloglink');
+        $tabLinks = $blogLinkDAO->findAllOrder($id_blog);
 
-		$tpl->assign ('tabLinks', $tabLinks);
+        $tpl->assign ('tabLinks', $tabLinks);
 
-		// retour de la fonction :
-		$toReturn = $tpl->fetch('blog.show.link.tpl');
-		return true;
-	}
+        // retour de la fonction :
+        $toReturn = $tpl->fetch('blog.show.link.tpl');
+        return true;
+    }
 }
-?>

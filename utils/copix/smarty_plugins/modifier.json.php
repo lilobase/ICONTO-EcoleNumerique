@@ -13,8 +13,8 @@
  * Purpose: encode a value using JSON.
  * @return string
  */
-function smarty_modifier_json($value) {
-	return CopixJSON::encode($value);
+function smarty_modifier_json($value)
+{
+    return CopixJSON::encode($value);
 }
 
-?>

@@ -13,24 +13,26 @@
 * @package   standard
 * @subpackage plugin_theme_ajax
 */
-class PluginTheme_Ajax extends CopixPlugin {
-	public function beforeProcess (){
-		if (($theme = CopixAJAX::getSession ()->get ('currentTheme')) != null){
-			CopixTpl::setTheme ($theme);
-		
-			//Ajout d'une gestion de tpl par thème
-			$config=CopixConfig::instance();
-			$theme=CopixTpl::getThemeInformations (CopixTpl::getTheme ());
-			if ($theme->tpl!=null) {
-	    		$config->mainTemplate   = $theme->tpl;
-			}
-		}
-	}
-	
-	public function afterDisplay () {
-		if (CopixTpl::getTheme () != CopixConfig::get ('admin|defaultThemeId')) {
-			CopixAJAX::getSession ()->set ('currentTheme', CopixTpl::getTheme ());
-		}
-	}
+class PluginTheme_Ajax extends CopixPlugin
+{
+    public function beforeProcess ()
+    {
+        if (($theme = CopixAJAX::getSession ()->get ('currentTheme')) != null){
+            CopixTpl::setTheme ($theme);
+
+            //Ajout d'une gestion de tpl par thème
+            $config=CopixConfig::instance();
+            $theme=CopixTpl::getThemeInformations (CopixTpl::getTheme ());
+            if ($theme->tpl!=null) {
+                $config->mainTemplate   = $theme->tpl;
+            }
+        }
+    }
+
+    public function afterDisplay ()
+    {
+        if (CopixTpl::getTheme () != CopixConfig::get ('admin|defaultThemeId')) {
+            CopixAJAX::getSession ()->set ('currentTheme', CopixTpl::getTheme ());
+        }
+    }
 }
-?>

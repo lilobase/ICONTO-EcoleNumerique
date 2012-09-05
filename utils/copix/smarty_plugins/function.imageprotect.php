@@ -15,7 +15,7 @@
  * Input:    id = (required)  id of the image must be uniq
  *
  */
-function smarty_function_imageprotect($params, & $me) {
+function smarty_function_imageprotect($params, & $me)
+{
     return _tag ('imageprotect', $params);
 }
-?>

@@ -11,4 +11,3 @@
 
 $go = new CopixAction ('Dashboard', 'go');
 
-?>

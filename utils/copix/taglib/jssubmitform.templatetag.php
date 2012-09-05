@@ -12,8 +12,10 @@
  * @package		copix
  * @subpackage	taglib
  */
-class TemplateTagJSSubmitForm extends CopixTemplateTag {
-    public function process($params) {
+class TemplateTagJSSubmitForm extends CopixTemplateTag
+{
+    public function process($params)
+    {
         static $_init = false;
 
         if (!isset ($params['href'])){
@@ -42,4 +44,3 @@ class TemplateTagJSSubmitForm extends CopixTemplateTag {
     }
 }
 
-?>

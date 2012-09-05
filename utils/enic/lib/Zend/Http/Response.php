@@ -373,8 +373,7 @@ class Zend_Http_Response
         }
 
         // Iterate over the headers and stringify them
-        foreach ($this->headers as $name => $value)
-        {
+        foreach ($this->headers as $name => $value) {
             if (is_string($value))
                 $str .= "{$name}: {$value}{$br}";
 

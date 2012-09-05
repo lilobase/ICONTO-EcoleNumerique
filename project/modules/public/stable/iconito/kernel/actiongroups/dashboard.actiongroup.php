@@ -14,17 +14,18 @@
 _classInclude('welcome|welcome');
 _classInclude('logs|logs');
 
-class ActionGroupDashboard extends enicActionGroup {
-
-    function __construct() {
+class ActionGroupDashboard extends enicActionGroup
+{
+    public function __construct()
+    {
         $this->picturesPath = COPIX_VAR_PATH . 'data/admindash/photos/';
         $this->thumbX = 150;
         $this->thumbY = 300;
         parent::__construct();
     }
 
-    function processDefault() {
-
+    public function processDefault()
+    {
         $tpl = new CopixTpl ();
         $tplModule = new CopixTpl ();
 
@@ -122,7 +123,7 @@ class ActionGroupDashboard extends enicActionGroup {
                             break;
                     }
                 }
-                
+
                 //twitter integration
                 $twitterSrc = '';
                 if(!empty($content['social_stream'])){
@@ -132,7 +133,7 @@ class ActionGroupDashboard extends enicActionGroup {
                     $twitter->setThemeByContext($contentNode['type']);
                     $twitterSrc = $twitter->printSource();
                 }
-                    
+
 
                 //is admin :
                 $is_admin = ($contentNode['droit'] >= 60);
@@ -192,7 +193,8 @@ class ActionGroupDashboard extends enicActionGroup {
      *
      * @author Stephane Holtz <sholtz@cap-tic.fr>
      */
-    function go() {
+    public function go()
+    {
         // NOTIFICATIONS : Préparation de l'enregistrement de la visite. Le module_id est à completer avant enregistrement.
         $lastvisit = _record("kernel|kernel_notifications_lastvisit");
         $lastvisit->user_id = $this->user->id; // id Copix
@@ -232,27 +234,26 @@ class ActionGroupDashboard extends enicActionGroup {
                     $loadModule = new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get(_request("mtype") . '||'));
             }
 
-            // NOTIFICATIONS : Enregistrement de la visite de l'utilisateur (avec suppression de doublons)  
-            if($mid) 
+            // NOTIFICATIONS : Enregistrement de la visite de l'utilisateur (avec suppression de doublons)
+            if($mid)
                 $lastvisit->module_id = $mid;
-            if($lastvisit->user_id) 
-            {
-                _dao ('kernel|kernel_notifications_lastvisit')->deleteBy( _daoSp ()  
-                    ->addCondition ('user_id', '=', $lastvisit->user_id)  
-                    ->addCondition ('node_type', '=', $lastvisit->node_type)  
-                    ->addCondition ('node_id', '=', $lastvisit->node_id)  
-                    ->addCondition ('module_type', '=', $lastvisit->module_type)  
-                    ->addCondition ('module_id', '=', $lastvisit->module_id)  
-                );  
-                _dao("kernel|kernel_notifications_lastvisit")->insert( $lastvisit );  
+            if($lastvisit->user_id) {
+                _dao ('kernel|kernel_notifications_lastvisit')->deleteBy( _daoSp ()
+                    ->addCondition ('user_id', '=', $lastvisit->user_id)
+                    ->addCondition ('node_type', '=', $lastvisit->node_type)
+                    ->addCondition ('node_id', '=', $lastvisit->node_id)
+                    ->addCondition ('module_type', '=', $lastvisit->module_type)
+                    ->addCondition ('module_id', '=', $lastvisit->module_id)
+                );
+                _dao("kernel|kernel_notifications_lastvisit")->insert( $lastvisit );
             }
 
-            // LOGS : Logs d'usage  
-            Logs::set (array(  
-                'type'=>'GO',  
-                'node_type'=>_request("ntype"), 'node_id'=>_request("nid"),  
-                'module_type'=>_request("mtype"), 'module_id'=>($mid?$mid:null)  
-            ));  
+            // LOGS : Logs d'usage
+            Logs::set (array(
+                'type'=>'GO',
+                'node_type'=>_request("ntype"), 'node_id'=>_request("nid"),
+                'module_type'=>_request("mtype"), 'module_id'=>($mid?$mid:null)
+            ));
 
             return $loadModule;
         }
@@ -260,16 +261,16 @@ class ActionGroupDashboard extends enicActionGroup {
         return $loadModule;
     }
 
-    function processModif(){
-
+    public function processModif()
+    {
         //get parameters
         $id_node = (int) $this->request('node_id');
         $type_node = $this->request('node_type');
-        
+
         //check parameters
         if(empty($id_node) || empty($type_node))
             return $this->error('kernel|dashboard.admin.badOperation');
-        
+
         //check right
         if (Kernel::getLevel($type_node, $id_node) < 60)
             return $this->error('kernel|dashboard.admin.noRight');
@@ -277,14 +278,14 @@ class ActionGroupDashboard extends enicActionGroup {
         //set flash
         $this->flash->set('dashboardType', $type_node, 5);
         $this->flash->set('dashboardId', $id_node, 5);
-        
+
         //get content
         $content = $this->db->query('SELECT * FROM module_admindash WHERE id_zone = ' . $id_node . ' AND type_zone = ' . $this->db->quote($type_node))->toArray1();
 
         //if new content
         if(empty($content))
             $content = array('social_stream' => '', 'content' => '');
-        
+
         $this->addCss('styles/module_admindash.css');
         $ppo = new CopixPPO();
         $ppo->content = $content;
@@ -301,19 +302,19 @@ class ActionGroupDashboard extends enicActionGroup {
             'width' => 540
         );
         $ppo->editor = 	CopixZone::process ('kernel|edition', $editorOptions);
-                
+
         return _arPPO($ppo, 'dashboard.admin.tpl');
     }
 
-    function processEreg() {
-                
+    public function processEreg()
+    {
         //check flash
         if(!isset($this->flash->dashboardType) || !isset($this->flash->dashboardId))
             return $this->error('kernel|dashboard.admin.badOperation');
-        
+
         $node_id = $this->flash->dashboardId;
         $node_type = $this->flash->dashboardType;
-        
+
         //check security
         if (Kernel::getLevel($node_type, $node_id) < 60)
             return $this->error('kernel|dashboard.admin.noRight');
@@ -322,21 +323,22 @@ class ActionGroupDashboard extends enicActionGroup {
         $datas['social_stream'] = $this->db->quote($this->request('social_stream'));
         $datas['id_zone'] = (int)$node_id;
         $datas['type_zone'] = $this->db->quote($node_type);
-         
+
         $this->db->createOrUpdate('module_admindash', $datas);
 
         //go to processModif
         return $this->helpers->go('||');
     }
 
-    function processDelete() {
+    public function processDelete()
+    {
         //check flash
         if(!isset($this->flash->dashboardType) || !isset($this->flash->dashboardId))
             return $this->error('kernel|dashboard.admin.badOperation');
-        
+
         $node_id = $this->flash->dashboardId;
         $node_type = $this->flash->dashboardType;
-        
+
         //check security
         if (Kernel::getLevel($node_type, $node_id) < 60)
             return $this->error('kernel|dashboard.admin.noRight');
@@ -348,7 +350,8 @@ class ActionGroupDashboard extends enicActionGroup {
         return $this->go('||');
     }
 
-    function processImage() {
+    public function processImage()
+    {
         if (!$this->istyReq('id'))
             header("HTTP/1.0 404 Not Found");
         else {

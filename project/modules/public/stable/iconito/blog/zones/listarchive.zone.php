@@ -10,13 +10,14 @@
 * @licence  http://www.gnu.org/licenses/lgpl.html GNU Lesser General Public Licence, see LICENCE file
 */
 
-class ZoneListArchive extends CopixZone {
-   function _createContent (&$toReturn) {
-
+class ZoneListArchive extends CopixZone
+{
+   public function _createContent (&$toReturn)
+   {
       $tpl  = new CopixTpl ();
 
       $blog = $this->getParam('blog', '');
-      
+
       $dao = _dao('blog|blogarticle');
       $tpl->assign ('listArchive' , $dao->getAllArchivesFromBlog($blog->id_blog));
       $tpl->assign ('blog' , $blog);
@@ -26,4 +27,3 @@ class ZoneListArchive extends CopixZone {
       return true;
    }
 }
-?>

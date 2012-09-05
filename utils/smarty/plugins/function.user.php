@@ -40,49 +40,48 @@
  */
 function smarty_function_user ($params, &$smarty)
 {
-		
-		if (isset($params['fromLogin'])) {
+
+        if (isset($params['fromLogin'])) {
     } elseif (empty($params['label'])) {
         //$smarty->trigger_error("mailto: missing 'label' parameter");
         return;
     } else {
         $label = trim($params['label']);
     }
-		
-		if (trim($params['fromLogin'])) {
-			$params['fromLogin'] = trim($params['fromLogin']);
-			$userInfo = Kernel::getUserInfo ("LOGIN", $params['fromLogin']);
-			if (count($userInfo)>0) {
-				//var_dump($userInfo);
-				$label = trim($userInfo['prenom'].' '.$userInfo['nom']);
-				$params['userType'] = $userInfo['type'];
-				$params['userId'] = $userInfo['id'];
-				$params['login'] = $params['fromLogin'];
-			} else
-				$label = $params['fromLogin'];
-		}
-		
-		
-		if ($params['userType'] && $params['userId']) {
-			// $res = '<A '.$params['linkAttribs'].' HREF="javascript:viewUser(\''.$params['userType'].'\', \''.$params['userId'].'\', \''.addslashes(htmlentities(CopixI18N::get ('annuaire|annuaire.profil.loading'))).'\');">'.$label.'</A>';
-			$res = '<a '.$params['linkAttribs'].' class="viewuser" user_type="'.$params['userType'].'" user_id="'.$params['userId'].'">'.$label.'</a>';
-		} else
-			$res = $label;
 
-		if ($params['dispMail']==1 && $params['login']) {
-			
-			$url = CopixUrl::get ('minimail||getNewForm', array('login'=>$params['login']));
-			$res .= '&nbsp;<A HREF="'.$url.'"><IMG WIDTH="12" HEIGHT="9" SRC="'.CopixUrl::getResource ("img/minimail/new_minimail.gif").'" ALT="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" TITLE="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" BORDER="0" /></A>';
-		}
-			
-		if (isset ($params['assign'])) {
+        if (trim($params['fromLogin'])) {
+            $params['fromLogin'] = trim($params['fromLogin']);
+            $userInfo = Kernel::getUserInfo ("LOGIN", $params['fromLogin']);
+            if (count($userInfo)>0) {
+                //var_dump($userInfo);
+                $label = trim($userInfo['prenom'].' '.$userInfo['nom']);
+                $params['userType'] = $userInfo['type'];
+                $params['userId'] = $userInfo['id'];
+                $params['login'] = $params['fromLogin'];
+            } else
+                $label = $params['fromLogin'];
+        }
+
+
+        if ($params['userType'] && $params['userId']) {
+            // $res = '<A '.$params['linkAttribs'].' HREF="javascript:viewUser(\''.$params['userType'].'\', \''.$params['userId'].'\', \''.addslashes(htmlentities(CopixI18N::get ('annuaire|annuaire.profil.loading'))).'\');">'.$label.'</A>';
+            $res = '<a '.$params['linkAttribs'].' class="viewuser" user_type="'.$params['userType'].'" user_id="'.$params['userId'].'">'.$label.'</a>';
+        } else
+            $res = $label;
+
+        if ($params['dispMail']==1 && $params['login']) {
+
+            $url = CopixUrl::get ('minimail||getNewForm', array('login'=>$params['login']));
+            $res .= '&nbsp;<A HREF="'.$url.'"><IMG WIDTH="12" HEIGHT="9" SRC="'.CopixUrl::getResource ("img/minimail/new_minimail.gif").'" ALT="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" TITLE="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" BORDER="0" /></A>';
+        }
+
+        if (isset ($params['assign'])) {
       $smarty->assign($params['assign'], $res);
       return '';
-   	} else {
-    	return $res;
-   	}
-		
+       } else {
+        return $res;
+       }
+
 }
 
 
-?>

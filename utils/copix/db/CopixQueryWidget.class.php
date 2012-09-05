@@ -13,7 +13,8 @@
  * @package		copix
  * @subpackage	db
  */
-class CopixQueryWidget {
+class CopixQueryWidget
+{
     /**
     * Génération d'une requete SQL d'INSERTION.
     * les valeurs dans $fieldsToInsert  doivent avoir été préparées auparavant
@@ -23,7 +24,8 @@ class CopixQueryWidget {
     * @param array   $fieldsToInsert   tableau associatif de la forme Tab[NomDuChamp]=Value avec les champs à ajouter.
     * @return string La chaine d'instruction sql.
     */
-    function sqlInsert ($tableName, $fieldsToInsert){
+    public function sqlInsert ($tableName, $fieldsToInsert)
+    {
         $keys   = implode (',',array_keys($fieldsToInsert));
         foreach ($fieldsToInsert as $key=>$value){
             if ($value === null){
@@ -45,7 +47,8 @@ class CopixQueryWidget {
     * @param boolean  $useOr      indique si il faut utiliser un OR ou un AND entre les élements de la condition
     * @return string   la chaine d'instruction sql.
     */
-    function sqlDelete ($tableName, $condition=null, $or=false){
+    public function sqlDelete ($tableName, $condition=null, $or=false)
+    {
         $first = true;
 
         $sqlquery = 'DELETE FROM '.$tableName;
@@ -69,7 +72,8 @@ class CopixQueryWidget {
     * @param array    $orderDesc  indique si l'ordre est descendant (true) ou ascendant (false)
     * @return  string   la chaine sql.
     */
-    function sqlSelect($tableName, $what, $condition = null, $useOr=false, $order = null, $orderDesc = false){
+    public function sqlSelect($tableName, $what, $condition = null, $useOr=false, $order = null, $orderDesc = false)
+    {
         $sqlquery = 'SELECT ';
 
         //Champs à sélectionner.
@@ -98,8 +102,8 @@ class CopixQueryWidget {
     * @param boolean  $useOr      indique si il faut utiliser un OR ou un AND entre les élements de la condition
     * @return string  La chaine sql.
     */
-    function sqlUpdate ($tableName, $toSet, $condition=null, $useOr=false){
-
+    public function sqlUpdate ($tableName, $toSet, $condition=null, $useOr=false)
+    {
         $sqlquery = 'UPDATE '.$tableName.' SET ';
         $first=true;
         //partie mise à jour.
@@ -125,7 +129,8 @@ class CopixQueryWidget {
     * @param   boolean  $or         indique si il s'agit d'un OR ou d'un AND entre les élements de la clause
     * @return  string   chaine clause WHERE
     */
-    function _prepareCondition($condition, $or=false){
+    public function _prepareCondition($condition, $or=false)
+    {
         $cond=array();
         foreach ((array) $condition as $Key=>$Elem){
             //si la condition comporte plusieurs valeurs, on fait un ou sur ces valeurs.
@@ -147,4 +152,3 @@ class CopixQueryWidget {
         return '';
     }
 }
-?>

@@ -10,14 +10,15 @@ _classInclude('rightmatrix');
  * @link        http://www.cap-tic.fr
  */
 
-class ActionGroupRightmatrix extends enicActionGroup {
-
-    public function beforeAction(){
+class ActionGroupRightmatrix extends enicActionGroup
+{
+    public function beforeAction()
+    {
         _currentUser()->assertCredential('group:[current_user]');
     }
 
-    public function processDefault(){
-
+    public function processDefault()
+    {
         $this->matrix =& enic::get('matrix');
 
         $ppo = new CopixPPO();

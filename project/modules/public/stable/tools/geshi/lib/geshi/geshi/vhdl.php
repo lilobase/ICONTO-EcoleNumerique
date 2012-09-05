@@ -8,7 +8,7 @@
  * CVS Revision Version: $Revision: 1.1 $
  * Date Started: 2005/06/15
  * Last Modified: $Date: 2009-02-10 17:02:53 $
- * 
+ *
  * VHDL (VHSICADL, very high speed integrated circuit HDL) language file for GeSHi.
  *
  * CHANGES
@@ -38,7 +38,7 @@
  *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  *
  ************************************************************************************/
- 
+
 $language_data = array (
     'LANG_NAME' => 'vhdl',
     'COMMENT_SINGLE' => array(1 => '--'),
@@ -136,5 +136,4 @@ $language_data = array (
     'HIGHLIGHT_STRICT_BLOCK' => array(
         )
 );
- 
-?>
+

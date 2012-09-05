@@ -1,12 +1,13 @@
 <?php
 
 enic::to_load('load');
-class enicService extends enicLoad{
-
+class enicService extends enicLoad
+{
     /*
      * CONSTRUCTOR
      */
-    public function __construct(){
+    public function __construct()
+    {
             parent::__construct();
     }
 }

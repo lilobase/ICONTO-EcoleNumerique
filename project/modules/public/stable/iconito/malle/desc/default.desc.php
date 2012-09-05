@@ -24,4 +24,3 @@ $go 								= new CopixAction ('malle', 'processGetMalle');
 
 $default						= & $go;
 
-?>

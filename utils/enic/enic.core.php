@@ -1,7 +1,7 @@
 <?php
 
 /*
- * CONFIG 
+ * CONFIG
  */
 define('ENIC_PATH',dirname (__FILE__) . '/');
 
@@ -15,17 +15,17 @@ require(ENIC_PATH.'enic.service.php');
 /*
  * FACTORY
  */
-class enic{
-
+class enic
+{
     //internal link
-    static $l = array();
+    public static $l = array();
 
     /*
      * load block in global container
      */
-    public static function load($type, $name = null){
-
-        //load file 
+    public static function load($type, $name = null)
+    {
+        //load file
         enic::to_load($type);
 
         //get name
@@ -55,8 +55,8 @@ class enic{
     /*
      * Load only CLass' file & check if the class is callable
      */
-    public static function to_load($type){
-
+    public static function to_load($type)
+    {
         //get class name
         $className = 'enic'.ucfirst($type);
         $classPath = ENIC_PATH.'/lib/enic/enic.'.strtolower($type).'.php';
@@ -77,53 +77,56 @@ class enic{
     /*
      * get the named object
      */
-    public static function get($type, $name = null){
-
+    public static function get($type, $name = null)
+    {
         //get name
         $name = (!empty($name)) ? enic::sanitize($name) : $type;
 
         //if exists return object
         if(isset(self::$l[$name]))
             return self::$l[$name];
-        
+
         //else create new object
         return self::load($type, $name);
     }
-    
+
     /*
      * sanitize a string
      */
-    public static function sanitize($name){
+    public static function sanitize($name)
+    {
         $str = strtr(strtolower(trim($name)), "àáâãäåòóôõöøèéêëçìíîïùúûüÿñ","aaaaaaooooooeeeeciiiiuuuuyn");
-	$str = preg_replace('#([^.a-z0-9]+)#i', '_', $str);
+    $str = preg_replace('#([^.a-z0-9]+)#i', '_', $str);
         $str = preg_replace('#_{2,}#','_',$str);
         $str = preg_replace('#_$#','',$str);
 //        $str = preg_replace('#^_#','',$str);
-	return $str;
+    return $str;
     }
-    
-    public static function zend_load($name){
+
+    public static function zend_load($name)
+    {
         $classPath = ENIC_PATH.'/lib/Zend/'.$name.'.php';
-        
+
         require_once $classPath;
     }
-    
-    public static function externals_load($name){
+
+    public static function externals_load($name)
+    {
         $classPath = ENIC_PATH.'/lib/externals/class.'.$name.'.php';
-        
+
         require_once $classPath;
     }
 
 }
 
-abstract class enicMod{
-
-    public function __construct(){
-
+abstract class enicMod
+{
+    public function __construct()
+    {
     }
 
-    public function startExec(){
-
+    public function startExec()
+    {
     }
 
 }

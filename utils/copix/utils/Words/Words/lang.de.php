@@ -44,34 +44,34 @@ class Numbers_Words_de extends Numbers_Words
 {
 
     // {{{ properties
-    
+
     /**
      * Locale name
      * @var string
      * @access public
      */
-    var $locale      = 'de';
+    public $locale      = 'de';
 
     /**
      * Language name in English
      * @var string
      * @access public
      */
-    var $lang        = 'German';
+    public $lang        = 'German';
 
     /**
      * Native language name
      * @var string
      * @access public
      */
-    var $lang_native = 'Deutsch';
-    
+    public $lang_native = 'Deutsch';
+
     /**
      * The word for the minus sign
      * @var string
      * @access private
      */
-    var $_minus = 'Minus'; // minus sign
+    public $_minus = 'Minus'; // minus sign
 
     /**
      * The sufixes for exponents (singular and plural)
@@ -81,7 +81,7 @@ class Numbers_Words_de extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_exponent = array(
+    public $_exponent = array(
         0 => array(''),
         3 => array('tausend','tausend'),
         6 => array('Million','Millionen'),
@@ -115,7 +115,7 @@ class Numbers_Words_de extends Numbers_Words
      * @var array
      * @access private
      */
-    var $_digits = array(
+    public $_digits = array(
         0 => 'null', 'ein', 'zwei', 'drei', 'vier',
         'fünf', 'sechs', 'sieben', 'acht', 'neun'
     );
@@ -125,14 +125,14 @@ class Numbers_Words_de extends Numbers_Words
      * @var string
      * @access private
      */
-    var $_sep  = '';
-    
+    public $_sep  = '';
+
     /**
      * The exponent word separator
      * @var string
      * @access private
      */
-    var $_sep2 = ' ';
+    public $_sep2 = ' ';
 
     // }}}
     // {{{ toWords()
@@ -154,24 +154,25 @@ class Numbers_Words_de extends Numbers_Words
      * @author Piotr Klaban <makler@man.torun.pl>
      * @since  PHP 4.2.3
      */
-    function toWords($num, $power = 0, $powsuffix = '') {
-      $ret = '';        
-        
+    public function toWords($num, $power = 0, $powsuffix = '')
+    {
+      $ret = '';
+
       // add a minus sign
       if (substr($num, 0, 1) == '-') {
         $ret = $this->_sep . $this->_minus;
         $num = substr($num, 1);
       }
-        
+
       // strip excessive zero signs and spaces
       $num = trim($num);
       $num = preg_replace('/^0+/','',$num);
-        
+
       if (strlen($num) > 3) {
           $maxp = strlen($num)-1;
           $curp = $maxp;
           for ($p = $maxp; $p > 0; --$p) { // power
-            
+
             // check for highest power
             if (isset($this->_exponent[$p])) {
               // send substr from $curp to $p
@@ -194,9 +195,9 @@ class Numbers_Words_de extends Numbers_Words
       } elseif ($num == 0 || $num == '') {
         return $this->_sep . $this->_digits[0];
       }
-    
+
       $h = $t = $d = 0;
-      
+
       switch(strlen($num)) {
         case 3:
           $h = (int)substr($num,-3,1);
@@ -214,7 +215,7 @@ class Numbers_Words_de extends Numbers_Words
       }
 
       if ($h) {
-        
+
         $ret .= $this->_sep . $this->_digits[$h] . $this->_sep . 'hundert';
       }
 
@@ -241,41 +242,41 @@ class Numbers_Words_de extends Numbers_Words
       case 5:
           $ret .= $this->_sep . $this->_digits[$t] . 'zig';
           break;
-    
+
       case 7:
           $ret .= $this->_sep . 'siebzig';
           break;
-    
+
       case 6:
           $ret .= $this->_sep . 'sechzig';
           break;
-    
+
       case 4:
           $ret .= $this->_sep . 'vierzig';
           break;
-    
+
       case 3:
           $ret .= $this->_sep . 'dreißig';
           break;
-    
+
       case 2:
           $ret .= $this->_sep . 'zwanzig';
           break;
-    
+
       case 1:
           switch ($d) {
           case 0:
               $ret .= $this->_sep . 'zehn';
               break;
-    
+
           case 1:
               $ret .= $this->_sep . 'elf';
               break;
-    
+
           case 2:
               $ret .= $this->_sep . 'zwölf';
               break;
-    
+
           case 3:
           case 4:
           case 5:
@@ -283,25 +284,25 @@ class Numbers_Words_de extends Numbers_Words
           case 9:
               $ret .= $this->_sep . $this->_digits[$d] . 'zehn';
               break;
-    
+
           case 6:
               $ret .= $this->_sep . 'sechzehn';
               break;
-    
+
           case 7:
               $ret .= $this->_sep . 'siebzehn';
               break;
           }
-          break; 
+          break;
       }
- 
+
       if ($power > 0) {
         if (isset($this->_exponent[$power]))
           $lev = $this->_exponent[$power];
-    
+
         if (!isset($lev) || !is_array($lev))
           return null;
-     
+
         if ($power == 3)
           $ret .= $this->_sep . $lev[0];
         elseif ($d == 1 && ($t+$h) == 0)
@@ -309,13 +310,12 @@ class Numbers_Words_de extends Numbers_Words
         else
           $ret .= $this->_sep2 . $lev[1] . $this->_sep2;
       }
-    
+
       if ($powsuffix != '')
         $ret .= $this->_sep . $powsuffix;
-    
+
       return $ret;
     }
     // }}}
 }
 
-?>

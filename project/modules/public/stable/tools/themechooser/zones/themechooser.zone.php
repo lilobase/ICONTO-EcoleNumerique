@@ -13,26 +13,27 @@
  * @package		tools
  * @subpackage	themechooser
  */
-class ZoneThemeChooser extends CopixZone {
-	function _createContent (&$toReturn) {
-		if (! CopixPluginRegistry::isRegistered ('themechooser|themechooser')) {
-			$toReturn = "";
-			return true;
-		}
+class ZoneThemeChooser extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        if (! CopixPluginRegistry::isRegistered ('themechooser|themechooser')) {
+            $toReturn = "";
+            return true;
+        }
 
-		$tpl = new CopixTpl ();
-		$arThemes = CopixPluginRegistry::getConfig ('themechooser|themechooser')->getThemeList ();
+        $tpl = new CopixTpl ();
+        $arThemes = CopixPluginRegistry::getConfig ('themechooser|themechooser')->getThemeList ();
 
-		$arThemesToReturn = array();
-		foreach($arThemes as $theme) {
-			$arThemesToReturn[] = CopixTpl::getThemeInformations ($theme);
-		}
-		$selectedTheme = CopixSession::get ('themechooser|theme');
+        $arThemesToReturn = array();
+        foreach($arThemes as $theme) {
+            $arThemesToReturn[] = CopixTpl::getThemeInformations ($theme);
+        }
+        $selectedTheme = CopixSession::get ('themechooser|theme');
 
-		$tpl->assign ('selectedTheme', $selectedTheme);
-		$tpl->assign ('arThemes', $arThemesToReturn);
-		$toReturn = $tpl->fetch ('combo.list.tpl');
-		return true;
-	}
+        $tpl->assign ('selectedTheme', $selectedTheme);
+        $tpl->assign ('arThemes', $arThemesToReturn);
+        $toReturn = $tpl->fetch ('combo.list.tpl');
+        return true;
+    }
 }
-?>

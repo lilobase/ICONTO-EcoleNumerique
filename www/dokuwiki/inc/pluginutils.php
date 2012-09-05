@@ -24,7 +24,8 @@ $plugin_types = array('admin','syntax','action','renderer', 'helper');
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
-function plugin_list($type='',$all=false){
+function plugin_list($type='',$all=false)
+{
   $plugins = array();
   if ($dh = opendir(DOKU_PLUGIN)) {
     while (false !== ($plugin = readdir($dh))) {

@@ -13,24 +13,25 @@
  * @package standard
  * @subpackage admin
  */
-class ZoneInstallConfirm extends CopixZone {
-	function _createContent (&$toReturn) {
-		$tpl = new CopixTpl ();
-		$toAdd = $this->_params['toAdd'];
-		$toDelete = $this->_params['toDelete'];
+class ZoneInstallConfirm extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        $tpl = new CopixTpl ();
+        $toAdd = $this->_params['toAdd'];
+        $toDelete = $this->_params['toDelete'];
 
-		foreach($toAdd as $key=>$elem) {
-			$toAdd[$key] = CopixModule::getInformations($elem);
-		}
+        foreach($toAdd as $key=>$elem) {
+            $toAdd[$key] = CopixModule::getInformations($elem);
+        }
 
-		foreach($toDelete as $key=>$elem) {
-			$toDelete[$key] = CopixModule::getInformations($elem);
-		}
+        foreach($toDelete as $key=>$elem) {
+            $toDelete[$key] = CopixModule::getInformations($elem);
+        }
 
-		$tpl->assign('toAdd',$toAdd);
-		$tpl->assign('toDelete',$toDelete);
-		$toReturn = $tpl->fetch ('install.confirm.tpl');
-		return true;
-	}
+        $tpl->assign('toAdd',$toAdd);
+        $tpl->assign('toDelete',$toDelete);
+        $toReturn = $tpl->fetch ('install.confirm.tpl');
+        return true;
+    }
 }
-?>

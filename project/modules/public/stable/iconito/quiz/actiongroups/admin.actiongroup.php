@@ -1,12 +1,13 @@
 <?php
-class ActionGroupAdmin extends enicActionGroup{
-
-    public function beforeAction(){
+class ActionGroupAdmin extends enicActionGroup
+{
+    public function beforeAction()
+    {
         _currentUser()->assertCredential('group:[current_user]');
     }
 
-    public function processList(){
-
+    public function processList()
+    {
         $this->addCss("styles/module_quiz.css");
 
         //get the active quiz liste
@@ -30,11 +31,12 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
                             'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
-        
+
         return _arPPO($ppo, 'admin.list.tpl');
     }
 
-    public function processQuiz(){
+    public function processQuiz()
+    {
         $pId = CopixRequest::getInt('id', false);
         if(!$pId){
              return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuiz'), 'back'=>CopixUrl::get('quiz|admin|')));
@@ -44,7 +46,7 @@ class ActionGroupAdmin extends enicActionGroup{
         if($QuizData == null || count($QuizData) == 0){
              return CopixActionGroup::process('genericTools|Messages::getError', array ('message'=>CopixI18N::get ('quiz.errors.noQuiz'), 'back'=>CopixUrl::get('quiz||')));
         }
-        
+
         $author = Kernel::getUserInfo('ID', $QuizData->id_author, array('link_data' => true));
         $ppo = new CopixPPO();
         $ppo->quiz = $QuizData;
@@ -61,7 +63,8 @@ class ActionGroupAdmin extends enicActionGroup{
         return _arPPO($ppo, 'admin.quiz.tpl');
     }
 
-    public function processModif(){
+    public function processModif()
+    {
         //modif or new quiz or errors
         $action = ($this->flash->has('modifAction')) ? $this->flash->modifAction : $this->request('qaction', 'str');
         $qId    = ($this->flash->has('quizId')) ? $this->flash->quizId : $this->request('id', 'int');
@@ -82,7 +85,7 @@ class ActionGroupAdmin extends enicActionGroup{
 
             //get quiz datas
             $quizDatas = $this->service('QuizService')->getQuizDatas($qId);
-            
+
             /*
              * SECURITY CHECK
              */
@@ -153,16 +156,16 @@ class ActionGroupAdmin extends enicActionGroup{
         return _arPPO($ppo, 'admin.modif.tpl');
     }
 
-    function processDelQuiz(){
-    
-    	//get id 
-    	$id = (isset($this->flash->quizId)) ? $this->flash->quizId : $this->request('id');
-    	
-    	//security
-    	if(empty($id))
-    		return $this->error('quiz.admin.noRight');
-    		
-   		//get the quiz groupe id
+    public function processDelQuiz()
+    {
+        //get id
+        $id = (isset($this->flash->quizId)) ? $this->flash->quizId : $this->request('id');
+
+        //security
+        if(empty($id))
+            return $this->error('quiz.admin.noRight');
+
+           //get the quiz groupe id
         $id_gr_quiz = $this->session->load('id_gr_quiz');
 
         if(Kernel::getLevel( 'MOD_QUIZ', $id_gr_quiz) < PROFILE_CCV_ADMIN)
@@ -180,7 +183,8 @@ class ActionGroupAdmin extends enicActionGroup{
 
     }
 
-    public function processDelAnsw(){
+    public function processDelAnsw()
+    {
         /*
          * Security
          */
@@ -207,8 +211,8 @@ class ActionGroupAdmin extends enicActionGroup{
         return $this->go('quiz|admin|modif');
     }
 
-    function processProcessModif(){
-
+    public function processProcessModif()
+    {
         /*
          * SECURITY CHECK
          */
@@ -280,7 +284,8 @@ class ActionGroupAdmin extends enicActionGroup{
         return $this->go('quiz|admin|modif', array('id' => $this->flash->quizId, 'qaction' => 'modif'));
     }
 
-    public function processQuestions(){
+    public function processQuestions()
+    {
         if(!isset($this->flash->quizId))
             return $this->error('quiz.admin.noRight');
 
@@ -292,7 +297,7 @@ class ActionGroupAdmin extends enicActionGroup{
 
         //get quiz infos
         $quizDatas = $this->service('QuizService')->getQuizDatas($quizId);
-        
+
         //verify quiz existence
         if(empty($quizDatas))
             return $this->error('quiz.errors.noQuiz');
@@ -311,7 +316,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $answerDatas = array();
         $responsesDatas = array();
         $errorDatas = array();
-        
+
         //check and validate modification :
         if($modifAction == 'modif' && !empty($answId)){
             $answerDatas = $this->service('QuizService')->getAnswerDatas($answId);
@@ -365,7 +370,7 @@ class ActionGroupAdmin extends enicActionGroup{
             $tabDatas = '';
         }
 
-        
+
 
         $this->addCss('styles/module_quiz.css');
 
@@ -399,8 +404,8 @@ class ActionGroupAdmin extends enicActionGroup{
         return _arPPO($ppo, 'admin.question.tpl');
     }
 
-    public function processUpdateAnsw(){
-
+    public function processUpdateAnsw()
+    {
         //get the flash infos :
         if(!isset($this->flash->answId))
             return $this->error('quiz.admin.noRight');
@@ -422,8 +427,8 @@ class ActionGroupAdmin extends enicActionGroup{
         $form['name'] = $this->request('aw-name');
         $form['id_quiz'] = $quizId;
         $form['content'] = $this->request('aw-content');
-        
-        //build global flash 
+
+        //build global flash
         $this->flash->quizId = $quizId;
         $this->flash->answId = $answId;
         $this->flash->typeAction = 'modif';
@@ -444,7 +449,8 @@ class ActionGroupAdmin extends enicActionGroup{
         return $this->go('quiz|admin|questions');
     }
 
-    public function processNewAnsw(){
+    public function processNewAnsw()
+    {
         //get the flash infos :
         if(!isset($this->flash->quizId))
             return $this->error('quiz.admin.noRight');
@@ -486,8 +492,8 @@ class ActionGroupAdmin extends enicActionGroup{
         return $this->go('quiz|admin|questions');
     }
 
-    public function processUpdateResp(){
-
+    public function processUpdateResp()
+    {
         //get the flash infos :
         if(!isset($this->flash->answId))
             return $this->error('quiz.admin.noRight');
@@ -504,7 +510,7 @@ class ActionGroupAdmin extends enicActionGroup{
         /*
          * BUILD FORM DATA ARRAY
          */
-        //get the input 
+        //get the input
         $content = $this->request('qf-content');
         if(!is_array($content))
             return $this->error('quiz.errors.badOperation');
@@ -545,19 +551,19 @@ class ActionGroupAdmin extends enicActionGroup{
         return $this->go('quiz|admin|questions', array('tabs' => 1));
     }
 
-    public function processResults(){
-
+    public function processResults()
+    {
         if(!$this->session->exists('id_gr_quiz'))
             return $this->error ('quiz.errors.badOperation', true, 'quiz||');
         $groupQuizId = $this->session->load('id_gr_quiz');
-        
+
         if(Kernel::getLevel( 'MOD_QUIZ', $groupQuizId) < PROFILE_CCV_ADMIN)
             return $this->error ('quiz.admin.noRight');
 
         $quizId = $this->request('id')*1;
         if(empty($quizId))
             return $this->error ('quiz.errors.noQuiz');
-        
+
         $quizDatas = $this->db->query('SELECT * FROM module_quiz_quiz WHERE id = '.$quizId)->toArray1();
         if(empty($quizDatas))
             return $this->error('quiz.errors.noQuiz');
@@ -566,19 +572,19 @@ class ActionGroupAdmin extends enicActionGroup{
 
         $responsesData = _ioDAO('quiz_responses')->getResponsesByQuiz($quizId);
         $questionsData = _ioDAO('quiz_questions')->getQuestionsForQuiz($quizId);
-		
-		
-		/* ========================================
-		PREPARE QUESTIONS DATA : ARRAY CREATION
-		questions = [
-			$i = [
-				'choices' : { QUESTION's CHOICES }
-				'id' = QUESTION ID
-				'correct' = [CORRECT ANSWERE]
-			]
-		]
-		==========================================*/
-		$i=0;
+
+
+        /* ========================================
+        PREPARE QUESTIONS DATA : ARRAY CREATION
+        questions = [
+            $i = [
+                'choices' : { QUESTION's CHOICES }
+                'id' = QUESTION ID
+                'correct' = [CORRECT ANSWERE]
+            ]
+        ]
+        ==========================================*/
+        $i=0;
         foreach($questionsData as $question){
             $choicesData = _ioDAO('quiz_choices')->getChoices($question->id);
             $questions[$i]['choices'] = $choicesData;
@@ -587,91 +593,91 @@ class ActionGroupAdmin extends enicActionGroup{
                 if($choice->correct == 1)
                     $questions[$i]['correct'][] = (int)$choice->id;
             }
-			$i++;
-        }
-		
-		/*========================================
-		PREPARE USERS INFOS : ARRAY CREATION
-		users = [
-			$i = [
-				'name' = USER's NAME
-				'surname' = USER's SURNAME
-				'class' = USER's CLASS - IF NOT EXISTS - : NULL
-				'school' = USER's SCHOOL - IF NOT EXISTS - : NULL
-			]
-		]
-		listUsers = [
-			$i = ID USER
-		]
-		=========================================*/
-        $i = 0;
-		$listUsers = array();
-                $users = array();
-        foreach($responsesData as $response){
-			if(!in_array($response->id_user, $listUsers)){
-				//for no duplicate data
-				$listUsers[$i] = $response->id_user;
-				$user = Kernel::getUserInfo('ID', $response->id_user, array('link_data' => true));
-				$users[$i]['id'] = $response->id_user;
-				$users[$i]['name'] = $user['nom'];
-				$users[$i]['surname'] = $user['prenom'];
-				if(isset($user['link_data'])){
-					//get first class id
-					$class = key($user['link']->classe);
-					$users[$i]['classe'] = $user['link_data']->classe[$class]['nom'];
-					$users[$i]['school'] = $user['link_data']->classe[$class]['parent']['nom'];
-				}else{
-					$users[$i]['classe'] = null;
-					$users[$i]['school'] = null;
-				}
-				$i++;
-			}
-			$responses[$response->id_user][$response->id_question][] = (int)$response->id_choice;
-			$responses[$response->id_user]['date'][] = $response->date;
+            $i++;
         }
 
-		/*====================================
-		MERGE ALL DATA : ARRAY INSERTION
-		users +=
+        /*========================================
+        PREPARE USERS INFOS : ARRAY CREATION
+        users = [
+            $i = [
+                'name' = USER's NAME
+                'surname' = USER's SURNAME
+                'class' = USER's CLASS - IF NOT EXISTS - : NULL
+                'school' = USER's SCHOOL - IF NOT EXISTS - : NULL
+            ]
+        ]
+        listUsers = [
+            $i = ID USER
+        ]
+        =========================================*/
+        $i = 0;
+        $listUsers = array();
+                $users = array();
+        foreach($responsesData as $response){
+            if(!in_array($response->id_user, $listUsers)){
+                //for no duplicate data
+                $listUsers[$i] = $response->id_user;
+                $user = Kernel::getUserInfo('ID', $response->id_user, array('link_data' => true));
+                $users[$i]['id'] = $response->id_user;
+                $users[$i]['name'] = $user['nom'];
+                $users[$i]['surname'] = $user['prenom'];
+                if(isset($user['link_data'])){
+                    //get first class id
+                    $class = key($user['link']->classe);
+                    $users[$i]['classe'] = $user['link_data']->classe[$class]['nom'];
+                    $users[$i]['school'] = $user['link_data']->classe[$class]['parent']['nom'];
+                }else{
+                    $users[$i]['classe'] = null;
+                    $users[$i]['school'] = null;
+                }
+                $i++;
+            }
+            $responses[$response->id_user][$response->id_question][] = (int)$response->id_choice;
+            $responses[$response->id_user]['date'][] = $response->date;
+        }
+
+        /*====================================
+        MERGE ALL DATA : ARRAY INSERTION
+        users +=
                         'goodresp' = COUNT GOOD QUESTIONS,
-		=====================================*/
+        =====================================*/
                 $nbQuestions = count($questions);
-		foreach($users as $key => $user){
-			$response = $responses[$user['id']];			
-			$users[$key]['date'] = date("d/m H:i",max($response['date']));
+        foreach($users as $key => $user){
+            $response = $responses[$user['id']];
+            $users[$key]['date'] = date("d/m H:i",max($response['date']));
                         $users[$key]['goodresp'] = 0;
-                       
-			foreach($questions as $Qkey => $question){
-				if(!isset($response[$question['id']])){
-					$users[$key]['responses'][$Qkey] = 'no-resp';
-					continue;
-				}
-				$localResponse = $response[$question['id']];
-				$correct = array_diff($localResponse, $question['correct']);
-				if(count($correct) == 0){
-					$users[$key]['responses'][$Qkey] = 'correct';
+
+            foreach($questions as $Qkey => $question){
+                if(!isset($response[$question['id']])){
+                    $users[$key]['responses'][$Qkey] = 'no-resp';
+                    continue;
+                }
+                $localResponse = $response[$question['id']];
+                $correct = array_diff($localResponse, $question['correct']);
+                if(count($correct) == 0){
+                    $users[$key]['responses'][$Qkey] = 'correct';
                                         $users[$key]['goodresp']++;
-				}else{
-					$users[$key]['responses'][$Qkey] = 'resp';
-				}
-			}
+                }else{
+                    $users[$key]['responses'][$Qkey] = 'resp';
+                }
+            }
                         if($users[$key]['goodresp'] < 10){
                             $users[$key]['goodresp'] = '0'.$users[$key]['goodresp'];
                         }
-		}
-		
-                $this->addCss("styles/module_quiz.css");
-		$this->addCss("styles/datatable.css");
-                
-		$this->addJs('js/datatable/jquery.dataTables.min.js');
-		$this->addJs('js/datatable/TableTools.min.js');
-		$this->addJs('js/datatable/ZeroClipboard.js');
+        }
 
-		$ppo = new CopixPPO();
+                $this->addCss("styles/module_quiz.css");
+        $this->addCss("styles/datatable.css");
+
+        $this->addJs('js/datatable/jquery.dataTables.min.js');
+        $this->addJs('js/datatable/TableTools.min.js');
+        $this->addJs('js/datatable/ZeroClipboard.js');
+
+        $ppo = new CopixPPO();
                 $ppo->quiz = $quizDatas;
-		$ppo->users = $users;
+        $ppo->users = $users;
                 $ppo->nbQuestions = $nbQuestions;
-		$ppo->pathClip = CopixUrl::get().'js/datatable/';
+        $ppo->pathClip = CopixUrl::get().'js/datatable/';
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
                             'type' => 'list-active',
                             'url' => $this->url('quiz|default|default', array('qaction' => 'list')));
@@ -681,8 +687,7 @@ class ActionGroupAdmin extends enicActionGroup{
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
                             'type' => 'create',
                             'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
-		return _arPPO($ppo, 'admin.allresults.tpl');
+        return _arPPO($ppo, 'admin.allresults.tpl');
     }
 
 }
-?>

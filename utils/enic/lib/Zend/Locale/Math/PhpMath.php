@@ -226,7 +226,7 @@ class Zend_Locale_Math_PhpMath extends Zend_Locale_Math
         }
         if ($op1 > $op2) {
             return 1;
-        } else if ($op1 < $op2) {
+        } elseif ($op1 < $op2) {
             return -1;
         }
         return 0;

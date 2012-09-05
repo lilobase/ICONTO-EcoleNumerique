@@ -28,7 +28,7 @@ $cas_server_ca_cert_path = '/usr/local/share/ca-certificates/3some-cacert.crt';
 // The "real" hosts of clustered cas server that send SAML logout messages
 // Assumes the cas server is load balanced across multiple hosts
 $cas_real_hosts = array (
-	'192.168.178.254'
+    '192.168.178.254'
 );
 
 // Database config for PGT Storage
@@ -46,12 +46,12 @@ $db_table = 'phpcas';
 
 // Generating the URLS for the local cas example services for proxy testing
 if ( isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on'){
-	$curbase = 'https://'.$_SERVER['SERVER_NAME'];
+    $curbase = 'https://'.$_SERVER['SERVER_NAME'];
 }else{
-	$curbase = 'http://'.$_SERVER['SERVER_NAME'];
+    $curbase = 'http://'.$_SERVER['SERVER_NAME'];
 }
 if ($_SERVER['SERVER_PORT'] != 80 && $_SERVER['SERVER_PORT'] != 443)
-	$curbase .= ':'.$_SERVER['SERVER_PORT'];
+    $curbase .= ':'.$_SERVER['SERVER_PORT'];
 
 $curdir = dirname($_SERVER['REQUEST_URI'])."/";
 
@@ -61,9 +61,8 @@ $serviceUrl = $curbase.$curdir.'example_service.php';
 $serviceUrl2 = $curbase.$curdir.'example_service_that_proxies.php';
 
 $cas_url = 'https://'.$cas_host;
-if ($cas_port != '443')
-{
-	$cas_url = $cas_url.':'.$cas_port;
+if ($cas_port != '443') {
+    $cas_url = $cas_url.':'.$cas_port;
 }
 $cas_url = $cas_url.$cas_context;
 
@@ -72,4 +71,3 @@ $cas_url = $cas_url.$cas_context;
 // doesn't share its session with a proxied script.
 // This is just useful when running the example code, but not normally.
 session_name('session_for:'.preg_replace('/[^a-z0-9-]/i', '_', basename($_SERVER['SCRIPT_NAME'])));
-?>

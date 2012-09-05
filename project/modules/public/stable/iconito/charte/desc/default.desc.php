@@ -1,5 +1,4 @@
 <?php
-$valid	= new CopixAction ('charte', 'processValid'); 
+$valid	= new CopixAction ('charte', 'processValid');
 $go           = new CopixAction('charte', 'processAdmin');
 $default		= & $valid;
-?>

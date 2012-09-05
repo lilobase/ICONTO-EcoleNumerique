@@ -10,14 +10,15 @@
  * @link        http://www.cap-tic.fr
  */
 
-class ZoneSsogael extends CopixZone {
-    function _createContent (& $toReturn){
+class ZoneSsogael extends CopixZone
+{
+    public function _createContent (& $toReturn)
+    {
         // $tpl = new CopixTpl ();
 
         // $toReturn = $tpl->fetch ('login.bar.tpl');
-		$toReturn = '';
-		
+        $toReturn = '';
+
         return true;
     }
 }
-?>

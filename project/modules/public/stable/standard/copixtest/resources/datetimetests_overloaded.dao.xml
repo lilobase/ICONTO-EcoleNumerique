@@ -13,17 +13,17 @@
          	 type="autoincrement"
          />
   <property name="date_dtt"
-         fieldName = "date_dtt"  
+         fieldName = "date_dtt"
          type="date"
          required="no"
          />
   <property name="datetime_dtt"
-         fieldName = "datetime_dtt"  
+         fieldName = "datetime_dtt"
          type="datetime"
          required="no"
          />
   <property name="time_dtt"
-         fieldName = "time_dtt"  
+         fieldName = "time_dtt"
          type="time"
          required="no"
          />

@@ -1,5 +1,5 @@
 <?php
-/* 
+/*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
@@ -9,14 +9,16 @@
  *
  * @author alemaire
  */
-class CharteService {
-
-    public function  __construct() {
+class CharteService
+{
+    public function  __construct()
+    {
         $this->user =& enic::get('user');
         $this->db   =& enic::get('model');
     }
 
-    public function checkUserValidation(){
+    public function checkUserValidation()
+    {
         if($this->db->query('SELECT COUNT(id) FROM module_charte_users_validation WHERE user_id = '.$this->user->id)->count() != 0){ // id_copix !!!
             $_SESSION['chartValid'] = true;
             return  true;
@@ -30,14 +32,16 @@ class CharteService {
         }
     }
 
-    public function deleteUserValidation($iUserTypes){
+    public function deleteUserValidation($iUserTypes)
+    {
         foreach($iUserTypes as $userType)
             $cond[] = 'user_type = "'.$userType.'"';
-        
+
         $this->db->delete('module_charte_users_validation', implode(' AND ', $cond));
     }
 
-    public function addUserValidation($iUserType){
+    public function addUserValidation($iUserType)
+    {
         $datas['date'] = time();
         $datas['user_id'] = $this->user->id; // id_copix !!!
         $datas['charte_id'] = 1;
@@ -45,17 +49,19 @@ class CharteService {
         $this->db->create('module_charte_users_validation', $datas);
     }
 
-    public function getCharte(){
+    public function getCharte()
+    {
         $charte = $this->db->query('SELECT * FROM module_charte_chartes WHERE user_type = "'.$this->user->type.'" AND active = 1')->toArray1();
 
         if(empty($charte)){
             $charte = $this->db->query('SELECT * FROM module_charte_chartes WHERE user_type = "USER_ALL" AND active = 1')->toArray1();
         }
-        
+
         return $charte;
     }
 
-    public function addCharte($iUserType, $fileUrl, $iFileId, $iActive){
+    public function addCharte($iUserType, $fileUrl, $iFileId, $iActive)
+    {
         $this->delCharte($iUserType);
 
         //secure :
@@ -67,12 +73,14 @@ class CharteService {
             $this->db->create('module_charte_chartes', array('user_type' => '"'.$userType.'"', 'file_url' => $url, 'file_id' => $fileId*1, 'active' => $iActive*1));
     }
 
-    public function delCharte($iUserType){
+    public function delCharte($iUserType)
+    {
         foreach($iUserType as $userType)
             $this->db->delete('module_charte_chartes', 'user_type = "'.$userType.'"');
     }
 
-    public function getChartesTypes(){
+    public function getChartesTypes()
+    {
         $oReturn['all'] = $this->getChartesByTypes('USER_ALL');
         $oReturn['children'] = $this->getChartesByTypes('USER_ELE');
         $oReturn['adults'] = $this->getChartesByTypes('USER_RES');
@@ -88,8 +96,8 @@ class CharteService {
         return $oReturn;
     }
 
-    public function getChartesByTypes($iType){
+    public function getChartesByTypes($iType)
+    {
         return $this->db->query('SELECT * FROM `module_charte_chartes` WHERE user_type = "'.$iType.'"')->toArray1();
     }
 }
-?>

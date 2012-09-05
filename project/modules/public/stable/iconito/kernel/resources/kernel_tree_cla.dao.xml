@@ -17,7 +17,7 @@
 		<property name="cla_annee_scol"  fieldname="annee_scol" type="integer"  table="kernel_bu_ecole_classe" pk="no" fktable="kernel_bu_annee_scolaire" fkfieldname="id_as"/>
 		<property name="cla_is_validee"   fieldname="is_validee"   type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
 		<property name="cla_is_supprimee" fieldname="is_supprimee" type="integer"  table="kernel_bu_ecole_classe" pk="no"/>
-		
+
 		<!-- Ecoles -->
 		<property name="eco_numero"   fieldname="numero"   type="integer" table="kernel_bu_ecole" pk="yes"/>
 		<property name="eco_type"     fieldname="type"     type="string"  table="kernel_bu_ecole" pk="no"/>

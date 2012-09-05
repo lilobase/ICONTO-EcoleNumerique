@@ -13,26 +13,26 @@
  * @package standard
  * @subpackage plugin_i18n
  */
-class PluginDefaultConfigI18n {
-	/**
+class PluginDefaultConfigI18n
+{
+    /**
      * codes des langages disponibles sur le site
      */
-	var $availableLanguageCode = array('fr', 'en');
+    public $availableLanguageCode = array('fr', 'en');
 
-	/**
+    /**
     * code language par defaut
     */
-	var $defaultLanguageCode = 'fr';
+    public $defaultLanguageCode = 'fr';
 
-	/**
+    /**
     * utilisation du language indiqué dans le navigateur
     */
-	var $useDefaultLanguageBrowser = false;
+    public $useDefaultLanguageBrowser = false;
 
-	/**
+    /**
     * active la detection du changement de language via l'url fournie
     */
-	var $enableUserLanguageChoosen = true;
+    public $enableUserLanguageChoosen = true;
 
 }
-?>

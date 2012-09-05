@@ -20,11 +20,9 @@
 
 */
 
-class CopixArrayPager extends CopixPager {
-
-
-
-	/**
+class CopixArrayPager extends CopixPager
+{
+    /**
 
      * Tableau des données à traiter
 
@@ -38,23 +36,23 @@ class CopixArrayPager extends CopixPager {
 
      */
 
-	var $recordSet;
+    public $recordSet;
 
 
 
-	function CopixArrayPager($options) {
+    public function CopixArrayPager($options)
+    {
+        $this-> recordSet = '';
 
-		$this-> recordSet = '';
+        parent::CopixPager($options);
 
-		parent::CopixPager($options);
-
-	}
-
-
+    }
 
 
 
-	/**
+
+
+    /**
 
      * Retourne le nombre d'enregistrement contenu dans le tableau des données
 
@@ -66,19 +64,19 @@ class CopixArrayPager extends CopixPager {
 
      */
 
-	function getNbRecord() {
+    public function getNbRecord()
+    {
+        return count($this-> recordSet);
 
-		return count($this-> recordSet);
-
-	} // end func getNbRecord
-
-
+    } // end func getNbRecord
 
 
 
 
 
-	/**
+
+
+    /**
 
      * Retourne le tableau des données "découpé"
 
@@ -92,37 +90,35 @@ class CopixArrayPager extends CopixPager {
 
      */
 
-	function getRecords() {
+    public function getRecords()
+    {
+        $aTmp = Array();
 
 
 
-		$aTmp = Array();
+        for ($i = $this-> firstline; $i < ($this-> firstline + $this-> perPage); $i++) {
+
+            $aTmp[$i] = $this-> recordSet[$i];
 
 
 
-		for ($i = $this-> firstline; $i < ($this-> firstline + $this-> perPage); $i++) {
+            if (!isSet($this-> recordSet[$i+1])) {
 
-			$aTmp[$i] = $this-> recordSet[$i];
+                break;
 
+            }
 
-
-			if (!isSet($this-> recordSet[$i+1])) {
-
-				break;
-
-			}
-
-		}
+        }
 
 
 
-		return $aTmp;
+        return $aTmp;
 
-	} // end func getRecords
+    } // end func getRecords
 
 
 
-	/**
+    /**
 
      * Initialisation de la classe mode tableau
 
@@ -136,16 +132,17 @@ class CopixArrayPager extends CopixPager {
 
       */
 
-	function init() {
-		//var_dump($this);
-		//if (!is_array($this-> recordSet)) trigger_error('Propriété <b>recordSet</b> mal configurée <br>', E_USER_ERROR);
-		if (!($this->recordSet)) trigger_error('Propriété <b>recordSet</b> mal configurée <br>', E_USER_ERROR);
+    public function init()
+    {
+        //var_dump($this);
+        //if (!is_array($this-> recordSet)) trigger_error('Propriété <b>recordSet</b> mal configurée <br>', E_USER_ERROR);
+        if (!($this->recordSet)) trigger_error('Propriété <b>recordSet</b> mal configurée <br>', E_USER_ERROR);
 
-	}
+    }
 
 
 
-	/**
+    /**
 
      * Termine l'appel à la classe
 
@@ -159,14 +156,13 @@ class CopixArrayPager extends CopixPager {
 
       */
 
-	function close() {
+    public function close()
+    {
+        unset($this-> recordSet);
 
-		unset($this-> recordSet);
+        return true;
 
-		return true;
-
-	}
+    }
 
 }
 
-?>

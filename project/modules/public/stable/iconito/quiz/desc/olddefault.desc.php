@@ -9,4 +9,3 @@ $question = new CopixAction('quiz', 'processQuestion');
 $save = new CopixAction('quiz', 'processSave');
 
 $default = & $index;
-?>

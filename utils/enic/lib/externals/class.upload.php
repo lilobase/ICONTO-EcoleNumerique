@@ -574,16 +574,15 @@
  * @package   cmf
  * @subpackage external
  */
-class externalImageUpload {
-
-
+class externalImageUpload
+{
     /**
      * Class version
      *
      * @access public
      * @var string
      */
-    var $version;
+    public $version;
 
     /**
      * Uploaded file name
@@ -591,7 +590,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_src_name;
+    public $file_src_name;
 
     /**
      * Uploaded file name body (i.e. without extension)
@@ -599,7 +598,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_src_name_body;
+    public $file_src_name_body;
 
     /**
      * Uploaded file name extension
@@ -607,7 +606,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_src_name_ext;
+    public $file_src_name_ext;
 
     /**
      * Uploaded file MIME type
@@ -615,7 +614,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_src_mime;
+    public $file_src_mime;
 
     /**
      * Uploaded file size, in bytes
@@ -623,7 +622,7 @@ class externalImageUpload {
      * @access public
      * @var double
      */
-    var $file_src_size;
+    public $file_src_size;
 
     /**
      * Holds eventual PHP error code from $_FILES
@@ -631,7 +630,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_src_error;
+    public $file_src_error;
 
     /**
      * Uloaded file name, including server path
@@ -639,7 +638,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_src_pathname;
+    public $file_src_pathname;
 
     /**
      * Uloaded file name temporary copy
@@ -647,7 +646,7 @@ class externalImageUpload {
      * @access private
      * @var string
      */
-    var $file_src_temp;
+    public $file_src_temp;
 
     /**
      * Destination file name
@@ -655,7 +654,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_dst_path;
+    public $file_dst_path;
 
     /**
      * Destination file name
@@ -663,7 +662,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_dst_name;
+    public $file_dst_name;
 
     /**
      * Destination file name body (i.e. without extension)
@@ -671,7 +670,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_dst_name_body;
+    public $file_dst_name_body;
 
     /**
      * Destination file extension
@@ -679,7 +678,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_dst_name_ext;
+    public $file_dst_name_ext;
 
     /**
      * Destination file name, including path
@@ -687,7 +686,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_dst_pathname;
+    public $file_dst_pathname;
 
     /**
      * Source image width
@@ -695,7 +694,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_src_x;
+    public $image_src_x;
 
     /**
      * Source image height
@@ -703,7 +702,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_src_y;
+    public $image_src_y;
 
     /**
      * Source image color depth
@@ -711,7 +710,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_src_bits;
+    public $image_src_bits;
 
     /**
      * Number of pixels
@@ -719,7 +718,7 @@ class externalImageUpload {
      * @access public
      * @var long
      */
-    var $image_src_pixels;
+    public $image_src_pixels;
 
     /**
      * Type of image (png, gif, jpg or bmp)
@@ -727,7 +726,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $image_src_type;
+    public $image_src_type;
 
     /**
      * Destination image width
@@ -735,7 +734,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_dst_x;
+    public $image_dst_x;
 
     /**
      * Destination image height
@@ -743,7 +742,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_dst_y;
+    public $image_dst_y;
 
     /**
      * Supported image formats
@@ -751,7 +750,7 @@ class externalImageUpload {
      * @access private
      * @var array
      */
-    var $image_supported;
+    public $image_supported;
 
     /**
      * Flag to determine if the source file is an image
@@ -759,7 +758,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $file_is_image;
+    public $file_is_image;
 
     /**
      * Flag set after instanciating the class
@@ -769,7 +768,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $uploaded;
+    public $uploaded;
 
     /**
      * Flag stopping PHP upload checks
@@ -784,7 +783,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $no_upload_check;
+    public $no_upload_check;
 
     /**
      * Flag set after calling a process
@@ -794,7 +793,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $processed;
+    public $processed;
 
     /**
      * Holds eventual error message in plain english
@@ -802,7 +801,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $error;
+    public $error;
 
     /**
      * Holds an HTML formatted log
@@ -810,7 +809,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $log;
+    public $log;
 
 
     // overiddable processing variables
@@ -822,7 +821,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_new_name_body;
+    public $file_new_name_body;
 
     /**
      * Set this variable to append a string to the file name body
@@ -830,7 +829,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_name_body_add;
+    public $file_name_body_add;
 
     /**
      * Set this variable to prepend a string to the file name body
@@ -838,7 +837,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_name_body_pre;
+    public $file_name_body_pre;
 
     /**
      * Set this variable to change the file extension
@@ -846,7 +845,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $file_new_name_ext;
+    public $file_new_name_ext;
 
     /**
      * Set this variable to format the filename (spaces changed to _)
@@ -854,7 +853,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $file_safe_name;
+    public $file_safe_name;
 
     /**
      * Forces an extension if the source file doesn't have one
@@ -865,7 +864,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $file_force_extension;
+    public $file_force_extension;
 
     /**
      * Set this variable to false if you don't want to check the MIME against the allowed list
@@ -875,10 +874,10 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $mime_check;
+    public $mime_check;
 
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME 
+     * Set this variable to false in the init() function if you don't want to check the MIME
      * with Fileinfo PECL extension. On some systems, Fileinfo is known to be buggy, and you
      * may want to deactivate it in the class code directly.
      *
@@ -892,10 +891,10 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $mime_fileinfo;
+    public $mime_fileinfo;
 
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME 
+     * Set this variable to false in the init() function if you don't want to check the MIME
      * with UNIX file() command
      *
      * This variable is set to true by default for security reason
@@ -903,10 +902,10 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $mime_file;
+    public $mime_file;
 
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME 
+     * Set this variable to false in the init() function if you don't want to check the MIME
      * with the magic.mime file
      *
      * The function mime_content_type() will be deprecated,
@@ -917,10 +916,10 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $mime_magic;
+    public $mime_magic;
 
     /**
-     * Set this variable to false in the init() function if you don't want to check the MIME 
+     * Set this variable to false in the init() function if you don't want to check the MIME
      * with getimagesize()
      *
      * The class tries to get a MIME type from getimagesize()
@@ -931,7 +930,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $mime_getimagesize;
+    public $mime_getimagesize;
 
     /**
      * Set this variable to false if you don't want to turn dangerous scripts into simple text files
@@ -939,7 +938,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $no_script;
+    public $no_script;
 
     /**
      * Set this variable to true to allow automatic renaming of the file
@@ -956,7 +955,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $file_auto_rename;
+    public $file_auto_rename;
 
     /**
      * Set this variable to true to allow automatic creation of the destination
@@ -967,7 +966,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $dir_auto_create;
+    public $dir_auto_create;
 
     /**
      * Set this variable to true to allow automatic chmod of the destination
@@ -978,7 +977,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $dir_auto_chmod;
+    public $dir_auto_chmod;
 
     /**
      * Set this variable to the default chmod you want the class to use
@@ -989,7 +988,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $dir_chmod;
+    public $dir_chmod;
 
     /**
      * Set this variable tu true to allow overwriting of an existing file
@@ -999,20 +998,20 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $file_overwrite;
+    public $file_overwrite;
 
     /**
      * Set this variable to change the maximum size in bytes for an uploaded file
      *
      * Default value is the value <i>upload_max_filesize</i> from php.ini
      *
-     * Value in bytes (integer) or shorthand byte values (string) is allowed. 
+     * Value in bytes (integer) or shorthand byte values (string) is allowed.
      * The available options are K (for Kilobytes), M (for Megabytes) and G (for Gigabytes)
      *
      * @access public
      * @var double
      */
-    var $file_max_size;
+    public $file_max_size;
 
     /**
      * Set this variable to true to resize the file if it is an image
@@ -1024,7 +1023,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $image_resize;
+    public $image_resize;
 
     /**
      * Set this variable to convert the file if it is an image
@@ -1037,7 +1036,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $image_convert;
+    public $image_convert;
 
     /**
      * Set this variable to the wanted (or maximum/minimum) width for the processed image, in pixels
@@ -1047,7 +1046,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_x;
+    public $image_x;
 
     /**
      * Set this variable to the wanted (or maximum/minimum) height for the processed image, in pixels
@@ -1057,7 +1056,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_y;
+    public $image_y;
 
     /**
      * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
@@ -1067,7 +1066,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $image_ratio;
+    public $image_ratio;
 
     /**
      * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
@@ -1083,7 +1082,7 @@ class externalImageUpload {
      * @access public
      * @var mixed
      */
-    var $image_ratio_crop;
+    public $image_ratio_crop;
 
     /**
      * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y}
@@ -1100,7 +1099,7 @@ class externalImageUpload {
      * @access public
      * @var mixed
      */
-    var $image_ratio_fill;
+    public $image_ratio_fill;
 
     /**
      * Set this variable to a number of pixels so that {@link image_x} and {@link image_y} are the best match possible
@@ -1113,7 +1112,7 @@ class externalImageUpload {
      * @access public
      * @var mixed
      */
-    var $image_ratio_pixels;
+    public $image_ratio_pixels;
 
     /**
      * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y},
@@ -1124,7 +1123,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $image_ratio_no_zoom_in;
+    public $image_ratio_no_zoom_in;
 
     /**
      * Set this variable to keep the original size ratio to fit within {@link image_x} x {@link image_y},
@@ -1135,7 +1134,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $image_ratio_no_zoom_out;
+    public $image_ratio_no_zoom_out;
 
     /**
      * Set this variable to calculate {@link image_x} automatically , using {@link image_y} and conserving ratio
@@ -1145,7 +1144,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $image_ratio_x;
+    public $image_ratio_x;
 
     /**
      * Set this variable to calculate {@link image_y} automatically , using {@link image_x} and conserving ratio
@@ -1155,7 +1154,7 @@ class externalImageUpload {
      * @access public
      * @var bool
      */
-    var $image_ratio_y;
+    public $image_ratio_y;
 
     /**
      * Set this variable to set a maximum image width, above which the upload will be invalid
@@ -1165,7 +1164,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_max_width;
+    public $image_max_width;
 
     /**
      * Set this variable to set a maximum image height, above which the upload will be invalid
@@ -1175,7 +1174,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_max_height;
+    public $image_max_height;
 
     /**
      * Set this variable to set a maximum number of pixels for an image, above which the upload will be invalid
@@ -1185,7 +1184,7 @@ class externalImageUpload {
      * @access public
      * @var long
      */
-    var $image_max_pixels;
+    public $image_max_pixels;
 
     /**
      * Set this variable to set a maximum image aspect ratio, above which the upload will be invalid
@@ -1197,7 +1196,7 @@ class externalImageUpload {
      * @access public
      * @var float
      */
-    var $image_max_ratio;
+    public $image_max_ratio;
 
     /**
      * Set this variable to set a minimum image width, below which the upload will be invalid
@@ -1207,7 +1206,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_min_width;
+    public $image_min_width;
 
     /**
      * Set this variable to set a minimum image height, below which the upload will be invalid
@@ -1217,7 +1216,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_min_height;
+    public $image_min_height;
 
     /**
      * Set this variable to set a minimum number of pixels for an image, below which the upload will be invalid
@@ -1227,7 +1226,7 @@ class externalImageUpload {
      * @access public
      * @var long
      */
-    var $image_min_pixels;
+    public $image_min_pixels;
 
     /**
      * Set this variable to set a minimum image aspect ratio, below which the upload will be invalid
@@ -1239,7 +1238,7 @@ class externalImageUpload {
      * @access public
      * @var float
      */
-    var $image_min_ratio;
+    public $image_min_ratio;
 
     /**
      * Quality of JPEG created/converted destination image
@@ -1249,7 +1248,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $jpeg_quality;
+    public $jpeg_quality;
 
     /**
      * Determines the quality of the JPG image to fit a desired file size
@@ -1257,7 +1256,7 @@ class externalImageUpload {
      * The JPG quality will be set between 1 and 100%
      * The calculations are approximations.
      *
-     * Value in bytes (integer) or shorthand byte values (string) is allowed. 
+     * Value in bytes (integer) or shorthand byte values (string) is allowed.
      * The available options are K (for Kilobytes), M (for Megabytes) and G (for Gigabytes)
      *
      * Default value is null (no calculations)
@@ -1265,7 +1264,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $jpeg_size;
+    public $jpeg_size;
 
     /**
      * Preserve transparency when resizing or converting an image (deprecated)
@@ -1276,7 +1275,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $preserve_transparency;
+    public $preserve_transparency;
 
     /**
      * Flag set to true when the image is transparent
@@ -1286,7 +1285,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $image_is_transparent;
+    public $image_is_transparent;
 
     /**
      * Transparent color in a palette
@@ -1296,7 +1295,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $image_transparent_color;
+    public $image_transparent_color;
 
     /**
      * Background color, used to paint transparent areas with
@@ -1311,7 +1310,7 @@ class externalImageUpload {
      * @access public
      * @var string
      */
-    var $image_background_color;
+    public $image_background_color;
 
     /**
      * Default color for non alpha-transparent images
@@ -1327,7 +1326,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $image_default_color;
+    public $image_default_color;
 
     /**
      * Flag set to true when the image is not true color
@@ -1335,7 +1334,7 @@ class externalImageUpload {
      * @access public
      * @var boolean
      */
-    var $image_is_palette;
+    public $image_is_palette;
 
     /**
      * Corrects the image brightness
@@ -1347,7 +1346,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_brightness;
+    public $image_brightness;
 
     /**
      * Corrects the image contrast
@@ -1359,7 +1358,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_contrast;
+    public $image_contrast;
 
     /**
      * Changes the image opacity
@@ -1371,7 +1370,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_opacity;
+    public $image_opacity;
 
     /**
      * Applies threshold filter
@@ -1383,7 +1382,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_threshold;
+    public $image_threshold;
 
     /**
      * Applies a tint on the image
@@ -1395,7 +1394,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_tint_color;
+    public $image_tint_color;
 
     /**
      * Applies a colored overlay on the image
@@ -1409,7 +1408,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_overlay_color;
+    public $image_overlay_color;
 
     /**
      * Sets the opacity for the colored overlay
@@ -1423,7 +1422,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_overlay_opacity;
+    public $image_overlay_opacity;
 
     /**
      * Soon to be deprecated old form of {@link image_overlay_opacity}
@@ -1431,7 +1430,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_overlay_percent;
+    public $image_overlay_percent;
 
     /**
      * Inverts the color of an image
@@ -1441,7 +1440,7 @@ class externalImageUpload {
      * @access public
      * @var boolean;
      */
-    var $image_negative;
+    public $image_negative;
 
     /**
      * Turns the image into greyscale
@@ -1451,7 +1450,7 @@ class externalImageUpload {
      * @access public
      * @var boolean;
      */
-    var $image_greyscale;
+    public $image_greyscale;
 
     /**
      * Applies an unsharp mask, with alpha transparency support
@@ -1463,7 +1462,7 @@ class externalImageUpload {
      * @access public
      * @var boolean;
      */
-    var $image_unsharp;
+    public $image_unsharp;
 
     /**
      * Sets the unsharp mask amount
@@ -1477,8 +1476,8 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_unsharp_amount;
- 
+    public $image_unsharp_amount;
+
     /**
      * Sets the unsharp mask radius
      *
@@ -1491,8 +1490,8 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_unsharp_radius;
- 
+    public $image_unsharp_radius;
+
     /**
      * Sets the unsharp mask threshold
      *
@@ -1505,7 +1504,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_unsharp_threshold;
+    public $image_unsharp_threshold;
 
     /**
      * Adds a text label on the image
@@ -1531,7 +1530,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_text;
+    public $image_text;
 
     /**
      * Sets the text direction for the text label
@@ -1543,7 +1542,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_text_direction;
+    public $image_text_direction;
 
     /**
      * Sets the text color for the text label
@@ -1555,7 +1554,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_text_color;
+    public $image_text_color;
 
     /**
      * Sets the text opacity in the text label
@@ -1567,7 +1566,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_opacity;
+    public $image_text_opacity;
 
     /**
      * Soon to be deprecated old form of {@link image_text_opacity}
@@ -1575,7 +1574,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_percent;
+    public $image_text_percent;
 
     /**
      * Sets the text background color for the text label
@@ -1587,7 +1586,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_text_background;
+    public $image_text_background;
 
     /**
      * Sets the text background opacity in the text label
@@ -1599,7 +1598,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_background_opacity;
+    public $image_text_background_opacity;
 
     /**
      * Soon to be deprecated old form of {@link image_text_background_opacity}
@@ -1607,7 +1606,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_background_percent;
+    public $image_text_background_percent;
 
     /**
      * Sets the text font in the text label
@@ -1620,7 +1619,7 @@ class externalImageUpload {
      * @access public
      * @var mixed;
      */
-    var $image_text_font;
+    public $image_text_font;
 
     /**
      * Sets the text label position within the image
@@ -1641,7 +1640,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_text_position;
+    public $image_text_position;
 
     /**
      * Sets the text label absolute X position within the image
@@ -1654,7 +1653,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_x;
+    public $image_text_x;
 
     /**
      * Sets the text label absolute Y position within the image
@@ -1667,7 +1666,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_y;
+    public $image_text_y;
 
     /**
      * Sets the text label padding
@@ -1681,7 +1680,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_padding;
+    public $image_text_padding;
 
     /**
      * Sets the text label horizontal padding
@@ -1695,7 +1694,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_padding_x;
+    public $image_text_padding_x;
 
     /**
      * Sets the text label vertical padding
@@ -1709,7 +1708,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_padding_y;
+    public $image_text_padding_y;
 
     /**
      * Sets the text alignment
@@ -1723,7 +1722,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_text_alignment;
+    public $image_text_alignment;
 
     /**
      * Sets the text line spacing
@@ -1737,7 +1736,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_text_line_spacing;
+    public $image_text_line_spacing;
 
     /**
      * Sets the height of the reflection
@@ -1750,7 +1749,7 @@ class externalImageUpload {
      * @access public
      * @var mixed;
      */
-    var $image_reflection_height;
+    public $image_reflection_height;
 
     /**
      * Sets the space between the source image and its relection
@@ -1764,7 +1763,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_reflection_space;
+    public $image_reflection_space;
 
     /**
      * Sets the color of the reflection background (deprecated)
@@ -1780,7 +1779,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_reflection_color;
+    public $image_reflection_color;
 
     /**
      * Sets the initial opacity of the reflection
@@ -1795,7 +1794,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_reflection_opacity;
+    public $image_reflection_opacity;
 
     /**
      * Flips the image vertically or horizontally
@@ -1807,7 +1806,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_flip;
+    public $image_flip;
 
     /**
      * Rotates the image by increments of 45 degrees
@@ -1819,7 +1818,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_rotate;
+    public $image_rotate;
 
     /**
      * Crops an image
@@ -1849,7 +1848,7 @@ class externalImageUpload {
      * @access public
      * @var string OR array;
      */
-    var $image_crop;
+    public $image_crop;
 
     /**
      * Crops an image, before an eventual resizing
@@ -1861,7 +1860,7 @@ class externalImageUpload {
      * @access public
      * @var string OR array;
      */
-    var $image_precrop;
+    public $image_precrop;
 
     /**
      * Adds a bevel border on the image
@@ -1875,7 +1874,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_bevel;
+    public $image_bevel;
 
     /**
      * Top and left bevel color
@@ -1888,7 +1887,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_bevel_color1;
+    public $image_bevel_color1;
 
     /**
      * Right and bottom bevel color
@@ -1901,7 +1900,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_bevel_color2;
+    public $image_bevel_color2;
 
     /**
      * Adds a single-color border on the outer of the image
@@ -1921,7 +1920,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_border;
+    public $image_border;
 
     /**
      * Border color
@@ -1934,7 +1933,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_border_color;
+    public $image_border_color;
 
     /**
      * Sets the opacity for the borders
@@ -1948,7 +1947,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_border_opacity;
+    public $image_border_opacity;
 
     /**
      * Adds a fading-to-transparent border on the image
@@ -1967,7 +1966,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_border_transparent;
+    public $image_border_transparent;
 
     /**
      * Adds a multi-color frame on the outer of the image
@@ -1985,7 +1984,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_frame;
+    public $image_frame;
 
     /**
      * Sets the colors used to draw a frame
@@ -2008,7 +2007,7 @@ class externalImageUpload {
      * @access public
      * @var string OR array;
      */
-    var $image_frame_colors;
+    public $image_frame_colors;
 
     /**
      * Sets the opacity for the frame
@@ -2022,7 +2021,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_frame_opacity;
+    public $image_frame_opacity;
 
     /**
      * Adds a watermark on the image
@@ -2036,7 +2035,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_watermark;
+    public $image_watermark;
 
     /**
      * Sets the watermarkposition within the image
@@ -2054,7 +2053,7 @@ class externalImageUpload {
      * @access public
      * @var string;
      */
-    var $image_watermark_position;
+    public $image_watermark_position;
 
     /**
      * Sets the watermark absolute X position within the image
@@ -2067,7 +2066,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_watermark_x;
+    public $image_watermark_x;
 
     /**
      * Sets the twatermark absolute Y position within the image
@@ -2080,7 +2079,7 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_watermark_y;
+    public $image_watermark_y;
 
     /**
      * Prevents the watermark to be resized up if it is smaller than the image
@@ -2098,10 +2097,10 @@ class externalImageUpload {
      * @access public
      * @var integer
      */
-    var $image_watermark_no_zoom_in;
+    public $image_watermark_no_zoom_in;
 
     /**
-     * Prevents the watermark to be resized down if it is bigger than the image 
+     * Prevents the watermark to be resized down if it is bigger than the image
      *
      * If the watermark if bigger than the destination image, taking in account the desired watermark position
      * then it will be resized down to fit in the image (minus the {@link image_watermark_x} or {@link image_watermark_y} values)
@@ -2110,13 +2109,13 @@ class externalImageUpload {
      * set {@link image_watermark_no_zoom_in} and {@link image_watermark_no_zoom_out} to true
      * If you want your watermark to be resized up or doan to fill in the image better, then
      * set {@link image_watermark_no_zoom_in} and {@link image_watermark_no_zoom_out} to false
-     *     
+     *
      * Default value is false (so the watermark may be shrinked to fit in the image)
      *
      * @access public
      * @var integer
      */
-    var $image_watermark_no_zoom_out;
+    public $image_watermark_no_zoom_out;
 
     /**
      * List of MIME types per extension
@@ -2124,7 +2123,7 @@ class externalImageUpload {
      * @access private
      * @var array
      */
-    var $mime_types;
+    public $mime_types;
 
     /**
      * Allowed MIME types
@@ -2137,7 +2136,7 @@ class externalImageUpload {
      * @access public
      * @var array OR string
      */
-    var $allowed;
+    public $allowed;
 
     /**
      * Forbidden MIME types
@@ -2151,7 +2150,7 @@ class externalImageUpload {
      * @access public
      * @var array OR string
      */
-    var $forbidden;
+    public $forbidden;
 
     /**
      * Array of translated error messages
@@ -2162,7 +2161,7 @@ class externalImageUpload {
      * @access public
      * @var array
      */
-    var $translation;
+    public $translation;
 
     /**
      * Language selected for the translations
@@ -2172,7 +2171,7 @@ class externalImageUpload {
      * @access public
      * @var array
      */
-    var $language;
+    public $language;
 
     /**
      * Init or re-init all the processing variables to their default values
@@ -2181,8 +2180,8 @@ class externalImageUpload {
      *
      * @access private
      */
-    function init() {
-
+    public function init()
+    {
         // overiddable variables
         $this->file_new_name_body       = null;     // replace the name body
         $this->file_name_body_add       = null;     // append to the name body
@@ -2476,8 +2475,9 @@ class externalImageUpload {
         );
 
     }
-    
-    function __construct($file) {
+
+    public function __construct($file)
+    {
         $this->upload($file);
     }
 
@@ -2505,8 +2505,8 @@ class externalImageUpload {
      *    or   string $file Local filename
      * @param  string $lang Optional language code
      */
-    function upload($file, $lang = 'en_GB') {
-
+    public function upload($file, $lang = 'en_GB')
+    {
         $this->version            = '0.31';
 
         $this->file_src_name      = '';
@@ -2986,7 +2986,8 @@ class externalImageUpload {
      * @param  boolean  $full Optional flag to get precise version
      * @return float GD version
      */
-    function gdversion($full = false) {
+    public function gdversion($full = false)
+    {
         static $gd_version = null;
         static $gd_full_version = null;
         if ($gd_version === null) {
@@ -3024,7 +3025,8 @@ class externalImageUpload {
      * @param  integer $mode Optional permissions
      * @return boolean Success
      */
-    function rmkdir($path, $mode = 0777) {
+    public function rmkdir($path, $mode = 0777)
+    {
         return is_dir($path) || ( $this->rmkdir(dirname($path), $mode) && $this->_mkdir($path, $mode) );
     }
 
@@ -3036,7 +3038,8 @@ class externalImageUpload {
      * @param  integer $mode Optional permissions
      * @return boolean Success
      */
-    function _mkdir($path, $mode = 0777) {
+    public function _mkdir($path, $mode = 0777)
+    {
         $old = umask(0);
         $res = @mkdir($path, $mode);
         umask($old);
@@ -3051,7 +3054,8 @@ class externalImageUpload {
      * @param  array   $tokens Optional token values
      * @return string Translated string
      */
-    function translate($str, $tokens = array()) {
+    public function translate($str, $tokens = array())
+    {
         if (array_key_exists($str, $this->translation)) $str = $this->translation[$str];
         if (is_array($tokens) && sizeof($tokens) > 0)   $str = vsprintf($str, $tokens);
         return $str;
@@ -3064,7 +3068,8 @@ class externalImageUpload {
      * @param  string  $color  Color string
      * @return array RGB colors
      */
-    function getcolors($color) {
+    public function getcolors($color)
+    {
         $r = sscanf($color, "#%2x%2x%2x");
         $red   = (array_key_exists(0, $r) && is_numeric($r[0]) ? $r[0] : 0);
         $green = (array_key_exists(1, $r) && is_numeric($r[1]) ? $r[1] : 0);
@@ -3079,7 +3084,8 @@ class externalImageUpload {
      * @param  string  $size  Size in bytes, or shorthand byte options
      * @return integer Size in bytes
      */
-    function getsize($size) {
+    public function getsize($size)
+    {
         $last = strtolower($size{strlen($size)-1});
         switch($last) {
             case 'g':
@@ -3103,11 +3109,12 @@ class externalImageUpload {
      * @param  boolean $negative Allow negative offsets to be returned
      * @return array Array of four offsets (TRBL)
      */
-    function getoffsets($offsets, $x, $y, $round = true, $negative = true) {
+    public function getoffsets($offsets, $x, $y, $round = true, $negative = true)
+    {
         if (!is_array($offsets)) $offsets = explode(' ', $offsets);
         if (sizeof($offsets) == 4) {
              $ct = $offsets[0]; $cr = $offsets[1]; $cb = $offsets[2]; $cl = $offsets[3];
-        } else if (sizeof($offsets) == 2) {
+        } elseif (sizeof($offsets) == 2) {
             $ct = $offsets[0]; $cr = $offsets[1]; $cb = $offsets[0]; $cl = $offsets[1];
         } else {
             $ct = $offsets[0]; $cr = $offsets[0]; $cb = $offsets[0]; $cl = $offsets[0];
@@ -3121,13 +3128,13 @@ class externalImageUpload {
         if (strpos($cb, 'px')>0) $cb = str_replace('px','',$cb);
         if (strpos($cl, 'px')>0) $cl = str_replace('px','',$cl);
         $ct = (int) $ct; $cr = (int) $cr; $cb = (int) $cb; $cl = (int) $cl;
-        if ($round) { 
-            $ct = round($ct); 
-            $cr = round($cr); 
-            $cb = round($cb); 
-            $cl = round($cl); 
+        if ($round) {
+            $ct = round($ct);
+            $cr = round($cr);
+            $cb = round($cb);
+            $cl = round($cl);
         }
-        if (!$negative) { 
+        if (!$negative) {
             if ($ct < 0) $ct = 0;
             if ($cr < 0) $cr = 0;
             if ($cb < 0) $cb = 0;
@@ -3146,7 +3153,8 @@ class externalImageUpload {
      * @param  boolean  $trsp Optional flag to set the background to be transparent
      * @return resource Container image
      */
-    function imagecreatenew($x, $y, $fill = true, $trsp = false) {
+    public function imagecreatenew($x, $y, $fill = true, $trsp = false)
+    {
         if ($x < 1) $x = 1; if ($y < 1) $y = 1;
         if ($this->gdversion() >= 2 && !$this->image_is_palette) {
             // create a true color image
@@ -3183,7 +3191,8 @@ class externalImageUpload {
      * @param  resource $dst_im Destination image
      * @return resource Destination image
      */
-    function imagetransfer($src_im, $dst_im) {
+    public function imagetransfer($src_im, $dst_im)
+    {
         if (is_resource($dst_im)) imagedestroy($dst_im);
         $dst_im = & $src_im;
         return $dst_im;
@@ -3206,7 +3215,8 @@ class externalImageUpload {
      * @param  int      $pct     Optional percentage of the overlay, between 0 and 100 (default: 100)
      * @return resource Destination image
      */
-    function imagecopymergealpha(&$dst_im, &$src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct = 0) {
+    public function imagecopymergealpha(&$dst_im, &$src_im, $dst_x, $dst_y, $src_x, $src_y, $src_w, $src_h, $pct = 0)
+    {
         $dst_x = (int) $dst_x;
         $dst_y = (int) $dst_y;
         $src_x = (int) $src_x;
@@ -3282,7 +3292,8 @@ class externalImageUpload {
      * @param  string $server_path Optional path location of the uploaded file, with an ending slash
      * @return string Optional content of the image
      */
-    function process($server_path = null) {
+    public function process($server_path = null)
+    {
         $this->error        = '';
         $this->processed    = true;
         $return_mode        = false;
@@ -3365,7 +3376,7 @@ class externalImageUpload {
             if ($this->mime_check && empty($this->file_src_mime)) {
                 $this->processed = false;
                 $this->error = $this->translate('no_mime');
-            } else if ($this->mime_check && !empty($this->file_src_mime) && strpos($this->file_src_mime, '/') !== false) {
+            } elseif ($this->mime_check && !empty($this->file_src_mime) && strpos($this->file_src_mime, '/') !== false) {
                 list($m1, $m2) = explode('/', $this->file_src_mime);
                 $allowed = false;
                 // check wether the mime type is allowed
@@ -3566,7 +3577,7 @@ class externalImageUpload {
                     $this->error = $this->translate('temp_file_missing');
                 }
             // if we haven't a temp file, and that we do check on uploads, we use is_uploaded_file()
-            } else if (!$this->no_upload_check) {
+            } elseif (!$this->no_upload_check) {
                 if (!is_uploaded_file($this->file_src_pathname)) {
                     $this->processed = false;
                     $this->error = $this->translate('source_missing');
@@ -3832,17 +3843,17 @@ class externalImageUpload {
                             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;calculate x size<br />';
                             $this->image_dst_x = round(($this->image_src_x * $this->image_y) / $this->image_src_y);
                             $this->image_dst_y = $this->image_y;
-                        } else if ($this->image_ratio_y) {
+                        } elseif ($this->image_ratio_y) {
                             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;calculate y size<br />';
                             $this->image_dst_x = $this->image_x;
                             $this->image_dst_y = round(($this->image_src_y * $this->image_x) / $this->image_src_x);
-                        } else if (is_numeric($this->image_ratio_pixels)) {
+                        } elseif (is_numeric($this->image_ratio_pixels)) {
                             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;calculate x/y size to match a number of pixels<br />';
                             $pixels = $this->image_src_y * $this->image_src_x;
                             $diff = sqrt($this->image_ratio_pixels / $pixels);
                             $this->image_dst_x = round($this->image_src_x * $diff);
                             $this->image_dst_y = round($this->image_src_y * $diff);
-                        } else if ($this->image_ratio || $this->image_ratio_crop || $this->image_ratio_fill || $this->image_ratio_no_zoom_in || $this->image_ratio_no_zoom_out) {
+                        } elseif ($this->image_ratio || $this->image_ratio_crop || $this->image_ratio_fill || $this->image_ratio_no_zoom_in || $this->image_ratio_no_zoom_out) {
                             $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;check x/y sizes<br />';
                             if ((!$this->image_ratio_no_zoom_in && !$this->image_ratio_no_zoom_out)
                                  || ($this->image_ratio_no_zoom_in && ($this->image_src_x > $this->image_x || $this->image_src_y > $this->image_y))
@@ -3860,7 +3871,7 @@ class externalImageUpload {
                                         if (strpos($this->image_ratio_crop, 'l') !== false) {
                                             $ratio_crop['l'] = 0;
                                             $ratio_crop['r'] = $ratio_crop['x'];
-                                        } else if (strpos($this->image_ratio_crop, 'r') !== false) {
+                                        } elseif (strpos($this->image_ratio_crop, 'r') !== false) {
                                             $ratio_crop['l'] = $ratio_crop['x'];
                                             $ratio_crop['r'] = 0;
                                         } else {
@@ -3877,7 +3888,7 @@ class externalImageUpload {
                                         if (strpos($this->image_ratio_crop, 't') !== false) {
                                             $ratio_crop['t'] = 0;
                                             $ratio_crop['b'] = $ratio_crop['y'];
-                                        } else if (strpos($this->image_ratio_crop, 'b') !== false) {
+                                        } elseif (strpos($this->image_ratio_crop, 'b') !== false) {
                                             $ratio_crop['t'] = $ratio_crop['y'];
                                             $ratio_crop['b'] = 0;
                                         } else {
@@ -3887,7 +3898,7 @@ class externalImageUpload {
                                         $this->log .= '&nbsp;&nbsp;&nbsp;&nbsp;ratio_crop_y         : ' . $ratio_crop['y'] . ' (' . $ratio_crop['t'] . ';' . $ratio_crop['b'] . ')<br />';
                                         if (is_null($this->image_crop)) $this->image_crop = array(0, 0, 0, 0);
                                     }
-                                } else if ($this->image_ratio_fill) {
+                                } elseif ($this->image_ratio_fill) {
                                     if (!is_string($this->image_ratio_fill)) $this->image_ratio_fill = '';
                                     $this->image_ratio_fill = strtolower($this->image_ratio_fill);
                                     if (($this->image_src_x/$this->image_x) < ($this->image_src_y/$this->image_y)) {
@@ -3898,7 +3909,7 @@ class externalImageUpload {
                                         if (strpos($this->image_ratio_fill, 'l') !== false) {
                                             $ratio_crop['l'] = 0;
                                             $ratio_crop['r'] = $ratio_crop['x'];
-                                        } else if (strpos($this->image_ratio_fill, 'r') !== false) {
+                                        } elseif (strpos($this->image_ratio_fill, 'r') !== false) {
                                             $ratio_crop['l'] = $ratio_crop['x'];
                                             $ratio_crop['r'] = 0;
                                         } else {
@@ -3915,7 +3926,7 @@ class externalImageUpload {
                                         if (strpos($this->image_ratio_fill, 't') !== false) {
                                             $ratio_crop['t'] = 0;
                                             $ratio_crop['b'] = $ratio_crop['y'];
-                                        } else if (strpos($this->image_ratio_fill, 'b') !== false) {
+                                        } elseif (strpos($this->image_ratio_fill, 'b') !== false) {
                                             $ratio_crop['t'] = $ratio_crop['y'];
                                             $ratio_crop['b'] = 0;
                                         } else {
@@ -4038,9 +4049,9 @@ class externalImageUpload {
                                 for ($y = 0; $y < $this->image_dst_y; $y++){
                                     if ($this->image_rotate == 90) {
                                         imagecopy($tmp, $image_dst, $y, $x, $x, $this->image_dst_y - $y - 1, 1, 1);
-                                    } else if ($this->image_rotate == 180) {
+                                    } elseif ($this->image_rotate == 180) {
                                         imagecopy($tmp, $image_dst, $x, $y, $this->image_dst_x - $x - 1, $this->image_dst_y - $y - 1, 1, 1);
-                                    } else if ($this->image_rotate == 270) {
+                                    } elseif ($this->image_rotate == 270) {
                                         imagecopy($tmp, $image_dst, $y, $x, $this->image_dst_x - $x - 1, $y, 1, 1);
                                     } else {
                                         imagecopy($tmp, $image_dst, $x, $y, $x, $y, 1, 1);
@@ -4060,66 +4071,66 @@ class externalImageUpload {
                     // unsharp mask
                     if ($gd_version >= 2 && $this->image_unsharp && is_numeric($this->image_unsharp_amount) && is_numeric($this->image_unsharp_radius) && is_numeric($this->image_unsharp_threshold)) {
                         // Unsharp Mask for PHP - version 2.1.1
-                        // Unsharp mask algorithm by Torstein Hønsi 2003-07. 
+                        // Unsharp mask algorithm by Torstein Hønsi 2003-07.
                         // Used with permission
                         // Modified to support alpha transparency
-                        if ($this->image_unsharp_amount > 500)    $this->image_unsharp_amount = 500; 
-                        $this->image_unsharp_amount = $this->image_unsharp_amount * 0.016; 
-                        if ($this->image_unsharp_radius > 50)    $this->image_unsharp_radius = 50; 
-                        $this->image_unsharp_radius = $this->image_unsharp_radius * 2; 
-                        if ($this->image_unsharp_threshold > 255)    $this->image_unsharp_threshold = 255; 
+                        if ($this->image_unsharp_amount > 500)    $this->image_unsharp_amount = 500;
+                        $this->image_unsharp_amount = $this->image_unsharp_amount * 0.016;
+                        if ($this->image_unsharp_radius > 50)    $this->image_unsharp_radius = 50;
+                        $this->image_unsharp_radius = $this->image_unsharp_radius * 2;
+                        if ($this->image_unsharp_threshold > 255)    $this->image_unsharp_threshold = 255;
                         $this->image_unsharp_radius = abs(round($this->image_unsharp_radius));
-                        if ($this->image_unsharp_radius != 0) {       
-                            $this->image_dst_x = imagesx($image_dst); $this->image_dst_y = imagesy($image_dst); 
-                            $canvas = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y, false, true); 
-                            $blur = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y, false, true); 
-                            if (function_exists('imageconvolution')) { // PHP >= 5.1  
-                                $matrix = array(array( 1, 2, 1 ), array( 2, 4, 2 ), array( 1, 2, 1 ));  
-                                imagecopy($blur, $image_dst, 0, 0, 0, 0, $this->image_dst_x, $this->image_dst_y); 
-                                imageconvolution($blur, $matrix, 16, 0);  
-                            } else {  
-                                for ($i = 0; $i < $this->image_unsharp_radius; $i++) { 
-                                    imagecopy($blur, $image_dst, 0, 0, 1, 0, $this->image_dst_x - 1, $this->image_dst_y); // left 
-                                    $this->imagecopymergealpha($blur, $image_dst, 1, 0, 0, 0, $this->image_dst_x, $this->image_dst_y, 50); // right 
-                                    $this->imagecopymergealpha($blur, $image_dst, 0, 0, 0, 0, $this->image_dst_x, $this->image_dst_y, 50); // center 
-                                    imagecopy($canvas, $blur, 0, 0, 0, 0, $this->image_dst_x, $this->image_dst_y); 
-                                    $this->imagecopymergealpha($blur, $canvas, 0, 0, 0, 1, $this->image_dst_x, $this->image_dst_y - 1, 33.33333 ); // up 
-                                    $this->imagecopymergealpha($blur, $canvas, 0, 1, 0, 0, $this->image_dst_x, $this->image_dst_y, 25); // down 
-                                } 
-                            } 
+                        if ($this->image_unsharp_radius != 0) {
+                            $this->image_dst_x = imagesx($image_dst); $this->image_dst_y = imagesy($image_dst);
+                            $canvas = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y, false, true);
+                            $blur = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y, false, true);
+                            if (function_exists('imageconvolution')) { // PHP >= 5.1
+                                $matrix = array(array( 1, 2, 1 ), array( 2, 4, 2 ), array( 1, 2, 1 ));
+                                imagecopy($blur, $image_dst, 0, 0, 0, 0, $this->image_dst_x, $this->image_dst_y);
+                                imageconvolution($blur, $matrix, 16, 0);
+                            } else {
+                                for ($i = 0; $i < $this->image_unsharp_radius; $i++) {
+                                    imagecopy($blur, $image_dst, 0, 0, 1, 0, $this->image_dst_x - 1, $this->image_dst_y); // left
+                                    $this->imagecopymergealpha($blur, $image_dst, 1, 0, 0, 0, $this->image_dst_x, $this->image_dst_y, 50); // right
+                                    $this->imagecopymergealpha($blur, $image_dst, 0, 0, 0, 0, $this->image_dst_x, $this->image_dst_y, 50); // center
+                                    imagecopy($canvas, $blur, 0, 0, 0, 0, $this->image_dst_x, $this->image_dst_y);
+                                    $this->imagecopymergealpha($blur, $canvas, 0, 0, 0, 1, $this->image_dst_x, $this->image_dst_y - 1, 33.33333 ); // up
+                                    $this->imagecopymergealpha($blur, $canvas, 0, 1, 0, 0, $this->image_dst_x, $this->image_dst_y, 25); // down
+                                }
+                            }
                             $p_new = array();
-                            if($this->image_unsharp_threshold>0) { 
-                                for ($x = 0; $x < $this->image_dst_x-1; $x++) { 
+                            if($this->image_unsharp_threshold>0) {
+                                for ($x = 0; $x < $this->image_dst_x-1; $x++) {
                                     for ($y = 0; $y < $this->image_dst_y; $y++) {
                                         $p_orig = imagecolorsforindex($image_dst, imagecolorat($image_dst, $x, $y));
                                         $p_blur = imagecolorsforindex($blur, imagecolorat($blur, $x, $y));
-                                        $p_new['red'] = (abs($p_orig['red'] - $p_blur['red']) >= $this->image_unsharp_threshold) ? max(0, min(255, ($this->image_unsharp_amount * ($p_orig['red'] - $p_blur['red'])) + $p_orig['red'])) : $p_orig['red']; 
-                                        $p_new['green'] = (abs($p_orig['green'] - $p_blur['green']) >= $this->image_unsharp_threshold) ? max(0, min(255, ($this->image_unsharp_amount * ($p_orig['green'] - $p_blur['green'])) + $p_orig['green'])) : $p_orig['green']; 
-                                        $p_new['blue'] = (abs($p_orig['blue'] - $p_blur['blue']) >= $this->image_unsharp_threshold) ? max(0, min(255, ($this->image_unsharp_amount * ($p_orig['blue'] - $p_blur['blue'])) + $p_orig['blue'])) : $p_orig['blue'];         
-                                        if (($p_orig['red'] != $p_new['red']) || ($p_orig['green'] != $p_new['green']) || ($p_orig['blue'] != $p_new['blue'])) { 
+                                        $p_new['red'] = (abs($p_orig['red'] - $p_blur['red']) >= $this->image_unsharp_threshold) ? max(0, min(255, ($this->image_unsharp_amount * ($p_orig['red'] - $p_blur['red'])) + $p_orig['red'])) : $p_orig['red'];
+                                        $p_new['green'] = (abs($p_orig['green'] - $p_blur['green']) >= $this->image_unsharp_threshold) ? max(0, min(255, ($this->image_unsharp_amount * ($p_orig['green'] - $p_blur['green'])) + $p_orig['green'])) : $p_orig['green'];
+                                        $p_new['blue'] = (abs($p_orig['blue'] - $p_blur['blue']) >= $this->image_unsharp_threshold) ? max(0, min(255, ($this->image_unsharp_amount * ($p_orig['blue'] - $p_blur['blue'])) + $p_orig['blue'])) : $p_orig['blue'];
+                                        if (($p_orig['red'] != $p_new['red']) || ($p_orig['green'] != $p_new['green']) || ($p_orig['blue'] != $p_new['blue'])) {
                                             $color = imagecolorallocatealpha($image_dst, $p_new['red'], $p_new['green'], $p_new['blue'], $p_orig['alpha']);
-                                            imagesetpixel($image_dst, $x, $y, $color);                                            
-                                        } 
-                                    } 
-                                } 
-                            } else { 
+                                            imagesetpixel($image_dst, $x, $y, $color);
+                                        }
+                                    }
+                                }
+                            } else {
                                 for ($x = 0; $x < $this->image_dst_x; $x++) {
                                     for ($y = 0; $y < $this->image_dst_y; $y++) {
                                         $p_orig = imagecolorsforindex($image_dst, imagecolorat($image_dst, $x, $y));
                                         $p_blur = imagecolorsforindex($blur, imagecolorat($blur, $x, $y));
-                                        $p_new['red'] = ($this->image_unsharp_amount * ($p_orig['red'] - $p_blur['red'])) + $p_orig['red']; 
-                                        if ($p_new['red']>255) { $p_new['red']=255; } elseif ($p_new['red']<0) { $p_new['red']=0; } 
-                                        $p_new['green'] = ($this->image_unsharp_amount * ($p_orig['green'] - $p_blur['green'])) + $p_orig['green']; 
-                                        if ($p_new['green']>255) { $p_new['green']=255; }  elseif ($p_new['green']<0) { $p_new['green']=0; } 
-                                        $p_new['blue'] = ($this->image_unsharp_amount * ($p_orig['blue'] - $p_blur['blue'])) + $p_orig['blue']; 
-                                        if ($p_new['blue']>255) { $p_new['blue']=255; } elseif ($p_new['blue']<0) { $p_new['blue']=0; } 
+                                        $p_new['red'] = ($this->image_unsharp_amount * ($p_orig['red'] - $p_blur['red'])) + $p_orig['red'];
+                                        if ($p_new['red']>255) { $p_new['red']=255; } elseif ($p_new['red']<0) { $p_new['red']=0; }
+                                        $p_new['green'] = ($this->image_unsharp_amount * ($p_orig['green'] - $p_blur['green'])) + $p_orig['green'];
+                                        if ($p_new['green']>255) { $p_new['green']=255; }  elseif ($p_new['green']<0) { $p_new['green']=0; }
+                                        $p_new['blue'] = ($this->image_unsharp_amount * ($p_orig['blue'] - $p_blur['blue'])) + $p_orig['blue'];
+                                        if ($p_new['blue']>255) { $p_new['blue']=255; } elseif ($p_new['blue']<0) { $p_new['blue']=0; }
                                         $color = imagecolorallocatealpha($image_dst, $p_new['red'], $p_new['green'], $p_new['blue'], $p_orig['alpha']);
-                                        imagesetpixel($image_dst, $x, $y, $color);                                            
-                                    } 
-                                } 
-                            } 
-                            imagedestroy($canvas); 
-                            imagedestroy($blur); 
+                                        imagesetpixel($image_dst, $x, $y, $color);
+                                    }
+                                }
+                            }
+                            imagedestroy($canvas);
+                            imagedestroy($blur);
                         }
                     }
 
@@ -4202,10 +4213,10 @@ class externalImageUpload {
                         $this->log .= '- add border : ' . $ct . ' ' . $cr . ' ' . $cb . ' ' . $cl . '<br />';
                         $this->image_dst_x = $this->image_dst_x + $cl + $cr;
                         $this->image_dst_y = $this->image_dst_y + $ct + $cb;
-                        if (!empty($this->image_border_color)) list($red, $green, $blue) = $this->getcolors($this->image_border_color);   
-                        $opacity = (is_numeric($this->image_border_opacity) ? (int) (127 - $this->image_border_opacity / 100 * 127): 0);                       
-                        // we now create an image, that we fill with the border color                                                                           
-                        $tmp = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y);                                                                   
+                        if (!empty($this->image_border_color)) list($red, $green, $blue) = $this->getcolors($this->image_border_color);
+                        $opacity = (is_numeric($this->image_border_opacity) ? (int) (127 - $this->image_border_opacity / 100 * 127): 0);
+                        // we now create an image, that we fill with the border color
+                        $tmp = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y);
                         $background = imagecolorallocatealpha($tmp, $red, $green, $blue, $opacity);
                         imagefilledrectangle($tmp, 0, 0, $this->image_dst_x, $this->image_dst_y, $background);
                         // we then copy the source image into the new image, without merging so that only the border is actually kept
@@ -4218,8 +4229,8 @@ class externalImageUpload {
                     if ($gd_version >= 2 && !empty($this->image_border_transparent)) {
                         list($ct, $cr, $cb, $cl) = $this->getoffsets($this->image_border_transparent, $this->image_dst_x, $this->image_dst_y, true, false);
                         $this->log .= '- add transparent border : ' . $ct . ' ' . $cr . ' ' . $cb . ' ' . $cl . '<br />';
-                        // we now create an image, that we fill with the border color                                                                           
-                        $tmp = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y);                                                                   
+                        // we now create an image, that we fill with the border color
+                        $tmp = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y);
                         // we then copy the source image into the new image, without the borders
                         imagecopy($tmp, $image_dst, $cl, $ct, $cl, $ct, $this->image_dst_x - $cr - $cl, $this->image_dst_y - $cb - $ct);
                         // we now add the top border
@@ -4304,7 +4315,7 @@ class externalImageUpload {
                         $this->image_dst_y = $this->image_dst_y + ($nb * 2);
                         $tmp = $this->imagecreatenew($this->image_dst_x, $this->image_dst_y);
                         imagecopy($tmp, $image_dst, $nb, $nb, 0, 0, $this->image_dst_x - ($nb * 2), $this->image_dst_y - ($nb * 2));
-                        $opacity = (is_numeric($this->image_frame_opacity) ? (int) (127 - $this->image_frame_opacity / 100 * 127): 0);                       
+                        $opacity = (is_numeric($this->image_frame_opacity) ? (int) (127 - $this->image_frame_opacity / 100 * 127): 0);
                         for ($i=0; $i<$nb; $i++) {
                             list($red, $green, $blue) = $this->getcolors($vars[$i]);
                             $c = imagecolorallocatealpha($tmp, $red, $green, $blue, $opacity);
@@ -4365,7 +4376,7 @@ class externalImageUpload {
                                     $watermark_checked = true;
                                 }
                             }
-                        } else if ($watermark_type == IMAGETYPE_JPEG) {
+                        } elseif ($watermark_type == IMAGETYPE_JPEG) {
                             if (!function_exists('imagecreatefromjpeg')) {
                                 $this->error = $this->translate('watermark_no_create_support', array('JPEG'));
                             } else {
@@ -4377,7 +4388,7 @@ class externalImageUpload {
                                     $watermark_checked = true;
                                 }
                             }
-                        } else if ($watermark_type == IMAGETYPE_PNG) {
+                        } elseif ($watermark_type == IMAGETYPE_PNG) {
                             if (!function_exists('imagecreatefrompng')) {
                                 $this->error = $this->translate('watermark_no_create_support', array('PNG'));
                             } else {
@@ -4389,7 +4400,7 @@ class externalImageUpload {
                                     $watermark_checked = true;
                                 }
                             }
-                        } else if ($watermark_type == IMAGETYPE_BMP) {
+                        } elseif ($watermark_type == IMAGETYPE_BMP) {
                             if (!method_exists($this, 'imagecreatefrombmp')) {
                                 $this->error = $this->translate('watermark_no_create_support', array('BMP'));
                             } else {
@@ -4412,7 +4423,7 @@ class externalImageUpload {
                             if ((!$this->image_watermark_no_zoom_out && ($watermark_dst_width > $this->image_dst_x || $watermark_dst_height > $this->image_dst_y))
                              || (!$this->image_watermark_no_zoom_in && $watermark_dst_width < $this->image_dst_x && $watermark_dst_height < $this->image_dst_y)) {
                                 $canvas_width  = $this->image_dst_x - abs($this->image_watermark_x);
-                                $canvas_height = $this->image_dst_y - abs($this->image_watermark_y);                            
+                                $canvas_height = $this->image_dst_y - abs($this->image_watermark_y);
                                 if (($watermark_src_width/$canvas_width) > ($watermark_src_height/$canvas_height)) {
                                     $watermark_dst_width = $canvas_width;
                                     $watermark_dst_height = intval($watermark_src_height*($canvas_width / $watermark_src_width));
@@ -4435,7 +4446,7 @@ class externalImageUpload {
                             } else {
                                 if (strpos($this->image_watermark_position, 'r') !== false) {
                                     $watermark_x = $this->image_dst_x - $watermark_dst_width;
-                                } else if (strpos($this->image_watermark_position, 'l') !== false) {
+                                } elseif (strpos($this->image_watermark_position, 'l') !== false) {
                                     $watermark_x = 0;
                                 } else {
                                     $watermark_x = ($this->image_dst_x - $watermark_dst_width) / 2;
@@ -4450,7 +4461,7 @@ class externalImageUpload {
                             } else {
                                 if (strpos($this->image_watermark_position, 'b') !== false) {
                                     $watermark_y = $this->image_dst_y - $watermark_dst_height;
-                                } else if (strpos($this->image_watermark_position, 't') !== false) {
+                                } elseif (strpos($this->image_watermark_position, 't') !== false) {
                                     $watermark_y = 0;
                                 } else {
                                     $watermark_y = ($this->image_dst_y - $watermark_dst_height) / 2;
@@ -4583,7 +4594,7 @@ class externalImageUpload {
                         } else {
                             if (strpos($this->image_text_position, 'r') !== false) {
                                 $text_x = $this->image_dst_x - $text_width;
-                            } else if (strpos($this->image_text_position, 'l') !== false) {
+                            } elseif (strpos($this->image_text_position, 'l') !== false) {
                                 $text_x = 0;
                             } else {
                                 $text_x = ($this->image_dst_x - $text_width) / 2;
@@ -4598,7 +4609,7 @@ class externalImageUpload {
                         } else {
                             if (strpos($this->image_text_position, 'b') !== false) {
                                 $text_y = $this->image_dst_y - $text_height;
-                            } else if (strpos($this->image_text_position, 't') !== false) {
+                            } elseif (strpos($this->image_text_position, 't') !== false) {
                                 $text_y = 0;
                             } else {
                                 $text_y = ($this->image_dst_y - $text_height) / 2;
@@ -4751,7 +4762,7 @@ class externalImageUpload {
                         // copy the resulting image into the destination image
                         $image_dst = $this->imagetransfer($tmp, $image_dst);
                     }
-                    
+
                     // reduce the JPEG image to a set desired size
                     if (is_numeric($this->jpeg_size) && $this->jpeg_size > 0 && ($this->image_convert == 'jpeg' || $this->image_convert == 'jpg')) {
                         // inspired by: JPEGReducer class version 1, 25 November 2004, Author: Huda M ElMatsani, justhuda at netscape dot net
@@ -4855,7 +4866,7 @@ class externalImageUpload {
                                     if ($pixel['alpha'] == 127) {
                                         // we have full transparency. we make the pixel transparent
                                         imagesetpixel($image_dst, $x, $y, $transparency);
-                                    } else if ($pixel['alpha'] > 0) {
+                                    } elseif ($pixel['alpha'] > 0) {
                                         // we have some transparency. we combine the color with the default color
                                         $alpha = ($pixel['alpha'] / 127);
                                         $pixel['red'] = round(($pixel['red'] * (1 -$alpha) + $red * ($alpha)));
@@ -5001,7 +5012,8 @@ class externalImageUpload {
      *
      * @access public
      */
-    function clean() {
+    public function clean()
+    {
         $this->log .= '<b>cleanup</b><br />';
         $this->log .= '- delete temp file '  . $this->file_src_pathname . '<br />';
         @unlink($this->file_src_pathname);
@@ -5015,7 +5027,8 @@ class externalImageUpload {
      *
      * @access public
      */
-    function imagecreatefrombmp($filename) {
+    public function imagecreatefrombmp($filename)
+    {
         if (! $f1 = fopen($filename,"rb")) return false;
 
         $file = unpack("vfile_type/Vfile_size/Vreserved/Vbitmap_offset", fread($f1,14));
@@ -5090,8 +5103,8 @@ class externalImageUpload {
      *
      * @access public
      */
-    function imagebmp(&$im, $filename = "") {
-
+    public function imagebmp(&$im, $filename = "")
+    {
         if (!$im) return false;
         $w = imagesx($im);
         $h = imagesy($im);
@@ -5136,4 +5149,3 @@ class externalImageUpload {
     }
 }
 
-?>

@@ -12,20 +12,21 @@
  * @package		copix
  * @subpackage	taglib
  */
-class TemplateTagFormFocus extends CopixTemplateTag {
-    public function process ($pParams) {
+class TemplateTagFormFocus extends CopixTemplateTag
+{
+    public function process ($pParams)
+    {
         extract ($pParams);
         if (empty ($id)){
             throw new CopixTemplateTagException('[formfocus] missing id parameter');
         }
         return '<script type="text/javascript" defer="1">
-		 //<![CDATA[
-		 var formElement'.$id.' = document.getElementById (\''.$id.'\');
-		 if (formElement'.$id.'){
-		   formElement'.$id.'.focus ();
-		 }
-		 //]]>
-		 </script>';
+         //<![CDATA[
+         var formElement'.$id.' = document.getElementById (\''.$id.'\');
+         if (formElement'.$id.'){
+           formElement'.$id.'.focus ();
+         }
+         //]]>
+         </script>';
     }
 }
-?>

@@ -16,27 +16,28 @@
 
 _classInclude('blog|blogauth');
 
-class ZoneListComment extends CopixZone {
-	function _createContent (&$toReturn) {
-		//Getting the user.
-		//Create Services, and DAO
-		$tpl = new CopixTpl ();
-		
-		$id_blog = $this->getParam('id_blog','');
-		
-		$tpl->assign ('resultats', $this->getParam('resultats',null));
-		$tpl->assign ('id_bact', $this->getParam('id_bact',''));
-		$tpl->assign ('id_blog', $id_blog);
-		$tpl->assign ('errors', $this->getParam('errors',null));
-		$tpl->assign ('showErrors', $this->getParam('showErrors',false));
-		$tpl->assign ('toEdit', $this->getParam('toEdit',false));
+class ZoneListComment extends CopixZone
+{
+    public function _createContent (&$toReturn)
+    {
+        //Getting the user.
+        //Create Services, and DAO
+        $tpl = new CopixTpl ();
 
-		//capability
-		$tpl->assign ('canManageComment' , BlogAuth::canMakeInBlog('ADMIN_COMMENTS',create_blog_object($id_blog)));
+        $id_blog = $this->getParam('id_blog','');
 
-		// retour de la fonction :
-		$toReturn = $tpl->fetch('comment.list.tpl');
-		return true;
-	}
+        $tpl->assign ('resultats', $this->getParam('resultats',null));
+        $tpl->assign ('id_bact', $this->getParam('id_bact',''));
+        $tpl->assign ('id_blog', $id_blog);
+        $tpl->assign ('errors', $this->getParam('errors',null));
+        $tpl->assign ('showErrors', $this->getParam('showErrors',false));
+        $tpl->assign ('toEdit', $this->getParam('toEdit',false));
+
+        //capability
+        $tpl->assign ('canManageComment' , BlogAuth::canMakeInBlog('ADMIN_COMMENTS',create_blog_object($id_blog)));
+
+        // retour de la fonction :
+        $toReturn = $tpl->fetch('comment.list.tpl');
+        return true;
+    }
 }
-?>

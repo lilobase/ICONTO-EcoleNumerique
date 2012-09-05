@@ -14,4 +14,3 @@ require_once dirname(__FILE__) . "/../helpers/SG_iCal_Parser.php";
 require_once dirname(__FILE__) . "/../helpers/SG_iCal_Query.php";
 require_once dirname(__FILE__) . '/../helpers/SG_iCal_Recurrence.php';
 
-?>

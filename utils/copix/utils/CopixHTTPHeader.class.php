@@ -12,21 +12,23 @@
  * @package copix
  * @subpackage utils
  */
-class CopixHTTPHeader {
-	/**
-	 * Retourne les informations pour le messgae not found
-	 * @return array of strings
-	 */
-   public static function get404 (){
+class CopixHTTPHeader
+{
+    /**
+     * Retourne les informations pour le messgae not found
+     * @return array of strings
+     */
+   public static function get404 ()
+   {
       return array ("HTTP/1.1 404 Not found", "Status: 404 Not found");
    }
-   
+
    /**
     * Retourne les informations pour le message 'accès interdit'
     * @return array of strings
     */
-   public static function get403 (){
+   public static function get403 ()
+   {
       return ('HTTP/1.1 403 Forbidden');
    }
 }
-?>

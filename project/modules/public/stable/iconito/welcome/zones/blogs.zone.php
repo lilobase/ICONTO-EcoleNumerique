@@ -1,18 +1,18 @@
 <?php
 
-class ZoneBlogs extends CopixZone {
-
+class ZoneBlogs extends CopixZone
+{
   /**
   * Affiche le bouton menant aux publications des ecoles
   *
   * @author Christophe Beyer <cbeyer@cap-tic.fr>
   * @since 2010/09/15
   */
-  function _createContent (&$toReturn) {
-    $ppo = new CopixPPO ();		
+  public function _createContent (&$toReturn)
+  {
+    $ppo = new CopixPPO ();
     $toReturn = $this->_usePPO ($ppo, 'zone_blogs.tpl');
     return true;
   }
 
 }
-?>

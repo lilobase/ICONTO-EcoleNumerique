@@ -48,11 +48,11 @@
 			<parameter name="conf_Cas_host" captioni18n="parameter.conf_Cas_host"  default="" />
 			<parameter name="conf_Cas_port" captioni18n="parameter.conf_Cas_port"  default="" />
 			<parameter name="conf_Cas_path" captioni18n="parameter.conf_Cas_path"  default="" />
-			
+
 			<parameter name="conf_Ceriseprim_actif" captioni18n="parameter.conf_Ceriseprim_actif"  default="0" />
 			<parameter name="conf_Ceriseprim_url" captioni18n="parameter.conf_Ceriseprim_url"  default="" />
 			<parameter name="conf_Ceriseprim_secret" captioni18n="parameter.conf_Ceriseprim_secret"  default="" />
-			
+
 			<parameter name="conf_ModClasseur_options" caption="Options du classeur" default="0" />
 			<parameter name="conf_ModClasseur_upload" caption="Upload dans le classeur" default="0" />
 

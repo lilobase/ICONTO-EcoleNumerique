@@ -2,7 +2,7 @@
 /*************************************************************************************
  * sdlbasic.php
  * ------------
- * Author: Roberto Rossi 
+ * Author: Roberto Rossi
  * Copyright: (c) 2005 Roberto Rossi (http://rsoftware.altervista.org)
  * Release Version: 1.0.7.9
  * CVS Revision Version: $Revision: 1.1 $
@@ -36,14 +36,14 @@
  *
  ************************************************************************************/
  $language_data = array (
-	'LANG_NAME' => 'Visual Basic',
-	'COMMENT_SINGLE' => array(1 => "'", 2 => "rem", 3 => "!", 4 => "#"),
-	'COMMENT_MULTI' => array(),
-	'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
-	'QUOTEMARKS' => array('"'),
-	'ESCAPE_CHAR' => '',
-	'KEYWORDS' => array(
-		1 => array(
+    'LANG_NAME' => 'Visual Basic',
+    'COMMENT_SINGLE' => array(1 => "'", 2 => "rem", 3 => "!", 4 => "#"),
+    'COMMENT_MULTI' => array(),
+    'CASE_KEYWORDS' => GESHI_CAPS_NO_CHANGE,
+    'QUOTEMARKS' => array('"'),
+    'ESCAPE_CHAR' => '',
+    'KEYWORDS' => array(
+        1 => array(
     'const', 'option', 'explicit', 'option', 'qbasic', 'include', 'argc',
     'argv', 'command', 'command$', 'run', 'shell', 'end', 'os', 'declare',
     'sub', 'function', 'return', 'while', 'wend', 'exit', 'while', 'end',
@@ -104,60 +104,59 @@
     'acceptsock', 'isserverready', 'connectsock', 'connectionreadysock',
     'isclientready', 'losesock', 'peeksock', 'readsock', 'readbytesock',
     'readlinesock', 'writesock', 'writebytesock', 'writelinesock',
-    'getremoteip', 'getremoteport', 'getlocalip' 
+    'getremoteip', 'getremoteport', 'getlocalip'
       )
-		),
-	'SYMBOLS' => array(
-		'(', ')'
-		),
-	'CASE_SENSITIVE' => array(
-		GESHI_COMMENTS => false,
-		1 => false
-		),
-	'STYLES' => array(
-		'KEYWORDS' => array(
-			1 => 'color: #b1b100;'
-			),
-		'COMMENTS' => array(
-			1 => 'color: #808080;',
-			2 => 'color: #808080;',
-			3 => 'color: #808080;',
-			4 => 'color: #808080;'
-			),
-		'BRACKETS' => array(
-			0 => 'color: #66cc66;'
-			),
-		'STRINGS' => array(
-			0 => 'color: #ff0000;'
-			),
-		'NUMBERS' => array(
-			0 => 'color: #cc66cc;'
-			),
-		'METHODS' => array(
-			0 => 'color: #66cc66;'
-			),
-		'SYMBOLS' => array(
-			0 => 'color: #66cc66;'
-			),
-		'ESCAPE_CHAR' => array(
-			0 => 'color: #000099;'
-			),
-		'SCRIPT' => array(
-			),
-		'REGEXPS' => array(
-			)
-		),
-	'OOLANG' => true,
-	'OBJECT_SPLITTERS' => array(
-		1 => '.'
-		),
-	'REGEXPS' => array(
-		),
-	'STRICT_MODE_APPLIES' => GESHI_NEVER,
-	'SCRIPT_DELIMITERS' => array(
-		),
-	'HIGHLIGHT_STRICT_BLOCK' => array(
-		)
+        ),
+    'SYMBOLS' => array(
+        '(', ')'
+        ),
+    'CASE_SENSITIVE' => array(
+        GESHI_COMMENTS => false,
+        1 => false
+        ),
+    'STYLES' => array(
+        'KEYWORDS' => array(
+            1 => 'color: #b1b100;'
+            ),
+        'COMMENTS' => array(
+            1 => 'color: #808080;',
+            2 => 'color: #808080;',
+            3 => 'color: #808080;',
+            4 => 'color: #808080;'
+            ),
+        'BRACKETS' => array(
+            0 => 'color: #66cc66;'
+            ),
+        'STRINGS' => array(
+            0 => 'color: #ff0000;'
+            ),
+        'NUMBERS' => array(
+            0 => 'color: #cc66cc;'
+            ),
+        'METHODS' => array(
+            0 => 'color: #66cc66;'
+            ),
+        'SYMBOLS' => array(
+            0 => 'color: #66cc66;'
+            ),
+        'ESCAPE_CHAR' => array(
+            0 => 'color: #000099;'
+            ),
+        'SCRIPT' => array(
+            ),
+        'REGEXPS' => array(
+            )
+        ),
+    'OOLANG' => true,
+    'OBJECT_SPLITTERS' => array(
+        1 => '.'
+        ),
+    'REGEXPS' => array(
+        ),
+    'STRICT_MODE_APPLIES' => GESHI_NEVER,
+    'SCRIPT_DELIMITERS' => array(
+        ),
+    'HIGHLIGHT_STRICT_BLOCK' => array(
+        )
 );
 
-?>

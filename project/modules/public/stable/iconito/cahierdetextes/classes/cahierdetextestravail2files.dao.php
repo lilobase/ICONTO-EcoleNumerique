@@ -5,10 +5,10 @@
 * @subpackage Cahierdetextes
 */
 
-class DAORecordCahierDeTextesTravail2files {
-  
+class DAORecordCahierDeTextesTravail2files
+{
 }
 
-class DAOCahierDeTextesTravail2files {
-  
+class DAOCahierDeTextesTravail2files
+{
 }
