@@ -85,6 +85,7 @@
         <div class="field">
             <label for="password" class="form_libelle"> Mot de passe :</label>
             <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
+            <span class="format">{i18n key="gestionautonome.info.formatPassword"}</span>
         </div>
       
     {/if}

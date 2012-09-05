@@ -565,6 +565,11 @@ input[required] {
 	font-size:0px;
 	vertical-align:top;
 }
+form .format {
+	padding:0 0 0 .5em;
+	color:#777;
+	font-size:0.85em; font-style:italic;
+}
 
 /************************************************
  * Prise de controle

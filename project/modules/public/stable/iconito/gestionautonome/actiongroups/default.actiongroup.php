@@ -1699,7 +1699,7 @@ class ActionGroupDefault extends enicActionGroup
     }
     if (!$ppo->login) {
 
-      $ppo->errors[] = 'Saisissez un login';
+      $ppo->errors[] = 'Saisissez un identifiant';
     }
     if (!$ppo->password) {
 
@@ -1710,7 +1710,7 @@ class ActionGroupDefault extends enicActionGroup
     }
     if (!Kernel::isLoginAvailable ($ppo->login)) {
 
-      $ppo->errors[] = 'Login non disponible';
+      $ppo->errors[] = 'Identifiant non disponible';
     }
     if (is_null($ppo->personnel->pers_id_sexe)) {
 
