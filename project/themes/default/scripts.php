@@ -187,7 +187,7 @@ $(document).ready(function(){
       $.fn.setCursorPosition = function(pos) {
         if ($(this).get(0).setSelectionRange) {
           $(this).get(0).setSelectionRange(pos, pos);
-        } elseif ($(this).get(0).createTextRange) {
+        } else if ($(this).get(0).createTextRange) {
           var range = $(this).get(0).createTextRange();
           range.collapse(true);
           range.moveEnd('character', pos);
@@ -205,7 +205,7 @@ $(document).ready(function(){
             sel = document.selection.createRange();
             sel.text = myValue;
             this.focus();
-          } elseif (this.selectionStart || this.selectionStart == '0') {
+          } else if (this.selectionStart || this.selectionStart == '0') {
             var startPos = this.selectionStart;
             var endPos = this.selectionEnd;
             var scrollTop = this.scrollTop;
