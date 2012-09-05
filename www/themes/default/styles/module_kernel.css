@@ -135,6 +135,7 @@ div.dashpanel div.toolset-expand ul li a span.label {
 
 div.kernel_dash div.dashpanel div.toolset {
 	right: -34px;
+	border:1px solid transparent;
 	}
 
 div.kernel_dash div.dashpanel div.toolset-expand {
