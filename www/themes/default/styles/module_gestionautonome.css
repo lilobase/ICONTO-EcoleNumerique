@@ -301,7 +301,7 @@ ul.tree a.classroom {
 /* Affect */
 #filter-form {
 	margin-top:5px;
-	height:160px;
+	min-height:160px;
 	background:url(../../../themes/default/images/icon-128/action-next.png) no-repeat 50% 100%;
 }
 #filter-form .mesgInfo {
