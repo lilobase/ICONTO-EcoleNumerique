@@ -17,6 +17,7 @@
 	vertical-align: middle;
 	width: 48%;
 	margin: auto;
+	float:left;
 	}
 
 .loading-button a {
