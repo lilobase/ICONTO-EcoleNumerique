@@ -26,60 +26,57 @@ class MinimailService
     {
         $res = NULL;
 
-        if (1) {
-
-            $DAOminimail_from = _dao("minimail|minimail_from");
-            $DAOminimail_to = _dao("minimail|minimail_to");
+        $DAOminimail_from = _dao("minimail|minimail_from");
+        $DAOminimail_to = _dao("minimail|minimail_to");
 
 
-            $newMp = _record("minimail|minimail_from");
-            $newMp->title = $title;
-            $newMp->message = $message;
-            $newMp->format = $format;
-            $newMp->date_send = date("Y-m-d H:i:s");
-            $newMp->from_id = $from_id;
-            $newMp->is_deleted = 0;
-            $DAOminimail_from->insert ($newMp);
+        $newMp = _record("minimail|minimail_from");
+        $newMp->title = $title;
+        $newMp->message = $message;
+        $newMp->format = $format;
+        $newMp->date_send = date("Y-m-d H:i:s");
+        $newMp->from_id = $from_id;
+        $newMp->is_deleted = 0;
+        $DAOminimail_from->insert ($newMp);
 
-            if ($newMp->id!==NULL) {
-                //print_r($newMp);
-                // On parcourt chaque destinataire
-                while (list($to_id,) = each ($destin)) {
-                    // print_r("to_id=$to_id / to_login=$to_login");
-                    $newDest = _record("minimail|minimail_to");
-                    $newDest->id_message = $newMp->id;
-                    $newDest->to_id = $to_id;
-                    $newDest->date_read = 0;
-                    $newDest->is_read = 0;
-                    $newDest->is_replied = 0;
-                    $newDest->is_deleted = 0;
-                    $DAOminimail_to->insert ($newDest);
+        if ($newMp->id!==NULL) {
+            //print_r($newMp);
+            // On parcourt chaque destinataire
+            while (list($to_id,) = each ($destin)) {
+                // print_r("to_id=$to_id / to_login=$to_login");
+                $newDest = _record("minimail|minimail_to");
+                $newDest->id_message = $newMp->id;
+                $newDest->to_id = $to_id;
+                $newDest->date_read = 0;
+                $newDest->is_read = 0;
+                $newDest->is_replied = 0;
+                $newDest->is_deleted = 0;
+                $DAOminimail_to->insert ($newDest);
 
-                    // ======= Alerte mail ===============
-          // On v�rifie que l'envoi de mails est activ�, qu'un serveur SMTP est configur�, que le destinataire a coch� l'option "etre pr�venu par mail" et qu'il a renseign� un mail
-                    if ($newDest->id2 && CopixConfig::get('|mailEnabled')==1 && CopixConfig::get('|mailSmtpHost')) {
-                      $prefs = Prefs::getPrefs ($to_id);
-            if (isset($prefs['prefs']['alerte_mail_email']) && isset($prefs['minimail']['alerte_minimail']) && $prefs['prefs']['alerte_mail_email'] && $prefs['minimail']['alerte_minimail']==1) {
-                          $userInfoFrom = Kernel::getUserInfo("ID", $from_id);
-                          //print_r($userInfoFrom);
-                          $to = $prefs['prefs']['alerte_mail_email'];
-                          $auteur = utf8_decode($userInfoFrom['prenom'].' '.$userInfoFrom['nom'].' ('.$userInfoFrom['login'].')');
-                          $subject = CopixI18N::get ('minimail|minimail.mail.alert.subject', array($auteur));
-                          $message = str_replace('<br />', "\n", CopixI18N::get ('minimail|minimail.mail.alert.body', array($auteur, CopixUrl::get ('minimail||getMessage', array('id'=>$newMp->id)), CopixUrl::get ())));
-                          $from = CopixConfig::get ('default|mailFrom');
-                          $fromName = CopixConfig::get ('default|mailFromName');
-                            $cc = $cci = '';
-                          $monMail = new CopixTextEMail ($to, $cc, $cci, $subject, $message);
-                          $send = $monMail->send ($from, $fromName);
-            }
+                // ======= Alerte mail ===============
+                // On vérifie que l'envoi de mails est activé, qu'un serveur SMTP est configuré, que le destinataire a coché l'option "etre prêvenu par mail" et qu'il a renseigné un mail
+                if ($newDest->id2 && CopixConfig::get('|mailEnabled')==1 && CopixConfig::get('|mailSmtpHost')) {
+                    $prefs = Prefs::getPrefs ($to_id);
+                    if (isset($prefs['prefs']['alerte_mail_email']) && isset($prefs['minimail']['alerte_minimail']) && $prefs['prefs']['alerte_mail_email'] && $prefs['minimail']['alerte_minimail']==1) {
+                        $userInfoFrom = Kernel::getUserInfo("ID", $from_id);
+                        //print_r($userInfoFrom);
+                        $to = $prefs['prefs']['alerte_mail_email'];
+                        $auteur = utf8_decode($userInfoFrom['prenom'].' '.$userInfoFrom['nom'].' ('.$userInfoFrom['login'].')');
+                        $subject = CopixI18N::get ('minimail|minimail.mail.alert.subject', array($auteur));
+                        $message = str_replace('<br />', "\n", CopixI18N::get ('minimail|minimail.mail.alert.body', array($auteur, CopixUrl::get ('minimail||getMessage', array('id'=>$newMp->id)), CopixUrl::get ())));
+                        $from = CopixConfig::get ('default|mailFrom');
+                        $fromName = CopixConfig::get ('default|mailFromName');
+                        $cc = $cci = '';
+                        $monMail = new CopixTextEMail ($to, $cc, $cci, $subject, $message);
+                        $send = $monMail->send ($from, $fromName);
                     }
-                    // ======= Fin alerte mail ===============
                 }
-                $res = $newMp->id;
-                if ($res) {
-                    $plugStats = CopixPluginRegistry::get ("stats|stats");
-                    $plugStats->setParams(array('module'=>'minimail', 'action'=>'sendMinimail', 'objet_a'=>$res));
-                }
+                // ======= Fin alerte mail ===============
+            }
+            $res = $newMp->id;
+            if ($res) {
+                $plugStats = CopixPluginRegistry::get ("stats|stats");
+                $plugStats->setParams(array('module'=>'minimail', 'action'=>'sendMinimail', 'objet_a'=>$res));
             }
         }
         return $res;
@@ -255,7 +252,7 @@ class MinimailService
    */
     public function getAttachmentName ($file)
     {
-        if ($file && ereg("^([0-9]+)_(.*)", $file, $regs))	$res = $regs[2];
+        if ($file && preg_match("/^([0-9]+)_(.*)/", $file, $regs))	$res = $regs[2];
         elseif ($file)																			$res = $file;
         else	$res = '';
         return $res;
