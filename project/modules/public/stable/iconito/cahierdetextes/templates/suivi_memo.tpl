@@ -28,5 +28,7 @@
         {/foreach}
       </tbody>
     </table>
+  {else}
+    {i18n key="cahierdetextes.message.noStudent"}
   {/if} 
 </div>
