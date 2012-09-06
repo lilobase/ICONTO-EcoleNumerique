@@ -177,7 +177,7 @@
 
 #submenu .menuitems ul li {
 	position: relative;
-	display:inline-block;
+	display:inline;
 	overflow: hidden;
 	vertical-align: middle;
 	text-align: left;
@@ -186,7 +186,7 @@
 	
 #submenu .menuitems ul li a {
 	position: relative;
-	display: inline-block;
+	display:inline; display:inline-block;
 	white-space:nowrap;
 	overflow: hidden;
 	vertical-align: middle;
@@ -200,8 +200,7 @@
 	-moz-border-radius: 6px;
 	-webkit-border-radius: 6px;
 	border-radius: 6px;
-	/*behavior: url(/htc/PIE.htc);*/
-	}
+}
 
 #submenu .menuitems a.current {
 	background-color: #ccc;
