@@ -9,7 +9,7 @@ class ZoneRssMix extends enicZone
     {
         $tpl = new CopixTpl ();
 
-        $tpl->assign('urladmin', $this->url('rssmix|default|default'));
+        $tpl->assign('urladmin', $this->url('kernel|default|go', array('ntype' =>'ROOT', 'nid'=>0, 'mtype'=>'rssmix')));
         $tpl->assign('userIsAdmin', Kernel::isAdmin());
         $tpl->assign('urlRssMix', $this->url('rssmix|default|GetRssFeedAjax'));
         $toReturn = $tpl->fetch('rssmix|zone.tpl');

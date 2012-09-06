@@ -15,6 +15,11 @@ class ActionGroupDefault extends enicActionGroup
         _currentUser()->assertCredential('group:[current_user]');
     }
 
+    public function processGo()
+    {
+        return $this->redirect('rssmix|default|');
+    }
+
     public function processDefault()
     {
         if (!Kernel::isAdmin()) {
