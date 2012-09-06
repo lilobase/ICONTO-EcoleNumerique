@@ -62,7 +62,7 @@ ul.attachmentsToClasseur {
 ul.attachmentsToClasseur li {
     padding:5px;
 }
-
+ul.attachmentsToClasseur li input {float:left;}
 ul.attachmentsToClasseur li + li {
     border-top:1px solid #ddd;
 }

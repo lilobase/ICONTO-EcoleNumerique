@@ -63,6 +63,8 @@ body {
 .floatleft 	{ float: left; }
 .floatright { float: right; }
 
+a img {border:0;}
+
 .opacity100 {
 	opacity : 1;
 /*	filter : alpha(opacity=100); */
