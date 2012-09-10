@@ -405,6 +405,7 @@ class CopixController
         foreach (CopixPluginRegistry::getRegistered () as $name => $plugin) {
             $plugin->afterDisplay ();
         }
+        session_write_close();
     }
 
     /**
