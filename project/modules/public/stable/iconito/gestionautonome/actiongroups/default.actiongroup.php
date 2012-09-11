@@ -3829,7 +3829,7 @@ class ActionGroupDefault extends enicActionGroup
 
       // Breadcrumbs
       $breadcrumbs   = array();
-      $breadcrumbs[] = array('txt' => 'Gestion des années scolaires');
+      $breadcrumbs[] = array('txt' => 'Gestion des ann&eacute;es scolaires');
 
       $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 
@@ -5436,7 +5436,9 @@ class ActionGroupDefault extends enicActionGroup
     }
 
     $ppo->filters['originLevel'] = null;
-    $ppo->filters['destinationCLassroom'] = null;
+    $ppo->filters['originLastname'] = null;
+    $ppo->filters['originFirstname'] = null;
+    $ppo->filters['destinationClassroom'] = null;
     $ppo->filters['destinationLevel'] = null;
 
     // Récupération de l'utilisateur
