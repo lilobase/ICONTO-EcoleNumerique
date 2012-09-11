@@ -3829,7 +3829,7 @@ class ActionGroupDefault extends enicActionGroup
 
       // Breadcrumbs
       $breadcrumbs   = array();
-      $breadcrumbs[] = array('txt' => 'Gestion des années scolaires');
+      $breadcrumbs[] = array('txt' => 'Gestion des ann&eacute;es scolaires');
 
       $ppo->breadcrumbs = Kernel::PetitPoucet ($breadcrumbs,' &raquo; ');
 
