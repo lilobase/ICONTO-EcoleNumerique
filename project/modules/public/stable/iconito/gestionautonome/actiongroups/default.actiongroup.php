@@ -5436,7 +5436,9 @@ class ActionGroupDefault extends enicActionGroup
     }
 
     $ppo->filters['originLevel'] = null;
-    $ppo->filters['destinationCLassroom'] = null;
+    $ppo->filters['originLastname'] = null;
+    $ppo->filters['originFirstname'] = null;
+    $ppo->filters['destinationClassroom'] = null;
     $ppo->filters['destinationLevel'] = null;
 
     // Récupération de l'utilisateur
