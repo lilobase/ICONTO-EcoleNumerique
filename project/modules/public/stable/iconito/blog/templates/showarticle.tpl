@@ -77,7 +77,7 @@
 <input type="hidden" name="id_bact" value="{$article->id_bact}">
 <input type="hidden" name="url_bact" value="{$article->url_bact}">
 <input type="hidden" name="authorid_bacc" value="{$toEdit->authorid_bacc}">
-<table class="" cellspacing=1 cellpadding=1 border="0">
+<table class="" style="border:0;">
    <tr>
       <td>{i18n key='dao.blogarticlecomment.fields.authorname_bacc'}</td>
 	  <td><input type="text" name="authorname_bacc" value="{$toEdit->authorname_bacc|escape}" class="text"></td>

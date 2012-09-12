@@ -11,7 +11,7 @@
 	{if $news.enclosure}
 	<div style="margin-left:20px;">
 	{foreach from=$news.enclosure item=encl}
-	<img src="{copixresource path="img/blog/enclosure.gif"}" border="0" width="16" height="16" style="padding:0px;" /><a href="{$encl.url}" type="{$encl.type}">{$encl.url|substrpos}</a> ({$encl.length|human_file_size})
+	<img src="{copixresource path="img/blog/enclosure.gif"}" width="16" height="16" /><a href="{$encl.url}" type="{$encl.type}">{$encl.url|substrpos}</a> ({$encl.length|human_file_size})
 	{/foreach}
 	</div>
 	{/if}
