@@ -1,4 +1,3 @@
-<div class="debug">DASHBOARD.TPL</div>
 
 <div class="dashboard kernel_dash tools_left ink_blue font_dash">
 <div class="border_b font_cursive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tableau d'affichage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
