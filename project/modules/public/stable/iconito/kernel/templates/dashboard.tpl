@@ -1,4 +1,3 @@
-<div class="debug">DASHBOARD.TPL</div>
 
 <div class="dashboard kernel_dash tools_left ink_blue font_dash">
 <div class="border_b font_cursive">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Tableau d'affichage&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div>
@@ -8,9 +7,9 @@
 
 	{* if $modules neq null *}
 	<div class="dashpanel {$node_type|lower}">
-		<div class="title">
+		<h1 class="title">
 			<span>{if $node_data.type eq "USER_ELE"}{$node_data.prenom|escape} {$node_data.nom|escape} {if !empty($node_data.nom_classe)}({$node_data.nom_classe|escape}){/if}{else}{$node_data.nom|escape}{/if}</span>
-		</div>
+		</h1>
 		<div class="content">
                     {$node_data.content}
 		</div>

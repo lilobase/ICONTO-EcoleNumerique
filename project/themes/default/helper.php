@@ -11,21 +11,32 @@
 ?>
 <?php
 
-function getTheme($property, $mode="STD")
+function getTheme ($property, $mode = "STD")
 {
     $jfile = file_get_contents(CopixUrl::getResourcePath ("theme.conf.json"));
-    if (!$jfile) { trigger_error('THEME : unable to find JSON configuration file', E_USER_ERROR); return false; }
+    if (!$jfile) { 
+        trigger_error('THEME : unable to find JSON configuration file', E_USER_ERROR);
+        return false;
+    }
     $jtheme = json_decode($jfile);
-    if (!$jtheme) { trigger_error('THEME : unable to parse JSON configuration file', E_USER_ERROR); return false; }
+    if (!$jtheme) { 
+        trigger_error('THEME : unable to parse JSON configuration file', E_USER_ERROR);
+        return false;
+    }
 
     switch ($property) {
-    case 'dimensions': return $jtheme->dimensions->$mode; break;
-    case 'zones': return $jtheme->layout->$mode; break;
-    default: return $jtheme;
+        case 'dimensions':
+            return $jtheme->dimensions->$mode;
+            break;
+        case 'zones':
+            return $jtheme->layout->$mode;
+            break;
+        default:
+            return $jtheme;
     }
 }
 
-function getZones($position, $collapse=true, $dispmode="STD")
+function getZones ($position, $collapse = true, $dispmode = "STD")
 {
     $module = CopixRequest::get('module');
     $user = _currentUser ();
@@ -35,21 +46,25 @@ function getZones($position, $collapse=true, $dispmode="STD")
     $jzones_default = (isset($layout->$userstatus->default->$position)) ? $layout->$userstatus->default->$position : array();
     $jzones_module = (isset($layout->$userstatus->$module->$position)) ? $layout->$userstatus->$module->$position : array();
     $jzones = array_merge((array)$jzones_default, (array)$jzones_module);
-//	print_r( $jzones );
 
     if (empty($jzones)) {
-        if ($collapse) echo '<div class="collapse debug-layout">'.$position.'</div>';
-        else echo '<div class="filler"></div>';
+        if ($collapse) {
+            echo '<div class="collapse"></div>';
+        } else {
+            echo '<div class="filler"></div>';
+        }
     } else {
-        echo '<div class="debug-layout">'.$position.'</div>';
         foreach ($jzones as $zone) {
-      if ($zone->params != "") {
-          $params = $zone->params;
-          $params = unserialize($params);
-          $zoneContent = CopixZone::process ($zone->supplier.'|'.$zone->zone, $params);
-          } else $zoneContent = CopixZone::process ($zone->supplier.'|'.$zone->zone);
-      if (!$zoneContent)
-        continue;
+            if ($zone->params != "") {
+                $params = $zone->params;
+                $params = unserialize($params);
+                $zoneContent = CopixZone::process ($zone->supplier.'|'.$zone->zone, $params);
+            } else {
+                $zoneContent = CopixZone::process ($zone->supplier.'|'.$zone->zone);
+            }
+            if (!$zoneContent) {
+                continue;
+            }
             $id = ($position=='popup') ? 'id="'.$module.'-'.$zone->zone.'" ' : '';
             echo '<div '.$id.'class="'.$module.' '.$zone->zone.'">';
             echo $zoneContent;
@@ -59,7 +74,7 @@ function getZones($position, $collapse=true, $dispmode="STD")
 }
 
 
-function inDashContext()
+function inDashContext ()
 {
     $module = CopixRequest::get ('module');
     $action = CopixRequest::get('action');
@@ -73,8 +88,10 @@ function moduleContext($step='open', $title_page='', $titleContext='')
 {
     $module = CopixRequest::get('module');
     $content = CopixZone::process ('kernel|moduleContext', array ('STEP'=>$step, 'MODULE'=>$module, 'TITLE_PAGE'=>$title_page, 'TITLE_CONTEXT'=>$titleContext));
-    //echo '<pre>MODULE=';print_r($module);echo '</pre>';
-    if (!$content) trigger_error('Unable to process Module Context Frame', E_USER_WARNING);
-    else echo $content;
+    if (!$content) {
+        trigger_error('Unable to process Module Context Frame', E_USER_WARNING);
+    } else {
+        echo $content;
+    }
 }
 

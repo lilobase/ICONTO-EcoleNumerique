@@ -30,13 +30,13 @@
   {$ecole.ALL->eco_code_postal} {$ecole.ALL->eco_commune|escape}<br />
 {/if}
 {if $ecole.ALL->eco_tel}
-<img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire.telephone"}" title="{i18n key="annuaire.telephone"}" border="0" hspace="1" /> {$ecole.ALL->eco_tel}<br />
+<img width="11" height="9" src="{copixresource path="img/annuaire/icon_tel.gif"}" alt="{i18n key="annuaire.telephone"}" title="{i18n key="annuaire.telephone"}" /> {$ecole.ALL->eco_tel}<br />
 {/if}
 {if 0 && $ecole.ALL->eco_web}
 <a target="_blank" href="{$ecole.ALL->eco_web}" title="{$ecole.ALL->eco_web}">{$ecole.ALL->eco_web|truncate:43:"...":true}</a><br />
 {/if}
-{if $ecole.blog}<a title="{i18n key="annuaire.blog"}" href="{$ecole.blog}">{i18n key="annuaire.blog"}</a><a href="{$ecole.blog}" target="_blank"><img alt="{i18n key="public|public.openNewWindow"}" title="{i18n key="public|public.openNewWindow"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_window.png"}" hspace="4" /></a><br />{/if}
-<a title="{i18n key="annuaire.fiche"}" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{i18n key="annuaire.fiche"}</a><a class="fancybox" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id popup=1}"><img alt="{i18n key="public|public.openPopup"}" title="{i18n key="public|public.openPopup"}" border="0" width="12" height="12" src="{copixresource path="img/public/open_popup.png"}" hspace="4" /></a><br />
+{if $ecole.blog}<a title="{i18n key="annuaire.blog"}" href="{$ecole.blog}">{i18n key="annuaire.blog"}</a><a href="{$ecole.blog}" target="_blank"><img alt="{i18n key="public|public.openNewWindow"}" title="{i18n key="public|public.openNewWindow"}" width="12" height="12" src="{copixresource path="img/public/open_window.png"}" /></a><br />{/if}
+<a title="{i18n key="annuaire.fiche"}" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id}">{i18n key="annuaire.fiche"}</a><a class="fancybox" href="{copixurl dest="fichesecoles||fiche" id=$ecole.id popup=1}"><img alt="{i18n key="public|public.openPopup"}" title="{i18n key="public|public.openPopup"}" width="12" height="12" src="{copixresource path="img/public/open_popup.png"}" /></a><br />
 
 { if $ecole.directeur }
 <h2>{i18n key="annuaire.directeur"}</h2>
@@ -82,7 +82,7 @@
 </div>
 {/if}
 
-<b><a href="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom}</a></b>
+<strong><a href="{copixurl dest="|getAnnuaireClasse" classe=$class.id}">{$class.nom}</a></strong>
 
 </div>
 

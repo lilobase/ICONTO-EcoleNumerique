@@ -17,6 +17,7 @@
 {/literal}
     {if $displayVille}
     <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatleft">
+        <label for="select-school" class="hidden">Ville</label> 
         <select name="ville" id="select-school">
             <option value="-99">{i18n key="welcome.ecoles.all" noEscape=1}</option>
         {foreach from=$villes item=ville}
@@ -27,8 +28,8 @@
     {/if}
 
     <form action="{copixurl dest="public|default|ecoles"}" method="get" class="floatright">
-        <input type="text" name="search" class="default-value" value="{$searchInputValue}" />
-        <input type="submit" class="button button-confirm" value="ok"/>
+        <label for="searchSchools" class="hidden">&Eacute;cole</label> <input type="text" name="search" class="default-value" value="{$searchInputValue}" id="searchSchools" />
+        <input type="submit" class="button button-confirm" value="ok" />
     </form>
     <div class="clearBoth"></div>
 </div>

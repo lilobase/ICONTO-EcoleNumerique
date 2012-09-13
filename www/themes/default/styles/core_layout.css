@@ -27,10 +27,6 @@ body.debug .debug, body.debug .debug a, body.debug .debug a:visited  {
 	color: #BBB;
 }
 
-body.nodebug .debug-layout {
-	display: none;
-	}
-
 body.nodebug .debug, body.nodebug .debug a, body.nodebug .debug a:visited  {
 	display: none;
 }

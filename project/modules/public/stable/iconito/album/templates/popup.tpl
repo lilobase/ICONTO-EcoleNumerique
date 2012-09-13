@@ -31,9 +31,9 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 		case 'fckeditor' :
 		case 'ckeditor' :
 		case 'html' :
-			var html = '<img alt="'+nom+'" border="0" src="'+urlBase+'static/album/'+album+'/'+photo+size+'.'+ext+'"';
-			if 			(align == 'L')	html += ' align="left"';
-			else if (align == 'R')	html += ' align="right"';
+			var html = '<img alt="'+nom+'" src="'+urlBase+'static/album/'+album+'/'+photo+size+'.'+ext+'"';
+			if 			(align == 'L')	html += ' class="left"';
+			else if (align == 'R')	html += ' class="right"';
 			html += '/>';
 			if (popup)
 				html = '<a target="_blank" href="'+urlBase+'static/album/'+album+'/'+photo+'.'+ext+'">'+html+'</a>';
@@ -59,7 +59,7 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 <form name="form" id="form">
 
 <span style="white-space: nowrap;">
-<b>{i18n key="album.popup.align"}</b>
+<strong>{i18n key="album.popup.align"}</strong>
 
 <input id="align-none" type="radio" name="align" value="" checked />
 <label for="align-none"><img src="{copixresource path="img/album/album_popup_align_none.gif"}" alt="{i18n key="album.popup.align_none"}" /></label>
@@ -76,7 +76,7 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 </span>
 
 <span style="white-space: nowrap;">
-<b>{i18n key="album.popup.size"}</b>
+<strong>{i18n key="album.popup.size"}</strong>
 <input id="size-small" type="radio" name="size" value="small" checked />
 <label for="size-small"><img src="{copixresource path="img/album/album_popup_size_s.gif"}" alt="{i18n key="album.popup.size_small"}" /></label>
 <input id="size-medium" type="radio" name="size" value="medium" />
@@ -87,22 +87,22 @@ function sendPhoto( album, photo, ext, nom ) {ldelim}
 </span>
 
 <span style="white-space: nowrap;">
-<b>{i18n key="album.popup.zoom"}</b>
+<strong>{i18n key="album.popup.zoom"}</strong>
 <input id="zoom-yes" type="checkbox" name="zoom" value="yes" />
 <label for="zoom-yes"><img src="{copixresource path="img/album/album_popup_zoom.gif"}" alt="{i18n key="album.popup.zoom_yes"}" /></label>
 &nbsp;&nbsp;|&nbsp;&nbsp;
 </span>
 
 <span style="white-space: nowrap;">
-<b>{i18n key="album.popup.multi"}</b>
+<strong>{i18n key="album.popup.multi"}</strong>
 <input id="multi-yes" type="checkbox" name="multi" value="yes" />
 <label for="multi-yes"><img src="{copixresource path="img/album/album_popup_multi.gif"}" alt="{i18n key="album.popup.multi_yes"}" /></label>
 &nbsp;&nbsp;|&nbsp;&nbsp;
 </span>
 
 <span style="white-space: nowrap;">
-<a href="{copixurl dest="album|default|addphoto" album_id=$album_id dossier_id=$dossier_id mode="popup" popup_field=$field popup_format=$format}"><img src="{copixresource path="img/album/album_popup_upload.gif"}" alt="{i18n key="album.popup.upload"}" border="0" /></a>
-<b>{i18n key="album.popup.upload"}</b>
+<a href="{copixurl dest="album|default|addphoto" album_id=$album_id dossier_id=$dossier_id mode="popup" popup_field=$field popup_format=$format}"><img src="{copixresource path="img/album/album_popup_upload.gif"}" alt="{i18n key="album.popup.upload"}" /></a>
+<strong>{i18n key="album.popup.upload"}</strong>
 </span>
 
 </form>

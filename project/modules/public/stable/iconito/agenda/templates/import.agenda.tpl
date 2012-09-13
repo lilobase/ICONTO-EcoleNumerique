@@ -9,7 +9,7 @@
 {/if}
 
 <form action="{copixurl dest="agenda|importexport|import"}" method="post" class="copixForm" name="importiCal" enctype="multipart/form-data">
-	<table border="0" CELLSPACING="1" CELLPADDING="1" class="saisieEvent">
+	<table  style="border:0;" class="saisieEvent">
 		<tr>
 			<td class="form_libelle"><label for="id_agenda">{i18n key="agenda.message.agenda"}</label></td>
 			<td class="input_import">

@@ -7,7 +7,7 @@
 {/if}
 
 <form action="{copixurl dest="agenda|lecon|valid" id_agenda=$toEdit->id_agenda}" method="post" class="copixForm" name="saisieLecon">
-<table border="0" CELLSPACING="1" CELLPADDING="1" class="saisieEvent">
+<table style="border:0;" class="saisieEvent">
 		<tr>
 			<td class="form_libelle">{i18n key="agenda.message.lecon"}</td>
 			<td><textarea class="form" style="width: 400px; height: 80px;" name="desc_lecon">{$toEdit->desc_lecon}</textarea></td>
