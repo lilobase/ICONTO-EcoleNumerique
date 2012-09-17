@@ -7,7 +7,5 @@
     {i18n key="kernel|dashboard.nbUsers"} {$nbUsers}
 </p>
 {if !empty($tags)}
-<p>
-{$tags}
-</p>
+    <p>{$tags}</p>
 {/if}
