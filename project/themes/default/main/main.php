@@ -42,7 +42,7 @@ $module = CopixRequest::get ('module');
 <div id="page">
     <div id="page-header">
         <div class="thm-HL"><div class="thm-HR"><div class="thm-HM">
-            <div class="thm-logo padder"><a class="logo" href="<?php echo CopixUrl::get() ?>"></a>
+            <div class="thm-logo padder"><h1><a class="logo" href="<?php echo CopixUrl::get() ?>"><span class="hiddenClean">ICONITO &Eacute;cole Num&eacute;rique</span></a></h1>
             <div id="top"><?php getZones("top"); ?></div>
             <div id="menu">
                 <div id="menucenter"><?php getZones("menucenter"); ?></div>
