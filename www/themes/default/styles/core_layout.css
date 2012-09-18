@@ -51,6 +51,7 @@ body {
 .show 	{ visibility:visible; }
 .hidden { visibility: hidden; display: none; }
 .displayNone { display: none; }
+.hiddenClean {position:absolute; top:-999em; left:-999em;}
 
 .left 	{ text-align: left; }
 .center	{ text-align: center; }
@@ -214,6 +215,7 @@ a img {border:0;}
 body.thm		{ background: #bad521 url(../../../themes/default/images/thm_body_BG.gif) repeat-x scroll 0 0; }
 
 #page .thm-logo	{ position: relative; height: 54px; background: url(../../../themes/default/images/thm_header_logo.png) no-repeat 0 5px; }
+#page .thm-logo h1 {margin:0; border:0;}
 #page .thm-logo a.logo { position: absolute; width:170px; height:50px; z-index: 1; }
 #page .thm-HL	{ position: relative; background: url(../../../themes/default/images/thm_page_HL.png) no-repeat left top; }
 #page .thm-HR	{ position: relative; background: url(../../../themes/default/images/thm_page_HR.png) no-repeat right top; }
