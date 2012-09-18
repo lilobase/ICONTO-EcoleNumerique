@@ -21,7 +21,7 @@ class ZoneFilterGroupCity extends CopixZone
       $ppo->cityGroupsNames = array();
 
       $citiesGroupDAO = _ioDAO ('kernel|kernel_bu_groupe_villes');
-      if (_currentUser ()->testCredential ('module:*||cities_group|create@gestionautonome')) {
+      if (_currentUser ()->testCredential ('module:*||cities_group|create@gestionautonome') || _currentUser()->isDirector) {
 
       $criteria = _daoSp ();
       $criteria->orderBy ('nom_groupe');

@@ -20,7 +20,7 @@ class ZoneFilterCity extends CopixZone
       if (!is_null ($cityGroupId = $this->getParam('city_group_id', null))) {
 
         $cityDAO = _dao ('kernel|kernel_bu_ville');
-        if (_currentUser ()->testCredential ('module:cities_group|'.$cityGroupId.'|city|create@gestionautonome')) {
+        if (_currentUser ()->testCredential ('module:cities_group|'.$cityGroupId.'|city|create@gestionautonome') || _currentUser()->isDirector) {
 
         $cities = $cityDAO->getByIdGrville ($cityGroupId);
         } else {

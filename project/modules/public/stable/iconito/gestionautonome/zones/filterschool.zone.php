@@ -19,7 +19,7 @@ class ZoneFilterSchool extends CopixZone
 
         // Récupération des écoles de la ville sélectionnée pour liste déroulante
         $schoolDAO = _dao ('kernel|kernel_bu_ecole');
-        if (_currentUser ()->testCredential ('module:city|'.$cityId.'|school|create@gestionautonome')) {
+        if (_currentUser ()->testCredential ('module:city|'.$cityId.'|school|create@gestionautonome') || _currentUser()->isDirector) {
 
           $schools = $schoolDAO->getByCity ($cityId);
         } else {
