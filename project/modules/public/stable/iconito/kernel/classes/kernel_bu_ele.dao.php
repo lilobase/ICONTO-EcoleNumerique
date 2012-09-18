@@ -226,7 +226,7 @@ class DAOKernel_bu_ele
     public function findStudentsForAssignment ($grade, $filters = array ())
     {
     // Récupération des identifiants correspondants aux dernières affectations des élèves
-    $groupSql = 'SELECT MAX(EA.id) '
+    $groupSql = 'SELECT MAX(EA.id) AS max_ea '
       // Récupération des élèves
       .'FROM kernel_bu_eleve E '
       // qui ont leur dernière affectation pour l'année demandée
@@ -237,18 +237,17 @@ class DAOKernel_bu_ele
     $sql = 'SELECT E.idEleve as id, E.nom as nom, E.prenom1 as prenom, LI.bu_type as user_type, LI.bu_id as user_id, EC.id as id_classe, EC.nom as nom_classe, '
       .'CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, ECO.numero as id_ecole, ECO.nom as nom_ecole, '
       .'V.id_vi as id_ville, V.nom as nom_ville, GV.id_grv as id_groupevilles, GV.nom_groupe as nom_groupevilles, EA.* '
-      .'FROM kernel_bu_eleve E, kernel_link_bu2user LI, dbuser U, kernel_bu_eleve_affectation EA, kernel_bu_classe_niveau CN, '
-      .'kernel_bu_ecole_classe EC, kernel_bu_ecole ECO, kernel_bu_ville V, kernel_bu_groupe_villes GV '
-      .'WHERE LI.bu_id=E.idEleve '
-      .'AND LI.bu_type="USER_ELE" '
-      .'AND U.id_dbuser=LI.user_id '
-      .'AND EA.eleve=E.idEleve '
-      .'AND EA.niveau=CN.id_n '
-      .'AND EC.id=EA.classe '
-      .'AND ECO.numero=EC.ecole '
-      .'AND V.id_vi=ECO.id_ville '
-      .'AND GV.id_grv=V.id_grville '
-      .'AND EA.id IN ('.$groupSql.')';
+      .'FROM kernel_bu_eleve E '
+      .'JOIN kernel_link_bu2user LI ON LI.bu_id=E.idEleve '
+      .'JOIN dbuser U ON U.id_dbuser=LI.user_id '
+      .'JOIN kernel_bu_eleve_affectation EA ON EA.eleve=E.idEleve '
+      .'JOIN kernel_bu_classe_niveau CN ON EA.niveau=CN.id_n '
+      .'JOIN kernel_bu_ecole_classe EC ON EC.id=EA.classe '
+      .'JOIN kernel_bu_ecole ECO ON ECO.numero=EC.ecole '
+      .'JOIN kernel_bu_ville V ON V.id_vi=ECO.id_ville '
+      .'JOIN kernel_bu_groupe_villes GV ON GV.id_grv=V.id_grville '
+      .'JOIN ('.$groupSql.') AS max_ea_sub ON max_ea=EA.id '
+      .'WHERE LI.bu_type="USER_ELE" ';
 
     if (isset ($filters['level']) && !is_null ($filters['level'])) {
 
@@ -294,7 +293,7 @@ class DAOKernel_bu_ele
   public function findForManageAssignments ($grade, $filters = array ())
   {
     // Récupération des identifiants correspondants aux dernières affectations des élèves
-    $groupSql = 'SELECT MAX(EA.id) '
+    $groupSql = 'SELECT MAX(EA.id) AS max_ea '
       // Récupération des élèves
       .'FROM kernel_bu_eleve E '
       // qui ont leur dernière affectation pour l'année demandée
@@ -304,25 +303,23 @@ class DAOKernel_bu_ele
     $sql = 'SELECT E.idEleve as id, E.nom as nom, E.prenom1 as prenom, LI.bu_type as user_type, LI.bu_id as user_id, EC.id as id_classe, EC.nom as nom_classe,'
       . 'CN.niveau_court AS nom_niveau, CN.id_n AS id_niveau, ECO.numero as id_ecole, ECO.nom as nom_ecole, '
       . 'V.id_vi as id_ville, V.nom as nom_ville, GV.id_grv as id_groupevilles, GV.nom_groupe as nom_groupevilles, EA.* '
-      . 'FROM kernel_link_bu2user LI, dbuser U, kernel_bu_eleve_affectation EA, kernel_bu_classe_niveau CN, '
-      . 'kernel_bu_ecole_classe EC, kernel_bu_ecole ECO, kernel_bu_ville V, kernel_bu_groupe_villes GV, kernel_bu_eleve E';
+      . 'FROM kernel_link_bu2user LI '
+      . 'JOIN dbuser U ON U.id_dbuser=LI.user_id '
+      . 'JOIN kernel_bu_eleve E ON LI.bu_id=E.idEleve '
+      . 'JOIN kernel_bu_eleve_affectation EA ON EA.eleve=E.idEleve '
+      . 'JOIN kernel_bu_classe_niveau CN ON EA.niveau=CN.id_n '
+      . 'JOIN kernel_bu_ecole_classe EC ON EC.id=EA.classe '
+      . 'JOIN kernel_bu_ecole ECO ON ECO.numero=EC.ecole '
+      . 'JOIN kernel_bu_ville V ON V.id_vi=ECO.id_ville '
+      . 'JOIN kernel_bu_groupe_villes GV ON GV.id_grv=V.id_grville '
+      . 'JOIN ('.$groupSql.') AS max_ea_sub ON max_ea=EA.id ';
 
     if (isset ($filters['destinationGrade'])) {
 
       $sql .= ' LEFT JOIN kernel_bu_eleve_affectation EA2 ON (EA2.eleve=E.idEleve AND EA2.current = 1 AND EA2.annee_scol='.$filters['destinationGrade'].')';
     }
 
-    $sql .= ' WHERE LI.bu_id=E.idEleve '
-      . 'AND LI.bu_type="USER_ELE" '
-      . 'AND U.id_dbuser=LI.user_id '
-      . 'AND EA.eleve=E.idEleve '
-      . 'AND EA.niveau=CN.id_n '
-      . 'AND EC.id=EA.classe '
-      . 'AND ECO.numero=EC.ecole '
-      . 'AND V.id_vi=ECO.id_ville '
-      . 'AND GV.id_grv=V.id_grville '
-      . 'AND LI.bu_type="USER_ELE" '
-      . 'AND EA.id IN ('.$groupSql.')';
+    $sql .= ' WHERE  LI.bu_type="USER_ELE" ';
 
     if (isset ($filters['destinationGrade']) && !is_null ($filters['destinationGrade'])) {
 
