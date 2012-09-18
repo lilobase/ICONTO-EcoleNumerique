@@ -141,6 +141,9 @@ class ActionGroupDashboard extends enicActionGroup
                 //build html content
                 $content_tpl = new CopixTpl();
                 $content_tpl->assign('content', $content['content']);
+                if (!empty($content['picture'])) {
+                    $content_tpl->assign('picture', $content['picture']);
+                }
                 $content_tpl->assign('twitter', $twitterSrc);
                 $content_tpl->assign('is_admin', $is_admin);
                 $content_tpl->assign('id', $contentNode['id']);
