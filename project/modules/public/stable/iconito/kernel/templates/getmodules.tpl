@@ -21,4 +21,4 @@
 	<p>{i18n key="kernel|kernel.getmodules.pasdemodule"}</p>
 {/if}
 </div>  
-<br clear="both"/>
+<br class="clear" />

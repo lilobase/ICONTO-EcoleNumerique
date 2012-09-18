@@ -23,7 +23,7 @@
    <tr>
       <th>{i18n key='dao.blog.fields.logo_blog'}</th>
 	  	<td>
- 			{if $blog->logo_blog!=''}<img alt="{$blog->logo_blog}" src="{copixurl dest="blog||logo" id_blog=$blog->id_blog}" border="0" /><br />{/if}
+ 			{if $blog->logo_blog!=''}<img alt="{$blog->logo_blog}" src="{copixurl dest="blog||logo" id_blog=$blog->id_blog}" /><br />{/if}
             <input size="35" type="file" name="logoFile" /><br/><em>{i18n key='blog.logo.messages.instructions' nb=$logo_max_width}</em>
 			</td>
    </tr>
