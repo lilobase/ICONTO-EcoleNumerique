@@ -9,6 +9,8 @@ class ZoneFilterSchool extends CopixZone
     public function _createContent (& $toReturn)
     {
         $ppo = new CopixPPO ();
+        $ppo->conf = new CopixPPO ();
+        $ppo->conf->directorGlobalAffectation = CopixConfig::get ('gestionautonome|directorGlobalAffectation');
 
         // Récupérations des filtres en session
         $ppo->selected    = $this->getParam ('selected', null);
@@ -19,7 +21,7 @@ class ZoneFilterSchool extends CopixZone
 
             // Récupération des écoles de la ville sélectionnée pour liste déroulante
             $schoolDAO = _dao ('kernel|kernel_bu_ecole');
-            if (_currentUser ()->testCredential ('module:city|'.$cityId.'|school|create@gestionautonome') || _currentUser()->isDirector) {
+            if (_currentUser ()->testCredential ('module:city|'.$cityId.'|school|create@gestionautonome') || (_currentUser()->isDirector && $ppo->conf->directorGlobalAffectation)) {
                 $schools = $schoolDAO->getByCity ($cityId);
             } else {
                 $groups = _currentUser ()->getGroups ();
