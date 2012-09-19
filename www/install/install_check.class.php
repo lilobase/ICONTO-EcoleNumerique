@@ -323,7 +323,7 @@ function do_mysql_importdump( $filename, $link )
     foreach($lines as $line) {
         $line = trim($line);
 
-        if(!ereg('^--', $line) && !ereg('^#', $line) ) {
+        if(!preg_match('/^--/', $line) && !preg_match('/^#/', $line) ) {
       $line = str_replace ('<PATH>', $path, $line);
             $scriptfile.="\n".$line;
         }
@@ -337,7 +337,7 @@ function do_mysql_importdump( $filename, $link )
     /* Split the jumbo line into smaller lines */
 
     // $queries = explode(';', $scriptfile);
-    $queries = split(";[[:space:]]*\n", $scriptfile);
+    $queries = preg_split("/;[[:space:]]*\n/", $scriptfile);
 
     /* Run each line as a query */
 
