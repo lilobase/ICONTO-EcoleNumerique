@@ -413,7 +413,7 @@ function check_admin_password()
                 'message' => '<b>Votre mot de passe est trop court</b> : 6 caract�res minimum.',
             );
         }
-        if( ereg('^[a-z]*$',$_POST["passwd"]) || ereg('^[A-Z]*$',$_POST["passwd"]) || ereg('^[0-9]*$',$_POST["passwd"]) ) {
+        if( preg_match('/^[a-z]*$/',$_POST["passwd"]) || preg_match('/^[A-Z]*$/',$_POST["passwd"]) || preg_match('/^[0-9]*$/',$_POST["passwd"]) ) {
             $data['errors'][] = array(
                 'level' => 'error',
                 'code' => 'passwd_tooeasy',
