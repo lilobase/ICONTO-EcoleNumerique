@@ -133,5 +133,15 @@ class rssmixService extends enicService
         }
         return $item;
     }
+    
+    /**
+     * return truc if any feed is define;
+     * @return bool 
+     */
+    public function getRssIsNotEmpty()
+    {
+        $test = $this->db->query('SELECT * FROM module_rssmix LIMIT 1')->toArray1();
+        return (!empty($test));
+    }
 
 }

@@ -6,9 +6,13 @@
 class ZoneRssMix extends enicZone
 {
     public function _createContent (&$toReturn)
-    {
+    {   
+        if(!$this->service('rssMixService')->getRssIsNotEmpty() && !$this->user->root){
+            $toReturn = '';
+            return true;
+        }
+        
         $tpl = new CopixTpl ();
-
         $tpl->assign('urladmin', $this->url('kernel|default|go', array('ntype' =>'ROOT', 'nid'=>0, 'mtype'=>'rssmix')));
         $tpl->assign('userIsAdmin', Kernel::isAdmin());
         $tpl->assign('urlRssMix', $this->url('rssmix|default|GetRssFeedAjax'));
