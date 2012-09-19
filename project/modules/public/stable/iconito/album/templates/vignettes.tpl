@@ -4,8 +4,8 @@
 <h1>{$message}</h1>
 {if ! $finish}
 <br />
-<table border="0"><tr><td valign="middle">
-	<table border="0" width="400" style="border: 2px solid #666;" cellpadding="0" cellspacing="3">
+<table style="border:0;"><tr><td valign="middle">
+	<table width="400" style="border: 2px solid #666;" cellpadding="0" cellspacing="3">
 	<tr>
 	<td bgcolor="#666666" width="{math equation="400 * ( bar_value / bar_max ) + 1"
 	      bar_value=$bar_value

@@ -23,13 +23,13 @@
 <h2>Classes et enseignants</h2>
 
 {foreach from=$classes item=class}
-<div><b><A HREF="{copixurl dest="|view" classe=$class.id}">{$class.info.nom}</A></b>
+<div><strong><a href="{copixurl dest="|view" classe=$class.id}">{$class.info.nom}</a></strong>
 : 
 {foreach from=$class.enseignants item=enseignant}
- {$enseignant.prenom} {$enseignant.nom|upper} {if $enseignant.login}<A HREF="{copixurl dest="minimail||getNewForm" login=$enseignant.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="Lui envoyer un minimail" TITLE="Lui envoyer un minimail" BORDER="0" /></A>{/if}
+ {$enseignant.prenom} {$enseignant.nom|upper} {if $enseignant.login}<a href="{copixurl dest="minimail||getNewForm" login=$enseignant.login}"><img width="12" height="9" src="{copixresource path="img/minimail/new_minimail.gif"}" alt="Lui envoyer un minimail" title="Lui envoyer un minimail" /></a>{/if}
 {/foreach}
 
-</DIV>
+</div>
 
 {/foreach}
 
@@ -44,16 +44,16 @@
 <H2>Classe {$classe.nom}</H2>
 
 <H3>Enseignant(s)</H3>
-<DIV ID="eleves">
+<div id="eleves">
 {foreach from=$classe.enseignants item=enseignant}
-<div><img src="{copixresource path="img/annuaire/sexe`$enseignant.sexe`b.png"}" width="15" height="17" /> {$enseignant.prenom} {$enseignant.nom|upper} {if $enseignant.login}<A HREF="{copixurl dest="minimail||getNewForm" login=$enseignant.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="Lui envoyer un minimail" TITLE="Lui envoyer un minimail" BORDER="0" /></A>{/if}</DIV>
+<div><img src="{copixresource path="img/annuaire/sexe`$enseignant.sexe`b.png"}" width="15" height="17" /> {$enseignant.prenom} {$enseignant.nom|upper} {if $enseignant.login}<a href="{copixurl dest="minimail||getNewForm" login=$enseignant.login}"><img width="12" height="9" src="{copixresource path="img/minimail/new_minimail.gif"}" alt="Lui envoyer un minimail" title="Lui envoyer un minimail" /></a>{/if}</div>
 {/foreach}
 </div>
 
 <h3>Elèves</h3>
 <div id="eleves">
 {foreach from=$classe.eleves item=eleve}
-<div><img src="{copixresource path="img/annuaire/sexe`$eleve.info.sexe`a.png"}" width="15" height="17" /> {$eleve.info.prenom} {$eleve.info.nom|upper} {if $eleve.info.login}<A HREF="{copixurl dest="minimail||getNewForm" login=$eleve.info.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="Lui envoyer un minimail" TITLE="Lui envoyer un minimail" BORDER="0" /></A>{/if}</DIV>
+<div><img src="{copixresource path="img/annuaire/sexe`$eleve.info.sexe`a.png"}" width="15" height="17" /> {$eleve.info.prenom} {$eleve.info.nom|upper} {if $eleve.info.login}<a href="{copixurl dest="minimail||getNewForm" login=$eleve.info.login}"><img width="12" height="9" src="{copixresource path="img/minimail/new_minimail.gif"}" alt="Lui envoyer un minimail" title="Lui envoyer un minimail" /></a>{/if}</div>
 {/foreach}
 </div>
 

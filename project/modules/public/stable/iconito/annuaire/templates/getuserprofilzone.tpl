@@ -20,10 +20,10 @@
 
 {$usr.type_nom}<br/>
 
-{if $canWrite && $usr.login}{i18n key="annuaire.minimail"} : {$usr.login} <A HREF="{copixurl dest="minimail||getNewForm" login=$usr.login}"><IMG WIDTH="12" HEIGHT="9" src="{copixresource path="img/minimail/new_minimail.gif"}" ALT="{i18n key="annuaire.writeMinimail"}" TITLE="{i18n key="annuaire.writeMinimail"}" BORDER="0" /></A>{/if}
+{if $canWrite && $usr.login}{i18n key="annuaire.minimail"} : {$usr.login} <a href="{copixurl dest="minimail||getNewForm" login=$usr.login}"><img width="12" height="9" src="{copixresource path="img/minimail/new_minimail.gif"}" alt="{i18n key="annuaire.writeMinimail"}" title="{i18n key="annuaire.writeMinimail"}" /></a>{/if}
 
 {if $parents}
-<hr NOSHADE SIZE="1" />
+<hr />
 <div style="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisParents"}</div>
 <div id="">
 {foreach from=$parents item=item}
@@ -34,7 +34,7 @@
 {/foreach}
 </div>
 {elseif $enfants}
-<hr NOSHADE SIZE="1" />
+<hr />
 <div style="font-weight:bold; font-size:110%;">{i18n key="annuaire.hisEnfants"}</div>
 <div id="">
 {foreach from=$enfants item=item}
