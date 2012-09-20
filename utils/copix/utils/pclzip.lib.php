@@ -5261,7 +5261,7 @@
   // Parameters :
   // Return Values :
   // --------------------------------------------------------------------------------
-  public function PclZipUtilPathReduction($p_dir)
+  function PclZipUtilPathReduction($p_dir)
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZipUtilPathReduction", "dir='$p_dir'");
     $v_result = "";
@@ -5341,7 +5341,7 @@
   //   1 if $p_path is inside directory $p_dir
   //   2 if $p_path is exactly the same as $p_dir
   // --------------------------------------------------------------------------------
-  public function PclZipUtilPathInclusion($p_dir, $p_path)
+  function PclZipUtilPathInclusion($p_dir, $p_path)
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZipUtilPathInclusion", "dir='$p_dir', path='$p_path'");
     $v_result = 1;
@@ -5425,7 +5425,7 @@
   //             3 : src & dest gzip
   // Return Values :
   // --------------------------------------------------------------------------------
-  public function PclZipUtilCopyBlock($p_src, $p_dest, $p_size, $p_mode=0)
+  function PclZipUtilCopyBlock($p_src, $p_dest, $p_size, $p_mode=0)
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZipUtilCopyBlock", "size=$p_size, mode=$p_mode");
     $v_result = 1;
@@ -5486,7 +5486,7 @@
   // Return Values :
   //   1 on success, 0 on failure.
   // --------------------------------------------------------------------------------
-  public function PclZipUtilRename($p_src, $p_dest)
+  function PclZipUtilRename($p_src, $p_dest)
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZipUtilRename", "source=$p_src, destination=$p_dest");
     $v_result = 1;
@@ -5520,7 +5520,7 @@
   // Return Values :
   //   The option text value.
   // --------------------------------------------------------------------------------
-  public function PclZipUtilOptionText($p_option)
+  function PclZipUtilOptionText($p_option)
   {
     //--(MAGIC-PclTrace)--//PclTraceFctStart(__FILE__, __LINE__, "PclZipUtilOptionText", "option='".$p_option."'");
 
@@ -5554,7 +5554,7 @@
   // Return Values :
   //   The path translated.
   // --------------------------------------------------------------------------------
-  public function PclZipUtilTranslateWinPath($p_path, $p_remove_disk_letter=true)
+  function PclZipUtilTranslateWinPath($p_path, $p_remove_disk_letter=true)
   {
     if (stristr(php_uname(), 'windows')) {
       // ----- Look for potential disk letter
