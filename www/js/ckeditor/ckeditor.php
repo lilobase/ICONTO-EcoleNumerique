@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright (c) 2003-2010, CKSource - Frederico Knabben. All rights reserved.
+ * Copyright (c) 2003-2012, CKSource - Frederico Knabben. All rights reserved.
  * For licensing, see LICENSE.html or http://ckeditor.com/license
  */
 
@@ -18,12 +18,12 @@
  * @code
  * <?php
  * $CKEditor = new CKEditor();
- * echo $CKEditor->textarea("field1", "<p>Initial value.</p>");
+ * $CKEditor->editor("editor1", "<p>Initial value.</p>");
  * ?>
  * @endcode
  */
 
 if ( !function_exists('version_compare') || version_compare( phpversion(), '5', '<' ) )
-    include_once( 'ckeditor_php4.php' ) ;
+	include_once( 'ckeditor_php4.php' ) ;
 else
-    include_once( 'ckeditor_php5.php' ) ;
+	include_once( 'ckeditor_php5.php' ) ;
