@@ -420,7 +420,8 @@ class DAOKernel_bu_personnel
 
         $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
         . ' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
-        . ' WHERE PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
+        . ' WHERE (PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
+        . ' OR PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL.')'
         . ' AND EC.annee_scol='.$filters['originGrade'];
 
       if (isset($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
