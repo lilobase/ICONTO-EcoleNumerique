@@ -5233,7 +5233,7 @@
   // Parameters :
   // Return Values :
   // --------------------------------------------------------------------------------
-  public function PclZipUtilPathReduction($p_dir)
+  function PclZipUtilPathReduction($p_dir)
   {
     $v_result = "";
 
@@ -5310,7 +5310,7 @@
   //   1 if $p_path is inside directory $p_dir
   //   2 if $p_path is exactly the same as $p_dir
   // --------------------------------------------------------------------------------
-  public function PclZipUtilPathInclusion($p_dir, $p_path)
+  function PclZipUtilPathInclusion($p_dir, $p_path)
   {
     $v_result = 1;
 
@@ -5386,7 +5386,7 @@
   //             3 : src & dest gzip
   // Return Values :
   // --------------------------------------------------------------------------------
-  public function PclZipUtilCopyBlock($p_src, $p_dest, $p_size, $p_mode=0)
+  function PclZipUtilCopyBlock($p_src, $p_dest, $p_size, $p_mode=0)
   {
     $v_result = 1;
 
@@ -5437,7 +5437,7 @@
   // Return Values :
   //   1 on success, 0 on failure.
   // --------------------------------------------------------------------------------
-  public function PclZipUtilRename($p_src, $p_dest)
+  function PclZipUtilRename($p_src, $p_dest)
   {
     $v_result = 1;
 
@@ -5466,7 +5466,7 @@
   // Return Values :
   //   The option text value.
   // --------------------------------------------------------------------------------
-  public function PclZipUtilOptionText($p_option)
+  function PclZipUtilOptionText($p_option)
   {
 
     $v_list = get_defined_constants();
@@ -5497,7 +5497,7 @@
   // Return Values :
   //   The path translated.
   // --------------------------------------------------------------------------------
-  public function PclZipUtilTranslateWinPath($p_path, $p_remove_disk_letter=true)
+  function PclZipUtilTranslateWinPath($p_path, $p_remove_disk_letter=true)
   {
     if (stristr(php_uname(), 'windows')) {
       // ----- Look for potential disk letter
@@ -5522,7 +5522,7 @@
      * @since 2010/12/27
    * @link http://modxcms.com/forums/index.php?topic=48191.0
      */
-  public function PclGetFileName ($filename)
+  function PclGetFileName ($filename)
   {
     $info = pathinfo($filename);
     if ($info['extension']) {
