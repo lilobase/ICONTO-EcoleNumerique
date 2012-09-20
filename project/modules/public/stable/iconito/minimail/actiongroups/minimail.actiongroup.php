@@ -445,7 +445,7 @@ class ActionGroupMinimail extends EnicActionGroup
                 $dataPath = realpath("../var/data");
 
                 for ($i = 1; $i <= 3; $i++) {
-                    if ($_FILES["attachment" . $i]["name"]) {
+                    if (isset($_FILES["attachment" . $i]) && isset($_FILES["attachment" . $i]["name"]) && $_FILES["attachment" . $i]["name"]) {
                         $name = $send . "_" . $_FILES["attachment" . $i]["name"];
                         $uploadFrom = $_FILES["attachment" . $i]["tmp_name"];
                         $uploadTo = $dataPath . "/minimail/" . ($name);

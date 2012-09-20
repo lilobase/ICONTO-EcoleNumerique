@@ -323,7 +323,7 @@ function do_mysql_importdump( $filename, $link )
     foreach($lines as $line) {
         $line = trim($line);
 
-        if(!ereg('^--', $line) && !ereg('^#', $line) ) {
+        if(!preg_match('/^--/', $line) && !preg_match('/^#/', $line) ) {
       $line = str_replace ('<PATH>', $path, $line);
             $scriptfile.="\n".$line;
         }
@@ -337,7 +337,7 @@ function do_mysql_importdump( $filename, $link )
     /* Split the jumbo line into smaller lines */
 
     // $queries = explode(';', $scriptfile);
-    $queries = split(";[[:space:]]*\n", $scriptfile);
+    $queries = preg_split("/;[[:space:]]*\n/", $scriptfile);
 
     /* Run each line as a query */
 
@@ -413,7 +413,7 @@ function check_admin_password()
                 'message' => '<b>Votre mot de passe est trop court</b> : 6 caract�res minimum.',
             );
         }
-        if( ereg('^[a-z]*$',$_POST["passwd"]) || ereg('^[A-Z]*$',$_POST["passwd"]) || ereg('^[0-9]*$',$_POST["passwd"]) ) {
+        if( preg_match('/^[a-z]*$/',$_POST["passwd"]) || preg_match('/^[A-Z]*$/',$_POST["passwd"]) || preg_match('/^[0-9]*$/',$_POST["passwd"]) ) {
             $data['errors'][] = array(
                 'level' => 'error',
                 'code' => 'passwd_tooeasy',

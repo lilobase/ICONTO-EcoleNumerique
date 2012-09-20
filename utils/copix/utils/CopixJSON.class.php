@@ -538,7 +538,7 @@ class CopixJSONDecoder
 
 if (!function_exists ('json_encode')) {
     /// @ignore
-    public function json_encode ($pValue)
+    function json_encode ($pValue)
     {
         try {
             return CopixJSONEncoder::encode ($pValue);
@@ -550,7 +550,7 @@ if (!function_exists ('json_encode')) {
 
 if (!function_exists ('json_decode')) {
     /// @ignore
-    public function json_decode ($pJSON, $pAssoc = false)
+    function json_decode ($pJSON, $pAssoc = false)
     {
         try {
             return CopixJSONDecoder::decode ($pJSON, $pAssoc);
