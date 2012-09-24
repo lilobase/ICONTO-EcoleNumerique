@@ -103,6 +103,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
         success: function(html){
 
           $('#origin-city').append(html);
+          $('#origin select[name="origin_city"]').trigger('change');
         }
       });
     }
