@@ -5561,11 +5561,6 @@ class ActionGroupDefault extends enicActionGroup
 
         $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
 
-        if ($filters['mode'] == 'changeClassroom' && !is_null ($oldClassroomId)) {
-
-          GestionAutonomeService::removePersonnelAssignment ($userId, $oldClassroomId, 'CLASSE');
-        }
-
       GestionAutonomeService::addPersonAssignmentOnClassroom ($userId, $classroom, DAOKernel_bu_personnel_entite::ROLE_TEACHER);
       }
 

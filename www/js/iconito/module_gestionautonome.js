@@ -87,14 +87,14 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
   });
 
   // Modification du groupe de ville d'origine, rafraichissement de la liste des villes
-  $('#origin select[name="origin_groupcity"]').live('change', function(){
+  $('#origin select[name="origin_citygroup"]').live('change', function(){
 
     $('#origin-city').empty();
     $('#origin-school').empty();
     $('#origin-class').empty();
     $('#assignments').empty();
   
-    var cityGroupId = $('#origin select[name="origin_groupcity"]').val();
+    var cityGroupId = $('#origin select[name="origin_citygroup"]').val();
     if (cityGroupId) {
     
       $.ajax({
@@ -103,6 +103,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
         success: function(html){
 
           $('#origin-city').append(html);
+          $('#origin select[name="origin_city"]').trigger('change');
         }
       });
     }
