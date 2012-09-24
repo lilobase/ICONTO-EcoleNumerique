@@ -2,19 +2,58 @@
 /*
  * Enic class with user informations
  */
-
-class enicUser
-{
-    public $director;
+  class enicUser
+  {
+    /**
+     * @param int User's current Id
+     */
     public $id;
+    
+    /**
+     * @param int User's Ecole Numerique internal Id
+     */
+    public $idEN;
+    
+    /**
+     * @param string User's type (ex: USER_ELE, USER_DIR, etc.)
+     */
     public $type;
-    public $root;
+    
+    /**
+     * @param string User's login
+     */
     public $login;
+    
+    /**
+     * @param string User's name
+     */
     public $nom;
+    
+    /**
+     * @param string User's Surname
+     */
     public $prenom;
-    public $idEn;
-    public $chartValid;
+    
+    /**
+     * @param boolean True if user is super admin, false if not
+     */
+    public $root;
+    
+    /**
+     * @param boolean|int[] False if the user is not a director, in the other case : an array of school he's director.
+     */
+    public $director;
+    
+    /**
+     * @param boolean True if the user is an animator, false if not
+     */
     public $animator;
+    
+    /**
+     * @param boolean True if the user is authentificated, false if not.
+     */
+    public $connected;
+    
 
     public function startExec()
     {
