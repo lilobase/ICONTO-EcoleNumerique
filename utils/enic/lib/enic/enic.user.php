@@ -5,52 +5,52 @@
   class enicUser
   {
     /**
-     * @param int User's current Id
+     * @var int User's current Id
      */
     public $id;
     
     /**
-     * @param int User's Ecole Numerique internal Id
+     * @var int User's Ecole Numerique internal Id
      */
     public $idEN;
     
     /**
-     * @param string User's type (ex: USER_ELE, USER_DIR, etc.)
+     * @var string User's type (ex: USER_ELE, USER_DIR, etc.)
      */
     public $type;
     
     /**
-     * @param string User's login
+     * @var string User's login
      */
     public $login;
     
     /**
-     * @param string User's name
+     * @var string User's name
      */
     public $nom;
     
     /**
-     * @param string User's Surname
+     * @var string User's Surname
      */
     public $prenom;
     
     /**
-     * @param boolean True if user is super admin, false if not
+     * @var boolean True if user is super admin, false if not
      */
     public $root;
     
     /**
-     * @param boolean|int[] False if the user is not a director, in the other case : an array of school he's director.
+     * @var boolean|int[] False if the user is not a director, in the other case : an array of school he's director.
      */
     public $director;
     
     /**
-     * @param boolean True if the user is an animator, false if not
+     * @var boolean True if the user is an animator, false if not
      */
     public $animator;
     
     /**
-     * @param boolean True if the user is authentificated, false if not.
+     * @var boolean True if the user is authentificated, false if not.
      */
     public $connected;
     
