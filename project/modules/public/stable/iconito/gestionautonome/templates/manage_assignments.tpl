@@ -27,8 +27,7 @@
         <input type="submit" value="{i18n key="gestionautonome|gestionautonome.message.refresh"}" />
       </div>
     {/if}
-    
-    {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector}
+    {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector || $ppo->user->isAnimator}
       <div class="field" id="origin-citygroup">
         {copixzone process=gestionautonome|filterGroupCity selected=$ppo->filters.originCityGroup with_label=true name=origin_citygroup with_empty=false}
       </div>
@@ -91,7 +90,7 @@
       </div>
     {/if}
     
-    {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector}
+    {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector || $ppo->user->isAnimator}
       <div class="field" id="destination-citygroup">
         {copixzone process=gestionautonome|filterGroupCity selected=$ppo->filters.destinationCityGroup with_label=true name=destination_citygroup with_empty=false}
       </div>

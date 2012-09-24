@@ -8,6 +8,12 @@
 class ActionGroupDefault extends enicActionGroup
 {
     private $menu;
+    
+    public function __construct()
+    {
+        parent::__construct();
+        
+    }
 
     public function beforeAction ()
     {
@@ -5444,6 +5450,7 @@ class ActionGroupDefault extends enicActionGroup
     // Récupération de l'utilisateur
     $ppo->user = _currentUser ();
     $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
+    $ppo->user->isAnimator = $this->user->animator;
 
     // Récupération du catalogue de vocab. à utiliser
     $nodeVocabularyCatalogDAO = _ioDAO('kernel|kernel_i18n_node_vocabularycatalog');
@@ -5463,7 +5470,6 @@ class ActionGroupDefault extends enicActionGroup
     }
 
     $ppo = $this->_prepareAssignmentsManagement();
-
     // Récupération des années scolaires
     $gradeDAO = _ioDAO('kernel|kernel_bu_annee_scolaire');
     if (!$nextGrade = $gradeDAO->getNextGrade (is_null (_sessionGet('grade')) ? Kernel::getAnneeScolaireCourante ()->id_as : _sessionGet ('grade'))) {
@@ -5478,7 +5484,6 @@ class ActionGroupDefault extends enicActionGroup
     $ppo->filters['destinationGrade'] = $nextGrade->id_as;
     $ppo->filters['mode'] = 'manageAssignments';
     _sessionSet ('gestionautonome|assignments_management_filters', $ppo->filters);
-
     return _arPPO ($ppo, 'manage_assignments.tpl');
   }
 
@@ -5499,7 +5504,7 @@ class ActionGroupDefault extends enicActionGroup
     $ppo->filters['mode'] = 'changeClassroom';
 
     _sessionSet ('gestionautonome|assignments_management_filters', $ppo->filters);
-
+    
     return _arPPO ($ppo, 'manage_assignments.tpl');
   }
 

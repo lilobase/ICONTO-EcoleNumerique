@@ -60,9 +60,9 @@
         if(_currentUser()->isConnected()){
             $userId = _currentUser()->getId();
             $userInfos = Kernel::getUserInfo('ID', $userId);
-//var_dump($userInfos);
+            
             $this->director = false;
-        $this->animator = Kernel::isAnimateur();
+            $this->animator = _currentUser()->hasAssistance();
             $this->idEn = (isset($userInfos['id']))?$userInfos['id']:null;
             $this->id = $userId*1;
             $this->type = (isset($userInfos['type']))?$userInfos['type']:null;
