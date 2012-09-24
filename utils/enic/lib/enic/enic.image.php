@@ -11,13 +11,38 @@ define('DS', DIRECTORY_SEPARATOR);
 
 class enicImage
 {
+    
+    /**
+    * @param string indicate the images saved base path (default value: www/static/images)
+    */
     protected $imageRootPath;
+
+    /**
+     * @param string indicate the images base URI (default value: static/images)
+     */
     protected $imageRootURI;
+
+    /**
+     * @param int image's default height in pixel (default value: 250)
+     */
     private $height = 250;
+
+    /**
+     * @param int image's default width in pixel (default value: 250)
+     */
     private $width = 250;
-    private $resize = false;
+
+    /**
+     * @param bool activate crop resize strategy (default value: false)
+     */
     private $crop = false;
+
+    /**
+     * @param bool activate fill resize strategy (default value: false)
+     */
     private $fill = false;
+
+    private $resize = false;
 
     public function __construct()
     {
@@ -32,8 +57,13 @@ class enicImage
             mkdir($this->imageRootPath, 0770, true);
         }
     }
-
-    //alias for upload. Warning : argument must be a path and not an uri.
+    
+    /**
+     * Save an image in enicImage's files repository
+     * @param string $pathToFile path to the image to save
+     * @param boolean $keep_original_image keep the original image (default value: true)
+     * @return string image unique id
+     */
     public function add($pathToFile, $keep_original_image = true)
     {
         $imageClass = new externalImageUpload($pathToFile);
@@ -52,7 +82,11 @@ class enicImage
         return $imageClass->file_dst_name_body . '|' . $imageClass->file_dst_name_ext;
     }
 
-    //argument is $_FILES['input name']
+    /**
+     * Save a new uploaded image, it's a proxy to add method
+     * @param array $_FILES['input'] of the uploaded image
+     * @return string image unique id
+     */
     public function upload($pathToFile)
     {
         return $this->add($pathToFile, false);
@@ -71,6 +105,11 @@ class enicImage
         return $path;
     }
 
+    /**
+     * getURI of the original image (not resized)
+     * @param string image's unique id
+     * @return string URI of the original image
+     */
     public function getOriginal($imageOriginalName)
     {
         $originalFileName = str_replace('|', '.', $imageOriginalName);
@@ -85,6 +124,11 @@ class enicImage
 
     }
 
+    /**
+     * delete an image, and all of the associated sizes
+     * @param string image's unique id
+     * @return boolean true
+     */
     public function delete($imageOriginalName)
     {
         $originalFileName = explode('|', $imageOriginalName);
@@ -102,6 +146,14 @@ class enicImage
 
     }
 
+    /**
+     * get the URI of resized image
+     * @param string $imageOriginalName the image's unique id of the wanted image
+     * @param int $size_x width (in pixel) of the final resize image (default value: self::$height)
+     * @param int $size_y height (in pixel) of the final resize image (default value: self::width)
+     * @param array|string $options strategy to resize : fill and/or crop, see bellow for usages (default value: null)
+     * @return string URI of the resized image
+     */
     public function get($imageOriginalName, $size_x = 0, $size_y = 0, $options = array())
     {
         $this->setSize($size_x, $size_y, $options);

@@ -138,7 +138,6 @@ class enicMatrix extends enicList
         $user = &enic::get('user');
         $user->root = $this->getDatas('userRoot');
         $user->director = $this->getDatas('userDirector');
-        $user->animator = $this->getDatas('userAnimator');
     }
 
     public function __get($name)
