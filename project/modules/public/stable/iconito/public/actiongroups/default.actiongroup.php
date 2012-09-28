@@ -68,6 +68,24 @@ class ActionGroupDefault extends EnicActionGroup
         return _arPPO ($ppo, $nametpl);
 
     }
+	
+	
+	/**
+     * Page Accessibilité
+     *
+     * @author Philippe Roser <proser@cap-tic.fr>
+     * @since 2012/09/21
+     */
+    public function processAccessibilite()
+    {
+        $ppo = new CopixPPO ();
+        $ppo->TITLE_PAGE = CopixI18N::get('public|public.nav.accessibility');
+
+        $nametpl = 'accessibilite_'.CopixI18N::getLang().'.tpl';
+
+        return _arPPO ($ppo, $nametpl);
+
+    }
 
     /*
      * demande d'inscription

@@ -123,9 +123,13 @@ h2 {
 	}
 	
 h4{
+    margin-top:2em;
     text-align: left;
 	}
-
+h5 {
+    margin-bottom:.5em;
+    font-size:1em; font-style:italic;
+}
 .explanation {
     text-align: left;
     font-size: 110%;
