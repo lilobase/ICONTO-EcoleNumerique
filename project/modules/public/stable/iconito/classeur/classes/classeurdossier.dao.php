@@ -163,9 +163,23 @@ class DAOClasseurDossier
 
     $sql .= ' UNION';
 
-    $sql .= ' SELECT id, module_classeur_dossier_id AS dossier_id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, "" AS casier, date_upload AS date, F.user_type, F.user_id, CONCAT(U.prenom, " ", U.nom) AS origine, "fichier" AS content_type'
+    $sql .= ' SELECT F.id, module_classeur_dossier_id AS dossier_id, module_classeur_dossier_id AS parent_id, titre, fichier, "" AS nb_dossiers, "" AS nb_fichiers, taille, type, "" AS casier, date_upload AS date, F.user_type, F.user_id,'
+        . ' CASE F.user_type
+                WHEN "USER_ELE" THEN CONCAT(kernel_bu_eleve.prenom1, " ", kernel_bu_eleve.nom)
+                WHEN "USER_RES" THEN CONCAT(kernel_bu_responsable.prenom1, " ", kernel_bu_responsable.nom)
+                WHEN "USER_ENS" THEN CONCAT(kernel_bu_personnel.prenom1, " ", kernel_bu_personnel.nom)
+                WHEN "USER_VIL" THEN CONCAT(kernel_bu_personnel.prenom1, " ", kernel_bu_personnel.nom)
+                WHEN "USER_EXT" THEN CONCAT(kernel_ext_user.prenom, " ", kernel_ext_user.nom)
+                ELSE "inconnu"
+            END AS origine,'
+        . ' "fichier" AS content_type'
         . ' FROM module_classeur_fichier F'
-                . ' JOIN kernel_info_users U ON (F.user_type = U.user_type AND F.user_id = U.user_id)'
+
+        . ' LEFT JOIN kernel_bu_eleve ON kernel_bu_eleve.idEleve=F.user_id'
+        . ' LEFT JOIN kernel_bu_responsable ON kernel_bu_responsable.numero=F.user_id'
+        . ' LEFT JOIN kernel_bu_personnel ON kernel_bu_personnel.numero=F.user_id'
+        . ' LEFT JOIN kernel_ext_user ON kernel_ext_user.id=F.user_id'
+
         . ' WHERE module_classeur_id = :idClasseur';
     if (!is_null($idDossier)) {
 

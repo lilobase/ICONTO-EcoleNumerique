@@ -207,6 +207,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
         success: function(html){
 
           $('#destination-city').append(html);
+          $('#destination select[name="destination_city"]').trigger('change');
         }
       });
     }
