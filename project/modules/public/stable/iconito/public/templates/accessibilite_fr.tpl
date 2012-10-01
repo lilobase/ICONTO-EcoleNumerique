@@ -96,8 +96,8 @@
 </table>
 <h3>D&eacute;rogations et justifications        </h3>
 
-<p>Au vu du volume très important de données, l'ensemble de l'application sera testée et cette page sera complété au fur et à mesure.</p>
-<p>Nos tests concernent uniquement l'application elle-même et non les contenu tierce partie. Les contenus ajoutés par les utilisateurs ne peuvent pas être pris en compte.</p>
+<p>Au vu du volume très important de données, l'ensemble de l'application sera testée et cette page sera complétée au fur et à mesure.</p>
+<p>Nos tests concernent uniquement l'application elle-même et non les contenus tierce partie. Les contenus ajoutés par les utilisateurs ne peuvent pas être pris en compte.</p>
 
 <h4>Niveau A</h4>
 
@@ -111,7 +111,7 @@
 
 <h4>Niveau AA</h4>
 <h5>[Navigation] 17 : Pr&eacute;sence d'une page contenant le plan du site.</h5>
-<p>Cette application fonctionne différmment selon les profils qui y accèdent et le contenu des pages dépend du périmètre sélectionné. Un acc&egrave;s direct &agrave; toutes les pages n'est donc pas possible. Et la liste complète des liens pour l'ensemble des types d'utilisateurs peut être extrêmement complexe et évolue à minima tous les ans. Le plan du site n'a donc pas de sens dans ce contexte.
+<p>Cette application fonctionne différemment selon les profils qui y accèdent et le contenu des pages dépend du périmètre sélectionné. Un acc&egrave;s direct &agrave; toutes les pages n'est donc pas possible. Et la liste complète des liens pour l'ensemble des types d'utilisateurs peut être extrêmement complexe et évolue à minima tous les ans. Le plan du site n'a donc pas de sens dans ce contexte.
 </p>
 
 <h5>[Navigation] 34 : Pr&eacute;sence d'un moteur de recherche.</h5>
@@ -124,6 +124,6 @@
 
 
 
-<h3>Erreur, oubli, remarques</h3>
+<h3>Erreur, oubli, remarque</h3>
 <p>Nous nous engageons &agrave; mettre  cette application &agrave; la disposition de tout internaute, ind&eacute;pendamment de ses dispositions  physiques, cognitives, mat&eacute;rielles ou g&eacute;ographiques.</p>
-<p>              Si vous constatez qu'une page ne correspond &agrave; ce crit&egrave;re, merci de <a href="http://www.cap-tic.fr/index.php/contact" title="nous contacter - nouvelle fen&ecirc;tre" target="_blank">nous contacter </a> </p>
+<p>              Si vous constatez qu'une page ne correspond pas &agrave; ce crit&egrave;re, merci de <a href="http://www.cap-tic.fr/index.php/contact" title="nous contacter - nouvelle fen&ecirc;tre" target="_blank">nous contacter </a> </p>
