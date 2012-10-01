@@ -409,13 +409,11 @@ class DAOKernel_bu_personnel
         . ' JOIN dbuser U ON (LI.user_id=U.id_dbuser)';
 
         if (isset($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
-
           $sql .= ' JOIN kernel_bu_ecole_classe EC ON (EC.id='.$filters['originClassroom'].')';
         } elseif (isset($filters['originSchool']) && !is_null ($filters['originSchool'])) {
-
           $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['originSchool'].')'
             . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole = ECO.numero)'
-            . ' LEFT JOIN kernel_bu_personnel_entite PE2 ON (P.numero=PE2.id_per AND PE2.type_ref = "CLASSE" AND PE2.reference IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole = '.$filters['originSchool'].'))';
+            . ' LEFT JOIN kernel_bu_personnel_entite PE2 ON (P.numero=PE2.id_per AND PE2.type_ref = "CLASSE" AND PE2.reference IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole = '.$filters['originSchool'].' AND annee_scol='.$filters['originGrade'].'))';
         }
 
         $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
