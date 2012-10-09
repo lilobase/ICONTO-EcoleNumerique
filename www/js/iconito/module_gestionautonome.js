@@ -11,6 +11,9 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
   
   // On cache le bouton de soumission du formulaire
   $('#filter-form input[type="submit"]').hide();
+  
+  // Onglets
+  $('#origin').tabs();
 
   // Modification de l'année scolaire pour la classe d'origine, rafraichissement de la liste des classes
   $('#origin select[name="origin_grade"]').change(function(){

@@ -5634,6 +5634,7 @@ class ActionGroupDefault extends enicActionGroup
     $classroomDAO = _ioDAO ('kernel|kernel_bu_ecole_classe');
     $classroomLevelDAO = _ioDAO ('kernel|kernel_bu_classe_niveau');
 
+
     // Contrôles garantissant l'intégrité des filtres
     if ( is_null ($originGrade = _request ('origin_grade', null)) || !$gradeDAO->get ($originGrade)
       || (!is_null ($originSchool = _request ('origin_school', null)) && !$schoolDAO->get ($originSchool))
