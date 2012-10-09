@@ -39,8 +39,7 @@
 
     <h2>{i18n key="public|public.getreq.title" noEscape=1}</h2>
     <div class="content-info">
-    <p>Tous les enfants scolarisés dans le premier degré (écoles primaires, maternelles ou élémentaires) à Limoges bénéficient d'un environnement numérique de travail (ENT) leur permettant, avec leurs enseignants, d'aborder les apprentissages liés aux technologies de l'information et de la communication (TIC). Les élèves, ainsi que leurs parents, peuvent retrouver cet environnement via Internet.</p>
-    <p>Vous souhaitez avoir un accès au Portail des écoles de Limoges ? Il vous suffit de remplir le formulaire ci-dessous avec vos informations et celles de votre(vos) enfant(s). </p>
+    <p>Vous souhaitez avoir un acc&egrave;s au Portail des &eacute;coles ? Il vous suffit de remplir le formulaire ci-dessous avec vos informations et celles de votre(vos) enfant(s).</p>
     </div>
     <h3 class="content-panel">{i18n key="public.getreq.parent" noEscape=1}</h3>
     <div class="content-panel" class="getreqparent">
