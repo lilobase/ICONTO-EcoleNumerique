@@ -660,6 +660,9 @@ class CopixMIMETypes
             case 'vrml':
             case 'wrl':
                return 'x-world/x-vrml';
+            case 'flipchart':
+            case 'flp':
+               return 'application/inspire';
             default:
                return 'application/octet-stream';
         }
