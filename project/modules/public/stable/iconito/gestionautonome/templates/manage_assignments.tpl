@@ -18,6 +18,11 @@
             <li><a href="#originName">{i18n key="gestionautonome|gestionautonome.message.searchByName}</a></li>
         </ul>
         
+        <select name="searchMode" id="searchMode" class="hiddenClean">
+            <option value="byName">Par nom</option>
+            <option value="byStructure" selected>Par structure</option>
+        </select>
+        
         <div id="originStructure">
             <h3>{i18n key="gestionautonome|gestionautonome.message.origin}</h3>
             {if $ppo->filters.mode == 'changeClassroom'}

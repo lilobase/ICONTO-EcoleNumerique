@@ -1,6 +1,10 @@
 jQuery(document).ready(function(){
 	// Au changement d'onglet on traite les valeurs pour que la recherche concorde avec les résultats
 	$('.originTab a').click(function(){
+		if ($(this).attr('href') == '#originName')
+			$('#searchMode').val('byName');
+		else
+			$('#searchMode').val('byStructure');
 		$('#filter-form').submit();
 	});
 
