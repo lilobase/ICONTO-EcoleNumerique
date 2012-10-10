@@ -57,8 +57,8 @@
               {copixzone process=gestionautonome|filterClassLevel selected=$ppo->filters.originLevel school_id=$ppo->filters.originSchool classroom_id=$ppo->filters.originClassroom with_label=true grade=$ppo->filters.originGrade name=origin_level with_empty=true label_empty="Tous" all=true}
             </div>
             <div class="field" id="origin-usertype">
-              <label>{i18n key="gestionautonome|gestionautonome.message.type"}</label>
-              <select class="form" name="origin_usertype">
+              <label for="origin_usertype">{i18n key="gestionautonome|gestionautonome.message.type"}</label>
+              <select class="form" name="origin_usertype" id="origin_usertype">
                 <option value="USER_ELE" label="Elève"{if $ppo->filters.originUserType eq "USER_ELE"} selected="selected"{/if}>Elève</option>
                 {if isset($ppo->filters.originSchool)}
                   {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:school|`$ppo->filters.originSchool`|teacher|update@gestionautonome")}
@@ -81,8 +81,8 @@
         <div id="originName">
             <h3>{i18n key="gestionautonome|gestionautonome.message.origin}</h3>
             <div class="field" id="origin-usertype">
-                <label>{i18n key="gestionautonome|gestionautonome.message.type"}</label>
-                <select class="form" name="origin_usertype_search">
+                <label for="origin_usertype_search">{i18n key="gestionautonome|gestionautonome.message.type"}</label>
+                <select class="form" name="origin_usertype_search" id="origin_usertype_search">
                     <option value="USER_ELE" label="Elève"{if $ppo->filters.originUserTypeSearch eq "USER_ELE"} selected="selected"{/if}>Elève</option>
                     {if isset($ppo->filters.originSchool)}
                         {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:school|`$ppo->filters.originSchool`|teacher|update@gestionautonome")}

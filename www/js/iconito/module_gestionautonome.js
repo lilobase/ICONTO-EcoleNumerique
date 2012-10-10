@@ -1,3 +1,16 @@
+jQuery(document).ready(function(){
+	// Au changement d'onglet on traite les valeurs pour que la recherche concorde avec les résultats
+	$('.originTab a').click(function(){
+		$('#filter-form').submit();
+	});
+
+	// Le changement de type doit être effectif pour les deux recherches d'origine
+	$('#origin_usertype_search, #origin_usertype').change(function() {
+		var selectType = $(this).val();
+		$('#origin_usertype_search').val(selectType);
+		$('#origin_usertype').val(selectType);
+	});
+});
 /**
  * Prépare les filtres de gestion d'affectation
  */
