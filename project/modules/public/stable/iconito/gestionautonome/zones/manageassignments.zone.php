@@ -23,15 +23,15 @@ class ZoneManageAssignments extends CopixZone
 
         $classroomDAO = _ioDAO('kernel|kernel_bu_ecole_classe');
         $groups = _currentUser()->getGroups();
-
+        
+        $studentDAO = _ioDAO('kernel|kernel_bu_ele');
+        $personnelDAO = _ioDAO('kernel|kernel_bu_personnel');
+        
         // Récupération des éléves ou des enseignants
-        if ($ppo->filters['originUserType'] == 'USER_ELE') {
-
-            // Récupération des élèves
-            $studentDAO = _ioDAO('kernel|kernel_bu_ele');
-
-            if (isset($ppo->filters['originSchool']) && !is_null($ppo->filters['originSchool'])) {
-
+        if ($ppo->filters['searchMode'] === 'byStructure') {
+            
+            if ($ppo->filters['originUserType'] == 'USER_ELE') {
+                
                 if ($ppo->filters['mode'] == 'changeClassroom') {
 
                     $originAssignments = $studentDAO->findStudentsForAssignment($ppo->filters['originGrade'], array(
@@ -44,51 +44,95 @@ class ZoneManageAssignments extends CopixZone
                         'firstname' => $ppo->filters['originFirstname']
                         ));
                 } else {
+                    
                     $originAssignments = $studentDAO->findForManageAssignments($ppo->filters['originGrade'], $ppo->filters);
                 }
             }
+            elseif ($ppo->filters['originUserType'] === 'USER_ENS') {
+                
+                $originAssignments = $personnelDAO->findTeachersAssignedToSchoolByStructure(
+                    $ppo->filters['originGrade'],
+                    $ppo->filters['originSchool'],
+                    $ppo->filters['originClassroom'],
+                    $ppo->filters['originLevel'],
+                    $ppo->filters['originFirstname'],
+                    $ppo->filters['originLastname']
+                );
+            }
+        }
+        elseif ($ppo->filters['searchMode'] === 'byName' && ($ppo->filters['originFirstnameSearch'] || $ppo->filters['originLastnameSearch'])) {
+            
+            if ($ppo->filters['originUserTypeSearch'] == 'USER_ELE') {
+                
+                if ($ppo->filters['mode'] === 'changeClassroom') {
 
-            if (isset($ppo->filters['destinationSchool']) && !is_null($ppo->filters['destinationSchool'])) {
+                    $originAssignments = $studentDAO->findStudentsForAssignmentByName(
+                        $ppo->filters['originGrade'],
+                        $ppo->filters['originFirstnameSearch'],
+                        $ppo->filters['originLastnameSearch']
+                    );
+                }
+                else {
 
-                $destinationAssignments = $studentDAO->findAssigned(
-                    array(
+                    $originAssignments = $studentDAO->findForManageAssignmentsByName(
+                        $ppo->filters['originGrade'],
+                        $ppo->filters['destinationGrade'],
+                        $ppo->filters['originFirstnameSearch'],
+                        $ppo->filters['originLastnameSearch']
+                    );
+                }
+            }
+            elseif ($ppo->filters['originUserTypeSearch'] === 'USER_ENS') {
+                
+                $originAssignments = $personnelDAO->findTeachersByName(
+                    $ppo->filters['originGrade'],
+                    $ppo->filters['originFirstnameSearch'],
+                    $ppo->filters['originLastnameSearch']
+                );
+            }
+        }
+
+        if ($ppo->filters['originUserTypeSearch'] == 'USER_ELE' || $ppo->filters['originUserTypeSearch'] == 'USER_ELE') {
+            
+            $destinationAssignments = $studentDAO->findAssigned(
+                array(
                     'grade' => $ppo->filters['destinationGrade'],
                     'cityGroup' => $ppo->filters['destinationCityGroup'],
                     'city' => $ppo->filters['destinationCity'],
                     'school' => $ppo->filters['destinationSchool'],
                     'classroom' => $ppo->filters['destinationClassroom'],
                     'level' => $ppo->filters['destinationLevel'],
-                    ), !_currentUser()->testCredential('module:school|'.$ppo->filters['destinationSchool'].'|teacher|update@gestionautonome') ? $groups['gestionautonome|iconitogrouphandler'] : null
-                );
-            }
-        } else {
-
-            // Récupération des enseignants
-            $personnelDAO = _ioDAO('kernel|kernel_bu_personnel');
-            if (isset($ppo->filters['originSchool']) && !is_null($ppo->filters['originSchool'])) {
-                $originAssignments = $personnelDAO->findTeachersForManageAssignments($ppo->filters);
-            }
-
-            if (isset($ppo->filters['destinationSchool']) && !is_null($ppo->filters['destinationSchool'])) {
-
-                $destinationAssignments = $personnelDAO->findAssignedTeachers(
-                    $ppo->filters, !_currentUser()->testCredential('module:school|'.$ppo->filters['destinationSchool'].'|teacher|update@gestionautonome') ? $groups['gestionautonome|iconitogrouphandler'] : null
-                );
-            }
+                ),
+                !_currentUser()->testCredential('module:school|'.$ppo->filters['destinationSchool'].'|teacher|update@gestionautonome') ? $groups['gestionautonome|iconitogrouphandler'] : null
+            );
+        }
+        
+        if ($ppo->filters['originUserTypeSearch'] == 'USER_ENS' || $ppo->filters['originUserTypeSearch'] == 'USER_ENS') {
+        
+            $destinationAssignments = $personnelDAO->findTeachersAssignedToClassroomByStructure(
+                $ppo->filters['destinationGrade'],
+                $ppo->filters['destinationSchool'],
+                $ppo->filters['destinationClassroom'],
+                $ppo->filters['destinationLevel']
+            );
         }
 
         foreach ($originAssignments as $originAssignment) {
-
             if (($ppo->filters['originUserType'] == 'USER_ELE' && $originAssignment->current)
-                || $ppo->filters['originUserType'] == 'USER_ENS' && $originAssignment->type_ref == "CLASSE") {
-
-                $ppo->originAssignments[$originAssignment->id_niveau][$originAssignment->id_classe][] = $originAssignment;
+            || $ppo->filters['originUserType'] == 'USER_ENS' && $originAssignment->nom_classe != '') {
+                if ($ppo->filters['originUserType'] == 'USER_ENS') {
+                    // Regroupement des enseignants dans la même classe. Pas de distinction des niveaux
+                    $ppo->originAssignments[''][$originAssignment->id_classe][$originAssignment->user_id] = $originAssignment;
+                }
+                elseif ($ppo->filters['originUserType'] == 'USER_ELE') {
+                    $ppo->originAssignments[$originAssignment->id_niveau][$originAssignment->id_classe][] = $originAssignment;
+                }
                 $ppo->classrooms[$originAssignment->id_classe] = $originAssignment->nom_classe;
-                $ppo->classroomLevels[$originAssignment->id_niveau] = $originAssignment->nom_niveau;
+                $ppo->classroomLevels[$originAssignment->id_niveau] = $originAssignment->nom_niveau;            
             } elseif (is_null($ppo->filters['originClassroom']) || $ppo->filters['mode'] != 'changeClassroom') {
-
                 $ppo->classrooms[0] = 'Sans affectation';
                 $withoutAssignments[] = $originAssignment;
+        
             }
         }
 
@@ -203,8 +247,14 @@ class ZoneManageAssignments extends CopixZone
 
         // Ajout des affectations au tableau des affectations de destination destiné à l'affichage
         foreach ($destinationAssignments as $destinationAssignment) {
-
-            $ppo->destinationAssignments[$destinationAssignment->id_niveau][$destinationAssignment->id_classe][] = $destinationAssignment;
+            if ($ppo->filters['originUserType'] == 'USER_ENS') {
+                // Regroupement des enseignants dans la même classe. Pas de distinction des niveaux
+                $ppo->destinationAssignments[''][$destinationAssignment->id_classe][$destinationAssignment->user_id] = $destinationAssignment;
+            }
+            elseif ($ppo->filters['originUserType'] == 'USER_ELE') {
+                $ppo->destinationAssignments[$destinationAssignment->id_niveau][$destinationAssignment->id_classe][] = $destinationAssignment;
+            }
+            
             $ppo->classrooms[$destinationAssignment->id_classe] = $destinationAssignment->nom_classe;
             $ppo->classroomLevels[$destinationAssignment->id_niveau] = $destinationAssignment->nom_niveau;
         }

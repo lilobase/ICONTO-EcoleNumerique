@@ -5315,7 +5315,19 @@ class ActionGroupDefault extends enicActionGroup
 
             return CopixActionGroup::process('generictools|Messages::getError', array('message' => "Une erreur est survenue.", 'back' => CopixUrl::get('gestionautonome||showTree')));
         }
-
+        
+        // Définition des filtres par défaut
+        $ppo->filters = _sessionGet('gestionautonome|assignments_management_filters');
+        if (null === $ppo->filters) {
+          $ppo->filters = array();
+        }
+        
+        // Mode de recherche : par structure ou par nom
+        $searchMode = _request('searchMode', 'byStructure');
+        if (in_array($searchMode, array('byStructure', 'byName'))) {
+          $ppo->filters['searchMode'] = $searchMode;
+        }
+        
         // Contrôle des droits
         if ($nodeType == 'BU_CLASSE') {
 
@@ -5325,11 +5337,8 @@ class ActionGroupDefault extends enicActionGroup
             $classroomDAO = _ioDAO('kernel|kernel_bu_ecole_classe');
             if (!$ppo->classroom = $classroomDAO->get($nodeId)) {
 
-                return CopixActionGroup::process('generictools|Messages::getError', array('message' => "La classe d'origine que vous avez défini n'existe pas.", 'back' => CopixUrl::get('gestionautonome||showTree')));
+                return CopixActionGroup::process('generictools|Messages::getError', array('message' => 'La classe d\'origine que vous avez défini n\'existe pas.', 'back' => CopixUrl::get('gestionautonome||showTree')));
             }
-
-            // Définition des filtres par défaut
-            $ppo->filters = _sessionGet('gestionautonome|assignments_management_filters');
 
             $classroomDatas = Kernel::getNodeInfo('BU_CLASSE', $ppo->classroom->id, true);
             $cityDAO = _ioDAO('kernel|kernel_bu_ville');
@@ -5348,9 +5357,6 @@ class ActionGroupDefault extends enicActionGroup
         } else {
 
             _currentUser()->assertCredential('module:school|'.$nodeId.'|student|update@gestionautonome');
-
-            // Définition des filtres par défaut
-            $ppo->filters = _sessionGet('gestionautonome|assignments_management_filters');
 
             $schoolDatas = Kernel::getNodeInfo('BU_ECOLE', $nodeId, true);
 
@@ -5371,7 +5377,10 @@ class ActionGroupDefault extends enicActionGroup
         $ppo->filters['originFirstname'] = null;
         $ppo->filters['destinationClassroom'] = null;
         $ppo->filters['destinationLevel'] = null;
-
+        $ppo->filters['originLastnameSearch'] = null;
+        $ppo->filters['originFirstnameSearch'] = null;
+        $ppo->filters['originUserTypeSearch'] = 'USER_ELE';
+        
         // Récupération de l'utilisateur
         $ppo->user = _currentUser();
         $ppo->user->isDirector = ($this->user->director !== false) ? true : false;
@@ -5552,45 +5561,31 @@ class ActionGroupDefault extends enicActionGroup
      */
     public function processFilterAndDisplayAssignments()
     {
-        $gradeDAO = _ioDAO('kernel|kernel_bu_annee_scolaire');
-        $cityGroupDAO = _ioDAO('kernel|kernel_bu_groupe_villes');
-        $cityDAO = _ioDAO('kernel|kernel_bu_ville');
-        $schoolDAO = _ioDAO('kernel|kernel_bu_ecole');
-        $classroomDAO = _ioDAO('kernel|kernel_bu_ecole_classe');
-        $classroomLevelDAO = _ioDAO('kernel|kernel_bu_classe_niveau');
-
-
-        // Contrôles garantissant l'intégrité des filtres
-        if (is_null($originGrade = _request('origin_grade', null)) || !$gradeDAO->get($originGrade)
-            || (!is_null($originSchool = _request('origin_school', null)) && !$schoolDAO->get($originSchool))
-            || (!is_null($originClassroom = _request('origin_classroom', null)) && !$classroomDAO->get($originClassroom))
-            || (!is_null($originLevel = _request('origin_level', null)) && !$classroomLevelDAO->get($originLevel))
-            || is_null($destinationGrade = _request('destination_grade', null)) || !$gradeDAO->get($destinationGrade)
-            || (!is_null($destinationSchool = _request('destination_school', null)) && !$schoolDAO->get($destinationSchool))
-            || (!is_null($destinationClassroom = _request('destination_classroom', null)) && !$classroomDAO->get($destinationClassroom))
-            || (!is_null($destinationLevel = _request('destination_level', null)) && !$classroomLevelDAO->get($destinationLevel))
-            || is_null($originUserType = _request('origin_usertype', null)) || ($originUserType != 'USER_ELE' && $originUserType != 'USER_ENS')) {
-
-            return new CopixActionReturn(CopixActionReturn::HTTPCODE, array('Content-Type: text/plain; charset=utf-8', 'HTTP/1.1 400 Bad Request'), 'Une erreur est survenue');
-        }
-
         $filters = _sessionGet('gestionautonome|assignments_management_filters');
 
-        $filters['originGrade'] = $originGrade;
+        $filters['originGrade'] = _request('origin_grade', null);
         $filters['originCityGroup'] = _request('origin_citygroup', null);
         $filters['originCity'] = _request('origin_city', null);
-        $filters['originSchool'] = $originSchool;
-        $filters['originClassroom'] = $originClassroom;
-        $filters['originLevel'] = $originLevel;
-        $filters['originUserType'] = $originUserType;
+        $filters['originSchool'] = _request('origin_school', null);
+        $filters['originClassroom'] = _request('origin_classroom', null);
+        $filters['originLevel'] = _request('origin_level', null);
+        $filters['originUserType'] = _request('origin_usertype', null);
         $filters['originLastname'] = _request('origin_lastname', null);
         $filters['originFirstname'] = _request('origin_firstname', null);
-        $filters['destinationGrade'] = $destinationGrade;
+        $filters['destinationGrade'] = _request('destination_grade', null);
         $filters['destinationCityGroup'] = _request('destination_citygroup', null);
         $filters['destinationCity'] = _request('destination_city', null);
-        $filters['destinationSchool'] = $destinationSchool;
-        $filters['destinationClassroom'] = $destinationClassroom;
-        $filters['destinationLevel'] = $destinationLevel;
+        $filters['destinationSchool'] = _request('destination_school', null);
+        $filters['destinationClassroom'] = _request('destination_classroom', null);
+        $filters['destinationLevel'] = _request('destination_level', null);
+        $filters['originUserTypeSearch'] = _request('origin_usertype_search', null);
+        $filters['originLastnameSearch'] = _request('origin_lastname_search', null);
+        $filters['originFirstnameSearch'] = _request('origin_firstname_search', null);
+        
+        $searchMode = _request('search_mode', 'byStructure');
+        if (in_array($searchMode, array('byStructure', 'byName'))) {
+          $filters['searchMode'] = $searchMode;
+        }
 
         // Mise en session des filtres
         _sessionSet('gestionautonome|assignments_management_filters', $filters);

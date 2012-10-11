@@ -18,7 +18,7 @@
             <li><a href="#originName">{i18n key="gestionautonome|gestionautonome.message.searchByName}</a></li>
         </ul>
         
-        <select name="searchMode" id="searchMode" class="hiddenClean">
+        <select name="search_mode" id="search-mode" class="hiddenClean">
             <option value="byName">Par nom</option>
             <option value="byStructure" selected>Par structure</option>
         </select>

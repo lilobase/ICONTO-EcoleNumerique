@@ -1,20 +1,3 @@
-jQuery(document).ready(function(){
-	// Au changement d'onglet on traite les valeurs pour que la recherche concorde avec les résultats
-	$('.originTab a').click(function(){
-		if ($(this).attr('href') == '#originName')
-			$('#searchMode').val('byName');
-		else
-			$('#searchMode').val('byStructure');
-		$('#filter-form').submit();
-	});
-
-	// Le changement de type doit être effectif pour les deux recherches d'origine
-	$('#origin_usertype_search, #origin_usertype').change(function() {
-		var selectType = $(this).val();
-		$('#origin_usertype_search').val(selectType);
-		$('#origin_usertype').val(selectType);
-	});
-});
 /**
  * Prépare les filtres de gestion d'affectation
  */
@@ -26,11 +9,28 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
   var classFilterUrl = classFilter;
   var classLevelFilterUrl = classLevelFilter;
   
+  
   // On cache le bouton de soumission du formulaire
   $('#filter-form input[type="submit"]').hide();
   
   // Onglets
   $('#origin').tabs();
+  
+  // Au changement d'onglet on traite les valeurs pour que la recherche concorde avec les résultats
+	$('.originTab a').click(function(){
+		if ($(this).attr('href') == '#originName')
+			$('#search-mode').val('byName');
+		else
+			$('#search-mode').val('byStructure');
+		$('#filter-form').submit();
+	});
+
+	// Le changement de type doit être effectif pour les deux recherches d'origine
+	$('#origin_usertype_search, #origin_usertype').change(function() {
+		var selectType = $(this).val();
+		$('#origin_usertype_search').val(selectType);
+		$('#origin_usertype').val(selectType);
+	});
 
   // Modification de l'année scolaire pour la classe d'origine, rafraichissement de la liste des classes
   $('#origin select[name="origin_grade"]').change(function(){
@@ -83,7 +83,7 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
   });
 
   // Soumission du formulaire
-  $('#origin select[name="origin_level"], #destination select[name="destination_level"], #origin select[name="origin_usertype"], #origin input[name="origin_lastname"], #origin input[name="origin_firstname"]').live('change', function(){
+  $('#origin select[name="origin_level"], #destination select[name="destination_level"], #origin select[name="origin_usertype"], #origin input[name="origin_lastname"], #origin input[name="origin_lastname_search"], #origin input[name="origin_firstname_search"], #origin select[name="origin_usertype_search"], #origin input[name="origin_firstname"]').live('change', function(){
     
     $('#filter-form').submit();
   });
