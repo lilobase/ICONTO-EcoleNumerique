@@ -179,7 +179,7 @@ class ActionGroupDefault extends enicActionGroup
                 unlink($file);
             }
 
-            classeurService::updateFolderInfos($folder);
+            if($classeur->upload_db) classeurService::updateFolderInfos($folder);
         }
 
 // print_r($classeur);
