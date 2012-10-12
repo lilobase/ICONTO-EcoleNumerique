@@ -457,7 +457,7 @@ if(DEBUG) {
                         $return[]=array("type"=>$val->node_type, "id"=>$val->node_id,"droit"=>$droit);
                     } elseif( $val->node_type == "ROOT" ) {
                         $return[]=array("type"=>$val->node_type, "id"=>0,"droit"=>$val->droit);
-                    } elseif( ereg( "^BU_(.+)$", $val->node_type ) ) {
+                    } elseif( preg_match( "/^BU_(.+)$/", $val->node_type ) ) {
                         $ok = true;
                         if ($val->debut && $val->debut>date("Ymd")) $ok = false;
                         if ($val->fin   && $val->fin  <date("Ymd")) $ok = false;
