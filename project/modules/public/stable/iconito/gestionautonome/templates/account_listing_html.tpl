@@ -21,21 +21,21 @@
   		{foreach from=$accounts item=account}
   			{counter name="i"}
   			<tr class="list_line{math equation="x%2" x=$i}">
-  				<td align="LEFT">{$account.lastname}</td>
-  				<td align="LEFT">{$account.firstname}</td>
-  				<td align="LEFT">{$account.login}</td>
-  				<td align="LEFT">{$account.password}</td>
-  				<td align="LEFT">{$account.type_nom}</td>
-  				<td align="LEFT">{$account.node_nom}</td>
+  				<td align="LEFT">{$account.lastname|escape}</td>
+  				<td align="LEFT">{$account.firstname|escape}</td>
+  				<td align="LEFT">{$account.login|escape}</td>
+  				<td align="LEFT">{$account.password|escape}</td>
+  				<td align="LEFT">{$account.type_nom|escape}</td>
+  				<td align="LEFT">{$account.node_nom|escape}</td>
   			</tr>
   			{foreach from=$account.person item=person}
     			<tr>
-    				<td align="LEFT">{$person.lastname}</td>
-    				<td align="LEFT">{$person.firstname}</td>
-    				<td align="LEFT">{$person.login}</td>
-    				<td align="LEFT">{$person.password}</td>
-    				<td align="LEFT">{$person.nom_pa}</td>
-    				<td align="LEFT">{$person.node_nom}</td>
+    				<td align="LEFT">{$person.lastname|escape}</td>
+    				<td align="LEFT">{$person.firstname|escape}</td>
+    				<td align="LEFT">{$person.login|escape}</td>
+    				<td align="LEFT">{$person.password|escape}</td>
+    				<td align="LEFT">{$person.nom_pa|escape}</td>
+    				<td align="LEFT">{$person.node_nom|escape}</td>
     			</tr>
     		{/foreach}
   		{/foreach}

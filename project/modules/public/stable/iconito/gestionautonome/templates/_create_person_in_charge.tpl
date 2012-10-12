@@ -21,10 +21,10 @@
                   <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if} 
           </td>
-          <td>{$item->res_nom}</td>
-          <td>{$item->res_prenom1}</td>
-          <td>{$item->login}</td>
-          <td>{$item->link}</td>
+          <td>{$item->res_nom|escape}</td>
+          <td>{$item->res_prenom1|escape}</td>
+          <td>{$item->login|escape}</td>
+          <td>{$item->link|escape}</td>
           <td class="actions">
             {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|update@gestionautonome")}
               <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier le responsable" /></a>
@@ -60,10 +60,10 @@
                   <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if}
         </td>
-        <td>{$item.lastname}</td>
-        <td>{$item.firstname}</td>
-        <td>{$item.login}</td>
-        <td>{$item.parente}</td>
+        <td>{$item.lastname|escape}</td>
+        <td>{$item.firstname|escape}</td>
+        <td>{$item.login|escape}</td>
+        <td>{$item.parente|escape}</td>
       </tr>
       {assign var=index value=$index+1}
     {/foreach}
@@ -106,12 +106,12 @@
       	<legend>Profil</legend>
         <div class="field">
           <label for="nom" class="form_libelle"> Nom :</label>
-          <input class="form" type="text" name="nom" id="nom" value="{$ppo->person->nom}" />
+          <input class="form" type="text" name="nom" id="nom" value="{$ppo->person->nom|escape}" />
         </div>
     
         <div class="field">
           <label for="prenom1" class="form_libelle"> Prénom :</label>
-          <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->person->prenom1}" />
+          <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->person->prenom1|escape}" />
         </div>
     
         <div class="field">
@@ -138,12 +138,12 @@
       <fieldset><legend>Connexion</legend>
       <div class="field">
           <label for="login" class="form_libelle"> Identifiant :</label>
-          <input class="form" type="text" name="login" id="login" value="{$ppo->account->login}" /> (<a href="#" id="generate-login">Générer</a>)
+          <input class="form" type="text" name="login" id="login" value="{$ppo->account->login|escape}" /> (<a href="#" id="generate-login">Générer</a>)
         </div>
     
         <div class="field">
           <label for="password" class="form_libelle"> Mot de passe :</label>
-          <input class="form" type="text" name="password" id="password" value="{$ppo->account->password}" /> (<a href="#" id="generate-password">Générer</a>)
+          <input class="form" type="text" name="password" id="password" value="{$ppo->account->password|escape}" /> (<a href="#" id="generate-password">Générer</a>)
         </div>
     	</fieldset>
         
@@ -153,7 +153,7 @@
       <fieldset>
         <div class="field person-login">
           <label for="login" class="form_libelle">{customi18n key="gestionautonome|gestionautonome.message.loginof%%structure_element_responsable%%toaffectto%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}</label>
-          <input class="form" type="text" name="login-search" id="login-search" value="{$ppo->login}" />
+          <input class="form" type="text" name="login-search" id="login-search" value="{$ppo->login|escape}" />
         </div>
 
         <div class="field agreement-check">

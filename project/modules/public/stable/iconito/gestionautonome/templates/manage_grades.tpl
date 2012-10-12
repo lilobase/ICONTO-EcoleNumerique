@@ -13,7 +13,7 @@
     {foreach from=$ppo->grades key=k item=grade}
       <tr class="{if $k%2 eq 0}even{else}odd{/if}">
         <td>{$grade->id_as}</td>
-        <td>{$grade->annee_scolaire}</td>
+        <td>{$grade->annee_scolaire|escape}</td>
         <td>{$grade->dateDebut|datei18n}</td>
         <td>{$grade->dateFin|datei18n}</td>
         <td class="center">{if $grade->current eq '1'}<img src="{copixurl}themes/default/images/button-action/action_confirm.png" title="Oui" alt="Oui" />{/if}</td>

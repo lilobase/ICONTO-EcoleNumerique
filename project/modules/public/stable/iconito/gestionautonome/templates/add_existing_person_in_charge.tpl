@@ -19,7 +19,7 @@
     
   <div class="field person-login">
     <label for="login" class="form_libelle">Identifiant du parent à rattacher à cet élève</label>
-    <input class="form" type="text" name="login" id="login" value="{$ppo->login}" />
+    <input class="form" type="text" name="login" id="login" value="{$ppo->login|escape}" />
   </div>
     
   <div class="field agreement-check">
@@ -40,18 +40,18 @@
     <div class="datas">
       <div class="field">
         <label class="form_libelle"> Nom :</label>
-        <span><strong>{$ppo->student->ele_nom}</strong></span>
+        <span><strong>{$ppo->student->ele_nom|escape}</strong></span>
       </div>
 
       <div class="field">
         <label class="form_libelle"> Prénom :</label>
-        <span><strong>{$ppo->student->ele_prenom1}</strong></span>
+        <span><strong>{$ppo->student->ele_prenom1|escape}</strong></span>
       </div>
     
       {if $ppo->student->ele_date_nais}
         <div class="field">
           <label class="form_libelle"> Date de naissance :</label>
-          <span>{$ppo->student->ele_date_nais}</span>
+          <span>{$ppo->student->ele_date_nais|escape}</span>
         </div>
       {/if}
   
@@ -66,7 +66,7 @@
 
       <div class="field">
         <label class="form_libelle"> Identifiant :</label>
-        <span><strong>{$ppo->studentAccount->login_dbuser}</strong></span>
+        <span><strong>{$ppo->studentAccount->login_dbuser|escape}</strong></span>
       </div>
     </div>
     <hr class="clear" />

@@ -29,7 +29,7 @@
     
     <div class="field">
       <label class="form_libelle"> Nom :</label>
-      <input class="form" type="text" name="nom" id="nom" value="{$ppo->city->nom}" />
+      <input class="form" type="text" name="nom" id="nom" value="{$ppo->city->nom|escape}" />
     </div>
   </fieldset>
   

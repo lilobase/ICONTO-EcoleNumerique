@@ -2,5 +2,5 @@
   <option value="">&nbsp;</option>
 {/if}
 {foreach from=$ppo->classrooms item=classroom}
-  <option value="{$classroom->id}">{$classroom}</option>
+  <option value="{$classroom->id}">{$classroom|escape}</option>
 {/foreach}

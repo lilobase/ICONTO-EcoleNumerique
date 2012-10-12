@@ -18,10 +18,10 @@
     
      <div class="field">
       <label for="lastname">Nom :</label>
-      <input type="text" class="form" id="lastname" name="lastname" value="{$ppo->listFilters.lastname}" />
+      <input type="text" class="form" id="lastname" name="lastname" value="{$ppo->listFilters.lastname|escape}" />
       
       <label for="firstname">Prénom :</label>
-      <input type="text" class="form" id="firstname" name="firstname" value="{$ppo->listFilters.firstname}" />
+      <input type="text" class="form" id="firstname" name="firstname" value="{$ppo->listFilters.firstname|escape}" />
       
       <input type="checkbox" name="withAssignment" id="withAssignment" value="1"{if isset ($ppo->listFilters.withAssignment)} checked="checked" {/if} />
       <label for="withAssignment">Avec affectation(s)</label>
@@ -86,8 +86,8 @@
                   <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
               {/if}
           </td>
-          <td><label for="person{$person->numero}">{$person->nom}</label></td>
-          <td><label for="person{$person->numero}">{$person->prenom1}</label></td>
+          <td><label for="person{$person->numero}">{$person->nom|escape}</label></td>
+          <td><label for="person{$person->numero}">{$person->prenom1|escape}</label></td>
           <td>{$person->login_dbuser}</td>
           <td class="actions">
             <input type="checkbox" class="form" id="person{$person->numero}" name="personIds[]" value="{$person->numero}" />
