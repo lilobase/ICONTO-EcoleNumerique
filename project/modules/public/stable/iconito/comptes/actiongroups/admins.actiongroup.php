@@ -177,6 +177,7 @@ class ActionGroupAdmins extends enicActionGroup
         $tpl = new CopixTpl ();
 
         $tplListe = new CopixTpl ();
+        $tplListe->assign('linkpopup', CopixZone::process('annuaire|linkpopup', array('field' => 'new_admins')));
         $main = $tplListe->fetch("admins-new.tpl");
 
         $tpl->assign ('TITLE_PAGE', CopixI18N::get ('comptes.moduleDescription')." &raquo; ".CopixI18N::get ('comptes.title.admins'));
