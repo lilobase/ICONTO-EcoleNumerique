@@ -19,9 +19,9 @@
             <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
           {/if}
         </td>
-        <td>{$item->getLoginAccount()}</td>
-        <td>{$item->res_nom}</td>
-        <td>{$item->res_prenom1}</td>
+        <td>{$item->getLoginAccount()|escape}</td>
+        <td>{$item->res_nom|escape}</td>
+        <td>{$item->res_prenom1|escape}</td>
         <td class="actions"> 
           {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|update@gestionautonome")}
             <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$ppo->studentId personId=$item->res_numero}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier le responsable" /></a>

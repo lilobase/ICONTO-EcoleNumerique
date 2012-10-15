@@ -64,11 +64,11 @@
     </div>
     <div class="field" id="origin-lastname">
       <label>{i18n key="gestionautonome|gestionautonome.message.lastname"}</label>
-      <input type="text" name="origin_lastname" value="{$ppo->filters.originLastname}" />
+      <input type="text" name="origin_lastname" value="{$ppo->filters.originLastname|escape}" />
     </div>
     <div class="field" id="origin-firstname">
       <label>{i18n key="gestionautonome|gestionautonome.message.firstname"}</label>
-      <input type="text" name="origin_firstname" value="{$ppo->filters.originFirstname}" />
+      <input type="text" name="origin_firstname" value="{$ppo->filters.originFirstname|escape}" />
     </div>
   </div>
   

@@ -1,7 +1,7 @@
 {if $ppo->withLabel}
   <label>Ecole</label>
 {/if}
-<select class="form" name="{if $ppo->name neq null}{$ppo->name}{else}school{/if}">
+<select class="form" name="{if $ppo->name neq null}{$ppo->name|escape}{else}school{/if}">
   {if $ppo->schoolsIds|@count > 0}
     {if $ppo->withEmpty}
       <option value="" label="">&nbsp;</option>

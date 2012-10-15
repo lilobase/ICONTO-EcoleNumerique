@@ -20,10 +20,10 @@
                 <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />
             {/if}
         </td>
-        <td>{$item->nom}</td>
-        <td>{$item->prenom1}</td>
-        <td>{$item->login}</td>
-        <td>{$item->link}</td>
+        <td>{$item->nom|escape}</td>
+        <td>{$item->prenom1|escape}</td>
+        <td>{$item->login|escape}</td>
+        <td>{$item->link|escape}</td>
         <td class="actions">
           {if $ppo->user->testCredential ("module:classroom|`$ppo->nodeId`|person_in_charge|update@gestionautonome")}
             <a href="{copixurl dest="gestionautonome||updateStudent" nodeId=$ppo->nodeId nodeType=$ppo->nodeType studentId=$item->idEleve personId=$ppo->personId}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier le responsable" /></a>

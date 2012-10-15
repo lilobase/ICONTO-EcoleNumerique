@@ -244,11 +244,11 @@ class DAOKernel_bu_personnel
 
       if (isset ($filters['lastname'])) {
 
-        $sql .= ' AND P.nom LIKE \'' . $filters['lastname'] . '%\'';
+        $sql .= ' AND P.nom LIKE \'' . addslashes($filters['lastname']) . '%\'';
       }
       if (isset ($filters['firstname'])) {
 
-        $sql .= ' AND P.prenom1 LIKE \'' . $filters['firstname'] . '%\'';
+        $sql .= ' AND P.prenom1 LIKE \'' . addslashes($filters['firstname']) . '%\'';
       }
 
         // Ne pas afficher les personnes déjà affectés au noeud
@@ -437,11 +437,11 @@ class DAOKernel_bu_personnel
         }
         if (isset ($filters['originLastname']) && !is_null ($filters['originLastname'])) {
 
-          $sql .= ' AND P.nom LIKE \'' . $filters['originLastname'] . '%\'';
+          $sql .= ' AND P.nom LIKE \'' . addslashes($filters['originLastname']) . '%\'';
         }
         if (isset ($filters['originFirstname']) && !is_null ($filters['originFirstname'])) {
 
-          $sql .= ' AND P.prenom1 LIKE \'' . $filters['originFirstname'] . '%\'';
+          $sql .= ' AND P.prenom1 LIKE \'' . addslashes($filters['originFirstname']) . '%\'';
         }
 
       $sql .= ' GROUP BY PE.id_per,PE.reference'

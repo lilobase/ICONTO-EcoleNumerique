@@ -374,6 +374,7 @@ class ActionGroupAdmin extends enicActionGroup
 
         $this->addCss('styles/module_quiz.css');
 
+        $this->js->wysiwyg('#aw-content');
         $this->js->confirm('#a-suppr', 'quiz.confirm.delAnsw');
 
         $ppo             = new CopixPPO();

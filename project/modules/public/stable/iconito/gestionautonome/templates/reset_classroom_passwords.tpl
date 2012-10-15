@@ -39,7 +39,7 @@
             {if $ppo->students[$smarty.section.myLoop.index] neq null}
               {assign var=student value=$ppo->students[$smarty.section.myLoop.index]}
               <td class="students-checkboxes center"><input type="checkbox" name="students[]" id="student-{$student->idEleve}" value="{$student->idEleve}" /></td>
-              <td><label for="student-{$student->idEleve}">{$student->nom} {$student->prenom1}</label></td>
+              <td><label for="student-{$student->idEleve}">{$student->nom|escape} {$student->prenom1|escape}</label></td>
             {else}
               <td colspan="2">&nbsp;</td>
             {/if}
@@ -50,7 +50,7 @@
             {if $ppo->personsInCharge[$smarty.section.myLoop.index] neq null}
               {assign var=personInCharge value=$ppo->personsInCharge[$smarty.section.myLoop.index]}
               <td class="persons-in-charge-checkboxes center"><input type="checkbox" name="personsInCharge[]" id="person-in-charge-{$personInCharge->id}" value="{$personInCharge->id}" /></td>
-              <td><label for="person-in-charge-{$personInCharge->id}">{$personInCharge->nom} {$personInCharge->prenom}</label></td>
+              <td><label for="person-in-charge-{$personInCharge->id}">{$personInCharge->nom|escape} {$personInCharge->prenom|escape}</label></td>
             {else}
               <td colspan="2">&nbsp;</td>
             {/if}
@@ -61,7 +61,7 @@
             {if $ppo->teachers[$smarty.section.myLoop.index] neq null}
               {assign var=teacher value=$ppo->teachers[$smarty.section.myLoop.index]}
               <td class="teachers-checkboxes center"><input type="checkbox" name="teachers[]" id="teacher-{$teacher->numero}" value="{$teacher->numero}" /></td>
-              <td><label for="teacher-{$teacher->numero}">{$teacher->nom} {$teacher->prenom1}</label></td>
+              <td><label for="teacher-{$teacher->numero}">{$teacher->nom|escape} {$teacher->prenom1|escape}</label></td>
             {else}
               <td colspan="2">&nbsp;</td>
             {/if}
