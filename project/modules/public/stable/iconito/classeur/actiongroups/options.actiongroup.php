@@ -35,6 +35,11 @@ class ActionGroupOptions extends enicActionGroup
                 array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
         }
 
+        if (!realpath('./upload')) {
+            return CopixActionGroup::process ('generictools|Messages::getError',
+                array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+        }
+
         if( $ppo->save->mode = _request ('save-mode', null) ) {
             switch($ppo->save->mode) {
                 case 'upload':
