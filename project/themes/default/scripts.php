@@ -15,8 +15,8 @@
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/iconito/lang_".CopixI18N::getLang().".js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("flvplayer/ufo.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.4.4.min.js"); ?>"></script>
-<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.8.custom.min.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-1.8.2.min.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/jquery-ui-1.9.0.custom.min.js"); ?>"></script>
 
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.4.js"); ?>"></script>
 <script type="text/javascript" src="<?php echo CopixUrl::getResource ("js/fancybox/jquery.easing-1.3.pack.js"); ?>"></script>

@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_typography.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_buttons.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/core_zones.css"); ?>" type="text/css"/>
-<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/jquerycss/default/jquery-ui-1.8.2.custom.css"); ?>" type="text/css"/>
+<link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/jquerycss/default/jquery-ui-1.9.0.custom.min.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("js/fancybox/jquery.fancybox-1.3.4.css"); ?>" type="text/css"/>
 <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/module_kernel.css"); ?>" type="text/css"/>
 
