@@ -35,6 +35,11 @@ class ActionGroupOptions extends enicActionGroup
                 array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
         }
 
+        if (!realpath('./upload')) {
+            return CopixActionGroup::process ('generictools|Messages::getError',
+                array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+        }
+
         if( $ppo->save->mode = _request ('save-mode', null) ) {
             switch($ppo->save->mode) {
                 case 'upload':
@@ -45,7 +50,7 @@ class ActionGroupOptions extends enicActionGroup
                     $ppo->save->folder_id = $matches['folder'];
 
                     if($ppo->classeur->upload_fs) {
-                        $dir = realpath('./upload').'/'.$ppo->classeur->upload_fs.'/';
+                        $dir = realpath('.').'/upload/'.$ppo->classeur->upload_fs.'/';
                         if (is_dir($dir)) {
                             $this->rrmdir($dir);
                         }
@@ -57,7 +62,7 @@ class ActionGroupOptions extends enicActionGroup
                     $classeurDAO->update( $ppo->classeur );
 
                     // Création du répertoire
-                    $dir = realpath('./upload').'/'.$ppo->classeur->upload_fs.'/';
+                    $dir = realpath('.').'/upload/'.$ppo->classeur->upload_fs.'/';
                     if (!file_exists($dir)) {
                         mkdir($dir, 0755, true);
                         $htaccess = fopen( $dir.'.htaccess', 'w' );
@@ -66,7 +71,7 @@ class ActionGroupOptions extends enicActionGroup
                     }
 
                     // Génération du fichier .htpasswd
-                    $htpasswd_file = realpath('./upload').'/.htpasswd';
+                    $htpasswd_file = realpath('.').'/upload/.htpasswd';
                     $htpasswd_output = '';
                     $in = fopen( $htpasswd_file, 'r' );
                     $htpasswd_updated = false;
@@ -86,7 +91,7 @@ class ActionGroupOptions extends enicActionGroup
                     fclose( $out );
 
                     // Génération du fichier .htdigest
-                    $htpasswd_file = realpath('./upload').'/.htdigest';
+                    $htpasswd_file = realpath('.').'/upload/.htdigest';
                     $htpasswd_output = '';
                     $in = fopen( $htpasswd_file, 'r' );
                     $htpasswd_updated = false;
@@ -107,7 +112,7 @@ class ActionGroupOptions extends enicActionGroup
 
                     break;
                 case 'upload-delete':
-                    $dir = realpath('./upload').'/'.$ppo->classeur->upload_fs.'/';
+                    $dir = realpath('.').'/upload/'.$ppo->classeur->upload_fs.'/';
                     if (is_dir($dir)) {
                         $this->rrmdir($dir);
                     }
@@ -117,7 +122,7 @@ class ActionGroupOptions extends enicActionGroup
                     $classeurDAO->update( $ppo->classeur );
 
                     // Suppression de l'utilisateur dans le .htpasswd
-                    $htpasswd_file = realpath('./upload').'/.htpasswd';
+                    $htpasswd_file = realpath('.').'/upload/.htpasswd';
                     $htpasswd_output = '';
                     $in = fopen( $htpasswd_file, 'r' );
                     $htpasswd_updated = false;
@@ -135,7 +140,7 @@ class ActionGroupOptions extends enicActionGroup
                     fclose( $out );
 
                     // Suppression de l'utilisateur dans le .htdigest
-                    $htpasswd_file = realpath('./upload').'/.htdigest';
+                    $htpasswd_file = realpath('.').'/upload/.htdigest';
                     $htpasswd_output = '';
                     $in = fopen( $htpasswd_file, 'r' );
                     $htpasswd_updated = false;
@@ -176,7 +181,7 @@ class ActionGroupOptions extends enicActionGroup
                 $classeurs2htaccess_string .= "</Directory>\n";
             }
 
-            $htaccess_file = realpath('./upload').'/.htaccess';
+            $htaccess_file = realpath('.').'/upload/.htaccess';
             $out = fopen( $htaccess_file, 'w' );
             fwrite( $out, $classeurs2htaccess_string );
             fclose( $out );

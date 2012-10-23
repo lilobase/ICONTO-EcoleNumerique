@@ -33,17 +33,17 @@
 
     <div class="field">
       <label for="nom" class="form_libelle"> Nom :</label>
-      <input class="form" type="text" name="nom" id="nom" value="{$ppo->personnel->pers_nom}" />
+      <input class="form" type="text" name="nom" id="nom" value="{$ppo->personnel->pers_nom|escape}" />
     </div>
     
     <div class="field">
       <label for="prenom1" class="form_libelle"> Prénom :</label>
-      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->personnel->pers_prenom1}" />
+      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->personnel->pers_prenom1|escape}" />
     </div>
     
     <div class="field">
       <label for="date_nais" class="form_libelle"> Date de naissance :</label>
-      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->pers_date_nais}" />
+      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->personnel->pers_date_nais|escape}" />
     </div>
     
     {if $ppo->personnel->pers_numero neq null}
@@ -56,14 +56,14 @@
         <fieldset><legend>Connexion</legend>
         <div class="field">
             <label for="login" class="form_libelle"> Identifiant :</label>
-            <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser}</strong></span>
+            <span class="form" name="login" id="login"><strong>{$ppo->account->login_dbuser|escape}</strong></span>
         </div>  
         
         <div class="field"><a href="#" class="button button-update" id="new-password-link">Modifier le mot de passe</a></div>
         
         <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
             <label for="password" class="form_libelle"> Mot de passe :</label>
-            <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
+            <input class="form" type="text" name="password" id="password" value="{$ppo->password|escape}" /> (<a href="#" id="generate-password">Générer</a>)
         </div>
 	{else}
         <div class="field">
@@ -79,12 +79,12 @@
         <fieldset><legend>Connexion</legend>
         <div class="field">
             <label for="login" class="form_libelle"> Identifiant :</label>
-            <input class="form" type="text" name="login" id="login" value="{$ppo->login}" /> (<a href="#" id="generate-login">Générer</a>)
+            <input class="form" type="text" name="login" id="login" value="{$ppo->login|escape}" /> (<a href="#" id="generate-login">Générer</a>)
         </div>
         
         <div class="field">
             <label for="password" class="form_libelle"> Mot de passe :</label>
-            <input class="form" type="text" name="password" id="password" value="{$ppo->password}" /> (<a href="#" id="generate-password">Générer</a>)
+            <input class="form" type="text" name="password" id="password" value="{$ppo->password|escape}" /> (<a href="#" id="generate-password">Générer</a>)
             <span class="format">{i18n key="gestionautonome.info.formatPassword"}</span>
         </div>
       

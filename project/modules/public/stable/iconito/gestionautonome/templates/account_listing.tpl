@@ -31,21 +31,21 @@
             <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
           {/if}
         </td>
-  		  <td>{$account.lastname}</td>
-  			<td>{$account.firstname}</td>
-  			<td>{$account.login}</td>
-  			<td>{$account.password}</td>
-  			<td>{$account.type_nom}</td>
+  		  <td>{$account.lastname|escape}</td>
+  			<td>{$account.firstname|escape}</td>
+  			<td>{$account.login|escape}</td>
+  			<td>{$account.password|escape}</td>
+  			<td>{$account.type_nom|escape}</td>
   		</tr>
   		{if $account.person}
     		{foreach from=$account.person key=j item=person}
           <tr class="{if $i%2==0}even{else}odd{/if}">
   		      <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
-            <td>{$person.lastname}</td>
-      			<td>{$person.firstname}</td>
-  			    <td>{$person.login}</td>
-      			<td>{$person.password}</td>
-      			<td>{$person.type_nom}</td>
+            <td>{$person.lastname|escape}</td>
+      			<td>{$person.firstname|escape}</td>
+  			    <td>{$person.login|escape}</td>
+      			<td>{$person.password|escape}</td>
+      			<td>{$person.type_nom|escape}</td>
   		    </tr>
         {/foreach}
       {/if}
@@ -78,21 +78,21 @@
               <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
             {/if}
           </td>
-    		  <td>{$account.lastname}</td>
-    			<td>{$account.firstname}</td>
-    			<td>{$account.login}</td>
-    			<td>{$account.password}</td>
-    			<td>{$account.type_nom}</td>
+    		  <td>{$account.lastname|escape}</td>
+    			<td>{$account.firstname|escape}</td>
+    			<td>{$account.login|escape}</td>
+    			<td>{$account.password|escape}</td>
+    			<td>{$account.type_nom|escape}</td>
     		</tr>
     		{if $account.person}
       		{foreach from=$account.person key=j item=person}
             <tr class="{if $i%2==0}even{else}odd{/if}">
     		      <td><img src="{copixurl}themes/default/images/child-of.png" alt="" />{if $person.gender eq 1}<img src="{copixurl}themes/default/images/icon-16/user-male.png" title="Garçon" alt="Garçon" />{else}<img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />{/if}</td>
               <td>{$person.lastname}</td>
-        			<td>{$person.firstname}</td>
-    			    <td>{$person.login}</td>
-        			<td>{$person.password}</td>
-        			<td>{$person.type_nom}</td>
+        			<td>{$person.firstname|escape}</td>
+    			    <td>{$person.login|escape}</td>
+        			<td>{$person.password|escape}</td>
+        			<td>{$person.type_nom|escape}</td>
     		    </tr>
           {/foreach}
         {/if}

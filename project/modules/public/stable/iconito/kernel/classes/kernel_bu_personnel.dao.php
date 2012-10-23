@@ -244,11 +244,11 @@ class DAOKernel_bu_personnel
 
       if (isset ($filters['lastname'])) {
 
-        $sql .= ' AND P.nom LIKE \'' . $filters['lastname'] . '%\'';
+        $sql .= ' AND P.nom LIKE \'' . addslashes($filters['lastname']) . '%\'';
       }
       if (isset ($filters['firstname'])) {
 
-        $sql .= ' AND P.prenom1 LIKE \'' . $filters['firstname'] . '%\'';
+        $sql .= ' AND P.prenom1 LIKE \'' . addslashes($filters['firstname']) . '%\'';
       }
 
         // Ne pas afficher les personnes déjà affectés au noeud
@@ -463,11 +463,11 @@ class DAOKernel_bu_personnel
             .' AND PE_TYPE_ECOLE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER;
         if (null !== $firstname) {
             $sql .= ' AND P.prenom1 LIKE :firstname';
-            $parameters['firstname'] = $firstname.'%';
+            $parameters['firstname'] = addslashes($firstname).'%';
         }
         if (null !== $lastname) {
             $sql .= ' AND P.nom LIKE :lastname';
-            $parameters['lastname'] = $lastname.'%';
+            $parameters['lastname'] = addslashes($lastname).'%';
         }
                 
         // Récupération des enseignants assignés à au moins une classe de l'école

@@ -1,5 +1,5 @@
 {if $ppo->parent.nom}
-  <h2>{$ppo->parent.nom}</h2>
+  <h2>{$ppo->parent.nom|escape}</h2>
 
   {if $ppo->type eq 'BU_ECOLE'}
     {assign var='hasCredentialStudentUpdate' value=$ppo->user->testCredential("module:school|`$ppo->parent.id`|student|update@gestionautonome")}
@@ -45,10 +45,10 @@
                     <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Fille" alt="Fille" />
                   {/if}
                 </td>
-                <td>{$student->nom}</td>
-                <td>{$student->prenom1}</td>
-                <td>{$student->login}</td>
-                <td class="center">{$student->niveau_court}</td>
+                <td>{$student->nom|escape}</td>
+                <td>{$student->prenom1|escape}</td>
+                <td>{$student->login|escape}</td>
+                <td class="center">{$student->niveau_court|escape}</td>
                 <td class="actions">
                   {if $hasCredentialStudentUpdate}
                     <a href="{copixurl dest="gestionautonome||updateStudent" nodeId=$ppo->parent.id nodeType=$ppo->parent.type studentId=$student->idEleve}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="{customi18n key="gestionautonome|gestionautonome.message.modify%%definite__structure_element_person%%" catalog=$ppo->vocabularyCatalog->id_vc}" /></a>
@@ -88,9 +88,9 @@
                     <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
                   {/if}
                 </td>
-                <td>{$person->nom}</td>
-                <td>{$person->prenom1}</td>
-                <td>{$person->login_dbuser}</td>
+                <td>{$person->nom|escape}</td>
+                <td>{$person->prenom1|escape}</td>
+                <td>{$person->login_dbuser|escape}</td>
                 <td class="actions">
                   {if $hasCredentialTeacherUpdate}
                     <a href="{copixurl dest="gestionautonome||updatePersonnel" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personnelId=$person->numero type=$person->bu_type}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier la personne" /></a>
@@ -128,9 +128,9 @@
                     <img src="{copixurl}themes/default/images/icon-16/user-female.png" title="Femme" alt="Femme" />
                   {/if}
                 </td>
-                <td>{$responsable->nom}</td>
-                <td>{$responsable->prenom}</td>
-                <td>{$responsable->login}</td>
+                <td>{$responsable->nom|escape}</td>
+                <td>{$responsable->prenom|escape}</td>
+                <td>{$responsable->login|escape}</td>
                 <td class="actions">
                   {if $hasCredentialPersonInChargeUpdate}
                     <a href="{copixurl dest="gestionautonome||updatePersonInCharge" nodeId=$ppo->parent.id nodeType=$ppo->parent.type personId=$responsable->id}"><img src="{copixurl}themes/default/images/icon-16/action-update.png" title="Modifier le responsable" /></a>
@@ -188,9 +188,9 @@
               {customi18n key="kernel|kernel.usertypes.%%"|cat:$person->bu_type|lower|cat:"%%" catalog=$ppo->vocabularyCatalog->id_vc}
             {/if}
           </td>
-          <td>{$person->nom}</td>
-          <td>{$person->prenom1}</td>
-          <td>{$person->login_dbuser}</td>
+          <td>{$person->nom|escape}</td>
+          <td>{$person->prenom1|escape}</td>
+          <td>{$person->login_dbuser|escape}</td>
           <td class="actions"> 
             {if (($ppo->parent.type == 'BU_GRVILLE' && $person->bu_type == 'USER_VIL' && $hasCredentialCitiesGroupAgentUpdate) 
               || ($ppo->parent.type == 'BU_VILLE' && $person->bu_type == 'USER_VIL' && $hasCredentialCityAgentUpdate)

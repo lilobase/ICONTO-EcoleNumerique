@@ -63,28 +63,28 @@
             <div class="field" id="origin-usertype">
               <label for="origin_usertype">{i18n key="gestionautonome|gestionautonome.message.type"}</label>
               <select class="form" name="origin_usertype" id="origin_usertype">
-                <option value="USER_ELE" label="Elève"{if $ppo->filters.originUserType eq "USER_ELE"} selected="selected"{/if}>Elève</option>
+                <option value="USER_ELE" {if $ppo->filters.originUserType eq "USER_ELE"} selected="selected"{/if}>Élève</option>
                 {if isset($ppo->filters.originSchool)}
                   {assign var='hasCredentialTeacherUpdate' value=$ppo->user->testCredential("module:school|`$ppo->filters.originSchool`|teacher|update@gestionautonome")}
                   {if $hasCredentialTeacherUpdate}
-                    <option value="USER_ENS" label="Enseignant"{if $ppo->filters.originUserType eq "USER_ENS"} selected="selected"{/if}>Enseignant</option>
+                    <option value="USER_ENS" {if $ppo->filters.originUserType eq "USER_ENS"} selected="selected"{/if}>Enseignant</option>
                   {/if}
                 {/if}
               </select>
             </div>
             <div class="field" id="origin-lastname">
-              <label>{i18n key="gestionautonome|gestionautonome.message.lastname"}</label>
-              <input type="text" name="origin_lastname" value="{$ppo->filters.originLastname}" />
+              <label for="origin_lastname">{i18n key="gestionautonome|gestionautonome.message.lastname"}</label>
+              <input type="text" name="origin_lastname" id="origin_lastname" value="{$ppo->filters.originLastname|escape}" />
             </div>
             <div class="field" id="origin-firstname">
-              <label>{i18n key="gestionautonome|gestionautonome.message.firstname"}</label>
-              <input type="text" name="origin_firstname" value="{$ppo->filters.originFirstname}" />
+              <label for="origin_firstname">{i18n key="gestionautonome|gestionautonome.message.firstname"}</label>
+              <input type="text" name="origin_firstname" id="origin_firstname" value="{$ppo->filters.originFirstname|escape}" />
             </div>
         </div>
         
         <div id="originName">
             <h3>{i18n key="gestionautonome|gestionautonome.message.origin}</h3>
-            <div class="field" id="origin-usertype">
+            <div class="field" id="origin-usertype-search">
                 <label for="origin_usertype_search">{i18n key="gestionautonome|gestionautonome.message.type"}</label>
                 <select class="form" name="origin_usertype_search" id="origin_usertype_search">
                     <option value="USER_ELE" label="Elève"{if $ppo->filters.originUserTypeSearch eq "USER_ELE"} selected="selected"{/if}>Elève</option>
@@ -96,13 +96,13 @@
                     {/if}
                 </select>
             </div>
-            <div class="field" id="origin-lastname">
-                <label>{i18n key="gestionautonome|gestionautonome.message.lastname"}</label>
-                <input type="text" name="origin_lastname_search" value="{$ppo->filters.originLastnameSearch}" />
+            <div class="field" id="origin-lastname-search">
+                <label for="origin_lastname_search">{i18n key="gestionautonome|gestionautonome.message.lastname"}</label>
+                <input type="text" name="origin_lastname_search" id="origin_lastname_search" value="{$ppo->filters.originLastnameSearch}" />
             </div>
-            <div class="field" id="origin-firstname">
-                <label>{i18n key="gestionautonome|gestionautonome.message.firstname"}</label>
-                <input type="text" name="origin_firstname_search" value="{$ppo->filters.originFirstnameSearch}" />
+            <div class="field" id="origin-firstname-search">
+                <label for="origin_firstname_search">{i18n key="gestionautonome|gestionautonome.message.firstname"}</label>
+                <input type="text" name="origin_firstname_search" id="origin_firstname_search" value="{$ppo->filters.originFirstnameSearch}" />
             </div>
         </div>
     </div>

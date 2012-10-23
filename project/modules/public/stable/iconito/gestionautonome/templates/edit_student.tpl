@@ -25,17 +25,17 @@
             
             <div class="field">
                 <p class="label"> Nom :</p>
-                <p class="input">{$ppo->person->nom}</p>
+                <p class="input">{$ppo->person->nom|escape}</p>
             </div>
             
             <div class="field">
                 <p class="label"> Prénom :</p>
-                <p class="input">{$ppo->person->prenom1}</p>
+                <p class="input">{$ppo->person->prenom1|escape}</p>
             </div>
             
             <div class="field">
                 <p class="label"> Identifiant :</p>
-                <p class="input">{$ppo->account_res->login_dbuser}</p>
+                <p class="input">{$ppo->account_res->login_dbuser|escape}</p>
             </div>
         </div>
     {else}
@@ -77,17 +77,17 @@
     
     <div class="field">
       <label for="nom" class="form_libelle"> Nom :</label>
-      <input class="form" type="text" name="nom" id="nom" value="{$ppo->student->nom}" />
+      <input class="form" type="text" name="nom" id="nom" value="{$ppo->student->nom|escape}" />
     </div>
     
     <div class="field">
       <label for="prenom1" class="form_libelle"> Prénom :</label>
-      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->student->prenom1}" />
+      <input class="form" type="text" name="prenom1" id="prenom1" value="{$ppo->student->prenom1|escape}" />
     </div>
     
     <div class="field">
       <label for="date_nais" class="form_libelle"> Date de naissance :</label>
-      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->student->date_nais}" />
+      <input class="form datepicker" type="text" name="date_nais" id="date_nais" value="{$ppo->student->date_nais|escape}" />
     </div> 
     
     <div class="field">
@@ -114,14 +114,14 @@
       <legend>Connexion</legend>
       <div class="field">
         <label for="student_login" class="form_libelle"> Identifiant :</label>
-        <span class="form" name="student_login" id="student_login"><strong>{$ppo->account->login_dbuser}</strong></span>
+        <span class="form" name="student_login" id="student_login"><strong>{$ppo->account->login_dbuser|escape}</strong></span>
       </div>  
     
       <div class="field"><a href="#" class="button button-update" id="new-password-link">Modifier le mot de passe</a></div>
     
       <div class="field" id="new-password"{if $ppo->errors.password_invalid eq null} style="display: none"{/if}>
         <label for="student-password" class="form_libelle"> Mot de passe :</label>
-        <input class="form" type="text" name="student_password" id="student_password" value="{$ppo->password}" /> (<a href="#" id="generate-student-password">Générer</a>)
+        <input class="form" type="text" name="student_password" id="student_password" value="{$ppo->password|escape}" /> (<a href="#" id="generate-student-password">Générer</a>)
       </div>
     {else}
       </fieldset>
@@ -130,12 +130,12 @@
       <legend>Connexion</legend>
       <div class="field">
         <label for="student_login" class="form_libelle"> Identifiant :</label>
-        <input class="form" type="text" name="student_login" id="student_login" value="{$ppo->login}" /> (<a href="#" id="generate-student-login">Générer</a>)
+        <input class="form" type="text" name="student_login" id="student_login" value="{$ppo->login|escape}" /> (<a href="#" id="generate-student-login">Générer</a>)
       </div>
 
       <div class="field">
         <label for="student_password" class="form_libelle"> Mot de passe :</label>
-        <input class="form" type="text" name="student_password" id="student_password" value="{$ppo->password}" /> (<a href="#" id="generate-student-password">Générer</a>)
+        <input class="form" type="text" name="student_password" id="student_password" value="{$ppo->password|escape}" /> (<a href="#" id="generate-student-password">Générer</a>)
       </div>
     {/if}
   </fieldset>

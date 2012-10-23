@@ -96,6 +96,7 @@ class DAOClasseurDossier
       $criteria = _daoSp ();
       $criteria->addCondition ('classeur_id', '=', $idClasseur);
       $criteria->addCondition ('parent_id', '=', 0);
+      $criteria->addCondition ('casier', '=', 1);
     $results = $this->findBy ($criteria);
 
     return isset ($results[0]) ? $results[0] : false;
