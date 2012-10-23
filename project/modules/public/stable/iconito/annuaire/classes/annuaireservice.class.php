@@ -839,7 +839,7 @@ class AnnuaireService extends enicService
           $home = array('type'=>'BU_ECOLE', 'id'=>$id);
         elseif (is_array($v['link']->ville) && ($id=array_shift(array_keys($v['link']->ville))))
           $home = array('type'=>'BU_VILLE', 'id'=>$id);
-        break;
+        if($home) break;
       }
     }
 

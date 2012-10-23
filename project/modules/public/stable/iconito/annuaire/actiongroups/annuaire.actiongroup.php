@@ -619,22 +619,22 @@ class ActionGroupAnnuaire extends EnicActionGroup
         $users = array();
 
         foreach ($eleves as $user) {
-            $users[] = $user;
+            $users[$user->bu_type.'-'.$user->bu_id] = $user;
         }
         foreach ($parents as $user) {
-            $users[] = $user;
+            $users[$user->bu_type.'-'.$user->bu_id] = $user;
         }
         foreach ($personnel as $user) {
-            $users[] = $user;
+            $users[$user->bu_type.'-'.$user->bu_id] = $user;
         }
         foreach ($adm as $user) {
-            $users[] = $user;
+            $users[$user->bu_type.'-'.$user->bu_id] = $user;
         }
         foreach ($vil as $user) {
-            $users[] = $user;
+            $users[$user->bu_type.'-'.$user->bu_id] = $user;
         }
         foreach ($ext as $user) {
-            $users[] = $user;
+            $users[$user->bu_type.'-'.$user->bu_id] = $user;
         }
         //_dump($eleves);
 

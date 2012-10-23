@@ -391,128 +391,219 @@ class DAOKernel_bu_personnel
     }
 
     /**
-     * Retourne les enseignants pouvant être assignés (manageAssignments)
+     * Retourne les enseignants affectés ou non pour une année donnée (recherche par nom)
      *
-     * @param array   $filters   Filtres de récupération des enseignants
+     * @param int $grade Année scolaire
+     * @param string $firstname Prénom
+     * @param string $lastname Nom
      *
-     * return CopixDAORecordIterator
+     * @return array
      */
-    public function findTeachersForManageAssignments ($filters = array ())
+    public function findTeachersByName($grade, $firstname = null, $lastname = null)
     {
-      $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
+        $parameters = array('grade' => $grade);
+        $sql = 'SELECT P.numero as user_id, LI.bu_type as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, EC.id as id_classe, EC.nom as nom_classe, E.nom as nom_ecole, V.nom as nom_ville, CN.id_n as id_niveau, CN.niveau as nom_niveau'
+            .' FROM kernel_bu_personnel P'
+            .' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id AND LI.bu_type="USER_ENS")'
+            .' LEFT JOIN kernel_bu_personnel_entite PE_TYPE_CLASSE ON (P.numero=PE_TYPE_CLASSE.id_per AND PE_TYPE_CLASSE.type_ref="CLASSE" AND PE_TYPE_CLASSE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER.')'
+            .' LEFT JOIN kernel_bu_ecole_classe EC ON (EC.id=PE_TYPE_CLASSE.reference AND EC.annee_scol=:grade)'
+            .' LEFT JOIN kernel_bu_ecole E ON (EC.ecole=E.numero)'
+            .' LEFT JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
+            .' LEFT JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
+            .' LEFT JOIN kernel_bu_ville V ON (E.id_ville=V.id_vi)';
 
-      $sql = 'SELECT P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect, PE.*'
-        . ' FROM kernel_bu_personnel P'
-        . ' LEFT JOIN kernel_bu_personnel_entite PE ON (P.numero=PE.id_per)'
-        . ' JOIN kernel_bu_personnel_role PR ON (PE.role=PR.id_role)'
-        . ' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id AND LI.bu_type = "USER_ENS")'
-        . ' JOIN dbuser U ON (LI.user_id=U.id_dbuser)';
-
-        if (isset($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
-          $sql .= ' JOIN kernel_bu_ecole_classe EC ON (EC.id='.$filters['originClassroom'].')';
-        } elseif (isset($filters['originSchool']) && !is_null ($filters['originSchool'])) {
-          $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['originSchool'].')'
-            . ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole = ECO.numero)'
-            . ' LEFT JOIN kernel_bu_personnel_entite PE2 ON (P.numero=PE2.id_per AND PE2.type_ref = "CLASSE" AND PE2.reference IN (SELECT id FROM kernel_bu_ecole_classe WHERE ecole = '.$filters['originSchool'].' AND annee_scol='.$filters['originGrade'].'))';
+        $whereClause = array(); 
+        if (null !== $firstname) {
+            $whereClause[] = 'P.prenom1 LIKE :firstname';
+            $parameters['firstname'] = $firstname.'%';
         }
-
-        $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
-        . ' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
-        . ' WHERE (PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
-        . ' OR PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL.')'
-        . ' AND EC.annee_scol='.$filters['originGrade'];
-
-      if (isset($filters['originClassroom']) && !is_null ($filters['originClassroom'])) {
-
-        $sql .= ' AND PE.reference = EC.id AND PE.type_ref = "CLASSE"';
-      } elseif (isset($filters['originSchool']) && !is_null ($filters['originSchool'])) {
-
-        $sql .= ' AND ((PE.reference = ECO.numero AND PE.type_ref = "ECOLE" AND PE2.reference IS NULL)'
-          . ' OR (PE.reference = EC.id AND PE.type_ref = "CLASSE"))';
-      }
-
-      if (isset ($filters['originLevel']) && !is_null ($filters['originLevel'])) {
-
-          $sql .= ' AND ECN.niveau='.$filters['originLevel'];
+        if (null !== $lastname) {
+            $whereClause[] = 'P.nom LIKE :lastname';
+            $parameters['lastname'] = $lastname.'%';
         }
-        if (isset ($filters['originLastname']) && !is_null ($filters['originLastname'])) {
-
-          $sql .= ' AND P.nom LIKE \'' . $filters['originLastname'] . '%\'';
+        if (!empty($whereClause)) {
+            $sql .= ' WHERE '.implode(' AND ', $whereClause);
         }
-        if (isset ($filters['originFirstname']) && !is_null ($filters['originFirstname'])) {
-
-          $sql .= ' AND P.prenom1 LIKE \'' . $filters['originFirstname'] . '%\'';
-        }
-
-      $sql .= ' GROUP BY PE.id_per,PE.reference'
-        . ' ORDER BY EC.nom, P.nom, P.prenom1';
-
-    return _doQuery($sql);
+        
+        $sql .= ' GROUP BY P.numero';
+        
+        return _doQuery($sql, $parameters);
     }
-
+  
     /**
-     * Retourne les enseignants assignés (manageAssignments)
+     * Retourne les enseignants affectés dans une école pour une année scolaire (recherche par structure)
      *
-     * @param array   $groups     Groupes
-     * @param array   $filters    Filtres de récupération des enseignants
+     * @param int $grade Année scolaire
+     * @param int $school Ecole
+     * @param int $classroom Classe
+     * @param int $level Niveau
+     * @param string $firstname Prénom
+     * @param string $lastname Nom
      *
-     * return CopixDAORecordIterator
+     * @return CopixDAORecordIterator
      */
-    public function findAssignedTeachers ($filters = array (), $groups = null)
+    public function findTeachersAssignedToSchoolByStructure($grade, $school, $classroom = null, $level = null, $firstname = null, $lastname = null)
     {
-      if (!is_null ($groups)) {
-
-        $groupsIds = array();
-
-      foreach ($groups as $key => $group) {
-
-        $id = substr($key, strrpos($key, '_')+1);
-
-        if (preg_match('/^teacher/', $key)) {
-
-          $groupsIds[] = $id;
+        $parameters = array('school' => $school);
+        $assignedTeachersIds = $this->findTeachersIdsAssigned($grade, $school, $classroom, $level, $firstname, $lastname);
+        
+        // Récupération des enseignants assignés à l'école mais sans affectation aux classes
+        $sql = 'SELECT P.numero as user_id, LI.bu_type as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, "" as id_classe, "" as nom_classe, E.nom as nom_ecole, V.nom as nom_ville, "" as id_niveau, "" as nom_niveau'
+            .' FROM kernel_bu_personnel P'
+            .' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id AND LI.bu_type="USER_ENS")'
+            .' JOIN kernel_bu_personnel_entite PE_TYPE_ECOLE ON (P.numero=PE_TYPE_ECOLE.id_per AND PE_TYPE_ECOLE.type_ref="ECOLE")'
+            .' JOIN kernel_bu_ecole E ON (PE_TYPE_ECOLE.reference=E.numero)'
+            .' JOIN kernel_bu_ville V ON (E.id_ville=V.id_vi)';
+        if (!empty($assignedTeachersIds)) {
+            $sql .= ' WHERE id_per NOT IN ('.implode(',', $assignedTeachersIds).') AND';
+        } else {
+            $sql .= ' WHERE';
         }
-      }
+        $sql .= ' PE_TYPE_ECOLE.reference=:school'
+            .' AND PE_TYPE_ECOLE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER;
+        if (null !== $firstname) {
+            $sql .= ' AND P.prenom1 LIKE :firstname';
+            $parameters['firstname'] = $firstname.'%';
+        }
+        if (null !== $lastname) {
+            $sql .= ' AND P.nom LIKE :lastname';
+            $parameters['lastname'] = $lastname.'%';
+        }
+                
+        // Récupération des enseignants assignés à au moins une classe de l'école
+        if (!empty($assignedTeachersIds)) {
+            $parameters['grade'] = $grade;
+            $sql = 'SELECT * FROM ('.$sql.' UNION '
+                .' SELECT P.numero as user_id, LI.bu_type as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, EC.id as id_classe, EC.nom as nom_classe, E.nom as nom_ecole, V.nom as nom_ville, CN.id_n as id_niveau, CN.niveau as nom_niveau'
+                .' FROM kernel_bu_personnel P'
+                .' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id AND LI.bu_type="USER_ENS")'
+                .' JOIN kernel_bu_personnel_entite PE_TYPE_CLASSE ON (P.numero=PE_TYPE_CLASSE.id_per AND PE_TYPE_CLASSE.type_ref="CLASSE")'
+                .' JOIN kernel_bu_ecole_classe EC ON (EC.id=PE_TYPE_CLASSE.reference)'
+                .' JOIN kernel_bu_ecole E ON (EC.ecole=E.numero)'
+                .' JOIN kernel_bu_ville V ON (E.id_ville=V.id_vi)'
+                .' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
+                .' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
+                .' WHERE id_per IN ('.implode(',', $assignedTeachersIds).')'
+                .' AND EC.ecole=:school'
+                .' AND PE_TYPE_CLASSE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
+                .' AND EC.annee_scol=:grade';
+            if (null !== $classroom) {
+                $sql .= ' AND EC.id=:classroom';
+                $parameters['classroom'] = $classroom;
+            }
+            if (null !== $level) {
+                $sql .= ' AND CN.id_n=:level';
+                $parameters['level'] = $level;
+            }
+            $sql .= ') as teachers';
+        }
+        
+        $sql .= ' ORDER BY nom, prenom';
+        
+        return _doQuery($sql, $parameters);
     }
-
-      $personEntityDAO = _ioDAO ('kernel|kernel_bu_personnel_entite');
-
-      $sql = 'SELECT P.numero as user_id, "USER_ENS" as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, U.id_dbuser, U.login_dbuser, LI.bu_type, LI.bu_id, EC.id as id_classe, EC.nom as nom_classe, "" AS id_niveau, "" AS nom_niveau, EC.id AS is_affect'
-        . ' FROM kernel_bu_personnel P'
-        . ' LEFT JOIN kernel_bu_personnel_entite PE ON (P.numero=PE.id_per)'
-        . ' JOIN kernel_bu_personnel_role PR ON (PE.role=PR.id_role)'
-        . ' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id)'
-        . ' JOIN dbuser U ON (LI.user_id=U.id_dbuser)';
-
-        if (isset($filters['destinationClassroom'])) {
-
-          $sql .= ' JOIN kernel_bu_ecole_classe EC ON (EC.id='.$filters['destinationClassroom'].')';
-        } elseif (isset($filters['destinationSchool'])) {
-
-          $sql .= ' JOIN kernel_bu_ecole ECO ON (ECO.numero='.$filters['destinationSchool'].')';
-          $sql .= ' JOIN kernel_bu_ecole_classe EC ON (EC.ecole=ECO.numero)';
+    
+    /**
+     * Retourne les enseignants affectés à une classe dans une école pour une année scolaire (recherche par structure)
+     *
+     * @param int $grade Année scolaire
+     * @param int $school Ecole
+     * @param int $classroom Classe
+     * @param int $level Niveau
+     * @param string $firstname Prénom
+     * @param string $lastname Nom
+     *
+     * @return array
+     */
+    public function findTeachersAssignedToClassroomByStructure($grade, $school, $classroom = null, $level = null, $firstname = null, $lastname = null)
+    {
+        $assignedTeachersIds = $this->findTeachersIdsAssigned($grade, $school, $classroom, $level, $firstname, $lastname);
+        if (empty($assignedTeachersIds)) {
+            return array();
         }
-
-        $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
-        . ' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)'
-        . ' WHERE PR.id_role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
-        . ' AND PE.type_ref="CLASSE"'
-        . ' AND PE.reference=EC.id'
-        . ' AND EC.annee_scol='.$filters['destinationGrade'];
-
-      if (isset ($filters['destinationLevel'])) {
-
-          $sql .= ' AND ECN.niveau='.$filters['destinationLevel'];
+        
+        $parameters = array('school' => $school, 'grade' => $grade);
+        $sql = 'SELECT P.numero as user_id, LI.bu_type as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, EC.id as id_classe, EC.nom as nom_classe, E.nom as nom_ecole, V.nom as nom_ville, CN.id_n as id_niveau, CN.niveau as nom_niveau'
+            .' FROM kernel_bu_personnel P'
+            .' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id AND LI.bu_type="USER_ENS")'
+            .' JOIN kernel_bu_personnel_entite PE_TYPE_CLASSE ON (P.numero=PE_TYPE_CLASSE.id_per AND PE_TYPE_CLASSE.type_ref="CLASSE")'
+            .' JOIN kernel_bu_ecole_classe EC ON (EC.id=PE_TYPE_CLASSE.reference)'
+            .' JOIN kernel_bu_ecole E ON (EC.ecole=E.numero)'
+            .' JOIN kernel_bu_ville V ON (E.id_ville=V.id_vi)'
+            .' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
+            .' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)';
+        
+        $sql .= ' WHERE id_per IN ('.implode(',', $assignedTeachersIds).')'
+            .' AND EC.ecole=:school'
+            .' AND PE_TYPE_CLASSE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
+            .' AND EC.annee_scol=:grade';
+            
+        if (null !== $classroom) {
+            $sql .= ' AND EC.id=:classroom';
+            $parameters['classroom'] = $classroom;
         }
-      if (!is_null ($groups)) {
-
-        $sql .= ' AND EC.id IN ('.implode(',', $groupsIds).')';
-      }
-
-      $sql .= ' GROUP BY PE.id_per,PE.reference'
-        . ' ORDER BY P.nom, P.prenom1';
-
-    return _doQuery($sql);
+        if (null !== $level) {
+            $sql .= ' AND CN.id_n=:level';
+            $parameters['level'] = $level;
+        }
+        
+        $sql .= ' ORDER BY P.nom, P.prenom1';
+        
+        return _doQuery($sql, $parameters);
     }
+    
+    /**
+     * Retourne les identifiants des enseignants affectés à une classe d'une école
+     *
+     * @param int $grade Année scolaire
+     * @param int $school Ecole
+     * @param int $classroom Classe
+     * @param int $level Niveau
+     * @param string $firstname Prénom
+     * @param string $lastname Nom
+     *
+     * @return array
+     */
+    protected function findTeachersIdsAssigned($grade, $school, $classroom = null, $level = null, $firstname = null, $lastname = null)
+    {
+        $parameters = array(':school' => $school, ':grade' => $grade);    
+        $sql = 'SELECT DISTINCT id_per'
+            .' FROM kernel_bu_personnel P'
+            .' JOIN kernel_bu_personnel_entite PE_TYPE_CLASSE ON (P.numero=PE_TYPE_CLASSE.id_per AND PE_TYPE_CLASSE.type_ref="CLASSE")'
+            .' JOIN kernel_bu_ecole_classe EC ON (EC.id=PE_TYPE_CLASSE.reference)';
+        
+        if (null !== $level) {
+            $sql .= ' JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
+                .' JOIN kernel_bu_classe_niveau CN ON (CN.id_n=ECN.niveau)';
+        }
+        
+        $sql .=' WHERE EC.ecole=:school'
+            .' AND PE_TYPE_CLASSE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER
+            .' AND EC.annee_scol=:grade';
+        
+        if (null !== $classroom) {
+            $sql .= ' AND EC.id=:classroom';
+            $parameters['classroom'] = $classroom;
+        }
+        if (null !== $level) {
+            $sql .= ' AND CN.id_n=:level';
+            $parameters['level'] = $level;
+        }
+        if (null !== $firstname) {
+            $sql .= ' AND P.prenom1 LIKE :firstname';
+            $parameters['firstname'] = $firstname.'%';
+        }
+        if (null !== $lastname) {
+            $sql .= ' AND P.nom LIKE :lastname';
+            $parameters['lastname'] = $lastname.'%';
+        }
+        
+        $ids = array();     
+        $results = _doQuery($sql, $parameters);
+        foreach ($results as $result) {
+            $ids[] = $result->id_per;
+        }
 
+        return $ids;
+    }
 }

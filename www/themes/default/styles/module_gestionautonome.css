@@ -298,6 +298,17 @@ ul.tree a.classroom {
 
 /******************************************************************************/
 /* Affect */
+#origin .ui-tabs-nav li, .ui-widget {font-size:1em;}
+#origin.ui-widget input, 
+#origin.ui-widget select, 
+#origin.ui-widget textarea, 
+#origin.ui-widget button {font-size:0.9em; font-family:inherit;}
+#origin .ui-tabs-nav li.ui-tabs-selected {
+	border:2px solid white;
+	font-weight:bold; line-height:1.1;
+}
+.ui-widget-content {color:inherit;}
+#origin.ui-tabs .ui-tabs-panel {padding:.5em 0.4em;}
 #filter-form {
 	margin-top:5px;
 	min-height:160px;
@@ -318,7 +329,7 @@ ul.tree a.classroom {
 .filterClass .field label {
 	width:30%;
 }
-.filterClass h3 {margin:0;}
+.filterClass h3 {margin:.2em 0 .3em;}
 .filterClass dl {margin:10px 0 5px;}
 .filterClass dl dt {
 	clear:both; float:left;
@@ -398,10 +409,10 @@ ul.tree a.classroom {
 	margin:-5px 0 5px;
 }
 #gestionautonome .submit .button-previous {background-color:#f9f9f9;}
-.ui-widget input,
-.ui-widget select,
-.ui-widget textarea,
-.ui-widget button {
+.ui-widget #import-dialog input,
+.ui-widget #import-dialog select,
+.ui-widget #import-dialog textarea,
+.ui-widget #import-dialog button {
 	font-size:1.22em;
 }
 /* End Import */
