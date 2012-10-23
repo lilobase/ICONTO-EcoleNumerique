@@ -35,7 +35,6 @@
                     <option value="{$grade->id_as}"{if $ppo->filters.originGrade == $grade->id_as} selected="selected"{/if}>{$grade->anneeScolaire}</option>
                   {/foreach}
                 </select>
-                <input type="submit" value="{i18n key="gestionautonome|gestionautonome.message.refresh"}" />
               </div>
             {/if}
             {if $ppo->user->testCredential ('basic:admin') || $ppo->user->isDirector || $ppo->user->isAnimator}
@@ -122,7 +121,6 @@
             {/if}
           {/foreach}
         </select>
-        <input type="submit" value="{i18n key="gestionautonome|gestionautonome.message.refresh"}" />
       </div>
     {/if}
     
@@ -150,6 +148,7 @@
       {copixzone process=gestionautonome|filterClassLevel selected=$ppo->filters.destinationLevel school_id=$ppo->filters.destinationSchool classroom_id=$ppo->filters.destinationClassroom with_label=true grade=$ppo->filters.destinationGrade name=destination_level with_empty=true label_empty="Tous"}
     </div>
    </div>
+   <input type="submit" value="{i18n key="gestionautonome|gestionautonome.message.refresh"}" class="hiddenClean" />
    <p class="mesgInfo">Pour changer d'affectation, glissez-déposez une personne ou une classe entière de la classe d'origine vers la classe de destination.</p>
 </form>
 

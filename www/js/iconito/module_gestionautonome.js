@@ -10,9 +10,6 @@ function prepareAssignmentsManagementFilter(filterAndDisplay, cityFilter, school
   var classLevelFilterUrl = classLevelFilter;
   
   
-  // On cache le bouton de soumission du formulaire
-  $('#filter-form input[type="submit"]').hide();
-  
   // Onglets
   $('#origin').tabs();
   
