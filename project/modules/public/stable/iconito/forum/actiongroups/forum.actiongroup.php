@@ -231,7 +231,7 @@ class ActionGroupForum extends CopixActionGroup
             $tplForum = new CopixTpl ();
             $tplForum->assign ('topic', $rTopic);
             $tplForum->assign ('list', $list);
-            $tplForum->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'url'=>CopixUrl::get('forum||getTopic', array("id"=>$id)))));
+            $tplForum->assign ('reglettepages', CopixZone::process ('kernel|reglettepages', array('page'=>$page, 'nbPages'=>$nbPages, 'separator' => '&', 'url'=>CopixUrl::get('forum||getTopic', array("id"=>$id)))));
             $tplForum->assign ('petitpoucet', CopixZone::process ('forum|petitpoucet', array('topic'=>$rTopic)));
 
             $tplForum->assign ('canModifyMessage', ($forumService->canMakeInForum('MODIFY_MESSAGE',$mondroit)) ? 1 : 0);
