@@ -401,6 +401,8 @@ class DAOKernel_bu_personnel
      */
     public function findTeachersByName($grade, $firstname = null, $lastname = null)
     {
+        $DAOKernelBuPersonnelEntite = _ioDAO('kernel|kernel_bu_personnel_entite');
+        
         $parameters = array('grade' => $grade);
         $sql = 'SELECT P.numero as user_id, LI.bu_type as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, EC.id as id_classe, EC.nom as nom_classe, E.nom as nom_ecole, V.nom as nom_ville, CN.id_n as id_niveau, CN.niveau as nom_niveau'
             .' FROM kernel_bu_personnel P'
@@ -443,7 +445,9 @@ class DAOKernel_bu_personnel
      * @return CopixDAORecordIterator
      */
     public function findTeachersAssignedToSchoolByStructure($grade, $school, $classroom = null, $level = null, $firstname = null, $lastname = null)
-    {
+    {   
+        $DAOKernelBuPersonnelEntite = _ioDAO('kernel|kernel_bu_personnel_entite');
+        
         $parameters = array('school' => $school);
         $assignedTeachersIds = $this->findTeachersIdsAssigned($grade, $school, $classroom, $level, $firstname, $lastname);
         
@@ -517,6 +521,8 @@ class DAOKernel_bu_personnel
      */
     public function findTeachersAssignedToClassroomByStructure($grade, $school, $classroom = null, $level = null, $firstname = null, $lastname = null)
     {
+        $DAOKernelBuPersonnelEntite = _ioDAO('kernel|kernel_bu_personnel_entite');
+        
         $assignedTeachersIds = $this->findTeachersIdsAssigned($grade, $school, $classroom, $level, $firstname, $lastname);
         if (empty($assignedTeachersIds)) {
             return array();
@@ -566,6 +572,8 @@ class DAOKernel_bu_personnel
      */
     protected function findTeachersIdsAssigned($grade, $school, $classroom = null, $level = null, $firstname = null, $lastname = null)
     {
+        $DAOKernelBuPersonnelEntite = _ioDAO('kernel|kernel_bu_personnel_entite');
+        
         $parameters = array(':school' => $school, ':grade' => $grade);    
         $sql = 'SELECT DISTINCT id_per'
             .' FROM kernel_bu_personnel P'
