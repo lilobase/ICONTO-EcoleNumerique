@@ -1332,6 +1332,13 @@ if(DEBUG) {
             }
         }
 
+
+        // Sur un USER_EXT, généralement rattaché à rien de l'arbre, on regardera aussi si le user a un droit général sur les USER_EXT
+        if ('USER_EXT' === $userInfoCible['type'])
+        {
+            $userCible['ROOT'][0] = $userInfoCible['type'];
+        }
+
         /*
          * Pour chaque noeud de rattachement / profil du user cible,
          * vérifie ses droits.

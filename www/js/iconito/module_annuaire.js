@@ -22,6 +22,17 @@ function change_ville (obj,form) {
 	form.submit();
 }
 
+function change_grville (obj,form) {
+	if (obj.value=="" || obj.value=="0") return;
+  if ($('select[name=classe]').val())
+    $('select[name=classe]').val('');
+  if ($('select[name=ecole]').val())
+    $('select[name=ecole]').val('');
+  if ($('select[name=ville]').val())
+    $('select[name=ville]').val('');
+	form.submit();
+}
+
 // right = le droit qu'il faudra vérifier à l'affichage des users
 function open_annuaire (field, right) {
 		var url = getActionURL('annuaire|default|getPopup', 'field='+field+'&right='+right);
@@ -39,9 +50,6 @@ function open_annuaire_profil (field, profil) {
 		if (a)
 			a.focus();
 }
-
-
-
 
 
 

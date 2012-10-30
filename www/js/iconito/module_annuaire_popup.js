@@ -113,6 +113,20 @@ jQuery(document).ready(function($){
             $('.enUser').attr('checked', '').change();
         }    
     });
+
+
+    /**
+     * Masquage du choix du groupe de villes s'il n'y en a qu'un
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2012/10/29
+     */
+    if ($('#select-grvilles > select > option').length <= 1) {
+        $('#select-grvilles').hide();
+    }
+
+
+
     
     
 });

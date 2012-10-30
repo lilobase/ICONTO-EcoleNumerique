@@ -15,13 +15,13 @@
 
 <form name="formGo" id="formGo" action="{copixurl dest="annuaire||getPopup"}" method="get">
 <input type="hidden" name="field" value="{$field}" />
-<input type="hidden" name="grville" value="{$grville}" />
 <input type="hidden" name="profil" value="{$profil}" />
 <input type="hidden" name="right" value="{$right}" />
 
 
 <div class="annu_popup_zone">
 <b>{i18n key="annuaire.popup.browse"}</b> : <br/>
+<span id="select-grvilles">{i18n key="annuaire.grville"} : {$combogrvilles}<br/></span>
 {i18n key="annuaire.ville"} : {$combovilles}<br/>
 {if !$profil || $profil!='USER_VIL'}{i18n key="annuaire.ecole"} : {$comboecoles}<br/>{/if}
 {if !$profil || $profil!='USER_VIL'}{i18n key="annuaire.classe"} : {$comboclasses}<br/>{/if}
