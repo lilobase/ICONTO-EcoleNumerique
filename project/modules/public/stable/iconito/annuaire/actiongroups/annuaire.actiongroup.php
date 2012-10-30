@@ -372,8 +372,9 @@ class ActionGroupAnnuaire extends EnicActionGroup
                     break;
                 case 'BU_VILLE' :
                     $info = Kernel::getNodeInfo($home['type'], $home['id']);
-                    if ($info)
+                    if ($info) {
                         $grville = $info['ALL']->vil_id_grville;
+                    }
                     $ville = $home['id'];
                     $ecole = $ALL;
                     $classe = $ALL;
@@ -434,6 +435,13 @@ class ActionGroupAnnuaire extends EnicActionGroup
 
 
         $debug = false;
+
+        $start = microtime(true);
+        $tplListe->assign('combogrvilles', CopixZone::process('annuaire|combogrvilles', array('droit' => $right, 'value' => $grville, 'fieldName' => 'grville', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_grville(this,this.form);"', 'linesSup' => array())));
+        if ($debug)
+            echo "combogrvilles " . date("H:i:s") . " " . (microtime(true) - $start) . "<br />";
+
+
 
         $start = microtime(true);
         $tplListe->assign('combovilles', CopixZone::process('annuaire|combovilles', array('droit' => $right, 'grville' => $grville, 'value' => $ville, 'fieldName' => 'ville', 'attribs' => 'class="annu_combo_popup" ONCHANGE="change_ville(this,this.form);"', 'linesSup' => array(0 => array('value' => $ALL, 'libelle' => CopixI18N::get('annuaire|annuaire.comboAllVilles'))))));

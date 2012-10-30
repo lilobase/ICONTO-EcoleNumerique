@@ -92,6 +92,53 @@ class AnnuaireService extends enicService
         return $villes;
     }
 
+    /**
+     * Retourne une liste de groupes de villes
+     *
+     * @author Christophe Beyer <cbeyer@cap-tic.fr>
+     * @since 2012/10/29
+     * @param array $pVilles Tableau des ID de ville (ID en valeur), ou null si aucun filtre selon ces villes
+     * @param array $options Tableau d'options : [droit] pour n'avoir que les groupes sur lesquels on a ce droit
+     * @return array Tableau avec les groupes de villes
+     */
+    public function getGrVilles ($pVilles, $options=array())
+    {
+        $grvilles = array();
+
+        if( isset($options['getNodeInfo_light']) && $options['getNodeInfo_light'] ) {
+            $getNodeInfo_full = false;
+        } else {
+            $getNodeInfo_full = true;
+        }
+
+        $matrix = & enic::get('matrixCache');
+
+        if ($pVilles) // On ne prend que les groupes rattachés à ces villes
+        {
+            $groupes = _ioDAO('kernel|kernel_bu_groupe_villes')->findByVilles($pVilles);
+        }
+        else
+        {
+            $groupes = _ioDAO('kernel|kernel_bu_groupe_villes')->findAllOrderByName();
+        }
+
+
+        foreach ($groupes as $child) {
+            if (isset($options['droit']) && $options['droit']) {
+                $droit = $matrix->grville($child->id_grv)->_right->count->$options['droit'];
+                if (!$droit) {
+                    continue;
+                }
+            }
+            $node = Kernel::getNodeInfo ('BU_GRVILLE', $child->id_grv, $getNodeInfo_full);
+            $grvilles[] = array('id'=>$child->id_grv, 'nom'=>$node['nom']);
+        }
+
+        //_dump($grvilles);
+        //usort ($villes, array('AnnuaireService', 'usort_nom'));
+        return $grvilles;
+    }
+
 
 
     /**

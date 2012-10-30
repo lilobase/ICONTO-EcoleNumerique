@@ -13,9 +13,9 @@
 class CopixPager
 {
     /**
-     * Nombre de résultat par page souhaité
+     * Nombre de rï¿½sultat par page souhaitï¿½
      *
-     * Valeur par défaut : 10
+     * Valeur par dï¿½faut : 10
      * @var int $perPage
      * @see calcul()
      */
@@ -24,10 +24,10 @@ class CopixPager
 
 
     /**
-     * Le nombre de liens par page souhaité
+     * Le nombre de liens par page souhaitï¿½
      *
-     * 0 = tous les liens sur la même page
-     * Valeur par défaut : 10
+     * 0 = tous les liens sur la mï¿½me page
+     * Valeur par dï¿½faut : 10
      * @var int $delta
      * @see calcul(), parseLoop()
      */
@@ -38,8 +38,8 @@ class CopixPager
     /**
      * Le nom du fichier template contenant le code HTML du multipage
      *
-     * Ce fichier doit obligatoirement se trouver dans le sous-répertoire "templates" de la classe
-     * Valeur par défaut : 'pager1.tpl'
+     * Ce fichier doit obligatoirement se trouver dans le sous-rï¿½pertoire "templates" de la classe
+     * Valeur par dï¿½faut : 'pager1.tpl'
      * @var string $template
      * @see parsetemplate()
      */
@@ -48,12 +48,12 @@ class CopixPager
 
 
     /**
-     * Permet de créer une URI personnalisé
+     * Permet de crï¿½er une URI personnalisï¿½
      *
-     * Utile notamment pour tout ce qui relève de l'ordre de l'URL Rewritting.
-     * Doit obligatoirement posséder la variable PAGE.
+     * Utile notamment pour tout ce qui relï¿½ve de l'ordre de l'URL Rewritting.
+     * Doit obligatoirement possï¿½der la variable PAGE.
      * Exemple : mapage-parametre-<#PAGE>.htm
-     * Valeur par défaut : chaine vide
+     * Valeur par dï¿½faut : chaine vide
      * @var string $tplUri
      * @see getLink()
      */
@@ -64,7 +64,7 @@ class CopixPager
     /**
      * Permet d'ajouter X colonnes pour la fusion de colonnes (colspan) dans le template
      *
-     * Valeur par défaut : 0
+     * Valeur par dï¿½faut : 0
      * @var int $addToColspan
      * @see parseColspan()
      */
@@ -73,10 +73,10 @@ class CopixPager
 
 
     /**
-     * Libellé pour la page suivante
+     * Libellï¿½ pour la page suivante
      *
      * Se configure dans le fichier 'config.class.php'
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $nextPage
      * @see parseNextPage()
      */
@@ -85,10 +85,10 @@ class CopixPager
 
 
     /**
-     * Libellé pour la page précédente
+     * Libellï¿½ pour la page prï¿½cï¿½dente
      *
      * Se configure dans le fichier 'config.class.php'
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $previousPage
      * @see parsePreviousPage()
      */
@@ -97,10 +97,10 @@ class CopixPager
 
 
     /**
-     * Libellé pour l'accès à la dernière page
+     * Libellï¿½ pour l'accï¿½s ï¿½ la derniï¿½re page
      *
      * Se configure dans le fichier 'config.class.php'
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $lastPage
      * @see parseLastPage()
      */
@@ -109,10 +109,10 @@ class CopixPager
 
 
     /**
-     * Libellé pour l'accès à la première page
+     * Libellï¿½ pour l'accï¿½s ï¿½ la premiï¿½re page
      *
      * Se configure dans le fichier 'config.class.php'
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $firstPage
      * @see parseFirstPage()
      */
@@ -123,9 +123,9 @@ class CopixPager
     /**
      * Toujours afficher le multipage
      *
-     * Spécifie s'il faut afficher le multipage lorsque ce dernier n'est pas nécessaire (cas où il y a moins d'enregistrements que
+     * Spï¿½cifie s'il faut afficher le multipage lorsque ce dernier n'est pas nï¿½cessaire (cas oï¿½ il y a moins d'enregistrements que
      * la valeur contenue dans $perPage)
-     * Valeur par défaut : true
+     * Valeur par dï¿½faut : true
      * @var bool $alwaysShow
      * @see setup()
      */
@@ -134,11 +134,11 @@ class CopixPager
 
 
     /**
-     * Séparateur de page
+     * Sï¿½parateur de page
      *
-     * Définit le séparateur de pages pour les parties "loop".
+     * Dï¿½finit le sï¿½parateur de pages pour les parties "loop".
      * Se configure dans le fichier config.class.php
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $separator
      * @see parseLoop()
      */
@@ -147,11 +147,11 @@ class CopixPager
 
 
     /**
-     * Nom de colonne pour le mode "alphabétique"
+     * Nom de colonne pour le mode "alphabï¿½tique"
      *
-     * Cette propriété permet de spécifier à la classe sur quelle colonne de la requête doit se jouer le tri.
-     * Si cette propriété est précisée, la classe passe automatiquement en mode "index alphabétique".  Pour rester en mode
-     * numérique, cette propriété doit rester vide.
+     * Cette propriï¿½tï¿½ permet de spï¿½cifier ï¿½ la classe sur quelle colonne de la requï¿½te doit se jouer le tri.
+     * Si cette propriï¿½tï¿½ est prï¿½cisï¿½e, la classe passe automatiquement en mode "index alphabï¿½tique".  Pour rester en mode
+     * numï¿½rique, cette propriï¿½tï¿½ doit rester vide.
      * @var string $alphaColumn
      * @see createSQL(), buildAlphaLikeClause(), calcul(), parseLoop()
      */
@@ -160,10 +160,10 @@ class CopixPager
 
 
     /**
-     * Regroupement de caractères
+     * Regroupement de caractï¿½res
      *
      * Prise en compte de x lettres (ex : [A-Z])
-     * Valeur par défaut : 1
+     * Valeur par dï¿½faut : 1
      * @var int $alphaEncaps
      * @see buildAlphaLikeClause(), calcul(), getAlphaLinkValue()
      */
@@ -172,12 +172,12 @@ class CopixPager
 
 
     /**
-     * Nom de la variable passée par l'url pour le numéro de la page
+     * Nom de la variable passï¿½e par l'url pour le numï¿½ro de la page
      *
-     * Cette propriété sert à renommer la variable sur le numéro de page que vous passez par l'url. Ceci permet
-     * d'éviter un potentiel conflit si vous disposez déjà d'une variable de même nom dans votre url.
+     * Cette propriï¿½tï¿½ sert ï¿½ renommer la variable sur le numï¿½ro de page que vous passez par l'url. Ceci permet
+     * d'ï¿½viter un potentiel conflit si vous disposez dï¿½jï¿½ d'une variable de mï¿½me nom dans votre url.
      * Se configure dans le fichier config.class.php
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $varUrl
      */
     public $varUrl;
@@ -185,12 +185,12 @@ class CopixPager
 
 
     /**
-     * Identifiant de début d'une variable template
+     * Identifiant de dï¿½but d'une variable template
      *
-     * Sert à renommer les variables templates au bon vouloir du programmeur.
-     * Cette propriété indique par quel code commence une variable template
+     * Sert ï¿½ renommer les variables templates au bon vouloir du programmeur.
+     * Cette propriï¿½tï¿½ indique par quel code commence une variable template
      * Se configure dans le fichier config.class.php
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $tplVarBegin
      */
     public $tplVarBegin;
@@ -200,10 +200,10 @@ class CopixPager
     /**
      * Identifiant de fin d'une variable template
      *
-     * Sert à renommer les variables templates au bon vouloir du programmeur.
-     * Cette propriété indique par quel code commence une variable template
+     * Sert ï¿½ renommer les variables templates au bon vouloir du programmeur.
+     * Cette propriï¿½tï¿½ indique par quel code commence une variable template
      * Se configure dans le fichier config.class.php
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $tplVarBegin
      */
     public $tplVarEnd;
@@ -211,12 +211,12 @@ class CopixPager
 
 
     /**
-     * Chaine ajoutée avant le nom de la page courante
+     * Chaine ajoutï¿½e avant le nom de la page courante
      *
-     * Sert à mettre en valeur la page courante
+     * Sert ï¿½ mettre en valeur la page courante
      *
      * Se configure dans le fichier config.class.php
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $curPageSpanPre
      */
     public $curPageSpanPre;
@@ -224,11 +224,11 @@ class CopixPager
 
 
     /**
-     * Chaine ajoutée après le nom de la page courante
+     * Chaine ajoutï¿½e aprï¿½s le nom de la page courante
      *
-     * Sert à mettre en valeur la page courante
+     * Sert ï¿½ mettre en valeur la page courante
      * Se configure dans le fichier config.class.php
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $curPageSpanPost
      */
     public $curPageSpanPost;
@@ -239,7 +239,7 @@ class CopixPager
      * Classe CSS pour les liens
      *
      * Se configure dans le fichier config.class.php
-     * Se référer au fichier de configuration pour la valeur par défaut
+     * Se rï¿½fï¿½rer au fichier de configuration pour la valeur par dï¿½faut
      * @var string $linkClass
      */
     public $linkClass;
@@ -247,7 +247,7 @@ class CopixPager
 
 
     /**
-     * Chemin d'accès complet aux templates
+     * Chemin d'accï¿½s complet aux templates
      *
      * @access public
      * @var string $linkClass
@@ -269,9 +269,9 @@ class CopixPager
 
 
     /**
-     * Flag permettant de savoir si l'on est déjà passé dans la méthode setup()
+     * Flag permettant de savoir si l'on est dï¿½jï¿½ passï¿½ dans la mï¿½thode setup()
      *
-     * Val par défaut : FALSE
+     * Val par dï¿½faut : FALSE
      * @access private
      * @var bool $_initialized
      */
@@ -280,9 +280,9 @@ class CopixPager
 
 
     /**
-     * Indique si les éléments contenu dans l'url doivent être encodés
+     * Indique si les ï¿½lï¿½ments contenu dans l'url doivent ï¿½tre encodï¿½s
      *
-     * Valeur par défaut : false
+     * Valeur par dï¿½faut : false
      * @access public
      * @var bool $urlEncode
      */
@@ -291,7 +291,7 @@ class CopixPager
 
 
     /**
-     * Encode les entités HTML des libellés du multipage
+     * Encode les entitï¿½s HTML des libellï¿½s du multipage
      *
      * @access public
      * @var bool $toHtmlEntities
@@ -318,13 +318,12 @@ class CopixPager
      * @return void
      * @since
       */
-    function &Load($options = Array()) {
+    function Load($options = Array()) {
         //$className = 'multipage_' . StrToLower($driver);
         //require_once(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'drivers' . DIRECTORY_SEPARATOR . StrToLower($driver) . '.class.php');
         //$object =& new $className($options);
         require_once (COPIX_UTILS_PATH.'CopixArrayPager.class.php');
-        $object = & new CopixArrayPager($options);
-        return $object;
+        return new CopixArrayPager($options);
     }
 
 
@@ -332,7 +331,7 @@ class CopixPager
    /**
      * Constructeur
      *
-     * Instancie les propriétés avec leur valeurs par défaut
+     * Instancie les propriï¿½tï¿½s avec leur valeurs par dï¿½faut
      * @access public
      * @return void
      * @since 1.0
@@ -358,12 +357,12 @@ class CopixPager
 
 
     /**
-     * Index de départ, index de fin du tableau $aAlpha
+     * Index de dï¿½part, index de fin du tableau $aAlpha
      *
-     * Calcule les index de départ et de fin pour le tableau $aAlpha en fonction de la page $page
+     * Calcule les index de dï¿½part et de fin pour le tableau $aAlpha en fonction de la page $page
      * @access private
-     * @param int $page, page pour laquelle il faut calculer l'index (page courante par défaut)
-     * @return array 0 => index du début, 1 => index de fin
+     * @param int $page, page pour laquelle il faut calculer l'index (page courante par dï¿½faut)
+     * @return array 0 => index du dï¿½but, 1 => index de fin
      * @since 3.1
      */
     public function getAlphaIndex($page = '')
@@ -379,13 +378,13 @@ class CopixPager
 
 
    /**
-     * Initialisation des propriétés nécessaires au bon déroulement du multipage
+     * Initialisation des propriï¿½tï¿½s nï¿½cessaires au bon dï¿½roulement du multipage
      *
-     * Les propriétés générées sont les suivantes :
-     *     int  nbRecord, le nombre d'enregistrements contenus dans la requête, en tenant compte de la clause LIMIT
-     *     int  nbLinks, contient le nombre de liens nécessaire à l'affichage de tous les enregistrements
-     *     int  first_pos, contient la position du lien à partir duquel il faudra commencer à afficher les liens vers les autres pages
-     *     int  last_pos, contient la position du lien à partir duquel il faudra arrêter d'afficher les liens vers les autres pages
+     * Les propriï¿½tï¿½s gï¿½nï¿½rï¿½es sont les suivantes :
+     *     int  nbRecord, le nombre d'enregistrements contenus dans la requï¿½te, en tenant compte de la clause LIMIT
+     *     int  nbLinks, contient le nombre de liens nï¿½cessaire ï¿½ l'affichage de tous les enregistrements
+     *     int  first_pos, contient la position du lien ï¿½ partir duquel il faudra commencer ï¿½ afficher les liens vers les autres pages
+     *     int  last_pos, contient la position du lien ï¿½ partir duquel il faudra arrï¿½ter d'afficher les liens vers les autres pages
      * @access private
      * @return void
      * @see linkCount()
@@ -396,10 +395,10 @@ class CopixPager
         // Nombre total d'enregistrements
         $this-> nbRecord = $this-> getNbRecord();
 
-        // Nombre de liens nécessaire à l'affichage de tous les enregistrements
+        // Nombre de liens nï¿½cessaire ï¿½ l'affichage de tous les enregistrements
         $this-> nbLinks = $this-> linkCount();
 
-        // Si un petit malin cherche à modifier la variable "page" directement dans l'url
+        // Si un petit malin cherche ï¿½ modifier la variable "page" directement dans l'url
         if ($this-> currentPage > $this-> nbLinks) {
             $_GET[$this-> varUrl] = $this-> nbLinks;
             $this-> setRestriction();
@@ -408,32 +407,32 @@ class CopixPager
         // Affichage de tous les liens
         if ($this-> delta == 0) $this-> delta = $this-> nbLinks;
 
-        // Suivant le mode d'affichage désiré (sliding||jumping), le calcul diffère
+        // Suivant le mode d'affichage dï¿½sirï¿½ (sliding||jumping), le calcul diffï¿½re
       if ($this-> display == 'sliding') {
 
-            // Position intermédiaire de la page en cours (affichage au milieu)
+            // Position intermï¿½diaire de la page en cours (affichage au milieu)
             $middlePos = floor($this-> delta / 2);
 
             if ($middlePos < $this-> nbLinks) {
 
-                // Position à partir de laquelle on arrête d'afficher les liens
+                // Position ï¿½ partir de laquelle on arrï¿½te d'afficher les liens
                 if ($this-> currentPage <= $middlePos) $this-> last_pos = abs($this-> currentPage - $middlePos) + $middlePos + ($this-> currentPage + 1);
                 else                                   $this-> last_pos = $this-> currentPage + $middlePos;
 
-                // Position à partir de laquelle on commence à afficher les liens
+                // Position ï¿½ partir de laquelle on commence ï¿½ afficher les liens
               if (($this-> currentPage + $middlePos) > $this-> nbLinks)   $this-> first_pos = $this-> currentPage - (($this->last_pos + $middlePos) - $this-> nbLinks);
                 elseif ($this-> currentPage > $middlePos)                   $this-> first_pos = $this-> currentPage - $middlePos;
               else                                                        $this-> first_pos = 1;
 
             } else {
-                // Il n'y a pas assez d'enregistrements pour afficher autant de liens que souhaité par la propriété delta
+                // Il n'y a pas assez d'enregistrements pour afficher autant de liens que souhaitï¿½ par la propriï¿½tï¿½ delta
                 $this-> first_pos = 0;
                 $this-> last_pos  = $this-> nbLinks;
             }
 
         } else {
             // Mode "jumping"
-            // Ok, je reconnais, pas la peine de me blâmer, j'ai honteusement pompé le code du Pager de Pear, vu mon incapacité à trouver la bonne formule
+            // Ok, je reconnais, pas la peine de me blï¿½mer, j'ai honteusement pompï¿½ le code du Pager de Pear, vu mon incapacitï¿½ ï¿½ trouver la bonne formule
             $start = ((($this-> currentPage + (($this-> delta - ($this-> currentPage % $this-> delta))) % $this-> delta) / $this-> delta) - 1) * $this-> delta + 1;
             $this-> first_pos  = max($start, 1);
             $this-> last_pos   = min($start + $this-> delta - 1, $this-> nbLinks);
@@ -446,8 +445,8 @@ class CopixPager
    /**
      * Nombre de liens
      *
-     * Compte le nombre de liens nécessaire à l'affichage de tous les enregistrements en tenant compte du mode
-     * de fonctionnement de la classe (alpha-numérique / numérique)
+     * Compte le nombre de liens nï¿½cessaire ï¿½ l'affichage de tous les enregistrements en tenant compte du mode
+     * de fonctionnement de la classe (alpha-numï¿½rique / numï¿½rique)
      * @access private
      * @return int nombre de liens
      * @since 3.0
@@ -488,9 +487,9 @@ class CopixPager
 
 
    /**
-     * Retourne le lien html pour accéder à la page précédente
+     * Retourne le lien html pour accï¿½der ï¿½ la page prï¿½cï¿½dente
      *
-     * Si la page courante est la première page, cette méthode retourne une chaîne vide
+     * Si la page courante est la premiï¿½re page, cette mï¿½thode retourne une chaï¿½ne vide
      *
      * @access private
      * @return string
@@ -505,7 +504,7 @@ class CopixPager
 
 
     /**
-     * Retourne le lien html d'accès à la première page du template
+     * Retourne le lien html d'accï¿½s ï¿½ la premiï¿½re page du template
      */
     public function getFirstPage()
     {
@@ -515,7 +514,7 @@ class CopixPager
 
 
     /**
-     * Retourne le lien html pour accéder à la dernière page
+     * Retourne le lien html pour accï¿½der ï¿½ la derniï¿½re page
      *
      * access private
      * return string
@@ -527,7 +526,7 @@ class CopixPager
 
 
     /**
-     * Numéro représentant le début des enregistrements affichés
+     * Numï¿½ro reprï¿½sentant le dï¿½but des enregistrements affichï¿½s
      *
      * access private
      * return int
@@ -544,7 +543,7 @@ class CopixPager
 
 
     /**
-     * Numéro représentant la fin des enregistrements affichés
+     * Numï¿½ro reprï¿½sentant la fin des enregistrements affichï¿½s
      *
      * access private
      * return int
@@ -561,7 +560,7 @@ class CopixPager
     /**
      * Style du lien courant
      *
-     * Retourne le lien courant spécifié par $link_name
+     * Retourne le lien courant spï¿½cifiï¿½ par $link_name
      * @access private
      * @return string
      */
@@ -573,11 +572,11 @@ class CopixPager
 
 
     /**
-     * Retourne dans un tableau tous les liens à afficher pour le multipage
+     * Retourne dans un tableau tous les liens ï¿½ afficher pour le multipage
      *
-     * Retourne le lien courant spécifié par $link_name
+     * Retourne le lien courant spï¿½cifiï¿½ par $link_name
      * @access private
-     * @param string $repeat Morceau du template contenant la zone à répéter
+     * @param string $repeat Morceau du template contenant la zone ï¿½ rï¿½pï¿½ter
      * @return string
      */
     public function getAllPage()
@@ -600,7 +599,7 @@ class CopixPager
 
                 //$liens .= preg_replace($this-> getTplPattern('PAGE'), $page, $repeat);
                 $liens .= $page;
-                // Pour la méthode getAll() & getColspan
+                // Pour la mï¿½thode getAll() & getColspan
                 $this-> aPage[] = $page;
 
              // AJOUT DAVID DURET 2004-02-09 10:50
@@ -619,10 +618,10 @@ class CopixPager
 
 
     /**
-     * Nom du lien en mode alpha-numérique
+     * Nom du lien en mode alpha-numï¿½rique
      *
-     * Retourne le nom du lien $index (numéro de la page) lorsque la classe fonctionne en mode alphanumérique.
-     * Elle se base sur les propriétés $alphaEncaps et $aAlpha.
+     * Retourne le nom du lien $index (numï¿½ro de la page) lorsque la classe fonctionne en mode alphanumï¿½rique.
+     * Elle se base sur les propriï¿½tï¿½s $alphaEncaps et $aAlpha.
      * @access private
      * @return string nom du lien
      * @since 3.1
@@ -656,12 +655,12 @@ class CopixPager
 
 
     /**
-     * Lien pour la page spécifiée
+     * Lien pour la page spï¿½cifiï¿½e
      *
-     * Retourne l'URI complète pour accèder à la page $num_page. Le retour diffère en fonction de la propriété $tplUri.
-     * @param  int num_page, numéro de la page pour laquelle il faut créer le lien
+     * Retourne l'URI complï¿½te pour accï¿½der ï¿½ la page $num_page. Le retour diffï¿½re en fonction de la propriï¿½tï¿½ $tplUri.
+     * @param  int num_page, numï¿½ro de la page pour laquelle il faut crï¿½er le lien
      * @access private
-     * @return string URI d'accès à la page
+     * @return string URI d'accï¿½s ï¿½ la page
      * @since 2.0
      */
     public function getLink($num_page)
@@ -673,9 +672,9 @@ class CopixPager
 
 
     /**
-     * Lit le fichier passé en paramètre et retourne son contenu
+     * Lit le fichier passï¿½ en paramï¿½tre et retourne son contenu
      *
-     * @param string $file le chemin d'accès complet au fichier (inclu le nom du fichier)
+     * @param string $file le chemin d'accï¿½s complet au fichier (inclu le nom du fichier)
      * @access private
      * @return string $date le contenu du fichier
      * @exception bool false
@@ -695,9 +694,9 @@ class CopixPager
 
 
     /**
-     * Génère l'expression régulière propre au nom de la variable $var_name
+     * Gï¿½nï¿½re l'expression rï¿½guliï¿½re propre au nom de la variable $var_name
      *
-     * La génération se base sur les propriétés "$tplVarBegin" & "$tplVarEnd" et sur la chaine passée en paramètre
+     * La gï¿½nï¿½ration se base sur les propriï¿½tï¿½s "$tplVarBegin" & "$tplVarEnd" et sur la chaine passï¿½e en paramï¿½tre
      * @access private
      * @param string $var_name le nom de la variable du template
      * @return string pattern
@@ -711,9 +710,9 @@ class CopixPager
 
 
     /**
-     * Génère l'expression régulière pour récuperer la zone à répéter dans le template
+     * Gï¿½nï¿½re l'expression rï¿½guliï¿½re pour rï¿½cuperer la zone ï¿½ rï¿½pï¿½ter dans le template
      *
-     * La génération se base sur les propriétés "$tplVarLoopBegin" & "$tplVarLoopEnd"
+     * La gï¿½nï¿½ration se base sur les propriï¿½tï¿½s "$tplVarLoopBegin" & "$tplVarLoopEnd"
      * @access private
      * @return string pattern
      * @since 3.1a
@@ -726,10 +725,10 @@ class CopixPager
 
 
     /**
-     * Evalue la présence d'une variable dans le fichier template
+     * Evalue la prï¿½sence d'une variable dans le fichier template
      *
-     * La propriété $tpl_data doit exister avant l'appel à cette méthode.
-     * La chaine passée en paramètre correspond à l'indice du tableau tplVarName[] défini dans le fichier de configuration
+     * La propriï¿½tï¿½ $tpl_data doit exister avant l'appel ï¿½ cette mï¿½thode.
+     * La chaine passï¿½e en paramï¿½tre correspond ï¿½ l'indice du tableau tplVarName[] dï¿½fini dans le fichier de configuration
      * @access private
      * @return int nombre d'occurence de $search dans $tpl_data
      * @see getTplPattern()
@@ -742,11 +741,11 @@ class CopixPager
 
 
     /**
-     * Evalue la présence d'une zone à répeter dans le fichier template
+     * Evalue la prï¿½sence d'une zone ï¿½ rï¿½peter dans le fichier template
      *
-     * La propriété $tpl_data doit exister avant l'appel à cette méthode.
+     * La propriï¿½tï¿½ $tpl_data doit exister avant l'appel ï¿½ cette mï¿½thode.
      * @access private
-     * @return int nombre d'occurence de la zone à répeter dans $tpl_data
+     * @return int nombre d'occurence de la zone ï¿½ rï¿½peter dans $tpl_data
      * @see getTplLoopPat()
      */
     public function PregMatchLoop()
@@ -757,9 +756,9 @@ class CopixPager
 
 
     /**
-     * Renvoie un tableau contenant toutes les propriétés de la classe
+     * Renvoie un tableau contenant toutes les propriï¿½tï¿½s de la classe
      *
-     * Sert à ceux qui ne veulent pas passer par les templates de la classe
+     * Sert ï¿½ ceux qui ne veulent pas passer par les templates de la classe
      * @return array
      * @access public
      */
@@ -787,7 +786,7 @@ class CopixPager
 
         $array[$this-> tplVarName['PAGE']] = $this-> aPage;
 
-        // Le parsing de la variable colspan ne peut avoir lieu qu'après l'appel à la méthode getAllPage() (dû à l'instanciation de la propriété aPage)
+        // Le parsing de la variable colspan ne peut avoir lieu qu'aprï¿½s l'appel ï¿½ la mï¿½thode getAllPage() (dï¿½ ï¿½ l'instanciation de la propriï¿½tï¿½ aPage)
         $array[$this-> tplVarName['COLSPAN']] = $this-> getColspan();
 
         return $array;
@@ -798,14 +797,14 @@ class CopixPager
    /**
      * Lance les fonctions pour parser le template
      *
-     * Cherche et remplace dans le template les variables connues en lançant les traitements associés
+     * Cherche et remplace dans le template les variables connues en lanï¿½ant les traitements associï¿½s
      * @access private
      * @see getFile(), parseLoop(), parseColspan(), parseNbRecord(), parseNextPage(), parsePreviousPage(), parseFirstPage(), parseLastPage(), parseCurrentPage(), parseTotalPage()
      * @since 2.0
      */
    public function parsetemplate()
    {
-      $tpl = & new CopixTpl ();
+      $tpl = new CopixTpl ();
       $tpl->assign ('LOOP'          , $this-> getAllPage());
       $tpl->assign ('COLSPAN'       , $this-> getColspan());
       $tpl->assign ('NBRECORD'      , $this-> nbRecord);
@@ -826,7 +825,7 @@ class CopixPager
    /**
      * Affichage du multipage
      *
-     * Affiche directement en sortie le contenu du template après traitement
+     * Affiche directement en sortie le contenu du template aprï¿½s traitement
      * @access public
      * @return void
      * @since 1.0
@@ -840,10 +839,10 @@ class CopixPager
 
 
    /**
-     * Renvoie le résultat du template une fois parsé
+     * Renvoie le rï¿½sultat du template une fois parsï¿½
      *
      * @access public
-     * @return string le template une fois parsé
+     * @return string le template une fois parsï¿½
      * @since 1.0
      */
    public function getMultipage()
@@ -894,13 +893,13 @@ class CopixPager
 
         require ($file);
 
-        // Rappatriement des données en provenance du fichier de configuration
+        // Rappatriement des donnï¿½es en provenance du fichier de configuration
         $this->setConfig($options['PARAMS']);
         $this->setConfig($options['PAGER']);
         $this->setConfig($options['ADVANCED']);
         //$this->setConfig($options['TPL_VAR_NAME'], 'tplVarName');
 
-        // Passage en entités HTML
+        // Passage en entitï¿½s HTML
         if ($this-> toHtmlEntities === TRUE) $this-> encodeHtml();
 
       // Nom du fichier
@@ -909,7 +908,7 @@ class CopixPager
         // Ajout de l'attribut html "class" pour les liens
         if (!empty($this-> linkClass)) $this-> linkClass = ' class="' . $this-> linkClass . '" ';
 
-      // Initialisation des valeurs par défaut :
+      // Initialisation des valeurs par dï¿½faut :
       $this-> nbLinks = 1;
 
         if (!IsSet($_GET[$this-> varUrl]) || $_GET[$this-> varUrl] == 0){
@@ -922,9 +921,9 @@ class CopixPager
 
 
     /**
-     * Convertit les caractères spéciaux en entités HTML
+     * Convertit les caractï¿½res spï¿½ciaux en entitï¿½s HTML
      *
-     * Uniquement pour les variables pouvant contenir des libellés
+     * Uniquement pour les variables pouvant contenir des libellï¿½s
      * @access private
      * @return void
      * @since 3.2a
@@ -946,10 +945,10 @@ class CopixPager
 
 
     /**
-     * Instancie les propriétés contenu dans le paramètre $array
+     * Instancie les propriï¿½tï¿½s contenu dans le paramï¿½tre $array
      *
      * @param array $array
-     * @param string $put_in_array Permet d'ajouter les données dans une propriété de type tableau qui prendra le contenu de cette variable comme nom du tableau
+     * @param string $put_in_array Permet d'ajouter les donnï¿½es dans une propriï¿½tï¿½ de type tableau qui prendra le contenu de cette variable comme nom du tableau
      * @return void
      */
     public function setConfig($array, $put_in_array = '')
@@ -970,33 +969,33 @@ class CopixPager
 
 
     /**
-     * Teste le paramètrage de la classe.
+     * Teste le paramï¿½trage de la classe.
      *
-     * En cas d'erreur, arrête le script
+     * En cas d'erreur, arrï¿½te le script
      * @access private
      * @return void
      */
     public function testParams()
     {
-        if (!is_int($this-> perPage) || $this-> perPage <= 0) trigger_error('Propriété <b>perPage</b> mal configurée <br>', E_USER_ERROR);
-        if ((!is_int($this-> delta) || $this-> delta < 0)) trigger_error('Propriété <b>delta</b> mal configurée <br>', E_USER_ERROR);
+        if (!is_int($this-> perPage) || $this-> perPage <= 0) trigger_error('Propriï¿½tï¿½ <b>perPage</b> mal configurï¿½e <br>', E_USER_ERROR);
+        if ((!is_int($this-> delta) || $this-> delta < 0)) trigger_error('Propriï¿½tï¿½ <b>delta</b> mal configurï¿½e <br>', E_USER_ERROR);
         //if (!empty($this-> template) && !is_file($this-> tplDir . $this-> template)) trigger_error('template <b>' . $this-> tplDir . $this-> template .'</b> introuvable <br>', E_USER_ERROR);
-        if (!is_int($this-> addToColspan)) trigger_error('Propriété <b>addToColspan</b> mal configurée <br>', E_USER_ERROR);
-        if (!is_bool($this-> alwaysShow)) trigger_error('Propriété <b>alwaysShow</b> mal configurée <br>', E_USER_ERROR);
-        if (!is_string($this-> alphaColumn)) trigger_error('Propriété <b>alphaColumn</b> mal configurée <br>', E_USER_ERROR);
-        if (!is_int($this-> alphaEncaps) || $this-> alphaEncaps <= 0) trigger_error('Propriété <b>alphaEncaps</b> mal configurée <br>', E_USER_ERROR);
-        if (!empty($this-> tplUri) && (!is_string($this-> tplUri) || !preg_match($this-> getTplPattern('PAGE'), $this-> tplUri))) trigger_error('Propriété <b>tplUri</b> mal configurée. Vérifiez la présence de la variable PAGE telle qu\'elle est configurée dans le fichier de configuration<br>', E_USER_ERROR);
-        if (empty($this-> varUrl) || !is_string($this-> varUrl)) trigger_error('Propriété <b>varUrl</b> mal configurée. Vérifiez son paramètrage dans le fichier de configuration <br>', E_USER_ERROR);
-        if (!is_bool($this-> toHtmlEntities)) trigger_error('Propriété <b>toHtmlEntities</b> mal configurée <br>', E_USER_ERROR);
-        if (!is_bool($this-> encodeVarUrl)) trigger_error('Propriété <b>encodeVarUrl</b> mal configurée <br>', E_USER_ERROR);
-        if ($this-> display != 'sliding' && $this-> display != 'jumping') trigger_error('Propriété <b>display</b> mal configurée <br>', E_USER_ERROR);
+        if (!is_int($this-> addToColspan)) trigger_error('Propriï¿½tï¿½ <b>addToColspan</b> mal configurï¿½e <br>', E_USER_ERROR);
+        if (!is_bool($this-> alwaysShow)) trigger_error('Propriï¿½tï¿½ <b>alwaysShow</b> mal configurï¿½e <br>', E_USER_ERROR);
+        if (!is_string($this-> alphaColumn)) trigger_error('Propriï¿½tï¿½ <b>alphaColumn</b> mal configurï¿½e <br>', E_USER_ERROR);
+        if (!is_int($this-> alphaEncaps) || $this-> alphaEncaps <= 0) trigger_error('Propriï¿½tï¿½ <b>alphaEncaps</b> mal configurï¿½e <br>', E_USER_ERROR);
+        if (!empty($this-> tplUri) && (!is_string($this-> tplUri) || !preg_match($this-> getTplPattern('PAGE'), $this-> tplUri))) trigger_error('Propriï¿½tï¿½ <b>tplUri</b> mal configurï¿½e. Vï¿½rifiez la prï¿½sence de la variable PAGE telle qu\'elle est configurï¿½e dans le fichier de configuration<br>', E_USER_ERROR);
+        if (empty($this-> varUrl) || !is_string($this-> varUrl)) trigger_error('Propriï¿½tï¿½ <b>varUrl</b> mal configurï¿½e. Vï¿½rifiez son paramï¿½trage dans le fichier de configuration <br>', E_USER_ERROR);
+        if (!is_bool($this-> toHtmlEntities)) trigger_error('Propriï¿½tï¿½ <b>toHtmlEntities</b> mal configurï¿½e <br>', E_USER_ERROR);
+        if (!is_bool($this-> encodeVarUrl)) trigger_error('Propriï¿½tï¿½ <b>encodeVarUrl</b> mal configurï¿½e <br>', E_USER_ERROR);
+        if ($this-> display != 'sliding' && $this-> display != 'jumping') trigger_error('Propriï¿½tï¿½ <b>display</b> mal configurï¿½e <br>', E_USER_ERROR);
 
     } // end func testParams
 
 
 
     /**
-     * Définit la propriété firstline & instancie correctement la valeur de varUrl
+     * Dï¿½finit la propriï¿½tï¿½ firstline & instancie correctement la valeur de varUrl
      *
      * @access private
      * @since 3.2
@@ -1014,10 +1013,10 @@ class CopixPager
 
 
     /**
-     * Paramètre la classe suivant le fichier "config.php".
+     * Paramï¿½tre la classe suivant le fichier "config.php".
      *
-     * Crée la connexion à la base
-     * Instancie la propriété $aSql
+     * Crï¿½e la connexion ï¿½ la base
+     * Instancie la propriï¿½tï¿½ $aSql
      * @access private
      * @return void
      * @since 1.0
@@ -1031,11 +1030,11 @@ class CopixPager
             $this-> init();
             $this-> calcul();
 
-            // Il est possible de ne pas avoir spécifié de template si l'on passe par la méthpode GetAll()
+            // Il est possible de ne pas avoir spï¿½cifiï¿½ de template si l'on passe par la mï¿½thpode GetAll()
             if (!empty($this-> template)) {
 
-                // La variable alwaysShow détermine si l'on affiche ou pas le template
-                // dans le cas où il n'y a qu'une seule page de résultat
+                // La variable alwaysShow dï¿½termine si l'on affiche ou pas le template
+                // dans le cas oï¿½ il n'y a qu'une seule page de rï¿½sultat
                 if ($this-> alwaysShow === true) $this-> parsetemplate();
                 elseif ($this-> nbLinks != 1)     $this-> parsetemplate();
             }
@@ -1050,7 +1049,7 @@ class CopixPager
 
 
     /**
-     * Affiche les propriétés de l'objet Multipage
+     * Affiche les propriï¿½tï¿½s de l'objet Multipage
      *
      * @access private
      * @return void
