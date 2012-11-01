@@ -90,7 +90,7 @@ class ZoneWikiButtons extends CopixZone
                     }
                     $cla = Kernel::filterModuleList($mods, 'MOD_CLASSEUR');
                     if ($cla) {
-                        $url = CopixUrl::get('classeur||getClasseurPopup', array('classeurId' => $cla[0]->module_id, 'field' => $field, 'format' => $format, 'withPersonal' => 0, 'moduleType' => $object['type'], 'moduleId' => $object['id']));
+                        $url = CopixUrl::get('classeur||getClasseurPopup', array('classeurId' => $cla[0]->module_id, 'field' => $field, 'format' => $format, 'withPersonal' => 1, 'moduleType' => $object['type'], 'moduleId' => $object['id']));
                         $buttonClasseur = array('titre' => CopixI18N::get('wikibuttons.classeurTxt'), 'accesskey' => 'd', 'tabindex' => 20, 'link' => $url); // Classeur
                     }
                 }
