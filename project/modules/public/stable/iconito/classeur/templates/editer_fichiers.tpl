@@ -13,7 +13,7 @@
 {elseif not $ppo->erreurs eq null}
 	<ul class="mesgErrors">
     {foreach from=$ppo->erreurs item=erreur}
-	    <li>{$erreur}</li>
+     <li>{$erreur}</li>
     {/foreach}
 </ul>
 {/if}
@@ -32,6 +32,10 @@
     {if $ppo->fichier->id eq null}
     <p class="field info">{i18n key="classeur.message.maxfilesize} {$ppo->conf->max_file_size|human_file_size}</p>
     {/if}
+    
+    {if $ppo->fichier->id eq null}
+      <p class="field"><input id="fichiers" name="fichiers[]" type="file" /></p>
+    {/if}
   </div>
   
   <div class="row">
@@ -49,6 +53,7 @@
   <div class="row">
     <label for="with_decompress">{i18n key="classeur.message.zipFile"}</label>
     <p class="field"><input type="checkbox" id="with_decompress" name="with_decompress" value="1" /> <label for="with_decompress">{i18n key="classeur.message.withDecompress"}</label></p>
+    <p class="field info" id="decompression_note" style="display: none;">{i18n key="classeur.message.decompressionNote"}</p>
   </div>
   {/if}
   
@@ -67,16 +72,36 @@
   {literal}
   <script type="text/javascript">
   //<![CDATA[
-  $(document).ready(function() {    
+  $(document).ready(function() {
+    $('#fichiers').uploadify({
+      'uploader'        : '../../../js/uploadify/uploadify.swf',
+      'script'          : '../../../js/uploadify/module_classeur.php',
+      'cancelImg'       : '../../../js/uploadify/cancel.png',
+      'folder'          : '{/literal}{$ppo->dossierTmp}{literal}',
+      'auto'            : true,
+      'multi'           : true,
+      'removeCompleted' : false,
+      'buttonText'      : 'Parcourir',
+      'height'          : '27',
+      'width'           : '122',
+      'wmode'           : 'transparent',
+      'buttonImg'       : '../../../js/uploadify/button-background.png',
+      'sizeLimit'       : {/literal}{$ppo->maxSizeLimit}{literal},
+      'onComplete'      : function (event, ID, fileObj, response, data) {
+        $('#decompression_note').show();
+        $('#with_decompress').removeAttr('checked');
+        $('#with_decompress').attr('disabled', 'disabled');
+        $('#title_note').show();
+        $('#fichier_titre').attr('disabled', 'disabled');
+      }
+    });
+    
     $('#with_decompress').change(function() {
-      
       if ($('#with_decompress').is(':checked')) {
-
         $('#title_note').show();
         $('#fichier_titre').attr('disabled', 'disabled');
       }
       else {
-        
         $('#title_note').hide();
         $('#fichier_titre').removeAttr('disabled');
       }
