@@ -78,10 +78,12 @@ class ZoneUserMenu extends CopixZone
             $menuitem["class"] = "menu-classeur";
             array_push($menuitems, $menuitem);
 
+            if( CopixConfig::exists('|can_module_ressources') && CopixConfig::get('|can_module_ressources') ) {
             $menuitem["title"] = _i18n('kernel|kernel.codes.mod_ressource');
             $menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'ressource', 'mid'=>'2'));
             $menuitem["class"] = "menu-ressource";
             array_push($menuitems, $menuitem);
+            }
 
             $menuitem["title"] = _i18n('auth|auth.nav.prefs');
             $menuitem["url"] = CopixUrl::get('kernel||go', array('ntype'=>$utype,'nid'=>$uid,'mtype'=>'prefs','mid'=>''));

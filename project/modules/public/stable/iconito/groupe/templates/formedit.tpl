@@ -35,12 +35,17 @@
                 </td>
             </tr>
   {/if}
+{if $can_group_createpublic}
             <tr>
                 <td CLASS="form_libelle">{i18n key="groupe.form.restriction"}</td><td CLASS="form_saisie">
                     <INPUT TYPE="radio" NAME="is_open" VALUE="1" {if $is_open eq "1"}CHECKED{/if}> <b>{i18n key="groupe.isOpen1"}</b> : {i18n key="groupe.form.isOpen1Info"}<br/>
                     <INPUT TYPE="radio" NAME="is_open" VALUE="0" {if $is_open eq "0"}CHECKED{/if}> <b>{i18n key="groupe.isOpen0"}</b> : {i18n key="groupe.form.isOpen0Info"}<br/>
                 </td>
             </tr>
+{else}
+<INPUT TYPE="hidden" NAME="is_open" VALUE="0" />
+{/if}
+
 	{if $id eq null}
             <tr>
                 <td CLASS="form_libelle">{i18n key="groupe.form.modules"}</td><td CLASS="form_saisie">{i18n key="groupe.form.modulesInfo"}<br/>

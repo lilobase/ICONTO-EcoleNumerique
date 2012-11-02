@@ -60,6 +60,16 @@
 
 			<parameter name="conf_Edito_type" caption="Type du noeud servant d'edito" default="" />
 			<parameter name="conf_Edito_id" caption="Id du noeud servant d'edito" default="" />
+			
+			<parameter name="can_group_createpublic"       caption="Autorisation de créer des groupes publics"             default="1" />
+			<parameter name="can_group_showlist"           caption="Autorisation de voir l'annusaire des groupes"          default="1" />
+			<parameter name="can_public_rssfeed"           caption="Autorisation de voir les flux RSS des blogs"           default="1" />
+			<parameter name="can_annuaire_menu"            caption="Afficher les menus de l'annuaire"                      default="1" />
+			<parameter name="can_pref_assistance_animtice" caption="Possibilité d'autoriser l'assistance par un anim TICE" default="1" />
+			<parameter name="can_pref_assistance_ien"      caption="Possibilité d'autoriser l'assistance par un IEN"       default="1" />
+			<parameter name="can_pref_assistance"          caption="Activation du module Assistance"                       default="1" />
+			<parameter name="can_module_ressources"        caption="Autorise le module Ressouces"                          default="1" />
+			<parameter name="can_module_rssfeed"           caption="Autorise le module Flux RSS agrégé"                    default="1" />
 		</group>
 	</parameters>
 </moduledefinition>

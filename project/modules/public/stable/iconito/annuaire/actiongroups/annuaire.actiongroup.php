@@ -139,7 +139,9 @@ class ActionGroupAnnuaire extends EnicActionGroup
         $tpl->assign('TITLE_PAGE', $rVille["nom"]);
 
         $menu = array();
+        if( CopixConfig::exists('|can_group_showlist') && CopixConfig::get('|can_group_showlist') ) {
         $menu[] = array('txt' => CopixI18N::get('groupe|groupe.annuaire'), 'url' => CopixUrl::get('groupe||getListPublic'), 'size' => '110');
+        }
         $menu[] = array('txt' => CopixI18N::get('public|public.blog.annuaire'), 'url' => CopixUrl::get('public||getListBlogs'));
         $tpl->assign('MENU', $menu);
 
@@ -212,7 +214,9 @@ class ActionGroupAnnuaire extends EnicActionGroup
         $tpl = new CopixTpl ();
         $tpl->assign('TITLE_PAGE', $rEcole["nom"] . " (" . $rEcole["desc"] . ")");
         $menu = array();
+        if( CopixConfig::exists('|can_group_showlist') && CopixConfig::get('|can_group_showlist') ) {
         $menu[] = array('txt' => CopixI18N::get('groupe|groupe.annuaire'), 'url' => CopixUrl::get('groupe||getListPublic'), 'size' => '110');
+        }
         $menu[] = array(
             'url' => CopixUrl::get('public||getListBlogs'),
             'txt' => CopixI18N::get('public|public.blog.annuaire'),
@@ -290,7 +294,9 @@ class ActionGroupAnnuaire extends EnicActionGroup
         $tpl->assign('TITLE_PAGE', $rClasse["nom"]);
 
         $menu = array();
+        if( CopixConfig::exists('|can_group_showlist') && CopixConfig::get('|can_group_showlist') ) {
         $menu[] = array('txt' => CopixI18N::get('groupe|groupe.annuaire'), 'url' => CopixUrl::get('groupe||getListPublic'), 'size' => '110');
+        }
         $menu[] = array('txt' => CopixI18N::get('public|public.blog.annuaire'), 'url' => CopixUrl::get('public||getListBlogs'));
         $menu[] = array('txt' => CopixI18N::get('annuaire|annuaire.backEcole'), 'url' => CopixUrl::get('|getAnnuaireEcole', array('ecole' => $ecole)));
         $menu[] = array('txt' => CopixI18N::get('annuaire|annuaire.backVille'), 'url' => CopixUrl::get('|getAnnuaireVille', array('ville' => $rEcole['ALL']->vil_id_vi)));
