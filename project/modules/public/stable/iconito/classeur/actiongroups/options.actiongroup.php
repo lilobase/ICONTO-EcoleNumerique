@@ -32,12 +32,12 @@ class ActionGroupOptions extends enicActionGroup
 
         if (is_null($ppo->classeur = $classeurDAO->get(_request ('classeurId', null)))) {
             return CopixActionGroup::process ('generictools|Messages::getError',
-                array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+                array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('', array('error'=>'classeur_not_found'))));
         }
 
         if (!realpath('./upload')) {
             return CopixActionGroup::process ('generictools|Messages::getError',
-                array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+                array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('', array('error'=>'upload_folder_not_found'))));
         }
 
         if( $ppo->save->mode = _request ('save-mode', null) ) {
