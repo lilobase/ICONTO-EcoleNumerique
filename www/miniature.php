@@ -48,14 +48,14 @@
   if ($sizeAndExtension) {
 
     // Regex : mode square, size d'au moins 2 chiffres
-    if (ereg("^_s([0-9]{2,})$", $size, $regs)) {
+    if (preg_match("/^_s([0-9]{2,})$/", $size, $regs)) {
 
       $mode           = "square";
       $size           = $regs[1];
       $originalPath   = substr($filepath, 0, strpos($filepath, $regs[0])).$extension;
     }
     // Regex : mode normal, size d'au moins 2 chiffres
-    elseif (ereg("^_([0-9]{2,})$", $size, $regs)) {
+    elseif (preg_match("/^_([0-9]{2,})$/", $size, $regs)) {
 
       $mode           = "normal";
       $size           = $regs[1];
