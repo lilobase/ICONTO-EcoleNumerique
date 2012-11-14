@@ -88,7 +88,7 @@ class rssmixService extends enicService
         $limit = round($globalLimit / count($urls));
 
         foreach ($urls as $url) {
-            $title = $url['title'];
+            $title = (isset($url['title'])?$url['title']:'');
 
             try {
             $imagePath = '';

@@ -24,7 +24,7 @@
 			{elseif $form.type == "separator"}
 				<tr><td colspan="2"><hr /></td></tr>
 			{elseif $form.type == "password"}
-				<tr><th>{$form.text}</th><td><input {if $form.error}class="error" {/if}type="password" name="{$module.code}_{$form.code}" value="{$form.value}" />
+				<tr><th>{$form.text}</th><td><input {if $form.error}class="error" {/if}type="password" name="{$module.code}_{$form.code}" value="{$form.value}" autocomplete="off" />
 				{if $form.error}<br /><div class="errormsg">{$form.error}</div>{/if}
 				</td></tr>
 			{elseif $form.type == "string"}

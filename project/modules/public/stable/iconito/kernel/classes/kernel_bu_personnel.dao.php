@@ -407,7 +407,7 @@ class DAOKernel_bu_personnel
         $sql = 'SELECT P.numero as user_id, LI.bu_type as user_type, P.nom, P.prenom1 AS prenom, P.id_sexe, EC.id as id_classe, EC.nom as nom_classe, E.nom as nom_ecole, V.nom as nom_ville, CN.id_n as id_niveau, CN.niveau as nom_niveau'
             .' FROM kernel_bu_personnel P'
             .' JOIN kernel_link_bu2user LI ON (P.numero=LI.bu_id AND LI.bu_type="USER_ENS")'
-            .' LEFT JOIN kernel_bu_personnel_entite PE_TYPE_CLASSE ON (P.numero=PE_TYPE_CLASSE.id_per AND PE_TYPE_CLASSE.type_ref="CLASSE" AND PE_TYPE_CLASSE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER.')'
+            .' LEFT JOIN kernel_bu_personnel_entite PE_TYPE_CLASSE ON (P.numero=PE_TYPE_CLASSE.id_per AND PE_TYPE_CLASSE.type_ref="CLASSE" AND (PE_TYPE_CLASSE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER.' OR PE_TYPE_CLASSE.role='.DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL.'))'
             .' LEFT JOIN kernel_bu_ecole_classe EC ON (EC.id=PE_TYPE_CLASSE.reference AND EC.annee_scol=:grade)'
             .' LEFT JOIN kernel_bu_ecole E ON (EC.ecole=E.numero)'
             .' LEFT JOIN kernel_bu_ecole_classe_niveau ECN ON (ECN.classe=EC.id)'
@@ -464,7 +464,7 @@ class DAOKernel_bu_personnel
             $sql .= ' WHERE';
         }
         $sql .= ' PE_TYPE_ECOLE.reference=:school'
-            .' AND PE_TYPE_ECOLE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER;
+            .' AND (PE_TYPE_ECOLE.role='.DAOKernel_bu_personnel_entite::ROLE_TEACHER.' OR PE_TYPE_ECOLE.role='.DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL.')';
         if (null !== $firstname) {
             $sql .= ' AND P.prenom1 LIKE :firstname';
             $parameters['firstname'] = addslashes($firstname).'%';
