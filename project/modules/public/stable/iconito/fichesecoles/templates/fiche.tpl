@@ -37,7 +37,7 @@
                 {if $rFiche->zone_ville_titre && $rFiche->zone_ville_texte}
                 <div class="ficheVille">
                     <div class="fiche">{$rFiche->zone_ville_titre|escape}</div>
-                    <div>{$rFiche->zone_ville_texte|escape|nl2br}</div>
+                    <div>{$rFiche->zone_ville_texte}</div>
                 </div>
                 {/if}
 
