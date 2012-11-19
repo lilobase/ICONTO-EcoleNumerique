@@ -20,8 +20,9 @@ body {background:#000; height:100%;}
 	    <img src="{$path2public}/images/{$image}" />
 	  {/foreach}
   </div>
+  <script src="{copixurl}galleria/themes/classic/galleria.classic.min.js"></script>
   <script>
-    Galleria.loadTheme('{copixurl}galleria/themes/classic/galleria.classic.min.js');
+    // Galleria.loadTheme('{copixurl}galleria/themes/classic/galleria.classic.min.js');
     {literal}$("#gallery").galleria({autoplay:true, maxScaleRatio:1, thumbCrop:true});{/literal}
   </script>
 </body>
