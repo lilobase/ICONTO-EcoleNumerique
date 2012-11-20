@@ -1284,7 +1284,7 @@ class ActionGroupDefault extends enicActionGroup
             return CopixActionGroup::process('generictools|Messages::getError', array('message' => "Une erreur est survenue.", 'back' => CopixUrl::get('gestionautonome||showTree')));
         }
 
-        _currentUser()->assertCredential('module:school|'.$ppo->class->ecole.'|classroom|update@gestionautonome');
+        _currentUser()->assertCredential('module:classroom|'.$ppo->class->id.'|classroom|update@gestionautonome');
 
         // Mise en session du noeud courant
         _sessionSet('current', array('node_type' => 'BU_CLASSE', 'node_id' => $ppo->class->id));
