@@ -949,7 +949,7 @@ class ActionGroupDefault extends enicActionGroup
             return CopixActionGroup::process('generictools|Messages::getError', array('message' => "Une erreur est survenue.", 'back' => CopixUrl::get('gestionautonome||showTree')));
         }
 
-        _currentUser()->assertCredential('module:city|'.$ppo->school->id_ville.'|school|update@gestionautonome');
+        _currentUser()->assertCredential('module:school|'.$ppo->school->numero.'|school|update@gestionautonome');
 
         // Nom pour fil d'ariane
         $name = $ppo->school->nom;
@@ -1365,7 +1365,7 @@ class ActionGroupDefault extends enicActionGroup
             return CopixActionGroup::process('generictools|Messages::getError', array('message' => "Une erreur est survenue.", 'back' => CopixUrl::get('gestionautonome||showTree')));
         }
 
-        _currentUser()->assertCredential('module:school|'.$ppo->class->ecole.'|classroom|update@gestionautonome');
+        _currentUser()->assertCredential('module:classroom|'.$ppo->class->id.'|classroom|update@gestionautonome');
 
         // Nom pour fil d'ariane
         $name = $ppo->class->nom;
