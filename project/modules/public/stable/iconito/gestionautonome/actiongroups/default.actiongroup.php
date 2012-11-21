@@ -2442,8 +2442,8 @@ class ActionGroupDefault extends enicActionGroup
         $studentAdmission->admission_etat_eleve = 1;
         $studentAdmission->admission_date = CopixDateTime::timestampToYYYYMMDD(time());
         $studentAdmission->admission_date_effet = CopixDateTime::timestampToYYYYMMDD(time());
-        $studentAdmission->admission_code_radiation = '';
-        $studentAdmission->admission_previsionnel = '';
+        $studentAdmission->admission_code_radiation = 0;
+        $studentAdmission->admission_previsionnel = 0;
 
         $studentAdmissionDAO->insert($studentAdmission);
 
@@ -4660,8 +4660,8 @@ class ActionGroupDefault extends enicActionGroup
                 $studentAdmission->admission_etat_eleve = 1;
                 $studentAdmission->admission_date = CopixDateTime::timestampToYYYYMMDD(time());
                 $studentAdmission->admission_date_effet = CopixDateTime::timestampToYYYYMMDD(time());
-                $studentAdmission->admission_code_radiation = '';
-                $studentAdmission->admission_previsionnel = '';
+                $studentAdmission->admission_code_radiation = 0;
+                $studentAdmission->admission_previsionnel = 0;
 
                 $studentAdmissionDAO->insert($studentAdmission);
 

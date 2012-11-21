@@ -663,6 +663,13 @@ class CopixMIMETypes
             case 'flipchart':
             case 'flp':
                return 'application/inspire';
+            case 'gallery':
+            case 'galleryite':
+            case 'gallerycollection':
+            case 'nbk':
+            case 'notebook':
+            case 'xbk':
+               return 'application/x-smarttech-notebook';
             default:
                return 'application/octet-stream';
         }
