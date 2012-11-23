@@ -5451,7 +5451,7 @@ class ActionGroupDefault extends enicActionGroup
         $userType = _request('user_type', null);
         $userId = _request('user_id', null);
         $classroomId = _request('classroom_id', null);
-        $classroomLevel = _request('classroom_level', null);
+        $classroomLevel = _request('classroom_level', 0);
         $oldClassroomId = _request('old_classroom_id', null);
 
         // Paramètres obligatoires

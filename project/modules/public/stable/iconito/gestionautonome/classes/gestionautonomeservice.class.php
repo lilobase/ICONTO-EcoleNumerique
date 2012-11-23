@@ -154,8 +154,8 @@ class GestionAutonomeService
             $studentAdmission->admission_etat_eleve = DAOKernel_bu_eleve_admission::STATE_NEW;
             $studentAdmission->admission_date = CopixDateTime::timestampToYYYYMMDD(time());
             $studentAdmission->admission_date_effet = CopixDateTime::timestampToYYYYMMDD(time());
-            $studentAdmission->admission_code_radiation = '';
-            $studentAdmission->admission_previsionnel = '';
+            $studentAdmission->admission_code_radiation = 0;
+            $studentAdmission->admission_previsionnel = 0;
 
             $studentAdmissionDAO->insert($studentAdmission);
         }
