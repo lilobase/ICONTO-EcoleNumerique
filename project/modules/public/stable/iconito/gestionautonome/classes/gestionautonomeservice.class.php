@@ -27,12 +27,12 @@ class GestionAutonomeService
         $studentAdmission->admission_eleve = $studentId;
         $studentAdmission->admission_etablissement = $classroom->ecole;
         $studentAdmission->admission_annee_scol = $classroom->annee_scol;
-        $studentAdmission->admission_id_niveau = '';
+        $studentAdmission->admission_id_niveau = 0;
         $studentAdmission->admission_etat_eleve = 3;
         $studentAdmission->admission_date = CopixDateTime::timestampToYYYYMMDD(time());
         $studentAdmission->admission_date_effet = CopixDateTime::timestampToYYYYMMDD(time());
-        $studentAdmission->admission_code_radiation = '';
-        $studentAdmission->admission_previsionnel = '';
+        $studentAdmission->admission_code_radiation = 0;
+        $studentAdmission->admission_previsionnel = 0;
 
         $studentAdmissionDAO->insert($studentAdmission);
 
