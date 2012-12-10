@@ -39,6 +39,8 @@ class ActionGroupDashboard extends enicActionGroup
         $nodes_all = Kernel::sortNodeList($nodes_all);
         // _dump($nodes_all);
 
+        $conf_notification_maxnodes = (CopixConfig::exists('|notification_maxnodes')?CopixConfig::get('|notification_maxnodes'):25);
+
         $nodes = array();
         foreach ($nodes_all AS $node) {
 
@@ -57,7 +59,7 @@ class ActionGroupDashboard extends enicActionGroup
             if (!isset($nodes[$node['type']][$node['id']])) {
                 $nodes[$node['type']][$node['id']] = $node;
                 Kernel::createMissingModules($node['type'], $node['id']);
-                $nodes[$node['type']][$node['id']]['modules'] = Kernel::getModEnabled($node['type'], $node['id'], $this->user->type, $this->user->idEn);
+                $nodes[$node['type']][$node['id']]['modules'] = Kernel::getModEnabled($node['type'], $node['id'], $this->user->type, $this->user->idEn, 0, (count($nodes_all)>$conf_notification_maxnodes?0:1));
 
                 // Cas des groupes : on ajoute les membres et admin, selon les droits
                 if ($node['type'] == 'CLUB') {
@@ -217,7 +219,7 @@ class ActionGroupDashboard extends enicActionGroup
             } elseif (strpos(_request("ntype"), 'USER_') === false) {
                 // Si on ne connait pas l'ID du module, on tente de le detecter automatiquement
                 if (!$mid) {
-                    $modules = Kernel::getModEnabled(_request("ntype"), _request("nid"));
+                    $modules = Kernel::getModEnabled(_request("ntype"), _request("nid"), '', 0, 0, (count($nodes_all)>$conf_notification_maxnodes?0:1));
                     foreach ($modules as $module) {
                         if ($module->module_type == 'MOD_' . strtoupper(_request("mtype"))) {
                             if (isset($module->module_id))

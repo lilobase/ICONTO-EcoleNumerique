@@ -60,6 +60,8 @@
 
 			<parameter name="conf_Edito_type" caption="Type du noeud servant d'edito" default="" />
 			<parameter name="conf_Edito_id" caption="Id du noeud servant d'edito" default="" />
+
+			<parameter name="notification_maxnodes"        caption="Nombre max de noeuds dans le dashboard pour activer les nitofocations" default="30" />
 		</group>
 	</parameters>
 </moduledefinition>

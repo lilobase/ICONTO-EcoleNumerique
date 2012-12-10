@@ -21,6 +21,8 @@ class Kernel
     private $cache_getNodeInfo_ecole = array();
     private $cache_getNodeInfo_classe = array();
 
+    static $cache_getLevel = array();
+
     /**
      * Test un utilisateur est connectÈ
      * @return	boolean	true si un utilisateur est connectÈ, false sinon
@@ -82,6 +84,9 @@ class Kernel
 
     public function getLevel( $node_type, $node_id=0, $user_type="-1", $user_id="-1" )
     {
+        $cache_getLevel_key = $node_type.'|'.$node_id.'|'.$user_type.'|'.$user_id;
+        if( isset(self::$cache_getLevel[$cache_getLevel_key])) { return(self::$cache_getLevel[$cache_getLevel_key]); }
+        
         //print_r("getLevel ($node_type, $node_id, $user_type, $user_id)<br/>");
         /*
         define ('PROFILE_CCV_NONE',     0);
@@ -113,6 +118,7 @@ class Kernel
             }
         }
         //Kernel::deb("getLevel=$level");
+        self::$cache_getLevel[$cache_getLevel_key] = $level;
         return( $level );
     }
 
@@ -1419,7 +1425,7 @@ if(DEBUG) {
      * @param string  $user_type Type d'utilisateur (facultatif).
      * @param integer $user_id   Identifiant du noeud (facultatif).
      */
-    public function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0, $full=0 )
+    public function getModEnabled( $node_type, $node_id, $user_type='', $user_id=0, $full=0, $notification=0 )
     {
         // echo "getModEnabled( $node_type, $node_id, $user_type, $user_id)";
 
@@ -1471,7 +1477,7 @@ if(DEBUG) {
             }
             // _dump($modules);
 
-            Kernel::getModlistNotifications($modules);
+            if($notification) Kernel::getModlistNotifications($modules);
 
             reset($modules);
             return $modules;
@@ -1651,7 +1657,7 @@ if(DEBUG) {
 
         // _dump($modules);
 
-        Kernel::getModlistNotifications($modules);
+        if($notification) Kernel::getModlistNotifications($modules);
 
         reset($modules);
         return $modules;
