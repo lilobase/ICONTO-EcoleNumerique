@@ -35,7 +35,7 @@ class AnnuaireService extends enicService
 
                 if (isset($options['droit']) && $options['droit']) {
                     //Kernel::myDebug($options['droit']);
-                    $droit = $matrix->ville($child['id'])->_right->count->$options['droit'];
+                    $droit = $matrix->ville($child['id'])->_right->count->$options['droit'] || $matrix->ville($child['id'])->member_of || $matrix->ville($child['id'])->descendant_of;
                     if (!$droit) {
                         continue;
                     }
@@ -77,7 +77,7 @@ class AnnuaireService extends enicService
 
             if (isset($options['droit']) && $options['droit']) {
                 //Kernel::myDebug($options['droit']);
-                $droit = $matrix->ville($child)->_right->count->$options['droit'];
+                $droit = $matrix->ville($child)->_right->count->$options['droit'] || $matrix->ville($child)->member_of || $matrix->ville($child)->descendant_of;
                 if (!$droit) {
                     continue;
                 }
@@ -125,7 +125,7 @@ class AnnuaireService extends enicService
 
         foreach ($groupes as $child) {
             if (isset($options['droit']) && $options['droit']) {
-                $droit = $matrix->grville($child->id_grv)->_right->count->$options['droit'];
+                $droit = $matrix->grville($child->id_grv)->_right->count->$options['droit'] || $matrix->grville($child->id_grv)->member_of || $matrix->grville($child->id_grv)->descendant_of;
                 if (!$droit) {
                     continue;
                 }
@@ -161,7 +161,7 @@ class AnnuaireService extends enicService
             if ($child['type']=='BU_ECOLE') {
 
                 if (isset($params['droit']) && $params['droit']) {
-                    $droit = $matrix->ecole($child['id'])->_right->count->$params['droit'];
+                    $droit = $matrix->ecole($child['id'])->_right->count->$params['droit'] || $matrix->ecole($child['id'])->member_of || $matrix->ecole($child['id'])->descendant_of;
                     //Kernel::myDebug("id=".$child['id']." / droit=".$droit);
                     if (!$droit) {
                         continue;
@@ -300,7 +300,7 @@ class AnnuaireService extends enicService
             if ($child['type']=='BU_CLASSE') {
 
                 if (isset($options['droit']) && $options['droit']) {
-                    $droit = $matrix->classe($child['id'])->_right->count->$options['droit'];
+                    $droit = $matrix->classe($child['id'])->_right->count->$options['droit'] || $matrix->classe($child['id'])->member_of || $matrix->classe($child['id'])->descendant_of;
                     //Kernel::myDebug("id=".$child['id']." / droit=".$droit);
                     if (!$droit) {
                         continue;
@@ -319,7 +319,7 @@ class AnnuaireService extends enicService
                     if (isset($options['forceCanViewEns']))
                         $canViewEns = $options['forceCanViewEns']; // TODO verifier quand appelle et pertinence
                     else {
-                        $droit = $matrix->classe($child['id'])->_right->USER_ENS->voir;
+                        $droit = $matrix->classe($child['id'])->_right->USER_ENS->voir || $matrix->classe($child['id'])->member_of || $matrix->classe($child['id'])->descendant_of;
                         //Kernel::myDebug("id=".$child['id']." / droit=".$droit);
                         $canViewEns = ($droit);
                     }
