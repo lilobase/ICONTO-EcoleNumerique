@@ -437,7 +437,7 @@ class ActionGroupDefault extends EnicActionGroup
         $responsables = $reqResponsables;
         $responsables = str_replace(array(" "), "", $responsables);
         $responsables = str_replace(array(",",";"), ",", $responsables);
-        $responsables = explode (",", $responsables);
+        $responsables = preg_split("/[\s,]+/", $responsables);
         $tabResponsables = array();
         $deja = array();
         // On vérifie que les membres existent
@@ -458,7 +458,7 @@ class ActionGroupDefault extends EnicActionGroup
         $lecteurs = $this->getRequest ('lecteurs');
         $lecteurs = str_replace(array(" "), "", $lecteurs);
         $lecteurs = str_replace(array(",",";"), ",", $lecteurs);
-        $lecteurs = explode (",", $lecteurs);
+        $lecteurs = preg_split("/[\s,]+/", $lecteurs);
         $tabLecteurs = array();
         // On vérifie que les membres existent
         while (list(,$login) = each ($lecteurs)) {
@@ -542,7 +542,7 @@ class ActionGroupDefault extends EnicActionGroup
         if (!$mail_from)
             $errors = CopixI18N::get ('teleprocedures|teleprocedures.error.mail_from', '');
         else {
-            $list = explode(',',$mail_from);
+            $list = preg_split("/[\s,]+/",$mail_from);
             foreach ($list as $email) {
                 if (!validateEMail($email))
                     $errors .= CopixI18N::get ('teleprocedures|teleprocedures.error.incorrectMail', $email)."\n";
@@ -551,14 +551,14 @@ class ActionGroupDefault extends EnicActionGroup
         if (!$mail_to)
             $errors = CopixI18N::get ('teleprocedures|teleprocedures.error.mail_to', '');
         else {
-            $list = explode(',',$mail_to);
+            $list = preg_split("/[\s,]+/",$mail_to);
             foreach ($list as $email) {
                 if (!validateEMail($email))
                     $errors .= CopixI18N::get ('teleprocedures|teleprocedures.error.incorrectMail', $email)."\n";
             }
         }
         if ($mail_cc) {
-            $list = explode(',',$mail_cc);
+            $list = preg_split("/[\s,]+/",$mail_cc);
             foreach ($list as $email) {
                 if (!validateEMail($email))
                     $errors .= CopixI18N::get ('teleprocedures|teleprocedures.error.incorrectMail', $email)."\n";

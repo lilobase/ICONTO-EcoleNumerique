@@ -260,12 +260,12 @@ class TeleproceduresService
         $arOld = $rIntervention->responsables;
         $arOld = str_replace(array(" "), "", $arOld);
         $arOld = str_replace(array(",",";"), ",", $arOld);
-        $arOld = explode (",", $arOld);
+        $arOld = preg_split('/[\s,]+/', $arOld);
 
         $arNew = $responsables;
         $arNew = str_replace(array(" "), "", $arNew);
         $arNew = str_replace(array(",",";"), ",", $arNew);
-        $arNew = explode (",", $arNew);
+        $arNew = preg_split('/[\s,]+/', $arNew);
 
         //print_r($arOld);
         //print_r($arNew);

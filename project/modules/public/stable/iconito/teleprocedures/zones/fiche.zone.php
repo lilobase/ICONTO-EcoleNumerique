@@ -33,7 +33,7 @@ class ZoneFiche extends CopixZone
 
         //$daoType = & _dao ('type');
     //$tpl->assign ('arTypes', $daoType->findAll ());
-        $arResponsables = explode(",",$rFiche->responsables);
+        $arResponsables = preg_split('/[\s,]+/',$rFiche->responsables);
         $rFiche->tabResponsables = $arResponsables;
         $mondroit = $this->getParam('mondroit');
 

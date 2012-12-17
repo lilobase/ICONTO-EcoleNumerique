@@ -122,7 +122,7 @@ class ActionGroupAdmin extends EnicActionGroup
         $tplForm = new CopixTpl ();
         $tplForm->assign ('is_online', array('values'=>array(1,0), 'output'=>array(CopixI18N::get('blog|blog.oui'), CopixI18N::get('blog|blog.non'))));
         $formats = CopixConfig::get ('teleprocedures|formats_types');
-        $tabFormats = explode (',',$formats);
+        $tabFormats = preg_split('/[\s,]+/',$formats);
         $values = $output = array();
         foreach ($tabFormats as $k) {
             $values[] = $k;
@@ -164,7 +164,7 @@ class ActionGroupAdmin extends EnicActionGroup
                 $responsables = $this->getRequest ('responsables');
                 $responsables = str_replace(array(" "), "", $responsables);
                 $responsables = str_replace(array(",",";"), ",", $responsables);
-                $responsables = explode (",", $responsables);
+                $responsables = preg_split('/[\s,]+/',$responsables);
                 $tabResponsables = array();
                 $deja = array();
                 // On vérifie que les membres existent
@@ -186,7 +186,7 @@ class ActionGroupAdmin extends EnicActionGroup
                 $lecteurs = $this->getRequest ('lecteurs');
                 $lecteurs = str_replace(array(" "), "", $lecteurs);
                 $lecteurs = str_replace(array(",",";"), ",", $lecteurs);
-                $lecteurs = explode (",", $lecteurs);
+                $lecteurs = preg_split('/[\s,]+/',$lecteurs);
                 $tabLecteurs = array();
                 // On vérifie que les membres existent
                 while (list(,$login) = each ($lecteurs)) {
@@ -218,14 +218,14 @@ class ActionGroupAdmin extends EnicActionGroup
                 if ($type->mail_from && !validateEMail($type->mail_from))
                     $errors[] = CopixI18N::get ('teleprocedures|teleprocedures.error.incorrectMail', $type->mail_from);
                 if ($type->mail_to) {
-                    $list = explode(',',$type->mail_to);
+                    $list = preg_split('/[\s,]+/',$type->mail_to);
                     foreach ($list as $email) {
                         if (!validateEMail($email))
                             $errors[] = CopixI18N::get ('teleprocedures|teleprocedures.error.incorrectMail', $email);
                     }
                 }
                 if ($type->mail_cc) {
-                    $list = explode(',',$type->mail_cc);
+                    $list = preg_split('/[\s,]+/',$type->mail_cc);
                     foreach ($list as $email) {
                         if (!validateEMail($email))
                             $errors[] = CopixI18N::get ('teleprocedures|teleprocedures.error.incorrectMail', $email);
@@ -261,7 +261,7 @@ class ActionGroupAdmin extends EnicActionGroup
                 $responsables = $this->getRequest ('responsables');
                 $responsables = str_replace(array(" "), "", $responsables);
                 $responsables = str_replace(array(",",";"), ",", $responsables);
-                $responsables = explode (",", $responsables);
+                $responsables = preg_split('/[\s,]+/',$responsables);
                 $tabResponsables = array();
                 while (list(,$login) = each ($responsables)) {
                     if (!$login) continue;
@@ -280,7 +280,7 @@ class ActionGroupAdmin extends EnicActionGroup
                 $lecteurs = $this->getRequest ('lecteurs');
                 $lecteurs = str_replace(array(" "), "", $lecteurs);
                 $lecteurs = str_replace(array(",",";"), ",", $lecteurs);
-                $lecteurs = explode (",", $lecteurs);
+                $lecteurs = preg_split('/[\s,]+/',$lecteurs);
                 $tabLecteurs = array();
                 // On vérifie que les membres existent
                 while (list(,$login) = each ($lecteurs)) {
