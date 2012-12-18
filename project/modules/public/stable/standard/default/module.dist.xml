@@ -70,6 +70,8 @@
 			<parameter name="can_pref_assistance"          caption="Activation du module Assistance"                       default="1" />
 			<parameter name="can_module_ressources"        caption="Autorise le module Ressouces"                          default="1" />
 			<parameter name="can_module_rssfeed"           caption="Autorise le module Flux RSS agrégé"                    default="1" />
+
+			<parameter name="notification_maxnodes"        caption="Nombre max de noeuds dans le dashboard pour activer les nitofocations" default="30" />
 		</group>
 	</parameters>
 </moduledefinition>
