@@ -13,13 +13,14 @@ define('DEBUG',0);
 
 class Kernel
 {
-    private $cache_getNodeChilds_ville = array();
-    private $cache_getNodeChilds_ecole = array();
-    private $cache_getNodeChilds_classe = array();
+    static $cache_getNodeChilds_grville = array();
+    static $cache_getNodeChilds_ville = array();
+    static $cache_getNodeChilds_ecole = array();
+    static $cache_getNodeChilds_classe = array();
 
-    private $cache_getNodeInfo_ville = array();
-    private $cache_getNodeInfo_ecole = array();
-    private $cache_getNodeInfo_classe = array();
+    static $cache_getNodeInfo_ville = array();
+    static $cache_getNodeInfo_ecole = array();
+    static $cache_getNodeInfo_classe = array();
 
     static $cache_getLevel = array();
 
@@ -570,8 +571,8 @@ if(DEBUG) {
                 }
                 break;
             case "BU_GRVILLE":
-                if( isset($this->cache_getNodeChilds_grville[$id]) ) {
-                    $return = $this->cache_getNodeChilds_grville[$id];
+                if( isset(self::$cache_getNodeChilds_grville[$id]) ) {
+                    $return = self::$cache_getNodeChilds_grville[$id];
                 } else {
                     // Groupe de ville --(n)--> Villes
                     $dao = _dao("kernel|kernel_tree_vil");
@@ -592,12 +593,12 @@ if(DEBUG) {
                     }
 
 
-                    $this->cache_getNodeChilds_grville[$id] = $return;
+                    self::$cache_getNodeChilds_grville[$id] = $return;
                 }
                 break;
             case "BU_VILLE":
-                if( isset($this->cache_getNodeChilds_ville[$id]) ) {
-                    $return = $this->cache_getNodeChilds_ville[$id];
+                if( isset(self::$cache_getNodeChilds_ville[$id]) ) {
+                    $return = self::$cache_getNodeChilds_ville[$id];
                 } else {
                     // Ville --(n)--> Ecoles
                     $dao = _dao("kernel|kernel_tree_eco");
@@ -614,7 +615,7 @@ if(DEBUG) {
                             $return[]=array("type"=>"USER_VIL", "id"=>$val->pers_entite_id_per);
                         }
                     }
-                    $this->cache_getNodeChilds_ville[$id] = $return;
+                    self::$cache_getNodeChilds_ville[$id] = $return;
                 }
                 break;
             case "BU_ECOLE":
@@ -622,8 +623,8 @@ if(DEBUG) {
                 $cacheId = (isset($options['annee']) && $options['annee']) ? $id.'|'.$options['annee'] : $id;
                 //Kernel::deb($cacheId);
 
-                if( isset($this->cache_getNodeChilds_ecole[$cacheId]) ) {
-                    $return = $this->cache_getNodeChilds_ecole[$cacheId];
+                if( isset(self::$cache_getNodeChilds_ecole[$cacheId]) ) {
+                    $return = self::$cache_getNodeChilds_ecole[$cacheId];
                 } else {
                     // Ecole --(n)--> Classes
                     $dao = _dao("kernel|kernel_tree_cla");
@@ -657,7 +658,7 @@ if(DEBUG) {
                             }
                         }
                     }
-                    $this->cache_getNodeChilds_ecole[$cacheId] = $return;
+                    self::$cache_getNodeChilds_ecole[$cacheId] = $return;
                 }
                 break;
                 //complet class child (only users)
@@ -665,8 +666,8 @@ if(DEBUG) {
 
                 //skip get user infos
                 if(!isset($options['skip_user']) || !$options['skip_user']){
-                    if( isset($this->cache_getNodeChilds_classe[$id]) ) {
-                        $return = $this->cache_getNodeChilds_classe[$id];
+                    if( isset(self::$cache_getNodeChilds_classe[$id]) ) {
+                        $return = self::$cache_getNodeChilds_classe[$id];
                     } else {
 
                         // Classe --(n)--> ElËves
@@ -682,7 +683,7 @@ if(DEBUG) {
                             $return[]=array("type"=>"USER_ENS", "id"=>$val->pers_entite_id_per);
                         }
                         //print_r($return);
-                        $this->cache_getNodeChilds_classe[$id] = $return;
+                        self::$cache_getNodeChilds_classe[$id] = $return;
                     }
                 }
                 break;
@@ -1001,8 +1002,8 @@ if(DEBUG) {
                 }
                 break;
             case "BU_VILLE":
-                if( isset($this->cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")]) ) {
-                    $return = $this->cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")];
+                if( isset(self::$cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")]) ) {
+                    $return = self::$cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")];
                 } else {
                     $dao = _dao("kernel|kernel_tree_vil");
                     if( $result = $dao->get($id) ) {
@@ -1022,12 +1023,12 @@ if(DEBUG) {
                         }
                     }
 
-                    $this->cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")] = $return;
+                    self::$cache_getNodeInfo_ville[$id.'-'.($addparents?"parent":"noparent")] = $return;
                 }
                 break;
             case "BU_ECOLE":
-                if( isset($this->cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")]) ) {
-                    $return = $this->cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")];
+                if( isset(self::$cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")]) ) {
+                    $return = self::$cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")];
                 } else {
                     $dao = _dao("kernel|kernel_tree_eco");
                     if( $result = $dao->get($id) ) {
@@ -1048,12 +1049,12 @@ if(DEBUG) {
                         }
                     }
 
-                    $this->cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")] = $return;
+                    self::$cache_getNodeInfo_ecole[$id.'-'.($addparents?"parent":"noparent")] = $return;
                 }
                 break;
             case "BU_CLASSE":
-                if( isset($this->cache_getNodeInfo_classe[$id.'-'.($addparents ? 'parent' : 'noparent' )]) ) {
-                    $return = $this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")];
+                if( isset(self::$cache_getNodeInfo_classe[$id.'-'.($addparents ? 'parent' : 'noparent' )]) ) {
+                    $return = self::$cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")];
                 } else {
                     $dao = _dao("kernel|kernel_tree_cla");
                     if( $result = $dao->get($id) ) {
@@ -1072,7 +1073,7 @@ if(DEBUG) {
                         }
                     }
 
-                    $this->cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")] = $return;
+                    self::$cache_getNodeInfo_classe[$id.'-'.($addparents?"parent":"noparent")] = $return;
                 }
                 break;
             case "CLUB":
@@ -1842,7 +1843,8 @@ if(DEBUG) {
         $cache_type = 'getmynodes';
         $cache_id = $bu_type.'-'.$bu_id;
 
-        if (!CopixCache::exists($cache_id, $cache_type)) { //La donnee níest pas en cache, on traite la demande.
+        // Patch fmossmann 17/12/2012 : suppression du cache pour avoir les classeurs visibles après création de classe
+        if (true || !CopixCache::exists($cache_id, $cache_type)) { //La donnee níest pas en cache, on traite la demande.
 
             //var_dump("getMyNodes / type=$type / id=$id");
             $data = array();
