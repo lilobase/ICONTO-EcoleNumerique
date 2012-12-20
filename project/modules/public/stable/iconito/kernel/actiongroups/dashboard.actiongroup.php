@@ -218,7 +218,7 @@ class ActionGroupDashboard extends enicActionGroup
             } elseif (strpos(_request("ntype"), 'USER_') === false) {
                 // Si on ne connait pas l'ID du module, on tente de le detecter automatiquement
                 if (!$mid) {
-                    $modules = Kernel::getModEnabled(_request("ntype"), _request("nid"), '', 0, 0, (count($nodes_all)>$this->conf_notification_maxnodes?0:1));
+                    $modules = Kernel::getModEnabled(_request("ntype"), _request("nid"), '', 0, 0, true);
                     foreach ($modules as $module) {
                         if ($module->module_type == 'MOD_' . strtoupper(_request("mtype"))) {
                             if (isset($module->module_id))
