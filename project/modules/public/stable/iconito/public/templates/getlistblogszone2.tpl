@@ -22,13 +22,14 @@
 			{counter name="i"}
 		{/foreach}
 		
+        {if $can_public_rssfeed}
 		<div class="blogBody">
 			<table border="0" width="100%" cellspacing="0" cellpadding="0"><tr><td valign="top">
 			<div class="blogStats"><a title="RSS" href="{copixurl dest="public||rss"}"><img src="{copixresource path="img/blog/feed-icon-16x16.png"}" width="16" height="16" border="0" alt="RSS" title="RSS" align="left" hspace="4" /> {i18n key="public.rss.link"}</a></div>
 			</td>
 			<td></td></tr></table>
 			</div>
-		
+		{/if}
 	
 	{/if}
 

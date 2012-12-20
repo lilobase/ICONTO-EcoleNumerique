@@ -18,7 +18,11 @@
 	</p>
 {/if}
 
+{if $can_group_showlist}
 <p class="center"><a class="button button-back" href="{copixurl dest="groupe||getListPublic"}">{i18n key="kernel|kernel.back"}</a></p>
+{else}
+<p class="center"><a class="button button-back" href="{copixurl dest="||"}">{i18n key="kernel|kernel.back"}</a></p>
+{/if}
 
 
 

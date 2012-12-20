@@ -26,6 +26,7 @@ class ModPrefsPrefs
             'value'=>''
         );
 
+        if( CopixConfig::exists('|can_pref_assistance_animtice') && CopixConfig::get('|can_pref_assistance_animtice') ) {
         $toReturn['form'][] = array(
             'type'=>'titre',
             'text'=>CopixI18N::get ('prefs.config.assistance.title'),
@@ -36,7 +37,9 @@ class ModPrefsPrefs
             'type'=>'checkbox',
             'text'=>CopixI18N::get ('prefs.config.assistance'),
             'value'=>(isset($data['assistance'])&&$data['assistance'])?true:false );
+        }
 
+        if( CopixConfig::exists('|can_pref_assistance_ien') && CopixConfig::get('|can_pref_assistance_ien') ) {
         $user_infos = Kernel::getUserInfo();
         if($user_infos['type']=='USER_ENS') {
             $toReturn['form'][] = array(
@@ -50,6 +53,7 @@ class ModPrefsPrefs
                 'text'=>CopixI18N::get ('prefs.config.ien'),
                 'value'=>(isset($data['assistance_ien'])&&$data['assistance_ien'])?true:false
             );
+        }
         }
 
         $toReturn['form'][] = array(

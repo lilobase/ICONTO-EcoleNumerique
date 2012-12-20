@@ -230,6 +230,11 @@ class CopixUser implements ICopixUser
 
         public function hasAssistance ( $check='' )
         {
+            if( CopixConfig::exists('|can_pref_assistance') && CopixConfig::get('|can_pref_assistance') ) {
+            } else {
+                return false;
+            }
+
             $animateur_dao = _dao("kernel|kernel_animateurs");
             $animateur = $animateur_dao->get($this->getExtra('type'), $this->getExtra('id'));
 

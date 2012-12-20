@@ -65,40 +65,41 @@
     <target name="phpmd"
             description="Perform project mess detection using PHPMD and print human readable output. Intended for usage on the command line before committing.">
         <exec executable="phpmd">
-            <arg path="${basedir}"/>
-            <arg value="text"/>
-            <arg path="${basedir}/build/phpmd.xml"/>
+            <arg path="${basedir}" />
+            <arg value="text" />
+            <arg path="${basedir}/build/phpmd.xml" />
         </exec>
     </target>
 
-    <target name="phpmd-ci"
-            description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
+    <target name="phpmd-ci" description="Perform project mess detection using PHPMD creating a log file for the continuous integration server">
         <exec executable="phpmd">
-            <arg path="${basedir}"/>
-            <arg value="xml"/>
-            <arg path="${basedir}/build/phpmd.xml"/>
-            <arg value="--reportfile"/>
-            <arg path="${basedir}/build/logs/pmd.xml"/>
+            <arg path="${basedir}" />
+            <arg value="xml" />
+            <arg path="${basedir}/build/phpmd.xml" />
+            <arg value="--reportfile" />
+            <arg path="${basedir}/build/logs/pmd.xml" />
         </exec>
     </target>
 
     <target name="phpcs"
-            description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
+         description="Find coding standard violations using PHP_CodeSniffer and print human readable output. Intended for usage on the command line before committing.">
         <exec executable="phpcs">
-            <arg value="--encoding=utf-8"/>
-            <arg value="--standard=${basedir}/build/phpcs.xml"/>
-            <arg path="${basedir}"/>
+            <arg value="--encoding=utf-8" />
+            <arg value="--standard=${basedir}/build/phpcs.xml" />
+            <!-- phpcs ne parvient pas à contrôler tout le projet (à faire évoluer lors d'une prochaine maj -->
+            <arg path="${basedir}" />
         </exec>
     </target>
 
-    <target name="phpcs-ci"
-            description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
+    <target name="phpcs-ci" description="Find coding standard violations using PHP_CodeSniffer creating a log file for the continuous integration server">
         <exec executable="phpcs" output="/dev/null">
-            <arg value="--report=checkstyle"/>
-            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml"/>
-            <arg value="--encoding=utf-8"/>
-            <arg value="--standard=${basedir}/build/phpcs.xml"/>
-            <arg path="${basedir}"/>
+            <arg value="--report=checkstyle" />
+            <arg value="--report-file=${basedir}/build/logs/checkstyle.xml" />
+            <arg value="--encoding=utf-8" />
+            <arg value="--standard=${basedir}/build/phpcs.xml" />
+            <!-- phpcs ne parvient pas à contrôler tout le projet (à faire évoluer lors d'une prochaine maj -->
+            <arg value="--ignore=vendor/*" />
+            <arg path="${basedir}" />
         </exec>
     </target>
 

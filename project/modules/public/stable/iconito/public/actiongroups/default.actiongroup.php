@@ -28,7 +28,9 @@ class ActionGroupDefault extends EnicActionGroup
      */
     public function processGetListBlogs()
     {
+        if( CopixConfig::exists('|can_public_rssfeed') && CopixConfig::get('|can_public_rssfeed') ) {
         CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
+        }
         CopixHtmlHeader::addJSLink(CopixUrl::get().'js/iconito/module_annuaire.js');
 
         $tpl = new CopixTpl ();
