@@ -288,9 +288,11 @@ class rightMatrixHelpers
 
         if (empty($userNodes)) {
             $userNodes = array(
-                'type' => 'ROOT',
-                'id' => 0,
-                'droit' => 0
+                array(
+                    'type' => 'ROOT',
+                    'id' => 0,
+                    'droit' => 0
+                ),
             );
         }
 
@@ -451,14 +453,14 @@ class rightMatrixHelpers
             switch ($data['node_type']) {
                 case 'ROOT':
                 case 'root':
-                            $matrix->villes->_other->_right->$data['right']->$data['user_type_out'] = true;
-                            $matrix->villes->_other->_right->$data['user_type_out']->$data['right'] = true;
-                            $matrix->villes->_other->_right->count->$data['right']++;
-                            
-                            foreach($matrix->villes->_children as $child){
-                                $matrix->villes->$child->_right->$data['right']->$data['user_type_out'] = true;
-                                $matrix->villes->$child->_right->$data['user_type_out']->$data['right'] = true;
-                            }
+                    $matrix->villes->_other->_right->$data['right']->$data['user_type_out'] = true;
+                    $matrix->villes->_other->_right->$data['user_type_out']->$data['right'] = true;
+                    $matrix->villes->_other->_right->count->$data['right']++;
+
+                    foreach ($matrix->villes->_children as $child) {
+                        $matrix->villes->$child->_right->$data['right']->$data['user_type_out'] = true;
+                        $matrix->villes->$child->_right->$data['user_type_out']->$data['right'] = true;
+                    }
                     break;
 
                 default:
