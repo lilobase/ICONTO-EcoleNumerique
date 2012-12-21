@@ -1352,8 +1352,13 @@ if(DEBUG) {
          */
         foreach ($userCible as $nodeType => $userInfo) {
             foreach ($userInfo as $nodeId => $role) {
+                if($nodeType=="ROOT" && $nodeId=="0") {
+                    $res['communiquer'] = ($matrix->villes('other')->_right->$role->communiquer) ? true : $res['communiquer'];
+                    $res['voir'] = ($matrix->villes('other')->_right->$role->voir) ? true : $res['voir'];
+                } else {
                     $res['communiquer'] = ($matrix->$nodeType($nodeId)->_right->$role->communiquer) ? true : $res['communiquer'];
                     $res['voir'] = ($matrix->$nodeType($nodeId)->_right->$role->voir) ? true : $res['voir'];
+                }
             }
         }
 
