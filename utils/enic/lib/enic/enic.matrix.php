@@ -278,7 +278,7 @@ class rightMatrixHelpers
 
             //for parent user, get the children nodes
             case 'USER_RES':
-                $this->getUserResParentNodes($type, $id);
+                $userNodes = rightMatrixHelpers::getUserResParentNodes($type, $id);
                 break;
 
             default:
@@ -347,6 +347,10 @@ class rightMatrixHelpers
 
     public function getUserResParentNodes($type, $id)
     {
+        if (empty(self::$kernel))
+            self::$kernel = new Kernel();
+        $kernel = self::$kernel;
+
         $userNodes = array();
         $currentIdNode = array();
         $parentNodes = $kernel->getNodeParents($type, $id);
