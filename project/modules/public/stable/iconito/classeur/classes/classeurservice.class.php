@@ -577,11 +577,11 @@ class ClasseurService
         
         $fichierDAO = _ioDAO ('classeur|classeurfichier');
         $fichier    = _record ('classeur|classeurfichier');
-        
+                       
         $fichier->classeur_id   = $classeur->id;
         $fichier->dossier_id    = $dossier ? $dossier->id : 0;
-        $fichier->titre         = substr(substr($name, 0, strrpos($name, '.')), 0, 63);
-        $fichier->commentaire   = '';
+        $fichier->titre         = _request('fichier_titre', substr(substr($name, 0, strrpos($name, '.')), 0, 63));
+        $fichier->commentaire   = _request('fichier_commentaire', '');
         $fichier->taille        = filesize($file);
         $fichier->type          = strtoupper(substr(strrchr($name, '.'), 1));
         $fichier->cle           = self::createKey();
