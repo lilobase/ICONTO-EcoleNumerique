@@ -425,6 +425,7 @@ class ActionGroupDefault extends enicActionGroup
     public function processEditerFichiers ()
     {
         _classInclude('sysutils|StatsServices');
+        $confirmMessage = '';
         
         CopixHTMLHeader::addJSLink(_resource('js/uploadify/jquery.uploadify.v2.1.4.min.js'));
         CopixHTMLHeader::addJSLink(_resource('js/uploadify/swfobject.js'));
