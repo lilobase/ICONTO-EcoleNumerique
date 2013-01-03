@@ -467,7 +467,7 @@ class ActionGroupFrontBlog extends EnicActionGroup
 
             return CopixActionGroup::process ('genericTools|Messages::getInformation',
             array ('message'=>CopixI18N::get ('blog.comments.offline.info'),
-            'back'=>CopixUrl::get('blog|default|showArticle', array('blog'=>$blog->url_blog, 'article'=>$url_bact))));
+            'continue'=>CopixUrl::get('blog|default|showArticle', array('blog'=>$blog->url_blog, 'article'=>$url_bact))));
             }
 
         }
