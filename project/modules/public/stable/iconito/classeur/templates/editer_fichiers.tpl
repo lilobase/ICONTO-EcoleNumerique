@@ -25,18 +25,30 @@
   <input type="hidden" name="dossierTmp" id="dossierTmp" value="{$ppo->dossierTmp}" />
   <input type="hidden" name="MAX_FILE_SIZE" value="{$ppo->conf->max_file_size}">
   
-  <div class="row">
+<div class="row">
     <label for="fichiers" class="form_libelle">{i18n key="classeur.message.file"}</label>
-    <p class="field">{if $ppo->fichier->id neq null}{if $ppo->fichier->estUneImage()}<img src="{$ppo->fichier->getLienMiniature(45)}" />{else}{$ppo->fichier}{/if}<br />{/if}
-    <input id="fichier" name="fichier" type="file" /></p>
-    {if $ppo->fichier->id eq null}
-    <p class="field info">{i18n key="classeur.message.maxfilesize} {$ppo->conf->max_file_size|human_file_size}</p>
-    {/if}
-    
-    {if $ppo->fichier->id eq null}
-      <p class="field"><input id="fichiers" name="fichiers[]" type="file" /></p>
-    {/if}
-  </div>
+    <div class="field">
+        {if $ppo->fichier->id neq null}{if $ppo->fichier->estUneImage()}<img src="{$ppo->fichier->getLienMiniature(45)}" />{else}{$ppo->fichier}{/if}<br />{/if}
+        {if $ppo->fichier->id eq null}
+            <div class="uploadMultiple">
+                <h3>{i18n key="classeur.title.multipleUpload"}</h3>
+                <p class="info">{i18n key="classeur.message.multipleUpload"}</p>
+                <p class="center"><input id="fichiers" name="fichiers[]" type="file" /></p>
+            </div>
+            <p id="uploadOr">OU</p>    
+        {/if}
+        
+        <div class="uploadSimple">
+            <h3>{i18n key="classeur.title.simpleUpload"}</h3>
+            <input id="fichier" name="fichier" type="file" /></p>
+            
+        </div>
+        {if $ppo->fichier->id eq null}
+            <p class="info clearBoth">{i18n key="classeur.message.maxfilesize} {$ppo->conf->max_file_size|human_file_size}</p>
+        {/if}
+        
+    </div>
+</div>
   
   <div class="row">
     <label for="fichier_titre" class="form_libelle">{i18n key="classeur.message.title"}</label>
