@@ -239,7 +239,8 @@ div.fixed {
   clear:both;
 }
 
-
+/* jQuery UI */
+.content .ui-widget {font-size:1em;}
 
 /* Affichage des tableaux */
 table.viewItems {
