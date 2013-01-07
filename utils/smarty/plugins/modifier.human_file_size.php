@@ -25,7 +25,7 @@
  */
 function smarty_modifier_human_file_size($size)
 {
-    $filesizename = array(" Bytes", " KB", " MB", " GB", " TB", " PB", " EB",
+    $filesizename = array(" octets", " ko", " Mo", " Go", " To", " Po", " Eo",
 " ZB", " YB");
     return ($size) ? round($size/pow(1024, ($i = floor(log($size, 1024)))), 2) .
 $filesizename[$i] : "-";
