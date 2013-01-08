@@ -730,7 +730,11 @@ class ClasseurService
 
         // Récupération des fichiers du dossier et ajout au tableau $files
       $folderFiles = $fileDAO->getParDossier ($classeurId, $folderId);
-        foreach ($folderFiles as $file) {
+      $folderFiles_array = array();
+      foreach ($folderFiles as $file) $folderFiles_array[] = $file;
+
+      uasort( $folderFiles_array, array('self', 'getFilesInFolder_sort') );
+        foreach ($folderFiles_array as $file) {
 
           $files[] = $file;
         }
@@ -746,6 +750,36 @@ class ClasseurService
     }
 
         return $files;
+    }
+
+    public function getFilesInFolder_sort( $doc1, $doc2 )
+    {
+        $sort = 0;
+        $sort_config = classeurService::getContentSort();
+        //     [colonne] => titre
+        //     [direction] => ASC
+		switch($sort_config['colonne'])
+        {
+            case 'date':
+                if($doc1->date_upload < $doc2->date_upload) $sort=-1;
+                if($doc1->date_upload > $doc2->date_upload) $sort= 1;
+                break;
+            case 'taille':
+                if($doc1->taille < $doc2->taille) $sort=-1;
+                if($doc1->taille > $doc2->taille) $sort= 1;
+                break;
+            case 'type':
+                if($doc1->type < $doc2->type) $sort=-1;
+                if($doc1->type > $doc2->type) $sort= 1;
+                break;
+            case 'titre':
+            default:
+                if($doc1->titre < $doc2->titre) $sort=-1;
+                if($doc1->titre > $doc2->titre) $sort= 1;
+                break;
+        }
+        if($sort_config['direction'] == 'DESC') $sort=-$sort;
+        return($sort);
     }
 
     /**
