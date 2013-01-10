@@ -230,31 +230,55 @@ div.dashboard div.content-classeur {
 #classeur form {margin:20px 0;}
 #classeur form#order-content {float:right; margin:10px 0;}
 #classeur form div.row {
-	position:relative;
-	margin:0 0 6px 0;
+    clear:both;
+    position:relative;
+    margin:0 0 6px 0;
 }
 #classeur form div.row > label, form div.row p.label {
-	position:absolute; top:0; left:0;
-	width:39%;
-	margin:0;
-	text-align:right;
+    position:absolute; top:0; left:0;
+    width:29%;
+    margin:0;
+    text-align:right;
 }
 #classeur form div.row .field {
-	margin:0 0 0 40%;
+    margin:0 0 0 30%;
 }
-#classeur form div.row .field.info{
-	font-style:italic;
+#classeur form div.row .info{
+    padding-top:0.4em;
+    font-style:italic; font-size:0.9em;
 }
 
 #classeur form .row input[type="text"], #classeur form .row input[type="url"], #classeur form .row input[type="email"], #classeur form .row textarea {
-	width:350px;
+    width:350px;
 }
 #classeur form div.submit {
-	margin:15px 0 0 40%;
+    margin:15px 0 0 40%;
 }
 #classeur form div.submit input {margin:0 5px;}
 #classeur form input[readonly="readonly"] {background:#ddd;}
 #classeur #style-form {text-align:center;} /* Formulaire de redimensionnement des images */
+.uploadMultiple, .uploadSimple {
+    float:left;
+    width:43%; min-height:115px;
+    padding:2% 2.5% 0;
+    -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px;
+    background:#fff;
+}
+.uploadMultiple {
+    margin-right:2%;
+}
+.uploadMultiple h3, .uploadSimple h3 {
+    margin-top:0;
+    font-size:0.9em;
+    text-align:center;
+}
+#uploadOr {
+    position:absolute; top:40px; left:62.5%;
+    padding:5px;
+    -moz-border-radius:20px; -webkit-border-radius:20px; border-radius:20px;
+    color:#fff; background:#354E81;
+    text-align:center;
+}
 /* End forms */
 
 
@@ -278,7 +302,17 @@ div.dashboard div.content-classeur {
 
 
 /* Uploadify */
-#fichiersQueue .cancel {display:none;}
+.uploadifyQueueItem {
+    margin-top:0.7em; padding:5px 8px;
+    -moz-border-radius:6px; -webkit-border-radius:6px; border-radius:6px;
+    background:#EEE;
+    font-size:0.85em;
+    text-align:left;
+}
+#fichiersQueue .cancel {
+    float:left;
+    margin-right:5px;
+}
 /* End Uploadify */
 
 
