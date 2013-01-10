@@ -28,7 +28,7 @@
 <div class="row">
     <label for="fichiers" class="form_libelle">{i18n key="classeur.message.file"}</label>
     <div class="field">
-        {if $ppo->fichier->id neq null}{if $ppo->fichier->estUneImage()}<img src="{$ppo->fichier->getLienMiniature(45)}" />{else}{$ppo->fichier}{/if}<br />{/if}
+        {if $ppo->fichier->id neq null}{if $ppo->fichier->estUneImage()}<img src="{$ppo->fichier->getLienMiniature(45)}" />{else}{$ppo->fichier}{/if}<br /><br />{/if}
         {if $ppo->fichier->id eq null}
             <div class="uploadMultiple">
                 <h3>{i18n key="classeur.title.multipleUpload"}</h3>
@@ -39,8 +39,8 @@
         {/if}
         
         <div class="uploadSimple">
-            <h3>{i18n key="classeur.title.simpleUpload"}</h3>
-            <input id="fichier" name="fichier" type="file" /></p>
+            <h3>{if $ppo->fichier->id neq null}{i18n key="classeur.title.newUpload"}{else}{i18n key="classeur.title.simpleUpload"}{/if}</h3>
+            <p><input id="fichier" name="fichier" type="file" /></p>
             
         </div>
         {if $ppo->fichier->id eq null}
