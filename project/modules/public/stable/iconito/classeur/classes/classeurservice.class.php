@@ -531,7 +531,7 @@ class ClasseurService
     }
   }
 
-  /**
+    /**
      * Récupération du contenu du dossier temporaire (utilisé pour les archives ZIP)
      *
      * @param array   $datas      Liste des fichiers / dossiers récupérés dans le dossier TMP
@@ -540,31 +540,27 @@ class ClasseurService
      *
      * @return array
      */
-  public static function getFilesInTmpFolder ($datas, $folder, $excluded = array())
-  {
-    if ($handle = opendir($folder)) {
-
-      while (($file = readdir($handle)) !== false) {
-
-        if ($file != '.' && $file != '..'
-          && !in_array($file, $excluded) && !strstr($file, '_MACOSX')) {
-
-          if (is_dir($folder.'/'.$file)) {
-
-            $datas[$folder]['folders'][] = $file;
-            $datas = self::getFilesInTmpFolder($datas, $folder.'/'.$file, $excluded);
-          } else {
-
-            $datas[$folder]['files'][] = $file;
-          }
+    public static function getFilesInTmpFolder ($datas, $folder, $excluded = array())
+    {
+        if (is_dir($folder)) {
+            if ($handle = opendir($folder)) {
+                while (($file = readdir($handle)) !== false) {
+                    if ($file != '.' && $file != '..' && !in_array($file, $excluded) && !strstr($file, '_MACOSX')) {
+                        if (is_dir($folder.'/'.$file)) {
+                            $datas[$folder]['folders'][] = $file;
+                            $datas = self::getFilesInTmpFolder($datas, $folder.'/'.$file, $excluded);
+                        } else {
+                            $datas[$folder]['files'][] = $file;
+                        }
+                    }
+                }
+            }
         }
-      }
+        
+        return $datas;
     }
 
-    return $datas;
-  }
-
-  /**
+    /**
      * Upload d'un fichier dans un classeur
      *
      * @param string                    $file       Path du fichier uploadé
@@ -574,40 +570,37 @@ class ClasseurService
      *
      * @return DAORecordClasseurFichier
      */
-  public function uploadFile ($file, $name, DAORecordClasseur $classeur, $dossier = null)
-  {
-    $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
-    $extension = strtolower(strrchr($name, '.'));
-
-    $fichierDAO = _ioDAO ('classeur|classeurfichier');
-    $fichier    = _record ('classeur|classeurfichier');
-
-    $fichier->classeur_id   = $classeur->id;
-    $fichier->dossier_id    = $dossier ? $dossier->id : 0;
-    $fichier->titre         = substr(substr($name, 0, strrpos($name, '.')), 0, 63);
-    $fichier->commentaire   = '';
-    $fichier->taille        = filesize($file);
-    $fichier->type          = strtoupper(substr(strrchr($name, '.'), 1));
-    $fichier->cle           = self::createKey();
-    $fichier->date_upload   = date('Y-m-d H:i:s');
-    $fichier->user_type     = _currentUser()->getExtra('type');
-    $fichier->user_id       = _currentUser()->getExtra('id');
-
-    if (isset($dossier) && $dossier->casier) {
-
-      $fichier->fichier = $fichier->titre.'_'._currentUser()->getExtra('prenom').'_'._currentUser()->getExtra('nom').$extension;
-    } else {
-
-      $fichier->fichier = $name;
-    }
-
-    $fichierDAO->insert($fichier);
-
-        $fichierPhysique = $dir.$fichier->id.'-'.$fichier->cle.$extension;
-        move_uploaded_file ($file, $fichierPhysique);
-
+    public function uploadFile ($file, $name, DAORecordClasseur $classeur, $dossier = null)
+    {
+        $dir = realpath('./static/classeur').'/'.$classeur->id.'-'.$classeur->cle.'/';
+        $extension = strtolower(strrchr($name, '.'));
+        
+        $fichierDAO = _ioDAO ('classeur|classeurfichier');
+        $fichier    = _record ('classeur|classeurfichier');
+                       
+        $fichier->classeur_id   = $classeur->id;
+        $fichier->dossier_id    = $dossier ? $dossier->id : 0;
+        $fichier->titre         = _request('fichier_titre', substr(substr($name, 0, strrpos($name, '.')), 0, 63));
+        $fichier->commentaire   = _request('fichier_commentaire', '');
+        $fichier->taille        = filesize($file);
+        $fichier->type          = strtoupper(substr(strrchr($name, '.'), 1));
+        $fichier->cle           = self::createKey();
+        $fichier->date_upload   = date('Y-m-d H:i:s');
+        $fichier->user_type     = _currentUser()->getExtra('type');
+        $fichier->user_id       = _currentUser()->getExtra('id');
+        
+        if (isset($dossier) && $dossier->casier) {
+            $fichier->fichier = $fichier->titre.'_'._currentUser()->getExtra('prenom').'_'._currentUser()->getExtra('nom').$extension;
+        } else {
+            $fichier->fichier = $name;
+        }
+        
+        $fichierDAO->insert($fichier);
+        
+        copy($file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
+        
         return $fichier;
-  }
+    }
 
   /**
      * Minimail de confirmation de l'upload dans le cas d'un envoie dans un casier
