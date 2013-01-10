@@ -224,7 +224,7 @@
 <div id="personsActions">
   {if $ppo->parent.type == 'BU_GRVILLE'}
       {if $ppo->user->testCredential ("module:cities_group|`$ppo->parent.id`|cities_group_agent|create@gestionautonome")}
-          <a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button button-add">Créer un agent de groupes de villes</a>
+          <!--<a href="{copixurl dest="gestionautonome||createPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button button-add">Créer un agent de groupes de villes</a>-->
           <a href="{copixurl dest="gestionautonome||addExistingPersonnel" parentId=$ppo->parent.id parentType=$ppo->parent.type role=5}" class="button button-next">{i18n key="gestionautonome|gestionautonome.message.affect"}</a>
         {copixzone process=gestionautonome|getpasswordslist notxml=true}
       {/if}
