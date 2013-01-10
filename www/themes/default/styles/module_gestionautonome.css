@@ -298,7 +298,7 @@ ul.tree a.classroom {
 
 /******************************************************************************/
 /* Affect */
-#origin .ui-tabs-nav li, .ui-widget {font-size:1em;}
+#origin .ui-tabs-nav li {font-size:1em;}
 #origin.ui-widget input, 
 #origin.ui-widget select, 
 #origin.ui-widget textarea, 
