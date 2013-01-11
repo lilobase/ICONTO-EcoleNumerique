@@ -10,6 +10,8 @@ function deleteMembres () {
     }
   }
 }
+jQuery(document).ready(function($){
+	
 jQuery('.button-delete').click(function(event) {
 	jQuery('#form input[type=checkbox]').attr('checked', false);
 	var idCheckbox = '#'+ $(this).attr('rel');
@@ -18,4 +20,6 @@ jQuery('.button-delete').click(function(event) {
         $('form#form').submit();
     }
 	event.preventDefault();
+});
+
 });
