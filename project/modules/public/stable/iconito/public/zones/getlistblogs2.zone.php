@@ -122,7 +122,7 @@ class ZoneGetListBlogs2 extends CopixZone
 
         $tpl->assign('list', $list);
 
-        if( CopixConfig::exists('|can_public_rssfeed') && CopixConfig::get('|can_public_rssfeed') ) {
+        if( ! CopixConfig::exists('|can_public_rssfeed') || CopixConfig::get('|can_public_rssfeed') ) {
             $tpl->assign('can_public_rssfeed', 1);
         } else {
             $tpl->assign('can_public_rssfeed', 0);
