@@ -1,5 +1,5 @@
 </div><!-- END content -->
-<div class="toolset hop">
+<div class="toolset">
     <ul>
         {foreach from=$ppo->modules item=module}
                 {assign var=module_type value="_"|explode:$module->module_type}
