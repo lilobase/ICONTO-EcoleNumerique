@@ -6,7 +6,7 @@
  * @package Iconito
  * @subpackage Welcome
  */
-class ZonePhotos extends CopixZone
+class ZonePhotos extends enicZone
 {
     /**
      * Affiche des photos d'un album
@@ -40,43 +40,56 @@ class ZonePhotos extends CopixZone
 
     // Classeur
     if ($classeur != 0) {
-      $classeur_dao = _dao('classeur|classeur');
-          $nbPhotos = 0;
-          if ($rClasseur = $classeur_dao->get($classeur)) {
-              $fichier_dao = _dao('classeur|classeurfichier');
-              $photolist = $fichier_dao->getParDossier($rClasseur->id, $dossier);
-              $nbPhotos = count($photolist);
-              if ($nbPhotos > 0 && $mode == 'dewslider') {
-                  $arPhotos = array();
-                  foreach ($photolist as $photo) {
-                    if ($photo->estUneImage()) {
-                      $arPhotos[] = $photo;
+        $classeur_dao = _dao('classeur|classeur');
+        $nbPhotos = 0;
+        if ($rClasseur = $classeur_dao->get($classeur)) {
+            $fichier_dao = _dao('classeur|classeurfichier');
+            $photolist = $fichier_dao->getParDossier($rClasseur->id, $dossier);
+            $nbPhotos = count($photolist);
+            if ($nbPhotos > 0) {
+                if ($mode == 'dewslider') {
+                    $arPhotos = array();
+                    foreach ($photolist as $photo) {
+                        if ($photo->estUneImage()) {
+                            $arPhotos[] = $photo;
+                        }
                     }
-                  }
-                  generateClasseurDewsliderXml ($rClasseur, $arPhotos, $width, $legendes);
+                    generateClasseurDewsliderXml ($rClasseur, $arPhotos, $width, $legendes);
+                    $tpl->assign ('rClasseur', $rClasseur);
+                }
 
-                  $tpl->assign ('rClasseur', $rClasseur);
-              }
-          }
+                if ($mode == 'js') {
+                    $this->addJs('js/iconito/slideshow.js');
+                    $this->addJs('js/iconito/module_welcome.js');
+                    foreach ($photolist as $photo) {
+                        if ($photo->estUneImage()) {
+                            $arPhotos[] = array('file' => $photo->getLienMiniature($width, ''), 'title' => $photo->titre);
+                        }
+                    }
+                    $tpl->assign ('photolist', $arPhotos);
+                }
+            }
+        }
     } elseif ($album != 0) {
-      $album_dao = _dao('album|album');
-      $nbPhotos = 0;
-      if ($rAlbum = $album_dao->get($album)) {
-        $photo_dao = _dao('album|photo');
-        $photolist = $photo_dao->findAllByAlbumAndFolder($album, $dossier);
-        $nbPhotos = count($photolist);
-        if ($nbPhotos > 0 && $mode == 'dewslider') {
-          foreach ($photolist as $key=>$photo) {
-            $photolist[$key]->folder = CopixUrl::getRequestedScriptPath ().'static/album/'.$photo->album_id.'_'.$photo->album_cle;
-            $photolist[$key]->file = $photo->photo_id.'_'.$photo->photo_cle.'_'.$width.'.'.$photo->photo_ext;
-          }
+        $album_dao = _dao('album|album');
+        $nbPhotos = 0;
+        if ($rAlbum = $album_dao->get($album)) {
+            $photo_dao = _dao('album|photo');
+            $photolist = $photo_dao->findAllByAlbumAndFolder($album, $dossier);
+            $nbPhotos = count($photolist);
+            if ($nbPhotos > 0) {
+                if ($mode == 'dewslider') {
+                    foreach ($photolist as $key=>$photo) {
+                        $photolist[$key]->folder = CopixUrl::getRequestedScriptPath ().'static/album/'.$photo->album_id.'_'.$photo->album_cle;
+                        $photolist[$key]->file = $photo->photo_id.'_'.$photo->photo_cle.'_'.$width.'.'.$photo->photo_ext;
+                    }
+                    generateAlbumDewsliderXml ($rAlbum, $photolist, $width, $legendes);
+                    $tpl->assign ('rAlbum', $rAlbum);
+                }
 
-          generateAlbumDewsliderXml ($rAlbum, $photolist, $width, $legendes);
-
-          $tpl->assign ('rAlbum', $rAlbum);
+            }
         }
-      }
-        }
+    }
 
         $tpl->assign ('mode', $mode);
         $tpl->assign ('titre', $titre);
