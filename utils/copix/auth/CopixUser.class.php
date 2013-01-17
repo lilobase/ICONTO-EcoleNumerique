@@ -230,7 +230,7 @@ class CopixUser implements ICopixUser
 
         public function hasAssistance ( $check='' )
         {
-            if( CopixConfig::exists('|can_pref_assistance') && CopixConfig::get('|can_pref_assistance') ) {
+            if( ! CopixConfig::exists('|can_pref_assistance') || CopixConfig::get('|can_pref_assistance') ) {
             } else {
                 return false;
             }

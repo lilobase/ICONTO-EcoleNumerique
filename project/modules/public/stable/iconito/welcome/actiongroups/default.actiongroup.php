@@ -39,7 +39,7 @@ class ActionGroupDefault extends enicActionGroup
                 return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('blog||', array('blog'=>$blog->url_blog)));
             }
 
-            if( CopixConfig::exists('|can_public_rssfeed') && CopixConfig::get('|can_public_rssfeed') ) {
+            if( ! CopixConfig::exists('|can_public_rssfeed') || CopixConfig::get('|can_public_rssfeed') ) {
             CopixHtmlHeader::addOthers ('<link rel="alternate" href="'.CopixUrl::get ('public||rss', array()).'" type="application/rss+xml" title="'.htmlentities(CopixI18N::get ('public|public.rss.flux.title')).'" />');
             }
       CopixHTMLHeader::addCSSLink(_resource("styles/module_fichesecoles.css"));

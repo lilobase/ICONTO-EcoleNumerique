@@ -78,7 +78,7 @@ class ActionGroupGroupe extends enicActionGroup
 
     $menu = array();
         if($groupeService->canMakeInGroupe('ADD_GROUP',NULL)) $menu[] = array('url' => CopixUrl::get ('groupe||getEdit'), 'txt'=>CopixI18N::get ('groupe|groupe.btn.addGroup'), 'size'=>140, 'type'=>'create');
-    if( CopixConfig::exists('|can_group_showlist') && CopixConfig::get('|can_group_showlist') ) {
+    if( ! CopixConfig::exists('|can_group_showlist') || CopixConfig::get('|can_group_showlist') ) {
     $menu[] = array('url' => CopixUrl::get ('groupe||getListPublic'), 'txt'=>CopixI18N::get ('groupe|groupe.annuaire'), 'current'=>false);
     }
     $menu[] = array('url' => CopixUrl::get ('groupe||getListMy'), 'txt'=>CopixI18N::get ('groupe|groupe.my'), 'current'=>true);
@@ -316,7 +316,7 @@ class ActionGroupGroupe extends enicActionGroup
             $tplForm->assign ("parent", $parent);
             $tplForm->assign ("tags", $tags);
 
-            if( CopixConfig::exists('|can_group_createpublic') && CopixConfig::get('|can_group_createpublic') ) {
+            if( ! CopixConfig::exists('|can_group_createpublic') || CopixConfig::get('|can_group_createpublic') ) {
                 $tplForm->assign ("can_group_createpublic", 1);
             } else {
                 $tplForm->assign ("can_group_createpublic", 0);
@@ -1189,7 +1189,7 @@ class ActionGroupGroupe extends enicActionGroup
         $errors[] = CopixI18N::get ('groupe|groupe.error.alreadyMember');
 
         if ($errors) {
-            if( CopixConfig::exists('|can_group_showlist') && CopixConfig::get('|can_group_showlist') ) {
+            if( ! CopixConfig::exists('|can_group_showlist') || CopixConfig::get('|can_group_showlist') ) {
             return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('groupe||getListPublic')));
             } else {
             return CopixActionGroup::process ('genericTools|Messages::getError', array ('message'=>implode('<br/>',$errors), 'back'=>CopixUrl::get('||')));
@@ -1261,7 +1261,7 @@ class ActionGroupGroupe extends enicActionGroup
             $tplHome->assign ('errors', $errors);
             $tplHome->assign ('oks', $oks);
 
-            if( CopixConfig::exists('|can_group_showlist') && CopixConfig::get('|can_group_showlist') ) {
+            if( ! CopixConfig::exists('|can_group_showlist') || CopixConfig::get('|can_group_showlist') ) {
                 $tplHome->assign ('can_group_showlist', 1);
             } else {
                 $tplHome->assign ('can_group_showlist', 0);

@@ -26,7 +26,7 @@ class ModPrefsPrefs
             'value'=>''
         );
 
-        if( CopixConfig::exists('|can_pref_assistance_animtice') && CopixConfig::get('|can_pref_assistance_animtice') ) {
+        if( ! CopixConfig::exists('|can_pref_assistance_animtice') || CopixConfig::get('|can_pref_assistance_animtice') ) {
         $toReturn['form'][] = array(
             'type'=>'titre',
             'text'=>CopixI18N::get ('prefs.config.assistance.title'),
@@ -39,7 +39,7 @@ class ModPrefsPrefs
             'value'=>(isset($data['assistance'])&&$data['assistance'])?true:false );
         }
 
-        if( CopixConfig::exists('|can_pref_assistance_ien') && CopixConfig::get('|can_pref_assistance_ien') ) {
+        if( ! CopixConfig::exists('|can_pref_assistance_ien') || CopixConfig::get('|can_pref_assistance_ien') ) {
         $user_infos = Kernel::getUserInfo();
         if($user_infos['type']=='USER_ENS') {
             $toReturn['form'][] = array(
