@@ -1,3 +1,5 @@
+var hpslideshow;
+
 jQuery(document).ready(function($){
 
     
@@ -42,4 +44,26 @@ jQuery(document).ready(function($){
     });    
     
 
+
+	/* SLideshow Images JS */
+	// @NOTE : script for the SLIDESHOW
+    if(document.getElementById('slider_photos') !== null && typeof TINY !== 'undefined') {
+        hpslideshow = new TINY.slider.slide('hpslideshow',{
+            id: 'slider_photos',
+            //auto: 3,
+            resume: true,
+            vertical: false,
+            navid: 'sliderposition',
+            activeclass: 'on',
+            position: 0
+        });
+        document.getElementById('sliderprev').onclick = function() {
+            hpslideshow.move(-1);
+            return false;
+        }
+        document.getElementById('slidernext').onclick = function() {
+            hpslideshow.move(1);
+            return false;
+        }
+    }
 });

@@ -21,4 +21,19 @@
         </object>
     </div>
   {/if}
+{else}
+{$nbPhotos}
+    <ul class="slide">
+        {foreach from=$photolist key=k item=photo}
+            <li class="left"><img src="{$photo.file}" alt="{$photo->title}"></li>
+            {assign var=puces value=$puces<li>•</li>}
+        {/foreach}
+    </ul>
+    <div class="slider-nav">
+        <a href='#' id="sliderprev" class="sliderbutton" title="Image précédente"><img src="{copixresource path="img/slider-prev.png"}" alt="Image précédente"></a> 
+        <a href='#' id="slidernext" class="sliderbutton" title="Image suivante"><img src="{copixresource path="img/slider-next.png"}" alt="Image suivante"></a>
+    </div>
+    <ul id="sliderposition" class="pagination">
+        {$puces}
+    </ul>
 {/if}
