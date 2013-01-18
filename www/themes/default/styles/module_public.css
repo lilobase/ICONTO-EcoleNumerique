@@ -114,10 +114,10 @@ text-transform:uppercase;
 
 .welcome_ecoles .listEcoles li{
     float: left;
-    width: 155px;
+    width:25%;
     font-size: 14px;
     line-height: 22px;
-    
+    list-style-position:inside;
 }
 
 .welcome_ecoles hr{
