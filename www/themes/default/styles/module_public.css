@@ -119,6 +119,9 @@ text-transform:uppercase;
     line-height: 22px;
     list-style-position:inside;
 }
+.welcome_ecoles .listEcoles li:nth-child(5) {
+    clear:left;
+}
 
 .welcome_ecoles hr{
     width: 80%;
