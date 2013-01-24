@@ -55,8 +55,20 @@ div.dashboard div.content-classeur {
 	border:2px solid #BAD521;
 	-webkit-border-radius:6px; -moz-border-radius:6px; border-radius:6px;
 }
+#sidebar p.current:hover, .selectFolder p.current:hover {
+	border:2px solid #49BFCD;
+}
 #sidebar a.expand img, .selectFolder a.expand im {margin:0 0 -1px 0;}
 .selectFolder label:hover {cursor:pointer;}
+#sidebar .switchFolder {
+	display:block;
+	float:left;
+	margin:2px 5px 0 0;
+	line-height:1em;
+}
+#sidebar .labelFolder {
+	display:block;
+}
 /* End Sidebar */
 
 
