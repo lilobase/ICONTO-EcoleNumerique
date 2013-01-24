@@ -56,6 +56,14 @@ li {
 #classeur .thumbView li .footerData {
 	position:static;
 }
+#classeur #sidebar .labelFolder {
+	width:84%;
+	float:right;
+}
+#classeur #sidebar p {
+	clear:both;
+	height:1.5em;
+}
 /* End Classeur */
 
 

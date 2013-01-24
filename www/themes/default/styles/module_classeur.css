@@ -57,6 +57,15 @@ div.dashboard div.content-classeur {
 }
 #sidebar a.expand img, .selectFolder a.expand im {margin:0 0 -1px 0;}
 .selectFolder label:hover {cursor:pointer;}
+#sidebar .switchFolder {
+	display:block;
+	float:left;
+	margin:2px 5px 0 0;
+	line-height:1em;
+}
+#sidebar .labelFolder {
+	display:block;
+}
 /* End Sidebar */
 
 
