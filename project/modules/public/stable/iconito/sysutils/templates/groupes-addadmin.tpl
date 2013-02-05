@@ -7,7 +7,7 @@
 
 <p>{i18n key="groupes.txt.add_admin"}</p>
 <textarea id="new_admins" class="form" rows="2" cols="78" name="new_admins"></textarea>
-<script src="/js/iconito/module_annuaire.js" type="text/javascript"></script>
+<script src="{copixurl}js/iconito/module_annuaire.js" type="text/javascript"></script>
 <a class="button button-directory" href="javascript:open_annuaire('new_admins', 'communiquer');">{i18n key="sysutils|groupes.msg.lookup"}</a>
 
 <p class="center">
