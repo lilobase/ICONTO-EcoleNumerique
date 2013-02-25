@@ -10,7 +10,7 @@
     {/if}
     
     {if !empty($picture)}
-        <img  src="{copixurl dest="fichesecoles||photo" photo=$picture|urlencode}" alt="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" title="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" />
+        <img  src="{copixurl dest="kernel|dashboard|image" photo=$picture|urlencode}" alt="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" title="{i18n key="kernel|dashboard.imgAlt" noEscape="true"}" />
     {/if}
     {$content}
 </div>

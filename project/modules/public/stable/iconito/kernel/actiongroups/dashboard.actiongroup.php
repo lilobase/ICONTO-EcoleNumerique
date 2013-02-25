@@ -144,6 +144,7 @@ class ActionGroupDashboard extends enicActionGroup
                 $content_tpl->assign('content', $content['content']);
                 if (!empty($content['picture'])) {
                     $content_tpl->assign('picture', $content['picture']);
+                    $content_tpl->assign('picturePath', $this->picturesPath);
                 }
                 $content_tpl->assign('twitter', $twitterSrc);
                 $content_tpl->assign('is_admin', $is_admin);
@@ -356,13 +357,12 @@ class ActionGroupDashboard extends enicActionGroup
 
     public function processImage()
     {
-        if (!$this->istyReq('id'))
+        if (!$this->istyReq('photo')) {
             header("HTTP/1.0 404 Not Found");
-        else {
-            $id = (int) $this->request('id');
+        } else {
+            $pic = $this->request('photo');
 
             //get pic name :
-            $pic = $this->db->query('SELECT picture FROM module_admindash WHERE id = ' . $id)->toString();
             if (!file_exists($this->picturesPath . $pic)) {
                 header("HTTP/1.0 404 Not Found");
             } else {
