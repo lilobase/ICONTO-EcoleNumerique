@@ -980,7 +980,7 @@ function tpl_img_getTag($tags,$alt='',$src=null)
 
   if(is_null($src)) $src = $SRC;
 
-  public static $meta = null;
+  $meta = null;
   if(is_null($meta)) $meta = new JpegMeta($src);
   if($meta === false) return $alt;
   $info = $meta->getField($tags);

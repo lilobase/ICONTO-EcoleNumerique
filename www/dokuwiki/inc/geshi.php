@@ -3085,7 +3085,7 @@ if (!function_exists('geshi_highlight')) {
      * @return string The code highlighted (if $return is true)
      * @since 1.0.2
      */
-    public function geshi_highlight($string, $language, $path = null, $return = false)
+    function geshi_highlight($string, $language, $path = null, $return = false)
     {
         $geshi = new GeSHi($string, $language, $path);
         $geshi->set_header_type(GESHI_HEADER_NONE);
