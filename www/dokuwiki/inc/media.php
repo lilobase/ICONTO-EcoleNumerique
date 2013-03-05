@@ -87,7 +87,7 @@ function media_metaform($id,$auth)
     global $lang;
 
     // load the field descriptions
-    public static $fields = null;
+    $fields = null;
     if(is_null($fields)){
         include(DOKU_CONF.'mediameta.php');
         if(@file_exists(DOKU_CONF.'mediameta.local.php')){
@@ -480,7 +480,7 @@ function media_printfile($item,$auth,$jump)
 
     // Prepare zebra coloring
     // I always wanted to use this variable name :-D
-    public static $twibble = 1;
+    $twibble = 1;
     $twibble *= -1;
     $zebra = ($twibble == -1) ? 'odd' : 'even';
 

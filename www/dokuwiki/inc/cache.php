@@ -135,8 +135,8 @@ class cache
   public function _stats($success)
   {
     global $conf;
-    public static $stats = NULL;
-    public static $file;
+    $stats = NULL;
+    $file;
 
     if (!$conf['allowdebug']) { return $success; }
 

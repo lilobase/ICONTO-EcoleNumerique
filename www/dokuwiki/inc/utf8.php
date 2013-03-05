@@ -380,7 +380,7 @@ function utf8_stripspecials($string,$repl='',$additional='')
   global $UTF8_SPECIAL_CHARS;
   global $UTF8_SPECIAL_CHARS2;
 
-  public static $specials = null;
+  $specials = null;
   if(is_null($specials)){
 #    $specials = preg_quote(unicode_to_utf8($UTF8_SPECIAL_CHARS), '/');
     $specials = preg_quote($UTF8_SPECIAL_CHARS2, '/');
@@ -461,7 +461,7 @@ function utf8_tohtml ($str)
  */
 function utf8_unhtml($str, $entities=null)
 {
-    public static $decoder = null;
+    $decoder = null;
     if (is_null($decoder))
       $decoder = new utf8_entity_decoder();
     if (is_null($entities))

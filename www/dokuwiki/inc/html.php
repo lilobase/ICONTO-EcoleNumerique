@@ -18,7 +18,7 @@ require_once(DOKU_INC.'inc/form.php');
  */
 function html_wikilink($id,$name=NULL,$search='')
 {
-  public static $xhtml_renderer = NULL;
+  $xhtml_renderer = NULL;
   if(is_null($xhtml_renderer)){
     require_once(DOKU_INC.'inc/parser/xhtml.php');
     $xhtml_renderer = new Doku_Renderer_xhtml();
