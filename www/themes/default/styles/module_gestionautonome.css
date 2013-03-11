@@ -265,6 +265,7 @@ ul.tree a.classroom {
 	-moz-border-radius:8px; -webkit-border-radius:8px; -o-border-radius:8px; border-radius:8px;
 	width:100%;
 	background:#fff; color:#333;
+	table-layout:fixed;
 }
 #gestionautonome #column-data > table {
 	margin:0 0 10px;
@@ -275,7 +276,7 @@ ul.tree a.classroom {
 	background:#eee;
 	text-align:center;
 }
-#gestionautonome table td {padding:2px;}
+#gestionautonome table td {padding:2px; word-wrap:break-word;}
 #gestionautonome table tr.odd { background:#efefef;}
 #gestionautonome table .sexe {width:35px; text-align:center;}
 #gestionautonome table td.actions {text-align:center;}
