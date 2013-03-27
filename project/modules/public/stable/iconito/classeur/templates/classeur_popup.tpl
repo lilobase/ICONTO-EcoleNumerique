@@ -172,7 +172,7 @@ jQuery(document).ready(function($){
 	var dodurl;
 	var dovurl;
 	var doerr;
-	var pictureTypes = ["PNG", "png", "JPG", "jpg", "gif", "GIF"];
+	var pictureTypes = ["PNG", "png", "JPG", "jpg", "gif", "GIF", "jpe", "JPE"];
 
 	$('#folder-content input[type="checkbox"]').change (function() {
 	  
