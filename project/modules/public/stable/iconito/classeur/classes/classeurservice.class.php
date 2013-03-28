@@ -617,8 +617,8 @@ class ClasseurService
    */
   public function doAutoRotateJpegByOrientation( $filename, $extension ) {
 
-       // Si la fonction "exif_read_data" n'existe pas, il faut recompiler PHP avec l'option "--enable-exif"
-       if(!function_exists('exif_read_data')) return;
+    // Si la fonction "exif_read_data" n'existe pas, il faut recompiler PHP avec l'option "--enable-exif"
+    if(!function_exists('exif_read_data')) return;
 
     // Si le fichier est un jpeg avec des informations EXIF...
     if( in_array(strtolower($extension), array('.jpg', '.jpeg', '.jpe')) && $exif = exif_read_data($filename) ) {
