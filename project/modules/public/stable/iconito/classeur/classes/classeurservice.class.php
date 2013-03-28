@@ -598,9 +598,61 @@ class ClasseurService
         $fichierDAO->insert($fichier);
         
         copy($file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
-        
+
+        ClasseurService::doAutoRotateJpegByOrientation( $dir.$fichier->id.'-'.$fichier->cle.$extension, $extension );
+
         return $fichier;
     }
+
+  /**
+   * Correction de l'orientation des photos jpeg sur les appareils gérant l'orientation.
+   *
+   * Le fichier JPEG est souvent enregistré dans le sens de l'appareil photo et l'orientation
+   * de l'appareil (à l'endroit, 90°, -90° ou à l'envers) est précisée en métadonnée
+   * du jpeg (EXIF) pour que l'affichage soit dans le bon sens. Ceci n'est pas pris
+   * en compte par les navigateurs web. La correction de l'image doit donc être manuelle.
+   *
+   * @param string  $filename   Nom du fichier
+   * @param string  $extension  Extension du fichier (exemple ".jpg")
+   */
+  public function doAutoRotateJpegByOrientation( $filename, $extension ) {
+
+    // Si la fonction "exif_read_data" n'existe pas, il faut recompiler PHP avec l'option "--enable-exif"
+    if(!function_exists('exif_read_data')) return;
+
+    // Si le fichier est un jpeg avec des informations EXIF...
+    if( in_array(strtolower($extension), array('.jpg', '.jpeg', '.jpe')) && $exif = exif_read_data($filename) ) {
+
+      // Récupération de l'orientation de la photo
+      $ort = $exif['Orientation'];
+
+      // Seulement si l'orientation nécessite une rotation de l'image...
+      if($ort==3 || $ort==6 || $ort==8) {
+
+        // Ouverture de l'image
+        $image_rotate   = imagecreatefromjpeg($filename);
+
+        // Rotation en fonction de l'angle donné en EXIF
+        switch($ort)
+        {
+          case 3: // 180 rotate left
+            $image_rotate = imagerotate($image_rotate, 180, 0);
+            break;
+         case 6: // 90 rotate right
+            $image_rotate = imagerotate($image_rotate, -90, 0);
+            break;
+         case 8:    // 90 rotate left
+            $image_rotate = imagerotate($image_rotate, 90, 0);
+            break;
+        }
+
+        // Enregistrement de l'image (pleine qualité)
+        imagejpeg($image_rotate, $filename, 100);
+      }
+    }
+
+  }
+
 
   /**
      * Minimail de confirmation de l'upload dans le cas d'un envoie dans un casier

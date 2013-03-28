@@ -175,6 +175,8 @@ class ActionGroupDefault extends enicActionGroup
                 // Déplacement du fichier temporaire dans le classeur
                 copy($file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
 
+                ClasseurService::doAutoRotateJpegByOrientation( $dir.$fichier->id.'-'.$fichier->cle.$extension, $extension );
+
                 // Suppression du fichier temporaire
                 unlink($file);
             }
@@ -649,6 +651,9 @@ class ActionGroupDefault extends enicActionGroup
                                         
                                         // Déplacement du fichier temporaire dans le classeur
                                         copy($dossierParent.'/'.$file, $dir.$fichier->id.'-'.$fichier->cle.$extension);
+
+                                        ClasseurService::doAutoRotateJpegByOrientation( $dir.$fichier->id.'-'.$fichier->cle.$extension, $extension );
+
                                         // Suppression du fichier temporaire
                                         unlink($dossierParent.'/'.$file);
                                     }
@@ -1887,9 +1892,11 @@ class ActionGroupDefault extends enicActionGroup
         $fichierDAO->insert($ppo->fichier);
 
         $extension = strtolower(strrchr($_FILES['fichiers']['name'][0], '.'));
-              $fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
-              move_uploaded_file ($_FILES['fichiers']['tmp_name'][0], $fichierPhysique);
-          }
+        $fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
+        move_uploaded_file ($_FILES['fichiers']['tmp_name'][0], $fichierPhysique);
+
+        ClasseurService::doAutoRotateJpegByOrientation( $fichierPhysique, $extension );
+      }
     }
 
     $urlReturn = ($field && $format) ? CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId, 'field'=>$field, 'format'=>$format, 'moduleType' => $moduleType, 'moduleId' => $moduleId)) : CopixUrl::get ('classeur||getClasseurPopup', array('classeurId' => $classeur->id, 'dossierId'=>$ppo->dossierId));
