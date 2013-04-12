@@ -10,14 +10,14 @@
       <li>importer un <strong>fichier</strong> (<em>au format CSV</em>) contenant les informations.</li>
     </ul>
     
-    <p>Dans tous les cas, les informations doivent être séparées par une virgule ou un point-virgule et être formatées selon le modèle suivant : </p>
+    <p>Dans tous les cas, les informations doivent être séparées par une virgule et être formatées selon le modèle suivant : </p>
     
     <pre><code>Nom, Prénom, Sexe (M ou F), <span class="optionnal">[ </span>date de naissance (JJ/MM/AAAA)<span class="optionnal"> ]</span>,
 <span class="optionnal">[ </span>Nom parent1, Prénom parent1, Sexe (M ou F), relation (PERE, MERE, AUTRE),<span class="optionnal"> ]</span>
 <span class="optionnal">[ </span>Nom parent2, Prénom parent2, Sexe (M ou F), relation (PERE, MERE, AUTRE)<span class="optionnal"> ]</span>
 </code></pre>
     
-    <p>Les informations entre <span class="optionnal">[ ]</span> sont optionnelles. Un champ optionnel peut être vide mais n'oubliez pas le séparateur (virgule ou point virgule).</p>
+    <p>Les informations entre <span class="optionnal">[ ]</span> sont optionnelles. Un champ optionnel peut être vide mais n'oubliez pas le séparateur (virgule).</p>
     
     <p>Voir des exemples de saisies : <a href="#" id="students-data">Quelques {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc}</a> - <a href="#" id="students-and-persons-data">Quelques {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_persons%%" catalog=$ppo->vocabularyCatalog->id_vc} et leurs {customi18n key="gestionautonome|gestionautonome.message.%%structure_element_responsables%%" catalog=$ppo->vocabularyCatalog->id_vc}</a> 
     - <a href="{copixurl}import_exemple.csv">Télécharger un fichier d'exemple</a></p>
