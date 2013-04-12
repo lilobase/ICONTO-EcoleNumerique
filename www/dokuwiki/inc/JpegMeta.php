@@ -1674,7 +1674,7 @@ class JpegMeta
                     // create an invalid file.
                 }
             }
-        }
+    //}
 
         if (($exifThumbnailOffset > 0) && ($exifThumbnailLength > 0)) {
             $this->_info['exif']['JFIFThumbnail'] = $this->_getFixedString($data, $base + $exifThumbnailOffset, $exifThumbnailLength);

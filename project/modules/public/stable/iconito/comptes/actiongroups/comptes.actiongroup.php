@@ -826,7 +826,7 @@ class ActionGroupComptes extends enicActionGroup
      */
     public function getUserExt()
     {
-        if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && !_currentUser()->hasAssistance('can_comptes') )
+        if( !Kernel::isAdmin() && !_currentUser()->hasAssistance('can_comptes') )
             return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 
 
@@ -841,7 +841,7 @@ class ActionGroupComptes extends enicActionGroup
         $userext_list_raw = $userext_dao->findAll();
         $userext_list = array();
         foreach( $userext_list_raw AS $userext_key=>$userext_val ) {
-            if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && Kernel::getLevel( 'ROOT', 0, "USER_EXT", $userext_val->ext_id ) >= PROFILE_CCV_ADMIN ) continue;
+            if( !Kernel::isSuperAdmin() && Kernel::getLevel( 'ROOT', 0, "USER_EXT", $userext_val->ext_id ) >= PROFILE_CCV_ADMIN ) continue;
             if( $bu2user_item = $bu2user_dao->getByBUID( "USER_EXT", $userext_val->ext_id ) )
                 $userext_val->bu2user = $bu2user_item[0];
             $userext_list[$userext_key] = $userext_val;
@@ -868,7 +868,7 @@ class ActionGroupComptes extends enicActionGroup
      */
     public function getUserExtMod()
     {
-        if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && !_currentUser()->hasAssistance('can_comptes') )
+        if( !Kernel::isAdmin() && !_currentUser()->hasAssistance('can_comptes') )
             return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('||' ) );
 
 
@@ -1006,7 +1006,7 @@ class ActionGroupComptes extends enicActionGroup
 
                 $userext_item = $userext_dao->get( _request('id') );
                 if( !$userext_item ) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
-                if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && Kernel::getLevel( 'ROOT', 0, "USER_EXT", $userext_item->ext_id ) >= PROFILE_CCV_ADMIN )
+                if( !Kernel::isSuperAdmin() && Kernel::getLevel( 'ROOT', 0, "USER_EXT", $userext_item->ext_id ) >= PROFILE_CCV_ADMIN )
                     return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt') );
                 $mode = 'MOD';
             } elseif( _request('id') < 0 ) {
@@ -1014,7 +1014,7 @@ class ActionGroupComptes extends enicActionGroup
 
                 $userext_item = $userext_dao->get( abs(_request('id')) );
                 if( !$userext_item ) return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt' ) );
-                if( Kernel::getLevel( 'ROOT', 0 ) < PROFILE_CCV_ADMIN && Kernel::getLevel( 'ROOT', 0, "USER_EXT", $userext_item->ext_id ) >= PROFILE_CCV_ADMIN )
+                if( !Kernel::isSuperAdmin() && Kernel::getLevel( 'ROOT', 0, "USER_EXT", $userext_item->ext_id ) >= PROFILE_CCV_ADMIN )
                     return new CopixActionReturn (COPIX_AR_REDIRECT, CopixUrl::get ('comptes||getUserExt') );
                 $mode = 'DEL';
             } else {

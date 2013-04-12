@@ -182,7 +182,7 @@ function p_cached_output($file, $format='xhtml', $id='')
 function p_cached_instructions($file,$cacheonly=false,$id='')
 {
   global $conf;
-  public static $run = null;
+  $run = null;
   if(is_null($run)) $run = array();
 
   $cache = new cache_instructions($id, $file);
@@ -460,7 +460,7 @@ function p_get_parsermodes()
   global $conf;
 
   //reuse old data
-  public static $modes = null;
+  $modes = null;
   if($modes != null){
     return $modes;
   }

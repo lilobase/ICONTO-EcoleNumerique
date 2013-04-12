@@ -267,7 +267,7 @@ function buildAttributes($params,$skipempty=false)
 function breadcrumbs()
 {
   // we prepare the breadcrumbs early for quick session closing
-  public static $crumbs = null;
+  $crumbs = null;
   if($crumbs != null) return $crumbs;
 
   global $ID;

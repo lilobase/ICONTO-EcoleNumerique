@@ -172,13 +172,12 @@ jQuery(document).ready(function($){
 	var dodurl;
 	var dovurl;
 	var doerr;
-	var pictureTypes = ["PNG", "png", "JPG", "jpg", "gif", "GIF"];
+	var pictureTypes = ["PNG", "png", "JPG", "jpg", "gif", "GIF", "jpe", "JPE"];
 
 	$('#folder-content input[type="checkbox"]').change (function() {
 	  
 	  var pictureChecked = 0;
-	  $('#folder-content input[type="checkbox"]:checked').each(function () {
-	    
+	  $('#folder-content td.check-file input[type="checkbox"]:checked').each(function () {
 	    if (jQuery.inArray($(this).parent().parent().attr('class').substr(0, 3), pictureTypes) > -1) {
 	      
 	      pictureChecked = pictureChecked + 1;
