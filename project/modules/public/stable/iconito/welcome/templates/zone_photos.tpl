@@ -24,7 +24,7 @@
 {else}
     <ul class="slide">
         {foreach from=$photolist key=k item=photo}
-            <li class="left"><img src="{$photo.file}" alt="{$photo->title}"></li>
+            <li class="left"><img src="{$photo.file}" alt="{$photo.title}"></li>
             {assign var=puces value=$puces<li>•</li>}
         {/foreach}
     </ul>
