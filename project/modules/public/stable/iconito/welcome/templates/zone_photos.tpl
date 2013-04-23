@@ -22,7 +22,6 @@
     </div>
   {/if}
 {else}
-{$nbPhotos}
     <ul class="slide">
         {foreach from=$photolist key=k item=photo}
             <li class="left"><img src="{$photo.file}" alt="{$photo->title}"></li>
