@@ -96,7 +96,6 @@ class ActionGroupFrontBlog extends EnicActionGroup
         $menu=array();
         if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
         CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
         $tpl = new CopixTpl ();
@@ -176,7 +175,6 @@ class ActionGroupFrontBlog extends EnicActionGroup
         if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
 
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
     CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
         $tpl = new CopixTpl ();
@@ -259,7 +257,6 @@ class ActionGroupFrontBlog extends EnicActionGroup
         $menu=array();
         if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
     CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
         $tpl = new CopixTpl ();
@@ -342,7 +339,6 @@ class ActionGroupFrontBlog extends EnicActionGroup
         $menu=array();
         if (BlogAuth::canMakeInBlog('ACCESS_ADMIN',$blog)) $menu = getBlogAdminMenu($blog);
 
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
     CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
         $tpl = new CopixTpl ();
@@ -433,7 +429,6 @@ class ActionGroupFrontBlog extends EnicActionGroup
         $comment->is_online = ($blog->type_moderation_comments != 'POST') ? 0 : 1;
         $comment->authorip_bacc = $_SERVER["REMOTE_ADDR"];
 
-        CopixHTMLHeader::addCSSLink (_resource("styles/module_blog.css"));
         CopixHTMLHeader::addCSSLink (CopixUrl::get('blog||getBlogCss', array('id_blog'=>$blog->id_blog)));
 
         $tpl->assign ('blog', $blog);
