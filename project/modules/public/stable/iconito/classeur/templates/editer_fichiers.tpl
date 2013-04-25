@@ -40,7 +40,7 @@
         
         <div class="uploadSimple">
             <h3>{if $ppo->fichier->id neq null}{i18n key="classeur.title.newUpload"}{else}{i18n key="classeur.title.simpleUpload"}{/if}</h3>
-            <p><input id="fichier" name="fichier" type="file" /></p>
+            <p><input id="fichier" name="fichier" type="file" size="13" /></p>
             
         </div>
         {if $ppo->fichier->id eq null}
