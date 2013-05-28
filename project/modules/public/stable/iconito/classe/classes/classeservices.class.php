@@ -33,8 +33,7 @@ class ClasseServices {
      */
     public function countClassesAllowing($action)
     {
-        $eleveExtras = _currentUser()->getExtras();
-        $eleveId = $eleveExtras['id'];
+        $eleveId = _currentUser()->getExtra('id');
 
         $critere = <<<SQL
             SELECT COUNT(*) AS nbAuthorisations
