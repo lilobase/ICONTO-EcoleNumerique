@@ -33,8 +33,13 @@ class ActionGroupMinimail extends EnicActionGroup
 
         $menu = array();
         $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get('minimail||getListRecv'), 'current' => true);
-        $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'));
-        $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
+
+        _classInclude('classe|ClasseServices');
+        $classeService = new ClasseServices();
+        if ($classeService->aAcces('MOD_MINIMAIL')) {
+            $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'));
+            $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
+        }
         $tpl->assign('MENU', $menu);
 
         $tplListe = new CopixTpl ();
@@ -80,6 +85,12 @@ class ActionGroupMinimail extends EnicActionGroup
      */
     public function getListSend()
     {
+        _classInclude('classe|ClasseServices');
+        $classeService = new ClasseServices();
+        if (!$classeService->aAcces('MOD_MINIMAIL')) {
+            return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('|getListRecv'));
+        }
+
         $this->addJs('js/iconito/module_minimail.js');
 
         $tpl = new CopixTpl ();
@@ -208,8 +219,12 @@ class ActionGroupMinimail extends EnicActionGroup
 
             $menu = array();
             $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get('minimail||getListRecv'), 'current' => $isRecv);
-            $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'), 'current' => $isSend);
-            $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
+            _classInclude('classe|ClasseServices');
+            $classeService = new ClasseServices();
+            if ($classeService->aAcces('MOD_MINIMAIL')) {
+                $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'), 'current' => $isSend);
+                $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
+            }
             $tpl->assign('MENU', $menu);
 
             $message->attachment1IsImage = $MinimailService->isAttachmentImage($message->attachment1);
@@ -249,6 +264,12 @@ class ActionGroupMinimail extends EnicActionGroup
      */
     public function processGetNewForm()
     {
+        _classInclude('classe|ClasseServices');
+        $classeService = new ClasseServices();
+        if (!$classeService->aAcces('MOD_MINIMAIL')) {
+            return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('|getListRecv'));
+        }
+
         $this->addJs('js/iconito/module_minimail.js');
 
         $tpl = new CopixTpl ();
@@ -608,8 +629,13 @@ class ActionGroupMinimail extends EnicActionGroup
 
         $menu = array();
         $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get('minimail||getListRecv'), 'current' => $isRecv);
-        $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'), 'current' => $isSend);
-        $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
+
+        _classInclude('classe|ClasseServices');
+        $classeService = new ClasseServices();
+        if ($classeService->aAcces('MOD_MINIMAIL')) {
+            $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'), 'current' => $isSend);
+            $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
+        }
 
         $ppo = new CopixPPO ();
 
