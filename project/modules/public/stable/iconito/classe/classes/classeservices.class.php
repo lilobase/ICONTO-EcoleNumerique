@@ -13,7 +13,7 @@ class ClasseServices {
      *
      * @return string
      */
-    public function aAcces($action)
+    public function canAccess($action)
     {
         if (!Kernel::isEleve()) {
             return true;
@@ -21,7 +21,7 @@ class ClasseServices {
 
         $allow = $this->countClassesAllowing($action);
 
-        return (bool)$allow[0]->nbAuthorisations;
+        return (bool)$allow[0]->nbAuthorizations;
     }
 
     /**
@@ -36,7 +36,7 @@ class ClasseServices {
         $eleveId = _currentUser()->getExtra('id');
 
         $critere = <<<SQL
-            SELECT COUNT(*) AS nbAuthorisations
+            SELECT COUNT(*) AS nbAuthorizations
             FROM kernel_mod_enabled kme
             LEFT JOIN kernel_bu_ecole_classe kbec
                 ON kme.node_id = kbec.id

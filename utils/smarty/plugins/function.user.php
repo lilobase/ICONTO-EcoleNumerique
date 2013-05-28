@@ -71,7 +71,7 @@ function smarty_function_user ($params, &$smarty)
 
         _classInclude('classe|ClasseServices');
         $classeService = new ClasseServices();
-        if ($params['dispMail']==1 && $params['login'] && $classeService->aAcces('MOD_MINIMAIL')) {
+        if ($params['dispMail']==1 && $params['login'] && $classeService->canAccess('MOD_MINIMAIL')) {
 
             $url = CopixUrl::get ('minimail||getNewForm', array('login'=>$params['login']));
             $res .= '&nbsp;<A HREF="'.$url.'"><IMG WIDTH="12" HEIGHT="9" SRC="'.CopixUrl::getResource ("img/minimail/new_minimail.gif").'" ALT="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" TITLE="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" BORDER="0" /></A>';

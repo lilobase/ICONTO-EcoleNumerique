@@ -26,6 +26,6 @@ function smarty_function_has_classroom_access($params, &$smarty)
     _classInclude('classe|ClasseServices');
     $classeService = new ClasseServices();
 
-    $smarty->assign('access', $classeService->aAcces($module));
+    $smarty->assign('access', $classeService->canAccess($module));
 
 }
