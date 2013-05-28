@@ -20,7 +20,13 @@
 
 {$usr.type_nom}<br/>
 
-{if $canWrite && $usr.login}{i18n key="annuaire.minimail"} : {$usr.login} <a href="{copixurl dest="minimail||getNewForm" login=$usr.login}"><img width="12" height="9" src="{copixresource path="img/minimail/new_minimail.gif"}" alt="{i18n key="annuaire.writeMinimail"}" title="{i18n key="annuaire.writeMinimail"}" /></a>{/if}
+{if $canWrite && $usr.login}
+    {i18n key="annuaire.minimail"} : {$usr.login}
+    {has_classroom_access module="MOD_MINIMAIL"}
+    {if $access}
+        <a href="{copixurl dest="minimail||getNewForm" login=$usr.login}"><img width="12" height="9" src="{copixresource path="img/minimail/new_minimail.gif"}" alt="{i18n key="annuaire.writeMinimail"}" title="{i18n key="annuaire.writeMinimail"}" /></a>
+    {/if}
+{/if}
 
 {if $parents}
 <hr />

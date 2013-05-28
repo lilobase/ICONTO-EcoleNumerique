@@ -56,13 +56,18 @@ class ActionGroupListe extends CopixActionGroup
             $tpl = new CopixTpl ();
             $tpl->assign ('TITLE_PAGE', $liste->parent["nom"]);
 
-      $menu = array();
-      $menu[] = array('txt' => CopixI18N::get('liste|liste.homeLinkMsgSend'), 'url' => CopixUrl::get ('minimail||getListSend'));
-          $tpl->assign ('MENU', $menu);
+            $menu = array();
+            _classInclude('classe|ClasseServices');
+            $classeService = new ClasseServices();
+            if ($classeService->aAcces('MOD_MINIMAIL')) {
+                $menu[] = array('txt' => CopixI18N::get('liste|liste.homeLinkMsgSend'), 'url' => CopixUrl::get ('minimail||getListSend'));
+            }
+
+            $tpl->assign ('MENU', $menu);
 
             $tplListe = new CopixTpl ();
             $tplListe->assign ('liste', $liste);
-      $tplListe->assign ('canWrite', ListeService::canMakeInListe('WRITE',$mondroit));
+            $tplListe->assign ('canWrite', ListeService::canMakeInListe('WRITE',$mondroit));
 
             $result = $tplListe->fetch('getliste.tpl');
             $tpl->assign ('MAIN', $result);
@@ -73,16 +78,16 @@ class ActionGroupListe extends CopixActionGroup
 
 
    /**
-   * Formulaire d'écriture d'un message
+   * Formulaire d'ï¿½criture d'un message
      *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2005/11/23
      * @see doMessageForm()
-     * @param integer $liste Id de la liste sur laquelle on écrit
+     * @param integer $liste Id de la liste sur laquelle on ï¿½crit
      * @param string $title Titre du message
      * @param string $message Corps du message
      * @param integer $preview (option) Si 1, affichera la preview du message soumis, si 0 validera le formulaire
-   * @param array $errors Erreurs déjà rencontrées
+   * @param array $errors Erreurs dï¿½jï¿½ rencontrï¿½es
    */
      function processGetMessageForm ()
      {
@@ -146,15 +151,15 @@ class ActionGroupListe extends CopixActionGroup
 
 
    /**
-   * Soumission du formulaire d'écriture d'un message sur une liste
+   * Soumission du formulaire d'ï¿½criture d'un message sur une liste
      *
      * @author Christophe Beyer <cbeyer@cap-tic.fr>
      * @since 2005/11/23
      * @see getMessageForm()
-     * @param integer $liste Id de la liste sur laquelle on écrit
+     * @param integer $liste Id de la liste sur laquelle on ï¿½crit
      * @param string $title Titre du minimail
      * @param string $message Corps du minimail
-     * @param string $go Forme de soumission : preview (prévisualiser) ou send (enregistrer)
+     * @param string $go Forme de soumission : preview (prï¿½visualiser) ou send (enregistrer)
    */
     public function doMessageForm ()
     {
