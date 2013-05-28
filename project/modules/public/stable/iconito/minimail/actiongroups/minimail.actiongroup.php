@@ -88,7 +88,7 @@ class ActionGroupMinimail extends EnicActionGroup
         _classInclude('classe|ClasseServices');
         $classeService = new ClasseServices();
         if (!$classeService->canAccess('MOD_MINIMAIL')) {
-            return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('|getListRecv'));
+            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('|getListRecv')));
         }
 
         $this->addJs('js/iconito/module_minimail.js');
@@ -267,7 +267,7 @@ class ActionGroupMinimail extends EnicActionGroup
         _classInclude('classe|ClasseServices');
         $classeService = new ClasseServices();
         if (!$classeService->canAccess('MOD_MINIMAIL')) {
-            return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('|getListRecv'));
+            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('|getListRecv')));
         }
 
         $this->addJs('js/iconito/module_minimail.js');
@@ -323,8 +323,6 @@ class ActionGroupMinimail extends EnicActionGroup
             }
         }
 
-
-
         $tplForm->assign("dest", $dest);
         $tplForm->assign("title", $title);
         $tplForm->assign("message", $message);
@@ -355,6 +353,12 @@ class ActionGroupMinimail extends EnicActionGroup
      */
     public function doSend()
     {
+        _classInclude('classe|ClasseServices');
+        $classeService = new ClasseServices();
+        if (!$classeService->canAccess('MOD_MINIMAIL')) {
+            return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('|getListRecv')));
+        }
+
         $dest = _request("dest") ? _request("dest") : "";
         $title = _request("title") ? _request("title") : "";
         $message = _request("message") ? _request("message") : "";
@@ -745,19 +749,9 @@ class ActionGroupMinimail extends EnicActionGroup
             //return _arNone();
 
             //return new CopixActionReturn(COPIX_AR_REDIRECT, CopixUrl::get('minimail||getMessage', array('id' => $idMessage)));
-
-
         }
 
-
         return _arPPO ($ppo, array ('template'=>'attachmentToClasseur.tpl', 'mainTemplate'=>'main|main_popup.php'));
-
-
-
-
-
-
-
     }
 
 }
