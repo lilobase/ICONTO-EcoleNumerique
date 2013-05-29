@@ -7,13 +7,16 @@
  */
 class ActionGroupDefault extends CopixActionGroup
 {
+    /**
+     * Action de configuration des paramètres d'une classe
+     *
+     * @return CopixActionReturn
+     */
     public function processConfigure()
     {
-        $ppo    = new CopixPPO ();
-        _classInclude('kernel/Kernel');
-        $kernel = new Kernel();
-
+        // Récupération de la classe
         $classe = CopixSession::get('myNode');
+
         // Si le type de l'objet manipulé n'est pas une classe, on sort en erreur
         if ($classe['type'] !== 'BU_CLASSE') {
             return CopixActionGroup::process('generictools|Messages::getError', array(
@@ -23,30 +26,33 @@ class ActionGroupDefault extends CopixActionGroup
         }
 
         // Seul l'enseignant de la classe peut accéder à ce paramétrage
-        if (!$kernel->isEnseignantOfClasse($classe['id']))
-        {
+        _classInclude('kernel/Kernel');
+        $kernel = new Kernel();
+        if (!$kernel->isEnseignantOfClasse($classe['id'])) {
             return CopixActionGroup::process('generictools|Messages::getError', array(
-                'message' => CopixI18N::get('kernel|kernel.error.errorOccurred'),
+                'message' => CopixI18N::get('kernel|kernel.error.noRights'),
                 'back'    => CopixUrl::get('||')
             ));
         }
 
+        $ppo = new CopixPPO ();
+
+        // Traitement du formulaire
         if (CopixRequest::isMethod('post')) {
             _classInclude('classe|ClasseParameters');
             $classeParameters = new ClasseParameters($classe);
-            $classeParameters->process(array(
-                'minimail' => _request('minimail', false)
-            ));
+            $classeParameters->process(array('minimail' => _request('minimail', false)));
 
             $ppo->success = true;
         }
+
         $ppo->has_minimail_enabled = $kernel->hasRegisteredModule('MOD_MINIMAIL', 0, 'BU_CLASSE', $classe['id']);
 
         return _arPPO($ppo, 'configure.tpl');
     }
 
-    public function go ()
+    public function go()
     {
-        return _arRedirect (CopixUrl::get ('classe||configure'));
+        return _arRedirect(CopixUrl::get ('classe||configure'));
     }
 }

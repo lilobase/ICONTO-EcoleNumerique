@@ -209,21 +209,6 @@ class MinimailService
         return array("title"=>$title, "message"=>$message);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /**
      * D�termine si la pr�visualisation d'une pi�ce jointe est possible (cas des images)
      *
@@ -258,7 +243,24 @@ class MinimailService
         return $res;
     }
 
+    /**
+     * Retourne vrai si l'utilisateur connecté peut accéder fonctions sécurisées du minimail
+     * @author Jérémy Hubert <jeremy.hubert@isics.fr>
+     * @author Sébastien Cas <sebastien.cas@isics.fr>
+     *
+     * @return bool
+     */
+    public static function hasUserAccess()
+    {
+        // Accès restreint uniquement pour les élèves
+        if (!Kernel::isEleve()) {
+            return true;
+        }
 
+        $daoClass = _ioDAO('kernel|kernel_bu_ele');
+
+        return $daoClass->isAuthorizedToAccessModuleByClassroom('MOD_MINIMAIL', _currentUser()->getExtra('id'));
+    }
 }
 
 

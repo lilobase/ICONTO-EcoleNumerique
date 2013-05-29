@@ -27,7 +27,7 @@
 
 {if $message->avatar}<img src="{copixurl}{$message->avatar}" alt="{$message->avatar}" title="{$message->from.login}" align="right" hspace="2" vspace="2" />{/if}
 
-<b>{i18n key="minimail.msg.from"}</b> 
+<b>{i18n key="minimail.msg.from"}</b>
 
 {user label=$message->from_id_infos userType=$message->from.type userId=$message->from.id linkAttribs='STYLE="text-decoration:none;";'}, <b>{i18n key="minimail.msg.to"}</b> {assign var=sep value=""}{foreach from=$dest item=to}{$sep}{user label=$to->to_id_infos userType=$to->to.type userId=$to->to.id linkAttribs='STYLE="text-decoration:none;";'}{assign var=sep value=", "}{/foreach}, <b>{i18n key="minimail.msg.date}</b> {$message->date_send|datei18n:"date_short_time"}
 
@@ -57,17 +57,16 @@
 </div>
 
 <span class="floatleft">
-    
-    
+
+
 {if $message->getNbAttachments() > 0}
-    
+
         <a href="{copixurl dest="|attachmentToClasseur" id=$message->id}" class="button button-move fancyframe" id="buttonAttachmentToClasseur">{i18n key="minimail.attachmentToClasseur.action" pNb=$message->getNbAttachments()}</a>
-      
+
 {/if}
 </span>
 
-{has_classroom_access module="MOD_MINIMAIL"}
-{if $access}
+{if iconitominimail_hasuseraccess}
     <p class="right">
         {if $message->type eq "recv"}
           <input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" reply=$message->id}'" type="button" value="{i18n key="minimail.btn.reply}" />

@@ -34,9 +34,8 @@ class ActionGroupMinimail extends EnicActionGroup
         $menu = array();
         $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get('minimail||getListRecv'), 'current' => true);
 
-        _classInclude('classe|ClasseServices');
-        $classeService = new ClasseServices();
-        if ($classeService->canAccess('MOD_MINIMAIL')) {
+        _classInclude('minimail|MinimailService');
+        if (MinimailService::hasUserAccess()) {
             $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'));
             $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
         }
@@ -85,9 +84,8 @@ class ActionGroupMinimail extends EnicActionGroup
      */
     public function getListSend()
     {
-        _classInclude('classe|ClasseServices');
-        $classeService = new ClasseServices();
-        if (!$classeService->canAccess('MOD_MINIMAIL')) {
+        _classInclude('minimail|MinimailService');
+        if (!MinimailService::hasUserAccess()) {
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('|getListRecv')));
         }
 
@@ -219,9 +217,9 @@ class ActionGroupMinimail extends EnicActionGroup
 
             $menu = array();
             $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get('minimail||getListRecv'), 'current' => $isRecv);
-            _classInclude('classe|ClasseServices');
-            $classeService = new ClasseServices();
-            if ($classeService->canAccess('MOD_MINIMAIL')) {
+
+            _classInclude('minimail|MinimailService');
+            if (MinimailService::hasUserAccess()) {
                 $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'), 'current' => $isSend);
                 $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
             }
@@ -264,9 +262,8 @@ class ActionGroupMinimail extends EnicActionGroup
      */
     public function processGetNewForm()
     {
-        _classInclude('classe|ClasseServices');
-        $classeService = new ClasseServices();
-        if (!$classeService->canAccess('MOD_MINIMAIL')) {
+        _classInclude('minimail|MinimailService');
+        if (!MinimailService::hasUserAccess()) {
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('|getListRecv')));
         }
 
@@ -353,9 +350,8 @@ class ActionGroupMinimail extends EnicActionGroup
      */
     public function doSend()
     {
-        _classInclude('classe|ClasseServices');
-        $classeService = new ClasseServices();
-        if (!$classeService->canAccess('MOD_MINIMAIL')) {
+        _classInclude('minimail|MinimailService');
+        if (!MinimailService::hasUserAccess()) {
             return CopixActionGroup::process('genericTools|Messages::getError', array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('|getListRecv')));
         }
 
@@ -634,9 +630,8 @@ class ActionGroupMinimail extends EnicActionGroup
         $menu = array();
         $menu[] = array('txt' => CopixI18N::get('minimail.mess_recv'), 'url' => CopixUrl::get('minimail||getListRecv'), 'current' => $isRecv);
 
-        _classInclude('classe|ClasseServices');
-        $classeService = new ClasseServices();
-        if ($classeService->canAccess('MOD_MINIMAIL')) {
+        _classInclude('minimail|MinimailService');
+        if (MinimailService::hasUserAccess()) {
             $menu[] = array('txt' => CopixI18N::get('minimail.mess_send'), 'url' => CopixUrl::get('minimail||getListSend'), 'current' => $isSend);
             $menu[] = array('txt' => CopixI18N::get('minimail.mess_write'), 'url' => CopixUrl::get('minimail||getNewForm'));
         }
@@ -753,6 +748,5 @@ class ActionGroupMinimail extends EnicActionGroup
 
         return _arPPO ($ppo, array ('template'=>'attachmentToClasseur.tpl', 'mainTemplate'=>'main|main_popup.php'));
     }
-
 }
 

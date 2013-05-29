@@ -145,35 +145,4 @@ class DAOKernel_bu_ecole_classe
 
     return new CopixDAORecordIterator (_doQuery ($sql), $this->getDAOId ());
     }
-
-
-    /**
-     * Returns count of classes which allows usage of module passed in arguments
-     *
-     * @param string $module Module
-     *
-     * @return mixed
-     */
-    public function getCountAllowingModule($module)
-    {
-        $eleveId = _currentUser()->getExtra('id');
-
-        $critere = <<<SQL
-            SELECT COUNT(*) AS nbAuthorizations
-            FROM kernel_bu_ecole_classe kbec
-            INNER JOIN kernel_mod_enabled kme
-                ON kbec.id = kme.node_id
-            INNER JOIN kernel_bu_eleve_affectation kbea
-                ON kbea.classe = kbec.id
-            WHERE kme.module_type = '{$module}'
-            AND kme.node_type = 'BU_CLASSE'
-            AND kbea.current = 1
-            AND kbea.eleve = {$eleveId}
-            ;
-SQL;
-
-        $result = _doQuery($critere);
-
-        return (false === $result) ? 0 : (int)$result[0]->nbAuthorizations;
-     }
 }

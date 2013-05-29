@@ -57,9 +57,8 @@ class ActionGroupListe extends CopixActionGroup
             $tpl->assign ('TITLE_PAGE', $liste->parent["nom"]);
 
             $menu = array();
-            _classInclude('classe|ClasseServices');
-            $classeService = new ClasseServices();
-            if ($classeService->canAccess('MOD_MINIMAIL')) {
+            _classInclude('minimail|MinimailService');
+            if (MinimailService::hasUserAccess()) {
                 $menu[] = array('txt' => CopixI18N::get('liste|liste.homeLinkMsgSend'), 'url' => CopixUrl::get ('minimail||getListSend'));
             }
 
