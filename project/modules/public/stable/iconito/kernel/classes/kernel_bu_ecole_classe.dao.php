@@ -148,11 +148,9 @@ class DAOKernel_bu_ecole_classe
 
 
     /**
-     *
-     * Envoyer ça dans le kernel
      * Returns count of classes which allows usage of module passed in arguments
      *
-     * @param string $module
+     * @param string $module Module
      *
      * @return mixed
      */
@@ -173,6 +171,9 @@ class DAOKernel_bu_ecole_classe
             AND kbea.eleve = {$eleveId}
             ;
 SQL;
-        return _doQuery($critere);
+
+        $result = _doQuery($critere);
+
+        return (false === $result) ? 0 : (int)$result[0]->nbAuthorizations;
      }
 }
