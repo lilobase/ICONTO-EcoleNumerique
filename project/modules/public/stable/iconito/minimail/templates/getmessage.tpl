@@ -66,7 +66,8 @@
 {/if}
 </span>
 
-{if iconitominimail_hasuseraccess}
+{iconitominimail_hasuseraccess assign=has_user_access}
+{if $has_user_access}
     <p class="right">
         {if $message->type eq "recv"}
           <input style="margin:2px;" class="button button-continue" onclick="self.location='{copixurl dest="|getNewForm" reply=$message->id}'" type="button" value="{i18n key="minimail.btn.reply}" />

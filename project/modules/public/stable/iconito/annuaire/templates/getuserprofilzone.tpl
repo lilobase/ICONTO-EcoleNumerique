@@ -1,3 +1,5 @@
+{iconitominimail_hasuseraccess assign=has_user_access}
+
 {if !$usr}
     {i18n key="kernel|kernel.error.noRights"}
     {else}
@@ -21,8 +23,7 @@
 
         {if $canWrite && $usr.login}
             {i18n key="annuaire.minimail"} : {$usr.login}
-            {iconitominimail_hasuseraccess}
-            {if true}
+            {if $has_user_access}
                 <a href="{copixurl dest="minimail||getNewForm" login=$usr.login}"><img width="12" height="9" src="{copixresource path="img/minimail/new_minimail.gif"}" alt="{i18n key="annuaire.writeMinimail"}" title="{i18n key="annuaire.writeMinimail"}" /></a>
             {/if}
         {/if}
