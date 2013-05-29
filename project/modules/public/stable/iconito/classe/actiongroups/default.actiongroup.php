@@ -43,4 +43,9 @@ class ActionGroupDefault extends CopixActionGroup
 
         return _arPPO($ppo, 'configure.tpl');
     }
+
+    public function go ()
+    {
+        return _arRedirect (CopixUrl::get ('classe||configure'));
+    }
 }

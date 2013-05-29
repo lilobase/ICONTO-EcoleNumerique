@@ -290,6 +290,7 @@ div.dashpanel ul li a.MOD_KNE               { background-image: url(../../../the
 div.dashpanel ul li a.MOD_CAHIERDETEXTES    { background-image: url(../../../themes/default/images/mod_cahierdetextes.png);}
 div.dashpanel ul li a.MOD_CERISEPRIM        { background-image: url(../../../themes/default/images/mod_ceriseprim.png);}
 div.dashpanel ul li a.MOD_RSSETAGERE        { background-image: url(../../../themes/default/images/mod_ressources.png);}
+div.dashpanel ul li a.MOD_CLASSE            { background-image: url(../../../themes/default/images/mod_preferences.png);}
 
 /************************************************
  * USER MENU BUTTONS

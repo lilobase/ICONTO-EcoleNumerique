@@ -1493,6 +1493,7 @@ class Kernel
             $v->module_nom = Kernel::Code2Name($v->module_type);
             $modules[]     = clone $v;
         }
+
         // _dump($modules);
         //print_r($modules);
         if ($user_type == "USER_ENS" &&
@@ -1651,6 +1652,19 @@ class Kernel
             $perso->module_nom  = Kernel::Code2Name('MOD_CERISEPRIM');
             $modules[]          = clone $perso;
         }
+
+        // Si le nodeType est une classe, et que la personne connecté est enseignant de cette classe,
+        // alors on ajoute un lien de configuration
+        if ($node_type === 'BU_CLASSE' && Kernel::isEnseignantOfClasse($node_id)) {
+            $modClassParameters              = new stdClass();
+            $modClassParameters->node_type   = $node_type;
+            $modClassParameters->node_id     = $node_id;
+            $modClassParameters->module_type = 'MOD_CLASSE';
+            $modClassParameters->module_id   = 0;
+            $modClassParameters->module_nom  = CopixI18N::get('classe|classe.configuration.buttonLabel');
+            $modules[]                       = $modClassParameters;
+        }
+
         // _dump($modules);
         if ($notification) {
             Kernel::getModlistNotifications($modules);
