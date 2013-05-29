@@ -10,7 +10,6 @@ class ActionGroupDefault extends CopixActionGroup
     public function processConfigure()
     {
         $ppo    = new CopixPPO ();
-
         _classInclude('kernel/Kernel');
         $kernel = new Kernel();
 
@@ -38,6 +37,8 @@ class ActionGroupDefault extends CopixActionGroup
             $classeParameters->process(array(
                 'minimail' => _request('minimail', false)
             ));
+
+            $ppo->success = true;
         }
         $ppo->has_minimail_enabled = $kernel->hasRegisteredModule('MOD_MINIMAIL', 0, 'BU_CLASSE', $classe['id']);
 

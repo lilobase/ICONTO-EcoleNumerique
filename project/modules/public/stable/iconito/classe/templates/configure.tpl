@@ -1,3 +1,7 @@
+{if $ppo->success}
+  <p class="mesgSuccess">{i18n key="classe.configuration.success"}</p>
+{/if}
+
 <form action="{copixurl dest="classe||configure"}" method="post">
     <div class="row">
         <label for="classe_configuration_minimail">
