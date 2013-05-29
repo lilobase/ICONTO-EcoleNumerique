@@ -257,9 +257,9 @@ class MinimailService
             return true;
         }
 
-        $daoClass = _ioDAO('kernel|kernel_bu_ele');
+        $daoEleve = _ioDAO('kernel|kernel_bu_ele');
 
-        return $daoClass->isAuthorizedToAccessModuleByClassroom('MOD_MINIMAIL', _currentUser()->getExtra('id'));
+        return $daoEleve->isAuthorizedToAccessModuleByClassroom('MOD_MINIMAIL', _currentUser()->getExtra('id'));
     }
 }
 

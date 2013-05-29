@@ -533,6 +533,6 @@ SQL;
       'studentId' => $studentId
     ));
 
-    return (int)$result[0]->nbAuthorizations > 0;
+    return ($result !== false) && ($result[0]->nbAuthorizations > 0);
   }
 }

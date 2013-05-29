@@ -2,6 +2,8 @@
 
 /**
  * Classe de gestion des paramètres de la classe
+ *
+ * @author Julien Pottier <julien.pottier@isics.fr>
  */
 class ClasseParameters
 {
@@ -18,6 +20,11 @@ class ClasseParameters
         $this->classe = $classe;
     }
 
+    /**
+     * Traite les valeurs du formulaire de paramétrage d'une classe
+     *
+     * @param array $values Les valeur saisies
+     */
     public function process(array $values)
     {
         // Le Kernel
@@ -27,6 +34,12 @@ class ClasseParameters
         $this->processMinimail($kernel, $values);
     }
 
+    /**
+     * Traite les valeurs des préférences concernant le minimail
+     *
+     * @param Kernel $kernel Le kernel
+     * @param array $values Les valeurs saisies
+     */
     protected function processMinimail($kernel, array $values)
     {
         // Le minimail est-il coché
