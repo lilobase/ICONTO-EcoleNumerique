@@ -1,4 +1,4 @@
-{assign has_user_access = iconitominimail_hasuserhas_user_access}
+{iconitominimail_hasuseraccess assign=has_user_access}
 <link rel="stylesheet" type="text/css" href="{copixresource path="styles/module_annuaire.css"}" />
 
 

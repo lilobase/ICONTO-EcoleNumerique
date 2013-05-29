@@ -17,5 +17,6 @@ function smarty_function_iconitominimail_hasuseraccess($params, &$smarty)
 {
     _classInclude('minimail|MinimailService');
 
-    return MinimailService::hasUserAccess();
+    $assign = $params['assign'] ? $params['assign'] : 'has_user_access';
+    $smarty->assign($assign, MinimailService::hasUserAccess());
 }
