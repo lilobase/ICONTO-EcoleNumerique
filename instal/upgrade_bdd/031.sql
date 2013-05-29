@@ -1,3 +1,6 @@
+-- On supprime tous les accès minimails
+DELETE FROM `kernel_mod_enabled` WHERE module_type = 'MOD_MINIMAIL';
+
 -- Autorisation par défaut des minimails pour toutes les classes
 INSERT INTO `kernel_mod_enabled`
     SELECT 'BU_CLASSE', id, 'MOD_MINIMAIL', 0
