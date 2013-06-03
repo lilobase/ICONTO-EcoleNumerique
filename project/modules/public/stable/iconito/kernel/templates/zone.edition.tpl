@@ -23,31 +23,27 @@
 
 {elseif $format eq "ckeditor" || $format eq "fckeditor"}
 
-<div>
+<textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea>
 
-
-<textarea style="width:{$width}px; height:{$height}px;" name="{$field}" id="{$field}" class="form">{$content}</textarea></div>
-
-
-<script type="text/javascript">
-CKEDITOR.replace( '{$field}',
-{literal}{{/literal}
-	customConfig : '{copixresource path="js/ckeditor.js"}',
-  width: '{$width}',
-  height: '{$height}',
-  on:
-  {literal}{{/literal}
-    {if $options.focus}
-    'instanceReady': function(evt) {literal}{{/literal}
-      //Set the focus to your editor
-      CKEDITOR.instances.{$field}.focus();
-    {literal}}{/literal}
-    {/if}
-  {literal}}{/literal}
-  {if $options.enterMode == 'br'}, enterMode: CKEDITOR.ENTER_BR{/if}
-  {if $options.toolbarSet}, toolbar: '{$options.toolbarSet}'{/if}
-  {if $options.toolbarStartupExpanded}, toolbarStartupExpanded: {$options.toolbarStartupExpanded}{/if}
-{literal}}{/literal});
+<script>
+    window.onload = function() {literal}{{/literal}
+        CKEDITOR.replace('{$field}', {literal}{{/literal}
+            customConfig: '{copixresource path="js/ckeditor.js"}',
+            width: '{$width}',
+            height: '{$height}',
+            on:
+            {literal}{{/literal}
+              {if $options.focus}
+              'instanceReady': function(evt) {literal}{{/literal}
+                CKEDITOR.instances.{$field}.focus();
+              {literal}}{/literal}
+              {/if}
+            {literal}}{/literal}
+            {if $options.enterMode == 'br'}, enterMode: CKEDITOR.ENTER_BR{/if}
+            {if $options.toolbarSet}, toolbar: '{$options.toolbarSet}'{/if}
+            {if $options.toolbarStartupExpanded}, toolbarCanCollapse: true, toolbarStartupExpanded: {$options.toolbarStartupExpanded}{/if}
+        {literal}}{/literal});
+    {literal}}{/literal};
 </script>
 
 <div>{$wikibuttons}</div>
