@@ -1174,6 +1174,10 @@ class ActionGroupDefault extends CopixActionGroup
 
       // Création
       if ($ppo->memo->id == '') {
+          $userInfos = Kernel::getUserInfo();
+
+          // On défini le type de compte créateur
+          $ppo->memo->created_by = $userInfos['type'];
 
         // Insertion de l'enregistrement "memo"
         $memoDAO->insert ($ppo->memo);
