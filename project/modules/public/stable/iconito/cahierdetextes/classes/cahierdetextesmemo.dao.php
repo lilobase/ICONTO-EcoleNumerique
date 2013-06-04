@@ -65,6 +65,32 @@ class DAOCahierDeTextesMemo
   }
 
   /**
+   * Retourne les mémos pour une classe donnée
+   *
+   * @param int   $idEcole
+   * @param bool  $current (mémos valide à la date du jour ?)
+   *
+   * @return CopixDAORecordIterator
+   */
+  public function findByEcole ($idEcole, $current = false)
+  {
+    $criteria = _daoSp ();
+        //$criteria->addCondition ('classe_id', '=', $idEcole);
+        $criteria->addCondition ('supprime', '=', 0);
+        if ($current) {
+          $criteria->startGroup ()
+               ->addCondition ('date_validite', '>=', date('Ymd'))
+               ->addCondition ('date_validite', '=', null, 'or')
+               ->endGroup ();
+        }
+        $criteria->groupBy ('id');
+        $criteria->orderBy (array ('date_creation', 'DESC'));
+        $criteria->orderBy (array ('id' , 'DESC'));
+
+        return $this->findBy ($criteria);
+  }
+
+  /**
    * Retourne le nombre de mémos non signés d'un élève
    *
    * @param int $idEleve

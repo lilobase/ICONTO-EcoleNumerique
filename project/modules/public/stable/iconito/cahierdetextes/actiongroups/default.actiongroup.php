@@ -10,32 +10,35 @@ class ActionGroupDefault extends CopixActionGroup
 {
     public function beforeAction ($actionName)
     {
-      CopixHTMLHeader::addJSLink (_resource('js/iconito/module_cahierdetextes.js'));
+        CopixHTMLHeader::addJSLink (_resource('js/iconito/module_cahierdetextes.js'));
 
-      // Contrôle d'accès au module
-    if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
-
-      return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
-    }
-    // Le responsable doit disposer de l'ID de l'élève
-    elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ) {
-
-      if ($actionName == "processVoirTravaux" && is_null($eleve = _request('eleve', null))) {
-
+        // Contrôle d'accès au module
         $myNode = CopixSession::get('myNode');
-        $eleve = $myNode['type'] == "USER_ELE" ? $myNode['id'] : null;
-      } else {
+        if (!$myNode['type'] == 'BU_ECOLE' || !Kernel::hasRole(DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL, 'ecole', _request ('id'))) {
 
-        $eleve = _request('eleve', null);
-      }
+            if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
 
-      if (is_null($eleve) && $actionName != 'go') {
+              return CopixActionGroup::process ('genericTools|Messages::getError',
+                  array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
+            }
+            // Le responsable doit disposer de l'ID de l'élève
+            elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ) {
 
-        return CopixActionGroup::process ('generictools|Messages::getError',
-                array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-      }
-    }
+              if ($actionName == "processVoirTravaux" && is_null($eleve = _request('eleve', null))) {
+
+                $eleve = $myNode['type'] == "USER_ELE" ? $myNode['id'] : null;
+              } else {
+
+                $eleve = _request('eleve', null);
+              }
+
+              if (is_null($eleve) && $actionName != 'go') {
+
+                return CopixActionGroup::process ('generictools|Messages::getError',
+                        array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              }
+            }
+        }
     }
 
     /**
@@ -974,6 +977,93 @@ class ActionGroupDefault extends CopixActionGroup
       return _arPPO ($ppo, 'voir_memos.tpl');
     }
 
+
+    /**
+     * Affichage des memos
+     */
+    public function processVoirMemosEcole()
+    {
+        $ppo = new CopixPPO ();
+
+        if (is_null($ppo->ecoleId = _request('ecoleId')) && is_null($ppo->ecoleId = _request('ecoleId'))) {
+
+            return CopixActionGroup::process('generictools|Messages::getError',
+                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+        }
+
+        // Récupération des paramètres
+        $ppo->jour = _request('jour', date('d'));
+        $ppo->mois = _request('mois', date('m'));
+        $ppo->annee = _request('annee', date('Y'));
+        $ppo->msgSuccess = _request('msgSuccess', false);
+        $ppo->eleve = _request('eleve', null);
+
+        $time = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
+
+//        $cahierInfos            = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->ecoleId);
+//        $ppo->niveauUtilisateur = Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->ecoleId);
+//        $ppo->estAdmin          = $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH ? true : false;
+//        $ppo->nodeId            = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
+//        $ppo->nodeType          = isset($cahierInfos[0]) ? $cahierInfos[0]->node_type : null;
+
+        // Récupération des mémos suivant le type de l'utilisateur courant
+        $memoDAO = _ioDAO('cahierdetextes|cahierdetextesmemo');
+        if ($ppo->ecoleId && Kernel::hasRole(DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL, 'ecole', $ppo->ecoleId)) {
+
+            $memos = $memoDAO->findByEcole($ppo->ecoleId);
+        }
+
+        // Pager
+        if (count($memos) > CopixConfig::get('cahierdetextes|nombre_max_memos')) {
+
+            require_once (COPIX_UTILS_PATH . 'CopixPager.class.php');
+
+            $params = array(
+                'perPage' => intval(CopixConfig::get('cahierdetextes|nombre_max_memos')),
+                'delta' => 5,
+                'recordSet' => $memos,
+                'template' => '|pager.tpl'
+            );
+
+            $pager = CopixPager::Load($params);
+            $ppo->pager = $pager->GetMultipage();
+            $ppo->memos = $pager->data;
+        } else {
+
+            $ppo->memos = $memos;
+        }
+
+        if (CopixRequest::isMethod('post')) {
+
+            $memo2eleveDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
+            if (is_null($memo2eleve = $memo2eleveDAO->get(_request('memoId', null), $ppo->eleve))
+                || !Kernel::isParentOfEleve($ppo->eleve)
+            ) {
+
+                return CopixActionGroup::process('generictools|Messages::getError',
+                    array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+            }
+
+            $memo2eleve->signe_le = date('Ymd');
+            $memo2eleve->commentaire = _request('commentaire', null);
+
+            $memo2eleveDAO->update($memo2eleve);
+
+            if ($ppo->niveauUtilisateur == PROFILE_CCV_READ) {
+
+                return _arRedirect(CopixUrl::get('cahierdetextes||voirMemos', array('ecoleId' => $ppo->ecoleId, 'eleve' => $ppo->eleve)));
+            } else {
+
+                return _arRedirect(CopixUrl::get('cahierdetextes||voirMemos', array('ecoleId' => $ppo->ecoleId)));
+            }
+        }
+
+        $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->ecoleId);
+        $ppo->TITLE_PAGE = $modParentInfo['nom'];
+
+        return _arPPO ($ppo, 'voir_memos_ecole.tpl');
+    }
+
   /**
      * Edition d'un mémo - * Enseignant *
      */
@@ -1322,6 +1412,11 @@ class ActionGroupDefault extends CopixActionGroup
   {
     $myNode = CopixSession::get('myNode');
     if (!is_null($id = _request ('id', null))) {
+
+      if ($myNode['type'] == 'BU_ECOLE') {
+
+          return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemosEcole', array('ecoleId' => $id)));
+      }
 
       if ($myNode['type'] == 'USER_ELE') {
 

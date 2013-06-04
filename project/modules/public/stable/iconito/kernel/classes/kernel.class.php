@@ -1661,12 +1661,35 @@ if(DEBUG) {
             $modules[] = clone $perso;
         }
 
+        if( Kernel::hasRole(DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL, 'ecole', $node_id) && $node_type == "BU_ECOLE") {
+            $cahierdetexte->node_type   = $node_type;
+            $cahierdetexte->node_id     = $node_id;
+            $cahierdetexte->module_type = 'MOD_CAHIERDETEXTES';
+            $cahierdetexte->module_id   = 'ECOLE_'.$node_id;
+            $cahierdetexte->module_nom	 = 'Mémos';
+            $modules[] = clone $cahierdetexte;
+        }
         // _dump($modules);
 
         if($notification) Kernel::getModlistNotifications($modules);
 
         reset($modules);
         return $modules;
+    }
+
+    /**
+     * Détermine si un utilisateur dispose du rôle passé en paramètre sur une ressource donnée
+     *
+     * @param integer $role     Le rôle recherché
+     * @param string  $linkType Le type de noeud sur lequel le rôle est recherché ('ville', 'ecole'...)
+     * @param integer $nodeId   L'identifiant du noeud pour lequel on veut vérifier le rôle
+     *
+     * @return bool
+     */
+    public function hasRole($role, $linkType, $nodeId)
+    {
+        $userInfos = self::getUserInfo();
+        return in_array($role, $userInfos['link']->$linkType);
     }
 
     public function getModParent( $type, $id )
