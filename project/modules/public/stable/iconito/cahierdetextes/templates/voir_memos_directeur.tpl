@@ -14,8 +14,8 @@
     {foreach from=$ppo->memos item=memo}
       <div class="memo">
         <p class="memoDate">
+          {$memo->nom_classe}
           <span class="actions">
-              {$memo->nom_classe}
             <a class="fancybox" href="{copixurl dest="cahierdetextes||suiviMemo" ecoleId=$ppo->ecoleId cahierId=$memo->kernel_bu_ecole_classe_id jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$memo->id}" title="{if $memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}"><img src="{copixurl}themes/default/images/menu/menu_list_active.png" alt="{if $memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}" /></a>
             <a href="{copixurl dest="|imprMemo" ecoleId=$ppo->ecoleId cahierId=$memo->kernel_bu_ecole_classe_id memoId=$memo->id jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" title="{i18n key="cahierdetextes.message.print"}"><img src="{copixurl}themes/default/images/button-action/action_print.png" alt="{i18n key="cahierdetextes.message.print"}" /></a>
             <a href="{copixurl dest="cahierdetextes||editerMemo" ecoleId=$ppo->ecoleId cahierId=$memo->kernel_bu_ecole_classe_id memoId=$memo->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/button-action/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a>
