@@ -913,6 +913,7 @@ class ActionGroupDefault extends CopixActionGroup
     $ppo->estAdmin          = $ppo->niveauUtilisateur >= PROFILE_CCV_PUBLISH ? true : false;
     $ppo->nodeId            = isset($cahierInfos[0]) ? $cahierInfos[0]->node_id : null;
     $ppo->nodeType          = isset($cahierInfos[0]) ? $cahierInfos[0]->node_type : null;
+        $ppo->userInfo      = Kernel::getUserInfo();
 
       // Récupération des mémos suivant le type de l'utilisateur courant
       $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');

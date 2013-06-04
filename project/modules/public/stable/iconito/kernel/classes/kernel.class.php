@@ -1733,10 +1733,10 @@ if(DEBUG) {
 
     public function getModRight( $mod_type, $mod_id, $user_type="-1", $user_id="-1" )
     {
-        // Kernel::deb ("getModRight( $mod_type, $mod_id, $user_type, $user_id )");
+//        Kernel::deb("getModRight( $mod_type, $mod_id, $user_type, $user_id )");
         $droit=0;
         if ($mod_type == "MOD_MINIMAIL") {
-            return (_currentUSer()->isConnected()) ? PROFILE_CCV_ADMIN : 0;
+            return (_currentUser()->isConnected()) ? PROFILE_CCV_ADMIN : 0;
         }
 
         if( $user_type=="-1" && $user_id=="-1" ) {
