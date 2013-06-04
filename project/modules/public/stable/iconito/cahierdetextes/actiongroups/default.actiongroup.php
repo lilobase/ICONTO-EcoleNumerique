@@ -14,27 +14,30 @@ class ActionGroupDefault extends CopixActionGroup
 
         // Contrôle d'accès au module
         $myNode = CopixSession::get('myNode');
-        if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
+        if (!$myNode['type'] == 'BU_ECOLE' || !Kernel::hasRole(DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL, 'ecole', _request ('ecoleId', _request ('id')))) {
 
-          return CopixActionGroup::process ('genericTools|Messages::getError',
-              array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
-        }
-        // Le responsable doit disposer de l'ID de l'élève
-        elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ) {
+            if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
 
-          if ($actionName == "processVoirTravaux" && is_null($eleve = _request('eleve', null))) {
+              return CopixActionGroup::process ('genericTools|Messages::getError',
+                  array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get()));
+            }
+            // Le responsable doit disposer de l'ID de l'élève
+            elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) == PROFILE_CCV_READ) {
 
-            $eleve = $myNode['type'] == "USER_ELE" ? $myNode['id'] : null;
-          } else {
+              if ($actionName == "processVoirTravaux" && is_null($eleve = _request('eleve', null))) {
 
-            $eleve = _request('eleve', null);
-          }
+                $eleve = $myNode['type'] == "USER_ELE" ? $myNode['id'] : null;
+              } else {
 
-          if (is_null($eleve) && $actionName != 'go') {
+                $eleve = _request('eleve', null);
+              }
 
-            return CopixActionGroup::process ('generictools|Messages::getError',
-                    array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-          }
+              if (is_null($eleve) && $actionName != 'go') {
+
+                return CopixActionGroup::process ('generictools|Messages::getError',
+                        array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              }
+            }
         }
     }
 
