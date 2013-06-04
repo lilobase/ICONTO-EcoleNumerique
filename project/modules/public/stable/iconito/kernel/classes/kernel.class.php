@@ -1665,8 +1665,8 @@ if(DEBUG) {
             $cahierdetexte->node_type   = $node_type;
             $cahierdetexte->node_id     = $node_id;
             $cahierdetexte->module_type = 'MOD_CAHIERDETEXTES';
-            $cahierdetexte->module_id   = 'ECOLE_'.$node_id;
-            $cahierdetexte->module_nom	 = 'Mémos';
+            $cahierdetexte->module_id   = $node_id;
+            $cahierdetexte->module_nom	= Kernel::Code2Name ('SUBMODULE_MEMO');
             $modules[] = clone $cahierdetexte;
         }
         // _dump($modules);

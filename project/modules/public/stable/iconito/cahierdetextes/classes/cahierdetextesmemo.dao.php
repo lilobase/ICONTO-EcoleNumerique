@@ -80,7 +80,6 @@ class DAOCahierDeTextesMemo
    */
   public function findByEcole ($idEcole, $current = false)
   {
-      $idEcole = str_replace('ECOLE_', '', $idEcole);
       $sql = <<<SQL
           SELECT ctm.*, kbec.nom as nom_classe, kme.module_id as cahier_id
           FROM module_cahierdetextes_memo AS ctm

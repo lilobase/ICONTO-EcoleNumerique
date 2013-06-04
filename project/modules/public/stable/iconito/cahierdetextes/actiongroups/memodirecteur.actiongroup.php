@@ -74,6 +74,7 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
 
         $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->ecoleId);
         $ppo->TITLE_PAGE = $modParentInfo['nom'];
+        $ppo->roleDirecteur = DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL;
 
         return _arPPO ($ppo, 'voir_memos_directeur.tpl');
     }
@@ -287,6 +288,33 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
     }
 
     /**
+     * Affichage pour impression d'un mémo - * Directeur *
+     */
+    public function processImprMemo ()
+    {
+      $ppo = new CopixPPO ();
+      $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+
+      if (is_null($cahierId = _request('cahierId', null)) || !$ppo->memo = $memoDAO->get (_request('memoId', null))) {
+
+        return CopixActionGroup::process ('generictools|Messages::getError',
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+      }
+
+      // Récupération des paramètres
+      $ppo->ecoleId  = _request ('ecoleId', null);
+      $ppo->jour      = _request ('jour', date('d'));
+      $ppo->mois      = _request ('mois', date('m'));
+      $ppo->annee     = _request ('annee', date('Y'));
+
+      // Récupération du nombre d'exemplaires nécessaires (nombre d'élèves concernés)
+      $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+      $ppo->count    = $memo2eleveDAO->retrieveNombreElevesConcernesParMemo($ppo->memo->id);
+
+      return _arPPO ($ppo, 'impr_memo_directeur.tpl');
+    }
+
+    /**
      * Suppression d'un mémo par un directeur de classe
      *
      * @return CopixActionReturn
@@ -311,6 +339,6 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
         // Suppression du mémos
         $memoDAO->delete($memo->id);
 
-        return _arRedirect(CopixUrl::get('cahierdetextes|memodirecteur|voir', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get('cahierdetextes|cahierdetextes.message.success'))));
+        return _arRedirect(CopixUrl::get('cahierdetextes|memodirecteur|voir', array('ecoleId' => _request('ecoleId'), 'msgSuccess' => CopixI18N::get('cahierdetextes|cahierdetextes.message.success'))));
     }
 }
