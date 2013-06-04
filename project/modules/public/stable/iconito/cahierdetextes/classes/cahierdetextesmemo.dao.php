@@ -80,20 +80,27 @@ class DAOCahierDeTextesMemo
    */
   public function findByEcole ($idEcole, $current = false)
   {
-    $criteria = _daoSp ();
-        //$criteria->addCondition ('classe_id', '=', $idEcole);
-        $criteria->addCondition ('supprime', '=', 0);
-        if ($current) {
-          $criteria->startGroup ()
-               ->addCondition ('date_validite', '>=', date('Ymd'))
-               ->addCondition ('date_validite', '=', null, 'or')
-               ->endGroup ();
-        }
-        $criteria->groupBy ('id');
-        $criteria->orderBy (array ('date_creation', 'DESC'));
-        $criteria->orderBy (array ('id' , 'DESC'));
+      $idEcole = str_replace('ECOLE_', '', $idEcole);
+      $sql = <<<SQL
+          SELECT ctm.*
+          FROM module_cahierdetextes_memo AS ctm
+          LEFT JOIN kernel_bu_ecole_classe kbec ON ctm.kernel_bu_ecole_classe_id = kbec.id
+          INNER JOIN kernel_bu_annee_scolaire kbas ON kbec.annee_scol = kbas.id_as
+          WHERE ecole = :idEcole
+          AND kbas.current = 1
+          AND ctm.supprime = 0
+SQL;
 
-        return $this->findBy ($criteria);
+        if ($current) {
+
+          $sql .= ' AND (ctm.date_validite >= '.date('Ymd')
+            . ' OR ctm.date_validite IS NULL)';
+        }
+
+      $sql .= ' GROUP BY ctm.id'
+        . ' ORDER BY ctm.date_creation DESC, ctm.id DESC';
+
+        return _doQuery ($sql, array(':idEcole' => $idEcole));
   }
 
   /**
