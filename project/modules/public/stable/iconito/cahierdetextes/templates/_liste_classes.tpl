@@ -4,9 +4,7 @@
     <table class="classic">
         <thead>
         <tr>
-            <th>{i18n key="cahierdetextes.message.name"}</th>
-            <th>{i18n key="cahierdetextes.message.firstname"}</th>
-            <th>{i18n key="cahierdetextes.message.level"}</th>
+            <th>{i18n key="cahierdetextes.message.classroom"}</th>
             <th><input type="checkbox" name="check_all" id="check_all" /></th>
         </tr>
         </thead>
@@ -14,10 +12,9 @@
             {assign var=index value=1}
             {foreach from=$ppo->classes item=classe}
             <tr class="{if $index%2 eq 0}odd{else}even{/if}">
-                <td><label for="eleve{$classe->id}">{$classe->nom}</label></td>
-                <td class="center">{$eleve->niveau_court}</td>
+                <td><label for="classe{$classe->id}">{$classe->nom}</label></td>
                 <td class="check center">
-                    <input type="checkbox" value="{$eleve->idEleve}" id="eleve{$eleve->idEleve}" name="classes[]" {if in_array($eleve->idEleve, $ppo->elevesSelectionnes) || empty($ppo->elevesSelectionnes)}checked="checked"{/if} />
+                    <input type="checkbox" value="{$classe->id}" id="classe{$classe->id}" name="classes[]" {if in_array($classe->idclasse, $ppo->classesSelectionnees) || empty($ppo->classesSelectionnees)}checked="checked"{/if} />
                 </td>
             </tr>
                 {assign var=index value=$index+1}

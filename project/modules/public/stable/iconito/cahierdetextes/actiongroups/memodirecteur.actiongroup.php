@@ -88,17 +88,13 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
     {
         _classInclude('kernel|kernel_bu_personnel_entite');
         $ppo = new CopixPPO ();
-        if (is_null($ppo->cahierId = _request('cahierId', null))) {
+        if (is_null($ppo->ecoleId = _request('ecoleId', null))) {
             return CopixActionGroup::process('generictools|Messages::getError', array(
                 'message' => CopixI18N::get('kernel|kernel.error.errorOccurred'),
                 'back'    => CopixUrl::get('')
             ));
-        } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
-            return CopixActionGroup::process('genericTools|Messages::getError', array(
-                'message'=> CopixI18N::get('kernel|kernel.error.noRights'),
-                'back'   => CopixUrl::get('')
-            ));
         }
+
         // Récupération des paramètres
         $ppo->jour       = _request('jour', date('d'));
         $ppo->mois       = _request('mois', date('m'));
@@ -139,16 +135,15 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
             }
         }
         if (CopixRequest::isMethod('post')) {
-            $cahierInfos = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-            $ppo->memo->classe_id          = $cahierInfos[0]->node_id;
             $ppo->memo->date_creation      = CopixDateTime::dateToyyyymmdd(_request('memo_date_creation', null));
             $ppo->memo->date_validite      = CopixDateTime::dateToyyyymmdd(_request('memo_date_validite', null));
             $ppo->memo->message            = _request('memo_message', null);
             $ppo->memo->avec_signature     = _request('memo_avec_signature', 0);
             $ppo->memo->date_max_signature = CopixDateTime::dateToyyyymmdd(_request('memo_date_max_signature', null));
             $ppo->memo->supprime           = 0;
-            $ppo->elevesSelectionnes       = _request('eleves', array());
+            $ppo->classesSelectionnees     = _request('classes', array());
             $ppo->fichiers                 = _request('memo_fichiers', array());
+
             // Traitement des erreurs
             $ppo->erreurs = array();
             if ($ppo->memo->date_creation == '') {
@@ -181,8 +176,8 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
             ) {
                 $ppo->erreurs[] = CopixI18N::get('cahierdetextes|cahierdetextes.error.wrongMaxSignatureDate');
             }
-            if (empty($ppo->elevesSelectionnes)) {
-                $ppo->erreurs[] = CopixI18N::get('cahierdetextes|cahierdetextes.error.noStudents');
+            if (empty($ppo->classesSelectionnees)) {
+                $ppo->erreurs[] = CopixI18N::get('cahierdetextes|cahierdetextes.error.noClassrooms');
             }
             if (!empty($ppo->fichiers)) {
                 $ppo->fichiers = array_unique($ppo->fichiers);
@@ -237,18 +232,20 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
                 $modParentInfo   = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
                 $ppo->TITLE_PAGE = $modParentInfo['nom'];
 
-                return _arPPO($ppo, 'editer_memo.tpl');
+                return _arPPO($ppo, 'editer_memo_directeur.tpl');
             }
             $memoDAO         = _ioDAO('cahierdetextes|cahierdetextesmemo');
             $memo2eleveDAO   = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
             $memo2fichierDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2files');
             // Création
             if ($ppo->memo->id == '') {
-                $userInfos = Kernel::getUserInfo();
-                // On défini le type de compte créateur
-                $ppo->memo->created_by_role = $ppo->memo->created_by_role = DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL;
-                // Insertion de l'enregistrement "memo"
-                $memoDAO->insert($ppo->memo);
+                foreach ($ppo->classesSelectionnees as $classe) {
+                    // On défini le type de compte créateur
+                    $ppo->memo->created_by_role = $ppo->memo->created_by_role = DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL;
+                    $ppo->memo->classe_id = $classe;
+                    // Insertion de l'enregistrement "memo"
+                    $memoDAO->insert($ppo->memo);
+                }
             } // Mise à jour
             else {
                 // Mise à jour de l'enregistrement "memo"
@@ -277,7 +274,7 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
             }
 
             return _arRedirect(CopixUrl::get('cahierdetextes|memodirecteur|voir', array(
-                'cahierId'   => $ppo->cahierId,
+                'ecoleId'   => $ppo->ecoleId,
                 'msgSuccess' => CopixI18N::get('cahierdetextes|cahierdetextes.message.success')
             )));
         }

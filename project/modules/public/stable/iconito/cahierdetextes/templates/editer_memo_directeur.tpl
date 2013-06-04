@@ -16,7 +16,7 @@
     </ul>
 {/if}
 
-<form name="memo_add" id="memo_add" action="{copixurl dest="cahierdetextes|memodirecteur|editer"}" method="POST" enctype="multipart/form-data">
+<form name="memo_add" id="memo_add" action="{copixurl dest=cahierdetextes|memodirecteur|editer ecoleId=$ppo->ecoleId}" method="POST" enctype="multipart/form-data">
     <fieldset>
         <input type="hidden" name="cahierId" id="cahierId" value="{$ppo->cahierId}" />
         <input type="hidden" name="memoId" id="memoId" value="{$ppo->memo->id}" />
@@ -64,17 +64,13 @@
     </fieldset>
 
     <fieldset class="concernedList">
-        {copixzone process=cahierdetextes|listeClasse cahierId=$ppo->cahierId classesSelectionnees=$ppo->classesSelectionnees}
+        {copixzone process=cahierdetextes|listeClasses ecoleId=$ppo->ecoleId classesSelectionnees=$ppo->classesSelectionnees}
     </fieldset>
 
     <div class="submit">
-    {if $ppo->niveauUtilisateur == PROFILE_CCV_READ}
-    <a href="{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">
-        {else}
-    <a href="{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
-    {/if}
-        <span class="button button-cancel" id="cancel">{i18n key="cahierdetextes.message.cancel"}</span>
-    </a>
+        <a href="{copixurl dest=cahierdetextes|memodirecteur|voir ecoleId=$ppo->ecoleId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
+            <span class="button button-cancel" id="cancel">{i18n key="cahierdetextes.message.cancel"}</span>
+        </a>
         <input class="button button-confirm" type="submit" name="save" id="save" value="{i18n key="cahierdetextes.message.save"}" />
     </div>
 </form>
