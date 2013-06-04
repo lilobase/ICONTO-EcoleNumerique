@@ -82,13 +82,16 @@ class DAOCahierDeTextesMemo
   {
       $idEcole = str_replace('ECOLE_', '', $idEcole);
       $sql = <<<SQL
-          SELECT ctm.*, kbec.nom as nom_classe
+          SELECT ctm.*, kbec.nom as nom_classe, kme.module_id as cahier_id
           FROM module_cahierdetextes_memo AS ctm
           LEFT JOIN kernel_bu_ecole_classe kbec ON ctm.kernel_bu_ecole_classe_id = kbec.id
           INNER JOIN kernel_bu_annee_scolaire kbas ON kbec.annee_scol = kbas.id_as
+          LEFT JOIN kernel_mod_enabled kme ON ctm.kernel_bu_ecole_classe_id = kme.node_id
           WHERE ecole = :idEcole
           AND kbas.current = 1
           AND ctm.supprime = 0
+          AND kme.node_type = 'BU_CLASSE'
+          AND kme.module_type = 'MOD_CAHIERDETEXTES'
 SQL;
 
         if ($current) {
