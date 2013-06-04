@@ -123,7 +123,7 @@ class Kernel
         return( $level );
     }
 
-    public function setLevel( $node_type, $node_id, $user_type, $user_id, $droit, $debut=NULL, $fin=NULL )
+    public function setLevel( $node_type, $node_id, $user_type, $user_id, $droit, $debut=null, $fin=null )
     {
         $dao = _dao("kernel|kernel_link_user2node");
 
@@ -137,8 +137,8 @@ class Kernel
             $nouveau_droit->node_type = $node_type;
             $nouveau_droit->node_id = $node_id;
             $nouveau_droit->droit = $droit;
-            $nouveau_droit->debut = ($debut) ? $debut : NULL;
-            $nouveau_droit->fin = ($fin) ? $fin : NULL;
+            $nouveau_droit->debut = ($debut) ? $debut : null;
+            $nouveau_droit->fin = ($fin) ? $fin : null;
             $dao->insert( $nouveau_droit );
         }
     }
@@ -1564,7 +1564,7 @@ if(DEBUG) {
             foreach( $perso_list AS $perso_module ) {
                 $perso->node_type   = $node_type;
                 $perso->node_id     = $node_id;
-                $perso->module_id   = NULL;
+                $perso->module_id   = null;
                 $perso->module_type = $perso_module;
                 $perso->module_nom   = Kernel::Code2Name ($perso_module);
                 $modules[] = clone $perso;
@@ -1576,14 +1576,14 @@ if(DEBUG) {
         if( $node_type == "ROOT" && Kernel::getLevel( $node_type, $node_id ) >= 60 ) {
             $sysutils->node_type   = $node_type;
             $sysutils->node_id     = $node_id;
-            $sysutils->module_id   = NULL;
+            $sysutils->module_id   = null;
             $sysutils->module_type = 'MOD_SYSUTILS';
             $sysutils->module_nom   = Kernel::Code2Name ('MOD_SYSUTILS');
             $modules[] = clone $sysutils;
 
             $charte->node_type   = $node_type;
             $charte->node_id     = $node_id;
-            $charte->module_id   = NULL;
+            $charte->module_id   = null;
             $charte->module_type = 'MOD_CHARTE';
             $charte->module_nom   = Kernel::Code2Name ('MOD_CHARTE');
             $modules[] = clone $charte;
@@ -2210,6 +2210,25 @@ if(DEBUG) {
     public function isEnseignantOfClasse ($idClasse)
     {
       return (_currentUser()->getExtra('type') == 'USER_ENS' && in_array($idClasse, _currentUser()->getExtra('link')->classe));
+    }
+
+    /**
+     * Permet de savoir si la personne connecté est directeur de la classe $idClasse
+     *
+     * @param int $idClasse L'identifiant de la classe
+     *
+     * @return bool
+     */
+    public function isDirecteurOfClasse ($idClasse)
+    {
+        _classInclude('kernel|DAOKernel_bu_personnel_entite');
+
+        $userInfo = Kernel::getUserInfo();
+
+        return (
+            isset($userInfo['link']->ecole[$idClasse])
+            && ($userInfo['link']->ecole[$idClasse] == DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL)
+        );
     }
 
     /**

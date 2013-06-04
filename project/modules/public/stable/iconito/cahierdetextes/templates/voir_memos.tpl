@@ -15,7 +15,7 @@
           <span class="actions">
             <a class="fancybox" href="{copixurl dest="cahierdetextes||suiviMemo" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$memo->id}" title="{if $memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}"><img src="{copixurl}themes/default/images/menu/menu_list_active.png" alt="{if $memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}" /></a>
             <a href="{copixurl dest="|imprMemo" cahierId=$ppo->cahierId memoId=$memo->id jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" title="{i18n key="cahierdetextes.message.print"}"><img src="{copixurl}themes/default/images/button-action/action_print.png" alt="{i18n key="cahierdetextes.message.print"}" /></a>
-            {if $memo->created_by eq $ppo->userInfo.type }
+            {if $memo->created_by_role != $ppo->roleDirecteur}
                 <a href="{copixurl dest="cahierdetextes||editerMemo" cahierId=$ppo->cahierId memoId=$memo->id}" title="{i18n key="cahierdetextes.message.modify"}"><img src="{copixurl}themes/default/images/button-action/action_update.png" alt="{i18n key="cahierdetextes.message.modify"}" /></a>
                 <a href="{copixurl dest="cahierdetextes||supprimerMemo" cahierId=$ppo->cahierId memoId=$memo->id}" onclick="return confirm('{i18n key="cahierdetextes.message.deleteMemoConfirm"}')" title="{i18n key="cahierdetextes.message.delete"}"><img src="{copixurl}themes/default/images/button-action/action_delete.png" alt="{i18n key="cahierdetextes.message.delete"}" /></a>
             {/if}

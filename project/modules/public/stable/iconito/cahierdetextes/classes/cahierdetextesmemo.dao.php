@@ -7,6 +7,12 @@
 
 class DAORecordCahierDeTextesMemo
 {
+    public function getClasse ()
+    {
+        $dao = _dao('kernel|DAOKernel_bu_ecole_classe');
+
+        return $dao->get($this->kernel_bu_ecole_classe_id);
+    }
 }
 
 class DAOCahierDeTextesMemo
