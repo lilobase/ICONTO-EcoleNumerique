@@ -94,6 +94,10 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
             ));
         }
 
+        // Récupération des fichiers liés au mémo
+        $fichierMalleDAO     = _ioDAO('malle|malle_files');
+        $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');
+
         // Récupération des paramètres
         $ppo->jour       = _request('jour', date('d'));
         $ppo->mois       = _request('mois', date('m'));
@@ -101,7 +105,9 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
         $ppo->msgSuccess = _request('msgSuccess', false);
         $ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
         $ppo->format           = CopixConfig::get('cahierdetextes|format_par_defaut');
-        $ppo->nodeInfos        = array('type' => 'BU_ECOLE', 'id' => $ppo->ecoleId);
+        $nodeType              = 'BU_ECOLE';
+        $nodeId                = $ppo->ecoleId;
+        $ppo->nodeInfos        = array('type' => $nodeType, 'id' => $nodeId);
 
         if (is_null($memoId = _request('memoId', null))) {
             $ppo->memo = _record('cahierdetextes|cahierdetextesmemo');
@@ -180,14 +186,14 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
             if (!empty($ppo->fichiers)) {
                 $ppo->fichiers = array_unique($ppo->fichiers);
                 // Récupération de l'identifiant de la malle du node
-                $mods = Kernel::getModEnabled($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+                $mods = Kernel::getModEnabled($nodeType, $nodeId);
                 if ($malle = Kernel::filterModuleList($mods, 'MOD_MALLE')) {
                     $malleId = $malle[0]->module_id;
                 }
                 // Récupération des identifiants de classeur
                 $classeurIds = array();
                 // Classeur du node
-                $mods = Kernel::getModEnabled($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+                $mods = Kernel::getModEnabled($nodeType, $nodeId);
                 if ($classeur = Kernel::filterModuleList($mods, 'MOD_CLASSEUR')) {
                     $classeurIds[] = $classeur[0]->module_id;
                 }
@@ -295,7 +301,7 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
     public function makeLinksForMemo($memo, $fichiers = null)
     {
         $memo2eleveDAO   = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
-        $memo2fichiersDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2files');
+        $memo2fichierDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2files');
 
         // Récupération des élèves de la classe
         $eleveDAO = _ioDAO ('kernel|kernel_bu_ele');
