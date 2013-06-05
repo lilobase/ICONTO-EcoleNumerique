@@ -288,6 +288,12 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
         return _arPPO($ppo, 'editer_memo_directeur.tpl');
     }
 
+    /**
+     * Ajout des liens aux élèves et aux fichiers pour le mémo
+     *
+     * @param $memo
+     * @param null|array $fichiers
+     */
     public function makeLinksForMemo($memo, $fichiers = null)
     {
         $memo2eleveDAO   = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
