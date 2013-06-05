@@ -9,9 +9,9 @@ class DAORecordCahierDeTextesMemo
 {
     public function getClasse ()
     {
-        $dao = _dao('kernel|DAOKernel_bu_ecole_classe');
+        $dao = _ioDAO('kernel|kernel_bu_ecole_classe');
 
-        return $dao->get($this->kernel_bu_ecole_classe_id);
+        return $dao->get($this->classe_id);
     }
 }
 

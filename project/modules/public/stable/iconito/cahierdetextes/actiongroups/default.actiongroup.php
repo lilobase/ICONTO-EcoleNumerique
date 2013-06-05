@@ -1030,7 +1030,6 @@ class ActionGroupDefault extends BaseMemoActionGroup
             $memo2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
             $memo2fichiers       = $memo2fichiersDAO->retrieveByMemo ($ppo->memo->id);
             $ppo->fichiers       = array();
-            $fichiers            = array();
 
             foreach($memo2fichiers as $memo2fichier) {
                 if ($memo2fichier->module_file == 'MOD_MALLE') {
@@ -1056,121 +1055,33 @@ class ActionGroupDefault extends BaseMemoActionGroup
             $ppo->memo->avec_signature      = _request ('memo_avec_signature', 0);
             $ppo->memo->date_max_signature  = CopixDateTime::dateToyyyymmdd(_request ('memo_date_max_signature', null));
             $ppo->memo->supprime            = 0;
-            $ppo->elevesSelectionnes        = _request ('eleves', array());
-            $ppo->fichiers                  = _request ('memo_fichiers', array());
 
             // Traitement des erreurs
-            $ppo->erreurs = array ();
+            _classInclude('cahierdetextes|classememovalidator');
 
-            if ($ppo->memo->date_creation == '') {
-                $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noCreationDate');
-            }
+            $validator = new ClasseMemoValidator($ppo->memo, array(
+                'eleves'       => _request ('eleves', array()),
+                'fichiers'     => _request ('memo_fichiers', array()),
+                'cahier_infos' => $cahierInfos
+            ));
 
-            if ($ppo->memo->date_validite == '') {
-                $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noValidityDate');
-            }
-
-            if (
-                !is_null($ppo->memo->date_validite)
-                && ($ppo->memo->date_validite < $ppo->memo->date_creation)
-            ) {
-                $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongValidityDate');
-            }
-
-            if ($ppo->memo->message == '') {
-                $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noContent');
-            }
-
-            if ($ppo->memo->avec_signature && $ppo->memo->date_max_signature == '') {
-                $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noSignatureDate');
-            }
-
-            if (
-                (
-                    !is_null($ppo->memo->date_max_signature)
-                    && !is_null($ppo->memo->date_validite)
-                )
-                && (
-                    $ppo->memo->date_max_signature > $ppo->memo->date_validite
-                    || $ppo->memo->date_max_signature < $ppo->memo->date_creation
-                )
-            ) {
-                $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.wrongMaxSignatureDate');
-            }
-
-            if (empty($ppo->elevesSelectionnes)) {
-                $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.noStudents');
-            }
-
-            if (!empty($ppo->fichiers)) {
-                $ppo->fichiers = array_unique($ppo->fichiers);
-
-                // Récupération de l'identifiant de la malle du node
-                $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
-                if ($malle = Kernel::filterModuleList ($mods, 'MOD_MALLE')) {
-                    $malleId = $malle[0]->module_id;
-                }
-
-                // Récupération des identifiants de classeur
-                $classeurIds = array();
-
-                // Classeur du node
-                $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
-                if ($classeur  = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
-                    $classeurIds[] = $classeur[0]->module_id;
-                }
-
-                // Classeur personnel
-                $mods = Kernel::getModEnabled (_currentUser()->getExtra('type'), _currentUser()->getExtra('id'));
-                if ($classeur  = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
-                    $classeurIds[] = $classeur[0]->module_id;
-                }
-
-                // On détermine s'il s'agit de documents de la malle ou du classeur
-                foreach ($ppo->fichiers as $fichierInfos) {
-                    $fichierInfos = explode('-', $fichierInfos);
-
-                    if ($fichierInfos[0] == 'MOD_MALLE') {
-                        // Erreur : le fichier n'appartient pas à la malle du node
-                        if (!$fichierMalleDAO->isFileOfMalle($fichierInfos[1], $malleId)) {
-                            $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
-                            break;
-                        }
-                        else {
-                            $fichier = $fichierMalleDAO->get ($fichierInfos[1]);
-                            $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier->nom);
-                        }
-                    }
-                    elseif ($fichierInfos[0] == 'MOD_CLASSEUR') {
-                        $fichier = $fichierClasseurDAO->get ($fichierInfos[1]);
-
-                        // Erreur : le fichier n'appartient pas aux classeurs disponible à l'utilisateur
-                        if (!in_array($fichier->classeur_id, $classeurIds)) {
-                            $ppo->erreurs[] = CopixI18N::get ('cahierdetextes|cahierdetextes.error.invalidFile');
-                            break;
-                        }
-                        else {
-                            $fichiers[] = array('type' => $fichierInfos[0], 'id' => $fichierInfos[1], 'nom' => $fichier);
-                        }
-                    }
-                }
-            }
-
-            if (!empty ($ppo->erreurs)) {
-                $ppo->memo->date_creation       = _request ('memo_date_creation', null);
-                $ppo->memo->date_validite       = _request ('memo_date_validite', null);
-                $ppo->memo->date_max_signature  = _request ('memo_date_max_signature', null);
-
-                if (isset($fichiers)) {
-                    $ppo->fichiers = $fichiers;
-                }
+            // Formulaire non valide
+            if (!$validator->isValid()) {
+                $ppo->memo->date_creation      = _request ('memo_date_creation', null);
+                $ppo->memo->date_validite      = _request ('memo_date_validite', null);
+                $ppo->memo->date_max_signature = _request ('memo_date_max_signature', null);
+                $ppo->fichiers                 = $validator->getFichiers();
+                $ppo->elevesSelectionnes       = $validator->getOption('eleves', array());
 
                 $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
                 $ppo->TITLE_PAGE = $modParentInfo['nom'];
 
+                $ppo->erreurs = $validator->getErrors();
+
                 return _arPPO ($ppo, 'editer_memo.tpl');
             }
 
+            // Formulaire valide
             $memoDAO          = _ioDAO ('cahierdetextes|cahierdetextesmemo');
             $memo2eleveDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
             $memo2fichierDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
@@ -1199,7 +1110,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
             }
 
             // Insertion des nouveaux liens memo > eleve
-            foreach($ppo->elevesSelectionnes as $eleveId) {
+            foreach($validator->getOption('eleves', array()) as $eleveId) {
                 $memo2eleve = _record ('cahierdetextes|cahierdetextesmemo2eleve');
 
                 $memo2eleve->memo_id   = $ppo->memo->id;
@@ -1209,16 +1120,14 @@ class ActionGroupDefault extends BaseMemoActionGroup
             }
 
             // Insertion des liens "mémo > fichiers"
-            if (!empty($fichiers)) {
-                foreach($fichiers as $fichier) {
-                    $memo2fichier = _record ('cahierdetextes|cahierdetextesmemo2files');
+            foreach($validator->getFichiers() as $fichier) {
+                $memo2fichier = _record ('cahierdetextes|cahierdetextesmemo2files');
 
-                    $memo2fichier->memo_id      = $ppo->memo->id;
-                    $memo2fichier->module_file  = $fichier['type'];
-                    $memo2fichier->file_id      = $fichier['id'];
+                $memo2fichier->memo_id      = $ppo->memo->id;
+                $memo2fichier->module_file  = $fichier['type'];
+                $memo2fichier->file_id      = $fichier['id'];
 
-                    $memo2fichierDAO->insert($memo2fichier);
-                }
+                $memo2fichierDAO->insert($memo2fichier);
             }
 
             return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
