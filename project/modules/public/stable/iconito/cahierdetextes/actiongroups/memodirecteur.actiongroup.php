@@ -66,8 +66,9 @@ class ActionGroupMemoDirecteur extends BaseMemoActionGroup
         parent::paginateMemoList($ppo, $memos);
 
         $ppo->roleDirecteur = DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL;
-        $modParentInfo = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->ecoleId);
-        $ppo->TITLE_PAGE = $modParentInfo['nom'];
+
+        $nodeInfo = Kernel::getNodeInfo('BU_ECOLE', $ppo->ecoleId);
+        $ppo->TITLE_PAGE = $nodeInfo['nom'];
 
         return _arPPO ($ppo, 'voir_memos.tpl');
     }
