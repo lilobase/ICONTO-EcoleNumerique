@@ -86,7 +86,6 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
      */
     public function processEditer()
     {
-        _classInclude('kernel|kernel_bu_personnel_entite');
         $ppo = new CopixPPO ();
         if (is_null($ppo->ecoleId = _request('ecoleId', null))) {
             return CopixActionGroup::process('generictools|Messages::getError', array(
@@ -102,8 +101,8 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
         $ppo->msgSuccess = _request('msgSuccess', false);
         $ppo->dateSelectionnee = mktime(0, 0, 0, $ppo->mois, $ppo->jour, $ppo->annee);
         $ppo->format           = CopixConfig::get('cahierdetextes|format_par_defaut');
-        $cahierInfos           = Kernel::getModParent('MOD_CAHIERDETEXTES', $ppo->cahierId);
-        $ppo->nodeInfos        = array('type' => $cahierInfos[0]->module_type, 'id' => $cahierInfos[0]->module_id);
+        $ppo->nodeInfos        = array('type' => 'BU_ECOLE', 'id' => $ppo->ecoleId);
+
         if (is_null($memoId = _request('memoId', null))) {
             $ppo->memo = _record('cahierdetextes|cahierdetextesmemo');
         } else {
