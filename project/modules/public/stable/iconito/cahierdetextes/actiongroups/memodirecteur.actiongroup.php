@@ -231,7 +231,7 @@ class ActionGroupMemoDirecteur extends BaseMemoActionGroup
                 $modParentInfo   = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
                 $ppo->TITLE_PAGE = $modParentInfo['nom'];
 
-                return _arPPO($ppo, 'editer_memo_directeur.tpl');
+                return _arPPO($ppo, 'editer_memo.tpl');
             }
             $memoDAO         = _ioDAO('cahierdetextes|cahierdetextesmemo');
             $memo2eleveDAO   = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
