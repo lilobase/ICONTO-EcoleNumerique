@@ -239,12 +239,15 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
             $memo2fichierDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2files');
             // Création
             if ($ppo->memo->id == '') {
+                // On défini le type de compte créateur
+                $ppo->memo->created_by_role = DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL;
                 foreach ($ppo->classesSelectionnees as $classe) {
-                    // On défini le type de compte créateur
-                    $ppo->memo->created_by_role = $ppo->memo->created_by_role = DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL;
                     $ppo->memo->classe_id = $classe;
+
                     // Insertion de l'enregistrement "memo"
                     $memoDAO->insert($ppo->memo);
+
+                    $this->makeLinksForMemo($ppo->memo, $fichiers);
                 }
             } // Mise à jour
             else {
@@ -254,22 +257,23 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
                 $memo2eleveDAO->deleteByMemo($ppo->memo->id);
                 // Suppression des relations memo - fichiers existantes
                 $memo2fichierDAO->deleteByMemo($ppo->memo->id);
-            }
-            // Insertion des nouveaux liens memo > eleve
-            foreach ($ppo->elevesSelectionnes as $eleveId) {
-                $memo2eleve = _record('cahierdetextes|cahierdetextesmemo2eleve');
-                $memo2eleve->memo_id  = $ppo->memo->id;
-                $memo2eleve->eleve_id = $eleveId;
-                $memo2eleveDAO->insert($memo2eleve);
-            }
-            // Insertion des liens "mémo > fichiers"
-            if (!empty($fichiers)) {
-                foreach ($fichiers as $fichier) {
-                    $memo2fichier = _record('cahierdetextes|cahierdetextesmemo2files');
-                    $memo2fichier->memo_id     = $ppo->memo->id;
-                    $memo2fichier->module_file = $fichier['type'];
-                    $memo2fichier->file_id     = $fichier['id'];
-                    $memo2fichierDAO->insert($memo2fichier);
+
+                $this->makeLinksForMemo($ppo->memo, $fichiers);
+
+                $originalClassroom = $ppo->memo->classe_id;
+                if (!in_array($ppo->memo->classe_id, $ppo->classesSelectionnees)) {
+                    $memoDAO->delete($ppo->memo->id);
+                }
+
+                foreach ($ppo->classesSelectionnees as $classe) {
+                    if ($classe != $originalClassroom) {
+                        $ppo->memo->classe_id = $classe;
+
+                        // Insertion de l'enregistrement "memo"
+                        $memoDAO->insert($ppo->memo);
+
+                        $this->makeLinksForMemo($ppo->memo, $fichiers);
+                    }
                 }
             }
 
@@ -282,6 +286,35 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
         $ppo->TITLE_PAGE = $modParentInfo['nom'];
 
         return _arPPO($ppo, 'editer_memo_directeur.tpl');
+    }
+
+    public function makeLinksForMemo($memo, $fichiers = null)
+    {
+        $memo2eleveDAO   = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
+        $memo2fichiersDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2files');
+
+        // Récupération des élèves de la classe
+        $eleveDAO = _ioDAO ('kernel|kernel_bu_ele');
+        $eleves = $eleveDAO->getStudentsByClass($memo->classe_id);
+        foreach($eleves as $eleve) {
+            $memo2eleve = _record ('cahierdetextes|cahierdetextesmemo2eleve');
+
+            $memo2eleve->memo_id   = $memo->id;
+            $memo2eleve->eleve_id  = $eleve->id;
+
+            $memo2eleveDAO->insert($memo2eleve);
+        }
+
+        // Insertion des liens "mémo > fichiers"
+        if (!empty($fichiers)) {
+            foreach ($fichiers as $fichier) {
+                $memo2fichier = _record('cahierdetextes|cahierdetextesmemo2files');
+                $memo2fichier->memo_id     = $memo->id;
+                $memo2fichier->module_file = $fichier['type'];
+                $memo2fichier->file_id     = $fichier['id'];
+                $memo2fichierDAO->insert($memo2fichier);
+            }
+        }
     }
 
     /**

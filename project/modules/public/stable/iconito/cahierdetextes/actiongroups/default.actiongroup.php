@@ -14,6 +14,7 @@ class ActionGroupDefault extends CopixActionGroup
 
         // Contrôle d'accès au module
         $myNode = CopixSession::get('myNode');
+        _ioDAO('kernel|kernel_bu_personnel_entite'); // Pour accéder aux constantes de roles
         if (!$myNode['type'] == 'BU_ECOLE' || !Kernel::hasRole(DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL, 'ecole', _request ('ecoleId', _request ('id')))) {
 
             if (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId', _request('id', null))) < PROFILE_CCV_READ) {
