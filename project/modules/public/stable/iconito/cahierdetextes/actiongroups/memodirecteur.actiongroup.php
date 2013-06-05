@@ -80,13 +80,15 @@ class ActionGroupMemoDirecteur extends BaseMemoActionGroup
     public function processEditer()
     {
         $ppo = new CopixPPO ();
+        $ppo->memoContext = $this->getMemoContext();
+
         if (is_null($ppo->ecoleId = _request('ecoleId', null))) {
             return CopixActionGroup::process('generictools|Messages::getError', array(
                 'message' => CopixI18N::get('kernel|kernel.error.errorOccurred'),
                 'back'    => CopixUrl::get('')
             ));
         }
-$ppo->memoContext = $this->getMemoContext();
+
         // Récupération des fichiers liés au mémo
         $fichierMalleDAO     = _ioDAO('malle|malle_files');
         $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');

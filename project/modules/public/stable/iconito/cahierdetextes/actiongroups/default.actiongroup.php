@@ -980,10 +980,9 @@ class ActionGroupDefault extends BaseMemoActionGroup
      */
     public function processEditerMemo ()
     {
-        _classInclude('kernel|kernel_bu_personnel_entite');
-
         $ppo = new CopixPPO ();
         $ppo->memoContext = $this->getMemoContext();
+
         if (is_null($ppo->cahierId = _request('cahierId', null))) {
             return CopixActionGroup::process ('generictools|Messages::getError', array (
                 'message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'),
