@@ -14,7 +14,7 @@
             <tr class="{if $index%2 eq 0}odd{else}even{/if}">
                 <td><label for="classe{$classe->id}">{$classe->nom}</label></td>
                 <td class="check center">
-                    <input type="checkbox" value="{$classe->id}" id="classe{$classe->id}" name="classes[]" {if in_array($classe->idclasse, $ppo->classesSelectionnees) || empty($ppo->classesSelectionnees)}checked="checked"{/if} />
+                    <input type="checkbox" value="{$classe->id}" id="classe{$classe->id}" name="classes[]" {if in_array($classe->id, $ppo->classesSelectionnees) || empty($ppo->classesSelectionnees)}checked="checked"{/if} />
                 </td>
             </tr>
                 {assign var=index value=$index+1}

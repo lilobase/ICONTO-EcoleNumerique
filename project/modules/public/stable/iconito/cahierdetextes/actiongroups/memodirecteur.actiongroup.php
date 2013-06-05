@@ -113,8 +113,7 @@ class ActionGroupMemoDirecteur extends CopixActionGroup
             $ppo->memo->date_validite      = CopixDateTime::yyyymmddToDate($ppo->memo->date_validite);
             $ppo->memo->date_max_signature = CopixDateTime::yyyymmddToDate($ppo->memo->date_max_signature);
             // Récupération des élèves liés au mémo
-            $memo2eleveDAO           = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
-            $ppo->classesSelectionnees = $memo2eleveDAO->findClassesParMemo($ppo->memo->id);
+            $ppo->classesSelectionnees = array($ppo->memo->classe_id);
             // Récupération des fichiers liés au mémo
             $fichierMalleDAO    = _ioDAO('malle|malle_files');
             $fichierClasseurDAO = _ioDAO('classeur|classeurfichier');
