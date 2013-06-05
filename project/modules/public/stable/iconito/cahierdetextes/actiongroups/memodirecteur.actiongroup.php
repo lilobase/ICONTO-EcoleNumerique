@@ -86,7 +86,7 @@ class ActionGroupMemoDirecteur extends BaseMemoActionGroup
                 'back'    => CopixUrl::get('')
             ));
         }
-
+$ppo->memoContext = $this->getMemoContext();
         // Récupération des fichiers liés au mémo
         $fichierMalleDAO     = _ioDAO('malle|malle_files');
         $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');
@@ -282,7 +282,7 @@ class ActionGroupMemoDirecteur extends BaseMemoActionGroup
         $modParentInfo   = Kernel::getModParentInfo('MOD_CAHIERDETEXTES', $ppo->cahierId);
         $ppo->TITLE_PAGE = $modParentInfo['nom'];
 
-        return _arPPO($ppo, 'editer_memo_directeur.tpl');
+        return _arPPO($ppo, 'editer_memo.tpl');
     }
 
     /**
