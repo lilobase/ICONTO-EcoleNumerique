@@ -6,7 +6,7 @@
 * @author     Jérémy FOURNAISE <jeremy.fournaise@isics.fr>
 */
 
-include('baseMemoActionGroup.php');
+_classInclude ('cahierdetextes|baseMemoActionGroup');
 
 class ActionGroupDefault extends BaseMemoActionGroup
 {

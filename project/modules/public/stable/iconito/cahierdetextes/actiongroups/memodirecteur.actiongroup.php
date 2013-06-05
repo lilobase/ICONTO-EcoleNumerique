@@ -1,6 +1,6 @@
 <?php
 
-include('baseMemoActionGroup.php');
+_classInclude ('cahierdetextes|baseMemoActionGroup');
 
 /**
  * Classe des actions pour la gestion des mémos pour les directeurs d'école
