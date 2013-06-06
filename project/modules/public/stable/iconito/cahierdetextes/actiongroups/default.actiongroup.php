@@ -1014,6 +1014,14 @@ class ActionGroupDefault extends BaseMemoActionGroup
             $memoDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo');
             $ppo->memo  = $memoDAO->get($memoId);
 
+            _ioDAO('kernel|kernel_bu_personnel_entite'); // Pour accéder aux constantes de roles
+            if ($ppo->memo->created_by_role != DAOKernel_bu_personnel_entite::ROLE_TEACHER) {
+                return CopixActionGroup::process ('genericTools|Messages::getError', array (
+                    'message'=> CopixI18N::get ('kernel|kernel.error.noRights'),
+                    'back' => CopixUrl::get('')
+                ));
+            }
+
             $ppo->memo->date_creation      = CopixDateTime::yyyymmddToDate($ppo->memo->date_creation);
             $ppo->memo->date_validite      = CopixDateTime::yyyymmddToDate($ppo->memo->date_validite);
             $ppo->memo->date_max_signature = CopixDateTime::yyyymmddToDate($ppo->memo->date_max_signature);
