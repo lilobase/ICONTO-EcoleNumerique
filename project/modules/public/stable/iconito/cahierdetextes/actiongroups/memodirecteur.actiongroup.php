@@ -267,8 +267,16 @@ class ActionGroupMemoDirecteur extends BaseMemoActionGroup
      */
     public function processSupprimer()
     {
-        parent::processSupprimer();
+        parent::supprimerMemo();
 
         return _arRedirect(CopixUrl::get('cahierdetextes|memodirecteur|voir', array('ecoleId' => _request('ecoleId'), 'msgSuccess' => CopixI18N::get('cahierdetextes|cahierdetextes.message.success'))));
+    }
+
+    /**
+     * Affichage du suivi d'un mémo (élèves concernés & signatures) - * Enseignant *
+     */
+    public function processSuivi ()
+    {
+        return parent::suiviMemo();
     }
 }

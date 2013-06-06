@@ -44,7 +44,7 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
     /**
      * Suppression d'un mémo
      */
-    public function processSupprimer()
+    public function supprimerMemo()
     {
         $ppo = new CopixPPO ();
         $memoDAO = _ioDAO('cahierdetextes|cahierdetextesmemo');
@@ -70,7 +70,7 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
     /**
      * Affichage pour impression d'un mémo - * Enseignant *
      */
-    public function processImprimer()
+    public function imprimerMemo()
     {
       $ppo = new CopixPPO ();
       $ppo->memoContext = $this->getMemoContext();
@@ -94,5 +94,27 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
       $ppo->count    = $memo2eleveDAO->retrieveNombreElevesConcernesParMemo($ppo->memo->id);
 
       return _arPPO ($ppo, 'imprimer_memo.tpl');
+    }
+
+    /**
+     * Affichage du suivi d'un mémo (élèves concernés & signatures) - * Enseignant *
+     */
+    public function suiviMemo ()
+    {
+        $ppo = new CopixPPO ();
+        $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+
+        if (!$ppo->memo = $memoDAO->get (_request('memoId', null))) {
+            return CopixActionGroup::process ('generictools|Messages::getError', array (
+                'message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'),
+                'back' => CopixUrl::get('')
+            ));
+        }
+
+        // Récupération des élèves liés au mémo
+        $memo2eleveDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+        $ppo->suivis    = $memo2eleveDAO->findSuiviElevesParMemo($ppo->memo->id);
+
+        return _arPPO ($ppo, array ('template' => 'suivi_memo.tpl', 'mainTemplate' => 'main|main_fancy.php'));
     }
 }

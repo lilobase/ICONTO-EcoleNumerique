@@ -1156,7 +1156,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
                 array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
         }
 
-        parent::processSupprimer();
+        parent::supprimerMemo();
 
         return _arRedirect(CopixUrl::get('cahierdetextes||voirMemos', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get('cahierdetextes|cahierdetextes.message.success'))));
     }
@@ -1176,7 +1176,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
                 array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
         }
 
-        return parent::processImprimer();
+        return parent::imprimerMemo();
     }
 
     /**
@@ -1184,24 +1184,17 @@ class ActionGroupDefault extends BaseMemoActionGroup
      */
     public function processSuiviMemo ()
     {
-      $ppo = new CopixPPO ();
-      $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+        if (is_null($cahierId = _request('cahierId', null))) {
 
-      if (is_null($cahierId = _request('cahierId', null)) || !$ppo->memo = $memoDAO->get (_request('memoId', null))) {
+            return CopixActionGroup::process('generictools|Messages::getError',
+                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+        } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
 
-        return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-      } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
+            return CopixActionGroup::process('genericTools|Messages::getError',
+                array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+        }
 
-        return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
-      }
-
-      // Récupération des élèves liés au mémo
-      $memo2eleveDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-      $ppo->suivis    = $memo2eleveDAO->findSuiviElevesParMemo($ppo->memo->id);
-
-      return _arPPO ($ppo, array ('template' => 'suivi_memo.tpl', 'mainTemplate' => 'main|main_fancy.php'));
+        return parent::suiviMemo();
     }
 
   public function go ()
