@@ -111,7 +111,7 @@
     </fieldset>
 
     <div class="submit">
-        {if $ppo->memoContext == 'classe'}
+        {if $ppo->memoContext == 'ecole'}
             <a href="{copixurl dest=cahierdetextes|memodirecteur|voir ecoleId=$ppo->ecoleId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}">
         {elseif $ppo->niveauUtilisateur == PROFILE_CCV_READ}
             <a href="{copixurl dest=cahierdetextes||voirMemos cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee eleve=$ppo->eleve}">

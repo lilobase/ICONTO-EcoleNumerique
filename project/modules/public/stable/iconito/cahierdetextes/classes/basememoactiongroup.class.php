@@ -48,11 +48,16 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
     {
         $ppo = new CopixPPO ();
         $memoDAO = _ioDAO('cahierdetextes|cahierdetextesmemo');
+        _ioDAO('kernel|kernel_bu_personnel_entite'); // Pour accéder aux constantes de roles
 
         if (!$memo = $memoDAO->get(_request('memoId', null))) {
 
             return CopixActionGroup::process('generictools|Messages::getError',
                 array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+        } elseif ($memo->created_by_role != ($this->getMemoContext() == 'ecole' ? DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL : DAOKernel_bu_personnel_entite::ROLE_TEACHER)) {
+
+            return CopixActionGroup::process('genericTools|Messages::getError',
+                array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
         }
 
         // Suppression des relations mémo - eleves existantes
@@ -72,28 +77,28 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
      */
     public function imprimerMemo()
     {
-      $ppo = new CopixPPO ();
-      $ppo->memoContext = $this->getMemoContext();
-      $memoDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+        $ppo = new CopixPPO ();
+        $ppo->memoContext = $this->getMemoContext();
+        $memoDAO = _ioDAO('cahierdetextes|cahierdetextesmemo');
 
-      if (!$ppo->memo = $memoDAO->get (_request('memoId', null))) {
+        if (!$ppo->memo = $memoDAO->get(_request('memoId', null))) {
 
-        return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-      }
+            return CopixActionGroup::process('generictools|Messages::getError',
+                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+        }
 
-      // Récupération des paramètres
-      $ppo->ecoleId   = _request ('ecoleId', null);
-      $ppo->cahierId  = _request ('cahierId', null);
-      $ppo->jour      = _request ('jour', date('d'));
-      $ppo->mois      = _request ('mois', date('m'));
-      $ppo->annee     = _request ('annee', date('Y'));
+        // Récupération des paramètres
+        $ppo->ecoleId = _request('ecoleId', null);
+        $ppo->cahierId = _request('cahierId', null);
+        $ppo->jour = _request('jour', date('d'));
+        $ppo->mois = _request('mois', date('m'));
+        $ppo->annee = _request('annee', date('Y'));
 
-      // Récupération du nombre d'exemplaires nécessaires (nombre d'élèves concernés)
-      $memo2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-      $ppo->count    = $memo2eleveDAO->retrieveNombreElevesConcernesParMemo($ppo->memo->id);
+        // Récupération du nombre d'exemplaires nécessaires (nombre d'élèves concernés)
+        $memo2eleveDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
+        $ppo->count = $memo2eleveDAO->retrieveNombreElevesConcernesParMemo($ppo->memo->id);
 
-      return _arPPO ($ppo, 'imprimer_memo.tpl');
+        return _arPPO($ppo, 'imprimer_memo.tpl');
     }
 
     /**
