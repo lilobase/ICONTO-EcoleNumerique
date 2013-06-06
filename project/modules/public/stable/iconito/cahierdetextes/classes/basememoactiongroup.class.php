@@ -34,7 +34,7 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
     {
         return CopixActionGroup::process ('genericTools|Messages::getError', array (
             'message'=> CopixI18N::get ('kernel|kernel.error.noRights'),
-            'back' => CopixUrl::get('')
+            'back' => CopixUrl::get('||')
         ));
     }
 
@@ -47,7 +47,7 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
     {
         return CopixActionGroup::process('generictools|Messages::getError', array(
             'message' => CopixI18N::get('kernel|kernel.error.errorOccurred'),
-            'back' => CopixUrl::get('')
+            'back' => CopixUrl::get('||')
         ));
     }
 

@@ -61,7 +61,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
               if (is_null($eleve) && $actionName != 'go') {
 
                 return CopixActionGroup::process ('generictools|Messages::getError',
-                        array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+                        array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
               }
             }
         }
@@ -78,7 +78,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($ppo->cahierId = _request ('cahierId'))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       }
 
       $myNode = CopixSession::get('myNode');
@@ -114,14 +114,14 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($ppo->cahierId  = _request ('cahierId'))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       }
       // L'accès admin est nécessaire pour cette vue
       elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) > PROFILE_CCV_READ
         && Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) < PROFILE_CCV_PUBLISH) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('||')));
       }
 
     // Récupération des paramètres
@@ -172,14 +172,14 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($ppo->cahierId  = _request ('cahierId'))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       }
       // L'accès admin est nécessaire pour cette vue
       elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) > PROFILE_CCV_READ
         && Kernel::getLevel('MOD_CAHIERDETEXTES', _request ('cahierId')) < PROFILE_CCV_PUBLISH) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('||')));
       }
 
     // Récupération des paramètres
@@ -238,11 +238,11 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($cahierId = _request('cahierId', null)) || !$ppo->travail = $travailDAO->get (_request('travailId', null))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('||')));
       }
 
       // Récupération des élèves liés au travail
@@ -262,14 +262,14 @@ class ActionGroupDefault extends BaseMemoActionGroup
     if (is_null($ppo->cahierId = _request ('cahierId', null))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-          array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+          array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       }
 
       $travailDAO = _ioDAO ('cahierdetextes|cahierdetextestravail');
       if (!$ppo->travail = $travailDAO->get (_request ('travailId', null))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-          array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+          array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       }
 
       $travail2eleveDAO = _ioDAO ('cahierdetextes|cahierdetextestravail2eleve');
@@ -278,7 +278,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
         || _currentUser()->getExtra('type') != 'USER_ELE' || !in_array (_currentUser()->getExtra('id'), $studentIds)) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-          array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+          array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       }
 
       $ppo->error    = _request ('error');
@@ -356,13 +356,13 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($ppo->cahierId = _request('cahierId', null))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       }
       // ACTION PROTEGEE : l'utilisateur doit être enseignant de la classe
       elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('||')));
       }
 
     // Récupération des paramètres
@@ -444,11 +444,11 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($ppo->cahierId = _request('cahierId', null)) || !$domaine = $domaineDAO->get (_request('domaineId', null))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('||')));
       }
 
       // Récupération des paramètres
@@ -480,11 +480,11 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($ppo->cahierId = _request('cahierId', null))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('||')));
       }
 
       // Récupération des paramètres
@@ -873,11 +873,11 @@ class ActionGroupDefault extends BaseMemoActionGroup
       if (is_null($cahierId = _request('cahierId', null)) || !$travail = $travailDAO->get (_request('travailId', null))) {
 
         return CopixActionGroup::process ('generictools|Messages::getError',
-              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+              array ('message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('||')));
       } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
 
         return CopixActionGroup::process ('genericTools|Messages::getError',
-          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+          array ('message'=> CopixI18N::get ('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('||')));
       }
 
     // Suppression des relations travail - eleves existantes
@@ -995,13 +995,13 @@ class ActionGroupDefault extends BaseMemoActionGroup
         if (is_null($ppo->cahierId = _request('cahierId', null))) {
             return CopixActionGroup::process ('generictools|Messages::getError', array (
                 'message' => CopixI18N::get ('kernel|kernel.error.errorOccurred'),
-                'back' => CopixUrl::get('')
+                'back' => CopixUrl::get('||')
             ));
         }
         elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $ppo->cahierId) < PROFILE_CCV_PUBLISH) {
             return CopixActionGroup::process ('genericTools|Messages::getError', array (
                 'message'=> CopixI18N::get ('kernel|kernel.error.noRights'),
-                'back' => CopixUrl::get('')
+                'back' => CopixUrl::get('||')
             ));
         }
 
@@ -1197,23 +1197,30 @@ class ActionGroupDefault extends BaseMemoActionGroup
         return parent::suiviMemo();
     }
 
-  public function go ()
-  {
-    $myNode = CopixSession::get('myNode');
-    if (!is_null($id = _request ('id', null))) {
+    public function go ()
+    {
+        $myNode = CopixSession::get('myNode');
+        if (!is_null($id = _request ('id', null))) {
 
-      if ($myNode['type'] == 'BU_ECOLE') {
+            if ($myNode['type'] == 'BU_ECOLE') {
 
-          return _arRedirect (CopixUrl::get ('cahierdetextes|memodirecteur|voir', array('ecoleId' => $id)));
-      }
+                return _arRedirect (CopixUrl::get ('cahierdetextes|memodirecteur|voir', array('ecoleId' => $id)));
+            }
 
-      if ($myNode['type'] == 'USER_ELE') {
+            if ($myNode['type'] == 'USER_ELE') {
 
-        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id, 'eleve' => $myNode['id'])));
-      } else {
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id, 'eleve' => $myNode['id'])));
+            } else {
 
-        return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id)));
-      }
+              return _arRedirect (CopixUrl::get ('cahierdetextes||voirTravaux', array('cahierId' => $id)));
+            }
+        }
+
+        return _arRedirect (CopixUrl::get ('||'));
     }
+
+    public function processDefault()
+    {
+        return $this->go();
     }
 }
