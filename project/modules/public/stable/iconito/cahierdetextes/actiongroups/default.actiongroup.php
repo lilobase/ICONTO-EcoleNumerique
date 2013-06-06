@@ -1067,7 +1067,8 @@ class ActionGroupDefault extends CopixActionGroup
             $validator = new ClasseMemoValidator($ppo->memo, array(
                 'eleves'       => _request ('eleves', array()),
                 'fichiers'     => _request ('memo_fichiers', array()),
-                'cahier_infos' => $cahierInfos
+                'nodeType'     => $cahierInfos[0]->node_type,
+                'nodeId'       => $cahierInfos[0]->node_id
             ));
 
             // Formulaire non valide

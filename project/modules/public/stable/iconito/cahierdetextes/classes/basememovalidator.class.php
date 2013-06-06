@@ -49,7 +49,6 @@ abstract class BaseMemoValidator extends BaseValidator
     {
         $memo                = $this->getObject();
         $classe              = $memo->getClasse();
-        $cahierInfos         = $this->getOption('cahier_infos');
         $fichierMalleDAO     = _ioDAO('malle|malle_files');
         $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');
 
@@ -92,11 +91,13 @@ abstract class BaseMemoValidator extends BaseValidator
 
         // Traitement des fichiers
         $fichiers = $this->getOption('fichiers', array());
+        $nodeType = $this->getOption('nodeType');
+        $nodeId   = $this->getOption('nodeId');
         if ($classe && !empty($fichiers)) {
             $fichiers = array_unique($fichiers);
 
             // Récupération de l'identifiant de la malle du node
-            $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+            $mods = Kernel::getModEnabled ($nodeType, $nodeId);
             if ($malle = Kernel::filterModuleList ($mods, 'MOD_MALLE')) {
                 $malleId = $malle[0]->module_id;
             }
@@ -105,7 +106,7 @@ abstract class BaseMemoValidator extends BaseValidator
             $classeurIds = array();
 
             // Classeur du node
-            $mods = Kernel::getModEnabled ($cahierInfos[0]->node_type, $cahierInfos[0]->node_id);
+            $mods = Kernel::getModEnabled ($nodeType, $nodeId);
             if ($classeur  = Kernel::filterModuleList ($mods, 'MOD_CLASSEUR')) {
                 $classeurIds[] = $classeur[0]->module_id;
             }
