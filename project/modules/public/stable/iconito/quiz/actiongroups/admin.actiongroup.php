@@ -375,6 +375,7 @@ class ActionGroupAdmin extends enicActionGroup
         $this->addCss('styles/module_quiz.css');
 
         $this->js->wysiwyg('#aw-content');
+        $this->js->wysiwyg('#answer-detail');
         $this->js->confirm('#a-suppr', 'quiz.confirm.delAnsw');
 
         $ppo             = new CopixPPO();
@@ -389,6 +390,7 @@ class ActionGroupAdmin extends enicActionGroup
         $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
         $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateResp') : '#';
         $ppo->new = ($modifAction == 'modif') ? false : true;
+        $ppo->quiz = $quizDatas;
 
 /*
         $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
@@ -427,6 +429,7 @@ class ActionGroupAdmin extends enicActionGroup
         $form['name'] = $this->request('aw-name');
         $form['id_quiz'] = $quizId;
         $form['content'] = $this->request('aw-content');
+        $form['answer_detail'] = $this->request('answer-detail');
 
         //build global flash
         $this->flash->quizId = $quizId;
@@ -467,6 +470,7 @@ class ActionGroupAdmin extends enicActionGroup
         $form['name'] = $this->request('aw-name');
         $form['id_quiz'] = $quizId;
         $form['content'] = $this->request('aw-content');
+        $form['answer_detail'] = $this->request('answer_detail');
 
         //build global flash
         $this->flash->quizId = $quizId;

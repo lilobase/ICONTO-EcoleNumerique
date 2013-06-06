@@ -45,7 +45,7 @@ jQuery(document).ready(function($){
     <li class="sb-step-first">
         <a href="{copixurl dest="quiz|admin|list"}" class="sb-list"></a>
     </li>
-    <li class="sb-step"><a href="{copixurl dest="quiz|admin|modif" id=$quiz.id qaction="modif"}">{i18n key="quiz.form.edit" noEscape=1}</a></li>
+    <li class="sb-step"><a href="{copixurl dest="quiz|admin|modif" id=$ppo->quiz.id qaction="modif"}">{i18n key="quiz.form.edit" noEscape=1}</a></li>
     <li class="sb-step-active">{i18n key="quiz.question.edit" noEscape=1}</li>
     <li class="sb-message">
 		{if !empty($ppo->success)}
@@ -66,13 +66,14 @@ jQuery(document).ready(function($){
     <ul>
 	{* $ppo->error|@print_r *} 
 	{if isset($ppo->error.name)}<li>{$ppo->error.name}</li>{/if}
+	{if isset($ppo->error.answer_detail)}<li>{$ppo->error.answer_detail}</li>{/if}
 	{if isset($ppo->error.resp.content)}<li>{$ppo->error.resp.content}</li>{/if}
 	{if isset($ppo->error.resp.correct)}<li>{$ppo->error.resp.correct}</li>{/if}
     </ul>
 </div>
 {/if}
 <div class="content-panel content-info">
-    <a href="{copixurl dest="quiz|admin|modif" id=$quiz.id qaction="modif"}" class="button-reload">
+    <a href="{copixurl dest="quiz|admin|modif" id=$ppo->quiz.id qaction="modif"}" class="button-reload">
         <strong>{i18n key="quiz.admin.goBackToQuiz" noEscape=1} </strong>
     </a>({i18n key="quiz.form.editmsg" noEscape=1})
 </div>
@@ -83,7 +84,11 @@ jQuery(document).ready(function($){
         <input type="text" class="qf-title" id="aw-name" name="aw-name" value="{$ppo->question.name}"/><br />
         <label for="aw-content">{i18n key="quiz.question.detail" noEscape=1}</label>
         <textarea class="qf-description" id="aw-content" name="aw-content">{$ppo->question.content}</textarea>
-                {$ppo->addPicPopup}
+        {$ppo->addPicPopup}
+        {if $ppo->quiz.opt_show_results == 'each'}
+            <label for="aw-content">{i18n key="quiz.question.answerDetail" noEscape=1}</label>
+            <textarea class="qf-description" id="answer-detail" name="answer-detail">{$ppo->question.answer_detail}</textarea>
+        {/if}
         <!-- process data's, integrity check by server side sessions storage -->
         <input type="hidden" name="aw-id" value="{$ppo->id}" />
     </div>

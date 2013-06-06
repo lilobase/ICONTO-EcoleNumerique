@@ -215,6 +215,7 @@ GROUP BY quiz.id
     {
         $oReturn['name'] = $this->db->quote($iDatas['name']);
         $oReturn['content'] = $this->db->quote($iDatas['content']);
+        $oReturn['answer_detail'] = $this->db->quote($iDatas['answer_detail']);
         $oReturn['opt_type'] = '"choice"';
         $oReturn['id'] = (isset($iDatas['id'])) ? $iDatas['id']*1 : null;
         $oReturn['id_quiz'] = $iDatas['id_quiz']*1;
@@ -229,6 +230,7 @@ GROUP BY quiz.id
             $oReturn[$key]['id'] = (isset($datas['id'])) ? $datas['id']*1 : null;
             $oReturn[$key]['id_question'] = $datas['id_question']*1;
             $oReturn[$key]['content'] = $this->db->quote($datas['content']);
+            $oReturn[$key]['answer_detail'] = $this->db->quote($datas['answer_detail']);
             $oReturn[$key]['correct'] = (isset($datas['correct'])) ? $datas['correct']*1 : 0;
             $oReturn[$key]['order'] = $datas['order']*1;
         }
@@ -242,6 +244,11 @@ GROUP BY quiz.id
 
         if(empty($iDatas['name']))
             $errors['name'] = 'Un énoncé court est au moins nécessaire...';
+
+        $quiz = $this->getQuizDatas($iDatas['id_quiz']);
+        if($quiz['opt_show_results'] == 'each' && empty($iDatas['answer_detail'])) {
+            $errors['answer_detail'] = 'Vous devez saisir un texte d\'explication affiché après réponse';
+        }
 
         $oReturn[] = empty($errors);
         $oReturn[] = $errors;
