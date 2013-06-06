@@ -1,5 +1,5 @@
+<p class="memoClasse">{$ppo->memo->nom_classe}</p>
 <p class="memoDate">
-  {$ppo->memo->nom_classe}
   <span class="actions">
     <a class="fancybox" href="{copixurl dest="cahierdetextes||suiviMemo" ecoleId=$ppo->ecoleId cahierId=$ppo->memo->cahier_id jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee memoId=$ppo->memo->id}" title="{if $ppo->memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}"><img src="{copixurl}themes/default/images/menu/menu_list_active.png" alt="{if $ppo->memo->avec_signature}{i18n key="cahierdetextes.message.seeValidated"}{else}{i18n key="cahierdetextes.message.seeConcerned"}{/if}" /></a>
     <a href="{copixurl dest="cahierdetextes|memodirecteur|imprimer" ecoleId=$ppo->ecoleId cahierId=$ppo->memo->cahier_id memoId=$ppo->memo->id jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" title="{i18n key="cahierdetextes.message.print"}"><img src="{copixurl}themes/default/images/button-action/action_print.png" alt="{i18n key="cahierdetextes.message.print"}" /></a>
