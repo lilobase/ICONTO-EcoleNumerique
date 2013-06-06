@@ -48,7 +48,6 @@ abstract class BaseMemoValidator extends BaseValidator
     protected function validate()
     {
         $memo                = $this->getObject();
-        $classe              = $memo->getClasse();
         $fichierMalleDAO     = _ioDAO('malle|malle_files');
         $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');
 
@@ -93,7 +92,7 @@ abstract class BaseMemoValidator extends BaseValidator
         $fichiers = $this->getOption('fichiers', array());
         $nodeType = $this->getOption('nodeType');
         $nodeId   = $this->getOption('nodeId');
-        if ($classe && !empty($fichiers)) {
+        if (!empty($fichiers)) {
             $fichiers = array_unique($fichiers);
 
             // Récupération de l'identifiant de la malle du node

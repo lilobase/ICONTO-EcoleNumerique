@@ -1,5 +1,8 @@
 <?php
 
+_ioDAO('cahierdetextes|cahierdetextesmemo');
+_classInclude('cahierdetextes|basememovalidator');
+
 /**
 * @package    Iconito
 * @subpackage Cahierdetextes
@@ -14,6 +17,39 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
      * @return string
      */
     protected abstract function getMemoContext();
+
+    /**
+     * Retourne la constante de role en fonction du contexte
+     *
+     * @return mixed
+     */
+    protected abstract function getMemoRole();
+
+    /**
+     * Retourne la redirection vers la page d'erreur de droits
+     *
+     * @return CopixActionReturn
+     */
+    protected function redirectToNoRightsError()
+    {
+        return CopixActionGroup::process ('genericTools|Messages::getError', array (
+            'message'=> CopixI18N::get ('kernel|kernel.error.noRights'),
+            'back' => CopixUrl::get('')
+        ));
+    }
+
+    /**
+     * Retourne la redirection vers la page d'erreur inconnue
+     *
+     * @return CopixActionReturn
+     */
+    protected function redirectToErrorOccurred()
+    {
+        return CopixActionGroup::process('generictools|Messages::getError', array(
+            'message' => CopixI18N::get('kernel|kernel.error.errorOccurred'),
+            'back' => CopixUrl::get('')
+        ));
+    }
 
     /**
      * Pagination des memos
@@ -42,34 +78,29 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
     }
 
     /**
-     * Suppression d'un mémo
+     * Suppression d'un mémo (action de base)
+     *
+     * @return mixed
      */
     public function supprimerMemo()
     {
-        $ppo = new CopixPPO ();
+        $ppo     = new CopixPPO ();
         $memoDAO = _ioDAO('cahierdetextes|cahierdetextesmemo');
-        _ioDAO('kernel|kernel_bu_personnel_entite'); // Pour accéder aux constantes de roles
+        $memo    = $memoDAO->get(_request('memoId', null));
 
-        if (!$memo = $memoDAO->get(_request('memoId', null))) {
-
-            return CopixActionGroup::process('generictools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-        } elseif ($memo->created_by_role != ($this->getMemoContext() == 'ecole' ? DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL : DAOKernel_bu_personnel_entite::ROLE_TEACHER)) {
-
-            return CopixActionGroup::process('genericTools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+        // Si le mémo n'existe pas
+        if (false === $memo) {
+            return $this->redirectToErrorOccurred();
         }
 
-        // Suppression des relations mémo - eleves existantes
-        $memo2eleveDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
-        $memo2eleveDAO->deleteByMemo($memo->id);
+        // On contrôle que le mémo peut être supprimé à cette endroit
+        if ($memo->created_by_role != $this->getMemoRole()) {
+            return $this->redirectToNoRightsError();
+        }
 
-        // Suppression des relations mémo - fichiers existantes
-        $memo2fichierDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2files');
-        $memo2fichierDAO->deleteByMemo($memo->id);
+        $this->deleteMemo($memo);
 
-        // Suppression du mémos
-        $memoDAO->delete($memo->id);
+        return true;
     }
 
     /**
@@ -121,5 +152,62 @@ abstract class BaseMemoActionGroup extends CopixActionGroup
         $ppo->suivis    = $memo2eleveDAO->findSuiviElevesParMemo($ppo->memo->id);
 
         return _arPPO ($ppo, array ('template' => 'suivi_memo.tpl', 'mainTemplate' => 'main|main_fancy.php'));
+    }
+
+    /**
+     * Insertion d'un mémo dans la BDD
+     *
+     * @param DAORecordCahierDeTextesMemo $memo Le mémo
+     */
+    protected function insertMemo(DAORecordCahierDeTextesMemo $memo)
+    {
+        $memoDAO         = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+
+        // On défini le type de compte créateur
+        $memo->created_by_role = $this->getMemoRole();
+
+        // Insertion de l'enregistrement "memo"
+        $memoDAO->insert ($memo);
+    }
+
+    /**
+     * Modification d'un mémo dans la BDD
+     *
+     * @param DAORecordCahierDeTextesMemo $memo Le mémo
+     */
+    protected function updateMemo(DAORecordCahierDeTextesMemo $memo)
+    {
+        $memoDAO         = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+        $memo2eleveDAO   = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+        $memo2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
+
+        // Mise à jour de l'enregistrement "memo"
+        $memoDAO->update($memo);
+
+        // Suppression des relations memo - eleves existantes
+        $memo2eleveDAO->deleteByMemo($memo->id);
+
+        // Suppression des relations memo - fichiers existantes
+        $memo2fichierDAO->deleteByMemo($memo->id);
+    }
+
+    /**
+     * Suppression d'un mémo et de ses relations
+     *
+     * @param DAORecordCahierDeTextesMemo $memo Le mémo
+     */
+    protected function deleteMemo(DAORecordCahierDeTextesMemo $memo)
+    {
+        $memoDAO         = _ioDAO ('cahierdetextes|cahierdetextesmemo');
+        $memo2eleveDAO   = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+        $memo2fichierDAO = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
+
+        // Suppression des relations memo - eleves existantes
+        $memo2eleveDAO->deleteByMemo($memo->id);
+
+        // Suppression des relations memo - fichiers existantes
+        $memo2fichierDAO->deleteByMemo($memo->id);
+
+        $memoDAO->delete($memo->id);
     }
 }

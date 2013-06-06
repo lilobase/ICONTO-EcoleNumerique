@@ -7,6 +7,7 @@
 */
 
 _classInclude ('cahierdetextes|baseMemoActionGroup');
+_ioDAO('cahierdetextes|cahierdetextesmemo');
 
 class ActionGroupDefault extends BaseMemoActionGroup
 {
@@ -18,6 +19,18 @@ class ActionGroupDefault extends BaseMemoActionGroup
     protected function getMemoContext()
     {
         return 'classe';
+    }
+
+    /**
+     * Retourne la constante de role en fonction du contexte
+     *
+     * @return mixed
+     */
+    protected function getMemoRole()
+    {
+        _ioDAO('kernel|kernel_bu_personnel_entite');
+
+        return DAOKernel_bu_personnel_entite::ROLE_TEACHER;
     }
 
     public function beforeAction ($actionName)
@@ -909,9 +922,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
         $ppo->memoContext = $this->getMemoContext();
 
         if (is_null($ppo->cahierId = _request('cahierId'))) {
-
-            return CopixActionGroup::process('generictools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+            return $this->redirectToErrorOccurred();
         }
 
         // Récupération des paramètres
@@ -949,9 +960,7 @@ class ActionGroupDefault extends BaseMemoActionGroup
             if (is_null($memo2eleve = $memo2eleveDAO->get(_request('memoId', null), $ppo->eleve))
                 || !Kernel::isParentOfEleve($ppo->eleve)
             ) {
-
-                return CopixActionGroup::process('generictools|Messages::getError',
-                    array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
+                return $this->redirectToErrorOccurred();
             }
 
             $memo2eleve->signe_le = date('Ymd');
@@ -1014,12 +1023,14 @@ class ActionGroupDefault extends BaseMemoActionGroup
             $memoDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo');
             $ppo->memo  = $memoDAO->get($memoId);
 
-            _ioDAO('kernel|kernel_bu_personnel_entite'); // Pour accéder aux constantes de roles
-            if ($ppo->memo->created_by_role != DAOKernel_bu_personnel_entite::ROLE_TEACHER) {
-                return CopixActionGroup::process ('genericTools|Messages::getError', array (
-                    'message'=> CopixI18N::get ('kernel|kernel.error.noRights'),
-                    'back' => CopixUrl::get('')
-                ));
+            // Le mémo n'a pas été trouvé d'après son identifiant -> erreur
+            if (false === $ppo->memo) {
+                return $this->redirectToErrorOccurred();
+            }
+
+            // On contrôle que le mémo peut être edité à cette endroit
+            if ($ppo->memo->created_by_role != $this->getMemoRole()) {
+                return $this->redirectToNoRightsError();
             }
 
             $ppo->memo->date_creation      = CopixDateTime::yyyymmddToDate($ppo->memo->date_creation);
@@ -1027,29 +1038,11 @@ class ActionGroupDefault extends BaseMemoActionGroup
             $ppo->memo->date_max_signature = CopixDateTime::yyyymmddToDate($ppo->memo->date_max_signature);
 
             // Récupération des élèves liés au mémo
-            $memo2eleveDAO            = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-            $ppo->elevesSelectionnes  = $memo2eleveDAO->findElevesParMemo ($ppo->memo->id);
+            $memo2eleveDAO           = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
+            $ppo->elevesSelectionnes = $memo2eleveDAO->findElevesParMemo ($ppo->memo->id);
 
-            // Récupération des fichiers liés au mémo
-            $fichierMalleDAO     = _ioDAO('malle|malle_files');
-            $fichierClasseurDAO  = _ioDAO('classeur|classeurfichier');
-
-            $memo2fichiersDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
-            $memo2fichiers       = $memo2fichiersDAO->retrieveByMemo ($ppo->memo->id);
-            $ppo->fichiers       = array();
-
-            foreach($memo2fichiers as $memo2fichier) {
-                if ($memo2fichier->module_file == 'MOD_MALLE') {
-                    if ($fichier = $fichierMalleDAO->get($memo2fichier->file_id)) {
-                        $ppo->fichiers[] = array('type' => $memo2fichier->module_file, 'id' => $memo2fichier->file_id, 'nom' => $fichier->nom);
-                    }
-                }
-                elseif ($memo2fichier->module_file == 'MOD_CLASSEUR') {
-                    if ($fichier = $fichierClasseurDAO->get ($memo2fichier->file_id)) {
-                        $ppo->fichiers[] = array('type' => $memo2fichier->module_file, 'id' => $memo2fichier->file_id, 'nom' => $fichier);
-                    }
-                }
-            }
+            _classInclude('cahierdetextes|cahierdetextesmemoservices');
+            $ppo->fichiers = CahierDeTextesMemoServices::getFichiersForList($ppo->memo);
         }
 
         if (CopixRequest::isMethod ('post')) {
@@ -1090,52 +1083,23 @@ class ActionGroupDefault extends BaseMemoActionGroup
             }
 
             // Formulaire valide
-            $memoDAO          = _ioDAO ('cahierdetextes|cahierdetextesmemo');
-            $memo2eleveDAO    = _ioDAO ('cahierdetextes|cahierdetextesmemo2eleve');
-            $memo2fichierDAO  = _ioDAO ('cahierdetextes|cahierdetextesmemo2files');
-
             // Création
             if ($ppo->memo->id == '') {
-                $userInfos = Kernel::getUserInfo();
-
-                // On défini le type de compte créateur
-                $ppo->memo->created_by_role = DAOKernel_bu_personnel_entite::ROLE_TEACHER;
-
-                // Insertion de l'enregistrement "memo"
-                $memoDAO->insert ($ppo->memo);
+                $this->insertMemo($ppo->memo);
+                $this->makeLinksForMemo(
+                    $ppo->memo,
+                    $validator->getOption('eleves', array()),
+                    $validator->getFichiers()
+                );
             }
             // Mise à jour
             else {
-
-                // Mise à jour de l'enregistrement "memo"
-                $memoDAO->update($ppo->memo);
-
-                // Suppression des relations memo - eleves existantes
-                $memo2eleveDAO->deleteByMemo($ppo->memo->id);
-
-                // Suppression des relations memo - fichiers existantes
-                $memo2fichierDAO->deleteByMemo($ppo->memo->id);
-            }
-
-            // Insertion des nouveaux liens memo > eleve
-            foreach($validator->getOption('eleves', array()) as $eleveId) {
-                $memo2eleve = _record ('cahierdetextes|cahierdetextesmemo2eleve');
-
-                $memo2eleve->memo_id   = $ppo->memo->id;
-                $memo2eleve->eleve_id  = $eleveId;
-
-                $memo2eleveDAO->insert($memo2eleve);
-            }
-
-            // Insertion des liens "mémo > fichiers"
-            foreach($validator->getFichiers() as $fichier) {
-                $memo2fichier = _record ('cahierdetextes|cahierdetextesmemo2files');
-
-                $memo2fichier->memo_id      = $ppo->memo->id;
-                $memo2fichier->module_file  = $fichier['type'];
-                $memo2fichier->file_id      = $fichier['id'];
-
-                $memo2fichierDAO->insert($memo2fichier);
+                $this->updateMemo($ppo->memo);
+                $this->makeLinksForMemo(
+                    $ppo->memo,
+                    $validator->getOption('eleves', array()),
+                    $validator->getFichiers()
+                );
             }
 
             return _arRedirect (CopixUrl::get ('cahierdetextes||voirMemos', array('cahierId' => $ppo->cahierId, 'msgSuccess' => CopixI18N::get ('cahierdetextes|cahierdetextes.message.success'))));
@@ -1148,23 +1112,57 @@ class ActionGroupDefault extends BaseMemoActionGroup
     }
 
     /**
+     * Ajout des liens aux élèves et aux fichiers pour le mémo
+     *
+     * @param DAORecordCahierDeTextesMemo $memo     Le mémo
+     * @param array                       $eleves   Les élèves sélectionnés
+     * @param array                       $fichiers Les fichiers
+     *
+     * @return void
+     */
+    public function makeLinksForMemo($memo, array $eleves, array $fichiers)
+    {
+        $memo2eleveDAO   = _ioDAO('cahierdetextes|cahierdetextesmemo2eleve');
+        $memo2fichierDAO = _ioDAO('cahierdetextes|cahierdetextesmemo2files');
+
+        // Récupération des élèves de la classe
+        $eleveDAO = _ioDAO ('kernel|kernel_bu_ele');
+        foreach($eleves as $eleveId) {
+            $memo2eleve = _record ('cahierdetextes|cahierdetextesmemo2eleve');
+
+            $memo2eleve->memo_id   = $memo->id;
+            $memo2eleve->eleve_id  = $eleveId;
+
+            $memo2eleveDAO->insert($memo2eleve);
+        }
+
+        // Insertion des liens "mémo > fichiers"
+        foreach ($fichiers as $fichier) {
+            $memo2fichier = _record('cahierdetextes|cahierdetextesmemo2files');
+            $memo2fichier->memo_id     = $memo->id;
+            $memo2fichier->module_file = $fichier['type'];
+            $memo2fichier->file_id     = $fichier['id'];
+            $memo2fichierDAO->insert($memo2fichier);
+        }
+    }
+
+    /**
      * Suppression d'un mémo - * Enseignant *
      */
     public function processSupprimerMemo()
     {
-        $memoDAO = _ioDAO('cahierdetextes|cahierdetextesmemo');
-
-        if (is_null($cahierId = _request('cahierId', null)) || !$memo = $memoDAO->get(_request('memoId', null))) {
-
-            return CopixActionGroup::process('generictools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-        } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
-
-            return CopixActionGroup::process('genericTools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+        if (is_null($cahierId = _request('cahierId', null))) {
+            return $this->redirectToErrorOccurred();
+        }
+        elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
+            return $this->redirectToNoRightsError();
         }
 
-        parent::supprimerMemo();
+        $return = parent::supprimerMemo();
+
+        if (true !== $return) {
+            return $return;
+        }
 
         return _arRedirect(CopixUrl::get('cahierdetextes||voirMemos', array('cahierId' => $cahierId, 'msgSuccess' => CopixI18N::get('cahierdetextes|cahierdetextes.message.success'))));
     }
@@ -1175,13 +1173,10 @@ class ActionGroupDefault extends BaseMemoActionGroup
     public function processImprimerMemo()
     {
         if (is_null($cahierId = _request('cahierId', null))) {
-
-            return CopixActionGroup::process('generictools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-        } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
-
-            return CopixActionGroup::process('genericTools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+            return $this->redirectToErrorOccurred();
+        }
+        elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
+            return $this->redirectToNoRightsError();
         }
 
         return parent::imprimerMemo();
@@ -1193,13 +1188,10 @@ class ActionGroupDefault extends BaseMemoActionGroup
     public function processSuiviMemo ()
     {
         if (is_null($cahierId = _request('cahierId', null))) {
-
-            return CopixActionGroup::process('generictools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.errorOccurred'), 'back' => CopixUrl::get('')));
-        } elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
-
-            return CopixActionGroup::process('genericTools|Messages::getError',
-                array('message' => CopixI18N::get('kernel|kernel.error.noRights'), 'back' => CopixUrl::get('')));
+            return $this->redirectToErrorOccurred();
+        }
+        elseif (Kernel::getLevel('MOD_CAHIERDETEXTES', $cahierId) < PROFILE_CCV_PUBLISH) {
+            return $this->redirectToNoRightsError();
         }
 
         return parent::suiviMemo();
