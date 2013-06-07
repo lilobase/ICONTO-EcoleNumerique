@@ -3,19 +3,33 @@
 jQuery(document).ready(function($){
                 // SORTABLE ANSWERS
         $("#qf-answers").sortable();
-        $("#qf-answers").disableSelection();
+//        $("#qf-answers").disableSelection();
 
-        $(".button-drag").hover(function(){
+        var addHoverHandlerEvents = function(handlers) {
+            handlers.hover(function(){
                 $(this).parent(".qf-answer").addClass('drag-on');
-        }, function(){
+            }, function(){
                 $(this).parent(".qf-answer").removeClass('drag-on');
-        });
+            });
+        }
+
+        addHoverHandlerEvents($(".button-drag"));
 
                 // ADD NEW ANSWER ITEM
         $("#qf-addanswer").click(function(){
-                        $("#qf-answers .qf-answer:last").after($("#qf-answer-tpl").html());
-                        $("#qf-answers .qf-answer:last .qf-content").focus();
-                        return false;
+            // Création de la nouvelle ligne
+            var newLine = $($("#qf-answer-tpl").html());
+
+            // Insertion de cette nouvelle ligne après toutes les autres
+            $("#qf-answers .qf-answer:last").after(newLine);
+
+            // Ajout des évènement de hover
+            addHoverHandlerEvents(newLine.find('.button-drag'));
+
+            //Focus sur le champ de la dernière ligne ajoutée
+            newLine.find('.qf-content').focus();
+
+            return false;
         });
 
                 // DELETE ANSWER ITEM
@@ -146,7 +160,7 @@ jQuery(document).ready(function($){
 
     {if $ppo->quiz.opt_show_results == 'each'}
         <div class="content-panel content-panel-edit">
-            <label for="aw-content">{i18n key="quiz.question.answerDetail" noEscape=1}</label>
+            <label class="quiz-itemlist" for="aw-content">{i18n key="quiz.question.answerDetail" noEscape=1}</label>
             <textarea class="qf-description" id="answer-detail" name="answer-detail">{$ppo->question.answer_detail}</textarea>
         </div>
     {/if}
