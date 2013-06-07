@@ -440,6 +440,11 @@ class ActionGroupDefault extends enicActionGroup
 
         $ppo->question = $this->service('QuizService')->getQuestion($pQId);
 
+        $ppo->nameAuthor = $this->session->load('authorName');
+        $ppo->surname = $this->session->load('authorSurname');
+        $ppo->help = qSession('help');
+        $ppo->name = qSession('name');
+
         //get responses form datas
         $pResponse = CopixRequest::get('response', false);
 
