@@ -215,11 +215,14 @@ GROUP BY quiz.id
     {
         $oReturn['name'] = $this->db->quote($iDatas['name']);
         $oReturn['content'] = $this->db->quote($iDatas['content']);
-        $oReturn['answer_detail'] = $this->db->quote($iDatas['answer_detail']);
         $oReturn['opt_type'] = '"choice"';
         $oReturn['id'] = (isset($iDatas['id'])) ? $iDatas['id']*1 : null;
         $oReturn['id_quiz'] = $iDatas['id_quiz']*1;
         $oReturn['order'] = 1;
+
+        if ($iDatas['answer_detail']) {
+            $oReturn['answer_detail'] = $this->db->quote($iDatas['answer_detail']);
+        }
 
         return $oReturn;
     }
@@ -230,7 +233,6 @@ GROUP BY quiz.id
             $oReturn[$key]['id'] = (isset($datas['id'])) ? $datas['id']*1 : null;
             $oReturn[$key]['id_question'] = $datas['id_question']*1;
             $oReturn[$key]['content'] = $this->db->quote($datas['content']);
-            $oReturn[$key]['answer_detail'] = $this->db->quote($datas['answer_detail']);
             $oReturn[$key]['correct'] = (isset($datas['correct'])) ? $datas['correct']*1 : 0;
             $oReturn[$key]['order'] = $datas['order']*1;
         }
@@ -244,11 +246,6 @@ GROUP BY quiz.id
 
         if(empty($iDatas['name']))
             $errors['name'] = 'Un énoncé court est au moins nécessaire...';
-
-        $quiz = $this->getQuizDatas($iDatas['id_quiz']);
-        if($quiz['opt_show_results'] == 'each' && empty($iDatas['answer_detail'])) {
-            $errors['answer_detail'] = 'Vous devez saisir un texte d\'explication affiché après réponse';
-        }
 
         $oReturn[] = empty($errors);
         $oReturn[] = $errors;
@@ -274,6 +271,26 @@ GROUP BY quiz.id
 
         if(!$isValid){
             $errors['resp']['correct'] = 'Vous devez choisir au moins une bonne réponse parmi vos propositions...';
+        }
+
+        $oReturn[] = empty($errors);
+        $oReturn[] = $errors;
+
+        return $oReturn;
+    }
+
+    public function validAnswerDetail($data)
+    {
+        $question = $this->getQuestion($data['id_question']);
+        $quiz = $this->getQuizDatas($question['id_quiz']);
+
+        if($quiz['opt_show_results'] == 'each' && empty($data['answer_detail'])) {
+            $errors['answer_detail'] = 'Vous devez saisir un texte d\'explication affiché après réponse';
+        }
+
+        $question['answer_detail'] = $data['answer_detail'];
+        if (!count(array_merge($errors, $this->validAnsw($question)))) {
+            $this->updateAnsw($question);
         }
 
         $oReturn[] = empty($errors);

@@ -429,7 +429,6 @@ class ActionGroupAdmin extends enicActionGroup
         $form['name'] = $this->request('aw-name');
         $form['id_quiz'] = $quizId;
         $form['content'] = $this->request('aw-content');
-        $form['answer_detail'] = $this->request('answer-detail');
 
         //build global flash
         $this->flash->quizId = $quizId;
@@ -470,7 +469,6 @@ class ActionGroupAdmin extends enicActionGroup
         $form['name'] = $this->request('aw-name');
         $form['id_quiz'] = $quizId;
         $form['content'] = $this->request('aw-content');
-        $form['answer_detail'] = $this->request('answer-detail');
 
         //build global flash
         $this->flash->quizId = $quizId;
@@ -545,6 +543,20 @@ class ActionGroupAdmin extends enicActionGroup
             $this->flash->respDatas = $responses;
             return $this->go('quiz|admin|questions', array('tabs' => 1));
         }
+
+        $answerDetailForm = array(
+            'answer_detail' => $this->request('answer-detail'),
+            'id_question' => $answId
+        );
+
+        $valid = $this->service('QuizService')->validAnswerDetail($answerDetailForm);
+        if($valid[0] == false){
+            $this->flash->error = true;
+            $this->flash->errorMsg = $valid[1];
+            $this->flash->respDatas = $responses;
+            return $this->go('quiz|admin|questions', array('tabs' => 1));
+        }
+
 
         //deletes previous question :
         $this->service('QuizService')->delResp($answId);

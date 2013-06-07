@@ -85,10 +85,6 @@ jQuery(document).ready(function($){
         <label for="aw-content">{i18n key="quiz.question.detail" noEscape=1}</label>
         <textarea class="qf-description" id="aw-content" name="aw-content">{$ppo->question.content}</textarea>
         {$ppo->addPicPopup}
-        {if $ppo->quiz.opt_show_results == 'each'}
-            <label for="aw-content">{i18n key="quiz.question.answerDetail" noEscape=1}</label>
-            <textarea class="qf-description" id="answer-detail" name="answer-detail">{$ppo->question.answer_detail}</textarea>
-        {/if}
         <!-- process data's, integrity check by server side sessions storage -->
         <input type="hidden" name="aw-id" value="{$ppo->id}" />
     </div>
@@ -133,7 +129,7 @@ jQuery(document).ready(function($){
             </li>
 			{/foreach}
 		{else}
-		{* No Answer defined *}	
+		{* No Answer defined *}
             <li class="qf-answer">
                 <a class="button-drag"></a>
                 <input type="checkbox" class="qf-correct" name="qf-correct" />
@@ -147,6 +143,13 @@ jQuery(document).ready(function($){
             <button id="qf-addanswer" class="button button-add">{i18n key="quiz.question.answersAdd" noEscape=1}</button>
         </div>
     </div>
+
+    {if $ppo->quiz.opt_show_results == 'each'}
+        <div class="content-panel content-panel-edit">
+            <label for="aw-content">{i18n key="quiz.question.answerDetail" noEscape=1}</label>
+            <textarea class="qf-description" id="answer-detail" name="answer-detail">{$ppo->question.answer_detail}</textarea>
+        </div>
+    {/if}
     <div class="content-panel right">
         <input type="submit" class="qf-submit button button-save" value="{i18n key="quiz.question.answersSave" noEscape=1}"/>
     </div>
