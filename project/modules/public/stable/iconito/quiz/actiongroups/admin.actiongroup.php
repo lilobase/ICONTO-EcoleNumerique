@@ -470,7 +470,7 @@ class ActionGroupAdmin extends enicActionGroup
         $form['name'] = $this->request('aw-name');
         $form['id_quiz'] = $quizId;
         $form['content'] = $this->request('aw-content');
-        $form['answer_detail'] = $this->request('answer_detail');
+        $form['answer_detail'] = $this->request('answer-detail');
 
         //build global flash
         $this->flash->quizId = $quizId;
