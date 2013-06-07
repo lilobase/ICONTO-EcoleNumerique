@@ -83,7 +83,7 @@
 	<div class="content-panel center">
 		<a class="button button-cancel" href="{copixurl dest="quiz|default|default"}">{i18n key="quiz.msg.stop" noEscape=1}</a>
         {if $ppo->quiz.opt_show_results == 'each'}
-            <input class="button button-continue" type="submit" value="{i18n key="quiz.msg.showAnswer" noEscape=1}">
+            <input class="button button-continue" type="submit" value="{i18n key="quiz.msg.answer" noEscape=1}">
         {else}
             <input class="button button-continue" type="submit" value="{if $ppo->next === false}{i18n key="quiz.msg.endQuestion" noEscape=1}{else}{i18n key="quiz.msg.nextQuestion" noEscape=1}{/if}">
         {/if}
