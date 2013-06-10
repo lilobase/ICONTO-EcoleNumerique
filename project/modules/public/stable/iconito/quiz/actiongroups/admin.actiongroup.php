@@ -379,6 +379,7 @@ class ActionGroupAdmin extends enicActionGroup
         $this->js->confirm('#a-suppr', 'quiz.confirm.delAnsw');
 
         $ppo             = new CopixPPO();
+        $ppo->answerDetail  = $this->flash->has('answerDetail') ? $this->flash->answerDetail : $answerDatas['answer_detail'];
         $ppo->question  = $answerDatas;
         $ppo->addPicPopup = CopixZone::process ('kernel|wikibuttons', array('field'=>'aw-content', 'format'=>'ckeditor', 'object'=>array('type'=>'MOD_QUIZ', 'id'=>$id_gr_quiz), 'height'=>290));
         $ppo->tabsSelect = $tabDatas;
@@ -548,6 +549,7 @@ class ActionGroupAdmin extends enicActionGroup
         if ($valid[0] == false || $validAnswerDetail[0] == false){
             $this->flash->error = true;
             $this->flash->respDatas = $responses;
+            $this->flash->answerDetail = $answerDetailForm['answer_detail'];
 
             if ($valid[0] == false) {
                 $this->flash->errorMsg = $valid[1];

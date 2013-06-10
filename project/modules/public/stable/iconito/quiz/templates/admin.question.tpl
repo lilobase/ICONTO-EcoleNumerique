@@ -161,7 +161,7 @@ jQuery(document).ready(function($){
     {if $ppo->quiz.opt_show_results == 'each'}
         <div class="content-panel content-panel-edit">
             <label class="quiz-itemlist" for="aw-content">{i18n key="quiz.question.answerDetail" noEscape=1}</label>
-            <textarea class="qf-description" id="answer-detail" name="answer-detail">{$ppo->question.answer_detail}</textarea>
+            <textarea class="qf-description" id="answer-detail" name="answer-detail">{$ppo->answerDetail}</textarea>
         </div>
     {/if}
     <div class="content-panel right">
