@@ -447,10 +447,11 @@ class ActionGroupDefault extends enicActionGroup
         }
 
         // Les réponses de l'utilisateur
-        $ppo->error = CopixI18N::get('quiz.errors.wrongAnswer');
+
+        $ppo->error = null;
         foreach ($responses as $response) {
-            if (isset($ppo->validChoices[$response->id_choice])){
-                $ppo->error = null;
+            if (!isset($ppo->validChoices[$response->id_choice])){
+                $ppo->error = CopixI18N::get('quiz.errors.wrongAnswer');
                 break;
             }
         }
