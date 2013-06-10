@@ -332,19 +332,21 @@ class ActionGroupAdmin extends enicActionGroup
             $responsesDatas = $this->service('QuizService')->getChoices($answId);
         }
 
-        //if errors
+        // Texte affiché après réponse
+        $answerDetail  = $answerDatas['answer_detail'];
+
+        // if errors
         if ($error) {
             //if is datas in responses :
             if(isset($this->flash->respDatas)){
                 $responsesDatas = $this->flash->respDatas;
-
             //if is datas in answ
             }elseif(isset($this->flash->answDatas)){
                 $answerDatas = $this->flash->answDatas;
-
             }
-
             $errorDatas = $this->flash->errorMsg;
+
+            $answerDetail = $this->flash->answerDetail;
         }
 
         /*
@@ -370,16 +372,15 @@ class ActionGroupAdmin extends enicActionGroup
             $tabDatas = '';
         }
 
-
-
         $this->addCss('styles/module_quiz.css');
 
         $this->js->wysiwyg('#aw-content');
         $this->js->wysiwyg('#answer-detail');
         $this->js->confirm('#a-suppr', 'quiz.confirm.delAnsw');
 
-        $ppo             = new CopixPPO();
-        $ppo->answerDetail  = $this->flash->has('answerDetail') ? $this->flash->answerDetail : $answerDatas['answer_detail'];
+        $ppo = new CopixPPO();
+
+        $ppo->answerDetail  = $answerDetail;
         $ppo->question  = $answerDatas;
         $ppo->addPicPopup = CopixZone::process ('kernel|wikibuttons', array('field'=>'aw-content', 'format'=>'ckeditor', 'object'=>array('type'=>'MOD_QUIZ', 'id'=>$id_gr_quiz), 'height'=>290));
         $ppo->tabsSelect = $tabDatas;
@@ -393,17 +394,6 @@ class ActionGroupAdmin extends enicActionGroup
         $ppo->new = ($modifAction == 'modif') ? false : true;
         $ppo->quiz = $quizDatas;
 
-/*
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
-                            'type' => 'list-active',
-                            'url' => $this->url('quiz|default|default', array('qaction' => 'list')));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listAll'),
-                            'type' => 'list',
-                            'url' => $this->url('quiz|admin|list'));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
-                            'type' => 'create',
-                            'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
-*/
         return _arPPO($ppo, 'admin.question.tpl');
     }
 
@@ -538,7 +528,7 @@ class ActionGroupAdmin extends enicActionGroup
 
         // Texte affiché après réponse
         $answerDetailForm = array(
-            'answer_detail' => $this->request('answer-detail'),
+            'answer_detail' => _request('answer-detail', ''),
             'id_question' => $answId
         );
 
@@ -549,6 +539,7 @@ class ActionGroupAdmin extends enicActionGroup
         if ($valid[0] == false || $validAnswerDetail[0] == false){
             $this->flash->error = true;
             $this->flash->respDatas = $responses;
+
             $this->flash->answerDetail = $answerDetailForm['answer_detail'];
 
             if ($valid[0] == false) {
