@@ -526,31 +526,39 @@ class ActionGroupAdmin extends enicActionGroup
         $this->flash->typeAction = 'modif';
         $this->flash->modifAction = 'modif';
 
-        // Texte affiché après réponse
-        $answerDetailForm = array(
-            'answer_detail' => _request('answer-detail', ''),
-            'id_question' => $answId
-        );
-
         //check errors :
         $valid = $this->service('QuizService')->validResp($responses);
-        $validAnswerDetail = $this->service('QuizService')->validAnswerDetail($answerDetailForm);
 
-        if ($valid[0] == false || $validAnswerDetail[0] == false){
+        // Texte affiché après réponse
+        // 1) Récupération de la question et du quizz
+        $question = $this->service('QuizService')->getQuestion($answId);
+        $quiz = $this->service('QuizService')->getQuizDatas($question['id_quiz']);
+
+        // 2) Récupération de la valeur saisie
+        $answerDetail = _request('answer-detail', '');
+
+        // Contrôle de la valeur saisie
+        $answerDetailValidation = $this->service('QuizService')->validAnswerDetail($quiz, $answerDetail);
+
+        if ($valid[0] == false || $answerDetailValidation[0] == false){
             $this->flash->error = true;
             $this->flash->respDatas = $responses;
 
-            $this->flash->answerDetail = $answerDetailForm['answer_detail'];
+            $this->flash->answerDetail = $answerDetail;
 
             if ($valid[0] == false) {
                 $this->flash->errorMsg = $valid[1];
             }
-            elseif ($validAnswerDetail[0] == false) {
-                $this->flash->errorMsg = $validAnswerDetail[1];
+            elseif ($answerDetailValidation[0] == false) {
+                $this->flash->errorMsg = $answerDetailValidation[1];
             }
 
             return $this->go('quiz|admin|questions', array('tabs' => 1));
         }
+
+        // Sauvegarde de la question (texte affiché après réponse)
+        $question['answer_detail'] = $answerDetail;
+        $this->service('QuizService')->updateAnsw($question);
 
         //deletes previous question :
         $this->service('QuizService')->delResp($answId);

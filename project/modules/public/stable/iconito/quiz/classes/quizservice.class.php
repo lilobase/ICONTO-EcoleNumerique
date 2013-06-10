@@ -279,27 +279,27 @@ GROUP BY quiz.id
         return $oReturn;
     }
 
-    public function validAnswerDetail($data)
+    /**
+     * Validation du texte affiché après réponse
+     *
+     * @param array $quiz Quiz
+     * @param string $answerDetail Texte affiché après réponse (détail de la réponse)
+     *
+     * @return array
+     */
+    public function validAnswerDetail($quiz, $answerDetail)
     {
-        $question = $this->getQuestion($data['id_question']);
-        $quiz = $this->getQuizDatas($question['id_quiz']);
         $errors = array();
+        $toReturn = array();
 
-        if($quiz['opt_show_results'] == 'each' && empty($data['answer_detail'])) {
+        if ($quiz['opt_show_results'] == 'each' && empty($answerDetail)) {
             $errors['answer_detail'] = 'Vous devez saisir un texte d\'explication affiché après réponse';
         }
 
-        $question['answer_detail'] = $data['answer_detail'];
+        $toReturn[0] = empty($errors);
+        $toReturn[1] = $errors;
 
-        $valid = $this->validAnsw($question);
-        if ($valid[0] && empty($errors)) {
-            $this->updateAnsw($question);
-        }
-
-        $oReturn[] = empty($errors);
-        $oReturn[] = $errors;
-
-        return $oReturn;
+        return $toReturn;
     }
 
     public function delResp($iIdAnsw)
