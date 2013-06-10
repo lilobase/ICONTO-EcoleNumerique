@@ -1,4 +1,3 @@
-
 {if !empty($ppo->help)}
     <div id="help-data" title="{i18n key="quiz.msg.info" noEscape=1}">{$ppo->help}</div>
 {/if}
@@ -42,25 +41,23 @@
                         {/if}
                     {/foreach}
 		</div>
-		
-		{if $ppo->userResp || $ppo->error}
-		<div class="qd-usermsg">
-		{/if}
-		{if $ppo->userResp}
-		{i18n key="quiz.msg.alreadyResp" noEscape=1}
-		{/if}
-		{if $ppo->error}
-		{$ppo->error}
-		{/if}
-		{if $ppo->userResp || $ppo->error}
-		</div>
-		{/if}
 
+        {if $ppo->error}
+            <div class="qd-usererror">
+                {$ppo->error}
+            </div>
+        {/if}
+
+		{if $ppo->userResp}
+		    <div class="qd-usermsg">
+		        {i18n key="quiz.msg.alreadyResp" noEscape=1}
+            </div>
+		{/if}
 
 		<div class="qd-question">
 			<div class="qd-title">{$ppo->question.name}</div>
 			{$ppo->question.content}
-	
+
 			{if $ppo->type == radio}
 			<ul class="qd-propositions">
 				{foreach from=$ppo->choices item=choice}
@@ -88,6 +85,6 @@
             <input class="button button-continue" type="submit" value="{if $ppo->next === false}{i18n key="quiz.msg.endQuestion" noEscape=1}{else}{i18n key="quiz.msg.nextQuestion" noEscape=1}{/if}">
         {/if}
     </div>
-	
+
 </div>
 </form>

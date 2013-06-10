@@ -381,4 +381,56 @@ GROUP BY quiz.id
         return $this->db->query('SELECT * FROM module_quiz_choices WHERE id_question = '.$iQid.' ORDER BY `order`')->toArray();
     }
 
+    /**
+     * Récupère un quiz à partir de la qSession
+     *
+     * @param string $parameterName Nom du paramètre en session stockant l'ID du quiz
+     *
+     * @return array
+     */
+    public function getQuizFromQSession($parameterName)
+    {
+        if (is_null(qSession($parameterName))) {
+            return CopixActionGroup::process('quiz|default::Quiz', array('id' => false));
+        }
+
+        return _dao('quiz_quiz')->get(qSession($parameterName));
+    }
+
+    /**
+     * Sauvegarde des réponses à une question
+     *
+     * @param array $pResponse Réponses
+     * @param int $questionId ID de question
+     * @param string $questionType Type de question (choix multiple ?)
+     * @param object $user Utilisateur
+     *
+     * @return array
+     */
+    public function save($pResponse, $questionId, $questionType, $user)
+    {
+        $responses = array();
+
+        // Suppression des infos précédentes
+        $userId = $user->id;
+        $criteres = _daoSp()->addCondition('id_user', '=', $userId)
+                ->addCondition('id_question', '=', $questionId, 'and');
+        _dao('quiz_response_insert')->deleteBy($criteres);
+
+        $optType = ($questionType == 'choice') ? 'radio' : 'txt';
+        if ($optType == 'radio') {
+            foreach ($pResponse as $response){
+                $record = _record('quiz_response_insert');
+                $record->id_user = $userId;
+                $record->id_choice = (int)$response;
+                $record->id_question = $questionId;
+                $record->date = time();
+                _dao('quiz_response_insert')->insert($record);
+
+                $responses[] = $record;
+            }
+        }
+
+        return $responses;
+    }
 }
