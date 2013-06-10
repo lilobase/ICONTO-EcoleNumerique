@@ -283,13 +283,16 @@ GROUP BY quiz.id
     {
         $question = $this->getQuestion($data['id_question']);
         $quiz = $this->getQuizDatas($question['id_quiz']);
+        $errors = array();
 
         if($quiz['opt_show_results'] == 'each' && empty($data['answer_detail'])) {
             $errors['answer_detail'] = 'Vous devez saisir un texte d\'explication affiché après réponse';
         }
 
         $question['answer_detail'] = $data['answer_detail'];
-        if (!count(array_merge($errors, $this->validAnsw($question)))) {
+
+        $valid = $this->validAnsw($question);
+        if ($valid[0] && empty($errors)) {
             $this->updateAnsw($question);
         }
 

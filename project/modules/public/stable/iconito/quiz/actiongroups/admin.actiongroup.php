@@ -535,28 +535,29 @@ class ActionGroupAdmin extends enicActionGroup
         $this->flash->typeAction = 'modif';
         $this->flash->modifAction = 'modif';
 
-        //check error :
-        $valid = $this->service('QuizService')->validResp($responses);
-        if($valid[0] == false){
-            $this->flash->error = true;
-            $this->flash->errorMsg = $valid[1];
-            $this->flash->respDatas = $responses;
-            return $this->go('quiz|admin|questions', array('tabs' => 1));
-        }
-
+        // Texte affiché après réponse
         $answerDetailForm = array(
             'answer_detail' => $this->request('answer-detail'),
             'id_question' => $answId
         );
 
-        $valid = $this->service('QuizService')->validAnswerDetail($answerDetailForm);
-        if($valid[0] == false){
+        //check errors :
+        $valid = $this->service('QuizService')->validResp($responses);
+        $validAnswerDetail = $this->service('QuizService')->validAnswerDetail($answerDetailForm);
+
+        if ($valid[0] == false || $validAnswerDetail[0] == false){
             $this->flash->error = true;
-            $this->flash->errorMsg = $valid[1];
             $this->flash->respDatas = $responses;
+
+            if ($valid[0] == false) {
+                $this->flash->errorMsg = $valid[1];
+            }
+            elseif ($validAnswerDetail[0] == false) {
+                $this->flash->errorMsg = $validAnswerDetail[1];
+            }
+
             return $this->go('quiz|admin|questions', array('tabs' => 1));
         }
-
 
         //deletes previous question :
         $this->service('QuizService')->delResp($answId);
@@ -564,6 +565,7 @@ class ActionGroupAdmin extends enicActionGroup
         $this->service('QuizService')->newResp($responses);
 
         $this->flash->success = $this->i18n('quiz.question.answersSuccess');
+
         return $this->go('quiz|admin|questions', array('tabs' => 1));
     }
 
