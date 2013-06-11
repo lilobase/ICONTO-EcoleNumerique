@@ -7,6 +7,12 @@
 
 class DAORecordCahierDeTextesMemo
 {
+    public function getClasse ()
+    {
+        $dao = _ioDAO('kernel|kernel_bu_ecole_classe');
+
+        return $dao->get($this->classe_id);
+    }
 }
 
 class DAOCahierDeTextesMemo
@@ -62,6 +68,41 @@ class DAOCahierDeTextesMemo
         $criteria->orderBy (array ('id' , 'DESC'));
 
         return $this->findBy ($criteria);
+  }
+
+  /**
+   * Retourne les mémos pour une classe donnée
+   *
+   * @param int   $idEcole
+   * @param bool  $current (mémos valide à la date du jour ?)
+   *
+   * @return CopixDAORecordIterator
+   */
+  public function findByEcole ($idEcole, $current = false)
+  {
+      $sql = <<<SQL
+          SELECT ctm.*, kbec.nom as nom_classe, kme.module_id as cahier_id
+          FROM module_cahierdetextes_memo AS ctm
+          LEFT JOIN kernel_bu_ecole_classe kbec ON ctm.kernel_bu_ecole_classe_id = kbec.id
+          INNER JOIN kernel_bu_annee_scolaire kbas ON kbec.annee_scol = kbas.id_as
+          LEFT JOIN kernel_mod_enabled kme ON ctm.kernel_bu_ecole_classe_id = kme.node_id
+          WHERE ecole = :idEcole
+          AND kbas.current = 1
+          AND ctm.supprime = 0
+          AND kme.node_type = 'BU_CLASSE'
+          AND kme.module_type = 'MOD_CAHIERDETEXTES'
+SQL;
+
+        if ($current) {
+
+          $sql .= ' AND (ctm.date_validite >= '.date('Ymd')
+            . ' OR ctm.date_validite IS NULL)';
+        }
+
+      $sql .= ' GROUP BY ctm.id'
+        . ' ORDER BY ctm.date_creation DESC, ctm.id DESC';
+
+        return _doQuery ($sql, array(':idEcole' => $idEcole));
   }
 
   /**

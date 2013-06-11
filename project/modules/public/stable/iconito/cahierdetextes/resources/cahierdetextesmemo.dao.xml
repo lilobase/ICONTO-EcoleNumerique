@@ -16,6 +16,7 @@
     <property name="date_max_signature" fieldname="date_max_signature" type="string" required="no" maxlength="14"/>
     <property name="supprime" fieldname="supprime" type="integer" required="yes" default="0"/>
     <property name="timestamp" fieldname="timestamp" type="datetime"/>
+    <property name="created_by_role" fieldname="created_by_role" type="integer" required="yes" />
   </properties>
   <methods>
   </methods>

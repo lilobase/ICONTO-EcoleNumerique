@@ -127,7 +127,7 @@ class Kernel
         return ($level);
     }
 
-    public function setLevel($node_type, $node_id, $user_type, $user_id, $droit, $debut = null, $fin = null)
+    public function setLevel( $node_type, $node_id, $user_type, $user_id, $droit, $debut=null, $fin=null )
     {
         $dao = _dao("kernel|kernel_link_user2node");
         if ($droit == 0) {
@@ -138,11 +138,11 @@ class Kernel
             $nouveau_droit->user_type = $user_type;
             $nouveau_droit->user_id   = $user_id;
             $nouveau_droit->node_type = $node_type;
-            $nouveau_droit->node_id   = $node_id;
-            $nouveau_droit->droit     = $droit;
-            $nouveau_droit->debut     = ($debut) ? $debut : null;
-            $nouveau_droit->fin       = ($fin) ? $fin : null;
-            $dao->insert($nouveau_droit);
+            $nouveau_droit->node_id = $node_id;
+            $nouveau_droit->droit = $droit;
+            $nouveau_droit->debut = ($debut) ? $debut : null;
+            $nouveau_droit->fin = ($fin) ? $fin : null;
+            $dao->insert( $nouveau_droit );
         }
     }
 
@@ -1665,6 +1665,16 @@ class Kernel
             $modules[]                       = $modClassParameters;
         }
 
+        _ioDAO('kernel|kernel_bu_personnel_entite'); // Pour accéder aux constantes de roles
+        if( Kernel::hasRole(DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL, 'ecole', $node_id) && $node_type == "BU_ECOLE") {
+            $cahierdetexte->node_type   = $node_type;
+            $cahierdetexte->node_id     = $node_id;
+            $cahierdetexte->module_type = 'MOD_CAHIERDETEXTES';
+            $cahierdetexte->module_id   = $node_id;
+            $cahierdetexte->module_nom	= Kernel::Code2Name ('SUBMODULE_MEMO');
+            $modules[] = clone $cahierdetexte;
+        }
+
         // _dump($modules);
         if ($notification) {
             Kernel::getModlistNotifications($modules);
@@ -1674,7 +1684,22 @@ class Kernel
         return $modules;
     }
 
-    public function getModParent($type, $id)
+    /**
+     * Détermine si un utilisateur dispose du rôle passé en paramètre sur une ressource donnée
+     *
+     * @param integer $role     Le rôle recherché
+     * @param string  $linkType Le type de noeud sur lequel le rôle est recherché ('ville', 'ecole'...)
+     * @param integer $nodeId   L'identifiant du noeud pour lequel on veut vérifier le rôle
+     *
+     * @return bool
+     */
+    public function hasRole($role, $linkType, $nodeId)
+    {
+        $userInfos = self::getUserInfo();
+        return in_array($role, $userInfos['link']->$linkType);
+    }
+
+    public function getModParent( $type, $id )
     {
         //echo "getModParent ($type,$id)";
         $dao    = _dao("kernel|kernel_mod_enabled");
@@ -1722,8 +1747,9 @@ class Kernel
     {
         // Kernel::deb ("getModRight( $mod_type, $mod_id, $user_type, $user_id )");
         $droit = 0;
+
         if ($mod_type == "MOD_MINIMAIL") {
-            return (_currentUSer()->isConnected()) ? PROFILE_CCV_ADMIN : 0;
+            return (_currentUser()->isConnected()) ? PROFILE_CCV_ADMIN : 0;
         }
         if ($user_type == "-1" && $user_id == "-1") {
             if ((_currentUser()->getExtra('type')) && (_currentUser()->getExtra('id'))) {
@@ -2153,6 +2179,25 @@ class Kernel
     public function isEnseignantOfClasse($idClasse)
     {
         return (_currentUser()->getExtra('type') == 'USER_ENS' && array_key_exists($idClasse, _currentUser()->getExtra('link')->classe));
+    }
+
+    /**
+     * Permet de savoir si la personne connecté est directeur de la classe $idClasse
+     *
+     * @param int $idClasse L'identifiant de la classe
+     *
+     * @return bool
+     */
+    public function isDirecteurOfClasse ($idClasse)
+    {
+        _classInclude('kernel|DAOKernel_bu_personnel_entite');
+
+        $userInfo = Kernel::getUserInfo();
+
+        return (
+            isset($userInfo['link']->ecole[$idClasse])
+            && ($userInfo['link']->ecole[$idClasse] == DAOKernel_bu_personnel_entite::ROLE_PRINCIPAL)
+        );
     }
 
     /**

@@ -179,6 +179,9 @@ div.dashboard div.content {
 	background:#fff;
 	overflow:hidden;
 }
+#cahierdetextes .memos-list .memo .memoClasse {
+    text-align:right;
+}
 #cahierdetextes .memos-list .memo .memoDate {
 	margin:0 0 5px;
 	color:#999;

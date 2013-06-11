@@ -33,12 +33,12 @@ class DAOCahierDeTextesMemo2eleve
     }
 
     /**
-   * Retourne le suivi des élèves concernés par un memo
-   *
-   * @param int $idMemo
-   *
-   * @return array
-   */
+     * Retourne le suivi des élèves concernés par un memo
+     *
+     * @param int $idMemo
+     *
+     * @return array
+     */
     public function findSuiviElevesParMemo ($idMemo)
     {
       $toReturn = array();

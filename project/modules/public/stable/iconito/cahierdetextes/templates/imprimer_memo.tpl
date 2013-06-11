@@ -1,8 +1,12 @@
 <div id="submenu">
 <div class="menuitems">
     <ul>
-      <li><a href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" class="back"><span class="valign"></span><span>Retour</span></a></li>
-      <li><a class="print"><span class="valign"></span><span>Imprimer</span></a></li>
+        {if $ppo->memoContext == 'ecole'}
+            <li><a href="{copixurl dest="cahierdetextes|memodirecteur|voir" ecoleId=$ppo->ecoleId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" class="back"><span class="valign"></span><span>Retour</span></a></li>
+        {else}
+            <li><a href="{copixurl dest="cahierdetextes||voirMemos" cahierId=$ppo->cahierId jour=$ppo->jour mois=$ppo->mois annee=$ppo->annee}" class="back"><span class="valign"></span><span>Retour</span></a></li>
+        {/if}
+        <li><a class="print"><span class="valign"></span><span>Imprimer</span></a></li>
     </ul>
 </div>
 </div>
