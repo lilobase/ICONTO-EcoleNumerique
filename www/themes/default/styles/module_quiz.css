@@ -1,4 +1,4 @@
-/* 
+/*
     Document   : module_quiz.css
     Created on : 21 juil. 2010, 17:59:03
     Author     : S.HOLTZ
@@ -18,7 +18,7 @@
     border-bottom: solid 1px;
     margin-bottom: 8px;
 	}
-	
+
 .quiz h4{
     text-align: center;
 	}
@@ -71,7 +71,7 @@
 	border-bottom: solid 1px #f0f4f0;
 	}
 
-.quiz-colstart	{ 
+.quiz-colstart	{
 	background: #fff url(../images/quiz_icon_65.png) 4px 50% no-repeat;
 	padding-left: 72px;
 	-moz-border-radius-topleft: 12px;
@@ -79,7 +79,7 @@
 	-webkit-border-top-left-radius: 12px;
 	-webkit-border-bottom-left-radius: 12px;
 	}
-	
+
 .quiz-col48		{ width: 48px; }
 .quiz-col80		{ width: 80px; }
 .quiz-col100	{ width: 100px; }
@@ -98,7 +98,7 @@
 div.quiz-title {
     font-weight: bold;
 	}
-	
+
 div.quiz-description {
     font-style: italic;
 	}
@@ -127,7 +127,7 @@ form.quiz input[type="text"], #quiz-form textarea {
 	-webkit-border-radius: 6px;
 	padding: 3px;
 	}
-	
+
 form.quiz input[type="text"]:hover, #quiz-form textarea:hover {
 	border: solid 1px #bad521;
 	-moz-border-radius: 6px;
@@ -139,13 +139,13 @@ form.quiz input[type="text"]:hover, #quiz-form textarea:hover {
 form.quiz .col-main {
 	margin-right: 116px;
 	}
-	
+
 form.quiz .col-right {
 	float: right;
 	width: 110px;
 	margin-left: -110px;
 	}
-	
+
 form.quiz .qf-title {
 	font-size: 100%;
 	width: 95%;
@@ -221,7 +221,7 @@ input.qf-date {
 	padding: 0px;
     list-style: none;
 	}
-	
+
 #qf-answers li {
 	vertical-align: bottom;
 	-moz-border-radius: 6px;
@@ -232,11 +232,11 @@ input.qf-date {
 	padding:0px;
 	background: #ffffff url(../images/drag_handle_off.png) 0 50% no-repeat;
 	}
-	
+
 #qf-answers li.drag-on {
 	background: #faf9d9 url(../images/drag_handle_on.png) 0 50% no-repeat;
 	}
-	
+
 #qf-answer-tpl {
 	display: none;
 	}
@@ -246,11 +246,11 @@ input.qf-date {
  ***********************************************/
 #quiz-adm{
 	}
-	
+
 #quiz-adm-all{
 	width: 100%;
 	}
-	
+
 #quiz-adm-all th{
 	height: 20px;
 	font-size: 14px;
@@ -330,6 +330,14 @@ input.qf-date {
 	border-bottom: solid 1px #ddd;
 	}
 
+#quiz-do .qd-usererror {
+    text-align: center;
+    color: red;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: solid 1px #ddd;
+}
+
 #quiz-do .qd-msg {
 	margin-top: 20px;
 	font-size: 80%;
@@ -368,14 +376,14 @@ input.qf-date {
 	padding-bottom: 6px;
 	border-bottom: solid 1px #ddd;
 	}
-	
+
 #quiz-do ul.qd-propositions {
     list-style: none;
     margin: 0px;
     padding: 0px;
     margin-bottom: 6px;
 	}
-	
+
 #quiz-do ul.qd-propositions li{
 	font-weight: bold;
 	}
@@ -392,23 +400,23 @@ input.qf-date {
 
 #quiz-do .qd-button-back {
 	float: left;
-	background: url(../images/quiz_arrows_back_off.png) 100% 50% no-repeat;	
+	background: url(../images/quiz_arrows_back_off.png) 100% 50% no-repeat;
 	}
 #quiz-do .qd-button-back:hover {
-	background: url(../images/quiz_arrows_back_on.png) 100% 50% no-repeat;	
+	background: url(../images/quiz_arrows_back_on.png) 100% 50% no-repeat;
 	}
 
 #quiz-do .qd-button-next {
 	float: right;
-	background: url(../images/quiz_arrows_next_off.png) 0 50% no-repeat;	
+	background: url(../images/quiz_arrows_next_off.png) 0 50% no-repeat;
 	}
 #quiz-do .qd-button-next:hover {
-	background: url(../images/quiz_arrows_next_on.png) 0 50% no-repeat;	
+	background: url(../images/quiz_arrows_next_on.png) 0 50% no-repeat;
 	}
 #help-data {
 	display: none;
 	}
-	
+
 #quiz-end {
 	display: block;
     width: 240px;
