@@ -12,13 +12,13 @@
  * Type:     function<br>
  * Name:     user<br>
  * Date:     06/04/2006
- * Purpose:  Affiche une personne en rendant éventuellement son nom cliquable pour détailler son profil, et éventuellement l'enveloppe pour lui écrire un minimail.<br>
+ * Purpose:  Affiche une personne en rendant ï¿½ventuellement son nom cliquable pour dï¿½tailler son profil, et ï¿½ventuellement l'enveloppe pour lui ï¿½crire un minimail.<br>
  * Input:<br>
- *         - label = nom à afficher (nom, nom+prénom, login...)
- *         - userType = (optional) type d'utilisateur. Nécessaire pour rendre le label cliquable et afficher son profil
- *         - userId = (optional) id d'utilisateur. Nécessaire pour rendre le label cliquable et afficher son profil
- *         - dispMail = (optional) 1 pour afficher l'enveloppe permettant d'écrire un minimail
- *         - login = (optional) login de l'utilisateur. Nécessaire pour afficher l'enveloppe
+ *         - label = nom ï¿½ afficher (nom, nom+prï¿½nom, login...)
+ *         - userType = (optional) type d'utilisateur. Nï¿½cessaire pour rendre le label cliquable et afficher son profil
+ *         - userId = (optional) id d'utilisateur. Nï¿½cessaire pour rendre le label cliquable et afficher son profil
+ *         - dispMail = (optional) 1 pour afficher l'enveloppe permettant d'ï¿½crire un minimail
+ *         - login = (optional) login de l'utilisateur. Nï¿½cessaire pour afficher l'enveloppe
  *         - linkAttribs = (optional) attributs HTML de la balise A HREF entourant le label
  *				 - assign   = (optional) name of the template variable we'll assign
  *                      the output to instead of displaying it directly
@@ -69,7 +69,8 @@ function smarty_function_user ($params, &$smarty)
         } else
             $res = $label;
 
-        if ($params['dispMail']==1 && $params['login']) {
+        _classInclude('minimail|MinimailService');
+        if ($params['dispMail']==1 && $params['login'] && MinimailService::hasUserAccess()) {
 
             $url = CopixUrl::get ('minimail||getNewForm', array('login'=>$params['login']));
             $res .= '&nbsp;<A HREF="'.$url.'"><IMG WIDTH="12" HEIGHT="9" SRC="'.CopixUrl::getResource ("img/minimail/new_minimail.gif").'" ALT="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" TITLE="'.htmlentities(CopixI18N::get ('annuaire|annuaire.writeMinimail')).'" BORDER="0" /></A>';
