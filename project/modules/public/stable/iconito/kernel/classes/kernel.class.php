@@ -1245,21 +1245,21 @@ class Kernel
                     $user["nom"]      = $reponsable->res_nom;
                     $user["prenom"]   = $reponsable->res_prenom1;
                     $user["civilite"] = $reponsable->res_civilite;
-                    $user["sexe"]     = $reponsable->res_id_sexe;
-                    $user["ALL"]      = $reponsable;
-                    $user['link']     = array();
-                    $parents = Kernel::getNodeParents("USER_RES", $userval->bu_id);
-                    foreach ($parents AS $parent) {
-                        switch ($parent['type']) {
+                    $user["sexe"] = $reponsable->res_id_sexe;
+                    $user["ALL"] = $reponsable;
+                    $user['link'] = new stdClass();
+
+                    $parents = Kernel::getNodeParents ("USER_RES", $userval->bu_id);
+
+                    foreach ( $parents AS $parent ) {
+                        switch ( $parent['type'] ) {
                             case "USER_ELE":
-                                if (isset($parent['link'])) {
-                                    foreach ($parent['link'] as $nodeType => $nodeValue) {
-                                        if (!isset($user['link'][$nodeType])) {
-                                            $user['link'][$nodeType] = array();
-                                        }
-                                        foreach ($nodeValue as $id => $value) {
-                                            $user['link'][$nodeType][$id] = $value;
-                                        }
+                                if(isset($parent['link'])) foreach ($parent['link'] as $nodeType => $nodeValue) {
+                                    if (!isset($user['link']->$nodeType)) {
+                                        $user['link']->$nodeType = array();
+                                    }
+                                    foreach ($nodeValue as $id => $value) {
+                                        $user['link']->{$nodeType}[$id] = 1;
                                     }
                                 }
                                 break;
