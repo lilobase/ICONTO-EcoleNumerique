@@ -209,6 +209,7 @@ class DAOCahierDeTextesTravail
           $toReturn[$result->date_creation][$result->a_faire][] = $result;
         }
       }
+      ksort($toReturn);
 
       return $toReturn;
     }
@@ -259,6 +260,7 @@ class DAOCahierDeTextesTravail
           $toReturn[$result->date_creation][$result->a_faire][] = $result;
         }
       }
+      ksort($toReturn);
 
       return $toReturn;
     }
