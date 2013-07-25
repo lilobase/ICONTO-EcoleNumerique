@@ -33,17 +33,17 @@ abstract class enicZone extends CopixZone
         enic::to_load('matrix');
 
         //load enic classes in current object :
-        $this->user         =& enic::get('user');
-        $this->options      =& enic::get('options');
-        $this->matrix       =& enic::get('matrixCache');
-        $this->model        =& enic::get('model');
-        $this->db           =& enic::get('model');
-        $this->js           =& enic::get('javascript');
-        $this->css          =& enic::get('css');
-        $this->session      =& enic::get('session');
-        $this->flash        =& enic::get('flash');
-        $this->html         =& enic::get('html');
-        $this->helpers      =& enic::get('helpers');
+        $this->user         = enic::get('user');
+        $this->options      = enic::get('options');
+        $this->matrix       = enic::get('matrixCache');
+        $this->model        = enic::get('model');
+        $this->db           = enic::get('model');
+        $this->js           = enic::get('javascript');
+        $this->css          = enic::get('css');
+        $this->session      = enic::get('session');
+        $this->flash        = enic::get('flash');
+        $this->html         = enic::get('html');
+        $this->helpers      = enic::get('helpers');
 
         //define properties :
         $this->module   = $this->helpers->module;

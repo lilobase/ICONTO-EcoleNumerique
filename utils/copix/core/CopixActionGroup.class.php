@@ -245,6 +245,7 @@ class CopixActionGroup
         if ($extractedPath === null) {
             throw new Exception (_i18n ('copix:copix.error.load.actiongroup', $pPath));
         }
+        if (extension_loaded ('newrelic')) newrelic_name_transaction ($pPath);
 
         $actiongroup = CopixActionGroup::instance ($extractedPath);
         $methName = ($pFromDesc === false) ? 'process' . $extractedPath->method : $extractedPath->method;
