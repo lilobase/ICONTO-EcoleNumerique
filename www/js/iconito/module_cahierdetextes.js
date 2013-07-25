@@ -174,42 +174,48 @@ jQuery(document).ready(function($){
 	/**********************************************************************/
 	/*  Sélections dans la liste des élèves  */
 	/**********************************************************************/
-	checkboxChange();
-    
-    $('#check_all').click(function () {
-		if ($('#check_all').is(':checked'))
-			$(':checkbox[name^=eleves]').attr('checked', 'checked');
-		else
-			$(':checkbox[name^=eleves]').removeAttr('checked');
+
+    var checkAllCheckbox = $('#check_all');
+    var tableRows        = checkAllCheckbox.parents('table:first').find('tbody tr');
+    var linkedCheckboxes = tableRows.find('td.check :checkbox');
+    var levelCheckBoxes  = $(':checkbox[name^=niveaux]');
+
+    checkAllCheckbox.click(function () {
+		if ($(this).is(':checked')) {
+            linkedCheckboxes.attr('checked', 'checked');
+        }
+		else {
+            linkedCheckboxes.removeAttr('checked');
+        }
 		checkboxChange();
     });
 
-    $(':checkbox[name^=niveaux]').click(function () {
+    levelCheckBoxes.click(function () {
 		var level = $(this).val();
 		if ($(this).is(':checked'))
-			$('.'+level).find('td.check :checkbox').attr('checked', 'checked');
+            tableRows.filter('.'+level).find('td.check :checkbox').attr('checked', 'checked');
 		else
-			$('.'+level).find('td.check :checkbox').removeAttr('checked');
+            tableRows.filter('.'+level).find('td.check :checkbox').removeAttr('checked');
 		checkboxChange();
     });
-    
-    $('tbody :checkbox').change(function() {
+
+    linkedCheckboxes.change(function() {
         checkboxChange();
     });
-    
-    function checkboxChange() 
+
+    var checkboxChange = function ()
 	{
-        var all_checkboxes = $('tbody :checkbox').size();
-        var all_checked    = $('tbody :checkbox').filter(':checked').size();
-        if (all_checkboxes == all_checked) 
-	    	$('#check_all').attr('checked', 'checked');
+        var all_checkboxes = linkedCheckboxes.size();
+        var all_checked    = linkedCheckboxes.filter(':checked').size();
+        if (all_checkboxes == all_checked)
+            checkAllCheckbox.attr('checked', 'checked');
         else
-        	$('#check_all').removeAttr('checked');
-        
-        $(':checkbox[name^=niveaux]').each(function() {
+            checkAllCheckbox.removeAttr('checked');
+
+        levelCheckBoxes.each(function() {
         	var level = $(this).val();
-        	var level_checkboxes = $('.'+level).find('td.check :checkbox').size();
-        	var level_checked = $('.'+level).find('td.check :checkbox').filter(':checked').size();
+        	var level_checkboxes = tableRows.filter('.'+level).find('td.check :checkbox').size();
+        	var level_checked = tableRows.filter('.'+level).find('td.check :checkbox').filter(':checked').size();
         	if (level_checkboxes == level_checked) 
 				$(this).attr('checked', 'checked');
         	else 
@@ -217,6 +223,8 @@ jQuery(document).ready(function($){
         
       	});
     };
+
+    checkboxChange();
     
 	
 	/**********************************************************************/

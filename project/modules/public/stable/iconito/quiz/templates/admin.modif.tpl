@@ -28,7 +28,6 @@
 
 <form id="quiz-form" class="quiz" method="post" action="{$ppo->action}">
 
-	<input type="hidden" name="qf-optshow" value="never" />
 	<input type="hidden" name="check" value="1" />
 	<input type="hidden" name="quizId" value="{$ppo->quiz.id}" />
 
@@ -60,14 +59,14 @@
 			<label><a href="" id="qf-opt-show" >{i18n key="quiz.form.help" noEscape=1}</a></label>
 			<div id="qf-opt-hide"><textarea id="qf-help" name="qf-help">{$ppo->quiz.help}</textarea></div>
 		</div>
-<!--
+
 		<div class="content-panel">
 			<span class="qf-label">{i18n key="quiz.form.optshow" noEscape=1}</span>
-			<input type="radio" name="qf-optshow" value="never"><label for="qf-optshow">{i18n key="quiz.form.optshowNever" noEscape=1}</label>
-			<input type="radio" name="qf-optshow" value="each"><label for="qf-optshow">{i18n key="quiz.form.optshowEach" noEscape=1}</label>
-			<input type="radio" name="qf-optshow" value="endquiz"><label for="qf-optshow">{i18n key="quiz.form.optshowEndquiz" noEscape=1}</label>
+			<input type="radio" name="qf-optshow" id="qf-optshow-never" value="never" {if $ppo->quiz.opt_show_results == 'never'}checked{/if}><label for="qf-optshow-never">{i18n key="quiz.form.optshowNever" noEscape=1}</label>
+			<input type="radio" name="qf-optshow" id="qf-optshow-each" value="each" {if $ppo->quiz.opt_show_results == 'each' || !$ppo->quiz.opt_show_results}checked{/if}><label for="qf-optshow-each">{i18n key="quiz.form.optshowEach" noEscape=1}</label>
+			{*<input type="radio" name="qf-optshow" value="endquiz"><label for="qf-optshow">{i18n key="quiz.form.optshowEndquiz" noEscape=1}</label>*}
 		</div>
--->
+
 		
 	</div>
 

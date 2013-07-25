@@ -23,11 +23,11 @@
  */
 function smarty_modifier_login ($login)
 {
+    _classInclude('minimail|MinimailService');
+    if (MinimailService::hasUserAccess()) {
+        return $login.' <A TITLE="'.htmlentities(CopixI18N::get ('minimail|minimail.writeHim')).'" HREF="'.CopixUrl::get ('minimail||getNewForm', array('login'=>$login)).'"><IMG SRC="'._resource('img/minimail/new_minimail.gif').'" WIDTH="12" HEIGHT="9" BORDER="0" /></A>';
+    }
 
-    return $login.' <A TITLE="'.htmlentities(CopixI18N::get ('minimail|minimail.writeHim')).'" HREF="'.CopixUrl::get ('minimail||getNewForm', array('login'=>$login)).'"><IMG SRC="'._resource('img/minimail/new_minimail.gif').'" WIDTH="12" HEIGHT="9" BORDER="0" /></A>';
-
-
-
-
+    return $login;
 }
 

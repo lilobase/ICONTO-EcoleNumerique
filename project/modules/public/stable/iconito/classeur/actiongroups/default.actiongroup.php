@@ -1893,6 +1893,9 @@ class ActionGroupDefault extends enicActionGroup
 
         $extension = strtolower(strrchr($_FILES['fichiers']['name'][0], '.'));
         $fichierPhysique = $dir.$ppo->fichier->id.'-'.$ppo->fichier->cle.$extension;
+          if (!file_exists(dirname($fichierPhysique))) {
+              mkdir(dirname($fichierPhysique), 0755, true);
+          }
         move_uploaded_file ($_FILES['fichiers']['tmp_name'][0], $fichierPhysique);
 
         ClasseurService::doAutoRotateJpegByOrientation( $fichierPhysique, $extension );

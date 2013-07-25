@@ -332,19 +332,21 @@ class ActionGroupAdmin extends enicActionGroup
             $responsesDatas = $this->service('QuizService')->getChoices($answId);
         }
 
-        //if errors
+        // Texte affiché après réponse
+        $answerDetail  = $answerDatas['answer_detail'];
+
+        // if errors
         if ($error) {
             //if is datas in responses :
             if(isset($this->flash->respDatas)){
                 $responsesDatas = $this->flash->respDatas;
-
             //if is datas in answ
             }elseif(isset($this->flash->answDatas)){
                 $answerDatas = $this->flash->answDatas;
-
             }
-
             $errorDatas = $this->flash->errorMsg;
+
+            $answerDetail = $this->flash->answerDetail;
         }
 
         /*
@@ -370,14 +372,15 @@ class ActionGroupAdmin extends enicActionGroup
             $tabDatas = '';
         }
 
-
-
         $this->addCss('styles/module_quiz.css');
 
         $this->js->wysiwyg('#aw-content');
+        $this->js->wysiwyg('#answer-detail');
         $this->js->confirm('#a-suppr', 'quiz.confirm.delAnsw');
 
-        $ppo             = new CopixPPO();
+        $ppo = new CopixPPO();
+
+        $ppo->answerDetail  = $answerDetail;
         $ppo->question  = $answerDatas;
         $ppo->addPicPopup = CopixZone::process ('kernel|wikibuttons', array('field'=>'aw-content', 'format'=>'ckeditor', 'object'=>array('type'=>'MOD_QUIZ', 'id'=>$id_gr_quiz), 'height'=>290));
         $ppo->tabsSelect = $tabDatas;
@@ -389,18 +392,8 @@ class ActionGroupAdmin extends enicActionGroup
         $ppo->actionAnsw = ($modifAction == 'modif') ? $this->url('quiz|admin|updateAnsw') : $this->url('quiz|admin|newAnsw');
         $ppo->actionResp = ($modifAction == 'modif') ? $this->url('quiz|admin|updateResp') : '#';
         $ppo->new = ($modifAction == 'modif') ? false : true;
+        $ppo->quiz = $quizDatas;
 
-/*
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listActive'),
-                            'type' => 'list-active',
-                            'url' => $this->url('quiz|default|default', array('qaction' => 'list')));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.listAll'),
-                            'type' => 'list',
-                            'url' => $this->url('quiz|admin|list'));
-        $ppo->MENU[] = array('txt' => $this->i18n('quiz.admin.new'),
-                            'type' => 'create',
-                            'url' => $this->url('quiz|admin|modif', array('qaction' => 'new')));
-*/
         return _arPPO($ppo, 'admin.question.tpl');
     }
 
@@ -533,14 +526,39 @@ class ActionGroupAdmin extends enicActionGroup
         $this->flash->typeAction = 'modif';
         $this->flash->modifAction = 'modif';
 
-        //check error :
+        //check errors :
         $valid = $this->service('QuizService')->validResp($responses);
-        if($valid[0] == false){
+
+        // Texte affiché après réponse
+        // 1) Récupération de la question et du quizz
+        $question = $this->service('QuizService')->getQuestion($answId);
+        $quiz = $this->service('QuizService')->getQuizDatas($question['id_quiz']);
+
+        // 2) Récupération de la valeur saisie
+        $answerDetail = _request('answer-detail', '');
+
+        // Contrôle de la valeur saisie
+        $answerDetailValidation = $this->service('QuizService')->validAnswerDetail($quiz, $answerDetail);
+
+        if ($valid[0] == false || $answerDetailValidation[0] == false){
             $this->flash->error = true;
-            $this->flash->errorMsg = $valid[1];
             $this->flash->respDatas = $responses;
+
+            $this->flash->answerDetail = $answerDetail;
+
+            if ($valid[0] == false) {
+                $this->flash->errorMsg = $valid[1];
+            }
+            elseif ($answerDetailValidation[0] == false) {
+                $this->flash->errorMsg = $answerDetailValidation[1];
+            }
+
             return $this->go('quiz|admin|questions', array('tabs' => 1));
         }
+
+        // Sauvegarde de la question (texte affiché après réponse)
+        $question['answer_detail'] = $answerDetail;
+        $this->service('QuizService')->updateAnsw($question);
 
         //deletes previous question :
         $this->service('QuizService')->delResp($answId);
@@ -548,6 +566,7 @@ class ActionGroupAdmin extends enicActionGroup
         $this->service('QuizService')->newResp($responses);
 
         $this->flash->success = $this->i18n('quiz.question.answersSuccess');
+
         return $this->go('quiz|admin|questions', array('tabs' => 1));
     }
 

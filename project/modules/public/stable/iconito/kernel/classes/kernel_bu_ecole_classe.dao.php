@@ -97,7 +97,7 @@ class DAOKernel_bu_ecole_classe
      * @param array $groups   Groupes
      * @param int   $grade    Année scolaire
      * @param int   $levelId  Niveau
-   *
+     *
      * @return CopixDAORecordIterator
      */
     public function findBySchoolIdAndUserGroups ($schoolId, $groups, $grade = null, $levelId = null)

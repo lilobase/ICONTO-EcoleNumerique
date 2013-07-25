@@ -43,6 +43,9 @@ class ZoneArborescenceClasseurs extends enicZone
                     elseif (null === $ppo->moduleType) {
                         $classeurIds[] = $module->module_id;
                     }
+                    elseif ($ppo->moduleType === $module->node_type && $ppo->moduleId === $module->node_id) {
+                        $classeurIds[] = $module->module_id;
+                    }
                 }
             }
         }
