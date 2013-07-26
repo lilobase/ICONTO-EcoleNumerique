@@ -19,7 +19,7 @@ $module = CopixRequest::get ('module');
 
 <head profile="http://www.w3.org/2005/10/profile">
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-    <?php if (extension_loaded ('newrelic')) newrelic_get_browser_timing_header(); ?>
+    <?php if (extension_loaded ('newrelic')) echo newrelic_get_browser_timing_header(); ?>
     <title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
     <link rel="icon" type="image/x-icon" href="<?php echo CopixUrl::getRequestedScriptPath(); ?>favicon.ico" />
 
@@ -93,7 +93,7 @@ $module = CopixRequest::get ('module');
 </div><!-- wrapper -->
 
 <?php echo CopixZone::process ('kernel|footer');
-    if (extension_loaded ('newrelic')) newrelic_get_browser_timing_footer();
+    if (extension_loaded ('newrelic')) echo newrelic_get_browser_timing_footer();
 ?>
 
 </body>
