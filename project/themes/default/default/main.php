@@ -3,6 +3,7 @@
 
 <head>
   <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <?php if (extension_loaded ('newrelic')) newrelic_get_browser_timing_header(); ?>
   <title><?php echo isset ($TITLE_BAR) ? $TITLE_BAR : ''; ?></title>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/theme.css"); ?>" type="text/css"/>
   <link rel="stylesheet" href="<?php echo CopixUrl::getResource ("styles/print.css"); ?>" type="text/css" media="print"/>
@@ -156,7 +157,9 @@ function login( nom, pass )
 <div id="footer">
 <?php echo _i18n('public|public.nav.copyright') ?> | <a href="<?php echo CopixUrl::get ('aide||') ?>" title="<?php echo _i18n('public|public.aide') ?>"><b><?php echo _i18n('public|public.aide') ?></b></a> | <a href="<?php echo CopixUrl::get ('public||aPropos') ?>" title="<?php echo _i18n('public|public.apropos') ?>"><?php echo _i18n('public|public.apropos') ?></a>
 
-<?php echo CopixZone::process ('kernel|footer') ?>
+<?php echo CopixZone::process ('kernel|footer');
+    if (extension_loaded ('newrelic')) newrelic_get_browser_timing_footer();
+?>
 </div>
 
 </body>
